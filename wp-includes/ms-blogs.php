@@ -265,28 +265,7 @@ function refresh_blog_details( $blog_id = 0 ) {
 		$blog_id = get_current_blog_id();
 	}
 
-	$details = get_site( $blog_id );
-	if ( ! $details ) {
-		// Make sure clean_blog_cache() gets the blog ID
-		// when the blog has been previously cached as
-		// non-existent.
-		$details = (object) array(
-			'blog_id' => $blog_id,
-			'domain' => null,
-			'path' => null
-		);
-	}
-
-	clean_blog_cache( $details );
-
-	/**
-	 * Fires after the blog details cache is cleared.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param int $blog_id Blog ID.
-	 */
-	do_action( 'refresh_blog_details', $blog_id );
+	clean_blog_cache( $blog_id );
 }
 
 /**
@@ -443,13 +422,32 @@ function update_blog_details( $blog_id, $details = array() ) {
  *
  * @global bool $_wp_suspend_cache_invalidation
  *
- * @param WP_Site $blog The site object to be cleared from cache.
+ * @param WP_Site|int $blog The site object or ID to be cleared from cache.
  */
 function clean_blog_cache( $blog ) {
 	global $_wp_suspend_cache_invalidation;
 
 	if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
 		return;
+	}
+
+	if ( empty( $blog ) ) {
+		return;
+	}
+
+	$blog_id = $blog;
+	$blog = get_site( $blog_id );
+	if ( ! $blog ) {
+		if ( ! is_numeric( $blog_id ) ) {
+			return;
+		}
+
+		// Make sure a WP_Site object exists even when the site has been deleted.
+		$blog = new WP_Site( (object) array(
+			'blog_id' => $blog_id,
+			'domain'  => null,
+			'path'    => null,
+		) );
 	}
 
 	$blog_id = $blog->blog_id;
@@ -476,6 +474,16 @@ function clean_blog_cache( $blog ) {
 	do_action( 'clean_site_cache', $blog_id, $blog, $domain_path_key );
 
 	wp_cache_set( 'last_changed', microtime(), 'sites' );
+
+	/**
+	 * Fires after the blog details cache is cleared.
+	 *
+	 * @since 3.4.0
+	 * @deprecated 4.9.0 Use clean_site_cache
+	 *
+	 * @param int $blog_id Blog ID.
+	 */
+	do_action_deprecated( 'refresh_blog_details', array( $blog_id ), '4.9.0', 'clean_site_cache' );
 }
 
 /**
