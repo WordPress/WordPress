@@ -100,9 +100,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Back to theme sources' ); ?></button>
 		<# if ( 'wporg' === data.action ) { #>
 			<div class="search-form">
-				<label class="screen-reader-text" for="wp-filter-search-input"><?php _e( 'Search themes&hellip;' ); ?></label>
-				<input placeholder="<?php _e( 'Search themes&hellip;' ); ?>" type="search" aria-describedby="live-search-desc" id="wp-filter-search-input" class="wp-filter-search">
-				<span id="live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+				<label for="wp-filter-search-input-{{ data.id }}" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
+				<input type="search" id="wp-filter-search-input-{{ data.id }}" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
+				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
 			</div>
 			<button type="button" class="button feature-filter-toggle">
 				<span class="filter-count-0"><?php _e( 'Filter themes' ); ?></span><span class="filter-count-filters">
@@ -129,13 +129,11 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				?>
 			</div>
 		<# } else { #>
-			<p class="themes-filter-container">
-				<label for="themes-filter">
-					<span class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></span>
-					<input type="search" id="themes-filter" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="live-search-desc" class="wp-filter-search wp-filter-search-themes" />
-					<span id="live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
-				</label>
-			</p>
+			<div class="themes-filter-container">
+				<label for="{{ data.id }}-themes-filter" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
+				<input type="search" id="{{ data.id }}-themes-filter" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search wp-filter-search-themes" />
+				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+			</div>
 		<# } #>
 		<div class="filter-themes-count">
 			<span class="themes-displayed">

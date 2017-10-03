@@ -1659,7 +1659,7 @@
 
 				// Search terms.
 				debounced = _.debounce( section.checkTerm, 500 ); // Wait until there is no input for 500 milliseconds to initiate a search.
-				section.contentContainer.on( 'input', '#wp-filter-search-input', function() {
+				section.contentContainer.on( 'input', '.wp-filter-search', function() {
 					debounced( section );
 					if ( ! section.expanded() ) {
 						section.expand();
@@ -2003,7 +2003,7 @@
 		checkTerm: function( section ) {
 			var newTerm;
 			if ( 'wporg' === section.params.action ) {
-				newTerm = $( '#wp-filter-search-input' ).val();
+				newTerm = section.contentContainer.find( '.wp-filter-search' ).val();
 				if ( section.term !== newTerm ) {
 					section.initializeNewQuery( newTerm, section.tags );
 				}

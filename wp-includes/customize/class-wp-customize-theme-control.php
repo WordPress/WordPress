@@ -67,9 +67,9 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 		$install_label = sprintf( __( 'Install and preview theme: %s' ), '{{ data.theme.name }}' );
 		?>
 		<# if ( data.theme.active ) { #>
-			<div class="theme active" tabindex="0" aria-describedby="{{ data.section }}-{{ data.theme.id }}-action {{ data.theme.id }}-name">
+			<div class="theme active" tabindex="0" aria-describedby="{{ data.section }}-{{ data.theme.id }}-action">
 		<# } else { #>
-			<div class="theme" tabindex="0" aria-describedby="{{ data.section }}-{{ data.theme.id }}-action {{ data.theme.id }}-name">
+			<div class="theme" tabindex="0" aria-describedby="{{ data.section }}-{{ data.theme.id }}-action">
 		<# } #>
 
 			<# if ( data.theme.screenshot && data.theme.screenshot[0] ) { #>
