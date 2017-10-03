@@ -1595,9 +1595,13 @@ function _admin_notice_post_locked() {
 		<div class="post-locked-avatar"><?php echo get_avatar( $user->ID, 64 ); ?></div>
 		<p class="currently-editing wp-tab-first" tabindex="0">
 		<?php
-			_e( 'This content is currently locked.' );
-			if ( $override )
-				printf( ' ' . __( 'If you take over, %s will be blocked from continuing to edit.' ), esc_html( $user->display_name ) );
+			if ( $override ) {
+				/* translators: %s: user's display name */
+				printf( __( '%s is already editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
+			} else {
+				/* translators: %s: user's display name */
+				printf( __( '%s is already editing this post.' ), esc_html( $user->display_name ) );
+			}
 		?>
 		</p>
 		<?php
