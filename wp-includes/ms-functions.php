@@ -1278,7 +1278,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: Settings screen URL */
 	$msg = sprintf( __( 'New Site: %1$s
 URL: %2$s
-Remote IP: %3$s
+Remote IP address: %3$s
 
 Disable these notifications: %4$s' ), $blogname, $siteurl, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url);
 	/**
@@ -1320,7 +1320,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	$options_site_url = esc_url(network_admin_url('settings.php'));
 	/* translators: New user notification email. 1: User login, 2: User IP address, 3: Settings screen URL */
 	$msg = sprintf(__('New User: %1$s
-Remote IP: %2$s
+Remote IP address: %2$s
 
 Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url);
 
