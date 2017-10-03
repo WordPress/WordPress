@@ -536,6 +536,118 @@ function get_site( $site = null ) {
 }
 
 /**
+ * Retrieves a site by a given field and value.
+ *
+ * @since 4.9.0
+ *
+ * @param string     $field      Name of a field to query against. Accepts 'id', 'slug', 'url',
+ *                               'domain' (if a subdomain install) or 'path' (if a subdirectory install).
+ * @param string|int $value      The search value for $field.
+ * @param int|null   $network_id Optional. ID of the network. Default is the current network.
+ * @return WP_Site|null The site object or null if not found.
+ */
+function get_site_by( $field, $value, $network_id = null ) {
+	$args = array();
+
+	// `get_sites()` will return unexpected results if empty strings are passed as arguments.
+	if ( 'slug' === $field || 'url' === $field || 'domain' === $field || 'path' === $field ) {
+		if ( ! is_string( $value ) && ! is_numeric( $value ) ) {
+			return null;
+		}
+
+		$value = trim( $value );
+
+		if ( 0 === strlen( $value ) ) {
+			return null;
+		}
+	}
+
+	switch ( $field ) {
+		case 'id':
+			if ( ! is_numeric( $value ) ) {
+				return null;
+			}
+			$args['site__in'][] = intval( $value );
+			break;
+		case 'slug':
+			$network = get_network( $network_id );
+			if ( ! $network ) {
+				return null;
+			}
+
+			if ( is_subdomain_install() ) {
+				$args['domain'] = trim( $value, '/' ) . '.' . preg_replace( '|^www\.|', '', $network->domain );
+				$args['path'] = $network->path;
+			} else {
+				$args['domain'] = $network->domain;
+				$args['path'] = $network->path . trim( $value, '/' ) . '/';
+			}
+			break;
+		case 'url':
+			if ( 0 !== strpos( $value, 'http://' ) && 0 !== strpos( $value, 'https://' ) ) {
+				$value = 'http://' . $value;
+			}
+
+			$parts = wp_parse_url( $value );
+			if ( ! $parts ) {
+				return null;
+			}
+
+			$args['domain'] = $parts['host'];
+			if ( ! empty( $parts['path'] ) ) {
+				$args['path'] = '/' . trim( $parts['path'], '/' ) . '/';
+			} else {
+				$args['path'] = '/';
+			}
+			break;
+		case 'domain':
+			if ( ! is_subdomain_install() ) {
+				return null;
+			}
+
+			$args['domain'] = $value;
+			break;
+		case 'path':
+			if ( is_subdomain_install() ) {
+				return null;
+			}
+
+			$args['path'] = '/' . trim( $value, '/' ) . '/';
+			break;
+		default:
+			return null;
+	}
+
+	if ( isset( $args['domain'] ) && substr( $args['domain'], 0, 4 ) === 'www.' ) {
+		$nowww = substr( $args['domain'], 4 );
+
+		$args['domain__in'] = array( $nowww, $args['domain'] );
+		unset( $args['domain'] );
+
+		$args['orderby'] = 'domain_length';
+		$args['order']   = 'DESC';
+	}
+
+	if ( isset( $args['path'] ) ) {
+		$args['path'] = str_replace( '//', '/', $args['path'] );
+	}
+
+	if ( ! empty( $network_id ) ) {
+		$args['network_id'] = (int) $network_id;
+	}
+
+	$args['number'] = 1;
+
+	$sites = get_sites( $args );
+
+	if ( empty( $sites ) ) {
+		return null;
+	}
+
+	return array_shift( $sites );
+}
+
+/**
  * Adds any sites from the given ids to the cache that do not already exist in cache.
  *
  * @since 4.6.0
