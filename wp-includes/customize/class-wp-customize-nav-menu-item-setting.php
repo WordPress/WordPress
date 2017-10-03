@@ -641,8 +641,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @since 4.3.0
 	 *
 	 * @param array $menu_item_value The value to sanitize.
-	 * @return array|false|null Null if an input isn't valid. False if it is marked for deletion.
-	 *                          Otherwise the sanitized value.
+	 * @return array|false|null|WP_Error Null or WP_Error if an input isn't valid. False if it is marked for deletion.
+	 *                                   Otherwise the sanitized value.
 	 */
 	public function sanitize( $menu_item_value ) {
 		// Menu is marked for deletion.
@@ -701,7 +701,12 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$menu_item_value['attr_title'] = wp_unslash( apply_filters( 'excerpt_save_pre', wp_slash( $menu_item_value['attr_title'] ) ) );
 		$menu_item_value['description'] = wp_unslash( apply_filters( 'content_save_pre', wp_slash( $menu_item_value['description'] ) ) );
 
-		$menu_item_value['url'] = esc_url_raw( $menu_item_value['url'] );
+		if ( '' !== $menu_item_value['url'] ) {
+			$menu_item_value['url'] = esc_url_raw( $menu_item_value['url'] );
+			if ( '' === $menu_item_value['url'] ) {
+				return new WP_Error( 'invalid_url', __( 'Invalid URL.' ) ); // Fail sanitization if URL is invalid.
+			}
+		}
 		if ( 'publish' !== $menu_item_value['status'] ) {
 			$menu_item_value['status'] = 'draft';
 		}

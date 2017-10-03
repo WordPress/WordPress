@@ -535,23 +535,34 @@
 		submitLink: function() {
 			var menuItem,
 				itemName = $( '#custom-menu-item-name' ),
-				itemUrl = $( '#custom-menu-item-url' );
+				itemUrl = $( '#custom-menu-item-url' ),
+				urlRegex,
+				urlValue;
 
 			if ( ! this.currentMenuControl ) {
 				return;
 			}
 
+			/*
+			 * Copyright (c) 2010-2013 Diego Perini, MIT licensed
+			 * https://gist.github.com/dperini/729294
+			 * see also https://mathiasbynens.be/demo/url-regex
+			 * modified to allow protocol-relative URLs
+			 */
+			urlRegex = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+
+			urlValue = itemUrl.val();
 			if ( '' === itemName.val() ) {
 				itemName.addClass( 'invalid' );
 				return;
-			} else if ( '' === itemUrl.val() || 'http://' === itemUrl.val() ) {
+			} else if ( '' === urlValue || 'http://' === urlValue || ! ( '/' === urlValue[0] || urlRegex.test( urlValue ) ) ) {
 				itemUrl.addClass( 'invalid' );
 				return;
 			}
 
 			menuItem = {
 				'title': itemName.val(),
-				'url': itemUrl.val(),
+				'url': urlValue,
 				'type': 'custom',
 				'type_label': api.Menus.data.l10n.custom_label,
 				'object': 'custom'
@@ -1387,7 +1398,8 @@
 		 */
 		_setupUpdateUI: function() {
 			var control = this,
-				settingValue = control.setting();
+				settingValue = control.setting(),
+				updateNotifications;
 
 			control.elements = {};
 			control.elements.url = new api.Element( control.container.find( '.edit-menu-item-url' ) );
@@ -1470,6 +1482,13 @@
 					}
 				}
 			});
+
+			// Style the URL field as invalid when there is an invalid_url notification.
+			updateNotifications = function() {
+				control.elements.url.element.toggleClass( 'invalid', control.setting.notifications.has( 'invalid_url' ) );
+			};
+			control.setting.notifications.bind( 'add', updateNotifications );
+			control.setting.notifications.bind( 'removed', updateNotifications );
 		},
 
 		/**
