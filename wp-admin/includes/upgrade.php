@@ -1260,7 +1260,7 @@ function upgrade_280() {
 			}
 			$start += 20;
 		}
-		refresh_blog_details();
+		clean_blog_cache( get_current_blog_id() );
 	}
 }
 

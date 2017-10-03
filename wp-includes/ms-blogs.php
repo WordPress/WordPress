@@ -410,7 +410,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 		restore_current_blog();
 	}
 
-	refresh_blog_details($blog_id);
+	clean_blog_cache( $blog_id );
 
 	return true;
 }
@@ -1129,7 +1129,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 	if ( false === $result )
 		return false;
 
-	refresh_blog_details( $blog_id );
+	clean_blog_cache( $blog_id );
 
 	if ( 'spam' == $pref ) {
 		if ( $value == 1 ) {

@@ -1407,7 +1407,7 @@ function insert_blog($domain, $path, $network_id) {
 		return false;
 
 	$blog_id = $wpdb->insert_id;
-	refresh_blog_details( $blog_id );
+	clean_blog_cache( $blog_id );
 
 	wp_maybe_update_network_site_counts( $network_id );
 
