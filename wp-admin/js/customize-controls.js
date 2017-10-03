@@ -6331,7 +6331,35 @@
 			footerActions = $( '#customize-footer-actions' );
 
 		api.section( 'publish_settings', function( section ) {
-			var updateButtonsState, previewLinkControl, previewLinkControlId = 'changeset_preview_link', updateSectionActive, isSectionActive;
+			var updateButtonsState, previewLinkControl, TrashControl, trashControlInstance, trashControlId = 'trash_changeset', previewLinkControlId = 'changeset_preview_link', updateSectionActive, isSectionActive;
+
+			TrashControl = api.Control.extend( {
+
+				// This is a temporary hack while waiting for richer JS templating and dynamic instantiation.
+				embed: function() {
+					var control = this;
+					control.templateSelector = 'customize-trash-changeset-control';
+					return api.Control.prototype.embed.apply( control, arguments );
+				}
+			} );
+
+			trashControlInstance = new TrashControl( trashControlId, {
+				params: {
+					type: 'button',
+					section: section.id,
+					active: true,
+					priority: 30,
+					content: '<li id="customize-control-' + trashControlId + '" class="customize-control"></li>'
+				}
+			} );
+			api.control.add( trashControlId, trashControlInstance );
+			trashControlInstance.deferred.embedded.done( function() {
+				trashControlInstance.container.find( 'button' ).on( 'click', function() {
+					if ( confirm( api.l10n.trashConfirm ) ) {
+						wp.customize.previewer.trash();
+					}
+				} );
+			} );
 
 			previewLinkControl = new api.PreviewLinkControl( previewLinkControlId, {
 				params: {

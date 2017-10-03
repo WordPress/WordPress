@@ -574,7 +574,7 @@ function wp_default_scripts( &$scripts ) {
 		'themeDownloading'   => __( 'Downloading your new theme&hellip;' ),
 		'themePreviewWait'   => __( 'Setting up your live preview. This may take a bit.' ),
 		'revertingChanges'   => __( 'Reverting unpublished changes&hellip;' ),
-		'trashConfirm'       => __( 'Are you sure you would like to discard your unpublished changes?' ),
+		'trashConfirm'       => __( 'Are you sure you&#8217;d like to discard your unpublished changes?' ),
 		/* translators: %s: URL to the Customizer to load the autosaved version */
 		'autosaveNotice'     => __( 'There is a more recent autosave of your changes than the one you are previewing. <a href="%s">Restore the autosave</a>' ),
 		'videoHeaderNotice'  => __( 'This theme doesn\'t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),

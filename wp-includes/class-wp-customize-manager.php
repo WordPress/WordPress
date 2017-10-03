@@ -3639,7 +3639,7 @@ final class WP_Customize_Manager {
 			</div>
 		</script>
 		<script type="text/html" id="tmpl-customize-trash-changeset-control">
-			<button type="button" class="button-link button-link-delete"><?php _e( 'Trash unpublished changes' ); ?></button>
+			<button type="button" class="button-link button-link-delete"><?php _e( 'Discard changes' ); ?></button>
 		</script>
 		<?php
 	}
