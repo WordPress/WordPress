@@ -1286,15 +1286,34 @@ ul.cat-checklist {
 	border-right: 4px solid #00a0d2;
 }
 
-#wpbody-content .plugins .plugin-title,
-#wpbody-content .plugins .theme-title {
-	padding-left: 12px;
-	white-space:nowrap;
+.wp-list-table.plugins .plugin-title,
+.wp-list-table.plugins .theme-title {
+	white-space: nowrap;
 }
 
-.updates-table-screenshot {
-	float:right;
-	padding: 0 0 5px 10px;
+.wp-list-table.plugins .theme-title {
+	padding-left: 12px;
+}
+
+.wp-list-table.plugins .plugin-title {
+	padding-left: 86px; /* 64 (icon width) + 10 (icon padding) + 12 (title padding) = 86 */
+}
+
+.plugins .plugin-title img,
+.plugins .plugin-title .dashicons {
+	float: right;
+	padding: 0 0 0 10px;
+	width: 64px;
+	height: 64px;
+}
+
+.plugins .plugin-title .dashicons:before {
+	font-size: 64px;
+}
+
+#update-themes-table .plugin-title img,
+#update-themes-table .plugin-title .dashicons {
+	width: 85px;
 }
 
 .plugins .inactive .plugin-title strong {

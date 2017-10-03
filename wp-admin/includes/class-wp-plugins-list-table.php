@@ -751,9 +751,17 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='plugin-title column-primary'><strong>$plugin_name</strong>";
-					echo $this->row_actions( $actions, true );
-					echo "</td>";
+					$icon = '<span class="dashicons dashicons-admin-plugins"></span>';
+					if ( ! empty( $plugin_data['icons']['default'] ) ) {
+						$icon = '<img src="' . esc_url( $plugin_data['icons']['default'] ) . '" alt="" />';
+					}
+					?>
+					<td class="plugin-title column-primary">
+						<?php echo $icon; ?>
+						<strong><?php echo $plugin_name; ?></strong>
+						<?php echo $this->row_actions( $actions, true ); ?>
+					</td>
+					<?php
 					break;
 				case 'description':
 					$classes = 'column-description desc';
