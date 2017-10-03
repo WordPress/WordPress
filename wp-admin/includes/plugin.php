@@ -891,8 +891,17 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		set_site_transient( 'update_plugins', $current );
 	}
 
-	if ( ! empty($errors) )
-		return new WP_Error('could_not_remove_plugin', sprintf(__('Could not fully remove the plugin(s) %s.'), implode(', ', $errors)) );
+	if ( ! empty( $errors ) ) {
+		if ( 1 === count( $errors ) ) {
+			/* translators: %s: plugin filename */
+			$message = __( 'Could not fully remove the plugin %s.' );
+		} else {
+			/* translators: %s: comma-separated list of plugin filenames */
+			$message = __( 'Could not fully remove the plugins %s.' );
+		}
+
+		return new WP_Error( 'could_not_remove_plugin', sprintf( $message, implode( ', ', $errors ) ) );
+	}
 
 	return true;
 }
