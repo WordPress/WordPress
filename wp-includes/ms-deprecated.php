@@ -379,7 +379,7 @@ function get_blogaddress_by_domain( $domain, $path ) {
 /**
  * Create an empty blog.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  * @deprecated 4.4.0
  *
  * @param string $domain       The new blog's domain.
@@ -415,7 +415,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 /**
  * Get the admin for a domain/path combination.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  * @deprecated 4.4.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.

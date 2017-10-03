@@ -10,7 +10,7 @@
 /**
  * Gets the network's site and user counts.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  *
  * @return array Site and user count for the network.
  */
@@ -32,7 +32,7 @@ function get_sitestats() {
  * is added as a Subscriber to the Dashboard Blog and that blog
  * is returned.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  *
  * @param int $user_id The unique ID of the user
  * @return WP_Site|void The blog object
@@ -96,7 +96,7 @@ function get_active_blog_for_user( $user_id ) {
  *
  * The count is cached and updated twice daily. This is not a live count.
  *
- * @since MU (3.0.0) 2.7
+ * @since MU (3.0.0)
  * @since 4.8.0 The $network_id parameter has been added.
  *
  * @param int|null $network_id ID of the network. Default is the current network.
@@ -111,7 +111,7 @@ function get_user_count( $network_id = null ) {
  *
  * The count is cached and updated twice daily. This is not a live count.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  * @since 3.7.0 The $network_id parameter has been deprecated.
  * @since 4.8.0 The $network_id parameter is now being used.
  *
@@ -125,7 +125,7 @@ function get_blog_count( $network_id = null ) {
 /**
  * Get a blog post from any site on the network.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  *
  * @param int $blog_id ID of the blog.
  * @param int $post_id ID of the post you're looking for.
@@ -144,7 +144,7 @@ function get_blog_post( $blog_id, $post_id ) {
  *
  * Use the {@see 'add_user_to_blog'} action to fire an event when users are added to a blog.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  *
  * @param int    $blog_id ID of the blog you're adding the user to.
  * @param int    $user_id ID of the user you're adding.
@@ -217,7 +217,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
  * Accepts an optional `$reassign` parameter, if you want to
  * reassign the user's blog posts to another user upon removal.
  *
- * @since MU (3.0.0) 1.0
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -320,7 +320,7 @@ function get_blog_permalink( $blog_id, $post_id ) {
  * subdirectory '/blog1/'. With subdomains like blog1.example.com,
  * $domain is 'blog1.example.com' and $path is '/'.
  *
- * @since MU (3.0.0) 2.6.5
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
