@@ -790,8 +790,8 @@ function check_comment_flood_db() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param bool   $is_flood  Is a comment flooding occurring?
- * @param string $ip        Comment IP.
- * @param string $email     Comment author email address.
+ * @param string $ip        Comment author's IP address.
+ * @param string $email     Comment author's email address.
  * @param string $date      MySQL time string.
  * @param bool   $avoid_die When true, a disallowed comment will result in the function
  *                          returning a WP_Error object, rather than executing wp_die().
@@ -1156,7 +1156,7 @@ function wp_check_comment_data_max_lengths( $comment_data ) {
  * @param string $email The email of the comment
  * @param string $url The url used in the comment
  * @param string $comment The comment content
- * @param string $user_ip The comment author IP address
+ * @param string $user_ip The comment author's IP address
  * @param string $user_agent The author's browser user agent
  * @return bool True if comment contains blacklisted content, false if comment does not
  */
@@ -1834,11 +1834,11 @@ function wp_filter_comment($commentdata) {
 	 */
 	$commentdata['comment_content'] = apply_filters( 'pre_comment_content', $commentdata['comment_content'] );
 	/**
-	 * Filters the comment author's IP before it is set.
+	 * Filters the comment author's IP address before it is set.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $comment_author_ip The comment author's IP.
+	 * @param string $comment_author_ip The comment author's IP address.
 	 */
 	$commentdata['comment_author_IP'] = apply_filters( 'pre_comment_user_ip', $commentdata['comment_author_IP'] );
 	/** This filter is documented in wp-includes/comment.php */
