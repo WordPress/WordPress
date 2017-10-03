@@ -1094,7 +1094,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 span.imgedit-scale-warn {
-	color: red;
+	color: #dc3232;
 	font-size: 20px;
 	font-style: normal;
 	visibility: hidden;

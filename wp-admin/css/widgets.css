@@ -155,7 +155,7 @@
 }
 
 .media-frame #embed-url-field.invalid {
-	border: 1px solid #f00;
+	border: 1px solid #dc3232;
 }
 
 .media-widget-image-link {

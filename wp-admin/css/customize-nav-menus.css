@@ -439,7 +439,7 @@
 .menu-item-bar .item-delete:focus {
 	box-shadow: none;
 	outline: none;
-	color: #f00;
+	color: #dc3232;
 }
 
 .adding-menu-items .menu-item-bar .item-edit {
@@ -564,7 +564,7 @@
 .menu-name-field.invalid:focus,
 #available-menu-items .new-content-item .create-item-input.invalid,
 #available-menu-items .new-content-item .create-item-input.invalid:focus {
-	border: 1px solid #f00;
+	border: 1px solid #dc3232;
 }
 
 #available-menu-items .menu-item-handle .item-type {

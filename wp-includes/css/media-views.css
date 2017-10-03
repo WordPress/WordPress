@@ -1444,7 +1444,7 @@
 
 .selection-info .clear-selection:hover,
 .selection-info .clear-selection:focus {
-	color: red;
+	color: #dc3232;
 }
 
 .media-selection .selection-view {
@@ -1664,7 +1664,7 @@
 .media-modal .trash-attachment:focus,
 .media-modal .untrash-attachment:hover,
 .media-modal .untrash-attachment:focus {
-	color: red;
+	color: #dc3232;
 }
 
 /**

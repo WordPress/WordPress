@@ -2259,7 +2259,7 @@ table .column-rating {
 
 .attention,
 .error-message {
-	color: red;
+	color: #dc3232;
 	font-weight: 600;
 }
 
