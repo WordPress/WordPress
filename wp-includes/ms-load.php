@@ -268,7 +268,6 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  * @since 4.6.0
  * @access private
  *
- * @global wpdb       $wpdb         WordPress database abstraction object.
  * @global WP_Network $current_site The current network.
  * @global WP_Site    $current_blog The current site.
  *
@@ -281,7 +280,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  *                     Redirect URL if parts exist, but the request as a whole can not be fulfilled.
  */
 function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) {
-	global $wpdb, $current_site, $current_blog;
+	global $current_site, $current_blog;
 
 	// If the network is defined in wp-config.php, we can simply use that.
 	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
@@ -314,11 +313,11 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 		 */
 		if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
 			// Are there even two networks installed?
-			$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
-			if ( 1 === $wpdb->num_rows ) {
-				$current_site = new WP_Network( $one_network );
+			$networks = get_networks( array( 'number' => 2 ) );
+			if ( count( $networks ) === 1 ) {
+				$current_site = array_shift( $networks );
 				wp_cache_add( 'current_network', $current_site, 'site-options' );
-			} elseif ( 0 === $wpdb->num_rows ) {
+			} elseif ( empty( $networks ) ) {
 				// A network not found hook should fire here.
 				return false;
 			}
