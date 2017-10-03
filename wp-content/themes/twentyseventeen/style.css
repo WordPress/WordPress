@@ -2540,7 +2540,7 @@ h2.widget-title {
 	padding: 0.5em 0;
 }
 
-.widget ul li + li {
+.widget:not(.widget_tag_cloud) ul li + li {
 	margin-top: -1px;
 }
 
@@ -2733,6 +2733,14 @@ h2.widget-title {
 
 /* Tag cloud widget */
 
+.tagcloud ul li {
+	float: left;
+	border-top: 0;
+	border-bottom: 0;
+	padding: 0;
+	margin: 4px 4px 0 0;
+}
+
 .tagcloud,
 .widget_tag_cloud,
 .wp_widget_tag_cloud {
@@ -2745,12 +2753,8 @@ h2.widget-title {
 	border: 1px solid #ddd;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	display: inline-block;
-	float: left;
-	font-size: 14px !important; /* !important to overwrite inline styles */
-	font-size: 0.875rem !important;
-	margin: 4px 4px 0 0 !important;
-	padding: 4px 10px 5px !important;
+	display: block;
+	padding: 4px 10px 5px;
 	position: relative;
 	-webkit-transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
 	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
