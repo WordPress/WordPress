@@ -447,7 +447,7 @@ class WP_Site_Query {
 
 		if ( is_numeric( $this->query_vars['archived'] ) ) {
 			$archived = absint( $this->query_vars['archived'] );
-			$this->sql_clauses['where']['archived'] = $wpdb->prepare( "archived = %d ", $archived );
+			$this->sql_clauses['where']['archived'] = $wpdb->prepare( "archived = %s ", absint( $archived ) );
 		}
 
 		if ( is_numeric( $this->query_vars['mature'] ) ) {
