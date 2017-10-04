@@ -612,6 +612,7 @@ final class WP_Customize_Manager {
 				$unpublished_changeset_posts = $this->get_changeset_posts( array(
 					'post_status' => array_diff( get_post_stati(), array( 'auto-draft', 'publish', 'trash', 'inherit', 'private' ) ),
 					'exclude_restore_dismissed' => false,
+					'author' => 'any',
 					'posts_per_page' => 1,
 					'order' => 'DESC',
 					'orderby' => 'date',
