@@ -920,6 +920,27 @@ function wp_admin_canonical_url() {
 }
 
 /**
+ * Send a referrer policy header so referrers are not sent externally from administration screens.
+ *
+ * @since 4.9.0
+ */
+function wp_admin_headers() {
+	$policy = 'same-origin';
+
+	/**
+	 * Filters the admin referrer policy header value. Default 'same-origin'.
+	 *
+	 * @since 4.9.0
+	 * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+	 *
+	 * @param string $policy The referrer policy header value.
+	 */
+	$policy = apply_filters( 'admin_referrer_policy', $policy );
+
+	header( sprintf( 'Referrer-Policy: %s', $policy ) );
+}
+
+/**
  * Outputs JS that reloads the page if the user navigated to it with the Back or Forward button.
  *
  * Used on the Edit Post and Add New Post screens. Needed to ensure the page is not loaded from browser cache,

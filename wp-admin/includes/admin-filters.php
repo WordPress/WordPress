@@ -38,6 +38,8 @@ add_filter( 'media_upload_library', 'media_upload_library' );
 add_filter( 'media_upload_tabs', 'update_gallery_tab' );
 
 // Misc hooks.
+add_action( 'admin_init', 'wp_admin_headers'         );
+add_action( 'login_init', 'wp_admin_headers'         );
 add_action( 'admin_head', 'wp_admin_canonical_url'   );
 add_action( 'admin_head', 'wp_color_scheme_settings' );
 add_action( 'admin_head', 'wp_site_icon'             );
