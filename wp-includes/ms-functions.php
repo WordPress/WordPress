@@ -1362,6 +1362,7 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
 		'domain'     => $domain,
 		'path'       => $path,
 		'fields'     => 'ids',
+		'number'     => 1,
 	);
 	$result = get_sites( $args );
 	$result = array_shift( $result );
