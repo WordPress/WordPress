@@ -929,9 +929,7 @@ p.customize-section-description {
 	line-height: 28px;
 }
 
-.customize-control-radio label,
-.customize-control-checkbox label,
-.customize-control-nav_menu_auto_add label {
+.customize-control .customize-inside-control-row {
 	line-height: 20px;
 	display: block;
 	margin-right: 24px;
@@ -2670,9 +2668,9 @@ body.adding-widget .add-new-widget:before,
 		display: inline;
 	}
 
-	.customize-control-radio label,
-	.customize-control-checkbox label,
-	.customize-control-nav_menu_auto_add label {
+	.customize-control-radio .customize-inside-control-row,
+	.customize-control-checkbox .customize-inside-control-row,
+	.customize-control-nav_menu_auto_add .customize-inside-control-row {
 		margin-right: 32px;
 	}
 

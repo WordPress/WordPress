@@ -44,6 +44,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
+		<# var elementId; #>
 		<button type="button" class="button add-new-menu-item" aria-label="<?php esc_attr_e( 'Add or remove menu items' ); ?>" aria-expanded="false" aria-controls="available-menu-items">
 			<?php _e( 'Add Items' ); ?>
 		</button>
@@ -64,21 +65,25 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			</li>
 
 			<?php foreach ( get_registered_nav_menus() as $location => $description ) : ?>
-			<li class="customize-control customize-control-checkbox assigned-menu-location">
-				<label>
-					<input type="checkbox" data-menu-id="{{ data.menu_id }}" data-location-id="<?php echo esc_attr( $location ); ?>" class="menu-location" /> <?php echo $description; ?>
-					<span class="theme-location-set"><?php
-						/* translators: %s: menu name */
-						printf( _x( '(Current: %s)', 'menu location' ),
-							'<span class="current-menu-location-name-' . esc_attr( $location ) . '"></span>'
-						);
-					?></span>
-				</label>
-			</li>
+				<# elementId = _.uniqueId( 'customize-nav-menu-control-location-' ); #>
+				<li class="customize-control customize-control-checkbox assigned-menu-location customize-inside-control-row">
+					<input id="{{ elementId }}" type="checkbox" data-menu-id="{{ data.menu_id }}" data-location-id="<?php echo esc_attr( $location ); ?>" class="menu-location" />
+					<label for="{{ elementId }}">
+						<?php echo $description; ?>
+						<span class="theme-location-set">
+							<?php
+							/* translators: %s: menu name */
+							printf( _x( '(Current: %s)', 'menu location' ),
+								'<span class="current-menu-location-name-' . esc_attr( $location ) . '"></span>'
+							);
+							?>
+						</span>
+					</label>
+				</li>
 			<?php endforeach; ?>
-
 		</ul>
-		<?php endif;
+		<?php endif; ?>
+		<?php
 	}
 
 	/**
