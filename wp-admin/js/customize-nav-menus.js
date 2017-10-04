@@ -968,19 +968,15 @@
 			menuNameControl = api.control( menuNameControlId );
 			if ( ! menuNameControl ) {
 				menuNameControl = new api.controlConstructor.nav_menu_name( menuNameControlId, {
-					params: {
-						type: 'nav_menu_name',
-						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-name" class="customize-control customize-control-nav_menu_name"></li>', // @todo core should do this for us; see #30741
-						label: api.Menus.data.l10n.menuNameLabel,
-						active: true,
-						section: section.id,
-						priority: 0,
-						settings: {
-							'default': section.id
-						}
+					type: 'nav_menu_name',
+					label: api.Menus.data.l10n.menuNameLabel,
+					section: section.id,
+					priority: 0,
+					settings: {
+						'default': section.id
 					}
 				} );
-				api.control.add( menuNameControl.id, menuNameControl );
+				api.control.add( menuNameControl );
 				menuNameControl.active.set( true );
 			}
 
@@ -988,19 +984,15 @@
 			menuControl = api.control( section.id );
 			if ( ! menuControl ) {
 				menuControl = new api.controlConstructor.nav_menu( section.id, {
-					params: {
-						type: 'nav_menu',
-						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '" class="customize-control customize-control-nav_menu"></li>', // @todo core should do this for us; see #30741
-						section: section.id,
-						priority: 998,
-						active: true,
-						settings: {
-							'default': section.id
-						},
-						menu_id: section.params.menu_id
-					}
+					type: 'nav_menu',
+					section: section.id,
+					priority: 998,
+					settings: {
+						'default': section.id
+					},
+					menu_id: section.params.menu_id
 				} );
-				api.control.add( menuControl.id, menuControl );
+				api.control.add( menuControl );
 				menuControl.active.set( true );
 			}
 
@@ -1009,19 +1001,15 @@
 			menuAutoAddControl = api.control( menuAutoAddControlId );
 			if ( ! menuAutoAddControl ) {
 				menuAutoAddControl = new api.controlConstructor.nav_menu_auto_add( menuAutoAddControlId, {
-					params: {
-						type: 'nav_menu_auto_add',
-						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-auto-add" class="customize-control customize-control-nav_menu_auto_add"></li>', // @todo core should do this for us
-						label: '',
-						active: true,
-						section: section.id,
-						priority: 999,
-						settings: {
-							'default': section.id
-						}
+					type: 'nav_menu_auto_add',
+					label: '',
+					section: section.id,
+					priority: 999,
+					settings: {
+						'default': section.id
 					}
 				} );
-				api.control.add( menuAutoAddControl.id, menuAutoAddControl );
+				api.control.add( menuAutoAddControl );
 				menuAutoAddControl.active.set( true );
 			}
 
@@ -2677,21 +2665,16 @@
 
 			// Add the menu item control.
 			menuItemControl = new api.controlConstructor.nav_menu_item( customizeId, {
-				params: {
-					type: 'nav_menu_item',
-					content: '<li id="customize-control-nav_menu_item-' + String( placeholderId ) + '" class="customize-control customize-control-nav_menu_item"></li>',
-					section: menuControl.id,
-					priority: priority,
-					active: true,
-					settings: {
-						'default': customizeId
-					},
-					menu_item_id: placeholderId
+				type: 'nav_menu_item',
+				section: menuControl.id,
+				priority: priority,
+				settings: {
+					'default': customizeId
 				},
-				previewer: api.previewer
+				menu_item_id: placeholderId
 			} );
 
-			api.control.add( customizeId, menuItemControl );
+			api.control.add( menuItemControl );
 			setting.preview();
 			menuControl.debouncedReflowMenuItems();
 
@@ -2775,17 +2758,14 @@
 			 * inside via the Section's ready method.
 			 */
 			menuSection = new api.Menus.MenuSection( customizeId, {
-				params: {
-					id: customizeId,
-					panel: 'nav_menus',
-					title: displayNavMenuName( name ),
-					customizeAction: api.Menus.data.l10n.customizingMenus,
-					type: 'nav_menu',
-					priority: 10,
-					menu_id: placeholderId
-				}
+				panel: 'nav_menus',
+				title: displayNavMenuName( name ),
+				customizeAction: api.Menus.data.l10n.customizingMenus,
+				type: 'nav_menu',
+				priority: 10,
+				menu_id: placeholderId
 			} );
-			api.section.add( customizeId, menuSection );
+			api.section.add( menuSection );
 
 			// Clear name field.
 			nameInput.val( '' );
@@ -2909,20 +2889,16 @@
 
 				// Add the menu section.
 				newSection = new api.Menus.MenuSection( newCustomizeId, {
-					params: {
-						id: newCustomizeId,
-						panel: 'nav_menus',
-						title: settingValue.name,
-						customizeAction: api.Menus.data.l10n.customizingMenus,
-						type: 'nav_menu',
-						priority: oldSection.priority.get(),
-						active: true,
-						menu_id: update.term_id
-					}
+					panel: 'nav_menus',
+					title: settingValue.name,
+					customizeAction: api.Menus.data.l10n.customizingMenus,
+					type: 'nav_menu',
+					priority: oldSection.priority.get(),
+					menu_id: update.term_id
 				} );
 
 				// Add new control for the new menu.
-				api.section.add( newCustomizeId, newSection );
+				api.section.add( newSection );
 
 				// Update the values for nav menus in Custom Menu controls.
 				api.control.each( function( setting ) {
@@ -3052,19 +3028,14 @@
 
 				// Add the menu control.
 				newControl = new api.controlConstructor.nav_menu_item( newCustomizeId, {
-					params: {
-						type: 'nav_menu_item',
-						content: '<li id="customize-control-nav_menu_item-' + String( update.post_id ) + '" class="customize-control customize-control-nav_menu_item"></li>',
-						menu_id: update.post_id,
-						section: 'nav_menu[' + String( settingValue.nav_menu_term_id ) + ']',
-						priority: oldControl.priority.get(),
-						active: true,
-						settings: {
-							'default': newCustomizeId
-						},
-						menu_item_id: update.post_id
+					type: 'nav_menu_item',
+					menu_id: update.post_id,
+					section: 'nav_menu[' + String( settingValue.nav_menu_term_id ) + ']',
+					priority: oldControl.priority.get(),
+					settings: {
+						'default': newCustomizeId
 					},
-					previewer: api.previewer
+					menu_item_id: update.post_id
 				} );
 
 				// Remove old control.
@@ -3072,7 +3043,7 @@
 				api.control.remove( oldCustomizeId );
 
 				// Add new control to take its place.
-				api.control.add( newCustomizeId, newControl );
+				api.control.add( newControl );
 
 				// Delete the placeholder and preview the new setting.
 				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.

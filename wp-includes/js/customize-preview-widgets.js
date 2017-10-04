@@ -407,7 +407,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				wasInserted = true;
 			} );
 
-			api.selectiveRefresh.partial.add( widgetPartial.id, widgetPartial );
+			api.selectiveRefresh.partial.add( widgetPartial );
 
 			if ( wasInserted ) {
 				sidebarPartial.reflowWidgets();
@@ -510,7 +510,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 						sidebarArgs: registeredSidebar
 					}
 				} );
-				api.selectiveRefresh.partial.add( partial.id, partial );
+				api.selectiveRefresh.partial.add( partial );
 			}
 		} );
 	};

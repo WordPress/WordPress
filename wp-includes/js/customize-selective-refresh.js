@@ -877,7 +877,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				partialOptions.constructingContainerContext = containerElement.data( 'customize-partial-placement-context' ) || {};
 				Constructor = self.partialConstructor[ containerElement.data( 'customize-partial-type' ) ] || self.Partial;
 				partial = new Constructor( id, partialOptions );
-				self.partial.add( partial.id, partial );
+				self.partial.add( partial );
 			}
 
 			/*
@@ -918,7 +918,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			if ( ! partial ) {
 				Constructor = self.partialConstructor[ data.type ] || self.Partial;
 				partial = new Constructor( id, { params: data } );
-				self.partial.add( id, partial );
+				self.partial.add( partial );
 			} else {
 				_.extend( partial.params, data );
 			}
