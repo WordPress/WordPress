@@ -4340,9 +4340,10 @@ final class WP_Customize_Manager {
 		$this->add_control( new WP_Customize_Site_Icon_Control( $this, 'site_icon', array(
 			'label'       => __( 'Site Icon' ),
 			'description' => sprintf(
+				'<p>' . __( 'Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. Upload one here!' ) . '</p>' .
 				/* translators: %s: site icon size in pixels */
-				__( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least %s pixels wide and tall.' ),
-				'<strong>512</strong>'
+				'<p>' . __( 'Site Icons should be square and at least %s pixels.' ) . '</p>',
+				'<strong>512 &times; 512</strong>'
 			),
 			'section'     => 'title_tagline',
 			'priority'    => 60,
