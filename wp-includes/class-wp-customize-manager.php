@@ -3642,6 +3642,23 @@ final class WP_Customize_Manager {
 		<script type="text/html" id="tmpl-customize-trash-changeset-control">
 			<button type="button" class="button-link button-link-delete"><?php _e( 'Discard changes' ); ?></button>
 		</script>
+		<script type="text/html" id="tmpl-customize-selected-changeset-status-control">
+			<# var inputId = _.uniqueId( 'customize-selected-changeset-status-control-input-' ); #>
+			<# var descriptionId = _.uniqueId( 'customize-selected-changeset-status-control-description-' ); #>
+			<# if ( data.label ) { #>
+				<label for="{{ inputId }}" class="customize-control-title">{{ data.label }}</label>
+			<# } #>
+			<# if ( data.description ) { #>
+				<span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+			<# } #>
+			<# _.each( data.choices, function( choice ) { #>
+				<# var choiceId = inputId + '-' + choice.status; #>
+				<span class="customize-inside-control-row">
+					<input id="{{ choiceId }}" type="radio" value="{{ choice.status }}" name="{{ inputId }}" data-customize-setting-key-link="default">
+					<label for="{{ choiceId }}">{{ choice.label }}</label>
+				</span>
+			<# } ); #>
+		</script>
 		<?php
 	}
 
@@ -4024,10 +4041,37 @@ final class WP_Customize_Manager {
 			}
 		}
 
+		$current_user_can_publish = current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts );
+
+		// @todo Include all of the status labels here from script-loader.php, and then allow it to be filtered.
+		$status_choices = array();
+		if ( $current_user_can_publish ) {
+			$status_choices[] = array(
+				'status' => 'publish',
+				'label' => __( 'Publish' ),
+			);
+		}
+		$status_choices[] = array(
+			'status' => 'draft',
+			'label' => __( 'Save Draft' ),
+		);
+		if ( $current_user_can_publish ) {
+			$status_choices[] = array(
+				'status' => 'future',
+				'label' => __( 'Schedule' ),
+			);
+		}
+
 		// Prepare Customizer settings to pass to JavaScript.
 		$changeset_post = null;
 		if ( $changeset_post_id ) {
 			$changeset_post = get_post( $changeset_post_id );
+		}
+
+		if ( $this->changeset_post_id() && 'future' === get_post_status( $this->changeset_post_id() ) ) {
+			$initial_date = get_the_time( 'Y-m-d H:i:s', $this->changeset_post_id() );
+		} else {
+			$initial_date = current_time( 'mysql', false );
 		}
 
 		$settings = array(
@@ -4038,10 +4082,13 @@ final class WP_Customize_Manager {
 				'hasAutosaveRevision' => ! empty( $autosave_revision_post ),
 				'latestAutoDraftUuid' => $autosave_autodraft_post ? $autosave_autodraft_post->post_name : null,
 				'status' => $changeset_post ? $changeset_post->post_status : '',
-				'currentUserCanPublish' => current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ),
-				'publishDate' => $changeset_post ? $changeset_post->post_date : '', // @todo Only if future status? Rename to just date?
+				'currentUserCanPublish' => $current_user_can_publish,
+				'publishDate' => $initial_date,
+				'statusChoices' => $status_choices,
 			),
 			'initialServerDate' => current_time( 'mysql', false ),
+			'dateFormat' => get_option( 'date_format' ),
+			'timeFormat' => get_option( 'time_format' ),
 			'initialServerTimestamp' => floor( microtime( true ) * 1000 ),
 			'initialClientTimestamp' => -1, // To be set with JS below.
 			'timeouts' => array(
@@ -4205,6 +4252,7 @@ final class WP_Customize_Manager {
 
 		/* Publish Settings */
 
+		// Note the controls for this section are added via JS.
 		$this->add_section( 'publish_settings', array(
 			'title' => __( 'Publish Settings' ),
 			'priority' => 0,
@@ -4212,47 +4260,6 @@ final class WP_Customize_Manager {
 			'type' => 'outer',
 			'active_callback' => array( $this, 'is_theme_active' ),
 		) );
-
-		/* Publish Settings Controls */
-		$status_choices = array(
-			'publish' => __( 'Publish' ),
-			'draft' => __( 'Save Draft' ),
-			'future' => __( 'Schedule' ),
-		);
-
-		if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
-			unset( $status_choices['publish'] );
-		}
-
-		$this->add_control( 'changeset_status', array(
-			'section' => 'publish_settings',
-			'priority' => 10,
-			'settings' => array(),
-			'type' => 'radio',
-			'label' => __( 'Action' ),
-			'choices' => $status_choices,
-			'capability' => 'customize',
-		) );
-
-		if ( $this->changeset_post_id() && 'future' === get_post_status( $this->changeset_post_id() ) ) {
-			$initial_date = get_the_time( 'Y-m-d H:i:s', $this->changeset_post_id() );
-		} else {
-			$initial_date = current_time( 'mysql', false );
-		}
-
-		$this->add_control( new WP_Customize_Date_Time_Control( $this, 'changeset_scheduled_date', array(
-			'section' => 'publish_settings',
-			'priority' => 20,
-			'settings' => array(),
-			'type' => 'date_time',
-			'min_year' => date( 'Y' ),
-			'allow_past_date' => false,
-			'include_time' => true,
-			'twelve_hour_format' => false !== stripos( get_option( 'time_format' ), 'a' ),
-			'description' => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
-			'capability' => 'customize',
-			'default_value' => $initial_date,
-		) ) );
 
 		/* Themes (controls are loaded via ajax) */
 

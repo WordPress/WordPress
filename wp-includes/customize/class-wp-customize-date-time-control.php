@@ -66,14 +66,6 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	public $twelve_hour_format = true;
 
 	/**
-	 * Default date/time to be displayed in the control.
-	 *
-	 * @since 4.9.0
-	 * @var string
-	 */
-	public $default_value;
-
-	/**
 	 * Don't render the control's content - it's rendered with a JS template.
 	 *
 	 * @since 4.9.0
@@ -94,7 +86,6 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 		$data['allowPastDate'] = (bool) $this->allow_past_date;
 		$data['twelveHourFormat'] = (bool) $this->twelve_hour_format;
 		$data['includeTime'] = (bool) $this->include_time;
-		$data['defaultValue'] = $this->default_value;
 
 		return $data;
 	}

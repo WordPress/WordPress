@@ -430,15 +430,18 @@ class WP_Customize_Control {
 	 * Get the data link attribute for a setting.
 	 *
 	 * @since 3.4.0
+	 * @since 4.9.0 Return a `data-customize-setting-key-link` attribute if a setting is not registered for the supplied setting key.
 	 *
 	 * @param string $setting_key
-	 * @return string Data link parameter, if $setting_key is a valid setting, empty string otherwise.
+	 * @return string Data link parameter, a `data-customize-setting-link` attribute if the `$setting_key` refers to a pre-registered setting,
+	 *                and a `data-customize-setting-key-link` attribute if the setting is not yet registered.
 	 */
 	public function get_link( $setting_key = 'default' ) {
-		if ( ! isset( $this->settings[ $setting_key ] ) )
-			return '';
-
-		return 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
+		if ( isset( $this->settings[ $setting_key ] ) && $this->settings[ $setting_key ] instanceof WP_Customize_Setting ) {
+			return 'data-customize-setting-link="' . esc_attr( $this->settings[ $setting_key ]->id ) . '"';
+		} else {
+			return 'data-customize-setting-key-link="' . esc_attr( $setting_key ) . '"';
+		}
 	}
 
 	/**

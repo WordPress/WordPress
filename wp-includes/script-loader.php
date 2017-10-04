@@ -566,6 +566,7 @@ function wp_default_scripts( &$scripts ) {
 		'saved'              => __( 'Saved' ),
 		'cancel'             => __( 'Cancel' ),
 		'close'              => __( 'Close' ),
+		'action'             => __( 'Action' ),
 		'cheatin'            => __( 'Cheatin&#8217; uh?' ),
 		'notAllowed'         => __( 'Sorry, you are not allowed to customize this site.' ),
 		'previewIframeTitle' => __( 'Site Preview' ),
@@ -594,6 +595,7 @@ function wp_default_scripts( &$scripts ) {
 			_n_noop( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.' ),
 			array( 'singular', 'plural' )
 		),
+		'scheduleDescription' => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
 	) );
 	$scripts->add( 'customize-selective-refresh', "/wp-includes/js/customize-selective-refresh$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 

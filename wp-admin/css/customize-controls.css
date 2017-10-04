@@ -138,7 +138,7 @@ body.trashing #publish-settings {
 	margin-bottom: 15px;
 }
 
-#customize-control-changeset_status label,
+#customize-control-changeset_status .customize-inside-control-row,
 #customize-control-changeset_preview_link input {
 	background-color: #ffffff;
 	border-bottom: 1px solid #ddd;
@@ -170,13 +170,13 @@ body.trashing #publish-settings {
 	border-color: #dc3232;
 }
 
-#customize-control-changeset_status label {
+#customize-control-changeset_status .customize-inside-control-row {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	font-weight: 500;
 }
 
-#customize-control-changeset_status label:first-of-type {
+#customize-control-changeset_status .customize-inside-control-row:first-of-type {
 	border-top: 1px solid #ddd;
 }
 
@@ -2809,7 +2809,7 @@ body.adding-widget .add-new-widget:before,
 		height: 31px;
 	}
 
-	#customize-control-changeset_status label {
+	#customize-control-changeset_status .customize-inside-control-row {
 		padding-top: 15px;
 	}
 
