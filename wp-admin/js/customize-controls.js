@@ -2208,19 +2208,22 @@
 		 *
 		 * @since 4.2.0
 		 *
-		 * @returns {object|boolean} Next theme.
+		 * @returns {wp.customize.ThemeControl|boolean} Next theme.
 		 */
 		getNextTheme: function () {
-			var section = this, control, next;
-			control = api.control( section.params.action + '_theme_' + this.currentTheme );
-			next = control.container.next( 'li.customize-control-theme' );
-			if ( ! next.length ) {
+			var section = this, control, nextControl, sectionControls, i;
+			control = api.control( section.params.action + '_theme_' + section.currentTheme );
+			sectionControls = section.controls();
+			i = _.indexOf( sectionControls, control );
+			if ( -1 === i ) {
 				return false;
 			}
-			next = next[0].id.replace( 'customize-control-theme-' + section.params.action, section.params.action + '_theme' );
-			control = api.control( next );
 
-			return control.params.theme;
+			nextControl = sectionControls[ i + 1 ];
+			if ( ! nextControl ) {
+				return false;
+			}
+			return nextControl.params.theme;
 		},
 
 		/**
@@ -2242,19 +2245,22 @@
 		 * Get the previous theme model.
 		 *
 		 * @since 4.2.0
-		 * @returns {object|boolean} Previous theme.
+		 * @returns {wp.customize.ThemeControl|boolean} Previous theme.
 		 */
 		getPreviousTheme: function () {
-			var section = this, control, previous;
-			control = api.control( section.params.action + '_theme_' + this.currentTheme );
-			previous = control.container.prev( 'li.customize-control-theme' );
-			if ( ! previous.length ) {
+			var section = this, control, nextControl, sectionControls, i;
+			control = api.control( section.params.action + '_theme_' + section.currentTheme );
+			sectionControls = section.controls();
+			i = _.indexOf( sectionControls, control );
+			if ( -1 === i ) {
 				return false;
 			}
-			previous = previous[0].id.replace( 'customize-control-theme-' + section.params.action, section.params.action + '_theme' );
-			control = api.control( previous );
 
-			return control.params.theme;
+			nextControl = sectionControls[ i - 1 ];
+			if ( ! nextControl ) {
+				return false;
+			}
+			return nextControl.params.theme;
 		},
 
 		/**
