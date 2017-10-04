@@ -363,7 +363,7 @@ function doing_filter( $filter = null ) {
 }
 
 /**
- * Retrieve whether action currently being processed.
+ * Retrieve the name of an action currently being processed.
  *
  * @since 3.9.0
  *
