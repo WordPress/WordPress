@@ -69,7 +69,7 @@ class Plural_Forms {
 	 * @since 4.9.0
 	 * @var array $cache Map of $n => $result
 	 */
-	protected $cache = [];
+	protected $cache = array();
 
 	/**
 	 * Constructor.
@@ -111,7 +111,7 @@ class Plural_Forms {
 
 				// Variable (n)
 				case 'n':
-					$output[] = [ 'var' ];
+					$output[] = array( 'var' );
 					$pos++;
 					break;
 
@@ -126,7 +126,7 @@ class Plural_Forms {
 					while ( ! empty( $stack ) ) {
 						$o2 = $stack[ count( $stack ) - 1 ];
 						if ( $o2 !== '(' ) {
-							$output[] = [ 'op', array_pop( $stack ) ];
+							$output[] = array( 'op', array_pop( $stack ) );
 							continue;
 						}
 
@@ -170,7 +170,7 @@ class Plural_Forms {
 							break;
 						}
 
-						$output[] = [ 'op', array_pop( $stack ) ];
+						$output[] = array( 'op', array_pop( $stack ) );
 					}
 					$stack[] = $operator;
 
@@ -184,7 +184,7 @@ class Plural_Forms {
 					while ( $s_pos >= 0 ) {
 						$o2 = $stack[ $s_pos ];
 						if ( $o2 !== '?' ) {
-							$output[] = [ 'op', array_pop( $stack ) ];
+							$output[] = array( 'op', array_pop( $stack ) );
 							$s_pos--;
 							continue;
 						}
@@ -205,7 +205,7 @@ class Plural_Forms {
 				default:
 					if ( $next >= '0' && $next <= '9' ) {
 						$span = strspn( $str, self::NUM_CHARS, $pos );
-						$output[] = [ 'value', intval( substr( $str, $pos, $span ) ) ];
+						$output[] = array( 'value', intval( substr( $str, $pos, $span ) ) );
 						$pos += $span;
 						continue;
 					}
@@ -220,7 +220,7 @@ class Plural_Forms {
 				throw new Exception( 'Mismatched parentheses' );
 			}
 
-			$output[] = [ 'op', $o2 ];
+			$output[] = array( 'op', $o2 );
 		}
 
 		$this->tokens = $output;
