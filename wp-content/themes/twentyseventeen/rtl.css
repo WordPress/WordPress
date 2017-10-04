@@ -230,11 +230,9 @@ input[type="checkbox"] {
 	right: auto;
 }
 
-.widget .tagcloud a,
-.widget.widget_tag_cloud a,
-.wp_widget_tag_cloud a {
+.tagcloud ul li {
 	float: right;
-	margin: 4px 0 0 4px !important; /* !important to override inline styles */
+	margin: 4px 0 0 4px;
 }
 
 .widget ul li li {
