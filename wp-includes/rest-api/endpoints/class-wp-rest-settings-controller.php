@@ -274,7 +274,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 		$options = $this->get_registered_options();
 
 		$schema = array(
-			'$schema'    => 'http://json-schema.org/schema#',
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'settings',
 			'type'       => 'object',
 			'properties' => array(),
