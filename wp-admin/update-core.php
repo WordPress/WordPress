@@ -253,8 +253,12 @@ function list_plugin_updates() {
 		$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
 
 		$icon = '<span class="dashicons dashicons-admin-plugins"></span>';
-		if ( ! empty( $plugin_data->update->icons['default'] ) ) {
-			$icon = '<img src="' . esc_url( $plugin_data->update->icons['default'] ) . '" alt="" />';
+		$preferred_icons = array( 'svg', '1x', '2x', 'default' );
+		foreach ( $preferred_icons as $preferred_icon ) {
+			if ( ! empty( $plugin_data->update->icons[ $preferred_icon ] ) ) {
+				$icon = '<img src="' . esc_url( $plugin_data->update->icons[ $preferred_icon ] ) . '" alt="" />';
+				break;
+			}			
 		}
 
 		// Get plugin compat for running version of WordPress.

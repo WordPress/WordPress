@@ -1288,15 +1288,8 @@ ul.cat-checklist {
 
 .wp-list-table.plugins .plugin-title,
 .wp-list-table.plugins .theme-title {
-	white-space: nowrap;
-}
-
-.wp-list-table.plugins .theme-title {
 	padding-left: 12px;
-}
-
-.wp-list-table.plugins .plugin-title {
-	padding-left: 86px; /* 64 (icon width) + 10 (icon padding) + 12 (title padding) = 86 */
+	white-space: nowrap;
 }
 
 .plugins .plugin-title img,
@@ -1308,7 +1301,11 @@ ul.cat-checklist {
 }
 
 .plugins .plugin-title .dashicons:before {
-	font-size: 64px;
+	padding: 2px;
+	background-color: #eee;
+	box-shadow: inset 0 0 10px rgba(160,165,170,.15);
+	font-size: 60px;
+	color: #B4B9BE;
 }
 
 #update-themes-table .plugin-title img,
