@@ -1214,6 +1214,7 @@ function get_uploaded_header_images() {
 		$header_images[$header_index]['url'] =  $url;
 		$header_images[$header_index]['thumbnail_url'] = $url;
 		$header_images[$header_index]['alt_text'] = get_post_meta( $header->ID, '_wp_attachment_image_alt', true );
+		$header_images[$header_index]['attachment_parent'] = (int) get_post_meta( $header->ID, '_wp_attachment_parent', true );
 
 		if ( isset( $header_data['width'] ) )
 			$header_images[$header_index]['width'] = $header_data['width'];
