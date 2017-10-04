@@ -342,6 +342,7 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
 		'domain' => $domain,
 		'path' => $path,
 		'fields' => 'ids',
+		'number' => 1,
 	);
 	$result = get_sites( $args );
 	$id = array_shift( $result );
