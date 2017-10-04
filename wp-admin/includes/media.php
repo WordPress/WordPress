@@ -3082,9 +3082,32 @@ function wp_read_video_metadata( $file ) {
 		$metadata['audio'] = $data['audio'];
 	}
 
+	if ( empty( $metadata['created_timestamp'] ) ) {
+		$created_timestamp = wp_get_media_creation_timestamp( $data );
+
+		if ( $created_timestamp !== false ) {
+			$metadata['created_timestamp'] = $created_timestamp;
+		}
+	}
+
 	wp_add_id3_tag_data( $metadata, $data );
 
-	return $metadata;
+	$file_format = isset( $metadata['fileformat'] ) ? $metadata['fileformat'] : null;
+
+	/**
+	 * Filters the array of metadata retrieved from a video.
+	 *
+	 * In core, usually this selection is what is stored.
+	 * More complete data can be parsed from the `$data` parameter.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array  $metadata       Filtered Video metadata.
+	 * @param string $file           Path to video file.
+	 * @param string $file_format    File format of video, as analyzed by getID3.
+	 * @param string $data           Raw metadata from getID3.
+	 */
+	return apply_filters( 'wp_read_video_metadata', $metadata, $file, $file_format, $data );
 }
 
 /**
@@ -3130,6 +3153,55 @@ function wp_read_audio_metadata( $file ) {
 	wp_add_id3_tag_data( $metadata, $data );
 
 	return $metadata;
+}
+
+/**
+ * Parse creation date from media metadata.
+ *
+ * The getID3 library doesn't have a standard method for getting creation dates,
+ * so the location of this data can vary based on the MIME type.
+ *
+ * @since 4.9.0
+ *
+ * @link https://github.com/JamesHeinrich/getID3/blob/master/structure.txt
+ *
+ * @param array $metadata The metadata returned by getID3::analyze().
+ * @return int|bool A UNIX timestamp for the media's creation date if available
+ *                  or a boolean FALSE if a timestamp could not be determined.
+ */
+function wp_get_media_creation_timestamp( $metadata ) {
+	$creation_date = false;
+
+	if ( empty( $metadata['fileformat'] ) ) {
+		return $creation_date;
+	}
+
+	switch ( $metadata['fileformat'] ) {
+		case 'asf':
+			if ( isset( $metadata['asf']['file_properties_object']['creation_date_unix'] ) ) {
+				$creation_date = (int) $metadata['asf']['file_properties_object']['creation_date_unix'];
+			}
+			break;
+
+		case 'matroska':
+		case 'webm':
+			if ( isset( $metadata['matroska']['comments']['creation_time']['0'] ) ) {
+				$creation_date = strtotime( $metadata['matroska']['comments']['creation_time']['0'] );
+			}
+			elseif ( isset( $metadata['matroska']['info']['0']['DateUTC_unix'] ) ) {
+				$creation_date = (int) $metadata['matroska']['info']['0']['DateUTC_unix'];
+			}
+			break;
+
+		case 'quicktime':
+		case 'mp4':
+			if ( isset( $metadata['quicktime']['moov']['subatoms']['0']['creation_time_unix'] ) ) {
+				$creation_date = (int) $metadata['quicktime']['moov']['subatoms']['0']['creation_time_unix'];
+			}
+			break;
+	}
+
+	return $creation_date;
 }
 
 /**
