@@ -170,20 +170,20 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<p class="customizer-section-intro customize-control-description">
 				<?php
 				if ( current_theme_supports( 'custom-header', 'video' ) ) {
-					_e( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, we recommend matching the size of your video.' );
+					_e( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image that matches the size of your video &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' );
 				} elseif ( $width && $height ) {
 					/* translators: %s: header size in pixels */
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header size of %s pixels.' ),
+					printf( __( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header size of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s &times; %s</strong>', $width, $height )
 					);
 				} elseif ( $width ) {
 					/* translators: %s: header width in pixels */
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header width of %s pixels.' ),
+					printf( __( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header width of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $width )
 					);
 				} else {
 					/* translators: %s: header height in pixels */
-					printf( __( 'While you can crop images to your liking after clicking <strong>Add new image</strong>, your theme recommends a header height of %s pixels.' ),
+					printf( __( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header height of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $height )
 					);
 				}
