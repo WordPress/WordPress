@@ -70,7 +70,7 @@ $wp_file_descriptions = array(
  * @since 1.5.0
  *
  * @global array $wp_file_descriptions Theme file descriptions.
- * @global array $allowed_files        List of allowed files. 
+ * @global array $allowed_files        List of allowed files.
  * @param string $file Filesystem path or filename
  * @return string Description of file from $wp_file_descriptions or basename of $file if description doesn't exist.
  *                Appends 'Page Template' to basename of $file if the file is a page template
@@ -151,6 +151,398 @@ function list_files( $folder = '', $levels = 100 ) {
 	@closedir( $dir );
 	return $files;
 }
+
+/**
+ * Get list of file extensions that are editable in plugins.
+ *
+ * @since 4.9.0
+ *
+ * @param string $plugin Plugin.
+ * @return array File extensions.
+ */
+function wp_get_plugin_file_editable_extensions( $plugin ) {
+
+	$editable_extensions = array(
+		'bash',
+		'conf',
+		'css',
+		'diff',
+		'htm',
+		'html',
+		'http',
+		'inc',
+		'include',
+		'js',
+		'json',
+		'jsx',
+		'less',
+		'md',
+		'patch',
+		'php',
+		'php3',
+		'php4',
+		'php5',
+		'php7',
+		'phps',
+		'phtml',
+		'sass',
+		'scss',
+		'sh',
+		'sql',
+		'svg',
+		'text',
+		'txt',
+		'xml',
+		'yaml',
+		'yml',
+	);
+
+	/**
+	 * Filters file type extensions editable in the plugin editor.
+	 *
+	 * @since 2.8.0
+	 * @since 4.9.0 Adds $plugin param.
+	 *
+	 * @param string $plugin Plugin file.
+	 * @param array $editable_extensions An array of editable plugin file extensions.
+	 */
+	$editable_extensions = (array) apply_filters( 'editable_extensions', $editable_extensions, $plugin );
+
+	return $editable_extensions;
+}
+
+/**
+ * Get list of file extensions that are editable for a given theme.
+ *
+ * @param WP_Theme $theme Theme.
+ * @return array File extensions.
+ */
+function wp_get_theme_file_editable_extensions( $theme ) {
+
+	$default_types = array(
+		'bash',
+		'conf',
+		'css',
+		'diff',
+		'htm',
+		'html',
+		'http',
+		'inc',
+		'include',
+		'js',
+		'json',
+		'jsx',
+		'less',
+		'md',
+		'patch',
+		'php',
+		'php3',
+		'php4',
+		'php5',
+		'php7',
+		'phps',
+		'phtml',
+		'sass',
+		'scss',
+		'sh',
+		'sql',
+		'svg',
+		'text',
+		'txt',
+		'xml',
+		'yaml',
+		'yml',
+	);
+
+	/**
+	 * Filters the list of file types allowed for editing in the Theme editor.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array    $default_types List of file types. Default types include 'php' and 'css'.
+	 * @param WP_Theme $theme         The current Theme object.
+	 */
+	$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
+
+	// Ensure that default types are still there.
+	return array_unique( array_merge( $file_types, $default_types ) );
+}
+
+/**
+ * Print file editor templates (for plugins and themes).
+ *
+ * @since 4.9.0
+ */
+function wp_print_file_editor_templates() {
+	?>
+	<script type="text/html" id="tmpl-wp-file-editor-notice">
+		<div class="notice inline notice-{{ data.type || 'info' }} {{ data.alt ? 'notice-alt' : '' }} {{ data.dismissible ? 'is-dismissible' : '' }} {{ data.classes || '' }}">
+			<# if ( 'php_error' === data.code ) { #>
+				<p>
+					<?php
+					printf(
+						/* translators: %$1s is line number and %1$s is file path. */
+						__( 'Your PHP code changes were rolled back due to an error on line %1$s of file %2$s. Please fix and try saving again.' ),
+						'{{ data.line }}',
+						'{{ data.file }}'
+					);
+					?>
+				</p>
+				<pre>{{ data.message }}</pre>
+			<# } else if ( 'file_not_writable' === data.code ) { #>
+				<p><?php _e( 'You need to make this file writable before you can save your changes. See <a href="https://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.' ); ?></p>
+			<# } else { #>
+				<p>{{ data.message || data.code }}</p>
+
+				<# if ( 'lint_errors' === data.code ) { #>
+					<p>
+						<# var elementId = 'el-' + String( Math.random() ); #>
+						<input id="{{ elementId }}"  type="checkbox">
+						<label for="{{ elementId }}"><?php _e( 'Update anyway, even though it might break your site?' ); ?></label>
+					</p>
+				<# } #>
+			<# } #>
+			<# if ( data.dismissible ) { #>
+				<button type="button" class="notice-dismiss"><span class="screen-reader-text"><?php _e( 'Dismiss' ); ?></span></button>
+			<# } #>
+		</div>
+	</script>
+	<?php
+}
+
+/**
+ * Attempt to edit a file for a theme or plugin.
+ *
+ * When editing a PHP file, loopback requests will be made to the admin and the homepage
+ * to attempt to see if there is a fatal error introduced. If so, the PHP change will be
+ * reverted.
+ *
+ * @since 4.9.0
+ *
+ * @param array $args {
+ *     Args. Note that all of the arg values are already unslashed. They are, however,
+ *     coming straight from $_POST and are not validated or sanitized in any way.
+ *
+ *     @type string $file       Relative path to file.
+ *     @type string $plugin     Plugin being edited.
+ *     @type string $theme      Theme being edited.
+ *     @type string $newcontent New content for the file.
+ *     @type string $nonce      Nonce.
+ * }
+ * @return true|WP_Error True on success or `WP_Error` on failure.
+ */
+function wp_edit_theme_plugin_file( $args ) {
+	if ( empty( $args['file'] ) ) {
+		return new WP_Error( 'missing_file' );
+	}
+	$file = $args['file'];
+	if ( 0 !== validate_file( $file ) ) {
+		return new WP_Error( 'bad_file' );
+	}
+
+	if ( ! isset( $args['newcontent'] ) ) {
+		return new WP_Error( 'missing_content' );
+	}
+	$content = $args['newcontent'];
+
+	if ( ! isset( $args['nonce'] ) ) {
+		return new WP_Error( 'missing_nonce' );
+	}
+
+	$plugin = null;
+	$theme = null;
+	$real_file = null;
+	if ( ! empty( $args['plugin'] ) ) {
+		$plugin = $args['plugin'];
+
+		if ( ! current_user_can( 'edit_plugins' ) ) {
+			return new WP_Error( 'unauthorized', __( 'Sorry, you are not allowed to edit plugins for this site.' ) );
+		}
+
+		if ( ! wp_verify_nonce( $args['nonce'], 'edit-plugin_' . $file ) ) {
+			return new WP_Error( 'nonce_failure' );
+		}
+
+		if ( ! array_key_exists( $plugin, get_plugins() ) ) {
+			return new WP_Error( 'invalid_plugin' );
+		}
+
+		if ( 0 !== validate_file( $file, get_plugin_files( $plugin ) ) ) {
+			return new WP_Error( 'bad_plugin_file_path', __( 'Sorry, that file cannot be edited.' ) );
+		}
+
+		$editable_extensions = wp_get_plugin_file_editable_extensions( $plugin );
+
+		$real_file = WP_PLUGIN_DIR . '/' . $file;
+
+		$is_active = in_array(
+			$plugin,
+			(array) get_option( 'active_plugins', array() ),
+			true
+		);
+
+	} elseif ( ! empty( $args['theme'] ) ) {
+		$stylesheet = $args['theme'];
+		if ( 0 !== validate_file( $stylesheet ) ) {
+			return new WP_Error( 'bad_theme_path' );
+		}
+
+		if ( ! current_user_can( 'edit_themes' ) ) {
+			return new WP_Error( 'unauthorized', __( 'Sorry, you are not allowed to edit templates for this site.' ) );
+		}
+
+		$theme = wp_get_theme( $stylesheet );
+		if ( ! $theme->exists() ) {
+			return new WP_Error( 'non_existent_theme', __( 'The requested theme does not exist.' ) );
+		}
+
+		$real_file = $theme->get_stylesheet_directory() . '/' . $file;
+		if ( ! wp_verify_nonce( $args['nonce'], 'edit-theme_' . $real_file . $stylesheet ) ) {
+			return new WP_Error( 'nonce_failure' );
+		}
+
+		if ( $theme->errors() && 'theme_no_stylesheet' === $theme->errors()->get_error_code() ) {
+			return new WP_Error(
+				'theme_no_stylesheet',
+				__( 'The requested theme does not exist.' ) . ' ' . $theme->errors()->get_error_message()
+			);
+		}
+
+		$editable_extensions = wp_get_theme_file_editable_extensions( $theme );
+
+		$allowed_files = array();
+		foreach ( $editable_extensions as $type ) {
+			switch ( $type ) {
+				case 'php':
+					$allowed_files = array_merge( $allowed_files, $theme->get_files( 'php', 1 ) );
+					break;
+				case 'css':
+					$style_files = $theme->get_files( 'css' );
+					$allowed_files['style.css'] = $style_files['style.css'];
+					$allowed_files = array_merge( $allowed_files, $style_files );
+					break;
+				default:
+					$allowed_files = array_merge( $allowed_files, $theme->get_files( $type ) );
+					break;
+			}
+		}
+
+		if ( 0 !== validate_file( $real_file, $allowed_files ) ) {
+			return new WP_Error( 'disallowed_theme_file', __( 'Sorry, that file cannot be edited.' ) );
+		}
+
+		$is_active = ( get_stylesheet() === $stylesheet || get_template() === $stylesheet );
+	} else {
+		return new WP_Error( 'missing_theme_or_plugin' );
+	}
+
+	// Ensure file is real.
+	if ( ! is_file( $real_file ) ) {
+		return new WP_Error( 'file_does_not_exist', __( 'No such file exists! Double check the name and try again.' ) );
+	}
+
+	// Ensure file extension is allowed.
+	$extension = null;
+	if ( preg_match( '/\.([^.]+)$/', $real_file, $matches ) ) {
+		$extension = strtolower( $matches[1] );
+		if ( ! in_array( $extension, $editable_extensions, true ) ) {
+			return new WP_Error( 'illegal_file_type', __( 'Files of this type are not editable.' ) );
+		}
+	}
+
+	$previous_content = file_get_contents( $real_file );
+
+	if ( ! is_writeable( $real_file ) ) {
+		return new WP_Error( 'file_not_writable' );
+	}
+
+	$f = fopen( $real_file, 'w+' );
+	if ( false === $f ) {
+		return new WP_Error( 'file_not_writable' );
+	}
+
+	$written = fwrite( $f, $content );
+	fclose( $f );
+	if ( false === $written ) {
+		return new WP_Error( 'unable_to_write', __( 'Unable to write to file.' ) );
+	}
+	if ( 'php' === $extension && function_exists( 'opcache_invalidate' ) ) {
+		opcache_invalidate( $real_file, true );
+	}
+
+	if ( $is_active && 'php' === $extension ) {
+
+		$scrape_key = md5( rand() );
+		$transient = 'scrape_key_' . $scrape_key;
+		$scrape_nonce = strval( rand() );
+		set_transient( $transient, $scrape_nonce, 60 ); // It shouldn't take more than 60 seconds to make the two loopback requests.
+
+		$cookies = wp_unslash( $_COOKIE );
+		$scrape_params = array(
+			'wp_scrape_key' => $scrape_key,
+			'wp_scrape_nonce' => $scrape_nonce,
+		);
+		$headers = array(
+			'Cache-Control' => 'no-cache',
+		);
+
+		$needle = "###### begin_scraped_error:$scrape_key ######";
+
+		// Attempt loopback request to editor to see if user just whitescreened themselves.
+		if ( $plugin ) {
+			$url = add_query_arg( compact( 'plugin', 'file' ), admin_url( 'plugin-editor.php' ) );
+		} elseif ( isset( $stylesheet ) ) {
+			$url = add_query_arg(
+				array(
+					'theme' => $stylesheet,
+					'file' => $file,
+				),
+				admin_url( 'theme-editor.php' )
+			);
+		} else {
+			$url = admin_url();
+		}
+		$url = add_query_arg( $scrape_params, $url );
+		$r = wp_remote_get( $url, compact( 'cookies', 'headers' ) );
+		$body = wp_remote_retrieve_body( $r );
+		$error_position = strpos( $body, $needle );
+
+		// Try making request to homepage as well to see if visitors have been whitescreened.
+		if ( false === $error_position ) {
+			$url = home_url( '/' );
+			$url = add_query_arg( $scrape_params, $url );
+			$r = wp_remote_get( $url, compact( 'cookies', 'headers' ) );
+			$body = wp_remote_retrieve_body( $r );
+			$error_position = strpos( $body, $needle );
+		}
+
+		delete_transient( $transient );
+
+		if ( false !== $error_position ) {
+			file_put_contents( $real_file, $previous_content );
+			if ( function_exists( 'opcache_invalidate' ) ) {
+				opcache_invalidate( $real_file, true );
+			}
+
+			$error_output = trim( substr( $body, $error_position + strlen( $needle ) ) );
+			$error = json_decode( $error_output, true );
+			if ( ! isset( $error['message'] ) ) {
+				$message = $error_output;
+			} else {
+				$message = $error['message'];
+				unset( $error['message'] );
+			}
+			return new WP_Error( 'php_error', $message, $error );
+		}
+	}
+
+	if ( $theme instanceof WP_Theme ) {
+		$theme->cache_delete();
+	}
+
+	return true;
+}
+
 
 /**
  * Returns a filename of a Temporary unique file.

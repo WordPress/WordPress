@@ -2217,13 +2217,15 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 #template > div {
 	margin-right: 190px;
 }
-#template .active-plugin-edit-warning {
+#template .notice {
 	margin-top: 1em;
-	margin-right: 30%;
-	margin-right: calc( 184px + 3% );
+	margin-right: 3%;
 }
-#template .active-plugin-edit-warning p {
+#template .notice p {
 	width: auto;
+}
+#template .submit .spinner {
+	float: none;
 }
 
 .metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
@@ -3032,10 +3034,14 @@ img {
 #template textarea,
 #template .CodeMirror {
 	width: 97%;
-	height: calc( 100vh - 220px );
+	height: calc( 100vh - 280px );
+}
+#templateside {
+	margin-top: 31px;
+	overflow: scroll;
 }
 
-#template label {
+#theme-plugin-editor-label {
 	display: inline-block;
 	margin-bottom: 1em;
 	font-weight: 600;
@@ -3045,6 +3051,14 @@ img {
 #template textarea,
 #docs-list {
 	direction: ltr;
+}
+
+.fileedit-sub #theme,
+.fileedit-sub #plugin {
+	max-width: 40%;
+}
+.fileedit-sub .alignright {
+	text-align: right;
 }
 
 #template p {
@@ -3624,7 +3638,7 @@ img {
 	}
 
 	#template > div,
-	#template  .active-plugin-edit-warning {
+	#template .notice {
 		float: none;
 		margin: 1em 0;
 		width: auto;

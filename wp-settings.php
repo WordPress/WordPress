@@ -294,6 +294,8 @@ require( ABSPATH . WPINC . '/vars.php' );
 create_initial_taxonomies();
 create_initial_post_types();
 
+wp_start_scraping_edited_file_errors();
+
 // Register the default theme directory root
 register_theme_directory( get_theme_root() );
 

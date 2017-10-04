@@ -69,53 +69,8 @@ if ( $theme->errors() && 'theme_no_stylesheet' == $theme->errors()->get_error_co
 
 $allowed_files = $style_files = array();
 $has_templates = false;
-$default_types = array(
-	'bash',
-	'conf',
-	'css',
-	'diff',
-	'htm',
-	'html',
-	'http',
-	'inc',
-	'include',
-	'js',
-	'json',
-	'jsx',
-	'less',
-	'md',
-	'patch',
-	'php',
-	'php3',
-	'php4',
-	'php5',
-	'php7',
-	'phps',
-	'phtml',
-	'sass',
-	'scss',
-	'sh',
-	'sql',
-	'svg',
-	'text',
-	'txt',
-	'xml',
-	'yaml',
-	'yml',
-);
 
-/**
- * Filters the list of file types allowed for editing in the Theme editor.
- *
- * @since 4.4.0
- *
- * @param array    $default_types List of file types. Default types include 'php' and 'css'.
- * @param WP_Theme $theme         The current Theme object.
- */
-$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
-
-// Ensure that default types are still there.
-$file_types = array_unique( array_merge( $file_types, $default_types ) );
+$file_types = wp_get_theme_file_editable_extensions( $theme );
 
 foreach ( $file_types as $type ) {
 	switch ( $type ) {
@@ -143,33 +98,35 @@ if ( empty( $file ) ) {
 }
 
 validate_file_to_edit( $file, $allowed_files );
-$scrollto = isset( $_REQUEST['scrollto'] ) ? (int) $_REQUEST['scrollto'] : 0;
 
-switch( $action ) {
-case 'update':
-	check_admin_referer( 'edit-theme_' . $file . $stylesheet );
-	$newcontent = wp_unslash( $_POST['newcontent'] );
-	$location = 'theme-editor.php?file=' . urlencode( $relative_file ) . '&theme=' . urlencode( $stylesheet ) . '&scrollto=' . $scrollto;
-	if ( is_writeable( $file ) ) {
-		// is_writable() not always reliable, check return value. see comments @ https://secure.php.net/is_writable
-		$f = fopen( $file, 'w+' );
-		if ( $f !== false ) {
-			fwrite( $f, $newcontent );
-			fclose( $f );
-			$location .= '&updated=true';
-			$theme->cache_delete();
+// Handle fallback editing of file when JavaScript is not available.
+$edit_error = null;
+$posted_content = null;
+if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+	$r = wp_edit_theme_plugin_file( wp_unslash( $_POST ) );
+	if ( is_wp_error( $r ) ) {
+		$edit_error = $r;
+		if ( check_ajax_referer( 'edit-theme_' . $file . $stylesheet, 'nonce', false ) && isset( $_POST['newcontent'] ) ) {
+			$posted_content = wp_unslash( $_POST['newcontent'] );
 		}
+	} else {
+		wp_redirect( add_query_arg(
+			array(
+				'a' => 1, // This means "success" for some reason.
+				'theme' => $stylesheet,
+				'file' => $relative_file,
+			),
+			admin_url( 'theme-editor.php' )
+		) );
+		exit;
 	}
-	wp_redirect( $location );
-	exit;
+}
 
-default:
-
-	$settings = wp_enqueue_code_editor( compact( 'file' ) );
-	if ( ! empty( $settings ) ) {
-		wp_enqueue_script( 'wp-theme-plugin-editor' );
-		wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function() { wp.themePluginEditor.init( %s ); } )', wp_json_encode( $settings ) ) );
-	}
+	$settings = array(
+		'codeEditor' => wp_enqueue_code_editor( compact( 'file' ) ),
+	);
+	wp_enqueue_script( 'wp-theme-plugin-editor' );
+	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
 
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
@@ -179,7 +136,9 @@ default:
 		$error = true;
 
 	$content = '';
-	if ( ! $error && filesize( $file ) > 0 ) {
+	if ( ! empty( $posted_content ) ) {
+		$content = $posted_content;
+	} elseif ( ! $error && filesize( $file ) > 0 ) {
 		$f = fopen($file, 'r');
 		$content = fread($f, filesize($file));
 
@@ -197,10 +156,6 @@ default:
 		$content = esc_textarea( $content );
 	}
 
-	if ( isset( $_GET['updated'] ) ) : ?>
- <div id="message" class="updated notice is-dismissible"><p><?php _e( 'File edited successfully.' ) ?></p></div>
-<?php endif;
-
 $file_description = get_file_description( $relative_file );
 $file_show = array_search( $file, array_filter( $allowed_files ) );
 $description = esc_html( $file_description );
@@ -211,12 +166,23 @@ if ( $file_description != $file_show ) {
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
+<?php if ( isset( $_GET['a'] ) ) : ?>
+	<div id="message" class="updated notice is-dismissible">
+		<p><?php _e( 'File edited successfully.' ); ?></p>
+	</div>
+<?php elseif ( is_wp_error( $edit_error ) ) : ?>
+	<div id="message" class="notice notice-error">
+		<p><?php _e( 'There was an error while trying to update the file. You may need to fix something and try updating again.' ); ?></p>
+		<pre><?php echo esc_html( $edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code() ); ?></pre>
+	</div>
+<?php endif; ?>
+
 <div class="fileedit-sub">
 <div class="alignleft">
 <h2><?php echo $theme->display( 'Name' ); if ( $description ) echo ': ' . $description; ?></h2>
 </div>
 <div class="alignright">
-	<form action="theme-editor.php" method="post">
+	<form action="theme-editor.php" method="get">
 		<strong><label for="theme"><?php _e('Select theme to edit:'); ?> </label></strong>
 		<select name="theme" id="theme">
 <?php
@@ -299,14 +265,13 @@ if ( $allowed_files ) :
 	echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 else : ?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
-	<?php wp_nonce_field( 'edit-theme_' . $file . $stylesheet ); ?>
+		<?php wp_nonce_field( 'edit-theme_' . $file . $stylesheet, 'nonce' ); ?>
 		<div>
 			<label for="newcontent" id="theme-plugin-editor-label"><?php _e( 'Selected file content:' ); ?></label>
 			<textarea cols="70" rows="30" name="newcontent" id="newcontent" aria-describedby="editor-keyboard-trap-help-1 editor-keyboard-trap-help-2 editor-keyboard-trap-help-3 editor-keyboard-trap-help-4"><?php echo $content; ?></textarea>
 			<input type="hidden" name="action" value="update" />
 			<input type="hidden" name="file" value="<?php echo esc_attr( $relative_file ); ?>" />
 			<input type="hidden" name="theme" value="<?php echo esc_attr( $theme->get_stylesheet() ); ?>" />
-			<input type="hidden" name="scrollto" id="scrollto" value="<?php echo esc_attr( $scrollto ); ?>" />
 		</div>
 	<?php if ( ! empty( $functions ) ) : ?>
 		<div id="documentation" class="hide-if-no-js">
@@ -316,32 +281,33 @@ else : ?>
 		</div>
 	<?php endif; ?>
 
-		<div>
-		<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
-			<p><?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
-			<?php _e( 'This is a file in your current parent theme.' ); ?></p>
-		<?php endif; ?>
-<?php
-	if ( is_writeable( $file ) ) :
-		submit_button( __( 'Update File' ), 'primary', 'submit', true );
-	else : ?>
-<p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="https://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
-<?php endif; ?>
+	<div>
+		<div class="editor-notices">
+			<?php if ( is_child_theme() && $theme->get_stylesheet() == get_template() ) : ?>
+				<div class="notice notice-warning inline">
+					<p>
+						<?php if ( is_writeable( $file ) ) { ?><strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
+						<?php _e( 'This is a file in your current parent theme.' ); ?>
+					</p>
+				</div>
+			<?php endif; ?>
 		</div>
+	<?php if ( is_writeable( $file ) ) : ?>
+		<p class="submit">
+			<?php submit_button( __( 'Update File' ), 'primary', 'submit', false ); ?>
+			<span class="spinner"></span>
+		</p>
+	<?php else : ?>
+		<p><em><?php _e('You need to make this file writable before you can save your changes. See <a href="https://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.'); ?></em></p>
+	<?php endif; ?>
+	</div>
+	<?php wp_print_file_editor_templates(); ?>
 	</form>
 <?php
 endif; // $error
 ?>
 <br class="clear" />
 </div>
-<script type="text/javascript">
-jQuery(document).ready(function($){
-	$('#template').submit(function(){ $('#scrollto').val( $('#newcontent').scrollTop() ); });
-	$('#newcontent').scrollTop( $('#scrollto').val() );
-});
-</script>
 <?php
-break;
-}
 
 include(ABSPATH . 'wp-admin/admin-footer.php' );
