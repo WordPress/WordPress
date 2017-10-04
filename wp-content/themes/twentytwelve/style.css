@@ -1450,6 +1450,20 @@ a.comment-edit-link:hover {
 	display: block;
 	text-align: right;
 }
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
+
+.widget-area .widget.widget_tag_cloud li {
+	line-height: 1;
+}
+.template-front-page .widget-area .widget.widget_tag_cloud li {
+	margin: 0;
+}
 
 /* =Plugins
 ----------------------------------------------- */
@@ -1459,7 +1473,6 @@ img#wpstats {
 	margin: 0 auto 24px;
 	margin: 0 auto 1.714285714rem;
 }
-
 
 /* =Media queries
 -------------------------------------------------------------- */

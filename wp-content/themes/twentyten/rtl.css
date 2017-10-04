@@ -270,6 +270,11 @@ div.menu li{
 	margin-right: 1.3em;
 }
 
+#main .widget-area .tagcloud ul,
+.widget-area .tagcloud ul {
+	margin-right: 0;
+}
+
 /* =Footer
 -------------------------------------------------------------- */
 #site-generator {

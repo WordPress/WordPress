@@ -1559,6 +1559,13 @@ img.aligncenter {
 	margin-left: 1.6em;
 }
 
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
 
 /**
  * 12.0 Content

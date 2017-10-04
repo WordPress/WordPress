@@ -542,7 +542,7 @@ function twentyseventeen_front_page_template( $template ) {
 add_filter( 'frontpage_template',  'twentyseventeen_front_page_template' );
 
 /**
- * Modify tag cloud widget arguments to display all tags in the same font size
+ * Modifies tag cloud widget arguments to display all tags in the same font size
  * and use list format for better accessibility.
  *
  * @since Twenty Seventeen 1.4
@@ -555,6 +555,7 @@ function twentyseventeen_widget_tag_cloud_args( $args ) {
 	$args['smallest'] = 1;
 	$args['unit']     = 'em';
 	$args['format']   = 'list';
+
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args' );

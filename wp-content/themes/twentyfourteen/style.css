@@ -2583,6 +2583,14 @@ a.post-thumbnail:hover {
 	padding-bottom: 0;
 }
 
+.tagcloud ul {
+	list-style-type: none;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
+
 /* Recent Posts Widget */
 
 .widget_recent_entries .post-date {

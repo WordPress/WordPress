@@ -536,7 +536,7 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 function twentyten_posted_in() {
 	// Retrieves tag list of current post, separated by commas.
 	$tag_list = get_the_tag_list( '', ', ' );
-	if ( $tag_list ) {
+	if ( $tag_list && ! is_wp_error( $tag_list ) ) {
 		$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 	} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
 		$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
@@ -593,3 +593,22 @@ function twentyten_get_gallery_images() {
 
 	return $images;
 }
+
+/**
+ * Modifies tag cloud widget arguments to display all tags in the same font size
+ * and use list format for better accessibility.
+ *
+ * @since Twenty Ten 2.4
+ *
+ * @param array $args Arguments for tag cloud widget.
+ * @return array The filtered arguments for tag cloud widget.
+ */
+function twentyten_widget_tag_cloud_args( $args ) {
+	$args['largest']  = 22;
+	$args['smallest'] = 8;
+	$args['unit']     = 'pt';
+	$args['format']   = 'list';
+
+	return $args;
+}
+add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );

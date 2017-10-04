@@ -527,6 +527,27 @@ function twentyfourteen_wp_title( $title, $sep ) {
 }
 add_filter( 'wp_title', 'twentyfourteen_wp_title', 10, 2 );
 
+
+/**
+ * Modifies tag cloud widget arguments to display all tags in the same font size
+ * and use list format for better accessibility.
+ *
+ * @since Twenty Fourteen 2.1
+ *
+ * @param array $args Arguments for tag cloud widget.
+ * @return array The filtered arguments for tag cloud widget.
+ */
+function twentyfourteen_widget_tag_cloud_args( $args ) {
+	$args['largest']  = 22;
+	$args['smallest'] = 8;
+	$args['unit']     = 'pt';
+	$args['format']   = 'list';
+
+	return $args;
+}
+add_filter( 'widget_tag_cloud_args', 'twentyfourteen_widget_tag_cloud_args' );
+
+
 // Implement Custom Header features.
 require get_template_directory() . '/inc/custom-header.php';
 

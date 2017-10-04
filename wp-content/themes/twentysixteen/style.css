@@ -1514,6 +1514,15 @@ blockquote:after,
 	padding: 0.5625em 0.4375em 0.5em;
 }
 
+.tagcloud ul {
+	list-style-type: none;
+	margin-left: 0;
+}
+
+.tagcloud ul li {
+	display: inline-block;
+}
+
 .tagcloud a:hover,
 .tagcloud a:focus {
 	border-color: #007acc;

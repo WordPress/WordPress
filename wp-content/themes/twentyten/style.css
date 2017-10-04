@@ -1238,6 +1238,13 @@ h3#reply-title {
 .widget_media_video video {
 	max-width: 100%;
 }
+.tagcloud ul {
+	list-style-type: none;
+	margin-left: 0 !important;
+}
+.tagcloud ul li {
+	display: inline-block;
+}
 
 /* Main sidebars */
 #main .widget-area ul {
