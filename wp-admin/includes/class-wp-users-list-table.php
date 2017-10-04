@@ -166,49 +166,28 @@ class WP_Users_List_Table extends WP_List_Table {
 		global $role;
 
 		$wp_roles = wp_roles();
-		$count_users = true;
-
-		if ( wp_is_large_user_count() ) {
-			$count_users = false;
-		} elseif ( is_multisite() && wp_is_large_network( 'users' ) ) {
-			$count_users = false;
-		}
 
 		if ( $this->is_site_users ) {
 			$url = 'site-users.php?id=' . $this->site_id;
-			if ( $count_users ) {
-				switch_to_blog( $this->site_id );
-				$users_of_blog = count_users( 'time', $this->site_id );
-				restore_current_blog();
-			}
+			switch_to_blog( $this->site_id );
+			$users_of_blog = count_users( 'time', $this->site_id );
+			restore_current_blog();
 		} else {
 			$url = 'users.php';
-			if ( $count_users ) {
-				$users_of_blog = count_users();
-			}
+			$users_of_blog = count_users();
 		}
 
-		if ( $count_users ) {
-			$total_users = $users_of_blog['total_users'];
-			$avail_roles =& $users_of_blog['avail_roles'];
-			unset($users_of_blog);
-		} else {
-			$avail_roles = array();
-		}
+		$total_users = $users_of_blog['total_users'];
+		$avail_roles =& $users_of_blog['avail_roles'];
+		unset($users_of_blog);
 
 		$current_link_attributes = empty( $role ) ? ' class="current" aria-current="page"' : '';
 
 		$role_links = array();
-
-		if ( $count_users ) {
-			$role_links['all'] = "<a href='$url'$current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
-		} else {
-			$role_links['all'] = "<a href='$url'$current_link_attributes>" . _x( 'All', 'users' ) . '</a>';
-		}
+		$role_links['all'] = "<a href='$url'$current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
 		foreach ( $wp_roles->get_names() as $this_role => $name ) {
-			if ( $count_users && !isset($avail_roles[$this_role]) ) {
+			if ( !isset($avail_roles[$this_role]) )
 				continue;
-			}
 
 			$current_link_attributes = '';
 
@@ -217,14 +196,12 @@ class WP_Users_List_Table extends WP_List_Table {
 			}
 
 			$name = translate_user_role( $name );
-			if ( $count_users ) {
-				/* translators: User role name with count */
-				$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
-			}
+			/* translators: User role name with count */
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
 			$role_links[$this_role] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$current_link_attributes>$name</a>";
 		}
 
-		if ( ! $count_users || ! empty( $avail_roles['none' ] ) ) {
+		if ( ! empty( $avail_roles['none' ] ) ) {
 
 			$current_link_attributes = '';
 
@@ -233,10 +210,8 @@ class WP_Users_List_Table extends WP_List_Table {
 			}
 
 			$name = __( 'No role' );
-			if ( $count_users ) {
-				/* translators: User role name with count */
-				$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles['none' ] ) );
-			}
+			/* translators: User role name with count */
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles['none' ] ) );
 			$role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$current_link_attributes>$name</a>";
 
 		}

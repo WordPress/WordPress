@@ -2529,11 +2529,6 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
 
 	if ( 'users' == $using ) {
 		$count = get_user_count( $network_id );
-		$is_large = ( $count > 10000 );
-
-		/** This filter is documented in wp-includes/functions.php */
-		$is_large = apply_filters( 'wp_is_large_user_count', $is_large, $count );
-
 		/**
 		 * Filters whether the network is considered large.
 		 *
@@ -2545,7 +2540,7 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
 		 * @param int    $count            The count of items for the component.
 		 * @param int    $network_id       The ID of the network being checked.
 		 */
-		return apply_filters( 'wp_is_large_network', $is_large, 'users', $count, $network_id );
+		return apply_filters( 'wp_is_large_network', $count > 10000, 'users', $count, $network_id );
 	}
 
 	$count = get_blog_count( $network_id );
