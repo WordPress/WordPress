@@ -1051,6 +1051,28 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 			}
 		}
 	}
+
+	if ( 'object' === $args['type'] ) {
+		if ( $value instanceof stdClass ) {
+			$value = (array) $value;
+		}
+		if ( ! is_array( $value ) ) {
+			/* translators: 1: parameter, 2: type name */
+			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'object' ) );
+		}
+
+		foreach ( $value as $property => $v ) {
+			if ( ! isset( $args['properties'][ $property ] ) ) {
+				continue;
+			}
+			$is_valid = rest_validate_value_from_schema( $v, $args['properties'][ $property ], $param . '[' . $property . ']' );
+
+			if ( is_wp_error( $is_valid ) ) {
+				return $is_valid;
+			}
+		}
+	}
+
 	if ( ! empty( $args['enum'] ) ) {
 		if ( ! in_array( $value, $args['enum'], true ) ) {
 			/* translators: 1: parameter, 2: list of valid values */
@@ -1170,6 +1192,26 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		$value = array_values( $value );
 		return $value;
 	}
+
+	if ( 'object' === $args['type'] ) {
+		if ( $value instanceof stdClass ) {
+			$value = (array) $value;
+		}
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		foreach ( $value as $property => $v ) {
+			if ( ! isset( $args['properties'][ $property ] ) ) {
+				unset( $value[ $property ] );
+				continue;
+			}
+			$value[ $property ] = rest_sanitize_value_from_schema( $v, $args['properties'][ $property ] );
+		}
+
+		return $value;
+	}
+
 	if ( 'integer' === $args['type'] ) {
 		return (int) $value;
 	}

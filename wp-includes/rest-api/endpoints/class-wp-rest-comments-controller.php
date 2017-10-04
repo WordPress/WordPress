@@ -1200,6 +1200,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'context'         => array( 'view', 'edit', 'embed' ),
 					'arg_options'     => array(
 						'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database()
+						'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database()
 					),
 					'properties'      => array(
 						'raw'         => array(
