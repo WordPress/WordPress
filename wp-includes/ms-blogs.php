@@ -70,38 +70,23 @@ function get_blogaddress_by_name( $blogname ) {
 }
 
 /**
- * Retrieves a sites ID given its (subdomain or directory) slug.
+ * Retrieves a site's ID given its (subdomain or directory) slug.
  *
  * @since MU (3.0.0)
  * @since 4.7.0 Converted to use get_sites().
+ * @since 4.9.0 Converted to use get_site_by().
  *
  * @param string $slug A site's slug.
  * @return int|null The site ID, or null if no site is found for the given slug.
  */
 function get_id_from_blogname( $slug ) {
-	$current_network = get_network();
-	$slug = trim( $slug, '/' );
+	$result = get_site_by( 'slug', $slug );
 
-	if ( is_subdomain_install() ) {
-		$domain = $slug . '.' . preg_replace( '|^www\.|', '', $current_network->domain );
-		$path = $current_network->path;
-	} else {
-		$domain = $current_network->domain;
-		$path = $current_network->path . $slug . '/';
-	}
-
-	$site_ids = get_sites( array(
-		'number' => 1,
-		'fields' => 'ids',
-		'domain' => $domain,
-		'path' => $path,
-	) );
-
-	if ( empty( $site_ids ) ) {
+	if ( ! $result ) {
 		return null;
 	}
 
-	return array_shift( $site_ids );
+	return $result->id;
 }
 
 /**
