@@ -4193,7 +4193,23 @@ function disabled( $disabled, $current = true, $echo = true ) {
 }
 
 /**
- * Private helper function for checked, selected, and disabled.
+ * Outputs the html readonly attribute.
+ *
+ * Compares the first two arguments and if identical marks as readonly
+ *
+ * @since 4.9.0
+ *
+ * @param mixed $readonly One of the values to compare
+ * @param mixed $current  (true) The other value to compare if not just true
+ * @param bool  $echo     Whether to echo or just return the string
+ * @return string html attribute or empty string
+ */
+function readonly( $readonly, $current = true, $echo = true ) {
+	return __checked_selected_helper( $readonly, $current, $echo, 'readonly' );
+}
+
+/**
+ * Private helper function for checked, selected, disabled and readonly.
  *
  * Compares the first two arguments and if identical marks as $type
  *
@@ -4203,7 +4219,7 @@ function disabled( $disabled, $current = true, $echo = true ) {
  * @param mixed  $helper  One of the values to compare
  * @param mixed  $current (true) The other value to compare if not just true
  * @param bool   $echo    Whether to echo or just return the string
- * @param string $type    The type of checked|selected|disabled we are doing
+ * @param string $type    The type of checked|selected|disabled|readonly we are doing
  * @return string html attribute or empty string
  */
 function __checked_selected_helper( $helper, $current, $echo, $type ) {
