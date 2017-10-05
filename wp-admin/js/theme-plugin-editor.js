@@ -52,8 +52,7 @@ wp.themePluginEditor = (function( $ ) {
 			$( 'body' ).addClass( 'modal-open' );
 			component.warning.find( '.file-editor-warning-dismiss' ).focus();
 			component.warning.on( 'click', '.file-editor-warning-dismiss', component.dismissWarning );
-		};
-
+		}
 
 		if ( false !== component.codeEditor ) {
 			/*
