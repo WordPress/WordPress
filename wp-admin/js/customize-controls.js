@@ -3183,7 +3183,6 @@
 			standardTypes = [
 				'button',
 				'checkbox',
-				'color',
 				'date',
 				'datetime-local',
 				'email',
