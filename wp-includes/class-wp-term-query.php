@@ -87,6 +87,7 @@ class WP_Term_Query {
 	 * @since 4.6.0
 	 * @since 4.6.0 Introduced 'term_taxonomy_id' parameter.
 	 * @since 4.7.0 Introduced 'object_ids' parameter.
+	 * @since 4.9.0 Added 'slug__in' support for 'orderby'.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or query string of term query parameters. Default empty.
@@ -98,7 +99,8 @@ class WP_Term_Query {
 	 *     @type string       $orderby                Field(s) to order terms by. Accepts term fields ('name',
 	 *                                                'slug', 'term_group', 'term_id', 'id', 'description', 'parent'),
 	 *                                                'count' for term taxonomy count, 'include' to match the
-	 *                                                'order' of the $include param, 'meta_value', 'meta_value_num',
+	 *                                                'order' of the $include param, 'slug__in' to match the
+	 *                                                'order' of the $slug param, 'meta_value', 'meta_value_num',
 	 *                                                the value of `$meta_key`, the array keys of `$meta_query`, or
 	 *                                                'none' to omit the ORDER BY clause. Defaults to 'name'.
 	 *     @type string       $order                  Whether to order terms in ascending or descending order.
@@ -841,6 +843,9 @@ class WP_Term_Query {
 		} elseif ( 'include' == $_orderby && ! empty( $this->query_vars['include'] ) ) {
 			$include = implode( ',', wp_parse_id_list( $this->query_vars['include'] ) );
 			$orderby = "FIELD( t.term_id, $include )";
+		} elseif ( 'slug__in' == $_orderby && ! empty( $this->query_vars['slug'] ) && is_array( $this->query_vars['slug'] ) ) {
+			$slugs = implode( "', '", array_map( 'sanitize_title_for_query', $this->query_vars['slug__in'] ) );
+			$orderby = "FIELD( t.slug, '" . $slugs . "')";
 		} elseif ( 'none' == $_orderby ) {
 			$orderby = '';
 		} elseif ( empty( $_orderby ) || 'id' == $_orderby || 'term_id' === $_orderby ) {
