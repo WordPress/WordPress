@@ -482,7 +482,7 @@ class WP_Customize_Control {
 	protected function render_content() {
 		$input_id = '_customize-input-' . $this->id;
 		$description_id = '_customize-description-' . $this->id;
-		$describedby_attr = ( ! empty( $this->description ) ) ? 'aria-describedby="' . esc_attr( $description_id ) . '"' : '';
+		$describedby_attr = ( ! empty( $this->description ) ) ? ' aria-describedby="' . esc_attr( $description_id ) . '" ' : '';
 		switch ( $this->type ) {
 			case 'checkbox':
 				?>
@@ -520,7 +520,8 @@ class WP_Customize_Control {
 					<span class="customize-inside-control-row">
 						<input
 							id="<?php echo esc_attr( $input_id . '-radio-' . $value ); ?>"
-							type="radio" <?php echo $describedby_attr; ?>
+							type="radio"
+							<?php echo $describedby_attr; ?>
 							value="<?php echo esc_attr( $value ); ?>"
 							name="<?php echo esc_attr( $name ); ?>"
 							<?php $this->link(); ?>

@@ -3600,8 +3600,143 @@ final class WP_Customize_Manager {
 			) );
 			$control->print_template();
 		}
-
 		?>
+
+		<script type="text/html" id="tmpl-customize-control-default-content">
+			<#
+			var inputId = _.uniqueId( 'customize-control-default-input-' );
+			var descriptionId = _.uniqueId( 'customize-control-default-description-' );
+			var describedByAttr = data.description ? ' aria-describedby="' + descriptionId + '" ' : '';
+			#>
+			<# switch ( data.type ) {
+				case 'checkbox': #>
+					<span class="customize-inside-control-row">
+						<input
+							id="{{ inputId }}"
+							{{{ describedByAttr }}}
+							type="checkbox"
+							value="{{ data.value }}"
+							data-customize-setting-key-link="default"
+						>
+						<label for="{{ inputId }}">
+							{{ data.label }}
+						</label>
+						<# if ( data.description ) { #>
+							<span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+						<# } #>
+					</span>
+					<#
+					break;
+				case 'radio':
+					if ( ! data.choices ) {
+						return;
+					}
+					#>
+					<# if ( data.label ) { #>
+						<label for="{{ inputId }}" class="customize-control-title">
+							{{ data.label }}
+						</label>
+					<# } #>
+					<# if ( data.description ) { #>
+						<span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+					<# } #>
+					<# _.each( data.choices, function( val, key ) { #>
+						<span class="customize-inside-control-row">
+							<#
+							var value, text;
+							if ( _.isObject( val ) ) {
+								value = val.value;
+								text = val.text;
+							} else {
+								value = key;
+								text = val;
+							}
+							#>
+							<input
+								id="{{ inputId + '-' + value }}"
+								type="radio"
+								value="{{ value }}"
+								name="{{ inputId }}"
+								data-customize-setting-key-link="default"
+								{{{ describedByAttr }}}
+							>
+							<label for="{{ inputId + '-' + value }}">{{ text }}</label>
+						</span>
+					<# } ); #>
+					<#
+					break;
+				default:
+					#>
+					<# if ( data.label ) { #>
+						<label for="{{ inputId }}" class="customize-control-title">
+							{{ data.label }}
+						</label>
+					<# } #>
+					<# if ( data.description ) { #>
+						<span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+					<# } #>
+
+					<#
+					var inputAttrs = {
+						id: inputId,
+						'data-customize-setting-key-link': 'default'
+					};
+					if ( 'textarea' === data.type ) {
+						inputAttrs.rows = '5';
+					} else if ( 'button' === data.type ) {
+						inputAttrs['class'] = 'button button-secondary';
+						inputAttrs.type = 'button';
+					} else {
+						inputAttrs.type = data.type;
+					}
+					if ( data.description ) {
+						inputAttrs['aria-describedby'] = descriptionId;
+					}
+					_.extend( inputAttrs, data.inputAttrs );
+					#>
+
+					<# if ( 'button' === data.type ) { #>
+						<button
+							<# _.each( _.extend( inputAttrs ), function( value, key ) { #>
+								{{{ key }}}="{{ value }}"
+							<# } ); #>
+						>{{ inputAttrs.value }}</button>
+					<# } else if ( 'textarea' === data.type ) { #>
+						<textarea
+							<# _.each( _.extend( inputAttrs ), function( value, key ) { #>
+								{{{ key }}}="{{ value }}"
+							<# }); #>
+						>{{ inputAttrs.value }}</textarea>
+					<# } else if ( 'select' === data.type ) { #>
+						<select
+							<# _.each( _.extend( inputAttrs ), function( value, key ) { #>
+								{{{ key }}}="{{ value }}"
+							<# }); #>
+							>
+							<# _.each( data.choices, function( val, key ) { #>
+								<#
+								var value, text;
+								if ( _.isObject( val ) ) {
+									value = val.value;
+									text = val.text;
+								} else {
+									value = key;
+									text = val;
+								}
+								#>
+								<option value="{{ value }}">{{ text }}</option>
+							<# } ); #>
+						</select>
+					<# } else { #>
+						<input
+							<# _.each( _.extend( inputAttrs ), function( value, key ) { #>
+								{{{ key }}}="{{ value }}"
+							<# }); #>
+							>
+					<# } #>
+			<# } #>
+		</script>
+
 		<script type="text/html" id="tmpl-customize-notification">
 			<li class="notice notice-{{ data.type || 'info' }} {{ data.alt ? 'notice-alt' : '' }} {{ data.dismissible ? 'is-dismissible' : '' }} {{ data.containerClasses || '' }}" data-code="{{ data.code }}" data-type="{{ data.type }}">
 				<div class="notification-message">{{{ data.message || data.code }}}</div>
@@ -3621,6 +3756,7 @@ final class WP_Customize_Manager {
 				<# } ); #>
 			</ul>
 		</script>
+
 		<script type="text/html" id="tmpl-customize-preview-link-control" >
 			<# var elementPrefix = _.uniqueId( 'el' ) + '-' #>
 			<p class="customize-control-title">
@@ -3637,9 +3773,6 @@ final class WP_Customize_Manager {
 				<input id="{{ elementPrefix }}customize-preview-link-input" readonly class="preview-control-element" data-component="input">
 				<button class="customize-copy-preview-link preview-control-element button button-secondary" data-component="button" data-copy-text="<?php esc_attr_e( 'Copy' ); ?>" data-copied-text="<?php esc_attr_e( 'Copied' ); ?>" ><?php esc_html_e( 'Copy' ); ?></button>
 			</div>
-		</script>
-		<script type="text/html" id="tmpl-customize-trash-changeset-control">
-			<button type="button" class="button-link button-link-delete"><?php _e( 'Discard changes' ); ?></button>
 		</script>
 		<script type="text/html" id="tmpl-customize-selected-changeset-status-control">
 			<# var inputId = _.uniqueId( 'customize-selected-changeset-status-control-input-' ); #>

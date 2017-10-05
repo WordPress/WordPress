@@ -152,12 +152,12 @@ body.trashing #publish-settings {
 #customize-control-trash_changeset {
 	margin-top: 20px;
 }
-#customize-control-trash_changeset button {
+#customize-control-trash_changeset .button-link {
 	position: relative;
 	padding-right: 24px;
 	display: inline-block;
 }
-#customize-control-trash_changeset button:before {
+#customize-control-trash_changeset .button-link:before {
 	content: "\f182";
 	font: normal 22px dashicons;
 	text-decoration: none;

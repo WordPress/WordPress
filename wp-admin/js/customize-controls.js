@@ -3141,7 +3141,7 @@
 		},
 
 		initialize: function( id, options ) {
-			var control = this, deferredSettingIds = [], settings, gatherSettings;
+			var control = this, deferredSettingIds = [], settings, gatherSettings, standardTypes;
 
 			control.params = _.extend( {}, control.defaults );
 
@@ -3174,11 +3174,39 @@
 
 			control.id = id;
 			control.selector = '#customize-control-' + id.replace( /\]/g, '' ).replace( /\[/g, '-' ); // Deprecated, likely dead code from time before #28709.
-			control.templateSelector = control.params.templateId || 'customize-control-' + control.params.type + '-content';
 			if ( control.params.content ) {
 				control.container = $( control.params.content );
 			} else {
 				control.container = $( control.selector ); // Likely dead, per above. See #28709.
+			}
+
+			standardTypes = [
+				'button',
+				'checkbox',
+				'color',
+				'date',
+				'datetime-local',
+				'email',
+				'month',
+				'number',
+				'password',
+				'radio',
+				'range',
+				'search',
+				'select',
+				'tel',
+				'time',
+				'text',
+				'textarea',
+				'week',
+				'url'
+			];
+			if ( control.params.templateId ) {
+				control.templateSelector = control.params.templateId;
+			} else if ( _.contains( standardTypes, control.params.type ) && control.container.is( ':empty' ) ) {
+				control.templateSelector = 'customize-control-default-content';
+			} else {
+				control.templateSelector = 'customize-control-' + control.params.type + '-content';
 			}
 
 			control.deferred = {
@@ -6446,11 +6474,14 @@
 				type: 'button',
 				section: section.id,
 				priority: 30,
-				templateId: 'customize-trash-changeset-control'
+				inputAttrs: {
+					'class': 'button-link button-link-delete',
+					value: api.l10n.discardChanges
+				}
 			} );
 			api.control.add( trashControl );
 			trashControl.deferred.embedded.done( function() {
-				trashControl.container.find( 'button' ).on( 'click', function() {
+				trashControl.container.find( '.button-link' ).on( 'click', function() {
 					if ( confirm( api.l10n.trashConfirm ) ) {
 						wp.customize.previewer.trash();
 					}

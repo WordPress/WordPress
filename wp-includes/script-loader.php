@@ -565,6 +565,7 @@ function wp_default_scripts( &$scripts ) {
 		'cancel'             => __( 'Cancel' ),
 		'close'              => __( 'Close' ),
 		'action'             => __( 'Action' ),
+		'discardChanges'     => __( 'Discard changes' ),
 		'cheatin'            => __( 'Cheatin&#8217; uh?' ),
 		'notAllowed'         => __( 'Sorry, you are not allowed to customize this site.' ),
 		'previewIframeTitle' => __( 'Site Preview' ),
