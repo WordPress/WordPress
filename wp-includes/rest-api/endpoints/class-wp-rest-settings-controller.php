@@ -119,23 +119,13 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * @return mixed The prepared value.
 	 */
 	protected function prepare_value( $value, $schema ) {
-		// If the value is not a scalar, it's not possible to cast it to anything.
-		if ( ! is_scalar( $value ) ) {
+		// If the value is not valid by the schema, set the value to null. Null
+		// values are specifcally non-destructive so this will not cause overwriting
+		// the current invalid value to null.
+		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
-
-		switch ( $schema['type'] ) {
-			case 'string':
-				return (string) $value;
-			case 'integer':
-				return (int) $value;
-			case 'number':
-				return (float) $value;
-			case 'boolean':
-				return (bool) $value;
-			default:
-				return null;
-		}
+		return rest_sanitize_value_from_schema( $value, $schema );
 	}
 
 	/**
@@ -148,6 +138,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 */
 	public function update_item( $request ) {
 		$options = $this->get_registered_options();
+
 		$params  = $request->get_params();
 
 		foreach ( $options as $name => $args ) {
@@ -187,12 +178,12 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				 *
 				 * To protect clients from accidentally including the null
 				 * values from a response object in a request, we do not allow
-				 * options with non-scalar values to be updated to null.
+				 * options with values that don't pass validation to be updated to null.
 				 * Without this added protection a client could mistakenly
-				 * delete all options that have non-scalar values from the
+				 * delete all options that have invalid values from the
 				 * database.
 				 */
-				if ( ! is_scalar( get_option( $args['option_name'], false ) ) ) {
+				if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 					return new WP_Error(
 						'rest_invalid_stored_value', sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ), array( 'status' => 500 )
 					);
@@ -253,7 +244,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 			 * Whitelist the supported types for settings, as we don't want invalid types
 			 * to be updated with arbitrary values that we can't do decent sanitizing for.
 			 */
-			if ( ! in_array( $rest_args['schema']['type'], array( 'number', 'integer', 'string', 'boolean' ), true ) ) {
+			if ( ! in_array( $rest_args['schema']['type'], array( 'number', 'integer', 'string', 'boolean', 'array', 'object' ), true ) ) {
 				continue;
 			}
 
