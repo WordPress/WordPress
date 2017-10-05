@@ -403,9 +403,11 @@ abstract class WP_Widget_Media extends WP_Widget {
 				<button type="button" class="button edit-media selected">
 					<?php echo esc_html( $this->l10n['edit_media'] ); ?>
 				</button>
+			<?php if ( ! empty( $this->l10n['replace_media'] ) ) : ?>
 				<button type="button" class="button change-media select-media selected">
 					<?php echo esc_html( $this->l10n['replace_media'] ); ?>
 				</button>
+			<?php endif; ?>
 				<button type="button" class="button select-media not-selected">
 					<?php echo esc_html( $this->l10n['add_media'] ); ?>
 				</button>

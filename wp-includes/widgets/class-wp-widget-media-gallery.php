@@ -29,8 +29,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 
 		$this->l10n = array_merge( $this->l10n, array(
 			'no_media_selected' => __( 'No images selected' ),
-			'add_media' => _x( 'Select Images', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
-			'replace_media' => _x( 'Replace Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+			'add_media' => _x( 'Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+			'replace_media' => '',
 			'edit_media' => _x( 'Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
 		) );
 	}
