@@ -141,7 +141,7 @@
 		 * @param {String} url - Video url.
 		 * @returns {boolean} Whether url is a supported video host.
 		 */
-		isHostedVideo: function isHostedVideo( url ) {
+		isHostedVideo: function isHostedVideo() {
 			return false;
 		},
 
