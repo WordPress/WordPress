@@ -828,7 +828,7 @@ function page_attributes_meta_box($post) {
 		 * @see wp_dropdown_pages()
 		 *
 		 * @param array   $dropdown_args Array of arguments used to generate the pages drop-down.
-		 * @param WP_Post $post          The current WP_Post object.
+		 * @param WP_Post $post          The current post.
 		 */
 		$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
 		$pages = wp_dropdown_pages( $dropdown_args );
@@ -875,6 +875,16 @@ $default_title = apply_filters( 'default_page_template_title',  __( 'Default Tem
 <?php if ( post_type_supports( $post->post_type, 'page-attributes' ) ) : ?>
 <p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="menu_order"><?php _e( 'Order' ); ?></label></p>
 <input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr( $post->menu_order ); ?>" />
+<?php
+/**
+ * Fires before the help hint text in the 'Page Attributes' meta box.
+ *
+ * @since 4.8.0
+ *
+ * @param WP_Post $post The current post.
+ */
+do_action( 'page_attributes_misc_attributes', $post );
+?>
 <?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) : ?>
 <p><?php _e( 'Need help? Use the Help tab above the screen title.' ); ?></p>
 <?php endif;
