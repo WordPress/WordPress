@@ -184,12 +184,6 @@ wp.mediaWidgets = ( function( $ ) {
 							return;
 						}
 
-						// If video, test for Vimeo and YouTube, otherwise, renderFail(). This should be removed once #34115 is resolved.
-						if ( 'video' === this.controller.options.mimeType && ! /vimeo|youtu\.?be/.test( urlParser.host ) ) {
-							embedLinkView.renderFail();
-							return;
-						}
-
 						// Support YouTube embed links.
 						url = embedLinkView.model.get( 'url' );
 						re = /https?:\/\/www\.youtube\.com\/embed\/([^/]+)/;

@@ -121,17 +121,21 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 			return;
 		}
 
-		add_filter( 'wp_video_shortcode', array( $this, 'inject_video_max_width_style' ) );
+		if ( $attachment ) {
+			add_filter( 'wp_video_shortcode', array( $this, 'inject_video_max_width_style' ) );
 
-		echo wp_video_shortcode(
-			array_merge(
-				$instance,
-				compact( 'src' )
-			),
-			$instance['content']
-		);
+			echo wp_video_shortcode(
+				array_merge(
+					$instance,
+					compact( 'src' )
+				),
+				$instance['content']
+			);
 
-		remove_filter( 'wp_video_shortcode', array( $this, 'inject_video_max_width_style' ) );
+			remove_filter( 'wp_video_shortcode', array( $this, 'inject_video_max_width_style' ) );
+		} else {
+			echo $this->inject_video_max_width_style( wp_oembed_get( $src ) );
+		}
 	}
 
 	/**
@@ -227,11 +231,11 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 				<div class="notice notice-error notice-alt">
 					<p><?php _e( 'Unable to preview media due to an unknown error.' ); ?></p>
 				</div>
-			<# } else if ( data.is_hosted_embed && data.model.poster ) { #>
+			<# } else if ( data.is_oembed && data.model.poster ) { #>
 				<a href="{{ data.model.src }}" target="_blank" class="media-widget-video-link">
 					<img src="{{ data.model.poster }}" />
 				</a>
-			<# } else if ( data.is_hosted_embed ) { #>
+			<# } else if ( data.is_oembed ) { #>
 				<a href="{{ data.model.src }}" target="_blank" class="media-widget-video-link no-poster">
 					<span class="dashicons dashicons-format-video"></span>
 				</a>
