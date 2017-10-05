@@ -557,9 +557,14 @@ body.trashing #publish-settings {
 	border-bottom-color: #ddd;
 }
 
-#customize-theme-controls .control-panel-content .control-section:nth-child(2),
-#customize-theme-controls .control-panel-nav_menus .control-section:nth-child(3) {
+#customize-theme-controls .control-panel-content:not(.control-panel-nav_menus) .control-section:nth-child(2),
+#customize-theme-controls .control-panel-nav_menus .control-section-nav_menu,
+#customize-theme-controls .control-section-nav_menu_locations .accordion-section-title {
 	border-top: 1px solid #ddd;
+}
+
+#customize-theme-controls .control-panel-nav_menus .control-section-nav_menu + .control-section-nav_menu {
+	border-top: none;
 }
 
 #customize-theme-controls > ul {
@@ -661,7 +666,8 @@ body.trashing #publish-settings {
 	position: static;
 }
 
-.customize-section-description-container {
+.customize-section-description-container,
+.control-section-nav_menu .customize-section-description-container {
 	margin-bottom: 15px;
 }
 

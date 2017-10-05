@@ -395,39 +395,49 @@ final class WP_Customize_Nav_Menus {
 		$temp_nav_menu_setting      = new WP_Customize_Nav_Menu_Setting( $this->manager, 'nav_menu[-1]' );
 		$temp_nav_menu_item_setting = new WP_Customize_Nav_Menu_Item_Setting( $this->manager, 'nav_menu_item[-1]' );
 
+		$num_locations = count( get_registered_nav_menus() );
+		if ( 1 === $num_locations ) {
+			$locations_description = __( 'Your theme can display menus in one location.' );
+		} else {
+			/* translators: %s: number of menu locations */
+			$locations_description = sprintf( _n( 'Your theme can display menus in %s location.', 'Your theme can display menus in %s locations.', $num_locations ), number_format_i18n( $num_locations ) );
+		}
+
 		// Pass data to JS.
 		$settings = array(
 			'allMenus'             => wp_get_nav_menus(),
 			'itemTypes'            => $this->available_item_types(),
 			'l10n'                 => array(
-				'untitled'          => _x( '(no label)', 'missing menu item navigation label' ),
-				'unnamed'           => _x( '(unnamed)', 'Missing menu name.' ),
-				'custom_label'      => __( 'Custom Link' ),
-				'page_label'        => get_post_type_object( 'page' )->labels->singular_name,
-				/* translators: %s: menu location */
-				'menuLocation'      => _x( '(Currently set to: %s)', 'menu' ),
-				'menuNameLabel'     => __( 'Menu Name' ),
-				'itemAdded'         => __( 'Menu item added' ),
-				'itemDeleted'       => __( 'Menu item deleted' ),
-				'menuAdded'         => __( 'Menu created' ),
-				'menuDeleted'       => __( 'Menu deleted' ),
-				'movedUp'           => __( 'Menu item moved up' ),
-				'movedDown'         => __( 'Menu item moved down' ),
-				'movedLeft'         => __( 'Menu item moved out of submenu' ),
-				'movedRight'        => __( 'Menu item is now a sub-item' ),
+				'untitled'               => _x( '(no label)', 'missing menu item navigation label' ),
+				'unnamed'                => _x( '(unnamed)', 'Missing menu name.' ),
+				'custom_label'           => __( 'Custom Link' ),
+				'page_label'             => get_post_type_object( 'page' )->labels->singular_name,
+				/* translators: %s:      menu location */
+				'menuLocation'           => _x( '(Currently set to: %s)', 'menu' ),
+				'locationsDescription'   => $locations_description,
+				'menuNameLabel'          => __( 'Menu Name' ),
+				'newMenuNameDescription' => __( 'If your theme has multiple menus, giving them clear names will help you manage them.' ),
+				'itemAdded'              => __( 'Menu item added' ),
+				'itemDeleted'            => __( 'Menu item deleted' ),
+				'menuAdded'              => __( 'Menu created' ),
+				'menuDeleted'            => __( 'Menu deleted' ),
+				'movedUp'                => __( 'Menu item moved up' ),
+				'movedDown'              => __( 'Menu item moved down' ),
+				'movedLeft'              => __( 'Menu item moved out of submenu' ),
+				'movedRight'             => __( 'Menu item is now a sub-item' ),
 				/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
-				'customizingMenus'  => sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'nav_menus' )->title ) ),
+				'customizingMenus'       => sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'nav_menus' )->title ) ),
 				/* translators: %s: title of menu item which is invalid */
-				'invalidTitleTpl'   => __( '%s (Invalid)' ),
+				'invalidTitleTpl'        => __( '%s (Invalid)' ),
 				/* translators: %s: title of menu item in draft status */
-				'pendingTitleTpl'   => __( '%s (Pending)' ),
-				'itemsFound'        => __( 'Number of items found: %d' ),
-				'itemsFoundMore'    => __( 'Additional items found: %d' ),
-				'itemsLoadingMore'  => __( 'Loading more results... please wait.' ),
-				'reorderModeOn'     => __( 'Reorder mode enabled' ),
-				'reorderModeOff'    => __( 'Reorder mode closed' ),
-				'reorderLabelOn'    => esc_attr__( 'Reorder menu items' ),
-				'reorderLabelOff'   => esc_attr__( 'Close reorder mode' ),
+				'pendingTitleTpl'        => __( '%s (Pending)' ),
+				'itemsFound'             => __( 'Number of items found: %d' ),
+				'itemsFoundMore'         => __( 'Additional items found: %d' ),
+				'itemsLoadingMore'       => __( 'Loading more results... please wait.' ),
+				'reorderModeOn'          => __( 'Reorder mode enabled' ),
+				'reorderModeOff'         => __( 'Reorder mode closed' ),
+				'reorderLabelOn'         => esc_attr__( 'Reorder menu items' ),
+				'reorderLabelOff'        => esc_attr__( 'Close reorder mode' ),
 			),
 			'settingTransport'     => 'postMessage',
 			'phpIntMax'            => PHP_INT_MAX,
@@ -537,6 +547,7 @@ final class WP_Customize_Nav_Menus {
 		$this->manager->register_panel_type( 'WP_Customize_Nav_Menus_Panel' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Control' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Name_Control' );
+		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Locations_Control' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Auto_Add_Control' );
 		$this->manager->register_control_type( 'WP_Customize_Nav_Menu_Item_Control' );
 
@@ -558,23 +569,24 @@ final class WP_Customize_Nav_Menus {
 
 		// Menu locations.
 		$locations     = get_registered_nav_menus();
-		$num_locations = count( array_keys( $locations ) );
+		$num_locations = count( $locations );
 		if ( 1 == $num_locations ) {
-			$description = '<p>' . __( 'Your theme supports one menu. Select which menu you would like to use.' ) . '</p>';
+			$description = '<p>' . __( 'Your theme can display menus in one location. Select which menu you would like to use.' ) . '</p>';
 		} else {
 			/* translators: %s: number of menu locations */
-			$description = '<p>' . sprintf( _n( 'Your theme supports %s menu. Select which menu appears in each location.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
+			$description = '<p>' . sprintf( _n( 'Your theme can display menus in %s location. Select which menu you would like to use.', 'Your theme can display menus in %s locations. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
 		}
+
 		if ( current_theme_supports( 'widgets' ) ) {
 			/* translators: URL to the widgets panel of the customizer */
-			$description .= '<p>' . sprintf( __( 'You can also place menus in <a href="%s">widget areas</a> with the &#8220;Custom Menu&#8221; widget.' ), "javascript:wp.customize.panel( 'widgets' ).focus();" ) . '</p>';
+			$description .= '<p>' . sprintf( __( 'If your theme has widget areas, you can also add menus there. Visit the <a href="%s">Widgets panel</a> and add a &#8220;Custom Menu widget&#8221; to display a menu in a sidebar or footer.' ), "javascript:wp.customize.panel( 'widgets' ).focus();" ) . '</p>';
 		}
 
 		$this->manager->add_section( 'menu_locations', array(
-			'title'       => __( 'Menu Locations' ),
-			'panel'       => 'nav_menus',
-			'priority'    => 5,
-			'description' => $description,
+			'title'       	=> __( 'View All Locations' ),
+			'panel'       	=> 'nav_menus',
+			'priority'    	=> 30,
+			'description' 	=> $description
 		) );
 
 		$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
@@ -667,26 +679,12 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		// Add the add-new-menu section and controls.
-		$this->manager->add_section( new WP_Customize_New_Menu_Section( $this->manager, 'add_menu', array(
-			'title'    => __( 'Add a Menu' ),
+		$this->manager->add_section( 'add_menu', array(
+			'type'     => 'new_menu',
+			'title'    => __( 'New Menu' ),
 			'panel'    => 'nav_menus',
-			'priority' => 999,
-		) ) );
-
-		$this->manager->add_control( 'new_menu_name', array(
-			'label'       => __( 'New menu name' ),
-			'section'     => 'add_menu',
-			'type'        => 'text',
-			'settings'    => array(),
-			'input_attrs' => array(
-				'class'       => 'menu-name-field',
-			),
+			'priority' => 20,
 		) );
-
-		$this->manager->add_control( new WP_Customize_New_Menu_Control( $this->manager, 'create_new_menu', array(
-			'section'  => 'add_menu',
-			'settings' => array(),
-		) ) );
 
 		$this->manager->add_setting( new WP_Customize_Filter_Setting( $this->manager, 'nav_menus_created_posts', array(
 			'transport' => 'postMessage',
@@ -924,6 +922,32 @@ final class WP_Customize_Nav_Menus {
 				);
 				?>
 			</div>
+		</script>
+
+		<script type="text/html" id="tmpl-nav-menu-delete-button">
+			<div class="menu-delete-item">
+				<button type="button" class="button-link button-link-delete">
+					<?php _e( 'Delete Menu' ); ?>
+				</button>
+			</div>
+		</script>
+
+		<script type="text/html" id="tmpl-nav-menu-submit-new-button">
+			<p id="customize-new-menu-submit-description"><?php _e( 'Click "next" to start adding links to your new menu.' ); ?></p>
+			<button id="customize-new-menu-submit" type="button" class="button" aria-describedby="customize-new-menu-submit-description"><?php _e( 'Next' ); ?></button>
+		</script>
+
+		<script type="text/html" id="tmpl-nav-menu-locations-header">
+			<span class="customize-control-title customize-section-title-menu_locations-heading"><?php _e( 'Menu Locations' ); ?></span>
+			<p class="customize-control-description customize-section-title-menu_locations-description">{{ data.l10n.locationsDescription }}</p>
+		</script>
+
+		<script type="text/html" id="tmpl-nav-menu-create-menu-section-title">
+			<h3>
+				<button type="button" class="button customize-add-menu-button">
+					<?php _e( 'Create New Menu' ); ?>
+				</button>
+			</h3>
 		</script>
 	<?php
 	}
