@@ -142,6 +142,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	);
 	wp_enqueue_script( 'wp-theme-plugin-editor' );
 	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
+	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.themeOrPlugin = "plugin";' ) );
 
 	require_once(ABSPATH . 'wp-admin/admin-header.php');
 
@@ -280,5 +281,21 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 <br class="clear" />
 </div>
 <?php
+$dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
+?>
+<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js">
+	<div class="notification-dialog-background"></div>
+	<div class="notification-dialog" role="dialog" aria-labelledby="file-editor-warning-title" tabindex="0">
+		<div class="file-editor-warning-content">
+			<h1 id="file-editor-warning-title"><?php _e( 'Heads up!' ); ?></h1>
+			<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your theme or other plugins, and can leave you unable to log back in to WordPress and undo changes.' ); ?></p>
+			<p><?php _e( 'If you absolutely have to edit this plugin, create a copy with a new name and hang on to the original version, so you can re-enable a functional version if something goes wrong.' ); ?></p>
+			<p><button type="button" class="file-editor-warning-dismiss button-primary"><?php _e( 'I understand' ); ?></button></p>
+		</div>
+	</div>
+</div>
+<?php
+endif; // editor warning notice
 
 include(ABSPATH . "wp-admin/admin-footer.php");

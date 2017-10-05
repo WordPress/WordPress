@@ -127,6 +127,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	);
 	wp_enqueue_script( 'wp-theme-plugin-editor' );
 	wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function( $ ) { wp.themePluginEditor.init( $( "#template" ), %s ); } )', wp_json_encode( $settings ) ) );
+	wp_add_inline_script( 'wp-theme-plugin-editor', 'wp.themePluginEditor.themeOrPlugin = "theme";' );
 
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
@@ -309,5 +310,29 @@ endif; // $error
 <br class="clear" />
 </div>
 <?php
+$dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
+?>
+<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js">
+	<div class="notification-dialog-background"></div>
+	<div class="notification-dialog" role="dialog" aria-labelledby="file-editor-warning-title" tabindex="0">
+		<div class="file-editor-warning-content">
+			<h1 id="file-editor-warning-title"><?php _e( 'Heads up!' ); ?></h1>
+			<p>
+				<?php
+				echo sprintf(
+					/* translators: %s is a link to Custom CSS section in the Customizer. */
+					__( 'You appear to be making direct edits to your theme in the WordPress Dashboard. We recommend that you don&#8217;t! Editing this code directly is dangerous, and can leave you unable to log back in to WordPress and undo changes. There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in WordPress&#8217;s <a href="%s">built in CSS editor</a>.' ),
+					esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
+				);
+				?>
+			</p>
+			<p><?php _e( 'If you decide to go ahead with direct edits anyway, make sure to back up all your site&#8217;s files before making changes so you can restore a functional version if something goes wrong.' ); ?></p>
+			<p><button type="button" class="file-editor-warning-dismiss button-primary"><?php _e( 'I understand' ); ?></button></p>
+		</div>
+	</div>
+</div>
+<?php
+endif; // editor warning notice
 
 include(ABSPATH . 'wp-admin/admin-footer.php' );

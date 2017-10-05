@@ -3147,6 +3147,10 @@ img {
 	line-height: 180%;
 }
 
+#file-editor-warning .file-editor-warning-content {
+	margin: 25px;
+}
+
 /* @todo: can we use a common class for these? */
 .nav-menus-php .item-edit:before,
 .widget-top .widget-action .toggle-indicator:before,
