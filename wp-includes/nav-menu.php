@@ -185,6 +185,38 @@ function has_nav_menu( $location ) {
 }
 
 /**
+ * Returns the name of a navigation menu.
+ *
+ * @since 4.9.0
+ *
+ * @param string $location Menu location identifier.
+ * @return string Menu name.
+ */
+function wp_get_nav_menu_name( $location ) {
+	$menu_name = '';
+
+	$locations = get_nav_menu_locations();
+
+	if ( isset( $locations[ $location ] ) ) {
+		$menu = wp_get_nav_menu_object( $locations[ $location ] );
+
+		if ( $menu && $menu->name ) {
+			$menu_name = $menu->name;
+		}
+	}
+
+	/**
+	 * Filters the navigation menu name being returned.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $menu_name Menu name.
+	 * @param string $location  Menu location identifier.
+	 */
+	return apply_filters( 'wp_get_nav_menu_name', $menu_name, $location );
+}
+
+/**
  * Determines whether the given ID is a nav menu item.
  *
  * @since 3.0.0
