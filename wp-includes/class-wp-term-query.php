@@ -844,7 +844,7 @@ class WP_Term_Query {
 			$include = implode( ',', wp_parse_id_list( $this->query_vars['include'] ) );
 			$orderby = "FIELD( t.term_id, $include )";
 		} elseif ( 'slug__in' == $_orderby && ! empty( $this->query_vars['slug'] ) && is_array( $this->query_vars['slug'] ) ) {
-			$slugs = implode( "', '", array_map( 'sanitize_title_for_query', $this->query_vars['slug__in'] ) );
+			$slugs = implode( "', '", array_map( 'sanitize_title_for_query', $this->query_vars['slug'] ) );
 			$orderby = "FIELD( t.slug, '" . $slugs . "')";
 		} elseif ( 'none' == $_orderby ) {
 			$orderby = '';
