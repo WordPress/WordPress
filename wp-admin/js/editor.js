@@ -101,10 +101,10 @@ window.wp = window.wp || {};
 
 				var keepSelection = false;
 				if ( editor ) {
-					keepSelection = editor.getParam( 'wp_keep_scroll_position' )
+					keepSelection = editor.getParam( 'wp_keep_scroll_position' );
 				} else {
 					keepSelection = window.tinyMCEPreInit.mceInit[ id ] &&
-									window.tinyMCEPreInit.mceInit[ id ]['wp_keep_scroll_position']
+									window.tinyMCEPreInit.mceInit[ id ].wp_keep_scroll_position;
 				}
 
 				if ( keepSelection ) {
@@ -321,7 +321,7 @@ window.wp = window.wp || {};
 		 * @param {string} content The content we want to scan for shortcodes
 		 */
 		function getShortCodePositionsInText( content ) {
-			var allShortcodes = getShortcodesInText( content );
+			var allShortcodes = getShortcodesInText( content ), shortcodeInfo;
 
 			if ( allShortcodes.length === 0 ) {
 				return [];
@@ -348,15 +348,16 @@ window.wp = window.wp || {};
 				 * In addition, if the shortcode will get rendered as plain text ( see above ),
 				 * we can treat it as text and use the selection markers in it.
 				 */
-				var isPreviewable = ! showAsPlainText && isShortcodePreviewable( shortcodeMatch[2] ),
-					shortcodeInfo = {
-						shortcodeName: shortcodeMatch[2],
-						showAsPlainText: showAsPlainText,
-						startIndex: shortcodeMatch.index,
-						endIndex: shortcodeMatch.index + shortcodeMatch[0].length,
-						length: shortcodeMatch[0].length,
-						isPreviewable: isPreviewable
-					};
+				var isPreviewable = ! showAsPlainText && isShortcodePreviewable( shortcodeMatch[2] );
+
+				shortcodeInfo = {
+					shortcodeName: shortcodeMatch[2],
+					showAsPlainText: showAsPlainText,
+					startIndex: shortcodeMatch.index,
+					endIndex: shortcodeMatch.index + shortcodeMatch[0].length,
+					length: shortcodeMatch[0].length,
+					isPreviewable: isPreviewable
+				};
 
 				shortcodesDetails.push( shortcodeInfo );
 			}
