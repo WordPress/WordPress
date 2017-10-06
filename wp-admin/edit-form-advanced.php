@@ -628,6 +628,7 @@ if ( post_type_supports($post_type, 'editor') ) {
 		'resize' => false,
 		'wp_autoresize_on' => $_wp_editor_expand,
 		'add_unload_trigger' => false,
+		'wp_keep_scroll_position' => true,
 	),
 ) ); ?>
 <table id="post-status-info"><tbody><tr>

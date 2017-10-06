@@ -981,6 +981,7 @@ final class _WP_Editors {
 			'end_container_on_empty_block' => true,
 			'wpeditimage_html5_captions' => true,
 			'wp_lang_attr' => get_bloginfo( 'language' ),
+			'wp_keep_scroll_position' => false,
 			'wp_shortcut_labels' => wp_json_encode( $shortcut_labels ),
 		);
 

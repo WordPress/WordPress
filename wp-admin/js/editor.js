@@ -99,8 +99,18 @@ window.wp = window.wp || {};
 
 				editorHeight = parseInt( textarea.style.height, 10 ) || 0;
 
-				// Save the selection
-				addHTMLBookmarkInTextAreaContent( $textarea, $ );
+				var keepSelection = false;
+				if ( editor ) {
+					keepSelection = editor.getParam( 'wp_keep_scroll_position' )
+				} else {
+					keepSelection = window.tinyMCEPreInit.mceInit[ id ] &&
+									window.tinyMCEPreInit.mceInit[ id ]['wp_keep_scroll_position']
+				}
+
+				if ( keepSelection ) {
+					// Save the selection
+					addHTMLBookmarkInTextAreaContent( $textarea );
+				}
 
 				if ( editor ) {
 					editor.show();
@@ -116,8 +126,10 @@ window.wp = window.wp || {};
 						}
 					}
 
-					// Restore the selection
-					focusHTMLBookmarkInVisualEditor( editor );
+					if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
+						// Restore the selection
+						focusHTMLBookmarkInVisualEditor( editor );
+					}
 				} else {
 					tinymce.init( window.tinyMCEPreInit.mceInit[ id ] );
 				}
@@ -132,7 +144,6 @@ window.wp = window.wp || {};
 					return false;
 				}
 
-				var selectionRange = null;
 				if ( editor ) {
 					// Don't resize the textarea in iOS. The iframe is forced to 100% height there, we shouldn't match it.
 					if ( ! tinymce.Env.iOS ) {
@@ -150,7 +161,11 @@ window.wp = window.wp || {};
 						}
 					}
 
-					selectionRange = findBookmarkedPosition( editor );
+					var selectionRange = null;
+
+					if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
+						selectionRange = findBookmarkedPosition( editor );
+					}
 
 					editor.hide();
 
@@ -234,9 +249,13 @@ window.wp = window.wp || {};
 		function getShortcodeWrapperInfo( content, cursorPosition ) {
 			var contentShortcodes = getShortCodePositionsInText( content );
 
-			return _.find( contentShortcodes, function( element ) {
-				return cursorPosition >= element.startIndex && cursorPosition <= element.endIndex;
-			} );
+			for ( var i = 0; i < contentShortcodes.length; i++ ) {
+				var element = contentShortcodes[ i ];
+
+				if ( cursorPosition >= element.startIndex && cursorPosition <= element.endIndex ) {
+					return element;
+				}
+			}
 		}
 
 		/**
@@ -245,13 +264,20 @@ window.wp = window.wp || {};
 		 * @param {string} content The content we want to scan for shortcodes.
 		 */
 		function getShortcodesInText( content ) {
-			var shortcodes = content.match( /\[+([\w_-])+/g );
+			var shortcodes = content.match( /\[+([\w_-])+/g ),
+				result = [];
 
-			return _.uniq(
-				_.map( shortcodes, function( element ) {
-					return element.replace( /^\[+/g, '' );
-				} )
-			);
+			if ( shortcodes ) {
+				for ( var i = 0; i < shortcodes.length; i++ ) {
+					var shortcode = shortcodes[ i ].replace( /^\[+/g, '' );
+	
+					if ( result.indexOf( shortcode ) === -1 ) {
+						result.push( shortcode );
+					}
+				}
+			}
+
+			return result;
 		}
 
 		/**
@@ -335,6 +361,34 @@ window.wp = window.wp || {};
 				shortcodesDetails.push( shortcodeInfo );
 			}
 
+			/**
+			 * Get all URL matches, and treat them as embeds.
+			 *
+			 * Since there isn't a good way to detect if a URL by itself on a line is a previewable
+			 * object, it's best to treat all of them as such.
+			 *
+			 * This means that the selection will capture the whole URL, in a similar way shrotcodes
+			 * are treated.
+			 */
+			var urlRegexp = new RegExp(
+				'(^|[\\n\\r][\\n\\r]|<p>)(https?:\\/\\/[^\s"]+?)(<\\/p>\s*|[\\n\\r][\\n\\r]|$)', 'gi'
+			);
+
+			while ( shortcodeMatch = urlRegexp.exec( content ) ) {
+				shortcodeInfo = {
+					shortcodeName: 'url',
+					showAsPlainText: false,
+					startIndex: shortcodeMatch.index,
+					endIndex: shortcodeMatch.index + shortcodeMatch[ 0 ].length,
+					length: shortcodeMatch[ 0 ].length,
+					isPreviewable: true,
+					urlAtStartOfContent: shortcodeMatch[ 1 ] === '',
+					urlAtEndOfContent: shortcodeMatch[ 3 ] === ''
+				};
+
+				shortcodesDetails.push( shortcodeInfo );
+			}
+
 			return shortcodesDetails;
 		}
 
@@ -399,8 +453,7 @@ window.wp = window.wp || {};
 				 */
 				if ( voidElements.indexOf( isCursorStartInTag.tagType ) !== -1 ) {
 					cursorStart = isCursorStartInTag.ltPos;
-				}
-				else {
+				} else {
 					cursorStart = isCursorStartInTag.gtPos;
 				}
 			}
@@ -412,12 +465,28 @@ window.wp = window.wp || {};
 
 			var isCursorStartInShortcode = getShortcodeWrapperInfo( content, cursorStart );
 			if ( isCursorStartInShortcode && isCursorStartInShortcode.isPreviewable ) {
-				cursorStart = isCursorStartInShortcode.startIndex;
+				/**
+				 * If a URL is at the start or the end of the content,
+				 * the selection doesn't work, because it inserts a marker in the text,
+				 * which breaks the embedURL detection.
+				 *
+				 * The best way to avoid that and not modify the user content is to
+				 * adjust the cursor to either after or before URL.
+				 */
+				if ( isCursorStartInShortcode.urlAtStartOfContent ) {
+					cursorStart = isCursorStartInShortcode.endIndex;
+				} else {
+					cursorStart = isCursorStartInShortcode.startIndex;
+				}
 			}
 
 			var isCursorEndInShortcode = getShortcodeWrapperInfo( content, cursorEnd );
 			if ( isCursorEndInShortcode && isCursorEndInShortcode.isPreviewable ) {
-				cursorEnd = isCursorEndInShortcode.endIndex;
+				if ( isCursorEndInShortcode.urlAtEndOfContent ) {
+					cursorEnd = isCursorEndInShortcode.startIndex;
+				} else {
+					cursorEnd = isCursorEndInShortcode.endIndex;
+				}
 			}
 
 			return {
@@ -455,7 +524,7 @@ window.wp = window.wp || {};
 				mode = htmlModeCursorStartPosition !== htmlModeCursorEndPosition ? 'range' : 'single',
 
 				selectedText = null,
-				cursorMarkerSkeleton = getCursorMarkerSpan( $$, '&#65279;' );
+				cursorMarkerSkeleton = getCursorMarkerSpan( $$, '&#65279;' ).attr( 'data-mce-type','bookmark' );
 
 			if ( mode === 'range' ) {
 				var markedText = textArea.value.slice( htmlModeCursorStartPosition, htmlModeCursorEndPosition ),
@@ -470,7 +539,7 @@ window.wp = window.wp || {};
 			textArea.value = [
 				textArea.value.slice( 0, htmlModeCursorStartPosition ), // text until the cursor/selection position
 				cursorMarkerSkeleton.clone()							// cursor/selection start marker
-					.addClass( 'mce_SELRES_start')[0].outerHTML,
+					.addClass( 'mce_SELRES_start' )[0].outerHTML,
 				selectedText, 											// selected text with end cursor/position marker
 				textArea.value.slice( htmlModeCursorEndPosition )		// text from last cursor/selection position to end
 			].join( '' );
@@ -487,8 +556,8 @@ window.wp = window.wp || {};
 		 * @param {Object} editor TinyMCE editor instance.
 		 */
 		function focusHTMLBookmarkInVisualEditor( editor ) {
-			var startNode = editor.$( '.mce_SELRES_start' ),
-				endNode = editor.$( '.mce_SELRES_end' );
+			var startNode = editor.$( '.mce_SELRES_start' ).attr( 'data-mce-bogus', 1 ),
+				endNode = editor.$( '.mce_SELRES_end' ).attr( 'data-mce-bogus', 1 );
 
 			if ( startNode.length ) {
 				editor.focus();
@@ -505,8 +574,9 @@ window.wp = window.wp || {};
 				}
 			}
 
-			scrollVisualModeToStartElement( editor, startNode );
-
+			if ( editor.getParam( 'wp_keep_scroll_position' ) ) {
+				scrollVisualModeToStartElement( editor, startNode );
+			}
 
 			removeSelectionMarker( startNode );
 			removeSelectionMarker( endNode );
@@ -548,13 +618,18 @@ window.wp = window.wp || {};
 			var elementTop = editor.$( element ).offset().top,
 				TinyMCEContentAreaTop = editor.$( editor.getContentAreaContainer() ).offset().top,
 
-				edTools = $( '#wp-content-editor-tools' ),
-				edToolsHeight = edTools.height(),
-				edToolsOffsetTop = edTools.offset().top,
-
 				toolbarHeight = getToolbarHeight( editor ),
 
-				windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+				edTools = $( '#wp-content-editor-tools' ),
+				edToolsHeight = 0,
+				edToolsOffsetTop = 0;
+
+			if ( edTools.length ) {
+				edToolsHeight = edTools.height();
+				edToolsOffsetTop = edTools.offset().top;
+			}
+
+			var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
 
 				selectionPosition = TinyMCEContentAreaTop + elementTop,
 				visibleAreaHeight = windowHeight - ( edToolsHeight + toolbarHeight );
@@ -675,8 +750,8 @@ window.wp = window.wp || {};
 				 * This way we can adjust the selection to properly select only the content, ignoring
 				 * whitespace inserted around the selected object by the Editor.
 				 */
-				startElement.attr('data-mce-object-selection', 'true');
-				endElement.attr('data-mce-object-selection', 'true');
+				startElement.attr( 'data-mce-object-selection', 'true' );
+				endElement.attr( 'data-mce-object-selection', 'true' );
 
 				editor.$( startNode ).before( startElement[0] );
 				editor.$( startNode ).after( endElement[0] );
