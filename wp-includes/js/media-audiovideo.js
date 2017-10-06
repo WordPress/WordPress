@@ -129,18 +129,20 @@ wp.media.mixin = {
 		}
 
 		if ( ! t.isDynamic ) {
-			t.$node.remove();
+			t.node.remove();
 		}
 
-		if ( 'native' !== t.media.pluginType ) {
-			t.$media.remove();
+		if ( 'html5' !== t.media.rendererName ) {
+			t.media.remove();
 		}
 
 		delete window.mejs.players[t.id];
 
 		t.container.remove();
-		t.globalUnbind();
-		delete t.node.player;
+		t.globalUnbind('resize', t.globalResizeCallback);
+		t.globalUnbind('keydown', t.globalKeydownCallback);
+		t.globalUnbind('click', t.globalClickCallback);
+		delete t.media.player;
 	},
 
 	/**
