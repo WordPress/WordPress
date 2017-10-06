@@ -290,10 +290,29 @@ class WP_Widget_Text extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
+		$text = preg_replace_callback( '#<[^>]*>#', array( $this, 'inject_video_max_width_style' ), $text );
+
 		?>
 			<div class="textwidget"><?php echo $text; ?></div>
 		<?php
 		echo $args['after_widget'];
+	}
+
+	/**
+	 * Inject max-width and remove height for videos too constrained to fit inside sidebars on frontend.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @see WP_Widget_Media_Video::inject_video_max_width_style()
+	 * @param array $matches Pattern matches from preg_replace_callback.
+	 * @return string HTML Output.
+	 */
+	public function inject_video_max_width_style( $matches ) {
+		$html = $matches[0];
+		$html = preg_replace( '/\sheight="\d+"/', '', $html );
+		$html = preg_replace( '/\swidth="\d+"/', '', $html );
+		$html = preg_replace( '/(?<=width:)\s*\d+px(?=;?)/', '100%', $html );
+		return $html;
 	}
 
 	/**
