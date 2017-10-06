@@ -298,7 +298,7 @@ function wp_login_viewport_meta() {
 function retrieve_password() {
 	$errors = new WP_Error();
 
-	if ( empty( $_POST['user_login'] ) ) {
+	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
 		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or email address.'));
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
@@ -565,7 +565,11 @@ case 'retrievepassword' :
 
 	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or email address. You will receive a link to create a new password via email.') . '</p>', $errors);
 
-	$user_login = isset($_POST['user_login']) ? wp_unslash($_POST['user_login']) : '';
+	$user_login = '';
+
+	if ( isset( $_POST['user_login'] ) && is_string( $_POST['user_login'] ) ) {
+		$user_login = wp_unslash( $_POST['user_login'] );
+	}
 
 ?>
 
@@ -757,9 +761,16 @@ case 'register' :
 
 	$user_login = '';
 	$user_email = '';
+
 	if ( $http_post ) {
-		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
-		$user_email = isset( $_POST['user_email'] ) ? wp_unslash( $_POST['user_email'] ) : '';
+		if ( isset( $_POST['user_login'] ) && is_string( $_POST['user_login'] ) ) {
+			$user_login = $_POST['user_login'];
+		}
+
+		if ( isset( $_POST['user_email'] ) && is_string( $_POST['user_email'] ) ) {
+			$user_email = wp_unslash( $_POST['user_email'] );
+		}
+
 		$errors = register_new_user($user_login, $user_email);
 		if ( !is_wp_error($errors) ) {
 			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
