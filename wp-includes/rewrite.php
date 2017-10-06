@@ -471,6 +471,14 @@ function url_to_postid( $url ) {
 	 */
 	$url = apply_filters( 'url_to_postid', $url );
 
+	$url_host      = str_replace( 'www.', '', parse_url( $url, PHP_URL_HOST ) );
+	$home_url_host = str_replace( 'www.', '', parse_url( home_url(), PHP_URL_HOST ) );
+
+	// Bail early if the URL does not belong to this site.
+	if ( $url_host && $url_host !== $home_url_host ) {
+		return 0;
+	}
+
 	// First, check to see if there is a 'p=N' or 'page_id=N' to match against
 	if ( preg_match('#[?&](p|page_id|attachment_id)=(\d+)#', $url, $values) )	{
 		$id = absint($values[2]);
