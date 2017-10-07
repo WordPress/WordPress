@@ -2833,7 +2833,7 @@ function is_blog_user( $blog_id = 0 ) {
  * @return false Always false.
  */
 function debug_fopen( $filename, $mode ) {
-	_deprecated_function( __FUNCTION__, 'error_log()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'error_log()' );
 	return false;
 }
 
@@ -2850,7 +2850,7 @@ function debug_fopen( $filename, $mode ) {
  * @param string $string Message to log.
  */
 function debug_fwrite( $fp, $string ) {
-	_deprecated_function( __FUNCTION__, 'error_log()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'error_log()' );
 	if ( ! empty( $GLOBALS['debug'] ) )
 		error_log( $string );
 }
@@ -2867,7 +2867,7 @@ function debug_fwrite( $fp, $string ) {
  * @param mixed $fp Unused.
  */
 function debug_fclose( $fp ) {
-	_deprecated_function( __FUNCTION__, 'error_log()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'error_log()' );
 }
 
 /**
