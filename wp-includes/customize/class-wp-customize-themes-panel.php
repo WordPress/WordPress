@@ -88,6 +88,8 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 					</div>
 				<# } #>
 			<?php endif; ?>
+
+			<div class="customize-control-notifications-container"></div>
 		</li>
 		<li class="customize-themes-full-container-container">
 			<div class="customize-themes-full-container">

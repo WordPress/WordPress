@@ -2801,10 +2801,23 @@
 		 * @returns {void}
 		 */
 		attachEvents: function() {
-			var panel = this;
+			var panel = this, toggleDisabledNotification;
 
 			// Attach regular panel events.
 			api.Panel.prototype.attachEvents.apply( panel );
+
+			toggleDisabledNotification = function() {
+				if ( 'publish' === api.state( 'selectedChangesetStatus' ).get() ) {
+					panel.notifications.remove( 'theme_switch_unavailable' );
+				} else {
+					panel.notifications.add( new api.Notification( 'theme_switch_unavailable', {
+						message: api.l10n.themePreviewUnavailable,
+						type: 'warning'
+					} ) );
+				}
+			};
+			toggleDisabledNotification();
+			api.state( 'selectedChangesetStatus' ).bind( toggleDisabledNotification );
 
 			// Collapse panel to customize the current theme.
 			panel.contentContainer.on( 'click', '.customize-theme', function() {
@@ -2887,18 +2900,32 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @returns {void}
+		 * @param {jQuery.Event} event - Event.
+		 * @returns {jQuery.promise} Promise.
 		 */
 		installTheme: function( event ) {
-			var panel = this, preview = false, slug = $( event.target ).data( 'slug' );
+			var panel = this, preview, onInstallSuccess, slug = $( event.target ).data( 'slug' ), deferred = $.Deferred(), request;
+			preview = $( event.target ).hasClass( 'preview' );
 
+			// Prevent loading a non-active theme preview when there is a drafted/scheduled changeset.
+			if ( 'publish' !== api.state( 'selectedChangesetStatus' ).get() && slug !== api.settings.theme.stylesheet ) {
+				deferred.reject({
+					errorCode: 'theme_switch_unavailable'
+				});
+				return deferred.promise();
+			}
+
+			// Theme is already being installed.
 			if ( _.contains( panel.installingThemes, slug ) ) {
-				return; // Theme is already being installed.
+				deferred.reject({
+					errorCode: 'theme_already_installing'
+				});
+				return deferred.promise();
 			}
 
 			wp.updates.maybeRequestFilesystemCredentials( event );
 
-			$( document ).one( 'wp-theme-install-success', function( event, response ) {
+			onInstallSuccess = function( response ) {
 				var theme = false, themeControl;
 				if ( preview ) {
 					api.notifications.remove( 'theme_installing' );
@@ -2915,6 +2942,7 @@
 
 					// Don't add the same theme more than once.
 					if ( ! theme || api.control.has( 'installed_theme_' + theme.id ) ) {
+						deferred.resolve( response );
 						return;
 					}
 
@@ -2939,23 +2967,29 @@
 						}
 					});
 				}
-			} );
+				deferred.resolve( response );
+			};
 
-			panel.installingThemes.push( $( event.target ).data( 'slug' ) ); // Note: we don't remove elements from installingThemes, since they shouldn't be installed again.
-			wp.updates.installTheme( {
+			panel.installingThemes.push( slug ); // Note: we don't remove elements from installingThemes, since they shouldn't be installed again.
+			request = wp.updates.installTheme( {
 				slug: slug
 			} );
 
 			// Also preview the theme as the event is triggered on Install & Preview.
-			if ( $( event.target ).hasClass( 'preview' ) ) {
-				preview = true;
-
+			if ( preview ) {
 				api.notifications.add( new api.OverlayNotification( 'theme_installing', {
 					message: api.l10n.themeDownloading,
 					type: 'info',
 					loading: true
 				} ) );
 			}
+
+			request.done( onInstallSuccess );
+			request.fail( function() {
+				api.notifications.remove( 'theme_installing' );
+			} );
+
+			return deferred.promise();
 		},
 
 		/**
@@ -2968,6 +3002,11 @@
 		 */
 		loadThemePreview: function( themeId ) {
 			var deferred = $.Deferred(), onceProcessingComplete, urlParser, queryParams;
+
+			// Prevent loading a non-active theme preview when there is a drafted/scheduled changeset.
+			if ( 'publish' !== api.state( 'selectedChangesetStatus' ).get() && themeId !== api.settings.theme.stylesheet ) {
+				return deferred.reject().promise();
+			}
 
 			urlParser = document.createElement( 'a' );
 			urlParser.href = location.href;
@@ -4741,7 +4780,17 @@
 		 * @since 4.2.0
 		 */
 		ready: function() {
-			var control = this;
+			var control = this, disableSwitchButtons, updateButtons;
+
+			disableSwitchButtons = function() {
+				return 'publish' !== api.state( 'selectedChangesetStatus' ).get() && control.params.theme.id !== api.settings.theme.stylesheet;
+			};
+			updateButtons = function() {
+				control.container.find( 'button' ).toggleClass( 'disabled', disableSwitchButtons() );
+			};
+
+			api.state( 'selectedChangesetStatus' ).bind( updateButtons );
+			updateButtons();
 
 			control.container.on( 'touchmove', '.theme', function() {
 				control.touchDrag = true;
@@ -4749,6 +4798,7 @@
 
 			// Bind details view trigger.
 			control.container.on( 'click keydown touchend', '.theme', function( event ) {
+				var section;
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
@@ -4764,7 +4814,10 @@
 				}
 
 				event.preventDefault(); // Keep this AFTER the key filter above
-				api.section( control.section() ).showDetails( control.params.theme );
+				section = api.section( control.section() );
+				section.showDetails( control.params.theme, function() {
+					section.overlay.find( '.theme-actions button' ).toggleClass( 'disabled', disableSwitchButtons() );
+				} );
 			});
 
 			control.container.on( 'render-screenshot', function() {
@@ -7338,24 +7391,6 @@
 				urlParser.search = $.param( queryParams );
 				history.replaceState( {}, document.title, urlParser.href );
 			};
-
-			// Deactivate themes panel if changeset status is not auto-draft.
-			api.panel( 'themes', function( themesPanel ) {
-				var isPanelActive, updatePanelActive;
-
-				isPanelActive = function() {
-					return 'publish' === selectedChangesetStatus.get() && ( ! changesetStatus() || 'auto-draft' === changesetStatus() );
-				};
-				themesPanel.active.validate = isPanelActive;
-
-				updatePanelActive = function() {
-					themesPanel.active.set( isPanelActive() );
-				};
-
-				updatePanelActive();
-				changesetStatus.bind( updatePanelActive );
-				selectedChangesetStatus.bind( updatePanelActive );
-			} );
 
 			// Show changeset UUID in URL when in branching mode and there is a saved changeset.
 			if ( api.settings.changeset.branching ) {
