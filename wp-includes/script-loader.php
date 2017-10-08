@@ -590,7 +590,7 @@ function wp_default_scripts( &$scripts ) {
 		),
 		'pageOnFrontError' => __( 'Homepage and posts page must be different.' ),
 		'saveBlockedError' => wp_array_slice_assoc(
-			/* translators: %s: error count */
+			/* translators: %s: number of invalid settings */
 			_n_noop( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.' ),
 			array( 'singular', 'plural' )
 		),
