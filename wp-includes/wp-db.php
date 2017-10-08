@@ -1261,7 +1261,7 @@ class wpdb {
 		if ( count ( $args ) !== $placeholders ) {
 			wp_load_translations_early();
 			_doing_it_wrong( 'wpdb::prepare',
-				sprintf( __( 'The query does not contain the correct number of placeholders (%d) for the number of arguments passed (%d).' ),
+				sprintf( __( 'The query does not contain the correct number of placeholders (%1$d) for the number of arguments passed (%2$d).' ),
 					$placeholders,
 					count( $args ) ),
 				'4.9.0'
