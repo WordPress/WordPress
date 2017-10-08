@@ -583,10 +583,10 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		$this->manager->add_section( 'menu_locations', array(
-			'title'       	=> __( 'View All Locations' ),
-			'panel'       	=> 'nav_menus',
-			'priority'    	=> 30,
-			'description' 	=> $description
+			'title'       => _x( 'View All Locations', 'menu locations' ),
+			'panel'       => 'nav_menus',
+			'priority'    => 30,
+			'description' => $description
 		) );
 
 		$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
