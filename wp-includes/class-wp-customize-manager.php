@@ -2489,7 +2489,7 @@ final class WP_Customize_Manager {
 			if ( 'publish' === $existing_status || 'trash' === $existing_status ) {
 				return new WP_Error(
 					'changeset_already_published',
-					__( 'The previous set of changes already been published. Please try saving your current set of changes again.' ),
+					__( 'The previous set of changes has already been published. Please try saving your current set of changes again.' ),
 					array(
 						'next_changeset_uuid' => wp_generate_uuid4(),
 					)
