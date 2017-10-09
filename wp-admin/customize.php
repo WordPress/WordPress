@@ -164,6 +164,12 @@ do_action( 'customize_controls_print_scripts' );
 			</a>
 		</div>
 
+		<div id="customize-sidebar-outer-content">
+			<div id="customize-outer-theme-controls">
+				<ul class="customize-outer-pane-parent"><?php // Outer panel and sections are not implemented, but its here as a placeholder to avoid any side-effect in api.Section. ?></ul>
+			</div>
+		</div>
+
 		<div id="widgets-right" class="wp-clearfix"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
 			<div id="customize-notifications-area" class="customize-control-notifications-container">
 				<ul></ul>
@@ -217,11 +223,6 @@ do_action( 'customize_controls_print_scripts' );
 		</div>
 	</form>
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
-	<div id="customize-sidebar-outer-content">
-		<div id="customize-outer-theme-controls">
-			<ul class="customize-outer-pane-parent"><?php // Outer panel and sections are not implemented, but its here as a placeholder to avoid any side-effect in api.Section. ?></ul>
-		</div>
-	</div>
 	<?php
 
 	/**

@@ -38,6 +38,11 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	box-shadow: none; /* @todo Adjust box shadow based on the disable states of paired button. */
 	margin-top: 0;
 }
+
+#customize-save-button-wrapper .save:focus, #publish-settings:focus {
+	box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db; /* This is default box shadow for focus */
+}
+
 #customize-save-button-wrapper .save.has-next-sibling {
 	border-radius: 0 3px 3px 0;
 }
@@ -46,16 +51,17 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	right: -301px;
+	right: 0;
 	visibility: hidden;
 	overflow-x: hidden;
 	overflow-y: auto;
-	width: 300px;
+	width: 100%;
 	margin: 0;
-	z-index: 4;
+	z-index: -1;
 	background: #eee;
 	transition: right .18s;
 	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 	height: 100%;
 }
 
@@ -73,7 +79,7 @@ body:not(.ready) #customize-save-button-wrapper .save {
 
 .outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
 	visibility: visible;
-	right: 0;
+	right: 100%;
 	transition: right .18s;
 }
 
@@ -130,6 +136,10 @@ body.trashing #publish-settings {
 #customize-controls .wp-full-overlay-sidebar-content {
 	overflow-y: auto;
 	overflow-x: hidden;
+}
+
+.outer-section-open #customize-controls .wp-full-overlay-sidebar-content {
+	background: #eee;
 }
 
 #customize-controls .customize-info {
@@ -2826,6 +2836,14 @@ body.adding-widget .add-new-widget:before,
 		right: 0;
 		z-index: 10;
 		width: 100%;
+	}
+
+	body.wp-customizer .wp-full-overlay.expanded #customize-sidebar-outer-content {
+		right: -100%;
+	}
+
+	body.wp-customizer.outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
+		right: 0;
 	}
 
 	#available-widgets .customize-section-title,
