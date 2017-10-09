@@ -315,8 +315,8 @@ function is_registered_sidebar( $sidebar_id ) {
  *
  * @since 2.2.0
  *
- * @global array $wp_registered_widgets       Uses stored registered widgets.
- * @global array $wp_register_widget_defaults Retrieves widget defaults.
+ * @global array $wp_registered_widgets            Uses stored registered widgets.
+ * @global array $wp_registered_widget_controls    Stores the registered widget control (options).
  * @global array $wp_registered_widget_updates
  * @global array $_wp_deprecated_widgets_callbacks
  *
