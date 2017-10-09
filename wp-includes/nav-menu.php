@@ -1119,6 +1119,7 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 	$common_slug_groups = array(
 		array( 'header', 'main', 'navigation', 'primary', 'top' ),
 		array( 'bottom', 'footer', 'secondary', 'subsidiary' ),
+		array( 'social' ),
 	);
 
 	// Go through each group...
