@@ -308,10 +308,48 @@ function map_meta_cap( $cap, $user_id ) {
 
 		$has_filter = has_filter( "auth_{$object_type}_meta_{$meta_key}" ) || has_filter( "auth_{$object_type}_{$sub_type}_meta_{$meta_key}" );
 		if ( $meta_key && $has_filter ) {
-			/** This filter is documented in wp-includes/meta.php */
+
+			/**
+			 * Filters whether the user is allowed to edit meta.
+			 *
+			 * Use the {@see auth_post_$object_type_meta_$meta_key} filter to modify capabilities for
+			 * specific object types. Return true to have the mapped meta caps from edit_{$object_type} apply.
+			 *
+			 * The dynamic portion of the hook name, `$object_type` refers to the object type being filtered.
+			 * The dynamic portion of the hook name, `$meta_key`, refers to the meta key passed to map_meta_cap().
+			 *
+			 * @since 3.3.0 As 'auth_post_meta_{$meta_key}'.
+			 * @since 4.6.0
+			 *
+			 * @param bool   $allowed  Whether the user can add the post meta. Default false.
+			 * @param string $meta_key The meta key.
+			 * @param int    $post_id  Post ID.
+			 * @param int    $user_id  User ID.
+			 * @param string $cap      Capability name.
+			 * @param array  $caps     User capabilities.
+			 */
 			$allowed = apply_filters( "auth_{$object_type}_meta_{$meta_key}", false, $meta_key, $object_id, $user_id, $cap, $caps );
 
-			/** This filter is documented in wp-includes/meta.php */
+			/**
+			 * Filters whether the user is allowed to add post meta to a post of a given type.
+			 *
+			 * Use the {@see auth_$object_type_$sub_type_meta_$meta_key} filter to modify capabilities for
+			 * specific object types/subtypes. Return true to have the mapped meta caps from edit_{$object_type} apply.
+			 *
+			 * The dynamic portion of the hook name, `$object_type` refers to the object type being filtered.
+			 * The dynamic portion of the hook name, `$sub_type` refers to the object subtype being filtered.
+			 * The dynamic portion of the hook name, `$meta_key`, refers to the meta key passed to map_meta_cap().
+			 *
+			 * @since 4.6.0 As 'auth_post_{$post_type}_meta_{$meta_key}'.
+			 * @since 4.7.0
+			 *
+			 * @param bool   $allowed  Whether the user can add the post meta. Default false.
+			 * @param string $meta_key The meta key.
+			 * @param int    $post_id  Post ID.
+			 * @param int    $user_id  User ID.
+			 * @param string $cap      Capability name.
+			 * @param array  $caps     User capabilities.
+			 */
 			$allowed = apply_filters( "auth_{$object_type}_{$sub_type}_meta_{$meta_key}", $allowed, $meta_key, $object_id, $user_id, $cap, $caps );
 
 			if ( ! $allowed ) {
