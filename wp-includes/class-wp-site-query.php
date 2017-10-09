@@ -136,7 +136,7 @@ class WP_Site_Query {
 	 *     @type string       $search            Search term(s) to retrieve matching sites for. Default empty.
 	 *     @type array        $search_columns    Array of column names to be searched. Accepts 'domain' and 'path'.
 	 *                                           Default empty array.
-	 *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default false.
+	 *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default true.
 	 * }
 	 */
 	public function __construct( $query = '' ) {

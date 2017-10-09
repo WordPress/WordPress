@@ -638,7 +638,7 @@ function update_site_cache( $sites ) {
  *     @type string       $search            Search term(s) to retrieve matching sites for. Default empty.
  *     @type array        $search_columns    Array of column names to be searched. Accepts 'domain' and 'path'.
  *                                           Default empty array.
- *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default false.
+ *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default true.
  * }
  * @return array|int List of sites, or number of sites when 'count' is passed as a query var.
  */
