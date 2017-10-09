@@ -108,20 +108,33 @@ else :
 	reset( $blogs );
 
 	foreach ( $blogs as $user_blog ) {
+		switch_to_blog( $user_blog->userblog_id );
+
 		echo "<li>";
 		echo "<h3>{$user_blog->blogname}</h3>";
+
+		$actions = "<a href='" . esc_url( home_url() ). "'>" . __( 'Visit' ) . '</a>';
+
+		if ( current_user_can( 'read' ) ) {
+			$actions .= " | <a href='" . esc_url( admin_url() ) . "'>" . __( 'Dashboard' ) . '</a>';
+		}
+
 		/**
 		 * Filters the row links displayed for each site on the My Sites screen.
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param string $string    The HTML site link markup.
+		 * @param string $actions   The HTML site link markup.
 		 * @param object $user_blog An object containing the site data.
 		 */
-		echo "<p class='my-sites-actions'>" . apply_filters( 'myblogs_blog_actions', "<a href='" . esc_url( get_home_url( $user_blog->userblog_id ) ). "'>" . __( 'Visit' ) . "</a> | <a href='" . esc_url( get_admin_url( $user_blog->userblog_id ) ) . "'>" . __( 'Dashboard' ) . "</a>", $user_blog ) . "</p>";
+		$actions = apply_filters( 'myblogs_blog_actions', $actions, $user_blog );
+		echo "<p class='my-sites-actions'>" . $actions . '</p>';
+
 		/** This filter is documented in wp-admin/my-sites.php */
 		echo apply_filters( 'myblogs_options', '', $user_blog );
 		echo "</li>";
+
+		restore_current_blog();
 	}?>
 	</ul>
 	<?php

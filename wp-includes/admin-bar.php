@@ -520,19 +520,28 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 
 		$menu_id  = 'blog-' . $blog->userblog_id;
 
-		$wp_admin_bar->add_menu( array(
-			'parent'    => 'my-sites-list',
-			'id'        => $menu_id,
-			'title'     => $blavatar . $blogname,
-			'href'      => admin_url(),
-		) );
+		if ( current_user_can( 'read' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent'    => 'my-sites-list',
+				'id'        => $menu_id,
+				'title'     => $blavatar . $blogname,
+				'href'      => admin_url(),
+			) );
 
-		$wp_admin_bar->add_menu( array(
-			'parent' => $menu_id,
-			'id'     => $menu_id . '-d',
-			'title'  => __( 'Dashboard' ),
-			'href'   => admin_url(),
-		) );
+			$wp_admin_bar->add_menu( array(
+				'parent' => $menu_id,
+				'id'     => $menu_id . '-d',
+				'title'  => __( 'Dashboard' ),
+				'href'   => admin_url(),
+			) );
+		} else {
+			$wp_admin_bar->add_menu( array(
+				'parent'    => 'my-sites-list',
+				'id'        => $menu_id,
+				'title'     => $blavatar . $blogname,
+				'href'      => home_url(),
+			) );
+		}
 
 		if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 			$wp_admin_bar->add_menu( array(
