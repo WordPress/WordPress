@@ -60,13 +60,13 @@ function wp_load_press_this() {
 		}
 		wp_die(
 			__( 'The Press This plugin is required.' ) . '<br />' . $action,
-			__( 'Install Required' ),
+			__( 'Installation Required' ),
 			200
 		);
 	} else {
 		wp_die(
 			__( 'Press This is not available. Please contact your site administrator.' ),
-			__( 'Install Required' ),
+			__( 'Installation Required' ),
 			200
 		);
 	}
