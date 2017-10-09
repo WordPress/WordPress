@@ -4236,6 +4236,7 @@ final class WP_Customize_Manager {
 			),
 			'url'      => array(
 				'preview'       => esc_url_raw( $this->get_preview_url() ),
+				'return'        => esc_url_raw( $this->get_return_url() ),
 				'parent'        => esc_url_raw( admin_url() ),
 				'activated'     => esc_url_raw( home_url( '/' ) ),
 				'ajax'          => esc_url_raw( admin_url( 'admin-ajax.php', 'relative' ) ),

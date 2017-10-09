@@ -77,6 +77,8 @@ themes.view.Appearance = wp.Backbone.View.extend({
 		// Render search form.
 		this.search();
 
+		this.$el.removeClass( 'search-loading' );
+
 		// Render and append
 		this.view.render();
 		this.$el.empty().append( this.view.el ).addClass( 'rendered' );
@@ -1345,17 +1347,15 @@ themes.view.Search = wp.Backbone.View.extend({
 			event.target.value = '';
 		}
 
-		/**
-		 * Since doSearch is debounced, it will only run when user input comes to a rest
-		 */
+		// Note that doSearch is throttled.
 		this.doSearch( event );
 	},
 
 	// Runs a search on the theme collection.
-	doSearch: _.debounce( function( event ) {
+	doSearch: _.throttle( function( event ) {
 		var options = {};
 
-		this.collection.doSearch( event.target.value );
+		this.collection.doSearch( event.target.value.replace( /\+/g, ' ' ) );
 
 		// if search is initiated and key is not return
 		if ( this.searching && event.which !== 13 ) {
@@ -1376,7 +1376,7 @@ themes.view.Search = wp.Backbone.View.extend({
 		var url = themes.router.baseUrl( '' );
 
 		if ( event.target.value ) {
-			url = themes.router.baseUrl( themes.router.searchPath + event.target.value );
+			url = themes.router.baseUrl( themes.router.searchPath + encodeURIComponent( event.target.value ) );
 		}
 
 		this.searching = false;
@@ -1384,6 +1384,22 @@ themes.view.Search = wp.Backbone.View.extend({
 
 	}
 });
+
+/**
+ * Navigate router.
+ *
+ * @since 4.9.0
+ *
+ * @param {string} url - URL to navigate to.
+ * @param {object} state - State.
+ * @returns {void}
+ */
+function navigateRouter( url, state ) {
+	var router = this;
+	if ( Backbone.history._hasPushState ) {
+		Backbone.Router.prototype.navigate.call( router, url, state );
+	}
+}
 
 // Sets up the routes events for relevant url queries
 // Listens to [theme] and [search] params
@@ -1405,18 +1421,14 @@ themes.Router = Backbone.Router.extend({
 	searchPath: '?search=',
 
 	search: function( query ) {
-		$( '.wp-filter-search' ).val( query );
+		$( '.wp-filter-search' ).val( query.replace( /\+/g, ' ' ) );
 	},
 
 	themes: function() {
 		$( '.wp-filter-search' ).val( '' );
 	},
 
-	navigate: function() {
-		if ( Backbone.history._hasPushState ) {
-			Backbone.Router.prototype.navigate.apply( this, arguments );
-		}
-	}
+	navigate: navigateRouter
 
 });
 
@@ -1508,7 +1520,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		this.doSearch( event.target.value );
 	},
 
-	doSearch: _.debounce( function( value ) {
+	doSearch: _.throttle( function( value ) {
 		var request = {};
 
 		// Don't do anything if the search terms haven't changed.
@@ -1551,7 +1563,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		this.collection.query( request );
 
 		// Set route
-		themes.router.navigate( themes.router.baseUrl( themes.router.searchPath + value ), { replace: true } );
+		themes.router.navigate( themes.router.baseUrl( themes.router.searchPath + encodeURIComponent( value ) ), { replace: true } );
 	}, 500 )
 });
 
@@ -1887,14 +1899,10 @@ themes.InstallerRouter = Backbone.Router.extend({
 	searchPath: '?search=',
 
 	search: function( query ) {
-		$( '.wp-filter-search' ).val( query );
+		$( '.wp-filter-search' ).val( query.replace( /\+/g, ' ' ) );
 	},
 
-	navigate: function() {
-		if ( Backbone.history._hasPushState ) {
-			Backbone.Router.prototype.navigate.apply( this, arguments );
-		}
-	}
+	navigate: navigateRouter
 });
 
 
@@ -2002,6 +2010,19 @@ $( document ).ready(function() {
 	} else {
 		themes.Run.init();
 	}
+
+	// Update the return param just in time.
+	$( document.body ).on( 'click', '.load-customize', function() {
+		var link = $( this ), urlParser = document.createElement( 'a' );
+		urlParser.href = link.prop( 'href' );
+		urlParser.search = $.param( _.extend(
+			wp.customize.utils.parseQueryString( urlParser.search.substr( 1 ) ),
+			{
+				'return': window.location.href
+			}
+		) );
+		link.prop( 'href', urlParser.href );
+	});
 
 	$( '.broken-themes .delete-theme' ).on( 'click', function() {
 		return confirm( _wpThemeSettings.settings.confirmDelete );

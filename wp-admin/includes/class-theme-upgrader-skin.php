@@ -49,13 +49,20 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 			), admin_url('themes.php') );
 			$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
+			$customize_url = add_query_arg(
+				array(
+					'theme' => urlencode( $stylesheet ),
+					'return' => urlencode( admin_url( 'themes.php' ) ),
+				),
+				admin_url( 'customize.php' )
+			);
 			if ( get_stylesheet() == $stylesheet ) {
 				if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
-					$update_actions['preview']  = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize"><span aria-hidden="true">' . __( 'Customize' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Customize &#8220;%s&#8221;' ), $name ) . '</span></a>';
+					$update_actions['preview']  = '<a href="' . esc_url( $customize_url ) . '" class="hide-if-no-customize load-customize"><span aria-hidden="true">' . __( 'Customize' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Customize &#8220;%s&#8221;' ), $name ) . '</span></a>';
 				}
 			} elseif ( current_user_can( 'switch_themes' ) ) {
 				if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
-					$update_actions['preview'] = '<a href="' . wp_customize_url( $stylesheet ) . '" class="hide-if-no-customize load-customize"><span aria-hidden="true">' . __( 'Live Preview' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name ) . '</span></a>';
+					$update_actions['preview'] = '<a href="' . esc_url( $customize_url ) . '" class="hide-if-no-customize load-customize"><span aria-hidden="true">' . __( 'Live Preview' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name ) . '</span></a>';
 				}
 				$update_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink"><span aria-hidden="true">' . __( 'Activate' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Activate &#8220;%s&#8221;' ), $name ) . '</span></a>';
 			}

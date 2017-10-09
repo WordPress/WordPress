@@ -1,4 +1,4 @@
-/* global _wpCustomizeLoaderSettings, confirm */
+/* global _wpCustomizeLoaderSettings */
 /**
  * Expose a public API that allows the customizer to be
  * loaded on any page.
@@ -208,25 +208,30 @@ window.wp = window.wp || {};
 		 * Close the Customizer overlay.
 		 */
 		close: function() {
-			if ( ! this.active ) {
+			var self = this, onConfirmClose;
+			if ( ! self.active ) {
 				return;
 			}
 
-			// Display AYS dialog if Customizer is dirty
-			if ( ! this.saved() && ! confirm( Loader.settings.l10n.saveAlert ) ) {
-				// Go forward since Customizer is exited by history.back()
-				history.forward();
-				return;
-			}
+			onConfirmClose = function( confirmed ) {
+				if ( confirmed ) {
+					self.active = false;
+					self.trigger( 'close' );
 
-			this.active = false;
+					// Restore document title prior to opening the Live Preview
+					if ( self.originalDocumentTitle ) {
+						document.title = self.originalDocumentTitle;
+					}
+				} else {
 
-			this.trigger( 'close' );
+					// Go forward since Customizer is exited by history.back()
+					history.forward();
+				}
+				self.messenger.unbind( 'confirmed-close', onConfirmClose );
+			};
+			self.messenger.bind( 'confirmed-close', onConfirmClose );
 
-			// Restore document title prior to opening the Live Preview
-			if ( this.originalDocumentTitle ) {
-				document.title = this.originalDocumentTitle;
-			}
+			Loader.messenger.send( 'confirm-close' );
 		},
 
 		/**
