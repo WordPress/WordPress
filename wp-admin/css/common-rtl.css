@@ -3301,7 +3301,7 @@ img {
 
 .control-section .accordion-section-title:after,
 .customize-pane-child .accordion-section-title:after {
-	top: 11px;
+	top: calc(50% - 10px); /* Arrow height is 20px, so use half of that to vertically center */
 }
 
 .js .control-section:hover .accordion-section-title,
