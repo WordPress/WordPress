@@ -190,34 +190,42 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
  * @param string $plugin Path to the main plugin file from plugins directory.
  * @return array List of files relative to the plugin root.
  */
-function get_plugin_files($plugin) {
+function get_plugin_files( $plugin ) {
 	$plugin_file = WP_PLUGIN_DIR . '/' . $plugin;
-	$dir = dirname($plugin_file);
-	$plugin_files = array($plugin);
-	if ( is_dir($dir) && $dir != WP_PLUGIN_DIR ) {
-		$plugins_dir = @ opendir( $dir );
-		if ( $plugins_dir ) {
-			while (($file = readdir( $plugins_dir ) ) !== false ) {
-				if ( substr($file, 0, 1) == '.' )
-					continue;
-				if ( is_dir( $dir . '/' . $file ) ) {
-					$plugins_subdir = @ opendir( $dir . '/' . $file );
-					if ( $plugins_subdir ) {
-						while (($subfile = readdir( $plugins_subdir ) ) !== false ) {
-							if ( substr($subfile, 0, 1) == '.' )
-								continue;
-							$plugin_files[] = plugin_basename("$dir/$file/$subfile");
-						}
-						@closedir( $plugins_subdir );
-					}
-				} else {
-					if ( plugin_basename("$dir/$file") != $plugin )
-						$plugin_files[] = plugin_basename("$dir/$file");
-				}
-			}
-			@closedir( $plugins_dir );
-		}
+	$dir = dirname( $plugin_file );
+
+	$data = get_plugin_data( $plugin_file );
+	$label = isset( $data['Version'] )
+		? sanitize_key( 'files_' . $plugin . '-' . $data['Version'] )
+		: sanitize_key( 'files_' . $plugin );
+	$transient_key = substr( $label, 0, 29 ) . md5( $label );
+
+	$plugin_files = get_transient( $transient_key );
+	if ( false !== $plugin_files ) {
+		return $plugin_files;
 	}
+
+	$plugin_files = array( plugin_basename( $plugin_file ) );
+
+	if ( is_dir( $dir ) && WP_PLUGIN_DIR !== $dir ) {
+
+		/**
+		 * Filters the array of excluded directories and files while scanning the folder.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param array $exclusions Array of excluded directories and files.
+		 */
+		$exclusions = (array) apply_filters( 'plugin_files_exclusions', array( 'CVS', 'node_modules', 'vendor', 'bower_components' ) );
+
+		$list_files = list_files( $dir, 100, $exclusions );
+		$list_files = array_map( 'plugin_basename', $list_files );
+
+		$plugin_files = array_merge( $plugin_files, $list_files );
+		$plugin_files = array_values( array_unique( $plugin_files ) );
+	}
+
+	set_transient( $transient_key, $plugin_files, HOUR_IN_SECONDS );
 
 	return $plugin_files;
 }

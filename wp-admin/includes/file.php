@@ -120,35 +120,53 @@ function get_home_path() {
  * The depth of the recursiveness can be controlled by the $levels param.
  *
  * @since 2.6.0
+ * @since 4.9.0 Added the `$exclusions` parameter.
  *
  * @param string $folder Optional. Full path to folder. Default empty.
  * @param int    $levels Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
+ * @param array  $exclusions Optional. List of folders and files to skip.
  * @return bool|array False on failure, Else array of files
  */
-function list_files( $folder = '', $levels = 100 ) {
-	if ( empty($folder) )
+function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
+	if ( empty( $folder ) ) {
 		return false;
+	}
 
-	if ( ! $levels )
+	$folder = trailingslashit( $folder );
+
+	if ( ! $levels ) {
 		return false;
+	}
 
 	$files = array();
-	if ( $dir = @opendir( $folder ) ) {
-		while (($file = readdir( $dir ) ) !== false ) {
-			if ( in_array($file, array('.', '..') ) )
+
+	$dir = @opendir( $folder );
+	if ( $dir ) {
+		while ( ( $file = readdir( $dir ) ) !== false ) {
+			// Skip current and parent folder links.
+			if ( in_array( $file, array( '.', '..' ), true ) ) {
 				continue;
-			if ( is_dir( $folder . '/' . $file ) ) {
-				$files2 = list_files( $folder . '/' . $file, $levels - 1);
-				if ( $files2 )
+			}
+
+			// Skip hidden and excluded files.
+			if ( '.' === $file[0] || in_array( $file, $exclusions, true ) ) {
+				continue;
+			}
+
+			if ( is_dir( $folder . $file ) ) {
+				$files2 = list_files( $folder . $file, $levels - 1 );
+				if ( $files2 ) {
 					$files = array_merge($files, $files2 );
-				else
-					$files[] = $folder . '/' . $file . '/';
+				} else {
+					$files[] = $folder . $file . '/';
+				}
 			} else {
-				$files[] = $folder . '/' . $file;
+				$files[] = $folder . $file;
 			}
 		}
 	}
 	@closedir( $dir );
+
 	return $files;
 }
 

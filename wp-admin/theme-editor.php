@@ -75,16 +75,16 @@ $file_types = wp_get_theme_file_editable_extensions( $theme );
 foreach ( $file_types as $type ) {
 	switch ( $type ) {
 		case 'php':
-			$allowed_files += $theme->get_files( 'php', 1 );
+			$allowed_files += $theme->get_files( 'php', -1 );
 			$has_templates = ! empty( $allowed_files );
 			break;
 		case 'css':
-			$style_files = $theme->get_files( 'css' );
+			$style_files = $theme->get_files( 'css', -1 );
 			$allowed_files['style.css'] = $style_files['style.css'];
 			$allowed_files += $style_files;
 			break;
 		default:
-			$allowed_files += $theme->get_files( $type );
+			$allowed_files += $theme->get_files( $type, -1 );
 			break;
 	}
 }
