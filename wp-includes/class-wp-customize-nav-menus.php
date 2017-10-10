@@ -414,6 +414,7 @@ final class WP_Customize_Nav_Menus {
 				'page_label'             => get_post_type_object( 'page' )->labels->singular_name,
 				/* translators: %s:      menu location */
 				'menuLocation'           => _x( '(Currently set to: %s)', 'menu' ),
+				'locationsTitle'         => _n( 'Menu Location', 'Menu Locations', $num_locations ),
 				'locationsDescription'   => $locations_description,
 				'menuNameLabel'          => __( 'Menu Name' ),
 				'newMenuNameDescription' => __( 'If your theme has multiple menus, giving them clear names will help you manage them.' ),
@@ -583,7 +584,7 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		$this->manager->add_section( 'menu_locations', array(
-			'title'       => _x( 'View All Locations', 'menu locations' ),
+			'title'       => _nx( 'View Location', 'View All Locations', $num_locations, 'menu locations' ),
 			'panel'       => 'nav_menus',
 			'priority'    => 30,
 			'description' => $description
@@ -945,7 +946,7 @@ final class WP_Customize_Nav_Menus {
 		</script>
 
 		<script type="text/html" id="tmpl-nav-menu-locations-header">
-			<span class="customize-control-title customize-section-title-menu_locations-heading"><?php _e( 'Menu Locations' ); ?></span>
+			<span class="customize-control-title customize-section-title-menu_locations-heading">{{ data.l10n.locationsTitle }}</span>
 			<p class="customize-control-description customize-section-title-menu_locations-description">{{ data.l10n.locationsDescription }}</p>
 		</script>
 
