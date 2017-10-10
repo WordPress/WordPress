@@ -597,7 +597,14 @@ final class WP_Customize_Nav_Menus {
 		// Attempt to re-map the nav menu location assignments when previewing a theme switch.
 		$mapped_nav_menu_locations = array();
 		if ( ! $this->manager->is_theme_active() ) {
-			$mapped_nav_menu_locations = wp_map_nav_menu_locations( get_nav_menu_locations(), $this->original_nav_menu_locations );
+			$theme_mods = get_option( 'theme_mods_' . $this->manager->get_stylesheet(), array() );
+
+			// If there is no data from a previous activation, start fresh.
+			if ( empty( $theme_mods['nav_menu_locations'] ) ) {
+				$theme_mods['nav_menu_locations'] = array();
+			}
+
+			$mapped_nav_menu_locations = wp_map_nav_menu_locations( $theme_mods['nav_menu_locations'], $this->original_nav_menu_locations );
 		}
 
 		foreach ( $locations as $location => $description ) {
