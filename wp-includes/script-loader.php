@@ -472,6 +472,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wp-theme-plugin-editor', "/wp-admin/js/theme-plugin-editor$suffix.js", array( 'wp-util', 'jquery', 'jquery-ui-core', 'wp-a11y', 'underscore' ) );
 	did_action( 'init' ) && $scripts->add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.l10n = %s;', wp_json_encode( array(
 		'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
+		'saveError' => __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' ),
 		'lintError' => wp_array_slice_assoc(
 			/* translators: %d: error count */
 			_n_noop( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.' ),

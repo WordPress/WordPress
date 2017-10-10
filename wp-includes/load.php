@@ -1126,11 +1126,12 @@ function wp_start_scraping_edited_file_errors() {
 	$nonce = wp_unslash( $_REQUEST['wp_scrape_nonce'] );
 
 	if ( get_transient( 'scrape_key_' . $key ) !== $nonce ) {
-		echo "###### begin_scraped_error:$key ######";
+		echo "###### wp_scraping_result_start:$key ######";
 		echo wp_json_encode( array(
 			'code' => 'scrape_nonce_failure',
 			'message' => __( 'Scrape nonce check failed. Please try again.' ),
 		) );
+		echo "###### wp_scraping_result_end:$key ######";
 		die();
 	}
 	register_shutdown_function( 'wp_finalize_scraping_edited_file_errors', $key );
@@ -1145,13 +1146,12 @@ function wp_start_scraping_edited_file_errors() {
  */
 function wp_finalize_scraping_edited_file_errors( $scrape_key ) {
 	$error = error_get_last();
-	if ( empty( $error ) ) {
-		return;
+	echo "\n###### wp_scraping_result_start:$scrape_key ######\n";
+	if ( ! empty( $error ) && in_array( $error['type'], array( E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR ), true ) ) {
+		$error = str_replace( ABSPATH, '', $error );
+		echo wp_json_encode( $error );
+	} else {
+		echo wp_json_encode( true );
 	}
-	if ( ! in_array( $error['type'], array( E_CORE_ERROR, E_COMPILE_ERROR, E_ERROR, E_PARSE, E_USER_ERROR, E_RECOVERABLE_ERROR ), true ) ) {
-		return;
-	}
-	$error = str_replace( ABSPATH, '', $error );
-	echo "###### begin_scraped_error:$scrape_key ######";
-	echo wp_json_encode( $error );
+	echo "\n###### wp_scraping_result_end:$scrape_key ######\n";
 }

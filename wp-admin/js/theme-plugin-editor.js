@@ -13,7 +13,8 @@ wp.themePluginEditor = (function( $ ) {
 				singular: '',
 				plural: ''
 			},
-			saveAlert: ''
+			saveAlert: '',
+			saveError: ''
 		},
 		codeEditor: {},
 		instance: null,
@@ -161,7 +162,8 @@ wp.themePluginEditor = (function( $ ) {
 		request.fail( function ( response ) {
 			var notice = $.extend(
 				{
-					code: 'save_error'
+					code: 'save_error',
+					message: component.l10n.saveError
 				},
 				response,
 				{
