@@ -973,6 +973,11 @@ p.customize-section-description {
 	margin-top: 7px;
 }
 
+.customize-control-radio label,
+.customize-control-checkbox label {
+	vertical-align: top;
+}
+
 .customize-control .attachment-thumb.type-icon {
 	float: right;
 	margin: 10px;
@@ -2684,6 +2689,10 @@ body.adding-widget .add-new-widget:before,
 		display: inline;
 	}
 
+	.customize-control-header button.random .dice {
+		margin-top: 0;
+	}
+
 	.customize-control-radio .customize-inside-control-row,
 	.customize-control-checkbox .customize-inside-control-row,
 	.customize-control-nav_menu_auto_add .customize-inside-control-row {
@@ -2696,9 +2705,9 @@ body.adding-widget .add-new-widget:before,
 		margin-right: -32px;
 	}
 
-	.customize-control input[type="radio"] + label,
-	.customize-control input[type="checkbox"] + label {
-		line-height: 32px;
+	.customize-control input[type="radio"] + label + br,
+	.customize-control input[type="checkbox"] + label + br {
+		line-height: 32px; /* For widgets checkboxes */
 	}
 
 	.customize-control .date-time-fields select {

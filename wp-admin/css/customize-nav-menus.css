@@ -215,15 +215,8 @@
 	padding-top: 12px;
 }
 
-.menu-settings .customize-control-checkbox label,
-.menu-location-settings .customize-control-checkbox label {
-	line-height: 1;
-}
-
-/* @todo update selector or potentially remove */
-.menu-settings .customize-control.customize-control-checkbox,
-.menu-location-settings .customize-control.customize-control-checkbox {
-	margin-bottom: 8px; /* Override collapsing at smaller viewports. */
+.customize-control-nav_menu_auto_add label {
+	vertical-align: top;
 }
 
 .customize-control-menu {
