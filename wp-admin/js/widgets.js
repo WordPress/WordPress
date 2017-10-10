@@ -515,7 +515,7 @@ wpWidgets = {
 			sidebarId = widget.closest( 'div.widgets-sortables' ).attr( 'id' ),
 			form = widget.find( 'form' );
 
-		if ( form.prop( 'checkValidity' ) && ! form[0].checkValidity() ) {
+		if ( ! del && form.prop( 'checkValidity' ) && ! form[0].checkValidity() ) {
 			return;
 		}
 
