@@ -414,7 +414,7 @@ final class WP_Customize_Nav_Menus {
 				'page_label'             => get_post_type_object( 'page' )->labels->singular_name,
 				/* translators: %s:      menu location */
 				'menuLocation'           => _x( '(Currently set to: %s)', 'menu' ),
-				'locationsTitle'         => _n( 'Menu Location', 'Menu Locations', $num_locations ),
+				'locationsTitle'         => 1 === $num_locations ? __( 'Menu Location' ) : __( 'Menu Locations' ),
 				'locationsDescription'   => $locations_description,
 				'menuNameLabel'          => __( 'Menu Name' ),
 				'newMenuNameDescription' => __( 'If your theme has multiple menus, giving them clear names will help you manage them.' ),
@@ -584,10 +584,10 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		$this->manager->add_section( 'menu_locations', array(
-			'title'       => _nx( 'View Location', 'View All Locations', $num_locations, 'menu locations' ),
+			'title'       => 1 === $num_locations ? _x( 'View Location', 'menu locations' ) : _x( 'View All Locations', 'menu locations' ),
 			'panel'       => 'nav_menus',
 			'priority'    => 30,
-			'description' => $description
+			'description' => $description,
 		) );
 
 		$choices = array( '0' => __( '&mdash; Select &mdash;' ) );
