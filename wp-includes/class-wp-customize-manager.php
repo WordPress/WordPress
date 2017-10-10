@@ -4415,6 +4415,7 @@ final class WP_Customize_Manager {
 			$this->add_section( new WP_Customize_Themes_Section( $this, 'wporg_themes', array(
 				'title'       => __( 'WordPress.org themes' ),
 				'action'      => 'wporg',
+				'filter_type' => 'remote',
 				'capability'  => 'install_themes',
 				'panel'       => 'themes',
 				'priority'    => 5,
@@ -4947,23 +4948,48 @@ final class WP_Customize_Manager {
 		}
 		$theme_action = sanitize_key( $_POST['theme_action'] );
 		$themes = array();
+		$args = array();
+
+		// Define query filters based on user input.
+		if ( ! array_key_exists( 'search', $_POST ) ) {
+			$args['search'] = '';
+		} else {
+			$args['search'] = sanitize_text_field( wp_unslash( $_POST['search'] ) );
+		}
+
+		if ( ! array_key_exists( 'tags', $_POST ) ) {
+			$args['tag'] = '';
+		} else {
+			$args['tag'] = array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['tags'] ) );
+		}
+
+		if ( ! array_key_exists( 'page', $_POST ) ) {
+			$args['page'] = 1;
+		} else {
+			$args['page'] = absint( $_POST['page'] );
+		}
 
 		require_once ABSPATH . 'wp-admin/includes/theme.php';
+
 		if ( 'installed' === $theme_action ) {
+
+			// Load all installed themes from wp_prepare_themes_for_js().
 			$themes = array( 'themes' => wp_prepare_themes_for_js() );
 			foreach ( $themes['themes'] as &$theme ) {
 				$theme['type'] = 'installed';
 				$theme['active'] = ( isset( $_POST['customized_theme'] ) && $_POST['customized_theme'] === $theme['id'] );
 			}
+
 		} elseif ( 'wporg' === $theme_action ) {
+
+			// Load WordPress.org themes from the .org API and normalize data to match installed theme objects.
 			if ( ! current_user_can( 'install_themes' ) ) {
 				wp_die( -1 );
 			}
 
 			// Arguments for all queries.
-			$args = array(
+			$wporg_args = array(
 				'per_page' => 100,
-				'page' => isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1,
 				'fields' => array(
 					'screenshot_url' => true,
 					'description' => true,
@@ -4979,18 +5005,7 @@ final class WP_Customize_Manager {
 				),
 			);
 
-			// Define query filters based on user input.
-			if ( ! array_key_exists( 'search', $_POST ) ) {
-				$args['search'] = '';
-			} else {
-				$args['search'] = sanitize_text_field( wp_unslash( $_POST['search'] ) );
-			}
-
-			if ( ! array_key_exists( 'tags', $_POST ) ) {
-				$args['tag'] = '';
-			} else {
-				$args['tag'] = array_map( 'sanitize_text_field', wp_unslash( (array) $_POST['tags'] ) );
-			}
+			$args = array_merge( $wporg_args, $args );
 
 			if ( '' === $args['search'] && '' === $args['tag'] ) {
 				$args['browse'] = 'new'; // Sort by latest themes by default.
@@ -5061,6 +5076,26 @@ final class WP_Customize_Manager {
 				unset( $theme->author );
 			} // End foreach().
 		} // End if().
+
+		/**
+		 * Filters the theme data loaded in the customizer.
+		 *
+		 * This allows theme data to be loading from an external source,
+		 * or modification of data loaded from `wp_prepare_themes_for_js()`
+		 * or WordPress.org via `themes_api()`.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @see wp_prepare_themes_for_js()
+		 * @see themes_api()
+		 * @see WP_Customize_Manager::__construct()
+		 *
+		 * @param array                $themes  Nested array of theme data.
+		 * @param array                $args    List of arguments, such as page, search term, and tags to query for.
+		 * @param WP_Customize_Manager $manager Instance of Customize manager.
+		 */
+		$themes = apply_filters( 'customize_load_themes', $themes, $args, $this );
+
 		wp_send_json_success( $themes );
 	}
 

@@ -37,6 +37,17 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	public $action = '';
 
 	/**
+	 * Theme section filter type.
+	 *
+	 * Determines whether filters are applied to loaded (local) themes or by initiating a new remote query (remote).
+	 * When filtering is local, the initial themes query is not paginated by default.
+	 *
+	 * @since 4.9.0
+	 * @var string
+	 */
+	public $filter_type = 'local';
+
+	/**
 	 * Get section parameters for JS.
 	 *
 	 * @since 4.9.0
@@ -45,6 +56,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	public function json() {
 		$exported = parent::json();
 		$exported['action'] = $this->action;
+		$exported['filter_type'] = $this->filter_type;
 
 		return $exported;
 	}

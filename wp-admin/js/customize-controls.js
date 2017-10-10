@@ -1717,14 +1717,16 @@
 				section.closeDetails();
 			});
 
-			// Filter-search all theme objects loaded in the section.
-			section.container.on( 'input', '.wp-filter-search-themes', function( event ) {
-					section.filterSearch( event.currentTarget );
-			});
+			if ( 'local' === section.params.filter_type ) {
 
-			// Event listeners for remote wporg queries with user-entered terms.
-			if ( 'wporg' === section.params.action ) {
+				// Filter-search all theme objects loaded in the section.
+				section.container.on( 'input', '.wp-filter-search-themes', function( event ) {
+					section.filterSearch( event.currentTarget.value );
+				});
 
+			} else if ( 'remote' === section.params.filter_type ) {
+
+				// Event listeners for remote queries with user-entered terms.
 				// Search terms.
 				debounced = _.debounce( section.checkTerm, 500 ); // Wait until there is no input for 500 milliseconds to initiate a search.
 				section.contentContainer.on( 'input', '.wp-filter-search', function() {
@@ -1740,29 +1742,29 @@
 					section.filtersChecked();
 					section.checkTerm( section );
 				});
-
-				// Toggle feature filter sections.
-				section.contentContainer.on( 'click', '.feature-filter-toggle', function( e ) {
-					$( e.currentTarget )
-						.toggleClass( 'open' )
-						.attr( 'aria-expanded', function( i, attr ) {
-							return 'true' === attr ? 'false' : 'true';
-						})
-						.next( '.filter-drawer' ).slideToggle( 180, 'linear', function() {
-							if ( 0 === section.filtersHeight ) {
-								section.filtersHeight = $( this ).height();
-
-								// First time, so it's opened.
-								section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
-							}
-						});
-					if ( $( e.currentTarget ).hasClass( 'open' ) ) {
-						section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
-					} else {
-						section.contentContainer.find( '.themes' ).css( 'margin-top', 0 );
-					}
-				});
 			}
+
+			// Toggle feature filters.
+			section.contentContainer.on( 'click', '.feature-filter-toggle', function( e ) {
+				$( e.currentTarget )
+					.toggleClass( 'open' )
+					.attr( 'aria-expanded', function( i, attr ) {
+						return 'true' === attr ? 'false' : 'true';
+					})
+					.next( '.filter-drawer' ).slideToggle( 180, 'linear', function() {
+						if ( 0 === section.filtersHeight ) {
+							section.filtersHeight = $( this ).height();
+
+							// First time, so it's opened.
+							section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
+						}
+					});
+				if ( $( e.currentTarget ).hasClass( 'open' ) ) {
+					section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
+				} else {
+					section.contentContainer.find( '.themes' ).css( 'margin-top', 0 );
+				}
+			});
 
 			// Setup section cross-linking.
 			section.contentContainer.on( 'click', '.no-themes-local .search-dotorg-themes', function() {
@@ -1806,7 +1808,7 @@
 
 				// Try to load controls if none are loaded yet.
 				if ( 0 === section.loaded ) {
-					section.loadControls();
+					section.loadThemes();
 				}
 
 				// Collapse any sibling sections/panels
@@ -1821,13 +1823,16 @@
 							section.contentContainer.find( '.wp-filter-search' ).val( searchTerm );
 
 							// Directly initialize an empty remote search to avoid a race condition.
-							if ( '' === searchTerm && '' !== section.term && 'installed' !== section.params.action ) {
+							if ( '' === searchTerm && '' !== section.term && 'local' !== section.params.filter_type ) {
 								section.term = '';
 								section.initializeNewQuery( section.term, section.tags );
 							} else {
-								section.checkTerm( section );
+								if ( 'remote' === section.params.filter_type ) {
+									section.checkTerm( section );
+								} else if ( 'local' === section.params.filter_type ) {
+									section.filterSearch( searchTerm );
+								}
 							}
-							section.filterSearch( section.contentContainer.find( '.wp-filter-search' ).get( 0 ) );
 						}
 						otherSection.collapse( { duration: args.duration } );
 					}
@@ -1877,7 +1882,7 @@
 		 *
 		 * @returns {void}
 		 */
-		loadControls: function() {
+		loadThemes: function() {
 			var section = this, params, page, request;
 
 			if ( section.loading ) {
@@ -1894,8 +1899,8 @@
 				'page': page
 			};
 
-			// Add fields for wporg actions.
-			if ( 'wporg' === section.params.action ) {
+			// Add fields for remote filtering.
+			if ( 'remote' === section.params.filter_type ) {
 				params.search = section.term;
 				params.tags = section.tags;
 			}
@@ -1906,7 +1911,7 @@
 			section.container.find( '.no-themes' ).hide();
 			request = wp.ajax.post( 'customize_load_themes', params );
 			request.done(function( data ) {
-				var themes = data.themes, newThemeControls;
+				var themes = data.themes;
 
 				// Stop and try again if the term changed while loading.
 				if ( '' !== section.nextTerm || '' !== section.nextTags ) {
@@ -1919,26 +1924,13 @@
 					section.nextTerm = '';
 					section.nextTags = '';
 					section.loading = false;
-					section.loadControls();
+					section.loadThemes();
 					return;
 				}
 
 				if ( 0 !== themes.length ) {
-					newThemeControls = [];
 
-					// Add controls for each theme.
-					_.each( themes, function( theme ) {
-						var themeControl = new api.controlConstructor.theme( section.params.action + '_theme_' + theme.id, {
-							type: 'theme',
-							section: section.params.id,
-							theme: theme,
-							priority: section.loaded + 1
-						} );
-
-						api.control.add( themeControl );
-						newThemeControls.push( themeControl );
-						section.loaded = section.loaded + 1;
-					});
+					section.loadControls( themes, page );
 
 					if ( 1 === page ) {
 
@@ -1950,15 +1942,14 @@
 								img.src = src;
 							}
 						});
-						if ( 'installed' !== section.params.action ) {
+						if ( 'local' !== section.params.filter_type ) {
 							wp.a11y.speak( api.settings.l10n.themeSearchResults.replace( '%d', data.info.results ) );
 						}
-					} else {
-						Array.prototype.push.apply( section.screenshotQueue, newThemeControls ); // Add new themes to the screenshot queue.
 					}
+
 					_.delay( section.renderScreenshots, 100 ); // Wait for the controls to become visible.
 
-					if ( 'installed' === section.params.action || 100 > themes.length ) { // If we have less than the requested 100 themes, it's the end of the list.
+					if ( 'local' === section.params.filter_type || 100 > themes.length ) { // If we have less than the requested 100 themes, it's the end of the list.
 						section.fullyLoaded = true;
 					}
 				} else {
@@ -1969,7 +1960,7 @@
 						section.fullyLoaded = true;
 					}
 				}
-				if ( 'installed' === section.params.action ) {
+				if ( 'local' === section.params.filter_type ) {
 					section.updateCount(); // Count of visible theme controls.
 				} else {
 					section.updateCount( data.info.results ); // Total number of results including pages not yet loaded.
@@ -1995,6 +1986,37 @@
 		},
 
 		/**
+		 * Loads controls into the section from data received from loadThemes().
+		 *
+		 * @since 4.9.0
+		 * @param {Array} themes - Array of theme data to create controls with.
+		 * @param {integer} page - Page of results being loaded.
+		 * @returns {void}
+		 */
+		loadControls: function( themes, page ) {
+			var newThemeControls = [],
+				section = this;
+
+			// Add controls for each theme.
+			_.each( themes, function( theme ) {
+				var themeControl = new api.controlConstructor.theme( section.params.action + '_theme_' + theme.id, {
+					type: 'theme',
+					section: section.params.id,
+					theme: theme,
+					priority: section.loaded + 1
+				} );
+
+				api.control.add( themeControl );
+				newThemeControls.push( themeControl );
+				section.loaded = section.loaded + 1;
+			});
+
+			if ( 1 !== page ) {
+				Array.prototype.push.apply( section.screenshotQueue, newThemeControls ); // Add new themes to the screenshot queue.
+			}
+		},
+
+		/**
 		 * Determines whether more themes should be loaded, and loads them.
 		 *
 		 * @since 4.9.0
@@ -2009,7 +2031,7 @@
 				threshold = container.prop( 'scrollHeight' ) - 3000; // Use a fixed distance to the bottom of loaded results to avoid unnecessarily loading results sooner when using a percentage of scroll distance.
 
 				if ( bottom > threshold ) {
-					section.loadControls();
+					section.loadThemes();
 				}
 			}
 		},
@@ -2019,23 +2041,26 @@
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param {Element} el - The search input element as a raw JS object.
+		 * @param {string} term - The raw search input value.
 		 * @returns {void}
 		 */
-		filterSearch: function( el ) {
+		filterSearch: function( term ) {
 			var count = 0,
 				visible = false,
 				section = this,
-				noFilter = ( undefined !== api.section( 'wporg_themes' ) && 'wporg' !== section.params.action ) ? '.no-themes-local' : '.no-themes',
-				term = el.value.toLowerCase().trim().replace( '-', ' ' ),
-				controls = section.controls();
+				noFilter = ( api.section.has( 'wporg_themes' ) && 'remote' !== section.params.filter_type ) ? '.no-themes-local' : '.no-themes',
+				controls = section.controls(),
+				terms;
 
 			if ( section.loading ) {
 				return;
 			}
 
+			// Standardize search term format and split into an array of individual words.
+			terms = term.toLowerCase().trim().replace( /-/g, ' ' ).split( ' ' );
+
 			_.each( controls, function( control ) {
-				visible = control.filter( term );
+				visible = control.filter( terms ); // Shows/hides and sorts control based on the applicability of the search term.
 				if ( visible ) {
 					count = count + 1;
 				}
@@ -2049,6 +2074,7 @@
 			}
 
 			section.renderScreenshots();
+			api.reflowPaneContents();
 
 			// Update theme count.
 			section.updateCount( count );
@@ -2064,7 +2090,7 @@
 		 */
 		checkTerm: function( section ) {
 			var newTerm;
-			if ( 'wporg' === section.params.action ) {
+			if ( 'remote' === section.params.filter_type ) {
 				newTerm = section.contentContainer.find( '.wp-filter-search' ).val();
 				if ( section.term !== newTerm ) {
 					section.initializeNewQuery( newTerm, section.tags );
@@ -2104,7 +2130,11 @@
 				if ( section.loading ) {
 					section.nextTags = tags;
 				} else {
-					section.initializeNewQuery( section.term, tags );
+					if ( 'remote' === section.params.filter_type ) {
+						section.initializeNewQuery( section.term, tags );
+					} else if ( 'local' === section.params.filter_type ) {
+						section.filterSearch( tags.join( ' ' ) );
+					}
 				}
 			}
 		},
@@ -2130,14 +2160,14 @@
 			section.fullyLoaded = false;
 			section.screenshotQueue = null;
 
-			// Run a new query, with loadControls handling paging, etc.
+			// Run a new query, with loadThemes handling paging, etc.
 			if ( ! section.loading ) {
 				section.term = newTerm;
 				section.tags = newTags;
-				section.loadControls();
+				section.loadThemes();
 			} else {
-				section.nextTerm = newTerm; // This will reload from loadControls() with the newest term once the current batch is loaded.
-				section.nextTags = newTags; // This will reload from loadControls() with the newest tags once the current batch is loaded.
+				section.nextTerm = newTerm; // This will reload from loadThemes() with the newest term once the current batch is loaded.
+				section.nextTags = newTags; // This will reload from loadThemes() with the newest tags once the current batch is loaded.
 			}
 			if ( ! section.expanded() ) {
 				section.expand(); // Expand the section if it isn't expanded.
@@ -4875,20 +4905,50 @@
 		 * Show or hide the theme based on the presence of the term in the title, description, tags, and author.
 		 *
 		 * @since 4.2.0
+		 * @param {Array} terms - An array of terms to search for.
 		 * @returns {boolean} Whether a theme control was activated or not.
 		 */
-		filter: function( term ) {
+		filter: function( terms ) {
 			var control = this,
+				matchCount = 0,
 				haystack = control.params.theme.name + ' ' +
 					control.params.theme.description + ' ' +
 					control.params.theme.tags + ' ' +
-					control.params.theme.author;
+					control.params.theme.author + ' ';
 			haystack = haystack.toLowerCase().replace( '-', ' ' );
-			if ( -1 !== haystack.search( term ) ) {
+
+			// Back-compat for behavior in WordPress 4.2.0 to 4.8.X.
+			if ( ! _.isArray( terms ) ) {
+				terms = [ terms ];
+			}
+
+			// Always give exact name matches highest ranking.
+			if ( control.params.theme.name.toLowerCase() === terms.join( ' ' ) ) {
+				matchCount = 100;
+			} else {
+
+				// Search for and weight (by 10) complete term matches.
+				matchCount = matchCount + 10 * ( haystack.split( terms.join( ' ' ) ).length - 1 );
+
+				// Search for each term individually (as whole-word and partial match) and sum weighted match counts.
+				_.each( terms, function( term ) {
+					matchCount = matchCount + 2 * ( haystack.split( term + ' ' ).length - 1 ); // Whole-word, double-weighted.
+					matchCount = matchCount + haystack.split( term ).length - 1; // Partial word, to minimize empty intermediate searches while typing.
+				});
+
+				// Upper limit on match ranking.
+				if ( matchCount > 99 ) {
+					matchCount = 99;
+				}
+			}
+
+			if ( 0 !== matchCount ) {
 				control.activate();
+				control.params.priority = 101 - matchCount; // Sort results by match count.
 				return true;
 			} else {
-				control.deactivate();
+				control.deactivate(); // Hide control
+				control.params.priority = 101;
 				return false;
 			}
 		},
