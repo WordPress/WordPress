@@ -4398,7 +4398,10 @@ final class WP_Customize_Manager {
 
 		$this->add_panel( new WP_Customize_Themes_Panel( $this, 'themes', array(
 			'title'       => $this->theme()->display( 'Name' ),
-			'description' => __( 'Once themes are installed, you can live-preview them on your site, customize them, and publish your new design. Browse available themes via the filters in this menu.' ),
+			'description' => (
+				'<p>' . __( 'Looking for a theme? You can search or browse the WordPress.org theme directory, install and preview themes, then activate them right here.' ) . '</p>' .
+				'<p>' . __( 'While previewing a new theme, you can continue to tailor things like widgets and menus, and explore theme-specific options.' ) . '</p>'
+			),
 			'capability'  => 'switch_themes',
 			'priority'    => 0,
 		) ) );
