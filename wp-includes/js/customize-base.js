@@ -885,7 +885,11 @@ window.wp = window.wp || {};
 			container = $( notification.template( data ) );
 
 			if ( notification.dismissible ) {
-				container.find( '.notice-dismiss' ).on( 'click', function() {
+				container.find( '.notice-dismiss' ).on( 'click keydown', function( event ) {
+					if ( 'keydown' === event.type && 13 !== event.which ) {
+						return;
+					}
+
 					if ( notification.parent ) {
 						notification.parent.remove( notification.code );
 					} else {

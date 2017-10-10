@@ -78,6 +78,8 @@
 
 			api.Values.prototype.initialize.call( collection, options );
 
+			_.bindAll( collection, 'constrainFocus' );
+
 			// Keep track of the order in which the notifications were added for sorting purposes.
 			collection._addedIncrement = 0;
 			collection._addedOrder = {};
@@ -188,9 +190,9 @@
 		 */
 		render: function() {
 			var collection = this,
-				notifications, hadOverlayNotification = false, hasOverlayNotification,
+				notifications, hadOverlayNotification = false, hasOverlayNotification, overlayNotifications = [],
 				previousNotificationsByCode = {},
-				listElement;
+				listElement, focusableElements;
 
 			// Short-circuit if there are no container to render into.
 			if ( ! collection.container || ! collection.container.length ) {
@@ -226,14 +228,15 @@
 					wp.a11y.speak( notification.message, 'assertive' );
 				}
 				notificationContainer = $( notification.render() );
+				notification.container = notificationContainer;
 				listElement.append( notificationContainer ); // @todo Consider slideDown() as enhancement.
 
-				// @todo Constraing focus in notificationContainer if notification.extended( api.OverlayNotification ).
+				if ( notification.extended( api.OverlayNotification ) ) {
+					overlayNotifications.push( notification );
+				}
 			});
+			hasOverlayNotification = Boolean( overlayNotifications.length );
 
-			hasOverlayNotification = Boolean( _.find( notifications, function( notification ) {
-				return notification.extended( api.OverlayNotification );
-			} ) );
 			if ( collection.previousNotifications ) {
 				hadOverlayNotification = Boolean( _.find( collection.previousNotifications, function( notification ) {
 					return notification.extended( api.OverlayNotification );
@@ -243,11 +246,47 @@
 			if ( hasOverlayNotification !== hadOverlayNotification ) {
 				$( document.body ).toggleClass( 'customize-loading', hasOverlayNotification );
 				collection.container.toggleClass( 'has-overlay-notifications', hasOverlayNotification );
+				if ( hasOverlayNotification ) {
+					collection.previousActiveElement = document.activeElement;
+					$( document ).on( 'keydown', collection.constrainFocus );
+				} else {
+					$( document ).off( 'keydown', collection.constrainFocus );
+				}
+			}
+
+			if ( hasOverlayNotification ) {
+				collection.focusContainer = overlayNotifications[ overlayNotifications.length - 1 ].container;
+				collection.focusContainer.prop( 'tabIndex', -1 );
+				focusableElements = collection.focusContainer.find( ':focusable' );
+				if ( focusableElements.length ) {
+					focusableElements.first().focus();
+				} else {
+					collection.focusContainer.focus();
+				}
+			} else if ( collection.previousActiveElement ) {
+				$( collection.previousActiveElement ).focus();
+				collection.previousActiveElement = null;
 			}
 
 			collection.previousNotifications = notifications;
 			collection.previousContainer = collection.container;
 			collection.trigger( 'rendered' );
+		},
+
+		/**
+		 * Constrain focus on focus container.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {jQuery.Event} event - Event.
+		 * @returns {void}
+		 */
+		constrainFocus: function constrainFocus( event ) {
+			var collection = this;
+			if ( ! collection.focusContainer || collection.focusContainer.is( event.target ) || $.contains( collection.focusContainer[0], event.target[0] ) ) {
+				return;
+			}
+			collection.focusContainer.focus();
 		}
 	});
 
