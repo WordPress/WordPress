@@ -550,12 +550,14 @@ wpWidgets = {
 
 				if ( animate ) {
 					order = 0;
-					widget.slideUp('fast', function(){
-						$(this).remove();
+					widget.slideUp( 'fast', function() {
+						$( this ).remove();
 						wpWidgets.saveOrder();
+						delete self.dirtyWidgets[ id ];
 					});
 				} else {
 					widget.remove();
+					delete self.dirtyWidgets[ id ];
 
 					if ( sidebarId === 'wp_inactive_widgets' ) {
 						$( '#inactive-widgets-control-remove' ).prop( 'disabled' , ! $( '#wp_inactive_widgets .widget' ).length );
@@ -590,7 +592,7 @@ wpWidgets = {
 	},
 
 	removeInactiveWidgets : function() {
-		var $element = $( '.remove-inactive-widgets' ), a, data;
+		var $element = $( '.remove-inactive-widgets' ), self = this, a, data;
 
 		$( '.spinner', $element ).addClass( 'is-active' );
 
@@ -602,8 +604,12 @@ wpWidgets = {
 		data = $.param( a );
 
 		$.post( ajaxurl, data, function() {
-			$( '#wp_inactive_widgets .widget' ).remove();
-			$( '#inactive-widgets-control-remove' ).prop( 'disabled' , true );
+			$( '#wp_inactive_widgets .widget' ).each(function() {
+				var $widget = $( this );
+				delete self.dirtyWidgets[ $widget.find( 'input.widget-id' ).val() ];
+				$widget.remove();
+			});
+			$( '#inactive-widgets-control-remove' ).prop( 'disabled', true );
 			$( '.spinner', $element ).removeClass( 'is-active' );
 		} );
 	},
