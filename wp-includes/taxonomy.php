@@ -1912,7 +1912,14 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	// Taxonomies registered without an 'args' param are handled here.
 	if ( ! empty( $taxonomies ) ) {
-		$terms = array_merge( $terms, get_terms( $args ) );
+		$terms_from_remaining_taxonomies = get_terms( $args );
+
+		// Array keys should be preserved for values of $fields that use term_id for keys.
+		if ( ! empty( $args['fields'] ) && 0 === strpos( $args['fields'], 'id=>' ) ) {
+			$terms = $terms + $terms_from_remaining_taxonomies;
+		} else {
+			$terms = array_merge( $terms, $terms_from_remaining_taxonomies );
+		}
 	}
 
 	/**
