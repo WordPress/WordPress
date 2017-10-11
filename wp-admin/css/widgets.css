@@ -96,7 +96,7 @@
 }
 
 .media-widget-control .media-widget-preview {
-	background: #f1f1f1;
+	background: transparent;
 	text-align: center;
 }
 .media-widget-control .media-widget-preview .notice {
@@ -168,6 +168,7 @@
 	-webkit-box-pack: start;
 	justify-content: flex-start;
 	flex-wrap: wrap;
+	margin: -1.79104477%;
 }
 
 .media-widget-preview.media_gallery,
@@ -175,11 +176,18 @@
 	cursor: pointer;
 }
 
+.media-widget-preview.media_image,
+.media-widget-preview.media_audio,
+.attachment-media-view {
+	background: #f1f1f1;
+}
+
 .media-widget-gallery-preview .gallery-item {
 	box-sizing: border-box;
 	width: 50%;
 	margin: 0;
 	padding: 1.79104477%;
+	background: transparent;
 }
 
 /*
