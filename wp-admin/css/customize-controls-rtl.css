@@ -677,8 +677,15 @@ body.trashing #publish-settings {
 }
 
 .customize-section-description-container,
-.control-section-nav_menu .customize-section-description-container {
+.control-section-nav_menu .customize-section-description-container,
+.control-section-new_menu .customize-section-description-container {
 	margin-bottom: 15px;
+}
+
+.control-section-nav_menu .customize-control,
+.control-section-new_menu .customize-control {
+	/* Override default `margin-bottom` for `.customize-control` */
+	margin-bottom: 0;
 }
 
 .customize-section-title {

@@ -1,6 +1,6 @@
 #customize-theme-controls #accordion-section-menu_locations {
 	position: relative;
-	margin-top: 15px;
+	margin-top: 30px;
 }
 
 #customize-theme-controls #accordion-section-menu_locations > .accordion-section-title {
@@ -50,10 +50,6 @@
 #customize-new-menu-submit {
 	float: right;
 	min-width: 85px;
-}
-
-#customize-new-menu-submit-description {
-	margin: 0;
 }
 
 .wp-customizer .menu-item-bar .menu-item-handle,
@@ -212,11 +208,19 @@
 .wp-customizer .control-section-nav_menu .menu-location-settings {
 	margin-top: 24px;
 	border-top: 1px solid #ddd;
+}
+
+.wp-customizer .control-section-nav_menu .menu-location-settings,
+.customize-control-nav_menu_auto_add {
 	padding-top: 12px;
 }
 
 .customize-control-nav_menu_auto_add label {
 	vertical-align: top;
+}
+
+.menu-location-settings .new-menu-locations-widget-note {
+	display: block;
 }
 
 .customize-control-menu {

@@ -35,13 +35,33 @@ class WP_Customize_Nav_Menu_Locations_Control extends WP_Customize_Control {
 	 * @since 4.9.0
 	 */
 	public function content_template() {
-		if ( current_theme_supports( 'menus' ) ):
+		if ( current_theme_supports( 'menus' ) ) :
 			?>
 			<# var elementId; #>
 			<ul class="menu-location-settings">
 				<li class="customize-control assigned-menu-locations-title">
-					<span class="customize-control-title"><?php _e( 'Menu Locations' ); ?></span>
-					<p><?php _e( 'Here\'s where this menu appears. If you\'d like to change that, pick another location.' ); ?></p>
+					<span class="customize-control-title">{{ wp.customize.Menus.data.l10n.locationsTitle }}</span>
+					<# if ( data.isCreating ) { #>
+						<p>
+							<?php echo _x( 'Where do you want this menu to appear?', 'menu locations' ); ?>
+							<em class="new-menu-locations-widget-note">
+								<?php
+								printf(
+									/* translators: 1: Codex URL, 2: additional link attributes, 3: accessibility text */
+									_x( '(If you plan to use a menu <a href="%1$s" %2$s>widget%3$s</a>, skip this step.)', 'menu locations' ),
+									__( 'https://codex.wordpress.org/WordPress_Widgets' ),
+									' class="external-link" target="_blank"',
+									sprintf( '<span class="screen-reader-text"> %s</span>',
+										/* translators: accessibility text */
+										__( '(opens in a new window)' )
+									)
+								);
+								?>
+							</em>
+						</p>
+					<# } else { #>
+						<p><?php echo _x( 'Here&#8217;s where this menu appears. If you&#8217;d like to change that, pick another location.', 'menu locations' ); ?></p>
+					<# } #>
 				</li>
 
 				<?php foreach ( get_registered_nav_menus() as $location => $description ) : ?>

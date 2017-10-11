@@ -812,15 +812,10 @@
 				panel.saveManageColumnsState();
 			});
 
-			// Wait until after construction to patch the UI
-			_.defer( function () {
-
-				panel.contentContainer.find( '#accordion-section-menu_locations' ).prepend(
+			// Inject additional heading into the menu locations section's head container.
+			api.section( 'menu_locations', function( section ) {
+				section.headContainer.prepend(
 					wp.template( 'nav-menu-locations-header' )( api.Menus.data )
-				);
-
-				panel.contentContainer.find( '#accordion-section-add_menu .accordion-section-title' ).replaceWith(
-					wp.template( 'nav-menu-create-menu-section-title' )
 				);
 			} );
 		},
@@ -1166,6 +1161,10 @@
 				contentContainer = section.contentContainer,
 				navMenuSettingPattern = /^nav_menu\[/;
 
+			section.headContainer.find( '.accordion-section-title' ).replaceWith(
+				wp.template( 'nav-menu-create-menu-section-title' )
+			);
+
 			/*
 			 * We have to manually handle section expanded because we do not
 			 * apply the `accordion-section-title` class to this button-driven section.
@@ -1289,7 +1288,8 @@
 				menuLocationsControl = new api.controlConstructor.nav_menu_locations( menuLocationsControlId, {
 					section: section.id,
 					priority: 1,
-					menu_id: ''
+					menu_id: '',
+					isCreating: true
 				} );
 				api.control.add( menuLocationsControlId, menuLocationsControl );
 				menuLocationsControl.active.set( true );
