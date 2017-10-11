@@ -563,8 +563,10 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		if ( !empty($redirect) )
 			wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect)); // we'll override this later if the plugin can be included without fatal error
 		ob_start();
-
-		plugin_sandbox_scrape( $plugin );
+		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
+		$_wp_plugin_file = $plugin;
+		include_once( WP_PLUGIN_DIR . '/' . $plugin );
+		$plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
 
 		if ( ! $silent ) {
 			/**
@@ -1896,41 +1898,14 @@ function wp_clean_plugins_cache( $clear_update_cache = true ) {
 }
 
 /**
- * Simulate loading the WordPress admin with a given plugin active to attempt to generate errors.
- *
- * Actions are re-triggered in the WP bootstrap process for the WP Admin, and the WP_ADMIN constant is defined.
+ * Load a given plugin attempt to generate errors.
  *
  * @since 3.0.0
  * @since 4.4.0 Function was moved into the `wp-admin/includes/plugin.php` file.
- * @since 4.9.0 Add defining of WP_ADMIN and triggering admin WP bootstrap actions.
  *
- * @global array $wp_actions
  * @param string $plugin Plugin file to load.
  */
 function plugin_sandbox_scrape( $plugin ) {
-	global $wp_actions;
 	wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
-
-	if ( ! defined( 'WP_ADMIN' ) ) {
-		define( 'WP_ADMIN', true );
-	}
-
-	$tested_actions = array(
-		'setup_theme' => array(),
-		'after_setup_theme' => array(),
-		'init' => array(),
-		'wp_loaded' => array(),
-		'admin_init' => array(),
-	);
-	$old_wp_actions = $wp_actions;
-	array_map( 'remove_all_actions', array_keys( $tested_actions ) );
-
-	include_once( WP_PLUGIN_DIR . '/' . $plugin );
-
-	// Trigger key actions that are done on the plugin editor to cause the relevant plugin hooks to fire and potentially cause errors.
-	foreach ( $tested_actions as $action => $args ) {
-		do_action_ref_array( $action, $args );
-	}
-
-	$wp_actions = $old_wp_actions; // Restore actions.
+	include( WP_PLUGIN_DIR . '/' . $plugin );
 }
