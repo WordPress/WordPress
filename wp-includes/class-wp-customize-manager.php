@@ -2831,6 +2831,79 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Trash or delete a changeset post.
+	 *
+	 * The following re-formulates the logic from `wp_trash_post()` as done in
+	 * `wp_publish_post()`. The reason for bypassing `wp_trash_post()` is that it
+	 * will mutate the the `post_content` and the `post_name` when they should be
+	 * untouched.
+	 *
+	 * @since 4.9.0
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 * @see wp_trash_post()
+	 *
+	 * @param int|WP_Post $post The changeset post.
+	 * @return mixed A WP_Post object for the trashed post or an empty value on failure.
+	 */
+	public function trash_changeset_post( $post ) {
+		global $wpdb;
+
+		$post = get_post( $post );
+
+		if ( ! ( $post instanceof WP_Post ) ) {
+			return $post;
+		}
+		$post_id = $post->ID;
+
+		if ( ! EMPTY_TRASH_DAYS ) {
+			return wp_delete_post( $post_id, true );
+		}
+
+		if ( 'trash' === get_post_status( $post ) ) {
+			return false;
+		}
+
+		/** This filter is documented in wp-includes/post.php */
+		$check = apply_filters( 'pre_trash_post', null, $post );
+		if ( null !== $check ) {
+			return $check;
+		}
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( 'wp_trash_post', $post_id );
+
+		add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
+		add_post_meta( $post_id, '_wp_trash_meta_time', time() );
+
+		$old_status = $post->post_status;
+		$new_status = 'trash';
+		$wpdb->update( $wpdb->posts, array( 'post_status' => $new_status ), array( 'ID' => $post->ID ) );
+		clean_post_cache( $post->ID );
+
+		$post->post_status = $new_status;
+		wp_transition_post_status( $new_status, $old_status, $post );
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( 'edit_post', $post->ID, $post );
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( "save_post_{$post->post_type}", $post->ID, $post, true );
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( 'save_post', $post->ID, $post, true );
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( 'wp_insert_post', $post->ID, $post, true );
+
+		wp_trash_post_comments( $post_id );
+
+		/** This action is documented in wp-includes/post.php */
+		do_action( 'trashed_post', $post_id );
+
+		return $post;
+	}
+
+	/**
 	 * Handle request to trash a changeset.
 	 *
 	 * @since 4.9.0
@@ -2876,7 +2949,7 @@ final class WP_Customize_Manager {
 			return;
 		}
 
-		$r = wp_trash_post( $changeset_post_id );
+		$r = $this->trash_changeset_post( $changeset_post_id );
 		if ( ! ( $r instanceof WP_Post ) ) {
 			wp_send_json_error( array(
 				'code' => 'changeset_trash_failure',
