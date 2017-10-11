@@ -1479,7 +1479,7 @@ class wpdb {
 			$port    = null;
 			$socket  = null;
 			$is_ipv6 = false;
-			
+
 			if ( $host_data = $this->parse_db_host( $this->dbhost ) ) {
 				list( $host, $port, $socket, $is_ipv6 ) = $host_data;
 			}
@@ -1621,9 +1621,10 @@ class wpdb {
 			return false;
 		}
 
+		$host = '';
 		foreach ( array( 'host', 'port', 'socket' ) as $component ) {
-			if ( array_key_exists( $component, $matches ) ) {
-				$$component = $matches[$component];
+			if ( ! empty( $matches[ $component ] ) ) {
+				$$component = $matches[ $component ];
 			}
 		}
 
