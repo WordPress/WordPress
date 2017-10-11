@@ -186,8 +186,11 @@
 	box-sizing: border-box;
 	width: 50%;
 	margin: 0;
-	padding: 1.79104477%;
 	background: transparent;
+}
+
+.media-widget-gallery-preview .gallery-item .gallery-icon { 
+	margin: 4.5%;
 }
 
 /*
