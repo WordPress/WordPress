@@ -323,6 +323,33 @@ class WP_Upgrader {
 	}
 
 	/**
+	 * Flatten the results of WP_Filesystem::dirlist() for iterating over.
+	 *
+	 * @since 4.9.0
+	 * @access protected
+	 *
+	 * @param  array  $nested_files  Array of files as returned by WP_Filesystem::dirlist()
+	 * @param  string $path          Relative path to prepend to child nodes. Optional.
+	 * @return array $files A flattened array of the $nested_files specified.
+	 */
+	protected function flatten_dirlist( $nested_files, $path = '' ) {
+		$files = array();
+
+		foreach ( $nested_files as $name => $details ) {
+			$files[ $path . $name ] = $details;
+
+			// Append children recursively
+			if ( ! empty( $details['files'] ) ) {
+				$children = $this->flatten_dirlist( $details['files'], $path . $name . '/' );
+
+				$files = array_merge( $files, $children );
+			}
+		}
+
+		return $files;
+	}
+
+	/**
 	 * Clears the directory where this item is going to be installed into.
 	 *
 	 * @since 4.3.0
@@ -335,33 +362,22 @@ class WP_Upgrader {
 	public function clear_destination( $remote_destination ) {
 		global $wp_filesystem;
 
-		if ( ! $wp_filesystem->exists( $remote_destination ) ) {
+		$files = $wp_filesystem->dirlist( $remote_destination, true, true );
+
+		// False indicates that the $remote_destination doesn't exist.
+		if ( false === $files ) {
 			return true;
 		}
+
+		// Flatten the file list to iterate over
+		$files = $this->flatten_dirlist( $files );
 
 		// Check all files are writable before attempting to clear the destination.
 		$unwritable_files = array();
 
-		$_files = $wp_filesystem->dirlist( $remote_destination, true, true );
-
-		// Flatten the resulting array, iterate using each as we append to the array during iteration.
-		while ( $f = each( $_files ) ) {
-			$file = $f['value'];
-			$name = $f['key'];
-
-			if ( ! isset( $file['files'] ) ) {
-				continue;
-			}
-
-			foreach ( $file['files'] as $filename => $details ) {
-				$_files[ $name . '/' . $filename ] = $details;
-			}
-		}
-
 		// Check writability.
-		foreach ( $_files as $filename => $file_details ) {
+		foreach ( $files as $filename => $file_details ) {
 			if ( ! $wp_filesystem->is_writable( $remote_destination . $filename ) ) {
-
 				// Attempt to alter permissions to allow writes and try again.
 				$wp_filesystem->chmod( $remote_destination . $filename, ( 'd' == $file_details['type'] ? FS_CHMOD_DIR : FS_CHMOD_FILE ) );
 				if ( ! $wp_filesystem->is_writable( $remote_destination . $filename ) ) {
