@@ -7756,6 +7756,7 @@
 			}
 
 			if ( api.settings.changeset.autosaved ) {
+				api.state( 'saved' ).set( false );
 				stripParamsFromLocation( [ 'customize_autosaved' ] ); // Remove param when restoring autosave revision.
 			} else if ( ! api.settings.changeset.branching && 'auto-draft' === api.settings.changeset.status ) {
 				stripParamsFromLocation( [ 'changeset_uuid' ] ); // Remove UUID when restoring autosave auto-draft.
