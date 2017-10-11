@@ -63,24 +63,17 @@ if ( ! current_user_can( $post_type_object->cap->edit_posts ) || ! current_user_
 }
 
 // Schedule auto-draft cleanup
-if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) )
+if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) ) {
 	wp_schedule_event( time(), 'daily', 'wp_scheduled_auto_draft_delete' );
-
-wp_enqueue_script( 'autosave' );
-
-if ( is_multisite() ) {
-	add_action( 'admin_footer', '_admin_notice_post_locked' );
-} else {
-	$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
-
-	if ( count( $check_users ) > 1 )
-		add_action( 'admin_footer', '_admin_notice_post_locked' );
-
-	unset( $check_users );
 }
 
-// Show post form.
 $post = get_default_post_to_edit( $post_type, true );
 $post_ID = $post->ID;
-include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
+
+/** This filter is documented in wp-admin/post.php */
+if ( apply_filters( 'replace_editor', false, $post ) !== true ) {
+	wp_enqueue_script( 'autosave' );
+	include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
+}
+
 include( ABSPATH . 'wp-admin/admin-footer.php' );

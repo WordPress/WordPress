@@ -144,22 +144,23 @@ case 'edit':
 		$post_new_file = "post-new.php?post_type=$post_type";
 	}
 
+	/**
+	 * Allows replacement of the editor.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param boolean      Whether to replace the editor. Default false.
+	 * @param object $post Post object.
+	 */
+	if ( apply_filters( 'replace_editor', false, $post ) === true ) {
+		break;
+	}
+
 	if ( ! wp_check_post_lock( $post->ID ) ) {
 		$active_post_lock = wp_set_post_lock( $post->ID );
 
 		if ( 'attachment' !== $post_type )
 			wp_enqueue_script('autosave');
-	}
-
-	if ( is_multisite() ) {
-		add_action( 'admin_footer', '_admin_notice_post_locked' );
-	} else {
-		$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
-
-		if ( count( $check_users ) > 1 )
-			add_action( 'admin_footer', '_admin_notice_post_locked' );
-
-		unset( $check_users );
 	}
 
 	$title = $post_type_object->labels->edit_item;

@@ -17,6 +17,17 @@ if ( !defined('ABSPATH') )
  */
 global $post_type, $post_type_object, $post;
 
+if ( is_multisite() ) {
+	add_action( 'admin_footer', '_admin_notice_post_locked' );
+} else {
+	$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
+
+	if ( count( $check_users ) > 1 )
+		add_action( 'admin_footer', '_admin_notice_post_locked' );
+
+	unset( $check_users );
+}
+
 wp_enqueue_script('post');
 $_wp_editor_expand = $_content_editor_dfw = false;
 
