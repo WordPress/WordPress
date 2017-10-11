@@ -788,10 +788,8 @@ final class WP_Customize_Manager {
 	 * Get the changeset UUID.
 	 *
 	 * @since 4.7.0
-	 * @since 4.9.0 An exception is thrown if the changeset UUID has not been established yet.
 	 * @see WP_Customize_Manager::establish_loaded_changeset()
 	 *
-	 * @throws Exception When the UUID has not been set yet.
 	 * @return string UUID.
 	 */
 	public function changeset_uuid() {
