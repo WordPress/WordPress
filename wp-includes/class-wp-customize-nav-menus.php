@@ -951,6 +951,12 @@ final class WP_Customize_Nav_Menus {
 		</script>
 
 		<script type="text/html" id="tmpl-nav-menu-create-menu-section-title">
+			<p class="add-new-menu-notice">
+				<?php _e( 'It doesn&#8217;t look like your site has any menus yet. Want to build one? Click the button to start.' ); ?>
+			</p>
+			<p class="add-new-menu-notice">
+				<?php _e( 'You&#8217;ll create a menu, assign it a location, and add menu items like links to pages and categories. If your theme has multiple menu areas, you might need to create more than one.' ); ?>
+			</p>
 			<h3>
 				<button type="button" class="button customize-add-menu-button">
 					<?php _e( 'Create New Menu' ); ?>
