@@ -649,7 +649,9 @@ class WP_Customize_Control {
 					type="<?php echo esc_attr( $this->type ); ?>"
 					<?php echo $describedby_attr; ?>
 					<?php $this->input_attrs(); ?>
-					value="<?php echo esc_attr( $this->value() ); ?>"
+					<?php if ( ! isset( $this->input_attrs['value'] ) ) : ?>
+						value="<?php echo esc_attr( $this->value() ); ?>"
+					<?php endif; ?>
 					<?php $this->link(); ?>
 					/>
 				<?php
