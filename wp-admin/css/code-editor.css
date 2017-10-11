@@ -2,6 +2,12 @@
 .wp-core-ui [class*="CodeMirror-lint-message"],
 .wrap .CodeMirror-lint-marker-multiple {
 	background-image: none;
+	cursor: help;
+}
+
+.wrap .CodeMirror-lint-marker-multiple {
+	position: absolute;
+	top: 0;
 }
 
 .wrap [class*="CodeMirror-lint-marker"]:before {
