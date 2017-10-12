@@ -1728,7 +1728,11 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	return add_metadata('post', $post_id, $meta_key, $meta_value, $unique);
+	$added = add_metadata( 'post', $post_id, $meta_key, $meta_value, $unique );
+	if ( $added ) {
+		wp_cache_set( 'last_changed', microtime(), 'posts' );
+	}
+	return $added;
 }
 
 /**
@@ -1751,7 +1755,11 @@ function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	return delete_metadata('post', $post_id, $meta_key, $meta_value);
+	$deleted = delete_metadata( 'post', $post_id, $meta_key, $meta_value );
+	if ( $deleted ) {
+		wp_cache_set( 'last_changed', microtime(), 'posts' );
+	}
+	return $deleted;
 }
 
 /**
@@ -1793,7 +1801,11 @@ function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) 
 	if ( $the_post = wp_is_post_revision($post_id) )
 		$post_id = $the_post;
 
-	return update_metadata('post', $post_id, $meta_key, $meta_value, $prev_value);
+	$updated = update_metadata( 'post', $post_id, $meta_key, $meta_value, $prev_value );
+	if ( $updated ) {
+		wp_cache_set( 'last_changed', microtime(), 'posts' );
+	}
+	return $updated;
 }
 
 /**
@@ -1805,7 +1817,11 @@ function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) 
  * @return bool Whether the post meta key was deleted from the database.
  */
 function delete_post_meta_by_key( $post_meta_key ) {
-	return delete_metadata( 'post', null, $post_meta_key, '', true );
+	$deleted = delete_metadata( 'post', null, $post_meta_key, '', true );
+	if ( $deleted ) {
+		wp_cache_set( 'last_changed', microtime(), 'posts' );
+	}
+	return $deleted;
 }
 
 /**
