@@ -34,6 +34,37 @@
 			if ( notification.loading ) {
 				notification.containerClasses += ' notification-loading';
 			}
+		},
+
+		/**
+		 * Render notification.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @return {jQuery} Notification container.
+		 */
+		render: function() {
+			var li = api.Notification.prototype.render.call( this );
+			li.on( 'keydown', _.bind( this.handleEscape, this ) );
+			return li;
+		},
+
+		/**
+		 * Stop propagation on escape key presses, but also dismiss notification if it is dismissible.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {jQuery.Event} event - Event.
+		 * @returns {void}
+		 */
+		handleEscape: function( event ) {
+			var notification = this;
+			if ( 27 === event.which ) {
+				event.stopPropagation();
+				if ( notification.dismissible && notification.parent ) {
+					notification.parent.remove( notification.code );
+				}
+			}
 		}
 	});
 
@@ -282,11 +313,30 @@
 		 * @returns {void}
 		 */
 		constrainFocus: function constrainFocus( event ) {
-			var collection = this;
-			if ( ! collection.focusContainer || collection.focusContainer.is( event.target ) || $.contains( collection.focusContainer[0], event.target[0] ) ) {
+			var collection = this, focusableElements;
+
+			// Prevent keys from escaping.
+			event.stopPropagation();
+
+			if ( 9 !== event.which ) { // Tab key.
 				return;
 			}
-			collection.focusContainer.focus();
+
+			focusableElements = collection.focusContainer.find( ':focusable' );
+			if ( 0 === focusableElements.length ) {
+				focusableElements = collection.focusContainer;
+			}
+
+			if ( ! $.contains( collection.focusContainer[0], event.target ) || ! $.contains( collection.focusContainer[0], document.activeElement ) ) {
+				event.preventDefault();
+				focusableElements.first().focus();
+			} else if ( focusableElements.last().is( event.target ) && ! event.shiftKey ) {
+				event.preventDefault();
+				focusableElements.first().focus();
+			} else if ( focusableElements.first().is( event.target ) && event.shiftKey ) {
+				event.preventDefault();
+				focusableElements.last().focus();
+			}
 		}
 	});
 
@@ -6737,7 +6787,8 @@
 		'selectedChangesetStatus',
 		'remainingTimeToPublish',
 		'previewerAlive',
-		'editShortcutVisibility'
+		'editShortcutVisibility',
+		'changesetLocked'
 	], function( name ) {
 		api.state.create( name );
 	});
@@ -7184,14 +7235,14 @@
 						} else if ( response.code ) {
 							if ( 'not_future_date' === response.code && api.section.has( 'publish_settings' ) && api.section( 'publish_settings' ).active.get() && api.control.has( 'changeset_scheduled_date' ) ) {
 								api.control( 'changeset_scheduled_date' ).toggleFutureDateNotification( true ).focus();
-							} else {
+							} else if ( 'changeset_locked' !== response.code ) {
 								notification = new api.Notification( response.code, _.extend( notificationArgs, {
 									message: response.message
 								} ) );
 							}
 						} else {
 							notification = new api.Notification( 'unknown_error', _.extend( notificationArgs, {
-								message: api.l10n.serverSaveError
+								message: api.l10n.unknownRequestFail
 							} ) );
 						}
 
@@ -7497,6 +7548,7 @@
 				selectedChangesetDate = state.instance( 'selectedChangesetDate' ),
 				previewerAlive = state.instance( 'previewerAlive' ),
 				editShortcutVisibility  = state.instance( 'editShortcutVisibility' ),
+				changesetLocked = state.instance( 'changesetLocked' ),
 				populateChangesetUuidParam;
 
 			state.bind( 'change', function() {
@@ -7547,7 +7599,7 @@
 				 * Save (publish) button should be enabled if saving is not currently happening,
 				 * and if the theme is not active or the changeset exists but is not published.
 				 */
-				canSave = ! saving() && ! trashing() && ( ! activated() || ! saved() || ( changesetStatus() !== selectedChangesetStatus() && '' !== changesetStatus() ) || ( 'future' === selectedChangesetStatus() && changesetDate.get() !== selectedChangesetDate.get() ) );
+				canSave = ! saving() && ! trashing() && ! changesetLocked() && ( ! activated() || ! saved() || ( changesetStatus() !== selectedChangesetStatus() && '' !== changesetStatus() ) || ( 'future' === selectedChangesetStatus() && changesetDate.get() !== selectedChangesetDate.get() ) );
 
 				saveBtn.prop( 'disabled', ! canSave );
 			});
@@ -7561,6 +7613,7 @@
 
 			// Set default states.
 			changesetStatus( api.settings.changeset.status );
+			changesetLocked( Boolean( api.settings.changeset.lockUser ) );
 			changesetDate( api.settings.changeset.publishDate );
 			selectedChangesetDate( api.settings.changeset.publishDate );
 			selectedChangesetStatus( '' === api.settings.changeset.status || 'auto-draft' === api.settings.changeset.status ? 'publish' : api.settings.changeset.status );
@@ -7660,6 +7713,185 @@
 			}
 		}( api.state ) );
 
+		/**
+		 * Handles lock notice and take over request.
+		 *
+		 * @since 4.9.0
+		 */
+		( function checkAndDisplayLockNotice() {
+
+			/**
+			 * A notification that is displayed in a full-screen overlay with information about the locked changeset.
+			 *
+			 * @since 4.9.0
+			 * @class
+			 * @augments wp.customize.Notification
+			 * @augments wp.customize.OverlayNotification
+			 */
+			var LockedNotification = api.OverlayNotification.extend({
+
+				/**
+				 * Template ID.
+				 *
+				 * @type {string}
+				 */
+				templateId: 'customize-changeset-locked-notification',
+
+				/**
+				 * Lock user.
+				 *
+				 * @type {object}
+				 */
+				lockUser: null,
+
+				/**
+				 * Initialize.
+				 *
+				 * @since 4.9.0
+				 *
+				 * @param {string} [code] - Code.
+				 * @param {object} [params] - Params.
+				 */
+				initialize: function( code, params ) {
+					var notification = this, _code, _params;
+					_code = code || 'changeset_locked';
+					_params = _.extend(
+						{
+							type: 'warning',
+							containerClasses: '',
+							lockUser: {}
+						},
+						params
+					);
+					_params.containerClasses += ' notification-changeset-locked';
+					api.OverlayNotification.prototype.initialize.call( notification, _code, _params );
+				},
+
+				/**
+				 * Render notification.
+				 *
+				 * @since 4.9.0
+				 *
+				 * @return {jQuery} Notification container.
+				 */
+				render: function() {
+					var notification = this, li, data, takeOverButton, request;
+					data = _.extend(
+						{
+							allowOverride: false,
+							returnUrl: api.settings.url['return'],
+							previewUrl: api.previewer.previewUrl.get(),
+							frontendPreviewUrl: api.previewer.getFrontendPreviewUrl()
+						},
+						this
+					);
+
+					li = api.OverlayNotification.prototype.render.call( data );
+
+					// Try to autosave the changeset now.
+					api.requestChangesetUpdate( {}, { autosave: true } ).fail( function( response ) {
+						if ( ! response.autosaved ) {
+							li.find( '.notice-error' ).prop( 'hidden', false ).text( response.message || api.l10n.unknownRequestFail );
+						}
+					} );
+
+					takeOverButton = li.find( '.customize-notice-take-over-button' );
+					takeOverButton.on( 'click', function( event ) {
+						event.preventDefault();
+						if ( request ) {
+							return;
+						}
+
+						takeOverButton.addClass( 'disabled' );
+						request = wp.ajax.post( 'customize_override_changeset_lock', {
+							wp_customize: 'on',
+							customize_theme: api.settings.theme.stylesheet,
+							customize_changeset_uuid: api.settings.changeset.uuid,
+							nonce: api.settings.nonce.override_lock
+						} );
+
+						request.done( function() {
+							api.notifications.remove( notification.code ); // Remove self.
+							api.state( 'changesetLocked' ).set( false );
+						} );
+
+						request.fail( function( response ) {
+							var message = response.message || api.l10n.unknownRequestFail;
+							li.find( '.notice-error' ).prop( 'hidden', false ).text( message );
+
+							request.always( function() {
+								takeOverButton.removeClass( 'disabled' );
+							} );
+						} );
+
+						request.always( function() {
+							request = null;
+						} );
+					} );
+
+					return li;
+				}
+			});
+
+			/**
+			 * Start lock.
+			 *
+			 * @since 4.9.0
+			 *
+			 * @param {object} [args] - Args.
+			 * @param {object} [args.lockUser] - Lock user data.
+			 * @param {boolean} [args.allowOverride=false] - Whether override is allowed.
+			 * @returns {void}
+			 */
+			function startLock( args ) {
+				if ( args && args.lockUser ) {
+					api.settings.changeset.lockUser = args.lockUser;
+				}
+				api.state( 'changesetLocked' ).set( true );
+				api.notifications.add( new LockedNotification( 'changeset_locked', {
+					lockUser: api.settings.changeset.lockUser,
+					allowOverride: Boolean( args && args.allowOverride )
+				} ) );
+			}
+
+			// Show initial notification.
+			if ( api.settings.changeset.lockUser ) {
+				startLock( { allowOverride: true } );
+			}
+
+			// Check for lock when sending heartbeat requests.
+			$( document ).on( 'heartbeat-send.update_lock_notice', function( event, data ) {
+				data.check_changeset_lock = true;
+			} );
+
+			// Handle heartbeat ticks.
+			$( document ).on( 'heartbeat-tick.update_lock_notice', function( event, data ) {
+				var notification, code = 'changeset_locked';
+				if ( ! data.customize_changeset_lock_user ) {
+					return;
+				}
+
+				// Update notification when a different user takes over.
+				notification = api.notifications( code );
+				if ( notification && notification.lockUser.id !== api.settings.changeset.lockUser.id ) {
+					api.notifications.remove( code );
+				}
+
+				startLock( {
+					lockUser: data.customize_changeset_lock_user
+				} );
+			} );
+
+			// Handle locking in response to changeset save errors.
+			api.bind( 'error', function( response ) {
+				if ( 'changeset_locked' === response.code && response.lock_user ) {
+					startLock( {
+						lockUser: response.lock_user
+					} );
+				}
+			} );
+		} )();
+
 		// Set up initial notifications.
 		(function() {
 
@@ -7733,11 +7965,12 @@
 
 						// Handle dismissal of notice.
 						li.find( '.notice-dismiss' ).on( 'click', function() {
-							wp.ajax.post( 'customize_dismiss_autosave', {
+							wp.ajax.post( 'customize_dismiss_autosave_or_lock', {
 								wp_customize: 'on',
 								customize_theme: api.settings.theme.stylesheet,
 								customize_changeset_uuid: api.settings.changeset.uuid,
-								nonce: api.settings.nonce.dismiss_autosave
+								nonce: api.settings.nonce.dismiss_autosave_or_lock,
+								dismiss_autosave: true
 							} );
 						} );
 
@@ -8167,7 +8400,7 @@
 
 				// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
 				$( window ).on( 'beforeunload.customize-confirm', function() {
-					if ( ! isCleanState() ) {
+					if ( ! isCleanState() && ! api.state( 'changesetLocked' ).get() ) {
 						setTimeout( function() {
 							overlay.removeClass( 'customize-loading' );
 						}, 1 );
@@ -8178,10 +8411,13 @@
 			api.bind( 'change', startPromptingBeforeUnload );
 
 			function requestClose() {
-				var clearedToClose = $.Deferred();
+				var clearedToClose = $.Deferred(), dismissAutoSave = false, dismissLock = false;
+
 				if ( isCleanState() ) {
-					clearedToClose.resolve();
+					dismissLock = true;
 				} else if ( confirm( api.l10n.saveAlert ) ) {
+
+					dismissLock = true;
 
 					// Mark all settings as clean to prevent another call to requestChangesetUpdate.
 					api.each( function( setting ) {
@@ -8191,24 +8427,29 @@
 					$( window ).off( 'beforeunload.wp-customize-changeset-update' );
 
 					closeBtn.css( 'cursor', 'progress' );
-					if ( '' === api.state( 'changesetStatus' ).get() ) {
-						clearedToClose.resolve();
-					} else {
-						wp.ajax.send( 'customize_dismiss_autosave', {
-							timeout: 500, // Don't wait too long.
-							data: {
-								wp_customize: 'on',
-								customize_theme: api.settings.theme.stylesheet,
-								customize_changeset_uuid: api.settings.changeset.uuid,
-								nonce: api.settings.nonce.dismiss_autosave
-							}
-						} ).always( function() {
-							clearedToClose.resolve();
-						} );
+					if ( '' !== api.state( 'changesetStatus' ).get() ) {
+						dismissAutoSave = true;
 					}
 				} else {
 					clearedToClose.reject();
 				}
+
+				if ( dismissLock || dismissAutoSave ) {
+					wp.ajax.send( 'customize_dismiss_autosave_or_lock', {
+						timeout: 500, // Don't wait too long.
+						data: {
+							wp_customize: 'on',
+							customize_theme: api.settings.theme.stylesheet,
+							customize_changeset_uuid: api.settings.changeset.uuid,
+							nonce: api.settings.nonce.dismiss_autosave_or_lock,
+							dismiss_autosave: dismissAutoSave,
+							dismiss_lock: dismissLock
+						}
+					} ).always( function() {
+						clearedToClose.resolve();
+					} );
+				}
+
 				return clearedToClose.promise();
 			}
 

@@ -87,6 +87,7 @@ add_action( 'customize_controls_print_styles',         'print_admin_styles', 20 
  */
 do_action( 'customize_controls_init' );
 
+wp_enqueue_script( 'heartbeat' );
 wp_enqueue_script( 'customize-controls' );
 wp_enqueue_style( 'customize-controls' );
 

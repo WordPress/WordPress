@@ -367,6 +367,10 @@
 				has_focus: settings.hasFocus
 			};
 
+			if ( 'customize' === settings.screenId  ) {
+				ajaxData.wp_customize = 'on';
+			}
+
 			settings.connecting = true;
 			settings.xhr = $.ajax({
 				url: settings.url,

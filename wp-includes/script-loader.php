@@ -547,7 +547,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'customize-preview',  "/wp-includes/js/customize-preview$suffix.js",  array( 'wp-a11y', 'customize-base' ), false, 1 );
 	$scripts->add( 'customize-models',   "/wp-includes/js/customize-models.js", array( 'underscore', 'backbone' ), false, 1 );
 	$scripts->add( 'customize-views',    "/wp-includes/js/customize-views.js",  array( 'jquery', 'underscore', 'imgareaselect', 'customize-models', 'media-editor', 'media-views' ), false, 1 );
-	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base', 'wp-a11y', 'wp-util' ), false, 1 );
+	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base', 'wp-a11y', 'wp-util', 'jquery-ui-core' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'customize-controls', '_wpCustomizeControlsL10n', array(
 		'activate'           => __( 'Activate &amp; Publish' ),
 		'save'               => __( 'Save &amp; Publish' ), // @todo Remove as not required.
@@ -574,11 +574,13 @@ function wp_default_scripts( &$scripts ) {
 		'collapseSidebar'    => _x( 'Hide Controls', 'label for hide controls button without length constraints' ),
 		'expandSidebar'      => _x( 'Show Controls', 'label for hide controls button without length constraints' ),
 		'untitledBlogName'   => __( '(Untitled)' ),
-		'serverSaveError'    => __( 'Failed connecting to the server. Please try saving again.' ),
+		'unknownRequestFail' => __( 'Looks like something&#8217;s gone wrong. Wait a couple seconds, and then try again.' ),
 		'themeDownloading'   => __( 'Downloading your new theme&hellip;' ),
 		'themePreviewWait'   => __( 'Setting up your live preview. This may take a bit.' ),
 		'revertingChanges'   => __( 'Reverting unpublished changes&hellip;' ),
 		'trashConfirm'       => __( 'Are you sure you&#8217;d like to discard your unpublished changes?' ),
+		/* translators: %s: Display name of the user who has taken over the changeset in customizer. */
+		'takenOverMessage'   => __( '%s has taken over and is currently customizing.' ),
 		/* translators: %s: URL to the Customizer to load the autosaved version */
 		'autosaveNotice'     => __( 'There is a more recent autosave of your changes than the one you are previewing. <a href="%s">Restore the autosave</a>' ),
 		'videoHeaderNotice'  => __( 'This theme doesn&#8217;t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
