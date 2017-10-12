@@ -8384,6 +8384,15 @@
 			var isInsideIframe = false;
 
 			function isCleanState() {
+
+				/*
+				 * Handle special case of previewing theme switch since some settings (for nav menus and widgets)
+				 * are pre-dirty and non-active themes can only ever be auto-drafts.
+				 */
+				if ( ! api.state( 'activated' ).get() ) {
+					return 0 === api._latestRevision;
+				}
+
 				return api.state( 'saved' ).get() && 'auto-draft' !== api.state( 'changesetStatus' ).get();
 			}
 
