@@ -146,7 +146,7 @@ video.wp-video-shortcode,
 
 .wp-playlist .mejs-container {
 	margin: 0;
-	width: 100%;
+	max-width: 100%;
 }
 
 .wp-playlist .mejs-controls .mejs-button button {
