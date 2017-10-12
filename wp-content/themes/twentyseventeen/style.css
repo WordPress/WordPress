@@ -3091,7 +3091,7 @@ object {
 }
 
 /* Add some space around the visual edit shortcut buttons. */
-.twentyseventeen-panel .customize-partial-edit-shortcut button {
+.twentyseventeen-panel > .customize-partial-edit-shortcut > button {
 	top: 30px;
 	left: 30px;
 }
