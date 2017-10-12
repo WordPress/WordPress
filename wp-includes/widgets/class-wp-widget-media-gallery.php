@@ -75,8 +75,8 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 			),
 			'link_type' => array(
 				'type' => 'string',
-				'enum' => array( 'none', 'file', 'post' ),
-				'default' => 'none',
+				'enum' => array( 'post', 'file', 'none' ),
+				'default' => 'post',
 				'media_prop' => 'link',
 				'should_preview_update' => false,
 			),
