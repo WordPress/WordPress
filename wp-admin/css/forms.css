@@ -1220,7 +1220,7 @@ table.form-table td .updated p {
 	input[type="number"].small-text,
 	.form-table input[type="text"].small-text {
 		width: auto;
-		max-width: 55px;
+		max-width: 4.375em; /* 70px, enough for 4 digits to fit comfortably */
 		display: inline;
 		padding: 3px 6px;
 		margin: 0 3px;
