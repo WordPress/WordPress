@@ -2748,7 +2748,9 @@ body.adding-widget .add-new-widget:before,
 		bottom: 10px;
 	}
 
-	.wp-core-ui.wp-customizer .button {
+	.media-widget-control .media-widget-buttons .button.edit-media,
+	.media-widget-control .media-widget-buttons .button.change-media,
+	.media-widget-control .media-widget-buttons .button.select-media {
 		margin-top: 12px;
 	}
 }
