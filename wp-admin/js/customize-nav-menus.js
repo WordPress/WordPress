@@ -682,6 +682,10 @@
 
 			this.itemSectionHeight();
 
+			if ( api.section.has( 'publish_settings' ) ) {
+				api.section( 'publish_settings' ).collapse();
+			}
+
 			$( 'body' ).addClass( 'adding-menu-items' );
 
 			close = function() {

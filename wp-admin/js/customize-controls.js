@@ -6788,7 +6788,8 @@
 		'remainingTimeToPublish',
 		'previewerAlive',
 		'editShortcutVisibility',
-		'changesetLocked'
+		'changesetLocked',
+		'previewedDevice'
 	], function( name ) {
 		api.state.create( name );
 	});
@@ -8317,8 +8318,8 @@
 			};
 		}());
 
-		// Previewed device bindings.
-		api.previewedDevice = new api.Value();
+		// Previewed device bindings. (The api.previewedDevice property is how this Value was first introduced, but since it has moved to api.state.)
+		api.previewedDevice = api.state( 'previewedDevice' );
 
 		// Set the default device.
 		api.bind( 'ready', function() {
