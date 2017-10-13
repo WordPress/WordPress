@@ -1758,13 +1758,10 @@ p.customize-section-description {
 }
 
 /* Animations for opening the themes panel */
-#customize-header-actions .save,
-#customize-header-actions #publish-settings,
+#customize-save-button-wrapper,
 #customize-header-actions .spinner,
 #customize-header-actions .customize-controls-preview-toggle {
-	position: relative;
-	top: 0;
-	transition: .18s top ease-in-out;
+	transition: .18s margin ease-in-out;
 }
 
 #customize-footer-actions,
@@ -1784,11 +1781,10 @@ p.customize-section-description {
 	background: #eee; /* Prevents a black flash when fading in the panel */
 }
 
-.in-themes-panel #customize-header-actions .save,
-.in-themes-panel #customize-header-actions #publish-settings,
+.in-themes-panel #customize-save-button-wrapper,
 .in-themes-panel #customize-header-actions .spinner,
 .in-themes-panel #customize-header-actions .customize-controls-preview-toggle {
-	top: -45px;
+	margin-top: -46px; /* Height of header actions bar */
 }
 
 .in-themes-panel #customize-footer-actions,
