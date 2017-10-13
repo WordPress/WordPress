@@ -52,7 +52,7 @@ wp.themePluginEditor = (function( $ ) {
 
 		if ( component.warning.length > 0 ) {
 			$( 'body' ).addClass( 'modal-open' );
-			component.warning.find( '.file-editor-warning-dismiss' ).focus();
+			component.warning.find( '.file-editor-warning-go-back' ).focus();
 			component.warning.on( 'click', '.file-editor-warning-dismiss', component.dismissWarning );
 		}
 

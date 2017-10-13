@@ -285,6 +285,15 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 <?php
 $dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
+	// Get a back URL
+	$referer = wp_get_referer();
+	$excluded_referer_basenames = array( 'plugin-editor.php', 'wp-login.php' );
+
+	if ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
+		$return_url = $referer;
+	} else {
+		$return_url = admin_url( '/' );
+	}
 ?>
 <div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js">
 	<div class="notification-dialog-background"></div>
@@ -293,7 +302,10 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 			<h1 id="file-editor-warning-title"><?php _e( 'Heads up!' ); ?></h1>
 			<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your theme or other plugins, and can leave you unable to log back in to WordPress and undo changes.' ); ?></p>
 			<p><?php _e( 'If you absolutely have to edit this plugin, create a copy with a new name and hang on to the original version, so you can re-enable a functional version if something goes wrong.' ); ?></p>
-			<p><button type="button" class="file-editor-warning-dismiss button-primary"><?php _e( 'I understand' ); ?></button></p>
+			<p>
+				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
+				<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
+			</p>
 		</div>
 	</div>
 </div>
