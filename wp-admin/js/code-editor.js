@@ -26,14 +26,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	};
 
 	/**
-	 * All instances of code editors.
-	 *
-	 * @since 4.9.0
-	 * @type {Array.<CodeEditorInstance>}
-	 */
-	wp.codeEditor.instances = [];
-
-	/**
 	 * Configure linting.
 	 *
 	 * @param {CodeMirror} editor - Editor.
@@ -251,9 +243,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 			settings: instanceSettings,
 			codemirror: codemirror
 		};
-
-		// Keep track of the instances that have been created.
-		wp.codeEditor.instances.push( instance );
 
 		if ( codemirror.showHint ) {
 			codemirror.on( 'keyup', function( editor, event ) { // eslint-disable-line complexity
