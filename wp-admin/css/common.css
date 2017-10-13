@@ -1466,17 +1466,17 @@ div.error {
 .wrap #templateside .notice {
 	display: block;
 	margin: 0;
-	padding: 5px 12px;
+	padding: 5px 8px;
 	font-weight: 600;
 	text-decoration: none;
 }
 
 .wrap #templateside span.notice {
-  margin-left: -12px;
+	margin-left: -12px;
 }
 
 #templateside li.notice a {
-  padding: 0;
+	padding: 0;
 }
 
 /* Update icon. */
@@ -3036,10 +3036,134 @@ img {
 	width: 97%;
 	height: calc( 100vh - 280px );
 }
-#templateside {
-	margin-top: 31px;
-	overflow: scroll;
+
+#templateside > h2 {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	margin: 0;
+	border-bottom: solid 1px #ccc;
 }
+
+#templateside ol,
+#templateside ul {
+	margin: .5em 0;
+	padding: 0;
+}
+#templateside > ul {
+	margin-top: 0;
+	overflow: auto;
+	padding: 2px;
+	height: calc(100vh - 280px);
+}
+#templateside ul ul {
+	padding-left: 12px;
+}
+
+/*
+ * Styles for Theme and Plugin editors.
+ */
+
+/* Hide collapsed items. */
+[role="treeitem"][aria-expanded="false"] > ul {
+	display: none;
+}
+
+/* Use arrow dashicons for folder states, but hide from screen readers. */
+[role="treeitem"] span[aria-hidden] {
+	display: inline;
+	font-family: dashicons;
+	font-size: 20px;
+	position: absolute;
+	pointer-events: none;
+}
+[role="treeitem"][aria-expanded="false"] > .folder-label .icon:after {
+	content: "\f139";
+}
+[role="treeitem"][aria-expanded="true"] > .folder-label .icon:after {
+	content: "\f140";
+}
+[role="treeitem"] .folder-label {
+	display: block;
+	padding: 3px 3px 3px 12px;
+	cursor: pointer;
+}
+
+/* Remove outline, and create our own focus and hover styles */
+[role="treeitem"] {
+	outline: 0;
+}
+[role="treeitem"] .folder-label.focus {
+	color: #124964;
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+}
+[role="treeitem"].hover,
+[role="treeitem"] .folder-label.hover {
+	background-color: #DDDDDD;
+}
+
+.tree-folder {
+	margin: 0;
+	position: relative;
+}
+[role="treeitem"] li {
+	position: relative;
+}
+
+/* Styles for folder indicators/depth */
+.tree-folder .tree-folder::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	left: 2px;
+	border-left: 1px solid #ccc;
+	top: -13px;
+	bottom: 10px;
+}
+.tree-folder > li::before {
+	content: ' ';
+	position: absolute;
+	display: block;
+	border-left: 1px solid #ccc;
+	left: 2px;
+	top: -5px;
+	height: 18px;
+	width: 7px;
+	border-bottom: 1px solid #ccc;
+}
+.tree-folder > li::after {
+	content: ' ';
+	position: absolute;
+	display: block;
+	border-left: 1px solid #ccc;
+	left: 2px;
+	bottom: -7px;
+	top: 0;
+}
+
+/* current-file needs to adjustment for .notice styles */
+#templateside .current-file {
+	margin: -4px 0 -2px;
+}
+.tree-folder > .current-file::before {
+	left: 4px;
+	height: 15px;
+	width: 6px;
+	border-left: none;
+	top: 3px;
+}
+.tree-folder > .current-file::after {
+	bottom: -4px;
+	height: 7px;
+	left: 2px;
+	top: auto;
+}
+
+/* Lines shouldn't continue on last item */
+.tree-folder > li:last-child::after,
+.tree-folder li:last-child > .tree-folder::after {
+	display: none;
+}
+
 
 #theme-plugin-editor-label {
 	display: inline-block;
@@ -3090,19 +3214,12 @@ img {
 	word-wrap: break-word;
 }
 
-#templateside h2,
 #postcustomstuff p.submit {
 	margin: 0;
 }
 
 #templateside h4 {
 	margin: 1em 0 0;
-}
-
-#templateside ol,
-#templateside ul {
-	margin: .5em 0;
-	padding: 0;
 }
 
 #templateside li {
@@ -3651,6 +3768,35 @@ img {
 	#template .CodeMirror,
 	#template textarea {
 		width: 100%;
+	}
+
+	#templateside ul ul {
+		padding-left: 1.5em;
+	}
+	[role="treeitem"] .folder-label {
+		display: block;
+		padding: 5px;
+	}
+	.tree-folder > li::before,
+	.tree-folder > li::after,
+	.tree-folder .tree-folder::after {
+		left: -8px;
+	}
+	.tree-folder > li::before {
+		top: 0px;
+		height: 13px;
+	}
+	.tree-folder > .current-file::before {
+		left: -5px;
+		top: 7px;
+		width: 4px;
+	}
+	.tree-folder > .current-file::after {
+		height: 9px;
+		left: -8px;
+	}
+	.wrap #templateside span.notice {
+		margin-left: -14px;
 	}
 
 	.fileedit-sub .alignright {

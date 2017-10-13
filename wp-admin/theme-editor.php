@@ -89,6 +89,14 @@ foreach ( $file_types as $type ) {
 	}
 }
 
+// Move functions.php and style.css to the top.
+if ( isset( $allowed_files['functions.php'] ) ) {
+	$allowed_files = array( 'functions.php' => $allowed_files['functions.php'] ) + $allowed_files;
+}
+if ( isset( $allowed_files['style.css'] ) ) {
+	$allowed_files = array( 'style.css' => $allowed_files['style.css'] ) + $allowed_files;
+}
+
 if ( empty( $file ) ) {
 	$relative_file = 'style.css';
 	$file = $allowed_files['style.css'];
@@ -205,63 +213,33 @@ foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_them
 if ( $theme->errors() )
 	echo '<div class="error"><p><strong>' . __( 'This theme is broken.' ) . '</strong> ' . $theme->errors()->get_error_message() . '</p></div>';
 ?>
-	<div id="templateside">
-<?php
-if ( $allowed_files ) :
-	$previous_file_type = '';
-
-	foreach ( $allowed_files as $filename => $absolute_filename ) :
-		$file_type = substr( $filename, strrpos( $filename, '.' ) );
-
-		if ( $file_type !== $previous_file_type ) {
-			if ( '' !== $previous_file_type ) {
-				echo "\t</ul>\n";
-			}
-
-			switch ( $file_type ) {
-				case '.php':
-					if ( $has_templates || $theme->parent() ) :
-						echo "\t<h2>" . __( 'Templates' ) . "</h2>\n";
-						if ( $theme->parent() ) {
-							echo '<p class="howto">' . sprintf( __( 'This child theme inherits templates from a parent theme, %s.' ),
-								sprintf( '<a href="%s">%s</a>',
-									self_admin_url( 'theme-editor.php?theme=' . urlencode( $theme->get_template() ) ),
-									$theme->parent()->display( 'Name' )
-								)
-							) . "</p>\n";
-						}
-					endif;
-					break;
-				case '.css':
-					echo "\t<h2>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h2>\n";
-					break;
-				default:
-					/* translators: %s: file extension */
-					echo "\t<h2>" . sprintf( __( '%s files' ), $file_type ) . "</h2>\n";
-					break;
-			}
-
-			echo "\t<ul>\n";
+<div id="templateside">
+	<h2 id="theme-files-label"><?php _e( 'Theme Files' ); ?></h2>
+	<?php
+	if ( $has_templates || $theme->parent() ) :
+		if ( $theme->parent() ) {
+			/* translators: %s: link to edit parent theme */
+			echo '<p class="howto">' . sprintf( __( 'This child theme inherits templates from a parent theme, %s.' ),
+				sprintf( '<a href="%s">%s</a>',
+					self_admin_url( 'theme-editor.php?theme=' . urlencode( $theme->get_template() ) ),
+					$theme->parent()->display( 'Name' )
+				)
+			) . "</p>\n";
 		}
-
-		$file_description = esc_html( get_file_description( $filename ) );
-		if ( $filename !== basename( $absolute_filename ) || $file_description !== $filename ) {
-			$file_description .= '<br /><span class="nonessential">(' . esc_html( $filename ) . ')</span>';
-		}
-
-		if ( $absolute_filename === $file ) {
-			$file_description = '<span class="notice notice-info">' . $file_description . '</span>';
-		}
-
-		$previous_file_type = $file_type;
-?>
-		<li><a href="theme-editor.php?file=<?php echo urlencode( $filename ) ?>&amp;theme=<?php echo urlencode( $stylesheet ) ?>"><?php echo $file_description; ?></a></li>
-<?php
-	endforeach;
-?>
-</ul>
-<?php endif; ?>
+	endif;
+	?>
+	<ul role="tree" aria-labelledby="theme-files-label">
+		<li role="treeitem" tabindex="-1" aria-expanded="true"
+			aria-level="1"
+			aria-posinset="1"
+			aria-setsize="1">
+			<ul role="group" style="padding-left: 0;">
+				<?php wp_print_theme_file_tree( wp_make_theme_file_tree( $allowed_files ) ); ?>
+			</ul>
+		</li>
+	</ul>
 </div>
+
 <?php if ( $error ) :
 	echo '<div class="error"><p>' . __('Oops, no such file exists! Double check the name and try again, merci.') . '</p></div>';
 else : ?>
