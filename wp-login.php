@@ -140,7 +140,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * while single sites get the header title.
 	 */
 	if ( is_multisite() ) {
-		$login_header_text = bloginfo( 'name' );
+		$login_header_text = get_bloginfo( 'name', 'display' );
 	} else {
 		$login_header_text = $login_header_title;
 	}
