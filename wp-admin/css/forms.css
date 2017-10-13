@@ -1340,7 +1340,7 @@ table.form-table td .updated p {
 	}
 
 	.options-general-php input[type="text"].small-text {
-		max-width: 60px;
+		max-width: 6.25em;
 		margin: 0;
 	}
 }
