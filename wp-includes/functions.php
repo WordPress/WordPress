@@ -4423,7 +4423,7 @@ function is_main_site( $site_id = null, $network_id = null ) {
  */
 function get_main_site_id( $network_id = null ) {
 	if ( ! is_multisite() ) {
-		return 1;
+		return get_current_blog_id();
 	}
 
 	$network = get_network( $network_id );
