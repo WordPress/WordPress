@@ -4431,51 +4431,7 @@ function get_main_site_id( $network_id = null ) {
 		return 0;
 	}
 
-	/**
-	 * Filters the main site ID.
-	 *
-	 * Returning anything other than null will effectively short-circuit the function, returning
-	 * the result parsed as an integer immediately.
-	 *
-	 * @since 4.9.0
-	 *
-	 * @param int|null $main_site_id If anything other than null is returned, it is interpreted as the main site ID.
-	 * @param int $network_id The ID of the network for which the main site was detected.
-	 */
-	$main_site_id = apply_filters( 'pre_get_main_site_id', null, $network->id );
-	if ( null !== $main_site_id ) {
-		return (int) $main_site_id;
-	}
-
-	if ( ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) && $network->domain === DOMAIN_CURRENT_SITE && $network->path === PATH_CURRENT_SITE )
-	     || ( defined( 'SITE_ID_CURRENT_SITE' ) && $network->id == SITE_ID_CURRENT_SITE ) ) {
-		if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
-			return BLOG_ID_CURRENT_SITE;
-		} elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
-			return BLOGID_CURRENT_SITE;
-		}
-	}
-
-	$site = get_site();
-	if ( $site->domain === $network->domain && $site->path === $network->path ) {
-		$main_site_id = (int) $site->id;
-	} else {
-		$main_site_id = wp_cache_get( 'network:' . $network->id . ':main_site', 'site-options' );
-		if ( false === $main_site_id ) {
-			$_sites = get_sites( array(
-				'fields'     => 'ids',
-				'number'     => 1,
-				'domain'     => $network->domain,
-				'path'       => $network->path,
-				'network_id' => $network->id,
-			) );
-			$main_site_id = ! empty( $_sites ) ? array_shift( $_sites ) : 0;
-
-			wp_cache_add( 'network:' . $network->id . ':main_site', $main_site_id, 'site-options' );
-		}
-	}
-
-	return (int) $main_site_id;
+	return $network->site_id;
 }
 
 /**

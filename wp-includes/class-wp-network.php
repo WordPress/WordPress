@@ -148,9 +148,9 @@ class WP_Network {
 			case 'id':
 				return (int) $this->id;
 			case 'blog_id':
-				return $this->get_main_site_id();
+				return (string) $this->get_main_site_id();
 			case 'site_id':
-				return (int) $this->get_main_site_id();
+				return $this->get_main_site_id();
 		}
 
 		return null;
@@ -208,16 +208,68 @@ class WP_Network {
 	 * properties.
 	 *
 	 * @since 4.9.0
-	 * @see get_main_site_id()
 	 *
-	 * @return string Main site ID as numeric string, for compatibility reasons.
+	 * @return int The ID of the main site.
 	 */
 	private function get_main_site_id() {
-		if ( empty( $this->blog_id ) ) {
-			$this->blog_id = (string) get_main_site_id( $this->id );
+		/**
+		 * Filters the main site ID.
+		 *
+		 * Returning a positive integer will effectively short-circuit the function.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param int|null $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
+		 * @param int $network_id The ID of the network for which the main site was detected.
+		 */
+		$main_site_id = (int) apply_filters( 'pre_get_main_site_id', null, $this->id );
+		if ( 0 < $main_site_id ) {
+			return $main_site_id;
 		}
 
-		return $this->blog_id;
+		if ( 0 < (int) $this->blog_id ) {
+			return (int) $this->blog_id;
+		}
+
+		if ( ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) && $this->domain === DOMAIN_CURRENT_SITE && $this->path === PATH_CURRENT_SITE )
+			|| ( defined( 'SITE_ID_CURRENT_SITE' ) && $this->id == SITE_ID_CURRENT_SITE ) ) {
+			if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+				$this->blog_id = (string) BLOG_ID_CURRENT_SITE;
+
+				return (int) $this->blog_id;
+			}
+
+			if ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
+				$this->blog_id = (string) BLOGID_CURRENT_SITE;
+
+				return (int) $this->blog_id;
+			}
+		}
+
+		$site = get_site();
+		if ( $site->domain === $this->domain && $site->path === $this->path ) {
+			$main_site_id = (int) $site->id;
+		} else {
+			$cache_key = 'network:' . $this->id . ':main_site';
+
+			$main_site_id = wp_cache_get( $cache_key, 'site-options' );
+			if ( false === $main_site_id ) {
+				$_sites = get_sites( array(
+					'fields'     => 'ids',
+					'number'     => 1,
+					'domain'     => $this->domain,
+					'path'       => $this->path,
+					'network_id' => $this->id,
+				) );
+				$main_site_id = ! empty( $_sites ) ? array_shift( $_sites ) : 0;
+
+				wp_cache_add( $cache_key, $main_site_id, 'site-options' );
+			}
+		}
+
+		$this->blog_id = (string) $main_site_id;
+
+		return (int) $this->blog_id;
 	}
 
 	/**
