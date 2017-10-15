@@ -589,6 +589,9 @@
 			data.customize_changeset_autosave = 'true';
 		}
 
+		// Allow plugins to modify the params included with the save request.
+		api.trigger( 'save-request-params', data );
+
 		request = wp.ajax.post( 'customize_save', data );
 
 		request.done( function requestChangesetUpdateDone( data ) {
@@ -7179,6 +7182,9 @@
 					if ( args && args.title ) {
 						query.customize_changeset_title = args.title;
 					}
+
+					// Allow plugins to modify the params included with the save request.
+					api.trigger( 'save-request-params', query );
 
 					/*
 					 * Note that the dirty customized values will have already been set in the
