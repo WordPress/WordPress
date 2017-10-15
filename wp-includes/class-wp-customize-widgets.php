@@ -1365,7 +1365,7 @@ final class WP_Customize_Widgets {
 
 		/*
 		 * Make sure that other setting changes have previewed since this widget
-		 * may depend on them (e.g. Menus being present for Custom Menu widget).
+		 * may depend on them (e.g. Menus being present for Navigation Menu widget).
 		 */
 		if ( ! did_action( 'customize_preview_init' ) ) {
 			foreach ( $this->manager->settings() as $setting ) {

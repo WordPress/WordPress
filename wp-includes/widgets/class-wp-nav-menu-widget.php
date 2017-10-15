@@ -8,7 +8,7 @@
  */
 
 /**
- * Core class used to implement the Custom Menu widget.
+ * Core class used to implement the Navigation Menu widget.
  *
  * @since 3.0.0
  *
@@ -17,26 +17,26 @@
 class WP_Nav_Menu_Widget extends WP_Widget {
 
 	/**
-	 * Sets up a new Custom Menu widget instance.
+	 * Sets up a new Navigation Menu widget instance.
 	 *
 	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$widget_ops = array(
-			'description' => __( 'Add a custom menu to your sidebar.' ),
+			'description' => __( 'Add a navigation menu to your sidebar.' ),
 			'customize_selective_refresh' => true,
 		);
-		parent::__construct( 'nav_menu', __('Custom Menu'), $widget_ops );
+		parent::__construct( 'nav_menu', __('Navigation Menu'), $widget_ops );
 	}
 
 	/**
-	 * Outputs the content for the current Custom Menu widget instance.
+	 * Outputs the content for the current Navigation Menu widget instance.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
-	 * @param array $instance Settings for the current Custom Menu widget instance.
+	 * @param array $instance Settings for the current Navigation Menu widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		// Get menu
@@ -63,13 +63,13 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		);
 
 		/**
-		 * Filters the arguments for the Custom Menu widget.
+		 * Filters the arguments for the Navigation Menu widget.
 		 *
 		 * @since 4.2.0
 		 * @since 4.4.0 Added the `$instance` parameter.
 		 *
 		 * @param array    $nav_menu_args {
-		 *     An array of arguments passed to wp_nav_menu() to retrieve a custom menu.
+		 *     An array of arguments passed to wp_nav_menu() to retrieve a navigation menu.
 		 *
 		 *     @type callable|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
 		 *     @type mixed         $menu        Menu ID, slug, or name.
@@ -84,7 +84,7 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Handles updating settings for the current Custom Menu widget instance.
+	 * Handles updating settings for the current Navigation Menu widget instance.
 	 *
 	 * @since 3.0.0
 	 *
@@ -105,7 +105,7 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the settings form for the Custom Menu widget.
+	 * Outputs the settings form for the Navigation Menu widget.
 	 *
 	 * @since 3.0.0
 	 *

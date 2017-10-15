@@ -883,7 +883,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			/*
 			 * Only trigger renders on (nested) partials that have been not been
 			 * handled yet. An example where this would apply is a nav menu
-			 * embedded inside of a custom menu widget. When the widget's title
+			 * embedded inside of a navigation menu widget. When the widget's title
 			 * is updated, the entire widget will re-render and then the event
 			 * will be triggered for the nested nav menu to do any initialization.
 			 */
