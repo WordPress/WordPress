@@ -3058,6 +3058,9 @@ img {
 #templateside ul ul {
 	padding-left: 12px;
 }
+#templateside > ul > li > ul[role=group] {
+	padding-left: 0;
+}
 
 /*
  * Styles for Theme and Plugin editors.

@@ -229,11 +229,8 @@ if ( $theme->errors() )
 	endif;
 	?>
 	<ul role="tree" aria-labelledby="theme-files-label">
-		<li role="treeitem" tabindex="-1" aria-expanded="true"
-			aria-level="1"
-			aria-posinset="1"
-			aria-setsize="1">
-			<ul role="group" style="padding-left: 0;">
+		<li role="treeitem" tabindex="-1" aria-expanded="true" aria-level="1" aria-posinset="1" aria-setsize="1">
+			<ul role="group">
 				<?php wp_print_theme_file_tree( wp_make_theme_file_tree( $allowed_files ) ); ?>
 			</ul>
 		</li>

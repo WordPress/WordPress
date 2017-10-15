@@ -242,11 +242,8 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	}
 	?>
 	<ul role="tree" aria-labelledby="plugin-files-label">
-	<li role="treeitem" tabindex="-1" aria-expanded="true"
-		aria-level="1"
-		aria-posinset="1"
-		aria-setsize="1">
-		<ul role="group" style="padding-left: 0;">
+	<li role="treeitem" tabindex="-1" aria-expanded="true" aria-level="1" aria-posinset="1" aria-setsize="1">
+		<ul role="group">
 			<?php wp_print_plugin_file_tree( wp_make_plugin_file_tree( $plugin_editable_files ) ); ?>
 		</ul>
 	</ul>
