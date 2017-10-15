@@ -1752,8 +1752,8 @@ p.customize-section-description {
 	top: 0;
 	left: 0;
 	transition: .18s left ease-in-out;
-	margin: 46px 0 0 300px;
-	padding: 25px 0;
+	margin: 0 0 0 300px;
+	padding: 71px 0 25px;
 	overflow-y: scroll;
 	width: calc(100% - 300px);
 	height: calc(100% - 96px);
@@ -2193,7 +2193,7 @@ p.customize-section-description {
 	.control-panel-themes .customize-themes-full-container {
 		width: 100%;
 		margin: 0;
-		top: 46px;
+		padding-top: 46px;
 		height: calc(100% - 46px);
 		z-index: 1;
 		display: none;
