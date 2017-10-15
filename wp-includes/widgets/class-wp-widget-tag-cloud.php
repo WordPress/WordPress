@@ -39,14 +39,15 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	 * @param array $instance Settings for the current Tag Cloud widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$current_taxonomy = $this->_get_current_taxonomy($instance);
-		if ( !empty($instance['title']) ) {
+		$current_taxonomy = $this->_get_current_taxonomy( $instance );
+
+		if ( ! empty( $instance['title'] ) ) {
 			$title = $instance['title'];
 		} else {
-			if ( 'post_tag' == $current_taxonomy ) {
-				$title = __('Tags');
+			if ( 'post_tag' === $current_taxonomy ) {
+				$title = __( 'Tags' );
 			} else {
-				$tax = get_taxonomy($current_taxonomy);
+				$tax = get_taxonomy( $current_taxonomy );
 				$title = $tax->labels->name;
 			}
 		}

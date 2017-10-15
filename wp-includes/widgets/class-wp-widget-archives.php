@@ -40,13 +40,16 @@ class WP_Widget_Archives extends WP_Widget {
 	 * @param array $instance Settings for the current Archives widget instance.
 	 */
 	public function widget( $args, $instance ) {
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Archives' );
+
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
 		$c = ! empty( $instance['count'] ) ? '1' : '0';
 		$d = ! empty( $instance['dropdown'] ) ? '1' : '0';
 
-		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Archives' ) : $instance['title'], $instance, $this->id_base );
-
 		echo $args['before_widget'];
+
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}

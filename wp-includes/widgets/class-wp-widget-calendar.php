@@ -49,8 +49,10 @@ class WP_Widget_Calendar extends WP_Widget {
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function widget( $args, $instance ) {
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];
 		if ( $title ) {

@@ -40,6 +40,7 @@ class WP_Widget_Pages extends WP_Widget {
 	 * @param array $instance Settings for the current Pages widget instance.
 	 */
 	public function widget( $args, $instance ) {
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Pages' );
 
 		/**
 		 * Filters the widget title.
@@ -50,7 +51,7 @@ class WP_Widget_Pages extends WP_Widget {
 		 * @param array  $instance Array of settings for the current widget.
 		 * @param mixed  $id_base  The widget ID.
 		 */
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		$sortby = empty( $instance['sortby'] ) ? 'menu_order' : $instance['sortby'];
 		$exclude = empty( $instance['exclude'] ) ? '' : $instance['exclude'];

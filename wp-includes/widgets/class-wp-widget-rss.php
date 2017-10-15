@@ -68,8 +68,9 @@ class WP_Widget_RSS extends WP_Widget {
 				$link = substr($link, 1);
 		}
 
-		if ( empty($title) )
-			$title = empty($desc) ? __('Unknown Feed') : $desc;
+		if ( empty( $title ) ) {
+			$title = ! empty( $desc ) ? $desc : __( 'Unknown Feed' );
+		}
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );

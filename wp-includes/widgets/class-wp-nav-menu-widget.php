@@ -42,16 +42,20 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		// Get menu
 		$nav_menu = ! empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
 
-		if ( !$nav_menu )
+		if ( ! $nav_menu ) {
 			return;
+		}
+
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$instance['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];
 
-		if ( !empty($instance['title']) )
-			echo $args['before_title'] . $instance['title'] . $args['after_title'];
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		$nav_menu_args = array(
 			'fallback_cb' => '',

@@ -42,10 +42,13 @@ class WP_Widget_Meta extends WP_Widget {
 	 * @param array $instance Settings for the current Meta widget instance.
 	 */
 	public function widget( $args, $instance ) {
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Meta' );
+
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty($instance['title']) ? __( 'Meta' ) : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];
+
 		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
@@ -75,6 +78,7 @@ class WP_Widget_Meta extends WP_Widget {
 			?>
 			</ul>
 			<?php
+
 		echo $args['after_widget'];
 	}
 
