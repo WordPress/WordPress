@@ -376,8 +376,12 @@ wp.themePluginEditor = (function( $ ) {
 		} );
 
 		// Scroll the current file into view.
-		$templateside.find( '.current-file' ).each( function() {
-			this.scrollIntoView( false );
+		$templateside.find( '.current-file:first' ).each( function() {
+			if ( this.scrollIntoViewIfNeeded ) {
+				this.scrollIntoViewIfNeeded();
+			} else {
+				this.scrollIntoView( false );
+			}
 		} );
 	};
 
