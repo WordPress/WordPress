@@ -117,7 +117,9 @@ class WP_Term_Query {
 	 *                                                along with all of their descendant terms. If $include is
 	 *                                                non-empty, $exclude_tree is ignored. Default empty array.
 	 *     @type int|string   $number                 Maximum number of terms to return. Accepts ''|0 (all) or any
-	 *                                                positive number. Default ''|0 (all).
+	 *                                                positive number. Default ''|0 (all). Note that $number may
+	 *                                                not return accurate results when coupled with $object_ids.
+	 *                                                See #41796 for details.
 	 *     @type int          $offset                 The number by which to offset the terms query. Default empty.
 	 *     @type string       $fields                 Term fields to query for. Accepts 'all' (returns an array of
 	 *                                                complete term objects), 'all_with_object_id' (returns an
