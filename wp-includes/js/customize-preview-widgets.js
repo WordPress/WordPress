@@ -39,6 +39,24 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 		api.preview.bind( 'active', function() {
 			self.highlightControls();
 		} );
+
+		/*
+		 * Refresh a partial when the controls pane requests it. This is used currently just by the
+		 * Gallery widget so that when an attachment's caption is updated in the media modal,
+		 * the widget in the preview will then be refreshed to show the change. Normally doing this
+		 * would not be necessary because all of the state should be contained inside the changeset,
+		 * as everything done in the Customizer should not make a change to the site unless the
+		 * changeset itself is published. Attachments are a current exception to this rule.
+		 * For a proposal to include attachments in the customized state, see #37887.
+		 */
+		api.preview.bind( 'refresh-widget-partial', function( widgetId ) {
+			var partialId = 'widget[' + widgetId + ']';
+			if ( api.selectiveRefresh.partial.has( partialId ) ) {
+				api.selectiveRefresh.partial( partialId ).refresh();
+			} else if ( self.renderedWidgets[ widgetId ] ) {
+				api.preview.send( 'refresh' ); // Fallback in case theme does not support 'customize-selective-refresh-widgets'.
+			}
+		} );
 	};
 
 	/**
@@ -451,6 +469,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 						}
 					} );
 				}
+				delete self.renderedWidgets[ removedWidgetId ];
 			} );
 
 			// Handle insertion of widgets.
@@ -458,6 +477,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			_.each( widgetsAdded, function( addedWidgetId ) {
 				var widgetPartial = sidebarPartial.ensureWidgetPlacementContainers( addedWidgetId );
 				addedWidgetPartials.push( widgetPartial );
+				self.renderedWidgets[ addedWidgetId ] = true;
 			} );
 
 			_.each( addedWidgetPartials, function( widgetPartial ) {

@@ -100,6 +100,21 @@
 			control.selectedAttachments.on( 'change', control.renderPreview );
 			control.selectedAttachments.on( 'reset', control.renderPreview );
 			control.updateSelectedAttachments();
+
+			/*
+			 * Refresh a Gallery widget partial when the user modifies one of the selected attachments.
+			 * This ensures that when an attachment's caption is updated in the media modal the Gallery
+			 * widget in the preview will then be refreshed to show the change. Normally doing this
+			 * would not be necessary because all of the state should be contained inside the changeset,
+			 * as everything done in the Customizer should not make a change to the site unless the
+			 * changeset itself is published. Attachments are a current exception to this rule.
+			 * For a proposal to include attachments in the customized state, see #37887.
+			 */
+			if ( wp.customize && wp.customize.previewer ) {
+				control.selectedAttachments.on( 'change', function() {
+					wp.customize.previewer.send( 'refresh-widget-partial', control.model.get( 'widget_id' ) );
+				} );
+			}
 		},
 
 		/**
