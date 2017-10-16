@@ -60,7 +60,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		),
 		'tryAgain'            => __( 'Try Again' ),
 		'themesFound'         => __( 'Number of Themes found: %d' ),
-		'noThemesFound'       => __( 'No themes found. Try a different search query.' ),
+		'noThemesFound'       => __( 'No themes found. Try a different search.' ),
 		'collapseSidebar'     => __( 'Collapse Sidebar' ),
 		'expandSidebar'       => __( 'Expand Sidebar' ),
 		/* translators: accessibility text */
@@ -228,7 +228,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 
-	<p class="no-themes"><?php _e( 'No themes found. Try a different search query.' ); ?></p>
+	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
 
 <?php

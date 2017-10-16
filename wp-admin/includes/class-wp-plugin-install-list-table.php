@@ -270,7 +270,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		if ( isset( $this->error ) ) {
 			echo '<div class="inline error"><p>' . $this->error->get_error_message() . '</p><p class="hide-if-no-js"><button class="button try-again">' . __( 'Try Again' ) . '</button></p></div>';
 		} else {
-			echo '<div class="no-plugin-results">' . __( 'No plugins found. Try a different search query.' ) . '</div>';
+			echo '<div class="no-plugin-results">' . __( 'No plugins found. Try a different search.' ) . '</div>';
 		}
 	}
 
