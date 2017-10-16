@@ -1,5 +1,6 @@
 .mejs-container {
 	clear: both;
+	max-width: 100%;
 }
 
 .mejs-container * {
@@ -11,6 +12,11 @@
 .mejs-embed body,
 .mejs-container .mejs-controls {
 	background: #222;
+}
+
+.mejs-time {
+	font-weight: normal;
+	word-wrap: normal;
 }
 
 .mejs-controls a.mejs-horizontal-volume-slider {
