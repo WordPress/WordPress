@@ -3542,7 +3542,7 @@
 				control.container.on( 'click', '.add-content', function() {
 					control.addNewPage();
 				});
-				control.container.on( 'keyup', '.create-item-input', function( e ) {
+				control.container.on( 'keydown', '.create-item-input', function( e ) {
 					if ( 13 === e.which ) { // Enter
 						control.addNewPage();
 					}
