@@ -1761,6 +1761,10 @@ p.customize-section-description {
 	z-index: 20;
 }
 
+.modal-open .control-panel-themes .customize-themes-full-container {
+	overflow-y: visible;
+}
+
 /* Animations for opening the themes panel */
 #customize-save-button-wrapper,
 #customize-header-actions .spinner,
