@@ -109,7 +109,8 @@ var DailyMotionIframeRenderer = {
 
 		var events = void 0,
 		    dmPlayer = null,
-		    dmIframe = null;
+		    dmIframe = null,
+		    muted = mediaElement.originalNode.muted;
 
 		dm.options = options;
 		dm.id = mediaElement.id + '_' + options.prefix;
@@ -136,7 +137,8 @@ var DailyMotionIframeRenderer = {
 						case 'ended':
 							return dmPlayer.ended;
 						case 'muted':
-							return dmPlayer.muted;
+							muted = dmPlayer.muted;
+							return muted;
 						case 'buffered':
 							var percentLoaded = dmPlayer.bufferedTime,
 							    duration = dmPlayer.duration;
@@ -172,7 +174,11 @@ var DailyMotionIframeRenderer = {
 							dmPlayer.seek(value);
 							break;
 						case 'muted':
+							if (value === true) {
+								dmPlayer.setVolume(0);
+							}
 							dmPlayer.setMuted(value);
+							muted = value;
 							setTimeout(function () {
 								var event = mejs.Utils.createEvent('volumechange', dm);
 								mediaElement.dispatchEvent(event);
@@ -180,6 +186,14 @@ var DailyMotionIframeRenderer = {
 							break;
 						case 'volume':
 							dmPlayer.setVolume(value);
+							if (value === 0 && !dmPlayer.muted) {
+								dmPlayer.setMuted(true);
+								muted = true;
+							} else if (value > 0 && dmPlayer.muted) {
+								dmPlayer.setMuted(false);
+								muted = false;
+							}
+
 							setTimeout(function () {
 								var event = mejs.Utils.createEvent('volumechange', dm);
 								mediaElement.dispatchEvent(event);
@@ -258,8 +272,11 @@ var DailyMotionIframeRenderer = {
 			}
 
 			if (mediaElement.originalNode.muted) {
-				dmPlayer.setMuted(true);
 				dmPlayer.setVolume(0);
+				dmPlayer.setMuted(true);
+			} else {
+				dmPlayer.setVolume(dmPlayer.volume);
+				dmPlayer.setMuted(false);
 			}
 
 			events = mejs.html5media.events;
@@ -267,7 +284,7 @@ var DailyMotionIframeRenderer = {
 			var assignNativeEvents = function assignNativeEvents(eventName) {
 				if (eventName !== 'ended') {
 					dmPlayer.addEventListener(eventName, function (e) {
-						var event = mejs.Utils.createEvent(e.type, dmPlayer);
+						var event = mejs.Utils.createEvent(e.type, dm);
 						mediaElement.dispatchEvent(event);
 					});
 				}
@@ -278,42 +295,42 @@ var DailyMotionIframeRenderer = {
 			}
 
 			dmPlayer.addEventListener('ad_start', function () {
-				var event = mejs.Utils.createEvent('play', dmPlayer);
+				var event = mejs.Utils.createEvent('play', dm);
 				mediaElement.dispatchEvent(event);
 
-				event = mejs.Utils.createEvent('progress', dmPlayer);
+				event = mejs.Utils.createEvent('progress', dm);
 				mediaElement.dispatchEvent(event);
 
-				event = mejs.Utils.createEvent('timeupdate', dmPlayer);
+				event = mejs.Utils.createEvent('timeupdate', dm);
 				mediaElement.dispatchEvent(event);
 			});
 			dmPlayer.addEventListener('ad_timeupdate', function () {
-				var event = mejs.Utils.createEvent('timeupdate', dmPlayer);
+				var event = mejs.Utils.createEvent('timeupdate', dm);
 				mediaElement.dispatchEvent(event);
 			});
 			dmPlayer.addEventListener('ad_pause', function () {
-				var event = mejs.Utils.createEvent('pause', dmPlayer);
-				mediaElement.dispatchEvent(event);
-			});
-			dmPlayer.addEventListener('ad_end', function () {
-				var event = mejs.Utils.createEvent('ended', dmPlayer);
+				var event = mejs.Utils.createEvent('pause', dm);
 				mediaElement.dispatchEvent(event);
 			});
 			dmPlayer.addEventListener('start', function () {
-				if (mediaElement.originalNode.muted) {
-					dmPlayer.setMuted(true);
+				if (dmPlayer.muted) {
+					var event = mejs.Utils.createEvent('volumechange', dm);
+					mediaElement.dispatchEvent(event);
 				}
 			});
 			dmPlayer.addEventListener('video_start', function () {
-				var event = mejs.Utils.createEvent('play', dmPlayer);
+				var event = mejs.Utils.createEvent('play', dm);
 				mediaElement.dispatchEvent(event);
+
+				var playingEvent = mejs.Utils.createEvent('playing', dm);
+				mediaElement.dispatchEvent(playingEvent);
 			});
 			dmPlayer.addEventListener('ad_timeupdate', function () {
-				var event = mejs.Utils.createEvent('timeupdate', dmPlayer);
+				var event = mejs.Utils.createEvent('timeupdate', dm);
 				mediaElement.dispatchEvent(event);
 			});
 			dmPlayer.addEventListener('video_end', function () {
-				var event = mejs.Utils.createEvent('ended', dmPlayer);
+				var event = mejs.Utils.createEvent('ended', dm);
 				mediaElement.dispatchEvent(event);
 
 				if (mediaElement.originalNode.getAttribute('loop')) {
@@ -339,11 +356,15 @@ var DailyMotionIframeRenderer = {
 		mediaElement.originalNode.style.display = 'none';
 
 		var videoId = DailyMotionApi.getDailyMotionId(mediaFiles[0].src),
-		    dmSettings = Object.assign({
+		    dmSettings = {
 			id: dm.id,
 			container: dmContainer,
 			videoId: videoId
-		}, dm.options.dailymotion);
+		};
+
+		dmSettings.params = Object.assign({}, dm.options.dailymotion);
+
+		dmSettings.params.controls = !!mediaElement.originalNode.controls;
 
 		if (mediaElement.originalNode.autoplay) {
 			dmSettings.params.autoplay = true;
@@ -351,6 +372,7 @@ var DailyMotionIframeRenderer = {
 		if (mediaElement.originalNode.muted) {
 			dmSettings.params.mute = true;
 		}
+		dmSettings.params.api = '1';
 
 		DailyMotionApi.enqueueIframe(dmSettings);
 

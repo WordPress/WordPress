@@ -11,6 +11,30 @@
  */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 'use strict';
 
+var FacebookApi = {
+
+	promise: null,
+
+	load: function load(settings) {
+
+		if (typeof FB !== 'undefined') {
+			FacebookApi._createPlayer(settings);
+		} else {
+			FacebookApi.promise = FacebookApi.promise || mejs.Utils.loadScript('https://connect.facebook.net/' + settings.options.lang + '/sdk.js');
+			FacebookApi.promise.then(function () {
+				FB.init(settings.options);
+
+				setTimeout(function () {
+					FacebookApi._createPlayer(settings);
+				}, 50);
+			});
+		}
+	},
+
+	_createPlayer: function _createPlayer(settings) {
+		window['__ready__' + settings.id]();
+	}
+};
 var FacebookRenderer = {
 	name: 'facebook',
 	options: {
@@ -18,7 +42,8 @@ var FacebookRenderer = {
 		facebook: {
 			appId: '',
 			xfbml: true,
-			version: 'v2.10'
+			version: 'v2.10',
+			lang: 'en_US'
 		}
 	},
 
@@ -27,54 +52,50 @@ var FacebookRenderer = {
 	},
 
 	create: function create(mediaElement, options, mediaFiles) {
+		var apiStack = [],
+		    fb = {},
+		    readyState = 4;
 
-		var fbWrapper = {},
-		    apiStack = [],
-		    eventHandler = {},
-		    readyState = 4,
-		    autoplay = mediaElement.originalNode.autoplay;
-
-		var poster = '',
-		    src = '',
+		var hasStartedPlaying = false,
 		    paused = true,
 		    ended = false,
-		    hasStartedPlaying = false,
-		    fbApi = null,
-		    fbDiv = null;
+		    fbPlayer = null,
+		    src = '',
+		    poster = '',
+		    autoplay = mediaElement.originalNode.autoplay;
+
+		fb.options = options;
+		fb.id = mediaElement.id + '_' + options.prefix;
+		fb.mediaElement = mediaElement;
 
 		if (mejs.Features.isiPhone && mediaElement.originalNode.getAttribute('poster')) {
 			poster = mediaElement.originalNode.getAttribute('poster');
 			mediaElement.originalNode.removeAttribute('poster');
 		}
 
-		options = Object.assign(options, mediaElement.options);
-		fbWrapper.options = options;
-		fbWrapper.id = mediaElement.id + '_' + options.prefix;
-		fbWrapper.mediaElement = mediaElement;
-
 		var props = mejs.html5media.properties,
 		    assignGettersSetters = function assignGettersSetters(propName) {
 
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
 
-			fbWrapper['get' + capName] = function () {
+			fb['get' + capName] = function () {
 
-				if (fbApi !== null) {
+				if (fbPlayer !== null) {
 					var value = null;
 
 					switch (propName) {
 						case 'currentTime':
-							return fbApi.getCurrentPosition();
+							return fbPlayer.getCurrentPosition();
 						case 'duration':
-							return fbApi.getDuration();
+							return fbPlayer.getDuration();
 						case 'volume':
-							return fbApi.getVolume();
+							return fbPlayer.getVolume();
 						case 'paused':
 							return paused;
 						case 'ended':
 							return ended;
 						case 'muted':
-							return fbApi.isMuted();
+							return fbPlayer.isMuted();
 						case 'buffered':
 							return {
 								start: function start() {
@@ -97,47 +118,60 @@ var FacebookRenderer = {
 				}
 			};
 
-			fbWrapper['set' + capName] = function (value) {
+			fb['set' + capName] = function (value) {
 
-				if (fbApi !== null) {
+				if (fbPlayer !== null) {
 
 					switch (propName) {
 						case 'src':
 							var url = typeof value === 'string' ? value : value[0].src;
+							src = url;
 
-							fbDiv.remove();
-							createFacebookEmbed(url, options.facebook);
+							fbContainer.remove();
+							fbContainer = document.createElement('div');
+							fbContainer.id = fb.id;
+							fbContainer.className = 'fb-video';
+							fbContainer.setAttribute('data-href', url);
+							fbContainer.setAttribute('data-allowfullscreen', 'true');
+							fbContainer.setAttribute('data-controls', 'false');
+
+							mediaElement.originalNode.parentNode.insertBefore(fbContainer, mediaElement.originalNode);
+							mediaElement.originalNode.style.display = 'none';
+
+							FacebookApi.load({
+								lang: fb.options.lang,
+								id: fb.id
+							});
 
 							FB.XFBML.parse();
 
 							if (autoplay) {
-								fbApi.play();
+								fbPlayer.play();
 							}
-
 							break;
 						case 'currentTime':
-							fbApi.seek(value);
+							fbPlayer.seek(value);
 							break;
 						case 'muted':
 							if (value) {
-								fbApi.mute();
+								fbPlayer.mute();
 							} else {
-								fbApi.unmute();
+								fbPlayer.unmute();
 							}
 							setTimeout(function () {
-								var event = mejs.Utils.createEvent('volumechange', fbWrapper);
+								var event = mejs.Utils.createEvent('volumechange', fb);
 								mediaElement.dispatchEvent(event);
 							}, 50);
 							break;
 						case 'volume':
-							fbApi.setVolume(value);
+							fbPlayer.setVolume(value);
 							setTimeout(function () {
-								var event = mejs.Utils.createEvent('volumechange', fbWrapper);
+								var event = mejs.Utils.createEvent('volumechange', fb);
 								mediaElement.dispatchEvent(event);
 							}, 50);
 							break;
 						case 'readyState':
-							var event = mejs.Utils.createEvent('canplay', fbWrapper);
+							var event = mejs.Utils.createEvent('canplay', fb);
 							mediaElement.dispatchEvent(event);
 							break;
 						default:
@@ -156,13 +190,13 @@ var FacebookRenderer = {
 
 		var methods = mejs.html5media.methods,
 		    assignMethods = function assignMethods(methodName) {
-			fbWrapper[methodName] = function () {
-				if (fbApi !== null) {
+			fb[methodName] = function () {
+				if (fbPlayer !== null) {
 					switch (methodName) {
 						case 'play':
-							return fbApi.play();
+							return fbPlayer.play();
 						case 'pause':
-							return fbApi.pause();
+							return fbPlayer.pause();
 						case 'load':
 							return null;
 					}
@@ -176,165 +210,145 @@ var FacebookRenderer = {
 			assignMethods(methods[_i]);
 		}
 
-		function sendEvents(events) {
+		function assignEvents(events) {
 			for (var _i2 = 0, _total2 = events.length; _i2 < _total2; _i2++) {
-				var event = mejs.Utils.createEvent(events[_i2], fbWrapper);
+				var event = mejs.Utils.createEvent(events[_i2], fb);
 				mediaElement.dispatchEvent(event);
 			}
 		}
 
-		function createFacebookEmbed(url, config) {
-			src = url;
+		window['__ready__' + fb.id] = function () {
+			FB.Event.subscribe('xfbml.ready', function (msg) {
+				if (msg.type === 'video' && fb.id === msg.id) {
+					mediaElement.fbPlayer = fbPlayer = msg.instance;
 
-			fbDiv = document.createElement('div');
-			fbDiv.id = fbWrapper.id;
-			fbDiv.className = "fb-video";
-			fbDiv.setAttribute("data-href", url);
-			fbDiv.setAttribute("data-allowfullscreen", "true");
-			fbDiv.setAttribute("data-controls", "false");
+					var fbIframe = document.getElementById(fb.id),
+					    width = fbIframe.offsetWidth,
+					    height = fbIframe.offsetHeight,
+					    events = ['mouseover', 'mouseout'],
+					    assignIframeEvents = function assignIframeEvents(e) {
+						var event = mejs.Utils.createEvent(e.type, fb);
+						mediaElement.dispatchEvent(event);
+					};
 
-			mediaElement.originalNode.parentNode.insertBefore(fbDiv, mediaElement.originalNode);
-			mediaElement.originalNode.style.display = 'none';
-
-			window.fbAsyncInit = function () {
-
-				FB.init(config);
-
-				FB.Event.subscribe('xfbml.ready', function (msg) {
-
-					if (msg.type === 'video') {
-
-						fbApi = msg.instance;
-
-						var fbIframe = fbDiv.getElementsByTagName('iframe')[0],
-						    width = fbIframe.offsetWidth,
-						    height = fbIframe.offsetHeight,
-						    events = ['mouseover', 'mouseout'],
-						    assignEvents = function assignEvents(e) {
-							var event = mejs.Utils.createEvent(e.type, fbWrapper);
-							mediaElement.dispatchEvent(event);
-						};
-
-						fbWrapper.setSize(width, height);
-
-						if (autoplay) {
-							fbApi.play();
-						}
-
-						for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
-							fbIframe.addEventListener(events[_i3], assignEvents, false);
-						}
-
-						var fbEvents = ['startedPlaying', 'paused', 'finishedPlaying', 'startedBuffering', 'finishedBuffering'];
-						for (var _i4 = 0, _total4 = fbEvents.length; _i4 < _total4; _i4++) {
-							var event = fbEvents[_i4],
-							    handler = eventHandler[event];
-							if (handler !== undefined && handler !== null && !mejs.Utils.isObjectEmpty(handler) && typeof handler.removeListener === 'function') {
-								handler.removeListener(event);
-							}
-						}
-
-						if (apiStack.length) {
-							for (var _i5 = 0, _total5 = apiStack.length; _i5 < _total5; _i5++) {
-
-								var stackItem = apiStack[_i5];
-
-								if (stackItem.type === 'set') {
-									var propName = stackItem.propName,
-									    capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
-
-									fbWrapper['set' + capName](stackItem.value);
-								} else if (stackItem.type === 'call') {
-									fbWrapper[stackItem.methodName]();
-								}
-							}
-						}
-
-						sendEvents(['rendererready', 'loadeddata', 'canplay', 'progress', 'loadedmetadata', 'timeupdate']);
-
-						var timer = void 0;
-
-						eventHandler.startedPlaying = fbApi.subscribe('startedPlaying', function () {
-							if (!hasStartedPlaying) {
-								hasStartedPlaying = true;
-							}
-							paused = false;
-							ended = false;
-							sendEvents(['play', 'playing', 'timeupdate']);
-
-							timer = setInterval(function () {
-								fbApi.getCurrentPosition();
-								sendEvents(['timeupdate']);
-							}, 250);
-						});
-						eventHandler.paused = fbApi.subscribe('paused', function () {
-							paused = true;
-							ended = false;
-							sendEvents(['pause']);
-						});
-						eventHandler.finishedPlaying = fbApi.subscribe('finishedPlaying', function () {
-							paused = true;
-							ended = true;
-
-							sendEvents(['ended']);
-							clearInterval(timer);
-							timer = null;
-						});
-						eventHandler.startedBuffering = fbApi.subscribe('startedBuffering', function () {
-							sendEvents(['progress', 'timeupdate']);
-						});
-						eventHandler.finishedBuffering = fbApi.subscribe('finishedBuffering', function () {
-							sendEvents(['progress', 'timeupdate']);
-						});
+					fb.setSize(width, height);
+					if (!mediaElement.originalNode.muted) {
+						fbPlayer.unmute();
 					}
-				});
-			};
 
-			mejs.Utils.loadScript('https://connect.facebook.net/en_US/sdk.js');
-		}
+					if (autoplay) {
+						fbPlayer.play();
+					}
 
-		if (mediaFiles.length > 0) {
-			createFacebookEmbed(mediaFiles[0].src, fbWrapper.options.facebook);
-		}
+					for (var _i3 = 0, _total3 = events.length; _i3 < _total3; _i3++) {
+						fbIframe.addEventListener(events[_i3], assignIframeEvents);
+					}
 
-		fbWrapper.hide = function () {
-			fbWrapper.stopInterval();
-			fbWrapper.pause();
-			if (fbDiv) {
-				fbDiv.style.display = 'none';
+					fb.eventHandler = {};
+
+					var fbEvents = ['startedPlaying', 'paused', 'finishedPlaying', 'startedBuffering', 'finishedBuffering'];
+					for (var _i4 = 0, _total4 = fbEvents.length; _i4 < _total4; _i4++) {
+						var event = fbEvents[_i4],
+						    handler = fb.eventHandler[event];
+						if (handler !== undefined && handler !== null && !mejs.Utils.isObjectEmpty(handler) && typeof handler.removeListener === 'function') {
+							handler.removeListener(event);
+						}
+					}
+
+					if (apiStack.length) {
+						for (var _i5 = 0, _total5 = apiStack.length; _i5 < _total5; _i5++) {
+							var stackItem = apiStack[_i5];
+
+							if (stackItem.type === 'set') {
+								var propName = stackItem.propName,
+								    capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
+
+								fb['set' + capName](stackItem.value);
+							} else if (stackItem.type === 'call') {
+								fb[stackItem.methodName]();
+							}
+						}
+					}
+
+					assignEvents(['rendererready', 'loadeddata', 'canplay', 'progress', 'loadedmetadata', 'timeupdate']);
+
+					var timer = void 0;
+
+					fb.eventHandler.startedPlaying = fbPlayer.subscribe('startedPlaying', function () {
+						if (!hasStartedPlaying) {
+							hasStartedPlaying = true;
+						}
+						paused = false;
+						ended = false;
+						assignEvents(['play', 'playing', 'timeupdate']);
+
+						timer = setInterval(function () {
+							fbPlayer.getCurrentPosition();
+							assignEvents(['timeupdate']);
+						}, 250);
+					});
+					fb.eventHandler.paused = fbPlayer.subscribe('paused', function () {
+						paused = true;
+						ended = false;
+						assignEvents(['pause']);
+					});
+					fb.eventHandler.finishedPlaying = fbPlayer.subscribe('finishedPlaying', function () {
+						paused = true;
+						ended = true;
+
+						assignEvents(['ended']);
+						clearInterval(timer);
+						timer = null;
+					});
+					fb.eventHandler.startedBuffering = fbPlayer.subscribe('startedBuffering', function () {
+						assignEvents(['progress', 'timeupdate']);
+					});
+					fb.eventHandler.finishedBuffering = fbPlayer.subscribe('finishedBuffering', function () {
+						assignEvents(['progress', 'timeupdate']);
+					});
+				}
+			});
+		};
+
+		src = mediaFiles[0].src;
+		var fbContainer = document.createElement('div');
+		fbContainer.id = fb.id;
+		fbContainer.className = 'fb-video';
+		fbContainer.setAttribute('data-href', src);
+		fbContainer.setAttribute('data-allowfullscreen', true);
+		fbContainer.setAttribute('data-controls', !!mediaElement.originalNode.controls);
+		mediaElement.originalNode.parentNode.insertBefore(fbContainer, mediaElement.originalNode);
+		mediaElement.originalNode.style.display = 'none';
+
+		FacebookApi.load({
+			options: fb.options.facebook,
+			id: fb.id
+		});
+
+		fb.hide = function () {
+			fb.pause();
+			if (fbPlayer) {
+				fbContainer.style.display = 'none';
 			}
 		};
-		fbWrapper.show = function () {
-			if (fbDiv) {
-				fbDiv.style.display = '';
+		fb.setSize = function (width) {
+			if (fbPlayer !== null && !isNaN(width)) {
+				fbContainer.style.width = width;
 			}
 		};
-		fbWrapper.setSize = function (width) {
-			if (fbApi !== null && !isNaN(width)) {
-				fbDiv.style.width = width;
+		fb.show = function () {
+			if (fbPlayer) {
+				fbContainer.style.display = '';
 			}
 		};
-		fbWrapper.destroy = function () {
+
+		fb.destroy = function () {
 			if (poster) {
 				mediaElement.originalNode.setAttribute('poster', poster);
 			}
 		};
 
-		fbWrapper.interval = null;
-
-		fbWrapper.startInterval = function () {
-			fbWrapper.interval = setInterval(function () {
-				var event = mejs.Utils.createEvent('timeupdate', fbWrapper);
-				mediaElement.dispatchEvent(event);
-			}, 250);
-		};
-		fbWrapper.stopInterval = function () {
-			if (fbWrapper.interval) {
-				clearInterval(fbWrapper.interval);
-			}
-		};
-
-		return fbWrapper;
+		return fb;
 	}
 };
 

@@ -21,7 +21,7 @@
 				settings = $.extend( true, {}, _wpmejsSettings );
 			}
 			settings.classPrefix = 'mejs-';
-			settings.success = settings.success || function (mejs) {
+			settings.success = settings.success || function ( mejs ) {
 				var autoplay, loop;
 
 				if ( mejs.rendererName && -1 !== mejs.rendererName.indexOf( 'flash' ) ) {
