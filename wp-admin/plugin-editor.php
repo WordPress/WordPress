@@ -292,13 +292,15 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 		$return_url = admin_url( '/' );
 	}
 ?>
-<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js">
+<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
 	<div class="notification-dialog-background"></div>
-	<div class="notification-dialog" role="dialog" aria-labelledby="file-editor-warning-title" tabindex="0">
+	<div class="notification-dialog">
 		<div class="file-editor-warning-content">
-			<h1 id="file-editor-warning-title"><?php _e( 'Heads up!' ); ?></h1>
-			<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your theme or other plugins, and can leave you unable to log back in to WordPress and undo changes.' ); ?></p>
-			<p><?php _e( 'If you absolutely have to edit this plugin, create a copy with a new name and hang on to the original version, so you can re-enable a functional version if something goes wrong.' ); ?></p>
+			<div class="file-editor-warning-message">
+				<h1><?php _e( 'Heads up!' ); ?></h1>
+				<p><?php _e( 'You appear to be making direct edits to your plugin in the WordPress dashboard. We recommend that you don&#8217;t! Editing plugins directly may introduce incompatibilities that break your theme or other plugins, and can leave you unable to log back in to WordPress and undo changes.' ); ?></p>
+				<p><?php _e( 'If you absolutely have to edit this plugin, create a copy with a new name and hang on to the original version, so you can re-enable a functional version if something goes wrong.' ); ?></p>
+			</div>
 			<p>
 				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
 				<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>

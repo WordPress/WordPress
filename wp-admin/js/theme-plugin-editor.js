@@ -51,9 +51,7 @@ wp.themePluginEditor = (function( $ ) {
 		component.warning = $( '.file-editor-warning' );
 
 		if ( component.warning.length > 0 ) {
-			$( 'body' ).addClass( 'modal-open' );
-			component.warning.find( '.file-editor-warning-go-back' ).focus();
-			component.warning.on( 'click', '.file-editor-warning-dismiss', component.dismissWarning );
+			component.showWarning();
 		}
 
 		if ( false !== component.codeEditor ) {
@@ -78,6 +76,62 @@ wp.themePluginEditor = (function( $ ) {
 	};
 
 	/**
+	 * Set up and display the warning modal.
+	 *
+	 * @since 4.9.0
+	 * @returns {void}
+	 */
+	component.showWarning = function() {
+		// Get the text within the modal.
+		var rawMessage = component.warning.find( '.file-editor-warning-message' ).text();
+		// Hide all the #wpwrap content from assistive technologies.
+		$( '#wpwrap' ).attr( 'aria-hidden', 'true' );
+		// Detach the warning modal from its position and append it to the body.
+		$( document.body )
+			.addClass( 'modal-open' )
+			.append( component.warning.detach() );
+		// Reveal the modal and set focus on the go back button.
+		component.warning
+			.removeClass( 'hidden' )
+			.find( '.file-editor-warning-go-back' ).focus();
+		// Get the links and buttons within the modal.
+		component.warningTabbables = component.warning.find( 'a, button' );
+		// Attach event handlers.
+		component.warningTabbables.on( 'keydown', component.constrainTabbing );
+		component.warning.on( 'click', '.file-editor-warning-dismiss', component.dismissWarning );
+		// Make screen readers announce the warning message after a short delay (necessary for some screen readers).
+		setTimeout( function() {
+			wp.a11y.speak( wp.sanitize.stripTags( rawMessage.replace( /\s+/g, ' ' ) ), 'assertive' );
+		}, 1000 );
+	};
+
+	/**
+	 * Constrain tabbing within the warning modal.
+	 *
+	 * @since 4.9.0
+	 * @param {object} event jQuery event object.
+	 * @returns {void}
+	 */
+	component.constrainTabbing = function( event ) {
+		var firstTabbable, lastTabbable;
+
+		if ( 9 !== event.which ) {
+			return;
+		}
+
+		firstTabbable = component.warningTabbables.first()[0];
+		lastTabbable = component.warningTabbables.last()[0];
+
+		if ( lastTabbable === event.target && ! event.shiftKey ) {
+			firstTabbable.focus();
+			event.preventDefault();
+		} else if ( firstTabbable === event.target && event.shiftKey ) {
+			lastTabbable.focus();
+			event.preventDefault();
+		}
+	};
+
+	/**
 	 * Dismiss the warning modal.
 	 *
 	 * @since 4.9.0
@@ -91,10 +145,8 @@ wp.themePluginEditor = (function( $ ) {
 
 		// Hide modal.
 		component.warning.remove();
+		$( '#wpwrap' ).removeAttr( 'aria-hidden' );
 		$( 'body' ).removeClass( 'modal-open' );
-
-		// Return focus - is this a trap?
-		component.instance.codemirror.focus();
 	};
 
 	/**

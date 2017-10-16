@@ -297,21 +297,23 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 		$return_url = admin_url( '/' );
 	}
 ?>
-<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js">
+<div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
 	<div class="notification-dialog-background"></div>
-	<div class="notification-dialog" role="dialog" aria-labelledby="file-editor-warning-title" tabindex="0">
+	<div class="notification-dialog">
 		<div class="file-editor-warning-content">
-			<h1 id="file-editor-warning-title"><?php _e( 'Heads up!' ); ?></h1>
-			<p>
-				<?php
-				echo sprintf(
-					/* translators: %s is a link to Custom CSS section in the Customizer. */
-					__( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing this code directly is dangerous, and can leave you unable to log back in to WordPress and undo changes. There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in WordPress&#8217;s <a href="%s">built in CSS editor</a>.' ),
-					esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
-				);
-				?>
-			</p>
-			<p><?php _e( 'If you decide to go ahead with direct edits anyway, make sure to back up all your site&#8217;s files before making changes so you can restore a functional version if something goes wrong.' ); ?></p>
+			<div class="file-editor-warning-message">
+				<h1><?php _e( 'Heads up!' ); ?></h1>
+				<p>
+					<?php
+					echo sprintf(
+						/* translators: %s is a link to Custom CSS section in the Customizer. */
+						__( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing this code directly is dangerous, and can leave you unable to log back in to WordPress and undo changes. There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in WordPress&#8217;s <a href="%s">built in CSS editor</a>.' ),
+						esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
+					);
+					?>
+				</p>
+				<p><?php _e( 'If you decide to go ahead with direct edits anyway, make sure to back up all your site&#8217;s files before making changes so you can restore a functional version if something goes wrong.' ); ?></p>
+			</div>
 			<p>
 				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>
 				<button type="button" class="file-editor-warning-dismiss button button-primary"><?php _e( 'I understand' ); ?></button>
