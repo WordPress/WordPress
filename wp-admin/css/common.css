@@ -2215,7 +2215,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 }
 
 #template > div {
-	margin-right: 190px;
+	margin-right: 16em;
 }
 #template .notice {
 	margin-top: 1em;
@@ -3033,27 +3033,33 @@ img {
 
 #template textarea,
 #template .CodeMirror {
-	width: 97%;
-	height: calc( 100vh - 280px );
+	width: 100%;
+	min-height: 60vh;
+	height: calc( 100vh - 295px );
+	border: 1px solid #ddd;
 }
 
 #templateside > h2 {
 	padding-top: 6px;
-	padding-bottom: 6px;
+	padding-bottom: 7px;
 	margin: 0;
-	border-bottom: solid 1px #ccc;
 }
 
 #templateside ol,
 #templateside ul {
-	margin: .5em 0;
+	margin: 0;
 	padding: 0;
 }
 #templateside > ul {
+	box-sizing: border-box;
 	margin-top: 0;
 	overflow: auto;
-	padding: 2px;
-	height: calc(100vh - 280px);
+	padding: 0;
+	min-height: calc(60vh + 2px);
+	height: calc(100vh - 293px);
+	background-color: #f7f7f7;
+	border: 1px solid #ddd;
+	border-left: none;
 }
 #templateside ul ul {
 	padding-left: 12px;
@@ -3101,7 +3107,7 @@ img {
 }
 [role="treeitem"].hover,
 [role="treeitem"] .folder-label.hover {
-	background-color: #DDDDDD;
+	background-color: #eaeaea;
 }
 
 .tree-folder {
@@ -3150,7 +3156,7 @@ img {
 .tree-folder > .current-file::before {
 	left: 4px;
 	height: 15px;
-	width: 6px;
+	width: 0px;
 	border-left: none;
 	top: 3px;
 }
@@ -3213,7 +3219,7 @@ img {
 }
 #templateside {
 	float: right;
-	width: 190px;
+	width: 16em;
 	word-wrap: break-word;
 }
 
@@ -3232,8 +3238,12 @@ img {
 #templateside li a,
 .theme-editor-php .highlight {
 	display: block;
-	padding: 3px 3px 3px 12px;
+	padding: 3px 0 3px 12px;
 	text-decoration: none;
+}
+
+#templateside li > a:first-of-type {
+	padding-top: 0;
 }
 
 .theme-editor-php .highlight {
@@ -3710,7 +3720,7 @@ img {
 	}
 
 	.wp-responsive-open #wpbody {
-		right: -190px;
+		right: -16em;
 	}
 
 	code {
