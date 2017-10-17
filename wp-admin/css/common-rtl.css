@@ -964,6 +964,11 @@ th.action-links {
 	text-align: left;
 }
 
+#misc-publishing-actions .notice {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
 /* Filter bar */
 .wp-filter {
 	display: inline-block;

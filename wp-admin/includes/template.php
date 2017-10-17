@@ -1736,8 +1736,15 @@ function _post_states($post) {
 		$post_states['protected'] = __('Password protected');
 	if ( 'private' == $post->post_status && 'private' != $post_status )
 		$post_states['private'] = __('Private');
-	if ( 'draft' == $post->post_status && 'draft' != $post_status )
-		$post_states['draft'] = __('Draft');
+	if ( 'draft' === $post->post_status ) {
+		if ( get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ) {
+			$post_states[] = __( 'Customization Draft' );
+		} elseif ( 'draft' !== $post_status ) {
+			$post_states['draft'] = __( 'Draft' );
+		}
+	} elseif ( 'trash' === $post->post_status && get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ) {
+		$post_states[] = __( 'Customization Draft' );
+	}
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
 		$post_states['pending'] = _x('Pending', 'post status');
 	if ( is_sticky($post->ID) )

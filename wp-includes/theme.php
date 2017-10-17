@@ -3051,7 +3051,7 @@ function is_customize_preview() {
 }
 
 /**
- * Make sure that auto-draft posts get their post_date bumped to prevent premature garbage-collection.
+ * Make sure that auto-draft posts get their post_date bumped or status changed to draft to prevent premature garbage-collection.
  *
  * When a changeset is updated but remains an auto-draft, ensure the post_date
  * for the auto-draft posts remains the same so that it will be
@@ -3059,6 +3059,14 @@ function is_customize_preview() {
  * if the changeset is updated to be a draft then update the posts
  * to have a far-future post_date so that they will never be garbage collected
  * unless the changeset post itself is deleted.
+ *
+ * When a changeset is updated to be a persistent draft or to be scheduled for
+ * publishing, then transition any dependent auto-drafts to a draft status so
+ * that they likewise will not be garbage-collected but also so that they can
+ * be edited in the admin before publishing since there is not yet a post/page
+ * editing flow in the Customizer. See #39752.
+ *
+ * @link https://core.trac.wordpress.org/ticket/39752
  *
  * @since 4.8.0
  * @access private
@@ -3078,34 +3086,55 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, 
 		return;
 	}
 
+	$data = json_decode( $post->post_content, true );
+	if ( empty( $data['nav_menus_created_posts']['value'] ) ) {
+		return;
+	}
+
+	/*
+	 * Actually, in lieu of keeping alive, trash any customization drafts here if the changeset itself is
+	 * getting trashed. This is needed because when a changeset transitions to a draft, then any of the
+	 * dependent auto-draft post/page stubs will also get transitioned to customization drafts which
+	 * are then visible in the WP Admin. We cannot wait for the deletion of the changeset in which
+	 * _wp_delete_customize_changeset_dependent_auto_drafts() will be called, since they need to be
+	 * trashed to remove from visibility immediately.
+	 */
+	if ( 'trash' === $new_status ) {
+		foreach ( $data['nav_menus_created_posts']['value'] as $post_id ) {
+			if ( ! empty( $post_id ) && 'draft' === get_post_status( $post_id ) ) {
+				wp_trash_post( $post_id );
+			}
+		}
+		return;
+	}
+
+	$post_args = array();
 	if ( 'auto-draft' === $new_status ) {
 		/*
 		 * Keep the post date for the post matching the changeset
 		 * so that it will not be garbage-collected before the changeset.
 		 */
-		$new_post_date = $post->post_date;
+		$post_args['post_date'] = $post->post_date; // Note wp_delete_auto_drafts() only looks at this date.
 	} else {
 		/*
 		 * Since the changeset no longer has an auto-draft (and it is not published)
 		 * it is now a persistent changeset, a long-lived draft, and so any
-		 * associated auto-draft posts should have their dates
-		 * pushed out very far into the future to prevent them from ever
-		 * being garbage-collected.
+		 * associated auto-draft posts should likewise transition into having a draft
+		 * status. These drafts will be treated differently than regular drafts in
+		 * that they will be tied to the given changeset. The publish metabox is
+		 * replaced with a notice about how the post is part of a set of customized changes
+		 * which will be published when the changeset is published.
 		 */
-		$new_post_date = gmdate( 'Y-m-d H:i:d', strtotime( '+100 years' ) );
+		$post_args['post_status'] = 'draft';
 	}
 
-	$data = json_decode( $post->post_content, true );
-	if ( empty( $data['nav_menus_created_posts']['value'] ) ) {
-		return;
-	}
 	foreach ( $data['nav_menus_created_posts']['value'] as $post_id ) {
 		if ( empty( $post_id ) || 'auto-draft' !== get_post_status( $post_id ) ) {
 			continue;
 		}
 		$wpdb->update(
 			$wpdb->posts,
-			array( 'post_date' => $new_post_date ), // Note wp_delete_auto_drafts() only looks at this date.
+			$post_args,
 			array( 'ID' => $post_id )
 		);
 		clean_post_cache( $post_id );

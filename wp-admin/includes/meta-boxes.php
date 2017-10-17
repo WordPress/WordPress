@@ -223,6 +223,26 @@ if ( $can_publish ) : // Contributors don't get to choose the date of publish ?>
 </div><?php // /misc-pub-section ?>
 <?php endif; ?>
 
+<?php if ( 'draft' === $post->post_status && get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ) : ?>
+	<div class="notice notice-info notice-alt inline">
+		<p>
+			<?php
+			echo sprintf(
+				/* translators: %s is the URL to the Customizer */
+				__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there&#8217;s no need to publish now. It will be published automatically with those changes.' ),
+				esc_url(
+					add_query_arg(
+						'changeset_uuid',
+						rawurlencode( get_post_meta( $post->ID, '_customize_changeset_uuid', true ) ),
+						admin_url( 'customize.php' )
+					)
+				)
+			);
+			?>
+		</p>
+	</div>
+<?php endif; ?>
+
 <?php
 /**
  * Fires after the post time/date setting in the Publish meta box.

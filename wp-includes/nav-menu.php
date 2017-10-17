@@ -1051,9 +1051,15 @@ function _wp_delete_customize_changeset_dependent_auto_drafts( $post_id ) {
 		return;
 	}
 	remove_action( 'delete_post', '_wp_delete_customize_changeset_dependent_auto_drafts' );
-	foreach ( $data['nav_menus_created_posts']['value'] as $post_id ) {
-		if ( ! empty( $post_id ) && 'auto-draft' === get_post_status( $post_id ) ) {
-			wp_delete_post( $post_id, true );
+	foreach ( $data['nav_menus_created_posts']['value'] as $stub_post_id ) {
+		if ( empty( $stub_post_id ) ) {
+			continue;
+		}
+		if ( 'auto-draft' === get_post_status( $stub_post_id ) ) {
+			wp_delete_post( $stub_post_id, true );
+		} elseif ( 'draft' === get_post_status( $stub_post_id ) ) {
+			wp_trash_post( $stub_post_id );
+			delete_post_meta( $stub_post_id, '_customize_changeset_uuid' );
 		}
 	}
 	add_action( 'delete_post', '_wp_delete_customize_changeset_dependent_auto_drafts' );

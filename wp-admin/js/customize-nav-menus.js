@@ -97,6 +97,7 @@
 		request = wp.ajax.post( 'customize-nav-menus-insert-auto-draft', {
 			'customize-menus-nonce': api.settings.nonce['customize-menus'],
 			'wp_customize': 'on',
+			'customize_changeset_uuid': api.settings.changeset.uuid,
 			'params': params
 		} );
 
