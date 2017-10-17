@@ -2820,6 +2820,14 @@ object {
 	max-width: 100%;
 }
 
+/* Remove bottom on embeds that wrapped in paragraphs via wpautop. */
+
+p > embed:only-child,
+p > iframe:only-child,
+p > object:only-child {
+	margin-bottom: 0;
+}
+
 .wp-caption,
 .gallery-caption {
 	color: #666;
