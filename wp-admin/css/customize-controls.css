@@ -1761,6 +1761,14 @@ p.customize-section-description {
 	z-index: 20;
 }
 
+@media screen and (min-width: 1670px) {
+	.control-panel-themes .customize-themes-full-container {
+		width: 82%;
+		right: 0;
+		left: initial;
+	}
+}
+
 .modal-open .control-panel-themes .customize-themes-full-container {
 	overflow-y: visible;
 }
@@ -1835,7 +1843,7 @@ p.customize-section-description {
 	display: none;
 }
 
-.themes-filter-bar .filter-drawer {
+.filter-drawer {
 	box-sizing: border-box;
 	width: 100%;
 	position: absolute;
@@ -1848,7 +1856,7 @@ p.customize-section-description {
 	border-bottom: 1px solid #ddd;
 }
 
-.themes-filter-bar .filter-group {
+.filter-drawer .filter-group {
 	margin: 0 25px 0 0;
 	width: calc( (100% - 75px) / 3);
 	min-width: 200px;
@@ -2122,6 +2130,14 @@ p.customize-section-description {
 	border-bottom: 1px solid #ddd;
 }
 
+@media screen and (min-width: 1670px) {
+	.customize-preview-header.themes-filter-bar {
+		width: 82%;
+		right: 0;
+		left: initial;
+	}
+}
+
 .themes-filter-bar .themes-filter-container {
 	margin: 0;
 	padding: 0;
@@ -2149,6 +2165,9 @@ p.customize-section-description {
 		width: 100%;
 		margin: 0 0 25px 0;
 	}
+	.filter-drawer {
+		top: 46px;
+	}
 	.wp-customizer .theme-browser .themes {
 		padding: 0 0 25px 25px;
 		overflow: hidden;
@@ -2163,7 +2182,7 @@ p.customize-section-description {
 }
 
 @media screen and (max-width:1018px) {
-	.themes-filter-bar .filter-group {
+	.filter-drawer .filter-group {
 		width: calc( (100% - 50px) / 2);
 	}
 }
@@ -2180,7 +2199,7 @@ p.customize-section-description {
 		min-width: 200px;
 	}
 
-	.themes-filter-bar .filter-drawer {
+	.filter-drawer {
 		top: 86px;
 	}
 
@@ -2190,7 +2209,7 @@ p.customize-section-description {
 }
 
 @media screen and (max-width:792px) {
-	.themes-filter-bar .filter-group {
+	.filter-drawer .filter-group {
 		width: calc( 100% - 25px);
 	}
 }
@@ -2201,6 +2220,10 @@ p.customize-section-description {
 
 /* Mobile - toggle between themes and filters */
 @media screen and (max-width:600px) {
+
+	.filter-drawer {
+		top: 132px;
+	}
 
 	.wp-full-overlay.showing-themes .control-panel-themes .filter-themes-count .filter-themes {
 		display: block;

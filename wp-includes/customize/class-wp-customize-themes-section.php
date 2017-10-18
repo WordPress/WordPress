@@ -80,6 +80,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 					<div class="customize-preview-header themes-filter-bar">
 						<?php $this->filter_bar_content_template(); ?>
 					</div>
+					<# if ( 'wporg' === data.action ) { #>
+						<?php $this->filter_drawer_content_template(); ?>
+					<# } #>
 					<div class="error unexpected-error" style="display: none; "><p><?php _e( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ); ?></p></div>
 					<ul class="themes">
 					</ul>
@@ -125,22 +128,6 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				?>
 				</span>
 			</button>
-			<div class="filter-drawer filter-details">
-				<?php
-				$feature_list = get_theme_feature_list( false ); // @todo: Use the .org API instead of the local core feature list. The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.
-				foreach ( $feature_list as $feature_name => $features ) {
-					echo '<fieldset class="filter-group">';
-					echo '<legend>' . esc_html( $feature_name ) . '</legend>';
-					echo '<div class="filter-group-feature">';
-					foreach ( $features as $feature => $feature_name ) {
-						echo '<input type="checkbox" id="filter-id-' . esc_attr( $feature ) . '" value="' . esc_attr( $feature ) . '" /> ';
-						echo '<label for="filter-id-' . esc_attr( $feature ) . '">' . esc_html( $feature_name ) . '</label><br>';
-					}
-					echo '</div>';
-					echo '</fieldset>';
-				}
-				?>
-			</div>
 		<# } else { #>
 			<div class="themes-filter-container">
 				<label for="{{ data.id }}-themes-filter" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
@@ -156,6 +143,33 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				echo sprintf( __( '%s themes' ), '<span class="theme-count">0</span>' );
 				?>
 			</span>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the filter drawer portion of a themes section as a JS template.
+	 *
+	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
+	 * The filter bar container is rendered by @see `render_template()`.
+	 *
+	 * @since 4.9.0
+	 */
+	protected function filter_drawer_content_template() {
+		$feature_list = get_theme_feature_list( false ); // @todo: Use the .org API instead of the local core feature list. The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.
+		?>
+		<div class="filter-drawer filter-details">
+			<?php foreach ( $feature_list as $feature_name => $features ) : ?>
+				<fieldset class="filter-group">
+					<legend><?php echo esc_html( $feature_name ); ?></legend>
+					<div class="filter-group-feature">
+						<?php foreach ( $features as $feature => $feature_name ) : ?>
+							<input type="checkbox" id="filter-id-<?php echo esc_attr( $feature ); ?>" value="<?php echo esc_attr( $feature ); ?>" />
+							<label for="filter-id-<?php echo esc_attr( $feature ); ?>"><?php echo esc_html( $feature_name ); ?></label><br>
+						<?php endforeach; ?>
+					</div>
+				</fieldset>
+			<?php endforeach; ?>
 		</div>
 		<?php
 	}

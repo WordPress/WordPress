@@ -1799,21 +1799,29 @@
 
 			// Toggle feature filters.
 			section.contentContainer.on( 'click', '.feature-filter-toggle', function( e ) {
-				$( e.currentTarget )
+				var $themeContainer = $( '.customize-themes-full-container' ),
+					$filterToggle = $( e.currentTarget );
+				section.filtersHeight = $filterToggle.parent().next( '.filter-drawer' ).height();
+
+				if ( 0 < $themeContainer.scrollTop() ) {
+					$themeContainer.animate( { scrollTop: 0 }, 400 );
+
+					if ( $filterToggle.hasClass( 'open' ) ) {
+						return;
+					}
+				}
+
+				$filterToggle
 					.toggleClass( 'open' )
 					.attr( 'aria-expanded', function( i, attr ) {
 						return 'true' === attr ? 'false' : 'true';
 					})
-					.next( '.filter-drawer' ).slideToggle( 180, 'linear', function() {
-						if ( 0 === section.filtersHeight ) {
-							section.filtersHeight = $( this ).height();
+					.parent().next( '.filter-drawer' ).slideToggle( 180, 'linear' );
 
-							// First time, so it's opened.
-							section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
-						}
-					});
-				if ( $( e.currentTarget ).hasClass( 'open' ) ) {
-					section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + 76 );
+				if ( $filterToggle.hasClass( 'open' ) ) {
+					var marginOffset = 1018 < window.innerWidth ? 50 : 76;
+
+					section.contentContainer.find( '.themes' ).css( 'margin-top', section.filtersHeight + marginOffset );
 				} else {
 					section.contentContainer.find( '.themes' ).css( 'margin-top', 0 );
 				}
