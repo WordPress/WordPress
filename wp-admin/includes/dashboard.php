@@ -1658,8 +1658,17 @@ function wp_try_gutenberg_panel() {
 			<div class="try-gutenberg-panel-column try-gutenberg-panel-last">
 				<h3><?php _e( 'Want to get involved?' ); ?></h3>
 				<ul>
-					<li><?php printf( __( 'Learn more about the project <a href="%s">codenamed Gutenberg</a>.' ), 'https://wordpress.org/gutenberg/' ); ?></li>
-					<li><?php printf( __( 'Help <a href="%1$s">with testing</a>, or contribute on the <a href="%2$s">GitHub repository</a>.' ), '', 'https://github.com/WordPress/gutenberg/' ); ?></li>
+					<li><?php
+						printf( __( 'Learn more about the project <a href="%s">codenamed Gutenberg</a>.' ),
+							'https://wordpress.org/gutenberg/'
+						);
+					?></li>
+					<li><?php
+						printf( __( 'Help <a href="%1$s">with testing</a>, or contribute on the <a href="%2$s">GitHub repository</a>.' ),
+							__( 'https://make.wordpress.org/test/handbook/call-for-testing/gutenberg-testing/' ),
+							'https://github.com/WordPress/gutenberg/'
+						);
+					?></li>
 				</ul>
 			</div>
 		</div>
