@@ -1619,3 +1619,50 @@ function wp_welcome_panel() {
 	</div>
 	<?php
 }
+
+/**
+ * Displays a Try Gutenberg Panel, to introduce people to Gutenberg
+ *
+ * @since 4.9.0
+ */
+function wp_try_gutenberg_panel() {
+	$plugins = get_plugins();
+	$action = $url = $classes = '';
+
+	if ( current_user_can( 'install_plugins' ) && empty( $plugins['gutenberg/gutenberg.php'] ) ) {
+		$action = __( 'Install Today' );
+		$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
+		$classes = ' install-now';
+	} else if ( current_user_can( 'install_plugins' ) && is_plugin_inactive( 'gutenberg/gutenberg.php' ) ) {
+		$action = __( 'Activate Today' );
+		$url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=gutenberg/gutenberg.php&from=try-gutenberg' ), 'activate-plugin_gutenberg/gutenberg.php' );
+		$classes = ' activate-now';
+	} else if ( current_user_can( 'edit_posts' ) && is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+		$action = __( 'Try Today' );
+		$url = admin_url( 'admin.php?page=gutenberg-demo' );
+	}
+
+	?>
+	<div class="try-gutenberg-panel-content plugin-card-gutenberg">
+		<div class="try-gutenberg-panel-column-container">
+			<div class="try-gutenberg-panel-column try-gutenberg-panel-image-column">
+				<img src="https://s.w.org/images/core/gutenberg-screenshot.gif?<?php echo date( 'Ymd' ); ?>" alt="<?php esc_attr_e( 'Gutenberg animated preview' ); ?>" />
+			</div>
+			<h2><?php _e( 'Try the new editing experience' ); ?></h2>
+			<div class="try-gutenberg-panel-column">
+				<p class="about-description"><?php _e( 'WordPress is working on a better way to control your content. How about giving it a try early?' ); ?></p>
+				<?php if ( $action ) { ?>
+					<p><a class="button button-primary button-hero<?php echo $classes; ?>" href="<?php echo esc_url( $url ); ?>"><?php echo $action; ?></a></p>
+				<?php } ?>
+			</div>
+			<div class="try-gutenberg-panel-column try-gutenberg-panel-last">
+				<h3><?php _e( 'Want to get involved?' ); ?></h3>
+				<ul>
+					<li><?php printf( __( 'Learn more about the project <a href="%s">codenamed Gutenberg</a>.' ), 'https://wordpress.org/gutenberg/' ); ?></li>
+					<li><?php printf( __( 'Help <a href="%1$s">with testing</a>, or contribute on the <a href="%2$s">GitHub repository</a>.' ), '', 'https://github.com/WordPress/gutenberg/' ); ?></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<?php
+}

@@ -65,6 +65,8 @@ if ( $action ) {
 				wp_redirect( self_admin_url("import.php?import=" . str_replace('-importer', '', dirname($plugin))) ); // overrides the ?error=true one above and redirects to the Imports page, stripping the -importer suffix
 			} else if ( isset($_GET['from']) && 'press-this' == $_GET['from'] ) {
 				wp_redirect( self_admin_url( "press-this.php") );
+			} else if ( isset($_GET['from']) && 'try-gutenberg' == $_GET['from'] ) {
+				wp_redirect( self_admin_url( "admin.php?page=gutenberg-demo") );
 			} else {
 				wp_redirect( self_admin_url("plugins.php?activate=true&plugin_status=$status&paged=$page&s=$s") ); // overrides the ?error=true one above
 			}

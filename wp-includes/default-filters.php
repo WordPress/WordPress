@@ -322,6 +322,7 @@ add_action( 'wp_scheduled_auto_draft_delete', 'wp_delete_auto_drafts'           
 add_action( 'admin_init',                 'send_frame_options_header',               10, 0 );
 add_action( 'importer_scheduled_cleanup', 'wp_delete_attachment'                           );
 add_action( 'upgrader_scheduled_cleanup', 'wp_delete_attachment'                           );
+add_action( 'try_gutenberg_panel',        'wp_try_gutenberg_panel'                         );
 add_action( 'welcome_panel',              'wp_welcome_panel'                               );
 
 // Navigation menu actions

@@ -585,9 +585,17 @@
 
 		$message
 			.removeClass( 'updating-message' )
-			.addClass( 'updated-message installed button-disabled' )
+			.addClass( 'updated-message installed' )
 			.attr( 'aria-label', wp.updates.l10n.pluginInstalledLabel.replace( '%s', response.pluginName ) )
 			.text( wp.updates.l10n.pluginInstalled );
+
+		if ( $message.hasClass( 'button-primary' ) ) {
+			$message.addClass( 'button-primary-disabled' );
+		} else if ( $message.hasClass( 'button-secondary' ) ) {
+			$message.addClass( 'button-secondary-disabled' );
+		} else {
+			$message.addClass( 'button-disabled' );
+		}
 
 		wp.a11y.speak( wp.updates.l10n.installedMsg, 'polite' );
 
@@ -597,7 +605,8 @@
 			setTimeout( function() {
 
 				// Transform the 'Install' button into an 'Activate' button.
-				$message.removeClass( 'install-now installed button-disabled updated-message' ).addClass( 'activate-now button-primary' )
+				$message.removeClass( 'install-now installed button-primary-disabled button-secondary-disabled button-disabled updated-message' )
+					.addClass( 'activate-now button-primary' )
 					.attr( 'href', response.activateUrl )
 					.attr( 'aria-label', wp.updates.l10n.activatePluginLabel.replace( '%s', response.pluginName ) )
 					.text( wp.updates.l10n.activatePlugin );
