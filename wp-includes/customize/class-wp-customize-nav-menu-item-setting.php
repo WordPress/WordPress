@@ -697,8 +697,14 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$menu_item_value['original_title'] = sanitize_text_field( $menu_item_value['original_title'] );
 
 		// Apply the same filters as when calling wp_insert_post().
+
+		/** This filter is documented in wp-includes/post.php */
 		$menu_item_value['title'] = wp_unslash( apply_filters( 'title_save_pre', wp_slash( $menu_item_value['title'] ) ) );
+
+		/** This filter is documented in wp-includes/post.php */
 		$menu_item_value['attr_title'] = wp_unslash( apply_filters( 'excerpt_save_pre', wp_slash( $menu_item_value['attr_title'] ) ) );
+
+		/** This filter is documented in wp-includes/post.php */
 		$menu_item_value['description'] = wp_unslash( apply_filters( 'content_save_pre', wp_slash( $menu_item_value['description'] ) ) );
 
 		if ( '' !== $menu_item_value['url'] ) {
