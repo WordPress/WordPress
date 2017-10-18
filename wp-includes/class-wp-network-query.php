@@ -170,7 +170,8 @@ class WP_Network_Query {
 	 * @since 4.6.0
 	 *
 	 * @param string|array $query Array or URL query string of parameters.
-	 * @return array|int List of networks, or number of networks when 'count' is passed as a query var.
+	 * @return array|int List of WP_Network objects, a list of network ids when 'fields' is set to 'ids',
+	 *                   or the number of networks when 'count' is passed as a query var.
 	 */
 	public function query( $query ) {
 		$this->query_vars = wp_parse_args( $query );
@@ -182,7 +183,8 @@ class WP_Network_Query {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @return int|array The list of networks.
+	 * @return array|int List of WP_Network objects, a list of network ids when 'fields' is set to 'ids',
+	 *                   or the number of networks when 'count' is passed as a query var.
 	 */
 	public function get_networks() {
 		$this->parse_query();
