@@ -745,6 +745,8 @@ final class _WP_Editors {
 	/**
 	 *
 	 * @static
+	 * 
+	 * @param bool $default_scripts Optional. Whether default scripts should be enqueued. Default false.
 	 */
 	public static function enqueue_scripts( $default_scripts = false ) {
 		if ( $default_scripts || self::$has_tinymce ) {
