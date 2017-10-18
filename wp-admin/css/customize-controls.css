@@ -1189,9 +1189,9 @@ p.customize-section-description {
 	display: none !important;
 }
 
-#customize-controls #customize-notifications-area,
-#customize-controls .customize-section-title > .customize-control-notifications-container,
-#customize-controls .panel-meta > .customize-control-notifications-container {
+#customize-controls #customize-notifications-area:not(.has-overlay-notifications),
+#customize-controls .customize-section-title > .customize-control-notifications-container:not(.has-overlay-notifications),
+#customize-controls .panel-meta > .customize-control-notifications-container:not(.has-overlay-notifications) {
 	max-height: 210px;
 	overflow-x: hidden;
 	overflow-y: auto;
