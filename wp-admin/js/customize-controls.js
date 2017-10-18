@@ -751,6 +751,57 @@
 	};
 
 	/**
+	 * Highlight the existence of a button.
+	 *
+	 * This function reminds the user of a button represented by the specified
+	 * UI element, after an optional delay. If the user focuses the element
+	 * before the delay passes, the reminder is canceled.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param {jQuery} button - The element to highlight.
+	 * @param {object} [options] - Options.
+	 * @param {number} [options.delay=0] - Delay in milliseconds.
+	 * @param {jQuery} [options.focusTarget] - A target for user focus that defaults to the highlighted element.
+	 *                                         If the user focuses the target before the delay passes, the reminder
+	 *                                         is canceled. This option exists to accommodate compound buttons
+	 *                                         containing auxiliary UI, such as the Publish button augmented with a
+	 *                                         Settings button.
+	 * @returns {Function} An idempotent function that cancels the reminder.
+	 */
+	api.utils.highlightButton = function highlightButton( button, options ) {
+		var animationClass = 'button-see-me',
+			canceled = false,
+			params;
+
+		params = _.extend(
+			{
+				delay: 0,
+				focusTarget: button
+			},
+			options
+		);
+
+		function cancelReminder() {
+			canceled = true;
+		}
+
+		// Remove animation class in case it was already applied.
+		button.removeClass( animationClass );
+
+		params.focusTarget.on( 'focusin', cancelReminder );
+		setTimeout( function() {
+			params.focusTarget.off( 'focusin', cancelReminder );
+
+			if ( ! canceled ) {
+				button.addClass( animationClass );
+			}
+		}, params.delay );
+
+		return cancelReminder;
+	};
+
+	/**
 	 * Get current timestamp adjusted for server clock time.
 	 *
 	 * Same functionality as the `current_time( 'mysql', false )` function in PHP.
