@@ -4535,7 +4535,7 @@ final class WP_Customize_Manager {
 		if ( $current_user_can_publish ) {
 			$status_choices[] = array(
 				'status' => 'future',
-				'label' => __( 'Schedule' ),
+				'label' => _x( 'Schedule', 'customizer status' ),
 			);
 		}
 
