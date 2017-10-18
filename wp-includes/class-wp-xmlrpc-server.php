@@ -3137,8 +3137,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.newCategory' );
 
 		// Make sure the user is allowed to add a category.
-		if ( !current_user_can('manage_categories') )
-			return new IXR_Error(401, __('Sorry, you are not allowed to add a category.'));
+		if ( ! current_user_can( 'manage_categories' ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to add a category.' ) );
+		}
 
 		// If no slug was provided make it empty so that
 		// WordPress will generate one.
@@ -3212,8 +3213,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.deleteCategory' );
 
-		if ( !current_user_can('manage_categories') )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete a category.' ) );
+		if ( ! current_user_can( 'delete_term', $category_id ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this category.' ) );
+		}
 
 		$status = wp_delete_term( $category_id, 'category' );
 
@@ -3442,8 +3444,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 		}
 
-		if ( !current_user_can( 'edit_comment', $comment_ID ) ) {
-			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
+		if ( ! current_user_can( 'edit_comment', $comment_ID ) ) {
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to delete this comment.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
