@@ -255,7 +255,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			if ( $upgrade_plugins ) {
 				$js_plugins['upgrade'] = array_values( $upgrade_plugins );
-			}
+	}
 
 			wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
 				'plugins' => $js_plugins,
@@ -267,10 +267,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	/**
 	 */
 	public function no_items() {
-		if ( isset( $this->error ) ) {
-			echo '<div class="inline error"><p>' . $this->error->get_error_message() . '</p><p class="hide-if-no-js"><button class="button try-again">' . __( 'Try Again' ) . '</button></p></div>';
-		} else {
-			echo '<div class="no-plugin-results">' . __( 'No plugins found. Try a different search.' ) . '</div>';
+		if ( isset( $this->error ) ) { ?>
+			<div class="inline error"><p><?php echo $this->error->get_error_message(); ?></p>
+				<p class="hide-if-no-js"><button class="button try-again"><?php _e( 'Try Again' ); ?></button></p>
+			</div>
+		<?php } else { ?>
+			<div class="no-plugin-results"><?php _e( 'No plugins found. Try a different search.' ); ?></div>
+		<?php
 		}
 	}
 
