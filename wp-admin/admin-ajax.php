@@ -81,6 +81,11 @@ if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_po
 add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
 if ( is_user_logged_in() ) {
+	// If no action is registered, return a Bad Request response.
+	if ( ! has_action( 'wp_ajax_' . $_REQUEST['action'] ) ) {
+		wp_die( '0', 400 );
+	}
+
 	/**
 	 * Fires authenticated Ajax actions for logged-in users.
 	 *
@@ -91,6 +96,11 @@ if ( is_user_logged_in() ) {
 	 */
 	do_action( 'wp_ajax_' . $_REQUEST['action'] );
 } else {
+	// If no action is registered, return a Bad Request response.
+	if ( ! has_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] ) ) {
+		wp_die( '0', 400 );
+	}
+
 	/**
 	 * Fires non-authenticated Ajax actions for logged-out users.
 	 *
@@ -102,4 +112,4 @@ if ( is_user_logged_in() ) {
 	do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
 }
 // Default status
-wp_die( '0', 400 );
+wp_die( '0' );
