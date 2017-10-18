@@ -1384,6 +1384,28 @@
 
 			// Focus on the new menu section.
 			api.section( customizeId ).focus(); // @todo should we focus on the new menu's control and open the add-items panel? Thinking user flow...
+		},
+
+		/**
+		 * Select a default location.
+		 *
+		 * This method selects a single location by default so we can support
+		 * creating a menu for a specific menu location.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {string|null} locationId - The ID of the location to select. `null` clears all selections.
+		 * @returns {void}
+		 */
+		selectDefaultLocation: function( locationId ) {
+			var locationControl = api.control( this.id + '[locations]' ),
+				locationSelections = {};
+
+			if ( locationId !== null ) {
+				locationSelections[ locationId ] = true;
+			}
+
+			locationControl.setSelections( locationSelections );
 		}
 	});
 
@@ -1416,17 +1438,20 @@
 				}
 			};
 
-			// Edit menu button.
+			// Create and Edit menu buttons.
+			control.container.find( '.create-menu' ).on( 'click', function() {
+				var addMenuSection = api.section( 'add_menu' );
+				addMenuSection.selectDefaultLocation( this.dataset.locationId );
+				addMenuSection.focus();
+			} );
 			control.container.find( '.edit-menu' ).on( 'click', function() {
 				var menuId = control.setting();
 				api.section( 'nav_menu[' + menuId + ']' ).focus();
 			});
 			control.setting.bind( 'change', function() {
-				if ( 0 === control.setting() ) {
-					control.container.find( '.edit-menu' ).addClass( 'hidden' );
-				} else {
-					control.container.find( '.edit-menu' ).removeClass( 'hidden' );
-				}
+				var menuIsSelected = 0 !== control.setting();
+				control.container.find( '.create-menu' ).toggleClass( 'hidden', menuIsSelected );
+				control.container.find( '.edit-menu' ).toggleClass( 'hidden', ! menuIsSelected );
 			});
 
 			// Add/remove menus from the available options when they are added and removed.
@@ -2350,6 +2375,24 @@
 				} );
 				updateSelectedMenuLabel( navMenuLocationSetting.get() );
 			});
+		},
+
+		/**
+		 * Set the selected locations.
+		 *
+		 * This method sets the selected locations and allows us to do things like
+		 * set the default location for a new menu.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {Object.<string,boolean>} selections - A map of location selections.
+		 * @returns {void}
+		 */
+		setSelections: function( selections ) {
+			this.container.find( '.menu-location' ).each( function( i, checkboxNode ) {
+				var locationId = checkboxNode.dataset.locationId;
+				checkboxNode.checked = locationId in selections ? selections[ locationId ] : false;
+			} );
 		}
 	});
 

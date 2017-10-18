@@ -50,6 +50,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 	 * Render content just like a normal select control.
 	 *
 	 * @since 4.3.0
+	 * @since 4.9.0 Added a button to create menus.
 	 */
 	public function render_content() {
 		if ( empty( $this->choices ) ) {
@@ -73,6 +74,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 				?>
 			</select>
 		</label>
+		<button type="button" class="button-link create-menu<?php if ( $this->value() ) { echo ' hidden'; } ?>" data-location-id="<?php echo esc_attr( $this->location_id ); ?>" aria-label="<?php esc_attr_e( 'Create a menu for this location' ); ?>"><?php _e( '+ Create New Menu' ); ?></button>
 		<button type="button" class="button-link edit-menu<?php if ( ! $this->value() ) { echo ' hidden'; } ?>" aria-label="<?php esc_attr_e( 'Edit selected menu' ); ?>"><?php _e( 'Edit Menu' ); ?></button>
 		<?php
 	}

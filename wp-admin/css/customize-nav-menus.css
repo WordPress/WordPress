@@ -32,8 +32,9 @@
 	color: #555;
 }
 
-/* The `edit-menu` button uses also the `button-link` class. */
-.customize-control-nav_menu_location .edit-menu {
+/* The `edit-menu` and `create-menu` buttons also use the `button-link` class. */
+.customize-control-nav_menu_location .edit-menu,
+.customize-control-nav_menu_location .create-menu {
 	margin-left: 6px;
 	vertical-align: middle;
 	line-height: 28px;
