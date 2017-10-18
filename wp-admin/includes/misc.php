@@ -67,20 +67,22 @@ function got_url_rewrite() {
 function extract_from_markers( $filename, $marker ) {
 	$result = array ();
 
-	if (!file_exists( $filename ) ) {
+	if ( ! file_exists( $filename ) ) {
 		return $result;
 	}
 
-	if ( $markerdata = explode( "\n", implode( '', file( $filename ) ) ));
-	{
-		$state = false;
-		foreach ( $markerdata as $markerline ) {
-			if (strpos($markerline, '# END ' . $marker) !== false)
-				$state = false;
-			if ( $state )
+	$markerdata = explode( "\n", implode( '', file( $filename ) ) );
+
+	$state = false;
+	foreach ( $markerdata as $markerline ) {
+		if ( false !== strpos( $markerline, '# END ' . $marker ) ) {
+			$state = false;
+			if ( $state ) {
 				$result[] = $markerline;
-			if (strpos($markerline, '# BEGIN ' . $marker) !== false)
+			}
+			if ( false !== strpos( $markerline, '# BEGIN ' . $marker ) ) {
 				$state = true;
+			}
 		}
 	}
 
