@@ -154,6 +154,7 @@
 .welcome-panel .welcome-panel-close,
 .try-gutenberg-panel .try-gutenberg-panel-close {
 	position: absolute;
+	z-index: 10;
 	top: 10px;
 	left: 10px;
 	padding: 10px 21px 10px 15px;
