@@ -39,7 +39,7 @@
 			$meta = wp_get_attachment_metadata( $thumbnail_id );
 			if ( ! empty( $meta['sizes'] ) ) {
 				foreach ( $meta['sizes'] as $size => $data ) {
-					if ( $data['width'] / $data['height'] > $aspect_ratio ) {
+					if ( $data['height'] > 0 && $data['width'] / $data['height'] > $aspect_ratio ) {
 						$aspect_ratio = $data['width'] / $data['height'];
 						$measurements = array( $data['width'], $data['height'] );
 						$image_size   = $size;
