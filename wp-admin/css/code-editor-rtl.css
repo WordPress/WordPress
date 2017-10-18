@@ -2,6 +2,10 @@
 .wp-core-ui [class*="CodeMirror-lint-message"],
 .wrap .CodeMirror-lint-marker-multiple {
 	background-image: none;
+}
+
+.wp-core-ui .CodeMirror-lint-marker-error,
+.wp-core-ui .CodeMirror-lint-marker-warning {
 	cursor: help;
 }
 
