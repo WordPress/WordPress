@@ -255,7 +255,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			if ( $upgrade_plugins ) {
 				$js_plugins['upgrade'] = array_values( $upgrade_plugins );
-	}
+			}
 
 			wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
 				'plugins' => $js_plugins,
