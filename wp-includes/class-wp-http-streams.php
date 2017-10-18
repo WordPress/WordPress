@@ -223,8 +223,14 @@ class WP_Http_Streams {
 				$stream_handle = @fopen( $r['filename'], 'w+' );
 			else
 				$stream_handle = fopen( $r['filename'], 'w+' );
-			if ( ! $stream_handle )
-				return new WP_Error( 'http_request_failed', sprintf( __( 'Could not open handle for fopen() to %s' ), $r['filename'] ) );
+			if ( ! $stream_handle ) {
+				return new WP_Error( 'http_request_failed', sprintf(
+					/* translators: 1: fopen() 2: file name */
+					__( 'Could not open handle for %1$s to %2$s.' ),
+					'fopen()',
+					$r['filename']
+				) );
+			}
 
 			$bytes_written = 0;
 			while ( ! feof($handle) && $keep_reading ) {
