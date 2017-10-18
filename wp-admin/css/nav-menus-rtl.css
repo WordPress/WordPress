@@ -810,10 +810,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		padding: 13px 15px 14px;
 	}
 
-	.nav-menus-php .item-controls .item-type {
-		margin-top: 2px;
-	}
-
 	.nav-menus-php .customlinkdiv .howto input {
 		width: 65%;
 	}
