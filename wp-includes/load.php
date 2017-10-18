@@ -1014,6 +1014,8 @@ function wp_convert_hr_to_bytes( $value ) {
  *
  * @since 4.6.0
  *
+ * @staticvar array $ini_all
+ *
  * @link https://secure.php.net/manual/en/function.ini-get-all.php
  *
  * @param string $setting The name of the ini setting to check.
