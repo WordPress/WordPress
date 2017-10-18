@@ -118,7 +118,8 @@ function network_step1( $errors = false ) {
 			/* translators: %s: Plugins screen URL */
 			__( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ),
 			admin_url( 'plugins.php?plugin_status=active' )
-		) . '</p></div><p>' . __( 'Once the network is created, you may reactivate your plugins.' ) . '</p>';
+		) . '</p></div>';
+		echo '<p>' . __( 'Once the network is created, you may reactivate your plugins.' ) . '</p>';
 		echo '</div>';
 		include( ABSPATH . 'wp-admin/admin-footer.php' );
 		die();
