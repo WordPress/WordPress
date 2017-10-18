@@ -68,7 +68,7 @@ jQuery(document).ready( function($) {
 		e.preventDefault();
 		var args = {
 			slug: 'gutenberg',
-			success: installGutenbergSuccess,
+			success: installGutenbergSuccess
 		};
 		wp.updates.installPlugin( args );
 	} );
