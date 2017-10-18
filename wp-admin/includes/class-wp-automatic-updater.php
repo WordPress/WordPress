@@ -479,7 +479,7 @@ class WP_Automatic_Updater {
 	 * If we tried to perform a core update, check if we should send an email,
 	 * and if we need to avoid processing future updates.
 	 *
-	 * @since Unknown
+	 * @since 3.7.0
 	 *
 	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
