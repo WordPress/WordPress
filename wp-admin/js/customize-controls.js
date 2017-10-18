@@ -6889,7 +6889,7 @@
 
 		// Set up publish settings section and its controls.
 		api.section( 'publish_settings', function( section ) {
-			var updateButtonsState, trashControl, updateSectionActive, isSectionActive, statusControl, dateControl, toggleDateControl, publishWhenTime, pollInterval, updateTimeArrivedPoller, timeArrivedPollingInterval = 1000;
+			var updateButtonsState, trashControl, updateSectionActive, isSectionActive, statusControl, dateControl, toggleDateControl, publishWhenTime, pollInterval, updateTimeArrivedPoller, cancelScheduleButtonReminder, timeArrivedPollingInterval = 1000;
 
 			trashControl = new api.Control( 'trash_changeset', {
 				type: 'button',
@@ -6951,6 +6951,26 @@
 			updateButtonsState();
 			section.active.bind( updateButtonsState );
 
+			function highlightScheduleButton() {
+				if ( ! cancelScheduleButtonReminder ) {
+					cancelScheduleButtonReminder = api.utils.highlightButton( btnWrapper, {
+						delay: 1000,
+
+						// Only abort the reminder when the save button is focused.
+						// If the user clicks the settings button to toggle the
+						// settings closed, we'll still remind them.
+						focusTarget: saveBtn
+					} );
+				}
+			}
+			function cancelHighlightScheduleButton() {
+				if ( cancelScheduleButtonReminder ) {
+					cancelScheduleButtonReminder();
+					cancelScheduleButtonReminder = null;
+				}
+			}
+			api.state( 'selectedChangesetStatus' ).bind( cancelHighlightScheduleButton );
+
 			section.contentContainer.find( '.customize-action' ).text( api.l10n.updating );
 			section.contentContainer.find( '.customize-section-back' ).removeAttr( 'tabindex' );
 			publishSettingsBtn.prop( 'disabled', false );
@@ -6963,6 +6983,14 @@
 			section.expanded.bind( function( isExpanded ) {
 				publishSettingsBtn.attr( 'aria-expanded', String( isExpanded ) );
 				publishSettingsBtn.toggleClass( 'active', isExpanded );
+
+				if ( isExpanded ) {
+					cancelHighlightScheduleButton();
+				} else if ( api.state( 'selectedChangesetStatus' ).get() !== api.state( 'changesetStatus' ).get() ) {
+					highlightScheduleButton();
+				} else if ( 'future' === api.state( 'selectedChangesetStatus' ).get() && api.state( 'selectedChangesetDate' ).get() !== api.state( 'changesetDate' ).get() ) {
+					highlightScheduleButton();
+				}
 			} );
 
 			statusControl = new api.Control( 'changeset_status', {
@@ -7620,8 +7648,6 @@
 			state.bind( 'change', function() {
 				var canSave;
 
-				btnWrapper.removeClass( 'button-see-me' );
-
 				if ( ! activated() ) {
 					saveBtn.val( api.l10n.activate );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
@@ -7645,12 +7671,10 @@
 						if ( saved() && selectedChangesetStatus() === changesetStatus() ) {
 							if ( changesetDate.get() !== selectedChangesetDate.get() ) {
 								saveBtn.val( api.l10n.schedule );
-								btnWrapper.addClass( 'button-see-me' );
 							} else {
 								saveBtn.val( api.l10n.scheduled );
 							}
 						} else {
-							btnWrapper.addClass( 'button-see-me' );
 							saveBtn.val( api.l10n.schedule );
 						}
 					} else if ( ! api.settings.changeset.currentUserCanPublish ) {
