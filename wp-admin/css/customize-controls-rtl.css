@@ -2020,10 +2020,6 @@ p.customize-section-description {
 	display: none; /* Hide "installed" notice on installed themes tab. */
 }
 
-.control-panel-themes .theme-browser .theme .theme-actions .button-primary {
-	margin: 0 8px 0 0;
-}
-
 .customize-control-theme .theme {
 	width: 100%;
 	margin: 0;
@@ -2094,6 +2090,21 @@ p.customize-section-description {
 	font-size: 15px;
 }
 
+.theme-id-container {
+	position: relative;
+}
+
+.theme-browser .theme.active .theme-actions,
+.wp-customizer .theme-browser .theme .theme-actions {
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 0;
+	padding: 10px 15px;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+}
+
 #customize-controls .theme-overlay .theme-name {
 	font-size: 32px;
 }
@@ -2118,13 +2129,15 @@ p.customize-section-description {
 
 .themes-filter-bar .wp-filter-search {
 	line-height: 25px;
-	padding: 3px 5px;
+	padding: 6px 30px 6px 10px;
 	max-width: 100%;
 	width: 40%;
 	min-width: 300px;
 	position: absolute;
 	top: 6px;
 	right: 25px;
+	height: 32px;
+	margin: 1px 0;
 }
 
 /* Unstick the filter bar on short windows/screens. This breakpoint is based on the
@@ -2233,7 +2246,7 @@ p.customize-section-description {
 	.wp-customizer .showing-themes .control-panel-themes .customize-themes-mobile-back:before {
 		right: 0;
 		top: 0;
-		height: 42px;
+		height: 46px;
 		width: 26px;
 		display: block;
 		line-height: 46px;
@@ -2252,6 +2265,10 @@ p.customize-section-description {
 
 	.showing-themes #customize-header-actions {
 		display: none;
+	}
+
+	#customize-controls {
+		width: 100%;
 	}
 }
 
@@ -2362,6 +2379,10 @@ p.customize-section-description {
 		left: 0;
 		top: 0;
 		bottom: 0;
+	}
+
+	.wp-customizer .theme-browser .themes {
+		padding-left: 25px;
 	}
 }
 
@@ -2677,12 +2698,24 @@ body.adding-widget .add-new-widget:before,
 }
 
 #available-menu-items-search .search-icon:after,
-#available-widgets-filter .search-icon:after {
+.themes-filter-bar .search-icon:after {
 	content: "\f179";
 	font: normal 20px/1 dashicons;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.themes-filter-bar .search-icon {
+	position: absolute;
+	top: 7px;
+	right: 26px;
+	z-index: 1;
+	color: #72777c;
+	height: 30px;
+	width: 30px;
+	line-height: 2;
+	text-align: center;
 }
 
 .no-widgets-found-message {
@@ -2797,6 +2830,10 @@ body.adding-widget .add-new-widget:before,
 	.media-widget-control .media-widget-buttons .button.select-media {
 		margin-top: 12px;
 	}
+
+	.wp-core-ui .themes-filter-bar .feature-filter-toggle {
+		margin: 3px 25px 3px 0;
+	}
 }
 
 @media screen and ( max-width: 1200px ) {
@@ -2808,9 +2845,6 @@ body.adding-widget .add-new-widget:before,
 }
 
 @media screen and ( max-width: 640px ) {
-	#customize-controls {
-		width: 100%;
-	}
 
 	.wp-full-overlay.expanded,
 	.outer-section-open .wp-full-overlay.expanded {
@@ -2846,7 +2880,7 @@ body.adding-widget .add-new-widget:before,
 	}
 
 	#customize-footer-actions,
-	#customize-preview,
+	/*#customize-preview,*/
 	.customize-controls-preview-toggle .controls,
 	.preview-only .wp-full-overlay-sidebar-content,
 	.preview-only .customize-controls-preview-toggle .preview {
@@ -2879,10 +2913,8 @@ body.adding-widget .add-new-widget:before,
 		display: block;
 	}
 
-	#customize-preview {
-		top: 45px;
-		bottom: 0;
-		height: auto;
+	.wp-full-overlay.expanded {
+		margin-right: 300px;
 	}
 
 	.wp-core-ui.wp-customizer .button {
@@ -2891,8 +2923,6 @@ body.adding-widget .add-new-widget:before,
 		font-size: 14px;
 		vertical-align: middle;
 		height: auto;
-		margin-bottom: 4px;
-		margin-top: 12px;
 	}
 
 	#publish-settings {
@@ -2973,5 +3003,15 @@ body.adding-widget .add-new-widget:before,
 	.reorder,
 	.reordering .reorder-done {
 		padding: 8px;
+	}
+
+	.wp-core-ui .themes-filter-bar .feature-filter-toggle {
+		margin: 0;
+	}
+
+	.theme-browser .theme.active .theme-actions,
+	.wp-customizer .theme-browser .theme .theme-actions {
+		padding: 9px 15px;
+		box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
 	}
 }

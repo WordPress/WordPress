@@ -97,11 +97,7 @@ body.js .theme-browser.search-loading {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	opacity: 0;
 	transition: opacity 0.1s ease-in-out;
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	height: 38px;
-	padding: 9px 10px 0 10px;
+	height: auto;
 	background: rgba(244, 244, 244, 0.7);
 	border-left: 1px solid rgba(0,0,0,0.05);
 }

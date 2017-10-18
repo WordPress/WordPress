@@ -114,6 +114,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 			<div class="search-form">
 				<label for="wp-filter-search-input-{{ data.id }}" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
 				<input type="search" id="wp-filter-search-input-{{ data.id }}" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search">
+				<div class="search-icon" aria-hidden="true"></div>
 				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
 			</div>
 			<button type="button" class="button feature-filter-toggle">
@@ -144,6 +145,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 			<div class="themes-filter-container">
 				<label for="{{ data.id }}-themes-filter" class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></label>
 				<input type="search" id="{{ data.id }}-themes-filter" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="{{ data.id }}-live-search-desc" class="wp-filter-search wp-filter-search-themes" />
+				<div class="search-icon" aria-hidden="true"></div>
 				<span id="{{ data.id }}-live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
 			</div>
 		<# } #>
