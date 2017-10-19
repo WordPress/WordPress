@@ -6900,7 +6900,7 @@
 				type: 'button',
 				section: section.id,
 				priority: 30,
-				inputAttrs: {
+				input_attrs: {
 					'class': 'button-link button-link-delete',
 					value: api.l10n.discardChanges
 				}

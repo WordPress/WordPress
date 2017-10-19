@@ -4003,7 +4003,7 @@ final class WP_Customize_Manager {
 					if ( data.description ) {
 						inputAttrs['aria-describedby'] = descriptionId;
 					}
-					_.extend( inputAttrs, data.inputAttrs );
+					_.extend( inputAttrs, data.input_attrs );
 					#>
 
 					<# if ( 'button' === data.type ) { #>
