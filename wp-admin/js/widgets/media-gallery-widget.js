@@ -201,7 +201,7 @@
 			});
 
 			mediaFrameProps = control.mapModelToMediaFrameProps( control.model.toJSON() );
-			selection.gallery = new Backbone.Model( _.pick( mediaFrameProps, 'columns', 'link', 'size', '_orderbyRandom' ) );
+			selection.gallery = new Backbone.Model( mediaFrameProps );
 			if ( mediaFrameProps.size ) {
 				control.displaySettings.set( 'size', mediaFrameProps.size );
 			}
