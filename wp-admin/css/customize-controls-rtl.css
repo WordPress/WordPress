@@ -2317,6 +2317,10 @@ p.customize-section-description {
 	z-index: -1;
 }
 
+.wp-full-overlay.in-themes-panel.themes-panel-expanded #customize-controls .wp-full-overlay-sidebar-content {
+	overflow: visible;
+}
+
 .wp-customizer .theme-overlay .theme-backdrop {
 	background: rgba( 238, 238, 238, 0.75 );
 	position: fixed;

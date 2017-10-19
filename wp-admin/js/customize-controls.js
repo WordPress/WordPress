@@ -3065,13 +3065,17 @@
 					.addClass( 'in-themes-panel' )
 					.delay( 200 ).find( '.customize-themes-full-container' ).addClass( 'animate' );
 
+				_.delay( function() {
+					overlay.addClass( 'themes-panel-expanded' );
+				}, 200 );
+
 				// Automatically open the installed themes section (except on small screens).
 				if ( 600 < window.innerWidth ) {
 					api.section( 'installed_themes' ).expand();
 				}
 			} else {
 				overlay
-					.removeClass( 'in-themes-panel' )
+					.removeClass( 'in-themes-panel themes-panel-expanded' )
 					.find( '.customize-themes-full-container' ).removeClass( 'animate' );
 			}
 		},
