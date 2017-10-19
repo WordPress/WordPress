@@ -93,7 +93,7 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @returns {void}
 		 */
 		initialize: function( options ) {
-			var view = this, embedController; // eslint-disable-line consistent-thi
+			var view = this, embedController; // eslint-disable-line consistent-this
 			wp.media.view.Embed.prototype.initialize.call( view, options );
 			if ( 'image' !== view.controller.options.mimeType ) {
 				embedController = view.controller.states.get( 'embed' );

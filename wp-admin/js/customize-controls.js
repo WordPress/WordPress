@@ -6986,12 +6986,21 @@
 			} );
 
 			section.expanded.bind( function( isExpanded ) {
+				var defaultChangesetStatus;
 				publishSettingsBtn.attr( 'aria-expanded', String( isExpanded ) );
 				publishSettingsBtn.toggleClass( 'active', isExpanded );
 
 				if ( isExpanded ) {
 					cancelHighlightScheduleButton();
-				} else if ( api.state( 'selectedChangesetStatus' ).get() !== api.state( 'changesetStatus' ).get() ) {
+					return;
+				}
+
+				defaultChangesetStatus = api.state( 'changesetStatus' ).get();
+				if ( '' === defaultChangesetStatus || 'auto-draft' === defaultChangesetStatus ) {
+					defaultChangesetStatus = 'publish';
+				}
+
+				if ( api.state( 'selectedChangesetStatus' ).get() !== defaultChangesetStatus ) {
 					highlightScheduleButton();
 				} else if ( 'future' === api.state( 'selectedChangesetStatus' ).get() && api.state( 'selectedChangesetDate' ).get() !== api.state( 'changesetDate' ).get() ) {
 					highlightScheduleButton();
@@ -8479,6 +8488,7 @@
 			var isInsideIframe = false;
 
 			function isCleanState() {
+				var defaultChangesetStatus;
 
 				/*
 				 * Handle special case of previewing theme switch since some settings (for nav menus and widgets)
@@ -8486,6 +8496,20 @@
 				 */
 				if ( ! api.state( 'activated' ).get() ) {
 					return 0 === api._latestRevision;
+				}
+
+				// Dirty if the changeset status has been changed but not saved yet.
+				defaultChangesetStatus = api.state( 'changesetStatus' ).get();
+				if ( '' === defaultChangesetStatus || 'auto-draft' === defaultChangesetStatus ) {
+					defaultChangesetStatus = 'publish';
+				}
+				if ( api.state( 'selectedChangesetStatus' ).get() !== defaultChangesetStatus ) {
+					return false;
+				}
+
+				// Dirty if scheduled but the changeset date hasn't been saved yet.
+				if ( 'future' === api.state( 'selectedChangesetStatus' ).get() && api.state( 'selectedChangesetDate' ).get() !== api.state( 'changesetDate' ).get() ) {
+					return false;
 				}
 
 				return api.state( 'saved' ).get() && 'auto-draft' !== api.state( 'changesetStatus' ).get();
@@ -8501,6 +8525,8 @@
 
 			function startPromptingBeforeUnload() {
 				api.unbind( 'change', startPromptingBeforeUnload );
+				api.state( 'selectedChangesetStatus' ).unbind( startPromptingBeforeUnload );
+				api.state( 'selectedChangesetDate' ).unbind( startPromptingBeforeUnload );
 
 				// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
 				$( window ).on( 'beforeunload.customize-confirm', function() {
@@ -8513,6 +8539,8 @@
 				});
 			}
 			api.bind( 'change', startPromptingBeforeUnload );
+			api.state( 'selectedChangesetStatus' ).bind( startPromptingBeforeUnload );
+			api.state( 'selectedChangesetDate' ).bind( startPromptingBeforeUnload );
 
 			function requestClose() {
 				var clearedToClose = $.Deferred(), dismissAutoSave = false, dismissLock = false;
