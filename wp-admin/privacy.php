@@ -30,7 +30,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<a href="privacy.php" class="nav-tab nav-tab-active"><?php _e( 'Privacy' ); ?></a>
 </h2>
 
-<p class="about-description"><?php _e( 'From time to time, your WordPress site may send data to WordPress.org - including, but not limited to - the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
+<p class="about-description"><?php _e( 'From time to time, your WordPress site may send data to WordPress.org &#8212; including, but not limited to &#8212; the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
 
 <p><?php printf( __( 'This data helps WordPress to protect your site by finding and automatically installing new updates, as well as other general enhancements. The data is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), __( 'https://wordpress.org/about/stats/' ) ); ?></p>
 
