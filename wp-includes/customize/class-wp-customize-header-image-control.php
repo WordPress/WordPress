@@ -77,6 +77,8 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			return;
 		}
 
+		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_header_image_template' ) );
+
 		// Process default headers and uploaded headers.
 		$custom_image_header->process_default_headers();
 		$this->default_headers = $custom_image_header->get_default_header_images();
@@ -157,7 +159,6 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	/**
 	 */
 	public function render_content() {
-		$this->print_header_image_template();
 		$visibility = $this->get_current_image_src() ? '' : ' style="display:none" ';
 		$width = absint( get_theme_support( 'custom-header', 'width' ) );
 		$height = absint( get_theme_support( 'custom-header', 'height' ) );

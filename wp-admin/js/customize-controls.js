@@ -3362,7 +3362,7 @@
 		},
 
 		initialize: function( id, options ) {
-			var control = this, deferredSettingIds = [], settings, gatherSettings, standardTypes;
+			var control = this, deferredSettingIds = [], settings, gatherSettings;
 
 			control.params = _.extend( {}, control.defaults );
 
@@ -3401,30 +3401,8 @@
 				control.container = $( control.selector ); // Likely dead, per above. See #28709.
 			}
 
-			standardTypes = [
-				'button',
-				'checkbox',
-				'date',
-				'datetime-local',
-				'email',
-				'month',
-				'number',
-				'password',
-				'radio',
-				'range',
-				'search',
-				'select',
-				'tel',
-				'time',
-				'text',
-				'textarea',
-				'week',
-				'url'
-			];
 			if ( control.params.templateId ) {
 				control.templateSelector = control.params.templateId;
-			} else if ( _.contains( standardTypes, control.params.type ) && control.container.is( ':empty' ) ) {
-				control.templateSelector = 'customize-control-default-content';
 			} else {
 				control.templateSelector = 'customize-control-' + control.params.type + '-content';
 			}
@@ -3886,12 +3864,39 @@
 		 * @since 4.1.0
 		 */
 		renderContent: function () {
-			var template,
-				control = this;
+			var control = this, template, standardTypes, templateId;
+
+			standardTypes = [
+				'button',
+				'checkbox',
+				'date',
+				'datetime-local',
+				'email',
+				'month',
+				'number',
+				'password',
+				'radio',
+				'range',
+				'search',
+				'select',
+				'tel',
+				'time',
+				'text',
+				'textarea',
+				'week',
+				'url'
+			];
+
+			templateId = control.templateSelector;
+
+			// Use default content template when a standard HTML type is used and there isn't a more specific template existing.
+			if ( templateId === 'customize-control-' + control.params.type + '-content' && _.contains( standardTypes, control.params.type ) && ! document.getElementById( 'tmpl-' + templateId ) ) {
+				templateId = 'customize-control-default-content';
+			}
 
 			// Replace the container element's content with the control.
-			if ( 0 !== $( '#tmpl-' + control.templateSelector ).length ) {
-				template = wp.template( control.templateSelector );
+			if ( document.getElementById( 'tmpl-' + templateId ) ) {
+				template = wp.template( templateId );
 				if ( template && control.container ) {
 					control.container.html( template( control.params ) );
 				}
