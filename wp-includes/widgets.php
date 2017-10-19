@@ -100,17 +100,19 @@ $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
  * Registers a WP_Widget widget
  *
  * @since 2.8.0
+ * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
+ *              instead of simply a `WP_Widget` subclass name.
  *
  * @see WP_Widget
  *
  * @global WP_Widget_Factory $wp_widget_factory
  *
- * @param string $widget_class The name of a class that extends WP_Widget
+ * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
  */
-function register_widget($widget_class) {
+function register_widget( $widget ) {
 	global $wp_widget_factory;
 
-	$wp_widget_factory->register($widget_class);
+	$wp_widget_factory->register( $widget );
 }
 
 /**
@@ -120,17 +122,19 @@ function register_widget($widget_class) {
  * Run within a function hooked to the {@see 'widgets_init'} action.
  *
  * @since 2.8.0
+ * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
+ *              instead of simply a `WP_Widget` subclass name.
  *
  * @see WP_Widget
  *
  * @global WP_Widget_Factory $wp_widget_factory
  *
- * @param string $widget_class The name of a class that extends WP_Widget.
+ * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
  */
-function unregister_widget($widget_class) {
+function unregister_widget( $widget ) {
 	global $wp_widget_factory;
 
-	$wp_widget_factory->unregister($widget_class);
+	$wp_widget_factory->unregister( $widget );
 }
 
 /**
@@ -316,7 +320,7 @@ function is_registered_sidebar( $sidebar_id ) {
  * @since 2.2.0
  *
  * @global array $wp_registered_widgets            Uses stored registered widgets.
- * @global array $wp_registered_widget_controls    Stores the registered widget control (options).
+ * @global array $wp_registered_widget_controls    Stores the registered widget controls (options).
  * @global array $wp_registered_widget_updates
  * @global array $_wp_deprecated_widgets_callbacks
  *
