@@ -426,14 +426,16 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
 				 *
 				 * @since 4.3.0
+				 * @since 4.9.0 Added the `$recent_args` parameter.
 				 *
 				 * @param array $most_recent An array of post objects being listed.
-				 * @param array $args        An array of WP_Query arguments.
+				 * @param array $args        An array of WP_Query arguments for the meta box.
 				 * @param array $box         Arguments passed to wp_nav_menu_item_post_type_meta_box().
+				 * @param array $recent_args An array of WP_Query arguments for 'Most Recent' tab.
 				 */
-				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $box );
+				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $box, $recent_args );
 
-				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $most_recent), 0, (object) $args );
+				echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $most_recent ), 0, (object) $args );
 				?>
 			</ul>
 		</div><!-- /.tabs-panel -->
