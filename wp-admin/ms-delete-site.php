@@ -20,7 +20,7 @@ if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' )
 		wpmu_delete_blog( get_current_blog_id() );
 		wp_die( sprintf( __( 'Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.' ), get_network()->site_name ) );
 	} else {
-		wp_die( __( "I'm sorry, the link you clicked is stale. Please select another option." ) );
+		wp_die( __( 'Sorry, the link you clicked is stale. Please select another option.' ) );
 	}
 }
 
