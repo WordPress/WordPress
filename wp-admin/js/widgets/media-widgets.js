@@ -85,6 +85,23 @@ wp.mediaWidgets = ( function( $ ) {
 	component.MediaEmbedView = wp.media.view.Embed.extend({
 
 		/**
+		 * Initialize.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {object} options - Options.
+		 * @returns {void}
+		 */
+		initialize: function( options ) {
+			var view = this, embedController; // eslint-disable-line consistent-thi
+			wp.media.view.Embed.prototype.initialize.call( view, options );
+			if ( 'image' !== view.controller.options.mimeType ) {
+				embedController = view.controller.states.get( 'embed' );
+				embedController.off( 'scan', embedController.scanImage, embedController );
+			}
+		},
+
+		/**
 		 * Refresh embed view.
 		 *
 		 * Forked override of {wp.media.view.Embed#refresh()} to suppress irrelevant "link text" field.
@@ -140,21 +157,43 @@ wp.mediaWidgets = ( function( $ ) {
 					},
 
 					/**
+					 * Update oEmbed.
+					 *
+					 * @since 4.9.0
+					 *
+					 * @returns {void}
+					 */
+					updateoEmbed: function() {
+						var embedLinkView = this, url; // eslint-disable-line consistent-this
+
+						url = embedLinkView.model.get( 'url' );
+
+						// Abort if the URL field was emptied out.
+						if ( ! url ) {
+							embedLinkView.setErrorNotice( '' );
+							embedLinkView.setAddToWidgetButtonDisabled( true );
+							return;
+						}
+
+						if ( ! url.match( /^(http|https):\/\/.+\// ) ) {
+							embedLinkView.controller.$el.find( '#embed-url-field' ).addClass( 'invalid' );
+							embedLinkView.setAddToWidgetButtonDisabled( true );
+						}
+
+						wp.media.view.EmbedLink.prototype.updateoEmbed.call( embedLinkView );
+					},
+
+					/**
 					 * Fetch media.
 					 *
 					 * @returns {void}
 					 */
 					fetch: function() {
 						var embedLinkView = this, fetchSuccess, matches, fileExt, urlParser, url, re, youTubeEmbedMatch; // eslint-disable-line consistent-this
+						url = embedLinkView.model.get( 'url' );
 
 						if ( embedLinkView.dfd && 'pending' === embedLinkView.dfd.state() ) {
 							embedLinkView.dfd.abort();
-						}
-
-						// Abort if the URL field was emptied out.
-						if ( ! embedLinkView.model.get( 'url' ) ) {
-							embedLinkView.setErrorNotice( '' );
-							return;
 						}
 
 						fetchSuccess = function( response ) {
@@ -164,13 +203,13 @@ wp.mediaWidgets = ( function( $ ) {
 								}
 							});
 
-							$( '#embed-url-field' ).removeClass( 'invalid' );
+							embedLinkView.controller.$el.find( '#embed-url-field' ).removeClass( 'invalid' );
 							embedLinkView.setErrorNotice( '' );
 							embedLinkView.setAddToWidgetButtonDisabled( false );
 						};
 
 						urlParser = document.createElement( 'a' );
-						urlParser.href = embedLinkView.model.get( 'url' );
+						urlParser.href = url;
 						matches = urlParser.pathname.toLowerCase().match( /\.(\w+)$/ );
 						if ( matches ) {
 							fileExt = matches[1];
@@ -185,7 +224,6 @@ wp.mediaWidgets = ( function( $ ) {
 						}
 
 						// Support YouTube embed links.
-						url = embedLinkView.model.get( 'url' );
 						re = /https?:\/\/www\.youtube\.com\/embed\/([^/]+)/;
 						youTubeEmbedMatch = re.exec( url );
 						if ( youTubeEmbedMatch ) {
@@ -228,7 +266,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 */
 					renderFail: function renderFail() {
 						var embedLinkView = this; // eslint-disable-line consistent-this
-						$( '#embed-url-field' ).addClass( 'invalid' );
+						embedLinkView.controller.$el.find( '#embed-url-field' ).addClass( 'invalid' );
 						embedLinkView.setErrorNotice( embedLinkView.controller.options.invalidEmbedTypeError || 'ERROR' );
 						embedLinkView.setAddToWidgetButtonDisabled( true );
 					}
