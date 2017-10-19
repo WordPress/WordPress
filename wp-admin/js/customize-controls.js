@@ -786,15 +786,19 @@
 			canceled = true;
 		}
 
-		// Remove animation class in case it was already applied.
-		button.removeClass( animationClass );
-
 		params.focusTarget.on( 'focusin', cancelReminder );
 		setTimeout( function() {
 			params.focusTarget.off( 'focusin', cancelReminder );
 
 			if ( ! canceled ) {
 				button.addClass( animationClass );
+				button.one( 'animationend', function() {
+					/*
+					 * Remove animation class to avoid situations in Customizer where
+					 * DOM nodes are moved (re-inserted) and the animation repeats.
+					 */
+					button.removeClass( animationClass );
+				} );
 			}
 		}, params.delay );
 
