@@ -30,11 +30,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<a href="privacy.php" class="nav-tab nav-tab-active"><?php _e( 'Privacy' ); ?></a>
 </h2>
 
-<p class="about-description"><?php _e( 'Your WordPress site may send anonymous data including, but not limited to, the list of installed plugins and themes to WordPress.org when requesting updates.' ); ?></p>
+<p class="about-description"><?php _e( 'From time to time, your WordPress site may send data to WordPress.org - including, but not limited to - the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
 
-<p><?php _e( ' This data helps WordPress to protect your site by finding and automatically installing new updates. None of the information shared with the update server contains personally identifiable information.' ); ?></p>
+<p><?php printf( __( 'This data helps WordPress to protect your site by finding and automatically installing new updates, as well as other general enhancements. The data is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), __( 'https://wordpress.org/about/stats/' ) ); ?></p>
 
-<p><?php printf( __( 'We take privacy seriously. Learn more at <a href="%s">wordpress.org/privacy</a>.' ), __( 'https://wordpress.org/about/privacy/' ) ); ?></p>
+<p><?php printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), __( 'https://wordpress.org/about/privacy/' ) ); ?></p>
 
 </div>
 <?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
