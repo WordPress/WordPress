@@ -273,34 +273,35 @@ foreach ( $themes as $theme ) :
 	<span class="more-details" id="<?php echo $aria_action; ?>"><?php _e( 'Theme Details' ); ?></span>
 	<div class="theme-author"><?php printf( __( 'By %s' ), $theme['author'] ); ?></div>
 
-	<?php if ( $theme['active'] ) { ?>
-		<h2 class="theme-name" id="<?php echo $aria_name; ?>">
+	<div class="theme-id-container">
+		<?php if ( $theme['active'] ) { ?>
+			<h2 class="theme-name" id="<?php echo $aria_name; ?>">
+				<?php
+				/* translators: %s: theme name */
+				printf( __( '<span>Active:</span> %s' ), $theme['name'] );
+				?>
+			</h2>
+		<?php } else { ?>
+			<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h2>
+		<?php } ?>
+
+		<div class="theme-actions">
+		<?php if ( $theme['active'] ) { ?>
+			<?php if ( $theme['actions']['customize'] && current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
+				<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize' ); ?></a>
+			<?php } ?>
+		<?php } else { ?>
 			<?php
-			/* translators: %s: theme name */
-			printf( __( '<span>Active:</span> %s' ), $theme['name'] );
+			/* translators: %s: Theme name */
+			$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 			?>
-		</h2>
-	<?php } else { ?>
-		<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['name']; ?></h2>
-	<?php } ?>
-
-	<div class="theme-actions">
-
-	<?php if ( $theme['active'] ) { ?>
-		<?php if ( $theme['actions']['customize'] && current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
-			<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize' ); ?></a>
+			<a class="button activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+			<?php if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
+				<a class="button button-primary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
+			<?php } ?>
 		<?php } ?>
-	<?php } else { ?>
-		<?php
-		/* translators: %s: Theme name */
-		$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
-		?>
-		<a class="button activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
-		<?php if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
-			<a class="button button-primary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
-		<?php } ?>
-	<?php } ?>
 
+		</div>
 	</div>
 </div>
 <?php endforeach; ?>
@@ -407,30 +408,32 @@ $can_install = current_user_can( 'install_themes' );
 		?>
 	</div>
 
-	<# if ( data.active ) { #>
-		<h2 class="theme-name" id="{{ data.id }}-name">
-			<?php
-			/* translators: %s: Theme name */
-			printf( __( '<span>Active:</span> %s' ), '{{{ data.name }}}' );
-			?>
-		</h2>
-	<# } else { #>
-		<h2 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h2>
-	<# } #>
-
-	<div class="theme-actions">
+	<div class="theme-id-container">
 		<# if ( data.active ) { #>
-			<# if ( data.actions.customize ) { #>
-				<a class="button button-primary customize load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Customize' ); ?></a>
-			<# } #>
+			<h2 class="theme-name" id="{{ data.id }}-name">
+				<?php
+				/* translators: %s: Theme name */
+				printf( __( '<span>Active:</span> %s' ), '{{{ data.name }}}' );
+				?>
+			</h2>
 		<# } else { #>
-			<?php
-			/* translators: %s: Theme name */
-			$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
-			?>
-			<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
-			<a class="button button-primary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
+			<h2 class="theme-name" id="{{ data.id }}-name">{{{ data.name }}}</h2>
 		<# } #>
+
+		<div class="theme-actions">
+			<# if ( data.active ) { #>
+				<# if ( data.actions.customize ) { #>
+					<a class="button button-primary customize load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Customize' ); ?></a>
+				<# } #>
+			<# } else { #>
+				<?php
+				/* translators: %s: Theme name */
+				$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
+				?>
+				<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
+				<a class="button button-primary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
+			<# } #>
+		</div>
 	</div>
 </script>
 

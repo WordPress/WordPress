@@ -222,6 +222,21 @@ body.js .theme-browser.search-loading {
 	opacity: 1;
 }
 
+.theme-id-container {
+	position: relative;
+}
+
+.theme-browser .theme.active .theme-actions,
+.theme-browser .theme .theme-actions {
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 0;
+	padding: 10px 15px;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+}
+
 .theme-browser .theme.active .theme-actions .button-primary {
 	margin-left: 0;
 }
@@ -1891,6 +1906,16 @@ body.full-overlay-active {
 	.theme-install-overlay .wp-full-overlay-header .theme-install {
 		margin-top: 6px;
 		line-height: normal;
+	}
+
+	.theme-browser .theme .theme-actions .button {
+		margin-bottom: 0;
+	}
+
+	.theme-browser .theme.active .theme-actions,
+	.theme-browser .theme .theme-actions {
+		padding-top: 8px;
+		padding-bottom: 8px;
 	}
 }
 

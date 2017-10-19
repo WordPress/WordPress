@@ -1675,6 +1675,12 @@ p.customize-section-description {
 	margin-left: 12px;
 }
 
+.theme-browser .theme.active .theme-actions,
+.wp-customizer .theme-browser .theme .theme-actions {
+	padding: 10px 15px;
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+}
+
 @media screen and ( max-width: 640px ) {
 	.customize-section-description-container + #customize-control-custom_css:last-child {
 		margin-left: 0;
@@ -2096,21 +2102,6 @@ p.customize-section-description {
 
 #customize-controls h3.theme-name {
 	font-size: 15px;
-}
-
-.theme-id-container {
-	position: relative;
-}
-
-.theme-browser .theme.active .theme-actions,
-.wp-customizer .theme-browser .theme .theme-actions {
-	position: absolute;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-	left: 0;
-	padding: 10px 15px;
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
 }
 
 #customize-controls .theme-overlay .theme-name {
@@ -3040,5 +3031,13 @@ body.adding-widget .add-new-widget:before,
 	.wp-customizer .theme-browser .theme .theme-actions {
 		padding: 9px 15px;
 		box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	}
+}
+
+@media screen and ( max-width: 600px ) {
+	.theme-browser .theme.active .theme-actions,
+	.wp-customizer .theme-browser .theme .theme-actions {
+		padding: 8px 15px;
+		box-shadow: none;
 	}
 }
