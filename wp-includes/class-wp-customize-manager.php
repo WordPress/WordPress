@@ -3173,7 +3173,7 @@ final class WP_Customize_Manager {
 		if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $changeset_post_id ) ) {
 			wp_send_json_error( array(
 				'code' => 'cannot_remove_changeset_lock',
-				'message' => __( 'Sorry you are not allowed to take over.' ),
+				'message' => __( 'Sorry, you are not allowed to take over.' ),
 			) );
 		}
 
