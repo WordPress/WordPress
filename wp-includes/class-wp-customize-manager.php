@@ -4019,6 +4019,7 @@ final class WP_Customize_Manager {
 							<# }); #>
 						>{{ inputAttrs.value }}</textarea>
 					<# } else if ( 'select' === data.type ) { #>
+						<# delete inputAttrs.type; #>
 						<select
 							<# _.each( _.extend( inputAttrs ), function( value, key ) { #>
 								{{{ key }}}="{{ value }}"

@@ -3897,8 +3897,12 @@
 
 			templateId = control.templateSelector;
 
-			// Use default content template when a standard HTML type is used and there isn't a more specific template existing.
-			if ( templateId === 'customize-control-' + control.params.type + '-content' && _.contains( standardTypes, control.params.type ) && ! document.getElementById( 'tmpl-' + templateId ) ) {
+			// Use default content template when a standard HTML type is used, there isn't a more specific template existing, and the control container is empty.
+			if ( templateId === 'customize-control-' + control.params.type + '-content' &&
+				_.contains( standardTypes, control.params.type ) &&
+				! document.getElementById( 'tmpl-' + templateId ) &&
+				0 === control.container.children().length )
+			{
 				templateId = 'customize-control-default-content';
 			}
 
