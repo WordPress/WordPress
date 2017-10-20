@@ -946,7 +946,7 @@ final class WP_Customize_Nav_Menus {
 		</script>
 
 		<script type="text/html" id="tmpl-nav-menu-submit-new-button">
-			<p id="customize-new-menu-submit-description"><?php _e( 'Click "Next" to start adding links to your new menu.' ); ?></p>
+			<p id="customize-new-menu-submit-description"><?php _e( 'Click &#8220;Next&#8221; to start adding links to your new menu.' ); ?></p>
 			<button id="customize-new-menu-submit" type="button" class="button" aria-describedby="customize-new-menu-submit-description"><?php _e( 'Next' ); ?></button>
 		</script>
 
