@@ -3341,23 +3341,6 @@
 	 *
 	 * @class
 	 * @augments wp.customize.Class
-	 *
-	 * @param {string} id                       - Unique identifier for the control instance.
-	 * @param {object} options                  - Options hash for the control instance.
-	 * @param {object} options.type             - Type of control (e.g. text, radio, dropdown-pages, etc.)
-	 * @param {string} [options.content]        - The HTML content for the control or at least its container. This should normally be left blank and instead supplying a templateId.
-	 * @param {string} [options.templateId]     - Template ID for control's content.
-	 * @param {string} [options.priority=10]    - Order of priority to show the control within the section.
-	 * @param {string} [options.active=true]    - Whether the control is active.
-	 * @param {string} options.section          - The ID of the section the control belongs to.
-	 * @param {mixed}  [options.setting]        - The ID of the main setting or an instance of this setting.
-	 * @param {mixed}  options.settings         - An object with keys (e.g. default) that maps to setting IDs or Setting/Value objects, or an array of setting IDs or Setting/Value objects.
-	 * @param {mixed}  options.settings.default - The ID of the setting the control relates to.
-	 * @param {string} options.settings.data    - @todo Is this used?
-	 * @param {string} options.label            - Label.
-	 * @param {string} options.description      - Description.
-	 * @param {number} [options.instanceNumber] - Order in which this instance was created in relation to other instances.
-	 * @param {object} [options.params]         - Deprecated wrapper for the above properties.
 	 */
 	api.Control = api.Class.extend({
 		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
@@ -3369,6 +3352,27 @@
 			priority: 10
 		},
 
+		/**
+		 * Initialize.
+		 *
+		 * @param {string} id                       - Unique identifier for the control instance.
+		 * @param {object} options                  - Options hash for the control instance.
+		 * @param {object} options.type             - Type of control (e.g. text, radio, dropdown-pages, etc.)
+		 * @param {string} [options.content]        - The HTML content for the control or at least its container. This should normally be left blank and instead supplying a templateId.
+		 * @param {string} [options.templateId]     - Template ID for control's content.
+		 * @param {string} [options.priority=10]    - Order of priority to show the control within the section.
+		 * @param {string} [options.active=true]    - Whether the control is active.
+		 * @param {string} options.section          - The ID of the section the control belongs to.
+		 * @param {mixed}  [options.setting]        - The ID of the main setting or an instance of this setting.
+		 * @param {mixed}  options.settings         - An object with keys (e.g. default) that maps to setting IDs or Setting/Value objects, or an array of setting IDs or Setting/Value objects.
+		 * @param {mixed}  options.settings.default - The ID of the setting the control relates to.
+		 * @param {string} options.settings.data    - @todo Is this used?
+		 * @param {string} options.label            - Label.
+		 * @param {string} options.description      - Description.
+		 * @param {number} [options.instanceNumber] - Order in which this instance was created in relation to other instances.
+		 * @param {object} [options.params]         - Deprecated wrapper for the above properties.
+		 * @returns {void}
+		 */
 		initialize: function( id, options ) {
 			var control = this, deferredSettingIds = [], settings, gatherSettings;
 
@@ -5114,6 +5118,20 @@
 	api.CodeEditorControl = api.Control.extend({
 
 		/**
+		 * Initialize.
+		 *
+		 * @since 4.9.0
+		 * @param {string} id      - Unique identifier for the control instance.
+		 * @param {object} options - Options hash for the control instance.
+		 * @returns {void}
+		 */
+		initialize: function( id, options ) {
+			var control = this;
+			api.Control.prototype.initialize.call( this, id, options );
+			control.deferred.codemirror = $.Deferred();
+		},
+
+		/**
 		 * Initialize the editor when the containing section is ready and expanded.
 		 *
 		 * @since 4.9.0
@@ -5272,6 +5290,8 @@
 					event.stopPropagation();
 				}
 			});
+
+			control.deferred.codemirror.resolveWith( control, [ control.editor.codemirror ] );
 		},
 
 		/**
@@ -5380,6 +5400,8 @@
 				event.stopPropagation();
 				event.preventDefault();
 			});
+
+			control.deferred.codemirror.rejectWith( control );
 		}
 	});
 
