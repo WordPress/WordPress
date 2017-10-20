@@ -5152,15 +5152,43 @@
 		 * @returns {void}
 		 */
 		initEditor: function() {
-			var control = this, element;
+			var control = this, element, editorSettings = false;
+
+			// Obtain editorSettings for instantiation.
+			if ( wp.codeEditor && ( _.isUndefined( control.params.editor_settings ) || false !== control.params.editor_settings ) ) {
+
+				// Obtain default editor settings.
+				editorSettings = wp.codeEditor.defaultSettings ? _.clone( wp.codeEditor.defaultSettings ) : {};
+				editorSettings.codemirror = _.extend(
+					{},
+					editorSettings.codemirror,
+					{
+						indentUnit: 2,
+						tabSize: 2
+					}
+				);
+
+				// Merge editor_settings param on top of defaults.
+				if ( _.isObject( control.params.editor_settings ) ) {
+					_.each( control.params.editor_settings, function( value, key ) {
+						if ( _.isObject( value ) ) {
+							editorSettings[ key ] = _.extend(
+								{},
+								editorSettings[ key ],
+								value
+							);
+						}
+					} );
+				}
+			}
 
 			element = new api.Element( control.container.find( 'textarea' ) );
 			control.elements.push( element );
 			element.sync( control.setting );
 			element.set( control.setting() );
 
-			if ( control.params.editor_settings ) {
-				control.initSyntaxHighlightingEditor( control.params.editor_settings );
+			if ( editorSettings ) {
+				control.initSyntaxHighlightingEditor( editorSettings );
 			} else {
 				control.initPlainTextareaEditor();
 			}
@@ -8838,6 +8866,9 @@
 			// Set up the section description behaviors.
 			sectionReady.done( function setupSectionDescription( section ) {
 				var control = api.control( 'custom_css' );
+
+				// Hide redundant label for visual users.
+				control.container.find( '.customize-control-title:first' ).addClass( 'screen-reader-text' );
 
 				// Close the section description when clicking the close button.
 				section.container.find( '.section-description-buttons .section-description-close' ).on( 'click', function() {

@@ -204,7 +204,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 				 * @returns {void}
 				 */
 				onUpdateErrorNotice: function onUpdateErrorNotice( errorAnnotations ) {
-					control.saveButton.toggleClass( 'validation-blocked', errorAnnotations.length );
+					control.saveButton.toggleClass( 'validation-blocked disabled', errorAnnotations.length );
 					control.updateErrorNotice( errorAnnotations );
 				}
 			});

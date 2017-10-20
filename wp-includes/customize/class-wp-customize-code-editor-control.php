@@ -69,7 +69,6 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 	 */
 	public function json() {
 		$json = parent::json();
-		$json['code_type'] = $this->code_type;
 		$json['editor_settings'] = $this->editor_settings;
 		$json['input_attrs'] = $this->input_attrs;
 		return $json;
@@ -91,8 +90,8 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 		?>
 		<# var elementIdPrefix = 'el' + String( Math.random() ); #>
 		<# if ( data.label ) { #>
-			<label for="{{ elementIdPrefix }}_editor">
-				<span class="customize-control-title">{{ data.label }}</span>
+			<label for="{{ elementIdPrefix }}_editor" class="customize-control-title">
+				{{ data.label }}
 			</label>
 		<# } #>
 		<# if ( data.description ) { #>
