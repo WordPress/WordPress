@@ -3419,9 +3419,9 @@
 				control.templateSelector = 'customize-control-' + control.params.type + '-content';
 			}
 
-			control.deferred = {
+			control.deferred = _.extend( control.deferred || {}, {
 				embedded: new $.Deferred()
-			};
+			} );
 			control.section = new api.Value();
 			control.priority = new api.Value();
 			control.active = new api.Value();
@@ -5127,8 +5127,10 @@
 		 */
 		initialize: function( id, options ) {
 			var control = this;
-			api.Control.prototype.initialize.call( this, id, options );
-			control.deferred.codemirror = $.Deferred();
+			control.deferred = _.extend( control.deferred || {}, {
+				codemirror: $.Deferred()
+			} );
+			api.Control.prototype.initialize.call( control, id, options );
 		},
 
 		/**
