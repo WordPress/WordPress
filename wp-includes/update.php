@@ -99,13 +99,25 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 
 	/**
 	 * Filter the query arguments sent as part of the core version check.
-	 * 
+	 *
 	 * WARNING: Changing this data may result in your site not receiving security updates.
 	 * Please exercise extreme caution.
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param array $query Version check query arguments.
+	 * @param array $query {
+	 *     Version check query arguments. 
+	 *
+	 *     @type string $version            WordPress version number.
+	 *     @type string $php                PHP version number.
+	 *     @type string $locale             The locale to retrieve updates for.
+	 *     @type string $mysql              MySQL version number.
+	 *     @type string $local_package      The value of the $wp_local_package global, when set.
+	 *     @type int    $blogs              Number of blogs on this WordPress install.
+	 *     @type int    $users              Number of sites on this WordPress install.
+	 *     @type int    $multisite_enabled  Whether this WordPress install uses multisite.
+	 *     @type int    $initial_db_version Database version of WordPress at time of installation.
+	 * }
 	 */
 	$query = apply_filters( 'core_version_check_query_args', $query );
 
