@@ -113,9 +113,9 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	 *     @type string $locale             The locale to retrieve updates for.
 	 *     @type string $mysql              MySQL version number.
 	 *     @type string $local_package      The value of the $wp_local_package global, when set.
-	 *     @type int    $blogs              Number of blogs on this WordPress install.
-	 *     @type int    $users              Number of sites on this WordPress install.
-	 *     @type int    $multisite_enabled  Whether this WordPress install uses multisite.
+	 *     @type int    $blogs              Number of sites on this WordPress installation.
+	 *     @type int    $users              Number of users on this WordPress installation.
+	 *     @type int    $multisite_enabled  Whether this WordPress installation uses Multisite.
 	 *     @type int    $initial_db_version Database version of WordPress at time of installation.
 	 * }
 	 */
