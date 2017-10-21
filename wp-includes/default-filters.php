@@ -317,13 +317,16 @@ add_action( 'publish_post',               '_publish_post_hook',                 
 add_action( 'transition_post_status',     '_transition_post_status',                  5, 3 );
 add_action( 'transition_post_status',     '_update_term_count_on_transition_post_status', 10, 3 );
 add_action( 'comment_form',               'wp_comment_form_unfiltered_html_nonce'          );
-add_action( 'wp_scheduled_delete',        'wp_scheduled_delete'                            );
-add_action( 'wp_scheduled_auto_draft_delete', 'wp_delete_auto_drafts'                      );
 add_action( 'admin_init',                 'send_frame_options_header',               10, 0 );
-add_action( 'importer_scheduled_cleanup', 'wp_delete_attachment'                           );
-add_action( 'upgrader_scheduled_cleanup', 'wp_delete_attachment'                           );
 add_action( 'try_gutenberg_panel',        'wp_try_gutenberg_panel'                         );
 add_action( 'welcome_panel',              'wp_welcome_panel'                               );
+
+// Cron tasks
+add_action( 'wp_scheduled_delete',            'wp_scheduled_delete'       );
+add_action( 'wp_scheduled_auto_draft_delete', 'wp_delete_auto_drafts'     );
+add_action( 'importer_scheduled_cleanup',     'wp_delete_attachment'      );
+add_action( 'upgrader_scheduled_cleanup',     'wp_delete_attachment'      );
+add_action( 'delete_expired_transients',      'delete_expired_transients' );
 
 // Navigation menu actions
 add_action( 'delete_post',                '_wp_delete_post_menu_item'         );

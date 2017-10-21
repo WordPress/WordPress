@@ -1746,21 +1746,8 @@ function upgrade_460() {
 function upgrade_network() {
 	global $wp_current_db_version, $wpdb;
 
-	// Always.
-	if ( is_main_network() ) {
-		/*
-		 * Deletes all expired transients. The multi-table delete syntax is used
-		 * to delete the transient record from table a, and the corresponding
-		 * transient_timeout record from table b.
-		 */
-		$time = time();
-		$sql = "DELETE a, b FROM $wpdb->sitemeta a, $wpdb->sitemeta b
-			WHERE a.meta_key LIKE %s
-			AND a.meta_key NOT LIKE %s
-			AND b.meta_key = CONCAT( '_site_transient_timeout_', SUBSTRING( a.meta_key, 17 ) )
-			AND b.meta_value < %d";
-		$wpdb->query( $wpdb->prepare( $sql, $wpdb->esc_like( '_site_transient_' ) . '%', $wpdb->esc_like ( '_site_transient_timeout_' ) . '%', $time ) );
-	}
+	// Always clear expired transients
+	delete_expired_transients( true );
 
 	// 2.8.
 	if ( $wp_current_db_version < 11549 ) {
