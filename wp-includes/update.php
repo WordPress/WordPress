@@ -97,6 +97,18 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		'initial_db_version' => get_site_option( 'initial_db_version' ),
 	);
 
+	/**
+	 * Filter the query arguments sent as part of the core version check.
+	 * 
+	 * WARNING: Changing this data may result in your site not receiving security updates.
+	 * Please exercise extreme caution.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $query Version check query arguments.
+	 */
+	$query = apply_filters( 'core_version_check_query_args', $query );
+
 	$post_body = array(
 		'translations' => wp_json_encode( $translations ),
 	);
