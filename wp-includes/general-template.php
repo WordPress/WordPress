@@ -3311,6 +3311,7 @@ function wp_enqueue_code_editor( $args ) {
 	} elseif ( 'text/x-scss' === $type || 'text/x-less' === $type || 'text/x-sass' === $type ) {
 		$settings['codemirror'] = array_merge( $settings['codemirror'], array(
 			'mode' => $type,
+			'lint' => false,
 			'autoCloseBrackets' => true,
 			'matchBrackets' => true,
 		) );

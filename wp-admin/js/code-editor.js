@@ -36,91 +36,123 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @returns {void}
 	 */
 	function configureLinting( editor, settings ) { // eslint-disable-line complexity
-		var lintOptions = editor.getOption( 'lint' ), currentErrorAnnotations = [], updateErrorNotice, previouslyShownErrorAnnotations = [];
-		if ( ! lintOptions ) {
-			return;
-		}
-
-		if ( true === lintOptions ) {
-			lintOptions = {};
-		} else {
-			lintOptions = $.extend( {}, lintOptions );
-		}
-
-		// Note that rules must be sent in the "deprecated" lint.options property to prevent linter from complaining about unrecognized options. See <https://github.com/codemirror/CodeMirror/pull/4944>.
-		if ( ! lintOptions.options ) {
-			lintOptions.options = {};
-		}
-
-		// Configure JSHint.
-		if ( 'javascript' === settings.codemirror.mode && settings.jshint ) {
-			$.extend( lintOptions.options, settings.jshint );
-		}
-
-		// Configure CSSLint.
-		if ( 'css' === settings.codemirror.mode && settings.csslint ) {
-			$.extend( lintOptions.options, settings.csslint );
-		}
-
-		// Configure HTMLHint.
-		if ( 'htmlmixed' === settings.codemirror.mode && settings.htmlhint ) {
-			lintOptions.options.rules = $.extend( {}, settings.htmlhint );
-
-			if ( settings.jshint ) {
-				lintOptions.options.rules.jshint = settings.jshint;
-			}
-			if ( settings.csslint ) {
-				lintOptions.options.rules.csslint = settings.csslint;
-			}
-		}
+		var currentErrorAnnotations = [], previouslyShownErrorAnnotations = [];
 
 		/**
 		 * Call the onUpdateErrorNotice if there are new errors to show.
 		 *
 		 * @returns {void}
 		 */
-		updateErrorNotice = function() {
+		function updateErrorNotice() {
 			if ( settings.onUpdateErrorNotice && ! _.isEqual( currentErrorAnnotations, previouslyShownErrorAnnotations ) ) {
 				settings.onUpdateErrorNotice( currentErrorAnnotations, editor );
 				previouslyShownErrorAnnotations = currentErrorAnnotations;
 			}
-		};
+		}
 
-		// Wrap the onUpdateLinting CodeMirror event to route to onChangeLintingErrors and onUpdateErrorNotice.
-		lintOptions.onUpdateLinting = (function( onUpdateLintingOverridden ) {
-			return function( annotations, annotationsSorted, cm ) {
-				var errorAnnotations = _.filter( annotations, function( annotation ) {
-					return 'error' === annotation.severity;
-				} );
+		/**
+		 * Get lint options.
+		 *
+		 * @returns {object} Lint options.
+		 */
+		function getLintOptions() { // eslint-disable-line complexity
+			var options = editor.getOption( 'lint' );
 
-				if ( onUpdateLintingOverridden ) {
-					onUpdateLintingOverridden.apply( annotations, annotationsSorted, cm );
+			if ( ! options ) {
+				return false;
+			}
+
+			if ( true === options ) {
+				options = {};
+			} else if ( _.isObject( options ) ) {
+				options = $.extend( {}, options );
+			}
+
+			// Note that rules must be sent in the "deprecated" lint.options property to prevent linter from complaining about unrecognized options. See <https://github.com/codemirror/CodeMirror/pull/4944>.
+			if ( ! options.options ) {
+				options.options = {};
+			}
+
+			// Configure JSHint.
+			if ( 'javascript' === settings.codemirror.mode && settings.jshint ) {
+				$.extend( options.options, settings.jshint );
+			}
+
+			// Configure CSSLint.
+			if ( 'css' === settings.codemirror.mode && settings.csslint ) {
+				$.extend( options.options, settings.csslint );
+			}
+
+			// Configure HTMLHint.
+			if ( 'htmlmixed' === settings.codemirror.mode && settings.htmlhint ) {
+				options.options.rules = $.extend( {}, settings.htmlhint );
+
+				if ( settings.jshint ) {
+					options.options.rules.jshint = settings.jshint;
 				}
-
-				// Skip if there are no changes to the errors.
-				if ( _.isEqual( errorAnnotations, currentErrorAnnotations ) ) {
-					return;
+				if ( settings.csslint ) {
+					options.options.rules.csslint = settings.csslint;
 				}
+			}
 
-				currentErrorAnnotations = errorAnnotations;
+			// Wrap the onUpdateLinting CodeMirror event to route to onChangeLintingErrors and onUpdateErrorNotice.
+			options.onUpdateLinting = (function( onUpdateLintingOverridden ) {
+				return function( annotations, annotationsSorted, cm ) {
+					var errorAnnotations = _.filter( annotations, function( annotation ) {
+						return 'error' === annotation.severity;
+					} );
 
-				if ( settings.onChangeLintingErrors ) {
-					settings.onChangeLintingErrors( errorAnnotations, annotations, annotationsSorted, cm );
-				}
+					if ( onUpdateLintingOverridden ) {
+						onUpdateLintingOverridden.apply( annotations, annotationsSorted, cm );
+					}
 
-				/*
-				 * Update notifications when the editor is not focused to prevent error message
-				 * from overwhelming the user during input, unless there are now no errors or there
-				 * were previously errors shown. In these cases, update immediately so they can know
-				 * that they fixed the errors.
-				 */
-				if ( ! cm.state.focused || 0 === currentErrorAnnotations.length || previouslyShownErrorAnnotations.length > 0 ) {
-					updateErrorNotice();
-				}
-			};
-		})( lintOptions.onUpdateLinting );
+					// Skip if there are no changes to the errors.
+					if ( _.isEqual( errorAnnotations, currentErrorAnnotations ) ) {
+						return;
+					}
 
-		editor.setOption( 'lint', lintOptions );
+					currentErrorAnnotations = errorAnnotations;
+
+					if ( settings.onChangeLintingErrors ) {
+						settings.onChangeLintingErrors( errorAnnotations, annotations, annotationsSorted, cm );
+					}
+
+					/*
+					 * Update notifications when the editor is not focused to prevent error message
+					 * from overwhelming the user during input, unless there are now no errors or there
+					 * were previously errors shown. In these cases, update immediately so they can know
+					 * that they fixed the errors.
+					 */
+					if ( ! editor.state.focused || 0 === currentErrorAnnotations.length || previouslyShownErrorAnnotations.length > 0 ) {
+						updateErrorNotice();
+					}
+				};
+			})( options.onUpdateLinting );
+
+			return options;
+		}
+
+		editor.setOption( 'lint', getLintOptions() );
+
+		// Keep lint options populated.
+		editor.on( 'optionChange', function( cm, option ) {
+			var options;
+			if ( 'lint' !== option ) {
+				return;
+			}
+			options = editor.getOption( 'lint' );
+			if ( true === options ) {
+				editor.setOption( 'lint', getLintOptions() ); // Expand to include linting options.
+			}
+
+			// Force update on error notice to show or hide.
+			if ( editor.getOption( 'lint' ) ) {
+				editor.performLint();
+			} else {
+				currentErrorAnnotations = [];
+				updateErrorNotice();
+			}
+		} );
 
 		// Update error notice when leaving the editor.
 		editor.on( 'blur', updateErrorNotice );
