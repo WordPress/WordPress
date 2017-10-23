@@ -1036,7 +1036,7 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! is_array( $post_templates ) ) {
 			$post_templates = array();
 
-			$files = (array) $this->get_files( 'php', 1 );
+			$files = (array) $this->get_files( 'php', 1, true);
 
 			foreach ( $files as $file => $full_path ) {
 				if ( ! preg_match( '|Template Name:(.*)$|mi', file_get_contents( $full_path ), $header ) ) {
@@ -1090,10 +1090,6 @@ final class WP_Theme implements ArrayAccess {
 
 		$post_templates = $this->get_post_templates();
 		$post_templates = isset( $post_templates[ $post_type ] ) ? $post_templates[ $post_type ] : array();
-
-		if ( $this->parent() ) {
-			$post_templates += $this->parent()->get_page_templates( $post, $post_type );
-		}
 
 		/**
 		 * Filters list of page templates for a theme.
