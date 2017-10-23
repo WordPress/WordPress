@@ -1646,7 +1646,7 @@ function wp_mkdir_p( $target ) {
 }
 
 /**
- * Test if a give filesystem path is absolute.
+ * Test if a given filesystem path is absolute.
  *
  * For example, '/foo/bar', or 'c:\windows'.
  *
