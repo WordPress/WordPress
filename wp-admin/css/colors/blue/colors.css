@@ -57,7 +57,7 @@ input[type=radio]:checked:before {
   box-shadow: inset 0 1px 0 #d39323, 0 0 2px 1px #33b3db;
 }
 
-.wp-core-ui .button-primary:active {
+.wp-core-ui .button-primary:active, .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover {
   background: #d39323;
   border-color: #bd831f;
   box-shadow: inset 0 2px 0 #bd831f;
