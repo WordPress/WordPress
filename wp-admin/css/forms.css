@@ -952,6 +952,8 @@ table.form-table td .updated p {
 
 .request-filesystem-credentials-dialog {
 	display: none;
+	/* The customizer uses visibility: hidden on the body for full-overlays. */
+	visibility: visible;
 }
 
 .request-filesystem-credentials-dialog .notification-dialog {
