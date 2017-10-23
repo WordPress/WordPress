@@ -98,8 +98,7 @@
 }
 
 /* Welcome Panel */
-.welcome-panel,
-.try-gutenberg-panel {
+.welcome-panel {
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
@@ -111,33 +110,27 @@
 	line-height: 2.1em;
 }
 
-.welcome-panel h2,
-.try-gutenberg-panel h2 {
+.welcome-panel h2 {
 	margin: 0;
 	font-size: 21px;
 	font-weight: 400;
 	line-height: 1.2;
 }
 
-.welcome-panel h3,
-.try-gutenberg-panel h3 {
+.welcome-panel h3 {
 	margin: 1.33em 0 0;
 	font-size: 16px;
 }
 
-.welcome-panel li,
-.try-gutenberg-panel li {
+.welcome-panel li {
 	font-size: 14px;
 }
 
-.welcome-panel p,
-.try-gutenberg-panel p,
-.try-gutenberg-panel-column p.about-description {
+.welcome-panel p {
 	color: #72777c;
 }
 
-.welcome-panel a,
-.try-gutenberg-panel a {
+.welcome-panel a {
 	text-decoration: none;
 }
 
@@ -146,15 +139,8 @@
 	margin: 0;
 }
 
-.try-gutenberg-panel .about-description {
-	font-size: 16px;
-	margin-top: 1.33em;
-}
-
-.welcome-panel .welcome-panel-close,
-.try-gutenberg-panel .try-gutenberg-panel-close {
+.welcome-panel .welcome-panel-close {
 	position: absolute;
-	z-index: 10;
 	top: 10px;
 	right: 10px;
 	padding: 10px 15px 10px 21px;
@@ -163,8 +149,7 @@
 	text-decoration: none;
 }
 
-.welcome-panel .welcome-panel-close:before,
-.try-gutenberg-panel .try-gutenberg-panel-close:before {
+.welcome-panel .welcome-panel-close:before {
 	position: absolute;
 	top: 8px;
 	left: 0;
@@ -179,48 +164,27 @@
 	white-space: normal;
 }
 
-.welcome-panel-content,
-.try-gutenberg-panel-content {
-	margin: 0 13px;
+.welcome-panel-content {
+	margin-left: 13px;
 	max-width: 1500px;
 }
 
-.try-gutenberg-panel img {
-	max-width: 360px;
-	width: 100%;
-	border: 1px solid #f3f4f5;
-}
-
-.try-gutenberg-panel .install-now.updating-message:before,
-.try-gutenberg-panel .install-now.updated-message:before {
-	margin-top: 11px;
-}
-
-.welcome-panel .welcome-panel-column-container,
-.try-gutenberg-panel .try-gutenberg-panel-column-container {
+.welcome-panel .welcome-panel-column-container {
 	clear: both;
 	position: relative;
 }
 
-.welcome-panel .welcome-panel-column,
-.try-gutenberg-panel .try-gutenberg-panel-column {
+.welcome-panel .welcome-panel-column {
 	width: 32%;
 	min-width: 200px;
 	float: left;
 }
 
-.try-gutenberg-panel .try-gutenberg-panel-column {
-	width: calc( 32% - 20px );
-	padding: 0 20px 20px 0;
-}
-
-.ie8 .welcome-panel .welcome-panel-column,
-.ie8 .try-gutenberg-panel .try-gutenberg-panel-column {
+.ie8 .welcome-panel .welcome-panel-column {
 	min-width: 230px;
 }
 
-.welcome-panel .welcome-panel-column:first-child
-.try-gutenberg-panel .try-gutenberg-panel-column:first-child {
+.welcome-panel .welcome-panel-column:first-child {
 	width: 36%;
 }
 
@@ -228,8 +192,7 @@
 	margin-top: 10px;
 }
 
-.welcome-panel-column p,
-.try-gutenberg-panel-column p {
+.welcome-panel-column p {
 	margin-top: 7px;
 	color: #444;
 }
@@ -238,13 +201,11 @@
 	line-height: 16px;
 }
 
-.welcome-panel .welcome-panel-column ul,
-.try-gutenberg-panel .try-gutenberg-panel-column ul {
-		margin: 0.8em 1em 1em 0;
+.welcome-panel .welcome-panel-column ul {
+	margin: 0.8em 1em 1em 0;
 }
 
-.welcome-panel .welcome-panel-column li,
-.try-gutenberg-panel .try-gutenberg-panel-column li {
+.welcome-panel .welcome-panel-column li {
 	line-height: 16px;
 	list-style-type: none;
 	padding: 0 0 8px;
@@ -1246,27 +1207,12 @@ a.rsswidget {
 	}
 }
 
-@media screen and (max-width: 1024px) {
-	.try-gutenberg-panel .try-gutenberg-panel-image-column {
-		display: none;
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-column {
-		width: calc( 49% - 20px );
-	}
-}
-
 @media screen and (max-width: 870px) {
 	.welcome-panel .welcome-panel-column,
-	.try-gutenberg-panel .try-gutenberg-panel-column,
 	.welcome-panel .welcome-panel-column:first-child {
 		display: block;
 		float: none;
 		width: 100%;
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-image-column {
-		display: none;
 	}
 
 	.welcome-panel .welcome-panel-column li {
@@ -1277,6 +1223,7 @@ a.rsswidget {
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
 	}
+
 }
 
 @media screen and ( max-width: 782px ) {
@@ -1319,8 +1266,7 @@ a.rsswidget {
 /* Smartphone */
 @media screen and (max-width: 600px) {
 	/* Keep the close icon from overlapping the Welcome text. */
-	.welcome-panel .welcome-panel-close,
-	.try-gutenberg-panel .try-gutenberg-panel-close {
+	.welcome-panel .welcome-panel-close {
 		overflow: hidden;
 		text-indent: 40px;
 		white-space: nowrap;
@@ -1332,8 +1278,7 @@ a.rsswidget {
 	}
 
 	/* Make the close icon larger for tappability. */
-	.welcome-panel .welcome-panel-close:before,
-	.try-gutenberg-panel .try-gutenberg-panel-close:before {
+	.welcome-panel .welcome-panel-close:before {
 		font-size: 20px;
 		top: 5px;
 		left: -35px;

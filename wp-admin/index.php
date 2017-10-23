@@ -103,38 +103,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 
-<?php if ( has_action( 'try_gutenberg_panel' ) ) :
-	$classes = 'try-gutenberg-panel';
-
-	$option = get_user_meta( get_current_user_id(), 'show_try_gutenberg_panel', true );
-	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
-	$hide = '0' === $option || ( '2' === $option && wp_get_current_user()->user_email !== get_option( 'admin_email' ) );
-	if ( $hide )
-		$classes .= ' hidden'; ?>
-
-	<div id="try-gutenberg-panel" class="<?php echo esc_attr( $classes ); ?>">
-		<?php wp_nonce_field( 'try-gutenberg-panel-nonce', 'trygutenbergpanelnonce', false ); ?>
-		<a class="try-gutenberg-panel-close" href="<?php echo esc_url( admin_url( '?try_gutenberg=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the Try Gutenberg panel' ); ?>"><?php _e( 'Dismiss' ); ?></a>
-		<?php
-		/**
-		 * Add content to the Try Gutenberg panel on the admin dashboard.
-		 *
-		 * To remove the Try Gutenberg panel, use remove_action():
-		 *
-		 *     remove_action( 'try_gutenberg_panel', 'wp_try_gutenberg_panel' );
-		 *
-		 * @since 4.9.0
-		 */
-		do_action( 'try_gutenberg_panel' );
-		?>
-	</div>
-<?php endif; ?>
 <?php if ( has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) :
 	$classes = 'welcome-panel';
 
 	$option = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
 	// 0 = hide, 1 = toggled to show or single site creator, 2 = multisite site owner
-	$hide = '0' === $option || ( '2' === $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
+	$hide = 0 == $option || ( 2 == $option && wp_get_current_user()->user_email != get_option( 'admin_email' ) );
 	if ( $hide )
 		$classes .= ' hidden'; ?>
 
