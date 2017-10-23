@@ -1100,6 +1100,11 @@ function wp_ajax_replyto_comment( $action ) {
 	}
 
 	$comment_id = wp_new_comment( $commentdata );
+
+	if ( is_wp_error( $comment_id ) ) {
+		wp_die( $comment_id->get_error_message() );
+	}
+
 	$comment = get_comment($comment_id);
 	if ( ! $comment ) wp_die( 1 );
 

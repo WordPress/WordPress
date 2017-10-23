@@ -126,7 +126,12 @@ if ( !empty($tb_url) && !empty($title) ) {
 
 	$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_type');
 
-	wp_new_comment($commentdata);
+	$result = wp_new_comment( $commentdata );
+
+	if ( is_wp_error( $result ) ) {
+		trackback_response( 1, $result->get_error_message() );
+	}
+
 	$trackback_id = $wpdb->insert_id;
 
 	/**

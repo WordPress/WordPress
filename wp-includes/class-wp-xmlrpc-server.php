@@ -6487,6 +6487,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$comment_ID = wp_new_comment($commentdata);
 
+		if ( is_wp_error( $comment_ID ) ) {
+			return $this->pingback_error( 0, $comment_ID->get_error_message() );
+		}
+
 		/**
 		 * Fires after a post pingback has been sent.
 		 *
