@@ -5797,6 +5797,8 @@
 			api.bind( 'ready', control.updatePreviewLink );
 			api.state( 'saved' ).bind( control.updatePreviewLink );
 			api.state( 'changesetStatus' ).bind( control.updatePreviewLink );
+			api.state( 'activated' ).bind( control.updatePreviewLink );
+			api.previewer.previewUrl.bind( control.updatePreviewLink );
 
 			button.element.on( 'click', function( event ) {
 				event.preventDefault();
@@ -7586,18 +7588,23 @@
 			 * @return {string} Preview url.
 			 */
 			getFrontendPreviewUrl: function() {
-				var previewer = this,
-					a = document.createElement( 'a' ),
-					params = {};
+				var previewer = this, params, urlParser;
+				urlParser = document.createElement( 'a' );
+				urlParser.href = previewer.previewUrl.get();
+				params = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
 
 				if ( api.state( 'changesetStatus' ).get() && 'publish' !== api.state( 'changesetStatus' ).get() ) {
 					params.customize_changeset_uuid = api.settings.changeset.uuid;
 				}
+				if ( ! api.state( 'activated' ).get() ) {
+					params.customize_theme = api.settings.theme.stylesheet;
+				}
+				if ( api.settings.changeset.autosaved || ! api.state( 'saved' ).get() ) {
+					params.customize_autosaved = 'on';
+				}
 
-				a.href = previewer.previewUrl();
-				a.search = $.param( params );
-
-				return a.href;
+				urlParser.search = $.param( params );
+				return urlParser.href;
 			}
 		});
 
