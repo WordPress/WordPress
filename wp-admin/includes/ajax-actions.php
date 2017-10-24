@@ -2993,9 +2993,10 @@ function wp_ajax_query_themes() {
  * @global WP_Post    $post       Global $post.
  * @global WP_Embed   $wp_embed   Embed API instance.
  * @global WP_Scripts $wp_scripts
+ * @global int        $content_width
  */
 function wp_ajax_parse_embed() {
-	global $post, $wp_embed;
+	global $post, $wp_embed, $content_width;
 
 	if ( empty( $_POST['shortcode'] ) ) {
 		wp_send_json_error();
@@ -3034,6 +3035,15 @@ function wp_ajax_parse_embed() {
 
 		if ( ! $parsed ) {
 			$no_ssl_support = true;
+		}
+	}
+
+	// Set $content_width so any embeds fit in the destination iframe.
+	if ( isset( $_POST['maxwidth'] ) && is_numeric( $_POST['maxwidth'] ) && $_POST['maxwidth'] > 0 ) {
+		if ( ! isset( $content_width ) ) {
+			$content_width = intval( $_POST['maxwidth'] );
+		} else {
+			$content_width = min( $content_width, intval( $_POST['maxwidth'] ) );
 		}
 	}
 
