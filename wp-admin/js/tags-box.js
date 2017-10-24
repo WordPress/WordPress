@@ -221,7 +221,7 @@ var tagBox, array_unique_noempty;
 				tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 			});
 
-			$( 'input.newtag', ajaxtag ).keyup( function( event ) {
+			$( 'input.newtag', ajaxtag ).keypress( function( event ) {
 				if ( 13 == event.which ) {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
