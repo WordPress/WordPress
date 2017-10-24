@@ -607,6 +607,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 	global $nav_menu_selected_id;
 	$taxonomy_name = $box['args']->name;
+	$taxonomy = get_taxonomy( $taxonomy_name );
 
 	// Paginate browsing for large numbers of objects.
 	$per_page = 50;
@@ -682,7 +683,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 		<ul id="taxonomy-<?php echo $taxonomy_name; ?>-tabs" class="taxonomy-tabs add-menu-item-tabs">
 			<li <?php echo ( 'most-used' == $current_tab ? ' class="tabs"' : '' ); ?>>
 				<a class="nav-tab-link" data-type="tabs-panel-<?php echo esc_attr( $taxonomy_name ); ?>-pop" href="<?php if ( $nav_menu_selected_id ) echo esc_url(add_query_arg($taxonomy_name . '-tab', 'most-used', remove_query_arg($removed_args))); ?>#tabs-panel-<?php echo $taxonomy_name; ?>-pop">
-					<?php _e( 'Most Used' ); ?>
+					<?php echo esc_html( $taxonomy->labels->most_used ); ?>
 				</a>
 			</li>
 			<li <?php echo ( 'all' == $current_tab ? ' class="tabs"' : '' ); ?>>

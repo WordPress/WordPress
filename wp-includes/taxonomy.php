@@ -488,8 +488,7 @@ function unregister_taxonomy( $taxonomy ) {
  *                                              list tables.
  *     @type string $items_list_navigation      Label for the table pagination hidden heading.
  *     @type string $items_list                 Label for the table hidden heading.
- *     @type string $most_used                  Title used for the Most Used panel. Not used for non-hierarchical
- *                                              taxonomies. Default 'Most Used'.
+ *     @type string $most_used                  Title for the Most Used tab. Default 'Most Used'.
  *     @type string $back_to_items              Label displayed after a term has been updated.
  * }
  */
@@ -523,7 +522,7 @@ function get_taxonomy_labels( $tax ) {
 		'items_list_navigation' => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 		'items_list' => array( __( 'Tags list' ), __( 'Categories list' ) ),
 		/* translators: Tab heading when selecting from the most used terms */
-		'most_used' => array( null, _x( 'Most Used', 'Most used categories' ) ),
+		'most_used' => array( _x( 'Most Used', 'tags' ), _x( 'Most Used', 'categories' ) ),
 		'back_to_items' => array( __( '&larr; Back to Tags' ), __( '&larr; Back to Categories' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
