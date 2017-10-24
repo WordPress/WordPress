@@ -3157,6 +3157,7 @@ function wp_enqueue_code_editor( $args ) {
 				'Alt-F' => 'findPersistent',
 			),
 			'direction' => 'ltr', // Code is shown in LTR even in RTL languages.
+			'gutters' => array(),
 		),
 		'csslint' => array(
 			'errors' => true, // Parsing errors.

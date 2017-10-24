@@ -136,13 +136,19 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 
 		// Keep lint options populated.
 		editor.on( 'optionChange', function( cm, option ) {
-			var options;
+			var options, gutters, gutterName = 'CodeMirror-lint-markers';
 			if ( 'lint' !== option ) {
 				return;
 			}
+			gutters = editor.getOption( 'gutters' ) || [];
 			options = editor.getOption( 'lint' );
 			if ( true === options ) {
+				if ( ! _.contains( gutters, gutterName ) ) {
+					editor.setOption( 'gutters', [ gutterName ].concat( gutters ) );
+				}
 				editor.setOption( 'lint', getLintOptions() ); // Expand to include linting options.
+			} else if ( ! options ) {
+				editor.setOption( 'gutters', _.without( gutters, gutterName ) );
 			}
 
 			// Force update on error notice to show or hide.
