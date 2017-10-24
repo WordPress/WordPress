@@ -1708,8 +1708,8 @@ final class WP_Customize_Manager {
 	 * @since 4.6.0 `$default` is now returned early when the setting post value is invalid.
 	 *
 	 * @see WP_REST_Server::dispatch()
-	 * @see WP_Rest_Request::sanitize_params()
-	 * @see WP_Rest_Request::has_valid_params()
+	 * @see WP_REST_Request::sanitize_params()
+	 * @see WP_REST_Request::has_valid_params()
 	 *
 	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object.
 	 * @param mixed                $default Value returned $setting has no post value (added in 4.2.0)
