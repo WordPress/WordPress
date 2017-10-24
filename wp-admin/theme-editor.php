@@ -191,7 +191,7 @@ if ( $file_description != $file_show ) {
 		<p>
 			<?php
 			echo sprintf(
-				/* translators: %s is a link to Custom CSS section in the Customizer. */
+				/* translators: %s: link to Custom CSS section in the Customizer */
 				__( 'There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
 				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
 			);
