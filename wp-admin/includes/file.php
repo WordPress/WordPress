@@ -663,7 +663,7 @@ function wp_tempnam( $filename = '', $dir = '' ) {
  * @param array  $allowed_files Optional. Array of allowed files to edit, $file must match an entry exactly.
  * @return string|null
  */
-function validate_file_to_edit( $file, $allowed_files = '' ) {
+function validate_file_to_edit( $file, $allowed_files = array() ) {
 	$code = validate_file( $file, $allowed_files );
 
 	if (!$code )
