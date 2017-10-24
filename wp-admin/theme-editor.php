@@ -185,6 +185,20 @@ if ( $file_description != $file_show ) {
 		<pre><?php echo esc_html( $edit_error->get_error_message() ? $edit_error->get_error_message() : $edit_error->get_error_code() ); ?></pre>
 	</div>
 <?php endif; ?>
+<?php if ( preg_match( '/\.css$/', $file ) ) : ?>
+	<div id="message" class="notice-info notice">
+		<p><strong><?php _e( 'Did you know?' ); ?></strong></p>
+		<p>
+			<?php
+			echo sprintf(
+				/* translators: %s is a link to Custom CSS section in the Customizer. */
+				__( 'There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
+				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
+			);
+			?>
+		</p>
+	</div>
+<?php endif; ?>
 
 <div class="fileedit-sub">
 <div class="alignleft">
