@@ -116,7 +116,7 @@ return;
 // These are strings returned by the API that we want to be translatable
 __( 'Project Leaders' );
 __( 'Core Contributors to WordPress %s' );
-__( 'Contributing Developers' );
+__( 'Noteworthy Contributors' );
 __( 'Cofounder, Project Lead' );
 __( 'Lead Developer' );
 __( 'Release Lead' );
