@@ -3756,9 +3756,19 @@ img {
 	}
 
 	/* Theme/Plugin File Editor */
+	
+	#template textarea, 
+	#template .CodeMirror {
+		box-sizing: border-box;
+	}
+	
 	#templateside {
 		float: none;
 		width: auto;
+	}
+	
+	#templateside > ul {
+		border-left: 1px solid #ddd;
 	}
 
 	#templateside li {
@@ -3814,11 +3824,44 @@ img {
 		left: -8px;
 	}
 	.wrap #templateside span.notice {
-		margin-left: -14px;
+		margin-left: -5px;
+		width: 100%;
 	}
 
 	.fileedit-sub .alignright {
+		float: left;
 		margin-top: 15px;
+		width: 100%;
+		text-align: left;
+	}
+	
+	.fileedit-sub .alignright label {
+		display: block;
+	}
+	
+	.fileedit-sub #theme, 
+	.fileedit-sub #plugin {
+		margin-left: 0;
+	    max-width: 70%;
+	}
+	
+	.fileedit-sub input[type="submit"] {
+		margin-bottom: 0px;
+		padding: 8px 18px;
+	}
+	
+	#documentation label[for="docs-list"] {
+		display: block;
+	}
+	
+	#documentation select[name="docs-list"] {
+		margin-left: 0;
+		max-width: 60%;
+	}
+	
+	#documentation input[type="button"] {
+		margin-bottom: 0;
+		padding: 8px 18px;
 	}
 
 	#wpfooter {
