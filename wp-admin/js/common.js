@@ -247,7 +247,8 @@ $availableStructureTags.on( 'click', function() {
 	    selectionStart          = $permalinkStructure[ 0 ].selectionStart,
 	    selectionEnd            = $permalinkStructure[ 0 ].selectionEnd,
 	    textToAppend            = $( this ).text().trim(),
-	    textToAnnounce          = $( this ).attr( 'data-added' );
+	    textToAnnounce          = $( this ).attr( 'data-added' ),
+	    newSelectionStart;
 
 	// Remove structure tag if already part of the structure.
 	if ( -1 !== permalinkStructureValue.indexOf( textToAppend ) ) {
@@ -288,6 +289,13 @@ $availableStructureTags.on( 'click', function() {
 
 	// Disable button.
 	changeStructureTagButtonState( $( this ) );
+
+	// If input had focus give it back with cursor right after appended text.
+	if ( permalinkStructureFocused && $permalinkStructure[0].setSelectionRange ) {
+		newSelectionStart = ( permalinkStructureValue.substr( 0, selectionStart ) + textToAppend ).length;
+		$permalinkStructure[0].setSelectionRange( newSelectionStart, newSelectionStart );
+		$permalinkStructure.focus();
+	}
 } );
 
 $document.ready( function() {
