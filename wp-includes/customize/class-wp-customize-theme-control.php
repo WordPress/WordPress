@@ -110,7 +110,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 						<button type="button" class="button button-primary customize-theme" aria-label="<?php echo esc_attr( $customize_label ); ?>"><?php _e( 'Customize' ); ?></button>
 					</div>
 				</div>
-				<div class="notice notice-success notice-alt"><p><?php _e( 'Installed' ); ?></p></div>
+				<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
 			<# } else if ( 'installed' === data.theme.type ) { #>
 				<div class="theme-id-container">
 					<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
@@ -118,7 +118,7 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 						<button type="button" class="button button-primary preview-theme" aria-label="<?php echo esc_attr( $preview_label ); ?>" data-slug="{{ data.theme.id }}"><?php _e( 'Live Preview' ); ?></span>
 					</div>
 				</div>
-				<div class="notice notice-success notice-alt"><p><?php _e( 'Installed' ); ?></p></div>
+				<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
 			<# } else { #>
 				<div class="theme-id-container">
 					<h3 class="theme-name" id="{{ data.section }}-{{ data.theme.id }}-name">{{ data.theme.name }}</h3>
