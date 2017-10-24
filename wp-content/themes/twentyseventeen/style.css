@@ -3026,7 +3026,10 @@ p > object:only-child {
 
 .gallery-item a,
 .gallery-item a:hover,
-.gallery-item a:focus {
+.gallery-item a:focus,
+.widget-area .gallery-item a,
+.widget-area .gallery-item a:hover,
+.widget-area .gallery-item a:focus {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: none;
