@@ -248,6 +248,8 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				continue;
 			}
 
+			$rest_args['schema'] = $this->set_additional_properties_to_false( $rest_args['schema'] );
+
 			$rest_options[ $rest_args['name'] ] = $rest_args;
 		}
 
@@ -300,5 +302,33 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 			return $value;
 		}
 		return rest_parse_request_arg( $value, $request, $param );
+	}
+
+	/**
+	 * Recursively add additionalProperties = false to all objects in a schema.
+	 *
+	 * This is need to restrict properties of objects in settings values to only
+	 * registered items, as the REST API will allow additional properties by
+	 * default.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $schema The schema array.
+	 * @return array
+	 */
+	protected function set_additional_properties_to_false( $schema ) {
+		switch ( $schema['type'] ) {
+			case 'object':
+				foreach ( $schema['properties'] as $key => $child_schema ) {
+					$schema['properties'][ $key ] = $this->set_additional_properties_to_false( $child_schema );
+				}
+				$schema['additionalProperties'] = false;
+				break;
+			case 'array':
+				$schema['items'] = $this->set_additional_properties_to_false( $schema['items'] );
+				break;
+		}
+
+		return $schema;
 	}
 }

@@ -1106,13 +1106,13 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		}
 
 		foreach ( $value as $property => $v ) {
-			if ( ! isset( $args['properties'][ $property ] ) ) {
-				continue;
-			}
-			$is_valid = rest_validate_value_from_schema( $v, $args['properties'][ $property ], $param . '[' . $property . ']' );
-
-			if ( is_wp_error( $is_valid ) ) {
-				return $is_valid;
+			if ( isset( $args['properties'][ $property ] ) ) {
+				$is_valid = rest_validate_value_from_schema( $v, $args['properties'][ $property ], $param . '[' . $property . ']' );
+				if ( is_wp_error( $is_valid ) ) {
+					return $is_valid;
+				}
+			} elseif ( isset( $args['additionalProperties'] ) && false === $args['additionalProperties'] ) {
+				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not a valid property of Object.' ), $property ) );
 			}
 		}
 	}
@@ -1246,11 +1246,11 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		}
 
 		foreach ( $value as $property => $v ) {
-			if ( ! isset( $args['properties'][ $property ] ) ) {
+			if ( isset( $args['properties'][ $property ] ) ) {
+				$value[ $property ] = rest_sanitize_value_from_schema( $v, $args['properties'][ $property ] );
+			} elseif ( isset( $args['additionalProperties'] ) && false === $args['additionalProperties'] ) {
 				unset( $value[ $property ] );
-				continue;
 			}
-			$value[ $property ] = rest_sanitize_value_from_schema( $v, $args['properties'][ $property ] );
 		}
 
 		return $value;
