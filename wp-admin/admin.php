@@ -87,15 +87,17 @@ auth_redirect();
 if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() )
 	wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');
 
+// Schedule Transient cleanup.
+if ( ! wp_next_scheduled( 'delete_expired_transients' ) && ! wp_installing() ) {
+	wp_schedule_event( time(), 'daily', 'delete_expired_transients' );
+}
+
 set_screen_options();
 
 $date_format = __( 'F j, Y' );
 $time_format = __( 'g:i a' );
 
 wp_enqueue_script( 'common' );
-
-
-
 
 /**
  * $pagenow is set in vars.php

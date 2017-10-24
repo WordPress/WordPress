@@ -820,13 +820,13 @@ function set_transient( $transient, $value, $expiration = 0 ) {
  * Deletes all expired transients.
  *
  * The multi-table delete syntax is used to delete the transient record
- * from table a, and the corresponding transient_timeout record from table b.                           +
+ * from table a, and the corresponding transient_timeout record from table b.
  *
  * @since 4.9.0
  *
  * @param bool $force_db Optional. Force cleanup to run against the database even when an external object cache is used.
  */
-function delete_expired_transients( $force_db = false) {
+function delete_expired_transients( $force_db = false ) {
 	global $wpdb;
 
 	if ( ! $force_db && wp_using_ext_object_cache() ) {
