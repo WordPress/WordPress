@@ -659,7 +659,7 @@ function customize_themes_print_templates() {
 							{{{ data.stars }}}
 							<span class="num-ratings">
 								<?php
-								/* translators: %s is the number of ratings */
+								/* translators: %s: number of ratings */
 								echo sprintf( __( '(%s ratings)' ), '{{ data.num_ratings }}' );
 								?>
 							</span>
