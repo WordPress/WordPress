@@ -694,7 +694,7 @@ function switch_theme( $stylesheet ) {
 	}
 
 	$nav_menu_locations = get_theme_mod( 'nav_menu_locations' );
-	add_option( 'theme_switch_menu_locations', $nav_menu_locations );
+	update_option( 'theme_switch_menu_locations', $nav_menu_locations );
 
 	if ( func_num_args() > 1 ) {
 		$stylesheet = func_get_arg( 1 );
@@ -2724,8 +2724,9 @@ function check_theme_switched() {
 	if ( $stylesheet = get_option( 'theme_switched' ) ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
-		// Prevent retrieve_widgets() from running since Customizer already called it up front
+		// Prevent widget & menu mapping from running since Customizer already called it up front
 		if ( get_option( 'theme_switched_via_customizer' ) ) {
+			remove_action( 'after_switch_theme', '_wp_menus_changed' );
 			remove_action( 'after_switch_theme', '_wp_sidebars_changed' );
 			update_option( 'theme_switched_via_customizer', false );
 		}
