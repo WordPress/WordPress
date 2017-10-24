@@ -4618,6 +4618,15 @@ final class WP_Customize_Manager {
 			),
 		);
 
+		// Temporarily disable installation in Customizer. See #42184.
+		$filesystem_method = get_filesystem_method();
+		ob_start();
+		$filesystem_credentials_are_stored = request_filesystem_credentials( self_admin_url() );
+		ob_end_clean();
+		if ( 'direct' !== $filesystem_method && ! $filesystem_credentials_are_stored ) {
+			$settings['theme']['_filesystemCredentialsNeeded'] = true;
+		}
+
 		// Prepare Customize Section objects to pass to JavaScript.
 		foreach ( $this->sections() as $id => $section ) {
 			if ( $section->check_capabilities() ) {

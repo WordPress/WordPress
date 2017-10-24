@@ -2986,12 +2986,21 @@
 		 * @returns {void}
 		 */
 		attachEvents: function() {
-			var panel = this, toggleDisabledNotification;
+			var panel = this;
 
 			// Attach regular panel events.
 			api.Panel.prototype.attachEvents.apply( panel );
 
-			toggleDisabledNotification = function() {
+			// Temporary since supplying SFTP credentials does not work yet. See #42184
+			if ( api.settings.theme._filesystemCredentialsNeeded ) {
+				panel.notifications.add( new api.Notification( 'theme_install_unavailable', {
+					message: api.l10n.themeInstallUnavailable,
+					type: 'info',
+					dismissible: true
+				} ) );
+			}
+
+			function toggleDisabledNotifications() {
 				if ( 'publish' === api.state( 'selectedChangesetStatus' ).get() ) {
 					panel.notifications.remove( 'theme_switch_unavailable' );
 				} else {
@@ -3000,9 +3009,9 @@
 						type: 'warning'
 					} ) );
 				}
-			};
-			toggleDisabledNotification();
-			api.state( 'selectedChangesetStatus' ).bind( toggleDisabledNotification );
+			}
+			toggleDisabledNotifications();
+			api.state( 'selectedChangesetStatus' ).bind( toggleDisabledNotifications );
 
 			// Collapse panel to customize the current theme.
 			panel.contentContainer.on( 'click', '.customize-theme', function() {
@@ -3095,6 +3104,14 @@
 		installTheme: function( event ) {
 			var panel = this, preview, onInstallSuccess, slug = $( event.target ).data( 'slug' ), deferred = $.Deferred(), request;
 			preview = $( event.target ).hasClass( 'preview' );
+
+			// Temporary since supplying SFTP credentials does not work yet. See #42184.
+			if ( api.settings.theme._filesystemCredentialsNeeded ) {
+				deferred.reject({
+					errorCode: 'theme_install_unavailable'
+				});
+				return deferred.promise();
+			}
 
 			// Prevent loading a non-active theme preview when there is a drafted/scheduled changeset.
 			if ( 'publish' !== api.state( 'selectedChangesetStatus' ).get() && slug !== api.settings.theme.stylesheet ) {
@@ -3295,6 +3312,11 @@
 			section = api.section( 'installed_themes' );
 
 			event.preventDefault();
+
+			// Temporary since supplying SFTP credentials does not work yet. See #42184.
+			if ( api.settings.theme._filesystemCredentialsNeeded ) {
+				return;
+			}
 
 			// Confirmation dialog for deleting a theme.
 			if ( ! window.confirm( api.settings.l10n.confirmDeleteTheme ) ) {
@@ -4983,16 +5005,25 @@
 		 * @since 4.2.0
 		 */
 		ready: function() {
-			var control = this, disableSwitchButtons, updateButtons;
+			var control = this;
 
-			disableSwitchButtons = function() {
+			function disableSwitchButtons() {
 				return 'publish' !== api.state( 'selectedChangesetStatus' ).get() && control.params.theme.id !== api.settings.theme.stylesheet;
-			};
-			updateButtons = function() {
-				control.container.find( 'button' ).toggleClass( 'disabled', disableSwitchButtons() );
-			};
+			}
 
-			api.state( 'selectedChangesetStatus' ).bind( updateButtons );
+			// Temporary special function since supplying SFTP credentials does not work yet. See #42184.
+			function disableInstallButtons() {
+				return disableSwitchButtons() || true === api.settings.theme._filesystemCredentialsNeeded;
+			}
+			function updateButtons( container ) {
+				var _container = container || control.container;
+				_container.find( 'button.preview, button.preview-theme' ).toggleClass( 'disabled', disableSwitchButtons() );
+				_container.find( 'button.theme-install' ).toggleClass( 'disabled', disableInstallButtons() );
+			}
+
+			api.state( 'selectedChangesetStatus' ).bind( function() {
+				updateButtons();
+			});
 			updateButtons();
 
 			control.container.on( 'touchmove', '.theme', function() {
@@ -5019,7 +5050,12 @@
 				event.preventDefault(); // Keep this AFTER the key filter above
 				section = api.section( control.section() );
 				section.showDetails( control.params.theme, function() {
-					section.overlay.find( '.theme-actions button' ).toggleClass( 'disabled', disableSwitchButtons() );
+					updateButtons( section.overlay.find( '.theme-actions' ) );
+
+					// Temporary special function since supplying SFTP credentials does not work yet. See #42184.
+					if ( api.settings.theme._filesystemCredentialsNeeded ) {
+						section.overlay.find( '.theme-actions .delete-theme' ).remove();
+					}
 				} );
 			});
 
