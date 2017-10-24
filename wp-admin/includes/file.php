@@ -1119,8 +1119,9 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Skip the OS X-created __MACOSX directory
 			continue;
 
+		// Don't extract invalid files:
 		if ( 0 !== validate_file( $info['name'] ) ) {
-			return new WP_Error( 'invalid_file_ziparchive', __( 'Could not extract file from archive.' ), $info['name'] );
+			continue;
 		}
 
 		$uncompressed_size += $info['size'];
@@ -1179,6 +1180,11 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 		if ( '__MACOSX/' === substr($info['name'], 0, 9) ) // Don't extract the OS X-created __MACOSX directory files
 			continue;
+
+		// Don't extract invalid files:
+		if ( 0 !== validate_file( $info['name'] ) ) {
+			continue;
+		}
 
 		$contents = $z->getFromIndex($i);
 		if ( false === $contents )
@@ -1283,8 +1289,9 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 		if ( '__MACOSX/' === substr($file['filename'], 0, 9) ) // Don't extract the OS X-created __MACOSX directory files
 			continue;
 
+		// Don't extract invalid files:
 		if ( 0 !== validate_file( $file['filename'] ) ) {
-			return new WP_Error( 'invalid_file_pclzip', __( 'Could not extract file from archive.' ), $file['filename'] );
+			continue;
 		}
 
 		if ( ! $wp_filesystem->put_contents( $to . $file['filename'], $file['content'], FS_CHMOD_FILE) )
