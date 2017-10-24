@@ -551,7 +551,7 @@ function wp_default_scripts( &$scripts ) {
 		'draftSaved'         => __( 'Draft Saved' ),
 		'updating'           => __( 'Updating' ),
 		'schedule'           => _x( 'Schedule', 'customizer changeset action/button label' ),
-		'scheduled'          => __( 'Scheduled' ),
+		'scheduled'          => _x( 'Scheduled', 'customizer changeset status' ),
 		'invalid'            => __( 'Invalid' ),
 		'saveBeforeShare'    => __( 'Please save your changes in order to share the preview.' ),
 		'futureDateError'    => __( 'You must supply a future date to schedule.' ),
