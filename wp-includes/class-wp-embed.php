@@ -284,12 +284,34 @@ class WP_Embed {
 				kses_remove_filters();
 			}
 
-			wp_insert_post( wp_slash( array(
-				'post_name'    => $key_suffix,
-				'post_content' => $html ? $html : '{{unknown}}',
-				'post_status'  => 'publish',
-				'post_type'    => 'oembed_cache',
-			) ) );
+			$insert_post_args = array(
+				'post_name' => $key_suffix,
+				'post_status' => 'publish',
+				'post_type' => 'oembed_cache',
+			);
+
+			if ( $html ) {
+				if ( $cached_post_id ) {
+					wp_update_post( wp_slash( array(
+						'ID' => $cached_post_id,
+						'post_content' => $html,
+					) ) );
+				} else {
+					wp_insert_post( wp_slash( array_merge(
+						$insert_post_args,
+						array(
+							'post_content' => $html,
+						)
+					) ) );
+				}
+			} elseif ( ! $cache ) {
+				wp_insert_post( wp_slash( array_merge(
+					$insert_post_args,
+					array(
+						'post_content' => '{{unknown}}',
+					)
+				) ) );
+			}
 
 			if ( $has_kses ) {
 				kses_init_filters();

@@ -3027,6 +3027,15 @@ function wp_ajax_parse_embed() {
 	$parsed = false;
 	$wp_embed->return_false_on_fail = true;
 
+	if ( 0 === $post_id ) {
+		/*
+		 * Refresh oEmbeds cached outside of posts that are past their TTL.
+		 * Posts are excluded because they have separate logic for refreshing
+		 * their post meta caches. See WP_Embed::cache_oembed().
+		 */
+		$wp_embed->usecache = false;
+	}
+
 	if ( is_ssl() && 0 === strpos( $url, 'http://' ) ) {
 		// Admin is ssl and the user pasted non-ssl URL.
 		// Check if the provider supports ssl embeds and use that for the preview.
