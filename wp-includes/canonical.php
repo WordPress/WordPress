@@ -392,12 +392,28 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	// trailing /index.php
 	$redirect['path'] = preg_replace('|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path']);
 
-	// Remove trailing spaces from the path
-	$redirect['path'] = preg_replace( '#(%20| )+$#', '', $redirect['path'] );
+	$punctuation_pattern = implode( '|', array_map( 'preg_quote', array(
+		' ', '%20',  // space
+		'!', '%21',  // exclamation mark
+		'"', '%22',  // double quote
+		"'", '%27',  // single quote
+		'(', '%28',  // opening bracket
+		')', '%29',  // closing bracket
+		',', '%2C',  // comma
+		'.', '%2E',  // period
+		';', '%3B',  // semicolon
+		'{', '%7B',  // opening curly bracket
+		'}', '%7D',  // closing curly bracket
+		'%E2%80%9C', // opening curly quote
+		'%E2%80%9D', // closing curly quote
+	) ) );
+
+	// Remove trailing spaces and end punctuation from the path.
+	$redirect['path'] = preg_replace( "#($punctuation_pattern)+$#", '', $redirect['path'] );
 
 	if ( !empty( $redirect['query'] ) ) {
-		// Remove trailing spaces from certain terminating query string args
-		$redirect['query'] = preg_replace( '#((p|page_id|cat|tag)=[^&]*?)(%20| )+$#', '$1', $redirect['query'] );
+		// Remove trailing spaces and end punctuation from certain terminating query string args.
+		$redirect['query'] = preg_replace( "#((p|page_id|cat|tag)=[^&]*?)($punctuation_pattern)+$#", '$1', $redirect['query'] );
 
 		// Clean up empty query strings
 		$redirect['query'] = trim(preg_replace( '#(^|&)(p|page_id|cat|tag)=?(&|$)#', '&', $redirect['query']), '&');
