@@ -231,7 +231,7 @@ $structures = array(
 					/* translators: %s: permalink structure tag */
 					'postname' => __( '%s (The sanitized post title (slug).)' ),
 					/* translators: %s: permalink structure tag */
-					'category' => __( '%s (Category slug. Nested sub-categories appear as nested directories in the URI.)' ),
+					'category' => __( '%s (Category slug. Nested sub-categories appear as nested directories in the URL.)' ),
 					/* translators: %s: permalink structure tag */
 					'author'   => __( '%s (A sanitized version of the author name.)' ),
 				);
