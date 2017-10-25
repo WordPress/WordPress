@@ -1124,8 +1124,8 @@ function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locat
 	 * from within the same group, make an educated guess and map it.
 	 */
 	$common_slug_groups = array(
-		array( 'header', 'main', 'navigation', 'primary', 'top' ),
-		array( 'bottom', 'footer', 'secondary', 'subsidiary' ),
+		array( 'primary', 'menu-1', 'main', 'header', 'navigation', 'top' ),
+		array( 'secondary', 'menu-2', 'footer', 'subsidiary', 'bottom' ),
 		array( 'social' ),
 	);
 
