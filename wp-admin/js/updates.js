@@ -1193,7 +1193,7 @@
 				$button = $( '.theme-install[data-slug="' + response.slug + '"]' );
 				$card   = $button.closest( '.theme' ).addClass( 'theme-install-failed' ).append( $message );
 			}
-			$( '.wp-full-overlay' ).removeClass( 'customize-loading' );
+			wp.customize.notifications.remove( 'theme_installing' );
 		} else {
 			if ( $document.find( 'body' ).hasClass( 'full-overlay-active' ) ) {
 				$button = $( '.theme-install[data-slug="' + response.slug + '"]' );
