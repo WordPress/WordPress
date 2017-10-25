@@ -3474,12 +3474,18 @@
 			}
 			_.extend( settings, control.params.settings );
 
-			// Note: Settings can be an array or an object.
-			_.each( settings, function( setting, key ) {
-				if ( _.isObject( setting ) ) { // @todo Or check if instance of api.Setting?
-					control.settings[ key ] = setting;
-				} else {
-					deferredSettingIds.push( setting );
+			// Note: Settings can be an array or an object, with values being either setting IDs or Setting (or Value) objects.
+			_.each( settings, function( value, key ) {
+				var setting;
+				if ( _.isObject( value ) && _.isFunction( value.extended ) && value.extended( api.Value ) ) {
+					control.settings[ key ] = value;
+				} else if ( _.isString( value ) ) {
+					setting = api( value );
+					if ( setting ) {
+						control.settings[ key ] = setting;
+					} else {
+						deferredSettingIds.push( value );
+					}
 				}
 			} );
 
@@ -3500,6 +3506,7 @@
 				// Identify the main setting.
 				control.setting = control.settings['default'] || null;
 
+				control.linkElements(); // Link initial elements present in server-rendered content.
 				control.embed();
 			};
 
@@ -3511,7 +3518,7 @@
 
 			// After the control is embedded on the page, invoke the "ready" method.
 			control.deferred.embedded.done( function () {
-				control.linkElements();
+				control.linkElements(); // Link any additional elements after template is rendered by renderContent().
 				control.setupNotifications();
 				control.ready();
 			});
