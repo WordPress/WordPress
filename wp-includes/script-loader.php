@@ -598,6 +598,7 @@ function wp_default_scripts( &$scripts ) {
 			__( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
 			esc_url( admin_url( 'theme-install.php' ) )
 		),
+		'publishSettings' => __( 'Publish Settings' ),
 	) );
 	$scripts->add( 'customize-selective-refresh', "/wp-includes/js/customize-selective-refresh$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 

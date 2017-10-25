@@ -7001,6 +7001,15 @@
 			publishSettingsBtn = $( '#publish-settings' ),
 			footerActions = $( '#customize-footer-actions' );
 
+		// Add publish settings section in JS instead of PHP since the Customizer depends on it to function.
+		api.bind( 'ready', function() {
+			api.section.add( new api.OuterSection( 'publish_settings', {
+				title: api.l10n.publishSettings,
+				priority: 0,
+				active: api.settings.theme.active
+			} ) );
+		} );
+
 		// Set up publish settings section and its controls.
 		api.section( 'publish_settings', function( section ) {
 			var updateButtonsState, trashControl, updateSectionActive, isSectionActive, statusControl, dateControl, toggleDateControl, publishWhenTime, pollInterval, updateTimeArrivedPoller, cancelScheduleButtonReminder, timeArrivedPollingInterval = 1000;
