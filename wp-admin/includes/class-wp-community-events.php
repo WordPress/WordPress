@@ -233,7 +233,8 @@ class WP_Community_Events {
 	 *                      or false on failure.
 	 */
 	public static function get_unsafe_client_ip() {
-		$client_ip = false;
+		$client_ip = $netmask = false;
+		$ip_prefix = '';
 
 		// In order of preference, with the best ones for this purpose first.
 		$address_headers = array(
@@ -260,18 +261,47 @@ class WP_Community_Events {
 			}
 		}
 
-		// These functions are not available on Windows until PHP 5.3.
-		if ( function_exists( 'inet_pton' ) && function_exists( 'inet_ntop' ) ) {
-			if ( 4 === strlen( inet_pton( $client_ip ) ) ) {
-				$netmask = '255.255.255.0'; // ipv4.
-			} else {
-				$netmask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000'; // ipv6.
-			}
-
-			$client_ip = inet_ntop( inet_pton( $client_ip ) & inet_pton( $netmask ) );
+		if ( ! $client_ip ) {
+			return false;
 		}
 
-		return $client_ip;
+		// Detect what kind of IP address this is.
+		$is_ipv6 = substr_count( $client_ip, ':' ) > 1;
+		$is_ipv4 = ( 3 === substr_count( $client_ip, '.' ) );
+
+		if ( $is_ipv6 && $is_ipv4 ) {
+			// IPv6 compatibility mode, temporarily strip the IPv6 part, and treat it like IPv4.
+			$ip_prefix = '::ffff:';
+			$client_ip = preg_replace( '/^\[?[0-9a-f:]*:/i', '', $client_ip );
+			$client_ip = str_replace( ']', '', $client_ip );
+			$is_ipv6   = false;
+		}
+
+		if ( $is_ipv6 ) {
+			// IPv6 addresses will always be enclosed in [] if there's a port.
+			$ip_start = 1;
+			$ip_end   = (int) strpos( $client_ip, ']' ) - 1;
+			$netmask  = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
+
+			// Strip the port (and [] from IPv6 addresses), if they exist.
+			if ( $ip_end > 0 ) {
+				$client_ip = substr( $client_ip, $ip_start, $ip_end );
+			}
+
+			// Partially anonymize the IP by reducing it to the corresponding network ID.
+			if ( function_exists( 'inet_pton' ) && function_exists( 'inet_ntop' ) ) {
+				$client_ip = inet_ntop( inet_pton( $client_ip ) & inet_pton( $netmask ) );
+			}
+		} elseif ( $is_ipv4 ) {
+			// Strip any port and partially anonymize the IP.
+			$last_octet_position = strrpos( $client_ip, '.' );
+			$client_ip           = substr( $client_ip, 0, $last_octet_position ) . '.0';
+		} else {
+			return false;
+		}
+
+		// Restore the IPv6 prefix to compatibility mode addresses.
+		return $ip_prefix . $client_ip;
 	}
 
 	/**
