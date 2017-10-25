@@ -1246,6 +1246,20 @@ h3#reply-title {
 	display: inline-block;
 }
 
+/* Helps galleries in widget areas look presentable in most cases. */
+.widget-area .gallery-columns-2 img,
+.widget-area .gallery-columns-3 img,
+.widget-area .gallery-columns-4 img,
+.widget-area .gallery-columns-5 img,
+.widget-area .gallery-columns-6 img,
+.widget-area .gallery-columns-7 img,
+.widget-area .gallery-columns-8 img,
+.widget-area .gallery-columns-9 img {
+	border: none;
+	max-width: 90%;
+	width: auto;
+}
+
 /* Main sidebars */
 #main .widget-area ul {
 	margin-left: 0;

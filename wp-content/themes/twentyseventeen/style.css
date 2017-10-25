@@ -2582,7 +2582,7 @@ h2.widget-title {
 	padding-top: 1em;
 }
 
-/* widget markup */
+/* Widget markup */
 
 .widget .post-date,
 .widget .rss-date {
@@ -2784,6 +2784,16 @@ h2.widget-title {
 
 .widget_calendar tfoot td {
 	border: 0;
+}
+
+/* Gallery widget */
+
+.gallery-columns-5 .gallery-caption,
+.gallery-columns-6 .gallery-caption,
+.gallery-columns-7 .gallery-caption,
+.gallery-columns-8 .gallery-caption,
+.gallery-columns-9 .gallery-caption {
+	display: none;
 }
 
 /*--------------------------------------------------------------

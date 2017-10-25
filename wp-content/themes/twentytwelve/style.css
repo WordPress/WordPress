@@ -1465,6 +1465,18 @@ a.comment-edit-link:hover {
 	margin: 0;
 }
 
+.widget-area .gallery-columns-2.gallery-size-full .gallery-icon img,
+.widget-area .gallery-columns-3.gallery-size-full .gallery-icon img,
+.widget-area .gallery-columns-4.gallery-size-full .gallery-icon img,
+.widget-area .gallery-columns-5.gallery-size-full .gallery-icon img,
+.widget-area .gallery-columns-6 .gallery-icon img,
+.widget-area .gallery-columns-7 .gallery-icon img,
+.widget-area .gallery-columns-8 .gallery-icon img,
+.widget-area .gallery-columns-9 .gallery-icon img {
+	height: auto;
+	max-width: 80%;
+}
+
 /* =Plugins
 ----------------------------------------------- */
 

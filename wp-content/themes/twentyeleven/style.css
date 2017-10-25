@@ -1971,6 +1971,20 @@ section.ephemera .entry-title a span {
 	display: inline-block;
 }
 
+/* Helps galleries in widget areas look presentable in most cases. */
+#page .widget-area .gallery-columns-2 img,
+#page .widget-area .gallery-columns-3 img,
+#page .widget-area .gallery-columns-4 img,
+#page .widget-area .gallery-columns-5 img,
+#page .widget-area .gallery-columns-6 img,
+#page .widget-area .gallery-columns-7 img,
+#page .widget-area .gallery-columns-8 img,
+#page .widget-area .gallery-columns-9 img {
+	border: none;
+	max-width: 90%;
+	width: auto;
+}
+
 /* =Comments
 ----------------------------------------------- */
 
