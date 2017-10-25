@@ -18,10 +18,10 @@
  * Geoffrey T. Dairiki <dairiki@dairiki.org>. The original PHP version of this
  * code was written by him, and is used/adapted with his permission.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2010 The Horde Project (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://www.horde.org/licenses/lgpl21.
+ * not receive this file, see http://opensource.org/licenses/lgpl-license.php.
  *
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @package Text_Diff
@@ -189,17 +189,27 @@ class Text_Diff_Engine_native {
                     continue;
                 }
                 $matches = $ymatches[$line];
-                foreach ($matches as $y) {
+                reset($matches);
+                while (list(, $y) = each($matches)) {
                     if (empty($this->in_seq[$y])) {
                         $k = $this->_lcsPos($y);
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;
-                    } elseif ($y > $this->seq[$k - 1]) {
+                    }
+                }
+                while (list(, $y) = each($matches)) {
+                    if ($y > $this->seq[$k - 1]) {
                         assert($y <= $this->seq[$k]);
+                        /* Optimization: this is a common case: next match is
+                         * just replacing previous match. */
                         $this->in_seq[$this->seq[$k]] = false;
                         $this->seq[$k] = $y;
                         $this->in_seq[$y] = 1;
+                    } elseif (empty($this->in_seq[$y])) {
+                        $k = $this->_lcsPos($y);
+                        assert($k > 0);
+                        $ymids[$k] = $ymids[$k - 1];
                     }
                 }
             }
@@ -320,7 +330,7 @@ class Text_Diff_Engine_native {
         $i = 0;
         $j = 0;
 
-        assert(count($lines) == count($changed));
+        assert('count($lines) == count($changed)');
         $len = count($lines);
         $other_len = count($other_changed);
 
@@ -341,7 +351,7 @@ class Text_Diff_Engine_native {
             }
 
             while ($i < $len && ! $changed[$i]) {
-                assert($j < $other_len && ! $other_changed[$j]);
+                assert('$j < $other_len && ! $other_changed[$j]');
                 $i++; $j++;
                 while ($j < $other_len && $other_changed[$j]) {
                     $j++;
@@ -373,11 +383,11 @@ class Text_Diff_Engine_native {
                     while ($start > 0 && $changed[$start - 1]) {
                         $start--;
                     }
-                    assert($j > 0);
+                    assert('$j > 0');
                     while ($other_changed[--$j]) {
                         continue;
                     }
-                    assert($j >= 0 && !$other_changed[$j]);
+                    assert('$j >= 0 && !$other_changed[$j]');
                 }
 
                 /* Set CORRESPONDING to the end of the changed run, at the
@@ -398,7 +408,7 @@ class Text_Diff_Engine_native {
                         $i++;
                     }
 
-                    assert($j < $other_len && ! $other_changed[$j]);
+                    assert('$j < $other_len && ! $other_changed[$j]');
                     $j++;
                     if ($j < $other_len && $other_changed[$j]) {
                         $corresponding = $i;
@@ -414,11 +424,11 @@ class Text_Diff_Engine_native {
             while ($corresponding < $i) {
                 $changed[--$start] = 1;
                 $changed[--$i] = 0;
-                assert($j > 0);
+                assert('$j > 0');
                 while ($other_changed[--$j]) {
                     continue;
                 }
-                assert($j >= 0 && !$other_changed[$j]);
+                assert('$j >= 0 && !$other_changed[$j]');
             }
         }
     }
