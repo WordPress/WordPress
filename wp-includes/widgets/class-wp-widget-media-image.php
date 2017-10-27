@@ -177,8 +177,10 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 			$attachment = get_post( $instance['attachment_id'] );
 		}
 		if ( $attachment ) {
-			$caption = $attachment->post_excerpt;
-			if ( $instance['caption'] ) {
+			$caption = '';
+			if ( ! isset( $instance['caption'] ) ) {
+				$caption = $attachment->post_excerpt;
+			} elseif ( trim( $instance['caption'] ) ) {
 				$caption = $instance['caption'];
 			}
 
