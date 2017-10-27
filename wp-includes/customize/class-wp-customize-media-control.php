@@ -131,14 +131,18 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
-		<label for="{{ data.settings['default'] }}-button">
-			<# if ( data.label ) { #>
-				<span class="customize-control-title">{{ data.label }}</span>
-			<# } #>
-			<# if ( data.description ) { #>
-				<span class="description customize-control-description">{{{ data.description }}}</span>
-			<# } #>
-		</label>
+		<#
+		var selectButtonId = _.uniqueId( 'customize-media-control-button-' );
+		var descriptionId = _.uniqueId( 'customize-media-control-description-' );
+		var describedByAttr = data.description ? ' aria-describedby="' + descriptionId + '" ' : '';
+		#>
+		<# if ( data.label ) { #>
+			<label class="customize-control-title" for="{{ selectButtonId }}">{{ data.label }}</label>
+		<# } #>
+		<div class="customize-control-notifications-container"></div>
+		<# if ( data.description ) { #>
+			<span id="{{ descriptionId }}" class="description customize-control-description">{{{ data.description }}}</span>
+		<# } #>
 
 		<# if ( data.attachment && data.attachment.id ) { #>
 			<div class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
@@ -178,7 +182,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 				<div class="actions">
 					<# if ( data.canUpload ) { #>
 					<button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
-					<button type="button" class="button upload-button control-focus" id="{{ data.settings['default'] }}-button">{{ data.button_labels.change }}</button>
+					<button type="button" class="button upload-button control-focus" id="{{ selectButtonId }}" {{{ describedByAttr }}}>{{ data.button_labels.change }}</button>
 					<# } #>
 				</div>
 			</div>
@@ -192,7 +196,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 						<button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
 					<# } #>
 					<# if ( data.canUpload ) { #>
-					<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button">{{ data.button_labels.select }}</button>
+					<button type="button" class="button upload-button" id="{{ selectButtonId }}" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
 					<# } #>
 				</div>
 			</div>

@@ -3693,8 +3693,6 @@
 				} );
 			} );
 
-			control.notifications.container = control.getNotificationsContainerElement();
-
 			renderNotificationsIfVisible = function() {
 				var sectionId = control.section();
 				if ( ! sectionId || ( api.section.has( sectionId ) && api.section( sectionId ).expanded() ) ) {
@@ -3905,7 +3903,7 @@
 		 * @since 4.1.0
 		 */
 		renderContent: function () {
-			var control = this, template, standardTypes, templateId;
+			var control = this, template, standardTypes, templateId, sectionId;
 
 			standardTypes = [
 				'button',
@@ -3945,6 +3943,13 @@
 				if ( template && control.container ) {
 					control.container.html( template( control.params ) );
 				}
+			}
+
+			// Re-render notifications after content has been re-rendered.
+			control.notifications.container = control.getNotificationsContainerElement();
+			sectionId = control.section();
+			if ( ! sectionId || ( api.section.has( sectionId ) && api.section( sectionId ).expanded() ) ) {
+				control.notifications.render();
 			}
 		},
 
