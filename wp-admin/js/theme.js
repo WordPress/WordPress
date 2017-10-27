@@ -102,6 +102,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 			collection: self.collection,
 			parent: this
 		});
+		self.searchView = view;
 
 		// Render and append after screen title
 		view.render();
@@ -1347,12 +1348,12 @@ themes.view.Search = wp.Backbone.View.extend({
 			event.target.value = '';
 		}
 
-		// Note that doSearch is throttled.
+		// Since doSearch is debounced, it will only run when user input comes to a rest.
 		this.doSearch( event );
 	},
 
 	// Runs a search on the theme collection.
-	doSearch: _.throttle( function( event ) {
+	doSearch: function( event ) {
 		var options = {};
 
 		this.collection.doSearch( event.target.value.replace( /\+/g, ' ' ) );
@@ -1370,7 +1371,7 @@ themes.view.Search = wp.Backbone.View.extend({
 		} else {
 			themes.router.navigate( themes.router.baseUrl( '' ) );
 		}
-	}, 500 ),
+	},
 
 	pushState: function( event ) {
 		var url = themes.router.baseUrl( '' );
@@ -1445,6 +1446,9 @@ themes.Run = {
 		});
 
 		this.render();
+
+		// Start debouncing user searches after Backbone.history.start().
+		this.view.searchView.doSearch = _.debounce( this.view.searchView.doSearch, 500 );
 	},
 
 	render: function() {
@@ -1520,7 +1524,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		this.doSearch( event.target.value );
 	},
 
-	doSearch: _.throttle( function( value ) {
+	doSearch: function( value ) {
 		var request = {};
 
 		// Don't do anything if the search terms haven't changed.
@@ -1564,7 +1568,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 
 		// Set route
 		themes.router.navigate( themes.router.baseUrl( themes.router.searchPath + encodeURIComponent( value ) ), { replace: true } );
-	}, 500 )
+	}
 });
 
 themes.view.Installer = themes.view.Appearance.extend({
@@ -1919,6 +1923,8 @@ themes.RunInstaller = {
 		// Render results
 		this.render();
 
+		// Start debouncing user searches after Backbone.history.start().
+		this.view.searchView.doSearch = _.debounce( this.view.searchView.doSearch, 500 );
 	},
 
 	render: function() {
