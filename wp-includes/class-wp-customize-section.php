@@ -385,3 +385,14 @@ require_once( ABSPATH . WPINC . '/customize/class-wp-customize-sidebar-section.p
 
 /** WP_Customize_Nav_Menu_Section class */
 require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-section.php' );
+
+/**
+ * WP_Customize_New_Menu_Section class
+ *
+ * As this file is deprecated, it will trigger a deprecation notice if instantiated. In a subsequent
+ * release, the require_once() here will be removed and _deprecated_file() will be called if file is
+ * required at all.
+ *
+ * @deprecated 4.9.0 This file is no longer used due to new menu creation UX.
+ */
+require_once( ABSPATH . WPINC . '/customize/class-wp-customize-new-menu-section.php' );
