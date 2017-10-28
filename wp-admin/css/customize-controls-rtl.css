@@ -2864,11 +2864,6 @@ body.adding-widget .add-new-widget:before,
 
 @media screen and ( max-width: 640px ) {
 
-	.wp-full-overlay.expanded,
-	.outer-section-open .wp-full-overlay.expanded {
-		margin-right: 0;
-	}
-
 	/* when the sidebar is collapsed and switching to responsive view,
 	   bring it back see ticket #35220 */
 	.wp-full-overlay.collapsed #customize-controls {
@@ -2931,10 +2926,6 @@ body.adding-widget .add-new-widget:before,
 		display: block;
 	}
 
-	.wp-full-overlay.expanded {
-		margin-right: 300px;
-	}
-
 	.wp-core-ui.wp-customizer .button {
 		padding: 6px 14px;
 		line-height: normal;
@@ -2954,18 +2945,7 @@ body.adding-widget .add-new-widget:before,
 	body.adding-widget div#available-widgets,
 	body.adding-menu-items div#available-menu-items,
 	body.outer-section-open div#customize-sidebar-outer-content {
-		top: 46px;
-		right: 0;
-		z-index: 10;
 		width: 100%;
-	}
-
-	body.wp-customizer .wp-full-overlay.expanded #customize-sidebar-outer-content {
-		right: -100%;
-	}
-
-	body.wp-customizer.outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
-		right: 0;
 	}
 
 	#available-widgets .customize-section-title,
@@ -3039,5 +3019,24 @@ body.adding-widget .add-new-widget:before,
 	.wp-customizer .theme-browser .theme .theme-actions {
 		padding: 8px 15px;
 		box-shadow: none;
+	}
+
+	.wp-full-overlay.expanded {
+		margin-right: 0;
+	}
+
+	body.adding-widget div#available-widgets,
+	body.adding-menu-items div#available-menu-items,
+	body.outer-section-open div#customize-sidebar-outer-content {
+		top: 46px;
+		z-index: 10;
+	}
+
+	body.wp-customizer .wp-full-overlay.expanded #customize-sidebar-outer-content {
+		right: -100%;
+	}
+
+	body.wp-customizer.outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
+		right: 0;
 	}
 }
