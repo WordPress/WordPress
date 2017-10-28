@@ -1887,6 +1887,17 @@
 				api.section( 'wporg_themes' ).focus();
 			});
 
+			function updateSelectedState() {
+				var el = section.headerContainer.find( '.customize-themes-section-title' );
+				el.toggleClass( 'selected', section.expanded() );
+				el.attr( 'aria-expanded', section.expanded() ? 'true' : 'false' );
+				if ( ! section.expanded() ) {
+					el.removeClass( 'details-open' );
+				}
+			}
+			section.expanded.bind( updateSelectedState );
+			updateSelectedState();
+
 			// Move section controls to the themes area.
 			api.bind( 'ready', function () {
 				section.contentContainer = section.container.find( '.customize-themes-section' );
@@ -1920,7 +1931,7 @@
 				return;
 			}
 
-			if ( expanded ) {
+			function expand() {
 
 				// Try to load controls if none are loaded yet.
 				if ( 0 === section.loaded ) {
@@ -1949,14 +1960,13 @@
 									section.filterSearch( searchTerm );
 								}
 							}
+							otherSection.collapse( { duration: args.duration } );
 						}
-						otherSection.collapse( { duration: args.duration } );
 					}
 				});
 
 				section.contentContainer.addClass( 'current-section' );
 				container.scrollTop();
-				section.headerContainer.find( '.customize-themes-section-title' ).addClass( 'selected' ).attr( 'aria-expanded', 'true' );
 
 				container.on( 'scroll', _.throttle( section.renderScreenshots, 300 ) );
 				container.on( 'scroll', _.throttle( section.loadMore, 300 ) );
@@ -1965,11 +1975,21 @@
 					args.completeCallback();
 				}
 				section.updateCount(); // Show this section's count.
+			}
+
+			if ( expanded ) {
+				if ( section.panel() && api.panel.has( section.panel() ) ) {
+					api.panel( section.panel() ).expand({
+						duration: args.duration,
+						completeCallback: expand
+					});
+				} else {
+					expand();
+				}
 			} else {
 				section.contentContainer.removeClass( 'current-section' );
 
 				// Always hide, even if they don't exist or are already hidden.
-				section.headerContainer.find( '.customize-themes-section-title' ).removeClass( 'selected details-open' ).attr( 'aria-expanded', 'false' );
 				section.headerContainer.find( '.filter-details' ).slideUp( 180 );
 
 				container.off( 'scroll' );
@@ -3058,7 +3078,7 @@
 		 * @returns {void}
 		 */
 		onChangeExpanded: function( expanded, args ) {
-			var panel = this, overlay;
+			var panel = this, overlay, sections, hasExpandedSection = false;
 
 			// Expand/collapse the panel normally.
 			api.Panel.prototype.onChangeExpanded.apply( this, [ expanded, args ] );
@@ -3082,9 +3102,17 @@
 					overlay.addClass( 'themes-panel-expanded' );
 				}, 200 );
 
-				// Automatically open the installed themes section (except on small screens).
+				// Automatically open the first section (except on small screens), if one isn't already expanded.
 				if ( 600 < window.innerWidth ) {
-					api.section( 'installed_themes' ).expand();
+					sections = panel.sections();
+					_.each( sections, function( section ) {
+						if ( section.expanded() ) {
+							hasExpandedSection = true;
+						}
+					} );
+					if ( ! hasExpandedSection && sections.length > 0 ) {
+						sections[0].expand();
+					}
 				}
 			} else {
 				overlay
