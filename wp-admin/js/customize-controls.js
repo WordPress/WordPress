@@ -1302,7 +1302,10 @@
 				template = wp.template( 'customize-' + container.containerType + '-default' );
 			}
 			if ( template && container.container ) {
-				return $.trim( template( container.params ) );
+				return $.trim( template( _.extend(
+					{ id: container.id },
+					container.params
+				) ) );
 			}
 
 			return '<li></li>';
@@ -2968,7 +2971,10 @@
 				template = wp.template( 'customize-panel-default-content' );
 			}
 			if ( template && panel.headContainer ) {
-				panel.contentContainer.html( template( panel.params ) );
+				panel.contentContainer.html( template( _.extend(
+					{ id: panel.id },
+					panel.params
+				) ) );
 			}
 		}
 	});
