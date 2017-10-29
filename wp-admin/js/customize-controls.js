@@ -3401,6 +3401,12 @@
 	api.Control = api.Class.extend({
 		defaultActiveArguments: { duration: 'fast', completeCallback: $.noop },
 
+		/**
+		 * Default params.
+		 *
+		 * @since 4.9.0
+		 * @var {object}
+		 */
 		defaults: {
 			label: '',
 			description: '',
