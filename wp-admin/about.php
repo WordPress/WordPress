@@ -122,7 +122,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Warning: Potential Danger Ahead!' ); ?></h3>
-				<p><?php _e( 'When you edit themes and plugins directly, WordPress 4.9 will politely warn you that this is a dangerous practice and will recommend that you draft and test changes before update your file. Take the safe route: You&#8217;ll thank you. Your team and customers will thank you.' );?></p>
+				<p><?php _e( 'When you edit themes and plugins directly, WordPress 4.9 will politely warn you that this is a dangerous practice. It will recommend that you backup your files before saving, so they don&#8217;t get overwritten by the next update. Take the safe route: your future self will thank you. Your team and customers will thank you.' );?></p>
 			</div>
 		</div>
 
