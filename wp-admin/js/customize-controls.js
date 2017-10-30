@@ -5542,7 +5542,7 @@
 			control.inputElements = {};
 			control.invalidDate = false;
 
-			_.bindAll( control, 'populateSetting', 'updateDaysForMonth', 'updateMinutesForHour', 'populateDateInputs' );
+			_.bindAll( control, 'populateSetting', 'updateDaysForMonth', 'populateDateInputs' );
 
 			if ( ! control.setting ) {
 				throw new Error( 'Missing setting' );
@@ -5552,34 +5552,35 @@
 				var input = $( this ), component, element;
 				component = input.data( 'component' );
 				element = new api.Element( input );
-				if ( 'meridian' === component ) {
-					element.validate = function( value ) {
-						if ( 'am' !== value && 'pm' !== value ) {
-							return null;
-						}
-						return value;
-					};
-				} else {
-					element.validate = function( value ) {
-						var val = parseInt( value, 10 );
-						if ( isNaN( val ) ) {
-							return null;
-						}
-						return val;
-					};
-				}
-				element.bind( control.populateSetting );
 				control.inputElements[ component ] = element;
 				control.elements.push( element );
+
+				// Add invalid date error once user changes (and has blurred the input).
+				input.on( 'change', function() {
+					if ( control.invalidDate ) {
+						control.notifications.add( new api.Notification( 'invalid_date', {
+							message: api.l10n.invalidDate
+						} ) );
+					}
+				} );
+
+				// Remove the error immediately after validity change.
+				input.on( 'input', _.debounce( function() {
+					if ( ! control.invalidDate ) {
+						control.notifications.remove( 'invalid_date' );
+					}
+				} ) );
 			} );
 
 			control.inputElements.month.bind( control.updateDaysForMonth );
 			control.inputElements.year.bind( control.updateDaysForMonth );
-			if ( control.params.includeTime ) {
-				control.inputElements.hour.bind( control.updateMinutesForHour );
-			}
 			control.populateDateInputs();
 			control.setting.bind( control.populateDateInputs );
+
+			// Start populating setting after inputs have been populated.
+			_.each( control.inputElements, function( element ) {
+				element.bind( control.populateSetting );
+			} );
 		},
 
 		/**
@@ -5629,7 +5630,7 @@
 		 * @return {boolean} If date input fields has error.
 		 */
 		validateInputs: function validateInputs() {
-			var control = this, errorMessage, components;
+			var control = this, components, validityInput;
 
 			control.invalidDate = false;
 
@@ -5638,24 +5639,40 @@
 				components.push( 'hour', 'minute' );
 			}
 
-			_.each( components, function( component ) {
-				var element, el, max, min, value;
+			_.find( components, function( component ) {
+				var element, max, min, value;
+
+				element = control.inputElements[ component ];
+				validityInput = element.element.get( 0 );
+				max = parseInt( element.element.attr( 'max' ), 10 );
+				min = parseInt( element.element.attr( 'min' ), 10 );
+				value = parseInt( element(), 10 );
+				control.invalidDate = isNaN( value ) || value > max || value < min;
 
 				if ( ! control.invalidDate ) {
-					element = control.inputElements[ component ];
-					el = element.element.get( 0 );
-					max = parseInt( element.element.attr( 'max' ), 10 );
-					min = parseInt( element.element.attr( 'min' ), 10 );
-					value = element();
-					control.invalidDate = value > max || value < min;
-					errorMessage = control.invalidDate ? api.l10n.invalid + ' ' + component : '';
-
-					el.setCustomValidity( errorMessage );
-					if ( ! control.section() || api.section.has( control.section() ) && api.section( control.section() ).expanded() ) {
-						_.result( el, 'reportValidity' );
-					}
+					validityInput.setCustomValidity( '' );
 				}
+
+				return control.invalidDate;
 			} );
+
+			if ( control.inputElements.meridian && ! control.invalidDate ) {
+				validityInput = control.inputElements.meridian.element.get( 0 );
+				if ( 'am' !== control.inputElements.meridian.get() && 'pm' !== control.inputElements.meridian.get() ) {
+					control.invalidDate = true;
+				} else {
+					validityInput.setCustomValidity( '' );
+				}
+			}
+
+			if ( control.invalidDate ) {
+				validityInput.setCustomValidity( api.l10n.invalidValue );
+			} else {
+				validityInput.setCustomValidity( '' );
+			}
+			if ( ! control.section() || api.section.has( control.section() ) && api.section( control.section() ).expanded() ) {
+				_.result( validityInput, 'reportValidity' );
+			}
 
 			return control.invalidDate;
 		},
@@ -5669,41 +5686,17 @@
 		updateDaysForMonth: function updateDaysForMonth() {
 			var control = this, daysInMonth, year, month, day;
 
-			month = control.inputElements.month();
-			year = control.inputElements.year();
-			day = control.inputElements.day();
+			month = parseInt( control.inputElements.month(), 10 );
+			year = parseInt( control.inputElements.year(), 10 );
+			day = parseInt( control.inputElements.day(), 10 );
 
 			if ( month && year ) {
 				daysInMonth = new Date( year, month, 0 ).getDate();
 				control.inputElements.day.element.attr( 'max', daysInMonth );
 
 				if ( day > daysInMonth ) {
-					control.inputElements.day( daysInMonth );
+					control.inputElements.day( String( daysInMonth ) );
 				}
-			}
-		},
-
-		/**
-		 * Updates number of minutes according to the hour selected.
-		 *
-		 * @since 4.9.0
-		 * @return {void}
-		 */
-		updateMinutesForHour: function updateMinutesForHour() {
-			var control = this, maxHours = 24, minuteEl;
-
-			if ( control.inputElements.meridian ) {
-				return;
-			}
-
-			minuteEl = control.inputElements.minute.element;
-
-			if ( maxHours === control.inputElements.hour() ) {
-				control.inputElements.minute( 0 );
-				minuteEl.data( 'default-max', minuteEl.attr( 'max' ) );
-				minuteEl.attr( 'max', '0' );
-			} else if ( minuteEl.data( 'default-max' ) ) {
-				minuteEl.attr( 'max', minuteEl.data( 'default-max' ) );
 			}
 		},
 
@@ -5745,7 +5738,7 @@
 			};
 
 			getElementValue = function( component ) {
-				var value = control.inputElements[ component ].get();
+				var value = parseInt( control.inputElements[ component ].get(), 10 );
 
 				if ( _.contains( [ 'month', 'day', 'hour', 'minute' ], component ) ) {
 					value = pad( value, 2 );
@@ -5822,7 +5815,9 @@
 			}
 
 			_.each( control.inputElements, function( element, component ) {
-				element.set( parsed[ component ] );
+				if ( 'meridian' === component || parseInt( parsed[ component ], 10 ) !== parseInt( element(), 10 ) ) {
+					element.set( parsed[ component ] );
+				}
 			} );
 
 			return true;

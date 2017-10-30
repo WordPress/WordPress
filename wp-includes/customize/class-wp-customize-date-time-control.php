@@ -141,8 +141,9 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 					<legend class="title-time"><?php esc_html_e( 'Time' ); ?></legend>
 					<div class="time-fields clear">
 						<label for="{{ idPrefix }}date-time-hour" class="screen-reader-text"><?php esc_html_e( 'Hour' ); ?></label>
-						<# var maxHour = data.twelveHourFormat ? 12 : 24; #>
-						<input id="{{ idPrefix }}date-time-hour" type="number" size="2" autocomplete="off" class="date-input hour" data-component="hour" min="1" max="{{ maxHour }}">
+						<# var maxHour = data.twelveHourFormat ? 12 : 23; #>
+						<# var minHour = data.twelveHourFormat ? 1 : 0; #>
+						<input id="{{ idPrefix }}date-time-hour" type="number" size="2" autocomplete="off" class="date-input hour" data-component="hour" min="{{ minHour }}" max="{{ maxHour }}">
 						<span class="time-special-char date-time-separator">:</span>
 						<label for="{{ idPrefix }}date-time-minute" class="screen-reader-text"><?php esc_html_e( 'Minute' ); ?></label>
 						<input id="{{ idPrefix }}date-time-minute" type="number" size="2" autocomplete="off" class="date-input minute" data-component="minute" min="0" max="59">

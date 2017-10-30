@@ -599,6 +599,8 @@ function wp_default_scripts( &$scripts ) {
 			esc_url( admin_url( 'theme-install.php' ) )
 		),
 		'publishSettings' => __( 'Publish Settings' ),
+		'invalidDate'     => __( 'Invalid date.' ),
+		'invalidValue'    => __( 'Invalid value.' ),
 	) );
 	$scripts->add( 'customize-selective-refresh', "/wp-includes/js/customize-selective-refresh$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 
