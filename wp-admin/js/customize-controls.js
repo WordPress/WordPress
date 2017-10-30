@@ -1680,6 +1680,7 @@
 		nextTags: '',
 		filtersHeight: 0,
 		headerContainer: null,
+		updateCountDebounced: null,
 
 		/**
 		 * Initialize.
@@ -1696,6 +1697,7 @@
 			section.$window = $( window );
 			section.$body = $( document.body );
 			api.Section.prototype.initialize.call( section, id, options );
+			section.updateCountDebounced = _.debounce( section.updateCount, 500 );
 		},
 
 		/**
@@ -1869,7 +1871,6 @@
 					if ( ! section.expanded() ) {
 						section.expand();
 					}
-					section.checkTerm( section );
 				});
 
 				// Feature filters.
@@ -2240,7 +2241,7 @@
 			api.reflowPaneContents();
 
 			// Update theme count.
-			section.updateCount( count );
+			section.updateCountDebounced( count );
 		},
 
 		/**
@@ -2255,7 +2256,7 @@
 			var newTerm;
 			if ( 'remote' === section.params.filter_type ) {
 				newTerm = section.contentContainer.find( '.wp-filter-search' ).val();
-				if ( section.term !== newTerm ) {
+				if ( section.term !== newTerm.trim() ) {
 					section.initializeNewQuery( newTerm, section.tags );
 				}
 			}
