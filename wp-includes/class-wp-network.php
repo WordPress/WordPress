@@ -219,10 +219,10 @@ class WP_Network {
 		 *
 		 * @since 4.9.0
 		 *
-		 * @param int|null $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
-		 * @param int $network_id The ID of the network for which the main site was detected.
+		 * @param int|null   $main_site_id If a positive integer is returned, it is interpreted as the main site ID.
+		 * @param WP_Network $network      The network object for which the main site was detected.
 		 */
-		$main_site_id = (int) apply_filters( 'pre_get_main_site_id', null, $this->id );
+		$main_site_id = (int) apply_filters( 'pre_get_main_site_id', null, $this );
 		if ( 0 < $main_site_id ) {
 			return $main_site_id;
 		}
