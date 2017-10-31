@@ -803,7 +803,8 @@
 
 	'use strict';
 
-	var wpApiSettings = window.wpApiSettings || {};
+	var wpApiSettings = window.wpApiSettings || {},
+	trashableTypes    = [ 'Comment', 'Media', 'Comment', 'Post', 'Page', 'Status', 'Taxonomy', 'Type' ];
 
 	/**
 	 * Backbone base model for all models.
@@ -811,32 +812,15 @@
 	wp.api.WPApiBaseModel = Backbone.Model.extend(
 		/** @lends WPApiBaseModel.prototype  */
 		{
-			initialize: function( attributes, options ) {
+
+			// Initialize the model.
+			initialize: function() {
 
 				/**
-				 * Determine if a model requires ?force=true to actually delete them.
-				 */
-				if (
-					! _.isEmpty(
-						_.filter(
-							this.endpoints,
-							function( endpoint ) {
-								return (
-
-									// Does the method support DELETE?
-									'DELETE' === endpoint.methods[0] &&
-
-									// Exclude models that support trash (Post, Page).
-									(
-										! _.isUndefined( endpoint.args.force ) &&
-										! _.isUndefined( endpoint.args.force.description ) &&
-										'Whether to bypass trash and force deletion.' !== endpoint.args.force.description
-									)
-								);
-							}
-						)
-					)
-				) {
+				* Types that don't support trashing require passing ?force=true to delete.
+				*
+				*/
+				if ( -1 === _.indexOf( trashableTypes, this.name ) ) {
 					this.requireForceForDelete = true;
 				}
 			},
