@@ -3494,10 +3494,10 @@ function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page') {
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
 	$parts = explode( '/', trim( $page_path, '/' ) );
-	$parts = esc_sql( $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
+	$escaped_parts = esc_sql( $parts );
 
-	$in_string = "'". implode( "','", $parts ) . "'";
+	$in_string = "'". implode( "','", $escaped_parts ) . "'";
 	$post_type_sql = esc_sql( $post_type );
 	$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_type FROM $wpdb->posts WHERE post_name IN ($in_string) AND (post_type = '$post_type_sql' OR post_type = 'attachment')", OBJECT_K );
 
