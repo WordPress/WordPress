@@ -4088,10 +4088,10 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
 	$parts = explode( '/', trim( $page_path, '/' ) );
-	$parts = esc_sql( $parts );
 	$parts = array_map( 'sanitize_title_for_query', $parts );
+	$escaped_parts = esc_sql( $parts );
 
-	$in_string = "'" . implode( "','", $parts ) . "'";
+	$in_string = "'" . implode( "','", $escaped_parts ) . "'";
 
 	if ( is_array( $post_type ) ) {
 		$post_types = $post_type;
