@@ -3466,7 +3466,12 @@
 		initialize: function( id, options ) {
 			var control = this, deferredSettingIds = [], settings, gatherSettings;
 
-			control.params = _.extend( {}, control.defaults );
+			control.params = _.extend(
+				{},
+				control.defaults,
+				control.params || {}, // In case sub-class already defines.
+				options.params || options || {} // The options.params property is deprecated, but it is checked first for back-compat.
+			);
 
 			if ( ! api.Control.instanceCounter ) {
 				api.Control.instanceCounter = 0;
@@ -3487,7 +3492,6 @@
 				} );
 			}
 
-			_.extend( control.params, options.params || options );
 			if ( ! control.params.content ) {
 				control.params.content = $( '<li></li>', {
 					id: 'customize-control-' + id.replace( /]/g, '' ).replace( /\[/g, '-' ),
