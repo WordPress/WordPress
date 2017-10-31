@@ -3347,7 +3347,10 @@
 				api.control.each( function( control ) {
 					if ( 'theme' === control.params.type && control.params.theme.id === response.slug ) {
 						control.params.theme.hasUpdate = false;
-						control.rerenderAsInstalled( true );
+						control.params.theme.version = response.newVersion;
+						setTimeout( function() {
+							control.rerenderAsInstalled( true );
+						}, 2000 );
 					}
 				});
 			} );

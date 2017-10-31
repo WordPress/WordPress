@@ -2030,7 +2030,7 @@ p.customize-section-description {
 	display: none;
 }
 
-.themes-section-installed_themes .theme .notice-success {
+.themes-section-installed_themes .theme .notice-success:not(.updated-message) {
 	display: none; /* Hide "installed" notice on installed themes tab. */
 }
 
