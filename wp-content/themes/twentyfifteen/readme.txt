@@ -1,8 +1,8 @@
 === Twenty Fifteen ===
 Contributors: the WordPress team
 Requires at least: WordPress 4.1
-Tested up to: WordPress 4.9-trunk
-Version: 1.8
+Tested up to: WordPress 5.0-trunk
+Version: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
@@ -30,7 +30,7 @@ For more information about Twenty Fifteen please go to https://codex.wordpress.o
 
 == Copyright ==
 
-Twenty Fifteen WordPress Theme, Copyright 2014-2016 WordPress.org & Automattic.com
+Twenty Fifteen WordPress Theme, Copyright 2014-2017 WordPress.org & Automattic.com
 Twenty Fifteen is distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -49,11 +49,16 @@ HTML5 Shiv v3.7.0, Copyright 2014 Alexander Farkas
 Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
-Genericons icon font, Copyright 2013-2016 Automattic.com
+Genericons icon font, Copyright 2013-2017 Automattic.com
 License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
 == Changelog ==
+
+= 1.9 =
+* Released: November 14, 2017
+
+https://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_1.9
 
 = 1.8 =
 * Released: June 8, 2017

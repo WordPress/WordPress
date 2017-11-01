@@ -1,14 +1,14 @@
-# Copyright (C) 2016 the WordPress team
+# Copyright (C) 2017 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 2.5\n"
+"Project-Id-Version: Twenty Eleven 2.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
-"POT-Creation-Date: 2016-07-29 15:41:03+00:00\n"
+"POT-Creation-Date: 2017-11-01 20:27:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -17,9 +17,7 @@ msgid "This is somewhat embarrassing, isn&rsquo;t it?"
 msgstr ""
 
 #: 404.php:21
-msgid ""
-"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
-"searching, or one of the links below, can help."
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching, or one of the links below, can help."
 msgstr ""
 
 #: 404.php:28
@@ -27,6 +25,7 @@ msgid "Most Used Categories"
 msgstr ""
 
 #. translators: %1$s: smilie
+
 #: 404.php:36
 msgid "Try looking in the monthly archives. %1$s"
 msgstr ""
@@ -63,9 +62,7 @@ msgid "Nothing Found"
 msgstr ""
 
 #: archive.php:61 author.php:90 category.php:63 index.php:41 tag.php:64
-msgid ""
-"Apologies, but no results were found for the requested archive. Perhaps "
-"searching will help find a related post."
+msgid "Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post."
 msgstr ""
 
 #: author.php:29
@@ -81,8 +78,7 @@ msgid "Category Archives: %s"
 msgstr ""
 
 #: comments.php:17
-msgid ""
-"This post is password protected. Enter the password to view any comments."
+msgid "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
 #: comments.php:34
@@ -168,6 +164,7 @@ msgid "Edit"
 msgstr ""
 
 #. translators: used between list items, there is a space after the comma
+
 #: content-featured.php:29 content-featured.php:38 content-gallery.php:60
 #: content-gallery.php:70 content-image.php:49 content-image.php:58
 #: content-quote.php:44 content-quote.php:54 content-single.php:30
@@ -176,15 +173,11 @@ msgid ", "
 msgstr ""
 
 #: content-featured.php:31
-msgid ""
-"This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" "
-"title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgid "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-featured.php:33
-msgid ""
-"This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title="
-"\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgid "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-gallery.php:19
@@ -216,11 +209,7 @@ msgid "Image"
 msgstr ""
 
 #: content-image.php:36
-msgid ""
-"<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s"
-"\">%3$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by </span> "
-"<span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s\" title=\"%5$s"
-"\" rel=\"author\">%6$s</a></span></span>"
+msgid "<a href=\"%1$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%2$s\">%3$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by </span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%4$s\" title=\"%5$s\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
 #: content-image.php:41 functions.php:678
@@ -236,22 +225,15 @@ msgid "Quote"
 msgstr ""
 
 #: content-single.php:35
-msgid ""
-"This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. "
-"Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark"
-"\">permalink</a>."
+msgid "This entry was posted in %1$s and tagged %2$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-single.php:37
-msgid ""
-"This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a "
-"href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgid "This entry was posted in %1$s by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-single.php:39
-msgid ""
-"This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href="
-"\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
+msgid "This entry was posted by <a href=\"%6$s\">%5$s</a>. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
 #: content-single.php:67
@@ -266,8 +248,6 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.5)  #-#-#-#-#
-#. Author URI of the plugin/theme
 #: footer.php:28
 msgid "https://wordpress.org/"
 msgstr ""
@@ -285,41 +265,49 @@ msgid "Primary Menu"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:184
 msgid "Wheel"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:190
 msgid "Shore"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:196
 msgid "Trolley"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:202
 msgid "Pine Cone"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:208
 msgid "Chessboard"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:214
 msgid "Lanterns"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:220
 msgid "Willow"
 msgstr ""
 
 #. translators: header image description
+
 #: functions.php:226
 msgid "Hanoi Plant"
 msgstr ""
@@ -369,11 +357,13 @@ msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
+
 #: functions.php:629
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
+
 #: functions.php:635
 msgid "%1$s at %2$s"
 msgstr ""
@@ -387,12 +377,7 @@ msgid "Reply <span>&darr;</span>"
 msgstr ""
 
 #: functions.php:672
-msgid ""
-"<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
-"\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></"
-"a><span class=\"by-author\"> <span class=\"sep\"> by </span> <span class="
-"\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" title=\"%6$s\" rel="
-"\"author\">%7$s</a></span></span>"
+msgid "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel=\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></a><span class=\"by-author\"> <span class=\"sep\"> by </span> <span class=\"author vcard\"><a class=\"url fn n\" href=\"%5$s\" title=\"%6$s\" rel=\"author\">%7$s</a></span></span>"
 msgstr ""
 
 #: header.php:43
@@ -424,11 +409,7 @@ msgid "Next &rarr;"
 msgstr ""
 
 #: image.php:30
-msgid ""
-"<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class="
-"\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> "
-"at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> "
-"in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%8$s</a>"
+msgid "<span class=\"meta-prep meta-prep-entry-date\">Published </span> <span class=\"entry-date\"><abbr class=\"published\" title=\"%1$s\">%2$s</abbr></span> at <a href=\"%3$s\" title=\"Link to full-size image\">%4$s &times; %5$s</a> in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%8$s</a>"
 msgstr ""
 
 #: inc/theme-options.php:56 inc/theme-options.php:542
@@ -448,38 +429,23 @@ msgid "Theme Options"
 msgstr ""
 
 #: inc/theme-options.php:111
-msgid ""
-"Some themes provide customization options that are grouped together on a "
-"Theme Options screen. If you change themes, options may change or disappear, "
-"as they are theme-specific. Your current theme, Twenty Eleven, provides the "
-"following Theme Options:"
+msgid "Some themes provide customization options that are grouped together on a Theme Options screen. If you change themes, options may change or disappear, as they are theme-specific. Your current theme, Twenty Eleven, provides the following Theme Options:"
 msgstr ""
 
 #: inc/theme-options.php:113
-msgid ""
-"<strong>Color Scheme</strong>: You can choose a color palette of \"Light"
-"\" (light background with dark text) or \"Dark\" (dark background with light "
-"text) for your site."
+msgid "<strong>Color Scheme</strong>: You can choose a color palette of \"Light\" (light background with dark text) or \"Dark\" (dark background with light text) for your site."
 msgstr ""
 
 #: inc/theme-options.php:114
-msgid ""
-"<strong>Link Color</strong>: You can choose the color used for text links on "
-"your site. You can enter the HTML color or hex code, or you can choose "
-"visually by clicking the \"Select a Color\" button to pick from a color "
-"wheel."
+msgid "<strong>Link Color</strong>: You can choose the color used for text links on your site. You can enter the HTML color or hex code, or you can choose visually by clicking the \"Select a Color\" button to pick from a color wheel."
 msgstr ""
 
 #: inc/theme-options.php:115
-msgid ""
-"<strong>Default Layout</strong>: You can choose if you want your site&#8217;"
-"s default layout to have a sidebar on the left, the right, or not at all."
+msgid "<strong>Default Layout</strong>: You can choose if you want your site&#8217;s default layout to have a sidebar on the left, the right, or not at all."
 msgstr ""
 
 #: inc/theme-options.php:117
-msgid ""
-"Remember to click \"Save Changes\" to save any changes you have made to the "
-"theme options."
+msgid "Remember to click \"Save Changes\" to save any changes you have made to the theme options."
 msgstr ""
 
 #: inc/theme-options.php:119
@@ -487,15 +453,11 @@ msgid "For more information:"
 msgstr ""
 
 #: inc/theme-options.php:120
-msgid ""
-"<a href=\"https://codex.wordpress.org/Appearance_Theme_Options_Screen\" "
-"target=\"_blank\">Documentation on Theme Options</a>"
+msgid "<a href=\"https://codex.wordpress.org/Appearance_Theme_Options_Screen\" target=\"_blank\">Documentation on Theme Options</a>"
 msgstr ""
 
 #: inc/theme-options.php:121
-msgid ""
-"<a href=\"https://wordpress.org/support/\" target=\"_blank\">Support Forums</"
-"a>"
+msgid "<a href=\"https://wordpress.org/support/\" target=\"_blank\">Support Forums</a>"
 msgstr ""
 
 #: inc/theme-options.php:128
@@ -543,8 +505,7 @@ msgid "Twenty Eleven Ephemera"
 msgstr ""
 
 #: inc/widgets.php:23
-msgid ""
-"Use this widget to list your recent Aside, Status, Quote, and Link posts"
+msgid "Use this widget to list your recent Aside, Status, Quote, and Link posts"
 msgstr ""
 
 #: inc/widgets.php:68
@@ -576,9 +537,7 @@ msgid "Search Results for: %s"
 msgstr ""
 
 #: search.php:48
-msgid ""
-"Sorry, but nothing matched your search criteria. Please try again with some "
-"different keywords."
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
 msgstr ""
 
 #: searchform.php:11 searchform.php:12 searchform.php:13
@@ -616,7 +575,6 @@ msgstr ""
 #: tag.php:19
 msgid "Tag Archives: %s"
 msgstr ""
-
 #. Theme Name of the plugin/theme
 msgid "Twenty Eleven"
 msgstr ""
@@ -626,22 +584,15 @@ msgid "https://wordpress.org/themes/twentyeleven/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid ""
-"The 2011 theme for WordPress is sophisticated, lightweight, and adaptable. "
-"Make it yours with a custom menu, header image, and background -- then go "
-"further with available theme options for light or dark color scheme, custom "
-"link colors, and three layout choices. Twenty Eleven comes equipped with a "
-"Showcase page template that transforms your front page into a showcase to "
-"show off your best content, widget support galore (sidebar, three footer "
-"areas, and a Showcase page widget area), and a custom \"Ephemera\" widget to "
-"display your Aside, Link, Quote, or Status posts. Included are styles for "
-"print and for the admin editor, support for featured images (as custom "
-"header images on posts and pages and as large images on featured \"sticky\" "
-"posts), and special styles for six different post formats."
+msgid "The 2011 theme for WordPress is sophisticated, lightweight, and adaptable. Make it yours with a custom menu, header image, and background -- then go further with available theme options for light or dark color scheme, custom link colors, and three layout choices. Twenty Eleven comes equipped with a Showcase page template that transforms your front page into a showcase to show off your best content, widget support galore (sidebar, three footer areas, and a Showcase page widget area), and a custom \"Ephemera\" widget to display your Aside, Link, Quote, or Status posts. Included are styles for print and for the admin editor, support for featured images (as custom header images on posts and pages and as large images on featured \"sticky\" posts), and special styles for six different post formats."
 msgstr ""
 
 #. Author of the plugin/theme
 msgid "the WordPress team"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wordpress.org/"
 msgstr ""
 
 #. Template Name of the plugin/theme

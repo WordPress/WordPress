@@ -1,8 +1,8 @@
 === Twenty Ten ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.0
-Tested up to: WordPress 4.9-trunk
-Stable tag: 2.3
+Tested up to: WordPress 5.0-trunk
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, footer-widgets, featured-image-header
@@ -36,6 +36,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 == Changelog ==
+
+= 2.4 =
+* Released: November 14, 2017
+
+https://codex.wordpress.org/Twenty_Ten_Theme_Changelog#Version_2.4
 
 = 2.3 =
 * Released: June 8, 2017

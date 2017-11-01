@@ -1,8 +1,8 @@
 === Twenty Twelve ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.5
-Tested up to: WordPress 4.9-trunk
-Stable tag: 2.3
+Tested up to: WordPress 5.0-trunk
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -42,6 +42,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 2.4 =
+* Released: November 14, 2017
+
+https://codex.wordpress.org/Twenty_Twelve_Theme_Changelog#Version_2.4
 
 = 2.3 =
 * Released: June 8, 2017
