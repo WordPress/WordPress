@@ -4583,10 +4583,14 @@ final class WP_Customize_Manager {
 			$changeset_post = get_post( $changeset_post_id );
 		}
 
-		if ( $this->changeset_post_id() && 'future' === get_post_status( $this->changeset_post_id() ) ) {
-			$initial_date = get_the_time( 'Y-m-d H:i:s', $this->changeset_post_id() );
-		} else {
-			$initial_date = current_time( 'mysql', false );
+		// Determine initial date to be at present or future, not past.
+		$current_time = current_time( 'mysql', false );
+		$initial_date = $current_time;
+		if ( $changeset_post ) {
+			$initial_date = get_the_time( 'Y-m-d H:i:s', $changeset_post->ID );
+			if ( $initial_date < $current_time ) {
+				$initial_date = $current_time;
+			}
 		}
 
 		$lock_user_id = false;
@@ -4607,7 +4611,7 @@ final class WP_Customize_Manager {
 				'statusChoices' => $status_choices,
 				'lockUser' => $lock_user_id ? $this->get_lock_user_data( $lock_user_id ) : null,
 			),
-			'initialServerDate' => current_time( 'mysql', false ),
+			'initialServerDate' => $current_time,
 			'dateFormat' => get_option( 'date_format' ),
 			'timeFormat' => get_option( 'time_format' ),
 			'initialServerTimestamp' => floor( microtime( true ) * 1000 ),
