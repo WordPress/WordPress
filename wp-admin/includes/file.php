@@ -432,15 +432,15 @@ function wp_edit_theme_plugin_file( $args ) {
 		foreach ( $editable_extensions as $type ) {
 			switch ( $type ) {
 				case 'php':
-					$allowed_files = array_merge( $allowed_files, $theme->get_files( 'php', 1 ) );
+					$allowed_files = array_merge( $allowed_files, $theme->get_files( 'php', -1 ) );
 					break;
 				case 'css':
-					$style_files = $theme->get_files( 'css' );
+					$style_files = $theme->get_files( 'css', -1 );
 					$allowed_files['style.css'] = $style_files['style.css'];
 					$allowed_files = array_merge( $allowed_files, $style_files );
 					break;
 				default:
-					$allowed_files = array_merge( $allowed_files, $theme->get_files( $type ) );
+					$allowed_files = array_merge( $allowed_files, $theme->get_files( $type, -1 ) );
 					break;
 			}
 		}
