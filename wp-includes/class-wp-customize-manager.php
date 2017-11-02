@@ -1175,6 +1175,20 @@ final class WP_Customize_Manager {
 
 		$changeset_data = array();
 		if ( $this->changeset_post_id() ) {
+			/*
+			 * Don't re-import starter content into a changeset saved persistently.
+			 * This will need to be revisited in the future once theme switching
+			 * is allowed with drafted/scheduled changesets, since switching to
+			 * another theme could result in more starter content being applied.
+			 * However, when doing an explicit save it is currently possible for
+			 * nav menus and nav menu items specifically to lose their starter_content
+			 * flags, thus resulting in duplicates being created since they fail
+			 * to get re-used. See #40146.
+			 */
+			if ( 'auto-draft' !== get_post_status( $this->changeset_post_id() ) ) {
+				return;
+			}
+
 			$changeset_data = $this->get_changeset_post_data( $this->changeset_post_id() );
 		}
 
