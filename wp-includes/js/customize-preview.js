@@ -36,7 +36,7 @@
 			newQueryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
 
 			newQueryParams.customize_changeset_uuid = oldQueryParams.customize_changeset_uuid;
-			if ( api.settings.changeset.autosaved ) {
+			if ( oldQueryParams.customize_autosaved ) {
 				newQueryParams.customize_autosaved = 'on';
 			}
 			if ( oldQueryParams.customize_theme ) {
