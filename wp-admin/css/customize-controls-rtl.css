@@ -332,11 +332,6 @@ body.trashing #publish-settings {
 	margin-top: 10px;
 }
 
-.customize-control.customize-control-date_time .date-time-fields .date-input,
-.customize-control.customize-control-date_time .date-time-fields .date-time-separator {
-	float: right;
-	margin-left: 5px;
-}
 .customize-control.customize-control-date_time .date-time-fields .date-input.day {
 	margin-left: 0;
 }
@@ -361,16 +356,11 @@ body.trashing #publish-settings {
 	margin: 0;
 }
 
-.date-time-fields .date-time-separator {
-	line-height: 2;
-}
-
 .date-time-fields .time-row {
 	margin-top: 12px;
 }
 
 .date-time-fields .date-timezone {
-	float: right;
 	line-height: 2.2;
 	text-decoration: none;
 }
@@ -2830,7 +2820,6 @@ body.adding-widget .add-new-widget:before,
 		width: 80px;
 	}
 
-	.date-time-fields .date-time-separator,
 	.date-time-fields .date-timezone {
 		line-height: 3.2;
 	}
