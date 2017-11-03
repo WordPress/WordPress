@@ -333,7 +333,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
 				'file' => rawurlencode( $tree ),
 				'theme' => rawurlencode( $stylesheet ),
 			),
-			admin_url( 'theme-editor.php' )
+			self_admin_url( 'theme-editor.php' )
 		);
 		?>
 		<li role="none" class="<?php echo esc_attr( $relative_file === $filename ? 'current-file' : '' ); ?>">
@@ -421,7 +421,7 @@ function wp_print_plugin_file_tree( $tree, $label = '', $level = 2, $size = 1, $
 				'file' => rawurlencode( $tree ),
 				'plugin' => rawurlencode( $plugin ),
 			),
-			admin_url( 'plugin-editor.php' )
+			self_admin_url( 'plugin-editor.php' )
 		);
 		?>
 		<li role="none" class="<?php echo esc_attr( $file === $tree ? 'current-file' : '' ); ?>">
