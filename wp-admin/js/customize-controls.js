@@ -8248,6 +8248,7 @@
 
 		// Set up initial notifications.
 		(function() {
+			var removedQueryParams = [];
 
 			/**
 			 * Obtain the URL to restore the autosave.
@@ -8344,9 +8345,13 @@
 
 			if ( api.settings.changeset.autosaved ) {
 				api.state( 'saved' ).set( false );
-				stripParamsFromLocation( [ 'customize_autosaved' ] ); // Remove param when restoring autosave revision.
-			} else if ( ! api.settings.changeset.branching && 'auto-draft' === api.settings.changeset.status ) {
-				stripParamsFromLocation( [ 'changeset_uuid' ] ); // Remove UUID when restoring autosave auto-draft.
+				removedQueryParams.push( 'customize_autosaved' );
+			}
+			if ( ! api.settings.changeset.branching && ( ! api.settings.changeset.status || 'auto-draft' === api.settings.changeset.status ) ) {
+				removedQueryParams.push( 'changeset_uuid' ); // Remove UUID when restoring autosave auto-draft.
+			}
+			if ( removedQueryParams.length > 0 ) {
+				stripParamsFromLocation( removedQueryParams );
 			}
 			if ( api.settings.changeset.latestAutoDraftUuid || api.settings.changeset.hasAutosaveRevision ) {
 				addAutosaveRestoreNotification();
