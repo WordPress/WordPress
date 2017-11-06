@@ -7775,9 +7775,6 @@
 				if ( ! api.state( 'activated' ).get() ) {
 					params.customize_theme = api.settings.theme.stylesheet;
 				}
-				if ( api.settings.changeset.autosaved || ! api.state( 'saved' ).get() ) {
-					params.customize_autosaved = 'on';
-				}
 
 				urlParser.search = $.param( params );
 				return urlParser.href;
