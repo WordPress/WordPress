@@ -100,14 +100,13 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 		$timezone_info = $this->get_timezone_info();
 
 		$date_format = get_option( 'date_format' );
-		foreach ( array( 'Y', 'y', 'o' ) as $year_token ) {
-			$date_format = preg_replace( '/(?<!\\\\)' . $year_token . '/', '%1$s', $date_format );
-		}
-		foreach ( array( 'F', 'm', 'M', 'n' ) as $month_token ) {
-			$date_format = preg_replace( '/(?<!\\\\)' . $month_token . '/', '%2$s', $date_format );
-		}
-		foreach ( array( 'j', 'd' ) as $day_token ) {
-			$date_format = preg_replace( '/(?<!\\\\)' . $day_token . '/', '%3$s', $date_format );
+		$date_format = preg_replace( '/(?<!\\\\)[Yyo]/', '%1$s', $date_format );
+		$date_format = preg_replace( '/(?<!\\\\)[FmMn]/', '%2$s', $date_format );
+		$date_format = preg_replace( '/(?<!\\\\)[jd]/', '%3$s', $date_format );
+
+		// Fallback to ISO date format if year, month, or day are missing from the date format.
+		if ( 1 !== substr_count( $date_format, '%1$s' ) || 1 !== substr_count( $date_format, '%2$s' ) || 1 !== substr_count( $date_format, '%3$s' ) ) {
+			$date_format = '%1$s-%2$s-%3$s';
 		}
 		?>
 
