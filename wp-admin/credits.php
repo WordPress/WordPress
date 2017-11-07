@@ -16,7 +16,7 @@ list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<div class="wrap about-wrap">
+<div class="wrap about-wrap full-width-layout">
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
@@ -31,6 +31,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 </h2>
 
+<div class="about-wrap-content">
 <?php
 
 $credits = wp_credits();
@@ -43,6 +44,7 @@ if ( ! $credits ) {
 		__( 'https://make.wordpress.org/' )
 	);
 	echo '</p>';
+	echo '</div>';
 	echo '</div>';
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
@@ -106,6 +108,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 	);
 ?></p>
 
+</div>
 </div>
 <?php
 

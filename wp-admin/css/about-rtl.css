@@ -8,6 +8,7 @@
    2.0 About Page
     2.1 Typography
     2.2 Structure
+    2.3 Floating Header Layout
    3.0 Credits & Freedoms Pages
 ------------------------------------------------------------------------------*/
 
@@ -20,6 +21,14 @@
 	margin: 25px 20px 0 40px;
 	max-width: 1050px; /* readability */
 	font-size: 15px;
+}
+
+.about-wrap.full-width-layout {
+	max-width: 1200px;
+}
+
+.about-wrap-content {
+	max-width: 1050px;
 }
 
 .about-wrap div.updated,
@@ -171,6 +180,16 @@
 .about-wrap .feature-section.one-col {
 	margin: 0 auto;
 	max-width: 700px;
+}
+
+.about-wrap .inline-svg img {
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+}
+
+.about-wrap .inline-svg.full-width {
+	margin-bottom: 120px;
 }
 
 .about-wrap [class$="-col"] .col {
@@ -335,6 +354,42 @@
 	padding: 0 5px;
 }
 
+/* 2.3 Floating Header Layout */
+
+.about-wrap .floating-header-section {
+	display: grid;
+	grid-gap: 0 60px;
+	grid-template-columns: 5fr 11fr;
+	max-width: 1020px;
+	margin: 0 auto 120px;
+}
+
+.about-wrap .floating-header-section h2 {
+	grid-column: 1;
+	text-align: right;
+	margin: 0;
+}
+
+.about-wrap .floating-header-section .header-fixed {
+	position: fixed;
+	width: 300px;
+}
+
+.about-wrap .floating-header-section .section-content {
+	display: grid;
+	grid-gap: 60px;
+	grid-template-columns: 5fr 5fr;
+	grid-column: 2;
+}
+
+.about-wrap .floating-header-section .section-item:nth-of-type(odd) {
+	grid-column: 1;
+}
+
+.about-wrap .floating-header-section .section-item:nth-of-type(even) {
+	grid-column: 2;
+}
+
 /*------------------------------------------------------------------------------
   3.0 - Credits & Freedoms Pages
 ------------------------------------------------------------------------------*/
@@ -441,6 +496,16 @@
 		display: block;
 		margin: 0 auto;
 	}
+
+	.about-wrap .floating-header-section {
+		grid-template-columns: 1fr;
+		grid-gap: 60px 0;
+	}
+
+	.about-wrap .floating-header-section h2,
+	.about-wrap .floating-header-section .section-content {
+		grid-column: 1;
+	}
 }
 
 @media only screen and (max-width: 500px) {
@@ -484,5 +549,23 @@
 	.about-wrap .under-the-hood:nth-of-type(2n) h3,
 	.about-wrap .under-the-hood:nth-of-type(3n) h3 {
 		margin-top: 0;
+	}
+
+	.about-wrap .floating-header-section {
+		margin-bottom: 60px;
+		grid-gap: 30px 0;
+	}
+
+	.about-wrap .inline-svg.full-width {
+		margin-bottom: 60px;
+	}
+
+	.about-wrap .floating-header-section .section-content {
+		grid-template-columns: 1fr;
+		grid-gap: 60px 0;
+	}
+
+	.about-wrap .floating-header-section .section-content .section-item {
+		grid-column: 1;
 	}
 }
