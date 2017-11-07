@@ -5446,7 +5446,12 @@ final class WP_Customize_Manager {
 				$theme->id           = $theme->slug;
 				$theme->screenshot   = array( $theme->screenshot_url );
 				$theme->authorAndUri = $theme->author;
-				$theme->parent       = ( $theme->slug === $theme->template ) ? false : $theme->template; // The .org API does not seem to return the parent in a documented way; however, this check should yield a similar result in most cases.
+				// The .org API can return the full parent theme details if passed the 'parent' arg, or if passed the 'template' option it'll return that in the event it's a child theme.
+				if ( isset( $theme->parent ) ) {
+					$theme->parent = $theme->parent['slug'];
+				} else {
+					$theme->parent = false;
+				}
 				unset( $theme->slug );
 				unset( $theme->screenshot_url );
 				unset( $theme->author );
