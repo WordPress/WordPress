@@ -434,11 +434,11 @@ class WP_Admin_Bar {
 		if ( $node->type != 'container' || empty( $node->children ) )
 			return;
 
-		?><div id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>" class="ab-group-container"><?php
-			foreach ( $node->children as $group ) {
-				$this->_render_group( $group );
-			}
-		?></div><?php
+		echo '<div id="' . esc_attr( 'wp-admin-bar-' . $node->id ) . '" class="ab-group-container">';
+		foreach ( $node->children as $group ) {
+			$this->_render_group( $group );
+		}
+		echo '</div>';
 	}
 
 	/**
@@ -457,11 +457,11 @@ class WP_Admin_Bar {
 		else
 			$class = '';
 
-		?><ul id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $class; ?>><?php
-			foreach ( $node->children as $item ) {
-				$this->_render_item( $item );
-			}
-		?></ul><?php
+		echo "<ul id='" . esc_attr( 'wp-admin-bar-' . $node->id ) . "'$class>";
+		foreach ( $node->children as $item ) {
+			$this->_render_item( $item );
+		}
+		echo '</ul>';
 	}
 
 	/**
@@ -491,65 +491,46 @@ class WP_Admin_Bar {
 		if ( $menuclass )
 			$menuclass = ' class="' . esc_attr( trim( $menuclass ) ) . '"';
 
-		?>
+		echo "<li id='" . esc_attr( 'wp-admin-bar-' . $node->id ) . "'$menuclass>";
 
-		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $menuclass; ?>><?php
-			if ( $has_link ):
-				?><a class="ab-item"<?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
-					if ( ! empty( $node->meta['onclick'] ) ) :
-						?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
-					endif;
-				if ( ! empty( $node->meta['target'] ) ) :
-					?> target="<?php echo esc_attr( $node->meta['target'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['title'] ) ) :
-					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['rel'] ) ) :
-					?> rel="<?php echo esc_attr( $node->meta['rel'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['lang'] ) ) :
-					?> lang="<?php echo esc_attr( $node->meta['lang'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['dir'] ) ) :
-					?> dir="<?php echo esc_attr( $node->meta['dir'] ); ?>"<?php
-				endif;
-				?>><?php
-			else:
-				?><div class="ab-item ab-empty-item"<?php echo $aria_attributes;
-				if ( ! empty( $node->meta['title'] ) ) :
-					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['lang'] ) ) :
-					?> lang="<?php echo esc_attr( $node->meta['lang'] ); ?>"<?php
-				endif;
-				if ( ! empty( $node->meta['dir'] ) ) :
-					?> dir="<?php echo esc_attr( $node->meta['dir'] ); ?>"<?php
-				endif;
-				?>><?php
-			endif;
+		if ( $has_link ) {
+			$attributes = array( 'onclick', 'target', 'title', 'rel', 'lang', 'dir' );
+			echo "<a class='ab-item'$aria_attributes href='" . esc_url( $node->href ) . "'>";
+			if ( ! empty( $node->meta['onclick'] ) ) {
+				echo ' onclick="' . esc_js( $node->meta['onclick'] ) . '"';
+			}
+		} else {
+			$attributes = array( 'onclick', 'target', 'title', 'rel', 'lang', 'dir' );
+			echo '<div class="ab-item ab-empty-item"' . $aria_attributes;
+		}
 
-			echo $node->title;
+		foreach ( $attributes as $attribute ) {
+			if ( ! empty( $node->meta[ $attribute ] ) ) {
+				echo " $attribute='" . esc_attr( $node->meta[ $attribute ] ) . '"';
+			}
+		}
 
-			if ( $has_link ) :
-				?></a><?php
-			else:
-				?></div><?php
-			endif;
+		echo ">{$node->title}";
 
-			if ( $is_parent ) :
-				?><div class="ab-sub-wrapper"><?php
-					foreach ( $node->children as $group ) {
-						$this->_render_group( $group );
-					}
-				?></div><?php
-			endif;
+		if ( $has_link ) {
+			echo '</a>';
+		} else {
+			echo '</div>';
+		}
 
-			if ( ! empty( $node->meta['html'] ) )
-				echo $node->meta['html'];
+		if ( $is_parent ) {
+			echo '<div class="ab-sub-wrapper">';
+			foreach ( $node->children as $group ) {
+				$this->_render_group( $group );
+			}
+			echo '</div>';
+		}
 
-			?>
-		</li><?php
+		if ( ! empty( $node->meta['html'] ) ) {
+			echo $node->meta['html'];
+		}
+
+		echo '</li>';
 	}
 
 	/**
