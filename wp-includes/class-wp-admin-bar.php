@@ -495,7 +495,7 @@ class WP_Admin_Bar {
 
 		if ( $has_link ) {
 			$attributes = array( 'onclick', 'target', 'title', 'rel', 'lang', 'dir' );
-			echo "<a class='ab-item'$aria_attributes href='" . esc_url( $node->href ) . "'>";
+			echo "<a class='ab-item'$aria_attributes href='" . esc_url( $node->href ) . "'";
 			if ( ! empty( $node->meta['onclick'] ) ) {
 				echo ' onclick="' . esc_js( $node->meta['onclick'] ) . '"';
 			}
