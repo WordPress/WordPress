@@ -506,7 +506,7 @@ class WP_Admin_Bar {
 
 		foreach ( $attributes as $attribute ) {
 			if ( ! empty( $node->meta[ $attribute ] ) ) {
-				echo " $attribute='" . esc_attr( $node->meta[ $attribute ] ) . '"';
+				echo " $attribute='" . esc_attr( $node->meta[ $attribute ] ) . "'";
 			}
 		}
 
