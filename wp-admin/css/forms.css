@@ -897,7 +897,7 @@ table.form-table td .updated p {
 
 .options-general-php .spinner {
 	float: none;
-	margin: 0 3px;
+	margin: -3px 3px 0;
 }
 
 .settings-php .language-install-spinner,

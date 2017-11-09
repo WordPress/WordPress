@@ -51,7 +51,7 @@ function options_general_add_js() {
 
 		$("input[name='date_format']").click(function(){
 			if ( "date_format_custom_radio" != $(this).attr("id") )
-				$( "input[name='date_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
+				$( 'input[name="date_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
 		$( 'input[name="date_format_custom"]' ).on( 'click input', function() {
 			$( '#date_format_custom_radio' ).prop( 'checked', true );
@@ -59,18 +59,23 @@ function options_general_add_js() {
 
 		$("input[name='time_format']").click(function(){
 			if ( "time_format_custom_radio" != $(this).attr("id") )
-				$( "input[name='time_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
+				$( 'input[name="time_format_custom"]' ).val( $( this ).val() ).closest( 'fieldset' ).find( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
 		$( 'input[name="time_format_custom"]' ).on( 'click input', function() {
 			$( '#time_format_custom_radio' ).prop( 'checked', true );
 		});
 		$("input[name='date_format_custom'], input[name='time_format_custom']").change( function() {
-			var format = $(this);
-			format.siblings( '.spinner' ).addClass( 'is-active' );
-			$.post(ajaxurl, {
-					action: 'date_format_custom' == format.attr('name') ? 'date_format' : 'time_format',
+			var format = $( this ),
+				fieldset = format.closest( 'fieldset' ),
+				example = fieldset.find( '.example' ),
+				spinner = fieldset.find( '.spinner' );
+
+			spinner.addClass( 'is-active' );
+
+			$.post( ajaxurl, {
+					action: 'date_format_custom' == format.attr( 'name' ) ? 'date_format' : 'time_format',
 					date : format.val()
-				}, function(d) { format.siblings( '.spinner' ).removeClass( 'is-active' ); format.siblings('.example').text(d); } );
+				}, function( d ) { spinner.removeClass( 'is-active' ); example.text( d ); } );
 		});
 
 		var languageSelect = $( '#WPLANG' );
