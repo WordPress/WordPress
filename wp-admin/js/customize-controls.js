@@ -9191,12 +9191,14 @@
 
 			api.unbind( 'change', startAutosaving ); // Ensure startAutosaving only fires once.
 
-			api.state( 'saved' ).bind( function( isSaved ) {
+			function onChangeSaved( isSaved ) {
 				if ( ! isSaved && ! api.settings.changeset.autosaved ) {
 					api.settings.changeset.autosaved = true; // Once a change is made then autosaving kicks in.
 					api.previewer.send( 'autosaving' );
 				}
-			} );
+			}
+			api.state( 'saved' ).bind( onChangeSaved );
+			onChangeSaved( api.state( 'saved' ).get() );
 
 			/**
 			 * Request changeset update and then re-schedule the next changeset update time.
