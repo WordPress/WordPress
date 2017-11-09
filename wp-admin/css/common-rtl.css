@@ -1700,7 +1700,7 @@ form.upgrade .hint {
 
 .toggle-arrow {
 	background-repeat: no-repeat;
-	background-position: top left;
+	background-position: top right;
 	background-color: transparent;
 	height: 22px;
 	line-height: 22px;
@@ -1708,7 +1708,7 @@ form.upgrade .hint {
 }
 
 .toggle-arrow-active {
-	background-position: bottom left;
+	background-position: bottom right;
 }
 
 #screen-options-wrap h5, /* Back-compat for old plugins */

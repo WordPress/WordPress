@@ -330,7 +330,7 @@ form#tags-filter {
 }
 
 #content-resize-handle {
-	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
+	background: transparent url(../images/resize.gif) no-repeat scroll left bottom;
 	width: 12px;
 	cursor: row-resize;
 }
@@ -1299,7 +1299,7 @@ table.links-table {
   (min-resolution: 120dpi) {
 	#content-resize-handle,
 	#post-body .wp_themeSkin .mceStatusbar a.mceResize {
-		background: transparent url(../images/resize-2x.gif) no-repeat scroll right bottom;
+		background: transparent url(../images/resize-2x.gif) no-repeat scroll left bottom;
 		background-size: 11px 11px;
 	}
 
