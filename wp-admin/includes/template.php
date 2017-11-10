@@ -1457,8 +1457,9 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 	}
 
 	// Check global in case errors have been added on this pageload.
-	if ( ! count( $wp_settings_errors ) )
+	if ( empty( $wp_settings_errors ) ) {
 		return array();
+	}
 
 	// Filter the results to those of a specific setting if one was set.
 	if ( $setting ) {
