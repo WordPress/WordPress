@@ -49,6 +49,7 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
 		add_filter( 'customize_dynamic_setting_args', array( $this, 'filter_dynamic_setting_args' ), 10, 2 );
 		add_filter( 'customize_dynamic_setting_class', array( $this, 'filter_dynamic_setting_class' ), 10, 3 );
+		add_action( 'customize_save_nav_menus_created_posts', array( $this, 'save_nav_menus_created_posts' ) );
 
 		// Skip remaining hooks when the user can't manage nav menus anyway.
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
@@ -64,7 +65,6 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'available_items_template' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
 		add_action( 'customize_preview_init', array( $this, 'make_auto_draft_status_previewable' ) );
-		add_action( 'customize_save_nav_menus_created_posts', array( $this, 'save_nav_menus_created_posts' ) );
 
 		// Selective Refresh partials.
 		add_filter( 'customize_dynamic_partial_args', array( $this, 'customize_dynamic_partial_args' ), 10, 2 );
