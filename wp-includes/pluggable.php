@@ -1168,7 +1168,7 @@ if ( !function_exists('wp_redirect') ) :
  *     exit;
  *
  * Exiting can also be selectively manipulated by using wp_redirect() as a conditional
- * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} hooks:
+ * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} filters:
  *
  *     if ( wp_redirect( $url ) ) {
  *         exit;
@@ -1178,9 +1178,9 @@ if ( !function_exists('wp_redirect') ) :
  *
  * @global bool $is_IIS
  *
- * @param string $location The path to redirect to.
- * @param int    $status   Status code to use.
- * @return bool False if $location is not provided, true otherwise.
+ * @param string $location The path or URL to redirect to.
+ * @param int    $status   Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+ * @return bool False if the redirect was cancelled, true otherwise.
  */
 function wp_redirect($location, $status = 302) {
 	global $is_IIS;
@@ -1190,18 +1190,18 @@ function wp_redirect($location, $status = 302) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   Status code to use.
+	 * @param string $location The path or URL to redirect to.
+	 * @param int    $status   The HTTP response status code to use.
 	 */
 	$location = apply_filters( 'wp_redirect', $location, $status );
 
 	/**
-	 * Filters the redirect status code.
+	 * Filters the redirect HTTP response status code to use.
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param int    $status   Status code to use.
-	 * @param string $location The path to redirect to.
+	 * @param int    $status   The HTTP response status code to use.
+	 * @param string $location The path or URL to redirect to.
 	 */
 	$status = apply_filters( 'wp_redirect_status', $status, $location );
 
@@ -1279,10 +1279,16 @@ if ( !function_exists('wp_safe_redirect') ) :
  * instead. This prevents malicious redirects which redirect to another host,
  * but only used in a few places.
  *
+ * Note: wp_safe_redirect() does not exit automatically, and should almost always be
+ * followed by a call to `exit;`:
+ *
+ *     wp_safe_redirect( $url );
+ *     exit;
+ *
  * @since 2.3.0
  *
- * @param string $location The path to redirect to.
- * @param int    $status   Status code to use.
+ * @param string $location The path or URL to redirect to.
+ * @param int    $status   Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
  */
 function wp_safe_redirect($location, $status = 302) {
 
@@ -1295,7 +1301,7 @@ function wp_safe_redirect($location, $status = 302) {
 	 * @since 4.3.0
 	 *
 	 * @param string $fallback_url The fallback URL to use by default.
-	 * @param int    $status       The redirect status.
+	 * @param int    $status       The HTTP response status code to use.
 	 */
 	$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
