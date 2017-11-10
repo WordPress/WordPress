@@ -154,7 +154,8 @@
 	top: 30px;
 }
 
-.media-frame #embed-url-field.invalid {
+.media-frame #embed-url-field.invalid,
+.media-widget-image-link > .link:invalid {
 	border: 1px solid #dc3232;
 }
 
