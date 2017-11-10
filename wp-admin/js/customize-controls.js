@@ -8248,7 +8248,7 @@
 
 		// Set up initial notifications.
 		(function() {
-			var removedQueryParams = [];
+			var removedQueryParams = [], autosaveDismissed = false;
 
 			/**
 			 * Obtain the URL to restore the autosave.
@@ -8295,6 +8295,25 @@
 			}
 
 			/**
+			 * Dismiss autosave.
+			 *
+			 * @returns {void}
+			 */
+			function dismissAutosave() {
+				if ( autosaveDismissed ) {
+					return;
+				}
+				wp.ajax.post( 'customize_dismiss_autosave_or_lock', {
+					wp_customize: 'on',
+					customize_theme: api.settings.theme.stylesheet,
+					customize_changeset_uuid: api.settings.changeset.uuid,
+					nonce: api.settings.nonce.dismiss_autosave_or_lock,
+					dismiss_autosave: true
+				} );
+				autosaveDismissed = true;
+			}
+
+			/**
 			 * Add notification regarding the availability of an autosave to restore.
 			 *
 			 * @returns {void}
@@ -8319,15 +8338,7 @@
 						} );
 
 						// Handle dismissal of notice.
-						li.find( '.notice-dismiss' ).on( 'click', function() {
-							wp.ajax.post( 'customize_dismiss_autosave_or_lock', {
-								wp_customize: 'on',
-								customize_theme: api.settings.theme.stylesheet,
-								customize_changeset_uuid: api.settings.changeset.uuid,
-								nonce: api.settings.nonce.dismiss_autosave_or_lock,
-								dismiss_autosave: true
-							} );
-						} );
+						li.find( '.notice-dismiss' ).on( 'click', dismissAutosave );
 
 						return li;
 					}
@@ -8335,6 +8346,7 @@
 
 				// Remove the notification once the user starts making changes.
 				onStateChange = function() {
+					dismissAutosave();
 					api.notifications.remove( code );
 					api.unbind( 'change', onStateChange );
 					api.state( 'changesetStatus' ).unbind( onStateChange );
