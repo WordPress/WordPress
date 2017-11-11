@@ -3240,15 +3240,19 @@ img {
 	margin: 4px 0;
 }
 
-#templateside li a,
+#templateside li:not(.howto) a,
 .theme-editor-php .highlight {
 	display: block;
 	padding: 3px 0 3px 12px;
 	text-decoration: none;
 }
 
-#templateside li > a:first-of-type {
+#templateside li:not(.howto) > a:first-of-type {
 	padding-top: 0;
+}
+
+#templateside li.howto {
+	padding: 6px 12px 12px 12px;
 }
 
 .theme-editor-php .highlight {
@@ -3775,9 +3779,12 @@ img {
 		margin: 0;
 	}
 
-	#templateside li a {
+	#templateside li:not(.howto) a {
 		display: block;
 		padding: 5px;
+	}
+	#templateside li.howto {
+		padding: 12px;
 	}
 
 	#templateside .highlight {

@@ -229,20 +229,20 @@ if ( $theme->errors() )
 ?>
 <div id="templateside">
 	<h2 id="theme-files-label"><?php _e( 'Theme Files' ); ?></h2>
-	<?php
-	if ( $has_templates || $theme->parent() ) :
-		if ( $theme->parent() ) {
-			/* translators: %s: link to edit parent theme */
-			echo '<p class="howto">' . sprintf( __( 'This child theme inherits templates from a parent theme, %s.' ),
-				sprintf( '<a href="%s">%s</a>',
-					self_admin_url( 'theme-editor.php?theme=' . urlencode( $theme->get_template() ) ),
-					$theme->parent()->display( 'Name' )
-				)
-			) . "</p>\n";
-		}
-	endif;
-	?>
 	<ul role="tree" aria-labelledby="theme-files-label">
+		<?php if ( ( $has_templates || $theme->parent() ) && $theme->parent() ) : ?>
+			<li class="howto">
+				<?php
+				/* translators: %s: link to edit parent theme */
+				echo sprintf( __( 'This child theme inherits templates from a parent theme, %s.' ),
+					sprintf( '<a href="%s">%s</a>',
+						self_admin_url( 'theme-editor.php?theme=' . urlencode( $theme->get_template() ) ),
+						$theme->parent()->display( 'Name' )
+					)
+				);
+				?>
+			</li>
+		<?php endif; ?>
 		<li role="treeitem" tabindex="-1" aria-expanded="true" aria-level="1" aria-posinset="1" aria-setsize="1">
 			<ul role="group">
 				<?php wp_print_theme_file_tree( wp_make_theme_file_tree( $allowed_files ) ); ?>
