@@ -53,7 +53,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="floating-header-section">
-			<h2><?php _e( 'Customizer Workflow Improved' ); ?></h2>
+			<div class="section-header">
+				<h2><?php _e( 'Customizer Workflow Improved' ); ?></h2>
+			</div>
 
 			<div class="section-content">
 				<div class="section-item">
@@ -88,7 +90,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="floating-header-section">
-			<h2><?php _e( 'Coding Enhancements' ); ?></h2>
+			<div class="section-header">
+				<h2><?php _e( 'Coding Enhancements' ); ?></h2>
+			</div>
 
 			<div class="section-content">
 				<div class="section-item">
@@ -116,7 +120,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="floating-header-section">
-			<h2><?php _e( 'Even More Widget Updates' ); ?></h2>
+			<div class="section-header">
+				<h2><?php _e( 'Even More Widget Updates' ); ?></h2>
+			</div>
 
 			<div class="section-content">
 				<div class="section-item">
@@ -137,7 +143,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="floating-header-section">
-			<h2><?php _e( 'Site Building Improvements' ); ?></h2>
+			<div class="section-header">
+				<h2><?php _e( 'Site Building Improvements' ); ?></h2>
+			</div>
 
 			<div class="section-content">
 				<div class="section-item">
@@ -242,34 +250,84 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					offset += $adminbar.height();
 				}
 
-				var adjustScrollClass = _.throttle( function adjustScrollClass() {
+				function setup() {
+					$sections.each( function( i, section ) {
+						var $section = $( section );
+						// Set width on header to prevent column jump
+						var $header = $section.find('.section-header');
+						$header.css( {
+							width: $header.innerWidth() + 'px'
+						} );
+
+						// If the title is long, switch the layout
+						var $title = $section.find( 'h2' );
+						if ( $title.innerWidth() > 300 ) {
+							$section.addClass( 'has-long-title' );
+						}
+					} );
+				}
+
+				var adjustScrollPosition = _.throttle( function adjustScrollPosition() {
 					$sections.each( function( i, section ) {
 						var $section = $( section );
 						var $header = $section.find( 'h2' );
 						var width = $header.innerWidth();
+						var height = $header.innerHeight();
+
+						if ( $section.hasClass( 'has-long-title' ) ) {
+							return;
+						}
 
 						var sectionStart = $section.offset().top - offset;
-						var sectionEnd = sectionStart + $section.innerHeight() - 60;
+						var sectionEnd = sectionStart + $section.innerHeight();
+						var scrollPos = $window.scrollTop();
 
 						// If we're scrolled into a section, stick the header
-						if ( $window.scrollTop() >= sectionStart && $window.scrollTop() < sectionEnd ) {
-							$header.addClass( 'header-fixed' );
-							$header.css( { top: offset + 'px', width: width + 'px' } );
+						if ( scrollPos >= sectionStart && scrollPos < sectionEnd - height ) {
+							$header.css( {
+								position: 'fixed',
+								top: offset + 'px',
+								bottom: 'auto',
+								width: width + 'px'
+							} );
+						// If we're at the end of the section, stick the header to the bottom
+						} else if ( scrollPos >= sectionEnd - height && scrollPos < sectionEnd ) {
+							$header.css( {
+								position: 'absolute',
+								top: 'auto',
+								bottom: 0,
+								width: width + 'px'
+							} );
+						// Unstick the header
 						} else {
-							$header.removeClass( 'header-fixed' );
-							$header.css( { top: 0, width: 'auto' } );
+							$header.css( {
+								position: 'static',
+								top: 'auto',
+								bottom: 'auto',
+								width: 'auto'
+							} );
 						}
 					} );
 				}, 100 );
+
 				function enableFixedHeaders() {
 					if ( $window.width() > 782 ) {
-						adjustScrollClass();
-						$window.on( 'scroll', adjustScrollClass );
+						setup();
+						adjustScrollPosition();
+						$window.on( 'scroll', adjustScrollPosition );
 					} else {
-						$window.off( 'scroll', adjustScrollClass );
+						$window.off( 'scroll', adjustScrollPosition );
+						$sections.find( '.section-header' )
+							.css( {
+								width: 'auto'
+							} );
 						$sections.find( 'h2' )
-							.removeClass( 'header-fixed' )
-							.css( { top: 0, width: 'auto' } );
+							.css( {
+								position: 'static',
+								top: 'auto',
+								bottom: 'auto',
+								width: 'auto'
+							} );
 					}
 				}
 				$( window ).resize( enableFixedHeaders );
