@@ -364,16 +364,15 @@
 	margin: 0 auto 120px;
 }
 
-.about-wrap .floating-header-section h2 {
+.about-wrap .floating-header-section .section-header {
 	-ms-grid-column: 1;
 	grid-column: 1;
-	text-align: left;
-	margin: 0;
+	position: relative;
 }
 
-.about-wrap .floating-header-section .header-fixed {
-	position: fixed;
-	width: 300px;
+.about-wrap .floating-header-section h2 {
+	margin: 0;
+	text-align: left;
 }
 
 .about-wrap .floating-header-section .section-content {
@@ -396,6 +395,27 @@
 	grid-column: 2;
 }
 
+.about-wrap .floating-header-section.has-long-title {
+	-ms-grid-columns: 1fr;
+	grid-template-columns: 1fr;
+	grid-gap: 60px 0;
+}
+
+.about-wrap .floating-header-section.has-long-title .section-content {
+	-ms-grid-columns: minmax(max-content, 300px) minmax(max-content, 300px);
+	grid-template-columns: minmax(max-content, 300px) minmax(max-content, 300px);
+}
+
+.about-wrap .floating-header-section.has-long-title .section-item {
+	max-width: 300px;
+}
+
+.about-wrap .floating-header-section.has-long-title .section-header,
+.about-wrap .floating-header-section.has-long-title .section-content {
+	-ms-grid-column: 1;
+	grid-column: 1;
+}
+
 /*------------------------------------------------------------------------------
   3.0 - Credits & Freedoms Pages
 ------------------------------------------------------------------------------*/
@@ -415,7 +435,7 @@
 }
 
 .about-wrap .compact {
-	margin-bottom: 0
+	margin-bottom: 0;
 }
 
 .about-wrap .wp-person {
@@ -509,7 +529,7 @@
 		grid-gap: 60px 0;
 	}
 
-	.about-wrap .floating-header-section h2,
+	.about-wrap .floating-header-section .section-header,
 	.about-wrap .floating-header-section .section-content {
 		-ms-grid-column: 1;
 		grid-column: 1;
@@ -568,6 +588,13 @@
 		margin-bottom: 60px;
 	}
 
+	.about-wrap .floating-header-section h2 {
+		word-break: break-all;
+		-webkit-hyphens: auto;
+		-ms-hyphens: auto;
+		hyphens: auto;
+	}
+
 	.about-wrap .floating-header-section .section-content {
 		-ms-grid-columns: 1fr;
 		grid-template-columns: 1fr;
@@ -577,5 +604,6 @@
 	.about-wrap .floating-header-section .section-content .section-item {
 		-ms-grid-column: 1;
 		grid-column: 1;
+		max-width: 100%;
 	}
 }
