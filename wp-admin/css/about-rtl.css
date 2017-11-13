@@ -172,8 +172,6 @@
 	display: flex;
 	-webkit-box-pack: justify;
 	justify-content: space-between;
-	-webkit-box-align: center;
-	align-items: center;
 	flex-wrap: wrap;
 }
 
@@ -357,14 +355,17 @@
 /* 2.3 Floating Header Layout */
 
 .about-wrap .floating-header-section {
+	display: -ms-grid;
 	display: grid;
 	grid-gap: 0 60px;
+	-ms-grid-columns: 5fr 11fr;
 	grid-template-columns: 5fr 11fr;
 	max-width: 1020px;
 	margin: 0 auto 120px;
 }
 
 .about-wrap .floating-header-section h2 {
+	-ms-grid-column: 1;
 	grid-column: 1;
 	text-align: right;
 	margin: 0;
@@ -376,17 +377,22 @@
 }
 
 .about-wrap .floating-header-section .section-content {
+	display: -ms-grid;
 	display: grid;
 	grid-gap: 60px;
+	-ms-grid-columns: 5fr 5fr;
 	grid-template-columns: 5fr 5fr;
+	-ms-grid-column: 2;
 	grid-column: 2;
 }
 
 .about-wrap .floating-header-section .section-item:nth-of-type(odd) {
+	-ms-grid-column: 1;
 	grid-column: 1;
 }
 
 .about-wrap .floating-header-section .section-item:nth-of-type(even) {
+	-ms-grid-column: 2;
 	grid-column: 2;
 }
 
@@ -498,12 +504,14 @@
 	}
 
 	.about-wrap .floating-header-section {
+		-ms-grid-columns: 1fr;
 		grid-template-columns: 1fr;
 		grid-gap: 60px 0;
 	}
 
 	.about-wrap .floating-header-section h2,
 	.about-wrap .floating-header-section .section-content {
+		-ms-grid-column: 1;
 		grid-column: 1;
 	}
 }
@@ -561,11 +569,13 @@
 	}
 
 	.about-wrap .floating-header-section .section-content {
+		-ms-grid-columns: 1fr;
 		grid-template-columns: 1fr;
 		grid-gap: 60px 0;
 	}
 
 	.about-wrap .floating-header-section .section-content .section-item {
+		-ms-grid-column: 1;
 		grid-column: 1;
 	}
 }
