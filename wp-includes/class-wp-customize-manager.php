@@ -4125,6 +4125,18 @@ final class WP_Customize_Manager {
 			</li>
 		</script>
 
+		<script type="text/html" id="tmpl-customize-code-editor-lint-error-notification">
+			<li class="notice notice-{{ data.type || 'info' }} {{ data.alt ? 'notice-alt' : '' }} {{ data.dismissible ? 'is-dismissible' : '' }} {{ data.containerClasses || '' }}" data-code="{{ data.code }}" data-type="{{ data.type }}">
+				<div class="notification-message">{{{ data.message || data.code }}}</div>
+
+				<p>
+					<# var elementId = 'el-' + String( Math.random() ); #>
+					<input id="{{ elementId }}" type="checkbox">
+					<label for="{{ elementId }}"><?php _e( 'Update anyway, even though it might break your site?' ); ?></label>
+				</p>
+			</li>
+		</script>
+
 		<?php
 		/* The following template is obsolete in core but retained for plugins. */
 		?>

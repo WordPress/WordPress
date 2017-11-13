@@ -5280,6 +5280,27 @@
 				codemirror: $.Deferred()
 			} );
 			api.Control.prototype.initialize.call( control, id, options );
+
+			// Note that rendering is debounced so the props will be used when rendering happens after add event.
+			control.notifications.bind( 'add', function( notification ) {
+
+				// Skip if control notification is not from setting csslint_error notification.
+				if ( notification.code !== control.setting.id + ':csslint_error' ) {
+					return;
+				}
+
+				// Customize the template and behavior of csslint_error notifications.
+				notification.templateId = 'customize-code-editor-lint-error-notification';
+				notification.render = (function( render ) {
+					return function() {
+						var li = render.call( this );
+						li.find( 'input[type=checkbox]' ).on( 'click', function() {
+							control.setting.notifications.remove( 'csslint_error' );
+						} );
+						return li;
+					};
+				})( notification.render );
+			} );
 		},
 
 		/**
