@@ -476,10 +476,11 @@ function wp_default_scripts( &$scripts ) {
 	did_action( 'init' ) && $scripts->add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.l10n = %s;', wp_json_encode( array(
 		'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 		'saveError' => __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' ),
-		'lintError' => wp_array_slice_assoc(
+		'lintError' => array(
 			/* translators: %d: error count */
-			_n_noop( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.' ),
-			array( 'singular', 'plural' )
+			'singular' => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 1 ),
+			/* translators: %d: error count */
+			'plural' => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 		),
 	) ) ) );
 
@@ -580,16 +581,18 @@ function wp_default_scripts( &$scripts ) {
 		'videoHeaderNotice'  => __( 'This theme doesn&#8217;t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles'       => __( 'Allowed Files' ),
-		'customCssError'     => wp_array_slice_assoc(
+		'customCssError'     => array(
 			/* translators: %d: error count */
-			_n_noop( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.' ),
-			array( 'singular', 'plural' )
+			'singular' => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 1 ),
+			/* translators: %d: error count */
+			'plural'   => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 		),
 		'pageOnFrontError' => __( 'Homepage and posts page must be different.' ),
-		'saveBlockedError' => wp_array_slice_assoc(
+		'saveBlockedError' => array(
 			/* translators: %s: number of invalid settings */
-			_n_noop( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.' ),
-			array( 'singular', 'plural' )
+			'singular' => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 1 ),
+			/* translators: %s: number of invalid settings */
+			'plural'   => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 		),
 		'scheduleDescription' => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
 		'themePreviewUnavailable' => __( 'Sorry, you can&#8217;t preview new themes when you have changes scheduled or saved as a draft. Please publish your changes, or wait until they publish to preview new themes.' ),
