@@ -635,6 +635,11 @@ window.wp = window.wp || {};
 				selectionPosition = TinyMCEContentAreaTop + elementTop,
 				visibleAreaHeight = windowHeight - ( edToolsHeight + toolbarHeight );
 
+			// There's no need to scroll if the selection is inside the visible area.
+			if ( selectionPosition < visibleAreaHeight ) {
+				return;
+			}
+
 			/**
 			 * The minimum scroll height should be to the top of the editor, to offer a consistent
 			 * experience.
@@ -852,19 +857,16 @@ window.wp = window.wp || {};
 				end = selection.end || selection.start;
 
 			if ( textArea.focus ) {
-				// focus and scroll to the position
+				// Wait for the Visual editor to be hidden, then focus and scroll to the position
 				setTimeout( function() {
+					textArea.setSelectionRange( start, end );
 					if ( textArea.blur ) {
 						// defocus before focusing
 						textArea.blur();
 					}
 					textArea.focus();
 				}, 100 );
-
-				textArea.focus();
 			}
-
-			textArea.setSelectionRange( start, end );
 		}
 
 		// Restore the selection when the editor is initialized. Needed when the Text editor is the default.
