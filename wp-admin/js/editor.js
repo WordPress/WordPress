@@ -1037,10 +1037,6 @@ window.wp = window.wp || {};
 			// Normalize line breaks.
 			text = text.replace( /\r\n|\r/g, '\n' );
 
-			if ( text.indexOf( '\n' ) === -1 ) {
-				return text;
-			}
-
 			// Remove line breaks from <object>.
 			if ( text.indexOf( '<object' ) !== -1 ) {
 				text = text.replace( /<object[\s\S]+?<\/object>/g, function( a ) {
