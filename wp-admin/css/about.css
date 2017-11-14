@@ -260,8 +260,10 @@
 
 .about-wrap .two-col-text {
 	-webkit-column-count: 2;
+	-moz-column-count: 2;
 	column-count: 2;
 	-webkit-column-gap: 40px;
+	-moz-column-gap: 40px;
 	column-gap: 40px;
 }
 
@@ -368,52 +370,74 @@
 	-ms-grid-column: 1;
 	grid-column: 1;
 	position: relative;
+	min-width: 230px;
+	max-width: 300px;
 }
 
 .about-wrap .floating-header-section h2 {
 	margin: 0;
 	text-align: left;
+	position: absolute;
 }
 
 .about-wrap .floating-header-section .section-content {
-	display: -ms-grid;
-	display: grid;
-	grid-gap: 60px;
-	-ms-grid-columns: 5fr 5fr;
-	grid-template-columns: 5fr 5fr;
 	-ms-grid-column: 2;
 	grid-column: 2;
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-pack: justify;
+	justify-content: space-between;
+	-webkit-box-align: start;
+	align-items: flex-start;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	flex-flow: row wrap;
+	-webkit-box-flex: 2;
+	flex-grow: 2;
+	flex-shrink: 0;
 }
 
-.about-wrap .floating-header-section .section-item:nth-of-type(odd) {
-	-ms-grid-column: 1;
-	grid-column: 1;
+.about-wrap .floating-header-section .section-item {
+	-webkit-box-flex: 1;
+	flex-grow: 1;
+	max-width: calc(50% - 30px);
 }
 
-.about-wrap .floating-header-section .section-item:nth-of-type(even) {
-	-ms-grid-column: 2;
-	grid-column: 2;
+.about-wrap .floating-header-section .section-item:nth-child(1),
+.about-wrap .floating-header-section .section-item:nth-child(2) {
+	margin-bottom: 60px;
+}
+
+.about-wrap .floating-header-section .section-item:nth-child(1):nth-last-child(2),
+.about-wrap .floating-header-section .section-item:nth-child(2):nth-last-child(1) {
+	margin-bottom: 0;
 }
 
 .about-wrap .floating-header-section.has-long-title {
-	-ms-grid-columns: 1fr;
-	grid-template-columns: 1fr;
-	grid-gap: 60px 0;
+	display: block;
+}
+
+.about-wrap .floating-header-section.has-long-title .section-header {
+	max-width: 100%;
+}
+
+.about-wrap .floating-header-section.has-long-title h2 {
+	position: static;
+	margin-bottom: 60px;
 }
 
 .about-wrap .floating-header-section.has-long-title .section-content {
-	-ms-grid-columns: minmax(max-content, 300px) minmax(max-content, 300px);
-	grid-template-columns: minmax(max-content, 300px) minmax(max-content, 300px);
+	-webkit-box-pack: start;
+	justify-content: flex-start;
 }
 
 .about-wrap .floating-header-section.has-long-title .section-item {
 	max-width: 300px;
+	margin-bottom: 0;
 }
 
-.about-wrap .floating-header-section.has-long-title .section-header,
-.about-wrap .floating-header-section.has-long-title .section-content {
-	-ms-grid-column: 1;
-	grid-column: 1;
+.about-wrap .floating-header-section.has-long-title .section-item + .section-item {
+	margin-left: 60px;
 }
 
 /*------------------------------------------------------------------------------
@@ -507,9 +531,27 @@
   4.0 - Media Queries
 ------------------------------------------------------------------------------*/
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 1250px) {
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(1),
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(2) {
+		margin: 0 0 60px;
+	}
+
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(3),
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(4) {
+		margin: 0;
+	}
+
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(2),
+	.about-wrap .floating-header-section.has-long-title .section-item:nth-child(4) {
+		margin-left: 60px;
+	}
+}
+
+@media screen and (max-width: 782px) {
 	.about-wrap .two-col-text {
 		-webkit-column-count: 1;
+		-moz-column-count: 1;
 		column-count: 1;
 	}
 
@@ -524,15 +566,17 @@
 	}
 
 	.about-wrap .floating-header-section {
-		-ms-grid-columns: 1fr;
-		grid-template-columns: 1fr;
-		grid-gap: 60px 0;
+		display: block;
 	}
 
 	.about-wrap .floating-header-section .section-header,
 	.about-wrap .floating-header-section .section-content {
-		-ms-grid-column: 1;
-		grid-column: 1;
+		max-width: 100%;
+	}
+
+	.about-wrap .floating-header-section h2 {
+		position: static;
+		margin-bottom: 60px;
 	}
 }
 
@@ -595,15 +639,8 @@
 		hyphens: auto;
 	}
 
-	.about-wrap .floating-header-section .section-content {
-		-ms-grid-columns: 1fr;
-		grid-template-columns: 1fr;
-		grid-gap: 60px 0;
-	}
-
 	.about-wrap .floating-header-section .section-content .section-item {
-		-ms-grid-column: 1;
-		grid-column: 1;
 		max-width: 100%;
+		margin: 0 0 60px;
 	}
 }
