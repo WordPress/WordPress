@@ -253,12 +253,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				function setup() {
 					$sections.each( function( i, section ) {
 						var $section = $( section );
-						// Set width on header to prevent column jump
-						var $header = $section.find('.section-header');
-						$header.css( {
-							width: $header.innerWidth() + 'px'
-						} );
-
 						// If the title is long, switch the layout
 						var $title = $section.find( 'h2' );
 						if ( $title.innerWidth() > 300 ) {
