@@ -860,7 +860,7 @@ hr {
 #media-items a.delete,
 #media-items a.delete-permanently,
 #nav-menu-footer .menu-delete,
-#delete-link a.delete  {
+#delete-link a.delete {
 	color: #a00;
 }
 
@@ -3042,6 +3042,7 @@ img {
 	min-height: 60vh;
 	height: calc( 100vh - 295px );
 	border: 1px solid #ddd;
+	box-sizing: border-box;
 }
 
 #templateside > h2 {
@@ -3060,8 +3061,8 @@ img {
 	margin-top: 0;
 	overflow: auto;
 	padding: 0;
-	min-height: calc(60vh + 2px);
-	height: calc(100vh - 293px);
+	min-height: 60vh;
+	height: calc(100vh - 295px);
 	background-color: #f7f7f7;
 	border: 1px solid #ddd;
 	border-left: none;
@@ -3760,17 +3761,17 @@ img {
 	}
 
 	/* Theme/Plugin File Editor */
-	
-	#template textarea, 
+
+	#template textarea,
 	#template .CodeMirror {
 		box-sizing: border-box;
 	}
-	
+
 	#templateside {
 		float: none;
 		width: auto;
 	}
-	
+
 	#templateside > ul {
 		border-left: 1px solid #ddd;
 	}
@@ -3841,31 +3842,31 @@ img {
 		width: 100%;
 		text-align: left;
 	}
-	
+
 	.fileedit-sub .alignright label {
 		display: block;
 	}
-	
-	.fileedit-sub #theme, 
+
+	.fileedit-sub #theme,
 	.fileedit-sub #plugin {
 		margin-left: 0;
-	    max-width: 70%;
+		max-width: 70%;
 	}
-	
+
 	.fileedit-sub input[type="submit"] {
 		margin-bottom: 0px;
 		padding: 8px 18px;
 	}
-	
+
 	#documentation label[for="docs-list"] {
 		display: block;
 	}
-	
+
 	#documentation select[name="docs-list"] {
 		margin-left: 0;
 		max-width: 60%;
 	}
-	
+
 	#documentation input[type="button"] {
 		margin-bottom: 0;
 		padding: 8px 18px;
