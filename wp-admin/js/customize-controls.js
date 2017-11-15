@@ -1867,6 +1867,9 @@
 				// Search terms.
 				debounced = _.debounce( section.checkTerm, 500 ); // Wait until there is no input for 500 milliseconds to initiate a search.
 				section.contentContainer.on( 'input', '.wp-filter-search', function() {
+					if ( ! api.panel( 'themes' ).expanded() ) {
+						return;
+					}
 					debounced( section );
 					if ( ! section.expanded() ) {
 						section.expand();
