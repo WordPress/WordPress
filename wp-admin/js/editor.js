@@ -270,7 +270,7 @@ window.wp = window.wp || {};
 			if ( shortcodes ) {
 				for ( var i = 0; i < shortcodes.length; i++ ) {
 					var shortcode = shortcodes[ i ].replace( /^\[+/g, '' );
-	
+
 					if ( result.indexOf( shortcode ) === -1 ) {
 						result.push( shortcode );
 					}
@@ -581,6 +581,8 @@ window.wp = window.wp || {};
 
 			removeSelectionMarker( startNode );
 			removeSelectionMarker( endNode );
+
+			editor.save();
 		}
 
 		/**
@@ -623,7 +625,9 @@ window.wp = window.wp || {};
 
 				edTools = $( '#wp-content-editor-tools' ),
 				edToolsHeight = 0,
-				edToolsOffsetTop = 0;
+				edToolsOffsetTop = 0,
+
+				$scrollArea;
 
 			if ( edTools.length ) {
 				edToolsHeight = edTools.height();
@@ -648,9 +652,16 @@ window.wp = window.wp || {};
 			 * subtracting the height. This gives the scroll position where the top of the editor tools aligns with
 			 * the top of the viewport (under the Master Bar)
 			 */
-			var adjustedScroll = Math.max( selectionPosition - visibleAreaHeight / 2, edToolsOffsetTop - edToolsHeight );
+			var adjustedScroll;
+			if ( editor.settings.wp_autoresize_on ) {
+				$scrollArea = $( 'html,body' );
+				adjustedScroll = Math.max( selectionPosition - visibleAreaHeight / 2, edToolsOffsetTop - edToolsHeight );
+			} else {
+				$scrollArea = $( editor.contentDocument ).find( 'html,body' );
+				adjustedScroll = elementTop;
+			}
 
-			$( 'html,body' ).animate( {
+			$scrollArea.animate( {
 				scrollTop: parseInt( adjustedScroll, 10 )
 			}, 100 );
 		}
