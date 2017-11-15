@@ -179,6 +179,24 @@ class WP_Widget_Text extends WP_Widget {
 	}
 
 	/**
+	 * Filter gallery shortcode attributes.
+	 *
+	 * Prevents all of a site's attachments from being shown in a gallery displayed on a
+	 * non-singular template where a $post context is not available.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $attrs Attributes.
+	 * @return array Attributes.
+	 */
+	public function _filter_gallery_shortcode_attrs( $attrs ) {
+		if ( ! is_singular() && empty( $attrs['id'] ) && empty( $attrs['include'] ) ) {
+			$attrs['id'] = -1;
+		}
+		return $attrs;
+	}
+
+	/**
 	 * Outputs the content for the current Text widget instance.
 	 *
 	 * @since 2.8.0
@@ -221,12 +239,18 @@ class WP_Widget_Text extends WP_Widget {
 			remove_filter( 'widget_text', 'do_shortcode', $widget_text_do_shortcode_priority );
 		}
 
-		// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context.
-		$suspended_post = null;
-		if ( isset( $post ) ) {
-			$suspended_post = $post;
+		// Override global $post so filters (and shortcodes) apply in a consistent context.
+		$original_post = $post;
+		if ( is_singular() ) {
+			// Make sure post is always the queried object on singular queries (not from another sub-query that failed to clean up the global $post).
+			$post = get_queried_object();
+		} else {
+			// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context on archive queries.
 			$post = null;
 		}
+
+		// Prevent dumping out all attachments from the media library.
+		add_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		/**
 		 * Filters the content of the Text widget.
@@ -278,9 +302,8 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		// Restore post global.
-		if ( isset( $suspended_post ) ) {
-			$post = $suspended_post;
-		}
+		$post = $original_post;
+		remove_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		// Undo suspension of legacy plugin-supplied shortcode handling.
 		if ( $should_suspend_legacy_shortcode_support ) {

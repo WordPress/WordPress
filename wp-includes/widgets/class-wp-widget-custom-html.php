@@ -81,15 +81,48 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 	}
 
 	/**
+	 * Filter gallery shortcode attributes.
+	 *
+	 * Prevents all of a site's attachments from being shown in a gallery displayed on a
+	 * non-singular template where a $post context is not available.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $attrs Attributes.
+	 * @return array Attributes.
+	 */
+	public function _filter_gallery_shortcode_attrs( $attrs ) {
+		if ( ! is_singular() && empty( $attrs['id'] ) && empty( $attrs['include'] ) ) {
+			$attrs['id'] = -1;
+		}
+		return $attrs;
+	}
+
+	/**
 	 * Outputs the content for the current Custom HTML widget instance.
 	 *
 	 * @since 4.8.1
 	 *
+	 * @global WP_Post $post
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Custom HTML widget instance.
 	 */
 	public function widget( $args, $instance ) {
+		global $post;
+
+		// Override global $post so filters (and shortcodes) apply in a consistent context.
+		$original_post = $post;
+		if ( is_singular() ) {
+			// Make sure post is always the queried object on singular queries (not from another sub-query that failed to clean up the global $post).
+			$post = get_queried_object();
+		} else {
+			// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context on archive queries.
+			$post = null;
+		}
+
+		// Prevent dumping out all attachments from the media library.
+		add_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		$instance = array_merge( $this->default_instance, $instance );
 
@@ -117,6 +150,10 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		 * @param WP_Widget_Custom_HTML $this     Current Custom HTML widget instance.
 		 */
 		$content = apply_filters( 'widget_custom_html_content', $content, $instance, $this );
+
+		// Restore post global.
+		$post = $original_post;
+		remove_filter( 'shortcode_atts_gallery', array( $this, '_filter_gallery_shortcode_attrs' ) );
 
 		// Inject the Text widget's container class name alongside this widget's class name for theme styling compatibility.
 		$args['before_widget'] = preg_replace( '/(?<=\sclass=["\'])/', 'widget_text ', $args['before_widget'] );
