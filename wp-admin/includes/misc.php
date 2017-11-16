@@ -77,12 +77,12 @@ function extract_from_markers( $filename, $marker ) {
 	foreach ( $markerdata as $markerline ) {
 		if ( false !== strpos( $markerline, '# END ' . $marker ) ) {
 			$state = false;
-			if ( $state ) {
-				$result[] = $markerline;
-			}
-			if ( false !== strpos( $markerline, '# BEGIN ' . $marker ) ) {
-				$state = true;
-			}
+		}
+		if ( $state ) {
+			$result[] = $markerline;
+		}
+		if ( false !== strpos( $markerline, '# BEGIN ' . $marker ) ) {
+			$state = true;
 		}
 	}
 
