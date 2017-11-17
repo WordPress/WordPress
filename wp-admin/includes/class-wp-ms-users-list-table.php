@@ -233,16 +233,27 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	public function column_username( $user ) {
 		$super_admins = get_super_admins();
 		$avatar	= get_avatar( $user->user_email, 32 );
-		$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
 
 		echo $avatar;
 
-		?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo $user->user_login; ?></a><?php
-		if ( in_array( $user->user_login, $super_admins ) ) {
-			echo ' &mdash; ' . __( 'Super Admin' );
+		if ( current_user_can( 'edit_user', $user->ID ) ) {
+			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
+			$edit = "<a href=\"{$edit_link}\">{$user->user_login}</a>";
+		} else {
+			$edit = $user->user_login;
 		}
-		?></strong>
-	<?php
+
+		?>
+		<strong>
+			<?php
+			echo $edit;
+
+			if ( in_array( $user->user_login, $super_admins ) ) {
+				echo ' &mdash; ' . __( 'Super Admin' );
+			}
+			?>
+		</strong>
+		<?php
 	}
 
 	/**
@@ -429,10 +440,13 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 
 		$super_admins = get_super_admins();
-		$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
 
 		$actions = array();
-		$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+
+		if ( current_user_can( 'edit_user', $user->ID ) ) {
+			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user->ID ) ) );
+			$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+		}
 
 		if ( current_user_can( 'delete_user', $user->ID ) && ! in_array( $user->user_login, $super_admins ) ) {
 			$actions['delete'] = '<a href="' . $delete = esc_url( network_admin_url( add_query_arg( '_wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), wp_nonce_url( 'users.php', 'deleteuser' ) . '&amp;action=deleteuser&amp;id=' . $user->ID ) ) ) . '" class="delete">' . __( 'Delete' ) . '</a>';
