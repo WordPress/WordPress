@@ -1285,10 +1285,19 @@ if ( !function_exists('wp_safe_redirect') ) :
  *     wp_safe_redirect( $url );
  *     exit;
  *
+ * Exiting can also be selectively manipulated by using wp_safe_redirect() as a conditional
+ * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} filters:
+ *
+ *     if ( wp_safe_redirect( $url ) ) {
+ *         exit;
+ *     }
+ *
  * @since 2.3.0
+ * @since 5.0.0 The return value from wp_redirect() is now passed on.
  *
  * @param string $location The path or URL to redirect to.
  * @param int    $status   Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+ * @return bool  $redirect False if the redirect was cancelled, true otherwise.
  */
 function wp_safe_redirect($location, $status = 302) {
 
@@ -1305,7 +1314,7 @@ function wp_safe_redirect($location, $status = 302) {
 	 */
 	$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
-	wp_redirect($location, $status);
+	return wp_redirect( $location, $status );
 }
 endif;
 
