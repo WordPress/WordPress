@@ -27,7 +27,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 
 <?php
 
-if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
+if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 	echo '<h1 class="screen-reader-text">' . __( 'Allow automatic database repair' ) . '</h1>';
 
