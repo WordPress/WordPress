@@ -31,6 +31,7 @@ class WP_Http {
 	const HTTP_CONTINUE                   = 100;
 	const SWITCHING_PROTOCOLS             = 101;
 	const PROCESSING                      = 102;
+	const EARLY_HINTS                     = 103;
 
 	const OK                              = 200;
 	const CREATED                         = 201;
