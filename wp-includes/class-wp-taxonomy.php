@@ -128,6 +128,15 @@ final class WP_Taxonomy {
 	public $meta_box_cb = null;
 
 	/**
+	 * The callback function for sanitizing taxonomy data saved from a meta box.
+	 *
+	 * @since 5.0.0
+	 * @access public
+	 * @var callable
+	 */
+	public $meta_box_sanitize_cb = null;
+
+	/**
 	 * An array of object types this taxonomy is registered for.
 	 *
 	 * @since 4.7.0
@@ -257,6 +266,7 @@ final class WP_Taxonomy {
 			'show_in_quick_edit'    => null,
 			'show_admin_column'     => false,
 			'meta_box_cb'           => null,
+			'meta_box_sanitize_cb'  => null,
 			'capabilities'          => array(),
 			'rewrite'               => true,
 			'query_var'             => $this->name,
@@ -344,6 +354,20 @@ final class WP_Taxonomy {
 		}
 
 		$args['name'] = $this->name;
+
+		// Default meta box sanitization callback depends on the value of 'meta_box_cb'.
+		if ( null === $args['meta_box_sanitize_cb'] ) {
+			switch ( $args['meta_box_cb'] ) {
+				case 'post_categories_meta_box' :
+					$args['meta_box_sanitize_cb'] = 'taxonomy_meta_box_sanitize_cb_checkboxes';
+				break;
+
+				case 'post_tags_meta_box' :
+				default :
+					$args['meta_box_sanitize_cb'] = 'taxonomy_meta_box_sanitize_cb_input';
+				break;
+			}
+		}
 
 		foreach ( $args as $property_name => $property_value ) {
 			$this->$property_name = $property_value;
