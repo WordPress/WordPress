@@ -342,7 +342,8 @@ class WP_Upgrader {
 			if ( ! empty( $details['files'] ) ) {
 				$children = $this->flatten_dirlist( $details['files'], $path . $name . '/' );
 
-				$files = array_merge( $files, $children );
+				// Merge keeping possible numeric keys, which array_merge() will reindex from 0..n
+				$files = $files + $children;
 			}
 		}
 
