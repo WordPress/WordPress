@@ -8,21 +8,25 @@
 /**
  * Schedules an event to run only once.
  *
- * Schedules an event which will execute once by the WordPress actions core at
- * a time which you specify. The action will fire off when someone visits your
- * WordPress site, if the schedule time has passed.
+ * Schedules a hook which will be triggered by WordPress at the specified time.
+ * The action will trigger when someone visits your WordPress site if the scheduled
+ * time has passed.
  *
  * Note that scheduling an event to occur within 10 minutes of an existing event
  * with the same action hook will be ignored unless you pass unique `$args` values
  * for each scheduled event.
  *
+ * Use wp_next_scheduled() to prevent duplicate events.
+ *
+ * Use wp_schedule_event() to schedule a recurring event.
+ *
  * @since 2.1.0
  * @link https://codex.wordpress.org/Function_Reference/wp_schedule_single_event
  *
- * @param int $timestamp Unix timestamp (UTC) for when to run the event.
- * @param string $hook Action hook to execute when event is run.
- * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|void False if the event does not get scheduled.
+ * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
+ * @param string $hook       Action hook to execute when the event is run.
+ * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @return false|void False if the event did not get scheduled.
  */
 function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	// Make sure timestamp is a positive integer
@@ -38,6 +42,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 
 	$crons = _get_cron_array();
 	$event = (object) array( 'hook' => $hook, 'timestamp' => $timestamp, 'schedule' => false, 'args' => $args );
+
 	/**
 	 * Filters a single event before it is scheduled.
 	 *
@@ -46,10 +51,11 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	 * @param stdClass $event {
 	 *     An object containing an event's data.
 	 *
-	 *     @type string       $hook      Action hook to execute when event is run.
-	 *     @type int          $timestamp Unix timestamp (UTC) for when to run the event.
-	 *     @type string|false $schedule  How often the event should recur. See `wp_get_schedules()`.
-	 *     @type array        $args      Arguments to pass to the hook's callback function.
+	 *     @type string       $hook      Action hook to execute when the event is run.
+	 *     @type int          $timestamp Unix timestamp (UTC) for when to next run the event.
+	 *     @type string|false $schedule  How often the event should subsequently recur.
+	 *     @type array        $args      Array containing each separate argument to pass to the hook's callback function.
+	 *     @type int          $interval  The interval time in seconds for the schedule. Only present for recurring events.
 	 * }
 	 */
 	$event = apply_filters( 'schedule_event', $event );
@@ -66,24 +72,31 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 }
 
 /**
- * Schedule a recurring event.
+ * Schedules a recurring event.
  *
- * Schedules a hook which will be executed by the WordPress actions core on a
- * specific interval, specified by you. The action will trigger when someone
- * visits your WordPress site, if the scheduled time has passed.
+ * Schedules a hook which will be triggered by WordPress at the specified interval.
+ * The action will trigger when someone visits your WordPress site if the scheduled
+ * time has passed.
  *
- * Valid values for the recurrence are hourly, daily, and twicedaily. These can
+ * Valid values for the recurrence are 'hourly', 'daily', and 'twicedaily'. These can
  * be extended using the {@see 'cron_schedules'} filter in wp_get_schedules().
  *
- * Use wp_next_scheduled() to prevent duplicates
+ * Note that scheduling an event to occur within 10 minutes of an existing event
+ * with the same action hook will be ignored unless you pass unique `$args` values
+ * for each scheduled event.
+ *
+ * Use wp_next_scheduled() to prevent duplicate events.
+ *
+ * Use wp_schedule_single_event() to schedule a non-recurring event.
  *
  * @since 2.1.0
+ * @link https://codex.wordpress.org/Function_Reference/wp_schedule_event
  *
- * @param int $timestamp Unix timestamp (UTC) for when to run the event.
- * @param string $recurrence How often the event should recur.
- * @param string $hook Action hook to execute when event is run.
- * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|void False if the event does not get scheduled.
+ * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
+ * @param string $recurrence How often the event should subsequently recur. See wp_get_schedules() for accepted values.
+ * @param string $hook       Action hook to execute when the event is run.
+ * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @return false|void False if the event did not get scheduled.
  */
 function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 	// Make sure timestamp is a positive integer
@@ -113,15 +126,15 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array()) {
 }
 
 /**
- * Reschedule a recurring event.
+ * Reschedules a recurring event.
  *
  * @since 2.1.0
  *
- * @param int $timestamp Unix timestamp (UTC) for when to run the event.
- * @param string $recurrence How often the event should recur.
- * @param string $hook Action hook to execute when event is run.
- * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|void False if the event does not get rescheduled.
+ * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
+ * @param string $recurrence How often the event should subsequently recur. See wp_get_schedules() for accepted values.
+ * @param string $hook       Action hook to execute when the event is run.
+ * @param array  $args       Optional. Array containing each separate argument to pass to the hook's callback function.
+ * @return false|void False if the event did not get rescheduled.
  */
 function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
 	// Make sure timestamp is a positive integer
@@ -166,13 +179,12 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) 
  *
  * @since 2.1.0
  *
- * @param int $timestamp Unix timestamp (UTC) for when to run the event.
- * @param string $hook Action hook, the execution of which will be unscheduled.
- * @param array $args Arguments to pass to the hook's callback function.
- * Although not passed to a callback function, these arguments are used
- * to uniquely identify the scheduled event, so they should be the same
- * as those used when originally scheduling the event.
- * @return false|void False if the event does not get unscheduled.
+ * @param int    $timestamp Unix timestamp (UTC) of the event.
+ * @param string $hook      Action hook of the event.
+ * @param array  $args      Optional. Array containing each separate argument to pass to the hook's callback function.
+ *                          Although not passed to a callback, these arguments are used to uniquely identify the
+ *                          event, so they should be the same as those used when originally scheduling the event.
+ * @return false|void False if the event did not get unscheduled.
  */
 function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
 	// Make sure timestamp is a positive integer
@@ -249,9 +261,11 @@ function wp_unschedule_hook( $hook ) {
  *
  * @since 2.1.0
  *
- * @param string $hook Action hook to execute when event is run.
- * @param array $args Optional. Arguments to pass to the hook's callback function.
- * @return false|int The Unix timestamp of the next time the scheduled event will occur.
+ * @param string $hook Action hook of the event.
+ * @param array  $args Optional. Array containing each separate argument to pass to the hook's callback function.
+ *                     Although not passed to a callback, these arguments are used to uniquely identify the
+ *                     event, so they should be the same as those used when originally scheduling the event.
+ * @return false|int The Unix timestamp of the next time the event will occur. False if the event doesn't exist.
  */
 function wp_next_scheduled( $hook, $args = array() ) {
 	$crons = _get_cron_array();
