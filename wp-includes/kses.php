@@ -1409,6 +1409,9 @@ function wp_kses_normalize_entities($string) {
 function wp_kses_named_entities($matches) {
 	global $allowedentitynames;
 
+	// Fix Warning: in_array() expects parameter 2 to be array, null given in kses.php on line XXX
+	if ($allowedentitynames == null) return "&amp;$i;";
+
 	if ( empty($matches[1]) )
 		return '';
 
