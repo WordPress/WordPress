@@ -627,8 +627,12 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 do_action( 'edit_form_after_title', $post );
 
 if ( post_type_supports($post_type, 'editor') ) {
+	$_wp_editor_expand_class = '';
+	if ( $_wp_editor_expand ) {
+		$_wp_editor_expand_class = ' wp-editor-expand';
+	}
 ?>
-<div id="postdivrich" class="postarea<?php if ( $_wp_editor_expand ) { echo ' wp-editor-expand'; } ?>">
+<div id="postdivrich" class="postarea<?php echo $_wp_editor_expand_class; ?>">
 
 <?php wp_editor( $post->post_content, 'content', array(
 	'_content_editor_dfw' => $_content_editor_dfw,

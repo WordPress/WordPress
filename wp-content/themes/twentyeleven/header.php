@@ -119,8 +119,12 @@
 			<?php
 				// Has the text been hidden?
 				if ( 'blank' == get_header_textcolor() ) :
+					$header_image_class = '';
+					if ( $header_image ) {
+						$header_image_class = ' with-image';
+					}
 			?>
-				<div class="only-search<?php if ( $header_image ) : ?> with-image<?php endif; ?>">
+				<div class="only-search<?php echo $header_image_class; ?>">
 				<?php get_search_form(); ?>
 				</div>
 			<?php

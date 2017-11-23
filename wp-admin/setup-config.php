@@ -91,14 +91,16 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : -1;
 function setup_config_display_header( $body_classes = array() ) {
 	$body_classes = (array) $body_classes;
 	$body_classes[] = 'wp-core-ui';
+	$dir_attr = '';
 	if ( is_rtl() ) {
 		$body_classes[] = 'rtl';
+		$dir_attr = ' dir="rtl"';
 	}
 
 	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"<?php if ( is_rtl() ) echo ' dir="rtl"'; ?>>
+<html xmlns="http://www.w3.org/1999/xhtml"<?php echo $dir_attr; ?>>
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

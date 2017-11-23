@@ -1702,6 +1702,11 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 		echo ' ';
 	}
 	_e('If you do not remember your credentials, you should contact your web host.');
+
+	$password_value = '';
+	if ( defined('FTP_PASS') ) {
+		$password_value = '*****';
+	}
 ?></p>
 <label for="hostname">
 	<span class="field-title"><?php _e( 'Hostname' ) ?></span>
@@ -1716,7 +1721,7 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 <div class="ftp-password">
 	<label for="password">
 		<span class="field-title"><?php echo $label_pass; ?></span>
-		<input name="password" type="password" id="password" value="<?php if ( defined('FTP_PASS') ) echo '*****'; ?>"<?php disabled( defined('FTP_PASS') ); ?> />
+		<input name="password" type="password" id="password" value="<?php echo $password_value; ?>"<?php disabled( defined('FTP_PASS') ); ?> />
 		<em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em>
 	</label>
 </div>

@@ -250,8 +250,13 @@ if ( ! empty( $_GET['search'] ) ) {
 foreach ( $themes as $theme ) :
 	$aria_action = esc_attr( $theme['id'] . '-action' );
 	$aria_name   = esc_attr( $theme['id'] . '-name' );
+
+	$active_class = '';
+	if ( $theme['active'] ) {
+		$active_class = ' active';
+	}
 	?>
-<div class="theme<?php if ( $theme['active'] ) echo ' active'; ?>" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">
+<div class="theme<?php echo $active_class; ?>" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">
 	<?php if ( ! empty( $theme['screenshot'][0] ) ) { ?>
 		<div class="theme-screenshot">
 			<img src="<?php echo $theme['screenshot'][0]; ?>" alt="" />

@@ -166,7 +166,16 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 			) );
 			?>
 		</p>
-	<?php endif; // Languages. ?>
+	<?php
+		endif; // Languages.
+
+		$blog_public_on_checked = $blog_public_off_checked = '';
+		if ( isset( $_POST['blog_public'] ) && '0' == $_POST['blog_public']  ) {
+			$blog_public_off_checked = 'checked="checked"';
+		} else {
+			$blog_public_on_checked = 'checked="checked"';
+		}
+	?>
 
 	<div id="privacy">
         <p class="privacy-intro">
@@ -174,11 +183,11 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
             <?php _e( 'Allow search engines to index this site.' ); ?>
             <br style="clear:both" />
             <label class="checkbox" for="blog_public_on">
-                <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php if ( !isset( $_POST['blog_public'] ) || $_POST['blog_public'] == '1' ) { ?>checked="checked"<?php } ?> />
+                <input type="radio" id="blog_public_on" name="blog_public" value="1" <?php echo $blog_public_on_checked; ?> />
                 <strong><?php _e( 'Yes' ); ?></strong>
             </label>
             <label class="checkbox" for="blog_public_off">
-                <input type="radio" id="blog_public_off" name="blog_public" value="0" <?php if ( isset( $_POST['blog_public'] ) && $_POST['blog_public'] == '0' ) { ?>checked="checked"<?php } ?> />
+                <input type="radio" id="blog_public_off" name="blog_public" value="0" <?php echo $blog_public_off_checked; ?> />
                 <strong><?php _e( 'No' ); ?></strong>
             </label>
         </p>
