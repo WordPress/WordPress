@@ -903,7 +903,7 @@ $default_title = apply_filters( 'default_page_template_title',  __( 'Default Tem
 /**
  * Fires before the help hint text in the 'Page Attributes' meta box.
  *
- * @since 4.8.0
+ * @since 4.9.0
  *
  * @param WP_Post $post The current post.
  */
