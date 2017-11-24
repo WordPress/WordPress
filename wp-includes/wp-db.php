@@ -1643,14 +1643,21 @@ class wpdb {
 		$socket  = null;
 		$is_ipv6 = false;
 
+		// First peel off the socket parameter from the right, if it exists.
+		$socket_pos = strpos( $host, ':/' );
+		if ( $socket_pos !== false ) {
+			$socket = substr( $host, $socket_pos + 1 );
+			$host = substr( $host, 0, $socket_pos );
+		}
+
 		// We need to check for an IPv6 address first.
 		// An IPv6 address will always contain at least two colons.
 		if ( substr_count( $host, ':' ) > 1 ) {
-			$pattern = '#^(?:\[)?(?<host>[0-9a-fA-F:]+)(?:\]:(?<port>[\d]+))?(?:/(?<socket>.+))?#';
+			$pattern = '#^(?:\[)?(?<host>[0-9a-fA-F:]+)(?:\]:(?<port>[\d]+))?#';
 			$is_ipv6 = true;
 		} else {
 			// We seem to be dealing with an IPv4 address.
-			$pattern = '#^(?<host>[^:/]*)(?::(?<port>[\d]+))?(?::(?<socket>.+))?#';
+			$pattern = '#^(?<host>[^:/]*)(?::(?<port>[\d]+))?#';
 		}
 
 		$matches = array();
@@ -1662,7 +1669,7 @@ class wpdb {
 		}
 
 		$host = '';
-		foreach ( array( 'host', 'port', 'socket' ) as $component ) {
+		foreach ( array( 'host', 'port' ) as $component ) {
 			if ( ! empty( $matches[ $component ] ) ) {
 				$$component = $matches[ $component ];
 			}
