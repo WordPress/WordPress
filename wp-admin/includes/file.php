@@ -624,7 +624,7 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 	}
 
 	if ( empty( $filename ) || '.' == $filename || '/' == $filename || '\\' == $filename ) {
-		$filename = time();
+		$filename = uniqid();
 	}
 
 	// Use the basename of the given file without the extension as the name for the temporary directory
@@ -1466,7 +1466,7 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
 
 	if ( ! $method ) {
 
-		$temp_file_name = $context . 'temp-write-test-' . time();
+		$temp_file_name = $context . 'temp-write-test-' . str_replace( '.', '-', uniqid( '', true ) );
 		$temp_handle = @fopen($temp_file_name, 'w');
 		if ( $temp_handle ) {
 
