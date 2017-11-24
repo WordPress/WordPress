@@ -102,7 +102,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 			collection: self.collection,
 			parent: this
 		});
-		self.searchView = view;
+		self.SearchView = view;
 
 		// Render and append after screen title
 		view.render();
@@ -1448,7 +1448,7 @@ themes.Run = {
 		this.render();
 
 		// Start debouncing user searches after Backbone.history.start().
-		this.view.searchView.doSearch = _.debounce( this.view.searchView.doSearch, 500 );
+		this.view.SearchView.doSearch = _.debounce( this.view.SearchView.doSearch, 500 );
 	},
 
 	render: function() {
@@ -1924,7 +1924,7 @@ themes.RunInstaller = {
 		this.render();
 
 		// Start debouncing user searches after Backbone.history.start().
-		this.view.searchView.doSearch = _.debounce( this.view.searchView.doSearch, 500 );
+		this.view.SearchView.doSearch = _.debounce( this.view.SearchView.doSearch, 500 );
 	},
 
 	render: function() {
