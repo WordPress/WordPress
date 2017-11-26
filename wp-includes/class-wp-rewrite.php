@@ -1805,7 +1805,7 @@ class WP_Rewrite {
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
 		if ( preg_match("/^[^%]*%(?:postname|category|tag|author)%/", $this->permalink_structure) )
-			 $this->use_verbose_page_rules = true;
+			$this->use_verbose_page_rules = true;
 		else
 			$this->use_verbose_page_rules = false;
 	}

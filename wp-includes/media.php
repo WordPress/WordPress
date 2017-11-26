@@ -2973,7 +2973,8 @@ function _wp_image_editor_choose( $args = array() ) {
 		}
 
 		if ( isset( $args['methods'] ) &&
-			 array_diff( $args['methods'], get_class_methods( $implementation ) ) ) {
+			array_diff( $args['methods'], get_class_methods( $implementation ) ) ) {
+
 			continue;
 		}
 
@@ -3500,9 +3501,10 @@ function wp_enqueue_media( $args = array() ) {
 		'replace'     => __( 'Replace' ),
 		'remove'      => __( 'Remove' ),
 		'back'        => __( 'Back' ),
-		/* translators: This is a would-be plural string used in the media manager.
-		   If there is not a word you can use in your language to avoid issues with the
-		   lack of plural support here, turn it into "selected: %d" then translate it.
+		/*
+		 * translators: This is a would-be plural string used in the media manager.
+		 * If there is not a word you can use in your language to avoid issues with the
+		 * lack of plural support here, turn it into "selected: %d" then translate it.
 		 */
 		'selected'    => __( '%d selected' ),
 		'dragInfo'    => __( 'Drag and drop to reorder media files.' ),

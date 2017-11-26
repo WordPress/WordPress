@@ -380,10 +380,11 @@ function populate_options() {
 
 	$timezone_string = '';
 	$gmt_offset = 0;
-	/* translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
-	   or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
-	   for all timezone strings supported by PHP.
-	*/
+	/*
+	 * translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
+	 * or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
+	 * for all timezone strings supported by PHP.
+	 */
 	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' );
 	if ( is_numeric( $offset_or_tz ) )
 		$gmt_offset = $offset_or_tz;

@@ -41,8 +41,8 @@ $_wp_editor_expand = $_content_editor_dfw = false;
  * @param string $post_type Post type.
  */
 if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
-	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
-	 apply_filters( 'wp_editor_expand', true, $post_type ) ) {
+	! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
+	apply_filters( 'wp_editor_expand', true, $post_type ) ) {
 
 	wp_enqueue_script('editor-expand');
 	$_content_editor_dfw = true;
@@ -144,31 +144,31 @@ if ( $viewable ) {
 $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
 
 $messages['post'] = array(
-	 0 => '', // Unused. Messages start at index 1.
-	 1 => __( 'Post updated.' ) . $view_post_link_html,
-	 2 => __( 'Custom field updated.' ),
-	 3 => __( 'Custom field deleted.' ),
-	 4 => __( 'Post updated.' ),
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Post updated.' ) . $view_post_link_html,
+	2 => __( 'Custom field updated.' ),
+	3 => __( 'Custom field deleted.' ),
+	4 => __( 'Post updated.' ),
 	/* translators: %s: date and time of the revision */
-	 5 => isset($_GET['revision']) ? sprintf( __( 'Post restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => __( 'Post published.' ) . $view_post_link_html,
-	 7 => __( 'Post saved.' ),
-	 8 => __( 'Post submitted.' ) . $preview_post_link_html,
-	 9 => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
+	5 => isset($_GET['revision']) ? sprintf( __( 'Post restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	6 => __( 'Post published.' ) . $view_post_link_html,
+	7 => __( 'Post saved.' ),
+	8 => __( 'Post submitted.' ) . $preview_post_link_html,
+	9 => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
 	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
 );
 $messages['page'] = array(
-	 0 => '', // Unused. Messages start at index 1.
-	 1 => __( 'Page updated.' ) . $view_page_link_html,
-	 2 => __( 'Custom field updated.' ),
-	 3 => __( 'Custom field deleted.' ),
-	 4 => __( 'Page updated.' ),
+	0 => '', // Unused. Messages start at index 1.
+	1 => __( 'Page updated.' ) . $view_page_link_html,
+	2 => __( 'Custom field updated.' ),
+	3 => __( 'Custom field deleted.' ),
+	4 => __( 'Page updated.' ),
 	/* translators: %s: date and time of the revision */
-	 5 => isset($_GET['revision']) ? sprintf( __( 'Page restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => __( 'Page published.' ) . $view_page_link_html,
-	 7 => __( 'Page saved.' ),
-	 8 => __( 'Page submitted.' ) . $preview_page_link_html,
-	 9 => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
+	5 => isset($_GET['revision']) ? sprintf( __( 'Page restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	6 => __( 'Page published.' ) . $view_page_link_html,
+	7 => __( 'Page saved.' ),
+	8 => __( 'Page submitted.' ) . $preview_page_link_html,
+	9 => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
 	10 => __( 'Page draft updated.' ) . $preview_page_link_html,
 );
 $messages['attachment'] = array_fill( 1, 10, __( 'Media file updated.' ) ); // Hack, for now.

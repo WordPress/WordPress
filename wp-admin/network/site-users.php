@@ -73,12 +73,12 @@ if ( $action ) {
 					} else {
 						$update = 'newuser';
 						/**
-						  * Fires after a user has been created via the network site-users.php page.
-						  *
-						  * @since 4.4.0
-						  *
-						  * @param int $user_id ID of the newly created user.
-						  */
+						 * Fires after a user has been created via the network site-users.php page.
+						 *
+						 * @since 4.4.0
+						 *
+						 * @param int $user_id ID of the newly created user.
+						 */
 						do_action( 'network_site_users_created_user', $user_id );
 					}
 				}

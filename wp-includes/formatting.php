@@ -618,7 +618,7 @@ function get_html_split_regex() {
 
 	if ( ! isset( $regex ) ) {
 		$comments =
-			  '!'           // Start of comment, after the <.
+			'!'           // Start of comment, after the <.
 			. '(?:'         // Unroll the loop: Consume everything until --> is found.
 			.     '-(?!->)' // Dash not followed by end of comment.
 			.     '[^\-]*+' // Consume non-dashes.
@@ -626,7 +626,7 @@ function get_html_split_regex() {
 			. '(?:-->)?';   // End of comment. If not found, match all input.
 
 		$cdata =
-			  '!\[CDATA\['  // Start of comment, after the <.
+			'!\[CDATA\['  // Start of comment, after the <.
 			. '[^\]]*+'     // Consume non-].
 			. '(?:'         // Unroll the loop: Consume everything until ]]> is found.
 			.     '](?!]>)' // One ] not followed by end of comment.
@@ -635,7 +635,7 @@ function get_html_split_regex() {
 			. '(?:]]>)?';   // End of comment. If not found, match all input.
 
 		$escaped =
-			  '(?='           // Is the element escaped?
+			'(?='           // Is the element escaped?
 			.    '!--'
 			. '|'
 			.    '!\[CDATA\['
@@ -647,7 +647,7 @@ function get_html_split_regex() {
 			. ')';
 
 		$regex =
-			  '/('              // Capture the entire match.
+			'/('              // Capture the entire match.
 			.     '<'           // Find start of element.
 			.     '(?'          // Conditional expression follows.
 			.         $escaped  // Find end of escaped element.
@@ -678,7 +678,7 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 
 	if ( ! isset( $html_regex ) ) {
 		$comment_regex =
-			  '!'           // Start of comment, after the <.
+			'!'           // Start of comment, after the <.
 			. '(?:'         // Unroll the loop: Consume everything until --> is found.
 			.     '-(?!->)' // Dash not followed by end of comment.
 			.     '[^\-]*+' // Consume non-dashes.
@@ -686,7 +686,7 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 			. '(?:-->)?';   // End of comment. If not found, match all input.
 
 		$html_regex =			 // Needs replaced with wp_html_split() per Shortcode API Roadmap.
-			  '<'                // Find start of element.
+			'<'                // Find start of element.
 			. '(?(?=!--)'        // Is this a comment?
 			.     $comment_regex // Find end of comment.
 			. '|'
@@ -718,7 +718,7 @@ function _get_wptexturize_shortcode_regex( $tagnames ) {
 	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
 	$tagregexp = "(?:$tagregexp)(?=[\\s\\]\\/])"; // Excerpt of get_shortcode_regex().
 	$regex =
-		  '\['              // Find start of shortcode.
+		'\['              // Find start of shortcode.
 		. '[\/\[]?'         // Shortcodes may begin with [/ or [[
 		. $tagregexp        // Only match registered shortcodes, because performance.
 		. '(?:'
@@ -818,7 +818,7 @@ function shortcode_unautop( $pee ) {
 	$spaces = wp_spaces_regexp();
 
 	$pattern =
-		  '/'
+		'/'
 		. '<p>'                              // Opening paragraph
 		. '(?:' . $spaces . ')*+'            // Optional leading whitespace
 		. '('                                // 1: The shortcode
@@ -2751,8 +2751,8 @@ function wp_rel_nofollow_callback( $matches ) {
 	$rel  = 'nofollow';
 
 	if ( preg_match( '%href=["\'](' . preg_quote( set_url_scheme( home_url(), 'http' ) ) . ')%i', $text ) ||
-	     preg_match( '%href=["\'](' . preg_quote( set_url_scheme( home_url(), 'https' ) ) . ')%i', $text )
-	) {
+		preg_match( '%href=["\'](' . preg_quote( set_url_scheme( home_url(), 'https' ) ) . ')%i', $text ) ) {
+
 		return "<a $text>";
 	}
 

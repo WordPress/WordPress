@@ -1094,7 +1094,7 @@ function wp_kses_hair_parse( $attr ) {
 	}
 
 	$regex =
-	  '(?:'
+	'(?:'
 	.     '[-a-zA-Z:]+'   // Attribute name.
 	. '|'
 	.     '\[\[?[^\[\]]+\]\]?' // Shortcode in the name position implies unfiltered_html.

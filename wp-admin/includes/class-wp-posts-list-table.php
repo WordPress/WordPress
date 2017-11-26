@@ -233,7 +233,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$class_html = $aria_current = '';
 		if ( ! empty( $class ) ) {
-			 $class_html = sprintf(
+			$class_html = sprintf(
 				' class="%s"',
 				esc_attr( $class )
 			);

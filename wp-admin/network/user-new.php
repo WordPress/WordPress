@@ -49,12 +49,12 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	 		$add_user_errors = new WP_Error( 'add_user_fail', __( 'Cannot add user.' ) );
 		} else {
 			/**
-			  * Fires after a new user has been created via the network user-new.php page.
-			  *
-			  * @since 4.4.0
-			  *
-			  * @param int $user_id ID of the newly created user.
-			  */
+			 * Fires after a new user has been created via the network user-new.php page.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param int $user_id ID of the newly created user.
+			 */
 			do_action( 'network_user_new_created_user', $user_id );
 			wp_redirect( add_query_arg( array('update' => 'added', 'user_id' => $user_id ), 'user-new.php' ) );
 			exit;

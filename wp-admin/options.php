@@ -244,12 +244,12 @@ if ( 'update' == $action ) {
 include( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
-  <h1><?php esc_html_e( 'All Settings' ); ?></h1>
-  <form name="form" action="options.php" method="post" id="all-options">
-  <?php wp_nonce_field('options-options') ?>
-  <input type="hidden" name="action" value="update" />
-  <input type="hidden" name="option_page" value="options" />
-  <table class="form-table">
+	<h1><?php esc_html_e( 'All Settings' ); ?></h1>
+	<form name="form" action="options.php" method="post" id="all-options">
+		<?php wp_nonce_field('options-options') ?>
+		<input type="hidden" name="action" value="update" />
+		<input type="hidden" name="option_page" value="options" />
+		<table class="form-table">
 <?php
 $options = $wpdb->get_results( "SELECT * FROM $wpdb->options ORDER BY option_name" );
 
@@ -287,13 +287,13 @@ foreach ( (array) $options as $option ) :
 	<?php endif ?></td>
 </tr>
 <?php endforeach; ?>
-  </table>
+</table>
 
 <input type="hidden" name="page_options" value="<?php echo esc_attr( implode( ',', $options_to_update ) ); ?>" />
 
 <?php submit_button( __( 'Save Changes' ), 'primary', 'Update' ); ?>
 
-  </form>
+</form>
 </div>
 
 <?php

@@ -327,7 +327,6 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 					?>
 				</p>
 				<p><?php _e( 'If you decide to go ahead with direct edits anyway, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
-				
 			</div>
 			<p>
 				<a class="button file-editor-warning-go-back" href="<?php echo esc_url( $return_url ); ?>"><?php _e( 'Go back' ); ?></a>

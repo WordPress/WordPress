@@ -283,10 +283,10 @@ final class WP_Post {
 			return true;
 
 		if ( 'post_category' == $key )
-		   return true;
+			return true;
 
 		if ( 'tags_input' == $key )
-		   return true;
+			return true;
 
 		return metadata_exists( 'post', $this->ID, $key );
 	}

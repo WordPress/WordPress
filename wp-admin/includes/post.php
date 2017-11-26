@@ -64,7 +64,8 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 	}
 
 	if ( isset( $post_data['user_ID'] ) && ( $post_data['post_author'] != $post_data['user_ID'] )
-		 && ! current_user_can( $ptype->cap->edit_others_posts ) ) {
+		&& ! current_user_can( $ptype->cap->edit_others_posts ) ) {
+
 		if ( $update ) {
 			if ( 'page' == $post_data['post_type'] )
 				return new WP_Error( 'edit_others_pages', __( 'Sorry, you are not allowed to edit pages as this user.' ) );

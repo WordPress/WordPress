@@ -56,12 +56,12 @@ _deprecated_file(
 		<div class="alignleft"><?php previous_comments_link() ?></div>
 		<div class="alignright"><?php next_comments_link() ?></div>
 	</div>
- <?php else : // this is displayed if there are no comments so far ?>
+<?php else : // this is displayed if there are no comments so far ?>
 
 	<?php if ( comments_open() ) : ?>
 		<!-- If comments are open, but there are no comments. -->
 
-	 <?php else : // comments are closed ?>
+	<?php else : // comments are closed ?>
 		<!-- If comments are closed. -->
 		<p class="nocomments"><?php _e('Comments are closed.'); ?></p>
 

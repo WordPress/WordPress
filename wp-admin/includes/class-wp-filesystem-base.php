@@ -382,9 +382,9 @@ class WP_Filesystem_Base {
 		$attarray = preg_split('//', $mode);
 
 		for ( $i = 0, $c = count( $attarray ); $i < $c; $i++ ) {
-		   if ($key = array_search($attarray[$i], $legal)) {
-			   $realmode .= $legal[$key];
-		   }
+			if ($key = array_search($attarray[$i], $legal)) {
+				$realmode .= $legal[$key];
+			}
 		}
 
 		$mode = str_pad($realmode, 10, '-', STR_PAD_LEFT);

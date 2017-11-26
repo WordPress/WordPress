@@ -150,7 +150,7 @@ endif; ?>
 	 * @param string $html    Output HTML to display miscellaneous action.
 	 * @param object $comment Current comment object.
 	 */
-	 echo apply_filters( 'edit_comment_misc_actions', '', $comment );
+	echo apply_filters( 'edit_comment_misc_actions', '', $comment );
 ?>
 
 </div> <!-- misc actions -->

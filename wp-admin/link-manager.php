@@ -37,8 +37,8 @@ if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
 	wp_redirect( $redirect_to );
 	exit;
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
-	 exit;
+	wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+	exit;
 }
 
 $wp_list_table->prepare_items();

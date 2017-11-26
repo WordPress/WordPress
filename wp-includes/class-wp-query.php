@@ -423,7 +423,7 @@ class WP_Query {
 	 * @since 3.2.0
 	 * @var bool
 	 */
-	 public $thumbnails_cached = false;
+	public $thumbnails_cached = false;
 
 	/**
 	 * Cached list of search stopwords.

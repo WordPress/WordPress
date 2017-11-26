@@ -297,7 +297,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 <?php do_settings_sections('permalink'); ?>
 
 <?php submit_button(); ?>
-  </form>
+</form>
 <?php if ( !is_multisite() ) { ?>
 <?php if ( $iis7_permalinks ) :
 	if ( isset($_POST['submit']) && $permalink_structure && ! $using_index_permalinks && ! $writable ) :

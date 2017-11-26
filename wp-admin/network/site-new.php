@@ -119,12 +119,12 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		}
 
 		/**
-		  * Fires after a new user has been created via the network site-new.php page.
-		  *
-		  * @since 4.4.0
-		  *
-		  * @param int $user_id ID of the newly created user.
-		  */
+		 * Fires after a new user has been created via the network site-new.php page.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param int $user_id ID of the newly created user.
+		 */
 		do_action( 'network_site_new_created_user', $user_id );
 	}
 

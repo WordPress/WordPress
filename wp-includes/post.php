@@ -3630,14 +3630,14 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 
 	// Passed post category list overwrites existing category list if not empty.
 	if ( isset($postarr['post_category']) && is_array($postarr['post_category'])
-			 && 0 != count($postarr['post_category']) )
+			&& 0 != count($postarr['post_category']) )
 		$post_cats = $postarr['post_category'];
 	else
 		$post_cats = $post['post_category'];
 
 	// Drafts shouldn't be assigned a date unless explicitly done so by the user.
 	if ( isset( $post['post_status'] ) && in_array($post['post_status'], array('draft', 'pending', 'auto-draft')) && empty($postarr['edit_date']) &&
-			 ('0000-00-00 00:00:00' == $post['post_date_gmt']) )
+			('0000-00-00 00:00:00' == $post['post_date_gmt']) )
 		$clear_date = true;
 	else
 		$clear_date = false;

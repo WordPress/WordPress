@@ -1209,15 +1209,14 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		$word = preg_quote($word, '#');
 
 		$pattern = "#$word#i";
-		if (
-			   preg_match($pattern, $author)
+		if ( preg_match($pattern, $author)
 			|| preg_match($pattern, $email)
 			|| preg_match($pattern, $url)
 			|| preg_match($pattern, $comment)
 			|| preg_match($pattern, $comment_without_html)
 			|| preg_match($pattern, $user_ip)
 			|| preg_match($pattern, $user_agent)
-		 )
+		)
 			return true;
 	}
 	return false;

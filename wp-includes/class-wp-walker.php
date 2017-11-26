@@ -251,9 +251,9 @@ class Walker {
 			foreach ( $children_elements as $orphans )
 				foreach ( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
-		 }
+		}
 
-		 return $output;
+		return $output;
 	}
 
 	/**

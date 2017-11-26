@@ -410,16 +410,16 @@ class WP {
 
 			// We're showing a feed, so WP is indeed the only thing that last changed.
 			if ( ! empty( $this->query_vars['withcomments'] )
-			     || false !== strpos( $this->query_vars['feed'], 'comments-' )
-			     || ( empty( $this->query_vars['withoutcomments'] )
-			          && ( ! empty( $this->query_vars['p'] )
-			               || ! empty( $this->query_vars['name'] )
-			               || ! empty( $this->query_vars['page_id'] )
-			               || ! empty( $this->query_vars['pagename'] )
-			               || ! empty( $this->query_vars['attachment'] )
-			               || ! empty( $this->query_vars['attachment_id'] )
-			          )
-			     )
+				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
+				|| ( empty( $this->query_vars['withoutcomments'] )
+					&& ( ! empty( $this->query_vars['p'] )
+						|| ! empty( $this->query_vars['name'] )
+						|| ! empty( $this->query_vars['page_id'] )
+						|| ! empty( $this->query_vars['pagename'] )
+						|| ! empty( $this->query_vars['attachment'] )
+						|| ! empty( $this->query_vars['attachment_id'] )
+					)
+				)
 			) {
 				$wp_last_modified = mysql2date( 'D, d M Y H:i:s', get_lastcommentmodified( 'GMT' ), false );
 			} else {
@@ -449,8 +449,8 @@ class WP {
 			$wp_modified_timestamp = strtotime($wp_last_modified);
 
 			if ( ($client_last_modified && $client_etag) ?
-					 (($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
-					 (($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
+					(($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
+					(($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
 				$status = 304;
 				$exit_required = true;
 			}

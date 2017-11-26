@@ -277,8 +277,7 @@ function wp_update_link( $linkdata ) {
 	$link = wp_slash( $link );
 
 	// Passed link category list overwrites existing category list if not empty.
-	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] )
-			 && 0 != count( $linkdata['link_category'] ) )
+	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] ) && 0 != count( $linkdata['link_category'] ) )
 		$link_cats = $linkdata['link_category'];
 	else
 		$link_cats = $link['link_category'];

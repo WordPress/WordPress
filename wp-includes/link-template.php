@@ -1990,7 +1990,7 @@ function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_sa
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
-	 echo get_next_post_link( $format, $link, $in_same_term, $excluded_terms, $taxonomy );
+	echo get_next_post_link( $format, $link, $in_same_term, $excluded_terms, $taxonomy );
 }
 
 /**
