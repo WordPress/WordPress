@@ -414,8 +414,7 @@ function wp_edit_theme_plugin_file( $args ) {
 			return new WP_Error( 'non_existent_theme', __( 'The requested theme does not exist.' ) );
 		}
 
-		$real_file = $theme->get_stylesheet_directory() . '/' . $file;
-		if ( ! wp_verify_nonce( $args['nonce'], 'edit-theme_' . $real_file . $stylesheet ) ) {
+		if ( ! wp_verify_nonce( $args['nonce'], 'edit-theme_' . $stylesheet . '_' . $file ) ) {
 			return new WP_Error( 'nonce_failure' );
 		}
 
@@ -450,7 +449,10 @@ function wp_edit_theme_plugin_file( $args ) {
 			return new WP_Error( 'disallowed_theme_file', __( 'Sorry, that file cannot be edited.' ) );
 		}
 
+		$real_file = $theme->get_stylesheet_directory() . '/' . $file;
+
 		$is_active = ( get_stylesheet() === $stylesheet || get_template() === $stylesheet );
+
 	} else {
 		return new WP_Error( 'missing_theme_or_plugin' );
 	}
