@@ -1402,7 +1402,7 @@ class wpdb {
 			// If ext/hash is not present, compat.php's hash_hmac() does not support sha256.
 			$algo = function_exists( 'hash' ) ? 'sha256' : 'sha1';
 			// Old WP installs may not have AUTH_SALT defined.
-			$salt = defined( 'AUTH_SALT' ) ? AUTH_SALT : rand();
+			$salt = defined( 'AUTH_SALT' ) && AUTH_SALT ? AUTH_SALT : (string) rand();
 
 			$placeholder = '{' . hash_hmac( $algo, uniqid( $salt, true ), $salt ) . '}';
 		}
