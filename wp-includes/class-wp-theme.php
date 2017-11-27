@@ -984,34 +984,10 @@ final class WP_Theme implements ArrayAccess {
 	 *               being absolute paths.
 	 */
 	public function get_files( $type = null, $depth = 0, $search_parent = false ) {
-		// get and cache all theme files to start with.
-		$label = sanitize_key( 'files_' . $this->cache_hash . '-' . $this->get( 'Version' ) );
-		$transient_key = substr( $label, 0, 29 ) . md5( $label );
+		$files = (array) self::scandir( $this->get_stylesheet_directory(), $type, $depth );
 
-		$all_files = get_transient( $transient_key );
-		if ( false === $all_files ) {
-			$all_files = (array) self::scandir( $this->get_stylesheet_directory(), null, -1 );
-
-			if ( $search_parent && $this->parent() ) {
-				$all_files += (array) self::scandir( $this->get_template_directory(), null, -1 );
-			}
-
-			set_transient( $transient_key, $all_files, HOUR_IN_SECONDS );
-		}
-
-		// Filter $all_files by $type & $depth.
-		$files = array();
-		if ( $type ) {
-			$type = (array) $type;
-			$_extensions = implode( '|', $type );
-		}
-		foreach ( $all_files as $key => $file ) {
-			if ( $depth >= 0 && substr_count( $key, '/' ) > $depth ) {
-				continue; // Filter by depth.
-			}
-			if ( ! $type || preg_match( '~\.(' . $_extensions . ')$~', $file ) ) { // Filter by type.
-				$files[ $key ] = $file;
-			}
+		if ( $search_parent && $this->parent() ) {
+			$files += (array) self::scandir( $this->get_template_directory(), $type, $depth );
 		}
 
 		return $files;

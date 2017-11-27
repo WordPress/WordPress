@@ -194,17 +194,6 @@ function get_plugin_files( $plugin ) {
 	$plugin_file = WP_PLUGIN_DIR . '/' . $plugin;
 	$dir = dirname( $plugin_file );
 
-	$data = get_plugin_data( $plugin_file );
-	$label = isset( $data['Version'] )
-		? sanitize_key( 'files_' . $plugin . '-' . $data['Version'] )
-		: sanitize_key( 'files_' . $plugin );
-	$transient_key = substr( $label, 0, 29 ) . md5( $label );
-
-	$plugin_files = get_transient( $transient_key );
-	if ( false !== $plugin_files ) {
-		return $plugin_files;
-	}
-
 	$plugin_files = array( plugin_basename( $plugin_file ) );
 
 	if ( is_dir( $dir ) && WP_PLUGIN_DIR !== $dir ) {
@@ -224,8 +213,6 @@ function get_plugin_files( $plugin ) {
 		$plugin_files = array_merge( $plugin_files, $list_files );
 		$plugin_files = array_values( array_unique( $plugin_files ) );
 	}
-
-	set_transient( $transient_key, $plugin_files, HOUR_IN_SECONDS );
 
 	return $plugin_files;
 }
