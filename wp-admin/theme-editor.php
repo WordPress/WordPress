@@ -322,7 +322,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 					echo sprintf(
 						/* translators: %s: Codex URL */
 						__( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates. If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
-						esc_url( 'https://codex.wordpress.org/Child_Themes' )
+						esc_url( __( 'https://codex.wordpress.org/Child_Themes' ) )
 					);
 					?>
 				</p>
