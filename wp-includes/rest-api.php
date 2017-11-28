@@ -307,6 +307,8 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		$path = '/';
 	}
 
+	$path = '/' . ltrim( $path, '/' );
+
 	if ( is_multisite() && get_blog_option( $blog_id, 'permalink_structure' ) || get_option( 'permalink_structure' ) ) {
 		global $wp_rewrite;
 
@@ -316,7 +318,7 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 			$url = get_home_url( $blog_id, rest_get_url_prefix(), $scheme );
 		}
 
-		$url .= '/' . ltrim( $path, '/' );
+		$url .= $path;
 	} else {
 		$url = trailingslashit( get_home_url( $blog_id, '', $scheme ) );
 		// nginx only allows HTTP/1.0 methods when redirecting from / to /index.php
@@ -324,8 +326,6 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		if ( 'index.php' !== substr( $url, 9 ) ) {
 			$url .= 'index.php';
 		}
-
-		$path = '/' . ltrim( $path, '/' );
 
 		$url = add_query_arg( 'rest_route', $path, $url );
 	}
