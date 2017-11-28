@@ -617,8 +617,9 @@ function get_html_split_regex() {
 	static $regex;
 
 	if ( ! isset( $regex ) ) {
+		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 		$comments =
-			'!'           // Start of comment, after the <.
+			'!'             // Start of comment, after the <.
 			. '(?:'         // Unroll the loop: Consume everything until --> is found.
 			.     '-(?!->)' // Dash not followed by end of comment.
 			.     '[^\-]*+' // Consume non-dashes.
@@ -626,7 +627,7 @@ function get_html_split_regex() {
 			. '(?:-->)?';   // End of comment. If not found, match all input.
 
 		$cdata =
-			'!\[CDATA\['  // Start of comment, after the <.
+			'!\[CDATA\['    // Start of comment, after the <.
 			. '[^\]]*+'     // Consume non-].
 			. '(?:'         // Unroll the loop: Consume everything until ]]> is found.
 			.     '](?!]>)' // One ] not followed by end of comment.
@@ -635,7 +636,7 @@ function get_html_split_regex() {
 			. '(?:]]>)?';   // End of comment. If not found, match all input.
 
 		$escaped =
-			'(?='           // Is the element escaped?
+			'(?='             // Is the element escaped?
 			.    '!--'
 			. '|'
 			.    '!\[CDATA\['
@@ -647,7 +648,7 @@ function get_html_split_regex() {
 			. ')';
 
 		$regex =
-			'/('              // Capture the entire match.
+			'/('                // Capture the entire match.
 			.     '<'           // Find start of element.
 			.     '(?'          // Conditional expression follows.
 			.         $escaped  // Find end of escaped element.
@@ -655,6 +656,7 @@ function get_html_split_regex() {
 			.         '[^>]*>?' // Find end of normal element.
 			.     ')'
 			. ')/';
+		// phpcs:enable
 	}
 
 	return $regex;
@@ -677,8 +679,9 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 	static $html_regex;
 
 	if ( ! isset( $html_regex ) ) {
+		// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 		$comment_regex =
-			'!'           // Start of comment, after the <.
+			'!'             // Start of comment, after the <.
 			. '(?:'         // Unroll the loop: Consume everything until --> is found.
 			.     '-(?!->)' // Dash not followed by end of comment.
 			.     '[^\-]*+' // Consume non-dashes.
@@ -686,12 +689,13 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 			. '(?:-->)?';   // End of comment. If not found, match all input.
 
 		$html_regex =			 // Needs replaced with wp_html_split() per Shortcode API Roadmap.
-			'<'                // Find start of element.
+			'<'                  // Find start of element.
 			. '(?(?=!--)'        // Is this a comment?
 			.     $comment_regex // Find end of comment.
 			. '|'
 			.     '[^>]*>?'      // Find end of element. If not found, match all input.
 			. ')';
+		// phpcs:enable
 	}
 
 	if ( empty( $shortcode_regex ) ) {
@@ -717,6 +721,7 @@ function _get_wptexturize_split_regex( $shortcode_regex = '' ) {
 function _get_wptexturize_shortcode_regex( $tagnames ) {
 	$tagregexp = join( '|', array_map( 'preg_quote', $tagnames ) );
 	$tagregexp = "(?:$tagregexp)(?=[\\s\\]\\/])"; // Excerpt of get_shortcode_regex().
+	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$regex =
 		'\['              // Find start of shortcode.
 		. '[\/\[]?'         // Shortcodes may begin with [/ or [[
@@ -728,6 +733,7 @@ function _get_wptexturize_shortcode_regex( $tagnames ) {
 		. ')*+'             // Possessive critical.
 		. '\]'              // Find end of shortcode.
 		. '\]?';            // Shortcodes may end with ]]
+	// phpcs:enable
 
 	return $regex;
 }
@@ -817,6 +823,7 @@ function shortcode_unautop( $pee ) {
 	$tagregexp = join( '|', array_map( 'preg_quote', array_keys( $shortcode_tags ) ) );
 	$spaces = wp_spaces_regexp();
 
+	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$pattern =
 		'/'
 		. '<p>'                              // Opening paragraph
@@ -848,6 +855,7 @@ function shortcode_unautop( $pee ) {
 		. '(?:' . $spaces . ')*+'            // optional trailing whitespace
 		. '<\\/p>'                           // closing paragraph
 		. '/';
+	// phpcs:enable
 
 	return preg_replace( $pattern, '$1', $pee );
 }

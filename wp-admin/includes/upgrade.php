@@ -2248,6 +2248,7 @@ function dbDelta( $queries = '', $execute = true ) {
 					 */
 
 					// Extract type, name and columns from the definition.
+					// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 					preg_match(
 						'/^'
 						.   '(?P<index_type>'             // 1) Type of the index.
@@ -2271,6 +2272,7 @@ function dbDelta( $queries = '', $execute = true ) {
 						$fld,
 						$index_matches
 					);
+					// phpcs:enable
 
 					// Uppercase the index type and normalize space characters.
 					$index_type = strtoupper( preg_replace( '/\s+/', ' ', trim( $index_matches['index_type'] ) ) );

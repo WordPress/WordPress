@@ -1093,6 +1093,7 @@ function wp_kses_hair_parse( $attr ) {
 		return array();
 	}
 
+	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	$regex =
 	'(?:'
 	.     '[-a-zA-Z:]+'   // Attribute name.
@@ -1113,6 +1114,7 @@ function wp_kses_hair_parse( $attr ) {
 	.     '(?:\s|$)'      // If attribute has no value, space is required.
 	. ')'
 	. '\s*';              // Trailing space is optional except as mentioned above.
+	// phpcs:enable
 
 	// Although it is possible to reduce this procedure to a single regexp,
 	// we must run that regexp twice to get exactly the expected result.

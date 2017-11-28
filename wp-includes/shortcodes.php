@@ -235,8 +235,10 @@ function get_shortcode_regex( $tagnames = null ) {
 
 	// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
 	// Also, see shortcode_unautop() and shortcode.js.
+
+	// phpcs:disable Squiz.Strings.ConcatenationSpacing.PaddingFound -- don't remove regex indentation
 	return
-		'\\['                              // Opening bracket
+		'\\['                                // Opening bracket
 		. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
 		. "($tagregexp)"                     // 2: Shortcode name
 		. '(?![\\w-])'                       // Not followed by word character or hyphen
@@ -264,6 +266,7 @@ function get_shortcode_regex( $tagnames = null ) {
 		.     ')?'
 		. ')'
 		. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+	// phpcs:enable
 }
 
 /**
