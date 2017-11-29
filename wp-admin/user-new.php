@@ -72,7 +72,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 			add_existing_user_to_blog( array( 'user_id' => $user_id, 'role' => $_REQUEST[ 'role' ] ) );
 			$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
 		} else {
-			$newuser_key = substr( md5( $user_id ), 0, 5 );
+			$newuser_key = wp_generate_password( 20, false );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
 
 			$roles = get_editable_roles();
