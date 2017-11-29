@@ -30,6 +30,28 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 		</h2>
 
+		<div class="changelog point-releases">
+			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
+			<p>
+				<?php
+				printf(
+					/* translators: 1: WordPress version number, 2: plural number of bugs. */
+					_n(
+						'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+						'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.',
+						11
+					),
+					'4.9.1',
+					number_format_i18n( 11 )
+				);
+				?>
+				<?php
+				/* translators: %s: Codex URL */
+				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.9.1' );
+				?>
+			</p>
+		</div>
+
 		<div class="feature-section one-col">
 			<div class="col">
 				<h2>
