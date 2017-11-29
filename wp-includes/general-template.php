@@ -1935,12 +1935,14 @@ function language_attributes($doctype = 'html') {
 	if ( function_exists( 'is_rtl' ) && is_rtl() )
 		$attributes[] = 'dir="rtl"';
 
-	if ( $lang = get_bloginfo('language') ) {
-		if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
-			$attributes[] = "lang=\"$lang\"";
+	if ( $lang = get_bloginfo( 'language' ) ) {
+		if ( get_option( 'html_type' ) == 'text/html' || $doctype == 'html' ) {
+			$attributes[] = 'lang="' . esc_attr( $lang ) . '"';
+		}
 
-		if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
-			$attributes[] = "xml:lang=\"$lang\"";
+		if ( get_option( 'html_type' ) != 'text/html' || $doctype == 'xhtml' ) {
+			$attributes[] = 'xml:lang="' . esc_attr( $lang ) . '"';
+		}
 	}
 
 	$output = implode(' ', $attributes);
