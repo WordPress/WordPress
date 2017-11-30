@@ -84,12 +84,14 @@ function wp_add_inline_style( $handle, $data ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	if ( false !== stripos( $data, '</style>' ) ) {
-		_doing_it_wrong( __FUNCTION__, sprintf(
-			/* translators: 1: <style>, 2: wp_add_inline_style() */
-			__( 'Do not pass %1$s tags to %2$s.' ),
-			'<code>&lt;style&gt;</code>',
-			'<code>wp_add_inline_style()</code>'
-		), '3.7.0' );
+		_doing_it_wrong(
+			__FUNCTION__, sprintf(
+				/* translators: 1: <style>, 2: wp_add_inline_style() */
+				__( 'Do not pass %1$s tags to %2$s.' ),
+				'<code>&lt;style&gt;</code>',
+				'<code>wp_add_inline_style()</code>'
+			), '3.7.0'
+		);
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
@@ -167,7 +169,7 @@ function wp_enqueue_style( $handle, $src = '', $deps = array(), $ver = false, $m
 	$wp_styles = wp_styles();
 
 	if ( $src ) {
-		$_handle = explode('?', $handle);
+		$_handle = explode( '?', $handle );
 		$wp_styles->add( $_handle[0], $src, $deps, $ver, $media );
 	}
 	$wp_styles->enqueue( $handle );

@@ -16,8 +16,9 @@
  * @return bool True if subdomain configuration is enabled, false otherwise.
  */
 function is_subdomain_install() {
-	if ( defined('SUBDOMAIN_INSTALL') )
+	if ( defined( 'SUBDOMAIN_INSTALL' ) ) {
 		return SUBDOMAIN_INSTALL;
+	}
 
 	return ( defined( 'VHOST' ) && VHOST == 'yes' );
 }
@@ -35,10 +36,11 @@ function is_subdomain_install() {
  */
 function wp_get_active_network_plugins() {
 	$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-	if ( empty( $active_plugins ) )
+	if ( empty( $active_plugins ) ) {
 		return array();
+	}
 
-	$plugins = array();
+	$plugins        = array();
 	$active_plugins = array_keys( $active_plugins );
 	sort( $active_plugins );
 
@@ -46,8 +48,9 @@ function wp_get_active_network_plugins() {
 		if ( ! validate_file( $plugin ) // $plugin must validate as file
 			&& '.php' == substr( $plugin, -4 ) // $plugin must end with '.php'
 			&& file_exists( WP_PLUGIN_DIR . '/' . $plugin ) // $plugin must exist
-			)
-		$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+			) {
+			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
+		}
 	}
 	return $plugins;
 }
@@ -75,22 +78,25 @@ function ms_site_check() {
 	 * @since 3.0.0
 	 *
 	 * @param bool null Whether to skip the blog status check. Default null.
-	*/
+	 */
 	$check = apply_filters( 'ms_site_check', null );
-	if ( null !== $check )
+	if ( null !== $check ) {
 		return true;
+	}
 
 	// Allow super admins to see blocked sites
-	if ( is_super_admin() )
+	if ( is_super_admin() ) {
 		return true;
+	}
 
 	$blog = get_site();
 
 	if ( '1' == $blog->deleted ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )
+		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) ) {
 			return WP_CONTENT_DIR . '/blog-deleted.php';
-		else
+		} else {
 			wp_die( __( 'This site is no longer available.' ), '', array( 'response' => 410 ) );
+		}
 	}
 
 	if ( '2' == $blog->deleted ) {
@@ -100,7 +106,8 @@ function ms_site_check() {
 			$admin_email = str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_network()->domain ) );
 			wp_die(
 				/* translators: %s: admin email link */
-				sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact %s.' ),
+				sprintf(
+					__( 'This site has not been activated yet. If you are having problems activating your site, please contact %s.' ),
 					sprintf( '<a href="mailto:%s">%s</a>', $admin_email )
 				)
 			);
@@ -108,10 +115,11 @@ function ms_site_check() {
 	}
 
 	if ( $blog->archived == '1' || $blog->spam == '1' ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) )
+		if ( file_exists( WP_CONTENT_DIR . '/blog-suspended.php' ) ) {
 			return WP_CONTENT_DIR . '/blog-suspended.php';
-		else
+		} else {
 			wp_die( __( 'This site has been archived or suspended.' ), '', array( 'response' => 410 ) );
+		}
 	}
 
 	return true;
@@ -227,8 +235,8 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 
 	$args = array(
 		'domain__in' => $domains,
-		'path__in' => $paths,
-		'number' => 1,
+		'path__in'   => $paths,
+		'number'     => 1,
 	);
 
 	if ( count( $domains ) > 1 ) {
@@ -240,7 +248,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	}
 
 	$result = get_sites( $args );
-	$site = array_shift( $result );
+	$site   = array_shift( $result );
 
 	if ( $site ) {
 		return $site;
@@ -284,10 +292,10 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 
 	// If the network is defined in wp-config.php, we can simply use that.
 	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
-		$current_site = new stdClass;
-		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
+		$current_site         = new stdClass;
+		$current_site->id     = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
 		$current_site->domain = DOMAIN_CURRENT_SITE;
-		$current_site->path = PATH_CURRENT_SITE;
+		$current_site->path   = PATH_CURRENT_SITE;
 		if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
 			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
 		} elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
@@ -304,7 +312,6 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 			// Otherwise, use the first path segment (as usual).
 			$current_blog = get_site_by_path( $domain, $path, 1 );
 		}
-
 	} elseif ( ! $subdomain ) {
 		/*
 		 * A "subdomain" installation can be re-interpreted to mean "can support any domain".
@@ -374,15 +381,15 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 
 	// During activation of a new subdomain, the requested site does not yet exist.
 	if ( empty( $current_blog ) && wp_installing() ) {
-		$current_blog = new stdClass;
+		$current_blog          = new stdClass;
 		$current_blog->blog_id = $blog_id = 1;
-		$current_blog->public = 1;
+		$current_blog->public  = 1;
 	}
 
 	// No site has been found, bail.
 	if ( empty( $current_blog ) ) {
 		// We're going to redirect to the network URL, with some possible modifications.
-		$scheme = is_ssl() ? 'https' : 'http';
+		$scheme      = is_ssl() ? 'https' : 'http';
 		$destination = "$scheme://{$current_site->domain}{$current_site->path}";
 
 		/**
@@ -454,10 +461,10 @@ function ms_not_installed( $domain, $path ) {
 
 	$title = __( 'Error establishing a database connection' );
 
-	$msg  = '<h1>' . $title . '</h1>';
-	$msg .= '<p>' . __( 'If your site does not display, please contact the owner of this network.' ) . '';
-	$msg .= ' ' . __( 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' ) . '</p>';
-	$query = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $wpdb->site ) );
+	$msg   = '<h1>' . $title . '</h1>';
+	$msg  .= '<p>' . __( 'If your site does not display, please contact the owner of this network.' ) . '';
+	$msg  .= ' ' . __( 'If you are the owner of this network please check that MySQL is running properly and all tables are error free.' ) . '</p>';
+	$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->site ) );
 	if ( ! $wpdb->get_var( $query ) ) {
 		$msg .= '<p>' . sprintf(
 			/* translators: %s: table name */
@@ -475,13 +482,15 @@ function ms_not_installed( $domain, $path ) {
 	}
 	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
 	/* translators: %s: Codex URL */
-	$msg .= sprintf( __( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
+	$msg .= sprintf(
+		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
 		__( 'https://codex.wordpress.org/Debugging_a_WordPress_Network' )
 	);
 	$msg .= ' ' . __( 'If you&#8217;re still stuck with this message, then check that your database contains the following tables:' ) . '</p><ul>';
-	foreach ( $wpdb->tables('global') as $t => $table ) {
-		if ( 'sitecategories' == $t )
+	foreach ( $wpdb->tables( 'global' ) as $t => $table ) {
+		if ( 'sitecategories' == $t ) {
 			continue;
+		}
 		$msg .= '<li>' . $table . '</li>';
 	}
 	$msg .= '</ul>';

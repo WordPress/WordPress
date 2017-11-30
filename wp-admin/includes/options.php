@@ -107,7 +107,7 @@ function options_reading_add_js() {
 				selects.prop( 'disabled', ! staticPage.prop('checked') );
 			};
 		check_disabled();
- 		section.find('input:radio').change(check_disabled);
+		 section.find('input:radio').change(check_disabled);
 	});
 </script>
 <?php

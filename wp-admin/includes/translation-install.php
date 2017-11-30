@@ -20,7 +20,7 @@ function translations_api( $type, $args = null ) {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
 	if ( ! in_array( $type, array( 'plugins', 'themes', 'core' ) ) ) {
-		return	new WP_Error( 'invalid_type', __( 'Invalid translation type.' ) );
+		return  new WP_Error( 'invalid_type', __( 'Invalid translation type.' ) );
 	}
 
 	/**
@@ -42,7 +42,7 @@ function translations_api( $type, $args = null ) {
 
 		$options = array(
 			'timeout' => 3,
-			'body' => array(
+			'body'    => array(
 				'wp_version' => $wp_version,
 				'locale'     => get_locale(),
 				'version'    => $args['version'], // Version of plugin, theme or core
@@ -69,7 +69,8 @@ function translations_api( $type, $args = null ) {
 		}
 
 		if ( is_wp_error( $request ) ) {
-			$res = new WP_Error( 'translations_api_failed',
+			$res = new WP_Error(
+				'translations_api_failed',
 				sprintf(
 					/* translators: %s: support forums URL */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
@@ -80,7 +81,8 @@ function translations_api( $type, $args = null ) {
 		} else {
 			$res = json_decode( wp_remote_retrieve_body( $request ), true );
 			if ( ! is_object( $res ) && ! is_array( $res ) ) {
-				$res = new WP_Error( 'translations_api_failed',
+				$res = new WP_Error(
+					'translations_api_failed',
 					sprintf(
 						/* translators: %s: support forums URL */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
@@ -162,24 +164,28 @@ function wp_install_language_form( $languages ) {
 	if ( ! empty( $wp_local_package ) && isset( $languages[ $wp_local_package ] ) ) {
 		if ( isset( $languages[ $wp_local_package ] ) ) {
 			$language = $languages[ $wp_local_package ];
-			printf( '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
+			printf(
+				'<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
 				esc_attr( $language['language'] ),
 				esc_attr( current( $language['iso'] ) ),
 				esc_attr( $language['strings']['continue'] ),
 				in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
-				esc_html( $language['native_name'] ) );
+				esc_html( $language['native_name'] )
+			);
 
 			unset( $languages[ $wp_local_package ] );
 		}
 	}
 
 	foreach ( $languages as $language ) {
-		printf( '<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
+		printf(
+			'<option value="%s" lang="%s" data-continue="%s"%s>%s</option>' . "\n",
 			esc_attr( $language['language'] ),
 			esc_attr( current( $language['iso'] ) ),
 			esc_attr( $language['strings']['continue'] ),
 			in_array( $language['language'], $installed_languages ) ? ' data-installed="1"' : '',
-			esc_html( $language['native_name'] ) );
+			esc_html( $language['native_name'] )
+		);
 	}
 	echo "</select>\n";
 	echo '<p class="step"><span class="spinner"></span><input id="language-continue" type="submit" class="button button-primary button-large" value="Continue" /></p>';
@@ -224,10 +230,10 @@ function wp_download_language_pack( $download ) {
 	$translation = (object) $translation;
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$skin = new Automatic_Upgrader_Skin;
-	$upgrader = new Language_Pack_Upgrader( $skin );
+	$skin              = new Automatic_Upgrader_Skin;
+	$upgrader          = new Language_Pack_Upgrader( $skin );
 	$translation->type = 'core';
-	$result = $upgrader->upgrade( $translation, array( 'clear_update_cache' => false ) );
+	$result            = $upgrader->upgrade( $translation, array( 'clear_update_cache' => false ) );
 
 	if ( ! $result || is_wp_error( $result ) ) {
 		return false;
@@ -250,7 +256,7 @@ function wp_can_install_language_pack() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-	$skin = new Automatic_Upgrader_Skin;
+	$skin     = new Automatic_Upgrader_Skin;
 	$upgrader = new Language_Pack_Upgrader( $skin );
 	$upgrader->init();
 

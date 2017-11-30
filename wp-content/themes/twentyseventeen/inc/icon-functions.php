@@ -46,10 +46,10 @@ function twentyseventeen_get_svg( $args = array() ) {
 
 	// Set defaults.
 	$defaults = array(
-		'icon'        => '',
-		'title'       => '',
-		'desc'        => '',
-		'fallback'    => false,
+		'icon'     => '',
+		'title'    => '',
+		'desc'     => '',
+		'fallback' => false,
 	);
 
 	// Parse args.

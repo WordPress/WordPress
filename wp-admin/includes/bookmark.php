@@ -34,15 +34,16 @@ function edit_link( $link_id = 0 ) {
 		);
 	}
 
-	$_POST['link_url'] = esc_html( $_POST['link_url'] );
-	$_POST['link_url'] = esc_url($_POST['link_url']);
-	$_POST['link_name'] = esc_html( $_POST['link_name'] );
+	$_POST['link_url']   = esc_html( $_POST['link_url'] );
+	$_POST['link_url']   = esc_url( $_POST['link_url'] );
+	$_POST['link_name']  = esc_html( $_POST['link_name'] );
 	$_POST['link_image'] = esc_html( $_POST['link_image'] );
-	$_POST['link_rss'] = esc_url($_POST['link_rss']);
-	if ( !isset($_POST['link_visible']) || 'N' != $_POST['link_visible'] )
+	$_POST['link_rss']   = esc_url( $_POST['link_rss'] );
+	if ( ! isset( $_POST['link_visible'] ) || 'N' != $_POST['link_visible'] ) {
 		$_POST['link_visible'] = 'Y';
+	}
 
-	if ( !empty( $link_id ) ) {
+	if ( ! empty( $link_id ) ) {
 		$_POST['link_id'] = $link_id;
 		return wp_update_link( $_POST );
 	} else {
@@ -59,15 +60,17 @@ function edit_link( $link_id = 0 ) {
  */
 function get_default_link_to_edit() {
 	$link = new stdClass;
-	if ( isset( $_GET['linkurl'] ) )
+	if ( isset( $_GET['linkurl'] ) ) {
 		$link->link_url = esc_url( wp_unslash( $_GET['linkurl'] ) );
-	else
+	} else {
 		$link->link_url = '';
+	}
 
-	if ( isset( $_GET['name'] ) )
+	if ( isset( $_GET['name'] ) ) {
 		$link->link_name = esc_attr( wp_unslash( $_GET['name'] ) );
-	else
+	} else {
 		$link->link_name = '';
+	}
 
 	$link->link_visible = 'Y';
 
@@ -122,7 +125,7 @@ function wp_delete_link( $link_id ) {
  * @return array The requested link's categories
  */
 function wp_get_link_cats( $link_id = 0 ) {
-	$cats = wp_get_object_terms( $link_id, 'link_category', array('fields' => 'ids') );
+	$cats = wp_get_object_terms( $link_id, 'link_category', array( 'fields' => 'ids' ) );
 	return array_unique( $cats );
 }
 
@@ -152,10 +155,15 @@ function get_link_to_edit( $link ) {
 function wp_insert_link( $linkdata, $wp_error = false ) {
 	global $wpdb;
 
-	$defaults = array( 'link_id' => 0, 'link_name' => '', 'link_url' => '', 'link_rating' => 0 );
+	$defaults = array(
+		'link_id'     => 0,
+		'link_name'   => '',
+		'link_url'    => '',
+		'link_rating' => 0,
+	);
 
 	$args = wp_parse_args( $linkdata, $defaults );
-	$r = wp_unslash( sanitize_bookmark( $args, 'db' ) );
+	$r    = wp_unslash( sanitize_bookmark( $args, 'db' ) );
 
 	$link_id   = $r['link_id'];
 	$link_name = $r['link_name'];
@@ -249,8 +257,9 @@ function wp_insert_link( $linkdata, $wp_error = false ) {
  */
 function wp_set_link_cats( $link_id = 0, $link_categories = array() ) {
 	// If $link_categories isn't already an array, make it one:
-	if ( !is_array( $link_categories ) || 0 == count( $link_categories ) )
+	if ( ! is_array( $link_categories ) || 0 == count( $link_categories ) ) {
 		$link_categories = array( get_option( 'default_link_category' ) );
+	}
 
 	$link_categories = array_map( 'intval', $link_categories );
 	$link_categories = array_unique( $link_categories );
@@ -277,13 +286,14 @@ function wp_update_link( $linkdata ) {
 	$link = wp_slash( $link );
 
 	// Passed link category list overwrites existing category list if not empty.
-	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] ) && 0 != count( $linkdata['link_category'] ) )
+	if ( isset( $linkdata['link_category'] ) && is_array( $linkdata['link_category'] ) && 0 != count( $linkdata['link_category'] ) ) {
 		$link_cats = $linkdata['link_category'];
-	else
+	} else {
 		$link_cats = $link['link_category'];
+	}
 
 	// Merge old and new fields with new fields overwriting old ones.
-	$linkdata = array_merge( $link, $linkdata );
+	$linkdata                  = array_merge( $link, $linkdata );
 	$linkdata['link_category'] = $link_cats;
 
 	return wp_insert_link( $linkdata );
@@ -299,8 +309,9 @@ function wp_update_link( $linkdata ) {
  */
 function wp_link_manager_disabled_message() {
 	global $pagenow;
-	if ( 'link-manager.php' != $pagenow && 'link-add.php' != $pagenow && 'link.php' != $pagenow )
+	if ( 'link-manager.php' != $pagenow && 'link-add.php' != $pagenow && 'link.php' != $pagenow ) {
 		return;
+	}
 
 	add_filter( 'pre_option_link_manager_enabled', '__return_true', 100 );
 	$really_can_manage_links = current_user_can( 'manage_links' );

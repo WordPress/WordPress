@@ -6,7 +6,7 @@
  * @subpackage Press_This
  */
 
-define( 'IFRAME_REQUEST' , true );
+define( 'IFRAME_REQUEST', true );
 
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
@@ -27,11 +27,15 @@ function wp_load_press_this() {
 		$wp_press_this->html();
 	} elseif ( current_user_can( 'activate_plugins' ) ) {
 		if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
-			$url = wp_nonce_url( add_query_arg( array(
-				'action' => 'activate',
-				'plugin' => $plugin_file,
-				'from'   => 'press-this',
-			), admin_url( 'plugins.php' ) ), 'activate-plugin_' . $plugin_file );
+			$url    = wp_nonce_url(
+				add_query_arg(
+					array(
+						'action' => 'activate',
+						'plugin' => $plugin_file,
+						'from'   => 'press-this',
+					), admin_url( 'plugins.php' )
+				), 'activate-plugin_' . $plugin_file
+			);
 			$action = sprintf(
 				'<a href="%1$s" aria-label="%2$s">%2$s</a>',
 				esc_url( $url ),
@@ -39,11 +43,15 @@ function wp_load_press_this() {
 			);
 		} else {
 			if ( is_main_site() ) {
-				$url = wp_nonce_url( add_query_arg( array(
-					'action' => 'install-plugin',
-					'plugin' => $plugin_slug,
-					'from'   => 'press-this',
-				), self_admin_url( 'update.php' ) ), 'install-plugin_' . $plugin_slug );
+				$url    = wp_nonce_url(
+					add_query_arg(
+						array(
+							'action' => 'install-plugin',
+							'plugin' => $plugin_slug,
+							'from'   => 'press-this',
+						), self_admin_url( 'update.php' )
+					), 'install-plugin_' . $plugin_slug
+				);
 				$action = sprintf(
 					'<a href="%1$s" class="install-now" data-slug="%2$s" data-name="%2$s" aria-label="%3$s">%3$s</a>',
 					esc_url( $url ),

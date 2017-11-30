@@ -32,8 +32,8 @@ class WP_Widget_Calendar extends WP_Widget {
 	 */
 	public function __construct() {
 		$widget_ops = array(
-			'classname' => 'widget_calendar',
-			'description' => __( 'A calendar of your site&#8217;s Posts.' ),
+			'classname'                   => 'widget_calendar',
+			'description'                 => __( 'A calendar of your site&#8217;s Posts.' ),
 			'customize_selective_refresh' => true,
 		);
 		parent::__construct( 'calendar', __( 'Calendar' ), $widget_ops );
@@ -81,7 +81,7 @@ class WP_Widget_Calendar extends WP_Widget {
 	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
+		$instance          = $old_instance;
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 
 		return $instance;
@@ -96,10 +96,10 @@ class WP_Widget_Calendar extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
-		$title = sanitize_text_field( $instance['title'] );
+		$title    = sanitize_text_field( $instance['title'] );
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 		<?php
 	}
 }

@@ -35,10 +35,9 @@ class WP_SimplePie_Sanitize_KSES extends SimplePie_Sanitize {
 	public function sanitize( $data, $type, $base = '' ) {
 		$data = trim( $data );
 		if ( $type & SIMPLEPIE_CONSTRUCT_MAYBE_HTML ) {
-			if (preg_match('/(&(#(x[0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+)|<\/[A-Za-z][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E]*' . SIMPLEPIE_PCRE_HTML_ATTRIBUTE . '>)/', $data)) {
+			if ( preg_match( '/(&(#(x[0-9a-fA-F]+|[0-9]+)|[a-zA-Z0-9]+)|<\/[A-Za-z][^\x09\x0A\x0B\x0C\x0D\x20\x2F\x3E]*' . SIMPLEPIE_PCRE_HTML_ATTRIBUTE . '>)/', $data ) ) {
 				$type |= SIMPLEPIE_CONSTRUCT_HTML;
-			}
-			else {
+			} else {
 				$type |= SIMPLEPIE_CONSTRUCT_TEXT;
 			}
 		}

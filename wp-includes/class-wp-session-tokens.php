@@ -131,11 +131,11 @@ abstract class WP_Session_Tokens {
 		 * @param array $session Array of extra data.
 		 * @param int   $user_id User ID.
 		 */
-		$session = apply_filters( 'attach_session_information', array(), $this->user_id );
+		$session               = apply_filters( 'attach_session_information', array(), $this->user_id );
 		$session['expiration'] = $expiration;
 
 		// IP address.
-		if ( !empty( $_SERVER['REMOTE_ADDR'] ) ) {
+		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
 			$session['ip'] = $_SERVER['REMOTE_ADDR'];
 		}
 
@@ -189,7 +189,7 @@ abstract class WP_Session_Tokens {
 	 */
 	final public function destroy_others( $token_to_keep ) {
 		$verifier = $this->hash_token( $token_to_keep );
-		$session = $this->get_session( $verifier );
+		$session  = $this->get_session( $verifier );
 		if ( $session ) {
 			$this->destroy_other_sessions( $verifier );
 		} else {

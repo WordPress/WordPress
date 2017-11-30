@@ -20,7 +20,7 @@ class WP_Site_Icon {
 	 * @since 4.3.0
 	 * @var int
 	 */
-	public $min_size  = 512;
+	public $min_size = 512;
 
 	/**
 	 * The size to which to crop the image so that we can display it in the UI nicely.
@@ -96,7 +96,7 @@ class WP_Site_Icon {
 			'post_content'   => $url,
 			'post_mime_type' => $image_type,
 			'guid'           => $url,
-			'context'        => 'site-icon'
+			'context'        => 'site-icon',
 		);
 
 		return $object;

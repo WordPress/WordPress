@@ -16,21 +16,25 @@
  * @see WP_Upgrader_Skin
  */
 class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
-	public $language_update = null;
-	public $done_header = false;
-	public $done_footer = false;
+	public $language_update        = null;
+	public $done_header            = false;
+	public $done_footer            = false;
 	public $display_footer_actions = true;
 
 	/**
-	 *
 	 * @param array $args
 	 */
 	public function __construct( $args = array() ) {
-		$defaults = array( 'url' => '', 'nonce' => '', 'title' => __( 'Update Translations' ), 'skip_header_footer' => false );
-		$args = wp_parse_args( $args, $defaults );
+		$defaults = array(
+			'url'                => '',
+			'nonce'              => '',
+			'title'              => __( 'Update Translations' ),
+			'skip_header_footer' => false,
+		);
+		$args     = wp_parse_args( $args, $defaults );
 		if ( $args['skip_header_footer'] ) {
-			$this->done_header = true;
-			$this->done_footer = true;
+			$this->done_header            = true;
+			$this->done_footer            = true;
 			$this->display_footer_actions = false;
 		}
 		parent::__construct( $args );
@@ -47,7 +51,6 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 *
 	 * @param string|WP_Error $error
 	 */
 	public function error( $error ) {
@@ -66,7 +69,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	 */
 	public function bulk_footer() {
 		$this->decrement_update_count( 'translation' );
-		$update_actions = array();
+		$update_actions                 = array();
 		$update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" target="_parent">' . __( 'Return to WordPress Updates page' ) . '</a>';
 
 		/**
@@ -78,7 +81,8 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		 */
 		$update_actions = apply_filters( 'update_translations_complete_actions', $update_actions );
 
-		if ( $update_actions && $this->display_footer_actions )
+		if ( $update_actions && $this->display_footer_actions ) {
 			$this->feedback( implode( ' | ', $update_actions ) );
+		}
 	}
 }

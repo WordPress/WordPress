@@ -9,17 +9,18 @@
 define( 'WP_INSTALLING', true );
 
 /** Sets up the WordPress Environment. */
-require( dirname(__FILE__) . '/wp-load.php' );
+require( dirname( __FILE__ ) . '/wp-load.php' );
 
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
-if ( !is_multisite() ) {
+if ( ! is_multisite() ) {
 	wp_redirect( wp_registration_url() );
 	die();
 }
 
-if ( is_object( $wp_object_cache ) )
+if ( is_object( $wp_object_cache ) ) {
 	$wp_object_cache->cache_enabled = false;
+}
 
 // Fix for page title
 $wp_query->is_404 = false;
@@ -43,10 +44,10 @@ function do_activate_header() {
 	 * Fires before the Site Activation page is loaded.
 	 *
 	 * Fires on the {@see 'wp_head'} action.
-     *
-     * @since 3.0.0
-     */
-    do_action( 'activate_wp_head' );
+	 *
+	 * @since 3.0.0
+	 */
+	do_action( 'activate_wp_head' );
 }
 add_action( 'wp_head', 'do_activate_header' );
 
@@ -73,28 +74,29 @@ get_header( 'wp-activate' );
 
 <div id="signup-content" class="widecolumn">
 	<div class="wp-activate-container">
-	<?php if ( empty($_GET['key']) && empty($_POST['key']) ) { ?>
+	<?php if ( empty( $_GET['key'] ) && empty( $_POST['key'] ) ) { ?>
 
-		<h2><?php _e('Activation Key Required') ?></h2>
-		<form name="activateform" id="activateform" method="post" action="<?php echo network_site_url('wp-activate.php'); ?>">
+		<h2><?php _e( 'Activation Key Required' ); ?></h2>
+		<form name="activateform" id="activateform" method="post" action="<?php echo network_site_url( 'wp-activate.php' ); ?>">
 			<p>
-			    <label for="key"><?php _e('Activation Key:') ?></label>
-			    <br /><input type="text" name="key" id="key" value="" size="50" />
+				<label for="key"><?php _e( 'Activation Key:' ); ?></label>
+				<br /><input type="text" name="key" id="key" value="" size="50" />
 			</p>
 			<p class="submit">
-			    <input id="submit" type="submit" name="Submit" class="submit" value="<?php esc_attr_e('Activate') ?>" />
+				<input id="submit" type="submit" name="Submit" class="submit" value="<?php esc_attr_e( 'Activate' ); ?>" />
 			</p>
 		</form>
 
-	<?php } else {
+	<?php
+} else {
 
-		$key = !empty($_GET['key']) ? $_GET['key'] : $_POST['key'];
-		$result = wpmu_activate_signup( $key );
-		if ( is_wp_error($result) ) {
-			if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
-				$signup = $result->get_error_data();
-				?>
-				<h2><?php _e('Your account is now active!'); ?></h2>
+	$key    = ! empty( $_GET['key'] ) ? $_GET['key'] : $_POST['key'];
+	$result = wpmu_activate_signup( $key );
+	if ( is_wp_error( $result ) ) {
+		if ( 'already_active' == $result->get_error_code() || 'blog_taken' == $result->get_error_code() ) {
+			$signup = $result->get_error_data();
+			?>
+			<h2><?php _e( 'Your account is now active!' ); ?></h2>
 				<?php
 				echo '<p class="lead-in">';
 				if ( $signup->domain . $signup->path == '' ) {
@@ -117,40 +119,46 @@ get_header( 'wp-activate' );
 					);
 				}
 				echo '</p>';
-			} else {
-				?>
-				<h2><?php _e( 'An error occurred during the activation' ); ?></h2>
+		} else {
+			?>
+			<h2><?php _e( 'An error occurred during the activation' ); ?></h2>
 				<p><?php echo $result->get_error_message(); ?></p>
 				<?php
-			}
-		} else {
-			$url = isset( $result['blog_id'] ) ? get_home_url( (int) $result['blog_id'] ) : '';
-			$user = get_userdata( (int) $result['user_id'] );
-			?>
-			<h2><?php _e('Your account is now active!'); ?></h2>
+		}
+	} else {
+		$url  = isset( $result['blog_id'] ) ? get_home_url( (int) $result['blog_id'] ) : '';
+		$user = get_userdata( (int) $result['user_id'] );
+		?>
+		<h2><?php _e( 'Your account is now active!' ); ?></h2>
 
 			<div id="signup-welcome">
-				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login ?></p>
-				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $result['password']; ?></p>
+			<p><span class="h3"><?php _e( 'Username:' ); ?></span> <?php echo $user->user_login; ?></p>
+			<p><span class="h3"><?php _e( 'Password:' ); ?></span> <?php echo $result['password']; ?></p>
 			</div>
 
-			<?php if ( $url && $url != network_home_url( '', 'http' ) ) :
+			<?php
+			if ( $url && $url != network_home_url( '', 'http' ) ) :
 				switch_to_blog( (int) $result['blog_id'] );
 				$login_url = wp_login_url();
 				restore_current_blog();
 				?>
-				<p class="view"><?php
+				<p class="view">
+				<?php
 					/* translators: 1: site URL, 2: login URL */
 					printf( __( 'Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>' ), $url, esc_url( $login_url ) );
-				?></p>
-			<?php else: ?>
-				<p class="view"><?php
+				?>
+				</p>
+			<?php else : ?>
+				<p class="view">
+				<?php
 					/* translators: 1: login URL, 2: network home URL */
 					printf( __( 'Your account is now activated. <a href="%1$s">Log in</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url( 'wp-login.php', 'login' ), network_home_url() );
-				?></p>
-			<?php endif;
-		}
+				?>
+				</p>
+			<?php
+			endif;
 	}
+}
 	?>
 	</div>
 </div>
@@ -158,4 +166,5 @@ get_header( 'wp-activate' );
 	var key_input = document.getElementById('key');
 	key_input && key_input.focus();
 </script>
-<?php get_footer( 'wp-activate' );
+<?php
+get_footer( 'wp-activate' );

@@ -163,7 +163,7 @@ class WP_Customize_Section {
 		}
 
 		$this->manager = $manager;
-		$this->id = $id;
+		$this->id      = $id;
 		if ( empty( $this->active_callback ) ) {
 			$this->active_callback = array( $this, 'active_callback' );
 		}
@@ -182,7 +182,7 @@ class WP_Customize_Section {
 	 */
 	final public function active() {
 		$section = $this;
-		$active = call_user_func( $this->active_callback, $this );
+		$active  = call_user_func( $this->active_callback, $this );
 
 		/**
 		 * Filters response of WP_Customize_Section::active().
@@ -219,10 +219,10 @@ class WP_Customize_Section {
 	 * @return array The array to be exported to the client as JSON.
 	 */
 	public function json() {
-		$array = wp_array_slice_assoc( (array) $this, array( 'id', 'description', 'priority', 'panel', 'type', 'description_hidden' ) );
-		$array['title'] = html_entity_decode( $this->title, ENT_QUOTES, get_bloginfo( 'charset' ) );
-		$array['content'] = $this->get_content();
-		$array['active'] = $this->active();
+		$array                   = wp_array_slice_assoc( (array) $this, array( 'id', 'description', 'priority', 'panel', 'type', 'description_hidden' ) );
+		$array['title']          = html_entity_decode( $this->title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+		$array['content']        = $this->get_content();
+		$array['active']         = $this->active();
 		$array['instanceNumber'] = $this->instance_number;
 
 		if ( $this->panel ) {

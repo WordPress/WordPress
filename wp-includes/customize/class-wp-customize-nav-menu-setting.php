@@ -206,9 +206,9 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return false;
 		}
 
-		$undefined = new stdClass();
+		$undefined      = new stdClass();
 		$is_placeholder = ( $this->term_id < 0 );
-		$is_dirty = ( $undefined !== $this->post_value( $undefined ) );
+		$is_dirty       = ( $undefined !== $this->post_value( $undefined ) );
 		if ( ! $is_placeholder && ! $is_dirty ) {
 			return false;
 		}
@@ -242,8 +242,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		}
 
 		$setting_value = $this->value();
-		$is_delete = ( false === $setting_value );
-		$index = -1;
+		$is_delete     = ( false === $setting_value );
+		$index         = -1;
 
 		// Find the existing menu item's position in the list.
 		foreach ( $menus as $i => $menu ) {
@@ -260,24 +260,28 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			}
 		} else {
 			// Handle menus being updated or inserted.
-			$menu_obj = (object) array_merge( array(
-				'term_id'          => $this->term_id,
-				'term_taxonomy_id' => $this->term_id,
-				'slug'             => sanitize_title( $setting_value['name'] ),
-				'count'            => 0,
-				'term_group'       => 0,
-				'taxonomy'         => self::TAXONOMY,
-				'filter'           => 'raw',
-			), $setting_value );
+			$menu_obj = (object) array_merge(
+				array(
+					'term_id'          => $this->term_id,
+					'term_taxonomy_id' => $this->term_id,
+					'slug'             => sanitize_title( $setting_value['name'] ),
+					'count'            => 0,
+					'term_group'       => 0,
+					'taxonomy'         => self::TAXONOMY,
+					'filter'           => 'raw',
+				), $setting_value
+			);
 
 			array_splice( $menus, $index, ( -1 === $index ? 0 : 1 ), array( $menu_obj ) );
 		}
 
 		// Make sure the menu objects get re-sorted after an update/insert.
 		if ( ! $is_delete && ! empty( $args['orderby'] ) ) {
-			$menus = wp_list_sort( $menus, array(
-				$args['orderby'] => 'ASC',
-			) );
+			$menus = wp_list_sort(
+				$menus, array(
+					$args['orderby'] => 'ASC',
+				)
+			);
 		}
 		// @todo add support for $args['hide_empty'] === true
 
@@ -353,7 +357,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return $menu_obj;
 		}
 
-		$menu_obj = (object) array_merge( array(
+		$menu_obj = (object) array_merge(
+			array(
 				'term_id'          => $this->term_id,
 				'term_taxonomy_id' => $this->term_id,
 				'slug'             => sanitize_title( $setting_value['name'] ),
@@ -361,7 +366,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				'term_group'       => 0,
 				'taxonomy'         => self::TAXONOMY,
 				'filter'           => 'raw',
-			), $setting_value );
+			), $setting_value
+		);
 
 		return $menu_obj;
 	}
@@ -379,7 +385,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			return $nav_menu_options;
 		}
 
-		$menu = $this->value();
+		$menu             = $this->value();
 		$nav_menu_options = $this->filter_nav_menu_options_value(
 			$nav_menu_options,
 			$this->term_id,
@@ -418,8 +424,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			'parent'      => 0,
 			'auto_add'    => false,
 		);
-		$value = array_merge( $default, $value );
-		$value = wp_array_slice_assoc( $value, array_keys( $default ) );
+		$value   = array_merge( $default, $value );
+		$value   = wp_array_slice_assoc( $value, array_keys( $default ) );
 
 		$value['name']        = trim( esc_html( $value['name'] ) ); // This sanitization code is used in wp-admin/nav-menus.php.
 		$value['description'] = sanitize_text_field( $value['description'] );
@@ -494,23 +500,23 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 					$this->update_error  = $r;
 				} else {
 					$this->update_status = 'deleted';
-					$auto_add = false;
+					$auto_add            = false;
 				}
 			}
 		} else {
 			// Insert or update menu.
-			$menu_data = wp_array_slice_assoc( $value, array( 'description', 'parent' ) );
+			$menu_data              = wp_array_slice_assoc( $value, array( 'description', 'parent' ) );
 			$menu_data['menu-name'] = $value['name'];
 
-			$menu_id = $is_placeholder ? 0 : $this->term_id;
-			$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
-			$original_name = $menu_data['menu-name'];
+			$menu_id              = $is_placeholder ? 0 : $this->term_id;
+			$r                    = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
+			$original_name        = $menu_data['menu-name'];
 			$name_conflict_suffix = 1;
 			while ( is_wp_error( $r ) && 'menu_exists' === $r->get_error_code() ) {
 				$name_conflict_suffix += 1;
 				/* translators: 1: original menu name, 2: duplicate count */
 				$menu_data['menu-name'] = sprintf( __( '%1$s (%2$d)' ), $original_name, $name_conflict_suffix );
-				$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
+				$r                      = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			}
 
 			if ( is_wp_error( $r ) ) {
@@ -565,7 +571,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				}
 
 				$widget_instance['nav_menu'] = $this->term_id;
-				$updated_widget_instance = $this->manager->widgets->sanitize_widget_js_instance( $widget_instance );
+				$updated_widget_instance     = $this->manager->widgets->sanitize_widget_js_instance( $widget_instance );
 				$this->manager->set_post_value( $nav_menu_widget_setting->id, $updated_widget_instance );
 				$nav_menu_widget_setting->save();
 
@@ -633,7 +639,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			$data['widget_nav_menu_updates'],
 			$this->_widget_nav_menu_updates
 		);
-		$this->_widget_nav_menu_updates = array();
+		$this->_widget_nav_menu_updates  = array();
 
 		return $data;
 	}

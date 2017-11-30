@@ -24,7 +24,7 @@ _deprecated_file(
 		printf(
 			/* translators: 1: blog name, 2: WordPress */
 			__( '%1$s is proudly powered by %2$s' ),
-			get_bloginfo('name'),
+			get_bloginfo( 'name' ),
 			'<a href="https://wordpress.org/">WordPress</a>'
 		);
 		?>

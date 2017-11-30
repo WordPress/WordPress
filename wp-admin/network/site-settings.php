@@ -10,28 +10,31 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'manage_sites' ) )
+if ( ! current_user_can( 'manage_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to edit this site.' ) );
+}
 
 get_current_screen()->add_help_tab( get_site_screen_help_tab_args() );
 get_current_screen()->set_help_sidebar( get_site_screen_help_sidebar_content() );
 
 $id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 
-if ( ! $id )
-	wp_die( __('Invalid site ID.') );
+if ( ! $id ) {
+	wp_die( __( 'Invalid site ID.' ) );
+}
 
 $details = get_site( $id );
 if ( ! $details ) {
 	wp_die( __( 'The requested site does not exist.' ) );
 }
 
-if ( !can_edit_network( $details->site_id ) )
+if ( ! can_edit_network( $details->site_id ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
+}
 
 $is_main_site = is_main_site( $id );
 
-if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_array( $_POST['option'] ) ) {
+if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] && is_array( $_POST['option'] ) ) {
 	check_admin_referer( 'edit-site' );
 
 	switch_to_blog( $id );
@@ -40,8 +43,9 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 	foreach ( (array) $_POST['option'] as $key => $val ) {
 		$key = wp_unslash( $key );
 		$val = wp_unslash( $val );
-		if ( $key === 0 || is_array( $val ) || in_array($key, $skip_options) )
+		if ( $key === 0 || is_array( $val ) || in_array( $key, $skip_options ) ) {
 			continue; // Avoids "0 is a protected WP option and may not be modified" error when edit blog options
+		}
 		update_option( $key, $val );
 	}
 
@@ -56,20 +60,28 @@ if ( isset($_REQUEST['action']) && 'update-site' == $_REQUEST['action'] && is_ar
 	do_action( 'wpmu_update_blog_options', $id );
 
 	restore_current_blog();
-	wp_redirect( add_query_arg( array( 'update' => 'updated', 'id' => $id ), 'site-settings.php') );
+	wp_redirect(
+		add_query_arg(
+			array(
+				'update' => 'updated',
+				'id'     => $id,
+			), 'site-settings.php'
+		)
+	);
 	exit;
 }
 
-if ( isset($_GET['update']) ) {
+if ( isset( $_GET['update'] ) ) {
 	$messages = array();
-	if ( 'updated' == $_GET['update'] )
-		$messages[] = __('Site options updated.');
+	if ( 'updated' == $_GET['update'] ) {
+		$messages[] = __( 'Site options updated.' );
+	}
 }
 
 /* translators: %s: site name */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
-$parent_file = 'sites.php';
+$parent_file  = 'sites.php';
 $submenu_file = 'sites.php';
 
 require( ABSPATH . 'wp-admin/admin-header.php' );
@@ -82,58 +94,64 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 
 <?php
 
-network_edit_site_nav( array(
-	'blog_id'  => $id,
-	'selected' => 'site-settings'
-) );
+network_edit_site_nav(
+	array(
+		'blog_id'  => $id,
+		'selected' => 'site-settings',
+	)
+);
 
 if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg )
+	foreach ( $messages as $msg ) {
 		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
-} ?>
+	}
+}
+?>
 <form method="post" action="site-settings.php?action=update-site">
 	<?php wp_nonce_field( 'edit-site' ); ?>
-	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
+	<input type="hidden" name="id" value="<?php echo esc_attr( $id ); ?>" />
 	<table class="form-table">
 		<?php
 		$blog_prefix = $wpdb->get_blog_prefix( $id );
-		$sql = "SELECT * FROM {$blog_prefix}options
+		$sql         = "SELECT * FROM {$blog_prefix}options
 			WHERE option_name NOT LIKE %s
 			AND option_name NOT LIKE %s";
-		$query = $wpdb->prepare( $sql,
+		$query       = $wpdb->prepare(
+			$sql,
 			$wpdb->esc_like( '_' ) . '%',
 			'%' . $wpdb->esc_like( 'user_roles' )
 		);
-		$options = $wpdb->get_results( $query );
+		$options     = $wpdb->get_results( $query );
 		foreach ( $options as $option ) {
-			if ( $option->option_name == 'default_role' )
+			if ( $option->option_name == 'default_role' ) {
 				$editblog_default_role = $option->option_value;
+			}
 			$disabled = false;
-			$class = 'all-options';
+			$class    = 'all-options';
 			if ( is_serialized( $option->option_value ) ) {
 				if ( is_serialized_string( $option->option_value ) ) {
 					$option->option_value = esc_html( maybe_unserialize( $option->option_value ) );
 				} else {
 					$option->option_value = 'SERIALIZED DATA';
-					$disabled = true;
-					$class = 'all-options disabled';
+					$disabled             = true;
+					$class                = 'all-options disabled';
 				}
 			}
 			if ( strpos( $option->option_value, "\n" ) !== false ) {
 			?>
 				<tr class="form-field">
-					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ) ?>"><?php echo ucwords( str_replace( "_", " ", $option->option_name ) ) ?></label></th>
-					<td><textarea class="<?php echo $class; ?>" rows="5" cols="40" name="option[<?php echo esc_attr( $option->option_name ) ?>]" id="<?php echo esc_attr( $option->option_name ) ?>"<?php disabled( $disabled ) ?>><?php echo esc_textarea( $option->option_value ) ?></textarea></td>
+					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ); ?>"><?php echo ucwords( str_replace( '_', ' ', $option->option_name ) ); ?></label></th>
+					<td><textarea class="<?php echo $class; ?>" rows="5" cols="40" name="option[<?php echo esc_attr( $option->option_name ); ?>]" id="<?php echo esc_attr( $option->option_name ); ?>"<?php disabled( $disabled ); ?>><?php echo esc_textarea( $option->option_value ); ?></textarea></td>
 				</tr>
 			<?php
 			} else {
 			?>
 				<tr class="form-field">
-					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ) ?>"><?php echo esc_html( ucwords( str_replace( "_", " ", $option->option_name ) ) ); ?></label></th>
+					<th scope="row"><label for="<?php echo esc_attr( $option->option_name ); ?>"><?php echo esc_html( ucwords( str_replace( '_', ' ', $option->option_name ) ) ); ?></label></th>
 					<?php if ( $is_main_site && in_array( $option->option_name, array( 'siteurl', 'home' ) ) ) { ?>
-					<td><code><?php echo esc_html( $option->option_value ) ?></code></td>
+					<td><code><?php echo esc_html( $option->option_value ); ?></code></td>
 					<?php } else { ?>
-					<td><input class="<?php echo $class; ?>" name="option[<?php echo esc_attr( $option->option_name ) ?>]" type="text" id="<?php echo esc_attr( $option->option_name ) ?>" value="<?php echo esc_attr( $option->option_value ) ?>" size="40" <?php disabled( $disabled ) ?> /></td>
+					<td><input class="<?php echo $class; ?>" name="option[<?php echo esc_attr( $option->option_name ); ?>]" type="text" id="<?php echo esc_attr( $option->option_name ); ?>" value="<?php echo esc_attr( $option->option_value ); ?>" size="40" <?php disabled( $disabled ); ?> /></td>
 					<?php } ?>
 				</tr>
 			<?php

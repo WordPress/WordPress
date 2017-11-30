@@ -256,13 +256,13 @@ final class WP_Comment {
 	 */
 	public function get_children( $args = array() ) {
 		$defaults = array(
-			'format' => 'tree',
-			'status' => 'all',
+			'format'       => 'tree',
+			'status'       => 'all',
 			'hierarchical' => 'threaded',
-			'orderby' => '',
+			'orderby'      => '',
 		);
 
-		$_args = wp_parse_args( $args, $defaults );
+		$_args           = wp_parse_args( $args, $defaults );
 		$_args['parent'] = $this->comment_ID;
 
 		if ( is_null( $this->children ) ) {
@@ -276,7 +276,7 @@ final class WP_Comment {
 		if ( 'flat' === $_args['format'] ) {
 			$children = array();
 			foreach ( $this->children as $child ) {
-				$child_args = $_args;
+				$child_args           = $_args;
 				$child_args['format'] = 'flat';
 				// get_children() resets this value automatically.
 				unset( $child_args['parent'] );

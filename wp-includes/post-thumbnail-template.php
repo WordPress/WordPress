@@ -72,19 +72,22 @@ function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
  * @param WP_Query $wp_query Optional. A WP_Query instance. Defaults to the $wp_query global.
  */
 function update_post_thumbnail_cache( $wp_query = null ) {
-	if ( ! $wp_query )
+	if ( ! $wp_query ) {
 		$wp_query = $GLOBALS['wp_query'];
+	}
 
-	if ( $wp_query->thumbnails_cached )
+	if ( $wp_query->thumbnails_cached ) {
 		return;
+	}
 
 	$thumb_ids = array();
 	foreach ( $wp_query->posts as $post ) {
-		if ( $id = get_post_thumbnail_id( $post->ID ) )
+		if ( $id = get_post_thumbnail_id( $post->ID ) ) {
 			$thumb_ids[] = $id;
+		}
 	}
 
-	if ( ! empty ( $thumb_ids ) ) {
+	if ( ! empty( $thumb_ids ) ) {
 		_prime_post_caches( $thumb_ids, false, true );
 	}
 
@@ -145,8 +148,9 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 *                                        and height values (in that order). Default 'post-thumbnail'.
 		 */
 		do_action( 'begin_fetch_post_thumbnail_html', $post->ID, $post_thumbnail_id, $size );
-		if ( in_the_loop() )
+		if ( in_the_loop() ) {
 			update_post_thumbnail_cache();
+		}
 		$html = wp_get_attachment_image( $post_thumbnail_id, $size, false, $attr );
 
 		/**

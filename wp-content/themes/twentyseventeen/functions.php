@@ -59,43 +59,51 @@ function twentyseventeen_setup() {
 	$GLOBALS['content_width'] = 525;
 
 	// This theme uses wp_nav_menu() in two locations.
-	register_nav_menus( array(
-		'top'    => __( 'Top Menu', 'twentyseventeen' ),
-		'social' => __( 'Social Links Menu', 'twentyseventeen' ),
-	) );
+	register_nav_menus(
+		array(
+			'top'    => __( 'Top Menu', 'twentyseventeen' ),
+			'social' => __( 'Social Links Menu', 'twentyseventeen' ),
+		)
+	);
 
 	/*
 	 * Switch default core markup for search form, comment form, and comments
 	 * to output valid HTML5.
 	 */
-	add_theme_support( 'html5', array(
-		'comment-form',
-		'comment-list',
-		'gallery',
-		'caption',
-	) );
+	add_theme_support(
+		'html5', array(
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+		)
+	);
 
 	/*
 	 * Enable support for Post Formats.
 	 *
 	 * See: https://codex.wordpress.org/Post_Formats
 	 */
-	add_theme_support( 'post-formats', array(
-		'aside',
-		'image',
-		'video',
-		'quote',
-		'link',
-		'gallery',
-		'audio',
-	) );
+	add_theme_support(
+		'post-formats', array(
+			'aside',
+			'image',
+			'video',
+			'quote',
+			'link',
+			'gallery',
+			'audio',
+		)
+	);
 
 	// Add theme support for Custom Logo.
-	add_theme_support( 'custom-logo', array(
-		'width'       => 250,
-		'height'      => 250,
-		'flex-width'  => true,
-	) );
+	add_theme_support(
+		'custom-logo', array(
+			'width'      => 250,
+			'height'     => 250,
+			'flex-width' => true,
+		)
+	);
 
 	// Add theme support for selective refresh for widgets.
 	add_theme_support( 'customize-selective-refresh-widgets' );
@@ -103,12 +111,12 @@ function twentyseventeen_setup() {
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, and column width.
- 	 */
+	  */
 	add_editor_style( array( 'assets/css/editor-style.css', twentyseventeen_fonts_url() ) );
 
 	// Define and register starter content to showcase the theme on new sites.
 	$starter_content = array(
-		'widgets' => array(
+		'widgets'     => array(
 			// Place three core-defined widgets in the sidebar area.
 			'sidebar-1' => array(
 				'text_business_info',
@@ -129,15 +137,15 @@ function twentyseventeen_setup() {
 		),
 
 		// Specify the core-defined pages to create and add custom thumbnails to some of them.
-		'posts' => array(
+		'posts'       => array(
 			'home',
-			'about' => array(
+			'about'            => array(
 				'thumbnail' => '{{image-sandwich}}',
 			),
-			'contact' => array(
+			'contact'          => array(
 				'thumbnail' => '{{image-espresso}}',
 			),
-			'blog' => array(
+			'blog'             => array(
 				'thumbnail' => '{{image-coffee}}',
 			),
 			'homepage-section' => array(
@@ -149,27 +157,27 @@ function twentyseventeen_setup() {
 		'attachments' => array(
 			'image-espresso' => array(
 				'post_title' => _x( 'Espresso', 'Theme starter content', 'twentyseventeen' ),
-				'file' => 'assets/images/espresso.jpg', // URL relative to the template directory.
+				'file'       => 'assets/images/espresso.jpg', // URL relative to the template directory.
 			),
 			'image-sandwich' => array(
 				'post_title' => _x( 'Sandwich', 'Theme starter content', 'twentyseventeen' ),
-				'file' => 'assets/images/sandwich.jpg',
+				'file'       => 'assets/images/sandwich.jpg',
 			),
-			'image-coffee' => array(
+			'image-coffee'   => array(
 				'post_title' => _x( 'Coffee', 'Theme starter content', 'twentyseventeen' ),
-				'file' => 'assets/images/coffee.jpg',
+				'file'       => 'assets/images/coffee.jpg',
 			),
 		),
 
 		// Default to a static front page and assign the front and posts pages.
-		'options' => array(
-			'show_on_front' => 'page',
-			'page_on_front' => '{{home}}',
+		'options'     => array(
+			'show_on_front'  => 'page',
+			'page_on_front'  => '{{home}}',
 			'page_for_posts' => '{{blog}}',
 		),
 
 		// Set the front page section theme mods to the IDs of the core-registered pages.
-		'theme_mods' => array(
+		'theme_mods'  => array(
 			'panel_1' => '{{homepage-section}}',
 			'panel_2' => '{{about}}',
 			'panel_3' => '{{blog}}',
@@ -177,10 +185,10 @@ function twentyseventeen_setup() {
 		),
 
 		// Set up nav menus for each of the two areas registered in the theme.
-		'nav_menus' => array(
+		'nav_menus'   => array(
 			// Assign a menu to the "top" location.
-			'top' => array(
-				'name' => __( 'Top Menu', 'twentyseventeen' ),
+			'top'    => array(
+				'name'  => __( 'Top Menu', 'twentyseventeen' ),
 				'items' => array(
 					'link_home', // Note that the core "home" page is actually a link in case a static front page is not used.
 					'page_about',
@@ -191,7 +199,7 @@ function twentyseventeen_setup() {
 
 			// Assign a menu to the "social" location.
 			'social' => array(
-				'name' => __( 'Social Links Menu', 'twentyseventeen' ),
+				'name'  => __( 'Social Links Menu', 'twentyseventeen' ),
 				'items' => array(
 					'link_yelp',
 					'link_facebook',
@@ -311,35 +319,41 @@ add_filter( 'wp_resource_hints', 'twentyseventeen_resource_hints', 10, 2 );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function twentyseventeen_widgets_init() {
-	register_sidebar( array(
-		'name'          => __( 'Blog Sidebar', 'twentyseventeen' ),
-		'id'            => 'sidebar-1',
-		'description'   => __( 'Add widgets here to appear in your sidebar on blog posts and archive pages.', 'twentyseventeen' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Blog Sidebar', 'twentyseventeen' ),
+			'id'            => 'sidebar-1',
+			'description'   => __( 'Add widgets here to appear in your sidebar on blog posts and archive pages.', 'twentyseventeen' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 
-	register_sidebar( array(
-		'name'          => __( 'Footer 1', 'twentyseventeen' ),
-		'id'            => 'sidebar-2',
-		'description'   => __( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer 1', 'twentyseventeen' ),
+			'id'            => 'sidebar-2',
+			'description'   => __( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 
-	register_sidebar( array(
-		'name'          => __( 'Footer 2', 'twentyseventeen' ),
-		'id'            => 'sidebar-3',
-		'description'   => __( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
-	) );
+	register_sidebar(
+		array(
+			'name'          => __( 'Footer 2', 'twentyseventeen' ),
+			'id'            => 'sidebar-3',
+			'description'   => __( 'Add widgets here to appear in your footer.', 'twentyseventeen' ),
+			'before_widget' => '<section id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
 }
 add_action( 'widgets_init', 'twentyseventeen_widgets_init' );
 
@@ -357,7 +371,8 @@ function twentyseventeen_excerpt_more( $link ) {
 		return $link;
 	}
 
-	$link = sprintf( '<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
+	$link = sprintf(
+		'<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
 		esc_url( get_permalink( get_the_ID() ) ),
 		/* translators: %s: Name of current post */
 		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ), get_the_title( get_the_ID() ) )
@@ -407,7 +422,8 @@ function twentyseventeen_colors_css_wrap() {
 	<style type="text/css" id="custom-theme-colors" <?php echo $customize_preview_data_hue; ?>>
 		<?php echo twentyseventeen_custom_colors_css(); ?>
 	</style>
-<?php }
+<?php
+}
 add_action( 'wp_head', 'twentyseventeen_colors_css_wrap' );
 
 /**
@@ -442,14 +458,19 @@ function twentyseventeen_scripts() {
 	wp_enqueue_script( 'twentyseventeen-skip-link-focus-fix', get_theme_file_uri( '/assets/js/skip-link-focus-fix.js' ), array(), '1.0', true );
 
 	$twentyseventeen_l10n = array(
-		'quote'          => twentyseventeen_get_svg( array( 'icon' => 'quote-right' ) ),
+		'quote' => twentyseventeen_get_svg( array( 'icon' => 'quote-right' ) ),
 	);
 
 	if ( has_nav_menu( 'top' ) ) {
 		wp_enqueue_script( 'twentyseventeen-navigation', get_theme_file_uri( '/assets/js/navigation.js' ), array( 'jquery' ), '1.0', true );
-		$twentyseventeen_l10n['expand']         = __( 'Expand child menu', 'twentyseventeen' );
-		$twentyseventeen_l10n['collapse']       = __( 'Collapse child menu', 'twentyseventeen' );
-		$twentyseventeen_l10n['icon']           = twentyseventeen_get_svg( array( 'icon' => 'angle-down', 'fallback' => true ) );
+		$twentyseventeen_l10n['expand']   = __( 'Expand child menu', 'twentyseventeen' );
+		$twentyseventeen_l10n['collapse'] = __( 'Collapse child menu', 'twentyseventeen' );
+		$twentyseventeen_l10n['icon']     = twentyseventeen_get_svg(
+			array(
+				'icon'     => 'angle-down',
+				'fallback' => true,
+			)
+		);
 	}
 
 	wp_enqueue_script( 'twentyseventeen-global', get_theme_file_uri( '/assets/js/global.js' ), array( 'jquery' ), '1.0', true );
@@ -544,7 +565,7 @@ add_filter( 'wp_get_attachment_image_attributes', 'twentyseventeen_post_thumbnai
 function twentyseventeen_front_page_template( $template ) {
 	return is_home() ? '' : $template;
 }
-add_filter( 'frontpage_template',  'twentyseventeen_front_page_template' );
+add_filter( 'frontpage_template', 'twentyseventeen_front_page_template' );
 
 /**
  * Modifies tag cloud widget arguments to display all tags in the same font size

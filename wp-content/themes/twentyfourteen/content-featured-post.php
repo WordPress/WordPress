@@ -12,12 +12,12 @@
 	<a class="post-thumbnail" href="<?php the_permalink(); ?>">
 	<?php
 		// Output the featured image.
-		if ( has_post_thumbnail() ) :
-			if ( 'grid' == get_theme_mod( 'featured_content_layout' ) ) {
-				the_post_thumbnail();
-			} else {
-				the_post_thumbnail( 'twentyfourteen-full-width' );
-			}
+	if ( has_post_thumbnail() ) :
+		if ( 'grid' == get_theme_mod( 'featured_content_layout' ) ) {
+			the_post_thumbnail();
+		} else {
+			the_post_thumbnail( 'twentyfourteen-full-width' );
+		}
 		endif;
 	?>
 	</a>
@@ -29,6 +29,6 @@
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 
-		<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">','</a></h1>' ); ?>
+		<?php the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' ); ?>
 	</header><!-- .entry-header -->
 </article><!-- #post-## -->

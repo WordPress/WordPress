@@ -125,7 +125,7 @@ class WP_Network {
 	 * @param WP_Network|object $network A network object.
 	 */
 	public function __construct( $network ) {
-		foreach( get_object_vars( $network ) as $key => $value ) {
+		foreach ( get_object_vars( $network ) as $key => $value ) {
 			$this->$key = $value;
 		}
 
@@ -254,13 +254,15 @@ class WP_Network {
 
 			$main_site_id = wp_cache_get( $cache_key, 'site-options' );
 			if ( false === $main_site_id ) {
-				$_sites = get_sites( array(
-					'fields'     => 'ids',
-					'number'     => 1,
-					'domain'     => $this->domain,
-					'path'       => $this->path,
-					'network_id' => $this->id,
-				) );
+				$_sites       = get_sites(
+					array(
+						'fields'     => 'ids',
+						'number'     => 1,
+						'domain'     => $this->domain,
+						'path'       => $this->path,
+						'network_id' => $this->id,
+					)
+				);
 				$main_site_id = ! empty( $_sites ) ? array_shift( $_sites ) : 0;
 
 				wp_cache_add( $cache_key, $main_site_id, 'site-options' );
@@ -282,7 +284,7 @@ class WP_Network {
 			return;
 		}
 
-		$default = ucfirst( $this->domain );
+		$default         = ucfirst( $this->domain );
 		$this->site_name = get_network_option( $this->id, 'site_name', $default );
 	}
 
@@ -350,12 +352,14 @@ class WP_Network {
 		if ( wp_using_ext_object_cache() ) {
 			$using_paths = wp_cache_get( 'networks_have_paths', 'site-options' );
 			if ( false === $using_paths ) {
-				$using_paths = get_networks( array(
-					'number'       => 1,
-					'count'        => true,
-					'path__not_in' => '/',
-				) );
-				wp_cache_add( 'networks_have_paths', $using_paths, 'site-options'  );
+				$using_paths = get_networks(
+					array(
+						'number'       => 1,
+						'count'        => true,
+						'path__not_in' => '/',
+					)
+				);
+				wp_cache_add( 'networks_have_paths', $using_paths, 'site-options' );
 			}
 		}
 
@@ -413,13 +417,15 @@ class WP_Network {
 		}
 
 		if ( ! $using_paths ) {
-			$networks = get_networks( array(
-				'number'     => 1,
-				'orderby'    => array(
-					'domain_length' => 'DESC',
-				),
-				'domain__in' => $domains,
-			) );
+			$networks = get_networks(
+				array(
+					'number'     => 1,
+					'orderby'    => array(
+						'domain_length' => 'DESC',
+					),
+					'domain__in' => $domains,
+				)
+			);
 
 			if ( ! empty( $networks ) ) {
 				return array_shift( $networks );
@@ -428,14 +434,16 @@ class WP_Network {
 			return false;
 		}
 
-		$networks = get_networks( array(
-			'orderby'    => array(
-				'domain_length' => 'DESC',
-				'path_length'   => 'DESC',
-			),
-			'domain__in' => $domains,
-			'path__in'   => $paths,
-		) );
+		$networks = get_networks(
+			array(
+				'orderby'    => array(
+					'domain_length' => 'DESC',
+					'path_length'   => 'DESC',
+				),
+				'domain__in' => $domains,
+				'path__in'   => $paths,
+			)
+		);
 
 		/*
 		 * Domains are sorted by length of domain, then by length of path.

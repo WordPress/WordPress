@@ -400,7 +400,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
  *                        Default 'default'.
  * @return string The translated singular or plural form.
  */
-function _nx($single, $plural, $number, $context, $domain = 'default') {
+function _nx( $single, $plural, $number, $context, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
 	$translation  = $translations->translate_plural( $single, $plural, $number, $context );
 
@@ -449,7 +449,14 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  * }
  */
 function _n_noop( $singular, $plural, $domain = null ) {
-	return array( 0 => $singular, 1 => $plural, 'singular' => $singular, 'plural' => $plural, 'context' => null, 'domain' => $domain );
+	return array(
+		0          => $singular,
+		1          => $plural,
+		'singular' => $singular,
+		'plural'   => $plural,
+		'context'  => null,
+		'domain'   => $domain,
+	);
 }
 
 /**
@@ -461,8 +468,8 @@ function _n_noop( $singular, $plural, $domain = null ) {
  * Example of a generic phrase which is disambiguated via the context parameter:
  *
  *     $messages = array(
- *      	'people'  => _nx_noop( '%s group', '%s groups', 'people', 'text-domain' ),
- *      	'animals' => _nx_noop( '%s group', '%s groups', 'animals', 'text-domain' ),
+ *          'people'  => _nx_noop( '%s group', '%s groups', 'people', 'text-domain' ),
+ *          'animals' => _nx_noop( '%s group', '%s groups', 'animals', 'text-domain' ),
  *     );
  *     ...
  *     $message = $messages[ $type ];
@@ -488,7 +495,15 @@ function _n_noop( $singular, $plural, $domain = null ) {
  * }
  */
 function _nx_noop( $singular, $plural, $context, $domain = null ) {
-	return array( 0 => $singular, 1 => $plural, 2 => $context, 'singular' => $singular, 'plural' => $plural, 'context' => $context, 'domain' => $domain );
+	return array(
+		0          => $singular,
+		1          => $plural,
+		2          => $context,
+		'singular' => $singular,
+		'plural'   => $plural,
+		'context'  => $context,
+		'domain'   => $domain,
+	);
 }
 
 /**
@@ -512,13 +527,15 @@ function _nx_noop( $singular, $plural, $context, $domain = null ) {
  * @return string Either $single or $plural translated text.
  */
 function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) {
-	if ( $nooped_plural['domain'] )
+	if ( $nooped_plural['domain'] ) {
 		$domain = $nooped_plural['domain'];
+	}
 
-	if ( $nooped_plural['context'] )
+	if ( $nooped_plural['context'] ) {
 		return _nx( $nooped_plural['singular'], $nooped_plural['plural'], $count, $nooped_plural['context'], $domain );
-	else
+	} else {
 		return _n( $nooped_plural['singular'], $nooped_plural['plural'], $count, $domain );
+	}
 }
 
 /**
@@ -581,17 +598,22 @@ function load_textdomain( $domain, $mofile ) {
 	 */
 	$mofile = apply_filters( 'load_textdomain_mofile', $mofile, $domain );
 
-	if ( !is_readable( $mofile ) ) return false;
+	if ( ! is_readable( $mofile ) ) {
+		return false;
+	}
 
 	$mo = new MO();
-	if ( !$mo->import_from_file( $mofile ) ) return false;
+	if ( ! $mo->import_from_file( $mofile ) ) {
+		return false;
+	}
 
-	if ( isset( $l10n[$domain] ) )
-		$mo->merge_with( $l10n[$domain] );
+	if ( isset( $l10n[ $domain ] ) ) {
+		$mo->merge_with( $l10n[ $domain ] );
+	}
 
 	unset( $l10n_unloaded[ $domain ] );
 
-	$l10n[$domain] = &$mo;
+	$l10n[ $domain ] = &$mo;
 
 	return true;
 }
@@ -637,8 +659,8 @@ function unload_textdomain( $domain ) {
 	 */
 	do_action( 'unload_textdomain', $domain );
 
-	if ( isset( $l10n[$domain] ) ) {
-		unset( $l10n[$domain] );
+	if ( isset( $l10n[ $domain ] ) ) {
+		unset( $l10n[ $domain ] );
 
 		$l10n_unloaded[ $domain ] = true;
 
@@ -671,7 +693,7 @@ function load_default_textdomain( $locale = null ) {
 
 	$return = load_textdomain( 'default', WP_LANG_DIR . "/$locale.mo" );
 
-	if ( ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) && ! file_exists(  WP_LANG_DIR . "/admin-$locale.mo" ) ) {
+	if ( ( is_multisite() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) && ! file_exists( WP_LANG_DIR . "/admin-$locale.mo" ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/ms-$locale.mo" );
 		return $return;
 	}
@@ -680,8 +702,9 @@ function load_default_textdomain( $locale = null ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/admin-$locale.mo" );
 	}
 
-	if ( is_network_admin() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) )
+	if ( is_network_admin() || ( defined( 'WP_INSTALLING_NETWORK' ) && WP_INSTALLING_NETWORK ) ) {
 		load_textdomain( 'default', WP_LANG_DIR . "/admin-network-$locale.mo" );
+	}
 
 	return $return;
 }
@@ -816,8 +839,9 @@ function load_theme_textdomain( $domain, $path = false ) {
  * @return bool True when the theme textdomain is successfully loaded, false otherwise.
  */
 function load_child_theme_textdomain( $domain, $path = false ) {
-	if ( ! $path )
+	if ( ! $path ) {
 		$path = get_stylesheet_directory();
+	}
 	return load_theme_textdomain( $domain, $path );
 }
 
@@ -990,7 +1014,7 @@ function is_textdomain_loaded( $domain ) {
  * @return string Translated role name on success, original name on failure.
  */
 function translate_user_role( $name ) {
-	return translate_with_gettext_context( before_last_bar($name), 'User role' );
+	return translate_with_gettext_context( before_last_bar( $name ), 'User role' );
 }
 
 /**
@@ -1042,20 +1066,24 @@ function get_available_languages( $dir = null ) {
  * @return array Array of language data.
  */
 function wp_get_installed_translations( $type ) {
-	if ( $type !== 'themes' && $type !== 'plugins' && $type !== 'core' )
+	if ( $type !== 'themes' && $type !== 'plugins' && $type !== 'core' ) {
 		return array();
+	}
 
 	$dir = 'core' === $type ? '' : "/$type";
 
-	if ( ! is_dir( WP_LANG_DIR ) )
+	if ( ! is_dir( WP_LANG_DIR ) ) {
 		return array();
+	}
 
-	if ( $dir && ! is_dir( WP_LANG_DIR . $dir ) )
+	if ( $dir && ! is_dir( WP_LANG_DIR . $dir ) ) {
 		return array();
+	}
 
 	$files = scandir( WP_LANG_DIR . $dir );
-	if ( ! $files )
+	if ( ! $files ) {
 		return array();
+	}
 
 	$language_data = array();
 
@@ -1069,7 +1097,7 @@ function wp_get_installed_translations( $type ) {
 		if ( ! preg_match( '/(?:(.+)-)?([a-z]{2,3}(?:_[A-Z]{2})?(?:_[a-z0-9]+)?).po/', $file, $match ) ) {
 			continue;
 		}
-		if ( ! in_array( substr( $file, 0, -3 ) . '.mo', $files ) )  {
+		if ( ! in_array( substr( $file, 0, -3 ) . '.mo', $files ) ) {
 			continue;
 		}
 
@@ -1091,12 +1119,14 @@ function wp_get_installed_translations( $type ) {
  * @return array PO file headers.
  */
 function wp_get_pomo_file_data( $po_file ) {
-	$headers = get_file_data( $po_file, array(
-		'POT-Creation-Date'  => '"POT-Creation-Date',
-		'PO-Revision-Date'   => '"PO-Revision-Date',
-		'Project-Id-Version' => '"Project-Id-Version',
-		'X-Generator'        => '"X-Generator',
-	) );
+	$headers = get_file_data(
+		$po_file, array(
+			'POT-Creation-Date'  => '"POT-Creation-Date',
+			'PO-Revision-Date'   => '"PO-Revision-Date',
+			'Project-Id-Version' => '"Project-Id-Version',
+			'X-Generator'        => '"X-Generator',
+		)
+	);
 	foreach ( $headers as $header => $value ) {
 		// Remove possible contextual '\n' and closing double quote.
 		$headers[ $header ] = preg_replace( '~(\\\n)?"$~', '', $value );
@@ -1133,16 +1163,18 @@ function wp_get_pomo_file_data( $po_file ) {
  */
 function wp_dropdown_languages( $args = array() ) {
 
-	$parsed_args = wp_parse_args( $args, array(
-		'id'           => 'locale',
-		'name'         => 'locale',
-		'languages'    => array(),
-		'translations' => array(),
-		'selected'     => '',
-		'echo'         => 1,
-		'show_available_translations' => true,
-		'show_option_site_default'    => false,
-	) );
+	$parsed_args = wp_parse_args(
+		$args, array(
+			'id'                          => 'locale',
+			'name'                        => 'locale',
+			'languages'                   => array(),
+			'translations'                => array(),
+			'selected'                    => '',
+			'echo'                        => 1,
+			'show_available_translations' => true,
+			'show_option_site_default'    => false,
+		)
+	);
 
 	// Bail if no ID or no name.
 	if ( ! $parsed_args['id'] || ! $parsed_args['name'] ) {
@@ -1210,7 +1242,7 @@ function wp_dropdown_languages( $args = array() ) {
 		selected( '', $parsed_args['selected'], false )
 	);
 
-	// List installed languages. 
+	// List installed languages.
 	foreach ( $languages as $language ) {
 		$structure[] = sprintf(
 			'<option value="%s" lang="%s"%s data-installed="1">%s</option>',

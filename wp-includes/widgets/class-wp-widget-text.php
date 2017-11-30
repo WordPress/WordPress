@@ -30,13 +30,13 @@ class WP_Widget_Text extends WP_Widget {
 	 * @since 2.8.0
 	 */
 	public function __construct() {
-		$widget_ops = array(
-			'classname' => 'widget_text',
-			'description' => __( 'Arbitrary text.' ),
+		$widget_ops  = array(
+			'classname'                   => 'widget_text',
+			'description'                 => __( 'Arbitrary text.' ),
 			'customize_selective_refresh' => true,
 		);
 		$control_ops = array(
-			'width' => 400,
+			'width'  => 400,
 			'height' => 350,
 		);
 		parent::__construct( 'text', __( 'Text' ), $widget_ops, $control_ops );
@@ -95,7 +95,7 @@ class WP_Widget_Text extends WP_Widget {
 			return false;
 		}
 
-		$wpautop = ! empty( $instance['filter'] );
+		$wpautop         = ! empty( $instance['filter'] );
 		$has_line_breaks = ( false !== strpos( trim( $instance['text'] ), "\n" ) );
 
 		// If auto-paragraphs are not enabled and there are line breaks, then ensure legacy mode.
@@ -116,38 +116,40 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		$doc = new DOMDocument();
-		@$doc->loadHTML( sprintf(
-			'<!DOCTYPE html><html><head><meta charset="%s"></head><body>%s</body></html>',
-			esc_attr( get_bloginfo( 'charset' ) ),
-			$instance['text']
-		) );
+		@$doc->loadHTML(
+			sprintf(
+				'<!DOCTYPE html><html><head><meta charset="%s"></head><body>%s</body></html>',
+				esc_attr( get_bloginfo( 'charset' ) ),
+				$instance['text']
+			)
+		);
 		$body = $doc->getElementsByTagName( 'body' )->item( 0 );
 
 		// See $allowedposttags.
 		$safe_elements_attributes = array(
-			'strong' => array(),
-			'em' => array(),
-			'b' => array(),
-			'i' => array(),
-			'u' => array(),
-			's' => array(),
-			'ul' => array(),
-			'ol' => array(),
-			'li' => array(),
-			'hr' => array(),
-			'abbr' => array(),
+			'strong'  => array(),
+			'em'      => array(),
+			'b'       => array(),
+			'i'       => array(),
+			'u'       => array(),
+			's'       => array(),
+			'ul'      => array(),
+			'ol'      => array(),
+			'li'      => array(),
+			'hr'      => array(),
+			'abbr'    => array(),
 			'acronym' => array(),
-			'code' => array(),
-			'dfn' => array(),
-			'a' => array(
+			'code'    => array(),
+			'dfn'     => array(),
+			'a'       => array(
 				'href' => true,
 			),
-			'img' => array(
+			'img'     => array(
 				'src' => true,
 				'alt' => true,
 			),
 		);
-		$safe_empty_elements = array( 'img', 'hr', 'iframe' );
+		$safe_empty_elements      = array( 'img', 'hr', 'iframe' );
 
 		foreach ( $body->getElementsByTagName( '*' ) as $element ) {
 			/** @var DOMElement $element */
@@ -215,7 +217,7 @@ class WP_Widget_Text extends WP_Widget {
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
-		$text = ! empty( $instance['text'] ) ? $instance['text'] : '';
+		$text                  = ! empty( $instance['text'] ) ? $instance['text'] : '';
 		$is_visual_text_widget = ( ! empty( $instance['visual'] ) && ! empty( $instance['filter'] ) );
 
 		// In 4.8.0 only, visual Text widgets get filter=content, without visual prop; upgrade instance props just-in-time.
@@ -233,7 +235,7 @@ class WP_Widget_Text extends WP_Widget {
 		 * and it applies after wpautop() to prevent corrupting HTML output added by the shortcode. When do_shortcode() is
 		 * added to 'widget_text_content' then do_shortcode() will be manually called when in legacy mode as well.
 		 */
-		$widget_text_do_shortcode_priority = has_filter( 'widget_text', 'do_shortcode' );
+		$widget_text_do_shortcode_priority       = has_filter( 'widget_text', 'do_shortcode' );
 		$should_suspend_legacy_shortcode_support = ( $is_visual_text_widget && false !== $widget_text_do_shortcode_priority );
 		if ( $should_suspend_legacy_shortcode_support ) {
 			remove_filter( 'widget_text', 'do_shortcode', $widget_text_do_shortcode_priority );
@@ -351,12 +353,14 @@ class WP_Widget_Text extends WP_Widget {
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$new_instance = wp_parse_args( $new_instance, array(
-			'title' => '',
-			'text' => '',
-			'filter' => false, // For back-compat.
-			'visual' => null, // Must be explicitly defined.
-		) );
+		$new_instance = wp_parse_args(
+			$new_instance, array(
+				'title'  => '',
+				'text'   => '',
+				'filter' => false, // For back-compat.
+				'visual' => null, // Must be explicitly defined.
+			)
+		);
 
 		$instance = $old_instance;
 
@@ -417,7 +421,7 @@ class WP_Widget_Text extends WP_Widget {
 			(array) $instance,
 			array(
 				'title' => '',
-				'text' => '',
+				'text'  => '',
 			)
 		);
 		?>

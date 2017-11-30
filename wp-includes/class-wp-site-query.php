@@ -246,10 +246,10 @@ class WP_Site_Query {
 		// Ignore the $fields argument as the queried result will be the same regardless.
 		unset( $_args['fields'] );
 
-		$key = md5( serialize( $_args ) );
+		$key          = md5( serialize( $_args ) );
 		$last_changed = wp_cache_get_last_changed( 'sites' );
 
-		$cache_key = "get_sites:$key:$last_changed";
+		$cache_key   = "get_sites:$key:$last_changed";
 		$cache_value = wp_cache_get( $cache_key, 'sites' );
 
 		if ( false === $cache_value ) {
@@ -259,12 +259,12 @@ class WP_Site_Query {
 			}
 
 			$cache_value = array(
-				'site_ids' => $site_ids,
+				'site_ids'    => $site_ids,
 				'found_sites' => $this->found_sites,
 			);
 			wp_cache_add( $cache_key, $cache_value, 'sites' );
 		} else {
-			$site_ids = $cache_value['site_ids'];
+			$site_ids          = $cache_value['site_ids'];
 			$this->found_sites = $cache_value['found_sites'];
 		}
 
@@ -345,10 +345,10 @@ class WP_Site_Query {
 
 				if ( is_int( $_key ) ) {
 					$_orderby = $_value;
-					$_order = $order;
+					$_order   = $order;
 				} else {
 					$_orderby = $_key;
-					$_order = $_value;
+					$_order   = $_value;
 				}
 
 				$parsed = $this->parse_orderby( $_orderby );
@@ -395,12 +395,12 @@ class WP_Site_Query {
 
 		// Parse site IDs for an IN clause.
 		if ( ! empty( $this->query_vars['site__in'] ) ) {
-			$this->sql_clauses['where']['site__in'] = "blog_id IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['site__in'] ) ) . ' )';
+			$this->sql_clauses['where']['site__in'] = 'blog_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['site__in'] ) ) . ' )';
 		}
 
 		// Parse site IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['site__not_in'] ) ) {
-			$this->sql_clauses['where']['site__not_in'] = "blog_id NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['site__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['site__not_in'] = 'blog_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['site__not_in'] ) ) . ' )';
 		}
 
 		$network_id = absint( $this->query_vars['network_id'] );
@@ -448,33 +448,33 @@ class WP_Site_Query {
 		}
 
 		if ( is_numeric( $this->query_vars['archived'] ) ) {
-			$archived = absint( $this->query_vars['archived'] );
-			$this->sql_clauses['where']['archived'] = $wpdb->prepare( "archived = %s ", absint( $archived ) );
+			$archived                               = absint( $this->query_vars['archived'] );
+			$this->sql_clauses['where']['archived'] = $wpdb->prepare( 'archived = %s ', absint( $archived ) );
 		}
 
 		if ( is_numeric( $this->query_vars['mature'] ) ) {
-			$mature = absint( $this->query_vars['mature'] );
-			$this->sql_clauses['where']['mature'] = $wpdb->prepare( "mature = %d ", $mature );
+			$mature                               = absint( $this->query_vars['mature'] );
+			$this->sql_clauses['where']['mature'] = $wpdb->prepare( 'mature = %d ', $mature );
 		}
 
 		if ( is_numeric( $this->query_vars['spam'] ) ) {
-			$spam = absint( $this->query_vars['spam'] );
-			$this->sql_clauses['where']['spam'] = $wpdb->prepare( "spam = %d ", $spam );
+			$spam                               = absint( $this->query_vars['spam'] );
+			$this->sql_clauses['where']['spam'] = $wpdb->prepare( 'spam = %d ', $spam );
 		}
 
 		if ( is_numeric( $this->query_vars['deleted'] ) ) {
-			$deleted = absint( $this->query_vars['deleted'] );
-			$this->sql_clauses['where']['deleted'] = $wpdb->prepare( "deleted = %d ", $deleted );
+			$deleted                               = absint( $this->query_vars['deleted'] );
+			$this->sql_clauses['where']['deleted'] = $wpdb->prepare( 'deleted = %d ', $deleted );
 		}
 
 		if ( is_numeric( $this->query_vars['public'] ) ) {
-			$public = absint( $this->query_vars['public'] );
-			$this->sql_clauses['where']['public'] = $wpdb->prepare( "public = %d ", $public );
+			$public                               = absint( $this->query_vars['public'] );
+			$this->sql_clauses['where']['public'] = $wpdb->prepare( 'public = %d ', $public );
 		}
 
 		if ( is_numeric( $this->query_vars['lang_id'] ) ) {
-			$lang_id = absint( $this->query_vars['lang_id'] );
-			$this->sql_clauses['where']['lang_id'] = $wpdb->prepare( "lang_id = %d ", $lang_id );
+			$lang_id                               = absint( $this->query_vars['lang_id'] );
+			$this->sql_clauses['where']['lang_id'] = $wpdb->prepare( 'lang_id = %d ', $lang_id );
 		}
 
 		// Parse site language IDs for an IN clause.
@@ -517,7 +517,7 @@ class WP_Site_Query {
 
 		$date_query = $this->query_vars['date_query'];
 		if ( ! empty( $date_query ) && is_array( $date_query ) ) {
-			$this->date_query = new WP_Date_Query( $date_query, 'registered' );
+			$this->date_query                         = new WP_Date_Query( $date_query, 'registered' );
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 
@@ -537,11 +537,11 @@ class WP_Site_Query {
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
 
-		$fields = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
-		$join = isset( $clauses['join'] ) ? $clauses['join'] : '';
-		$where = isset( $clauses['where'] ) ? $clauses['where'] : '';
+		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
+		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
+		$where   = isset( $clauses['where'] ) ? $clauses['where'] : '';
 		$orderby = isset( $clauses['orderby'] ) ? $clauses['orderby'] : '';
-		$limits = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
+		$limits  = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
 		$groupby = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
 
 		if ( $where ) {
@@ -650,11 +650,11 @@ class WP_Site_Query {
 		switch ( $orderby ) {
 			case 'site__in':
 				$site__in = implode( ',', array_map( 'absint', $this->query_vars['site__in'] ) );
-				$parsed = "FIELD( {$wpdb->blogs}.blog_id, $site__in )";
+				$parsed   = "FIELD( {$wpdb->blogs}.blog_id, $site__in )";
 				break;
 			case 'network__in':
 				$network__in = implode( ',', array_map( 'absint', $this->query_vars['network__in'] ) );
-				$parsed = "FIELD( {$wpdb->blogs}.site_id, $network__in )";
+				$parsed      = "FIELD( {$wpdb->blogs}.site_id, $network__in )";
 				break;
 			case 'domain':
 			case 'last_updated':

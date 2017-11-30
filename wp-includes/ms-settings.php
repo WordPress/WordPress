@@ -52,14 +52,14 @@ ms_subdomain_constants();
 
 // This block will process a request if the current network or current site objects
 // have not been populated in the global scope through something like `sunrise.php`.
-if ( !isset( $current_site ) || !isset( $current_blog ) ) {
+if ( ! isset( $current_site ) || ! isset( $current_blog ) ) {
 
 	$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
 	if ( substr( $domain, -3 ) == ':80' ) {
-		$domain = substr( $domain, 0, -3 );
+		$domain               = substr( $domain, 0, -3 );
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
 	} elseif ( substr( $domain, -4 ) == ':443' ) {
-		$domain = substr( $domain, 0, -4 );
+		$domain               = substr( $domain, 0, -4 );
 		$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 	}
 
@@ -96,9 +96,9 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 
 $wpdb->set_prefix( $table_prefix, false ); // $table_prefix can be set in sunrise.php
 $wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
-$table_prefix = $wpdb->get_blog_prefix();
+$table_prefix       = $wpdb->get_blog_prefix();
 $_wp_switched_stack = array();
-$switched = false;
+$switched           = false;
 
 // need to init cache again after blog_id is set
 wp_start_object_cache();

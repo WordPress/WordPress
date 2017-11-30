@@ -42,23 +42,25 @@ function twentythirteen_custom_header_setup() {
 	 * Default custom headers packaged with the theme.
 	 * %s is a placeholder for the theme template directory URI.
 	 */
-	register_default_headers( array(
-		'circle' => array(
-			'url'           => '%s/images/headers/circle.png',
-			'thumbnail_url' => '%s/images/headers/circle-thumbnail.png',
-			'description'   => _x( 'Circle', 'header image description', 'twentythirteen' )
-		),
-		'diamond' => array(
-			'url'           => '%s/images/headers/diamond.png',
-			'thumbnail_url' => '%s/images/headers/diamond-thumbnail.png',
-			'description'   => _x( 'Diamond', 'header image description', 'twentythirteen' )
-		),
-		'star' => array(
-			'url'           => '%s/images/headers/star.png',
-			'thumbnail_url' => '%s/images/headers/star-thumbnail.png',
-			'description'   => _x( 'Star', 'header image description', 'twentythirteen' )
-		),
-	) );
+	register_default_headers(
+		array(
+			'circle'  => array(
+				'url'           => '%s/images/headers/circle.png',
+				'thumbnail_url' => '%s/images/headers/circle-thumbnail.png',
+				'description'   => _x( 'Circle', 'header image description', 'twentythirteen' ),
+			),
+			'diamond' => array(
+				'url'           => '%s/images/headers/diamond.png',
+				'thumbnail_url' => '%s/images/headers/diamond-thumbnail.png',
+				'description'   => _x( 'Diamond', 'header image description', 'twentythirteen' ),
+			),
+			'star'    => array(
+				'url'           => '%s/images/headers/star.png',
+				'thumbnail_url' => '%s/images/headers/star-thumbnail.png',
+				'description'   => _x( 'Star', 'header image description', 'twentythirteen' ),
+			),
+		)
+	);
 }
 add_action( 'after_setup_theme', 'twentythirteen_custom_header_setup', 11 );
 
@@ -88,49 +90,50 @@ function twentythirteen_header_style() {
 	$text_color   = get_header_textcolor();
 
 	// If no custom options for text are set, let's bail.
-	if ( empty( $header_image ) && $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
+	if ( empty( $header_image ) && $text_color == get_theme_support( 'custom-header', 'default-text-color' ) ) {
 		return;
+	}
 
 	// If we get this far, we have custom styles.
 	?>
 	<style type="text/css" id="twentythirteen-header-css">
 	<?php
-		if ( ! empty( $header_image ) ) :
+	if ( ! empty( $header_image ) ) :
 	?>
+	.site-header {
+		background: url(<?php header_image(); ?>) no-repeat scroll top;
+		background-size: 1600px auto;
+	}
+	@media (max-width: 767px) {
 		.site-header {
-			background: url(<?php header_image(); ?>) no-repeat scroll top;
-			background-size: 1600px auto;
+			background-size: 768px auto;
 		}
-		@media (max-width: 767px) {
-			.site-header {
-				background-size: 768px auto;
-			}
+	}
+	@media (max-width: 359px) {
+		.site-header {
+			background-size: 360px auto;
 		}
-		@media (max-width: 359px) {
-			.site-header {
-				background-size: 360px auto;
-			}
-		}
+	}
 	<?php
 		endif;
 
 		// Has the text been hidden?
-		if ( ! display_header_text() ) :
+	if ( ! display_header_text() ) :
 	?>
-		.site-title,
-		.site-description {
-			position: absolute;
-			clip: rect(1px 1px 1px 1px); /* IE7 */
-			clip: rect(1px, 1px, 1px, 1px);
-		}
+	.site-title,
+	.site-description {
+		position: absolute;
+		clip: rect(1px 1px 1px 1px); /* IE7 */
+		clip: rect(1px, 1px, 1px, 1px);
+	}
 	<?php
-			if ( empty( $header_image ) ) :
+	if ( empty( $header_image ) ) :
 	?>
-		.site-header .home-link {
-			min-height: 0;
-		}
+	.site-header .home-link {
+	min-height: 0;
+	}
 	<?php
-			endif;
+		endif;
 
 		// If the user has set a custom color for the text, use that.
 		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
@@ -161,7 +164,8 @@ function twentythirteen_admin_header_style() {
 		<?php
 		if ( ! empty( $header_image ) ) {
 			echo 'background: url(' . esc_url( $header_image ) . ') no-repeat scroll top; background-size: 1600px auto;';
-		} ?>
+		}
+		?>
 		padding: 0 20px;
 	}
 	#headimg .home-link {
@@ -173,7 +177,8 @@ function twentythirteen_admin_header_style() {
 		<?php
 		if ( ! empty( $header_image ) || display_header_text() ) {
 			echo 'min-height: 230px;';
-		} ?>
+		}
+		?>
 		width: 100%;
 	}
 	<?php if ( ! display_header_text() ) : ?>
@@ -227,4 +232,5 @@ function twentythirteen_admin_header_image() {
 			<h2 id="desc" class="displaying-header-text" style="<?php echo esc_attr( $style ); ?>"><?php bloginfo( 'description' ); ?></h2>
 		</div>
 	</div>
-<?php }
+<?php
+}

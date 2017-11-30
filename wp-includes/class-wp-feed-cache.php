@@ -26,7 +26,7 @@ class WP_Feed_Cache extends SimplePie_Cache {
 	 * @param string $extension 'spi' or 'spc'.
 	 * @return WP_Feed_Cache_Transient Feed cache handler object that uses transients.
 	 */
-	public function create($location, $filename, $extension) {
-		return new WP_Feed_Cache_Transient($location, $filename, $extension);
+	public function create( $location, $filename, $extension ) {
+		return new WP_Feed_Cache_Transient( $location, $filename, $extension );
 	}
 }

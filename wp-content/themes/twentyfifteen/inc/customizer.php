@@ -21,61 +21,81 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
-		$wp_customize->selective_refresh->add_partial( 'blogname', array(
-			'selector' => '.site-title a',
-			'container_inclusive' => false,
-			'render_callback' => 'twentyfifteen_customize_partial_blogname',
-		) );
-		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
-			'selector' => '.site-description',
-			'container_inclusive' => false,
-			'render_callback' => 'twentyfifteen_customize_partial_blogdescription',
-		) );
+		$wp_customize->selective_refresh->add_partial(
+			'blogname', array(
+				'selector'            => '.site-title a',
+				'container_inclusive' => false,
+				'render_callback'     => 'twentyfifteen_customize_partial_blogname',
+			)
+		);
+		$wp_customize->selective_refresh->add_partial(
+			'blogdescription', array(
+				'selector'            => '.site-description',
+				'container_inclusive' => false,
+				'render_callback'     => 'twentyfifteen_customize_partial_blogdescription',
+			)
+		);
 	}
 
 	// Add color scheme setting and control.
-	$wp_customize->add_setting( 'color_scheme', array(
-		'default'           => 'default',
-		'sanitize_callback' => 'twentyfifteen_sanitize_color_scheme',
-		'transport'         => 'postMessage',
-	) );
+	$wp_customize->add_setting(
+		'color_scheme', array(
+			'default'           => 'default',
+			'sanitize_callback' => 'twentyfifteen_sanitize_color_scheme',
+			'transport'         => 'postMessage',
+		)
+	);
 
-	$wp_customize->add_control( 'color_scheme', array(
-		'label'    => __( 'Base Color Scheme', 'twentyfifteen' ),
-		'section'  => 'colors',
-		'type'     => 'select',
-		'choices'  => twentyfifteen_get_color_scheme_choices(),
-		'priority' => 1,
-	) );
+	$wp_customize->add_control(
+		'color_scheme', array(
+			'label'    => __( 'Base Color Scheme', 'twentyfifteen' ),
+			'section'  => 'colors',
+			'type'     => 'select',
+			'choices'  => twentyfifteen_get_color_scheme_choices(),
+			'priority' => 1,
+		)
+	);
 
 	// Add custom header and sidebar text color setting and control.
-	$wp_customize->add_setting( 'sidebar_textcolor', array(
-		'default'           => $color_scheme[4],
-		'sanitize_callback' => 'sanitize_hex_color',
-		'transport'         => 'postMessage',
-	) );
+	$wp_customize->add_setting(
+		'sidebar_textcolor', array(
+			'default'           => $color_scheme[4],
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		)
+	);
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'sidebar_textcolor', array(
-		'label'       => __( 'Header and Sidebar Text Color', 'twentyfifteen' ),
-		'description' => __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
-		'section'     => 'colors',
-	) ) );
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize, 'sidebar_textcolor', array(
+				'label'       => __( 'Header and Sidebar Text Color', 'twentyfifteen' ),
+				'description' => __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
+				'section'     => 'colors',
+			)
+		)
+	);
 
 	// Remove the core header textcolor control, as it shares the sidebar text color.
 	$wp_customize->remove_control( 'header_textcolor' );
 
 	// Add custom header and sidebar background color setting and control.
-	$wp_customize->add_setting( 'header_background_color', array(
-		'default'           => $color_scheme[1],
-		'sanitize_callback' => 'sanitize_hex_color',
-		'transport'         => 'postMessage',
-	) );
+	$wp_customize->add_setting(
+		'header_background_color', array(
+			'default'           => $color_scheme[1],
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'postMessage',
+		)
+	);
 
-	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'header_background_color', array(
-		'label'       => __( 'Header and Sidebar Background Color', 'twentyfifteen' ),
-		'description' => __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
-		'section'     => 'colors',
-	) ) );
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize, 'header_background_color', array(
+				'label'       => __( 'Header and Sidebar Background Color', 'twentyfifteen' ),
+				'description' => __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' ),
+				'section'     => 'colors',
+			)
+		)
+	);
 
 	// Add an additional description to the header image section.
 	$wp_customize->get_section( 'header_image' )->description = __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' );
@@ -145,134 +165,136 @@ function twentyfifteen_get_color_schemes() {
 	 *     }
 	 * }
 	 */
-	return apply_filters( 'twentyfifteen_color_schemes', array(
-		'default' => array(
-			'label'  => __( 'Default', 'twentyfifteen' ),
-			'colors' => array(
-				'#f1f1f1',
-				'#ffffff',
-				'#ffffff',
-				'#333333',
-				'#333333',
-				'#f7f7f7',
+	return apply_filters(
+		'twentyfifteen_color_schemes', array(
+			'default' => array(
+				'label'  => __( 'Default', 'twentyfifteen' ),
+				'colors' => array(
+					'#f1f1f1',
+					'#ffffff',
+					'#ffffff',
+					'#333333',
+					'#333333',
+					'#f7f7f7',
+				),
 			),
-		),
-		'dark'    => array(
-			'label'  => __( 'Dark', 'twentyfifteen' ),
-			'colors' => array(
-				'#111111',
-				'#202020',
-				'#202020',
-				'#bebebe',
-				'#bebebe',
-				'#1b1b1b',
+			'dark'    => array(
+				'label'  => __( 'Dark', 'twentyfifteen' ),
+				'colors' => array(
+					'#111111',
+					'#202020',
+					'#202020',
+					'#bebebe',
+					'#bebebe',
+					'#1b1b1b',
+				),
 			),
-		),
-		'yellow'  => array(
-			'label'  => __( 'Yellow', 'twentyfifteen' ),
-			'colors' => array(
-				'#f4ca16',
-				'#ffdf00',
-				'#ffffff',
-				'#111111',
-				'#111111',
-				'#f1f1f1',
+			'yellow'  => array(
+				'label'  => __( 'Yellow', 'twentyfifteen' ),
+				'colors' => array(
+					'#f4ca16',
+					'#ffdf00',
+					'#ffffff',
+					'#111111',
+					'#111111',
+					'#f1f1f1',
+				),
 			),
-		),
-		'pink'    => array(
-			'label'  => __( 'Pink', 'twentyfifteen' ),
-			'colors' => array(
-				'#ffe5d1',
-				'#e53b51',
-				'#ffffff',
-				'#352712',
-				'#ffffff',
-				'#f1f1f1',
+			'pink'    => array(
+				'label'  => __( 'Pink', 'twentyfifteen' ),
+				'colors' => array(
+					'#ffe5d1',
+					'#e53b51',
+					'#ffffff',
+					'#352712',
+					'#ffffff',
+					'#f1f1f1',
+				),
 			),
-		),
-		'purple'  => array(
-			'label'  => __( 'Purple', 'twentyfifteen' ),
-			'colors' => array(
-				'#674970',
-				'#2e2256',
-				'#ffffff',
-				'#2e2256',
-				'#ffffff',
-				'#f1f1f1',
+			'purple'  => array(
+				'label'  => __( 'Purple', 'twentyfifteen' ),
+				'colors' => array(
+					'#674970',
+					'#2e2256',
+					'#ffffff',
+					'#2e2256',
+					'#ffffff',
+					'#f1f1f1',
+				),
 			),
-		),
-		'blue'   => array(
-			'label'  => __( 'Blue', 'twentyfifteen' ),
-			'colors' => array(
-				'#e9f2f9',
-				'#55c3dc',
-				'#ffffff',
-				'#22313f',
-				'#ffffff',
-				'#f1f1f1',
+			'blue'    => array(
+				'label'  => __( 'Blue', 'twentyfifteen' ),
+				'colors' => array(
+					'#e9f2f9',
+					'#55c3dc',
+					'#ffffff',
+					'#22313f',
+					'#ffffff',
+					'#f1f1f1',
+				),
 			),
-		),
-	) );
+		)
+	);
 }
 
 if ( ! function_exists( 'twentyfifteen_get_color_scheme' ) ) :
-/**
- * Get the current Twenty Fifteen color scheme.
- *
- * @since Twenty Fifteen 1.0
- *
- * @return array An associative array of either the current or default color scheme hex values.
- */
-function twentyfifteen_get_color_scheme() {
-	$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
-	$color_schemes       = twentyfifteen_get_color_schemes();
+	/**
+	 * Get the current Twenty Fifteen color scheme.
+	 *
+	 * @since Twenty Fifteen 1.0
+	 *
+	 * @return array An associative array of either the current or default color scheme hex values.
+	 */
+	function twentyfifteen_get_color_scheme() {
+		$color_scheme_option = get_theme_mod( 'color_scheme', 'default' );
+		$color_schemes       = twentyfifteen_get_color_schemes();
 
-	if ( array_key_exists( $color_scheme_option, $color_schemes ) ) {
-		return $color_schemes[ $color_scheme_option ]['colors'];
+		if ( array_key_exists( $color_scheme_option, $color_schemes ) ) {
+			return $color_schemes[ $color_scheme_option ]['colors'];
+		}
+
+		return $color_schemes['default']['colors'];
 	}
-
-	return $color_schemes['default']['colors'];
-}
 endif; // twentyfifteen_get_color_scheme
 
 if ( ! function_exists( 'twentyfifteen_get_color_scheme_choices' ) ) :
-/**
- * Returns an array of color scheme choices registered for Twenty Fifteen.
- *
- * @since Twenty Fifteen 1.0
- *
- * @return array Array of color schemes.
- */
-function twentyfifteen_get_color_scheme_choices() {
-	$color_schemes                = twentyfifteen_get_color_schemes();
-	$color_scheme_control_options = array();
+	/**
+	 * Returns an array of color scheme choices registered for Twenty Fifteen.
+	 *
+	 * @since Twenty Fifteen 1.0
+	 *
+	 * @return array Array of color schemes.
+	 */
+	function twentyfifteen_get_color_scheme_choices() {
+		$color_schemes                = twentyfifteen_get_color_schemes();
+		$color_scheme_control_options = array();
 
-	foreach ( $color_schemes as $color_scheme => $value ) {
-		$color_scheme_control_options[ $color_scheme ] = $value['label'];
+		foreach ( $color_schemes as $color_scheme => $value ) {
+			$color_scheme_control_options[ $color_scheme ] = $value['label'];
+		}
+
+		return $color_scheme_control_options;
 	}
-
-	return $color_scheme_control_options;
-}
 endif; // twentyfifteen_get_color_scheme_choices
 
 if ( ! function_exists( 'twentyfifteen_sanitize_color_scheme' ) ) :
-/**
- * Sanitization callback for color schemes.
- *
- * @since Twenty Fifteen 1.0
- *
- * @param string $value Color scheme name value.
- * @return string Color scheme name.
- */
-function twentyfifteen_sanitize_color_scheme( $value ) {
-	$color_schemes = twentyfifteen_get_color_scheme_choices();
+	/**
+	 * Sanitization callback for color schemes.
+	 *
+	 * @since Twenty Fifteen 1.0
+	 *
+	 * @param string $value Color scheme name value.
+	 * @return string Color scheme name.
+	 */
+	function twentyfifteen_sanitize_color_scheme( $value ) {
+		$color_schemes = twentyfifteen_get_color_scheme_choices();
 
-	if ( ! array_key_exists( $value, $color_schemes ) ) {
-		$value = 'default';
+		if ( ! array_key_exists( $value, $color_schemes ) ) {
+			$value = 'default';
+		}
+
+		return $value;
 	}
-
-	return $value;
-}
 endif; // twentyfifteen_sanitize_color_scheme
 
 /**
@@ -295,7 +317,7 @@ function twentyfifteen_color_scheme_css() {
 	// Convert main and sidebar text hex color to rgba.
 	$color_textcolor_rgb         = twentyfifteen_hex2rgb( $color_scheme[3] );
 	$color_sidebar_textcolor_rgb = twentyfifteen_hex2rgb( $color_scheme[4] );
-	$colors = array(
+	$colors                      = array(
 		'background_color'            => $color_scheme[0],
 		'header_background_color'     => $color_scheme[1],
 		'box_background_color'        => $color_scheme[2],
@@ -348,20 +370,22 @@ add_action( 'customize_preview_init', 'twentyfifteen_customize_preview_js' );
  * @return string Color scheme CSS.
  */
 function twentyfifteen_get_color_scheme_css( $colors ) {
-	$colors = wp_parse_args( $colors, array(
-		'background_color'            => '',
-		'header_background_color'     => '',
-		'box_background_color'        => '',
-		'textcolor'                   => '',
-		'secondary_textcolor'         => '',
-		'border_color'                => '',
-		'border_focus_color'          => '',
-		'sidebar_textcolor'           => '',
-		'sidebar_border_color'        => '',
-		'sidebar_border_focus_color'  => '',
-		'secondary_sidebar_textcolor' => '',
-		'meta_box_background_color'   => '',
-	) );
+	$colors = wp_parse_args(
+		$colors, array(
+			'background_color'            => '',
+			'header_background_color'     => '',
+			'box_background_color'        => '',
+			'textcolor'                   => '',
+			'secondary_textcolor'         => '',
+			'border_color'                => '',
+			'border_focus_color'          => '',
+			'sidebar_textcolor'           => '',
+			'sidebar_border_color'        => '',
+			'sidebar_border_focus_color'  => '',
+			'secondary_sidebar_textcolor' => '',
+			'meta_box_background_color'   => '',
+		)
+	);
 
 	$css = <<<CSS
 	/* Color Scheme */

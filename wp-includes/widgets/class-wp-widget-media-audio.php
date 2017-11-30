@@ -22,26 +22,30 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 	 * @since  4.8.0
 	 */
 	public function __construct() {
-		parent::__construct( 'media_audio', __( 'Audio' ), array(
-			'description' => __( 'Displays an audio player.' ),
-			'mime_type'   => 'audio',
-		) );
+		parent::__construct(
+			'media_audio', __( 'Audio' ), array(
+				'description' => __( 'Displays an audio player.' ),
+				'mime_type'   => 'audio',
+			)
+		);
 
-		$this->l10n = array_merge( $this->l10n, array(
-			'no_media_selected' => __( 'No audio selected' ),
-			'add_media' => _x( 'Add Audio', 'label for button in the audio widget' ),
-			'replace_media' => _x( 'Replace Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
-			'edit_media' => _x( 'Edit Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
-			'missing_attachment' => sprintf(
-				/* translators: %s: URL to media library */
-				__( 'We can&#8217;t find that audio file. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
-				esc_url( admin_url( 'upload.php' ) )
-			),
-			/* translators: %d: widget count */
-			'media_library_state_multi' => _n_noop( 'Audio Widget (%d)', 'Audio Widget (%d)' ),
-			'media_library_state_single' => __( 'Audio Widget' ),
-			'unsupported_file_type' => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an audio file instead.' ),
-		) );
+		$this->l10n = array_merge(
+			$this->l10n, array(
+				'no_media_selected'          => __( 'No audio selected' ),
+				'add_media'                  => _x( 'Add Audio', 'label for button in the audio widget' ),
+				'replace_media'              => _x( 'Replace Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
+				'edit_media'                 => _x( 'Edit Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
+				'missing_attachment'         => sprintf(
+					/* translators: %s: URL to media library */
+					__( 'We can&#8217;t find that audio file. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
+					esc_url( admin_url( 'upload.php' ) )
+				),
+				/* translators: %d: widget count */
+				'media_library_state_multi'  => _n_noop( 'Audio Widget (%d)', 'Audio Widget (%d)' ),
+				'media_library_state_single' => __( 'Audio Widget' ),
+				'unsupported_file_type'      => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an audio file instead.' ),
+			)
+		);
 	}
 
 	/**
@@ -59,14 +63,14 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 			parent::get_instance_schema(),
 			array(
 				'preload' => array(
-					'type' => 'string',
-					'enum' => array( 'none', 'auto', 'metadata' ),
-					'default' => 'none',
+					'type'        => 'string',
+					'enum'        => array( 'none', 'auto', 'metadata' ),
+					'default'     => 'none',
 					'description' => __( 'Preload' ),
 				),
-				'loop' => array(
-					'type' => 'boolean',
-					'default' => false,
+				'loop'    => array(
+					'type'        => 'boolean',
+					'default'     => false,
 					'description' => __( 'Loop' ),
 				),
 			)
@@ -74,9 +78,9 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 
 		foreach ( wp_get_audio_extensions() as $audio_extension ) {
 			$schema[ $audio_extension ] = array(
-				'type' => 'string',
-				'default' => '',
-				'format' => 'uri',
+				'type'        => 'string',
+				'default'     => '',
+				'format'      => 'uri',
 				/* translators: %s: audio extension */
 				'description' => sprintf( __( 'URL to the %s audio source file' ), $audio_extension ),
 			);
@@ -94,7 +98,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 	 * @return void
 	 */
 	public function render_media( $instance ) {
-		$instance = array_merge( wp_list_pluck( $this->get_instance_schema(), 'default' ), $instance );
+		$instance   = array_merge( wp_list_pluck( $this->get_instance_schema(), 'default' ), $instance );
 		$attachment = null;
 
 		if ( $this->is_attachment_with_mime_type( $instance['attachment_id'], $this->widget_options['mime_type'] ) ) {
@@ -192,7 +196,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 					<p><?php _e( 'Unable to preview media due to an unknown error.' ); ?></p>
 				</div>
 			<# } else if ( data.model && data.model.src ) { #>
-				<?php wp_underscore_audio_template() ?>
+				<?php wp_underscore_audio_template(); ?>
 			<# } #>
 		</script>
 		<?php

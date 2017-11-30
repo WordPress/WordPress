@@ -35,7 +35,10 @@ class Walker_Page extends Walker {
 	 * @see Walker::$db_fields
 	 * @todo Decouple this.
 	 */
-	public $db_fields = array( 'parent' => 'post_parent', 'id' => 'ID' );
+	public $db_fields = array(
+		'parent' => 'post_parent',
+		'id'     => 'ID',
+	);
 
 	/**
 	 * Outputs the beginning of the current level in the tree before elements are output.
@@ -57,7 +60,7 @@ class Walker_Page extends Walker {
 			$t = '';
 			$n = '';
 		}
-		$indent = str_repeat( $t, $depth );
+		$indent  = str_repeat( $t, $depth );
 		$output .= "{$n}{$indent}<ul class='children'>{$n}";
 	}
 
@@ -81,7 +84,7 @@ class Walker_Page extends Walker {
 			$t = '';
 			$n = '';
 		}
-		$indent = str_repeat( $t, $depth );
+		$indent  = str_repeat( $t, $depth );
 		$output .= "{$indent}</ul>{$n}";
 	}
 
@@ -127,7 +130,7 @@ class Walker_Page extends Walker {
 			} elseif ( $_current_page && $page->ID == $_current_page->post_parent ) {
 				$css_class[] = 'current_page_parent';
 			}
-		} elseif ( $page->ID == get_option('page_for_posts') ) {
+		} elseif ( $page->ID == get_option( 'page_for_posts' ) ) {
 			$css_class[] = 'current_page_parent';
 		}
 
@@ -153,9 +156,9 @@ class Walker_Page extends Walker {
 		}
 
 		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
-		$args['link_after'] = empty( $args['link_after'] ) ? '' : $args['link_after'];
+		$args['link_after']  = empty( $args['link_after'] ) ? '' : $args['link_after'];
 
-		$atts = array();
+		$atts         = array();
 		$atts['href'] = get_permalink( $page->ID );
 
 		/**
@@ -178,7 +181,7 @@ class Walker_Page extends Walker {
 		$attributes = '';
 		foreach ( $atts as $attr => $value ) {
 			if ( ! empty( $value ) ) {
-				$value = esc_attr( $value );
+				$value       = esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 			}
 		}
@@ -201,7 +204,7 @@ class Walker_Page extends Walker {
 			}
 
 			$date_format = empty( $args['date_format'] ) ? '' : $args['date_format'];
-			$output .= " " . mysql2date( $date_format, $time );
+			$output     .= ' ' . mysql2date( $date_format, $time );
 		}
 	}
 

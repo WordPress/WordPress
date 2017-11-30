@@ -95,8 +95,8 @@ class WP_Community_Events {
 		// include an unmodified $wp_version
 		include( ABSPATH . WPINC . '/version.php' );
 
-		$api_url      = 'http://api.wordpress.org/events/1.0/';
-		$request_args = $this->get_request_args( $location_search, $timezone );
+		$api_url                    = 'http://api.wordpress.org/events/1.0/';
+		$request_args               = $this->get_request_args( $location_search, $timezone );
 		$request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url( '/' );
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
@@ -203,7 +203,7 @@ class WP_Community_Events {
 
 		// Wrap the args in an array compatible with the second parameter of `wp_remote_get()`.
 		return array(
-			'body' => $args
+			'body' => $args,
 		);
 	}
 
@@ -339,7 +339,7 @@ class WP_Community_Events {
 
 		if ( isset( $location['ip'] ) ) {
 			$key = 'community-events-' . md5( $location['ip'] );
-		} else if ( isset( $location['latitude'], $location['longitude'] ) ) {
+		} elseif ( isset( $location['latitude'], $location['longitude'] ) ) {
 			$key = 'community-events-' . md5( $location['latitude'] . $location['longitude'] );
 		}
 
@@ -463,11 +463,13 @@ class WP_Community_Events {
 			return;
 		}
 
-		error_log( sprintf(
-			'%s: %s. Details: %s',
-			__METHOD__,
-			trim( $message, '.' ),
-			wp_json_encode( $details )
-		) );
+		error_log(
+			sprintf(
+				'%s: %s. Details: %s',
+				__METHOD__,
+				trim( $message, '.' ),
+				wp_json_encode( $details )
+			)
+		);
 	}
 }

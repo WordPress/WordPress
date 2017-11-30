@@ -45,11 +45,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	public static function test( $args = array() ) {
 
 		// First, test Imagick's extension and classes.
-		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick', false ) || ! class_exists( 'ImagickPixel', false ) )
+		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick', false ) || ! class_exists( 'ImagickPixel', false ) ) {
 			return false;
+		}
 
-		if ( version_compare( phpversion( 'imagick' ), '2.2.0', '<' ) )
+		if ( version_compare( phpversion( 'imagick' ), '2.2.0', '<' ) ) {
 			return false;
+		}
 
 		$required_methods = array(
 			'clear',
@@ -74,8 +76,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		);
 
 		// Now, test for deep requirements within Imagick.
-		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) )
+		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) ) {
 			return false;
+		}
 
 		$class_methods = array_map( 'strtolower', get_class_methods( 'Imagick' ) );
 		if ( array_diff( $required_methods, $class_methods ) ) {
@@ -103,18 +106,19 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	public static function supports_mime_type( $mime_type ) {
 		$imagick_extension = strtoupper( self::get_extension( $mime_type ) );
 
-		if ( ! $imagick_extension )
+		if ( ! $imagick_extension ) {
 			return false;
+		}
 
 		// setIteratorIndex is optional unless mime is an animated format.
 		// Here, we just say no if you are missing it and aren't loading a jpeg.
-		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type != 'image/jpeg' )
+		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type != 'image/jpeg' ) {
 				return false;
+		}
 
 		try {
 			return ( (bool) @Imagick::queryFormats( $imagick_extension ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return false;
 		}
 	}
@@ -127,11 +131,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return true|WP_Error True if loaded; WP_Error on failure.
 	 */
 	public function load() {
-		if ( $this->image instanceof Imagick )
+		if ( $this->image instanceof Imagick ) {
 			return true;
+		}
 
-		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
-			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
+		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) ) {
+			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?' ), $this->file );
+		}
 
 		/*
 		 * Even though Imagick uses less PHP memory than GD, set higher limit
@@ -140,9 +146,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		wp_raise_memory_limit( 'image' );
 
 		try {
-			$this->image = new Imagick();
+			$this->image    = new Imagick();
 			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
-			$filename = $this->file;
+			$filename       = $this->file;
 
 			if ( 'pdf' == $file_extension ) {
 				$filename = $this->pdf_setup();
@@ -152,16 +158,17 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			// only applies correctly before the image is read.
 			$this->image->readImage( $filename );
 
-			if ( ! $this->image->valid() )
-				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
+			if ( ! $this->image->valid() ) {
+				return new WP_Error( 'invalid_image', __( 'File is not an image.' ), $this->file );
+			}
 
 			// Select the first frame to handle animated images properly
-			if ( is_callable( array( $this->image, 'setIteratorIndex' ) ) )
-				$this->image->setIteratorIndex(0);
+			if ( is_callable( array( $this->image, 'setIteratorIndex' ) ) ) {
+				$this->image->setIteratorIndex( 0 );
+			}
 
 			$this->mime_type = $this->get_mime_type( $this->image->getImageFormat() );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'invalid_image', $e->getMessage(), $this->file );
 		}
 
@@ -193,12 +200,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			if ( 'image/jpeg' == $this->mime_type ) {
 				$this->image->setImageCompressionQuality( $quality );
 				$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
-			}
-			else {
+			} else {
 				$this->image->setImageCompressionQuality( $quality );
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_quality_error', $e->getMessage() );
 		}
 
@@ -217,20 +222,21 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$size = null;
-		if ( !$width || !$height ) {
+		if ( ! $width || ! $height ) {
 			try {
 				$size = $this->image->getImageGeometry();
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'invalid_image', __( 'Could not read image size.' ), $this->file );
 			}
 		}
 
-		if ( ! $width )
+		if ( ! $width ) {
 			$width = $size['width'];
+		}
 
-		if ( ! $height )
+		if ( ! $height ) {
 			$height = $size['height'];
+		}
 
 		return parent::update_size( $width, $height );
 	}
@@ -250,12 +256,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return bool|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
-		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) )
+		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) ) {
 			return true;
+		}
 
 		$dims = image_resize_dimensions( $this->size['width'], $this->size['height'], $max_w, $max_h, $crop );
-		if ( ! $dims )
-			return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
+		if ( ! $dims ) {
+			return new WP_Error( 'error_getting_dimensions', __( 'Could not calculate resized image dimensions' ) );
+		}
 		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
 
 		if ( $crop ) {
@@ -335,7 +343,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 * unless we would be resampling to a scale smaller than 128x128.
 			 */
 			if ( is_callable( array( $this->image, 'sampleImage' ) ) ) {
-				$resize_ratio = ( $dst_w / $this->size['width'] ) * ( $dst_h / $this->size['height'] );
+				$resize_ratio  = ( $dst_w / $this->size['width'] ) * ( $dst_h / $this->size['height'] );
 				$sample_factor = 5;
 
 				if ( $resize_ratio < .111 && ( $dst_w * $sample_factor > 128 && $dst_h * $sample_factor > 128 ) ) {
@@ -398,9 +406,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			if ( is_callable( array( $this->image, 'setInterlaceScheme' ) ) && defined( 'Imagick::INTERLACE_NO' ) ) {
 				$this->image->setInterlaceScheme( Imagick::INTERLACE_NO );
 			}
-
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_resize_error', $e->getMessage() );
 		}
 	}
@@ -428,13 +434,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return array An array of resized images' metadata by size.
 	 */
 	public function multi_resize( $sizes ) {
-		$metadata = array();
-		$orig_size = $this->size;
+		$metadata   = array();
+		$orig_size  = $this->size;
 		$orig_image = $this->image->getImage();
 
 		foreach ( $sizes as $size => $size_data ) {
-			if ( ! $this->image )
+			if ( ! $this->image ) {
 				$this->image = $orig_image->getImage();
+			}
 
 			if ( ! isset( $size_data['width'] ) && ! isset( $size_data['height'] ) ) {
 				continue;
@@ -452,7 +459,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			}
 
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
-			$duplicate = ( ( $orig_size['width'] == $size_data['width'] ) && ( $orig_size['height'] == $size_data['height'] ) );
+			$duplicate     = ( ( $orig_size['width'] == $size_data['width'] ) && ( $orig_size['height'] == $size_data['height'] ) );
 
 			if ( ! is_wp_error( $resize_result ) && ! $duplicate ) {
 				$resized = $this->_save( $this->image );
@@ -463,7 +470,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 				if ( ! is_wp_error( $resized ) && $resized ) {
 					unset( $resized['path'] );
-					$metadata[$size] = $resized;
+					$metadata[ $size ] = $resized;
 				}
 			}
 
@@ -497,15 +504,17 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		try {
 			$this->image->cropImage( $src_w, $src_h, $src_x, $src_y );
-			$this->image->setImagePage( $src_w, $src_h, 0, 0);
+			$this->image->setImagePage( $src_w, $src_h, 0, 0 );
 
 			if ( $dst_w || $dst_h ) {
 				// If destination width/height isn't specified, use same as
 				// width/height from source.
-				if ( ! $dst_w )
+				if ( ! $dst_w ) {
 					$dst_w = $src_w;
-				if ( ! $dst_h )
+				}
+				if ( ! $dst_h ) {
 					$dst_h = $src_h;
+				}
 
 				$thumb_result = $this->thumbnail_image( $dst_w, $dst_h );
 				if ( is_wp_error( $thumb_result ) ) {
@@ -514,8 +523,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 				return $this->update_size();
 			}
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_crop_error', $e->getMessage() );
 		}
 		return $this->update_size();
@@ -535,7 +543,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 * (GD rotates counter-clockwise)
 		 */
 		try {
-			$this->image->rotateImage( new ImagickPixel('none'), 360-$angle );
+			$this->image->rotateImage( new ImagickPixel( 'none' ), 360 - $angle );
 
 			// Normalise Exif orientation data so that display is consistent across devices.
 			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
@@ -544,12 +552,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 			// Since this changes the dimensions of the image, update the size.
 			$result = $this->update_size();
-			if ( is_wp_error( $result ) )
+			if ( is_wp_error( $result ) ) {
 				return $result;
+			}
 
 			$this->image->setImagePage( $this->size['width'], $this->size['height'], 0, 0 );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_rotate_error', $e->getMessage() );
 		}
 		return true;
@@ -566,13 +574,14 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 */
 	public function flip( $horz, $vert ) {
 		try {
-			if ( $horz )
+			if ( $horz ) {
 				$this->image->flipImage();
+			}
 
-			if ( $vert )
+			if ( $vert ) {
 				$this->image->flopImage();
-		}
-		catch ( Exception $e ) {
+			}
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_flip_error', $e->getMessage() );
 		}
 		return true;
@@ -591,13 +600,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		$saved = $this->_save( $this->image, $destfilename, $mime_type );
 
 		if ( ! is_wp_error( $saved ) ) {
-			$this->file = $saved['path'];
+			$this->file      = $saved['path'];
 			$this->mime_type = $saved['mime-type'];
 
 			try {
 				$this->image->setImageFormat( strtoupper( $this->get_extension( $this->mime_type ) ) );
-			}
-			catch ( Exception $e ) {
+			} catch ( Exception $e ) {
 				return new WP_Error( 'image_save_error', $e->getMessage(), $this->file );
 			}
 		}
@@ -606,7 +614,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 *
 	 * @param Imagick $image
 	 * @param string $filename
 	 * @param string $mime_type
@@ -615,8 +622,9 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	protected function _save( $image, $filename = null, $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( $filename, $mime_type );
 
-		if ( ! $filename )
+		if ( ! $filename ) {
 			$filename = $this->generate_filename( null, null, $extension );
+		}
 
 		try {
 			// Store initial Format
@@ -627,13 +635,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 			// Reset original Format
 			$this->image->setImageFormat( $orig_format );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_save_error', $e->getMessage(), $filename );
 		}
 
 		// Set correct file permissions
-		$stat = stat( dirname( $filename ) );
+		$stat  = stat( dirname( $filename ) );
 		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
 		@ chmod( $filename, $perms );
 
@@ -668,8 +675,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 			// Reset Image to original Format
 			$this->image->setImageFormat( $this->get_extension( $this->mime_type ) );
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_stream_error', $e->getMessage() );
 		}
 
@@ -719,7 +725,6 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 					$this->image->removeImageProfile( $key );
 				}
 			}
-
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_strip_meta_error', $e->getMessage() );
 		}
@@ -743,8 +748,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 			// Only load the first page.
 			return $this->file . '[0]';
-		}
-		catch ( Exception $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'pdf_setup_failed', $e->getMessage(), $this->file );
 		}
 	}

@@ -17,8 +17,9 @@
  * @return array Containing the headers in the format id => UI String
  */
 function get_column_headers( $screen ) {
-	if ( is_string( $screen ) )
+	if ( is_string( $screen ) ) {
 		$screen = convert_to_screen( $screen );
+	}
 
 	static $column_headers = array();
 
@@ -98,13 +99,15 @@ function get_hidden_columns( $screen ) {
 function meta_box_prefs( $screen ) {
 	global $wp_meta_boxes;
 
-	if ( is_string( $screen ) )
+	if ( is_string( $screen ) ) {
 		$screen = convert_to_screen( $screen );
+	}
 
-	if ( empty($wp_meta_boxes[$screen->id]) )
+	if ( empty( $wp_meta_boxes[ $screen->id ] ) ) {
 		return;
+	}
 
-	$hidden = get_hidden_meta_boxes($screen);
+	$hidden = get_hidden_meta_boxes( $screen );
 
 	foreach ( array_keys( $wp_meta_boxes[ $screen->id ] ) as $context ) {
 		foreach ( array( 'high', 'core', 'default', 'low' ) as $priority ) {
@@ -112,11 +115,13 @@ function meta_box_prefs( $screen ) {
 				continue;
 			}
 			foreach ( $wp_meta_boxes[ $screen->id ][ $context ][ $priority ] as $box ) {
-				if ( false == $box || ! $box['title'] )
+				if ( false == $box || ! $box['title'] ) {
 					continue;
+				}
 				// Submit box cannot be hidden
-				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] )
+				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] ) {
 					continue;
+				}
 
 				$widget_title = $box['title'];
 
@@ -144,8 +149,9 @@ function meta_box_prefs( $screen ) {
  * @return array Hidden Meta Boxes
  */
 function get_hidden_meta_boxes( $screen ) {
-	if ( is_string( $screen ) )
+	if ( is_string( $screen ) ) {
 		$screen = convert_to_screen( $screen );
+	}
 
 	$hidden = get_user_option( "metaboxhidden_{$screen->id}" );
 
@@ -155,10 +161,11 @@ function get_hidden_meta_boxes( $screen ) {
 	if ( $use_defaults ) {
 		$hidden = array();
 		if ( 'post' == $screen->base ) {
-			if ( 'post' == $screen->post_type || 'page' == $screen->post_type || 'attachment' == $screen->post_type )
-				$hidden = array('slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv');
-			else
+			if ( 'post' == $screen->post_type || 'page' == $screen->post_type || 'attachment' == $screen->post_type ) {
+				$hidden = array( 'slugdiv', 'trackbacksdiv', 'postcustom', 'postexcerpt', 'commentstatusdiv', 'commentsdiv', 'authordiv', 'revisionsdiv' );
+			} else {
 				$hidden = array( 'slugdiv' );
+			}
 		}
 
 		/**
@@ -196,8 +203,9 @@ function get_hidden_meta_boxes( $screen ) {
 function add_screen_option( $option, $args = array() ) {
 	$current_screen = get_current_screen();
 
-	if ( ! $current_screen )
+	if ( ! $current_screen ) {
 		return;
+	}
 
 	$current_screen->add_option( $option, $args );
 }
@@ -214,8 +222,9 @@ function add_screen_option( $option, $args = array() ) {
 function get_current_screen() {
 	global $current_screen;
 
-	if ( ! isset( $current_screen ) )
+	if ( ! isset( $current_screen ) ) {
 		return null;
+	}
 
 	return $current_screen;
 }
@@ -226,7 +235,7 @@ function get_current_screen() {
  * @since 3.0.0
  *
  * @param mixed $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen,
- *	                       or an existing screen object.
+ *                         or an existing screen object.
  */
 function set_current_screen( $hook_name = '' ) {
 	WP_Screen::get( $hook_name )->set_current_screen();

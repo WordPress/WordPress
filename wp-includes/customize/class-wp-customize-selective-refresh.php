@@ -188,12 +188,12 @@ final class WP_Customize_Selective_Refresh {
 		}
 
 		$switched_locale = switch_to_locale( get_user_locale() );
-		$l10n = array(
+		$l10n            = array(
 			'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
-			'clickEditMenu' => __( 'Click to edit this menu.' ),
-			'clickEditWidget' => __( 'Click to edit this widget.' ),
-			'clickEditTitle' => __( 'Click to edit the site title.' ),
-			'clickEditMisc' => __( 'Click to edit this element.' ),
+			'clickEditMenu'    => __( 'Click to edit this menu.' ),
+			'clickEditWidget'  => __( 'Click to edit this widget.' ),
+			'clickEditTitle'   => __( 'Click to edit the site title.' ),
+			'clickEditMisc'    => __( 'Click to edit this element.' ),
 			/* translators: %s: document.write() */
 			'badDocumentWrite' => sprintf( __( '%s is forbidden' ), 'document.write()' ),
 		);
@@ -232,7 +232,7 @@ final class WP_Customize_Selective_Refresh {
 				continue;
 			}
 
-			$partial_args = false;
+			$partial_args  = false;
 			$partial_class = 'WP_Customize_Partial';
 
 			/**
@@ -415,8 +415,8 @@ final class WP_Customize_Selective_Refresh {
 			$response['errors'] = $this->triggered_errors;
 		}
 
-		$setting_validities = $this->manager->validate_setting_values( $this->manager->unsanitized_post_values() );
-		$exported_setting_validities = array_map( array( $this->manager, 'prepare_setting_validity_for_js' ), $setting_validities );
+		$setting_validities             = $this->manager->validate_setting_values( $this->manager->unsanitized_post_values() );
+		$exported_setting_validities    = array_map( array( $this->manager, 'prepare_setting_validity_for_js' ), $setting_validities );
 		$response['setting_validities'] = $exported_setting_validities;
 
 		/**

@@ -65,7 +65,8 @@ function get_bloginfo() {}
 /**
  * @ignore
  */
-function is_admin() {return true;}
+function is_admin() {
+	return true;}
 
 /**
  * @ignore
@@ -93,15 +94,15 @@ function includes_url() {}
 function wp_guess_url() {}
 
 if ( ! function_exists( 'json_encode' ) ) :
-/**
- * @ignore
- */
-function json_encode() {}
+	/**
+	 * @ignore
+	 */
+	function json_encode() {}
 endif;
 
 function get_file( $path ) {
 
-	if ( function_exists('realpath') ) {
+	if ( function_exists( 'realpath' ) ) {
 		$path = realpath( $path );
 	}
 

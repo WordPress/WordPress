@@ -18,7 +18,10 @@
  */
 class Walker_Category_Checklist extends Walker {
 	public $tree_type = 'category';
-	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id'); //TODO: decouple this
+	public $db_fields = array(
+		'parent' => 'parent',
+		'id'     => 'term_id',
+	); //TODO: decouple this
 
 	/**
 	 * Starts the list before the elements are added.
@@ -32,7 +35,7 @@ class Walker_Category_Checklist extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
+		$indent  = str_repeat( "\t", $depth );
 		$output .= "$indent<ul class='children'>\n";
 	}
 
@@ -48,7 +51,7 @@ class Walker_Category_Checklist extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
+		$indent  = str_repeat( "\t", $depth );
 		$output .= "$indent</ul>\n";
 	}
 
@@ -79,13 +82,13 @@ class Walker_Category_Checklist extends Walker {
 		}
 
 		$args['popular_cats'] = empty( $args['popular_cats'] ) ? array() : $args['popular_cats'];
-		$class = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
+		$class                = in_array( $category->term_id, $args['popular_cats'] ) ? ' class="popular-category"' : '';
 
 		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
 
 		if ( ! empty( $args['list_only'] ) ) {
 			$aria_checked = 'false';
-			$inner_class = 'category';
+			$inner_class  = 'category';
 
 			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
 				$inner_class .= ' selected';
@@ -100,7 +103,7 @@ class Walker_Category_Checklist extends Walker {
 		} else {
 			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
-				'<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
+				'<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="' . $name . '[]" id="in-' . $taxonomy . '-' . $category->term_id . '"' .
 				checked( in_array( $category->term_id, $args['selected_cats'] ), true, false ) .
 				disabled( empty( $args['disabled'] ), false, false ) . ' /> ' .
 				esc_html( apply_filters( 'the_category', $category->name, '', '' ) ) . '</label>';

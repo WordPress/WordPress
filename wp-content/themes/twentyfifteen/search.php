@@ -20,7 +20,9 @@ get_header(); ?>
 
 			<?php
 			// Start the loop.
-			while ( have_posts() ) : the_post(); ?>
+			while ( have_posts() ) :
+				the_post();
+			?>
 
 				<?php
 				/*
@@ -30,17 +32,19 @@ get_header(); ?>
 				 */
 				get_template_part( 'content', 'search' );
 
-			// End the loop.
+				// End the loop.
 			endwhile;
 
 			// Previous/next page navigation.
-			the_posts_pagination( array(
-				'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
-				'next_text'          => __( 'Next page', 'twentyfifteen' ),
-				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>',
-			) );
+			the_posts_pagination(
+				array(
+					'prev_text'          => __( 'Previous page', 'twentyfifteen' ),
+					'next_text'          => __( 'Next page', 'twentyfifteen' ),
+					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyfifteen' ) . ' </span>',
+				)
+			);
 
-		// If no content, include the "No posts found" template.
+			// If no content, include the "No posts found" template.
 		else :
 			get_template_part( 'content', 'none' );
 

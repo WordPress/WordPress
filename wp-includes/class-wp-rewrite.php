@@ -288,7 +288,7 @@ class WP_Rewrite {
 		'%post_id%',
 		'%author%',
 		'%pagename%',
-		'%search%'
+		'%search%',
 	);
 
 	/**
@@ -309,7 +309,7 @@ class WP_Rewrite {
 		'([0-9]+)',
 		'([^/]+)',
 		'([^/]+?)',
-		'(.+)'
+		'(.+)',
 	);
 
 	/**
@@ -329,7 +329,7 @@ class WP_Rewrite {
 		'p=',
 		'author_name=',
 		'pagename=',
-		's='
+		's=',
 	);
 
 	/**
@@ -350,7 +350,7 @@ class WP_Rewrite {
 	 * @return bool True, if permalinks are enabled.
 	 */
 	public function using_permalinks() {
-		return ! empty($this->permalink_structure);
+		return ! empty( $this->permalink_structure );
 	}
 
 	/**
@@ -399,11 +399,11 @@ class WP_Rewrite {
 	 * @param int $number Index number.
 	 * @return string
 	 */
-	public function preg_index($number) {
+	public function preg_index( $number ) {
 		$match_prefix = '$';
 		$match_suffix = '';
 
-		if ( ! empty($this->matches) ) {
+		if ( ! empty( $this->matches ) ) {
 			$match_prefix = '$' . $this->matches . '[';
 			$match_suffix = ']';
 		}
@@ -427,31 +427,32 @@ class WP_Rewrite {
 		global $wpdb;
 
 		// Get pages in order of hierarchy, i.e. children after parents.
-		$pages = $wpdb->get_results("SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'");
+		$pages = $wpdb->get_results( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'page' AND post_status != 'auto-draft'" );
 		$posts = get_page_hierarchy( $pages );
 
 		// If we have no pages get out quick.
-		if ( !$posts )
+		if ( ! $posts ) {
 			return array( array(), array() );
+		}
 
 		// Now reverse it, because we need parents after children for rewrite rules to work properly.
-		$posts = array_reverse($posts, true);
+		$posts = array_reverse( $posts, true );
 
-		$page_uris = array();
+		$page_uris            = array();
 		$page_attachment_uris = array();
 
 		foreach ( $posts as $id => $post ) {
 			// URL => page name
-			$uri = get_page_uri($id);
-			$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id ));
-			if ( !empty($attachments) ) {
+			$uri         = get_page_uri( $id );
+			$attachments = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name, post_parent FROM $wpdb->posts WHERE post_type = 'attachment' AND post_parent = %d", $id ) );
+			if ( ! empty( $attachments ) ) {
 				foreach ( $attachments as $attachment ) {
-					$attach_uri = get_page_uri($attachment->ID);
-					$page_attachment_uris[$attach_uri] = $attachment->ID;
+					$attach_uri                          = get_page_uri( $attachment->ID );
+					$page_attachment_uris[ $attach_uri ] = $attachment->ID;
 				}
 			}
 
-			$page_uris[$uri] = $id;
+			$page_uris[ $uri ] = $id;
 		}
 
 		return array( $page_uris, $page_attachment_uris );
@@ -491,39 +492,41 @@ class WP_Rewrite {
 	 * @return string|false False on no permalink structure. Date permalink structure.
 	 */
 	public function get_date_permastruct() {
-		if ( isset($this->date_structure) )
+		if ( isset( $this->date_structure ) ) {
 			return $this->date_structure;
+		}
 
-		if ( empty($this->permalink_structure) ) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->date_structure = '';
 			return false;
 		}
 
 		// The date permalink must have year, month, and day separated by slashes.
-		$endians = array('%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%', '%monthnum%/%day%/%year%');
+		$endians = array( '%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%', '%monthnum%/%day%/%year%' );
 
 		$this->date_structure = '';
-		$date_endian = '';
+		$date_endian          = '';
 
 		foreach ( $endians as $endian ) {
-			if ( false !== strpos($this->permalink_structure, $endian) ) {
-				$date_endian= $endian;
+			if ( false !== strpos( $this->permalink_structure, $endian ) ) {
+				$date_endian = $endian;
 				break;
 			}
 		}
 
-		if ( empty($date_endian) )
+		if ( empty( $date_endian ) ) {
 			$date_endian = '%year%/%monthnum%/%day%';
+		}
 
 		/*
 		 * Do not allow the date tags and %post_id% to overlap in the permalink
 		 * structure. If they do, move the date tags to $front/date/.
 		 */
 		$front = $this->front;
-		preg_match_all('/%.+?%/', $this->permalink_structure, $tokens);
+		preg_match_all( '/%.+?%/', $this->permalink_structure, $tokens );
 		$tok_index = 1;
-		foreach ( (array) $tokens[0] as $token) {
-			if ( '%post_id%' == $token && ($tok_index <= 3) ) {
+		foreach ( (array) $tokens[0] as $token ) {
+			if ( '%post_id%' == $token && ( $tok_index <= 3 ) ) {
 				$front = $front . 'date/';
 				break;
 			}
@@ -548,12 +551,13 @@ class WP_Rewrite {
 	public function get_year_permastruct() {
 		$structure = $this->get_date_permastruct();
 
-		if ( empty($structure) )
+		if ( empty( $structure ) ) {
 			return false;
+		}
 
-		$structure = str_replace('%monthnum%', '', $structure);
-		$structure = str_replace('%day%', '', $structure);
-		$structure = preg_replace('#/+#', '/', $structure);
+		$structure = str_replace( '%monthnum%', '', $structure );
+		$structure = str_replace( '%day%', '', $structure );
+		$structure = preg_replace( '#/+#', '/', $structure );
 
 		return $structure;
 	}
@@ -571,11 +575,12 @@ class WP_Rewrite {
 	public function get_month_permastruct() {
 		$structure = $this->get_date_permastruct();
 
-		if ( empty($structure) )
+		if ( empty( $structure ) ) {
 			return false;
+		}
 
-		$structure = str_replace('%day%', '', $structure);
-		$structure = preg_replace('#/+#', '/', $structure);
+		$structure = str_replace( '%day%', '', $structure );
+		$structure = preg_replace( '#/+#', '/', $structure );
 
 		return $structure;
 	}
@@ -606,7 +611,7 @@ class WP_Rewrite {
 	 * @return string|false False on failure. Category permalink structure.
 	 */
 	public function get_category_permastruct() {
-		return $this->get_extra_permastruct('category');
+		return $this->get_extra_permastruct( 'category' );
 	}
 
 	/**
@@ -622,7 +627,7 @@ class WP_Rewrite {
 	 * @return string|false False on failure. Tag permalink structure.
 	 */
 	public function get_tag_permastruct() {
-		return $this->get_extra_permastruct('post_tag');
+		return $this->get_extra_permastruct( 'post_tag' );
 	}
 
 	/**
@@ -633,12 +638,14 @@ class WP_Rewrite {
 	 * @param string $name Permalink structure name.
 	 * @return string|false False if not found. Permalink structure string.
 	 */
-	public function get_extra_permastruct($name) {
-		if ( empty($this->permalink_structure) )
+	public function get_extra_permastruct( $name ) {
+		if ( empty( $this->permalink_structure ) ) {
 			return false;
+		}
 
-		if ( isset($this->extra_permastructs[$name]) )
-			return $this->extra_permastructs[$name]['struct'];
+		if ( isset( $this->extra_permastructs[ $name ] ) ) {
+			return $this->extra_permastructs[ $name ]['struct'];
+		}
 
 		return false;
 	}
@@ -655,10 +662,11 @@ class WP_Rewrite {
 	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_author_permastruct() {
-		if ( isset($this->author_structure) )
+		if ( isset( $this->author_structure ) ) {
 			return $this->author_structure;
+		}
 
-		if ( empty($this->permalink_structure) ) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->author_structure = '';
 			return false;
 		}
@@ -680,10 +688,11 @@ class WP_Rewrite {
 	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_search_permastruct() {
-		if ( isset($this->search_structure) )
+		if ( isset( $this->search_structure ) ) {
 			return $this->search_structure;
+		}
 
-		if ( empty($this->permalink_structure) ) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->search_structure = '';
 			return false;
 		}
@@ -705,10 +714,11 @@ class WP_Rewrite {
 	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_page_permastruct() {
-		if ( isset($this->page_structure) )
+		if ( isset( $this->page_structure ) ) {
 			return $this->page_structure;
+		}
 
-		if (empty($this->permalink_structure)) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->page_structure = '';
 			return false;
 		}
@@ -730,10 +740,11 @@ class WP_Rewrite {
 	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_feed_permastruct() {
-		if ( isset($this->feed_structure) )
+		if ( isset( $this->feed_structure ) ) {
 			return $this->feed_structure;
+		}
 
-		if ( empty($this->permalink_structure) ) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->feed_structure = '';
 			return false;
 		}
@@ -755,10 +766,11 @@ class WP_Rewrite {
 	 * @return string|false False if not found. Permalink structure string.
 	 */
 	public function get_comment_feed_permastruct() {
-		if ( isset($this->comment_feed_structure) )
+		if ( isset( $this->comment_feed_structure ) ) {
 			return $this->comment_feed_structure;
+		}
 
-		if (empty($this->permalink_structure)) {
+		if ( empty( $this->permalink_structure ) ) {
 			$this->comment_feed_structure = '';
 			return false;
 		}
@@ -788,11 +800,11 @@ class WP_Rewrite {
 		$position = array_search( $tag, $this->rewritecode );
 		if ( false !== $position && null !== $position ) {
 			$this->rewritereplace[ $position ] = $regex;
-			$this->queryreplace[ $position ] = $query;
+			$this->queryreplace[ $position ]   = $query;
 		} else {
-			$this->rewritecode[] = $tag;
+			$this->rewritecode[]    = $tag;
 			$this->rewritereplace[] = $regex;
-			$this->queryreplace[] = $query;
+			$this->queryreplace[]   = $query;
 		}
 	}
 
@@ -844,12 +856,13 @@ class WP_Rewrite {
 	 *                                    Default true.
 	 * @return array Rewrite rule list.
 	 */
-	public function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
+	public function generate_rewrite_rules( $permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true ) {
 		// Build a regex to match the feed section of URLs, something like (feed|atom|rss|rss2)/?
 		$feedregex2 = '';
-		foreach ( (array) $this->feeds as $feed_name)
+		foreach ( (array) $this->feeds as $feed_name ) {
 			$feedregex2 .= $feed_name . '|';
-		$feedregex2 = '(' . trim($feedregex2, '|') . ')/?$';
+		}
+		$feedregex2 = '(' . trim( $feedregex2, '|' ) . ')/?$';
 
 		/*
 		 * $feedregex is identical but with /feed/ added on as well, so URLs like <permalink>/feed/atom
@@ -859,35 +872,35 @@ class WP_Rewrite {
 
 		// Build a regex to match the trackback and page/xx parts of URLs.
 		$trackbackregex = 'trackback/?$';
-		$pageregex = $this->pagination_base . '/?([0-9]{1,})/?$';
-		$commentregex = $this->comments_pagination_base . '-([0-9]{1,})/?$';
-		$embedregex = 'embed/?$';
+		$pageregex      = $this->pagination_base . '/?([0-9]{1,})/?$';
+		$commentregex   = $this->comments_pagination_base . '-([0-9]{1,})/?$';
+		$embedregex     = 'embed/?$';
 
 		// Build up an array of endpoint regexes to append => queries to append.
 		if ( $endpoints ) {
-			$ep_query_append = array ();
-			foreach ( (array) $this->endpoints as $endpoint) {
+			$ep_query_append = array();
+			foreach ( (array) $this->endpoints as $endpoint ) {
 				// Match everything after the endpoint name, but allow for nothing to appear there.
 				$epmatch = $endpoint[1] . '(/(.*))?/?$';
 
 				// This will be appended on to the rest of the query for each dir.
-				$epquery = '&' . $endpoint[2] . '=';
-				$ep_query_append[$epmatch] = array ( $endpoint[0], $epquery );
+				$epquery                     = '&' . $endpoint[2] . '=';
+				$ep_query_append[ $epmatch ] = array( $endpoint[0], $epquery );
 			}
 		}
 
 		// Get everything up to the first rewrite tag.
-		$front = substr($permalink_structure, 0, strpos($permalink_structure, '%'));
+		$front = substr( $permalink_structure, 0, strpos( $permalink_structure, '%' ) );
 
 		// Build an array of the tags (note that said array ends up being in $tokens[0]).
-		preg_match_all('/%.+?%/', $permalink_structure, $tokens);
+		preg_match_all( '/%.+?%/', $permalink_structure, $tokens );
 
-		$num_tokens = count($tokens[0]);
+		$num_tokens = count( $tokens[0] );
 
-		$index = $this->index; //probably 'index.php'
-		$feedindex = $index;
+		$index          = $this->index; //probably 'index.php'
+		$feedindex      = $index;
 		$trackbackindex = $index;
-		$embedindex = $index;
+		$embedindex     = $index;
 
 		/*
 		 * Build a list from the rewritecode and queryreplace arrays, that will look something
@@ -895,51 +908,53 @@ class WP_Rewrite {
 		 */
 		$queries = array();
 		for ( $i = 0; $i < $num_tokens; ++$i ) {
-			if ( 0 < $i )
-				$queries[$i] = $queries[$i - 1] . '&';
-			else
-				$queries[$i] = '';
+			if ( 0 < $i ) {
+				$queries[ $i ] = $queries[ $i - 1 ] . '&';
+			} else {
+				$queries[ $i ] = '';
+			}
 
-			$query_token = str_replace($this->rewritecode, $this->queryreplace, $tokens[0][$i]) . $this->preg_index($i+1);
-			$queries[$i] .= $query_token;
+			$query_token    = str_replace( $this->rewritecode, $this->queryreplace, $tokens[0][ $i ] ) . $this->preg_index( $i + 1 );
+			$queries[ $i ] .= $query_token;
 		}
 
 		// Get the structure, minus any cruft (stuff that isn't tags) at the front.
 		$structure = $permalink_structure;
-		if ( $front != '/' )
-			$structure = str_replace($front, '', $structure);
+		if ( $front != '/' ) {
+			$structure = str_replace( $front, '', $structure );
+		}
 
 		/*
 		 * Create a list of dirs to walk over, making rewrite rules for each level
 		 * so for example, a $structure of /%year%/%monthnum%/%postname% would create
 		 * rewrite rules for /%year%/, /%year%/%monthnum%/ and /%year%/%monthnum%/%postname%
 		 */
-		$structure = trim($structure, '/');
-		$dirs = $walk_dirs ? explode('/', $structure) : array( $structure );
-		$num_dirs = count($dirs);
+		$structure = trim( $structure, '/' );
+		$dirs      = $walk_dirs ? explode( '/', $structure ) : array( $structure );
+		$num_dirs  = count( $dirs );
 
 		// Strip slashes from the front of $front.
-		$front = preg_replace('|^/+|', '', $front);
+		$front = preg_replace( '|^/+|', '', $front );
 
 		// The main workhorse loop.
 		$post_rewrite = array();
-		$struct = $front;
+		$struct       = $front;
 		for ( $j = 0; $j < $num_dirs; ++$j ) {
 			// Get the struct for this dir, and trim slashes off the front.
-			$struct .= $dirs[$j] . '/'; // Accumulate. see comment near explode('/', $structure) above.
-			$struct = ltrim($struct, '/');
+			$struct .= $dirs[ $j ] . '/'; // Accumulate. see comment near explode('/', $structure) above.
+			$struct  = ltrim( $struct, '/' );
 
 			// Replace tags with regexes.
-			$match = str_replace($this->rewritecode, $this->rewritereplace, $struct);
+			$match = str_replace( $this->rewritecode, $this->rewritereplace, $struct );
 
 			// Make a list of tags, and store how many there are in $num_toks.
-			$num_toks = preg_match_all('/%.+?%/', $struct, $toks);
+			$num_toks = preg_match_all( '/%.+?%/', $struct, $toks );
 
 			// Get the 'tagname=$matches[i]'.
-			$query = ( ! empty( $num_toks ) && isset( $queries[$num_toks - 1] ) ) ? $queries[$num_toks - 1] : '';
+			$query = ( ! empty( $num_toks ) && isset( $queries[ $num_toks - 1 ] ) ) ? $queries[ $num_toks - 1 ] : '';
 
 			// Set up $ep_mask_specific which is used to match more specific URL types.
-			switch ( $dirs[$j] ) {
+			switch ( $dirs[ $j ] ) {
 				case '%year%':
 					$ep_mask_specific = EP_YEAR;
 					break;
@@ -955,25 +970,25 @@ class WP_Rewrite {
 
 			// Create query for /page/xx.
 			$pagematch = $match . $pageregex;
-			$pagequery = $index . '?' . $query . '&paged=' . $this->preg_index($num_toks + 1);
+			$pagequery = $index . '?' . $query . '&paged=' . $this->preg_index( $num_toks + 1 );
 
 			// Create query for /comment-page-xx.
 			$commentmatch = $match . $commentregex;
-			$commentquery = $index . '?' . $query . '&cpage=' . $this->preg_index($num_toks + 1);
+			$commentquery = $index . '?' . $query . '&cpage=' . $this->preg_index( $num_toks + 1 );
 
-			if ( get_option('page_on_front') ) {
+			if ( get_option( 'page_on_front' ) ) {
 				// Create query for Root /comment-page-xx.
 				$rootcommentmatch = $match . $commentregex;
-				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option('page_on_front') . '&cpage=' . $this->preg_index($num_toks + 1);
+				$rootcommentquery = $index . '?' . $query . '&page_id=' . get_option( 'page_on_front' ) . '&cpage=' . $this->preg_index( $num_toks + 1 );
 			}
 
 			// Create query for /feed/(feed|atom|rss|rss2|rdf).
 			$feedmatch = $match . $feedregex;
-			$feedquery = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
+			$feedquery = $feedindex . '?' . $query . '&feed=' . $this->preg_index( $num_toks + 1 );
 
 			// Create query for /(feed|atom|rss|rss2|rdf) (see comment near creation of $feedregex).
 			$feedmatch2 = $match . $feedregex2;
-			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
+			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $this->preg_index( $num_toks + 1 );
 
 			// Create query and regex for embeds.
 			$embedmatch = $match . $embedregex;
@@ -981,7 +996,7 @@ class WP_Rewrite {
 
 			// If asked to, turn the feed queries into comment feed ones.
 			if ( $forcomments ) {
-				$feedquery .= '&withcomments=1';
+				$feedquery  .= '&withcomments=1';
 				$feedquery2 .= '&withcomments=1';
 			}
 
@@ -990,7 +1005,11 @@ class WP_Rewrite {
 
 			// ...adding on /feed/ regexes => queries
 			if ( $feed ) {
-				$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2, $embedmatch => $embedquery );
+				$rewrite = array(
+					$feedmatch  => $feedquery,
+					$feedmatch2 => $feedquery2,
+					$embedmatch => $embedquery,
+				);
 			}
 
 			//...and /page/xx ones
@@ -1000,17 +1019,18 @@ class WP_Rewrite {
 
 			// Only on pages with comments add ../comment-page-xx/.
 			if ( EP_PAGES & $ep_mask || EP_PERMALINK & $ep_mask ) {
-				$rewrite = array_merge($rewrite, array($commentmatch => $commentquery));
-			} elseif ( EP_ROOT & $ep_mask && get_option('page_on_front') ) {
-				$rewrite = array_merge($rewrite, array($rootcommentmatch => $rootcommentquery));
+				$rewrite = array_merge( $rewrite, array( $commentmatch => $commentquery ) );
+			} elseif ( EP_ROOT & $ep_mask && get_option( 'page_on_front' ) ) {
+				$rewrite = array_merge( $rewrite, array( $rootcommentmatch => $rootcommentquery ) );
 			}
 
 			// Do endpoints.
 			if ( $endpoints ) {
-				foreach ( (array) $ep_query_append as $regex => $ep) {
+				foreach ( (array) $ep_query_append as $regex => $ep ) {
 					// Add the endpoints on if the mask fits.
-					if ( $ep[0] & $ep_mask || $ep[0] & $ep_mask_specific )
-						$rewrite[$match . $regex] = $index . '?' . $query . $ep[1] . $this->preg_index($num_toks + 2);
+					if ( $ep[0] & $ep_mask || $ep[0] & $ep_mask_specific ) {
+						$rewrite[ $match . $regex ] = $index . '?' . $query . $ep[1] . $this->preg_index( $num_toks + 2 );
+					}
 				}
 			}
 
@@ -1025,20 +1045,21 @@ class WP_Rewrite {
 				 * 2) post ID, 3) page name, 4) timestamp (year, month, day, hour, second and
 				 * minute all present). Set these flags now as we need them for the endpoints.
 				 */
-				if ( strpos($struct, '%postname%') !== false
-						|| strpos($struct, '%post_id%') !== false
-						|| strpos($struct, '%pagename%') !== false
-						|| (strpos($struct, '%year%') !== false && strpos($struct, '%monthnum%') !== false && strpos($struct, '%day%') !== false && strpos($struct, '%hour%') !== false && strpos($struct, '%minute%') !== false && strpos($struct, '%second%') !== false)
+				if ( strpos( $struct, '%postname%' ) !== false
+						|| strpos( $struct, '%post_id%' ) !== false
+						|| strpos( $struct, '%pagename%' ) !== false
+						|| ( strpos( $struct, '%year%' ) !== false && strpos( $struct, '%monthnum%' ) !== false && strpos( $struct, '%day%' ) !== false && strpos( $struct, '%hour%' ) !== false && strpos( $struct, '%minute%' ) !== false && strpos( $struct, '%second%' ) !== false )
 						) {
 					$post = true;
-					if ( strpos($struct, '%pagename%') !== false )
+					if ( strpos( $struct, '%pagename%' ) !== false ) {
 						$page = true;
+					}
 				}
 
 				if ( ! $post ) {
 					// For custom post types, we need to add on endpoints as well.
-					foreach ( get_post_types( array('_builtin' => false ) ) as $ptype ) {
-						if ( strpos($struct, "%$ptype%") !== false ) {
+					foreach ( get_post_types( array( '_builtin' => false ) ) as $ptype ) {
+						if ( strpos( $struct, "%$ptype%" ) !== false ) {
 							$post = true;
 
 							// This is for page style attachment URLs.
@@ -1059,10 +1080,10 @@ class WP_Rewrite {
 					$embedquery = $embedindex . '?' . $query . '&embed=true';
 
 					// Trim slashes from the end of the regex for this dir.
-					$match = rtrim($match, '/');
+					$match = rtrim( $match, '/' );
 
 					// Get rid of brackets.
-					$submatchbase = str_replace( array('(', ')'), '', $match);
+					$submatchbase = str_replace( array( '(', ')' ), '', $match );
 
 					// Add a rule for at attachments, which take the form of <permalink>/some-text.
 					$sub1 = $submatchbase . '/([^/]+)/';
@@ -1104,18 +1125,18 @@ class WP_Rewrite {
 					$sub2embed = $sub2 . $embedregex;
 
 					// Create queries for these extra tag-ons we've just dealt with.
-					$subquery = $index . '?attachment=' . $this->preg_index(1);
-					$subtbquery = $subquery . '&tb=1';
-					$subfeedquery = $subquery . '&feed=' . $this->preg_index(2);
-					$subcommentquery = $subquery . '&cpage=' . $this->preg_index(2);
-					$subembedquery = $subquery . '&embed=true';
+					$subquery        = $index . '?attachment=' . $this->preg_index( 1 );
+					$subtbquery      = $subquery . '&tb=1';
+					$subfeedquery    = $subquery . '&feed=' . $this->preg_index( 2 );
+					$subcommentquery = $subquery . '&cpage=' . $this->preg_index( 2 );
+					$subembedquery   = $subquery . '&embed=true';
 
 					// Do endpoints for attachments.
-					if ( !empty($endpoints) ) {
+					if ( ! empty( $endpoints ) ) {
 						foreach ( (array) $ep_query_append as $regex => $ep ) {
 							if ( $ep[0] & EP_ATTACHMENT ) {
-								$rewrite[$sub1 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
-								$rewrite[$sub2 . $regex] = $subquery . $ep[1] . $this->preg_index(3);
+								$rewrite[ $sub1 . $regex ] = $subquery . $ep[1] . $this->preg_index( 3 );
+								$rewrite[ $sub2 . $regex ] = $subquery . $ep[1] . $this->preg_index( 3 );
 							}
 						}
 					}
@@ -1134,13 +1155,13 @@ class WP_Rewrite {
 					 * When cast to int, returned 0.
 					 */
 					$match = $match . '(?:/([0-9]+))?/?$';
-					$query = $index . '?' . $query . '&page=' . $this->preg_index($num_toks + 1);
+					$query = $index . '?' . $query . '&page=' . $this->preg_index( $num_toks + 1 );
 
-				// Not matching a permalink so this is a lot simpler.
+					// Not matching a permalink so this is a lot simpler.
 				} else {
 					// Close the match and finalise the query.
 					$match .= '?$';
-					$query = $index . '?' . $query;
+					$query  = $index . '?' . $query;
 				}
 
 				/*
@@ -1148,12 +1169,12 @@ class WP_Rewrite {
 				 * only contains rules/queries for trackback, pages etc) to the main regex/query for
 				 * this dir
 				 */
-				$rewrite = array_merge($rewrite, array($match => $query));
+				$rewrite = array_merge( $rewrite, array( $match => $query ) );
 
 				// If we're matching a permalink, add those extras (attachments etc) on.
 				if ( $post ) {
 					// Add trackback.
-					$rewrite = array_merge(array($trackbackmatch => $trackbackquery), $rewrite);
+					$rewrite = array_merge( array( $trackbackmatch => $trackbackquery ), $rewrite );
 
 					// Add embed.
 					$rewrite = array_merge( array( $embedmatch => $embedquery ), $rewrite );
@@ -1161,21 +1182,32 @@ class WP_Rewrite {
 					// Add regexes/queries for attachments, attachment trackbacks and so on.
 					if ( ! $page ) {
 						// Require <permalink>/attachment/stuff form for pages because of confusion with subpages.
-						$rewrite = array_merge( $rewrite, array(
-							$sub1        => $subquery,
-							$sub1tb      => $subtbquery,
-							$sub1feed    => $subfeedquery,
-							$sub1feed2   => $subfeedquery,
-							$sub1comment => $subcommentquery,
-							$sub1embed   => $subembedquery
-						) );
+						$rewrite = array_merge(
+							$rewrite, array(
+								$sub1        => $subquery,
+								$sub1tb      => $subtbquery,
+								$sub1feed    => $subfeedquery,
+								$sub1feed2   => $subfeedquery,
+								$sub1comment => $subcommentquery,
+								$sub1embed   => $subembedquery,
+							)
+						);
 					}
 
-					$rewrite = array_merge( array( $sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery, $sub2comment => $subcommentquery, $sub2embed => $subembedquery ), $rewrite );
+					$rewrite = array_merge(
+						array(
+							$sub2        => $subquery,
+							$sub2tb      => $subtbquery,
+							$sub2feed    => $subfeedquery,
+							$sub2feed2   => $subfeedquery,
+							$sub2comment => $subcommentquery,
+							$sub2embed   => $subembedquery,
+						), $rewrite
+					);
 				}
 			}
 			// Add the rules for this dir to the accumulating $post_rewrite.
-			$post_rewrite = array_merge($rewrite, $post_rewrite);
+			$post_rewrite = array_merge( $rewrite, $post_rewrite );
 		}
 
 		// The finished rules. phew!
@@ -1197,8 +1229,8 @@ class WP_Rewrite {
 	 * @param bool   $walk_dirs           Optional, default is false. Whether to create list of directories to walk over.
 	 * @return array
 	 */
-	public function generate_rewrite_rule($permalink_structure, $walk_dirs = false) {
-		return $this->generate_rewrite_rules($permalink_structure, EP_NONE, false, false, false, $walk_dirs);
+	public function generate_rewrite_rule( $permalink_structure, $walk_dirs = false ) {
+		return $this->generate_rewrite_rules( $permalink_structure, EP_NONE, false, false, false, $walk_dirs );
 	}
 
 	/**
@@ -1221,11 +1253,12 @@ class WP_Rewrite {
 	public function rewrite_rules() {
 		$rewrite = array();
 
-		if ( empty($this->permalink_structure) )
+		if ( empty( $this->permalink_structure ) ) {
 			return $rewrite;
+		}
 
 		// robots.txt -only if installed at the root
-		$home_path = parse_url( home_url() );
+		$home_path      = parse_url( home_url() );
 		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
 
 		// Old feed and service files.
@@ -1237,7 +1270,7 @@ class WP_Rewrite {
 		// Registration rules.
 		$registration_pages = array();
 		if ( is_multisite() && is_main_site() ) {
-			$registration_pages['.*wp-signup.php$'] = $this->index . '?signup=true';
+			$registration_pages['.*wp-signup.php$']   = $this->index . '?signup=true';
 			$registration_pages['.*wp-activate.php$'] = $this->index . '?activate=true';
 		}
 
@@ -1257,7 +1290,7 @@ class WP_Rewrite {
 		$post_rewrite = apply_filters( 'post_rewrite_rules', $post_rewrite );
 
 		// Date rewrite rules.
-		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct(), EP_DATE);
+		$date_rewrite = $this->generate_rewrite_rules( $this->get_date_permastruct(), EP_DATE );
 
 		/**
 		 * Filters rewrite rules used for date archives.
@@ -1271,7 +1304,7 @@ class WP_Rewrite {
 		$date_rewrite = apply_filters( 'date_rewrite_rules', $date_rewrite );
 
 		// Root-level rewrite rules.
-		$root_rewrite = $this->generate_rewrite_rules($this->root . '/', EP_ROOT);
+		$root_rewrite = $this->generate_rewrite_rules( $this->root . '/', EP_ROOT );
 
 		/**
 		 * Filters rewrite rules used for root-level archives.
@@ -1286,7 +1319,7 @@ class WP_Rewrite {
 		$root_rewrite = apply_filters( 'root_rewrite_rules', $root_rewrite );
 
 		// Comments rewrite rules.
-		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, EP_COMMENTS, false, true, true, false);
+		$comments_rewrite = $this->generate_rewrite_rules( $this->root . $this->comments_base, EP_COMMENTS, false, true, true, false );
 
 		/**
 		 * Filters rewrite rules used for comment feed archives.
@@ -1301,7 +1334,7 @@ class WP_Rewrite {
 
 		// Search rewrite rules.
 		$search_structure = $this->get_search_permastruct();
-		$search_rewrite = $this->generate_rewrite_rules($search_structure, EP_SEARCH);
+		$search_rewrite   = $this->generate_rewrite_rules( $search_structure, EP_SEARCH );
 
 		/**
 		 * Filters rewrite rules used for search archives.
@@ -1316,7 +1349,7 @@ class WP_Rewrite {
 		$search_rewrite = apply_filters( 'search_rewrite_rules', $search_rewrite );
 
 		// Author rewrite rules.
-		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct(), EP_AUTHORS);
+		$author_rewrite = $this->generate_rewrite_rules( $this->get_author_permastruct(), EP_AUTHORS );
 
 		/**
 		 * Filters rewrite rules used for author archives.
@@ -1345,10 +1378,11 @@ class WP_Rewrite {
 		// Extra permastructs.
 		foreach ( $this->extra_permastructs as $permastructname => $struct ) {
 			if ( is_array( $struct ) ) {
-				if ( count( $struct ) == 2 )
+				if ( count( $struct ) == 2 ) {
 					$rules = $this->generate_rewrite_rules( $struct[0], $struct[1] );
-				else
+				} else {
 					$rules = $this->generate_rewrite_rules( $struct['struct'], $struct['ep_mask'], $struct['paged'], $struct['feed'], $struct['forcomments'], $struct['walk_dirs'], $struct['endpoints'] );
+				}
 			} else {
 				$rules = $this->generate_rewrite_rules( $struct );
 			}
@@ -1378,14 +1412,15 @@ class WP_Rewrite {
 				$rules = apply_filters( 'tag_rewrite_rules', $rules );
 			}
 
-			$this->extra_rules_top = array_merge($this->extra_rules_top, $rules);
+			$this->extra_rules_top = array_merge( $this->extra_rules_top, $rules );
 		}
 
 		// Put them together.
-		if ( $this->use_verbose_page_rules )
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $deprecated_files, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $page_rewrite, $post_rewrite, $this->extra_rules);
-		else
-			$this->rules = array_merge($this->extra_rules_top, $robots_rewrite, $deprecated_files, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite,  $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules);
+		if ( $this->use_verbose_page_rules ) {
+			$this->rules = array_merge( $this->extra_rules_top, $robots_rewrite, $deprecated_files, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite, $author_rewrite, $date_rewrite, $page_rewrite, $post_rewrite, $this->extra_rules );
+		} else {
+			$this->rules = array_merge( $this->extra_rules_top, $robots_rewrite, $deprecated_files, $registration_pages, $root_rewrite, $comments_rewrite, $search_rewrite, $author_rewrite, $date_rewrite, $post_rewrite, $page_rewrite, $this->extra_rules );
+		}
 
 		/**
 		 * Fires after the rewrite rules are generated.
@@ -1421,15 +1456,15 @@ class WP_Rewrite {
 	 * @return array Rewrite rules.
 	 */
 	public function wp_rewrite_rules() {
-		$this->rules = get_option('rewrite_rules');
-		if ( empty($this->rules) ) {
+		$this->rules = get_option( 'rewrite_rules' );
+		if ( empty( $this->rules ) ) {
 			$this->matches = 'matches';
 			$this->rewrite_rules();
 			if ( ! did_action( 'wp_loaded' ) ) {
 				add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
 				return $this->rules;
 			}
-			update_option('rewrite_rules', $this->rules);
+			update_option( 'rewrite_rules', $this->rules );
 		}
 
 		return $this->rules;
@@ -1449,20 +1484,23 @@ class WP_Rewrite {
 	 * @return string
 	 */
 	public function mod_rewrite_rules() {
-		if ( ! $this->using_permalinks() )
+		if ( ! $this->using_permalinks() ) {
 			return '';
+		}
 
 		$site_root = parse_url( site_url() );
-		if ( isset( $site_root['path'] ) )
-			$site_root = trailingslashit($site_root['path']);
+		if ( isset( $site_root['path'] ) ) {
+			$site_root = trailingslashit( $site_root['path'] );
+		}
 
-		$home_root = parse_url(home_url());
-		if ( isset( $home_root['path'] ) )
-			$home_root = trailingslashit($home_root['path']);
-		else
+		$home_root = parse_url( home_url() );
+		if ( isset( $home_root['path'] ) ) {
+			$home_root = trailingslashit( $home_root['path'] );
+		} else {
 			$home_root = '/';
+		}
 
-		$rules = "<IfModule mod_rewrite.c>\n";
+		$rules  = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
 
@@ -1470,29 +1508,30 @@ class WP_Rewrite {
 		$rules .= "RewriteRule ^index\.php$ - [L]\n";
 
 		// Add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all).
-		foreach ( (array) $this->non_wp_rules as $match => $query) {
+		foreach ( (array) $this->non_wp_rules as $match => $query ) {
 			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
-			$match = str_replace('.+?', '.+', $match);
+			$match = str_replace( '.+?', '.+', $match );
 
 			$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 		}
 
 		if ( $this->use_verbose_rules ) {
 			$this->matches = '';
-			$rewrite = $this->rewrite_rules();
-			$num_rules = count($rewrite);
-			$rules .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
+			$rewrite       = $this->rewrite_rules();
+			$num_rules     = count( $rewrite );
+			$rules        .= "RewriteCond %{REQUEST_FILENAME} -f [OR]\n" .
 				"RewriteCond %{REQUEST_FILENAME} -d\n" .
 				"RewriteRule ^.*$ - [S=$num_rules]\n";
 
-			foreach ( (array) $rewrite as $match => $query) {
+			foreach ( (array) $rewrite as $match => $query ) {
 				// Apache 1.3 does not support the reluctant (non-greedy) modifier.
-				$match = str_replace('.+?', '.+', $match);
+				$match = str_replace( '.+?', '.+', $match );
 
-				if ( strpos($query, $this->index) !== false )
+				if ( strpos( $query, $this->index ) !== false ) {
 					$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
-				else
+				} else {
 					$rules .= 'RewriteRule ^' . $match . ' ' . $site_root . $query . " [QSA,L]\n";
+				}
 			}
 		} else {
 			$rules .= "RewriteCond %{REQUEST_FILENAME} !-f\n" .
@@ -1535,8 +1574,9 @@ class WP_Rewrite {
 	 * @return string IIS7 URL rewrite rule sets.
 	 */
 	public function iis7_url_rewrite_rules( $add_parent_tags = false ) {
-		if ( ! $this->using_permalinks() )
+		if ( ! $this->using_permalinks() ) {
 			return '';
+		}
 		$rules = '';
 		if ( $add_parent_tags ) {
 			$rules .= '<configuration>
@@ -1590,7 +1630,7 @@ class WP_Rewrite {
 	public function add_rule( $regex, $query, $after = 'bottom' ) {
 		if ( is_array( $query ) ) {
 			$external = false;
-			$query = add_query_arg( $query, 'index.php' );
+			$query    = add_query_arg( $query, 'index.php' );
 		} else {
 			$index = false === strpos( $query, '?' ) ? strlen( $query ) : strpos( $query, '?' );
 			$front = substr( $query, 0, $index );
@@ -1692,27 +1732,30 @@ class WP_Rewrite {
 	 */
 	public function add_permastruct( $name, $struct, $args = array() ) {
 		// Back-compat for the old parameters: $with_front and $ep_mask.
-		if ( ! is_array( $args ) )
+		if ( ! is_array( $args ) ) {
 			$args = array( 'with_front' => $args );
-		if ( func_num_args() == 4 )
+		}
+		if ( func_num_args() == 4 ) {
 			$args['ep_mask'] = func_get_arg( 3 );
+		}
 
 		$defaults = array(
-			'with_front' => true,
-			'ep_mask' => EP_NONE,
-			'paged' => true,
-			'feed' => true,
+			'with_front'  => true,
+			'ep_mask'     => EP_NONE,
+			'paged'       => true,
+			'feed'        => true,
 			'forcomments' => false,
-			'walk_dirs' => true,
-			'endpoints' => true,
+			'walk_dirs'   => true,
+			'endpoints'   => true,
 		);
-		$args = array_intersect_key( $args, $defaults );
-		$args = wp_parse_args( $args, $defaults );
+		$args     = array_intersect_key( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
-		if ( $args['with_front'] )
+		if ( $args['with_front'] ) {
 			$struct = $this->front . $struct;
-		else
+		} else {
 			$struct = $this->root . $struct;
+		}
 		$args['struct'] = $struct;
 
 		$this->extra_permastructs[ $name ] = $args;
@@ -1771,10 +1814,12 @@ class WP_Rewrite {
 		if ( ! $hard || ! apply_filters( 'flush_rewrite_rules_hard', true ) ) {
 			return;
 		}
-		if ( function_exists( 'save_mod_rewrite_rules' ) )
+		if ( function_exists( 'save_mod_rewrite_rules' ) ) {
 			save_mod_rewrite_rules();
-		if ( function_exists( 'iis7_save_url_rewrite_rules' ) )
+		}
+		if ( function_exists( 'iis7_save_url_rewrite_rules' ) ) {
 			iis7_save_url_rewrite_rules();
+		}
 	}
 
 	/**
@@ -1787,27 +1832,29 @@ class WP_Rewrite {
 	 * @since 1.5.0
 	 */
 	public function init() {
-		$this->extra_rules = $this->non_wp_rules = $this->endpoints = array();
-		$this->permalink_structure = get_option('permalink_structure');
-		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));
-		$this->root = '';
+		$this->extra_rules         = $this->non_wp_rules = $this->endpoints = array();
+		$this->permalink_structure = get_option( 'permalink_structure' );
+		$this->front               = substr( $this->permalink_structure, 0, strpos( $this->permalink_structure, '%' ) );
+		$this->root                = '';
 
-		if ( $this->using_index_permalinks() )
+		if ( $this->using_index_permalinks() ) {
 			$this->root = $this->index . '/';
+		}
 
-		unset($this->author_structure);
-		unset($this->date_structure);
-		unset($this->page_structure);
-		unset($this->search_structure);
-		unset($this->feed_structure);
-		unset($this->comment_feed_structure);
-		$this->use_trailing_slashes = ( '/' == substr($this->permalink_structure, -1, 1) );
+		unset( $this->author_structure );
+		unset( $this->date_structure );
+		unset( $this->page_structure );
+		unset( $this->search_structure );
+		unset( $this->feed_structure );
+		unset( $this->comment_feed_structure );
+		$this->use_trailing_slashes = ( '/' == substr( $this->permalink_structure, -1, 1 ) );
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
-		if ( preg_match("/^[^%]*%(?:postname|category|tag|author)%/", $this->permalink_structure) )
+		if ( preg_match( '/^[^%]*%(?:postname|category|tag|author)%/', $this->permalink_structure ) ) {
 			$this->use_verbose_page_rules = true;
-		else
+		} else {
 			$this->use_verbose_page_rules = false;
+		}
 	}
 
 	/**
@@ -1824,10 +1871,10 @@ class WP_Rewrite {
 	 *
 	 * @param string $permalink_structure Permalink structure.
 	 */
-	public function set_permalink_structure($permalink_structure) {
+	public function set_permalink_structure( $permalink_structure ) {
 		if ( $permalink_structure != $this->permalink_structure ) {
 			$old_permalink_structure = $this->permalink_structure;
-			update_option('permalink_structure', $permalink_structure);
+			update_option( 'permalink_structure', $permalink_structure );
 
 			$this->init();
 
@@ -1854,9 +1901,9 @@ class WP_Rewrite {
 	 *
 	 * @param string $category_base Category permalink structure base.
 	 */
-	public function set_category_base($category_base) {
-		if ( $category_base != get_option('category_base') ) {
-			update_option('category_base', $category_base);
+	public function set_category_base( $category_base ) {
+		if ( $category_base != get_option( 'category_base' ) ) {
+			update_option( 'category_base', $category_base );
 			$this->init();
 		}
 	}
@@ -1873,7 +1920,7 @@ class WP_Rewrite {
 	 * @param string $tag_base Tag permalink structure base.
 	 */
 	public function set_tag_base( $tag_base ) {
-		if ( $tag_base != get_option( 'tag_base') ) {
+		if ( $tag_base != get_option( 'tag_base' ) ) {
 			update_option( 'tag_base', $tag_base );
 			$this->init();
 		}
@@ -1883,7 +1930,6 @@ class WP_Rewrite {
 	 * Constructor - Calls init(), which runs setup.
 	 *
 	 * @since 1.5.0
-	 *
 	 */
 	public function __construct() {
 		$this->init();

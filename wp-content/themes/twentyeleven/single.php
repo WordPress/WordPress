@@ -12,7 +12,10 @@ get_header(); ?>
 		<div id="primary">
 			<div id="content" role="main">
 
-				<?php while ( have_posts() ) : the_post(); ?>
+				<?php
+				while ( have_posts() ) :
+					the_post();
+?>
 
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>

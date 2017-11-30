@@ -127,8 +127,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 			}
 		}
 		$id_base = $this->id_data['base'];
-		$value = '';
-		$post = wp_get_custom_css_post( $this->stylesheet );
+		$value   = '';
+		$post    = wp_get_custom_css_post( $this->stylesheet );
 		if ( $post ) {
 			$value = $post->post_content;
 		}
@@ -180,9 +180,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 			$css = '';
 		}
 
-		$r = wp_update_custom_css_post( $css, array(
-			'stylesheet' => $this->stylesheet,
-		) );
+		$r = wp_update_custom_css_post(
+			$css, array(
+				'stylesheet' => $this->stylesheet,
+			)
+		);
 
 		if ( $r instanceof WP_Error ) {
 			return false;

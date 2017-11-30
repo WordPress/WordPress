@@ -17,30 +17,34 @@ if ( ! current_user_can( 'create_sites' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to add sites to this network.' ) );
 }
 
-get_current_screen()->add_help_tab( array(
-	'id'      => 'overview',
-	'title'   => __('Overview'),
-	'content' =>
-		'<p>' . __('This screen is for Super Admins to add new sites to the network. This is not affected by the registration settings.') . '</p>' .
-		'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>'
-) );
-
-get_current_screen()->set_help_sidebar(
-	'<p><strong>' . __('For more information:') . '</strong></p>' .
-	'<p>' . __('<a href="https://codex.wordpress.org/Network_Admin_Sites_Screen">Documentation on Site Management</a>') . '</p>' .
-	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/">Support Forums</a>') . '</p>'
+get_current_screen()->add_help_tab(
+	array(
+		'id'      => 'overview',
+		'title'   => __( 'Overview' ),
+		'content' =>
+			'<p>' . __( 'This screen is for Super Admins to add new sites to the network. This is not affected by the registration settings.' ) . '</p>' .
+			'<p>' . __( 'If the admin email for the new site does not exist in the database, a new user will also be created.' ) . '</p>',
+	)
 );
 
-if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
+get_current_screen()->set_help_sidebar(
+	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
+	'<p>' . __( '<a href="https://codex.wordpress.org/Network_Admin_Sites_Screen">Documentation on Site Management</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/forum/multisite/">Support Forums</a>' ) . '</p>'
+);
+
+if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-blog', '_wpnonce_add-blog' );
 
-	if ( ! is_array( $_POST['blog'] ) )
+	if ( ! is_array( $_POST['blog'] ) ) {
 		wp_die( __( 'Can&#8217;t create an empty site.' ) );
+	}
 
-	$blog = $_POST['blog'];
+	$blog   = $_POST['blog'];
 	$domain = '';
-	if ( preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) )
+	if ( preg_match( '|^([a-zA-Z0-9-])+$|', $blog['domain'] ) ) {
 		$domain = strtolower( $blog['domain'] );
+	}
 
 	// If not a subdomain installation, make sure the domain isn't a reserved word
 	if ( ! is_subdomain_install() ) {
@@ -49,7 +53,8 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		if ( in_array( $domain, $subdirectory_reserved_names ) ) {
 			wp_die(
 				/* translators: %s: reserved names list */
-				sprintf( __( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: %s' ),
+				sprintf(
+					__( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: %s' ),
 					'<code>' . implode( '</code>, <code>', $subdirectory_reserved_names ) . '</code>'
 				)
 			);
@@ -59,7 +64,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$title = $blog['title'];
 
 	$meta = array(
-		'public' => 1
+		'public' => 1,
 	);
 
 	// Handle translation installation for the new site.
@@ -76,8 +81,9 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		}
 	}
 
-	if ( empty( $domain ) )
+	if ( empty( $domain ) ) {
 		wp_die( __( 'Missing or invalid site address.' ) );
+	}
 
 	if ( isset( $blog['email'] ) && '' === trim( $blog['email'] ) ) {
 		wp_die( __( 'Missing email address.' ) );
@@ -97,8 +103,8 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	}
 
 	$password = 'N/A';
-	$user_id = email_exists($email);
-	if ( !$user_id ) { // Create a new user with a random password
+	$user_id  = email_exists( $email );
+	if ( ! $user_id ) { // Create a new user with a random password
 		/**
 		 * Fires immediately before a new user is created via the network site-new.php page.
 		 *
@@ -113,7 +119,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 			wp_die( __( 'The domain or path entered conflicts with an existing username.' ) );
 		}
 		$password = wp_generate_password( 12, false );
-		$user_id = wpmu_create_user( $domain, $password, $email );
+		$user_id  = wpmu_create_user( $domain, $password, $email );
 		if ( false === $user_id ) {
 			wp_die( __( 'There was an error creating the user.' ) );
 		}
@@ -132,7 +138,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$id = wpmu_create_blog( $newdomain, $path, $title, $user_id, $meta, get_current_network_id() );
 	$wpdb->show_errors();
 	if ( ! is_wp_error( $id ) ) {
-		if ( ! is_super_admin( $user_id ) && !get_user_option( 'primary_blog', $user_id ) ) {
+		if ( ! is_super_admin( $user_id ) && ! get_user_option( 'primary_blog', $user_id ) ) {
 			update_user_option( $user_id, 'primary_blog', $id, true );
 		}
 
@@ -145,10 +151,12 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 			),
 			sprintf(
 				/* translators: 1: user login, 2: site url, 3: site name/title */
-				__( 'New site created by %1$s
+				__(
+					'New site created by %1$s
 
 Address: %2$s
-Name: %3$s' ),
+Name: %3$s'
+				),
 				$current_user->user_login,
 				get_site_url( $id ),
 				wp_unslash( $title )
@@ -160,25 +168,33 @@ Name: %3$s' ),
 			)
 		);
 		wpmu_welcome_notification( $id, $user_id, $password, $title, array( 'public' => 1 ) );
-		wp_redirect( add_query_arg( array( 'update' => 'added', 'id' => $id ), 'site-new.php' ) );
+		wp_redirect(
+			add_query_arg(
+				array(
+					'update' => 'added',
+					'id'     => $id,
+				), 'site-new.php'
+			)
+		);
 		exit;
 	} else {
 		wp_die( $id->get_error_message() );
 	}
 }
 
-if ( isset($_GET['update']) ) {
+if ( isset( $_GET['update'] ) ) {
 	$messages = array();
-	if ( 'added' == $_GET['update'] )
+	if ( 'added' == $_GET['update'] ) {
 		$messages[] = sprintf(
 			/* translators: 1: dashboard url, 2: network admin edit url */
 			__( 'Site added. <a href="%1$s">Visit Dashboard</a> or <a href="%2$s">Edit Site</a>' ),
 			esc_url( get_admin_url( absint( $_GET['id'] ) ) ),
 			network_admin_url( 'site-info.php?id=' . absint( $_GET['id'] ) )
 		);
+	}
 }
 
-$title = __('Add New Site');
+$title       = __( 'Add New Site' );
 $parent_file = 'sites.php';
 
 wp_enqueue_script( 'user-suggest' );
@@ -191,26 +207,32 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 <h1 id="add-new-site"><?php _e( 'Add New Site' ); ?></h1>
 <?php
 if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg )
+	foreach ( $messages as $msg ) {
 		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
-} ?>
+	}
+}
+?>
 <form method="post" action="<?php echo network_admin_url( 'site-new.php?action=add-site' ); ?>" novalidate="novalidate">
-<?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
+<?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ); ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
-			<th scope="row"><label for="site-address"><?php _e( 'Site Address (URL)' ) ?></label></th>
+			<th scope="row"><label for="site-address"><?php _e( 'Site Address (URL)' ); ?></label></th>
 			<td>
 			<?php if ( is_subdomain_install() ) { ?>
 				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off"/><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', get_network()->domain ); ?></span>
-			<?php } else {
-				echo get_network()->domain . get_network()->path ?><input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc"  autocapitalize="none" autocorrect="off" />
-			<?php }
+			<?php
+} else {
+	echo get_network()->domain . get_network()->path
+	?>
+				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc"  autocapitalize="none" autocorrect="off" />
+<?php
+}
 			echo '<p class="description" id="site-address-desc">' . __( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ) . '</p>';
 			?>
 			</td>
 		</tr>
 		<tr class="form-field form-required">
-			<th scope="row"><label for="site-title"><?php _e( 'Site Title' ) ?></label></th>
+			<th scope="row"><label for="site-title"><?php _e( 'Site Title' ); ?></label></th>
 			<td><input name="blog[title]" type="text" class="regular-text" id="site-title" /></td>
 		</tr>
 		<?php
@@ -230,24 +252,26 @@ if ( ! empty( $messages ) ) {
 						$lang = '';
 					}
 
-					wp_dropdown_languages( array(
-						'name'                        => 'WPLANG',
-						'id'                          => 'site-language',
-						'selected'                    => $lang,
-						'languages'                   => $languages,
-						'translations'                => $translations,
-						'show_available_translations' => current_user_can( 'install_languages' ),
-					) );
+					wp_dropdown_languages(
+						array(
+							'name'                        => 'WPLANG',
+							'id'                          => 'site-language',
+							'selected'                    => $lang,
+							'languages'                   => $languages,
+							'translations'                => $translations,
+							'show_available_translations' => current_user_can( 'install_languages' ),
+						)
+					);
 					?>
 				</td>
 			</tr>
 		<?php endif; // Languages. ?>
 		<tr class="form-field form-required">
-			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ) ?></label></th>
+			<th scope="row"><label for="admin-email"><?php _e( 'Admin Email' ); ?></label></th>
 			<td><input name="blog[email]" type="email" class="regular-text wp-suggest-user" id="admin-email" data-autocomplete-type="search" data-autocomplete-field="user_email" /></td>
 		</tr>
 		<tr class="form-field">
-			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and a link to set the password will be mailed to this email address.' ) ?></td>
+			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ); ?><br /><?php _e( 'The username and a link to set the password will be mailed to this email address.' ); ?></td>
 		</tr>
 	</table>
 

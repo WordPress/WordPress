@@ -41,7 +41,7 @@ class WP_Role {
 	 * @param array $capabilities List of capabilities.
 	 */
 	public function __construct( $role, $capabilities ) {
-		$this->name = $role;
+		$this->name         = $role;
 		$this->capabilities = $capabilities;
 	}
 
@@ -54,7 +54,7 @@ class WP_Role {
 	 * @param bool $grant Whether role has capability privilege.
 	 */
 	public function add_cap( $cap, $grant = true ) {
-		$this->capabilities[$cap] = $grant;
+		$this->capabilities[ $cap ] = $grant;
 		wp_roles()->add_cap( $this->name, $cap, $grant );
 	}
 
@@ -71,7 +71,7 @@ class WP_Role {
 	 * @param string $cap Capability name.
 	 */
 	public function remove_cap( $cap ) {
-		unset( $this->capabilities[$cap] );
+		unset( $this->capabilities[ $cap ] );
 		wp_roles()->remove_cap( $this->name, $cap );
 	}
 
@@ -100,10 +100,11 @@ class WP_Role {
 		 */
 		$capabilities = apply_filters( 'role_has_cap', $this->capabilities, $cap, $this->name );
 
-		if ( !empty( $capabilities[$cap] ) )
-			return $capabilities[$cap];
-		else
+		if ( ! empty( $capabilities[ $cap ] ) ) {
+			return $capabilities[ $cap ];
+		} else {
 			return false;
+		}
 	}
 
 }

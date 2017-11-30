@@ -35,7 +35,10 @@ class Walker_Comment extends Walker {
 	 * @see Walker::$db_fields
 	 * @todo Decouple this
 	 */
-	public $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
+	public $db_fields = array(
+		'parent' => 'comment_parent',
+		'id'     => 'comment_ID',
+	);
 
 	/**
 	 * Starts the list before the elements are added.
@@ -126,11 +129,12 @@ class Walker_Comment extends Walker {
 	 * @param string     $output            Used to append additional content. Passed by reference.
 	 */
 	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
-		if ( !$element )
+		if ( ! $element ) {
 			return;
+		}
 
 		$id_field = $this->db_fields['id'];
-		$id = $element->$id_field;
+		$id       = $element->$id_field;
 
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
@@ -139,9 +143,10 @@ class Walker_Comment extends Walker {
 		 * and display them at this level. This is to prevent them being orphaned to the end
 		 * of the list.
 		 */
-		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
-			foreach ( $children_elements[ $id ] as $child )
+		if ( $max_depth <= $depth + 1 && isset( $children_elements[ $id ] ) ) {
+			foreach ( $children_elements[ $id ] as $child ) {
 				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
+			}
 
 			unset( $children_elements[ $id ] );
 		}
@@ -167,9 +172,9 @@ class Walker_Comment extends Walker {
 	public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
 		$depth++;
 		$GLOBALS['comment_depth'] = $depth;
-		$GLOBALS['comment'] = $comment;
+		$GLOBALS['comment']       = $comment;
 
-		if ( !empty( $args['callback'] ) ) {
+		if ( ! empty( $args['callback'] ) ) {
 			ob_start();
 			call_user_func( $args['callback'], $comment, $args, $depth );
 			$output .= ob_get_clean();
@@ -205,16 +210,17 @@ class Walker_Comment extends Walker {
 	 * @param array      $args    Optional. An array of arguments. Default empty array.
 	 */
 	public function end_el( &$output, $comment, $depth = 0, $args = array() ) {
-		if ( !empty( $args['end-callback'] ) ) {
+		if ( ! empty( $args['end-callback'] ) ) {
 			ob_start();
 			call_user_func( $args['end-callback'], $comment, $args, $depth );
 			$output .= ob_get_clean();
 			return;
 		}
-		if ( 'div' == $args['style'] )
+		if ( 'div' == $args['style'] ) {
 			$output .= "</div><!-- #comment-## -->\n";
-		else
+		} else {
 			$output .= "</li><!-- #comment-## -->\n";
+		}
 	}
 
 	/**
@@ -251,10 +257,10 @@ class Walker_Comment extends Walker {
 	 */
 	protected function comment( $comment, $depth, $args ) {
 		if ( 'div' == $args['style'] ) {
-			$tag = 'div';
+			$tag       = 'div';
 			$add_below = 'comment';
 		} else {
-			$tag = 'li';
+			$tag       = 'li';
 			$add_below = 'div-comment';
 		}
 ?>
@@ -263,36 +269,58 @@ class Walker_Comment extends Walker {
 		<div id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 		<?php endif; ?>
 		<div class="comment-author vcard">
-			<?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+			<?php
+			if ( 0 != $args['avatar_size'] ) {
+				echo get_avatar( $comment, $args['avatar_size'] );}
+?>
 			<?php
 				/* translators: %s: comment author link */
-				printf( __( '%s <span class="says">says:</span>' ),
+				printf(
+					__( '%s <span class="says">says:</span>' ),
 					sprintf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) )
 				);
 			?>
 		</div>
 		<?php if ( '0' == $comment->comment_approved ) : ?>
-		<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
+		<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ); ?></em>
 		<br />
 		<?php endif; ?>
 
 		<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
 			<?php
 				/* translators: 1: comment date, 2: comment time */
-				printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ),  get_comment_time() ); ?></a><?php edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
+				printf( __( '%1$s at %2$s' ), get_comment_date( '', $comment ), get_comment_time() );
+				?>
+				</a>
+				<?php
+				edit_comment_link( __( '(Edit)' ), '&nbsp;&nbsp;', '' );
 			?>
 		</div>
 
-		<?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+		<?php
+		comment_text(
+			$comment, array_merge(
+				$args, array(
+					'add_below' => $add_below,
+					'depth'     => $depth,
+					'max_depth' => $args['max_depth'],
+				)
+			)
+		);
+?>
 
 		<?php
-		comment_reply_link( array_merge( $args, array(
-			'add_below' => $add_below,
-			'depth'     => $depth,
-			'max_depth' => $args['max_depth'],
-			'before'    => '<div class="reply">',
-			'after'     => '</div>'
-		) ) );
+		comment_reply_link(
+			array_merge(
+				$args, array(
+					'add_below' => $add_below,
+					'depth'     => $depth,
+					'max_depth' => $args['max_depth'],
+					'before'    => '<div class="reply">',
+					'after'     => '</div>',
+				)
+			)
+		);
 		?>
 
 		<?php if ( 'div' != $args['style'] ) : ?>
@@ -319,10 +347,14 @@ class Walker_Comment extends Walker {
 			<article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
 				<footer class="comment-meta">
 					<div class="comment-author vcard">
-						<?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+						<?php
+						if ( 0 != $args['avatar_size'] ) {
+							echo get_avatar( $comment, $args['avatar_size'] );}
+?>
 						<?php
 							/* translators: %s: comment author link */
-							printf( __( '%s <span class="says">says:</span>' ),
+							printf(
+								__( '%s <span class="says">says:</span>' ),
 								sprintf( '<b class="fn">%s</b>', get_comment_author_link( $comment ) )
 							);
 						?>
@@ -350,13 +382,17 @@ class Walker_Comment extends Walker {
 				</div><!-- .comment-content -->
 
 				<?php
-				comment_reply_link( array_merge( $args, array(
-					'add_below' => 'div-comment',
-					'depth'     => $depth,
-					'max_depth' => $args['max_depth'],
-					'before'    => '<div class="reply">',
-					'after'     => '</div>'
-				) ) );
+				comment_reply_link(
+					array_merge(
+						$args, array(
+							'add_below' => 'div-comment',
+							'depth'     => $depth,
+							'max_depth' => $args['max_depth'],
+							'before'    => '<div class="reply">',
+							'after'     => '</div>',
+						)
+					)
+				);
 				?>
 			</article><!-- .comment-body -->
 <?php

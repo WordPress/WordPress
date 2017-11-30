@@ -15,20 +15,23 @@
  * @return string|false The format if successful. False otherwise.
  */
 function get_post_format( $post = null ) {
-	if ( ! $post = get_post( $post ) )
+	if ( ! $post = get_post( $post ) ) {
 		return false;
+	}
 
-	if ( ! post_type_supports( $post->post_type, 'post-formats' ) )
+	if ( ! post_type_supports( $post->post_type, 'post-formats' ) ) {
 		return false;
+	}
 
 	$_format = get_the_terms( $post->ID, 'post_format' );
 
-	if ( empty( $_format ) )
+	if ( empty( $_format ) ) {
 		return false;
+	}
 
 	$format = reset( $_format );
 
-	return str_replace('post-format-', '', $format->slug );
+	return str_replace( 'post-format-', '', $format->slug );
 }
 
 /**
@@ -64,15 +67,17 @@ function has_post_format( $format = array(), $post = null ) {
 function set_post_format( $post, $format ) {
 	$post = get_post( $post );
 
-	if ( empty( $post ) )
+	if ( empty( $post ) ) {
 		return new WP_Error( 'invalid_post', __( 'Invalid post.' ) );
+	}
 
 	if ( ! empty( $format ) ) {
 		$format = sanitize_key( $format );
-		if ( 'standard' === $format || ! in_array( $format, get_post_format_slugs() ) )
+		if ( 'standard' === $format || ! in_array( $format, get_post_format_slugs() ) ) {
 			$format = '';
-		else
+		} else {
 			$format = 'post-format-' . $format;
+		}
 	}
 
 	return wp_set_post_terms( $post->ID, $format, 'post_format' );
@@ -88,15 +93,15 @@ function set_post_format( $post, $format ) {
 function get_post_format_strings() {
 	$strings = array(
 		'standard' => _x( 'Standard', 'Post format' ), // Special case. any value that evals to false will be considered standard
-		'aside'    => _x( 'Aside',    'Post format' ),
-		'chat'     => _x( 'Chat',     'Post format' ),
-		'gallery'  => _x( 'Gallery',  'Post format' ),
-		'link'     => _x( 'Link',     'Post format' ),
-		'image'    => _x( 'Image',    'Post format' ),
-		'quote'    => _x( 'Quote',    'Post format' ),
-		'status'   => _x( 'Status',   'Post format' ),
-		'video'    => _x( 'Video',    'Post format' ),
-		'audio'    => _x( 'Audio',    'Post format' ),
+		'aside'    => _x( 'Aside', 'Post format' ),
+		'chat'     => _x( 'Chat', 'Post format' ),
+		'gallery'  => _x( 'Gallery', 'Post format' ),
+		'link'     => _x( 'Link', 'Post format' ),
+		'image'    => _x( 'Image', 'Post format' ),
+		'quote'    => _x( 'Quote', 'Post format' ),
+		'status'   => _x( 'Status', 'Post format' ),
+		'video'    => _x( 'Video', 'Post format' ),
+		'audio'    => _x( 'Audio', 'Post format' ),
 	);
 	return $strings;
 }
@@ -123,10 +128,11 @@ function get_post_format_slugs() {
  */
 function get_post_format_string( $slug ) {
 	$strings = get_post_format_strings();
-	if ( !$slug )
+	if ( ! $slug ) {
 		return $strings['standard'];
-	else
-		return ( isset( $strings[$slug] ) ) ? $strings[$slug] : '';
+	} else {
+		return ( isset( $strings[ $slug ] ) ) ? $strings[ $slug ] : '';
+	}
 }
 
 /**
@@ -138,9 +144,10 @@ function get_post_format_string( $slug ) {
  * @return string|WP_Error|false The post format term link.
  */
 function get_post_format_link( $format ) {
-	$term = get_term_by('slug', 'post-format-' . $format, 'post_format' );
-	if ( ! $term || is_wp_error( $term ) )
+	$term = get_term_by( 'slug', 'post-format-' . $format, 'post_format' );
+	if ( ! $term || is_wp_error( $term ) ) {
 		return false;
+	}
 	return get_term_link( $term );
 }
 
@@ -154,14 +161,17 @@ function get_post_format_link( $format ) {
  * @return array
  */
 function _post_format_request( $qvs ) {
-	if ( ! isset( $qvs['post_format'] ) )
+	if ( ! isset( $qvs['post_format'] ) ) {
 		return $qvs;
+	}
 	$slugs = get_post_format_slugs();
-	if ( isset( $slugs[ $qvs['post_format'] ] ) )
+	if ( isset( $slugs[ $qvs['post_format'] ] ) ) {
 		$qvs['post_format'] = 'post-format-' . $slugs[ $qvs['post_format'] ];
+	}
 	$tax = get_taxonomy( 'post_format' );
-	if ( ! is_admin() )
+	if ( ! is_admin() ) {
 		$qvs['post_type'] = $tax->object_type;
+	}
 	return $qvs;
 }
 
@@ -222,12 +232,12 @@ function _post_format_get_terms( $terms, $taxonomies, $args ) {
 	if ( in_array( 'post_format', (array) $taxonomies ) ) {
 		if ( isset( $args['fields'] ) && 'names' == $args['fields'] ) {
 			foreach ( $terms as $order => $name ) {
-				$terms[$order] = get_post_format_string( str_replace( 'post-format-', '', $name ) );
+				$terms[ $order ] = get_post_format_string( str_replace( 'post-format-', '', $name ) );
 			}
 		} else {
 			foreach ( (array) $terms as $order => $term ) {
 				if ( isset( $term->taxonomy ) && 'post_format' == $term->taxonomy ) {
-					$terms[$order]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
+					$terms[ $order ]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
 				}
 			}
 		}
@@ -247,7 +257,7 @@ function _post_format_get_terms( $terms, $taxonomies, $args ) {
 function _post_format_wp_get_object_terms( $terms ) {
 	foreach ( (array) $terms as $order => $term ) {
 		if ( isset( $term->taxonomy ) && 'post_format' == $term->taxonomy ) {
-			$terms[$order]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
+			$terms[ $order ]->name = get_post_format_string( str_replace( 'post-format-', '', $term->slug ) );
 		}
 	}
 	return $terms;

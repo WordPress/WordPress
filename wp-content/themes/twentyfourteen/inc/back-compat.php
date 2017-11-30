@@ -44,9 +44,11 @@ function twentyfourteen_upgrade_notice() {
  * @since Twenty Fourteen 1.0
  */
 function twentyfourteen_customize() {
-	wp_die( sprintf( __( 'Twenty Fourteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentyfourteen' ), $GLOBALS['wp_version'] ), '', array(
-		'back_link' => true,
-	) );
+	wp_die(
+		sprintf( __( 'Twenty Fourteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentyfourteen' ), $GLOBALS['wp_version'] ), '', array(
+			'back_link' => true,
+		)
+	);
 }
 add_action( 'load-customize.php', 'twentyfourteen_customize' );
 

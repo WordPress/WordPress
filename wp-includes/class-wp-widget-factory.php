@@ -71,13 +71,13 @@ class WP_Widget_Factory {
 			return spl_object_hash( $widget );
 		} else {
 			$class_name = get_class( $widget );
-			$hash = $class_name;
+			$hash       = $class_name;
 			if ( ! isset( $widget->_wp_widget_factory_hash_id ) ) {
 				if ( ! isset( $this->hashed_class_counts[ $class_name ] ) ) {
 					$this->hashed_class_counts[ $class_name ] = 0;
 				}
 				$this->hashed_class_counts[ $class_name ] += 1;
-				$widget->_wp_widget_factory_hash_id = $this->hashed_class_counts[ $class_name ];
+				$widget->_wp_widget_factory_hash_id        = $this->hashed_class_counts[ $class_name ];
 			}
 			$hash .= ':' . $widget->_wp_widget_factory_hash_id;
 			return $hash;
@@ -127,18 +127,18 @@ class WP_Widget_Factory {
 	 */
 	public function _register_widgets() {
 		global $wp_registered_widgets;
-		$keys = array_keys($this->widgets);
-		$registered = array_keys($wp_registered_widgets);
-		$registered = array_map('_get_widget_id_base', $registered);
+		$keys       = array_keys( $this->widgets );
+		$registered = array_keys( $wp_registered_widgets );
+		$registered = array_map( '_get_widget_id_base', $registered );
 
 		foreach ( $keys as $key ) {
 			// don't register new widget if old widget with the same id is already registered
-			if ( in_array($this->widgets[$key]->id_base, $registered, true) ) {
-				unset($this->widgets[$key]);
+			if ( in_array( $this->widgets[ $key ]->id_base, $registered, true ) ) {
+				unset( $this->widgets[ $key ] );
 				continue;
 			}
 
-			$this->widgets[$key]->_register();
+			$this->widgets[ $key ]->_register();
 		}
 	}
 }

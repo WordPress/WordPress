@@ -20,53 +20,63 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	public $type;
 
 	/**
-	 *
 	 * @param array $args
 	 */
-	public function __construct($args = array()) {
-		$defaults = array( 'type' => 'web', 'url' => '', 'theme' => '', 'nonce' => '', 'title' => '' );
-		$args = wp_parse_args($args, $defaults);
+	public function __construct( $args = array() ) {
+		$defaults = array(
+			'type'  => 'web',
+			'url'   => '',
+			'theme' => '',
+			'nonce' => '',
+			'title' => '',
+		);
+		$args     = wp_parse_args( $args, $defaults );
 
 		$this->type = $args['type'];
-		$this->api = isset($args['api']) ? $args['api'] : array();
+		$this->api  = isset( $args['api'] ) ? $args['api'] : array();
 
-		parent::__construct($args);
+		parent::__construct( $args );
 	}
 
 	/**
 	 */
 	public function before() {
-		if ( !empty($this->api) )
-			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version);
+		if ( ! empty( $this->api ) ) {
+			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version );
+		}
 	}
 
 	/**
 	 */
 	public function after() {
-		if ( empty($this->upgrader->result['destination_name']) )
+		if ( empty( $this->upgrader->result['destination_name'] ) ) {
 			return;
+		}
 
 		$theme_info = $this->upgrader->theme_info();
-		if ( empty( $theme_info ) )
+		if ( empty( $theme_info ) ) {
 			return;
+		}
 
-		$name       = $theme_info->display('Name');
+		$name       = $theme_info->display( 'Name' );
 		$stylesheet = $this->upgrader->result['destination_name'];
 		$template   = $theme_info->get_template();
 
-		$activate_link = add_query_arg( array(
-			'action'     => 'activate',
-			'template'   => urlencode( $template ),
-			'stylesheet' => urlencode( $stylesheet ),
-		), admin_url('themes.php') );
+		$activate_link = add_query_arg(
+			array(
+				'action'     => 'activate',
+				'template'   => urlencode( $template ),
+				'stylesheet' => urlencode( $stylesheet ),
+			), admin_url( 'themes.php' )
+		);
 		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 
 		$install_actions = array();
 
 		if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
-			$customize_url = add_query_arg(
+			$customize_url              = add_query_arg(
 				array(
-					'theme' => urlencode( $stylesheet ),
+					'theme'  => urlencode( $stylesheet ),
 					'return' => urlencode( admin_url( 'web' === $this->type ? 'theme-install.php' : 'themes.php' ) ),
 				),
 				admin_url( 'customize.php' )
@@ -75,16 +85,19 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		}
 		$install_actions['activate'] = '<a href="' . esc_url( $activate_link ) . '" class="activatelink"><span aria-hidden="true">' . __( 'Activate' ) . '</span><span class="screen-reader-text">' . sprintf( __( 'Activate &#8220;%s&#8221;' ), $name ) . '</span></a>';
 
-		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) )
+		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) ) {
 			$install_actions['network_enable'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . urlencode( $stylesheet ), 'enable-theme_' . $stylesheet ) ) . '" target="_parent">' . __( 'Network Enable' ) . '</a>';
+		}
 
-		if ( $this->type == 'web' )
+		if ( $this->type == 'web' ) {
 			$install_actions['themes_page'] = '<a href="' . self_admin_url( 'theme-install.php' ) . '" target="_parent">' . __( 'Return to Theme Installer' ) . '</a>';
-		elseif ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) )
+		} elseif ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) ) {
 			$install_actions['themes_page'] = '<a href="' . self_admin_url( 'themes.php' ) . '" target="_parent">' . __( 'Return to Themes page' ) . '</a>';
+		}
 
-		if ( ! $this->result || is_wp_error($this->result) || is_network_admin() || ! current_user_can( 'switch_themes' ) )
+		if ( ! $this->result || is_wp_error( $this->result ) || is_network_admin() || ! current_user_can( 'switch_themes' ) ) {
 			unset( $install_actions['activate'], $install_actions['preview'] );
+		}
 
 		/**
 		 * Filters the list of action links available following a single theme installation.
@@ -97,7 +110,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		 * @param WP_Theme $theme_info      Theme object.
 		 */
 		$install_actions = apply_filters( 'install_theme_complete_actions', $install_actions, $this->api, $stylesheet, $theme_info );
-		if ( ! empty($install_actions) )
-			$this->feedback(implode(' | ', (array)$install_actions));
+		if ( ! empty( $install_actions ) ) {
+			$this->feedback( implode( ' | ', (array) $install_actions ) );
+		}
 	}
 }

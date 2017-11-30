@@ -67,12 +67,16 @@ class WP_Http_Curl {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
-	public function request($url, $args = array()) {
+	public function request( $url, $args = array() ) {
 		$defaults = array(
-			'method' => 'GET', 'timeout' => 5,
-			'redirection' => 5, 'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(), 'body' => null, 'cookies' => array()
+			'method'      => 'GET',
+			'timeout'     => 5,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking'    => true,
+			'headers'     => array(),
+			'body'        => null,
+			'cookies'     => array(),
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -105,8 +109,8 @@ class WP_Http_Curl {
 			}
 		}
 
-		$is_local = isset($r['local']) && $r['local'];
-		$ssl_verify = isset($r['sslverify']) && $r['sslverify'];
+		$is_local   = isset( $r['local'] ) && $r['local'];
+		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
 		if ( $is_local ) {
 			/** This filter is documented in wp-includes/class-wp-http-streams.php */
 			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
@@ -123,7 +127,7 @@ class WP_Http_Curl {
 		curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, $timeout );
 		curl_setopt( $handle, CURLOPT_TIMEOUT, $timeout );
 
-		curl_setopt( $handle, CURLOPT_URL, $url);
+		curl_setopt( $handle, CURLOPT_URL, $url );
 		curl_setopt( $handle, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, ( $ssl_verify === true ) ? 2 : false );
 		curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, $ssl_verify );
@@ -139,8 +143,9 @@ class WP_Http_Curl {
 		 * a bug #17490 with redirected POST requests, so handle redirections outside Curl.
 		 */
 		curl_setopt( $handle, CURLOPT_FOLLOWLOCATION, false );
-		if ( defined( 'CURLOPT_PROTOCOLS' ) ) // PHP 5.2.10 / cURL 7.19.4
+		if ( defined( 'CURLOPT_PROTOCOLS' ) ) { // PHP 5.2.10 / cURL 7.19.4
 			curl_setopt( $handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
+		}
 
 		switch ( $r['method'] ) {
 			case 'HEAD':
@@ -156,8 +161,9 @@ class WP_Http_Curl {
 				break;
 			default:
 				curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, $r['method'] );
-				if ( ! is_null( $r['body'] ) )
+				if ( ! is_null( $r['body'] ) ) {
 					curl_setopt( $handle, CURLOPT_POSTFIELDS, $r['body'] );
+				}
 				break;
 		}
 
@@ -168,30 +174,34 @@ class WP_Http_Curl {
 
 		curl_setopt( $handle, CURLOPT_HEADER, false );
 
-		if ( isset( $r['limit_response_size'] ) )
+		if ( isset( $r['limit_response_size'] ) ) {
 			$this->max_body_length = intval( $r['limit_response_size'] );
-		else
+		} else {
 			$this->max_body_length = false;
+		}
 
 		// If streaming to a file open a file handle, and setup our curl streaming handler.
 		if ( $r['stream'] ) {
-			if ( ! WP_DEBUG )
+			if ( ! WP_DEBUG ) {
 				$this->stream_handle = @fopen( $r['filename'], 'w+' );
-			else
+			} else {
 				$this->stream_handle = fopen( $r['filename'], 'w+' );
+			}
 			if ( ! $this->stream_handle ) {
-				return new WP_Error( 'http_request_failed', sprintf(
-					/* translators: 1: fopen() 2: file name */
-					__( 'Could not open handle for %1$s to %2$s.' ),
-					'fopen()',
-					$r['filename']
-				) );
+				return new WP_Error(
+					'http_request_failed', sprintf(
+						/* translators: 1: fopen() 2: file name */
+						__( 'Could not open handle for %1$s to %2$s.' ),
+						'fopen()',
+						$r['filename']
+					)
+				);
 			}
 		} else {
 			$this->stream_handle = false;
 		}
 
-		if ( !empty( $r['headers'] ) ) {
+		if ( ! empty( $r['headers'] ) ) {
 			// cURL expects full header strings in each element.
 			$headers = array();
 			foreach ( $r['headers'] as $name => $value ) {
@@ -200,10 +210,11 @@ class WP_Http_Curl {
 			curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers );
 		}
 
-		if ( $r['httpversion'] == '1.0' )
+		if ( $r['httpversion'] == '1.0' ) {
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0 );
-		else
+		} else {
 			curl_setopt( $handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1 );
+		}
 
 		/**
 		 * Fires before the cURL request is executed.
@@ -233,16 +244,24 @@ class WP_Http_Curl {
 			}
 
 			curl_close( $handle );
-			return array( 'headers' => array(), 'body' => '', 'response' => array('code' => false, 'message' => false), 'cookies' => array() );
+			return array(
+				'headers'  => array(),
+				'body'     => '',
+				'response' => array(
+					'code'    => false,
+					'message' => false,
+				),
+				'cookies'  => array(),
+			);
 		}
 
 		curl_exec( $handle );
-		$theHeaders = WP_Http::processHeaders( $this->headers, $url );
-		$theBody = $this->body;
+		$theHeaders          = WP_Http::processHeaders( $this->headers, $url );
+		$theBody             = $this->body;
 		$bytes_written_total = $this->bytes_written_total;
 
-		$this->headers = '';
-		$this->body = '';
+		$this->headers             = '';
+		$this->body                = '';
 		$this->bytes_written_total = 0;
 
 		$curl_error = curl_errno( $handle );
@@ -274,23 +293,26 @@ class WP_Http_Curl {
 
 		curl_close( $handle );
 
-		if ( $r['stream'] )
+		if ( $r['stream'] ) {
 			fclose( $this->stream_handle );
+		}
 
 		$response = array(
-			'headers' => $theHeaders['headers'],
-			'body' => null,
+			'headers'  => $theHeaders['headers'],
+			'body'     => null,
 			'response' => $theHeaders['response'],
-			'cookies' => $theHeaders['cookies'],
-			'filename' => $r['filename']
+			'cookies'  => $theHeaders['cookies'],
+			'filename' => $r['filename'],
 		);
 
 		// Handle redirects.
-		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) )
+		if ( false !== ( $redirect_response = WP_HTTP::handle_redirects( $url, $r, $response ) ) ) {
 			return $redirect_response;
+		}
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode($theHeaders['headers']) )
+		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode( $theHeaders['headers'] ) ) {
 			$theBody = WP_Http_Encoding::decompress( $theBody );
+		}
 
 		$response['body'] = $theBody;
 
@@ -332,13 +354,13 @@ class WP_Http_Curl {
 
 		if ( $this->max_body_length && ( $this->bytes_written_total + $data_length ) > $this->max_body_length ) {
 			$data_length = ( $this->max_body_length - $this->bytes_written_total );
-			$data = substr( $data, 0, $data_length );
+			$data        = substr( $data, 0, $data_length );
 		}
 
 		if ( $this->stream_handle ) {
 			$bytes_written = fwrite( $this->stream_handle, $data );
 		} else {
-			$this->body .= $data;
+			$this->body   .= $data;
 			$bytes_written = $data_length;
 		}
 
@@ -358,16 +380,18 @@ class WP_Http_Curl {
 	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
-		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) )
+		if ( ! function_exists( 'curl_init' ) || ! function_exists( 'curl_exec' ) ) {
 			return false;
+		}
 
 		$is_ssl = isset( $args['ssl'] ) && $args['ssl'];
 
 		if ( $is_ssl ) {
 			$curl_version = curl_version();
 			// Check whether this cURL version support SSL requests.
-			if ( ! (CURL_VERSION_SSL & $curl_version['features']) )
+			if ( ! ( CURL_VERSION_SSL & $curl_version['features'] ) ) {
 				return false;
+			}
 		}
 
 		/**

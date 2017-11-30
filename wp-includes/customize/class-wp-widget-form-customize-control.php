@@ -49,11 +49,16 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 		}
 
 		$args = array(
-			'widget_id' => $widget['id'],
+			'widget_id'   => $widget['id'],
 			'widget_name' => $widget['name'],
 		);
 
-		$args = wp_list_widget_controls_dynamic_sidebar( array( 0 => $args, 1 => $widget['params'][0] ) );
+		$args                 = wp_list_widget_controls_dynamic_sidebar(
+			array(
+				0 => $args,
+				1 => $widget['params'][0],
+			)
+		);
 		$widget_control_parts = $this->manager->widgets->get_widget_control_parts( $args );
 
 		$this->json['widget_control'] = $widget_control_parts['control'];

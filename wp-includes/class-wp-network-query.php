@@ -91,25 +91,25 @@ class WP_Network_Query {
 	 *
 	 *     @type array        $network__in          Array of network IDs to include. Default empty.
 	 *     @type array        $network__not_in      Array of network IDs to exclude. Default empty.
- 	 *     @type bool         $count                Whether to return a network count (true) or array of network objects.
- 	 *                                              Default false.
- 	 *     @type string       $fields               Network fields to return. Accepts 'ids' (returns an array of network IDs)
- 	 *                                              or empty (returns an array of complete network objects). Default empty.
- 	 *     @type int          $number               Maximum number of networks to retrieve. Default empty (no limit).
- 	 *     @type int          $offset               Number of networks to offset the query. Used to build LIMIT clause.
- 	 *                                              Default 0.
- 	 *     @type bool         $no_found_rows        Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
- 	 *     @type string|array $orderby              Network status or array of statuses. Accepts 'id', 'domain', 'path',
- 	 *                                              'domain_length', 'path_length' and 'network__in'. Also accepts false,
- 	 *                                              an empty array, or 'none' to disable `ORDER BY` clause. Default 'id'.
- 	 *     @type string       $order                How to order retrieved networks. Accepts 'ASC', 'DESC'. Default 'ASC'.
- 	 *     @type string       $domain               Limit results to those affiliated with a given domain. Default empty.
- 	 *     @type array        $domain__in           Array of domains to include affiliated networks for. Default empty.
- 	 *     @type array        $domain__not_in       Array of domains to exclude affiliated networks for. Default empty.
- 	 *     @type string       $path                 Limit results to those affiliated with a given path. Default empty.
- 	 *     @type array        $path__in             Array of paths to include affiliated networks for. Default empty.
- 	 *     @type array        $path__not_in         Array of paths to exclude affiliated networks for. Default empty.
- 	 *     @type string       $search               Search term(s) to retrieve matching networks for. Default empty.
+	 *     @type bool         $count                Whether to return a network count (true) or array of network objects.
+	 *                                              Default false.
+	 *     @type string       $fields               Network fields to return. Accepts 'ids' (returns an array of network IDs)
+	 *                                              or empty (returns an array of complete network objects). Default empty.
+	 *     @type int          $number               Maximum number of networks to retrieve. Default empty (no limit).
+	 *     @type int          $offset               Number of networks to offset the query. Used to build LIMIT clause.
+	 *                                              Default 0.
+	 *     @type bool         $no_found_rows        Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
+	 *     @type string|array $orderby              Network status or array of statuses. Accepts 'id', 'domain', 'path',
+	 *                                              'domain_length', 'path_length' and 'network__in'. Also accepts false,
+	 *                                              an empty array, or 'none' to disable `ORDER BY` clause. Default 'id'.
+	 *     @type string       $order                How to order retrieved networks. Accepts 'ASC', 'DESC'. Default 'ASC'.
+	 *     @type string       $domain               Limit results to those affiliated with a given domain. Default empty.
+	 *     @type array        $domain__in           Array of domains to include affiliated networks for. Default empty.
+	 *     @type array        $domain__not_in       Array of domains to exclude affiliated networks for. Default empty.
+	 *     @type string       $path                 Limit results to those affiliated with a given path. Default empty.
+	 *     @type array        $path__in             Array of paths to include affiliated networks for. Default empty.
+	 *     @type array        $path__not_in         Array of paths to exclude affiliated networks for. Default empty.
+	 *     @type string       $search               Search term(s) to retrieve matching networks for. Default empty.
 	 *     @type bool         $update_network_cache Whether to prime the cache for found networks. Default true.
 	 * }
 	 */
@@ -143,7 +143,6 @@ class WP_Network_Query {
 	 * Parses arguments passed to the network query with default query parameters.
 	 *
 	 * @since 4.6.0
-	 *
 	 *
 	 * @param string|array $query WP_Network_Query arguments. See WP_Network_Query::__construct()
 	 */
@@ -204,10 +203,10 @@ class WP_Network_Query {
 		// Ignore the $fields argument as the queried result will be the same regardless.
 		unset( $_args['fields'] );
 
-		$key = md5( serialize( $_args ) );
+		$key          = md5( serialize( $_args ) );
 		$last_changed = wp_cache_get_last_changed( 'networks' );
 
-		$cache_key = "get_network_ids:$key:$last_changed";
+		$cache_key   = "get_network_ids:$key:$last_changed";
 		$cache_value = wp_cache_get( $cache_key, 'networks' );
 
 		if ( false === $cache_value ) {
@@ -217,12 +216,12 @@ class WP_Network_Query {
 			}
 
 			$cache_value = array(
-				'network_ids' => $network_ids,
+				'network_ids'    => $network_ids,
 				'found_networks' => $this->found_networks,
 			);
 			wp_cache_add( $cache_key, $cache_value, 'networks' );
 		} else {
-			$network_ids = $cache_value['network_ids'];
+			$network_ids          = $cache_value['network_ids'];
 			$this->found_networks = $cache_value['found_networks'];
 		}
 
@@ -301,10 +300,10 @@ class WP_Network_Query {
 
 				if ( is_int( $_key ) ) {
 					$_orderby = $_value;
-					$_order = $order;
+					$_order   = $order;
 				} else {
 					$_orderby = $_key;
-					$_order = $_value;
+					$_order   = $_value;
 				}
 
 				$parsed = $this->parse_orderby( $_orderby );
@@ -405,11 +404,11 @@ class WP_Network_Query {
 		 */
 		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
 
-		$fields = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
-		$join = isset( $clauses['join'] ) ? $clauses['join'] : '';
-		$where = isset( $clauses['where'] ) ? $clauses['where'] : '';
+		$fields  = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
+		$join    = isset( $clauses['join'] ) ? $clauses['join'] : '';
+		$where   = isset( $clauses['where'] ) ? $clauses['where'] : '';
 		$orderby = isset( $clauses['orderby'] ) ? $clauses['orderby'] : '';
-		$limits = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
+		$limits  = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
 		$groupby = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
 
 		if ( $where ) {
@@ -519,9 +518,9 @@ class WP_Network_Query {
 		$parsed = false;
 		if ( $orderby == 'network__in' ) {
 			$network__in = implode( ',', array_map( 'absint', $this->query_vars['network__in'] ) );
-			$parsed = "FIELD( {$wpdb->site}.id, $network__in )";
+			$parsed      = "FIELD( {$wpdb->site}.id, $network__in )";
 		} elseif ( $orderby == 'domain_length' || $orderby == 'path_length' ) {
-			$field = substr( $orderby, 0, -7 );
+			$field  = substr( $orderby, 0, -7 );
 			$parsed = "CHAR_LENGTH($wpdb->site.$field)";
 		} elseif ( in_array( $orderby, $allowed_keys ) ) {
 			$parsed = "$wpdb->site.$orderby";

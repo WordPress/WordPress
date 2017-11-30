@@ -28,30 +28,30 @@ if ( ! class_exists( 'Requests' ) ) {
 class WP_Http {
 
 	// Aliases for HTTP response codes.
-	const HTTP_CONTINUE                   = 100;
-	const SWITCHING_PROTOCOLS             = 101;
-	const PROCESSING                      = 102;
-	const EARLY_HINTS                     = 103;
+	const HTTP_CONTINUE       = 100;
+	const SWITCHING_PROTOCOLS = 101;
+	const PROCESSING          = 102;
+	const EARLY_HINTS         = 103;
 
-	const OK                              = 200;
-	const CREATED                         = 201;
-	const ACCEPTED                        = 202;
-	const NON_AUTHORITATIVE_INFORMATION   = 203;
-	const NO_CONTENT                      = 204;
-	const RESET_CONTENT                   = 205;
-	const PARTIAL_CONTENT                 = 206;
-	const MULTI_STATUS                    = 207;
-	const IM_USED                         = 226;
+	const OK                            = 200;
+	const CREATED                       = 201;
+	const ACCEPTED                      = 202;
+	const NON_AUTHORITATIVE_INFORMATION = 203;
+	const NO_CONTENT                    = 204;
+	const RESET_CONTENT                 = 205;
+	const PARTIAL_CONTENT               = 206;
+	const MULTI_STATUS                  = 207;
+	const IM_USED                       = 226;
 
-	const MULTIPLE_CHOICES                = 300;
-	const MOVED_PERMANENTLY               = 301;
-	const FOUND                           = 302;
-	const SEE_OTHER                       = 303;
-	const NOT_MODIFIED                    = 304;
-	const USE_PROXY                       = 305;
-	const RESERVED                        = 306;
-	const TEMPORARY_REDIRECT              = 307;
-	const PERMANENT_REDIRECT              = 308;
+	const MULTIPLE_CHOICES   = 300;
+	const MOVED_PERMANENTLY  = 301;
+	const FOUND              = 302;
+	const SEE_OTHER          = 303;
+	const NOT_MODIFIED       = 304;
+	const USE_PROXY          = 305;
+	const RESERVED           = 306;
+	const TEMPORARY_REDIRECT = 307;
+	const PERMANENT_REDIRECT = 308;
 
 	const BAD_REQUEST                     = 400;
 	const UNAUTHORIZED                    = 401;
@@ -147,7 +147,7 @@ class WP_Http {
 	 */
 	public function request( $url, $args = array() ) {
 		$defaults = array(
-			'method' => 'GET',
+			'method'              => 'GET',
 			/**
 			 * Filters the timeout value for an HTTP request.
 			 *
@@ -156,7 +156,7 @@ class WP_Http {
 			 * @param int $timeout_value Time in seconds until a request times out.
 			 *                           Default 5.
 			 */
-			'timeout' => apply_filters( 'http_request_timeout', 5 ),
+			'timeout'             => apply_filters( 'http_request_timeout', 5 ),
 			/**
 			 * Filters the number of redirects allowed during an HTTP request.
 			 *
@@ -164,7 +164,7 @@ class WP_Http {
 			 *
 			 * @param int $redirect_count Number of redirects allowed. Default 5.
 			 */
-			'redirection' => apply_filters( 'http_request_redirection_count', 5 ),
+			'redirection'         => apply_filters( 'http_request_redirection_count', 5 ),
 			/**
 			 * Filters the version of the HTTP protocol used in a request.
 			 *
@@ -173,7 +173,7 @@ class WP_Http {
 			 * @param string $version Version of HTTP used. Accepts '1.0' and '1.1'.
 			 *                        Default '1.0'.
 			 */
-			'httpversion' => apply_filters( 'http_request_version', '1.0' ),
+			'httpversion'         => apply_filters( 'http_request_version', '1.0' ),
 			/**
 			 * Filters the user agent value sent with an HTTP request.
 			 *
@@ -181,7 +181,7 @@ class WP_Http {
 			 *
 			 * @param string $user_agent WordPress user agent string.
 			 */
-			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) ),
+			'user-agent'          => apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) ),
 			/**
 			 * Filters whether to pass URLs through wp_http_validate_url() in an HTTP request.
 			 *
@@ -190,17 +190,17 @@ class WP_Http {
 			 * @param bool $pass_url Whether to pass URLs through wp_http_validate_url().
 			 *                       Default false.
 			 */
-			'reject_unsafe_urls' => apply_filters( 'http_request_reject_unsafe_urls', false ),
-			'blocking' => true,
-			'headers' => array(),
-			'cookies' => array(),
-			'body' => null,
-			'compress' => false,
-			'decompress' => true,
-			'sslverify' => true,
-			'sslcertificates' => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
-			'stream' => false,
-			'filename' => null,
+			'reject_unsafe_urls'  => apply_filters( 'http_request_reject_unsafe_urls', false ),
+			'blocking'            => true,
+			'headers'             => array(),
+			'cookies'             => array(),
+			'body'                => null,
+			'compress'            => false,
+			'decompress'          => true,
+			'sslverify'           => true,
+			'sslcertificates'     => ABSPATH . WPINC . '/certificates/ca-bundle.crt',
+			'stream'              => false,
+			'filename'            => null,
 			'limit_response_size' => null,
 		);
 
@@ -208,8 +208,9 @@ class WP_Http {
 		$args = wp_parse_args( $args );
 
 		// By default, Head requests do not cause redirections.
-		if ( isset($args['method']) && 'HEAD' == $args['method'] )
+		if ( isset( $args['method'] ) && 'HEAD' == $args['method'] ) {
 			$defaults['redirection'] = 0;
+		}
 
 		$r = wp_parse_args( $args, $defaults );
 		/**
@@ -223,8 +224,9 @@ class WP_Http {
 		$r = apply_filters( 'http_request_args', $r, $url );
 
 		// The transports decrement this, store a copy of the original value for loop purposes.
-		if ( ! isset( $r['_redirection'] ) )
+		if ( ! isset( $r['_redirection'] ) ) {
 			$r['_redirection'] = $r['redirection'];
+		}
 
 		/**
 		 * Filters whether to preempt an HTTP request's return value.
@@ -246,8 +248,9 @@ class WP_Http {
 		 */
 		$pre = apply_filters( 'pre_http_request', false, $r, $url );
 
-		if ( false !== $pre )
+		if ( false !== $pre ) {
 			return $pre;
+		}
 
 		if ( function_exists( 'wp_kses_bad_protocol' ) ) {
 			if ( $r['reject_unsafe_urls'] ) {
@@ -261,7 +264,7 @@ class WP_Http {
 		$arrURL = @parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
-			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
+			return new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
 		}
 
 		if ( $this->block_request( $url ) ) {
@@ -289,18 +292,18 @@ class WP_Http {
 		// WP allows passing in headers as a string, weirdly.
 		if ( ! is_array( $r['headers'] ) ) {
 			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
-			$r['headers'] = $processedHeaders['headers'];
+			$r['headers']     = $processedHeaders['headers'];
 		}
 
 		// Setup arguments
 		$headers = $r['headers'];
-		$data = $r['body'];
-		$type = $r['method'];
+		$data    = $r['body'];
+		$type    = $r['method'];
 		$options = array(
-			'timeout' => $r['timeout'],
+			'timeout'   => $r['timeout'],
 			'useragent' => $r['user-agent'],
-			'blocking' => $r['blocking'],
-			'hooks' => new WP_HTTP_Requests_Hooks( $url, $r ),
+			'blocking'  => $r['blocking'],
+			'hooks'     => new WP_HTTP_Requests_Hooks( $url, $r ),
 		);
 
 		// Ensure redirects follow browser behaviour.
@@ -332,7 +335,7 @@ class WP_Http {
 
 		// SSL certificate handling
 		if ( ! $r['sslverify'] ) {
-			$options['verify'] = false;
+			$options['verify']     = false;
 			$options['verifyname'] = false;
 		} else {
 			$options['verify'] = $r['sslcertificates'];
@@ -359,8 +362,8 @@ class WP_Http {
 
 			if ( $proxy->use_authentication() ) {
 				$options['proxy']->use_authentication = true;
-				$options['proxy']->user = $proxy->username();
-				$options['proxy']->pass = $proxy->password();
+				$options['proxy']->user               = $proxy->username();
+				$options['proxy']->pass               = $proxy->password();
 			}
 		}
 
@@ -372,12 +375,11 @@ class WP_Http {
 
 			// Convert the response into an array
 			$http_response = new WP_HTTP_Requests_Response( $requests_response, $r['filename'] );
-			$response = $http_response->to_array();
+			$response      = $http_response->to_array();
 
 			// Add the original object to the array.
 			$response['http_response'] = $http_response;
-		}
-		catch ( Requests_Exception $e ) {
+		} catch ( Requests_Exception $e ) {
 			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
 		}
 
@@ -401,13 +403,13 @@ class WP_Http {
 
 		if ( ! $r['blocking'] ) {
 			return array(
-				'headers' => array(),
-				'body' => '',
-				'response' => array(
-					'code' => false,
+				'headers'       => array(),
+				'body'          => '',
+				'response'      => array(
+					'code'    => false,
 					'message' => false,
 				),
-				'cookies' => array(),
+				'cookies'       => array(),
 				'http_response' => null,
 			);
 		}
@@ -480,7 +482,7 @@ class WP_Http {
 	 */
 	public static function validate_redirects( $location ) {
 		if ( ! wp_http_validate_url( $location ) ) {
-			throw new Requests_Exception( __('A valid URL was not provided.'), 'wp_http.redirect_failed_validation' );
+			throw new Requests_Exception( __( 'A valid URL was not provided.' ), 'wp_http.redirect_failed_validation' );
 		}
 	}
 
@@ -517,8 +519,9 @@ class WP_Http {
 			$class = 'WP_Http_' . $transport;
 
 			// Check to see if this transport is a possibility, calls the transport statically.
-			if ( !call_user_func( array( $class, 'test' ), $args, $url ) )
+			if ( ! call_user_func( array( $class, 'test' ), $args, $url ) ) {
 				continue;
+			}
 
 			return $class;
 		}
@@ -546,20 +549,23 @@ class WP_Http {
 		static $transports = array();
 
 		$class = $this->_get_first_available_transport( $args, $url );
-		if ( !$class )
+		if ( ! $class ) {
 			return new WP_Error( 'http_failure', __( 'There are no HTTP transports available which can complete the requested request.' ) );
+		}
 
 		// Transport claims to support request, instantiate it and give it a whirl.
-		if ( empty( $transports[$class] ) )
-			$transports[$class] = new $class;
+		if ( empty( $transports[ $class ] ) ) {
+			$transports[ $class ] = new $class;
+		}
 
-		$response = $transports[$class]->request( $url, $args );
+		$response = $transports[ $class ]->request( $url, $args );
 
 		/** This action is documented in wp-includes/class-http.php */
 		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
-		if ( is_wp_error( $response ) )
+		if ( is_wp_error( $response ) ) {
 			return $response;
+		}
 
 		/**
 		 * Filters the HTTP API response immediately before the response is returned.
@@ -584,10 +590,10 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
-	public function post($url, $args = array()) {
-		$defaults = array('method' => 'POST');
-		$r = wp_parse_args( $args, $defaults );
-		return $this->request($url, $r);
+	public function post( $url, $args = array() ) {
+		$defaults = array( 'method' => 'POST' );
+		$r        = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $r );
 	}
 
 	/**
@@ -601,10 +607,10 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
-	public function get($url, $args = array()) {
-		$defaults = array('method' => 'GET');
-		$r = wp_parse_args( $args, $defaults );
-		return $this->request($url, $r);
+	public function get( $url, $args = array() ) {
+		$defaults = array( 'method' => 'GET' );
+		$r        = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $r );
 	}
 
 	/**
@@ -618,10 +624,10 @@ class WP_Http {
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
-	public function head($url, $args = array()) {
-		$defaults = array('method' => 'HEAD');
-		$r = wp_parse_args( $args, $defaults );
-		return $this->request($url, $r);
+	public function head( $url, $args = array() ) {
+		$defaults = array( 'method' => 'HEAD' );
+		$r        = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $r );
 	}
 
 	/**
@@ -633,10 +639,13 @@ class WP_Http {
 	 * @param string $strResponse The full response string
 	 * @return array Array with 'headers' and 'body' keys.
 	 */
-	public static function processResponse($strResponse) {
-		$res = explode("\r\n\r\n", $strResponse, 2);
+	public static function processResponse( $strResponse ) {
+		$res = explode( "\r\n\r\n", $strResponse, 2 );
 
-		return array('headers' => $res[0], 'body' => isset($res[1]) ? $res[1] : '');
+		return array(
+			'headers' => $res[0],
+			'body'    => isset( $res[1] ) ? $res[1] : '',
+		);
 	}
 
 	/**
@@ -651,68 +660,78 @@ class WP_Http {
 	 * @param string|array $headers
 	 * @param string $url The URL that was requested
 	 * @return array Processed string headers. If duplicate headers are encountered,
-	 * 					Then a numbered array is returned as the value of that header-key.
+	 *                  Then a numbered array is returned as the value of that header-key.
 	 */
 	public static function processHeaders( $headers, $url = '' ) {
 		// Split headers, one per array element.
-		if ( is_string($headers) ) {
+		if ( is_string( $headers ) ) {
 			// Tolerate line terminator: CRLF = LF (RFC 2616 19.3).
-			$headers = str_replace("\r\n", "\n", $headers);
+			$headers = str_replace( "\r\n", "\n", $headers );
 			/*
 			 * Unfold folded header fields. LWS = [CRLF] 1*( SP | HT ) <US-ASCII SP, space (32)>,
 			 * <US-ASCII HT, horizontal-tab (9)> (RFC 2616 2.2).
 			 */
-			$headers = preg_replace('/\n[ \t]/', ' ', $headers);
+			$headers = preg_replace( '/\n[ \t]/', ' ', $headers );
 			// Create the headers array.
-			$headers = explode("\n", $headers);
+			$headers = explode( "\n", $headers );
 		}
 
-		$response = array('code' => 0, 'message' => '');
+		$response = array(
+			'code'    => 0,
+			'message' => '',
+		);
 
 		/*
 		 * If a redirection has taken place, The headers for each page request may have been passed.
 		 * In this case, determine the final HTTP header and parse from there.
 		 */
-		for ( $i = count($headers)-1; $i >= 0; $i-- ) {
-			if ( !empty($headers[$i]) && false === strpos($headers[$i], ':') ) {
-				$headers = array_splice($headers, $i);
+		for ( $i = count( $headers ) - 1; $i >= 0; $i-- ) {
+			if ( ! empty( $headers[ $i ] ) && false === strpos( $headers[ $i ], ':' ) ) {
+				$headers = array_splice( $headers, $i );
 				break;
 			}
 		}
 
-		$cookies = array();
+		$cookies    = array();
 		$newheaders = array();
 		foreach ( (array) $headers as $tempheader ) {
-			if ( empty($tempheader) )
+			if ( empty( $tempheader ) ) {
 				continue;
+			}
 
-			if ( false === strpos($tempheader, ':') ) {
-				$stack = explode(' ', $tempheader, 3);
+			if ( false === strpos( $tempheader, ':' ) ) {
+				$stack   = explode( ' ', $tempheader, 3 );
 				$stack[] = '';
 				list( , $response['code'], $response['message']) = $stack;
 				continue;
 			}
 
-			list($key, $value) = explode(':', $tempheader, 2);
+			list($key, $value) = explode( ':', $tempheader, 2 );
 
-			$key = strtolower( $key );
+			$key   = strtolower( $key );
 			$value = trim( $value );
 
 			if ( isset( $newheaders[ $key ] ) ) {
-				if ( ! is_array( $newheaders[ $key ] ) )
-					$newheaders[$key] = array( $newheaders[ $key ] );
+				if ( ! is_array( $newheaders[ $key ] ) ) {
+					$newheaders[ $key ] = array( $newheaders[ $key ] );
+				}
 				$newheaders[ $key ][] = $value;
 			} else {
 				$newheaders[ $key ] = $value;
 			}
-			if ( 'set-cookie' == $key )
+			if ( 'set-cookie' == $key ) {
 				$cookies[] = new WP_Http_Cookie( $value, $url );
+			}
 		}
 
 		// Cast the Response Code to an int
 		$response['code'] = intval( $response['code'] );
 
-		return array('response' => $response, 'headers' => $newheaders, 'cookies' => $cookies);
+		return array(
+			'response' => $response,
+			'headers'  => $newheaders,
+			'cookies'  => $cookies,
+		);
 	}
 
 	/**
@@ -728,11 +747,17 @@ class WP_Http {
 	 * @param array $r Full array of args passed into ::request()
 	 */
 	public static function buildCookieHeader( &$r ) {
-		if ( ! empty($r['cookies']) ) {
+		if ( ! empty( $r['cookies'] ) ) {
 			// Upgrade any name => value cookie pairs to WP_HTTP_Cookie instances.
 			foreach ( $r['cookies'] as $name => $value ) {
-				if ( ! is_object( $value ) )
-					$r['cookies'][ $name ] = new WP_Http_Cookie( array( 'name' => $name, 'value' => $value ) );
+				if ( ! is_object( $value ) ) {
+					$r['cookies'][ $name ] = new WP_Http_Cookie(
+						array(
+							'name'  => $name,
+							'value' => $value,
+						)
+					);
+				}
 			}
 
 			$cookies_header = '';
@@ -740,7 +765,7 @@ class WP_Http {
 				$cookies_header .= $cookie->getHeaderValue() . '; ';
 			}
 
-			$cookies_header = substr( $cookies_header, 0, -2 );
+			$cookies_header         = substr( $cookies_header, 0, -2 );
 			$r['headers']['cookie'] = $cookies_header;
 		}
 	}
@@ -760,8 +785,9 @@ class WP_Http {
 	 */
 	public static function chunkTransferDecode( $body ) {
 		// The body is not chunked encoded or is malformed.
-		if ( ! preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', trim( $body ) ) )
+		if ( ! preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', trim( $body ) ) ) {
 			return $body;
+		}
 
 		$parsed_body = '';
 
@@ -770,10 +796,11 @@ class WP_Http {
 
 		while ( true ) {
 			$has_chunk = (bool) preg_match( '/^([0-9a-f]+)[^\r\n]*\r\n/i', $body, $match );
-			if ( ! $has_chunk || empty( $match[1] ) )
+			if ( ! $has_chunk || empty( $match[1] ) ) {
 				return $body_original;
+			}
 
-			$length = hexdec( $match[1] );
+			$length       = hexdec( $match[1] );
 			$chunk_length = strlen( $match[0] );
 
 			// Parse out the chunk of data.
@@ -783,8 +810,9 @@ class WP_Http {
 			$body = substr( $body, $length + $chunk_length );
 
 			// End of the document.
-			if ( '0' === trim( $body ) )
+			if ( '0' === trim( $body ) ) {
 				return $parsed_body;
+			}
 		}
 	}
 
@@ -810,16 +838,18 @@ class WP_Http {
 	 * @param string $uri URI of url.
 	 * @return bool True to block, false to allow.
 	 */
-	public function block_request($uri) {
+	public function block_request( $uri ) {
 		// We don't need to block requests, because nothing is blocked.
-		if ( ! defined( 'WP_HTTP_BLOCK_EXTERNAL' ) || ! WP_HTTP_BLOCK_EXTERNAL )
+		if ( ! defined( 'WP_HTTP_BLOCK_EXTERNAL' ) || ! WP_HTTP_BLOCK_EXTERNAL ) {
 			return false;
+		}
 
-		$check = parse_url($uri);
-		if ( ! $check )
+		$check = parse_url( $uri );
+		if ( ! $check ) {
 			return true;
+		}
 
-		$home = parse_url( get_option('siteurl') );
+		$home = parse_url( get_option( 'siteurl' ) );
 
 		// Don't block requests back to ourselves by default.
 		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
@@ -834,26 +864,29 @@ class WP_Http {
 			return apply_filters( 'block_local_requests', false );
 		}
 
-		if ( !defined('WP_ACCESSIBLE_HOSTS') )
+		if ( ! defined( 'WP_ACCESSIBLE_HOSTS' ) ) {
 			return true;
+		}
 
 		static $accessible_hosts = null;
-		static $wildcard_regex = array();
+		static $wildcard_regex   = array();
 		if ( null === $accessible_hosts ) {
-			$accessible_hosts = preg_split('|,\s*|', WP_ACCESSIBLE_HOSTS);
+			$accessible_hosts = preg_split( '|,\s*|', WP_ACCESSIBLE_HOSTS );
 
-			if ( false !== strpos(WP_ACCESSIBLE_HOSTS, '*') ) {
+			if ( false !== strpos( WP_ACCESSIBLE_HOSTS, '*' ) ) {
 				$wildcard_regex = array();
-				foreach ( $accessible_hosts as $host )
+				foreach ( $accessible_hosts as $host ) {
 					$wildcard_regex[] = str_replace( '\*', '.+', preg_quote( $host, '/' ) );
-				$wildcard_regex = '/^(' . implode('|', $wildcard_regex) . ')$/i';
+				}
+				$wildcard_regex = '/^(' . implode( '|', $wildcard_regex ) . ')$/i';
 			}
 		}
 
-		if ( !empty($wildcard_regex) )
-			return !preg_match($wildcard_regex, $check['host']);
-		else
-			return !in_array( $check['host'], $accessible_hosts ); //Inverse logic, If it's in the array, then we can't access it.
+		if ( ! empty( $wildcard_regex ) ) {
+			return ! preg_match( $wildcard_regex, $check['host'] );
+		} else {
+			return ! in_array( $check['host'], $accessible_hosts ); //Inverse logic, If it's in the array, then we can't access it.
+		}
 
 	}
 
@@ -886,8 +919,9 @@ class WP_Http {
 	 * @return string An Absolute URL, in a failure condition where the URL cannot be parsed, the relative URL will be returned.
 	 */
 	public static function make_absolute_url( $maybe_relative_path, $url ) {
-		if ( empty( $url ) )
+		if ( empty( $url ) ) {
 			return $maybe_relative_path;
+		}
 
 		if ( ! $url_parts = wp_parse_url( $url ) ) {
 			return $maybe_relative_path;
@@ -907,12 +941,14 @@ class WP_Http {
 		// Schemeless URL's will make it this far, so we check for a host in the relative url and convert it to a protocol-url
 		if ( isset( $relative_url_parts['host'] ) ) {
 			$absolute_path .= $relative_url_parts['host'];
-			if ( isset( $relative_url_parts['port'] ) )
+			if ( isset( $relative_url_parts['port'] ) ) {
 				$absolute_path .= ':' . $relative_url_parts['port'];
+			}
 		} else {
 			$absolute_path .= $url_parts['host'];
-			if ( isset( $url_parts['port'] ) )
+			if ( isset( $url_parts['port'] ) ) {
 				$absolute_path .= ':' . $url_parts['port'];
+			}
 		}
 
 		// Start off with the Absolute URL path.
@@ -922,7 +958,7 @@ class WP_Http {
 		if ( ! empty( $relative_url_parts['path'] ) && '/' == $relative_url_parts['path'][0] ) {
 			$path = $relative_url_parts['path'];
 
-		// Else it's a relative path.
+			// Else it's a relative path.
 		} elseif ( ! empty( $relative_url_parts['path'] ) ) {
 			// Strip off any file components from the absolute path.
 			$path = substr( $path, 0, strrpos( $path, '/' ) + 1 );
@@ -940,8 +976,9 @@ class WP_Http {
 		}
 
 		// Add the Query string.
-		if ( ! empty( $relative_url_parts['query'] ) )
+		if ( ! empty( $relative_url_parts['query'] ) ) {
 			$path .= '?' . $relative_url_parts['query'];
+		}
 
 		return $absolute_path . '/' . ltrim( $path, '/' );
 	}
@@ -959,36 +996,42 @@ class WP_Http {
 	 */
 	public static function handle_redirects( $url, $args, $response ) {
 		// If no redirects are present, or, redirects were not requested, perform no action.
-		if ( ! isset( $response['headers']['location'] ) || 0 === $args['_redirection'] )
+		if ( ! isset( $response['headers']['location'] ) || 0 === $args['_redirection'] ) {
 			return false;
+		}
 
 		// Only perform redirections on redirection http codes.
-		if ( $response['response']['code'] > 399 || $response['response']['code'] < 300 )
+		if ( $response['response']['code'] > 399 || $response['response']['code'] < 300 ) {
 			return false;
+		}
 
 		// Don't redirect if we've run out of redirects.
-		if ( $args['redirection']-- <= 0 )
-			return new WP_Error( 'http_request_failed', __('Too many redirects.') );
+		if ( $args['redirection']-- <= 0 ) {
+			return new WP_Error( 'http_request_failed', __( 'Too many redirects.' ) );
+		}
 
 		$redirect_location = $response['headers']['location'];
 
 		// If there were multiple Location headers, use the last header specified.
-		if ( is_array( $redirect_location ) )
+		if ( is_array( $redirect_location ) ) {
 			$redirect_location = array_pop( $redirect_location );
+		}
 
 		$redirect_location = WP_Http::make_absolute_url( $redirect_location, $url );
 
 		// POST requests should not POST to a redirected location.
 		if ( 'POST' == $args['method'] ) {
-			if ( in_array( $response['response']['code'], array( 302, 303 ) ) )
+			if ( in_array( $response['response']['code'], array( 302, 303 ) ) ) {
 				$args['method'] = 'GET';
+			}
 		}
 
 		// Include valid cookies in the redirect process.
 		if ( ! empty( $response['cookies'] ) ) {
 			foreach ( $response['cookies'] as $cookie ) {
-				if ( $cookie->test( $redirect_location ) )
+				if ( $cookie->test( $redirect_location ) ) {
 					$args['cookies'][] = $cookie;
+				}
 			}
 		}
 
@@ -1012,11 +1055,13 @@ class WP_Http {
 	 * @return integer|bool Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure
 	 */
 	public static function is_ip_address( $maybe_ip ) {
-		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip ) )
+		if ( preg_match( '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/', $maybe_ip ) ) {
 			return 4;
+		}
 
-		if ( false !== strpos( $maybe_ip, ':' ) && preg_match( '/^(((?=.*(::))(?!.*\3.+\3))\3?|([\dA-F]{1,4}(\3|:\b|$)|\2))(?4){5}((?4){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i', trim( $maybe_ip, ' []' ) ) )
+		if ( false !== strpos( $maybe_ip, ':' ) && preg_match( '/^(((?=.*(::))(?!.*\3.+\3))\3?|([\dA-F]{1,4}(\3|:\b|$)|\2))(?4){5}((?4){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i', trim( $maybe_ip, ' []' ) ) ) {
 			return 6;
+		}
 
 		return false;
 	}

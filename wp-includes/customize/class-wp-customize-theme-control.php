@@ -82,10 +82,12 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 
 			<span class="more-details theme-details" id="{{ data.section }}-{{ data.theme.id }}-action" aria-label="<?php echo esc_attr( $details_label ); ?>"><?php _e( 'Theme Details' ); ?></span>
 
-			<div class="theme-author"><?php
+			<div class="theme-author">
+			<?php
 				/* translators: Theme author name */
 				printf( _x( 'By %s', 'theme author' ), '{{ data.theme.author }}' );
-			?></div>
+			?>
+			</div>
 
 			<# if ( 'installed' === data.theme.type && data.theme.hasUpdate ) { #>
 				<div class="update-message notice inline notice-warning notice-alt" data-slug="{{ data.theme.id }}">

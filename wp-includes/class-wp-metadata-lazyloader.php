@@ -52,7 +52,7 @@ class WP_Metadata_Lazyloader {
 	 */
 	public function __construct() {
 		$this->settings = array(
-			'term' => array(
+			'term'    => array(
 				'filter'   => 'get_term_metadata',
 				'callback' => array( $this, 'lazyload_term_meta' ),
 			),

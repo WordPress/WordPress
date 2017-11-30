@@ -58,10 +58,12 @@ if ( 'post' != $post_type ) {
 	$submenu_file = "edit-tags.php?taxonomy=$taxonomy";
 }
 
-get_current_screen()->set_screen_reader_content( array(
-	'heading_pagination' => $tax->labels->items_list_navigation,
-	'heading_list'       => $tax->labels->items_list,
-) );
+get_current_screen()->set_screen_reader_content(
+	array(
+		'heading_pagination' => $tax->labels->items_list_navigation,
+		'heading_list'       => $tax->labels->items_list,
+	)
+);
 wp_enqueue_script( 'admin-tags' );
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 include( ABSPATH . 'wp-admin/edit-tag-form.php' );

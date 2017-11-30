@@ -143,11 +143,11 @@ final class WP_Term {
 					}
 				}
 
-			// If only one match was found, it's the one we want.
+				// If only one match was found, it's the one we want.
 			} elseif ( 1 === count( $terms ) ) {
 				$_term = reset( $terms );
 
-			// Otherwise, the term must be shared between taxonomies.
+				// Otherwise, the term must be shared between taxonomies.
 			} else {
 				// If the term is shared only with invalid taxonomies, return the one valid term.
 				foreach ( $terms as $t ) {
@@ -232,8 +232,8 @@ final class WP_Term {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'data' :
-				$data = new stdClass();
+			case 'data':
+				$data    = new stdClass();
 				$columns = array( 'term_id', 'name', 'slug', 'term_group', 'term_taxonomy_id', 'taxonomy', 'description', 'parent', 'count' );
 				foreach ( $columns as $column ) {
 					$data->{$column} = isset( $this->{$column} ) ? $this->{$column} : null;

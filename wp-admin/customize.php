@@ -51,11 +51,11 @@ if ( $wp_customize->changeset_post_id() ) {
 		 *
 		 * By opening an Ajax request, this is avoided and the changeset is published. See #39221.
 		 */
-		$nonces = $wp_customize->get_nonces();
+		$nonces       = $wp_customize->get_nonces();
 		$request_args = array(
-			'nonce' => $nonces['save'],
-			'customize_changeset_uuid' => $wp_customize->changeset_uuid(),
-			'wp_customize' => 'on',
+			'nonce'                      => $nonces['save'],
+			'customize_changeset_uuid'   => $wp_customize->changeset_uuid(),
+			'wp_customize'               => 'on',
 			'customize_changeset_status' => 'publish',
 		);
 		ob_start();
@@ -96,13 +96,13 @@ if ( ! empty( $autofocus ) && is_array( $autofocus ) ) {
 	$wp_customize->set_autofocus( wp_unslash( $autofocus ) );
 }
 
-$registered = $wp_scripts->registered;
-$wp_scripts = new WP_Scripts;
+$registered             = $wp_scripts->registered;
+$wp_scripts             = new WP_Scripts;
 $wp_scripts->registered = $registered;
 
-add_action( 'customize_controls_print_scripts',        'print_head_scripts', 20 );
-add_action( 'customize_controls_print_footer_scripts', '_wp_footer_scripts'     );
-add_action( 'customize_controls_print_styles',         'print_admin_styles', 20 );
+add_action( 'customize_controls_print_scripts', 'print_head_scripts', 20 );
+add_action( 'customize_controls_print_footer_scripts', '_wp_footer_scripts' );
+add_action( 'customize_controls_print_styles', 'print_admin_styles', 20 );
 
 /**
  * Fires when Customizer controls are initialized, before scripts are enqueued.
@@ -123,7 +123,7 @@ wp_enqueue_style( 'customize-controls' );
 do_action( 'customize_controls_enqueue_scripts' );
 
 // Let's roll.
-@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 
 wp_user_settings();
 _wp_admin_html_begin();
@@ -133,7 +133,9 @@ $body_class = 'wp-core-ui wp-customizer js';
 if ( wp_is_mobile() ) :
 	$body_class .= ' mobile';
 
-	?><meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.2" /><?php
+	?>
+	<meta name="viewport" id="viewport-meta" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.2" />
+	<?php
 endif;
 
 if ( $wp_customize->is_ios() ) {
@@ -147,7 +149,8 @@ $body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '
 
 $admin_title = sprintf( $wp_customize->get_document_title_template(), __( 'Loading&hellip;' ) );
 
-?><title><?php echo $admin_title; ?></title>
+?>
+<title><?php echo $admin_title; ?></title>
 
 <script type="text/javascript">
 var ajaxurl = <?php echo wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ); ?>,
@@ -202,14 +205,18 @@ do_action( 'customize_controls_print_scripts' );
 			<div class="wp-full-overlay-sidebar-content" tabindex="-1">
 				<div id="customize-info" class="accordion-section customize-info">
 					<div class="accordion-section-title">
-						<span class="preview-notice"><?php
+						<span class="preview-notice">
+						<?php
 							echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title site-title">' . get_bloginfo( 'name', 'display' ) . '</strong>' );
-						?></span>
+						?>
+						</span>
 						<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 					</div>
-					<div class="customize-panel-description"><?php
+					<div class="customize-panel-description">
+					<?php
 						_e( 'The Customizer allows you to preview changes to your site before publishing them. You can navigate to different pages on your site within the preview. Edit shortcuts are shown for some editable elements.' );
-					?></div>
+					?>
+					</div>
 				</div>
 
 				<div id="customize-theme-controls">
@@ -233,12 +240,12 @@ do_action( 'customize_controls_print_scripts' );
 							continue;
 						}
 						$active = ! empty( $settings['default'] );
-						$class = 'preview-' . $device;
+						$class  = 'preview-' . $device;
 						if ( $active ) {
 							$class .= ' active';
 						}
 						?>
-						<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo esc_attr( $active ) ?>" data-device="<?php echo esc_attr( $device ); ?>">
+						<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo esc_attr( $active ); ?>" data-device="<?php echo esc_attr( $device ); ?>">
 							<span class="screen-reader-text"><?php echo esc_html( $settings['label'] ); ?></span>
 						</button>
 					<?php endforeach; ?>

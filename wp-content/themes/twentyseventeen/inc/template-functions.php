@@ -59,7 +59,7 @@ function twentyseventeen_body_classes( $classes ) {
 	}
 
 	// Get the colorscheme or the default if there isn't one.
-	$colors = twentyseventeen_sanitize_colorscheme( get_theme_mod( 'colorscheme', 'light' ) );
+	$colors    = twentyseventeen_sanitize_colorscheme( get_theme_mod( 'colorscheme', 'light' ) );
 	$classes[] = 'colors-' . $colors;
 
 	return $classes;

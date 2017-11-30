@@ -14,7 +14,7 @@ class WP {
 	 * @since 2.0.0
 	 * @var array
 	 */
-	public $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage', 'post_type', 'embed' );
+	public $public_query_vars = array( 'm', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage', 'post_type', 'embed' );
 
 	/**
 	 * Private query variables.
@@ -89,9 +89,10 @@ class WP {
 	 *
 	 * @param string $qv Query variable name.
 	 */
-	public function add_query_var($qv) {
-		if ( !in_array($qv, $this->public_query_vars) )
+	public function add_query_var( $qv ) {
+		if ( ! in_array( $qv, $this->public_query_vars ) ) {
 			$this->public_query_vars[] = $qv;
+		}
 	}
 
 	/**
@@ -113,8 +114,8 @@ class WP {
 	 * @param string $key Query variable name.
 	 * @param mixed $value Query variable value.
 	 */
-	public function set_query_var($key, $value) {
-		$this->query_vars[$key] = $value;
+	public function set_query_var( $key, $value ) {
+		$this->query_vars[ $key ] = $value;
 	}
 
 	/**
@@ -129,7 +130,7 @@ class WP {
 	 *
 	 * @param array|string $extra_query_vars Set the extra query variables.
 	 */
-	public function parse_request($extra_query_vars = '') {
+	public function parse_request( $extra_query_vars = '' ) {
 		global $wp_rewrite;
 
 		/**
@@ -141,10 +142,11 @@ class WP {
 		 * @param WP           $this             Current WordPress environment instance.
 		 * @param array|string $extra_query_vars Extra passed query variables.
 		 */
-		if ( ! apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) )
+		if ( ! apply_filters( 'do_parse_request', true, $this, $extra_query_vars ) ) {
 			return;
+		}
 
-		$this->query_vars = array();
+		$this->query_vars     = array();
 		$post_type_query_vars = array();
 
 		if ( is_array( $extra_query_vars ) ) {
@@ -157,43 +159,44 @@ class WP {
 		// Fetch the rewrite rules.
 		$rewrite = $wp_rewrite->wp_rewrite_rules();
 
-		if ( ! empty($rewrite) ) {
+		if ( ! empty( $rewrite ) ) {
 			// If we match a rewrite rule, this will be cleared.
-			$error = '404';
+			$error               = '404';
 			$this->did_permalink = true;
 
-			$pathinfo = isset( $_SERVER['PATH_INFO'] ) ? $_SERVER['PATH_INFO'] : '';
+			$pathinfo         = isset( $_SERVER['PATH_INFO'] ) ? $_SERVER['PATH_INFO'] : '';
 			list( $pathinfo ) = explode( '?', $pathinfo );
-			$pathinfo = str_replace( "%", "%25", $pathinfo );
+			$pathinfo         = str_replace( '%', '%25', $pathinfo );
 
 			list( $req_uri ) = explode( '?', $_SERVER['REQUEST_URI'] );
-			$self = $_SERVER['PHP_SELF'];
-			$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
+			$self            = $_SERVER['PHP_SELF'];
+			$home_path       = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
 			$home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );
 
 			// Trim path info from the end and the leading home path from the
 			// front. For path info requests, this leaves us with the requesting
 			// filename, if any. For 404 requests, this leaves us with the
 			// requested permalink.
-			$req_uri = str_replace($pathinfo, '', $req_uri);
-			$req_uri = trim($req_uri, '/');
-			$req_uri = preg_replace( $home_path_regex, '', $req_uri );
-			$req_uri = trim($req_uri, '/');
-			$pathinfo = trim($pathinfo, '/');
+			$req_uri  = str_replace( $pathinfo, '', $req_uri );
+			$req_uri  = trim( $req_uri, '/' );
+			$req_uri  = preg_replace( $home_path_regex, '', $req_uri );
+			$req_uri  = trim( $req_uri, '/' );
+			$pathinfo = trim( $pathinfo, '/' );
 			$pathinfo = preg_replace( $home_path_regex, '', $pathinfo );
-			$pathinfo = trim($pathinfo, '/');
-			$self = trim($self, '/');
-			$self = preg_replace( $home_path_regex, '', $self );
-			$self = trim($self, '/');
+			$pathinfo = trim( $pathinfo, '/' );
+			$self     = trim( $self, '/' );
+			$self     = preg_replace( $home_path_regex, '', $self );
+			$self     = trim( $self, '/' );
 
 			// The requested permalink is in $pathinfo for path info requests and
 			//  $req_uri for other requests.
-			if ( ! empty($pathinfo) && !preg_match('|^.*' . $wp_rewrite->index . '$|', $pathinfo) ) {
+			if ( ! empty( $pathinfo ) && ! preg_match( '|^.*' . $wp_rewrite->index . '$|', $pathinfo ) ) {
 				$requested_path = $pathinfo;
 			} else {
 				// If the request uri is the index, blank it out so that we don't try to match it against a rule.
-				if ( $req_uri == $wp_rewrite->index )
+				if ( $req_uri == $wp_rewrite->index ) {
 					$req_uri = '';
+				}
 				$requested_path = $req_uri;
 			}
 			$requested_file = $req_uri;
@@ -206,23 +209,24 @@ class WP {
 				// An empty request could only match against ^$ regex
 				if ( isset( $rewrite['$'] ) ) {
 					$this->matched_rule = '$';
-					$query = $rewrite['$'];
-					$matches = array('');
+					$query              = $rewrite['$'];
+					$matches            = array( '' );
 				}
 			} else {
 				foreach ( (array) $rewrite as $match => $query ) {
 					// If the requested file is the anchor of the match, prepend it to the path info.
-					if ( ! empty($requested_file) && strpos($match, $requested_file) === 0 && $requested_file != $requested_path )
+					if ( ! empty( $requested_file ) && strpos( $match, $requested_file ) === 0 && $requested_file != $requested_path ) {
 						$request_match = $requested_file . '/' . $requested_path;
+					}
 
-					if ( preg_match("#^$match#", $request_match, $matches) ||
-						preg_match("#^$match#", urldecode($request_match), $matches) ) {
+					if ( preg_match( "#^$match#", $request_match, $matches ) ||
+						preg_match( "#^$match#", urldecode( $request_match ), $matches ) ) {
 
 						if ( $wp_rewrite->use_verbose_page_rules && preg_match( '/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch ) ) {
 							// This is a verbose page match, let's check to be sure about it.
 							$page = get_page_by_path( $matches[ $varmatch[1] ] );
 							if ( ! $page ) {
-						 		continue;
+								continue;
 							}
 
 							$post_status_obj = get_post_status_object( $page->post_status );
@@ -241,27 +245,29 @@ class WP {
 
 			if ( isset( $this->matched_rule ) ) {
 				// Trim the query of everything up to the '?'.
-				$query = preg_replace("!^.+\?!", '', $query);
+				$query = preg_replace( '!^.+\?!', '', $query );
 
 				// Substitute the substring matches into the query.
-				$query = addslashes(WP_MatchesMapRegex::apply($query, $matches));
+				$query = addslashes( WP_MatchesMapRegex::apply( $query, $matches ) );
 
 				$this->matched_query = $query;
 
 				// Parse the query.
-				parse_str($query, $perma_query_vars);
+				parse_str( $query, $perma_query_vars );
 
 				// If we're processing a 404 request, clear the error var since we found something.
-				if ( '404' == $error )
+				if ( '404' == $error ) {
 					unset( $error, $_GET['error'] );
+				}
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
-			if ( empty($requested_path) || $requested_file == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false ) {
+			if ( empty( $requested_path ) || $requested_file == $self || strpos( $_SERVER['PHP_SELF'], 'wp-admin/' ) !== false ) {
 				unset( $error, $_GET['error'] );
 
-				if ( isset($perma_query_vars) && strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
+				if ( isset( $perma_query_vars ) && strpos( $_SERVER['PHP_SELF'], 'wp-admin/' ) !== false ) {
 					unset( $perma_query_vars );
+				}
 
 				$this->did_permalink = false;
 			}
@@ -282,42 +288,45 @@ class WP {
 
 		foreach ( get_post_types( array(), 'objects' ) as $post_type => $t ) {
 			if ( is_post_type_viewable( $t ) && $t->query_var ) {
-				$post_type_query_vars[$t->query_var] = $post_type;
+				$post_type_query_vars[ $t->query_var ] = $post_type;
 			}
 		}
 
 		foreach ( $this->public_query_vars as $wpvar ) {
-			if ( isset( $this->extra_query_vars[$wpvar] ) )
-				$this->query_vars[$wpvar] = $this->extra_query_vars[$wpvar];
-			elseif ( isset( $_POST[$wpvar] ) )
-				$this->query_vars[$wpvar] = $_POST[$wpvar];
-			elseif ( isset( $_GET[$wpvar] ) )
-				$this->query_vars[$wpvar] = $_GET[$wpvar];
-			elseif ( isset( $perma_query_vars[$wpvar] ) )
-				$this->query_vars[$wpvar] = $perma_query_vars[$wpvar];
+			if ( isset( $this->extra_query_vars[ $wpvar ] ) ) {
+				$this->query_vars[ $wpvar ] = $this->extra_query_vars[ $wpvar ];
+			} elseif ( isset( $_POST[ $wpvar ] ) ) {
+				$this->query_vars[ $wpvar ] = $_POST[ $wpvar ];
+			} elseif ( isset( $_GET[ $wpvar ] ) ) {
+				$this->query_vars[ $wpvar ] = $_GET[ $wpvar ];
+			} elseif ( isset( $perma_query_vars[ $wpvar ] ) ) {
+				$this->query_vars[ $wpvar ] = $perma_query_vars[ $wpvar ];
+			}
 
-			if ( !empty( $this->query_vars[$wpvar] ) ) {
-				if ( ! is_array( $this->query_vars[$wpvar] ) ) {
-					$this->query_vars[$wpvar] = (string) $this->query_vars[$wpvar];
+			if ( ! empty( $this->query_vars[ $wpvar ] ) ) {
+				if ( ! is_array( $this->query_vars[ $wpvar ] ) ) {
+					$this->query_vars[ $wpvar ] = (string) $this->query_vars[ $wpvar ];
 				} else {
-					foreach ( $this->query_vars[$wpvar] as $vkey => $v ) {
-						if ( !is_object( $v ) ) {
-							$this->query_vars[$wpvar][$vkey] = (string) $v;
+					foreach ( $this->query_vars[ $wpvar ] as $vkey => $v ) {
+						if ( ! is_object( $v ) ) {
+							$this->query_vars[ $wpvar ][ $vkey ] = (string) $v;
 						}
 					}
 				}
 
-				if ( isset($post_type_query_vars[$wpvar] ) ) {
-					$this->query_vars['post_type'] = $post_type_query_vars[$wpvar];
-					$this->query_vars['name'] = $this->query_vars[$wpvar];
+				if ( isset( $post_type_query_vars[ $wpvar ] ) ) {
+					$this->query_vars['post_type'] = $post_type_query_vars[ $wpvar ];
+					$this->query_vars['name']      = $this->query_vars[ $wpvar ];
 				}
 			}
 		}
 
 		// Convert urldecoded spaces back into +
-		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t )
-			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
-				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
+		foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy => $t ) {
+			if ( $t->query_var && isset( $this->query_vars[ $t->query_var ] ) ) {
+				$this->query_vars[ $t->query_var ] = str_replace( ' ', '+', $this->query_vars[ $t->query_var ] );
+			}
+		}
 
 		// Don't allow non-publicly queryable taxonomies to be queried from the front end.
 		if ( ! is_admin() ) {
@@ -333,11 +342,12 @@ class WP {
 		}
 
 		// Limit publicly queried post_types to those that are publicly_queryable
-		if ( isset( $this->query_vars['post_type']) ) {
-			$queryable_post_types = get_post_types( array('publicly_queryable' => true) );
+		if ( isset( $this->query_vars['post_type'] ) ) {
+			$queryable_post_types = get_post_types( array( 'publicly_queryable' => true ) );
 			if ( ! is_array( $this->query_vars['post_type'] ) ) {
-				if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) )
+				if ( ! in_array( $this->query_vars['post_type'], $queryable_post_types ) ) {
 					unset( $this->query_vars['post_type'] );
+				}
 			} else {
 				$this->query_vars['post_type'] = array_intersect( $this->query_vars['post_type'], $queryable_post_types );
 			}
@@ -346,13 +356,15 @@ class WP {
 		// Resolve conflicts between posts with numeric slugs and date archive queries.
 		$this->query_vars = wp_resolve_numeric_slug_conflicts( $this->query_vars );
 
-		foreach ( (array) $this->private_query_vars as $var) {
-			if ( isset($this->extra_query_vars[$var]) )
-				$this->query_vars[$var] = $this->extra_query_vars[$var];
+		foreach ( (array) $this->private_query_vars as $var ) {
+			if ( isset( $this->extra_query_vars[ $var ] ) ) {
+				$this->query_vars[ $var ] = $this->extra_query_vars[ $var ];
+			}
 		}
 
-		if ( isset($error) )
+		if ( isset( $error ) ) {
 			$this->query_vars['error'] = $error;
+		}
 
 		/**
 		 * Filters the array of parsed query variables.
@@ -383,23 +395,25 @@ class WP {
 	 * @since 4.4.0 `X-Pingback` header is added conditionally after posts have been queried in handle_404().
 	 */
 	public function send_headers() {
-		$headers = array();
-		$status = null;
+		$headers       = array();
+		$status        = null;
 		$exit_required = false;
 
-		if ( is_user_logged_in() )
-			$headers = array_merge($headers, wp_get_nocache_headers());
+		if ( is_user_logged_in() ) {
+			$headers = array_merge( $headers, wp_get_nocache_headers() );
+		}
 		if ( ! empty( $this->query_vars['error'] ) ) {
 			$status = (int) $this->query_vars['error'];
 			if ( 404 === $status ) {
-				if ( ! is_user_logged_in() )
-					$headers = array_merge($headers, wp_get_nocache_headers());
-				$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
+				if ( ! is_user_logged_in() ) {
+					$headers = array_merge( $headers, wp_get_nocache_headers() );
+				}
+				$headers['Content-Type'] = get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' );
 			} elseif ( in_array( $status, array( 403, 500, 502, 503 ) ) ) {
 				$exit_required = true;
 			}
 		} elseif ( empty( $this->query_vars['feed'] ) ) {
-			$headers['Content-Type'] = get_option('html_type') . '; charset=' . get_option('blog_charset');
+			$headers['Content-Type'] = get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' );
 		} else {
 			// Set the correct content type for feeds
 			$type = $this->query_vars['feed'];
@@ -432,26 +446,28 @@ class WP {
 
 			$wp_last_modified .= ' GMT';
 
-			$wp_etag = '"' . md5($wp_last_modified) . '"';
+			$wp_etag                  = '"' . md5( $wp_last_modified ) . '"';
 			$headers['Last-Modified'] = $wp_last_modified;
-			$headers['ETag'] = $wp_etag;
+			$headers['ETag']          = $wp_etag;
 
 			// Support for Conditional GET
-			if (isset($_SERVER['HTTP_IF_NONE_MATCH']))
+			if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
 				$client_etag = wp_unslash( $_SERVER['HTTP_IF_NONE_MATCH'] );
-			else $client_etag = false;
+			} else {
+				$client_etag = false;
+			}
 
-			$client_last_modified = empty($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? '' : trim($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+			$client_last_modified = empty( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ? '' : trim( $_SERVER['HTTP_IF_MODIFIED_SINCE'] );
 			// If string is empty, return 0. If not, attempt to parse into a timestamp
-			$client_modified_timestamp = $client_last_modified ? strtotime($client_last_modified) : 0;
+			$client_modified_timestamp = $client_last_modified ? strtotime( $client_last_modified ) : 0;
 
 			// Make a timestamp for our most recent modification...
-			$wp_modified_timestamp = strtotime($wp_last_modified);
+			$wp_modified_timestamp = strtotime( $wp_last_modified );
 
-			if ( ($client_last_modified && $client_etag) ?
-					(($client_modified_timestamp >= $wp_modified_timestamp) && ($client_etag == $wp_etag)) :
-					(($client_modified_timestamp >= $wp_modified_timestamp) || ($client_etag == $wp_etag)) ) {
-				$status = 304;
+			if ( ( $client_last_modified && $client_etag ) ?
+					( ( $client_modified_timestamp >= $wp_modified_timestamp ) && ( $client_etag == $wp_etag ) ) :
+					( ( $client_modified_timestamp >= $wp_modified_timestamp ) || ( $client_etag == $wp_etag ) ) ) {
+				$status        = 304;
 				$exit_required = true;
 			}
 		}
@@ -466,8 +482,9 @@ class WP {
 		 */
 		$headers = apply_filters( 'wp_headers', $headers, $this );
 
-		if ( ! empty( $status ) )
+		if ( ! empty( $status ) ) {
 			status_header( $status );
+		}
 
 		// If Last-Modified is set to false, it should not be sent (no-cache situation).
 		if ( isset( $headers['Last-Modified'] ) && false === $headers['Last-Modified'] ) {
@@ -488,11 +505,13 @@ class WP {
 			}
 		}
 
-		foreach ( (array) $headers as $name => $field_value )
-			@header("{$name}: {$field_value}");
+		foreach ( (array) $headers as $name => $field_value ) {
+			@header( "{$name}: {$field_value}" );
+		}
 
-		if ( $exit_required )
+		if ( $exit_required ) {
 			exit();
+		}
 
 		/**
 		 * Fires once the requested HTTP headers for caching, content type, etc. have been sent.
@@ -514,12 +533,13 @@ class WP {
 	 */
 	public function build_query_string() {
 		$this->query_string = '';
-		foreach ( (array) array_keys($this->query_vars) as $wpvar) {
-			if ( '' != $this->query_vars[$wpvar] ) {
-				$this->query_string .= (strlen($this->query_string) < 1) ? '' : '&';
-				if ( !is_scalar($this->query_vars[$wpvar]) ) // Discard non-scalars.
+		foreach ( (array) array_keys( $this->query_vars ) as $wpvar ) {
+			if ( '' != $this->query_vars[ $wpvar ] ) {
+				$this->query_string .= ( strlen( $this->query_string ) < 1 ) ? '' : '&';
+				if ( ! is_scalar( $this->query_vars[ $wpvar ] ) ) { // Discard non-scalars.
 					continue;
-				$this->query_string .= $wpvar . '=' . rawurlencode($this->query_vars[$wpvar]);
+				}
+				$this->query_string .= $wpvar . '=' . rawurlencode( $this->query_vars[ $wpvar ] );
 			}
 		}
 
@@ -533,7 +553,7 @@ class WP {
 			 * @param string $query_string The query string to modify.
 			 */
 			$this->query_string = apply_filters( 'query_string', $this->query_string );
-			parse_str($this->query_string, $this->query_vars);
+			parse_str( $this->query_string, $this->query_vars );
 		}
 	}
 
@@ -564,17 +584,18 @@ class WP {
 		}
 
 		$GLOBALS['query_string'] = $this->query_string;
-		$GLOBALS['posts'] = & $wp_query->posts;
-		$GLOBALS['post'] = isset( $wp_query->post ) ? $wp_query->post : null;
-		$GLOBALS['request'] = $wp_query->request;
+		$GLOBALS['posts']        = & $wp_query->posts;
+		$GLOBALS['post']         = isset( $wp_query->post ) ? $wp_query->post : null;
+		$GLOBALS['request']      = $wp_query->request;
 
 		if ( $wp_query->is_single() || $wp_query->is_page() ) {
 			$GLOBALS['more']   = 1;
 			$GLOBALS['single'] = 1;
 		}
 
-		if ( $wp_query->is_author() && isset( $wp_query->post ) )
+		if ( $wp_query->is_author() && isset( $wp_query->post ) ) {
 			$GLOBALS['authordata'] = get_userdata( $wp_query->post->post_author );
+		}
 	}
 
 	/**
@@ -596,10 +617,10 @@ class WP {
 	public function query_posts() {
 		global $wp_the_query;
 		$this->build_query_string();
-		$wp_the_query->query($this->query_vars);
- 	}
+		$wp_the_query->query( $this->query_vars );
+	}
 
- 	/**
+	/**
 	 * Set the Headers for 404, if nothing is found for requested URL.
 	 *
 	 * Issue a 404 if a request doesn't match any posts and doesn't match
@@ -613,9 +634,9 @@ class WP {
 	 * a 404 so that canonical redirection logic can kick in.
 	 *
 	 * @since 2.0.0
-     *
+	 *
 	 * @global WP_Query $wp_query
- 	 */
+	 */
 	public function handle_404() {
 		global $wp_query;
 
@@ -635,8 +656,9 @@ class WP {
 		}
 
 		// If we've already issued a 404, bail.
-		if ( is_404() )
+		if ( is_404() ) {
 			return;
+		}
 
 		// Never 404 for the admin, robots, or if we found posts.
 		if ( is_admin() || is_robots() || $wp_query->posts ) {
@@ -657,7 +679,7 @@ class WP {
 				// check for paged content that exceeds the max number of pages
 				$next = '<!--nextpage-->';
 				if ( $p && false !== strpos( $p->post_content, $next ) && ! empty( $this->query_vars['page'] ) ) {
-					$page = trim( $this->query_vars['page'], '/' );
+					$page    = trim( $this->query_vars['page'], '/' );
 					$success = (int) $page <= ( substr_count( $p->post_content, $next ) + 1 );
 				}
 			}
@@ -708,9 +730,9 @@ class WP {
 	 *
 	 * @param string|array $query_args Passed to parse_request().
 	 */
-	public function main($query_args = '') {
+	public function main( $query_args = '' ) {
 		$this->init();
-		$this->parse_request($query_args);
+		$this->parse_request( $query_args );
 		$this->send_headers();
 		$this->query_posts();
 		$this->handle_404();

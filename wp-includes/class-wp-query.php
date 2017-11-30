@@ -445,31 +445,31 @@ class WP_Query {
 	 * @since 2.0.0
 	 */
 	private function init_query_flags() {
-		$this->is_single = false;
-		$this->is_preview = false;
-		$this->is_page = false;
-		$this->is_archive = false;
-		$this->is_date = false;
-		$this->is_year = false;
-		$this->is_month = false;
-		$this->is_day = false;
-		$this->is_time = false;
-		$this->is_author = false;
-		$this->is_category = false;
-		$this->is_tag = false;
-		$this->is_tax = false;
-		$this->is_search = false;
-		$this->is_feed = false;
-		$this->is_comment_feed = false;
-		$this->is_trackback = false;
-		$this->is_home = false;
-		$this->is_404 = false;
-		$this->is_paged = false;
-		$this->is_admin = false;
-		$this->is_attachment = false;
-		$this->is_singular = false;
-		$this->is_robots = false;
-		$this->is_posts_page = false;
+		$this->is_single            = false;
+		$this->is_preview           = false;
+		$this->is_page              = false;
+		$this->is_archive           = false;
+		$this->is_date              = false;
+		$this->is_year              = false;
+		$this->is_month             = false;
+		$this->is_day               = false;
+		$this->is_time              = false;
+		$this->is_author            = false;
+		$this->is_category          = false;
+		$this->is_tag               = false;
+		$this->is_tax               = false;
+		$this->is_search            = false;
+		$this->is_feed              = false;
+		$this->is_comment_feed      = false;
+		$this->is_trackback         = false;
+		$this->is_home              = false;
+		$this->is_404               = false;
+		$this->is_paged             = false;
+		$this->is_admin             = false;
+		$this->is_attachment        = false;
+		$this->is_singular          = false;
+		$this->is_robots            = false;
+		$this->is_posts_page        = false;
 		$this->is_post_type_archive = false;
 	}
 
@@ -479,22 +479,22 @@ class WP_Query {
 	 * @since 1.5.0
 	 */
 	public function init() {
-		unset($this->posts);
-		unset($this->query);
+		unset( $this->posts );
+		unset( $this->query );
 		$this->query_vars = array();
-		unset($this->queried_object);
-		unset($this->queried_object_id);
-		$this->post_count = 0;
+		unset( $this->queried_object );
+		unset( $this->queried_object_id );
+		$this->post_count   = 0;
 		$this->current_post = -1;
-		$this->in_the_loop = false;
+		$this->in_the_loop  = false;
 		unset( $this->request );
 		unset( $this->post );
 		unset( $this->comments );
 		unset( $this->comment );
-		$this->comment_count = 0;
-		$this->current_comment = -1;
-		$this->found_posts = 0;
-		$this->max_num_pages = 0;
+		$this->comment_count         = 0;
+		$this->current_comment       = -1;
+		$this->found_posts           = 0;
+		$this->max_num_pages         = 0;
 		$this->max_num_comment_pages = 0;
 
 		$this->init_query_flags();
@@ -518,59 +518,75 @@ class WP_Query {
 	 * @param array $array Defined query variables.
 	 * @return array Complete query variables with undefined ones filled in empty.
 	 */
-	public function fill_query_vars($array) {
+	public function fill_query_vars( $array ) {
 		$keys = array(
-			'error'
-			, 'm'
-			, 'p'
-			, 'post_parent'
-			, 'subpost'
-			, 'subpost_id'
-			, 'attachment'
-			, 'attachment_id'
-			, 'name'
-			, 'static'
-			, 'pagename'
-			, 'page_id'
-			, 'second'
-			, 'minute'
-			, 'hour'
-			, 'day'
-			, 'monthnum'
-			, 'year'
-			, 'w'
-			, 'category_name'
-			, 'tag'
-			, 'cat'
-			, 'tag_id'
-			, 'author'
-			, 'author_name'
-			, 'feed'
-			, 'tb'
-			, 'paged'
-			, 'meta_key'
-			, 'meta_value'
-			, 'preview'
-			, 's'
-			, 'sentence'
-			, 'title'
-			, 'fields'
-			, 'menu_order'
-			, 'embed'
+			'error',
+			'm',
+			'p',
+			'post_parent',
+			'subpost',
+			'subpost_id',
+			'attachment',
+			'attachment_id',
+			'name',
+			'static',
+			'pagename',
+			'page_id',
+			'second',
+			'minute',
+			'hour',
+			'day',
+			'monthnum',
+			'year',
+			'w',
+			'category_name',
+			'tag',
+			'cat',
+			'tag_id',
+			'author',
+			'author_name',
+			'feed',
+			'tb',
+			'paged',
+			'meta_key',
+			'meta_value',
+			'preview',
+			's',
+			'sentence',
+			'title',
+			'fields',
+			'menu_order',
+			'embed',
 		);
 
 		foreach ( $keys as $key ) {
-			if ( !isset($array[$key]) )
-				$array[$key] = '';
+			if ( ! isset( $array[ $key ] ) ) {
+				$array[ $key ] = '';
+			}
 		}
 
-		$array_keys = array( 'category__in', 'category__not_in', 'category__and', 'post__in', 'post__not_in', 'post_name__in',
-			'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'post_parent__in', 'post_parent__not_in',
-			'author__in', 'author__not_in' );
+		$array_keys = array(
+			'category__in',
+			'category__not_in',
+			'category__and',
+			'post__in',
+			'post__not_in',
+			'post_name__in',
+			'tag__in',
+			'tag__not_in',
+			'tag__and',
+			'tag_slug__in',
+			'tag_slug__and',
+			'post_parent__in',
+			'post_parent__not_in',
+			'author__in',
+			'author__not_in',
+		);
 
 		foreach ( $array_keys as $key ) {
-			if ( !isset($array[$key]) )
-				$array[$key] = array();
+			if ( ! isset( $array[ $key ] ) ) {
+				$array[ $key ] = array();
+			}
 		}
 		return $array;
 	}
@@ -701,7 +717,7 @@ class WP_Query {
 	 *     @type int          $year                    The four-digit year. Default empty. Accepts any four-digit year.
 	 * }
 	 */
-	public function parse_query( $query =  '' ) {
+	public function parse_query( $query = '' ) {
 		if ( ! empty( $query ) ) {
 			$this->init();
 			$this->query = $this->query_vars = wp_parse_args( $query );
@@ -709,36 +725,45 @@ class WP_Query {
 			$this->query = $this->query_vars;
 		}
 
-		$this->query_vars = $this->fill_query_vars($this->query_vars);
-		$qv = &$this->query_vars;
+		$this->query_vars         = $this->fill_query_vars( $this->query_vars );
+		$qv                       = &$this->query_vars;
 		$this->query_vars_changed = true;
 
-		if ( ! empty($qv['robots']) )
+		if ( ! empty( $qv['robots'] ) ) {
 			$this->is_robots = true;
+		}
 
 		if ( ! is_scalar( $qv['p'] ) || $qv['p'] < 0 ) {
-			$qv['p'] = 0;
+			$qv['p']     = 0;
 			$qv['error'] = '404';
 		} else {
 			$qv['p'] = intval( $qv['p'] );
 		}
 
-		$qv['page_id'] =  absint($qv['page_id']);
-		$qv['year'] = absint($qv['year']);
-		$qv['monthnum'] = absint($qv['monthnum']);
-		$qv['day'] = absint($qv['day']);
-		$qv['w'] = absint($qv['w']);
-		$qv['m'] = is_scalar( $qv['m'] ) ? preg_replace( '|[^0-9]|', '', $qv['m'] ) : '';
-		$qv['paged'] = absint($qv['paged']);
-		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
-		$qv['author'] = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // comma separated list of positive or negative integers
+		$qv['page_id']  = absint( $qv['page_id'] );
+		$qv['year']     = absint( $qv['year'] );
+		$qv['monthnum'] = absint( $qv['monthnum'] );
+		$qv['day']      = absint( $qv['day'] );
+		$qv['w']        = absint( $qv['w'] );
+		$qv['m']        = is_scalar( $qv['m'] ) ? preg_replace( '|[^0-9]|', '', $qv['m'] ) : '';
+		$qv['paged']    = absint( $qv['paged'] );
+		$qv['cat']      = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
+		$qv['author']   = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // comma separated list of positive or negative integers
 		$qv['pagename'] = trim( $qv['pagename'] );
-		$qv['name'] = trim( $qv['name'] );
-		$qv['title'] = trim( $qv['title'] );
-		if ( '' !== $qv['hour'] ) $qv['hour'] = absint($qv['hour']);
-		if ( '' !== $qv['minute'] ) $qv['minute'] = absint($qv['minute']);
-		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
-		if ( '' !== $qv['menu_order'] ) $qv['menu_order'] = absint($qv['menu_order']);
+		$qv['name']     = trim( $qv['name'] );
+		$qv['title']    = trim( $qv['title'] );
+		if ( '' !== $qv['hour'] ) {
+			$qv['hour'] = absint( $qv['hour'] );
+		}
+		if ( '' !== $qv['minute'] ) {
+			$qv['minute'] = absint( $qv['minute'] );
+		}
+		if ( '' !== $qv['second'] ) {
+			$qv['second'] = absint( $qv['second'] );
+		}
+		if ( '' !== $qv['menu_order'] ) {
+			$qv['menu_order'] = absint( $qv['menu_order'] );
+		}
 
 		// Fairly insane upper bound for search string lengths.
 		if ( ! is_scalar( $qv['s'] ) || ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 ) ) {
@@ -746,26 +771,28 @@ class WP_Query {
 		}
 
 		// Compat. Map subpost to attachment.
-		if ( '' != $qv['subpost'] )
+		if ( '' != $qv['subpost'] ) {
 			$qv['attachment'] = $qv['subpost'];
-		if ( '' != $qv['subpost_id'] )
+		}
+		if ( '' != $qv['subpost_id'] ) {
 			$qv['attachment_id'] = $qv['subpost_id'];
+		}
 
-		$qv['attachment_id'] = absint($qv['attachment_id']);
+		$qv['attachment_id'] = absint( $qv['attachment_id'] );
 
-		if ( ('' != $qv['attachment']) || !empty($qv['attachment_id']) ) {
-			$this->is_single = true;
+		if ( ( '' != $qv['attachment'] ) || ! empty( $qv['attachment_id'] ) ) {
+			$this->is_single     = true;
 			$this->is_attachment = true;
 		} elseif ( '' != $qv['name'] ) {
 			$this->is_single = true;
 		} elseif ( $qv['p'] ) {
 			$this->is_single = true;
-		} elseif ( ('' !== $qv['hour']) && ('' !== $qv['minute']) &&('' !== $qv['second']) && ('' != $qv['year']) && ('' != $qv['monthnum']) && ('' != $qv['day']) ) {
+		} elseif ( ( '' !== $qv['hour'] ) && ( '' !== $qv['minute'] ) && ( '' !== $qv['second'] ) && ( '' != $qv['year'] ) && ( '' != $qv['monthnum'] ) && ( '' != $qv['day'] ) ) {
 			// If year, month, day, hour, minute, and second are set, a single
 			// post is being queried.
 			$this->is_single = true;
-		} elseif ( '' != $qv['static'] || '' != $qv['pagename'] || !empty($qv['page_id']) ) {
-			$this->is_page = true;
+		} elseif ( '' != $qv['static'] || '' != $qv['pagename'] || ! empty( $qv['page_id'] ) ) {
+			$this->is_page   = true;
 			$this->is_single = false;
 		} else {
 			// Look for archive queries. Dates, categories, authors, search, post type archives.
@@ -795,7 +822,7 @@ class WP_Query {
 					if ( $qv['monthnum'] && $qv['year'] && ! wp_checkdate( $qv['monthnum'], $qv['day'], $qv['year'], $date ) ) {
 						$qv['error'] = '404';
 					} else {
-						$this->is_day = true;
+						$this->is_day  = true;
 						$this->is_date = true;
 					}
 				}
@@ -807,7 +834,7 @@ class WP_Query {
 						$qv['error'] = '404';
 					} else {
 						$this->is_month = true;
-						$this->is_date = true;
+						$this->is_date  = true;
 					}
 				}
 			}
@@ -821,7 +848,7 @@ class WP_Query {
 
 			if ( $qv['m'] ) {
 				$this->is_date = true;
-				if ( strlen($qv['m']) > 9 ) {
+				if ( strlen( $qv['m'] ) > 9 ) {
 					$this->is_time = true;
 				} elseif ( strlen( $qv['m'] ) > 7 ) {
 					$this->is_day = true;
@@ -859,75 +886,86 @@ class WP_Query {
 			}
 			unset( $tax_query );
 
-			if ( empty($qv['author']) || ($qv['author'] == '0') ) {
+			if ( empty( $qv['author'] ) || ( $qv['author'] == '0' ) ) {
 				$this->is_author = false;
 			} else {
 				$this->is_author = true;
 			}
 
-			if ( '' != $qv['author_name'] )
+			if ( '' != $qv['author_name'] ) {
 				$this->is_author = true;
-
-			if ( !empty( $qv['post_type'] ) && ! is_array( $qv['post_type'] ) ) {
-				$post_type_obj = get_post_type_object( $qv['post_type'] );
-				if ( ! empty( $post_type_obj->has_archive ) )
-					$this->is_post_type_archive = true;
 			}
 
-			if ( $this->is_post_type_archive || $this->is_date || $this->is_author || $this->is_category || $this->is_tag || $this->is_tax )
+			if ( ! empty( $qv['post_type'] ) && ! is_array( $qv['post_type'] ) ) {
+				$post_type_obj = get_post_type_object( $qv['post_type'] );
+				if ( ! empty( $post_type_obj->has_archive ) ) {
+					$this->is_post_type_archive = true;
+				}
+			}
+
+			if ( $this->is_post_type_archive || $this->is_date || $this->is_author || $this->is_category || $this->is_tag || $this->is_tax ) {
 				$this->is_archive = true;
+			}
 		}
 
-		if ( '' != $qv['feed'] )
+		if ( '' != $qv['feed'] ) {
 			$this->is_feed = true;
+		}
 
 		if ( '' != $qv['embed'] ) {
 			$this->is_embed = true;
 		}
 
-		if ( '' != $qv['tb'] )
+		if ( '' != $qv['tb'] ) {
 			$this->is_trackback = true;
+		}
 
-		if ( '' != $qv['paged'] && ( intval($qv['paged']) > 1 ) )
+		if ( '' != $qv['paged'] && ( intval( $qv['paged'] ) > 1 ) ) {
 			$this->is_paged = true;
+		}
 
 		// if we're previewing inside the write screen
-		if ( '' != $qv['preview'] )
+		if ( '' != $qv['preview'] ) {
 			$this->is_preview = true;
+		}
 
-		if ( is_admin() )
+		if ( is_admin() ) {
 			$this->is_admin = true;
+		}
 
-		if ( false !== strpos($qv['feed'], 'comments-') ) {
-			$qv['feed'] = str_replace('comments-', '', $qv['feed']);
+		if ( false !== strpos( $qv['feed'], 'comments-' ) ) {
+			$qv['feed']         = str_replace( 'comments-', '', $qv['feed'] );
 			$qv['withcomments'] = 1;
 		}
 
 		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
 
-		if ( $this->is_feed && ( !empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
+		if ( $this->is_feed && ( ! empty( $qv['withcomments'] ) || ( empty( $qv['withoutcomments'] ) && $this->is_singular ) ) ) {
 			$this->is_comment_feed = true;
+		}
 
-		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots ) )
+		if ( ! ( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots ) ) {
 			$this->is_home = true;
+		}
 
 		// Correct is_* for page_on_front and page_for_posts
-		if ( $this->is_home && 'page' == get_option('show_on_front') && get_option('page_on_front') ) {
-			$_query = wp_parse_args($this->query);
+		if ( $this->is_home && 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
+			$_query = wp_parse_args( $this->query );
 			// pagename can be set and empty depending on matched rewrite rules. Ignore an empty pagename.
-			if ( isset($_query['pagename']) && '' == $_query['pagename'] )
-				unset($_query['pagename']);
+			if ( isset( $_query['pagename'] ) && '' == $_query['pagename'] ) {
+				unset( $_query['pagename'] );
+			}
 
 			unset( $_query['embed'] );
 
-			if ( empty($_query) || !array_diff( array_keys($_query), array('preview', 'page', 'paged', 'cpage') ) ) {
+			if ( empty( $_query ) || ! array_diff( array_keys( $_query ), array( 'preview', 'page', 'paged', 'cpage' ) ) ) {
 				$this->is_page = true;
 				$this->is_home = false;
-				$qv['page_id'] = get_option('page_on_front');
+				$qv['page_id'] = get_option( 'page_on_front' );
 				// Correct <!--nextpage--> for page_on_front
-				if ( !empty($qv['paged']) ) {
+				if ( ! empty( $qv['paged'] ) ) {
 					$qv['page'] = $qv['paged'];
-					unset($qv['paged']);
+					unset( $qv['paged'] );
 				}
 			}
 		}
@@ -936,13 +974,13 @@ class WP_Query {
 			$this->queried_object = get_page_by_path( $qv['pagename'] );
 
 			if ( $this->queried_object && 'attachment' == $this->queried_object->post_type ) {
-				if ( preg_match( "/^[^%]*%(?:postname)%/", get_option( 'permalink_structure' ) ) ) {
+				if ( preg_match( '/^[^%]*%(?:postname)%/', get_option( 'permalink_structure' ) ) ) {
 					// See if we also have a post with the same slug
 					$post = get_page_by_path( $qv['pagename'], OBJECT, 'post' );
 					if ( $post ) {
 						$this->queried_object = $post;
-						$this->is_page = false;
-						$this->is_single = true;
+						$this->is_page        = false;
+						$this->is_single      = true;
 					}
 				}
 			}
@@ -953,47 +991,51 @@ class WP_Query {
 				unset( $this->queried_object );
 			}
 
-			if  ( 'page' == get_option('show_on_front') && isset($this->queried_object_id) && $this->queried_object_id == get_option('page_for_posts') ) {
-				$this->is_page = false;
-				$this->is_home = true;
+			if ( 'page' == get_option( 'show_on_front' ) && isset( $this->queried_object_id ) && $this->queried_object_id == get_option( 'page_for_posts' ) ) {
+				$this->is_page       = false;
+				$this->is_home       = true;
 				$this->is_posts_page = true;
 			}
 		}
 
 		if ( $qv['page_id'] ) {
-			if  ( 'page' == get_option('show_on_front') && $qv['page_id'] == get_option('page_for_posts') ) {
-				$this->is_page = false;
-				$this->is_home = true;
+			if ( 'page' == get_option( 'show_on_front' ) && $qv['page_id'] == get_option( 'page_for_posts' ) ) {
+				$this->is_page       = false;
+				$this->is_home       = true;
 				$this->is_posts_page = true;
 			}
 		}
 
-		if ( !empty($qv['post_type']) ) {
-			if ( is_array($qv['post_type']) )
-				$qv['post_type'] = array_map('sanitize_key', $qv['post_type']);
-			else
-				$qv['post_type'] = sanitize_key($qv['post_type']);
+		if ( ! empty( $qv['post_type'] ) ) {
+			if ( is_array( $qv['post_type'] ) ) {
+				$qv['post_type'] = array_map( 'sanitize_key', $qv['post_type'] );
+			} else {
+				$qv['post_type'] = sanitize_key( $qv['post_type'] );
+			}
 		}
 
 		if ( ! empty( $qv['post_status'] ) ) {
-			if ( is_array( $qv['post_status'] ) )
-				$qv['post_status'] = array_map('sanitize_key', $qv['post_status']);
-			else
-				$qv['post_status'] = preg_replace('|[^a-z0-9_,-]|', '', $qv['post_status']);
+			if ( is_array( $qv['post_status'] ) ) {
+				$qv['post_status'] = array_map( 'sanitize_key', $qv['post_status'] );
+			} else {
+				$qv['post_status'] = preg_replace( '|[^a-z0-9_,-]|', '', $qv['post_status'] );
+			}
 		}
 
-		if ( $this->is_posts_page && ( ! isset($qv['withcomments']) || ! $qv['withcomments'] ) )
+		if ( $this->is_posts_page && ( ! isset( $qv['withcomments'] ) || ! $qv['withcomments'] ) ) {
 			$this->is_comment_feed = false;
+		}
 
 		$this->is_singular = $this->is_single || $this->is_page || $this->is_attachment;
 		// Done correcting is_* for page_on_front and page_for_posts
 
-		if ( '404' == $qv['error'] )
+		if ( '404' == $qv['error'] ) {
 			$this->set_404();
+		}
 
 		$this->is_embed = $this->is_embed && ( $this->is_singular || $this->is_404 );
 
-		$this->query_vars_hash = md5( serialize( $this->query_vars ) );
+		$this->query_vars_hash    = md5( serialize( $this->query_vars ) );
 		$this->query_vars_changed = false;
 
 		/**
@@ -1022,45 +1064,50 @@ class WP_Query {
 			$tax_query = array();
 		}
 
-		if ( !empty($q['taxonomy']) && !empty($q['term']) ) {
+		if ( ! empty( $q['taxonomy'] ) && ! empty( $q['term'] ) ) {
 			$tax_query[] = array(
 				'taxonomy' => $q['taxonomy'],
-				'terms' => array( $q['term'] ),
-				'field' => 'slug',
+				'terms'    => array( $q['term'] ),
+				'field'    => 'slug',
 			);
 		}
 
-		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t ) {
-			if ( 'post_tag' == $taxonomy )
-				continue;	// Handled further down in the $q['tag'] block
+		foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy => $t ) {
+			if ( 'post_tag' == $taxonomy ) {
+				continue;   // Handled further down in the $q['tag'] block
+			}
 
-			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
+			if ( $t->query_var && ! empty( $q[ $t->query_var ] ) ) {
 				$tax_query_defaults = array(
 					'taxonomy' => $taxonomy,
-					'field' => 'slug',
+					'field'    => 'slug',
 				);
 
- 				if ( isset( $t->rewrite['hierarchical'] ) && $t->rewrite['hierarchical'] ) {
-					$q[$t->query_var] = wp_basename( $q[$t->query_var] );
+				if ( isset( $t->rewrite['hierarchical'] ) && $t->rewrite['hierarchical'] ) {
+					$q[ $t->query_var ] = wp_basename( $q[ $t->query_var ] );
 				}
 
-				$term = $q[$t->query_var];
+				$term = $q[ $t->query_var ];
 
 				if ( is_array( $term ) ) {
 					$term = implode( ',', $term );
 				}
 
-				if ( strpos($term, '+') !== false ) {
+				if ( strpos( $term, '+' ) !== false ) {
 					$terms = preg_split( '/[+]+/', $term );
 					foreach ( $terms as $term ) {
-						$tax_query[] = array_merge( $tax_query_defaults, array(
-							'terms' => array( $term )
-						) );
+						$tax_query[] = array_merge(
+							$tax_query_defaults, array(
+								'terms' => array( $term ),
+							)
+						);
 					}
 				} else {
-					$tax_query[] = array_merge( $tax_query_defaults, array(
-						'terms' => preg_split( '/[,]+/', $term )
-					) );
+					$tax_query[] = array_merge(
+						$tax_query_defaults, array(
+							'terms' => preg_split( '/[,]+/', $term ),
+						)
+					);
 				}
 			}
 		}
@@ -1076,31 +1123,32 @@ class WP_Query {
 
 			$cat_array = preg_split( '/[,\s]+/', urldecode( $q['cat'] ) );
 			$cat_array = array_map( 'intval', $cat_array );
-			$q['cat'] = implode( ',', $cat_array );
+			$q['cat']  = implode( ',', $cat_array );
 
 			foreach ( $cat_array as $cat ) {
-				if ( $cat > 0 )
+				if ( $cat > 0 ) {
 					$cat_in[] = $cat;
-				elseif ( $cat < 0 )
+				} elseif ( $cat < 0 ) {
 					$cat_not_in[] = abs( $cat );
+				}
 			}
 
 			if ( ! empty( $cat_in ) ) {
 				$tax_query[] = array(
-					'taxonomy' => 'category',
-					'terms' => $cat_in,
-					'field' => 'term_id',
-					'include_children' => true
+					'taxonomy'         => 'category',
+					'terms'            => $cat_in,
+					'field'            => 'term_id',
+					'include_children' => true,
 				);
 			}
 
 			if ( ! empty( $cat_not_in ) ) {
 				$tax_query[] = array(
-					'taxonomy' => 'category',
-					'terms' => $cat_not_in,
-					'field' => 'term_id',
-					'operator' => 'NOT IN',
-					'include_children' => true
+					'taxonomy'         => 'category',
+					'terms'            => $cat_not_in,
+					'field'            => 'term_id',
+					'operator'         => 'NOT IN',
+					'include_children' => true,
 				);
 			}
 			unset( $cat_array, $cat_in, $cat_not_in );
@@ -1108,40 +1156,41 @@ class WP_Query {
 
 		if ( ! empty( $q['category__and'] ) && 1 === count( (array) $q['category__and'] ) ) {
 			$q['category__and'] = (array) $q['category__and'];
-			if ( ! isset( $q['category__in'] ) )
+			if ( ! isset( $q['category__in'] ) ) {
 				$q['category__in'] = array();
+			}
 			$q['category__in'][] = absint( reset( $q['category__and'] ) );
 			unset( $q['category__and'] );
 		}
 
 		if ( ! empty( $q['category__in'] ) ) {
 			$q['category__in'] = array_map( 'absint', array_unique( (array) $q['category__in'] ) );
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'terms' => $q['category__in'],
-				'field' => 'term_id',
-				'include_children' => false
+			$tax_query[]       = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__in'],
+				'field'            => 'term_id',
+				'include_children' => false,
 			);
 		}
 
-		if ( ! empty($q['category__not_in']) ) {
+		if ( ! empty( $q['category__not_in'] ) ) {
 			$q['category__not_in'] = array_map( 'absint', array_unique( (array) $q['category__not_in'] ) );
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'terms' => $q['category__not_in'],
-				'operator' => 'NOT IN',
-				'include_children' => false
+			$tax_query[]           = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__not_in'],
+				'operator'         => 'NOT IN',
+				'include_children' => false,
 			);
 		}
 
-		if ( ! empty($q['category__and']) ) {
+		if ( ! empty( $q['category__and'] ) ) {
 			$q['category__and'] = array_map( 'absint', array_unique( (array) $q['category__and'] ) );
-			$tax_query[] = array(
-				'taxonomy' => 'category',
-				'terms' => $q['category__and'],
-				'field' => 'term_id',
-				'operator' => 'AND',
-				'include_children' => false
+			$tax_query[]        = array(
+				'taxonomy'         => 'category',
+				'terms'            => $q['category__and'],
+				'field'            => 'term_id',
+				'operator'         => 'AND',
+				'include_children' => false,
 			);
 		}
 
@@ -1151,75 +1200,75 @@ class WP_Query {
 		}
 
 		// Tag stuff
-		if ( '' != $q['tag'] && !$this->is_singular && $this->query_vars_changed ) {
-			if ( strpos($q['tag'], ',') !== false ) {
-				$tags = preg_split('/[,\r\n\t ]+/', $q['tag']);
+		if ( '' != $q['tag'] && ! $this->is_singular && $this->query_vars_changed ) {
+			if ( strpos( $q['tag'], ',' ) !== false ) {
+				$tags = preg_split( '/[,\r\n\t ]+/', $q['tag'] );
 				foreach ( (array) $tags as $tag ) {
-					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$tag                 = sanitize_term_field( 'slug', $tag, 0, 'post_tag', 'db' );
 					$q['tag_slug__in'][] = $tag;
 				}
-			} elseif ( preg_match('/[+\r\n\t ]+/', $q['tag'] ) || ! empty( $q['cat'] ) ) {
-				$tags = preg_split('/[+\r\n\t ]+/', $q['tag']);
+			} elseif ( preg_match( '/[+\r\n\t ]+/', $q['tag'] ) || ! empty( $q['cat'] ) ) {
+				$tags = preg_split( '/[+\r\n\t ]+/', $q['tag'] );
 				foreach ( (array) $tags as $tag ) {
-					$tag = sanitize_term_field('slug', $tag, 0, 'post_tag', 'db');
+					$tag                  = sanitize_term_field( 'slug', $tag, 0, 'post_tag', 'db' );
 					$q['tag_slug__and'][] = $tag;
 				}
 			} else {
-				$q['tag'] = sanitize_term_field('slug', $q['tag'], 0, 'post_tag', 'db');
+				$q['tag']            = sanitize_term_field( 'slug', $q['tag'], 0, 'post_tag', 'db' );
 				$q['tag_slug__in'][] = $q['tag'];
 			}
 		}
 
-		if ( !empty($q['tag_id']) ) {
+		if ( ! empty( $q['tag_id'] ) ) {
 			$q['tag_id'] = absint( $q['tag_id'] );
 			$tax_query[] = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag_id']
+				'terms'    => $q['tag_id'],
 			);
 		}
 
-		if ( !empty($q['tag__in']) ) {
-			$q['tag__in'] = array_map('absint', array_unique( (array) $q['tag__in'] ) );
-			$tax_query[] = array(
+		if ( ! empty( $q['tag__in'] ) ) {
+			$q['tag__in'] = array_map( 'absint', array_unique( (array) $q['tag__in'] ) );
+			$tax_query[]  = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag__in']
+				'terms'    => $q['tag__in'],
 			);
 		}
 
-		if ( !empty($q['tag__not_in']) ) {
-			$q['tag__not_in'] = array_map('absint', array_unique( (array) $q['tag__not_in'] ) );
-			$tax_query[] = array(
+		if ( ! empty( $q['tag__not_in'] ) ) {
+			$q['tag__not_in'] = array_map( 'absint', array_unique( (array) $q['tag__not_in'] ) );
+			$tax_query[]      = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag__not_in'],
-				'operator' => 'NOT IN'
+				'terms'    => $q['tag__not_in'],
+				'operator' => 'NOT IN',
 			);
 		}
 
-		if ( !empty($q['tag__and']) ) {
-			$q['tag__and'] = array_map('absint', array_unique( (array) $q['tag__and'] ) );
-			$tax_query[] = array(
+		if ( ! empty( $q['tag__and'] ) ) {
+			$q['tag__and'] = array_map( 'absint', array_unique( (array) $q['tag__and'] ) );
+			$tax_query[]   = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag__and'],
-				'operator' => 'AND'
+				'terms'    => $q['tag__and'],
+				'operator' => 'AND',
 			);
 		}
 
-		if ( !empty($q['tag_slug__in']) ) {
-			$q['tag_slug__in'] = array_map('sanitize_title_for_query', array_unique( (array) $q['tag_slug__in'] ) );
-			$tax_query[] = array(
+		if ( ! empty( $q['tag_slug__in'] ) ) {
+			$q['tag_slug__in'] = array_map( 'sanitize_title_for_query', array_unique( (array) $q['tag_slug__in'] ) );
+			$tax_query[]       = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag_slug__in'],
-				'field' => 'slug'
+				'terms'    => $q['tag_slug__in'],
+				'field'    => 'slug',
 			);
 		}
 
-		if ( !empty($q['tag_slug__and']) ) {
-			$q['tag_slug__and'] = array_map('sanitize_title_for_query', array_unique( (array) $q['tag_slug__and'] ) );
-			$tax_query[] = array(
+		if ( ! empty( $q['tag_slug__and'] ) ) {
+			$q['tag_slug__and'] = array_map( 'sanitize_title_for_query', array_unique( (array) $q['tag_slug__and'] ) );
+			$tax_query[]        = array(
 				'taxonomy' => 'post_tag',
-				'terms' => $q['tag_slug__and'],
-				'field' => 'slug',
-				'operator' => 'AND'
+				'terms'    => $q['tag_slug__and'],
+				'field'    => 'slug',
+				'operator' => 'AND',
 			);
 		}
 
@@ -1252,27 +1301,29 @@ class WP_Query {
 
 		// added slashes screw with quote grouping when done early, so done later
 		$q['s'] = stripslashes( $q['s'] );
-		if ( empty( $_GET['s'] ) && $this->is_main_query() )
+		if ( empty( $_GET['s'] ) && $this->is_main_query() ) {
 			$q['s'] = urldecode( $q['s'] );
+		}
 		// there are no line breaks in <input /> fields
-		$q['s'] = str_replace( array( "\r", "\n" ), '', $q['s'] );
+		$q['s']                  = str_replace( array( "\r", "\n" ), '', $q['s'] );
 		$q['search_terms_count'] = 1;
 		if ( ! empty( $q['sentence'] ) ) {
 			$q['search_terms'] = array( $q['s'] );
 		} else {
 			if ( preg_match_all( '/".*?("|$)|((?<=[\t ",+])|^)[^\t ",+]+/', $q['s'], $matches ) ) {
 				$q['search_terms_count'] = count( $matches[0] );
-				$q['search_terms'] = $this->parse_search_terms( $matches[0] );
+				$q['search_terms']       = $this->parse_search_terms( $matches[0] );
 				// if the search string has only short terms or stopwords, or is 10+ terms long, match it as sentence
-				if ( empty( $q['search_terms'] ) || count( $q['search_terms'] ) > 9 )
+				if ( empty( $q['search_terms'] ) || count( $q['search_terms'] ) > 9 ) {
 					$q['search_terms'] = array( $q['s'] );
+				}
 			} else {
 				$q['search_terms'] = array( $q['s'] );
 			}
 		}
 
-		$n = ! empty( $q['exact'] ) ? '' : '%';
-		$searchand = '';
+		$n                         = ! empty( $q['exact'] ) ? '' : '%';
+		$searchand                 = '';
 		$q['search_orderby_title'] = array();
 
 		/**
@@ -1298,12 +1349,12 @@ class WP_Query {
 			}
 
 			if ( $n && ! $exclude ) {
-				$like = '%' . $wpdb->esc_like( $term ) . '%';
+				$like                        = '%' . $wpdb->esc_like( $term ) . '%';
 				$q['search_orderby_title'][] = $wpdb->prepare( "{$wpdb->posts}.post_title LIKE %s", $like );
 			}
 
-			$like = $n . $wpdb->esc_like( $term ) . $n;
-			$search .= $wpdb->prepare( "{$searchand}(({$wpdb->posts}.post_title $like_op %s) $andor_op ({$wpdb->posts}.post_excerpt $like_op %s) $andor_op ({$wpdb->posts}.post_content $like_op %s))", $like, $like, $like );
+			$like      = $n . $wpdb->esc_like( $term ) . $n;
+			$search   .= $wpdb->prepare( "{$searchand}(({$wpdb->posts}.post_title $like_op %s) $andor_op ({$wpdb->posts}.post_excerpt $like_op %s) $andor_op ({$wpdb->posts}.post_content $like_op %s))", $like, $like, $like );
 			$searchand = ' AND ';
 		}
 
@@ -1331,23 +1382,26 @@ class WP_Query {
 	 */
 	protected function parse_search_terms( $terms ) {
 		$strtolower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
-		$checked = array();
+		$checked    = array();
 
 		$stopwords = $this->get_search_stopwords();
 
 		foreach ( $terms as $term ) {
 			// keep before/after spaces when term is for exact match
-			if ( preg_match( '/^".+"$/', $term ) )
+			if ( preg_match( '/^".+"$/', $term ) ) {
 				$term = trim( $term, "\"'" );
-			else
+			} else {
 				$term = trim( $term, "\"' " );
+			}
 
 			// Avoid single A-Z and single dashes.
-			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z\-]$/i', $term ) ) )
+			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z\-]$/i', $term ) ) ) {
 				continue;
+			}
 
-			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
+			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) ) {
 				continue;
+			}
 
 			$checked[] = $term;
 		}
@@ -1363,21 +1417,27 @@ class WP_Query {
 	 * @return array Stopwords.
 	 */
 	protected function get_search_stopwords() {
-		if ( isset( $this->stopwords ) )
+		if ( isset( $this->stopwords ) ) {
 			return $this->stopwords;
+		}
 
 		/* translators: This is a comma-separated list of very common words that should be excluded from a search,
 		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
 		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
 		 */
-		$words = explode( ',', _x( 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
-			'Comma-separated list of search stopwords in your language' ) );
+		$words = explode(
+			',', _x(
+				'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
+				'Comma-separated list of search stopwords in your language'
+			)
+		);
 
 		$stopwords = array();
 		foreach ( $words as $word ) {
 			$word = trim( $word, "\r\n\t " );
-			if ( $word )
+			if ( $word ) {
 				$stopwords[] = $word;
+			}
 		}
 
 		/**
@@ -1426,8 +1486,9 @@ class WP_Query {
 				// all words in title
 				$search_orderby .= 'WHEN ' . implode( ' AND ', $q['search_orderby_title'] ) . ' THEN 2 ';
 				// any word in title, not needed when $num_terms == 1
-				if ( $num_terms > 1 )
+				if ( $num_terms > 1 ) {
 					$search_orderby .= 'WHEN ' . implode( ' OR ', $q['search_orderby_title'] ) . ' THEN 3 ';
+				}
 			}
 
 			// Sentence match in 'post_content' and 'post_excerpt'.
@@ -1462,20 +1523,35 @@ class WP_Query {
 
 		// Used to filter values.
 		$allowed_keys = array(
-			'post_name', 'post_author', 'post_date', 'post_title', 'post_modified',
-			'post_parent', 'post_type', 'name', 'author', 'date', 'title', 'modified',
-			'parent', 'type', 'ID', 'menu_order', 'comment_count', 'rand',
+			'post_name',
+			'post_author',
+			'post_date',
+			'post_title',
+			'post_modified',
+			'post_parent',
+			'post_type',
+			'name',
+			'author',
+			'date',
+			'title',
+			'modified',
+			'parent',
+			'type',
+			'ID',
+			'menu_order',
+			'comment_count',
+			'rand',
 		);
 
-		$primary_meta_key = '';
+		$primary_meta_key   = '';
 		$primary_meta_query = false;
-		$meta_clauses = $this->meta_query->get_clauses();
+		$meta_clauses       = $this->meta_query->get_clauses();
 		if ( ! empty( $meta_clauses ) ) {
 			$primary_meta_query = reset( $meta_clauses );
 
 			if ( ! empty( $primary_meta_query['key'] ) ) {
 				$primary_meta_key = $primary_meta_query['key'];
-				$allowed_keys[] = $primary_meta_key;
+				$allowed_keys[]   = $primary_meta_key;
 			}
 
 			$allowed_keys[] = 'meta_value';
@@ -1486,7 +1562,7 @@ class WP_Query {
 		// If RAND() contains a seed value, sanitize and add to allowed keys.
 		$rand_with_seed = false;
 		if ( preg_match( '/RAND\(([0-9]+)\)/i', $orderby, $matches ) ) {
-			$orderby = sprintf( 'RAND(%s)', intval( $matches[1] ) );
+			$orderby        = sprintf( 'RAND(%s)', intval( $matches[1] ) );
 			$allowed_keys[] = $orderby;
 			$rand_with_seed = true;
 		}
@@ -1525,7 +1601,7 @@ class WP_Query {
 			default:
 				if ( array_key_exists( $orderby, $meta_clauses ) ) {
 					// $orderby corresponds to a meta_query clause.
-					$meta_clause = $meta_clauses[ $orderby ];
+					$meta_clause    = $meta_clauses[ $orderby ];
 					$orderby_clause = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
 				} elseif ( $rand_with_seed ) {
 					$orderby_clause = $orderby;
@@ -1580,7 +1656,6 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @since 3.9.0 The `$default` argument was introduced.
 	 *
-	 *
 	 * @param string $query_var Query variable key.
 	 * @param mixed  $default   Optional. Value to return if the query variable is not set. Default empty.
 	 * @return mixed Contents of the query variable.
@@ -1601,8 +1676,8 @@ class WP_Query {
 	 * @param string $query_var Query variable key.
 	 * @param mixed  $value     Query variable value.
 	 */
-	public function set($query_var, $value) {
-		$this->query_vars[$query_var] = $value;
+	public function set( $query_var, $value ) {
+		$this->query_vars[ $query_var ] = $value;
 	}
 
 	/**
@@ -1637,7 +1712,7 @@ class WP_Query {
 		$q = &$this->query_vars;
 
 		// Fill again in case pre_get_posts unset some vars.
-		$q = $this->fill_query_vars($q);
+		$q = $this->fill_query_vars( $q );
 
 		// Parse meta query
 		$this->meta_query = new WP_Meta_Query();
@@ -1647,26 +1722,28 @@ class WP_Query {
 		$hash = md5( serialize( $this->query_vars ) );
 		if ( $hash != $this->query_vars_hash ) {
 			$this->query_vars_changed = true;
-			$this->query_vars_hash = $hash;
+			$this->query_vars_hash    = $hash;
 		}
-		unset($hash);
+		unset( $hash );
 
 		// First let's clear some variables
-		$distinct = '';
-		$whichauthor = '';
-		$whichmimetype = '';
-		$where = '';
-		$limits = '';
-		$join = '';
-		$search = '';
-		$groupby = '';
+		$distinct         = '';
+		$whichauthor      = '';
+		$whichmimetype    = '';
+		$where            = '';
+		$limits           = '';
+		$join             = '';
+		$search           = '';
+		$groupby          = '';
 		$post_status_join = false;
-		$page = 1;
+		$page             = 1;
 
 		if ( isset( $q['caller_get_posts'] ) ) {
-			_deprecated_argument( 'WP_Query', '3.1.0',
+			_deprecated_argument(
+				'WP_Query', '3.1.0',
 				/* translators: 1: caller_get_posts, 2: ignore_sticky_posts */
-				sprintf( __( '%1$s is deprecated. Use %2$s instead.' ),
+				sprintf(
+					__( '%1$s is deprecated. Use %2$s instead.' ),
 					'<code>caller_get_posts</code>',
 					'<code>ignore_sticky_posts</code>'
 				)
@@ -1677,46 +1754,53 @@ class WP_Query {
 			}
 		}
 
-		if ( !isset( $q['ignore_sticky_posts'] ) )
+		if ( ! isset( $q['ignore_sticky_posts'] ) ) {
 			$q['ignore_sticky_posts'] = false;
-
-		if ( !isset($q['suppress_filters']) )
-			$q['suppress_filters'] = false;
-
-		if ( !isset($q['cache_results']) ) {
-			if ( wp_using_ext_object_cache() )
-				$q['cache_results'] = false;
-			else
-				$q['cache_results'] = true;
 		}
 
-		if ( !isset($q['update_post_term_cache']) )
+		if ( ! isset( $q['suppress_filters'] ) ) {
+			$q['suppress_filters'] = false;
+		}
+
+		if ( ! isset( $q['cache_results'] ) ) {
+			if ( wp_using_ext_object_cache() ) {
+				$q['cache_results'] = false;
+			} else {
+				$q['cache_results'] = true;
+			}
+		}
+
+		if ( ! isset( $q['update_post_term_cache'] ) ) {
 			$q['update_post_term_cache'] = true;
+		}
 
 		if ( ! isset( $q['lazy_load_term_meta'] ) ) {
 			$q['lazy_load_term_meta'] = $q['update_post_term_cache'];
 		}
 
-		if ( !isset($q['update_post_meta_cache']) )
+		if ( ! isset( $q['update_post_meta_cache'] ) ) {
 			$q['update_post_meta_cache'] = true;
+		}
 
-		if ( !isset($q['post_type']) ) {
-			if ( $this->is_search )
+		if ( ! isset( $q['post_type'] ) ) {
+			if ( $this->is_search ) {
 				$q['post_type'] = 'any';
-			else
+			} else {
 				$q['post_type'] = '';
+			}
 		}
 		$post_type = $q['post_type'];
 		if ( empty( $q['posts_per_page'] ) ) {
 			$q['posts_per_page'] = get_option( 'posts_per_page' );
 		}
-		if ( isset($q['showposts']) && $q['showposts'] ) {
-			$q['showposts'] = (int) $q['showposts'];
+		if ( isset( $q['showposts'] ) && $q['showposts'] ) {
+			$q['showposts']      = (int) $q['showposts'];
 			$q['posts_per_page'] = $q['showposts'];
 		}
-		if ( (isset($q['posts_per_archive_page']) && $q['posts_per_archive_page'] != 0) && ($this->is_archive || $this->is_search) )
+		if ( ( isset( $q['posts_per_archive_page'] ) && $q['posts_per_archive_page'] != 0 ) && ( $this->is_archive || $this->is_search ) ) {
 			$q['posts_per_page'] = $q['posts_per_archive_page'];
-		if ( !isset($q['nopaging']) ) {
+		}
+		if ( ! isset( $q['nopaging'] ) ) {
 			if ( $q['posts_per_page'] == -1 ) {
 				$q['nopaging'] = true;
 			} else {
@@ -1734,30 +1818,33 @@ class WP_Query {
 			$q['nopaging'] = false;
 		}
 		$q['posts_per_page'] = (int) $q['posts_per_page'];
-		if ( $q['posts_per_page'] < -1 )
-			$q['posts_per_page'] = abs($q['posts_per_page']);
-		elseif ( $q['posts_per_page'] == 0 )
+		if ( $q['posts_per_page'] < -1 ) {
+			$q['posts_per_page'] = abs( $q['posts_per_page'] );
+		} elseif ( $q['posts_per_page'] == 0 ) {
 			$q['posts_per_page'] = 1;
-
-		if ( !isset($q['comments_per_page']) || $q['comments_per_page'] == 0 )
-			$q['comments_per_page'] = get_option('comments_per_page');
-
-		if ( $this->is_home && (empty($this->query) || $q['preview'] == 'true') && ( 'page' == get_option('show_on_front') ) && get_option('page_on_front') ) {
-			$this->is_page = true;
-			$this->is_home = false;
-			$q['page_id'] = get_option('page_on_front');
 		}
 
-		if ( isset($q['page']) ) {
-			$q['page'] = trim($q['page'], '/');
-			$q['page'] = absint($q['page']);
+		if ( ! isset( $q['comments_per_page'] ) || $q['comments_per_page'] == 0 ) {
+			$q['comments_per_page'] = get_option( 'comments_per_page' );
+		}
+
+		if ( $this->is_home && ( empty( $this->query ) || $q['preview'] == 'true' ) && ( 'page' == get_option( 'show_on_front' ) ) && get_option( 'page_on_front' ) ) {
+			$this->is_page = true;
+			$this->is_home = false;
+			$q['page_id']  = get_option( 'page_on_front' );
+		}
+
+		if ( isset( $q['page'] ) ) {
+			$q['page'] = trim( $q['page'], '/' );
+			$q['page'] = absint( $q['page'] );
 		}
 
 		// If true, forcibly turns off SQL_CALC_FOUND_ROWS even when limits are present.
-		if ( isset($q['no_found_rows']) )
+		if ( isset( $q['no_found_rows'] ) ) {
 			$q['no_found_rows'] = (bool) $q['no_found_rows'];
-		else
+		} else {
 			$q['no_found_rows'] = false;
+		}
 
 		switch ( $q['fields'] ) {
 			case 'ids':
@@ -1775,67 +1862,74 @@ class WP_Query {
 		}
 		// The "m" parameter is meant for months but accepts datetimes of varying specificity
 		if ( $q['m'] ) {
-			$where .= " AND YEAR({$wpdb->posts}.post_date)=" . substr($q['m'], 0, 4);
-			if ( strlen($q['m']) > 5 ) {
-				$where .= " AND MONTH({$wpdb->posts}.post_date)=" . substr($q['m'], 4, 2);
+			$where .= " AND YEAR({$wpdb->posts}.post_date)=" . substr( $q['m'], 0, 4 );
+			if ( strlen( $q['m'] ) > 5 ) {
+				$where .= " AND MONTH({$wpdb->posts}.post_date)=" . substr( $q['m'], 4, 2 );
 			}
-			if ( strlen($q['m']) > 7 ) {
-				$where .= " AND DAYOFMONTH({$wpdb->posts}.post_date)=" . substr($q['m'], 6, 2);
+			if ( strlen( $q['m'] ) > 7 ) {
+				$where .= " AND DAYOFMONTH({$wpdb->posts}.post_date)=" . substr( $q['m'], 6, 2 );
 			}
-			if ( strlen($q['m']) > 9 ) {
-				$where .= " AND HOUR({$wpdb->posts}.post_date)=" . substr($q['m'], 8, 2);
+			if ( strlen( $q['m'] ) > 9 ) {
+				$where .= " AND HOUR({$wpdb->posts}.post_date)=" . substr( $q['m'], 8, 2 );
 			}
-			if ( strlen($q['m']) > 11 ) {
-				$where .= " AND MINUTE({$wpdb->posts}.post_date)=" . substr($q['m'], 10, 2);
+			if ( strlen( $q['m'] ) > 11 ) {
+				$where .= " AND MINUTE({$wpdb->posts}.post_date)=" . substr( $q['m'], 10, 2 );
 			}
-			if ( strlen($q['m']) > 13 ) {
-				$where .= " AND SECOND({$wpdb->posts}.post_date)=" . substr($q['m'], 12, 2);
+			if ( strlen( $q['m'] ) > 13 ) {
+				$where .= " AND SECOND({$wpdb->posts}.post_date)=" . substr( $q['m'], 12, 2 );
 			}
 		}
 
 		// Handle the other individual date parameters
 		$date_parameters = array();
 
-		if ( '' !== $q['hour'] )
+		if ( '' !== $q['hour'] ) {
 			$date_parameters['hour'] = $q['hour'];
+		}
 
-		if ( '' !== $q['minute'] )
+		if ( '' !== $q['minute'] ) {
 			$date_parameters['minute'] = $q['minute'];
+		}
 
-		if ( '' !== $q['second'] )
+		if ( '' !== $q['second'] ) {
 			$date_parameters['second'] = $q['second'];
+		}
 
-		if ( $q['year'] )
+		if ( $q['year'] ) {
 			$date_parameters['year'] = $q['year'];
+		}
 
-		if ( $q['monthnum'] )
+		if ( $q['monthnum'] ) {
 			$date_parameters['monthnum'] = $q['monthnum'];
+		}
 
-		if ( $q['w'] )
+		if ( $q['w'] ) {
 			$date_parameters['week'] = $q['w'];
+		}
 
-		if ( $q['day'] )
+		if ( $q['day'] ) {
 			$date_parameters['day'] = $q['day'];
+		}
 
 		if ( $date_parameters ) {
 			$date_query = new WP_Date_Query( array( $date_parameters ) );
-			$where .= $date_query->get_sql();
+			$where     .= $date_query->get_sql();
 		}
 		unset( $date_parameters, $date_query );
 
 		// Handle complex date queries
 		if ( ! empty( $q['date_query'] ) ) {
 			$this->date_query = new WP_Date_Query( $q['date_query'] );
-			$where .= $this->date_query->get_sql();
+			$where           .= $this->date_query->get_sql();
 		}
 
-
 		// If we've got a post_type AND it's not "any" post_type.
-		if ( !empty($q['post_type']) && 'any' != $q['post_type'] ) {
-			foreach ( (array)$q['post_type'] as $_post_type ) {
-				$ptype_obj = get_post_type_object($_post_type);
-				if ( !$ptype_obj || !$ptype_obj->query_var || empty($q[ $ptype_obj->query_var ]) )
+		if ( ! empty( $q['post_type'] ) && 'any' != $q['post_type'] ) {
+			foreach ( (array) $q['post_type'] as $_post_type ) {
+				$ptype_obj = get_post_type_object( $_post_type );
+				if ( ! $ptype_obj || ! $ptype_obj->query_var || empty( $q[ $ptype_obj->query_var ] ) ) {
 					continue;
+				}
 
 				if ( ! $ptype_obj->hierarchical ) {
 					// Non-hierarchical post types can directly use 'name'.
@@ -1843,13 +1937,13 @@ class WP_Query {
 				} else {
 					// Hierarchical post types will operate through 'pagename'.
 					$q['pagename'] = $q[ $ptype_obj->query_var ];
-					$q['name'] = '';
+					$q['name']     = '';
 				}
 
 				// Only one request for a slug is possible, this is why name & pagename are overwritten above.
 				break;
 			} //end foreach
-			unset($ptype_obj);
+			unset( $ptype_obj );
 		}
 
 		if ( '' !== $q['title'] ) {
@@ -1859,83 +1953,87 @@ class WP_Query {
 		// Parameters related to 'post_name'.
 		if ( '' != $q['name'] ) {
 			$q['name'] = sanitize_title_for_query( $q['name'] );
-			$where .= " AND {$wpdb->posts}.post_name = '" . $q['name'] . "'";
+			$where    .= " AND {$wpdb->posts}.post_name = '" . $q['name'] . "'";
 		} elseif ( '' != $q['pagename'] ) {
-			if ( isset($this->queried_object_id) ) {
+			if ( isset( $this->queried_object_id ) ) {
 				$reqpage = $this->queried_object_id;
 			} else {
 				if ( 'page' != $q['post_type'] ) {
-					foreach ( (array)$q['post_type'] as $_post_type ) {
-						$ptype_obj = get_post_type_object($_post_type);
-						if ( !$ptype_obj || !$ptype_obj->hierarchical )
+					foreach ( (array) $q['post_type'] as $_post_type ) {
+						$ptype_obj = get_post_type_object( $_post_type );
+						if ( ! $ptype_obj || ! $ptype_obj->hierarchical ) {
 							continue;
+						}
 
-						$reqpage = get_page_by_path($q['pagename'], OBJECT, $_post_type);
-						if ( $reqpage )
+						$reqpage = get_page_by_path( $q['pagename'], OBJECT, $_post_type );
+						if ( $reqpage ) {
 							break;
+						}
 					}
-					unset($ptype_obj);
+					unset( $ptype_obj );
 				} else {
-					$reqpage = get_page_by_path($q['pagename']);
+					$reqpage = get_page_by_path( $q['pagename'] );
 				}
-				if ( !empty($reqpage) )
+				if ( ! empty( $reqpage ) ) {
 					$reqpage = $reqpage->ID;
-				else
+				} else {
 					$reqpage = 0;
+				}
 			}
 
-			$page_for_posts = get_option('page_for_posts');
-			if  ( ('page' != get_option('show_on_front') ) || empty($page_for_posts) || ( $reqpage != $page_for_posts ) ) {
+			$page_for_posts = get_option( 'page_for_posts' );
+			if ( ( 'page' != get_option( 'show_on_front' ) ) || empty( $page_for_posts ) || ( $reqpage != $page_for_posts ) ) {
 				$q['pagename'] = sanitize_title_for_query( wp_basename( $q['pagename'] ) );
-				$q['name'] = $q['pagename'];
-				$where .= " AND ({$wpdb->posts}.ID = '$reqpage')";
-				$reqpage_obj = get_post( $reqpage );
-				if ( is_object($reqpage_obj) && 'attachment' == $reqpage_obj->post_type ) {
+				$q['name']     = $q['pagename'];
+				$where        .= " AND ({$wpdb->posts}.ID = '$reqpage')";
+				$reqpage_obj   = get_post( $reqpage );
+				if ( is_object( $reqpage_obj ) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
-					$post_type = $q['post_type'] = 'attachment';
-					$this->is_page = true;
-					$q['attachment_id'] = $reqpage;
+					$post_type           = $q['post_type'] = 'attachment';
+					$this->is_page       = true;
+					$q['attachment_id']  = $reqpage;
 				}
 			}
 		} elseif ( '' != $q['attachment'] ) {
 			$q['attachment'] = sanitize_title_for_query( wp_basename( $q['attachment'] ) );
-			$q['name'] = $q['attachment'];
-			$where .= " AND {$wpdb->posts}.post_name = '" . $q['attachment'] . "'";
+			$q['name']       = $q['attachment'];
+			$where          .= " AND {$wpdb->posts}.post_name = '" . $q['attachment'] . "'";
 		} elseif ( is_array( $q['post_name__in'] ) && ! empty( $q['post_name__in'] ) ) {
 			$q['post_name__in'] = array_map( 'sanitize_title_for_query', $q['post_name__in'] );
-			$post_name__in = "'" . implode( "','", $q['post_name__in'] ) . "'";
-			$where .= " AND {$wpdb->posts}.post_name IN ($post_name__in)";
+			$post_name__in      = "'" . implode( "','", $q['post_name__in'] ) . "'";
+			$where             .= " AND {$wpdb->posts}.post_name IN ($post_name__in)";
 		}
 
 		// If an attachment is requested by number, let it supersede any post number.
-		if ( $q['attachment_id'] )
-			$q['p'] = absint($q['attachment_id']);
+		if ( $q['attachment_id'] ) {
+			$q['p'] = absint( $q['attachment_id'] );
+		}
 
 		// If a post number is specified, load that post
 		if ( $q['p'] ) {
 			$where .= " AND {$wpdb->posts}.ID = " . $q['p'];
 		} elseif ( $q['post__in'] ) {
-			$post__in = implode(',', array_map( 'absint', $q['post__in'] ));
-			$where .= " AND {$wpdb->posts}.ID IN ($post__in)";
+			$post__in = implode( ',', array_map( 'absint', $q['post__in'] ) );
+			$where   .= " AND {$wpdb->posts}.ID IN ($post__in)";
 		} elseif ( $q['post__not_in'] ) {
-			$post__not_in = implode(',',  array_map( 'absint', $q['post__not_in'] ));
-			$where .= " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
+			$post__not_in = implode( ',', array_map( 'absint', $q['post__not_in'] ) );
+			$where       .= " AND {$wpdb->posts}.ID NOT IN ($post__not_in)";
 		}
 
 		if ( is_numeric( $q['post_parent'] ) ) {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_parent = %d ", $q['post_parent'] );
 		} elseif ( $q['post_parent__in'] ) {
 			$post_parent__in = implode( ',', array_map( 'absint', $q['post_parent__in'] ) );
-			$where .= " AND {$wpdb->posts}.post_parent IN ($post_parent__in)";
+			$where          .= " AND {$wpdb->posts}.post_parent IN ($post_parent__in)";
 		} elseif ( $q['post_parent__not_in'] ) {
-			$post_parent__not_in = implode( ',',  array_map( 'absint', $q['post_parent__not_in'] ) );
-			$where .= " AND {$wpdb->posts}.post_parent NOT IN ($post_parent__not_in)";
+			$post_parent__not_in = implode( ',', array_map( 'absint', $q['post_parent__not_in'] ) );
+			$where              .= " AND {$wpdb->posts}.post_parent NOT IN ($post_parent__not_in)";
 		}
 
 		if ( $q['page_id'] ) {
-			if  ( ('page' != get_option('show_on_front') ) || ( $q['page_id'] != get_option('page_for_posts') ) ) {
+			if ( ( 'page' != get_option( 'show_on_front' ) ) || ( $q['page_id'] != get_option( 'page_for_posts' ) ) ) {
 				$q['p'] = $q['page_id'];
-				$where = " AND {$wpdb->posts}.ID = " . $q['page_id'];
+				$where  = " AND {$wpdb->posts}.ID = " . $q['page_id'];
 			}
 		}
 
@@ -1957,32 +2055,34 @@ class WP_Query {
 		}
 
 		// Taxonomies
-		if ( !$this->is_singular ) {
+		if ( ! $this->is_singular ) {
 			$this->parse_tax_query( $q );
 
 			$clauses = $this->tax_query->get_sql( $wpdb->posts, 'ID' );
 
-			$join .= $clauses['join'];
+			$join  .= $clauses['join'];
 			$where .= $clauses['where'];
 		}
 
 		if ( $this->is_tax ) {
-			if ( empty($post_type) ) {
+			if ( empty( $post_type ) ) {
 				// Do a fully inclusive search for currently registered post types of queried taxonomies
-				$post_type = array();
+				$post_type  = array();
 				$taxonomies = array_keys( $this->tax_query->queried_terms );
 				foreach ( get_post_types( array( 'exclude_from_search' => false ) ) as $pt ) {
 					$object_taxonomies = $pt === 'attachment' ? get_taxonomies_for_attachments() : get_object_taxonomies( $pt );
-					if ( array_intersect( $taxonomies, $object_taxonomies ) )
+					if ( array_intersect( $taxonomies, $object_taxonomies ) ) {
 						$post_type[] = $pt;
+					}
 				}
-				if ( ! $post_type )
+				if ( ! $post_type ) {
 					$post_type = 'any';
-				elseif ( count( $post_type ) == 1 )
+				} elseif ( count( $post_type ) == 1 ) {
 					$post_type = $post_type[0];
+				}
 
 				$post_status_join = true;
-			} elseif ( in_array('attachment', (array) $post_type) ) {
+			} elseif ( in_array( 'attachment', (array) $post_type ) ) {
 				$post_status_join = true;
 			}
 		}
@@ -2043,7 +2143,7 @@ class WP_Query {
 			}
 		}
 
-		if ( !empty( $this->tax_query->queries ) || !empty( $this->meta_query->queries ) ) {
+		if ( ! empty( $this->tax_query->queries ) || ! empty( $this->meta_query->queries ) ) {
 			$groupby = "{$wpdb->posts}.ID";
 		}
 
@@ -2051,38 +2151,39 @@ class WP_Query {
 
 		if ( ! empty( $q['author'] ) && $q['author'] != '0' ) {
 			$q['author'] = addslashes_gpc( '' . urldecode( $q['author'] ) );
-			$authors = array_unique( array_map( 'intval', preg_split( '/[,\s]+/', $q['author'] ) ) );
+			$authors     = array_unique( array_map( 'intval', preg_split( '/[,\s]+/', $q['author'] ) ) );
 			foreach ( $authors as $author ) {
-				$key = $author > 0 ? 'author__in' : 'author__not_in';
-				$q[$key][] = abs( $author );
+				$key         = $author > 0 ? 'author__in' : 'author__not_in';
+				$q[ $key ][] = abs( $author );
 			}
 			$q['author'] = implode( ',', $authors );
 		}
 
 		if ( ! empty( $q['author__not_in'] ) ) {
 			$author__not_in = implode( ',', array_map( 'absint', array_unique( (array) $q['author__not_in'] ) ) );
-			$where .= " AND {$wpdb->posts}.post_author NOT IN ($author__not_in) ";
+			$where         .= " AND {$wpdb->posts}.post_author NOT IN ($author__not_in) ";
 		} elseif ( ! empty( $q['author__in'] ) ) {
 			$author__in = implode( ',', array_map( 'absint', array_unique( (array) $q['author__in'] ) ) );
-			$where .= " AND {$wpdb->posts}.post_author IN ($author__in) ";
+			$where     .= " AND {$wpdb->posts}.post_author IN ($author__in) ";
 		}
 
 		// Author stuff for nice URLs
 
 		if ( '' != $q['author_name'] ) {
-			if ( strpos($q['author_name'], '/') !== false ) {
-				$q['author_name'] = explode('/', $q['author_name']);
-				if ( $q['author_name'][ count($q['author_name'])-1 ] ) {
-					$q['author_name'] = $q['author_name'][count($q['author_name'])-1]; // no trailing slash
+			if ( strpos( $q['author_name'], '/' ) !== false ) {
+				$q['author_name'] = explode( '/', $q['author_name'] );
+				if ( $q['author_name'][ count( $q['author_name'] ) - 1 ] ) {
+					$q['author_name'] = $q['author_name'][ count( $q['author_name'] ) - 1 ]; // no trailing slash
 				} else {
-					$q['author_name'] = $q['author_name'][count($q['author_name'])-2]; // there was a trailing slash
+					$q['author_name'] = $q['author_name'][ count( $q['author_name'] ) - 2 ]; // there was a trailing slash
 				}
 			}
 			$q['author_name'] = sanitize_title_for_query( $q['author_name'] );
-			$q['author'] = get_user_by('slug', $q['author_name']);
-			if ( $q['author'] )
+			$q['author']      = get_user_by( 'slug', $q['author_name'] );
+			if ( $q['author'] ) {
 				$q['author'] = $q['author']->ID;
-			$whichauthor .= " AND ({$wpdb->posts}.post_author = " . absint($q['author']) . ')';
+			}
+			$whichauthor .= " AND ({$wpdb->posts}.post_author = " . absint( $q['author'] ) . ')';
 		}
 
 		// Matching by comment count.
@@ -2095,9 +2196,11 @@ class WP_Query {
 			}
 
 			if ( isset( $q['comment_count']['value'] ) ) {
-				$q['comment_count'] = array_merge( array(
-					'compare' => '=',
-				), $q['comment_count'] );
+				$q['comment_count'] = array_merge(
+					array(
+						'compare' => '=',
+					), $q['comment_count']
+				);
 
 				// Fallback for invalid compare operators is '='.
 				$compare_operators = array( '=', '!=', '>', '>=', '<', '<=' );
@@ -2189,8 +2292,9 @@ class WP_Query {
 		// Order search results by relevance only when another "orderby" is not specified in the query.
 		if ( ! empty( $q['s'] ) ) {
 			$search_orderby = '';
-			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || ( isset( $q['orderby'] ) && 'relevance' === $q['orderby'] ) )
+			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || ( isset( $q['orderby'] ) && 'relevance' === $q['orderby'] ) ) {
 				$search_orderby = $this->parse_search_order( $q );
+			}
 
 			if ( ! $q['suppress_filters'] ) {
 				/**
@@ -2204,18 +2308,21 @@ class WP_Query {
 				$search_orderby = apply_filters( 'posts_search_orderby', $search_orderby, $this );
 			}
 
-			if ( $search_orderby )
+			if ( $search_orderby ) {
 				$orderby = $orderby ? $search_orderby . ', ' . $orderby : $search_orderby;
+			}
 		}
 
 		if ( is_array( $post_type ) && count( $post_type ) > 1 ) {
 			$post_type_cap = 'multiple_post_type';
 		} else {
-			if ( is_array( $post_type ) )
+			if ( is_array( $post_type ) ) {
 				$post_type = reset( $post_type );
+			}
 			$post_type_object = get_post_type_object( $post_type );
-			if ( empty( $post_type_object ) )
+			if ( empty( $post_type_object ) ) {
 				$post_type_cap = $post_type;
+			}
 		}
 
 		if ( isset( $q['post_password'] ) ) {
@@ -2231,41 +2338,41 @@ class WP_Query {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.comment_status = %s ", $q['comment_status'] );
 		}
 
-		if ( ! empty( $q['ping_status'] ) )  {
+		if ( ! empty( $q['ping_status'] ) ) {
 			$where .= $wpdb->prepare( " AND {$wpdb->posts}.ping_status = %s ", $q['ping_status'] );
 		}
 
 		if ( 'any' == $post_type ) {
-			$in_search_post_types = get_post_types( array('exclude_from_search' => false) );
+			$in_search_post_types = get_post_types( array( 'exclude_from_search' => false ) );
 			if ( empty( $in_search_post_types ) ) {
 				$where .= ' AND 1=0 ';
 			} else {
 				$where .= " AND {$wpdb->posts}.post_type IN ('" . join( "', '", array_map( 'esc_sql', $in_search_post_types ) ) . "')";
 			}
-		} elseif ( !empty( $post_type ) && is_array( $post_type ) ) {
-			$where .= " AND {$wpdb->posts}.post_type IN ('" . join("', '", esc_sql( $post_type ) ) . "')";
+		} elseif ( ! empty( $post_type ) && is_array( $post_type ) ) {
+			$where .= " AND {$wpdb->posts}.post_type IN ('" . join( "', '", esc_sql( $post_type ) ) . "')";
 		} elseif ( ! empty( $post_type ) ) {
-			$where .= $wpdb->prepare( " AND {$wpdb->posts}.post_type = %s", $post_type );
-			$post_type_object = get_post_type_object ( $post_type );
+			$where           .= $wpdb->prepare( " AND {$wpdb->posts}.post_type = %s", $post_type );
+			$post_type_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_attachment ) {
-			$where .= " AND {$wpdb->posts}.post_type = 'attachment'";
-			$post_type_object = get_post_type_object ( 'attachment' );
+			$where           .= " AND {$wpdb->posts}.post_type = 'attachment'";
+			$post_type_object = get_post_type_object( 'attachment' );
 		} elseif ( $this->is_page ) {
-			$where .= " AND {$wpdb->posts}.post_type = 'page'";
-			$post_type_object = get_post_type_object ( 'page' );
+			$where           .= " AND {$wpdb->posts}.post_type = 'page'";
+			$post_type_object = get_post_type_object( 'page' );
 		} else {
-			$where .= " AND {$wpdb->posts}.post_type = 'post'";
-			$post_type_object = get_post_type_object ( 'post' );
+			$where           .= " AND {$wpdb->posts}.post_type = 'post'";
+			$post_type_object = get_post_type_object( 'post' );
 		}
 
 		$edit_cap = 'edit_post';
 		$read_cap = 'read_post';
 
 		if ( ! empty( $post_type_object ) ) {
-			$edit_others_cap = $post_type_object->cap->edit_others_posts;
+			$edit_others_cap  = $post_type_object->cap->edit_others_posts;
 			$read_private_cap = $post_type_object->cap->read_private_posts;
 		} else {
-			$edit_others_cap = 'edit_others_' . $post_type_cap . 's';
+			$edit_others_cap  = 'edit_others_' . $post_type_cap . 's';
 			$read_private_cap = 'read_private_' . $post_type_cap . 's';
 		}
 
@@ -2274,9 +2381,10 @@ class WP_Query {
 		$q_status = array();
 		if ( ! empty( $q['post_status'] ) ) {
 			$statuswheres = array();
-			$q_status = $q['post_status'];
-			if ( ! is_array( $q_status ) )
-				$q_status = explode(',', $q_status);
+			$q_status     = $q['post_status'];
+			if ( ! is_array( $q_status ) ) {
+				$q_status = explode( ',', $q_status );
+			}
 			$r_status = array();
 			$p_status = array();
 			$e_status = array();
@@ -2298,52 +2406,58 @@ class WP_Query {
 				}
 			}
 
-			if ( empty($q['perm'] ) || 'readable' != $q['perm'] ) {
-				$r_status = array_merge($r_status, $p_status);
-				unset($p_status);
+			if ( empty( $q['perm'] ) || 'readable' != $q['perm'] ) {
+				$r_status = array_merge( $r_status, $p_status );
+				unset( $p_status );
 			}
 
-			if ( !empty($e_status) ) {
-				$statuswheres[] = "(" . join( ' AND ', $e_status ) . ")";
+			if ( ! empty( $e_status ) ) {
+				$statuswheres[] = '(' . join( ' AND ', $e_status ) . ')';
 			}
-			if ( !empty($r_status) ) {
-				if ( !empty($q['perm'] ) && 'editable' == $q['perm'] && !current_user_can($edit_others_cap) ) {
-					$statuswheres[] = "({$wpdb->posts}.post_author = $user_id " . "AND (" . join( ' OR ', $r_status ) . "))";
+			if ( ! empty( $r_status ) ) {
+				if ( ! empty( $q['perm'] ) && 'editable' == $q['perm'] && ! current_user_can( $edit_others_cap ) ) {
+					$statuswheres[] = "({$wpdb->posts}.post_author = $user_id " . 'AND (' . join( ' OR ', $r_status ) . '))';
 				} else {
-					$statuswheres[] = "(" . join( ' OR ', $r_status ) . ")";
+					$statuswheres[] = '(' . join( ' OR ', $r_status ) . ')';
 				}
 			}
-			if ( !empty($p_status) ) {
-				if ( !empty($q['perm'] ) && 'readable' == $q['perm'] && !current_user_can($read_private_cap) ) {
-					$statuswheres[] = "({$wpdb->posts}.post_author = $user_id " . "AND (" . join( ' OR ', $p_status ) . "))";
+			if ( ! empty( $p_status ) ) {
+				if ( ! empty( $q['perm'] ) && 'readable' == $q['perm'] && ! current_user_can( $read_private_cap ) ) {
+					$statuswheres[] = "({$wpdb->posts}.post_author = $user_id " . 'AND (' . join( ' OR ', $p_status ) . '))';
 				} else {
-					$statuswheres[] = "(" . join( ' OR ', $p_status ) . ")";
+					$statuswheres[] = '(' . join( ' OR ', $p_status ) . ')';
 				}
 			}
 			if ( $post_status_join ) {
 				$join .= " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
 				foreach ( $statuswheres as $index => $statuswhere ) {
-					$statuswheres[$index] = "($statuswhere OR ({$wpdb->posts}.post_status = 'inherit' AND " . str_replace( $wpdb->posts, 'p2', $statuswhere ) . "))";
+					$statuswheres[ $index ] = "($statuswhere OR ({$wpdb->posts}.post_status = 'inherit' AND " . str_replace( $wpdb->posts, 'p2', $statuswhere ) . '))';
 				}
 			}
 			$where_status = implode( ' OR ', $statuswheres );
 			if ( ! empty( $where_status ) ) {
 				$where .= " AND ($where_status)";
 			}
-		} elseif ( !$this->is_singular ) {
+		} elseif ( ! $this->is_singular ) {
 			$where .= " AND ({$wpdb->posts}.post_status = 'publish'";
 
 			// Add public states.
-			$public_states = get_post_stati( array('public' => true) );
+			$public_states = get_post_stati( array( 'public' => true ) );
 			foreach ( (array) $public_states as $state ) {
-				if ( 'publish' == $state ) // Publish is hard-coded above.
+				if ( 'publish' == $state ) { // Publish is hard-coded above.
 					continue;
+				}
 				$where .= " OR {$wpdb->posts}.post_status = '$state'";
 			}
 
 			if ( $this->is_admin ) {
 				// Add protected states that should show in the admin all list.
-				$admin_all_states = get_post_stati( array('protected' => true, 'show_in_admin_all_list' => true) );
+				$admin_all_states = get_post_stati(
+					array(
+						'protected'              => true,
+						'show_in_admin_all_list' => true,
+					)
+				);
 				foreach ( (array) $admin_all_states as $state ) {
 					$where .= " OR {$wpdb->posts}.post_status = '$state'";
 				}
@@ -2351,7 +2465,7 @@ class WP_Query {
 
 			if ( is_user_logged_in() ) {
 				// Add private states that are limited to viewing by the author of a post or someone who has caps to read private states.
-				$private_states = get_post_stati( array('private' => true) );
+				$private_states = get_post_stati( array( 'private' => true ) );
 				foreach ( (array) $private_states as $state ) {
 					$where .= current_user_can( $read_private_cap ) ? " OR {$wpdb->posts}.post_status = '$state'" : " OR {$wpdb->posts}.post_author = $user_id AND {$wpdb->posts}.post_status = '$state'";
 				}
@@ -2364,7 +2478,7 @@ class WP_Query {
 		 * Apply filters on where and join prior to paging so that any
 		 * manipulations to them are reflected in the paging by day queries.
 		 */
-		if ( !$q['suppress_filters'] ) {
+		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filters the WHERE clause of the query.
 			 *
@@ -2387,15 +2501,16 @@ class WP_Query {
 		}
 
 		// Paging
-		if ( empty($q['nopaging']) && !$this->is_singular ) {
-			$page = absint($q['paged']);
-			if ( !$page )
+		if ( empty( $q['nopaging'] ) && ! $this->is_singular ) {
+			$page = absint( $q['paged'] );
+			if ( ! $page ) {
 				$page = 1;
+			}
 
 			// If 'offset' is provided, it takes precedence over 'paged'.
 			if ( isset( $q['offset'] ) && is_numeric( $q['offset'] ) ) {
 				$q['offset'] = absint( $q['offset'] );
-				$pgstrt = $q['offset'] . ', ';
+				$pgstrt      = $q['offset'] . ', ';
 			} else {
 				$pgstrt = absint( ( $page - 1 ) * $q['posts_per_page'] ) . ', ';
 			}
@@ -2405,16 +2520,16 @@ class WP_Query {
 		// Comments feeds
 		if ( $this->is_comment_feed && ! $this->is_singular ) {
 			if ( $this->is_archive || $this->is_search ) {
-				$cjoin = "JOIN {$wpdb->posts} ON ({$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID) $join ";
-				$cwhere = "WHERE comment_approved = '1' $where";
+				$cjoin    = "JOIN {$wpdb->posts} ON ({$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID) $join ";
+				$cwhere   = "WHERE comment_approved = '1' $where";
 				$cgroupby = "{$wpdb->comments}.comment_id";
 			} else { // Other non singular e.g. front
-				$cjoin = "JOIN {$wpdb->posts} ON ( {$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID )";
-				$cwhere = "WHERE ( post_status = 'publish' OR ( post_status = 'inherit' AND post_type = 'attachment' ) ) AND comment_approved = '1'";
+				$cjoin    = "JOIN {$wpdb->posts} ON ( {$wpdb->comments}.comment_post_ID = {$wpdb->posts}.ID )";
+				$cwhere   = "WHERE ( post_status = 'publish' OR ( post_status = 'inherit' AND post_type = 'attachment' ) ) AND comment_approved = '1'";
 				$cgroupby = '';
 			}
 
-			if ( !$q['suppress_filters'] ) {
+			if ( ! $q['suppress_filters'] ) {
 				/**
 				 * Filters the JOIN clause of the comments feed query before sending.
 				 *
@@ -2463,27 +2578,28 @@ class WP_Query {
 				 * @param string   $climits The JOIN clause of the query.
 				 * @param WP_Query $this    The WP_Query instance (passed by reference).
 				 */
-				$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
+				$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option( 'posts_per_rss' ), &$this ) );
 			}
 			$cgroupby = ( ! empty( $cgroupby ) ) ? 'GROUP BY ' . $cgroupby : '';
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
 
-			$comments = (array) $wpdb->get_results("SELECT $distinct {$wpdb->comments}.* FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits");
+			$comments = (array) $wpdb->get_results( "SELECT $distinct {$wpdb->comments}.* FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits" );
 			// Convert to WP_Comment
-			$this->comments = array_map( 'get_comment', $comments );
-			$this->comment_count = count($this->comments);
+			$this->comments      = array_map( 'get_comment', $comments );
+			$this->comment_count = count( $this->comments );
 
 			$post_ids = array();
 
-			foreach ( $this->comments as $comment )
+			foreach ( $this->comments as $comment ) {
 				$post_ids[] = (int) $comment->comment_post_ID;
+			}
 
-			$post_ids = join(',', $post_ids);
-			$join = '';
+			$post_ids = join( ',', $post_ids );
+			$join     = '';
 			if ( $post_ids ) {
 				$where = "AND {$wpdb->posts}.ID IN ($post_ids) ";
 			} else {
-				$where = "AND 0";
+				$where = 'AND 0';
 			}
 		}
 
@@ -2493,7 +2609,7 @@ class WP_Query {
 		 * Apply post-paging filters on where and join. Only plugins that
 		 * manipulate paging queries should use these hooks.
 		 */
-		if ( !$q['suppress_filters'] ) {
+		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filters the WHERE clause of the query.
 			 *
@@ -2581,13 +2697,13 @@ class WP_Query {
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
 
-			$where = isset( $clauses[ 'where' ] ) ? $clauses[ 'where' ] : '';
-			$groupby = isset( $clauses[ 'groupby' ] ) ? $clauses[ 'groupby' ] : '';
-			$join = isset( $clauses[ 'join' ] ) ? $clauses[ 'join' ] : '';
-			$orderby = isset( $clauses[ 'orderby' ] ) ? $clauses[ 'orderby' ] : '';
-			$distinct = isset( $clauses[ 'distinct' ] ) ? $clauses[ 'distinct' ] : '';
-			$fields = isset( $clauses[ 'fields' ] ) ? $clauses[ 'fields' ] : '';
-			$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
+			$where    = isset( $clauses['where'] ) ? $clauses['where'] : '';
+			$groupby  = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
+			$join     = isset( $clauses['join'] ) ? $clauses['join'] : '';
+			$orderby  = isset( $clauses['orderby'] ) ? $clauses['orderby'] : '';
+			$distinct = isset( $clauses['distinct'] ) ? $clauses['distinct'] : '';
+			$fields   = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
+			$limits   = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
 		}
 
 		/**
@@ -2605,7 +2721,7 @@ class WP_Query {
 		 * Filters again for the benefit of caching plugins.
 		 * Regular plugins should use the hooks above.
 		 */
-		if ( !$q['suppress_filters'] ) {
+		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filters the WHERE clause of the query.
 			 *
@@ -2705,27 +2821,30 @@ class WP_Query {
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
 
-			$where = isset( $clauses[ 'where' ] ) ? $clauses[ 'where' ] : '';
-			$groupby = isset( $clauses[ 'groupby' ] ) ? $clauses[ 'groupby' ] : '';
-			$join = isset( $clauses[ 'join' ] ) ? $clauses[ 'join' ] : '';
-			$orderby = isset( $clauses[ 'orderby' ] ) ? $clauses[ 'orderby' ] : '';
-			$distinct = isset( $clauses[ 'distinct' ] ) ? $clauses[ 'distinct' ] : '';
-			$fields = isset( $clauses[ 'fields' ] ) ? $clauses[ 'fields' ] : '';
-			$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
+			$where    = isset( $clauses['where'] ) ? $clauses['where'] : '';
+			$groupby  = isset( $clauses['groupby'] ) ? $clauses['groupby'] : '';
+			$join     = isset( $clauses['join'] ) ? $clauses['join'] : '';
+			$orderby  = isset( $clauses['orderby'] ) ? $clauses['orderby'] : '';
+			$distinct = isset( $clauses['distinct'] ) ? $clauses['distinct'] : '';
+			$fields   = isset( $clauses['fields'] ) ? $clauses['fields'] : '';
+			$limits   = isset( $clauses['limits'] ) ? $clauses['limits'] : '';
 		}
 
-		if ( ! empty($groupby) )
+		if ( ! empty( $groupby ) ) {
 			$groupby = 'GROUP BY ' . $groupby;
-		if ( !empty( $orderby ) )
+		}
+		if ( ! empty( $orderby ) ) {
 			$orderby = 'ORDER BY ' . $orderby;
+		}
 
 		$found_rows = '';
-		if ( !$q['no_found_rows'] && !empty($limits) )
+		if ( ! $q['no_found_rows'] && ! empty( $limits ) ) {
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
+		}
 
 		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM {$wpdb->posts} $join WHERE 1=1 $where $groupby $orderby $limits";
 
-		if ( !$q['suppress_filters'] ) {
+		if ( ! $q['suppress_filters'] ) {
 			/**
 			 * Filters the completed SQL query before sending.
 			 *
@@ -2760,7 +2879,7 @@ class WP_Query {
 				$this->posts = $wpdb->get_col( $this->request );
 			}
 
-			$this->posts = array_map( 'intval', $this->posts );
+			$this->posts      = array_map( 'intval', $this->posts );
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
 
@@ -2777,7 +2896,7 @@ class WP_Query {
 
 			$r = array();
 			foreach ( $this->posts as $key => $post ) {
-				$this->posts[ $key ]->ID = (int) $post->ID;
+				$this->posts[ $key ]->ID          = (int) $post->ID;
 				$this->posts[ $key ]->post_parent = (int) $post->post_parent;
 
 				$r[ (int) $post->ID ] = (int) $post->post_parent;
@@ -2787,7 +2906,7 @@ class WP_Query {
 		}
 
 		if ( null === $this->posts ) {
-			$split_the_query = ( $old_request == $this->request && "{$wpdb->posts}.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
+			$split_the_query = ( $old_request == $this->request && "{$wpdb->posts}.*" == $fields && ! empty( $limits ) && $q['posts_per_page'] < 500 );
 
 			/**
 			 * Filters whether to split the query.
@@ -2850,7 +2969,7 @@ class WP_Query {
 			$this->posts = apply_filters_ref_array( 'posts_results', array( $this->posts, &$this ) );
 		}
 
-		if ( !empty($this->posts) && $this->is_comment_feed && $this->is_singular ) {
+		if ( ! empty( $this->posts ) && $this->is_comment_feed && $this->is_singular ) {
 			/** This filter is documented in wp-includes/query.php */
 			$cjoin = apply_filters_ref_array( 'comment_feed_join', array( '', &$this ) );
 
@@ -2866,44 +2985,46 @@ class WP_Query {
 			$corderby = ( ! empty( $corderby ) ) ? 'ORDER BY ' . $corderby : '';
 
 			/** This filter is documented in wp-includes/query.php */
-			$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option('posts_per_rss'), &$this ) );
+			$climits = apply_filters_ref_array( 'comment_feed_limits', array( 'LIMIT ' . get_option( 'posts_per_rss' ), &$this ) );
 
 			$comments_request = "SELECT {$wpdb->comments}.* FROM {$wpdb->comments} $cjoin $cwhere $cgroupby $corderby $climits";
-			$comments = $wpdb->get_results($comments_request);
+			$comments         = $wpdb->get_results( $comments_request );
 			// Convert to WP_Comment
-			$this->comments = array_map( 'get_comment', $comments );
-			$this->comment_count = count($this->comments);
+			$this->comments      = array_map( 'get_comment', $comments );
+			$this->comment_count = count( $this->comments );
 		}
 
 		// Check post status to determine if post should be displayed.
-		if ( !empty($this->posts) && ($this->is_single || $this->is_page) ) {
-			$status = get_post_status($this->posts[0]);
+		if ( ! empty( $this->posts ) && ( $this->is_single || $this->is_page ) ) {
+			$status = get_post_status( $this->posts[0] );
 			if ( 'attachment' === $this->posts[0]->post_type && 0 === (int) $this->posts[0]->post_parent ) {
-				$this->is_page = false;
-				$this->is_single = true;
+				$this->is_page       = false;
+				$this->is_single     = true;
 				$this->is_attachment = true;
 			}
-			$post_status_obj = get_post_status_object($status);
+			$post_status_obj = get_post_status_object( $status );
 
 			// If the post_status was specifically requested, let it pass through.
-			if ( !$post_status_obj->public && ! in_array( $status, $q_status ) ) {
+			if ( ! $post_status_obj->public && ! in_array( $status, $q_status ) ) {
 
 				if ( ! is_user_logged_in() ) {
 					// User must be logged in to view unpublished posts.
 					$this->posts = array();
 				} else {
-					if  ( $post_status_obj->protected ) {
+					if ( $post_status_obj->protected ) {
 						// User must have edit permissions on the draft to preview.
-						if ( ! current_user_can($edit_cap, $this->posts[0]->ID) ) {
+						if ( ! current_user_can( $edit_cap, $this->posts[0]->ID ) ) {
 							$this->posts = array();
 						} else {
 							$this->is_preview = true;
-							if ( 'future' != $status )
-								$this->posts[0]->post_date = current_time('mysql');
+							if ( 'future' != $status ) {
+								$this->posts[0]->post_date = current_time( 'mysql' );
+							}
 						}
 					} elseif ( $post_status_obj->private ) {
-						if ( ! current_user_can($read_cap, $this->posts[0]->ID) )
+						if ( ! current_user_can( $read_cap, $this->posts[0]->ID ) ) {
 							$this->posts = array();
+						}
 					} else {
 						$this->posts = array();
 					}
@@ -2924,38 +3045,41 @@ class WP_Query {
 		}
 
 		// Put sticky posts at the top of the posts array
-		$sticky_posts = get_option('sticky_posts');
-		if ( $this->is_home && $page <= 1 && is_array($sticky_posts) && !empty($sticky_posts) && !$q['ignore_sticky_posts'] ) {
-			$num_posts = count($this->posts);
+		$sticky_posts = get_option( 'sticky_posts' );
+		if ( $this->is_home && $page <= 1 && is_array( $sticky_posts ) && ! empty( $sticky_posts ) && ! $q['ignore_sticky_posts'] ) {
+			$num_posts     = count( $this->posts );
 			$sticky_offset = 0;
 			// Loop over posts and relocate stickies to the front.
 			for ( $i = 0; $i < $num_posts; $i++ ) {
-				if ( in_array($this->posts[$i]->ID, $sticky_posts) ) {
-					$sticky_post = $this->posts[$i];
+				if ( in_array( $this->posts[ $i ]->ID, $sticky_posts ) ) {
+					$sticky_post = $this->posts[ $i ];
 					// Remove sticky from current position
-					array_splice($this->posts, $i, 1);
+					array_splice( $this->posts, $i, 1 );
 					// Move to front, after other stickies
-					array_splice($this->posts, $sticky_offset, 0, array($sticky_post));
+					array_splice( $this->posts, $sticky_offset, 0, array( $sticky_post ) );
 					// Increment the sticky offset. The next sticky will be placed at this offset.
 					$sticky_offset++;
 					// Remove post from sticky posts array
-					$offset = array_search($sticky_post->ID, $sticky_posts);
-					unset( $sticky_posts[$offset] );
+					$offset = array_search( $sticky_post->ID, $sticky_posts );
+					unset( $sticky_posts[ $offset ] );
 				}
 			}
 
 			// If any posts have been excluded specifically, Ignore those that are sticky.
-			if ( !empty($sticky_posts) && !empty($q['post__not_in']) )
-				$sticky_posts = array_diff($sticky_posts, $q['post__not_in']);
+			if ( ! empty( $sticky_posts ) && ! empty( $q['post__not_in'] ) ) {
+				$sticky_posts = array_diff( $sticky_posts, $q['post__not_in'] );
+			}
 
 			// Fetch sticky posts that weren't in the query results
-			if ( !empty($sticky_posts) ) {
-				$stickies = get_posts( array(
-					'post__in' => $sticky_posts,
-					'post_type' => $post_type,
-					'post_status' => 'publish',
-					'nopaging' => true
-				) );
+			if ( ! empty( $sticky_posts ) ) {
+				$stickies = get_posts(
+					array(
+						'post__in'    => $sticky_posts,
+						'post_type'   => $post_type,
+						'post_status' => 'publish',
+						'nopaging'    => true,
+					)
+				);
 
 				foreach ( $stickies as $sticky_post ) {
 					array_splice( $this->posts, $sticky_offset, 0, array( $sticky_post ) );
@@ -2989,13 +3113,14 @@ class WP_Query {
 
 			$this->posts = array_map( 'get_post', $this->posts );
 
-			if ( $q['cache_results'] )
-				update_post_caches($this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache']);
+			if ( $q['cache_results'] ) {
+				update_post_caches( $this->posts, $post_type, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+			}
 
 			$this->post = reset( $this->posts );
 		} else {
 			$this->post_count = 0;
-			$this->posts = array();
+			$this->posts      = array();
 		}
 
 		if ( $q['lazy_load_term_meta'] ) {
@@ -3018,8 +3143,9 @@ class WP_Query {
 		global $wpdb;
 		// Bail if posts is an empty array. Continue if posts is an empty string,
 		// null, or false to accommodate caching plugins that fill posts later.
-		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) )
+		if ( $q['no_found_rows'] || ( is_array( $this->posts ) && ! $this->posts ) ) {
 			return;
+		}
 
 		if ( ! empty( $limits ) ) {
 			/**
@@ -3045,8 +3171,9 @@ class WP_Query {
 		 */
 		$this->found_posts = apply_filters_ref_array( 'found_posts', array( $this->found_posts, &$this ) );
 
-		if ( ! empty( $limits ) )
+		if ( ! empty( $limits ) ) {
 			$this->max_num_pages = ceil( $this->found_posts / $q['posts_per_page'] );
+		}
 	}
 
 	/**
@@ -3060,7 +3187,7 @@ class WP_Query {
 
 		$this->current_post++;
 
-		$this->post = $this->posts[$this->current_post];
+		$this->post = $this->posts[ $this->current_post ];
 		return $this->post;
 	}
 
@@ -3078,7 +3205,7 @@ class WP_Query {
 		global $post;
 		$this->in_the_loop = true;
 
-		if ( $this->current_post == -1 ) // loop has just started
+		if ( $this->current_post == -1 ) { // loop has just started
 			/**
 			 * Fires once the loop is started.
 			 *
@@ -3087,6 +3214,7 @@ class WP_Query {
 			 * @param WP_Query $this The WP_Query instance (passed by reference).
 			 */
 			do_action_ref_array( 'loop_start', array( &$this ) );
+		}
 
 		$post = $this->next_post();
 		$this->setup_postdata( $post );
@@ -3152,7 +3280,7 @@ class WP_Query {
 	public function next_comment() {
 		$this->current_comment++;
 
-		$this->comment = $this->comments[$this->current_comment];
+		$this->comment = $this->comments[ $this->current_comment ];
 		return $this->comment;
 	}
 
@@ -3234,10 +3362,11 @@ class WP_Query {
 	 * @return object
 	 */
 	public function get_queried_object() {
-		if ( isset($this->queried_object) )
+		if ( isset( $this->queried_object ) ) {
 			return $this->queried_object;
+		}
 
-		$this->queried_object = null;
+		$this->queried_object    = null;
 		$this->queried_object_id = null;
 
 		if ( $this->is_category || $this->is_tag || $this->is_tax ) {
@@ -3257,8 +3386,8 @@ class WP_Query {
 				// For other tax queries, grab the first term from the first clause.
 				if ( ! empty( $this->tax_query->queried_terms ) ) {
 					$queried_taxonomies = array_keys( $this->tax_query->queried_terms );
-					$matched_taxonomy = reset( $queried_taxonomies );
-					$query = $this->tax_query->queried_terms[ $matched_taxonomy ];
+					$matched_taxonomy   = reset( $queried_taxonomies );
+					$query              = $this->tax_query->queried_terms[ $matched_taxonomy ];
 
 					if ( ! empty( $query['terms'] ) ) {
 						if ( 'term_id' == $query['field'] ) {
@@ -3270,28 +3399,30 @@ class WP_Query {
 				}
 			}
 
-			if ( ! empty( $term ) && ! is_wp_error( $term ) )  {
-				$this->queried_object = $term;
+			if ( ! empty( $term ) && ! is_wp_error( $term ) ) {
+				$this->queried_object    = $term;
 				$this->queried_object_id = (int) $term->term_id;
 
-				if ( $this->is_category && 'category' === $this->queried_object->taxonomy )
+				if ( $this->is_category && 'category' === $this->queried_object->taxonomy ) {
 					_make_cat_compat( $this->queried_object );
+				}
 			}
 		} elseif ( $this->is_post_type_archive ) {
 			$post_type = $this->get( 'post_type' );
-			if ( is_array( $post_type ) )
+			if ( is_array( $post_type ) ) {
 				$post_type = reset( $post_type );
+			}
 			$this->queried_object = get_post_type_object( $post_type );
 		} elseif ( $this->is_posts_page ) {
-			$page_for_posts = get_option('page_for_posts');
-			$this->queried_object = get_post( $page_for_posts );
+			$page_for_posts          = get_option( 'page_for_posts' );
+			$this->queried_object    = get_post( $page_for_posts );
 			$this->queried_object_id = (int) $this->queried_object->ID;
 		} elseif ( $this->is_singular && ! empty( $this->post ) ) {
-			$this->queried_object = $this->post;
+			$this->queried_object    = $this->post;
 			$this->queried_object_id = (int) $this->post->ID;
 		} elseif ( $this->is_author ) {
-			$this->queried_object_id = (int) $this->get('author');
-			$this->queried_object = get_userdata( $this->queried_object_id );
+			$this->queried_object_id = (int) $this->get( 'author' );
+			$this->queried_object    = get_userdata( $this->queried_object_id );
 		}
 
 		return $this->queried_object;
@@ -3307,7 +3438,7 @@ class WP_Query {
 	public function get_queried_object_id() {
 		$this->get_queried_object();
 
-		if ( isset($this->queried_object_id) ) {
+		if ( isset( $this->queried_object_id ) ) {
 			return $this->queried_object_id;
 		}
 
@@ -3374,14 +3505,14 @@ class WP_Query {
 	}
 
 	/**
- 	 * Is the query for an existing archive page?
- 	 *
- 	 * Month, Year, Category, Author, Post Type archive...
+	 * Is the query for an existing archive page?
 	 *
- 	 * @since 3.1.0
- 	 *
- 	 * @return bool
- 	 */
+	 * Month, Year, Category, Author, Post Type archive...
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
 	public function is_archive() {
 		return (bool) $this->is_archive;
 	}
@@ -3395,12 +3526,14 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_post_type_archive( $post_types = '' ) {
-		if ( empty( $post_types ) || ! $this->is_post_type_archive )
+		if ( empty( $post_types ) || ! $this->is_post_type_archive ) {
 			return (bool) $this->is_post_type_archive;
+		}
 
 		$post_type = $this->get( 'post_type' );
-		if ( is_array( $post_type ) )
+		if ( is_array( $post_type ) ) {
 			$post_type = reset( $post_type );
+		}
 		$post_type_object = get_post_type_object( $post_type );
 
 		return in_array( $post_type_object->name, (array) $post_types );
@@ -3449,22 +3582,25 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_author( $author = '' ) {
-		if ( !$this->is_author )
+		if ( ! $this->is_author ) {
 			return false;
+		}
 
-		if ( empty($author) )
+		if ( empty( $author ) ) {
 			return true;
+		}
 
 		$author_obj = $this->get_queried_object();
 
 		$author = array_map( 'strval', (array) $author );
 
-		if ( in_array( (string) $author_obj->ID, $author ) )
+		if ( in_array( (string) $author_obj->ID, $author ) ) {
 			return true;
-		elseif ( in_array( $author_obj->nickname, $author ) )
+		} elseif ( in_array( $author_obj->nickname, $author ) ) {
 			return true;
-		elseif ( in_array( $author_obj->user_nicename, $author ) )
+		} elseif ( in_array( $author_obj->user_nicename, $author ) ) {
 			return true;
+		}
 
 		return false;
 	}
@@ -3481,22 +3617,25 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_category( $category = '' ) {
-		if ( !$this->is_category )
+		if ( ! $this->is_category ) {
 			return false;
+		}
 
-		if ( empty($category) )
+		if ( empty( $category ) ) {
 			return true;
+		}
 
 		$cat_obj = $this->get_queried_object();
 
 		$category = array_map( 'strval', (array) $category );
 
-		if ( in_array( (string) $cat_obj->term_id, $category ) )
+		if ( in_array( (string) $cat_obj->term_id, $category ) ) {
 			return true;
-		elseif ( in_array( $cat_obj->name, $category ) )
+		} elseif ( in_array( $cat_obj->name, $category ) ) {
 			return true;
-		elseif ( in_array( $cat_obj->slug, $category ) )
+		} elseif ( in_array( $cat_obj->slug, $category ) ) {
 			return true;
+		}
 
 		return false;
 	}
@@ -3513,22 +3652,25 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_tag( $tag = '' ) {
-		if ( ! $this->is_tag )
+		if ( ! $this->is_tag ) {
 			return false;
+		}
 
-		if ( empty( $tag ) )
+		if ( empty( $tag ) ) {
 			return true;
+		}
 
 		$tag_obj = $this->get_queried_object();
 
 		$tag = array_map( 'strval', (array) $tag );
 
-		if ( in_array( (string) $tag_obj->term_id, $tag ) )
+		if ( in_array( (string) $tag_obj->term_id, $tag ) ) {
 			return true;
-		elseif ( in_array( $tag_obj->name, $tag ) )
+		} elseif ( in_array( $tag_obj->name, $tag ) ) {
 			return true;
-		elseif ( in_array( $tag_obj->slug, $tag ) )
+		} elseif ( in_array( $tag_obj->slug, $tag ) ) {
 			return true;
+		}
 
 		return false;
 	}
@@ -3554,29 +3696,35 @@ class WP_Query {
 	public function is_tax( $taxonomy = '', $term = '' ) {
 		global $wp_taxonomies;
 
-		if ( !$this->is_tax )
+		if ( ! $this->is_tax ) {
 			return false;
+		}
 
-		if ( empty( $taxonomy ) )
+		if ( empty( $taxonomy ) ) {
 			return true;
+		}
 
 		$queried_object = $this->get_queried_object();
-		$tax_array = array_intersect( array_keys( $wp_taxonomies ), (array) $taxonomy );
-		$term_array = (array) $term;
+		$tax_array      = array_intersect( array_keys( $wp_taxonomies ), (array) $taxonomy );
+		$term_array     = (array) $term;
 
 		// Check that the taxonomy matches.
-		if ( ! ( isset( $queried_object->taxonomy ) && count( $tax_array ) && in_array( $queried_object->taxonomy, $tax_array ) ) )
+		if ( ! ( isset( $queried_object->taxonomy ) && count( $tax_array ) && in_array( $queried_object->taxonomy, $tax_array ) ) ) {
 			return false;
+		}
 
 		// Only a Taxonomy provided.
-		if ( empty( $term ) )
+		if ( empty( $term ) ) {
 			return true;
+		}
 
 		return isset( $queried_object->term_id ) &&
-			count( array_intersect(
-				array( $queried_object->term_id, $queried_object->name, $queried_object->slug ),
-				$term_array
-			) );
+			count(
+				array_intersect(
+					array( $queried_object->term_id, $queried_object->name, $queried_object->slug ),
+					$term_array
+				)
+			);
 	}
 
 	/**
@@ -3624,11 +3772,13 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_feed( $feeds = '' ) {
-		if ( empty( $feeds ) || ! $this->is_feed )
+		if ( empty( $feeds ) || ! $this->is_feed ) {
 			return (bool) $this->is_feed;
+		}
 		$qv = $this->get( 'feed' );
-		if ( 'feed' == $qv )
+		if ( 'feed' == $qv ) {
 			$qv = get_default_feed();
+		}
 		return in_array( $qv, (array) $feeds );
 	}
 
@@ -3661,12 +3811,13 @@ class WP_Query {
 	 */
 	public function is_front_page() {
 		// most likely case
-		if ( 'posts' == get_option( 'show_on_front') && $this->is_home() )
+		if ( 'posts' == get_option( 'show_on_front' ) && $this->is_home() ) {
 			return true;
-		elseif ( 'page' == get_option( 'show_on_front') && get_option( 'page_on_front' ) && $this->is_page( get_option( 'page_on_front' ) ) )
+		} elseif ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && $this->is_page( get_option( 'page_on_front' ) ) ) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -3715,11 +3866,13 @@ class WP_Query {
 	 * @return bool Whether the query is for an existing single page.
 	 */
 	public function is_page( $page = '' ) {
-		if ( !$this->is_page )
+		if ( ! $this->is_page ) {
 			return false;
+		}
 
-		if ( empty( $page ) )
+		if ( empty( $page ) ) {
 			return true;
+		}
 
 		$page_obj = $this->get_queried_object();
 
@@ -3808,11 +3961,13 @@ class WP_Query {
 	 * @return bool Whether the query is for an existing single post.
 	 */
 	public function is_single( $post = '' ) {
-		if ( !$this->is_single )
+		if ( ! $this->is_single ) {
 			return false;
+		}
 
-		if ( empty($post) )
+		if ( empty( $post ) ) {
 			return true;
+		}
 
 		$post_obj = $this->get_queried_object();
 
@@ -3855,8 +4010,9 @@ class WP_Query {
 	 * @return bool Whether the query is for an existing single post of any of the given post types.
 	 */
 	public function is_singular( $post_types = '' ) {
-		if ( empty( $post_types ) || !$this->is_singular )
+		if ( empty( $post_types ) || ! $this->is_singular ) {
 			return (bool) $this->is_singular;
+		}
 
 		$post_obj = $this->get_queried_object();
 
@@ -3964,15 +4120,16 @@ class WP_Query {
 
 		$id = (int) $post->ID;
 
-		$authordata = get_userdata($post->post_author);
+		$authordata = get_userdata( $post->post_author );
 
-		$currentday = mysql2date('d.m.y', $post->post_date, false);
-		$currentmonth = mysql2date('m', $post->post_date, false);
-		$numpages = 1;
-		$multipage = 0;
-		$page = $this->get( 'page' );
-		if ( ! $page )
+		$currentday   = mysql2date( 'd.m.y', $post->post_date, false );
+		$currentmonth = mysql2date( 'm', $post->post_date, false );
+		$numpages     = 1;
+		$multipage    = 0;
+		$page         = $this->get( 'page' );
+		if ( ! $page ) {
 			$page = 1;
+		}
 
 		/*
 		 * Force full post content when viewing the permalink for the $post,
@@ -3993,10 +4150,11 @@ class WP_Query {
 			$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
 
 			// Ignore nextpage at the beginning of the content.
-			if ( 0 === strpos( $content, '<!--nextpage-->' ) )
+			if ( 0 === strpos( $content, '<!--nextpage-->' ) ) {
 				$content = substr( $content, 15 );
+			}
 
-			$pages = explode('<!--nextpage-->', $content);
+			$pages = explode( '<!--nextpage-->', $content );
 		} else {
 			$pages = array( $post->post_content );
 		}
@@ -4023,8 +4181,8 @@ class WP_Query {
 			}
 			$multipage = 1;
 		} else {
-	 		$multipage = 0;
-	 	}
+			$multipage = 0;
+		}
 
 		/**
 		 * Fires once the post data has been setup.

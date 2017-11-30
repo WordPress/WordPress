@@ -38,32 +38,36 @@ class WP_Terms_List_Table extends WP_List_Table {
 	public function __construct( $args = array() ) {
 		global $post_type, $taxonomy, $action, $tax;
 
-		parent::__construct( array(
-			'plural' => 'tags',
-			'singular' => 'tag',
-			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
-		) );
+		parent::__construct(
+			array(
+				'plural'   => 'tags',
+				'singular' => 'tag',
+				'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
+			)
+		);
 
 		$action    = $this->screen->action;
 		$post_type = $this->screen->post_type;
 		$taxonomy  = $this->screen->taxonomy;
 
-		if ( empty( $taxonomy ) )
+		if ( empty( $taxonomy ) ) {
 			$taxonomy = 'post_tag';
+		}
 
-		if ( ! taxonomy_exists( $taxonomy ) )
+		if ( ! taxonomy_exists( $taxonomy ) ) {
 			wp_die( __( 'Invalid taxonomy.' ) );
+		}
 
 		$tax = get_taxonomy( $taxonomy );
 
 		// @todo Still needed? Maybe just the show_ui part.
-		if ( empty( $post_type ) || !in_array( $post_type, get_post_types( array( 'show_ui' => true ) ) ) )
+		if ( empty( $post_type ) || ! in_array( $post_type, get_post_types( array( 'show_ui' => true ) ) ) ) {
 			$post_type = 'post';
+		}
 
 	}
 
 	/**
-	 *
 	 * @return bool
 	 */
 	public function ajax_user_can() {
@@ -105,30 +109,33 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$tags_per_page = apply_filters( 'edit_categories_per_page', $tags_per_page );
 		}
 
-		$search = !empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
+		$search = ! empty( $_REQUEST['s'] ) ? trim( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		$args = array(
 			'search' => $search,
-			'page' => $this->get_pagenum(),
+			'page'   => $this->get_pagenum(),
 			'number' => $tags_per_page,
 		);
 
-		if ( !empty( $_REQUEST['orderby'] ) )
+		if ( ! empty( $_REQUEST['orderby'] ) ) {
 			$args['orderby'] = trim( wp_unslash( $_REQUEST['orderby'] ) );
+		}
 
-		if ( !empty( $_REQUEST['order'] ) )
+		if ( ! empty( $_REQUEST['order'] ) ) {
 			$args['order'] = trim( wp_unslash( $_REQUEST['order'] ) );
+		}
 
 		$this->callback_args = $args;
 
-		$this->set_pagination_args( array(
-			'total_items' => wp_count_terms( $this->screen->taxonomy, compact( 'search' ) ),
-			'per_page' => $tags_per_page,
-		) );
+		$this->set_pagination_args(
+			array(
+				'total_items' => wp_count_terms( $this->screen->taxonomy, compact( 'search' ) ),
+				'per_page'    => $tags_per_page,
+			)
+		);
 	}
 
 	/**
-	 *
 	 * @return bool
 	 */
 	public function has_items() {
@@ -143,7 +150,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	protected function get_bulk_actions() {
@@ -157,18 +163,17 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	public function current_action() {
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' === $_REQUEST['action'] || 'delete' === $_REQUEST['action2'] ) )
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' === $_REQUEST['action'] || 'delete' === $_REQUEST['action2'] ) ) {
 			return 'bulk-delete';
+		}
 
 		return parent::current_action();
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	public function get_columns() {
@@ -189,7 +194,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	protected function get_sortable_columns() {
@@ -198,7 +202,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'description' => 'description',
 			'slug'        => 'slug',
 			'posts'       => 'count',
-			'links'       => 'count'
+			'links'       => 'count',
 		);
 	}
 
@@ -207,12 +211,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 	public function display_rows_or_placeholder() {
 		$taxonomy = $this->screen->taxonomy;
 
-		$args = wp_parse_args( $this->callback_args, array(
-			'page' => 1,
-			'number' => 20,
-			'search' => '',
-			'hide_empty' => 0
-		) );
+		$args = wp_parse_args(
+			$this->callback_args, array(
+				'page'       => 1,
+				'number'     => 20,
+				'search'     => '',
+				'hide_empty' => 0,
+			)
+		);
 
 		$page = $args['page'];
 
@@ -268,22 +274,25 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		foreach ( $terms as $key => $term ) {
 
-			if ( $count >= $end )
+			if ( $count >= $end ) {
 				break;
+			}
 
-			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) )
+			if ( $term->parent != $parent && empty( $_REQUEST['s'] ) ) {
 				continue;
+			}
 
 			// If the page starts in a subtree, print the parents.
 			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
 				$my_parents = $parent_ids = array();
-				$p = $term->parent;
+				$p          = $term->parent;
 				while ( $p ) {
-					$my_parent = get_term( $p, $taxonomy );
+					$my_parent    = get_term( $p, $taxonomy );
 					$my_parents[] = $my_parent;
-					$p = $my_parent->parent;
-					if ( in_array( $p, $parent_ids ) ) // Prevent parent loops.
+					$p            = $my_parent->parent;
+					if ( in_array( $p, $parent_ids ) ) { // Prevent parent loops.
 						break;
+					}
 					$parent_ids[] = $p;
 				}
 				unset( $parent_ids );
@@ -303,10 +312,11 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 			++$count;
 
-			unset( $terms[$key] );
+			unset( $terms[ $key ] );
 
-			if ( isset( $children[$term->term_id] ) && empty( $_REQUEST['s'] ) )
+			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) ) {
 				$this->_rows( $taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1 );
+			}
 		}
 	}
 
@@ -317,7 +327,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $tag, $level = 0 ) {
 		global $taxonomy;
- 		$tag = sanitize_term( $tag, $taxonomy );
+		$tag = sanitize_term( $tag, $taxonomy );
 
 		$this->level = $level;
 
@@ -418,8 +428,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		}
 
 		$taxonomy = $this->screen->taxonomy;
-		$tax = get_taxonomy( $taxonomy );
-		$uri = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+		$tax      = get_taxonomy( $taxonomy );
+		$uri      = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
 		$edit_link = add_query_arg(
 			'wp_http_referer',
@@ -521,22 +531,28 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$tax = get_taxonomy( $this->screen->taxonomy );
 
 		$ptype_object = get_post_type_object( $this->screen->post_type );
-		if ( ! $ptype_object->show_ui )
+		if ( ! $ptype_object->show_ui ) {
 			return $count;
+		}
 
 		if ( $tax->query_var ) {
 			$args = array( $tax->query_var => $tag->slug );
 		} else {
-			$args = array( 'taxonomy' => $tax->name, 'term' => $tag->slug );
+			$args = array(
+				'taxonomy' => $tax->name,
+				'term'     => $tag->slug,
+			);
 		}
 
-		if ( 'post' != $this->screen->post_type )
+		if ( 'post' != $this->screen->post_type ) {
 			$args['post_type'] = $this->screen->post_type;
+		}
 
-		if ( 'attachment' === $this->screen->post_type )
-			return "<a href='" . esc_url ( add_query_arg( $args, 'upload.php' ) ) . "'>$count</a>";
+		if ( 'attachment' === $this->screen->post_type ) {
+			return "<a href='" . esc_url( add_query_arg( $args, 'upload.php' ) ) . "'>$count</a>";
+		}
 
-		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
+		return "<a href='" . esc_url( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
 	}
 
 	/**
@@ -545,8 +561,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 */
 	public function column_links( $tag ) {
 		$count = number_format_i18n( $tag->count );
-		if ( $count )
+		if ( $count ) {
 			$count = "<a href='link-manager.php?cat_id=$tag->term_id'>$count</a>";
+		}
 		return $count;
 	}
 
@@ -579,8 +596,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 	public function inline_edit() {
 		$tax = get_taxonomy( $this->screen->taxonomy );
 
-		if ( ! current_user_can( $tax->cap->edit_terms ) )
+		if ( ! current_user_can( $tax->cap->edit_terms ) ) {
 			return;
+		}
 ?>
 
 	<form method="get"><table style="display: none"><tbody id="inlineedit">
@@ -593,7 +611,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 					<span class="title"><?php _ex( 'Name', 'term name' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
 				</label>
-	<?php if ( !global_terms_enabled() ) { ?>
+	<?php if ( ! global_terms_enabled() ) { ?>
 				<label>
 					<span class="title"><?php _e( 'Slug' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
@@ -602,17 +620,24 @@ class WP_Terms_List_Table extends WP_List_Table {
 			</div></fieldset>
 	<?php
 
-		$core_columns = array( 'cb' => true, 'description' => true, 'name' => true, 'slug' => true, 'posts' => true );
+		$core_columns = array(
+			'cb'          => true,
+			'description' => true,
+			'name'        => true,
+			'slug'        => true,
+			'posts'       => true,
+		);
 
 		list( $columns ) = $this->get_column_info();
 
-		foreach ( $columns as $column_name => $column_display_name ) {
-			if ( isset( $core_columns[$column_name] ) )
-				continue;
-
-			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
+	foreach ( $columns as $column_name => $column_display_name ) {
+		if ( isset( $core_columns[ $column_name ] ) ) {
+			continue;
 		}
+
+		/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
+		do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
+	}
 
 	?>
 

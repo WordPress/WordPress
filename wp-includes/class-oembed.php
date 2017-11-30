@@ -49,74 +49,74 @@ class WP_oEmbed {
 	 * @since 2.9.0
 	 */
 	public function __construct() {
-		$host = urlencode( home_url() );
+		$host      = urlencode( home_url() );
 		$providers = array(
-			'#https?://((m|www)\.)?youtube\.com/watch.*#i'                        => array( 'https://www.youtube.com/oembed',                        true  ),
-			'#https?://((m|www)\.)?youtube\.com/playlist.*#i'                     => array( 'https://www.youtube.com/oembed',                        true  ),
-			'#https?://youtu\.be/.*#i'                                            => array( 'https://www.youtube.com/oembed',                        true  ),
-			'#https?://(.+\.)?vimeo\.com/.*#i'                                    => array( 'https://vimeo.com/api/oembed.{format}',                 true  ),
-			'#https?://(www\.)?dailymotion\.com/.*#i'                             => array( 'https://www.dailymotion.com/services/oembed',           true  ),
-			'#https?://dai\.ly/.*#i'                                              => array( 'https://www.dailymotion.com/services/oembed',           true  ),
-			'#https?://(www\.)?flickr\.com/.*#i'                                  => array( 'https://www.flickr.com/services/oembed/',               true  ),
-			'#https?://flic\.kr/.*#i'                                             => array( 'https://www.flickr.com/services/oembed/',               true  ),
-			'#https?://(.+\.)?smugmug\.com/.*#i'                                  => array( 'https://api.smugmug.com/services/oembed/',              true  ),
-			'#https?://(www\.)?hulu\.com/watch/.*#i'                              => array( 'http://www.hulu.com/api/oembed.{format}',               true  ),
-			'http://i*.photobucket.com/albums/*'                                  => array( 'http://api.photobucket.com/oembed',                     false ),
-			'http://gi*.photobucket.com/groups/*'                                 => array( 'http://api.photobucket.com/oembed',                     false ),
-			'#https?://(www\.)?scribd\.com/doc/.*#i'                              => array( 'https://www.scribd.com/services/oembed',                true  ),
-			'#https?://wordpress\.tv/.*#i'                                        => array( 'https://wordpress.tv/oembed/',                          true  ),
-			'#https?://(.+\.)?polldaddy\.com/.*#i'                                => array( 'https://polldaddy.com/oembed/',                         true  ),
-			'#https?://poll\.fm/.*#i'                                             => array( 'https://polldaddy.com/oembed/',                         true  ),
-			'#https?://(www\.)?funnyordie\.com/videos/.*#i'                       => array( 'http://www.funnyordie.com/oembed',                      true  ),
-			'#https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/.*#i'            => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?twitter\.com/\w{1,15}$#i'                          => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?twitter\.com/\w{1,15}/likes$#i'                    => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?twitter\.com/\w{1,15}/lists/.*#i'                  => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?twitter\.com/\w{1,15}/timelines/.*#i'              => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?twitter\.com/i/moments/.*#i'                       => array( 'https://publish.twitter.com/oembed',                    true  ),
-			'#https?://(www\.)?soundcloud\.com/.*#i'                              => array( 'https://soundcloud.com/oembed',                         true  ),
-			'#https?://(.+?\.)?slideshare\.net/.*#i'                              => array( 'https://www.slideshare.net/api/oembed/2',               true  ),
-			'#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i'                      => array( 'https://api.instagram.com/oembed',                      true  ),
-			'#https?://(open|play)\.spotify\.com/.*#i'                            => array( 'https://embed.spotify.com/oembed/',                     true  ),
-			'#https?://(.+\.)?imgur\.com/.*#i'                                    => array( 'https://api.imgur.com/oembed',                          true  ),
-			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'                           => array( 'https://api.meetup.com/oembed',                         true  ),
-			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'                           => array( 'https://issuu.com/oembed_wp',                           true  ),
-			'#https?://(www\.)?collegehumor\.com/video/.*#i'                      => array( 'https://www.collegehumor.com/oembed.{format}',          true  ),
-			'#https?://(www\.)?mixcloud\.com/.*#i'                                => array( 'https://www.mixcloud.com/oembed',                       true  ),
-			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'                       => array( 'https://www.ted.com/services/v1/oembed.{format}',       true  ),
-			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i'                 => array( 'https://animoto.com/oembeds/create',                    true  ),
-			'#https?://(.+)\.tumblr\.com/post/.*#i'                               => array( 'https://www.tumblr.com/oembed/1.0',                     true  ),
-			'#https?://(www\.)?kickstarter\.com/projects/.*#i'                    => array( 'https://www.kickstarter.com/services/oembed',           true  ),
-			'#https?://kck\.st/.*#i'                                              => array( 'https://www.kickstarter.com/services/oembed',           true  ),
-			'#https?://cloudup\.com/.*#i'                                         => array( 'https://cloudup.com/oembed',                            true  ),
-			'#https?://(www\.)?reverbnation\.com/.*#i'                            => array( 'https://www.reverbnation.com/oembed',                   true  ),
-			'#https?://videopress\.com/v/.*#'                                     => array( 'https://public-api.wordpress.com/oembed/?for=' . $host, true  ),
-			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i'                 => array( 'https://www.reddit.com/oembed',                         true  ),
-			'#https?://(www\.)?speakerdeck\.com/.*#i'                             => array( 'https://speakerdeck.com/oembed.{format}',               true  ),
-			'#https?://www\.facebook\.com/.*/posts/.*#i'                          => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/.*/activity/.*#i'                       => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/.*/photos/.*#i'                         => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/photo(s/|\.php).*#i'                    => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/permalink\.php.*#i'                     => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/media/.*#i'                             => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/questions/.*#i'                         => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/notes/.*#i'                             => array( 'https://www.facebook.com/plugins/post/oembed.json/',    true  ),
-			'#https?://www\.facebook\.com/.*/videos/.*#i'                         => array( 'https://www.facebook.com/plugins/video/oembed.json/',   true  ),
-			'#https?://www\.facebook\.com/video\.php.*#i'                         => array( 'https://www.facebook.com/plugins/video/oembed.json/',   true  ),
-			'#https?://(www\.)?screencast\.com/.*#i'                              => array( 'https://api.screencast.com/external/oembed',            true  ),
-			'#https?://([a-z0-9-]+\.)?amazon\.(com|com\.mx|com\.br|ca)/.*#i'      => array( 'https://read.amazon.com/kp/api/oembed',                 true  ),
-			'#https?://([a-z0-9-]+\.)?amazon\.(co\.uk|de|fr|it|es|in|nl|ru)/.*#i' => array( 'https://read.amazon.co.uk/kp/api/oembed',               true  ),
-			'#https?://([a-z0-9-]+\.)?amazon\.(co\.jp|com\.au)/.*#i'              => array( 'https://read.amazon.com.au/kp/api/oembed',              true  ),
-			'#https?://([a-z0-9-]+\.)?amazon\.cn/.*#i'                            => array( 'https://read.amazon.cn/kp/api/oembed',                  true  ),
-			'#https?://(www\.)?a\.co/.*#i'                                        => array( 'https://read.amazon.com/kp/api/oembed',                 true  ),
-			'#https?://(www\.)?amzn\.to/.*#i'                                     => array( 'https://read.amazon.com/kp/api/oembed',                 true  ),
-			'#https?://(www\.)?amzn\.eu/.*#i'                                     => array( 'https://read.amazon.co.uk/kp/api/oembed',               true  ),
-			'#https?://(www\.)?amzn\.in/.*#i'                                     => array( 'https://read.amazon.in/kp/api/oembed',                  true  ),
-			'#https?://(www\.)?amzn\.asia/.*#i'                                   => array( 'https://read.amazon.com.au/kp/api/oembed',              true  ),
-			'#https?://(www\.)?z\.cn/.*#i'                                        => array( 'https://read.amazon.cn/kp/api/oembed',                  true  ),
-			'#https?://www\.someecards\.com/.+-cards/.+#i'                        => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
-			'#https?://www\.someecards\.com/usercards/viewcard/.+#i'              => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
-			'#https?://some\.ly\/.+#i'                                            => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
+			'#https?://((m|www)\.)?youtube\.com/watch.*#i' => array( 'https://www.youtube.com/oembed', true ),
+			'#https?://((m|www)\.)?youtube\.com/playlist.*#i' => array( 'https://www.youtube.com/oembed', true ),
+			'#https?://youtu\.be/.*#i'                     => array( 'https://www.youtube.com/oembed', true ),
+			'#https?://(.+\.)?vimeo\.com/.*#i'             => array( 'https://vimeo.com/api/oembed.{format}', true ),
+			'#https?://(www\.)?dailymotion\.com/.*#i'      => array( 'https://www.dailymotion.com/services/oembed', true ),
+			'#https?://dai\.ly/.*#i'                       => array( 'https://www.dailymotion.com/services/oembed', true ),
+			'#https?://(www\.)?flickr\.com/.*#i'           => array( 'https://www.flickr.com/services/oembed/', true ),
+			'#https?://flic\.kr/.*#i'                      => array( 'https://www.flickr.com/services/oembed/', true ),
+			'#https?://(.+\.)?smugmug\.com/.*#i'           => array( 'https://api.smugmug.com/services/oembed/', true ),
+			'#https?://(www\.)?hulu\.com/watch/.*#i'       => array( 'http://www.hulu.com/api/oembed.{format}', true ),
+			'http://i*.photobucket.com/albums/*'           => array( 'http://api.photobucket.com/oembed', false ),
+			'http://gi*.photobucket.com/groups/*'          => array( 'http://api.photobucket.com/oembed', false ),
+			'#https?://(www\.)?scribd\.com/doc/.*#i'       => array( 'https://www.scribd.com/services/oembed', true ),
+			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
+			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://polldaddy.com/oembed/', true ),
+			'#https?://poll\.fm/.*#i'                      => array( 'https://polldaddy.com/oembed/', true ),
+			'#https?://(www\.)?funnyordie\.com/videos/.*#i' => array( 'http://www.funnyordie.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}$#i'   => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/likes$#i' => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/lists/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/timelines/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?twitter\.com/i/moments/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
+			'#https?://(www\.)?soundcloud\.com/.*#i'       => array( 'https://soundcloud.com/oembed', true ),
+			'#https?://(.+?\.)?slideshare\.net/.*#i'       => array( 'https://www.slideshare.net/api/oembed/2', true ),
+			'#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i' => array( 'https://api.instagram.com/oembed', true ),
+			'#https?://(open|play)\.spotify\.com/.*#i'     => array( 'https://embed.spotify.com/oembed/', true ),
+			'#https?://(.+\.)?imgur\.com/.*#i'             => array( 'https://api.imgur.com/oembed', true ),
+			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'    => array( 'https://api.meetup.com/oembed', true ),
+			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'    => array( 'https://issuu.com/oembed_wp', true ),
+			'#https?://(www\.)?collegehumor\.com/video/.*#i' => array( 'https://www.collegehumor.com/oembed.{format}', true ),
+			'#https?://(www\.)?mixcloud\.com/.*#i'         => array( 'https://www.mixcloud.com/oembed', true ),
+			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i' => array( 'https://www.ted.com/services/v1/oembed.{format}', true ),
+			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i' => array( 'https://animoto.com/oembeds/create', true ),
+			'#https?://(.+)\.tumblr\.com/post/.*#i'        => array( 'https://www.tumblr.com/oembed/1.0', true ),
+			'#https?://(www\.)?kickstarter\.com/projects/.*#i' => array( 'https://www.kickstarter.com/services/oembed', true ),
+			'#https?://kck\.st/.*#i'                       => array( 'https://www.kickstarter.com/services/oembed', true ),
+			'#https?://cloudup\.com/.*#i'                  => array( 'https://cloudup.com/oembed', true ),
+			'#https?://(www\.)?reverbnation\.com/.*#i'     => array( 'https://www.reverbnation.com/oembed', true ),
+			'#https?://videopress\.com/v/.*#'              => array( 'https://public-api.wordpress.com/oembed/?for=' . $host, true ),
+			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i' => array( 'https://www.reddit.com/oembed', true ),
+			'#https?://(www\.)?speakerdeck\.com/.*#i'      => array( 'https://speakerdeck.com/oembed.{format}', true ),
+			'#https?://www\.facebook\.com/.*/posts/.*#i'   => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/.*/activity/.*#i' => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/.*/photos/.*#i'  => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/photo(s/|\.php).*#i' => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/permalink\.php.*#i' => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/media/.*#i'      => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/questions/.*#i'  => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/notes/.*#i'      => array( 'https://www.facebook.com/plugins/post/oembed.json/', true ),
+			'#https?://www\.facebook\.com/.*/videos/.*#i'  => array( 'https://www.facebook.com/plugins/video/oembed.json/', true ),
+			'#https?://www\.facebook\.com/video\.php.*#i'  => array( 'https://www.facebook.com/plugins/video/oembed.json/', true ),
+			'#https?://(www\.)?screencast\.com/.*#i'       => array( 'https://api.screencast.com/external/oembed', true ),
+			'#https?://([a-z0-9-]+\.)?amazon\.(com|com\.mx|com\.br|ca)/.*#i' => array( 'https://read.amazon.com/kp/api/oembed', true ),
+			'#https?://([a-z0-9-]+\.)?amazon\.(co\.uk|de|fr|it|es|in|nl|ru)/.*#i' => array( 'https://read.amazon.co.uk/kp/api/oembed', true ),
+			'#https?://([a-z0-9-]+\.)?amazon\.(co\.jp|com\.au)/.*#i' => array( 'https://read.amazon.com.au/kp/api/oembed', true ),
+			'#https?://([a-z0-9-]+\.)?amazon\.cn/.*#i'     => array( 'https://read.amazon.cn/kp/api/oembed', true ),
+			'#https?://(www\.)?a\.co/.*#i'                 => array( 'https://read.amazon.com/kp/api/oembed', true ),
+			'#https?://(www\.)?amzn\.to/.*#i'              => array( 'https://read.amazon.com/kp/api/oembed', true ),
+			'#https?://(www\.)?amzn\.eu/.*#i'              => array( 'https://read.amazon.co.uk/kp/api/oembed', true ),
+			'#https?://(www\.)?amzn\.in/.*#i'              => array( 'https://read.amazon.in/kp/api/oembed', true ),
+			'#https?://(www\.)?amzn\.asia/.*#i'            => array( 'https://read.amazon.com.au/kp/api/oembed', true ),
+			'#https?://(www\.)?z\.cn/.*#i'                 => array( 'https://read.amazon.cn/kp/api/oembed', true ),
+			'#https?://www\.someecards\.com/.+-cards/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
+			'#https?://www\.someecards\.com/usercards/viewcard/.+#i' => array( 'https://www.someecards.com/v2/oembed/', true ),
+			'#https?://some\.ly\/.+#i'                     => array( 'https://www.someecards.com/v2/oembed/', true ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -221,7 +221,7 @@ class WP_oEmbed {
 		$this->providers = apply_filters( 'oembed_providers', $providers );
 
 		// Fix any embeds that contain new lines in the middle of the HTML which breaks wpautop().
-		add_filter( 'oembed_dataparse', array($this, '_strip_newlines'), 10, 3 );
+		add_filter( 'oembed_dataparse', array( $this, '_strip_newlines' ), 10, 3 );
 	}
 
 	/**
@@ -256,14 +256,15 @@ class WP_oEmbed {
 
 		$provider = false;
 
-		if ( !isset($args['discover']) )
+		if ( ! isset( $args['discover'] ) ) {
 			$args['discover'] = true;
+		}
 
 		foreach ( $this->providers as $matchmask => $data ) {
 			list( $providerurl, $regex ) = $data;
 
 			// Turn the asterisk-type provider URLs into regex
-			if ( !$regex ) {
+			if ( ! $regex ) {
 				$matchmask = '#' . str_replace( '___wildcard___', '(.+)', preg_quote( str_replace( '*', '___wildcard___', $matchmask ), '#' ) ) . '#i';
 				$matchmask = preg_replace( '|^#http\\\://|', '#https?\://', $matchmask );
 			}
@@ -274,8 +275,9 @@ class WP_oEmbed {
 			}
 		}
 
-		if ( !$provider && $args['discover'] )
+		if ( ! $provider && $args['discover'] ) {
 			$provider = $this->discover( $url );
+		}
 
 		return $provider;
 	}
@@ -422,7 +424,7 @@ class WP_oEmbed {
 	 */
 	public function discover( $url ) {
 		$providers = array();
-		$args = array(
+		$args      = array(
 			'limit_response_size' => 153600, // 150 KB
 		);
 
@@ -451,11 +453,13 @@ class WP_oEmbed {
 			 *                      'text/xml+oembed', and 'application/xml+oembed' (incorrect,
 			 *                      used by at least Vimeo).
 			 */
-			$linktypes = apply_filters( 'oembed_linktypes', array(
-				'application/json+oembed' => 'json',
-				'text/xml+oembed' => 'xml',
-				'application/xml+oembed' => 'xml',
-			) );
+			$linktypes = apply_filters(
+				'oembed_linktypes', array(
+					'application/json+oembed' => 'json',
+					'text/xml+oembed'         => 'xml',
+					'application/xml+oembed'  => 'xml',
+				)
+			);
 
 			// Strip <body>
 			if ( $html_head_end = stripos( $html, '</head>' ) ) {
@@ -465,7 +469,7 @@ class WP_oEmbed {
 			// Do a quick check
 			$tagfound = false;
 			foreach ( $linktypes as $linktype => $format ) {
-				if ( stripos($html, $linktype) ) {
+				if ( stripos( $html, $linktype ) ) {
 					$tagfound = true;
 					break;
 				}
@@ -475,24 +479,26 @@ class WP_oEmbed {
 				foreach ( $links[1] as $link ) {
 					$atts = shortcode_parse_atts( $link );
 
-					if ( !empty($atts['type']) && !empty($linktypes[$atts['type']]) && !empty($atts['href']) ) {
-						$providers[$linktypes[$atts['type']]] = htmlspecialchars_decode( $atts['href'] );
+					if ( ! empty( $atts['type'] ) && ! empty( $linktypes[ $atts['type'] ] ) && ! empty( $atts['href'] ) ) {
+						$providers[ $linktypes[ $atts['type'] ] ] = htmlspecialchars_decode( $atts['href'] );
 
 						// Stop here if it's JSON (that's all we need)
-						if ( 'json' == $linktypes[$atts['type']] )
+						if ( 'json' == $linktypes[ $atts['type'] ] ) {
 							break;
+						}
 					}
 				}
 			}
 		}
 
 		// JSON is preferred to XML
-		if ( !empty($providers['json']) )
+		if ( ! empty( $providers['json'] ) ) {
 			return $providers['json'];
-		elseif ( !empty($providers['xml']) )
+		} elseif ( ! empty( $providers['xml'] ) ) {
 			return $providers['xml'];
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -510,7 +516,7 @@ class WP_oEmbed {
 
 		$provider = add_query_arg( 'maxwidth', (int) $args['width'], $provider );
 		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );
-		$provider = add_query_arg( 'url', urlencode($url), $provider );
+		$provider = add_query_arg( 'url', urlencode( $url ), $provider );
 		$provider = add_query_arg( 'dnt', 1, $provider );
 
 		/**
@@ -527,8 +533,9 @@ class WP_oEmbed {
 
 		foreach ( array( 'json', 'xml' ) as $format ) {
 			$result = $this->_fetch_with_format( $provider, $format );
-			if ( is_wp_error( $result ) && 'not-implemented' == $result->get_error_code() )
+			if ( is_wp_error( $result ) && 'not-implemented' == $result->get_error_code() ) {
 				continue;
+			}
 			return ( $result && ! is_wp_error( $result ) ) ? $result : false;
 		}
 		return false;
@@ -550,10 +557,12 @@ class WP_oEmbed {
 		$args = apply_filters( 'oembed_remote_get_args', array(), $provider_url_with_args );
 
 		$response = wp_safe_remote_get( $provider_url_with_args, $args );
-		if ( 501 == wp_remote_retrieve_response_code( $response ) )
+		if ( 501 == wp_remote_retrieve_response_code( $response ) ) {
 			return new WP_Error( 'not-implemented' );
-		if ( ! $body = wp_remote_retrieve_body( $response ) )
+		}
+		if ( ! $body = wp_remote_retrieve_body( $response ) ) {
 			return false;
+		}
 		$parse_method = "_parse_$format";
 		return $this->$parse_method( $body );
 	}
@@ -580,8 +589,9 @@ class WP_oEmbed {
 	 * @return object|false
 	 */
 	private function _parse_xml( $response_body ) {
-		if ( ! function_exists( 'libxml_disable_entity_loader' ) )
+		if ( ! function_exists( 'libxml_disable_entity_loader' ) ) {
 			return false;
+		}
 
 		$loader = libxml_disable_entity_loader( true );
 		$errors = libxml_use_internal_errors( true );
@@ -603,25 +613,30 @@ class WP_oEmbed {
 	 * @return stdClass|false
 	 */
 	private function _parse_xml_body( $response_body ) {
-		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument', false ) )
+		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument', false ) ) {
 			return false;
+		}
 
-		$dom = new DOMDocument;
+		$dom     = new DOMDocument;
 		$success = $dom->loadXML( $response_body );
-		if ( ! $success )
+		if ( ! $success ) {
 			return false;
+		}
 
-		if ( isset( $dom->doctype ) )
+		if ( isset( $dom->doctype ) ) {
 			return false;
+		}
 
 		foreach ( $dom->childNodes as $child ) {
-			if ( XML_DOCUMENT_TYPE_NODE === $child->nodeType )
+			if ( XML_DOCUMENT_TYPE_NODE === $child->nodeType ) {
 				return false;
+			}
 		}
 
 		$xml = simplexml_import_dom( $dom );
-		if ( ! $xml )
+		if ( ! $xml ) {
 			return false;
+		}
 
 		$return = new stdClass;
 		foreach ( $xml as $key => $value ) {
@@ -641,31 +656,36 @@ class WP_oEmbed {
 	 * @return false|string False on error, otherwise the HTML needed to embed.
 	 */
 	public function data2html( $data, $url ) {
-		if ( ! is_object( $data ) || empty( $data->type ) )
+		if ( ! is_object( $data ) || empty( $data->type ) ) {
 			return false;
+		}
 
 		$return = false;
 
 		switch ( $data->type ) {
 			case 'photo':
-				if ( empty( $data->url ) || empty( $data->width ) || empty( $data->height ) )
+				if ( empty( $data->url ) || empty( $data->width ) || empty( $data->height ) ) {
 					break;
-				if ( ! is_string( $data->url ) || ! is_numeric( $data->width ) || ! is_numeric( $data->height ) )
+				}
+				if ( ! is_string( $data->url ) || ! is_numeric( $data->width ) || ! is_numeric( $data->height ) ) {
 					break;
+				}
 
-				$title = ! empty( $data->title ) && is_string( $data->title ) ? $data->title : '';
-				$return = '<a href="' . esc_url( $url ) . '"><img src="' . esc_url( $data->url ) . '" alt="' . esc_attr($title) . '" width="' . esc_attr($data->width) . '" height="' . esc_attr($data->height) . '" /></a>';
+				$title  = ! empty( $data->title ) && is_string( $data->title ) ? $data->title : '';
+				$return = '<a href="' . esc_url( $url ) . '"><img src="' . esc_url( $data->url ) . '" alt="' . esc_attr( $title ) . '" width="' . esc_attr( $data->width ) . '" height="' . esc_attr( $data->height ) . '" /></a>';
 				break;
 
 			case 'video':
 			case 'rich':
-				if ( ! empty( $data->html ) && is_string( $data->html ) )
+				if ( ! empty( $data->html ) && is_string( $data->html ) ) {
 					$return = $data->html;
+				}
 				break;
 
 			case 'link':
-				if ( ! empty( $data->title ) && is_string( $data->title ) )
+				if ( ! empty( $data->title ) && is_string( $data->title ) ) {
 					$return = '<a href="' . esc_url( $url ) . '">' . esc_html( $data->title ) . '</a>';
+				}
 				break;
 
 			default:
@@ -702,26 +722,26 @@ class WP_oEmbed {
 			return $html;
 		}
 
-		$count = 1;
-		$found = array();
-		$token = '__PRE__';
-		$search = array( "\t", "\n", "\r", ' ' );
-		$replace = array( '__TAB__', '__NL__', '__CR__', '__SPACE__' );
+		$count     = 1;
+		$found     = array();
+		$token     = '__PRE__';
+		$search    = array( "\t", "\n", "\r", ' ' );
+		$replace   = array( '__TAB__', '__NL__', '__CR__', '__SPACE__' );
 		$tokenized = str_replace( $search, $replace, $html );
 
 		preg_match_all( '#(<pre[^>]*>.+?</pre>)#i', $tokenized, $matches, PREG_SET_ORDER );
 		foreach ( $matches as $i => $match ) {
-			$tag_html = str_replace( $replace, $search, $match[0] );
+			$tag_html  = str_replace( $replace, $search, $match[0] );
 			$tag_token = $token . $i;
 
 			$found[ $tag_token ] = $tag_html;
-			$html = str_replace( $tag_html, $tag_token, $html, $count );
+			$html                = str_replace( $tag_html, $tag_token, $html, $count );
 		}
 
 		$replaced = str_replace( $replace, $search, $html );
 		$stripped = str_replace( array( "\r\n", "\n" ), '', $replaced );
-		$pre = array_values( $found );
-		$tokens = array_keys( $found );
+		$pre      = array_values( $found );
+		$tokens   = array_keys( $found );
 
 		return str_replace( $tokens, $pre, $stripped );
 	}
