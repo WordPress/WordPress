@@ -151,17 +151,27 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->init();
 		$this->upgrade_strings();
 
-		$current = get_site_transient( 'update_plugins' );
-		if ( !isset( $current->response[ $plugin ] ) ) {
-			$this->skin->before();
-			$this->skin->set_result(false);
-			$this->skin->error('up_to_date');
-			$this->skin->after();
-			return false;
-		}
+		if( $parsed_args['package'] ) {
+			if(filter_var($parsed_args['package'], FILTER_VALIDATE_URL)) {
 
-		// Get the URL to the zip file
-		$r = $current->response[ $plugin ];
+				// Get the URL of ZIP for the custom plugin
+				$r = esc_url_raw( $parsed_args['package'] );
+			} else {
+				return false;
+			}
+		} else {
+			$current = get_site_transient( 'update_plugins' );
+			if ( !isset( $current->response[ $plugin ] ) ) {
+				$this->skin->before();
+				$this->skin->set_result(false);
+				$this->skin->error('up_to_date');
+				$this->skin->after();
+				return false;
+			}
+
+			// Get the URL to the zip file
+			$r = $current->response[ $plugin ];
+		}
 
 		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
