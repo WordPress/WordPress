@@ -18,7 +18,7 @@ get_header(); ?>
 	<main id="main" class="site-main" role="main">
 
 		<?php
-		// Show the selected frontpage content.
+		// Show the selected front page content.
 		if ( have_posts() ) :
 			while ( have_posts() ) :
 				the_post();
