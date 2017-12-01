@@ -372,13 +372,15 @@ if ( isset( $plugin_page ) ) {
 }
 
 if ( ! empty( $_REQUEST['action'] ) ) {
+	$action = $_REQUEST['action'];
+
 	/**
 	 * Fires when an 'action' request variable is sent.
 	 *
-	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
-	 * refers to the action derived from the `GET` or `POST` request.
+	 * The dynamic portion of the hook name, `$action`, refers to
+	 * the action derived from the `GET` or `POST` request.
 	 *
 	 * @since 2.6.0
 	 */
-	do_action( 'admin_action_' . $_REQUEST['action'] );
+	do_action( "admin_action_{$action}" );
 }

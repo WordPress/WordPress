@@ -278,7 +278,9 @@ if ( isset( $_GET['action'] ) ) {
 
 $msg = '';
 if ( isset( $_GET['updated'] ) ) {
-	switch ( $_GET['updated'] ) {
+	$action = $_GET['updated'];
+
+	switch ( $action ) {
 		case 'all_notspam':
 			$msg = __( 'Sites removed from spam.' );
 			break;
@@ -314,16 +316,16 @@ if ( isset( $_GET['updated'] ) ) {
 			break;
 		default:
 			/**
-			 * Filters a specific, non-default site-updated message in the Network admin.
+			 * Filters a specific, non-default, site-updated message in the Network admin.
 			 *
-			 * The dynamic portion of the hook name, `$_GET['updated']`, refers to the
-			 * non-default site update action.
+			 * The dynamic portion of the hook name, `$action`, refers to the non-default
+			 * site update action.
 			 *
 			 * @since 3.1.0
 			 *
 			 * @param string $msg The update message. Default 'Settings saved'.
 			 */
-			$msg = apply_filters( 'network_sites_updated_message_' . $_GET['updated'], __( 'Settings saved.' ) );
+			$msg = apply_filters( "network_sites_updated_message_{$action}", __( 'Settings saved.' ) );
 			break;
 	}
 

@@ -146,36 +146,38 @@ if ( ! empty( $_POST['action'] ) && in_array( $_POST['action'], $core_actions_po
 
 add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
+$action = ( isset( $_REQUEST['action'] ) ) ? $_REQUEST['action'] : '';
+
 if ( is_user_logged_in() ) {
 	// If no action is registered, return a Bad Request response.
-	if ( ! has_action( 'wp_ajax_' . $_REQUEST['action'] ) ) {
+	if ( ! has_action( "wp_ajax_{$action}" ) ) {
 		wp_die( '0', 400 );
 	}
 
 	/**
 	 * Fires authenticated Ajax actions for logged-in users.
 	 *
-	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
-	 * refers to the name of the Ajax action callback being fired.
+	 * The dynamic portion of the hook name, `$action`, refers
+	 * to the name of the Ajax action callback being fired.
 	 *
 	 * @since 2.1.0
 	 */
-	do_action( 'wp_ajax_' . $_REQUEST['action'] );
+	do_action( "wp_ajax_{$action}" );
 } else {
 	// If no action is registered, return a Bad Request response.
-	if ( ! has_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] ) ) {
+	if ( ! has_action( "wp_ajax_nopriv_{$action}" ) ) {
 		wp_die( '0', 400 );
 	}
 
 	/**
 	 * Fires non-authenticated Ajax actions for logged-out users.
 	 *
-	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
-	 * refers to the name of the Ajax action callback being fired.
+	 * The dynamic portion of the hook name, `$action`, refers
+	 * to the name of the Ajax action callback being fired.
 	 *
 	 * @since 2.8.0
 	 */
-	do_action( 'wp_ajax_nopriv_' . $_REQUEST['action'] );
+	do_action( "wp_ajax_nopriv_{$action}" );
 }
 // Default status
 wp_die( '0' );
