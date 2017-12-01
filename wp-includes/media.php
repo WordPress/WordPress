@@ -3146,7 +3146,7 @@ function wp_plupload_default_settings() {
  *
  * @since 3.5.0
  *
- * @param mixed $attachment Attachment ID or object.
+ * @param int|WP_Post $attachment Attachment ID or object.
  * @return array|void Array of attachment details.
  */
 function wp_prepare_attachment_for_js( $attachment ) {
@@ -3369,9 +3369,9 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array      $response   Array of prepared attachment data.
-	 * @param int|object $attachment Attachment ID or object.
-	 * @param array      $meta       Array of attachment meta data.
+	 * @param array   $response   Array of prepared attachment data.
+	 * @param WP_Post $attachment Attachment object.
+	 * @param array   $meta       Array of attachment meta data.
 	 */
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }
