@@ -26,6 +26,7 @@
  * SOFTWARE.
  */
 
+if ( ! is_callable( 'random_bytes' ) ):
 /**
  * Since openssl_random_pseudo_bytes() uses openssl's 
  * RAND_pseudo_bytes() API, which has been marked as deprecated by the
@@ -81,3 +82,4 @@ function random_bytes($bytes)
         'Could not gather sufficient random data'
     );
 }
+endif;

@@ -26,6 +26,7 @@
  * SOFTWARE.
  */
 
+if ( ! is_callable( 'random_bytes' ) ):
 /**
  * Windows with PHP < 5.3.0 will not have the function
  * openssl_random_pseudo_bytes() available, so let's use
@@ -79,3 +80,4 @@ function random_bytes($bytes)
         'Could not gather sufficient random data'
     );
 }
+endif;

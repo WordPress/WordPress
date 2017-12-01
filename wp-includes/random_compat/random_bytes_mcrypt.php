@@ -27,6 +27,7 @@
  */
 
 
+if ( ! is_callable( 'random_bytes' ) ):
 /**
  * Powered by ext/mcrypt (and thankfully NOT libmcrypt)
  * 
@@ -74,3 +75,4 @@ function random_bytes($bytes)
         'Could not gather sufficient random data'
     );
 }
+endif;

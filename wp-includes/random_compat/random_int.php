@@ -26,6 +26,7 @@
  * SOFTWARE.
  */
 
+if ( ! is_callable( 'random_int' ) ):
 /**
  * Fetch a random integer between $min and $max inclusive
  * 
@@ -189,3 +190,4 @@ function random_int($min, $max)
 
     return (int) $val;
 }
+endif;
