@@ -55,7 +55,7 @@ global $twentyseventeencounter;
 			?>
 
 				<?php
-				// Show four most recent posts.
+				// Show three most recent posts.
 				$recent_posts = new WP_Query(
 					array(
 						'posts_per_page'      => 3,
