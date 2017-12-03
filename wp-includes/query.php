@@ -323,6 +323,8 @@ function is_date() {
 /**
  * Is the query for an existing day archive?
  *
+ * A conditional check to test whether the page is a date-based archive page displaying posts for the current day.
+ *
  * @since 1.5.0
  *
  * @global WP_Query $wp_query Global WP_Query instance.
