@@ -2020,6 +2020,11 @@ function register_initial_settings() {
 		)
 	);
 
+	register_setting( 'permalink', 'permalink_structure', array(
+		'show_in_rest' => true,
+		'type'         => 'string',
+		'description'  => __( 'Custom URL structure for permalinks and archives.' ),
+	) );
 }
 
 /**
