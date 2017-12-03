@@ -1667,15 +1667,25 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 			$args['login_text']
 		);
 	} else {
-		$onclick = sprintf(
-			'return addComment.moveForm( "%1$s-%2$s", "%2$s", "%3$s", "%4$s" )',
-			$args['add_below'], $comment->comment_ID, $args['respond_id'], $post->ID
+		$data_attributes = array(
+			'commentid'        => $comment->comment_ID,
+			'postid'           => $post->ID,
+			'belowelement'     => $args['add_below'] . '-' . $comment->comment_ID,
+			'respondelement'   => $args['respond_id'],
 		);
 
+		$data_attribute_string = '';
+
+		foreach ( $data_attributes as $name => $value ) {
+			$data_attribute_string .= " data-${name}=\"" . esc_attr( $value ) . "\"";
+		}
+
+		$data_attribute_string = trim( $data_attribute_string );
+
 		$link = sprintf(
-			"<a rel='nofollow' class='comment-reply-link' href='%s' onclick='%s' aria-label='%s'>%s</a>",
-			esc_url( add_query_arg( 'replytocom', $comment->comment_ID, get_permalink( $post->ID ) ) ) . '#' . $args['respond_id'],
-			$onclick,
+			"<a rel='nofollow' class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
+			esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $args['respond_id'],
+			$data_attribute_string,
 			esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
 			$args['reply_text']
 		);
