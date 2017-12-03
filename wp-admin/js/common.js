@@ -1333,11 +1333,11 @@ $document.ready( function() {
 		activate: function() {
 			setPinMenu();
 
-			if ( ! $body.hasClass( "auto-fold" ) ) {
-				$body.addClass( "auto-fold" );
+			if ( ! $body.hasClass( 'auto-fold' ) ) {
+				$body.addClass( 'auto-fold' );
 			}
 
-			$adminmenu.data( "wp-responsive", 1 );
+			$adminmenu.data( 'wp-responsive', 1 );
 			this.disableSortables();
 		},
 
@@ -1374,12 +1374,12 @@ $document.ready( function() {
 
 			if ( viewportWidth <= 782 ) {
 				if ( ! wpResponsiveActive ) {
-					$document.trigger( "wp-responsive-activate" );
+					$document.trigger( 'wp-responsive-activate' );
 					wpResponsiveActive = true;
 				}
 			} else {
 				if ( wpResponsiveActive ) {
-					$document.trigger( "wp-responsive-deactivate" );
+					$document.trigger( 'wp-responsive-deactivate' );
 					wpResponsiveActive = false;
 				}
 			}
@@ -1422,7 +1422,7 @@ $document.ready( function() {
 		 * @returns {void}
 		 */
 		disableOverlay: function() {
-			$toolbarPopups.off( "click.wp-responsive" );
+			$toolbarPopups.off( 'click.wp-responsive' );
 			$overlay.hide();
 		},
 
@@ -1436,7 +1436,7 @@ $document.ready( function() {
 		disableSortables: function() {
 			if ( $sortables.length ) {
 				try {
-					$sortables.sortable( "disable" );
+					$sortables.sortable( 'disable' );
 				} catch ( e ) {}
 			}
 		},
@@ -1451,7 +1451,7 @@ $document.ready( function() {
 		enableSortables: function() {
 			if ( $sortables.length ) {
 				try {
-					$sortables.sortable( "enable" );
+					$sortables.sortable( 'enable' );
 				} catch ( e ) {}
 			}
 		}
@@ -1465,7 +1465,7 @@ $document.ready( function() {
 	 * @returns {void}
 	 */
 	function aria_button_if_js() {
-		$( ".aria-button-if-js" ).attr( "role", "button" );
+		$( '.aria-button-if-js' ).attr( 'role', 'button' );
 	}
 
 	$( document ).ajaxComplete( function() {
@@ -1589,7 +1589,7 @@ $document.ready( function() {
 	 * @returns {void}
 	 */
 	function triggerEvent() {
-		$document.trigger( "wp-window-resized" );
+		$document.trigger( 'wp-window-resized' );
 	}
 
 	/**
