@@ -1294,6 +1294,9 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 
 	if ( is_array( $old_sidebars_widgets ) ) {
 
+		// Remove empty sidebars, no need to map those.
+		$old_sidebars_widgets = array_filter( $old_sidebars_widgets );
+
 		// Only check sidebars that are empty or have not been mapped to yet.
 		foreach ( $new_sidebars_widgets as $new_sidebar => $new_widgets ) {
 			if ( array_key_exists( $new_sidebar, $old_sidebars_widgets ) && ! empty( $new_widgets ) ) {
