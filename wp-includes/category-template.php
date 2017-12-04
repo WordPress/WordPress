@@ -1153,20 +1153,19 @@ function tag_description( $tag = 0 ) {
  * Retrieve term description.
  *
  * @since 2.8.0
+ * @since 4.9.2 The `$taxonomy` parameter was deprecated.
  *
  * @param int $term Optional. Term ID. Will use global term ID by default.
- * @param string $taxonomy Optional taxonomy name. Defaults to 'post_tag'.
  * @return string Term description, available.
  */
-function term_description( $term = 0, $taxonomy = 'post_tag' ) {
+function term_description( $term = 0 ) {
 	if ( ! $term && ( is_tax() || is_tag() || is_category() ) ) {
 		$term = get_queried_object();
 		if ( $term ) {
-			$taxonomy = $term->taxonomy;
 			$term = $term->term_id;
 		}
 	}
-	$description = get_term_field( 'description', $term, $taxonomy );
+	$description = get_term_field( 'description', $term );
 	return is_wp_error( $description ) ? '' : $description;
 }
 
