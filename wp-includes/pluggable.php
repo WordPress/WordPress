@@ -2358,7 +2358,7 @@ if ( ! function_exists( 'wp_rand' ) ) :
 	 *
 	 * @global string $rnd_value
 	 * @staticvar string $seed
-	 * @staticvar bool $external_rand_source_available
+	 * @staticvar bool $use_random_int_functionality
 	 *
 	 * @param int $min Lower limit for the generated number
 	 * @param int $max Upper limit for the generated number
