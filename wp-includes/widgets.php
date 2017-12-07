@@ -1219,6 +1219,7 @@ function retrieve_widgets( $theme_changed = false ) {
  * Compares a list of sidebars with their widgets against a whitelist.
  *
  * @since 4.9.0
+ * @since 4.9.2 Always tries to restore widget assignments from previous data, not just if sidebars needed mapping.
  *
  * @param array $existing_sidebars_widgets List of sidebars and their widget instance IDs.
  * @return array Mapped sidebars widgets.
@@ -1261,64 +1262,63 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 		}
 	}
 
-	// If there are no old sidebars left, then we're done.
-	if ( empty( $existing_sidebars_widgets ) ) {
-		return $new_sidebars_widgets;
+	// If there are more sidebars, try to map them.
+	if ( ! empty( $existing_sidebars_widgets ) ) {
+
+		/*
+		 * If old and new theme both have sidebars that contain phrases
+		 * from within the same group, make an educated guess and map it.
+		 */
+		$common_slug_groups = array(
+			array( 'sidebar', 'primary', 'main', 'right' ),
+			array( 'second', 'left' ),
+			array( 'sidebar-2', 'footer', 'bottom' ),
+			array( 'header', 'top' ),
+		);
+
+		// Go through each group...
+		foreach ( $common_slug_groups as $slug_group ) {
+
+			// ...and see if any of these slugs...
+			foreach ( $slug_group as $slug ) {
+
+				// ...and any of the new sidebars...
+				foreach ( $wp_registered_sidebars as $new_sidebar => $args ) {
+
+					// ...actually match!
+					if ( false === stripos( $new_sidebar, $slug ) && false === stripos( $slug, $new_sidebar ) ) {
+						continue;
+					}
+
+					// Then see if any of the existing sidebars...
+					foreach ( $existing_sidebars_widgets as $sidebar => $widgets ) {
+
+						// ...and any slug in the same group...
+						foreach ( $slug_group as $slug ) {
+
+							// ... have a match as well.
+							if ( false === stripos( $sidebar, $slug ) && false === stripos( $slug, $sidebar ) ) {
+								continue;
+							}
+
+							// Make sure this sidebar wasn't mapped and removed previously.
+							if ( ! empty( $existing_sidebars_widgets[ $sidebar ] ) ) {
+
+								// We have a match that can be mapped!
+								$new_sidebars_widgets[ $new_sidebar ] = array_merge( $new_sidebars_widgets[ $new_sidebar ], $existing_sidebars_widgets[ $sidebar ] );
+
+								// Remove the mapped sidebar so it can't be mapped again.
+								unset( $existing_sidebars_widgets[ $sidebar ] );
+
+								// Go back and check the next new sidebar.
+								continue 3;
+							}
+						} // endforeach ( $slug_group as $slug )
+					} // endforeach ( $existing_sidebars_widgets as $sidebar => $widgets )
+				} // endforeach foreach ( $wp_registered_sidebars as $new_sidebar => $args )
+			} // endforeach ( $slug_group as $slug )
+		} // endforeach ( $common_slug_groups as $slug_group )
 	}
-
-	/*
-	 * If old and new theme both have sidebars that contain phrases
-	 * from within the same group, make an educated guess and map it.
-	 */
-	$common_slug_groups = array(
-		array( 'sidebar', 'primary', 'main', 'right' ),
-		array( 'second', 'left' ),
-		array( 'sidebar-2', 'footer', 'bottom' ),
-		array( 'header', 'top' ),
-	);
-
-	// Go through each group...
-	foreach ( $common_slug_groups as $slug_group ) {
-
-		// ...and see if any of these slugs...
-		foreach ( $slug_group as $slug ) {
-
-			// ...and any of the new sidebars...
-			foreach ( $wp_registered_sidebars as $new_sidebar => $args ) {
-
-				// ...actually match!
-				if ( false === stripos( $new_sidebar, $slug ) && false === stripos( $slug, $new_sidebar ) ) {
-					continue;
-				}
-
-				// Then see if any of the existing sidebars...
-				foreach ( $existing_sidebars_widgets as $sidebar => $widgets ) {
-
-					// ...and any slug in the same group...
-					foreach ( $slug_group as $slug ) {
-
-						// ... have a match as well.
-						if ( false === stripos( $sidebar, $slug ) && false === stripos( $slug, $sidebar ) ) {
-							continue;
-						}
-
-						// Make sure this sidebar wasn't mapped and removed previously.
-						if ( ! empty( $existing_sidebars_widgets[ $sidebar ] ) ) {
-
-							// We have a match that can be mapped!
-							$new_sidebars_widgets[ $new_sidebar ] = array_merge( $new_sidebars_widgets[ $new_sidebar ], $existing_sidebars_widgets[ $sidebar ] );
-
-							// Remove the mapped sidebar so it can't be mapped again.
-							unset( $existing_sidebars_widgets[ $sidebar ] );
-
-							// Go back and check the next new sidebar.
-							continue 3;
-						}
-					} // endforeach ( $slug_group as $slug )
-				} // endforeach ( $existing_sidebars_widgets as $sidebar => $widgets )
-			} // endforeach foreach ( $wp_registered_sidebars as $new_sidebar => $args )
-		} // endforeach ( $slug_group as $slug )
-	} // endforeach ( $common_slug_groups as $slug_group )
 
 	// Move any left over widgets to inactive sidebar.
 	foreach ( $existing_sidebars_widgets as $widgets ) {
@@ -1329,7 +1329,7 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 
 	// Sidebars_widgets settings from when this theme was previously active.
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
-	$old_sidebars_widgets = $old_sidebars_widgets['data'];
+	$old_sidebars_widgets = isset( $old_sidebars_widgets['data'] ) ? $old_sidebars_widgets['data'] : false;
 
 	if ( is_array( $old_sidebars_widgets ) ) {
 
