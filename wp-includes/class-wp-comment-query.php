@@ -471,6 +471,8 @@ class WP_Comment_Query {
 	 * @since 4.4.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @return int|array A single count of comment IDs if a count query. An array of comment IDs if a full query.
 	 */
 	protected function get_comment_ids() {
 		global $wpdb;
