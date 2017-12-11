@@ -3806,7 +3806,7 @@ function wp_update_post( $postarr = array(), $wp_error = false ) {
 	}
 
 	if ( $postarr['post_type'] == 'attachment' ) {
-		return wp_insert_attachment( $postarr );
+		return wp_insert_attachment( $postarr, false, 0, $wp_error );
 	}
 
 	return wp_insert_post( $postarr, $wp_error );
