@@ -357,10 +357,10 @@ function wp_ajax_get_community_events() {
 		 * The location should only be updated when it changes. The API doesn't always return
 		 * a full location; sometimes it's missing the description or country. The location
 		 * that was saved during the initial request is known to be good and complete, though.
-		 * It should be left in tact until the user explicitly changes it (either by manually
+		 * It should be left intact until the user explicitly changes it (either by manually
 		 * searching for a new location, or by changing their IP address).
 		 *
-		 * If the location were updated with an incomplete response from the API, then it could
+		 * If the location was updated with an incomplete response from the API, then it could
 		 * break assumptions that the UI makes (e.g., that there will always be a description
 		 * that corresponds to a latitude/longitude location).
 		 *
