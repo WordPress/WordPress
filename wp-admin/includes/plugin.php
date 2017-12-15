@@ -1105,6 +1105,8 @@ function uninstall_plugin( $plugin ) {
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 1.5.0
+ *
  * @global array $menu
  * @global array $admin_page_hooks
  * @global array $_registered_pages
@@ -1174,6 +1176,8 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 1.5.0
  *
  * @global array $submenu
  * @global array $menu
@@ -1256,6 +1260,8 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 1.5.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1275,6 +1281,8 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 1.5.0
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1296,6 +1304,8 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 2.0.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1316,6 +1326,8 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 3.0.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1335,6 +1347,8 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 2.1.3
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1360,6 +1374,8 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 2.7.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1379,6 +1395,8 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 2.7.0
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1400,6 +1418,8 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 2.7.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1419,6 +1439,8 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 2.7.0
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1440,6 +1462,8 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
+ * @since 2.7.0
+ *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
@@ -1459,6 +1483,8 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  *
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
+ *
+ * @since 2.7.0
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
