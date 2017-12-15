@@ -5,8 +5,7 @@
  *
  * @since 2.7.0
  *
- * @global
- * @namespace
+ * @namespace findPosts
  *
  * @requires jQuery
  */

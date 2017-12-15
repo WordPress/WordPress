@@ -614,6 +614,8 @@
 			/**
 			 * @summary Sets the CSS styles and binds events for locking the aspect ratio.
 			 *
+			 * @ignore
+			 *
 			 * @param {jQuery} img The preview image.
 			 */
 			onInit: function( img ) {
@@ -645,6 +647,8 @@
 			/**
 			 * @summary Event triggered when starting a selection.
 			 *
+			 * @ignore
+			 *
 			 * @returns {void}
 			 */
 			onSelectStart: function() {
@@ -652,6 +656,8 @@
 			},
 			/**
 			 * @summary Event triggered when the selection is ended.
+			 *
+			 * @ignore
 			 *
 			 * @param {object} img jQuery object representing the image.
 			 * @param {object} c   The selection.
@@ -664,6 +670,8 @@
 
 			/**
 			 * @summary Event triggered when the selection changes.
+			 *
+			 * @ignore
 			 *
 			 * @param {object} img jQuery object representing the image.
 			 * @param {object} c   The selection.

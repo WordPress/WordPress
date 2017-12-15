@@ -1161,7 +1161,7 @@
 					 * have to retrieve it again for this session. Then, construct the models and collections based
 					 * on the schema model data.
 					 *
-					 * @callback
+					 * @ignore
 					 */
 					success: function( newSchemaModel ) {
 

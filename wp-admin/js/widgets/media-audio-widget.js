@@ -7,10 +7,10 @@
 	/**
 	 * Custom audio details frame that removes the replace-audio state.
 	 *
-	 * @class AudioDetailsMediaFrame
-	 * @constructor
+	 * @class    wp.mediaWidgets.controlConstructors~AudioDetailsMediaFrame
+	 * @augments wp.media.view.MediaFrame.AudioDetails
 	 */
-	AudioDetailsMediaFrame = wp.media.view.MediaFrame.AudioDetails.extend({
+	AudioDetailsMediaFrame = wp.media.view.MediaFrame.AudioDetails.extend(/** @lends wp.mediaWidgets.controlConstructors~AudioDetailsMediaFrame.prototype */{
 
 		/**
 		 * Create the default states.
@@ -40,8 +40,8 @@
 	 *
 	 * See WP_Widget_Audio::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class AudioWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.modelConstructors.media_audio
+	 * @augments wp.mediaWidgets.MediaWidgetModel
 	 */
 	AudioWidgetModel = component.MediaWidgetModel.extend({});
 
@@ -50,10 +50,10 @@
 	 *
 	 * See WP_Widget_Audio::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class AudioWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.controlConstructors.media_audio
+	 * @augments wp.mediaWidgets.MediaWidgetControl
 	 */
-	AudioWidgetControl = component.MediaWidgetControl.extend({
+	AudioWidgetControl = component.MediaWidgetControl.extend(/** @lends wp.mediaWidgets.controlConstructors.media_audio.prototype */{
 
 		/**
 		 * Show display settings.

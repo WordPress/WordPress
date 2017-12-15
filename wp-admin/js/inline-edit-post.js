@@ -10,10 +10,9 @@ window.wp = window.wp || {};
 /**
  * Manages the quick edit and bulk edit windows for editing posts or pages.
  *
- * @namespace
+ * @namespace inlineEditPost
  *
  * @since 2.7.0
- * @access public
  *
  * @type {Object}
  *

@@ -3,7 +3,13 @@
 (function ($, _, Backbone) {
 	'use strict';
 
-	var WPPlaylistView = Backbone.View.extend({
+	var WPPlaylistView = Backbone.View.extend(/** @lends WPPlaylistView.prototype */{
+		/**
+		 * @constructs
+		 *
+		 * @param {Object} options          The options to create this playlist view with.
+		 * @param {Object} options.metadata The metadata
+		 */
 		initialize : function (options) {
 			this.index = 0;
 			this.settings = {};
@@ -59,9 +65,7 @@
 				this.settings.success = this.bindResetPlayer;
 			}
 
-			/**
-			 * This is also our bridge to the outside world
-			 */
+			// This is also our bridge to the outside world.
 			this.player = new MediaElementPlayer( this.playerNode.get(0), this.settings );
 		},
 

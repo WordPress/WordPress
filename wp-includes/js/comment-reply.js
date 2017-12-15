@@ -3,6 +3,8 @@
  *
  * @since 2.7.0
  *
+ * @namespace addComment
+ *
  * @type {Object}
  */
 var addComment;
@@ -49,6 +51,8 @@ addComment = ( function( window ) {
 	 * comments this method is exposed as window.commentReply.init().
 	 *
 	 * @since 5.0.0
+	 *
+	 * @memberOf addComment
 	 *
 	 * @param {HTMLElement} context The parent DOM element to search for links.
 	 */
@@ -198,6 +202,8 @@ addComment = ( function( window ) {
 	 * Moves the reply form from its current position to the reply location.
 	 *
 	 * @since 2.7.0
+	 *
+	 * @memberOf addComment
 	 *
 	 * @param {String} addBelowId HTML ID of element the form follows.
 	 * @param {String} commentId  Database ID of comment being replied to.

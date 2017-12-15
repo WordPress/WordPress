@@ -4,7 +4,7 @@
 /**
  * Contains all dynamic functionality needed on post and term pages.
  *
- * @summary Control page and term functionality.
+ * @file Control page and term functionality.
  */
 
 var commentsBox, WPSetThumbnailHTML, WPSetThumbnailID, WPRemoveThumbnail, wptitlehint, makeSlugeditClickable, editPermalink;
@@ -31,11 +31,11 @@ window.wp = window.wp || {};
 		/**
 		 * Fetch comments using AJAX and display them in the box.
 		 *
+		 * @memberof commentsBox
+		 *
 		 * @param {int} total Total number of comments for this post.
 		 * @param {int} num   Optional. Number of comments to fetch, defaults to 20.
 		 * @returns {boolean} Always returns false.
-		 *
-		 * @memberof commentsBox
 		 */
 		get : function(total, num) {
 			var st = this.st, data;
@@ -662,6 +662,8 @@ jQuery(document).ready( function($) {
 			/**
 			 * Add current post_ID to request to fetch custom fields
 			 *
+			 * @ignore
+			 *
 			 * @param {Object} s Request object.
 			 *
 			 * @returns {Object} Data modified with post_ID attached.
@@ -672,6 +674,8 @@ jQuery(document).ready( function($) {
 			},
 			/**
 			 * Show the listing of custom fields after fetching.
+			 *
+			 * @ignore
 			 */
 			addAfter: function() {
 				$('table#list-table').show();
@@ -688,6 +692,8 @@ jQuery(document).ready( function($) {
 
 		/**
 		 * When the visibility of a post changes sub-options should be shown or hidden.
+		 *
+		 * @ignore
 		 *
 		 * @returns void
 		 */
@@ -710,6 +716,8 @@ jQuery(document).ready( function($) {
 
 		/**
 		 * Make sure all labels represent the current settings.
+		 *
+		 * @ignore
 		 *
 		 * @returns {boolean} False when an invalid timestamp has been selected, otherwise True.
 		 */

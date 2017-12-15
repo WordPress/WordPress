@@ -9,8 +9,8 @@
 	 *
 	 * See WP_Widget_Media_Image::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class ImageWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.modelConstructors.media_image
+	 * @augments wp.mediaWidgets.MediaWidgetModel
 	 */
 	ImageWidgetModel = component.MediaWidgetModel.extend({});
 
@@ -19,10 +19,10 @@
 	 *
 	 * See WP_Widget_Media_Image::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class ImageWidgetModel
-	 * @constructor
+	 * @class    wp.mediaWidgets.controlConstructors.media_audio
+	 * @augments wp.mediaWidgets.MediaWidgetControl
 	 */
-	ImageWidgetControl = component.MediaWidgetControl.extend({
+	ImageWidgetControl = component.MediaWidgetControl.extend(/** @lends wp.mediaWidgets.controlConstructors.media_image.prototype */{
 
 		/**
 		 * View events.
