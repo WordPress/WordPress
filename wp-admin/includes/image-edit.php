@@ -190,7 +190,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	<div class="imgedit-panel-content wp-clearfix">
 		<?php echo $note; ?>
 		<div class="imgedit-menu wp-clearfix">
-			<button type="button" onclick="imageEdit.crop(<?php echo "$post_id, '$nonce'"; ?>, this)" class="imgedit-crop button disabled" disabled><span class="screen-reader-text"><?php esc_html_e( 'Crop' ); ?></span></button>
+			<button type="button" onclick="imageEdit.handleCropToolClick( <?php echo "$post_id, '$nonce'"; ?>, this )" class="imgedit-crop button disabled" disabled><span class="screen-reader-text"><?php esc_html_e( 'Crop' ); ?></span></button>
 																		<?php
 
 																		// On some setups GD library does not provide imagerotate() - Ticket #11536
