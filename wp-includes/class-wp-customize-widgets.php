@@ -1612,6 +1612,8 @@ final class WP_Customize_Widgets {
 	/**
 	 * Inject selective refresh data attributes into widget container elements.
 	 *
+	 * @since 4.5.0
+	 *
 	 * @param array $params {
 	 *     Dynamic sidebar params.
 	 *
