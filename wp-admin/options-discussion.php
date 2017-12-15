@@ -91,7 +91,7 @@ printf(
 /**
  * Filters the maximum depth of threaded/nested comments.
  *
- * @since 2.7.0.
+ * @since 2.7.0
  *
  * @param int $max_depth The maximum depth of threaded comments. Default 10.
  */

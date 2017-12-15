@@ -3742,7 +3742,7 @@ function rel_canonical() {
  * via the {@see 'pre_get_shortlink'} filter or filter the output via the {@see 'get_shortlink'}
  * filter.
  *
- * @since 3.0.0.
+ * @since 3.0.0
  *
  * @param int    $id          Optional. A post or site id. Default is 0, which means the current post or site.
  * @param string $context     Optional. Whether the id is a 'site' id, 'post' id, or 'media' id. If 'post',
