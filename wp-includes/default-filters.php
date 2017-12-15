@@ -354,6 +354,10 @@ add_action( 'template_redirect', 'wp_old_slug_redirect' );
 add_action( 'post_updated', 'wp_check_for_changed_slugs', 12, 3 );
 add_action( 'attachment_updated', 'wp_check_for_changed_slugs', 12, 3 );
 
+// Redirect Old Dates
+add_action( 'post_updated',       'wp_check_for_changed_dates', 12, 3 );
+add_action( 'attachment_updated', 'wp_check_for_changed_dates', 12, 3 );
+
 // Nonce check for Post Previews
 add_action( 'init', '_show_post_preview' );
 

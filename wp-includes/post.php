@@ -5708,6 +5708,47 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
 }
 
 /**
+ * Check for changed dates for published post objects and save the old date.
+ *
+ * The function is used when a post object of any type is updated,
+ * by comparing the current and previous post objects.
+ *
+ * If the date was changed and not already part of the old dates then it will be
+ * added to the post meta field ('_wp_old_date') for storing old dates for that
+ * post.
+ *
+ * The most logically usage of this function is redirecting changed post objects, so
+ * that those that linked to an changed post will be redirected to the new post.
+ *
+ * @since 4.9.2
+ *
+ * @param int     $post_id     Post ID.
+ * @param WP_Post $post        The Post Object
+ * @param WP_Post $post_before The Previous Post Object
+ */
+function wp_check_for_changed_dates( $post_id, $post, $post_before ) {
+	$previous_date = date( 'Y-m-d', strtotime( $post_before->post_date ) );
+	$new_date = date( 'Y-m-d', strtotime( $post->post_date ) );
+	// Don't bother if it hasn't changed.
+	if ( $new_date == $previous_date ) {
+		return;
+	}
+	// We're only concerned with published, non-hierarchical objects.
+	if ( ! ( 'publish' === $post->post_status || ( 'attachment' === get_post_type( $post ) && 'inherit' === $post->post_status ) ) || is_post_type_hierarchical( $post->post_type ) ) {
+		return;
+	}
+	$old_dates = (array) get_post_meta( $post_id, '_wp_old_date' );
+	// If we haven't added this old date before, add it now.
+	if ( ! empty( $previous_date ) && ! in_array( $previous_date, $old_dates ) ) {
+		add_post_meta( $post_id, '_wp_old_date', $previous_date );
+	}
+	// If the new slug was used previously, delete it from the list.
+	if ( in_array( $new_date, $old_dates ) ) {
+		delete_post_meta( $post_id, '_wp_old_date', $new_date );
+	}
+}
+
+/**
  * Retrieve the private post SQL based on capability.
  *
  * This function provides a standardized way to appropriately select on the
