@@ -6251,16 +6251,15 @@ function _publish_post_hook( $post_id ) {
 }
 
 /**
- * Return the post's parent's post_ID
+ * Return the post's parent post ID.
  *
  * @since 3.1.0
  *
- * @param int $post_ID
- *
+ * @param int|WP_Post $post Post ID or post object. Defaults to global $post.
  * @return int|false Post parent ID, otherwise false.
  */
-function wp_get_post_parent_id( $post_ID ) {
-	$post = get_post( $post_ID );
+function wp_get_post_parent_id( $post ) {
+	$post = get_post( $post );
 	if ( ! $post || is_wp_error( $post ) ) {
 		return false;
 	}
