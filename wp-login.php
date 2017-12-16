@@ -603,7 +603,7 @@ switch ( $action ) {
 	<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
 	<p>
 		<label for="user_login" ><?php _e( 'Username or Email Address' ); ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" /></label>
+		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" /></label>
 	</p>
 	<?php
 	/**
@@ -823,7 +823,7 @@ switch ( $action ) {
 	<form name="registerform" id="registerform" action="<?php echo esc_url( site_url( 'wp-login.php?action=register', 'login_post' ) ); ?>" method="post" novalidate="novalidate">
 	<p>
 		<label for="user_login"><?php _e( 'Username' ); ?><br />
-		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( wp_unslash( $user_login ) ); ?>" size="20" /></label>
+		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( wp_unslash( $user_login ) ); ?>" size="20" autocapitalize="off" /></label>
 	</p>
 	<p>
 		<label for="user_email"><?php _e( 'Email' ); ?><br />
@@ -1025,7 +1025,7 @@ switch ( $action ) {
 	<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e( 'Username or Email Address' ); ?><br />
-		<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" /></label>
+		<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" /></label>
 	</p>
 	<p>
 		<label for="user_pass"><?php _e( 'Password' ); ?><br />
