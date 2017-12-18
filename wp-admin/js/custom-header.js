@@ -1,7 +1,7 @@
 /* global isRtl */
 
 /**
- * @summary Initializes the custom header selection page.
+ * Initializes the custom header selection page.
  *
  * @since 3.5.0
  *
@@ -27,8 +27,7 @@
 		});
 
 		/**
-		 * @summary Opens the 'choose from library' frame and creates it if it doesn't
-		 *          exist.
+		 * Opens the 'choose from library' frame and creates it if it doesn't exist.
 		 *
 		 * @since 3.5.0
 		 * @deprecated 4.1.0
@@ -66,7 +65,7 @@
 			});
 
 			/**
-			 * @summary Updates the window location to include the selected attachment.
+			 * Updates the window location to include the selected attachment.
 			 *
 			 * @since 3.5.0
 			 * @deprecated 4.1.0

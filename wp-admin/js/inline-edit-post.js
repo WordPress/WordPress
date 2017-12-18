@@ -26,7 +26,7 @@ var inlineEditPost;
 	inlineEditPost = {
 
 	/**
-	 * @summary Initializes the inline and bulk post editor.
+	 * Initializes the inline and bulk post editor.
 	 *
 	 * Binds event handlers to the escape key to close the inline editor
 	 * and to the save and close buttons. Changes DOM to be ready for inline
@@ -45,7 +45,7 @@ var inlineEditPost;
 		t.what = '#post-';
 
 		/**
-		 * @summary Bind escape key to revert the changes and close the quick editor.
+		 * Binds the escape key to revert the changes and close the quick editor.
 		 *
 		 * @returns {boolean} The result of revert.
 		 */
@@ -57,7 +57,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Bind escape key to revert the changes and close the bulk editor.
+		 * Binds the escape key to revert the changes and close the bulk editor.
 		 *
 		 * @returns {boolean} The result of revert.
 		 */
@@ -69,7 +69,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Revert changes and close the quick editor if the cancel button is clicked.
+		 * Reverts changes and close the quick editor if the cancel button is clicked.
 		 *
 		 * @returns {boolean} The result of revert.
 		 */
@@ -78,7 +78,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Save changes in the quick editor if the save(named: update) button is clicked.
+		 * Saves changes in the quick editor if the save(named: update) button is clicked.
 		 *
 		 * @returns {boolean} The result of save.
 		 */
@@ -87,7 +87,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary If enter is pressed, and the target is not the cancel button, save the post.
+		 * If enter is pressed, and the target is not the cancel button, save the post.
 		 *
 		 * @returns {boolean} The result of save.
 		 */
@@ -98,7 +98,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Revert changes and close the bulk editor if the cancel button is clicked.
+		 * Reverts changes and close the bulk editor if the cancel button is clicked.
 		 *
 		 * @returns {boolean} The result of revert.
 		 */
@@ -107,7 +107,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Disables the password input field when the private post checkbox is checked.
+		 * Disables the password input field when the private post checkbox is checked.
 		 */
 		$('#inline-edit .inline-edit-private input[value="private"]').click( function(){
 			var pw = $('input.inline-edit-password-input');
@@ -119,7 +119,7 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Bind click event to the .editinline link which opens the quick editor.
+		 * Binds click event to the .editinline link which opens the quick editor.
 		 */
 		$('#the-list').on( 'click', 'a.editinline', function( e ) {
 			e.preventDefault();
@@ -135,7 +135,7 @@ var inlineEditPost;
 		$('select[name="_status"] option[value="future"]', bulkRow).remove();
 
 		/**
-		 * @summary Adds onclick events to the apply buttons.
+		 * Adds onclick events to the apply buttons.
 		 */
 		$('#doaction, #doaction2').click(function(e){
 			var n;
@@ -153,9 +153,8 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Toggles the quick edit window.
-	 *
-	 * Hides the window when it's active and shows the window when inactive.
+	 * Toggles the quick edit window, hiding it when it's active and showing it when
+	 * inactive.
 	 *
 	 * @memberof inlineEditPost
 	 * @since 2.7.0
@@ -168,7 +167,7 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Creates the bulk editor row to edit multiple posts at once.
+	 * Creates the bulk editor row to edit multiple posts at once.
 	 *
 	 * @memberof inlineEditPost
 	 * @since 2.7.0
@@ -184,10 +183,10 @@ var inlineEditPost;
 		$('#bulk-edit').addClass('inline-editor').show();
 
 		/**
-		 * @summary Create a HTML div with the title and a delete link(cross-icon) for each selected post.
+		 * Create a HTML div with the title and a link(delete-icon) for each selected
+		 * post.
 		 *
 		 * Get the selected posts based on the checked checkboxes in the post table.
-		 * Create a HTML div with the title and a link(delete-icon) for each selected post.
 		 */
 		$( 'tbody th.check-column input[type="checkbox"]' ).each( function() {
 
@@ -208,7 +207,7 @@ var inlineEditPost;
 		// Add onclick events to the delete-icons in the bulk editors the post title list.
 		$('#bulk-titles').html(te);
 		/**
-		 * @summary Binds on click events to the checkboxes before the posts in the table.
+		 * Binds on click events to the checkboxes before the posts in the table.
 		 *
 		 * @listens click
 		 */
@@ -240,7 +239,7 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Creates a quick edit window for the post that has been clicked.
+	 * Creates a quick edit window for the post that has been clicked.
 	 *
 	 * @memberof inlineEditPost
 	 * @since 2.7.0
@@ -283,7 +282,7 @@ var inlineEditPost;
 			val = $('.'+fields[f], rowData);
 
 			/**
-			 * @summary Replaces the image for a Twemoji(Twitter emoji) with it's alternate text.
+			 * Replaces the image for a Twemoji(Twitter emoji) with it's alternate text.
 			 *
 			 * @returns Alternate text from the image.
 			 */
@@ -303,7 +302,7 @@ var inlineEditPost;
 		}
 
 		/**
-		 * @summary Creates the select boxes for the categories.
+		 * Creates the select boxes for the categories.
 		 */
 		$('.post_category', rowData).each(function(){
 			var taxname,
@@ -316,8 +315,8 @@ var inlineEditPost;
 		});
 
 		/**
-		 * @summary Gets all the taxonomies for live auto-fill suggestions.
-		 * When typing the name of a tag.
+		 * Gets all the taxonomies for live auto-fill suggestions when typing the name
+		 * of a tag.
 		 */
 		$('.tags_input', rowData).each(function(){
 			var terms = $(this),
@@ -380,7 +379,7 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Saves the changes made in the quick edit window to the post.
+	 * Saves the changes made in the quick edit window to the post.
 	 * AJAX saving is only for Quick Edit and not for bulk edit.
 	 *
 	 * @since 2.7.0
@@ -446,7 +445,7 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Hides and empties the Quick Edit and/or Bulk Edit windows.
+	 * Hides and empties the Quick Edit and/or Bulk Edit windows.
 	 *
 	 * @memberof    inlineEditPost
 	 * @since 2.7.0
@@ -487,8 +486,8 @@ var inlineEditPost;
 	},
 
 	/**
-	 * @summary Gets the id for a the post that you want to quick edit from the row
-	 * in the quick edit table.
+	 * Gets the id for a the post that you want to quick edit from the row in the quick
+	 * edit table.
 	 *
 	 * @memberof    inlineEditPost
 	 * @since 2.7.0

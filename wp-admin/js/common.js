@@ -2,7 +2,7 @@
 var showNotice, adminMenu, columns, validateForm, screenMeta;
 
 /**
- *  @summary Adds common WordPress functionality to the window.
+ *  Adds common WordPress functionality to the window.
  *
  *  @param {jQuery} $        jQuery object.
  *  @param {Object} window   The window object.
@@ -14,7 +14,7 @@ var showNotice, adminMenu, columns, validateForm, screenMeta;
 		$body = $( document.body );
 
 /**
- * @summary Removed in 3.3.0, needed for back-compatibility.
+ * Removed in 3.3.0, needed for back-compatibility.
  *
  * @since 2.7.0
  * @deprecated 3.3.0
@@ -31,7 +31,7 @@ adminMenu = {
 columns = {
 
 	/**
-	 * @summary Initializes the column toggles in the screen options.
+	 * Initializes the column toggles in the screen options.
 	 *
 	 * Binds an onClick event to the checkboxes to show or hide the table columns
 	 * based on their toggled state. And persists the toggled state.
@@ -54,7 +54,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Saves the toggled state for the columns.
+	 * Saves the toggled state for the columns.
 	 *
 	 * Saves whether the columns should be shown or hidden on a page.
 	 *
@@ -73,7 +73,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Makes a column visible and adjusts the column span for the table.
+	 * Makes a column visible and adjusts the column span for the table.
 	 *
 	 * @since 3.0.0
 	 * @param {string} column The column name.
@@ -86,7 +86,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Hides a column and adjusts the column span for the table.
+	 * Hides a column and adjusts the column span for the table.
 	 *
 	 * @since 3.0.0
 	 * @param {string} column The column name.
@@ -99,7 +99,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Get all hidden columns.
+	 * Gets all hidden columns.
 	 *
 	 * @since 3.0.0
 	 *
@@ -112,7 +112,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Gets the checked column toggles from the screen options.
+	 * Gets the checked column toggles from the screen options.
 	 *
 	 * @since 3.0.0
 	 *
@@ -128,7 +128,7 @@ columns = {
 	},
 
 	/**
-	 * @summary Adjusts the column span for the table.
+	 * Adjusts the column span for the table.
 	 *
 	 * @since 3.1.0
 	 *
@@ -146,7 +146,7 @@ columns = {
 $document.ready(function(){columns.init();});
 
 /**
- * @summary Validates that the required form fields are not empty.
+ * Validates that the required form fields are not empty.
  *
  * @since 2.9.0
  *
@@ -166,7 +166,7 @@ validateForm = function( form ) {
 
 // stub for doing better warnings
 /**
- * @summary Shows message pop-up notice or confirmation message.
+ * Shows message pop-up notice or confirmation message.
  *
  * @since 2.7.0
  *
@@ -177,7 +177,7 @@ validateForm = function( form ) {
 showNotice = {
 
 	/**
-	 * @summary Shows a delete confirmation pop-up message.
+	 * Shows a delete confirmation pop-up message.
 	 *
 	 * @since 2.7.0
 	 *
@@ -193,7 +193,7 @@ showNotice = {
 	},
 
 	/**
-	 * @summary Shows an alert message.
+	 * Shows an alert message.
 	 *
 	 * @since 2.7.0
 	 *
@@ -205,7 +205,7 @@ showNotice = {
 };
 
 /**
- * @summary Represents the functions for the meta screen options panel.
+ * Represents the functions for the meta screen options panel.
  *
  * @since 3.2.0
  *
@@ -221,7 +221,7 @@ screenMeta = {
 	page:    null, // #wpcontent
 
 	/**
-	 * @summary Initializes the screen meta options panel.
+	 * Initializes the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
@@ -236,7 +236,7 @@ screenMeta = {
 	},
 
 	/**
-	 * @summary Toggles the screen meta options panel.
+	 * Toggles the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
@@ -255,7 +255,7 @@ screenMeta = {
 	},
 
 	/**
-	 * @summary Opens the screen meta options panel.
+	 * Opens the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
@@ -271,7 +271,7 @@ screenMeta = {
 		panel.parent().show();
 
 		/**
-		 * @summary Sets the focus to the meta options panel and adds the necessary CSS classes.
+		 * Sets the focus to the meta options panel and adds the necessary CSS classes.
 		 *
 		 * @since 3.2.0
 		 *
@@ -286,7 +286,7 @@ screenMeta = {
 	},
 
 	/**
-	 * @summary Closes the screen meta options panel.
+	 * Closes the screen meta options panel.
 	 *
 	 * @since 3.2.0
 	 *
@@ -297,7 +297,7 @@ screenMeta = {
 	 */
 	close: function( panel, button ) {
 		/**
-		 * @summary Hides the screen meta options panel.
+		 * Hides the screen meta options panel.
 		 *
 		 * @since 3.2.0
 		 *
@@ -314,7 +314,7 @@ screenMeta = {
 };
 
 /**
- * @summary Initializes the help tabs in the help panel.
+ * Initializes the help tabs in the help panel.
  *
  * @param {Event} e The event object.
  *
@@ -495,7 +495,7 @@ $document.ready( function() {
 		$headerEnd = $( '.wp-header-end' );
 
 	/**
-	 * @summary Makes the fly-out submenu header clickable, when the menu is folded.
+	 * Makes the fly-out submenu header clickable, when the menu is folded.
 	 *
 	 * @param {Event} e The event object.
 	 *
@@ -506,7 +506,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Collapses the admin menu.
+	 * Collapses the admin menu.
 	 *
 	 * @returns {void}
 	 */
@@ -543,7 +543,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Handles the `aria-haspopup` attribute on the current menu item when it has a submenu.
+	 * Handles the `aria-haspopup` attribute on the current menu item when it has a submenu.
 	 *
 	 * @since 4.4.0
 	 *
@@ -564,7 +564,7 @@ $document.ready( function() {
 	$document.on( 'wp-menu-state-set wp-collapse-menu wp-responsive-activate wp-responsive-deactivate', currentMenuItemHasPopup );
 
 	/**
-	 * @summary Ensures an admin submenu is within the visual viewport.
+	 * Ensures an admin submenu is within the visual viewport.
 	 *
 	 * @since 4.1.0
 	 *
@@ -605,7 +605,7 @@ $document.ready( function() {
 		mobileEvent = isIOS ? 'touchstart' : 'click';
 
 		/**
-		 * @summary Closes any open submenus when touch/click is not on the menu.
+		 * Closes any open submenus when touch/click is not on the menu.
 		 *
 		 * @param {Event} e The event object.
 		 *
@@ -622,7 +622,7 @@ $document.ready( function() {
 		});
 
 		/**
-		 * @summary Handles the opening or closing the submenu based on the mobile click|touch event.
+		 * Handles the opening or closing the submenu based on the mobile click|touch event.
 		 *
 		 * @param {Event} event The event object.
 		 *
@@ -651,7 +651,7 @@ $document.ready( function() {
 		$adminmenu.find( 'li.wp-has-submenu' ).hoverIntent({
 
 			/**
-			 * @summary Opens the submenu when hovered over the menu item for desktops.
+			 * Opens the submenu when hovered over the menu item for desktops.
 			 *
 			 * @returns {void}
 			 */
@@ -675,7 +675,7 @@ $document.ready( function() {
 			},
 
 			/**
-			 * @summary Closes the submenu when no longer hovering the menu item.
+			 * Closes the submenu when no longer hovering the menu item.
 			 *
 			 * @returns {void}
 			 */
@@ -693,7 +693,7 @@ $document.ready( function() {
 		});
 
 		/**
-		 * @summary Opens the submenu on when focused on the menu item.
+		 * Opens the submenu on when focused on the menu item.
 		 *
 		 * @param {Event} event The event object.
 		 *
@@ -708,7 +708,7 @@ $document.ready( function() {
 			$( event.target ).closest( 'li.menu-top' ).addClass( 'opensub' );
 
 			/**
-			 * @summary Closes the submenu on blur from the menu item.
+			 * Closes the submenu on blur from the menu item.
 			 *
 			 * @param {Event} event The event object.
 			 *
@@ -722,7 +722,7 @@ $document.ready( function() {
 			$( event.target ).closest( 'li.menu-top' ).removeClass( 'opensub' );
 
 			/**
-			 * @summary Adjusts the size for the submenu.
+			 * Adjusts the size for the submenu.
 			 *
 			 * @returns {void}
 			 */
@@ -743,7 +743,7 @@ $document.ready( function() {
 	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $headerEnd );
 
 	/**
-	 * @summary Make notices dismissible.
+	 * Makes notices dismissible.
 	 *
 	 * @since 4.4.0
 	 *
@@ -776,7 +776,7 @@ $document.ready( function() {
 	screenMeta.init();
 
 	/**
-	 * @summary Checks a checkbox.
+	 * Checks a checkbox.
 	 *
 	 * This event needs to be delegated. Ticket #37973.
 	 *
@@ -807,7 +807,7 @@ $document.ready( function() {
 		var unchecked = $(this).closest('tbody').find(':checkbox').filter(':visible:enabled').not(':checked');
 
 		/**
-		 * @summary Determines if all checkboxes are checked.
+		 * Determines if all checkboxes are checked.
 		 *
 		 * @returns {boolean} Returns true if there are no unchecked checkboxes.
 		 */
@@ -819,7 +819,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Controls all the toggles on bulk toggle change.
+	 * Controls all the toggles on bulk toggle change.
 	 *
 	 * When the bulk checkbox is changed, all the checkboxes in the tables are changed accordingly.
 	 * When the shift-button is pressed while changing the bulk checkbox the checkboxes in the table are inverted.
@@ -839,7 +839,7 @@ $document.ready( function() {
 		$table.children( 'tbody' ).filter(':visible')
 			.children().children('.check-column').find(':checkbox')
 			/**
-			 * @summary Updates the checked state on the checkbox in the table.
+			 * Updates the checked state on the checkbox in the table.
 			 *
 			 * @returns {boolean} True checks the checkbox, False unchecks the checkbox.
 			 */
@@ -861,7 +861,7 @@ $document.ready( function() {
 			.children().children('.check-column').find(':checkbox')
 
 			/**
-			 * @summary Syncs the bulk checkboxes on the top and bottom of the table.
+			 * Syncs the bulk checkboxes on the top and bottom of the table.
 			 *
 			 * @returns {boolean} True checks the checkbox, False unchecks the checkbox.
 			 */
@@ -877,7 +877,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Shows row actions on focus of its parent container element or any other elements contained within.
+	 * Shows row actions on focus of its parent container element or any other elements contained within.
 	 *
 	 * @returns {void}
 	 */
@@ -910,7 +910,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Handles tab keypresses in theme and plugin editor textareas.
+	 * Handles tab keypresses in theme and plugin editor textareas.
 	 *
 	 * @param {Event} e The event object.
 	 *
@@ -964,7 +964,7 @@ $document.ready( function() {
 	if ( pageInput.length ) {
 
 		/**
-		 * @summary Handles pagination variable when filtering the list table.
+		 * Handles pagination variable when filtering the list table.
 		 *
 		 * Set the pagination argument to the first page when the post-filter form is submitted.
 		 * This happens when pressing the 'filter' button on the list table page.
@@ -986,7 +986,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Resets the bulk actions when the search button is clicked.
+	 * Resets the bulk actions when the search button is clicked.
 	 *
 	 * @returns {void}
 	 */
@@ -995,7 +995,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Scrolls into view when focus.scroll-into-view is triggered.
+	 * Scrolls into view when focus.scroll-into-view is triggered.
 	 *
 	 * @param {Event} e The event object.
 	 *
@@ -1007,7 +1007,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Disables the submit upload buttons when no data is entered.
+	 * Disables the submit upload buttons when no data is entered.
 	 *
 	 * @returns {void}
 	 */
@@ -1022,7 +1022,7 @@ $document.ready( function() {
 		input = form.find('input[type="file"]');
 
 		/**
-		 * @summary Determines if any data is entered in any file upload input.
+		 * Determines if any data is entered in any file upload input.
 		 *
 		 * @since 3.5.0
 		 *
@@ -1042,7 +1042,7 @@ $document.ready( function() {
 	})();
 
 	/**
-	 * @summary Pins the menu while distraction-free writing is enabled.
+	 * Pins the menu while distraction-free writing is enabled.
 	 *
 	 * @param {Event} event Event data.
 	 *
@@ -1187,7 +1187,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Determines the height of certain elements.
+	 * Determines the height of certain elements.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1203,7 +1203,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Unpins the menu.
+	 * Unpins the menu.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1223,7 +1223,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Pins and unpins the menu when applicable.
+	 * Pins and unpins the menu when applicable.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1252,8 +1252,6 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Changes properties of metaboxes and body.
-	 *
 	 * Changes the sortables and responsiveness of metaboxes.
 	 *
 	 * @since 3.8.0
@@ -1263,7 +1261,7 @@ $document.ready( function() {
 	window.wpResponsive = {
 
 		/**
-		 * @summary Initializes the wpResponsive object.
+		 * Initializes the wpResponsive object.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1321,7 +1319,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Changes properties of body and admin menu.
+		 * Changes properties of body and admin menu.
 		 *
 		 * Pins and unpins the menu and adds the auto-fold class to the body.
 		 * Makes the admin menu responsive and disables the metabox sortables.
@@ -1342,7 +1340,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Changes properties of admin menu and enables metabox sortables.
+		 * Changes properties of admin menu and enables metabox sortables.
 		 *
 		 * Pin and unpin the menu.
 		 * Removes the responsiveness of the admin menu and enables the metabox sortables.
@@ -1358,7 +1356,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Sets the responsiveness and enables the overlay based on the viewport width.
+		 * Sets the responsiveness and enables the overlay based on the viewport width.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1392,7 +1390,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Inserts a responsive overlay and toggles the window.
+		 * Inserts a responsive overlay and toggles the window.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1415,7 +1413,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Disables the responsive overlay and removes the overlay.
+		 * Disables the responsive overlay and removes the overlay.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1427,7 +1425,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Disables sortables.
+		 * Disables sortables.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1442,7 +1440,7 @@ $document.ready( function() {
 		},
 
 		/**
-		 * @summary Enables sortables.
+		 * Enables sortables.
 		 *
 		 * @since 3.8.0
 		 *
@@ -1458,7 +1456,7 @@ $document.ready( function() {
 	};
 
 	/**
-	 * @summary Add an ARIA role `button` to elements that behave like UI controls when JavaScript is on.
+	 * Add an ARIA role `button` to elements that behave like UI controls when JavaScript is on.
 	 *
 	 * @since 4.5.0
 	 *
@@ -1473,7 +1471,7 @@ $document.ready( function() {
 	});
 
 	/**
-	 * @summary Get the viewport width.
+	 * Get the viewport width.
 	 *
 	 * @since 4.7.0
 	 *
@@ -1492,7 +1490,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Sets the admin menu collapsed/expanded state.
+	 * Sets the admin menu collapsed/expanded state.
 	 *
 	 * Sets the global variable `menuState` and triggers a custom event passing
 	 * the current menu state.
@@ -1519,7 +1517,7 @@ $document.ready( function() {
 	$document.on( 'wp-window-resized.set-menu-state', setMenuState );
 
 	/**
-	 * @summary Sets ARIA attributes on the collapse/expand menu button.
+	 * Sets ARIA attributes on the collapse/expand menu button.
 	 *
 	 * When the admin menu is open or folded, updates the `aria-expanded` and
 	 * `aria-label` attributes of the button to give feedback to assistive
@@ -1582,7 +1580,7 @@ $document.ready( function() {
 	var timeout;
 
 	/**
-	 * @summary Triggers the WP window-resize event.
+	 * Triggers the WP window-resize event.
 	 *
 	 * @since 3.8.0
 	 *
@@ -1593,7 +1591,7 @@ $document.ready( function() {
 	}
 
 	/**
-	 * @summary Fires the trigger event again after 200 ms.
+	 * Fires the trigger event again after 200 ms.
 	 *
 	 * @since 3.8.0
 	 *
