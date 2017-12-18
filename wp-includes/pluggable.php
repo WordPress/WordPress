@@ -1239,7 +1239,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 		 */
 		$x_redirect_by = apply_filters( 'x_redirect_by', 'WordPress', $status, $location );
 		if ( is_string( $x_redirect_by ) ) {
-			header( sprintf( "X-Redirect-By: %s", $x_redirect_by ) );
+			header( "X-Redirect-By: $x_redirect_by" );
 		}
 
 		header( "Location: $location", true, $status );
