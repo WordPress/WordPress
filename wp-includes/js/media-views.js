@@ -2045,21 +2045,37 @@ EditImage = wp.media.controller.State.extend(/** @lends wp.media.controller.Edit
 	},
 
 	/**
+	 * Activates a frame for editing a featured image.
+	 *
 	 * @since 3.9.0
+	 *
+	 * @returns {void}
 	 */
 	activate: function() {
 		this.frame.on( 'toolbar:render:edit-image', _.bind( this.toolbar, this ) );
 	},
 
 	/**
+	 * Deactivates a frame for editing a featured image.
+	 *
 	 * @since 3.9.0
+	 *
+	 * @returns {void}
 	 */
 	deactivate: function() {
 		this.frame.off( 'toolbar:render:edit-image' );
 	},
 
 	/**
+	 * Adds a toolbar with a back button.
+	 *
+	 * When the back button is pressed it checks whether there is a previous state.
+	 * In case there is a previous state it sets that previous state otherwise it
+	 * closes the frame.
+	 *
 	 * @since 3.9.0
+	 *
+	 * @returns {void}
 	 */
 	toolbar: function() {
 		var frame = this.frame,
@@ -3725,7 +3741,8 @@ Post = Select.extend(/** @lends wp.media.view.MediaFrame.Post.prototype */{
 			requires: { selection: true },
 
 			/**
-			 * @callback
+			 * @ignore
+			 *
 			 * @fires wp.media.controller.State#insert
 			 */
 			click: function() {
