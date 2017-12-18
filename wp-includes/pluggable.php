@@ -1226,6 +1226,22 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 			status_header( $status ); // This causes problems on IIS and some FastCGI setups
 		}
 
+		/**
+		 * Filters the X-Redirect-By header.
+		 *
+		 * Allows applications to identify themselves when they're doing a redirect.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param string $x_redirect_by The application doing the redirect.
+		 * @param int    $status        Status code to use.
+		 * @param string $location      The path to redirect to.
+		 */
+		$x_redirect_by = apply_filters( 'x_redirect_by', 'WordPress', $status, $location );
+		if ( is_string( $x_redirect_by ) ) {
+			header( sprintf( "X-Redirect-By: %s", $x_redirect_by ) );
+		}
+
 		header( "Location: $location", true, $status );
 
 		return true;
