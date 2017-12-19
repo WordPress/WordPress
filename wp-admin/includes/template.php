@@ -1057,7 +1057,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 }
 
 /**
- * Meta-Box template function
+ * Displays the meta boxes which are registered against the given screen and context.
  *
  * @since 2.5.0
  *
@@ -1069,8 +1069,10 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  *                                  add_submenu_page() to create a new screen (and hence screen_id)
  *                                  make sure your menu slug conforms to the limits of sanitize_key()
  *                                  otherwise the 'screen' menu may not correctly render on your page.
- * @param string           $context box context
- * @param mixed            $object  gets passed to the box callback function as first parameter
+ * @param string           $context The screen context for which to display meta boxes.
+ * @param mixed            $object  Gets passed to the first parameter of the meta box callback function.
+ *                                  Often this is the object that's the focus of the current screen, for
+ *                                  example a `WP_Post` or `WP_Comment` object.
  * @return int number of meta_boxes
  */
 function do_meta_boxes( $screen, $context, $object ) {
