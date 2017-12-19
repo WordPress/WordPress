@@ -1,0 +1,732 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Travelify\n"
+"POT-Creation-Date: 2015-10-02 12:35+0300\n"
+"PO-Revision-Date: 2015-10-02 12:35+0300\n"
+"Last-Translator: Aigars Silkalns <a.silkalns@gmail.com>\n"
+"Language-Team: Colorlib <info@colrolib.com>\n"
+"Language: pl_PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-KeywordsList: __;esc_attr_e;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../404.php:11
+msgid "Error 404 - Page NOT Found"
+msgstr "Błąd 404 - Strona nie została znaleziona"
+
+#: ../404.php:14
+msgid "It seems we can't find what you're looking for."
+msgstr "Niestety nie możemy znaleźć tego, czego szukasz."
+
+#: ../404.php:15
+msgid "This might be because:"
+msgstr "Przyczyną może być:"
+
+#: ../404.php:17
+msgid "You have typed the web address incorrectly"
+msgstr "Błędny adres witryny"
+
+#: ../404.php:18
+msgid "The page you were looking for may have been moved, updated or deleted."
+msgstr ""
+"Strona, którą szukasz mogła zostać przeniesiona, zaktualizowana lub usunięta"
+
+#: ../404.php:20
+msgid "Please try the following:"
+msgstr "Spróbuj wykonać następujące kroki:"
+
+#: ../404.php:22
+msgid "Check for a mis-typed URL error"
+msgstr "Sprawdź poprawność adresu URL"
+
+#: ../404.php:23
+msgid "Press the refresh button on your browser."
+msgstr "Kliknij przycisk odśwież"
+
+#: ../404.php:24
+msgid "Go back to"
+msgstr "Wróć"
+
+#: ../404.php:24
+msgid "Homepage"
+msgstr "Strona głowna"
+
+#: ../comments.php:24
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "Odpowiedź do artykułu &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:27
+#, php-format
+msgid "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr "%1$s odpowiedzi do artykułu &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:38
+msgid "Comment navigation"
+msgstr "Komentarze"
+
+#: ../comments.php:39
+msgid "&larr; Older Comments"
+msgstr "&larr; Starsze komentarze"
+
+#: ../comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr "Nowsze komentarze &rarr;"
+
+#: ../comments.php:47
+msgid "Comments are closed."
+msgstr "Zablokowano możliwość dodawania komentarzy"
+
+#: ../functions.php:75
+msgid "Primary Menu"
+msgstr "Menu"
+
+#: ../library/functions/customizer.php:17
+#, fuzzy
+msgid "Travelify Main Options"
+msgstr "Opcje"
+
+#: ../library/functions/customizer.php:18
+#: ../library/functions/customizer.php:338
+msgid "Panel to update travelify theme options"
+msgstr ""
+
+#: ../library/functions/customizer.php:24
+msgid "Travelify Header Area"
+msgstr "Ustawienia nagłówka Travelify"
+
+#: ../library/functions/customizer.php:25
+msgid "Use the following settings change color for menu and website title"
+msgstr "Użyj tych ustawień, aby zmienic kolor menu i nazwy strony"
+
+#: ../library/functions/customizer.php:34
+msgid "Website Title Color"
+msgstr "Kolor nazwy strony"
+
+#: ../library/functions/customizer.php:45
+msgid "Website Title Hover Color"
+msgstr "Kolor podświetlenia nazwy strony"
+
+#: ../library/functions/customizer.php:56
+msgid "Menu Bar Color"
+msgstr "Kolor przycisku menu"
+
+#: ../library/functions/customizer.php:66
+msgid "Menu Bar Hover Color"
+msgstr "Kolor podświetlenia przycisku menu"
+
+#: ../library/functions/customizer.php:76
+msgid "Menu Item Text Color"
+msgstr "Kolor tekstu menu"
+
+#: ../library/functions/customizer.php:87
+msgid "Social Icon Color"
+msgstr "Kolor ikonek serwisów społecznościowych"
+
+#: ../library/functions/customizer.php:95
+msgid "Travelify Element Color"
+msgstr "Ustawienia kolorów zawartości Travelify"
+
+#: ../library/functions/customizer.php:96
+msgid "Use the following settings change color for website elements"
+msgstr "Użyj tych ustawień, aby zmienić kolor elementów strony"
+
+#: ../library/functions/customizer.php:105
+msgid "Element Color"
+msgstr "Kolor przycisków"
+
+#: ../library/functions/customizer.php:116
+msgid "Element Hover Color"
+msgstr "Kolor podświetlenia przycisków"
+
+#: ../library/functions/customizer.php:127
+msgid "Wrapper Color"
+msgstr "Kolor - Wrapper"
+
+#: ../library/functions/customizer.php:138
+msgid "Content Background Color"
+msgstr "Kolor zawartości tła"
+
+#: ../library/functions/customizer.php:146
+msgid "Travelify Typography Color"
+msgstr "Ustawienia kolorów czcionek Travelify"
+
+#: ../library/functions/customizer.php:147
+msgid ""
+"Use the following settings change color for typography such as links, "
+"headings and content"
+msgstr ""
+"Użyj tych ustawień, aby zmienic kolory linków, nagłówków lub zawartości"
+
+#: ../library/functions/customizer.php:156
+msgid "Entry Content Color"
+msgstr "Kolor tekstu zawartości"
+
+#: ../library/functions/customizer.php:166
+msgid "Header/Title Color"
+msgstr "Kolor tytułu/nagłówka"
+
+#: ../library/functions/customizer.php:177
+msgid "Link Color"
+msgstr "Kolor linków"
+
+#: ../library/functions/customizer.php:188
+msgid "Link Hover Color"
+msgstr "Kolor podświetlenia linków "
+
+#: ../library/functions/customizer.php:196
+msgid "Travelify Footer"
+msgstr "Ustawienia stopki Travelify"
+
+#: ../library/functions/customizer.php:197
+msgid "Use the following settings customize Footer"
+msgstr "Użyj tych ustawień, aby dostosować Stopkę"
+
+#: ../library/functions/customizer.php:206
+msgid "Copyright text"
+msgstr "Prawa autorskie"
+
+#: ../library/functions/customizer.php:216
+msgid "Header Options"
+msgstr "Opcje nagłówka"
+
+#: ../library/functions/customizer.php:217
+msgid "Section to update theme options for header"
+msgstr ""
+
+#: ../library/functions/customizer.php:227
+msgid "Header Logo"
+msgstr "Logo nagłówka"
+
+#: ../library/functions/customizer.php:240
+msgid "Show"
+msgstr "Pokaż"
+
+#: ../library/functions/customizer.php:243
+msgid "Header Logo Only"
+msgstr "Tylko logo nagłówka"
+
+#: ../library/functions/customizer.php:244
+msgid "Header Text Only"
+msgstr "Tylko tekst nagłówka"
+
+#: ../library/functions/customizer.php:245
+msgid "Disable"
+msgstr "Wyłącz"
+
+#: ../library/functions/customizer.php:254
+msgid "Layout Options"
+msgstr "Ustawienia Wyglądu"
+
+#: ../library/functions/customizer.php:264
+msgid ""
+"This will set the default layout style. However, you can choose different "
+"layout for each page via editor"
+msgstr ""
+"Ustaw domyślny wygląd strony. Możesz wybrać inny wybląd dla każdej strony "
+"używając edytora strony"
+
+#: ../library/functions/customizer.php:269
+msgid "No Sidebar"
+msgstr "Brak paska"
+
+#: ../library/functions/customizer.php:270
+msgid "No Sidebar, Full Width"
+msgstr "Brak paska, pełna szerokość"
+
+#: ../library/functions/customizer.php:271 ../library/panel/metaboxes.php:53
+msgid "No Sidebar, One Column"
+msgstr "Brak paska, jedna kolumna"
+
+#: ../library/functions/customizer.php:272
+#: ../library/functions/functions.php:327
+msgid "Left Sidebar"
+msgstr "Lewy pasek"
+
+#: ../library/functions/customizer.php:273
+#: ../library/functions/functions.php:338
+msgid "Right Sidebar"
+msgstr "Prawy pasek"
+
+#: ../library/functions/customizer.php:285
+#, fuzzy
+msgid "Check to reset Layout"
+msgstr "Zaznacz, aby zresetować"
+
+#: ../library/functions/customizer.php:296
+msgid "RSS URL"
+msgstr "RSS URL"
+
+#: ../library/functions/customizer.php:297
+msgid "Enter your preferred RSS URL. (Feedburner or other)"
+msgstr "Wskaż preferowany RSS URL"
+
+#: ../library/functions/customizer.php:307
+msgid "Feed Redirect URL"
+msgstr "Przekierowanie URL"
+
+#: ../library/functions/customizer.php:316
+msgid "Homepage Post Options"
+msgstr "Opcje postów na stronie głównej"
+
+#: ../library/functions/customizer.php:327
+msgid ""
+"You may select multiple categories by holding down the CTRL (Windows) or cmd "
+"(Mac)."
+msgstr "Możesz zaznaczyć wiele kategorii wciskając CTRL"
+
+#: ../library/functions/customizer.php:337
+#, fuzzy
+msgid "Travelify Featured Slider"
+msgstr "Featured Slider"
+
+#: ../library/functions/customizer.php:345
+msgid "Featured Post/Page Slider Options"
+msgstr "Wyróżnienie wpisu - opcje"
+
+#: ../library/functions/customizer.php:355
+#, fuzzy
+msgid "Check to exclude slider post from Homepage posts"
+msgstr "Wyłącz wyróżnienia opisu na stronie głównej"
+
+#: ../library/functions/customizer.php:372
+#, fuzzy
+msgid "Number of slides"
+msgstr "Liczba slajdów"
+
+#: ../library/functions/customizer.php:383
+msgid "Slider Options"
+msgstr "Opcje wyróżniania wpisów"
+
+#: ../library/functions/customizer.php:393
+#, fuzzy
+msgid "Check to disable Slider"
+msgstr "Zaznacz, aby wyłączyć"
+
+#: ../library/functions/customizer.php:406
+#, fuzzy
+msgid "Transition Effect"
+msgstr "Efekt przejścia"
+
+#: ../library/functions/customizer.php:431
+#, fuzzy
+msgid "Transition delay( in second(s) )"
+msgstr "Opóźnienie"
+
+#: ../library/functions/customizer.php:442
+#, fuzzy
+msgid "Transition length (in second(s))"
+msgstr "Czas trwania"
+
+#: ../library/functions/customizer.php:451
+#, fuzzy
+msgid "Travelify Social Links"
+msgstr "Linki do serwisów społecznościowych"
+
+#: ../library/functions/customizer.php:452
+msgid "Enter URLs for your social networks e.g."
+msgstr "Odnośniki do serwisów społecznościowych"
+
+#: ../library/functions/customizer.php:466
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: ../library/functions/customizer.php:478
+#, fuzzy
+msgid "Travelify Other Options"
+msgstr "Ustawienia stopki Travelify"
+
+#: ../library/functions/customizer.php:479
+msgid "Enter your custom CSS styles."
+msgstr "Wprowadź własny CSS"
+
+#: ../library/functions/customizer.php:488
+msgid "This CSS will overwrite the CSS of style.css file."
+msgstr "Ten CSS zaktualizuje plik style.css"
+
+#: ../library/functions/customizer.php:498
+msgid "Travelify Important Links"
+msgstr ""
+
+#: ../library/functions/functions.php:275
+msgid "Navigation"
+msgstr "Nawigacja"
+
+#: ../library/functions/functions.php:329
+msgid "Shows widgets at Left side."
+msgstr "Pokazuj widgety po lewej"
+
+#: ../library/functions/functions.php:340
+msgid "Shows widgets at Right side."
+msgstr "Pokazuj widgety po prawej"
+
+#: ../library/functions/functions.php:349
+msgid "Footer"
+msgstr "Stopka"
+
+#: ../library/functions/functions.php:351
+msgid "Shows widgets at footer."
+msgstr "Pokazuj widgety w stopce"
+
+#: ../library/functions/shortcodes.php:18
+msgid "WordPress"
+msgstr "WordPress"
+
+#: ../library/functions/shortcodes.php:27
+msgid "Colorlib"
+msgstr "Colorlib"
+
+#: ../library/panel/metaboxes.php:16
+msgid ""
+"Select layout for this specific Page only ( Note: This setting only reflects "
+"if page Template is set as Default Template and Blog Type Templates.)"
+msgstr "Wybierz wygląd jedynie dla tej strony"
+
+#: ../library/panel/metaboxes.php:22
+msgid "Select layout for this specific Post only"
+msgstr "Wybierz wygląd jedynie dla tego postu"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Default Layout Set in"
+msgstr "Ustawiono domyślny wygląd"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Theme Settings"
+msgstr "Ustawienia motywu"
+
+#: ../library/panel/metaboxes.php:41
+msgid "No sidebar"
+msgstr "Brak paska"
+
+#: ../library/panel/metaboxes.php:47
+msgid "No sidebar, Full Width"
+msgstr "Brak paska, pełna szerokość"
+
+#: ../library/panel/metaboxes.php:59
+msgid "Left sidebar"
+msgstr "Lewy pasek"
+
+#: ../library/panel/metaboxes.php:65
+msgid "Right sidebar"
+msgstr "Prawy pasek"
+
+#: ../library/panel/travelify-custom-control.php:19
+msgid "Change theme background"
+msgstr "Zmień tło motywu"
+
+#: ../library/panel/travelify-custom-control.php:20
+#, fuzzy
+msgid "Click Here"
+msgstr "Kliknij, aby edytować"
+
+#: ../library/panel/travelify-custom-control.php:48
+msgid "Homepage posts categories:"
+msgstr "Kategorie postów na stronie głównej"
+
+#: ../library/panel/travelify-custom-control.php:49
+msgid ""
+"Only posts that belong to the categories selected here will be displayed on "
+"the front page."
+msgstr ""
+"Jedynie posty należące do wybranej kategorii będą wyświetlane na stronie "
+"głównej"
+
+#: ../library/panel/travelify-custom-control.php:54
+msgid "--Disabled--"
+msgstr "--Wyłączono--"
+
+#: ../library/panel/travelify-custom-control.php:147
+msgid "Featured Slider"
+msgstr "Featured Slider"
+
+#: ../library/panel/travelify-custom-control.php:154
+#, fuzzy
+msgid "Slide #"
+msgstr "Liczba elementów slidera"
+
+#: ../library/panel/travelify-custom-control.php:156
+#: ../library/structure/content-extensions.php:840
+msgid "Edit"
+msgstr "Edytuj"
+
+#: ../library/panel/travelify-custom-control.php:166
+msgid "How to use the featured slider?"
+msgstr "Jak używać wyróżnienia wpisów?"
+
+#: ../library/panel/travelify-custom-control.php:168
+msgid "Create Post or Page and add featured image to it."
+msgstr "Utwórz wpis oraz dodaj zdjęcie"
+
+#: ../library/panel/travelify-custom-control.php:169
+msgid ""
+"Add all the Post ID that you want to use in the featured slider. Post ID can "
+"be found at All Posts table in last column"
+msgstr ""
+"Dodaj ID wpisu, który chcesz wyróżnić. ID wpisu znajdziesz w polu Wszystkie "
+"Wpisy w ostatniej kolumnie"
+
+#: ../library/panel/travelify-custom-control.php:170
+msgid ""
+"Featured Slider will show featured images, Title and excerpt of the "
+"respected added post IDs."
+msgstr ""
+"Wyróżniony wpis zostanie pokazany na stronie głównej w formie slajdu "
+"zawierającego zdjęcie i tytuł"
+
+#: ../library/panel/travelify-custom-control.php:171
+msgid "The recommended image size is"
+msgstr "Rekomendowany rozmiar zdjęcia to"
+
+#: ../library/panel/travelify-custom-control.php:190
+msgid "Other Themes"
+msgstr "Pozostałe motywy"
+
+#: ../library/panel/travelify-custom-control.php:194
+msgid "Rate this Theme"
+msgstr "Oceń ten motyw"
+
+#: ../library/panel/travelify-custom-control.php:198
+msgid "Theme Instructions"
+msgstr "Instrukcje motywu"
+
+#: ../library/panel/travelify-custom-control.php:202
+#, fuzzy
+msgid "Rate This Theme"
+msgstr "Oceń ten motyw"
+
+#: ../library/panel/travelify-custom-control.php:206
+msgid "Support"
+msgstr "Wsparcie"
+
+#: ../library/panel/travelify-custom-control.php:210
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../library/panel/travelify-custom-control.php:214
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "No Comments"
+msgstr "Brak odpowiedzi"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "1 Comment"
+msgstr "1 odpowiedź"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "% Comments"
+msgstr "% odpowiedzi"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "Comments Off"
+msgstr "Wyłączono możliwość komentowania"
+
+#: ../library/structure/content-extensions.php:151
+#: ../library/structure/content-extensions.php:467
+#: ../library/structure/content-extensions.php:578
+#: ../library/structure/content-extensions.php:663
+msgid "Read more"
+msgstr "Więcej"
+
+#: ../library/structure/content-extensions.php:166
+#: ../library/structure/content-extensions.php:237
+#: ../library/structure/content-extensions.php:335
+#: ../library/structure/content-extensions.php:386
+#: ../library/structure/content-extensions.php:495
+#: ../library/structure/content-extensions.php:605
+#: ../library/structure/content-extensions.php:716
+msgid "No Posts Found."
+msgstr "Nie znaleziono wpisów"
+
+#: ../library/structure/content-extensions.php:206
+#: ../library/structure/content-extensions.php:304
+#: ../library/structure/content-extensions.php:666
+msgid "Pages:"
+msgstr "Strony:"
+
+#: ../library/structure/content-extensions.php:292
+msgid ", "
+msgstr ", "
+
+#: ../library/structure/content-extensions.php:486
+#: ../library/structure/content-extensions.php:596
+#: ../library/structure/content-extensions.php:707
+#: ../library/structure/content-extensions.php:743
+#: ../library/structure/content-extensions.php:763
+msgid "&laquo; Previous"
+msgstr "&laquo; Poprzedni"
+
+#: ../library/structure/content-extensions.php:487
+#: ../library/structure/content-extensions.php:597
+#: ../library/structure/content-extensions.php:708
+#: ../library/structure/content-extensions.php:744
+#: ../library/structure/content-extensions.php:764
+msgid "Next &raquo;"
+msgstr "Następny &raquo;"
+
+#: ../library/structure/content-extensions.php:808
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: ../library/structure/content-extensions.php:808
+msgid "(Edit)"
+msgstr "Edytuj"
+
+#: ../library/structure/content-extensions.php:823
+msgid "Post author"
+msgstr "Autor"
+
+#: ../library/structure/content-extensions.php:829
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s o %2$s"
+
+#: ../library/structure/content-extensions.php:835
+msgid "Your comment is awaiting moderation."
+msgstr "Twój komentarz oczekuje na moderację"
+
+#: ../library/structure/content-extensions.php:844
+msgid "Reply"
+msgstr "Odpowiedz"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Copyright &copy;"
+msgstr "Copyright &copy;"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Theme by"
+msgstr "Theme by"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Powered by"
+msgstr "Powered by"
+
+#: ../library/structure/header-extensions.php:44
+#, php-format
+msgid "Page %s"
+msgstr "Strona %s"
+
+#: ../library/structure/header-extensions.php:353
+msgid "Search Results"
+msgstr "Wynik wyszukiwania"
+
+#: ../searchform.php:7 ../searchform.php:8
+msgid "Search"
+msgstr "Szukaj"
+
+#~ msgid "Theme Options"
+#~ msgstr "Opcje motywu"
+
+#~ msgid "Theme Options by"
+#~ msgstr "Opcje motywu przez"
+
+#~ msgid "Theme Instruction"
+#~ msgstr "Instrukcja motywu"
+
+#~ msgid "Support Forum"
+#~ msgstr "Support Forum"
+
+#~ msgid "Settings saved."
+#~ msgstr "Zapisano ustawienia"
+
+#~ msgid "Other"
+#~ msgstr "Pozostałe"
+
+#~ msgid "Upload Logo"
+#~ msgstr "Dodaj logo"
+
+#~ msgid "Preview"
+#~ msgstr "Podgląd"
+
+#~ msgid "Save All Changes"
+#~ msgstr "Zapisz wszystkie zmiany"
+
+#~ msgid "Favicon Options"
+#~ msgstr "Opcje Favicona"
+
+#~ msgid "Disable Favicon"
+#~ msgstr "Wyłącz Favicon"
+
+#~ msgid "Favicon URL"
+#~ msgstr "URL Favicona"
+
+#~ msgid "Upload Favicon"
+#~ msgstr "Dodaj Favicon"
+
+#~ msgid ""
+#~ "Favicon is this tiny icon you see beside URL in your browser address bar"
+#~ msgstr ""
+#~ "Favicon to mała ikonka, którą widzisz obok adresu URL w przeglądarce"
+
+#~ msgid "favicon"
+#~ msgstr "favicon"
+
+#~ msgid "Web Clip Icon Options"
+#~ msgstr "Ustawienia ikony strony"
+
+#~ msgid "Disable Web Clip Icon"
+#~ msgstr "Wyłącz ikonę strony"
+
+#~ msgid "Web Clip Icon URL"
+#~ msgstr "Adres URL ikony strony"
+
+#~ msgid "Upload Web Clip Icon"
+#~ msgstr "Dodaj ikonę strony"
+
+#~ msgid "Web Clip works as shortcut to website on iOS devices home screen"
+#~ msgstr "Ikona strony służy jako skrót w systemie iOS"
+
+#~ msgid "webpage icon"
+#~ msgstr "ikona strony"
+
+#~ msgid "Default Layout"
+#~ msgstr "Domyślny wygląd"
+
+#~ msgid "Reset Layout"
+#~ msgstr "Przywróć wygląd domyślny"
+
+#~ msgid "Custom Background"
+#~ msgstr "Dopasuj tło"
+
+#~ msgid "<a class=\"button\" href=\"%s\">Click here</a>"
+#~ msgstr "<a class=\"button\" href=\"%s\">Click here</a>"
+
+#~ msgid "Check to exclude"
+#~ msgstr "Zaznacz, aby wyłączyć"
+
+#~ msgid "Disable Slider"
+#~ msgstr "Wyłącz wyróżnienie wpisu"
+
+#~ msgid "second(s)"
+#~ msgstr "sekund"
+
+#~ msgid "Custom CSS (Advanced)"
+#~ msgstr "Dostosuj CSS (zaawansowane)"
+
+#~ msgid "Make sure you know what you are doing."
+#~ msgstr "Upewnij się, że wiesz co robisz"

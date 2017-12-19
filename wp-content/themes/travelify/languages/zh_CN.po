@@ -1,0 +1,760 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Travelify\n"
+"POT-Creation-Date: 2015-10-02 12:40+0300\n"
+"PO-Revision-Date: 2015-10-02 12:40+0300\n"
+"Last-Translator: Aigars Silkalns <a.silkalns@gmail.com>\n"
+"Language-Team: Color Awesomeness <info@colorawesomeness.com>\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-KeywordsList: __;esc_attr_e;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../404.php:11
+msgid "Error 404 - Page NOT Found"
+msgstr "404 错误 - 页面未找到"
+
+#: ../404.php:14
+msgid "It seems we can't find what you're looking for."
+msgstr "好像没有发现您要找的东西"
+
+#: ../404.php:15
+msgid "This might be because:"
+msgstr "可能是因为："
+
+#: ../404.php:17
+msgid "You have typed the web address incorrectly"
+msgstr "您输入的网页地址不正确"
+
+#: ../404.php:18
+msgid "The page you were looking for may have been moved, updated or deleted."
+msgstr "你要查找的页面可能被移动，更新或者删除了！"
+
+#: ../404.php:20
+msgid "Please try the following:"
+msgstr "请尝试下列方法："
+
+#: ../404.php:22
+msgid "Check for a mis-typed URL error"
+msgstr "检查错误的 URL 输入"
+
+#: ../404.php:23
+msgid "Press the refresh button on your browser."
+msgstr "按下浏览器上的刷新按钮"
+
+#: ../404.php:24
+msgid "Go back to"
+msgstr "返回到"
+
+#: ../404.php:24
+msgid "Homepage"
+msgstr "主页"
+
+#: ../comments.php:24
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "1 条思考于 &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:27
+#, php-format
+msgid "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr "%1$s 条思考于 &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:38
+msgid "Comment navigation"
+msgstr "评论导航"
+
+#: ../comments.php:39
+msgid "&larr; Older Comments"
+msgstr "&larr; 更旧的评论"
+
+#: ../comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr "更新的评论 &rarr;"
+
+#: ../comments.php:47
+msgid "Comments are closed."
+msgstr "评论已关闭"
+
+#: ../functions.php:75
+msgid "Primary Menu"
+msgstr "主菜单"
+
+#: ../library/functions/customizer.php:17
+#, fuzzy
+msgid "Travelify Main Options"
+msgstr "主选项"
+
+#: ../library/functions/customizer.php:18
+#: ../library/functions/customizer.php:338
+msgid "Panel to update travelify theme options"
+msgstr ""
+
+#: ../library/functions/customizer.php:24
+#, fuzzy
+msgid "Travelify Header Area"
+msgstr "仅标题 Logo"
+
+#: ../library/functions/customizer.php:25
+msgid "Use the following settings change color for menu and website title"
+msgstr ""
+
+#: ../library/functions/customizer.php:34
+msgid "Website Title Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:45
+msgid "Website Title Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:56
+#, fuzzy
+msgid "Menu Bar Color"
+msgstr "主菜单"
+
+#: ../library/functions/customizer.php:66
+msgid "Menu Bar Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:76
+msgid "Menu Item Text Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:87
+#, fuzzy
+msgid "Social Icon Color"
+msgstr "社群圖示顏色"
+
+#: ../library/functions/customizer.php:95
+msgid "Travelify Element Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:96
+msgid "Use the following settings change color for website elements"
+msgstr ""
+
+#: ../library/functions/customizer.php:105
+#, fuzzy
+msgid "Element Color"
+msgstr "元素顏色"
+
+#: ../library/functions/customizer.php:116
+msgid "Element Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:127
+msgid "Wrapper Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:138
+#, fuzzy
+msgid "Content Background Color"
+msgstr "修改主题背景"
+
+#: ../library/functions/customizer.php:146
+msgid "Travelify Typography Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:147
+msgid ""
+"Use the following settings change color for typography such as links, "
+"headings and content"
+msgstr ""
+
+#: ../library/functions/customizer.php:156
+msgid "Entry Content Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:166
+#, fuzzy
+msgid "Header/Title Color"
+msgstr "仅标题 Logo"
+
+#: ../library/functions/customizer.php:177
+#, fuzzy
+msgid "Link Color"
+msgstr "超連結顏色"
+
+#: ../library/functions/customizer.php:188
+#, fuzzy
+msgid "Link Hover Color"
+msgstr "超連結顏色（滑鼠滑入）"
+
+#: ../library/functions/customizer.php:196
+#, fuzzy
+msgid "Travelify Footer"
+msgstr "页脚"
+
+#: ../library/functions/customizer.php:197
+msgid "Use the following settings customize Footer"
+msgstr ""
+
+#: ../library/functions/customizer.php:206
+#, fuzzy
+msgid "Copyright text"
+msgstr "Copyright &copy;"
+
+#: ../library/functions/customizer.php:216
+msgid "Header Options"
+msgstr "标题选项"
+
+#: ../library/functions/customizer.php:217
+msgid "Section to update theme options for header"
+msgstr ""
+
+#: ../library/functions/customizer.php:227
+msgid "Header Logo"
+msgstr "标题 Logo"
+
+#: ../library/functions/customizer.php:240
+msgid "Show"
+msgstr "显示"
+
+#: ../library/functions/customizer.php:243
+msgid "Header Logo Only"
+msgstr "仅标题 Logo"
+
+#: ../library/functions/customizer.php:244
+msgid "Header Text Only"
+msgstr "仅标题文字"
+
+#: ../library/functions/customizer.php:245
+msgid "Disable"
+msgstr "禁用"
+
+#: ../library/functions/customizer.php:254
+msgid "Layout Options"
+msgstr "布局选项"
+
+#: ../library/functions/customizer.php:264
+msgid ""
+"This will set the default layout style. However, you can choose different "
+"layout for each page via editor"
+msgstr ""
+"本选项将设置默认布局风格，不过，你也可以在页面编辑器里为特定页面重新选择不同"
+"的布局"
+
+#: ../library/functions/customizer.php:269
+msgid "No Sidebar"
+msgstr "无侧边栏"
+
+#: ../library/functions/customizer.php:270
+msgid "No Sidebar, Full Width"
+msgstr "无侧边栏，全宽"
+
+#: ../library/functions/customizer.php:271 ../library/panel/metaboxes.php:53
+msgid "No Sidebar, One Column"
+msgstr "无侧边栏，单栏布局"
+
+#: ../library/functions/customizer.php:272
+#: ../library/functions/functions.php:327
+msgid "Left Sidebar"
+msgstr "左边栏"
+
+#: ../library/functions/customizer.php:273
+#: ../library/functions/functions.php:338
+msgid "Right Sidebar"
+msgstr "右边栏"
+
+#: ../library/functions/customizer.php:285
+#, fuzzy
+msgid "Check to reset Layout"
+msgstr "勾选以重置"
+
+#: ../library/functions/customizer.php:296
+msgid "RSS URL"
+msgstr "RSS 地址（URL）"
+
+#: ../library/functions/customizer.php:297
+msgid "Enter your preferred RSS URL. (Feedburner or other)"
+msgstr "输入您的 RSS 地址（URL）（Feedburner 或者其他）"
+
+#: ../library/functions/customizer.php:307
+msgid "Feed Redirect URL"
+msgstr "订阅重定向地址（URL)"
+
+#: ../library/functions/customizer.php:316
+msgid "Homepage Post Options"
+msgstr "主页文章选项"
+
+#: ../library/functions/customizer.php:327
+msgid ""
+"You may select multiple categories by holding down the CTRL (Windows) or cmd "
+"(Mac)."
+msgstr "您可以通过按住 CTRL（Windows）或者 cmd（Mac）来选择多个分类"
+
+#: ../library/functions/customizer.php:337
+#, fuzzy
+msgid "Travelify Featured Slider"
+msgstr "特色滑块"
+
+#: ../library/functions/customizer.php:345
+msgid "Featured Post/Page Slider Options"
+msgstr "特色文章或特色页面滑块选项"
+
+#: ../library/functions/customizer.php:355
+#, fuzzy
+msgid "Check to exclude slider post from Homepage posts"
+msgstr "是否排除主页上已显示的文章？"
+
+#: ../library/functions/customizer.php:372
+#, fuzzy
+msgid "Number of slides"
+msgstr "滑块数量"
+
+#: ../library/functions/customizer.php:383
+msgid "Slider Options"
+msgstr "滑块选项"
+
+#: ../library/functions/customizer.php:393
+#, fuzzy
+msgid "Check to disable Slider"
+msgstr "勾选以禁用"
+
+#: ../library/functions/customizer.php:406
+#, fuzzy
+msgid "Transition Effect"
+msgstr "过渡特效"
+
+#: ../library/functions/customizer.php:431
+#, fuzzy
+msgid "Transition delay( in second(s) )"
+msgstr "过渡延迟"
+
+#: ../library/functions/customizer.php:442
+#, fuzzy
+msgid "Transition length (in second(s))"
+msgstr "过渡时长"
+
+#: ../library/functions/customizer.php:451
+#, fuzzy
+msgid "Travelify Social Links"
+msgstr "社交链接"
+
+#: ../library/functions/customizer.php:452
+msgid "Enter URLs for your social networks e.g."
+msgstr "输入您的社交网络地址（URL），比如："
+
+#: ../library/functions/customizer.php:466
+#, fuzzy, php-format
+msgid "%s"
+msgstr "秒"
+
+#: ../library/functions/customizer.php:478
+#, fuzzy
+msgid "Travelify Other Options"
+msgstr "页脚"
+
+#: ../library/functions/customizer.php:479
+msgid "Enter your custom CSS styles."
+msgstr "输入您的自定义样式（CSS）"
+
+#: ../library/functions/customizer.php:488
+msgid "This CSS will overwrite the CSS of style.css file."
+msgstr "这里的 CSS 将会覆盖 style.css 文件中的样式"
+
+#: ../library/functions/customizer.php:498
+msgid "Travelify Important Links"
+msgstr ""
+
+#: ../library/functions/functions.php:275
+msgid "Navigation"
+msgstr "导航"
+
+#: ../library/functions/functions.php:329
+msgid "Shows widgets at Left side."
+msgstr "在左侧显示小工具"
+
+#: ../library/functions/functions.php:340
+msgid "Shows widgets at Right side."
+msgstr "在右侧显示小工具"
+
+#: ../library/functions/functions.php:349
+msgid "Footer"
+msgstr "页脚"
+
+#: ../library/functions/functions.php:351
+msgid "Shows widgets at footer."
+msgstr "在页脚显示小工具"
+
+#: ../library/functions/shortcodes.php:18
+msgid "WordPress"
+msgstr ""
+
+#: ../library/functions/shortcodes.php:27
+msgid "Colorlib"
+msgstr ""
+
+#: ../library/panel/metaboxes.php:16
+msgid ""
+"Select layout for this specific Page only ( Note: This setting only reflects "
+"if page Template is set as Default Template and Blog Type Templates.)"
+msgstr ""
+"为本页面指定布局（提示：本设置仅在页面模板被设置为默认模板或博客类型模板时生"
+"效）"
+
+#: ../library/panel/metaboxes.php:22
+msgid "Select layout for this specific Post only"
+msgstr "仅为本文选择布局"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Default Layout Set in"
+msgstr "默认布局，相关设定可查看"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Theme Settings"
+msgstr "主题设置"
+
+#: ../library/panel/metaboxes.php:41
+msgid "No sidebar"
+msgstr "无侧边栏"
+
+#: ../library/panel/metaboxes.php:47
+msgid "No sidebar, Full Width"
+msgstr "无侧边栏，全宽"
+
+#: ../library/panel/metaboxes.php:59
+msgid "Left sidebar"
+msgstr "左边栏"
+
+#: ../library/panel/metaboxes.php:65
+msgid "Right sidebar"
+msgstr "右边栏"
+
+#: ../library/panel/travelify-custom-control.php:19
+msgid "Change theme background"
+msgstr "修改主题背景"
+
+#: ../library/panel/travelify-custom-control.php:20
+#, fuzzy
+msgid "Click Here"
+msgstr "<a class=\"button\" href=\"%s\">点击这里</a>"
+
+#: ../library/panel/travelify-custom-control.php:48
+msgid "Homepage posts categories:"
+msgstr "主页文章分类"
+
+#: ../library/panel/travelify-custom-control.php:49
+msgid ""
+"Only posts that belong to the categories selected here will be displayed on "
+"the front page."
+msgstr "仅在主页显示这里所选择的文章分类"
+
+#: ../library/panel/travelify-custom-control.php:54
+msgid "--Disabled--"
+msgstr "--禁用--"
+
+#: ../library/panel/travelify-custom-control.php:147
+msgid "Featured Slider"
+msgstr "特色滑块"
+
+#: ../library/panel/travelify-custom-control.php:154
+#, fuzzy
+msgid "Slide #"
+msgstr "特色滑块 #"
+
+#: ../library/panel/travelify-custom-control.php:156
+#: ../library/structure/content-extensions.php:840
+msgid "Edit"
+msgstr "编辑"
+
+#: ../library/panel/travelify-custom-control.php:166
+msgid "How to use the featured slider?"
+msgstr "怎样使用特色滑块？"
+
+#: ../library/panel/travelify-custom-control.php:168
+msgid "Create Post or Page and add featured image to it."
+msgstr "创建文章或页面并在其中添加特色图片"
+
+#: ../library/panel/travelify-custom-control.php:169
+msgid ""
+"Add all the Post ID that you want to use in the featured slider. Post ID can "
+"be found at All Posts table in last column"
+msgstr ""
+"将您要显示的文章的 ID 添加到特色滑块中，文章 ID 可以在菜单 文章 --> 所有文章 "
+"下的最后一栏找到"
+
+#: ../library/panel/travelify-custom-control.php:170
+msgid ""
+"Featured Slider will show featured images, Title and excerpt of the "
+"respected added post IDs."
+msgstr "特色滑块将显示特色图片，标题以及相应文章的摘要"
+
+#: ../library/panel/travelify-custom-control.php:171
+msgid "The recommended image size is"
+msgstr "推荐的图片尺寸是"
+
+#: ../library/panel/travelify-custom-control.php:190
+#, fuzzy
+msgid "Other Themes"
+msgstr "其他"
+
+#: ../library/panel/travelify-custom-control.php:194
+msgid "Rate this Theme"
+msgstr "为本主题投票"
+
+#: ../library/panel/travelify-custom-control.php:198
+msgid "Theme Instructions"
+msgstr "主题说明"
+
+#: ../library/panel/travelify-custom-control.php:202
+#, fuzzy
+msgid "Rate This Theme"
+msgstr "为本主题投票"
+
+#: ../library/panel/travelify-custom-control.php:206
+msgid "Support"
+msgstr "技术支持"
+
+#: ../library/panel/travelify-custom-control.php:210
+#, fuzzy
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../library/panel/travelify-custom-control.php:214
+#, fuzzy
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "No Comments"
+msgstr "没有评论"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "1 Comment"
+msgstr "1 条评论"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "% Comments"
+msgstr "% 条评论"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "Comments Off"
+msgstr "评论已关闭"
+
+#: ../library/structure/content-extensions.php:151
+#: ../library/structure/content-extensions.php:467
+#: ../library/structure/content-extensions.php:578
+#: ../library/structure/content-extensions.php:663
+msgid "Read more"
+msgstr "继续阅读"
+
+#: ../library/structure/content-extensions.php:166
+#: ../library/structure/content-extensions.php:237
+#: ../library/structure/content-extensions.php:335
+#: ../library/structure/content-extensions.php:386
+#: ../library/structure/content-extensions.php:495
+#: ../library/structure/content-extensions.php:605
+#: ../library/structure/content-extensions.php:716
+msgid "No Posts Found."
+msgstr "没发现任何文章"
+
+#: ../library/structure/content-extensions.php:206
+#: ../library/structure/content-extensions.php:304
+#: ../library/structure/content-extensions.php:666
+msgid "Pages:"
+msgstr "页面："
+
+#: ../library/structure/content-extensions.php:292
+msgid ", "
+msgstr ""
+
+#: ../library/structure/content-extensions.php:486
+#: ../library/structure/content-extensions.php:596
+#: ../library/structure/content-extensions.php:707
+#: ../library/structure/content-extensions.php:743
+#: ../library/structure/content-extensions.php:763
+msgid "&laquo; Previous"
+msgstr "&laquo; 上一篇"
+
+#: ../library/structure/content-extensions.php:487
+#: ../library/structure/content-extensions.php:597
+#: ../library/structure/content-extensions.php:708
+#: ../library/structure/content-extensions.php:744
+#: ../library/structure/content-extensions.php:764
+msgid "Next &raquo;"
+msgstr "下一篇 &raquo;"
+
+#: ../library/structure/content-extensions.php:808
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: ../library/structure/content-extensions.php:808
+msgid "(Edit)"
+msgstr "（编辑）"
+
+#: ../library/structure/content-extensions.php:823
+msgid "Post author"
+msgstr "文章作者"
+
+#: ../library/structure/content-extensions.php:829
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s 于 %2$s"
+
+#: ../library/structure/content-extensions.php:835
+msgid "Your comment is awaiting moderation."
+msgstr "您的评论需要审核，审核通过后将会自动显示"
+
+#: ../library/structure/content-extensions.php:844
+msgid "Reply"
+msgstr "回复"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Copyright &copy;"
+msgstr "Copyright &copy;"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Theme by"
+msgstr "主题作者:"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Powered by"
+msgstr " 光荣地使用"
+
+#: ../library/structure/header-extensions.php:44
+#, php-format
+msgid "Page %s"
+msgstr "页面 %s"
+
+#: ../library/structure/header-extensions.php:353
+msgid "Search Results"
+msgstr "搜索结果"
+
+#: ../searchform.php:7 ../searchform.php:8
+msgid "Search"
+msgstr "搜索"
+
+#~ msgid "Theme Options"
+#~ msgstr "主题选项"
+
+#~ msgid "Theme Options by"
+#~ msgstr "Theme Options by"
+
+#, fuzzy
+#~ msgid "Theme Instruction"
+#~ msgstr "主题作者:"
+
+#, fuzzy
+#~ msgid "Support Forum"
+#~ msgstr "技术支持"
+
+#~ msgid "Settings saved."
+#~ msgstr "设置已保存"
+
+#~ msgid "Other"
+#~ msgstr "其他"
+
+#, fuzzy
+#~ msgid "Upload Logo"
+#~ msgstr "标题 Logo"
+
+#~ msgid "Preview"
+#~ msgstr "预览"
+
+#~ msgid "Save All Changes"
+#~ msgstr "保存所有变更"
+
+#~ msgid "Favicon Options"
+#~ msgstr "Favicon 选项"
+
+#~ msgid "Disable Favicon"
+#~ msgstr "禁用 Favicon"
+
+#~ msgid "Favicon URL"
+#~ msgstr "Favicon 地址（URL)"
+
+#, fuzzy
+#~ msgid "Upload Favicon"
+#~ msgstr "favicon"
+
+#~ msgid ""
+#~ "Favicon is this tiny icon you see beside URL in your browser address bar"
+#~ msgstr ""
+#~ "Favicon 就是浏览器地址栏中显示在 URL 旁边的小图标（或者选项卡标题左边的小"
+#~ "图标）"
+
+#~ msgid "favicon"
+#~ msgstr "favicon"
+
+#~ msgid "Web Clip Icon Options"
+#~ msgstr "网页剪辑选项"
+
+#~ msgid "Disable Web Clip Icon"
+#~ msgstr "禁用网页剪辑图标"
+
+#~ msgid "Web Clip Icon URL"
+#~ msgstr "网页剪辑地址（URL）"
+
+#, fuzzy
+#~ msgid "Upload Web Clip Icon"
+#~ msgstr "网页剪辑选项"
+
+#~ msgid "Web Clip works as shortcut to website on iOS devices home screen"
+#~ msgstr "网页剪辑就是 iOS 设备主屏幕上网站的快捷方式"
+
+#~ msgid "webpage icon"
+#~ msgstr "网页图标"
+
+#~ msgid "Default Layout"
+#~ msgstr "默认布局"
+
+#~ msgid "Reset Layout"
+#~ msgstr "重置布局"
+
+#~ msgid "Custom Background"
+#~ msgstr "自定义背景"
+
+#~ msgid "<a class=\"button\" href=\"%s\">Click here</a>"
+#~ msgstr "<a class=\"button\" href=\"%s\">点击这里</a>"
+
+#~ msgid "Check to exclude"
+#~ msgstr "勾选以排除"
+
+#~ msgid "Disable Slider"
+#~ msgstr "禁用滑块"
+
+#~ msgid "second(s)"
+#~ msgstr "秒"
+
+#~ msgid "Custom CSS (Advanced)"
+#~ msgstr "自定义样式表（CSS）（高级）"
+
+#~ msgid "Make sure you know what you are doing."
+#~ msgstr "请确认您知道您在做什么"
+
+#~ msgid "Custom Scripts"
+#~ msgstr "自定义脚本"
+
+#~ msgid "Code to display on Header"
+#~ msgstr "要显示在 Header 中的代码"
+
+#~ msgid ""
+#~ "Note: Enter your custom header script (i.e., analytics, social button "
+#~ "scripts). "
+#~ msgstr "提示：输入您的自定义 Header 脚本（比如：analytics，社交按钮脚本）"
+
+#~ msgid "Code to display on Footer"
+#~ msgstr "要显示在 Footer 中的代码"

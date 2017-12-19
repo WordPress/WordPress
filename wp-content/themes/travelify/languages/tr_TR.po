@@ -1,0 +1,765 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Travelify\n"
+"POT-Creation-Date: 2015-10-02 12:40+0300\n"
+"PO-Revision-Date: 2015-10-02 12:40+0300\n"
+"Last-Translator: Aigars Silkalns <a.silkalns@gmail.com>\n"
+"Language-Team: \n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-KeywordsList: __;esc_attr_e;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../404.php:11
+msgid "Error 404 - Page NOT Found"
+msgstr "Hata 404 - Sayfa Bulunamadı"
+
+#: ../404.php:14
+msgid "It seems we can't find what you're looking for."
+msgstr "Biz aradığınızı bulamıyoruz gibi görünüyor."
+
+#: ../404.php:15
+msgid "This might be because:"
+msgstr "Bu olabilir, çünkü:"
+
+#: ../404.php:17
+msgid "You have typed the web address incorrectly"
+msgstr "Yanlış web adresini yazdınız"
+
+#: ../404.php:18
+msgid "The page you were looking for may have been moved, updated or deleted."
+msgstr "Aradığınız sayfa taşınmış, güncellenmiş veya silinmiş olabilir."
+
+#: ../404.php:20
+msgid "Please try the following:"
+msgstr "Lütfen aşağıdakileri deneyin:"
+
+#: ../404.php:22
+msgid "Check for a mis-typed URL error"
+msgstr "Bir yanlış yazdığınız URL hatası kontrolü"
+
+#: ../404.php:23
+msgid "Press the refresh button on your browser."
+msgstr "Tarayıcınızda yenileme düğmesine basın."
+
+#: ../404.php:24
+msgid "Go back to"
+msgstr "Geri dön"
+
+#: ../404.php:24
+msgid "Homepage"
+msgstr "Ana Sayfa"
+
+#: ../comments.php:24
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "Bir düşünce üzerine &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:27
+#, php-format
+msgid "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr "%1$s üzerine düşünceler &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:38
+msgid "Comment navigation"
+msgstr "Yorum navigasyon"
+
+#: ../comments.php:39
+msgid "&larr; Older Comments"
+msgstr "&larr;  Eski Yorumlar"
+
+#: ../comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr "Yeni Yorumlar &rarr;"
+
+#: ../comments.php:47
+msgid "Comments are closed."
+msgstr "Yorumlar kapalı."
+
+#: ../functions.php:75
+msgid "Primary Menu"
+msgstr "İlk Menü"
+
+#: ../library/functions/customizer.php:17
+#, fuzzy
+msgid "Travelify Main Options"
+msgstr "Ana Seçenekler"
+
+#: ../library/functions/customizer.php:18
+#: ../library/functions/customizer.php:338
+msgid "Panel to update travelify theme options"
+msgstr ""
+
+#: ../library/functions/customizer.php:24
+#, fuzzy
+msgid "Travelify Header Area"
+msgstr "Başlık Sadece Logo "
+
+#: ../library/functions/customizer.php:25
+msgid "Use the following settings change color for menu and website title"
+msgstr ""
+
+#: ../library/functions/customizer.php:34
+msgid "Website Title Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:45
+#, fuzzy
+msgid "Website Title Hover Color"
+msgstr "Aşağı düşen vurgulanmış nesne rengi"
+
+#: ../library/functions/customizer.php:56
+#, fuzzy
+msgid "Menu Bar Color"
+msgstr "İlk Menü"
+
+#: ../library/functions/customizer.php:66
+#, fuzzy
+msgid "Menu Bar Hover Color"
+msgstr "Üst navigasyon nesne vurgulanmış rengi"
+
+#: ../library/functions/customizer.php:76
+#, fuzzy
+msgid "Menu Item Text Color"
+msgstr "Eylem için çağır yazı rengi"
+
+#: ../library/functions/customizer.php:87
+#, fuzzy
+msgid "Social Icon Color"
+msgstr "Sosyak ikon rengi"
+
+#: ../library/functions/customizer.php:95
+msgid "Travelify Element Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:96
+msgid "Use the following settings change color for website elements"
+msgstr ""
+
+#: ../library/functions/customizer.php:105
+#, fuzzy
+msgid "Element Color"
+msgstr "Element rengi"
+
+#: ../library/functions/customizer.php:116
+msgid "Element Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:127
+#, fuzzy
+msgid "Wrapper Color"
+msgstr "Element rengi"
+
+#: ../library/functions/customizer.php:138
+#, fuzzy
+msgid "Content Background Color"
+msgstr "Üst navigason arkaplan rengi"
+
+#: ../library/functions/customizer.php:146
+msgid "Travelify Typography Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:147
+msgid ""
+"Use the following settings change color for typography such as links, "
+"headings and content"
+msgstr ""
+
+#: ../library/functions/customizer.php:156
+#, fuzzy
+msgid "Entry Content Color"
+msgstr "Ren seçilmediyse ön ayarlı renk kullanılır"
+
+#: ../library/functions/customizer.php:166
+#, fuzzy
+msgid "Header/Title Color"
+msgstr "Header"
+
+#: ../library/functions/customizer.php:177
+#, fuzzy
+msgid "Link Color"
+msgstr "Bağlantı rengi"
+
+#: ../library/functions/customizer.php:188
+#, fuzzy
+msgid "Link Hover Color"
+msgstr "Bağlantı:vurgulanmış rengi"
+
+#: ../library/functions/customizer.php:196
+#, fuzzy
+msgid "Travelify Footer"
+msgstr "Alt Bölüm"
+
+#: ../library/functions/customizer.php:197
+msgid "Use the following settings customize Footer"
+msgstr ""
+
+#: ../library/functions/customizer.php:206
+#, fuzzy
+msgid "Copyright text"
+msgstr "Site altındaki telif hakkı yazısı"
+
+#: ../library/functions/customizer.php:216
+msgid "Header Options"
+msgstr "Başlık Seçenekleri"
+
+#: ../library/functions/customizer.php:217
+msgid "Section to update theme options for header"
+msgstr ""
+
+#: ../library/functions/customizer.php:227
+msgid "Header Logo"
+msgstr "Başlık Logo"
+
+#: ../library/functions/customizer.php:240
+msgid "Show"
+msgstr "Göster"
+
+#: ../library/functions/customizer.php:243
+msgid "Header Logo Only"
+msgstr "Başlık Sadece Logo "
+
+#: ../library/functions/customizer.php:244
+msgid "Header Text Only"
+msgstr "Başlık Sadece Yazı "
+
+#: ../library/functions/customizer.php:245
+msgid "Disable"
+msgstr "devre dışı"
+
+#: ../library/functions/customizer.php:254
+msgid "Layout Options"
+msgstr "Düzen Seçenekleri"
+
+#: ../library/functions/customizer.php:264
+msgid ""
+"This will set the default layout style. However, you can choose different "
+"layout for each page via editor"
+msgstr ""
+"Bu varsayılan düzen stili koyacaktır. Ancak, editörü ile her sayfa için "
+"farklı bir düzen seçebilirsiniz"
+
+#: ../library/functions/customizer.php:269
+msgid "No Sidebar"
+msgstr "Hayır Kenar Çubuğu"
+
+#: ../library/functions/customizer.php:270
+msgid "No Sidebar, Full Width"
+msgstr "Hayır Kenar Çubuğu, Tam Genişlik"
+
+#: ../library/functions/customizer.php:271 ../library/panel/metaboxes.php:53
+msgid "No Sidebar, One Column"
+msgstr "Kenar Çubuksuz, Tek Kolon"
+
+#: ../library/functions/customizer.php:272
+#: ../library/functions/functions.php:327
+msgid "Left Sidebar"
+msgstr "Sol Kenar Çubuğu"
+
+#: ../library/functions/customizer.php:273
+#: ../library/functions/functions.php:338
+msgid "Right Sidebar"
+msgstr "Sağ Kenar Çubuğu"
+
+#: ../library/functions/customizer.php:285
+#, fuzzy
+msgid "Check to reset Layout"
+msgstr "Resetlemek için kontrol edin"
+
+#: ../library/functions/customizer.php:296
+msgid "RSS URL"
+msgstr "RSS Linki"
+
+#: ../library/functions/customizer.php:297
+msgid "Enter your preferred RSS URL. (Feedburner or other)"
+msgstr "Tercih RSS URL'sini girin. (Feedburner veya başka)"
+
+#: ../library/functions/customizer.php:307
+msgid "Feed Redirect URL"
+msgstr "Yeniden Yönlendirme URLsi"
+
+#: ../library/functions/customizer.php:316
+msgid "Homepage Post Options"
+msgstr "Anasayfa Yazı Seçenekleri"
+
+#: ../library/functions/customizer.php:327
+msgid ""
+"You may select multiple categories by holding down the CTRL (Windows) or cmd "
+"(Mac)."
+msgstr ""
+"CTRL (Windows) veya cmd (Mac) basılı tutarak birden fazla kategori "
+"seçebilirsiniz."
+
+#: ../library/functions/customizer.php:337
+#, fuzzy
+msgid "Travelify Featured Slider"
+msgstr "Öne Slider"
+
+#: ../library/functions/customizer.php:345
+msgid "Featured Post/Page Slider Options"
+msgstr "Öne çıkan Konu / Sayfa Slider Seçenekleri"
+
+#: ../library/functions/customizer.php:355
+#, fuzzy
+msgid "Check to exclude slider post from Homepage posts"
+msgstr "Anasayfa görevlerinden Slider yazı dışla?"
+
+#: ../library/functions/customizer.php:372
+#, fuzzy
+msgid "Number of slides"
+msgstr "Slaytlar Sayısı"
+
+#: ../library/functions/customizer.php:383
+msgid "Slider Options"
+msgstr "Slider Seçenekleri"
+
+#: ../library/functions/customizer.php:393
+#, fuzzy
+msgid "Check to disable Slider"
+msgstr "Devre dışı bırakmak için kontrol edin"
+
+#: ../library/functions/customizer.php:406
+#, fuzzy
+msgid "Transition Effect"
+msgstr "Geçiş Efekti:"
+
+#: ../library/functions/customizer.php:431
+#, fuzzy
+msgid "Transition delay( in second(s) )"
+msgstr "Geçiş Gecikmesi"
+
+#: ../library/functions/customizer.php:442
+#, fuzzy
+msgid "Transition length (in second(s))"
+msgstr "Geçiş Süresi"
+
+#: ../library/functions/customizer.php:451
+#, fuzzy
+msgid "Travelify Social Links"
+msgstr "Sosyal Linkler"
+
+#: ../library/functions/customizer.php:452
+msgid "Enter URLs for your social networks e.g."
+msgstr "Sosyal ağlar için URL'leri girin, örneğin."
+
+#: ../library/functions/customizer.php:466
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: ../library/functions/customizer.php:478
+#, fuzzy
+msgid "Travelify Other Options"
+msgstr "Alt Bölüm"
+
+#: ../library/functions/customizer.php:479
+msgid "Enter your custom CSS styles."
+msgstr "Özel CSS stilleri girin."
+
+#: ../library/functions/customizer.php:488
+msgid "This CSS will overwrite the CSS of style.css file."
+msgstr "Bu CSS style.css dosyasının CSS üzerine yazacaktır."
+
+#: ../library/functions/customizer.php:498
+msgid "Travelify Important Links"
+msgstr ""
+
+#: ../library/functions/functions.php:275
+msgid "Navigation"
+msgstr "Navigasyon"
+
+#: ../library/functions/functions.php:329
+msgid "Shows widgets at Left side."
+msgstr "Sol kenar çubuğunda widget gösterir."
+
+#: ../library/functions/functions.php:340
+msgid "Shows widgets at Right side."
+msgstr "Sağ kenar çubuğunda widget gösterir."
+
+#: ../library/functions/functions.php:349
+msgid "Footer"
+msgstr "Alt Bölüm"
+
+#: ../library/functions/functions.php:351
+msgid "Shows widgets at footer."
+msgstr "Alt Bölümde widget gösterir."
+
+#: ../library/functions/shortcodes.php:18
+msgid "WordPress"
+msgstr "WordPress"
+
+#: ../library/functions/shortcodes.php:27
+msgid "Colorlib"
+msgstr "Colorlib"
+
+#: ../library/panel/metaboxes.php:16
+msgid ""
+"Select layout for this specific Page only ( Note: This setting only reflects "
+"if page Template is set as Default Template and Blog Type Templates.)"
+msgstr ""
+"Özel Sayfa Seçin düzen sadece (Not:. Sayfa Şablon Standart Şablon ve blog "
+"tipi şablonları olarak ayarlanırsa bu ayar sadece yansıtır)"
+
+#: ../library/panel/metaboxes.php:22
+msgid "Select layout for this specific Post only"
+msgstr "Özel yazı için düzeni seçin"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Default Layout Set in"
+msgstr "Standart Düzen Set"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Theme Settings"
+msgstr "Tema Ayarları"
+
+#: ../library/panel/metaboxes.php:41
+msgid "No sidebar"
+msgstr "Kenar Çubuğu Yok"
+
+#: ../library/panel/metaboxes.php:47
+msgid "No sidebar, Full Width"
+msgstr "Kenar çubuğu yok, Tam Genişlik"
+
+#: ../library/panel/metaboxes.php:59
+msgid "Left sidebar"
+msgstr "Sol Kenar Çubuğu"
+
+#: ../library/panel/metaboxes.php:65
+msgid "Right sidebar"
+msgstr "Sağ Kenar Çubuğu"
+
+#: ../library/panel/travelify-custom-control.php:19
+msgid "Change theme background"
+msgstr "Tema arka planını değiştirme"
+
+#: ../library/panel/travelify-custom-control.php:20
+#, fuzzy
+msgid "Click Here"
+msgstr "Düzenlemek için Tıklayın"
+
+#: ../library/panel/travelify-custom-control.php:48
+msgid "Homepage posts categories:"
+msgstr "Anasayfa Yazı Kategorileri:"
+
+#: ../library/panel/travelify-custom-control.php:49
+msgid ""
+"Only posts that belong to the categories selected here will be displayed on "
+"the front page."
+msgstr ""
+"Burada seçilen kategoriye ait sadece yazı ön sayfasında gösterilecektir."
+
+#: ../library/panel/travelify-custom-control.php:54
+msgid "--Disabled--"
+msgstr "--Engelli--"
+
+#: ../library/panel/travelify-custom-control.php:147
+msgid "Featured Slider"
+msgstr "Öne Slider"
+
+#: ../library/panel/travelify-custom-control.php:154
+#, fuzzy
+msgid "Slide #"
+msgstr "Slayt nesnelerinin sayısı"
+
+#: ../library/panel/travelify-custom-control.php:156
+#: ../library/structure/content-extensions.php:840
+msgid "Edit"
+msgstr "Düzenle"
+
+#: ../library/panel/travelify-custom-control.php:166
+msgid "How to use the featured slider?"
+msgstr "Özellikli kaydırma çubuğunu kullanmak nasıl?"
+
+#: ../library/panel/travelify-custom-control.php:168
+msgid "Create Post or Page and add featured image to it."
+msgstr "Mesaj ya da Sayfayı oluşturmak ve buna özellikli görsel eklemek."
+
+#: ../library/panel/travelify-custom-control.php:169
+msgid ""
+"Add all the Post ID that you want to use in the featured slider. Post ID can "
+"be found at All Posts table in last column"
+msgstr ""
+"Eğer özellikli kaydırıcı kullanmak istediğiniz tüm yazı kimliği ekleyin. "
+"Post ID son sütununda Tüm Yazılar masada bulunabilir"
+
+#: ../library/panel/travelify-custom-control.php:170
+msgid ""
+"Featured Slider will show featured images, Title and excerpt of the "
+"respected added post IDs."
+msgstr ""
+"Öne Slider özellikli görüntüleri, Başlık ve saygı ekledi sonrası kimlikleri "
+"alıntı gösterecektir."
+
+#: ../library/panel/travelify-custom-control.php:171
+msgid "The recommended image size is"
+msgstr "Önerilen görüntü boyutu"
+
+#: ../library/panel/travelify-custom-control.php:190
+#, fuzzy
+msgid "Other Themes"
+msgstr "Diğer"
+
+#: ../library/panel/travelify-custom-control.php:194
+msgid "Rate this Theme"
+msgstr "Bu Tema değerlendir"
+
+#: ../library/panel/travelify-custom-control.php:198
+msgid "Theme Instructions"
+msgstr "Tema Talimatlar"
+
+#: ../library/panel/travelify-custom-control.php:202
+#, fuzzy
+msgid "Rate This Theme"
+msgstr "Temayı derecelendir"
+
+#: ../library/panel/travelify-custom-control.php:206
+msgid "Support"
+msgstr "Destek"
+
+#: ../library/panel/travelify-custom-control.php:210
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../library/panel/travelify-custom-control.php:214
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "No Comments"
+msgstr "Yorum Yok"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "1 Comment"
+msgstr "1 Yorum"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "% Comments"
+msgstr "% Yorumlar"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "Comments Off"
+msgstr "Yorumlar Kapalı"
+
+#: ../library/structure/content-extensions.php:151
+#: ../library/structure/content-extensions.php:467
+#: ../library/structure/content-extensions.php:578
+#: ../library/structure/content-extensions.php:663
+msgid "Read more"
+msgstr "Devamını oku"
+
+#: ../library/structure/content-extensions.php:166
+#: ../library/structure/content-extensions.php:237
+#: ../library/structure/content-extensions.php:335
+#: ../library/structure/content-extensions.php:386
+#: ../library/structure/content-extensions.php:495
+#: ../library/structure/content-extensions.php:605
+#: ../library/structure/content-extensions.php:716
+msgid "No Posts Found."
+msgstr "Hiçbir Yazı Bulunamadı."
+
+#: ../library/structure/content-extensions.php:206
+#: ../library/structure/content-extensions.php:304
+#: ../library/structure/content-extensions.php:666
+msgid "Pages:"
+msgstr "Sayfalar:"
+
+#: ../library/structure/content-extensions.php:292
+msgid ", "
+msgstr ", "
+
+#: ../library/structure/content-extensions.php:486
+#: ../library/structure/content-extensions.php:596
+#: ../library/structure/content-extensions.php:707
+#: ../library/structure/content-extensions.php:743
+#: ../library/structure/content-extensions.php:763
+msgid "&laquo; Previous"
+msgstr "&laquo; Önceki"
+
+#: ../library/structure/content-extensions.php:487
+#: ../library/structure/content-extensions.php:597
+#: ../library/structure/content-extensions.php:708
+#: ../library/structure/content-extensions.php:744
+#: ../library/structure/content-extensions.php:764
+msgid "Next &raquo;"
+msgstr "Sonraki &raquo;"
+
+#: ../library/structure/content-extensions.php:808
+msgid "Pingback:"
+msgstr "Geri İzleme:"
+
+#: ../library/structure/content-extensions.php:808
+msgid "(Edit)"
+msgstr "(Düzenle)"
+
+#: ../library/structure/content-extensions.php:823
+msgid "Post author"
+msgstr "Yazının Yazarı"
+
+#: ../library/structure/content-extensions.php:829
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s at %2$s"
+
+#: ../library/structure/content-extensions.php:835
+msgid "Your comment is awaiting moderation."
+msgstr "Yorum moderatör bekliyor"
+
+#: ../library/structure/content-extensions.php:844
+msgid "Reply"
+msgstr "Cevap"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Copyright &copy;"
+msgstr "Copyright &copy;"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Theme by"
+msgstr "Tema by"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Powered by"
+msgstr "Powered by"
+
+#: ../library/structure/header-extensions.php:44
+#, php-format
+msgid "Page %s"
+msgstr "Sayfa %s"
+
+#: ../library/structure/header-extensions.php:353
+msgid "Search Results"
+msgstr "Arama Sonuçları"
+
+#: ../searchform.php:7 ../searchform.php:8
+msgid "Search"
+msgstr "Arama"
+
+#~ msgid "Theme Options"
+#~ msgstr "Tema Seçenekleri"
+
+#~ msgid "Theme Options by"
+#~ msgstr "Tema Seçenekleri by"
+
+#~ msgid "Theme Instruction"
+#~ msgstr "Tema Talimatı"
+
+#~ msgid "Support Forum"
+#~ msgstr "Destek Forumu"
+
+#~ msgid "Settings saved."
+#~ msgstr "Ayarlar kaydedildi."
+
+#~ msgid "Other"
+#~ msgstr "Diğer"
+
+#~ msgid "Upload Logo"
+#~ msgstr "Logo Yükle"
+
+#~ msgid "Preview"
+#~ msgstr "Önizleme"
+
+#~ msgid "Save All Changes"
+#~ msgstr "Tüm Değişiklikleri Kaydet"
+
+#~ msgid "Favicon Options"
+#~ msgstr "Favicon Seçenekleri"
+
+#~ msgid "Disable Favicon"
+#~ msgstr "Favicon Devre Dışı"
+
+#~ msgid "Favicon URL"
+#~ msgstr "Favicon URL"
+
+#~ msgid "Upload Favicon"
+#~ msgstr "Favicon Yükle"
+
+#~ msgid ""
+#~ "Favicon is this tiny icon you see beside URL in your browser address bar"
+#~ msgstr ""
+#~ "Favicon tarayıcınızın adres çubuğuna URL yanında görmek bu küçücük simgesi"
+
+#~ msgid "favicon"
+#~ msgstr "favicon"
+
+#~ msgid "Web Clip Icon Options"
+#~ msgstr "Web Clip Simge Seçenekler"
+
+#~ msgid "Disable Web Clip Icon"
+#~ msgstr "Web Clip Simge Devre Dışı"
+
+#~ msgid "Web Clip Icon URL"
+#~ msgstr "Web Clip Simgesi URL"
+
+#~ msgid "Upload Web Clip Icon"
+#~ msgstr "Web Klip Simgesi Yükle"
+
+#~ msgid "Web Clip works as shortcut to website on iOS devices home screen"
+#~ msgstr ""
+#~ "Web Clip iOS cihazlar, ana ekranda web sitesine kısayol olarak çalışıyor"
+
+#~ msgid "webpage icon"
+#~ msgstr "web sayfası simgesi"
+
+#~ msgid "Default Layout"
+#~ msgstr "Standart Düzen"
+
+#~ msgid "Reset Layout"
+#~ msgstr "Düzeni Resetle"
+
+#~ msgid "Custom Background"
+#~ msgstr "Özel Arkaplan"
+
+#~ msgid "<a class=\"button\" href=\"%s\">Click here</a>"
+#~ msgstr "<a class=\"button\" href=\"%s\">Buraya tıklayın</a>"
+
+#~ msgid "Check to exclude"
+#~ msgstr "Dışlamak için kontrol edin"
+
+#~ msgid "Disable Slider"
+#~ msgstr "Slider Devre Dışı"
+
+#~ msgid "second(s)"
+#~ msgstr "saniye(s)"
+
+#~ msgid "Custom CSS (Advanced)"
+#~ msgstr "Özel CSS (Gelişmiş)"
+
+#~ msgid "Make sure you know what you are doing."
+#~ msgstr "Ne yaptığınızı bildiğinizden emin olun."
+
+#~ msgid "Custom Scripts"
+#~ msgstr "Scripts personalizados"
+
+#~ msgid "Code to display on Header"
+#~ msgstr "Código a mostar en el encabezado"
+
+#~ msgid ""
+#~ "Note: Enter your custom header script (i.e., analytics, social button "
+#~ "scripts). "
+#~ msgstr ""
+#~ "N.B.: introduce tu script del encabezado personalizato (Google Analytics, "
+#~ "redes sociales, etc.)"
+
+#~ msgid "Code to display on Footer"
+#~ msgstr "Código a mostrar en el pie de página"
