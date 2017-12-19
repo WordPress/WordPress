@@ -309,7 +309,7 @@ class WP {
 				} else {
 					foreach ( $this->query_vars[ $wpvar ] as $vkey => $v ) {
 						if ( ! is_object( $v ) ) {
-							$this->query_vars[ $wpvar ][ $vkey ] = (string) $v;
+							$this->query_vars[ $wpvar ][ $vkey ] = (string) json_encode($v);
 						}
 					}
 				}
