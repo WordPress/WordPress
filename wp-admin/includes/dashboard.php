@@ -292,7 +292,7 @@ function wp_dashboard_right_now() {
 			echo ' hidden';
 		}
 		?>
-		"><a href="edit-comments.php?comment_status=moderated" aria-label="<?php esc_attr_e( $aria_label ); ?>"><?php echo $text; ?></a></li>
+		"><a href="edit-comments.php?comment_status=moderated" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php echo $text; ?></a></li>
 		<?php
 	}
 
