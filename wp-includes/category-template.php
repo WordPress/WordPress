@@ -1202,10 +1202,11 @@ function tag_description( $tag = 0 ) {
  * @since 2.8.0
  * @since 4.9.2 The `$taxonomy` parameter was deprecated.
  *
- * @param int $term Optional. Term ID. Will use global term ID by default.
+ * @param int  $term       Optional. Term ID. Will use global term ID by default.
+ * @param null $deprecated Deprecated argument.
  * @return string Term description, available.
  */
-function term_description( $term = 0 ) {
+function term_description( $term = 0, $deprecated = null ) {
 	if ( ! $term && ( is_tax() || is_tag() || is_category() ) ) {
 		$term = get_queried_object();
 		if ( $term ) {
