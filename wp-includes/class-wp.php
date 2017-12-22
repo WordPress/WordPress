@@ -308,7 +308,7 @@ class WP {
 					$this->query_vars[ $wpvar ] = (string) $this->query_vars[ $wpvar ];
 				} else {
 					foreach ( $this->query_vars[ $wpvar ] as $vkey => $v ) {
-						if ( ! is_object( $v ) ) {
+						if ( is_scalar( $v ) ) {
 							$this->query_vars[ $wpvar ][ $vkey ] = (string) $v;
 						}
 					}
