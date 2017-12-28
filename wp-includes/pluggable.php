@@ -1034,7 +1034,10 @@ if ( ! function_exists( 'auth_redirect' ) ) :
 		 */
 		$scheme = apply_filters( 'auth_redirect_scheme', '' );
 
-		if ( $user_id = wp_validate_auth_cookie( '', $scheme ) ) {
+		$current_user = wp_get_current_user();
+	        $user_id = (int) $current_user->ID;
+
+	        if ( $user_id ) {
 			/**
 			 * Fires before the authentication redirect.
 			 *
