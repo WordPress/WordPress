@@ -134,6 +134,15 @@ class WP_Comments_List_Table extends WP_List_Table {
 			'post_type' => $post_type,
 		);
 
+		/**
+		 * Filters the arguments for the comment query in the comments list table.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param array $args An array of get_comments() arguments.
+		 */
+		$args = apply_filters( 'comments_list_table_query_args', $args );
+
 		$_comments = get_comments( $args );
 		if ( is_array( $_comments ) ) {
 			update_comment_cache( $_comments );
