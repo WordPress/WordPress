@@ -5762,8 +5762,10 @@ function wp_delete_file( $file, $directories_unblock = array() ) {
 	 *
 	 * @since 2.1.0
 	 * @param string $file Path to the file to delete.
+	 * @param array $directories_unblock Are directory to unblocked. They are ROOT, WP_CONTENT_DIR, WP_ADMIN_DIR
+	 *                                   and WP_INCLUDE_DIR.
 	 */
-	$delete = apply_filters( 'wp_delete_file', $file );
+	$delete = apply_filters( 'wp_delete_file', $file, $directories_unblock );
 	if ( ! empty( $delete ) ) {
 		@unlink( $delete );
 	}
