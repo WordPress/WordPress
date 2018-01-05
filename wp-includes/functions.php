@@ -5739,13 +5739,28 @@ function wp_validate_boolean( $var ) {
  * @since 4.2.0
  *
  * @param string $file The path to the file to delete.
+ * @param array $directories_unblock Are directory to unblocked. They are ROOT, WP_CONTENT_DIR, WP_ADMIN_DIR
+ *                                   and WP_INCLUDE_DIR.
+ * @return bool Whether the param is invalidated.
  */
-function wp_delete_file( $file ) {
+function wp_delete_file( $file, $directories_unblock = array() ) {
+
+	// Default Filters the path of the file to delete.
+	$path_blocked['ROOT']           = rtrim( ABSPATH, '/' );
+	$path_blocked['WP_CONTENT_DIR'] = WP_CONTENT_DIR;
+	$path_blocked['WP_ADMIN_DIR']   = ABSPATH . 'wp-admin';
+	$path_blocked['WP_INCLUDE_DIR'] = realpath( ABSPATH . WPINC );
+	$path_blocked                   = array_diff_key( $path_blocked, array_flip( $directories_unblock ) );
+	$file_folder_path               = realpath( ltrim( dirname( $file ), '/' ) );
+
+	if ( in_array( $file_folder_path, $path_blocked ) ) {
+		return false;
+	}
+
 	/**
 	 * Filters the path of the file to delete.
 	 *
 	 * @since 2.1.0
-	 *
 	 * @param string $file Path to the file to delete.
 	 */
 	$delete = apply_filters( 'wp_delete_file', $file );
