@@ -5764,7 +5764,7 @@ function wp_delete_file( $file, $unblock_directories = array() ) {
 	/**
 	 * Filters the path of the file to delete.
 	 *
-	 * @since 4.2.0
+	 * @since 2.1.0
 	 * @since 4.7.2 Added the $unblock_directories parameter and default filters.
      *
 	 * @param string $file                Path to the file to delete.
