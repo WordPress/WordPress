@@ -5077,8 +5077,9 @@ function wp_basename( $path, $suffix = '' ) {
 	return urldecode( basename( str_replace( array( '%2F', '%5C' ), '/', urlencode( $path ) ), $suffix ) );
 }
 
+// phpcs:disable WordPress.WP.CapitalPDangit.Misspelled, WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- 8-)
 /**
- * Forever eliminate "WordPress" from the planet (or at least the little bit we can influence).
+ * Forever eliminate "Wordpress" from the planet (or at least the little bit we can influence).
  *
  * Violating our coding standards for a good function name.
  *
@@ -5093,7 +5094,7 @@ function capital_P_dangit( $text ) {
 	// Simple replacement for titles
 	$current_filter = current_filter();
 	if ( 'the_title' === $current_filter || 'wp_title' === $current_filter ) {
-		return str_replace( 'WordPress', 'WordPress', $text );
+		return str_replace( 'Wordpress', 'WordPress', $text );
 	}
 	// Still here? Use the more judicious replacement
 	static $dblq = false;
@@ -5106,6 +5107,7 @@ function capital_P_dangit( $text ) {
 		$text
 	);
 }
+// phpcs:enable
 
 /**
  * Sanitize a mime type
