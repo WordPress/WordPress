@@ -39,4 +39,4 @@
             </div>
         </section>
     </section>
-</body>
+<?php get_footer(); ?>
