@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="dropdown" data-active = "products">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b>Products</b> &nbsp;<i class="fa fa-angle-down hidden-xs hidden-sm"></i></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b>Products</b> &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="https://www.simright.com/apps">Public Cloud Apps</a></li>
                         <li class="sub-app"><a href="https://www.simright.com/apps/simright-simulator">Simulator - Structural Analysis</a></li>
@@ -52,7 +52,7 @@
                 </li>
                 <li class="dropdown" data-active = "model-library">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span><b>Resources</b>&nbsp;<i class="fa fa-angle-down hidden-xs hidden-sm"></i></span>
+                        <span><b>Resources</b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="https://www.simright.com/resources/public-projects">Public Projects</a></li>
@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li class="active" class="dropdown" data-active = "about">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b> About</b>&nbsp;<i class="fa fa-angle-down hidden-xs hidden-sm"></i></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b> About</b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu position-right" role="menu">
                         <li><a href="https://www.simright.com/about_us">About Us</a></li>
                         <li><a href="https://www.simright.com/contact_us">Contact Us</a></li>
