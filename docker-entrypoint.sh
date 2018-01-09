@@ -22,7 +22,7 @@ file_env() {
 	export "$var"="$val"
 	unset "$fileVar"
 }
-
+local "$1" = php-fpm
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	if [ "$(id -u)" = '0' ]; then
 		case "$1" in
