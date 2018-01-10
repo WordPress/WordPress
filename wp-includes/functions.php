@@ -5459,6 +5459,7 @@ function _device_can_upload() {
  */
 function wp_is_stream( $path ) {
 	$wrappers    = stream_get_wrappers();
+	$wrappers    = array_map( 'preg_quote', $wrappers );
 	$wrappers_re = '(' . join( '|', $wrappers ) . ')';
 
 	return preg_match( "!^$wrappers_re://!", $path ) === 1;
