@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Videojs HTML5 Player\n"
+"POT-Creation-Date: 2015-12-09 13:02+1000\n"
+"PO-Revision-Date: 2015-12-09 13:02+1000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: videojs-html5-player.php:50
+msgid "Settings"
+msgstr ""
+
+#: videojs-html5-player.php:62
+msgid "Videojs Settings"
+msgstr ""
+
+#: videojs-html5-player.php:62
+msgid "Videojs HTML5 Player"
+msgstr ""
+
+#: videojs-html5-player.php:68
+#, php-format
+msgid ""
+"For detailed documentation please visit the plugin homepage <a target="
+"\"_blank\" href=\"%s\">here</a>."
+msgstr ""
+
+#: videojs-html5-player.php:115
+msgid "you need to specify the src of the video file"
+msgstr ""
