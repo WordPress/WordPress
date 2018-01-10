@@ -15,7 +15,7 @@ Tags: custom header, fixed width, two columns, widgets
     font-family: 'Glyphicons Halflings';
     src: url('./fonts/glyphicons-halflings-regular.eot');
     src: url('./fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('./fonts/glyphicons-halflings-regular.woff') format('woff'), url('./fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('./fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
-  }
+}
 
 body {
     font-family: Arial, Verdana, Tahoma, "Microsoft YaHei", Sans-serif;
@@ -797,10 +797,6 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.video-list {
-    background-color: #fff;
-}
-
 .video-list .banner {
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
@@ -842,184 +838,128 @@ footer .footer .wechat_qr_code {
     font-size: 20px;
 }
 
-.video-list.main-box>section {
-    background-color: #FAFAFA;
+.video-list .contain-box {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-.video-list.main-box>section .title {
-    height: 217px;
-    width: 100%;
+.video-list .contain-box>div {
     background-color: #fff;
 }
 
-.video-list.main-box>section .title h2 {
-    color: #9C9D9F;
-    font-size: 36px;
-    margin: 0;
-    padding-top: 100px;
-    text-align: center;
+.video-list .contain-box .slide-bar {
+    width: 260px;
+    padding: 20px;
+    margin-right: 30px;
 }
 
-.video-list.main-box>section .title h2:after {
-    content: '';
-    display: block;
-    width: 100px;
-    background-color: #226FA6;
-    border: 1px solid #226fa6;
-    margin: 11px auto;
+.video-list .contain-box .slide-bar .neck-bar-search input {
+    width: 180px;
+    height: 40px;
+    outline: none;
 }
 
-.video-list.main-box>section .about-company {
-    height: 780px;
-    width: 100%;
-    background-image: url("https://oss.simright.com/images/about_us_company.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: norepeat;
+.video-list .contain-box .slide-bar .neck-bar-search button {
+    height: 40px;
+    width: 40px;
 }
 
-.video-list.main-box>section .about-company.cn-characters>div div {
-    padding: 100px 60px;
+.video-list .contain-box .slide-bar ul {
+    padding: 0;
+}
+
+.video-list .contain-box .slide-bar ul li {
+    list-style: none;
+}
+
+.video-list .contain-box .slide-bar ul li a {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    color: #1972A9;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.video-list .contain-box .contain-body {
+    flex: 1;
+    padding: 20px;
+}
+
+.video-list .contain-box .contain-body .list-item h2 {
+    height: 35px;
+    line-height: 35px;
     font-size: 18px;
+    font-weight: bold;
 }
 
-.video-list.main-box>section .about-company.cn-characters>div div p span {
-    font-size: 54px;
+.video-list .contain-box .contain-body .list-item hr {
+    margin-bottom: 30px;
 }
 
-.video-list.main-box>section .about-company>div {
-    max-width: 1200px;
-    height: 100%;
-    margin: 0 auto;
-}
-
-.video-list.main-box>section .about-company>div>div {
-    width: 600px;
-    height: 100%;
-    background-color: rgba(1, 102, 164, 0.8);
-    color: #F3F3F3;
-    font-size: 20px;
-    padding: 186px 60px;
-}
-
-.video-list.main-box>section .about-company>div>div p {
-    line-height: 33px;
-}
-
-.video-list.main-box>section .about-company>div>div p span {
-    font-size: 72px;
-}
-
-.video-list.main-box>section .about-businese {
-    max-width: 1200px;
-    margin: 0 auto;
-    height: 717px;
-    padding: 61px 0;
+.video-list .contain-box .contain-body .list-item .list-contain {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    align-items: inherit;
     flex-wrap: wrap;
-    align-content: space-between;
 }
 
-.video-list.main-box>section .about-businese>div {
-    width: 380px;
-    height: 280px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-    background-repeat: norepeat;
+.video-list .contain-box .contain-body .list-item .list-contain a {
+    display: block;
 }
 
-.video-list.main-box>section .about-businese>div span {
-    font-size: 36px;
-    color: #fff;
+.video-list .contain-box .contain-body .list-item .list-contain .video-item {
+    margin-bottom: 30px;
+    width: 270px;
+    margin-right: 15px;
 }
 
-.video-list.main-box>section .about-businese .businese-new-energy {
-    background-image: url("https://oss.simright.com/images/about_us_new_energe.png");
-}
-
-.video-list.main-box>section .about-businese .businese-civil {
-    background-image: url("https://oss.simright.com/images/about_us_civil.png");
-}
-
-.video-list.main-box>section .about-businese .businese-ai {
-    background-image: url("https://oss.simright.com/images/about_us_ai.png");
-}
-
-.video-list.main-box>section .about-businese .businese-aerospace {
-    background-image: url("https://oss.simright.com/images/about_us_aerospace.png");
-}
-
-.video-list.main-box>section .about-businese .businese-automotive {
-    background-image: url("https://oss.simright.com/images/about_us_automotive.png");
-}
-
-.video-list.main-box>section .about-businese .businese-printing {
-    background-image: url("https://oss.simright.com/images/about_us_3d_printing.png");
-}
-
-.video-list.main-box>section.about-introduce {
+.video-list .contain-box .contain-body .list-item .list-contain .video-item img {
     width: 100%;
-    height: 591px;
-    background-image: url("https://oss.simright.com/images/about_us_introduce.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: norepeat;
+    height: 150px;
 }
 
-.video-list.main-box>section.about-introduce>div {
-    max-width: 1200px;
-    height: 100%;
-    margin: 0 auto;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    background-color: rgba(207, 227, 247, 0.7);
+.video-list .contain-box .contain-body .list-item .list-contain .video-item span {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    font-size: 16px;
+    color: #1972A9;
+    font-weight: bold;
 }
 
-.video-list.main-box>section.about-introduce>div p {
-    max-width: 853px;
-    font-size: 20px;
-    line-height: 33px;
-    color: #5E5E5E;
-}
-
-.video-list.main-box>section.about-introduce>div p span {
-    font-size: 72px;
+.video-list .contain-box .contain-body .list-item .list-contain .video-item p {
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #6F7172;
+    margin-bottom: 0;
 }
 
 @media (max-width: 991px) {
