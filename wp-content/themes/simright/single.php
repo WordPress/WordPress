@@ -4,11 +4,13 @@
         <div class="contain-body">
             <div class="main-contain">
                 <?php if (have_posts()) : the_post(); update_post_caches($posts); ?>
-                    <a href="<?php echo get_option('home'); ?>"<返回视频中心</a>
+                    <a href="<?php echo get_option('home'); ?>"&lt;&lt;返回视频中心</a>
                     <hr/>
                     <div class="list-contain">
-                        <h3 class="title"><?php the_title(); ?></h3>
-                        <p><?php the_time('Y-m-d') ?></p>
+                        <div class="post-header">
+                            <h3 class="title"><?php the_title(); ?></h3>
+                            <p><?php the_time('Y-m-d') ?></p>
+                        </div>
                         <div>
                             <?php the_content(); ?>
                         </div>
