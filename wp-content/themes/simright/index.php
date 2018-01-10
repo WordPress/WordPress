@@ -13,7 +13,7 @@
                     <button type="submit" class="input-group-addon"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
             </form>
-            <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('First_sidebar') ) : ?>
+            <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
                     <?php wp_list_categories('depth=1&title_li=&orderby=id&show_count=1&hide_empty=1&child_of=0'); ?>
                 </ul>
@@ -24,26 +24,18 @@
                 <h2>LATEST</h2>
                 <hr/>
                 <div class="list-contain">
-                    <div class="video-item">
-                        <a href="">
-                            <img src="https://oss.simright.com/images/ss.png" alt="">
-                            <span>使用教程</span>
-                            <p>2017-12-12</p>
-                        </a>
-                    </div>
-                </div>
-            </section>
-            <section class="list-item">
-                <h2>LATEST</h2>
-                <hr/>
-                <div class="list-contain">
-                    <div class="video-item">
-                        <a href="">
-                            <img src="https://oss.simright.com/images/ss.png" alt="">
-                            <span>使用教程</span>
-                            <p>2017-12-12</p>
-                        </a>
-                    </div>
+                    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                        <div class="video-item">
+                            <a href="<?php the_permalink(); ?>">
+                                <img src="<?php bloginfo('template_url'); ?>" alt="">
+                                <span><?php the_title(); ?></span>
+                                <p><?php the_time('Y-m-d') ?></p>
+                            </a>
+                        </div>
+                    <?php endwhile; ?>
+                    <?php else : ?>
+                        <h3 class="title"><a href="#" rel="bookmark">NOT FOUND</a></h3>
+                    <?php endif; ?>
                 </div>
             </section>
         </div>

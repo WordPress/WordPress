@@ -2,7 +2,7 @@
 /** widgets */
 if( function_exists('register_sidebar') ) {
 	register_sidebar(array(
-		'name' => 'First_sidebar',
+		'name' => 'Viedeo_list_classification',
 		'id'  => 'sidebar-1',
 		'before_widget' => '',
 		'after_widget' => '',
