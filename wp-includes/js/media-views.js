@@ -2487,18 +2487,28 @@ var Controller = wp.media.controller,
 	CustomizeImageCropper;
 
 /**
- * wp.media.controller.CustomizeImageCropper
+ * A state for cropping an image in the customizer.
  *
+ * @since 4.3.0
+ *
+ * @constructs wp.media.controller.CustomizeImageCropper
  * @memberOf wp.media.controller
- *
- * A state for cropping an image.
- *
- * @class
- * @augments wp.media.controller.Cropper
- * @augments wp.media.controller.State
- * @augments Backbone.Model
+ * @augments wp.media.controller.CustomizeImageCropper.Cropper
+ * @inheritDoc
  */
 CustomizeImageCropper = Controller.Cropper.extend(/** @lends wp.media.controller.CustomizeImageCropper.prototype */{
+	/**
+	 * Posts the crop details to the admin.
+	 *
+	 * Uses crop measurements when flexible in both directions.
+	 * Constrains flexible side based on image ratio and size of the fixed side.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param {Object} attachment The attachment to crop.
+	 *
+	 * @returns {$.promise} A jQuery promise that represents the crop image request.
+	 */
 	doCrop: function( attachment ) {
 		var cropDetails = attachment.get( 'cropDetails' ),
 			control = this.get( 'control' ),
