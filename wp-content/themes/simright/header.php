@@ -35,7 +35,9 @@
             <nav class="navbar navbar-default" role="navigation">
                 <li data-active = "index">
                     <a href="https://www.simright.com">
-                        <span>Home</span>
+                        <span>
+                            <?php pll_translate_string( 'Home', 'English' ); ?>
+                        </span>
                     </a>
                 </li>
                 <li class="dropdown" data-active = "products">
@@ -78,9 +80,13 @@
                         <li><a href="https://www.simright.com/qualification">公司资质</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <ul>
-                        <?php pll_the_languages(array('dropdown'=>1,)); ?>
+                <li class="dropdown">    
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="open-google-translate">
+                        <span><?php pll_current_language('name'); ?></span>
+                    </a>
+                    <ul class="dropdown-menu position-right" role="menu" id="open-google-translate-menu">
+                        <li><a href="javascript:;" id="lang-en"><?php pll_current_language(array( 'raw' => 0 )); ?></a></li>
+                        <li><a href="javascript:;" id="lang-zh"><?php pll_current_language(array( 'raw' => 1 )); ?></a></li>
                     </ul>
                 </li>
             </nav>
