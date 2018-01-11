@@ -36,7 +36,7 @@
                 <li data-active = "index">
                     <a href="https://www.simright.com">
                         <span>
-                            <?php pll_translate_string( 'Home', 'English' ); ?>
+                        Home
                         </span>
                     </a>
                 </li>
@@ -82,13 +82,25 @@
                 </li>
                 <li class="dropdown">    
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="open-google-translate">
-                        <span><?php pll_current_language(); ?></span>
+                        <span><?php pll_current_language( 'name' ); ?></span>
                     </a>
                     <ul class="dropdown-menu position-right" role="menu" id="open-google-translate-menu">
-                        <li><a href="javascript:;" id="lang-en"><?php pll_the_languages(array( 'raw' => 0 )); ?></a></li>
-                        <li><a href="javascript:;" id="lang-zh"><?php pll_the_languages(array( 'raw' => 1 )); ?></a></li>
+                        <?php pll_the_languages(array( 'raw' => 0 )); ?>
+                        <?php pll_the_languages(array( 'raw' => 1 )); ?>
                     </ul>
                 </li>
             </nav>
         </section>
     </header>
+    <section>
+    <p><b>pll_the_languages()</b><?php pll_the_languages(); ?></p>
+    <p><b>pll_the_languages().name</b><?php pll_the_languages(array( 'raw' => 1 )).['name']; ?></p>
+    <p><b>show_flags</b><?php pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ) ); ?></p>
+    <p><b>show name</b><?php  array( 'show_names' => 1 );  ?></p>
+    <p><b>pll_current_language('name');</b><?php pll_current_language('name'); ?></p>
+    <p><b>pll_current_language('English'');</b><?php pll_current_language('English'); ?></p>
+    <p><b>pll_current_language()</b><?php pll_current_language(); ?></p>
+    <p><b>pll__( $string );</b><?php pll__('test'); ?></p>
+    <p><b>pll_e( $string );</b><?php pll_e('test'); ?></p>
+    <p><b>pll_translate_string( $string, $lang );</b><?php pll_translate_string( 'test','en'); ?></p>
+    </section>
