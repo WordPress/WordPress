@@ -103,4 +103,9 @@
     <p><b>pll__( $string );</b><?php pll__('test'); ?></p>
     <p><b>pll_e( $string );</b><?php pll_e('test'); ?></p>
     <p><b>pll_translate_string( $string, $lang );</b><?php pll_translate_string( 'test','en'); ?></p>
+    <p><?php $ptranslations = pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ,'hide_current'=> 1,'hide_if_no_translation' => 1,'raw' => 1 ) );
+        foreach($ptranslations as $value){
+        echo '<span>'. $value['flag'].' '. $value['name'].'</span>' ;
+        } ?>
+    </p>
     </section>
