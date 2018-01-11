@@ -82,11 +82,11 @@
                 </li>
                 <li class="dropdown">    
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="open-google-translate">
-                        <span><?php pll_current_language('name'); ?></span>
+                        <span><?php pll_current_language(); ?></span>
                     </a>
                     <ul class="dropdown-menu position-right" role="menu" id="open-google-translate-menu">
-                        <li><a href="javascript:;" id="lang-en"><?php pll_current_language(array( 'raw' => 0 )); ?></a></li>
-                        <li><a href="javascript:;" id="lang-zh"><?php pll_current_language(array( 'raw' => 1 )); ?></a></li>
+                        <li><a href="javascript:;" id="lang-en"><?php pll_the_languages(array( 'raw' => 0 )); ?></a></li>
+                        <li><a href="javascript:;" id="lang-zh"><?php pll_the_languages(array( 'raw' => 1 )); ?></a></li>
                     </ul>
                 </li>
             </nav>
