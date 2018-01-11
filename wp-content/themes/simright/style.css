@@ -968,7 +968,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 0;
 }
 .video-details video{
-    max-width: 100px;
+    max-width: 100%;
     margin: 0 auto;
 }
 .video-details .post-header{
@@ -985,16 +985,25 @@ footer .footer .wechat_qr_code {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    padding-bottom: 30px;
 }
 .video-details .post-header h3{
     color: #1972A9;
     font-size: 24px;
+    line-height: 30px;
     font-weight: bold;
+    margin: 0;
 }
 .video-details .post-header p{
     color: #202223;
     font-size: 14px;
+    line-height: 30px;
     font-weight: bold;
+    margin: 0;
+}
+.video-details .main-contain>a{
+    display: block;
+    text-align: right;
 }
 @media (max-width: 991px) {
     header {

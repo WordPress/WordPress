@@ -1,0 +1,701 @@
+# Translation of Stable (latest release) in Indonesian
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-10-09 08:56:35+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Stable (latest release)\n"
+
+#: lingotek/lingotek.php:85
+msgid "Activated"
+msgstr ""
+
+#: lingotek/lingotek.php:85
+msgid "Activate"
+msgstr ""
+
+#: lingotek/lingotek.php:90
+msgid "Request Translation"
+msgstr ""
+
+#: lingotek/lingotek.php:96
+msgid "Request Services"
+msgstr ""
+
+#: lingotek/lingotek.php:103
+msgid "Polylang is now fully integrated with Lingotek, a professional translation management system!"
+msgstr ""
+
+#: lingotek/lingotek.php:106
+msgid "Automatically Translate My Site"
+msgstr ""
+
+#: lingotek/lingotek.php:107
+msgid "Polylang is now fully integrated with Lingotek!"
+msgstr ""
+
+#: lingotek/lingotek.php:109 lingotek/lingotek.php:120
+msgid "Access free machine translation for your site for up to 100,000 characters."
+msgstr ""
+
+#: lingotek/lingotek.php:110
+msgid "Machine translation is an excellent option if you're on a tight budget, looking for near-instant results, and are okay with less-than-perfect quality."
+msgstr ""
+
+#: lingotek/lingotek.php:117
+msgid "Translation Management System"
+msgstr ""
+
+#: lingotek/lingotek.php:118
+msgid "Do you need to connect to a professional translation management system?"
+msgstr ""
+
+#: lingotek/lingotek.php:121
+msgid "Access an online translator workbench."
+msgstr ""
+
+#: lingotek/lingotek.php:122
+msgid "Have linguists compare side-by-side versions of original and translated text."
+msgstr ""
+
+#: lingotek/lingotek.php:123
+msgid "Save and re-use previously translated material (leverage translation memory (TM))."
+msgstr ""
+
+#: lingotek/lingotek.php:130
+msgid "Professionally Translate My Site"
+msgstr ""
+
+#: lingotek/lingotek.php:131
+msgid "Do you need to professionally translate your site?"
+msgstr ""
+
+#: lingotek/lingotek.php:133
+msgid "Start the process of getting a professional translation bid."
+msgstr ""
+
+#: lingotek/lingotek.php:134
+msgid "Activate account so Lingotek can get an accurate count of how many words you have on your site and which languages you wish to translate into."
+msgstr ""
+
+#: lingotek/lingotek.php:135
+msgid "Once activated click on the request translation bid and a certified translation project manager will contact you to give a no obligations translation bid."
+msgstr ""
+
+#: lingotek/lingotek.php:142
+msgid "Need Extra Services?"
+msgstr ""
+
+#: lingotek/lingotek.php:143
+msgid "Do you need help translating your site?"
+msgstr ""
+
+#: lingotek/lingotek.php:145
+msgid "Start the process of getting extra services."
+msgstr ""
+
+#: lingotek/lingotek.php:146
+msgid "Do you need someone to run your localization project?"
+msgstr ""
+
+#: lingotek/lingotek.php:147
+msgid "Do you need customized workflows?"
+msgstr ""
+
+#: lingotek/lingotek.php:148
+msgid "Do you you have existing Translation Memories you would like to use?"
+msgstr ""
+
+#: lingotek/lingotek.php:149
+msgid "Do you need help creating glossaries and terminologies?"
+msgstr ""
+
+#: lingotek/lingotek.php:254
+msgid "Learn more..."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Polylang"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://polylang.wordpress.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Adds multilingual capability to WordPress"
+msgstr "Tambahkan kapabilitas multi-bahasa pada WordPress"
+
+#. Author of the plugin/theme
+msgid "Frédéric Demarle"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://polylang.wordpress.com"
+msgstr ""
+
+#: admin/admin-filters-columns.php:141 admin/admin-filters-columns.php:236
+msgid "Add new translation"
+msgstr "Tambahkan terjemahan baru"
+
+#: admin/admin-filters-columns.php:161
+msgid "&mdash; No Change &mdash;"
+msgstr ""
+
+#: admin/admin-filters-columns.php:174 admin/admin-filters-media.php:55
+#: admin/admin-filters-post.php:159 admin/admin-filters-term.php:85
+#: admin/admin-filters-term.php:136 include/model.php:591
+msgid "Language"
+msgstr "Bahasa"
+
+#: admin/admin-filters-post.php:133 admin/admin.php:96 admin/settings.php:70
+#: admin/settings.php:97 include/model.php:590
+msgid "Languages"
+msgstr "Bahasa"
+
+#: admin/admin-filters-post.php:239
+msgid "(no parent)"
+msgstr ""
+
+#: admin/admin-filters-post.php:474 admin/admin-filters-term.php:763
+#: admin/table-languages.php:65 admin/view-translations-media.php:21
+msgid "Edit"
+msgstr "Sunting"
+
+#: admin/admin-filters-term.php:92 admin/admin-filters-term.php:144
+msgid "Sets the language"
+msgstr "Setel bahasa"
+
+#: admin/admin-filters-term.php:454
+msgid "None"
+msgstr ""
+
+#: admin/admin-filters.php:52
+msgid "The widget is displayed for:"
+msgstr "Widget tersebut ditampilkan untuk:"
+
+#: admin/admin-filters.php:55 include/model.php:592
+msgid "All languages"
+msgstr "Semua bahasa"
+
+#: admin/admin-filters.php:123
+msgid "Admin language"
+msgstr "Bahasa untuk Admin"
+
+#: admin/admin-filters.php:126
+msgid "WordPress default"
+msgstr "Bawaan WordPress (default)"
+
+#: admin/admin-filters.php:160 admin/admin-filters.php:169
+msgid "Upgrading language files&#8230;"
+msgstr "Memperbarui berkas-berkas bahasa&#8230;"
+
+#: admin/admin-filters.php:203
+msgid "The chosen static front page must be translated in all languages."
+msgstr "Halaman depan statis terpilih harus diterjemahkan ke dalam semua bahasa."
+
+#: admin/admin-model.php:38
+msgid "Impossible to add the language."
+msgstr "Tidak dimungkinkan menambah bahasa."
+
+#: admin/admin-model.php:66
+msgid "Language added."
+msgstr "Bahasa ditambahkan."
+
+#: admin/admin-model.php:145
+msgid "Language deleted."
+msgstr "Bahasa dihapus."
+
+#: admin/admin-model.php:224
+msgid "Language updated."
+msgstr "Bahasa diperbarui."
+
+#: admin/admin-model.php:241
+msgid "Enter a valid WordPress locale"
+msgstr "Masukkan lokala (locale) WordPress yang valid."
+
+#: admin/admin-model.php:245
+msgid "The language code contains invalid characters"
+msgstr "Kode bahasa berisi karakter yang tidak valid"
+
+#: admin/admin-model.php:249
+msgid "The language code must be unique"
+msgstr "Kode bahasa harus unik"
+
+#: admin/admin-model.php:254
+msgid "The language must have a name"
+msgstr "Bahasa harus memiliki nama"
+
+#: admin/admin-nav-menu.php:52 admin/admin-nav-menu.php:73
+#: admin/admin-nav-menu.php:76 admin/admin-nav-menu.php:107
+#: admin/admin-nav-menu.php:169 install/upgrade.php:302
+msgid "Language switcher"
+msgstr "Pengalih Bahasa"
+
+#: admin/admin-strings.php:54
+msgid "Site Title"
+msgstr ""
+
+#: admin/admin-strings.php:55
+msgid "Tagline"
+msgstr ""
+
+#: admin/admin-strings.php:56
+msgid "Date Format"
+msgstr ""
+
+#: admin/admin-strings.php:57
+msgid "Time Format"
+msgstr ""
+
+#: admin/admin-strings.php:59
+msgid "Widget title"
+msgstr "Judul widget"
+
+#: admin/admin-strings.php:60
+msgid "Widget text"
+msgstr "Teks widget"
+
+#: admin/admin.php:204 admin/settings.php:102
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: admin/admin.php:312
+msgid "Show all languages"
+msgstr "Tampilkan semua bahasa"
+
+#: admin/admin.php:321
+msgid "Filters content by language"
+msgstr "Pilah konten sesuai bahasa"
+
+#: admin/admin.php:419 admin/settings.php:183
+msgid "The language was created, but the WordPress language file was not downloaded. Please install it manually."
+msgstr "Bahasa telah dibuat, namun file bahasa untuk WordPress belum terunduh. Silahkan menginstalnya secara manual."
+
+#: admin/settings.php:52
+msgid "Recommended plugins"
+msgstr "Daftar plugin yang disarankan"
+
+#: admin/settings.php:62
+msgid "About Polylang"
+msgstr "Tentang Polylang"
+
+#: admin/settings.php:78
+msgid "Strings translations"
+msgstr "Terjemahan string"
+
+#: admin/settings.php:101
+msgid "Strings translation"
+msgstr "Penerjemahan string"
+
+#: admin/settings.php:242
+msgid "Translations updated."
+msgstr "Terjemahan diperbarui."
+
+#: admin/settings.php:300
+msgid "Settings saved."
+msgstr ""
+
+#: admin/settings.php:321
+msgid "Taxonomies"
+msgstr "Taksonomi"
+
+#: admin/settings.php:322
+msgid "Custom fields"
+msgstr "Bidang kustom (custom fields)"
+
+#: admin/settings.php:323
+msgid "Comment status"
+msgstr "Status komentar"
+
+#: admin/settings.php:324
+msgid "Ping status"
+msgstr "Status ping"
+
+#: admin/settings.php:325
+msgid "Sticky posts"
+msgstr "Tulisan-tulisan lekat (sticky posts)"
+
+#: admin/settings.php:326
+msgid "Published date"
+msgstr "Tanggal terbit"
+
+#: admin/settings.php:327
+msgid "Post format"
+msgstr "Format pos"
+
+#: admin/settings.php:328
+msgid "Page parent"
+msgstr "Induk halaman"
+
+#: admin/settings.php:329
+msgid "Page template"
+msgstr "Templet halaman"
+
+#: admin/settings.php:330
+msgid "Page order"
+msgstr "Urutan halaman"
+
+#: admin/settings.php:331
+msgid "Featured image"
+msgstr "Gambar fitur (featured image)"
+
+#: admin/table-languages.php:70
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "Anda akan menghapus permanen bahasa ini. Anda yakin?"
+
+#: admin/table-languages.php:71 admin/table-string.php:168
+msgid "Delete"
+msgstr "Hapus"
+
+#: admin/table-languages.php:85 admin/view-tab-lang.php:55
+msgid "Full name"
+msgstr "Nama bahasa"
+
+#: admin/table-languages.php:86 admin/view-tab-lang.php:61
+msgid "Locale"
+msgstr "Lokala <i>(locale)</i>"
+
+#: admin/table-languages.php:87
+msgid "Code"
+msgstr "Kode"
+
+#: admin/table-languages.php:88 admin/view-tab-lang.php:91
+msgid "Order"
+msgstr "Urutan"
+
+#: admin/table-languages.php:89
+msgid "Flag"
+msgstr "Bendera"
+
+#: admin/table-languages.php:90
+msgid "Posts"
+msgstr "Tulisan (posts)"
+
+#: admin/table-string.php:109
+msgid "String"
+msgstr "String"
+
+#: admin/table-string.php:110
+msgid "Name"
+msgstr "Nama"
+
+#: admin/table-string.php:111
+msgid "Group"
+msgstr "Grup"
+
+#: admin/table-string.php:112 admin/view-translations-media.php:5
+#: admin/view-translations-post.php:5 admin/view-translations-term.php:6
+#: admin/view-translations-term.php:11
+msgid "Translations"
+msgstr "Terjemahan"
+
+#: admin/table-string.php:187
+msgid "View all groups"
+msgstr "Tampilkan semua grup"
+
+#: admin/table-string.php:200
+msgid "Filter"
+msgstr ""
+
+#: admin/view-about.php:3
+msgid "Polylang is provided with an extensive %sdocumentation%s (in English only). It includes information on how to set up your multilingual site and use it on a daily basis, a FAQ, as well as a documentation for programmers to adapt their plugins and themes."
+msgstr "Polylang disediakan beserta %sdokumentasi%s yang lengkap (tapi dalam Bahasa Inggris). Dokumentasi tersebut meliputi informasi tentang cara mengatur situs multi-bahasa Anda dan menggunakannya sehari-hari, sebuah FAQ, serta dokumentasi untuk para programer untuk mengadaptasi plugin dan theme buatan mereka."
+
+#: admin/view-about.php:9
+msgid "You will also find useful information in the %ssupport forum%s. However don't forget to make a search before posting a new topic."
+msgstr "Anda juga akan menemukan informasi bermanfaat di dalam %sforum pendukung (support forum)%s. Walaupun demikian, lakukan terlebih dahulu pencarian mengenai topik Anda yang inginkan sebelum membuat topik baru di forum tersebut."
+
+#: admin/view-about.php:16
+msgid "Polylang is free of charge and is released under the same license as WordPress, the %sGPL%s."
+msgstr "Polylang disediakan gratis dan dirilis di bawah lisensi yang sama dengan WordPress, yaitu %sGPL%s."
+
+#: admin/view-about.php:22
+msgid "If you wonder how you can help the project, just %sread this%s."
+msgstr "Jika Anda ingin tahu bagaimana agar bisa berkontribusi dalam proyek ini, silahkan %sbaca ini%s."
+
+#: admin/view-about.php:27
+msgid "Finally if you like this plugin or if it helps your business, donations to the author are greatly appreciated."
+msgstr "Akhir kata, jika Anda menyukai plugin ini ataupun merasa bahwa plugin ini membantu bisnis Anda, donasi kepada pengembangnya sangat dihargai."
+
+#: admin/view-tab-lang.php:21
+msgid "Edit language"
+msgstr "Sunting bahasa"
+
+#: admin/view-tab-lang.php:21 admin/view-tab-lang.php:103
+msgid "Add new language"
+msgstr "Tambahkan bahasa baru"
+
+#: admin/view-tab-lang.php:37
+msgid "Choose a language"
+msgstr "Pilih sebuah bahasa"
+
+#: admin/view-tab-lang.php:51
+msgid "You can choose a language in the list or directly edit it below."
+msgstr "Anda dapat memilih satu bahasa dari daftar yang ada atau langsung menyuntingnya di bawah ini."
+
+#: admin/view-tab-lang.php:57
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "Sebutan tersebut sebagai nama bahasa  yang akan ditampilkan pada situs Anda (contohnya: Bahasa Indonesia)"
+
+#: admin/view-tab-lang.php:66
+msgid "WordPress Locale for the language (for example: en_US). You will need to install the .mo file for this language."
+msgstr "Lokala WordPress untuk bahasa tersebut (contohnya: id_ID). Anda harus menginstal file .mo untuk bahasa ini."
+
+#: admin/view-tab-lang.php:70
+msgid "Language code"
+msgstr "Kode bahasa"
+
+#: admin/view-tab-lang.php:72
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr "Kode bahasa - sebaiknya 2-letters ISO 639-1  (for example: en)"
+
+#: admin/view-tab-lang.php:76
+msgid "Text direction"
+msgstr "Arah teks"
+
+#: admin/view-tab-lang.php:80
+msgid "left to right"
+msgstr "kiri ke kanan"
+
+#: admin/view-tab-lang.php:85
+msgid "right to left"
+msgstr "kanan ke kiri"
+
+#: admin/view-tab-lang.php:87
+msgid "Choose the text direction for the language"
+msgstr "Pilih arah teks untuk bahasa tersebut"
+
+#: admin/view-tab-lang.php:93
+msgid "Position of the language in the language switcher"
+msgstr "Posisi bahasa dalam Pengalih Bahasa"
+
+#: admin/view-tab-lang.php:103
+msgid "Update"
+msgstr ""
+
+#: admin/view-tab-settings.php:14
+msgid "Default language"
+msgstr "Bahasa bawaan <i>(default)</i>"
+
+#: admin/view-tab-settings.php:29
+msgid "There are posts, pages, categories or tags without language set. Do you want to set them all to default language ?"
+msgstr "Terdapat tulisan, halaman, kategori atau tag tanpa set bahasa. Anda ingin menyetel semua itu ke bahasa bawaan <i>(dafault language)</i>?"
+
+#: admin/view-tab-settings.php:37
+msgid "URL modifications"
+msgstr "Modifikasi URL"
+
+#: admin/view-tab-settings.php:43
+msgid "The language is set from content"
+msgstr "Bahasa disetel dari konten"
+
+#: admin/view-tab-settings.php:46
+msgid "Posts, pages, categories and tags urls are not modified."
+msgstr "URL untuk pos, halaman, kategori dan tag tidak berubah."
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "Bahasa disetel dari nama direktori pada permalink cantik"
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the code in the URL"
+msgstr "Bahasa disetel dari kode pada URL"
+
+#: admin/view-tab-settings.php:54 admin/view-tab-settings.php:63
+#: admin/view-tab-settings.php:109 admin/view-tab-settings.php:118
+msgid "Example:"
+msgstr "Contoh:"
+
+#: admin/view-tab-settings.php:60
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "Bahasa disetel dari nama subdomain pada permalink cantik."
+
+#: admin/view-tab-settings.php:69
+msgid "The language is set from different domains"
+msgstr "Bahasa disetel dari domain yang berbeda."
+
+#: admin/view-tab-settings.php:92
+msgid "Hide URL language information for default language"
+msgstr "Sembunyikan URL informasi bahasa untuk bahasa bawaan <i>(default language)</i>"
+
+#: admin/view-tab-settings.php:106
+msgid "Remove /language/ in pretty permalinks"
+msgstr "Hilangkan /language/ pada permalink cantik"
+
+#: admin/view-tab-settings.php:115
+msgid "Keep /language/ in pretty permalinks"
+msgstr "Biarkan /language/ pada permalink cantik"
+
+#: admin/view-tab-settings.php:130
+msgid "The front page url contains the language code instead of the page name or page id"
+msgstr "URL halaman depan berisi kode bahasa, seharusnya nama halaman atau id halaman"
+
+#: admin/view-tab-settings.php:138
+msgid "Example: %s instead of %s"
+msgstr "Contoh: %s dan bukan %s"
+
+#: admin/view-tab-settings.php:148
+msgid "Detect browser language"
+msgstr "Deteksi bahasa peramban <i>(browser language)</i>"
+
+#: admin/view-tab-settings.php:154
+msgid "When the front page is visited, set the language according to the browser preference"
+msgstr "Saat halaman depan dikunjungi, setel bahasa sesuai preferensi peramban <i>(browser preference)</i>"
+
+#: admin/view-tab-settings.php:161
+msgid "Media"
+msgstr "Media"
+
+#: admin/view-tab-settings.php:167
+msgid "Activate languages and translations for media"
+msgstr "Aktifkan bahasa dan terjemahan untuk media"
+
+#: admin/view-tab-settings.php:175
+msgid "Custom post types"
+msgstr "Jenis tulisan kustom (Custom post types)"
+
+#: admin/view-tab-settings.php:188
+msgid "Activate languages and translations for custom post types."
+msgstr "Aktifkan bahasa dan terjemahan untuk jenis tulisan kustom."
+
+#: admin/view-tab-settings.php:195
+msgid "Custom taxonomies"
+msgstr "Taksonomi kustom"
+
+#: admin/view-tab-settings.php:208
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "Aktifkan bahasa dan terjemahan untuk taksonomi kustom."
+
+#: admin/view-tab-settings.php:214
+msgid "Synchronization"
+msgstr "Sinkronisasi"
+
+#: admin/view-tab-settings.php:225
+msgid "The synchronization options allow to maintain exact same values (or translations in the case of taxonomies and page parent) of meta content between the translations of a post or page."
+msgstr "Opsi-opsi sinkronisasi memungkinkan untuk menjaga nilai (atau terjemahan, jika pada taksonomi dan induk halaman) dari isi meta agar tepat sama antara terjemahan pos atau halaman."
+
+#: admin/view-tab-strings.php:8
+msgid "Search translations"
+msgstr "Cari terjemahan"
+
+#: admin/view-tab-strings.php:11
+msgid "Clean strings translation database"
+msgstr "Bersihkan database terjemahan semua string"
+
+#: admin/view-tab-strings.php:12
+msgid "Use this to remove unused strings from database, for example after a plugin has been uninstalled."
+msgstr "Gunakan ini untuk menghapus string-string dari database, misalnya setelah suatu plugin baru di-uninstall."
+
+#: admin/view-translations-media.php:30 admin/view-translations-post.php:21
+#: admin/view-translations-term.php:30
+msgid "Add new"
+msgstr "Tambah yang baru"
+
+#: frontend/frontend-filters-search.php:80
+msgid "Search"
+msgstr ""
+
+#: include/model.php:755
+msgid "Uncategorized"
+msgstr ""
+
+#: include/plugins-compat.php:89
+msgid "Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file."
+msgstr ""
+
+#: include/switcher.php:22
+msgid "Displays language names"
+msgstr "Tampilkan nama-nama bahasa"
+
+#: include/switcher.php:23
+msgid "Displays flags"
+msgstr "Tampilkan bendera"
+
+#: include/switcher.php:24
+msgid "Forces link to front page"
+msgstr "Paksa tautan ke halaman depan"
+
+#: include/switcher.php:25
+msgid "Hides the current language"
+msgstr "Sembunyikan bahasa saat ini"
+
+#: include/switcher.php:26
+msgid "Hides languages with no translation"
+msgstr "Sembunyikan bahasa yang tak memiliki terjemahan"
+
+#: include/switcher.php:30
+msgid "Displays as dropdown"
+msgstr "Tampilkan sebagai dropdown"
+
+#. translators: Calendar caption: 1: month name, 2: 4-digit year
+#: include/widget-calendar.php:124
+msgctxt "calendar caption"
+msgid "%1$s %2$s"
+msgstr ""
+
+#: include/widget-languages.php:16
+msgid "Language Switcher"
+msgstr "Pengalih Bahasa"
+
+#: include/widget-languages.php:16
+msgid "Displays a language switcher"
+msgstr "Tampilkan sebuah Pengalih Bahasa"
+
+#: include/widget-languages.php:75
+msgid "Title:"
+msgstr "Judul:"
+
+#: include/widget-recent-comments.php:46
+msgid "Recent Comments"
+msgstr ""
+
+#. translators: comments widget: 1: comment author, 2: post link
+#: include/widget-recent-comments.php:84
+msgctxt "widgets"
+msgid "%1$s on %2$s"
+msgstr ""
+
+#: include/widget-recent-posts.php:46
+msgid "Recent Posts"
+msgstr ""
+
+#: install/install.php:24
+msgid "You are using WordPress %s. Polylang requires at least WordPress %s."
+msgstr "Anda menggunakan WordPress %s. Polylang memerlukan setidaknya WordPress %s."
+
+#: install/upgrade.php:76
+msgid "Polylang has been deactivated because you upgraded from a too old version."
+msgstr "Polylang telah dinonaktifkan karena Anda meningkatkannya dari versi yang sangat lama."
+
+#: install/upgrade.php:78
+msgid "Please upgrade first to %s before ugrading to %s."
+msgstr "Mohon tingkatkan dahulu ke %s sebelum meningkatkannya ke %s."
+
+#: lingotek/lingotek.php:26
+msgid "You’ve just upgraded to the latest version of Polylang! Would you like to automatically translate your website for free?"
+msgstr ""
+
+#: lingotek/lingotek.php:30
+msgid "Close"
+msgstr "Tutup"
+
+#: lingotek/lingotek.php:33
+msgid "Learn more"
+msgstr ""
+
+#: lingotek/lingotek.php:39
+msgid "Click on Activate Lingotek to start translating."
+msgstr ""
+
+#: lingotek/lingotek.php:42
+msgid "Activate Lingotek"
+msgstr ""
+
+#: lingotek/lingotek.php:54
+msgid "Congratulations!"
+msgstr ""

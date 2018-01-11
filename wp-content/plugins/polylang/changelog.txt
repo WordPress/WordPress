@@ -1,0 +1,1363 @@
+== Changelog ==
+
+This file contains only old changelog. See readme.txt for newer versions.
+
+= 2.1.6 (2017-07-17) =
+
+* Pro: fix duplicate post button not working in PHP 7.1
+* Pro: fix CPTUI untranslated labels on admin
+* Adapt related posts filter to use slug instead of name to follow changes made on Jetpack server ( Props Steve Kaeser )
+* Fix PHP notices when translating CPT and custom tax titles in Yoast SEO
+* Fix PHP warning when all plugins are networked activated
+
+= 2.1.5 (2017-05-31) =
+
+* Add compatibility with new media widgets introduced in WP 4.8
+* Removing the language information in URL for the default language is now default
+* Update plugin updater class to 1.6.12
+* Pro: fix PHP notices when duplicating the content
+* Fix: test existence of `twentyseventeen_panel_count` instead of relying only on the active template
+* Fix: set current property to false when removing the current-menu-item class #134 props @mowar
+* Fix PHP notice when editing a term without language
+* Fix possible PHP notice when deleting a category
+* Fix fatal error with Gantry 5
+
+= 2.1.4 (2017-05-16) =
+
+* Pro: fix user not logged in on secondary domain when previewing changes
+* Pro: fix archive links without language code in ACF link field (ACF 5.4.0+)
+* Fix redirection from www subdomain to wrong language domain.
+* Fix: selecting "Front page displays latest posts" in the customizer not cleaning the languages cache
+* Fix accessibility of the admin language switcher
+
+= 2.1.3 (2017-04-11) =
+
+* Pro: Fix translated slug of 'page' if it is translated to an empty string
+* Update plugin updater class to 1.6.11
+* Strings registered with a wpml-config.xml file or WPML functions are now multiline by default
+* Translate the site title in emails sent to the user
+* Fix sanitize_user for specific locales
+* Fix deprecation notice in Yoast SEO integration
+* Fix: Clean term cache after the language has been set in mass #119
+
+= 2.1.2 (2017-03-09) =
+
+* Pro: Add filter 'pll_xdata_nonce_life'
+* Pro: Fix translation of WooCommerce product attribute slug
+* Pro: Fix product synchronization in WooCommerce 2.7
+* Pro: Fix error message when bulk trashing synchronized posts
+* Add option to discard item spacing in the output of pll_the_languages() ( Props Ceslav Przywara ) #93 #95
+* Add as, dzo, kab, km, ml_IN, nl_BE, pa_IN, rhg, sah, ta_IN, tah, te, tt_RU to the predefined list of languages
+* Update plugin updater class to 1.6.10
+* Fix: Remove the dependency to is_ssl() to detect the language in the url ( language set from the directory name )
+* Fix issue with secondary level domains
+* Fix strings not translated in emails
+* Fix incorrect usage of add_action() ( Props Peter J. Herrel ) #103
+* Fix wrong redirect in customizer in WP 4.7
+
+= 2.1.1 (2017-02-15) =
+
+* Pro: Add filter 'pll_enable_duplicate_media' for a fine control of automatic media duplication
+* Add filter 'pll_links_model' for the links model class name
+* Trim any starting ^ from modified rewrite rules
+* Pro: Fix wrong count of plugins to update
+* Fix slashed strings translations not saved #94
+
+= 2.1 (2017-01-25) =
+
+* Minimum WordPress version is now 4.4
+* Pro: Add support for synchronized posts (same post in multiple languages)
+* Pro: Add support for custom post type UI and the Divi Builder
+* Improve support of Yoast SEO (no category base and post type archive breadcrumb title)
+* Move Languages menu at top level instead of submenu of the WordPress settings
+* Copy the original post date when creating a translation and when the date is synchronized (Props Jory Hogeveen) #32
+* Remove hreflang attributes on paged pages and paged posts
+* Add label to widget language dropdown for better accessibility (Props Lawrence Francell) #53 #56
+* Remove constants POLYLANG_URL and PLL_LOCAL_URL
+* wp_get_sidebars_widgets() and is_active_sidebar() are now filtered according to widgets languages #54
+* Add functions pll_esc_html__(), pll_esc_html_e(), pll_esc_attr__() and pll_esc_attr_e() to the API (Props jegbagus) #83
+* Pro: Fix conflict between WooCommerce shop on front and translated shop base slug
+* Pro: Fix $wp_rewrite search base and author_base not translated #68
+* Pro: Fix page preview does not log in the user when using subdomains
+* Fix: avoid setting the language cookie on 404 pages
+* Fix: rewrite rules order modified for custom post types archives
+* Fix: conflict with WP All Import causing our filters to fail in "Add Media" modal when editing a post
+* Fix: auto add pages not working for nav menus assigned to several locations
+* Fix: Jetpack infinite scroll for multiple domains #58 #74
+* Fix: serialize error in Strings translations when balanceTags option is active #63
+* Fix: static front page preview when redirected from the languages page #49
+* Fix: Auto add pages not working for nav menus assigned to several locations
+* Fix: Conflict with Woocommerce Show Single Variation
+* Fix: Parent page not synchronized in Quick edit (introduced in 2.0.8)
+* Fix: WPML API wpml_element_has_translations and wpml_post_language_details
+* Fix: unattached media translations not in language switcher
+* Fix: Conflict with WP Residence advanced search
+
+= 2.0.12 (2016-12-19) =
+
+* Fix plugin not loaded first (introduced in 2.0.11)
+* Fix wrong translations files loaded when the language is set from the content in WP 4.7 #76
+* Fix notice when a tax query has no terms (using EXISTS or NOT EXISTS)
+
+= 2.0.11 (2016-12-12) =
+
+* Pro: Fix shared term slugs broken by a late change in WP 4.7 #73
+* Pro: Fix media taxonomies lost when creating a media translation when taxonomies sync is activated #72
+* Fix fatal error in customizer when Twenty Seventen is activated and another theme is previewed #71
+* Fix wrong plugin language on admin if user locale is different from site locale in WP 4.7
+
+= 2.0.10 (2016-12-05) =
+
+* Add support for front page panels of Twenty Seventeen
+* Remove draft posts from the language switcher even when the user is logged in
+* Fix: Make argument 2 of icl_object_id optional
+* Fix a conflict with the Divi theme (#67)
+
+= 2.0.9 (2016-11-15) =
+
+* Fix javascript error in some ajax requests
+
+= 2.0.8 (2016-11-14) =
+
+* Disable admin language feature in WP 4.7+
+* Pro: fix case where a media could lose its parent post when translated on the fly by the content duplication
+* Pro: fix on the fly media created at content duplication attached to parent page instead of child page
+* Fix translations input fields not populated in languages metabox when creating a new translation in WP 4.7
+* Fix possibility to delete the translations of the default category in WP 4.7
+* Fix tag search not filtered per language in Quick edit in WP 4.7
+* Fix dropdown language switcher not working for untranslated pages
+
+= 2.0.7 (2016-10-18) =
+
+* Fix issues with static front pages introduced in version 2.0.6
+
+= 2.0.6 (2016-10-17) =
+
+* Pro: Fix translated paged slug not working on paged static front page
+* Add support for WPML filter 'wpml_language_form_input_field'
+* Fix PHP notice when using the WPML filter 'wpml_current_language'
+* Fix cases where the admin language filter is not correctly taken into account
+* Fix paged static front pages in plain permalinks
+* Fix paged static front pages for multiple domains (#43)
+* Fix warning occurring when a 3rd party plugin attempts to register anything but a string in the strings translations panel
+* Fix cross domain http request for media when using multiple domains or subdomains
+* Fix error 404 on pages when no language has been created yet
+
+= 2.0.5 (2016-09-22) Five years after! =
+
+* Pro: Fix conflict with WPBakery Visual Composer
+* Pro: Fix conflict between multiple domains SSO and FORCE_SSL_ADMIN
+* Pro: Fix duplicated fields not displayed in new translation in ACF Pro 5.4+
+* Add Tibetan and Silesian to the predefined languages list
+* Remove duplicated strings from the strings translations (even when they have a different name or group)
+* The languages and translations of custom post types and taxonomies are no more activated by default at activation
+* Allow to deactivate auto translation in secondary by setting 'lang' to an empty value
+* Fix: invalidate the cache of PLL_MO ids when adding a new language
+* Fix: don't filter secondary queries when editing a post in an untranslated post type
+
+= 2.0.4 (2016-09-06) =
+
+* Add Gujarati to the predefined languages list
+* Fix conflict with Page Builder. Other parts of the conflict are fixed in Page Builder 2.4.14
+* Fix plugins translations incorrectly loaded in WP 4.6
+* Fix error 404 on paged urls when using a non standard port
+
+= 2.0.3 (2016-08-16) =
+
+* Pro: Fix PHP notice when hiding the language code in url and the language is set from subdomains
+* Pro: Fix one more media being created when the duplicate media in all languages is activated (introduced in 2.0)
+* Pro: Fix shared term slugs not working on PHP 7
+* Pro: Fix Polylang storing integers in some ACF Pro fields where ACF Pro stores strings
+* Pro: Fix ACF Pro custom fields synchronized even when the custom fields synchronization option is deactivated (#40)
+* Fix PHP notice: Undefined variable: original_value in /modules/wpml/wpml-api.php on line 168
+* Fix translations loaded too soon by plugins not correctly reloaded since WP 4.6 (#39)
+* Fix: Remove the delete link for translations of the default category on PHP 7
+* Fix unescaped i18n strings in Lingotek presentation
+
+= 2.0.2 (2016-08-03) =
+
+* Avoid fatal error when a 3rd party theme or plugin has a malformed wpml-config.xml file: the malformed wpml-config.xml file is simply ignored
+
+= 2.0.1 (2016-08-02) =
+
+* Fix fatal error on PHP < 5.4 (introduced in 2.0)
+* Fix custom flags not being loaded (introduced in 2.0)
+
+= 2.0 (2016-08-02) =
+
+* Pro: Improve integration with ACF Pro
+* Pro: Add support for single sign on across multiple domains or subdomains
+* Pro: Add support for browser language detection when using multiple domains
+* Pro: Add support for translation of the static portion of the post permalink structure
+* Pro: Fix deactivated languages appearing in Yoast SEO sitemaps
+* Pro: Fix impossibility to visit a deactivated language when using subdomains or multiple domains (#10)
+* Pro: Fix when sharing slug on the page for posts, only one of them is accessible (#33)
+* Add the possibility to use the language switcher as dropdown in menu
+* Add support for custom logo introduced in WP 4.5 (#6)
+* The backend current language ( PLL()->curlang ) is now equal to the language of current post or term being edited (#19)
+* The sample permalink is now updated when changing the language in the Languages metabox
+* Revamp the wpml-config.xml reader to use simplexml instead of our custom xml parser
+* Improve support for the WPML API (including Hook API introduced in WPML 3.2)
+* Add support for translation of meta titles and descriptions of custom post types and custom taxonomies in Yoast SEO
+* Replace uncached functions by WPCOM VIP functions when available
+* Improve compatibility with WP 4.6
+* Fix parent category wrongly assigned to post when synchronizing children categories (#21)
+* Fix custom fonts not loaded when using multiple domains or subdomains
+* Fix remove_accents() not working for German and Danish (#24)
+* Fix incorrect static front pages urls on backend
+* Fix impossible to directly enter the page number in strings translation table (introduced in 1.9.3)
+* Fix conflict with WP Sweep (needs WP Sweep 1.0.8+)
+* Fix potential performance issue by querying only taxonomies to show in quick edit to filter the category checklist
+* Fix conflict (database error) with ReOrder-posts-within-categories plugin
+* Fix languages per page option not saved
+
+= 1.9.3 (2016-06-28) =
+
+* Pro: Allow to add slashes in url slugs translations
+* Pro: Fix archive links not using translated slugs
+* Pro: Fix visitor being redirected to 404 if his browser preference is set to an inactive language
+* Fix strings translations table always back to page 1 when submitting the form (#14)
+* Fix get_pages( array( 'lang' => '' ) ) not querying all the languages
+* Fix switching the admin language filter can override the static front page settings (#16)
+
+= 1.9.2 (2016-06-06) =
+
+* Pro: fix unreachable hierarchical custom post type posts when they are sharing slugs across languages
+* Fix missing argument 3 in icl_t
+* Fix conflict with WooCommerce product variations
+
+= 1.9.1 (2016-05-23) =
+
+* Pro: add compatibility with Beaver Builder
+* Pro: fix media wrongly created when adding a new media translation
+* Add azb, ceb, de_CH_informal, es_GT, mr, nl_NL_formal to the predefined list of languages
+* Fix the language switcher not linking to media translations for anonymous visitors
+
+= 1.9 (2016-04-27) =
+
+* Pro: add the possibility to translate custom post types slugs, taxonomies slugs and more
+* Pro: add the possibility to share the same post or term slug across languages
+* Pro: add the possibility to duplicate the content when creating a new translation
+* Pro: add the possibility to create all translations at once when uploading a media
+* Pro: add the possibility to disable a language
+* Add license and update management
+* Add inline docs for all filters and actions
+* When possible, the rel alternate hreflang now display only the language code (without the country code)
+* When combined with flags in the language switcher, wrap the language name inside <span> tags
+* Add customizer selective refresh support for the language switcher widget ( needs WP 4.5+ )
+* Fix dynamic options of the language switcher widget not working in the customizer
+* Fix possible error 404 on page shortlink when using subdomains or multiple domains
+* Fix get_adjacent_post() and wp_get_archives() for untranslated post types ( needs WP 4.4+ )
+* Fix language homepage urls not present in Yoast SEO sitemap (when the homepages display posts)
+
+= 1.8.5 (2016-04-03) =
+
+* Revert from $_SERVER['PHP_SELF'] to $_SERVER['SCRIPT_FILENAME'] to detect if the user is on login/register/signup page
+* Fix incompatibility introduced by WP 4.5 in Edit single taxonomy term screen
+* Fix existing post overridden when creating a language and a conflicting plugin sets the global $post on languages pages
+
+= 1.8.4 (2016-03-06) =
+
+* Revert canonical redirection of static front page when combining plain permalinks + default language hidden in url (introduced in 1.8.2)
+
+= 1.8.3 (2016-03-04) =
+
+* fix: All pages are redirected to the home page on some installations (introduced in 1.8.2)
+
+= 1.8.2 (2016-03-02) =
+
+* Add support for the 'wpml_get_default_language()' function from the WPML API
+* Stop blocking saving settings when errors are detected (invalid domains)
+* Use publicly_queryable => true instead of public => true for the language taxonomy (WP 4.5+)
+* fix: PHP notice when pll_default_language() is called before a language is created
+* fix: PHP notice undefined property PLL_Language::$page_on_front
+* fix: canonical redirection of static front page when combining plain permalinks + default language hidden in url
+* fix: YARPP compatibility broken in v1.8
+* fix: Remove the delete link for translations of the default category (introduced back by WP 4.3)
+* fix: settings not displayed with WP 4.1 or older
+
+= 1.8.1 (2016-01-31) =
+
+* Update the list of Facebook locales used for Opengraph support with Yoast SEO and Jetpack
+* fix: secondary query with translated post type and untranslated taxonomy mixes languages (introduced in 1.8)
+* fix: issue with paged static front page when hiding the default language in url
+* fix: potential issue with cache after synchronizations
+* fix: trailing slash added to canonical home url outputted by Yoast SEO when using default permalinks
+
+= 1.8 (2016-01-19) =
+
+* Minimum WordPress version is now 4.0
+* Add ary, bn_BD, en_ZA, es_AR, fr_CA and fr_BE to the predefined languages list
+* Adopt WordPress coding standards
+* New structure for translated posts and terms (=> several methods of PLL_Model are deprecated).
+* Revamp the management of the static front page and page for posts
+* Improve performance for navigation menus with a lot of pages
+* The Polylang and WPML API are now loaded when 'plugins_loaded' is fired (on frontend only if at least one language has been defined)
+* Add 'pll_get_post_translations()' and 'pll_get_term_translations()' to the API
+* Add filter 'pll_cookie_expiration' to change the cookie expiration time
+* Add support for 'wpml_get_language_information()' function from the WPML API
+* The default language is now managed directly from the languages list table
+* Various accessibility improvements
+* It is now possible to choose the languages flags from the available list (custom flags on frontend still work as previously)
+* Revamp the settings page (now a list table with inline configuration)
+* Add an option to remove all data when uninstalling the plugin
+* Add test of subdomains and domains accessibility
+* Add post state for translations of the front page and posts page
+* Add better support of the customizer menus introduced in WP 4.3
+* Media taxonomies (created by 3rd party plugins) are now filtered by language when editing a media
+* Synchronization of taxonomies (created by 3rd party plugins) and meta are now enabled for media
+* The 'hreflang' tag now refers to the locale instead of the 2-letters language code
+* Workaround for WordPress locales not being W3C valid (see #33511)
+* Workaround a bug in Nextgen Gallery causing redirect on album
+* Add compatibility with Duplicate Post plugin to avoid duplicated post keeping the link to translations
+* Add compatibility with Jetpack Related Posts
+* fix: incorrect rewrite rules after changing how the language is set (need to flush rewrite rules after this)
+* fix: password protected pages don't work on multiple domains
+* fix: ensure that the page parent is in the correct language when using bulk edit
+* fix: is_tax set on category and post tags archives when it should not
+* fix: automatically added new top-level pages to menus are not filtered by language
+* fix: nav menus locations are messed when changing the default language
+* fix: error 404 for untranslated taxonomies pages
+* fix: single posts and pages links do not include the language code when using the default permalinks and forcing the language code in url
+* fix: missing trailing slash on home url when using default permalinks or a static front page
+* fix: sticky visibility is copied to new translation only if the synchronization is activated
+* fix: remove "» Languages » [language name]" from the feed title
+* fix: spaces are not honored when searching strings translations
+* fix: default language not set and terms translations not correctly imported when using WordPress Importer
+* fix: the browser language detection does not differentiate 'en_US' and 'en_GB'
+* fix: non alphanumeric characters query vars values lead to an infinite redirection loop on static front pages
+* fix: user profile not saved for a language when the language code contains a "-"
+* fix: non translated posts page always link to the static front page even when they should not
+* fix: remove hreflang="x-default" when using one domain per language
+* fix: deprecated function notice in WP 4.5 alpha
+* fix: wrong url for attachments when media are translated and using subdomains
+* fix: wrong url for unattached attachments when using subdirectories (since WP 4.4)
+* fix: wrong url scheme for custom flags
+
+= 1.7.12 (2015-11-13) =
+
+* The language taxonomy is now public for compatibility with WP 4.4
+* fix: nav menus locations are not correctly populated in customizer in WP 4.4
+* fix: the termmeta table was still deleted at upgrade
+* fix: fatal error when using the argument 'post_id' in 'pll_the_languages()' (introduced in 1.7.11) [props EKesty](https://wordpress.org/support/topic/bug-on)
+* fix: potential notice in 'pll_the_languages()' [props mattkeys](https://wordpress.org/support/topic/bug-on)
+
+= 1.7.11 (2015-10-15) =
+
+* fix: conflict with GET ajax requests sent by the jquery method load
+* fix: notice in frontend-nav-menu.php at line 211 (introduced in 1.7.10) [props Jesse Graupmann](https://wordpress.org/support/topic/warning-and-notice-on-upgrade)
+* fix: the parent list in page attributes metabox is not in the correct language (introduced in 1.7.10)
+* fix: error 404 for attachments
+* fix: the language switcher is not displayed when combining "Forces link to front page" and "Hides languages with no translation"
+
+= 1.7.10 (2015-09-28) =
+
+* Add Occitan translation contributed by [Cédric Valmary](http://www.totenoc.eu/)
+* Add de_DE_formal, en_NZ, es_CO, hy, oci, ps and tl to the predefined languages list
+* Add the filter 'pll_predefined_languages' and the actions 'pll_language_edit_form_fields' and 'pll_language_add_form_fields'
+* the termmeta table (used in Polylang < 1.2) is no more deleted when uninstalling the plugin (as it will soon be included in WP)
+* fix: prevent creating a media translation if one already exists
+* fix: Attempt to translate the nav menus for themes registering a theme location but not using it in wp_nav_menu()
+* fix: Jetpack infinite scroll
+* fix: issue with terms languages when two languages have the same name
+* fix: notices when deleting a tag and Lingotek is active
+* fix: the languages cache is not cleaned when updating the site home url
+* fix: conflict with the theme Ambition
+* fix: front page canonical url displayed by Yoast SEO
+* fix: typo in options definition at install [props null.bit](https://wordpress.org/support/topic/suggestions-for-two-new-filters?replies=5#post-7466159)
+* fix: error when adding a term in a non-translated taxonomy
+
+= 1.7.9 (2015-08-17) =
+
+* Minimum WordPress version is now v3.9
+* Add: hreflang="x-default" on front page when the default language code is not hidden in urls
+* fix: remove hreflang links in html head section of paged archives to please Google
+* fix: conflict with WPSEO sitemap caching when using multiple domains. [props Junaid Bhura](https://wordpress.org/support/topic/wp-seo-sitemap-and-translation-subdomain-issue?replies=8#post-7113817)
+* fix: change the order of strings translations columns for better display on mobile devices in WP 4.3
+* fix: various issues with nav menus and customizer in WP 4.3
+* fix: correctly disallow unchecking both show names and show flags in the language switcher form
+
+= 1.7.8 (2015-07-21) =
+
+* fix: conflict with PHP < 5.4 introduced in 1.7.7
+
+= 1.7.7 (2015-07-20) =
+
+* Add Romanian translation contributed by uskro
+* Add Japanese translation contributed by [Eiko Toda](http://www.eikotoda.com)
+* Update French translation contributed by [fxbenard](http://fxbenard.com/)
+* The language locale is now validated with the same pattern as in WP 4.3. See #28303
+* fix: make sure that the language switcher never finds translations for untranslated post types (could occur when the post type was previously translated)
+* fix: display the default category according to the admin language filter in settings->writing
+* fix: flushing rewrite rules at network activation and de-activation is back. [props RavanH](https://polylang.wordpress.com/2015/06/10/polylang-1-7-6-and-multisite/comment-page-1/#comment-1138)
+* fix: avoid a conflict with WP Super Cache preloading (loading 'polylang_mo' posts which are 404). [props ecdltf](https://wordpress.org/support/topic/polylang_mo-and-404s-take-2)
+* fix: customizer menus issues introduced by changes in WP 4.1
+* fix: strings translations are not saved when pressing enter
+* fix: it is not possible to de-activate the translation for custom post types and taxonomies from wpml-config.xml
+* fix: conflict with plugins using stringified json in ajax requests
+
+= 1.7.6 (2015-06-10) =
+
+* Add Galician translation contributed by [Toño Calo](http://fedellar.wordpress.com/)
+* fix: incorrect post type archive link for untranslated post types
+* fix: notices in wp-import.php
+* fix: avoid flushing rewrite rules at network activation and de-activation
+* fix: the note below the category list table displays the default category according to the admin language filter
+* fix: wrong future posts permalinks
+* fix: deleting a media translation deletes the file too
+* fix: when using persistent object cache, get_terms is not always filtered by the correct language on admin side
+* fix: it is possible to create two categories having the same translation
+* fix: fatal error when using the dropdown language switcher in WP < 4.1
+
+= 1.7.5 (2015-05-11) =
+
+* Add 'pll_languages_list' filter
+* fix: warning when a plugin calls 'icl_object_id' with an untranslated post type (seen in ACF 4.4.1)
+* fix: the language is not correctly set from the url when using PATHINFO permalinks (introduced in 1.6!)
+* fix: notice when a search is filtered by a taxonomy term in a different language
+
+= 1.7.4 (2015-05-03) =
+
+* fix: translated taxonomies and post types from wpml-config.xml are not filtered on frontend (introduced in 1.7.2)
+* fix: WPML strings translations not always loaded (introduced in 1.7)
+* fix: $.ajaxPrefilter() may not work as expected [props ScreenfeedFr](https://wordpress.org/support/topic/ajaxprefilter-may-not-work-as-expected)
+* fix: can't hide the language code for the default language when using subdomains
+* fix: incorrect static front page url when hiding the default language information
+* fix: an untranslated posts page may display posts in all languages
+* fix: javascript error when changing the language of a hierarchical post type from the languages metabox in WP 4.2
+* fix: subdomains urls are malformed when the main site uses www.
+* fix: suggest tags are not filtered in quick edit
+* fix: parent page dropdown list not filtered in quick edit
+
+= 1.7.3 (2015-04-11) =
+
+* the transient 'pll_languages_list' now stores an array of arrays instead of an array of PLL_Language objects
+* fix: fatal error for users hosted at GoDaddy (due to PLL_Language objects stored in a transient)
+* fix: additional query vars are removed from home page
+* fix: categories are not filtered by the admin language switcher in posts list table (introduced in 1.7)
+* fix: when using multiple domains, the domain url is lost when modifying the language slug
+* fix: the queried object is incorrectly set for author archives (introduced in 1.6.5)
+* fix: notice when a nav menu assigned to a translated nav menu location has been deleted
+* fix: no canonical redirection when using pretty permalinks and querying default permalinks
+
+= 1.7.2 (2015-03-23) =
+
+* fix: comments are filtered for posts in a post type not managed by Polylang
+* fix: translated static front page don't work when setting PLL_CACHE_HOME_URL to false (introduced in 1.7)
+* fix: the query for taxonomies on custom post types is broken (when adding the language code to the url)
+
+= 1.7.1 (2015-03-20) =
+
+* fix: wrong redirection when using a static front page and replacing the page name by the language code (introduced in 1.7)
+
+= 1.7 (2015-03-19) =
+
+* Minimum WordPress version is now v3.8
+* Add new languages to the predefined languages list: Swiss German, Hazaragi
+* Add compatibility with nested tax queries introduced in WP 4.1
+* Add compatibility with splitting shared terms to be introduced in WP 4.2
+* Add the possibility to change the domain in the default language when using multiple domains (avoids a conflict with the domain mapping plugin)
+* Add the possibility to set the language from the code in url when using default permalinks
+* Adding the language code in url is now default at first activation (should improve the out of the box compatibility with other plugins and themes)
+* Add new language switcher option to hide a language with no translation
+* pll_the_languages() now outputs the js code to handle language change in dropdown list (as done by the widget)
+* Improve performance by using base64 encoded flags + various slight optimizations
+* Improve protection against chained redirects
+* The find posts list is now filtered per media language when clicking on attach link in Media library
+* Copy alternative text when creating a media translation
+* The category checklist in quick edit is now filtered per post language instead of admin language filter
+* Quick and bulk language edit don't break translations anymore if the new language is free
+* Make it impossible to change the language of the default categories
+* Make sure that a default category defined in settings->writing is translated in all languages
+* Tweak css for mobiles in add and edit term form
+* Tweak the query getting the list of available posts in the autocomplete input field in the post languages metabox
+* fix: after adding a term translation, need to refresh the page before adding a new term
+* fix: term translations rows are not modified in list table when a term is added / deleted or inline edited
+* fix: post translations rows are not modified in list table when a post is inline edited
+* fix: using brackets in language name breaks strings translations
+* fix: quick edit may conflict with other plugins
+* fix: impossible to use several dropdown languages widgets
+* fix: pll_the_languages() may display a dropdown with empty options
+* fix: the categories widget does not work correctly with dropdown
+* fix: autosave post always created after manual save
+* fix: tax query not filtered by language when using 'NOT IN' operator on a translated taxonomy
+* fix: incorrect translation url for searches filtered by taxonomy
+* fix: backward incompatibility for edited_term_taxonomy action introduced in WP 4.2
+* fix: the home link may be incorrect on MS Windows
+* fix: tags in wrong language may be assigned when bulk editing posts in several languages
+* fix: tags created when bulk editing posts are not assigned any language
+* fix: Illegal string offset 'taxonomy' introduced in v1.6.5
+* fix: Undefined property: WP_Query::$queried_object_id when calling pll_the_languages(array('raw' => 1)) in a function hooked to 'wp'. props [KLicheR](https://wordpress.org/support/profile/klicher)
+* fix: Notice in admin.php when used with MailPoet plugin
+
+= 1.6.5 (2015-02-18) =
+
+* Add new correspondences between WordPress locales and Facebook locales (for WPSEO and Jetpack users)
+* fix: quick draft posts are always assigned the default category in the default language
+* fix: Notice: Undefined offset: 0 in wp-includes/query.php introduced in WP 4.1
+* fix: is_tax and is_archive are not correctly set when a custom taxonomy term is queried
+* fix: conflict introduced by WPSEO 1.7.2+
+
+= 1.6.4 (2015-02-01) =
+
+* Add es_MX to predefined languages list
+* Add compatibility with WordPress SEO sitemaps for multiple domains and subdomains
+* fix: a new post is assigned the wrong (untranslated) default category if no category is assigned by the user
+* fix: the home links now have the right scheme even if PLL_CACHE_HOME_URL is not set to false
+* fix: fatal error when using old versions of WPSEO (I should do what I tell other to do!)
+* fix: strings translations are not switched when using switch_to_blog
+
+= 1.6.3 (2015-01-09) =
+
+* Add Georgian translation contributed by [Tours in Georgia](http://www.georgia-tours.eu/)
+* fix: WXR export does not include the language of untranslated terms (will now work only for newly saved terms)
+* fix: better cleaning of DB when translated objects are deleted
+* fix: incorrect (ajax) translations links when modifying a term language
+* fix: warning: Illegal string offset 'taxonomy' introduced by the combination of WP 4.1 and some plugins.
+
+= 1.6.2 (2014-12-14) =
+
+* fix: bugs and inconsistencies compared to WPML in 'icl_get_languages' (should fix a conflict with Avada)
+* fix: https issue
+* fix: stop displaying an error when adding en_US as new language (translation not downloaded)
+* fix: infinite redirect loop on (unattached) attachment links
+* fix: impossible to add tags in post quick edit (introduced in 1.5)
+* fix: the customizer does not land to the right page when cumulating: static front page + page name in url + default language code not hidden
+* fix: read parent theme wpml-config.xml before child theme
+* fix: add protection to avoid empty language
+* fix: page preview link again
+
+= 1.6.1 (2014-11-19) =
+
+* Add Brazilian Portuguese translation contributed by [Henrique Vianna](http://henriquevianna.com/)
+* Improve compatibility with Types: allow custom fields to be populated when creating a new translation
+* Make it impossible to remove the translations of the default category
+* Fix: possibility to add a path when using multiple domains (same path for all languages) broken since v1.5.6
+* Fix: preview link for non default language when using multiple domains
+* Fix: error displayed when setting the static front page and only one language has been defined
+* Fix: revert changes on rewrite rules with front introduced in 1.6
+* Fix: conflict with WordPress SEO when no language has been created
+
+= 1.6 (2014-10-27) =
+
+* Add Croatian translation contributed by Bajro
+* Add new languages to predefined languages list: Azerbaijani, English (Australia), English (UK), Basque
+* Add flag in front of the language select dropdown for posts and terms
+* Add widget text translation
+* Add opengraph support for locale and translations when WordPress SEO or Jetpack are activated
+* Add error message if attempting to assign an untranslated page as static front page
+* Add 'pll_sanitize_string_translation' filter to sanitize registered strings translations when saved
+* Fix: change the en_US flag to US flag. The UK flag is now associated to en_GB
+* Fix: change Belarusian locale from be_BY to bel to in agreement with translate.wordpress.org
+* Fix home pages duplicate urls when using domains or subdomains
+* Fix rewrite rules with front
+* Fix: terms are always in default language when created from post bulk edit
+
+= 1.5.6 (2014-10-11) =
+
+* Fix: the admin language filter is not active for paginated taxonomy in nav menu admin panel
+* Fix: wrong redirection if a domain is a substring of another domain (ex: mysite.com and mysite.co)
+* Fix: impossible to translate numeric values in options defined in wpml-config.xml
+* Fix: call to undefined method PLL_Links::get_translation_url() with Avada theme
+* Fix: manage_{$this->screen->taxonomy}_custom_icolumn is a filter and not an action
+
+= 1.5.5 (2014-09-10) =
+
+* Fix: missing argument 4 in icl_translate
+* Fix: conflict with Vantage theme
+* Fix: possible issue with cookie domain on 'localhost'
+* Fix: filtering string translations does not work when the group name contains a space
+* Fix: Possible 404 error for attachments
+* Fix: PHP notice when a shared term is not translated in all taxonomies
+
+= 1.5.4 (2014-08-13) =
+
+* Add new API functions: pll_get_post_language, pll_get_term_language, pll_translate_string
+* Add better compatibility with Jetpack 3
+* Fix: attachments don't get any language when uploaded from frontend
+* Fix: authors cannot create tags
+* Fix: too restrictive capability checks for some edge cases
+* Fix: conflict with WPSEO: taxonomy metas cannot be saved
+
+= 1.5.3 (2014-07-12) =
+
+* Add: Capability check before creating links in post list table
+* Add: Possibility not to cache languages objects with option PLL_CACHE_LANGUAGES (for GoDaddy users)
+* Fix: Saving a header or a background in menu Appearance resets nav menus locations (introduced in 1.5)
+* Fix: sub-sub-options and deeper levels defined in wpml-config.xml are not translated
+* Fix: Fatal error when creating a new site when Polylang is network activated (introduced in v1.5.1)
+* Fix: Admin language forced to English when activating Polylang (before creating any new language)
+* Fix: 'pll_count_posts' second parameter not taken into account
+* Fix: 'edit-post' and 'create-posts' capabilities are not differentiated when saving a post
+
+= 1.5.2 (2014-06-24) =
+
+* Fix: Revert post translations terms cleaning introduced in 1.5 as it seems to cause problems
+* Fix: Impossible to delete a biographical info (introduced in 1.5)
+* Fix: Security issue reported by [Gregory Viguier](http://www.screenfeed.fr/)
+
+= 1.5.1 (2014-06-19) =
+
+* Add: filter 'pll_settings_tabs' and action 'pll_settings_active_tab_{$tab}'
+* Add: possibility to add a path when using multiple domains (same path for all languages)
+* Fix: Bad redirection if /language/ is added to urls (introduced in 1.5)
+* Fix: Nav menu locations are not saved in customizer (introduced in 1.4)
+* Fix: Unable to unset nav menu locations
+* Fix: Incorrect link for date archives in language switcher (introduced in 1.5)
+* Fix: Fatal error when using featured content in Twenty Fourteen
+* Fix: Posts bulk edit broken (introduced in 1.5)
+* Fix: Polylang does not play nice with switch_to_blog
+* Fix: Warning: reset() expects parameter 1 to be array, null given in admin-filters-columns.php on line 81
+
+= 1.5 (2014-05-29) =
+
+* Add Ukrainian translation contributed by [http://getvoip.com/](http://getvoip.com/)
+* Refresh translation metaboxes (again): now translated posts are chosen from an autocomplete input field
+* Categories and post tags translations are also chosen in an autocomplete input field
+* Better error management on languages pages
+* Use Dashicons instead of Icomoon icons for WP 3.8+
+* Check if translated post is readable by the current user before displaying the language switcher
+* Minimum Twenty Fourteen version is now 1.1
+* Code cleaning
+* Add support for Quick draft introduced in WP 3.8
+* Add support for object cache plugins for recent posts and recent comments widgets
+* Add support for pages with modified query in the language switcher (ex: when multiple post types queried on the same page)
+* Add new API functions: pll_languages_list, pll_set_post_language, pll_set_term_language, pll_save_post_translations, pll_save_term_translations, pll_count_posts
+* Add new filter pll_the_languages_args
+* Add support for ICL_LANGUAGE_CODE == 'all' on admin side
+* Fix: Galician flag
+* Fix: static page on front pagination is broken
+* Fix: search url may be broken
+* Fix: PHP notice in icl_get_languages
+* Fix: more robust way of detecting language in url when using directory
+* Fix: delete translations terms orphans in database
+* Fix: inconsistent behavior when setting page on front from customizer
+* Fix: deleting a category assigns posts to wrong default category
+* Fix: quick edit breaks synchronization
+* Fix: some security issues
+
+= 1.4.5 (2014-04-19) =
+
+* Fix: Notice when combined with WPSEO 1.5+
+* Fix: Impossible to disable a widget language filter once set (introduced in 1.4.4)
+* Fix: Unexpected redirection of the homepage with language code when permalink structure has no trailing slash (introduced in 1.4.4)
+* Fix: Some installs lead to wrong redirection when using domains (introduced in 1.4.4)
+* Fix: Possible infinite redirection while previewing posts (introduced in 1.4.4)
+* Fix: Uploaded medias don't get a language since WP 3.9
+* Fix: Compatibility with Twenty Fourteen Ephemera widget in the version shipped with WP 3.9
+
+= 1.4.4 (2014-04-09) =
+
+* Add: Compatibility with widgets customizer introduced in WP 3.9
+* Fix: No post in translation dropdown after switching the language in edit post (introduced in 1.4.3)
+* Fix: No canonical redirection when there is no language code in url and the language code is not hidden for the default language
+* Fix: Suppress language cookie when using multiple domains
+
+= 1.4.3 (2014-03-22) =
+
+* Add: Serbian translation contributed by Sinisa
+* Add: Myanmar translation contributed by Sithu Thwin
+* Fix: comment form redirects to wp-admin when using multiple domains or subdomains.
+* Fix: fatal error with old versions of PHP (tested on PHP 5.2.4)
+* Fix: Bad gateway experienced by users hosted by wpengine.com
+* Fix: links got from tiny MCE link button are filtered with admin language filter instead of current post language
+* Fix: possibly wrong redirection in check_language_code_in_url when using multiple domains or subdomains
+
+= 1.4.2 (2014-02-24) =
+
+* Add: check multiple post types in PLL_Model::count_posts
+* Fix: error 404 on category links when setting the language by content (introduced in 1.4.1)
+* Fix: PHP notices in frontend-nav-menu.php with Artisteer themes
+* Fix: decrease the memory usage of untranslated posts list
+* Fix: home page not correctly redirected to canonical when using page on front and page name is kept in url
+
+= 1.4.1 (2014-02-16) =
+
+* Add: Czech translation contributed by [Přemysl Karbula](http://www.premyslkarbula.cz)
+* Fix: the displayed language is not correct in quick edit for categories and post tags
+* Fix: the language switcher does not display the correct link for translated parent categories if only children have posts
+* Fix: 3rd parameter of icl_object_id is not optional
+* Fix: issue when combining multiple domains and browser detection -> the combination is now forbidden
+* Fix: conflict Shiba Media Library: link between media translations is lost when using media quick edit
+* Fix: notice when using taxonomies in wpml-config.xml
+* Fix: incorrect post format link
+* Fix: Twenty Fourteen Ephemera widget strings are not translated
+
+= 1.4 (2014-01-22) =
+
+* Add Traditional Chinese translation contributed by [香腸](http://sofree.cc/)
+* Minimum WordPress version is now v3.5
+* Refresh translations metaboxes: now translated posts are chosen in a dropdown list
+* Check if translated archives for category, tag and post format are empty before displaying the language switcher
+* Add specific management of translated featured tag in Twenty Fourteen
+* Add the possibility not to cache homepage urls with option PLL_CACHE_HOME_URL (for users having several domains).
+* The function get_pages is now filtered by language
+* Ajax requests on frontend are now automatically detected. It is no more necessary to set 'pll_load_front' :)
+* Various performance improvements
+* 'pll_get_post_types' and 'pll_get_taxonomies' filters must be added *before* 'after_setup_theme' is fired
+* Pre 1.2 data will be removed from DB at first upgrade at least 60 days after upgrade to 1.4
+* Removed some duplicate code between admin and frontend
+* Bug correction: incorrect pagination when using domains or subdomains
+* Bug correction: post format link not translated
+* Bug correction: impossible to use child terms with same name in hierarchical taxonomies
+* Bug correction: the terms list table is filtered according to new translation language instead of admin language filter
+
+= 1.3.1 (2013-12-13) =
+
+* Bug correction: fatal error on settings page if a static front page without language is set
+* Bug correction: wrong home url when using different domains per language
+
+= 1.3 (2013-12-11) =
+
+* Refresh admin UI for better look in WP 3.8 and more dynamic comportment
+* The "Detect browser language" option does now also controls returning visits (based on cookie).
+* Improved performance by optimizing some queries for WP 3.5+
+* The user biography in default language is now stored in default WordPress usermeta
+* Add language parameter in API function pll_home_url and allow to call it on admin side
+* Calling 'get_terms' with the 'lang' parameter now uses a cache object per language
+* Bug correction: conflict with unstranslated taxonomies
+* Bug correction: possible malformed translation archive url in language switcher
+* Bug correction: a wrong language may be displayed in quick edit dropdown
+* Bug correction: it is possible to add multiple translations (in the same language) for a single taxonomy term
+* Bug correction: non public post types and taxonomies are visible in Polylang settings
+* Bug correction: the language is always chosen from cookie (or browser preferences) in some installations
+* Bug correction: Firefox language preference is not recognized when comparison is made on locale (instead of ISO 639-1 language code)
+* Bug correction: incorrect tax_query in PLL_Auto_Translate
+
+= 1.2.4 (2013-11-28) =
+
+* Better support for theme customizer
+* Bug correction: admin bar search does not filter by language
+* Bug correction: possible conflict on secondary query when querying taxonomies or single page
+* Bug correction: post type is not included in url when editing or adding a term translation
+* Bug correction: various warnings and PHP notices
+
+= 1.2.3 (2013-11-17) =
+
+* Avoid fatal error when upgrading with Nextgen Gallery active
+* Bug correction: menus locations of non default language are lost at theme deactivation
+* Bug correction: impossible to set menus locations of non default language in some specific cases
+* Bug correction: bbpress admin is broken
+
+= 1.2.2 (2013-11-14) =
+
+* Updated Polish translation thanks to [Bartosz](http://www.dfactory.eu/)
+* Delay strings translations upgrade from 'wp_loaded' to 'admin_init' to avoid fatal error when wp-ecommerce is active
+* Remove Jetpack infinite scroll compatibility code as it seems useless with new Polylang 1.2 code structure
+* Bug correction: fatal error when doing ajax on frontend
+* Bug correction: ICL_LANGUAGE_CODE incorrectly defined when doing ajax on frontend
+* Bug correction: ['current_lang'] and ['no-translation'] indexes disappeared from pll_the_languages raw output
+* Bug correction: invalid argument supplied for foreach() in /polylang/include/mo.php on line 57
+* Bug correction: cookie may not be correctly set
+* Bug correction: languages columns may not be displayed in custom post types and custom taxonomies tables
+
+= 1.2.1 (2013-11-11) =
+
+* Update badly encoded Latvian translation
+* Suppress one query in PLL_WPML_Config when not in multisite
+* Bug correction: strings translations are not correctly upgraded
+* Bug correction: nav menus locations are not correctly upgraded for non default language
+
+= 1.2 (2013-11-10) =
+
+This version does include important changes in database. More than ever, make a database backup before upgrading
+
+* Add Arabic translation contributed by [Anas Sulaiman](http://ahs.pw/)
+* Major rewrite with new structure
+* Change the language and translations model from meta to taxonomy (no extra termmeta table created anymore)
+* Move the strings translations from option to a custom post type
+* Add support for language code in subdomain and for one different domain per language (experimental)
+* Add support of WordPress Importer plugin. Export must have been done with Polylang 1.2+ (experimental)
+* Add support for theme navigation customizer (was de-activated by Polylang since WP 3.4)
+* Request confirmation for deleting a language
+* Better management of default category for each language
+* Now check if date and post type archives are translated before displaying the language switcher
+* Update management of the 'copy' action of the custom fields section in wpml-config.xml
+* Add support for ICL_LANGUAGE_CODE and ICL_LANGUAGE_NAME of the WPML API on admin side
+* Add support of WPSEO custom strings translations when the language is set from content
+* Modify admin language filter for valid html and better visibility
+* Synchronization is now disabled by default (due to too much conflicts / questions on the forum)
+* Include rel="alternate" hreflang="x" selflink per google recommendation
+* Improve inline documentation
+* Bug correction: wrong datatype for second argument in polylang/include/auto-translate.php (introduced in 1.1.6)
+* Bug correction: same id is used for all language items in menu
+* Bug correction: wpml-config.xml file not loaded for sitewide active plugins on network installations
+* Bug correction: page parent dropdown list (in page attributes metabox) not correctly displayed when switching from a language with empty list
+
+= 1.1.6 (2013-10-13) =
+
+* Add the possibility to display the upgrade notice on plugins page
+* Bug correction: Illegal string offset 'taxonomy' in polylang/include/auto-translate.php
+* Bug correction: user defined strings translations are not loaded on admin side
+* Bug correction: untranslated post types are auto translated
+* Bug correction: tags are not added to post when the name exists in several languages and they are not translations of each other
+
+= 1.1.5 (2013-09-15) =
+
+* Add compatibility with Aqua Resizer (often used in porfolio themes)
+* Add support of 'icl_get_default_language' function from the WPML API
+* Remove the 3 characters limitation for the language code
+* Change default names for zh_CN, zh_HK, zh_TW
+* Bug correction: urls are modified in search forms
+
+= 1.1.4 (2013-08-16) =
+
+* Add simplified Chinese language contributed by [Changmeng Hu](http://www.wpdaxue.com)
+* Add Indonesian language contributed by [ajoull](http://www.ajoull.com/)
+* Bug correction: nav menu locations are lost when using the admin language filter
+* Bug correction: the cookie is not set when adding the language code to all urls (introduced in 1.1.3)
+
+= 1.1.3 (2013-07-21) =
+
+* Add Venetian language contributed by Michele Brunelli
+* Bug correction: wrong rewrite rules for non translated custom post type archives
+* Bug correction: 'post_id' parameter of pll_the_languages does not work
+* Bug correction: warning in wp_nav_menu_objects with Artisteer generated themes
+* Bug correction: warning when used together with theme my login plugin
+* Bug correction: language slug is modified and translations are lost when creating a nav menu with the same name as a language
+
+= 1.1.2 (2013-06-18) =
+
+* Posts and terms now inherit parent's language if created outside the standard WordPress ui
+* Improve the compatibility with the plugins Types and The Events Calendar, and again with WordPress SEO
+* Improve performance
+* Improve html validation
+* Add 'raw' argument to 'pll_the_languages'
+* Add the filter 'pll_translation_url'
+* Bug correction: no language is set for a (translated custom taxonomy) term when added from a (non translated) custom post type edit page
+* Bug correction: warning if 'get_terms' is called with a non-array 'include' argument (introduced in 1.1.1)
+* Bug correction: warning if the menu language switcher has nothing to display
+
+= 1.1.1 (2013-05-20) =
+
+* Move nav menu language switcher split from 'wp_nav_menu_objects' to  'wp_get_nav_menu_items' filter
+* Add the filter 'pll_redirect_home'
+* Automatically translate ids in 'include' argument of 'get_terms' (useful for the menus in the Suffusion theme)
+* Add compatibility with Jetpack infinite scroll
+* Bug correction: rtl text direction not set when adding the language code to all urls (introduced in 1.1)
+* Bug correction: hide again navigation panel in theme customizer as it still doesn't work
+* Bug correction: is_home not set on translated page when searching an empty string
+* Bug correction: fatal error when creating a post or term from frontend (introduced in 1.1)
+* Bug correction: attachments may load a wrong language when media translation was enabled then disabled
+* Bug correction: warning when querying posts before the action 'wp_loaded' has been fired (in auto-translate.php)
+* Bug correction: potential issue if other plugins use the filter 'get_nav_menu'
+* Bug correction: interference between language inline edit and search in admin list tables
+* Bug correction: auto-translate breaks queries tax_query when the 'field' is set to 'id'
+* Bug correction: search is not filtered by language for default permalinks (introduced in 1.1)
+* Tests done with WP 3.6 beta 3 and Twenty thirteen
+
+= 1.1 (2013-05-10) =
+
+* When adding the language to all urls, the language is now defined in (plugins_loaded, 1) for better compatibility with some plugins (WordPress SEO)
+* When querying posts and terms, ids are now automatically translated
+* Add the possibility to group string translations
+* Add the possibility to delete strings registered with 'icl_register_string'
+* Move the option 'polylang_widgets' in general polylang options
+* Better integration of the multilingual nav menus (everything is now integrated in the menus page of WordPress
+* The language switcher is now a menu item which can be placed everywhere in a nav menu
+* Posts or terms created from frontend are now assigned the current language (or another one if specified in the variable 'lang')
+* Bug correction: continents-cities-xx_XX.mo not downloaded
+* Bug correction: a gzipped 404 page is downloaded when a mo file does not exist on WordPress languages files repository
+* Bug correction: post_date_gmt not synchronized together with post_date
+* Tests done with WP 3.6 beta 2 and Twenty thirteen
+
+= 1.0.4 (2013-04-08) =
+
+* Add Estonian translation contributed by [Ahto Naris](http://profiles.wordpress.org/ahtonaris/)
+* Now compatible with languages files stored in wp-content/languages/themes
+* Bug correction: page preview does not work when adding the language code to all urls
+* Bug correction: error when a post type or taxonomy label is not a string
+* Bug correction: admin text section of wpml-config.xml (introduced in 1.0.3)
+* Bug correction: infinite redirect loop when querying an unattached media and the language code is added to all urls
+* Bug correction: the text direction is not set from Polylang options when the language code is added to all urls
+* Bug correction: get_adjacent_post is filtered by language even for post types without language
+* Bug correction: the home url is not not in the correct language in wp-login.php
+* Bug correction: the language is not correctly set when using date and name permalinks (introduced in 1.0.3)
+
+= 1.0.3 (2013-03-17) =
+
+* Add Catalan translation contributed by [Núria Martínez Berenguer](http://nuriamb.capa.webfactional.com)
+* Add Ukrainian translation contributed by [cmd soft](http://www.cmd-soft.com/)
+* Improve compatibility with WordPress SEO (sitemap for categories and tags)
+* A query is no more filtered by language when setting the parameter 'lang' to an empty value
+* Add the possibility to create a custom wpml-config.xml file in wp-content/polylang/
+* Bug correction: custom menus are not displayed on search page (introduced in 1.0.2)
+* Bug correction: sql error when filtering terms by language (introduced in 1.0.2)
+* Bug correction: SSL doesn't work properly
+* Bug correction: php notice on IIS servers
+* Bug correction: clicking on the radio buttons in the admin language switcher does not work in Chrome
+* Bug correction: on multisite, the signup page is redirected to the home page
+* Bug correction: date archives are not correctly filtered for the default language when hiding the language code and using date and name permalinks
+* Bug correction: only one wpml-config.xml file is parsed
+
+= 1.0.2 (2013-02-26) =
+
+* Add the possibility to query comments by language
+* Add the possibility not to set a cookie by defining PLL_COOKIE to false (Polylang may not work as expected on some pages)
+* Now a returning visitor is redirected to its preferred language when visiting the front page in the default language
+* Add compatibility with the plugin Custom field template (copy and synchronize custom fields)
+* Improve compatibility with plugins or themes which overwrite columns in posts list table
+* Add the filter 'pll_get_flag'
+* Add support of 'icl_unregister_string' function from the WPML API
+* Bug correction: synchronizing custom fields breaks the plugin Advanced Custom Fields
+* Bug correction: 'pll_default_language' broken
+* Bug correction: rewrite rules are not flushed when re-activating the plugin
+* Bug correction: feed urls are not correctly escaped when using default permalinks
+* Bug correction: notice Undefined index: media_support
+* Bug correction: custom post types and taxonomies set in wpml-config.xml are not hidden
+* Bug correction: get_terms cannot query multiple languages
+* Bug correction: 'icl_register_string' is now persistent as in WPML (fixes Nextgen gallery translations which were not working)
+
+= 1.0.1 (2013-01-28) =
+
+* Add Swedish translation contributed by [matsii](http://wordpress.org/support/profile/matsii)
+* Add 2 new API functions : 'pll_is_translated_post_type' and 'pll_is_translated_taxonomy'
+* Bug correction: when using a static front page, the posts page is not filtered by language (introduced in 1.0)
+* Bug correction: disable translation for hard coded menu as it creates more problems than it solves (introduced in 1.0)
+
+= 1.0 (2013-01-24) =
+
+* Add Hungarian translation contributed by Csaba Erdei
+* Add Norwegian translation contributed by [Tom Boersma](http://www.oransje.com/)
+* Add Slovak translation contributed by [Branco (WebHostingGeeks.com)](http://webhostinggeeks.com/user-reviews/)
+* Code cleaning -> remove compatibility with versions older than 0.8
+* Add search in the string translations list table
+* Add options to better control the synchronization of various metas for posts
+* It is now possible to synchronize sticky posts and publication dates
+* Add option to disable the multilingual support of media
+* Add options to better control the multilingual capability of custom post types and taxonomies
+* Better integration with new media management in WP 3.5
+* Improve menu translation for themes which register a theme location but don't use it in wp_nav_menu (hard coded menu)
+* Add the pll_preferred_language filter allowing plugins to modify the language set by browser preferences detection
+* Add support of the WPML config file
+* Add support of 'icl_get_languages' and 'icl_link_to_element' functions from the WPML API
+* Add compatibility with YARPP and improve compatibility with WordPress SEO
+* Change cookie name which conflicts with Quick cache and allow users to overwrite it by defining the constant PLL_COOKIE
+* Bug correction: again the canonical redirection
+* Bug correction: the languages are not correctly displayed after they have been modified using quick edit
+* Bug correction: undefined index notice when saving strings translation when the admin language filter is active
+* Bug correction: rewrite rules are not correctly flushed when adding / deleting a language (introduced in 0.9.2)
+* Bug correction: the list of pages is displayed when a static font page translation is not translated (now replaced by the list of posts)
+* Bug correction: permalinks are not modified when doing cron and the language code is added to all urls
+* Bug correction: creating a new term with the same name as a language may modify the language code (slug)
+
+= 0.9.8 (2012-12-05) =
+
+* Bug correction: ajax on frontend does not work when adding the language code to all urls
+* Bug correction: search forms using the get_search_form filter do not work
+
+= 0.9.7 (2012-12-04) =
+
+* Bug correction: the admin language filter does filter non translatable post types
+* Bug correction: again the canonical redirection
+* Bug correction: fatal error when Polylang is used together with 'Author Avatars List'
+* Bug correction: widget titles uselessly appear in the strings translations table when the widget is set for only one language
+* Tests done with WordPress 3.5 RC3 and Twenty Twelve
+
+= 0.9.6 (2012-11-26) =
+
+* It is now possible to query the terms by language using the WordPress function 'get_terms'
+* Bug correction: search for empty string in default language displays posts in all languages when hiding the URL language information for default language
+* Bug correction: completely reworked the canonical redirection introduced in 0.9.5 which created more problems than it solved
+* Bug correction: ajax for media translations does not work
+* Started tests with WordPress 3.5 RC1 and Twenty Twelve
+
+= 0.9.5 (2012-11-13) =
+
+* The user can now choose the number of languages and strings translations to display
+* Add compatibility with the 'icl_object_id' function and ICL_LANGUAGE_CODE and ICL_LANGUAGE_NAME constants from the WPML API
+* Add 17 languages to the predefined list (automatic download and update of language files won't work)
+* Bug correction: post preview does not work when adding the language code to all urls
+* Bug correction: redirect to front page in default language when posting a comment on static front page
+* Bug correction: impossible to create terms with the same name in different languages
+* Bug correction: query string added by other plugins is erased when adding the language code to all urls
+* Bug correction: redirect erase 'POST' variables on homepage when adding the language code to all urls
+* Bug correction: English (en_US) loads rtl style when using a localized WordPress package with an rtl language
+* Bug correction: on some installation strings translations do not work with some special characters
+* Bug correction: incoming links are not redirected to canonical url when adding the language code to all urls and hiding the code for the default language
+* Bug correction: search form does not work in non default language when using permalinks without trailing slash
+
+= 0.9.4 (2012-10-23) =
+
+* Add Afrikaans translation contributed by [Kobus Joubert](http://translate3d.com/)
+* Add Belarusian translation contributed by [Alexander Markevitch](http://fourfeathers.by/)
+* Add Afrikaans (af) and Belarusian (be_BY) to predefined languages list (automatic download and update of language files won't work)
+* Add the possibility to translate the date format and time format
+* Add compatibility with the 'icl_get_home_url' function from the WPML API
+* Bug correction: still some issues with string translations
+* Bug correction: search is not filtered by the (default) language when the language is set by content and the language code is hidden for the default language
+* Bug correction: posts & pages preview urls are broken when adding the language code to all urls
+* Bug correction: automatically added new top-level pages to menus are not filtered by language
+* Bug correction: the admin language filter messes the categories languages when editing a post and the parent dropdown list when editing a category
+* Bug correction: search form does not work when using a static front page (introduced in 0.9.2)
+* Bug correction: can't set languages for categories and post tags on blogs created after polylang has been activated at network level
+* Bug correction: menus don't work with catch box theme ('has_nav_menu' not correctly filtered)
+
+= 0.9.3 (2012-10-08) =
+
+* Add Bulgarian translation contributed by [pavelsof](http://wordpress.org/support/profile/pavelsof)
+* Add compatibility with WPML API for strings translations
+* Bug correction: dates are not translated (introduced in 0.9.2)
+* Bug correction: the language is lost when keeping - No change - for language in bulk edit
+* Bug correction: categories and tags are duplicate (when default language is set automatically to existing content and categories and tags share the same name)
+
+= 0.9.2 (2012-09-30) =
+
+* Support new WordPress (WP 3.5+) convention for js and css files naming
+* Improve performance, mainly on frontend
+* Bug correction: the category language is not set when creating it in the post editor (introduced in 0.9)
+* Bug correction: unable to add a query string when using a static front page
+* Bug correction: ajax tag suggestion in "edit post" conflicts with the admin content language filter
+* Bug correction: ugly notices when trying to access a static front page which has not been translated
+* Bug correction: the language code is added to custom post types and taxonomies permalinks even if they are not translatable
+* Bug correction: some arrays in wp_locale mix English and other language
+* Bug correction: the media language is not correctly set when uploading from post if the post has not been saved after choosing the language
+
+= 0.9.1 (2012-09-20) =
+
+* Add Finnish translation contributed by [Jani Alha](http://www.wysiwyg.fi)
+* Bug correction: improve the robustness of the admin content language filter
+* Bug correction: the language switcher displays languages which have no posts or pages (introduced in 0.9)
+* Bug correction: wrong default language when adding a new media
+* Bug correction: the dropdown language switcher does not switch language when there is no post translation
+* Bug correction: issue with translations when using category quick edit
+* Bug correction: home redirects to 404 when combining static front page + force_lang = 1 + hide_default = 0
+
+= 0.9 (2012-09-12) =
+
+* Add Turkish translation contributed by [darchws](http://darch.ws/)
+* Add media translation support
+* Add a persistent content language filter on admin side (WP 3.2+ required)
+* Add biographical info translation
+* Add multiline support for string translations
+* Add the possibility to clean the strings translation database
+* Add quick edit and bulk edit support for posts and pages
+* Add quick edit support for categories and tags
+* The language is now loaded with 'setup_theme' action instead of 'wp' action when always adding language information url
+* Search form now does use javascript only for searchform.php when pretty permalinks are not used
+* Add the option PLL_SEARCH_FORM_JS to disable the js code used to modify the search form
+* Suppress the option PLL_SYNC, replaced by an option in the language settings ui
+* Suppress the PLL_DISPLAY_ALL option
+* Suppress the template tag 'the_languages' (replaced by 'pll_the_languages' since v0.5)
+* Suppress the function 'pll_is_front_page' (useless since 0.8.2)
+* Bug correction: the browser language is sometimes not correctly detected by Android
+* Bug correction: the rtl text direction is not correct when editing an existing language
+* Bug correction: rss feed does not work if translated site title or tagline contains special characters
+* Bug correction: post types and taxonomies labels are not translated on frontend
+* Bug correction: the filter 'pll_copy_post_metas' does not work for metas with multiple values
+* Bug correction: translations table for post and terms are uselessly serialized two times
+* Bug correction: attempt to suppress conflict with themes which hardcode the name of nav menus (but do define a theme location)
+* Bug correction: homepage displays all posts when the front page displays a static page and no page is selected for front page (but one is selected for posts page)
+* Bug correction: widgets disappear when Polylang is enabled
+
+= 0.8.10 (2012-08-06) =
+
+* Add Lithuanian (lt_LT) to predefined languages list (automatic download and update of language files won't work)
+* Add Lithuanian translation contributed by [Naglis Jonaitis](http://najo.lt/)
+* Bug correction: empty string translation issue
+* Bug correction: 'wp_list_pages' does not filter custom post types
+* Bug correction: warning if posts are queried before the action 'wp_loaded' has been fired
+* Bug correction: notice in twentyten when requesting a date archive with no posts
+
+= 0.8.9 (2012-07-20) =
+
+* Add Portuguese translation contributed by [Vitor Carvalho](http://vcarvalho.com/)
+
+= 0.8.8 (2012-07-18) =
+
+* Validation improvement thanks to kg69design
+* Bug correction: custom post types rewrite rules are broken when registered with query_var=>false
+* Bug correction: user admin language not deleted when uninstalling the plugin
+* Bug correction: pll_current_language('name') returns locale instead of language name
+* Bug correction: ajax on frontend does not work
+* Bug correction: homepage pagination broken when redirecting the language page to a static front page
+* Bug correction: taxonomies conflicts on custom post types
+* Bug correction: the admin language is not updated when edited by other users
+
+= 0.8.7 (2012-06-10) =
+
+* Add the possibility to load Polylang API for ajax requests on frontend
+* Bug correction: search form is broken when using a static front page
+* Bug correction: admin bar search does not work
+* Tests done with WordPress 3.4 RC2
+
+= 0.8.6 (2012-05-23) =
+
+* Add the possibility to use a local config file to set options
+* Improve robustness (less PHP notices)
+* Bug correction: Menus not showing in preview mode
+* Bug correction: fatal error when customizing a theme in WP 3.4 beta 4
+* Bug correction: second page of search results returns 404 when using pretty permalinks
+
+= 0.8.5 (2012-05-14) =
+
+* Bug correction : sites using static front page are messed in v0.8.4
+
+= 0.8.4 (2012-05-13) =
+
+* Add a new argument 'post_id' to the function pll_the_languages to display posts translations within the loop
+* Bug correction: every posts in every languages are shown on the homepage when requesting the wrong one with or without 'www.'
+* Bug correction: every posts in every languages are shown when requesting /?p=string
+* Bug correction: the language is not correctly set for wp-signup.php and wp-activate.php
+* Bug correction: wrong home links when using permalinks with front with WP 3.3 and older
+* Bug correction: wrong redirection after posting a comment when adding the language information to all urls
+* Bug correction: term language may be lost in some situations
+* Bug correction: post language is set to default if updated outside the edit post page
+* Bug correction: javascript error in WP 3.1
+* Bug correction: can't toggle visibility of tags metabox in edit post panel
+* Tests done with WordPress 3.4 beta 4
+
+= 0.8.3 (2012-04-10) =
+
+* Add Danish translation contributed by [Compute](http://wordpress.org/support/profile/compute)
+* Add Spanish translation contributed by Curro
+* Add the possibility to add a content in a different language than the current one by setting explicitly the lang parameter in the secondary query
+* Add support of PATHINFO permalinks
+* Bug correction: secondary queries not correctly filtered by language
+* Bug correction: wrong archives links when using permalinks with front
+* Bug correction: wrong homepage link when keeping 'language' in permalinks with front
+* Bug correction: flush_rewrite_rules notice when setting up a static front page (introduced in 0.8.2)
+* Bug correction: every posts in every languages are shown when hitting the homepage with a query string unknown to WP (thanks to Gonçalo Peres)
+* Bug correction: every posts in every languages are shown on the homepage when PHP adds index.php to the url
+* Tests done with WordPress 3.4 beta 1
+
+
+= 0.8.2 (2012-03-20) =
+
+* Add Italian translation contributed by [Luca Barbetti](http://wordpress.org/support/profile/lucabarbetti)
+* Improve performance on admin side
+* Comment status and ping status are now copied when adding a new translation
+* Deprecated API function 'pll_is_front_page' as it is now useless
+* Bug correction: Wrong translation url for taxonomies when adding the language information to all urls
+* Bug correction: "translation" of search page does not work if the site is only made of pages
+* Bug correction: wrong language permalink structure introduced in 0.8.1
+* Bug correction: wrong language set when clicking on "add new" translation in edit category and edit tags panels
+* Bug correction: site does not display if no languages are set
+* Bug correction: get_author_posts_url is 404
+* Bug correction: homepage is 404 when using a static front page and adding the language information to all urls
+
+= 0.8.1 (2012-03-11) =
+
+* Add Latvian translation contributed by [@AndyDeGroo](http://twitter.com/AndyDeGroo)
+* It is now possible to synchronize multiple values for custom fields
+* Add new API function pll_current_language
+* Add the pll_rewrite_rules filter allowing plugins to filter rewrite rules by language
+* WP 3.4 preparation: disable the menu section in the customize theme admin panel (unusable with Polylang)
+* Bug correction: removing 'language' in permalinks does not work in WP 3.4 alpha
+* Bug correction: problems with custom post type archives when 'has_archive' is set (thanks to AndyDeGroo)
+* Bug correction: 404 error when combining %postname% permastructure with "Add language information to all URL" option
+* Bug correction: translated custom strings are duplicated if registered several times
+* Bug correction: queries with an array of post types are not correctly filtered
+* Bug correction: wp-login.php always in English
+
+= 0.8 (2012-02-29) =
+
+* Sticky posts are now filtered by language
+* It is now possible to use the language page as home page
+* Add an "About Polylang" metabox on the languages admin page
+* Add the pll_the_languages filter allowing to filter the whole output of the language switcher
+* Add a new argument 'display_names_as' to the function pll_the_languages
+* Add pll_get_post_types & pll_get_taxonomies filters allowing to enable / disable the language filter for post types & taxonomies
+* Add ckb to predefined languages list
+* Completely reworked the string translation storage in the database
+* Some performance improvements on admin side
+* Improve compatibility with other plugins broken by the home url filter
+* Add an option to disable the home url filter
+* Add an option to disable synchronization of metas between translations
+* Bug correction: body class 'home' is not set on translated homepage
+* Bug correction: robots.txt is broken when adding the language code to all urls (including default language)
+* Bug correction: bad name for the Czech flag
+* Bug correction: bad language information in rss feed for WP < 3.4
+* Bug correction: signup broken on multisite
+* Bug correction: the translation url is set to self when using a static front page and no page for posts and there is no translation
+* Bug correction: problems with custom post type archive titles
+* Bug correction: problems with custom post type if rewrite slug is different from post_type (thanks to AndyDeGroo)
+* Bug correction: quick edit still breaks translation linking of pages (thanks to AndyDeGroo)
+* Bug correction: bad rewrite rules for feeds (introduced in 0.7.2)
+* Bug correction: the order is not saved when creating a language
+* Bug correction: the categories list is not updated when adding a new category (ajax broken)
+
+= 0.7.2 (2012-02-15) =
+
+* Add Polish translation contributed by [Peter Paciorkiewicz](http://www.paciorkiewicz.pl)
+* Add 5 new languages to predefined list
+* completely reworked rewrite rules
+* WP 3.4 preparation: add new WordPress languages files to download when creating a new language
+* Bug correction: custom nav menus do not work in Artisteer generated themes
+* Bug correction: having a single language causes multiple warnings while saving post/page.
+* Bug correction: custom nav menu broken on archives pages
+* Bug correction: the language switcher does not link to translated post type archive when using pretty permalinks
+* Bug correction: the tags are not saved in the right language when translated tags have the same name
+* Bug correction: bad link in post preview when adding language code to all urls
+* Bug correction: feed not filtered by language when adding language code to all urls
+* Bug correction: duplicate canonical link when used together with WordPress SEO by Yoast
+* Bug correction: the all posts admin page is messed if another plugin adds a column
+* Bug correction: 404 error on static front page when adding language code to all urls (including default language)
+
+= 0.7.1 (2012-02-06) =
+
+* Allow using 3 characters languages codes (ISO 639-2 or 639-3)
+* The predefined languages dropdown list now displays the locale to help differentiate some languages
+* Add 5 new languages to predefined list
+* Bug correction: the filter 'pll_copy_post_metas' does not work
+* Bug correction: impossible to add a tag in the edit post panel
+* Bug correction: rewrite rules not correct
+* Bug correction: cache issue with css and js files
+
+= 0.7 (2012-01-30) =
+
+* Add Hebrew translation contributed by [ArielK](http://www.arielk.net)
+* Add support for RTL languages for both frontend and admin
+* Twenty Ten and Twenty Eleven languages files are now automatically downloaded when creating a new language
+* Improve filtering tags by language in the edit post panel
+* Category parent dropdown list is now filtered by language
+* Category parents are now synchronized between translations
+* Add the possibility to have the language information in all URL
+* Add support for post formats
+* Add option allowing not to show the current language in the language switcher (for both menu and widget)
+* Add a title attribute (and the possibility to personalize it with a filter) to flags
+* pll_get_post and pll_get_term second parameter is now optional and defaults to current language
+* Add pll_the_language_link filter allowing to filter translation links outputted by the language switcher
+* The option PLL_DISPLAY_ALL is no longer supported
+* Bug correction: Autosave reset to default language
+* Bug correction: blog info not translated in feeds
+* Bug correction: post comments feed always in default language
+* Bug correction: undefined index notice when setting up a custom menu widget
+* Bug correction: rewrite rules are not correctly reset when deactivating the plugin
+* Bug correction: is_home not correctly set on pages 2, 3...
+* Bug correction: avoid naming conflicts (in sql queries) with other themes / plugins
+* Bug correction: bad language detection and url rewriting of custom post types archives
+
+= 0.6.1 (2012-01-12) =
+
+* Add Dutch translation contributed by [AlbertGn](http://wordpress.org/support/profile/albertgn)
+* Disable everything except the languages management panel while no language has been created
+* Bug correction: can't have the same featured image in translated posts
+* Bug correction: parent page dropdown does appear only after the page has been saved
+* Bug correction: archives widget not working anymore
+* Bug correction: string translations does not work for WP < 3.3
+* Bug correction: fix fatal error in string translations caused by widgets using the old API
+* Bug correction: the strings translation panel is unable to translate strings with special characters
+* Bug correction: Polylang "is_front_page" returns true on archives pages
+
+= 0.6 (2012-01-07) =
+
+* Add Greek translation contributed by [theodotos](http://www.ubuntucy.org)
+* WordPress languages files are now automatically downloaded when creating a new language (and updated when updating WordPress)
+* Add the possibility to change the order of the languages in the language switcher
+* Add the possibility to translate the site title, tagline and widgets titles
+* Categories, post tags, featured image, page parent, page template and menu order are now copied when adding a new translation
+* Translations are now accessibles in the "Posts", "Pages", "Categories" and "Post tags" admin panels
+* Improve the dropdown language switcher widget (sends now to translated page or home page based on options)
+* Move custom flags from polylang/local_flags to wp_content/polylang
+* Add two options to "pll_the_languages" ('hide_if_no_translation' and 'hide_current'). *The function does not output ul tag anymore*
+* Improve API
+* Bug correction: Twenty eleven custom Header problem with v0.5.1
+* Bug correction: front-page.php not loaded for translated front page
+
+= 0.5.1 (2011-12-18) =
+
+* Improved German translation contributed by [Christian Ries](http://www.singbyfoot.lu)
+* Bug correction: translated homepage not recognized as home page when it displays posts
+* Bug correction: predefined language list does not work on IE8
+* Bug correction: on some installations, "Add New" post doesn't keep intended language
+* Bug correction: fatal error when Polylang is used together with the plugin Tabbed Widgets
+* Bug correction: language Switcher points sometimes to wrong places
+
+= 0.5 (2011-12-07) =
+
+* Add multisite support
+* Rework the Polylang admin panel. There is now a set of predefined languages
+* Improve categories and tags language filter in the edit post panel
+* Categories and tags created in the edit post panel are now created with the same language as the post
+* The language switcher can now force the link to the front page instead of the translated page
+* The nav menus can now display a language switcher
+* Improved performance
+* Optimized the calendar widget (less code and sql queries executed)
+* Added the possibility to display posts and terms with no language set (see the documentation to know how to enable this functionality)
+* Started the creation of a small API for theme and plugin programmers
+* Bug correction: when using a static front page, the page for posts does not work when using the default permalink settings
+* Bug correction: the search form does not work if a static front page is used
+* Bug correction: quick edit breaks translations
+* Bug correction: categories and post tags translations don't work for more than 2 languages
+* Bug correction: the output of wp_page_menu is not correct for non default languages
+
+= 0.4.4 (2011-11-28) =
+
+* Bug correction: When using a static front page, the translated home page displays posts instead of the translated page
+* Bug correction: Automatic language setting of existing categories and post tags does not work correctly
+
+= 0.4.3 (2011-11-19) =
+
+* Add Russian translation contributed by [yoyurec](http://yoyurec.in.ua)
+* Bug correction: impossible to suppress the language name in the language switcher widget settings
+* Bug correction: post's page does not work when using a static front page
+* Bug correction: flags in local_flags directory are removed after an automatic upgrade (now works for an upgrade from 0.4.3+ to a higher version)
+* Bug correction: switching to default language displays a 404 Error when hiding the default language in url and displaying the language switcher as dropdown
+* Other minor bug corrections
+* Tests done with WordPress 3.3 beta 3
+
+= 0.4.2 (2011-11-16) =
+
+* Bug correction: language settings page is broken in v0.4.1
+
+= 0.4.1 (2011-11-16) =
+
+* Bug correction: flags shows even when you set doesn't to show
+* Bug correction: custom taxonomies do not work
+* Bug correction: some users get the fatal error: call to undefined function wp_get_current_user() in /wp-includes/user.php on line 227
+
+= 0.4 (2011-11-10) =
+
+* Add a documentation (in English only)
+* Add the possibility to hide the url language information for the default language
+* Add the possibility to set the admin language in the user profile
+* Add the possibility to fill existing posts, pages, categories & tags with the default language
+* Add support for custom post types and custom taxonomies
+* Add the possibility to display flags in the language switcher
+* Add CSS classes to customize rendering of the language switcher
+* Add the possibility to display the language switcher as a dropdown list
+* Add support for calendar widget
+* Improve performance: less sql queries
+* Improve data validation when creating or updating languages
+* Bug correction: 'wp_list_pages' page order is ignored when the plugin is enabled
+* Bug correction: when using 'edit' or 'add new' (translation) for posts, the categories appear in the wrong language
+* Bug correction: pages are not included in language post count
+* Bug correction: the language switcher does not display languages if there are only pages
+* Bug correction: the widget filter does not allow to come back to 'all languages' once a language has been set
+* Other minor bug corrections
+
+= 0.3.2 (2011-10-20) =
+
+* Bug correction: authors pages are not filtered by language
+* Bug correction: language pages use the archive template
+* Bug correction: database error for comments on posts and pages
+* Bug correction: "Add new" translation for pages creates a post instead of a page
+* Bug correction: the search query does not look into pages
+
+= 0.3.1 (2011-10-16) =
+
+* Bug correction: the widget settings cannot be saved when activating Polylang
+* Bug correction: the archives widget does not display any links
+* Bug correction: ajax form for translations not working in the 'Categories' and 'Post tags' admin panels
+
+= 0.3 (2011-10-07) =
+
+* Add language filter for widgets
+* Improved performance for filtering pages by language
+* Improved security
+* Minor bug correction with versions management
+
+= 0.2 (2011-10-05) =
+
+* Add language filter for nav menus
+* Add German translation
+* Add language filter for recent comments
+* Add ajax to term edit form
+* Add ajax to post metabox
+* Improved performance for filtering terms by language
+* Bugs correction
+
+= 0.1 (2011-09-22) =
+* Initial release
+

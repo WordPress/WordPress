@@ -1,0 +1,589 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: polylang\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Naglis Jonaitis <njonaitis@gmail.com>\n"
+"Language-Team: \n"
+"Language: lt_LT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _e;__;_x\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../include\n"
+
+#: admin/view-about.php:3
+#, php-format
+msgid ""
+"Polylang is provided with an extensive %sdocumentation%s (in English only). "
+"It includes information on how to set up your multilingual site and use it "
+"on a daily basis, a FAQ, as well as a documentation for programmers to adapt "
+"their plugins and themes."
+msgstr ""
+"Polylang pateikiams su išsamia %sdokumentacija%s (tik anglų kalba). Joje "
+"rasite informaciją kaip sukurti kelių kalbų svetainę bei naudotis ją "
+"kasdien, D.U.K. bei dokumentaciją programuotojams, aprašančią kaip "
+"pritaikyti savo įskiepius bei temas."
+
+#: admin/view-about.php:9
+#, php-format
+msgid ""
+"You will also find useful information in the %ssupport forum%s. However "
+"don't forget to make a search before posting a new topic."
+msgstr ""
+"Naudingos informacijos taip pat galite rasti %spalaikymo forume%s. Tiesa, "
+"nepamirškite paieškoti prieš sukurdami naują temą."
+
+#: admin/view-about.php:16
+#, php-format
+msgid ""
+"Polylang is free of charge and is released under the same license as "
+"WordPress, the %sGPL%s."
+msgstr ""
+"Polylang yra nemokamas ir leidžiamas su ta pačia licencija kaip ir WordPress "
+"- %sGPL%s."
+
+#: admin/view-about.php:22
+#, php-format
+msgid "If you wonder how you can help the project, just %sread this%s."
+msgstr "Jei norite prisidėti prie šio projekto, %sskaitykite čia%s."
+
+#: admin/view-about.php:27
+msgid ""
+"Finally if you like this plugin or if it helps your business, donations to "
+"the author are greatly appreciated."
+msgstr ""
+"Galiausiai, jei Jums patinka šis įskiepis arba jei jis padeda Jūsų verslui, "
+"autorius labai vertintų Jūsų paramą."
+
+#: admin/admin-filters-post.php:115 admin/admin.php:90 admin/settings.php:70
+#: admin/settings.php:97 include/model.php:561
+msgid "Languages"
+msgstr "Kalbos"
+
+#: include/switcher.php:22
+msgid "Displays language names"
+msgstr "Rodyti kalbų pavadinimus"
+
+#: include/switcher.php:23
+msgid "Displays flags"
+msgstr "Rodyti vėliavėles"
+
+#: include/switcher.php:24
+msgid "Forces link to front page"
+msgstr "Priverstinai nukreipti į pagrindinį puslapį"
+
+#: include/switcher.php:25
+msgid "Hides the current language"
+msgstr "Nerodyti dabartinės kalbos"
+
+#: include/switcher.php:30
+msgid "Displays as dropdown"
+msgstr "Rodyti kaip išskleidžiamą pasirinkimą"
+
+#: admin/admin.php:267
+msgid "Filters content by language"
+msgstr "Atrenka turinį pagal kalbą"
+
+#: admin/admin.php:258
+msgid "Show all languages"
+msgstr "Rodyti visas kalbas"
+
+#: admin/admin-filters-columns.php:140 admin/admin-filters-columns.php:230
+msgid "Add new translation"
+msgstr "Pridėti naują vertimą"
+
+#: admin/admin-filters-columns.php:173 admin/admin-filters-media.php:55
+#: admin/admin-filters-post.php:141 admin/admin-filters-term.php:75
+#: admin/admin-filters-term.php:122 include/model.php:562
+msgid "Language"
+msgstr "Kalba"
+
+#: admin/table-string.php:112 admin/view-translations-media.php:5
+#: admin/view-translations-post.php:5 admin/view-translations-term.php:6
+#: admin/view-translations-term.php:11
+msgid "Translations"
+msgstr "Vertimai"
+
+#: admin/admin-filters-term.php:82 admin/admin-filters-term.php:130
+msgid "Sets the language"
+msgstr "Nustatyti kalbą"
+
+#: admin/admin-filters.php:52
+msgid "The widget is displayed for:"
+msgstr "Valdiklį rodyti:"
+
+#: admin/admin-filters.php:55 include/model.php:563
+msgid "All languages"
+msgstr "Visoms kalboms"
+
+#: admin/admin-filters.php:123
+msgid "Admin language"
+msgstr "Administravimo skydelio kalba"
+
+#: admin/admin-filters.php:126
+msgid "WordPress default"
+msgstr "WordPress numatytasis"
+
+#: admin/admin.php:167 admin/settings.php:102
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: admin/admin-filters.php:160 admin/admin-filters.php:169
+msgid "Upgrading language files&#8230;"
+msgstr "Atnaujinami kalbų failai&#8230;"
+
+#: admin/settings.php:62
+msgid "About Polylang"
+msgstr "Apie Polylang"
+
+#: admin/settings.php:78
+msgid "Strings translations"
+msgstr "Eilučių vertimas"
+
+#: admin/settings.php:101
+msgid "Strings translation"
+msgstr "Eilučių vertimas"
+
+#: admin/admin-model.php:244
+msgid "Enter a valid WordPress locale"
+msgstr "Įveskite taisyklingą WordPress lokalę"
+
+#: admin/admin-model.php:252
+msgid "The language code must be unique"
+msgstr "Kalbos kodas privalo būti unikalus"
+
+#: admin/admin-model.php:256
+msgid "The language must have a name"
+msgstr "Kalba privalo turėti vardą"
+
+#: admin/admin.php:367 admin/settings.php:180
+msgid ""
+"The language was created, but the WordPress language file was not "
+"downloaded. Please install it manually."
+msgstr ""
+"Kalba buvo pridėta, tačiau jos WordPress kalbos failas nebuvo parsiųstas. "
+"Prašome tai padaryti rankiniu būdu."
+
+#: admin/admin-strings.php:59
+msgid "Widget title"
+msgstr "Valdiklio pavadinimas"
+
+# @ polylang
+#: admin/settings.php:319
+msgid "Taxonomies"
+msgstr "Taksonomijos"
+
+# @ polylang
+#: admin/settings.php:320
+msgid "Custom fields"
+msgstr "Pasirinktiniai laukai"
+
+# @ polylang
+#: admin/settings.php:321
+msgid "Comment status"
+msgstr "Komentarų būsena"
+
+# @ polylang
+#: admin/settings.php:322
+msgid "Ping status"
+msgstr "Ryšio patikrinimo būsena"
+
+# @ polylang
+#: admin/settings.php:323
+msgid "Sticky posts"
+msgstr "Nuolat pirmame puslapyje rodomi įrašai"
+
+# @ polylang
+#: admin/settings.php:324
+msgid "Published date"
+msgstr "Paskelbimo data"
+
+# @ polylang
+#: admin/settings.php:325
+msgid "Post format"
+msgstr "Įrašo formatas"
+
+#: admin/settings.php:326
+msgid "Page parent"
+msgstr "Tėvinis puslapis"
+
+# @ polylang
+#: admin/settings.php:327
+msgid "Page template"
+msgstr "Puslapio šablonas"
+
+#: admin/settings.php:328
+msgid "Page order"
+msgstr "Puslapio tvarka"
+
+# @ polylang
+#: admin/settings.php:329
+msgid "Featured image"
+msgstr "Spec. paveikslėlis"
+
+#: admin/view-tab-lang.php:21
+msgid "Edit language"
+msgstr "Redaguoti kalbą"
+
+#: admin/view-tab-lang.php:21 admin/view-tab-lang.php:96
+msgid "Add new language"
+msgstr "Pridėti naują kalbą"
+
+#: admin/view-tab-lang.php:37
+msgid "Choose a language"
+msgstr "Pasirinkite kalbą"
+
+#: admin/view-tab-lang.php:51
+msgid "You can choose a language in the list or directly edit it below."
+msgstr ""
+"Galite pasirinkti kalbą iš sąrašo arba tiesiogiai redaguoti ją apačioje."
+
+#: admin/table-languages.php:74 admin/view-tab-lang.php:55
+msgid "Full name"
+msgstr "Pilnas vardas"
+
+#: admin/view-tab-lang.php:57
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "Vardas, kuris bus rodomas Jūsų svetainėje (pavyzdžiui: English)."
+
+#: admin/table-languages.php:75 admin/view-tab-lang.php:61
+msgid "Locale"
+msgstr "Lokalė"
+
+#: admin/view-tab-lang.php:66
+msgid ""
+"WordPress Locale for the language (for example: en_US). You will need to "
+"install the .mo file for this language."
+msgstr ""
+"Kalbos WordPress lokalė (pavyzdžiui: lt_LT). Jums reikės įsidiegti šios "
+"kalbos .mo failą."
+
+#: admin/view-tab-lang.php:70
+msgid "Language code"
+msgstr "Kalbos kodas"
+
+#: admin/view-tab-lang.php:76
+msgid "Text direction"
+msgstr "Teksto kryptis"
+
+#: admin/view-tab-lang.php:80
+msgid "left to right"
+msgstr "iš kairės į dešinę"
+
+#: admin/view-tab-lang.php:85
+msgid "right to left"
+msgstr "iš dešinės į kairę"
+
+#: admin/view-tab-lang.php:87
+msgid "Choose the text direction for the language"
+msgstr "Pasirinkite kalbos teksto kryptį"
+
+#: admin/table-languages.php:77 admin/view-tab-lang.php:91
+msgid "Order"
+msgstr "Tvarka"
+
+#: admin/view-tab-lang.php:93
+msgid "Position of the language in the language switcher"
+msgstr "Kalbos pozicija kalbos perjungiklyje"
+
+#: admin/admin-nav-menu.php:54 admin/admin-nav-menu.php:92
+#: admin/admin-nav-menu.php:95 admin/admin-nav-menu.php:126
+#: admin/admin-nav-menu.php:188 install/upgrade.php:301
+msgid "Language switcher"
+msgstr "Kalbų perjungimas"
+
+#: admin/view-tab-strings.php:8
+msgid "Search translations"
+msgstr "Ieškoti vertimuose"
+
+#: admin/view-tab-strings.php:11
+msgid "Clean strings translation database"
+msgstr "Išvalyti eilučių vertimų duomenų bazę"
+
+#: admin/view-tab-settings.php:14
+msgid "Default language"
+msgstr "Numatytoji kalba"
+
+#: admin/view-tab-settings.php:29
+msgid ""
+"There are posts, pages, categories or tags without language set. Do you want "
+"to set them all to default language ?"
+msgstr ""
+"Yra įrašų, puslapių, kategorijų arba žymų, kuriems nenustatyta kalba. Ar "
+"norite visiems jiems priskirti numatytąją kalbą?"
+
+#: admin/view-tab-settings.php:149
+msgid "Detect browser language"
+msgstr "Nustatyti naršyklės kalbą"
+
+#: admin/view-tab-settings.php:155
+msgid ""
+"When the front page is visited, set the language according to the browser "
+"preference"
+msgstr ""
+"Kai aplankomas pagrindinis puslapis, nustatyti kalbą pagal naršyklės "
+"pageidavimą"
+
+#: admin/view-tab-settings.php:37
+msgid "URL modifications"
+msgstr "URL pakeitimai"
+
+#: admin/view-tab-settings.php:93
+msgid "Hide URL language information for default language"
+msgstr "Numatytajai kalbai nerodyti kalbos informacijos URL"
+
+# @ polylang
+#: admin/view-tab-settings.php:162
+msgid "Media"
+msgstr "Failai"
+
+# @ polylang
+#: admin/view-tab-settings.php:168
+msgid "Activate languages and translations for media"
+msgstr "Įgalinti kalbas ir vertimus failams"
+
+#: admin/view-tab-settings.php:215
+msgid "Synchronization"
+msgstr "Sinchronizavimas"
+
+# @ polylang
+#: admin/view-tab-settings.php:176
+msgid "Custom post types"
+msgstr "Pasirinktiniai įrašų tipai"
+
+# @ polylang
+#: admin/view-tab-settings.php:189
+msgid "Activate languages and translations for custom post types."
+msgstr "Įgalinti kalbas bei vertimus pasirinktiniams įrašų tipams."
+
+# @ polylang
+#: admin/view-tab-settings.php:196
+msgid "Custom taxonomies"
+msgstr "Pasirinktinės taksonomijos"
+
+# @ polylang
+#: admin/view-tab-settings.php:209
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "Įgalinti kalbas ir vertimus pasirinktinėms taksonomijoms."
+
+#: admin/admin-filters-post.php:433 admin/admin-filters-term.php:642
+#: admin/table-languages.php:54 admin/view-translations-media.php:21
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: admin/table-languages.php:60 admin/table-string.php:168
+msgid "Delete"
+msgstr "Ištrinti"
+
+#: admin/table-languages.php:76
+msgid "Code"
+msgstr "Kodas"
+
+#: admin/table-languages.php:78
+msgid "Flag"
+msgstr "Vėliava"
+
+#: admin/table-languages.php:79
+msgid "Posts"
+msgstr "Įrašai"
+
+#: admin/table-string.php:110
+msgid "Name"
+msgstr "Vardas"
+
+#: admin/table-string.php:111
+msgid "String"
+msgstr "Eilutė"
+
+#: admin/view-translations-media.php:30 admin/view-translations-post.php:21
+#: admin/view-translations-term.php:30
+msgid "Add new"
+msgstr "Pridėti naują"
+
+#: include/widget-languages.php:16
+msgid "Language Switcher"
+msgstr "Kalbų perjungimas"
+
+#: include/widget-languages.php:16
+msgid "Displays a language switcher"
+msgstr "Leidžia pasirinkti puslapio kalbą"
+
+#: include/widget-languages.php:75
+msgid "Title:"
+msgstr "Pavadinimas:"
+
+# @ polylang
+#. translators: plugin header field 'Description'
+#: polylang.php:0
+msgid "Adds multilingual capability to WordPress"
+msgstr "Prideda daugiakalbystės funkciją WordPress sistemai"
+
+#: install/install.php:24
+#, php-format
+msgid "You are using WordPress %s. Polylang requires at least WordPress %s."
+msgstr ""
+"Jūs naudojatės WordPress %s. Polylang reikalauja mažiausiai WordPress %s."
+
+# @ polylang
+#: install/upgrade.php:76
+msgid ""
+"Polylang has been deactivated because you upgraded from a too old version."
+msgstr "Polylang buvo išjungtas, nes atsinaujinote iš per daug senos versijos."
+
+# @ polylang
+#: install/upgrade.php:78
+#, php-format
+msgid "Please upgrade first to %s before ugrading to %s."
+msgstr "Prašome atsinaujinti iki %s, prieš atnaujinant iki %s."
+
+# @ polylang
+#: admin/table-string.php:109
+msgid "Group"
+msgstr "Grupė"
+
+# @ polylang
+#: admin/table-string.php:187
+msgid "View all groups"
+msgstr "Peržiūrėti visas grupes"
+
+# @ polylang
+#: admin/table-languages.php:59
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "Ketinate visam laikui ištrinti šią kalbą. Ar tikrai to norite?"
+
+# @ polylang
+#: admin/view-tab-strings.php:12
+msgid ""
+"Use this to remove unused strings from database, for example after a plugin "
+"has been uninstalled."
+msgstr ""
+"Naudokite nenaudojamų eilučių pašalinimui iš duomenų bazės, pavyzdžiui po "
+"įskiepio ištrynimo."
+
+# @ polylang
+#: admin/view-tab-settings.php:226
+msgid ""
+"The synchronization options allow to maintain exact same values (or "
+"translations in the case of taxonomies and page parent) of meta content "
+"between the translations of a post or page."
+msgstr ""
+"Sinchronizacijos parinktys leidžia išlaikyti pastovias vienodas turinio "
+"reikšmes (ar vertimus taksonomijų ar tėvinių puslapių atveju) tarp puslapio "
+"ar įrašo vertimų."
+
+#: admin/admin-model.php:248
+msgid "The language code contains invalid characters"
+msgstr "Kalbos kode yra neleistinų simbolių"
+
+# @ polylang
+#: admin/view-tab-settings.php:43
+msgid "The language is set from content"
+msgstr "Kalba nustatoma pagal turinį"
+
+#: admin/view-tab-settings.php:46
+msgid "Posts, pages, categories and tags urls are not modified."
+msgstr "Įrašų, puslapių, kategorijų ir žymų adresai nekeičiami."
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "Kalba nustatoma iš aplanko pavadinimo pastoviosiose nuorodose"
+
+# @ polylang
+#: admin/view-tab-settings.php:54 admin/view-tab-settings.php:63
+#: admin/view-tab-settings.php:110 admin/view-tab-settings.php:119
+msgid "Example:"
+msgstr "Pavyzdys:"
+
+#: admin/view-tab-settings.php:60
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "Kalba nustatoma iš subdomeno vardo pastoviosiose nuorodose"
+
+# @ polylang
+#: admin/view-tab-settings.php:69
+msgid "The language is set from different domains"
+msgstr "Kalba nustatoma iš skirtingų domenų"
+
+#: admin/view-tab-settings.php:107
+msgid "Remove /language/ in pretty permalinks"
+msgstr "Pašalinti /language/ iš pastoviųjų nuorodų"
+
+#: admin/view-tab-settings.php:116
+msgid "Keep /language/ in pretty permalinks"
+msgstr "Palikti /language/ pastoviosiose nuorodose"
+
+# @ polylang
+#: admin/view-tab-settings.php:131
+msgid ""
+"The front page url contains the language code instead of the page name or "
+"page id"
+msgstr ""
+"Pradžios puslapio adrese yra kalbos kodas vietoje puslapio pavadinimo ar id"
+
+# @ polylang
+#: admin/view-tab-settings.php:139
+#, php-format
+msgid "Example: %s instead of %s"
+msgstr "Pavyzdys: %s vietoje %s"
+
+#: admin/admin-model.php:38
+msgid "Impossible to add the language."
+msgstr "Neįmanoma pridėti kalbos."
+
+# @ polylang
+#: admin/admin-model.php:66
+msgid "Language added."
+msgstr "Kalba pridėta."
+
+# @ polylang
+#: admin/admin-model.php:146
+msgid "Language deleted."
+msgstr "Kalba ištrinta."
+
+# @ polylang
+#: admin/admin-model.php:227
+msgid "Language updated."
+msgstr "Kalba atnaujinta."
+
+# @ polylang
+#: admin/settings.php:239
+msgid "Translations updated."
+msgstr "Vertimai atnaujinti."
+
+#: admin/view-tab-lang.php:72
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr ""
+"Kalbos kodas - geriausia naudoti dviejų raidžių ISO 639-1 kodą (pvz.: lt)"
+
+# @ polylang
+#: admin/admin-filters.php:203
+msgid "The chosen static front page must be translated in all languages."
+msgstr ""
+"Pasirinktas statinis puslapis privalo būti išverstas į visas pasirinktas "
+"kalbas."
+
+#: admin/admin-strings.php:60
+msgid "Widget text"
+msgstr "Valdiklio tekstas"
+
+# @ polylang
+#: admin/settings.php:52
+msgid "Recommended plugins"
+msgstr "Rekomenduojami įskiepiai"
+
+# @ polylang
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the code in the URL"
+msgstr "Kalba nustatoma iš URL esančio kalbos kodo"
+
+# @ polylang
+#: include/switcher.php:26
+msgid "Hides languages with no translation"
+msgstr "Nerodyti kalbų, neturinčių vertimų"

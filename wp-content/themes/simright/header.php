@@ -78,6 +78,11 @@
                         <li><a href="https://www.simright.com/qualification">公司资质</a></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <ul>
+                        <?php pll_the_languages(array('dropdown'=>1,)); ?>
+                    </ul>
+                </li>
             </nav>
         </section>
     </header>

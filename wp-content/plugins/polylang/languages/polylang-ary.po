@@ -1,0 +1,705 @@
+# Translation of Stable (latest release) in Moroccan Arabic
+# This file is distributed under the same license as the Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-11-12 20:53+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: Poedit 1.5.4\n"
+"Project-Id-Version: Stable (latest release)\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#: lingotek/lingotek.php:85
+msgid "Activated"
+msgstr "مفعّل"
+
+#: lingotek/lingotek.php:85
+msgid "Activate"
+msgstr "تفعيل"
+
+#: lingotek/lingotek.php:90
+msgid "Request Translation"
+msgstr "طلب الترجمة"
+
+#: lingotek/lingotek.php:96
+msgid "Request Services"
+msgstr "طلب خدمات"
+
+#: lingotek/lingotek.php:103
+msgid "Polylang is now fully integrated with Lingotek, a professional translation management system!"
+msgstr ""
+
+#: lingotek/lingotek.php:106
+msgid "Automatically Translate My Site"
+msgstr "ترجمة موقعي تلقائيا"
+
+#: lingotek/lingotek.php:107
+msgid "Polylang is now fully integrated with Lingotek!"
+msgstr ""
+
+#: lingotek/lingotek.php:109 lingotek/lingotek.php:120
+msgid "Access free machine translation for your site for up to 100,000 characters."
+msgstr ""
+
+#: lingotek/lingotek.php:110
+msgid "Machine translation is an excellent option if you're on a tight budget, looking for near-instant results, and are okay with less-than-perfect quality."
+msgstr ""
+
+#: lingotek/lingotek.php:117
+msgid "Translation Management System"
+msgstr "نظام إدارة الترجمات"
+
+#: lingotek/lingotek.php:118
+msgid "Do you need to connect to a professional translation management system?"
+msgstr ""
+
+#: lingotek/lingotek.php:121
+msgid "Access an online translator workbench."
+msgstr ""
+
+#: lingotek/lingotek.php:122
+msgid "Have linguists compare side-by-side versions of original and translated text."
+msgstr ""
+
+#: lingotek/lingotek.php:123
+msgid "Save and re-use previously translated material (leverage translation memory (TM))."
+msgstr ""
+
+#: lingotek/lingotek.php:130
+msgid "Professionally Translate My Site"
+msgstr ""
+
+#: lingotek/lingotek.php:131
+msgid "Do you need to professionally translate your site?"
+msgstr ""
+
+#: lingotek/lingotek.php:133
+msgid "Start the process of getting a professional translation bid."
+msgstr ""
+
+#: lingotek/lingotek.php:134
+msgid "Activate account so Lingotek can get an accurate count of how many words you have on your site and which languages you wish to translate into."
+msgstr ""
+
+#: lingotek/lingotek.php:135
+msgid "Once activated click on the request translation bid and a certified translation project manager will contact you to give a no obligations translation bid."
+msgstr ""
+
+#: lingotek/lingotek.php:142
+msgid "Need Extra Services?"
+msgstr "هل تحتاج لخدمات إضافية؟"
+
+#: lingotek/lingotek.php:143
+msgid "Do you need help translating your site?"
+msgstr ""
+
+#: lingotek/lingotek.php:145
+msgid "Start the process of getting extra services."
+msgstr ""
+
+#: lingotek/lingotek.php:146
+msgid "Do you need someone to run your localization project?"
+msgstr ""
+
+#: lingotek/lingotek.php:147
+msgid "Do you need customized workflows?"
+msgstr ""
+
+#: lingotek/lingotek.php:148
+msgid "Do you you have existing Translation Memories you would like to use?"
+msgstr ""
+
+#: lingotek/lingotek.php:149
+msgid "Do you need help creating glossaries and terminologies?"
+msgstr ""
+
+#: lingotek/lingotek.php:254
+msgid "Learn more..."
+msgstr "تعلم أكثر..."
+
+#. Plugin Name of the plugin/theme
+msgid "Polylang"
+msgstr "بولي لانغ"
+
+#. Plugin URI of the plugin/theme
+msgid "http://polylang.wordpress.com/"
+msgstr "http://polylang.wordpress.com/"
+
+#. Description of the plugin/theme
+msgid "Adds multilingual capability to WordPress"
+msgstr "إضافة إمكانية تعدد اللغات لووردبرس"
+
+#. Author of the plugin/theme
+msgid "Frédéric Demarle"
+msgstr "فريديريك درمل"
+
+#. Author URI of the plugin/theme
+msgid "http://polylang.wordpress.com"
+msgstr "http://polylang.wordpress.com"
+
+#: admin/admin-filters-columns.php:141 admin/admin-filters-columns.php:236
+msgid "Add new translation"
+msgstr "أضف ترجمة جديدة"
+
+#: admin/admin-filters-columns.php:161
+msgid "&mdash; No Change &mdash;"
+msgstr "&mdash; لا توجد تغييرات &mdash;"
+
+#: admin/admin-filters-columns.php:174 admin/admin-filters-media.php:55
+#: admin/admin-filters-post.php:159 admin/admin-filters-term.php:85
+#: admin/admin-filters-term.php:136 include/model.php:591
+msgid "Language"
+msgstr "اللغة"
+
+#: admin/admin-filters-post.php:133 admin/admin.php:96 admin/settings.php:70
+#: admin/settings.php:97 include/model.php:590
+msgid "Languages"
+msgstr "اللغات"
+
+#: admin/admin-filters-post.php:239
+msgid "(no parent)"
+msgstr ""
+
+#: admin/admin-filters-post.php:474 admin/admin-filters-term.php:763
+#: admin/table-languages.php:65 admin/view-translations-media.php:21
+msgid "Edit"
+msgstr "تحرير"
+
+#: admin/admin-filters-term.php:92 admin/admin-filters-term.php:144
+msgid "Sets the language"
+msgstr "يضبط اللغة"
+
+#: admin/admin-filters-term.php:454
+msgid "None"
+msgstr "لا يوجد"
+
+#: admin/admin-filters.php:52
+msgid "The widget is displayed for:"
+msgstr "يعرض المربع الجانبي من أجل:"
+
+#: admin/admin-filters.php:55 include/model.php:592
+msgid "All languages"
+msgstr "كل اللغات"
+
+#: admin/admin-filters.php:123
+msgid "Admin language"
+msgstr "لغة لوحة الإشراف"
+
+#: admin/admin-filters.php:126
+msgid "WordPress default"
+msgstr "افتراضي ووردبرس"
+
+#: admin/admin-filters.php:160 admin/admin-filters.php:169
+msgid "Upgrading language files&#8230;"
+msgstr "تحديث ملفات اللغة&#8230;"
+
+#: admin/admin-filters.php:203
+msgid "The chosen static front page must be translated in all languages."
+msgstr "يجب أن تكون الصفحة الأمامية المختارة مترجمة إلى جميع اللغات."
+
+#: admin/admin-model.php:38
+msgid "Impossible to add the language."
+msgstr "من المستحيل إضافة اللغة."
+
+#: admin/admin-model.php:66
+msgid "Language added."
+msgstr "تمت إضافة اللغة."
+
+#: admin/admin-model.php:145
+msgid "Language deleted."
+msgstr "تم حذف اللغة."
+
+#: admin/admin-model.php:224
+msgid "Language updated."
+msgstr "تم تحديث اللغة."
+
+#: admin/admin-model.php:241
+msgid "Enter a valid WordPress locale"
+msgstr "أدخل رمز مكان صحيح متوافق مع ووردبرس"
+
+#: admin/admin-model.php:245
+msgid "The language code contains invalid characters"
+msgstr "يحتوي رمز اللغة على محارف خطأ"
+
+#: admin/admin-model.php:249
+msgid "The language code must be unique"
+msgstr "يجب أن يكون رمز اللغة فريداً"
+
+#: admin/admin-model.php:254
+msgid "The language must have a name"
+msgstr "يجب أن يكون للغة اسم"
+
+#: admin/admin-nav-menu.php:52 admin/admin-nav-menu.php:73
+#: admin/admin-nav-menu.php:76 admin/admin-nav-menu.php:107
+#: admin/admin-nav-menu.php:169 install/upgrade.php:302
+msgid "Language switcher"
+msgstr "مبدل اللغات"
+
+#: admin/admin-strings.php:54
+msgid "Site Title"
+msgstr "عنوان الموقع"
+
+#: admin/admin-strings.php:55
+msgid "Tagline"
+msgstr ""
+
+#: admin/admin-strings.php:56
+msgid "Date Format"
+msgstr "شكل التاريخ"
+
+#: admin/admin-strings.php:57
+msgid "Time Format"
+msgstr "شكل الوقت"
+
+#: admin/admin-strings.php:59
+msgid "Widget title"
+msgstr "عنوان المربع الجانبي"
+
+#: admin/admin-strings.php:60
+msgid "Widget text"
+msgstr "نص الودجت"
+
+#: admin/admin.php:204 admin/settings.php:102
+msgid "Settings"
+msgstr "إعدادات"
+
+#: admin/admin.php:312
+msgid "Show all languages"
+msgstr "اعرض كل اللغات"
+
+#: admin/admin.php:321
+msgid "Filters content by language"
+msgstr "يرشح المحتوى حسب اللغة"
+
+#: admin/admin.php:419 admin/settings.php:183
+msgid "The language was created, but the WordPress language file was not downloaded. Please install it manually."
+msgstr "تم إنشاء اللغة، لكن لم يتم تحميل ملف اللغة الخاص بووردبرس. رجاءً ثبته يدوياً."
+
+#: admin/settings.php:52
+msgid "Recommended plugins"
+msgstr "إضافات مستحسنة"
+
+#: admin/settings.php:62
+msgid "About Polylang"
+msgstr "عن Polylang"
+
+#: admin/settings.php:78
+msgid "Strings translations"
+msgstr "ترجمات الجمل"
+
+#: admin/settings.php:101
+msgid "Strings translation"
+msgstr "ترجمة الجمل"
+
+#: admin/settings.php:242
+msgid "Translations updated."
+msgstr "تم تحديث الترجمة."
+
+#: admin/settings.php:300
+msgid "Settings saved."
+msgstr "تم حفظ الاعدادات."
+
+#: admin/settings.php:321
+msgid "Taxonomies"
+msgstr "الفئات"
+
+#: admin/settings.php:322
+msgid "Custom fields"
+msgstr "حقول مخصصة"
+
+#: admin/settings.php:323
+msgid "Comment status"
+msgstr "حالة التعليق"
+
+#: admin/settings.php:324
+msgid "Ping status"
+msgstr "حالة التنبيه"
+
+#: admin/settings.php:325
+msgid "Sticky posts"
+msgstr "مقالات مثبتة"
+
+#: admin/settings.php:326
+msgid "Published date"
+msgstr "تاريخ النشر"
+
+#: admin/settings.php:327
+msgid "Post format"
+msgstr "تنسيق المقالة"
+
+#: admin/settings.php:328
+msgid "Page parent"
+msgstr "أب الصفحة"
+
+#: admin/settings.php:329
+msgid "Page template"
+msgstr "قالب الصفحة"
+
+#: admin/settings.php:330
+msgid "Page order"
+msgstr "ترتيب الصفحة"
+
+#: admin/settings.php:331
+msgid "Featured image"
+msgstr "الصورة المميزة"
+
+#: admin/table-languages.php:70
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "أنت على وشك حذف هذه اللغة إلى الأبد. هل أنت متأكد؟"
+
+#: admin/table-languages.php:71 admin/table-string.php:168
+msgid "Delete"
+msgstr "حذف"
+
+#: admin/table-languages.php:85 admin/view-tab-lang.php:55
+msgid "Full name"
+msgstr "الاسم الكامل"
+
+#: admin/table-languages.php:86 admin/view-tab-lang.php:61
+msgid "Locale"
+msgstr "المكان"
+
+#: admin/table-languages.php:87
+msgid "Code"
+msgstr "الرمز"
+
+#: admin/table-languages.php:88 admin/view-tab-lang.php:91
+msgid "Order"
+msgstr "الترتيب"
+
+#: admin/table-languages.php:89
+msgid "Flag"
+msgstr "العلم"
+
+#: admin/table-languages.php:90
+msgid "Posts"
+msgstr "المقالات"
+
+#: admin/table-string.php:109
+msgid "String"
+msgstr "الجملة"
+
+#: admin/table-string.php:110
+msgid "Name"
+msgstr "الاسم"
+
+#: admin/table-string.php:111
+msgid "Group"
+msgstr "المجموعة"
+
+#: admin/table-string.php:112 admin/view-translations-media.php:5
+#: admin/view-translations-post.php:5 admin/view-translations-term.php:6
+#: admin/view-translations-term.php:11
+msgid "Translations"
+msgstr "الترجمات"
+
+#: admin/table-string.php:187
+msgid "View all groups"
+msgstr "عرض كل المجموعات"
+
+#: admin/table-string.php:200
+msgid "Filter"
+msgstr "تصفية"
+
+#: admin/view-about.php:3
+msgid "Polylang is provided with an extensive %sdocumentation%s (in English only). It includes information on how to set up your multilingual site and use it on a daily basis, a FAQ, as well as a documentation for programmers to adapt their plugins and themes."
+msgstr "تأتي Polylang مع %sتوثيق%s شامل (باللغة الإنكليزية فقط). يتضمن التوثيق معلومات عن كيفية ضبط موقعك متعدد اللغات واستخدامه اليومي، وقسماً بالأسئلة الشائعة، بالإضافة إلى توثيق خاص بالمبرمجين لضبط قوالبهم وإضافاتهم."
+
+#: admin/view-about.php:9
+msgid "You will also find useful information in the %ssupport forum%s. However don't forget to make a search before posting a new topic."
+msgstr "ستجد معلومات مفيدة أيضاً في %sمنتدى الدعم%s. لكن لا تنس أن تبحث قبل أن تفتح موضوعاً جديداً."
+
+#: admin/view-about.php:16
+msgid "Polylang is free of charge and is released under the same license as WordPress, the %sGPL%s."
+msgstr "Polylang إضافة مجانية، منشورة تحت رخصة ووردبرس نفسها، وهي رخصة %sGPL%s."
+
+#: admin/view-about.php:22
+msgid "If you wonder how you can help the project, just %sread this%s."
+msgstr "إذا كنت تتسائل كيف يمكنك دعم المشروع، فقط %sاقرأ هذا%s."
+
+#: admin/view-about.php:27
+msgid "Finally if you like this plugin or if it helps your business, donations to the author are greatly appreciated."
+msgstr "أخيراً، إن أعجبتك هذه الإضافة أو أنها مفيدة لأعمالك، تفضل بالتبرع لكاتبها ولك كل التقدير."
+
+#: admin/view-tab-lang.php:21
+msgid "Edit language"
+msgstr "تحرير اللغة"
+
+#: admin/view-tab-lang.php:21 admin/view-tab-lang.php:103
+msgid "Add new language"
+msgstr "أضف لغة جديدة"
+
+#: admin/view-tab-lang.php:37
+msgid "Choose a language"
+msgstr "اختر لغة"
+
+#: admin/view-tab-lang.php:51
+msgid "You can choose a language in the list or directly edit it below."
+msgstr "يمكنك اختيار لغة من القائمة أو تحريرها مباشرة في الأسفل."
+
+#: admin/view-tab-lang.php:57
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "الاسم كما سيظهر على موقعك (مثلاً: العربية)."
+
+#: admin/view-tab-lang.php:66
+msgid "WordPress Locale for the language (for example: en_US). You will need to install the .mo file for this language."
+msgstr "رمز المكان الموافق لووردبرس والخاص باللغة (مثلاً: ar_SA). سيتوجب عليك تثبيت ملف .mo لهذه اللغة."
+
+#: admin/view-tab-lang.php:70
+msgid "Language code"
+msgstr "رمز اللغة"
+
+#: admin/view-tab-lang.php:72
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr "رمز اللغة - يفضل أن يكون حرفين حسب المعيار ISO 639-1 (مثلاً: ar)"
+
+#: admin/view-tab-lang.php:76
+msgid "Text direction"
+msgstr "جهة النص"
+
+#: admin/view-tab-lang.php:80
+msgid "left to right"
+msgstr "من اليسر إلى اليمين"
+
+#: admin/view-tab-lang.php:85
+msgid "right to left"
+msgstr "من اليمين إلى اليسار"
+
+#: admin/view-tab-lang.php:87
+msgid "Choose the text direction for the language"
+msgstr "اختر جهة النص الخاصة باللغة"
+
+#: admin/view-tab-lang.php:93
+msgid "Position of the language in the language switcher"
+msgstr "موضع اللغة في مبدل اللغات"
+
+#: admin/view-tab-lang.php:103
+msgid "Update"
+msgstr "تحديث"
+
+#: admin/view-tab-settings.php:14
+msgid "Default language"
+msgstr "اللغة الافتراضية"
+
+#: admin/view-tab-settings.php:29
+msgid "There are posts, pages, categories or tags without language set. Do you want to set them all to default language ?"
+msgstr "هناك مقالات أو صفحات أو تصنيفات أو وسوم غير محددة اللغة. هل تريد تحديد اللغة الافتراضية كلغة لهم؟"
+
+#: admin/view-tab-settings.php:37
+msgid "URL modifications"
+msgstr "تعديلات الرابط"
+
+#: admin/view-tab-settings.php:43
+msgid "The language is set from content"
+msgstr "تضبط اللغة من المحتوى"
+
+#: admin/view-tab-settings.php:46
+msgid "Posts, pages, categories and tags urls are not modified."
+msgstr "لا تعدل روابط المقالات أو الصفحات أو التصنيفات أو الوسوم."
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "تضبط اللغة من اسم الدليل في الروابط الدائمة الجميلة"
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the code in the URL"
+msgstr "تحدد اللغة من رمزها في الرابط"
+
+#: admin/view-tab-settings.php:54 admin/view-tab-settings.php:63
+#: admin/view-tab-settings.php:109 admin/view-tab-settings.php:118
+msgid "Example:"
+msgstr "مثال:"
+
+#: admin/view-tab-settings.php:60
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "تضبط اللغة من النطاق الفرعي في الروابط الدائمة الجميلة"
+
+#: admin/view-tab-settings.php:69
+msgid "The language is set from different domains"
+msgstr "تضبط اللغة من نطاقات مختلفة"
+
+#: admin/view-tab-settings.php:92
+msgid "Hide URL language information for default language"
+msgstr "اخف معلومات اللغة في الرابط من أجل اللغة الافتراضية"
+
+#: admin/view-tab-settings.php:106
+msgid "Remove /language/ in pretty permalinks"
+msgstr "احذف /language/ من الروابط الدائمة الجميلة"
+
+#: admin/view-tab-settings.php:115
+msgid "Keep /language/ in pretty permalinks"
+msgstr "ابق على /language/ في الروابط الدائمة الجميلة"
+
+#: admin/view-tab-settings.php:130
+msgid "The front page url contains the language code instead of the page name or page id"
+msgstr "يتضمن رابط الصفحة الأمامية رمز اللغة بدلاً من اسم الصفحة أو رقمها"
+
+#: admin/view-tab-settings.php:138
+msgid "Example: %s instead of %s"
+msgstr "مثال: %s بدلاً من %s"
+
+#: admin/view-tab-settings.php:148
+msgid "Detect browser language"
+msgstr "اكتشف لغة المتصفح"
+
+#: admin/view-tab-settings.php:154
+msgid "When the front page is visited, set the language according to the browser preference"
+msgstr "عندما زيارة الصفحة الأمامية، اضبط اللغة وفقاً لتفضيلات المتصفح"
+
+#: admin/view-tab-settings.php:161
+msgid "Media"
+msgstr "الوسائط"
+
+#: admin/view-tab-settings.php:167
+msgid "Activate languages and translations for media"
+msgstr "فعّل اللغات والترجمات من أجل الوسائط"
+
+#: admin/view-tab-settings.php:175
+msgid "Custom post types"
+msgstr "أنواع المقالة المخصصة CPT"
+
+#: admin/view-tab-settings.php:188
+msgid "Activate languages and translations for custom post types."
+msgstr "فعّل اللغات والترجمات من أجل أنواع المقالة المخصصة"
+
+#: admin/view-tab-settings.php:195
+msgid "Custom taxonomies"
+msgstr "الفئات المخصصة"
+
+#: admin/view-tab-settings.php:208
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "فعل اللغات والترجمات من أجل الفئات المخصصة"
+
+#: admin/view-tab-settings.php:214
+msgid "Synchronization"
+msgstr "التزامن"
+
+#: admin/view-tab-settings.php:225
+msgid "The synchronization options allow to maintain exact same values (or translations in the case of taxonomies and page parent) of meta content between the translations of a post or page."
+msgstr "يسمح خيار المزامنة بالحفاظ على القيم نفسها (أو الترجمات في حالة الفئات وأب الصفحة) للمحتوى التعريفي بين ترجمات مقالة أو صفحة."
+
+#: admin/view-tab-strings.php:8
+msgid "Search translations"
+msgstr "ابحث في الترجمات"
+
+#: admin/view-tab-strings.php:11
+msgid "Clean strings translation database"
+msgstr "نظف قاعدة بيانات ترجمة الجمل"
+
+#: admin/view-tab-strings.php:12
+msgid "Use this to remove unused strings from database, for example after a plugin has been uninstalled."
+msgstr "استخدم هذا لإزالة الجمل غير المستخدمة من قاعدة البيانات. على سبيل المثال، عندما تحذف أحد الإضافات."
+
+#: admin/view-translations-media.php:30 admin/view-translations-post.php:21
+#: admin/view-translations-term.php:30
+msgid "Add new"
+msgstr "أضف جديد"
+
+#: frontend/frontend-filters-search.php:80
+msgid "Search"
+msgstr "البحث"
+
+#: include/model.php:755
+msgid "Uncategorized"
+msgstr "غير مصنّف"
+
+#: include/plugins-compat.php:89
+msgid "Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file."
+msgstr ""
+
+#: include/switcher.php:22
+msgid "Displays language names"
+msgstr "يعرض أسماء اللغات"
+
+#: include/switcher.php:23
+msgid "Displays flags"
+msgstr "يعرض الأعلام"
+
+#: include/switcher.php:24
+msgid "Forces link to front page"
+msgstr "يجبر الرابط إلى الصفحة الأمامية"
+
+#: include/switcher.php:25
+msgid "Hides the current language"
+msgstr "يخفي اللغة الحالية"
+
+#: include/switcher.php:26
+msgid "Hides languages with no translation"
+msgstr "اخف اللغات التي ليس لها ترجمات"
+
+#: include/switcher.php:30
+msgid "Displays as dropdown"
+msgstr "يعرض قائمة منسدلة"
+
+#. translators: Calendar caption: 1: month name, 2: 4-digit year
+#: include/widget-calendar.php:124
+msgctxt "calendar caption"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: include/widget-languages.php:16
+msgid "Language Switcher"
+msgstr "مبدل اللغات"
+
+#: include/widget-languages.php:16
+msgid "Displays a language switcher"
+msgstr "يعرض مبدلاً للغات"
+
+#: include/widget-languages.php:75
+msgid "Title:"
+msgstr "العنوان:"
+
+#: include/widget-recent-comments.php:46
+msgid "Recent Comments"
+msgstr "آخر التعليقات"
+
+#. translators: comments widget: 1: comment author, 2: post link
+#: include/widget-recent-comments.php:84
+msgctxt "widgets"
+msgid "%1$s on %2$s"
+msgstr "%1$s on %2$s"
+
+#: include/widget-recent-posts.php:46
+msgid "Recent Posts"
+msgstr "آخر المقالات"
+
+#: install/install.php:24
+msgid "You are using WordPress %s. Polylang requires at least WordPress %s."
+msgstr "أنت تستخدم ووردبرس %s. تتطلب Polylang ووردبرس %s على الأقل."
+
+#: install/upgrade.php:76
+msgid "Polylang has been deactivated because you upgraded from a too old version."
+msgstr "تم تعطيل Polylang لأنك حدثت من إصدار قديم جداً."
+
+#: install/upgrade.php:78
+msgid "Please upgrade first to %s before ugrading to %s."
+msgstr "رجاء حدّث أولاً إلى الإصدار %s قبل التحديث إلى الإصدار %s."
+
+#: lingotek/lingotek.php:26
+msgid "You’ve just upgraded to the latest version of Polylang! Would you like to automatically translate your website for free?"
+msgstr ""
+
+#: lingotek/lingotek.php:30
+msgid "Close"
+msgstr ""
+
+#: lingotek/lingotek.php:33
+msgid "Learn more"
+msgstr "قراءة المزيد"
+
+#: lingotek/lingotek.php:39
+msgid "Click on Activate Lingotek to start translating."
+msgstr ""
+
+#: lingotek/lingotek.php:42
+msgid "Activate Lingotek"
+msgstr ""
+
+#: lingotek/lingotek.php:54
+msgid "Congratulations!"
+msgstr "ألف مبروك!"
+

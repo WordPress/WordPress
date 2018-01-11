@@ -1,0 +1,598 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Polylang v1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2015-02-14 09:26+0100\n"
+"Last-Translator: Abdullah Pazarbasi <mail@abdullahpazarbasi.com>\n"
+"Language-Team: \n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Loco-Target-Locale: tr_TR\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Language: tr_TR\n"
+"X-Source-Language: C\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-SearchPath-1: ../include\n"
+
+#: admin/view-about.php:3
+#, php-format
+msgid ""
+"Polylang is provided with an extensive %sdocumentation%s (in English only). "
+"It includes information on how to set up your multilingual site and use it "
+"on a daily basis, a FAQ, as well as a documentation for programmers to adapt "
+"their plugins and themes."
+msgstr ""
+"Polylang geniş bir %sdocumentation%s (sadece ingilizce) temin etmektedir. "
+"Belge içerisinde; çoklu dil desteğinin kendi sitenize nasıl kurulacağı ve "
+"kolay kullanımı, sık sorulan sorular ve geliştiriciler için kendi temalarını "
+"ve eklentilerini uyumlu hale getirmeleri için gerekli bilgiler bulunmaktadır."
+
+#: admin/view-about.php:9
+#, php-format
+msgid ""
+"You will also find useful information in the %ssupport forum%s. However "
+"don't forget to make a search before posting a new topic."
+msgstr ""
+"Ayrıca %ssupport forum%s 'dan da yararlı bilgilere ulaşabilirsiniz. Ama yeni "
+"bir başlık açmadan önce arama yapmayı unutmayın."
+
+#: admin/view-about.php:16
+#, php-format
+msgid ""
+"Polylang is free of charge and is released under the same license as "
+"WordPress, the %sGPL%s."
+msgstr ""
+"Polylang'ın kullanımı ücretsizdir ve dağıtımı WordPress ile aynı lisans "
+"sözleşmesi %sGPL%s altında yapılmıştır."
+
+#: admin/view-about.php:22
+#, php-format
+msgid "If you wonder how you can help the project, just %sread this%s."
+msgstr ""
+"Eğer bu projeye nasıl katkıda bulunabileceğinizi merak ediyorsanız, %sbunu "
+"okuyun%s."
+
+#: admin/view-about.php:27
+msgid ""
+"Finally if you like this plugin or if it helps your business, donations to "
+"the author are greatly appreciated."
+msgstr ""
+"Ve son olarak bu eklentiyi beğendiyseniz veya profesyonel anlamda size "
+"yararı dokunduysa, proje sahibine yapacağınız parasal destek mutlulukla "
+"karşılanacaktır."
+
+#: admin/admin-filters-post.php:115 admin/admin.php:90 admin/settings.php:70
+#: admin/settings.php:97 include/model.php:561
+msgid "Languages"
+msgstr "Dil"
+
+#: include/switcher.php:22
+msgid "Displays language names"
+msgstr "Dil isimlerini görüntüler"
+
+#: include/switcher.php:23
+msgid "Displays flags"
+msgstr "Bayrakları görüntüler"
+
+#: include/switcher.php:24
+msgid "Forces link to front page"
+msgstr "Bağlantıyı önsayfa yapmak için zorlar"
+
+#: include/switcher.php:25
+msgid "Hides the current language"
+msgstr "Geçerli olan dili sakla"
+
+#: include/switcher.php:30
+msgid "Displays as dropdown"
+msgstr "Açılır menü halinde görüntüler"
+
+#: admin/admin.php:267
+msgid "Filters content by language"
+msgstr "Dile göre içerik filtreleri"
+
+#: admin/admin.php:258
+msgid "Show all languages"
+msgstr "Tüm dilleri göster"
+
+#: admin/admin-filters-columns.php:140 admin/admin-filters-columns.php:230
+msgid "Add new translation"
+msgstr "Yeni çevri ekle"
+
+#: admin/admin-filters-columns.php:173 admin/admin-filters-media.php:55
+#: admin/admin-filters-post.php:141 admin/admin-filters-term.php:75
+#: admin/admin-filters-term.php:122 include/model.php:562
+msgid "Language"
+msgstr "Dil"
+
+#: admin/table-string.php:112 admin/view-translations-media.php:5
+#: admin/view-translations-post.php:5 admin/view-translations-term.php:6
+#: admin/view-translations-term.php:11
+msgid "Translations"
+msgstr "Çevriler"
+
+#: admin/admin-filters-term.php:82 admin/admin-filters-term.php:130
+msgid "Sets the language"
+msgstr "Dili geçerli dil olarak ayarlar."
+
+#: admin/admin-filters.php:52
+msgid "The widget is displayed for:"
+msgstr "Bu bileşenin görüntüleneceği dil:"
+
+#: admin/admin-filters.php:55 include/model.php:563
+msgid "All languages"
+msgstr "Tüm diller"
+
+#: admin/admin-filters.php:123
+msgid "Admin language"
+msgstr "Yönetici dili"
+
+#: admin/admin-filters.php:126
+msgid "WordPress default"
+msgstr "WordPress varsayılanı"
+
+#: admin/admin.php:167 admin/settings.php:102
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: admin/admin-filters.php:160 admin/admin-filters.php:169
+msgid "Upgrading language files&#8230;"
+msgstr "Dil dosyaları güncelleştiriliyor&#8230"
+
+#: admin/settings.php:62
+msgid "About Polylang"
+msgstr "Polylang Hakkında"
+
+#: admin/settings.php:78
+msgid "Strings translations"
+msgstr "Cümle çevrisi"
+
+#: admin/settings.php:101
+msgid "Strings translation"
+msgstr "Cümle Çevrisi"
+
+#: admin/admin-model.php:244
+msgid "Enter a valid WordPress locale"
+msgstr "Geçerli bir WordPress adresi girin"
+
+#: admin/admin-model.php:252
+msgid "The language code must be unique"
+msgstr "Dil kodu daha önce kullanılmamış olmalı"
+
+#: admin/admin-model.php:256
+msgid "The language must have a name"
+msgstr "Girdiğiniz dilin bir ismi olmalı"
+
+#: admin/admin.php:367 admin/settings.php:180
+msgid ""
+"The language was created, but the WordPress language file was not "
+"downloaded. Please install it manually."
+msgstr ""
+"Dil oluşturuldu fakat WordPress için dil dosyası indirilemedi. Lütfen elden "
+"yükleyin."
+
+#: admin/admin-strings.php:59
+msgid "Widget title"
+msgstr "Bileşen başlığı"
+
+# @ polylang
+#: admin/settings.php:319
+msgid "Taxonomies"
+msgstr "Taksonomiler"
+
+# @ polylang
+#: admin/settings.php:320
+msgid "Custom fields"
+msgstr "Özel alanlar"
+
+# @ polylang
+#: admin/settings.php:321
+msgid "Comment status"
+msgstr "Yorum durumu"
+
+# @ polylang
+#: admin/settings.php:322
+msgid "Ping status"
+msgstr "Ping durumu"
+
+# @ polylang
+#: admin/settings.php:323
+msgid "Sticky posts"
+msgstr "Yapışkan gönderiler"
+
+# @ polylang
+#: admin/settings.php:324
+msgid "Published date"
+msgstr "Yayımlanma tarihi"
+
+# @ polylang
+#: admin/settings.php:325
+msgid "Post format"
+msgstr "Gönderi formatı"
+
+#: admin/settings.php:326
+msgid "Page parent"
+msgstr "Sayfa ebeveyni"
+
+# @ polylang
+#: admin/settings.php:327
+msgid "Page template"
+msgstr "Sayfa şablonu"
+
+#: admin/settings.php:328
+msgid "Page order"
+msgstr "Sayfa sırası"
+
+# @ polylang
+#: admin/settings.php:329
+msgid "Featured image"
+msgstr "Öne çıkan görsel"
+
+#: admin/view-tab-lang.php:21
+msgid "Edit language"
+msgstr "Dili düzenle"
+
+#: admin/view-tab-lang.php:21 admin/view-tab-lang.php:96
+msgid "Add new language"
+msgstr "Yeni Dil Ekle"
+
+#: admin/view-tab-lang.php:37
+msgid "Choose a language"
+msgstr "Dil Seç"
+
+#: admin/view-tab-lang.php:51
+msgid "You can choose a language in the list or directly edit it below."
+msgstr ""
+"Listeden bir dil seçebilirsiniz ya da direk aşağıdaki bölümden "
+"düzenleyebilirsiniz."
+
+#: admin/table-languages.php:74 admin/view-tab-lang.php:55
+msgid "Full name"
+msgstr "Tam İsim"
+
+#: admin/view-tab-lang.php:57
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "Sitede dilin gösterileceği isim (örneğin: Türkçe)."
+
+#: admin/table-languages.php:75 admin/view-tab-lang.php:61
+msgid "Locale"
+msgstr "Bölge Kodu"
+
+#: admin/view-tab-lang.php:66
+msgid ""
+"WordPress Locale for the language (for example: en_US). You will need to "
+"install the .mo file for this language."
+msgstr ""
+"Dil için WordPress Bölge Kodu (örneğin: tr_TR). Bu dilin .mo uzantılı dil "
+"dosyasını yüklemeniz gerekiyor."
+
+#: admin/view-tab-lang.php:70
+msgid "Language code"
+msgstr "Dil Kodu"
+
+#: admin/view-tab-lang.php:76
+msgid "Text direction"
+msgstr "Yazma yönü"
+
+#: admin/view-tab-lang.php:80
+msgid "left to right"
+msgstr "soldan sağa"
+
+#: admin/view-tab-lang.php:85
+msgid "right to left"
+msgstr "sağdan sola"
+
+#: admin/view-tab-lang.php:87
+msgid "Choose the text direction for the language"
+msgstr "Dil için yazma yönünü seçin"
+
+#: admin/table-languages.php:77 admin/view-tab-lang.php:91
+msgid "Order"
+msgstr "Sıralama"
+
+#: admin/view-tab-lang.php:93
+msgid "Position of the language in the language switcher"
+msgstr "Dilin dil değiştirici listesindeki pozisyonu"
+
+#: admin/admin-nav-menu.php:54 admin/admin-nav-menu.php:92
+#: admin/admin-nav-menu.php:95 admin/admin-nav-menu.php:126
+#: admin/admin-nav-menu.php:188 install/upgrade.php:301
+msgid "Language switcher"
+msgstr "Dil Değiştirici"
+
+#: admin/view-tab-strings.php:8
+msgid "Search translations"
+msgstr "Çevrilerde ara"
+
+#: admin/view-tab-strings.php:11
+msgid "Clean strings translation database"
+msgstr "Cümle çevri veritabanını temizle"
+
+#: admin/view-tab-settings.php:14
+msgid "Default language"
+msgstr "Varsayılan dil"
+
+#: admin/view-tab-settings.php:29
+msgid ""
+"There are posts, pages, categories or tags without language set. Do you want "
+"to set them all to default language ?"
+msgstr ""
+"Dili belirlenmemiş yazılar, sayfalar, kategoriler ve etiketler var. "
+"Varsayılan dil bunların hepsinin dili olarak ayarlansın mı?"
+
+#: admin/view-tab-settings.php:149
+msgid "Detect browser language"
+msgstr "Tarayıcı dilini algıla"
+
+#: admin/view-tab-settings.php:155
+msgid ""
+"When the front page is visited, set the language according to the browser "
+"preference"
+msgstr "Anasayfa açıldığında, geçerli dili tarayıcının diline ayarla"
+
+#: admin/view-tab-settings.php:37
+msgid "URL modifications"
+msgstr "URL dönüşümleri"
+
+#: admin/view-tab-settings.php:93
+msgid "Hide URL language information for default language"
+msgstr "URL'de varsayılan dil için dil belirtecini gizle"
+
+# @ polylang
+#: admin/view-tab-settings.php:162
+msgid "Media"
+msgstr "Medya"
+
+# @ polylang
+#: admin/view-tab-settings.php:168
+msgid "Activate languages and translations for media"
+msgstr "Medya için diller ve çevrileri etkinleştir"
+
+#: admin/view-tab-settings.php:215
+msgid "Synchronization"
+msgstr "Senkronizasyon"
+
+# @ polylang
+#: admin/view-tab-settings.php:176
+msgid "Custom post types"
+msgstr "Özel gönderi tipleri"
+
+# @ polylang
+#: admin/view-tab-settings.php:189
+msgid "Activate languages and translations for custom post types."
+msgstr "Özel gönderi tipleri için diller ve çevrileri etkinleştir."
+
+# @ polylang
+#: admin/view-tab-settings.php:196
+msgid "Custom taxonomies"
+msgstr "Özel taksonomiler"
+
+# @ polylang
+#: admin/view-tab-settings.php:209
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "Özel taksonomiler için diller ve çevrileri etkinleştir."
+
+#: admin/admin-filters-post.php:433 admin/admin-filters-term.php:642
+#: admin/table-languages.php:54 admin/view-translations-media.php:21
+msgid "Edit"
+msgstr "Düzenle"
+
+#: admin/table-languages.php:60 admin/table-string.php:168
+msgid "Delete"
+msgstr "Sil"
+
+#: admin/table-languages.php:76
+msgid "Code"
+msgstr "Kod"
+
+#: admin/table-languages.php:78
+msgid "Flag"
+msgstr "Bayrak"
+
+#: admin/table-languages.php:79
+msgid "Posts"
+msgstr "Yazılar"
+
+#: admin/table-string.php:110
+msgid "Name"
+msgstr "İsim"
+
+#: admin/table-string.php:111
+msgid "String"
+msgstr "Cümle"
+
+#: admin/view-translations-media.php:30 admin/view-translations-post.php:21
+#: admin/view-translations-term.php:30
+msgid "Add new"
+msgstr "Yeni ekle"
+
+#: include/widget-languages.php:16
+msgid "Language Switcher"
+msgstr "Dil Değiştirme Ekranı"
+
+#: include/widget-languages.php:16
+msgid "Displays a language switcher"
+msgstr "Dil değiştirme ekranını görüntüler"
+
+#: include/widget-languages.php:75
+msgid "Title:"
+msgstr "Başlık:"
+
+# @ polylang
+#. translators: plugin header field 'Description'
+#: polylang.php:0
+msgid "Adds multilingual capability to WordPress"
+msgstr "WordPress'e çokludil kabiliyeti kazandırır"
+
+#: install/install.php:24
+#, php-format
+msgid "You are using WordPress %s. Polylang requires at least WordPress %s."
+msgstr ""
+"Siz WordPress'in %s sürümünü kullanıyorsunuz. Polylang'ı kullanabilmeniz "
+"için en az WordPress %s sürümüne ihtiyacınız var."
+
+# @ polylang
+#: install/upgrade.php:76
+msgid ""
+"Polylang has been deactivated because you upgraded from a too old version."
+msgstr ""
+"Polylang aşırı eski bir versiyondan yükseltmenizden dolayı devredışı durumda."
+
+# @ polylang
+#: install/upgrade.php:78
+#, php-format
+msgid "Please upgrade first to %s before ugrading to %s."
+msgstr "Lütfen %2$s elemanını yükseltmeden önce %1$s elemanını yükseltin."
+
+# @ polylang
+#: admin/table-string.php:109
+msgid "Group"
+msgstr "Grup"
+
+# @ polylang
+#: admin/table-string.php:187
+msgid "View all groups"
+msgstr "Tüm grupları görüntüle"
+
+# @ polylang
+#: admin/table-languages.php:59
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "Bu dili kalıcı olarak silmek üzeresiniz. Emin misiniz?"
+
+# @ polylang
+#: admin/view-tab-strings.php:12
+msgid ""
+"Use this to remove unused strings from database, for example after a plugin "
+"has been uninstalled."
+msgstr ""
+"Kullanılmayan cümleleri veritabanından kaldırmak için bunu kullanın. Örneğin "
+"bir eklentiyi kaldırdıktan sonra."
+
+# @ polylang
+#: admin/view-tab-settings.php:226
+msgid ""
+"The synchronization options allow to maintain exact same values (or "
+"translations in the case of taxonomies and page parent) of meta content "
+"between the translations of a post or page."
+msgstr ""
+"Senkronizasyon seçenekleri bir yazı ya da sayfanın çevrileri arasında meta "
+"içeriğin değerlerinin (veya taksonomi ve sayfa ebeveynleri çevrilerinin) tam "
+"olarak aynı kalmasına izin verir."
+
+#: admin/admin-model.php:248
+msgid "The language code contains invalid characters"
+msgstr "Dil kodu geçersiz karakterler içeriyor"
+
+#: admin/view-tab-settings.php:43
+msgid "The language is set from content"
+msgstr "Dil içerik üzerinden ayarlanır"
+
+# @ polylang
+#: admin/view-tab-settings.php:46
+msgid "Posts, pages, categories and tags urls are not modified."
+msgstr ""
+"Yazılar, sayfalar, kategoriler ve etiketlerin URL'leri dönüşüme uğramış "
+"değil."
+
+# @ polylang
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "Dil anlaşılır kalıcı bağlantılardaki dizin adı üzerinden ayarlanır"
+
+# @ polylang
+#: admin/view-tab-settings.php:54 admin/view-tab-settings.php:63
+#: admin/view-tab-settings.php:110 admin/view-tab-settings.php:119
+msgid "Example:"
+msgstr "Örnek:"
+
+# @ polylang
+#: admin/view-tab-settings.php:60
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "Dil anlaşılır kalıcı bağlantılardaki subdomain adı üzerinden ayarlanır"
+
+# @ polylang
+#: admin/view-tab-settings.php:69
+msgid "The language is set from different domains"
+msgstr "Dil farklı domainler üzerinden ayarlanır"
+
+#: admin/view-tab-settings.php:107
+msgid "Remove /language/ in pretty permalinks"
+msgstr "/language/ kısmını anlaşılır kalıcı bağlantılardan kaldır"
+
+#: admin/view-tab-settings.php:116
+msgid "Keep /language/ in pretty permalinks"
+msgstr "/language/ kısmını anlaşılır kalıcı bağlantılarda koru"
+
+# @ polylang
+#: admin/view-tab-settings.php:131
+msgid ""
+"The front page url contains the language code instead of the page name or "
+"page id"
+msgstr "Ön sayfa URL'si sayfa adı veya sayfa ID'si yerine dil kodunu içeriyor"
+
+# @ polylang
+#: admin/view-tab-settings.php:139
+#, php-format
+msgid "Example: %s instead of %s"
+msgstr "Örnek: %2$s yerine %1$s"
+
+#: admin/admin-model.php:38
+msgid "Impossible to add the language."
+msgstr "Dili eklemek imkansız."
+
+# @ polylang
+#: admin/admin-model.php:66
+msgid "Language added."
+msgstr "Dil eklendi."
+
+# @ polylang
+#: admin/admin-model.php:146
+msgid "Language deleted."
+msgstr "Dil silindi."
+
+# @ polylang
+#: admin/admin-model.php:227
+msgid "Language updated."
+msgstr "Dil güncellendi."
+
+# @ polylang
+#: admin/settings.php:239
+msgid "Translations updated."
+msgstr "Çevriler güncellendi."
+
+#: admin/view-tab-lang.php:72
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr "Dil kodu - tercihen 2 harfli ISO 639-1 içinden (örneğin: tr)"
+
+# @ polylang
+#: admin/admin-filters.php:203
+msgid "The chosen static front page must be translated in all languages."
+msgstr "Seçilen sabit ön sayfa tüm dillere çevrilmeli."
+
+#: admin/admin-strings.php:60
+msgid "Widget text"
+msgstr "Bileşen metni"
+
+# @ polylang
+#: admin/settings.php:52
+msgid "Recommended plugins"
+msgstr ""
+
+#: admin/view-tab-settings.php:51
+msgid "The language is set from the code in the URL"
+msgstr ""
+
+# @ polylang
+#: include/switcher.php:26
+msgid "Hides languages with no translation"
+msgstr ""
