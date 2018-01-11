@@ -96,7 +96,7 @@
     <p><b>pll_the_languages()</b><?php pll_the_languages(); ?></p>
     <p><b>pll_the_languages().name</b><?php pll_the_languages(array( 'raw' => 1 )).['name']; ?></p>
     <p><b>show_flags</b><?php pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ) ); ?></p>
-    <p><b>show name</b><?php  array( 'show_names' => 1 );  ?></p>
+    <p><b>hide current</b> <?php pll_the_languages(array( 'hide_current' => 1 )); ?></p>
     <p><b>pll_current_language('name');</b><?php pll_current_language('name'); ?></p>
     <p><b>pll_current_language('English'');</b><?php pll_current_language('English'); ?></p>
     <p><b>pll_current_language()</b><?php pll_current_language(); ?></p>
