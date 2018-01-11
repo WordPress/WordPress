@@ -82,7 +82,12 @@
                 </li>
                 <li class="dropdown">    
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="open-google-translate">
-                        <span><?php pll_current_language( 'name' ); ?></span>
+                        <span>
+                            <?php $ptranslations = pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ,'hide_current'=> 1,'hide_if_no_translation' => 1,'raw' => 1 ) );
+                                foreach($ptranslations as $value){
+                                echo '<b>'. $value['name'].'</b>' ;
+                            } ?>
+                        </span>
                     </a>
                     <ul class="dropdown-menu position-right" role="menu" id="open-google-translate-menu">
                         <?php pll_the_languages(array( 'raw' => 0 )); ?>
@@ -92,20 +97,3 @@
             </nav>
         </section>
     </header>
-    <section>
-    <p><b>pll_the_languages()</b><?php pll_the_languages(); ?></p>
-    <p><b>pll_the_languages().name</b><?php pll_the_languages(array( 'raw' => 1 )).['name']; ?></p>
-    <p><b>show_flags</b><?php pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ) ); ?></p>
-    <p><b>hide current</b> <?php pll_the_languages(array( 'hide_current' => 1 )); ?></p>
-    <p><b>pll_current_language('name');</b><?php pll_current_language('name'); ?></p>
-    <p><b>pll_current_language('English'');</b><?php pll_current_language('English'); ?></p>
-    <p><b>pll_current_language()</b><?php pll_current_language(); ?></p>
-    <p><b>pll__( $string );</b><?php pll__('test'); ?></p>
-    <p><b>pll_e( $string );</b><?php pll_e('test'); ?></p>
-    <p><b>pll_translate_string( $string, $lang );</b><?php pll_translate_string( 'test','en'); ?></p>
-    <p><?php $ptranslations = pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ,'hide_current'=> 1,'hide_if_no_translation' => 1,'raw' => 1 ) );
-        foreach($ptranslations as $value){
-        echo '<span>'. $value['flag'].' '. $value['name'].'</span>' ;
-        } ?>
-    </p>
-    </section>
