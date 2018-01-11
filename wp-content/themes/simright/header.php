@@ -36,7 +36,6 @@
                 <li data-active = "index">
                     <a href="https://www.simright.com">
                         <span>
-                        <?php pll_translate_string( 'Test', 'polylang' ); ?>
                         Home
                         </span>
                     </a>
@@ -87,7 +86,7 @@
                             <?php $ptranslations = pll_the_languages( array( 'show_flags' => 0,'show_names' => 0 ,'hide_current'=> 0,'hide_if_no_translation' => 1,'raw' => 1 ) );
                                 foreach($ptranslations as $value){
                                     if($value['current_lang']){
-                                        echo '<b></b>'. $value['name'].'' ;
+                                        echo '<b>'. $value['name'].'</b>' ;
                                     }
                             } ?>
                         </span>

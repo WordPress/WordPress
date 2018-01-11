@@ -440,7 +440,7 @@ header .dropdown-menu li a:hover {
 }
 
 header #open-google-translate b {
-    min-width: 50px;
+    min-width: 70px;
     width: 100%;
     display: inline-block;
     background-size: 20px 20px;
