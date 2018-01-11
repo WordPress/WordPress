@@ -36,6 +36,7 @@
                 <li data-active = "index">
                     <a href="https://www.simright.com">
                         <span>
+                        <?php pll_translate_string( 'Test', 'polylang' ); ?>
                         Home
                         </span>
                     </a>
@@ -83,9 +84,11 @@
                 <li class="dropdown">    
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="open-google-translate">
                         <span>
-                            <?php $ptranslations = pll_the_languages( array( 'show_flags' => 1,'show_names' => 0 ,'hide_current'=> 1,'hide_if_no_translation' => 1,'raw' => 1 ) );
+                            <?php $ptranslations = pll_the_languages( array( 'show_flags' => 0,'show_names' => 0 ,'hide_current'=> 0,'hide_if_no_translation' => 1,'raw' => 1 ) );
                                 foreach($ptranslations as $value){
-                                echo '<b>'. $value['name'].'</b>' ;
+                                    if($value['current_lang']){
+                                        echo '<b></b>'. $value['name'].'' ;
+                                    }
                             } ?>
                         </span>
                     </a>

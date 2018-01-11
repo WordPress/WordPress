@@ -543,3 +543,7 @@ msgstr "语言是从URL中的代码来设置的"
 #: include/switcher.php:26
 msgid "Hides languages with no translation"
 msgstr "隐藏没有翻译的语言"
+
+#: include/switcher.php:26
+msgid "Test"
+msgstr "测试"
