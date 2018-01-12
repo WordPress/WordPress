@@ -104,7 +104,7 @@ if( function_exists('pll_register_string') ) {
 function my_search_form( $form ) {
 	$form = '<form role="search" class="neck-bar-search" method="get" id="searchform" action="' . home_url( '/' ) . '" >
     <div class="form-group input-group">
-    <input type="text" name="s" id="search" value="<?php the_search_query(); ?>" placeholder="Search" />
+    <input type="text" name="s" id="search" placeholder="Search" class="form-control" />
     <button type="submit" class="input-group-addon"><i class="glyphicon glyphicon-search"></i></button>
     </div>
     </form>';
