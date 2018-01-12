@@ -1,0 +1,32 @@
+/* This is based on jQuery UI */
+#regenerate-thumbnails-app .ui-progressbar {
+	height: 2em;
+	text-align: center;
+	overflow: hidden;
+}
+#regenerate-thumbnails-app .ui-progressbar .ui-progressbar-value {
+	margin: -1px;
+	height: 100%;
+	transition-duration: 0.5s;
+}
+#regenerate-thumbnails-app .ui-widget.ui-widget-content {
+	border: 1px solid #c5dbec;
+}
+#regenerate-thumbnails-app .ui-widget-content {
+	border: 1px solid #a6c9e2;
+	background: #fcfdfd url("images/ui-bg_inset-hard_100_fcfdfd_1x100.png") 50% bottom repeat-x;
+	color: #222222;
+}
+#regenerate-thumbnails-app .ui-widget-header {
+	border: 1px solid #4297d7;
+	background: #5c9ccc url("images/ui-bg_gloss-wave_55_5c9ccc_500x100.png") 50% 50% repeat-x;
+	color: #ffffff;
+	font-weight: bold;
+}
+#regenerate-thumbnails-app .ui-corner-all {
+	border-radius: 5px;
+}
+#regenerate-thumbnails-app .ui-corner-left {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}

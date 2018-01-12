@@ -27,7 +27,7 @@
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                         <div class="video-item">
                             <a href="<?php the_permalink(); ?>">
-                                <img src="<?php bloginfo('template_url'); ?>" alt="">
+                                <img src="<?php post_thumbnail_src('thumbnail'); ?>" alt="">
                                 <span><?php the_title(); ?></span>
                                 <p><?php the_time('Y-m-d') ?></p>
                             </a>
