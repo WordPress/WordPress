@@ -24,18 +24,7 @@
                 <h2>LATEST</h2>
                 <hr/>
                 <div class="list-contain">
-                    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                        <div class="video-item">
-                            <a href="<?php the_permalink(); ?>">
-                                <img src="<?php post_thumbnail_src('thumbnail'); ?>" alt="">
-                                <span><?php the_title(); ?></span>
-                                <p><?php the_time('Y-m-d') ?></p>
-                            </a>
-                        </div>
-                    <?php endwhile; ?>
-                    <?php else : ?>
-                        <h3 class="title"><a href="#" rel="bookmark">NOT FOUND</a></h3>
-                    <?php endif; ?>
+                    
                 </div>
             </section>
         </div>
