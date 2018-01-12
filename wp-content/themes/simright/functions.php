@@ -11,7 +11,7 @@ if( function_exists('register_sidebar') ) {
 	));
 }
 
-/** 缩略图 
+/** 缩略图 */
 if ( function_exists('add_theme_support') ){
 	add_theme_support('post-thumbnails');
 	add_image_size('thumbnail', 160, 120, true);
@@ -68,9 +68,6 @@ add_action('draft_to_publish', 'autoset_featured');
 add_action('new_to_publish', 'autoset_featured');
 add_action('pending_to_publish', 'autoset_featured');
 add_action('future_to_publish', 'autoset_featured');
-
-*/
-
 
 /** 注册字符串 */
 if( function_exists('pll_register_string') ) {
