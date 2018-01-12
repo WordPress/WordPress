@@ -33,10 +33,13 @@
             <div class="login">
             </div> 
             <nav class="navbar navbar-default" role="navigation">
+            <?php wp_nav_menu(array('theme_location' => 'primary')); ?>
                 <li data-active = "index">
                     <a href="https://www.simright.com">
                         <span>
+                        <?php pll_translate_string( 'Test', 'polylang' ); ?>
                         Home
+                        <?php pll_e('Home'); ?>
                         </span>
                     </a>
                 </li>
