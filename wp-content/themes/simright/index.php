@@ -27,9 +27,9 @@
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                     <div class="video-item">
                         <a href="<?php the_permalink(); ?>">
+                            <img src="<?php post_thumbnail_src('thumbnail'); ?>" alt="">
                             <span><?php the_title(); ?></span>
                             <p><?php the_time('Y-m-d') ?></p>
-                            <p><?php post_thumbnail_src('thumbnail'); ?></p>
                         </a>
                     </div>
                     <?php endwhile; ?>
