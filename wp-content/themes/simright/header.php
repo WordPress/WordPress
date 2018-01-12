@@ -23,7 +23,6 @@
     <link rel="shortcut icon" href="https://oss.simright.com/img/favicon.ico">
     <link rel="stylesheet" href="https://oss.simright.com/static/bootstrap.min.css">
     <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
-	<?php wp_head(); ?>
 </head>
 <?php flush(); ?>
 <body>

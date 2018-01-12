@@ -29,6 +29,7 @@
                         <a href="<?php the_permalink(); ?>">
                             <span><?php the_title(); ?></span>
                             <p><?php the_time('Y-m-d') ?></p>
+                            <p><?php post_thumbnail_src('thumbnail'); ?></p>
                         </a>
                     </div>
                     <?php endwhile; ?>
