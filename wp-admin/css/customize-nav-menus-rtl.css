@@ -216,6 +216,10 @@
 	padding-top: 12px;
 }
 
+.menu-location-settings .customize-control-checkbox .theme-location-set {
+	line-height: 1;
+}
+
 .customize-control-nav_menu_auto_add label {
 	vertical-align: top;
 }
