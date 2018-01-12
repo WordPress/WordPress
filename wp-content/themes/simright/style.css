@@ -969,6 +969,9 @@ footer .footer .wechat_qr_code {
     margin-bottom: 0;
 }
 .video-details video{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 100%;
     margin: 0 auto;
 }

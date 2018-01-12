@@ -99,4 +99,16 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Follow Us','Follow Us');
 	pll_register_string('Back','Back');
 }
+
+/** 搜索表单 */
+function my_search_form( $form ) {
+	$form = '<form role="search" class="neck-bar-search" method="get" id="searchform" action="' . home_url( '/' ) . '" >
+    <div class="form-group input-group">
+    <input type="text" name="s" id="search" value="<?php the_search_query(); ?>" placeholder="Search" />
+    <button type="submit" class="input-group-addon"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+    </form>';
+    return $form;
+}
+add_filter( 'get_search_form', 'my_search_form' );
 ?>

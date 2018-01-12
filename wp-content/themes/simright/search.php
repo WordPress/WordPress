@@ -7,7 +7,7 @@
     </div>
     <section class="contain-box">
         <div class="slide-bar">
-            <?php get_search_form(); ?>
+            <?php include(TEMPLATEPATH. '/searchform.php'); ?>
             <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
                     <?php wp_list_categories('depth=1&title_li=&orderby=id&show_count=1&hide_empty=1&child_of=0'); ?>
