@@ -80,15 +80,17 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('CAE Converter - CAE model converter','CAE Converter - CAE model converter');
 	pll_register_string('CAD Converter - CAD model converter','CAD Converter - CAD model converter');
 	pll_register_string('Viewer - CAD/CAE model viewer','Viewer - CAD/CAE model viewer');
+	pll_register_string('Resources','Resources');
 	pll_register_string('Public Projects','Public Projects');
 	pll_register_string('Model Library','Model Library');
+	pll_register_string('Pricing','Pricing');
 	pll_register_string('Blog','Blog');
 	pll_register_string('About','About');
 	pll_register_string('About Us','About Us');
 	pll_register_string('Contact Us','Contact Us');
 	pll_register_string('Security','Security');
 	pll_register_string('Qualification','Qualification');
-	pll_register_string('Sales','Sales');
+	pll_register_string('Sales','Sales:');
 	pll_register_string('Technical Support:','Technical Support:');
 	pll_register_string('Converter','Converter');
 	pll_register_string('Viewer','Viewer');

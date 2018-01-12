@@ -3,20 +3,20 @@
                 <div class="footer">
                     <div class="footer-contact">
                         <div class="footer-sales">
-                            <h4>Sales:</h4>
+                            <h4><?php pll_e('Sales:'); ?></h4>
                             <p><a href="mailto:sales@simright.com">sales@simright.com</a></p>
                         </div>
                         <div>
-                            <h4>Technical Support:</h4>
+                            <h4><?php pll_e('Technical Support:'); ?></h4>
                             <p><a href="mailto:support@simright.com">support@simright.com</a></p>
                         </div>
                     </div>
                     <div class="footer-products">
-                        <h4>Products</h4>
-                        <p><a href="https://www.simright.com/apps/simright-converter"><i class="fa fa-angle-right"></i><b>Converter</b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-viewer"><i class="fa fa-angle-right"></i><b>Viewer</b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-simulator"><i class="fa fa-angle-right"></i><b>Simulator</b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b>Toptimizer</b></a></p>
+                        <h4><?php pll_e('Products'); ?></h4>
+                        <p><a href="https://www.simright.com/apps/simright-converter"><i class="fa fa-angle-right"></i><b><?php pll_e('Converter'); ?></b></a></p>
+                        <p><a href="https://www.simright.com/apps/simright-viewer"><i class="fa fa-angle-right"></i><b><?php pll_e('Viewer'); ?></b></a></p>
+                        <p><a href="https://www.simright.com/apps/simright-simulator"><i class="fa fa-angle-right"></i><b><?php pll_e('Simulator'); ?></b></a></p>
+                        <p><a href="https://www.simright.com/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b><?php pll_e('Toptimizer'); ?></b></a></p>
                     </div>
                     <div class="footer-follow">
                         <h4>Follow Us</h4>

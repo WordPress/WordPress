@@ -41,43 +41,42 @@
                     </a>
                 </li>
                 <li class="dropdown" data-active = "products">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b>Products</b> &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b><?php pll_e('Products'); ?></b> &nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://www.simright.com/apps">Public Cloud Apps</a></li>
-                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-simulator">Simulator - Structural Analysis</a></li>
-                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-toptimizer">Toptimizer - Topology Optimization</a></li>
-                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-viewer">Viewer - CAD/CAE model viewer</a></li>
-                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-converter">CAE Converter - CAE model converter</a></li>
-                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-cad-converter">CAD Converter - CAD model converter</a></li>
-                        <li><a href="https://www.simright.com/products/private_cloud">Private Cloud Solutions</a></li>
+                        <li><a href="https://www.simright.com/apps"><?php pll_e('Public Cloud Apps'); ?></a></li>
+                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-simulator"><?php pll_e('Simulator - Structural Analysis'); ?></a></li>
+                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-toptimizer"><?php pll_e('Toptimizer - Topology Optimization'); ?></a></li>
+                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-viewer"><?php pll_e('Viewer - CAD/CAE model viewer'); ?></a></li>
+                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-converter"><?php pll_e('CAE Converter - CAE model converter'); ?></a></li>
+                        <li class="sub-app"><a href="https://www.simright.com/apps/simright-cad-converter"><?php pll_e('CAD Converter - CAD model converter'); ?></a></li>
+                        <li><a href="https://www.simright.com/products/private_cloud"><?php pll_e('Private Cloud Solutions'); ?></a></li>
                     </ul>
                 </li>
                 <li class="dropdown" data-active = "model-library">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span><b>Resources</b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span>
+                        <span><b><?php pll_e('Resources'); ?></b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://www.simright.com/resources/public-projects">Public Projects</a></li>
-                        <li><a href="https://www.simright.com/resources/model-library">Model Library</a></li>
+                        <li><a href="https://www.simright.com/resources/public-projects"><?php pll_e('Public Projects'); ?></a></li>
+                        <li><a href="https://www.simright.com/resources/model-library"><?php pll_e('Model Library'); ?></a></li>
                     </ul>
                 </li>
                 <li data-active = "price">
                     <a href="https://www.simright.com/product-price">
-                        <span>Pricing</span>
+                        <span><?php pll_e('Pricing'); ?></span>
                     </a>
                 </li>
                 <li data-active = "blog">
                     <a href="https://www.simright.com/blog" target="_blank">
-                        <span>Blog</span>
+                        <span><?php pll_e('Blog'); ?></span>
                     </a>
                 </li>
                 <li class="active" class="dropdown" data-active = "about">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b> About</b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b><?php pll_e('About'); ?></b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu position-right" role="menu">
-                        <li><a href="https://www.simright.com/about_us">About Us</a></li>
-                        <li><a href="https://www.simright.com/contact_us">Contact Us</a></li>
-                        <li><a href="https://www.simright.com/security">Security</a></li>
-                        <li><a href="https://www.simright.com/qualification">公司资质</a></li>
+                        <li><a href="https://www.simright.com/about_us"><?php pll_e('About Us'); ?></a></li>
+                        <li><a href="https://www.simright.com/contact_us"><?php pll_e('Contact Us'); ?></a></li>
+                        <li><a href="https://www.simright.com/security"><?php pll_e('Security'); ?></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">    
