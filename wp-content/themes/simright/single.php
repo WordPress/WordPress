@@ -20,7 +20,10 @@
                 <?php endif; ?>
             </div>
             <div class="comment-list" id="user-comment">
-                <?php comments_template(); ?>
+                <?php
+                    if ( comments_open() || get_comments_number() ) {
+                        comments_template();
+                    } ?>
 			</div>
         </div>
         <div class="slide-bar">
