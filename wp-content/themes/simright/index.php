@@ -34,6 +34,9 @@
                 </div>
             </section>
         </div>
+        <div>
+            <?php link_pages('<p><code>Pages:</strong> ', '</p>', 'number'); ?>
+        </div>
     </section>
 </section>
 <?php get_footer(); ?>
