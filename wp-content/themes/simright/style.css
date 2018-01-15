@@ -1052,17 +1052,6 @@ footer .footer .wechat_qr_code {
 	line-height: 1.7142857142;
 }
 
-.comment-list .reply,
-.comment-metadata {
-	font-size: 12px;
-	line-height: 2;
-	text-transform: uppercase;
-}
-
-.comment-list .reply {
-	margin-top: 24px;
-}
-
 .comment-author .fn {
 	font-weight: 900;
 }
@@ -1135,7 +1124,6 @@ footer .footer .wechat_qr_code {
 }
 .comments-area article header {
 	margin: 0 0 48px;
-	overflow: hidden;
 	position: relative;
 }
 .comments-area article header img {
@@ -1237,9 +1225,11 @@ a.comment-edit-link:hover {
 	margin: 11px 0;
 }
 #respond form p.logged-in-as {
+    display: none;
 	margin-bottom: 24px;
 }
 #respond form label {
+    display: none;
 	display: block;
 	line-height: 1.714285714;
 }
@@ -1250,13 +1240,38 @@ a.comment-edit-link:hover {
 	font-size: 12px;
 	line-height: 1.714285714;
 	padding: 10px;
-	width: 100%;
+    width: 100%;
+    resize: none;
+}
+#respond form textarea{
+    height: 110px;
 }
 #respond form p.form-allowed-tags {
 	margin: 0;
 	font-size: 12px;
 	line-height: 2;
 	color: #5e5e5e;
+}
+
+#respond .form-submit{
+    display: inline-block;
+    line-height: 14px;
+    font-size: 14px;
+    background-color: #1972A9;
+    color: #ffffff;
+    box-shadow: 0px 2px 5px 1px rgba(70, 111, 180, 0.5);
+    padding: 13px 33px;
+    border: none;
+    border-radius: 2px;
+    font-weight: normal;
+    border: 1px solid transparent;
+    border-radius: 86px;
+    padding: 10px 30px;
+    float: right!important;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
 }
 .required {
 	color: red;
@@ -1327,6 +1342,7 @@ a.comment-edit-link:hover {
 .entry-content ul,
 .comment-content ul,
 .mu_register ul {
+    list-style: none;
 	margin: 0 0 24px;
 	line-height: 1.714285714;
 }
@@ -1338,20 +1354,24 @@ a.comment-edit-link:hover {
 .comment-content ul ol,
 .entry-content ol ul,
 .comment-content ol ul {
+    list-style: none;
 	margin-bottom: 0;
 }
 .entry-content ul,
 .comment-content ul,
 .mu_register ul {
+    list-style: none;
 	list-style: disc outside;
 }
 .entry-content ol,
 .comment-content ol {
+    list-style: none;
 	list-style: decimal outside;
 }
 .entry-content li,
 .comment-content li,
 .mu_register li {
+    list-style: none;
 	margin: 0 0 0 36px;
 }
 .entry-content blockquote,
@@ -1452,6 +1472,21 @@ img.aligncenter,
 .comment-content td {
 	border-top: 1px solid #ededed;
 	padding: 6px 10px 6px 0;
+}
+
+.comments-area .children article{
+    border-left: 1px solid #ccc;
+    padding-left: 24px;
+}
+.comments-area .children .fn{
+    color: #1972a9;
+}
+.comments-area .children cite,
+.comments-area .children time{
+    margin-left: 0;
+}
+.comments-area .children .avatar{
+    display: none;
 }
 
 
