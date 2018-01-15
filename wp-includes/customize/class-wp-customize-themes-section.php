@@ -163,7 +163,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 						<div class="filter-group-feature">
 							<?php foreach ( $features as $feature => $feature_name ) : ?>
 								<input type="checkbox" id="filter-id-<?php echo esc_attr( $feature ); ?>" value="<?php echo esc_attr( $feature ); ?>" />
-								<label for="filter-id-<?php echo esc_attr( $feature ); ?>"><?php echo esc_html( $feature_name ); ?></label><br>
+								<label for="filter-id-<?php echo esc_attr( $feature ); ?>"><?php echo esc_html( $feature_name ); ?></label>
 							<?php endforeach; ?>
 						</div>
 					</fieldset>
