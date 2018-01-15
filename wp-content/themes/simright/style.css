@@ -1107,19 +1107,15 @@ footer .footer .wechat_qr_code {
 
 .comments-title {
 	margin-bottom: 48px;
-	margin-bottom: 3.428571429rem;
 	font-size: 16px;
-	font-size: 1.142857143rem;
 	line-height: 1.5;
 	font-weight: normal;
 }
 .comments-area article {
 	margin: 24px 0;
-	margin: 1.714285714rem 0;
 }
 .comments-area article header {
 	margin: 0 0 48px;
-	margin: 0 0 3.428571429rem;
 	overflow: hidden;
 	position: relative;
 }
@@ -1132,12 +1128,10 @@ footer .footer .wechat_qr_code {
 .comments-area article header time {
 	display: block;
 	margin-left: 85px;
-	margin-left: 6.071428571rem;
 }
 .comments-area article header cite {
 	font-style: normal;
 	font-size: 15px;
-	font-size: 1.071428571rem;
 	line-height: 1.42857143;
 }
 .comments-area cite b {
@@ -1147,7 +1141,6 @@ footer .footer .wechat_qr_code {
 	line-height: 1.714285714;
 	text-decoration: none;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	color: #5e5e5e;
 }
 .comments-area article header a {
@@ -1168,9 +1161,7 @@ footer .footer .wechat_qr_code {
 	top: 0;
 	right: 0;
 	padding: 6px 12px;
-	padding: 0.428571429rem 0.857142857rem;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	font-weight: normal;
 	color: #fff;
 	background-color: #0088d0;
@@ -1186,11 +1177,8 @@ footer .footer .wechat_qr_code {
 .comments-area .bypostauthor cite span {
 	position: absolute;
 	margin-left: 5px;
-	margin-left: 0.357142857rem;
 	padding: 2px 5px;
-	padding: 0.142857143rem 0.357142857rem;
 	font-size: 10px;
-	font-size: 0.714285714rem;
 }
 .comments-area .bypostauthor cite b {
 	font-weight: bold;
@@ -1199,7 +1187,6 @@ a.comment-reply-link,
 a.comment-edit-link {
 	color: #686868;
 	font-size: 13px;
-	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
 a.comment-reply-link:hover,
@@ -1209,37 +1196,29 @@ a.comment-edit-link:hover {
 .commentlist .pingback {
 	line-height: 1.714285714;
 	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
 }
 
 /* Comment form */
 #respond {
 	margin-top: 48px;
-	margin-top: 3.428571429rem;
 }
 #respond h3#reply-title {
 	font-size: 16px;
-	font-size: 1.142857143rem;
 	line-height: 1.5;
 }
 #respond h3#reply-title #cancel-comment-reply-link {
 	margin-left: 10px;
-	margin-left: 0.714285714rem;
 	font-weight: normal;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 }
 #respond form {
 	margin: 24px 0;
-	margin: 1.714285714rem 0;
 }
 #respond form p {
 	margin: 11px 0;
-	margin: 0.785714286rem 0;
 }
 #respond form p.logged-in-as {
 	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
 }
 #respond form label {
 	display: block;
@@ -1250,16 +1229,13 @@ a.comment-edit-link:hover {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 1.714285714;
 	padding: 10px;
-	padding: 0.714285714rem;
 	width: 100%;
 }
 #respond form p.form-allowed-tags {
 	margin: 0;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 2;
 	color: #5e5e5e;
 }
@@ -1280,44 +1256,37 @@ a.comment-edit-link:hover {
 .entry-content h6,
 .comment-content h6 {
 	margin: 24px 0;
-	margin: 1.714285714rem 0;
 	line-height: 1.714285714;
 }
 .entry-content h1,
 .comment-content h1 {
 	font-size: 21px;
-	font-size: 1.5rem;
 	line-height: 1.5;
 }
 .entry-content h2,
 .comment-content h2,
 .mu_register h2 {
 	font-size: 18px;
-	font-size: 1.285714286rem;
 	line-height: 1.6;
 }
 .entry-content h3,
 .comment-content h3 {
 	font-size: 16px;
-	font-size: 1.142857143rem;
 	line-height: 1.846153846;
 }
 .entry-content h4,
 .comment-content h4 {
 	font-size: 14px;
-	font-size: 1rem;
 	line-height: 1.846153846;
 }
 .entry-content h5,
 .comment-content h5 {
 	font-size: 13px;
-	font-size: 0.928571429rem;
 	line-height: 1.846153846;
 }
 .entry-content h6,
 .comment-content h6 {
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 1.846153846;
 }
 .entry-content p,
@@ -1325,7 +1294,6 @@ a.comment-edit-link:hover {
 .comment-content p,
 .mu_register p {
 	margin: 0 0 24px;
-	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
 }
 .entry-content a:visited,
@@ -1341,7 +1309,6 @@ a.comment-edit-link:hover {
 .comment-content ul,
 .mu_register ul {
 	margin: 0 0 24px;
-	margin: 0 0 1.714285714rem;
 	line-height: 1.714285714;
 }
 .entry-content ul ul,
@@ -1367,14 +1334,11 @@ a.comment-edit-link:hover {
 .comment-content li,
 .mu_register li {
 	margin: 0 0 0 36px;
-	margin: 0 0 0 2.571428571rem;
 }
 .entry-content blockquote,
 .comment-content blockquote {
 	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
 	padding: 24px;
-	padding: 1.714285714rem;
 	font-style: italic;
 }
 .entry-content blockquote p:last-child,
@@ -1385,7 +1349,6 @@ a.comment-edit-link:hover {
 .comment-content code {
 	font-family: Consolas, Monaco, Lucida Console, monospace;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 2;
 }
 .entry-content pre,
@@ -1394,13 +1357,10 @@ a.comment-edit-link:hover {
 	color: #666;
 	font-family: Consolas, Monaco, Lucida Console, monospace;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 1.714285714;
 	margin: 24px 0;
-	margin: 1.714285714rem 0;
 	overflow: auto;
 	padding: 24px;
-	padding: 1.714285714rem;
 }
 .entry-content pre code,
 .comment-content pre code {
@@ -1420,37 +1380,30 @@ a.comment-edit-link:hover {
 	display: block;
 	line-height: 1.714285714;
 	margin: 0 0 24px;
-	margin: 0 0 1.714285714rem;
 }
 img.alignleft,
 .wp-caption.alignleft {
 	margin: 12px 24px 12px 0;
-	margin: 0.857142857rem 1.714285714rem 0.857142857rem 0;
 }
 img.alignright,
 .wp-caption.alignright {
 	margin: 12px 0 12px 24px;
-	margin: 0.857142857rem 0 0.857142857rem 1.714285714rem;
 }
 img.aligncenter,
 .wp-caption.aligncenter {
 	clear: both;
 	margin-top: 12px;
-	margin-top: 0.857142857rem;
 	margin-bottom: 12px;
-	margin-bottom: 0.857142857rem;
 }
 .entry-content embed,
 .entry-content iframe,
 .entry-content object,
 .entry-content video {
 	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
 }
 .entry-content dl,
 .comment-content dl {
 	margin: 0 24px;
-	margin: 0 1.714285714rem;
 }
 .entry-content dt,
 .comment-content dt {
@@ -1461,25 +1414,20 @@ img.aligncenter,
 .comment-content dd {
 	line-height: 1.714285714;
 	margin-bottom: 24px;
-	margin-bottom: 1.714285714rem;
 }
 .entry-content table,
 .comment-content table {
 	border-bottom: 1px solid #ededed;
 	color: #757575;
 	font-size: 12px;
-	font-size: 0.857142857rem;
 	line-height: 2;
 	margin: 0 0 24px;
-	margin: 0 0 1.714285714rem;
 	width: 100%;
 }
 .entry-content table caption,
 .comment-content table caption {
 	font-size: 16px;
-	font-size: 1.142857143rem;
 	margin: 24px 0;
-	margin: 1.714285714rem 0;
 }
 .entry-content td,
 .comment-content td {
