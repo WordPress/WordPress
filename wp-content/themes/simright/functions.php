@@ -69,6 +69,84 @@ add_action('new_to_publish', 'autoset_featured');
 add_action('pending_to_publish', 'autoset_featured');
 add_action('future_to_publish', 'autoset_featured');
 
+/** 评论 */
+
+if ( ! function_exists( 'twentytwelve_comment' ) ) :
+	/**
+	 * Template for comments and pingbacks.
+	 *
+	 * To override this walker in a child theme without modifying the comments template
+	 * simply create your own twentytwelve_comment(), and that function will be used instead.
+	 *
+	 * Used as a callback by wp_list_comments() for displaying the comments.
+	 *
+	 * @since Twenty Twelve 1.0
+	 */
+	function twentytwelve_comment( $comment, $args, $depth ) {
+		$GLOBALS['comment'] = $comment;
+		switch ( $comment->comment_type ) :
+			case 'pingback':
+			case 'trackback':
+				// Display trackbacks differently than normal comments.
+		?>
+		<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
+		<p><?php _e( 'Pingback:', 'twentytwelve' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( '(Edit)', 'twentytwelve' ), '<span class="edit-link">', '</span>' ); ?></p>
+	<?php
+				break;
+			default:
+				// Proceed with normal comments.
+				global $post;
+		?>
+		<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+		<article id="comment-<?php comment_ID(); ?>" class="comment">
+			<header class="comment-meta comment-author vcard">
+				<?php
+					echo get_avatar( $comment, 44 );
+					printf(
+						'<cite><b class="fn">%1$s</b> %2$s</cite>',
+						get_comment_author_link(),
+						// If current post author is also comment author, make it known visually.
+						( $comment->user_id === $post->post_author ) ? '<span>' . __( 'Post author', 'twentytwelve' ) . '</span>' : ''
+					);
+					printf(
+						'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
+						esc_url( get_comment_link( $comment->comment_ID ) ),
+						get_comment_time( 'c' ),
+						/* translators: 1: date, 2: time */
+						sprintf( __( '%1$s at %2$s', 'twentytwelve' ), get_comment_date(), get_comment_time() )
+					);
+					?>
+				</header><!-- .comment-meta -->
+
+				<?php if ( '0' == $comment->comment_approved ) : ?>
+				<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentytwelve' ); ?></p>
+			<?php endif; ?>
+
+				<section class="comment-content comment">
+				<?php comment_text(); ?>
+				<?php edit_comment_link( __( 'Edit', 'twentytwelve' ), '<p class="edit-link">', '</p>' ); ?>
+				</section><!-- .comment-content -->
+
+				<div class="reply">
+				<?php
+				comment_reply_link(
+					array_merge(
+						$args, array(
+							'reply_text' => '<img class="reply" src="https://oss.simright.com/images/reply.svg">',
+							'depth'      => $depth,
+							'max_depth'  => 2,
+						)
+					)
+				);
+?>
+				</div><!-- .reply -->
+			</article><!-- #comment-## -->
+		<?php
+				break;
+		endswitch; // end comment_type check
+	}
+endif;
+
 /** 注册字符串 */
 if( function_exists('pll_register_string') ) {
 	pll_register_string('Home','Home');
@@ -111,46 +189,4 @@ function my_search_form( $form ) {
     return $form;
 }
 add_filter( 'get_search_form', 'my_search_form' );
-
-/** 评论 */
-
-function twentyfourteen_scripts() {
-	// Add Lato font, used in the main stylesheet.
-	wp_enqueue_style( 'twentyfourteen-lato', twentyfourteen_font_url(), array(), null );
-
-	// Add Genericons font, used in the main stylesheet.
-	wp_enqueue_style( 'genericons', get_template_directory_uri() . '/genericons/genericons.css', array(), '3.0.3' );
-
-	// Load our main stylesheet.
-	wp_enqueue_style( 'twentyfourteen-style', get_stylesheet_uri() );
-
-	// Load the Internet Explorer specific stylesheet.
-	wp_enqueue_style( 'twentyfourteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfourteen-style' ), '20131205' );
-	wp_style_add_data( 'twentyfourteen-ie', 'conditional', 'lt IE 9' );
-
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
-
-	if ( is_singular() && wp_attachment_is_image() ) {
-		wp_enqueue_script( 'twentyfourteen-keyboard-image-navigation', get_template_directory_uri() . '/js/keyboard-image-navigation.js', array( 'jquery' ), '20130402' );
-	}
-
-	if ( is_active_sidebar( 'sidebar-3' ) ) {
-		wp_enqueue_script( 'jquery-masonry' );
-	}
-
-	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
-		wp_enqueue_script( 'twentyfourteen-slider', get_template_directory_uri() . '/js/slider.js', array( 'jquery' ), '20131205', true );
-		wp_localize_script(
-			'twentyfourteen-slider', 'featuredSliderDefaults', array(
-				'prevText' => __( 'Previous', 'twentyfourteen' ),
-				'nextText' => __( 'Next', 'twentyfourteen' ),
-			)
-		);
-	}
-
-	wp_enqueue_script( 'twentyfourteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20150315', true );
-}
-add_action( 'wp_enqueue_scripts', 'twentyfourteen_scripts' );
 ?>

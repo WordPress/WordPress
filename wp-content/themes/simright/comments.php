@@ -43,17 +43,9 @@ if ( post_password_required() ) {
     </h2>
     <hr/>
 
-<?php
-    comment_form(
-        array(
-            'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
-            'title_reply_after'  => '</h2>',
-        )
-    );
-?>
 
 <div id="comments" class="comments-area">
-
+	<?php comment_form(); ?>
 	<?php if ( have_comments() ) : ?>
 	<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : ?>
 	<nav id="comment-nav-above" class="navigation comment-navigation" role="navigation">
@@ -67,9 +59,8 @@ if ( post_password_required() ) {
 		<?php
 			wp_list_comments(
 				array(
-					'style'       => 'ol',
-					'short_ping'  => true,
-					'avatar_size' => 34,
+					'callback' => 'twentytwelve_comment',
+					'style'    => 'ol',
 				)
 			);
 		?>
