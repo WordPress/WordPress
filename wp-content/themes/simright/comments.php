@@ -21,41 +21,48 @@ if ( post_password_required() ) {
 ?>
 
 <div id="comments" class="comment-wrap">
+    <h2 class="comments-title">
+        <?php
+            $comments_number = get_comments_number();
+            if ( '1' === $comments_number ) {
+                /* translators: %s: post title */
+                printf( _x( 'Comments(1)', 'comments title', 'simright' ), get_the_title() );
+            } else {
+                printf(
+                    /* translators: 1: number of comments, 2: post title */
+                    _nx(
+                        'Comments(%1$s)',
+                        'Comments(%1$s)',
+                        $comments_number,
+                        'comments title',
+                        'simright'
+                    ),
+                    number_format_i18n( $comments_number ),
+                    get_the_title()
+                );
+            }
+        ?>
+    </h2>
+    <hr/>
+
+<?php
+    comment_form(
+        array(
+            'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
+            'title_reply_after'  => '</h2>',
+        )
+    );
+?>
 
 	<?php if ( have_comments() ) : ?>
-		<h2 class="comments-title">
-			<?php
-                $comments_number = get_comments_number();
-                if ( '1' === $comments_number ) {
-                    /* translators: %s: post title */
-                    printf( _x( 'Comments(1)', 'comments title', 'simright' ), get_the_title() );
-                } else {
-                    printf(
-                        /* translators: 1: number of comments, 2: post title */
-                        _nx(
-                            'Comments(%1$s)',
-                            'Comments(%1$s)',
-                            $comments_number,
-                            'comments title',
-                            'simright'
-                        ),
-                        number_format_i18n( $comments_number ),
-                        get_the_title()
-                    );
-                }
-			?>
-        </h2>
-        <hr>
-
-		<?php the_comments_navigation(); ?>
-
+		
 		<ul class="comment-list">
 			<?php
 				wp_list_comments(
 					array(
 						'style'       => 'ul',
 						'short_ping'  => true,
-						'avatar_size' => 42,
+						'avatar_size' => 32,
 					)
 				);
 			?>
@@ -72,14 +79,5 @@ if ( post_password_required() ) {
 	?>
 	<p class="no-comments"><?php _e( 'Comments are closed.', 'simright' ); ?></p>
 	<?php endif; ?>
-
-	<?php
-		comment_form(
-			array(
-				'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
-				'title_reply_after'  => '</h2>',
-			)
-		);
-	?>
 
 </div><!-- .comments-area -->
