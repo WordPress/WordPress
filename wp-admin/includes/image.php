@@ -357,7 +357,7 @@ function wp_read_image_metadata( $file ) {
 		return false;
 	}
 
-	list( , , $sourceImageType ) = getimagesize( $file );
+	list( , , $sourceImageType ) = @getimagesize( $file );
 
 	/*
 	 * EXIF contains a bunch of data we'll probably never need formatted in ways
@@ -386,10 +386,10 @@ function wp_read_image_metadata( $file ) {
 	 * as caption, description etc.
 	 */
 	if ( is_callable( 'iptcparse' ) ) {
-		getimagesize( $file, $info );
+		@getimagesize( $file, $info );
 
 		if ( ! empty( $info['APP13'] ) ) {
-			$iptc = iptcparse( $info['APP13'] );
+			$iptc = @iptcparse( $info['APP13'] );
 
 			// Headline, "A brief synopsis of the caption."
 			if ( ! empty( $iptc['2#105'][0] ) ) {
