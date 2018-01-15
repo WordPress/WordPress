@@ -254,7 +254,7 @@ b {
     font-size: 16px;
 }
 
-header {
+body>header {
     position: fixed;
     top: 0;
     width: 100%;
@@ -264,7 +264,11 @@ header {
     border-bottom: 1px solid #dedcdc;
 }
 
-header>section {
+body>header.vcade{
+    border-bottom: none;
+}
+
+body>header>section {
     position: relative;
     margin: 0 auto;
     max-width: 1200px;
@@ -285,16 +289,16 @@ header>section {
     align-items: center;
 }
 
-header .logo img {
+body>header .logo img {
     width: 140px;
 }
 
-header ul,
-header li {
+body>header ul,
+body>header li {
     list-style: none;
 }
 
-header .navbar {
+body>header .navbar {
     height: 100%;
     padding: 0;
     margin: 0;
@@ -316,11 +320,11 @@ header .navbar {
     align-items: center;
 }
 
-header .navbar>li {
+body>header .navbar>li {
     height: 100%;
 }
 
-header .navbar>li>a {
+body>header .navbar>li>a {
     color: #707171;
     height: 100%;
     display: inline-block;
@@ -329,35 +333,35 @@ header .navbar>li>a {
     white-space: nowrap;
 }
 
-header .navbar>li>a span {
+body>header .navbar>li>a span {
     display: inline-block;
     line-height: 88px;
 }
 
-header .navbar>li>a:hover {
+body>header .navbar>li>a:hover {
     color: #fff;
     background-color: #1972A9;
 }
 
-header .navbar>li .sub-app>a {
+body>header .navbar>li .sub-app>a {
     text-indent: 1em;
     color: #959595;
     font-weight: normal;
 }
 
-header .navbar .active a {
+body>header .navbar .active a {
     color: #1972A9;
     font-weight: bold;
 }
 
-header .navbar .active span {
+body>header .navbar .active span {
     display: inline-block;
     box-sizing: border-box;
     height: 100%;
     border-bottom: 2px solid #1972A9;
 }
 
-header .login {
+body>header .login {
     white-space: nowrap;
     position: absolute;
     right: 0;
@@ -366,20 +370,20 @@ header .login {
     z-index: 100;
 }
 
-header .login .btn-nobg a {
+body>header .login .btn-nobg a {
     color: #707171;
     white-space: nowrap;
 }
 
-header .login .btn-nobg:hover {
+body>header .login .btn-nobg:hover {
     border-color: transparent;
 }
 
-header .login>li {
+body>header .login>li {
     height: 100%;
 }
 
-header .login>li>a {
+body>header .login>li>a {
     color: #707171;
     height: 100%;
     line-height: 88px;
@@ -400,22 +404,22 @@ header .login>li>a {
     width: 220px;
 }
 
-header .login>li>a:hover {
+body>header .login>li>a:hover {
     color: #fff;
     background-color: #1972A9;
 }
 
-header .login>li>a>img {
+body>header .login>li>a>img {
     width: 40px;
     height: 40px;
 }
 
-header .login .user-name {
+body>header .login .user-name {
     display: inline-block;
     max-width: 120px;
 }
 
-header .dropdown-menu {
+body>header .dropdown-menu {
     background: #F3FAFE;
     padding: 10px 0;
     border: none;
@@ -424,7 +428,7 @@ header .dropdown-menu {
     box-shadow: 0px 4px 5px 0 rgba(34, 101, 143, 0.2);
 }
 
-header .dropdown-menu li a {
+body>header .dropdown-menu li a {
     width: 100%;
     padding: 0 20px;
     display: inline-block;
@@ -434,12 +438,12 @@ header .dropdown-menu li a {
     font-weight: bold;
 }
 
-header .dropdown-menu li a:hover {
+body>header .dropdown-menu li a:hover {
     background-color: #1583C7;
     color: #fff;
 }
 
-header #open-google-translate b {
+body>header #open-google-translate b {
     min-width: 70px;
     width: 100%;
     display: inline-block;
@@ -450,7 +454,7 @@ header #open-google-translate b {
     background-repeat: no-repeat;
 }
 
-header #open-google-translate:hover b {
+body>header #open-google-translate:hover b {
     background-image: url("https://oss.simright.com/images/icon_translate_white.svg");
 }
 
@@ -1011,8 +1015,24 @@ footer .footer .wechat_qr_code {
 }
 
 .comments-area {
-	max-width: 474px;
-	padding: 0 10px;
+	max-width: 100%;
+    padding: 0 10px;
+    padding-right: 20px;
+}
+.comment-content{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
 .comment-reply-title,
@@ -1067,7 +1087,6 @@ footer .footer .wechat_qr_code {
 .comment-list article,
 .comment-list .pingback,
 .comment-list .trackback {
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	margin-bottom: 24px;
 	padding-top: 24px;
 }
@@ -1437,36 +1456,36 @@ img.aligncenter,
 
 
 @media (max-width: 991px) {
-    header {
+    body>header {
         height: 180px;
         position: static;
     }
-    header>section {
+    body>header>section {
         display: block;
     }
-    header>section .logo {
+    body>header>section .logo {
         padding-left: .4rem;
     }
-    header>section .logo img {
+    body>header>section .logo img {
         height: 100px;
         padding-top: 25px;
         padding-bottom: 25px;
         flex: 1;
     }
-    header>section .position-right.dropdown-menu {
+    body>header>section .position-right.dropdown-menu {
         left: auto;
         right: 0;
     }
-    header>section .login {
+    body>header>section .login {
         right: 0;
         top: 0;
         transform: translateY(0);
         height: 100px;
     }
-    header>section .login>li {
+    body>header>section .login>li {
         height: 100%;
     }
-    header>section .login>li>a {
+    body>header>section .login>li>a {
         height: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -1485,11 +1504,11 @@ img.aligncenter,
         height: 100px;
         width: 1.2rem;
     }
-    header>section .login>li>a:hover {
+    body>header>section .login>li>a:hover {
         color: #fff;
         background-color: #1972A9;
     }
-    header>section .login>a {
+    body>header>section .login>a {
         height: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -1508,7 +1527,7 @@ img.aligncenter,
         height: 100px;
         width: 1.2rem;
     }
-    header>section .navbar {
+    body>header>section .navbar {
         width: 100%;
         height: 79px;
         padding: 0;
@@ -1530,11 +1549,11 @@ img.aligncenter,
         align-items: center;
         border-top: 1px solid #C0C0C0;
     }
-    header>section .navbar>li {
+    body>header>section .navbar>li {
         flex: 1;
         text-align: center;
     }
-    header>section .navbar>li>a {
+    body>header>section .navbar>li>a {
         color: #707171;
         height: 100%;
         width: 100%;
@@ -1542,10 +1561,10 @@ img.aligncenter,
         line-height: 78px;
         padding: 0 2px;
     }
-    header>section .navbar>li span {
+    body>header>section .navbar>li span {
         line-height: 88px;
     }
-    header>section .navbar .active span {
+    body>header>section .navbar .active span {
         height: 79px;
         line-height: 88px;
     }

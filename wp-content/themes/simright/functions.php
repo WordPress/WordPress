@@ -71,18 +71,18 @@ add_action('future_to_publish', 'autoset_featured');
 
 /** 评论 */
 
-if ( ! function_exists( 'twentytwelve_comment' ) ) :
+if ( ! function_exists( 'simright_comment' ) ) :
 	/**
 	 * Template for comments and pingbacks.
 	 *
 	 * To override this walker in a child theme without modifying the comments template
-	 * simply create your own twentytwelve_comment(), and that function will be used instead.
+	 * simply create your own simright_comment(), and that function will be used instead.
 	 *
 	 * Used as a callback by wp_list_comments() for displaying the comments.
 	 *
 	 * @since Twenty Twelve 1.0
 	 */
-	function twentytwelve_comment( $comment, $args, $depth ) {
+	function simright_comment( $comment, $args, $depth ) {
 		$GLOBALS['comment'] = $comment;
 		switch ( $comment->comment_type ) :
 			case 'pingback':
@@ -90,7 +90,7 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 				// Display trackbacks differently than normal comments.
 		?>
 		<li <?php comment_class(); ?> id="comment-<?php comment_ID(); ?>">
-		<p><?php _e( 'Pingback:', 'twentytwelve' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( '(Edit)', 'twentytwelve' ), '<span class="edit-link">', '</span>' ); ?></p>
+		<p><?php _e( 'Pingback:', 'simright' ); ?> <?php comment_author_link(); ?> <?php edit_comment_link( __( '(Edit)', 'simright' ), '<span class="edit-link">', '</span>' ); ?></p>
 	<?php
 				break;
 			default:
@@ -106,40 +106,36 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 						'<cite><b class="fn">%1$s</b> %2$s</cite>',
 						get_comment_author_link(),
 						// If current post author is also comment author, make it known visually.
-						( $comment->user_id === $post->post_author ) ? '<span>' . __( 'Post author', 'twentytwelve' ) . '</span>' : ''
+						( $comment->user_id === $post->post_author ) ? '<span></span>' : ''
 					);
 					printf(
 						'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
 						esc_url( get_comment_link( $comment->comment_ID ) ),
 						get_comment_time( 'c' ),
 						/* translators: 1: date, 2: time */
-						sprintf( __( '%1$s at %2$s', 'twentytwelve' ), get_comment_date(), get_comment_time() )
+						sprintf( __( '%1$s at %2$s', 'simright' ), get_comment_date(), get_comment_time() )
 					);
 					?>
 				</header><!-- .comment-meta -->
-
 				<?php if ( '0' == $comment->comment_approved ) : ?>
-				<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentytwelve' ); ?></p>
+				<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'simright' ); ?></p>
 			<?php endif; ?>
-
 				<section class="comment-content comment">
 				<?php comment_text(); ?>
-				<?php edit_comment_link( __( 'Edit', 'twentytwelve' ), '<p class="edit-link">', '</p>' ); ?>
-				</section><!-- .comment-content -->
-
 				<div class="reply">
 				<?php
-				comment_reply_link(
-					array_merge(
-						$args, array(
-							'reply_text' => '<img class="reply" src="https://oss.simright.com/images/reply.svg">',
-							'depth'      => $depth,
-							'max_depth'  => 2,
+					comment_reply_link(
+						array_merge(
+							$args, array(
+								'reply_text' => '<img class="reply" src="https://oss.simright.com/images/reply.svg">',
+								'depth'      => $depth,
+								'max_depth'  => 2,
+							)
 						)
-					)
-				);
-?>
+					);
+				?>
 				</div><!-- .reply -->
+				</section><!-- .comment-content -->
 			</article><!-- #comment-## -->
 		<?php
 				break;
