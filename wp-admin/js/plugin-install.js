@@ -146,8 +146,11 @@ jQuery( document ).ready( function( $ ) {
 		}
 	}
 
-	// Open the Plugin details modal.
-	$( '.thickbox.open-plugin-details-modal' ).on( 'click', function( e ) {
+	/*
+	 * Open the Plugin details modal. The event is delegated to get also the links
+	 * in the plugins search tab, after the AJAX search rebuilds the HTML.
+	 */
+	$( 'body' ).on( 'click', '.thickbox.open-plugin-details-modal', function( e ) {
 		// The `data-title` attribute is used only in the Plugin screens.
 		var title = $( this ).data( 'title' ) ? plugininstallL10n.plugin_information + ' ' + $( this ).data( 'title' ) : plugininstallL10n.plugin_modal_label;
 
