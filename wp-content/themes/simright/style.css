@@ -16,6 +16,9 @@ Tags: custom header, fixed width, two columns, widgets
     src: url('./fonts/glyphicons-halflings-regular.eot');
     src: url('./fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('./fonts/glyphicons-halflings-regular.woff') format('woff'), url('./fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('./fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
+ul,li,ol{
+    list-style: none!important;
+}
 
 body {
     font-family: Arial, Verdana, Tahoma, "Microsoft YaHei", Sans-serif;
@@ -1216,7 +1219,8 @@ a.comment-edit-link:hover {
 #respond h3#reply-title #cancel-comment-reply-link {
 	margin-left: 10px;
 	font-weight: normal;
-	font-size: 12px;
+    font-size: 12px;
+    float: right!important;
 }
 #respond form {
 	margin: 24px 0;
@@ -1230,7 +1234,6 @@ a.comment-edit-link:hover {
 }
 #respond form label {
     display: none;
-	display: block;
 	line-height: 1.714285714;
 }
 #respond form input[type="text"],
@@ -1253,7 +1256,7 @@ a.comment-edit-link:hover {
 	color: #5e5e5e;
 }
 
-#respond .form-submit{
+#respond #submit{
     display: inline-block;
     line-height: 14px;
     font-size: 14px;

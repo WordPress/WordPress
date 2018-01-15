@@ -17,33 +17,29 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-
-<div id="comments" class="comment-wrap">
-    <h2 class="comments-title">
-        <?php
-            $comments_number = get_comments_number();
-            if ( '1' === $comments_number ) {
-                /* translators: %s: post title */
-                printf( _x( 'Comments(1)', 'comments title', 'simright' ), get_the_title() );
-            } else {
-                printf(
-                    /* translators: 1: number of comments, 2: post title */
-                    _nx(
-                        'Comments(%1$s)',
-                        'Comments(%1$s)',
-                        $comments_number,
-                        'comments title',
-                        'simright'
-                    ),
-                    number_format_i18n( $comments_number ),
-                    get_the_title()
-                );
-            }
-        ?>
-    </h2>
-    <hr/>
-
-
+<h2 class="comments-title">
+	<?php
+		$comments_number = get_comments_number();
+		if ( '1' === $comments_number ) {
+			/* translators: %s: post title */
+			printf( _x( 'Comments(1)', 'comments title', 'simright' ), get_the_title() );
+		} else {
+			printf(
+				/* translators: 1: number of comments, 2: post title */
+				_nx(
+					'Comments(%1$s)',
+					'Comments(%1$s)',
+					$comments_number,
+					'comments title',
+					'simright'
+				),
+				number_format_i18n( $comments_number ),
+				get_the_title()
+			);
+		}
+	?>
+</h2>
+<hr/>
 <div id="comments" class="comments-area">
 	<?php comment_form(); ?>
 	<?php if ( have_comments() ) : ?>
