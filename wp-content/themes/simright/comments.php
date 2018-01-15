@@ -6,8 +6,8 @@
  * and the comment form.
  *
  * @package WordPress
- * @subpackage Twenty_Sixteen
- * @since Twenty Sixteen 1.0
+ * @subpackage Simright
+ * @since Simright 1.0
  */
 
 /*
@@ -20,45 +20,36 @@ if ( post_password_required() ) {
 }
 ?>
 
-<div id="comments" class="comments-area">
+<div id="comments" class="comment-wrap">
 
 	<?php if ( have_comments() ) : ?>
 		<h2 class="comments-title">
 			<?php
-				$comments_number = get_comments_number();
-			if ( '1' === $comments_number ) {
-				/* translators: %s: post title */
-				printf( _x( 'One thought on &ldquo;%s&rdquo;', 'comments title', 'twentysixteen' ), get_the_title() );
-			} else {
-				printf(
-					/* translators: 1: number of comments, 2: post title */
-					_nx(
-						'%1$s thought on &ldquo;%2$s&rdquo;',
-						'%1$s thoughts on &ldquo;%2$s&rdquo;',
-						$comments_number,
-						'comments title',
-						'twentysixteen'
-					),
-					number_format_i18n( $comments_number ),
-					get_the_title()
-				);
-			}
+                $comments_number = get_comments_number();
+                printf(
+                    _nx(
+                       ' Comments(%1$s)'
+                    ),
+                    number_format_i18n( $comments_number )
+                );
 			?>
-		</h2>
+        </h2>
+        <hr>
 
 		<?php the_comments_navigation(); ?>
 
-		<ol class="comment-list">
+		<ul class="comment-list">
 			<?php
 				wp_list_comments(
 					array(
-						'style'       => 'ol',
+						'style'       => 'ul',
 						'short_ping'  => true,
 						'avatar_size' => 42,
 					)
 				);
 			?>
-		</ol><!-- .comment-list -->
+        </ul>
+        <!-- .comment-list -->
 
 		<?php the_comments_navigation(); ?>
 
@@ -68,7 +59,7 @@ if ( post_password_required() ) {
 		// If comments are closed and there are comments, let's leave a little note, shall we?
 	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
 	?>
-	<p class="no-comments"><?php _e( 'Comments are closed.', 'twentysixteen' ); ?></p>
+	<p class="no-comments"><?php _e( 'Comments are closed.', 'simright' ); ?></p>
 	<?php endif; ?>
 
 	<?php
