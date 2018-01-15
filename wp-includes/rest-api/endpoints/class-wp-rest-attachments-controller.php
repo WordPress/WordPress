@@ -123,7 +123,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$file    = $file['file'];
 
 		// use image exif/iptc data for title and caption defaults if possible
-		$image_meta = @wp_read_image_metadata( $file );
+		$image_meta = wp_read_image_metadata( $file );
 
 		if ( ! empty( $image_meta ) ) {
 			if ( empty( $request['title'] ) && trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
