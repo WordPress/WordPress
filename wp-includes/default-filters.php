@@ -114,7 +114,7 @@ foreach ( array( 'single_post_title', 'single_cat_title', 'single_tag_title', 's
 }
 
 // Format text area for display.
-foreach ( array( 'term_description', 'get_the_author_description', 'get_the_post_type_description' ) as $filter ) {
+foreach ( array( 'term_description', 'get_the_post_type_description' ) as $filter ) {
 	add_filter( $filter, 'wptexturize'      );
 	add_filter( $filter, 'convert_chars'    );
 	add_filter( $filter, 'wpautop'          );
