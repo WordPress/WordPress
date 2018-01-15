@@ -214,7 +214,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			foreach ( $features as $feature => $feature_name ) {
 				$feature = esc_attr( $feature );
 				echo '<input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
-				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label><br>';
+				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label>';
 			}
 			echo '</div>';
 			echo '</fieldset>';

@@ -1188,9 +1188,17 @@ th.action-links {
 
 .filter-drawer .filter-group-feature input,
 .filter-drawer .filter-group-feature label {
-	display: inline-block;
-	margin: 7px 4px 7px 0;
 	line-height: 16px;
+}
+
+.filter-drawer .filter-group-feature input {
+	position: absolute;
+	margin: 0;
+}
+
+.filter-group .filter-group-feature label {
+	display: block;
+	margin: 14px 0px 14px 23px;
 }
 
 .filter-drawer .buttons {
@@ -3887,6 +3895,10 @@ img {
 	.filter-drawer .filter-group-feature input,
 	.filter-drawer .filter-group-feature label {
 		line-height: 25px;
+	}
+
+	.filter-drawer .filter-group-feature label {
+		margin-left: 32px;
 	}
 
 	.wp-filter .button.drawer-toggle {
