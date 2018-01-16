@@ -700,6 +700,9 @@ $_old_files = array(
 'wp-admin/js/wp-fullscreen.min.js',
 'wp-includes/js/tinymce/wp-mce-help.php',
 'wp-includes/js/tinymce/plugins/wpfullscreen',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
