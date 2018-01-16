@@ -603,6 +603,9 @@ $_old_files = array(
 'wp-admin/images/stars-rtl.png',
 'wp-admin/images/wp-logo-vs-2x.png',
 'wp-admin/images/about-updates-2x.png',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
