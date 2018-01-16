@@ -562,6 +562,9 @@ $_old_files = array(
 'wp-admin/js/cat.js',
 'wp-admin/js/cat.min.js',
 'wp-includes/js/tinymce/plugins/wpeditimage/js/editimage.min.js',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
