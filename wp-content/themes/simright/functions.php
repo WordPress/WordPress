@@ -143,6 +143,20 @@ if ( ! function_exists( 'simright_comment' ) ) :
 	}
 endif;
 
+/** script */
+function simright_scripts() {
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+	wp_localize_script(
+		'simright_scripts', 'screenReaderText', array(
+			'expand'   => __( 'expand child menu', 'simright' ),
+			'collapse' => __( 'collapse child menu', 'simright' ),
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'simright_scripts' );
+
 /** 注册字符串 */
 if( function_exists('pll_register_string') ) {
 	pll_register_string('Home','Home');

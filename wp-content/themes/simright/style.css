@@ -1120,10 +1120,8 @@ footer .footer .wechat_qr_code {
 -------------------------------------------------------------- */
 
 .comments-title {
-	margin-bottom: 48px;
-	font-size: 16px;
-	line-height: 1.5;
-	font-weight: normal;
+	margin-top: 48px;
+	font-size: 24px;
 }
 .comments-area article {
 	margin: 24px 0;
@@ -1249,6 +1247,9 @@ a.comment-edit-link:hover {
     width: 100%;
     resize: none;
 }
+#respond form input[type="text"]{
+    display: none;
+}
 #respond form textarea{
     height: 110px;
 }
@@ -1257,6 +1258,10 @@ a.comment-edit-link:hover {
 	font-size: 12px;
 	line-height: 2;
 	color: #5e5e5e;
+}
+
+#respond .comment-notes{
+    display: none;
 }
 
 #respond #submit{
