@@ -8,6 +8,12 @@
     <section class="contain-box">
         <div class="slide-bar">
             <?php get_search_form(); ?>
+            <?php get_the_category( $id ) ?>
+            <?php
+                foreach((get_the_category()) as $category) {
+                echo '<span>id' . $category->cat_ID . '</span><span>name' . $category->cat_name . '</span>';
+                }
+            ?>
             <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
                     <?php $args = array(
@@ -18,7 +24,7 @@
                         'show_count'         => 1,
                         'hide_empty'         => 1,
                         'use_desc_for_title' => 1,
-                        'child_of'           => 1,
+                        'child_of'           => 0,
                         'feed'               => '',
                         'feed_type'          => '',
                         'feed_image'         => '',
