@@ -638,7 +638,7 @@ function install_plugin_information() {
 			<?php } if ( ! empty( $api->tested ) ) { ?>
 				<li><strong><?php _e( 'Compatible up to:' ); ?></strong> <?php echo $api->tested; ?></li>
 			<?php } if ( isset( $api->active_installs ) ) { ?>
-				<li><strong><?php _e( 'Active Installations:' ); ?></strong> 
+				<li><strong><?php _e( 'Active Installations:' ); ?></strong>
 										<?php
 										if ( $api->active_installs >= 1000000 ) {
 											_ex( '1+ Million', 'Active plugin installations' );
@@ -691,7 +691,7 @@ if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
 				?>
 				<div class="counter-container">
 						<span class="counter-label">
-							<a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
+							<a href="https://wordpress.org/support/plugin/<?php echo $api->slug; ?>/reviews/?filter=<?php echo $key; ?>"
 								target="_blank" aria-label="<?php echo $aria_label; ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a>
 						</span>
 						<span class="counter-back">
