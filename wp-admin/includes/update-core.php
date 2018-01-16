@@ -659,6 +659,9 @@ $_old_files = array(
 'wp-includes/js/tinymce/plugins/paste/editor_plugin_src.js',
 'wp-includes/js/tinymce/plugins/paste/pastetext.htm',
 'wp-includes/js/tinymce/langs/wp-langs.php',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
