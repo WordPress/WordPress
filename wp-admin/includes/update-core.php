@@ -703,6 +703,9 @@ $_old_files = array(
 'wp-includes/js/tinymce/plugins/wpfullscreen',
 // 4.5
 'wp-includes/theme-compat/comments-popup.php',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
