@@ -42,7 +42,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog point-releases">
-	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 21 ); ?></h3>
+	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 22 ); ?></h3>
+	<p><?php printf( __( '<strong>Version %s</strong> addressed one security issue.' ), '4.1.22' ); ?>
+		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.1.22' ); ?>
+	</p>
 	<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
 			'<strong>Version %1$s</strong> addressed some security issues.', 4 ), '4.1.21' ); ?>
 		<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.1.21' ); ?>
