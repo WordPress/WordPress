@@ -694,7 +694,10 @@ $_old_files = array(
 'wp-includes/js/jquery/ui/jquery.ui.tabs.min.js',
 'wp-includes/js/jquery/ui/jquery.ui.tooltip.min.js',
 'wp-includes/js/jquery/ui/jquery.ui.widget.min.js',
-'wp-includes/js/tinymce/skins/wordpress/images/dashicon-no-alt.png'
+'wp-includes/js/tinymce/skins/wordpress/images/dashicon-no-alt.png',
+// 4.9.2
+'wp-includes/js/mediaelement/flashmediaelement.swf',
+'wp-includes/js/mediaelement/silverlightmediaelement.xap',
 );
 
 /**
