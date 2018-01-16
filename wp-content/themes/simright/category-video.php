@@ -10,11 +10,15 @@
             <?php get_search_form(); ?>
             <?php get_the_category( $id ) ?>
             <?php
-                foreach((get_the_category()) as $category) {
-                echo '<span>id' . $category->cat_ID . '</span><span>name' . $category->cat_name . '</span>';
-                }
-            ?>
-            <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
+
+                function get_category_root_id($cat){ 
+                    $this_category = get_category($cat);   // 取得当前分类 
+                    while($this_category->category_parent){ 
+                        $this_category = get_category($this_category->category_parent); // 将当前分类设为上级分类（往上爬） 
+                    } 
+                    return $this_category->term_id; // 返回根分类的id号 
+                } 
+             if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
                     <?php $args = array(
                         'show_option_all'    => '',
@@ -22,9 +26,9 @@
                         'order'              => 'ASC',
                         'style'              => 'list',
                         'show_count'         => 1,
-                        'hide_empty'         => 1,
+                        'hide_empty'         => 0,
                         'use_desc_for_title' => 1,
-                        'child_of'           => 0,
+                        'child_of'           => get_category_root_id(the_category_ID(false)),
                         'feed'               => '',
                         'feed_type'          => '',
                         'feed_image'         => '',
@@ -33,7 +37,7 @@
                         'include'            => '',
                         'hierarchical'       => 1,
                         'title_li'           => '',
-                        'show_option_none'   => __('No categories'),
+                        'show_option_none'   => '',
                         'number'             => null,
                         'echo'               => 1,
                         'depth'              => 0,
