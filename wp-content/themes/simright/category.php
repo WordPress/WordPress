@@ -13,6 +13,7 @@
     include(TEMPLATEPATH . '/category-joinus.php');
     }
     else{
-    return;
+        echo $rootCategory;
+        return;
     }
 ?>
