@@ -37,7 +37,7 @@
                     while (have_posts()):the_post();
                 ?>
                 <div class="news-item">
-                    <li><a href="<?php the_permalink(); ?>">
+                    <li><b>·</b><a href="<?php the_permalink(); ?>">
                         <span><?php the_title(); ?></span>
                     </a></li>
                 </div>

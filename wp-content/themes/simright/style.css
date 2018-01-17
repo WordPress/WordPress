@@ -956,11 +956,34 @@ footer .footer .wechat_qr_code {
     width: 100%;
     margin-right: 15px;
 }
+.video-details ul{
+    padding-left: 20px;
+}
 
 .video-details .news-item {
     margin-bottom: 30px;
     width: 100%;
     margin-right: 15px;
+}
+.video-details .news-item li{
+    list-style: disc!important;
+    padding: 5px 0;
+    height: 30px;
+    overflow-y: hidden;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.video-details .news-item li b{
+    color: #C9C6C6;
+    font-weight: bold;
+}
+
+.video-details .news-item li a{
+    font-size: 16px;
+    color: #454749;
 }
 
 .video-list .list-item .video-item img,.video-details .video-item img {
