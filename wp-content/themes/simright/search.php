@@ -14,7 +14,7 @@
                         'show_count'         => 1,
                         'hide_empty'         => 0,
                         'use_desc_for_title' => 1,
-                        'child_of'           => get_category_root_id(the_category_ID(false)),
+                        'child_of'           => get_query_var('cat'),
                         'feed'               => '',
                         'feed_type'          => '',
                         'feed_image'         => '',
