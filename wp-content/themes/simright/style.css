@@ -917,12 +917,16 @@ footer .footer .wechat_qr_code {
     padding-top: 20px;
     padding-bottom: 20px;
     height: 70px;
+    line-height: 30px;
     width: 100%;
     background-color: #FFFFFF;
     box-shadow: 0 1px 13px rgba(137,155,172,0.5);
     margin-bottom: 40px;
     margin-top: 40px;
     border-radius: 5px;
+}
+.joinus-list .contain-box .email-to span{
+    color: #2C7EB0;
 }
 
 .joinus-list .contain-box .post-list{
@@ -939,6 +943,7 @@ footer .footer .wechat_qr_code {
     -webkit-box-align: inherit;
     -ms-flex-align: inherit;
     align-items: inherit;
+    flex-wrap: wrap;
 }
 .joinus-list .contain-box .joinus-item{
     margin-bottom: 40px;
@@ -948,6 +953,7 @@ footer .footer .wechat_qr_code {
     height: 790px;
     box-shadow: 0 1px 13px rgba(137,155,172,0.5);
     border-radius: 5px;
+    background-color: #fff;
 }
 
 .joinus-list .contain-box .joinus-item h3{
@@ -957,11 +963,15 @@ footer .footer .wechat_qr_code {
     background-color: #1972A9;
     font-size: 24px;
     color: #fff;
-    margin-bottom: 60px;
+    padding-left: 25px;
 }
 
 .video-list .contain-box>div,.video-details .contain-box>div {
     background-color: #fff;
+}
+
+.joinus-list .contain-box .joinus-item .content{
+    padding: 60px 20px 20px 20px;
 }
 
 .video-list .contain-box .slide-bar {
