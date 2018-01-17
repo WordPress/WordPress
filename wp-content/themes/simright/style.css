@@ -804,7 +804,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.video-list .banner {
+.video-list .banner,.news-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -829,7 +829,7 @@ footer .footer .wechat_qr_code {
     color: #fff;
 }
 
-.video-list .banner h2 {
+.video-list .banner h2,.news-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
@@ -841,7 +841,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 26px;
 }
 
-.video-list .banner p {
+.video-list .banner p,.news-list .banner p {
     font-size: 20px;
 }
 
@@ -863,6 +863,44 @@ footer .footer .wechat_qr_code {
     align-items: inherit;
     padding-top: 30px;
     padding-bottom: 30px;
+}
+
+.news-list .contain-box{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 155px;
+}
+
+.news-list .contain-box .news-item{
+    padding: 50px;
+    height: 230px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 13px rgba(137,155,172,0.5);
+    margin-bottom: 40px;
+}
+.news-list .contain-box .news-item >p{
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    color: #444648;
+}
+.news-list .contain-box .news-item .title{
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    color: #1972A9;
+    font-weight: bold;
+    margin-top: 14px;
+    margin-bottom: 14px;
+}
+.news-list .contain-box .news-item  .content{
+    height: 50px;
+    width: 100%;
+    overflow: hidden;
+    font-size: 14px;
+    color: #A5A8AB;
+    line-height: 16px;
 }
 
 .video-list .contain-box>div,.video-details .contain-box>div {
@@ -957,7 +995,7 @@ footer .footer .wechat_qr_code {
     margin-right: 15px;
 }
 .video-details ul{
-    padding-left: 20px;
+    padding-left: 0;
 }
 
 .video-details .news-item {
@@ -971,19 +1009,26 @@ footer .footer .wechat_qr_code {
     height: 30px;
     overflow-y: hidden;
     line-height: 30px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: flex;
 }
 
 .video-details .news-item li b{
     color: #C9C6C6;
     font-weight: bold;
+    font-size: 30px;
+    line-height: 30px;
+    padding-right: 5px;
 }
 
 .video-details .news-item li a{
     font-size: 16px;
     color: #454749;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .video-list .list-item .video-item img,.video-details .video-item img {
@@ -1050,6 +1095,8 @@ footer .footer .wechat_qr_code {
     display: block;
     text-align: right;
 }
+
+.new-list
 
 .comments-area {
 	max-width: 100%;
