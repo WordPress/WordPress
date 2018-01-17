@@ -1275,7 +1275,7 @@ final class _WP_Editors {
 				'Distraction-free writing mode'        => array( __( 'Distraction-free writing mode' ), 'accessW' ),
 				'No alignment'                         => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 				'Remove'                               => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar
-				'Edit '                                => __( 'Edit' ), // Tooltip for the 'edit' button in the image toolbar
+				'Edit|button'                          => __( 'Edit' ), // Tooltip for the 'edit' button in the image toolbar
 				'Paste URL or type to search'          => __( 'Paste URL or type to search' ), // Placeholder for the inline link dialog
 				'Apply'                                => __( 'Apply' ), // Tooltip for the 'apply' button in the inline link dialog
 				'Link options'                         => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog
