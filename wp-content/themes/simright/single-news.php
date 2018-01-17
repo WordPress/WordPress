@@ -3,7 +3,7 @@
     <section class="contain-box">
         <div class="contain-body">
             <div class="main-contain">
-                <a href="<?php echo get_option('home'); ?>">返回视频中心</a>
+                <a href="<?php echo get_option('home'); ?>">返回新闻中心</a>
                     <hr/>
                 <?php if (have_posts()) : the_post(); update_post_caches($posts); ?>
                     <div class="list-contain">
@@ -26,20 +26,23 @@
                 } ?>
 			</div>
         </div>
+
         <div class="slide-bar">
-            <h3>同类文章</h3>
-            <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                <div class="video-item">
-                    <a href="<?php the_permalink(); ?>">
-                        <img src="<?php bloginfo('template_url'); ?>" alt="">
+            <h3>同类教程</h3>
+            <ul>
+                <?php
+                    $cat=get_the_category();
+                    $cat_id=$cat[0]->cat_ID;
+                    query_posts('order=asc&cat='.$cat_id);
+                    while (have_posts()):the_post();
+                ?>
+                <div class="news-item">
+                    <li><a href="<?php the_permalink(); ?>">
                         <span><?php the_title(); ?></span>
-                        <p><?php the_time('Y-m-d') ?></p>
-                    </a>
+                    </a></li>
                 </div>
-            <?php endwhile; ?>
-            <?php else : ?>
-                <h3 class="title"><a href="#" rel="bookmark">NOT FOUND</a></h3>
-            <?php endif; ?>
+                <?php  endwhile;wp_reset_query(); ?>
+            </ul>
         </div>
     </section>
 </section>

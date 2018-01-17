@@ -1,16 +1,39 @@
 <?php get_header(); ?>
 <section class="main-box video-list">
-    <div class="banner">
-        <h2 class="text-center">ABOUT US</h2>
-        <P>Simulation in your browser</P>
-        <P>Accessible,Cost-efficient,For everyone</P>
-    </div>
     <section class="contain-box">
         <div class="slide-bar">
             <?php include(TEMPLATEPATH. '/searchform.php'); ?>
-            <?php if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
+            <?php 
+             if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
-                    <?php wp_list_categories('depth=1&title_li=&orderby=id&show_count=1&hide_empty=1&child_of=0'); ?>
+                    <?php $args = array(
+                        'show_option_all'    => '',
+                        'orderby'            => 'name',
+                        'order'              => 'ASC',
+                        'style'              => 'list',
+                        'show_count'         => 1,
+                        'hide_empty'         => 0,
+                        'use_desc_for_title' => 1,
+                        'child_of'           => get_category_root_id(the_category_ID(false)),
+                        'feed'               => '',
+                        'feed_type'          => '',
+                        'feed_image'         => '',
+                        'exclude'            => '',
+                        'exclude_tree'       => '',
+                        'include'            => '',
+                        'hierarchical'       => 1,
+                        'title_li'           => '',
+                        'show_option_none'   => '',
+                        'number'             => null,
+                        'echo'               => 1,
+                        'depth'              => 0,
+                        'current_category'   => 0,
+                        'pad_counts'         => 0,
+                        'taxonomy'           => 'category',
+                        'walker'             => null
+                    ); 
+                    wp_list_categories($args)
+                    ?>
                 </ul>
             <?php endif; ?>
         </div>

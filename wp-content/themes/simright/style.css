@@ -957,6 +957,12 @@ footer .footer .wechat_qr_code {
     margin-right: 15px;
 }
 
+.video-details .news-item {
+    margin-bottom: 30px;
+    width: 100%;
+    margin-right: 15px;
+}
+
 .video-list .list-item .video-item img,.video-details .video-item img {
     display: block;
     width: 100%;

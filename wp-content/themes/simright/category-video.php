@@ -6,7 +6,6 @@
     <section class="contain-box">
         <div class="slide-bar">
             <?php get_search_form(); ?>
-            <?php get_the_category( $id ) ?>
             <?php 
              if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
@@ -31,7 +30,7 @@
                         'number'             => null,
                         'echo'               => 1,
                         'depth'              => 0,
-                        'current_category'   => 1,
+                        'current_category'   => 0,
                         'pad_counts'         => 0,
                         'taxonomy'           => 'category',
                         'walker'             => null
