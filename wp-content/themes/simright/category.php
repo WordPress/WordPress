@@ -1,7 +1,5 @@
 <?php
-
     $rootCategory = get_category_root_slug(the_category_ID(false));
-
     if ( $rootCategory === 'video')
     {
     include(TEMPLATEPATH .'/category-video.php');

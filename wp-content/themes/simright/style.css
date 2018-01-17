@@ -946,9 +946,14 @@ footer .footer .wechat_qr_code {
     display: block;
 }
 
-.video-list .contain-box .contain-body .list-item .list-contain .video-item,.video-details .video-item {
+.video-list .contain-box .contain-body .list-item .list-contain .video-item{
     margin-bottom: 30px;
     width: 270px;
+    margin-right: 15px;
+}
+.video-details .video-item {
+    margin-bottom: 30px;
+    width: 100%;
     margin-right: 15px;
 }
 

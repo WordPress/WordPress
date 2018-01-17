@@ -1,15 +1,16 @@
 <?php
-    if ( in_category('video') || post_is_in_descendant_category('video') )
+    $rootCategory = get_category_root_slug(the_category_ID(false));
+    if ( $rootCategory === 'video')
     {
-    include(TEMPLATEPATH .'/single-video.php');
+        include(TEMPLATEPATH .'/single-video.php');
     }
-    elseif ( in_category('news') || post_is_in_descendant_category('news') )
+    elseif ( $rootCategory === 'news')
     {
-    include(TEMPLATEPATH . '/single-news.php');
+        include(TEMPLATEPATH . '/single-news.php');
     }
-    elseif ( in_category('joinus') || post_is_in_descendant_category('joinus') )
+    elseif ( $rootCategory === 'joinus')
     {
-    include(TEMPLATEPATH . '/single-joinus.php');
+        include(TEMPLATEPATH . '/single-joinus.php');
     }
     else{
     return;

@@ -3,7 +3,7 @@
     <section class="contain-box">
         <div class="contain-body">
             <div class="main-contain">
-                <a href="<?php echo get_option('home'); ?>">返回视频中心</a>
+                <a href="<?php echo get_option('home'); ?>/category/video">返回视频中心</a>
                     <hr/>
                 <?php if (have_posts()) : the_post(); update_post_caches($posts); ?>
                     <div class="list-contain">

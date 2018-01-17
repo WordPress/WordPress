@@ -1,9 +1,7 @@
 <?php get_header(); ?>
 <section class="main-box video-list">
     <div class="banner">
-        <h2 class="text-center">ABOUT US</h2>
-        <P>Simulation in your browser</P>
-        <P>Accessible,Cost-efficient,For everyone</P>
+        <h2 class="text-center">Video</h2>
     </div>
     <section class="contain-box">
         <div class="slide-bar">
@@ -33,7 +31,7 @@
                         'number'             => null,
                         'echo'               => 1,
                         'depth'              => 0,
-                        'current_category'   => 0,
+                        'current_category'   => 1,
                         'pad_counts'         => 0,
                         'taxonomy'           => 'category',
                         'walker'             => null
