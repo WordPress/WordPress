@@ -804,7 +804,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.video-list .banner,.news-list .banner{
+.video-list .banner,.news-list .banner,.joinus-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -829,7 +829,7 @@ footer .footer .wechat_qr_code {
     color: #fff;
 }
 
-.video-list .banner h2,.news-list .banner h2 {
+.video-list .banner h2,.news-list .banner h2,.joinus-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
@@ -841,7 +841,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 26px;
 }
 
-.video-list .banner p,.news-list .banner p {
+.video-list .banner p,.news-list .banner p,.joinus-list .banner p {
     font-size: 20px;
 }
 
@@ -905,6 +905,59 @@ footer .footer .wechat_qr_code {
     font-size: 14px;
     color: #A5A8AB;
     line-height: 16px;
+}
+
+.joinus-list .contain-box{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.joinus-list .contain-box .email-to{
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 70px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 13px rgba(137,155,172,0.5);
+    margin-bottom: 40px;
+    margin-top: 40px;
+    border-radius: 5px;
+}
+
+.joinus-list .contain-box .post-list{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-box-align: inherit;
+    -ms-flex-align: inherit;
+    align-items: inherit;
+}
+.joinus-list .contain-box .joinus-item{
+    margin-bottom: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 580px;
+    height: 790px;
+    box-shadow: 0 1px 13px rgba(137,155,172,0.5);
+    border-radius: 5px;
+}
+
+.joinus-list .contain-box .joinus-item h3{
+    margin: 0;
+    height: 80px;
+    line-height: 80px;
+    background-color: #1972A9;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 60px;
 }
 
 .video-list .contain-box>div,.video-details .contain-box>div {

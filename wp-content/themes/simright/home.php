@@ -1,9 +1,7 @@
 <?php get_header(); ?>
 <section class="main-box video-list">
     <div class="banner">
-        <h2 class="text-center">ABOUT US</h2>
-        <P>Simulation in your browser</P>
-        <P>Accessible,Cost-efficient,For everyone</P>
+        <h2 class="text-center">HOME</h2>
     </div>
     <section class="contain-box">
         <div class="slide-bar">
@@ -16,13 +14,10 @@
         </div>
         <div class="contain-body">
             <section class="list-item">
-                <h2>LATEST</h2>
-                <hr/>
                 <div class="list-contain">
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                     <div class="video-item">
                         <a href="<?php the_permalink(); ?>">
-                            <img src="<?php post_thumbnail_src('thumbnail'); ?>" alt="">
                             <span><?php the_title(); ?></span>
                             <p><?php the_time('Y-m-d') ?></p>
                         </a>
