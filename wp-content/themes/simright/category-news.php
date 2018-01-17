@@ -5,7 +5,7 @@
     </div>
     <section class="contain-box">
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <div class="new-item">
+        <div class="news-item">
             <p><?php the_time('Y-m-d') ?></p>
             <hr>
             <a href="<?php the_permalink(); ?>">

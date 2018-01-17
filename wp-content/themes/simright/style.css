@@ -884,6 +884,10 @@ footer .footer .wechat_qr_code {
     line-height: 28px;
     font-size: 14px;
     color: #444648;
+    margin: 0;
+}
+.news-list .contain-box .news-item hr{
+    margin: 0;
 }
 .news-list .contain-box .news-item .title{
     padding: 0;
@@ -1002,6 +1006,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 30px;
     width: 100%;
     margin-right: 15px;
+    border-radius: 5px;
 }
 .video-details .news-item li{
     list-style: disc!important;
