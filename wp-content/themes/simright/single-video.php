@@ -28,18 +28,20 @@
         </div>
         <div class="slide-bar">
             <h3>同类教程</h3>
-            <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                <div class="video-item">
-                    <a href="<?php the_permalink(); ?>">
-                        <img src="<?php bloginfo('template_url'); ?>" alt="">
-                        <span><?php the_title(); ?></span>
-                        <p><?php the_time('Y-m-d') ?></p>
-                    </a>
-                </div>
-            <?php endwhile; ?>
-            <?php else : ?>
-                <h3 class="title"><a href="#" rel="bookmark">NOT FOUND</a></h3>
-            <?php endif; ?>
+            <?php
+                $cat=get_the_category();
+                $cat_id=$cat[0]->cat_ID;
+                query_posts('order=asc&cat='.$cat_id);
+                while (have_posts()):the_post();
+            ?>
+            <div class="video-item">
+                <a href="<?php the_permalink(); ?>">
+                    <img src="<?php bloginfo('template_url'); ?>" alt="">
+                    <span><?php the_title(); ?></span>
+                    <p><?php the_time('Y-m-d') ?></p>
+                </a>
+            </div>
+            <?php  endwhile;wp_reset_query(); ?>
         </div>
     </section>
 </section>
