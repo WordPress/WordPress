@@ -201,6 +201,23 @@ add_filter( 'get_search_form', 'my_search_form' );
 
 /**  分类 */
 
+//获取根分类
+function get_category_root_id($cat){ 
+	$this_category = get_category($cat);   // 取得当前分类 
+	while($this_category->category_parent){ 
+		$this_category = get_category($this_category->category_parent); // 将当前分类设为上级分类（往上爬） 
+	} 
+	return $this_category->term_id; // 返回根分类的id号 
+}
+
+function get_category_root_slug($cat){ 
+	$this_category = get_category($cat);   // 取得当前分类 
+	while($this_category->category_parent){ 
+		$this_category = get_category($this_category->category_parent); // 将当前分类设为上级分类（往上爬） 
+	} 
+	return $this_category->slug; // 返回根分类的id号 
+}
+
 //获取并输入某个分类的子分类
 function post_is_in_descendant_category( $cats, $_post = null )
 {
