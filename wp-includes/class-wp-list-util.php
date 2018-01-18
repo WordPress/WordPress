@@ -140,6 +140,8 @@ class WP_List_Util {
 	 *               `$list` will be preserved in the results.
 	 */
 	public function pluck( $field, $index_key = null ) {
+		$newlist = array();
+
 		if ( ! $index_key ) {
 			/*
 			 * This is simple. Could at some point wrap array_column()
@@ -147,11 +149,14 @@ class WP_List_Util {
 			 */
 			foreach ( $this->output as $key => $value ) {
 				if ( is_object( $value ) ) {
-					$this->output[ $key ] = $value->$field;
+					$newlist[ $key ] = $value->$field;
 				} else {
-					$this->output[ $key ] = $value[ $field ];
+					$newlist[ $key ] = $value[ $field ];
 				}
 			}
+
+			$this->output = $newlist;
+
 			return $this->output;
 		}
 
@@ -159,7 +164,6 @@ class WP_List_Util {
 		 * When index_key is not set for a particular item, push the value
 		 * to the end of the stack. This is how array_column() behaves.
 		 */
-		$newlist = array();
 		foreach ( $this->output as $value ) {
 			if ( is_object( $value ) ) {
 				if ( isset( $value->$index_key ) ) {
