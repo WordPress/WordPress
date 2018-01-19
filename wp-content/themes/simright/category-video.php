@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <section class="main-box video-list">
     <div class="banner">
-        <h2 class="text-center">Video</h2>
+        <h2 class="text-center"><?php pll_e('Video'); ?></h2>
     </div>
     <section class="contain-box">
         <div class="slide-bar">
@@ -42,8 +42,8 @@
         </div>
         <div class="contain-body">
             <section class="list-item">
-                <h2>LATEST</h2>
-                <hr/>
+                <!-- <h2>LATEST</h2>
+                <hr/> -->
                 <div class="list-contain">
                     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
                     <div class="video-item">

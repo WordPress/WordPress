@@ -183,7 +183,15 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Simulator','Simulator');
 	pll_register_string('Toptimizer','Toptimizer');
 	pll_register_string('Follow Us','Follow Us');
-	pll_register_string('Back','Back');
+	pll_register_string('join us','join us');
+	pll_register_string('ying ping jian li','应聘简历发送至');
+	pll_register_string('news center','news center');
+	pll_register_string('Video','Video');
+	pll_register_string('fan hui xin wen zhong xin','返回新闻中心');
+	pll_register_string('xiang guan xin wen','相关新闻');
+	pll_register_string('fan hui shi pin zhong xin','返回视频中心');
+	pll_register_string('tong lei jiao cheng','同类教程');
+	pll_register_string('Comments','Comments');
 }
 
 /** 搜索表单 */

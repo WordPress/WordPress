@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <section class="main-box news-list">
     <div class="banner">
-        <h2 class="text-center">NEWS CENTER</h2>
+        <h2 class="text-center"> <?php pll_e('news center'); ?></h2>
     </div>
     <section class="contain-box">
         <?php if (have_posts()) : while (have_posts()) : the_post(); ?>

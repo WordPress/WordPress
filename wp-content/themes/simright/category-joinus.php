@@ -1,11 +1,11 @@
 <?php get_header(); ?>
 <section class="main-box joinus-list">
     <div class="banner">
-        <h2 class="text-center">JOIN US</h2>
+        <h2 class="text-center"><?php pll_e('join us'); ?></h2>
     </div>
     <section class="contain-box">
         <div class="email-to">
-            应聘简历发送至：<span>hr@simright.com</span>
+        <?php pll_e('应聘简历发送至'); ?>:<span>hr@simright.com</span>
         </div>
         <div class="post-list">
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>

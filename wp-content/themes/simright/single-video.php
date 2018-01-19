@@ -3,7 +3,7 @@
     <section class="contain-box">
         <div class="contain-body">
             <div class="main-contain">
-                <a href="<?php echo get_option('home'); ?>/category/video">返回视频中心</a>
+                <a href="<?php echo get_option('home'); ?>/category/video"><?php pll_e('返回视频中心'); ?></a>
                     <hr/>
                 <?php if (have_posts()) : the_post(); update_post_caches($posts); ?>
                     <div class="list-contain">
@@ -27,7 +27,7 @@
 			</div>
         </div>
         <div class="slide-bar">
-            <h3>同类教程</h3>
+            <h3><?php pll_e('同类教程'); ?></h3>
             <?php
                 $cat=get_the_category();
                 $cat_id=$cat[0]->cat_ID;
