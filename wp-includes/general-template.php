@@ -3197,7 +3197,7 @@ function wp_enqueue_code_editor( $args ) {
 		'htmlhint' => array(
 			'tagname-lowercase' => true,
 			'attr-lowercase' => true,
-			'attr-value-double-quotes' => true,
+			'attr-value-double-quotes' => false,
 			'doctype-first' => false,
 			'tag-pair' => true,
 			'spec-char-escape' => true,
