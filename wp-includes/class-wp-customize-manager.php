@@ -3986,6 +3986,22 @@ final class WP_Customize_Manager {
 	 * @since 4.1.0
 	 */
 	public function render_control_templates() {
+		if ( $this->branching() ) {
+			$l10n = array(
+				/* translators: %s: User who is customizing the changeset in customizer. */
+				'locked' => __( '%s is already customizing this changeset. Please wait until they are done to try customizing. Your latest changes have been autosaved.' ),
+				/* translators: %s: User who is customizing the changeset in customizer. */
+				'locked_allow_override' => __( '%s is already customizing this changeset. Do you want to take over?' ),
+			);
+		} else {
+			$l10n = array(
+				/* translators: %s: User who is customizing the changeset in customizer. */
+				'locked' => __( '%s is already customizing this site. Please wait until they are done to try customizing. Your latest changes have been autosaved.' ),
+				/* translators: %s: User who is customizing the changeset in customizer. */
+				'locked_allow_override' => __( '%s is already customizing this site. Do you want to take over?' ),
+			);
+		}
+
 		foreach ( $this->registered_control_types as $control_type ) {
 			$control = new $control_type(
 				$this, 'temp', array(
@@ -4150,13 +4166,11 @@ final class WP_Customize_Manager {
 							{{{ data.message }}}
 						<# } else if ( data.allowOverride ) { #>
 							<?php
-							/* translators: %s: User who is customizing the changeset in customizer. */
-							printf( __( '%s is already customizing this site. Do you want to take over?' ), '{{ data.lockUser.name }}' );
+							echo esc_html( sprintf( $l10n['locked_allow_override'], '{{ data.lockUser.name }}' ) );
 							?>
 						<# } else { #>
 							<?php
-							/* translators: %s: User who is customizing the changeset in customizer. */
-							printf( __( '%s is already customizing this site. Please wait until they are done to try customizing. Your latest changes have been autosaved.' ), '{{ data.lockUser.name }}' );
+							echo esc_html( sprintf( $l10n['locked'], '{{ data.lockUser.name }}' ) );
 							?>
 						<# } #>
 					</p>
