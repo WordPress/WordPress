@@ -607,8 +607,11 @@ final class WP_Customize_Manager {
 	 * enabled, then a new UUID will be generated.
 	 *
 	 * @since 4.9.0
+	 * @global string $pagenow
 	 */
 	public function establish_loaded_changeset() {
+		global $pagenow;
+
 		if ( empty( $this->_changeset_uuid ) ) {
 			$changeset_uuid = null;
 
@@ -637,7 +640,9 @@ final class WP_Customize_Manager {
 			$this->_changeset_uuid = $changeset_uuid;
 		}
 
-		$this->set_changeset_lock( $this->changeset_post_id() );
+		if ( is_admin() && 'customize.php' === $pagenow ) {
+			$this->set_changeset_lock( $this->changeset_post_id() );
+		}
 	}
 
 	/**
