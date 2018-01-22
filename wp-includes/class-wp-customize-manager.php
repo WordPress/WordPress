@@ -4636,8 +4636,9 @@ final class WP_Customize_Manager {
 				'previewFrameSensitivity' => 2000,
 			),
 			'theme'    => array(
-				'stylesheet' => $this->get_stylesheet(),
-				'active'     => $this->is_theme_active(),
+				'stylesheet'  => $this->get_stylesheet(),
+				'active'      => $this->is_theme_active(),
+				'_canInstall' => current_user_can( 'install_themes' ),
 			),
 			'url'      => array(
 				'preview'       => esc_url_raw( $this->get_preview_url() ),
