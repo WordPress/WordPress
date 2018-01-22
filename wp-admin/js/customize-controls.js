@@ -7904,7 +7904,7 @@
 				previewerAlive = state.instance( 'previewerAlive' ),
 				editShortcutVisibility  = state.instance( 'editShortcutVisibility' ),
 				changesetLocked = state.instance( 'changesetLocked' ),
-				populateChangesetUuidParam;
+				populateChangesetUuidParam, defaultSelectedChangesetStatus;
 
 			state.bind( 'change', function() {
 				var canSave;
@@ -7938,9 +7938,7 @@
 						} else {
 							saveBtn.val( api.l10n.schedule );
 						}
-					} else if ( ! api.settings.changeset.currentUserCanPublish ) {
-						selectedChangesetStatus( 'draft' );
-					} else {
+					} else if ( api.settings.changeset.currentUserCanPublish ) {
 						saveBtn.val( api.l10n.publish );
 					}
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
@@ -7962,12 +7960,14 @@
 				return status;
 			};
 
+			defaultSelectedChangesetStatus = api.settings.changeset.currentUserCanPublish ? 'publish' : 'draft';
+
 			// Set default states.
 			changesetStatus( api.settings.changeset.status );
 			changesetLocked( Boolean( api.settings.changeset.lockUser ) );
 			changesetDate( api.settings.changeset.publishDate );
 			selectedChangesetDate( api.settings.changeset.publishDate );
-			selectedChangesetStatus( '' === api.settings.changeset.status || 'auto-draft' === api.settings.changeset.status ? 'publish' : api.settings.changeset.status );
+			selectedChangesetStatus( '' === api.settings.changeset.status || 'auto-draft' === api.settings.changeset.status ? defaultSelectedChangesetStatus : api.settings.changeset.status );
 			selectedChangesetStatus.link( changesetStatus ); // Ensure that direct updates to status on server via wp.customizer.previewer.save() will update selection.
 			saved( true );
 			if ( '' === changesetStatus() ) { // Handle case for loading starter content.
