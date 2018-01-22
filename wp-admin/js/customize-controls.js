@@ -2567,7 +2567,7 @@
 
 			// Temporary special function since supplying SFTP credentials does not work yet. See #42184.
 			function disableInstallButtons() {
-				return disableSwitchButtons() || true === api.settings.theme._filesystemCredentialsNeeded;
+				return disableSwitchButtons() || false === api.settings.theme._canInstall || true === api.settings.theme._filesystemCredentialsNeeded;
 			}
 
 			section.overlay.find( 'button.preview, button.preview-theme' ).toggleClass( 'disabled', disableSwitchButtons() );
@@ -3064,7 +3064,7 @@
 			api.Panel.prototype.attachEvents.apply( panel );
 
 			// Temporary since supplying SFTP credentials does not work yet. See #42184
-			if ( api.settings.theme._filesystemCredentialsNeeded ) {
+			if ( api.settings.theme._canInstall && api.settings.theme._filesystemCredentialsNeeded ) {
 				panel.notifications.add( new api.Notification( 'theme_install_unavailable', {
 					message: api.l10n.themeInstallUnavailable,
 					type: 'info',
@@ -5092,7 +5092,7 @@
 
 			// Temporary special function since supplying SFTP credentials does not work yet. See #42184.
 			function disableInstallButtons() {
-				return disableSwitchButtons() || true === api.settings.theme._filesystemCredentialsNeeded;
+				return disableSwitchButtons() || false === api.settings.theme._canInstall || true === api.settings.theme._filesystemCredentialsNeeded;
 			}
 			function updateButtons() {
 				control.container.find( 'button.preview, button.preview-theme' ).toggleClass( 'disabled', disableSwitchButtons() );
