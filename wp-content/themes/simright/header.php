@@ -70,12 +70,13 @@
                         <span><?php pll_e('Blog'); ?></span>
                     </a>
                 </li>
-                <li class="active" class="dropdown" data-active = "about">
+                <li class="active" class="dropdown" data-active = "about" style="position:relative;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b><?php pll_e('About'); ?></b>&nbsp;<i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu position-right" role="menu">
                         <li><a href="https://www.simright.com/about_us"><?php pll_e('About Us'); ?></a></li>
                         <li><a href="https://www.simright.com/contact_us"><?php pll_e('Contact Us'); ?></a></li>
                         <li><a href="https://www.simright.com/security"><?php pll_e('Security'); ?></a></li>
+                        <li><a href="https://www.simright.com/join-us"><?php pll_e('Join Us'); ?></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">    

@@ -175,6 +175,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('About Us','About Us');
 	pll_register_string('Contact Us','Contact Us');
 	pll_register_string('Security','Security');
+	pll_register_string('Join Us','Join Us');
 	pll_register_string('Qualification','Qualification');
 	pll_register_string('Sales','Sales:');
 	pll_register_string('Technical Support:','Technical Support:');
