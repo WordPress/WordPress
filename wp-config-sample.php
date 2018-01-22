@@ -55,7 +55,7 @@ define( 'SECURE_AUTH_SALT', 'put your unique phrase here' );
 define( 'LOGGED_IN_SALT',   'put your unique phrase here' );
 define( 'NONCE_SALT',       'put your unique phrase here' );
 /* 下面两行用于nginx代理wordpress的入口 */
-define('WP_HOME', 'http://'.$_SERVER['HTTP_HOST'].'/cms');
+define('WP_HOME', 'http://'.$_SERVER['HTTP_HOST'].'/');
 define('WP_SITEURL', 'http://'.$_SERVER['HTTP_HOST'].'/cms');
 
 /**#@-*/
