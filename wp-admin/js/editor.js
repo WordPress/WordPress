@@ -281,30 +281,6 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * @summary Check if a shortcode has Live Preview enabled for it.
-		 *
-		 * Previewable shortcodes here refers to shortcodes that have Live Preview enabled.
-		 *
-		 * These shortcodes get rewritten when the editor is in Visual mode, which means that
-		 * we don't want to change anything inside them, i.e. inserting a selection marker
-		 * inside the shortcode will break it :(
-		 *
-		 * @link wp-includes/js/mce-view.js
-		 *
-		 * @param {string} shortcode The shortcode to check.
-		 * @return {boolean} If a shortcode has Live Preview or not
-		 */
-		function isShortcodePreviewable( shortcode ) {
-			var defaultPreviewableShortcodes = [ 'caption' ];
-
-			return (
-				defaultPreviewableShortcodes.indexOf( shortcode ) !== -1 ||
-				wp.mce.views.get( shortcode ) !== undefined
-			);
-
-		}
-
-		/**
 		 * @summary Get all shortcodes and their positions in the content
 		 *
 		 * This function returns all the shortcodes that could be found in the textarea content
@@ -340,23 +316,12 @@ window.wp = window.wp || {};
 				 */
 				var showAsPlainText = shortcodeMatch[1] === '[';
 
-				/**
-				 * For more context check the docs for:
-				 *
-				 * @link isShortcodePreviewable
-				 *
-				 * In addition, if the shortcode will get rendered as plain text ( see above ),
-				 * we can treat it as text and use the selection markers in it.
-				 */
-				var isPreviewable = ! showAsPlainText && isShortcodePreviewable( shortcodeMatch[2] );
-
 				shortcodeInfo = {
 					shortcodeName: shortcodeMatch[2],
 					showAsPlainText: showAsPlainText,
 					startIndex: shortcodeMatch.index,
 					endIndex: shortcodeMatch.index + shortcodeMatch[0].length,
-					length: shortcodeMatch[0].length,
-					isPreviewable: isPreviewable
+					length: shortcodeMatch[0].length
 				};
 
 				shortcodesDetails.push( shortcodeInfo );
@@ -382,7 +347,6 @@ window.wp = window.wp || {};
 					startIndex: shortcodeMatch.index,
 					endIndex: shortcodeMatch.index + shortcodeMatch[ 0 ].length,
 					length: shortcodeMatch[ 0 ].length,
-					isPreviewable: true,
 					urlAtStartOfContent: shortcodeMatch[ 1 ] === '',
 					urlAtEndOfContent: shortcodeMatch[ 3 ] === ''
 				};
@@ -465,7 +429,7 @@ window.wp = window.wp || {};
 			}
 
 			var isCursorStartInShortcode = getShortcodeWrapperInfo( content, cursorStart );
-			if ( isCursorStartInShortcode && isCursorStartInShortcode.isPreviewable ) {
+			if ( isCursorStartInShortcode && ! isCursorStartInShortcode.showAsPlainText ) {
 				/**
 				 * If a URL is at the start or the end of the content,
 				 * the selection doesn't work, because it inserts a marker in the text,
@@ -482,7 +446,7 @@ window.wp = window.wp || {};
 			}
 
 			var isCursorEndInShortcode = getShortcodeWrapperInfo( content, cursorEnd );
-			if ( isCursorEndInShortcode && isCursorEndInShortcode.isPreviewable ) {
+			if ( isCursorEndInShortcode && ! isCursorEndInShortcode.showAsPlainText ) {
 				if ( isCursorEndInShortcode.urlAtEndOfContent ) {
 					cursorEnd = isCursorEndInShortcode.startIndex;
 				} else {
