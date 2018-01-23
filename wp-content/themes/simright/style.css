@@ -955,6 +955,9 @@ footer .footer .wechat_qr_code {
     border-radius: 5px;
     background-color: #fff;
 }
+.joinus-list .contain-box .joinus-item ul,.joinus-list .contain-box .joinus-item ol,.joinus-list .contain-box .joinus-item li{
+    list-style: initial!important;
+}
 
 .joinus-list .contain-box .joinus-item h3{
     margin: 0;
@@ -972,6 +975,7 @@ footer .footer .wechat_qr_code {
 
 .joinus-list .contain-box .joinus-item .content{
     padding: 60px 20px 20px 20px;
+    font-size: 17px;
 }
 
 .video-list .contain-box .slide-bar {
