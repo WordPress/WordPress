@@ -1646,11 +1646,11 @@ class wpdb {
 		// We need to check for an IPv6 address first.
 		// An IPv6 address will always contain at least two colons.
 		if ( substr_count( $host, ':' ) > 1 ) {
-			$pattern = '#^(?:\[)?(?<host>[0-9a-fA-F:]+)(?:\]:(?<port>[\d]+))?#';
+			$pattern = '#^(?:\[)?(?P<host>[0-9a-fA-F:]+)(?:\]:(?P<port>[\d]+))?#';
 			$is_ipv6 = true;
 		} else {
 			// We seem to be dealing with an IPv4 address.
-			$pattern = '#^(?<host>[^:/]*)(?::(?<port>[\d]+))?#';
+			$pattern = '#^(?P<host>[^:/]*)(?::(?P<port>[\d]+))?#';
 		}
 
 		$matches = array();
