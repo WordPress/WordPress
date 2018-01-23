@@ -2,7 +2,13 @@
 <section class="main-box video-list">
     <section class="contain-box">
         <div class="slide-bar">
-            <?php include(TEMPLATEPATH. '/searchform.php'); ?>
+            <form class="neck-bar-search">
+                <div class="form-group input-group">
+                    <input type="text" name="s" id="search" value="<?php echo the_search_query(); ?>" placeholder="Search" class="form-control" />
+                    <input type="hidden" name="cat" value="<?php echo get_query_var( 'cat' ) ?>" />
+                    <button type="submit" class="input-group-addon"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </form>
             <?php 
              if ( !function_exists('dynamic_sidebar') || !dynamic_sidebar('Viedeo_list_classification') ) : ?>
                 <ul>
