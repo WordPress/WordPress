@@ -2662,6 +2662,13 @@ All at ###SITENAME###
  * @param int    $network_id  ID of the network.
  */
 function wp_network_admin_email_change_notification( $option_name, $new_email, $old_email, $network_id ) {
+	$send = true;
+
+	// Don't send the notification to the default 'admin_email' value.
+	if ( 'you@example.com' === $old_email ) {
+		$send = false;
+	}
+
 	/**
 	 * Filters whether to send the network admin email change notification email.
 	 *
@@ -2672,7 +2679,7 @@ function wp_network_admin_email_change_notification( $option_name, $new_email, $
 	 * @param string $new_email  The new network admin email address.
 	 * @param int    $network_id ID of the network.
 	 */
-	$send = apply_filters( 'send_network_admin_email_change_email', true, $old_email, $new_email, $network_id );
+	$send = apply_filters( 'send_network_admin_email_change_email', $send, $old_email, $new_email, $network_id );
 
 	if ( ! $send ) {
 		return;
