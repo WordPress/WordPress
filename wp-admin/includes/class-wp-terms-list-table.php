@@ -377,17 +377,25 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$uri = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
-		$edit_link = add_query_arg(
-			'wp_http_referer',
-			urlencode( wp_unslash( $uri ) ),
-			get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type )
-		);
+		$edit_link = get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type );
+
+		if ( $edit_link ) {
+			$edit_link = add_query_arg(
+				'wp_http_referer',
+				urlencode( wp_unslash( $uri ) ),
+				$edit_link
+			);
+			$name = sprintf(
+				'<a class="row-title" href="%s" aria-label="%s">%s</a>',
+				esc_url( $edit_link ),
+				/* translators: %s: taxonomy term name */
+				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $tag->name ) ),
+				$name
+			);
+		}
 
 		$out = sprintf(
-			'<strong><a class="row-title" href="%s" aria-label="%s">%s</a></strong><br />',
-			esc_url( $edit_link ),
-			/* translators: %s: taxonomy term name */
-			esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $tag->name ) ),
+			'<strong>%s</strong><br />',
 			$name
 		);
 
