@@ -779,6 +779,8 @@ $_old_files = array(
 	'wp-includes/js/mediaelement/renderers/soundcloud.min.js',
 	'wp-includes/js/mediaelement/renderers/twitch.js',
 	'wp-includes/js/mediaelement/renderers/twitch.min.js',
+	// 5.0
+	'wp-includes/js/codemirror/jshint.js',
 );
 
 /**
