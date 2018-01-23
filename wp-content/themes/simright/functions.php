@@ -166,6 +166,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('CAE Converter - CAE model converter','CAE Converter - CAE model converter');
 	pll_register_string('CAD Converter - CAD model converter','CAD Converter - CAD model converter');
 	pll_register_string('Viewer - CAD/CAE model viewer','Viewer - CAD/CAE model viewer');
+	pll_register_string('WebMesher – Pre-processor','WebMesher – Pre-processor');
 	pll_register_string('Resources','Resources');
 	pll_register_string('Public Projects','Public Projects');
 	pll_register_string('Model Library','Model Library');
