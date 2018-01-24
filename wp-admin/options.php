@@ -180,9 +180,11 @@ if ( 'update' == $action ) {
 		if ( ! empty( $_POST['WPLANG'] ) && current_user_can( 'install_languages' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
-			$language = wp_download_language_pack( $_POST['WPLANG'] );
-			if ( $language ) {
-				$_POST['WPLANG'] = $language;
+			if ( wp_can_install_language_pack() ) {
+				$language = wp_download_language_pack( $_POST['WPLANG'] );
+				if ( $language ) {
+					$_POST['WPLANG'] = $language;
+				}
 			}
 		}
 	}
