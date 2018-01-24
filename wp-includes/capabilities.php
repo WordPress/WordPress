@@ -439,15 +439,7 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		case 'install_languages':
 		case 'update_languages':
-			if ( ! function_exists( 'request_filesystem_credentials' ) ) {
-				require_once( ABSPATH . 'wp-admin/includes/file.php' );
-			}
-
-			if ( ! function_exists( 'wp_can_install_language_pack' ) ) {
-				require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
-			}
-
-			if ( ! wp_can_install_language_pack() ) {
+			if ( ! wp_is_file_mod_allowed( 'can_install_language_pack' ) ) {
 				$caps[] = 'do_not_allow';
 			} elseif ( is_multisite() && ! is_super_admin( $user_id ) ) {
 				$caps[] = 'do_not_allow';

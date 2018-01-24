@@ -177,7 +177,7 @@ if ( ! empty( $languages ) || ! empty( $translations ) ) {
 					'selected'                    => $locale,
 					'languages'                   => $languages,
 					'translations'                => $translations,
-					'show_available_translations' => current_user_can( 'install_languages' ),
+					'show_available_translations' => current_user_can( 'install_languages' ) && wp_can_install_language_pack(),
 				)
 			);
 
