@@ -9183,7 +9183,7 @@ Cropper = View.extend(/** @lends wp.media.view.Cropper.prototype */{
 					}
 				} );
 
-				this.parent.children().on( 'mouseup touchend', function( e ) {
+				this.parent.children().on( 'mouseup touchend', function() {
 
 					// Restore the set ratio.
 					imgSelect.setOptions( {
