@@ -9168,17 +9168,27 @@ Cropper = View.extend(/** @lends wp.media.view.Cropper.prototype */{
 		imgOptions = _.extend(imgOptions, {
 			parent: this.$el,
 			onInit: function() {
-				this.parent.children().on( 'mousedown touchstart', function( e ){
 
-					if ( e.shiftKey ) {
+				// Store the set ratio.
+				var setRatio = imgSelect.getOptions().aspectRatio;
+
+				// On mousedown, if no ratio is set and the Shift key is down, use a 1:1 ratio.
+				this.parent.children().on( 'mousedown touchstart', function( e ) {
+
+					// If no ratio is set and the shift key is down, use a 1:1 ratio.
+					if ( ! setRatio && e.shiftKey ) {
 						imgSelect.setOptions( {
 							aspectRatio: '1:1'
 						} );
-					} else {
-						imgSelect.setOptions( {
-							aspectRatio: false
-						} );
 					}
+				} );
+
+				this.parent.children().on( 'mouseup touchend', function( e ) {
+
+					// Restore the set ratio.
+					imgSelect.setOptions( {
+						aspectRatio: setRatio ? setRatio : false
+					} );
 				} );
 			}
 		} );
