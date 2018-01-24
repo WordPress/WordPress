@@ -843,13 +843,9 @@ function the_comment() {
  * Attempts to find the current slug from the past slugs.
  *
  * @since 2.1.0
- *
- * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_old_slug_redirect() {
 	if ( is_404() && '' !== get_query_var( 'name' ) ) {
-		global $wpdb;
-
 		// Guess the current post_type based on the query vars.
 		if ( get_query_var( 'post_type' ) ) {
 			$post_type = get_query_var( 'post_type' );
@@ -873,21 +869,20 @@ function wp_old_slug_redirect() {
 			return;
 		}
 
-		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, get_query_var( 'name' ) );
+		$id = _find_post_by_old_slug( $post_type );
 
-		// if year, monthnum, or day have been specified, make our query more precise
-		// just in case there are multiple identical _wp_old_slug values
-		if ( get_query_var( 'year' ) ) {
-			$query .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var( 'year' ) );
-		}
-		if ( get_query_var( 'monthnum' ) ) {
-			$query .= $wpdb->prepare(" AND MONTH(post_date) = %d", get_query_var( 'monthnum' ) );
-		}
-		if ( get_query_var( 'day' ) ) {
-			$query .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", get_query_var( 'day' ) );
+		if ( ! $id ) {
+			$id = _find_post_by_old_date( $post_type );
 		}
 
-		$id = (int) $wpdb->get_var( $query );
+		/**
+		 * Filters the old slug redirect post ID.
+		 *
+		 * @since 4.9.3
+		 *
+		 * @param string $id The redirect post ID.
+		 */
+		$id = apply_filters( 'old_slug_redirect_post_id', $id );
 
 		if ( ! $id ) {
 			return;
@@ -917,6 +912,82 @@ function wp_old_slug_redirect() {
 		wp_redirect( $link, 301 ); // Permanent redirect
 		exit;
 	}
+}
+
+/**
+ * Find the post ID for redirecting an old slug.
+ *
+ * @see wp_old_slug_redirect()
+ *
+ * @since 4.9.3
+ * @access private
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $post_type The current post type based on the query vars.
+ * @return int $id The Post ID.
+ */
+function _find_post_by_old_slug( $post_type ) {
+	global $wpdb;
+
+	$query = $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, get_query_var( 'name' ) );
+
+	// if year, monthnum, or day have been specified, make our query more precise
+	// just in case there are multiple identical _wp_old_slug values
+	if ( get_query_var( 'year' ) ) {
+		$query .= $wpdb->prepare( " AND YEAR(post_date) = %d", get_query_var( 'year' ) );
+	}
+	if ( get_query_var( 'monthnum' ) ) {
+		$query .= $wpdb->prepare( " AND MONTH(post_date) = %d", get_query_var( 'monthnum' ) );
+	}
+	if ( get_query_var( 'day' ) ) {
+		$query .= $wpdb->prepare( " AND DAYOFMONTH(post_date) = %d", get_query_var( 'day' ) );
+	}
+
+	$id = (int) $wpdb->get_var( $query );
+
+	return $id;
+}
+
+/**
+ * Find the post ID for redirecting an old date.
+ *
+ * @see wp_old_slug_redirect()
+ *
+ * @since 4.9.3
+ * @access private
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $post_type The current post type based on the query vars.
+ * @return int $id The Post ID.
+ */
+
+function _find_post_by_old_date( $post_type ) {
+	global $wpdb;
+
+	$date_query = '';
+	if ( get_query_var( 'year' ) ) {
+		$date_query .= $wpdb->prepare( " AND YEAR(pm_date.meta_value) = %d", get_query_var( 'year' ) );
+	}
+	if ( get_query_var( 'monthnum' ) ) {
+		$date_query .= $wpdb->prepare( " AND MONTH(pm_date.meta_value) = %d", get_query_var( 'monthnum' ) );
+	}
+	if ( get_query_var( 'day' ) ) {
+		$date_query .= $wpdb->prepare( " AND DAYOFMONTH(pm_date.meta_value) = %d", get_query_var( 'day' ) );
+	}
+
+	$id = 0;
+	if ( $date_query ) {
+		$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta AS pm_date, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_date' AND post_name = %s" . $date_query, $post_type, get_query_var( 'name' ) ) );
+
+		if ( ! $id ) {
+			// Check to see if an old slug matches the old date
+			$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts, $wpdb->postmeta AS pm_slug, $wpdb->postmeta AS pm_date WHERE ID = pm_slug.post_id AND ID = pm_date.post_id AND post_type = %s AND pm_slug.meta_key = '_wp_old_slug' AND pm_slug.meta_value = %s AND pm_date.meta_key = '_wp_old_date'" . $date_query, $post_type, get_query_var( 'name' ) ) );
+		}
+	}
+
+	return $id;
 }
 
 /**
