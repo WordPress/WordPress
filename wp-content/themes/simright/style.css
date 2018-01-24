@@ -865,6 +865,15 @@ footer .footer .wechat_qr_code {
     padding-bottom: 30px;
 }
 
+.video-list .contain-box,.video-details .wp-video{
+	width:auto!important;
+}
+
+.video-list .contain-box,.video-details .wp-video video{
+	width:100%!important;
+	height:auto;
+}
+
 .news-list .contain-box{
     max-width: 1200px;
     margin: 0 auto;
