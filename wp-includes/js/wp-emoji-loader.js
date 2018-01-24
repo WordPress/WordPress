@@ -95,8 +95,8 @@
 				 * (person in business suit levitating + female sign).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 55358, 56794, 8205, 9794, 65039 ],
-					[ 55358, 56794, 8203, 9794, 65039 ]
+					[55357, 56692, 8205, 9792, 65039],
+					[55357, 56692, 8203, 9792, 65039]
 				);
 				return ! isIdentical;
 		}
