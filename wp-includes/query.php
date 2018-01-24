@@ -880,7 +880,7 @@ function wp_old_slug_redirect() {
 		/**
 		 * Filters the old slug redirect post ID.
 		 *
-		 * @since 4.9.2
+		 * @since 4.9.3
 		 *
 		 * @param string $id The redirect post ID.
 		 */
@@ -921,7 +921,7 @@ function wp_old_slug_redirect() {
  *
  * @see wp_old_slug_redirect()
  *
- * @since 4.9.2
+ * @since 4.9.3
  * @access private
  *
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -956,7 +956,7 @@ function _find_post_by_old_slug( $post_type ) {
  *
  * @see wp_old_slug_redirect()
  *
- * @since 4.9.2
+ * @since 4.9.3
  * @access private
  *
  * @global wpdb $wpdb WordPress database abstraction object.

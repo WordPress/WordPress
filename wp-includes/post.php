@@ -5720,7 +5720,7 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
  * The most logically usage of this function is redirecting changed post objects, so
  * that those that linked to an changed post will be redirected to the new post.
  *
- * @since 4.9.2
+ * @since 4.9.3
  *
  * @param int     $post_id     Post ID.
  * @param WP_Post $post        The Post Object
