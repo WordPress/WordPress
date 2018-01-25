@@ -1,0 +1,93 @@
+#emwi-in-upload-ui {
+	margin: 1.2em auto;
+	text-align: center;
+}
+
+#emwi-in-upload-ui .row1 {
+	margin-bottom: .5em;
+}
+
+#emwi-media-new-panel {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	z-index: 999;
+	background-color: rgb(241, 241, 241);
+	text-align: left;
+	box-sizing: border-box;
+	padding: 2em;
+}
+
+.media-modal-content #emwi-media-new-panel {
+	background-color: white;
+}
+
+#emwi-media-new-panel .url-row {
+	position: relative;
+	height: 2.5em;
+	margin-bottom: 1.5em;
+}
+
+#emwi-media-new-panel .url-row label {
+	width: 13em;
+	line-height: 2.5em;
+}
+
+#emwi-url-input-wrapper {
+	display: inline-block;
+	position: absolute;
+	left: 13em;
+	right: 0;
+}
+
+#emwi-url {
+	width: 100%;
+}
+
+#emwi-error {
+	color: red;
+}
+
+#emwi-properties {
+	margin-top: 1.5em;
+}
+
+#emwi-properties label {
+	margin-right: 1em;
+}
+
+#emwi-width {
+	margin-right: 2.5em;
+	width: 6em;
+}
+
+#emwi-height {
+	margin-right: 7em;
+	width: 6em;
+}
+
+#emwi-type {
+	width: 17em;
+}
+
+#emwi-buttons-row {
+	margin-top: 1.5em;
+	text-align: right;
+}
+
+#emwi-buttons-row .spinner {
+	margin-top: 4px;
+	margin-right: 2em;
+	float: none;
+	visibility: hidden;
+}
+
+#emwi-clear {
+	margin-right: 2.3em;
+}
+
+#emwi-add {
+	margin-right: 1.5em;
+}

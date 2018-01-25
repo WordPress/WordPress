@@ -1,0 +1,152 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Category Order and Taxonomy Terms Order\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-21 21:29+0200\n"
+"PO-Revision-Date: 2015-07-21 21:29+0200\n"
+"Last-Translator: NspCode <electronice_delphi@yahoo.com>\n"
+"Language-Team: nsp-code <electronice_delphi@yahoo.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;__;_e\n"
+"X-Poedit-Basepath: D:\\htdocs\\develop\\advanced_post_types_order\\wp-content"
+"\\plugins\\taxonomy-terms-order\\\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: taxonomy-terms-order.php:90
+msgid "Taxonomy Terms Order"
+msgstr ""
+
+#: taxonomy-terms-order.php:125 taxonomy-terms-order.php:127
+#: taxonomy-terms-order.php:129 include/interface.php:38
+msgid "Taxonomy Order"
+msgstr ""
+
+#: include/functions.php:62
+msgid ""
+"Did you find this plugin useful? Please support our work with a donation or "
+"write an article about this plugin in your blog with a link to our site"
+msgstr ""
+
+#: include/functions.php:63
+msgid "Did you know there is available an advanced version of this plug-in?"
+msgstr ""
+
+#: include/functions.php:63
+msgid "Read more"
+msgstr ""
+
+#: include/functions.php:64 include/functions.php:65
+msgid "Check our"
+msgstr ""
+
+#: include/functions.php:64
+msgid ""
+"plugin which allow to custom sort categories and custom taxonomies terms per "
+"post basis"
+msgstr ""
+
+#: include/functions.php:65
+msgid "plugin which allow to custom sort all posts, pages, custom post types"
+msgstr ""
+
+#: include/interface.php:46
+msgid ""
+"This plugin can't work without javascript, because it's use drag and drop "
+"and AJAX."
+msgstr ""
+
+#: include/interface.php:100
+msgid "Taxonomies"
+msgstr ""
+
+#: include/interface.php:104
+msgid "Taxonomy Title"
+msgstr ""
+
+#: include/interface.php:104
+msgid "Total  Posts"
+msgstr ""
+
+#: include/interface.php:154
+msgid "Update"
+msgstr ""
+
+#: include/interface.php:203
+msgid "Items Order Updated"
+msgstr ""
+
+#: include/options.php:16
+msgid "Settings Saved"
+msgstr ""
+
+#: include/options.php:24
+msgid "General Settings"
+msgstr ""
+
+#: include/options.php:30
+msgid "General"
+msgstr ""
+
+#: include/options.php:35
+msgid "Minimum Level to use this plugin"
+msgstr ""
+
+#: include/options.php:38
+msgid "Subscriber"
+msgstr ""
+
+#: include/options.php:39
+msgid "Contributor"
+msgstr ""
+
+#: include/options.php:40
+msgid "Author"
+msgstr ""
+
+#: include/options.php:41
+msgid "Editor"
+msgstr ""
+
+#: include/options.php:42
+msgid "Administrator"
+msgstr ""
+
+#: include/options.php:49
+msgid "Auto Sort"
+msgstr ""
+
+#: include/options.php:52
+msgid "OFF"
+msgstr ""
+
+#: include/options.php:53
+msgid "ON"
+msgstr ""
+
+#: include/options.php:54
+msgid "global setting"
+msgstr ""
+
+#: include/options.php:54 include/options.php:62
+msgid "Additional description and details at "
+msgstr ""
+
+#: include/options.php:54 include/options.php:62
+msgid "Auto Sort Description"
+msgstr ""
+
+#: include/options.php:59
+msgid "Admin Sort"
+msgstr ""
+
+#: include/options.php:62
+msgid "This will change the order of terms within the admin interface"
+msgstr ""
+
+#: include/options.php:73
+msgid "Save Settings"
+msgstr ""

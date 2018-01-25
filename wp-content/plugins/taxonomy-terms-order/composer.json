@@ -1,0 +1,17 @@
+{
+    "name"          : "nsp-code/taxonomy-terms-order",
+    "description"   : "Order Categories and all custom taxonomies terms (hierarchically) and child terms using a Drag and Drop Sortable javascript capability.",
+    "keywords"      : ["category order","terms order", "taxonomy order", "admin order"],
+    "homepage"      : "http://www.nsp-code.com/",
+    "authors"       : [
+                        {
+                          "name": "Nsp Code",
+                          "email": "contact@nsp-code.com",
+                          "homepage": "http://www.nsp-code.com/"
+                        }
+                      ],
+    "type"          : "wordpress-plugin",
+    "require"       : {
+                            "composer/installers": "~1.0"
+                        }
+}

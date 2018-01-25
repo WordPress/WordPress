@@ -1,0 +1,40 @@
+
+h2.subtitle {font-size: 15px; font-weight: bold; padding: 20px 0 10px 0}
+
+#order-terms {}
+#order-terms img {vertical-align: middle}
+#order-terms #tto_sortable { list-style-type: none; margin: 20px 0 0; padding: 0; width: 100%; }
+#order-terms ul {list-style: none;}
+#order-terms ul.children {margin-left: 25px} 
+
+#order-terms #tto_sortable li > .item { padding: 2px 0px; margin: 4px 0px;  border: 1px solid #DDDDDD; cursor: move; -moz-border-radius:6px; background-color: #f9f9f9;}
+#order-terms #tto_sortable li:nth-child(2n+1) > .item {    background-color: #fff !important;}
+#order-terms #tto_sortable li span { display: block; padding: 5px 10px; color:#555; font-size:13px;}
+#order-terms #tto_sortable li.placeholder{border: dashed 2px #ccc;height:30px; background-color: #FFF;}
+
+.wp-list-taxonomy {width: 100%}
+.wp-list-taxonomy thead tr th{padding: 10px 0; text-align: left;}
+.wp-list-taxonomy tr {background-color: #FCFCFC;}
+.wp-list-taxonomy tbody th.check-column {    padding: 9px 0 22px;}
+.wp-list-taxonomy td {    color: #555555;}
+.wp-list-taxonomy td, .wp-list-taxonomy th {    border-bottom-color: #DFDFDF;    border-top-color: #FFFFFF;}
+.wp-list-taxonomy th, .wp-list-taxonomy td {    overflow: hidden;}
+.wp-list-taxonomy td {    padding: 9px 7px 4px 7px;    vertical-align: top;}
+.wp-list-taxonomy td, .wp-list-taxonomy th {    border-style: solid;    border-width: 1px 0;}
+.wp-list-taxonomy * {    word-wrap: break-word;}
+
+#cpt_info_box {padding: 0 10px; border: 1px dashed #6aadcc; background-color: #FFF; margin-top: 10px;
+-webkit-box-shadow: 1px 1px 7px rgba(50, 50, 50, 0.17);
+-moz-box-shadow:    1px 1px 7px rgba(50, 50, 50, 0.17);
+box-shadow:         1px 1px 7px rgba(50, 50, 50, 0.17);}
+#cpt_info_box a {text-decoration: none}
+#cpt_info_box #donate_form {float: right;    padding: 10px 0 17px;    text-align: center;    width: 100%;}
+#p_right {float: right; width: 210px; background-color:#f5f5f5; border-left: 1px dashed #dedede; border-right: 1px dashed #dedede}
+.p_s_item {float: right; padding: 0px 5px; margin-top: 15px; margin-bottom: 5px; }
+.p_s_item.s_gp {padding-top: 2px; margin-left: 5px}
+
+.menu_tto {margin-right: 4px; display: inline; vertical-align: middle; margin-top: -1px;}  
+
+.clear {clear: both}
+
+
