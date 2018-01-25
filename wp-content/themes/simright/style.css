@@ -804,7 +804,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.video-list .banner,.news-list .banner,.joinus-list .banner{
+.news-list .banner,.joinus-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -829,7 +829,57 @@ footer .footer .wechat_qr_code {
     color: #fff;
 }
 
-.video-list .banner h2,.news-list .banner h2,.joinus-list .banner h2 {
+.video-list .banner{
+	height: 280px;
+    background-image: url("https://oss.simright.com/images/cms-video-banner.png");
+    background-size: cover;
+    background-position: left;
+    background-repeat: no-repeat;
+    padding-top: 34px;
+}
+
+.video-list .banner h2{
+    height:50px;
+    line-height: 50px;
+    font-size: 36px;
+    color: #FFFFFF;
+    margin-top: 10px;
+}
+
+.video-list .banner p{
+    color: #fff;
+    font-size: 18px; 
+    margin-bottom: 20px; 
+}
+
+.video-list .banner button{
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    padding: 17px 50px;
+    border-radius: 86px;
+    background-color: #fff;
+    color: #218BCC;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.video-list .banner>div{
+	width:100%;
+    max-width:1200px;
+    margin: 0 auto;
+	display:flex;
+	justify-content:space-between;
+	align-items:flex-start;
+}
+
+.video-list .banner>div img{
+	width:380px;
+    height:212px;
+    margin-left: 20px;
+}
+
+.news-list .banner h2,.joinus-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
