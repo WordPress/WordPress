@@ -50,6 +50,13 @@ function post_thumbnail_src($size){
 	};
 	echo $post_thumbnail_src;
 }
+
+function get_thumbnail_src($id){
+	$thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id($id), 'thumbnail');
+	$post_thumbnail_src = $thumbnail_src [0];
+	return $post_thumbnail_src;
+}
+
 function autoset_featured() {
 	global $post;
 	$already_has_thumb = has_post_thumbnail($post->ID);
