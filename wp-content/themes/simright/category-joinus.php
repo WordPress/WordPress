@@ -5,7 +5,7 @@
     </div>
     <section class="contain-box">
         <div class="email-to">
-        <?php pll_e('应聘简历发送至'); ?>:<span>hr@simright.com</span>
+        <?php pll_e('应聘简历发送至'); ?>:<a href="mailto:hr@simright.com">hr@simright.com</a>
         </div>
         <div class="post-list">
             <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
