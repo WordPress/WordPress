@@ -36,7 +36,7 @@
             </section>
             <section class="clearfix copyright">
                 <p class="text-center">
-                    Copyright © 2017 Simright Information Technology Co.,Ltd. All Rights Reserved.
+                    Copyright © 2018 Simright Information Technology Co.,Ltd. All Rights Reserved.
                 <p class="text-center">Powered By <a rel="external" title="WordPress" class="link" href="http://wordpress.org/">WordPress</a></p>
             </section>
         </footer>
