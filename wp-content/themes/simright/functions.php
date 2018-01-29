@@ -201,6 +201,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('fan hui shi pin zhong xin','返回视频中心');
 	pll_register_string('tong lei jiao cheng','同类教程');
 	pll_register_string('Comments','Comments');
+	pll_register_string('Watch Now','Watch Now');
 }
 
 /** 搜索表单 */
