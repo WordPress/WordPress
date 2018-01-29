@@ -86,8 +86,8 @@
                     <ul class="dropdown-menu position-right" role="menu">
                         <li><a href="https://www.simright.com/about_us"><?php pll_e('About Us'); ?></a></li>
                         <li><a href="https://www.simright.com/contact_us"><?php pll_e('Contact Us'); ?></a></li>
-                        <li><a href="https://www.simright.com/security"><?php pll_e('Security'); ?></a></li>
                         <li><a href="https://www.simright.com/join-us"><?php pll_e('Join Us'); ?></a></li>
+                        <li><a href="https://www.simright.com/security"><?php pll_e('Security'); ?></a></li>
                     </ul>
                 </li>
                 <li class="dropdown">    
