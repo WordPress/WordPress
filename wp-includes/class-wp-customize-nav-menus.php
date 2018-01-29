@@ -385,6 +385,22 @@ final class WP_Customize_Nav_Menus {
 			}
 		}
 
+		// Add "Home" link if search term matches. Treat as a page, but switch to custom on add.
+		if ( isset( $args['s'] ) ) {
+			$title = _x( 'Home', 'nav menu home label' );
+			$matches = function_exists( 'mb_stripos' ) ? false !== mb_stripos( $title, $args['s'] ) : false !== stripos( $title, $args['s'] );
+			if ( $matches ) {
+				$items[] = array(
+					'id'         => 'home',
+					'title'      => $title,
+					'type'       => 'custom',
+					'type_label' => __( 'Custom Link' ),
+					'object'     => '',
+					'url'        => home_url(),
+				);
+			}
+		}
+
 		/**
 		 * Filters the available menu items during a search request.
 		 *
