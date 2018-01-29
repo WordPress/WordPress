@@ -8208,6 +8208,7 @@
 			// Check for lock when sending heartbeat requests.
 			$( document ).on( 'heartbeat-send.update_lock_notice', function( event, data ) {
 				data.check_changeset_lock = true;
+				data.changeset_uuid = api.settings.changeset.uuid;
 			} );
 
 			// Handle heartbeat ticks.
