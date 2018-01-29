@@ -915,6 +915,12 @@ footer .footer .wechat_qr_code {
     padding-bottom: 30px;
 }
 
+.video-details .post-content img{
+	max-width:100%;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
 .video-list .contain-box,.video-details .wp-video{
 	width:auto!important;
 }
@@ -930,6 +936,25 @@ footer .footer .wechat_qr_code {
     padding-top: 155px;
 }
 
+.news-list .contain-box .news-item-wrap{
+	width: 100%;
+	border-left:1px solid #CEDAE6;
+	padding-left:45px;
+	position:relative;
+	height:270px;
+}
+
+.news-list .contain-box .news-item-wrap .point{
+	width:12px;
+	height:12px;
+	border:1px solid #fff;
+	background-color:#CEDAE6;
+	border-radius:50%;
+	position:absolute;
+	left:-6px;
+	top:69px;
+}
+
 .news-list .contain-box .news-item{
     padding: 50px;
     height: 230px;
@@ -937,7 +962,23 @@ footer .footer .wechat_qr_code {
     background-color: #FFFFFF;
     box-shadow: 0 1px 13px rgba(137,155,172,0.5);
     margin-bottom: 40px;
+	position:relative;
 }
+.news-list .contain-box .news-item .arrow{
+	position: absolute;
+	top: 50px;
+	left: -48px;
+	border-right: 26px solid #ccc;
+	border: 26px solid transparent;
+    border-right-color: transparent;
+	border-right-color: #fff;
+	width: 1px;
+	height: 1px;
+	box-sizing: border-box;
+}
+
+.news-list .contain-box .news-item
+
 .news-list .contain-box .news-item >p{
     height: 28px;
     line-height: 28px;
@@ -1014,8 +1055,16 @@ footer .footer .wechat_qr_code {
     border-radius: 5px;
     background-color: #fff;
 }
-.joinus-list .contain-box .joinus-item ul,.joinus-list .contain-box .joinus-item ol,.joinus-list .contain-box .joinus-item li{
+.joinus-list .contain-box .joinus-item ul,.joinus-list .contain-box .joinus-item ol,.joinus-list .contain-box .joinus-item li,.video-details .post-content ul,.video-details .post-content ol,.video-details .post-content li{
     list-style: initial!important;
+}
+.video-details .post-content ul,.video-details .post-content ol{
+	margin-bottom:20px;
+	padding-left:20px;
+}
+
+.video-details .post-content li{
+	margin-bottom:10px;
 }
 
 .joinus-list .contain-box .joinus-item h3{
