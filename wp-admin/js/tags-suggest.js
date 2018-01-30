@@ -6,7 +6,6 @@
 		return;
 	}
 
-	var tempID = 0;
 	var separator = window.tagsSuggestL10n.tagDelimiter || ',';
 
 	function split( val ) {
