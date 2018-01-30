@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
+if ( ! in_array( $_SERVER['REQUEST_METHOD'], array( 'POST', 'OPTIONS' ) ) ) {
 	$protocol = $_SERVER['SERVER_PROTOCOL'];
 	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
 		$protocol = 'HTTP/1.0';
@@ -19,7 +19,7 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 
 /** Sets up the WordPress Environment. */
 require( dirname( __FILE__ ) . '/wp-load.php' );
-
+send_origin_headers();
 nocache_headers();
 
 $comment = wp_handle_comment_submission( wp_unslash( $_POST ) );
