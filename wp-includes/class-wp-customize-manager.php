@@ -3170,15 +3170,26 @@ final class WP_Customize_Manager {
 	 * @return array The Heartbeat response.
 	 */
 	public function check_changeset_lock_with_heartbeat( $response, $data, $screen_id ) {
-		if ( array_key_exists( 'check_changeset_lock', $data ) && 'customize' === $screen_id && current_user_can( 'customize' ) && $this->changeset_post_id() ) {
-			$lock_user_id = wp_check_post_lock( $this->changeset_post_id() );
+		if ( isset( $data['changeset_uuid'] ) ) {
+			$changeset_post_id = $this->find_changeset_post_id( $data['changeset_uuid'] );
+		} else {
+			$changeset_post_id = $this->changeset_post_id();
+		}
+
+		if (
+			array_key_exists( 'check_changeset_lock', $data )
+			&& 'customize' === $screen_id
+			&& $changeset_post_id
+			&& current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $changeset_post_id )
+		) {
+			$lock_user_id = wp_check_post_lock( $changeset_post_id );
 
 			if ( $lock_user_id ) {
 				$response['customize_changeset_lock_user'] = $this->get_lock_user_data( $lock_user_id );
 			} else {
 
 				// Refreshing time will ensure that the user is sitting on customizer and has not closed the customizer tab.
-				$this->refresh_changeset_lock( $this->changeset_post_id() );
+				$this->refresh_changeset_lock( $changeset_post_id );
 			}
 		}
 
