@@ -1141,7 +1141,7 @@ final class WP_Customize_Manager {
 		if ( ! $changeset_post_id ) {
 			$this->_changeset_data = array();
 		} else {
-			if ( $this->autosaved() ) {
+			if ( $this->autosaved() && is_user_logged_in() ) {
 				$autosave_post = wp_get_post_autosave( $changeset_post_id, get_current_user_id() );
 				if ( $autosave_post ) {
 					$data = $this->get_changeset_post_data( $autosave_post->ID );
@@ -2902,10 +2902,12 @@ final class WP_Customize_Manager {
 				$post_array['edit_date'] = true; // Prevent date clearing.
 				$r                       = wp_update_post( wp_slash( $post_array ), true );
 
-				// Delete autosave revision when the changeset is updated.
-				$autosave_draft = wp_get_post_autosave( $changeset_post_id, get_current_user_id() );
-				if ( $autosave_draft ) {
-					wp_delete_post( $autosave_draft->ID, true );
+				// Delete autosave revision for user when the changeset is updated.
+				if ( ! empty( $args['user_id'] ) ) {
+					$autosave_draft = wp_get_post_autosave( $changeset_post_id, $args['user_id'] );
+					if ( $autosave_draft ) {
+						wp_delete_post( $autosave_draft->ID, true );
+					}
 				}
 			}
 		} else {
@@ -3548,6 +3550,11 @@ final class WP_Customize_Manager {
 	 * @since 4.9.0
 	 */
 	public function handle_dismiss_autosave_or_lock_request() {
+		// Calls to dismiss_user_auto_draft_changesets() and wp_get_post_autosave() require non-zero get_current_user_id().
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'unauthenticated', 401 );
+		}
+
 		if ( ! $this->is_preview() ) {
 			wp_send_json_error( 'not_preview', 400 );
 		}
@@ -4649,7 +4656,9 @@ final class WP_Customize_Manager {
 		$changeset_post_id       = $this->changeset_post_id();
 		if ( ! $this->saved_starter_content_changeset && ! $this->autosaved() ) {
 			if ( $changeset_post_id ) {
-				$autosave_revision_post = wp_get_post_autosave( $changeset_post_id, get_current_user_id() );
+				if ( is_user_logged_in() ) {
+					$autosave_revision_post = wp_get_post_autosave( $changeset_post_id, get_current_user_id() );
+				}
 			} else {
 				$autosave_autodraft_posts = $this->get_changeset_posts(
 					array(
