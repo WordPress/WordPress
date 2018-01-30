@@ -1215,6 +1215,7 @@ footer .footer .wechat_qr_code {
     display: block;
     width: 100%;
     height: 150px;
+    min-width: 80px;
 }
 
 .video-list .contain-box .contain-body .list-item .list-contain .video-item span,.video-details .video-item span {

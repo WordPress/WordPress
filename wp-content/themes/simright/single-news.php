@@ -12,7 +12,7 @@
                             <p><?php the_time('Y-m-d') ?></p>
                         </div>
                         <div>
-                            <?php the_excerpt(); ?>
+                            <?php the_content(); ?>
                         </div>
                     </div>
                 <?php else : ?>
