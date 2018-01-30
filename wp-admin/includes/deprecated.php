@@ -1514,3 +1514,61 @@ function options_permalink_add_js() {
 	</script>
 	<?php
 }
+
+/**
+ * Ajax handler for tag search.
+ *
+ * @since 3.1.0
+ * @deprecated 4.9.0 Use the REST API tags endpoint instead.
+ */
+function wp_ajax_ajax_tag_search() {
+	_deprecated_function( __FUNCTION__, '4.8', '/wp-json/wp/v2/tags' );
+
+	if ( ! isset( $_GET['tax'] ) ) {
+		wp_die( 0 );
+	}
+
+	$taxonomy = sanitize_key( $_GET['tax'] );
+	$tax      = get_taxonomy( $taxonomy );
+	if ( ! $tax ) {
+		wp_die( 0 );
+	}
+
+	if ( ! current_user_can( $tax->cap->assign_terms ) ) {
+		wp_die( -1 );
+	}
+
+	$s = wp_unslash( $_GET['q'] );
+
+	$comma = _x( ',', 'tag delimiter' );
+	if ( ',' !== $comma ) {
+		$s = str_replace( $comma, ',', $s );
+	}
+	if ( false !== strpos( $s, ',' ) ) {
+		$s = explode( ',', $s );
+		$s = $s[ count( $s ) - 1 ];
+	}
+	$s = trim( $s );
+
+	/** This filter is documented in wp-includes/script-loader.php */
+	$term_search_min_chars = (int) apply_filters( 'term_search_min_chars', 2, $tax, $s );
+
+	/*
+	 * Require $term_search_min_chars chars for matching (default: 2)
+	 * ensure it's a non-negative, non-zero integer.
+	 */
+	if ( ( $term_search_min_chars == 0 ) || ( strlen( $s ) < $term_search_min_chars ) ) {
+		wp_die();
+	}
+
+	$results = get_terms(
+		$taxonomy, array(
+			'name__like' => $s,
+			'fields'     => 'names',
+			'hide_empty' => false,
+		)
+	);
+
+	echo join( $results, "\n" );
+	wp_die();
+}

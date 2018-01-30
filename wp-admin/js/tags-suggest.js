@@ -53,33 +53,15 @@
 
 				term = getLast( request.term );
 
-				$.get( window.ajaxurl, {
-					action: 'ajax-tag-search',
-					tax: taxonomy,
-					q: term
+				$.get( window.tagsSuggestL10n.restURL, {
+					_fields: [ 'id', 'name' ],
+					taxonomy: taxonomy,
+					search: term
 				} ).always( function() {
 					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
 				} ).done( function( data ) {
-					var tagName;
-					var tags = [];
-
-					if ( data ) {
-						data = data.split( '\n' );
-
-						for ( tagName in data ) {
-							var id = ++tempID;
-
-							tags.push({
-								id: id,
-								name: data[tagName]
-							});
-						}
-
-						cache = tags;
-						response( tags );
-					} else {
-						response( tags );
-					}
+					cache = data;
+					response( data );
 				} );
 
 				last = request.term;
@@ -118,7 +100,7 @@
 			close: function() {
 				$element.attr( 'aria-expanded', 'false' );
 			},
-			minLength: 2,
+			minLength: window.tagsSuggestL10n.minChars,
 			position: {
 				my: 'left top+2',
 				at: 'left bottom',
