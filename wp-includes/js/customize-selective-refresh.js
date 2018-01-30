@@ -488,6 +488,10 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				wp.mediaelement.initialize();
 			}
 
+			if ( wp.playlist ) {
+				wp.playlist.initialize();
+			}
+
 			/**
 			 * Announce when a partial's placement has been rendered so that dynamic elements can be re-built.
 			 */
