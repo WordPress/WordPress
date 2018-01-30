@@ -5739,18 +5739,42 @@ function wp_validate_boolean( $var ) {
  * Delete a file
  *
  * @since 4.2.0
+ * @since 4.7.2 Added the $unblock_directories parameter and default filters.
  *
- * @param string $file The path to the file to delete.
+ * @param string $file                The path to the file to delete.
+ * @param array  $unblock_directories By default path core directories are block and $unblock_directories are clear.
+ *                                    To unblock core folders you need set in array names ROOT, WP_CONTENT_DIR,
+ *                                    WP_ADMIN_DIR or WP_INCLUDE_DIR.
  */
-function wp_delete_file( $file ) {
+function wp_delete_file( $file, $unblock_directories = array() ) {
+
+	// Default Filters the path of the file to delete.
+	$path_blocked = array(
+	        'ROOT' => realpath( untrailingslashit( ABSPATH ) ), // Root path folder.
+	        'WP_CONTENT_DIR' => realpath( WP_CONTENT_DIR ), // wp-content path folder.
+	        'WP_ADMIN_DIR' => realpath( ABSPATH . 'wp-admin'), // wp-admin path folder.
+	        'WP_INCLUDE_DIR' => realpath( ABSPATH . WPINC ) // wp-incluide path folder.
+    );
+
+	$path_blocked     = array_diff_key( $path_blocked, array_flip( $unblock_directories ) );
+	$file_folder_path = realpath( ltrim( dirname( $file ), DIRECTORY_SEPARATOR ) );
+
+	if ( in_array( $file_folder_path, $path_blocked, true) )  {
+		return;
+	}
+
 	/**
 	 * Filters the path of the file to delete.
 	 *
 	 * @since 2.1.0
-	 *
-	 * @param string $file Path to the file to delete.
+	 * @since 4.7.2 Added the $unblock_directories parameter and default filters.
+     *
+	 * @param string $file                Path to the file to delete.
+	 * @param array  $unblock_directories By default path core directories are block and $unblock_directories are clear.
+	 *                                    To unblock core folders you need set in array names ROOT, WP_CONTENT_DIR,
+	 *                                    WP_ADMIN_DIR or WP_INCLUDE_DIR.
 	 */
-	$delete = apply_filters( 'wp_delete_file', $file );
+	$delete = apply_filters( 'wp_delete_file', $file, $unblock_directories );
 	if ( ! empty( $delete ) ) {
 		@unlink( $delete );
 	}
