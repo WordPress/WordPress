@@ -4,31 +4,9 @@
         <?php $ptranslations = pll_the_languages( array( 'show_flags' => 0,'show_names' => 0 ,'hide_current'=> 0,'hide_if_no_translation' => 1,'raw' => 1 ) );
             foreach($ptranslations as $value){
             if($value['current_lang'] && $value['name'] === '中文'){
-                echo '<div>
-                        <div>
-                            <h2>'. get_post(67)->post_title .'</h2>
-                            <p>'. get_post(67)->post_excerpt .'</p>
-                            <button>
-                                <a href="'. get_permalink(67) .'">'. pll_e("Watch Now") .'</a>
-                            </button>
-                        </div>
-                        <div>
-                            <img src="'. get_thumbnail_src(67) .'" alt="">
-                        </div>
-                    </div>';
+                echo'<div><div><h2>'. get_post(67)->post_title .'</h2><p>'. get_post(67)->post_excerpt .'</p><button><a href="'. get_permalink(67) .'">观看</a></button></div><div><img src="'. get_thumbnail_src(67) .'" alt=""></div></div>';
             }elseif($value['current_lang'] && $value['name'] === 'English'){
-                echo'<div>
-                        <div>
-                            <h2>'. get_post(104)->post_title .'</h2>
-                            <p>'. get_post(104)->post_excerpt .'</p>
-                            <button>
-                                <a href="'. get_permalink(104) .'">Watch now</a>
-                            </button>
-                        </div>
-                        <div>
-                            <img src="'. get_thumbnail_src(104) .'" alt="">
-                        </div>
-                    </div>';
+                echo'<div><div><h2>'. get_post(104)->post_title .'</h2><p>'. get_post(104)->post_excerpt .'</p><button><a href="'. get_permalink(104) .'">Watch Now</a></button></div><div><img src="'. get_thumbnail_src(104) .'" alt=""></div></div>';
             }
         } ?>
     </div>
