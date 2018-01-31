@@ -1117,6 +1117,10 @@ footer .footer .wechat_qr_code {
     list-style: none;
 }
 
+.video-list .contain-box .slide-bar ul li ul{
+	padding-left:20px;
+}
+
 .video-list .contain-box .slide-bar ul li a {
     display: inline-block;
     height: 30px;
