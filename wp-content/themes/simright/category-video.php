@@ -9,7 +9,7 @@
                             <h2>'. get_post(67)->post_title .'</h2>
                             <p>'. get_post(67)->post_excerpt .'</p>
                             <button>
-                                <a href="'. get_permalink(67) .'">'. pll_e('Watch Now') .'</a>
+                                <a href="'. get_permalink(67) .'">'. pll_e("Watch Now") .'</a>
                             </button>
                         </div>
                         <div>
