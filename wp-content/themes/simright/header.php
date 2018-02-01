@@ -43,7 +43,7 @@
             </div> 
             <nav class="navbar navbar-default" role="navigation">
                 <li data-active = "index">
-                    <a href="/>
+                    <a href="/">
                         <span>
                         <?php pll_e('Home'); ?>
                         </span>
