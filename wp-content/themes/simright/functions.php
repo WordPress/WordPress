@@ -178,6 +178,13 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Public Projects','Public Projects');
 	pll_register_string('Model Library','Model Library');
 	pll_register_string('Pricing','Pricing');
+
+	pll_register_string('Learning','Learning');
+	pll_register_string('Video Library','Video Library');
+	pll_register_string('Blog','Blog');
+	pll_register_string('Nav News','News');
+	
+
 	pll_register_string('Blog','Blog');
 	pll_register_string('About','About');
 	pll_register_string('About Us','About Us');

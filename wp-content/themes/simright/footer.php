@@ -13,10 +13,10 @@
                     </div>
                     <div class="footer-products">
                         <h4><?php pll_e('Products'); ?></h4>
-                        <p><a href="https://www.simright.com/apps/simright-converter"><i class="fa fa-angle-right"></i><b><?php pll_e('Converter'); ?></b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-viewer"><i class="fa fa-angle-right"></i><b><?php pll_e('Viewer'); ?></b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-simulator"><i class="fa fa-angle-right"></i><b><?php pll_e('Simulator'); ?></b></a></p>
-                        <p><a href="https://www.simright.com/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b><?php pll_e('Toptimizer'); ?></b></a></p>
+                        <p><a href="/apps/simright-converter"><i class="fa fa-angle-right"></i><b><?php pll_e('Converter'); ?></b></a></p>
+                        <p><a href="/apps/simright-viewer"><i class="fa fa-angle-right"></i><b><?php pll_e('Viewer'); ?></b></a></p>
+                        <p><a href="/apps/simright-simulator"><i class="fa fa-angle-right"></i><b><?php pll_e('Simulator'); ?></b></a></p>
+                        <p><a href="/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b><?php pll_e('Toptimizer'); ?></b></a></p>
                     </div>
                     <div class="footer-follow">
                         <h4>Follow Us</h4>
