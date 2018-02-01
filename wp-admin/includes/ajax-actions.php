@@ -3218,7 +3218,7 @@ function wp_ajax_query_themes() {
 		}
 
 		$theme->name        = wp_kses( $theme->name, $themes_allowedtags );
-		$theme->author      = wp_kses( $theme->author, $themes_allowedtags );
+		$theme->author      = wp_kses( $theme->author['display_name'], $themes_allowedtags );
 		$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
 		$theme->description = wp_kses( $theme->description, $themes_allowedtags );
 		$theme->stars       = wp_star_rating(

@@ -5619,19 +5619,6 @@ final class WP_Customize_Manager {
 			// Arguments for all queries.
 			$wporg_args = array(
 				'per_page' => 100,
-				'fields'   => array(
-					'screenshot_url' => true,
-					'description'    => true,
-					'rating'         => true,
-					'downloaded'     => true,
-					'downloadlink'   => true,
-					'last_updated'   => true,
-					'homepage'       => true,
-					'num_ratings'    => true,
-					'tags'           => true,
-					'parent'         => true,
-					// 'extended_author' => true, @todo: WordPress.org throws a 500 server error when this is here.
-				),
 			);
 
 			$args = array_merge( $wporg_args, $args );
@@ -5674,10 +5661,8 @@ final class WP_Customize_Manager {
 				);
 
 				$theme->name        = wp_kses( $theme->name, $themes_allowedtags );
-				$theme->author      = wp_kses( $theme->author, $themes_allowedtags );
 				$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
 				$theme->description = wp_kses( $theme->description, $themes_allowedtags );
-				$theme->tags        = implode( ', ', $theme->tags );
 				$theme->stars       = wp_star_rating(
 					array(
 						'rating' => $theme->rating,
@@ -5702,8 +5687,8 @@ final class WP_Customize_Manager {
 				// Map available theme properties to installed theme properties.
 				$theme->id           = $theme->slug;
 				$theme->screenshot   = array( $theme->screenshot_url );
-				$theme->authorAndUri = $theme->author;
-				// The .org API can return the full parent theme details if passed the 'parent' arg, or if passed the 'template' option it'll return that in the event it's a child theme.
+				$theme->authorAndUri = wp_kses( $theme->author['display_name'], $themes_allowedtags );
+
 				if ( isset( $theme->parent ) ) {
 					$theme->parent = $theme->parent['slug'];
 				} else {
