@@ -636,7 +636,6 @@ function _is_valid_nav_menu_item( $item ) {
  *
  * @since 3.0.0
  *
- * @global string $_menu_item_sort_prop
  * @staticvar array $fetched
  *
  * @param int|string|WP_Term $menu Menu ID, slug, name, or object.
