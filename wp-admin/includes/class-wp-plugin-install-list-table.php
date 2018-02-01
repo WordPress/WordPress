@@ -145,14 +145,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$args = array(
 			'page'              => $paged,
 			'per_page'          => $per_page,
-			'fields'            => array(
-				'last_updated'    => true,
-				'icons'           => true,
-				'active_installs' => true,
-			),
-			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
+			// Send the locale to the API so it can provide context-sensitive results.
 			'locale'            => get_user_locale(),
-			'installed_plugins' => array_keys( $installed_plugins ),
 		);
 
 		switch ( $tab ) {
@@ -175,14 +169,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				break;
 
 			case 'featured':
-				$args['fields']['group'] = true;
-				$this->orderby           = 'group';
-				// No break!
 			case 'popular':
 			case 'new':
 			case 'beta':
+				$args['browse'] = $tab;
+				break;
 			case 'recommended':
 				$args['browse'] = $tab;
+				// Include the list of installed plugins so we can get relevant results.
+				$args['installed_plugins'] = array_keys( $installed_plugins );
 				break;
 
 			case 'favorites':

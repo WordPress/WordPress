@@ -99,17 +99,25 @@
  *         for more information on the make-up of possible return values depending on the value of `$action`.
  */
 function plugins_api( $action, $args = array() ) {
+	// include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' );
 
 	if ( is_array( $args ) ) {
 		$args = (object) $args;
 	}
 
-	if ( ! isset( $args->per_page ) ) {
-		$args->per_page = 24;
+	if ( 'query_plugins' == $action ) {
+		if ( ! isset( $args->per_page ) ) {
+			$args->per_page = 24;
+		}
 	}
 
 	if ( ! isset( $args->locale ) ) {
 		$args->locale = get_user_locale();
+	}
+
+	if ( ! isset( $args->wp_version ) ) {
+		$args->wp_version = substr( $wp_version, 0, 3 ); // X.y
 	}
 
 	/**
@@ -141,10 +149,17 @@ function plugins_api( $action, $args = array() ) {
 	$res = apply_filters( 'plugins_api', false, $action, $args );
 
 	if ( false === $res ) {
-		// include an unmodified $wp_version
-		include( ABSPATH . WPINC . '/version.php' );
 
-		$url = $http_url = 'http://api.wordpress.org/plugins/info/1.0/';
+		$url = 'http://api.wordpress.org/plugins/info/1.2/';
+		$url = add_query_arg(
+			array(
+				'action'  => $action,
+				'request' => $args,
+			),
+			$url
+		);
+
+		$http_url = $url;
 		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
 			$url = set_url_scheme( $url, 'https' );
 		}
@@ -152,12 +167,8 @@ function plugins_api( $action, $args = array() ) {
 		$http_args = array(
 			'timeout'    => 15,
 			'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ),
-			'body'       => array(
-				'action'  => $action,
-				'request' => serialize( $args ),
-			),
 		);
-		$request   = wp_remote_post( $url, $http_args );
+		$request   = wp_remote_get( $url, $http_args );
 
 		if ( $ssl && is_wp_error( $request ) ) {
 			trigger_error(
@@ -168,7 +179,7 @@ function plugins_api( $action, $args = array() ) {
 				) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
 				headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
 			);
-			$request = wp_remote_post( $http_url, $http_args );
+			$request = wp_remote_get( $http_url, $http_args );
 		}
 
 		if ( is_wp_error( $request ) ) {
@@ -182,8 +193,11 @@ function plugins_api( $action, $args = array() ) {
 				$request->get_error_message()
 			);
 		} else {
-			$res = maybe_unserialize( wp_remote_retrieve_body( $request ) );
-			if ( ! is_object( $res ) && ! is_array( $res ) ) {
+			$res = json_decode( wp_remote_retrieve_body( $request ), true );
+			if ( is_array( $res ) ) {
+				// Object casting is required in order to match the info/1.0 format.
+				$res = (object) $res;
+			} elseif ( null === $res ) {
 				$res = new WP_Error(
 					'plugins_api_failed',
 					sprintf(
@@ -193,6 +207,10 @@ function plugins_api( $action, $args = array() ) {
 					),
 					wp_remote_retrieve_body( $request )
 				);
+			}
+
+			if ( isset( $res->error ) ) {
+				$res = new WP_Error( 'plugins_api_failed', $res->error );
 			}
 		}
 	} elseif ( ! is_wp_error( $res ) ) {
@@ -485,13 +503,6 @@ function install_plugin_information() {
 	$api = plugins_api(
 		'plugin_information', array(
 			'slug'   => wp_unslash( $_REQUEST['plugin'] ),
-			'is_ssl' => is_ssl(),
-			'fields' => array(
-				'banners'         => true,
-				'reviews'         => true,
-				'downloaded'      => false,
-				'active_installs' => true,
-			),
 		)
 	);
 
@@ -707,19 +718,17 @@ if ( ! empty( $api->contributors ) ) {
 			<h3><?php _e( 'Contributors' ); ?></h3>
 			<ul class="contributors">
 				<?php
-				foreach ( (array) $api->contributors as $contrib_username => $contrib_profile ) {
-					if ( empty( $contrib_username ) && empty( $contrib_profile ) ) {
-						continue;
+				foreach ( (array) $api->contributors as $contrib_username => $contrib_details ) {
+					$contrib_name = $contrib_details['display_name'];
+					if ( ! $contrib_name ) {
+						$contrin_name = $contrib_username;
 					}
-					if ( empty( $contrib_username ) ) {
-						$contrib_username = preg_replace( '/^.+\/(.+)\/?$/', '\1', $contrib_profile );
-					}
-					$contrib_username = sanitize_user( $contrib_username );
-					if ( empty( $contrib_profile ) ) {
-						echo "<li><img src='https://wordpress.org/grav-redirect.php?user={$contrib_username}&amp;s=36' width='18' height='18' alt='' />{$contrib_username}</li>";
-					} else {
-						echo "<li><a href='{$contrib_profile}' target='_blank'><img src='https://wordpress.org/grav-redirect.php?user={$contrib_username}&amp;s=36' width='18' height='18' alt='' />{$contrib_username}</a></li>";
-					}
+					$contrib_name = esc_html( $contrib_name );
+
+					$contrib_profile = esc_url( $contrib_details['profile'] );
+					$contrib_avatar = esc_url( add_query_arg( 's', '36', $contrib_details['avatar'] ) );
+
+					echo "<li><a href='{$contrib_profile}' target='_blank'><img src='{$contrib_avatar}' width='18' height='18' alt='' />{$contrib_name}</a></li>";
 				}
 				?>
 			</ul>

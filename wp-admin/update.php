@@ -109,18 +109,7 @@ if ( isset( $_GET['action'] ) ) {
 			'plugin_information', array(
 				'slug'   => $plugin,
 				'fields' => array(
-					'short_description' => false,
-					'sections'          => false,
-					'requires'          => false,
-					'rating'            => false,
-					'ratings'           => false,
-					'downloaded'        => false,
-					'last_updated'      => false,
-					'added'             => false,
-					'tags'              => false,
-					'compatibility'     => false,
-					'homepage'          => false,
-					'donate_link'       => false,
+					'sections' => false,
 				),
 			)
 		);

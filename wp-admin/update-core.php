@@ -277,9 +277,6 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 	// Get plugin compat for running version of WordPress.
 	if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $cur_wp_version, '>=' ) ) {
 		$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $cur_wp_version );
-	} elseif ( isset( $plugin_data->update->compatibility->{$cur_wp_version} ) ) {
-		$compat = $plugin_data->update->compatibility->{$cur_wp_version};
-		$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)' ), $cur_wp_version, $compat->percent, $compat->votes, $compat->total_votes );
 	} else {
 		$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $cur_wp_version );
 	}
@@ -287,9 +284,6 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 	if ( $core_update_version ) {
 		if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $core_update_version, '>=' ) ) {
 			$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
-		} elseif ( isset( $plugin_data->update->compatibility->{$core_update_version} ) ) {
-			$update_compat = $plugin_data->update->compatibility->{$core_update_version};
-			$compat       .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)' ), $core_update_version, $update_compat->percent, $update_compat->votes, $update_compat->total_votes );
 		} else {
 			$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
 		}
