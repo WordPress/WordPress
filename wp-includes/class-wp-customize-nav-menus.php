@@ -1323,7 +1323,7 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @since 4.3.0
 	 * @see wp_nav_menu()
-	 * @see WP_Customize_Widgets_Partial_Refresh::filter_dynamic_sidebar_params()
+	 * @see WP_Customize_Widgets::filter_dynamic_sidebar_params()
 	 *
 	 * @param array $args An array containing wp_nav_menu() arguments.
 	 * @return array Arguments.

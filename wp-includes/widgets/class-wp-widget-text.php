@@ -431,7 +431,7 @@ class WP_Widget_Text extends WP_Widget {
 	 * @since 2.8.0
 	 * @since 4.8.0 Form only contains hidden inputs which are synced with JS template.
 	 * @since 4.8.1 Restored original form to be displayed when in legacy mode.
-	 * @see WP_Widget_Visual_Text::render_control_template_scripts()
+	 * @see WP_Widget_Text::render_control_template_scripts()
 	 * @see _WP_Editors::editor()
 	 *
 	 * @param array $instance Current settings.

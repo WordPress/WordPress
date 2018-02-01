@@ -1620,7 +1620,7 @@ final class WP_Customize_Widgets {
 	 *     @type array $args        Sidebar args.
 	 *     @type array $widget_args Widget args.
 	 * }
-	 * @see WP_Customize_Nav_Menus_Partial_Refresh::filter_wp_nav_menu_args()
+	 * @see WP_Customize_Nav_Menus::filter_wp_nav_menu_args()
 	 *
 	 * @return array Params.
 	 */
