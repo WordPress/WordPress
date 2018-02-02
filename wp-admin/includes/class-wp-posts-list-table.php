@@ -656,6 +656,8 @@ if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->p
 	 * @param int $level
 	 */
 	private function _display_rows( $posts, $level = 0 ) {
+		$post_type = $this->screen->post_type;
+
 		// Create array of post IDs.
 		$post_ids = array();
 
@@ -663,7 +665,9 @@ if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->p
 			$post_ids[] = $a_post->ID;
 		}
 
-		$this->comment_pending_count = get_pending_comments_num( $post_ids );
+		if ( post_type_supports( $post_type, 'comments' ) ) {
+			$this->comment_pending_count = get_pending_comments_num( $post_ids );
+		}
 
 		foreach ( $posts as $post ) {
 			$this->single_row( $post, $level );
