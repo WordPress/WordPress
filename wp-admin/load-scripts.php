@@ -27,7 +27,7 @@ if ( empty( $load ) ) {
 }
 
 require( ABSPATH . 'wp-admin/includes/noop.php' );
-require( ABSPATH . WPINC . '/script-loader.php' );
+require( ABSPATH . 'wp-admin/admin.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
 $compress       = ( isset( $_GET['c'] ) && $_GET['c'] );
