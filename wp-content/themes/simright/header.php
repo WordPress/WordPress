@@ -79,7 +79,7 @@
                 <li class="dropdown" data-active = "learning">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span><b><?php pll_e('Learning'); ?></b>&nbsp; <i class="glyphicon glyphicon-chevron-down"></i></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/cms/category/video" target="_blank"><?php pll_e('Video Library'); ?></a></li>
+                        <li><a href="/<?php echo pll_current_language() ?>/category/video" target="_blank"><?php pll_e('Video Library'); ?></a></li>
                         <li><a href="/blog" target="_blank"><?php pll_e('Blog'); ?></a></li>
                     </ul>
                 </li>
@@ -88,7 +88,7 @@
                     <ul class="dropdown-menu position-right" role="menu">
                         <li><a href="/about_us"><?php pll_e('About Us'); ?></a></li>
                         <li><a href="/contact_us"><?php pll_e('Contact Us'); ?></a></li>
-                        <li><a href="/cms/category/news"><?php pll_e('News'); ?></a></li>
+                        <li><a href="/<?php echo pll_current_language() ?>/category/news"><?php pll_e('News'); ?></a></li>
                         <li><a href="/join-us"><?php pll_e('Join Us'); ?></a></li>
                         <li><a href="/security"><?php pll_e('Security'); ?></a></li>
                     </ul>
