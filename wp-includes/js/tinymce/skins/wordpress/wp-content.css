@@ -6,7 +6,7 @@ html {
 
 html.ios {
 	width: 100px;
-    min-width: 100%;
+	min-width: 100%;
 }
 
 body {
@@ -157,7 +157,7 @@ img[data-mce-selected]::selection {
 }
 
 .mce-content-body img[data-wp-more="nextpage"] {
-    background: transparent url( images/pagebreak.png ) repeat-y scroll center center;
+	background: transparent url( images/pagebreak.png ) repeat-y scroll center center;
 }
 
 /* Styles for formatting the boundaries of anchors and code elements */
@@ -254,7 +254,7 @@ a[data-wplink-url-error]:focus {
 }
 
 a[data-wplink-url-error]:before {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: -2px;
@@ -367,9 +367,9 @@ a[data-wplink-url-error]:before {
 }
 
 .wpview-type-gallery:after {
-    content: '';
+	content: "";
 	display: table;
-    clear: both;
+	clear: both;
 }
 
 .gallery img[data-mce-selected]:focus {
@@ -489,7 +489,7 @@ img.wp-oembed {
 	}
 
 	.mce-content-body img.mce-wp-nextpage {
-    	background-image: url( images/pagebreak-2x.png );
+		background-image: url( images/pagebreak-2x.png );
 		background-size: 1900px 20px;
 	}
 }

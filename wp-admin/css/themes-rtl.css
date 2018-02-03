@@ -439,8 +439,8 @@ body.js .theme-browser.search-loading {
 .theme-overlay .theme-header .close:focus,
 .theme-overlay .theme-header .right:focus,
 .theme-overlay .theme-header .left:focus {
-    box-shadow: none;
-    outline: none;
+	box-shadow: none;
+	outline: none;
 }
 
 .theme-overlay .theme-header .left.disabled,
@@ -1002,7 +1002,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 }
 
 .theme-install.updated-message:before {
-	content: '';
+	content: "";
 }
 
 .theme-install-php .wp-filter {
@@ -1532,8 +1532,8 @@ body.full-overlay-active {
 
 .wp-full-overlay .collapse-sidebar:hover .collapse-sidebar-arrow,
 .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -1564,7 +1564,7 @@ body.full-overlay-active {
 .wp-full-overlay.collapsed .collapse-sidebar-arrow:before,
 .rtl .wp-full-overlay .collapse-sidebar-arrow:before {
 	-webkit-transform: rotate(180.001deg);
-	transform: rotate(180.001deg); /* Firefox: promoting to its own layer to trigger anti-aliasing  */
+	transform: rotate(180.001deg); /* Firefox: promoting to its own layer to trigger anti-aliasing */
 }
 
 .rtl .wp-full-overlay.collapsed .collapse-sidebar-arrow:before {

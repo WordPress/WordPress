@@ -639,7 +639,7 @@ input[type="password"],
 .mce-btn i.mce-i-wp_page,
 .mce-btn i.mce-i-hr,
 .mce-close {
-	font-family: 'tinymce', Arial;
+	font-family: tinymce, Arial;
 	font-style: normal;
 	font-weight: 400;
 	font-variant: normal;
@@ -650,12 +650,12 @@ input[type="password"],
 
 .mce-btn i.mce-i-wp_fullscreen,
 .qt-fullscreen {
-	-ie7-icon: '\e023';
+	-ie7-icon: "\e023";
 }
 
 .mce-btn i.mce-i-wp_more,
 .mce-btn i.mce-i-wp_page {
-	-ie7-icon: '\e027';
+	-ie7-icon: "\e027";
 }
 
 .mce-btn i.mce-i-wp_adv {
@@ -664,7 +664,7 @@ input[type="password"],
 
 .mce-btn i.mce-i-help,
 .mce-btn i.mce-i-wp_help {
-	-ie7-icon: '\e016';
+	-ie7-icon: "\e016";
 }
 
 

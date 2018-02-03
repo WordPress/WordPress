@@ -1516,7 +1516,7 @@ div.error {
 .installed p:before,
 .button.updated-message:before {
 	color: #79ba49;
-	content: '\f147';
+	content: "\f147";
 }
 
 /* Error icon. */
@@ -3134,7 +3134,7 @@ img {
 
 /* Styles for folder indicators/depth */
 .tree-folder .tree-folder::after {
-	content: ' ';
+	content: "";
 	display: block;
 	position: absolute;
 	left: 2px;
@@ -3143,7 +3143,7 @@ img {
 	bottom: 10px;
 }
 .tree-folder > li::before {
-	content: ' ';
+	content: "";
 	position: absolute;
 	display: block;
 	border-left: 1px solid #ccc;
@@ -3154,7 +3154,7 @@ img {
 	border-bottom: 1px solid #ccc;
 }
 .tree-folder > li::after {
-	content: ' ';
+	content: "";
 	position: absolute;
 	display: block;
 	border-left: 1px solid #ccc;
@@ -3952,7 +3952,7 @@ img {
 		margin: 5px 0;
 	}
 	.options-media-php label[for*="_size_h"]:before {
-		content: '';
+		content: "";
 		display: block;
 	}
 	.options-media-php br {

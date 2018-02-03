@@ -228,8 +228,8 @@ textarea[readonly] {
 }
 
 ::-moz-placeholder {
-   color: #72777c;
-   opacity: 1;
+	color: #72777c;
+	opacity: 1;
 }
 
 :-ms-input-placeholder {
@@ -252,11 +252,11 @@ textarea[readonly] {
 
 /* Adjust error indicator for password layout */
 .form-table .form-required.user-pass1-wrap.form-invalid td:after {
-	content: '';
+	content: "";
 }
 
 .form-table .form-required.user-pass1-wrap.form-invalid .password-input-wrapper:after {
-	content: '\f534';
+	content: "\f534";
 	font: normal 20px/1 dashicons;
 	color: #dc3232;
 	margin: 0 6px 0 -29px;
@@ -966,8 +966,8 @@ table.form-table td .updated p {
 }
 
 #request-filesystem-credentials-title {
-    font-size: 1.3em;
-    margin: 1em 0;
+	font-size: 1.3em;
+	margin: 1em 0;
 }
 
 .request-filesystem-credentials-form legend {
@@ -1368,7 +1368,7 @@ table.form-table td .updated p {
 }
 
 @media only screen and (max-height: 480px), screen and (max-width: 450px) {
-	/*  Request Credentials / File Editor Warning */
+	/* Request Credentials / File Editor Warning */
 	.request-filesystem-credentials-dialog .notification-dialog,
 	.file-editor-warning .notification-dialog {
 		width: 100%;

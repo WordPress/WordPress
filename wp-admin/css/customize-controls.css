@@ -1444,7 +1444,7 @@ p.customize-section-description {
 }
 
 .customize-control-header .header-view.selected:after {
-	content: '';
+	content: "";
 	position: absolute;
 	height: auto;
 	top: 0;
