@@ -3694,8 +3694,7 @@ img {
 	}
 
 	/* Hidden Elements */
-	#screen-meta,
-	#screen-meta-links,
+	#contextual-help-link-wrap,
 	#collapse-menu,
 	.post-format-select {
 		display: none !important;
