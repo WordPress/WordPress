@@ -751,6 +751,10 @@ border color while dragging a file over the uploader drop area */
 	background-size: 20px 20px;
 }
 
+.edit-attachment-frame .attachment-media-view .details-image.icon {
+	background: none;
+}
+
 .edit-attachment-frame .attachment-media-view .attachment-actions {
 	text-align: center;
 }
