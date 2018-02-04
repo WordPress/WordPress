@@ -1186,6 +1186,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 	 *     }
 	 *
 	 * @since 1.5.1
+	 * @since 5.0.0 The `$x_redirect_by` parameter was added.
 	 *
 	 * @global bool $is_IIS
 	 *
@@ -1323,13 +1324,14 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 	 *     }
 	 *
 	 * @since 2.3.0
-	 * @since 5.0.0 The return value from wp_redirect() is now passed on.
+	 * @since 5.0.0 The return value from wp_redirect() is now passed on, and the `$x_redirect_by` parameter was added.
 	 *
-	 * @param string $location The path or URL to redirect to.
-	 * @param int    $status   Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
-	 * @return bool  $redirect False if the redirect was cancelled, true otherwise.
+	 * @param string $location      The path or URL to redirect to.
+	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
+	 * @param string $x_redirect_by Optional. The application doing the redirect. Default 'WordPress'.
+ 	 * @return bool  $redirect False if the redirect was cancelled, true otherwise.
 	 */
-	function wp_safe_redirect( $location, $status = 302 ) {
+	function wp_safe_redirect( $location, $status = 302, $x_redirect_by = 'WordPress' ) {
 
 		// Need to look at the URL the way it will end up in wp_redirect()
 		$location = wp_sanitize_redirect( $location );
@@ -1344,7 +1346,7 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 		 */
 		$location = wp_validate_redirect( $location, apply_filters( 'wp_safe_redirect_fallback', admin_url(), $status ) );
 
-		return wp_redirect( $location, $status );
+		return wp_redirect( $location, $status, $x_redirect_by );
 	}
 endif;
 
