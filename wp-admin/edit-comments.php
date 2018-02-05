@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'edit_posts' ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit comments.' ) . '</p>',
 		403
 	);

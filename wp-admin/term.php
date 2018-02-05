@@ -34,7 +34,7 @@ if ( ! in_array( $taxonomy, get_taxonomies( array( 'show_ui' => true ) ) ) ||
 	! current_user_can( 'edit_term', $tag->term_id ) ) {
 
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);

@@ -758,7 +758,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
 		check_admin_referer( 'custom-header-upload', '_wpnonce-custom-header-upload' );
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
 				'<p>' . __( 'The current theme does not support uploading a custom header image.' ) . '</p>',
 				403
 			);
@@ -922,7 +922,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
 
 		if ( ! current_theme_supports( 'custom-header', 'uploads' ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
 				'<p>' . __( 'The current theme does not support uploading a custom header image.' ) . '</p>',
 				403
 			);
@@ -930,7 +930,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
 
 		if ( ! empty( $_POST['skip-cropping'] ) && ! ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
 				'<p>' . __( 'The current theme does not support a flexible sized header image.' ) . '</p>',
 				403
 			);

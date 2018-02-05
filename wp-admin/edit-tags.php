@@ -25,7 +25,7 @@ if ( ! in_array( $tax->name, get_taxonomies( array( 'show_ui' => true ) ) ) ) {
 
 if ( ! current_user_can( $tax->cap->manage_terms ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to manage terms in this taxonomy.' ) . '</p>',
 		403
 	);
@@ -81,7 +81,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		if ( ! current_user_can( $tax->cap->edit_terms ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 				'<p>' . __( 'Sorry, you are not allowed to create terms in this taxonomy.' ) . '</p>',
 				403
 			);
@@ -111,7 +111,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		if ( ! current_user_can( 'delete_term', $tag_ID ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 				'<p>' . __( 'Sorry, you are not allowed to delete this item.' ) . '</p>',
 				403
 			);
@@ -131,7 +131,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		if ( ! current_user_can( $tax->cap->delete_terms ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 				'<p>' . __( 'Sorry, you are not allowed to delete these items.' ) . '</p>',
 				403
 			);
@@ -167,7 +167,7 @@ switch ( $wp_list_table->current_action() ) {
 
 		if ( ! current_user_can( 'edit_term', $tag_ID ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 				'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 				403
 			);

@@ -22,7 +22,7 @@ if ( ! current_theme_supports( 'menus' ) && ! current_theme_supports( 'widgets' 
 // Permissions Check
 if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit theme options on this site.' ) . '</p>',
 		403
 	);

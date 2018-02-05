@@ -447,7 +447,7 @@ final class WP_Customize_Manager {
 		}
 
 		if ( ! $message ) {
-			$message = __( 'Cheatin&#8217; uh?' );
+			$message = __( 'An error has occurred.' );
 		}
 
 		if ( $this->messenger_channel ) {
@@ -512,7 +512,7 @@ final class WP_Customize_Manager {
 				auth_redirect();
 			} else {
 				wp_die(
-					'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+					'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 					'<p>' . __( 'Sorry, you are not allowed to customize this site.' ) . '</p>',
 					403
 				);

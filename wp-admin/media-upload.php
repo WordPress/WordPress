@@ -35,7 +35,7 @@ $post_id = isset( $post_id ) ? (int) $post_id : 0;
 // Require an ID for the edit screen.
 if ( isset( $action ) && $action == 'edit' && ! $ID ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
 		'<p>' . __( 'Invalid item ID.' ) . '</p>',
 		403
 	);
@@ -43,7 +43,7 @@ if ( isset( $action ) && $action == 'edit' && ! $ID ) {
 
 if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post', $_REQUEST['post_id'] ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);
