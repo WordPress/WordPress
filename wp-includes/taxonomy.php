@@ -2147,9 +2147,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 */
 	$name_matches = get_terms(
 		$taxonomy, array(
-			'name'       => $name,
-			'hide_empty' => false,
-			'parent'     => $args['parent'],
+			'name'                   => $name,
+			'hide_empty'             => false,
+			'parent'                 => $args['parent'],
+			'update_term_meta_cache' => false,
 		)
 	);
 
@@ -2173,8 +2174,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 				$siblings = get_terms(
 					$taxonomy, array(
-						'get'    => 'all',
-						'parent' => $parent,
+						'get'                    => 'all',
+						'parent'                 => $parent,
+						'update_term_meta_cache' => false,
 					)
 				);
 
@@ -2364,8 +2366,9 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	if ( ! $append ) {
 		$old_tt_ids = wp_get_object_terms(
 			$object_id, $taxonomy, array(
-				'fields'  => 'tt_ids',
-				'orderby' => 'none',
+				'fields'                 => 'tt_ids',
+				'orderby'                => 'none',
+				'update_term_meta_cache' => false,
 			)
 		);
 	} else {
@@ -2454,7 +2457,14 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	if ( ! $append && isset( $t->sort ) && $t->sort ) {
 		$values       = array();
 		$term_order   = 0;
-		$final_tt_ids = wp_get_object_terms( $object_id, $taxonomy, array( 'fields' => 'tt_ids' ) );
+		$final_tt_ids = wp_get_object_terms(
+			$object_id,
+			$taxonomy,
+			array(
+				'fields'                 => 'tt_ids',
+				'update_term_meta_cache' => false,
+			)
+		);
 		foreach ( $tt_ids as $tt_id ) {
 			if ( in_array( $tt_id, $final_tt_ids ) ) {
 				$values[] = $wpdb->prepare( '(%d, %d, %d)', $object_id, $tt_id, ++$term_order );
@@ -3382,9 +3392,10 @@ function _get_term_hierarchy( $taxonomy ) {
 	$children = array();
 	$terms    = get_terms(
 		$taxonomy, array(
-			'get'     => 'all',
-			'orderby' => 'id',
-			'fields'  => 'id=>parent',
+			'get'                    => 'all',
+			'orderby'                => 'id',
+			'fields'                 => 'id=>parent',
+			'update_term_meta_cache' => false,
 		)
 	);
 	foreach ( $terms as $term_id => $parent ) {
