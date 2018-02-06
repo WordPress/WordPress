@@ -1056,15 +1056,15 @@ footer .footer .wechat_qr_code {
     border-radius: 5px;
     background-color: #fff;
 }
-.joinus-list .contain-box .joinus-item ul,.joinus-list .contain-box .joinus-item ol,.joinus-list .contain-box .joinus-item li,.video-details .post-content ul,.video-details .post-content ol,.video-details .post-content li{
+.joinus-list .contain-box .joinus-item ul,.joinus-list .contain-box .joinus-item ol,.joinus-list .contain-box .joinus-item li,.video-details .main-contain ul,.video-details .main-contain ol,.video-details .main-contain li{
     list-style: initial!important;
 }
-.video-details .post-content ul,.video-details .post-content ol{
+.video-details .main-contain ul,.video-details .main-contain ol{
 	margin-bottom:20px;
 	padding-left:20px;
 }
 
-.video-details .post-content li{
+.video-details .main-contain li{
 	margin-bottom:10px;
 }
 
