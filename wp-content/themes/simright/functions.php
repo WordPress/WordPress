@@ -210,6 +210,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Comments','Comments');
 	pll_register_string('Watch Now','Watch Now');
 	pll_register_string('Changelog','Changelog');
+	pll_register_string('Function','Function');
 }
 
 /** 搜索表单 */
