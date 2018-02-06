@@ -737,7 +737,7 @@ footer .copyright p {
 footer .footer {
     max-width: 1200px;
     margin: 0 auto;
-    height: 280px;
+    height: 330px;
     padding-top: 58px;
     display: flex;
     justify-content: space-between;
@@ -779,7 +779,7 @@ footer .footer-follow img {
 }
 
 footer .footer .wechat_qr_code {
-    height: 180px;
+    height: 120px;
 }
 
 .error-wp .title {

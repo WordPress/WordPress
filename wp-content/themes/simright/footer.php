@@ -13,10 +13,12 @@
                     </div>
                     <div class="footer-products">
                         <h4><?php pll_e('Products'); ?></h4>
-                        <p><a href="/apps/simright-converter"><i class="fa fa-angle-right"></i><b><?php pll_e('Converter'); ?></b></a></p>
-                        <p><a href="/apps/simright-viewer"><i class="fa fa-angle-right"></i><b><?php pll_e('Viewer'); ?></b></a></p>
-                        <p><a href="/apps/simright-simulator"><i class="fa fa-angle-right"></i><b><?php pll_e('Simulator'); ?></b></a></p>
-                        <p><a href="/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b><?php pll_e('Toptimizer'); ?></b></a></p>
+                        <p><a href="/apps/simright-simulator"><i class="fa fa-angle-right"></i><b>Simulator</b></a></li>
+                        <p><a href="/apps/simright-toptimizer"><i class="fa fa-angle-right"></i><b>Toptimizer</b></a></li>
+                        <p><a href="/apps/simright-webmesher"><i class="fa fa-angle-right"></i><b>WebMesher</b></a></li>
+                        <p><a href="/apps/simright-viewer"><i class="fa fa-angle-right"></i><b>Viewer</b></a></li>
+                        <p><a href="/apps/simright-converter"><i class="fa fa-angle-right"></i><b>CAE Converter</b></a></li>
+                        <p><a href="/apps/simright-cad-converter"><i class="fa fa-angle-right"></i><b>CAD Converter</b></a></li>
                     </div>
                     <div class="footer-follow">
                         <h4>Follow Us</h4>
@@ -30,12 +32,12 @@
                             <a href="http://i.youku.com/simright" target="_blank"><img src="https://oss.simright.com/images/contact-youku.svg" alt="Youku"></a>
                             <a href="https://www.youtube.com/channel/UCEiDfhLf7jFWJkPhhdwpW3g" target="_blank"><img src="https://oss.simright.com/images/contact-youtube.svg" alt="Youtube"></a>
                         </div>
+                        <?php $current_lan = pll_current_language(); if($current_lan == 'en'): ?>
+                            <img src="https://oss.simright.com/images/rq_code.png" alt="" class="wechat_qr_code hide ">
+                        <?php else : ?>
+                            <img src="https://oss.simright.com/images/rq_code.png" alt="" class="wechat_qr_code ">
+                        <?php endif; ?>
                     </div>
-                    <?php $current_lan = pll_current_language(); if($current_lan == 'en'): ?>
-                        <img src="https://oss.simright.com/images/rq_code.png" alt="" class="wechat_qr_code hide ">
-                    <?php else : ?>
-                        <img src="https://oss.simright.com/images/rq_code.png" alt="" class="wechat_qr_code ">
-                    <?php endif; ?>
                 </div>
             </section>
             <section class="clearfix copyright">
