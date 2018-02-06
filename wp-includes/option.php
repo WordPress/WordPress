@@ -2182,6 +2182,11 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 			remove_filter( "sanitize_option_{$option_name}", $wp_registered_settings[ $option_name ]['sanitize_callback'] );
 		}
 
+		// Remove the default filter if a default was provided during registration.
+		if ( array_key_exists( 'default', $wp_registered_settings[ $option_name ] ) ) {
+			remove_filter( "default_option_{$option_name}", 'filter_default_option', 10 );
+		}
+
 		unset( $wp_registered_settings[ $option_name ] );
 	}
 }
