@@ -168,8 +168,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		return;
 	}
 
-	$offers          = $body['offers'];
-	$has_auto_update = false;
+	$offers = $body['offers'];
 
 	foreach ( $offers as &$offer ) {
 		foreach ( $offer as $offer_key => $value ) {
@@ -183,10 +182,6 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		}
 		$offer = (object) array_intersect_key( $offer, array_fill_keys( array( 'response', 'download', 'locale',
 			'packages', 'current', 'version', 'php_version', 'mysql_version', 'new_bundled', 'partial_version', 'notify_email', 'support_email', 'new_files' ), '' ) );
-
-		if ( 'autoupdate' == $offer->response ) {
-			$has_auto_update = true;
-		}
 	}
 
 	$updates = new stdClass();
@@ -208,13 +203,8 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	// Trigger background updates if running non-interactively, and we weren't called from the update handler.
-	if ( $doing_cron && $has_auto_update && ! doing_action( 'wp_maybe_auto_update' ) ) {
-		include_once( ABSPATH . '/wp-admin/includes/update.php' );
-
-		// Only trigger background updates if an acceptable autoupdate is on offer, avoids needless extra API calls.
-		if ( find_core_auto_update() ) {
-			do_action( 'wp_maybe_auto_update' );
-		}
+	if ( $doing_cron && ! doing_action( 'wp_maybe_auto_update' ) ) {
+		do_action( 'wp_maybe_auto_update' );
 	}
 }
 
