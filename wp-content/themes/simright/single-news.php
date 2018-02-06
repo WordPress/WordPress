@@ -3,7 +3,7 @@
     <section class="contain-box">
         <div class="contain-body">
             <div class="main-contain">
-                <a href="<?php echo get_option('home'); ?>/category/news"><?php pll_e('返回新闻中心'); ?></a>
+                <a href="<?php echo get_option('home'); ?>/<?php echo pll_current_language() ?>/category/news"><?php pll_e('返回新闻中心'); ?></a>
                     <hr/>
                 <?php if (have_posts()) : the_post(); update_post_caches($posts); ?>
                     <div class="list-contain">
