@@ -81,6 +81,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/<?php echo pll_current_language() ?>/category/video" target="_blank"><?php pll_e('Video Library'); ?></a></li>
                         <li><a href="/blog" target="_blank"><?php pll_e('Blog'); ?></a></li>
+                        <li><a href="/changelog" ><?php pll_e('Changelog'); ?></a></li>
                     </ul>
                 </li>
                 <li class="active" class="dropdown" data-active = "about" style="position:relative;">

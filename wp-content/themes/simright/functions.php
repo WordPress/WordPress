@@ -209,6 +209,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('tong lei jiao cheng','同类教程');
 	pll_register_string('Comments','Comments');
 	pll_register_string('Watch Now','Watch Now');
+	pll_register_string('Changelog','Changelog');
 }
 
 /** 搜索表单 */
