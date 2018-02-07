@@ -3238,7 +3238,7 @@ function wp_handle_comment_submission( $comment_data ) {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param bool  $allow_empty_comment Default false.
+	 * @param bool  $allow_empty_comment Whether to allow empty comments. Default false.
 	 * @param array $commentdata         Array of comment data to be sent to wp_insert_comment().
 	 */
 	$allow_empty_comment = apply_filters( 'allow_empty_comment', false, $commentdata );
