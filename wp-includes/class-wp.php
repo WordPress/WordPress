@@ -165,10 +165,16 @@ class WP {
 			$this->did_permalink = true;
 
 			$pathinfo         = isset( $_SERVER['PATH_INFO'] ) ? $_SERVER['PATH_INFO'] : '';
+			$pathinfo         = preg_replace_callback('/%[A-Fa-f0-9][A-Fa-f0-9]/i', function($matches){
+				return strtolower($matches[0]);
+			}, $pathinfo);
 			list( $pathinfo ) = explode( '?', $pathinfo );
 			$pathinfo         = str_replace( '%', '%25', $pathinfo );
 
 			list( $req_uri ) = explode( '?', $_SERVER['REQUEST_URI'] );
+			$req_uri         = preg_replace_callback('/%[A-Fa-f0-9][A-Fa-f0-9]/i', function($matches){
+				return strtolower($matches[0]);
+			}, $req_uri);
 			$self            = $_SERVER['PHP_SELF'];
 			$home_path       = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
 			$home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );
