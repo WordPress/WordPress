@@ -290,12 +290,8 @@ foreach ( (array) $options as $option ) :
 <tr>
 	<th scope="row"><label for="<?php echo $name; ?>"><?php echo esc_html( $option->option_name ); ?></label></th>
 <td>
-<?php if ( strpos( $value, "\n" ) !== false ) : ?>
-	<textarea class="<?php echo $class; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" cols="30" rows="5">
-								<?php
-								echo esc_textarea( $value );
-	?>
-	</textarea>
+	<?php if ( strpos( $value, "\n" ) !== false ) : ?>
+		<textarea class="<?php echo $class; ?>" name="<?php echo $name; ?>" id="<?php echo $name; ?>" cols="30" rows="5"><?php echo esc_textarea( $value ); ?></textarea>
 	<?php else : ?>
 		<input class="regular-text <?php echo $class; ?>" type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr( $value ); ?>"<?php disabled( $disabled, true ); ?> />
 	<?php endif ?></td>
