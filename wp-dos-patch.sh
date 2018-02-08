@@ -1,3 +1,5 @@
+#! /bin/bash
+
 if [[ -f wp-login.php && -f wp-admin/load-scripts.php && -f wp-admin/includes/noop.php ]]
 then
         sed -i "1 s/^.*$/<?php\ndefine('CONCATENATE_SCRIPTS', false);/" wp-login.php
