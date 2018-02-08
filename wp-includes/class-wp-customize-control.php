@@ -568,9 +568,8 @@ class WP_Customize_Control {
 					rows="5"
 					<?php echo $describedby_attr; ?>
 					<?php $this->input_attrs(); ?>
-					<?php $this->link(); ?>>
-					<?php echo esc_textarea( $this->value() ); ?>
-				</textarea>
+					<?php $this->link(); ?>
+				><?php echo esc_textarea( $this->value() ); ?></textarea>
 				<?php
 				break;
 			case 'dropdown-pages':
