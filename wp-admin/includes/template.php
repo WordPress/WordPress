@@ -361,6 +361,16 @@ function get_inline_data( $post ) {
 		echo '<div class="post_format">' . esc_html( get_post_format( $post->ID ) ) . '</div>';
 	}
 
+	/**
+	 * Fires after outputting the fields for the inline editor for posts and pages.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_Post      $post             The current post object.
+	 * @param WP_Post_Type $post_type_object The current post's post type object.
+	 */
+	do_action( 'add_inline_data', $post, $post_type_object );
+
 	echo '</div>';
 }
 
