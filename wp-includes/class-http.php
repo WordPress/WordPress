@@ -152,45 +152,52 @@ class WP_Http {
 			 * Filters the timeout value for an HTTP request.
 			 *
 			 * @since 2.7.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
-			 * @param int $timeout_value Time in seconds until a request times out.
-			 *                           Default 5.
+			 * @param int    $timeout_value Time in seconds until a request times out. Default 5.
+			 * @param string $url           The request URL.
 			 */
-			'timeout'             => apply_filters( 'http_request_timeout', 5 ),
+			'timeout'             => apply_filters( 'http_request_timeout', 5, $url ),
 			/**
 			 * Filters the number of redirects allowed during an HTTP request.
 			 *
 			 * @since 2.7.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
-			 * @param int $redirect_count Number of redirects allowed. Default 5.
+			 * @param int    $redirect_count Number of redirects allowed. Default 5.
+			 * @param string $url            The request URL.
 			 */
-			'redirection'         => apply_filters( 'http_request_redirection_count', 5 ),
+			'redirection'         => apply_filters( 'http_request_redirection_count', 5, $url ),
 			/**
 			 * Filters the version of the HTTP protocol used in a request.
 			 *
 			 * @since 2.7.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
-			 * @param string $version Version of HTTP used. Accepts '1.0' and '1.1'.
-			 *                        Default '1.0'.
+			 * @param string $version Version of HTTP used. Accepts '1.0' and '1.1'. Default '1.0'.
+			 * @param string $url     The request URL.
 			 */
-			'httpversion'         => apply_filters( 'http_request_version', '1.0' ),
+			'httpversion'         => apply_filters( 'http_request_version', '1.0', $url ),
 			/**
 			 * Filters the user agent value sent with an HTTP request.
 			 *
 			 * @since 2.7.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
 			 * @param string $user_agent WordPress user agent string.
+			 * @param string $url        The request URL.
 			 */
-			'user-agent'          => apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) ),
+			'user-agent'          => apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ), $url ),
 			/**
 			 * Filters whether to pass URLs through wp_http_validate_url() in an HTTP request.
 			 *
 			 * @since 3.6.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
-			 * @param bool $pass_url Whether to pass URLs through wp_http_validate_url().
-			 *                       Default false.
+			 * @param bool   $pass_url Whether to pass URLs through wp_http_validate_url(). Default false.
+			 * @param string $url      The request URL.
 			 */
-			'reject_unsafe_urls'  => apply_filters( 'http_request_reject_unsafe_urls', false ),
+			'reject_unsafe_urls'  => apply_filters( 'http_request_reject_unsafe_urls', false, $url ),
 			'blocking'            => true,
 			'headers'             => array(),
 			'cookies'             => array(),
@@ -350,10 +357,12 @@ class WP_Http {
 		 * Filters whether SSL should be verified for non-local requests.
 		 *
 		 * @since 2.8.0
+		 * @since 5.0.0 The `$url` parameter was added.
 		 *
-		 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+		 * @param bool   $ssl_verify Whether to verify the SSL connection. Default true.
+		 * @param string $url        The request URL.
 		 */
-		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'] );
+		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'], $url );
 
 		// Check for proxies.
 		$proxy = new WP_HTTP_Proxy();

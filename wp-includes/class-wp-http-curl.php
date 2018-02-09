@@ -113,10 +113,10 @@ class WP_Http_Curl {
 		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
 		if ( $is_local ) {
 			/** This filter is documented in wp-includes/class-wp-http-streams.php */
-			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
+			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify, $url );
 		} elseif ( ! $is_local ) {
 			/** This filter is documented in wp-includes/class-http.php */
-			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
+			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify, $url );
 		}
 
 		/*

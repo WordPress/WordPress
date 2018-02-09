@@ -97,13 +97,15 @@ class WP_Http_Streams {
 			 * Filters whether SSL should be verified for local requests.
 			 *
 			 * @since 2.8.0
+			 * @since 5.0.0 The `$url` parameter was added.
 			 *
-			 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+			 * @param bool   $ssl_verify Whether to verify the SSL connection. Default true.
+			 * @param string $url        The request URL.
 			 */
-			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
+			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify, $url );
 		} elseif ( ! $is_local ) {
 			/** This filter is documented in wp-includes/class-http.php */
-			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify );
+			$ssl_verify = apply_filters( 'https_ssl_verify', $ssl_verify, $url );
 		}
 
 		$proxy = new WP_HTTP_Proxy();
