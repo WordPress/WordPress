@@ -78,7 +78,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		global $post_id, $comment_status, $search, $comment_type;
 
 		$comment_status = isset( $_REQUEST['comment_status'] ) ? $_REQUEST['comment_status'] : 'all';
-		if ( ! in_array( $comment_status, array( 'all', 'moderated', 'approved', 'spam', 'trash' ) ) ) {
+		if ( ! in_array( $comment_status, array( 'all', 'mine', 'moderated', 'approved', 'spam', 'trash' ) ) ) {
 			$comment_status = 'all';
 		}
 
@@ -116,6 +116,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		$status_map = array(
+			'mine'      => '',
 			'moderated' => 'hold',
 			'approved'  => 'approve',
 			'all'       => '',
@@ -222,6 +223,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 				'comments'
 			), // singular not used
 
+			/* translators: %s: current user's comments count */
+			'mine' => _nx_noop(
+				'Mine <span class="count">(%s)</span>',
+				'Mine <span class="count">(%s)</span>',
+				'comments'
+			),
+
 			/* translators: %s: pending comments count */
 			'moderated' => _nx_noop(
 				'Pending <span class="count">(%s)</span>',
@@ -267,6 +275,17 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$current_link_attributes = ' class="current" aria-current="page"';
 			}
 
+			if ( 'mine' === $status ) {
+				$current_user_id    = get_current_user_id();
+				$num_comments->mine = get_comments( array(
+					'user_id' => $current_user_id,
+					'count'   => true,
+				) );
+				$link = add_query_arg( 'user_id', $current_user_id, $link );
+			} else {
+				$link = remove_query_arg( 'user_id', $link );
+			}
+
 			if ( ! isset( $num_comments->$status ) ) {
 				$num_comments->$status = 10;
 			}
@@ -293,9 +312,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * Filters the comment status links.
 		 *
 		 * @since 2.5.0
+		 * @since 5.0.0 The 'Mine' link was added.
 		 *
-		 * @param array $status_links An array of fully-formed status links. Default 'All'.
-		 *                            Accepts 'All', 'Pending', 'Approved', 'Spam', and 'Trash'.
+		 * @param string[] $status_links An associative array of fully-formed comment status links. Includes 'All', 'Mine',
+		 *                              'Pending', 'Approved', 'Spam', and 'Trash'.
 		 */
 		return apply_filters( 'comment_status_links', $status_links );
 	}
