@@ -76,7 +76,7 @@ class WP_Roles {
 	 * Constructor
 	 *
 	 * @since 2.0.0
-	 * @since 4.9.0 The $site_id argument was added.
+	 * @since 4.9.0 The `$site_id` argument was added.
 	 *
 	 * @global array $wp_user_roles Used to set the 'roles' property value.
 	 *

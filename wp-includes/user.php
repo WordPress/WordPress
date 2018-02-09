@@ -593,7 +593,7 @@ function get_users( $args = array() ) {
  * Get the sites a user belongs to.
  *
  * @since 3.0.0
- * @since 4.7.0 Converted to use get_sites().
+ * @since 4.7.0 Converted to use `get_sites()`.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *

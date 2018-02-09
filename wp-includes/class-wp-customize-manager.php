@@ -240,7 +240,7 @@ final class WP_Customize_Manager {
 	 * Constructor.
 	 *
 	 * @since 3.4.0
-	 * @since 4.7.0 Added $args param.
+	 * @since 4.7.0 Added `$args` parameter.
 	 *
 	 * @param array $args {
 	 *     Args.
@@ -1683,7 +1683,7 @@ final class WP_Customize_Manager {
 	 * incoming post data.
 	 *
 	 * @since 4.1.1
-	 * @since 4.7.0 Added $args param and merging with changeset values and stashed theme mods.
+	 * @since 4.7.0 Added `$args` parameter and merging with changeset values and stashed theme mods.
 	 *
 	 * @param array $args {
 	 *     Args.

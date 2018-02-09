@@ -663,7 +663,7 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * when URL parsing failed.
  *
  * @since 4.4.0
- * @since 4.7.0 The $component parameter was added for parity with PHP's parse_url().
+ * @since 4.7.0 The `$component` parameter was added for parity with PHP's `parse_url()`.
  *
  * @link https://secure.php.net/manual/en/function.parse-url.php
  *

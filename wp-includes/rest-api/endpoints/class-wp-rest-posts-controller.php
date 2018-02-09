@@ -1201,7 +1201,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * Sets the template for a post.
 	 *
 	 * @since 4.7.0
-	 * @since 4.9.0 Introduced the $validate parameter.
+	 * @since 4.9.0 Added the `$validate` parameter.
 	 *
 	 * @param string  $template Page template filename.
 	 * @param integer $post_id  Post ID.

@@ -578,7 +578,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 * skipping further processing.
 		 *
 		 * @since 4.7.0
-		 * @since 4.8.0 $prepared_comment can now be a WP_Error to shortcircuit insertion.
+		 * @since 4.8.0 `$prepared_comment` can now be a WP_Error to shortcircuit insertion.
 		 *
 		 * @param array|WP_Error  $prepared_comment The prepared comment data for wp_insert_comment().
 		 * @param WP_REST_Request $request          Request used to insert the comment.

@@ -219,7 +219,7 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 	 * Filters file type extensions editable in the plugin editor.
 	 *
 	 * @since 2.8.0
-	 * @since 4.9.0 Adds $plugin param.
+	 * @since 4.9.0 Added the `$plugin` parameter.
 	 *
 	 * @param string $plugin Plugin file.
 	 * @param array $editable_extensions An array of editable plugin file extensions.
@@ -339,7 +339,7 @@ function wp_print_file_editor_templates() {
  *
  * @param array $args {
  *     Args. Note that all of the arg values are already unslashed. They are, however,
- *     coming straight from $_POST and are not validated or sanitized in any way.
+ *     coming straight from `$_POST` and are not validated or sanitized in any way.
  *
  *     @type string $file       Relative path to file.
  *     @type string $plugin     Plugin being edited.
