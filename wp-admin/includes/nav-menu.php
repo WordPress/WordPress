@@ -461,10 +461,10 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 * @since 4.3.0
 				 * @since 4.9.0 Added the `$recent_args` parameter.
 				 *
-				 * @param array $most_recent An array of post objects being listed.
-				 * @param array $args        An array of WP_Query arguments for the meta box.
-				 * @param array $box         Arguments passed to wp_nav_menu_item_post_type_meta_box().
-				 * @param array $recent_args An array of WP_Query arguments for 'Most Recent' tab.
+				 * @param WP_Post[] $most_recent An array of post objects being listed.
+				 * @param array     $args        An array of `WP_Query` arguments for the meta box.
+				 * @param array     $box         Arguments passed to `wp_nav_menu_item_post_type_meta_box()`.
+				 * @param array     $recent_args An array of `WP_Query` arguments for 'Most Recent' tab.
 				 */
 				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $box, $recent_args );
 
@@ -589,8 +589,9 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 				 *
 				 * @see WP_Query::query()
 				 *
-				 * @param array        $posts     The posts for the current post type.
-				 * @param array        $args      An array of WP_Query arguments.
+				 * @param object[]     $posts     The posts for the current post type. Mostly `WP_Post` objects, but
+				 *                                can also contain "fake" post objects to represent other menu items.
+				 * @param array        $args      An array of `WP_Query` arguments.
 				 * @param WP_Post_Type $post_type The current post type object for this menu item meta box.
 				 */
 				$posts = apply_filters( "nav_menu_items_{$post_type_name}", $posts, $args, $post_type );
@@ -889,9 +890,9 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
  *
  * @since 3.0.0
  *
- * @param int $menu_id The menu ID for which to save this item. $menu_id of 0 makes a draft, orphaned menu item.
- * @param array $menu_data The unsanitized posted menu item data.
- * @return array The database IDs of the items saved
+ * @param int     $menu_id   The menu ID for which to save this item. Value of 0 makes a draft, orphaned menu item. Default 0.
+ * @param array[] $menu_data The unsanitized POSTed menu item data.
+ * @return int[] The database IDs of the items saved
  */
 function wp_save_nav_menu_items( $menu_id = 0, $menu_data = array() ) {
 	$menu_id     = (int) $menu_id;

@@ -122,10 +122,10 @@ function get_home_path() {
  * @since 2.6.0
  * @since 4.9.0 Added the `$exclusions` parameter.
  *
- * @param string $folder Optional. Full path to folder. Default empty.
- * @param int    $levels Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
- * @param array  $exclusions Optional. List of folders and files to skip.
- * @return bool|array False on failure, Else array of files
+ * @param string   $folder     Optional. Full path to folder. Default empty.
+ * @param int      $levels     Optional. Levels of folders to follow, Default 100 (PHP Loop limit).
+ * @param string[] $exclusions Optional. List of folders and files to skip.
+ * @return bool|string[] False on failure, else array of files.
  */
 function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 	if ( empty( $folder ) ) {
@@ -175,8 +175,8 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
  *
  * @since 4.9.0
  *
- * @param string $plugin Plugin.
- * @return array File extensions.
+ * @param string $plugin Path to the main plugin file from plugins directory.
+ * @return string[] Array of editable file extensions.
  */
 function wp_get_plugin_file_editable_extensions( $plugin ) {
 
@@ -221,8 +221,8 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 	 * @since 2.8.0
 	 * @since 4.9.0 Added the `$plugin` parameter.
 	 *
-	 * @param string $plugin Plugin file.
-	 * @param array $editable_extensions An array of editable plugin file extensions.
+	 * @param string[] $editable_extensions An array of editable plugin file extensions.
+	 * @param string   $plugin              Path to the main plugin file from plugins directory.
 	 */
 	$editable_extensions = (array) apply_filters( 'editable_extensions', $editable_extensions, $plugin );
 
@@ -232,8 +232,8 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 /**
  * Get list of file extensions that are editable for a given theme.
  *
- * @param WP_Theme $theme Theme.
- * @return array File extensions.
+ * @param WP_Theme $theme Theme object.
+ * @return string[] Array of editable file extensions.
  */
 function wp_get_theme_file_editable_extensions( $theme ) {
 
@@ -277,7 +277,7 @@ function wp_get_theme_file_editable_extensions( $theme ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array    $default_types List of file types. Default types include 'php' and 'css'.
+	 * @param string[] $default_types List of allowed file types.
 	 * @param WP_Theme $theme         The current Theme object.
 	 */
 	$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
@@ -337,7 +337,7 @@ function wp_print_file_editor_templates() {
  *
  * @since 4.9.0
  *
- * @param array $args {
+ * @param string[] $args {
  *     Args. Note that all of the arg values are already unslashed. They are, however,
  *     coming straight from `$_POST` and are not validated or sanitized in any way.
  *
@@ -662,9 +662,9 @@ function wp_tempnam( $filename = '', $dir = '' ) {
  *
  * @since 1.5.0
  *
- * @param string $file          File the user is attempting to edit.
- * @param array  $allowed_files Optional. Array of allowed files to edit, $file must match an entry exactly.
- * @return string|null
+ * @param string   $file          File the user is attempting to edit.
+ * @param string[] $allowed_files Optional. Array of allowed files to edit. `$file` must match an entry exactly.
+ * @return string|void Returns the file name on success, dies on failure.
  */
 function validate_file_to_edit( $file, $allowed_files = array() ) {
 	$code = validate_file( $file, $allowed_files );
@@ -694,12 +694,12 @@ function validate_file_to_edit( $file, $allowed_files = array() ) {
  *
  * @see wp_handle_upload_error
  *
- * @param array       $file      Reference to a single element of $_FILES. Call the function once for each uploaded file.
- * @param array|false $overrides An associative array of names => values to override default variables. Default false.
- * @param string      $time      Time formatted in 'yyyy/mm'.
- * @param string      $action    Expected value for $_POST['action'].
- * @return array On success, returns an associative array of file attributes. On failure, returns
- *               $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
+ * @param string[]       $file      Reference to a single element of `$_FILES`. Call the function once for each uploaded file.
+ * @param string[]|false $overrides An associative array of names => values to override default variables. Default false.
+ * @param string         $time      Time formatted in 'yyyy/mm'.
+ * @param string         $action    Expected value for `$_POST['action']`.
+ * @return string[] On success, returns an associative array of file attributes. On failure, returns
+ *               `$overrides['upload_error_handler'](&$file, $message )` or `array( 'error'=>$message )`.
  */
 function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	// The default error handler.
@@ -717,7 +717,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 * @since 2.9.0 as 'wp_handle_upload_prefilter'.
 	 * @since 4.0.0 Converted to a dynamic hook with `$action`.
 	 *
-	 * @param array $file An array of data for a single file.
+	 * @param string[] $file An array of data for a single file.
 	 */
 	$file = apply_filters( "{$action}_prefilter", $file );
 
