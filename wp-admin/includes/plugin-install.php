@@ -721,7 +721,7 @@ if ( ! empty( $api->contributors ) ) {
 				foreach ( (array) $api->contributors as $contrib_username => $contrib_details ) {
 					$contrib_name = $contrib_details['display_name'];
 					if ( ! $contrib_name ) {
-						$contrin_name = $contrib_username;
+						$contrib_name = $contrib_username;
 					}
 					$contrib_name = esc_html( $contrib_name );
 
