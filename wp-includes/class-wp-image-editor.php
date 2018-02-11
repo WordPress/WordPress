@@ -409,9 +409,7 @@ abstract class WP_Image_Editor {
 			$fp = fopen( $filename, 'w' );
 
 			if ( ! $fp ) {
-				if ( $stream ) {
-					ob_end_clean();
-				}
+				ob_end_clean();
 				return false;
 			}
 
