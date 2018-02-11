@@ -1543,11 +1543,12 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	$atts = shortcode_atts(
 		array(
-			'id'      => '',
-			'align'   => 'alignnone',
-			'width'   => '',
-			'caption' => '',
-			'class'   => '',
+			'id'         => '',
+			'caption_id' => '',
+			'align'      => 'alignnone',
+			'width'      => '',
+			'caption'    => '',
+			'class'      => '',
 		), $attr, 'caption'
 	);
 
@@ -1556,12 +1557,20 @@ function img_caption_shortcode( $attr, $content = null ) {
 		return $content;
 	}
 
-	$caption_id = '';
-
-	if ( ! empty( $atts['id'] ) ) {
+	if ( $atts['id'] ) {
 		$att_id     = esc_attr( sanitize_html_class( $atts['id'] ) );
 		$atts['id'] = 'id="' . $att_id . '" ';
-		$caption_id = 'caption-' . str_replace( '_', '-', $att_id );
+
+		if ( ! $atts['caption_id'] ) {
+			$atts['caption_id'] = 'caption-' . str_replace( '_', '-', $att_id );
+		}
+	}
+
+	$describedby = '';
+
+	if ( $atts['caption_id'] ) {
+		$describedby        = 'aria-describedby="' . $atts['caption_id'] . '" ';
+		$atts['caption_id'] = 'id="' . $atts['caption_id'] . '" ';
 	}
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
@@ -1594,15 +1603,15 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	if ( $html5 ) {
 		$html = sprintf(
-			'<figure %s%sclass="%s" aria-describedby="%s">%s%s</figure>',
+			'<figure %s%s%sclass="%s">%s%s</figure>',
 			$atts['id'],
+			$describedby,
 			$style,
 			esc_attr( $class ),
-			$caption_id,
 			do_shortcode( $content ),
 			sprintf(
-				'<figcaption id="%s" class="wp-caption-text">%s</figcaption>',
-				$caption_id,
+				'<figcaption %sclass="wp-caption-text">%s</figcaption>',
+				$atts['caption_id'],
 				$atts['caption']
 			)
 		);
@@ -1612,10 +1621,10 @@ function img_caption_shortcode( $attr, $content = null ) {
 			$atts['id'],
 			$style,
 			esc_attr( $class ),
-			str_replace( '<img ', '<img aria-describedby="' . $caption_id . '" ', do_shortcode( $content ) ),
+			str_replace( '<img ', '<img ' . $describedby, do_shortcode( $content ) ),
 			sprintf(
 				'<p id="%s" class="wp-caption-text">%s</p>',
-				$caption_id,
+				$atts['caption_id'],
 				$atts['caption']
 			)
 		);
