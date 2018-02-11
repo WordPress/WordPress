@@ -2243,9 +2243,9 @@ function wp_get_audio_extensions() {
 	 * @since 3.6.0
 	 *
 	 * @param array $extensions An array of supported audio formats. Defaults are
-	 *                          'mp3', 'ogg', 'flac', 'm4a', 'wav'.
+	 *                          'mp3', 'aac', 'ogg', 'flac', 'm4a', 'wav'.
 	 */
-	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'flac', 'm4a', 'wav' ) );
+	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'aac', 'ogg', 'flac', 'm4a', 'wav' ) );
 }
 
 /**

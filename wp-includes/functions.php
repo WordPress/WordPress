@@ -2556,6 +2556,7 @@ function wp_get_mime_types() {
 			'dfxp'                         => 'application/ttaf+xml',
 			// Audio formats.
 			'mp3|m4a|m4b'                  => 'audio/mpeg',
+			'aac'                          => 'audio/aac',
 			'ra|ram'                       => 'audio/x-realaudio',
 			'wav'                          => 'audio/wav',
 			'ogg|oga'                      => 'audio/ogg',
