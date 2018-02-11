@@ -1557,8 +1557,11 @@ function img_caption_shortcode( $attr, $content = null ) {
 	}
 
 	if ( ! empty( $atts['id'] ) ) {
-		$atts['id'] = 'id="' . esc_attr( sanitize_html_class( $atts['id'] ) ) . '" ';
+		$att_id     = esc_attr( sanitize_html_class( $atts['id'] ) );
+		$atts['id'] = 'id="' . $att_id . '" ';
 	}
+
+	$caption_id = 'caption-' . str_replace( '_', '-', $att_id );
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
 
@@ -1590,13 +1593,15 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	if ( $html5 ) {
 		$html = sprintf(
-			'<figure %s%sclass="%s">%s%s</figure>',
+			'<figure %s%sclass="%s" aria-describedby="%s">%s%s</figure>',
 			$atts['id'],
 			$style,
 			esc_attr( $class ),
+			$caption_id,
 			do_shortcode( $content ),
 			sprintf(
-				'<figcaption class="wp-caption-text">%s</figcaption>',
+				'<figcaption id="%s" class="wp-caption-text">%s</figcaption>',
+				$caption_id,
 				$atts['caption']
 			)
 		);
@@ -1606,9 +1611,10 @@ function img_caption_shortcode( $attr, $content = null ) {
 			$atts['id'],
 			$style,
 			esc_attr( $class ),
-			do_shortcode( $content ),
+			str_replace( '<img ', '<img aria-describedby="' . $caption_id . '" ', do_shortcode( $content ) ),
 			sprintf(
-				'<p class="wp-caption-text">%s</p>',
+				'<p id="%s" class="wp-caption-text">%s</p>',
+				$caption_id,
 				$atts['caption']
 			)
 		);
