@@ -1556,12 +1556,13 @@ function img_caption_shortcode( $attr, $content = null ) {
 		return $content;
 	}
 
+	$caption_id = '';
+
 	if ( ! empty( $atts['id'] ) ) {
 		$att_id     = esc_attr( sanitize_html_class( $atts['id'] ) );
 		$atts['id'] = 'id="' . $att_id . '" ';
+		$caption_id = 'caption-' . str_replace( '_', '-', $att_id );
 	}
-
-	$caption_id = 'caption-' . str_replace( '_', '-', $att_id );
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
 
