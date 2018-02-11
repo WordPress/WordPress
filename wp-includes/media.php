@@ -1623,7 +1623,7 @@ function img_caption_shortcode( $attr, $content = null ) {
 			esc_attr( $class ),
 			str_replace( '<img ', '<img ' . $describedby, do_shortcode( $content ) ),
 			sprintf(
-				'<p id="%s" class="wp-caption-text">%s</p>',
+				'<p %sclass="wp-caption-text">%s</p>',
 				$atts['caption_id'],
 				$atts['caption']
 			)
