@@ -1182,7 +1182,7 @@ div#custom-background-image img {
 	display: inline-block;
 	line-height: 1;
 	text-align: center;
-	transition: background-color .1s ease-in 0;
+	transition: background-color .1s ease-in;
 }
 
 .background-position-control .background-position-center-icon {

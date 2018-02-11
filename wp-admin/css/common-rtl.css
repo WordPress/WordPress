@@ -2455,7 +2455,7 @@ div.star-holder .star-rating {
 	font-weight: 400;
 	font-style: normal;
 	vertical-align: top;
-	transition: color .1s ease-in 0;
+	transition: color .1s ease-in;
 	text-align: center;
 	color: #ffb900;
 }
