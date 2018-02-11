@@ -167,7 +167,9 @@
 	 *
 	 */
 	wp.updates.addAdminNotice = function( data ) {
-		var $notice = $( data.selector ), $adminNotice;
+		var $notice = $( data.selector ),
+			$headerEnd = $( '.wp-header-end' ),
+			$adminNotice;
 
 		delete data.selector;
 		$adminNotice = wp.updates.adminNotice( data );
@@ -179,6 +181,8 @@
 
 		if ( $notice.length ) {
 			$notice.replaceWith( $adminNotice );
+		} else if ( $headerEnd.length ) {
+			$headerEnd.after( $adminNotice );
 		} else {
 			if ( 'customize' === pagenow ) {
 				$( '.customize-themes-notifications' ).append( $adminNotice );
