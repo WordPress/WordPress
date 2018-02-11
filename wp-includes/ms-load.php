@@ -234,17 +234,21 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	}
 
 	$args = array(
-		'domain__in' => $domains,
-		'path__in'   => $paths,
-		'number'     => 1,
+		'number' => 1,
 	);
 
 	if ( count( $domains ) > 1 ) {
+		$args['domain__in']               = $domains;
 		$args['orderby']['domain_length'] = 'DESC';
+	} else {
+		$args['domain'] = array_shift( $domains );
 	}
 
 	if ( count( $paths ) > 1 ) {
+		$args['path__in']               = $paths;
 		$args['orderby']['path_length'] = 'DESC';
+	} else {
+		$args['path'] = array_shift( $paths );
 	}
 
 	$result = get_sites( $args );
