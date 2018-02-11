@@ -1328,7 +1328,7 @@ function has_term_meta( $term_id ) {
  * @param int        $parent   Optional. ID of parent term under which to confine the exists search.
  * @return mixed Returns null if the term does not exist. Returns the term ID
  *               if no taxonomy is specified and the term ID exists. Returns
- *               an array of the term ID and the term taxonomy ID the taxonomy
+ *               an array of the term ID and the term taxonomy ID if the taxonomy
  *               is specified and the pairing exists.
  */
 function term_exists( $term, $taxonomy = '', $parent = null ) {
