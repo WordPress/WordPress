@@ -1560,6 +1560,8 @@ function img_caption_shortcode( $attr, $content = null ) {
 		return $content;
 	}
 
+	$id = $caption_id = $describedby = '';
+
 	if ( $atts['id'] ) {
 		$atts['id'] = sanitize_html_class( $atts['id'] );
 		$id         = 'id="' . esc_attr( $atts['id'] ) . '" ';
@@ -1570,8 +1572,6 @@ function img_caption_shortcode( $attr, $content = null ) {
 	} elseif ( $atts['id'] ) {
 		$atts['caption_id'] = 'caption-' . str_replace( '_', '-', $atts['id'] );
 	}
-
-	$describedby = '';
 
 	if ( $atts['caption_id'] ) {
 		$caption_id  = 'id="' . esc_attr( $atts['caption_id'] ) . '" ';
