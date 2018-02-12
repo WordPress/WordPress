@@ -1503,8 +1503,8 @@ add_shortcode( 'caption', 'img_caption_shortcode' );
  * @param array  $attr {
  *     Attributes of the caption shortcode.
  *
- *     @type string $id         ID of the image and caption container element, i.e. <figure> or <div>.
- *     @type string $caption_id ID of the caption element, i.e. <figcaption> or <p>.
+ *     @type string $id         ID of the image and caption container element, i.e. `<figure>` or `<div>`.
+ *     @type string $caption_id ID of the caption element, i.e. `<figcaption>` or `<p>`.
  *     @type string $align      Class name that aligns the caption. Default 'alignnone'. Accepts 'alignleft',
  *                              'aligncenter', alignright', 'alignnone'.
  *     @type int    $width      The width of the caption, in pixels.
