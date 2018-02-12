@@ -1467,6 +1467,13 @@ function get_header_video_settings() {
 		$settings['mimeType'] = $video_type['type'];
 	}
 
+	/**
+	 * Filters header video settings.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $settings An array of header video settings.
+	 */
 	return apply_filters( 'header_video_settings', $settings );
 }
 
