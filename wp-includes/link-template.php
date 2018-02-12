@@ -2896,7 +2896,7 @@ function previous_comments_link( $label = '' ) {
  * @global WP_Rewrite $wp_rewrite
  *
  * @param string|array $args Optional args. See paginate_links(). Default empty array.
- * @return string|void Markup for pagination links.
+ * @return string|array|void Markup for comment page links or array of comment page links.
  */
 function paginate_comments_links( $args = array() ) {
 	global $wp_rewrite;
@@ -2925,7 +2925,7 @@ function paginate_comments_links( $args = array() ) {
 	$args       = wp_parse_args( $args, $defaults );
 	$page_links = paginate_links( $args );
 
-	if ( $args['echo'] ) {
+	if ( $args['echo'] && 'array' !== $args['type'] ) {
 		echo $page_links;
 	} else {
 		return $page_links;
