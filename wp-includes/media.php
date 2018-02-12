@@ -1493,20 +1493,23 @@ add_shortcode( 'caption', 'img_caption_shortcode' );
  * filter is {@see 'img_caption_shortcode'} and passes an empty string, the attr
  * parameter and the content parameter values.
  *
- * The supported attributes for the shortcode are 'id', 'align', 'width', and
- * 'caption'.
+ * The supported attributes for the shortcode are 'id', 'caption_id', 'align',
+ * 'width', 'caption', and 'class'.
  *
  * @since 2.6.0
+ * @since 3.9.0 The `class` attribute was added.
+ * @since 5.0.0 The `caption_id` attribute was added.
  *
  * @param array  $attr {
  *     Attributes of the caption shortcode.
  *
- *     @type string $id      ID of the div element for the caption.
- *     @type string $align   Class name that aligns the caption. Default 'alignnone'. Accepts 'alignleft',
- *                           'aligncenter', alignright', 'alignnone'.
- *     @type int    $width   The width of the caption, in pixels.
- *     @type string $caption The caption text.
- *     @type string $class   Additional class name(s) added to the caption container.
+ *     @type string $id         ID of the image and caption container element, i.e. <figure> or <div>.
+ *     @type string $caption_id ID of the caption element, i.e. <figcaption> or <p>.
+ *     @type string $align      Class name that aligns the caption. Default 'alignnone'. Accepts 'alignleft',
+ *                              'aligncenter', alignright', 'alignnone'.
+ *     @type int    $width      The width of the caption, in pixels.
+ *     @type string $caption    The caption text.
+ *     @type string $class      Additional class name(s) added to the caption container.
  * }
  * @param string $content Shortcode content.
  * @return string HTML content to display the caption.
@@ -1558,19 +1561,21 @@ function img_caption_shortcode( $attr, $content = null ) {
 	}
 
 	if ( $atts['id'] ) {
-		$att_id     = esc_attr( sanitize_html_class( $atts['id'] ) );
-		$atts['id'] = 'id="' . $att_id . '" ';
+		$atts['id'] = sanitize_html_class( $atts['id'] );
+		$id         = 'id="' . esc_attr( $atts['id'] ) . '" ';
+	}
 
-		if ( ! $atts['caption_id'] ) {
-			$atts['caption_id'] = 'caption-' . str_replace( '_', '-', $att_id );
-		}
+	if ( $atts['caption_id'] ) {
+		$atts['caption_id'] = sanitize_html_class( $atts['caption_id'] );
+	} elseif ( $atts['id'] ) {
+		$atts['caption_id'] = 'caption-' . str_replace( '_', '-', $atts['id'] );
 	}
 
 	$describedby = '';
 
 	if ( $atts['caption_id'] ) {
-		$describedby        = 'aria-describedby="' . $atts['caption_id'] . '" ';
-		$atts['caption_id'] = 'id="' . $atts['caption_id'] . '" ';
+		$caption_id  = 'id="' . esc_attr( $atts['caption_id'] ) . '" ';
+		$describedby = 'aria-describedby="' . esc_attr( $atts['caption_id'] ) . '" ';
 	}
 
 	$class = trim( 'wp-caption ' . $atts['align'] . ' ' . $atts['class'] );
@@ -1604,27 +1609,27 @@ function img_caption_shortcode( $attr, $content = null ) {
 	if ( $html5 ) {
 		$html = sprintf(
 			'<figure %s%s%sclass="%s">%s%s</figure>',
-			$atts['id'],
+			$id,
 			$describedby,
 			$style,
 			esc_attr( $class ),
 			do_shortcode( $content ),
 			sprintf(
 				'<figcaption %sclass="wp-caption-text">%s</figcaption>',
-				$atts['caption_id'],
+				$caption_id,
 				$atts['caption']
 			)
 		);
 	} else {
 		$html = sprintf(
 			'<div %s%sclass="%s">%s%s</div>',
-			$atts['id'],
+			$id,
 			$style,
 			esc_attr( $class ),
 			str_replace( '<img ', '<img ' . $describedby, do_shortcode( $content ) ),
 			sprintf(
 				'<p %sclass="wp-caption-text">%s</p>',
-				$atts['caption_id'],
+				$caption_id,
 				$atts['caption']
 			)
 		);
