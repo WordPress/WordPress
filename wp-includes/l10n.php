@@ -1287,7 +1287,11 @@ function wp_dropdown_languages( $args = array() ) {
 }
 
 /**
- * Checks if current locale is RTL.
+ * Determines whether the current locale is right-to-left (RTL).
+ * 
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
  *
