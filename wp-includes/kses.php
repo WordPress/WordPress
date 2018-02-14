@@ -971,11 +971,12 @@ function _wp_kses_split_callback( $match ) {
 function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 	$string = wp_kses_stripslashes( $string );
 
+	// It matched a ">" character.
 	if ( substr( $string, 0, 1 ) != '<' ) {
 		return '&gt;';
 	}
-	// It matched a ">" character
 
+	// Allow HTML comments.
 	if ( '<!--' == substr( $string, 0, 4 ) ) {
 		$string = str_replace( array( '<!--', '-->' ), '', $string );
 		while ( $string != ( $newstring = wp_kses( $string, $allowed_html, $allowed_protocols ) ) ) {
@@ -990,12 +991,11 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 		$string = preg_replace( '/-$/', '', $string );
 		return "<!--{$string}-->";
 	}
-	// Allow HTML comments
 
+	// It's seriously malformed.
 	if ( ! preg_match( '%^<\s*(/\s*)?([a-zA-Z0-9-]+)([^>]*)>?$%', $string, $matches ) ) {
 		return '';
 	}
-	// It's seriously malformed
 
 	$slash    = trim( $matches[1] );
 	$elem     = $matches[2];
@@ -1005,15 +1005,15 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 		$allowed_html = wp_kses_allowed_html( $allowed_html );
 	}
 
+	// They are using a not allowed HTML element.
 	if ( ! isset( $allowed_html[ strtolower( $elem ) ] ) ) {
 		return '';
 	}
-	// They are using a not allowed HTML element
 
+	// No attributes are allowed for closing elements.
 	if ( $slash != '' ) {
 		return "</$elem>";
 	}
-	// No attributes are allowed for closing elements
 
 	return wp_kses_attr( $elem, $attrlist, $allowed_html, $allowed_protocols );
 }
