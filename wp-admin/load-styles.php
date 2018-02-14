@@ -5,18 +5,12 @@
  *
  * Set this to error_reporting( -1 ) for debugging
  */
-error_reporting( 0 );
+error_reporting(0);
 
 /** Set ABSPATH for execution */
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
 }
-
-define( 'WPINC', 'wp-includes' );
-
-require( ABSPATH . 'wp-admin/includes/noop.php' );
-require( ABSPATH . WPINC . '/script-loader.php' );
-require( ABSPATH . WPINC . '/version.php' );
 
 $load = $_GET['load'];
 if ( is_array( $load ) ) {
@@ -25,9 +19,21 @@ if ( is_array( $load ) ) {
 $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $load );
 $load = array_unique( explode( ',', $load ) );
 
-if ( empty( $load ) ) {
+if ( empty($load) )
 	exit;
+
+function get_file($path) {
+
+	if ( function_exists('realpath') )
+		$path = realpath($path);
+
+	if ( ! $path || ! @is_file($path) )
+		return false;
+
+	return @file_get_contents($path);
 }
+
+require( ABSPATH . 'wp-admin/admin.php' );
 
 $compress       = ( isset( $_GET['c'] ) && $_GET['c'] );
 $force_gzip     = ( $compress && 'gzip' == $_GET['c'] );
