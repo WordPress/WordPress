@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @package WordPress
+ * @subpackage Administration
+ * @since 4.9.4
+ */
 /**
  * Disable error reporting
  *
@@ -7,12 +11,14 @@
  */
 error_reporting( 0 );
 
-/** Set ABSPATH for execution */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
-}
+define( 'SHORTINIT', true );
 
-define( 'WPINC', 'wp-includes' );
+require( dirname(dirname( __FILE__ )) . '/wp-load.php' );
+require( ABSPATH . WPINC . '/pluggable.php' );
+require( ABSPATH . WPINC . '/formatting.php' );
+require( ABSPATH . WPINC . '/link-template.php' );
+require( ABSPATH . WPINC . '/kses.php' );
+require( ABSPATH . WPINC . '/version.php' );
 
 $load = $_GET['load'];
 if ( is_array( $load ) ) {
@@ -20,57 +26,34 @@ if ( is_array( $load ) ) {
 }
 
 $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $load );
-$load = array_unique( explode( ',', $load ) );
 
-if ( empty( $load ) ) {
+// Reduce cache surface by making unique and sorting
+
+$targets = array_unique( explode( ',', $load ) );
+
+sort( $targets );
+
+if ( !count($targets) ) {
+	// Allow client to get a cached empty response
+	wp_redirect( admin_url( 'load-scripts-keyed.php?load[]=' ), 301 );
 	exit;
 }
 
-require( ABSPATH . 'wp-admin/includes/noop.php' );
-require( ABSPATH . WPINC . '/script-loader.php' );
-require( ABSPATH . WPINC . '/version.php' );
+$load = implode(',', $targets);
 
-$compress       = ( isset( $_GET['c'] ) && $_GET['c'] );
-$force_gzip     = ( $compress && 'gzip' == $_GET['c'] );
-$expires_offset = 31536000; // 1 year
-$out            = '';
+// TODO: actions, filters, cache surface reduction
 
-$wp_scripts = new WP_Scripts();
-wp_default_scripts( $wp_scripts );
+$c = (int)$_GET['c'] ? 1 : 0;
 
-if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) === $wp_version ) {
-	$protocol = $_SERVER['SERVER_PROTOCOL'];
-	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
-		$protocol = 'HTTP/1.0';
-	}
-	header( "$protocol 304 Not Modified" );
-	exit();
-}
+/*
+ * The query parameter 'ver' is not passed to load-scripts-keyed.php,
+ * as the current version affects integrity, the URL already cache-
+ * busts on a new WordPress version.
+ */
+$load_request = 'load%5B%5D=' . $load . '&c=' . $c;
 
-foreach ( $load as $handle ) {
-	if ( ! array_key_exists( $handle, $wp_scripts->registered ) ) {
-		continue;
-	}
+$integrity = 'sha256-' . hash( 'sha256', $wp_version . $load_request . NONCE_KEY );
 
-	$path = ABSPATH . $wp_scripts->registered[ $handle ]->src;
-	$out .= get_file( $path ) . "\n";
-}
+$url =  'load-scripts-keyed.php?key=' . $integrity . '&' . $load_request;
 
-header( "Etag: $wp_version" );
-header( 'Content-Type: application/javascript; charset=UTF-8' );
-header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires_offset ) . ' GMT' );
-header( "Cache-Control: public, max-age=$expires_offset" );
-
-if ( $compress && ! ini_get( 'zlib.output_compression' ) && 'ob_gzhandler' != ini_get( 'output_handler' ) && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) ) {
-	header( 'Vary: Accept-Encoding' ); // Handle proxies
-	if ( false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate' ) && function_exists( 'gzdeflate' ) && ! $force_gzip ) {
-		header( 'Content-Encoding: deflate' );
-		$out = gzdeflate( $out, 3 );
-	} elseif ( false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && function_exists( 'gzencode' ) ) {
-		header( 'Content-Encoding: gzip' );
-		$out = gzencode( $out, 3 );
-	}
-}
-
-echo $out;
-exit;
+wp_redirect( admin_url( $url ), 301 );
