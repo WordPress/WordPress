@@ -3316,15 +3316,37 @@ class wpdb {
 	 * @return false|void
 	 */
 	public function bail( $message, $error_code = '500' ) {
-		if ( ! $this->show_errors ) {
+		if ( $this->show_errors ) {
+			$error = '';
+
+			if ( $this->use_mysqli ) {
+				if ( $this->dbh instanceof mysqli ) {
+					$error = mysqli_error( $this->dbh );
+				} elseif ( mysqli_connect_errno() ) {
+					$error = mysqli_connect_error();
+				}
+			} else {
+				if ( is_resource( $this->dbh ) ) {
+					$error = mysql_error( $this->dbh );
+				} else {
+					$error = mysql_error();
+				}
+			}
+
+			if ( $error ) {
+				$message = '<p><code>' . $error . "</code></p>\n" . $message;
+			}
+
+			wp_die( $message );
+		} else {
 			if ( class_exists( 'WP_Error', false ) ) {
 				$this->error = new WP_Error( $error_code, $message );
 			} else {
 				$this->error = $message;
 			}
+
 			return false;
 		}
-		wp_die( $message );
 	}
 
 
