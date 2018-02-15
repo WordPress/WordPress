@@ -1,3 +1,8 @@
+/**
+ * Generates the XHTML Friends Network 'rel' string from the inputs.
+ *
+ * @deprecated 3.5.0
+ */
 jQuery( document ).ready(function( $ ) {
 	$( '#link_rel' ).prop( 'readonly', true );
 	$( '#linkxfndiv input' ).bind( 'click keyup', function() {
