@@ -23,11 +23,10 @@
 		 * Adds an autocomplete function to input fields marked with the class
 		 * 'wp-suggest-user'.
 		 *
-		 * A minimum of two characters is required to trigger
-		 * the suggestions. The autocompletion menu is shown at the left bottom of the input
-		 * field. On RTL installations, it is shown at the right top.
-		 * Adds the class 'open' to the input field when the autocompletion menu
-		 * is shown.
+		 * A minimum of two characters is required to trigger the suggestions. The
+		 * autocompletion menu is shown at the left bottom of the input field. On
+		 * RTL installations, it is shown at the right top. Adds the class 'open' to
+		 * the input field when the autocompletion menu is shown.
 		 *
 		 * Does a backend call to retrieve the users.
 		 *
