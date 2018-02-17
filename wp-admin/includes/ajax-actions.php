@@ -3025,6 +3025,15 @@ function wp_ajax_heartbeat() {
 	}
 
 	if ( 1 !== $nonce_state ) {
+		/**
+		 * Filters the nonces to send to the editor.
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param array|object $response  The no-priv Heartbeat response object or array.
+		 * @param array        $data      An array of data passed via $_POST.
+		 * @param string       $screen_id The screen id.
+		 */
 		$response = apply_filters( 'wp_refresh_nonces', $response, $data, $screen_id );
 
 		if ( false === $nonce_state ) {
