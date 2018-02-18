@@ -189,7 +189,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		if ( '/' === $path ) {
 			$path = '/./';
 		}
-		return 'ssh2.sftp://' . $this->sftp_link . '/' . ltrim( $path, '/' );
+		return 'ssh2.sftp://' . (int)$this->sftp_link . '/' . ltrim( $path, '/' );
 	}
 
 	/**
