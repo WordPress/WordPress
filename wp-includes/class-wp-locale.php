@@ -44,14 +44,6 @@ class WP_Locale {
 	public $weekday_abbrev;
 
 	/**
-	 * Stores the default start of the week.
-	 *
-	 * @since 4.4.0
-	 * @var string
-	 */
-	public $start_of_week;
-
-	/**
 	 * Stores the translated strings for the full month names.
 	 *
 	 * @since 2.1.0
