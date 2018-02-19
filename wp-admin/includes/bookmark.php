@@ -28,7 +28,7 @@ function add_link() {
 function edit_link( $link_id = 0 ) {
 	if ( ! current_user_can( 'manage_links' ) ) {
 		wp_die(
-			'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
+			'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 			'<p>' . __( 'Sorry, you are not allowed to edit the links for this site.' ) . '</p>',
 			403
 		);

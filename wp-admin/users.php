@@ -12,7 +12,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'list_users' ) ) {
 	wp_die(
-		'<h1>' . __( 'You don&#8217;t have permission to do this.' ) . '</h1>' .
+		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to list users.' ) . '</p>',
 		403
 	);
@@ -141,7 +141,7 @@ switch ( $wp_list_table->current_action() ) {
 			// If the user doesn't already belong to the blog, bail.
 			if ( is_multisite() && ! is_user_member_of_blog( $id ) ) {
 				wp_die(
-					'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
+					'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 					'<p>' . __( 'One of the selected users is not a member of this site.' ) . '</p>',
 					403
 				);

@@ -591,7 +591,7 @@ function wp_edit_theme_plugin_file( $args ) {
 			}
 
 			if ( ! isset( $result['message'] ) ) {
-				$message = __( 'An error has occurred.' );
+				$message = __( 'Something went wrong.' );
 			} else {
 				$message = $result['message'];
 				unset( $result['message'] );

@@ -159,7 +159,7 @@ if ( $action ) {
 					// If the user doesn't already belong to the blog, bail.
 					if ( ! is_user_member_of_blog( $user_id ) ) {
 						wp_die(
-							'<h1>' . __( 'An error has occurred.' ) . '</h1>' .
+							'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 							'<p>' . __( 'One of the selected users is not a member of this site.' ) . '</p>',
 							403
 						);

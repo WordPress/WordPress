@@ -137,7 +137,7 @@ function wp_default_scripts( &$scripts ) {
 	did_action( 'init' ) && $scripts->localize(
 		'wp-ajax-response', 'wpAjax', array(
 			'noPerm' => __( 'Sorry, you are not allowed to do that.' ),
-			'broken' => __( 'An error has occurred.' ),
+			'broken' => __( 'Something went wrong.' ),
 		)
 	);
 
@@ -605,8 +605,8 @@ function wp_default_scripts( &$scripts ) {
 			'close'                   => __( 'Close' ),
 			'action'                  => __( 'Action' ),
 			'discardChanges'          => __( 'Discard changes' ),
-			'cheatin'                 => __( 'An error has occurred.' ),
-			'notAllowedHeading'       => __( 'You don&#8217;t have permission to do this.' ),
+			'cheatin'                 => __( 'Something went wrong.' ),
+			'notAllowedHeading'       => __( 'You need a higher level of permission.' ),
 			'notAllowed'              => __( 'Sorry, you are not allowed to customize this site.' ),
 			'previewIframeTitle'      => __( 'Site Preview' ),
 			'loginIframeTitle'        => __( 'Session expired' ),
@@ -689,7 +689,7 @@ function wp_default_scripts( &$scripts ) {
 		did_action( 'init' ) && $scripts->localize(
 			'admin-tags', 'tagsl10n', array(
 				'noPerm' => __( 'Sorry, you are not allowed to do that.' ),
-				'broken' => __( 'An error has occurred.' ),
+				'broken' => __( 'Something went wrong.' ),
 			)
 		);
 
@@ -918,7 +918,7 @@ function wp_default_scripts( &$scripts ) {
 					'activateImporter'         => __( 'Run Importer' ),
 					/* translators: %s: Importer name */
 					'activateImporterLabel'    => __( 'Run %s' ),
-					'unknownError'             => __( 'An error has occurred.' ),
+					'unknownError'             => __( 'Something went wrong.' ),
 					'connectionError'          => __( 'Connection lost or the server is busy. Please try again later.' ),
 					'nonceError'               => __( 'An error has occurred. Please reload the page and try again.' ),
 					'pluginsFound'             => __( 'Number of plugins found: %d' ),
