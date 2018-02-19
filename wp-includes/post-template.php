@@ -1055,7 +1055,7 @@ function post_custom( $key = '' ) {
 }
 
 /**
- * Display list of post custom fields.
+ * Display a list of post custom fields.
  *
  * @since 1.2.0
  *
@@ -1103,14 +1103,16 @@ function the_meta() {
 //
 
 /**
- * Retrieve or display list of pages as a dropdown (select list).
+ * Retrieve or display a list of pages as a dropdown (select list).
  *
  * @since 2.1.0
  * @since 4.2.0 The `$value_field` argument was added.
  * @since 4.3.0 The `$class` argument was added.
  *
+ * @see get_pages()
+ *
  * @param array|string $args {
- *     Optional. Array or string of arguments to generate a pages drop-down element.
+ *     Optional. Array or string of arguments to generate a page dropdown. See `get_pages()` for additional arguments.
  *
  *     @type int          $depth                 Maximum depth. Default 0.
  *     @type int          $child_of              Page ID to retrieve child pages of. Default 0.
@@ -1190,7 +1192,7 @@ function wp_dropdown_pages( $args = '' ) {
 }
 
 /**
- * Retrieve or display list of pages (or hierarchical post type items) in list (li) format.
+ * Retrieve or display a list of pages (or hierarchical post type items) in list (li) format.
  *
  * @since 1.5.0
  * @since 4.7.0 Added the `item_spacing` argument.
@@ -1200,7 +1202,7 @@ function wp_dropdown_pages( $args = '' ) {
  * @global WP_Query $wp_query
  *
  * @param array|string $args {
- *     Array or string of arguments. Optional.
+ *     Optional. Array or string of arguments to generate a list of pages. See `get_pages()` for additional arguments.
  *
  *     @type int          $child_of     Display only the sub-pages of a single page by ID. Default 0 (all pages).
  *     @type string       $authors      Comma-separated list of author IDs. Default empty (all authors).
@@ -1328,7 +1330,7 @@ function wp_list_pages( $args = '' ) {
  * @since 4.7.0 Added the `item_spacing` argument.
  *
  * @param array|string $args {
- *     Optional. Arguments to generate a page menu. See wp_list_pages() for additional arguments.
+ *     Optional. Array or string of arguments to generate a page menu. See `wp_list_pages()` for additional arguments.
  *
  *     @type string          $sort_column  How to sort the list of pages. Accepts post column names.
  *                                         Default 'menu_order, post_title'.
@@ -1343,7 +1345,8 @@ function wp_list_pages( $args = '' ) {
  *     @type string          $link_after   The HTML or text to append to $show_home text. Default empty.
  *     @type string          $before       The HTML or text to prepend to the menu. Default is '<ul>'.
  *     @type string          $after        The HTML or text to append to the menu. Default is '</ul>'.
- *     @type string          $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'discard'.
+ *     @type string          $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve'
+ *                                         or 'discard'. Default 'discard'.
  *     @type Walker          $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
  * @return string|void HTML menu
@@ -1861,7 +1864,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 }
 
 /**
- * Display list of a post's revisions.
+ * Display a list of a post's revisions.
  *
  * Can output either a UL with edit links or a TABLE with diff interface, and
  * restore action links.
