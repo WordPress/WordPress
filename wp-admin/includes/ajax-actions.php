@@ -37,20 +37,20 @@ function wp_ajax_nopriv_heartbeat() {
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param array|object $response  The no-priv Heartbeat response object or array.
-		 * @param array        $data      An array of data passed via $_POST.
-		 * @param string       $screen_id The screen id.
+		 * @param array  $response  The no-priv Heartbeat response.
+		 * @param array  $data      The $_POST data sent.
+		 * @param string $screen_id The screen id.
 		 */
 		$response = apply_filters( 'heartbeat_nopriv_received', $response, $data, $screen_id );
 	}
 
 	/**
-	 * Filters Heartbeat Ajax response when no data is passed.
+	 * Filters Heartbeat Ajax response in no-privilege environments when no data is passed.
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The Heartbeat response object or array.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The no-priv Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	$response = apply_filters( 'heartbeat_nopriv_send', $response, $screen_id );
 
@@ -61,8 +61,8 @@ function wp_ajax_nopriv_heartbeat() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The no-priv Heartbeat response.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The no-priv Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	do_action( 'heartbeat_nopriv_tick', $response, $screen_id );
 
@@ -3026,13 +3026,13 @@ function wp_ajax_heartbeat() {
 
 	if ( 1 !== $nonce_state ) {
 		/**
-		 * Filters the nonces to send to the editor.
+		 * Filters the nonces to send to the New/Edit Post screen.
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param array|object $response  The no-priv Heartbeat response object or array.
-		 * @param array        $data      An array of data passed via $_POST.
-		 * @param string       $screen_id The screen id.
+		 * @param array  $response  The Heartbeat response.
+		 * @param array  $data      The $_POST data sent.
+		 * @param string $screen_id The screen id.
 		 */
 		$response = apply_filters( 'wp_refresh_nonces', $response, $data, $screen_id );
 
