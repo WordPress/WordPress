@@ -289,8 +289,8 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 		return get_the_password_form( $post );
 	}
 
-	if ( $page > count( $pages ) ) { // if the requested page doesn't exist
-		$page = count( $pages ); // give them the highest numbered page that DOES exist
+	if ( $page > count( $pages ? : [] ) ) { // if the requested page doesn't exist
+		$page = count( $pages ? : [] ); // give them the highest numbered page that DOES exist
 	}
 
 	$content = $pages[ $page - 1 ];
