@@ -416,20 +416,33 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Discards expired events, and reduces the remaining list.
+	 * Prepares the event list for presentation.
+	 *
+	 * Discards expired events, and makes WordCamps "sticky." Attendees need more
+	 * advanced notice about WordCamps than they do for meetups, so camps should
+	 * appear in the list sooner. If a WordCamp is coming up, the API will "stick"
+	 * it in the response, even if it wouldn't otherwise appear. When that happens,
+	 * the event will be at the end of the list, and will need to be moved into a
+	 * higher position, so that it doesn't get trimmed off.
 	 *
 	 * @since 4.8.0
+	 * @since 5.0.0 Stick a WordCamp to the final list.
 	 *
 	 * @param  array $response_body The response body which contains the events.
 	 * @return array The response body with events trimmed.
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
+			$wordcamps         = array();
 			$current_timestamp = current_time( 'timestamp' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
-				// Skip WordCamps, because they might be multi-day events.
-				if ( 'meetup' !== $event['type'] ) {
+				/*
+				 * Skip WordCamps, because they might be multi-day events.
+				 * Save a copy so they can be pinned later.
+				 */
+				if ( 'wordcamp' === $event['type'] ) {
+					$wordcamps[] = $event;
 					continue;
 				}
 
@@ -441,6 +454,13 @@ class WP_Community_Events {
 			}
 
 			$response_body['events'] = array_slice( $response_body['events'], 0, 3 );
+			$trimmed_event_types     = array_column( $response_body['events'], 'type' );
+
+			// Make sure the soonest upcoming WordCamps is pinned in the list.
+			if ( ! in_array( 'wordcamp', $trimmed_event_types ) && $wordcamps ) {
+				array_pop( $response_body['events'] );
+				array_push( $response_body['events'], $wordcamps[0] );
+			}
 		}
 
 		return $response_body;
