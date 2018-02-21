@@ -530,30 +530,39 @@ function wp_using_ext_object_cache( $using = null ) {
  */
 function wp_start_object_cache() {
 	global $wp_filter;
+	static $first_init = true;
 
-	$first_init = false;
-	if ( ! function_exists( 'wp_cache_init' ) ) {
-		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-			require_once( WP_CONTENT_DIR . '/object-cache.php' );
-			if ( function_exists( 'wp_cache_init' ) ) {
-				wp_using_ext_object_cache( true );
-			}
+	// Only perform the following checks once.
+	if ( $first_init ) {
+		if ( ! function_exists( 'wp_cache_init' ) ) {
+			/*
+			 * This is the normal situation. First-run of this function. No
+			 * caching backend has been loaded.
+			 *
+			 * We try to load a custom caching backend, and then, if it
+			 * results in a wp_cache_init() function existing, we note
+			 * that an external object cache is being used.
+			 */
+			if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+				require_once( WP_CONTENT_DIR . '/object-cache.php' );
+				if ( function_exists( 'wp_cache_init' ) ) {
+					wp_using_ext_object_cache( true );
+				}
 
-			// Re-initialize any hooks added manually by object-cache.php
-			if ( $wp_filter ) {
-				$wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
+				// Re-initialize any hooks added manually by object-cache.php
+				if ( $wp_filter ) {
+					$wp_filter = WP_Hook::build_preinitialized_hooks( $wp_filter );
+				}
 			}
+		} elseif ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
+			/*
+			 * Sometimes advanced-cache.php can load object-cache.php before
+			 * this function is run. This breaks the function_exists() check
+			 * above and can result in wp_using_ext_object_cache() returning
+			 * false when actually an external cache is in use.
+			 */
+			wp_using_ext_object_cache( true );
 		}
-
-		$first_init = true;
-	} elseif ( ! wp_using_ext_object_cache() && file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
-		/*
-		 * Sometimes advanced-cache.php can load object-cache.php before
-		 * it is loaded here. This breaks the function_exists check above
-		 * and can result in `$_wp_using_ext_object_cache` being set
-		 * incorrectly. Double check if an external cache exists.
-		 */
-		wp_using_ext_object_cache( true );
 	}
 
 	if ( ! wp_using_ext_object_cache() ) {
@@ -575,6 +584,8 @@ function wp_start_object_cache() {
 		wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'site-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites' ) );
 		wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 	}
+
+	$first_init = false;
 }
 
 /**
