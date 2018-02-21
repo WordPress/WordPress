@@ -119,11 +119,11 @@ var inlineEditPost;
 		});
 
 		/**
-		 * Binds click event to the .editinline link which opens the quick editor.
+		 * Binds click event to the .editinline button which opens the quick editor.
 		 */
-		$('#the-list').on( 'click', 'a.editinline', function( e ) {
-			e.preventDefault();
-			inlineEditPost.edit(this);
+		$( '#the-list' ).on( 'click', '.editinline', function() {
+			$( this ).attr( 'aria-expanded', 'true' );
+			inlineEditPost.edit( this );
 		});
 
 		$('#bulk-edit').find('fieldset:first').after(
@@ -422,8 +422,10 @@ var inlineEditPost;
 						$(inlineEditPost.what+id).siblings('tr.hidden').addBack().remove();
 						$('#edit-'+id).before(r).remove();
 						$( inlineEditPost.what + id ).hide().fadeIn( 400, function() {
-							// Move focus back to the Quick Edit link. $( this ) is the row being animated.
-							$( this ).find( '.editinline' ).focus();
+							// Move focus back to the Quick Edit button. $( this ) is the row being animated.
+							$( this ).find( '.editinline' )
+								.attr( 'aria-expanded', 'false' )
+								.focus();
 							wp.a11y.speak( inlineEditL10n.saved );
 						});
 					} else {
@@ -477,8 +479,10 @@ var inlineEditPost;
 				$('#'+id).siblings('tr.hidden').addBack().remove();
 				id = id.substr( id.lastIndexOf('-') + 1 );
 
-				// Show the post row and move focus back to the Quick Edit link.
-				$( this.what + id ).show().find( '.editinline' ).focus();
+				// Show the post row and move focus back to the Quick Edit button.
+				$( this.what + id ).show().find( '.editinline' )
+					.attr( 'aria-expanded', 'false' )
+					.focus();
 			}
 		}
 

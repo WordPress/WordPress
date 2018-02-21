@@ -1267,7 +1267,7 @@ if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->p
 				__( 'Edit' )
 			);
 			$actions['inline hide-if-no-js'] = sprintf(
-				'<a href="#" class="editinline" aria-label="%s">%s</a>',
+				'<button type="button" class="button-link editinline" aria-label="%s" aria-expanded="false">%s</button>',
 				/* translators: %s: post title */
 				esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $title ) ),
 				__( 'Quick&nbsp;Edit' )
