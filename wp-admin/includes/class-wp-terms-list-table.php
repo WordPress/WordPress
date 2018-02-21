@@ -455,7 +455,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				__( 'Edit' )
 			);
 			$actions['inline hide-if-no-js'] = sprintf(
-				'<a href="#" class="editinline aria-button-if-js" aria-label="%s">%s</a>',
+				'<button type="button" class="button-link editinline" aria-label="%s" aria-expanded="false">%s</button>',
 				/* translators: %s: taxonomy term name */
 				esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $tag->name ) ),
 				__( 'Quick&nbsp;Edit' )
