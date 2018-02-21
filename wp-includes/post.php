@@ -3320,9 +3320,9 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$post_type_object = get_post_type_object( $post_type );
 
 	if ( ! $update && 'pending' === $post_status && ! current_user_can( $post_type_object->cap->publish_posts ) ) {
-		$post_name = '';
+		$post_name = sanitize_title(current_time( 'mysql' ).rand(1,1000000));
 	} elseif ( $update && 'pending' === $post_status && ! current_user_can( 'publish_post', $post_ID ) ) {
-		$post_name = '';
+		$post_name = sanitize_title(current_time( 'mysql' ).rand(1,1000000));
 	}
 
 	/*
@@ -3333,11 +3333,11 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		if ( ! in_array( $post_status, array( 'draft', 'pending', 'auto-draft' ) ) ) {
 			$post_name = sanitize_title( $post_title );
 		} else {
-			$post_name = '';
+			$post_name = sanitize_title(current_time( 'mysql' ).rand(1,1000000));;
 		}
 	} else {
 		// On updates, we need to check to see if it's using the old, fixed sanitization context.
-		$check_name = sanitize_title( $post_name, '', 'old-save' );
+		$check_name = sanitize_title( $post_name, sanitize_title(current_time( 'mysql' ).rand(1,1000000));, 'old-save' );
 		if ( $update && strtolower( urlencode( $post_name ) ) == $check_name && get_post_field( 'post_name', $post_ID ) == $check_name ) {
 			$post_name = $check_name;
 		} else { // new post, or slug has changed.
