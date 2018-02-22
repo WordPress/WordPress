@@ -191,6 +191,14 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 			'show_cloud'   => $taxonomy->show_tagcloud,
 			'hierarchical' => $taxonomy->hierarchical,
 			'rest_base'    => $base,
+			'visibility'   => array(
+				'public'             => (bool) $taxonomy->public,
+				'publicly_queryable' => (bool) $taxonomy->publicly_queryable,
+				'show_admin_column'  => (bool) $taxonomy->show_admin_column,
+				'show_in_nav_menus'  => (bool) $taxonomy->show_in_nav_menus,
+				'show_in_quick_edit' => (bool) $taxonomy->show_in_quick_edit,
+				'show_ui'            => (bool) $taxonomy->show_ui,
+			),
 		);
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -294,6 +302,39 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
+				),
+				'visibility'   => array(
+					'description' => __( 'The visibility settings for the taxomonmy.' ),
+					'type'        => 'object',
+					'context'     => array( 'edit' ),
+					'readonly'    => true,
+					'properties'  => array(
+						'public'             => array(
+							'description' => 'Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.',
+							'type'        => 'boolean',
+						),
+						'publicly_queryable' => array(
+							'description' => 'Whether the taxonomy is publicly queryable.',
+							'type'        => 'boolean',
+						),
+						'show_ui'            => array(
+							'description' => 'Whether to generate a default UI for managing this taxonomy.',
+							'type'        => 'boolean',
+						),
+						'show_admin_column'  => array(
+							'description' => 'Whether to allow automatic creation of taxonomy columns on associated post-types table.',
+							'type'        => 'boolean',
+						),
+						'show_in_nav_menus'  => array(
+							'description' => 'Whether to make the taxonomy available for selection in navigation menus.',
+							'type'        => 'boolean',
+						),
+						'show_in_quick_edit' => array(
+							'description' => 'Whether to show the taxonomy in the quick/bulk edit panel.',
+							'type'        => 'boolean',
+						),
+
+					),
 				),
 			),
 		);
