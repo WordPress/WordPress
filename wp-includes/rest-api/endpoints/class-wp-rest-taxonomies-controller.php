@@ -310,27 +310,27 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 					'properties'  => array(
 						'public'             => array(
-							'description' => 'Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.',
+							'description' => __( 'Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.' ),
 							'type'        => 'boolean',
 						),
 						'publicly_queryable' => array(
-							'description' => 'Whether the taxonomy is publicly queryable.',
+							'description' => __( 'Whether the taxonomy is publicly queryable.' ),
 							'type'        => 'boolean',
 						),
 						'show_ui'            => array(
-							'description' => 'Whether to generate a default UI for managing this taxonomy.',
+							'description' => __( 'Whether to generate a default UI for managing this taxonomy.' ),
 							'type'        => 'boolean',
 						),
 						'show_admin_column'  => array(
-							'description' => 'Whether to allow automatic creation of taxonomy columns on associated post-types table.',
+							'description' => __( 'Whether to allow automatic creation of taxonomy columns on associated post-types table.' ),
 							'type'        => 'boolean',
 						),
 						'show_in_nav_menus'  => array(
-							'description' => 'Whether to make the taxonomy available for selection in navigation menus.',
+							'description' => __( 'Whether to make the taxonomy available for selection in navigation menus.' ),
 							'type'        => 'boolean',
 						),
 						'show_in_quick_edit' => array(
-							'description' => 'Whether to show the taxonomy in the quick/bulk edit panel.',
+							'description' => __( 'Whether to show the taxonomy in the quick/bulk edit panel.' ),
 							'type'        => 'boolean',
 						),
 
