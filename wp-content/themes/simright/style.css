@@ -805,7 +805,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.news-list .banner,.joinus-list .banner{
+.news-list .banner,.joinus-list .banner,.blog-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -828,6 +828,11 @@ footer .footer .wechat_qr_code {
     -ms-flex-direction: column;
     flex-direction: column;
     color: #fff;
+}
+
+.blog-list .banner{
+    background-image:none;
+    background-color: #1972A9;
 }
 
 .video-list .banner{
@@ -880,7 +885,7 @@ footer .footer .wechat_qr_code {
     margin-left: 20px;
 }
 
-.news-list .banner h2,.joinus-list .banner h2 {
+.news-list .banner h2,.joinus-list .banner h2,.blog-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
@@ -892,7 +897,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 26px;
 }
 
-.video-list .banner p,.news-list .banner p,.joinus-list .banner p {
+.video-list .banner p,.news-list .banner p,.joinus-list .banner p,.blog-list .banner p{
     font-size: 20px;
 }
 
@@ -931,18 +936,30 @@ footer .footer .wechat_qr_code {
 	height:auto;
 }
 
-.news-list .contain-box{
+.news-list .contain-box,.blog-list .contain-box{
     max-width: 1200px;
     margin: 0 auto;
     padding-top: 155px;
 }
 
-.news-list .contain-box .news-item-wrap{
+.news-list .contain-box .news-item-wrap,.blog-list .contain-box .blog-item-wrap{
 	width: 100%;
 	border-left:1px solid #CEDAE6;
 	padding-left:45px;
 	position:relative;
 	height:270px;
+}
+
+.blog-list .contain-box .blog-item-wrap{
+    height:370px;
+}
+
+.blog-list .contain-box .blog-item b{
+    font-weight: bold;
+}
+.blog-list .contain-box .blog-item i{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .news-list .contain-box .news-item-wrap .point{
@@ -956,7 +973,7 @@ footer .footer .wechat_qr_code {
 	top:69px;
 }
 
-.news-list .contain-box .news-item{
+.news-list .contain-box .news-item,.blog-list .contain-box .blog-item{
     padding: 50px;
     height: 230px;
     width: 100%;
@@ -965,6 +982,11 @@ footer .footer .wechat_qr_code {
     margin-bottom: 40px;
 	position:relative;
 }
+
+.blog-list .contain-box .blog-item{
+    height: auto;
+}
+
 .news-list .contain-box .news-item .arrow{
 	position: absolute;
 	top: 50px;
@@ -978,19 +1000,17 @@ footer .footer .wechat_qr_code {
 	box-sizing: border-box;
 }
 
-.news-list .contain-box .news-item
-
-.news-list .contain-box .news-item >p{
+.news-list .contain-box .news-item >p,.blog-list .contain-box .blog-item >p{
     height: 28px;
     line-height: 28px;
     font-size: 14px;
     color: #444648;
     margin: 0;
 }
-.news-list .contain-box .news-item hr{
+.news-list .contain-box .news-item hr,.blog-list .contain-box .blog-item hr{
     margin: 0;
 }
-.news-list .contain-box .news-item .title{
+.news-list .contain-box .news-item .title,.blog-list .contain-box .blog-item .title{
     padding: 0;
     margin: 0;
     font-size: 24px;
@@ -999,7 +1019,7 @@ footer .footer .wechat_qr_code {
     margin-top: 14px;
     margin-bottom: 14px;
 }
-.news-list .contain-box .news-item  .content{
+.news-list .contain-box .news-item .content,.blog-list .contain-box .blog-item .content{
     height: 50px;
     width: 100%;
     overflow: hidden;
@@ -1007,7 +1027,6 @@ footer .footer .wechat_qr_code {
     color: #A5A8AB;
     line-height: 16px;
 }
-
 .joinus-list .contain-box{
     max-width: 1200px;
     margin: 0 auto;

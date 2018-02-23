@@ -12,6 +12,10 @@
     {
         include(TEMPLATEPATH . '/single-joinus.php');
     }
+    elseif ( $rootCategory === 'blogs')
+    {
+        include(TEMPLATEPATH . '/single-blogs.php');
+    }
     else{
         echo $rootCategory;
         return;
