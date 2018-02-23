@@ -206,11 +206,13 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('fan hui xin wen zhong xin','返回新闻中心');
 	pll_register_string('xiang guan xin wen','相关新闻');
 	pll_register_string('fan hui shi pin zhong xin','返回视频中心');
+	pll_register_string('fan hui bo ke zhong xin','返回博客中心');
 	pll_register_string('tong lei jiao cheng','同类教程');
 	pll_register_string('Comments','Comments');
 	pll_register_string('Watch Now','Watch Now');
 	pll_register_string('Changelog','Changelog');
 	pll_register_string('Function','Function');
+	pll_register_string('blog','blog');
 }
 
 /** 搜索表单 */
