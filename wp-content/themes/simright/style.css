@@ -951,7 +951,9 @@ footer .footer .wechat_qr_code {
 }
 
 .blog-list .contain-box .blog-item-wrap{
-    height:370px;
+    height:auto;
+	border-left:none;
+	padding-left:0;
 }
 
 .blog-list .contain-box .blog-item b{
@@ -1027,6 +1029,11 @@ footer .footer .wechat_qr_code {
     color: #A5A8AB;
     line-height: 16px;
 }
+
+.blog-list .contain-box .blog-item .content{
+	height:auto;
+}
+
 .joinus-list .contain-box{
     max-width: 1200px;
     margin: 0 auto;

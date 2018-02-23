@@ -10,7 +10,10 @@
             	<p><b>Simright</b><i>/</i><?php the_time('Y-m-d') ?></p>
 				<hr>
 				<a href="<?php the_permalink(); ?>">
-					<h3 class="title"><?php the_title(); ?></h3>
+					<h3 class="title"><?php $title = get_the_title(); $release =substr($title,0,strrpos($title,':')+1); echo $release ; ?>
+						<br/>
+						<?php $title = get_the_title(); $release =substr($title,strrpos($title,':')+1); echo $release ; ?>
+					</h3>
 				</a>
 				<div class="content">
 					<?php the_excerpt(); ?>
