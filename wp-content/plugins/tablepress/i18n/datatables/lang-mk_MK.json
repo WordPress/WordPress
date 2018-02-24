@@ -1,0 +1,20 @@
+{
+	"emptyTable":		"Нема податоци во табелата",
+	"info":				"Прикажани _START_ до _END_ од _TOTAL_ записи",
+	"infoEmpty":		"Прикажани 0 до 0 од 0 записи",
+	"infoFiltered":		"(филтрирано од вкупно _MAX_ записи)",
+	"infoPostFix":		"",
+	"lengthMenu":		"Прикажи _MENU_ записи",
+	"loadingRecords":	"Вчитување...",
+	"processing":		"Процесирање...",
+	"search":			"Барај",
+	"zeroRecords":		"Не се пронајдени записи",
+	"paginate": {
+		"first":		"Почетна",
+		"previous":		"Претходна",
+		"next":			"Следна",
+		"last":			"Последна"
+	},
+	"decimal":			",",
+	"thousands":		"."
+}

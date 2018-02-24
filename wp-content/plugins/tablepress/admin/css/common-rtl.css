@@ -1,0 +1,33 @@
+/**
+ * CSS code for all TablePress admin screens, special things for RTL languages.
+ *
+ * Fixes for certain elements that should remain LTR.
+ *
+ * @package TablePress
+ * @subpackage Views CSS
+ * @author Tobias Bäthge
+ * @since 1.1.0
+ */
+
+#row-import-source td.column-2,
+#row-import-type td.column-2 {
+	direction: ltr;
+	text-align: right;
+}
+#tablepress-nav .wp-heading-inline,
+#tablepress_add-add-table .form-field-small,
+#table-new-id {
+	float: right;
+}
+@media screen and (max-width: 700px) {
+	#tablepress-nav .nav-tab {
+		margin: 0 0.5em 10px 0;
+	}
+}
+#tablepress-nav .nav-tab-separator {
+	margin-left: 0;
+	margin-right: 2em;
+}
+#tablepress-page .table-shortcode {
+	direction: ltr;
+}

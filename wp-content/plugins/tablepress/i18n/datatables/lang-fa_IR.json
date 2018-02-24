@@ -1,0 +1,16 @@
+{
+	"info":			"نمایش _START_ تا _END_ از مجموع _TOTAL_ مورد",
+	"infoEmpty":	"تهی",
+	"infoFiltered":	"(فیلتر شده از مجموع _MAX_ مورد)",
+	"infoPostFix":	"",
+	"lengthMenu":	"نمایش محتویات _MENU_",
+	"processing":	"درحال پردازش...",
+	"search":		"جستجو:",
+	"zeroRecords":	"موردی یافت نشد",
+	"paginate": {
+		"first":	"ابتدا",
+		"previous":	"قبلی",
+		"next":		"بعدی",
+		"last":		"انتها"
+	}
+}

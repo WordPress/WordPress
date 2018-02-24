@@ -1,0 +1,18 @@
+{
+	"info":			"Zobrazuji _START_ až _END_ z celkem _TOTAL_ záznamů",
+	"infoEmpty":	"Zobrazuji 0 až 0 z 0 záznamů",
+	"infoFiltered":	"(filtrováno z celkem _MAX_ záznamů)",
+	"infoPostFix":	"",
+	"lengthMenu":	"Zobraz záznamů _MENU_",
+	"processing":	"Provádím...",
+	"search":		"Hledat:",
+	"zeroRecords":	"Žádné záznamy nebyly nalezeny",
+	"paginate": {
+		"first":	"První",
+		"previous":	"Předchozí",
+		"next":		"Další",
+		"last":		"Poslední"
+	},
+	"decimal":		",",
+	"thousands":	"."
+}

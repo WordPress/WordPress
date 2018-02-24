@@ -1,0 +1,18 @@
+{
+	"info":			"Näytetään rivit _START_ - _END_ (yhteensä _TOTAL_ )",
+	"infoEmpty":	"Näytetään 0 - 0 (yhteensä 0)",
+	"infoFiltered":	"(suodatettu _MAX_ tuloksen joukosta)",
+	"infoPostFix":	"",
+	"lengthMenu":	"Näytä kerralla _MENU_ riviä",
+	"processing":	"Hetkinen...",
+	"search":		"Etsi:",
+	"zeroRecords":	"Tietoja ei löytynyt",
+	"paginate": {
+		"first":	"Ensimmäinen",
+		"previous":	"Edellinen",
+		"next":		"Seuraava",
+		"last":		"Viimeinen"
+	},
+	"decimal":		",",
+	"thousands":	"."
+}

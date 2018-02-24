@@ -1,0 +1,24 @@
+{
+	"emptyTable":		"Nenhum registo encontrado na tabela",
+	"info":				"A mostrar _START_ a _END_ de _TOTAL_ registos",
+	"infoEmpty":		"A mostrar 0 registos",
+	"infoFiltered":		"(filtrado do total de _MAX_ registos)",
+	"infoPostFix":		"",
+	"lengthMenu":		"Mostrar _MENU_ registos",
+	"loadingRecords":	"A carregar...",
+	"processing":		"A processar...",
+	"search":			"Pesquisar:",
+	"zeroRecords":		"Nenhum resultado encontrado",
+	"paginate": {
+		"first":		"Primeiro",
+		"previous":		"Anterior",
+		"next":			"Seguinte",
+		"last":			"Último"
+	},
+	"aria": {
+		"sortAscending":	": Ordenar colunas de modo ascendente",
+		"sortDescending":	": Ordenar colunas de modo descendente"
+	},
+	"decimal":			",",
+	"thousands":		"."
+}

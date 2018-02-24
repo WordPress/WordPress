@@ -1,0 +1,12 @@
+TablePress supports the "Translate WordPress" system at https://translate.wordpress.org/.
+With that, translating is possible on a website from which so-called Language Packs are
+automatically generated and shipped to plugin users.
+
+It is therefore no longer necessary to generate and translate *.po and *.mo files manually.
+Instead, just go to https://translate.wordpress.org/projects/wp-plugins/tablepress, log in
+with a free wordpress.org account and start translating TablePress into your language.
+
+If you want to become a Translation Editor for your language, who can confirm or reject
+translation suggestions by other users, please get in touch.
+
+Thank you!

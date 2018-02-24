@@ -1,0 +1,18 @@
+{
+	"info":			"本頁為第 _START_ 項至第 _END_ 項，共有 _TOTAL_ 項",
+	"infoEmpty":	"本頁為第 0 至第 0 項，共有 0 項",
+	"infoFiltered":	"(來自總共 _MAX_ 項中的符合項目)",
+	"infoPostFix":	"",
+	"lengthMenu":	"每頁顯示 _MENU_ 個項目",
+	"processing":	"處理中...",
+	"search":		"快速搜尋：",
+	"zeroRecords":	"沒有找到符合的項目",
+	"paginate": {
+		"first":	"第一頁",
+		"previous":	"上一頁",
+		"next":		"下一頁",
+		"last":		"最後一頁"
+	},
+	"decimal":		"",
+	"thousands":	","
+}

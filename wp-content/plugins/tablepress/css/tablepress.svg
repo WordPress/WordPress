@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<svg>
+<metadata>
+Created by FontForge 20120702 at Wed Jan 16 18:09:38 2013
+
+
+</metadata>
+<defs>
+<font id="TablePress" horiz-adv-x="1024" >
+  <font-face 
+    font-family="TablePress"
+    font-weight="400"
+    font-stretch="normal"
+    units-per-em="1792"
+    panose-1="0 0 0 0 0 0 0 0 0 0"
+    ascent="1536"
+    descent="-256"
+    bbox="0 -75 1099 1483"
+    underline-thickness="90"
+    underline-position="-89"
+    unicode-range="U+0020-F519"
+  />
+    <missing-glyph />
+    <glyph glyph-name="chevron_left" unicode="&#xf053;" horiz-adv-x="1152" 
+d="M742 -37l-652 651q-37 37 -37 90.5t37 90.5l652 651q37 37 90.5 37t90.5 -37l75 -75q37 -37 37 -90.5t-37 -90.5l-486 -486l486 -485q37 -38 37 -91t-37 -90l-75 -75q-37 -37 -90.5 -37t-90.5 37z" />
+    <glyph glyph-name="chevron_right" unicode="&#xf054;" horiz-adv-x="1152" 
+d="M1099 704q0 -52 -37 -91l-652 -651q-37 -37 -90 -37t-90 37l-76 75q-37 39 -37 91q0 53 37 90l486 486l-486 485q-37 39 -37 91q0 53 37 90l76 75q36 38 90 38t90 -38l652 -651q37 -37 37 -90z" />
+    <glyph glyph-name="caret_down" unicode="&#xf0d7;" 
+d="M1024 832q0 -26 -19 -45l-448 -448q-19 -19 -45 -19t-45 19l-448 448q-19 19 -19 45t19 45t45 19h896q26 0 45 -19t19 -45z" />
+    <glyph glyph-name="caret_up" unicode="&#xf0d8;" 
+d="M1024 320q0 -26 -19 -45t-45 -19h-896q-26 0 -45 19t-19 45t19 45l448 448q19 19 45 19t45 -19l448 -448q19 -19 19 -45z" />
+    <glyph glyph-name="caret_left" unicode="&#xf0d9;" horiz-adv-x="640" 
+d="M640 1088v-896q0 -26 -19 -45t-45 -19t-45 19l-448 448q-19 19 -19 45t19 45l448 448q19 19 45 19t45 -19t19 -45z" />
+    <glyph glyph-name="caret_right" unicode="&#xf0da;" horiz-adv-x="640" 
+d="M576 640q0 -26 -19 -45l-448 -448q-19 -19 -45 -19t-45 19t-19 45v896q0 26 19 45t45 19t45 -19l448 -448q19 -19 19 -45z" />
+    <glyph glyph-name="sort" unicode="&#xf0dc;" 
+d="M1024 448q0 -26 -19 -45l-448 -448q-19 -19 -45 -19t-45 19l-448 448q-19 19 -19 45t19 45t45 19h896q26 0 45 -19t19 -45zM1024 832q0 -26 -19 -45t-45 -19h-896q-26 0 -45 19t-19 45t19 45l448 448q19 19 45 19t45 -19l448 -448q19 -19 19 -45z" />
+  </font>
+</defs></svg>

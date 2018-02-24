@@ -1,0 +1,10 @@
+ATTENTION:
+
+Do not edit or modify the files in this directory, as they might be changed in future plugin versions.
+This would lead to a loss of your changes!
+
+If you want to apply custom changes to the CSS code of the plugin,
+please add those to the "Custom CSS" textarea on the "Plugin Options"
+screen of TablePress.
+
+Thank you!

@@ -1,0 +1,25 @@
+ATTENTION:
+
+Do not edit or modify the files in this directory, as they might be changed in future plugin versions.
+This would lead to a loss of your changes!
+
+* If you want to make changes to your language's file, please see the TablePress Extension
+"Change DataTables strings" at https://tablepress.org/extensions/change-datatables-strings/
+for instructions on how to do this.
+
+* If you just want to change to a different language file, you can override the locale by using the Shortcode
+parameter "datatables_locale" or with the plugin filter hook `tablepress_datatables_locale`.
+This Shortcode would change the used language to German for table 123:
+[table id=123 datatables_locale="de_DE" /]
+
+* If you want to translate the language file into your own language, copy the file "lang-en_US.json", rename the copy to
+"lang-XX_XX.json", where `XX_XX` is the ISO code for your language. That is the same one as in your WordPress language files (*.po, *.mo).
+Then, you can translate that file. If you email the file to me, I'll gladly add it to the next release of the plugin.
+
+Most languages in the folder are from https://www.datatables.net/plug-ins/i18n/#Translations.
+You can also check that page, to see if your language has been added and tell me about it.
+
+You can find example code for this in the FAQ at https://tablepress.org/faq/
+or in the documentation at https://tablepress.org/documentation/.
+
+Thank you!

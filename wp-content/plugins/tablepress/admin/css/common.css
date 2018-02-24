@@ -1,0 +1,168 @@
+/**
+ * CSS code for all TablePress admin screens
+ *
+ * @package TablePress
+ * @subpackage Views CSS
+ * @author Tobias Bäthge
+ * @since 1.0.0
+ */
+
+/* Margins for messages on screens */
+#tablepress-page div.notice {
+	margin: 10px 0 0;
+}
+
+/* Nav Tab Menu */
+@media screen and (min-width: 783px) and (max-width: 1150px) {
+	/* Push nav bar down on small screens to not have tabs flow in mid-air, due to screen meta pushing */
+	#tablepress-nav {
+		padding-top: 30px;
+	}
+}
+@media screen and (max-width: 700px) {
+	#tablepress-nav {
+		border-bottom: 0;
+	}
+	#tablepress-nav .nav-tab {
+		margin: 0 0 10px 0.5em;
+		border-bottom: 1px solid #ccc;
+	}
+}
+#tablepress-nav .wp-heading-inline {
+	float: left;
+	padding: 5px 0 0;
+	line-height: inherit;
+}
+#tablepress-nav .nav-tab-separator {
+	margin-left: 2em;
+}
+
+/* Add New Table form */
+#tablepress_add-add-table .form-wrap {
+	max-width: 500px;
+}
+#tablepress_add-add-table .form-field {
+	margin: 0;
+}
+/* Number of rows/columns in the "Add New Table" form */
+#tablepress_add-add-table .form-field-small {
+	float: left;
+	width: 150px;
+	margin-right: 20px;
+}
+
+/* Placeholder fields in gray text color, but only if JS is enabled */
+.js #tablepress-page .placeholder-active {
+	color: #bbbbbb;
+}
+
+/* Width of the columns on the "All Tables" list */
+.tablepress-all-tables thead .column-table_id {
+	width: 50px;
+}
+.tablepress-all-tables thead .column-table_name {
+	width: 30%;
+}
+.tablepress-all-tables thead .column-table_author {
+	width: 12%;
+}
+.tablepress-all-tables thead .column-table_last_modified {
+	width: 15%;
+}
+/* Font weight for the table ID column */
+.tablepress-all-tables tbody .column-table_id {
+	font-weight: bold;
+}
+/* Responsiveness on the All Tables screen */
+@media screen and (max-width: 782px) {
+	.tablepress-all-tables .column-table_id {
+		display: none !important;
+		padding: 3px 8px 3px 35%;
+	}
+}
+
+/* Search results for WP_List_Table */
+#tablepress-page .subtitle {
+	float: left;
+	padding-left: 0;
+}
+
+/* Inline Shortcodes, in texts */
+#tablepress-page .table-shortcode-inline {
+	background: transparent;
+	border: none;
+	color: #333333;
+	width: 110px;
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	text-align: center;
+	vertical-align: top;
+}
+#tablepress-page .table-shortcode {
+	cursor: text;
+}
+
+/* Table ID/name dropdown on "Export" screen */
+#tablepress-page #tables-export {
+	width: 100%;
+	height: auto;
+	line-height: normal;
+}
+
+/* Red border for form fields that have invalid values */
+#tablepress-page form :invalid,
+#tablepress-page form .invalid {
+	border-color: #cc0000 !important;
+}
+
+/* Tables in postboxes (on the "Edit" and "Plugin Options" screens) */
+.tablepress-postbox-table {
+	border-spacing: 0;
+	max-width: 1000px;
+	width: 100%;
+}
+/* Default column widths */
+.tablepress-postbox-table .column-1 {
+	width: 25%;
+}
+.tablepress-postbox-table .column-2 {
+	width: 75%;
+}
+.tablepress-postbox-table th {
+	text-align:left;
+	font-weight: normal;
+}
+.tablepress-postbox-table th,
+.tablepress-postbox-table td {
+	padding: 2px;
+	word-wrap: break-word;
+}
+.tablepress-postbox-table .top-border th,
+.tablepress-postbox-table .top-border td {
+	padding-top: 6px;
+}
+.tablepress-postbox-table .bottom-border th,
+.tablepress-postbox-table .bottom-border td {
+	padding-bottom: 6px;
+	border-bottom: 1px solid #eeeeee;
+}
+.tablepress-postbox-table .top-align {
+	vertical-align: top;
+	padding-top: 6px;
+}
+/* Adjust positioning of labels in relation to checkboxes/radio buttons */
+#tablepress_import-import-form .column-2 label,
+#tablepress_import-import-wp-table-reloaded .column-2 label {
+	margin-right: 20px; /* some margin on radio buttons */
+}
+/* Red color for the "Uninstall TablePress" button on the "Plugin Options" screen */
+#uninstall-tablepress {
+	color: #BC0B0B;
+}
+/* Select dropdown alignment on the "Plugin Options" screen */
+#tablepress-page select {
+	vertical-align: baseline;
+}

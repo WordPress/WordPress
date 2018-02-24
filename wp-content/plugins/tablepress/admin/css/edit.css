@@ -1,0 +1,235 @@
+/**
+ * CSS code for the "Edit" screen
+ *
+ * @package TablePress
+ * @subpackage Views CSS
+ * @author Tobias Bäthge
+ * @since 1.0.0
+ */
+
+/* Hour glass cursor, while waiting for AJAX */
+body.wait * {
+	cursor: wait !important;
+}
+
+/* container for Table Preview and Advanced Editor Thickboxes */
+.hidden-container {
+	display: none;
+}
+
+/* Margin in Help boxes */
+.hidden-help-box-container p {
+	margin: 6px;
+}
+
+/* Allow wide tables to scroll sideways, only on "Edit" screen */
+body,
+#wpwrap,
+#wpbody-content {
+	overflow: visible !important; /* !important is necessary to override an inline style that postboxes.js sets via JS */
+}
+
+/* Move Thickbox more to the front, so that it's always above a jQuery UI dialog */
+#TB_HideSelect {
+	z-index: 301099;
+}
+#TB_overlay,
+.media-modal {
+	z-index: 301100;
+}
+#TB_window {
+	z-index: 301102;
+}
+#TB_load {
+	z-index: 301103;
+}
+
+/* Move backdrop of the wpLink dialog above the "Advanced Editor" dialog */
+body #wp-link-backdrop {
+	z-index: 100103;
+}
+
+/* Table Preview (CSS for actual preview is directly in the preview HTML) */
+#table-preview-iframe {
+	width: 100%;
+	height: 100%;
+}
+/* Account for additional padding of #TB_WindowContent in direct preview */
+#table-preview {
+	height: 100%;
+	margin: -2px -15px -15px -15px;
+}
+
+/* Content of the Advanced Editor jQueryUI dialog */
+#advanced-editor {
+	padding: 5px;
+}
+#advanced-editor .wp-editor-container {
+	border: none;
+}
+#advanced-editor .submitbox {
+	padding: 5px 5px 0;
+	font-size: 12px;
+}
+#advanced-editor-confirm {
+	float: right;
+}
+#advanced-editor-cancel {
+	line-height: 30px;
+}
+
+/* Spinner/loading animation that is shown during saving/preview preparation */
+.spinner.animation-saving,
+.spinner.animation-preview {
+	float: none;
+	margin: 0 0 0 6px;
+}
+
+/* Margins for dynamically created (inline) .notice messages */
+#tablepress-page div.ajax-alert {
+	margin: -10px 0 15px;
+}
+#tablepress-page div.ajax-alert p {
+	font-weight: bold;
+}
+#tablepress-page div.ajax-alert pre {
+	margin: -6px 0 0.5em 2px;
+}
+#tablepress-page div.ajax-alert pre + p {
+	display: none;
+}
+
+#tablepress-page #tablepress_edit-table-data {
+	display: inline-block; /* Stretch to the width of the table */
+	min-width: 99.9%; /* but use the full width, minus approx. 1px as the box is wider than the others otherwise */
+}
+/* Reinstate hide-if-js functionality, due to higher specificity of ID selectors (necessary when hiding postboxes) */
+#tablepress-page #tablepress_edit-table-data.hide-if-js {
+	display: none;
+}
+
+#tablepress-page .small-text {
+	width: 65px;
+	padding: 3px 5px;
+}
+#tablepress-page #table-new-id {
+	width: 120px;
+}
+
+#table-information-shortcode,
+#tablepress-page .button {
+	vertical-align: middle;
+}
+
+/* Table cells */
+#edit-form-body td {
+	padding: 2px 1px;
+	height: 32px;
+}
+
+/* Cells of currently focused row ("auto grow") */
+.no-js #edit-form-body td,
+#edit-form-body .focus td {
+	height: 70px;
+}
+
+/* Alternating row colors */
+#edit-form-body .odd {
+	background-color: #f1f1f1;
+}
+
+#edit-form-body textarea {
+	display: block;
+	min-width: 150px;
+	width: 100%;
+	width: auto\0/IE; /* IE hack, as cells will otherwise shrink and overlap instead of horizontal scrolling kicking in */
+	height: 100%;
+	resize: both;
+}
+#edit-form-body textarea:focus {
+	border-color: #333333;
+}
+
+/* For faster drawing performance, and hopefully faster scrolling */
+#tablepress-page input[type="text"],
+#tablepress-page textarea,
+#tablepress-page select {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-webkit-transition: none;
+	transition: none;
+}
+
+#edit-form-foot input[type="checkbox"] {
+	margin: 6px 0 3px;
+}
+
+#edit-form {
+	border-collapse: collapse;
+}
+
+/* Allow moving rows and columns with jQueryUI sortable */
+#edit-form .move-handle {
+	display: block;
+	margin: auto;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	font-weight: bold;
+}
+.js #edit-form .move-handle {
+	cursor: move;
+}
+#edit-form-body .move-handle {
+	margin: auto 3px;
+	min-width: 16px;
+	width: auto;
+}
+
+#edit-form .move-hover {
+	position: absolute;
+	z-index: 1000;
+	height: 26px; /* height of "#edit-form-body td" - 6px */
+}
+#edit-form .focus .move-hover {
+	height: 64px; /* height of "#edit-form-body .focus td" - 6px */
+}
+
+/* Highlighting of table head and foot in table cells */
+#edit-form-body .head-row,
+#edit-form-body .foot-row {
+	background-color: #d9edf7;
+}
+
+/* Head cells (column letters) and sorting */
+#edit-form-head .sort-control {
+	float: right;
+	height: 18px;
+	cursor: pointer;
+	margin-right: 2px;
+}
+#edit-form-head .sorting-indicator {
+	visibility: visible;
+}
+#edit-form-head .sort-asc .sorting-indicator:before {
+	content: '\f142';
+}
+#edit-form-head .sort-desc .sorting-indicator:before {
+	content: '\f140';
+}
+
+/* (red) highlighting of hidden rows and columns */
+#edit-form .row-hidden td,
+/* #edit-form .row-hidden th, */
+#edit-form .row-hidden textarea,
+#edit-form .column-hidden,
+#edit-form .column-hidden textarea {
+	background-color: #ffe0e0;
+}
+
+#tablepress_edit-table-manipulation .column-1 {
+	width: 45%;
+}
+#tablepress_edit-table-manipulation .column-2 {
+	width: 55%;
+}

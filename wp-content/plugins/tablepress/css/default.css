@@ -1,0 +1,273 @@
+/**
+ * TablePress Default CSS
+ *
+ * Attention: Do not modify this file directly, but use the "Custom CSS" textarea
+ * on the "Plugin Options" screen of TablePress.
+ *
+ * @package TablePress
+ * @subpackage Frontend CSS
+ * @author Tobias Bäthge, Allan Jardine
+ * @since 1.0.0
+ */
+
+@font-face {
+	font-family: 'TablePress';
+	src: url(tablepress.eot);
+	src: url(tablepress.eot?#ie) format('embedded-opentype'),
+		url(data:application/x-font-woff;base64,d09GRgABAAAAAAXYAAwAAAAACXwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABHAAAABwAAAAcZInHOk9TLzIAAAE4AAAAPgAAAGB7NXPDY21hcAAAAXgAAABMAAABUvD45QVnYXNwAAABxAAAAAgAAAAIAAAAEGdseWYAAAHMAAABKQAAAgjYVHFyaGVhZAAAAvgAAAAvAAAANv2jaBNoaGVhAAADKAAAAB0AAAAkCk0F6GhtdHgAAANIAAAAIAAAACgoAADqbG9jYQAAA2gAAAAWAAAAFgJWAbxtYXhwAAADgAAAAB0AAAAgAE4AH25hbWUAAAOgAAAB3AAAA43ZugaUcG9zdAAABXwAAABZAAAAgeNVfAkAAAABAAAAAMwXcmMAAAAAy1XFoAAAAADNHI82eJxjYGbexjiBgZWBhaWHxZiBgaENQjMVM0SB+ThBQWVRMYPDh+APd9gY/gP5bAyMykCKEUmJAgMjAC56Ct8AAHicY2BgYGaAYBkGRgYQ8AHyGMF8FgYDIM0BhEwMDB9CPtz6cOf/fyAr+MN1EIt/A78evy5UFxgwsjHAuYxAPSB9KICRYdgDAL67D8kAAQAB//8AD3icXU/NTsJAEJ5ZFggxxmCbkiwHAzLTowlu4ejeyxPwCOBR7r3rE/geeubuG3i3TyGts12MtT18ndnd7w8QsvpdX/Q/IAboI9s1rpY3mMTDkcAVDuaqPD0RqRfaU05UGSxJhj2p5wDNUplqyjsZQT6EQ/2mc9GcyBIPReQOObPrkccHMZhgonMS3R1tiLCsDNFm8bgQF3W06ekgqqnN5Aa//D9nlrOgDeg09Aq4lK3RTiX16n621BBVLrIe2PQK09s2c4THyPIvF4TrAndwO5uHvhPUwOa7MNw8FsCtZfZDJBKB66BQhW58cRwHW09OVMEtI+3aOhEHX+E63crM2dh6X+WazMFLvf6F57OvAqiPGvo+87Tb+LrT4X9/7lT6bKXs9vsByDlkyAAAAHicY2BkYGAA4mO9Sxji+W2+MnCzM4DAWZl+bwT9fyuLN+tpIJeDgQkkCgAbqgoOAHicY2BkYGBj+HeXgYGdAQRYvBkYGVABFwA+hgJEAAAAeJxjZ4AAdiBmaWAwBeJSFhAbiJkaGByAGMwGADa+AxEAAAAAAAAAAAAqAFgAdgCUALIA0AEEAAB4nGNgZGBg4GKQYWBiAAEQycgAEnMA8xkABjEAbgAAAHicjZJBaxNBFMf/u0mbJoig5KC3QcRblt2tFCm9lEp701iKIHiZJLPJ0mSnzE5S8h38BB79Nn4ab94E/zN9JVB7MCEzv/3Pm/f+720ADPEbCe4/qXCCAV4Kp+jhrXAHGb4Ld/Ecv4T38Cx5I7yPQfJBuIdPyR/hAzxJa+E+Buk3Zku6fal8xwn9dIRTPMVr4Q6+4kS4S/Wn8B5eJanwPobJO+EefiRfhA/wIv0o3Mcw3YRyV9CYYAmDMRzXll9c6cnSjJ1pyZcU51gzRDMAl2a+XmrCOSwa+Lg7RhgolJxKzv2Yv8cSqwfZ7iILHGHEdcT7OfdDJreNP7dublSZ5epY7QwpMUCxOBoVozIvDh/v4mEx/JsE+MwQx+A6dhO8hA7y2EvwUjLEuLa2jSqyPFcsV/7H0MbxUFMOYwkhVSykODAb10U8OePTDbY8qel0QV3FO1PSvaUqDnh3p5LBB8WxxozqKnZ4TU1T9THfhJ3vsjTcw9M02s1ocWl0a5QzlXHKW+UXRp3Zm62r5wuvWjP1oenKunhS8YUo7/TMrLS7Vtp7V0/WMaSxvp6aNoP8FYKzU9zGOpbOTHidzqvTW9PaFZ/e0+QmtnJBatjAlqLeGHWhm9kWfwGPR6C4eJxjYGIAg/9VDFEM2AAXEDMyMDEyMTIzsjCyMrIxsjNy8CRnpJYV5efF56SmlfDCOEWZ6RklXMmJRakl8Sn55XkcEGZpAVQMpJgbwgQrZSnOLyoBACnGHqgAAAA=) format('woff'),
+		url(tablepress.ttf) format('truetype'),
+		url(tablepress.svg#TablePress) format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Table description */
+.tablepress-table-description {
+	clear: both;
+	display: block;
+}
+
+.tablepress {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	margin-bottom: 1em;
+	border: none;
+}
+
+.tablepress th,
+.tablepress td {
+	padding: 8px;
+	border: none;
+	background: none;
+	text-align: left;
+	float: none !important;
+}
+.tablepress tbody td {
+	vertical-align: top;
+}
+
+/* Horizontal borders */
+.tablepress tbody td,
+.tablepress tfoot th {
+	border-top: 1px solid #dddddd;
+}
+.tablepress tbody tr:first-child td {
+	border-top: 0;
+}
+.tablepress thead th {
+	border-bottom: 1px solid #dddddd;
+}
+
+/* Row background colors */
+.tablepress thead th,
+.tablepress tfoot th {
+	background-color: #d9edf7;
+	font-weight: bold;
+	vertical-align: middle;
+}
+.tablepress .odd td {
+	background-color: #f9f9f9;
+}
+.tablepress .even td {
+	background-color: #ffffff;
+}
+.tablepress .row-hover tr:hover td {
+	background-color: #f3f3f3;
+}
+
+/* Reset image layout in tables */
+.tablepress img {
+	margin: 0;
+	padding: 0;
+	border: none;
+	max-width: none;
+}
+
+/* Table wrapper */
+.dataTables_wrapper {
+	clear: both;
+	margin-bottom: 1em;
+}
+.dataTables_wrapper .tablepress {
+	clear: both;
+	margin: 0 !important;
+}
+
+/* Length Change menu */
+.dataTables_length {
+	float: left;
+	white-space: nowrap;
+}
+
+/* Filter/Search */
+.dataTables_filter {
+	float: right;
+	white-space: nowrap;
+}
+.dataTables_wrapper .dataTables_filter input {
+	margin-left: 0.5em;
+}
+
+/* Table information */
+.dataTables_info {
+	clear: both;
+	float: left;
+	margin: 4px 0 0;
+}
+
+/* Pagination */
+.dataTables_paginate {
+	float: right;
+	margin: 4px 0 0;
+}
+.dataTables_paginate a {
+	color: #111111 !important;
+	display: inline-block;
+	outline: none;
+	position: relative;
+	text-decoration: underline;
+	margin: 0 5px;
+}
+.dataTables_paginate a:first-child {
+	margin-left: 0;
+}
+.dataTables_paginate a:last-child {
+	margin-right: 0;
+}
+.paginate_button:hover {
+	cursor: pointer;
+	text-decoration: none;
+}
+.paginate_button.disabled {
+	color: #999999 !important;
+	text-decoration: none;
+	cursor: default;
+}
+.paginate_button.current {
+	font-weight: bold;
+	text-decoration: none;
+	cursor: default;
+}
+/* Two button pagination - previous/next */
+.dataTables_paginate.paging_simple {
+	padding: 0 15px;
+}
+.paging_simple .paginate_button.previous:before,
+.paging_simple .paginate_button.next:after {
+	text-align: left;
+	font-family: TablePress;
+	font-size: 14px;
+	font-weight: bold;
+	-webkit-font-smoothing: antialiased;
+	content: "\f053";
+	text-shadow: 0.1em 0.1em #666666;
+	position: absolute;
+	top: 0;
+	right: auto;
+	bottom: 0;
+	left: -14px;
+	margin: auto;
+	height: 14px;
+	width: 14px;
+	line-height: 1;
+}
+.paging_simple .paginate_button.next:after {
+	text-align: right;
+	content: "\f054";
+	left: auto;
+}
+.paginate_button:before,
+.paginate_button:after {
+	color: #d9edf7;
+}
+.paginate_button:hover:before,
+.paginate_button:hover:after {
+	color: #049cdb;
+}
+.paginate_button.disabled:before,
+.paginate_button.disabled:after {
+	color: #f9f9f9;
+}
+
+/* Processing indicator */
+.dataTables_processing {
+	display: none; /* always hidden, we don't use it */
+}
+
+/* Scrolling */
+.dataTables_scroll {
+	clear: both;
+}
+.dataTables_scrollBody {
+	-webkit-overflow-scrolling: touch;
+}
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody th > div.dataTables_sizing,
+.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody td > div.dataTables_sizing {
+	height: 0;
+	overflow: hidden;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+/* Sorting */
+.tablepress .sorting,
+.tablepress .sorting_asc,
+.tablepress .sorting_desc {
+	position: relative;
+	padding-right: 20px; /* more right padding for sort arrows */
+	cursor: pointer;
+	outline: none;
+}
+.tablepress .sorting:after,
+.tablepress .sorting_asc:after,
+.tablepress .sorting_desc:after {
+	font-family: TablePress;
+	font-weight: normal;
+	font-size: 14px;
+	-webkit-font-smoothing: antialiased;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: auto;
+	right: 6px;
+	margin: auto;
+	height: 14px;
+	line-height: 1;
+}
+.tablepress .sorting:after {
+	content: "\f0dc";
+}
+.tablepress .sorting_asc:after {
+	content: "\f0d8";
+	padding: 0 0 2px;
+}
+.tablepress .sorting_desc:after {
+	content: "\f0d7";
+}
+.tablepress .sorting:hover,
+.tablepress .sorting_asc,
+.tablepress .sorting_desc {
+	background-color: #049cdb;
+}
+/* Hide the sorting arrows in the extra table that is added for scrolling */
+.dataTables_scrollBody .tablepress thead th:after {
+	content: "";
+}
+
+/* Self clearing */
+.dataTables_wrapper:after {
+	content: "";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+.dataTables_wrapper label input,
+.dataTables_wrapper label select {
+	display: inline;
+	margin: 2px;
+	width: auto;
+}
