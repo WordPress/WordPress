@@ -3,12 +3,8 @@
                 <div class="footer">
                     <div class="footer-contact">
                         <div class="footer-sales">
-                            <h4><?php pll_e('Sales:'); ?></h4>
-                            <p><a href="mailto:sales@simright.com">sales@simright.com</a></p>
-                        </div>
-                        <div>
-                            <h4><?php pll_e('Technical Support:'); ?></h4>
-                            <p><a href="mailto:support@simright.com">support@simright.com</a></p>
+                            <h4><?php pll_e('Email:'); ?></h4>
+                            <p><a href="mailto:info@simright.com">info@simright.com</a></p>
                         </div>
                     </div>
                     <div class="footer-products">

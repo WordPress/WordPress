@@ -192,8 +192,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Security','Security');
 	pll_register_string('Join Us','Join Us');
 	pll_register_string('Qualification','Qualification');
-	pll_register_string('Sales','Sales:');
-	pll_register_string('Technical Support:','Technical Support:');
+	pll_register_string('Email','Email:');
 	pll_register_string('Converter','Converter');
 	pll_register_string('Viewer','Viewer');
 	pll_register_string('Simulator','Simulator');
