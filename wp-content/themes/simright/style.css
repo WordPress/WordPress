@@ -179,24 +179,6 @@ label {
     background-color: #1972A9;
 }
 
-.swiper-container .swiper-slide-next~.swiper-slide {
-    margin-right: 0;
-}
-
-.swiper-container .swiper-slide-duplicate.swiper-slide-duplicate-prev,
-.swiper-container .swiper-slide-prev,
-.swiper-container .swiper-slide-duplicate-prev {
-    visibility: hidden;
-}
-
-.swiper-container .swiper-button-prev {
-    background-image: url("https://oss.simright.com/images/arrow-left.svg");
-}
-
-.swiper-container .swiper-button-next {
-    background-image: url("https://oss.simright.com/images/arrow-right.svg");
-}
-
 b {
     font-weight: normal;
 }
@@ -214,12 +196,6 @@ b {
 
 .main-box {
     margin-top: 88px;
-}
-
-@media (max-width: 991px) {
-    .main-box {
-        margin-top: 0;
-    }
 }
 
 .main-box .container {
@@ -1162,18 +1138,18 @@ footer .footer .wechat_qr_code {
     padding: 20px;
 }
 
-.video-list .contain-box .contain-body .list-item h2 {
+.video-list .list-item h2 {
     height: 35px;
     line-height: 35px;
     font-size: 18px;
     font-weight: bold;
 }
 
-.video-list .contain-box .contain-body .list-item hr {
+.video-list .list-item hr {
     margin-bottom: 30px;
 }
 
-.video-list .contain-box .contain-body .list-item .list-contain {
+.video-list .list-contain {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1986,6 +1962,44 @@ img.aligncenter,
     .btn-sm {
         padding: .1rem .3rem;
     }
+}
+
+@media (max-width: 991px) {
+    .main-box {
+        margin-top: 0;
+    }
+    .main-box .contain-box{
+        flex-direction: column;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    .main-box .contain-box .slide-bar{
+        margin: 0;
+        width: 100%;
+        margin-bottom: 40px;
+    }
+    .video-list .list-contain{
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .video-list .list-contain .video-item{
+        width: 210px;
+    }
+    .video-list .banner{
+        padding: 20px;
+    }
+    .video-list .banner img{
+        display: none;
+    }
+	.video-details .slide-bar{
+        display: none;
+    }
+	.video-details .contain-box  .news-slide-bar{
+		display:block;
+		margin-top:40px;
+	}
 }
 
 

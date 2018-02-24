@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="slide-bar">
+        <div class="slide-bar news-slide-bar">
             <h3><?php pll_e('相关新闻'); ?></h3>
             <ul>
                 <?php
