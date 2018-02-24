@@ -1278,6 +1278,7 @@ footer .footer .wechat_qr_code {
     line-height: 30px;
     font-weight: bold;
     margin: 0;
+    min-width: 80px;
 }
 .video-details .main-contain>a{
     display: block;
