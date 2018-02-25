@@ -23,8 +23,6 @@ class Featured_Content {
 	 *
 	 * @since Twenty Fourteen 1.0
 	 *
-	 * @static
-	 * @access public
 	 * @var int
 	 */
 	public static $max_posts = 15;
@@ -34,8 +32,6 @@ class Featured_Content {
 	 *
 	 * All custom functionality will be hooked into the "init" action.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function setup() {
@@ -51,8 +47,6 @@ class Featured_Content {
 	 * If no theme support is found there is no need to hook into WordPress.
 	 * We'll just return early instead.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function init() {
@@ -100,8 +94,6 @@ class Featured_Content {
 	 * Has to run on wp_loaded so that the preview filters of the Customizer
 	 * have a chance to alter the value.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function wp_loaded() {
@@ -114,8 +106,6 @@ class Featured_Content {
 	/**
 	 * Get featured posts.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of featured posts.
@@ -146,8 +136,6 @@ class Featured_Content {
 	 *
 	 * Sets the "featured_content_ids" transient.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of post IDs.
@@ -193,8 +181,6 @@ class Featured_Content {
 	/**
 	 * Return an array with IDs of posts maked as sticky.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @return array Array of sticky posts.
@@ -210,8 +196,6 @@ class Featured_Content {
 	 *
 	 * @see Featured_Content::validate_settings().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function delete_transient() {
@@ -225,8 +209,6 @@ class Featured_Content {
 	 * Hooked onto the 'pre_get_posts' action, this changes the parameters of
 	 * the query before it gets any posts.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Query $query WP_Query object.
@@ -273,8 +255,6 @@ class Featured_Content {
 	 *
 	 * @see Featured_Content::validate_settings().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param int $tag_id The term_id of the tag that has been deleted.
@@ -296,8 +276,6 @@ class Featured_Content {
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $terms      List of term objects. This is the return value of get_terms().
@@ -344,8 +322,6 @@ class Featured_Content {
 	 *
 	 * Hooks into the "get_the_terms" filter.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $terms    A list of term objects. This is the return value of get_the_terms().
@@ -385,8 +361,6 @@ class Featured_Content {
 	/**
 	 * Register custom setting on the Settings -> Reading screen.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function register_setting() {
@@ -396,8 +370,6 @@ class Featured_Content {
 	/**
 	 * Add settings to the Customizer.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param WP_Customize_Manager $wp_customize Customizer object.
@@ -453,8 +425,6 @@ class Featured_Content {
 	/**
 	 * Enqueue the tag suggestion script.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 */
 	public static function enqueue_scripts() {
@@ -473,8 +443,6 @@ class Featured_Content {
 	 * its name as the first parameter to the function and only that
 	 * value will be returned.
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param string $key The key of a recognized setting.
@@ -506,8 +474,6 @@ class Featured_Content {
 	 * format before saving to the database. This function will also
 	 * delete the transient set in Featured_Content::get_featured_content().
 	 *
-	 * @static
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $input Array of settings input.

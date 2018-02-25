@@ -16,7 +16,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * The supported post formats.
 	 *
-	 * @access private
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @var array
@@ -64,7 +63,6 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 	/**
 	 * Output the HTML for this widget.
 	 *
-	 * @access public
 	 * @since Twenty Fourteen 1.0
 	 *
 	 * @param array $args     An array of standard parameters for widgets in this theme.
