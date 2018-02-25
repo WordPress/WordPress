@@ -439,7 +439,6 @@ class WP_Http {
 	 * Normalizes cookies for using in Requests.
 	 *
 	 * @since 4.6.0
-	 * @static
 	 *
 	 * @param array $cookies List of cookies to send with the request.
 	 * @return Requests_Cookie_Jar Cookie holder object.
@@ -466,7 +465,6 @@ class WP_Http {
 	 * specification for compatibility purposes.
 	 *
 	 * @since 4.6.0
-	 * @static
 	 *
 	 * @param string            $location URL to redirect to.
 	 * @param array             $headers  Headers for the redirect.
@@ -642,7 +640,6 @@ class WP_Http {
 	/**
 	 * Parses the responses and splits the parts into headers and body.
 	 *
-	 * @static
 	 * @since 2.7.0
 	 *
 	 * @param string $strResponse The full response string
@@ -663,7 +660,6 @@ class WP_Http {
 	 * If an array is given then it is assumed to be raw header data with numeric keys with the
 	 * headers as the values. No headers must be passed that were already processed.
 	 *
-	 * @static
 	 * @since 2.7.0
 	 *
 	 * @param string|array $headers
@@ -751,7 +747,6 @@ class WP_Http {
 	 * Edits the array by reference.
 	 *
 	 * @since 2.8.0
-	 * @static
 	 *
 	 * @param array $r Full array of args passed into ::request()
 	 */
@@ -787,7 +782,6 @@ class WP_Http {
 	 * @link https://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
 	 *
 	 * @since 2.7.0
-	 * @static
 	 *
 	 * @param string $body Body content
 	 * @return string Chunked decoded body on success or raw body on failure.
@@ -921,8 +915,6 @@ class WP_Http {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @static
-	 *
 	 * @param string $maybe_relative_path The URL which might be relative
 	 * @param string $url                 The URL which $maybe_relative_path is relative to
 	 * @return string An Absolute URL, in a failure condition where the URL cannot be parsed, the relative URL will be returned.
@@ -996,7 +988,6 @@ class WP_Http {
 	 * Handles HTTP Redirects and follows them if appropriate.
 	 *
 	 * @since 3.7.0
-	 * @static
 	 *
 	 * @param string $url The URL which was requested.
 	 * @param array $args The Arguments which were used to make the request.
@@ -1058,7 +1049,6 @@ class WP_Http {
 	 * @link http://home.deds.nl/~aeron/regex/ for IPv6 regex
 	 *
 	 * @since 3.7.0
-	 * @static
 	 *
 	 * @param string $maybe_ip A suspected IP address
 	 * @return integer|bool Upon success, '4' or '6' to represent a IPv4 or IPv6 address, false upon failure

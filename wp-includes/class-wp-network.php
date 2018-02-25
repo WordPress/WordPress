@@ -318,7 +318,6 @@ class WP_Network {
 	 * requested site address.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @param string   $domain   Domain to check.
 	 * @param string   $path     Path to check.

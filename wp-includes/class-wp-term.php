@@ -102,7 +102,6 @@ final class WP_Term {
 	 * Retrieve WP_Term instance.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *

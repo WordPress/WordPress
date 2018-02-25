@@ -373,7 +373,6 @@ class WP_Http_Curl {
 	/**
 	 * Determines whether this class can be used for retrieving a URL.
 	 *
-	 * @static
 	 * @since 2.7.0
 	 *
 	 * @param array $args Optional. Array of request arguments. Default empty array.

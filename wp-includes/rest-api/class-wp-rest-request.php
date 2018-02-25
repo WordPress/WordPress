@@ -174,7 +174,6 @@ class WP_REST_Request implements ArrayAccess {
 	 * @link https://nginx.org/en/docs/http/ngx_http_core_module.html#underscores_in_headers
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @param string $key Header name.
 	 * @return string Canonicalized name.
@@ -953,7 +952,6 @@ class WP_REST_Request implements ArrayAccess {
 	/**
 	 * Retrieves a WP_REST_Request object from a full URL.
 	 *
-	 * @static
 	 * @since 4.5.0
 	 *
 	 * @param string $url URL with protocol, domain, path and query args.

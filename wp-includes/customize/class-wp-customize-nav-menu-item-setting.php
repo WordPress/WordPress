@@ -538,7 +538,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Re-apply the tail logic also applied on $items by wp_get_nav_menu_items().
 	 *
 	 * @since 4.3.0
-	 * @static
 	 *
 	 * @see wp_get_nav_menu_items()
 	 *

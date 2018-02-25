@@ -145,7 +145,6 @@ final class WP_Site {
 	/**
 	 * Retrieves a site from the database by its ID.
 	 *
-	 * @static
 	 * @since 4.5.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.

@@ -57,8 +57,6 @@ class WP_MatchesMapRegex {
 	 *
 	 * static helper function to ease use
 	 *
-	 * @static
-	 *
 	 * @param string $subject subject
 	 * @param array  $matches data used for substitution
 	 * @return string

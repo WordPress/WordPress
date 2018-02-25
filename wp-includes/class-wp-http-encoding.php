@@ -23,8 +23,6 @@ class WP_Http_Encoding {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @static
-	 *
 	 * @param string $raw String to compress.
 	 * @param int $level Optional, default is 9. Compression level, 9 is highest.
 	 * @param string $supports Optional, not used. When implemented it will choose the right compression based on what the server supports.
@@ -43,8 +41,6 @@ class WP_Http_Encoding {
 	 * original compressed string will be returned.
 	 *
 	 * @since 2.8.0
-	 *
-	 * @static
 	 *
 	 * @param string $compressed String to decompress.
 	 * @param int $length The optional length of the compressed data.
@@ -96,8 +92,6 @@ class WP_Http_Encoding {
 	 * @link https://secure.php.net/manual/en/function.gzinflate.php#70875
 	 * @link https://secure.php.net/manual/en/function.gzinflate.php#77336
 	 *
-	 * @static
-	 *
 	 * @param string $gzData String to decompress.
 	 * @return string|bool False on failure.
 	 */
@@ -141,8 +135,6 @@ class WP_Http_Encoding {
 	 * What encoding types to accept and their priority values.
 	 *
 	 * @since 2.8.0
-	 *
-	 * @static
 	 *
 	 * @param string $url
 	 * @param array  $args
@@ -194,8 +186,6 @@ class WP_Http_Encoding {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @static
-	 *
 	 * @return string Content-Encoding string to send in the header.
 	 */
 	public static function content_encoding() {
@@ -206,8 +196,6 @@ class WP_Http_Encoding {
 	 * Whether the content be decoded based on the headers.
 	 *
 	 * @since 2.8.0
-	 *
-	 * @static
 	 *
 	 * @param array|string $headers All of the available headers.
 	 * @return bool
@@ -232,8 +220,6 @@ class WP_Http_Encoding {
 	 * disabled.
 	 *
 	 * @since 2.8.0
-	 *
-	 * @static
 	 *
 	 * @return bool
 	 */

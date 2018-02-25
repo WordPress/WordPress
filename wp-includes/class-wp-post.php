@@ -222,7 +222,6 @@ final class WP_Post {
 	 * Retrieve WP_Post instance.
 	 *
 	 * @since 3.5.0
-	 * @static
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *

@@ -33,8 +33,6 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @static
-	 *
 	 * @param array $args
 	 * @return bool
 	 */
@@ -58,8 +56,6 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Checks to see if editor supports the mime-type specified.
 	 *
 	 * @since 3.5.0
-	 *
-	 * @static
 	 *
 	 * @param string $mime_type
 	 * @return bool

@@ -459,7 +459,6 @@ class WP_REST_Server {
 	 * direct output.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @param WP_REST_Response $response Response to extract links from.
 	 * @return array Map of link relation to list of link hashes.
@@ -492,7 +491,6 @@ class WP_REST_Server {
 	 * direct output.
 	 *
 	 * @since 4.5.0
-	 * @static
 	 *
 	 * @param WP_REST_Response $response Response to extract links from.
 	 * @return array Map of link relation to list of link hashes.

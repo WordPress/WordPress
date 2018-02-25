@@ -162,7 +162,6 @@ final class WP_Comment {
 	 * Retrieves a WP_Comment instance.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *

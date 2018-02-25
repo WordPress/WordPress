@@ -356,7 +356,6 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * Normalizes filters set up before WordPress has initialized to WP_Hook objects.
 	 *
 	 * @since 4.7.0
-	 * @static
 	 *
 	 * @param array $filters Filters to normalize.
 	 * @return WP_Hook[] Array of normalized filters.

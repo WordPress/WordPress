@@ -40,7 +40,6 @@ abstract class WP_Session_Tokens {
 	 * the session manager for a subclass of `WP_Session_Tokens`.
 	 *
 	 * @since 4.0.0
-	 * @static
 	 *
 	 * @param int $user_id User whose session to manage.
 	 * @return WP_User_Meta_Session_Tokens WP_User_Meta_Session_Tokens class instance by default.
@@ -223,7 +222,6 @@ abstract class WP_Session_Tokens {
 	 * Destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
-	 * @static
 	 */
 	final public static function destroy_all_for_all_users() {
 		/** This filter is documented in wp-includes/class-wp-session-tokens.php */
@@ -294,7 +292,6 @@ abstract class WP_Session_Tokens {
 	 * This static method should destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
-	 * @static
 	 */
 	public static function drop_sessions() {}
 }

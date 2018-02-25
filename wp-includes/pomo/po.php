@@ -100,7 +100,6 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Formats a string in PO-style
 		 *
-		 * @static
 		 * @param string $string the string to format
 		 * @return string the poified string
 		 */
@@ -131,7 +130,6 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Gives back the original string from a PO-formatted string
 		 *
-		 * @static
 		 * @param string $string PO-formatted string
 		 * @return string enascaped string
 		 */
@@ -173,7 +171,6 @@ if ( ! class_exists( 'PO', false ) ) :
 		 * Inserts $with in the beginning of every new line of $string and
 		 * returns the modified string
 		 *
-		 * @static
 		 * @param string $string prepend lines in this string
 		 * @param string $with prepend lines with this string
 		 */
@@ -211,7 +208,6 @@ if ( ! class_exists( 'PO', false ) ) :
 		/**
 		 * Builds a string from the entry for inclusion in PO file
 		 *
-		 * @static
 		 * @param Translation_Entry $entry the entry to convert to po string (passed by reference).
 		 * @return false|string PO-style formatted string for the entry or
 		 *  false if the entry is empty

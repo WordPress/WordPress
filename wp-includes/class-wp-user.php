@@ -180,8 +180,6 @@ class WP_User {
 	 * @since 3.3.0
 	 * @since 4.4.0 Added 'ID' as an alias of 'id' for the `$field` parameter.
 	 *
-	 * @static
-	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.

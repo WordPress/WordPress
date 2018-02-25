@@ -224,8 +224,6 @@ class WP_Tax_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @static
-	 *
 	 * @param array $query Tax query arguments.
 	 * @return bool Whether the query clause is a first-order clause.
 	 */
