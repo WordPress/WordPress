@@ -101,7 +101,6 @@ class WP_User {
 	private $site_id = 0;
 
 	/**
-	 * @static
 	 * @since 3.3.0
 	 * @var array
 	 */

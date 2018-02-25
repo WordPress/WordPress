@@ -24,8 +24,6 @@ class WP_Customize_Panel {
 	 * Used when sorting two instances whose priorities are equal.
 	 *
 	 * @since 4.1.0
-	 *
-	 * @static
 	 * @var int
 	 */
 	protected static $instance_count = 0;

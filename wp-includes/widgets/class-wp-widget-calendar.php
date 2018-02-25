@@ -19,8 +19,6 @@ class WP_Widget_Calendar extends WP_Widget {
 	 * Ensure that the ID attribute only appears in the markup once
 	 *
 	 * @since 4.4.0
-	 *
-	 * @static
 	 * @var int
 	 */
 	private static $instance = 0;

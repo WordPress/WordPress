@@ -30,7 +30,6 @@ class WP_oEmbed {
 	 * A list of an early oEmbed providers.
 	 *
 	 * @since 4.0.0
-	 * @static
 	 * @var array
 	 */
 	public static $early_providers = array();

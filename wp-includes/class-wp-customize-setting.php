@@ -135,7 +135,6 @@ class WP_Customize_Setting {
 	 * Cache of multidimensional values to improve performance.
 	 *
 	 * @since 4.4.0
-	 * @static
 	 * @var array
 	 */
 	protected static $aggregated_multidimensionals = array();

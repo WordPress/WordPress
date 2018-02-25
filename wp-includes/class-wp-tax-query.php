@@ -43,8 +43,6 @@ class WP_Tax_Query {
 	 * Standard response when the query should not return any rows.
 	 *
 	 * @since 3.2.0
-	 *
-	 * @static
 	 * @var string
 	 */
 	private static $no_results = array(

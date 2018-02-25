@@ -141,8 +141,6 @@ final class WP_Screen {
 	/**
 	 * Stores old string-based help.
 	 *
-	 * @static
-	 *
 	 * @var array
 	 */
 	private static $_old_compat_help = array();
@@ -159,8 +157,6 @@ final class WP_Screen {
 	 * The screen object registry.
 	 *
 	 * @since 3.3.0
-	 *
-	 * @static
 	 *
 	 * @var array
 	 */

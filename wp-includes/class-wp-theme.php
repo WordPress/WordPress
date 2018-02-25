@@ -21,7 +21,6 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Headers for style.css files.
 	 *
-	 * @static
 	 * @var array
 	 */
 	private static $file_headers = array(
@@ -41,7 +40,6 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Default themes.
 	 *
-	 * @static
 	 * @var array
 	 */
 	private static $default_themes = array(
@@ -60,7 +58,6 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Renamed theme tags.
 	 *
-	 * @static
 	 * @var array
 	 */
 	private static $tag_map = array(
@@ -158,7 +155,6 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * Default is false. Can be set with the {@see 'wp_cache_themes_persistently'} filter.
 	 *
-	 * @static
 	 * @var bool
 	 */
 	private static $persistently_cache;
@@ -168,7 +164,6 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * By default the bucket is not cached, so this value is useless.
 	 *
-	 * @static
 	 * @var bool
 	 */
 	private static $cache_expiration = 1800;
