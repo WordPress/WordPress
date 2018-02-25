@@ -131,7 +131,6 @@ final class WP_Taxonomy {
 	 * The callback function for sanitizing taxonomy data saved from a meta box.
 	 *
 	 * @since 5.0.0
-	 * @access public
 	 * @var callable
 	 */
 	public $meta_box_sanitize_cb = null;
