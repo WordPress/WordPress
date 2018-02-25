@@ -41,7 +41,6 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_process_complete'} action by default.
 	 *
 	 * @since 3.7.0
-	 * @static
 	 *
 	 * @param false|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false. If `$upgrader` is
 	 *                                    a Language_Pack_Upgrader instance, the method will bail to

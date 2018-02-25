@@ -846,7 +846,6 @@ class WP_Upgrader {
 	 * Creates a lock using WordPress options.
 	 *
 	 * @since 4.5.0
-	 * @static
 	 *
 	 * @param string $lock_name       The name of this unique lock.
 	 * @param int    $release_timeout Optional. The duration in seconds to respect an existing lock.
@@ -892,7 +891,6 @@ class WP_Upgrader {
 	 * Releases an upgrader lock.
 	 *
 	 * @since 4.5.0
-	 * @static
 	 *
 	 * @see WP_Upgrader::create_lock()
 	 *

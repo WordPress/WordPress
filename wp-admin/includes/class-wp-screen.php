@@ -187,8 +187,6 @@ final class WP_Screen {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @static
-	 *
 	 * @global string $hook_suffix
 	 *
 	 * @param string|WP_Screen $hook_name Optional. The hook name (also known as the hook suffix) used to determine the screen.
@@ -420,8 +418,6 @@ final class WP_Screen {
 	 * Sets the old string-based contextual help for the screen for backward compatibility.
 	 *
 	 * @since 3.3.0
-	 *
-	 * @static
 	 *
 	 * @param WP_Screen $screen A screen object.
 	 * @param string $help Help text.
