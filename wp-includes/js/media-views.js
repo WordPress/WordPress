@@ -953,9 +953,6 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 			}) );
 		}
 
-		this._filterContext();
-		this.get('library').on( 'add', this._filterContext, this );
-
 		this.resetDisplays();
 	},
 
@@ -1157,18 +1154,6 @@ Library = wp.media.controller.State.extend(/** @lends wp.media.controller.Librar
 		}
 	},
 
-	/**
-	 * Filter out contextually created attachments (e.g. headers, logos, etc.)
-	 *
-	 * @since 4.9.0
-	 */
-	_filterContext: function() {
-		var library = this.get('library');
-
-		library.set( library.filter( function( item ) {
-			return item.get('context') === '';
-		} ) );
-	}
 });
 
 // Make selectionSync available on any Media Library state.
