@@ -234,8 +234,6 @@ class WP_Tax_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @static
-	 *
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
 	 * @return array {
