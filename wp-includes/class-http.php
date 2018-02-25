@@ -546,8 +546,6 @@ class WP_Http {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @static
-	 *
 	 * @param string $url URL to Request
 	 * @param array $args Request arguments
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
