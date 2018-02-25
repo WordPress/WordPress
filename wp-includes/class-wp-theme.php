@@ -1559,6 +1559,9 @@ final class WP_Theme implements ArrayAccess {
 		if ( 0 === strpos( get_user_locale(), 'en_' ) ) {
 			uasort( $themes, array( 'WP_Theme', '_name_sort' ) );
 		} else {
+			foreach ( $themes as $key => $theme ) {
+				$theme->translate_header( 'Name', $theme->headers['Name'] );
+			}
 			uasort( $themes, array( 'WP_Theme', '_name_sort_i18n' ) );
 		}
 	}
@@ -1583,7 +1586,7 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Name sort (with translation).
+	 * Callback function for usort() to naturally sort themes by translated name.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1595,7 +1598,6 @@ final class WP_Theme implements ArrayAccess {
 	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with usort().
 	 */
 	private static function _name_sort_i18n( $a, $b ) {
-		// Don't mark up; Do translate.
-		return strnatcasecmp( $a->display( 'Name', false, true ), $b->display( 'Name', false, true ) );
+		return strnatcasecmp( $a->name_translated, $b->name_translated );
 	}
 }
