@@ -574,15 +574,7 @@ class WP_Http {
 			return $response;
 		}
 
-		/**
-		 * Filters the HTTP API response immediately before the response is returned.
-		 *
-		 * @since 2.9.0
-		 *
-		 * @param array  $response HTTP response.
-		 * @param array  $args     HTTP request arguments.
-		 * @param string $url      The request URL.
-		 */
+		/** This action is documented in wp-includes/class-http.php */
 		return apply_filters( 'http_response', $response, $args, $url );
 	}
 
