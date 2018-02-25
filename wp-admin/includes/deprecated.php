@@ -1519,10 +1519,10 @@ function options_permalink_add_js() {
  * Ajax handler for tag search.
  *
  * @since 3.1.0
- * @deprecated 4.9.0 Use the REST API tags endpoint instead.
+ * @deprecated 5.0.0 Use the REST API tags endpoint instead.
  */
 function wp_ajax_ajax_tag_search() {
-	_deprecated_function( __FUNCTION__, '4.8', '/wp-json/wp/v2/tags' );
+	_deprecated_function( __FUNCTION__, '5.0.0', '/wp-json/wp/v2/tags' );
 
 	if ( ! isset( $_GET['tax'] ) ) {
 		wp_die( 0 );
