@@ -2916,6 +2916,7 @@ function paginate_comments_links( $args = array() ) {
 		'total'        => $max_page,
 		'current'      => $page,
 		'echo'         => true,
+		'type'         => 'plain',
 		'add_fragment' => '#comments',
 	);
 	if ( $wp_rewrite->using_permalinks() ) {
