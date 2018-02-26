@@ -82,7 +82,7 @@
                         <li><a href="/<?php echo pll_current_language() ?>/category/video" target="_blank"><?php pll_e('Video Library'); ?></a></li>
                         <li><a href="/blog" target="_blank"><?php pll_e('Blog'); ?></a></li>
                         <li><a href="/changelog" ><?php pll_e('Changelog'); ?></a></li>
-                        <li><a href="/features" ><?php pll_e('Function'); ?></a></li>
+                        <li><a href="/<?php echo pll_current_language() ?>/category/features" ><?php pll_e('Feature'); ?></a></li>
                     </ul>
                 </li>
                 <li class="active" class="dropdown" data-active = "about" style="position:relative;">

@@ -806,7 +806,7 @@ footer .footer .wechat_qr_code {
     color: #fff;
 }
 
-.blog-list .banner{
+.blog-list .banner,.feature-list .banner{
     background-image:none;
     background-color: #1972A9;
 }
@@ -861,7 +861,7 @@ footer .footer .wechat_qr_code {
     margin-left: 20px;
 }
 
-.news-list .banner h2,.joinus-list .banner h2,.blog-list .banner h2 {
+.banner h2,.banner h2,.banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
@@ -873,7 +873,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 26px;
 }
 
-.video-list .banner p,.news-list .banner p,.joinus-list .banner p,.blog-list .banner p{
+.banner p,.banner p,.banner p,.banner p{
     font-size: 20px;
 }
 

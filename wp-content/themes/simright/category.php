@@ -16,6 +16,10 @@
     {
     include(TEMPLATEPATH . '/category-blogs.php');
     }
+    elseif ( $rootCategory === 'features')
+    {
+    include(TEMPLATEPATH . '/category-features.php');
+    }
     else{
         echo $rootCategory;
         return;
