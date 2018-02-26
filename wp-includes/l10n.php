@@ -222,7 +222,7 @@ function esc_attr__( $text, $domain = 'default' ) {
  * Retrieve the translation of $text and escapes it for safe use in HTML output.
  *
  * If there is no translation, or the text domain isn't loaded, the original text
- * is escaped and returned..
+ * is escaped and returned.
  *
  * @since 2.8.0
  *
