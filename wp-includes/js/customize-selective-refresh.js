@@ -245,7 +245,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		},
 
 		/**
-		 * Find all placements for this partial int he document.
+		 * Find all placements for this partial in the document.
 		 *
 		 * @since 4.5.0
 		 *
