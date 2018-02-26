@@ -9,6 +9,8 @@
 /**
  * Loads the WP image-editing interface.
  *
+ * @since 2.9.0
+ *
  * @param int         $post_id Post ID.
  * @param bool|object $msg     Optional. Message to display for image editor updates or errors.
  *                             Default false.
@@ -247,6 +249,8 @@ function wp_image_editor( $post_id, $msg = false ) {
 /**
  * Streams image in WP_Image_Editor to browser.
  *
+ * @since 2.9.0
+ *
  * @param WP_Image_Editor $image         The image editor instance.
  * @param string          $mime_type     The mime type of the image.
  * @param int             $attachment_id The image's attachment post ID.
@@ -301,7 +305,9 @@ function wp_stream_image( $image, $mime_type, $attachment_id ) {
 }
 
 /**
- * Saves Image to File
+ * Saves image to file.
+ *
+ * @since 2.9.0
  *
  * @param string $filename
  * @param WP_Image_Editor $image
@@ -605,6 +611,8 @@ function image_edit_apply_changes( $image, $changes ) {
  * Streams image in post to browser, along with enqueued changes
  * in $_REQUEST['history']
  *
+ * @since 2.9.0
+ *
  * @param int $post_id
  * @return bool
  */
@@ -732,6 +740,8 @@ function wp_restore_image( $post_id ) {
 /**
  * Saves image to post along with enqueued changes
  * in $_REQUEST['history']
+ *
+ * @since 2.9.0
  *
  * @param int $post_id
  * @return \stdClass
