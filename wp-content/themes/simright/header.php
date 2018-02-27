@@ -90,8 +90,8 @@
                     <ul class="dropdown-menu position-right" role="menu">
                         <li><a href="/about_us"><?php pll_e('About Us'); ?></a></li>
                         <li><a href="/contact_us"><?php pll_e('Contact Us'); ?></a></li>
-                        <li><a href="/<?php echo pll_current_language() ?>/category/news"><?php pll_e('News'); ?></a></li>
                         <li><a href="/join-us"><?php pll_e('Join Us'); ?></a></li>
+                        <li><a href="/<?php echo pll_current_language() ?>/category/news"><?php pll_e('News'); ?></a></li>
                         <li><a href="/security"><?php pll_e('Security'); ?></a></li>
                     </ul>
                 </li>
