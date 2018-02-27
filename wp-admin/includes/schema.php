@@ -980,7 +980,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$errors->add( 'invalid_email', __( 'You must provide a valid email address.' ) );
 	}
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		return $errors;
 	}
 

@@ -44,7 +44,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-user' == $_REQUEST['action'] ) {
 	$user = wp_unslash( $_POST['user'] );
 
 	$user_details = wpmu_validate_user_signup( $user['username'], $user['email'] );
-	if ( is_wp_error( $user_details['errors'] ) && ! empty( $user_details['errors']->errors ) ) {
+	if ( is_wp_error( $user_details['errors'] ) && $user_details['errors']->has_errors() ) {
 		$add_user_errors = $user_details['errors'];
 	} else {
 		$password = wp_generate_password( 12, false );

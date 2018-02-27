@@ -323,7 +323,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 
 	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), get_network()->site_name ) . '</h2>';
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		echo '<p>' . __( 'There was a problem, please correct the form below and try again.' ) . '</p>';
 	}
 	?>
@@ -389,7 +389,7 @@ function validate_another_blog_signup() {
 	$blog_title = $result['blog_title'];
 	$errors     = $result['errors'];
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		signup_another_blog( $blogname, $blog_title, $errors );
 		return false;
 	}
@@ -604,7 +604,7 @@ function validate_user_signup() {
 	$user_email = $result['user_email'];
 	$errors     = $result['errors'];
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		signup_user( $user_name, $user_email, $errors );
 		return false;
 	}
@@ -729,7 +729,7 @@ function validate_blog_signup() {
 	$user_email  = $user_result['user_email'];
 	$user_errors = $user_result['errors'];
 
-	if ( $user_errors->get_error_code() ) {
+	if ( $user_errors->has_errors() ) {
 		signup_user( $user_name, $user_email, $user_errors );
 		return false;
 	}
@@ -741,7 +741,7 @@ function validate_blog_signup() {
 	$blog_title = $result['blog_title'];
 	$errors     = $result['errors'];
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		signup_blog( $user_name, $user_email, $blogname, $blog_title, $errors );
 		return false;
 	}

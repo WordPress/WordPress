@@ -71,7 +71,7 @@ class WP_Error {
 	 * @return array List of error codes, if available.
 	 */
 	public function get_error_codes() {
-		if ( empty( $this->errors ) ) {
+		if ( ! $this->has_errors() ) {
 			return array();
 		}
 
@@ -159,6 +159,20 @@ class WP_Error {
 		if ( isset( $this->error_data[ $code ] ) ) {
 			return $this->error_data[ $code ];
 		}
+	}
+
+	/**
+	 * Verify if the instance contains errors.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return bool
+	 */
+	public function has_errors() {
+		if ( ! empty( $this->errors ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

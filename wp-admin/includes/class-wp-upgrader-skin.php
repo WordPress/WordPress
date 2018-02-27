@@ -127,7 +127,7 @@ class WP_Upgrader_Skin {
 		}
 		if ( is_string( $errors ) ) {
 			$this->feedback( $errors );
-		} elseif ( is_wp_error( $errors ) && $errors->get_error_code() ) {
+		} elseif ( is_wp_error( $errors ) && $errors->has_errors() ) {
 			foreach ( $errors->get_error_messages() as $message ) {
 				if ( $errors->get_error_data() && is_string( $errors->get_error_data() ) ) {
 					$this->feedback( $message . ' ' . esc_html( strip_tags( $errors->get_error_data() ) ) );

@@ -470,7 +470,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( is_multisite() ) {
 			$ret = wpmu_validate_user_signup( $user->user_login, $user->user_email );
 
-			if ( is_wp_error( $ret['errors'] ) && ! empty( $ret['errors']->errors ) ) {
+			if ( is_wp_error( $ret['errors'] ) && $ret['errors']->has_errors() ) {
 				$error = new WP_Error( 'rest_invalid_param', __( 'Invalid user parameter(s).' ), array( 'status' => 400 ) );
 				foreach ( $ret['errors']->errors as $code => $messages ) {
 					foreach ( $messages as $message ) {

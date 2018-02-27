@@ -207,7 +207,7 @@ function edit_user( $user_id = 0 ) {
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );
 
-	if ( $errors->get_error_codes() ) {
+	if ( $errors->has_errors() ) {
 		return $errors;
 	}
 

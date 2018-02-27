@@ -2469,7 +2469,7 @@ function register_new_user( $user_login, $user_email ) {
 	 */
 	$errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
 
-	if ( $errors->get_error_code() ) {
+	if ( $errors->has_errors() ) {
 		return $errors;
 	}
 

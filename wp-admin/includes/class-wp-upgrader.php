@@ -191,7 +191,7 @@ class WP_Upgrader {
 
 		if ( ! WP_Filesystem( $credentials, $directories[0], $allow_relaxed_file_ownership ) ) {
 			$error = true;
-			if ( is_object( $wp_filesystem ) && $wp_filesystem->errors->get_error_code() ) {
+			if ( is_object( $wp_filesystem ) && $wp_filesystem->errors->has_errors() ) {
 				$error = $wp_filesystem->errors;
 			}
 			// Failed to connect, Error and request again
@@ -203,7 +203,7 @@ class WP_Upgrader {
 			return new WP_Error( 'fs_unavailable', $this->strings['fs_unavailable'] );
 		}
 
-		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 			return new WP_Error( 'fs_error', $this->strings['fs_error'], $wp_filesystem->errors );
 		}
 
