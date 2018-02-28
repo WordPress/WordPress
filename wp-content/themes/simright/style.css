@@ -1109,6 +1109,8 @@ footer .footer .wechat_qr_code {
     width: 260px;
     padding: 20px;
     margin-left: 30px;
+    max-height: 1200px;
+    overflow-y: scroll;
 }
 
 .video-list .contain-box .slide-bar .neck-bar-search input {
