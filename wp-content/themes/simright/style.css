@@ -907,7 +907,7 @@ footer .footer .wechat_qr_code {
     padding-bottom: 30px;
 }
 
-.video-details .post-content img{
+.video-details .post-content img,.video-details .list-contain img{
 	max-width:100%;
 	margin-top:10px;
 	margin-bottom:10px;
