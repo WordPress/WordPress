@@ -781,7 +781,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.news-list .banner,.joinus-list .banner,.blog-list .banner,.feature-list .banner{
+.news-list .banner,.joinus-list .banner,.blog-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -806,19 +806,9 @@ footer .footer .wechat_qr_code {
     color: #fff;
 }
 
-.blog-list .banner,.feature-list .banner{
+.blog-list .banner{
     background-image:none;
     background-color: #1972A9;
-}
-
-.feature-list .about-feature{
-	background-color:#fff;
-	padding-top:50px;
-}
-
-.feature-list .about-feature table{
-	max-width: 1200px;
-    margin: 0 auto;
 }
 
 .video-list .banner{
@@ -871,7 +861,7 @@ footer .footer .wechat_qr_code {
     margin-left: 20px;
 }
 
-.banner h2,.banner h2,.banner h2 {
+.news-list .banner h2,.joinus-list .banner h2,.blog-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;
@@ -883,7 +873,7 @@ footer .footer .wechat_qr_code {
     margin-bottom: 26px;
 }
 
-.banner p,.banner p,.banner p,.banner p{
+.video-list .banner p,.news-list .banner p,.joinus-list .banner p,.blog-list .banner p{
     font-size: 20px;
 }
 
@@ -1109,8 +1099,6 @@ footer .footer .wechat_qr_code {
     width: 260px;
     padding: 20px;
     margin-left: 30px;
-    max-height: 1200px;
-    overflow-y: scroll;
 }
 
 .video-list .contain-box .slide-bar .neck-bar-search input {
@@ -2030,6 +2018,32 @@ img.aligncenter,
 		margin-top:40px;
 	}
 }
+#pagination,#loadmore {
+    clear: both;
+    margin: 0 auto;
+    text-align: center;
+	margin-bottom:15px;
+}
+
+#pagination a,#loadmore a {
+    background: #fff;
+    line-height: 35px;
+    height: 38px;
+    text-align: center;
+    font-size: 14px;
+    color: #959494;
+    padding: 6px 31px;
+    border-radius: 15px;
+}
+
+#pagination a:hover {
+    color: #58749c
+}
+
+#loadmore {
+    display: none
+}
+
 
 
 

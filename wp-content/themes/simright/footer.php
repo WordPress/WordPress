@@ -1,4 +1,4 @@
-        <footer>
+<footer>
             <section class="bg-blue section-wrap">
                 <div class="footer">
                     <div class="footer-contact">
@@ -48,4 +48,53 @@
 </script>
 <script src="https://oss.simright.com/static/jquery.min.js"></script>
 <script src="https://oss.simright.com/static/bootstrap.min.js"></script>
+<script>
+$(document).on('click','#pagination a:not(.noajx)',function(){
+    var _this = $(this);
+    var next = _this.attr("href").replace('?ajx=container','');
+    var docH = $(document).height();
+    var pagination = '#pagination'; // 下一页按钮标签id
+    $(pagination).hide();
+    $("#loadmore").show();
+    $.ajax({
+        url: next,
+        beforeSend: function(){
+            //
+        },
+        success: function (data) {
+			if($('.blog-list .contain-box').length){
+				$('.blog-list .contain-box').append($(data).find('.blog-item-wrap'));    //追加博客内容
+			}else if($('.news-list .contain-box').length){
+				$('.news-list .contain-box').append($(data).find('.news-item-wrap'));    //追加新闻内容
+			}else if($('.joinus-list .post-list').length){
+				$('.joinus-list .post-list').append($(data).find('.joinus-item'));    //追加加入我们内容
+			}else if($('.video-list .list-contain').length){
+				$('.video-list .list-contain').append($(data).find('.video-item'));    //追加视频内容
+			}
+            $(pagination).html( $(data).find(pagination).html() );    //更新分页导航
+            // 后退前进处理
+            //var state = {url: next,title: $(data).find("title").text(),html: $(data).find('#ajx_content').html()};
+            //window.history.pushState(state,"", next);
+            //$('html, body').animate({scrollTop: docH-280}, 500);    //上滚
+            nextHref = $(data).find("#pagination a").attr("href");
+            if ( nextHref != undefined ) {
+                $(pagination).show();
+                $("#loadmore").hide();
+                $("#pagination a").attr("href", nextHref);
+            } else {
+                $(pagination).show();
+                $("#loadmore").hide();
+                $(pagination).html('<a href="javascript:;" class="noajx">这是最后一页了！</a>');    //最后一页
+            }
+        },
+        complete: function(){ // 回调
+            //
+        },
+        error: function() { // 错误时的处理
+            location.href = next; //页面错误时跳转到请求的页面
+        }
+    });
+    return false;
+});
+</script>
 </html>

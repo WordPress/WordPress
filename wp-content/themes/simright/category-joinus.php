@@ -21,5 +21,12 @@
             <?php endif; ?>
         </div>
     </section>
+    <?php $current_lan = pll_current_language(); if($current_lan == 'en'): ?>
+		<div id="pagination" class="noajx"><?php next_posts_link("Load more") ?></div>
+		<div id="loadmore"><a href="javascript:;">Loading</a></div>
+	<?php else : ?>
+		<div id="pagination" class="noajx"><?php next_posts_link("加载更多...") ?></div>
+		<div id="loadmore"><a href="javascript:;">正在加载 ...</a></div>
+	<?php endif; ?>
 </section>
 <?php get_footer(); ?>
