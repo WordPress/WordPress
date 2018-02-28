@@ -2044,6 +2044,7 @@ img.aligncenter,
     color: #959494;
     padding: 6px 31px;
     border-radius: 15px;
+    box-shadow: 0 1px 13px rgba(137,155,172,0.5);
 }
 
 #pagination a:hover {
