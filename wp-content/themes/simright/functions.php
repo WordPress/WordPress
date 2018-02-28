@@ -259,4 +259,10 @@ function post_is_in_descendant_category( $cats, $_post = null )
   }
   return false;
 }
+//富文本
+function enable_more_buttons($buttons) {   
+	$new_btn = array('formatselect', 'fontselect', 'fontsizeselect', 'bold', 'italic', 'bullist', 'numlist', 'blockquote', 'alignleft', 'aligncenter', 'alignright', 'link', 'wp_more', 'spellchecker','strikethrough', 'hr', 'forecolor','backcolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent','undo','redo' );
+     return $new_btn;   
+     }   
+add_filter("mce_buttons", "enable_more_buttons"); 
 ?>
