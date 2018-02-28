@@ -3918,9 +3918,9 @@ function paginate_links( $args = '' ) {
 }
 
 /**
- * Registers an admin colour scheme css file.
+ * Registers an admin color scheme css file.
  *
- * Allows a plugin to register a new admin colour scheme. For example:
+ * Allows a plugin to register a new admin color scheme. For example:
  *
  *     wp_admin_css_color( 'classic', __( 'Classic' ), admin_url( "css/colors-classic.css" ), array(
  *         '#07273E', '#14568A', '#D54E21', '#2683AE'
@@ -3959,7 +3959,12 @@ function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = arra
 }
 
 /**
- * Registers the default Admin color schemes
+ * Registers the default admin color schemes.
+ * 
+ * Registers the initial set of eight color schemes in the Profile section
+ * of the dashboard which allows for styling the admin menu and toolbar.
+ * 
+ * @see wp_admin_css_color()
  *
  * @since 3.0.0
  */
