@@ -781,7 +781,7 @@ footer .footer .wechat_qr_code {
     background-color: #999;
 }
 
-.news-list .banner,.joinus-list .banner,.blog-list .banner{
+.news-list .banner,.joinus-list .banner,.blog-list .banner,.feature-list .banner{
     height: 280px;
     background-image: url("https://oss.simright.com/images/about_us_banner.png");
     background-size: cover;
@@ -809,6 +809,16 @@ footer .footer .wechat_qr_code {
 .blog-list .banner{
     background-image:none;
     background-color: #1972A9;
+}
+
+.feature-list .about-feature{
+	background-color:#fff;
+	padding-top:50px;
+}
+
+.feature-list .about-feature table{
+	max-width: 1200px;
+    margin: 0 auto;
 }
 
 .video-list .banner{
