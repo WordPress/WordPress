@@ -545,6 +545,8 @@ class WP_Http {
 	 * The order for requests is cURL, and then PHP Streams.
 	 *
 	 * @since 3.2.0
+	 * @deprecated 5.0.0 Use WP_Http::request()
+	 * @see WP_Http::request()
 	 *
 	 * @param string $url URL to Request
 	 * @param array $args Request arguments
@@ -572,7 +574,7 @@ class WP_Http {
 			return $response;
 		}
 
-		/** This action is documented in wp-includes/class-http.php */
+		/** This filter is documented in wp-includes/class-http.php */
 		return apply_filters( 'http_response', $response, $args, $url );
 	}
 
