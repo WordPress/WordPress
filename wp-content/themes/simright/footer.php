@@ -84,7 +84,7 @@ $(document).on('click','#pagination a:not(.noajx)',function(){
             } else {
                 $(pagination).show();
                 $("#loadmore").hide();
-                $(pagination).html('<a href="javascript:;" class="noajx">no more data!</a>');    //最后一页
+                $(pagination).html('');    //最后一页
             }
         },
         complete: function(){ // 回调
