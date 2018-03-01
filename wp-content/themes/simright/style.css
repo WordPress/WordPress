@@ -813,7 +813,8 @@ footer .footer .wechat_qr_code {
 
 .feature-list .about-feature{
 	background-color:#fff;
-	padding-top:50px;
+    padding-top:50px;
+    padding-bottom: 50px;
 }
 
 .feature-list .about-feature table{
@@ -871,7 +872,7 @@ footer .footer .wechat_qr_code {
     margin-left: 20px;
 }
 
-.news-list .banner h2,.joinus-list .banner h2,.blog-list .banner h2 {
+.news-list .banner h2,.joinus-list .banner h2,.blog-list .banner h2,.feature-list .banner h2 {
     height: 58px;
     line-height: 58px;
     width: 236px;

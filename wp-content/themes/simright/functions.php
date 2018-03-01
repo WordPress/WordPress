@@ -213,6 +213,7 @@ if( function_exists('pll_register_string') ) {
 	pll_register_string('Function','Function');
 	pll_register_string('blog','blog');
 	pll_register_string('FEATURES','FEATURES');
+	pll_register_string('Features','Features');
 }
 
 /** 搜索表单 */
