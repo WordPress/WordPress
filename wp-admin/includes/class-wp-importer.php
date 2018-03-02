@@ -281,6 +281,9 @@ class WP_Importer {
  */
 function get_cli_args( $param, $required = false ) {
 	$args = $_SERVER['argv'];
+	if ( ! is_array( $args ) ) {
+		$args = array();
+	}
 
 	$out = array();
 
