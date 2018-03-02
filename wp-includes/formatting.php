@@ -3024,6 +3024,69 @@ function wp_rel_nofollow_callback( $matches ) {
 }
 
 /**
+ * Adds rel noreferrer and noopener to all HTML A elements that have a target.
+ *
+ * @param string $text Content that may contain HTML A elements.
+ * @return string Converted content.
+ */
+function wp_targeted_link_rel( $text ) {
+	// Don't run (more expensive) regex if no links with targets.
+	if ( stripos( $text, 'target' ) !== false && stripos( $text, '<a ' ) !== false ) {
+		$text = preg_replace_callback( '|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $text );
+	}
+
+	return $text;
+}
+
+/**
+ * Callback to add rel="noreferrer noopener" string to HTML A element.
+ *
+ * Will not duplicate existing noreferrer and noopener values
+ * to prevent from invalidating the HTML.
+ *
+ * @param array $matches Single Match
+ * @return string HTML A Element with rel noreferrer noopener in addition to any existing values
+ */
+function wp_targeted_link_rel_callback( $matches ) {
+	$link_html = $matches[1];
+	$rel_match = array();
+
+	/**
+	 * Filters the rel values that are added to links with `target` attribute.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string The rel values.
+	 * @param string $link_html The matched content of the link tag including all HTML attributes.
+	 */
+	$rel = apply_filters( 'wp_targeted_link_rel', 'noopener noreferrer', $link_html );
+
+	// Value with delimiters, spaces around are optional.
+	$attr_regex = '|rel\s*=\s*?(\\\\{0,1}["\'])(.*?)\\1|i';
+	preg_match( $attr_regex, $link_html, $rel_match );
+
+	if ( empty( $rel_match[0] ) ) {
+		// No delimiters, try with a single value and spaces, because `rel =  va"lue` is totally fine...
+		$attr_regex = '|rel\s*=(\s*)([^\s]*)|i';
+		preg_match( $attr_regex, $link_html, $rel_match );
+	}
+
+	if ( ! empty( $rel_match[0] ) ) {
+		$parts = preg_split( '|\s+|', strtolower( $rel_match[2] ) );
+		$parts = array_map( 'esc_attr', $parts );
+		$needed = explode( ' ', $rel );
+		$parts = array_unique( array_merge( $parts, $needed ) );
+		$delimiter = trim( $rel_match[1] ) ? $rel_match[1] : '"';
+		$rel = 'rel=' . $delimiter . trim( implode( ' ', $parts ) ) . $delimiter;
+		$link_html = str_replace( $rel_match[0], $rel, $link_html );
+	} else {
+		$link_html .= " rel=\"$rel\"";
+	}
+
+	return "<a $link_html>";
+}
+
+/**
  * Convert one smiley code to the icon graphic file equivalent.
  *
  * Callback handler for convert_smilies().
