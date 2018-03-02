@@ -972,9 +972,9 @@ function is_post_type_hierarchical( $post_type ) {
 
 /**
  * Determines whether a post type is registered.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
@@ -1989,11 +1989,11 @@ function get_post_custom_values( $key = '', $post_id = 0 ) {
  *
  * Sticky posts should remain at the top of The Loop. If the post ID is not
  * given, then The Loop ID for the current post will be used.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 2.7.0
  *
  * @param int $post_id Optional. Post ID. Default is ID of the global $post.
@@ -5054,11 +5054,11 @@ function get_pages( $args = array() ) {
 
 /**
  * Determines whether an attachment URI is local and really an attachment.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 2.0.0
  *
  * @param string $url URL to check
@@ -5533,9 +5533,9 @@ function wp_attachment_is( $type, $post = null ) {
 
 /**
  * Determines whether an attachment is an image.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0
