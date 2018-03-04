@@ -1852,7 +1852,7 @@ function wp_insert_user( $userdata ) {
  *
  * @see wp_insert_user() For what fields can be set in $userdata.
  *
- * @param object|WP_User $userdata An array of user data or a user object of type stdClass or WP_User.
+ * @param array|object|WP_User $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
  */
 function wp_update_user( $userdata ) {
