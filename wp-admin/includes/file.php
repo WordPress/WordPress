@@ -993,9 +993,32 @@ function download_url( $url, $timeout = 300 ) {
 		return $response;
 	}
 
-	if ( 200 != wp_remote_retrieve_response_code( $response ) ) {
+	$response_code = wp_remote_retrieve_response_code( $response );
+
+	if ( 200 != $response_code ) {
+		$data = array(
+			'code' => $response_code,
+		);
+
+		// Retrieve a sample of the response body for debugging purposes.
+		$tmpf = fopen( $tmpfname, 'rb' );
+		if ( $tmpf ) {
+			/**
+			 * Filters the maximum error response body size in `download_url()`.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @see download_url()
+			 *
+			 * @param int $size The maximum error response body size. Default 1 KB.
+			 */
+			$response_size = apply_filters( 'download_url_error_max_body_size', KB_IN_BYTES );
+			$data['body']  = fread( $tmpf, $response_size );
+			fclose( $tmpf );
+		}
+
 		unlink( $tmpfname );
-		return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ) );
+		return new WP_Error( 'http_404', trim( wp_remote_retrieve_response_message( $response ) ), $data );
 	}
 
 	$content_md5 = wp_remote_retrieve_header( $response, 'content-md5' );
