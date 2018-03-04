@@ -447,7 +447,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.3.0
 	 *
-	 * @global WP_Filesystem_Base $wp_filesystem Subclass
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
 	 * @param string $source The full path to the package source.
 	 * @return string|WP_Error The source or a WP_Error.

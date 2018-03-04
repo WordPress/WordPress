@@ -1075,7 +1075,7 @@ function verify_file_md5( $filename, $expected_md5 ) {
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
  * @param string $file Full path and filename of ZIP archive.
  * @param string $to   Full path on the filesystem to extract archive to.
@@ -1147,7 +1147,7 @@ function unzip_file( $file, $to ) {
  * @see unzip_file()
  * @access private
  *
- * @global WP_Filesystem_Base $wp_filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
  * @param string $file       Full path and filename of ZIP archive.
  * @param string $to         Full path on the filesystem to extract archive to.
@@ -1274,7 +1274,7 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
  * @see unzip_file()
  * @access private
  *
- * @global WP_Filesystem_Base $wp_filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
  * @param string $file       Full path and filename of ZIP archive.
  * @param string $to         Full path on the filesystem to extract archive to.
@@ -1385,7 +1385,7 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
  * @param string $from     Source directory.
  * @param string $to       Destination directory.
@@ -1447,7 +1447,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem subclass.
+ * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
  *
  * @param array|false  $args                         Optional. Connection args, These are passed directly to
  *                                                   the `WP_Filesystem_*()` classes. Default false.
