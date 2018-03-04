@@ -1039,9 +1039,11 @@ function download_url( $url, $timeout = 300 ) {
  *
  * @since 3.7.0
  *
- * @param string $filename The filename to check the MD5 of.
- * @param string $expected_md5 The expected MD5 of the file, either a base64 encoded raw md5, or a hex-encoded md5
- * @return bool|object WP_Error on failure, true on success, false when the MD5 format is unknown/unexpected
+ * @param string $filename     The filename to check the MD5 of.
+ * @param string $expected_md5 The expected MD5 of the file, either a base64-encoded raw md5,
+ *                             or a hex-encoded md5.
+ * @return bool|WP_Error True on success, false when the MD5 format is unknown/unexpected,
+ *                       WP_Error on failure.
  */
 function verify_file_md5( $filename, $expected_md5 ) {
 	if ( 32 == strlen( $expected_md5 ) ) {
@@ -1062,19 +1064,22 @@ function verify_file_md5( $filename, $expected_md5 ) {
 }
 
 /**
- * Unzips a specified ZIP file to a location on the Filesystem via the WordPress Filesystem Abstraction.
- * Assumes that WP_Filesystem() has already been called and set up. Does not extract a root-level __MACOSX directory, if present.
+ * Unzips a specified ZIP file to a location on the filesystem via the WordPress
+ * Filesystem Abstraction.
  *
- * Attempts to increase the PHP Memory limit to 256M before uncompressing,
- * However, The most memory required shouldn't be much larger than the Archive itself.
+ * Assumes that WP_Filesystem() has already been called and set up. Does not extract
+ * a root-level __MACOSX directory, if present.
+ *
+ * Attempts to increase the PHP memory limit to 256M before uncompressing. However,
+ * the most memory required shouldn't be much larger than the archive itself.
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem Subclass
+ * @global WP_Filesystem_Base $wp_filesystem subclass.
  *
- * @param string $file Full path and filename of zip archive
- * @param string $to Full path on the filesystem to extract archive to
- * @return mixed WP_Error on failure, True on success
+ * @param string $file Full path and filename of ZIP archive.
+ * @param string $to   Full path on the filesystem to extract archive to.
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function unzip_file( $file, $to ) {
 	global $wp_filesystem;
@@ -1132,19 +1137,22 @@ function unzip_file( $file, $to ) {
 }
 
 /**
- * This function should not be called directly, use unzip_file instead. Attempts to unzip an archive using the ZipArchive class.
+ * Attempts to unzip an archive using the ZipArchive class.
+ *
+ * This function should not be called directly, use `unzip_file()` instead.
+ *
  * Assumes that WP_Filesystem() has already been called and set up.
  *
  * @since 3.0.0
- * @see unzip_file
+ * @see unzip_file()
  * @access private
  *
- * @global WP_Filesystem_Base $wp_filesystem Subclass
+ * @global WP_Filesystem_Base $wp_filesystem subclass.
  *
- * @param string $file Full path and filename of zip archive
- * @param string $to Full path on the filesystem to extract archive to
+ * @param string $file       Full path and filename of ZIP archive.
+ * @param string $to         Full path on the filesystem to extract archive to.
  * @param array $needed_dirs A partial list of required folders needed to be created.
- * @return mixed WP_Error on failure, True on success
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 	global $wp_filesystem;
@@ -1256,19 +1264,22 @@ function _unzip_file_ziparchive( $file, $to, $needed_dirs = array() ) {
 }
 
 /**
- * This function should not be called directly, use unzip_file instead. Attempts to unzip an archive using the PclZip library.
+ * Attempts to unzip an archive using the PclZip library.
+ *
+ * This function should not be called directly, use `unzip_file()` instead.
+ *
  * Assumes that WP_Filesystem() has already been called and set up.
  *
  * @since 3.0.0
- * @see unzip_file
+ * @see unzip_file()
  * @access private
  *
- * @global WP_Filesystem_Base $wp_filesystem Subclass
+ * @global WP_Filesystem_Base $wp_filesystem subclass.
  *
- * @param string $file Full path and filename of zip archive
- * @param string $to Full path on the filesystem to extract archive to
+ * @param string $file       Full path and filename of ZIP archive.
+ * @param string $to         Full path on the filesystem to extract archive to.
  * @param array $needed_dirs A partial list of required folders needed to be created.
- * @return mixed WP_Error on failure, True on success
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 	global $wp_filesystem;
@@ -1367,17 +1378,19 @@ function _unzip_file_pclzip( $file, $to, $needed_dirs = array() ) {
 }
 
 /**
- * Copies a directory from one location to another via the WordPress Filesystem Abstraction.
+ * Copies a directory from one location to another via the WordPress Filesystem
+ * Abstraction.
+ *
  * Assumes that WP_Filesystem() has already been called and setup.
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem Subclass
+ * @global WP_Filesystem_Base $wp_filesystem subclass.
  *
- * @param string $from source directory
- * @param string $to destination directory
- * @param array $skip_list a list of files/folders to skip copying
- * @return mixed WP_Error on failure, True on success.
+ * @param string $from     Source directory.
+ * @param string $to       Destination directory.
+ * @param array $skip_list A list of files/folders to skip copying.
+ * @return true|WP_Error True on success, WP_Error on failure.
  */
 function copy_dir( $from, $to, $skip_list = array() ) {
 	global $wp_filesystem;
@@ -1426,6 +1439,7 @@ function copy_dir( $from, $to, $skip_list = array() ) {
 
 /**
  * Initialises and connects the WordPress Filesystem Abstraction classes.
+ *
  * This function will include the chosen transport and attempt connecting.
  *
  * Plugins may add extra transports, And force WordPress to use them by returning
@@ -1433,13 +1447,13 @@ function copy_dir( $from, $to, $skip_list = array() ) {
  *
  * @since 2.5.0
  *
- * @global WP_Filesystem_Base $wp_filesystem Subclass
+ * @global WP_Filesystem_Base $wp_filesystem subclass.
  *
  * @param array|false  $args                         Optional. Connection args, These are passed directly to
  *                                                   the `WP_Filesystem_*()` classes. Default false.
  * @param string|false $context                      Optional. Context for get_filesystem_method(). Default false.
  * @param bool         $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
- * @return null|bool false on failure, true on success.
+ * @return bool|null True on success, false on failure, null if the filesystem method class file does not exist.
  */
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
 	global $wp_filesystem;
@@ -1622,7 +1636,7 @@ function get_filesystem_method( $args = array(), $context = '', $allow_relaxed_f
  *                                             the post. Default null.
  * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
  *
- * @return bool False on failure, true on success.
+ * @return bool True on success, false on failure.
  */
 function request_filesystem_credentials( $form_post, $type = '', $error = false, $context = '', $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 	global $pagenow;
