@@ -1305,7 +1305,7 @@ function wp_print_community_events_templates() {
 }
 
 /**
- * WordPress News dashboard widget.
+ * 'WordPress Events and News' dashboard widget.
  *
  * @since 2.7.0
  * @since 4.8.0 Removed popular plugins feed.
@@ -1315,7 +1315,7 @@ function wp_dashboard_primary() {
 		'news'   => array(
 
 			/**
-			 * Filters the primary link URL for the 'WordPress News' dashboard widget.
+			 * Filters the primary link URL for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.5.0
 			 *
@@ -1324,7 +1324,7 @@ function wp_dashboard_primary() {
 			'link'         => apply_filters( 'dashboard_primary_link', __( 'https://wordpress.org/news/' ) ),
 
 			/**
-			 * Filters the primary feed URL for the 'WordPress News' dashboard widget.
+			 * Filters the primary feed URL for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1333,7 +1333,7 @@ function wp_dashboard_primary() {
 			'url'          => apply_filters( 'dashboard_primary_feed', __( 'https://wordpress.org/news/feed/' ) ),
 
 			/**
-			 * Filters the primary link title for the 'WordPress News' dashboard widget.
+			 * Filters the primary link title for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1348,7 +1348,7 @@ function wp_dashboard_primary() {
 		'planet' => array(
 
 			/**
-			 * Filters the secondary link URL for the 'WordPress News' dashboard widget.
+			 * Filters the secondary link URL for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1357,7 +1357,7 @@ function wp_dashboard_primary() {
 			'link'         => apply_filters( 'dashboard_secondary_link', __( 'https://planet.wordpress.org/' ) ),
 
 			/**
-			 * Filters the secondary feed URL for the 'WordPress News' dashboard widget.
+			 * Filters the secondary feed URL for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1366,7 +1366,7 @@ function wp_dashboard_primary() {
 			'url'          => apply_filters( 'dashboard_secondary_feed', __( 'https://planet.wordpress.org/feed/' ) ),
 
 			/**
-			 * Filters the secondary link title for the 'WordPress News' dashboard widget.
+			 * Filters the secondary link title for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1375,7 +1375,7 @@ function wp_dashboard_primary() {
 			'title'        => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
 
 			/**
-			 * Filters the number of secondary link items for the 'WordPress News' dashboard widget.
+			 * Filters the number of secondary link items for the 'WordPress Events and News' dashboard widget.
 			 *
 			 * @since 4.4.0
 			 *
@@ -1392,7 +1392,7 @@ function wp_dashboard_primary() {
 }
 
 /**
- * Display the WordPress news feeds.
+ * Display the WordPress events and news feeds.
  *
  * @since 3.8.0
  * @since 4.8.0 Removed popular plugins feed.

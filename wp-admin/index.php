@@ -81,13 +81,13 @@ if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 if ( ! is_multisite() && current_user_can( 'install_plugins' ) ) {
 	$help .= '<p>' . sprintf(
 		/* translators: %s: WordPress Planet URL */
-		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project, the <a href="%s">WordPress Planet</a>, and popular plugins.' ),
+		__( '<strong>WordPress Events and News</strong> &mdash; Upcoming events near you and the latest news from the official WordPress project, the <a href="%s">WordPress Planet</a>, and popular plugins.' ),
 		__( 'https://planet.wordpress.org/' )
 	) . '</p>';
 } else {
 	$help .= '<p>' . sprintf(
 		/* translators: %s: WordPress Planet URL */
-		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
+		__( '<strong>WordPress Events and News</strong> &mdash; Upcoming events near you and the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
 		__( 'https://planet.wordpress.org/' )
 	) . '</p>';
 }
