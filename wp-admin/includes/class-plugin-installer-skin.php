@@ -93,7 +93,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		 * @param object $api             Object containing WordPress.org API plugin data. Empty
 		 *                                for non-API installs, such as when a plugin is installed
 		 *                                via upload.
-		 * @param string $plugin_file     Path to the plugin file.
+		 * @param string $plugin_file     Path to the plugin file relative to the plugins directory.
 		 */
 		$install_actions = apply_filters( 'install_plugin_complete_actions', $install_actions, $this->api, $plugin_file );
 

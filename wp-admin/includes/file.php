@@ -175,7 +175,7 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
  *
  * @since 4.9.0
  *
- * @param string $plugin Path to the main plugin file from plugins directory.
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
  * @return string[] Array of editable file extensions.
  */
 function wp_get_plugin_file_editable_extensions( $plugin ) {
@@ -222,7 +222,7 @@ function wp_get_plugin_file_editable_extensions( $plugin ) {
 	 * @since 4.9.0 Added the `$plugin` parameter.
 	 *
 	 * @param string[] $editable_extensions An array of editable plugin file extensions.
-	 * @param string   $plugin              Path to the main plugin file from plugins directory.
+	 * @param string   $plugin              Path to the plugin file relative to the plugins directory.
 	 */
 	$editable_extensions = (array) apply_filters( 'editable_extensions', $editable_extensions, $plugin );
 
@@ -342,7 +342,7 @@ function wp_print_file_editor_templates() {
  *     coming straight from `$_POST` and are not validated or sanitized in any way.
  *
  *     @type string $file       Relative path to file.
- *     @type string $plugin     Plugin being edited.
+ *     @type string $plugin     Path to the plugin file relative to the plugins directory.
  *     @type string $theme      Theme being edited.
  *     @type string $newcontent New content for the file.
  *     @type string $nonce      Nonce.

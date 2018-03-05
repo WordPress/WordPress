@@ -691,7 +691,7 @@ class WP_Upgrader {
 		 *         @type string $action               Type of action. Default 'update'.
 		 *         @type string $type                 Type of update process. Accepts 'plugin', 'theme', or 'core'.
 		 *         @type bool   $bulk                 Whether the update process is a bulk update. Default true.
-		 *         @type string $plugin               The base plugin path from the plugins directory.
+		 *         @type string $plugin               Path to the plugin file relative to the plugins directory.
 		 *         @type string $theme                The stylesheet or template name of the theme.
 		 *         @type string $language_update_type The language pack update type. Accepts 'plugin', 'theme',
 		 *                                            or 'core'.

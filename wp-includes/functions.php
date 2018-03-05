@@ -5070,8 +5070,8 @@ function wp_scheduled_delete() {
  *
  * @since 2.9.0
  *
- * @param string $file            Path to the file.
- * @param array  $default_headers List of headers, in the format array('HeaderKey' => 'Header Name').
+ * @param string $file            Absolute path to the file.
+ * @param array  $default_headers List of headers, in the format `array('HeaderKey' => 'Header Name')`.
  * @param string $context         Optional. If specified adds filter hook {@see 'extra_$context_headers'}.
  *                                Default empty.
  * @return array Array of file headers in `HeaderKey => Header Value` format.

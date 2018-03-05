@@ -827,7 +827,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 * @param array  $plugin_meta An array of the plugin's metadata,
 					 *                            including the version, author,
 					 *                            author URI, and plugin URI.
-					 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
+					 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array  $plugin_data An array of plugin data.
 					 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
 					 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
@@ -849,7 +849,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 * @since 3.1.0
 					 *
 					 * @param string $column_name Name of the column.
-					 * @param string $plugin_file Path to the plugin file.
+					 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 					 * @param array  $plugin_data An array of plugin data.
 					 */
 					do_action( 'manage_plugins_custom_column', $column_name, $plugin_file, $plugin_data );
@@ -865,7 +865,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
+		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
 		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
 		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
@@ -881,7 +881,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param string $plugin_file Path to the plugin file, relative to the plugins directory.
+		 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
 		 * @param array  $plugin_data An array of plugin data.
 		 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
 		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
