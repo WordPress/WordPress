@@ -174,10 +174,24 @@ class wpdb {
 	protected $col_info;
 
 	/**
-	 * Saved queries that were executed
+	 * Log of queries that were executed, for debugging purposes.
 	 *
 	 * @since 1.5.0
-	 * @var array
+	 * @since 2.5.0 The third element in each query log was added to record the calling functions.
+	 * @since 5.0.0 The fourth element in each query log was added to record the start time.
+	 *
+	 * @var array[] {
+	 *     Array of queries that were executed.
+	 *
+	 *     @type array ...$0 {
+	 *         Data for each query.
+	 *
+	 *         @type string $0 The query's SQL.
+	 *         @type float  $1 Total time spent on the query, in seconds.
+	 *         @type string $2 Comma separated list of the calling functions.
+	 *         @type float  $3 Unix timestamp of the time at the start of the query.
+	 *     }
+	 * }
 	 */
 	var $queries;
 
@@ -1986,7 +2000,12 @@ class wpdb {
 		$this->num_queries++;
 
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-			$this->queries[] = array( $query, $this->timer_stop(), $this->get_caller() );
+			$this->queries[] = array(
+				$query,
+				$this->timer_stop(),
+				$this->get_caller(),
+				$this->time_start,
+			);
 		}
 	}
 
@@ -3493,7 +3512,7 @@ class wpdb {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @return string|array The name of the calling function
+	 * @return string Comma separated list of the calling functions.
 	 */
 	public function get_caller() {
 		return wp_debug_backtrace_summary( __CLASS__ );
