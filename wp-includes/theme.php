@@ -413,6 +413,8 @@ function register_theme_directory( $directory ) {
 		$wp_theme_directories[] = $untrailed;
 	}
 
+	wp_clean_themes_cache();
+
 	return true;
 }
 
