@@ -1548,6 +1548,15 @@ ul#dismissed-updates {
 	display: none;
 }
 
+#dismissed-updates li > p {
+	margin-top: 0;
+}
+
+#dismiss,
+#undismiss {
+	margin-left: 0.5em;
+}
+
 form.upgrade {
 	margin-top: 8px;
 }

@@ -138,15 +138,14 @@ function dismissed_updates() {
 		$hide_text = esc_js( __( 'Hide hidden updates' ) );
 	?>
 	<script type="text/javascript">
-
-		jQuery(function($) {
-			$('dismissed-updates').show();
-			$('#show-dismissed').toggle(function(){$(this).text('<?php echo $hide_text; ?>');}, function() {$(this).text('<?php echo $show_text; ?>')});
-			$('#show-dismissed').click(function() { $('#dismissed-updates').toggle('slow');});
+		jQuery(function( $ ) {
+			$( 'dismissed-updates' ).show();
+			$( '#show-dismissed' ).toggle( function() { $( this ).text( '<?php echo $hide_text; ?>' ).attr( 'aria-expanded', 'true' ); }, function() { $( this ).text( '<?php echo $show_text; ?>' ).attr( 'aria-expanded', 'false' ); } );
+			$( '#show-dismissed' ).click( function() { $( '#dismissed-updates' ).toggle( 'fast' ); } );
 		});
 	</script>
 	<?php
-		echo '<p class="hide-if-no-js"><a id="show-dismissed" href="#">' . __( 'Show hidden updates' ) . '</a></p>';
+		echo '<p class="hide-if-no-js"><button type="button" class="button" id="show-dismissed" aria-expanded="false">' . __( 'Show hidden updates' ) . '</button></p>';
 		echo '<ul id="dismissed-updates" class="core-updates dismissed">';
 	foreach ( (array) $dismissed as $update ) {
 		echo '<li>';
