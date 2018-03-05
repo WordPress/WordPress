@@ -76,7 +76,7 @@ if ( current_user_can( 'edit_posts' ) ) {
 }
 	$help .= '<p>' . __( '<strong>Activity</strong> &mdash; Shows the upcoming scheduled posts, recently published posts, and the most recent comments on your posts and allows you to moderate them.' ) . '</p>';
 if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
-	$help .= '<p>' . __( "<strong>Quick Draft</strong> &mdash; Allows you to create a new post and save it as a draft. Also displays links to the 5 most recent draft posts you've started." ) . '</p>';
+	$help .= '<p>' . __( "<strong>Quick Draft</strong> &mdash; Allows you to create a new post and save it as a draft. Also displays links to the 3 most recent draft posts you've started." ) . '</p>';
 }
 if ( ! is_multisite() && current_user_can( 'install_plugins' ) ) {
 	$help .= '<p>' . sprintf(
