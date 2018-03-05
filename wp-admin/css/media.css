@@ -211,8 +211,7 @@
 	padding: 10px 0 10px 14px;
 }
 
-.media-item .error-div a.dismiss {
-	display: block;
+.media-item .error-div button.dismiss {
 	float: right;
 	margin: 0 10px 0 15px;
 }
