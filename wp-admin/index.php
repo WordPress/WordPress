@@ -71,18 +71,23 @@ $screen->add_help_tab(
 );
 
 $help = '<p>' . __( 'The boxes on your Dashboard screen are:' ) . '</p>';
+
 if ( current_user_can( 'edit_posts' ) ) {
 	$help .= '<p>' . __( '<strong>At A Glance</strong> &mdash; Displays a summary of the content on your site and identifies which theme and version of WordPress you are using.' ) . '</p>';
 }
-	$help .= '<p>' . __( '<strong>Activity</strong> &mdash; Shows the upcoming scheduled posts, recently published posts, and the most recent comments on your posts and allows you to moderate them.' ) . '</p>';
+
+$help .= '<p>' . __( '<strong>Activity</strong> &mdash; Shows the upcoming scheduled posts, recently published posts, and the most recent comments on your posts and allows you to moderate them.' ) . '</p>';
+
 if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
 	$help .= '<p>' . __( "<strong>Quick Draft</strong> &mdash; Allows you to create a new post and save it as a draft. Also displays links to the 3 most recent draft posts you've started." ) . '</p>';
 }
+
 $help .= '<p>' . sprintf(
 	/* translators: %s: WordPress Planet URL */
 	__( '<strong>WordPress Events and News</strong> &mdash; Upcoming events near you as well as the latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
 	__( 'https://planet.wordpress.org/' )
 ) . '</p>';
+
 if ( current_user_can( 'edit_theme_options' ) ) {
 	$help .= '<p>' . __( '<strong>Welcome</strong> &mdash; Shows links for some of the most common tasks when setting up a new site.' ) . '</p>';
 }
