@@ -1245,6 +1245,11 @@ footer .footer .wechat_qr_code {
     color: #1972A9;
     font-weight: bold;
 }
+.video-list .video-item span{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
 
 .video-list .contain-box .contain-body .list-item .list-contain .video-item p,.video-details .video-item p {
     display: block;
