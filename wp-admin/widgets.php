@@ -399,7 +399,12 @@ if ( current_user_can( 'customize' ) ) {
 		__( 'Manage with Live Preview' )
 	);
 }
+
+$nonce = wp_create_nonce( 'widgets-access' );
 ?>
+<div class="widget-access-link">
+	<a id="access-on" href="widgets.php?widgets-access=on&_wpnonce=<?php echo urlencode( $nonce ); ?>"><?php _e( 'Enable accessibility mode' ); ?></a><a id="access-off" href="widgets.php?widgets-access=off&_wpnonce=<?php echo urlencode( $nonce ); ?>"><?php _e( 'Disable accessibility mode' ); ?></a>
+</div>
 
 <hr class="wp-header-end">
 

@@ -495,6 +495,11 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 /* Accessibility Mode */
+.widget-access-link {
+	float: left;
+	margin: -5px 10px 10px 0;
+}
+
 .widgets_access #widgets-left .widget .widget-top {
 	cursor: auto;
 }
@@ -792,6 +797,11 @@ ul.CodeMirror-hints {
 	div.widget {
 		margin: 0 auto !important;
 		max-width: 480px;
+	}
+
+	.widget-access-link {
+		float: none;
+		margin: 15px 0 0 0;
 	}
 }
 
