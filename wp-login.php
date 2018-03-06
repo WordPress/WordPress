@@ -427,7 +427,7 @@ if ( isset( $_GET['key'] ) ) {
 }
 
 // validate action so as to default to the login screen
-if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'emailconfirm' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
 	$action = 'login';
 }
 
@@ -857,6 +857,52 @@ switch ( $action ) {
 	}
 
 		break;
+
+	case 'emailconfirm' :
+		if ( isset( $_GET['confirm_action'], $_GET['confirm_key'], $_GET['uid'] ) ) {
+			$action_name = sanitize_key( wp_unslash( $_GET['confirm_action'] ) );
+			$key         = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
+			$uid         = sanitize_text_field( wp_unslash( $_GET['uid'] ) );
+			$result      = check_confirm_account_action_key( $action_name, $key, $uid );
+		} else {
+			$result = new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+		}
+
+		if ( is_wp_error( $result ) ) {
+			/**
+			 * Fires an action hook when the account action was not confirmed.
+			 * 
+			 * After running this action hook the page will die.
+			 * 
+			 * @param WP_Error $result Error object.
+			 */
+			do_action( 'account_action_failed', $result );
+
+			wp_die( $result );
+		}
+		
+		/**
+		 * Fires an action hook when the account action has been confirmed by the user.
+		 * 
+		 * Using this you can assume the user has agreed to perform the action by
+		 * clicking on the link in the confirmation email.
+		 * 
+		 * After firing this action hook the page will redirect to wp-login a callback 
+		 * redirects or exits first.
+		 * 
+		 * @param array $result {
+		 *     Data about the action which was confirmed.
+		 *
+		 *     @type string $action Name of the action that was confirmed.
+		 *     @type string $email  Email of the user who confirmed the action.
+		 * }
+		 */
+		do_action( 'account_action_confirmed', $result );
+
+		$message = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
+		login_header( '', $message );
+		login_footer();
+		exit;
 
 	case 'login':
 	default:
