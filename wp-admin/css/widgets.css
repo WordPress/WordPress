@@ -381,10 +381,6 @@ div#widgets-left .widget-holder {
 	box-shadow: none;
 }
 
-#available-widgets .widget-action {
-	display: none;
-}
-
 #available-widgets .widget {
 	margin: 0;
 }
@@ -516,8 +512,11 @@ div#widgets-right .closed .widgets-sortables {
 }
 
 #available-widgets .widget-control-edit .edit,
+#available-widgets .widget-action .edit,
 #widgets-left .inactive-sidebar .widget-control-edit .add,
-#widgets-right .widget-control-edit .add {
+#widgets-left .inactive-sidebar .widget-action .add,
+#widgets-right .widget-control-edit .add,
+#widgets-right .widget-action .add {
 	display: none;
 }
 
@@ -664,44 +663,40 @@ div#widgets-right .widget-top:hover,
 }
 
 .widgets-chooser li {
-	padding: 10px 15px 10px 35px;
 	border-bottom: 1px solid #ccc;
 	background: #fff;
 	margin: 0;
-	cursor: pointer;
-	outline: none;
 	position: relative;
+}
+
+.widgets-chooser .widgets-chooser-button {
+	width: 100%;
+	padding: 10px 15px 10px 35px;
+	background: transparent;
+	border: 0;
+	box-sizing: border-box;
+	text-align: left;
+	cursor: pointer;
 	transition: background 0.2s ease-in-out;
 }
 
- /* @todo looks like these hover/focus states are overridden by .widgets-chooser-selected */
-.widgets-chooser li:hover,
-.widgets-chooser li:focus {
-	background: rgba(255,255,255,0.7);
-}
-
-.widgets-chooser li:focus:before {
-	content: "\f147";
-	display: block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 26px/1 dashicons;
-	color: #555d66;
-	position: absolute;
-	top: 7px;
-	left: 5px;
+/* @todo looks like these hover/focus states are overridden by .widgets-chooser-selected */
+.widgets-chooser .widgets-chooser-button:hover,
+.widgets-chooser .widgets-chooser-button:focus {
+	outline: none;
+	text-decoration: underline;
 }
 
 .widgets-chooser li:last-child {
 	border: none;
 }
 
-.widgets-chooser li.widgets-chooser-selected {
-	background: #00a0d2;
+.widgets-chooser .widgets-chooser-selected .widgets-chooser-button {
+	background: #0073aa;
 	color: #fff;
 }
 
-.widgets-chooser li.widgets-chooser-selected:before,
-.widgets-chooser li.widgets-chooser-selected:focus:before {
+.widgets-chooser .widgets-chooser-selected:before {
 	content: "\f147";
 	display: block;
 	-webkit-font-smoothing: antialiased;
@@ -715,10 +710,6 @@ div#widgets-right .widget-top:hover,
 .widgets-chooser .widgets-chooser-actions {
 	padding: 10px 0 12px 0;
 	text-align: center;
-}
-
-.widgets-chooser button {
-	margin-right: 5px;
 }
 
 #available-widgets .widget .widget-top {

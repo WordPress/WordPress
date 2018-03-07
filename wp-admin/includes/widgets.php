@@ -90,8 +90,13 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	echo '<div id="' . esc_attr( $sidebar ) . '" class="widgets-sortables">';
 
 	if ( $sidebar_name ) {
+		$add_to = sprintf(
+			/* translators: %s: widgets sidebar name. */
+			__( 'Add to: %s' ),
+			$sidebar_name
+		);
 		?>
-		<div class="sidebar-name">
+		<div class="sidebar-name" data-add-to="<?php echo esc_attr( $add_to ); ?>">
 			<button type="button" class="handlediv hide-if-no-js" aria-expanded="true">
 				<span class="screen-reader-text"><?php echo esc_html( $sidebar_name ); ?></span>
 				<span class="toggle-indicator" aria-hidden="true"></span>
@@ -239,7 +244,8 @@ function wp_widget_control( $sidebar_args ) {
 	<div class="widget-top">
 	<div class="widget-title-action">
 		<button type="button" class="widget-action hide-if-no-js" aria-expanded="false">
-			<span class="screen-reader-text"><?php printf( __( 'Edit widget: %s' ), $widget_title ); ?></span>
+			<span class="screen-reader-text edit"><?php printf( __( 'Edit widget: %s' ), $widget_title ); ?></span>
+			<span class="screen-reader-text add"><?php printf( __( 'Add widget: %s' ), $widget_title ); ?></span>
 			<span class="toggle-indicator" aria-hidden="true"></span>
 		</button>
 		<a class="widget-control-edit hide-if-js" href="<?php echo esc_url( add_query_arg( $query_arg ) ); ?>">
