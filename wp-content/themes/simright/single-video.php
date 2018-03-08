@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header('header-video'); ?>
 <section class="main-box video-details">
     <section class="contain-box">
         <div class="contain-body">
