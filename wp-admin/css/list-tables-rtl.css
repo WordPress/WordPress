@@ -1350,6 +1350,12 @@ ul.cat-checklist {
 	margin: 0.5em 0;
 }
 
+.plugins .plugin-description a,
+.plugins .plugin-update a,
+.updates-table .plugin-title a {
+	text-decoration: underline;
+}
+
 .plugin-card .update-now:before {
 	color: #f56e28;
 	content: "\f463";
