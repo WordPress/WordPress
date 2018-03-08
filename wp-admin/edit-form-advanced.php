@@ -357,8 +357,9 @@ if ( post_type_supports( $post_type, 'author' ) && current_user_can( $post_type_
  *
  * @since 3.0.0
  *
- * @param string  $post_type Post type.
- * @param WP_Post $post      Post object.
+ * @param string                    $post_type Post type for posts, 'comment' for comments,
+ *                                             'link' for links.
+ * @param WP_Post|WP_Comment|object $post      Post, comment, or link object.
  */
 do_action( 'add_meta_boxes', $post_type, $post );
 
@@ -380,9 +381,11 @@ do_action( "add_meta_boxes_{$post_type}", $post );
  *
  * @since 3.0.0
  *
- * @param string  $post_type Post type of the post.
- * @param string  $context   string  Meta box context.
- * @param WP_Post $post      Post object.
+ * @param string                $post_type Post type for posts, 'dashboard' for dashboard widgets,
+ *                                         'link' for links.
+ * @param string                $context   Meta box context. Accepts 'normal', 'advanced', 'side'.
+ * @param WP_Post|string|object $post      Post object for posts, empty string for dashboard widgets,
+ *                                         link object for links.
  */
 do_action( 'do_meta_boxes', $post_type, 'normal', $post );
 /** This action is documented in wp-admin/edit-form-advanced.php */
