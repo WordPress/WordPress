@@ -7,12 +7,6 @@
  * @package WordPress
  * @subpackage Administration
  * @since 2.6.0
- *
- * @param int    revision Optional. The revision ID.
- * @param string action   The action to take.
- *                        Accepts 'restore', 'view' or 'edit'.
- * @param int    from     The revision to compare from.
- * @param int    to       Optional, required if revision missing. The revision to compare to.
  */
 
 /** WordPress Administration Bootstrap */
@@ -20,6 +14,13 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 require ABSPATH . 'wp-admin/includes/revision.php';
 
+/**
+ * @global int    $revision Optional. The revision ID.
+ * @global string $action   The action to take.
+ *                          Accepts 'restore', 'view' or 'edit'.
+ * @global int    $from     The revision to compare from.
+ * @global int    $to       Optional, required if revision missing. The revision to compare to.
+ */
 wp_reset_vars( array( 'revision', 'action', 'from', 'to' ) );
 
 $revision_id = absint( $revision );
