@@ -3623,7 +3623,6 @@ final class WP_Customize_Manager {
 	 *  Optional. Array of properties for the new WP_Customize_Setting. Default empty array.
 	 *
 	 *  @type string       $type                  Type of the setting. Default 'theme_mod'.
-	 *                                            Default 160.
 	 *  @type string       $capability            Capability required for the setting. Default 'edit_theme_options'
 	 *  @type string|array $theme_supports        Theme features required to support the panel. Default is none.
 	 *  @type string       $default               Default value for the setting. Default is empty string.
