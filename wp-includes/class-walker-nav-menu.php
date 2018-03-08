@@ -169,11 +169,12 @@ class Walker_Nav_Menu extends Walker {
 
 		$output .= $indent . '<li' . $id . $class_names . '>';
 
-		$atts           = array();
-		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
-		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-		$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
-		$atts['href']   = ! empty( $item->url ) ? $item->url : '';
+		$atts                 = array();
+		$atts['title']        = ! empty( $item->attr_title ) ? $item->attr_title : '';
+		$atts['target']       = ! empty( $item->target ) ? $item->target : '';
+		$atts['rel']          = ! empty( $item->xfn ) ? $item->xfn : '';
+		$atts['href']         = ! empty( $item->url ) ? $item->url : '';
+		$atts['aria-current'] = $item->current ? 'page' : '';
 
 		/**
 		 * Filters the HTML attributes applied to a menu item's anchor element.
@@ -184,10 +185,11 @@ class Walker_Nav_Menu extends Walker {
 		 * @param array $atts {
 		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
 		 *
-		 *     @type string $title  Title attribute.
-		 *     @type string $target Target attribute.
-		 *     @type string $rel    The rel attribute.
-		 *     @type string $href   The href attribute.
+		 *     @type string $title        Title attribute.
+		 *     @type string $target       Target attribute.
+		 *     @type string $rel          The rel attribute.
+		 *     @type string $href         The href attribute.
+		 *     @type string $aria_current The aria-current attribute.
 		 * }
 		 * @param WP_Post  $item  The current menu item.
 		 * @param stdClass $args  An object of wp_nav_menu() arguments.
