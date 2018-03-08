@@ -488,6 +488,10 @@ class WP_Users_List_Table extends WP_List_Table {
 					case 'name':
 						if ( $user_object->first_name && $user_object->last_name ) {
 							$r .= "$user_object->first_name $user_object->last_name";
+						} elseif ( $user_object->first_name ) {
+							$r .= $user_object->first_name;
+						} elseif ( $user_object->last_name ) {
+							$r .= $user_object->last_name;
 						} else {
 							$r .= '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . _x( 'Unknown', 'name' ) . '</span>';
 						}

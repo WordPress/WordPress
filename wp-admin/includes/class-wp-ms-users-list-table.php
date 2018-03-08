@@ -255,6 +255,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	public function column_name( $user ) {
 		if ( $user->first_name && $user->last_name ) {
 			echo "$user->first_name $user->last_name";
+		} elseif ( $user->first_name ) {
+			echo $user->first_name;
+		} elseif ( $user->last_name ) {
+			echo $user->last_name;
 		} else {
 			echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . _x( 'Unknown', 'name' ) . '</span>';
 		}
