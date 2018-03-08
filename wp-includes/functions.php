@@ -5366,6 +5366,8 @@ function wp_allowed_protocols() {
  *
  * @see https://core.trac.wordpress.org/ticket/19589
  *
+ * @staticvar array $truncate_paths Array of paths to truncate.
+ *
  * @param string $ignore_class Optional. A class to ignore all function calls within - useful
  *                             when you want to just give info about the callee. Default null.
  * @param int    $skip_frames  Optional. A number of stack frames to skip - useful for unwinding
@@ -5376,6 +5378,8 @@ function wp_allowed_protocols() {
  *                      of individual calls.
  */
 function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pretty = true ) {
+	static $truncate_paths;
+
 	if ( version_compare( PHP_VERSION, '5.2.5', '>=' ) ) {
 		$trace = debug_backtrace( false );
 	} else {
@@ -5385,6 +5389,13 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 	$caller      = array();
 	$check_class = ! is_null( $ignore_class );
 	$skip_frames++; // skip this function
+
+	if ( ! isset( $truncate_paths ) ) {
+		$truncate_paths = array(
+			wp_normalize_path( WP_CONTENT_DIR ),
+			wp_normalize_path( ABSPATH )
+		);
+	}
 
 	foreach ( $trace as $call ) {
 		if ( $skip_frames > 0 ) {
@@ -5399,7 +5410,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 			if ( in_array( $call['function'], array( 'do_action', 'apply_filters' ) ) ) {
 				$caller[] = "{$call['function']}('{$call['args'][0]}')";
 			} elseif ( in_array( $call['function'], array( 'include', 'include_once', 'require', 'require_once' ) ) ) {
-				$caller[] = $call['function'] . "('" . str_replace( array( WP_CONTENT_DIR, ABSPATH ), '', $call['args'][0] ) . "')";
+				$caller[] = $call['function'] . "('" . str_replace( $truncate_paths, '', wp_normalize_path( $call['args'][0] ) ) . "')";
 			} else {
 				$caller[] = $call['function'];
 			}
