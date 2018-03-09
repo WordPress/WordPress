@@ -241,7 +241,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				$sizes[ $s ]['crop'] = $_wp_additional_image_sizes[ $s ]['crop'];
 			} else {
 				// Force thumbnails to be soft crops.
-				if ( ! 'thumbnail' === $s ) {
+				if ( 'thumbnail' !== $s ) {
 					$sizes[ $s ]['crop'] = get_option( "{$s}_crop" );
 				}
 			}
