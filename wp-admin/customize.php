@@ -14,7 +14,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'customize' ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to customize this site.' ) . '</p>',
 		403
 	);
@@ -31,7 +31,7 @@ if ( $wp_customize->changeset_post_id() ) {
 
 	if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $changeset_post->ID ) ) {
 		wp_die(
-			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 			'<p>' . __( 'Sorry, you are not allowed to edit this changeset.' ) . '</p>',
 			403
 		);
@@ -76,7 +76,7 @@ if ( $wp_customize->changeset_post_id() ) {
 
 	if ( in_array( get_post_status( $changeset_post->ID ), array( 'publish', 'trash' ), true ) ) {
 		wp_die(
-			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 			'<p>' . __( 'This changeset cannot be further modified.' ) . '</p>' .
 			'<p><a href="' . esc_url( remove_query_arg( 'changeset_uuid' ) ) . '">' . __( 'Customize New Changes' ) . '</a></p>',
 			403

@@ -2604,7 +2604,7 @@ function wp_nonce_ays( $action ) {
 			wp_logout_url( $redirect_to )
 		);
 	} else {
-		$html = __( 'Are you sure you want to do this?' );
+		$html = __( 'The link you followed has expired.' );
 		if ( wp_get_referer() ) {
 			$html .= '</p><p>';
 			$html .= sprintf( '<a href="%s">%s</a>',
@@ -2614,7 +2614,7 @@ function wp_nonce_ays( $action ) {
 		}
 	}
 
-	wp_die( $html, __( 'WordPress Failure Notice' ), 403 );
+	wp_die( $html, __( 'Something went wrong.' ), 403 );
 }
 
 /**

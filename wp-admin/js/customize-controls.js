@@ -6873,7 +6873,7 @@
 
 		cheatin: function() {
 			$( document.body ).empty().addClass( 'cheatin' ).append(
-				'<h1>' + api.l10n.cheatin + '</h1>' +
+				'<h1>' + api.l10n.notAllowedHeading + '</h1>' +
 				'<p>' + api.l10n.notAllowed + '</p>'
 			);
 		},

@@ -11,7 +11,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to edit theme options on this site.' ) . '</p>',
 		403
 	);
@@ -24,7 +24,7 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 
 		if ( ! $theme->exists() || ! $theme->is_allowed() ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 				'<p>' . __( 'The requested theme does not exist.' ) . '</p>',
 				403
 			);
@@ -39,7 +39,7 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 
 		if ( ! current_user_can( 'delete_themes' ) ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
 				'<p>' . __( 'Sorry, you are not allowed to delete this item.' ) . '</p>',
 				403
 			);
@@ -47,7 +47,7 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 
 		if ( ! $theme->exists() ) {
 			wp_die(
-				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<h1>' . __( 'Something went wrong.' ) . '</h1>' .
 				'<p>' . __( 'The requested theme does not exist.' ) . '</p>',
 				403
 			);
