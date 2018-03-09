@@ -2260,6 +2260,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$req      = get_option( 'require_name_email' );
 	$html_req = ( $req ? " required='required'" : '' );
 	$html5    = 'html5' === $args['format'];
+	$consent  = empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"';
 	$fields   = array(
 		'author'  => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 					 '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" maxlength="245"' . $html_req . ' /></p>',
@@ -2268,7 +2269,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'url'     => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label> ' .
 					 '<input id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" maxlength="200" /></p>',
 		'cookies' => '<p class="comment-form-cookies-consent"><label for="wp-comment-cookies-consent">' .
-					 '<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" />' .
+					 '<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . $consent . ' />' .
 					 __( 'Save my name, email, and site URL in my browser for next time I post a comment.' ) . '</label></p>',
 	);
 
