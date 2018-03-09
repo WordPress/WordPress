@@ -15,11 +15,11 @@
         } else {
             wp_title('',true);
         } ?></title>
+    <meta property='og:title' content="<?php the_title(); ?>"/>
     <meta property="og:site_name" content="Simright">
-    <meta property="og:url" content="<?php the_permalink()?>">
-    <meta property="og:title" content="<?php the_title(); ?>">
-    <meta property="og:image" content="<?php post_thumbnail_src('thumbnail'); ?>">
-    <meta property="og:type" content="website">
+    <meta property='og:image' content="<?php post_thumbnail_src('thumbnail'); ?>"/>
+    <meta property='og:description' content="Simright is a platform for cloud CAE and product design"/>
+    <meta property='og:url' content="<?php the_permalink()?>" />
     <meta name="keywords" content="simright,cloud CAE,web-based simulation,online simulation,finite element model converter,finite element model translator,ansys,nastran, abaqus,ls-dyna,openform,code-aster">    
     <meta name="description" content="Simright is a platform for cloud CAE and product design">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,7 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="https://oss.simright.com/img/favicon.ico">
     <link rel="stylesheet" href="https://oss.simright.com/static/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?v2.0" type="text/css" media="screen" />
+    <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?v3.0" type="text/css" media="screen" />
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
