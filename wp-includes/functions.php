@@ -5407,7 +5407,7 @@ function wp_debug_backtrace_summary( $ignore_class = null, $skip_frames = 0, $pr
 
 			$caller[] = "{$call['class']}{$call['type']}{$call['function']}";
 		} else {
-			if ( in_array( $call['function'], array( 'do_action', 'apply_filters' ) ) ) {
+			if ( in_array( $call['function'], array( 'do_action', 'apply_filters', 'do_action_ref_array', 'apply_filters_ref_array' ) ) ) {
 				$caller[] = "{$call['function']}('{$call['args'][0]}')";
 			} elseif ( in_array( $call['function'], array( 'include', 'include_once', 'require', 'require_once' ) ) ) {
 				$caller[] = $call['function'] . "('" . str_replace( $truncate_paths, '', wp_normalize_path( $call['args'][0] ) ) . "')";
