@@ -5653,9 +5653,9 @@ function wp_staticize_emoji_for_email( $mail ) {
 }
 
 /**
- * Returns a arrays of emoji data.
+ * Returns arrays of emoji data.
  *
- * These arrays automatically built from the regex in twemoji.js - if they need to be updated,
+ * These arrays are automatically built from the regex in twemoji.js - if they need to be updated,
  * you should update the regex there, then run the `grunt precommit:emoji` job.
  *
  * @since 4.9.0
