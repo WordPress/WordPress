@@ -463,7 +463,7 @@ if ( ! empty( $invalid ) ) {
 	foreach ( $invalid as $plugin_file => $error ) {
 		echo '<div id="message" class="error"><p>';
 		printf(
-			/* translators: 1: plugin file 2: error message */
+			/* translators: 1: plugin file, 2: error message */
 			__( 'The plugin %1$s has been <strong>deactivated</strong> due to an error: %2$s' ),
 			'<code>' . esc_html( $plugin_file ) . '</code>',
 			$error->get_error_message()

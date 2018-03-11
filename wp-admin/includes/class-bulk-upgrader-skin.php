@@ -41,10 +41,10 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->upgrader->strings['skin_upgrade_start'] = __( 'The update process is starting. This process may take a while on some hosts, so please be patient.' );
 		/* translators: 1: Title of an update, 2: Error message */
 		$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while updating %1$s: %2$s' );
-		/* translators: 1: Title of an update */
-		$this->upgrader->strings['skin_update_failed'] = __( 'The update of %1$s failed.' );
-		/* translators: 1: Title of an update */
-		$this->upgrader->strings['skin_update_successful'] = __( '%1$s updated successfully.' );
+		/* translators: %s: Title of an update */
+		$this->upgrader->strings['skin_update_failed'] = __( 'The update of %s failed.' );
+		/* translators: %s: Title of an update */
+		$this->upgrader->strings['skin_update_successful'] = __( '%s updated successfully.' );
 		$this->upgrader->strings['skin_upgrade_end']       = __( 'All updates have been completed.' );
 	}
 

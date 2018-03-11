@@ -348,7 +348,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				<# if ( ! data.alt && data.currentFilename ) { #>
 					<p class="hidden" id="{{ describedById }}">
 					<?php
-						/* translators: placeholder is image filename */
+						/* translators: %s: image filename */
 						echo sprintf( __( 'Current image: %s' ), '{{ data.currentFilename }}' );
 					?>
 					</p>

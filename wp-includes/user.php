@@ -1952,7 +1952,7 @@ All at ###SITENAME###
 
 			$pass_change_email = array(
 				'to'      => $user['user_email'],
-				/* translators: User password change notification email subject. 1: Site name */
+				/* translators: User password change notification email subject. %s: Site name */
 				'subject' => __( '[%s] Notice of Password Change' ),
 				'message' => $pass_change_text,
 				'headers' => '',
@@ -2009,7 +2009,7 @@ All at ###SITENAME###
 
 			$email_change_email = array(
 				'to'      => $user['user_email'],
-				/* translators: User email change notification email subject. 1: Site name */
+				/* translators: User email change notification email subject. %s: Site name */
 				'subject' => __( '[%s] Notice of Email Change' ),
 				'message' => $email_change_text,
 				'headers' => '',

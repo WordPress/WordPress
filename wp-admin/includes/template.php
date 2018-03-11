@@ -2202,7 +2202,7 @@ function convert_to_screen( $hook_name ) {
 		_doing_it_wrong(
 			'convert_to_screen(), add_meta_box()',
 			sprintf(
-				/* translators: 1: wp-admin/includes/template.php 2: add_meta_box() 3: add_meta_boxes */
+				/* translators: 1: wp-admin/includes/template.php, 2: add_meta_box(), 3: add_meta_boxes */
 				__( 'Likely direct inclusion of %1$s in order to use %2$s. This is very wrong. Hook the %2$s call into the %3$s action instead.' ),
 				'<code>wp-admin/includes/template.php</code>',
 				'<code>add_meta_box()</code>',
@@ -2285,11 +2285,11 @@ function wp_star_rating( $args = array() ) {
 	$empty_stars = 5 - $full_stars - $half_stars;
 
 	if ( $r['number'] ) {
-		/* translators: 1: The rating, 2: The number of ratings */
+		/* translators: 1: the rating, 2: the number of ratings */
 		$format = _n( '%1$s rating based on %2$s rating', '%1$s rating based on %2$s ratings', $r['number'] );
 		$title  = sprintf( $format, number_format_i18n( $rating, 1 ), number_format_i18n( $r['number'] ) );
 	} else {
-		/* translators: 1: The rating */
+		/* translators: %s: the rating */
 		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
 	}
 

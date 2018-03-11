@@ -1523,33 +1523,41 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 
 		switch ( $comment->comment_type ) {
 			case 'trackback':
-				/* translators: 1: Post title */
+				/* translators: %s: post title */
 				$notify_message = sprintf( __( 'New trackback on your post "%s"' ), $post->post_title ) . "\r\n";
-				/* translators: 1: Trackback/pingback website name, 2: website IP address, 3: website hostname */
+				/* translators: 1: trackback/pingback website name, 2: website IP address, 3: website hostname */
 				$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all trackbacks on this post here:' ) . "\r\n";
 				/* translators: 1: blog name, 2: post title */
 				$subject = sprintf( __( '[%1$s] Trackback: "%2$s"' ), $blogname, $post->post_title );
 				break;
 			case 'pingback':
-				/* translators: 1: Post title */
+				/* translators: %s: post title */
 				$notify_message = sprintf( __( 'New pingback on your post "%s"' ), $post->post_title ) . "\r\n";
-				/* translators: 1: Trackback/pingback website name, 2: website IP address, 3: website hostname */
+				/* translators: 1: trackback/pingback website name, 2: website IP address, 3: website hostname */
 				$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all pingbacks on this post here:' ) . "\r\n";
 				/* translators: 1: blog name, 2: post title */
 				$subject = sprintf( __( '[%1$s] Pingback: "%2$s"' ), $blogname, $post->post_title );
 				break;
 			default: // Comments
+				/* translators: %s: post title */
 				$notify_message = sprintf( __( 'New comment on your post "%s"' ), $post->post_title ) . "\r\n";
 				/* translators: 1: comment author, 2: comment author's IP address, 3: comment author's hostname */
 				$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
+				/* translators: %s: comment author email */
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
+				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all comments on this post here:' ) . "\r\n";
 				/* translators: 1: blog name, 2: post title */
@@ -1561,10 +1569,13 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 
 		if ( user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
 			if ( EMPTY_TRASH_DAYS ) {
+				/* translators: Comment moderation. %s: Comment action URL */
 				$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 			} else {
+				/* translators: Comment moderation. %s: Comment action URL */
 				$notify_message .= sprintf( __( 'Delete it: %s' ), admin_url( "comment.php?action=delete&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 			}
+			/* translators: Comment moderation. %s: Comment action URL */
 			$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 		}
 
@@ -1687,55 +1698,55 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 
 		switch ( $comment->comment_type ) {
 			case 'trackback':
-				/* translators: 1: Post title */
+				/* translators: %s: post title */
 				$notify_message  = sprintf( __( 'A new trackback on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "\r\n\r\n";
-				/* translators: 1: Trackback/pingback website name, 2: website IP address, 3: website hostname */
+				/* translators: 1: trackback/pingback website name, 2: website IP address, 3: website hostname */
 				$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				/* translators: 1: Trackback/pingback/comment author URL */
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
 				$notify_message .= __( 'Trackback excerpt: ' ) . "\r\n" . $comment_content . "\r\n\r\n";
 				break;
 			case 'pingback':
-				/* translators: 1: Post title */
+				/* translators: %s: post title */
 				$notify_message  = sprintf( __( 'A new pingback on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "\r\n\r\n";
-				/* translators: 1: Trackback/pingback website name, 2: website IP address, 3: website hostname */
+				/* translators: 1: trackback/pingback website name, 2: website IP address, 3: website hostname */
 				$notify_message .= sprintf( __( 'Website: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				/* translators: 1: Trackback/pingback/comment author URL */
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
 				$notify_message .= __( 'Pingback excerpt: ' ) . "\r\n" . $comment_content . "\r\n\r\n";
 				break;
 			default: // Comments
-				/* translators: 1: Post title */
+				/* translators: %s: post title */
 				$notify_message  = sprintf( __( 'A new comment on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "\r\n\r\n";
-				/* translators: 1: Comment author name, 2: comment author's IP address, 3: comment author's hostname */
+				/* translators: 1: comment author name, 2: comment author's IP address, 3: comment author's hostname */
 				$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
-				/* translators: 1: Comment author URL */
+				/* translators: %s: comment author email */
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
-				/* translators: 1: Trackback/pingback/comment author URL */
+				/* translators: %s: trackback/pingback/comment author URL */
 				$notify_message .= sprintf( __( 'URL: %s' ), $comment->comment_author_url ) . "\r\n";
-				/* translators: 1: Comment text */
+				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				break;
 		}
 
-		/* translators: Comment moderation. 1: Comment action URL */
+		/* translators: Comment moderation. %s: Comment action URL */
 		$notify_message .= sprintf( __( 'Approve it: %s' ), admin_url( "comment.php?action=approve&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 
 		if ( EMPTY_TRASH_DAYS ) {
-			/* translators: Comment moderation. 1: Comment action URL */
+			/* translators: Comment moderation. %s: Comment action URL */
 			$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 		} else {
-			/* translators: Comment moderation. 1: Comment action URL */
+			/* translators: Comment moderation. %s: Comment action URL */
 			$notify_message .= sprintf( __( 'Delete it: %s' ), admin_url( "comment.php?action=delete&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 		}
 
-		/* translators: Comment moderation. 1: Comment action URL */
+		/* translators: Comment moderation. %s: Comment action URL */
 		$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 
-		/* translators: Comment moderation. 1: Number of comments awaiting approval */
+		/* translators: Comment moderation. %s: Number of comments awaiting approval */
 		$notify_message .= sprintf(
 			_n(
 				'Currently %s comment is waiting for approval. Please visit the moderation panel:',

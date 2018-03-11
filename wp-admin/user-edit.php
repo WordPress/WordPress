@@ -675,7 +675,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) :
 			<p><button type="button" class="button" id="destroy-sessions"><?php _e( 'Log Out Everywhere' ); ?></button></p>
 			<p class="description">
 				<?php
-				/* translators: 1: User's display name. */
+				/* translators: %s: user's display name */
 				printf( __( 'Log %s out of all locations.' ), $profileuser->display_name );
 				?>
 			</p>

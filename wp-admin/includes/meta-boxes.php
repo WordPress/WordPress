@@ -198,19 +198,19 @@ if ( 'publish' == $post->post_status || 'private' == $post->post_status || $can_
 $datef = __( 'M j, Y @ H:i' );
 if ( 0 != $post->ID ) {
 	if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-		/* translators: Post date information. 1: Date on which the post is currently scheduled to be published */
-		$stamp = __( 'Scheduled for: <b>%1$s</b>' );
+		/* translators: Post date information. %s: Date on which the post is currently scheduled to be published */
+		$stamp = __( 'Scheduled for: <b>%s</b>' );
 	} elseif ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
-		/* translators: Post date information. 1: Date on which the post was published */
-		$stamp = __( 'Published on: <b>%1$s</b>' );
+		/* translators: Post date information. %s: Date on which the post was published */
+		$stamp = __( 'Published on: <b>%s</b>' );
 	} elseif ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 		$stamp = __( 'Publish <b>immediately</b>' );
 	} elseif ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
-		/* translators: Post date information. 1: Date on which the post is to be published */
-		$stamp = __( 'Schedule for: <b>%1$s</b>' );
+		/* translators: Post date information. %s: Date on which the post is to be published */
+		$stamp = __( 'Schedule for: <b>%s</b>' );
 	} else { // draft, 1 or more saves, date specified
-		/* translators: Post date information. 1: Date on which the post is to be published */
-		$stamp = __( 'Publish on: <b>%1$s</b>' );
+		/* translators: Post date information. %s: Date on which the post is to be published */
+		$stamp = __( 'Publish on: <b>%s</b>' );
 	}
 	$date = date_i18n( $datef, strtotime( $post->post_date ) );
 } else { // draft (no saves, and thus no date specified)
@@ -222,7 +222,7 @@ if ( ! empty( $args['args']['revisions_count'] ) ) :
 ?>
 <div class="misc-pub-section misc-pub-revisions">
 	<?php
-		/* translators: Post revisions heading. 1: The number of available revisions */
+		/* translators: Post revisions heading. %s: The number of available revisions */
 		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
 	?>
 	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><span aria-hidden="true"><?php _ex( 'Browse', 'revisions' ); ?></span> <span class="screen-reader-text"><?php _e( 'Browse revisions' ); ?></span></a>

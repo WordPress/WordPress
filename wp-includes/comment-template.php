@@ -1540,7 +1540,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	}
 
 	if ( false === $more ) {
-		/* translators: 1: Number of comments 2: post title */
+		/* translators: 1: number of comments, 2: post title */
 		$more = _n( '%1$s Comment<span class="screen-reader-text"> on %2$s</span>', '%1$s Comments<span class="screen-reader-text"> on %2$s</span>', $number );
 		$more = sprintf( $more, number_format_i18n( $number ), $title );
 	}
@@ -1629,7 +1629,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		'add_below'     => 'comment',
 		'respond_id'    => 'respond',
 		'reply_text'    => __( 'Reply' ),
-		/* translators: Comment reply button text. 1: Comment author name */
+		/* translators: Comment reply button text. %s: Comment author name */
 		'reply_to_text' => __( 'Reply to %s' ),
 		'login_text'    => __( 'Log in to Reply' ),
 		'max_depth'     => 0,

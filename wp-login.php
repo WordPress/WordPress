@@ -954,7 +954,7 @@ switch ( $action ) {
 				);
 			} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {
 				// If cookies are disabled we can't log in even with a valid user+pass
-				/* translators: 1: Browser cookie documentation URL */
+				/* translators: %s: Browser cookie documentation URL */
 				$user = new WP_Error(
 					'test_cookie', sprintf(
 						__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),

@@ -348,7 +348,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		}
 
 		if ( ! empty( $meta['year'] ) ) {
-			/* translators: Audio file track information. 1: Year of audio track release */
+			/* translators: Audio file track information. %d: Year of audio track release */
 			$content .= ' ' . sprintf( __( 'Released: %d.' ), $meta['year'] );
 		}
 
@@ -358,13 +358,13 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 				/* translators: Audio file track information. 1: Audio track number, 2: Total audio tracks */
 				$content .= ' ' . sprintf( __( 'Track %1$s of %2$s.' ), number_format_i18n( $track_number[0] ), number_format_i18n( $track_number[1] ) );
 			} else {
-				/* translators: Audio file track information. 1: Audio track number */
-				$content .= ' ' . sprintf( __( 'Track %1$s.' ), number_format_i18n( $track_number[0] ) );
+				/* translators: Audio file track information. %s: Audio track number */
+				$content .= ' ' . sprintf( __( 'Track %s.' ), number_format_i18n( $track_number[0] ) );
 			}
 		}
 
 		if ( ! empty( $meta['genre'] ) ) {
-			/* translators: Audio file genre information. 1: Audio genre name */
+			/* translators: Audio file genre information. %s: Audio genre name */
 			$content .= ' ' . sprintf( __( 'Genre: %s.' ), $meta['genre'] );
 		}
 

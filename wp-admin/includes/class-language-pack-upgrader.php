@@ -337,7 +337,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		if ( ! $mo || ! $po ) {
 			return new WP_Error(
 				'incompatible_archive_pomo', $this->strings['incompatible_archive'],
-				/* translators: 1: .po 2: .mo */
+				/* translators: 1: .po, 2: .mo */
 				sprintf(
 					__( 'The language pack is missing either the %1$s or %2$s files.' ),
 					'<code>.po</code>',

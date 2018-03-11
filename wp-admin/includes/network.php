@@ -264,7 +264,7 @@ function network_step1( $errors = false ) {
 		<p>
 		<?php
 		printf(
-			/* translators: 1: site url 2: host name 3. www */
+			/* translators: 1: site url, 2: host name, 3: www */
 			__( 'We recommend you change your siteurl to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
 			'<code>' . substr( $hostname, 4 ) . '</code>',
 			'<code>' . $hostname . '</code>',
@@ -296,7 +296,7 @@ function network_step1( $errors = false ) {
 				<td>
 				<?php
 					printf(
-						/* translators: 1: localhost 2: localhost.localdomain */
+						/* translators: 1: localhost, 2: localhost.localdomain */
 						__( 'Because you are using %1$s, the sites in your WordPress network must use sub-directories. Consider using %2$s if you wish to use sub-domains.' ),
 						'<code>localhost</code>',
 						'<code>localhost.localdomain</code>'
@@ -436,7 +436,7 @@ function network_step2( $errors = false ) {
 		if ( file_exists( $home_path . '.htaccess' ) ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
-				/* translators: 1: wp-config.php 2: .htaccess */
+				/* translators: 1: wp-config.php, 2: .htaccess */
 				__( 'We recommend you back up your existing %1$s and %2$s files.' ),
 				'<code>wp-config.php</code>',
 				'<code>.htaccess</code>'
@@ -444,7 +444,7 @@ function network_step2( $errors = false ) {
 		} elseif ( file_exists( $home_path . 'web.config' ) ) {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
-				/* translators: 1: wp-config.php 2: web.config */
+				/* translators: 1: wp-config.php, 2: web.config */
 				__( 'We recommend you back up your existing %1$s and %2$s files.' ),
 				'<code>wp-config.php</code>',
 				'<code>web.config</code>'
@@ -452,7 +452,7 @@ function network_step2( $errors = false ) {
 		} else {
 			echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 			printf(
-				/* translators: 1: wp-config.php */
+				/* translators: %s: wp-config.php */
 				__( 'We recommend you back up your existing %s file.' ),
 				'<code>wp-config.php</code>'
 			);
@@ -466,7 +466,7 @@ function network_step2( $errors = false ) {
 			<li><p>
 			<?php
 			printf(
-				/* translators: 1: wp-config.php 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy blogging." */
+				/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy blogging." */
 				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
 				'<code>wp-config.php</code>',
 				'<code>' . $location_of_wp_config . '</code>',
@@ -523,13 +523,13 @@ if ( ! empty( $keys_salts ) ) {
 	<?php
 	if ( 1 == $num_keys_salts ) {
 		printf(
-			/* translators: 1: wp-config.php */
+			/* translators: %s: wp-config.php */
 			__( 'This unique authentication key is also missing from your %s file.' ),
 			'<code>wp-config.php</code>'
 		);
 	} else {
 		printf(
-			/* translators: 1: wp-config.php */
+			/* translators: %s: wp-config.php */
 			__( 'These unique authentication keys are also missing from your %s file.' ),
 			'<code>wp-config.php</code>'
 		);
@@ -598,7 +598,7 @@ if ( iis7_supports_permalinks() ) :
 
 			echo '<li><p>';
 			printf(
-				/* translators: 1: a filename like .htaccess. 2: a file path. */
+				/* translators: 1: a filename like .htaccess, 2: a file path */
 				__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
 				'<code>web.config</code>',
 				'<code>' . $home_path . '</code>'
@@ -640,7 +640,7 @@ EOF;
 
 		echo '<li><p>';
 		printf(
-			/* translators: 1: a filename like .htaccess. 2: a file path. */
+			/* translators: 1: a filename like .htaccess, 2: a file path */
 			__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
 			'<code>.htaccess</code>',
 			'<code>' . $home_path . '</code>'
