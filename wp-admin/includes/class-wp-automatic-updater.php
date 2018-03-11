@@ -171,7 +171,7 @@ class WP_Automatic_Updater {
 		 * by default, while translations and minor and development versions for core
 		 * are updated by default.
 		 *
-		 * See the {@see 'allow_dev_auto_core_updates', {@see 'allow_minor_auto_core_updates'},
+		 * See the {@see 'allow_dev_auto_core_updates'}, {@see 'allow_minor_auto_core_updates'},
 		 * and {@see 'allow_major_auto_core_updates'} filters for a more straightforward way to
 		 * adjust core updates.
 		 *
