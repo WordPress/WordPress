@@ -652,7 +652,11 @@ function install_plugin_information() {
 				<li><strong><?php _e( 'Active Installations:' ); ?></strong>
 										<?php
 										if ( $api->active_installs >= 1000000 ) {
-											_ex( '1+ Million', 'Active plugin installations' );
+											$active_installs_millions = floor( $api->active_installs / 1000000 );
+											printf(
+												_nx( '%s+ Million', '%s+ Million', 'Active plugin installations', $active_installs_millions ),
+												number_format_i18n( $active_installs_millions )
+											);
 										} elseif ( 0 == $api->active_installs ) {
 											_ex( 'Less Than 10', 'Active plugin installations' );
 										} else {

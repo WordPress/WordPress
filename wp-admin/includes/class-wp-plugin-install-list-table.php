@@ -650,7 +650,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				<div class="column-downloaded">
 					<?php
 					if ( $plugin['active_installs'] >= 1000000 ) {
-						$active_installs_text = _x( '1+ Million', 'Active plugin installations' );
+						$active_installs_millions = floor( $plugin['active_installs'] / 1000000 );
+						$active_installs_text = sprintf(
+							_nx( '%s+ Million', '%s+ Million', 'Active plugin installations', $active_installs_millions ),
+							number_format_i18n( $active_installs_millions )
+						);
 					} elseif ( 0 == $plugin['active_installs'] ) {
 						$active_installs_text = _x( 'Less Than 10', 'Active plugin installations' );
 					} else {
