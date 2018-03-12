@@ -548,6 +548,13 @@ function map_meta_cap( $cap, $user_id ) {
 				$caps[] = 'manage_options';
 			}
 			break;
+		case 'upgrade_php':
+			if ( is_multisite() && ! is_super_admin( $user_id ) ) {
+				$caps[] = 'do_not_allow';
+			} else {
+				$caps[] = 'update_core';
+			}
+			break;
 		default:
 			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;

@@ -1116,6 +1116,20 @@ a.rsswidget {
 	font-size: 16px;
 }
 
+/* PHP Nag */
+#dashboard_php_nag h2.hndle {
+	border-left: 4px solid #dc3232;
+}
+
+#dashboard_php_nag h3 {
+	font-weight: 600;
+}
+
+#dashboard_php_nag .button.button-hero {
+	display: block;
+	text-align: center;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
