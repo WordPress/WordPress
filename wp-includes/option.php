@@ -1247,7 +1247,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	$notoptions_key = "$network_id:notoptions";
 	$notoptions     = wp_cache_get( $notoptions_key, 'site-options' );
 
-	if ( isset( $notoptions[ $option ] ) ) {
+	if ( is_array( $notoptions ) && isset( $notoptions[ $option ] ) ) {
 
 		/**
 		 * Filters a specific default network option.
@@ -1293,6 +1293,11 @@ function get_network_option( $network_id, $option, $default = false ) {
 				$value = apply_filters( 'default_site_option_' . $option, $default, $option, $network_id );
 			}
 		}
+	}
+
+	if ( ! is_array( $notoptions ) ) {
+		$notoptions = array();
+		wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 	}
 
 	/**
