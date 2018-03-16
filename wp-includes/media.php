@@ -1603,7 +1603,7 @@ function img_caption_shortcode( $attr, $content = null ) {
 
 	$style = '';
 	if ( $caption_width ) {
-		$style = 'style="max-width: ' . (int) $caption_width . 'px" ';
+		$style = 'style="width: ' . (int) $caption_width . 'px" ';
 	}
 
 	if ( $html5 ) {
