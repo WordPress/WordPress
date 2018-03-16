@@ -474,6 +474,7 @@ function clean_blog_cache( $blog ) {
 	wp_cache_delete( $domain_path_key, 'blog-id-cache' );
 	wp_cache_delete( 'current_blog_' . $blog->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $blog->domain . $blog->path, 'site-options' );
+	wp_cache_delete( $blog_id, 'blog_meta' );
 
 	/**
 	 * Fires immediately after a site has been removed from the object cache.
@@ -560,21 +561,23 @@ function get_site( $site = null ) {
  * Adds any sites from the given ids to the cache that do not already exist in cache.
  *
  * @since 4.6.0
+ * @since 5.0.0 Introduced the `$update_meta_cache` parameter.
  * @access private
  *
  * @see update_site_cache()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $ids ID list.
+ * @param array $ids               ID list.
+ * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
-function _prime_site_caches( $ids ) {
+function _prime_site_caches( $ids, $update_meta_cache = true ) {
 	global $wpdb;
 
 	$non_cached_ids = _get_non_cached_ids( $ids, 'sites' );
 	if ( ! empty( $non_cached_ids ) ) {
 		$fresh_sites = $wpdb->get_results( sprintf( "SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", join( ',', array_map( 'intval', $non_cached_ids ) ) ) );
 
-		update_site_cache( $fresh_sites );
+		update_site_cache( $fresh_sites, $update_meta_cache );
 	}
 }
 
@@ -582,18 +585,44 @@ function _prime_site_caches( $ids ) {
  * Updates sites in cache.
  *
  * @since 4.6.0
+ * @since 5.0.0 Introduced the `$update_meta_cache` parameter.
  *
- * @param array $sites Array of site objects.
+ * @param array $sites             Array of site objects.
+ * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
  */
-function update_site_cache( $sites ) {
+function update_site_cache( $sites, $update_meta_cache = true ) {
 	if ( ! $sites ) {
 		return;
 	}
-
+	$site_ids = array();
 	foreach ( $sites as $site ) {
+		$site_ids[] = $site->blog_id;
 		wp_cache_add( $site->blog_id, $site, 'sites' );
 		wp_cache_add( $site->blog_id . 'short', $site, 'blog-details' );
 	}
+
+	if ( $update_meta_cache ) {
+		update_sitemeta_cache( $site_ids );
+	}
+}
+
+/**
+ * Updates metadata cache for list of site IDs.
+ *
+ * Performs SQL query to retrieve all metadata for the sites matching `$site_ids` and stores them in the cache.
+ * Subsequent calls to `get_site_meta()` will not need to query the database.
+ *
+ * @since 5.0.0
+ *
+ * @param array $site_ids List of site IDs.
+ * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
+ */
+function update_sitemeta_cache( $site_ids ) {
+	if ( ! is_site_meta_supported() ) {
+		return false;
+	}
+
+	return update_meta_cache( 'blog', $site_ids );
 }
 
 /**
@@ -797,6 +826,154 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
 }
 
 /**
+ * Adds metadata to a site.
+ *
+ * @since 5.0.0
+ *
+ * @param int    $site_id    Site ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param bool   $unique     Optional. Whether the same key should not be added.
+ *                           Default false.
+ * @return int|false Meta ID on success, false on failure.
+ */
+function add_site_meta( $site_id, $meta_key, $meta_value, $unique = false ) {
+	// Bail if site meta table is not installed.
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		return false;
+	}
+
+	$added = add_metadata( 'blog', $site_id, $meta_key, $meta_value, $unique );
+
+	// Bust site query cache.
+	if ( $added ) {
+		wp_cache_set( 'last_changed', microtime(), 'sites' );
+	}
+
+	return $added;
+}
+
+/**
+ * Removes metadata matching criteria from a site.
+ *
+ * You can match based on the key, or key and value. Removing based on key and
+ * value, will keep from removing duplicate metadata with the same key. It also
+ * allows removing all metadata matching key, if needed.
+ *
+ * @since 5.0.0
+ *
+ * @param int    $site_id    Site ID.
+ * @param string $meta_key   Metadata name.
+ * @param mixed  $meta_value Optional. Metadata value. Must be serializable if
+ *                           non-scalar. Default empty.
+ * @return bool True on success, false on failure.
+ */
+function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
+	// Bail if site meta table is not installed.
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		return false;
+	}
+
+	$deleted = delete_metadata( 'blog', $site_id, $meta_key, $meta_value );
+
+	// Bust site query cache.
+	if ( $deleted ) {
+		wp_cache_set( 'last_changed', microtime(), 'sites' );
+	}
+
+	return $deleted;
+}
+
+/**
+ * Retrieves metadata for a site.
+ *
+ * @since 5.0.0
+ *
+ * @param int    $site_id Site ID.
+ * @param string $key     Optional. The meta key to retrieve. By default, returns
+ *                        data for all keys. Default empty.
+ * @param bool   $single  Optional. Whether to return a single value. Default false.
+ * @return mixed Will be an array if $single is false. Will be value of meta data
+ *               field if $single is true.
+ */
+function get_site_meta( $site_id, $key = '', $single = false ) {
+	// Bail if site meta table is not installed.
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		return false;
+	}
+
+	return get_metadata( 'blog', $site_id, $key, $single );
+}
+
+/**
+ * Updates metadata for a site.
+ *
+ * Use the $prev_value parameter to differentiate between meta fields with the
+ * same key and site ID.
+ *
+ * If the meta field for the site does not exist, it will be added.
+ *
+ * @since 5.0.0
+ *
+ * @param int    $site_id    Site ID.
+ * @param string $meta_key   Metadata key.
+ * @param mixed  $meta_value Metadata value. Must be serializable if non-scalar.
+ * @param mixed  $prev_value Optional. Previous value to check before removing.
+ *                           Default empty.
+ * @return int|bool Meta ID if the key didn't exist, true on successful update,
+ *                  false on failure.
+ */
+function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) {
+	// Bail if site meta table is not installed.
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		return false;
+	}
+
+	$updated = update_metadata( 'blog', $site_id, $meta_key, $meta_value, $prev_value );
+
+	// Bust site query cache.
+	if ( $updated ) {
+		wp_cache_set( 'last_changed', microtime(), 'sites' );
+	}
+
+	return $updated;
+}
+
+/**
+ * Deletes everything from site meta matching meta key.
+ *
+ * @since 5.0.0
+ *
+ * @param string $meta_key Metadata key to search for when deleting.
+ * @return bool Whether the site meta key was deleted from the database.
+ */
+function delete_site_meta_by_key( $meta_key ) {
+	// Bail if site meta table is not installed.
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		return false;
+	}
+
+	$deleted = delete_metadata( 'blog', null, $meta_key, '', true );
+
+	// Bust site query cache.
+	if ( $deleted ) {
+		wp_cache_set( 'last_changed', microtime(), 'sites' );
+	}
+
+	return $deleted;
+}
+
+/**
  * Switch the current blog.
  *
  * This function is useful if you need to pull posts, or other information,
@@ -869,7 +1046,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 			if ( is_array( $global_groups ) ) {
 				wp_cache_add_global_groups( $global_groups );
 			} else {
-				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details' ) );
+				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details', 'blog_meta' ) );
 			}
 			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 		}
@@ -937,7 +1114,7 @@ function restore_current_blog() {
 			if ( is_array( $global_groups ) ) {
 				wp_cache_add_global_groups( $global_groups );
 			} else {
-				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details' ) );
+				wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'blog-lookup', 'blog-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites', 'site-details', 'blog_meta' ) );
 			}
 			wp_cache_add_non_persistent_groups( array( 'counts', 'plugins' ) );
 		}

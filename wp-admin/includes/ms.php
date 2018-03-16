@@ -135,6 +135,13 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 			$wpdb->query( "DROP TABLE IF EXISTS `$table`" );
 		}
 
+		if ( is_site_meta_supported() ) {
+			$blog_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->blogmeta WHERE blog_id = %d ", $blog_id ) );
+			foreach ( $blog_meta_ids as $mid ) {
+				delete_metadata_by_mid( 'blog', $mid );
+			}
+		}
+
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
 		/**

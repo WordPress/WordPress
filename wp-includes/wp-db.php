@@ -297,6 +297,7 @@ class wpdb {
 	 */
 	var $ms_global_tables = array(
 		'blogs',
+		'blogmeta',
 		'signups',
 		'site',
 		'sitemeta',
@@ -412,6 +413,14 @@ class wpdb {
 	 * @var string
 	 */
 	public $blogs;
+
+	/**
+	 * Multisite Blog Metadata table
+	 *
+	 * @since 5.0.0
+	 * @var string
+	 */
+	public $blogmeta;
 
 	/**
 	 * Multisite Blog Versions table

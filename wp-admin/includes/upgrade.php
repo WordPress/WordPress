@@ -2133,6 +2133,13 @@ function upgrade_network() {
 			}
 		}
 	}
+
+	// 5.0
+	if ( $wp_current_db_version < 42836 ) {
+		$network_id = get_main_network_id();
+		delete_network_option( $network_id, 'site_meta_supported' );
+		is_site_meta_supported();
+	}
 }
 
 //
