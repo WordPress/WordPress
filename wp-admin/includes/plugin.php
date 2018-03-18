@@ -463,11 +463,11 @@ function _get_dropins() {
  *
  * Plugins in the mu-plugins/ folder can't be "activated," so this function will
  * return false for those plugins.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 2.5.0
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.
@@ -481,11 +481,11 @@ function is_plugin_active( $plugin ) {
  * Determines whether the plugin is inactive.
  *
  * Reverse of is_plugin_active(). Used as a callback.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 3.1.0
  * @see is_plugin_active()
  *
@@ -503,11 +503,11 @@ function is_plugin_inactive( $plugin ) {
  *
  * Plugins in the mu-plugins/ folder can't be "activated," so this function will
  * return false for those plugins.
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
- * 
+ *
  * @since 3.0.0
  *
  * @param string $plugin Path to the plugin file relative to the plugins directory.

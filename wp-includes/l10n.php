@@ -917,7 +917,7 @@ function _get_path_to_translation( $domain, $reset = false ) {
  * @access private
  *
  * @see _get_path_to_translation()
- * @staticvar array $cached_mofiles 
+ * @staticvar array $cached_mofiles
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return string|false The path to the translation file or false if no translation file was found.
@@ -1288,9 +1288,9 @@ function wp_dropdown_languages( $args = array() ) {
 
 /**
  * Determines whether the current locale is right-to-left (RTL).
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
