@@ -990,16 +990,26 @@
 				var beforeSend, success,
 					self = this;
 
-				options    = options || {};
-				beforeSend = options.beforeSend;
+				options = options || {};
 
-				// If we have a localized nonce, pass that along with each sync.
-				if ( 'undefined' !== typeof wpApiSettings.nonce ) {
+				if ( _.isFunction( model.nonce ) && ! _.isUndefined( model.nonce() ) && ! _.isNull( model.nonce() ) ) {
+					beforeSend = options.beforeSend;
+
+					// Include the nonce with requests.
 					options.beforeSend = function( xhr ) {
-						xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
+						xhr.setRequestHeader( 'X-WP-Nonce', model.nonce() );
 
 						if ( beforeSend ) {
 							return beforeSend.apply( self, arguments );
+						}
+					};
+
+					// Update the nonce when a new nonce is returned with the response.
+					options.complete = function( xhr ) {
+						var returnedNonce = xhr.getResponseHeader( 'X-WP-Nonce' );
+
+						if ( returnedNonce && _.isFunction( model.nonce ) && model.nonce() !== returnedNonce ) {
+							model.endpointModel.set( 'nonce', returnedNonce );
 						}
 					};
 				}
@@ -1405,6 +1415,13 @@
 							return new loadingObjects.models[ modelClassName ]( attrs, options );
 						},
 
+						// Track nonces at the Endpoint level.
+						nonce: function() {
+							return routeModel.get( 'nonce' );
+						},
+
+						endpointModel: routeModel,
+
 						// Include a reference to the original class name.
 						name: collectionClassName,
 
@@ -1431,6 +1448,13 @@
 						model: function( attrs, options ) {
 							return new loadingObjects.models[ modelClassName ]( attrs, options );
 						},
+
+						// Track nonces at the Endpoint level.
+						nonce: function() {
+							return routeModel.get( 'nonce' );
+						},
+
+						endpointModel: routeModel,
 
 						// Include a reference to the original class name.
 						name: collectionClassName,
