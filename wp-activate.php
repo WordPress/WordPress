@@ -110,7 +110,7 @@ get_header( 'wp-activate' );
 					printf(
 						/* translators: 1: site URL, 2: username, 3: user email, 4: lost password URL */
 						__( 'Your site at %1$s is active. You may now log in to your site using your chosen username of &#8220;%2$s&#8221;. Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.' ),
-						sprintf( '<a href="http://%s">%s</a>', $signup->domain ),
+						sprintf( '<a href="http://%1$s">%1$s</a>', $signup->domain ),
 						$signup->user_login,
 						$signup->user_email,
 						wp_lostpassword_url()
