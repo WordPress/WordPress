@@ -30,9 +30,10 @@ function add_user() {
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
 	$user     = new stdClass;
+	$user_id  = (int) $user_id;
 	if ( $user_id ) {
 		$update           = true;
-		$user->ID         = (int) $user_id;
+		$user->ID         = $user_id;
 		$userdata         = get_userdata( $user_id );
 		$user->user_login = wp_slash( $userdata->user_login );
 	} else {
@@ -51,19 +52,27 @@ function edit_user( $user_id = 0 ) {
 		$pass2 = $_POST['pass2'];
 	}
 
-	if ( isset( $_POST['role'] ) && current_user_can( 'edit_users' ) ) {
-		$new_role       = sanitize_text_field( $_POST['role'] );
-		$potential_role = isset( $wp_roles->role_objects[ $new_role ] ) ? $wp_roles->role_objects[ $new_role ] : false;
-		// Don't let anyone with 'edit_users' (admins) edit their own role to something without it.
-		// Multisite super admins can freely edit their blog roles -- they possess all caps.
-		if ( ( is_multisite() && current_user_can( 'manage_sites' ) ) || $user_id != get_current_user_id() || ( $potential_role && $potential_role->has_cap( 'edit_users' ) ) ) {
-			$user->role = $new_role;
-		}
+	if ( isset( $_POST['role'] ) && current_user_can( 'promote_users' ) && ( ! $user_id || current_user_can( 'promote_user', $user_id ) ) ) {
+		$new_role = sanitize_text_field( $_POST['role'] );
 
-		// If the new role isn't editable by the logged-in user die with error
+		// If the new role isn't editable by the logged-in user die with error.
 		$editable_roles = get_editable_roles();
 		if ( ! empty( $new_role ) && empty( $editable_roles[ $new_role ] ) ) {
 			wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
+		}
+
+		$potential_role = isset( $wp_roles->role_objects[ $new_role ] ) ? $wp_roles->role_objects[ $new_role ] : false;
+
+		/*
+		 * Don't let anyone with 'promote_users' edit their own role to something without it.
+		 * Multisite super admins can freely edit their roles, they possess all caps.
+		 */
+		if (
+			( is_multisite() && current_user_can( 'manage_network_users' ) ) ||
+			$user_id !== get_current_user_id() ||
+			( $potential_role && $potential_role->has_cap( 'promote_users' ) )
+		) {
+			$user->role = $new_role;
 		}
 	}
 
