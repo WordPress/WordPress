@@ -827,7 +827,8 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
 		$xhtml_slash = ' /';
 
 	// Are any attributes allowed at all for this element?
-	if ( ! isset( $allowed_html[ strtolower( $element ) ] ) || true === $allowed_html[ strtolower( $element ) ] || count( $allowed_html[ strtolower( $element ) ] ) == 0 ) {
+	$element_low = strtolower( $element );
+	if ( empty( $allowed_html[ $element_low ] ) || true === $allowed_html[ $element_low ] ) {
 		return "<$element$xhtml_slash>";
 	}
 
