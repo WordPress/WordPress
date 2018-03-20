@@ -438,7 +438,15 @@ fieldset label,
 	vertical-align: middle;
 }
 
-.options-media-php label[for*="_size_"],
+.options-media-php [for*="_size_"] {
+	min-width: 10em;
+	vertical-align: baseline;
+}
+
+.options-media-php .small-text[name*="_size_"] {
+	margin: 0 0 1em;
+}
+
 #misc-publishing-actions label {
 	vertical-align: baseline;
 }
