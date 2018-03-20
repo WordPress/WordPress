@@ -1178,6 +1178,7 @@ a:active {
 
 .entry-content a,
 .entry-summary a,
+.comment-content a,
 .widget a,
 .site-footer .widget-area a,
 .posts-navigation a,
@@ -1225,6 +1226,8 @@ a .nav-title,
 .entry-content a:hover,
 .entry-summary a:focus,
 .entry-summary a:hover,
+.comment-content a:focus,
+.comment-content a:hover,
 .widget a:focus,
 .widget a:hover,
 .site-footer .widget-area a:focus,
@@ -1276,6 +1279,7 @@ a:hover .nav-title,
 
 /* Fixes linked images */
 .entry-content a img,
+.comment-content a img,
 .widget a img {
 	-webkit-box-shadow: 0 0 0 8px #fff;
 	box-shadow: 0 0 0 8px #fff;
