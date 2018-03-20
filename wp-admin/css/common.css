@@ -3943,23 +3943,6 @@ img {
 	}
 }
 
-.options-media-php br {
-	display: none;
-}
-
-@media screen and (max-width: 375px) {
-	.options-media-php input[type="number"][name*="_size_"] {
-		margin: 5px 0;
-	}
-	.options-media-php label[for*="_size_h"]:before {
-		content: '';
-		display: block;
-	}
-	.options-media-php br {
-		display: block;
-	}
-}
-
 @media screen and (max-width: 320px) {
 	/* Prevent default center alignment and larger font for the Right Now widget when
 	   the network dashboard is viewed on a small mobile device. */
