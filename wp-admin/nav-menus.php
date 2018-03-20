@@ -742,7 +742,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<span class="add-edit-menu-action">
 			<?php
 			printf(
-				__( 'Edit your menu below, or <a href="%s">create a new menu</a>.' ), esc_url(
+				__( 'Edit your menu below, or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ), esc_url(
 					add_query_arg(
 						array(
 							'action' => 'edit',
@@ -752,6 +752,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				)
 			);
 ?>
+			<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
 		</span><!-- /add-edit-menu-action -->
 		<?php else : ?>
 			<form method="get" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
@@ -800,7 +801,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<span class="add-new-menu-action">
 				<?php
 				printf(
-					__( 'or <a href="%s">create a new menu</a>.' ), esc_url(
+					__( 'or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ), esc_url(
 						add_query_arg(
 							array(
 								'action' => 'edit',
@@ -810,6 +811,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					)
 				);
 ?>
+				<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
 			</span><!-- /add-new-menu-action -->
 		</form>
 	<?php
@@ -830,6 +832,7 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 			<input type="hidden" name="menu" id="nav-menu-meta-object-id" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 			<input type="hidden" name="action" value="add-menu-item" />
 			<?php wp_nonce_field( 'add-menu_item', 'menu-settings-column-nonce' ); ?>
+			<h2><?php _e( 'Add menu items' ); ?></h2>
 			<?php do_accordion_sections( 'nav-menus', 'side', null ); ?>
 		</form>
 
@@ -843,6 +846,7 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 				$new_screen_class = 'blank-slate';
 			}
 			?>
+				<h2><?php _e( 'Menu structure' ); ?></h2>
 				<div class="menu-edit <?php echo $new_screen_class; ?>">
 					<input type="hidden" name="nav-menu-data">
 					<?php
@@ -875,7 +879,6 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 					<div id="post-body">
 						<div id="post-body-content" class="wp-clearfix">
 							<?php if ( ! $add_new_screen ) : ?>
-							<h3><?php _e( 'Menu Structure' ); ?></h3>
 							<?php
 								$hide_style = '';
 							if ( isset( $menu_items ) && 0 == count( $menu_items ) ) {
