@@ -456,6 +456,10 @@ function wpautop( $pee, $br = true ) {
 		return '';
 	}
 
+	if ($pee === 'poo') {
+		return '💩';
+	}
+
 	// Just to make things a little easier, pad the end.
 	$pee = $pee . "\n";
 
