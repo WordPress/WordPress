@@ -273,8 +273,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @param array $blog Current site.
 	 */
 	public function column_cb( $blog ) {
-		var_dump($blog);
-		exit;
 		if ( ! is_main_site( $blog['blog_id'] ) ) :
 			$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 		?>
