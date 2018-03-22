@@ -28,7 +28,7 @@ class WP_Roles {
 	 * List of roles and capabilities.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var array[]
 	 */
 	public $roles;
 
@@ -36,7 +36,7 @@ class WP_Roles {
 	 * List of the role objects.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var WP_Role[]
 	 */
 	public $role_objects = array();
 
@@ -44,7 +44,7 @@ class WP_Roles {
 	 * List of role names.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $role_names = array();
 
@@ -254,7 +254,7 @@ class WP_Roles {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return array List of role names.
+	 * @return string[] List of role names.
 	 */
 	public function get_names() {
 		return $this->role_names;
