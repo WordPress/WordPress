@@ -28,7 +28,7 @@
  *     @type int   $blog_id (Multisite) The blog ID used to calculate which themes are allowed.
  *                          Defaults to 0, synonymous for the current blog.
  * }
- * @return array Array of WP_Theme objects.
+ * @return WP_Theme[] Array of WP_Theme objects.
  */
 function wp_get_themes( $args = array() ) {
 	global $wp_theme_directories;

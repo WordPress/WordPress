@@ -178,8 +178,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param array $users_columns An array of user columns. Default 'cb', 'username',
-		 *                             'name', 'email', 'registered', 'blogs'.
+		 * @param string[] $users_columns An array of user columns. Default 'cb', 'username',
+		 *                                'name', 'email', 'registered', 'blogs'.
 		 */
 		return apply_filters( 'wpmu_users_columns', $users_columns );
 	}
@@ -368,9 +368,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array $actions     An array of action links to be displayed.
-			 *                           Default 'Edit', 'View'.
-			 * @param int   $userblog_id The site ID.
+			 * @param string[] $actions     An array of action links to be displayed. Default 'Edit', 'View'.
+			 * @param int      $userblog_id The site ID.
 			 */
 			$actions = apply_filters( 'ms_user_list_site_actions', $actions, $val->userblog_id );
 
@@ -465,9 +464,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array   $actions An array of action links to be displayed.
-		 *                         Default 'Edit', 'Delete'.
-		 * @param WP_User $user    WP_User object.
+		 * @param string[] $actions An array of action links to be displayed. Default 'Edit', 'Delete'.
+		 * @param WP_User  $user    WP_User object.
 		 */
 		$actions = apply_filters( 'ms_user_row_actions', $actions, $user );
 		return $this->row_actions( $actions );

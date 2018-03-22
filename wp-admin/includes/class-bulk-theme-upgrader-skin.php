@@ -55,7 +55,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array    $update_actions Array of theme action links.
+		 * @param string[] $update_actions Array of theme action links.
 		 * @param WP_Theme $theme_info     Theme object for the last-updated theme.
 		 */
 		$update_actions = apply_filters( 'update_bulk_theme_complete_actions', $update_actions, $this->theme_info );

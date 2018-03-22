@@ -151,15 +151,16 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
 	 *
-	 * @param array $language_updates Optional. Language pack updates. Default empty array.
-	 * @param array $args {
-	 *     Optional. Other arguments for upgrading multiple language packs. Default empty array
+	 * @param object[] $language_updates Optional. Array of language packs to update. @see wp_get_translation_updates().
+	 *                                   Default empty array.
+	 * @param array    $args {
+	 *     Other arguments for upgrading multiple language packs. Default empty array.
 	 *
 	 *     @type bool $clear_update_cache Whether to clear the update cache when done.
 	 *                                    Default true.
 	 * }
 	 * @return array|bool|WP_Error Will return an array of results, or true if there are no updates,
-	 *                                   false or WP_Error for initial errors.
+	 *                             false or WP_Error for initial errors.
 	 */
 	public function bulk_upgrade( $language_updates = array(), $args = array() ) {
 		global $wp_filesystem;

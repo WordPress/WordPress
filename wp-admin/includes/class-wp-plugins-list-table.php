@@ -670,12 +670,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
-			 *                            'deactivate', and 'delete'.
-			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
-			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
-			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
+			 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
+			 *                              'deactivate', and 'delete'.
+			 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( 'network_admin_plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 
@@ -687,12 +687,12 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
-			 *                            'deactivate', and 'delete'.
-			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
-			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
-			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
+			 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
+			 *                              'deactivate', and 'delete'.
+			 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( "network_admin_plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
 
@@ -705,13 +705,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			 * @since 2.6.0 The `$context` parameter was added.
 			 * @since 4.9.0 The 'Edit' link was removed from the list of action links.
 			 *
-			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
-			 *                            'deactivate', and 'delete'. With Multisite active this can also include
-			 *                            'network_active' and 'network_only' items.
-			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
-			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
-			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
+			 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
+			 *                              'deactivate', and 'delete'. With Multisite active this can also include
+			 *                              'network_active' and 'network_only' items.
+			 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 
@@ -724,13 +724,13 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			 * @since 2.7.0
 			 * @since 4.9.0 The 'Edit' link was removed from the list of action links.
 			 *
-			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
-			 *                            'deactivate', and 'delete'. With Multisite active this can also include
-			 *                            'network_active' and 'network_only' items.
-			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
-			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
-			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
+			 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
+			 *                              'deactivate', and 'delete'. With Multisite active this can also include
+			 *                              'network_active' and 'network_only' items.
+			 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+			 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( "plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
 
@@ -824,14 +824,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					 *
 					 * @since 2.8.0
 					 *
-					 * @param array  $plugin_meta An array of the plugin's metadata,
-					 *                            including the version, author,
-					 *                            author URI, and plugin URI.
-					 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-					 * @param array  $plugin_data An array of plugin data.
-					 * @param string $status      Status of the plugin. Defaults are 'All', 'Active',
-					 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
-					 *                            'Drop-ins', 'Search'.
+					 * @param string[] $plugin_meta An array of the plugin's metadata,
+					 *                              including the version, author,
+					 *                              author URI, and plugin URI.
+					 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+					 * @param array    $plugin_data An array of plugin data.
+					 * @param string   $status      Status of the plugin. Defaults are 'All', 'Active',
+					 *                              'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
+					 *                              'Drop-ins', 'Search'.
 					 */
 					$plugin_meta = apply_filters( 'plugin_row_meta', $plugin_meta, $plugin_file, $plugin_data, $status );
 					echo implode( ' | ', $plugin_meta );

@@ -320,8 +320,8 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * @since 3.0.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
 	 *
-	 * @param array $themes The theme slugs.
-	 * @param array $args {
+	 * @param string[] $themes Array of the theme slugs.
+	 * @param array    $args {
 	 *     Optional. Other arguments for upgrading several themes at once. Default empty array.
 	 *
 	 *     @type bool $clear_update_cache Whether to clear the update cache if successful.

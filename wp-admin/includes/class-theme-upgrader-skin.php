@@ -85,8 +85,8 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array  $update_actions Array of theme action links.
-		 * @param string $theme          Theme directory name.
+		 * @param string[] $update_actions Array of theme action links.
+		 * @param string   $theme          Theme directory name.
 		 */
 		$update_actions = apply_filters( 'update_theme_complete_actions', $update_actions, $this->theme );
 

@@ -286,8 +286,8 @@ if ( ! empty( $views ) ) {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param array  $taxonomies An array of registered taxonomies to show for attachments.
-		 * @param string $post_type  The post type. Default 'attachment'.
+		 * @param string[] $taxonomies An array of registered taxonomy names to show for attachments.
+		 * @param string   $post_type  The post type. Default 'attachment'.
 		 */
 		$taxonomies = apply_filters( 'manage_taxonomies_for_attachment_columns', $taxonomies, 'attachment' );
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
@@ -317,9 +317,9 @@ if ( ! empty( $views ) ) {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param array $posts_columns An array of columns displayed in the Media list table.
-		 * @param bool  $detached      Whether the list table contains media not attached
-		 *                             to any posts. Default true.
+		 * @param string[] $posts_columns An array of columns displayed in the Media list table.
+		 * @param bool     $detached      Whether the list table contains media not attached
+		 *                                to any posts. Default true.
 		 */
 		return apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 	}
@@ -755,11 +755,11 @@ if ( ! empty( $views ) ) {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array   $actions  An array of action links for each attachment.
-		 *                          Default 'Edit', 'Delete Permanently', 'View'.
-		 * @param WP_Post $post     WP_Post object for the current attachment.
-		 * @param bool    $detached Whether the list table contains media not attached
-		 *                          to any posts. Default true.
+		 * @param string[] $actions  An array of action links for each attachment.
+		 *                           Default 'Edit', 'Delete Permanently', 'View'.
+		 * @param WP_Post  $post     WP_Post object for the current attachment.
+		 * @param bool     $detached Whether the list table contains media not attached
+		 *                           to any posts. Default true.
 		 */
 		return apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 	}

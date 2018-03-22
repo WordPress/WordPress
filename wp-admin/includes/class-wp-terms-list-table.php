@@ -486,9 +486,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 * @since 2.8.0
 		 * @deprecated 3.0.0 Use {$taxonomy}_row_actions instead.
 		 *
-		 * @param array  $actions An array of action links to be displayed. Default
-		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
-		 * @param WP_Term $tag    Term object.
+		 * @param string[] $actions An array of action links to be displayed. Default
+		 *                          'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param WP_Term  $tag     Term object.
 		 */
 		$actions = apply_filters( 'tag_row_actions', $actions, $tag );
 
@@ -499,9 +499,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array  $actions An array of action links to be displayed. Default
-		 *                        'Edit', 'Quick Edit', 'Delete', and 'View'.
-		 * @param WP_Term $tag    Term object.
+		 * @param string[] $actions An array of action links to be displayed. Default
+		 *                          'Edit', 'Quick Edit', 'Delete', and 'View'.
+		 * @param WP_Term  $tag     Term object.
 		 */
 		$actions = apply_filters( "{$taxonomy}_row_actions", $actions, $tag );
 

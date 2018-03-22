@@ -76,8 +76,8 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $nonmenu_tabs The tabs that don't have a menu item on
-		 *                            the Install Themes screen.
+		 * @param string[] $nonmenu_tabs The tabs that don't have a menu item on
+		 *                               the Install Themes screen.
 		 */
 		$nonmenu_tabs = apply_filters( 'install_themes_nonmenu_tabs', $nonmenu_tabs );
 
@@ -334,7 +334,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array    $actions An array of theme action hyperlinks. Defaults are
+		 * @param string[] $actions An array of theme action links. Defaults are
 		 *                          links to Install Now, Preview, and Details.
 		 * @param WP_Theme $theme   Theme object.
 		 */

@@ -193,7 +193,7 @@ $messages['attachment'] = array_fill( 1, 10, __( 'Media file updated.' ) ); // H
  *
  * @since 3.0.0
  *
- * @param array $messages Post updated messages. For defaults @see $messages declarations above.
+ * @param array[] $messages Post updated messages. For defaults see `$messages` declarations above.
  */
 $messages = apply_filters( 'post_updated_messages', $messages );
 

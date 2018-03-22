@@ -1222,8 +1222,8 @@ if ( $this->show_screen_options() ) :
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $view_mode_post_types Array of post types that can change view modes.
-		 *                                    Default non-hierarchical post types with show_ui on.
+		 * @param string[] $view_mode_post_types Array of post types that can change view modes.
+		 *                                       Default non-hierarchical post types with show_ui on.
 		 */
 		$view_mode_post_types = apply_filters( 'view_mode_post_types', $view_mode_post_types );
 

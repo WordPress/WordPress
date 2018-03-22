@@ -396,7 +396,7 @@ class WP_List_Table {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param array $views An array of available list table views.
+		 * @param string[] $views An array of available list table views.
 		 */
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
@@ -447,7 +447,7 @@ class WP_List_Table {
 			 *
 			 * @since 3.5.0
 			 *
-			 * @param array $actions An array of the available bulk actions.
+			 * @param string[] $actions An array of the available bulk actions.
 			 */
 			$this->_actions = apply_filters( "bulk_actions-{$this->screen->id}", $this->_actions );
 			$two            = '';
@@ -503,8 +503,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array $actions The list of actions
-	 * @param bool $always_visible Whether the actions should be always visible
+	 * @param string[] $actions        An array of action links.
+	 * @param bool     $always_visible Whether the actions should be always visible.
 	 * @return string
 	 */
 	protected function row_actions( $actions, $always_visible = false ) {

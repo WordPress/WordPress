@@ -34,7 +34,7 @@ class WP_Site_Icon {
 	 * List of site icon sizes.
 	 *
 	 * @since 4.3.0
-	 * @var array
+	 * @var int[]
 	 */
 	public $site_icon_sizes = array(
 		/*
@@ -131,12 +131,12 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Adds additional sizes to be made when creating the site_icon images.
+	 * Adds additional sizes to be made when creating the site icon images.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array $sizes List of additional sizes.
-	 * @return array Additional image sizes.
+	 * @param array[] $sizes Array of arrays containing information for additional sizes.
+	 * @return array[] Array of arrays containing additional image sizes.
 	 */
 	public function additional_sizes( $sizes = array() ) {
 		$only_crop_sizes = array();
@@ -146,7 +146,7 @@ class WP_Site_Icon {
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param array $site_icon_sizes Sizes available for the Site Icon.
+		 * @param int[] $site_icon_sizes Array of sizes available for the Site Icon.
 		 */
 		$this->site_icon_sizes = apply_filters( 'site_icon_image_sizes', $this->site_icon_sizes );
 
@@ -179,8 +179,8 @@ class WP_Site_Icon {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array $sizes List of image sizes.
-	 * @return array List of intermediate image sizes.
+	 * @param string[] $sizes Array of image size names.
+	 * @return string[] Array of image size names.
 	 */
 	public function intermediate_image_sizes( $sizes = array() ) {
 		/** This filter is documented in wp-admin/includes/class-wp-site-icon.php */

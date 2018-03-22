@@ -77,7 +77,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $update_actions Array of translations update links.
+		 * @param string[] $update_actions Array of translations update links.
 		 */
 		$update_actions = apply_filters( 'update_translations_complete_actions', $update_actions );
 

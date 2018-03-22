@@ -121,8 +121,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $tabs The tabs shown on the Plugin Install screen. Defaults include 'featured', 'popular',
-		 *                    'recommended', 'favorites', and 'upload'.
+		 * @param string[] $tabs The tabs shown on the Plugin Install screen. Defaults include 'featured', 'popular',
+		 *                      'recommended', 'favorites', and 'upload'.
 		 */
 		$tabs = apply_filters( 'install_plugins_tabs', $tabs );
 
@@ -131,7 +131,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $nonmenu_tabs The tabs that don't have a Menu item on the Plugin Install screen.
+		 * @param string[] $nonmenu_tabs The tabs that don't have a menu item on the Plugin Install screen.
 		 */
 		$nonmenu_tabs = apply_filters( 'install_plugins_nonmenu_tabs', $nonmenu_tabs );
 
@@ -602,8 +602,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			 *
 			 * @since 2.7.0
 			 *
-			 * @param array $action_links An array of plugin action hyperlinks. Defaults are links to Details and Install Now.
-			 * @param array $plugin       The plugin currently being listed.
+			 * @param string[] $action_links An array of plugin action links. Defaults are links to Details and Install Now.
+			 * @param array    $plugin       The plugin currently being listed.
 			 */
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 

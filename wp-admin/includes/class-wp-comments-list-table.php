@@ -381,7 +381,7 @@ if ( 'top' === $which ) {
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
+		 * @param string[] $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
 		 */
 		$comment_types = apply_filters(
 			'admin_comment_types_dropdown', array(

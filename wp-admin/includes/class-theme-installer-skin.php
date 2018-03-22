@@ -104,7 +104,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array    $install_actions Array of theme action links.
+		 * @param string[] $install_actions Array of theme action links.
 		 * @param object   $api             Object containing WordPress.org API theme data.
 		 * @param string   $stylesheet      Theme directory name.
 		 * @param WP_Theme $theme_info      Theme object.

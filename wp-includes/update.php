@@ -600,7 +600,7 @@ function wp_maybe_auto_update() {
  *
  * @since 3.7.0
  *
- * @return array
+ * @return object[] Array of translation objects that have available updates.
  */
 function wp_get_translation_updates() {
 	$updates    = array();
