@@ -764,6 +764,7 @@ img.emoji {
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
 .welcome-panel .welcome-panel-close:before,
+.try-gutenberg-panel .try-gutenberg-panel-close:before,
 .tagchecklist .ntdelbutton .remove-tag-icon:before,
 #bulk-titles div a:before,
 .notice-dismiss:before {
