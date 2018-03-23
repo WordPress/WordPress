@@ -16,7 +16,7 @@
  * @see Bulk_Upgrader_Skin
  */
 class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
-	public $plugin_info = array(); // Plugin_Upgrader::bulk() will fill this in.
+	public $plugin_info = array(); // Plugin_Upgrader::bulk_upgrade() will fill this in.
 
 	public function add_strings() {
 		parent::add_strings();
@@ -56,7 +56,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 		 * @since 3.0.0
 		 *
 		 * @param string[] $update_actions Array of plugin action links.
-		 * @param array $plugin_info    Array of information for the last-updated plugin.
+		 * @param array    $plugin_info    Array of information for the last-updated plugin.
 		 */
 		$update_actions = apply_filters( 'update_bulk_plugins_complete_actions', $update_actions, $this->plugin_info );
 
