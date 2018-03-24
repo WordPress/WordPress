@@ -627,7 +627,7 @@
 				 *
 				 * @returns {void}
 				 */
-				parent.children().mousedown(function(e){
+				parent.children().on( 'mousedown, touchstart', function(e){
 					var ratio = false, sel, defRatio;
 
 					if ( e.shiftKey ) {
