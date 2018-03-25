@@ -140,7 +140,7 @@ class Walker_Nav_Menu extends Walker {
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
 		/**
-		 * Filters the CSS class(es) applied to a menu item's list item element.
+		 * Filters the CSS classes applied to a menu item's list item element.
 		 *
 		 * @since 3.0.0
 		 * @since 4.1.0 The `$depth` parameter was added.

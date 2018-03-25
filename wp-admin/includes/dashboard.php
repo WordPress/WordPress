@@ -439,10 +439,8 @@ function wp_network_dashboard_right_now() {
 		 * just before the user and site search form fields.
 		 *
 		 * @since MU (3.0.0)
-		 *
-		 * @param null $unused
 		 */
-		do_action( 'wpmuadminresult', '' );
+		do_action( 'wpmuadminresult' );
 	?>
 
 	<form action="<?php echo network_admin_url( 'users.php' ); ?>" method="get">
@@ -1529,7 +1527,7 @@ function wp_dashboard_browser_nag() {
 	 * @since 3.2.0
 	 *
 	 * @param string $notice   The notice content.
-	 * @param array  $response An array containing web browser information.
+	 * @param array  $response An array containing web browser information. See `wp_check_browser_version()`.
 	 */
 	echo apply_filters( 'browse-happy-notice', $notice, $response );
 }

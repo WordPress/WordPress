@@ -1387,7 +1387,7 @@ function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $term_list List of terms to display.
+	 * @param string $term_list List of terms to display.
 	 * @param string $taxonomy  The taxonomy name.
 	 * @param string $before    String to use before the terms.
 	 * @param string $sep       String to use between the terms.

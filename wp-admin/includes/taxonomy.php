@@ -282,8 +282,8 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	 *
 	 * @see get_terms_to_edit()
 	 *
-	 * @param array  $terms_to_edit An array of terms.
-	 * @param string $taxonomy     The taxonomy for which to retrieve terms. Default 'post_tag'.
+	 * @param string $terms_to_edit A comma-separated list of term names.
+	 * @param string $taxonomy      The taxonomy name for which to retrieve terms.
 	 */
 	$terms_to_edit = apply_filters( 'terms_to_edit', $terms_to_edit, $taxonomy );
 

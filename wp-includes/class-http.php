@@ -440,7 +440,7 @@ class WP_Http {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param array $cookies List of cookies to send with the request.
+	 * @param array $cookies Array of cookies to send with the request.
 	 * @return Requests_Cookie_Jar Cookie holder object.
 	 */
 	public static function normalize_cookies( $cookies ) {

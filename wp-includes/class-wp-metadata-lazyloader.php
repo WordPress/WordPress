@@ -97,7 +97,7 @@ class WP_Metadata_Lazyloader {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array                  $object_ids  Object IDs.
+		 * @param array                  $object_ids  Array of object IDs.
 		 * @param string                 $object_type Type of object being queued.
 		 * @param WP_Metadata_Lazyloader $lazyloader  The lazy-loader object.
 		 */

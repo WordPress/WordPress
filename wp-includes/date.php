@@ -140,9 +140,9 @@ class WP_Date_Query {
 	 *         }
 	 *     }
 	 * }
-	 * @param array $default_column Optional. Default column to query against. Default 'post_date'.
-	 *                              Accepts 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
-	 *                              'comment_date', 'comment_date_gmt'.
+	 * @param string $default_column Optional. Default column to query against. Default 'post_date'.
+	 *                               Accepts 'post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt',
+	 *                               'comment_date', 'comment_date_gmt'.
 	 */
 	public function __construct( $date_query, $default_column = 'post_date' ) {
 		if ( isset( $date_query['relation'] ) && 'OR' === strtoupper( $date_query['relation'] ) ) {

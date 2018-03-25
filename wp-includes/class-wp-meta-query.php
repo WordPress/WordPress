@@ -339,7 +339,7 @@ class WP_Meta_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array  $clauses           Array containing the query's JOIN and WHERE clauses.
+		 * @param array  $sql               Array containing the query's JOIN and WHERE clauses.
 		 * @param array  $queries           Array of meta queries.
 		 * @param string $type              Type of meta.
 		 * @param string $primary_table     Primary table.
