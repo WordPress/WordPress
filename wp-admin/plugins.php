@@ -567,7 +567,7 @@ if ( strlen( $s ) ) {
  *
  * @since 3.0.0
  *
- * @param array $plugins_all An array containing all installed plugins.
+ * @param array[] $plugins_all An array of arrays containing information on all installed plugins.
  */
 do_action( 'pre_current_active_plugins', $plugins['all'] );
 ?>

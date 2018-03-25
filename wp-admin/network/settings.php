@@ -450,7 +450,7 @@ if ( isset( $_GET['updated'] ) ) {
 			 *
 			 * @since MU (3.0.0)
 			 *
-			 * @param array $admin_menus The menu items available.
+			 * @param string[] $admin_menus Associative array of the menu items available.
 			 */
 			$menu_items   = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
 			$fieldset_end = '';

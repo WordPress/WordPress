@@ -268,7 +268,7 @@ $avatar_defaults = array(
  *
  * @since 2.6.0
  *
- * @param array $avatar_defaults Array of default avatars.
+ * @param string[] $avatar_defaults Associative array of default avatars.
  */
 $avatar_defaults = apply_filters( 'avatar_defaults', $avatar_defaults );
 $default         = get_option( 'avatar_default', 'mystery' );

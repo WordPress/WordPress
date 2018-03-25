@@ -556,7 +556,7 @@ function wp_doc_link_parse( $content ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $ignore_functions Functions and classes to be ignored.
+	 * @param string[] $ignore_functions Array of names of functions and classes to be ignored.
 	 */
 	$ignore_functions = apply_filters( 'documentation_ignore_functions', $ignore_functions );
 

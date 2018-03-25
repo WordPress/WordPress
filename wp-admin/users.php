@@ -317,7 +317,7 @@ foreach ( $userids as $id ) {
 	 * @since 4.5.0 The `$userids` parameter was added.
 	 *
 	 * @param WP_User $current_user WP_User object for the current user.
-	 * @param array   $userids      Array of IDs for users being deleted.
+	 * @param int[]   $userids      Array of IDs for users being deleted.
 	 */
 	do_action( 'delete_user_form', $current_user, $userids );
 	?>

@@ -905,8 +905,8 @@ final class WP_Customize_Widgets {
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param array $widget_ids Array of widget IDs.
-	 * @return array Array of sanitized widget IDs.
+	 * @param string[] $widget_ids Array of widget IDs.
+	 * @return string[] Array of sanitized widget IDs.
 	 */
 	public function sanitize_sidebar_widgets( $widget_ids ) {
 		$widget_ids           = array_map( 'strval', (array) $widget_ids );

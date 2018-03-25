@@ -254,7 +254,7 @@ function edit_user( $user_id = 0 ) {
  *
  * @since 2.8.0
  *
- * @return array
+ * @return array[] Array of arrays containing role information.
  */
 function get_editable_roles() {
 	$all_roles = wp_roles()->roles;
@@ -264,7 +264,7 @@ function get_editable_roles() {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $all_roles List of roles.
+	 * @param array[] $all_roles Array of arrays containing role information.
 	 */
 	$editable_roles = apply_filters( 'editable_roles', $all_roles );
 
@@ -377,8 +377,8 @@ function wp_delete_user( $id, $reassign = null ) {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array $post_types_to_delete Post types to delete.
-		 * @param int   $id                   User ID.
+		 * @param string[] $post_types_to_delete Array of post types to delete.
+		 * @param int      $id                   User ID.
 		 */
 		$post_types_to_delete = apply_filters( 'post_types_to_delete_with_user', $post_types_to_delete, $id );
 		$post_types_to_delete = implode( "', '", $post_types_to_delete );

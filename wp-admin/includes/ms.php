@@ -126,8 +126,8 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param array $tables  The site tables to be dropped.
-		 * @param int   $blog_id The ID of the site to drop tables for.
+		 * @param string[] $tables  Array of names of the site tables to be dropped.
+		 * @param int      $blog_id The ID of the site to drop tables for.
 		 */
 		$drop_tables = apply_filters( 'wpmu_drop_tables', $tables, $blog_id );
 
@@ -665,8 +665,8 @@ function format_code_lang( $code = '' ) {
 	 *
 	 * @since MU (3.0.0)
 	 *
-	 * @param array  $lang_codes Key/value pair of language codes where key is the short version.
-	 * @param string $code       A two-letter designation of the language.
+	 * @param string[] $lang_codes Array of key/value pairs of language codes where key is the short version.
+	 * @param string   $code       A two-letter designation of the language.
 	 */
 	$lang_codes = apply_filters( 'lang_codes', $lang_codes, $code );
 	return strtr( $code, $lang_codes );
@@ -760,8 +760,8 @@ function check_import_new_users( $permission ) {
  *
  * @since 3.0.0
  *
- * @param array  $lang_files Optional. An array of the language files. Default empty array.
- * @param string $current    Optional. The current language code. Default empty.
+ * @param string[] $lang_files Optional. An array of the language files. Default empty array.
+ * @param string   $current    Optional. The current language code. Default empty.
  */
 function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	$flag   = false;
@@ -796,9 +796,9 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	 *
 	 * @since MU (3.0.0)
 	 *
-	 * @param array $output     HTML output of the dropdown.
-	 * @param array $lang_files Available language files.
-	 * @param string $current   The current language code.
+	 * @param string[] $output     Array of HTML output for the dropdown.
+	 * @param string[] $lang_files Array of available language files.
+	 * @param string   $current    The current language code.
 	 */
 	$output = apply_filters( 'mu_dropdown_languages', $output, $lang_files, $current );
 

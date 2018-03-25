@@ -449,8 +449,8 @@ class WP_Comment_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array            $_comments An array of comments.
-		 * @param WP_Comment_Query $this     Current instance of WP_Comment_Query (passed by reference).
+		 * @param WP_Comment[]     $_comments An array of comments.
+		 * @param WP_Comment_Query $this      Current instance of WP_Comment_Query (passed by reference).
 		 */
 		$_comments = apply_filters_ref_array( 'the_comments', array( $_comments, &$this ) );
 
@@ -849,8 +849,8 @@ class WP_Comment_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array            $pieces A compacted array of comment query clauses.
-		 * @param WP_Comment_Query $this  Current instance of WP_Comment_Query (passed by reference).
+		 * @param string[]         $pieces An associative array of comment query clauses.
+		 * @param WP_Comment_Query $this   Current instance of WP_Comment_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'comments_clauses', array( compact( $pieces ), &$this ) );
 
@@ -932,7 +932,7 @@ class WP_Comment_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param array $comments Array of top-level comments whose descendants should be filled in.
+	 * @param WP_Comment[] $comments Array of top-level comments whose descendants should be filled in.
 	 * @return array
 	 */
 	protected function fill_descendants( $comments ) {

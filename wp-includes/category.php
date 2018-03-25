@@ -273,7 +273,7 @@ function sanitize_category_field( $field, $value, $cat_id, $context ) {
  * @see get_terms() For list of arguments to pass.
  *
  * @param string|array $args Tag arguments to use when retrieving tags.
- * @return array List of tags.
+ * @return WP_Term[]|int $tags Array of 'post_tag' term objects, or a count thereof.
  */
 function get_tags( $args = '' ) {
 	$tags = get_terms( 'post_tag', $args );
@@ -288,8 +288,8 @@ function get_tags( $args = '' ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $tags Array of 'post_tag' term objects.
-	 * @param array $args An array of arguments. @see get_terms()
+	 * @param WP_Term[]|int $tags Array of 'post_tag' term objects, or a count thereof.
+	 * @param array         $args An array of arguments. @see get_terms()
 	 */
 	$tags = apply_filters( 'get_tags', $tags, $args );
 	return $tags;

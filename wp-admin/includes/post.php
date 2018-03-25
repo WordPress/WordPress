@@ -1267,7 +1267,7 @@ function postbox_classes( $id, $page ) {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param array $classes An array of postbox classes.
+	 * @param string[] $classes An array of postbox classes.
 	 */
 	$classes = apply_filters( "postbox_classes_{$page}_{$id}", $classes );
 	return implode( ' ', $classes );

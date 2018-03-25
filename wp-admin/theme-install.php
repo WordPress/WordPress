@@ -143,7 +143,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $tabs The tabs shown on the Add Themes screen. Default is 'upload'.
+	 * @param string[] $tabs Associative array of the tabs shown on the Add Themes screen. Default is 'upload'.
 	 */
 	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {

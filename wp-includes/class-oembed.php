@@ -215,7 +215,7 @@ class WP_oEmbed {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array $providers An array of popular oEmbed providers.
+		 * @param array[] $providers An array of arrays containing data about popular oEmbed providers.
 		 */
 		$this->providers = apply_filters( 'oembed_providers', $providers );
 
@@ -446,9 +446,9 @@ class WP_oEmbed {
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param array $format Array of oEmbed link types. Accepts 'application/json+oembed',
-			 *                      'text/xml+oembed', and 'application/xml+oembed' (incorrect,
-			 *                      used by at least Vimeo).
+			 * @param string[] $format Array of oEmbed link types. Accepts 'application/json+oembed',
+			 *                         'text/xml+oembed', and 'application/xml+oembed' (incorrect,
+			 *                         used by at least Vimeo).
 			 */
 			$linktypes = apply_filters(
 				'oembed_linktypes', array(

@@ -130,7 +130,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param array   $return       Revision UI fields. Each item is an array of id, name and diff.
+	 * @param array[] $return       Array of revision UI fields. Each item is an array of id, name, and diff.
 	 * @param WP_Post $compare_from The revision post to compare from.
 	 * @param WP_Post $compare_to   The revision post to compare to.
 	 */

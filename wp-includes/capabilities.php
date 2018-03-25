@@ -324,12 +324,12 @@ function map_meta_cap( $cap, $user_id ) {
 				 * @since 3.3.0 As `auth_post_meta_{$meta_key}`.
 				 * @since 4.6.0
 				 *
-				 * @param bool   $allowed   Whether the user can add the object meta. Default false.
-				 * @param string $meta_key  The meta key.
-				 * @param int    $object_id Object ID.
-				 * @param int    $user_id   User ID.
-				 * @param string $cap       Capability name.
-				 * @param array  $caps      User capabilities.
+				 * @param bool     $allowed   Whether the user can add the object meta. Default false.
+				 * @param string   $meta_key  The meta key.
+				 * @param int      $object_id Object ID.
+				 * @param int      $user_id   User ID.
+				 * @param string   $cap       Capability name.
+				 * @param string[] $caps      Array of the user's capabilities.
 				 */
 				$allowed = apply_filters( "auth_{$object_type}_meta_{$meta_key}", false, $meta_key, $object_id, $user_id, $cap, $caps );
 
@@ -345,12 +345,12 @@ function map_meta_cap( $cap, $user_id ) {
 				 * @since 4.6.0 As `auth_post_{$post_type}_meta_{$meta_key}`.
 				 * @since 4.7.0
 				 *
-				 * @param bool   $allowed   Whether the user can add the object meta. Default false.
-				 * @param string $meta_key  The meta key.
-				 * @param int    $object_id Object ID.
-				 * @param int    $user_id   User ID.
-				 * @param string $cap       Capability name.
-				 * @param array  $caps      User capabilities.
+				 * @param bool     $allowed   Whether the user can add the object meta. Default false.
+				 * @param string   $meta_key  The meta key.
+				 * @param int      $object_id Object ID.
+				 * @param int      $user_id   User ID.
+				 * @param string   $cap       Capability name.
+				 * @param string[] $caps      Array of the user's capabilities.
 				 */
 				$allowed = apply_filters( "auth_{$object_type}_{$sub_type}_meta_{$meta_key}", $allowed, $meta_key, $object_id, $user_id, $cap, $caps );
 
@@ -572,10 +572,10 @@ function map_meta_cap( $cap, $user_id ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array  $caps    Returns the user's actual capabilities.
-	 * @param string $cap     Capability name.
-	 * @param int    $user_id The user ID.
-	 * @param array  $args    Adds the context to the cap. Typically the object ID.
+	 * @param string[] $caps    Array of the user's capabilities.
+	 * @param string   $cap     Capability name.
+	 * @param int      $user_id The user ID.
+	 * @param array    $args    Adds the context to the cap. Typically the object ID.
 	 */
 	return apply_filters( 'map_meta_cap', $caps, $cap, $user_id, $args );
 }
@@ -912,8 +912,8 @@ function revoke_super_admin( $user_id ) {
  *
  * @since 4.9.0
  *
- * @param array $allcaps An array of all the user's capabilities.
- * @return array Filtered array of the user's capabilities.
+ * @param bool[] $allcaps An array of all the user's capabilities.
+ * @return bool[] Filtered array of the user's capabilities.
  */
 function wp_maybe_grant_install_languages_cap( $allcaps ) {
 	if ( ! empty( $allcaps['update_core'] ) || ! empty( $allcaps['install_plugins'] ) || ! empty( $allcaps['install_themes'] ) ) {

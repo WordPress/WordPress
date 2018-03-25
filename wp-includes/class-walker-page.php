@@ -141,12 +141,11 @@ class Walker_Page extends Walker {
 		 *
 		 * @see wp_list_pages()
 		 *
-		 * @param array   $css_class    An array of CSS classes to be applied
-		 *                              to each list item.
-		 * @param WP_Post $page         Page data object.
-		 * @param int     $depth        Depth of page, used for padding.
-		 * @param array   $args         An array of arguments.
-		 * @param int     $current_page ID of the current page.
+		 * @param string[] $css_class    An array of CSS classes to be applied to each list item.
+		 * @param WP_Post  $page         Page data object.
+		 * @param int      $depth        Depth of page, used for padding.
+		 * @param array    $args         An array of arguments.
+		 * @param int      $current_page ID of the current page.
 		 */
 		$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
 

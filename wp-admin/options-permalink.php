@@ -256,7 +256,7 @@ $structures = array(
 				 *
 				 * @since 4.8.0
 				 *
-				 * @param array $available_tags A key => value pair of available permalink structure tags.
+				 * @param string[] $available_tags An array of key => value pairs of available permalink structure tags.
 				 */
 				$available_tags = apply_filters( 'available_permalink_structure_tags', $available_tags );
 

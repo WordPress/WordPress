@@ -340,7 +340,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
+	 * @param int[] $post_ids Optional. Array of post IDs to filter the query by.
 	 */
 	function wxr_authors_list( array $post_ids = null ) {
 		global $wpdb;

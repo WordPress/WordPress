@@ -2609,7 +2609,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
  *
  * @since 3.1.0
  *
- * @param array $type_links An array of list items containing mime type link HTML.
+ * @param string[] $type_links An array of list items containing mime type link HTML.
  */
 echo implode( ' | </li>', apply_filters( 'media_upload_mime_type_links', $type_links ) ) . '</li>';
 unset( $type_links );

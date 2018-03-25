@@ -346,7 +346,7 @@ final class WP_Customize_Manager {
 		 *
 		 * @see WP_Customize_Manager::__construct()
 		 *
-		 * @param array                $components List of core components to load.
+		 * @param string[]             $components Array of core components to load.
 		 * @param WP_Customize_Manager $this       WP_Customize_Manager instance.
 		 */
 		$components = apply_filters( 'customize_loaded_components', $this->components, $this );
@@ -3094,11 +3094,11 @@ final class WP_Customize_Manager {
 	 * @see WP_Customize_Manager::save_changeset_post()
 	 * @see _wp_translate_postdata()
 	 *
-	 * @param array  $caps    Returns the user's actual capabilities.
-	 * @param string $cap     Capability name.
-	 * @param int    $user_id The user ID.
-	 * @param array  $args    Adds the context to the cap. Typically the object ID.
-	 * @return array Capabilities.
+	 * @param string[] $caps    Array of the user's capabilities.
+	 * @param string   $cap     Capability name.
+	 * @param int      $user_id The user ID.
+	 * @param array    $args    Adds the context to the cap. Typically the object ID.
+	 * @return array   Capabilities.
 	 */
 	public function grant_edit_post_capability_for_changeset( $caps, $cap, $user_id, $args ) {
 		if ( 'edit_post' === $cap && ! empty( $args[0] ) && 'customize_changeset' === get_post_type( $args[0] ) ) {
@@ -4506,7 +4506,7 @@ final class WP_Customize_Manager {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array $allowed_urls An array of allowed URLs.
+		 * @param string[] $allowed_urls An array of allowed URLs.
 		 */
 		$allowed_urls = array_unique( apply_filters( 'customize_allowed_urls', $allowed_urls ) );
 
@@ -4619,7 +4619,7 @@ final class WP_Customize_Manager {
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param array                $nonces Array of refreshed nonces for save and
+		 * @param string[]             $nonces Array of refreshed nonces for save and
 		 *                                     preview actions.
 		 * @param WP_Customize_Manager $this   WP_Customize_Manager instance.
 		 */
