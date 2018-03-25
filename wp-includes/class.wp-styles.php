@@ -306,7 +306,7 @@ class WP_Styles extends WP_Dependencies {
 			 *
 			 * @since 2.6.0
 			 *
-			 * @param array $to_do The list of enqueued styles about to be processed.
+			 * @param string[] $to_do The list of enqueued style handles about to be processed.
 			 */
 			$this->to_do = apply_filters( 'print_styles_array', $this->to_do );
 		}

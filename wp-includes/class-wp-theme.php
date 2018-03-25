@@ -1191,7 +1191,7 @@ final class WP_Theme implements ArrayAccess {
 		 * @since 4.4.0 Converted to allow complete control over the `$page_templates` array.
 		 * @since 4.7.0 Added the `$post_type` parameter.
 		 *
-		 * @param array        $post_templates Array of page templates. Keys are filenames,
+		 * @param string[]     $post_templates Array of page templates. Keys are filenames,
 		 *                                     values are translated names.
 		 * @param WP_Theme     $this           The theme object.
 		 * @param WP_Post|null $post           The post being edited, provided for context, or null.
@@ -1239,7 +1239,7 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * @since 4.7.4
 		 *
-		 * @param array $exclusions Array of excluded directories and files.
+		 * @param string[] $exclusions Array of excluded directories and files.
 		 */
 		$exclusions = (array) apply_filters( 'theme_scandir_exclusions', array( 'CVS', 'node_modules', 'vendor', 'bower_components' ) );
 
@@ -1356,7 +1356,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 *
 	 * @param int $blog_id Optional. ID of the site. Defaults to the current site.
-	 * @return array Array of stylesheet names.
+	 * @return string[] Array of stylesheet names.
 	 */
 	public static function get_allowed( $blog_id = null ) {
 		/**
@@ -1367,8 +1367,8 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array $allowed_themes An array of theme stylesheet names.
-		 * @param int   $blog_id        ID of the site.
+		 * @param string[] $allowed_themes An array of theme stylesheet names.
+		 * @param int      $blog_id        ID of the site.
 		 */
 		$network = (array) apply_filters( 'network_allowed_themes', self::get_allowed_on_network(), $blog_id );
 		return $network + self::get_allowed_on_site( $blog_id );
@@ -1381,7 +1381,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $allowed_themes
 	 *
-	 * @return array Array of stylesheet names.
+	 * @return string[] Array of stylesheet names.
 	 */
 	public static function get_allowed_on_network() {
 		static $allowed_themes;
@@ -1394,7 +1394,7 @@ final class WP_Theme implements ArrayAccess {
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param array $allowed_themes An array of theme stylesheet names.
+		 * @param string[] $allowed_themes An array of theme stylesheet names.
 		 */
 		$allowed_themes = apply_filters( 'allowed_themes', $allowed_themes );
 
@@ -1409,7 +1409,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @staticvar array $allowed_themes
 	 *
 	 * @param int $blog_id Optional. ID of the site. Defaults to the current site.
-	 * @return array Array of stylesheet names.
+	 * @return string[] Array of stylesheet names.
 	 */
 	public static function get_allowed_on_site( $blog_id = null ) {
 		static $allowed_themes = array();
@@ -1424,8 +1424,8 @@ final class WP_Theme implements ArrayAccess {
 			 *
 			 * @since 4.5.0
 			 *
-			 * @param array $allowed_themes An array of theme stylesheet names.
-			 * @param int   $blog_id        ID of the site. Defaults to current site.
+			 * @param string[] $allowed_themes An array of theme stylesheet names.
+			 * @param int      $blog_id        ID of the site. Defaults to current site.
 			 */
 			return (array) apply_filters( 'site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id );
 		}
@@ -1486,7 +1486,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
+	 * @param string|string[] $stylesheets Stylesheet name or array of stylesheet names.
 	 */
 	public static function network_enable_theme( $stylesheets ) {
 		if ( ! is_multisite() ) {
@@ -1510,7 +1510,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
+	 * @param string|string[] $stylesheets Stylesheet name or array of stylesheet names.
 	 */
 	public static function network_disable_theme( $stylesheets ) {
 		if ( ! is_multisite() ) {

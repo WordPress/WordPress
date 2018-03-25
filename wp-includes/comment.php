@@ -517,7 +517,7 @@ function update_comment_meta( $comment_id, $meta_key, $meta_value, $prev_value =
  *
  * @since 4.5.0
  *
- * @param array $comments Array of comment objects.
+ * @param WP_Comment[] $comments Array of comment objects.
  */
 function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
 	// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
@@ -918,8 +918,8 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
  *
  * @since 2.7.0
  *
- * @param array $comments Array of comments
- * @return array Array of comments keyed by comment_type.
+ * @param WP_Comment[] $comments Array of comments
+ * @return WP_Comment[] Array of comments keyed by comment_type.
  */
 function separate_comments( &$comments ) {
 	$comments_by_type = array(
@@ -952,9 +952,9 @@ function separate_comments( &$comments ) {
  *
  * @global WP_Query $wp_query
  *
- * @param array $comments Optional array of WP_Comment objects. Defaults to $wp_query->comments
- * @param int   $per_page Optional comments per page.
- * @param bool  $threaded Optional control over flat or threaded comments.
+ * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Defaults to $wp_query->comments.
+ * @param int          $per_page Optional. Comments per page.
+ * @param bool         $threaded Optional. Control over flat or threaded comments.
  * @return int Number of comment pages.
  */
 function get_comment_pages_count( $comments = null, $per_page = null, $threaded = null ) {
@@ -2740,9 +2740,9 @@ function pingback( $content, $post_id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $post_links An array of post links to be checked (passed by reference).
-	 * @param array $pung       Whether a link has already been pinged (passed by reference).
-	 * @param int   $post_ID    The post ID.
+	 * @param string[] $post_links Array of link URLs to be checked (passed by reference).
+	 * @param string[] $pung       Array of link URLs already pinged (passed by reference).
+	 * @param int      $post_ID    The post ID.
 	 */
 	do_action_ref_array( 'pre_ping', array( &$post_links, &$pung, $post->ID ) );
 
@@ -2932,8 +2932,8 @@ function clean_comment_cache( $ids ) {
  * @since 2.3.0
  * @since 4.4.0 Introduced the `$update_meta_cache` parameter.
  *
- * @param array $comments          Array of comment row objects
- * @param bool  $update_meta_cache Whether to update commentmeta cache. Default true.
+ * @param WP_Comment[] $comments          Array of comment objects
+ * @param bool         $update_meta_cache Whether to update commentmeta cache. Default true.
  */
 function update_comment_cache( $comments, $update_meta_cache = true ) {
 	foreach ( (array) $comments as $comment ) {
@@ -2959,7 +2959,7 @@ function update_comment_cache( $comments, $update_meta_cache = true ) {
  * @see update_comment_cache()
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $comment_ids       Array of comment IDs.
+ * @param int[] $comment_ids       Array of comment IDs.
  * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
 function _prime_comment_caches( $comment_ids, $update_meta_cache = true ) {
@@ -2997,7 +2997,7 @@ function _close_comments_for_old_posts( $posts, $query ) {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param array $post_types An array of registered post types. Default array with 'post'.
+	 * @param string[] $post_types An array of post type names.
 	 */
 	$post_types = apply_filters( 'close_comments_for_post_types', array( 'post' ) );
 	if ( ! in_array( $posts[0]->post_type, $post_types ) ) {

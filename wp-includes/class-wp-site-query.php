@@ -307,7 +307,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array         $_sites An array of WP_Site objects.
+		 * @param WP_Site[]     $_sites An array of WP_Site objects.
 		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$_sites = apply_filters_ref_array( 'the_sites', array( $_sites, &$this ) );
@@ -509,7 +509,7 @@ class WP_Site_Query {
 			 *
 			 * @since 4.6.0
 			 *
-			 * @param array         $search_columns Array of column names to be searched.
+			 * @param string[]      $search_columns Array of column names to be searched.
 			 * @param string        $search         Text being searched.
 			 * @param WP_Site_Query $this           The current WP_Site_Query instance.
 			 */
@@ -535,7 +535,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array         $pieces A compacted array of site query clauses.
+		 * @param string[]      $pieces An associative array of site query clauses.
 		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
@@ -614,8 +614,8 @@ class WP_Site_Query {
 	 *
 	 * @global wpdb  $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $string  Search string.
-	 * @param array  $columns Columns to search.
+	 * @param string   $string  Search string.
+	 * @param string[] $columns Array of columns to search.
 	 * @return string Search SQL.
 	 */
 	protected function get_search_sql( $string, $columns ) {

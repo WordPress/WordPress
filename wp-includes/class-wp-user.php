@@ -610,9 +610,9 @@ class WP_User {
 		 * @since 2.9.0
 		 * @since 3.6.0 Added $old_roles to include an array of the user's previous roles.
 		 *
-		 * @param int    $user_id   The user ID.
-		 * @param string $role      The new role.
-		 * @param array  $old_roles An array of the user's previous roles.
+		 * @param int      $user_id   The user ID.
+		 * @param string   $role      The new role.
+		 * @param string[] $old_roles An array of the user's previous roles.
 		 */
 		do_action( 'set_user_role', $this->ID, $role, $old_roles );
 	}
@@ -750,10 +750,10 @@ class WP_User {
 		 * @since 2.0.0
 		 * @since 3.7.0 Added the user object.
 		 *
-		 * @param array   $allcaps An array of all the user's capabilities.
-		 * @param array   $caps    Actual capabilities for meta capability.
-		 * @param array   $args    Optional parameters passed to has_cap(), typically object ID.
-		 * @param WP_User $user    The user object.
+		 * @param bool[]   $allcaps An array of all the user's capabilities.
+		 * @param string[] $caps    Actual capabilities for meta capability.
+		 * @param array    $args    Optional parameters passed to has_cap(), typically object ID.
+		 * @param WP_User  $user    The user object.
 		 */
 		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );
 

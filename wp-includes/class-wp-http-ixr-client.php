@@ -72,7 +72,7 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $headers Array of headers to be sent.
+		 * @param string[] $headers Associative array of headers to be sent.
 		 */
 		$args['headers'] = apply_filters( 'wp_http_ixr_client_headers', $args['headers'] );
 

@@ -238,8 +238,8 @@ class WP_Term_Query {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array $defaults   An array of default get_terms() arguments.
-		 * @param array $taxonomies An array of taxonomies.
+		 * @param array    $defaults   An array of default get_terms() arguments.
+		 * @param string[] $taxonomies An array of taxonomy names.
 		 */
 		$this->query_var_defaults = apply_filters( 'get_terms_defaults', $this->query_var_defaults, $taxonomies );
 
@@ -351,8 +351,8 @@ class WP_Term_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array $args       An array of get_terms() arguments.
-		 * @param array $taxonomies An array of taxonomies.
+		 * @param array    $args       An array of get_terms() arguments.
+		 * @param string[] $taxonomies An array of taxonomy names.
 		 */
 		$args = apply_filters( 'get_terms_args', $args, $taxonomies );
 
@@ -463,9 +463,9 @@ class WP_Term_Query {
 		 *
 		 * @since 2.3.0
 		 *
-		 * @param string $exclusions `NOT IN` clause of the terms query.
-		 * @param array  $args       An array of terms query arguments.
-		 * @param array  $taxonomies An array of taxonomies.
+		 * @param string   $exclusions `NOT IN` clause of the terms query.
+		 * @param array    $args       An array of terms query arguments.
+		 * @param string[] $taxonomies An array of taxonomy names.
 		 */
 		$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args, $taxonomies );
 
@@ -627,9 +627,9 @@ class WP_Term_Query {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $selects    An array of fields to select for the terms query.
-		 * @param array $args       An array of term query arguments.
-		 * @param array $taxonomies An array of taxonomies.
+		 * @param string[] $selects    An array of fields to select for the terms query.
+		 * @param array    $args       An array of term query arguments.
+		 * @param string[] $taxonomies An array of taxonomy names.
 		 */
 		$fields = implode( ', ', apply_filters( 'get_terms_fields', $selects, $args, $taxonomies ) );
 
@@ -646,9 +646,9 @@ class WP_Term_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array $pieces     Terms query SQL clauses.
-		 * @param array $taxonomies An array of taxonomies.
-		 * @param array $args       An array of terms query arguments.
+		 * @param string[] $pieces     Array of query SQL clauses.
+		 * @param string[] $taxonomies An array of taxonomy names.
+		 * @param array    $args       An array of term query arguments.
 		 */
 		$clauses = apply_filters( 'terms_clauses', compact( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limits' ), $taxonomies, $args );
 
@@ -859,9 +859,9 @@ class WP_Term_Query {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param string $orderby    `ORDERBY` clause of the terms query.
-		 * @param array  $args       An array of terms query arguments.
-		 * @param array  $taxonomies An array of taxonomies.
+		 * @param string   $orderby    `ORDERBY` clause of the terms query.
+		 * @param array    $args       An array of term query arguments.
+		 * @param string[] $taxonomies An array of taxonomy names.
 		 */
 		$orderby = apply_filters( 'get_terms_orderby', $orderby, $this->query_vars, $this->query_vars['taxonomy'] );
 

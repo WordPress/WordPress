@@ -541,7 +541,7 @@ class WP_User_Query {
 			 *
 			 * @since 3.6.0
 			 *
-			 * @param array         $search_columns Array of column names to be searched.
+			 * @param string[]      $search_columns Array of column names to be searched.
 			 * @param string        $search         Text being searched.
 			 * @param WP_User_Query $this           The current WP_User_Query instance.
 			 */

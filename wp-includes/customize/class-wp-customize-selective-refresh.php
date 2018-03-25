@@ -218,8 +218,8 @@ final class WP_Customize_Selective_Refresh {
 	 *
 	 * @see WP_Customize_Manager::add_dynamic_settings()
 	 *
-	 * @param array $partial_ids The partial ID to add.
-	 * @return array Added WP_Customize_Partial instances.
+	 * @param string[] $partial_ids Array of the partial IDs to add.
+	 * @return WP_Customize_Partial[] Array of added WP_Customize_Partial instances.
 	 */
 	public function add_dynamic_partials( $partial_ids ) {
 		$new_partials = array();

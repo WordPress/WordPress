@@ -232,9 +232,9 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 *
 	 * @see wp_get_nav_menus()
 	 *
-	 * @param array $menus An array of menu objects.
-	 * @param array $args  An array of arguments used to retrieve menu objects.
-	 * @return array
+	 * @param WP_Term[] $menus An array of menu objects.
+	 * @param array     $args  An array of arguments used to retrieve menu objects.
+	 * @return WP_Term[] Array of menu objects.
 	 */
 	public function filter_wp_get_nav_menus( $menus, $args ) {
 		if ( get_current_blog_id() !== $this->_previewed_blog_id ) {

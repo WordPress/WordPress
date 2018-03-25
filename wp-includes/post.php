@@ -1043,7 +1043,7 @@ function get_post_type_object( $post_type ) {
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
  *                               must match; 'not' means no elements may match. Default 'and'.
- * @return array A list of post type names or objects.
+ * @return string[]|WP_Post_Type[] An array of post type names or objects.
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_post_types;
@@ -4341,7 +4341,7 @@ function get_enclosed( $post_id ) {
  * @since 4.7.0 `$post_id` can be a WP_Post object.
  *
  * @param int|WP_Post $post_id Post ID or object.
- * @return array
+ * @return bool|string[] Array of URLs already pinged for the given post, false if the post is not found.
  */
 function get_pung( $post_id ) {
 	$post = get_post( $post_id );
@@ -4357,7 +4357,7 @@ function get_pung( $post_id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $pung Array of URLs already pinged for the given post.
+	 * @param string[] $pung Array of URLs already pinged for the given post.
 	 */
 	return apply_filters( 'get_pung', $pung );
 }

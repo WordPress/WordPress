@@ -12,7 +12,7 @@ class WP {
 	 * Long list of public query variables.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $public_query_vars = array( 'm', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage', 'post_type', 'embed' );
 
@@ -22,7 +22,7 @@ class WP {
 	 * Long list of private query variables.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var string[]
 	 */
 	public $private_query_vars = array( 'offset', 'posts_per_page', 'posts_per_archive_page', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm', 'comments_per_page', 'post__in', 'post__not_in', 'post_parent', 'post_parent__in', 'post_parent__not_in', 'title', 'fields' );
 
@@ -282,7 +282,7 @@ class WP {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param array $public_query_vars The array of whitelisted query variables.
+		 * @param string[] $public_query_vars The array of whitelisted query variable names.
 		 */
 		$this->public_query_vars = apply_filters( 'query_vars', $this->public_query_vars );
 
@@ -477,8 +477,8 @@ class WP {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $headers The list of headers to be sent.
-		 * @param WP    $this    Current WordPress environment instance.
+		 * @param string[] $headers Associative array of headers to be sent.
+		 * @param WP       $this    Current WordPress environment instance.
 		 */
 		$headers = apply_filters( 'wp_headers', $headers, $this );
 

@@ -1379,7 +1379,7 @@ class WP_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @param array $terms Terms to check.
+	 * @param string[] $terms Array of terms to check.
 	 * @return array Terms that are not stopwords.
 	 */
 	protected function parse_search_terms( $terms ) {
@@ -1447,7 +1447,7 @@ class WP_Query {
 		 *
 		 * @since 3.7.0
 		 *
-		 * @param array $stopwords Stopwords.
+		 * @param string[] $stopwords Array of stopwords.
 		 */
 		$this->stopwords = apply_filters( 'wp_search_stopwords', $stopwords );
 		return $this->stopwords;
@@ -2694,7 +2694,7 @@ class WP_Query {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array    $clauses The list of clauses for the query.
+			 * @param string[] $clauses Associative array of the clauses for the query.
 			 * @param WP_Query $this    The WP_Query instance (passed by reference).
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses', array( compact( $pieces ), &$this ) );
@@ -2818,7 +2818,7 @@ class WP_Query {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array    $pieces The pieces of the query.
+			 * @param string[] $pieces Associative array of the pieces of the query.
 			 * @param WP_Query $this   The WP_Query instance (passed by reference).
 			 */
 			$clauses = (array) apply_filters_ref_array( 'posts_clauses_request', array( compact( $pieces ), &$this ) );
@@ -2965,8 +2965,8 @@ class WP_Query {
 			 *
 			 * @since 2.3.0
 			 *
-			 * @param array    $posts The post results array.
-			 * @param WP_Query $this The WP_Query instance (passed by reference).
+			 * @param WP_Post[] $posts Array of post objects.
+			 * @param WP_Query  $this  The WP_Query instance (passed by reference).
 			 */
 			$this->posts = apply_filters_ref_array( 'posts_results', array( $this->posts, &$this ) );
 		}
@@ -3102,8 +3102,8 @@ class WP_Query {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param array    $posts The array of retrieved posts.
-			 * @param WP_Query $this The WP_Query instance (passed by reference).
+			 * @param WP_Post[] $posts Array of post objects.
+			 * @param WP_Query  $this The WP_Query instance (passed by reference).
 			 */
 			$this->posts = apply_filters_ref_array( 'the_posts', array( $this->posts, &$this ) );
 		}
@@ -4177,9 +4177,8 @@ class WP_Query {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array   $pages Array of "pages" derived from the post content.
-		 *                       of `<!-- nextpage -->` tags..
-		 * @param WP_Post $post  Current post object.
+		 * @param string[] $pages Array of "pages" from the post content split by `<!-- nextpage -->` tags.
+		 * @param WP_Post  $post  Current post object.
 		 */
 		$pages = apply_filters( 'content_pagination', $pages, $post );
 

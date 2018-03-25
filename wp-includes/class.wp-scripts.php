@@ -496,7 +496,7 @@ class WP_Scripts extends WP_Dependencies {
 			 *
 			 * @since 2.3.0
 			 *
-			 * @param array $to_do An array of script dependencies.
+			 * @param string[] $to_do An array of script dependency handles.
 			 */
 			$this->to_do = apply_filters( 'print_scripts_array', $this->to_do );
 		}

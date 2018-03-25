@@ -94,7 +94,7 @@ class WP_Role {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array  $capabilities Array of role capabilities.
+		 * @param bool[] $capabilities Associative array of capabilities for the role.
 		 * @param string $cap          Capability name.
 		 * @param string $name         Role name.
 		 */

@@ -76,7 +76,7 @@ function wp_embed_defaults( $url = '' ) {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $size An array of embed width and height values
+	 * @param int[]  $size An array of embed width and height values
 	 *                     in pixels (in that order).
 	 * @param string $url  The URL that should be embedded.
 	 */

@@ -549,8 +549,8 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
  *
  * @since 1.5.0
  *
- * @global array $l10n          An array of all currently loaded text domains.
- * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
+ * @global MO[] $l10n          An array of all currently loaded text domains.
+ * @global MO[] $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @param string $mofile Path to the .mo file.
@@ -623,8 +623,8 @@ function load_textdomain( $domain, $mofile ) {
  *
  * @since 3.0.0
  *
- * @global array $l10n          An array of all currently loaded text domains.
- * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
+ * @global MO[] $l10n          An array of all currently loaded text domains.
+ * @global MO[] $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether textdomain was unloaded.
@@ -856,7 +856,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @access private
  *
  * @see get_translations_for_domain()
- * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
+ * @global MO[] $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool True when the textdomain is successfully loaded, false otherwise.
@@ -964,7 +964,7 @@ function _get_path_to_translation_from_lang_dir( $domain ) {
  *
  * @since 2.8.0
  *
- * @global array $l10n
+ * @global MO[] $l10n
  * @staticvar NOOP_Translations $noop_translations
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
@@ -989,7 +989,7 @@ function get_translations_for_domain( $domain ) {
  *
  * @since 3.0.0
  *
- * @global array $l10n
+ * @global MO[] $l10n
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether there are translations.
