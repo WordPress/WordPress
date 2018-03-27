@@ -1964,6 +1964,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 2.8.1
 	 * @since 4.4.0 Added support for `min-height`, `max-height`, `min-width`, and `max-width`.
 	 * @since 4.6.0 Added support for `list-style-type`.
+	 * @since 5.0.0 Added support for `text-transform`.
 	 *
 	 * @param array $attr List of allowed CSS attributes.
 	 */
@@ -2006,9 +2007,10 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 			'font-weight',
 			'letter-spacing',
 			'line-height',
+			'text-align',
 			'text-decoration',
 			'text-indent',
-			'text-align',
+			'text-transform',
 
 			'height',
 			'min-height',
