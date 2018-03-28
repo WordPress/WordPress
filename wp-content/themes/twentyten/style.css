@@ -803,8 +803,6 @@ img.size-full,
 img.size-large,
 img.size-medium,
 .attachment img,
-.entry-content img,
-.wp-caption img,
 .widget-container img {
 	max-width: 100%; /* When images are too wide for containing element, force them to fit. */
 	height: auto; /* Override height to match resized width for correct aspect ratio. */
@@ -839,6 +837,7 @@ img.aligncenter {
 	background: #f1f1f1;
 	line-height: 18px;
 	margin-bottom: 20px;
+	max-width: 632px !important; /* prevent too-wide images from breaking layout */
 	padding: 4px;
 	text-align: center;
 }
