@@ -3274,3 +3274,104 @@ function wp_handle_comment_submission( $comment_data ) {
 
 	return get_comment( $comment_id );
 }
+
+/**
+ * Registers the personal data exporter for comments
+ *
+ * @param array   $exporters   An array of personal data exporters.
+ * @return array  An array of personal data exporters.
+ */
+function wp_register_comment_personal_data_exporter( $exporters ) {
+	$exporters[] = array(
+		'exporter_friendly_name' => __( 'WordPress Comments' ),
+		'callback'               => 'wp_comments_personal_data_exporter',
+	);
+
+	return $exporters;
+}
+
+/**
+ * Finds and exports personal data associated with an email address from the comments table.
+ *
+ * @param string  $email_address The comment author email address.
+ * @param int     $page          Comment page.
+ * @return array  An array of personal data.
+ */
+function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
+
+	// Technically, strtolower isn't necessary since get_comments will match email insensitive
+	// But it is a good example for plugin developers whose targets might not be as generous
+	$email_address = trim( strtolower( $email_address ) );
+
+	// Limit us to 500 comments at a time to avoid timing out
+	$number = 500;
+	$page = (int) $page;
+
+	$data_to_export = array();
+
+	$comments = get_comments(
+		array(
+			'author_email' => $email_address,
+			'number'       => $number,
+			'paged'        => $page,
+			'order_by'     => 'comment_ID',
+			'order'        => 'ASC',
+		)
+	);
+
+	$comment_prop_to_export = array(
+		'comment_author'       => __( 'Comment Author' ),
+		'comment_author_email' => __( 'Comment Author Email' ),
+		'comment_author_url'   => __( 'Comment Author URL' ),
+		'comment_author_IP'    => __( 'Comment Author IP' ),
+		'comment_agent'        => __( 'Comment Agent' ),
+		'comment_date'         => __( 'Comment Date' ),
+		'comment_content'      => __( 'Comment Content' ),
+		'comment_link'         => __( 'Comment URL' ),
+	);
+
+	foreach ( (array) $comments as $comment ) {
+		$comment_data_to_export = array();
+
+		foreach ( $comment_prop_to_export as $key => $name ) {
+			$value = '';
+
+			switch( $key ) {
+				case 'comment_author':
+				case 'comment_author_email':
+				case 'comment_author_url':
+				case 'comment_author_IP':
+				case 'comment_agent':
+				case 'comment_date':
+					$value = $comment->$key;
+					break;
+
+				case 'comment_content':
+					$value = get_comment_text( $comment->comment_ID );
+					break;
+
+				case 'comment_link':
+					$value = get_comment_link( $comment->comment_ID );
+					break;
+			}
+
+			if ( ! empty( $value ) ) {
+				$comment_data_to_export[] = array( 'name' => $name, 'value' => $value );
+			}
+		}
+
+		$data_to_export[] = array(
+			'group_id'    => 'comments',
+			'group_label' => __( 'Comments' ),
+			'item_id'     => "comment-{$comment->comment_ID}",
+			'data'        => $comment_data_to_export,
+		);
+	}
+
+	$done = count( $comments ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
