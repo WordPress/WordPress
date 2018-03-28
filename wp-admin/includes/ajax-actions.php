@@ -4326,3 +4326,120 @@ function wp_ajax_edit_theme_plugin_file() {
 		);
 	}
 }
+
+function wp_ajax_wp_privacy_export_personal_data() {
+//	check_ajax_referer( 'wp-privacy-export-personal-data', 'security' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( 'access denied' );
+	}
+
+	$email_address  = sanitize_text_field( $_POST['email'] );
+	$exporter_index = (int) $_POST['exporter'];
+	$page           = (int) $_POST['page'];
+
+	/**
+	 * Filters the array of exporter callbacks.
+	 *
+	 * @since 4.9.5.
+	 *
+	 * @param array $args {
+	 *     An array of callable exporters of personal data. Default empty array.
+	 *     [
+	 *         callback               string  Callable exporter that accepts an email address and
+	 *                                        a page and returns an array of name => value
+	 *                                        pairs of personal data
+	 *         exporter_friendly_name string  Translated user facing friendly name for the exporter
+	 *     ]
+	 * }
+	 */
+	$exporters = apply_filters( 'wp_privacy_personal_data_exporters', array() );
+
+	if ( ! is_array( $exporters ) ) {
+		wp_send_json_error( 'An exporter has improperly used the registration filter.' );
+	}
+
+	// Do we have any registered exporters?
+	if ( 0 < count( $exporters ) ) {
+		if ( $exporter_index < 1 ) {
+			wp_send_json_error( 'Exporter index cannot be negative.' );
+		}
+
+		if ( $exporter_index > count( $exporters ) ) {
+			wp_send_json_error( 'Exporter index out of range.' );
+		}
+
+		$index = $exporter_index - 1;
+
+		if ( $page < 1 ) {
+			wp_send_json_error( 'Page index cannot be less than one.' );
+		}
+
+		// Surprisingly, email addresses can contain mutli-byte characters now
+		$email_address = trim( mb_strtolower( $email_address ) );
+
+		if ( ! is_email( $email_address ) ) {
+			wp_send_json_error( 'A valid email address must be given.' );
+		}
+
+		$exporter = $exporters[ $index ];
+		if ( ! is_array( $exporter ) ) {
+			wp_send_json_error( "Expected an array describing the exporter at index {$exporter_index}." );
+		}
+		if ( ! array_key_exists( 'callback', $exporter ) ) {
+			wp_send_json_error( "Exporter array at index {$exporter_index} does not include a callback." );
+		}
+		if ( ! is_callable( $exporter['callback'] ) ) {
+			wp_send_json_error( "Exporter callback at index {$exporter_index} is not a valid callback." );
+		}
+		if ( ! array_key_exists( 'exporter_friendly_name', $exporter ) ) {
+			wp_send_json_error( "Exporter array at index {$exporter_index} does not include a friendly name." );
+		}
+
+		$callback = $exporters[ $index ]['callback'];
+		$exporter_friendly_name = $exporters[ $index ]['exporter_friendly_name'];
+
+		$response = call_user_func( $callback, $email_address, $page );
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error( $response );
+		}
+
+		if ( ! is_array( $response ) ) {
+			wp_send_json_error( "Expected response as an array from exporter: {$exporter_friendly_name}." );
+		}
+		if ( ! array_key_exists( 'data', $response ) ) {
+			wp_send_json_error( "Expected data in response array from exporter: {$exporter_friendly_name}." );
+		}
+		if ( ! is_array( $response['data'] ) ) {
+			wp_send_json_error( "Expected data array in response array from exporter: {$exporter_friendly_name}." );
+		}
+		if ( ! array_key_exists( 'done', $response ) ) {
+			wp_send_json_error( "Expected done (boolean) in response array from exporter: {$exporter_friendly_name}." );
+		}
+	} else {
+		// No exporters, so we're done
+		$response = array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	/**
+	 * Filters a page of personal data exporter data. Used to build the export report.
+	 *
+	 * Allows the export response to be consumed by destinations in addition to Ajax.
+	 *
+	 * @since 4.9.5
+	 *
+	 * @param array  $response        The personal data for the given exporter and page.
+	 * @param int    $exporter_index  The index of the exporter that provided this data.
+	 * @param string $email_address   The email address associated with this personal data.
+	 * @param int    $page            The zero-based page for this response.
+	 */
+	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page );
+	if ( is_wp_error( $response ) ) {
+		wp_send_json_error( $response );
+	}
+
+	wp_send_json_success( $response );
+}

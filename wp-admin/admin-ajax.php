@@ -129,6 +129,7 @@ $core_actions_post = array(
 	'get-post-thumbnail-html',
 	'get-community-events',
 	'edit-theme-plugin-file',
+	'wp-privacy-export-personal-data',
 );
 
 // Deprecated
