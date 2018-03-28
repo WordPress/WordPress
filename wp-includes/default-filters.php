@@ -318,7 +318,6 @@ add_action( 'transition_post_status',     '_transition_post_status',            
 add_action( 'transition_post_status',     '_update_term_count_on_transition_post_status', 10, 3 );
 add_action( 'comment_form',               'wp_comment_form_unfiltered_html_nonce'          );
 add_action( 'admin_init',                 'send_frame_options_header',               10, 0 );
-add_action( 'try_gutenberg_panel',        'wp_try_gutenberg_panel'                         );
 add_action( 'welcome_panel',              'wp_welcome_panel'                               );
 
 // Cron tasks
