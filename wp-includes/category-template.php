@@ -273,7 +273,7 @@ function the_category( $separator = '', $parents = '', $post_id = false ) {
  * @return string Category description, available.
  */
 function category_description( $category = 0 ) {
-	return term_description( $category, 'category' );
+	return term_description( $category );
 }
 
 /**
