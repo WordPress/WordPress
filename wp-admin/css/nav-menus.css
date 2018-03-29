@@ -785,8 +785,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 @media screen and ( max-width: 782px ) {
-	body.nav-menus-php,
-	body.wp-customizer {
+	body.nav-menus-php {
 		min-width: 0 !important;
 	}
 

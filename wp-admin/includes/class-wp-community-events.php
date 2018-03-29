@@ -95,8 +95,8 @@ class WP_Community_Events {
 		// include an unmodified $wp_version
 		include( ABSPATH . WPINC . '/version.php' );
 
-		$api_url                    = 'http://api.wordpress.org/events/1.0/';
-		$request_args               = $this->get_request_args( $location_search, $timezone );
+		$api_url      = 'http://api.wordpress.org/events/1.0/';
+		$request_args = $this->get_request_args( $location_search, $timezone );
 		$request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url( '/' );
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
@@ -203,7 +203,7 @@ class WP_Community_Events {
 
 		// Wrap the args in an array compatible with the second parameter of `wp_remote_get()`.
 		return array(
-			'body' => $args,
+			'body' => $args
 		);
 	}
 
@@ -339,7 +339,7 @@ class WP_Community_Events {
 
 		if ( isset( $location['ip'] ) ) {
 			$key = 'community-events-' . md5( $location['ip'] );
-		} elseif ( isset( $location['latitude'], $location['longitude'] ) ) {
+		} else if ( isset( $location['latitude'], $location['longitude'] ) ) {
 			$key = 'community-events-' . md5( $location['latitude'] . $location['longitude'] );
 		}
 
@@ -416,33 +416,20 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Prepares the event list for presentation.
-	 *
-	 * Discards expired events, and makes WordCamps "sticky." Attendees need more
-	 * advanced notice about WordCamps than they do for meetups, so camps should
-	 * appear in the list sooner. If a WordCamp is coming up, the API will "stick"
-	 * it in the response, even if it wouldn't otherwise appear. When that happens,
-	 * the event will be at the end of the list, and will need to be moved into a
-	 * higher position, so that it doesn't get trimmed off.
+	 * Discards expired events, and reduces the remaining list.
 	 *
 	 * @since 4.8.0
-	 * @since 5.0.0 Stick a WordCamp to the final list.
 	 *
 	 * @param  array $response_body The response body which contains the events.
 	 * @return array The response body with events trimmed.
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
-			$wordcamps         = array();
 			$current_timestamp = current_time( 'timestamp' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
-				/*
-				 * Skip WordCamps, because they might be multi-day events.
-				 * Save a copy so they can be pinned later.
-				 */
-				if ( 'wordcamp' === $event['type'] ) {
-					$wordcamps[] = $event;
+				// Skip WordCamps, because they might be multi-day events.
+				if ( 'meetup' !== $event['type'] ) {
 					continue;
 				}
 
@@ -454,13 +441,6 @@ class WP_Community_Events {
 			}
 
 			$response_body['events'] = array_slice( $response_body['events'], 0, 3 );
-			$trimmed_event_types     = wp_list_pluck( $response_body['events'], 'type' );
-
-			// Make sure the soonest upcoming WordCamp is pinned in the list.
-			if ( ! in_array( 'wordcamp', $trimmed_event_types ) && $wordcamps ) {
-				array_pop( $response_body['events'] );
-				array_push( $response_body['events'], $wordcamps[0] );
-			}
 		}
 
 		return $response_body;
@@ -483,13 +463,11 @@ class WP_Community_Events {
 			return;
 		}
 
-		error_log(
-			sprintf(
-				'%s: %s. Details: %s',
-				__METHOD__,
-				trim( $message, '.' ),
-				wp_json_encode( $details )
-			)
-		);
+		error_log( sprintf(
+			'%s: %s. Details: %s',
+			__METHOD__,
+			trim( $message, '.' ),
+			wp_json_encode( $details )
+		) );
 	}
 }

@@ -10,11 +10,6 @@
 
 /* global menus, postboxes, columns, isRtl, navMenuL10n, ajaxurl */
 
-/**
- * Contains all the functions to handle WordPress navigation menus administration.
- *
- * @namespace
- */
 var wpNavMenu;
 
 (function($) {
@@ -171,8 +166,6 @@ var wpNavMenu;
 				},
 				/**
 				 * Adds selected menu items to the menu.
-				 *
-				 * @ignore
 				 *
 				 * @param jQuery metabox The metabox jQuery object.
 				 */

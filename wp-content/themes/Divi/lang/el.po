@@ -1,0 +1,3071 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/style\n"
+"POT-Creation-Date: 2017-05-18 15:55:34+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:02+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+"X-Poedit-SearchPathExcluded-2: ../core\n"
+
+#: comments.php:4
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+"Αυτή η ανάρτηση προστατεύεται από κωδικό ασφαλείας. Εισάγεται τον κωδικό για "
+"να δείτε τα σχόλια."
+
+#: comments.php:13
+msgid "0 Comments"
+msgstr "0 Σχόλια"
+
+#: comments.php:13
+msgid "1 Comment"
+msgstr "1 Σχόλιο"
+
+#: comments.php:13 epanel/core_functions.php:554
+msgid "Comments"
+msgstr "Σχόλια"
+
+#: comments.php:18 comments.php:31
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr "<span class=\"meta-nav\">&larr;</span> Παλαιότερα Σχόλια"
+
+#: comments.php:19 comments.php:32
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Νεότερα Σχόλια <span class=\"meta-nav\">&rarr;</span>"
+
+#: comments.php:38
+msgid "Trackbacks/Pingbacks"
+msgstr "Trackbacks/Pingbacks"
+
+#: comments.php:56
+msgid "Submit Comment"
+msgstr "Υποβολή Σχολίου"
+
+#: comments.php:56
+msgid "Submit a Comment"
+msgstr "Υποβολή Σχολίου"
+
+#: comments.php:56
+msgid "Leave a Reply to %s"
+msgstr "Αφήστε μια Απάντηση στο %s"
+
+#: epanel/core_functions.php:33
+msgid "Help"
+msgstr "Βοήθεια"
+
+#: epanel/core_functions.php:121
+msgid "Options"
+msgstr "Επιλογές"
+
+#: epanel/core_functions.php:121 functions.php:8474
+msgid "Theme Options"
+msgstr "Επιλογές Θέματος"
+
+#: epanel/core_functions.php:140
+msgid "settings saved."
+msgstr "αποθήκευση ρυθμίσεων."
+
+#: epanel/core_functions.php:143
+msgid "settings reset."
+msgstr "επαναφορά ρυθμίσεων."
+
+#: epanel/core_functions.php:152 epanel/core_functions.php:502
+msgid "Save Changes"
+msgstr "Αποθηκεύστε Αλλαγές"
+
+#: epanel/core_functions.php:161 epanel/core_functions.php:814
+msgid "%s Theme Options"
+msgstr "%s Επιλογές Θέματος"
+
+#: epanel/core_functions.php:168
+msgid "Reset to Defaults"
+msgstr "Επαναφορά Προεπιλογών"
+
+#: epanel/core_functions.php:173 options_divi.php:38 options_divi.php:840
+msgid "General"
+msgstr "Γενικά"
+
+#: epanel/core_functions.php:176
+msgid "Navigation"
+msgstr "Πλοήγηση"
+
+#: epanel/core_functions.php:179 functions.php:700
+msgid "Layout"
+msgstr "Διάταξη"
+
+#: epanel/core_functions.php:182
+msgid "Ads"
+msgstr "Διαφημίσεις"
+
+#: epanel/core_functions.php:185
+msgid "Colorization"
+msgstr "Χρώμα"
+
+#: epanel/core_functions.php:188
+msgid "SEO"
+msgstr "SEO"
+
+#: epanel/core_functions.php:191
+msgid "Integration"
+msgstr "Ενσωμάτωση"
+
+#: epanel/core_functions.php:194
+msgid "Support"
+msgstr "Υποστήριξη"
+
+#: epanel/core_functions.php:197
+msgid "Updates"
+msgstr "Ενημερώσεις"
+
+#: epanel/core_functions.php:300 epanel/core_functions.php:511
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: epanel/core_functions.php:301
+msgid "Upload"
+msgstr "Μεταφόρτωση"
+
+#: epanel/core_functions.php:328
+msgid "You don't have pages"
+msgstr "Δεν έχετε σελίδες"
+
+#: epanel/core_functions.php:516 includes/functions/choices.php:92
+msgid "Yes"
+msgstr "Ναι"
+
+#: epanel/core_functions.php:519 includes/functions/choices.php:93
+msgid "No"
+msgstr "Όχι"
+
+#: epanel/core_functions.php:533
+msgid "Enabled"
+msgstr "Ενεργοποιήστε"
+
+#: epanel/core_functions.php:535
+msgid "Disabled"
+msgstr "Απενεργοποιήστε"
+
+#: epanel/core_functions.php:542
+msgid "Author"
+msgstr "Συγγραφέας"
+
+#: epanel/core_functions.php:546
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: epanel/core_functions.php:550 options_divi.php:313
+msgid "Categories"
+msgstr "Κατηγορίες"
+
+#: epanel/core_functions.php:558
+msgid "Ratings"
+msgstr "Αξιολογήσεις"
+
+#: epanel/core_functions.php:772
+msgid "Choose an Image"
+msgstr "Επιλογή εικόνας"
+
+#: epanel/custom_functions.php:287
+msgid "&hellip;"
+msgstr "&hellip;"
+
+#: epanel/custom_functions.php:626 header.php:188 header.php:231
+msgid "Home"
+msgstr "Αρχική Σελίδα"
+
+#: epanel/custom_functions.php:923
+msgid "Archives"
+msgstr "Αρχεία"
+
+#: epanel/custom_functions.php:925
+msgid "Search results for \"%s\""
+msgstr "Αναζήτηση αποτελεσμάτων για \"%s\""
+
+#: epanel/custom_functions.php:927
+msgid "404 Not Found"
+msgstr "404 Δε βρέθηκε"
+
+#: epanel/custom_functions.php:997
+msgid "Currently viewing archives from %1$s"
+msgstr "Τώρα βλέπετε αρχεία από %1$s"
+
+#: epanel/custom_functions.php:1010
+msgid "Search Results for: %s"
+msgstr "Αναζήτηση Αποτελεσμάτων για: %s"
+
+#: epanel/custom_functions.php:1251
+msgid "Image doesn't exist"
+msgstr "Η εικόνα δεν υπάρχει"
+
+#: epanel/custom_functions.php:1416
+msgid ""
+"<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't "
+"forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will "
+"disappear once you have clicked the Save button within the <a href=\"%2$s"
+"\">theme's options page</a>.</p></div>"
+msgstr ""
+"<div class=\"updated\"><p>Αυτό είναι καινούργια εγκατάσταση του %1$s Μην "
+"ξεχάσετε να πάτε στο <a href=\"%2$s\">ePanel</a> να το ρυθμίσετε. Αυτό το "
+"μήνυμα θα εξαφανιστεί μόλις κάνετε κλικ στο κουμπί Αποθήκευσης στη <a href="
+"\"%2$s\">σελίδα επιλογών του θέματος</a>.</p></div>"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:518
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:519
+msgid "Next"
+msgstr "Επόμενο"
+
+#: epanel/shortcodes/shortcodes.php:273
+msgid "Tweet"
+msgstr "Tweet"
+
+#: epanel/shortcodes/shortcodes.php:289
+msgid "Member Login"
+msgstr "Σύνδεση Μέλους"
+
+#: epanel/shortcodes/shortcodes.php:292
+msgid "Username: "
+msgstr "Όνομα χρήστη: "
+
+#: epanel/shortcodes/shortcodes.php:293
+msgid "Password: "
+msgstr "Κωδικός: "
+
+#: epanel/shortcodes/shortcodes.php:294 functions.php:3880
+msgid "Login"
+msgstr "Συνδεθείτε"
+
+#: epanel/shortcodes/shortcodes.php:330
+msgid "Add a Tooltip Text"
+msgstr "Προσθήκη Κειμένου Tooltip"
+
+#: epanel/shortcodes/shortcodes.php:352
+msgid "Click here to learn more"
+msgstr "Πατήστε εδώ για να μάθετε περισσότερα"
+
+#: epanel/shortcodes/shortcodes.php:732
+msgid "Join Now"
+msgstr "Συνδεθείτε τώρα"
+
+#: epanel/shortcodes/shortcodes.php:967
+msgid "Add ET Learn more block"
+msgstr "Προσθήκη κομματιού που εμφανίζεται εναλλάξ "
+
+#: epanel/shortcodes/shortcodes.php:968
+msgid "Add ET Box"
+msgstr "Προσθήκη πλαισίου"
+
+#: epanel/shortcodes/shortcodes.php:969
+msgid "Add ET Button"
+msgstr "Προσθήκη κουμπιού"
+
+#: epanel/shortcodes/shortcodes.php:970
+msgid "Add ET Tabs"
+msgstr "Προσθήκη καρτελών"
+
+#: epanel/shortcodes/shortcodes.php:971
+msgid "Add Author Bio"
+msgstr "Προσθήκη βιογραφικού συγγραφέα"
+
+#: epanel/shortcodes/shortcodes.php:972
+msgid "Shortcodes"
+msgstr "Απλοποιημένα τμήματα κώδικα"
+
+#: epanel/shortcodes/shortcodes.php:977
+msgid "Caption"
+msgstr "Λεζάντα"
+
+#: epanel/shortcodes/shortcodes.php:978
+msgid "Caption goes here"
+msgstr "Η λεζάντα μπαίνει εδώ"
+
+#: epanel/shortcodes/shortcodes.php:979
+msgid "Caption title goes here"
+msgstr "Ο τίτλος της λεζάντας μπαίνει εδώ"
+
+#: epanel/shortcodes/shortcodes.php:983
+msgid "State"
+msgstr "Κατάσταση"
+
+#: epanel/shortcodes/shortcodes.php:985
+msgid "Select between expanded and closed state"
+msgstr "Επιλογή ανάμεσα σε διευρυμένη ή κλειστή κατάσταση"
+
+#: epanel/shortcodes/shortcodes.php:990 epanel/shortcodes/shortcodes.php:1006
+#: epanel/shortcodes/shortcodes.php:1035 epanel/shortcodes/shortcodes.php:1115
+msgid "Content"
+msgstr "Περιεχόμενο"
+
+#: epanel/shortcodes/shortcodes.php:991 epanel/shortcodes/shortcodes.php:1007
+#: epanel/shortcodes/shortcodes.php:1093 epanel/shortcodes/shortcodes.php:1116
+msgid "Content goes here"
+msgstr "Το περιεχόμενο μπαίνει εδώ"
+
+#: epanel/shortcodes/shortcodes.php:992 epanel/shortcodes/shortcodes.php:1008
+#: epanel/shortcodes/shortcodes.php:1037
+msgid "Content text or html"
+msgstr "Κείμενο περιερχομένου ή HTML"
+
+#: epanel/shortcodes/shortcodes.php:999 epanel/shortcodes/shortcodes.php:1021
+msgid "Type"
+msgstr "Τύπος"
+
+#: epanel/shortcodes/shortcodes.php:1001
+msgid "Type of the box"
+msgstr "Τύπος κουμπιού"
+
+#: epanel/shortcodes/shortcodes.php:1015
+msgid "Link"
+msgstr "Σύνδεσμος"
+
+#: epanel/shortcodes/shortcodes.php:1017
+msgid "URL"
+msgstr "URL"
+
+#: epanel/shortcodes/shortcodes.php:1023
+msgid "Choose button type"
+msgstr "Επιλογή είδους κουμπιού"
+
+#: epanel/shortcodes/shortcodes.php:1028
+msgid "Color"
+msgstr "Χρώμα"
+
+#: epanel/shortcodes/shortcodes.php:1030
+msgid "Choose button color"
+msgstr "Επιλογή χρώματος κουμπιού"
+
+#: epanel/shortcodes/shortcodes.php:1036
+msgid "Link text"
+msgstr "Κείμενο συνδέσμου"
+
+#: epanel/shortcodes/shortcodes.php:1041
+msgid "Icon"
+msgstr "Εικονίδιο"
+
+#: epanel/shortcodes/shortcodes.php:1043
+msgid "Used for icon button type"
+msgstr "Χρησιμοποιείται για το εικονίδιο του τύπου του κουμπιού"
+
+#: epanel/shortcodes/shortcodes.php:1048
+msgid "Open link in new window"
+msgstr "Άνοιγμα συνδέσμου σε νέο παράθυρο"
+
+#: epanel/shortcodes/shortcodes.php:1050
+msgid "Select yes if the link should be opened in a new window"
+msgstr "Επιλέξτε ενεργοποίηση αν ο σύνδεσμος πρέπει να ανοίξει σε νέο παράθυρο"
+
+#: epanel/shortcodes/shortcodes.php:1058
+msgid "Slider Type"
+msgstr "Τύπος Καρουζέλ"
+
+#: epanel/shortcodes/shortcodes.php:1060
+msgid "Select Slider Type here"
+msgstr "Επιλέξτε Τύπο Καρουζέλ εδώ"
+
+#: epanel/shortcodes/shortcodes.php:1065
+msgid "Effect"
+msgstr "Εφέ"
+
+#: epanel/shortcodes/shortcodes.php:1067
+msgid "Select Animation Effect"
+msgstr "Επιλογή Animation Εφέ"
+
+#: epanel/shortcodes/shortcodes.php:1072
+msgid "Auto"
+msgstr "Αυτόματο"
+
+#: epanel/shortcodes/shortcodes.php:1074
+msgid "Choose yes if you want for automatic slider animation"
+msgstr "Επιλέξτε ενεργοποίηση αν θέλετε αυτόματη κίνηση καρουζέλ"
+
+#: epanel/shortcodes/shortcodes.php:1079
+msgid "Auto Speed"
+msgstr "Αυτόματη Ταχύτητα"
+
+#: epanel/shortcodes/shortcodes.php:1081
+msgid "Automattic slider speed (works only if Auto is set to yes)"
+msgstr ""
+"Αυτόματη ταχύτητα καρουζέλ (λειτουργεί μόνο αν έχετε επιλέξει Αυτόματο)"
+
+#: epanel/shortcodes/shortcodes.php:1085
+msgid "Tab Text"
+msgstr "Κείμενο Καρτέλας"
+
+#: epanel/shortcodes/shortcodes.php:1092
+msgid "Tab Content"
+msgstr "Περιεχόμενο Καρτέλας"
+
+#: epanel/shortcodes/shortcodes.php:1094
+msgid "Paste image url here, if you chose \"images\" slider type"
+msgstr ""
+"Προσθέστε το URL της εικόνας εδώ, αν επιλέξετε καρουζέλ τύπου \"images\""
+
+#: epanel/shortcodes/shortcodes.php:1102
+msgid "Image Url"
+msgstr "URL Εικόνας"
+
+#: epanel/shortcodes/shortcodes.php:1104
+msgid "Author Image URL"
+msgstr "URL Εικόνας Συγγραφέα"
+
+#: epanel/shortcodes/shortcodes.php:1108
+msgid "Use resizing"
+msgstr "Αυτόματη αλλαγή μεγέθους"
+
+#: epanel/shortcodes/shortcodes.php:1185
+msgid "+ Add One More Tab"
+msgstr "+ Προσθήκη Μίας Νέας Καρτέλας"
+
+#: epanel/shortcodes/shortcodes.php:1335 functions.php:3546
+msgid "Image Height"
+msgstr "Ύψος Εικόνας"
+
+#: epanel/shortcodes/shortcodes.php:1336 functions.php:3526
+msgid "Image Width"
+msgstr "Πλάτος Εικόνας"
+
+#: functions.php:36
+msgid "Primary Menu"
+msgstr "Αρχικό Μενού"
+
+#: functions.php:37
+msgid "Secondary Menu"
+msgstr "Δευτερεύον Μενού"
+
+#: functions.php:38 functions.php:715
+msgid "Footer Menu"
+msgstr "Μενού Υποσέλιδου"
+
+#: functions.php:90
+msgid ""
+"Welcome to Divi! Before diving in to your new theme, please visit the <a "
+"style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target=\"_blank"
+"\">Divi Documentation</a> page for access to dozens of in-depth tutorials."
+msgstr ""
+"Καλώς Ήρθατε στο Divi! Πριν ασχοληθείτε με το νέο σας θέμα, παρακαλούμε "
+"επισκεφθείτε τη σελίδα <a style=\"color: #fff; font-weight: bold;\" href="
+"\"%1$s\" target=\"_blank\">Divi Documentation</a> για να αποκτήσετε πρόσβαση "
+"σε δεκάδες εμπεριστατωμένα προγράμματα εκμάθησης."
+
+#: functions.php:215
+msgid "Select Page"
+msgstr "Επιλογή Σελίδας"
+
+#: functions.php:277
+msgid "Divi Page Settings"
+msgstr "Ρυθμίσεις Σελίδας Divi"
+
+#: functions.php:279
+msgid "Divi Post Settings"
+msgstr "Ρυθμίσεις Ανάρτησης Divi"
+
+#: functions.php:280
+msgid "Divi Product Settings"
+msgstr "Ρυθμίσεις Προϊόντος Divi"
+
+#: functions.php:281
+msgid "Divi Project Settings"
+msgstr "Ρυθμίσεις  Πρότζεκτ Divi"
+
+#: functions.php:288
+msgid "Skills"
+msgstr "Δεξιότητες"
+
+#: functions.php:291
+msgid "Posted on"
+msgstr "Αναρτήθηκε στις"
+
+#: functions.php:315 options_divi.php:103
+msgid "Right Sidebar"
+msgstr "Δεξιά Στήλη"
+
+#: functions.php:316 options_divi.php:104
+msgid "Left Sidebar"
+msgstr "Αριστερή Στήλη"
+
+#: functions.php:317 options_divi.php:105
+msgid "Full Width"
+msgstr "Πλήρες Πλάτος"
+
+#: functions.php:321
+msgid "Light"
+msgstr "Φωτεινό"
+
+#: functions.php:322
+msgid "Dark"
+msgstr "Σκοτεινό"
+
+#: functions.php:335
+msgid "Page Layout"
+msgstr "Διάταξη Σελίδας"
+
+#: functions.php:349
+msgid "Dot Navigation"
+msgstr "Πλοήγηση Κουκκίδων"
+
+#: functions.php:352 functions.php:361
+msgid "Off"
+msgstr "Απενεργοποίηση"
+
+#: functions.php:353 functions.php:362
+msgid "On"
+msgstr "Ενεργοποίηση"
+
+#: functions.php:357
+msgid "Hide Nav Before Scroll"
+msgstr "Απόκρυψη Πλοήγησης Πριν την Κύλιση"
+
+#: functions.php:360 functions.php:5737 includes/functions/choices.php:24
+#: includes/functions/choices.php:40
+msgid "Default"
+msgstr "Αρχικό"
+
+#: functions.php:368
+msgid "Post Title"
+msgstr "Τίτλος Ανάρτησης"
+
+#: functions.php:371 functions.php:406
+msgid "Show"
+msgstr "Εμφάνιση"
+
+#: functions.php:372 functions.php:405
+msgid "Hide"
+msgstr "Απόκρυψη"
+
+#: functions.php:377
+msgid "Use Background Color"
+msgstr "Χρήση Χρώματος Φόντου"
+
+#: functions.php:382 functions.php:5776
+msgid "Hex Value"
+msgstr "Τιμή Χρώματος"
+
+#: functions.php:386 functions.php:2051 functions.php:2078 functions.php:2205
+#: functions.php:2727 functions.php:2855 functions.php:3059
+msgid "Text Color"
+msgstr "Χρώμα Κειμένου"
+
+#: functions.php:402
+msgid "Project Navigation"
+msgstr "Περιήγηση Εργασίας"
+
+#: functions.php:550 functions.php:562 functions.php:8553
+msgid "you don't have sufficient permissions to access this page"
+msgstr ""
+"δεν έχετε επαρκή δικαιώματα για να αποκτήσετε πρόσβαση σε αυτήν τη σελίδα"
+
+#: functions.php:615 options_divi.php:318 options_divi.php:466
+msgid "General Settings"
+msgstr "Γενικές Ρυθμίσεις"
+
+#: functions.php:620
+msgid "Site Identity"
+msgstr "Ταυτότητα Ιστοσελίδας"
+
+#: functions.php:625
+msgid "Layout Settings"
+msgstr "Ρυθμίσεις Διάταξης"
+
+#: functions.php:630
+msgid "Typography"
+msgstr "Τυπογραφία"
+
+#: functions.php:635
+msgid "Mobile Styles"
+msgstr "Στυλ Κινητών"
+
+#: functions.php:640
+msgid "Tablet"
+msgstr "Tablet"
+
+#: functions.php:645
+msgid "Phone"
+msgstr "Τηλέφωνο"
+
+#: functions.php:650
+msgid "Mobile Menu"
+msgstr "Μενού Κινητών"
+
+#: functions.php:655
+msgid "Background"
+msgstr "Φόντο"
+
+#: functions.php:660
+msgid "Header & Navigation"
+msgstr "Κεφαλίδα & Πλοήγηση"
+
+#: functions.php:665
+msgid "Header Format"
+msgstr "Μορφή Κεφαλίδας"
+
+#: functions.php:670
+msgid "Primary Menu Bar"
+msgstr "Κύρια Μπάρα Μενού"
+
+#: functions.php:675
+msgid "Secondary Menu Bar"
+msgstr "Δευτερεύουσα Μπάρα Μενού"
+
+#: functions.php:680
+msgid "Slide In & Fullscreen Header Settings"
+msgstr "Ρυθμίσεις Slide In και Κεφαλίδας Πλήρους Οθόνης"
+
+#: functions.php:685
+msgid "Fixed Navigation Settings"
+msgstr "Σταθερές Ρυθμίσεις Πλοήγησης"
+
+#: functions.php:690
+msgid "Header Elements"
+msgstr "Στοιχεία Κεφαλίδας"
+
+#: functions.php:695
+msgid "Footer"
+msgstr "Υποσέλιδο"
+
+#: functions.php:705
+msgid "Widgets"
+msgstr "Widgets"
+
+#: functions.php:710
+msgid "Footer Elements"
+msgstr "Στοιχεία Υποσέλιδου"
+
+#: functions.php:720
+msgid "Bottom Bar"
+msgstr "Κάτω Μπάρα"
+
+#: functions.php:725 functions.php:1465
+msgid "Color Schemes"
+msgstr "Σχέδια Χρωμάτων"
+
+#: functions.php:727
+msgid ""
+"Note: Color settings set above should be applied to the Default color scheme."
+msgstr ""
+"Σημείωση: Οι παραπάνω ρυθμίσεις χρωμάτων πρέπει να εφαρμοστούν στο "
+"Προκαθορισμένο σχέδιο χρώματος."
+
+#: functions.php:731
+msgid "Buttons"
+msgstr "Κουμπιά"
+
+#: functions.php:736
+msgid "Buttons Style"
+msgstr "Στυλ Κουμπιών"
+
+#: functions.php:741
+msgid "Buttons Hover Style"
+msgstr "Στυλ Κουμπιών Όταν βρίσκεται το Ποντίκι από Πάνω"
+
+#: functions.php:746 functions.php:5059
+msgid "Blog"
+msgstr "Ιστολόγιο"
+
+#: functions.php:751
+msgid "Post"
+msgstr "Ανάρτηση"
+
+#: functions.php:768
+msgid "Meta Text Size"
+msgstr "Μέγεθος Κειμένου Μεταδεδομένων"
+
+#: functions.php:787
+msgid "Meta Line Height"
+msgstr "Ύψος Γραμμής Μεταδεδομένων"
+
+#: functions.php:806
+msgid "Meta Letter Spacing"
+msgstr "Απόσταση Γραμμάτων Μεταδεδομένων"
+
+#: functions.php:825 functions.php:5128 functions.php:5207
+msgid "Meta Font Style"
+msgstr "Στυλ Γραμματοσειράς Μεταδεδομένων"
+
+#: functions.php:840 functions.php:1265 functions.php:1337 functions.php:1356
+#: functions.php:2473
+msgid "Header Text Size"
+msgstr "Μέγεθος Κειμένου Κεφαλίδας"
+
+#: functions.php:859 functions.php:1303
+msgid "Header Line Height"
+msgstr "Ύψος Γραμμής Κεφαλίδας"
+
+#: functions.php:878 functions.php:1284
+msgid "Header Letter Spacing"
+msgstr "Απόσταση Γραμμάτων Κεφαλίδας"
+
+#: functions.php:897 functions.php:1322 functions.php:2492 functions.php:3415
+#: functions.php:3593 functions.php:3708 functions.php:3771 functions.php:3850
+#: functions.php:3914 functions.php:4705 functions.php:5401 functions.php:5507
+msgid "Header Font Style"
+msgstr "Στυλ Γραμματοσειράς Κεφαλίδας"
+
+#: functions.php:911
+msgid "Enable Boxed Layout"
+msgstr "Ενεργοποίηση Εγκιβωτισμένης Διάταξης"
+
+#: functions.php:925
+msgid "Website Content Width"
+msgstr "Πλάτος Περιεχομένου Ιστοσελίδας"
+
+#: functions.php:944
+msgid "Website Gutter Width"
+msgstr "Απόσταση Στηλών Ιστοσελίδας"
+
+#: functions.php:962
+msgid "Use Custom Sidebar Width"
+msgstr "Χρησιμοποιήστε Προσαρμοσμένη Sidebar Πλάτος"
+
+#: functions.php:976
+msgid "Sidebar Width"
+msgstr "Πλάτος Πλευρικής Μπάρας"
+
+#: functions.php:995 functions.php:1014 functions.php:1033
+msgid "Section Height"
+msgstr "Ύψος Τμήματος"
+
+#: functions.php:1052 functions.php:1071 functions.php:1090
+msgid "Row Height"
+msgstr "Ύψος Γραμμής"
+
+#: functions.php:1109
+msgid "Stretch Background Image"
+msgstr "Παραμόρφωση Εικόνας Φόντου"
+
+#: functions.php:1116 functions.php:1729 functions.php:2106 functions.php:2177
+#: functions.php:2191 functions.php:2713 functions.php:2869 functions.php:3073
+msgid "Background Color"
+msgstr "Χρώμα Φόντου"
+
+#: functions.php:1123
+msgid "Background Image"
+msgstr "Εικόνα φόντου:"
+
+#: functions.php:1143
+msgid "Background Repeat"
+msgstr "Επανάληψη Φόντου"
+
+#: functions.php:1150 functions.php:1174
+msgid "Background Position"
+msgstr "Θέση Φόντου"
+
+#: functions.php:1154 includes/functions/choices.php:106
+msgid "Left"
+msgstr "Αριστερά "
+
+#: functions.php:1155
+msgid "Center"
+msgstr "Στο κέντρο"
+
+#: functions.php:1156 includes/functions/choices.php:105
+msgid "Right"
+msgstr "Δεξιά"
+
+#: functions.php:1189 functions.php:1227 functions.php:1246
+msgid "Body Text Size"
+msgstr "Μέγεθος Κειμένου Κορμού"
+
+#: functions.php:1208
+msgid "Body Line Height"
+msgstr "Ύψος Γραμμής Κορμού"
+
+#: functions.php:1376
+msgid "Header Font"
+msgstr "Γραμματοσειρά Επικεφαλίδας"
+
+#: functions.php:1392
+msgid "Body Font"
+msgstr "Γραμματοσειρά Κεντρικού Κειμένου"
+
+#: functions.php:1409
+msgid "Body Link Color"
+msgstr "Χρώμα Συνδέσμου Κορμού"
+
+#: functions.php:1423
+msgid "Body Text Color"
+msgstr "Χρώμα Γραμματοσειράς Κορμού"
+
+#: functions.php:1437
+msgid "Header Text Color"
+msgstr "Χρώμα Κειμένου Κεφαλίδας"
+
+#: functions.php:1451
+msgid "Theme Accent Color"
+msgstr "Χρώμα Έμφασης Θέματος"
+
+#: functions.php:1481
+msgid "Header Style"
+msgstr "Μορφή Επικεφαλίδας"
+
+#: functions.php:1495
+msgid "Enable Vertical Navigation"
+msgstr "Ενεργοποίηση Κατακόρυφης Πλοήγησης"
+
+#: functions.php:1509
+msgid "Vertical Menu Orientation"
+msgstr "Προσανατολισμός Κάθετου Μενού"
+
+#: functions.php:1525
+msgid "Hide Navigation Until Scroll"
+msgstr "Απόκρυψη Πλοήγησης Μέχρι την Κύλιση"
+
+#: functions.php:1540 functions.php:2429
+msgid "Show Social Icons"
+msgstr "Εμφάνιση Εικονιδίων Κοινωνικών Δικτύων"
+
+#: functions.php:1554
+msgid "Show Search Icon"
+msgstr "Εμφάνιση Εικονιδίου Αναζήτησης"
+
+#: functions.php:1568
+msgid "Show Top Bar"
+msgstr "Εμφανίστε Επάνω Γραμμή"
+
+#: functions.php:1582
+msgid "Menu Width"
+msgstr "Πλάτος Μενού"
+
+#: functions.php:1601 functions.php:1639
+msgid "Menu Text Size"
+msgstr "Μέγεθος Κειμένου Μενού"
+
+#: functions.php:1620 functions.php:1658
+msgid "Top Bar Text Size"
+msgstr "Μέγεθος Κειμένου Επάνω Γραμμής"
+
+#: functions.php:1677 functions.php:1915 functions.php:1999 functions.php:2659
+#: functions.php:2935 functions.php:3120
+msgid "Letter Spacing"
+msgstr "Απόσταση Γραμμάτων"
+
+#: functions.php:1697 functions.php:1935 functions.php:2019
+msgid "Font"
+msgstr "Γραμματοσειρά"
+
+#: functions.php:1714 functions.php:1952 functions.php:2036 functions.php:2678
+#: functions.php:2741
+msgid "Font Style"
+msgstr "Στυλ Γραμματοσειράς"
+
+#: functions.php:1743
+msgid "Menu Link Color"
+msgstr "Χρώμα Συνδέσμου Μενού"
+
+#: functions.php:1757 functions.php:2092
+msgid "Active Link Color"
+msgstr "Χρώμα Ενεργού Συνδέσμου"
+
+#: functions.php:1771
+msgid "Top Bar Text Color"
+msgstr "Χρώμα Κειμένου Επάνω Γραμμής"
+
+#: functions.php:1785
+msgid "Search Bar Text Color"
+msgstr "Χρώμα Κειμένου Γραμμής Αναζήτησης"
+
+#: functions.php:1799
+msgid "Search Bar Background Color"
+msgstr "Χρώμα Φόντου Γραμμής Αναζήτησης"
+
+#: functions.php:1812 functions.php:1974
+msgid "Make Full Width"
+msgstr "Να γίνει Πλήρους Πλάτους"
+
+#: functions.php:1825 functions.php:2064 functions.php:2280
+msgid "Hide Logo Image"
+msgstr "Απόκρυψη Εικόνας Λογότυπου"
+
+#: functions.php:1839
+msgid "Menu Height"
+msgstr "μενού Ύψος"
+
+#: functions.php:1858
+msgid "Logo Max Height"
+msgstr "Logo Max Ύψος"
+
+#: functions.php:1877
+msgid "Menu Top Margin"
+msgstr "Πάνω Περιθώριο Μενού"
+
+#: functions.php:1896 functions.php:1980 functions.php:2313 functions.php:2836
+msgid "Text Size"
+msgstr "Μέγεθος Κειμένου"
+
+#: functions.php:2120 functions.php:2219
+msgid "Dropdown Menu Background Color"
+msgstr "Χρώμα Φόντου Αναπτυσσόμενου Μενού"
+
+#: functions.php:2134
+msgid "Dropdown Menu Line Color"
+msgstr "Χρώμα Γραμμής Αναπτυσσόμενου Μενού"
+
+#: functions.php:2148 functions.php:2233
+msgid "Dropdown Menu Text Color"
+msgstr "Χρώμα Κειμένου Αναπτυσσόμενου Μενού"
+
+#: functions.php:2162 functions.php:2247
+msgid "Dropdown Menu Animation"
+msgstr "Animation Αναπτυσσόμενου μενού"
+
+#: functions.php:2294
+msgid "Fixed Menu Height"
+msgstr "Σταθερή Μενού Ύψος"
+
+#: functions.php:2332
+msgid "Primary Menu Background Color"
+msgstr "Χρώμα Φόντου Κύριου Μενού"
+
+#: functions.php:2346
+msgid "Secondary Menu Background Color"
+msgstr "Χρώμα Φόντου Δευτερεύοντος Μενού"
+
+#: functions.php:2360
+msgid "Primary Menu Link Color"
+msgstr "Πρωτοβάθμια μενού Χρώμα δεσμού"
+
+#: functions.php:2374
+msgid "Secondary Menu Link Color"
+msgstr "Δευτερεύον μενού Χρώμα δεσμού"
+
+#: functions.php:2388
+msgid "Active Primary Menu Link Color"
+msgstr "Ενεργά Πρωτοβάθμια μενού Χρώμα συνδέσμου"
+
+#: functions.php:2402
+msgid "Phone Number"
+msgstr "Νούμερο Τηλεφώνου"
+
+#: functions.php:2415
+msgid "Email"
+msgstr "Email"
+
+#: functions.php:2443
+msgid "Column Layout"
+msgstr "Διάταξη Στήλης"
+
+#: functions.php:2459
+msgid "Footer Background Color"
+msgstr "Χρώμα Φόντου Υποσέλιδου"
+
+#: functions.php:2507
+msgid "Body/Link Text Size"
+msgstr "Μέγεθος Κειμένου Κορμού/Συνδέσμου"
+
+#: functions.php:2526
+msgid "Body/Link Line Height"
+msgstr "Ύψος Γραμμής Κορμού/Συνδέσμου"
+
+#: functions.php:2545
+msgid "Body Font Style"
+msgstr "Στυλ Γραμματοσειράς Κορμού"
+
+#: functions.php:2560
+msgid "Widget Text Color"
+msgstr "Χρώμα Κειμένου Widget"
+
+#: functions.php:2574
+msgid "Widget Link Color"
+msgstr "Χρώμα Συνδέσμου Widget"
+
+#: functions.php:2588
+msgid "Widget Header Color"
+msgstr "Χρώμα Κεφαλίδας Widget"
+
+#: functions.php:2602
+msgid "Widget Bullet Color"
+msgstr "Χρώμα Κουκκίδας Widget"
+
+#: functions.php:2617
+msgid "Footer Menu Background Color"
+msgstr "Χρώμα Φόντου Μενού Υποσέλιδου"
+
+#: functions.php:2631
+msgid "Footer Menu Text Color"
+msgstr "Χρώμα Κειμένου Μενού Υποσέλιδου"
+
+#: functions.php:2645
+msgid "Footer Menu Active Link Color"
+msgstr "Χρώμα Ενεργού Συνδέσμου Μενού Υποσέλιδου"
+
+#: functions.php:2693 functions.php:2756
+msgid "Font Size"
+msgstr "Μέγεθος Γραμματοσειράς"
+
+#: functions.php:2775
+msgid "Social Icon Size"
+msgstr "Μέγεθος Εικονιδίου Κοινωνικών Δικτύων"
+
+#: functions.php:2794
+msgid "Social Icon Color"
+msgstr "Χρώμα Εικονιδίου Κοινωνικών Δικτύων"
+
+#: functions.php:2807
+msgid "Disable Footer Credits"
+msgstr "Απενεργοποίηση Πιστώσεων Υποσέλιδου"
+
+#: functions.php:2821
+msgid "Edit Footer Credits"
+msgstr "Επεξεργασία Πιστώσεων Υποσέλιδου"
+
+#: functions.php:2883
+msgid "Border Width"
+msgstr "Πλάτος Περιγράμματος"
+
+#: functions.php:2902 functions.php:3087
+msgid "Border Color"
+msgstr "Χρώμα Περιγράμματος"
+
+#: functions.php:2916 functions.php:3101
+msgid "Border Radius"
+msgstr "Ακτίνα Περιγράμματος"
+
+#: functions.php:2954 functions.php:5444
+msgid "Button Font Style"
+msgstr "Στυλ Γραμματοσειράς Κουμπιού"
+
+#: functions.php:2970
+msgid "Buttons Font"
+msgstr "Γραμματοσειρά Κουμπιών"
+
+#: functions.php:2986
+msgid "Add Button Icon"
+msgstr "Προσθήκη Εικονιδίου Κουμπιού"
+
+#: functions.php:3001
+msgid "Select Icon"
+msgstr "Επιλογή Εικονιδίου"
+
+#: functions.php:3015
+msgid "Icon Color"
+msgstr "Χρώμα εικονιδίου "
+
+#: functions.php:3029
+msgid "Icon Placement"
+msgstr "Τοποθέτηση Εικονιδίου"
+
+#: functions.php:3044
+msgid "Only Show Icon on Hover"
+msgstr "Εμφάνιση Εικονιδίου Μόνο Όταν βρίσκεται το Ποντίκι από Πάνω"
+
+#: functions.php:3138 includes/widgets/widget-about.php:50
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:188
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:204
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:220
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:236
+msgid "Image"
+msgstr "Εικόνα"
+
+#: functions.php:3139
+msgid "Image Module Settings"
+msgstr "Ρυθμίσεις λειτουργικής μονάδας για εικόνες"
+
+#: functions.php:3150
+msgid "Animation"
+msgstr "Κινούμενο σχέδιο"
+
+#: functions.php:3151
+msgid "This controls default direction of the lazy-loading animation."
+msgstr ""
+"Αυτό ελέγχει την προεπιλεγμένη κατεύθυνση των animation που αργούν να "
+"φορτώσουν."
+
+#: functions.php:3161
+msgid "Gallery"
+msgstr "Συλλογή"
+
+#: functions.php:3174 functions.php:3957 functions.php:4066
+msgid "Zoom Icon Color"
+msgstr "Χρώμα Εικονιδίου Μεγέθυνσης"
+
+#: functions.php:3189 functions.php:3972 functions.php:4081
+msgid "Hover Overlay Color"
+msgstr "Χρώμα Επικάλυψης Όταν βρίσκεται το Ποντίκι από Πάνω"
+
+#: functions.php:3204 functions.php:3310 functions.php:3987 functions.php:4096
+#: functions.php:4365 functions.php:4444 functions.php:4486 functions.php:4586
+msgid "Title Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Τίτλου"
+
+#: functions.php:3224 functions.php:3330 functions.php:4007 functions.php:4116
+#: functions.php:4385 functions.php:4464 functions.php:5092 functions.php:5171
+msgid "Title Font Style"
+msgstr "Στυλ Γραμματοσειράς Τίτλου"
+
+#: functions.php:3240 functions.php:4023 functions.php:4132
+msgid "Caption Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Λεζάντας"
+
+#: functions.php:3260 functions.php:4043 functions.php:4152
+msgid "Caption Font Style"
+msgstr "Στυλ Γραμματοσειράς Λεζάντας"
+
+#: functions.php:3270
+msgid "Blurb"
+msgstr "Blurb"
+
+#: functions.php:3283 functions.php:3395 functions.php:3573 functions.php:3688
+#: functions.php:3751 functions.php:3830 functions.php:3894 functions.php:4685
+#: functions.php:5381 functions.php:5487
+msgid "Header Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Κεφαλίδας"
+
+#: functions.php:3297
+msgid "Tabs"
+msgstr "Καρτέλες"
+
+#: functions.php:3347 functions.php:3724 functions.php:3866 functions.php:3930
+msgid "Padding"
+msgstr "Γέμισμα"
+
+#: functions.php:3361
+msgid "Slider"
+msgstr "Slider"
+
+#: functions.php:3375 functions.php:5467
+msgid "Top & Bottom Padding"
+msgstr "Πάνω & Κάτω Γέμισμα"
+
+#: functions.php:3431 functions.php:5523
+msgid "Content Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Περιεχομένου"
+
+#: functions.php:3451 functions.php:5543
+msgid "Content Font Style"
+msgstr "Στυλ Γραμματοσειράς Περιεχομένου"
+
+#: functions.php:3461
+msgid "Testimonial"
+msgstr "Συστάσεις"
+
+#: functions.php:3474 functions.php:4993
+msgid "Name Font Style"
+msgstr "Στυλ Γραμματοσειράς Ονόματος"
+
+#: functions.php:3490
+msgid "Details Font Style"
+msgstr "Στυλ Γραμματοσειράς Λεπτομερειών"
+
+#: functions.php:3506
+msgid "Portrait Border Radius"
+msgstr "Ακτίνα Περιγράμματος Πορτραίτου"
+
+#: functions.php:3560
+msgid "Pricing Table"
+msgstr "Πίνακας τιμών"
+
+#: functions.php:3609 functions.php:3787 functions.php:5009
+msgid "Subheader Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Υποκεφαλίδας"
+
+#: functions.php:3629 functions.php:3807 functions.php:5029
+msgid "Subheader Font Style"
+msgstr "Στυλ Γραμματοσειράς Υποκεφαλίδας"
+
+#: functions.php:3645 functions.php:5302
+msgid "Price Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Τιμής"
+
+#: functions.php:3665
+msgid "Pricing Font Style"
+msgstr "Στυλ Γραμματοσειράς Τιμολόγησης"
+
+#: functions.php:3675
+msgid "Call To Action"
+msgstr "Έκκληση για ενέργεια"
+
+#: functions.php:3738
+msgid "Audio"
+msgstr "Αρχεία ήχου"
+
+#: functions.php:3817
+msgid "Email Optin"
+msgstr "email Optin"
+
+#: functions.php:3944
+msgid "Portfolio"
+msgstr "Πορτφόλιο"
+
+#: functions.php:4053
+msgid "Filterable Portfolio"
+msgstr "Πορτφόλιο με δυνατότητα φιλτραρίσματος"
+
+#: functions.php:4168
+msgid "Filters Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Φίλτρων"
+
+#: functions.php:4188
+msgid "Filters Font Style"
+msgstr "Στυλ Γραμματοσειράς Φίλτρων"
+
+#: functions.php:4198
+msgid "Bar Counter"
+msgstr "Μετρητής"
+
+#: functions.php:4211
+msgid "Label Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Ετικέτας"
+
+#: functions.php:4231
+msgid "Label Font Style"
+msgstr "Στυλ Γραμματοσειράς Ετικέτας"
+
+#: functions.php:4247
+msgid "Percent Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Ποσοστού"
+
+#: functions.php:4267
+msgid "Percent Font Style"
+msgstr "Στυλ Γραμματοσειράς Ποσοστού"
+
+#: functions.php:4283
+msgid "Bar Padding"
+msgstr "Γέμισμα Μπάρας"
+
+#: functions.php:4303
+msgid "Bar Border Radius"
+msgstr "Ακτίνα Περιγράμματος Μπάρας"
+
+#: functions.php:4317
+msgid "Circle Counter"
+msgstr "Κυκλικός μετρητής"
+
+#: functions.php:4329 functions.php:4408
+msgid "Number Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Αριθμού"
+
+#: functions.php:4349 functions.php:4428
+msgid "Number Font Style"
+msgstr "Στυλ Γραμματοσειράς Αριθμού"
+
+#: functions.php:4395
+msgid "Number Counter"
+msgstr "Αριθμητικός μετρητής"
+
+#: functions.php:4474
+msgid "Accordion"
+msgstr "Accordion"
+
+#: functions.php:4506 functions.php:4606
+msgid "Opened Title Font Style"
+msgstr "Στυλ Γραμματοσειράς Ανοιχτού Τίτλου"
+
+#: functions.php:4522 functions.php:4622
+msgid "Closed Title Font Style"
+msgstr "Στυλ Γραμματοσειράς Κλειστού Τίτλου"
+
+#: functions.php:4538 functions.php:4638
+msgid "Toggle Icon Size"
+msgstr "Μέγεθος Εικονιδίου Εναλλαγής"
+
+#: functions.php:4559 functions.php:4658
+msgid "Toggle Padding"
+msgstr "Εναλλαγή Γεμίσματος"
+
+#: functions.php:4573
+msgid "Toggle"
+msgstr "Εναλλαγή"
+
+#: functions.php:4672
+msgid "Contact Form"
+msgstr "Φόρμα επικοινωνίας"
+
+#: functions.php:4721
+msgid "Input Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Εισαγωγικού Πεδίου"
+
+#: functions.php:4741
+msgid "Input Font Style"
+msgstr "Στυλ Γραμματοσειράς Εισαγωγικού Πεδίου"
+
+#: functions.php:4757
+msgid "Input Field Padding"
+msgstr "Γέμισμα Εισαγωγικού Πεδίου"
+
+#: functions.php:4777
+msgid "Captcha Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Captcha"
+
+#: functions.php:4797
+msgid "Captcha Font Style"
+msgstr "Στυλ Γραμματοσειράς Captcha"
+
+#: functions.php:4807 includes/functions/sidebars.php:4
+msgid "Sidebar"
+msgstr "Πλαϊνή γραμμή"
+
+#: functions.php:4820
+msgid "Widget Header Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Κεφαλίδας Widget"
+
+#: functions.php:4840
+msgid "Widget Header Font Style"
+msgstr "Στυλ Γραμματοσειράς Κεφαλίδας Widget"
+
+#: functions.php:4856
+msgid "Remove Vertical Divider"
+msgstr "Αφαίρεση Κάθετου Διαχωριστικού"
+
+#: functions.php:4865
+msgid "Divider"
+msgstr "Διαχωριστής"
+
+#: functions.php:4877
+msgid "Show Divider"
+msgstr "Εμφάνιση διαχωριστή"
+
+#: functions.php:4892
+msgid "Divider Style"
+msgstr "Στυλ διαχωριστή"
+
+#: functions.php:4909
+msgid "Divider Weight"
+msgstr "Ύψος Διαχωριστή"
+
+#: functions.php:4929
+msgid "Divider Height"
+msgstr "Ύψος Διαχωριστικού"
+
+#: functions.php:4949
+msgid "Divider Position"
+msgstr "Θέση Διαχωριστή"
+
+#: functions.php:4960
+msgid "Person"
+msgstr "Πρόσωπο"
+
+#: functions.php:4973
+msgid "Name Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Ονόματος"
+
+#: functions.php:5045
+msgid "Social Network Icon Size"
+msgstr "Μέγεθος Εικονιδίου Κοινωνικού Δικτύου"
+
+#: functions.php:5072 functions.php:5151
+msgid "Post Title Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Τίτλου Ανάρτησης"
+
+#: functions.php:5108 functions.php:5187
+msgid "Meta Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Μεταδεδομένων"
+
+#: functions.php:5138
+msgid "Blog Grid"
+msgstr "blog Πλέγμα"
+
+#: functions.php:5217
+msgid "Shop"
+msgstr "Κατάστημα"
+
+#: functions.php:5230
+msgid "Product Name Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Ονόματος Προϊόντος"
+
+#: functions.php:5250
+msgid "Product Name Font Style"
+msgstr "Στυλ Γραμματοσειράς Ονόματος Προϊόντος"
+
+#: functions.php:5266
+msgid "Sale Badge Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Σήματος Πώλησης"
+
+#: functions.php:5286
+msgid "Sale Badge Font Style"
+msgstr "Στυλ Γραμματοσειράς Σήματος Πώλησης"
+
+#: functions.php:5322
+msgid "Price Font Style"
+msgstr "Στυλ Γραμματοσειράς Τιμής"
+
+#: functions.php:5338
+msgid "Sale Price Font Size"
+msgstr "Μέγεθος Γραμματοσειράς Τιμής Πώλησης"
+
+#: functions.php:5358
+msgid "Sale Price Font Style"
+msgstr "Στυλ Γραμματοσειράς Τιμής Πώλησης"
+
+#: functions.php:5368
+msgid "Countdown"
+msgstr "Αντίστροφη Μέτρηση"
+
+#: functions.php:5411
+msgid "Social Follow"
+msgstr "Ακολούθησε σε Κοινωνικό Δίκτυο"
+
+#: functions.php:5424
+msgid "Follow Font & Icon Size"
+msgstr "Γραμματοσειρά για το Ακολούθησε & Μέγεθος Εικονιδίου"
+
+#: functions.php:5454
+msgid "Fullwidth Slider"
+msgstr "Fullwidth Slider"
+
+#: functions.php:7977
+msgid "0 comments"
+msgstr "0 Σχόλια"
+
+#: functions.php:7977
+msgid "1 comment"
+msgstr "1 Σχόλιο"
+
+#: functions.php:7977
+msgid "comments"
+msgstr "Σχόλια"
+
+#: functions.php:8060
+msgid "Password Protected"
+msgstr "Προστασία με κωδικό πρόσβασης"
+
+#: functions.php:8061
+msgid "To view this protected post, enter the password below"
+msgstr ""
+"Για να δείτε αυτή τη δημοσίευση, που προστατεύεται κωδικό πρόσβασης, "
+"εισάγετε τον κωδικό παρακάτω."
+
+#: functions.php:8064
+msgid "Password"
+msgstr "Κωδικός"
+
+#: functions.php:8065
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: functions.php:8478 functions.php:8514
+msgid "Theme Customizer"
+msgstr "Προσαρμογέας Θεμάτων"
+
+#: functions.php:8482 functions.php:8527
+msgid "Module Customizer"
+msgstr "Προσαρμογέας Module"
+
+#: functions.php:8484
+msgid "Role Editor"
+msgstr "ρόλος Εκδότης"
+
+#: functions.php:8487
+msgid "Divi Library"
+msgstr "Βιβλιοθήκη Divi"
+
+#: functions.php:8700
+msgid "Divi Customizer Settings"
+msgstr "Ρυθμίσεις Εργαλείου Προσαρμογής Divi"
+
+#: functions.php:8741
+msgid "Designed by %1$s | Powered by %2$s"
+msgstr "Σχεδιάστηκε από %1$s | Υποστηρίζεται από %2$s"
+
+#: header.php:143 header.php:271
+msgid "Search &hellip;"
+msgstr "Αναζήτηση &hellip;"
+
+#: header.php:145 header.php:273
+msgid "Search for:"
+msgstr "Αναζήτηση για:"
+
+#: includes/functions/choices.php:9
+msgid "Bold"
+msgstr "Έντονα"
+
+#: includes/functions/choices.php:10
+msgid "Italic"
+msgstr "Πλάγια"
+
+#: includes/functions/choices.php:11
+msgid "Uppercase"
+msgstr "Κεφαλαία"
+
+#: includes/functions/choices.php:12
+msgid "Underline"
+msgstr "Υπογραμμισμένα"
+
+#: includes/functions/choices.php:25
+msgid "Green"
+msgstr "Πράσινο"
+
+#: includes/functions/choices.php:26
+msgid "Orange"
+msgstr "Πορτοκαλί"
+
+#: includes/functions/choices.php:27
+msgid "Pink"
+msgstr "Ροζ"
+
+#: includes/functions/choices.php:28
+msgid "Red"
+msgstr "Κόκκινο"
+
+#: includes/functions/choices.php:41
+msgid "Centered"
+msgstr "Στο Κέντρο"
+
+#: includes/functions/choices.php:42
+msgid "Centered Inline Logo"
+msgstr "Κεντραρισμένο Ενσωματομένο Λογότυπο"
+
+#: includes/functions/choices.php:43
+msgid "Slide In"
+msgstr "Slide In"
+
+#: includes/functions/choices.php:44
+msgid "Fullscreen"
+msgstr "Πλήρης Οθόνη"
+
+#: includes/functions/choices.php:56
+msgid "Fade"
+msgstr "Σβήσιμο"
+
+#: includes/functions/choices.php:57
+msgid "Expand"
+msgstr "Επέκταση"
+
+#: includes/functions/choices.php:58
+msgid "Slide"
+msgstr "Διαφάνεια"
+
+#: includes/functions/choices.php:59
+msgid "Flip"
+msgstr "Αναστροφή"
+
+#: includes/functions/choices.php:71 includes/functions/choices.php:72
+#: includes/functions/choices.php:73 includes/functions/choices.php:75
+#: includes/functions/choices.php:76 includes/functions/choices.php:77
+#: includes/functions/choices.php:78 includes/functions/choices.php:79
+#: includes/functions/choices.php:80
+msgid "%1$s Columns"
+msgstr "%1$s Στήλες"
+
+#: includes/functions/choices.php:74
+msgid "1 Column"
+msgstr "1 Στήλη"
+
+#: includes/functions/choices.php:118
+msgid "Left to Right"
+msgstr "Αριστερά προς δεξιά"
+
+#: includes/functions/choices.php:119
+msgid "Right to Left"
+msgstr "Δεξιά προς αριστερά"
+
+#: includes/functions/choices.php:120
+msgid "Top to Bottom"
+msgstr "Από πάνω προς τα κάτω"
+
+#: includes/functions/choices.php:121
+msgid "Bottom to Top"
+msgstr "Από κάτω προς τα πάνω"
+
+#: includes/functions/choices.php:122
+msgid "Fade In"
+msgstr "Σταδιακή εμφάνιση"
+
+#: includes/functions/choices.php:123
+msgid "No Animation"
+msgstr "Χωρίς κινούμενο σχέδιο"
+
+#: includes/functions/choices.php:135
+msgid "Solid"
+msgstr "Συμπαγής"
+
+#: includes/functions/choices.php:136
+msgid "Dotted"
+msgstr "Με Κουκκίδες"
+
+#: includes/functions/choices.php:137
+msgid "Dashed"
+msgstr "Διακεκομμένη"
+
+#: includes/functions/choices.php:138
+msgid "Double"
+msgstr "Διπλή"
+
+#: includes/functions/choices.php:139
+msgid "Groove"
+msgstr "Εγκοπή"
+
+#: includes/functions/choices.php:140
+msgid "Ridge"
+msgstr "Ακμή"
+
+#: includes/functions/choices.php:141
+msgid "Inset"
+msgstr "Ορισμός Εσωτερικού Περιγράμματος"
+
+#: includes/functions/choices.php:142
+msgid "Outset"
+msgstr "Ορισμός Εξωτερικού Περιγράμματος"
+
+#: includes/functions/choices.php:154
+msgid "Top"
+msgstr "Πάνω μέρος"
+
+#: includes/functions/choices.php:155
+msgid "Vertically Centered"
+msgstr "Κεντραρισμένο Κάθετα"
+
+#: includes/functions/choices.php:156
+msgid "Bottom"
+msgstr "Κάτω μέρος"
+
+#: includes/functions/choices.php:168
+msgid "No Repeat"
+msgstr "Χωρίς Επανάληψη"
+
+#: includes/functions/choices.php:169
+msgid "Tile"
+msgstr "Πλακίδια"
+
+#: includes/functions/choices.php:170
+msgid "Tile Horizontally"
+msgstr "Σε Οριζόντια Παράθεση"
+
+#: includes/functions/choices.php:171
+msgid "Tile Vertically"
+msgstr "Σε Κατακόρυφη Παράθεση"
+
+#: includes/functions/choices.php:183
+msgid "Scroll"
+msgstr "Κύλιση"
+
+#: includes/functions/choices.php:184
+msgid "Fixed"
+msgstr "Σταθερό"
+
+#: includes/functions/installation.php:1
+msgid "Read Divi Documentation"
+msgstr "Ανάγνωση οδηγιών του Divi"
+
+#: includes/functions/sidebars.php:13 includes/functions/sidebars.php:22
+#: includes/functions/sidebars.php:31 includes/functions/sidebars.php:40
+msgid "Footer Area"
+msgstr "Περιοχή υποσέλιδου"
+
+#: includes/functions/tutorials.php:1
+msgid "Watch video tutorials"
+msgstr "Παρακολούθηση βίντεο εκμάθησης"
+
+#: includes/navigation.php:2
+msgid "&laquo; Older Entries"
+msgstr "&laquo; Παλαιότερες καταχωρήσεις"
+
+#: includes/navigation.php:3
+msgid "Next Entries &raquo;"
+msgstr "Επόμενες καταχωρήσεις &raquo;"
+
+#: includes/no-results.php:3
+msgid "No Results Found"
+msgstr "Δεν βρέθηκαν αποτελέσματα"
+
+#: includes/no-results.php:4
+msgid ""
+"The page you requested could not be found. Try refining your search, or use "
+"the navigation above to locate the post."
+msgstr ""
+"Η σελίδα που ζητήσατε δε βρέθηκε. Προσπαθήστε να βελτιώσετε την αναζήτησή "
+"σας, ή χρησιμοποιήστε το μενού από πάνω για να εντοπίσετε την ανάρτηση."
+
+#: includes/social_icons.php:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: includes/social_icons.php:13
+msgid "Twitter"
+msgstr "Twitter"
+
+#: includes/social_icons.php:20
+msgid "Google"
+msgstr "Google"
+
+#: includes/social_icons.php:32
+msgid "RSS"
+msgstr "RSS"
+
+#: includes/widgets/widget-about.php:4
+msgid "Displays About Me Information"
+msgstr "Εμφάνιση πληροφοριών για μένα"
+
+#: includes/widgets/widget-about.php:6
+msgid "ET About Me Widget"
+msgstr "Περιοχή γραφικών στοιχείων με πληροφορίες για μένα"
+
+#: includes/widgets/widget-about.php:12 includes/widgets/widget-about.php:41
+msgid "About Me"
+msgstr "Πληροφορίες για μένα"
+
+#: includes/widgets/widget-about.php:48 includes/widgets/widget-ads.php:172
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:192
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:208
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:224
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:240
+#: includes/widgets/widget-adsense.php:46
+msgid "Title"
+msgstr "Τίτλος"
+
+#: includes/widgets/widget-about.php:52
+msgid "Text"
+msgstr "Κείμενο"
+
+#: includes/widgets/widget-ads.php:4
+msgid "Displays Advertisements"
+msgstr "Εμφάνιση διαφημίσεων"
+
+#: includes/widgets/widget-ads.php:6
+msgid "ET Advertisement"
+msgstr "Διαφήημιση"
+
+#: includes/widgets/widget-ads.php:12 includes/widgets/widget-ads.php:128
+msgid "Advertisement"
+msgstr "Διαφήημιση"
+
+#: includes/widgets/widget-ads.php:175
+msgid "Use Relative Image Paths"
+msgstr "Χρήση σχετικών διαδρομών εικόνων"
+
+#: includes/widgets/widget-ads.php:177
+msgid "Open in a new window"
+msgstr "Άνοιγμα σε καινούριο παράθυρο"
+
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:182
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:186
+#: includes/widgets/widget-ads.php:188 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:192 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:198
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:202
+#: includes/widgets/widget-ads.php:204 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:208 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:214
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:218
+#: includes/widgets/widget-ads.php:220 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:224 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:230
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:234
+#: includes/widgets/widget-ads.php:236 includes/widgets/widget-ads.php:238
+#: includes/widgets/widget-ads.php:240 includes/widgets/widget-ads.php:242
+msgid "Banner"
+msgstr "Διαφημιστικό πλαίσιο"
+
+#: includes/widgets/widget-ads.php:182 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:198 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:214 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:230 includes/widgets/widget-ads.php:238
+msgid "Url"
+msgstr "Διεύθυνση URL"
+
+#: includes/widgets/widget-ads.php:186 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:202 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:218 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:234 includes/widgets/widget-ads.php:242
+msgid "Alt"
+msgstr "Εναλλακτικό κείμενο"
+
+#: includes/widgets/widget-ads.php:243
+msgid ""
+"If you don't want to display some banners - leave approptiate fields blank"
+msgstr ""
+"Αν δεν θέλετε να εμφανίζονται μερικά από τα διαφημιστικά πλαίσια, αφήστε τα "
+"αντίστοιχα πεδία κενά."
+
+#: includes/widgets/widget-adsense.php:4
+msgid "Displays Adsense Ads"
+msgstr "Εμφάνιση διαφημίσεων Adsense"
+
+#: includes/widgets/widget-adsense.php:6
+msgid "ET Adsense Widget"
+msgstr "Γραφικά στοιχεία Adsense"
+
+#: includes/widgets/widget-adsense.php:12
+#: includes/widgets/widget-adsense.php:40
+msgid "Adsense"
+msgstr "Adsense"
+
+#: includes/widgets/widget-adsense.php:48
+msgid "Adsense Code"
+msgstr "Κώδικάς του Adsense"
+
+#: options_divi.php:45
+msgid "Logo"
+msgstr "Λογότυπο"
+
+#: options_divi.php:48
+msgid "Set As Logo"
+msgstr "Ορισμός ως λογότυπο"
+
+#: options_divi.php:50
+msgid ""
+"If you would like to use your own custom logo image click the Upload Image "
+"button."
+msgstr ""
+"Αν θέλετε να χρησιμοποιήσετε τη δική σας προσαρμοσμένη εικόνα λογότυπου "
+"κάντε κλικ στο κουμπί \"Προσθήκη εικόνας\"."
+
+#: options_divi.php:53
+msgid "Favicon"
+msgstr "Favicon"
+
+#: options_divi.php:56
+msgid "Set As Favicon"
+msgstr "Ορισμός ως Favicon"
+
+#: options_divi.php:58
+msgid ""
+"If you would like to use your own custom favicon image click the Upload "
+"Image button."
+msgstr ""
+"Αν θέλετε να χρησιμοποιήσετε τη δική σας προσαρμοσμένη εικόνα favicon κάντε "
+"κλικ στο κουμπί Προσθήκη Εικόνας."
+
+#: options_divi.php:61
+msgid "Fixed Navigation Bar"
+msgstr "Σταθερή Μπάρα Πλοήγησης"
+
+#: options_divi.php:65
+msgid ""
+"By default the navigation bar stays on top of the screen at all times. We "
+"suggest to disable this option, if you need to use a logo taller than the "
+"default one."
+msgstr ""
+"Από προεπιλογή, η μπάρα πλοήγησης παραμένει στην κορυφή της οθόνης ανά πάσα "
+"στιγμή. Προτείνουμε να απενεργοποιήσετε αυτή την επιλογή αν θέλετε να "
+"χρησιμοποιήσετε μια μεγάλη εικόνα λογότυπου."
+
+#: options_divi.php:68
+msgid "Enable Divi Gallery"
+msgstr "Ενεργοποιήστε τη Γκαλερί Divi"
+
+#: options_divi.php:72
+msgid ""
+"Enable this if you want to replace the WordPress default gallery with the "
+"Divi-style gallery."
+msgstr ""
+"Ενεργοποιήστε αυτό αν θέλετε να αντικαταστήσετε την προεπιλεγμένη γκαλερί "
+"του WordPress με τη γκαλερί στυλ Divi."
+
+#: options_divi.php:75
+msgid "Color Pickers Default Palette"
+msgstr "Προεπιλεγμένη Παλέτα Επιλογέων Χρώματος"
+
+#: options_divi.php:80
+msgid "Define the default color palette for color pickers in the Divi Builder."
+msgstr "Καθορίστε την προεπιλεγμένη χρωματική παλέτα στο Divi Builder."
+
+#: options_divi.php:85
+msgid "Grab the first post image"
+msgstr "Πιάστε την πρώτη εικόνα της ανάρτησης"
+
+#: options_divi.php:89
+msgid ""
+"By default thumbnail images are created using custom fields. However, if you "
+"would rather use the images that are already in your post for your thumbnail "
+"(and bypass using custom fields) you can activate this option. Once "
+"activcated thumbnail images will be generated automatically using the first "
+"image in your post. The image must be hosted on your own server."
+msgstr ""
+"Από προεπιλογή, οι μικρογραφίες δημιουργούνται χρησιμοποιώντας προσαρμοσμένα "
+"πεδία. Ωστόσο, αν θα προτιμούσατε να χρησιμοποιήσετε τις εικόνες που "
+"βρίσκονται ήδη στην ανάρτησή σας για μικρογραφία (και να παρακάμψετε τη "
+"χρήση προσαρμοσμένων πεδίων) μπορείτε να ενεργοποιήσετε αυτήν την επιλογή. "
+"Μόλις ενεργοποιηθεί, οι μικρογραφίες θα δημιουργούνται αυτόματα "
+"χρησιμοποιώντας την πρώτη εικόνα στην ανάρτησή σας. Η εικόνα θα πρέπει να "
+"φιλοξενείται σε δικό σας διακομιστή."
+
+#: options_divi.php:92
+msgid "Blog Style Mode"
+msgstr "Λειτουργία Μορφής Ιστολογίου"
+
+#: options_divi.php:96
+msgid ""
+"By default the theme truncates your posts on index/homepages automatically "
+"to create post previews. If you would rather show your posts in full on "
+"index pages like a traditional blog then you can activate this feature."
+msgstr ""
+"Από προεπιλογή, το θέμα κόβει αποσπάσματα της ανάρτησης αυτόματα για να "
+"δημιουργήσει προεπισκοπήσεις των αναρτήσεων. Αν προτιμάτε να φαίνονται "
+"ολόκληρες οι αναρτήσεις σας σαν παραδοσιακό ιστολόγιο, τότε μπορείτε να "
+"ενεργοποιήσετε αυτή τη λειτουργία."
+
+#: options_divi.php:99
+msgid "Shop Page & Category Page Layout for WooCommerce"
+msgstr "Σελίδα Καταστήματος και Διάταξη Σελίδας Κατηγορίας για WooCommerce"
+
+#: options_divi.php:108
+msgid "Here you can choose Shop Page & Category Page Layout for WooCommerce."
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε Σελίδα Καταστήματος και Διάταξη Σελίδας Κατηγορίας "
+"για WooCommerce"
+
+#: options_divi.php:113
+msgid "Google API Key"
+msgstr "Κλειδί Google API"
+
+#: options_divi.php:121
+msgid ""
+"The Maps module uses the Google Maps API and requires a valid Google API Key "
+"to function. Before using the map module, please make sure you have added "
+"your API key here. Learn more about how to create your Google API Key <a "
+"target=\"_blank\" href=\"%1$s\">here</a>."
+msgstr ""
+"Το υποσύστημα των Χαρτών χρησιμοποιεί το Google Maps API και απαιτεί ένα "
+"έγκυρο Google API Key για να λειτουργήσει. Πριν χρησιμοποιήσετε το "
+"υποσύστημα των χαρτών, παρακαλούμε σιγουρευτείτε ότι έχετε προσθέσει το API "
+"κλειδί εδώ."
+
+#: options_divi.php:125
+msgid "Enqueue Google Maps Script"
+msgstr "Προσθήκη Google Maps Script στην ουρά επεξεργασίας"
+
+#: options_divi.php:132
+msgid ""
+"Disable this option to remove the Google Maps API script from your Divi "
+"Builder Pages. This may improve compatibility with third party plugins that "
+"also enqueue this script. Please Note: Modules that rely on the Google Maps "
+"API in order to function properly, such as the Maps and Fullwidth Maps "
+"Modules, will still be available but will not function while this option is "
+"disabled (unless you manually add Google Maps API script)."
+msgstr ""
+"Απενεργοποιήστε αυτή την επιλογή για να αφαιρέσετε το Google Maps API script "
+"από τις Σελίδες Divi Builder. Αυτό μπορεί να βελτιώσει τη συμβατότητα με "
+"plugins τρίτων που επίσης βάζουν στην ουρά επεξεργασίας αυτό το script. "
+"Παρακαλούμε Σημειώστε: Τα αυτοτελή μέρη που βασίζονται στο Google Maps API "
+"για να λειτουργήσουν κανονικά, όπως τα μέρη των χαρτών και τα μέρη χαρτών "
+"πλήρους εύρους, θα είναι διαθέσιμα αλλά δεν θα λειτουργούν αν αυτή η επιλογή "
+"απενεργοποιηθεί (εκτός κι αν προσθέσετε χειροκίνητα το Google Maps API "
+"script)."
+
+#: options_divi.php:135
+msgid "Show Facebook Icon"
+msgstr "Εμφάνιση Εικονιδίου Facebook"
+
+#: options_divi.php:139
+msgid "Here you can choose to display the Facebook Icon on your homepage. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να εμφανίζεται το Facebook εικονίδιο στην αρχική "
+"σελίδα. "
+
+#: options_divi.php:141
+msgid "Show Twitter Icon"
+msgstr "Εμφάνιση Εικονιδίου Twitter"
+
+#: options_divi.php:145
+msgid "Here you can choose to display the Twitter Icon. "
+msgstr "Εδώ μπορείτε να επιλέξετε να εμφανίζεται το εικονίδιο του Twitter"
+
+#: options_divi.php:147
+msgid "Show Google+ Icon"
+msgstr "Εμφάνιση Εικονιδίου Google+"
+
+#: options_divi.php:151
+msgid "Here you can choose to display the Google+ Icon on your homepage. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να εμφανίζεται το Google+ εικονίδιο στην αρχική "
+"σελίδα. "
+
+#: options_divi.php:153
+msgid "Show RSS Icon"
+msgstr "Εμφάνιση εικονιδίου RSS"
+
+#: options_divi.php:157
+msgid "Here you can choose to display the RSS Icon. "
+msgstr "Εδώ μπορείτε να επιλέξετε να εμφανίζεται το RSS εικονίδιο. "
+
+#: options_divi.php:159
+msgid "Facebook Profile Url"
+msgstr "Προφίλ Facebook URL"
+
+#: options_divi.php:164
+msgid "Enter the URL of your Facebook Profile. "
+msgstr "Εισάγετε το URL του Facebook προφίλ σας. "
+
+#: options_divi.php:166
+msgid "Twitter Profile Url"
+msgstr "Προφίλ Twitter URL"
+
+#: options_divi.php:171
+msgid "Enter the URL of your Twitter Profile."
+msgstr "Εισάγετε το URL του Twitter προφίλ σας."
+
+#: options_divi.php:173
+msgid "Google+ Profile Url"
+msgstr "Προφίλ Google+ URL"
+
+#: options_divi.php:178
+msgid "Enter the URL of your Google+ Profile. "
+msgstr "Εισάγετε το URL του Google+ προφίλ σας. "
+
+#: options_divi.php:180
+msgid "RSS Icon Url"
+msgstr "RSS Εικονίδιο URL"
+
+#: options_divi.php:185
+msgid "Enter the URL of your RSS feed. "
+msgstr "Εισάγετε το URL της RSS ροής σας. "
+
+#: options_divi.php:187
+msgid "Number of Products displayed on WooCommerce archive pages"
+msgstr ""
+"Αριθμός Προϊόντων που εμφανίζονται στις αρχειοθετημένες σελίδες του "
+"WooCommerce"
+
+#: options_divi.php:191
+msgid ""
+"Here you can designate how many WooCommerce products are displayed on the "
+"archive page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Εδώ μπορείτε να ορίσετε πόσα προϊόντα WooCommerce εμφανίζονται στην "
+"αρχειοθετημένη σελίδα. Η επιλογή αυτή λειτουργεί ανεξάρτητα από τις επιλογές "
+"Ρυθμίσεις > Ανάγνωση στο wp-admin."
+
+#: options_divi.php:195
+msgid "Number of Posts displayed on Category page"
+msgstr "Αριθμός Αναρτήσεων που εμφανίζονται στη σελίδα Κατηγορία"
+
+#: options_divi.php:199
+msgid ""
+"Here you can designate how many recent articles are displayed on the "
+"Category page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Εδώ μπορείτε να καθορίσετε πόσα πρόσφατα άρθρα εμφανίζονται στη σελίδα "
+"Κατηγορία. Αυτή η επιλογή λειτουργεί ανεξάρτητα από τις επιλογές της "
+"Ανάγνωσης στο wp-admin."
+
+#: options_divi.php:203
+msgid "Number of Posts displayed on Archive pages"
+msgstr "Αριμός Αναρτήσεων που εμφανίζονται στις σελίδες Αρχείου"
+
+#: options_divi.php:207
+msgid ""
+"Here you can designate how many recent articles are displayed on the Archive "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Εδώ μπορείτε να καθορίσετε πόσα πρόσφατα άρθρα εμφανίζονται στη σελίδα "
+"Αρχείο. Αυτή η επιλογή δουλεύει ανεξάρητητα από τις επιλογές Ανάγνωσης του "
+"wp-admin."
+
+#: options_divi.php:211
+msgid "Number of Posts displayed on Search pages"
+msgstr "Αριθμός Αναρτήσεων που εμφανίζονται στις σελίδες Αναζήτησης"
+
+#: options_divi.php:215
+msgid ""
+"Here you can designate how many recent articles are displayed on the Search "
+"results pages. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Εδώ μπορείτε να καθορίσετε πόσα πρόσφατα άρθρα εμφανίζονται στις σελίδες "
+"αποτελεσμάτων Αναζήτησης. Αυτή η επιλογή δουλεύει ανεξάρητητα από τις "
+"επιλογές Ανάγνωσης του wp-admin."
+
+#: options_divi.php:219
+msgid "Number of Posts displayed on Tag pages"
+msgstr "Αριθμός Αναρτήσεων που εμφανίζονται στις σελίδες Ετικετών"
+
+#: options_divi.php:223
+msgid ""
+"Here you can designate how many recent articles are displayed on the Tag "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Εδώ μπορείτε να καθορίσετε πόσα πρόσφατα άρθρα εμφανίζονται στις σελίδες "
+"Ετικετών. Αυτή η επιλογή δουλεύει ανεξάρητητα από τις επιλογές Ανάγνωσης του "
+"wp-admin."
+
+#: options_divi.php:227
+msgid "Date format"
+msgstr "Μορφή Ημερομηνίας"
+
+#: options_divi.php:231
+msgid ""
+"This option allows you to change how your dates are displayed. For more "
+"information please refer to the WordPress codex here:<a href='http://codex."
+"wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and "
+"Time</a>"
+msgstr ""
+"Αυτή η επιλογή σας επιτρέπει να αλλάζετε το πώς εμφανίζονται οι ημερομηνίες. "
+"Για περισσότερες πληροφορίες αναφερθείτε στο WordPress codex εδώ:<a "
+"href='http://codex.wordpress.org/Formatting_Date_and_Time' "
+"target='_blank'>Μορφοποίηση Ημερομηνίας και Ώρας</a>"
+
+#: options_divi.php:235
+msgid "Use excerpts when defined"
+msgstr "Χρησιμοποιήστε αποσπάσματα όταν ορίζεται"
+
+#: options_divi.php:239
+msgid "This will enable the use of excerpts in posts or pages."
+msgstr "Αυτό θα ενεργοποιήσει τη χρήση αποσπασμάτων σε αναρτήσεις ή σελίδες."
+
+#: options_divi.php:242
+msgid "Responsive shortcodes"
+msgstr "Προσαρμόσιμοι shortcodes"
+
+#: options_divi.php:246
+msgid "Enable this option to make shortcodes respond to various screen sizes"
+msgstr "Ενεργοποιήστε αυτήν την επιλογή για να κάνετε τους shortcodes"
+
+#: options_divi.php:249
+msgid "Google Fonts subsets"
+msgstr "Google Fonts υποσύνολα"
+
+#: options_divi.php:253
+msgid "This will enable Google Fonts for Non-English languages."
+msgstr ""
+"Αυτό θα ενεργοποιήσει το Google Fonts για άλλες γλώσσες εκτός Αγγλικών."
+
+#: options_divi.php:256
+msgid "Back To Top Button"
+msgstr "Κουμπί Πίσω στην Αρχή"
+
+#: options_divi.php:260
+msgid "Enable this option to display Back To Top Button while scrolling"
+msgstr ""
+"Ενεργοποιήστε αυτήν την επιλογή για να ενεργοποιήσετε το Κουμπί Πίσω στην "
+"Αρχή όσο κάνετε scrolling"
+
+#: options_divi.php:263
+msgid "Smooth Scrolling"
+msgstr "Ομαλό Scrolling"
+
+#: options_divi.php:267
+msgid "Enable this option to get the smooth scrolling effect with mouse wheel"
+msgstr ""
+"Ενεργοποιήστε αυτήν την επιλογή για να έχετε το εφέ του ομαλού scrolling με "
+"τη ροδέλα του ποντικιού σας"
+
+#: options_divi.php:270
+msgid "Disable Translations"
+msgstr "Απενεργοποιήστε Μεταφράσεις"
+
+#: options_divi.php:274
+msgid ""
+"Disable translations if you don't want to display translated theme strings "
+"on your site."
+msgstr ""
+"Απενεργοποιήστε τις μεταφράσεις αν δεν θέλετε να εμφανίζετε μεταφρασμένες "
+"συμβολοσειρές (strings) θέματος στην ιστοσελίδα σας."
+
+#: options_divi.php:277
+msgid "Custom CSS"
+msgstr "Προσαρμοσμένη CSS"
+
+#: options_divi.php:281
+msgid "Here you can add custom css to override or extend default styles."
+msgstr ""
+"Εδώ μπορείτε να προσθέστε προσαρμοσμένη CSS για να παρακάμψετε και να "
+"επεκτείνετε τα αρχικά στυλ."
+
+#: options_divi.php:286
+msgid "Memory Limit Increase"
+msgstr "Αύξηση Ορίου Μνήμης"
+
+#: options_divi.php:288
+msgid "Here you can disable automatic memory limit increase."
+msgstr "Εδώ μπορείτε να απενεργοποιήσετε την αυτόματη αύξηση του ορίου μνήμης."
+
+#: options_divi.php:308
+msgid "Pages"
+msgstr "σελίδων"
+
+#: options_divi.php:326
+msgid "Exclude pages from the navigation bar"
+msgstr "Εξαίρεση σελίδων από τη μπάρα πολήγησης"
+
+#: options_divi.php:330
+msgid ""
+"Here you can choose to remove certain pages from the navigation menu. All "
+"pages marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να αφαιρέσετε ορισμένες σελίδες από το μενού "
+"πλοήγησης. Όλες οι σελίδες σημειωμένες με ένα X δε θα εμφανίζονται στην "
+"μπάρα πλοήγησης. "
+
+#: options_divi.php:334 options_divi.php:384
+msgid "Show dropdown menus"
+msgstr "Εμφάνιση αναδιπλωμένου μενού"
+
+#: options_divi.php:338
+msgid ""
+"If you would like to remove the dropdown menus from the pages navigation bar "
+"disable this feature."
+msgstr ""
+"Αν θέλετε να αφαιρέσετε τα αναδιπλωμένα μενού από τις σελίδες στη μπάρα "
+"πλοήγησης, ενεργοποιήστε αυτή τη λειτουργία"
+
+#: options_divi.php:341
+msgid "Display Home link"
+msgstr "Εμφάνιση συνδέσμου Αρχικής Σελίδας"
+
+#: options_divi.php:345
+msgid ""
+"By default the theme creates a Home link that, when clicked, leads back to "
+"your blog's homepage. If, however, you are using a static homepage and have "
+"already created a page called Home to use, this will result in a duplicate "
+"link. In this case you should disable this feature to remove the link."
+msgstr ""
+"Από προεπιλογή, το θέμα δημιουργεί ένα σύνδεσμο Αρχικής Σελίδας ο οποίος, "
+"όταν πατηθεί, οδηγεί πίσω στην αρχική σελίδα του ιστολογίου σας. Αν, ωστόσο, "
+"χρησιμοποιείτε στατική αρχική σελίδα και έχετε ήδη δημιουργήσει μια σελίδα "
+"με το όνομα Αρχική Σελίδα για να χρησιμοποιήσετε, αυτό θα έχει σαν "
+"αποτέλεσμα σε διπλό σύνδεσμο. Σε αυτήν την περίπτωση απενεργοποιήστε αυτή τη "
+"λειτουργία για να αφαιρέσετε τον σύνδεσμο."
+
+#: options_divi.php:348
+msgid "Sort Pages Links"
+msgstr "Ταξινόμηση Συνδέσμων Σελίδων"
+
+#: options_divi.php:352
+msgid "Here you can choose to sort your pages links."
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε πώς θα ταξινομήσετε τους συνδέσμους των σελίδων "
+"σας."
+
+#: options_divi.php:355
+msgid "Order Pages Links by Ascending/Descending"
+msgstr "Αναδιάταξη Συνδέσμων Σελίδων με Αύξουσα/Φθίνουσα σειρά"
+
+#: options_divi.php:359
+msgid ""
+"Here you can choose to reverse the order that your pages links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να αντιστρέψετε τη σειρά με την οποία θα "
+"εμφανίζονται οι σύνδεσμοι των σελίδων σας. Μπορείτε να επιλέξετε ανάμεσα σε "
+"αύξουσα και φθίνουσα σειρά."
+
+#: options_divi.php:362 options_divi.php:398
+msgid "Number of dropdown tiers shown"
+msgstr "Αριθμός αναδιπλωμένων βαθμίδων που εμφανίζονται"
+
+#: options_divi.php:366 options_divi.php:402
+msgid ""
+"This options allows you to control how many teirs your pages dropdown menu "
+"has. Increasing the number allows for additional menu items to be shown."
+msgstr ""
+"Αυτή επιλογή σας επιτρέπει να ελέγχετε πόσες βαθμίδες έχει το αναδιπλωμένο "
+"μενού των σελίδων σας. Η αύξηση του αριθμού τους επιτρέπει την εμφάνιση "
+"περισσότερων επιλογών μενού."
+
+#: options_divi.php:376
+msgid "Exclude categories from the navigation bar"
+msgstr "Αποκλείστε κατηγορίες από την μπάρα πλοήγησης"
+
+#: options_divi.php:380
+msgid ""
+"Here you can choose to remove certain categories from the navigation menu. "
+"All categories marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να αφαιρέσετε ορισμένες κατηγορίες από το μενού "
+"πλοήγησης. Όλες οι κατηγορίες σημειωμένες με X δε θα εμφανίζονται στην μπάρα "
+"πλοήγησής σας. "
+
+#: options_divi.php:388
+msgid ""
+"If you would like to remove the dropdown menus from the categories "
+"navigation bar disable this feature."
+msgstr ""
+"Αν θέλετε να αφαιρέσετε τα αναδιπλωμένα μενού από την μπάρα πλοήγησης "
+"κατηγοριών, απενεργοποιείστε αυτή τη λειτουργία."
+
+#: options_divi.php:391
+msgid "Hide empty categories"
+msgstr "Απόκρυψη άδειων κατηγοριών"
+
+#: options_divi.php:395
+msgid ""
+"If you would like categories to be displayed in your navigationbar that "
+"don't have any posts in them then disable this option. By default empty "
+"categories are hidden"
+msgstr ""
+"Εάν θέλετε να εμφανίζονται στην μπάρα πλοήγησής σας κατηγορίες που δεν έχουν "
+"αναρτήσεις, απενεργοποιήστε αυτήν την επιλογή. Από προεπιλογή οι άδειες "
+"κατηγορίες δεν εμφανίζονται."
+
+#: options_divi.php:406
+msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+msgstr "Ταξινόμηση Συνδέσμων Κατηγοριών σύμφωνα με Name/ID/Slug/Count/Term"
+
+#: options_divi.php:410
+msgid ""
+"By default pages are sorted by name. However if you would rather have them "
+"sorted by ID you can adjust this setting."
+msgstr ""
+"Από προεπιλογή, οι σελίδες ταξινομούνται κατ’όνομα. Ωστόσο, αν προτιμάτε να "
+"είναι διαχωρισμένες κατά ID μπορείτε να προσαρμόσετε αυτή τη ρύθμιση."
+
+#: options_divi.php:413
+msgid "Order Category Links by Ascending/Descending"
+msgstr "Αναδιάταξη Συνδέσμων Κατηργοριών με Αύξουσα ή Φθίνουσα σειρά"
+
+#: options_divi.php:417
+msgid ""
+"Here you can choose to reverse the order that your categories links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε να αναστρέψετε τη σειρά με την οποία εμφανίζονται "
+"οι σύνδεσμοι των κατηγοριών. Μπορείτε να επιλέξετε ανάμεσα σε αύξουσα και "
+"φθίνουσα σειρά."
+
+#: options_divi.php:426
+msgid "Disable top tier dropdown menu links"
+msgstr "Απενεργοποιήστε τις βαθμίδες των συνδέσμων στα αναδιπλωμένα μενού"
+
+#: options_divi.php:430
+msgid ""
+"In some cases users will want to create parent categories or links as "
+"placeholders to hold a list of child links or categories. In this case it is "
+"not desirable to have the parent links lead anywhere, but instead merely "
+"serve an organizational function. Enabling this options will remove the "
+"links from all parent pages/categories so that they don't lead anywhere when "
+"clicked."
+msgstr ""
+"Σε μερικές περιπτώσεις οι χρήστες θα θέλουν να δημιουργήσουν μητρικές "
+"κατηγορίες ή συνδέσμους ως σύμβολα κράτησης θέσης για να διατηρούν μια λίστα "
+"θυγατρικών συνδέσμων ή κατηγοριών. Σε αυτή την περίπτωση δεν είναι επιθυμητό "
+"να οδηγούν οπουδήποτε οι μητρικοί σύνδεσμοι, αλλά αντί αυτού να εξυπηρετούν "
+"μια οργανωτική λειτουργία. Η ενεργοποίηση αυτών των επιλογών θα αφαιρεί τους "
+"συνδέσμους από όλες τις μητρικές σελίδες/κατηγορίες ώστε να μην οδηγούν "
+"οπουδήποτε όταν γίνεται κλικ σε αυτές."
+
+#: options_divi.php:434
+msgid "Alternative scroll-to-anchor method"
+msgstr "Εναλλακτική μέθοδος για μετάβαση σε άγκυρα"
+
+#: options_divi.php:438
+msgid ""
+"Sometimes when using the CSS ID of a section to link directly to it from "
+"another page, the page's final scroll position can be inaccurate. Enable "
+"this option to use an alternative method for scrolling to anchors which can "
+"be more accurate than the default method in some cases."
+msgstr ""
+"Μερικές φορές, όταν χρησιμοποιείτε το CSS ID σε ένα κομμάτι για να "
+"δημιουργήσετε άμεσο σύνδεσμο προς άλλη σελίδα, το σημείο τελικής μετάβασης "
+"στην άλλη σελίδα μπορεί να μην είναι ακριβές. Ενεργοποιήστε αυτή την επιλογή "
+"για να μεταβαίνετε μερικές φορές με πιο ακρίβεια σε άγκυρες, σε σχέση με την "
+"προεπιλεγμένη μέθοδο."
+
+#: options_divi.php:456
+msgid "Single Post Layout"
+msgstr "Διάταξη Ενιαίας Ανάρτησης"
+
+#: options_divi.php:461
+msgid "Single Page Layout"
+msgstr "Διάταξη Ενιαίας Σελίδας"
+
+#: options_divi.php:474
+msgid "Choose which items to display in the postinfo section"
+msgstr ""
+"Επιλογή αντικειμένων που θα εμφανίζονται στο τμήμα πληροφοριών της ανάρτησης"
+
+#: options_divi.php:478
+msgid ""
+"Here you can choose which items appear in the postinfo section on single "
+"post pages. This is the area, usually below the post title, which displays "
+"basic information about your post. The highlighted itmes shown below will "
+"appear. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε τα αντικείμενα που θα εμφανίζονται στο τμήμα "
+"πληροφοριών των σελίδων που απαρτίζονται από μια ανάρτηση. Είναι η περιοχή, "
+"συνήθως κάτω από τον τίτλο της ανάρτησης, όπου εμφανίζονται βασικές "
+"πληροφορίες για την ανάρτησή σας. Θα εμφανίζονται τα παρακάτω υπογραμμισμένα "
+"αντικείμενα. "
+
+#: options_divi.php:482
+msgid "Show comments on posts"
+msgstr "Εμφάνιση σχολίων στις αναρτήσεις"
+
+#: options_divi.php:486
+msgid ""
+"You can disable this option if you want to remove the comments and comment "
+"form from single post pages. "
+msgstr ""
+"Μπορείτε να απενεργοποιήσετε αυτήν την επιλογή εάν θέλετε να αφαιρέσετε τα "
+"σχόλια και τη φόρμα σχολίων από τις αναρτήσεις. "
+
+#: options_divi.php:489
+msgid "Place Thumbs on Posts"
+msgstr "Τοποθέτηση Μικρογραφιών Εικόνων στις Αναρτήσεις"
+
+#: options_divi.php:493
+msgid ""
+"By default thumbnails are placed at the beginning of your post on single "
+"post pages. If you would like to remove this initial thumbnail image to "
+"avoid repetition simply disable this option. "
+msgstr ""
+"Από προεπιλογή, οι μικρογραφίες τοποθετούνται στην αρχή της ανάρτησής σας "
+"στις σελίδες που απαρτίζονται από μια μόνο ανάρτησηση. Εάν θέλετε να "
+"αφαιρέσετε την αρχική μικρογραφία για να αποφύγετε την επανάληψη, απλώς "
+"απενεργοποιήστε αυτήν την επιλογή. "
+
+#: options_divi.php:502
+msgid "Place Thumbs on Pages"
+msgstr "Τοποθέτηση Μικρογραφιών Εικόνων στις Σελίδες."
+
+#: options_divi.php:506
+msgid ""
+"By default thumbnails are not placed on pages (they are only used on posts). "
+"However, if you want to use thumbnails on pages you can! Just enable this "
+"option. "
+msgstr ""
+"Από προεπιλογή οι μικρογραφίες δεν τοποθετούνται στις σελίδες "
+"(χρησιμοποιούνται μόνο στις δημοσιεύσεις). Όμως, αν θέλετε να "
+"χρησιμοποιήσετε μικρογραφίες στις σελίδες, μπορείτε να το κάνετε! Χρειάζεται "
+"μόνο να ενεργοποιήσετε αυτή την επιλογή."
+
+#: options_divi.php:509
+msgid "Show comments on pages"
+msgstr "Εμφάνιση σχολίων σε σελίδες"
+
+#: options_divi.php:513
+msgid ""
+"By default comments are not placed on pages, however, if you would like to "
+"allow people to comment on your pages simply enable this option. "
+msgstr ""
+"Από προεπιλογή, στις σελίδες δεν τοποθετούνται σχόλια, ωστόσο, εάν θέλετε να "
+"επιτρέψετε στον κόσμο να σχολιάζει στις σελίδες σας μπορείτε απλά να "
+"ενεργοποιήσετε αυτήν την επιλογή. "
+
+#: options_divi.php:522
+msgid "Post info section"
+msgstr "Τμήμα πληροφοριών ανάρτησης"
+
+#: options_divi.php:526
+msgid ""
+"Here you can choose which items appear in the postinfo section on pages. "
+"This is the area, usually below the post title, which displays basic "
+"information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε ποια αντικείμενα θα εμφανίζονται στο τμήμα "
+"πληροφοριών του άρθρου στις σελίδες. Είναι η περιοχή, συνήθως κάτω από τον "
+"τίτλο της ανάρτησης, που εμφανίζει βασικές πληροφορίες για την ανάρτησή σας. "
+"Θα εμφανίζονται τα παρακάτω υπογραμμισμένα αντικείμενα. "
+
+#: options_divi.php:529
+msgid "Show Thumbs on Index pages"
+msgstr "Εμφάνιση Μικρογραφιών Εικόνων στις Κεντρικές Σελίδες"
+
+#: options_divi.php:533
+msgid "Enable this option to show thumbnails on Index Pages."
+msgstr ""
+"Ενεργοποιήστε αυτήν την επιλογή για να εμφανίσετε τις μικρογραφίες στις "
+"Κεντρικές Σελίδες."
+
+#: options_divi.php:550
+msgid "Homepage SEO"
+msgstr "Αρχική Σελίδα SEO"
+
+#: options_divi.php:555
+msgid "Single Post Page SEO"
+msgstr "Σελίδα Ενιαίας Ανάρτησης SEO"
+
+#: options_divi.php:560
+msgid "Index Page SEO"
+msgstr "Κεντρική Σελίδα SEO"
+
+#: options_divi.php:568
+msgid " Enable custom title "
+msgstr "Ενεργοποίηση προσαρμοσμένου τίτλου "
+
+#: options_divi.php:572
+msgid ""
+"By default the theme uses a combination of your blog name and your blog "
+"description, as defined when you created your blog, to create your homepage "
+"titles. However if you want to create a custom title then simply enable this "
+"option and fill in the custom title field below. "
+msgstr ""
+"Από προεπιλογή, για τη δημιουργία των τίτλων της αρχικής σελίδας, το θέμα "
+"χρησιμοποιεί ένα συνδυαμό του ονόματος του ιστολογίου σας και της περιγραφής "
+"του ιστολογίου σας όπως ορίστηκε όταν δημιουργήσατε το ιστολόγιό σας. "
+"Ωστόσο, αν θέλετε να δημιουργήσετε έναν προσαρμοσμένο τίτλο τότε απλά "
+"ενεργοποιήστε αυτήν την επιλογή και συμπληρώστε τον προσαρμοσμένο τίτλο στο "
+"παρακάτω πεδίο. "
+
+#: options_divi.php:575
+msgid " Enable meta description"
+msgstr "Ενεργοποιήστε περιγραφή meta ετικετών"
+
+#: options_divi.php:579
+msgid ""
+"By default the theme uses your blog description, as defined when you created "
+"your blog, to fill in the meta description field. If you would like to use a "
+"different description then enable this option and fill in the custom "
+"description field below. "
+msgstr ""
+"Από προεπιλογή, το θέμα χρησιμοποιεί την περιγραφή του ιστολογίου σας για να "
+"συμπληρώσει το πεδίο της meta περιγραφής, όπως ορίστηκε όταν δημιουργήσατε "
+"το ιστολόγιό σας. Εάν θέλετε να χρησιμοποιήσετε διαφορετική περιγραφή, τότε "
+"ενεργοποιήστε αυτήν την επιλογή και συμπληρώστε την προσαρμοσμένη περιγραφή "
+"στο παρακάτω πεδίο. "
+
+#: options_divi.php:582
+msgid " Enable meta keywords"
+msgstr "Ενεργοποιήστε meta λέξεις-κλειδιά"
+
+#: options_divi.php:586
+msgid ""
+"By default the theme does not add keywords to your header. Most search "
+"engines don't use keywords to rank your site anymore, but some people define "
+"them anyway just in case. If you want to add meta keywords to your header "
+"then enable this option and fill in the custom keywords field below. "
+msgstr ""
+"Από προεπιλογή, το θέμα δεν προσθέτει λέξεις-κλειδιά στην επικεφαλίδα σας. "
+"Οι περισσότερες μηχανές αναζήτησης δεν  χρησιμοποιούν πια λέξεις κλειδιά για "
+"να ταξινομήσουν την ιστοσελίδα σας, αλλά κάποιοι τις ορίζουν ούτως ή άλλως "
+"για παν ενδεχόμενο. Εάν θέλετε να προσθέσετε meta λέξεις-κλειδιά στην "
+"επικεφαλίδα σας τότε ενεργοποιήστε αυτήν την επιλογή και συμπληρώστε τις "
+"προσαρμοσμένες λέξεις-κλειδιά στα παρακάτω πεδία."
+
+#: options_divi.php:589 options_divi.php:716
+msgid " Enable canonical URL's"
+msgstr "Ενεργοποιήστε canonical URL's"
+
+#: options_divi.php:593 options_divi.php:667 options_divi.php:720
+msgid ""
+"Canonicalization helps to prevent the indexing of duplicate content by "
+"search engines, and as a result, may help avoid duplicate content penalties "
+"and pagerank degradation. Some pages may have different URLs all leading to "
+"the same place. For example domain.com, domain.com/index.html, and www."
+"domain.com are all different URLs leading to your homepage. From a search "
+"engine's perspective these duplicate URLs, which also occur often due to "
+"custom permalinks, may be treated individually instead of as a single "
+"destination. Defining a canonical URL tells the search engine which URL you "
+"would like to use officially. The theme bases its canonical URLs off your "
+"permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+"Η κανονικοποίηση βοηθάει στην αποτροπή καταχώρησης διπλότυπου περιεχομένου "
+"κατά τη δημιουργία ευρετηρίου από μηχανισμούς αναζήτησης και, ως αποτέλεσμα, "
+"μπορεί να βοηθήσει στην αποφυγή κυρώσεων λόγω διπλότυπου περιεχομένου και "
+"υποβάθμιση αξιολόδησης σελίδων. Για παράδειγμα, domain.com, domain.com/index."
+"html και www.domain.com είναι διαφορετικές διευθύνσεις URL που οδηγούν στην "
+"κεντρική σελίδα σας. Από την άποψη ενός μηχανισμού αναζήτησης αυτές οι "
+"διπλές διευθύνσεις URL, που μπορεί επίσης να συμβαίνουν συχνά λόγω "
+"προσαρμοσμένων συνδέσεων, μπορεί να χειρίζονται ξεχωριστά, και όχι ως "
+"μοναδικός προορισμός. Ορισμός κανονικής διεύθυνσης URL ενημερώνει τον "
+"μηχανισμό αναζήτησης για το πια διεύθυνση URL εσείς θέλετε να χρησιμοποιείτε "
+"επίσημα. Το θέμα ορίζει τις δικές της κανονικές διευθύνσεις URL όχι με βάση "
+"τους συνδέσμους σας και το όνομα τομέα που ορίζεται στην καρτέλα ρυθμίσεων "
+"wp-admin."
+
+#: options_divi.php:596
+msgid "Homepage custom title (if enabled)"
+msgstr "Προσαρμοσμένος τίτλος αρχικής σελίδας (αν είναι ενεργοποιημένος)"
+
+#: options_divi.php:600
+msgid ""
+"If you have enabled custom titles you can add your custom title here. "
+"Whatever you type here will be placed between the < title >< /title > tags "
+"in header.php"
+msgstr ""
+"Εάν έχετε ενεργοποιήσει προσαρμοσμένους τίτλους μπορείτε να προσθέσετε των "
+"προσαρμοσμένο τίτλο εδώ. Ό,τι γράψετε εδώ τα μπει ανάμεσα στις < title >< /"
+"title > ετικέτες στην header.php"
+
+#: options_divi.php:604
+msgid "Homepage meta description (if enabled)"
+msgstr "Meta περιγραφή αρχικής σελίδας (αν είναι ενεργοποιημένη)"
+
+#: options_divi.php:608
+msgid ""
+"If you have enabled meta descriptions you can add your custom description "
+"here."
+msgstr ""
+"Αν έχετε ενεργοποιήσει τις meta περιγραφές μπορείτε να προσθέσετε την "
+"προσαρμοσμένη περιγραφή σας εδώ."
+
+#: options_divi.php:612
+msgid "Homepage meta keywords (if enabled)"
+msgstr "Meta λέξεις-κλειδιά αρχικής σελίδας (αν είναι ενεργοποιημένες)"
+
+#: options_divi.php:616
+msgid ""
+"If you have enabled meta keywords you can add your custom keywords here. "
+"Keywords should be separated by comas. For example: wordpress,themes,"
+"templates,elegant"
+msgstr ""
+"Αν έχετε ενεργοποιήσει τις meta λέξεις-κλειδιά μπορείτε να προθέσετε τις "
+"προσαρμοσμένες λέξεις-κλειδιά εδώ. Οι λέξεις-κλειδιά πρέπει να είναι "
+"χωρισμένες με κόμμα. Για παράδειγμα: wordpress,themes,templates,elegant"
+
+#: options_divi.php:620 options_divi.php:694
+msgid "If custom titles are disabled, choose autogeneration method"
+msgstr ""
+"Αν οι προσαρμοσμένοι τίτλοι είναι απενεργοποιημένοι, επιλέξτε τη μέθοδο "
+"αυτόματης παραγωγής."
+
+#: options_divi.php:625
+msgid ""
+"If you are not using cutsom post titles you can still have control over how "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Αν δεν χρησιμποιείτε προσαρμοσμένους τίτλους αναρτήσεων μπορείτε ακόμα να "
+"έχετε τον έλεγχο πάνω στους τίτλους που παράγονται. Εδώ μπορείτε να "
+"επιλέξετε με ποια σειρά θα θέλατε να εμφανίζονται ο τίτλος της ανάρτησής σας "
+"και το όνομα του ιστολογίου σας, ή μπορείτε να αφαιρέσετε τελείως το όνομα "
+"του ιστολογίου σας από τον τίτλο."
+
+#: options_divi.php:628 options_divi.php:702 options_divi.php:738
+msgid "Define a character to separate BlogName and Post title"
+msgstr ""
+"Ορισμός χαρακτήρα για διαχωρισμό Ονόματος Ιστοσελίδας και Τίτλου Ανάρτησης"
+
+#: options_divi.php:632 options_divi.php:706
+msgid ""
+"Here you can change which character separates your blog title and post name "
+"when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Εδώ μπορείτε να αλλάξετε ποιοι χαρακτήρες διαχωρίσουν τον τίτλο του "
+"ιστολογίου σας και το όνομα της ανάρτησής σας όταν χρησιμοποιείτε τίτλους "
+"ανάρτησης που παράγονται αυτόματα. Συνήθεις τιμές είναι | ή –"
+
+#: options_divi.php:642
+msgid "Enable custom titles"
+msgstr "Ενεργοποίηση προσαρμοσμένων τίτλων"
+
+#: options_divi.php:646
+msgid ""
+"By default the theme creates post titles based on the title of your post and "
+"your blog name. If you would like to make your meta title different than "
+"your actual post title you can define a custom title for each post using "
+"custom fields. This option must be enabled for custom titles to work, and "
+"you must choose a custom field name for your title below."
+msgstr ""
+"Από προεπιλογή, το θέμα δημιουργεί τίτλους αναρτήσεων βασισμένους στον τίτλο "
+"της ανάρτησής σας και το όνομα του ιστολογίου σας. Αν θέλετε να "
+"διαφοροποιήσετε τον meta τίτλος σας από τον κανονικό τίτλος της ανάρτησης "
+"μπορείτε να ορίσετε έναν προσαρμοσμένο τίτλο για κάθε ανάρτηση, "
+"χρησιμοποιώντας τα προσαρμοσμένα πεδία. Αυτή η επιλογή πρέπει να "
+"ενεργοποιηθεί για να λειτουργήσουν οι προσαρμοσμένοι τίτλοι, και πρέπει να "
+"επιλέξετε παρακάτω ένα όνομα προσαρμοσμένου πεδίου για τον τίτλο σας."
+
+#: options_divi.php:649
+msgid "Enable custom description"
+msgstr "Ενεργοποιήστε την προσαρμοσμένη περιγραφή"
+
+#: options_divi.php:653
+msgid ""
+"If you would like to add a meta description to your post you can do so using "
+"custom fields. This option must be enabled for descriptions to be displayed "
+"on post pages. You can add your meta description using custom fields based "
+"off the custom field name you define below."
+msgstr ""
+"Αν θέλετε να προσθέσε μια meta περιγραφή στην ανάρτησή σας μπορείτε να το "
+"κάνετε χρησιμοποιώντας τα προσαρμοσμένα πεδία. Αυτή η επιλογή πρέπει να "
+"ενεργοποιηθεί για νε εμφανίζονται οι περιγραφές στις σελίδες ανάρτησης. "
+"Μπορείτε να προσθέστε τη meta περιγραφή σας χρησιμοποιώντας προσαρμοσμένα "
+"πεδία που βασίζονται στο όνομα προσαρμοσμένου πεδίου που ορίζετε παρακάτω."
+
+#: options_divi.php:656
+msgid "Enable custom keywords"
+msgstr "Ενεργοποιήστε προσαρμοσμένες λέξεις-κλειδιά"
+
+#: options_divi.php:660
+msgid ""
+"If you would like to add meta keywords to your post you can do so using "
+"custom fields. This option must be enabled for keywords to be displayed on "
+"post pages. You can add your meta keywords using custom fields based off the "
+"custom field name you define below."
+msgstr ""
+"Αν θέλετε να προσθέσετε meta λέξεις-κλειδιά στην ανάρτησή σας μπορείτε να το "
+"κάνετε χρησιμοποιώντας τα προσαρμοσμένα πεδία. Αυτή η επιλογή πρέπει να "
+"ενεργοποιηθεί για να εμφανίζονται οι λέξεις-κλειδιά σε σελίδες ανάρτησης. "
+"Μπορείτε να προσθέσετε τις meta λέξεις-κλειδιά χρησιμοποιώντας προσαρμοσμένα "
+"πεδία βασισμένα στο όνομα του προσαρμοσμένου πεδίου που ορίζετε παρακάτω."
+
+#: options_divi.php:663
+msgid "Enable canonical URL's"
+msgstr "Ενεργοποιήστε canonical URL's"
+
+#: options_divi.php:670
+msgid "Custom field Name to be used for title"
+msgstr "Εξατομικευμένο πεδίο Ονόματος για τον τίτλο"
+
+#: options_divi.php:674
+msgid ""
+"When you define your title using custom fields you should use this value for "
+"the custom field Name. The Value of your custom field should be the custom "
+"title you would like to use."
+msgstr ""
+"Όταν ορίζετε τον τίτλο χρησιμοποιώντας εξατομικευμένα πεδία, πρέπει να "
+"χρησιμοποιείτε αυτή την τιμή για το Όνομα του πεδίου. Η Τιμή του πεδίου "
+"πρέπρει να είναι ο τίτλος που θέλετε να χρησιμοποιήσετε."
+
+#: options_divi.php:678
+msgid "Custom field Name to be used for description"
+msgstr "Εξατομικευμένο πεδίο Ονόματος για την περιγραφή"
+
+#: options_divi.php:682
+msgid ""
+"When you define your meta description using custom fields you should use "
+"this value for the custom field Name. The Value of your custom field should "
+"be the custom description you would like to use."
+msgstr ""
+"Όταν ορίζετε τις meta περιγραφές χρησιμοποιώντας εξατομικευμένα πεδία, "
+"πρέπει να χρησιμοποιείτε αυτή την τιμή για το Όνομα του πεδίου. Η Τιμή του "
+"πεδίου, πρέπει να είναι η περιγραφή που θέλετε να χρησιμοποιήσετε."
+
+#: options_divi.php:686
+msgid "Custom field Name to be used for keywords"
+msgstr "Εξατομικευμένο πεδίο Ονόματος για τις λέξεις κλειδιά"
+
+#: options_divi.php:690
+msgid ""
+"When you define your keywords using custom fields you should use this value "
+"for the custom field Name. The Value of your custom field should be the meta "
+"keywords you would like to use, separated by comas."
+msgstr ""
+"Όταν ορίζετε τις λέξεις κλειδιά χρησιμοποιώντας εξατομικευμένα πεδία, πρέπει "
+"να χρησιμοποιείτε αυτή την τιμή για το Όνομα του πεδίου. Η Τιμή του πεδίου "
+"πρέπει να είναι οι meta λέξεις κλειδιά που θέλετε να χρησιμοποιήσετε, "
+"χωρισμένες με κόμμα."
+
+#: options_divi.php:699
+msgid ""
+"If you are not using cutsom post titles you can still have control over hw "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Αν δεν χρησιμοποιείτε εξατομικευμένους τίτλους αναρτήσεων, μπορείτε ακόμα να "
+"έχετε έλεγχο στο πως δημιουργούνται οι τίτλοι σας. Εδώ μπορείτε να επιλέξετε "
+"με ποια σειρά θα θέλατε το όνομα του ιστολογίου και ο τίτλος της ανάρτησης ή "
+"μπορείτε να αφαιρέσετε το όνομα του ιστολογίου από τον τίτλο τελείως."
+
+#: options_divi.php:723
+msgid "Enable meta descriptions"
+msgstr "Ενεργοποίηση meta περιγραφών"
+
+#: options_divi.php:727
+msgid ""
+"Check this box if you want to display meta descriptions on category/archive "
+"pages. The description is based off the category description you choose when "
+"creating/edit your category in wp-admin."
+msgstr ""
+"Επιλέξτε αυτό το κουτί αν θέλετε να εμφανίσετε meta περιγραφές στις σελίδες "
+"κατηγοριών και αρχειοθετήσεων. Η περιγραφή βασίζεται στην περιγραφή της "
+"κατηγορίας που επιλέγετε όταν φτιάχνετε/διαμορφώνετε την κατηγορία στο wp-"
+"admin"
+
+#: options_divi.php:730
+msgid "Choose title autogeneration method"
+msgstr "Επιλογή τρόπου δημιουργίας τίτλου"
+
+#: options_divi.php:735
+msgid ""
+"Here you can choose how your titles on index pages are generated. You can "
+"change which order your blog name and index title are displayed, or you can "
+"remove the blog name from the title completely."
+msgstr ""
+"Εδώ μπορείτε να επιλέξετε πως θα δημιουργούνται οι τίτλοι στις σελίδες "
+"αρχειοθέτησης. Μπορείτε να αλλάξετε με ποια σειρά θα εμφανίζονται το όνομα "
+"του ιστολογίου και ο τίτλος της ανάρτησης ή μπορείτε να αφαιρέσετε το όνομα "
+"του ιστολογίου από τον τίτλο τελείως"
+
+#: options_divi.php:742
+msgid ""
+"Here you can change which character separates your blog title and index page "
+"name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Εδώ μπορείτε να ορίσετε ποιοι χαρακτήρες θα διαχωρίζουν το τίτλο του "
+"ιστολογίου από το όνομα της ανάρτησης, αν χρησιμοποιείτε αυτόματη δημιουργία "
+"τίτλων αναρτήσεων. Συνήθεις τιμές είναι το | ή  -"
+
+#: options_divi.php:761
+msgid "Code Integration"
+msgstr "Ενσωμάτωση Κώδικα"
+
+#: options_divi.php:769
+msgid "Enable header code"
+msgstr "Ενεργοποίηση header code"
+
+#: options_divi.php:773
+msgid ""
+"Disabling this option will remove the header code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Η απενεργοποίηση αυτής της επιλογής θα αφαιρέσει το παρακάτω κομμάτι κώδικα "
+"από το header του ιστολογίου σας. Αυτό θα σας επιτρέψει να αφαιρέσετε τον "
+"κώδικα, ενώ παράλληλα το σώζετε για μετέπειτα χρήση."
+
+#: options_divi.php:776
+msgid "Enable body code"
+msgstr "Ενεργοποίηση < body > κώδικα"
+
+#: options_divi.php:780
+msgid ""
+"Disabling this option will remove the body code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Η απενεργοποίηση αυτής της επιλογής θα αφαιρέσει το παρακάτω κομμάτι κώδικα "
+"από το body του ιστολογίου σας. Αυτό θα σας επιτρέψει να αφαιρέσετε τον "
+"κώδικα, ενώ παράλληλα το σώζετε για μετέπειτα χρήση."
+
+#: options_divi.php:783
+msgid "Enable single top code"
+msgstr "Ενεργοποίηση μοναδικού κεφαλικού κώδικα"
+
+#: options_divi.php:787
+msgid ""
+"Disabling this option will remove the single top code below from your blog. "
+"This allows you to remove the code while saving it for later use."
+msgstr ""
+"Η απενεργοποίηση αυτής της επιλογής θα αφαιρέσει το παρακάτω κομμάτι κώδικα "
+"από το ιστολόγιο σας. Αυτό θα σας επιτρέψει να αφαιρέσετε τον κώδικα, ενώ "
+"παράλληλα το σώζετε για μετέπειτα χρήση."
+
+#: options_divi.php:790
+msgid "Enable single bottom code"
+msgstr "Ενεργοποίηση μοναδικού τελευταίου κώδικα"
+
+#: options_divi.php:794
+msgid ""
+"Disabling this option will remove the single bottom code below from your "
+"blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+"Η απενεργοποίηση αυτής της επιλογής θα αφαιρέσει το μοναδικό παρακάτω "
+"κομμάτι κώδικα από το ιστολόγιο σας. Αυτό θα σας επιτρέψει να αφαιρέσετε τον "
+"κώδικα, ενώ παράλληλα το σώζετε για μετέπειτα χρήση."
+
+#: options_divi.php:797
+msgid "Add code to the < head > of your blog"
+msgstr "Προσθήκη κώδικα στο < head > του ιστολογίου σας"
+
+#: options_divi.php:801
+msgid ""
+"Any code you place here will appear in the head section of every page of "
+"your blog. This is useful when you need to add javascript or css to all "
+"pages."
+msgstr ""
+"Οποιοσδήποτε κώδικας μπει εδώ, θα εμφανίζεται στο head κομμάτι κάθε σελίδας "
+"του ιστολογίου σας. Αυτό είναι χρήσιμο όταν θέλετε να προσθέσετε Javascript "
+"ή CSS σε όλες τις σελίδες."
+
+#: options_divi.php:804
+msgid ""
+"Add code to the < body > (good for tracking codes such as google analytics)"
+msgstr ""
+"Προσθήκη κώδικα στο < body > (χρήσιμο για tracking κώδικες όπως το Google "
+"Analytics)"
+
+#: options_divi.php:808
+msgid ""
+"Any code you place here will appear in body section of all pages of your "
+"blog. This is usefull if you need to input a tracking pixel for a state "
+"counter such as Google Analytics."
+msgstr ""
+"Κώδικας που θα τοποθετήσετε εδώ, θα ενσωματωθεί στο body κομμάτι όλων των "
+"σελίδων του ιστολογίου σας. Αυτό είναι χρήσιμο αν θέλετε να εισάγετε ένα "
+"tracking pixel για ένα μετρητή επισκεψιμότητας όπως το Google Analytics."
+
+#: options_divi.php:811
+msgid "Add code to the top of your posts"
+msgstr "Προσθήκη κώδικα στην κορυφή των αναρτήσεών σας"
+
+#: options_divi.php:815 options_divi.php:822
+msgid ""
+"Any code you place here will be placed at the top of all single posts. This "
+"is useful if you are looking to integrating things such as social "
+"bookmarking links."
+msgstr ""
+"Κώδικας που θα τοποθετήσετε εδώ, θα ενσωματωθεί στην αρχή όλων των "
+"αναρτήσεων σας. Αυτό είναι χρήσιμο αν θέλετε να ενσωματώσετε λειτουργίες "
+"όπως συνδέσμους κοινωνικής δικτύωσης."
+
+#: options_divi.php:818
+msgid "Add code to the bottom of your posts, before the comments"
+msgstr "Προσθέστε κώδικα στο τέλος των  αναρτήσεών σας, πριν τα σχόλια"
+
+#: options_divi.php:849
+msgid "Username"
+msgstr "Όνομα Χρήστη"
+
+#: options_divi.php:854 options_divi.php:866
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em> Πριν μπορέσετε να λάβετε ενημερώσεις προϊόντων, πρέπει πρώτα να "
+"επαληθευτεί η  Elegant Themes συνδρομή σας. Για να γίνει αυτό, θα πρέπει να "
+"εισάγετε τόσο το όνομα χρήστη Elegant Themes όσο και το κλειδί Elegant "
+"Themes API στην καρτέλα Ενημερώσεις στις ρυθμίσεις θέματος και plugin. Για "
+"να βρείτε το κλειδί API, <a href=\"https://www.elegantthemes.com/members-"
+"area/api/\" target=\"_blank\">log in</a> to your Elegant Themes account and "
+"navigate to the <strong>Account > API Key</strong> page. <a href=\"http://"
+"www.elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">Μάθετε περισσότερα εδώ</a></em>. Αν λαμβάνετε ακόμη αυτό το μήνυμα, "
+"παρακαλούμε σιγουρευτείτε ότι το όνομα χρήστη και το Κλειδί API έχουν "
+"εισαχθεί σωστά"
+
+#: options_divi.php:861
+msgid "API Key"
+msgstr "Κλειδί API"
+
+#: options_divi.php:887
+msgid "Manage Un-widgetized Advertisements"
+msgstr "Διαχείριση Διαφημίσεων"
+
+#: options_divi.php:895
+msgid "Enable Single Post 468x60 banner"
+msgstr "Ενεργοποίηση 468χ60 banner Μονής Ανάρτησης"
+
+#: options_divi.php:899
+msgid ""
+"Enabling this option will display a 468x60 banner ad on the bottom of your "
+"post pages below the single post content. If enabled you must fill in the "
+"banner image and destination url below."
+msgstr ""
+"Η ενεργοποίηση αυτής της επιλογής, θα εμφανίσει μία banner διαφήμιση 468χ60 "
+"στο τέλος της σελίδας αναρτήσεων, κάτω από το περιεχόμενο των αναρτήσεων. Αν "
+"ενεργοποιηθεί, πρέπει να συμπληρώσετε τη banner εικόνα και τον προορισμό του "
+"URL παρακάτω."
+
+#: options_divi.php:902
+msgid "Input 468x60 advertisement banner image"
+msgstr "Εισάγετε banner εικόνας διαφήμισης 468χ60"
+
+#: options_divi.php:906
+msgid "Here you can provide 468x60 banner image url"
+msgstr "Εδώ μπορείτε να εισάγετε το URL μιας banner εικόνας 468χ60"
+
+#: options_divi.php:910
+msgid "Input 468x60 advertisement destination url"
+msgstr "Εισάγετε το URL προορισμού μιας 468χ60 διαφήμισης"
+
+#: options_divi.php:914
+msgid "Here you can provide 468x60 banner destination url"
+msgstr "Εδώ μπορείτε να εισάγετε το URL ενός 468χ60 banner"
+
+#: options_divi.php:918
+msgid "Input 468x60 adsense code"
+msgstr "Εισάγετε κωδικό Google Adsense 468χ60"
+
+#: options_divi.php:922
+msgid "Place your adsense code here."
+msgstr "Εισάγετε τον Google Adsense κωδικό σας εδώ."
+
+#: page-template-blank.php:49 page.php:48 single-project.php:55 single.php:106
+msgid "Pages:"
+msgstr "Σελίδες:"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:114
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr " "
+
+#: functions.php:8277
+msgctxt "WooCommerce items number"
+msgid "%1$s Item"
+msgid_plural "%1$s Items"
+msgstr[0] "%1$s Στοιχείο"
+msgstr[1] "%1$s Στοιχεία"
+
+#: single-project.php:68
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr " "
+
+#: single-project.php:69
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr " "
+
+#~ msgid "MailChimp API Key"
+#~ msgstr "MailChimp API Κλειδί"
+
+#~ msgid ""
+#~ "Enter your MailChimp API key. You can create an api key <a target=\"_blank"
+#~ "\" href=\"%1$s\">here</a>"
+#~ msgstr ""
+#~ "Εισάγετε το MailChimp API κλειδί. Μπορεί να δημιουργήσετε ένα api κλειδί "
+#~ "<a target=\"_blank\" href=\"%1$s\">here</a>"
+
+#~ msgid "Aweber Authorization"
+#~ msgstr "Aweber Εξουσιοδότηση"
+
+#~ msgid "Authorize your Aweber account here."
+#~ msgstr "Εξουσιοδοτήστε τον Aweber λογαριασμό σας εδώ."
+
+#~ msgid "Regenerate MailChimp Lists"
+#~ msgstr "Ανανέωση λιστών MailChimp"
+
+#~ msgid ""
+#~ "By default, MailChimp lists are cached for one day. If you added new "
+#~ "list, but it doesn't appear within the Email Optin module settings, "
+#~ "activate this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Από προεπιλογή, οι λίστες MailChimp αποθηκεύονται προσωρινά για μία "
+#~ "ημέρα. Εάν έχετε προσθέσει νέα λίστα, αλλά δεν εμφανιστεί μέσα στις "
+#~ "ρυθμίσεις της μονάδας ηλεκτρονικού ταχυδρομείου Optin, ενεργοποιήστε αυτή "
+#~ "την επιλογή. Μην ξεχάσετε να τον απενεργοποιήσετε τη στιγμή η λίστα έχει "
+#~ "αναγεννηθεί."
+
+#~ msgid "Regenerate Aweber Lists"
+#~ msgstr "Ανανέωση λιστών Aweber"
+
+#~ msgid ""
+#~ "By default, Aweber lists are cached for one day. If you added new list, "
+#~ "but it doesn't appear within the Email Optin module settings, activate "
+#~ "this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Από προεπιλογή, οι λίστες Aweber αποθηκεύονται προσωρινά για μία ημέρα. "
+#~ "Εάν έχετε προσθέσει νέα λίστα, αλλά δεν εμφανιστεί μέσα στις ρυθμίσεις "
+#~ "της μονάδας ηλεκτρονικού ταχυδρομείου Optin, ενεργοποιήστε αυτή την "
+#~ "επιλογή. Μην ξεχάσετε να τον απενεργοποιήσετε τη στιγμή η λίστα έχει "
+#~ "αναγεννηθεί."
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Before you "
+#~ "can update your Elegant Themes, you must first install the <a href="
+#~ "\"https://www.elegantthemes.com/members-area/documentation.html#updater\" "
+#~ "target=\"_blank\">Elegant Updater Plugin</a> to authenticate your "
+#~ "subscription.</em>"
+#~ msgstr ""
+#~ "Υπάρχει νεότερη έκδοση του %1$s διαθέσιμη. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">Εμφάνιση λεπτομερειών έκδοσης %3$s</a>. "
+#~ "<em>Πριν μπορέσετε να ενημερώσετε τα Elegan Themes, πρέπει πρώτα να "
+#~ "εγκαταστήσετε το <a href=\"https://www.elegantthemes.com/members-area/"
+#~ "documentation.html#updater\" target=\"_blank\">Elegant Updater Plugin</a> "
+#~ "για να επιβεβαιώσετε την εγγραφή σας.</em>"
+
+#~ msgid ""
+#~ "Before you can update your Elegant Themes, you must first install the <a "
+#~ "href=\"https://www.elegantthemes.com/members-area/documentation."
+#~ "html#updater\" target=\"_blank\">Elegant Updater Plugin</a> to "
+#~ "authenticate your subscription."
+#~ msgstr ""
+#~ "Πριν μπορέσετε να ενημερώσετε τα Elegant Themes, πρέπει πρώτα να "
+#~ "εγκαταστήσετε <a href=\"https://www.elegantthemes.com/members-area/"
+#~ "documentation.html#updater\" target=\"_blank\">Elegant Updater Plugin</a> "
+#~ "για να επιβεβαιώσετε την εγγραφή σας."

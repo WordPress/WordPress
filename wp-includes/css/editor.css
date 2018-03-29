@@ -189,7 +189,7 @@ div.mce-tab:focus {
 
 .mce-window .wp-help-th-center td:nth-child(odd),
 .mce-window .wp-help-th-center th:nth-child(odd) {
-	text-align: center;
+    text-align: center;
 }
 
 /* TinyMCE menus */
@@ -507,11 +507,11 @@ div.mce-path {
 
 /* mce listbox */
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
-	border-radius: 0;
-	direction: ltr;
-	background: #fff;
-	border: 1px solid #ddd;
-	box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, .2);
+    border-radius: 0;
+    direction: ltr;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, .2);
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover,
@@ -575,7 +575,7 @@ div.mce-path {
 }
 
 .mce-menu .mce-menu-item.mce-disabled:hover {
-	background: #ccc;
+    background: #ccc;
 }
 
 /* Menubar */
@@ -776,11 +776,11 @@ div.mce-menu .mce-menu-item-sep,
 
 /* TinyMCE icons */
 .mce-ico {
-	font-family: tinymce, Arial;
+	font-family: 'tinymce', Arial;
 }
 
 .mce-btn-small .mce-ico {
-	font-family: tinymce-small, Arial;
+    font-family: 'tinymce-small', Arial;
 }
 
 .mce-toolbar .mce-ico {
@@ -1819,7 +1819,7 @@ div.wp-link-input input {
 }
 
 html:lang(he-il) .rtl .wp-switch-editor,
-html:lang(he-il) .rtl .quicktags-toolbar input {
+html:lang(he-il) .rtl .quicktags-toolbar input  {
  	font-family: Arial, sans-serif;
 }
 

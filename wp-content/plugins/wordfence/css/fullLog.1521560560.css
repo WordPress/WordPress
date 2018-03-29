@@ -1,0 +1,21 @@
+body {
+	background: #fff;
+	font-family: Arial;
+	font-size: 12px;
+}
+h1 {
+	background: url(../images/wordfence-logo-64x64.png);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	height: 64px;
+	vertical-align: middle;
+	padding: 10px 0 0 70px;
+	margin: 20px 0 10px 0;
+	font-size: 34px;
+	color: #777;
+}
+.error {
+	color: #F00;
+	font-weight: bold;
+	margin: 20px 0 20px 0;
+}

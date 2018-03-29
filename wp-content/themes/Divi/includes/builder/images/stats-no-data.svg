@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow:visible" class="et-graph-icon">
+	<style type="text/css">
+	/* A/B Testing :: View stats button animation ; */
+	.et-graph-icon .et-graph-bar {
+		transform: scaleY(1);
+		transform-origin: bottom;
+		animation-name: et-graph-bar;
+		animation-duration: 1.6s;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		fill: #00B9DE;
+	}
+
+	@keyframes et-graph-bar {
+		0%, 100% {
+			transform: scaleY(1);
+		}
+		15%, 55% {
+			transform: scaleY(0.5);
+		}
+	}
+
+	/* Graph Bar (2) */
+	.et-graph-icon .et-graph-bar-2 {
+		animation-name: et-graph-bar-2;
+	}
+
+	@keyframes et-graph-bar-2 {
+		0%, 100% {
+			transform: scaleY(1);
+		}
+		30%, 70% {
+			transform: scaleY(0.6);
+		}
+	}
+
+	/* Graph Bar (3) */
+	.et-graph-icon .et-graph-bar-3 {
+		animation-name: et-graph-bar-3;
+	}
+
+	@keyframes et-graph-bar-3 {
+		0%, 100% {
+			transform: scaleY(1);
+		}
+		45%, 85% {
+			transform: scaleY(0.7);
+		}
+	}
+	</style>
+
+	<path d="M2,8 C3.1045695,8 4,8.88670635 4,9.99810135 L4,14.0018986 C4,15.1054196 3.11227036,16 2,16 C0.8954305,16 0,15.1132936 0,14.0018986 L0,9.99810135 C0,8.89458045 0.887729645,8 2,8 Z" class="et-graph-bar et-graph-bar-1"></path>
+	<path d="M6,6.0085302 C6,4.8992496 6.88772964,4 8,4 C9.1045695,4 10,4.90195036 10,6.0085302 L10,13.9914698 C10,15.1007504 9.11227036,16 8,16 C6.8954305,16 6,15.0980496 6,13.9914698 L6,6.0085302 L6,6.0085302 Z" class="et-graph-bar et-graph-bar-2"></path>
+	<path d="M12,1.99406028 C12,0.892771196 12.8877296,0 14,0 C15.1045695,0 16,0.894513756 16,1.99406028 L16,14.0059397 C16,15.1072288 15.1122704,16 14,16 C12.8954305,16 12,15.1054862 12,14.0059397 L12,1.99406028 L12,1.99406028 Z" class="et-graph-bar et-graph-bar-3"></path>
+</svg>

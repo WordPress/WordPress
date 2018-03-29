@@ -1,0 +1,696 @@
+$green: #7ad03a;
+$red: #a00;
+$orange: #ffba00;
+$blue: #2ea2cc;
+
+.about-wrap {
+    &.redux-status {
+        .updated,
+        .error {
+            margin-top: 10px;
+        }
+
+        .updated {
+            &.redux-message {
+                display: block !important;
+            }
+        }
+
+        .redux-message {
+            position: relative;
+            border-left-color: #00A2E3 !important;
+            overflow: hidden;
+
+            a.skip,
+            a.docs {
+                opacity: 0.5;
+                text-decoration: none !important;
+            }
+        }
+
+        #debug-report {
+            display: none;
+            margin: 10px 0;
+            padding: 0;
+            position: relative;
+
+            textarea {
+                font-family: monospace;
+                width: 100%;
+                margin: 0;
+                height: 300px;
+                padding: 20px;
+                -moz-border-radius: 0;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                resize: none;
+                font-size: 12px;
+                line-height: 20px;
+                outline: 0;
+            }
+        }
+
+        table.redux_status_table {
+            margin-bottom: 1em;
+
+            tr {
+                &:nth-child(2n) {
+                    th,
+                    td {
+                        background: #fcfcfc;
+                    }
+                }
+            }
+
+            th {
+                font-weight: 700;
+                padding: 9px;
+            }
+
+            td:first-child {
+                width: 33%;
+            }
+
+            td.help {
+                width: 1em;
+            }
+
+            td {
+                padding: 9px;
+                //font-size: 1.1em;
+
+                mark {
+                    background: transparent none;
+                }
+
+                mark.yes {
+                    color: $green;
+                }
+
+                mark.no {
+                    color: #999;
+                }
+
+                mark.error {
+                    color: $red;
+                }
+
+                ul {
+                    margin: 0;
+                }
+            }
+
+            .redux-hint-qtip {
+                cursor: help;
+            }
+        }
+
+    }
+}
+
+.about-wrap {
+    #footer-upgrade {
+        display: none;;
+    }
+
+    .redux-badge {
+        position: absolute;
+        top: 0;
+
+        background: #00A2E3;
+        padding: 20px;
+
+        color: #efefef;
+        margin: 5px 0 0 0;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+
+        &:before {
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size: 80px;
+            font-weight: normal;
+            width: 165px;
+            height: 165px;
+            line-height: 165px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .el {
+            background: #00A2E3;
+            display: block !important;
+            font-size: 8em;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        span {
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            background: rgba(50, 50, 49, 0.47);
+            left: 0;
+            right: 0;
+            padding: 8px;
+        }
+    }
+
+    .redux-feature {
+        overflow: visible !important;
+        *zoom: 1;
+
+        &:before,
+        &:after {
+            content: " ";
+            display: table;
+        }
+
+        &:after {
+            clear: both;
+        }
+
+    }
+
+    h3 + .redux-feature {
+        margin-top: 0;
+    }
+
+    .feature-rest div {
+        width: 50% !important;
+
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        margin: 0 !important;
+
+        &.icon:before {
+            font-weight: normal;
+            width: 100%;
+            font-size: 170px;
+            line-height: 125px;
+            color: #9c5d90;
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+
+    div.icon {
+        width: 0 !important;
+        padding: 0;
+        margin: 20px 0 !important;
+    }
+
+    .about-integrations {
+        background: #fff;
+        margin: 20px 0;
+        padding: 1px 20px 10px;
+    }
+
+    .changelog {
+        h2 {
+            line-height: 1.4;
+            padding-bottom: 0;;
+        }
+
+        .feature-section {
+            padding-top: 1.4em;
+        }
+
+        .prettyprint {
+            overflow-wrap: break-word;
+        }
+
+        .gist-it-gist {
+            .gist-file {
+                border: 0 !important;
+                background: 0 !important;
+
+                .gist-data {
+                    border: 0 !important;
+                    background: 0 !important;
+
+                    pre {
+                        padding-top: 10px !important;
+                        word-break: break-word;
+                    }
+                }
+            }
+        }
+    }
+
+    .theme-screenshot {
+        color: #eee;
+        transition: all 0.5s;
+        &:hover {
+            color: #fff;
+        }
+
+        i {
+            text-align: center;
+            display: block;
+            margin: 10px;
+            font-size: 90px;
+            line-height: 200px;
+            transition: all 0.5s ease;
+        }
+    }
+
+    .theme-browser {
+        .theme {
+            transition: all 0.5s;
+            &:hover .theme-screenshot i {
+                transition: all 0.5s;
+                font-size: 120px;
+            }
+
+            .theme-screenshot:after {
+                content: inherit;
+                display: inherit;
+                padding-top: inherit;
+            }
+        }
+    }
+
+    .theme-screenshot {
+        figure {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            margin: 0;
+
+            i {
+                position: relative;
+                display: block;
+                font-size: 11em;
+                opacity: 0.8;
+            }
+
+            figcaption {
+                padding: 15px;
+                color: #fff;
+                text-transform: uppercase;
+                font-size: 1.25em;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+
+                &:before,
+                &:after {
+                    pointer-events: none;
+                }
+            }
+
+            figcaption,
+            figcaption > a {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            figcaption > a {
+                z-index: 1000;
+                text-indent: 200%;
+                white-space: nowrap;
+                font-size: 0;
+                opacity: 0;
+            }
+
+            p {
+                margin: 0;
+                letter-spacing: 1px;
+                font-size: 68.5%;
+            }
+
+            i {
+                opacity: 0.7;
+                -webkit-transition: opacity 0.35s;
+                transition: opacity 0.35s;
+            }
+        }
+    }
+
+    .theme:hover {
+        figcaption {
+            &::before,
+            &::after {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+
+        i {
+            opacity: 0.3;
+        }
+
+        p {
+            opacity: 1;
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            text-shadow: 2px 2px 1px rgba(0, 0, 0, .3);
+        }
+
+    }
+
+    figure {
+        figcaption {
+            &::before,
+            &::after {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                bottom: 15px;
+                left: 15px;
+                content: '';
+                opacity: 0;
+                -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+                transition: opacity 0.35s, transform 0.35s;
+            }
+
+            &::before {
+                border-top: 1px solid #fff;
+                border-bottom: 1px solid #fff;
+                -webkit-transform: scale(0, 1);
+                transform: scale(0, 1);
+            }
+
+            &::after {
+                border-right: 1px solid #fff;
+                border-left: 1px solid #fff;
+                -webkit-transform: scale(1, 0);
+                transform: scale(1, 0);
+            }
+        }
+
+        p {
+            padding: 10px;
+            text-transform: none;
+            opacity: 0;
+            margin-top: 0 !important;
+            -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+            transition: opacity 0.35s, transform 0.35s;
+            -webkit-transform: translate3d(0, 20px, 0);
+            transform: translate3d(0, 20px, 0);
+        }
+    }
+}
+
+.redux-message,
+p.redux-actions {
+    .twitter-share-button {
+        margin-top: -3px;
+        margin-left: 3px;
+        vertical-align: middle;
+    }
+
+    a {
+        &.donate,
+        &.review-us {
+            opacity: .5;
+            text-decoration: none !important;
+        }
+    }
+}
+
+#redux-message {
+    margin-top: 15px !important;
+    display: block !important;
+    margin: 5px 0 15px;
+    border-color: #00A2E3;
+
+    h4 {
+        margin-top: .5em;
+    }
+}
+
+@media only screen and (min-width: 2000px) {
+    #wpwrap .theme-browser .theme:nth-child(4n),
+    #wpwrap .theme-browser .theme:nth-child(5n) {
+        margin-right: 3%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .about-wrap h2 .nav-tab {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .about-wrap h2.nav-tab-wrapper {
+        padding: 0;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1120px) {
+    .theme-browser .theme:nth-child(odd) {
+        margin-right: 5% !important;
+    }
+
+    .theme-browser .theme {
+        width: 47.5% !important;
+        margin-right: auto !important;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .theme-browser .theme {
+        width: 100% !important;
+        margin-right: 0;
+    }
+}
+
+#support_div {
+    input.hash {
+        text-align: center;
+    }
+    .hide {
+        display: none;
+    }
+
+    .previous {
+        opacity: .8;
+    }
+
+    /*form styles*/
+    #supportform {
+        /*width: 500px;*/
+        margin-top: 10px;
+        text-align: center;
+        position: relative;
+        fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 3px;
+            box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+            padding: 20px 30px;
+
+            box-sizing: border-box;
+            width: 86%;
+            margin: 0 7%;
+            /*stacking fieldsets above each other*/
+            position: absolute;
+            /*Hide all except first fieldset*/
+            &:not(:first-of-type) {
+                display: none;
+            }
+        }
+        /*inputs*/
+        input, textarea {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: #2C3E50;
+            font-size: 13px;
+        }
+
+        input.checkbox {
+            width: initial;
+            margin-top: 10px;
+        }
+
+        /*buttons*/
+        .action-button {
+            width: 100px;
+            background: #27AE60;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 1px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px;
+            &:disabled {
+                opacity: .5;
+            }
+            &:hover, &:focus {
+                box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+            }
+        }
+        /*headings*/
+        .fs-title {
+            font-size: 15px;
+            text-transform: uppercase;
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+
+        .fs-subtitle {
+            font-weight: normal;
+            font-size: 13px;
+            text-align: left;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        #toDebug li {
+            text-align: left;
+            width: 45%;
+            float: left;
+        }
+        #user_type {
+            width: 100%;
+            td {
+                cursor: pointer;
+                width: 50%;
+                i {
+                    font-size: 130px;
+                    margin-bottom: 10px;
+                }
+                &:hover i {
+                    color: #176C8E;
+                }
+                small {
+                    line-height: 2.5em;
+                    font-style: italic;
+                }
+            }
+        }
+        #support_hash {
+            text-align: center;
+            word-break: break-all;
+        }
+    }
+
+    .breadcrumb {
+        /*centering*/
+        display: inline-block;
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+        border-radius: 5px;
+        margin: 15px 0;
+        /*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
+        counter-reset: flag;
+        li {
+            text-decoration: none;
+            outline: none;
+            display: block;
+            float: left;
+            font-size: 12px;
+            transition: all 0.5s;
+            width: auto;
+            margin: 0;
+            line-height: 36px;
+            color: white;
+            /*need more margin on the left of links to accomodate the numbers*/
+            padding: 0 10px 0 60px;
+            background: #666;
+            //background: linear-gradient(#666, #333);
+            position: relative;
+            /*since the first link does not have a triangle before it we can reduce the left padding to make it look consistent with other links*/
+            &:first-child {
+                padding-left: 46px;
+                border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+                &:before {
+                    left: 14px;
+                }
+            }
+            &:last-child {
+                border-radius: 0 5px 5px 0; /*this was to prevent glitches on hover*/
+                padding-right: 20px;
+                /*we dont need an arrow after the last link*/
+                &:after {
+                    content: none;
+                }
+            }
+            &.active {
+                background: #333;
+                //background: linear-gradient(#333, #000);
+                &:after {
+                    background: #333;
+                    //background: linear-gradient(135deg, #333, #000);
+                }
+                &:before {
+                    background: #555;
+                }
+            }
+            /*adding the arrows for the breadcrumbs using rotated pseudo elements*/
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: -18px; /*half of square's length*/
+                /*same dimension as the line-height of .breadcrumb a */
+                width: 36px;
+                height: 36px;
+                /*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's:
+                length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+                if diagonal required = 1; length = 1/1.414 = 0.707*/
+                transform: scale(0.707) rotate(45deg);
+                /*we need to prevent the arrows from getting buried under the next link*/
+                z-index: 1;
+                /*background same as links but the gradient will be rotated to compensate with the transform applied*/
+                background: #666;
+                //background: linear-gradient(135deg, #666, #333);
+                /*stylish arrow design using box shadow*/
+                box-shadow: 2px -2px 0 2px rgba(0, 0, 0, 0.4),
+                3px -3px 0 2px rgba(255, 255, 255, 0.1);
+                /*
+                    5px - for rounded arrows and
+                    50px - to prevent hover glitches on the border created using shadows*/
+                border-radius: 0 5px 0 50px;
+                transition: all 0.5s;
+            }
+            /*we will use the :before element to show numbers*/
+            &:before {
+                transition: all 0.5s;
+                content: counter(flag);
+                counter-increment: flag;
+                /*some styles now*/
+                border-radius: 100%;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                margin: 8px 0;
+                position: absolute;
+                top: 0;
+                left: 30px;
+                background: #444;
+                //background: linear-gradient(#444, #222);
+                font-weight: bold;
+            }
+
+        }
+    }
+}

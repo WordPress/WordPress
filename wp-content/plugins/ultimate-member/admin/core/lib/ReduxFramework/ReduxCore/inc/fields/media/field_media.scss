@@ -1,0 +1,61 @@
+.redux-main {
+    .button.remove-image,
+    .removeCSS {
+        margin-left: 10px;
+        color: #ef521d;
+
+        &:hover {
+            color: red;
+        }
+    }
+
+    .upload_button_div {
+        margin-bottom: 5px;
+    }
+
+    .upload-error {
+        float: left;
+        color: #666;
+        font-size: 10px;
+        font-weight: bold;
+        text-decoration: none;
+        text-shadow: 1px 1px 0 #FFFFFF;
+        margin: 0 10px 0 0;
+        padding: 3px 10px;
+        background: #FFDFEC;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .reset-button {
+        font-family: Arial, Verdana, sans-serif;
+        float: left;
+        margin: 0;
+        color: #ef521d;
+        border-color: #bbb;
+    }
+
+    .redux-option-image {
+        max-height: 340px;
+        max-width: 340px;
+        padding: 5px;
+        margin-bottom: 0;
+        margin-top: 10px;
+        margin-right: 15px;
+        border: 1px solid #e3e3e3;
+        background: #f7f7f7;
+        -moz-border-radius: 3px;
+        -khtml-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+    }
+
+    .redux-main .upload {
+        width: 80% !important;
+    }
+
+    .button {
+        margin-top: 2px;
+    }
+}

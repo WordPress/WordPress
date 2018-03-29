@@ -1,0 +1,197 @@
+.redux-section {
+    p.customize-section-description {
+        margin-top: 22px;
+        word-break: break-word;
+        &.legacy {
+            margin-top: 7px;
+        }
+    }
+}
+
+.control-section-themes .accordion-section-title {
+    margin: 0;
+}
+
+#customize-controls {
+    .customize-info {
+        margin-bottom: 0;
+    }
+    .redux-section .accordion-section-content {
+        background: #FCFCFC;
+    }
+}
+
+.redux-section .accordion-section-title i,
+.redux-field .accordion-field-title i,
+.redux-panel .accordion-section-title i {
+    margin-right: 5px;
+}
+
+.accordion-section.redux-main {
+    background: inherit;
+    margin-left: inherit;
+    border-left: inherit;
+    -moz-box-shadow: inherit;
+    -webkit-box-shadow: inherit;
+    padding: inherit;
+    box-shadow: inherit;
+}
+
+.redux_field_th {
+    padding: 13px 0px 0px 0px;
+}
+
+.redux-main {
+    .redux-field-container {
+        padding: 10px 0;
+    }
+    .select_wrapper {
+        float: none;
+        width: 100%;
+        display: inline-block;
+    }
+    .select2-container {
+        margin-right: 0 !important;
+        margin-bottom: 5px !important;
+        width: 100% !important;
+    }
+    .select_wrapper:nth-child(odd) {
+        margin-right: 0;
+    }
+    .redux-option-image {
+        max-width: 42% !important;
+        margin-right: 3%;
+    }
+    .customize-control {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 4px;
+    }
+    .customize-control:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+    .upload {
+        width: 100% !important;
+    }
+    h3 {
+        margin-top: inherit;
+    }
+    .redux-container-raw {
+        margin-top: 22px;
+        word-break: break-word;
+        padding: 0 !important;
+    }
+    .redux-container-password input {
+        width: 100%;
+    }
+}
+
+.select2-drop {
+    z-index: 999999;
+}
+
+.rAdsContainer {
+    line-height: 0;
+    border: 0;
+    /*margin-top: -15px;*/
+    /*margin-bottom: -15px;*/
+}
+
+.customize-control-redux-raw {
+    list-style: none;
+}
+
+.rAds {
+    position: inherit !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    text-align: center;
+    margin-bottom: 0;
+    line-height: 0;
+    -webkit-transition: left ease-in-out .18s;
+    transition: left ease-in-out .18s;
+    img {
+        -webkit-transition: left ease-in-out .18s;
+        transition: left ease-in-out .18s;
+    }
+}
+
+@mixin adminCustomizerThemeColorOverrides($highlight-color, $text-color) {
+
+    $menu-highlight-background: $highlight-color;
+    $menu-highlight-text: $text-color;
+
+    #customize-theme-controls {
+        .control-section.control-section-redux:hover > h3.accordion-section-title,
+        .control-section.control-section-redux h3.accordion-section-title:hover,
+        .control-section.control-section-redux.open h3.accordion-section-title,
+        .control-section.control-section-redux h3.accordion-section-title:focus,
+        .control-panel.control-panel-redux:hover > h3.accordion-section-title,
+        .control-panel.control-panel-redux h3.accordion-section-title:hover,
+        .control-panel.control-panel-redux.open h3.accordion-section-title,
+        .control-panel.control-panel-redux h3.accordion-section-title:focus {
+            color: $text-color;
+            background: $highlight-color;
+            &:after {
+                color: $text-color;
+            }
+        }
+        .control-section.control-panel.control-panel-redux>.accordion-section-title:after {
+            background: transparent;
+            border-left: none;
+        }
+        .control-panel-redux .customize-panel-back, .redux-section .customize-section-back {
+            &:hover {
+                background: $highlight-color;
+                color: $text-color;
+            }
+        }
+    }
+}
+
+/* Light fresh theme */
+.admin-color-fresh {
+    @include adminCustomizerThemeColorOverrides(#0073aa, #fff);
+}
+
+/* Ectoplasm theme */
+.admin-color-ectoplasm {
+    @include adminCustomizerThemeColorOverrides(#a3b745, #fff);
+}
+
+/* Light admin theme */
+.admin-color-light {
+    @include adminCustomizerThemeColorOverrides(#888, #fff);
+}
+
+/* Blue admin theme */
+.admin-color-blue {
+    @include adminCustomizerThemeColorOverrides(#096484, #fff);
+}
+
+/* Coffee admin theme */
+.admin-color-coffee {
+    @include adminCustomizerThemeColorOverrides(#c7a589, #fff);
+}
+
+/* Ectoplasm admin theme */
+.admin-color-ectoplasm {
+    @include adminCustomizerThemeColorOverrides(#523f6d, #fff);
+}
+
+/* Midnight admin theme */
+.admin-color-midnight {
+    @include adminCustomizerThemeColorOverrides(#e14d43, #fff);
+}
+
+/* Ocean admin theme */
+.admin-color-ocean {
+    @include adminCustomizerThemeColorOverrides(#9ebaa0, #fff);
+}
+
+/* Sunrise admin theme */
+.admin-color-sunrise {
+    @include adminCustomizerThemeColorOverrides(#cf4944, #fff);
+}

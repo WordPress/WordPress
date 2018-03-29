@@ -52,7 +52,7 @@ class WP_Metadata_Lazyloader {
 	 */
 	public function __construct() {
 		$this->settings = array(
-			'term'    => array(
+			'term' => array(
 				'filter'   => 'get_term_metadata',
 				'callback' => array( $this, 'lazyload_term_meta' ),
 			),
@@ -97,7 +97,7 @@ class WP_Metadata_Lazyloader {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array                  $object_ids  Array of object IDs.
+		 * @param array                  $object_ids  Object IDs.
 		 * @param string                 $object_type Type of object being queued.
 		 * @param WP_Metadata_Lazyloader $lazyloader  The lazy-loader object.
 		 */

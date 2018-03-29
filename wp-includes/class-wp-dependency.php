@@ -74,9 +74,8 @@ class _WP_Dependency {
 	 */
 	public function __construct() {
 		@list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = func_get_args();
-		if ( ! is_array( $this->deps ) ) {
+		if ( ! is_array($this->deps) )
 			$this->deps = array();
-		}
 	}
 
 	/**
@@ -89,10 +88,9 @@ class _WP_Dependency {
 	 * @return bool False if not scalar, true otherwise.
 	 */
 	public function add_data( $name, $data ) {
-		if ( ! is_scalar( $name ) ) {
+		if ( !is_scalar($name) )
 			return false;
-		}
-		$this->extra[ $name ] = $data;
+		$this->extra[$name] = $data;
 		return true;
 	}
 

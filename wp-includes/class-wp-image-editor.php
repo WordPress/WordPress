@@ -12,12 +12,12 @@
  * @since 3.5.0
  */
 abstract class WP_Image_Editor {
-	protected $file              = null;
-	protected $size              = null;
-	protected $mime_type         = null;
+	protected $file = null;
+	protected $size = null;
+	protected $mime_type = null;
 	protected $default_mime_type = 'image/jpeg';
-	protected $quality           = false;
-	protected $default_quality   = 82;
+	protected $quality = false;
+	protected $default_quality = 82;
 
 	/**
 	 * Each instance handles a single file.
@@ -34,6 +34,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
+	 * @static
 	 * @abstract
 	 *
 	 * @param array $args
@@ -49,6 +50,7 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
+	 * @static
 	 * @abstract
 	 *
 	 * @param string $mime_type
@@ -189,8 +191,8 @@ abstract class WP_Image_Editor {
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$this->size = array(
-			'width'  => (int) $width,
-			'height' => (int) $height,
+			'width' => (int) $width,
+			'height' => (int) $height
 		);
 		return true;
 	}
@@ -269,7 +271,7 @@ abstract class WP_Image_Editor {
 			$this->quality = $quality;
 			return true;
 		} else {
-			return new WP_Error( 'invalid_image_quality', __( 'Attempted to set image quality outside of the range [1,100].' ) );
+			return new WP_Error( 'invalid_image_quality', __('Attempted to set image quality outside of the range [1,100].') );
 		}
 	}
 
@@ -296,11 +298,12 @@ abstract class WP_Image_Editor {
 		}
 
 		if ( $filename ) {
-			$file_ext  = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+			$file_ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
 			$file_mime = $this->get_mime_type( $file_ext );
-		} else {
+		}
+		else {
 			// If no file specified, grab editor's current extension and mime-type.
-			$file_ext  = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
+			$file_ext = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
 			$file_mime = $this->mime_type;
 		}
 
@@ -308,7 +311,7 @@ abstract class WP_Image_Editor {
 		// file extension.  If so, prefer extension from file.
 		if ( ! $mime_type || ( $file_mime == $mime_type ) ) {
 			$mime_type = $file_mime;
-			$new_ext   = $file_ext;
+			$new_ext = $file_ext;
 		}
 
 		// Double-check that the mime-type selected is supported by the editor.
@@ -324,7 +327,7 @@ abstract class WP_Image_Editor {
 			 * @param string $mime_type Mime type string.
 			 */
 			$mime_type = apply_filters( 'image_editor_default_mime_type', $this->default_mime_type );
-			$new_ext   = $this->get_extension( $mime_type );
+			$new_ext = $this->get_extension( $mime_type );
 		}
 
 		if ( $filename ) {
@@ -349,19 +352,17 @@ abstract class WP_Image_Editor {
 	 */
 	public function generate_filename( $suffix = null, $dest_path = null, $extension = null ) {
 		// $suffix will be appended to the destination filename, just before the extension
-		if ( ! $suffix ) {
+		if ( ! $suffix )
 			$suffix = $this->get_suffix();
-		}
 
-		$dir = pathinfo( $this->file, PATHINFO_DIRNAME );
-		$ext = pathinfo( $this->file, PATHINFO_EXTENSION );
+		$dir  = pathinfo( $this->file, PATHINFO_DIRNAME );
+		$ext  = pathinfo( $this->file, PATHINFO_EXTENSION );
 
-		$name    = wp_basename( $this->file, ".$ext" );
+		$name = wp_basename( $this->file, ".$ext" );
 		$new_ext = strtolower( $extension ? $extension : $ext );
 
-		if ( ! is_null( $dest_path ) && $_dest_path = realpath( $dest_path ) ) {
+		if ( ! is_null( $dest_path ) && $_dest_path = realpath( $dest_path ) )
 			$dir = $_dest_path;
-		}
 
 		return trailingslashit( $dir ) . "{$name}-{$suffix}.{$new_ext}";
 	}
@@ -374,9 +375,8 @@ abstract class WP_Image_Editor {
 	 * @return false|string suffix
 	 */
 	public function get_suffix() {
-		if ( ! $this->get_size() ) {
+		if ( ! $this->get_size() )
 			return false;
-		}
 
 		return "{$this->size['width']}x{$this->size['height']}";
 	}
@@ -406,10 +406,8 @@ abstract class WP_Image_Editor {
 
 			$fp = fopen( $filename, 'w' );
 
-			if ( ! $fp ) {
-				ob_end_clean();
+			if ( ! $fp )
 				return false;
-			}
 
 			fwrite( $fp, $contents );
 			fclose( $fp );
@@ -428,20 +426,21 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
+	 * @static
+	 *
 	 * @param string $extension
 	 * @return string|false
 	 */
 	protected static function get_mime_type( $extension = null ) {
-		if ( ! $extension ) {
+		if ( ! $extension )
 			return false;
-		}
 
 		$mime_types = wp_get_mime_types();
 		$extensions = array_keys( $mime_types );
 
 		foreach ( $extensions as $_extension ) {
 			if ( preg_match( "/{$extension}/i", $_extension ) ) {
-				return $mime_types[ $_extension ];
+				return $mime_types[$_extension];
 			}
 		}
 
@@ -454,15 +453,16 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
+	 * @static
+	 *
 	 * @param string $mime_type
 	 * @return string|false
 	 */
 	protected static function get_extension( $mime_type = null ) {
 		$extensions = explode( '|', array_search( $mime_type, wp_get_mime_types() ) );
 
-		if ( empty( $extensions[0] ) ) {
+		if ( empty( $extensions[0] ) )
 			return false;
-		}
 
 		return $extensions[0];
 	}

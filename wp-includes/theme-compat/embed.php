@@ -13,8 +13,7 @@
 get_header( 'embed' );
 
 if ( have_posts() ) :
-	while ( have_posts() ) :
-		the_post();
+	while ( have_posts() ) : the_post();
 		get_template_part( 'embed', 'content' );
 	endwhile;
 else :

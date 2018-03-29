@@ -1,0 +1,14 @@
+/* FONT PATH
+ * -------------------------- */
+
+@font-face {
+  font-family: 'Elusive-Icons';
+  src: url('#{$el-font-path}/elusiveicons-webfont.eot?v=#{$el-version}');
+  src: url('#{$el-font-path}/elusiveicons-webfont.eot?#iefix&v=#{$el-version}') format('embedded-opentype'),
+    //url('#{$el-font-path}/elusiveicons-webfont.woff2?v=#{$el-version}') format('woff2'),
+    url('#{$el-font-path}/elusiveicons-webfont.woff?v=#{$el-version}') format('woff'),
+    url('#{$el-font-path}/elusiveicons-webfont.ttf?v=#{$el-version}') format('truetype'),
+    url('#{$el-font-path}/elusiveicons-webfont.svg?v=#{$el-version}#elusiveiconsregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

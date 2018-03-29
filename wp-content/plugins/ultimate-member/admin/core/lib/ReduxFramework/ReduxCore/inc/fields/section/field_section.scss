@@ -1,0 +1,24 @@
+.redux-main {
+    .form-table-section-indented {
+        width: 95%;
+        margin-left: 5%;
+    }
+
+    .form-table-section tr:first-of-type th:first-of-type {
+        padding: 0px !important;
+    }
+
+    h3 {
+        margin-top: 10px;
+    }
+
+    .form-table-section-indented > tbody > tr{
+        &:first-child {
+            display: none;
+        }
+
+        &:nth-last-child(2) {
+            border-bottom: 0;
+        }
+    }
+}

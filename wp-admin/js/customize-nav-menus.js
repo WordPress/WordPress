@@ -13,9 +13,6 @@
 		this.jQueryExtensions();
 	};
 
-	/**
-	 * @namespace wp.customize.Menus
-	 */
 	api.Menus = api.Menus || {};
 
 	// Link settings.
@@ -38,8 +35,6 @@
 	 * Newly-created Nav Menus and Nav Menu Items have negative integer IDs which
 	 * serve as placeholders until Save & Publish happens.
 	 *
-	 * @alias wp.customize.Menus.generatePlaceholderAutoIncrementId
-	 *
 	 * @return {number}
 	 */
 	api.Menus.generatePlaceholderAutoIncrementId = function() {
@@ -51,7 +46,7 @@
 	 *
 	 * A single available menu item model. See PHP's WP_Customize_Nav_Menu_Item_Setting class.
 	 *
-	 * @class    wp.customize.Menus.AvailableItemModel
+	 * @constructor
 	 * @augments Backbone.Model
 	 */
 	api.Menus.AvailableItemModel = Backbone.Model.extend( $.extend(
@@ -66,10 +61,10 @@
 	 *
 	 * Collection for available menu item models.
 	 *
-	 * @class    wp.customize.Menus.AvailableItemCollection
-	 * @augments Backbone.Collection
+	 * @constructor
+	 * @augments Backbone.Model
 	 */
-	api.Menus.AvailableItemCollection = Backbone.Collection.extend(/** @lends wp.customize.Menus.AvailableItemCollection.prototype */{
+	api.Menus.AvailableItemCollection = Backbone.Collection.extend({
 		model: api.Menus.AvailableItemModel,
 
 		sort_key: 'order',
@@ -89,7 +84,7 @@
 	 * Insert a new `auto-draft` post.
 	 *
 	 * @since 4.7.0
-	 * @alias wp.customize.Menus.insertAutoDraftPost
+	 * @access public
 	 *
 	 * @param {object} params - Parameters for the draft post to create.
 	 * @param {string} params.post_type - Post type to add.
@@ -146,7 +141,16 @@
 		return deferred.promise();
 	};
 
-	api.Menus.AvailableMenuItemsPanelView = wp.Backbone.View.extend(/** @lends wp.customize.Menus.AvailableMenuItemsPanelView.prototype */{
+	/**
+	 * wp.customize.Menus.AvailableMenuItemsPanelView
+	 *
+	 * View class for the available menu items panel.
+	 *
+	 * @constructor
+	 * @augments wp.Backbone.View
+	 * @augments Backbone.View
+	 */
+	api.Menus.AvailableMenuItemsPanelView = wp.Backbone.View.extend({
 
 		el: '#available-menu-items',
 
@@ -177,14 +181,6 @@
 		loading: false,
 		addingNew: false,
 
-		/**
-		 * wp.customize.Menus.AvailableMenuItemsPanelView
-		 *
-		 * View class for the available menu items panel.
-		 *
-		 * @constructs wp.customize.Menus.AvailableMenuItemsPanelView
-		 * @augments   wp.Backbone.View
-		 */
 		initialize: function() {
 			var self = this;
 
@@ -727,7 +723,7 @@
 			$( 'body' ).removeClass( 'adding-menu-items' );
 			$( '#available-menu-items .menu-item-handle.item-added' ).removeClass( 'item-added' );
 
-			this.$search.val( '' ).trigger( 'keyup' );
+			this.$search.val( '' );
 		},
 
 		// Add a few keyboard enhancements to the panel.
@@ -757,10 +753,10 @@
 	 * Customizer panel for menus. This is used only for screen options management.
 	 * Note that 'menus' must match the WP_Customize_Menu_Panel::$type.
 	 *
-	 * @class    wp.customize.Menus.MenusPanel
+	 * @constructor
 	 * @augments wp.customize.Panel
 	 */
-	api.Menus.MenusPanel = api.Panel.extend(/** @lends wp.customize.Menus.MenusPanel.prototype */{
+	api.Menus.MenusPanel = api.Panel.extend({
 
 		attachEvents: function() {
 			api.Panel.prototype.attachEvents.call( this );
@@ -889,10 +885,10 @@
 	 * Customizer section for menus. This is used only for lazy-loading child controls.
 	 * Note that 'nav_menu' must match the WP_Customize_Menu_Section::$type.
 	 *
-	 * @class    wp.customize.Menus.MenuSection
+	 * @constructor
 	 * @augments wp.customize.Section
 	 */
-	api.Menus.MenuSection = api.Section.extend(/** @lends wp.customize.Menus.MenuSection.prototype */{
+	api.Menus.MenuSection = api.Section.extend({
 
 		/**
 		 * Initialize.
@@ -1216,10 +1212,10 @@
 	 *
 	 * Customizer section for new menus.
 	 *
-	 * @class    wp.customize.Menus.NewMenuSection
+	 * @constructor
 	 * @augments wp.customize.Section
 	 */
-	api.Menus.NewMenuSection = api.Section.extend(/** @lends wp.customize.Menus.NewMenuSection.prototype */{
+	api.Menus.NewMenuSection = api.Section.extend({
 
 		/**
 		 * Add behaviors for the accordion section.
@@ -1455,10 +1451,10 @@
 	 * Customizer control for menu locations (rendered as a <select>).
 	 * Note that 'nav_menu_location' must match the WP_Customize_Nav_Menu_Location_Control::$type.
 	 *
-	 * @class    wp.customize.Menus.MenuLocationControl
+	 * @constructor
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuLocationControl = api.Control.extend(/** @lends wp.customize.Menus.MenuLocationControl.prototype */{
+	api.Menus.MenuLocationControl = api.Control.extend({
 		initialize: function( id, options ) {
 			var control = this,
 				matches = id.match( /^nav_menu_locations\[(.+?)]/ );
@@ -1533,18 +1529,19 @@
 		}
 	});
 
-	api.Menus.MenuItemControl = api.Control.extend(/** @lends wp.customize.Menus.MenuItemControl.prototype */{
+	/**
+	 * wp.customize.Menus.MenuItemControl
+	 *
+	 * Customizer control for menu items.
+	 * Note that 'menu_item' must match the WP_Customize_Menu_Item_Control::$type.
+	 *
+	 * @constructor
+	 * @augments wp.customize.Control
+	 */
+	api.Menus.MenuItemControl = api.Control.extend({
 
 		/**
-		 * wp.customize.Menus.MenuItemControl
-		 *
-		 * Customizer control for menu items.
-		 * Note that 'menu_item' must match the WP_Customize_Menu_Item_Control::$type.
-		 *
-		 * @constructs wp.customize.Menus.MenuItemControl
-		 * @augments   wp.customize.Control
-		 *
-		 * @inheritDoc
+		 * @inheritdoc
 		 */
 		initialize: function( id, options ) {
 			var control = this;
@@ -2327,10 +2324,10 @@
 	 *
 	 * Customizer control for a nav menu's name.
 	 *
-	 * @class    wp.customize.Menus.MenuNameControl
+	 * @constructor
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuNameControl = api.Control.extend(/** @lends wp.customize.Menus.MenuNameControl.prototype */{
+	api.Menus.MenuNameControl = api.Control.extend({
 
 		ready: function() {
 			var control = this;
@@ -2367,10 +2364,10 @@
 	 * Customizer control for a nav menu's locations.
 	 *
 	 * @since 4.9.0
-	 * @class    wp.customize.Menus.MenuLocationsControl
+	 * @constructor
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuLocationsControl = api.Control.extend(/** @lends wp.customize.Menus.MenuLocationsControl.prototype */{
+	api.Menus.MenuLocationsControl = api.Control.extend({
 
 		/**
 		 * Set up the control.
@@ -2440,10 +2437,10 @@
 	 *
 	 * Customizer control for a nav menu's auto add.
 	 *
-	 * @class    wp.customize.Menus.MenuAutoAddControl
+	 * @constructor
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuAutoAddControl = api.Control.extend(/** @lends wp.customize.Menus.MenuAutoAddControl.prototype */{
+	api.Menus.MenuAutoAddControl = api.Control.extend({
 
 		ready: function() {
 			var control = this,
@@ -2493,10 +2490,10 @@
 	 * Customizer control for menus.
 	 * Note that 'nav_menu' must match the WP_Menu_Customize_Control::$type
 	 *
-	 * @class    wp.customize.Menus.MenuControl
+	 * @constructor
 	 * @augments wp.customize.Control
 	 */
-	api.Menus.MenuControl = api.Control.extend(/** @lends wp.customize.Menus.MenuControl.prototype */{
+	api.Menus.MenuControl = api.Control.extend({
 		/**
 		 * Set up the control.
 		 */
@@ -3024,18 +3021,22 @@
 		}
 	} );
 
-	api.Menus.NewMenuControl = api.Control.extend(/** @lends wp.customize.Menus.NewMenuControl.prototype */{
+	/**
+	 * wp.customize.Menus.NewMenuControl
+	 *
+	 * Customizer control for creating new menus and handling deletion of existing menus.
+	 * Note that 'new_menu' must match the WP_Customize_New_Menu_Control::$type.
+	 *
+	 * @constructor
+	 * @augments wp.customize.Control
+	 * @deprecated 4.9.0 This class is no longer used due to new menu creation UX.
+	 */
+	api.Menus.NewMenuControl = api.Control.extend({
 
 		/**
-		 * wp.customize.Menus.NewMenuControl
+		 * Initialize.
 		 *
-		 * Customizer control for creating new menus and handling deletion of existing menus.
-		 * Note that 'new_menu' must match the WP_Customize_New_Menu_Control::$type.
-		 *
-		 * @constructs wp.customize.Menus.NewMenuControl
-		 * @augments   wp.customize.Control
-		 *
-		 * @deprecated 4.9.0 This class is no longer used due to new menu creation UX.
+		 * @deprecated 4.9.0
 		 */
 		initialize: function() {
 			if ( 'undefined' !== typeof console && console.warn ) {
@@ -3164,8 +3165,6 @@
 	/**
 	 * When customize_save comes back with a success, make sure any inserted
 	 * nav menus and items are properly re-added with their newly-assigned IDs.
-	 *
-	 * @alias wp.customize.Menus.applySavedData
 	 *
 	 * @param {object} data
 	 * @param {array} data.nav_menu_updates
@@ -3397,8 +3396,6 @@
 	/**
 	 * Focus a menu item control.
 	 *
-	 * @alias wp.customize.Menus.focusMenuItemControl
-	 *
 	 * @param {string} menuItemId
 	 */
 	api.Menus.focusMenuItemControl = function( menuItemId ) {
@@ -3411,8 +3408,6 @@
 	/**
 	 * Get the control for a given menu.
 	 *
-	 * @alias wp.customize.Menus.getMenuControl
-	 *
 	 * @param menuId
 	 * @return {wp.customize.controlConstructor.menus[]}
 	 */
@@ -3423,8 +3418,6 @@
 	/**
 	 * Given a menu item ID, get the control associated with it.
 	 *
-	 * @alias wp.customize.Menus.getMenuItemControl
-	 *
 	 * @param {string} menuItemId
 	 * @return {object|null}
 	 */
@@ -3433,8 +3426,6 @@
 	};
 
 	/**
-	 * @alias wp.customize.Menus~menuItemIdToSettingId
-	 *
 	 * @param {String} menuItemId
 	 */
 	function menuItemIdToSettingId( menuItemId ) {
@@ -3444,8 +3435,6 @@
 	/**
 	 * Apply sanitize_text_field()-like logic to the supplied name, returning a
 	 * "unnammed" fallback string if the name is then empty.
-	 *
-	 * @alias wp.customize.Menus~displayNavMenuName
 	 *
 	 * @param {string} name
 	 * @returns {string}

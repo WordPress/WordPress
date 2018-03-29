@@ -1,0 +1,336 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Eli Scheetz <eli@gotmls.net>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GOTMLS\n"
+"Report-Msgid-Bugs-To: eli@gotmls.net\n"
+"POT-Creation-Date: 2014-02-24 11:27+0100\n"
+"PO-Revision-Date: 2014-02-08 13:43-1000\n"
+"Last-Translator: jelena kovacevic <jecajeca260@gmail.com>\n"
+"Language-Team: Andrew Kurtis <andrewk@webhostinghub.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Upgrade to %s now!"
+msgstr "¡Actualice a %s ahora!"
+
+msgid "First Name is a required field!"
+msgstr "¡Nombre es un campo requerido!"
+
+msgid "Last Name is a required field!"
+msgstr "¡Apellidos es un campo requerido!"
+
+msgid "Email Address is a required field!"
+msgstr "¡Dirección Email es una campo requerido!"
+
+msgid "Your WordPress Site URL is a required field!"
+msgstr "¡Su URL del Sitio de Wordpress es una campo requerido!"
+
+msgid "Plugin Installation Key is a required field!"
+msgstr "¡La llave de Instalación del Plugin es un campo requerido!"
+
+msgid "Submitting Registration ..."
+msgstr "Cargando ..."
+
+msgid "Download new definitions!"
+msgstr "¡Bajar nuevas definiciones!"
+
+msgid "If you have not already registered your Key then register now and get instant access to definition updates.<p>*All fields are required and I will NOT share your registration information with anyone.</p>"
+msgstr "Si aún no ha registrado su clave, entonces regístrese ahora y obtenga acceso inmediato a las actualizaciones de las definiciones.<p>* Todos los campos son requeridos y NO compartirán su información de registro con nadie.</p>"
+
+msgid "Your Full Name:"
+msgstr "Su Nombre Completo:"
+
+msgid "A password will be e-mailed to this address:"
+msgstr "Una contraseña será enviada por correo electrónico a esta dirección:"
+
+msgid "Your WordPress Site URL:"
+msgstr "Su URL del Sitio WordPress:"
+
+msgid "Plugin Installation Key:"
+msgstr "Su Llave de Instalación del Plugin:"
+
+msgid "Plugin Links"
+msgstr "Enlaces del Plugin"
+
+msgid "Make a Donation with PayPal"
+msgstr "Haga una Donación con PayPal"
+
+msgid "Main Menu Item placed below <b>Comments</b> and above <b>Appearance</b>"
+msgstr "Elemento del Menú Principal posicionado debajo de <b>Comentarios</b> y arriba de <b>Apariencia</b>"
+
+msgid "Main Menu Item placed below <b>Settings</b>"
+msgstr "Elemento del Menú Principal posicionado debajo de <b>Ajustes</b>"
+
+msgid "Sub-Menu inside the <b>Tools</b> Menu Item"
+msgstr "Submenú dentro del Elemento del Menú <b>Herramientas</b>"
+
+msgid "ONLY SHOW for <b>Network Admins</b>"
+msgstr "SOLO MOSTRAR para <b>Administradores de Red</b>"
+
+msgid "Only Scan These Folders:"
+msgstr "Solo Escanear Estos Archivos:"
+
+msgid "What to scan:"
+msgstr "Qué escanear:"
+
+msgid "Scan Depth:"
+msgstr "Profundidad de Escaneo:"
+
+msgid "how far do you want to drill down from your starting directory?"
+msgstr "¿cuán lejos desea bajar desde su directorio de comienzo?"
+
+msgid "-1 is infinite depth"
+msgstr "-1 es profundidad infinita"
+
+msgid "What to look for:"
+msgstr "Qué buscar:"
+
+msgid "Download Definition Updates to Use this feature"
+msgstr "Bajar Actualizaciones de Definición para Usar esta característica"
+
+msgid "Registration of your Installation Key is required for this feature"
+msgstr "El registro de su Llave de instalación es requerido para esta característica"
+
+msgid "Custom RegExp:"
+msgstr "RegExp Personalizada:"
+
+msgid "For very advanced users only. Do not use this without talking to Eli first. If used incorrectly you could easily break your site."
+msgstr "Sólo para usuarios muy avanzados. No utilice esto sin hablar con Eli primero. Si se utiliza de forma incorrecta se podía romper fácilmente su sitio."
+
+msgid "<b>Skip files with the following extentions:</b> (a comma separated list of file extentions to be excluded from the scan)"
+msgstr "<b>Omitir archivos con las siguientes extensiones:</b> (una lista separada por coma de extensiones de archivos a ser excluidos del escaneo)"
+
+msgid "<b>Skip directories with the following names:</b> (a comma separated list of folders to be excluded from the scan)"
+msgstr "<b>Saltar directorios con los nombres siguientes:</b> (una lista separada por coma de carpetas a ser excluidas del escaneo)"
+
+msgid "Menu Item Placement Options"
+msgstr "Opciones de Posicionamiento del Elemento del Menú"
+
+msgid "Another Plugin or Theme is using '%s' to handle output buffers. <br />This prevents actively outputing the buffer on-the-fly and will severely degrade the performance of this (and many other) Plugins. <br />Consider disabling caching and compression plugins (at least during the scanning process)."
+msgstr "Otro Plugin o Tema está utilizando '%s' para manejar buffers de salida. <br />Esto evita enviar hacia afuera activamente al búfer en la marcha y se degradará seriamente el rendimiento de este (y muchos otros) Plugins. <br />Considere deshabilitar el almacenamiento en caché y los plugins de compresión (al menos durante el proceso de escaneando)."
+
+msgid "Scanned Files"
+msgstr "Archivos Escaneados"
+
+msgid "Selected Folders"
+msgstr "Carpetas Seleccionadas"
+
+msgid "Scanned Folders"
+msgstr "Carpetas Escaneadas"
+
+msgid "Skipped Folders"
+msgstr "Carpetas Omitidas"
+
+msgid "Skipped Files"
+msgstr "Archivos Omitidos"
+
+msgid "Read/Write Errors"
+msgstr "Errores de Lectura/Escritura"
+
+msgid "Quarantined Files"
+msgstr "Archivos en Cuarentena"
+
+msgid "Scan Complete!"
+msgstr "¡Scan Completo!"
+
+msgid "You are not currently scanning for this type of threat!"
+msgstr "¡Usted no está actualmente escaneando para este tipo de amenaza!"
+
+msgid "Automatically Fix SELECTED Files Now"
+msgstr "Arreglar Archivos SELECCIONADOS Automáticamente Ahora"
+
+msgid "Scan Details:"
+msgstr "Detalles del Escaneo:"
+
+msgid "Restore SELECTED files from Quarantine"
+msgstr "Restaurar archivos SELECCIONADOS de la Cuarentena"
+
+msgid "Are you sure you want to overwrite the previously cleaned files with the selected files in the Quarantine?"
+msgstr "¿Está seguro que desea sobrescribir los archivos limpiados anteriormente con los archivos seleccionados en la Cuarentena?"
+
+msgid "Delete SELECTED files from Quarantine"
+msgstr "Borrados archivos SELECCIONADOS de la Cuarentena"
+
+msgid "Are you sure you want to permanently delete the selected files in the Quarantine?"
+msgstr "¿Está seguro que desea borrar permanentemente los archivos seleccionados en la Cuarentena?"
+
+msgid "<p><b>The following items have been found to contain malicious code, they have been cleaned, and the original infected file contents have been saved here in the Quarantine. The code is safe here and you do not need to do anything further with these files.</b></p> FYI - these files are found in:"
+msgstr "<p><b> Los siguientes elementos han sido encontrados como que contienen código malicioso, ellos han sido limpiados, y los contenidos de archivo originalmente infectados han sido salvados aquí en la Cuarentena. El código es seguro aquí y usted no necesita hacer nada más con estos archivos </b></p> PARA-SU-INFORMACIÓN - estos archivos se encuentran en:"
+
+msgid "No Items in Quarantine"
+msgstr "No hay Elementos en Cuarentena"
+
+msgid "NOTE: These are probably not malicious scripts (but it's a good place to start looking <u>IF</u> your site is infected and no Known Threats were found)."
+msgstr "NOTA: Estos son scripts probablemente no maliciosos (pero es un buen lugar para empezar a buscar <u>SI</u> su sitio está infectado y no se encontraron amenazas conocidas)."
+
+msgid "NOTE: Your WordPress Login page is susceptible to a brute-force attack (just like any other login page). These types of attacks are becoming more prevalent these days and can sometimes cause your server to become slow or unresponsive, even if the attacks do not succeed in gaining access to your site. Applying this patch will block access to the WordPress Login page whenever this type of attack is detected. For more information on this subject"
+msgstr "NOTA: Su página Inicio de sesión de WordPress es susceptible a un ataque de fuerza bruta (al igual que cualquier otra página de inicio de sesión). Estos tipos de ataques son cada vez más frecuentes en estos días y, a veces pueden provocar que el servidor se vuelva lento o no responda, aunque los ataques no tienen éxito en el acceso a su sitio. La aplicación de este parche bloqueará el acceso a la página de WordPress sesión cada vez que se detecta este tipo de ataque. Para obtener más información sobre este tema"
+
+msgid "read my blog"
+msgstr "lea mi blog"
+
+msgid "The Quick Scan was unable to finish because of a shortage of memory or a problem accessing a file. Please try using the Complete Scan, it is slower but it will handle these errors better and continue scanning the rest of the files."
+msgstr "El Escaneo Rápido no pudo terminar debido a la escasez de memoria o un problema de acceso a un archivo. Por favor, trate de usar el Escaneo Completo, es más lento pero va a manejar estos errores mejor y continuará escaneando el resto de los archivos."
+
+msgid "Completed!"
+msgstr "¡Completado!"
+
+msgid "Starting Scan ..."
+msgstr "Comenzando Scan ..."
+
+msgid "Last Scan Status"
+msgstr "Estatus del Último Escaneo"
+
+msgid "The file %s does not exist."
+msgstr "El archivo %s no existe."
+
+msgid "You could <a %s>try viewing the quarantined backup file</a>."
+msgstr "Usted puede <a %s> probar ver el archivo de backup en cuarentena</a>."
+
+msgid "The file must have already been delete."
+msgstr "El archivo debe ya haber sido borrado."
+
+msgid "Are you sure this file is not infected and you want to ignore it in future scans?"
+msgstr "¿Está seguro de que este archivo no está infectado y desea ignorarlo en análisis futuros?"
+
+msgid "Potential threats in file:"
+msgstr "Amenazas potenciales en el archivo:"
+
+msgid "Because some threats were automatically fixed we need to check to make sure the removal did not break your site. If this stays Red and the frame below does not load please <a %s>revert the changes</a> made during the automated fix process."
+msgstr "Debido a que algunas amenazas se fijaron automáticamente tenemos que comprobar para asegurar que la eliminación no rompió su sitio. Si permanece en Rojo y los frames de abajo no se cargan por favor <a %s> revierta los cambios </a> hechos durante el proceso de corrección automática."
+
+msgid "Never mind, it worked!"
+msgstr "¡No importa, funcionó!"
+
+msgid "Nothing Selected to be Changed!"
+msgstr "¡Nada seleccionado para ser Cambiando!"
+
+msgid "Done!"
+msgstr "¡Hecho!"
+
+msgid "Run Quick Scan"
+msgstr "Ejecutar Escaneo Rápido"
+
+msgid "Run Complete Scan"
+msgstr "Ejecutar Escaneo Completo"
+
+msgid "View Quarantine"
+msgstr "Ver Garantía"
+
+msgid "Tested your site. It appears we didn't break anything"
+msgstr "Probado en su sitio. Parece ser que no rompimos nada"
+
+msgid "This Plugin requires WordPress version %s or higher"
+msgstr "Este plugin requiere la versión %s de WordPress o superior"
+
+msgid "Scan Settings"
+msgstr "Ajustes de Scan"
+
+msgid "Loading, Please Wait ..."
+msgstr "Cargando, Por Favor Espere ..."
+
+msgid "If this is taking too long, click here."
+msgstr "¿Mucho tiempo ha pasado? pulse aquí"
+
+msgid "Could not find server!"
+msgstr "¡No se pudo encontrar el servidor!"
+
+msgid "Plugin Updates for WP"
+msgstr "Actualizaciones de plugin para WP"
+
+msgid "Searching for updates ..."
+msgstr "Buscando actualizaciones ..."
+
+msgid "Definition Updates"
+msgstr "Actualizaciones de Definición"
+
+msgid "Please make a donation for the use of this wonderful feature!"
+msgstr "¡Por favor haga una donación para el uso de esta característica maravillosa!"
+
+msgid "an unknown file"
+msgstr "un archivo desconocido"
+
+msgid "unknown"
+msgstr "desconocido"
+
+msgid "<b>Headers already sent</b> in %1$s on line %2$s.<br />This is not a good sign, it may just be a poorly written plugin but Headers should not have been sent at this point.<br />Check the code in the above mentioned file to fix this problem."
+msgstr "<b>Headers ya enviados</b> en %1$s en la línea %2$s. <br />Esto no es una buena señal, puede ser sólo un plugin mal escrito pero los Headers no deberían haber sido enviados en este punto. <br />Compruebe el código en el archivo mencionado anteriormente para solucionar este problema."
+
+msgid "<b>Session not found</b>, some functionality may be diminished.<br />If you are getting this error consistently it may mean that this site is unable to maintain a persistent session.<br />Check with your hosting provider or see if you can enable sessions on this site."
+msgstr "<b>Sesión no encontrada</b>, algunas funciones pueden verse disminuidas. <br />Si usted está recibiendo este error constantemente puede significar que este sitio es incapaz de mantener una sesión persistente. <br />Consulte con su proveedor de hosting o vea si se puede permitir sesiones de este sitio."
+
+msgid "Failed to read file contents!"
+msgstr "¡Error al leer los contenidos del archivo!"
+
+msgid "Deleted!"
+msgstr "¡Borrado!"
+
+msgid "Restored!"
+msgstr "¡Restaurado!"
+
+msgid "Restore Failed!"
+msgstr "¡Restauración Fallida!"
+
+msgid "Already Fixed!"
+msgstr "¡Ya se Arregló!"
+
+msgid "htaccess Threats"
+msgstr "Amenazas de htaccess"
+
+msgid "TimThumb Exploits"
+msgstr "Exploits de TimThumb"
+
+msgid "Backdoor Scripts"
+msgstr "Scripts de Backdoor"
+
+msgid "Known Threats"
+msgstr "Amenazas Conocidas"
+
+msgid "WP-Login Vulnerability "
+msgstr "Vulnerabilidad de WP-Login "
+
+msgid "Potential Threats"
+msgstr "Amenazas Potenciales"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "Preparing %s"
+msgstr "Preparando %s"
+
+msgid "Scanning %s"
+msgstr "Escaneando %s"
+
+msgid "Failed to list files in directory!"
+msgstr "¡Falló listar los archivos en el directorio!"
+
+msgid "Scanned %s"
+msgstr "Escaneado %s"
+
+msgid "Skipped because of file extention!"
+msgstr "¡Omitido debido a la extensión del archivo!"
+
+msgid "Failed to determine file size!"
+msgstr "¡Falló determinar el tamaño!"
+
+msgid "Skipped because of file size!"
+msgstr "¡Omitido debido al tamaño del archivo!"
+
+msgid "Failed to read directory!"
+msgstr "¡Falló leer el directorio!"
+
+msgid "Skipped because of file size (%1$s bytes) or file extention (%2$s)!"
+msgstr "¡Omitido debido al tamaño del archivo (%1$s bytes) o la extensión del archivo (%2$s)!"
+
+msgid "Failed to read file!"
+msgstr "¡Falló leer el archivo!"
+
+msgid "Empty file!"
+msgstr "¡archivo vacío!"

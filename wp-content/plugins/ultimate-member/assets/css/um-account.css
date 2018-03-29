@@ -1,0 +1,208 @@
+/*
+	- Layout
+*/
+
+.um-account i {
+	vertical-align: baseline !important;
+}
+
+.um-account p.um-notice {
+	margin: 0 0 20px 0 !important;
+	padding: 12px 15px !important;
+}
+
+.um-account a:focus {
+    outline: 0 !important; /*removes the dotted border*/
+}
+
+.um-account-side {
+	float: left;
+	width: 35%;
+	padding: 0 30px;
+	box-sizing: border-box;
+}
+
+.um-account-main {
+	float: left;
+	width: 50%;
+	padding: 0 30px;
+	box-sizing: border-box;
+}
+
+.um-account-main a {
+	border-bottom: none !important;
+}
+
+.um-account-tab {
+	display: none;
+}
+
+/*
+	- Main tab
+*/
+
+.um-account-main div.um-account-heading {
+	margin: 0 !important;
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: bold;
+	color: #555;
+}
+
+.um-account-main div.um-account-heading i {
+	margin-right: 10px;
+	font-size: 26px;
+	position: relative;
+	top: 2px;
+}
+
+.um-account-main p {
+	margin: 20px 0 0 0!important;
+	padding: 0 !important;
+}
+
+.um-account-main label {
+	font-size: 15px;
+}
+
+/*
+	- Account photo
+*/
+
+.um-account-meta {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.um-account-meta img {
+	margin: 0 !important;
+	position: static !important;
+	float: none !important;
+	display: inline-block;
+}
+
+.um-account-meta.radius-1 img { 	-moz-border-radius: 999px;-webkit-border-radius: 999px;border-radius: 999px }
+.um-account-meta.radius-2 img { 	-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px }
+.um-account-meta.radius-3 img { 	-moz-border-radius: 0;-webkit-border-radius: 0;border-radius: 0 }
+
+.um-account-name {
+	padding-top: 12px;
+}
+
+.um-account-name a {
+	font-weight: bold;
+	color: #555;
+	text-decoration: none !important;
+	font-size: 18px;
+	line-height: 1.4em;
+}
+
+.um-account-profile-link a {
+	font-size: 13px;
+	font-weight: normal;
+}
+
+/*
+	- Account nav
+*/
+
+.um-account-nav a {
+	display: block;
+	height: 44px;
+	line-height: 44px;
+	color: #666 !important;
+	text-decoration: none !important;
+	position: relative;
+	padding-left: 40px;
+	border-bottom: 1px solid #eee !important;
+	transition: all .2s linear;
+	font-size: 14px;
+}
+
+.um-account-nav a.current{
+	font-weight: bold;
+}
+
+.um-account-nav span.arr {
+	position: absolute;
+	right: 0;
+	top: 1px;
+	font-size: 28px;
+}
+
+.um-account-nav span.ico {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 21px;
+	width: 21px;
+	text-align: center;
+}
+
+/*
+	- Account tabs
+*/
+
+.um-account-side ul, .um-account-side li {
+	margin: 0 !important;
+	padding: 0 !important;
+	list-style-type: none !important;
+}
+
+.um-account-side li {margin-bottom: 1px !important;background: #eee;}
+
+.um-account-side li a{
+	display: block;
+	padding: 4px 0px;
+	font-size: 14px;
+	height: 30px;
+	line-height: 20px;
+	color: #999;
+	position: relative;
+}
+
+.um-account-side li a span.um-account-arrow {
+	position: absolute;
+	right: 10px;
+	top: 6px;
+	font-size: 26px;
+	opacity: 0.6;
+}
+
+.um-account-side li a span.um-account-icon,
+.um-account-side li a.current span.um-account-icon,
+.um-account-side li a.current:hover span.um-account-icon
+{
+	text-align: center;
+	font-size: 20px;
+	width: 20px;
+	height: 30px;
+	border-right: 1px solid #ccc;
+	color: #444;
+	float: left;
+	padding: 0px 15px;
+	font-weight: normal !important;
+}
+
+.um-account-side li a span.um-account-icon i {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+
+.um-account-side li a span.um-account-title {
+	padding-left: 20px;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	color: #555;
+}
+
+.um-account-side li a:hover {color: #444; background: #ddd}
+
+.um-account-side li a.current,
+.um-account-side li a.current:hover {
+	color: #444;
+	font-weight: bold;
+	text-decoration: none !important;
+}

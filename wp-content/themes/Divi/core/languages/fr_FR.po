@@ -1,0 +1,400 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:30+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr ""
+"Le processus d’exportation a échoué. Veuillez actualiser la page et "
+"réessayer."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"La version du navigateur que vous utilisez actuellement est dépassée. "
+"Veuillez l’actualiser avec la dernière version."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Vous avez atteint votre limite de mémoire serveur. Veuillez essayer "
+"d’augmenter votre limite de mémoire PHP."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Ce fichier ne peut pas être importé. Ceci peut être dû au fait que "
+"file_uploads soit désactivé dans votre php.ini. Ceci peut également être "
+"causé par post_max_size ou/et upload_max_filesize étant plus petit que le "
+"fichier sélectionné. Veuillez l’augmenter ou transférez des données "
+"davantage substantielles en une fois."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Format de fichier invalide. Vous devriez charger un fichier JSON."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Ce fichier ne devrait pas être importé dans ce contexte."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Temps restant estimé d’importation : %s min"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Temps restant estimé d’exportation : %s min"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Temps restant estimé de sauvegarde : %s min"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Portabilité"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Exporter"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Importer"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"L’exportation de votre %s créera un fichier JSON qui peut être importé vers "
+"un autre site web."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Nom du fichier d’exportation"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Exporter uniquement les éléments sélectionnés"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Exporter %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Annuler l'exportation"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"L’importation d’un fichier %s antérieurement exporté écrasera tout le "
+"contenu actuellement sur cette page."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Sélectionnez un fichier Divi Builder Layouts antérieurement exporté afin de "
+"commencer à importer des éléments. De grandes collections d’exportations "
+"riches en images peuvent prendre jusqu’à de nombreuses minutes à être "
+"chargées."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"L’importation d’un fichier %s antérieurement exporté écrasera toutes les "
+"données actuelles. Veuillez poursuivre avec prudence !"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Sélectionnez un fichier à importer"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Aucun fichier sélectionné"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Choisissez un fichier"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Télécharger la sauvegarde avant d’importer"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Importer %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Annuler l'importation"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Importer & Exporter"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Vous ne pouvez pas créer une deuxième instance de cette classe."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Avant de pouvoir recevoir les mises à jour des produits, vous devez "
+"d'abord authentifier votre abonnement Elegant Themes. Pour ce faire, vous "
+"devez entrer à la fois votre nom d'utilisateur Elegant Themes et votre clé "
+"API d'Elegant Themes dans l'onglet Mises à jour dans votre thème et dans les "
+"paramètres du plugin. Pour localiser votre clé API, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">connectez-vous</a> à "
+"votre compte Elegant Themes et rendez-vous sur la page <strong>Compte > Clé "
+"API</strong>. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">En apprendre plus ici</a></em>. Si "
+"vous recevez toujours ce message, assurez-vous que votre nom d'utilisateur "
+"et votre clé API ont été correctement saisis"
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Mises à jour automatiques actuellement indisponibles. Pour tous les produits "
+"Elegant Themes, veuillez <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">authentifier votre abonnement</a> "
+"via l'onglet Mises à jour dans les paramètres de votre thème et de votre "
+"plugin pour activer les mises à jour du produit. Veuillez vous assurer que "
+"votre nom d'utilisateur et que votre clé API ont été correctement entrés."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Votre abonnement à Elegant Themes a expiré. Vous devez <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renouveler votre compte</"
+"a> pour obtenir l'accès aux mises à jour et à l'assistance pour les "
+"produits. Pour assurer une bonne compatibilité et une bonne sécurité, il est "
+"important de garder vos thèmes et vos plugins à jour."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "Échec de la requête API, veuillez réessayer."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "Échec de la requête API. La clé API est nécessaire."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "Clé API"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "URL de l'API"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "Numéro du formulaire"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Code d'autorisation"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "API secrète"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Clé API publique"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Clé API privée"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "ID du compte"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "Nom de l'application"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Autorisation réalisée avec succès. Le compte des abonnés sera mis à jour en "
+"arrière-plan, veuillez vous reporter à %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "minute"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "minutes"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Déjà abonné"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"Vous vous êtes inscrit à beaucoup de listes très récemment, veuillez "
+"réessayer plus tard"
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Opt-in"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Le Plugin de la newsletter de Mailster n'est pas activée !"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr ""
+"Aucune liste n'a été trouvée. Veuillez tout d'abord créer une liste "
+"Mailster !"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Une erreur est survenue. Veuillez réessayer plus tard."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "ID DE L'APPLICATION"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Abonné via"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "ID de l'organisation"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "URL de l'instance"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Clé consommateur"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Secret consommateur"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "L'ID de l'organisation ne peut pas être laissée vide"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Une erreur est survenue. Veuillez réessayer plus tard."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "ID de l'organisation inconnue"
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "ERREUR : arguments non valides."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "L'URL fournie n'est pas valide."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "L'utilisateur a bloqué les requêtes via HTTP."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr ""
+"Le répertoire de destination pour la diffusion de fichiers n'existe pas ou "
+"n'est pas accessible en écriture."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "J’ai compris, merci!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Erreur de configuration"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Une erreur est survenue. Veuillez réessayer plus tard."

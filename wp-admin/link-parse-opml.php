@@ -6,9 +6,8 @@
  * @subpackage Administration
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined('ABSPATH') )
 	die();
-}
 
 /**
  * @global string $opml
@@ -31,7 +30,7 @@ global $opml;
  * @param string $tagName XML element name.
  * @param array $attrs XML element attributes.
  */
-function startElement( $parser, $tagName, $attrs ) {
+function startElement($parser, $tagName, $attrs) {
 	global $names, $urls, $targets, $descriptions, $feeds;
 
 	if ( 'OUTLINE' === $tagName ) {
@@ -51,11 +50,11 @@ function startElement( $parser, $tagName, $attrs ) {
 		}
 
 		// Save the data away.
-		$names[]        = $name;
-		$urls[]         = $url;
-		$targets[]      = isset( $attrs['TARGET'] ) ? $attrs['TARGET'] : '';
-		$feeds[]        = isset( $attrs['XMLURL'] ) ? $attrs['XMLURL'] : '';
-		$descriptions[] = isset( $attrs['DESCRIPTION'] ) ? $attrs['DESCRIPTION'] : '';
+		$names[] = $name;
+		$urls[] = $url;
+		$targets[] = isset( $attrs['TARGET'] ) ? $attrs['TARGET'] :  '';
+		$feeds[] = isset( $attrs['XMLURL'] ) ? $attrs['XMLURL'] :  '';
+		$descriptions[] = isset( $attrs['DESCRIPTION'] ) ? $attrs['DESCRIPTION'] :  '';
 	} // End if outline.
 }
 
@@ -68,7 +67,7 @@ function startElement( $parser, $tagName, $attrs ) {
  * @param mixed $parser XML Parser resource.
  * @param string $tagName XML tag name.
  */
-function endElement( $parser, $tagName ) {
+function endElement($parser, $tagName) {
 	// Nothing to do.
 }
 
@@ -81,7 +80,7 @@ if ( ! function_exists( 'xml_parser_create' ) ) {
 $xml_parser = xml_parser_create();
 
 // Set the functions to handle opening and closing tags
-xml_set_element_handler( $xml_parser, 'startElement', 'endElement' );
+xml_set_element_handler($xml_parser, "startElement", "endElement");
 
 if ( ! xml_parse( $xml_parser, $opml, true ) ) {
 	printf(
@@ -93,4 +92,4 @@ if ( ! xml_parse( $xml_parser, $opml, true ) ) {
 }
 
 // Free up memory used by the XML parser
-xml_parser_free( $xml_parser );
+xml_parser_free($xml_parser);

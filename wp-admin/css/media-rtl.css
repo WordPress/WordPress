@@ -211,7 +211,8 @@
 	padding: 10px 14px 10px 0;
 }
 
-.media-item .error-div button.dismiss {
+.media-item .error-div a.dismiss {
+	display: block;
 	float: left;
 	margin: 0 15px 0 10px;
 }
@@ -748,10 +749,6 @@ border color while dragging a file over the uploader drop area */
 	background-image: linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
 	background-position: 100% 0, 10px 10px;
 	background-size: 20px 20px;
-}
-
-.edit-attachment-frame .attachment-media-view .details-image.icon {
-	background: none;
 }
 
 .edit-attachment-frame .attachment-media-view .attachment-actions {

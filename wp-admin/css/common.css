@@ -1516,7 +1516,7 @@ div.error {
 .installed p:before,
 .button.updated-message:before {
 	color: #79ba49;
-	content: "\f147";
+	content: '\f147';
 }
 
 /* Error icon. */
@@ -1546,15 +1546,6 @@ div.error {
 
 ul#dismissed-updates {
 	display: none;
-}
-
-#dismissed-updates li > p {
-	margin-top: 0;
-}
-
-#dismiss,
-#undismiss {
-	margin-left: 0.5em;
 }
 
 form.upgrade {
@@ -2464,7 +2455,7 @@ div.star-holder .star-rating {
 	font-weight: 400;
 	font-style: normal;
 	vertical-align: top;
-	transition: color .1s ease-in;
+	transition: color .1s ease-in 0;
 	text-align: center;
 	color: #ffb900;
 }
@@ -3143,7 +3134,7 @@ img {
 
 /* Styles for folder indicators/depth */
 .tree-folder .tree-folder::after {
-	content: "";
+	content: ' ';
 	display: block;
 	position: absolute;
 	left: 2px;
@@ -3152,7 +3143,7 @@ img {
 	bottom: 10px;
 }
 .tree-folder > li::before {
-	content: "";
+	content: ' ';
 	position: absolute;
 	display: block;
 	border-left: 1px solid #ccc;
@@ -3163,7 +3154,7 @@ img {
 	border-bottom: 1px solid #ccc;
 }
 .tree-folder > li::after {
-	content: "";
+	content: ' ';
 	position: absolute;
 	display: block;
 	border-left: 1px solid #ccc;
@@ -3368,8 +3359,7 @@ img {
 .control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
-.widget.open .widget-top .widget-action .toggle-indicator:before,
-.widget.widget-in-question .widget-top .widget-action .toggle-indicator:before  {
+.widget.open .widget-top .widget-action .toggle-indicator:before {
 	content: "\f142";
 }
 
@@ -3704,7 +3694,8 @@ img {
 	}
 
 	/* Hidden Elements */
-	#contextual-help-link-wrap,
+	#screen-meta,
+	#screen-meta-links,
 	#collapse-menu,
 	.post-format-select {
 		display: none !important;
@@ -3949,6 +3940,23 @@ img {
 	h3 .nav-tab {
 		margin: 10px 10px 0 0;
 		border-bottom: 1px solid #ccc;
+	}
+}
+
+.options-media-php br {
+	display: none;
+}
+
+@media screen and (max-width: 375px) {
+	.options-media-php input[type="number"][name*="_size_"] {
+		margin: 5px 0;
+	}
+	.options-media-php label[for*="_size_h"]:before {
+		content: '';
+		display: block;
+	}
+	.options-media-php br {
+		display: block;
 	}
 }
 

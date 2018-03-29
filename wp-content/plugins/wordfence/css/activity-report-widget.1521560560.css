@@ -1,0 +1,91 @@
+#wordfence_activity_report_widget .wf-logo {
+	text-align: center;
+	display: block;
+}
+#wordfence_activity_report_widget .wf-logo img {
+	max-width: 100%;
+	width: 400px;
+}
+#wordfence_activity_report_widget .inside h1,
+#wordfence_activity_report_widget .inside h2,
+#wordfence_activity_report_widget .inside h3,
+#wordfence_activity_report_widget .inside h4 {
+	margin: 20px 0 4px;
+	color: #222 !important;
+}
+#wordfence_activity_report_widget .inside h1 {
+	float: right;
+	text-align: right;
+	font-size: 30px;
+	color: #444444 !important;
+	line-height: 1.1;
+}
+#wordfence_activity_report_widget .inside h2 {
+	font-size: 20px;
+}
+#wordfence_activity_report_widget .inside h4 {
+	font-size: 16px;
+	color: #666666 !important;
+}
+#wordfence_activity_report_widget .inside code {
+	background-color: transparent;
+}
+#wordfence_activity_report_widget table.wf-striped-table {
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
+}
+#wordfence_activity_report_widget table.wf-fixed-table {
+	table-layout: fixed;
+}
+#wordfence_activity_report_widget table.wf-striped-table th,
+#wordfence_activity_report_widget table.wf-striped-table td {
+	text-align: left;
+	padding: 6px 4px;
+	border: 1px solid #cccccc;
+}
+#wordfence_activity_report_widget table.wf-striped-table thead th,
+#wordfence_activity_report_widget table.wf-striped-table thead td {
+	background-color: #222;
+	color: #FFFFFF;
+	font-weight: bold;
+	border-color: #474747;
+}
+#wordfence_activity_report_widget table.wf-striped-table tbody tr.even td {
+	background-color: #eeeeee;
+}
+#wordfence_activity_report_widget .loginFailValidUsername {
+	color: #00c000;
+	font-weight: bold;
+}
+#wordfence_activity_report_widget .loginFailInvalidUsername {
+	color: #e74a2a;
+	font-weight: bold;
+}
+#wordfence_activity_report_widget .display-file-table-cell {
+	overflow: hidden;
+}
+#wordfence_activity_report_widget .display-file {
+	margin: 0px;
+	display: block;
+	font-size: 12px;
+	width: 100%;
+	overflow: auto;
+	white-space: nowrap;
+}
+#wordfence_activity_report_widget .recently-modified-files {
+	table-layout: fixed;
+}
+#wordfence_activity_report_widget .recently-modified-files th:nth-child(1),
+#wordfence_activity_report_widget .recently-modified-files td:nth-child(1) {
+	width: 30%;
+}
+#wordfence_activity_report_widget .recently-modified-files th:nth-child(2),
+#wordfence_activity_report_widget .recently-modified-files td:nth-child(2) {
+	width: 70%;
+}
+
+#wordfence_activity_report_widget .wf-split-word {
+	word-wrap: break-word;
+	word-break: break-all;
+}

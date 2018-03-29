@@ -1,0 +1,46 @@
+/*!
+ * Styling for RTL (right-to-left) languages using pickadate.js
+ */
+/**
+ * Switch the direction - only really necessary if
+ * it hasn’t already been applied higher up in the DOM.
+ */
+.um .picker {
+  direction: rtl;
+}
+/**
+ * Flip around the “next” and “previous” buttons.
+ */
+.um .picker__nav--next {
+  right: auto;
+  left: -1em;
+}
+.um .picker__nav--prev {
+  left: auto;
+  right: -1em;
+}
+.um .picker__nav--next:before {
+  border-left: 0;
+  border-right: 0.75em solid #000000;
+}
+.um .picker__nav--prev:before {
+  border-right: 0;
+  border-left: 0.75em solid #000000;
+}
+
+.um-popup .picker__nav--next {
+  right: auto;
+  left: -1em;
+}
+.um-popup .picker__nav--prev {
+  left: auto;
+  right: -1em;
+}
+.um-popup .picker__nav--next:before {
+  border-left: 0;
+  border-right: 0.75em solid #000000;
+}
+.um-popup .picker__nav--prev:before {
+  border-right: 0;
+  border-left: 0.75em solid #000000;
+}

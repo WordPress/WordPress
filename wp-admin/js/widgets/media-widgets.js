@@ -1,9 +1,4 @@
 /* eslint consistent-this: [ "error", "control" ] */
-
-/**
- * @namespace wp.mediaWidgets
- * @memberOf  wp
- */
 wp.mediaWidgets = ( function( $ ) {
 	'use strict';
 
@@ -14,8 +9,6 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * Media widgets register themselves by assigning subclasses of MediaWidgetControl onto this object by widget ID base.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @type {Object.<string, wp.mediaWidgets.MediaWidgetModel>}
 	 */
 	component.controlConstructors = {};
@@ -25,22 +18,22 @@ wp.mediaWidgets = ( function( $ ) {
 	 *
 	 * Media widgets register themselves by assigning subclasses of MediaWidgetControl onto this object by widget ID base.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @type {Object.<string, wp.mediaWidgets.MediaWidgetModel>}
 	 */
 	component.modelConstructors = {};
 
-	component.PersistentDisplaySettingsLibrary = wp.media.controller.Library.extend(/** @lends wp.mediaWidgets.PersistentDisplaySettingsLibrary.prototype */{
+	/**
+	 * Library which persists the customized display settings across selections.
+	 *
+	 * @class PersistentDisplaySettingsLibrary
+	 * @constructor
+	 */
+	component.PersistentDisplaySettingsLibrary = wp.media.controller.Library.extend({
 
 		/**
-		 * Library which persists the customized display settings across selections.
-		 *
-		 * @constructs wp.mediaWidgets.PersistentDisplaySettingsLibrary
-		 * @augments   wp.media.controller.Library
+		 * Initialize.
 		 *
 		 * @param {Object} options - Options.
-		 *
 		 * @returns {void}
 		 */
 		initialize: function initialize( options ) {
@@ -86,10 +79,10 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Extended view for managing the embed UI.
 	 *
-	 * @class    wp.mediaWidgets.MediaEmbedView
-	 * @augments wp.media.view.Embed
+	 * @class MediaEmbedView
+	 * @constructor
 	 */
-	component.MediaEmbedView = wp.media.view.Embed.extend(/** @lends wp.mediaWidgets.MediaEmbedView.prototype */{
+	component.MediaEmbedView = wp.media.view.Embed.extend({
 
 		/**
 		 * Initialize.
@@ -116,9 +109,6 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @returns {void}
 		 */
 		refresh: function refresh() {
-			/**
-			 * @class wp.mediaWidgets~Constructor
-			 */
 			var Constructor;
 
 			if ( 'image' === this.controller.options.mimeType ) {
@@ -126,7 +116,7 @@ wp.mediaWidgets = ( function( $ ) {
 			} else {
 
 				// This should be eliminated once #40450 lands of when this is merged into core.
-				Constructor = wp.media.view.EmbedLink.extend(/** @lends wp.mediaWidgets~Constructor.prototype */{
+				Constructor = wp.media.view.EmbedLink.extend({
 
 					/**
 					 * Set the disabled state on the Add to Widget button.
@@ -294,10 +284,10 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Custom media frame for selecting uploaded media or providing media by URL.
 	 *
-	 * @class    wp.mediaWidgets.MediaFrameSelect
-	 * @augments wp.media.view.MediaFrame.Post
+	 * @class MediaFrameSelect
+	 * @constructor
 	 */
-	component.MediaFrameSelect = wp.media.view.MediaFrame.Post.extend(/** @lends wp.mediaWidgets.MediaFrameSelect.prototype */{
+	component.MediaFrameSelect = wp.media.view.MediaFrame.Post.extend({
 
 		/**
 		 * Create the default states.
@@ -367,8 +357,6 @@ wp.mediaWidgets = ( function( $ ) {
 				/**
 				 * Handle click.
 				 *
-				 * @ignore
-				 *
 				 * @fires wp.media.controller.State#insert()
 				 * @returns {void}
 				 */
@@ -420,7 +408,14 @@ wp.mediaWidgets = ( function( $ ) {
 		}
 	});
 
-	component.MediaWidgetControl = Backbone.View.extend(/** @lends wp.mediaWidgets.MediaWidgetControl.prototype */{
+	/**
+	 * Media widget control.
+	 *
+	 * @class MediaWidgetControl
+	 * @constructor
+	 * @abstract
+	 */
+	component.MediaWidgetControl = Backbone.View.extend({
 
 		/**
 		 * Translation strings.
@@ -478,17 +473,12 @@ wp.mediaWidgets = ( function( $ ) {
 		showDisplaySettings: true,
 
 		/**
-		 * Media Widget Control.
-		 *
-		 * @constructs wp.mediaWidgets.MediaWidgetControl
-		 * @augments   Backbone.View
-		 * @abstract
+		 * Initialize.
 		 *
 		 * @param {Object}         options - Options.
 		 * @param {Backbone.Model} options.model - Model.
 		 * @param {jQuery}         options.el - Control field container element.
 		 * @param {jQuery}         options.syncContainer - Container element where fields are synced for the server.
-		 *
 		 * @returns {void}
 		 */
 		initialize: function initialize( options ) {
@@ -971,10 +961,10 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Media widget model.
 	 *
-	 * @class    wp.mediaWidgets.MediaWidgetModel
-	 * @augments Backbone.Model
+	 * @class MediaWidgetModel
+	 * @constructor
 	 */
-	component.MediaWidgetModel = Backbone.Model.extend(/** @lends wp.mediaWidgets.MediaWidgetModel.prototype */{
+	component.MediaWidgetModel = Backbone.Model.extend({
 
 		/**
 		 * Id attribute.
@@ -1095,18 +1085,14 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Collection of all widget model instances.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @type {Backbone.Collection}
 	 */
-	component.modelCollection = new ( Backbone.Collection.extend( {
+	component.modelCollection = new ( Backbone.Collection.extend({
 		model: component.MediaWidgetModel
 	}) )();
 
 	/**
 	 * Mapping of widget ID to instances of MediaWidgetControl subclasses.
-	 *
-	 * @memberOf wp.mediaWidgets
 	 *
 	 * @type {Object.<string, wp.mediaWidgets.MediaWidgetControl>}
 	 */
@@ -1115,11 +1101,8 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Handle widget being added or initialized for the first time at the widget-added event.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @param {jQuery.Event} event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
-	 *
 	 * @returns {void}
 	 */
 	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
@@ -1201,8 +1184,6 @@ wp.mediaWidgets = ( function( $ ) {
 	/**
 	 * Setup widget in accessibility mode.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @returns {void}
 	 */
 	component.setupAccessibleMode = function setupAccessibleMode() {
@@ -1252,11 +1233,8 @@ wp.mediaWidgets = ( function( $ ) {
 	 * the widgets admin screen and also via the 'widget-synced' event when making
 	 * a change to a widget in the customizer.
 	 *
-	 * @memberOf wp.mediaWidgets
-	 *
 	 * @param {jQuery.Event} event - Event.
 	 * @param {jQuery}       widgetContainer - Widget container element.
-	 *
 	 * @returns {void}
 	 */
 	component.handleWidgetUpdated = function handleWidgetUpdated( event, widgetContainer ) {
@@ -1288,8 +1266,6 @@ wp.mediaWidgets = ( function( $ ) {
 	 * This function exists to prevent the JS file from having to boot itself.
 	 * When WordPress enqueues this script, it should have an inline script
 	 * attached which calls wp.mediaWidgets.init().
-	 *
-	 * @memberOf wp.mediaWidgets
 	 *
 	 * @returns {void}
 	 */

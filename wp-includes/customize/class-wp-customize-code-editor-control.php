@@ -47,18 +47,16 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 	 * @since 4.9.0
 	 */
 	public function enqueue() {
-		$this->editor_settings = wp_enqueue_code_editor(
-			array_merge(
-				array(
-					'type'       => $this->code_type,
-					'codemirror' => array(
-						'indentUnit' => 2,
-						'tabSize'    => 2,
-					),
+		$this->editor_settings = wp_enqueue_code_editor( array_merge(
+			array(
+				'type' => $this->code_type,
+				'codemirror' => array(
+					'indentUnit' => 2,
+					'tabSize' => 2,
 				),
-				$this->editor_settings
-			)
-		);
+			),
+			$this->editor_settings
+		) );
 	}
 
 	/**
@@ -70,9 +68,9 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 	 * @return array Array of parameters passed to the JavaScript.
 	 */
 	public function json() {
-		$json                    = parent::json();
+		$json = parent::json();
 		$json['editor_settings'] = $this->editor_settings;
-		$json['input_attrs']     = $this->input_attrs;
+		$json['input_attrs'] = $this->input_attrs;
 		return $json;
 	}
 

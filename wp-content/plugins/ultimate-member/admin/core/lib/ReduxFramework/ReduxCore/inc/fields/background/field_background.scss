@@ -1,0 +1,59 @@
+.redux-main {
+    .redux-container-background {
+        .redux-background-position,
+        .redux-background-position select,
+        .redux-background-attachment,
+        .redux-background-attachment select,
+        .redux-background-clip,
+        .redux-background-clip select,
+        .redux-background-origin,
+        .redux-background-origin select,
+        .redux-background-size,
+        .redux-background-size select,
+        .redux-background-repeat,
+        .redux-background-repeat select {
+            width:200px !important;
+            margin-right: 10px;
+            margin-bottom: 7px;
+        }
+
+        .background-preview {
+            display:block;
+            width: 100%;
+            margin: 5px 0 10px;
+            border:1px dotted lightgray;
+        }
+
+        .select2-container {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .wp-picker-container {
+            margin-bottom: 10px;
+        }
+
+        .upload {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    }
+
+    .redux-container-select {
+        li.ui-state-highlight {
+            height: 20px;
+            margin-top:2px;
+            margin-left: 5px;
+            width: 64px;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.wp-customizer {
+    .redux-container-background {
+        .redux-background-position, .redux-background-position select, .redux-background-attachment, .redux-background-attachment select, .redux-background-clip, .redux-background-clip select, .redux-background-origin, .redux-background-origin select, .redux-background-size, .redux-background-size select, .redux-background-repeat, .redux-background-repeat select {
+            width: 100% !important;
+        }
+    }
+}

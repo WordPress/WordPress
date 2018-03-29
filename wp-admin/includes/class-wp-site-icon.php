@@ -20,7 +20,7 @@ class WP_Site_Icon {
 	 * @since 4.3.0
 	 * @var int
 	 */
-	public $min_size = 512;
+	public $min_size  = 512;
 
 	/**
 	 * The size to which to crop the image so that we can display it in the UI nicely.
@@ -34,7 +34,7 @@ class WP_Site_Icon {
 	 * List of site icon sizes.
 	 *
 	 * @since 4.3.0
-	 * @var int[]
+	 * @var array
 	 */
 	public $site_icon_sizes = array(
 		/*
@@ -96,7 +96,7 @@ class WP_Site_Icon {
 			'post_content'   => $url,
 			'post_mime_type' => $image_type,
 			'guid'           => $url,
-			'context'        => 'site-icon',
+			'context'        => 'site-icon'
 		);
 
 		return $object;
@@ -131,12 +131,12 @@ class WP_Site_Icon {
 	}
 
 	/**
-	 * Adds additional sizes to be made when creating the site icon images.
+	 * Adds additional sizes to be made when creating the site_icon images.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array[] $sizes Array of arrays containing information for additional sizes.
-	 * @return array[] Array of arrays containing additional image sizes.
+	 * @param array $sizes List of additional sizes.
+	 * @return array Additional image sizes.
 	 */
 	public function additional_sizes( $sizes = array() ) {
 		$only_crop_sizes = array();
@@ -146,7 +146,7 @@ class WP_Site_Icon {
 		 *
 		 * @since 4.3.0
 		 *
-		 * @param int[] $site_icon_sizes Array of sizes available for the Site Icon.
+		 * @param array $site_icon_sizes Sizes available for the Site Icon.
 		 */
 		$this->site_icon_sizes = apply_filters( 'site_icon_image_sizes', $this->site_icon_sizes );
 
@@ -179,8 +179,8 @@ class WP_Site_Icon {
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param string[] $sizes Array of image size names.
-	 * @return string[] Array of image size names.
+	 * @param array $sizes List of image sizes.
+	 * @return array List of intermediate image sizes.
 	 */
 	public function intermediate_image_sizes( $sizes = array() ) {
 		/** This filter is documented in wp-admin/includes/class-wp-site-icon.php */

@@ -111,13 +111,13 @@ class WP_REST_Request implements ArrayAccess {
 	 */
 	public function __construct( $method = '', $route = '', $attributes = array() ) {
 		$this->params = array(
-			'URL'      => array(),
-			'GET'      => array(),
-			'POST'     => array(),
-			'FILES'    => array(),
+			'URL'   => array(),
+			'GET'   => array(),
+			'POST'  => array(),
+			'FILES' => array(),
 
 			// See parse_json_params.
-			'JSON'     => null,
+			'JSON'  => null,
 
 			'defaults' => array(),
 		);
@@ -174,6 +174,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * @link https://nginx.org/en/docs/http/ngx_http_core_module.html#underscores_in_headers
 	 *
 	 * @since 4.4.0
+	 * @static
 	 *
 	 * @param string $key Header name.
 	 * @return string Canonicalized name.
@@ -234,7 +235,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * @param string $value Header value, or list of values.
 	 */
 	public function set_header( $key, $value ) {
-		$key   = $this->canonicalize_header_name( $key );
+		$key = $this->canonicalize_header_name( $key );
 		$value = (array) $value;
 
 		$this->headers[ $key ] = $value;
@@ -249,7 +250,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * @param string $value Header value, or list of values.
 	 */
 	public function add_header( $key, $value ) {
-		$key   = $this->canonicalize_header_name( $key );
+		$key = $this->canonicalize_header_name( $key );
 		$value = (array) $value;
 
 		if ( ! isset( $this->headers[ $key ] ) ) {
@@ -367,7 +368,7 @@ class WP_REST_Request implements ArrayAccess {
 		 * @param array           $order {
 		 *    An array of types to check, in order of priority.
 		 *
-		 * @param string $type The type to check.
+		 *    @param string $type The type to check.
 		 * }
 		 * @param WP_REST_Request $this The request object.
 		 */
@@ -404,7 +405,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * @param mixed  $value Parameter value.
 	 */
 	public function set_param( $key, $value ) {
-		$order                             = $this->get_parameter_order();
+		$order = $this->get_parameter_order();
 		$this->params[ $order[0] ][ $key ] = $value;
 	}
 
@@ -586,8 +587,8 @@ class WP_REST_Request implements ArrayAccess {
 		$this->body = $data;
 
 		// Enable lazy parsing.
-		$this->parsed_json    = false;
-		$this->parsed_body    = false;
+		$this->parsed_json = false;
+		$this->parsed_body = false;
 		$this->params['JSON'] = null;
 	}
 
@@ -649,7 +650,7 @@ class WP_REST_Request implements ArrayAccess {
 				'status' => WP_Http::BAD_REQUEST,
 			);
 			if ( function_exists( 'json_last_error' ) ) {
-				$error_data['json_error_code']    = json_last_error();
+				$error_data['json_error_code'] = json_last_error();
 				$error_data['json_error_message'] = json_last_error_msg();
 			}
 
@@ -801,12 +802,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		if ( $invalid_params ) {
-			return new WP_Error(
-				'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array(
-					'status' => 400,
-					'params' => $invalid_params,
-				)
-			);
+			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array( 'status' => 400, 'params' => $invalid_params ) );
 		}
 
 		return true;
@@ -828,7 +824,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		$attributes = $this->get_attributes();
-		$required   = array();
+		$required = array();
 
 		// No arguments set, skip validation.
 		if ( empty( $attributes['args'] ) ) {
@@ -844,12 +840,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		if ( ! empty( $required ) ) {
-			return new WP_Error(
-				'rest_missing_callback_param', sprintf( __( 'Missing parameter(s): %s' ), implode( ', ', $required ) ), array(
-					'status' => 400,
-					'params' => $required,
-				)
-			);
+			return new WP_Error( 'rest_missing_callback_param', sprintf( __( 'Missing parameter(s): %s' ), implode( ', ', $required ) ), array( 'status' => 400, 'params' => $required ) );
 		}
 
 		/*
@@ -877,12 +868,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		if ( $invalid_params ) {
-			return new WP_Error(
-				'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array(
-					'status' => 400,
-					'params' => $invalid_params,
-				)
-			);
+			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array( 'status' => 400, 'params' => $invalid_params ) );
 		}
 
 		return true;
@@ -952,13 +938,14 @@ class WP_REST_Request implements ArrayAccess {
 	/**
 	 * Retrieves a WP_REST_Request object from a full URL.
 	 *
+	 * @static
 	 * @since 4.5.0
 	 *
 	 * @param string $url URL with protocol, domain, path and query args.
 	 * @return WP_REST_Request|false WP_REST_Request object on success, false on failure.
 	 */
 	public static function from_url( $url ) {
-		$bits         = parse_url( $url );
+		$bits = parse_url( $url );
 		$query_params = array();
 
 		if ( ! empty( $bits['query'] ) ) {
@@ -969,7 +956,7 @@ class WP_REST_Request implements ArrayAccess {
 		if ( get_option( 'permalink_structure' ) && 0 === strpos( $url, $api_root ) ) {
 			// Pretty permalinks on, and URL is under the API root.
 			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
-			$route        = parse_url( $api_url_part, PHP_URL_PATH );
+			$route = parse_url( $api_url_part, PHP_URL_PATH );
 		} elseif ( ! empty( $query_params['rest_route'] ) ) {
 			// ?rest_route=... set directly
 			$route = $query_params['rest_route'];

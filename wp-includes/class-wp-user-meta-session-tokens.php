@@ -124,6 +124,7 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
+	 * @static
 	 */
 	public static function drop_sessions() {
 		delete_metadata( 'user', 0, 'session_tokens', false, true );

@@ -1,0 +1,743 @@
+# Translation of Development (trunk) in Portuguese (Brazil)
+# This file is distributed under the same license as the Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: +0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Development (trunk)\n"
+
+#: index.php:878
+msgid "Custom Code to be Checked:"
+msgstr "Código personalizado a ser verificado:"
+
+#: index.php:884
+msgid "Save Settings"
+msgstr "Salvar Configurações"
+
+#: index.php:878
+msgid "For very advanced users only. If you enter anything in this box then no other files will be scanned on your site."
+msgstr "Apenas para usuários muito avançados. Se você colocar algo nesta caixa, nenhum outro arquivo será escaneado em seu site."
+
+#: index.php:1313
+msgid "saved."
+msgstr "salvo."
+
+#: index.php:1324
+msgid "Failed to empty the trash."
+msgstr "Falha ao esvaziar a lixeira."
+
+#: index.php:1371 index.php:1407
+msgid "Done!"
+msgstr "Pronto!"
+
+#: index.php:1374
+msgid "Failed to delete!"
+msgstr "Falha ao excluir!"
+
+#: index.php:1309
+msgid "New position"
+msgstr "Nova posição"
+
+#: index.php:1382
+msgid "Complete!"
+msgstr "Completo!"
+
+#: index.php:1385
+msgid "Restore Failed!"
+msgstr "Restauração Falhou!"
+
+#: index.php:1405
+msgid "Because some changes were made we need to check to make sure it did not break your site. If this stays Red and the frame below does not load please <a %s>revert the changes</a> made during this automated fix process."
+msgstr "Por haver algumas mudanças feitas, precisamos checar para ter certeza que isso não quebrou o seu site. Se isso ficar em Vermelho e o quadro abaixo não carregar, <a %s> reverta as alterações</a> feitas durante esse processo automatizado de correção."
+
+#: index.php:1405
+msgid "Never mind, it worked!"
+msgstr "Não importa, funcionou!"
+
+#: index.php:1407
+msgid "Nothing Selected to be Changed!"
+msgstr "Nada selecionado para ter alterado!"
+
+#: index.php:1473
+msgid "Are you sure you want to delete this file from the quarantine?"
+msgstr "Você tem certeza que quer excluir esse arquivo da quarentena?"
+
+#: index.php:1473
+msgid "File Details:"
+msgstr "Detalhes do arquivo:"
+
+#: index.php:1535
+msgid "Potential threats in file:"
+msgstr "Ameaças potenciais no arquivo:"
+
+#: safe-load/trace.php:18
+msgid ": Headers sent by %1$s on line %2$s."
+msgstr ": Cabeçalhos enviados por  %1$s na linha %2$s."
+
+#. Plugin Name of the plugin/theme
+msgid "Anti-Malware and Brute-Force Security by ELI"
+msgstr "Anti-Malware e Brute-Force Security by ELI"
+
+#. Plugin URI of the plugin/theme
+msgid "http://gotmls.net/"
+msgstr "http://gotmls.net/"
+
+#. Description of the plugin/theme
+msgid "This Anti-Virus/Anti-Malware plugin searches for Malware and other Virus like threats and vulnerabilities on your server and helps you remove them. It's always growing and changing to adapt to new threats so let me know if it's not working for you."
+msgstr "Este plugin Anti-Virus/Anti-Malware procura por Malware e outros Virus como ameaças e vulnerabilidades em seu servidor, e lhe auxilia a resolvê-los. Isto está sempre mudando e precisa de atualizações e adaptação frequentemente. Para novas ameaças, ou se isso não funcionou bem para você, entre em contato comigo."
+
+#. Author of the plugin/theme
+msgid "Eli Scheetz"
+msgstr "Eli Scheetz"
+
+#. Author URI of the plugin/theme
+msgid "http://wordpress.ieonly.com/category/my-plugins/anti-malware/"
+msgstr "http://wordpress.ieonly.com/category/my-plugins/anti-malware/"
+
+#: index.php:1535
+msgid "Are you sure this file is not infected and you want to ignore it in future scans?"
+msgstr "Tem certeza que esse arquivo não está infectado e deseja ignorá-lo nós escaneamentos futuros?"
+
+#: index.php:1492
+msgid "The file %s does not exist, it must have already been deleted."
+msgstr "O arquivo %s não existe, ele já foi excluído."
+
+#: index.php:1475
+msgid "This file no longer exists in the quarantine."
+msgstr "Este arquivo não existe mais na quarentena."
+
+#: index.php:872
+msgid "What to scan:"
+msgstr "O que verificar:"
+
+#: index.php:868
+msgid "Download the new definitions (Right sidebar) to activate this feature."
+msgstr "Faça download das novas definições (barra lateral direita) para ativar este recurso."
+
+#: index.php:868
+msgid "Download Definition Updates to Use this feature"
+msgstr "Usar este recurso"
+
+#: index.php:853
+msgid "What to look for:"
+msgstr "Procurar por:"
+
+#: index.php:849
+msgid "Only Scan These Folders:"
+msgstr "Escanear Somente Essas Pastas"
+
+#: index.php:717
+msgid "Scan Logs"
+msgstr "Escanear Logs"
+
+#: index.php:713
+msgid "Quarantine"
+msgstr "Quarentena "
+
+#: index.php:710
+msgid "White-lists"
+msgstr "White-lists (lista branca)"
+
+#: index.php:700
+msgid "No Items in Quarantine"
+msgstr "Não há itens na Quarentena "
+
+#: index.php:693
+msgid "View Quarantined File"
+msgstr "Visualizar Arquivo na Quarentena "
+
+#: images/index.php:32 index.php:905
+msgid "Potential Threats"
+msgstr "Ameaças potenciais"
+
+#: images/index.php:71 index.php:1136
+msgid "You must register and donate to use this feature!"
+msgstr "Você precisa se registrar e fazer uma doação para usar essa funcionalidade!"
+
+#: images/index.php:71 index.php:1136
+msgid "This feature is available to those who have donated!"
+msgstr "Este recurso está disponível àqueles que fizeram uma doação!"
+
+#: images/index.php:75
+msgid "Your Server could not start a Session!"
+msgstr "Seu servidor não pôde iniciar uma sessão!"
+
+#: images/index.php:88
+msgid "Failed to list files in directory!"
+msgstr "Falha ao listar arquivos no diretório!"
+
+#: images/index.php:89
+msgid "Quick Scan"
+msgstr "Escaneamento Rápido"
+
+#: images/index.php:90
+msgid "View Quarantine"
+msgstr "Ver Quarentena"
+
+#: images/index.php:91
+msgid "View Scan Log"
+msgstr "Ver Log de Escaneamento"
+
+#: images/index.php:92
+msgid "This Plugin requires WordPress version %s or higher"
+msgstr "Este Plugin requer a versão %s do WordPress, ou superior"
+
+#: images/index.php:93
+msgid "Scan Settings"
+msgstr "Configurações de Escaneamento"
+
+#: images/index.php:94
+msgid "Loading, Please Wait ..."
+msgstr "Carregando, Aguarde Por Favor..."
+
+#: images/index.php:95
+msgid "Automatically Fix SELECTED Files Now"
+msgstr "Corrigir automaticamente os arquivos SELECIONADOS abaixo"
+
+#: images/index.php:202 safe-load/trace.php:15
+msgid "an unknown file"
+msgstr "um arquivo desconhecido"
+
+#: images/index.php:204 safe-load/trace.php:17
+msgid "unknown"
+msgstr "desconhecido"
+
+#: images/index.php:205
+msgid "<b>Headers already sent</b> in %1$s on line %2$s.<br />This is not a good sign, it may just be a poorly written plugin but Headers should not have been sent at this point.<br />Check the code in the above mentioned file to fix this problem."
+msgstr "<b>Cabeçalhos já enviados</b> em %1$s na linha %2$s.<br />Isso não é um bom sinal, pode ser apenas um plugin mal escrito, mas os cabeçalhos não deveriam ter sido enviado neste momento.<br />Verifique o código mencionado abaixo para resolver este problema."
+
+#: index.php:1207
+msgid "Your new username must be at least 3 characters and can only contain &quot;%s&quot;. Please try again."
+msgstr "Seu novo nome de usuário precisa conter ao menos 3 caracteres e pode conter apenas &quot;%s&quot;. Tente novamente por favor."
+
+#: index.php:1208
+msgid "Change your username:"
+msgstr "Troque seu nome de usuário:"
+
+#: index.php:1287
+msgid "Default position"
+msgstr "Posição padrão"
+
+#: index.php:1148
+msgid "Failed to remove XMLRPC Protection (.htaccess %s)"
+msgstr "Falha ao remover a proteção XMLRPC (.htaccess %s)"
+
+#: index.php:1155
+msgid "Failed to install XMLRPC Protection (.htaccess %s)"
+msgstr "Falha ao instalar a proteção XMLRPC (.htaccess %s)"
+
+#: index.php:1159
+msgid "Most WordPress site do not use the XMLRPC features and hack attempt on the xmlrpc.php file are more common then ever before. Even if there are no vulnerabilities for hackers to exploit these attempts can cause slowness or downtime similar to a DDoS attack. This patch automatically blocks all external access to the xmlrpc.php file."
+msgstr "A maioria dos sites em WordPress não usam os recursos XMLRPC e restringir o uso do arquivo xmlrpc.php é mais comuns do que nunca. Mesmo que não haja vulnerabilidades para hackers explorarem essas tentativas podem causar lentidão ou paralisação semelhante a um ataque DDoS. Este patch bloqueia automaticamente todos os acessos externos ao arquivo xmlrpc.php."
+
+#: index.php:1169
+msgid "Removed Brute-Force Protection"
+msgstr "Proteção Brute-Force Removida"
+
+#: index.php:1174
+msgid "Upgraded Brute-Force Protection"
+msgstr "Proteção Brute-Force Atualizada"
+
+#: index.php:1180
+msgid "Installed Brute-Force Protection"
+msgstr "Proteção Brute-Force Instalada"
+
+#: index.php:1183
+msgid "Failed to install Brute-Force Protection (wp-config.php %s)"
+msgstr "Falha ao instalar a Proteção Brute-Force (wp-config.php %s)"
+
+#: index.php:1185
+msgid "wp-config.php Not Readable!"
+msgstr "wp-config.php Não pode ser lido!"
+
+#: index.php:1187
+msgid "wp-config.php Not Found!"
+msgstr "wp-config.php Não Encontrado!"
+
+#: index.php:1190
+msgid "Removed Old Brute-Force Login Patch"
+msgstr "Patch antigo de Brute-Force Login Removido"
+
+#: index.php:1194
+msgid "This protection is automatically activated with this plugin because of the widespread attack on WordPress that are affecting so many site right now. It is still recommended that you make sure to upgrade and older versions of the Revolution Slider plugin, especially those included in some themes that will not update automatically. Even if you do not have Revolution Slider on your site it still can't hurt to have this protection installed."
+msgstr "Essa proteção é ativada automaticamente com este plugin por causa do ataque generalizado no WordPress que afetam tantos site atualmente. É recomendado que você tenha certeza de atualizar as versões mais antigas do plugin Revolution Slider, especialmente aqueles incluídos em alguns temas que não irão atualizá-lo automaticamente. Mesmo se você não tem Revolution Slider em seu site ainda, é melhor ter essa proteção instalada."
+
+#: index.php:1196
+msgid "Checking for session compatibility ..."
+msgstr "Verificando por compatibilidade de sessão..."
+
+#: index.php:1196
+msgid " For more information on Brute-Force attack prevention and the WordPress wp-login-php file "
+msgstr "Para mais informação sobre prevenção de ataques Brute-Force e o arquivo wp-login-php do WordPress"
+
+#: index.php:1201
+msgid "You username has been change to %s. Don't forget to use your new username when you login again."
+msgstr "Seu nome de usuário foi alterado para %s. Não se esqueça de usar o novo nome de usuário quando fizer login novamente."
+
+#: index.php:1203
+msgid "SQL Error changing username: %s. Please try again later."
+msgstr "Erro SQL ao alterar o nome de usuário: %s. Tente novamente por favor. "
+
+#: index.php:905
+msgid "WP-Login Updates"
+msgstr "Atualizações no WP-Login"
+
+#: index.php:937
+msgid "Scan Complete!"
+msgstr "Escaneamento Completo!"
+
+#: index.php:982
+msgid "You are not currently scanning for this type of threat!"
+msgstr "Você não está escaneando para este tipo de ameaça atualmente!"
+
+#: index.php:1022
+msgid "NOTE: These are probably not malicious scripts (but it's a good place to start looking <u>IF</u> your site is infected and no Known Threats were found)."
+msgstr "NOTA: Estes provavelmente não são scripts maliciosos (mas é um bom lugar para começar a olhar <u>SE</u> seu site está infectado e não há ameaças conhecidas encontradas)."
+
+#: index.php:1022
+msgid "NOTE: We have detected changes to the WordPress Core files on your site. This could be an intentional modification or the malicious work of a hacker. We can restore these files to their original state to preserve the integrity of your original WordPress %s installation."
+msgstr "NOTA: Detectamos alterações nos arquivos do núcleo do WordPress em seu site. Esta poderia ser uma modificação intencional ou o trabalho de um hacker mal-intencionado. Podemos restaurar esses arquivos para seu estado original para preservar a integridade da instalação do seu WordPress %s original."
+
+#: index.php:1022 index.php:1196
+msgid "read my blog"
+msgstr "leia meu blog"
+
+#: index.php:1025
+msgid "Scan Details:"
+msgstr "Detalhes de Escaneamento:"
+
+#: index.php:1045
+msgid "The Quick Scan was unable to finish because of a shortage of memory or a problem accessing a file. Please try using the Complete Scan, it is slower but it will handle these errors better and continue scanning the rest of the files."
+msgstr "O Escaneamento Rápido foi incapaz de terminar devido a uma falta de memória ou um problema ao acessar um arquivo. Por favor, tente usar o escaneamento completo, é mais lento, mas ele vai lidar com esses erros melhor e continuar o escaneamento do restante dos arquivos."
+
+#: index.php:1063
+msgid "Completed!"
+msgstr "Completado!"
+
+#: index.php:1065
+msgid "Starting Scan ..."
+msgstr "Iniciando Escaneamento..."
+
+#: index.php:1119
+msgid "Your WordPress Login page is susceptible to a brute-force attack (just like any other login page). These types of attacks are becoming more prevalent these days and can sometimes cause your server to become slow or unresponsive, even if the attacks do not succeed in gaining access to your site. Applying this patch will block access to the WordPress Login page whenever this type of attack is detected."
+msgstr "Sua página de login do WordPress é suscetível a um ataque de força bruta (assim como qualquer outra página de login). Estes tipos de ataques estão se tornando mais frequentes atualmente, e às vezes pode fazer com que o servidor fique lento ou sem resposta, mesmo se os ataques não conseguem ter acesso ao seu site. Aplicando este patch você irá bloquear o acesso à página de login do WordPress sempre que este tipo de ataque é detectado."
+
+#: index.php:1124
+msgid "Your WordPress site has the current version of my brute-force Login protection installed."
+msgstr "Seu site WordPress tem a versão atual da minha proteção de brute-force instalada."
+
+#: index.php:1130
+msgid "Your WordPress Login page has the old version of my brute-force protection installed. Upgrade this patch to improve the protection on the WordPress Login page and preserve the integrity of your WordPress core files."
+msgstr "Sua página WordPress tem a versão antiga da minha proteção brute-force instalada. Atualize este patch para melhorar a proteção na página de Login do WordPress e preservar a integridade de seus arquivos de núcleo do WordPress."
+
+#: index.php:1136
+msgid "Checking .htaccess file ..."
+msgstr "Verificando arquivo .htaccess..."
+
+#: index.php:880
+msgid "Skip files with the following extentions:"
+msgstr "Ignorar arquivos com as seguintes extensões:"
+
+#: index.php:881
+msgid "a comma separated list of file extentions to skip"
+msgstr "uma lista de extensões de arquivo separadas por vírgula para ignorar"
+
+#: index.php:882
+msgid "Skip directories with the following names:"
+msgstr "Ignorar diretórios com os seguintes nomes:"
+
+#: index.php:883
+msgid "a folder name or comma separated list of folder names to skip"
+msgstr "um nome ou uma lista de nomes de pastas, separada por vírgulas para ignorar"
+
+#: index.php:884
+msgid "Automatically Update Definitions:"
+msgstr "Definições de Atualização Automática"
+
+#: index.php:884
+msgid "This new BETA feature is only available to registered users who have donated at a certain level."
+msgstr "Este novo recurso beta está disponível apenas para usuários registrados que doaram a um  determinado nível."
+
+#: index.php:884
+msgid "Run Complete Scan"
+msgstr "Rodar o Escaneamento Completo"
+
+#: index.php:893
+msgid "Scanned Files"
+msgstr "Arquivos Escaneados"
+
+#: index.php:893
+msgid "Selected Folders"
+msgstr "Pastas Selecionadas"
+
+#: index.php:893
+msgid "Scanned Folders"
+msgstr "Pastas Escaneadas"
+
+#: index.php:893
+msgid "Skipped Folders"
+msgstr "Pastas Ignoradas"
+
+#: index.php:893
+msgid "Skipped Files"
+msgstr "Arquivos Ignorados"
+
+#: index.php:893
+msgid "Read/Write Errors"
+msgstr "Erros de Leitura/Gravação"
+
+#: index.php:893
+msgid "Quarantined Files"
+msgstr "Arquivos em Quarentena"
+
+#: index.php:891
+msgid "Another Plugin or Theme is using '%s' to handle output buffers. <br />This prevents actively outputing the buffer on-the-fly and will severely degrade the performance of this (and many other) Plugins. <br />Consider disabling caching and compression plugins (at least during the scanning process)."
+msgstr "Outro Plugin ou Tema está usando '%s' para lidar com buffers de saída. <br /> Isso impede ativamente a saída do buffer em tempo real e irá degradar severamente o desempenho deste (e muitos outros) Plugins. <br /> Considere desabilitar os plugins de compressão ou de cache (pelo menos durante o processo de escaneamento)."
+
+#: index.php:874
+msgid "Scan Depth:"
+msgstr "Profundidade do escaneamento:"
+
+#: index.php:875
+msgid "how far to drill down"
+msgstr "o quão longe detalhar"
+
+#: index.php:875
+msgid "-1 is infinite depth"
+msgstr "-1 é profundidade infinita"
+
+#: index.php:878
+msgid "Custom RegExp:"
+msgstr "RegExp Personalizado:"
+
+#: index.php:878
+msgid "For very advanced users only. Do not use this without talking to Eli first. If used incorrectly you could easily break your site."
+msgstr "Apenas para usuários muito avançados. Não use isso sem falar com o Eli primeiro. Se você usar incorretamente, você poderá facilmente quebrar seu site."
+
+#: index.php:497
+msgid "Last Scan Status"
+msgstr "Último Status de Escaneamento"
+
+#: index.php:556
+msgid "Cleared %s records from this log."
+msgstr "%s registros removidos deste log."
+
+#: index.php:598
+msgid "No Scans have been logged"
+msgstr "Não há escaneamentos registrados em log."
+
+#: index.php:605
+msgid "Globally White-listed files"
+msgstr "Arquivos globalmente marcados como white-list "
+
+#: index.php:605
+msgid "# of patterns"
+msgstr "# de padrões "
+
+#: index.php:605
+msgid "Date Updated"
+msgstr "Data de Atualização "
+
+#: index.php:615
+msgid "WordPress Core files"
+msgstr "Arquivos de núcleo do WordPress"
+
+#: index.php:615
+msgid "# of files"
+msgstr "# de arquivos"
+
+#: index.php:687
+msgid "Restore selected files"
+msgstr "Restaurar arquivos selecionados"
+
+#: index.php:687
+msgid "Are you sure you want to overwrite the previously cleaned files with the selected files in the Quarantine?"
+msgstr "Tem certeza que você quer sobrescrever os arquivos previamente limpos com esses arquivos selecionados na Quarentena?"
+
+#: index.php:687
+msgid "Delete selected files"
+msgstr "Excluir arquivos selecionados"
+
+#: index.php:687
+msgid "Are you sure you want to permanently delete the selected files in the Quarantine?"
+msgstr "Tem certeza que deseja excluir permanentemente os arquivos selecionados na Quarentena?"
+
+#: index.php:687
+msgid "The following items have been found to contain malicious code, they have been cleaned, and the original infected file contents have been saved here in the Quarantine. The code is safe here and you do not need to do anything further with these files."
+msgstr "Os itens a seguir foram encontrados por conter código malicioso, eles foram limpos, e os arquivos com conteúdo original infectado, foram salvos na Quarentena. O código está seguro aqui e você não precisa de mais nada com esses arquivos."
+
+#: index.php:688
+msgid "Check all %d"
+msgstr "Verificar todos %d"
+
+#: index.php:688
+msgid " Items in Quarantine"
+msgstr "Itens na Quarentena "
+
+#: index.php:375
+msgid "Check for Definition Updates Now!"
+msgstr "Verificar Atualização de Definições Agora!"
+
+#: index.php:376
+msgid "If you have not already registered your Key then register now using the form below.<br />* All registration fields are required<br />** I will NOT share your information."
+msgstr "Se você ainda não registrou sua Chave, registre-se agora usando o formulário abaixo.<br />* Todos os campos de registro são requeridos<br />**Eu NÃO irei compartilhar suas informações."
+
+#: index.php:378
+msgid "Your Full Name:"
+msgstr "Seu Nome Completo:"
+
+#: index.php:382
+msgid "A password will be e-mailed to this address:"
+msgstr "Uma senha será enviada a este endereço de e-mail:"
+
+#: index.php:385
+msgid "Your WordPress Site URL:"
+msgstr "A URL de seu site em WordPress:"
+
+#: index.php:388
+msgid "Plugin Installation Key:"
+msgstr "Chave de instalação do Plugin:"
+
+#: index.php:411
+msgid "Please make a donation for the use of this wonderful feature!"
+msgstr "Por favor faça uma doação para usar esse recurso maravilhoso!"
+
+#: index.php:417
+msgid "First Name is a required field!"
+msgstr "Primeiro Nome é um campo obrigatório!"
+
+#: index.php:419
+msgid "Last Name is a required field!"
+msgstr "Último Nome é um campo obrigatório!"
+
+#: index.php:421
+msgid "Email Address is a required field!"
+msgstr "E-mail é um campo obrigatório!"
+
+#: index.php:429
+msgid "Your WordPress Site URL is a required field!"
+msgstr "A URL de seu site WordPress é um campo obrigatório!"
+
+#: index.php:431
+msgid "Plugin Installation Key is a required field!"
+msgstr "A Chave de Instalação do Plugin é um campo obrigatório!"
+
+#: index.php:436
+msgid "Submitting Registration ..."
+msgstr "Enviando o registro..."
+
+#: index.php:458
+msgid "Resources & Links"
+msgstr "Links e Recursos"
+
+#: index.php:481
+msgid "Make a Donation with PayPal"
+msgstr "Faça uma doação com PayPal"
+
+#: index.php:93
+msgid "FAQs"
+msgstr "FAQs"
+
+#: index.php:98
+msgid "Main Menu Item placed at the <b>Top</b>"
+msgstr "Item do Menu Principal colocado no <b>Topo</b>"
+
+#: index.php:98
+msgid "Main Menu Item placed at the <b>Bottom</b>"
+msgstr "Item do Menu Principal colocado no <b>Rodapé</b>"
+
+#: index.php:100
+msgid "Main Menu Item placed below <b>Comments</b> and above <b>Appearance</b>"
+msgstr "Item do Menu Principal colocado abaixo <b>Comentários</b> e acima <b>Aparência</b>"
+
+#: index.php:100
+msgid "Main Menu Item placed below <b>Settings</b>"
+msgstr "Item do Menu Principal colocado abaixo <b>Configurações</b>"
+
+#: index.php:101
+msgid "Menu Item Placement Options"
+msgstr "Opções de posicionamento de item de menu"
+
+#: index.php:106
+msgid "Menu Placement"
+msgstr "Posicionamento de Menu"
+
+#: index.php:122
+msgid "Tested your site. It appears we didn't break anything"
+msgstr "Site testado. Parece que nós não quebramos nada"
+
+#: index.php:131
+msgid "Upgrade to %s now!"
+msgstr "Upgrade para %s agora!"
+
+#: index.php:135
+msgid "Searching for updates ..."
+msgstr "Buscando por atualizações..."
+
+#: index.php:190
+msgid "If this is taking too long, click here."
+msgstr "Se isso estiver demorando muito, clique aqui."
+
+#: index.php:268
+msgid "No response from server!"
+msgstr "Nenhuma resposta do servidor!"
+
+#: index.php:364
+msgid "Updates & Registration"
+msgstr "Registro e Atualizações "
+
+#: index.php:372
+msgid "Download new definitions!"
+msgstr "Download de novas definições!"
+
+#: index.php:375
+msgid "<p>Get instant access to definition updates.</p>"
+msgstr "<p>Tenha acesso instantâneo à atualizações de definição.</p>"
+
+#: images/index.php:648 images/index.php:746
+msgid "Scanning %s"
+msgstr "Escaneando %s"
+
+#: images/index.php:665 images/index.php:796
+msgid "Scanned %s"
+msgstr "Escaneado %s"
+
+#: images/index.php:706
+msgid "Examine Quarantined File"
+msgstr "Examinar Arquivo na Quarentena "
+
+#: images/index.php:708
+msgid "Examine File"
+msgstr "Examinar Arquivo"
+
+#: images/index.php:718
+msgid "Failed to determine file size!"
+msgstr "Falha ao determinar tamanho de arquivo!"
+
+#: images/index.php:720
+msgid "Skipped because of file size!"
+msgstr "Ignorado por causa do tamanho do arquivo!"
+
+#: images/index.php:722
+msgid "Skipped because of file extention!"
+msgstr "Ignorado por causa da extensão do arquivo."
+
+#: images/index.php:753
+msgid "Failed to read directory!"
+msgstr "Falha ao ler diretório!"
+
+#: images/index.php:771
+msgid "Skipped because of file size (%1$s bytes) or file extention (%2$s)!"
+msgstr "Ignorado por tamanho do arquivo (%1$s bytes) ou extensão  (%2$s)!"
+
+#: images/index.php:785
+msgid "Failed to read file!"
+msgstr "Falha ao ler arquivo!"
+
+#: index.php:87
+msgid "Make sure the Definition Updates are current and Run a Complete Scan."
+msgstr "Tenha ceerteza que a atualização das definições é a mais atual e rode o Escaneamento Completo."
+
+#: index.php:87
+msgid "If Known Threats are found and displayed in red then there will be a button to '%s'. If only Potentional Threats are found then there is no automatic fix because those are probably not malicious."
+msgstr "Se ameaças conhecidas forem encontradas e exibidas em vermelho, em seguida, haverá um botão para '%s'. Se apenas ameaças potenciais forem encontradas, então não há nenhuma correção automática porque esses provavelmente não são arquivos maliciosos."
+
+#: index.php:87
+msgid "A backup of the original infected files are placed in the Quarantine in case you need to restore them or just want to look at them later. You can delete these files if you don't want to save more."
+msgstr "Um backup dos arquivos originais infectados é colocado na Quarentena em caso de necessidade de restaurá-los ou se você quiser apenas verificá-los depois. Você pode excluir esses arquivos se não quiser utilizá-los mais."
+
+#: index.php:86
+msgid "Getting Started"
+msgstr "Iniciando"
+
+#: images/index.php:397
+msgid "Failed to read file contents!"
+msgstr "Falha ao ler conteúdo dos arquivos!"
+
+#: images/index.php:397
+msgid "Empty file!"
+msgstr "Arquivo vazio!"
+
+#: images/index.php:397
+msgid "Fixed file permissions! (try again)"
+msgstr "Permissões de arquivos corrigidas! (tente novamente)"
+
+#: images/index.php:397
+msgid "File permissions read-only!"
+msgstr "Permissões de arquivos apenas-leitura!"
+
+#: images/index.php:397
+msgid "File not readable!"
+msgstr "Arquivo não pode ser lido!"
+
+#: images/index.php:397
+msgid "File does not exist!"
+msgstr "Arquivo não existe!"
+
+#: images/index.php:429
+msgid "Success!"
+msgstr "Sucesso!"
+
+#: images/index.php:432
+msgid "Failed:"
+msgstr "Falha:"
+
+#: images/index.php:432
+msgid "failed to quarantine!"
+msgstr "falha da ação de quarentena!"
+
+#: images/index.php:432
+msgid "reason unknown!"
+msgstr "razão desconhecida!"
+
+#: images/index.php:432
+msgid "failed to write!"
+msgstr "Falha na escrita!"
+
+#: images/index.php:432
+msgid "file not writable!"
+msgstr "arquivo bloqueado para escrita!"
+
+#: images/index.php:432
+msgid "no file contents!"
+msgstr "sem conteúdo no arquivo!"
+
+#: images/index.php:441 images/index.php:447
+msgid "Already Fixed!"
+msgstr "Já Corrigido!"
+
+#: images/index.php:616
+msgid "Preparing %s"
+msgstr "Preparando %s"
+
+#: images/index.php:32
+msgid "htaccess Threats"
+msgstr "Ameaças htaccess"
+
+#: images/index.php:32
+msgid "TimThumb Exploits"
+msgstr "TimThumb Exploits"
+
+#: images/index.php:32
+msgid "Backdoor Scripts"
+msgstr "Backdoor Scripts"
+
+#: images/index.php:32
+msgid "Known Threats"
+msgstr "Ameaças Conhecidas"
+
+#: images/index.php:32
+msgid "Core File Changes"
+msgstr "Alterações em Arquivos do Núcleo "
+
+#: images/index.php:813
+msgid "The <b>base64_decode</b> function is currently disabled by the disable_functions Directive in your server's php.ini file.<br />This function is required for this Anti-Malware plugin to work properly.<br />Check the disable_functions Directive in your php.ini and take out base64_decode to fix this problem."
+msgstr "A função <b>base64_decode</b> está desabilitada atualmente pelas diretivas \"disable_functions\" Do seu servidor, no arquivo php.ini.<br />Esta função é requerida para que esse plugin Anti-Malware funcione corretamente<br />Verifique a diretiva disable_functions em seu arquivo php.ini e remova o base64_decode para resolver esse problema."
+
+#: index.php:1026
+msgid "Not flushing OB Handlers: %s"
+msgstr "Não há manipuladores de flush OB: %s"

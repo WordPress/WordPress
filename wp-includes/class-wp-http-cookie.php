@@ -82,24 +82,21 @@ class WP_Http_Cookie {
 	 *                                    and $port values.
 	 */
 	public function __construct( $data, $requested_url = '' ) {
-		if ( $requested_url ) {
+		if ( $requested_url )
 			$arrURL = @parse_url( $requested_url );
-		}
-		if ( isset( $arrURL['host'] ) ) {
+		if ( isset( $arrURL['host'] ) )
 			$this->domain = $arrURL['host'];
-		}
 		$this->path = isset( $arrURL['path'] ) ? $arrURL['path'] : '/';
-		if ( '/' != substr( $this->path, -1 ) ) {
+		if (  '/' != substr( $this->path, -1 ) )
 			$this->path = dirname( $this->path ) . '/';
-		}
 
 		if ( is_string( $data ) ) {
 			// Assume it's a header string direct from a previous request.
 			$pairs = explode( ';', $data );
 
 			// Special handling for first pair; name=value. Also be careful of "=" in value.
-			$name        = trim( substr( $pairs[0], 0, strpos( $pairs[0], '=' ) ) );
-			$value       = substr( $pairs[0], strpos( $pairs[0], '=' ) + 1 );
+			$name  = trim( substr( $pairs[0], 0, strpos( $pairs[0], '=' ) ) );
+			$value = substr( $pairs[0], strpos( $pairs[0], '=' ) + 1 );
 			$this->name  = $name;
 			$this->value = urldecode( $value );
 
@@ -108,37 +105,32 @@ class WP_Http_Cookie {
 
 			// Set everything else as a property.
 			foreach ( $pairs as $pair ) {
-				$pair = rtrim( $pair );
+				$pair = rtrim($pair);
 
 				// Handle the cookie ending in ; which results in a empty final pair.
-				if ( empty( $pair ) ) {
+				if ( empty($pair) )
 					continue;
-				}
 
 				list( $key, $val ) = strpos( $pair, '=' ) ? explode( '=', $pair ) : array( $pair, '' );
-				$key               = strtolower( trim( $key ) );
-				if ( 'expires' == $key ) {
+				$key = strtolower( trim( $key ) );
+				if ( 'expires' == $key )
 					$val = strtotime( $val );
-				}
 				$this->$key = $val;
 			}
 		} else {
-			if ( ! isset( $data['name'] ) ) {
+			if ( !isset( $data['name'] ) )
 				return;
-			}
 
 			// Set properties based directly on parameters.
 			foreach ( array( 'name', 'value', 'path', 'domain', 'port' ) as $field ) {
-				if ( isset( $data[ $field ] ) ) {
+				if ( isset( $data[ $field ] ) )
 					$this->$field = $data[ $field ];
-				}
 			}
 
-			if ( isset( $data['expires'] ) ) {
+			if ( isset( $data['expires'] ) )
 				$this->expires = is_int( $data['expires'] ) ? $data['expires'] : strtotime( $data['expires'] );
-			} else {
+			else
 				$this->expires = null;
-			}
 		}
 	}
 
@@ -153,43 +145,37 @@ class WP_Http_Cookie {
 	 * @return bool true if allowed, false otherwise.
 	 */
 	public function test( $url ) {
-		if ( is_null( $this->name ) ) {
+		if ( is_null( $this->name ) )
 			return false;
-		}
 
 		// Expires - if expired then nothing else matters.
-		if ( isset( $this->expires ) && time() > $this->expires ) {
+		if ( isset( $this->expires ) && time() > $this->expires )
 			return false;
-		}
 
 		// Get details on the URL we're thinking about sending to.
-		$url         = parse_url( $url );
+		$url = parse_url( $url );
 		$url['port'] = isset( $url['port'] ) ? $url['port'] : ( 'https' == $url['scheme'] ? 443 : 80 );
 		$url['path'] = isset( $url['path'] ) ? $url['path'] : '/';
 
 		// Values to use for comparison against the URL.
-		$path   = isset( $this->path ) ? $this->path : '/';
-		$port   = isset( $this->port ) ? $this->port : null;
+		$path   = isset( $this->path )   ? $this->path   : '/';
+		$port   = isset( $this->port )   ? $this->port   : null;
 		$domain = isset( $this->domain ) ? strtolower( $this->domain ) : strtolower( $url['host'] );
-		if ( false === stripos( $domain, '.' ) ) {
+		if ( false === stripos( $domain, '.' ) )
 			$domain .= '.local';
-		}
 
 		// Host - very basic check that the request URL ends with the domain restriction (minus leading dot).
 		$domain = substr( $domain, 0, 1 ) == '.' ? substr( $domain, 1 ) : $domain;
-		if ( substr( $url['host'], -strlen( $domain ) ) != $domain ) {
+		if ( substr( $url['host'], -strlen( $domain ) ) != $domain )
 			return false;
-		}
 
 		// Port - supports "port-lists" in the format: "80,8000,8080".
-		if ( ! empty( $port ) && ! in_array( $url['port'], explode( ',', $port ) ) ) {
+		if ( !empty( $port ) && !in_array( $url['port'], explode( ',', $port) ) )
 			return false;
-		}
 
 		// Path - request path must start with path restriction.
-		if ( substr( $url['path'], 0, strlen( $path ) ) != $path ) {
+		if ( substr( $url['path'], 0, strlen( $path ) ) != $path )
 			return false;
-		}
 
 		return true;
 	}
@@ -202,9 +188,8 @@ class WP_Http_Cookie {
 	 * @return string Header encoded cookie name and value.
 	 */
 	public function getHeaderValue() {
-		if ( ! isset( $this->name ) || ! isset( $this->value ) ) {
+		if ( ! isset( $this->name ) || ! isset( $this->value ) )
 			return '';
-		}
 
 		/**
 		 * Filters the header-encoded cookie value.

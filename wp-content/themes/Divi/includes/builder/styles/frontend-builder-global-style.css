@@ -1,0 +1,8 @@
+/* These "global" styles need to be seperate so they don't get wrapped in divi-builder file /less/frontend-builder-plugin-style.less */
+
+#wp-admin-bar-et-use-visual-builder a:before { font-family: 'ETmodules' !important; content: "\e625"; font-size: 30px !important; width: 28px; margin-top: -3px; color: #974df3 !important; }
+
+#wp-admin-bar-et-use-visual-builder:hover a:before { color: #fff !important; }
+
+#wp-admin-bar-et-use-visual-builder a:hover,
+#wp-admin-bar-et-use-visual-builder:hover a { transition: background-color .5s ease; -webkit-transition: background-color .5s ease; -moz-transition: background-color .5s ease; background-color: #7e3bd0 !important; color: #fff !important; }

@@ -1,0 +1,62 @@
+.redux-container-image_select {
+    .redux-table-container {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .redux-image-select {
+        margin: 0 !important;
+
+        .tiles {
+            display: block;
+            background-color: #FFF;
+            background-repeat: repeat;
+            width: 40px;
+            height: 40px;
+        }
+
+        img,
+        .tiles {
+            border-color: #d9d9d9;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        input[type='radio'] {
+            display: none;
+        }
+    }
+
+    .redux-image-select-presets img {
+        width: 100%;
+    }
+
+    ul.redux-image-select li {
+        margin: 0 10px 3px 10px;
+        display: inline-block;
+        padding: 2px 2px;
+        padding-left: 0;
+    }
+
+    .redux-image-select-selected {
+        background-color: #f9f9f9;
+    }
+
+    .redux-image-select img,
+    .redux-image-select-selected img,
+    .redux-image-select .tiles,
+    .redux-image-select-selected .tiles {
+        border-width: 4px;
+        border-style: solid;
+    }
+
+    .redux-image-select-selected,
+    .redux-image-select-selected {
+        .tiles {
+            border-color: #7a7a7a;
+        }
+    }
+}

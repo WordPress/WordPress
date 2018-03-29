@@ -75,8 +75,7 @@
 			$shape = apply_filters( 'embed_thumbnail_image_shape', $shape, $thumbnail_id );
 		}
 
-		if ( $thumbnail_id && 'rectangular' === $shape ) :
-		?>
+		if ( $thumbnail_id && 'rectangular' === $shape ) : ?>
 			<div class="wp-embed-featured-image rectangular">
 				<a href="<?php the_permalink(); ?>" target="_top">
 					<?php echo wp_get_attachment_image( $thumbnail_id, $image_size ); ?>
@@ -110,7 +109,7 @@
 		?>
 
 		<div class="wp-embed-footer">
-			<?php the_embed_site_title(); ?>
+			<?php the_embed_site_title() ?>
 
 			<div class="wp-embed-meta">
 				<?php
@@ -119,7 +118,7 @@
 				 *
 				 * @since 4.4.0
 				 */
-				do_action( 'embed_content_meta' );
+				do_action( 'embed_content_meta');
 				?>
 			</div>
 		</div>

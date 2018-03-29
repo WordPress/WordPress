@@ -31,7 +31,7 @@ error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_W
  *
  * If neither set of conditions is true, initiate loading the setup process.
  */
-if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
+if ( file_exists( ABSPATH . 'wp-config.php') ) {
 
 	/** The config file resides in ABSPATH */
 	require_once( ABSPATH . 'wp-config.php' );
@@ -72,7 +72,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 	wp_load_translations_early();
 
 	// Die with an error message
-	$die = sprintf(
+	$die  = sprintf(
 		/* translators: %s: wp-config.php */
 		__( "There doesn't seem to be a %s file. I need this before we can get started." ),
 		'<code>wp-config.php</code>'
@@ -87,7 +87,7 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 		__( "You can create a %s file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file." ),
 		'<code>wp-config.php</code>'
 	) . '</p>';
-	$die .= '<p><a href="' . $path . '" class="button button-large">' . __( 'Create a Configuration File' ) . '</a>';
+	$die .= '<p><a href="' . $path . '" class="button button-large">' . __( "Create a Configuration File" ) . '</a>';
 
 	wp_die( $die, __( 'WordPress &rsaquo; Error' ) );
 }

@@ -214,7 +214,7 @@ ul.category-tabs li,
 
 /* Back-compat for pre-4.4 */
 #category-adder h4 {
-	margin: 0;
+    margin: 0;
 }
 
 .taxonomy-add-new {
@@ -1122,7 +1122,7 @@ p.popular-tags a {
 }
 
 .comment-ays .comment-content a[href]:after {
-	content: "(" attr( href ) ")";
+	content: '(' attr( href ) ')';
 	display: inline-block;
 	padding: 0 4px;
 	color: #72777C;
@@ -1135,7 +1135,7 @@ p.popular-tags a {
 }
 
 .comment-ays .comment-content p.edit-comment a[href]:after {
-	content: "";
+	content: '';
 	padding: 0;
 }
 

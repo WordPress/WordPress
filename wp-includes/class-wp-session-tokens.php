@@ -40,6 +40,7 @@ abstract class WP_Session_Tokens {
 	 * the session manager for a subclass of `WP_Session_Tokens`.
 	 *
 	 * @since 4.0.0
+	 * @static
 	 *
 	 * @param int $user_id User whose session to manage.
 	 * @return WP_User_Meta_Session_Tokens WP_User_Meta_Session_Tokens class instance by default.
@@ -130,11 +131,11 @@ abstract class WP_Session_Tokens {
 		 * @param array $session Array of extra data.
 		 * @param int   $user_id User ID.
 		 */
-		$session               = apply_filters( 'attach_session_information', array(), $this->user_id );
+		$session = apply_filters( 'attach_session_information', array(), $this->user_id );
 		$session['expiration'] = $expiration;
 
 		// IP address.
-		if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+		if ( !empty( $_SERVER['REMOTE_ADDR'] ) ) {
 			$session['ip'] = $_SERVER['REMOTE_ADDR'];
 		}
 
@@ -188,7 +189,7 @@ abstract class WP_Session_Tokens {
 	 */
 	final public function destroy_others( $token_to_keep ) {
 		$verifier = $this->hash_token( $token_to_keep );
-		$session  = $this->get_session( $verifier );
+		$session = $this->get_session( $verifier );
 		if ( $session ) {
 			$this->destroy_other_sessions( $verifier );
 		} else {
@@ -222,6 +223,7 @@ abstract class WP_Session_Tokens {
 	 * Destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
+	 * @static
 	 */
 	final public static function destroy_all_for_all_users() {
 		/** This filter is documented in wp-includes/class-wp-session-tokens.php */
@@ -292,6 +294,7 @@ abstract class WP_Session_Tokens {
 	 * This static method should destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
+	 * @static
 	 */
 	public static function drop_sessions() {}
 }

@@ -1,0 +1,302 @@
+/*
+	- General
+*/
+
+.um-admin-builder * {
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.um-admin-builder i {
+	font-size: 15px !important;
+	height: 100% !important;
+	line-height: 100% !important;
+	margin: 0 5px 0 0 !important;
+}
+
+.um-admin-builder .um-admin-drag {margin-top: 40px}
+
+/*
+	- Add field
+*/
+.um-admin-drag-add-field {
+	display: block;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	color: #aaa;
+	text-decoration: none;
+}
+
+.um-admin-drag-add-field:hover {color: #3ba1da}
+
+.um-admin-drag-add-field  i {
+	font-size: 23px !important;
+	margin: 0 !important;
+}
+
+/*
+	- Drag controls
+*/
+
+.um-admin-drag-ctrls-demo.um-admin-drag-ctrls {
+	position: absolute;
+	right: 7px;
+	top: -30px;
+	left: auto;
+}
+
+.um-admin-drag-ctrls {
+	position: absolute;
+	top: -30px;
+	left: 0;
+}
+
+.um-admin-drag-ctrls a {
+	float: left;
+	margin: 0 5px 0 0;
+	height: 30px;
+	line-height: 30px;
+	background: #eee;
+	color: #888;
+	padding: 0 8px;
+	text-decoration: none;
+	border-radius: 2px 2px 0 0;
+}
+
+.um-admin-drag-ctrls a:hover {background-color: #e5e5e5}
+
+.um-admin-drag-ctrls a.active,
+.um-admin-drag-ctrls a.active:hover {
+	background-color: #3ba1da;
+	color: #fff;
+}
+
+.um-admin-drag-ctrls.columns a {width: 30px !important;background-image: url(../img/1-column.gif); background-repeat: no-repeat; background-position: center;}
+.um-admin-drag-ctrls.columns a:nth-child(2) {background-image: url(../img/2-columns.gif);}
+.um-admin-drag-ctrls.columns a:last-child {background-image: url(../img/3-columns.gif);}
+
+.um-admin-drag-ctrls.columns a.active {background-image: url(../img/1-column-active.gif)}
+.um-admin-drag-ctrls.columns a.active:nth-child(2) {background-image: url(../img/2-columns-active.gif);}
+.um-admin-drag-ctrls.columns a.active:last-child {background-image: url(../img/3-columns-active.gif);}
+
+/*
+	- Drag Area
+*/
+
+.um-admin-drag {
+	width: 100%;
+	background: #f1f1f1;
+	box-sizing: border-box;
+	position: relative;
+	padding: 60px 20px 20px 20px;
+}
+
+.um-admin-drag-row {
+	width: 100%;
+	background: #fefefe;
+	box-sizing: border-box;
+	position: relative;
+	padding: 60px 20px 20px 20px;
+	margin: 0 0 60px 0;
+}
+.um-admin-drag-row:last-child {margin-bottom: 0}
+
+.um-admin-drag-row-icons {
+	position: absolute;
+	right: 0;
+	top: -30px;
+	height: 30px;
+}
+
+.um-admin-drag-rowsub {
+	position: relative;
+	box-sizing: border-box;
+	background: #f1f1f1;
+	padding: 20px;
+	margin: 0 0 60px 0;
+}
+.um-admin-drag-rowsub:last-child {margin-bottom: 0}
+
+.um-admin-drag-rowsub-icons {
+	position: absolute;
+	right: 0;
+	top: -30px;
+	height: 30px;
+}
+
+.um-admin-drag-col {
+	float: left;
+	width: 100%;
+	background: #fff;
+	border: 1px dashed #bbb;
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+.um-admin-drag-col.cols-3 {width: 32%;}
+.um-admin-drag-col.cols-3.cols-last {width: 32%;}
+.um-admin-drag-col.cols-3.cols-middle {width: 32%;margin: 0 2%;}
+
+.um-admin-drag-col.cols-1 {width: 100%;}
+.um-admin-drag-col.cols-1.cols-last {width: 100%;}
+.um-admin-drag-col.cols-1.cols-middle {}
+
+.um-admin-drag-col.cols-2 {width: 49%;margin: 0 1% 0 0}
+.um-admin-drag-col.cols-2.cols-last {width: 49%;margin: 0 0 0 1%;}
+.um-admin-drag-col.cols-2.cols-middle {}
+
+.um-admin-drag-addrow {
+	text-align: center;
+	font-size: 14px;
+	color: #888;
+	cursor: pointer;
+	border: 1px dashed #bbb;
+	padding: 10px 0;
+	margin: 20px 0 0 0;
+}
+.um-admin-drag-addrow i {
+	font-size: 23px !important;
+	margin: 0 !important;
+}
+.um-admin-drag-addrow:hover {color: #3ba1da}
+
+/*
+	- Fields
+*/
+
+.um-admin-drag-fld {
+	display: block;
+	position: relative;
+	border: 1px solid #dddddd;
+	margin: 0 0 15px 0;
+	background: #F5F5F5;
+	cursor: move !important;
+}
+
+.um-admin-drag-fld-title i {
+	width: 24px;
+	display: inline-block;
+	text-align: center;
+}
+
+.um-admin-drag-fld.um-field-type-group {background: #555;border: 0}
+.um-admin-drag-fld-title.um-field-type-group,.um-admin-drag-fld-type.um-field-type-group {color: #fff}
+.um-admin-drag-group {background: #FCFCFC;cursor: default;padding: 20px;border: 1px dashed #bbb;}
+.um-admin-drag-col.cols-3 .um-admin-drag-fld-icons.um-field-type-group{float: left;position: relative;bottom: auto;right: auto;height: 30px;display: block;}
+.um-admin-drag-fld-icons.um-field-type-group a.um_admin_duplicate_field {display: none !important}
+
+.um-admin-drag-fld-title,
+.um-admin-drag-fld-type {
+	float: left;
+	font-weight: bold;
+	font-size: 13px;
+	color: #666;
+	height: 30px;
+	line-height: 30px;
+	margin: 0 0 0 20px;
+}
+
+.um-admin-drag-fld-type {
+	font-weight: 400;
+	color: #999;
+}
+
+.um-admin-drag-fld-icons {
+	float: right;
+}
+
+/*
+	- Responsive cols appearance
+*/
+
+.um-admin-drag-col.cols-3 .um-admin-drag-fld-title,
+.um-admin-drag-col.cols-3 .um-admin-drag-fld-type {
+	height: auto;
+	line-height: 18px;
+	margin: 10px;
+	margin-bottom: 0;
+}
+
+.um-admin-drag-col.cols-3 .um-admin-drag-fld-type {
+	margin: 10px;
+}
+
+.um-admin-drag-col.cols-3 .um-admin-drag-fld-icons {
+	float: none;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	height: 30px;
+	display: none;
+}
+
+.um-admin-drag-col.cols-3 .um-admin-drag-fld:hover .um-admin-drag-fld-icons{display: block;}
+
+/*
+	- Icons
+*/
+
+.um-admin-drag-row-icons a,
+.um-admin-drag-row-icons span,
+.um-admin-drag-rowsub-icons a,
+.um-admin-drag-rowsub-icons span,
+.um-admin-drag-fld-icons a{
+	text-decoration: none;
+	color: #fff;
+	width: 40px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	display: block !important;
+	float: left;
+	background: #44b0ec;
+	padding: 0 4px;
+	transition: all .2s linear;
+	border-left: 1px solid #379dd5;
+}
+
+.um-admin-drag-row-icons span,
+.um-admin-drag-rowsub-icons span
+{cursor: move!important}
+
+.um-admin-drag-row-icons a:hover,
+.um-admin-drag-row-icons span:hover,
+.um-admin-drag-rowsub-icons a:hover,
+.um-admin-drag-rowsub-icons span:hover,
+.um-admin-drag-fld-icons a:hover {background: #3396cd;}
+
+.um-admin-drag-row-icons i,
+.um-admin-drag-rowsub-icons i,
+.um-admin-drag-fld-icons i{
+	font-size: 18px !important;
+	margin: 0 !important;
+	top: 2px;
+	position: relative;
+}
+
+/*
+	- UI Placeholders
+*/
+
+.um-row-placeholder {
+	width: 100%;
+	border: 2px dashed #aaa;
+	box-sizing: border-box;
+}
+
+.um-rowsub-placeholder {
+	width: 100%;
+	border: 2px dashed #ccc;
+	box-sizing: border-box;
+	display: block;
+}
+
+.um-fld-placeholder {
+	display: block;
+	border: 1px dashed #dddddd;
+	background: #fff;
+	box-sizing: border-box;
+	width: 100%;
+}

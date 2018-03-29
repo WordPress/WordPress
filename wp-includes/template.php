@@ -23,9 +23,8 @@
 function get_query_template( $type, $templates = array() ) {
 	$type = preg_replace( '|[^a-z0-9-]+|', '', $type );
 
-	if ( empty( $templates ) ) {
-		$templates = array( "{$type}.php" );
-	}
+	if ( empty( $templates ) )
+		$templates = array("{$type}.php");
 
 	/**
 	 * Filters the list of template filenames that are searched for when retrieving a template to use.
@@ -76,7 +75,7 @@ function get_query_template( $type, $templates = array() ) {
  * @return string Full path to index template file.
  */
 function get_index_template() {
-	return get_query_template( 'index' );
+	return get_query_template('index');
 }
 
 /**
@@ -92,7 +91,7 @@ function get_index_template() {
  * @return string Full path to 404 template file.
  */
 function get_404_template() {
-	return get_query_template( '404' );
+	return get_query_template('404');
 }
 
 /**
@@ -113,7 +112,7 @@ function get_archive_template() {
 	$templates = array();
 
 	if ( count( $post_types ) == 1 ) {
-		$post_type   = reset( $post_types );
+		$post_type = reset( $post_types );
 		$templates[] = "archive-{$post_type}.php";
 	}
 	$templates[] = 'archive.php';
@@ -135,9 +134,8 @@ function get_archive_template() {
  */
 function get_post_type_archive_template() {
 	$post_type = get_query_var( 'post_type' );
-	if ( is_array( $post_type ) ) {
+	if ( is_array( $post_type ) )
 		$post_type = reset( $post_type );
-	}
 
 	$obj = get_post_type_object( $post_type );
 	if ( ! ( $obj instanceof WP_Post_Type ) || ! $obj->has_archive ) {
@@ -337,7 +335,7 @@ function get_taxonomy_template() {
  * @return string Full path to date template file.
  */
 function get_date_template() {
-	return get_query_template( 'date' );
+	return get_query_template('date');
 }
 
 /**
@@ -371,7 +369,7 @@ function get_home_template() {
  * @return string Full path to front page template file.
  */
 function get_front_page_template() {
-	$templates = array( 'front-page.php' );
+	$templates = array('front-page.php');
 
 	return get_query_template( 'front_page', $templates );
 }
@@ -405,22 +403,20 @@ function get_front_page_template() {
  * @return string Full path to page template file.
  */
 function get_page_template() {
-	$id       = get_queried_object_id();
+	$id = get_queried_object_id();
 	$template = get_page_template_slug();
-	$pagename = get_query_var( 'pagename' );
+	$pagename = get_query_var('pagename');
 
 	if ( ! $pagename && $id ) {
 		// If a static page is set as the front page, $pagename will not be set. Retrieve it from the queried object
 		$post = get_queried_object();
-		if ( $post ) {
+		if ( $post )
 			$pagename = $post->post_name;
-		}
 	}
 
 	$templates = array();
-	if ( $template && 0 === validate_file( $template ) ) {
+	if ( $template && 0 === validate_file( $template ) )
 		$templates[] = $template;
-	}
 	if ( $pagename ) {
 		$pagename_decoded = urldecode( $pagename );
 		if ( $pagename_decoded !== $pagename ) {
@@ -428,9 +424,8 @@ function get_page_template() {
 		}
 		$templates[] = "page-{$pagename}.php";
 	}
-	if ( $id ) {
+	if ( $id )
 		$templates[] = "page-{$id}.php";
-	}
 	$templates[] = 'page.php';
 
 	return get_query_template( 'page', $templates );
@@ -449,7 +444,7 @@ function get_page_template() {
  * @return string Full path to search template file.
  */
 function get_search_template() {
-	return get_query_template( 'search' );
+	return get_query_template('search');
 }
 
 /**
@@ -477,7 +472,7 @@ function get_search_template() {
  * @since 4.4.0 `single-{post_type}-{post_name}.php` was added to the top of the template hierarchy.
  * @since 4.7.0 The decoded form of `single-{post_type}-{post_name}.php` was added to the top of the
  *              template hierarchy when the post name contains multibyte characters.
- * @since 4.7.0 `{Post Type Template}.php` was added to the top of the template hierarchy.
+ * @since 4.7.0 {Post Type Template}.php was added to the top of the template hierarchy.
  *
  * @see get_query_template()
  *
@@ -503,7 +498,7 @@ function get_single_template() {
 		$templates[] = "single-{$object->post_type}.php";
 	}
 
-	$templates[] = 'single.php';
+	$templates[] = "single.php";
 
 	return get_query_template( 'single', $templates );
 }
@@ -545,7 +540,7 @@ function get_embed_template() {
 		$templates[] = "embed-{$object->post_type}.php";
 	}
 
-	$templates[] = 'embed.php';
+	$templates[] = "embed.php";
 
 	return get_query_template( 'embed', $templates );
 }
@@ -631,16 +626,15 @@ function get_attachment_template() {
  * @param bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
-function locate_template( $template_names, $load = false, $require_once = true ) {
+function locate_template($template_names, $load = false, $require_once = true ) {
 	$located = '';
 	foreach ( (array) $template_names as $template_name ) {
-		if ( ! $template_name ) {
+		if ( !$template_name )
 			continue;
-		}
-		if ( file_exists( STYLESHEETPATH . '/' . $template_name ) ) {
+		if ( file_exists(STYLESHEETPATH . '/' . $template_name)) {
 			$located = STYLESHEETPATH . '/' . $template_name;
 			break;
-		} elseif ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+		} elseif ( file_exists(TEMPLATEPATH . '/' . $template_name) ) {
 			$located = TEMPLATEPATH . '/' . $template_name;
 			break;
 		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
@@ -649,9 +643,8 @@ function locate_template( $template_names, $load = false, $require_once = true )
 		}
 	}
 
-	if ( $load && '' != $located ) {
+	if ( $load && '' != $located )
 		load_template( $located, $require_once );
-	}
 
 	return $located;
 }

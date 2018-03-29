@@ -1,0 +1,393 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 2.5.6 CZ\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:19+0300\n"
+"Last-Translator: Robin Podešva <robin.podesva@email.cz>\n"
+"Language-Team: Elegant Themes & Robin Podešva <robin.podesva@email.cz>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr "Proces exportu selhal. Prosíme, obnovte stránku a zkuste to znovu."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Verze prohlížeèe, kterou právì používáte, je zastaralá. Prosíme, "
+"aktualizujte na nejnovìjší verzi."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Dosáhli jste limitu pamìti serveru. Prosím, zkuste zvýšit svùj limit PHP "
+"pamìti"
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Tento soubor nelze importovat. To mùže být zpùsobeno tím, že file_uploads je "
+"vypnutý ve vašem php.ini. Mùže to být také zpùsobeno post_max_size a/nebo "
+"upload_max_filesize, která je menší než vybraný soubor. Prosíme, zvyšte ji "
+"nebo pøeveïte v té dobì podstatnìjší množství dat."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Neplatný formát souboru. Mìli byste nahrávat JSON soubor."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Tento soubor by nemìly být importován v tomto kontextu."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Import odhadovaný zbývající èas: %smin"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Export odhadovaný zbývající èas: %smin"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Zálohování odhadovaný zbývající èas: %smin"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Pøenosnost"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Export"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Import"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Export %s vytvoøí soubor JSON, který lze importovat na jinou webovou stránku."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Exportovat jméno souboru"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Pouze exportujte vybrané položky"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Exportujte %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Zrušit export"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Import døíve exportovaného %s souboru pøepíše veškerý obsah, který je v "
+"souèasnosti na této stránce."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Vyberte døíve exportovaný soubor rozložení Divi Builderu a zaènìte "
+"importovat pøedmìty. Velké sbírky obrazových exportù se mohou nahrávat "
+"nìkolik minut."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Import døíve exportovaného %s souboru pøepíše všechna aktuální data. "
+"Prosíme, postupujte opatrnì!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Vyberte soubor k importu"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Žádný soubor není vybrán"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Vyberte soubor"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Stáhnìte si zálohu pøed importem"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Importujte %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Zrušit import"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Import & Export"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Nemùžete vytvoøit druhou instanci této tøídy."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Než zaènete pøijímat produktové aktualizace, musíte nejdøíve ovìøit vaše "
+"pøedplatné Elegant Themes. Abyste to udìlali, musíte vložit uživatelské "
+"jméno Elegant Themes a váš Elegant Themes API klíè do panelu Aktualizace v "
+"nastavení témat a pluginù. K lokaci svého API klíèe se<a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">pøihlaste</a> do "
+"svého úètu Elegant Themes a pøejdìte na stránku <strong>Úèet > API klíè</"
+"strong>. <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">Více informací zde</a></em>. Pokud budete stále "
+"dostávat tuto zprávu, ujistìte se prosím, že vaše uživatelské jméno a API "
+"klíè byly vloženy správnì."
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Automatické aktualizace jsou nyní nedostupné. Abyste aktivovaly produktové "
+"aktualizace pro všechny produkty Elegant Themes, <a href=\"http://www."
+"elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">ovìøte vaše pøedplatné</a> skrz panel Aktualizace ve vašem nastavení "
+"témat a pluginù, prosím. Ujistìte se, že jste zadali své uživatelské jméno i "
+"API klíè správnì."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Vaše pøedplatné Elegant Themes vypršelo. Abyste znovu získali pøístup k "
+"produktovým aktualizacím a podpoøe, musíte <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">svùj úèet obnovit</a>. K "
+"zajištìní kompatibility a bezpeènosti je dùležité, aby byla vaše témata i "
+"pluginy aktualizovány."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "Požadavek API se nezdaøil, zkuste to prosím znovu."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "Požadavek API se nezdaøil. Je vyžadován API klíè."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "API klíè"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "API URL"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "ID formuláøe"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Ovìøovací kód"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "Tajný API klíè"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Veøejný API klíè"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Soukromý API klíè"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "ID úètu"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "Název appky"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Úspìšnì ovìøeno. Poèet odbìratelù bude aktualizován na pozadí, zkontrolujte "
+"ho prosím znovu za %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "minuta"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "minuty"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Již odebíráno"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"V poslední dobì jste se pøihlásili k velkému poètu seznamù. Zkuste to prosím "
+"znovu pozdìji"
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Opt-in"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Newsletterový plugin Mailster není zapnutý!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr ""
+"Nebyly nalezeny žádné seznamy. Nejprve prosím vytvoøte seznam Mailster!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Nastala chyba. Zkuste to prosím znovu pozdìji."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "ID APPKY"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Odbìr skrz"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "ID organizace"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "URL instance"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Klíè odbìratele"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Tajný klíè odbìratele"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "ID organizace nesmí být prázdné"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Nastala chyba. Zkuste to prosím znovu pozdìji."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Neznámé ID organizace"
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "CHYBA: Neplatné argumenty."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "Nebyla poskytnuta platná URL."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "Uživatel zablokoval požadavky skrz HTTP."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr ""
+"Cílový adresáø pro streamování souborù neexistuje nebo se do nìj nedá "
+"zapisovat."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Mám to, díky!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Chyba konfigurace"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Nastala chyba. Zkuste to prosím znovu pozdìji."

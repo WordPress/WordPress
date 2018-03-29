@@ -76,7 +76,7 @@ function display_header( $body_classes = '' ) {
 		wp_admin_css( 'dashicons', true );
 	?>
 </head>
-<body class="wp-core-ui<?php echo $body_classes; ?>">
+<body class="wp-core-ui<?php echo $body_classes ?>">
 <p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
 
 <?php
@@ -94,7 +94,7 @@ function display_header( $body_classes = '' ) {
 function display_setup_form( $error = null ) {
 	global $wpdb;
 
-	$sql        = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->users ) );
+	$sql = $wpdb->prepare( "SHOW TABLES LIKE %s", $wpdb->esc_like( $wpdb->users ) );
 	$user_table = ( $wpdb->get_var( $sql ) != null );
 
 	// Ensure that Blogs appear in search engines by default.
@@ -104,8 +104,8 @@ function display_setup_form( $error = null ) {
 	}
 
 	$weblog_title = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
-	$user_name    = isset( $_POST['user_name'] ) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
-	$admin_email  = isset( $_POST['admin_email'] ) ? trim( wp_unslash( $_POST['admin_email'] ) ) : '';
+	$user_name = isset($_POST['user_name']) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
+	$admin_email  = isset( $_POST['admin_email']  ) ? trim( wp_unslash( $_POST['admin_email'] ) ) : '';
 
 	if ( ! is_null( $error ) ) {
 ?>
@@ -119,19 +119,17 @@ function display_setup_form( $error = null ) {
 			<td><input name="weblog_title" type="text" id="weblog_title" size="25" value="<?php echo esc_attr( $weblog_title ); ?>" /></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="user_login"><?php _e( 'Username' ); ?></label></th>
+			<th scope="row"><label for="user_login"><?php _e('Username'); ?></label></th>
 			<td>
 			<?php
 			if ( $user_table ) {
-				_e( 'User(s) already exists.' );
+				_e('User(s) already exists.');
 				echo '<input name="user_name" type="hidden" value="admin" />';
 			} else {
-				?>
-				<input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
+				?><input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
 				<p><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods, and the @ symbol.' ); ?></p>
 			<?php
-			}
-			?>
+			} ?>
 			</td>
 		</tr>
 		<?php if ( ! $user_table ) : ?>
@@ -188,18 +186,16 @@ function display_setup_form( $error = null ) {
 				<fieldset>
 					<legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
 					<?php
-					if ( has_action( 'blog_privacy_selector' ) ) {
-					?>
+					if ( has_action( 'blog_privacy_selector' ) ) { ?>
 						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
-						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br/>
+						<label for="blog-public"><?php _e( 'Allow search engines to index this site' );?></label><br/>
 						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 						<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
 						<?php
 						/** This action is documented in wp-admin/options-reading.php */
 						do_action( 'blog_privacy_selector' );
-					} else {
-					?>
+					 } else { ?>
 						<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 						<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
@@ -233,23 +229,23 @@ if ( is_blog_installed() ) {
  */
 global $wp_version, $required_php_version, $required_mysql_version;
 
-$php_version   = phpversion();
-$mysql_version = $wpdb->db_version();
-$php_compat    = version_compare( $php_version, $required_php_version, '>=' );
-$mysql_compat  = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
+$php_version    = phpversion();
+$mysql_version  = $wpdb->db_version();
+$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
+$mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
 
-if ( ! $mysql_compat && ! $php_compat ) {
+if ( !$mysql_compat && !$php_compat ) {
 	/* translators: 1: WordPress version number, 2: Minimum required PHP version number, 3: Minimum required MySQL version number, 4: Current PHP version number, 5: Current MySQL version number */
 	$compat = sprintf( __( 'You cannot install because <a href="https://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.' ), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version );
-} elseif ( ! $php_compat ) {
+} elseif ( !$php_compat ) {
 	/* translators: 1: WordPress version number, 2: Minimum required PHP version number, 3: Current PHP version number */
 	$compat = sprintf( __( 'You cannot install because <a href="https://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_php_version, $php_version );
-} elseif ( ! $mysql_compat ) {
+} elseif ( !$mysql_compat ) {
 	/* translators: 1: WordPress version number, 2: Minimum required MySQL version number, 3: Current MySQL version number */
 	$compat = sprintf( __( 'You cannot install because <a href="https://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_mysql_version, $mysql_version );
 }
 
-if ( ! $mysql_compat || ! $php_compat ) {
+if ( !$mysql_compat || !$php_compat ) {
 	display_header();
 	die( '<h1>' . __( 'Insufficient Requirements' ) . '</h1><p>' . $compat . '</p></body></html>' );
 }
@@ -292,7 +288,7 @@ if ( ! empty( $_REQUEST['language'] ) ) {
 
 $scripts_to_print = array( 'jquery' );
 
-switch ( $step ) {
+switch($step) {
 	case 0: // Step 0
 		if ( wp_can_install_language_pack() && empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
 			$scripts_to_print[] = 'language-chooser';
@@ -329,26 +325,25 @@ switch ( $step ) {
 		break;
 	case 2:
 		if ( ! empty( $language ) && load_default_textdomain( $language ) ) {
-			$loaded_language      = $language;
+			$loaded_language = $language;
 			$GLOBALS['wp_locale'] = new WP_Locale();
 		} else {
 			$loaded_language = 'en_US';
 		}
 
-		if ( ! empty( $wpdb->error ) ) {
+		if ( ! empty( $wpdb->error ) )
 			wp_die( $wpdb->error->get_error_message() );
-		}
 
 		$scripts_to_print[] = 'user-profile';
 
 		display_header();
 		// Fill in the data we gathered
-		$weblog_title         = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
-		$user_name            = isset( $_POST['user_name'] ) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
-		$admin_password       = isset( $_POST['admin_password'] ) ? wp_unslash( $_POST['admin_password'] ) : '';
-		$admin_password_check = isset( $_POST['admin_password2'] ) ? wp_unslash( $_POST['admin_password2'] ) : '';
-		$admin_email          = isset( $_POST['admin_email'] ) ? trim( wp_unslash( $_POST['admin_email'] ) ) : '';
-		$public               = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 1;
+		$weblog_title = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
+		$user_name = isset($_POST['user_name']) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
+		$admin_password = isset($_POST['admin_password']) ? wp_unslash( $_POST['admin_password'] ) : '';
+		$admin_password_check = isset($_POST['admin_password2']) ? wp_unslash( $_POST['admin_password2'] ) : '';
+		$admin_email  = isset( $_POST['admin_email'] ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
+		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 1;
 
 		// Check email address.
 		$error = false;
@@ -389,13 +384,11 @@ switch ( $step ) {
 	</tr>
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
-		<td>
-		<?php
-		if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) :
-		?>
-			<code><?php echo esc_html( $result['password'] ); ?></code><br />
+		<td><?php
+		if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ): ?>
+			<code><?php echo esc_html( $result['password'] ) ?></code><br />
 		<?php endif ?>
-			<p><?php echo $result['password_message']; ?></p>
+			<p><?php echo $result['password_message'] ?></p>
 		</td>
 	</tr>
 </table>

@@ -24,6 +24,8 @@ final class WP_Internal_Pointers {
 	 * Individual pointers (e.g. wp390_widgets) can be disabled using the following:
 	 *     remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'pointer_wp390_widgets' ) );
 	 *
+	 * @static
+	 *
 	 * @param string $hook_suffix The current admin page.
 	 */
 	public static function enqueue_scripts( $hook_suffix ) {
@@ -45,9 +47,8 @@ final class WP_Internal_Pointers {
 		);
 
 		// Check if screen related pointer is registered
-		if ( empty( $registered_pointers[ $hook_suffix ] ) ) {
+		if ( empty( $registered_pointers[ $hook_suffix ] ) )
 			return;
-		}
 
 		$pointers = (array) $registered_pointers[ $hook_suffix ];
 
@@ -75,9 +76,8 @@ final class WP_Internal_Pointers {
 		foreach ( array_diff( $pointers, $dismissed ) as $pointer ) {
 			if ( isset( $caps_required[ $pointer ] ) ) {
 				foreach ( $caps_required[ $pointer ] as $cap ) {
-					if ( ! current_user_can( $cap ) ) {
+					if ( ! current_user_can( $cap ) )
 						continue 2;
-					}
 				}
 			}
 
@@ -86,9 +86,8 @@ final class WP_Internal_Pointers {
 			$got_pointers = true;
 		}
 
-		if ( ! $got_pointers ) {
+		if ( ! $got_pointers )
 			return;
-		}
 
 		// Add pointers script and style to queue
 		wp_enqueue_style( 'wp-pointer' );
@@ -100,14 +99,15 @@ final class WP_Internal_Pointers {
 	 *
 	 * @since 3.3.0
 	 *
+	 * @static
+	 *
 	 * @param string $pointer_id The pointer ID.
 	 * @param string $selector The HTML elements, on which the pointer should be attached.
 	 * @param array  $args Arguments to be passed to the pointer JS (see wp-pointer.js).
 	 */
 	private static function print_js( $pointer_id, $selector, $args ) {
-		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) ) {
+		if ( empty( $pointer_id ) || empty( $selector ) || empty( $args ) || empty( $args['content'] ) )
 			return;
-		}
 
 		?>
 		<script type="text/javascript">
@@ -155,6 +155,8 @@ final class WP_Internal_Pointers {
 	 * Prevents new users from seeing existing 'new feature' pointers.
 	 *
 	 * @since 3.3.0
+	 *
+	 * @static
 	 *
 	 * @param int $user_id User ID.
 	 */

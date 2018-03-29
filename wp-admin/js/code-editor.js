@@ -1,13 +1,7 @@
 if ( 'undefined' === typeof window.wp ) {
-	/**
-	 * @namespace wp
-	 */
 	window.wp = {};
 }
 if ( 'undefined' === typeof window.wp.codeEditor ) {
-	/**
-	 * @namespace wp.codeEditor
-	 */
 	window.wp.codeEditor = {};
 }
 
@@ -39,7 +33,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @param {object}     settings.codeMirror - Settings for CodeMirror.
 	 * @param {Function}   settings.onChangeLintingErrors - Callback for when there are changes to linting errors.
 	 * @param {Function}   settings.onUpdateErrorNotice - Callback to update error notice.
-	 *
 	 * @returns {void}
 	 */
 	function configureLinting( editor, settings ) { // eslint-disable-line complexity
@@ -209,7 +202,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @param {object}     settings.codeMirror - Settings for CodeMirror.
 	 * @param {Function}   settings.onTabNext - Callback to handle tabbing to the next tabbable element.
 	 * @param {Function}   settings.onTabPrevious - Callback to handle tabbing to the previous tabbable element.
-	 *
 	 * @returns {void}
 	 */
 	function configureTabbing( codemirror, settings ) {
@@ -248,7 +240,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	}
 
 	/**
-	 * @typedef {object} wp.codeEditor~CodeEditorInstance
+	 * @typedef {object} CodeEditorInstance
 	 * @property {object} settings - The code editor settings.
 	 * @property {CodeMirror} codemirror - The CodeMirror instance.
 	 */
@@ -268,7 +260,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 	 * @param {object}                [settings.csslint] - Rules for CSSLint.
 	 * @param {object}                [settings.htmlhint] - Rules for HTMLHint.
 	 * @param {object}                [settings.jshint] - Rules for JSHint.
-	 *
 	 * @returns {CodeEditorInstance} Instance.
 	 */
 	wp.codeEditor.initialize = function initialize( textarea, settings ) {

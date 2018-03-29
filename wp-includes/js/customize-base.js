@@ -908,7 +908,7 @@ window.wp = window.wp || {};
 	/**
 	 * Get all customize settings.
 	 *
-	 * @alias wp.customize.get
+	 * @memberOf wp.customize
 	 *
 	 * @return {object}
 	 */
@@ -934,8 +934,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 4.7.0
 	 * @access public
-	 *
-	 * @alias wp.customize.utils.parseQueryString
+	 * @memberOf wp.customize.utils
 	 *
 	 * @param {string} queryString Query string.
 	 * @returns {object} Parsed query string.

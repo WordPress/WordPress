@@ -1,0 +1,44 @@
+.redux-container-text {
+    label {
+        display: block;
+        position: relative;
+        font-size: 12px !important;
+        text-align: left;
+        color: #999999;
+        margin: 4px 0 2px 0 !important;
+        cursor: default;
+        top: 5px;
+        width: 100px;
+    }
+
+    input {
+        clear: left;
+    }
+
+    .input_wrapper {
+        display: block;
+        position: relative;
+        padding: 0;
+        width: 23%;
+        max-width: 23%;
+        min-width: 70px;
+        float: left;
+        clear: left;
+        height: 57px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -o-box-sizing: border-box;
+        box-sizing: border-box;
+        vertical-align: baseline;
+    }
+}
+
+.wp-customizer {
+    .redux-container-text {
+        .input_wrapper {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
