@@ -23,14 +23,14 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * @var array
 	 */
 	public $l10n = array(
-		'add_to_widget'              => '',
-		'replace_media'              => '',
-		'edit_media'                 => '',
-		'media_library_state_multi'  => '',
+		'add_to_widget' => '',
+		'replace_media' => '',
+		'edit_media' => '',
+		'media_library_state_multi' => '',
 		'media_library_state_single' => '',
-		'missing_attachment'         => '',
-		'no_media_selected'          => '',
-		'add_media'                  => '',
+		'missing_attachment' => '',
+		'no_media_selected' => '',
+		'add_media' => '',
 	);
 
 	/**
@@ -54,31 +54,29 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 *                                for information on accepted arguments. Default empty array.
 	 */
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
-		$widget_opts = wp_parse_args(
-			$widget_options, array(
-				'description'                 => __( 'A media item.' ),
-				'customize_selective_refresh' => true,
-				'mime_type'                   => '',
-			)
-		);
+		$widget_opts = wp_parse_args( $widget_options, array(
+			'description' => __( 'A media item.' ),
+			'customize_selective_refresh' => true,
+			'mime_type' => '',
+		) );
 
 		$control_opts = wp_parse_args( $control_options, array() );
 
 		$l10n_defaults = array(
-			'no_media_selected'          => __( 'No media selected' ),
-			'add_media'                  => _x( 'Add Media', 'label for button in the media widget' ),
-			'replace_media'              => _x( 'Replace Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long' ),
-			'edit_media'                 => _x( 'Edit Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long' ),
-			'add_to_widget'              => __( 'Add to Widget' ),
-			'missing_attachment'         => sprintf(
+			'no_media_selected' => __( 'No media selected' ),
+			'add_media' => _x( 'Add Media', 'label for button in the media widget' ),
+			'replace_media' => _x( 'Replace Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long' ),
+			'edit_media' => _x( 'Edit Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long' ),
+			'add_to_widget' => __( 'Add to Widget' ),
+			'missing_attachment' => sprintf(
 				/* translators: %s: URL to media library */
 				__( 'We can&#8217;t find that file. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
 				esc_url( admin_url( 'upload.php' ) )
 			),
 			/* translators: %d: widget count */
-			'media_library_state_multi'  => _n_noop( 'Media Widget (%d)', 'Media Widget (%d)' ),
+			'media_library_state_multi' => _n_noop( 'Media Widget (%d)', 'Media Widget (%d)' ),
 			'media_library_state_single' => __( 'Media Widget' ),
-			'unsupported_file_type'      => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an appropriate file instead.' ),
+			'unsupported_file_type' => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an appropriate file instead.' ),
 		);
 		$this->l10n = array_merge( $l10n_defaults, array_filter( $this->l10n ) );
 
@@ -131,23 +129,23 @@ abstract class WP_Widget_Media extends WP_Widget {
 	public function get_instance_schema() {
 		$schema = array(
 			'attachment_id' => array(
-				'type'        => 'integer',
-				'default'     => 0,
-				'minimum'     => 0,
+				'type' => 'integer',
+				'default' => 0,
+				'minimum' => 0,
 				'description' => __( 'Attachment post ID' ),
-				'media_prop'  => 'id',
+				'media_prop' => 'id',
 			),
-			'url'           => array(
-				'type'        => 'string',
-				'default'     => '',
-				'format'      => 'uri',
+			'url' => array(
+				'type' => 'string',
+				'default' => '',
+				'format' => 'uri',
 				'description' => __( 'URL to the media file' ),
 			),
-			'title'         => array(
-				'type'                  => 'string',
-				'default'               => '',
-				'sanitize_callback'     => 'sanitize_text_field',
-				'description'           => __( 'Title for the widget' ),
+			'title' => array(
+				'type' => 'string',
+				'default' => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'description' => __( 'Title for the widget' ),
 				'should_preview_update' => false,
 			),
 		);
@@ -324,7 +322,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 */
 	final public function form( $instance ) {
 		$instance_schema = $this->get_instance_schema();
-		$instance        = wp_array_slice_assoc(
+		$instance = wp_array_slice_assoc(
 			wp_parse_args( (array) $instance, wp_list_pluck( $instance_schema, 'default' ) ),
 			array_keys( $instance_schema )
 		);

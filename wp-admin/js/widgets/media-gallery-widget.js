@@ -8,10 +8,10 @@
 	 * Custom gallery details frame.
 	 *
 	 * @since 4.9.0
-	 * @class    wp.mediaWidgets~GalleryDetailsMediaFrame
-	 * @augments wp.media.view.MediaFrame.Post
+	 * @class GalleryDetailsMediaFrame
+	 * @constructor
 	 */
-	GalleryDetailsMediaFrame = wp.media.view.MediaFrame.Post.extend(/** @lends wp.mediaWidgets~GalleryDetailsMediaFrame.prototype */{
+	GalleryDetailsMediaFrame = wp.media.view.MediaFrame.Post.extend( {
 
 		/**
 		 * Create the default states.
@@ -53,13 +53,21 @@
 	 * See WP_Widget_Gallery::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
 	 * @since 4.9.0
-	 *
-	 * @class    wp.mediaWidgets.modelConstructors.media_gallery
-	 * @augments wp.mediaWidgets.MediaWidgetModel
+	 * @class GalleryWidgetModel
+	 * @constructor
 	 */
-	GalleryWidgetModel = component.MediaWidgetModel.extend(/** @lends wp.mediaWidgets.modelConstructors.media_gallery.prototype */{} );
+	GalleryWidgetModel = component.MediaWidgetModel.extend( {} );
 
-	GalleryWidgetControl = component.MediaWidgetControl.extend(/** @lends wp.mediaWidgets.controlConstructors.media_gallery.prototype */{
+	/**
+	 * Gallery widget control.
+	 *
+	 * See WP_Widget_Gallery::enqueue_admin_scripts() for amending prototype from PHP exports.
+	 *
+	 * @since 4.9.0
+	 * @class GalleryWidgetControl
+	 * @constructor
+	 */
+	GalleryWidgetControl = component.MediaWidgetControl.extend( {
 
 		/**
 		 * View events.
@@ -72,12 +80,7 @@
 		} ),
 
 		/**
-		 * Gallery widget control.
-		 *
-		 * See WP_Widget_Gallery::enqueue_admin_scripts() for amending prototype from PHP exports.
-		 *
-		 * @constructs wp.mediaWidgets.controlConstructors.media_gallery
-		 * @augments   wp.mediaWidgets.MediaWidgetControl
+		 * Initialize.
 		 *
 		 * @since 4.9.0
 		 * @param {Object}         options - Options.

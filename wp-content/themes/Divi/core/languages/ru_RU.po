@@ -1,0 +1,397 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:42+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr ""
+"Экспорт не выполнен. Пожалуйста, обновите страницу и попробуйте еще раз."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Версия браузера, которую вы используете устарела. Пожалуйста, обновите до "
+"последней версии."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Вы достигли лимита памяти сервера. Пожалуйста, попробуйте увеличить лимит "
+"памяти PHP."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Этот файл не может быть импортирован. Это может быть вызвано тем, что "
+"file_uploads был отключен в вашем php.ini. Это также может быть вызвано тем, "
+"что post_max_size и / или upload_max_filesize меньше выбранного файла. "
+"Пожалуйста, увеличьте его или перешлите более важные данные."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Неправильный формат файла. Вам нужно загрузить файл JSON."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Этот файл не должен быть импортирован в этом контексте."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Приблизительное время до завершения импорта: %smin"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Приблизительное время до завершения экспорта: %smin"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Приблизительное время до завершения резервного копирования: %smin"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Портативность"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Экспорт"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Импорт"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Экспорт %s создаст файл JSON, который можно будет импортировать на другой "
+"веб-сайт."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Имя экспортируемого файла"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Экспортировать только выбранные объекты"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Экспорт %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Отменить экспорт"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Импорт ранее экспортированного файла %s перезапишет весь контент, "
+"находящийся сейчас на этой странице."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Выберите ранее экспортированный файл Divi Builder Layouts, чтобы начать "
+"импортировать объекты. Загрузка больших коллекций экспорта, содержащих много "
+"изображений, может занять несколько минут."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Импорт ранее экспортированного %s файла перезапишет все текущие данные. "
+"Пожалуйста, будьте осторожны!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Выберите файл для импорта"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Ни одного файла не выбрано"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Выбрать файл"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Скачать резервную копию перед импортом"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Импорт %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Отменить импорт"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Импорт и экспорт"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Вы не можете создать второй объект этого класса."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Прежде чем получать обновления, вам необходимо подтвердить свою подписку "
+"на Elegant Themes. Для этого вам нужно ввести свое имя пользователя на "
+"Elegant Themes  и свой ключ Elegant Themes API во вкладке обновлений в свой "
+"теме и в настройках плагинов. Чтобы найти свой ключ API Key, <a href="
+"\"https://www.elegantthemes.com/members-area/api/\" target=\"_blank"
+"\">войдите</a> в свой аккаунт Elegant Themes и зайдите на страницу "
+"<strong>Аккаунт > Ключ API</strong>. <a href=\"http://www.elegantthemes.com/"
+"gallery/divi/documentation/update/\" target=\"_blank\"> Узнайте подробности "
+"здесь</a></em>. Если это сообщение все еще отображается, убедитесь, что вы "
+"ввели верное имя пользователя и ключ API "
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"В данный момент автоматическое обновление недоступно. Чтобы включить "
+"обновления для всех продуктов Elegant Themes необходимо <a href=\"http://www."
+"elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">подтвердить свою подписку</a> во вкладке обновлений в своей теме и в "
+"настройках плагинов. Убедитесь, что вы ввели верное имя пользователя и ключ "
+"API."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Ваша подписка на Elegant Themes истекла. Вы должны <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">продлить свой аккаунт</"
+"a>, чтобы получить доступ к обновлениям и поддержке. Всегда необходимо "
+"устанавливать последнюю версию тем и плагинов, чтобы обеспечить "
+"совместимость и безопасность."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "Ошибка запроса к API, пожалуйста, повторите попытку."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "Ошибка запроса к API. Необходим ключ API."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "Ключ API"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "API URL"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "ID формы"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Код авторизации"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "Секретный код API"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Открытый ключ API"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Закрытый ключ API"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "ID аккаунта"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "Название приложения"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Авторизация прошла успешно. Число подписчиков будет обновлено в фоновом "
+"режиме, пожалуйста, зайдите через %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "мин."
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "мин."
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Уже подписаны"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"Недавно вы подписались на множество рассылок, пожалуйста, повторите попытку "
+"позже"
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Участие"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Плагин Mailster Newsletter не включен!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr ""
+"Списки рассылок не найдены. Пожалуйста, создайте сначала список рассылки "
+"Mailster!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Произошла ошибка. Пожалуйста, повторите попытку позже."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "APP ID"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Подписаны через"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "ID организации"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "URL объекта"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Ключ потребителя"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Секретный код потребителя"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "ID организации не может быть пустым"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Произошла ошибка. Пожалуйста, повторите попытку позже."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Неизвестный ID организации"
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "ОШИБКА: неверные аргументы."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "Указан ошибочный URL."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "Пользователь заблокировал HTTP-запросы."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr ""
+"Конечная папка для потоковой передачи файлов не существует либо нет прав "
+"записи в нее."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Все получилось, спасибо!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Ошибка настройки"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Произошла ошибка. Пожалуйста, повторите попытку позже."

@@ -1,0 +1,13 @@
+I have used a library fpdf open source and very useful library for developers here
+is a simple tutorial on how to convert How to Convert HTML to PDF with fpdf.
+You have to download fpdf library and  include it in your PHP file below settings and how to show tags,
+fonts and images in your pdf file. With fpdf library we used HTMLparser library contributed by programmers and all other libraries available here you can download and use as per your requirement.
+
+index.html
+
+In this file I have created a simple contact form data on submit it
+show that submitted data on PDF format.
+actionpdf.php
+
+This file contain PHP code to generate pdf file and show your submitted data on that file.
+In this file we add page and auto page break true if your content increase single page area then it will automatically add 2nd page and process.

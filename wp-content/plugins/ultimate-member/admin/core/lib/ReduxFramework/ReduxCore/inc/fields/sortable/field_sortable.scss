@@ -1,0 +1,73 @@
+.redux-container-sortable {
+    i {
+        &.el {
+            cursor: move;
+        }
+    }
+
+    label {
+        margin-right: 10px;
+        width: 300px;
+
+        &.bugger {
+            margin-bottom: 0px !important;
+            font-size: 12px !important;
+            color: #999999;
+        }
+    }
+
+    input {
+        margin-right: 10px;
+    }
+
+    .checkbox-container {
+        width: 364px;
+
+        .drag {
+            float: right;
+            margin-left: 10px;
+        }
+    }
+
+    ul {
+        &.labeled {
+            li {
+                line-height: 1.4em !important;
+            }
+        }
+    }
+
+    li {
+        line-height: 30px !important;
+
+        &.ui-state-highlight {
+            height: 30px;
+            width: 364px;
+            margin-bottom: 13px;
+        }
+
+        &.placeholder {
+            height: 30px;
+            margin: 10px 0;
+        }
+    }
+}
+
+.wp-customizer {
+    .redux-sortable {
+        input[type="text"] {
+            width: 92%;
+        }
+        i.el {
+            margin-left: 5px;
+        }
+    }
+    .redux-container-sortable {
+        .checkbox-container {
+            width: inherit;
+        }
+        .ui-draggable-handle {
+            margin-left: 3%;
+        }
+    }
+}

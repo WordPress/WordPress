@@ -1,0 +1,396 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:29+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr "Vientiprosessi epäonnistui. Päivitä sivu ja yritä uudelleen."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Käyttämäsi selain on vanhentunut. Ole hyvä ja päivitä selaimesi uudempaan "
+"versioon."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Olet ylittänyt palvelimesi muistirajan. Ole hyvä ja yritä kasvattaa PHP-"
+"muistirajaasi."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Tämän tiedoston tuonti ei onnistu. Se voi johtua siitä, että file_uploads on "
+"asetettu pois päältä kohteessa php.ini. Tämä voi johtua myös siitä, että "
+"post_max_size ja/tai upload_max_filesize ovat valittua tiedostoa pienempiä. "
+"Ole hyvä ja kasvata niitä, tai siirrä tiedot tiiviimpinä pakkauksina."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr ""
+"Tiedostomuoto ei kelpaa. Sinun kuuluisi tehdä siirto JSON tiedostoilla."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Tätä tiedostoa ei kuuluisi tuoda tässä yhteydessä."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Arvioitua tuontiaikaa jäljellä: %smin"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Arvioitua vientiaikaa jäljellä: %smin"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Arvioitua varmuuskopiointiaikaa jäljellä: %smin"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Siirrettävyys"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Vie"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Tuo"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Oman %s vienti luo JSON tiedoston, jonka voi tuoda toiselle verkkosivulle."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Vie tiedoston nimi"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Vie vain valitut yksiköt"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Vie %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Peruuta vienti"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Aiemmin viedyn %s tiedoston tuonti korvaa kaiken tällä sivulla olevan "
+"sisällön."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Valitse aiemmin vietyjä Divi Builder Layouts -tiedostoja käynnistääksesi "
+"yksiköiden tuonnin. Useita kuvia sisältävien suurten kokoelmien latautuminen "
+"voi viedä useita minuutteja."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Aiemmin viedyn %s tiedoston tuonti korvaa kaikki nykyiset tiedot. Ole hyvä "
+"ja noudata varovaisuutta!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Valitse tuotava tiedosto"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Ei valittua tiedostoa"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Valitse tiedosto"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Hanki varmuuskopio ennen tuontia"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Tuo %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Peruuta tuonti"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Tuo & Vie"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Et voi luoda tälle luokalle toista esiintymää."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em> Ennen kuin pystyt saamaan tuotepäivityksiä, sinun täytyy ensin "
+"vahvistaa Elegant Themes -tilauksesi. Tehdäksesi sen sinun tarvitsee syöttää "
+"sekä Elegant Themes -käyttäjänimesi ja Elegant Themes -ohjelmointirajapinnan "
+"avain teema- ja liitännäisasetustesi Päivitykset-välilehteen. Löydät "
+"ohjelmointirajapinnan avaimesi <a href=\"https://www.elegantthemes.com/"
+"members-area/api/\" target=\"_blank\">kirjautumalla sisään</a> Elegant "
+"Themes -tiliisi ja siirtymällä <strong>Tili > Ohjelmointirajapinnan avain</"
+"strong> -sivulle. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Lue lisää täältä</a></em>. Jos "
+"saat edelleen tämän viestin, varmista, että olet syöttänyt käyttäjänimesi ja "
+"ohjelmointirajapinnan avaimesi oikein"
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Automaattisia päivityksiä ei juuri nyt ole saatavilla. Ota kaikkien Elegant "
+"Themes -tuotteiden tuotepäivitykset käyttöön teema- ja liitännäisasetustesi "
+"Päivitykset-välilehden kohdasta <a href=\"http://www.elegantthemes.com/"
+"gallery/divi/documentation/update/\" target=\"_blank\">vahvista tilauksesi</"
+"a>. Varmista, että olet syöttänyt käyttäjänimesi ja ohjelmointirajapinnan "
+"avaimesi oikein."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Elegant Themes -tilauksesi on päättynyt. Sinun täytyy <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">uusia tilisi</a> "
+"saadaksesi taas oikeudet tuotepäivityksiin ja tukeen. Teemojesi ja "
+"liitännäistesi päivittäminen ajan tasalle on tärkeää yhteensopivuuden ja "
+"tietoturvan varmistamiseksi."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "Ohjelmointirajapintapyyntö epäonnistui. Ole hyvä ja yritä uudestaan."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr ""
+"Ohjelmointirajapintapyyntö epäonnistui. Tarvitaan ohjelmointirajapinnan "
+"avain."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "Ohjelmointirajapinnan avain"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "Ohjelmointirajapinnan URL-osoite"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "Lomakkeen tunniste"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Käyttöoikeuksien tarkistuskoodi"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "Ohjelmointirajapinnan salaisuus"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Ohjelmointirajapinnan julkinen avain"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Ohjelmointirajapinnan yksityinen avain"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "Tilin tunniste"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "Sovelluksen nimi"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Käyttöoikeuksien tarkistaminen onnistui. Tilaajamäärä päivitetään taustalla. "
+"Ole hyvä ja tarkista uudestaan, kun aikaa on kulunut %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "minuutti"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "minuuttia"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Tilaus on jo voimassa"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"Olet hiljattain rekisteröitynyt hyvin moneen luetteloon. Ole hyvä ja yritä "
+"myöhemmin uudestaan"
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Vapaaehtoinen hyväksyntä"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Mailster-uutiskirjeen liitännäinen ei ole käytössä!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr "Luetteloita ei löytynyt. Ole hyvä ja luo ensin Mailster-luettelo!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Tapahtui virhe. Ole hyvä ja yritä uudestaan."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "SOVELLUKSEN TUNNISTE"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Tilattu kohteesta"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "Yhteisön tunniste"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "Esiintymän URL-osoite"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Asiakasavain"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Asiakassalaisuus"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "Yhteisön tunniste ei voi olla tyhjä"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Tapahtui virhe. Ole hyvä ja yritä uudestaan."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Tuntematon yhteisön tunniste."
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "VIRHE: Virheellisiä argumentteja."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "Kelvollista URL-osoitetta ei annettu."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "Käyttäjä on estänyt HTTP-pyynnöt."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr ""
+"Tiedostojen virtauttamisen kohdehakemistoa ei löydy tai se on vain "
+"luettavissa."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Selvä, kiitoksia!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Määritysvirhe"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Tapahtui virhe. Ole hyvä ja yritä uudestaan."

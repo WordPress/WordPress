@@ -1,0 +1,74 @@
+.um-admin-yesno span.yes, .um-admin-yesno span.no {
+	padding: 0 10px 0 0;
+}
+
+.um-admin-drag-ctrls-demo.um-admin-drag-ctrls {
+	left: 12px;
+	right: auto;
+}
+
+.um-admin-drag-row-icons {
+	left: 0;
+	right: auto;
+}
+
+.um-admin-drag-ctrls.columns {
+	right: 0 !important;
+	left: auto;
+}
+
+.um-admin-drag-ctrls.columns a {
+	float: right;
+}
+
+.um-admin-drag-rowsub-icons {
+	right: auto;
+	left: 0;
+}
+
+.um-admin-drag-row-icons a {
+	float: right;
+}
+
+.um-admin-drag-fld-icons a {
+	float: right;
+}
+
+.um-admin-drag-fld-icons {
+	float: left;
+}
+
+.um-admin-drag-fld-title, .um-admin-drag-fld-type {
+	float: right;
+	margin: 0 20px 0 0;
+}
+
+.redux-main {
+	margin-left: 0!important;
+	margin-right: 201px !important;
+}
+
+#redux-header h2 {
+	padding: 2px 0 4px 15px;
+}
+
+.redux-container #redux-header .display_header {float: right}
+
+.admin-color-fresh .redux-sidebar .redux-group-menu li.hasSubSections a .extraIconSubsections {float: left}
+
+.select2-container .select2-choice > .select2-chosen  {
+	text-align: right !important;
+}
+
+.select2-container .select2-choice .select2-arrow {
+	border: none !important;
+	right: auto !important;
+	left: 0 !important;
+}
+
+.select2-container .select2-choice > .select2-chosen {
+	margin-right: 10px !important;
+	margin-left: 26px !important;
+}
+
+.redux-container-switch .switch-options {float: right;margin-right:0!important}

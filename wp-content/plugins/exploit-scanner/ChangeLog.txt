@@ -1,0 +1,621 @@
+2012-10-23 08:29  donncha
+
+	* exploit-scanner.php, readme.txt: Updated version, tested version
+	  and changelog notices
+
+2012-10-23 08:24  donncha
+
+	* hashes-3.4.2.php: Added md5 hashes for WordPress 3.4.2
+
+2012-07-01 15:30  duck_
+
+	* readme.txt: Tag version 1.3.1
+
+2012-07-01 15:29  duck_
+
+	* exploit-scanner.php, hashes-3.4.1.php, readme.txt: Add hashes for
+	  WordPress 3.4.1.
+
+2012-06-14 19:40  duck_
+
+	* readme.txt: Tag 1.3
+
+2012-06-14 19:38  duck_
+
+	* exploit-scanner.php, hashes-3.4.php, readme.txt: Add hashes for
+	  3.4 and prepare for 1.3.
+
+2012-06-14 18:35  duck_
+
+	* exploit-scanner.php: Check for unknown files in the
+	  wp-includes/wp-admin directories.
+
+2012-04-20 16:18  duck_
+
+	* exploit-scanner.php, hashes-3.3.2.php, readme.txt: Add WordPress
+	  3.3.2 file hashes.
+
+2012-01-06 17:07  duck_
+
+	* exploit-scanner.php, readme.txt: Exploit Scanner version 1.2
+
+2012-01-04 17:12  duck_
+
+	* exploit-scanner.php: Don't save the entire suspicious line too
+	  the DB if it's too long.
+	  
+	  This should help prevent one of the causes of hanging scans:
+	  MySQL error 1153 "Got a packet bigger than 'max_allowed_packet'
+	  bytes".
+
+2012-01-04 16:13  duck_
+
+	* hashes-3.0.1.php, hashes-3.0.2.php, hashes-3.0.3.php,
+	  hashes-3.0.4.php, hashes-3.0.5.php, hashes-3.0.6.php,
+	  hashes-3.0.php, hashes-3.1.1.php, hashes-3.1.2.php,
+	  hashes-3.1.3.php, hashes-3.1.4.php, hashes-3.1.php,
+	  hashes-3.2.1.php, hashes-3.2.php, hashes-3.3.1.php: Add hashes
+	  for WordPress 3.3.1. Remove older hashes.
+
+2012-01-04 15:43  duck_
+
+	* exploit-scanner.php: Use 3.3 help tabs. Stops deprecated notice.
+
+2011-12-16 00:15  duck_
+
+	* hashes-3.3.php: Add missing hash file... oops.
+
+2011-12-15 23:41  duck_
+
+	* exploit-scanner.php, readme.txt: One point one.
+
+2011-11-30 14:17  donncha
+
+	* exploit-scanner.php: Added "Scanner Settings" link for the
+	  plugins page.
+
+2011-11-20 14:16  duck_
+
+	* exploit-scanner.php: * More permissive TimThumb fix.
+	  * Add a couple more potential TimThumb file names.
+	  * Fix bug which meant that only files in ABSPATH directory were
+	  checked for vulns.
+
+2011-09-25 16:06  duck_
+
+	* exploit-scanner.php: Scan for, and fix old TimThumb scripts.
+
+2011-09-25 12:27  duck_
+
+	* exploit-scanner.php: Detect old export files even if they're
+	  larger than the size limit.
+
+2011-07-16 08:01  duck_
+
+	* readme.txt: Tagging 1.0.5.
+
+2011-07-16 07:59  duck_
+
+	* exploit-scanner.php, hashes-3.2.1.php, hashes-3.2.php,
+	  readme.txt: 3.2 and 3.2.1 hashes. Prepare for 1.0.5
+
+2011-06-30 12:58  duck_
+
+	* create-md5.sh, exploit-scanner.php, hashes-3.1.4.php, readme.txt:
+	  3.1.4 hashes and pattern tweaks. With thanks to mdawaffe and
+	  simonwheatley.
+
+2011-05-27 14:32  duck_
+
+	* exploit-scanner.php, hashes-3.1.3.php, readme.txt: Tagging 1.0.3.
+	  WordPress 3.1.3 hashes + old export file detection.
+
+2011-05-03 15:25  duck_
+
+	* readme.txt: Bump.
+
+2011-05-03 15:21  duck_
+
+	* exploit-scanner.php, hashes-3.0.6.php, hashes-3.1.2.php,
+	  readme.txt: Prepare 1.0.2 with new hashes. Remove currently
+	  unnecessary branches.
+
+2011-04-05 21:26  duck_
+
+	* readme.txt: Bump.
+
+2011-04-05 21:21  duck_
+
+	* exploit-scanner.php, hashes-3.1.1.php, readme.txt: Add 3.1.1
+	  hashes. Tag 1.0.1
+
+2011-02-27 18:29  duck_
+
+	* readme.txt: Bump.
+
+2011-02-27 18:26  duck_
+
+	* exploit-scanner.php, readme.txt: Bring back post scan
+	  auto-reloading.
+
+2011-02-27 18:14  duck_
+
+	* exploit-scanner.php, readme.txt: Better safe than sorry. Remove
+	  create-md5 script for release.
+
+2011-02-27 17:38  duck_
+
+	* exploit-scanner.php, readme.txt: Prepare for 1.0
+
+2011-02-24 19:38  duck_
+
+	* exploit-scanner.php: More debugging code
+
+2011-02-24 12:11  duck_
+
+	* exploit-scanner.php: Basic docs. parseInt( num, 10 ), merci
+	  beaucoup koopersmith. Fatal error as late as possible
+
+2011-02-24 09:42  duck_
+
+	* exploit-scanner.php, hashes-2.9.1.php, hashes-2.9.2.php,
+	  hashes-2.9.php: Disable unescape pattern, too many FPs.
+	  json_encode error output
+
+2011-02-24 09:38  duck_
+
+	* hashes-3.1.php: Add 3.1 hashes. Remove 2.9.x hashes.
+
+2011-02-08 19:14  duck_
+
+	* readme.txt: readme bump
+
+2011-02-08 00:15  duck_
+
+	* readme.txt: Tag 0.97.6
+
+2011-02-07 23:59  duck_
+
+	* hashes-3.0.5.php, readme.txt: 3.0.5 hashes
+
+2011-01-06 15:30  duck_
+
+	* exploit-scanner.php: Bump
+
+2011-01-06 15:23  duck_
+
+	* exploit-scanner.php: Debugging for array_splice issue
+
+2011-01-05 17:53  duck_
+
+	* readme.txt: Link to German hashes
+
+2010-12-30 00:20  duck_
+
+	* hashes-3.0.4.php, readme.txt: WordPress 3.0.4 released today...
+
+2010-12-08 19:42  duck_
+
+	* readme.txt: missing = in readme
+
+2010-12-08 19:40  duck_
+
+	* hashes-3.0.3.php, readme.txt: 3.0.3 compat
+
+2010-12-04 17:56  duck_
+
+	* readme.txt: revert readme
+
+2010-12-04 17:51  duck_
+
+	* exploit-scanner.php, readme.txt: Update routine. Fix diff cache.
+
+2010-12-04 15:09  duck_
+
+	* exploit-scanner.php: Thickbox loading of file diffs, do not
+	  delete partial results on construct!
+
+2010-12-03 22:08  duck_
+
+	* exploit-scanner.php: Fix notice for users without manage_options,
+	  add some patterns
+
+2010-12-01 15:11  duck_
+
+	* exploit-scanner.php: Oops! Move $wp_version
+
+2010-12-01 14:23  duck_
+
+	* exploit-scanner.php: Split up admin display, non-js file diffs
+
+2010-12-01 00:18  duck_
+
+	* exploit-scanner.php, hashes-3.0.2.php, readme.txt: three dot zero
+	  dot two
+
+2010-09-22 15:46  duck_
+
+	* exploit-scanner.php: Simplify patterns, move JS, trim trailing
+
+2010-09-13 22:04  duck_
+
+	* exploit-scanner.php, loader.gif: Modified files diff view first
+	  pass. Fix loader.gif bg colour
+
+2010-07-29 22:19  duck_
+
+	* hashes-3.0.1.php, readme.txt: fix hashes w.r.t core ticket #14454
+
+2010-07-29 21:51  duck_
+
+	* exploit-scanner.php, readme.txt: 0.97.2
+
+2010-07-29 21:32  duck_
+
+	* hashes-3.0.1.php: 3.0.1 hashes
+
+2010-07-21 16:17  duck_
+
+	* exploit-scanner.php, readme.txt: PHP 4 compat (for now)
+
+2010-07-20 21:19  duck_
+
+	* readme.txt: 0.97
+
+2010-07-20 21:17  duck_
+
+	* exploit-scanner.php, hashes-2.7.1.php, hashes-2.7.php,
+	  hashes-2.8.1.php, hashes-2.8.2.php, hashes-2.8.3.php,
+	  hashes-2.8.4.php, hashes-2.8.5.php, hashes-2.8.6.php,
+	  hashes-2.8.php, readme.txt: prep for 0.97
+
+2010-07-19 23:11  duck_
+
+	* exploit-scanner.php: DB clean up on activate
+
+2010-07-19 22:05  duck_
+
+	* exploit-scanner.php, readme.txt: minor adjustments
+
+2010-07-19 21:42  duck_
+
+	* exploit-scanner.php: switch 0.97 to trunk
+
+2010-07-13 18:52  duck_
+
+	* exploit-scanner.php, readme.txt: Tagging 0.96
+
+2010-07-13 17:04  duck_
+
+	* hashes-3.0.php: Add 3.0 hashes
+
+2010-02-19 16:36  donncha
+
+	* readme.txt: Thanks Thorsten
+
+2010-02-19 16:25  donncha
+
+	* readme.txt: Added Upgrade notice and changelog
+
+2010-02-19 16:02  donncha
+
+	* readme.txt: Bump version to 0.95 and add new md5 hashes
+
+2010-02-19 15:54  donncha
+
+	* exploit-scanner.php: Bump version to 0.95
+
+2010-02-19 14:27  donncha
+
+	* exploit-scanner.php: * Only show "general infos" scan to non MU
+	  sites as it's expensive on big MU sites.
+	  * Display "General Infos" and "serverinfo" results
+
+2010-02-19 13:05  donncha
+
+	* exploit-scanner.php: Make "display:none" a blocker instead of an
+	  exploit
+
+2010-02-18 16:57  donncha
+
+	* exploit-scanner.php: Make Javascript a blocker, not an exploit
+
+2010-02-18 13:23  donncha
+
+	* exploit-scanner.php: Rearrange the scan results for easier
+	  reading
+
+2010-02-18 11:43  donncha
+
+	* exploit-scanner.php: Added "Exploit" scan level
+
+2010-02-17 15:11  donncha
+
+	* hashes-2.9.2.php: Added hashes for 2.9.2
+
+2010-02-17 15:10  donncha
+
+	* hashes-2.9.1.php: Fixed hashes for 2.9.1
+
+2010-02-17 15:08  donncha
+
+	* create-md5.sh: Make sure a directory is specified on the command
+	  line
+
+2010-02-17 14:18  donncha
+
+	* exploit-scanner.php: * Use GET instead of POST, useful to restart
+	  a stalled scan.
+	  * Page the scan, 50 files at a time.
+
+2010-02-02 17:20  donncha
+
+	* exploit-scanner.php, readme.txt: Bump version number to 0.94 and
+	  md5 hashes
+
+2010-02-02 17:02  donncha
+
+	* exploit-scanner.php: Re-org exploit form.
+
+2010-02-02 15:09  donncha
+
+	* exploit-scanner.php: Remove "skip checks" and reorganise
+	  checkboxes
+
+2010-01-13 16:04  donncha
+
+	* hashes-2.9.1.php: Added hash file for WP 2.9.1
+
+2010-01-13 15:02  donncha
+
+	* create-md5.sh: Rename md5 -> md5sum and fix last CR
+
+2010-01-13 14:22  donncha
+
+	* exploit-scanner.php: Only load jquery-form on admin page, props
+	  Matt Walters
+
+2009-12-18 23:41  ryan
+
+	* exploit-scanner.php, hashes-2.9.php, readme.txt: 2.9 support
+
+2009-12-14 12:26  tott
+
+	* exploit-scanner.php, readme.txt: increasing version number, grmpf
+
+2009-12-14 11:45  tott
+
+	* readme.txt: fixing an error i did not see due to error reporting
+	  settings
+
+2009-12-14 11:41  tott
+
+	* readme.txt: fixing an error i did not see due to error reporting
+	  settings
+
+2009-12-14 11:40  tott
+
+	* exploit-scanner.php: fixing an error i did not see due to error
+	  reporting settings
+
+2009-12-14 11:18  tott
+
+	* exploit-scanner.php, readme.txt: Some speed optimization - skip
+	  unwanted checks instead of hiding them
+
+2009-12-14 10:22  tott
+
+	* exploit-scanner.php, readme.txt: Added pattern for GNU GPL
+	  JavaScript attack. Disables Ajax for now due to some
+	  compatibility issues. Can be enabled by uncommenting lines 1145,
+	  1146
+
+2009-11-26 18:14  tott
+
+	* exploit-scanner.php: various improvements for running the script
+	  without ajax
+
+2009-11-26 15:38  donncha
+
+	* exploit-scanner.php: Disable the AJAX submit button
+
+2009-11-26 14:51  donncha
+
+	* exploit-scanner.php: load jquery-form from a wp_print_scripts
+	  action
+
+2009-11-26 14:50  donncha
+
+	* exploit-scanner.php: Style and indenation fixes
+
+2009-11-24 16:22  tott
+
+	* exploit-scanner.php: Adding possibility to skip file permission
+	  check as it seems it's not applicable for most hosting companies
+
+2009-11-12 21:10  ryan
+
+	* readme.txt: Add tott
+
+2009-11-12 19:58  ryan
+
+	* readme.txt: 0.7
+
+2009-11-12 18:21  ryan
+
+	* readme.txt: Update hash
+
+2009-11-12 18:20  ryan
+
+	* exploit-scanner.php: Drop the NG
+
+2009-11-12 18:16  ryan
+
+	* readme.txt: Update hashes
+
+2009-11-12 18:11  ryan
+
+	* hashes-2.8.6.php: Add 2.8.6 hashes
+
+2009-11-11 21:54  tott
+
+	* create-md5.sh, exploit-scanner.php: Complete refactoring of the
+	  code which includes the following improvements / changes
+	  - encapsulation of all scan functions in class
+	  - clear definition of restricted commands, patterns, and
+	  whitelist patterns
+	  - extended ruleset and added severities for incidents found
+	  - filesystem permission check added
+	  - output of various php / mysql variables added
+	  - added possibility to choose scan groups to execute and severity
+	  levels to display
+	  - running the scan via ajax for better usability
+	  - improved output with table layout
+
+2009-11-04 10:34  donncha
+
+	* exploit-scanner.php, readme.txt: Bump version to 0.6 and updated
+	  docs
+
+2009-11-04 10:03  donncha
+
+	* exploit-scanner.php: Minor text change
+
+2009-10-25 10:41  donncha
+
+	* exploit-scanner.php: Don't show md5 of hashes file if it doesn't
+	  exist.
+
+2009-10-25 09:39  donncha
+
+	* exploit-scanner.php: Set php memory limit or max file size from
+	  plugin admin page.
+
+2009-10-24 17:05  donncha
+
+	* exploit-scanner.php: Skip files larger than 400K
+
+2009-10-21 09:26  donncha
+
+	* readme.txt: Minor update to install docs, props Richard Hearne
+
+2009-10-20 22:29  ryan
+
+	* readme.txt: 0.5
+
+2009-10-20 22:26  ryan
+
+	* exploit-scanner.php, readme.txt: Correct hashes file name. Update
+	  MD5s.
+
+2009-10-20 22:22  ryan
+
+	* readme.txt: Add hashes for 0.4 and 0.5
+
+2009-10-20 22:18  ryan
+
+	* exploit-scanner.php, hashes-2.7.1.php, hashes-2.7.php,
+	  hashes-2.8.1.php, hashes-2.8.2.php, hashes-2.8.3.php,
+	  hashes-2.8.4.php, hashes-2.8.5.php, hashes-2.8.php, readme.txt:
+	  Add hashes for 2.8.5
+
+2009-10-20 16:58  donncha
+
+	* readme.txt: Added "out of memory" FAQ
+
+2009-10-20 16:02  ryan
+
+	* create-md5.sh: Update to match hash file format
+
+2009-10-20 15:42  ryan
+
+	* exploit-scanner.php: Add hooray for settings
+
+2009-10-20 15:27  donncha
+
+	* exploit-scanner.php, hashes-2.7.1.php, hashes-2.7.1.txt,
+	  hashes-2.7.php, hashes-2.7.txt, hashes-2.8.1.php,
+	  hashes-2.8.1.txt, hashes-2.8.2.php, hashes-2.8.2.txt,
+	  hashes-2.8.3.php, hashes-2.8.3.txt, hashes-2.8.4.php,
+	  hashes-2.8.4.txt, hashes-2.8.php, hashes-2.8.txt: Load hash file
+	  from outside recursive loop and put hashes into php files
+
+2009-10-19 19:26  ryan
+
+	* readme.txt: Update contribs and tested ver.
+
+2009-10-19 19:20  ryan
+
+	* exploit-scanner.php: Scan options
+
+2009-10-19 18:42  donncha
+
+	* create-md5.sh: Added Bash script to generate md5 array
+
+2009-09-23 15:50  duck_
+
+	* exploit-scanner.php, hashes-2.7.1.txt, hashes-2.7.txt,
+	  hashes-2.8.1.txt, hashes-2.8.2.txt, hashes-2.8.3.txt,
+	  hashes-2.8.4.txt, hashes-2.8.txt, loader.gif, md5list.php,
+	  readme.txt: 0.5 development version
+
+2009-04-18 22:26  donncha
+
+	* exploit-scanner.php, readme.txt: Updated version number and
+	  tested to version
+
+2009-04-18 22:16  donncha
+
+	* md5list.php: Updated md5list for 2.7.1
+
+2009-04-18 22:11  donncha
+
+	* readme.txt: Added donation link
+
+2008-11-20 20:37  donncha
+
+	* readme.txt: Added MD5s for 0.2 and 0.3
+
+2008-11-20 20:35  donncha
+
+	* exploit-scanner.php, readme.txt: Bump to version 0.3 to fix
+	  memory limit typo
+
+2008-11-20 20:31  donncha
+
+	* exploit-scanner.php: Fixed MB typo.
+	  Increased memory limit to 128M, just in case
+
+2008-11-20 20:22  donncha
+
+	* exploit-scanner.php: md5 list is only needed in search_install(),
+	  after memory limit is increased!
+
+2008-11-20 17:37  donncha
+
+	* exploit-scanner.php, readme.txt: Bump version number to 0.2
+
+2008-11-20 17:23  donncha
+
+	* exploit-scanner.php, md5list.php, readme.txt: Added list of md5
+	  values for the files in WordPress 2.6.3:
+	  1. Use md5 list to remove false positives
+	  2. Warn if core WordPress files have been modified.
+	  Added several more possible exploit strings
+
+2008-06-28 09:55  donncha
+
+	* exploit-scanner.php: Don't die on older versions. Just warn.
+	  Increase the memory limit to 64MB if possible. May fix out of
+	  memory errors for some people.
+	  Increase timeout of loading refresh and flush content to browser
+	  so it appears.
+
+2008-06-26 17:37  donncha
+
+	* exploit-scanner.php, readme.txt: Initial import
+
+2008-06-26 15:09  plugin-master
+
+	* .: adding exploit-scanner by donncha
+

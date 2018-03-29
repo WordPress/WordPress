@@ -1,0 +1,68 @@
+.redux-container-switch {
+    .switch-options {
+        min-height: 30px;
+        margin-right: 10px;
+
+        label {
+            cursor: pointer;
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+    .cb-enable,
+    .cb-disable {
+        padding: 0 10px;
+        border-width: 1px;
+        border-style: solid;
+        -webkit-appearance: none;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+
+        span {
+            line-height: 30px;
+            display: block;
+            font-weight: 700;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
+
+    .cb-enable,
+    .cb-disable,
+    .cb-enable span,
+    .cb-disable span {
+        display: block;
+        float: left;
+    }
+
+    .cb-enable {
+        border-right: 0;
+        border-radius: 3px 0px 0px 3px;
+        -moz-border-radius: 3px 0px 0px 3px;
+        -webkit-border-radius: 3px 0px 0px 3px;
+
+        &.selected {
+            color: #fff;
+        }
+    }
+
+    .cb-disable {
+        border-left: 0;
+        border-radius: 0px 3px 3px 0px;
+        -moz-border-radius: 0px 3px 3px 0px;
+        -webkit-border-radius: 0px 3px 3px 0px;
+
+        &.selected {
+            color: #fff;
+        }
+    }
+}

@@ -32,13 +32,13 @@ add_filter( 'wp_insert_post_data', 'avoid_blog_page_permalink_collision', 10, 2 
 add_filter( 'import_allow_create_users', 'check_import_new_users' );
 
 // Notices Hooks
-add_action( 'admin_notices', 'site_admin_notice' );
+add_action( 'admin_notices',         'site_admin_notice' );
 add_action( 'network_admin_notices', 'site_admin_notice' );
 
 // Update Hooks
-add_action( 'network_admin_notices', 'update_nag', 3 );
+add_action( 'network_admin_notices', 'update_nag',      3  );
 add_action( 'network_admin_notices', 'maintenance_nag', 10 );
 
 // Network Admin Hooks
-add_action( 'add_site_option_new_admin_email', 'update_network_option_new_admin_email', 10, 2 );
+add_action( 'add_site_option_new_admin_email',    'update_network_option_new_admin_email', 10, 2 );
 add_action( 'update_site_option_new_admin_email', 'update_network_option_new_admin_email', 10, 2 );

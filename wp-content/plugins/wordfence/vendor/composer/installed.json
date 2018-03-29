@@ -1,0 +1,20 @@
+[
+    {
+        "name": "wordfence/wf-waf",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wordfence/wf-waf.git",
+            "reference": "origin/master"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/wordfence/wf-waf/zipball/master",
+            "reference": null,
+            "shasum": null
+        },
+        "type": "library",
+        "installation-source": "source"
+    }
+]

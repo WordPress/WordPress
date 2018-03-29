@@ -1,0 +1,126 @@
+.redux-container {
+    .redux-action_bar {
+        float: left;
+    }
+}
+
+.redux-container #expand_options,
+.redux-sidebar,
+.cb-enable,
+.cb-disable,
+.cb-enable span,
+.cb-disable span,
+#redux-footer #redux-share {
+    float: right;
+}
+
+.redux-main {
+    border-left: 0px;
+    margin-left: 0px;
+    border-right: 1px solid #d8d8d8;
+    margin-right: 201px;
+}
+
+.redux-group-tab-link-a {
+    padding-left: 0px;
+    padding-right: 30px;
+
+    i {
+        padding-left: 10px;
+        padding-right: 5px;
+    }
+
+    span.group_title {
+        padding-left: 0px;
+        padding-right: 30px;
+    }
+}
+
+.redux-container .expand_options,
+.redux-sidebar,
+.cb-enable,
+.cb-disable,
+.cb-enable span,
+.cb-disable span,
+#redux-footer #redux-share{
+    float:right;
+}
+
+.redux_slider {
+    margin-left: 0px;
+    margin-right: 15px;
+}
+
+.redux-action_bar {
+    float: left !important;
+}
+
+.expand_options {
+    float: right !important;
+    border:1px solid #f00;
+}
+
+.redux_field_th{
+    padding:20px 0 20px 10px !important;
+}
+
+.field-desc {
+    text-align: right;
+}
+
+.redux-container-ace_editor,
+.redux-container-border,
+.redux-container-spacing,
+.redux-container-dimensions {
+    direction: ltr !important;
+}
+
+.redux-container-border .field-border-input,
+.redux-container-border .redux-color-init,
+.redux-container-border .redux-border-style,
+.redux-container-sorter,
+.redux-container-border,
+.redux-container-spacing,
+.redux-container-spacing .field-spacing-input,
+.redux-container-dimensions .redux-dimensions-container,
+.redux-container-text label,
+.redux-container-checkbox input,
+.typography-font-bar,
+.typography-style-bar,
+.redux-color.redux-typography-color,
+.redux-typography-subsets {
+    float:right !important;
+}
+
+.input-append{
+    margin-right:10px; direction:ltr !important;
+}
+
+.redux-container-slider,
+.redux-container-spinner,
+.redux-container-switch {
+    direction:ltr !important;
+    float:right;
+    margin:0;
+}
+
+.redux-main .redux-typography-container .typography-preview {
+    text-align: center !important;
+    direction: ltr !important;
+}
+
+.redux-info-field .redux-info-icon {
+  margin-left: 15px;
+}
+
+#redux-share {
+    float:right !important;
+}
+
+.redux-sidebar {
+    .redux-menu-warning,
+    .redux-menu-error,
+    .hasSubSections .extraIconSubsections {
+        float: left;
+    }
+}

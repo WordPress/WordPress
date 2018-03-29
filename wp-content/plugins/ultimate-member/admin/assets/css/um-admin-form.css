@@ -1,0 +1,61 @@
+/*
+	- General
+*/
+
+.um-admin-metabox * {
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+.um-admin-metabox h6 {
+	font-size: 14px;
+	margin: 12px 0 0 0;
+}
+
+/*
+	- Metabox layout
+*/
+
+.um-admin.post-type-um_form div#submitdiv,
+.um-admin.post-type-um_form div#side-sortables
+{display:none}
+
+/*
+	- Boxed Links
+*/
+
+.um-admin-boxed-links {
+	width: 100%;
+	text-align: center;
+}
+
+.um-admin-boxed-links a {
+	width: 33.3%;
+	float: left;
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+	padding: 30px 25px !important;
+	background: #f8f8f8;
+	text-align: center;
+	display: inline-block !important;
+	font-size: 14px;
+	transition: all .2s linear;
+	text-decoration: none;
+	color: #666;
+	margin: 0 !important;
+	box-sizing: border-box !important;
+	border-radius: 2px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 600;
+}
+
+.um-admin-boxed-links i {
+	font-size: 28px;
+	vertical-align: middle;
+	margin: 0 10px 0 0;
+}
+
+.um-admin-boxed-links a:hover {
+	background: #eee;
+}

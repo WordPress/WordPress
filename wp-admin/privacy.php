@@ -1,6 +1,6 @@
 <?php
 /**
- * Privacy Tools Screen.
+ * Privacy administration panel.
  *
  * @package WordPress
  * @subpackage Administration
@@ -9,194 +9,34 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'manage_options' ) ) {
-	wp_die( __( 'Sorry, you are not allowed to manage privacy on this site.' ) );
-}
+$title = __( 'Privacy' );
 
-// "Borrow" xfn.js for now so we don't have to create new files.
-// wp_enqueue_script( 'xfn' );
+list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
-$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
-
-if ( ! empty( $action ) ) {
-	check_admin_referer( $action );
-
-	if ( 'set-privacy-page' === $action ) {
-		$privacy_policy_page_id = isset( $_POST['page_for_privacy_policy'] ) ? (int) $_POST['page_for_privacy_policy'] : 0;
-		update_option( 'wp_page_for_privacy_policy', $privacy_policy_page_id );
-
-		add_settings_error(
-			'page_for_privacy_policy',
-			'page_for_privacy_policy',
-			__( 'Privacy policy page updated successfully.' ),
-			'updated'
-		);
-	} elseif ( 'create-privacy-page' === $action ) {
-		$privacy_policy_page_id = wp_insert_post(
-			array(
-				'post_title'  => __( 'Privacy Policy' ),
-				'post_status' => 'draft',
-				'post_type'   => 'page',
-			),
-			true
-		);
-
-		if ( is_wp_error( $privacy_policy_page_id ) ) {
-			add_settings_error(
-				'page_for_privacy_policy',
-				'page_for_privacy_policy',
-				__( 'Unable to create privacy policy page.' ),
-				'error'
-			);
-		} else {
-			update_option( 'wp_page_for_privacy_policy', $privacy_policy_page_id );
-			add_settings_error(
-				'page_for_privacy_policy',
-				'page_for_privacy_policy',
-				__( 'Privacy policy page created successfully.' ),
-				'updated'
-			);
-		}
-	}
-}
-
-// If a privacy policy page ID is available, make sure the page actually exists. If not, display an error.
-$privacy_policy_page_exists = false;
-$privacy_policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
-
-if ( ! empty( $privacy_policy_page_id ) ) {
-		$privacy_policy_page = get_post( $privacy_policy_page_id );
-		if ( ! $privacy_policy_page instanceof WP_Post ) {
-			add_settings_error(
-				'page_for_privacy_policy',
-				'page_for_privacy_policy',
-				__( 'The currently selected privacy policy page does not exist. Please create or select new page.' ),
-				'error'
-			);
-		} else {
-			if ( 'trash' === $privacy_policy_page->post_status ) {
-				add_settings_error(
-					'page_for_privacy_policy',
-					'page_for_privacy_policy',
-					sprintf(
-						__( 'The currently selected privacy policy page is in the trash. Please create or select new privacy policy page or <a href="%s">restore the current page</a>.' ),
-						'edit.php?post_status=trash&post_type=page'
-					),
-					'error'
-				);
-			} else {
-				$privacy_policy_page_exists = true;
-			}
-		}
-}
-
-get_current_screen()->add_help_tab( array(
-	'id'      => 'privacy',
-	'title'   => __( 'Privacy' ),
-	'content' => '<p>' . __( 'This page provides tools with which you can manage your user\'s personal data and site\'s privacy policy.' ) . '</p>',
-) );
-
-get_current_screen()->set_help_sidebar(
-	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="#">Documentation on privacy</a>' ) . '</p>'
-);
-
-require_once( ABSPATH . 'wp-admin/admin-header.php' );
-
+include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-<div class="wrap">
-	<h1><?php _e( 'Privacy Tools' ); ?></h1>
-	<?php settings_errors(); ?>
+<div class="wrap about-wrap full-width-layout">
 
-	<h2><?php _e( 'Privacy policy page' ); ?></h2>
+<h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-	<?php
-	if ( $privacy_policy_page_exists ) {
-		$edit_href = add_query_arg(
-			array(
-				'post'  => $privacy_policy_page_id,
-				'action' => 'edit',
-			),
-			admin_url( 'post.php' )
-		);
-		$view_href = get_permalink( $privacy_policy_page_id );
+<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s will smooth your design workflow and keep you safe from coding errors.' ), $display_version ); ?></p>
 
-		?>
-		<p><strong>
-			<?php
-			printf(
-				__( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy.' ),
-				$edit_href,
-				$view_href
-			);
-			?>
-		</strong></p>
-		<?php
-	}
-	?>
+<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
-	<table class="form-table">
-		<tr>
-			<th scope="row">
-				<label for="page_for_privacy_policy">
-					<?php
+<h2 class="nav-tab-wrapper wp-clearfix">
+	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
+	<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
+	<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
+	<a href="privacy.php" class="nav-tab nav-tab-active"><?php _e( 'Privacy' ); ?></a>
+</h2>
 
-					if ( $privacy_policy_page_exists ) {
-						_e( 'Select another page for your privacy policy' );
-					} else {
-						_e( 'Select an existing privacy policy page' );
-					}
+<div class="about-wrap-content">
+	<p class="about-description"><?php _e( 'From time to time, your WordPress site may send data to WordPress.org &#8212; including, but not limited to &#8212; the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
 
-					?>
-				</label>
-			</th>
-			<td id="front-static-pages">
-				<form method="post" action="">
-					<input type="hidden" name="action" value="set-privacy-page" />
-					<?php
+	<p><?php printf( __( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), 'https://wordpress.org/about/stats/' ); ?></p>
 
-					wp_dropdown_pages(
-						array(
-							'name'              => 'page_for_privacy_policy',
-							'show_option_none'  => __( '&mdash; Select &mdash;' ),
-							'option_none_value' => '0',
-							'selected'          => $privacy_policy_page_id,
-							'post_status'       => array( 'draft', 'publish' ),
-						)
-					);
-
-					wp_nonce_field( 'set-privacy-page' );
-					submit_button( __( 'Set Page' ), 'primary', 'submit', true, array( 'id' => 'set-page' ) );
-
-					?>
-				</form>
-			</td>
-		</tr>
-		<?php
-
-		if ( ! $privacy_policy_page_exists ) {
-			?>
-			<tr>
-				<th scope="row"><?php _e( 'Create new page for your privacy policy' ); ?></th>
-				<td>
-					<form method="post" action="">
-						<input type="hidden" name="action" value="create-privacy-page" />
-						<?php
-
-						wp_nonce_field( 'create-privacy-page' );
-						submit_button( __( 'Create Page' ), 'primary', 'submit', true, array( 'id' => 'create-page' ) );
-
-						?>
-					</form>
-				</td>
-			</tr>
-			<?php
-		}
-
-		?>
-	</table>
+	<p><?php printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), 'https://wordpress.org/about/privacy/' ); ?></p>
 </div>
 
-<?php
-
-include( ABSPATH . 'wp-admin/admin-footer.php' );
+</div>
+<?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>

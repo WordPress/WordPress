@@ -1,0 +1,3074 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/style\n"
+"POT-Creation-Date: 2017-05-18 15:55:34+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:13+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: fil\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+"X-Poedit-SearchPathExcluded-2: ../core\n"
+
+#: comments.php:4
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+"Protektado ng password ang post na ito. I-enter ang password upang tingnan "
+"ang mga komento."
+
+#: comments.php:13
+msgid "0 Comments"
+msgstr "0 Komento"
+
+#: comments.php:13
+msgid "1 Comment"
+msgstr "1 Komento"
+
+#: comments.php:13 epanel/core_functions.php:554
+msgid "Comments"
+msgstr "Mga Komento"
+
+#: comments.php:18 comments.php:31
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr "<span class=\"meta-nav\">&larr;</span> Mas Lumang Komento"
+
+#: comments.php:19 comments.php:32
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Mas Bagong Komento <span class=\"meta-nav\">&rarr;</span>"
+
+#: comments.php:38
+msgid "Trackbacks/Pingbacks"
+msgstr "Mga Trackback/Mga Pingback"
+
+#: comments.php:56
+msgid "Submit Comment"
+msgstr "Isumite ang Komento"
+
+#: comments.php:56
+msgid "Submit a Comment"
+msgstr "Isumite ang Komento"
+
+#: comments.php:56
+msgid "Leave a Reply to %s"
+msgstr "Mag-iwan ng Reply kay %s"
+
+#: epanel/core_functions.php:33
+msgid "Help"
+msgstr "Tulong"
+
+#: epanel/core_functions.php:121
+msgid "Options"
+msgstr "Mga Opsyon"
+
+#: epanel/core_functions.php:121 functions.php:8474
+msgid "Theme Options"
+msgstr "Mga Opsyon ng Theme"
+
+#: epanel/core_functions.php:140
+msgid "settings saved."
+msgstr "nai-save na ang mga setting."
+
+#: epanel/core_functions.php:143
+msgid "settings reset."
+msgstr "nai-reset na ang mga setting."
+
+#: epanel/core_functions.php:152 epanel/core_functions.php:502
+msgid "Save Changes"
+msgstr "I-save ang mga Pagbabago"
+
+#: epanel/core_functions.php:161 epanel/core_functions.php:814
+msgid "%s Theme Options"
+msgstr "%s Mga Opsyon ng Theme"
+
+#: epanel/core_functions.php:168
+msgid "Reset to Defaults"
+msgstr "Ibalik sa Default"
+
+#: epanel/core_functions.php:173 options_divi.php:38 options_divi.php:840
+msgid "General"
+msgstr "Pangkalahatan"
+
+#: epanel/core_functions.php:176
+msgid "Navigation"
+msgstr "Navigation"
+
+#: epanel/core_functions.php:179 functions.php:700
+msgid "Layout"
+msgstr "Layout"
+
+#: epanel/core_functions.php:182
+msgid "Ads"
+msgstr "Mga Ad"
+
+#: epanel/core_functions.php:185
+msgid "Colorization"
+msgstr "Kulay"
+
+#: epanel/core_functions.php:188
+msgid "SEO"
+msgstr "SEO"
+
+#: epanel/core_functions.php:191
+msgid "Integration"
+msgstr "Pagsasama"
+
+#: epanel/core_functions.php:194
+msgid "Support"
+msgstr "Suporta"
+
+#: epanel/core_functions.php:197
+msgid "Updates"
+msgstr "Mga Update"
+
+#: epanel/core_functions.php:300 epanel/core_functions.php:511
+msgid "Reset"
+msgstr "I-reset"
+
+#: epanel/core_functions.php:301
+msgid "Upload"
+msgstr "I-upload"
+
+#: epanel/core_functions.php:328
+msgid "You don't have pages"
+msgstr "Wala kang anumang mga page"
+
+#: epanel/core_functions.php:516 includes/functions/choices.php:92
+msgid "Yes"
+msgstr "Oo"
+
+#: epanel/core_functions.php:519 includes/functions/choices.php:93
+msgid "No"
+msgstr "Hindi"
+
+#: epanel/core_functions.php:533
+msgid "Enabled"
+msgstr "I-enable"
+
+#: epanel/core_functions.php:535
+msgid "Disabled"
+msgstr "I-disable"
+
+#: epanel/core_functions.php:542
+msgid "Author"
+msgstr "May-akda"
+
+#: epanel/core_functions.php:546
+msgid "Date"
+msgstr "Petsa"
+
+#: epanel/core_functions.php:550 options_divi.php:313
+msgid "Categories"
+msgstr "Mga Kategorya"
+
+#: epanel/core_functions.php:558
+msgid "Ratings"
+msgstr "Mga Rating"
+
+#: epanel/core_functions.php:772
+msgid "Choose an Image"
+msgstr "Pumili ng Larawan"
+
+#: epanel/custom_functions.php:287
+msgid "&hellip;"
+msgstr "&hellip;"
+
+#: epanel/custom_functions.php:626 header.php:188 header.php:231
+msgid "Home"
+msgstr "Home"
+
+#: epanel/custom_functions.php:923
+msgid "Archives"
+msgstr "Mga Archive"
+
+#: epanel/custom_functions.php:925
+msgid "Search results for \"%s\""
+msgstr "Mga resulta ng paghahanap para sa \"%s\""
+
+#: epanel/custom_functions.php:927
+msgid "404 Not Found"
+msgstr "404 Hindi Nahanap"
+
+#: epanel/custom_functions.php:997
+msgid "Currently viewing archives from %1$s"
+msgstr "Kasalukuyang tinitingnan ang mga archive mula sa %1$s"
+
+#: epanel/custom_functions.php:1010
+msgid "Search Results for: %s"
+msgstr "Mga Resulta para sa: %s"
+
+#: epanel/custom_functions.php:1251
+msgid "Image doesn't exist"
+msgstr "Hindi umiiral ang larawan"
+
+#: epanel/custom_functions.php:1416
+msgid ""
+"<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't "
+"forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will "
+"disappear once you have clicked the Save button within the <a href=\"%2$s"
+"\">theme's options page</a>.</p></div>"
+msgstr ""
+"<div class=\"updated\"><p>Ito ang pinakabagong installation ng %1$s na "
+"theme. Huwag kalimutang pumunta sa <a href=\"%2$s\">ePanel</a> upang i-set "
+"up ito. Mawawala ang mensaheng ito sa oras na i-click mo ang button na I-"
+"save na nasa <a href=\"%2$s\">page ng opsyon ng theme</a>.</p></div>"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:518
+msgid "Previous"
+msgstr "Nauna"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:519
+msgid "Next"
+msgstr "Susunod"
+
+#: epanel/shortcodes/shortcodes.php:273
+msgid "Tweet"
+msgstr "I-tweet"
+
+#: epanel/shortcodes/shortcodes.php:289
+msgid "Member Login"
+msgstr "Login ng Member"
+
+#: epanel/shortcodes/shortcodes.php:292
+msgid "Username: "
+msgstr "Username: "
+
+#: epanel/shortcodes/shortcodes.php:293
+msgid "Password: "
+msgstr "Password: "
+
+#: epanel/shortcodes/shortcodes.php:294 functions.php:3880
+msgid "Login"
+msgstr "Mag-login"
+
+#: epanel/shortcodes/shortcodes.php:330
+msgid "Add a Tooltip Text"
+msgstr "Magdagdag ng Text para sa Tooltip"
+
+#: epanel/shortcodes/shortcodes.php:352
+msgid "Click here to learn more"
+msgstr "Mag-click dito upang matuto pa"
+
+#: epanel/shortcodes/shortcodes.php:732
+msgid "Join Now"
+msgstr "Sumali Ngayon"
+
+#: epanel/shortcodes/shortcodes.php:967
+msgid "Add ET Learn more block"
+msgstr "Magdagdag ng Toggle Block"
+
+#: epanel/shortcodes/shortcodes.php:968
+msgid "Add ET Box"
+msgstr "Magdagdag ng Box"
+
+#: epanel/shortcodes/shortcodes.php:969
+msgid "Add ET Button"
+msgstr "Magdagdag ng Button"
+
+#: epanel/shortcodes/shortcodes.php:970
+msgid "Add ET Tabs"
+msgstr "Magdagdag ng mga Tab"
+
+#: epanel/shortcodes/shortcodes.php:971
+msgid "Add Author Bio"
+msgstr "Idagdag ang Bio ng May-sulat"
+
+#: epanel/shortcodes/shortcodes.php:972
+msgid "Shortcodes"
+msgstr "Maiikling code (Shortcodes)"
+
+#: epanel/shortcodes/shortcodes.php:977
+msgid "Caption"
+msgstr "Caption"
+
+#: epanel/shortcodes/shortcodes.php:978
+msgid "Caption goes here"
+msgstr "Dito ang caption"
+
+#: epanel/shortcodes/shortcodes.php:979
+msgid "Caption title goes here"
+msgstr "Dito ang pamagat ng caption"
+
+#: epanel/shortcodes/shortcodes.php:983
+msgid "State"
+msgstr "Katayuan"
+
+#: epanel/shortcodes/shortcodes.php:985
+msgid "Select between expanded and closed state"
+msgstr "Pumili sa pagitan ng katayuang pinalawak at isinara"
+
+#: epanel/shortcodes/shortcodes.php:990 epanel/shortcodes/shortcodes.php:1006
+#: epanel/shortcodes/shortcodes.php:1035 epanel/shortcodes/shortcodes.php:1115
+msgid "Content"
+msgstr "Content"
+
+#: epanel/shortcodes/shortcodes.php:991 epanel/shortcodes/shortcodes.php:1007
+#: epanel/shortcodes/shortcodes.php:1093 epanel/shortcodes/shortcodes.php:1116
+msgid "Content goes here"
+msgstr "Dito ang content"
+
+#: epanel/shortcodes/shortcodes.php:992 epanel/shortcodes/shortcodes.php:1008
+#: epanel/shortcodes/shortcodes.php:1037
+msgid "Content text or html"
+msgstr "Text ng content o HTML"
+
+#: epanel/shortcodes/shortcodes.php:999 epanel/shortcodes/shortcodes.php:1021
+msgid "Type"
+msgstr "Uri"
+
+#: epanel/shortcodes/shortcodes.php:1001
+msgid "Type of the box"
+msgstr "Uri ng box"
+
+#: epanel/shortcodes/shortcodes.php:1015
+msgid "Link"
+msgstr "Link"
+
+#: epanel/shortcodes/shortcodes.php:1017
+msgid "URL"
+msgstr "URL"
+
+#: epanel/shortcodes/shortcodes.php:1023
+msgid "Choose button type"
+msgstr "Pumili ng uri ng button"
+
+#: epanel/shortcodes/shortcodes.php:1028
+msgid "Color"
+msgstr "Kulay"
+
+#: epanel/shortcodes/shortcodes.php:1030
+msgid "Choose button color"
+msgstr "Pumili ng kulay para sa button"
+
+#: epanel/shortcodes/shortcodes.php:1036
+msgid "Link text"
+msgstr "Text ng link"
+
+#: epanel/shortcodes/shortcodes.php:1041
+msgid "Icon"
+msgstr "Icon"
+
+#: epanel/shortcodes/shortcodes.php:1043
+msgid "Used for icon button type"
+msgstr "Ginagamit para sa uri ng button ng icon"
+
+#: epanel/shortcodes/shortcodes.php:1048
+msgid "Open link in new window"
+msgstr "Buksan ang link sa bagong window"
+
+#: epanel/shortcodes/shortcodes.php:1050
+msgid "Select yes if the link should be opened in a new window"
+msgstr "Piliin ang oo kung dapat mabuksan ang link sa isang bagong window"
+
+#: epanel/shortcodes/shortcodes.php:1058
+msgid "Slider Type"
+msgstr "Uri ng Slider"
+
+#: epanel/shortcodes/shortcodes.php:1060
+msgid "Select Slider Type here"
+msgstr "Pumili dito ng Uri ng Slider"
+
+#: epanel/shortcodes/shortcodes.php:1065
+msgid "Effect"
+msgstr "Effect"
+
+#: epanel/shortcodes/shortcodes.php:1067
+msgid "Select Animation Effect"
+msgstr "Pumili ng Effect para sa Animation"
+
+#: epanel/shortcodes/shortcodes.php:1072
+msgid "Auto"
+msgstr "Awtomatiko"
+
+#: epanel/shortcodes/shortcodes.php:1074
+msgid "Choose yes if you want for automatic slider animation"
+msgstr ""
+"Piliin ang oo kung gusto mong i-enable ang awtomatikong animation ng slider"
+
+#: epanel/shortcodes/shortcodes.php:1079
+msgid "Auto Speed"
+msgstr "Awtomatikong Bilis"
+
+#: epanel/shortcodes/shortcodes.php:1081
+msgid "Automattic slider speed (works only if Auto is set to yes)"
+msgstr ""
+"Awtomatikong bilis ng slider (gumagana lang kung nakatakda sa oo ang "
+"Awtomatiko)"
+
+#: epanel/shortcodes/shortcodes.php:1085
+msgid "Tab Text"
+msgstr "Text ng Tab"
+
+#: epanel/shortcodes/shortcodes.php:1092
+msgid "Tab Content"
+msgstr "Nilalaman ng Tab"
+
+#: epanel/shortcodes/shortcodes.php:1094
+msgid "Paste image url here, if you chose \"images\" slider type"
+msgstr ""
+"I-paste ang URL ng larawan dito, kung pinili mo ang \"images\" na uri ng "
+"slider"
+
+#: epanel/shortcodes/shortcodes.php:1102
+msgid "Image Url"
+msgstr "URL ng Larawan"
+
+#: epanel/shortcodes/shortcodes.php:1104
+msgid "Author Image URL"
+msgstr "URL ng Larawan ng May-akda"
+
+#: epanel/shortcodes/shortcodes.php:1108
+msgid "Use resizing"
+msgstr "Gamitin ang pagre-resize"
+
+#: epanel/shortcodes/shortcodes.php:1185
+msgid "+ Add One More Tab"
+msgstr "+ Magdagdag ng Isa Pang Tab"
+
+#: epanel/shortcodes/shortcodes.php:1335 functions.php:3546
+msgid "Image Height"
+msgstr "Taas ng Larawan"
+
+#: epanel/shortcodes/shortcodes.php:1336 functions.php:3526
+msgid "Image Width"
+msgstr "Width ng Larawan"
+
+#: functions.php:36
+msgid "Primary Menu"
+msgstr "Pangunahing Menu"
+
+#: functions.php:37
+msgid "Secondary Menu"
+msgstr "Pangalawahing Menu"
+
+#: functions.php:38 functions.php:715
+msgid "Footer Menu"
+msgstr "Menu sa Footer"
+
+#: functions.php:90
+msgid ""
+"Welcome to Divi! Before diving in to your new theme, please visit the <a "
+"style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target=\"_blank"
+"\">Divi Documentation</a> page for access to dozens of in-depth tutorials."
+msgstr ""
+"Maligayang pagdating sa Divi! Bago tuklasin ang lahat tungkol sa bago mong "
+"tema, mangyaring bumisita sa pahina ng <a style=\"color: #fff; font-weight: "
+"bold;\" href=\"%1$s\" target=\"_blank\">Divi Documentation</a> para maka-"
+"access ng maraming detalyadong pagtuturo."
+
+#: functions.php:215
+msgid "Select Page"
+msgstr "Pumili Ng Page"
+
+#: functions.php:277
+msgid "Divi Page Settings"
+msgstr "Mga Setting ng Divi Page"
+
+#: functions.php:279
+msgid "Divi Post Settings"
+msgstr "Mga Setting ng Divi Post"
+
+#: functions.php:280
+msgid "Divi Product Settings"
+msgstr "Mga Setting ng Produkto na Divi"
+
+#: functions.php:281
+msgid "Divi Project Settings"
+msgstr "Mga Setting ng Proyekto na Divi"
+
+#: functions.php:288
+msgid "Skills"
+msgstr "Mga Skill"
+
+#: functions.php:291
+msgid "Posted on"
+msgstr "Nai-post noong"
+
+#: functions.php:315 options_divi.php:103
+msgid "Right Sidebar"
+msgstr "Kanang Sidebar"
+
+#: functions.php:316 options_divi.php:104
+msgid "Left Sidebar"
+msgstr "Kaliwang Sidebar"
+
+#: functions.php:317 options_divi.php:105
+msgid "Full Width"
+msgstr "Buong Width"
+
+#: functions.php:321
+msgid "Light"
+msgstr "Maliwanag"
+
+#: functions.php:322
+msgid "Dark"
+msgstr "Madilim"
+
+#: functions.php:335
+msgid "Page Layout"
+msgstr "Layout ng Page"
+
+#: functions.php:349
+msgid "Dot Navigation"
+msgstr "Dot Navigation"
+
+#: functions.php:352 functions.php:361
+msgid "Off"
+msgstr "I-off"
+
+#: functions.php:353 functions.php:362
+msgid "On"
+msgstr "I-on"
+
+#: functions.php:357
+msgid "Hide Nav Before Scroll"
+msgstr "Itago ang Nav Bago ang Scroll"
+
+#: functions.php:360 functions.php:5737 includes/functions/choices.php:24
+#: includes/functions/choices.php:40
+msgid "Default"
+msgstr "Default"
+
+#: functions.php:368
+msgid "Post Title"
+msgstr "Pamagat ng Post"
+
+#: functions.php:371 functions.php:406
+msgid "Show"
+msgstr "Ipakita"
+
+#: functions.php:372 functions.php:405
+msgid "Hide"
+msgstr "Itago"
+
+#: functions.php:377
+msgid "Use Background Color"
+msgstr "Gamitin ang Kulay sa Background"
+
+#: functions.php:382 functions.php:5776
+msgid "Hex Value"
+msgstr "Value ng Kulay"
+
+#: functions.php:386 functions.php:2051 functions.php:2078 functions.php:2205
+#: functions.php:2727 functions.php:2855 functions.php:3059
+msgid "Text Color"
+msgstr "Kulay ng Text"
+
+#: functions.php:402
+msgid "Project Navigation"
+msgstr "Nabigasyon sa Proyekto"
+
+#: functions.php:550 functions.php:562 functions.php:8553
+msgid "you don't have sufficient permissions to access this page"
+msgstr "wala kang sapat na mga pahintulot upang ma-access ang pahinang ito"
+
+#: functions.php:615 options_divi.php:318 options_divi.php:466
+msgid "General Settings"
+msgstr "Mga Pangkalahatang Setting"
+
+#: functions.php:620
+msgid "Site Identity"
+msgstr "Identity Site"
+
+#: functions.php:625
+msgid "Layout Settings"
+msgstr "Mga Setting ng Layout"
+
+#: functions.php:630
+msgid "Typography"
+msgstr "Typography"
+
+#: functions.php:635
+msgid "Mobile Styles"
+msgstr "Mga Estilo ng Mobile"
+
+#: functions.php:640
+msgid "Tablet"
+msgstr "Tablet"
+
+#: functions.php:645
+msgid "Phone"
+msgstr "Phone"
+
+#: functions.php:650
+msgid "Mobile Menu"
+msgstr "Mobile Menu"
+
+#: functions.php:655
+msgid "Background"
+msgstr "Background"
+
+#: functions.php:660
+msgid "Header & Navigation"
+msgstr "Header at Pagna-navigate"
+
+#: functions.php:665
+msgid "Header Format"
+msgstr "Format ng Header"
+
+#: functions.php:670
+msgid "Primary Menu Bar"
+msgstr "Pangunahing Menu Bar"
+
+#: functions.php:675
+msgid "Secondary Menu Bar"
+msgstr "Pangalawang Menu Bar"
+
+#: functions.php:680
+msgid "Slide In & Fullscreen Header Settings"
+msgstr "Mga setting ng Slide In & Fullscreen na Header"
+
+#: functions.php:685
+msgid "Fixed Navigation Settings"
+msgstr "Mga Setting ng Nakapirming Pagna-navigate"
+
+#: functions.php:690
+msgid "Header Elements"
+msgstr "Mga Elemento ng Header"
+
+#: functions.php:695
+msgid "Footer"
+msgstr "Footer"
+
+#: functions.php:705
+msgid "Widgets"
+msgstr "Mga Widget"
+
+#: functions.php:710
+msgid "Footer Elements"
+msgstr "Mga Elemento ng Footer"
+
+#: functions.php:720
+msgid "Bottom Bar"
+msgstr "Pinakaibabang Bar"
+
+#: functions.php:725 functions.php:1465
+msgid "Color Schemes"
+msgstr "Mga Scheme ng Kulay"
+
+#: functions.php:727
+msgid ""
+"Note: Color settings set above should be applied to the Default color scheme."
+msgstr ""
+"Paalala: Dapat ilapat ang mga setting ng kulay na itinakda sa itaas sa "
+"Default na scheme ng kulay."
+
+#: functions.php:731
+msgid "Buttons"
+msgstr "Mga Button"
+
+#: functions.php:736
+msgid "Buttons Style"
+msgstr "Estilo ng mga Button"
+
+#: functions.php:741
+msgid "Buttons Hover Style"
+msgstr "Estilo ng Button sa Pagho-hover"
+
+#: functions.php:746 functions.php:5059
+msgid "Blog"
+msgstr "Blog"
+
+#: functions.php:751
+msgid "Post"
+msgstr "I-post"
+
+#: functions.php:768
+msgid "Meta Text Size"
+msgstr "Laki ng Text ng Meta"
+
+#: functions.php:787
+msgid "Meta Line Height"
+msgstr "Taas ng Linya ng Meta"
+
+#: functions.php:806
+msgid "Meta Letter Spacing"
+msgstr "Espasyo ng Titik ng Meta"
+
+#: functions.php:825 functions.php:5128 functions.php:5207
+msgid "Meta Font Style"
+msgstr "Estilo ng Font ng Meta"
+
+#: functions.php:840 functions.php:1265 functions.php:1337 functions.php:1356
+#: functions.php:2473
+msgid "Header Text Size"
+msgstr "Laki ng Text ng Header"
+
+#: functions.php:859 functions.php:1303
+msgid "Header Line Height"
+msgstr "Taas ng Linya ng Header"
+
+#: functions.php:878 functions.php:1284
+msgid "Header Letter Spacing"
+msgstr "Espasyo ng Titik ng Header"
+
+#: functions.php:897 functions.php:1322 functions.php:2492 functions.php:3415
+#: functions.php:3593 functions.php:3708 functions.php:3771 functions.php:3850
+#: functions.php:3914 functions.php:4705 functions.php:5401 functions.php:5507
+msgid "Header Font Style"
+msgstr "Estilo ng Font ng Header"
+
+#: functions.php:911
+msgid "Enable Boxed Layout"
+msgstr "Naka-enable ang Nakakahon na Layout"
+
+#: functions.php:925
+msgid "Website Content Width"
+msgstr "Lapad ng Nilalaman ng Website"
+
+#: functions.php:944
+msgid "Website Gutter Width"
+msgstr "Espasyo ng Column ng Website"
+
+#: functions.php:962
+msgid "Use Custom Sidebar Width"
+msgstr "Gamitin Sidebar Lapad Custom"
+
+#: functions.php:976
+msgid "Sidebar Width"
+msgstr "Lapad ng Sidebar"
+
+#: functions.php:995 functions.php:1014 functions.php:1033
+msgid "Section Height"
+msgstr "Taas ng Seksyon"
+
+#: functions.php:1052 functions.php:1071 functions.php:1090
+msgid "Row Height"
+msgstr "Taas ng Row"
+
+#: functions.php:1109
+msgid "Stretch Background Image"
+msgstr "Palakihin ang Larawan sa Background"
+
+#: functions.php:1116 functions.php:1729 functions.php:2106 functions.php:2177
+#: functions.php:2191 functions.php:2713 functions.php:2869 functions.php:3073
+msgid "Background Color"
+msgstr "Kulay sa Background"
+
+#: functions.php:1123
+msgid "Background Image"
+msgstr "Larawan sa Background:"
+
+#: functions.php:1143
+msgid "Background Repeat"
+msgstr "Pag-ulit sa Background"
+
+#: functions.php:1150 functions.php:1174
+msgid "Background Position"
+msgstr "Puwesto ng Background"
+
+#: functions.php:1154 includes/functions/choices.php:106
+msgid "Left"
+msgstr "Kaliwa"
+
+#: functions.php:1155
+msgid "Center"
+msgstr "Gitna"
+
+#: functions.php:1156 includes/functions/choices.php:105
+msgid "Right"
+msgstr "Kanan"
+
+#: functions.php:1189 functions.php:1227 functions.php:1246
+msgid "Body Text Size"
+msgstr "Laki ng Text ng Body"
+
+#: functions.php:1208
+msgid "Body Line Height"
+msgstr "Taas ng Linya sa Body"
+
+#: functions.php:1376
+msgid "Header Font"
+msgstr "Font ng Header"
+
+#: functions.php:1392
+msgid "Body Font"
+msgstr "Font ng Body"
+
+#: functions.php:1409
+msgid "Body Link Color"
+msgstr "Kulay ng Link ng Body"
+
+#: functions.php:1423
+msgid "Body Text Color"
+msgstr "Kulay ng Text sa Body"
+
+#: functions.php:1437
+msgid "Header Text Color"
+msgstr "Kulay ng Text ng Header"
+
+#: functions.php:1451
+msgid "Theme Accent Color"
+msgstr "Kulay ng Accent ng Tema"
+
+#: functions.php:1481
+msgid "Header Style"
+msgstr "Estilo ng Header"
+
+#: functions.php:1495
+msgid "Enable Vertical Navigation"
+msgstr "I-enable ang Patayong Pagna-navigate"
+
+#: functions.php:1509
+msgid "Vertical Menu Orientation"
+msgstr "Oryentasyon ng Pahabang Menu"
+
+#: functions.php:1525
+msgid "Hide Navigation Until Scroll"
+msgstr "Itago ang Pagna-navigate Hanggang Scroll"
+
+#: functions.php:1540 functions.php:2429
+msgid "Show Social Icons"
+msgstr "Ipakita ang mga Social Icon"
+
+#: functions.php:1554
+msgid "Show Search Icon"
+msgstr "Ipakita ang Icon ng Paghahanap"
+
+#: functions.php:1568
+msgid "Show Top Bar"
+msgstr "Ipakita ang Top Bar"
+
+#: functions.php:1582
+msgid "Menu Width"
+msgstr "Lapad ng Menu"
+
+#: functions.php:1601 functions.php:1639
+msgid "Menu Text Size"
+msgstr "Sukat ng Text sa Menu"
+
+#: functions.php:1620 functions.php:1658
+msgid "Top Bar Text Size"
+msgstr "Sukat ng Text sa Top Bar"
+
+#: functions.php:1677 functions.php:1915 functions.php:1999 functions.php:2659
+#: functions.php:2935 functions.php:3120
+msgid "Letter Spacing"
+msgstr "Pag-aagwat ng Titik"
+
+#: functions.php:1697 functions.php:1935 functions.php:2019
+msgid "Font"
+msgstr "Font"
+
+#: functions.php:1714 functions.php:1952 functions.php:2036 functions.php:2678
+#: functions.php:2741
+msgid "Font Style"
+msgstr "Estilo ng Font"
+
+#: functions.php:1743
+msgid "Menu Link Color"
+msgstr "Kulay ng Menu Link"
+
+#: functions.php:1757 functions.php:2092
+msgid "Active Link Color"
+msgstr "Aktibong Kulay ng Link"
+
+#: functions.php:1771
+msgid "Top Bar Text Color"
+msgstr "Kulay ng Text sa Top Bar"
+
+#: functions.php:1785
+msgid "Search Bar Text Color"
+msgstr "Kulay ng text sa Search Bar"
+
+#: functions.php:1799
+msgid "Search Bar Background Color"
+msgstr "Kulay ng Background ng Search Bar"
+
+#: functions.php:1812 functions.php:1974
+msgid "Make Full Width"
+msgstr "Gawing Sagad ang Lapad"
+
+#: functions.php:1825 functions.php:2064 functions.php:2280
+msgid "Hide Logo Image"
+msgstr "Itago ang Larawan ng Logo"
+
+#: functions.php:1839
+msgid "Menu Height"
+msgstr "Taas menu"
+
+#: functions.php:1858
+msgid "Logo Max Height"
+msgstr "Max Taas Logo"
+
+#: functions.php:1877
+msgid "Menu Top Margin"
+msgstr "Menu Itaas na Margin"
+
+#: functions.php:1896 functions.php:1980 functions.php:2313 functions.php:2836
+msgid "Text Size"
+msgstr "Laki ng Text"
+
+#: functions.php:2120 functions.php:2219
+msgid "Dropdown Menu Background Color"
+msgstr "Kulay ng Background ng Dropdown na Menu"
+
+#: functions.php:2134
+msgid "Dropdown Menu Line Color"
+msgstr "Kulay ng Linya ng Dropdown na Menu"
+
+#: functions.php:2148 functions.php:2233
+msgid "Dropdown Menu Text Color"
+msgstr "Kulay ng Text ng Dropdown na Menu"
+
+#: functions.php:2162 functions.php:2247
+msgid "Dropdown Menu Animation"
+msgstr "Animation ng Dropdown na Menu"
+
+#: functions.php:2294
+msgid "Fixed Menu Height"
+msgstr "Inayos Taas Menu"
+
+#: functions.php:2332
+msgid "Primary Menu Background Color"
+msgstr "Kulay ng Background ng Pangunahing Menu"
+
+#: functions.php:2346
+msgid "Secondary Menu Background Color"
+msgstr "Kulay ng Background ng Pangalawang Menu"
+
+#: functions.php:2360
+msgid "Primary Menu Link Color"
+msgstr "Kulay ng Link Primary Menu"
+
+#: functions.php:2374
+msgid "Secondary Menu Link Color"
+msgstr "Kulay ng Link Secondary Menu"
+
+#: functions.php:2388
+msgid "Active Primary Menu Link Color"
+msgstr "Kulay ng Link Active Primary Menu"
+
+#: functions.php:2402
+msgid "Phone Number"
+msgstr "Numero ng Telepono"
+
+#: functions.php:2415
+msgid "Email"
+msgstr "Email"
+
+#: functions.php:2443
+msgid "Column Layout"
+msgstr "Layout ng Column"
+
+#: functions.php:2459
+msgid "Footer Background Color"
+msgstr "Kulay sa Background ng Footer"
+
+#: functions.php:2507
+msgid "Body/Link Text Size"
+msgstr "Laki ng Text ng Body/Link"
+
+#: functions.php:2526
+msgid "Body/Link Line Height"
+msgstr "Taas ng Linya ng Body/Link"
+
+#: functions.php:2545
+msgid "Body Font Style"
+msgstr "Estilo ng Font ng Body"
+
+#: functions.php:2560
+msgid "Widget Text Color"
+msgstr "Kulay ng Text ng Widget"
+
+#: functions.php:2574
+msgid "Widget Link Color"
+msgstr "Kulay ng Link ng Widget"
+
+#: functions.php:2588
+msgid "Widget Header Color"
+msgstr "Kulay ng Header ng Widget"
+
+#: functions.php:2602
+msgid "Widget Bullet Color"
+msgstr "Kulay ng Dot ng Widget"
+
+#: functions.php:2617
+msgid "Footer Menu Background Color"
+msgstr "Kulay ng Background ng Menu ng Footer"
+
+#: functions.php:2631
+msgid "Footer Menu Text Color"
+msgstr "Kulay ng Text ng Menu ng Footer"
+
+#: functions.php:2645
+msgid "Footer Menu Active Link Color"
+msgstr "Kulay ng Aktibong Link ng Menu ng Footer"
+
+#: functions.php:2693 functions.php:2756
+msgid "Font Size"
+msgstr "Laki ng Font"
+
+#: functions.php:2775
+msgid "Social Icon Size"
+msgstr "Laki ng Social Icon"
+
+#: functions.php:2794
+msgid "Social Icon Color"
+msgstr "Kulay ng Social Icon"
+
+#: functions.php:2807
+msgid "Disable Footer Credits"
+msgstr "I-disable ang mga Credit sa Footer"
+
+#: functions.php:2821
+msgid "Edit Footer Credits"
+msgstr "I-edit ang mga Credit sa Footer"
+
+#: functions.php:2883
+msgid "Border Width"
+msgstr "Lapad ng Border"
+
+#: functions.php:2902 functions.php:3087
+msgid "Border Color"
+msgstr "Kulay ng Border"
+
+#: functions.php:2916 functions.php:3101
+msgid "Border Radius"
+msgstr "Radius ng Border"
+
+#: functions.php:2954 functions.php:5444
+msgid "Button Font Style"
+msgstr "Estilo ng Font ng Button"
+
+#: functions.php:2970
+msgid "Buttons Font"
+msgstr "Font ng mga Button"
+
+#: functions.php:2986
+msgid "Add Button Icon"
+msgstr "Icon para sa Add Button"
+
+#: functions.php:3001
+msgid "Select Icon"
+msgstr "Pumili ng Icon"
+
+#: functions.php:3015
+msgid "Icon Color"
+msgstr "Kulay ng Icon"
+
+#: functions.php:3029
+msgid "Icon Placement"
+msgstr "Paglalagay sa lugar ng Icon"
+
+#: functions.php:3044
+msgid "Only Show Icon on Hover"
+msgstr "Ipakita Lang ang Icon kapag Nag-hover"
+
+#: functions.php:3138 includes/widgets/widget-about.php:50
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:188
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:204
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:220
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:236
+msgid "Image"
+msgstr "Larawan"
+
+#: functions.php:3139
+msgid "Image Module Settings"
+msgstr "Mga Setting ng Modyul ng Larawan"
+
+#: functions.php:3150
+msgid "Animation"
+msgstr "Animation"
+
+#: functions.php:3151
+msgid "This controls default direction of the lazy-loading animation."
+msgstr "Kinokontrol nito ang default na direksyon ng animation na lazy-loading"
+
+#: functions.php:3161
+msgid "Gallery"
+msgstr "Gallery"
+
+#: functions.php:3174 functions.php:3957 functions.php:4066
+msgid "Zoom Icon Color"
+msgstr "Kulay ng Pang-zoom na Icon"
+
+#: functions.php:3189 functions.php:3972 functions.php:4081
+msgid "Hover Overlay Color"
+msgstr "Kulay ng Overlay kapag Nagho-Hover"
+
+#: functions.php:3204 functions.php:3310 functions.php:3987 functions.php:4096
+#: functions.php:4365 functions.php:4444 functions.php:4486 functions.php:4586
+msgid "Title Font Size"
+msgstr "Laki ng Font ng Pamagat"
+
+#: functions.php:3224 functions.php:3330 functions.php:4007 functions.php:4116
+#: functions.php:4385 functions.php:4464 functions.php:5092 functions.php:5171
+msgid "Title Font Style"
+msgstr "Estilo ng Font ng Pamagat"
+
+#: functions.php:3240 functions.php:4023 functions.php:4132
+msgid "Caption Font Size"
+msgstr "Laki ng Font ng Caption"
+
+#: functions.php:3260 functions.php:4043 functions.php:4152
+msgid "Caption Font Style"
+msgstr "Estilo ng Font ng Caption"
+
+#: functions.php:3270
+msgid "Blurb"
+msgstr "Blurb"
+
+#: functions.php:3283 functions.php:3395 functions.php:3573 functions.php:3688
+#: functions.php:3751 functions.php:3830 functions.php:3894 functions.php:4685
+#: functions.php:5381 functions.php:5487
+msgid "Header Font Size"
+msgstr "Laki ng Font ng Header"
+
+#: functions.php:3297
+msgid "Tabs"
+msgstr "Mga Tab"
+
+#: functions.php:3347 functions.php:3724 functions.php:3866 functions.php:3930
+msgid "Padding"
+msgstr "Padding"
+
+#: functions.php:3361
+msgid "Slider"
+msgstr "Slider"
+
+#: functions.php:3375 functions.php:5467
+msgid "Top & Bottom Padding"
+msgstr "Padding na Top & Bottom"
+
+#: functions.php:3431 functions.php:5523
+msgid "Content Font Size"
+msgstr "Laki ng Font ng Nilalaman"
+
+#: functions.php:3451 functions.php:5543
+msgid "Content Font Style"
+msgstr "Estilo ng Font ng Nilalaman"
+
+#: functions.php:3461
+msgid "Testimonial"
+msgstr "Testimonial"
+
+#: functions.php:3474 functions.php:4993
+msgid "Name Font Style"
+msgstr "Estilo ng Font ng Pangalan"
+
+#: functions.php:3490
+msgid "Details Font Style"
+msgstr "Estilo ng Font ng mga Detalye"
+
+#: functions.php:3506
+msgid "Portrait Border Radius"
+msgstr "Radius ng Border ng Larawan"
+
+#: functions.php:3560
+msgid "Pricing Table"
+msgstr "Lista ng Presyo"
+
+#: functions.php:3609 functions.php:3787 functions.php:5009
+msgid "Subheader Font Size"
+msgstr "Laki ng Font ng Subhead"
+
+#: functions.php:3629 functions.php:3807 functions.php:5029
+msgid "Subheader Font Style"
+msgstr "Estilo ng Font ng Subhead"
+
+#: functions.php:3645 functions.php:5302
+msgid "Price Font Size"
+msgstr "Laki ng Font ng Presyo"
+
+#: functions.php:3665
+msgid "Pricing Font Style"
+msgstr "Estilo ng Font ng Pagpepresyo"
+
+#: functions.php:3675
+msgid "Call To Action"
+msgstr "Call To Action"
+
+#: functions.php:3738
+msgid "Audio"
+msgstr "Audio"
+
+#: functions.php:3817
+msgid "Email Optin"
+msgstr "Email Optin"
+
+#: functions.php:3944
+msgid "Portfolio"
+msgstr "Portfolio"
+
+#: functions.php:4053
+msgid "Filterable Portfolio"
+msgstr "Nafi-filter na Portfolio"
+
+#: functions.php:4168
+msgid "Filters Font Size"
+msgstr "Laki ng Font ng mga Filter"
+
+#: functions.php:4188
+msgid "Filters Font Style"
+msgstr "Estilo ng Font ng mga Filter"
+
+#: functions.php:4198
+msgid "Bar Counter"
+msgstr "Bar Counter"
+
+#: functions.php:4211
+msgid "Label Font Size"
+msgstr "Laki ng Font ng Label"
+
+#: functions.php:4231
+msgid "Label Font Style"
+msgstr "Estilo ng Font ng Label"
+
+#: functions.php:4247
+msgid "Percent Font Size"
+msgstr "Laki ng Font ng Porsiyento"
+
+#: functions.php:4267
+msgid "Percent Font Style"
+msgstr "Estilo ng Font ng Porsiyento"
+
+#: functions.php:4283
+msgid "Bar Padding"
+msgstr "Bar Padding"
+
+#: functions.php:4303
+msgid "Bar Border Radius"
+msgstr "Radius ng Bar Border"
+
+#: functions.php:4317
+msgid "Circle Counter"
+msgstr "Mga Circle Counter"
+
+#: functions.php:4329 functions.php:4408
+msgid "Number Font Size"
+msgstr "Laki ng Font ng Numero"
+
+#: functions.php:4349 functions.php:4428
+msgid "Number Font Style"
+msgstr "Estilo ng Font ng Numero"
+
+#: functions.php:4395
+msgid "Number Counter"
+msgstr "Counter ng Numero"
+
+#: functions.php:4474
+msgid "Accordion"
+msgstr "Accordion"
+
+#: functions.php:4506 functions.php:4606
+msgid "Opened Title Font Style"
+msgstr "Estilo ng Font ng Bukas na Pamagat"
+
+#: functions.php:4522 functions.php:4622
+msgid "Closed Title Font Style"
+msgstr "Estilo ng Font ng Saradong Pamagat"
+
+#: functions.php:4538 functions.php:4638
+msgid "Toggle Icon Size"
+msgstr "Laki ng Icon ng Toggle"
+
+#: functions.php:4559 functions.php:4658
+msgid "Toggle Padding"
+msgstr "Toggle Padding"
+
+#: functions.php:4573
+msgid "Toggle"
+msgstr "Pagpalit-palitin (Toggle)"
+
+#: functions.php:4672
+msgid "Contact Form"
+msgstr "Form sa Pakikipag-ugnayan"
+
+#: functions.php:4721
+msgid "Input Font Size"
+msgstr "Laki ng Font ng Pag-input"
+
+#: functions.php:4741
+msgid "Input Font Style"
+msgstr "Estilo ng Font ng Pag-input"
+
+#: functions.php:4757
+msgid "Input Field Padding"
+msgstr "Field Padding ng Pag-input"
+
+#: functions.php:4777
+msgid "Captcha Font Size"
+msgstr "Laki ng Font ng Captcha"
+
+#: functions.php:4797
+msgid "Captcha Font Style"
+msgstr "Estilo ng Font ng Captcha"
+
+#: functions.php:4807 includes/functions/sidebars.php:4
+msgid "Sidebar"
+msgstr "Sidebar"
+
+#: functions.php:4820
+msgid "Widget Header Font Size"
+msgstr "Laki ng Font ng Widget Header"
+
+#: functions.php:4840
+msgid "Widget Header Font Style"
+msgstr "Estilo ng Font ng Widget Header"
+
+#: functions.php:4856
+msgid "Remove Vertical Divider"
+msgstr "Alisin ang Patayong Divider"
+
+#: functions.php:4865
+msgid "Divider"
+msgstr "Divider"
+
+#: functions.php:4877
+msgid "Show Divider"
+msgstr "Ipakita ang Divider"
+
+#: functions.php:4892
+msgid "Divider Style"
+msgstr "Estilo ng Divider"
+
+#: functions.php:4909
+msgid "Divider Weight"
+msgstr "Taas ng Linya ng Divider"
+
+#: functions.php:4929
+msgid "Divider Height"
+msgstr "Taas ng Divider"
+
+#: functions.php:4949
+msgid "Divider Position"
+msgstr "Posisyon ng Divider"
+
+#: functions.php:4960
+msgid "Person"
+msgstr "Tao"
+
+#: functions.php:4973
+msgid "Name Font Size"
+msgstr "Laki ng Font ng Pangalan"
+
+#: functions.php:5045
+msgid "Social Network Icon Size"
+msgstr "Laki ng Icon ng Social Network"
+
+#: functions.php:5072 functions.php:5151
+msgid "Post Title Font Size"
+msgstr "Laki ng Font ng Pamagat ng Font"
+
+#: functions.php:5108 functions.php:5187
+msgid "Meta Font Size"
+msgstr "Laki ng Font ng Meta"
+
+#: functions.php:5138
+msgid "Blog Grid"
+msgstr "Blog Grid"
+
+#: functions.php:5217
+msgid "Shop"
+msgstr "Bumili"
+
+#: functions.php:5230
+msgid "Product Name Font Size"
+msgstr "Laki ng Font ng Pangalan ng Produkto"
+
+#: functions.php:5250
+msgid "Product Name Font Style"
+msgstr "Estilo ng Font ng Pangalan ng Produkto"
+
+#: functions.php:5266
+msgid "Sale Badge Font Size"
+msgstr "Laki ng Font ng Badge ng Benta"
+
+#: functions.php:5286
+msgid "Sale Badge Font Style"
+msgstr "Estilo ng Font ng Badge ng Benta"
+
+#: functions.php:5322
+msgid "Price Font Style"
+msgstr "Estilo ng Font ng Presyo"
+
+#: functions.php:5338
+msgid "Sale Price Font Size"
+msgstr "Laki ng Font ng Presyo ng"
+
+#: functions.php:5358
+msgid "Sale Price Font Style"
+msgstr "Estilo ng Font ng Presyo ng Pagbebenta"
+
+#: functions.php:5368
+msgid "Countdown"
+msgstr "Countdown"
+
+#: functions.php:5411
+msgid "Social Follow"
+msgstr "I-follow sa Social Media"
+
+#: functions.php:5424
+msgid "Follow Font & Icon Size"
+msgstr "Font sa Pag-follow at Laki ng Icon"
+
+#: functions.php:5454
+msgid "Fullwidth Slider"
+msgstr "Fullwidth Slider"
+
+#: functions.php:7977
+msgid "0 comments"
+msgstr "0 Komento"
+
+#: functions.php:7977
+msgid "1 comment"
+msgstr "1 Komento"
+
+#: functions.php:7977
+msgid "comments"
+msgstr "Mga Komento"
+
+#: functions.php:8060
+msgid "Password Protected"
+msgstr "Pinoprotektahan ng Password"
+
+#: functions.php:8061
+msgid "To view this protected post, enter the password below"
+msgstr ""
+"Upang makita ang protektadong post na ito, ilagay ang password sa ibaba"
+
+#: functions.php:8064
+msgid "Password"
+msgstr "Password"
+
+#: functions.php:8065
+msgid "Submit"
+msgstr "Isumite"
+
+#: functions.php:8478 functions.php:8514
+msgid "Theme Customizer"
+msgstr "Pang-customize ng Tema"
+
+#: functions.php:8482 functions.php:8527
+msgid "Module Customizer"
+msgstr "Pang-customize ng Modyul"
+
+#: functions.php:8484
+msgid "Role Editor"
+msgstr "Role Editor"
+
+#: functions.php:8487
+msgid "Divi Library"
+msgstr "Library ng Divi"
+
+#: functions.php:8700
+msgid "Divi Customizer Settings"
+msgstr "Mga Setting ng Divi Customizer"
+
+#: functions.php:8741
+msgid "Designed by %1$s | Powered by %2$s"
+msgstr "Dinisenyo ni/ng %1$s | Pinapagana ng %2$s"
+
+#: header.php:143 header.php:271
+msgid "Search &hellip;"
+msgstr "Maghanap &hellip;"
+
+#: header.php:145 header.php:273
+msgid "Search for:"
+msgstr "Maghanap para sa:"
+
+#: includes/functions/choices.php:9
+msgid "Bold"
+msgstr "Bold"
+
+#: includes/functions/choices.php:10
+msgid "Italic"
+msgstr "Italic"
+
+#: includes/functions/choices.php:11
+msgid "Uppercase"
+msgstr "Malalaking Titik"
+
+#: includes/functions/choices.php:12
+msgid "Underline"
+msgstr "Salungguhit"
+
+#: includes/functions/choices.php:25
+msgid "Green"
+msgstr "Berde"
+
+#: includes/functions/choices.php:26
+msgid "Orange"
+msgstr "Dalandan"
+
+#: includes/functions/choices.php:27
+msgid "Pink"
+msgstr "Rosas"
+
+#: includes/functions/choices.php:28
+msgid "Red"
+msgstr "Pula"
+
+#: includes/functions/choices.php:41
+msgid "Centered"
+msgstr "Iginitna"
+
+#: includes/functions/choices.php:42
+msgid "Centered Inline Logo"
+msgstr "Logo na Nakasentro Inline"
+
+#: includes/functions/choices.php:43
+msgid "Slide In"
+msgstr "Slide In"
+
+#: includes/functions/choices.php:44
+msgid "Fullscreen"
+msgstr "Fullscreen"
+
+#: includes/functions/choices.php:56
+msgid "Fade"
+msgstr "Fade"
+
+#: includes/functions/choices.php:57
+msgid "Expand"
+msgstr "Palawakin"
+
+#: includes/functions/choices.php:58
+msgid "Slide"
+msgstr "Slide"
+
+#: includes/functions/choices.php:59
+msgid "Flip"
+msgstr "Baligtarin"
+
+#: includes/functions/choices.php:71 includes/functions/choices.php:72
+#: includes/functions/choices.php:73 includes/functions/choices.php:75
+#: includes/functions/choices.php:76 includes/functions/choices.php:77
+#: includes/functions/choices.php:78 includes/functions/choices.php:79
+#: includes/functions/choices.php:80
+msgid "%1$s Columns"
+msgstr "%1$s mga Column"
+
+#: includes/functions/choices.php:74
+msgid "1 Column"
+msgstr "1 Column"
+
+#: includes/functions/choices.php:118
+msgid "Left to Right"
+msgstr "Mula sa Kaliwa, Pakanan"
+
+#: includes/functions/choices.php:119
+msgid "Right to Left"
+msgstr "Mula sa Kanan, Pakaliwa"
+
+#: includes/functions/choices.php:120
+msgid "Top to Bottom"
+msgstr "Mula sa Itaas, Pababa"
+
+#: includes/functions/choices.php:121
+msgid "Bottom to Top"
+msgstr "Mula sa Ibaba, Pataas"
+
+#: includes/functions/choices.php:122
+msgid "Fade In"
+msgstr "Mag-fade In"
+
+#: includes/functions/choices.php:123
+msgid "No Animation"
+msgstr "Walang Animation"
+
+#: includes/functions/choices.php:135
+msgid "Solid"
+msgstr "Solid na border"
+
+#: includes/functions/choices.php:136
+msgid "Dotted"
+msgstr "Dotted na border"
+
+#: includes/functions/choices.php:137
+msgid "Dashed"
+msgstr "Dashed na border"
+
+#: includes/functions/choices.php:138
+msgid "Double"
+msgstr "Double na border"
+
+#: includes/functions/choices.php:139
+msgid "Groove"
+msgstr "Groove"
+
+#: includes/functions/choices.php:140
+msgid "Ridge"
+msgstr "Ridge"
+
+#: includes/functions/choices.php:141
+msgid "Inset"
+msgstr "Sa loob (inset)"
+
+#: includes/functions/choices.php:142
+msgid "Outset"
+msgstr "Sa labas (ouset)"
+
+#: includes/functions/choices.php:154
+msgid "Top"
+msgstr "Pinakaitaas"
+
+#: includes/functions/choices.php:155
+msgid "Vertically Centered"
+msgstr "Patayong Nakagitna"
+
+#: includes/functions/choices.php:156
+msgid "Bottom"
+msgstr "Ibaba"
+
+#: includes/functions/choices.php:168
+msgid "No Repeat"
+msgstr "Walang Pag-uulit"
+
+#: includes/functions/choices.php:169
+msgid "Tile"
+msgstr "Tile"
+
+#: includes/functions/choices.php:170
+msgid "Tile Horizontally"
+msgstr "Pahalang na Tile"
+
+#: includes/functions/choices.php:171
+msgid "Tile Vertically"
+msgstr "Patayong Tile"
+
+#: includes/functions/choices.php:183
+msgid "Scroll"
+msgstr "Scroll"
+
+#: includes/functions/choices.php:184
+msgid "Fixed"
+msgstr "Nakapirme"
+
+#: includes/functions/installation.php:1
+msgid "Read Divi Documentation"
+msgstr "Basahin ang Dokumentasyon ng Divi"
+
+#: includes/functions/sidebars.php:13 includes/functions/sidebars.php:22
+#: includes/functions/sidebars.php:31 includes/functions/sidebars.php:40
+msgid "Footer Area"
+msgstr "Dako para sa Footer"
+
+#: includes/functions/tutorials.php:1
+msgid "Watch video tutorials"
+msgstr "Manood ng mga pagtuturo sa video"
+
+#: includes/navigation.php:2
+msgid "&laquo; Older Entries"
+msgstr "&laquo; Mga Mas Lumang Entry"
+
+#: includes/navigation.php:3
+msgid "Next Entries &raquo;"
+msgstr "Mga Susunod na Entry &raquo;"
+
+#: includes/no-results.php:3
+msgid "No Results Found"
+msgstr "Walang Nahanap na mga Resulta"
+
+#: includes/no-results.php:4
+msgid ""
+"The page you requested could not be found. Try refining your search, or use "
+"the navigation above to locate the post."
+msgstr ""
+"Hindi mahanap ang page na hiniling mo. Subukang pinuhin ang iyong "
+"paghahanap, o gamitin ang navigation sa itaas upang hanapin ang post."
+
+#: includes/social_icons.php:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: includes/social_icons.php:13
+msgid "Twitter"
+msgstr "Twitter"
+
+#: includes/social_icons.php:20
+msgid "Google"
+msgstr "Google"
+
+#: includes/social_icons.php:32
+msgid "RSS"
+msgstr "RSS"
+
+#: includes/widgets/widget-about.php:4
+msgid "Displays About Me Information"
+msgstr "Ipinapakita ang Impormasyong Tungkol sa Akin "
+
+#: includes/widgets/widget-about.php:6
+msgid "ET About Me Widget"
+msgstr "Widget na Tungkol sa Akin "
+
+#: includes/widgets/widget-about.php:12 includes/widgets/widget-about.php:41
+msgid "About Me"
+msgstr "Tungkol sa Akin"
+
+#: includes/widgets/widget-about.php:48 includes/widgets/widget-ads.php:172
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:192
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:208
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:224
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:240
+#: includes/widgets/widget-adsense.php:46
+msgid "Title"
+msgstr "Pamagat"
+
+#: includes/widgets/widget-about.php:52
+msgid "Text"
+msgstr "Text"
+
+#: includes/widgets/widget-ads.php:4
+msgid "Displays Advertisements"
+msgstr "Ipinapakita ang mga Advertisement"
+
+#: includes/widgets/widget-ads.php:6
+msgid "ET Advertisement"
+msgstr "Advertisement"
+
+#: includes/widgets/widget-ads.php:12 includes/widgets/widget-ads.php:128
+msgid "Advertisement"
+msgstr "Advertisement"
+
+#: includes/widgets/widget-ads.php:175
+msgid "Use Relative Image Paths"
+msgstr "Gumamit ng Magkakaugnay na Path ng Larawan"
+
+#: includes/widgets/widget-ads.php:177
+msgid "Open in a new window"
+msgstr "Buksan sa bagong window"
+
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:182
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:186
+#: includes/widgets/widget-ads.php:188 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:192 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:198
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:202
+#: includes/widgets/widget-ads.php:204 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:208 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:214
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:218
+#: includes/widgets/widget-ads.php:220 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:224 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:230
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:234
+#: includes/widgets/widget-ads.php:236 includes/widgets/widget-ads.php:238
+#: includes/widgets/widget-ads.php:240 includes/widgets/widget-ads.php:242
+msgid "Banner"
+msgstr "Banner"
+
+#: includes/widgets/widget-ads.php:182 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:198 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:214 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:230 includes/widgets/widget-ads.php:238
+msgid "Url"
+msgstr "URL"
+
+#: includes/widgets/widget-ads.php:186 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:202 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:218 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:234 includes/widgets/widget-ads.php:242
+msgid "Alt"
+msgstr "Alt"
+
+#: includes/widgets/widget-ads.php:243
+msgid ""
+"If you don't want to display some banners - leave approptiate fields blank"
+msgstr ""
+"Kung ayaw mong magpakita ng ilang banner - iwanang blangkong ang kaukulang "
+"mga field"
+
+#: includes/widgets/widget-adsense.php:4
+msgid "Displays Adsense Ads"
+msgstr "Nagpapakita ng mga Adsense na Ad"
+
+#: includes/widgets/widget-adsense.php:6
+msgid "ET Adsense Widget"
+msgstr "Widget ng Adsense "
+
+#: includes/widgets/widget-adsense.php:12
+#: includes/widgets/widget-adsense.php:40
+msgid "Adsense"
+msgstr "Adsense"
+
+#: includes/widgets/widget-adsense.php:48
+msgid "Adsense Code"
+msgstr "Code ng Adsense "
+
+#: options_divi.php:45
+msgid "Logo"
+msgstr "Logo"
+
+#: options_divi.php:48
+msgid "Set As Logo"
+msgstr "I-set bilang Logo"
+
+#: options_divi.php:50
+msgid ""
+"If you would like to use your own custom logo image click the Upload Image "
+"button."
+msgstr ""
+"Kung sakaling gusto mong gamiting ang sarili mong custom na larawan ng logo, "
+"i-click ang button na \"I-upload ang Larawan.\""
+
+#: options_divi.php:53
+msgid "Favicon"
+msgstr "Favicon"
+
+#: options_divi.php:56
+msgid "Set As Favicon"
+msgstr "I-set bilang Favicon"
+
+#: options_divi.php:58
+msgid ""
+"If you would like to use your own custom favicon image click the Upload "
+"Image button."
+msgstr ""
+"Kung sakaling gusto mong gamiting ang sarili mong custom na larawan ng "
+"favicon, i-click ang button na I-upload ang Larawan."
+
+#: options_divi.php:61
+msgid "Fixed Navigation Bar"
+msgstr "Naka-fix na Bar ng Navigation"
+
+#: options_divi.php:65
+msgid ""
+"By default the navigation bar stays on top of the screen at all times. We "
+"suggest to disable this option, if you need to use a logo taller than the "
+"default one."
+msgstr ""
+"Bilang default, mananatili ang navigation bar sa itaas ng screen sa lahat ng "
+"panahon. Iminumungkahi namin na i-disable ang opsyong ito kung kailangan "
+"mong gumamit ng malaking larawan ng logo."
+
+#: options_divi.php:68
+msgid "Enable Divi Gallery"
+msgstr "I-enable ang Divi Gallery"
+
+#: options_divi.php:72
+msgid ""
+"Enable this if you want to replace the WordPress default gallery with the "
+"Divi-style gallery."
+msgstr ""
+"I-enable ito kung gusto mong palitan ang default gallery mo sa Wordpress ng "
+"gallery na istilong Divi."
+
+#: options_divi.php:75
+msgid "Color Pickers Default Palette"
+msgstr "Default na Paleta ng mga Pangpili ng Kulay"
+
+#: options_divi.php:80
+msgid "Define the default color palette for color pickers in the Divi Builder."
+msgstr ""
+"Itakda ang default na paleta ng kulay para sa mga pangpili ng kulay sa Divi "
+"Builder."
+
+#: options_divi.php:85
+msgid "Grab the first post image"
+msgstr "Kunin ang larawan ng unang post"
+
+#: options_divi.php:89
+msgid ""
+"By default thumbnail images are created using custom fields. However, if you "
+"would rather use the images that are already in your post for your thumbnail "
+"(and bypass using custom fields) you can activate this option. Once "
+"activcated thumbnail images will be generated automatically using the first "
+"image in your post. The image must be hosted on your own server."
+msgstr ""
+"Bilang default, ginagawa ang mga larawan sa thumbnail gamit ang mga custom "
+"na field. Gayunpaman, kung mas pipiliin mong gumamit ng mga larawan na nasa "
+"post mo na para sa iyong thumbnail (at lampasan ang mga custom na field) "
+"maaari mong i-activate ang opsyon ito. Sa oras na na-activate na, "
+"awtomatikong mabubuo ang mga larawan sa thumbnail gamit ang unang larawan sa "
+"iyong post. Dapat na naka-host ang larawan sa sarili mong server."
+
+#: options_divi.php:92
+msgid "Blog Style Mode"
+msgstr "Mode na Estilo ng Blog"
+
+#: options_divi.php:96
+msgid ""
+"By default the theme truncates your posts on index/homepages automatically "
+"to create post previews. If you would rather show your posts in full on "
+"index pages like a traditional blog then you can activate this feature."
+msgstr ""
+"Bilang default, awtomatikong pinapaikli ng theme ang mga sipi mo sa iyong "
+"mga post upang gumawa ng mga preview ng post. Kung mas pipiliin mong ipakita "
+"ang iyong mga post gaya ng sa tradisyonal na blog, kung ganoon, maaari mong "
+"i-activate ang feature na ito."
+
+#: options_divi.php:99
+msgid "Shop Page & Category Page Layout for WooCommerce"
+msgstr "Layout ng Page sa Pagbili at Page ng Kategorya para sa WooCommerce"
+
+#: options_divi.php:108
+msgid "Here you can choose Shop Page & Category Page Layout for WooCommerce."
+msgstr ""
+"Saan ka makakapili ng Layout ng Page sa Pagbili at Page ng Kategorya para sa "
+"WooCommerce."
+
+#: options_divi.php:113
+msgid "Google API Key"
+msgstr "Google API Key"
+
+#: options_divi.php:121
+msgid ""
+"The Maps module uses the Google Maps API and requires a valid Google API Key "
+"to function. Before using the map module, please make sure you have added "
+"your API key here. Learn more about how to create your Google API Key <a "
+"target=\"_blank\" href=\"%1$s\">here</a>."
+msgstr ""
+"Ginagamit ng module ng Maps ang Google Maps API at nangangailangan ng "
+"wastong Google API Key upang gumana. Bago gamitin ang module ng mapa, "
+"pakitiyak na naidagdag mo ang iyong API key dito. Dagdagan ang nalalaman "
+"tungkol sa kung paano gawin ang iyong Google API Key <a target=\"_blank\" "
+"href=\"%1$s\">dito</a>."
+
+#: options_divi.php:125
+msgid "Enqueue Google Maps Script"
+msgstr "Idagdag ang Script ng Google Maps"
+
+#: options_divi.php:132
+msgid ""
+"Disable this option to remove the Google Maps API script from your Divi "
+"Builder Pages. This may improve compatibility with third party plugins that "
+"also enqueue this script. Please Note: Modules that rely on the Google Maps "
+"API in order to function properly, such as the Maps and Fullwidth Maps "
+"Modules, will still be available but will not function while this option is "
+"disabled (unless you manually add Google Maps API script)."
+msgstr ""
+"I-disable ang opsyong ito upang alisin ang script ng Google Maps API sa "
+"iyong Divi Builder Pages. Maaari nitong pahusayin ang pagkakatugma sa mga "
+"plugin ng third party na kasama sa script na ito. Pakitandaan: Ang mga "
+"module na umaasa sa Google Maps API upang gumana nang maayos, gaya ng Maps "
+"at Fullwidth Maps Modules, ay magagamit pa rin ngunit hindi gagana habang "
+"naka-disable ang opsyong ito (maliban kung manwal mong idaragdag ang script "
+"ng Google Maps API)."
+
+#: options_divi.php:135
+msgid "Show Facebook Icon"
+msgstr "Ipakita ang Icon ng Facebook"
+
+#: options_divi.php:139
+msgid "Here you can choose to display the Facebook Icon on your homepage. "
+msgstr ""
+"Dito, maaari mong piliing ipakita ang Icon ng Facebook sa iyong homepage. "
+
+#: options_divi.php:141
+msgid "Show Twitter Icon"
+msgstr "Ipakita ang Icon ng Twitter"
+
+#: options_divi.php:145
+msgid "Here you can choose to display the Twitter Icon. "
+msgstr "Dito, maaari mong piliing ipakita ang Icon ng Twitter. "
+
+#: options_divi.php:147
+msgid "Show Google+ Icon"
+msgstr "Ipakita ang Icon ng Google+"
+
+#: options_divi.php:151
+msgid "Here you can choose to display the Google+ Icon on your homepage. "
+msgstr ""
+"Dito, maaari mong piliing ipakita ang Icon ng Google+ sa iyong homepage. "
+
+#: options_divi.php:153
+msgid "Show RSS Icon"
+msgstr "Ipakita ang Icon ng RSS"
+
+#: options_divi.php:157
+msgid "Here you can choose to display the RSS Icon. "
+msgstr "Dito, maaari mong piliing ipakita ang Icon ng RSS. "
+
+#: options_divi.php:159
+msgid "Facebook Profile Url"
+msgstr "URL ng Profile sa Facebook"
+
+#: options_divi.php:164
+msgid "Enter the URL of your Facebook Profile. "
+msgstr "Ilagay ang URL ng iyong Profile ng Facebook. "
+
+#: options_divi.php:166
+msgid "Twitter Profile Url"
+msgstr "URL ng Profile sa Twitter"
+
+#: options_divi.php:171
+msgid "Enter the URL of your Twitter Profile."
+msgstr "Ilagay ang URL ng iyong Profile ng Twitter."
+
+#: options_divi.php:173
+msgid "Google+ Profile Url"
+msgstr "URL ng Profile sa Google+"
+
+#: options_divi.php:178
+msgid "Enter the URL of your Google+ Profile. "
+msgstr "Ilagay ang URL ng iyong Profile ng Google+. "
+
+#: options_divi.php:180
+msgid "RSS Icon Url"
+msgstr "URL ng Icon ng RSS"
+
+#: options_divi.php:185
+msgid "Enter the URL of your RSS feed. "
+msgstr "Ilagay ang URL ng iyong RSS feed. "
+
+#: options_divi.php:187
+msgid "Number of Products displayed on WooCommerce archive pages"
+msgstr "Dami ng Mga Produktong nakadisplay sa pahina ng archive ng WooCommerce"
+
+#: options_divi.php:191
+msgid ""
+"Here you can designate how many WooCommerce products are displayed on the "
+"archive page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Dito maaari mong italaga kung gaano karaming produkto ng WooCommerce ang "
+"dapat nakadisplay sa pahina ng archive. Ang opsyon na ito ay mag-isang "
+"gumagana mula sa Mga Setting > Mga opsyon sa pagbabasa sa wp-admin."
+
+#: options_divi.php:195
+msgid "Number of Posts displayed on Category page"
+msgstr "Bilang ng mga Post na ipinapakita sa page ng Kategorya"
+
+#: options_divi.php:199
+msgid ""
+"Here you can designate how many recent articles are displayed on the "
+"Category page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Maaari mong itakda dito kung ilang mga kamakailang artikulo ang ipinapakita "
+"sa page ng Kategorya. Gumagana ang opsyong ito nang hindi nakadepende sa mga "
+"opsyon ng Pagbabasa sa wp-admin."
+
+#: options_divi.php:203
+msgid "Number of Posts displayed on Archive pages"
+msgstr "Bilang ng mga Post na ipinapakita sa mga page ng Archive"
+
+#: options_divi.php:207
+msgid ""
+"Here you can designate how many recent articles are displayed on the Archive "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Maaari mong itakda dito kung ilang mga kamakailang artikulo ang ipinapakita "
+"sa mga page ng Archive. Gumagana ang opsyong ito nang hindi nakadepende sa "
+"mga opsyon ng Pagbabasa sa wp-admin."
+
+#: options_divi.php:211
+msgid "Number of Posts displayed on Search pages"
+msgstr "Bilang ng mga Post na ipinapakita sa mga page ng Paghahanap"
+
+#: options_divi.php:215
+msgid ""
+"Here you can designate how many recent articles are displayed on the Search "
+"results pages. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Maaari mong itakda dito kung ilang mga kamakailang artikulo ang ipinapakita "
+"sa mga page ng mga resulta ng Paghahanap. Gumagana ang opsyong ito nang "
+"hindi nakadepende sa mga opsyon ng Pagbabasa sa wp-admin."
+
+#: options_divi.php:219
+msgid "Number of Posts displayed on Tag pages"
+msgstr "Bilang ng mga Post na ipinapakita sa mga page ng Tag"
+
+#: options_divi.php:223
+msgid ""
+"Here you can designate how many recent articles are displayed on the Tag "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Maaari mong itakda dito kung ilang mga kamakailang artikulo ang ipinapakita "
+"sa mga page ng Tag. Gumagana ang opsyong ito nang hindi nakadepende sa mga "
+"opsyon ng Pagbabasa sa wp-admin."
+
+#: options_divi.php:227
+msgid "Date format"
+msgstr "Format ng petsa"
+
+#: options_divi.php:231
+msgid ""
+"This option allows you to change how your dates are displayed. For more "
+"information please refer to the WordPress codex here:<a href='http://codex."
+"wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and "
+"Time</a>"
+msgstr ""
+"Gamit ang opsyon na ito, mababago mo kung paano ipinapakita ang mga petsa. "
+"Para sa higit pang impormasyon, pakisuyong sumangguni sa codex ng WordPress "
+"dito:<a href='http://codex.wordpress.org/Formatting_Date_and_Time' "
+"target='_blank'>Pagfo-format ng Petsa at Oras</a>"
+
+#: options_divi.php:235
+msgid "Use excerpts when defined"
+msgstr "Gamitin ang mga sipi kapag tinukoy"
+
+#: options_divi.php:239
+msgid "This will enable the use of excerpts in posts or pages."
+msgstr ""
+"Gagawin nitong posible ang paggamit ng mga sipi sa mga post o mga page."
+
+#: options_divi.php:242
+msgid "Responsive shortcodes"
+msgstr "Tumutugong shortcodes"
+
+#: options_divi.php:246
+msgid "Enable this option to make shortcodes respond to various screen sizes"
+msgstr ""
+"I-enable ang opsyong ito upang gawing tumutugon ang shortcodes sa iba't "
+"ibang mga laki ng screen"
+
+#: options_divi.php:249
+msgid "Google Fonts subsets"
+msgstr "Mga subset ng Google Fonts"
+
+#: options_divi.php:253
+msgid "This will enable Google Fonts for Non-English languages."
+msgstr "Ie-enable nito ang Google Fonts para sa mga wikang hindi Ingles."
+
+#: options_divi.php:256
+msgid "Back To Top Button"
+msgstr "Button na Bumalik sa Itaas"
+
+#: options_divi.php:260
+msgid "Enable this option to display Back To Top Button while scrolling"
+msgstr ""
+"I-enable ang opsyong ito upang ipakita ang Button na Bumalik Sa Itaas habang "
+"nag-e-scroll"
+
+#: options_divi.php:263
+msgid "Smooth Scrolling"
+msgstr "Mahusay na Pag-e-scroll"
+
+#: options_divi.php:267
+msgid "Enable this option to get the smooth scrolling effect with mouse wheel"
+msgstr ""
+"I-enable ang opsyong ito upang magkaroon ng effect ng mahusay na pag-e-"
+"scroll gamit ang wheel ng mouse"
+
+#: options_divi.php:270
+msgid "Disable Translations"
+msgstr "I-disable ang Pagsasaling-wika"
+
+#: options_divi.php:274
+msgid ""
+"Disable translations if you don't want to display translated theme strings "
+"on your site."
+msgstr ""
+"I-disable ang pagsasaling-wika kung hindi mo gustong i-display ang mga theme "
+"string na isinaling-wika sa iyong site."
+
+#: options_divi.php:277
+msgid "Custom CSS"
+msgstr "Custom na CSS"
+
+#: options_divi.php:281
+msgid "Here you can add custom css to override or extend default styles."
+msgstr ""
+"Maaari mong idagdag dito ang custom na CSS upang i-override o i-extend ang "
+"mga default na estilo."
+
+#: options_divi.php:286
+msgid "Memory Limit Increase"
+msgstr "Pagtaas ng Limitasyon ng Memorya"
+
+#: options_divi.php:288
+msgid "Here you can disable automatic memory limit increase."
+msgstr ""
+"Dito maaari mong idisable ang awtomatikong pagtaas ng limitasyon ng memorya."
+
+#: options_divi.php:308
+msgid "Pages"
+msgstr "Mga Page"
+
+#: options_divi.php:326
+msgid "Exclude pages from the navigation bar"
+msgstr "Ibukod ang mga page mula sa navigation bar"
+
+#: options_divi.php:330
+msgid ""
+"Here you can choose to remove certain pages from the navigation menu. All "
+"pages marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Maaari mong piliin ditong alisin ang ilang page mula sa menu ng navigation. "
+"Ang lahat ng page na minarkahan ng X ay hindi lalabas sa iyong navigation "
+"bar. "
+
+#: options_divi.php:334 options_divi.php:384
+msgid "Show dropdown menus"
+msgstr "Ipakita ang mga dropdown na menu"
+
+#: options_divi.php:338
+msgid ""
+"If you would like to remove the dropdown menus from the pages navigation bar "
+"disable this feature."
+msgstr ""
+"Kung gugustuhin mong alisin ang mga dropdown na menu mula sa navigation bar "
+"ng mga page, i-disable ang feature na ito."
+
+#: options_divi.php:341
+msgid "Display Home link"
+msgstr "Ipakita ang link ng Home"
+
+#: options_divi.php:345
+msgid ""
+"By default the theme creates a Home link that, when clicked, leads back to "
+"your blog's homepage. If, however, you are using a static homepage and have "
+"already created a page called Home to use, this will result in a duplicate "
+"link. In this case you should disable this feature to remove the link."
+msgstr ""
+"Bilang default, gumagawa ang theme ng isang link ng Home na, kapag na-click, "
+"mapupunta pabalik sa homepage ng iyong blog. Gayunpaman, kung gumagamit ka "
+"ng static na homepage at nakagawa ka na ng magagamit na isang page na "
+"tinatawag na Home, magreresulta ito sa duplicate na link. Sa ganitong "
+"sitwasyon, dapat mong i-disable ang feature na ito para maalis ang link."
+
+#: options_divi.php:348
+msgid "Sort Pages Links"
+msgstr "Pag-uuri ng Link ng mga Page"
+
+#: options_divi.php:352
+msgid "Here you can choose to sort your pages links."
+msgstr ""
+"Maaari mong piliin dito kung paano pag-uuriin ang mga link ng iyong mga page."
+
+#: options_divi.php:355
+msgid "Order Pages Links by Ascending/Descending"
+msgstr "Ayusin ang mga Link ng mga Page nang Pataas/Pababa"
+
+#: options_divi.php:359
+msgid ""
+"Here you can choose to reverse the order that your pages links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Maaari mong piliin dito na baligtarin ang ayos ng kung paano ipinapakita ang "
+"mga link ng iyong mga page. Maaari mong piliin sa pagitan ng pataas at "
+"pababang ayos."
+
+#: options_divi.php:362 options_divi.php:398
+msgid "Number of dropdown tiers shown"
+msgstr "Ipinapakita ang bilang ng mga tier ng dropdown"
+
+#: options_divi.php:366 options_divi.php:402
+msgid ""
+"This options allows you to control how many teirs your pages dropdown menu "
+"has. Increasing the number allows for additional menu items to be shown."
+msgstr ""
+"Gamit ang opsyon na ito, makokontrol mo kung ilang mga tier mayroon ang "
+"dropdown na menu ng iyong mga page. Sa pamamagitan ng pagpapataas ng bilang, "
+"maaaring maipakita ang dagdag na mga item ng menu."
+
+#: options_divi.php:376
+msgid "Exclude categories from the navigation bar"
+msgstr "Ibukod ang mga kategorya mula sa navigation bar"
+
+#: options_divi.php:380
+msgid ""
+"Here you can choose to remove certain categories from the navigation menu. "
+"All categories marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Maaari mong piliin ditong alisin ang ilang kategorya mula sa menu ng "
+"navigation. Ang lahat ng kategorya na minarkahan ng X ay hindi lalabas sa "
+"iyong navigation bar. "
+
+#: options_divi.php:388
+msgid ""
+"If you would like to remove the dropdown menus from the categories "
+"navigation bar disable this feature."
+msgstr ""
+"Kung gugustuhin mong alisin ang mga dropdown na menu mula sa navigation bar "
+"ng mga kategorya, i-disable ang feature na ito."
+
+#: options_divi.php:391
+msgid "Hide empty categories"
+msgstr "Itago ang walang lamang kategorya"
+
+#: options_divi.php:395
+msgid ""
+"If you would like categories to be displayed in your navigationbar that "
+"don't have any posts in them then disable this option. By default empty "
+"categories are hidden"
+msgstr ""
+"Kung gusto mong maipakita ang mga kategorya sa iyong navigation bar na "
+"walang anumang mga post sa mga ito, kung gayon, i-disable ang opsyong ito. "
+"Bilang default, ang mga kategoryang walang laman ay hindi ipinapakita."
+
+#: options_divi.php:406
+msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+msgstr ""
+"Pag-uriin ang mga Link ng mga Kategorya ayon sa Pangkat ng Name/ID/Slug/"
+"Count/Term"
+
+#: options_divi.php:410
+msgid ""
+"By default pages are sorted by name. However if you would rather have them "
+"sorted by ID you can adjust this setting."
+msgstr ""
+"Bilang default, inuuri ang mga page ayon sa pangalan. Gayunpaman, kung mas "
+"gusto mong mapag-uri-uri ang mga ito ayon sa ID, maaari mong isaayos ang "
+"setting na ito."
+
+#: options_divi.php:413
+msgid "Order Category Links by Ascending/Descending"
+msgstr "Ayusin ang mga Link ng mga Kategorya nang Pataas/Pababa"
+
+#: options_divi.php:417
+msgid ""
+"Here you can choose to reverse the order that your categories links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Maaari mong piliin dito na baligtarin ang ayos ng kung paano ipinapakita ang "
+"mga link ng iyong mga kategorya. Maaari mong piliin sa pagitan ng pataas at "
+"pababang ayos."
+
+#: options_divi.php:426
+msgid "Disable top tier dropdown menu links"
+msgstr "I-disable ang mga link ng nauunang tier ng dropdown na menu"
+
+#: options_divi.php:430
+msgid ""
+"In some cases users will want to create parent categories or links as "
+"placeholders to hold a list of child links or categories. In this case it is "
+"not desirable to have the parent links lead anywhere, but instead merely "
+"serve an organizational function. Enabling this options will remove the "
+"links from all parent pages/categories so that they don't lead anywhere when "
+"clicked."
+msgstr ""
+"Sa ilang mga kalagayan, gugustuhin ng mga user na gumawa ng mga parent na "
+"kategorya o link bilang mga placeholder upang magdala ng isang listahan ng "
+"mga child na link o kategorya. Sa ganitong sitwasyon, hindi maganda kung "
+"humahantong sa kung saan ang mga parent link, ngunit para lang sa function "
+"na para sa pag-oorganisa. Aalisin ng pag-e-enable sa mga opsyong ito ang mga "
+"link mula sa lahat ng parent na page/kategorya upang hindi ito humantonng sa "
+"kung saan kapag na-click."
+
+#: options_divi.php:434
+msgid "Alternative scroll-to-anchor method"
+msgstr "Alternatibong paraang scroll-to-anchor"
+
+#: options_divi.php:438
+msgid ""
+"Sometimes when using the CSS ID of a section to link directly to it from "
+"another page, the page's final scroll position can be inaccurate. Enable "
+"this option to use an alternative method for scrolling to anchors which can "
+"be more accurate than the default method in some cases."
+msgstr ""
+"Minsan kapag ginagamit ang CSS ID ng isang seksyon upang direktang mag-link "
+"dito mula sa ibang pahina, maaaring hindi tumpak ang panghuling posisyon ng "
+"scroll ng pahina. I-enable ang opsyong ito upang gumamit ng alternatibong "
+"paraan sa pagso-scroll sa mga anchor na sa ilang sitwasyon ay maaaring mas "
+"tumpak kaysa sa default na paraan."
+
+#: options_divi.php:456
+msgid "Single Post Layout"
+msgstr "Layout na May Iisang Post"
+
+#: options_divi.php:461
+msgid "Single Page Layout"
+msgstr "Layout na May Iisang Page"
+
+#: options_divi.php:474
+msgid "Choose which items to display in the postinfo section"
+msgstr ""
+"Piliin kung aling mga item ang ipapakita sa seksyon ng impormasyon tungkol "
+"sa post"
+
+#: options_divi.php:478
+msgid ""
+"Here you can choose which items appear in the postinfo section on single "
+"post pages. This is the area, usually below the post title, which displays "
+"basic information about your post. The highlighted itmes shown below will "
+"appear. "
+msgstr ""
+"Maaari mong piliin dito kung aling mga item ang lalabas sa seksyon ng "
+"impormasyon tungkol sa post sa mga page ng iisang post. Ito ang lugar, "
+"kadalasang sa ibaba ng pamagat ng post, na nagpapakita ng pangunahing "
+"impormasyon tungkol sa iyong post. Lalabas ang mga naka-highlight na item na "
+"ipinapakita sa ibaba. "
+
+#: options_divi.php:482
+msgid "Show comments on posts"
+msgstr "Ipakita ang mga komento sa mga post"
+
+#: options_divi.php:486
+msgid ""
+"You can disable this option if you want to remove the comments and comment "
+"form from single post pages. "
+msgstr ""
+"Maaari mong i-disable ang opsyong ito kung gusto mong alisin ang mga komento "
+"at ang form ng komento mula sa iyong mga post. "
+
+#: options_divi.php:489
+msgid "Place Thumbs on Posts"
+msgstr "Ilagay ang mga Larawan ng Thumbnail sa mga Post"
+
+#: options_divi.php:493
+msgid ""
+"By default thumbnails are placed at the beginning of your post on single "
+"post pages. If you would like to remove this initial thumbnail image to "
+"avoid repetition simply disable this option. "
+msgstr ""
+"Bilang default, ang mga thumbnail ay nakalagay sa simula ng iyong mga page "
+"ng iisang post. Kung gugustuhin mong alisin ang inisyal na larawan ng "
+"thumbnail upang maiwasan ang pag-uulit, i-disable lang ang opsyong ito. "
+
+#: options_divi.php:502
+msgid "Place Thumbs on Pages"
+msgstr "Ilagay ang mga Larawan ng Thumbnail sa mga Page"
+
+#: options_divi.php:506
+msgid ""
+"By default thumbnails are not placed on pages (they are only used on posts). "
+"However, if you want to use thumbnails on pages you can! Just enable this "
+"option. "
+msgstr ""
+"Bilang default, ang mga thumbnail ay hindi inilalagay sa mga page (ginagamit "
+"lang ang mga ito sa mga post). Ngunit, kung gusto mong gumamit ng mga "
+"thumbnail sa mga page, pwede! I-enable lang ang opsyong ito."
+
+#: options_divi.php:509
+msgid "Show comments on pages"
+msgstr "Ipakita ang mga komento sa mga page"
+
+#: options_divi.php:513
+msgid ""
+"By default comments are not placed on pages, however, if you would like to "
+"allow people to comment on your pages simply enable this option. "
+msgstr ""
+"Bilang default, ang mga komento ay hindi nakalagay sa mga page, gayunpaman, "
+"kung gusto mong hayaan ang mga taong magkomento sa iyong mga page, i-enable "
+"lang ang opsyong ito. "
+
+#: options_divi.php:522
+msgid "Post info section"
+msgstr "Seksyon ng impormasyon ng post"
+
+#: options_divi.php:526
+msgid ""
+"Here you can choose which items appear in the postinfo section on pages. "
+"This is the area, usually below the post title, which displays basic "
+"information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+"Maaari mong piliin dito kung aling mga item ang lalabas sa seksyon ng "
+"impormasyon tungkol sa artikulo sa mga page. Ito ang lugar, kadalasang sa "
+"ibaba ng pamagat ng post, na nagpapakita ng pangunahing impormasyon tungkol "
+"sa iyong post. Lalabas ang mga naka-highlight na item na ipinapakita sa "
+"ibaba. "
+
+#: options_divi.php:529
+msgid "Show Thumbs on Index pages"
+msgstr "Ipakita ang mga Larawan ng Thumbnail sa mga Index na page"
+
+#: options_divi.php:533
+msgid "Enable this option to show thumbnails on Index Pages."
+msgstr ""
+"I-enable ang opsyong ito upang ipakita ang mga thumbnail sa mga Index na "
+"Page."
+
+#: options_divi.php:550
+msgid "Homepage SEO"
+msgstr "SEO sa Homepage"
+
+#: options_divi.php:555
+msgid "Single Post Page SEO"
+msgstr "SEO ng Page ng Iisang Post"
+
+#: options_divi.php:560
+msgid "Index Page SEO"
+msgstr "SEO ng Index na Page"
+
+#: options_divi.php:568
+msgid " Enable custom title "
+msgstr "I-enable ang custom na pamagat "
+
+#: options_divi.php:572
+msgid ""
+"By default the theme uses a combination of your blog name and your blog "
+"description, as defined when you created your blog, to create your homepage "
+"titles. However if you want to create a custom title then simply enable this "
+"option and fill in the custom title field below. "
+msgstr ""
+"Bilang default, gumagamit ang theme ng isang kombinasyon ng pangalan ng "
+"iyong blog at paglalarawan ng iyong blog, gaya ng tinukoy nang ginawa mo ang "
+"iyong blog, upang gawin ang mga pamagat ng iyong homepage. Gayunpaman, kung "
+"gusto mong gumawa ng isang custom na pamagat, kung gayon, i-enable lang ang "
+"opsyong ito at punan ang field sa ibaba para sa custom na pamagat. "
+
+#: options_divi.php:575
+msgid " Enable meta description"
+msgstr "I-enable ang paglalarawan ng  meta na tag"
+
+#: options_divi.php:579
+msgid ""
+"By default the theme uses your blog description, as defined when you created "
+"your blog, to fill in the meta description field. If you would like to use a "
+"different description then enable this option and fill in the custom "
+"description field below. "
+msgstr ""
+"Bilang default, gumagamit ang theme ng paglalarawan ng iyong blog, gaya ng "
+"tinukoy nang ginawa mo ang iyong blog, upang punan ang field para sa "
+"paglalarawan ng meta. Kung gusto mong gumamit ng ibang paglalarawan, kung "
+"gayon, i-enable ang opsyong ito at punan ang field na nasa ibaba para sa "
+"custom na paglalarawan. "
+
+#: options_divi.php:582
+msgid " Enable meta keywords"
+msgstr "I-enable ang mga meta na keyword"
+
+#: options_divi.php:586
+msgid ""
+"By default the theme does not add keywords to your header. Most search "
+"engines don't use keywords to rank your site anymore, but some people define "
+"them anyway just in case. If you want to add meta keywords to your header "
+"then enable this option and fill in the custom keywords field below. "
+msgstr ""
+"Bilang default, hindi nagdadagdag ang theme ng mga keyword sa iyong header. "
+"Hindi na gumagamit ng mga keyword ang karamihan ng mga engine sa paghahanap "
+"upang i-rank ang iyong site, ngunit tinutukoy pa rin ang mga ito ng ilang "
+"tao kung sakali lang na kailanganin. Kung gusto mong magdagdag ng mga meta "
+"na keyword sa iyong header, kung gayon, i-enable ang opsyong ito at punan "
+"ang field na nasa ibaba para sa custom na mga keyword. "
+
+#: options_divi.php:589 options_divi.php:716
+msgid " Enable canonical URL's"
+msgstr "I-enable ang canonical na URL's"
+
+#: options_divi.php:593 options_divi.php:667 options_divi.php:720
+msgid ""
+"Canonicalization helps to prevent the indexing of duplicate content by "
+"search engines, and as a result, may help avoid duplicate content penalties "
+"and pagerank degradation. Some pages may have different URLs all leading to "
+"the same place. For example domain.com, domain.com/index.html, and www."
+"domain.com are all different URLs leading to your homepage. From a search "
+"engine's perspective these duplicate URLs, which also occur often due to "
+"custom permalinks, may be treated individually instead of as a single "
+"destination. Defining a canonical URL tells the search engine which URL you "
+"would like to use officially. The theme bases its canonical URLs off your "
+"permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+"Tumutulong ang canonicalization (paglo-load ng kani-kaniyang page ng iba-iba "
+"ang URL) na mapigilan ang pag-iindex ng mga parehong content ng mga search "
+"engine, at bilang resulta, ay makakatulong sa paghahadlang sa doble-dobleng "
+"penalty sa content at pagbaba ng pagerank. Maaaring may iba-ibang URL ang "
+"ilan sa mga page ngunit ang lahat ay hahantong sa parehong lugar. Halimbawa, "
+"ang domain.com, domain.com/index.html, at www.domain.com ay magkakaibang "
+"URLs na humahantong sa iyong homepage. Sa perspektibo ng isang search "
+"engine, ang mga doble-dobleng URL na ito, na karaniwang nagaganap dahil sa "
+"mga custom na link, ay maaaring ituring nang magkakahiwalay sa halip na "
+"iisang destinasyon. ang pagtukoy sa isang canonical na URL ay magsasabi sa "
+"search engine kung aling URL ang gusto mong opisyal na gamitin. Binabase ng "
+"theme ang mga canonical na URL nito sa iyong mga link at sa domain name na "
+"tinukoy sa mga tab ng setting na wp-admin."
+
+#: options_divi.php:596
+msgid "Homepage custom title (if enabled)"
+msgstr "Custom na pamagat ng homepage (kung naka-enable)"
+
+#: options_divi.php:600
+msgid ""
+"If you have enabled custom titles you can add your custom title here. "
+"Whatever you type here will be placed between the < title >< /title > tags "
+"in header.php"
+msgstr ""
+"Kung nai-enable mo ang mga custom na pamagat, maaari mong idagdag dito ang "
+"iyong custom na pamagat. Anuman ang iyong i-type dito ay ilalagay sa pagitan "
+"ng mga tag ng < title >< /title > sa header.php"
+
+#: options_divi.php:604
+msgid "Homepage meta description (if enabled)"
+msgstr "Paglalarawan na meta ng homepage (kung naka-enable)"
+
+#: options_divi.php:608
+msgid ""
+"If you have enabled meta descriptions you can add your custom description "
+"here."
+msgstr ""
+"Kung nai-enable mo ang mga paglalarawan na meta, maaari mong idagdag dito "
+"ang iyong custom na paglalarawan."
+
+#: options_divi.php:612
+msgid "Homepage meta keywords (if enabled)"
+msgstr "Mga keyword na meta ng homepage (kung naka-enable)"
+
+#: options_divi.php:616
+msgid ""
+"If you have enabled meta keywords you can add your custom keywords here. "
+"Keywords should be separated by comas. For example: wordpress,themes,"
+"templates,elegant"
+msgstr ""
+"Kung nai-enable mo ang mga keyword na meta, maaari mong idagdag dito ang "
+"iyong mga custom na keyword. Ang mga keyword ay dapat na pinaghihiwalay ng "
+"mga kuwit. Halimbawa: wordpress,themes,templates,elegant"
+
+#: options_divi.php:620 options_divi.php:694
+msgid "If custom titles are disabled, choose autogeneration method"
+msgstr ""
+"Kung naka-disable ang mga custom na pamagat, pumili ng awtomatikong paraan "
+"ng pagbuo"
+
+#: options_divi.php:625
+msgid ""
+"If you are not using cutsom post titles you can still have control over how "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Kung hindi ka gumagamit ng mga custom na pamagat ng post, maaari ka pa ring "
+"magkaroon ng kontrol sa kung paano binubuo ang iyong mga pamagat. Maaari "
+"mong pilin dito kung sa aling ayos mo gustong maipakita ang pamagat ng post "
+"at ang pangalan ng blog mo, o maaari mong alisin nang lubusan ang pangalan "
+"ng blog mula sa pamagat."
+
+#: options_divi.php:628 options_divi.php:702 options_divi.php:738
+msgid "Define a character to separate BlogName and Post title"
+msgstr ""
+"Tukuyin ang isang character upang ihiwalay ang Pangalan ng Website at "
+"Pamagat ng Post"
+
+#: options_divi.php:632 options_divi.php:706
+msgid ""
+"Here you can change which character separates your blog title and post name "
+"when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Maaari mong baguhin dito kung aling character ang ginagamit upang ihiwalay "
+"ang iyong pamagat ng blog at pangalan ng post kapag bumagamit ng mga pamagat "
+"ng post na awtomatikong binuo. Ang mga karaniwang value ay | o -"
+
+#: options_divi.php:642
+msgid "Enable custom titles"
+msgstr "I-enable ang mga custom na pamagat"
+
+#: options_divi.php:646
+msgid ""
+"By default the theme creates post titles based on the title of your post and "
+"your blog name. If you would like to make your meta title different than "
+"your actual post title you can define a custom title for each post using "
+"custom fields. This option must be enabled for custom titles to work, and "
+"you must choose a custom field name for your title below."
+msgstr ""
+"Bilang default, gumagawa ang theme ng mga pamagat ng post batay sa pamagat "
+"ng iyong post at sa pangalan ng iyong blog. Kung gusto mong iba ang iyong "
+"pamagat na meta kaysa sa aktuwal na pamagat ng post mo, maaari kang tumukoy "
+"ng isang custom na pamagat para sa bawat post gamit ang mga custom na "
+"field.  Dapat i-enable ang opsyon na ito para sa mga custom na pamagat upang "
+"gumana, at dapat kang pumili sa ibaba ng custom na pangalan ng field para sa "
+"iyong pamagat."
+
+#: options_divi.php:649
+msgid "Enable custom description"
+msgstr "I-enable ang custom na paglalarawan"
+
+#: options_divi.php:653
+msgid ""
+"If you would like to add a meta description to your post you can do so using "
+"custom fields. This option must be enabled for descriptions to be displayed "
+"on post pages. You can add your meta description using custom fields based "
+"off the custom field name you define below."
+msgstr ""
+"Kung gusto mong magdagdag ng isang meta na paglalarawan sa iyong post, "
+"magagawa mo iyon gamit ang mga custom na field. Dapat na naka-enable ang "
+"opsyong ito para sa mga paglalarawan para maipakita sa iyong mga page ng "
+"post. Maaari mong idagdag ang iyong meta na paglalarawan gamit ang mga "
+"custom na field batay sa pangalan ng custon na field na tinukoy o sa ibaba."
+
+#: options_divi.php:656
+msgid "Enable custom keywords"
+msgstr "I-enable ang mga custom na keyword"
+
+#: options_divi.php:660
+msgid ""
+"If you would like to add meta keywords to your post you can do so using "
+"custom fields. This option must be enabled for keywords to be displayed on "
+"post pages. You can add your meta keywords using custom fields based off the "
+"custom field name you define below."
+msgstr ""
+"Kung gusto mong magdagdag ng mga meta na keyword sa iyong post, magagawa mo "
+"iyon gamit ang mga custom na field. Dapat na naka-enable ang opsyong ito "
+"para sa mga keyword para maipakita sa iyong mga page ng post. Maaari mong "
+"idagdag ang iyong meta na keyword gamit ang mga custom na field batay sa "
+"pangalan ng custon na field na tinukoy o sa ibaba."
+
+#: options_divi.php:663
+msgid "Enable canonical URL's"
+msgstr "I-enable ang canonical na URL's"
+
+#: options_divi.php:670
+msgid "Custom field Name to be used for title"
+msgstr "Pangalan ng custom na field na gagamitin para sa pamagat"
+
+#: options_divi.php:674
+msgid ""
+"When you define your title using custom fields you should use this value for "
+"the custom field Name. The Value of your custom field should be the custom "
+"title you would like to use."
+msgstr ""
+"Kapag tinukoy mo ang iyong pamagat gamit ang mga custom na field, dapat mong "
+"gamitin ang value na ito para sa Pangalan ng custom na field. Ang Value ng "
+"iyong custom na field ay dapat na ang custom na pamagat na gusto mong "
+"gamitin."
+
+#: options_divi.php:678
+msgid "Custom field Name to be used for description"
+msgstr "Pangalan ng custom na field na gagamitin para sa paglalarawan"
+
+#: options_divi.php:682
+msgid ""
+"When you define your meta description using custom fields you should use "
+"this value for the custom field Name. The Value of your custom field should "
+"be the custom description you would like to use."
+msgstr ""
+"Kapag tinukoy mo ang iyong meta na paglalarawan gamit ang mga custom na "
+"field, dapat mong gamitin ang value na ito para sa Pangalan ng custom na "
+"field. Ang Value ng iyong custom na field ay dapat na ang custom na "
+"paglalarawan na gusto mong gamitin."
+
+#: options_divi.php:686
+msgid "Custom field Name to be used for keywords"
+msgstr "Pangalan ng custom na field na gagamitin para sa mga keyword"
+
+#: options_divi.php:690
+msgid ""
+"When you define your keywords using custom fields you should use this value "
+"for the custom field Name. The Value of your custom field should be the meta "
+"keywords you would like to use, separated by comas."
+msgstr ""
+"Kapag tinukoy mo ang iyong mga keyword gamit ang mga custom na field, dapat "
+"mong gamitin ang value na ito para sa Pangalan ng custom na field. Ang Value "
+"ng iyong custom na field ay dapat na ang mga meta na keyword na gusto mong "
+"gamitin, nang pinaghihiwalay ng mga kuwit."
+
+#: options_divi.php:699
+msgid ""
+"If you are not using cutsom post titles you can still have control over hw "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Kung hindi ka gumagamit ng mga custom na pamagat ng post, maaari ka pa ring "
+"magkaroon ng kontrol sa kung paano binubuo ang iyong mga pamagat. Maaari "
+"mong pilin dito kung sa aling ayos mo gustong maipakita ang pamagat ng post "
+"at ang pangalan ng blog mo, o maaari mong alisin nang lubusan ang pangalan "
+"ng blog mula sa pamagat."
+
+#: options_divi.php:723
+msgid "Enable meta descriptions"
+msgstr "I-enable ang mga meta na paglalarawan"
+
+#: options_divi.php:727
+msgid ""
+"Check this box if you want to display meta descriptions on category/archive "
+"pages. The description is based off the category description you choose when "
+"creating/edit your category in wp-admin."
+msgstr ""
+"Lagyan ng check ang kahon na ito kung gusto mong ipakita ang mga meta na "
+"paglalarawan sa mga page ng kategorya/archive. Nakabatay ang paglalarawan sa "
+"paglalarawan ng kategorya na pinili mo nang gumagawa/nag-e-edit ng iyong "
+"kategorya sa wp-admin."
+
+#: options_divi.php:730
+msgid "Choose title autogeneration method"
+msgstr "Pumili ng paraan ng pagbuo ng pamagat"
+
+#: options_divi.php:735
+msgid ""
+"Here you can choose how your titles on index pages are generated. You can "
+"change which order your blog name and index title are displayed, or you can "
+"remove the blog name from the title completely."
+msgstr ""
+"Maaari mong piliin dito kung paano binubuo ang iyong mga pamagat sa mga "
+"index na page. Maaari mong baguhin kung sa aling ayos ipinapakita ang iyong "
+"pangalan ng blog at index na pamagat, o maaari mong alisin nang lubusan ang "
+"pangalan ng blog mula sa pamagat."
+
+#: options_divi.php:742
+msgid ""
+"Here you can change which character separates your blog title and index page "
+"name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Maaari mong baguhin dito kung aling character ang ginagamit upang ihiwalay "
+"ang iyong pamagat ng blog at pangalan ng index na page kapag bumagamit ng "
+"mga pamagat ng post na awtomatikong binuo. Ang mga karaniwang value ay | o -"
+
+#: options_divi.php:761
+msgid "Code Integration"
+msgstr "Pagsasama-sama ng Code"
+
+#: options_divi.php:769
+msgid "Enable header code"
+msgstr "I-enable ang code ng header"
+
+#: options_divi.php:773
+msgid ""
+"Disabling this option will remove the header code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Aalisin ng pagdi-disable ng opsyon na ito ang code ng header na nasa ibaba "
+"mula sa iyong blog. Hinahayaan ka nitong alisin ang code habang sine-save "
+"ito para magamit sa ibang pagkakataon."
+
+#: options_divi.php:776
+msgid "Enable body code"
+msgstr "I-enable ang code ng < body >"
+
+#: options_divi.php:780
+msgid ""
+"Disabling this option will remove the body code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Aalisin ng pagdi-disable ng opsyon na ito ang code ng body na nasa ibaba "
+"mula sa iyong blog. Hinahayaan ka nitong alisin ang code habang sine-save "
+"ito para magamit sa ibang pagkakataon."
+
+#: options_divi.php:783
+msgid "Enable single top code"
+msgstr "I-enable ang iisang itaas na code"
+
+#: options_divi.php:787
+msgid ""
+"Disabling this option will remove the single top code below from your blog. "
+"This allows you to remove the code while saving it for later use."
+msgstr ""
+"Aalisin ng pagdi-disable ng opsyon na ito ang iisang itaas na code na nasa "
+"ibaba mula sa iyong blog. Hinahayaan ka nitong alisin ang code habang sine-"
+"save ito para magamit sa ibang pagkakataon."
+
+#: options_divi.php:790
+msgid "Enable single bottom code"
+msgstr "I-enable ang iisang code sa ibaba"
+
+#: options_divi.php:794
+msgid ""
+"Disabling this option will remove the single bottom code below from your "
+"blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+"Aalisin ng pagdi-disable ng opsyon na ito ang iisang ibabang code na nasa "
+"ibaba mula sa iyong blog. Hinahayaan ka nitong alisin ang code habang sine-"
+"save ito para magamit sa ibang pagkakataon."
+
+#: options_divi.php:797
+msgid "Add code to the < head > of your blog"
+msgstr "Magdagdag ng code sa < head > ng iyong blog"
+
+#: options_divi.php:801
+msgid ""
+"Any code you place here will appear in the head section of every page of "
+"your blog. This is useful when you need to add javascript or css to all "
+"pages."
+msgstr ""
+"Anumang code ang ilagay mo dito ay lalabas sa unahang seksyon ng bawat page "
+"ng iyong blog. Kapaki-pakinabang ito kapag kailangan mong magdagdag ng "
+"Javascript o CSS sa lahat ng page."
+
+#: options_divi.php:804
+msgid ""
+"Add code to the < body > (good for tracking codes such as google analytics)"
+msgstr ""
+"Magdagdag ng code sa < body > (mabuti para sa pagta-track ng mga code gaya "
+"ng Google Analytics)"
+
+#: options_divi.php:808
+msgid ""
+"Any code you place here will appear in body section of all pages of your "
+"blog. This is usefull if you need to input a tracking pixel for a state "
+"counter such as Google Analytics."
+msgstr ""
+"Anumang code ang ilagay mo dito ay lalabas sa pangunahing seksyon ng bawat "
+"page ng iyong blog. Kapaki-pakinabang ito kung kailangan mong maglagay ng "
+"isang pixel sa pagta-track para sa counter ng katayuan gaya ng Google "
+"Analytics."
+
+#: options_divi.php:811
+msgid "Add code to the top of your posts"
+msgstr "Magdagdag ng code sa itaas ng iyong mga post"
+
+#: options_divi.php:815 options_divi.php:822
+msgid ""
+"Any code you place here will be placed at the top of all single posts. This "
+"is useful if you are looking to integrating things such as social "
+"bookmarking links."
+msgstr ""
+"Anumang code ang ilagay mo dito ay ilalagay sa itaas ng lahat ng post. "
+"Kapaki-pakinabang ito kapag pinaplano mong isama ang mga bagay gaya ng mga "
+"link ng social bookmarking."
+
+#: options_divi.php:818
+msgid "Add code to the bottom of your posts, before the comments"
+msgstr "Magdagdag ng code sa ibaba ng iyong mga post, bago ang mga koment"
+
+#: options_divi.php:849
+msgid "Username"
+msgstr "Username"
+
+#: options_divi.php:854 options_divi.php:866
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Bago ka makatanggap ng mga update ng produkto, kailangan mo munang "
+"patotohanan ang iyong suskrisyon para sa Elegant Themes. Upang magawa ito, "
+"kailangan mong ilagay ang iyong Username sa at API Key sa Elegant Themes sa "
+"Tab na Mga Update sa mga setting mo ng theme at plugin. Upang mahanap ang "
+"iyong API Key, <a href=\"https://www.elegantthemes.com/members-area/api/\" "
+"target=\"_blank\">mag-log in</a> sa iyong account sa Elegant Themes at mag-"
+"navigate sa pahina ng <strong>Account > API Key</strong>. <a href=\"http://"
+"www.elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">Dagdagan ang nalalaman dito</a></em>. Kung nakukuha mo pa rin ang "
+"mensaheng ito, pakitiyak na nailagay nang tama ang iyong Username at API Key."
+
+#: options_divi.php:861
+msgid "API Key"
+msgstr "API Key"
+
+#: options_divi.php:887
+msgid "Manage Un-widgetized Advertisements"
+msgstr "Pamahalaan ang mga Advertisement"
+
+#: options_divi.php:895
+msgid "Enable Single Post 468x60 banner"
+msgstr "I-enable ang Iisang Post na banner na 468x60"
+
+#: options_divi.php:899
+msgid ""
+"Enabling this option will display a 468x60 banner ad on the bottom of your "
+"post pages below the single post content. If enabled you must fill in the "
+"banner image and destination url below."
+msgstr ""
+"Ipapakita ng pag-e-enable ng opsyong ito ang isang banner ad na 468x60 sa "
+"ibabang bahagi ng iyong mga page ng post sa ibaba ng content ng iisang post. "
+"Kung in-enable, daat mong punan ang larawan ng banner at URL ng patutunguhan "
+"sa ibaba."
+
+#: options_divi.php:902
+msgid "Input 468x60 advertisement banner image"
+msgstr "I-input ang 468x60 na larawan ng advertisement banner"
+
+#: options_divi.php:906
+msgid "Here you can provide 468x60 banner image url"
+msgstr "Maaari mong ibigay dito ang URL ng 468x60 na larawan ng banner"
+
+#: options_divi.php:910
+msgid "Input 468x60 advertisement destination url"
+msgstr "I-input ang 468x60 na URL ng patutunguhan ng advertisement"
+
+#: options_divi.php:914
+msgid "Here you can provide 468x60 banner destination url"
+msgstr "Maaari mong ibigay dito ang URL ng patutunguhan ng 468x60 na banner"
+
+#: options_divi.php:918
+msgid "Input 468x60 adsense code"
+msgstr "Code ng input na 468x60 sa Google Adsense"
+
+#: options_divi.php:922
+msgid "Place your adsense code here."
+msgstr "Ilagay ang iyong code para sa Google Adsense dito."
+
+#: page-template-blank.php:49 page.php:48 single-project.php:55 single.php:106
+msgid "Pages:"
+msgstr "Mga Page:"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:114
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr " "
+
+#: functions.php:8277
+msgctxt "WooCommerce items number"
+msgid "%1$s Item"
+msgid_plural "%1$s Items"
+msgstr[0] "%1$s Item"
+msgstr[1] "%1$s Item"
+
+#: single-project.php:68
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr " "
+
+#: single-project.php:69
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr " "
+
+#~ msgid "MailChimp API Key"
+#~ msgstr "Key ng API ng MailChimp"
+
+#~ msgid ""
+#~ "Enter your MailChimp API key. You can create an api key <a target=\"_blank"
+#~ "\" href=\"%1$s\">here</a>"
+#~ msgstr ""
+#~ "Ilagay ang key ng API ng iyong MailChimp. Makakagawa ka ng isang key ng "
+#~ "api <a target=\"_blank\" href=\"%1$s\">dito</a>"
+
+#~ msgid "Aweber Authorization"
+#~ msgstr "Awtorisasyon ng Aweber"
+
+#~ msgid "Authorize your Aweber account here."
+#~ msgstr "Bigyan ng awtorisasyon ang iyong Aweber account dito."
+
+#~ msgid "Regenerate MailChimp Lists"
+#~ msgstr "Muling Buuin ang mga Listahan ng MailChimp"
+
+#~ msgid ""
+#~ "By default, MailChimp lists are cached for one day. If you added new "
+#~ "list, but it doesn't appear within the Email Optin module settings, "
+#~ "activate this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Sa pamamagitan ng default, mga listahan ng MailChimp ay naka-cache para "
+#~ "sa isang araw. Kung nagdagdag ka ng mga bagong listahan, ngunit ito ay "
+#~ "hindi lilitaw sa loob ng mga setting ng module Email Optin, buhayin ang "
+#~ "pagpipiliang ito. Huwag kalimutan na i-disable ito sa sandaling ang "
+#~ "listahan ay tinanggal nang muli."
+
+#~ msgid "Regenerate Aweber Lists"
+#~ msgstr "Muling Buuin ang mga Listahan ng Aweber"
+
+#~ msgid ""
+#~ "By default, Aweber lists are cached for one day. If you added new list, "
+#~ "but it doesn't appear within the Email Optin module settings, activate "
+#~ "this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Sa pamamagitan ng default, mga listahan ng Aweber ay naka-cache para sa "
+#~ "isang araw. Kung nagdagdag ka ng mga bagong listahan, ngunit ito ay hindi "
+#~ "lilitaw sa loob ng mga setting ng module Email Optin, buhayin ang "
+#~ "pagpipiliang ito. Huwag kalimutan na i-disable ito sa sandaling ang "
+#~ "listahan ay tinanggal nang muli."
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Before you "
+#~ "can update your Elegant Themes, you must first install the <a href="
+#~ "\"https://www.elegantthemes.com/members-area/documentation.html#updater\" "
+#~ "target=\"_blank\">Elegant Updater Plugin</a> to authenticate your "
+#~ "subscription.</em>"
+#~ msgstr ""
+#~ "May available nang bagong bersyon ng %1$s. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">Tingnan ang mga detalye ng bersyon %3$s</a>. "
+#~ "<em>Bago mo mai-update ang iyong Mga Eleganteng Theme, dapat mo munang i-"
+#~ "install ang <a href=\"https://www.elegantthemes.com/members-area/"
+#~ "documentation.html#updater\" target=\"_blank\">Plugin na Elegant Updater</"
+#~ "a> upang patunayang tunay ang iyong subscription.</em>"
+
+#~ msgid ""
+#~ "Before you can update your Elegant Themes, you must first install the <a "
+#~ "href=\"https://www.elegantthemes.com/members-area/documentation."
+#~ "html#updater\" target=\"_blank\">Elegant Updater Plugin</a> to "
+#~ "authenticate your subscription."
+#~ msgstr ""
+#~ "Bago mo mai-update ang iyong Mga Eleganteng Theme, dapat mo munang i-"
+#~ "install ang <a href=\"https://www.elegantthemes.com/members-area/"
+#~ "documentation.html#updater\" target=\"_blank\">Plugin na Elegant Updater</"
+#~ "a> upang patunayang tunay ang iyong subscription."

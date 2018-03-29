@@ -1,0 +1,90 @@
+.um-admin-notice {
+	border-color: #3ba1da !important;
+	color: #555;
+}
+
+.um-admin-notice a.button-primary {
+	background-color: #3ba1da !important;
+	border-color: #3ba1da !important;
+}
+
+.um-admin-notice a.button-primary:hover {
+	background-color: #2295d8 !important;
+	border-color: #2295d8 !important;
+}
+
+.um-admin-notice a.button-secondary {opacity: 0.7}
+.um-admin-notice a.button-secondary:hover {opacity: 0.9}
+.um-admin-notice a {text-decoration: none;color: #3ba1da}
+.um-admin-notice a:hover {color: #44b0ec}
+
+.um-filter {
+	padding: 12px;
+	border-color: #ddd !important;
+	margin: 20px 0 0 0 !important;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+/*
+	- General metabox styling
+*/
+
+#um-admin-access-settings h3 {
+	padding: 10px 20px 10px 60px;
+	color: #fff;
+	background: #3ba1da url(../img/logo-small.png) no-repeat 12px center;
+	font-weight: bold;
+	font-size: 14px !important;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+#um-admin-access-settings h4 { margin: 10px 0 4px 0!important}
+
+#um-admin-access-settings div.handlediv {
+	color: #fff !important;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+#um-admin-access-settings p {font-size: 13px}
+
+#um-admin-access-settings input[type=text] {font-size: 13px}
+
+/*
+	- Nav Menu
+*/
+
+.um-nav-edit * {
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale !important;
+}
+
+.um-nav-edit-h2 {
+	padding: 10px 20px 10px 60px;
+	margin: 14px 12px 0 0;
+	border-radius: 3px;
+	color: #fff;
+	background: #3ba1da url(../img/logo-small.png) no-repeat 12px center;
+	font-weight: bold;
+}
+
+.um-nav-mode {margin-top:10px}
+.um-nav-roles {display: none;margin-top:5px}
+
+/*
+	- jQuery Tooltips
+*/
+
+.um-admin-tip {
+	margin: 0 0 0 2px;
+	color: #3ba1da !important;
+	vertical-align: middle;
+	position: relative;
+	top: -3px;
+	opacity: 0.8;
+}
+.um-admin-tip.n {margin-left: 5px}
+.um-admin-tip i {cursor: pointer; vertical-align: middle; font-size: 20px; line-height: 20px;color: #3ba1da !important;}
+a.um-delete{ color: #a00; }

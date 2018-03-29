@@ -1,0 +1,20 @@
+/* post meta box */
+
+#et_settings_meta_box .hndle { border: none; color: #fff; background-color: #6C2EB9; padding-left: 38px; }
+#et_settings_meta_box .hndle:before { font-weight: normal; font-family: 'ETmodules'; font-size: 32px; content: '\e625'; display: block; position: absolute; left: 5px; top: -4px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+#et_settings_meta_box .inside { padding-top: 1px !important; }
+#et_settings_meta_box .handlediv { color: #fff; }
+#side-sortables #et_settings_meta_box label, #side-sortables #et_settings_meta_box input, #side-sortables #et_settings_meta_box select { display: inline-block !important; box-sizing: border-box; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; }
+#side-sortables #et_settings_meta_box label { background-color: #fff; margin: 0 !important; padding: 10px 5% 10px 5%; width: 50%; border-right: 1px solid #E4ECF2; }
+#side-sortables #et_settings_meta_box input, #side-sortables #et_settings_meta_box select { background-color: #F5F8FA; color: #A8B7C5; margin-right: 5%; width: 43%; border: none; box-shadow: none; -webkit-box-shadow: none; outline: none; padding: 0; }
+#side-sortables #et_settings_meta_box input:focus, #side-sortables #et_settings_meta_box select:focus { color: #444; }
+#side-sortables #et_settings_meta_box input[type=checkbox] { width: auto; background-color: #fff; border: 1px solid #E4ECF2; margin-left: 17%; }
+#side-sortables #et_settings_meta_box p { padding: 0; margin: 0; background-color: #F5F8FA; }
+#side-sortables #et_settings_meta_box p:last-child { border-bottom: 0; }
+#side-sortables #et_settings_meta_box .inside { padding: 0; margin: 0; }
+#side-sortables #et_settings_meta_box .et_pb_page_settings { border-bottom: 1px solid #E4ECF2; }
+#side-sortables #et_settings_meta_box .et_post_bg_color_setting { padding: 15px; }
+#side-sortables #et_settings_meta_box .wp-picker-input-wrap input { background-color: #fff; padding: 5px; border-radius: 3px; border: 1px solid #E4ECF2; line-height: 10px;}
+
+.rtl #et_settings_meta_box .hndle.ui-sortable-handle { padding-right: 38px; padding-left: 12px; }
+.rtl #et_settings_meta_box .hndle:before { left: 0; right: 5px; }

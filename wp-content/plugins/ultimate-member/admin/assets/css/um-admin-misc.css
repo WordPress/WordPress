@@ -1,0 +1,259 @@
+/*
+	- Welcome
+*/
+
+.um-about-wrap * {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.um-about-wrap a.um-about-icon {
+	margin: 0 0 0 15px !important;
+	padding: 0 !important;
+	text-decoration: none !important;
+	color: #777 !important;
+	font-size: 22px !important;
+}
+
+.um-about-wrap a.um-about-icon:hover {color: #3ba1da !important}
+
+.um-badge {
+	color: #fff;
+	background: none !important;
+	background: #3ba1da url(../img/logo_small.png) no-repeat center 0px !important;
+}
+
+.um-about-wrap .ultimatemember-actions a.button-primary,
+.um-about-wrap .ultimatemember-actions a.button {
+	vertical-align: top;
+	margin: 0 5px 0 0;
+}
+
+.changelog a.button-primary {
+	height: 40px;
+	line-height: 38px;
+}
+
+.um-about-wrap a {text-decoration: none}
+
+/*
+	- General
+*/
+
+body.um-admin-modal-open {
+    overflow: hidden;
+}
+
+.um-admin #major-publishing-actions{background-color: #fff !important;border-top:0}
+
+.um-admin-hide {display: none}
+
+.um-admin-field {
+	display: block;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.um-admin-field a.button {
+	position: relative;
+	top: 1px;
+	height: 30px !important;
+}
+
+.um-admin-half {
+	float: left;
+	width: 48%;
+}
+
+.um-admin-tri {
+	float: left;
+	width: 33%;
+}
+
+.um-admin-left{float: left}
+.um-admin-right {float: right}
+.um-admin-clear {clear: both}
+
+.um-admin a.um-admin-activebg,
+.um-admin a.um-admin-activebg:hover{
+	background: #3ba1da;
+	color: #fff;
+}
+
+.um-admin a.button i,
+.um-admin a.button-primary i {
+	font-size: 15px !important;
+	height: 15px !important;
+	width: 15px !important;
+	text-align: center !important;
+	margin: 0 5px 0 0 !important;
+	display: inline-block;
+}
+
+.um-admin a.button i:before,
+.um-admin a.button-primary i:before {
+	position: relative;
+	top: 1px;
+}
+
+/*
+	- Form Inputs
+*/
+
+.um-admin-metabox h3 {
+	padding-left: 0 !important;
+}
+
+.um-admin-metabox h4 {
+	font-size: 14px;
+	background: #f5f5f5;
+	padding: 8px 4px;
+	color: #333;
+}
+
+.um-admin-metabox p {margin: 10px 0 0 0}
+
+.um-admin-metabox label{
+	display: block;
+	cursor: default;
+	margin: 0 0 8px 0 !important;
+	padding: 0!important;
+	font-size: 13px;
+	color: #666;
+}
+
+.um-admin-metabox input[type=text]:disabled{
+	opacity: 0.7 !important;
+	color: #aaa !important;
+}
+
+.um-admin-metabox input[type=text] {
+	height: auto !important;
+}
+
+.um-admin-metabox input[type=text],
+.um-admin-metabox textarea {
+	width: 100%;
+	max-width: 100%;
+	display: block;
+	box-sizing: border-box !important;
+	font-size: 13px !important;
+	line-height: 1.4em !important;
+	padding: 4px 10px !important;
+}
+
+.um-admin-metabox textarea {
+	padding: 8px !important;
+	line-height: 1.6em;
+	color: #888 !important;
+}
+
+.um-admin-metabox input[type=text].um-admin-error,
+.um-admin-metabox textarea.um-admin-error
+{border-color: #C74A4A!important}
+
+.um-admin-metabox input[type=text].small {width: 54px}
+
+.um-admin-metabox textarea {min-height: 100px;height: 100px}
+.um-admin-metabox textarea.tall {min-height: 200px;height: 200px}
+
+.wp-picker-container input.wp-color-picker[type="text"] {
+	width: 68px !important;
+	float: left !important;
+	padding: 2px 4px !important;
+	border-width: 1px !important;
+}
+
+/*
+	- Error blocks
+*/
+
+.um-admin-error-block, .um-admin-success-block{
+	display: none;
+	width: 100%;
+	background: #C74A4A;
+	border-radius: 3px;
+	color: #fff;
+	box-sizing: border-box;
+	position: relative;
+	padding: 12px;
+	font-size: 13px;
+	line-height: 1em !important;
+	margin: 0 0 16px 0;
+}
+
+.um-admin-success-block {
+	background: #7ACF58;
+}
+
+/*
+	- Yes or NO UI
+*/
+
+p.disabled-on-off .um-admin-yesno {
+	opacity: 0.5!important;
+	cursor: default !important;
+}
+p.disabled-on-off .um-admin-yesno *{
+	cursor: default !important;
+}
+
+.um-admin-yesno {
+	width: 100px !important;
+	height: 26px;
+	display: block;
+	position: relative;
+	color: #fff;
+}
+
+.um-admin-yesno span.btn {
+	position: absolute;
+	left: 0;
+	top: -2px;
+	width: 50px;
+	height: 28px;
+	text-align: center;
+	background: #f9f9f9;
+	z-index: 999;
+	border-radius: 3px;
+	cursor: pointer;
+	border: solid 1px #D0D9DB;
+	margin: 0;
+	padding: 0 !important;
+}
+
+.um-admin-yesno span.btn.pos-1 {left: 48px}
+
+.um-admin-yesno span.yes, .um-admin-yesno span.no {
+	width: 50px;
+	float: left;
+	line-height: 24px;
+	height: 26px;
+	cursor: default;
+	font-size: 14px;
+	color: #fff;
+	padding: 0 0 0 10px;
+	box-sizing: border-box;
+}
+
+.um-admin-yesno .yes {
+	background: #3ba1da;
+	border-radius: 3px 0 0 3px;
+	border: 1px solid rgba(0,0,0,.2);
+}
+
+.um-admin-yesno .no   {
+	padding: 0 10px 0 0 !important;
+	text-align: right;
+	float: right;
+	background: #fff;
+	color: #222 !important;
+	border-radius: 0 3px 3px 0;
+	border: 1px solid #ddd;
+}
+
+.um-admin.users-php .subsubsub li.subsep {
+	display: block;
+	visibility: hidden;
+	height: 0;
+}

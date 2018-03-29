@@ -1,0 +1,9 @@
+#theme-check .theme-check h2 img {
+	vertical-align: text-bottom;
+}
+
+.redux-error {
+	background: #ddd;
+	padding: 8px;
+	margin-right: 20px;
+}

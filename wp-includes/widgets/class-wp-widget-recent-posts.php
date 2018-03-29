@@ -23,8 +23,8 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	 */
 	public function __construct() {
 		$widget_ops = array(
-			'classname'                   => 'widget_recent_entries',
-			'description'                 => __( 'Your site&#8217;s most recent Posts.' ),
+			'classname' => 'widget_recent_entries',
+			'description' => __( 'Your site&#8217;s most recent Posts.' ),
 			'customize_selective_refresh' => true,
 		);
 		parent::__construct( 'recent-posts', __( 'Recent Posts' ), $widget_ops );
@@ -67,16 +67,12 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		 * @param array $args     An array of arguments used to retrieve the recent posts.
 		 * @param array $instance Array of settings for the current widget.
 		 */
-		$r = new WP_Query(
-			apply_filters(
-				'widget_posts_args', array(
-					'posts_per_page'      => $number,
-					'no_found_rows'       => true,
-					'post_status'         => 'publish',
-					'ignore_sticky_posts' => true,
-				), $instance
-			)
-		);
+		$r = new WP_Query( apply_filters( 'widget_posts_args', array(
+			'posts_per_page'      => $number,
+			'no_found_rows'       => true,
+			'post_status'         => 'publish',
+			'ignore_sticky_posts' => true,
+		), $instance ) );
 
 		if ( ! $r->have_posts() ) {
 			return;
@@ -95,7 +91,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 				$title      = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)' );
 				?>
 				<li>
-					<a href="<?php the_permalink( $recent_post->ID ); ?>"><?php echo $title; ?></a>
+					<a href="<?php the_permalink( $recent_post->ID ); ?>"><?php echo $title ; ?></a>
 					<?php if ( $show_date ) : ?>
 						<span class="post-date"><?php echo get_the_date( '', $recent_post->ID ); ?></span>
 					<?php endif; ?>
@@ -117,9 +113,9 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance              = $old_instance;
-		$instance['title']     = sanitize_text_field( $new_instance['title'] );
-		$instance['number']    = (int) $new_instance['number'];
+		$instance = $old_instance;
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
+		$instance['number'] = (int) $new_instance['number'];
 		$instance['show_date'] = isset( $new_instance['show_date'] ) ? (bool) $new_instance['show_date'] : false;
 		return $instance;
 	}

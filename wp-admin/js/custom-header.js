@@ -1,24 +1,12 @@
 /* global isRtl */
-
-/**
- * Initializes the custom header selection page.
- *
- * @since 3.5.0
- *
- * @global
- * @name Global
- *
- * @deprecated 4.1.0 The page this is used on is never linked to from the UI.
- *             Setting a custom header is completely handled by the Customizer.
- */
 (function($) {
 	var frame;
 
 	$( function() {
-		// Fetch available headers.
+		// Fetch available headers and apply jQuery.masonry
+		// once the images have loaded.
 		var $headers = $('.available-headers');
 
-		// Apply jQuery.masonry once the images have loaded.
 		$headers.imagesLoaded( function() {
 			$headers.masonry({
 				itemSelector: '.default-header',
@@ -26,14 +14,7 @@
 			});
 		});
 
-		/**
-		 * Opens the 'choose from library' frame and creates it if it doesn't exist.
-		 *
-		 * @since 3.5.0
-		 * @deprecated 4.1.0
-		 *
-		 * @returns {void}
-		 */
+		// Build the choose from library frame.
 		$('#choose-from-library-link').click( function( event ) {
 			var $el = $(this);
 			event.preventDefault();
@@ -64,14 +45,7 @@
 				}
 			});
 
-			/**
-			 * Updates the window location to include the selected attachment.
-			 *
-			 * @since 3.5.0
-			 * @deprecated 4.1.0
-			 *
-			 * @returns {void}
-			 */
+			// When an image is selected, run a callback.
 			frame.on( 'select', function() {
 				// Grab the selected attachment.
 				var attachment = frame.state().get('selection').first(),

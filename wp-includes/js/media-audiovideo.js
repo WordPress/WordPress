@@ -73,7 +73,7 @@ var media = wp.media,
 
 /**
  *
- * Defines the wp.media.mixin object.
+ * @summary Defines the wp.media.mixin object.
  *
  * @mixin
  *
@@ -83,7 +83,7 @@ wp.media.mixin = {
 	mejsSettings: baseSettings,
 
 	/**
-	 * Pauses and removes all players.
+	 * @summary Pauses and removes all players.
 	 *
 	 * @since 4.2.0
 	 *
@@ -101,7 +101,7 @@ wp.media.mixin = {
 	},
 
 	/**
-	 * Removes the player.
+	 * @summary Removes the player.
 	 *
 	 * Override the MediaElement method for removing a player.
 	 * MediaElement tries to pull the audio/video tag out of
@@ -147,7 +147,7 @@ wp.media.mixin = {
 
 	/**
 	 *
-	 * Removes and resets all players.
+	 * @summary Removes and resets all players.
 	 *
 	 * Allows any class that has set 'player' to a MediaElementPlayer
 	 * instance to remove the player when listening to events.
@@ -168,7 +168,7 @@ wp.media.mixin = {
 };
 
 /**
- * Shortcode modeling for playlists.
+ * @summary Shortcode modeling for playlists.
  *
  * @since 4.2.0
  */
@@ -187,7 +187,7 @@ wp.media.playlist = new wp.media.collection({
 });
 
 /**
- * Shortcode modeling for audio.
+ * @summary Shortcode modeling for audio.
  *
  * `edit()` prepares the shortcode for the media modal.
  * `shortcode()` builds the new shortcode after an update.
@@ -209,7 +209,7 @@ wp.media.audio = {
 	},
 
 	/**
-	 * Instantiates a new media object with the next matching shortcode.
+	 * @summary Instantiates a new media object with the next matching shortcode.
 	 *
 	 * @since 4.2.0
 	 *
@@ -229,7 +229,7 @@ wp.media.audio = {
 	},
 
 	/**
-	 * Generates an audio shortcode.
+	 * @summary Generates an audio shortcode.
 	 *
 	 * @since 4.2.0
 	 *
@@ -259,7 +259,7 @@ wp.media.audio = {
 };
 
 /**
- * Shortcode modeling for video.
+ * @summary Shortcode modeling for video.
  *
  *  `edit()` prepares the shortcode for the media modal.
  *  `shortcode()` builds the new shortcode after update.
@@ -284,7 +284,7 @@ wp.media.video = {
 	},
 
 	/**
-	 * Instantiates a new media object with the next matching shortcode.
+	 * @summary Instantiates a new media object with the next matching shortcode.
 	 *
 	 * @since 4.2.0
 	 *
@@ -309,7 +309,7 @@ wp.media.video = {
 	},
 
 	/**
-	 * Generates an video shortcode.
+	 * @summary Generates an video shortcode.
 	 *
 	 * @since 4.2.0
 	 *

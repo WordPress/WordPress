@@ -1,0 +1,615 @@
+/* Elusive Icons uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+
+.#{$el-css-prefix}-icon-address-book-alt:before,
+.#{$el-css-prefix}-address-book-alt:before { content: $el-var-address-book-alt; }
+.#{$el-css-prefix}-icon-address-book:before,
+.#{$el-css-prefix}-address-book:before { content: $el-var-address-book; }
+.#{$el-css-prefix}-icon-adjust-alt:before,
+.#{$el-css-prefix}-adjust-alt:before { content: $el-var-adjust-alt; }
+.#{$el-css-prefix}-icon-adjust:before,
+.#{$el-css-prefix}-adjust:before { content: $el-var-adjust; }
+.#{$el-css-prefix}-icon-adult:before,
+.#{$el-css-prefix}-adult:before { content: $el-var-adult; }
+.#{$el-css-prefix}-icon-align-center:before,
+.#{$el-css-prefix}-align-center:before { content: $el-var-align-center; }
+.#{$el-css-prefix}-icon-align-justify:before,
+.#{$el-css-prefix}-align-justify:before { content: $el-var-align-justify; }
+.#{$el-css-prefix}-icon-align-left:before,
+.#{$el-css-prefix}-align-left:before { content: $el-var-align-left; }
+.#{$el-css-prefix}-icon-align-right:before,
+.#{$el-css-prefix}-align-right:before { content: $el-var-align-right; }
+.#{$el-css-prefix}-icon-arrow-down:before,
+.#{$el-css-prefix}-arrow-down:before { content: $el-var-arrow-down; }
+.#{$el-css-prefix}-icon-arrow-left:before,
+.#{$el-css-prefix}-arrow-left:before { content: $el-var-arrow-left; }
+.#{$el-css-prefix}-icon-arrow-right:before,
+.#{$el-css-prefix}-arrow-right:before { content: $el-var-arrow-right; }
+.#{$el-css-prefix}-icon-arrow-up:before,
+.#{$el-css-prefix}-arrow-up:before { content: $el-var-arrow-up; }
+.#{$el-css-prefix}-icon-asl:before,
+.#{$el-css-prefix}-asl:before { content: $el-var-asl; }
+.#{$el-css-prefix}-icon-asterisk:before,
+.#{$el-css-prefix}-asterisk:before { content: $el-var-asterisk; }
+.#{$el-css-prefix}-icon-backward:before,
+.#{$el-css-prefix}-backward:before { content: $el-var-backward; }
+.#{$el-css-prefix}-icon-ban-circle:before,
+.#{$el-css-prefix}-ban-circle:before { content: $el-var-ban-circle; }
+.#{$el-css-prefix}-icon-barcode:before,
+.#{$el-css-prefix}-barcode:before { content: $el-var-barcode; }
+.#{$el-css-prefix}-icon-behance:before,
+.#{$el-css-prefix}-behance:before { content: $el-var-behance; }
+.#{$el-css-prefix}-icon-bell:before,
+.#{$el-css-prefix}-bell:before { content: $el-var-bell; }
+.#{$el-css-prefix}-icon-blind:before,
+.#{$el-css-prefix}-blind:before { content: $el-var-blind; }
+.#{$el-css-prefix}-icon-blogger:before,
+.#{$el-css-prefix}-blogger:before { content: $el-var-blogger; }
+.#{$el-css-prefix}-icon-bold:before,
+.#{$el-css-prefix}-bold:before { content: $el-var-bold; }
+.#{$el-css-prefix}-icon-book:before,
+.#{$el-css-prefix}-book:before { content: $el-var-book; }
+.#{$el-css-prefix}-icon-bookmark-empty:before,
+.#{$el-css-prefix}-bookmark-empty:before { content: $el-var-bookmark-empty; }
+.#{$el-css-prefix}-icon-bookmark:before,
+.#{$el-css-prefix}-bookmark:before { content: $el-var-bookmark; }
+.#{$el-css-prefix}-icon-brackets:before,
+.#{$el-css-prefix}-brackets:before { content: $el-var-brackets; }
+.#{$el-css-prefix}-icon-braille:before,
+.#{$el-css-prefix}-braille:before { content: $el-var-braille; }
+.#{$el-css-prefix}-icon-briefcase:before,
+.#{$el-css-prefix}-briefcase:before { content: $el-var-briefcase; }
+.#{$el-css-prefix}-icon-broom:before,
+.#{$el-css-prefix}-broom:before { content: $el-var-broom; }
+.#{$el-css-prefix}-icon-brush:before,
+.#{$el-css-prefix}-brush:before { content: $el-var-brush; }
+.#{$el-css-prefix}-icon-bulb:before,
+.#{$el-css-prefix}-bulb:before { content: $el-var-bulb; }
+.#{$el-css-prefix}-icon-bullhorn:before,
+.#{$el-css-prefix}-bullhorn:before { content: $el-var-bullhorn; }
+.#{$el-css-prefix}-icon-calendar-sign:before,
+.#{$el-css-prefix}-calendar-sign:before { content: $el-var-calendar-sign; }
+.#{$el-css-prefix}-icon-calendar:before,
+.#{$el-css-prefix}-calendar:before { content: $el-var-calendar; }
+.#{$el-css-prefix}-icon-camera:before,
+.#{$el-css-prefix}-camera:before { content: $el-var-camera; }
+.#{$el-css-prefix}-icon-car:before,
+.#{$el-css-prefix}-car:before { content: $el-var-car; }
+.#{$el-css-prefix}-icon-caret-down:before,
+.#{$el-css-prefix}-caret-down:before { content: $el-var-caret-down; }
+.#{$el-css-prefix}-icon-caret-left:before,
+.#{$el-css-prefix}-caret-left:before { content: $el-var-caret-left; }
+.#{$el-css-prefix}-icon-caret-right:before,
+.#{$el-css-prefix}-caret-right:before { content: $el-var-caret-right; }
+.#{$el-css-prefix}-icon-caret-up:before,
+.#{$el-css-prefix}-caret-up:before { content: $el-var-caret-up; }
+.#{$el-css-prefix}-icon-cc:before,
+.#{$el-css-prefix}-cc:before { content: $el-var-cc; }
+.#{$el-css-prefix}-icon-certificate:before,
+.#{$el-css-prefix}-certificate:before { content: $el-var-certificate; }
+.#{$el-css-prefix}-icon-check-empty:before,
+.#{$el-css-prefix}-check-empty:before { content: $el-var-check-empty; }
+.#{$el-css-prefix}-icon-check:before,
+.#{$el-css-prefix}-check:before { content: $el-var-check; }
+.#{$el-css-prefix}-icon-chevron-down:before,
+.#{$el-css-prefix}-chevron-down:before { content: $el-var-chevron-down; }
+.#{$el-css-prefix}-icon-chevron-left:before,
+.#{$el-css-prefix}-chevron-left:before { content: $el-var-chevron-left; }
+.#{$el-css-prefix}-icon-chevron-right:before,
+.#{$el-css-prefix}-chevron-right:before { content: $el-var-chevron-right; }
+.#{$el-css-prefix}-icon-chevron-up:before,
+.#{$el-css-prefix}-chevron-up:before { content: $el-var-chevron-up; }
+.#{$el-css-prefix}-icon-child:before,
+.#{$el-css-prefix}-child:before { content: $el-var-child; }
+.#{$el-css-prefix}-icon-circle-arrow-down:before,
+.#{$el-css-prefix}-circle-arrow-down:before { content: $el-var-circle-arrow-down; }
+.#{$el-css-prefix}-icon-circle-arrow-left:before,
+.#{$el-css-prefix}-circle-arrow-left:before { content: $el-var-circle-arrow-left; }
+.#{$el-css-prefix}-icon-circle-arrow-right:before,
+.#{$el-css-prefix}-circle-arrow-right:before { content: $el-var-circle-arrow-right; }
+.#{$el-css-prefix}-icon-circle-arrow-up:before,
+.#{$el-css-prefix}-circle-arrow-up:before { content: $el-var-circle-arrow-up; }
+.#{$el-css-prefix}-icon-cloud-alt:before,
+.#{$el-css-prefix}-cloud-alt:before { content: $el-var-cloud-alt; }
+.#{$el-css-prefix}-icon-cloud:before,
+.#{$el-css-prefix}-cloud:before { content: $el-var-cloud; }
+.#{$el-css-prefix}-icon-cog-alt:before,
+.#{$el-css-prefix}-cog-alt:before { content: $el-var-cog-alt; }
+.#{$el-css-prefix}-icon-cog:before,
+.#{$el-css-prefix}-cog:before { content: $el-var-cog; }
+.#{$el-css-prefix}-icon-cogs:before,
+.#{$el-css-prefix}-cogs:before { content: $el-var-cogs; }
+.#{$el-css-prefix}-icon-comment-alt:before,
+.#{$el-css-prefix}-comment-alt:before { content: $el-var-comment-alt; }
+.#{$el-css-prefix}-icon-comment:before,
+.#{$el-css-prefix}-comment:before { content: $el-var-comment; }
+.#{$el-css-prefix}-icon-compass-alt:before,
+.#{$el-css-prefix}-compass-alt:before { content: $el-var-compass-alt; }
+.#{$el-css-prefix}-icon-compass:before,
+.#{$el-css-prefix}-compass:before { content: $el-var-compass; }
+.#{$el-css-prefix}-icon-credit-card:before,
+.#{$el-css-prefix}-credit-card:before { content: $el-var-credit-card; }
+.#{$el-css-prefix}-icon-css:before,
+.#{$el-css-prefix}-css:before { content: $el-var-css; }
+.#{$el-css-prefix}-icon-dashboard:before,
+.#{$el-css-prefix}-dashboard:before { content: $el-var-dashboard; }
+.#{$el-css-prefix}-icon-delicious:before,
+.#{$el-css-prefix}-delicious:before { content: $el-var-delicious; }
+.#{$el-css-prefix}-icon-deviantart:before,
+.#{$el-css-prefix}-deviantart:before { content: $el-var-deviantart; }
+.#{$el-css-prefix}-icon-digg:before,
+.#{$el-css-prefix}-digg:before { content: $el-var-digg; }
+.#{$el-css-prefix}-icon-download-alt:before,
+.#{$el-css-prefix}-download-alt:before { content: $el-var-download-alt; }
+.#{$el-css-prefix}-icon-download:before,
+.#{$el-css-prefix}-download:before { content: $el-var-download; }
+.#{$el-css-prefix}-icon-dribbble:before,
+.#{$el-css-prefix}-dribbble:before { content: $el-var-dribbble; }
+.#{$el-css-prefix}-icon-edit:before,
+.#{$el-css-prefix}-edit:before { content: $el-var-edit; }
+.#{$el-css-prefix}-icon-eject:before,
+.#{$el-css-prefix}-eject:before { content: $el-var-eject; }
+.#{$el-css-prefix}-icon-envelope-alt:before,
+.#{$el-css-prefix}-envelope-alt:before { content: $el-var-envelope-alt; }
+.#{$el-css-prefix}-icon-envelope:before,
+.#{$el-css-prefix}-envelope:before { content: $el-var-envelope; }
+.#{$el-css-prefix}-icon-error-alt:before,
+.#{$el-css-prefix}-error-alt:before { content: $el-var-error-alt; }
+.#{$el-css-prefix}-icon-error:before,
+.#{$el-css-prefix}-error:before { content: $el-var-error; }
+.#{$el-css-prefix}-icon-eur:before,
+.#{$el-css-prefix}-eur:before { content: $el-var-eur; }
+.#{$el-css-prefix}-icon-exclamation-sign:before,
+.#{$el-css-prefix}-exclamation-sign:before { content: $el-var-exclamation-sign; }
+.#{$el-css-prefix}-icon-eye-close:before,
+.#{$el-css-prefix}-eye-close:before { content: $el-var-eye-close; }
+.#{$el-css-prefix}-icon-eye-open:before,
+.#{$el-css-prefix}-eye-open:before { content: $el-var-eye-open; }
+.#{$el-css-prefix}-icon-facebook:before,
+.#{$el-css-prefix}-facebook:before { content: $el-var-facebook; }
+.#{$el-css-prefix}-icon-facetime-video:before,
+.#{$el-css-prefix}-facetime-video:before { content: $el-var-facetime-video; }
+.#{$el-css-prefix}-icon-fast-backward:before,
+.#{$el-css-prefix}-fast-backward:before { content: $el-var-fast-backward; }
+.#{$el-css-prefix}-icon-fast-forward:before,
+.#{$el-css-prefix}-fast-forward:before { content: $el-var-fast-forward; }
+.#{$el-css-prefix}-icon-female:before,
+.#{$el-css-prefix}-female:before { content: $el-var-female; }
+.#{$el-css-prefix}-icon-file-alt:before,
+.#{$el-css-prefix}-file-alt:before { content: $el-var-file-alt; }
+.#{$el-css-prefix}-icon-file-edit-alt:before,
+.#{$el-css-prefix}-file-edit-alt:before { content: $el-var-file-edit-alt; }
+.#{$el-css-prefix}-icon-file-edit:before,
+.#{$el-css-prefix}-file-edit:before { content: $el-var-file-edit; }
+.#{$el-css-prefix}-icon-file-new-alt:before,
+.#{$el-css-prefix}-file-new-alt:before { content: $el-var-file-new-alt; }
+.#{$el-css-prefix}-icon-file-new:before,
+.#{$el-css-prefix}-file-new:before { content: $el-var-file-new; }
+.#{$el-css-prefix}-icon-file:before,
+.#{$el-css-prefix}-file:before { content: $el-var-file; }
+.#{$el-css-prefix}-icon-film:before,
+.#{$el-css-prefix}-film:before { content: $el-var-film; }
+.#{$el-css-prefix}-icon-filter:before,
+.#{$el-css-prefix}-filter:before { content: $el-var-filter; }
+.#{$el-css-prefix}-icon-fire:before,
+.#{$el-css-prefix}-fire:before { content: $el-var-fire; }
+.#{$el-css-prefix}-icon-flag-alt:before,
+.#{$el-css-prefix}-flag-alt:before { content: $el-var-flag-alt; }
+.#{$el-css-prefix}-icon-flag:before,
+.#{$el-css-prefix}-flag:before { content: $el-var-flag; }
+.#{$el-css-prefix}-icon-flickr:before,
+.#{$el-css-prefix}-flickr:before { content: $el-var-flickr; }
+.#{$el-css-prefix}-icon-folder-close:before,
+.#{$el-css-prefix}-folder-close:before { content: $el-var-folder-close; }
+.#{$el-css-prefix}-icon-folder-open:before,
+.#{$el-css-prefix}-folder-open:before { content: $el-var-folder-open; }
+.#{$el-css-prefix}-icon-folder-sign:before,
+.#{$el-css-prefix}-folder-sign:before { content: $el-var-folder-sign; }
+.#{$el-css-prefix}-icon-folder:before,
+.#{$el-css-prefix}-folder:before { content: $el-var-folder; }
+.#{$el-css-prefix}-icon-font:before,
+.#{$el-css-prefix}-font:before { content: $el-var-font; }
+.#{$el-css-prefix}-icon-fontsize:before,
+.#{$el-css-prefix}-fontsize:before { content: $el-var-fontsize; }
+.#{$el-css-prefix}-icon-fork:before,
+.#{$el-css-prefix}-fork:before { content: $el-var-fork; }
+.#{$el-css-prefix}-icon-forward-alt:before,
+.#{$el-css-prefix}-forward-alt:before { content: $el-var-forward-alt; }
+.#{$el-css-prefix}-icon-forward:before,
+.#{$el-css-prefix}-forward:before { content: $el-var-forward; }
+.#{$el-css-prefix}-icon-foursquare:before,
+.#{$el-css-prefix}-foursquare:before { content: $el-var-foursquare; }
+.#{$el-css-prefix}-icon-friendfeed-rect:before,
+.#{$el-css-prefix}-friendfeed-rect:before { content: $el-var-friendfeed-rect; }
+.#{$el-css-prefix}-icon-friendfeed:before,
+.#{$el-css-prefix}-friendfeed:before { content: $el-var-friendfeed; }
+.#{$el-css-prefix}-icon-fullscreen:before,
+.#{$el-css-prefix}-fullscreen:before { content: $el-var-fullscreen; }
+.#{$el-css-prefix}-icon-gallery:before,
+.#{$el-css-prefix}-gallery:before { content: $el-var-gallery; }
+.#{$el-css-prefix}-icon-gbp:before,
+.#{$el-css-prefix}-gbp:before { content: $el-var-gbp; }
+.#{$el-css-prefix}-icon-gift:before,
+.#{$el-css-prefix}-gift:before { content: $el-var-gift; }
+.#{$el-css-prefix}-icon-github-text:before,
+.#{$el-css-prefix}-github-text:before { content: $el-var-github-text; }
+.#{$el-css-prefix}-icon-github:before,
+.#{$el-css-prefix}-github:before { content: $el-var-github; }
+.#{$el-css-prefix}-icon-glass:before,
+.#{$el-css-prefix}-glass:before { content: $el-var-glass; }
+.#{$el-css-prefix}-icon-glasses:before,
+.#{$el-css-prefix}-glasses:before { content: $el-var-glasses; }
+.#{$el-css-prefix}-icon-globe-alt:before,
+.#{$el-css-prefix}-globe-alt:before { content: $el-var-globe-alt; }
+.#{$el-css-prefix}-icon-globe:before,
+.#{$el-css-prefix}-globe:before { content: $el-var-globe; }
+.#{$el-css-prefix}-icon-googleplus:before,
+.#{$el-css-prefix}-googleplus:before { content: $el-var-googleplus; }
+.#{$el-css-prefix}-icon-graph-alt:before,
+.#{$el-css-prefix}-graph-alt:before { content: $el-var-graph-alt; }
+.#{$el-css-prefix}-icon-graph:before,
+.#{$el-css-prefix}-graph:before { content: $el-var-graph; }
+.#{$el-css-prefix}-icon-group-alt:before,
+.#{$el-css-prefix}-group-alt:before { content: $el-var-group-alt; }
+.#{$el-css-prefix}-icon-group:before,
+.#{$el-css-prefix}-group:before { content: $el-var-group; }
+.#{$el-css-prefix}-icon-guidedog:before,
+.#{$el-css-prefix}-guidedog:before { content: $el-var-guidedog; }
+.#{$el-css-prefix}-icon-hand-down:before,
+.#{$el-css-prefix}-hand-down:before { content: $el-var-hand-down; }
+.#{$el-css-prefix}-icon-hand-left:before,
+.#{$el-css-prefix}-hand-left:before { content: $el-var-hand-left; }
+.#{$el-css-prefix}-icon-hand-right:before,
+.#{$el-css-prefix}-hand-right:before { content: $el-var-hand-right; }
+.#{$el-css-prefix}-icon-hand-up:before,
+.#{$el-css-prefix}-hand-up:before { content: $el-var-hand-up; }
+.#{$el-css-prefix}-icon-hdd:before,
+.#{$el-css-prefix}-hdd:before { content: $el-var-hdd; }
+.#{$el-css-prefix}-icon-headphones:before,
+.#{$el-css-prefix}-headphones:before { content: $el-var-headphones; }
+.#{$el-css-prefix}-icon-hearing-impaired:before,
+.#{$el-css-prefix}-hearing-impaired:before { content: $el-var-hearing-impaired; }
+.#{$el-css-prefix}-icon-heart-alt:before,
+.#{$el-css-prefix}-heart-alt:before { content: $el-var-heart-alt; }
+.#{$el-css-prefix}-icon-heart-empty:before,
+.#{$el-css-prefix}-heart-empty:before { content: $el-var-heart-empty; }
+.#{$el-css-prefix}-icon-heart:before,
+.#{$el-css-prefix}-heart:before { content: $el-var-heart; }
+.#{$el-css-prefix}-icon-home-alt:before,
+.#{$el-css-prefix}-home-alt:before { content: $el-var-home-alt; }
+.#{$el-css-prefix}-icon-home:before,
+.#{$el-css-prefix}-home:before { content: $el-var-home; }
+.#{$el-css-prefix}-icon-hourglass:before,
+.#{$el-css-prefix}-hourglass:before { content: $el-var-hourglass; }
+.#{$el-css-prefix}-icon-idea-alt:before,
+.#{$el-css-prefix}-idea-alt:before { content: $el-var-idea-alt; }
+.#{$el-css-prefix}-icon-idea:before,
+.#{$el-css-prefix}-idea:before { content: $el-var-idea; }
+.#{$el-css-prefix}-icon-inbox-alt:before,
+.#{$el-css-prefix}-inbox-alt:before { content: $el-var-inbox-alt; }
+.#{$el-css-prefix}-icon-inbox-box:before,
+.#{$el-css-prefix}-inbox-box:before { content: $el-var-inbox-box; }
+.#{$el-css-prefix}-icon-inbox:before,
+.#{$el-css-prefix}-inbox:before { content: $el-var-inbox; }
+.#{$el-css-prefix}-icon-indent-left:before,
+.#{$el-css-prefix}-indent-left:before { content: $el-var-indent-left; }
+.#{$el-css-prefix}-icon-indent-right:before,
+.#{$el-css-prefix}-indent-right:before { content: $el-var-indent-right; }
+.#{$el-css-prefix}-icon-info-circle:before,
+.#{$el-css-prefix}-info-circle:before { content: $el-var-info-circle; }
+.#{$el-css-prefix}-icon-instagram:before,
+.#{$el-css-prefix}-instagram:before { content: $el-var-instagram; }
+.#{$el-css-prefix}-icon-iphone-home:before,
+.#{$el-css-prefix}-iphone-home:before { content: $el-var-iphone-home; }
+.#{$el-css-prefix}-icon-italic:before,
+.#{$el-css-prefix}-italic:before { content: $el-var-italic; }
+.#{$el-css-prefix}-icon-key:before,
+.#{$el-css-prefix}-key:before { content: $el-var-key; }
+.#{$el-css-prefix}-icon-laptop-alt:before,
+.#{$el-css-prefix}-laptop-alt:before { content: $el-var-laptop-alt; }
+.#{$el-css-prefix}-icon-laptop:before,
+.#{$el-css-prefix}-laptop:before { content: $el-var-laptop; }
+.#{$el-css-prefix}-icon-lastfm:before,
+.#{$el-css-prefix}-lastfm:before { content: $el-var-lastfm; }
+.#{$el-css-prefix}-icon-leaf:before,
+.#{$el-css-prefix}-leaf:before { content: $el-var-leaf; }
+.#{$el-css-prefix}-icon-lines:before,
+.#{$el-css-prefix}-lines:before { content: $el-var-lines; }
+.#{$el-css-prefix}-icon-link:before,
+.#{$el-css-prefix}-link:before { content: $el-var-link; }
+.#{$el-css-prefix}-icon-linkedin:before,
+.#{$el-css-prefix}-linkedin:before { content: $el-var-linkedin; }
+.#{$el-css-prefix}-icon-list-alt:before,
+.#{$el-css-prefix}-list-alt:before { content: $el-var-list-alt; }
+.#{$el-css-prefix}-icon-list:before,
+.#{$el-css-prefix}-list:before { content: $el-var-list; }
+.#{$el-css-prefix}-icon-livejournal:before,
+.#{$el-css-prefix}-livejournal:before { content: $el-var-livejournal; }
+.#{$el-css-prefix}-icon-lock-alt:before,
+.#{$el-css-prefix}-lock-alt:before { content: $el-var-lock-alt; }
+.#{$el-css-prefix}-icon-lock:before,
+.#{$el-css-prefix}-lock:before { content: $el-var-lock; }
+.#{$el-css-prefix}-icon-magic:before,
+.#{$el-css-prefix}-magic:before { content: $el-var-magic; }
+.#{$el-css-prefix}-icon-magnet:before,
+.#{$el-css-prefix}-magnet:before { content: $el-var-magnet; }
+.#{$el-css-prefix}-icon-male:before,
+.#{$el-css-prefix}-male:before { content: $el-var-male; }
+.#{$el-css-prefix}-icon-map-marker-alt:before,
+.#{$el-css-prefix}-map-marker-alt:before { content: $el-var-map-marker-alt; }
+.#{$el-css-prefix}-icon-map-marker:before,
+.#{$el-css-prefix}-map-marker:before { content: $el-var-map-marker; }
+.#{$el-css-prefix}-icon-mic-alt:before,
+.#{$el-css-prefix}-mic-alt:before { content: $el-var-mic-alt; }
+.#{$el-css-prefix}-icon-mic:before,
+.#{$el-css-prefix}-mic:before { content: $el-var-mic; }
+.#{$el-css-prefix}-icon-minus-sign:before,
+.#{$el-css-prefix}-minus-sign:before { content: $el-var-minus-sign; }
+.#{$el-css-prefix}-icon-minus:before,
+.#{$el-css-prefix}-minus:before { content: $el-var-minus; }
+.#{$el-css-prefix}-icon-move:before,
+.#{$el-css-prefix}-move:before { content: $el-var-move; }
+.#{$el-css-prefix}-icon-music:before,
+.#{$el-css-prefix}-music:before { content: $el-var-music; }
+.#{$el-css-prefix}-icon-myspace:before,
+.#{$el-css-prefix}-myspace:before { content: $el-var-myspace; }
+.#{$el-css-prefix}-icon-network:before,
+.#{$el-css-prefix}-network:before { content: $el-var-network; }
+.#{$el-css-prefix}-icon-off:before,
+.#{$el-css-prefix}-off:before { content: $el-var-off; }
+.#{$el-css-prefix}-icon-ok-circle:before,
+.#{$el-css-prefix}-ok-circle:before { content: $el-var-ok-circle; }
+.#{$el-css-prefix}-icon-ok-sign:before,
+.#{$el-css-prefix}-ok-sign:before { content: $el-var-ok-sign; }
+.#{$el-css-prefix}-icon-ok:before,
+.#{$el-css-prefix}-ok:before { content: $el-var-ok; }
+.#{$el-css-prefix}-icon-opensource:before,
+.#{$el-css-prefix}-opensource:before { content: $el-var-opensource; }
+.#{$el-css-prefix}-icon-paper-clip-alt:before,
+.#{$el-css-prefix}-paper-clip-alt:before { content: $el-var-paper-clip-alt; }
+.#{$el-css-prefix}-icon-paper-clip:before,
+.#{$el-css-prefix}-paper-clip:before { content: $el-var-paper-clip; }
+.#{$el-css-prefix}-icon-path:before,
+.#{$el-css-prefix}-path:before { content: $el-var-path; }
+.#{$el-css-prefix}-icon-pause-alt:before,
+.#{$el-css-prefix}-pause-alt:before { content: $el-var-pause-alt; }
+.#{$el-css-prefix}-icon-pause:before,
+.#{$el-css-prefix}-pause:before { content: $el-var-pause; }
+.#{$el-css-prefix}-icon-pencil-alt:before,
+.#{$el-css-prefix}-pencil-alt:before { content: $el-var-pencil-alt; }
+.#{$el-css-prefix}-icon-pencil:before,
+.#{$el-css-prefix}-pencil:before { content: $el-var-pencil; }
+.#{$el-css-prefix}-icon-person:before,
+.#{$el-css-prefix}-person:before { content: $el-var-person; }
+.#{$el-css-prefix}-icon-phone-alt:before,
+.#{$el-css-prefix}-phone-alt:before { content: $el-var-phone-alt; }
+.#{$el-css-prefix}-icon-phone:before,
+.#{$el-css-prefix}-phone:before { content: $el-var-phone; }
+.#{$el-css-prefix}-icon-photo-alt:before,
+.#{$el-css-prefix}-photo-alt:before { content: $el-var-photo-alt; }
+.#{$el-css-prefix}-icon-photo:before,
+.#{$el-css-prefix}-photo:before { content: $el-var-photo; }
+.#{$el-css-prefix}-icon-picasa:before,
+.#{$el-css-prefix}-picasa:before { content: $el-var-picasa; }
+.#{$el-css-prefix}-icon-picture:before,
+.#{$el-css-prefix}-picture:before { content: $el-var-picture; }
+.#{$el-css-prefix}-icon-plane:before,
+.#{$el-css-prefix}-plane:before { content: $el-var-plane; }
+.#{$el-css-prefix}-icon-play-alt:before,
+.#{$el-css-prefix}-play-alt:before { content: $el-var-play-alt; }
+.#{$el-css-prefix}-icon-play-circle:before,
+.#{$el-css-prefix}-play-circle:before { content: $el-var-play-circle; }
+.#{$el-css-prefix}-icon-play:before,
+.#{$el-css-prefix}-play:before { content: $el-var-play; }
+.#{$el-css-prefix}-icon-plurk-alt:before,
+.#{$el-css-prefix}-plurk-alt:before { content: $el-var-plurk-alt; }
+.#{$el-css-prefix}-icon-plurk:before,
+.#{$el-css-prefix}-plurk:before { content: $el-var-plurk; }
+.#{$el-css-prefix}-icon-plus-sign:before,
+.#{$el-css-prefix}-plus-sign:before { content: $el-var-plus-sign; }
+.#{$el-css-prefix}-icon-plus:before,
+.#{$el-css-prefix}-plus:before { content: $el-var-plus; }
+.#{$el-css-prefix}-icon-podcast:before,
+.#{$el-css-prefix}-podcast:before { content: $el-var-podcast; }
+.#{$el-css-prefix}-icon-print:before,
+.#{$el-css-prefix}-print:before { content: $el-var-print; }
+.#{$el-css-prefix}-icon-puzzle:before,
+.#{$el-css-prefix}-puzzle:before { content: $el-var-puzzle; }
+.#{$el-css-prefix}-icon-qrcode:before,
+.#{$el-css-prefix}-qrcode:before { content: $el-var-qrcode; }
+.#{$el-css-prefix}-icon-question-sign:before,
+.#{$el-css-prefix}-question-sign:before { content: $el-var-question-sign; }
+.#{$el-css-prefix}-icon-question:before,
+.#{$el-css-prefix}-question:before { content: $el-var-question; }
+.#{$el-css-prefix}-icon-quote-alt:before,
+.#{$el-css-prefix}-quote-alt:before { content: $el-var-quote-alt; }
+.#{$el-css-prefix}-icon-quote-right-alt:before,
+.#{$el-css-prefix}-quote-right-alt:before { content: $el-var-quote-right-alt; }
+.#{$el-css-prefix}-icon-quote-right:before,
+.#{$el-css-prefix}-quote-right:before { content: $el-var-quote-right; }
+.#{$el-css-prefix}-icon-quotes:before,
+.#{$el-css-prefix}-quotes:before { content: $el-var-quotes; }
+.#{$el-css-prefix}-icon-random:before,
+.#{$el-css-prefix}-random:before { content: $el-var-random; }
+.#{$el-css-prefix}-icon-record:before,
+.#{$el-css-prefix}-record:before { content: $el-var-record; }
+.#{$el-css-prefix}-icon-reddit:before,
+.#{$el-css-prefix}-reddit:before { content: $el-var-reddit; }
+.#{$el-css-prefix}-icon-redux:before,
+.#{$el-css-prefix}-redux:before { content: $el-var-redux; }
+.#{$el-css-prefix}-icon-refresh:before,
+.#{$el-css-prefix}-refresh:before { content: $el-var-refresh; }
+.#{$el-css-prefix}-icon-remove-circle:before,
+.#{$el-css-prefix}-remove-circle:before { content: $el-var-remove-circle; }
+.#{$el-css-prefix}-icon-remove-sign:before,
+.#{$el-css-prefix}-remove-sign:before { content: $el-var-remove-sign; }
+.#{$el-css-prefix}-icon-remove:before,
+.#{$el-css-prefix}-remove:before { content: $el-var-remove; }
+.#{$el-css-prefix}-icon-repeat-alt:before,
+.#{$el-css-prefix}-repeat-alt:before { content: $el-var-repeat-alt; }
+.#{$el-css-prefix}-icon-repeat:before,
+.#{$el-css-prefix}-repeat:before { content: $el-var-repeat; }
+.#{$el-css-prefix}-icon-resize-full:before,
+.#{$el-css-prefix}-resize-full:before { content: $el-var-resize-full; }
+.#{$el-css-prefix}-icon-resize-horizontal:before,
+.#{$el-css-prefix}-resize-horizontal:before { content: $el-var-resize-horizontal; }
+.#{$el-css-prefix}-icon-resize-small:before,
+.#{$el-css-prefix}-resize-small:before { content: $el-var-resize-small; }
+.#{$el-css-prefix}-icon-resize-vertical:before,
+.#{$el-css-prefix}-resize-vertical:before { content: $el-var-resize-vertical; }
+.#{$el-css-prefix}-icon-return-key:before,
+.#{$el-css-prefix}-return-key:before { content: $el-var-return-key; }
+.#{$el-css-prefix}-icon-retweet:before,
+.#{$el-css-prefix}-retweet:before { content: $el-var-retweet; }
+.#{$el-css-prefix}-icon-reverse-alt:before,
+.#{$el-css-prefix}-reverse-alt:before { content: $el-var-reverse-alt; }
+.#{$el-css-prefix}-icon-road:before,
+.#{$el-css-prefix}-road:before { content: $el-var-road; }
+.#{$el-css-prefix}-icon-rss:before,
+.#{$el-css-prefix}-rss:before { content: $el-var-rss; }
+.#{$el-css-prefix}-icon-scissors:before,
+.#{$el-css-prefix}-scissors:before { content: $el-var-scissors; }
+.#{$el-css-prefix}-icon-screen-alt:before,
+.#{$el-css-prefix}-screen-alt:before { content: $el-var-screen-alt; }
+.#{$el-css-prefix}-icon-screen:before,
+.#{$el-css-prefix}-screen:before { content: $el-var-screen; }
+.#{$el-css-prefix}-icon-screenshot:before,
+.#{$el-css-prefix}-screenshot:before { content: $el-var-screenshot; }
+.#{$el-css-prefix}-icon-search-alt:before,
+.#{$el-css-prefix}-search-alt:before { content: $el-var-search-alt; }
+.#{$el-css-prefix}-icon-search:before,
+.#{$el-css-prefix}-search:before { content: $el-var-search; }
+.#{$el-css-prefix}-icon-share-alt:before,
+.#{$el-css-prefix}-share-alt:before { content: $el-var-share-alt; }
+.#{$el-css-prefix}-icon-share:before,
+.#{$el-css-prefix}-share:before { content: $el-var-share; }
+.#{$el-css-prefix}-icon-shopping-cart-sign:before,
+.#{$el-css-prefix}-shopping-cart-sign:before { content: $el-var-shopping-cart-sign; }
+.#{$el-css-prefix}-icon-shopping-cart:before,
+.#{$el-css-prefix}-shopping-cart:before { content: $el-var-shopping-cart; }
+.#{$el-css-prefix}-icon-shortcode:before,
+.#{$el-css-prefix}-shortcode:before { content: $el-var-shortcode; }
+.#{$el-css-prefix}-icon-signal:before,
+.#{$el-css-prefix}-signal:before { content: $el-var-signal; }
+.#{$el-css-prefix}-icon-skype:before,
+.#{$el-css-prefix}-skype:before { content: $el-var-skype; }
+.#{$el-css-prefix}-icon-slideshare:before,
+.#{$el-css-prefix}-slideshare:before { content: $el-var-slideshare; }
+.#{$el-css-prefix}-icon-smiley-alt:before,
+.#{$el-css-prefix}-smiley-alt:before { content: $el-var-smiley-alt; }
+.#{$el-css-prefix}-icon-smiley:before,
+.#{$el-css-prefix}-smiley:before { content: $el-var-smiley; }
+.#{$el-css-prefix}-icon-soundcloud:before,
+.#{$el-css-prefix}-soundcloud:before { content: $el-var-soundcloud; }
+.#{$el-css-prefix}-icon-speaker:before,
+.#{$el-css-prefix}-speaker:before { content: $el-var-speaker; }
+.#{$el-css-prefix}-icon-spotify:before,
+.#{$el-css-prefix}-spotify:before { content: $el-var-spotify; }
+.#{$el-css-prefix}-icon-stackoverflow:before,
+.#{$el-css-prefix}-stackoverflow:before { content: $el-var-stackoverflow; }
+.#{$el-css-prefix}-icon-star-alt:before,
+.#{$el-css-prefix}-star-alt:before { content: $el-var-star-alt; }
+.#{$el-css-prefix}-icon-star-empty:before,
+.#{$el-css-prefix}-star-empty:before { content: $el-var-star-empty; }
+.#{$el-css-prefix}-icon-star:before,
+.#{$el-css-prefix}-star:before { content: $el-var-star; }
+.#{$el-css-prefix}-icon-step-backward:before,
+.#{$el-css-prefix}-step-backward:before { content: $el-var-step-backward; }
+.#{$el-css-prefix}-icon-step-forward:before,
+.#{$el-css-prefix}-step-forward:before { content: $el-var-step-forward; }
+.#{$el-css-prefix}-icon-stop-alt:before,
+.#{$el-css-prefix}-stop-alt:before { content: $el-var-stop-alt; }
+.#{$el-css-prefix}-icon-stop:before,
+.#{$el-css-prefix}-stop:before { content: $el-var-stop; }
+.#{$el-css-prefix}-icon-stumbleupon:before,
+.#{$el-css-prefix}-stumbleupon:before { content: $el-var-stumbleupon; }
+.#{$el-css-prefix}-icon-tag:before,
+.#{$el-css-prefix}-tag:before { content: $el-var-tag; }
+.#{$el-css-prefix}-icon-tags:before,
+.#{$el-css-prefix}-tags:before { content: $el-var-tags; }
+.#{$el-css-prefix}-icon-tasks:before,
+.#{$el-css-prefix}-tasks:before { content: $el-var-tasks; }
+.#{$el-css-prefix}-icon-text-height:before,
+.#{$el-css-prefix}-text-height:before { content: $el-var-text-height; }
+.#{$el-css-prefix}-icon-text-width:before,
+.#{$el-css-prefix}-text-width:before { content: $el-var-text-width; }
+.#{$el-css-prefix}-icon-th-large:before,
+.#{$el-css-prefix}-th-large:before { content: $el-var-th-large; }
+.#{$el-css-prefix}-icon-th-list:before,
+.#{$el-css-prefix}-th-list:before { content: $el-var-th-list; }
+.#{$el-css-prefix}-icon-th:before,
+.#{$el-css-prefix}-th:before { content: $el-var-th; }
+.#{$el-css-prefix}-icon-thumbs-down:before,
+.#{$el-css-prefix}-thumbs-down:before { content: $el-var-thumbs-down; }
+.#{$el-css-prefix}-icon-thumbs-up:before,
+.#{$el-css-prefix}-thumbs-up:before { content: $el-var-thumbs-up; }
+.#{$el-css-prefix}-icon-time-alt:before,
+.#{$el-css-prefix}-time-alt:before { content: $el-var-time-alt; }
+.#{$el-css-prefix}-icon-time:before,
+.#{$el-css-prefix}-time:before { content: $el-var-time; }
+.#{$el-css-prefix}-icon-tint:before,
+.#{$el-css-prefix}-tint:before { content: $el-var-tint; }
+.#{$el-css-prefix}-icon-torso:before,
+.#{$el-css-prefix}-torso:before { content: $el-var-torso; }
+.#{$el-css-prefix}-icon-trash-alt:before,
+.#{$el-css-prefix}-trash-alt:before { content: $el-var-trash-alt; }
+.#{$el-css-prefix}-icon-trash:before,
+.#{$el-css-prefix}-trash:before { content: $el-var-trash; }
+.#{$el-css-prefix}-icon-tumblr:before,
+.#{$el-css-prefix}-tumblr:before { content: $el-var-tumblr; }
+.#{$el-css-prefix}-icon-twitter:before,
+.#{$el-css-prefix}-twitter:before { content: $el-var-twitter; }
+.#{$el-css-prefix}-icon-universal-access:before,
+.#{$el-css-prefix}-universal-access:before { content: $el-var-universal-access; }
+.#{$el-css-prefix}-icon-unlock-alt:before,
+.#{$el-css-prefix}-unlock-alt:before { content: $el-var-unlock-alt; }
+.#{$el-css-prefix}-icon-unlock:before,
+.#{$el-css-prefix}-unlock:before { content: $el-var-unlock; }
+.#{$el-css-prefix}-icon-upload:before,
+.#{$el-css-prefix}-upload:before { content: $el-var-upload; }
+.#{$el-css-prefix}-icon-usd:before,
+.#{$el-css-prefix}-usd:before { content: $el-var-usd; }
+.#{$el-css-prefix}-icon-user:before,
+.#{$el-css-prefix}-user:before { content: $el-var-user; }
+.#{$el-css-prefix}-icon-viadeo:before,
+.#{$el-css-prefix}-viadeo:before { content: $el-var-viadeo; }
+.#{$el-css-prefix}-icon-video-alt:before,
+.#{$el-css-prefix}-video-alt:before { content: $el-var-video-alt; }
+.#{$el-css-prefix}-icon-video-chat:before,
+.#{$el-css-prefix}-video-chat:before { content: $el-var-video-chat; }
+.#{$el-css-prefix}-icon-video:before,
+.#{$el-css-prefix}-video:before { content: $el-var-video; }
+.#{$el-css-prefix}-icon-view-mode:before,
+.#{$el-css-prefix}-view-mode:before { content: $el-var-view-mode; }
+.#{$el-css-prefix}-icon-vimeo:before,
+.#{$el-css-prefix}-vimeo:before { content: $el-var-vimeo; }
+.#{$el-css-prefix}-icon-vkontakte:before,
+.#{$el-css-prefix}-vkontakte:before { content: $el-var-vkontakte; }
+.#{$el-css-prefix}-icon-volume-down:before,
+.#{$el-css-prefix}-volume-down:before { content: $el-var-volume-down; }
+.#{$el-css-prefix}-icon-volume-off:before,
+.#{$el-css-prefix}-volume-off:before { content: $el-var-volume-off; }
+.#{$el-css-prefix}-icon-volume-up:before,
+.#{$el-css-prefix}-volume-up:before { content: $el-var-volume-up; }
+.#{$el-css-prefix}-icon-w3c:before,
+.#{$el-css-prefix}-w3c:before { content: $el-var-w3c; }
+.#{$el-css-prefix}-icon-warning-sign:before,
+.#{$el-css-prefix}-warning-sign:before { content: $el-var-warning-sign; }
+.#{$el-css-prefix}-icon-website-alt:before,
+.#{$el-css-prefix}-website-alt:before { content: $el-var-website-alt; }
+.#{$el-css-prefix}-icon-website:before,
+.#{$el-css-prefix}-website:before { content: $el-var-website; }
+.#{$el-css-prefix}-icon-wheelchair:before,
+.#{$el-css-prefix}-wheelchair:before { content: $el-var-wheelchair; }
+.#{$el-css-prefix}-icon-wordpress:before,
+.#{$el-css-prefix}-wordpress:before { content: $el-var-wordpress; }
+.#{$el-css-prefix}-icon-wrench-alt:before,
+.#{$el-css-prefix}-wrench-alt:before { content: $el-var-wrench-alt; }
+.#{$el-css-prefix}-icon-wrench:before,
+.#{$el-css-prefix}-wrench:before { content: $el-var-wrench; }
+.#{$el-css-prefix}-icon-youtube:before,
+.#{$el-css-prefix}-youtube:before { content: $el-var-youtube; }
+.#{$el-css-prefix}-icon-zoom-in:before,
+.#{$el-css-prefix}-zoom-in:before { content: $el-var-zoom-in; }
+.#{$el-css-prefix}-icon-zoom-out:before,
+.#{$el-css-prefix}-zoom-out:before { content: $el-var-zoom-out; }

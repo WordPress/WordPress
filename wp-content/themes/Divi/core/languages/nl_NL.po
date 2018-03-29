@@ -1,0 +1,393 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:39+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr ""
+"Het exportproces is mislukt. Vernieuw de pagina en probeer het opnieuw."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"De browser versie die u momenteel gebruikt is verouderd. Gelieve te updaten "
+"naar de nieuwste versie."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"U heeft uw server geheugenlimiet bereikt. Probeer uw PHP-geheugenlimiet te "
+"verhogen."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Dit bestand kan niet worden geïmporteerd. Het kan worden veroorzaakt doordat "
+"file_uploads is uitgeschakeld in uw php.ini. Het kan ook worden veroorzaakt "
+"doordat post_max_size en/of upload_max_filesize kleiner is dan het bestand "
+"dat is geselecteerd. Gelieve limiet te verhogen of meer substantiële "
+"gegevens over te dragen."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Ongeldige bestandsindeling. Je moet een JSON bestand uploaden."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Dit bestand moet niet in deze context worden geïmporteerd."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Geschatte resterende tijd van importeren: %smin"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Geschatte resterende tijd van exporteren: %smin"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Geschatte resterende tijd van backup: %smin"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Draagbaarheid"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Exporteren"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Importeren"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Exporteren van %s zal een JSON bestand creëren dat in een andere website kan "
+"worden geïmporteerd."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Exporteer bestandsnaam"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Exporteer alleen geselecteerde artikelen"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Exporteer %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Export annuleren"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Het importeren van een eerder uitgevoerd %s bestand zal alle inhoud op deze "
+"pagina overschrijven."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Selecteer een eerder uitgevoerd Divi Builder Layouts-bestand om te beginnen "
+"met het importeren van items. Grote collecties kunnen enkele minuten duren "
+"om te uploaden."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Het importeren van een eerder uitgevoerd %s bestand zal alle huidige "
+"gegevens overschrijven. Ga verder met de nodige voorzichtigheid!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Selecteer bestand om te importeren"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Geen bestand geselecteerd"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Kies bestand"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Download back-up voor het importeren"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Importeer %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Import annuleren"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Importeer & Exporteer"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Je kunt geen tweede examplaar van deze klasse creëren."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Voordat je productupdates kunt ontvangen, moet je je abonnement op "
+"Elegant Themes eerst authenticeren. Om dit te doen, moet je zowel je Elegant "
+"Themese-gebruikersnaam als je Elegant Themes API-sleutel invoeren in het "
+"tabblad Updates in de instellingen van je thema en plugin. <a href=\"https://"
+"www.elegantthemes.com/members-area/api/\" target=\"_blank\">Log in</a> op je "
+"Elegant Themes-account om je API Key te vinden en navigeer naar de "
+"<strong>Account > API-sleutel</strong>-pagina. <a href=\"http://www."
+"elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">Meer informatie vind je hier</a></em>. Als je dit bericht nog steeds "
+"krijgt, controleer dan of je gebruikersnaam en API-sleutel correct zijn "
+"ingevoerd."
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Automatische updates momenteel niet beschikbaar. Voor alle Elegant Themes-"
+"producten dien je je <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">abonnement te authenticeren</a> "
+"via het tabblad Updates in de instellingen van je thema en plugin om "
+"productupdates in te schakelen. Controleer of je gebruikersnaam en API-"
+"sleutel correct zijn ingevoerd."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Je Elegant Themes-abonnement is verlopen. Je moet <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">je account verlengen</a> "
+"om weer toegang te krijgen tot productupdates en support. Om zeker te zijn "
+"van compatibiliteit en veiligheid, is het belangrijk om je thema's en "
+"plugins altijd bijgewerkt te houden."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "API-verzoek mislukt. Probeer het nogmaals."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "API-verzoek mislukt. API-sleutel is vereist."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "API-sleutel"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "API-URL"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "Formulier-id"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Authorizatiecode"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "API-geheim"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Openbare API-sleutel"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Persoonlijke API-sleutel"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "Account-id"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "App-naam"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Succesvol geauthorizeerd. Aantal abonnementen wordt op de achtergrond "
+"bijgewerkt. Controleer over %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "minuten"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "minuten"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Al geabonneerd"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"Je hebt je recent voor veel lijsten aangemeld. Probeer het later nogmaals."
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Inschrijven"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Mailster-nieuwsbriefplugin is niet ingeschakeld!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr "Er zijn geen lijsten gevonden. Maak eerst eenMailster-lijst!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Er is iets misgegaan. Probeer het later nogmaals."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "APP-ID"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Geabonneerd via"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "Organisatie-id"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "Exemplaar-URL"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Consumentsleutel"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Consumentgeheim"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "Organisatie-id mag niet leeg zijn"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Er is iets misgegaan. Probeer het later nogmaals."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Onbekende organisatie-id"
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "FOUT: Ongeldige argumenten."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "Er is geen geldige URL ingevoerd."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "Gebruiker heeft verzoeken via HTTP geblokkeerd."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr "Doelmap voor bestandstreaming bestaat niet of is niet schrijfbaar."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Begrepen, bedankt!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Configuratiefout"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Er is iets misgegaan. Probeer het later nogmaals."

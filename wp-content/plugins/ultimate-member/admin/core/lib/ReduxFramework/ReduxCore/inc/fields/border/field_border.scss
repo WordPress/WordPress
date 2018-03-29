@@ -1,0 +1,47 @@
+.redux-container-border {
+    .select2-container {
+        float: left;
+        display: block;
+        margin-right: 10px;
+    }
+
+    .select_wrapper {
+        float: left;
+        select {
+            width: 80px;
+            float: left;
+
+        }
+        width: inherit;
+    }
+
+    .field-border-input {
+        margin-right: 10px;
+        margin-bottom: 7px;
+    }
+
+    .wp-picker-container {
+        margin-top: 2px;
+    }
+}
+
+@media screen and (max-width: 782px) {
+    .redux-container-border {
+        .field-border-input {
+            input {
+                display: inline-block !important;
+                width: 100px !important;
+            }
+
+            .add-on {
+                padding: 7px 4px;
+                font-size: 16px;
+                line-height: 1.5;
+            }
+        }
+
+        .select_wrapper {
+            margin-top: 6px;
+        }
+    }
+}

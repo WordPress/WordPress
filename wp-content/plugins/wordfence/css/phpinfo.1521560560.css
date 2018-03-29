@@ -1,0 +1,30 @@
+
+
+h1.p {
+	background: url(../images/wordfence-logo-64x64.png);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	height: 64px;
+	vertical-align: middle;
+	padding: 10px 0 0 70px;
+	margin: 20px 0 10px 0;
+	font-family: Arial;
+	font-weight: normal;
+	font-size: 26px;
+}
+h1.p:before {
+	content: "Wordfence System Info for ";
+}
+td img { display: none; }
+
+.diffFooter {
+	text-align: center;
+	font-size: 16px;
+	color: #999;
+	font-family: Verdana;
+	margin: 50px auto 50px auto;
+}
+.diffFooter a {
+	color: #999;
+}
+

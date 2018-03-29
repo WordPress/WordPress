@@ -1,0 +1,391 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:44+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr "Exporten misslyckades. Uppdatera sidan och försök igen."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Webbläsarversionen som du använder är föråldrad. Vänligen uppdatera till den "
+"senaste versionen."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Du har nått din servers minnesgräns. Försök att höja PHP-minnesgränsen."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Denna fil kan inte importeras. Det kan bero på att file_uploads inte är "
+"aktiverat i din php.ini. Det kan också bero på att post_max_size och/eller "
+"upload_max_filesize är mindre än den valda filens storlek. Öka värdet eller "
+"skicka mer omfattande data."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Ogiltigt filformat. Du bör ladda upp en JSON-fil."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Denna fil bör inte importeras i detta sammanhang."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Beräknad återstående tid för import: %smin"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Beräknad återstående tid för export: %smin"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Beräknad återstående tid för säkerhetskopiering: %smin"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Bärbarhet"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Export"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Import"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Då du exporterar din %s skapas en JSON-fil som sedan kan importeras till en "
+"annan webbplats."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Den exporterade filens namn"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Exportera endast valda objekt"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "Exportera %s"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Avbryt export"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Import av en tidigare exporterad %s-fil skriver över det aktuella innehållet "
+"på denna sida."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Välj en tidigare exporterad Divi Builder Layouts-fil för att börja importera "
+"objekt. Det kan ta flera minuter att ladda upp stora exporterade samlingar "
+"med stora mängder bilder."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Import av en tidigare exporterad %s-fil skriver över alla aktuella data. Var "
+"försiktig!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Välj fil att importera"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Ingen fil har valts"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Välj fil"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Ladda ner säkerhetskopia före import"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "Importera %s"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Avbryt import"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Import och export"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Du kan inte skapa en andra instans av denna klass."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>Innan du kan ta emot produktuppdateringar, måste du först autentisera "
+"din Elegant Themes-prenumeration. För att göra detta, behöver du ange både "
+"ditt Elegant Themes-användarnamn och din Elegant Themes API-nyckel i fliken "
+"Uppdateringar i dina inställningar för teman och insticksprogram. För att "
+"hitta din API-nyckel, <a href=\"https://www.elegantthemes.com/members-area/"
+"api/\" target=\"_blank\">logga in</a> på ditt Elegant Themes-konto och "
+"navigera till sidan <strong>Konto > API-nyckel</strong>. <a href=\"http://"
+"www.elegantthemes.com/gallery/divi/documentation/update/\" target=\"_blank"
+"\">Läs mer här</a></em>. Om du ändå får detta meddelande, vänligen "
+"kontrollera att ditt användarnamn och din API-nyckel har angetts korrekt"
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Automatiska uppdateringar är för närvarande inte tillgänliga. För alla "
+"Elegant Themes-produkter, vänligen <a href=\"http://www.elegantthemes.com/"
+"gallery/divi/documentation/update/\" target=\"_blank\">autentisera din "
+"prenumeration</a> via fliken Uppdateringar i dina inställningar för teman "
+"och insticksprogram för att aktivera produktuppdateringar. Kontrollera att "
+"ditt användarnamn och din API-nyckel har angetts korrekt."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Din Elegant Themes-prenumeration är slut. Du måste <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">förnya ditt konto</a> "
+"för att åter få tillgång till produktuppdateringar och kundtjänst. För att "
+"säkerställa kompatibilitet och säkerhet, är det viktigt att alltid hålla "
+"dina teman och insticksprogram uppdaterade."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "API-förfrågan misslyckades, vänligen försök igen."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "API-förfrågan misslyckades. API-nyckel krävs."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "API-nyckel"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "API-URL"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "Formulär-id"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Auktoriseringskod"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "API-hemlighet"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Publik API-nyckel"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Privat API-nyckel"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "Konto-id"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "App-namn"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Auktorisering lyckades. Prenumerantantalet kommer att uppdateras i "
+"bakgrunden, vänligen kom tillbaka om %1$s %2$s"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "minut"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "minuter"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Prenumererar redan"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr ""
+"Du har registrerat dig på många listor väldigt nyligen, vänligen försök igen "
+"senare"
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Opt-in"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Mailster Newsletter-plugin är ej aktiverat!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr "Inga listor hittades. Vänligen skapa en Mailster-lista först!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Ett fel uppstod. Vänligen försök igen senare."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "APP-ID"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Registrerades via"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "Organisations-id"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "Instans-URL"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Konsument-nyckel"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Konsument-hemlighet"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "Organisations-id får inte vara tomt"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Ett fel uppstod. Vänligen försök igen senare."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Okänt organisations-id"
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "FEL: Ogiltiga argument."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "En giltig URL har inte angetts."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "Användaren har blockerat förfrågningar via HTTP."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr ""
+"Destinationskataogen för filströmning existerar inte eller är skrivskyddad."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Jag förstår, tack!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Konfigurationsfel"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Ett fel uppstod. Vänligen försök igen senare."

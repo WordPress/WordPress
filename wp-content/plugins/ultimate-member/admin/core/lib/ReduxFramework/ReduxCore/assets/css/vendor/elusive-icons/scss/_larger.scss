@@ -1,0 +1,13 @@
+// Icon Sizes
+// -------------------------
+
+/* makes the font 33% larger relative to the icon container */
+.#{$el-css-prefix}-lg {
+  font-size: (4em / 3);
+  line-height: (3em / 4);
+  vertical-align: -15%;
+}
+.#{$el-css-prefix}-2x { font-size: 2em; }
+.#{$el-css-prefix}-3x { font-size: 3em; }
+.#{$el-css-prefix}-4x { font-size: 4em; }
+.#{$el-css-prefix}-5x { font-size: 5em; }

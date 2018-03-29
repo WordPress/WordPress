@@ -1,0 +1,391 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi Theme 2.5.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2017-05-18 15:37:54+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:31+0300\n"
+"Last-Translator: I♥WP <info@ilovewp.net>\n"
+"Language-Team: Elegant Themes\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: components/Portability.php:197
+msgid "The export process failed. Please refresh the page and try again."
+msgstr ""
+"Az exportálás sikertelen volt. Kérjük, frissítse az oldalt és próbálkozzon "
+"újra."
+
+#: components/Portability.php:1008
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Az Ön által használt böngésző elavult. Kérjük, frissítsen a legújabb "
+"verzióra."
+
+#: components/Portability.php:1009
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Meghaladta a szervermemória limitjét. Kérjük, próbálja növelnini a PHP "
+"memórialimitet."
+
+#: components/Portability.php:1010
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Ezt a fájlt nem lehet importálni. Ez lehet amiatt, hogy a file_uploads nincs "
+"engedélyezve a php.ini fájlban. Okozhatja továbbá az is, hogy post_max_size "
+"és/vagy upload_max_filesize kisebb, mint a kiválasztott fájl. Kérjük, "
+"növelje ezeket az értékeket, vagy másoljon pillanatnyilag fontosabb adatokat."
+
+#: components/Portability.php:1011
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Hibás fájlformátum. JSON fájlt szükséges feltöltenie."
+
+#: components/Portability.php:1012
+msgid "This file should not be imported in this context."
+msgstr "Ezt a fájlt ebbe a környezetbe nem ajánlott importálni."
+
+#: components/Portability.php:1013
+msgid "Import estimated time remaining: %smin"
+msgstr "Importálás becsült hátralevő ideje: %sperc"
+
+#: components/Portability.php:1014
+msgid "Export estimated time remaining: %smin"
+msgstr "Exportálás becsült hátralevő ideje: %sperc"
+
+#: components/Portability.php:1015
+msgid "Backup estimated time remaining: %smin"
+msgstr "Biztonsági mentés becsült hátralevő ideje: %sperc"
+
+#: components/Portability.php:1037
+msgid "Portability"
+msgstr "Hordozhatóság"
+
+#: components/Portability.php:1041
+msgid "Export"
+msgstr "Exportálás"
+
+#: components/Portability.php:1042
+msgid "Import"
+msgstr "Importálás"
+
+#: components/Portability.php:1046
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"A %s exportálásakor keletkezik egy JSON fájl, ami importálható egy másik "
+"weblapba."
+
+#: components/Portability.php:1047
+msgid "Export File Name"
+msgstr "Exportálandó fájl neve"
+
+#: components/Portability.php:1052
+msgid "Only export selected items"
+msgstr "Csak a kiválasztott elemek exportálása"
+
+#: components/Portability.php:1056
+msgid "Export %s"
+msgstr "%s exportálása"
+
+#: components/Portability.php:1057
+msgid "Cancel Export"
+msgstr "Exportálás visszavonása"
+
+#: components/Portability.php:1062
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Egy korábban exportált %s fájl importálása felül fogja írni a jelenlegi "
+"lapon található összes tartalmat."
+
+#: components/Portability.php:1064
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Válasszon ki egy korábban exportált Divi Builder Layouts fájlt az elemek "
+"importálásnak megkezdéséhez. Sok képpel rendelkező exportálás csoportos "
+"feltöltése több percig is eltarthat."
+
+#: components/Portability.php:1066
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Egy korábban exportált %s fájl importálása felül fog írni minden jelenlegi "
+"adatot. Kérjük, a továbbiakban legyen óvatos!"
+
+#: components/Portability.php:1068
+msgid "Select File To Import"
+msgstr "Válasszon importálandó fájlt"
+
+#: components/Portability.php:1070
+msgid "No File Selected"
+msgstr "Nincs fájl kiválasztva"
+
+#: components/Portability.php:1071
+msgid "Choose File"
+msgstr "Válasszon fájlt"
+
+#: components/Portability.php:1075
+msgid "Download backup before importing"
+msgstr "Biztonsági mentés letöltése importálás előtt"
+
+#: components/Portability.php:1079
+msgid "Import %s"
+msgstr "%s importálása"
+
+#: components/Portability.php:1080
+msgid "Cancel Import"
+msgstr "Importálás visszavonása"
+
+#: components/Portability.php:1176
+msgid "Import & Export"
+msgstr "Importálás és Exportálás"
+
+#: components/Updates.php:25
+msgid "%s: You cannot create a second instance of this class."
+msgstr "%s: Nem hozhat létre második esetet ehhez az osztályhoz."
+
+#: components/Updates.php:417
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>A termék frissítéseinek megkapása előtt hitelesítenie kell az Elegant "
+"Themes előfizetését. Ennek érdekében meg kell adnia mind az Elegant Themes "
+"felhasználónevét, mind az Elegant Themes API kódját a Frissítések fülnél a "
+"témájánál és a plugin beállításainál. AZ alkalmazás kulcsának "
+"meghatározásához, <a href=\"https://www.elegantthemes.com/members-area/api/"
+"\" target=\"_blank\">jelentkezzen be</a> az Elegant Themes fiókjába és "
+"menjen az <strong>Account > Alkalmazás kulcs</strong> oldalra. <a href="
+"\"http://www.elegantthemes.com/gallery/divi/documentation/update/\" target="
+"\"_blank\">Tudjon meg többet</a></em>. Amennyiben továbbra is megkapja ezt "
+"az üzenetet, bizonyosodjon meg róla, hogy megfelelően adta meg az API "
+"kulcsát és felhasználónevét."
+
+#: components/Updates.php:419
+msgid ""
+"Automatic updates currently unavailable. For all Elegant Themes products, "
+"please <a href=\"http://www.elegantthemes.com/gallery/divi/documentation/"
+"update/\" target=\"_blank\">authenticate your subscription</a> via the "
+"Updates tab in your theme & plugin settings to enable product updates. Make "
+"sure that your Username and API Key have been entered correctly."
+msgstr ""
+"Az automatikus frissítések jelenleg elérhetőek. Minden Elegant Themes "
+"termékhez, kérjük <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">hitelesítse az előfizetését</a> a "
+"frissítés fülön keresztül a téma és plugin beállításoknál, így "
+"engedélyezheti a termékek frissítését. Bizonyosodjon meg róla, hogy a "
+"felhasználónevét és az API kulcsát helyesen adta meg."
+
+#: components/Updates.php:443
+msgid ""
+"Your Elegant Themes subscription has expired. You must <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">renew your account</a> "
+"to regain access to product updates and support. To ensure compatibility and "
+"security, it is important to always keep your themes and plugins updated."
+msgstr ""
+"Az Elegant Themes előfizetése lejárt. Meg kell <a href=\"https://www."
+"elegantthemes.com/members-area/\" target=\"_blank\">újítania a fiókját</a> a "
+"termék frissítések és segítség eléréséhez. A kompatibilitás és biztonság "
+"biztosítása érdekében fontos, hogy a témái és plugin-jei mindig frissítve "
+"legyenek."
+
+#: components/api/Service.php:231
+msgid "API request failed, please try again."
+msgstr "API kérés nem sikerült, kérjük, próbálja meg újra."
+
+#: components/api/Service.php:232
+msgid "API request failed. API Key is required."
+msgstr "API kérés nem sikerült. API kulcs szükséges."
+
+#: components/api/email/ActiveCampaign.php:42
+#: components/api/email/CampaignMonitor.php:94
+#: components/api/email/ConvertKit.php:101
+#: components/api/email/Feedblitz.php:43
+#: components/api/email/GetResponse.php:67
+#: components/api/email/Infusionsoft.php:189
+#: components/api/email/MailChimp.php:130
+#: components/api/email/MailerLite.php:56 components/api/email/Ontraport.php:59
+#: components/api/email/SendinBlue.php:59
+msgid "API Key"
+msgstr "API Kulcs"
+
+#: components/api/email/ActiveCampaign.php:45
+msgid "API URL"
+msgstr "API URL"
+
+#: components/api/email/ActiveCampaign.php:48
+msgid "Form ID"
+msgstr "Form Azonosító"
+
+#: components/api/email/Aweber.php:119
+msgid "Authorization Code"
+msgstr "Hitelesítő kód"
+
+#: components/api/email/ConvertKit.php:104
+msgid "API Secret"
+msgstr "API Titok"
+
+#: components/api/email/Emma.php:49
+msgid "Public API Key"
+msgstr "Publikus API kulcs"
+
+#: components/api/email/Emma.php:52
+msgid "Private API Key"
+msgstr "Privát API Kulcs"
+
+#: components/api/email/Emma.php:55
+msgid "Account ID"
+msgstr "Fiók azonosító"
+
+#: components/api/email/Infusionsoft.php:192
+msgid "App Name"
+msgstr "Alkalmazás Név"
+
+#: components/api/email/Infusionsoft.php:283
+msgid ""
+"Successfully authorized. Subscribers count will be updated in background, "
+"please check back in %1$s %2$s"
+msgstr ""
+"Sikeres hitelesítés. Az előfizetés számláló frissítve lesz a háttérben, "
+"kérjük térjen vissza %1$s %2$s múlva."
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minute"
+msgstr "perc"
+
+#: components/api/email/Infusionsoft.php:285
+msgid "minutes"
+msgstr "perc"
+
+#: components/api/email/Infusionsoft.php:313
+msgid "Already subscribed"
+msgstr "Már előfizet"
+
+#: components/api/email/MailChimp.php:198
+msgid ""
+"You have signed up to a lot of lists very recently, please try again later"
+msgstr "Mostanában sok listára iratkozott fel, kérjük, próbálja meg később."
+
+#: components/api/email/Mailster.php:48
+msgid "Opt-in"
+msgstr "Opt-in"
+
+#: components/api/email/Mailster.php:84
+msgid "Mailster Newsletter Plugin is not enabled!"
+msgstr "Mailster Hírlevél Plugin nincs bekapcsolva!"
+
+#: components/api/email/Mailster.php:88
+msgid "No lists were found. Please create a Mailster list first!"
+msgstr ""
+"Nem találtunk listát. Kérjük, előszőr hozzon létre egy Mailster listát!"
+
+#: components/api/email/Mailster.php:104
+msgid "An error occurred. Please try again later."
+msgstr "Hiba történt. Kérjük, próbálja újra később."
+
+#: components/api/email/Ontraport.php:62
+msgid "APP ID"
+msgstr "Alkalmazás Azonosító"
+
+#: components/api/email/Provider.php:36
+msgid "Subscribed via"
+msgstr "Feliratkozva ezen keresztül"
+
+#: components/api/email/SalesForce.php:93
+#: components/api/email/SalesForce.php:110
+msgid "Organization ID"
+msgstr "Szervezet Azonosító"
+
+#: components/api/email/SalesForce.php:97
+msgid "Instance URL"
+msgstr "Példa URL"
+
+#: components/api/email/SalesForce.php:100
+msgid "Consumer Key"
+msgstr "Fogyasztói Kulcs"
+
+#: components/api/email/SalesForce.php:103
+msgid "Consumer Secret"
+msgstr "Fogyasztói Titok"
+
+#: components/api/email/SalesForce.php:134
+msgid "Organization ID cannot be empty"
+msgstr "A Szervezeti Azonosító nem lehet üres"
+
+#: components/api/email/SalesForce.php:187
+#: components/api/email/SalesForce.php:264
+msgid "An error occurred. Please try again."
+msgstr "Hiba történt. Kérjük, próbálja újra később."
+
+#: components/api/email/SalesForce.php:234
+msgid "Unknown Organization ID"
+msgstr "Ismeretlen Szervezeti Azonosító."
+
+#: components/api/email/init.php:25
+msgid "ERROR: Invalid arguments."
+msgstr "HIBA: Helytelen argumentumok."
+
+#: components/lib/WPHttp.php:192
+msgid "A valid URL was not provided."
+msgstr "Nem volt megadva érvényes URL."
+
+#: components/lib/WPHttp.php:196
+msgid "User has blocked requests through HTTP."
+msgstr "A felhasználó leblokkolta a http kéréseket."
+
+#: components/lib/WPHttp.php:209
+msgid ""
+"Destination directory for file streaming does not exist or is not writable."
+msgstr "A célmappa a fájl megosztáshoz nem létezik, vagy nem írható."
+
+#: functions.php:145
+msgid "Got it, thanks!"
+msgstr "Rendben, köszönöm!"
+
+#: functions.php:290
+msgid "Configuration Error"
+msgstr "Konfigurációs hiba"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:74
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr ""
+
+#, fuzzy
+#~ msgid "An error occured. Please try again."
+#~ msgstr "Hiba történt. Kérjük, próbálja újra később."

@@ -1,0 +1,2907 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/style\n"
+"POT-Creation-Date: 2017-05-18 15:55:34+00:00\n"
+"PO-Revision-Date: 2017-05-18 19:15+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+"X-Poedit-SearchPathExcluded-2: ../core\n"
+
+#: comments.php:4
+msgid "This post is password protected. Enter the password to view comments."
+msgstr "这篇文章受密码保护。输入密码以查看评论。"
+
+#: comments.php:13
+msgid "0 Comments"
+msgstr "0 条评论"
+
+#: comments.php:13
+msgid "1 Comment"
+msgstr "1 条评论"
+
+#: comments.php:13 epanel/core_functions.php:554
+msgid "Comments"
+msgstr "评论"
+
+#: comments.php:18 comments.php:31
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr "<span class=\"meta-nav\">&larr;</span> 更早的评论"
+
+#: comments.php:19 comments.php:32
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr "较新的评论 <span class=\"meta-nav\">&rarr;</span>"
+
+#: comments.php:38
+msgid "Trackbacks/Pingbacks"
+msgstr "引用/广播"
+
+#: comments.php:56
+msgid "Submit Comment"
+msgstr "提交评论"
+
+#: comments.php:56
+msgid "Submit a Comment"
+msgstr "提交评论"
+
+#: comments.php:56
+msgid "Leave a Reply to %s"
+msgstr "发表对 %s 的回复"
+
+#: epanel/core_functions.php:33
+msgid "Help"
+msgstr "帮助"
+
+#: epanel/core_functions.php:121
+msgid "Options"
+msgstr "选项"
+
+#: epanel/core_functions.php:121 functions.php:8474
+msgid "Theme Options"
+msgstr "主题选项"
+
+#: epanel/core_functions.php:140
+msgid "settings saved."
+msgstr "已保存设置。"
+
+#: epanel/core_functions.php:143
+msgid "settings reset."
+msgstr "设置重置。"
+
+#: epanel/core_functions.php:152 epanel/core_functions.php:502
+msgid "Save Changes"
+msgstr "保存改动"
+
+#: epanel/core_functions.php:161 epanel/core_functions.php:814
+msgid "%s Theme Options"
+msgstr "%s 主题选项"
+
+#: epanel/core_functions.php:168
+msgid "Reset to Defaults"
+msgstr "重置为默认"
+
+#: epanel/core_functions.php:173 options_divi.php:38 options_divi.php:840
+msgid "General"
+msgstr "常规"
+
+#: epanel/core_functions.php:176
+msgid "Navigation"
+msgstr "导航"
+
+#: epanel/core_functions.php:179 functions.php:700
+msgid "Layout"
+msgstr "布局"
+
+#: epanel/core_functions.php:182
+msgid "Ads"
+msgstr "广告"
+
+#: epanel/core_functions.php:185
+msgid "Colorization"
+msgstr "颜色"
+
+#: epanel/core_functions.php:188
+msgid "SEO"
+msgstr "SEO"
+
+#: epanel/core_functions.php:191
+msgid "Integration"
+msgstr "集成"
+
+#: epanel/core_functions.php:194
+msgid "Support"
+msgstr "支持"
+
+#: epanel/core_functions.php:197
+msgid "Updates"
+msgstr "更新"
+
+#: epanel/core_functions.php:300 epanel/core_functions.php:511
+msgid "Reset"
+msgstr "重置"
+
+#: epanel/core_functions.php:301
+msgid "Upload"
+msgstr "上传"
+
+#: epanel/core_functions.php:328
+msgid "You don't have pages"
+msgstr "您没有任何页面"
+
+#: epanel/core_functions.php:516 includes/functions/choices.php:92
+msgid "Yes"
+msgstr "是"
+
+#: epanel/core_functions.php:519 includes/functions/choices.php:93
+msgid "No"
+msgstr "否"
+
+#: epanel/core_functions.php:533
+msgid "Enabled"
+msgstr "启用"
+
+#: epanel/core_functions.php:535
+msgid "Disabled"
+msgstr "禁用"
+
+#: epanel/core_functions.php:542
+msgid "Author"
+msgstr "作者"
+
+#: epanel/core_functions.php:546
+msgid "Date"
+msgstr "日期"
+
+#: epanel/core_functions.php:550 options_divi.php:313
+msgid "Categories"
+msgstr "类别"
+
+#: epanel/core_functions.php:558
+msgid "Ratings"
+msgstr "评分"
+
+#: epanel/core_functions.php:772
+msgid "Choose an Image"
+msgstr "选择图像"
+
+#: epanel/custom_functions.php:287
+msgid "&hellip;"
+msgstr "&hellip;"
+
+#: epanel/custom_functions.php:626 header.php:188 header.php:231
+msgid "Home"
+msgstr "首页"
+
+#: epanel/custom_functions.php:923
+msgid "Archives"
+msgstr "档案"
+
+#: epanel/custom_functions.php:925
+msgid "Search results for \"%s\""
+msgstr "\"%s\" 的搜索结果"
+
+#: epanel/custom_functions.php:927
+msgid "404 Not Found"
+msgstr "404 未找到"
+
+#: epanel/custom_functions.php:997
+msgid "Currently viewing archives from %1$s"
+msgstr "目前正在查看 %1$s 的档案"
+
+#: epanel/custom_functions.php:1010
+msgid "Search Results for: %s"
+msgstr "搜寻 %s 的结果"
+
+#: epanel/custom_functions.php:1251
+msgid "Image doesn't exist"
+msgstr "图像不存在"
+
+#: epanel/custom_functions.php:1416
+msgid ""
+"<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't "
+"forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will "
+"disappear once you have clicked the Save button within the <a href=\"%2$s"
+"\">theme's options page</a>.</p></div>"
+msgstr ""
+"<div class=\"updated\"><p>这是全新安装的 %1$s 主题。不要忘了去<a href=\"%2$s"
+"\">ePanel</a>对其进行设置。一旦您点击了<a href=\"%2$s\">theme's options "
+"page</a>.</p></div>的保存按钮，此消息将消失。"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:518
+msgid "Previous"
+msgstr "上一页"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:519
+msgid "Next"
+msgstr "下一页"
+
+#: epanel/shortcodes/shortcodes.php:273
+msgid "Tweet"
+msgstr "Twitter 发帖"
+
+#: epanel/shortcodes/shortcodes.php:289
+msgid "Member Login"
+msgstr "会员登录"
+
+#: epanel/shortcodes/shortcodes.php:292
+msgid "Username: "
+msgstr "用户名: "
+
+#: epanel/shortcodes/shortcodes.php:293
+msgid "Password: "
+msgstr "密码: "
+
+#: epanel/shortcodes/shortcodes.php:294 functions.php:3880
+msgid "Login"
+msgstr "登录"
+
+#: epanel/shortcodes/shortcodes.php:330
+msgid "Add a Tooltip Text"
+msgstr "添加工具提示文本"
+
+#: epanel/shortcodes/shortcodes.php:352
+msgid "Click here to learn more"
+msgstr "点击这里了解更多"
+
+#: epanel/shortcodes/shortcodes.php:732
+msgid "Join Now"
+msgstr "立即加入"
+
+#: epanel/shortcodes/shortcodes.php:967
+msgid "Add ET Learn more block"
+msgstr "添加切换块"
+
+#: epanel/shortcodes/shortcodes.php:968
+msgid "Add ET Box"
+msgstr "添加框"
+
+#: epanel/shortcodes/shortcodes.php:969
+msgid "Add ET Button"
+msgstr "添加按钮"
+
+#: epanel/shortcodes/shortcodes.php:970
+msgid "Add ET Tabs"
+msgstr "添加选项卡"
+
+#: epanel/shortcodes/shortcodes.php:971
+msgid "Add Author Bio"
+msgstr "添加作者自传"
+
+#: epanel/shortcodes/shortcodes.php:972
+msgid "Shortcodes"
+msgstr "短代码"
+
+#: epanel/shortcodes/shortcodes.php:977
+msgid "Caption"
+msgstr "说明"
+
+#: epanel/shortcodes/shortcodes.php:978
+msgid "Caption goes here"
+msgstr "说明放在这里"
+
+#: epanel/shortcodes/shortcodes.php:979
+msgid "Caption title goes here"
+msgstr "说明标题放在这里"
+
+#: epanel/shortcodes/shortcodes.php:983
+msgid "State"
+msgstr "状态"
+
+#: epanel/shortcodes/shortcodes.php:985
+msgid "Select between expanded and closed state"
+msgstr "在展开和闭合状态之间选择"
+
+#: epanel/shortcodes/shortcodes.php:990 epanel/shortcodes/shortcodes.php:1006
+#: epanel/shortcodes/shortcodes.php:1035 epanel/shortcodes/shortcodes.php:1115
+msgid "Content"
+msgstr "内容"
+
+#: epanel/shortcodes/shortcodes.php:991 epanel/shortcodes/shortcodes.php:1007
+#: epanel/shortcodes/shortcodes.php:1093 epanel/shortcodes/shortcodes.php:1116
+msgid "Content goes here"
+msgstr "内容放在这里"
+
+#: epanel/shortcodes/shortcodes.php:992 epanel/shortcodes/shortcodes.php:1008
+#: epanel/shortcodes/shortcodes.php:1037
+msgid "Content text or html"
+msgstr "内容文本或 HTML"
+
+#: epanel/shortcodes/shortcodes.php:999 epanel/shortcodes/shortcodes.php:1021
+msgid "Type"
+msgstr "类型"
+
+#: epanel/shortcodes/shortcodes.php:1001
+msgid "Type of the box"
+msgstr "框类型"
+
+#: epanel/shortcodes/shortcodes.php:1015
+msgid "Link"
+msgstr "链接"
+
+#: epanel/shortcodes/shortcodes.php:1017
+msgid "URL"
+msgstr "URL"
+
+#: epanel/shortcodes/shortcodes.php:1023
+msgid "Choose button type"
+msgstr "选择按钮类型"
+
+#: epanel/shortcodes/shortcodes.php:1028
+msgid "Color"
+msgstr "颜色"
+
+#: epanel/shortcodes/shortcodes.php:1030
+msgid "Choose button color"
+msgstr "选择按钮颜色"
+
+#: epanel/shortcodes/shortcodes.php:1036
+msgid "Link text"
+msgstr "链接文本"
+
+#: epanel/shortcodes/shortcodes.php:1041
+msgid "Icon"
+msgstr "图标"
+
+#: epanel/shortcodes/shortcodes.php:1043
+msgid "Used for icon button type"
+msgstr "用于图标按钮类型"
+
+#: epanel/shortcodes/shortcodes.php:1048
+msgid "Open link in new window"
+msgstr "在新窗口中打开链接"
+
+#: epanel/shortcodes/shortcodes.php:1050
+msgid "Select yes if the link should be opened in a new window"
+msgstr "如果链接应该在新窗口打开，选择是"
+
+#: epanel/shortcodes/shortcodes.php:1058
+msgid "Slider Type"
+msgstr "滑块类型"
+
+#: epanel/shortcodes/shortcodes.php:1060
+msgid "Select Slider Type here"
+msgstr "在此选择滑块类型"
+
+#: epanel/shortcodes/shortcodes.php:1065
+msgid "Effect"
+msgstr "效果"
+
+#: epanel/shortcodes/shortcodes.php:1067
+msgid "Select Animation Effect"
+msgstr "选择动画效果"
+
+#: epanel/shortcodes/shortcodes.php:1072
+msgid "Auto"
+msgstr "自动"
+
+#: epanel/shortcodes/shortcodes.php:1074
+msgid "Choose yes if you want for automatic slider animation"
+msgstr "如果您想启用自动滑块动画，选择是"
+
+#: epanel/shortcodes/shortcodes.php:1079
+msgid "Auto Speed"
+msgstr "自动速度"
+
+#: epanel/shortcodes/shortcodes.php:1081
+msgid "Automattic slider speed (works only if Auto is set to yes)"
+msgstr "自动滑块速度（只有当自动设置为是时才有效）"
+
+#: epanel/shortcodes/shortcodes.php:1085
+msgid "Tab Text"
+msgstr "标签页文本"
+
+#: epanel/shortcodes/shortcodes.php:1092
+msgid "Tab Content"
+msgstr "标签页内容"
+
+#: epanel/shortcodes/shortcodes.php:1094
+msgid "Paste image url here, if you chose \"images\" slider type"
+msgstr "将图像 URL 粘贴到此处，如果您选择了 \"images\" 滑块类型"
+
+#: epanel/shortcodes/shortcodes.php:1102
+msgid "Image Url"
+msgstr "图像 URL"
+
+#: epanel/shortcodes/shortcodes.php:1104
+msgid "Author Image URL"
+msgstr "作者图像 URL"
+
+#: epanel/shortcodes/shortcodes.php:1108
+msgid "Use resizing"
+msgstr "使用调整大小"
+
+#: epanel/shortcodes/shortcodes.php:1185
+msgid "+ Add One More Tab"
+msgstr "+ 增加一个标签页"
+
+#: epanel/shortcodes/shortcodes.php:1335 functions.php:3546
+msgid "Image Height"
+msgstr "图像高度"
+
+#: epanel/shortcodes/shortcodes.php:1336 functions.php:3526
+msgid "Image Width"
+msgstr "图像宽度"
+
+#: functions.php:36
+msgid "Primary Menu"
+msgstr "主菜单"
+
+#: functions.php:37
+msgid "Secondary Menu"
+msgstr "二级菜单"
+
+#: functions.php:38 functions.php:715
+msgid "Footer Menu"
+msgstr "页脚菜单"
+
+#: functions.php:90
+msgid ""
+"Welcome to Divi! Before diving in to your new theme, please visit the <a "
+"style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target=\"_blank"
+"\">Divi Documentation</a> page for access to dozens of in-depth tutorials."
+msgstr ""
+"欢迎来到Divi！在沉浸到您的新主题之前，请访问<a style=\"color: #fff; font-"
+"weight: bold;\" href=\"%1$s\" target=\"_blank\">Divi Documentation</a>页面以"
+"获得几十项深入教程。"
+
+#: functions.php:215
+msgid "Select Page"
+msgstr "选择页面"
+
+#: functions.php:277
+msgid "Divi Page Settings"
+msgstr "Divi页面设置"
+
+#: functions.php:279
+msgid "Divi Post Settings"
+msgstr "Divi帖子设置"
+
+#: functions.php:280
+msgid "Divi Product Settings"
+msgstr "Divi产品设置"
+
+#: functions.php:281
+msgid "Divi Project Settings"
+msgstr "Divi项目设置"
+
+#: functions.php:288
+msgid "Skills"
+msgstr "技能"
+
+#: functions.php:291
+msgid "Posted on"
+msgstr "发布于"
+
+#: functions.php:315 options_divi.php:103
+msgid "Right Sidebar"
+msgstr "右侧边栏"
+
+#: functions.php:316 options_divi.php:104
+msgid "Left Sidebar"
+msgstr "左侧边栏"
+
+#: functions.php:317 options_divi.php:105
+msgid "Full Width"
+msgstr "全宽"
+
+#: functions.php:321
+msgid "Light"
+msgstr "浅色"
+
+#: functions.php:322
+msgid "Dark"
+msgstr "深色"
+
+#: functions.php:335
+msgid "Page Layout"
+msgstr "页面布局"
+
+#: functions.php:349
+msgid "Dot Navigation"
+msgstr "点导航"
+
+#: functions.php:352 functions.php:361
+msgid "Off"
+msgstr "关闭"
+
+#: functions.php:353 functions.php:362
+msgid "On"
+msgstr "打开"
+
+#: functions.php:357
+msgid "Hide Nav Before Scroll"
+msgstr "滚动前隐藏导航"
+
+#: functions.php:360 functions.php:5737 includes/functions/choices.php:24
+#: includes/functions/choices.php:40
+msgid "Default"
+msgstr "默认"
+
+#: functions.php:368
+msgid "Post Title"
+msgstr "帖子标题"
+
+#: functions.php:371 functions.php:406
+msgid "Show"
+msgstr "显示"
+
+#: functions.php:372 functions.php:405
+msgid "Hide"
+msgstr "隐藏"
+
+#: functions.php:377
+msgid "Use Background Color"
+msgstr "使用背景颜色"
+
+#: functions.php:382 functions.php:5776
+msgid "Hex Value"
+msgstr "颜色值"
+
+#: functions.php:386 functions.php:2051 functions.php:2078 functions.php:2205
+#: functions.php:2727 functions.php:2855 functions.php:3059
+msgid "Text Color"
+msgstr "文本颜色"
+
+#: functions.php:402
+msgid "Project Navigation"
+msgstr "项目导航"
+
+#: functions.php:550 functions.php:562 functions.php:8553
+msgid "you don't have sufficient permissions to access this page"
+msgstr "您没有足够的权限来访问此页"
+
+#: functions.php:615 options_divi.php:318 options_divi.php:466
+msgid "General Settings"
+msgstr "常规设置"
+
+#: functions.php:620
+msgid "Site Identity"
+msgstr "网站标识"
+
+#: functions.php:625
+msgid "Layout Settings"
+msgstr "布局设置"
+
+#: functions.php:630
+msgid "Typography"
+msgstr "排版样式"
+
+#: functions.php:635
+msgid "Mobile Styles"
+msgstr "移动设备样式"
+
+#: functions.php:640
+msgid "Tablet"
+msgstr "平板电脑"
+
+#: functions.php:645
+msgid "Phone"
+msgstr "电话"
+
+#: functions.php:650
+msgid "Mobile Menu"
+msgstr "移动菜单"
+
+#: functions.php:655
+msgid "Background"
+msgstr "背景"
+
+#: functions.php:660
+msgid "Header & Navigation"
+msgstr "标题与导航"
+
+#: functions.php:665
+msgid "Header Format"
+msgstr "标题格式"
+
+#: functions.php:670
+msgid "Primary Menu Bar"
+msgstr "主菜单栏"
+
+#: functions.php:675
+msgid "Secondary Menu Bar"
+msgstr "二级菜单栏"
+
+#: functions.php:680
+msgid "Slide In & Fullscreen Header Settings"
+msgstr "幻灯片 & 全屏标题设置"
+
+#: functions.php:685
+msgid "Fixed Navigation Settings"
+msgstr "固定的导航设置"
+
+#: functions.php:690
+msgid "Header Elements"
+msgstr "标题元素"
+
+#: functions.php:695
+msgid "Footer"
+msgstr "页脚"
+
+#: functions.php:705
+msgid "Widgets"
+msgstr "小工具"
+
+#: functions.php:710
+msgid "Footer Elements"
+msgstr "页脚元素"
+
+#: functions.php:720
+msgid "Bottom Bar"
+msgstr "底部栏"
+
+#: functions.php:725 functions.php:1465
+msgid "Color Schemes"
+msgstr "配色方案"
+
+#: functions.php:727
+msgid ""
+"Note: Color settings set above should be applied to the Default color scheme."
+msgstr "注意：上面设定的颜色设置应当应用到默认的色彩方案。"
+
+#: functions.php:731
+msgid "Buttons"
+msgstr "按钮"
+
+#: functions.php:736
+msgid "Buttons Style"
+msgstr "按钮样式"
+
+#: functions.php:741
+msgid "Buttons Hover Style"
+msgstr "按钮悬停样式"
+
+#: functions.php:746 functions.php:5059
+msgid "Blog"
+msgstr "博客"
+
+#: functions.php:751
+msgid "Post"
+msgstr "帖子"
+
+#: functions.php:768
+msgid "Meta Text Size"
+msgstr "元文本大小"
+
+#: functions.php:787
+msgid "Meta Line Height"
+msgstr "元行高"
+
+#: functions.php:806
+msgid "Meta Letter Spacing"
+msgstr "元字母间距"
+
+#: functions.php:825 functions.php:5128 functions.php:5207
+msgid "Meta Font Style"
+msgstr "元字体样式"
+
+#: functions.php:840 functions.php:1265 functions.php:1337 functions.php:1356
+#: functions.php:2473
+msgid "Header Text Size"
+msgstr "标题文本大小"
+
+#: functions.php:859 functions.php:1303
+msgid "Header Line Height"
+msgstr "标题行高度"
+
+#: functions.php:878 functions.php:1284
+msgid "Header Letter Spacing"
+msgstr "标题字母间距"
+
+#: functions.php:897 functions.php:1322 functions.php:2492 functions.php:3415
+#: functions.php:3593 functions.php:3708 functions.php:3771 functions.php:3850
+#: functions.php:3914 functions.php:4705 functions.php:5401 functions.php:5507
+msgid "Header Font Style"
+msgstr "标题字体样式"
+
+#: functions.php:911
+msgid "Enable Boxed Layout"
+msgstr "启用盒装布局"
+
+#: functions.php:925
+msgid "Website Content Width"
+msgstr "网站内容宽度"
+
+#: functions.php:944
+msgid "Website Gutter Width"
+msgstr "网站列间距"
+
+#: functions.php:962
+msgid "Use Custom Sidebar Width"
+msgstr "使用自定义侧边栏宽度"
+
+#: functions.php:976
+msgid "Sidebar Width"
+msgstr "边栏宽度"
+
+#: functions.php:995 functions.php:1014 functions.php:1033
+msgid "Section Height"
+msgstr "截面高度"
+
+#: functions.php:1052 functions.php:1071 functions.php:1090
+msgid "Row Height"
+msgstr "行高"
+
+#: functions.php:1109
+msgid "Stretch Background Image"
+msgstr "拉伸背景图像"
+
+#: functions.php:1116 functions.php:1729 functions.php:2106 functions.php:2177
+#: functions.php:2191 functions.php:2713 functions.php:2869 functions.php:3073
+msgid "Background Color"
+msgstr "背景颜色"
+
+#: functions.php:1123
+msgid "Background Image"
+msgstr "背景图像"
+
+#: functions.php:1143
+msgid "Background Repeat"
+msgstr "背景重复"
+
+#: functions.php:1150 functions.php:1174
+msgid "Background Position"
+msgstr "背景位置"
+
+#: functions.php:1154 includes/functions/choices.php:106
+msgid "Left"
+msgstr "靠左"
+
+#: functions.php:1155
+msgid "Center"
+msgstr "居中"
+
+#: functions.php:1156 includes/functions/choices.php:105
+msgid "Right"
+msgstr "靠右"
+
+#: functions.php:1189 functions.php:1227 functions.php:1246
+msgid "Body Text Size"
+msgstr "正文文本大小"
+
+#: functions.php:1208
+msgid "Body Line Height"
+msgstr "正文行高"
+
+#: functions.php:1376
+msgid "Header Font"
+msgstr "页眉字体"
+
+#: functions.php:1392
+msgid "Body Font"
+msgstr "正文字体"
+
+#: functions.php:1409
+msgid "Body Link Color"
+msgstr "正文链接颜色"
+
+#: functions.php:1423
+msgid "Body Text Color"
+msgstr "正文文本颜色"
+
+#: functions.php:1437
+msgid "Header Text Color"
+msgstr "标题文本颜色"
+
+#: functions.php:1451
+msgid "Theme Accent Color"
+msgstr "主题强调色彩"
+
+#: functions.php:1481
+msgid "Header Style"
+msgstr "页眉样式"
+
+#: functions.php:1495
+msgid "Enable Vertical Navigation"
+msgstr "启用垂直导航"
+
+#: functions.php:1509
+msgid "Vertical Menu Orientation"
+msgstr "垂直菜单取向"
+
+#: functions.php:1525
+msgid "Hide Navigation Until Scroll"
+msgstr "隐藏导航直到滚动"
+
+#: functions.php:1540 functions.php:2429
+msgid "Show Social Icons"
+msgstr "显示社交图标"
+
+#: functions.php:1554
+msgid "Show Search Icon"
+msgstr "显示搜索图标"
+
+#: functions.php:1568
+msgid "Show Top Bar"
+msgstr "显示顶栏"
+
+#: functions.php:1582
+msgid "Menu Width"
+msgstr "菜单宽度"
+
+#: functions.php:1601 functions.php:1639
+msgid "Menu Text Size"
+msgstr "菜单字体大小"
+
+#: functions.php:1620 functions.php:1658
+msgid "Top Bar Text Size"
+msgstr "顶栏字体大小"
+
+#: functions.php:1677 functions.php:1915 functions.php:1999 functions.php:2659
+#: functions.php:2935 functions.php:3120
+msgid "Letter Spacing"
+msgstr "字母间距"
+
+#: functions.php:1697 functions.php:1935 functions.php:2019
+msgid "Font"
+msgstr "字体"
+
+#: functions.php:1714 functions.php:1952 functions.php:2036 functions.php:2678
+#: functions.php:2741
+msgid "Font Style"
+msgstr "字体样式"
+
+#: functions.php:1743
+msgid "Menu Link Color"
+msgstr "菜单链接颜色"
+
+#: functions.php:1757 functions.php:2092
+msgid "Active Link Color"
+msgstr "作用中链接颜色"
+
+#: functions.php:1771
+msgid "Top Bar Text Color"
+msgstr "顶栏字体颜色"
+
+#: functions.php:1785
+msgid "Search Bar Text Color"
+msgstr "搜索框字体颜色"
+
+#: functions.php:1799
+msgid "Search Bar Background Color"
+msgstr "搜索框背景色"
+
+#: functions.php:1812 functions.php:1974
+msgid "Make Full Width"
+msgstr "使设为全宽"
+
+#: functions.php:1825 functions.php:2064 functions.php:2280
+msgid "Hide Logo Image"
+msgstr "隐藏标志图片"
+
+#: functions.php:1839
+msgid "Menu Height"
+msgstr "菜单高度"
+
+#: functions.php:1858
+msgid "Logo Max Height"
+msgstr "徽标最大高度"
+
+#: functions.php:1877
+msgid "Menu Top Margin"
+msgstr "菜单顶部边缘"
+
+#: functions.php:1896 functions.php:1980 functions.php:2313 functions.php:2836
+msgid "Text Size"
+msgstr "文本大小"
+
+#: functions.php:2120 functions.php:2219
+msgid "Dropdown Menu Background Color"
+msgstr "下拉菜单背景颜色"
+
+#: functions.php:2134
+msgid "Dropdown Menu Line Color"
+msgstr "下拉菜单线颜色"
+
+#: functions.php:2148 functions.php:2233
+msgid "Dropdown Menu Text Color"
+msgstr "下拉菜单文本颜色"
+
+#: functions.php:2162 functions.php:2247
+msgid "Dropdown Menu Animation"
+msgstr "下拉菜单动画"
+
+#: functions.php:2294
+msgid "Fixed Menu Height"
+msgstr "固定菜单高度"
+
+#: functions.php:2332
+msgid "Primary Menu Background Color"
+msgstr "主菜单背景颜色"
+
+#: functions.php:2346
+msgid "Secondary Menu Background Color"
+msgstr "二级菜单背景颜色"
+
+#: functions.php:2360
+msgid "Primary Menu Link Color"
+msgstr "主菜单链接颜色"
+
+#: functions.php:2374
+msgid "Secondary Menu Link Color"
+msgstr "二级菜单链接颜色"
+
+#: functions.php:2388
+msgid "Active Primary Menu Link Color"
+msgstr "活动的主菜单链接的颜色"
+
+#: functions.php:2402
+msgid "Phone Number"
+msgstr "电话号码"
+
+#: functions.php:2415
+msgid "Email"
+msgstr "电子邮件"
+
+#: functions.php:2443
+msgid "Column Layout"
+msgstr "列布局"
+
+#: functions.php:2459
+msgid "Footer Background Color"
+msgstr "页脚背景颜色"
+
+#: functions.php:2507
+msgid "Body/Link Text Size"
+msgstr "正文/链接文本大小"
+
+#: functions.php:2526
+msgid "Body/Link Line Height"
+msgstr "车身/链接线高度"
+
+#: functions.php:2545
+msgid "Body Font Style"
+msgstr "正文字体样式"
+
+#: functions.php:2560
+msgid "Widget Text Color"
+msgstr "小工具文本颜色"
+
+#: functions.php:2574
+msgid "Widget Link Color"
+msgstr "小工具链接颜色"
+
+#: functions.php:2588
+msgid "Widget Header Color"
+msgstr "小工具标题颜色"
+
+#: functions.php:2602
+msgid "Widget Bullet Color"
+msgstr "小工具点颜色"
+
+#: functions.php:2617
+msgid "Footer Menu Background Color"
+msgstr "页脚菜单背景颜色"
+
+#: functions.php:2631
+msgid "Footer Menu Text Color"
+msgstr "页脚菜单文本颜色"
+
+#: functions.php:2645
+msgid "Footer Menu Active Link Color"
+msgstr "页脚菜单作用中链接颜色"
+
+#: functions.php:2693 functions.php:2756
+msgid "Font Size"
+msgstr "字体大小"
+
+#: functions.php:2775
+msgid "Social Icon Size"
+msgstr "社交图标大小"
+
+#: functions.php:2794
+msgid "Social Icon Color"
+msgstr "社交图标颜色"
+
+#: functions.php:2807
+msgid "Disable Footer Credits"
+msgstr "禁用页脚链接（Footer Credits）"
+
+#: functions.php:2821
+msgid "Edit Footer Credits"
+msgstr "编辑页脚链接（Footer Credits）"
+
+#: functions.php:2883
+msgid "Border Width"
+msgstr "边框宽度"
+
+#: functions.php:2902 functions.php:3087
+msgid "Border Color"
+msgstr "边框颜色"
+
+#: functions.php:2916 functions.php:3101
+msgid "Border Radius"
+msgstr "边框半径"
+
+#: functions.php:2954 functions.php:5444
+msgid "Button Font Style"
+msgstr "按钮字体样式"
+
+#: functions.php:2970
+msgid "Buttons Font"
+msgstr "按钮字体"
+
+#: functions.php:2986
+msgid "Add Button Icon"
+msgstr "添加按钮图标"
+
+#: functions.php:3001
+msgid "Select Icon"
+msgstr "选择图标"
+
+#: functions.php:3015
+msgid "Icon Color"
+msgstr "图标颜色"
+
+#: functions.php:3029
+msgid "Icon Placement"
+msgstr "图标位置"
+
+#: functions.php:3044
+msgid "Only Show Icon on Hover"
+msgstr "仅悬停时显示图标"
+
+#: functions.php:3138 includes/widgets/widget-about.php:50
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:188
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:204
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:220
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:236
+msgid "Image"
+msgstr "图像"
+
+#: functions.php:3139
+msgid "Image Module Settings"
+msgstr "图像模块设置"
+
+#: functions.php:3150
+msgid "Animation"
+msgstr "动画"
+
+#: functions.php:3151
+msgid "This controls default direction of the lazy-loading animation."
+msgstr "它控制延迟加载动画的默认方向"
+
+#: functions.php:3161
+msgid "Gallery"
+msgstr "图片库"
+
+#: functions.php:3174 functions.php:3957 functions.php:4066
+msgid "Zoom Icon Color"
+msgstr "缩放图标颜色"
+
+#: functions.php:3189 functions.php:3972 functions.php:4081
+msgid "Hover Overlay Color"
+msgstr "悬停覆盖颜色"
+
+#: functions.php:3204 functions.php:3310 functions.php:3987 functions.php:4096
+#: functions.php:4365 functions.php:4444 functions.php:4486 functions.php:4586
+msgid "Title Font Size"
+msgstr "标题字体大小"
+
+#: functions.php:3224 functions.php:3330 functions.php:4007 functions.php:4116
+#: functions.php:4385 functions.php:4464 functions.php:5092 functions.php:5171
+msgid "Title Font Style"
+msgstr "标题字体样式"
+
+#: functions.php:3240 functions.php:4023 functions.php:4132
+msgid "Caption Font Size"
+msgstr "标题字体大小"
+
+#: functions.php:3260 functions.php:4043 functions.php:4152
+msgid "Caption Font Style"
+msgstr "标题字体样式"
+
+#: functions.php:3270
+msgid "Blurb"
+msgstr "图文标"
+
+#: functions.php:3283 functions.php:3395 functions.php:3573 functions.php:3688
+#: functions.php:3751 functions.php:3830 functions.php:3894 functions.php:4685
+#: functions.php:5381 functions.php:5487
+msgid "Header Font Size"
+msgstr "标题字体大小"
+
+#: functions.php:3297
+msgid "Tabs"
+msgstr "选项卡"
+
+#: functions.php:3347 functions.php:3724 functions.php:3866 functions.php:3930
+msgid "Padding"
+msgstr "内边距"
+
+#: functions.php:3361
+msgid "Slider"
+msgstr "幻灯播放器"
+
+#: functions.php:3375 functions.php:5467
+msgid "Top & Bottom Padding"
+msgstr "顶部和底部内边距"
+
+#: functions.php:3431 functions.php:5523
+msgid "Content Font Size"
+msgstr "内容字体大小"
+
+#: functions.php:3451 functions.php:5543
+msgid "Content Font Style"
+msgstr "内容字体样式"
+
+#: functions.php:3461
+msgid "Testimonial"
+msgstr "证言"
+
+#: functions.php:3474 functions.php:4993
+msgid "Name Font Style"
+msgstr "名称字体样式"
+
+#: functions.php:3490
+msgid "Details Font Style"
+msgstr "详细字体样式"
+
+#: functions.php:3506
+msgid "Portrait Border Radius"
+msgstr "肖像边框半径"
+
+#: functions.php:3560
+msgid "Pricing Table"
+msgstr "价格表"
+
+#: functions.php:3609 functions.php:3787 functions.php:5009
+msgid "Subheader Font Size"
+msgstr "副标题字体大小"
+
+#: functions.php:3629 functions.php:3807 functions.php:5029
+msgid "Subheader Font Style"
+msgstr "副标题字体样式"
+
+#: functions.php:3645 functions.php:5302
+msgid "Price Font Size"
+msgstr "价格字体大小"
+
+#: functions.php:3665
+msgid "Pricing Font Style"
+msgstr "价格字体样式"
+
+#: functions.php:3675
+msgid "Call To Action"
+msgstr "行动号召"
+
+#: functions.php:3738
+msgid "Audio"
+msgstr "音频"
+
+#: functions.php:3817
+msgid "Email Optin"
+msgstr "电子邮件选择启用"
+
+#: functions.php:3944
+msgid "Portfolio"
+msgstr "选辑"
+
+#: functions.php:4053
+msgid "Filterable Portfolio"
+msgstr "可筛选选辑"
+
+#: functions.php:4168
+msgid "Filters Font Size"
+msgstr "过滤器字体大小"
+
+#: functions.php:4188
+msgid "Filters Font Style"
+msgstr "过滤器字体样式"
+
+#: functions.php:4198
+msgid "Bar Counter"
+msgstr "栏计数器"
+
+#: functions.php:4211
+msgid "Label Font Size"
+msgstr "标签字体大小"
+
+#: functions.php:4231
+msgid "Label Font Style"
+msgstr "标签字体样式"
+
+#: functions.php:4247
+msgid "Percent Font Size"
+msgstr "百分比字体大小"
+
+#: functions.php:4267
+msgid "Percent Font Style"
+msgstr "百分比字体样式"
+
+#: functions.php:4283
+msgid "Bar Padding"
+msgstr "栏边距"
+
+#: functions.php:4303
+msgid "Bar Border Radius"
+msgstr "栏边框半径"
+
+#: functions.php:4317
+msgid "Circle Counter"
+msgstr "圆形计数器"
+
+#: functions.php:4329 functions.php:4408
+msgid "Number Font Size"
+msgstr "数字字体大小"
+
+#: functions.php:4349 functions.php:4428
+msgid "Number Font Style"
+msgstr "数字字体样式"
+
+#: functions.php:4395
+msgid "Number Counter"
+msgstr "数值计数器"
+
+#: functions.php:4474
+msgid "Accordion"
+msgstr "可折叠面板"
+
+#: functions.php:4506 functions.php:4606
+msgid "Opened Title Font Style"
+msgstr "打开标题字体样式"
+
+#: functions.php:4522 functions.php:4622
+msgid "Closed Title Font Style"
+msgstr "封闭标题字体样式"
+
+#: functions.php:4538 functions.php:4638
+msgid "Toggle Icon Size"
+msgstr "切换图标大小"
+
+#: functions.php:4559 functions.php:4658
+msgid "Toggle Padding"
+msgstr "切换内边距"
+
+#: functions.php:4573
+msgid "Toggle"
+msgstr "切换"
+
+#: functions.php:4672
+msgid "Contact Form"
+msgstr "联系人表单"
+
+#: functions.php:4721
+msgid "Input Font Size"
+msgstr "输入字体大小"
+
+#: functions.php:4741
+msgid "Input Font Style"
+msgstr "输入字体样式"
+
+#: functions.php:4757
+msgid "Input Field Padding"
+msgstr "输入字段内边距"
+
+#: functions.php:4777
+msgid "Captcha Font Size"
+msgstr "验证码字体大小"
+
+#: functions.php:4797
+msgid "Captcha Font Style"
+msgstr "验证码字体样式"
+
+#: functions.php:4807 includes/functions/sidebars.php:4
+msgid "Sidebar"
+msgstr "侧边栏"
+
+#: functions.php:4820
+msgid "Widget Header Font Size"
+msgstr "小工具标题字体大小"
+
+#: functions.php:4840
+msgid "Widget Header Font Style"
+msgstr "小工具标题字体样式"
+
+#: functions.php:4856
+msgid "Remove Vertical Divider"
+msgstr "删除垂直分隔条"
+
+#: functions.php:4865
+msgid "Divider"
+msgstr "分隔器"
+
+#: functions.php:4877
+msgid "Show Divider"
+msgstr "显示分隔器"
+
+#: functions.php:4892
+msgid "Divider Style"
+msgstr "分隔条风格"
+
+#: functions.php:4909
+msgid "Divider Weight"
+msgstr "分隔条高度"
+
+#: functions.php:4929
+msgid "Divider Height"
+msgstr "分隔条高度"
+
+#: functions.php:4949
+msgid "Divider Position"
+msgstr "分隔条位置"
+
+#: functions.php:4960
+msgid "Person"
+msgstr "人员"
+
+#: functions.php:4973
+msgid "Name Font Size"
+msgstr "名称字体大小"
+
+#: functions.php:5045
+msgid "Social Network Icon Size"
+msgstr "社交网络图标大小"
+
+#: functions.php:5072 functions.php:5151
+msgid "Post Title Font Size"
+msgstr "帖子标题字体大小"
+
+#: functions.php:5108 functions.php:5187
+msgid "Meta Font Size"
+msgstr "元字体大小"
+
+#: functions.php:5138
+msgid "Blog Grid"
+msgstr "博客网格"
+
+#: functions.php:5217
+msgid "Shop"
+msgstr "商店"
+
+#: functions.php:5230
+msgid "Product Name Font Size"
+msgstr "产品名称字体大小"
+
+#: functions.php:5250
+msgid "Product Name Font Style"
+msgstr "产品名称字体样式"
+
+#: functions.php:5266
+msgid "Sale Badge Font Size"
+msgstr "出售徽章字体大小"
+
+#: functions.php:5286
+msgid "Sale Badge Font Style"
+msgstr "出售徽章字体样式"
+
+#: functions.php:5322
+msgid "Price Font Style"
+msgstr "价格字体样式"
+
+#: functions.php:5338
+msgid "Sale Price Font Size"
+msgstr "销售价格字体大小"
+
+#: functions.php:5358
+msgid "Sale Price Font Style"
+msgstr "销售价格字体样式"
+
+#: functions.php:5368
+msgid "Countdown"
+msgstr "倒计时"
+
+#: functions.php:5411
+msgid "Social Follow"
+msgstr "社交关注"
+
+#: functions.php:5424
+msgid "Follow Font & Icon Size"
+msgstr "关注字体和图标大小"
+
+#: functions.php:5454
+msgid "Fullwidth Slider"
+msgstr "全宽滑块"
+
+#: functions.php:7977
+msgid "0 comments"
+msgstr "0 条评论"
+
+#: functions.php:7977
+msgid "1 comment"
+msgstr "1 条评论"
+
+#: functions.php:7977
+msgid "comments"
+msgstr "评论"
+
+#: functions.php:8060
+msgid "Password Protected"
+msgstr "密码保护"
+
+#: functions.php:8061
+msgid "To view this protected post, enter the password below"
+msgstr "要查看密码保护的博文，请在下面输入密码"
+
+#: functions.php:8064
+msgid "Password"
+msgstr "密码"
+
+#: functions.php:8065
+msgid "Submit"
+msgstr "提交"
+
+#: functions.php:8478 functions.php:8514
+msgid "Theme Customizer"
+msgstr "主题定制"
+
+#: functions.php:8482 functions.php:8527
+msgid "Module Customizer"
+msgstr "模块定制"
+
+#: functions.php:8484
+msgid "Role Editor"
+msgstr "角色编辑器"
+
+#: functions.php:8487
+msgid "Divi Library"
+msgstr "Divi库"
+
+#: functions.php:8700
+msgid "Divi Customizer Settings"
+msgstr "Divi Customizer 设置"
+
+#: functions.php:8741
+msgid "Designed by %1$s | Powered by %2$s"
+msgstr "由 %1$s 设计 |  %2$s 提供技术支持"
+
+#: header.php:143 header.php:271
+msgid "Search &hellip;"
+msgstr "搜索 &hellip;"
+
+#: header.php:145 header.php:273
+msgid "Search for:"
+msgstr "搜索："
+
+#: includes/functions/choices.php:9
+msgid "Bold"
+msgstr "加粗"
+
+#: includes/functions/choices.php:10
+msgid "Italic"
+msgstr "斜体"
+
+#: includes/functions/choices.php:11
+msgid "Uppercase"
+msgstr "大写"
+
+#: includes/functions/choices.php:12
+msgid "Underline"
+msgstr "下划线"
+
+#: includes/functions/choices.php:25
+msgid "Green"
+msgstr "绿色"
+
+#: includes/functions/choices.php:26
+msgid "Orange"
+msgstr "橙色"
+
+#: includes/functions/choices.php:27
+msgid "Pink"
+msgstr "粉红色"
+
+#: includes/functions/choices.php:28
+msgid "Red"
+msgstr "红色"
+
+#: includes/functions/choices.php:41
+msgid "Centered"
+msgstr "居中"
+
+#: includes/functions/choices.php:42
+msgid "Centered Inline Logo"
+msgstr "居中内联标志"
+
+#: includes/functions/choices.php:43
+msgid "Slide In"
+msgstr "幻灯片"
+
+#: includes/functions/choices.php:44
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: includes/functions/choices.php:56
+msgid "Fade"
+msgstr "消失"
+
+#: includes/functions/choices.php:57
+msgid "Expand"
+msgstr "扩大"
+
+#: includes/functions/choices.php:58
+msgid "Slide"
+msgstr "幻灯片"
+
+#: includes/functions/choices.php:59
+msgid "Flip"
+msgstr "翻转"
+
+#: includes/functions/choices.php:71 includes/functions/choices.php:72
+#: includes/functions/choices.php:73 includes/functions/choices.php:75
+#: includes/functions/choices.php:76 includes/functions/choices.php:77
+#: includes/functions/choices.php:78 includes/functions/choices.php:79
+#: includes/functions/choices.php:80
+msgid "%1$s Columns"
+msgstr "%1$s列"
+
+#: includes/functions/choices.php:74
+msgid "1 Column"
+msgstr "1 列"
+
+#: includes/functions/choices.php:118
+msgid "Left to Right"
+msgstr "从左到右"
+
+#: includes/functions/choices.php:119
+msgid "Right to Left"
+msgstr "从右到左"
+
+#: includes/functions/choices.php:120
+msgid "Top to Bottom"
+msgstr "从上到下"
+
+#: includes/functions/choices.php:121
+msgid "Bottom to Top"
+msgstr "从下到上"
+
+#: includes/functions/choices.php:122
+msgid "Fade In"
+msgstr "淡入"
+
+#: includes/functions/choices.php:123
+msgid "No Animation"
+msgstr "无动画"
+
+#: includes/functions/choices.php:135
+msgid "Solid"
+msgstr "实线"
+
+#: includes/functions/choices.php:136
+msgid "Dotted"
+msgstr "点线"
+
+#: includes/functions/choices.php:137
+msgid "Dashed"
+msgstr "虚线"
+
+#: includes/functions/choices.php:138
+msgid "Double"
+msgstr "双线"
+
+#: includes/functions/choices.php:139
+msgid "Groove"
+msgstr "凹槽"
+
+#: includes/functions/choices.php:140
+msgid "Ridge"
+msgstr "边缘"
+
+#: includes/functions/choices.php:141
+msgid "Inset"
+msgstr "插入"
+
+#: includes/functions/choices.php:142
+msgid "Outset"
+msgstr "外部"
+
+#: includes/functions/choices.php:154
+msgid "Top"
+msgstr "顶部"
+
+#: includes/functions/choices.php:155
+msgid "Vertically Centered"
+msgstr "垂直居中"
+
+#: includes/functions/choices.php:156
+msgid "Bottom"
+msgstr "底部"
+
+#: includes/functions/choices.php:168
+msgid "No Repeat"
+msgstr "无重复"
+
+#: includes/functions/choices.php:169
+msgid "Tile"
+msgstr "平铺"
+
+#: includes/functions/choices.php:170
+msgid "Tile Horizontally"
+msgstr "横向平铺"
+
+#: includes/functions/choices.php:171
+msgid "Tile Vertically"
+msgstr "垂直平铺"
+
+#: includes/functions/choices.php:183
+msgid "Scroll"
+msgstr "滚动"
+
+#: includes/functions/choices.php:184
+msgid "Fixed"
+msgstr "固定"
+
+#: includes/functions/installation.php:1
+msgid "Read Divi Documentation"
+msgstr "读取 Divi 文档"
+
+#: includes/functions/sidebars.php:13 includes/functions/sidebars.php:22
+#: includes/functions/sidebars.php:31 includes/functions/sidebars.php:40
+msgid "Footer Area"
+msgstr "脚注页面"
+
+#: includes/functions/tutorials.php:1
+msgid "Watch video tutorials"
+msgstr "观看视频教程"
+
+#: includes/navigation.php:2
+msgid "&laquo; Older Entries"
+msgstr "&laquo; 较旧的条目"
+
+#: includes/navigation.php:3
+msgid "Next Entries &raquo;"
+msgstr "下一个条目 &raquo;"
+
+#: includes/no-results.php:3
+msgid "No Results Found"
+msgstr "未找到结果"
+
+#: includes/no-results.php:4
+msgid ""
+"The page you requested could not be found. Try refining your search, or use "
+"the navigation above to locate the post."
+msgstr "您请求的页面无法找到。尝试精确您的搜索，或者使用上面的导航定位文章。"
+
+#: includes/social_icons.php:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: includes/social_icons.php:13
+msgid "Twitter"
+msgstr "Twitter"
+
+#: includes/social_icons.php:20
+msgid "Google"
+msgstr "Google"
+
+#: includes/social_icons.php:32
+msgid "RSS"
+msgstr "RSS"
+
+#: includes/widgets/widget-about.php:4
+msgid "Displays About Me Information"
+msgstr "显示有关我的信息"
+
+#: includes/widgets/widget-about.php:6
+msgid "ET About Me Widget"
+msgstr "“关于我”小部件"
+
+#: includes/widgets/widget-about.php:12 includes/widgets/widget-about.php:41
+msgid "About Me"
+msgstr "关于我"
+
+#: includes/widgets/widget-about.php:48 includes/widgets/widget-ads.php:172
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:192
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:208
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:224
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:240
+#: includes/widgets/widget-adsense.php:46
+msgid "Title"
+msgstr "标题"
+
+#: includes/widgets/widget-about.php:52
+msgid "Text"
+msgstr "文本"
+
+#: includes/widgets/widget-ads.php:4
+msgid "Displays Advertisements"
+msgstr "显示广告"
+
+#: includes/widgets/widget-ads.php:6
+msgid "ET Advertisement"
+msgstr "广告"
+
+#: includes/widgets/widget-ads.php:12 includes/widgets/widget-ads.php:128
+msgid "Advertisement"
+msgstr "广告"
+
+#: includes/widgets/widget-ads.php:175
+msgid "Use Relative Image Paths"
+msgstr "使用相对图像路径"
+
+#: includes/widgets/widget-ads.php:177
+msgid "Open in a new window"
+msgstr "在新窗口中打开"
+
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:182
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:186
+#: includes/widgets/widget-ads.php:188 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:192 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:198
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:202
+#: includes/widgets/widget-ads.php:204 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:208 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:214
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:218
+#: includes/widgets/widget-ads.php:220 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:224 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:230
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:234
+#: includes/widgets/widget-ads.php:236 includes/widgets/widget-ads.php:238
+#: includes/widgets/widget-ads.php:240 includes/widgets/widget-ads.php:242
+msgid "Banner"
+msgstr "横幅"
+
+#: includes/widgets/widget-ads.php:182 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:198 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:214 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:230 includes/widgets/widget-ads.php:238
+msgid "Url"
+msgstr "URL"
+
+#: includes/widgets/widget-ads.php:186 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:202 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:218 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:234 includes/widgets/widget-ads.php:242
+msgid "Alt"
+msgstr "替代文本"
+
+#: includes/widgets/widget-ads.php:243
+msgid ""
+"If you don't want to display some banners - leave approptiate fields blank"
+msgstr "如果不想显示某些横幅，请将相应的字段留空"
+
+#: includes/widgets/widget-adsense.php:4
+msgid "Displays Adsense Ads"
+msgstr "显示 Adsense 广告"
+
+#: includes/widgets/widget-adsense.php:6
+msgid "ET Adsense Widget"
+msgstr "Adsense 小部件"
+
+#: includes/widgets/widget-adsense.php:12
+#: includes/widgets/widget-adsense.php:40
+msgid "Adsense"
+msgstr "Adsense"
+
+#: includes/widgets/widget-adsense.php:48
+msgid "Adsense Code"
+msgstr "Adsense 代码"
+
+#: options_divi.php:45
+msgid "Logo"
+msgstr "标志"
+
+#: options_divi.php:48
+msgid "Set As Logo"
+msgstr "设置为徽标"
+
+#: options_divi.php:50
+msgid ""
+"If you would like to use your own custom logo image click the Upload Image "
+"button."
+msgstr "如果您想使用自己自定义的标志图像，请点击“上传图片”按钮。"
+
+#: options_divi.php:53
+msgid "Favicon"
+msgstr "Favicon"
+
+#: options_divi.php:56
+msgid "Set As Favicon"
+msgstr "设置为 Favicon"
+
+#: options_divi.php:58
+msgid ""
+"If you would like to use your own custom favicon image click the Upload "
+"Image button."
+msgstr "如果您想使用自己自定义的 Favicon 图像，请点击“上传图片”按钮。"
+
+#: options_divi.php:61
+msgid "Fixed Navigation Bar"
+msgstr "固定导航栏"
+
+#: options_divi.php:65
+msgid ""
+"By default the navigation bar stays on top of the screen at all times. We "
+"suggest to disable this option, if you need to use a logo taller than the "
+"default one."
+msgstr ""
+"默认情况下导航栏始终停留在屏幕顶部。如果您需要使用一个大的标志图像，我们建议"
+"禁用此选项。"
+
+#: options_divi.php:68
+msgid "Enable Divi Gallery"
+msgstr "启用 Divi 画廊"
+
+#: options_divi.php:72
+msgid ""
+"Enable this if you want to replace the WordPress default gallery with the "
+"Divi-style gallery."
+msgstr "如果你想用 Divi 式画廊代替 WordPress 的默认画廊，启用此功能。"
+
+#: options_divi.php:75
+msgid "Color Pickers Default Palette"
+msgstr "颜色选取器默认调色板"
+
+#: options_divi.php:80
+msgid "Define the default color palette for color pickers in the Divi Builder."
+msgstr "在 Divi 生成器中定义颜色选取器的默认调色板。"
+
+#: options_divi.php:85
+msgid "Grab the first post image"
+msgstr "抓取文章第一个图像"
+
+#: options_divi.php:89
+msgid ""
+"By default thumbnail images are created using custom fields. However, if you "
+"would rather use the images that are already in your post for your thumbnail "
+"(and bypass using custom fields) you can activate this option. Once "
+"activcated thumbnail images will be generated automatically using the first "
+"image in your post. The image must be hosted on your own server."
+msgstr ""
+"默认情况下使用自定义字段创建缩略图。但是，如果您宁愿使用您文章中已有的图像作"
+"为缩略图（并避开使用自定义字段），您可以激活此选项。一旦被激活，其将自动使用"
+"您文章中的第一个图像生成缩略图图像。该图像必须托管于您自己的服务器上。"
+
+#: options_divi.php:92
+msgid "Blog Style Mode"
+msgstr "博客风格模式"
+
+#: options_divi.php:96
+msgid ""
+"By default the theme truncates your posts on index/homepages automatically "
+"to create post previews. If you would rather show your posts in full on "
+"index pages like a traditional blog then you can activate this feature."
+msgstr ""
+"默认情况下，该主题自动截断您文章的摘录来创造文章预览。如果您希望像传统博客那"
+"样全文显示您的文章，则您可以激活此功能。"
+
+#: options_divi.php:99
+msgid "Shop Page & Category Page Layout for WooCommerce"
+msgstr "WooCommerce 的店铺页面和类别页面布局"
+
+#: options_divi.php:108
+msgid "Here you can choose Shop Page & Category Page Layout for WooCommerce."
+msgstr "在这里，您可以选择 WooCommerce 的店铺页面和类别页面布局。"
+
+#: options_divi.php:113
+msgid "Google API Key"
+msgstr "Google API 密钥"
+
+#: options_divi.php:121
+msgid ""
+"The Maps module uses the Google Maps API and requires a valid Google API Key "
+"to function. Before using the map module, please make sure you have added "
+"your API key here. Learn more about how to create your Google API Key <a "
+"target=\"_blank\" href=\"%1$s\">here</a>."
+msgstr ""
+"此地图模块使用 Google 地图 API，需要有效的 Google API 密钥才能运行。在使用地"
+"图模块之前，请确保您已经在此添加了您的 API 密钥。了解更多关于如何创建谷歌 "
+"API 密钥的信息 <a target=\"_blank\" href=\"%1$s\">here</a>。"
+
+#: options_divi.php:125
+msgid "Enqueue Google Maps Script"
+msgstr "将谷歌地图脚本加入队列"
+
+#: options_divi.php:132
+msgid ""
+"Disable this option to remove the Google Maps API script from your Divi "
+"Builder Pages. This may improve compatibility with third party plugins that "
+"also enqueue this script. Please Note: Modules that rely on the Google Maps "
+"API in order to function properly, such as the Maps and Fullwidth Maps "
+"Modules, will still be available but will not function while this option is "
+"disabled (unless you manually add Google Maps API script)."
+msgstr ""
+"禁用此选项来从您的 Divi 生成器页面删除 Google 地图 API 脚本。这可能会改善与加"
+"入此脚本队列的第三方插件的兼容性。请注意：依赖 Google API 正常运作模块，例如"
+"地图和全宽度地图模块，在此选项禁用时可用但不能运行（除非您手动添加Google API "
+"脚本）。"
+
+#: options_divi.php:135
+msgid "Show Facebook Icon"
+msgstr "显示 Facebook 图标"
+
+#: options_divi.php:139
+msgid "Here you can choose to display the Facebook Icon on your homepage. "
+msgstr "在这里，您可以选择在您的主页显示 Facebook 图标。 "
+
+#: options_divi.php:141
+msgid "Show Twitter Icon"
+msgstr "显示 Twitter 图标"
+
+#: options_divi.php:145
+msgid "Here you can choose to display the Twitter Icon. "
+msgstr "在这里，您可以选择显示 Twitter 图标。 "
+
+#: options_divi.php:147
+msgid "Show Google+ Icon"
+msgstr "显示 Google+ 图标"
+
+#: options_divi.php:151
+msgid "Here you can choose to display the Google+ Icon on your homepage. "
+msgstr "在这里，您可以选择在您的主页显示 Google+ 图标。 "
+
+#: options_divi.php:153
+msgid "Show RSS Icon"
+msgstr "显示 RSS 图标"
+
+#: options_divi.php:157
+msgid "Here you can choose to display the RSS Icon. "
+msgstr "在这里，您可以选择显示 RSS 图标。 "
+
+#: options_divi.php:159
+msgid "Facebook Profile Url"
+msgstr "Facebook 个人资料 URL"
+
+#: options_divi.php:164
+msgid "Enter the URL of your Facebook Profile. "
+msgstr "输入您的 Facebook 个人资料的 URL。 "
+
+#: options_divi.php:166
+msgid "Twitter Profile Url"
+msgstr "Twitter 个人资料 URL"
+
+#: options_divi.php:171
+msgid "Enter the URL of your Twitter Profile."
+msgstr "输入您的 Twitter 个人资料的 URL。"
+
+#: options_divi.php:173
+msgid "Google+ Profile Url"
+msgstr "Google+ 个人资料 URL"
+
+#: options_divi.php:178
+msgid "Enter the URL of your Google+ Profile. "
+msgstr "输入您的 Google+ 个人资料的 URL。 "
+
+#: options_divi.php:180
+msgid "RSS Icon Url"
+msgstr "RSS 图标 URL"
+
+#: options_divi.php:185
+msgid "Enter the URL of your RSS feed. "
+msgstr "输入您的 RSS 源的 URL。 "
+
+#: options_divi.php:187
+msgid "Number of Products displayed on WooCommerce archive pages"
+msgstr "在 WooCommerce 归档页面上显示的产品数量"
+
+#: options_divi.php:191
+msgid ""
+"Here you can designate how many WooCommerce products are displayed on the "
+"archive page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"你可以在此次指定显示在归档页面上的 WooCommerce 产品数量。此为独立选项，不依"
+"赖 wp-admin. 中的设置> 读取选项"
+
+#: options_divi.php:195
+msgid "Number of Posts displayed on Category page"
+msgstr "类别页面显示的文章数量"
+
+#: options_divi.php:199
+msgid ""
+"Here you can designate how many recent articles are displayed on the "
+"Category page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"在这里，您可以指定类别页面上显示多少近期的文章。在 wp-admin 中，此选项在阅读"
+"选项之外独立工作。"
+
+#: options_divi.php:203
+msgid "Number of Posts displayed on Archive pages"
+msgstr "存档页面显示的文章数量"
+
+#: options_divi.php:207
+msgid ""
+"Here you can designate how many recent articles are displayed on the Archive "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"在这里，您可以指定存档页面上显示多少近期的文章。在 wp-admin 中，此选项在阅读"
+"选项之外独立工作。"
+
+#: options_divi.php:211
+msgid "Number of Posts displayed on Search pages"
+msgstr "搜索页面显示的文章数量"
+
+#: options_divi.php:215
+msgid ""
+"Here you can designate how many recent articles are displayed on the Search "
+"results pages. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"在这里，您可以指定搜索页面上显示多少近期的文章。在 wp-admin 中，此选项在阅读"
+"选项之外独立工作。"
+
+#: options_divi.php:219
+msgid "Number of Posts displayed on Tag pages"
+msgstr "标签页面显示的文章数量"
+
+#: options_divi.php:223
+msgid ""
+"Here you can designate how many recent articles are displayed on the Tag "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"在这里，您可以指定标签页面上显示多少近期的文章。在 wp-admin 中，此选项在阅读"
+"选项之外独立工作。"
+
+#: options_divi.php:227
+msgid "Date format"
+msgstr "日期格式"
+
+#: options_divi.php:231
+msgid ""
+"This option allows you to change how your dates are displayed. For more "
+"information please refer to the WordPress codex here:<a href='http://codex."
+"wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and "
+"Time</a>"
+msgstr ""
+"此选项允许您更改日期的显示方式。欲了解更多信息，请参阅 WordPress codex：<a "
+"href='http://codex.wordpress.org/Formatting_Date_and_Time' target='_blank'>日"
+"期和时间格式</a>"
+
+#: options_divi.php:235
+msgid "Use excerpts when defined"
+msgstr "定义时使用摘录"
+
+#: options_divi.php:239
+msgid "This will enable the use of excerpts in posts or pages."
+msgstr "这将允许使用文章或页面的摘录。"
+
+#: options_divi.php:242
+msgid "Responsive shortcodes"
+msgstr "响应式 shortcodes"
+
+#: options_divi.php:246
+msgid "Enable this option to make shortcodes respond to various screen sizes"
+msgstr "启用该选项，使 shortcodes 响应各种屏幕尺寸"
+
+#: options_divi.php:249
+msgid "Google Fonts subsets"
+msgstr "Google Fonts 子集"
+
+#: options_divi.php:253
+msgid "This will enable Google Fonts for Non-English languages."
+msgstr "这将为非英语语言启用 Google Fonts。"
+
+#: options_divi.php:256
+msgid "Back To Top Button"
+msgstr "返回顶部按钮"
+
+#: options_divi.php:260
+msgid "Enable this option to display Back To Top Button while scrolling"
+msgstr "启用该选项，在滚动时显示返回顶部按钮"
+
+#: options_divi.php:263
+msgid "Smooth Scrolling"
+msgstr "平滑滚动"
+
+#: options_divi.php:267
+msgid "Enable this option to get the smooth scrolling effect with mouse wheel"
+msgstr "启用该选项，获得鼠标滚轮的平滑滚动效果"
+
+#: options_divi.php:270
+msgid "Disable Translations"
+msgstr "禁用翻译"
+
+#: options_divi.php:274
+msgid ""
+"Disable translations if you don't want to display translated theme strings "
+"on your site."
+msgstr "如果你不想在你的网站上显示翻译过的主题字符串，可以禁用翻译。"
+
+#: options_divi.php:277
+msgid "Custom CSS"
+msgstr "自定义 CSS"
+
+#: options_divi.php:281
+msgid "Here you can add custom css to override or extend default styles."
+msgstr "在这里，您可以添加自定义的CSS来覆盖或扩展默认样式。"
+
+#: options_divi.php:286
+msgid "Memory Limit Increase"
+msgstr "内存限制增加"
+
+#: options_divi.php:288
+msgid "Here you can disable automatic memory limit increase."
+msgstr "在这里你可以禁用自动内存限制增加。"
+
+#: options_divi.php:308
+msgid "Pages"
+msgstr "页数"
+
+#: options_divi.php:326
+msgid "Exclude pages from the navigation bar"
+msgstr "从导航栏排除页面"
+
+#: options_divi.php:330
+msgid ""
+"Here you can choose to remove certain pages from the navigation menu. All "
+"pages marked with an X will not appear in your navigation bar. "
+msgstr ""
+"在这里，您可以选择从导航菜单删除某些网页。标有X所有的页面将不会出现在您的导航"
+"栏中。 "
+
+#: options_divi.php:334 options_divi.php:384
+msgid "Show dropdown menus"
+msgstr "显示下拉菜单"
+
+#: options_divi.php:338
+msgid ""
+"If you would like to remove the dropdown menus from the pages navigation bar "
+"disable this feature."
+msgstr "如果您想从页面导航栏中删除下拉菜单，禁用此功能。"
+
+#: options_divi.php:341
+msgid "Display Home link"
+msgstr "显示主页链接"
+
+#: options_divi.php:345
+msgid ""
+"By default the theme creates a Home link that, when clicked, leads back to "
+"your blog's homepage. If, however, you are using a static homepage and have "
+"already created a page called Home to use, this will result in a duplicate "
+"link. In this case you should disable this feature to remove the link."
+msgstr ""
+"默认情况下，主题会创建一个主页链接，点击后会返回您的博客主页。但是，如果您使"
+"用的是静态主页并且已经创建了一个名为主页的网页，这将导致一个重复的链接。在这"
+"种情况下，您应该禁用此功能以删除该链接。"
+
+#: options_divi.php:348
+msgid "Sort Pages Links"
+msgstr "排序页面链接"
+
+#: options_divi.php:352
+msgid "Here you can choose to sort your pages links."
+msgstr "在这里，您可以选择如何将网页链接进行排序。"
+
+#: options_divi.php:355
+msgid "Order Pages Links by Ascending/Descending"
+msgstr "以升序/降序对页面链接排序"
+
+#: options_divi.php:359
+msgid ""
+"Here you can choose to reverse the order that your pages links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"在这里，您可以选择反转您的网页链接显示顺序。您可以在升序和降序之间进行选择。"
+
+#: options_divi.php:362 options_divi.php:398
+msgid "Number of dropdown tiers shown"
+msgstr "显示的下拉菜单层级数"
+
+#: options_divi.php:366 options_divi.php:402
+msgid ""
+"This options allows you to control how many teirs your pages dropdown menu "
+"has. Increasing the number allows for additional menu items to be shown."
+msgstr ""
+"此选项允许您控制您的页面下拉菜单有多少层级。增加数量将允许显示额外的菜单项。"
+
+#: options_divi.php:376
+msgid "Exclude categories from the navigation bar"
+msgstr "从导航栏排除类别"
+
+#: options_divi.php:380
+msgid ""
+"Here you can choose to remove certain categories from the navigation menu. "
+"All categories marked with an X will not appear in your navigation bar. "
+msgstr ""
+"在这里，您可以选择从导航菜单删除某些类别。标有X所有的类别将不会出现在您的导航"
+"栏中。 "
+
+#: options_divi.php:388
+msgid ""
+"If you would like to remove the dropdown menus from the categories "
+"navigation bar disable this feature."
+msgstr "如果您想从类别导航栏中删除下拉菜单，请禁用该功能。"
+
+#: options_divi.php:391
+msgid "Hide empty categories"
+msgstr "隐藏空类别"
+
+#: options_divi.php:395
+msgid ""
+"If you would like categories to be displayed in your navigationbar that "
+"don't have any posts in them then disable this option. By default empty "
+"categories are hidden"
+msgstr ""
+"如果您想要在导航栏中显示没有任何文章的类别，请禁用此选项。默认情况下空类别是"
+"隐藏的。"
+
+#: options_divi.php:406
+msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+msgstr "按 Name/ID/Slug/Count/Term 组排序类别链接"
+
+#: options_divi.php:410
+msgid ""
+"By default pages are sorted by name. However if you would rather have them "
+"sorted by ID you can adjust this setting."
+msgstr ""
+"默认情况下，页面是按名称排序的。但是，如果您想要按ID对它们进行排序，您可以调"
+"整此设置。"
+
+#: options_divi.php:413
+msgid "Order Category Links by Ascending/Descending"
+msgstr "按升序或降序对类别链接排序"
+
+#: options_divi.php:417
+msgid ""
+"Here you can choose to reverse the order that your categories links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"在这里，您可以选择反转您的类别链接显示顺序。您可以在升序和降序之间进行选择。"
+
+#: options_divi.php:426
+msgid "Disable top tier dropdown menu links"
+msgstr "禁用顶级下拉菜单链接"
+
+#: options_divi.php:430
+msgid ""
+"In some cases users will want to create parent categories or links as "
+"placeholders to hold a list of child links or categories. In this case it is "
+"not desirable to have the parent links lead anywhere, but instead merely "
+"serve an organizational function. Enabling this options will remove the "
+"links from all parent pages/categories so that they don't lead anywhere when "
+"clicked."
+msgstr ""
+"在某些情况下，用户想要创建父级类别或链接作为占位符来保存子链接或类别列表。在"
+"这种情况下，用户不希望让父级链接指向任何位置，而是仅仅用于组织功能。启用该选"
+"项将从所有父级页面/类别中删除链接，使在点击它们时不会导致跳转到任何地方。"
+
+#: options_divi.php:434
+msgid "Alternative scroll-to-anchor method"
+msgstr "另一种滚动到锚点的方法"
+
+#: options_divi.php:438
+msgid ""
+"Sometimes when using the CSS ID of a section to link directly to it from "
+"another page, the page's final scroll position can be inaccurate. Enable "
+"this option to use an alternative method for scrolling to anchors which can "
+"be more accurate than the default method in some cases."
+msgstr ""
+"有时，当使用某一部分的 CSS ID 来直接从另一个页面链接到它时，该网页的最后滚动"
+"位置可能是不准确的。启用此选项可使用另一种滚动到锚点的方法，在某些情况下会比"
+"默认方法更准确。"
+
+#: options_divi.php:456
+msgid "Single Post Layout"
+msgstr "单文章布局"
+
+#: options_divi.php:461
+msgid "Single Page Layout"
+msgstr "单页面布局"
+
+#: options_divi.php:474
+msgid "Choose which items to display in the postinfo section"
+msgstr "选择在文章信息部分显示的项目"
+
+#: options_divi.php:478
+msgid ""
+"Here you can choose which items appear in the postinfo section on single "
+"post pages. This is the area, usually below the post title, which displays "
+"basic information about your post. The highlighted itmes shown below will "
+"appear. "
+msgstr ""
+"在这里，您可以选择单文章页面信息部分显示哪些项目。这个区域通常位于文章标题下"
+"方，它显示关于文章的基本信息。下面突出显示的项目将出现。 "
+
+#: options_divi.php:482
+msgid "Show comments on posts"
+msgstr "显示文章评论"
+
+#: options_divi.php:486
+msgid ""
+"You can disable this option if you want to remove the comments and comment "
+"form from single post pages. "
+msgstr "如果您想删除文章的评论和评论表单，您可以禁用这个选项。 "
+
+#: options_divi.php:489
+msgid "Place Thumbs on Posts"
+msgstr "放置文章缩略图图像"
+
+#: options_divi.php:493
+msgid ""
+"By default thumbnails are placed at the beginning of your post on single "
+"post pages. If you would like to remove this initial thumbnail image to "
+"avoid repetition simply disable this option. "
+msgstr ""
+"默认情况下，缩略图被放置在单页面文章的开始处。如果您想删除这个初始缩略图以避"
+"免重复，只需禁用这个选项即可。 "
+
+#: options_divi.php:502
+msgid "Place Thumbs on Pages"
+msgstr "放置页面缩略图图像"
+
+#: options_divi.php:506
+msgid ""
+"By default thumbnails are not placed on pages (they are only used on posts). "
+"However, if you want to use thumbnails on pages you can! Just enable this "
+"option. "
+msgstr ""
+"默认情况下，不会在页面上放置缩略图（仅在博文中使用它们）。但是，如果要在页面"
+"上使用缩略图，也是可以的！启用此选项即可。"
+
+#: options_divi.php:509
+msgid "Show comments on pages"
+msgstr "显示页面上的评论"
+
+#: options_divi.php:513
+msgid ""
+"By default comments are not placed on pages, however, if you would like to "
+"allow people to comment on your pages simply enable this option. "
+msgstr ""
+"默认情况下，页面上不会放置评论。但是，如果您想让人们对您的页面进行评论，只需"
+"启用该选项。 "
+
+#: options_divi.php:522
+msgid "Post info section"
+msgstr "文章信息部分"
+
+#: options_divi.php:526
+msgid ""
+"Here you can choose which items appear in the postinfo section on pages. "
+"This is the area, usually below the post title, which displays basic "
+"information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+"在这里，您可以选择页面上文章信息部分显示哪些项目。这个区域通常位于文章标题下"
+"方，它显示关于文章的基本信息。下面突出显示的项目将出现。 "
+
+#: options_divi.php:529
+msgid "Show Thumbs on Index pages"
+msgstr "显示索引页上的缩略图图片"
+
+#: options_divi.php:533
+msgid "Enable this option to show thumbnails on Index Pages."
+msgstr "启用该选项，显示索引页上的缩略图图片。"
+
+#: options_divi.php:550
+msgid "Homepage SEO"
+msgstr "主页 SEO"
+
+#: options_divi.php:555
+msgid "Single Post Page SEO"
+msgstr "单个文章页 SEO"
+
+#: options_divi.php:560
+msgid "Index Page SEO"
+msgstr "索引页 SEO"
+
+#: options_divi.php:568
+msgid " Enable custom title "
+msgstr "启用自定义标题 "
+
+#: options_divi.php:572
+msgid ""
+"By default the theme uses a combination of your blog name and your blog "
+"description, as defined when you created your blog, to create your homepage "
+"titles. However if you want to create a custom title then simply enable this "
+"option and fill in the custom title field below. "
+msgstr ""
+"正如您在创建博客时定义的那样，默认情况下主题将综合使用您的博客名称和博客说明"
+"来创建您的主页标题。但是，如果您想创建一个自定义标题，那么只需启用这个选项并"
+"填写下方的自定义标题字段。 "
+
+#: options_divi.php:575
+msgid " Enable meta description"
+msgstr "启用 meta 标签说明"
+
+#: options_divi.php:579
+msgid ""
+"By default the theme uses your blog description, as defined when you created "
+"your blog, to fill in the meta description field. If you would like to use a "
+"different description then enable this option and fill in the custom "
+"description field below. "
+msgstr ""
+"正如您在创建博客时定义的那样，默认情况下主题使用您的博客说明来填写 meta "
+"description 字段。如果您想使用不同的描述，那么启用该选项并填写以下自定义描述"
+"字段。 "
+
+#: options_divi.php:582
+msgid " Enable meta keywords"
+msgstr "启用 meta keywords"
+
+#: options_divi.php:586
+msgid ""
+"By default the theme does not add keywords to your header. Most search "
+"engines don't use keywords to rank your site anymore, but some people define "
+"them anyway just in case. If you want to add meta keywords to your header "
+"then enable this option and fill in the custom keywords field below. "
+msgstr ""
+"默认情况下，主题不向页眉添加任何关键字。大多数搜索引擎已不再使用关键字来对网"
+"站进行排名，但是有些人以防万一还是定义了它们。如果您想将 meta keywords 添加到"
+"您的页眉，那么启用该选项并填写以下自定义关键字字段。 "
+
+#: options_divi.php:589 options_divi.php:716
+msgid " Enable canonical URL's"
+msgstr "启用规范的 URL's"
+
+#: options_divi.php:593 options_divi.php:667 options_divi.php:720
+msgid ""
+"Canonicalization helps to prevent the indexing of duplicate content by "
+"search engines, and as a result, may help avoid duplicate content penalties "
+"and pagerank degradation. Some pages may have different URLs all leading to "
+"the same place. For example domain.com, domain.com/index.html, and www."
+"domain.com are all different URLs leading to your homepage. From a search "
+"engine's perspective these duplicate URLs, which also occur often due to "
+"custom permalinks, may be treated individually instead of as a single "
+"destination. Defining a canonical URL tells the search engine which URL you "
+"would like to use officially. The theme bases its canonical URLs off your "
+"permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+"规范化有助于防止搜索引擎对重复内容建立索引，因此有助于避免重复内容罚分和页面"
+"排名降低。有些页面可以有全部指向同一个位置的不同 URLs。例如，domain.com、"
+"domain.com/index.html 和 www.domain.com 都是指向主页的不同 URLs。从搜索引擎的"
+"角度来看，这些重复的 URLs（在定制链接时也会经常发生这种情况）可能会分别对待，"
+"而不是视为一个目标。定义规范的 URL 可以让搜索引擎知道哪个是要正式使用的 URL。"
+"主题的规范 URLs 基于链接以及在 wp-admin 的设置选项卡中定义的域名。"
+
+#: options_divi.php:596
+msgid "Homepage custom title (if enabled)"
+msgstr "主页自定义标题（如果启用）"
+
+#: options_divi.php:600
+msgid ""
+"If you have enabled custom titles you can add your custom title here. "
+"Whatever you type here will be placed between the < title >< /title > tags "
+"in header.php"
+msgstr ""
+"如果您已启用自定义标题，您可以在这里添加您的自定义标题。无论您在此处键入什么"
+"内容，它们都将被放置于 header.php 上 < title >< /title > 标签之间。"
+
+#: options_divi.php:604
+msgid "Homepage meta description (if enabled)"
+msgstr "主页 meta description（如果启用）"
+
+#: options_divi.php:608
+msgid ""
+"If you have enabled meta descriptions you can add your custom description "
+"here."
+msgstr "如果您启用了 meta description，您可以在这里添加自定义说明。"
+
+#: options_divi.php:612
+msgid "Homepage meta keywords (if enabled)"
+msgstr "主页 meta keywords（如果启用）"
+
+#: options_divi.php:616
+msgid ""
+"If you have enabled meta keywords you can add your custom keywords here. "
+"Keywords should be separated by comas. For example: wordpress,themes,"
+"templates,elegant"
+msgstr ""
+"如果您启用了 meta keywords，您可以在这里添加自定义关键字。关键字应该用逗号分"
+"隔。例如：wordpress,themes,templates,elegant"
+
+#: options_divi.php:620 options_divi.php:694
+msgid "If custom titles are disabled, choose autogeneration method"
+msgstr "如果禁用了自定义标题，选择自动生成方法"
+
+#: options_divi.php:625
+msgid ""
+"If you are not using cutsom post titles you can still have control over how "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"如果您没有使用自定义文章标题，您仍然可以控制如何生成标题。在这里，您可以选择"
+"您的文章标题和博客名称显示顺序，或者也可以从标题中彻底删除博客名称。"
+
+#: options_divi.php:628 options_divi.php:702 options_divi.php:738
+msgid "Define a character to separate BlogName and Post title"
+msgstr "定义一个字符来分隔网站名称和文章标题"
+
+#: options_divi.php:632 options_divi.php:706
+msgid ""
+"Here you can change which character separates your blog title and post name "
+"when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"在这里，您可以更改在使用自动生成文章标题时分隔您的博客标题和文章名称的字符。"
+"一般是 | 或-"
+
+#: options_divi.php:642
+msgid "Enable custom titles"
+msgstr "启用自定义标题"
+
+#: options_divi.php:646
+msgid ""
+"By default the theme creates post titles based on the title of your post and "
+"your blog name. If you would like to make your meta title different than "
+"your actual post title you can define a custom title for each post using "
+"custom fields. This option must be enabled for custom titles to work, and "
+"you must choose a custom field name for your title below."
+msgstr ""
+"默认情况下，主题依据您的文章标题和博客名称来创建文章标题。如果您想让您的 "
+"meta 标题不同于您的实际文章标题，您可以使用自定义字段来为每一篇文章定义一个自"
+"定义标题。必须启用此选项才能保证自定义标题正常工作，而且您必须为下方您的标题"
+"选择一个自定义字段名称。"
+
+#: options_divi.php:649
+msgid "Enable custom description"
+msgstr "启用自定义说明"
+
+#: options_divi.php:653
+msgid ""
+"If you would like to add a meta description to your post you can do so using "
+"custom fields. This option must be enabled for descriptions to be displayed "
+"on post pages. You can add your meta description using custom fields based "
+"off the custom field name you define below."
+msgstr ""
+"如果您想为您的文章添加 meta description，您可以使用自定义字段做到这一点。必须"
+"启用此选项才能保证文章页面显示说明。您可以使用基于下方定义了名称的自定义字段"
+"来添加 meta description。"
+
+#: options_divi.php:656
+msgid "Enable custom keywords"
+msgstr "启用自定义关键字"
+
+#: options_divi.php:660
+msgid ""
+"If you would like to add meta keywords to your post you can do so using "
+"custom fields. This option must be enabled for keywords to be displayed on "
+"post pages. You can add your meta keywords using custom fields based off the "
+"custom field name you define below."
+msgstr ""
+"如果您想为您的文章添加 meta keywords，您可以使用自定义字段做到这一点。必须启"
+"用此选项才能保证文章页面显示关键字。您可以使用基于下方定义了名称的自定义字段"
+"来添加 meta keywords。"
+
+#: options_divi.php:663
+msgid "Enable canonical URL's"
+msgstr "启用规范的 URL's"
+
+#: options_divi.php:670
+msgid "Custom field Name to be used for title"
+msgstr "用于标题的自定义字段名称"
+
+#: options_divi.php:674
+msgid ""
+"When you define your title using custom fields you should use this value for "
+"the custom field Name. The Value of your custom field should be the custom "
+"title you would like to use."
+msgstr ""
+"当您使用自定义字段定义您的标题时，您应该将这个值用于自定义字段名称。您的自定"
+"义字段的值应该是您想要使用的自定义标题。"
+
+#: options_divi.php:678
+msgid "Custom field Name to be used for description"
+msgstr "用于说明的自定义字段名称"
+
+#: options_divi.php:682
+msgid ""
+"When you define your meta description using custom fields you should use "
+"this value for the custom field Name. The Value of your custom field should "
+"be the custom description you would like to use."
+msgstr ""
+"当您使用自定义字段定义您的 meta description 时，您应该将这个值用于自定义字段"
+"名称。您的自定义字段的值应该是您想要使用的自定义说明。"
+
+#: options_divi.php:686
+msgid "Custom field Name to be used for keywords"
+msgstr "用于关键字的自定义字段名称"
+
+#: options_divi.php:690
+msgid ""
+"When you define your keywords using custom fields you should use this value "
+"for the custom field Name. The Value of your custom field should be the meta "
+"keywords you would like to use, separated by comas."
+msgstr ""
+"当您使用自定义字段定义您的关键字时，您应该将这个值用于自定义字段名称。您的自"
+"定义字段的值应该是您想要使用的 meta keywords，由逗号分隔。"
+
+#: options_divi.php:699
+msgid ""
+"If you are not using cutsom post titles you can still have control over hw "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"如果您没有使用自定义文章标题，您仍然可以控制如何生成标题。在这里，您可以选择"
+"您的文章标题和博客名称显示顺序，或者也可以从标题中彻底删除博客名称。"
+
+#: options_divi.php:723
+msgid "Enable meta descriptions"
+msgstr "启用 meta descriptions"
+
+#: options_divi.php:727
+msgid ""
+"Check this box if you want to display meta descriptions on category/archive "
+"pages. The description is based off the category description you choose when "
+"creating/edit your category in wp-admin."
+msgstr ""
+"如果您想在类别/归档页面显示 meta description，请选中此复选框。该说明是基于在 "
+"wp-admin 创建/编辑类别时您选择的类别说明。"
+
+#: options_divi.php:730
+msgid "Choose title autogeneration method"
+msgstr "选择标题生成方法"
+
+#: options_divi.php:735
+msgid ""
+"Here you can choose how your titles on index pages are generated. You can "
+"change which order your blog name and index title are displayed, or you can "
+"remove the blog name from the title completely."
+msgstr ""
+"在这里，您可以选择如何生成索引页上的标题。您可以更改您的博客名称和索引标题显"
+"示顺序，也可以从标题中彻底删除博客名称。"
+
+#: options_divi.php:742
+msgid ""
+"Here you can change which character separates your blog title and index page "
+"name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"在这里，您可以更改在使用自动生成文章标题时分隔您的博客标题和索引页面名称的字"
+"符。一般是 | 或-"
+
+#: options_divi.php:761
+msgid "Code Integration"
+msgstr "代码集成"
+
+#: options_divi.php:769
+msgid "Enable header code"
+msgstr "启用页眉代码"
+
+#: options_divi.php:773
+msgid ""
+"Disabling this option will remove the header code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"禁用此选项会从您的博客中删除下面的页眉代码。这允许您删除代码，同时将其保存以"
+"备后用。"
+
+#: options_divi.php:776
+msgid "Enable body code"
+msgstr "启用 < body > 代码"
+
+#: options_divi.php:780
+msgid ""
+"Disabling this option will remove the body code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"禁用此选项会从您的博客中删除下面的主体代码。这允许您删除代码，同时将其保存以"
+"备后用。"
+
+#: options_divi.php:783
+msgid "Enable single top code"
+msgstr "启用单个顶部代码"
+
+#: options_divi.php:787
+msgid ""
+"Disabling this option will remove the single top code below from your blog. "
+"This allows you to remove the code while saving it for later use."
+msgstr ""
+"禁用此选项会从您的博客中删除下面的单个顶部代码。这允许您删除代码，同时将其保"
+"存以备后用。"
+
+#: options_divi.php:790
+msgid "Enable single bottom code"
+msgstr "启用单个底部代码"
+
+#: options_divi.php:794
+msgid ""
+"Disabling this option will remove the single bottom code below from your "
+"blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+"禁用此选项会从您的博客中删除下面的单个底部代码。这允许您删除代码，同时将其保"
+"存以备后用。"
+
+#: options_divi.php:797
+msgid "Add code to the < head > of your blog"
+msgstr "将代码添加到您博客 < head >"
+
+#: options_divi.php:801
+msgid ""
+"Any code you place here will appear in the head section of every page of "
+"your blog. This is useful when you need to add javascript or css to all "
+"pages."
+msgstr ""
+"您在这里放置的任何代码，都将出现在您博客每个页面的头部分。当您需要添加 "
+"Javascript 或 CSS 到所有页面时，这很有帮助。"
+
+#: options_divi.php:804
+msgid ""
+"Add code to the < body > (good for tracking codes such as google analytics)"
+msgstr "将代码添加到 < body >（适用于跟踪代码，如Google Analytics）"
+
+#: options_divi.php:808
+msgid ""
+"Any code you place here will appear in body section of all pages of your "
+"blog. This is usefull if you need to input a tracking pixel for a state "
+"counter such as Google Analytics."
+msgstr ""
+"您在这里放置的任何代码，都将出现在您的博客中所有页面的主体部分。如果您需要为"
+"状态计数器如 Google Analytics 输入跟踪像素，这很有帮助。"
+
+#: options_divi.php:811
+msgid "Add code to the top of your posts"
+msgstr "将代码添加到您的文章顶端"
+
+#: options_divi.php:815 options_divi.php:822
+msgid ""
+"Any code you place here will be placed at the top of all single posts. This "
+"is useful if you are looking to integrating things such as social "
+"bookmarking links."
+msgstr ""
+"您在这里放置的任何代码，都将被放置在所有文章的顶端。如果您正在寻求整合东西如"
+"社交书签链接，这很有帮助。"
+
+#: options_divi.php:818
+msgid "Add code to the bottom of your posts, before the comments"
+msgstr "将代码添加到您的文章底部，在评论之前，"
+
+#: options_divi.php:849
+msgid "Username"
+msgstr "用户名"
+
+#: options_divi.php:854 options_divi.php:866
+msgid ""
+"<em>Before you can receive product updates, you must first authenticate your "
+"Elegant Themes subscription. To do this, you need to enter both your Elegant "
+"Themes Username and your Elegant Themes API Key into the Updates Tab in your "
+"theme and plugin settings. To locate your API Key, <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">log in</a> to your "
+"Elegant Themes account and navigate to the <strong>Account > API Key</"
+"strong> page. <a href=\"http://www.elegantthemes.com/gallery/divi/"
+"documentation/update/\" target=\"_blank\">Learn more here</a></em>. If you "
+"still get this message, please make sure that your Username and API Key have "
+"been entered correctly"
+msgstr ""
+"<em>在您收到产品更新之前，您必须首先验证您的 Elegant Themes 订阅。要做到这一"
+"点，您需要输入您的 Elegant Themes 用户名和您的 Elegant Themes API 密钥到主题"
+"和插件设置中的更新标签。要定位您的 API 密钥， <a href=\"https://www."
+"elegantthemes.com/members-area/api/\" target=\"_blank\">登录</a> 您的 "
+"Elegant Themes 账户并导航到 <strong>账户 > API 密钥</strong> 页面。<a href="
+"\"http://www.elegantthemes.com/gallery/divi/documentation/update/\" target="
+"\"_blank\">在此了解更多</a></em>。如果您仍然收到此消息，请确保已正确输入您的"
+"用户名和 API 密钥"
+
+#: options_divi.php:861
+msgid "API Key"
+msgstr "API  密钥"
+
+#: options_divi.php:887
+msgid "Manage Un-widgetized Advertisements"
+msgstr "广告管理"
+
+#: options_divi.php:895
+msgid "Enable Single Post 468x60 banner"
+msgstr "启用单个文章 468x60 的横幅"
+
+#: options_divi.php:899
+msgid ""
+"Enabling this option will display a 468x60 banner ad on the bottom of your "
+"post pages below the single post content. If enabled you must fill in the "
+"banner image and destination url below."
+msgstr ""
+"启用该选项将在文章底部文章内容下方显示一个 468x60 横幅广告。如果启用，您必须"
+"填充下方的横幅图像和目标 URL。"
+
+#: options_divi.php:902
+msgid "Input 468x60 advertisement banner image"
+msgstr "输入 468x60 广告横幅图像"
+
+#: options_divi.php:906
+msgid "Here you can provide 468x60 banner image url"
+msgstr "在这里，您可以提供 468x60 横幅图像 URL"
+
+#: options_divi.php:910
+msgid "Input 468x60 advertisement destination url"
+msgstr "输入 468x60 广告目标 URL"
+
+#: options_divi.php:914
+msgid "Here you can provide 468x60 banner destination url"
+msgstr "在这里，您可以提供 468x60 横幅目标 URL"
+
+#: options_divi.php:918
+msgid "Input 468x60 adsense code"
+msgstr "输入 468x60 Google Adsense 代码"
+
+#: options_divi.php:922
+msgid "Place your adsense code here."
+msgstr "在这里放置您的 Google Adsense 代码。"
+
+#: page-template-blank.php:49 page.php:48 single-project.php:55 single.php:106
+msgid "Pages:"
+msgstr "页数："
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:114
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr " "
+
+#: functions.php:8277
+msgctxt "WooCommerce items number"
+msgid "%1$s Item"
+msgid_plural "%1$s Items"
+msgstr[0] "%1$s 项目"
+
+#: single-project.php:68
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr " "
+
+#: single-project.php:69
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr " "
+
+#~ msgid "MailChimp API Key"
+#~ msgstr "MailChimp API 密钥"
+
+#~ msgid ""
+#~ "Enter your MailChimp API key. You can create an api key <a target=\"_blank"
+#~ "\" href=\"%1$s\">here</a>"
+#~ msgstr ""
+#~ "输入您的 MailChimp API 密钥。您可以创建一个 API 密钥 <a target=\"_blank\" "
+#~ "href=\"%1$s\">here</a>"
+
+#~ msgid "Aweber Authorization"
+#~ msgstr "Aweber 授权"
+
+#~ msgid "Authorize your Aweber account here."
+#~ msgstr "在此授权您的 Aweber 账户。"
+
+#~ msgid "Regenerate MailChimp Lists"
+#~ msgstr "重新生成 MailChimp 列表"
+
+#~ msgid ""
+#~ "By default, MailChimp lists are cached for one day. If you added new "
+#~ "list, but it doesn't appear within the Email Optin module settings, "
+#~ "activate this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "缺省情况下，MailChimp列表被缓存一天。如果添加新的列表，但它并没有在电子邮"
+#~ "件OPTIN模块设置显示，启用该选项。不要忘了关闭它，一旦名单已再生。"
+
+#~ msgid "Regenerate Aweber Lists"
+#~ msgstr "重新生成 Aweber 列表"
+
+#~ msgid ""
+#~ "By default, Aweber lists are cached for one day. If you added new list, "
+#~ "but it doesn't appear within the Email Optin module settings, activate "
+#~ "this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "缺省情况下，Aweber列表被缓存一天。如果添加新的列表，但它并没有在电子邮件"
+#~ "OPTIN模块设置显示，启用该选项。不要忘了关闭它，一旦名单已再生。"
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Before you "
+#~ "can update your Elegant Themes, you must first install the <a href="
+#~ "\"https://www.elegantthemes.com/members-area/documentation.html#updater\" "
+#~ "target=\"_blank\">Elegant Updater Plugin</a> to authenticate your "
+#~ "subscription.</em>"
+#~ msgstr ""
+#~ "%1$s 有可用的新版本。 <a href=\"%2$s\" class=\"thickbox\" title=\"%1$s\">"
+#~ "查看版本 %3$s 的详细信息</a>。 <em>在您更新您的优雅主题前，您必须先安装 "
+#~ "<a href=\"https://www.elegantthemes.com/members-area/documentation."
+#~ "html#updater\" target=\"_blank\">Elegant Updater Plugin</a>来验证您的订"
+#~ "阅。</em>"
+
+#~ msgid ""
+#~ "Before you can update your Elegant Themes, you must first install the <a "
+#~ "href=\"https://www.elegantthemes.com/members-area/documentation."
+#~ "html#updater\" target=\"_blank\">Elegant Updater Plugin</a> to "
+#~ "authenticate your subscription."
+#~ msgstr ""
+#~ "在您更新您的优雅主题前，您必须先安装 <a href=\"https://www.elegantthemes."
+#~ "com/members-area/documentation.html#updater\" target=\"_blank\">Elegant "
+#~ "Updater Plugin</a>来验证您的订阅。"

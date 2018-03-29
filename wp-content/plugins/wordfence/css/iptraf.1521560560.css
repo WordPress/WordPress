@@ -1,0 +1,49 @@
+body {
+	background: #fff;
+	font-family: Arial;
+	font-size: 12px;
+}
+
+
+pre {
+	width: 100%;
+	overflow: auto;
+}
+h1 {
+	background: url(../images/wordfence-logo-64x64.png);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	height: 64px;
+	vertical-align: middle;
+	padding: 10px 0 0 70px;
+	margin: 20px 0 10px 0;
+	font-size: 34px;
+	color: #777;
+}
+
+.footer {
+	text-align: center;
+	font-size: 16px;
+	color: #999;
+	font-family: Verdana;
+	margin: 50px auto 50px auto;
+}
+.footer a {
+	color: #999;
+}
+td, th {
+	vertical-align: top;
+}
+th, td {
+	text-align: left;
+	padding-bottom: 5px;
+}
+th {
+	white-space:nowrap;
+}
+th.HTTP, td.HTTP {
+	padding: 0;
+	font-weight: normal;
+	font-size: 10px;
+}
+th.HTTP { padding-right: 5px; }

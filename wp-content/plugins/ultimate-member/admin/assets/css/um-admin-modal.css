@@ -1,0 +1,298 @@
+/*
+	- Overlay
+*/
+
+.um-admin-overlay {
+	background: rgba(0,0,0, .7);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+}
+
+/*
+	- modal
+*/
+
+.um-admin-modal * {
+	-webkit-font-smoothing: antialiased !important;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.um-admin-modal input[type=submit].button-primary,
+.um-admin-modal a.button-primary,
+.um-admin-modal a.button {
+	padding: 0 12px !important;
+	vertical-align: middle !important;
+}
+
+.um-admin .um-admin-modal a.button i:before {
+	display: block;
+	top: 0px;
+}
+
+.um-admin-modal input[type=submit].button-primary {
+	line-height: 24px !important;
+}
+
+.um-admin-modal {
+	border-radius: 3px;
+	background: #fff;
+	position: fixed;
+	top: 50% !important;
+	left: 50% !important;
+	display: none;
+	z-index: 10001;
+	box-sizing: border-box;
+	
+	width: 730px;
+	margin-left: -365px;
+}
+
+.um-admin-modal.normal {width: 730px;margin-left: -365px;}
+.um-admin-modal.smaller {width: 500px;margin-left: -250px;}
+.um-admin-modal.small {width: 400px;margin-left: -200px;}
+
+.um-admin-modal-close {
+	position: absolute;
+	color: #fff !important;
+	right: 16px;
+	top: 14px;
+	font-size: 22px;
+	text-decoration: none;
+	opacity: 0.4;
+}
+.um-admin-modal-close:hover{opacity:1}
+
+.um-admin-modal-head {
+	padding: 4px 20px;
+	background: #3ba1da;
+	position: relative;
+	border-radius: 3px 3px 0 0;
+}
+
+.um-admin-modal-body {
+	padding: 10px 20px 10px 20px;
+	max-height: 500px;
+	overflow: auto;
+}
+
+.um-admin-modal-body.um-admin-metabox  label {margin: 0!important}
+
+.um-admin-modal.loading .um-admin-modal-body {
+	height: 200px;
+	background: url(../img/ajax-loader.gif) no-repeat center;
+}
+
+.um-admin-modal-foot {
+	padding: 20px 0 !important;
+	border-top: 1px solid #ddd;
+	text-align: center;
+	background: #eee;
+	border-radius: 0 0 3px 3px;
+}
+
+.um-admin-modal-foot a,
+.um-admin-modal-foot input{
+	margin: 0 10px !important;
+	font-size: 14px !important;
+}
+
+.um-admin-modal h3 {
+	font-size: 14px;
+	line-height: 14px;
+	font-weight: normal;
+	color: #fff;
+}
+
+.um-admin-modal h4 {
+	margin: 0 0 10px 0 !important;
+}
+
+.um-admin-modal label,
+.um-admin-modal p {
+	font-size: 13px;
+	color: #aaa;
+}
+
+.um-admin-infobox p,
+.um-admin-infobox label {
+	color: #666;
+}
+
+.um-admin-infobox p {
+	border-top: 1px solid #e5e5e5;
+	padding-top: 15px;
+}
+
+.um-admin-infobox label {
+	font-weight: bold;
+	display: block;
+	color: #333;
+	cursor: default;
+}
+
+/*
+	- Conditional fields
+*/
+
+.um-admin-btn-toggle {
+	padding: 10px 0;
+}
+
+.um-admin-btn-toggle p {
+	margin: 0 5px 0 0 !important;
+}
+
+.um-admin-btn-toggle p.um-admin-reset-conditions {
+	margin: 0 0 5px 0 !important;
+}
+
+.um-admin-btn-toggle a {
+	text-decoration: none;
+	color: #999;
+}
+
+.um-admin-btn-toggle a.active, .um-admin-btn-toggle a.active:hover {
+	color: #3ba1da;
+}
+
+.um-admin-btn-toggle i {
+	margin: 0 5px 0 0 !important;
+	height: 100%;
+	color: #666;
+	position: relative;
+	top: 1px;
+}
+
+.um-admin-btn-content {
+	display: none;
+	padding: 10px 0 0 0;
+}
+
+.um-admin-btn-content p {
+	float: left;
+	margin-right: 10px !important;
+	padding: 0 !important;
+}
+
+.dynamic-mce-content {display: none}
+
+/*
+	- Buttons and Links
+*/
+
+.um-admin-btns {
+	line-height: 1.5em;
+	margin: 0 0 5px 0;
+}
+
+.um-admin-btns a {
+	margin: 0 3px 8px 0!important;
+	font-size: 12px !important;
+	display: inline-block !important;
+	position: relative;
+}
+
+.um-admin-btns a.button.with-icon {
+	padding-right: 25px !important;
+}
+.um-admin-btns a span {
+	color: #aaa;
+	position: absolute !important;
+	width: 25px;
+	text-align: center;
+	right: 0;
+	top: 0;
+	font-size: 15px !important;
+}
+
+.um-admin-btns a span.remove:before{
+	font-family: "Ionicons" !important;
+	content: "\f128";
+}
+.um-admin-btns a span:hover{color: #cb3838}
+
+/*
+	- WP Editor
+*/
+
+.um-admin-modal-body.um-admin-metabox  .um-admin-editor-h {
+	margin-top: 12px;
+}
+
+.um-admin-modal-body.um-admin-metabox  .um-admin-editor-h label,
+.um-admin-modal-body.um-admin-metabox  .wp-editor-wrap
+{margin: 0 0 4px 0 !important}
+
+.um-admin-modal-body.um-admin-metabox  .wp-editor-wrap textarea {
+	border: 0 !important;
+}
+
+/*
+	- Boxes / Icons
+*/
+
+#UM_fonticons div.um-admin-metabox {
+	padding-bottom: 22px !important;
+}
+
+p._icon_search{
+	position: relative;
+	width: 85% !important;
+	margin: 0 auto !important;
+	padding: 12px 0 0 0 !important;
+}
+
+p._icon_search:before {
+	position: absolute;
+	right: 6px;
+	top: 12px;
+	font-size: 20px;
+	content: "\f4a4";
+	font-family: "Ionicons";
+	color: #999;
+}
+p._icon_search input[type=text]{padding-right: 40px!important}
+
+.um-admin-icons {
+	padding: 0 0 15px 12px;
+	float: left;
+}
+
+.um-admin-icons span {
+	cursor: pointer;
+	float: left;
+	margin: 5px;
+	color: #777;
+	border: 4px solid #eee;
+	border-radius: 3px;
+}
+.um-admin-icons span:hover,
+.um-admin-icons span.highlighted
+{color: #3ba1da;border-color: #3ba1da}
+
+.um-admin-icons i{vertical-align: middle !important;font-size: 24px;width: 24px;text-align: center;padding: 15px 20px;display: inline-block;}
+
+span.um-admin-icon-value {
+	margin: 0 10px;
+	font-size: 13px;
+}
+span.um-admin-icon-value i {
+	font-size: 28px;
+	color: #3ba1da;
+	position: relative;
+	top: 5px;
+}
+
+span.um-admin-icon-clear{
+	display: none;
+	cursor: pointer;
+	position: relative;
+	color: #ccc;
+}
+span.um-admin-icon-clear.show {display: inline-block}
+span.um-admin-icon-clear:hover {color: #777}
+span.um-admin-icon-clear i {font-size: 20px;vertical-align: middle;}

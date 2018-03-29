@@ -1,0 +1,302 @@
+/* ==========================================================================
+   $BASE-DATE-PICKER
+   ========================================================================== */
+/**
+ * The picker box.
+ */
+.um .picker__box {
+
+}
+/**
+ * The header containing the month and year stuff.
+ */
+.um .picker__header {
+  text-align: center;
+  position: relative;
+  margin-top: .75em;
+  border-radius: 2px 2px 0 0;
+  padding: 15px 0;
+  font-size: 18px;
+}
+/**
+ * The month and year labels.
+ */
+.um .picker__month,
+.um .picker__year {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.um .picker__year {
+
+}
+/**
+ * The month and year selectors.
+ */
+.um .picker__select--month,
+.um .picker__select--year {
+  margin-left: .25em;
+  margin-right: .25em;
+  font-size: 16px;
+  color: #999;
+  background: #fff !important;
+  outline: 0 !important;
+  border: 0 !important;
+}
+@media (min-width: 24.5em) {
+  .um .picker__select--month,
+  .um .picker__select--year {
+    margin-top: -0.5em;
+  }
+}
+.um .picker__select--month {
+  width: 35%;
+}
+.um .picker__select--year {
+  width: 22.5%;
+}
+.um .picker__select--month:focus,
+.um .picker__select--year:focus {
+
+}
+/**
+ * The month navigation buttons.
+ */
+.um .picker__nav--prev,
+.um .picker__nav--next {
+  position: absolute;
+  padding: .5em 1.25em;
+  width: 1em;
+  height: 1em;
+  box-sizing: content-box !important;
+  top: 8px;
+  color: #fff;
+}
+.um-popup .picker__nav--prev,
+.um-popup .picker__nav--next {
+  position: absolute;
+  padding: .5em 1.25em;
+  width: 1em;
+  height: 1em;
+  box-sizing: content-box !important;
+  top: 8px;
+  color: #fff;
+}
+@media (min-width: 24.5em) {
+  .um .picker__nav--prev,
+  .um .picker__nav--next {
+
+  }
+}
+.um .picker__nav--prev {
+  left: 0;
+  padding-right: 1.25em;
+}
+.um-popup .picker__nav--prev {
+  left: 0;
+  padding-right: 1.25em;
+}
+@media (min-width: 24.5em) {
+  .um .picker__nav--prev {
+    padding-right: 1.5em;
+  }
+  .um-popup .picker__nav--prev {
+    padding-right: 1.5em;
+  }
+}
+.um .picker__nav--next {
+  right: 0;
+  padding-left: 1.25em;
+}
+.um-popup .picker__nav--next {
+  right: 0;
+  padding-left: 1.25em;
+}
+@media (min-width: 24.5em) {
+  .um .picker__nav--next {
+    padding-left: 1.5em;
+  }
+  .um-popup .picker__nav--next {
+    padding-left: 1.5em;
+  }
+}
+.um .picker__nav--prev:before,
+.um .picker__nav--next:before {
+  content: " ";
+  border-top: .5em solid transparent;
+  border-bottom: .5em solid transparent;
+  
+  border-right: 0.5em solid #fff;
+  
+  width: 0;
+  height: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+.um-popup .picker__nav--prev:before,
+.um-popup .picker__nav--next:before {
+  content: " ";
+  border-top: .5em solid transparent;
+  border-bottom: .5em solid transparent;
+
+  border-right: 0.5em solid #fff;
+
+  width: 0;
+  height: 0;
+  display: block;
+  margin: 0 auto;
+}
+.um .picker__nav--next:before {
+  border-right: 0;
+  
+  border-left: 0.5em solid #fff;
+  
+}
+.um-popup .picker__nav--next:before {
+  border-right: 0;
+
+  border-left: 0.5em solid #fff;
+
+}
+.um .picker__nav--prev:hover,
+.um .picker__nav--next:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
+.um-popup .picker__nav--prev:hover,
+.um-popup .picker__nav--next:hover {
+  cursor: pointer;
+  color: #fff;
+}
+.um .picker__nav--disabled,
+.um .picker__nav--disabled:hover,
+.um .picker__nav--disabled:before,
+.um .picker__nav--disabled:before:hover {
+  cursor: default;
+  background: none;
+}
+.um-popup .picker__nav--disabled,
+.um-popup .picker__nav--disabled:hover,
+.um-popup .picker__nav--disabled:before,
+.um-popup .picker__nav--disabled:before:hover {
+  cursor: default;
+  background: none;
+}
+
+/**
+ * The calendar table of dates
+ */
+.um .picker__table {
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: inherit;
+  width: 100%;
+  margin-top: 5px;
+  border: none;
+  margin-bottom: 0;
+}
+@media (min-height: 33.875em) {
+  .um .picker__table {
+
+  }
+}
+
+.um .picker__table th {
+
+}
+
+.um .picker__table td {
+  margin: 0;
+  padding: 0px 10px;
+  text-align: center;
+  border: 0;
+}
+/**
+ * The weekday labels
+ */
+.um .picker__weekday {
+  width: 14.285714286%;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0 !important;
+  /* Increase the spacing a tad */
+}
+@media (min-height: 33.875em) {
+  .um .picker__weekday {
+  
+  }
+}
+/**
+ * The days on the calendar
+ */
+.um .picker__day {
+  padding: 10px 0;
+  line-height: 1em !important;
+}
+.um .picker__day--today {
+  position: relative;
+}
+.um .picker__day--outfocus {
+	opacity: 0.75;
+}
+.um .picker__day--infocus:hover,
+.um .picker__day--outfocus:hover {
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.um .picker__day--highlighted {
+
+}
+.um .picker__day--highlighted:hover,
+.um .picker--focused .picker__day--highlighted {
+  border-radius: 2px;
+}
+
+.um .picker__day--selected,
+.um .picker__day--selected:hover,
+.um .picker--focused .picker__day--selected {
+
+}
+.um .picker__day--disabled,
+.um .picker__day--disabled:hover {
+  cursor: default;
+  background: transparent !important;
+  opacity: 0.3;
+}
+.um .picker__day--highlighted.picker__day--disabled,
+.um .picker__day--highlighted.picker__day--disabled:hover {
+
+}
+
+/**
+ * The footer containing the "today" and "clear" buttons.
+ */
+.um .picker__footer {
+  text-align: center;
+  height: 50px !important;
+  line-height: 50px !important;
+  margin-top: 5px;
+  border-radius: 0 0 2px 2px;
+}
+.um .picker__button--today,
+.um .picker__button--clear {
+  margin: 0 !important;
+  width: 50%;
+  display: inline-block;
+  background: none !important;
+  box-shadow: none !important;
+  border: 0!important;
+  outline: 0 !important;
+  box-sizing: border-box !important;
+}
+.um .picker__button--today:hover,
+.um .picker__button--clear:hover,
+.um .picker__button--today:focus,
+.um .picker__button--clear:focus {
+	cursor: pointer;
+}

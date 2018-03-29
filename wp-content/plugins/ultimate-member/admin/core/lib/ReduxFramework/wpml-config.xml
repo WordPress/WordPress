@@ -1,0 +1,7 @@
+<wpml-config>
+    <admin-texts>
+        <key name="redux_demo">
+            <key name="wpml-text"/>
+        </key>
+    </admin-texts>
+</wpml-config>

@@ -1,0 +1,248 @@
+<html>
+<head>
+	<title>Sales</title>
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <style>
+    form input[type="text"], form textarea, form button {
+            border: 0;
+    outline: 0;
+    padding: 1em;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: block;
+    width: 100%;
+    margin-top: 1em;
+    font-family: 'Merriweather', sans-serif;
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    resize: none;
+    background: #ebebeb;
+    }
+    body {
+        background:#ebebeb;
+    }
+    hr {
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+    margin-top: 37px;
+}
+hr:before { /* Not really supposed to work, but does */
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}
+    .contact-us {
+            padding: 20px;
+    background: white;
+    }
+
+    form .btn {
+        color: white;
+    background: #98b842;
+    cursor: pointer;
+    width:100%;
+    margin-top:20px;
+    }
+
+    .control-label {
+        text-align: left;
+    display: block;
+    color: #333333;
+    font-family: Verdana;
+    font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .input-prepend {
+            text-align: left;
+    font-family: verdana;
+    font-size: 12px;
+    }
+    </style>
+</head>
+<body>
+<img style="margin:0 auto;display:table;" src="logo.png">
+<div style="margin: 20px auto 0 auto;width:1000px;" class="container" align="center">
+
+      <form class="contact-us form-horizontal" action="actionpdf.php" method="post">
+        <div class="control-group">
+
+            
+            
+            <label class="control-label">Bedrijfsnaam:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <input type="text" class="input-xlarge" name="bedrijfsnaam">
+                </div>
+            </div>
+            <label class="control-label">Adres:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="leveringsadres">
+                </div>
+            </div>
+            <label class="control-label">Telefoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="iban">
+                </div>
+            </div>
+            <label class="control-label">KvK nummer:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="kvknummer">
+                </div>
+            </div>
+            <label class="control-label">Contactpersoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="email">
+                </div>
+            </div>
+            <label class="control-label">E-mail:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="telnummer">
+                </div>
+            </div>
+   
+            <label class="control-label">Administratief contactpersoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="postcodehuisnummer">
+                </div>
+            </div>
+            
+          
+            <label class="control-label">E-mail administratief contactpersoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="factuuradres">
+                </div>
+            </div>
+            <label class="control-label">Technisch contactpersoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="postcode2">
+                </div>
+            </div>
+            <label class="control-label">E-mail technisch contactpersoon:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="plaats2">
+                </div>
+            </div>
+            
+            
+            
+
+            <label class="control-label">Factuur adres (indien afwijkend)</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <input type="text" class="input-xlarge" name="adresvanfactuur">
+                </div>
+            </div>
+
+            <label class="control-label">Naam rekeninghouder:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <input type="text" class="input-xlarge" name="voorkeur">
+                </div>
+            </div>
+
+            <label class="control-label">IBAN nummer:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <input type="text" class="input-xlarge" name="new1">
+                </div>
+            </div>
+
+            <label class="control-label">Einddatum huidig contract:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <input type="text" class="input-xlarge" name="new2">
+                </div>
+            </div>
+
+            <label class="control-label">Kopie legitimatie (paspoort/rijbewijs/ID-kaart) tekenbevoegde bijgevoegd?</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <input type="radio" name="looptijd" value="Ja"> Ja<br>
+                        <input type="radio" name="looptijd" value="Nee"> Nee
+                    </div>
+                </div>
+
+                <label class="control-label">Kopie uittreksel KvK (max. 6 maanden oud) bijgevoegd?</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <input type="radio" name="looptijd2" value="Ja"> Ja<br>
+                        <input type="radio" name="looptijd2" value="Nee"> Nee
+                    </div>
+                </div>
+
+                <label class="control-label">Kopie van 3 recente facturen bijgevoegd?</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <input type="radio" name="looptijd3" value="Ja"> Ja<br>
+                        <input type="radio" name="looptijd3" value="Nee"> Nee
+                    </div>
+                </div>
+
+           
+<label class="control-label">Naam:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="naam">
+                </div>
+            </div>
+
+            <label class="control-label">Functie:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+                    <input type="text" class="input-xlarge" name="functie">
+                </div>
+            </div>
+
+<label class="control-label">Kopie van 3 recente facturen:</label>
+            <div class="controls">
+                <div class="input-prepend">
+                
+            <input type="file" name="pic" accept="image/*">
+</div>
+            </div>
+          
+            
+
+
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-primary">Verzenden</button>
+          </div>    
+        </div>
+      </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Copyright (C) 2013 Japh
+# This file is distributed under the same license as the ThemeForest-Check package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ThemeForest-Check 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/plugin-name\n"
+"POT-Creation-Date: 2013-05-10 11:23:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-05-10 10:37-0500\n"
+"Last-Translator: Japh <japh@envato.com>\n"
+"Language-Team: Japh <japh@envato.com >\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
+"esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-themeforest-check.php:214
+msgid "Page Title"
+msgstr ""
+
+#: class-themeforest-check.php:215
+msgid "Menu Text"
+msgstr ""

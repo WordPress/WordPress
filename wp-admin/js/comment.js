@@ -1,7 +1,7 @@
 /* global postboxes, commentL10n */
 
 /**
- * Binds to the document ready event.
+ * @summary Binds to the document ready event.
  *
  * @since 2.5.0
  *
@@ -18,7 +18,7 @@ jQuery(document).ready( function($) {
 		$edittimestamp = $timestampdiv.siblings( 'a.edit-timestamp' );
 
 	/**
-	 * Adds event that opens the time stamp form if the form is hidden.
+	 * @summary Adds event that opens the time stamp form if the form is hidden.
 	 *
 	 * @listens $edittimestamp:click
 	 *
@@ -37,7 +37,7 @@ jQuery(document).ready( function($) {
 	});
 
 	/**
-	 * Resets the time stamp values when the cancel button is clicked.
+	 * @summary Resets the time stamp values when the cancel button is clicked.
 	 *
 	 * @listens .cancel-timestamp:click
 	 *
@@ -59,7 +59,7 @@ jQuery(document).ready( function($) {
 	});
 
 	/**
-	 * Sets the time stamp values when the ok button is clicked.
+	 * @summary Sets the time stamp values when the ok button is clicked.
 	 *
 	 * @listens .save-timestamp:click
 	 *

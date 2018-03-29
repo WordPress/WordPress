@@ -21,8 +21,7 @@ wpWidgets = {
 	l10n: {
 		save: '{save}',
 		saved: '{saved}',
-		saveAlert: '{saveAlert}',
-		widgetAdded: '{widgetAdded}'
+		saveAlert: '{saveAlert}'
 	},
 
 	/**
@@ -177,16 +176,19 @@ wpWidgets = {
 						widget.removeClass( 'open' );
 					});
 				}
+				e.preventDefault();
 			} else if ( target.hasClass('widget-control-save') ) {
 				wpWidgets.save( target.closest('div.widget'), 0, 1, 0 );
 				e.preventDefault();
 			} else if ( target.hasClass('widget-control-remove') ) {
 				wpWidgets.save( target.closest('div.widget'), 1, 1, 0 );
+				e.preventDefault();
 			} else if ( target.hasClass('widget-control-close') ) {
 				widget = target.closest('div.widget');
 				widget.removeClass( 'open' );
 				toggleBtn.attr( 'aria-expanded', 'false' );
 				wpWidgets.close( widget );
+				e.preventDefault();
 			} else if ( target.attr( 'id' ) === 'inactive-widgets-control-remove' ) {
 				wpWidgets.removeInactiveWidgets();
 				e.preventDefault();
@@ -243,8 +245,6 @@ wpWidgets = {
 			/**
 			 * Open Sidebar when a Widget gets dragged over it.
 			 *
-			 * @ignore
-			 *
 			 * @param {object} event jQuery event object.
 			 */
 			over: function( event ) {
@@ -267,8 +267,6 @@ wpWidgets = {
 
 			/**
 			 * Close Sidebar when the Widget gets dragged out of it.
-			 *
-			 * @ignore
 			 *
 			 * @param {object} event jQuery event object.
 			 */
@@ -431,53 +429,35 @@ wpWidgets = {
 		$( '#widgets-right .widgets-holder-wrap' ).each( function( index, element ) {
 			var $element = $( element ),
 				name = $element.find( '.sidebar-name h2' ).text(),
-				ariaLabel = $element.find( '.sidebar-name' ).data( 'add-to' ),
 				id = $element.find( '.widgets-sortables' ).attr( 'id' ),
-				li = $( '<li>' ),
-				button = $( '<button>', {
-					type: 'button',
-					'aria-pressed': 'false',
-					'class': 'widgets-chooser-button',
-					'aria-label': ariaLabel
-				} ).text( $.trim( name ) );
-
-			li.append( button );
+				li = $('<li tabindex="0">').text( $.trim( name ) );
 
 			if ( index === 0 ) {
 				li.addClass( 'widgets-chooser-selected' );
-				button.attr( 'aria-pressed', 'true' );
 			}
 
 			selectSidebar.append( li );
 			li.data( 'sidebarId', id );
 		});
 
-		$( '#available-widgets .widget .widget-top' ).on( 'click.widgets-chooser', function() {
-			var $widget = $( this ).closest( '.widget' ),
-				toggleButton = $( this ).find( '.widget-action' ),
-				chooserButtons = selectSidebar.find( '.widgets-chooser-button' );
+		$( '#available-widgets .widget .widget-title' ).on( 'click.widgets-chooser', function() {
+			var $widget = $(this).closest( '.widget' );
 
 			if ( $widget.hasClass( 'widget-in-question' ) || $( '#widgets-left' ).hasClass( 'chooser' ) ) {
-				toggleButton.attr( 'aria-expanded', 'false' );
 				self.closeChooser();
 			} else {
 				// Open the chooser
 				self.clearWidgetSelection();
 				$( '#widgets-left' ).addClass( 'chooser' );
-				// Add CSS class and insert the chooser after the widget description.
 				$widget.addClass( 'widget-in-question' ).children( '.widget-description' ).after( chooser );
-				// Open the chooser with a slide down animation.
+
 				chooser.slideDown( 300, function() {
-					// Update the toggle button aria-expanded attribute after previous DOM manipulations.
-					toggleButton.attr( 'aria-expanded', 'true' );
+					selectSidebar.find('.widgets-chooser-selected').focus();
 				});
 
-				chooserButtons.on( 'click.widgets-chooser', function() {
-					selectSidebar.find( '.widgets-chooser-selected' ).removeClass( 'widgets-chooser-selected' );
-					chooserButtons.attr( 'aria-pressed', 'false' );
-					$( this )
-						.attr( 'aria-pressed', 'true' )
-						.closest( 'li' ).addClass( 'widgets-chooser-selected' );
+				selectSidebar.find( 'li' ).on( 'focusin.widgets-chooser', function() {
+					selectSidebar.find('.widgets-chooser-selected').removeClass( 'widgets-chooser-selected' );
+					$(this).addClass( 'widgets-chooser-selected' );
 				} );
 			}
 		});
@@ -493,7 +473,15 @@ wpWidgets = {
 				self.closeChooser();
 			}
 		}).on( 'keyup.widgets-chooser', function( event ) {
-			if ( event.which === $.ui.keyCode.ESCAPE ) {
+			if ( event.which === $.ui.keyCode.ENTER ) {
+				if ( $( event.target ).hasClass( 'widgets-chooser-cancel' ) ) {
+					// Close instead of adding when pressing Enter on the Cancel button
+					self.closeChooser();
+				} else {
+					self.addWidget( chooser );
+					self.closeChooser();
+				}
+			} else if ( event.which === $.ui.keyCode.ESCAPE ) {
 				self.closeChooser();
 			}
 		});
@@ -713,20 +701,15 @@ wpWidgets = {
 			// Cannot use a callback in the animation above as it fires twice,
 			// have to queue this "by hand".
 			widget.find( '.widget-title' ).trigger('click');
-			// At the end of the animation, announce the widget has been added.
-			window.wp.a11y.speak( wpWidgets.l10n.widgetAdded, 'assertive' );
 		}, 250 );
 	},
 
 	closeChooser: function() {
-		var self = this,
-			widgetInQuestion = $( '#available-widgets .widget-in-question' );
+		var self = this;
 
 		$( '.widgets-chooser' ).slideUp( 200, function() {
 			$( '#wpbody-content' ).append( this );
 			self.clearWidgetSelection();
-			// Move focus back to the toggle button.
-			widgetInQuestion.find( '.widget-action' ).attr( 'aria-expanded', 'false' ).focus();
 		});
 	},
 

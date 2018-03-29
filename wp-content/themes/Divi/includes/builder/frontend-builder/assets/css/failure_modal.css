@@ -1,0 +1,41 @@
+.et_pb_modal_overlay.et_modal_on_top.et_pb_failure_notification_modal.et_pb_new_template_modal {
+	z-index: 99999;
+	position: relative;
+}
+
+.et_pb_modal_overlay a.et_pb_reload_builder {
+	-webkit-transition: background .5s;
+	transition: background .5s;
+	background-color: #008bdb;
+	cursor: pointer; border-radius: 0;
+	-webkit-border-radius: 0;
+	padding: 0;
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+	width: 100%;
+	display: inline-block;
+	float: left;
+	height: 68px;
+	line-height: 68px;
+	text-align: center;
+	color: #fff;
+	text-decoration: none;
+	border: none;
+}
+
+body .et_pb_new_template_modal.et_modal_on_top .et_pb_prompt_dont_proceed {
+	padding: 21px !important;
+}
+
+.et_pb_modal_overlay a.et_pb_reload_builder,
+.et_builder_modal_action_button {
+	font-weight: 700;
+}
+
+.et_pb_new_template_modal .et_pb_prompt_modal h2 {
+	font-weight: 400 !important;
+}
+.et_pb_new_template_modal .et-pb-modal-close:before {
+	font-weight: 600;
+}

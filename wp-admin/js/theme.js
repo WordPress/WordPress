@@ -334,7 +334,18 @@ themes.Collection = Backbone.Collection.extend({
 			data: {
 			// Request data
 				request: _.extend({
-					per_page: 100
+					per_page: 100,
+					fields: {
+						description: true,
+						tested: true,
+						requires: true,
+						rating: true,
+						downloaded: true,
+						downloadLink: true,
+						last_updated: true,
+						homepage: true,
+						num_ratings: true
+					}
 				}, request)
 			},
 

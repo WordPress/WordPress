@@ -1,0 +1,312 @@
+# Translation of Themes - Twenty Fifteen in Dutch
+# This file is distributed under the same license as the Themes - Twenty Fifteen package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-11-17 08:35:15+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: nl\n"
+"Project-Id-Version: Themes - Twenty Fifteen\n"
+
+#. Description of the plugin/theme
+msgid "Our 2015 default theme is clean, blog-focused, and designed for clarity. Twenty Fifteen's simple, straightforward typography is readable on a wide variety of screen sizes, and suitable for multiple languages. We designed it using a mobile-first approach, meaning your content takes center-stage, regardless of whether your visitors arrive by smartphone, tablet, laptop, or desktop computer."
+msgstr "Het 2015 standaardthema is schoon, blog-gefocust en ontworpen voor helderheid. Twenty Fifteen is heeft een eenvoudig en duidelijk typografie zodat het leesbaar is op een grote verscheidenheid van schermbreedtes. Het thema biedt ondersteuning voor meerdere talen. Het is ontworpen met de gedachte dat mobiel voorop staat, dit betekend dat de inhoud het meest belangrijk is ongeacht dat bezoekers op je site komen via een smartphone, tablet, laptop of desktop computer."
+
+#. Theme Name of the plugin/theme
+msgid "Twenty Fifteen"
+msgstr "Twenty Fifteen"
+
+#. translators: %s: post title
+#: comments.php:31
+msgctxt "comments title"
+msgid "One thought on &ldquo;%s&rdquo;"
+msgstr "Een gedachte over &ldquo;%s&rdquo;"
+
+#. translators: %s: post title
+#: inc/template-tags.php:123
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "Laat een reactie achter<span class=\"screen-reader-text\"> op %s</span>"
+
+#: single.php:37
+msgid "Previous post:"
+msgstr "Vorig bericht:"
+
+#: single.php:36
+msgid "Previous"
+msgstr "Vorige"
+
+#: single.php:34
+msgid "Next post:"
+msgstr "Volgend bericht:"
+
+#: single.php:33
+msgid "Next"
+msgstr "Volgende"
+
+#: search.php:18
+msgid "Search Results for: %s"
+msgstr "Zoekresultaten voor: %s"
+
+#: inc/template-tags.php:113
+msgctxt "Used before full size attachment link."
+msgid "Full size"
+msgstr "Volledige grootte"
+
+#: inc/template-tags.php:102
+msgctxt "Used before tag names."
+msgid "Tags"
+msgstr "Tags"
+
+#: inc/template-tags.php:94
+msgctxt "Used before category names."
+msgid "Categories"
+msgstr "Categorieën"
+
+#: inc/template-tags.php:91 inc/template-tags.php:99
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr ", "
+
+#: inc/template-tags.php:85
+msgctxt "Used before post author name."
+msgid "Author"
+msgstr "Auteur"
+
+#: inc/template-tags.php:76
+msgctxt "Used before publish date."
+msgid "Posted on"
+msgstr "Geplaatst op"
+
+#: inc/template-tags.php:55
+msgctxt "Used before post format."
+msgid "Format"
+msgstr "Format"
+
+#: inc/template-tags.php:49
+msgid "Featured"
+msgstr "Uitgelicht"
+
+#: inc/template-tags.php:30
+msgid "Newer Comments"
+msgstr "Nieuwere reacties"
+
+#: inc/template-tags.php:26
+msgid "Older Comments"
+msgstr "Oudere reacties"
+
+#: inc/template-tags.php:23
+msgid "Comment navigation"
+msgstr "Reactienavigatie"
+
+#: inc/customizer.php:205
+msgid "Blue"
+msgstr "Blauw"
+
+#: inc/customizer.php:194
+msgid "Purple"
+msgstr "Paars"
+
+#: inc/customizer.php:183
+msgid "Pink"
+msgstr "Roze"
+
+#: inc/customizer.php:172
+msgid "Yellow"
+msgstr "Geel"
+
+#: inc/customizer.php:161
+msgid "Dark"
+msgstr "Donker"
+
+#: inc/customizer.php:150
+msgid "Default"
+msgstr "Standaard"
+
+#: inc/customizer.php:75
+msgid "Header and Sidebar Background Color"
+msgstr "Achtergrondkleur koptekst en sidebar"
+
+#: inc/customizer.php:60 inc/customizer.php:76 inc/customizer.php:81
+msgid "Applied to the header on small screens and the sidebar on wide screens."
+msgstr "Van toepassing op de koptekst op kleine schermen en op de sidebar voor brede schermen."
+
+#: inc/customizer.php:59
+msgid "Header and Sidebar Text Color"
+msgstr "Tekstkleur koptekst en sidebar"
+
+#: inc/customizer.php:44
+msgid "Base Color Scheme"
+msgstr "Standaardkleurschema"
+
+#: inc/back-compat.php:37 inc/back-compat.php:47 inc/back-compat.php:60
+msgid "Twenty Fifteen requires at least WordPress version 4.1. You are running version %s. Please upgrade and try again."
+msgstr "Twenty Fifteen vereist minimaal WordPress-versie 4.1. Je maakt momenteel gebruik van versie %s. Graag WordPress bijwerken en opnieuw proberen."
+
+#: image.php:84
+msgctxt "Parent post link"
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%title</span>"
+msgstr "<span class=\"meta-nav\">Gepubliceerd in</span><span class=\"post-title\">%title</span>"
+
+#: image.php:24
+msgid "Next Image"
+msgstr "Volgende afbeelding"
+
+#: image.php:24
+msgid "Previous Image"
+msgstr "Vorige afbeelding"
+
+#: header.php:45
+msgid "Menu and widgets"
+msgstr "Menu en widgets"
+
+#: header.php:26
+msgid "Skip to content"
+msgstr "Spring naar inhoud"
+
+#: functions.php:283
+msgid "collapse child menu"
+msgstr "Alles inklappen"
+
+#: functions.php:282
+msgid "expand child menu"
+msgstr "Alles uitklappen"
+
+#. Translators: To add an additional character subset specific to your
+#. language, translate this to 'greek', 'cyrillic', 'devanagari' or
+#. 'vietnamese'. Do not translate into your own language.
+#: functions.php:212
+msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
+msgid "no-subset"
+msgstr "no-subset"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Inconsolata, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:204
+msgctxt "Inconsolata font: on or off"
+msgid "on"
+msgstr "on"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Noto Serif, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:196
+msgctxt "Noto Serif font: on or off"
+msgid "on"
+msgstr "on"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Noto Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:188
+msgctxt "Noto Sans font: on or off"
+msgid "on"
+msgstr "on"
+
+#: functions.php:162
+msgid "Add widgets here to appear in your sidebar."
+msgstr "Widgets hier toevoegen om in de sidebar te tonen."
+
+#: functions.php:160
+msgid "Widget Area"
+msgstr "Widgetruimte"
+
+#: functions.php:86
+msgid "Social Links Menu"
+msgstr "Socialelinksmenu"
+
+#: functions.php:85
+msgid "Primary Menu"
+msgstr "Primair menu"
+
+#: footer.php:25
+msgid "Proudly powered by %s"
+msgstr "Ondersteund door %s"
+
+#. #-#-#-#-#  twentyfifteen.pot (Twenty Fifteen 1.9)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:25
+msgid "https://wordpress.org/"
+msgstr "https://nl.wordpress.org/"
+
+#: content-none.php:31
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "Het lijkt erop dat we niet kunnen vinden waar je naar zoekt. Misschien kun je er naar zoeken."
+
+#: content-none.php:26
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "Helaas, er waren geen overeenkomsten met jouw zoekterm. Probeer het opnieuw met enkele andere zoekwoorden."
+
+#: content-none.php:22
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "Klaar om je eerste bericht te publiceren? <a href=\"%1$s\">Start hier</a>."
+
+#: content-none.php:15
+msgid "Nothing Found"
+msgstr "Niets gevonden"
+
+#: content-link.php:56 content-page.php:35 content-search.php:28
+#: content-search.php:33 content.php:57 image.php:71
+msgid "Edit"
+msgstr "Bewerken"
+
+#: content-link.php:36 content-page.php:25 content.php:38 image.php:59
+msgid "Pages:"
+msgstr "Pagina&#39;s:"
+
+#. translators: %s: Name of current post
+#: content-link.php:31 content.php:33 inc/template-tags.php:238
+msgid "Continue reading %s"
+msgstr "Lees verder %s"
+
+#: comments.php:69
+msgid "Comments are closed."
+msgstr "Reacties zijn gesloten."
+
+#. translators: 1: number of comments, 2: post title
+#: comments.php:35
+msgctxt "comments title"
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "%1$s gedachte over &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s gedachten over &ldquo;%2$s&rdquo;"
+
+#: author-bio.php:34
+msgid "View all posts by %s"
+msgstr "Alle berichten tonen van %s"
+
+#: author-bio.php:12
+msgid "Published by"
+msgstr "Gepubliceerd door"
+
+#: archive.php:51 content-link.php:40 content-page.php:29 content.php:42
+#: image.php:63 index.php:48 search.php:40
+msgid "Page"
+msgstr "Pagina"
+
+#: archive.php:50 index.php:47 search.php:39
+msgid "Next page"
+msgstr "Volgende pagina"
+
+#: archive.php:49 index.php:46 search.php:38
+msgid "Previous page"
+msgstr "Vorige pagina"
+
+#: 404.php:21
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr "Het lijkt erop dat hier niets kon worden gevonden. Probeer het eens met de zoekfunctie."
+
+#: 404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Oeps! Deze pagina kon niet worden gevonden."
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr "het WordPressteam"
+
+#. Theme URI of the plugin/theme
+msgid "https://wordpress.org/themes/twentyfifteen/"
+msgstr "https://wordpress.org/themes/twentyfifteen/"

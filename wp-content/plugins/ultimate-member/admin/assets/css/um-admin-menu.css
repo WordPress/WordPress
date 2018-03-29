@@ -1,0 +1,3 @@
+ul#adminmenu a.wp-has-current-submenu:after,ul#adminmenu>li.current>a.current:after {display: none !important}
+
+ul#adminmenu li.wp-has-submenu.wp-not-current-submenu:hover:after{right:-9999999px}

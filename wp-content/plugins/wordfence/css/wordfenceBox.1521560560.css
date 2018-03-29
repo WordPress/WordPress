@@ -1,0 +1,169 @@
+/*
+    ColorBox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+*/
+#wordfenceBox, #wfboxOverlay, #wfboxWrapper{position:absolute; top:0; left:0; z-index:16777271; overflow:hidden;}
+#wfboxOverlay{position:fixed; width:100%; height:100%;}
+#wfboxMiddleLeft, #wfboxBottomLeft{clear:left;}
+#wfboxContent{position:relative;}
+#wfboxLoadedContent{overflow:auto;}
+#wfboxTitle{margin:0;}
+#wfboxLoadingOverlay, #wfboxLoadingGraphic{position:absolute; top:0; left:0; width:100%;}
+#wfboxPrevious, #wfboxNext, #wfboxClose, #wfboxSlideshow{cursor:pointer;}
+.wfboxPhoto{float:left; margin:auto; border:0; display:block;}
+.wfboxIframe{width:100%; height:100%; display:block; border:0;}
+
+/* 
+    User Style:
+    Change the following styles to modify the appearance of ColorBox.  They are
+    ordered & tabbed in a way that represents the nesting of the generated HTML.
+*/
+#wfboxOverlay{
+	background: #777;
+	background: -webkit-radial-gradient(rgba(120, 120, 120, 0.8), rgba(100, 100, 100, 0.8) 50%, rgba(70, 70, 70, 1));
+	background: -moz-radial-gradient(rgba(120, 120, 120, 0.6), rgba(100, 100, 100, 0.8) 20%, rgba(70, 70, 70, 1));
+}
+#wordfenceBox {
+	color: #444;
+	font-family: "Open Sans", sans-serif;
+	font-size: 13px;
+	line-height: 1.4em;
+}
+#wfboxContent { background:#fff; overflow:hidden; padding: 0 0 8px; margin: 20px;
+	-webkit-border-radius: 3px 3px 2px 2px; -moz-border-radius: 3px 3px 2px 2px; border-radius: 3px 3px 2px 2px; /* border radius */
+	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,.4); -moz-box-shadow: 0 2px 4px rgba(0,0,0,.4); box-shadow: 0 2px 4px rgba(0,0,0,.4); /* box shadow */
+	-webkit-background-clip: padding-box; 	/* smoother borders with webkit */ }
+#wfboxError{padding:50px; border:1px solid #ccc;}
+#wfboxLoadedContent {
+	/* margin-bottom:28px; */
+	/* MDM added: */ margin: 10px 20px 28px 20px; font-family: Arial; color: #333;
+	-webkit-border-radius: 2px 2px 0 0; -moz-border-radius: 2px 2px 0 0; border-radius: 2px 2px 0 0; /* border radius */
+}
+#wfboxTitle{position:absolute; bottom:8px; left:5px; text-align:center; width:100%; color:#949494;}
+#wfboxCurrent{position:absolute; bottom:8px; left:63px; color:#949494; text-indent: -9999px;}
+#wfboxSlideshow{position:absolute; bottom:8px; right:35px; color:#0092ef;}
+#wfboxPrevious{position:absolute; bottom:5px; left:5px; background:url(../images/lightbox-controls.png) no-repeat -75px 0; width:25px; height:25px; text-indent:-9999px;}
+#wfboxPrevious.hover{background-position:-75px -25px;}
+#wfboxNext{position:absolute; bottom:5px; left:32px; background:url(../images/lightbox-controls.png) no-repeat -50px 0; width:25px; height:25px; text-indent:-9999px;}
+#wfboxNext.hover{background-position:-50px -25px;}
+#wfboxLoadingOverlay{background:url(../images/loading_background.png) no-repeat center center;}
+#wfboxLoadingGraphic{background:url(../images/loading.gif) no-repeat center center;}
+#wfboxClose{position:absolute; bottom:5px; right:5px; background:url(../images/lightbox-controls.png) no-repeat -25px 0; width:25px; height:25px; text-indent:-9999px;}
+#wfboxClose.hover{background-position:-25px -25px;}
+
+/*
+  The following fixes a problem where IE7+ replaces a PNG's alpha transparency with a black fill
+  when an alpha filter (opacity change) is set on the element or ancestor element.
+*/
+.wfboxIE #wfboxTopLeft,
+.wfboxIE #wfboxTopCenter,
+.wfboxIE #wfboxTopRight,
+.wfboxIE #wfboxBottomLeft,
+.wfboxIE #wfboxBottomCenter,
+.wfboxIE #wfboxBottomRight,
+.wfboxIE #wfboxMiddleLeft,
+.wfboxIE #wfboxMiddleRight {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}
+
+/* 
+    Enforce our styles over any theme styling
+*/
+#wordfenceBox, #wordfenceBox:before, #wordfenceBox:after {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+#wordfenceBox h1, #wordfenceBox h2, #wordfenceBox h3, #wordfenceBox h4, #wordfenceBox h5, #wordfenceBox h6 {
+	display: block;
+	font-weight: 600
+}
+
+#wordfenceBox h1 {
+	font-size: 2em;
+	margin: .67em 0
+}
+
+#wordfenceBox h2, #wordfenceBox h3 {
+	font-size: 1.3em;
+	margin: 1em 0
+}
+
+#wordfenceBox h1, #wordfenceBox h2, #wordfenceBox h3 {
+	color: #23282d
+}
+
+#wordfenceBox p {
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
+#wordfenceBox .textright {
+	text-align: right;
+}
+
+#wordfenceBox .button, #wordfenceBox .button-primary, #wordfenceBox .button-secondary {
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	padding: 0 10px 1px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-appearance: none;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	white-space: nowrap;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+#wordfenceBox .button, #wordfenceBox .button-secondary {
+	color: #555;
+	border-color: #ccc;
+	background: #f7f7f7;
+	-webkit-box-shadow: 0 1px 0 #ccc;
+	box-shadow: 0 1px 0 #ccc;
+	vertical-align: top
+}
+
+#wordfenceBox p .button {
+	vertical-align: baseline;
+	font-family: Arial, san-serif;
+	font-weight: normal;
+	text-transform: none;
+}
+
+#wordfenceBox p code {
+	padding: 3px 5px 2px;
+	margin: 0 1px;
+	background: #eaeaea;
+	background: rgba(0,0,0,.07);
+	font-size: 13px;
+}
+
+#wordfenceBox .button-secondary:focus, #wordfenceBox .button-secondary:hover, #wordfenceBox .button.focus, #wordfenceBox .button.hover, #wordfenceBox .button:focus, #wordfenceBox .button:hover {
+	background: #fafafa;
+	border-color: #999;
+	color: #23282d
+}
+
+#wordfenceBox a.wfboxhelp {
+	float: left;
+	background-image: url(../images/help.png);
+	width: 12px;
+	height: 12px;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	padding: 0;
+	margin: 9px 0px;  
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;
+}

@@ -1,0 +1,95 @@
+.um {
+	direction: rtl !important;
+	text-align: right;
+}
+
+.um-profile-photo {
+	float: right;
+}
+
+.um-profile-photo a.um-profile-photo-img {
+	float: right;
+	left: auto;
+	right: 30px;
+}
+
+.um-profile-edit {
+	right: auto;
+	left: 10px;
+	padding-left: 10px;
+}
+
+div.uimob800 .um-header .um-profile-meta {
+	padding-left: 0 !important;
+    padding-right: 200px !important;
+}
+
+.um-name {
+	float: right;
+	margin-right: 0;
+	margin-left: 30px;
+}
+
+.um-profile-nav-item a{float: right}
+
+.um-field-checkbox-state, .um-field-radio-state {
+	right: 1px;
+	left: auto;
+}
+
+.um-field-checkbox-option, .um-field-radio-option {
+	margin: 0 36px 0 0;
+}
+
+.um-field-half {
+	float: right;
+}
+
+.um-field-half.right {
+	float: left;
+}
+
+.um-left {
+	float: right;
+}
+
+.um-right {
+	float: left;
+}
+
+.um-account-main,
+.um-account-side {
+	float: right;
+}
+
+.um-account-main div.um-account-heading i {
+	margin-right: 0;
+	margin-left: 10px;
+}
+
+.um-account-side li a span.um-account-icon,
+.um-account-side li a.current span.um-account-icon,
+.um-account-side li a.current:hover span.um-account-icon {
+	float: right;
+	border-left: 1px solid #ccc;
+}
+
+.um-account-side li a span.um-account-title {
+	padding-right: 20px;
+	float: right;
+}
+
+.um-account-side li a span.um-account-arrow {
+	right: auto;
+	left: 10px;
+}
+
+.um-field-label .um-field-label-icon {
+    float: right;
+    margin: 0 0 0 8px;
+}
+
+p.um-notice i {
+	right: auto;
+	left: 14px;
+}

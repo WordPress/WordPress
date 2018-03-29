@@ -1,0 +1,844 @@
+# Translation of Plugins - Akismet Anti-Spam - Stable (latest release) in Dutch
+# This file is distributed under the same license as the Plugins - Akismet Anti-Spam - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-12-15 09:38:56+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: nl\n"
+"Project-Id-Version: Plugins - Akismet Anti-Spam - Stable (latest release)\n"
+
+#: class.akismet.php:211
+msgid "Comment discarded."
+msgstr "Reactie verwijderd."
+
+#: class.akismet-rest-api.php:132
+msgid "This site's API key is hardcoded and cannot be deleted."
+msgstr "De API sleutel van deze site is hard gecodeerd en kan niet verwijderd worden."
+
+#: class.akismet-rest-api.php:116
+msgid "The value provided is not a valid and registered API key."
+msgstr "De ingevulde waarde is niet een geldige en geregistreerde API sleutel."
+
+#: class.akismet-rest-api.php:110
+msgid "This site's API key is hardcoded and cannot be changed via the API."
+msgstr "De API sleutel van deze site is hard gecodeerd en kan niet veranderd worden via de API. "
+
+#: class.akismet-rest-api.php:71 class.akismet-rest-api.php:80
+msgid "The time period for which to retrieve stats. Options: 60-days, 6-months, all"
+msgstr "De periode wanneer de statistieken worden opgehaald. Opties: 60 dagen, 6 maanden, altijd."
+
+#: class.akismet-rest-api.php:56
+msgid "If true, show the number of approved comments beside each comment author in the comments list page."
+msgstr "Als waar, toon het aantal goedgekeurde reacties naast iedere reactie-auteur op de reactie overzichtspagina"
+
+#: class.akismet-rest-api.php:51
+msgid "If true, Akismet will automatically discard the worst spam automatically rather than putting it in the spam folder."
+msgstr "Indien waar, zal Akismet automatisch de ergste spam verwijderen in plaats van het in de spamfolder te plaatsen."
+
+#: class.akismet-rest-api.php:27
+msgid "A 12-character Akismet API key. Available at akismet.com/get/"
+msgstr "Een 12-karakter Akismet API sleutel. Beschikbaar op akismet.com/get/"
+
+#: class.akismet-admin.php:373
+msgid "(%1$s%)"
+msgstr "(%1$s%)"
+
+#: views/notice.php:49
+msgid "Your site can&#8217;t connect to the Akismet servers."
+msgstr "Je site kan niet verbinden met de Akismet servers."
+
+#: views/start.php:97
+msgid "An Akismet API key has been defined in the %s file for this site."
+msgstr "Een Akismet API-sleutel is gedefinieerd in het %s bestand voor deze site."
+
+#: views/start.php:96
+msgid "Manual Configuration"
+msgstr "Handmatige configuratie"
+
+#: class.akismet-admin.php:213
+msgid "On this page, you are able to update your Akismet settings and view spam stats."
+msgstr "Op deze pagina ben je in staat om je Akismet instellingen te veranderen en je spamstatistieken te bekijken."
+
+#. Description of the plugin/theme
+msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key."
+msgstr "Met miljoenen gebruikers is Akismet de beste manier om je <strong>blog te beschermen tegen spam</strong>. Het houdt je site beschermd zelfs terwijl je slaapt. Om te beginnen: activeer de Akismet plugin en ga dan naar je Akismet instellingen-painga om je API-sleutel te verkrijgen."
+
+#. #-#-#-#-#  akismet-code.pot (Akismet Anti-Spam 4.0.3)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: class.akismet-admin.php:95 class.akismet-admin.php:98
+msgid "Akismet Anti-Spam"
+msgstr "Akismet Anti-Spam"
+
+#: views/stats.php:4
+msgid "Akismet Settings"
+msgstr "Akismet instellingen"
+
+#: views/start.php:90
+msgid "Connect with API key"
+msgstr "Verbinden met API-sleutel"
+
+#: views/start.php:84
+msgid "(What is an API key?)"
+msgstr "(Wat is een API-sleutel?)"
+
+#: views/start.php:83
+msgid "Or enter an API key"
+msgstr "Of voer een API-sleutel in"
+
+#: views/start.php:67
+msgid "Or sign up with a different email address"
+msgstr "Of registreer met een ander e-mailadres"
+
+#: views/start.php:31 views/start.php:63
+msgid "You are connected as %s."
+msgstr "Je bent verbonden als %s."
+
+#: views/start.php:28 views/start.php:60
+msgid "Connect with Jetpack"
+msgstr "Verbind met Jetpack"
+
+#: views/start.php:22 views/start.php:55
+msgid "Use your Jetpack connection to activate Akismet."
+msgstr "Gebruik je Jetpack verbinding om Akismet te activeren."
+
+#: views/start.php:21 views/start.php:35 views/start.php:54
+msgid "Connect via Jetpack"
+msgstr "Verbind via Jetpack"
+
+#: views/start.php:14
+msgid "Select one of the options below to get started."
+msgstr "Kies een van de opties hieronder om te beginnen."
+
+#: views/start.php:13
+msgid "Eliminate spam from your site"
+msgstr "Elimineer spam van je site."
+
+#: views/notice.php:101
+msgid "Would you like to <a href=\"%s\">check pending comments</a>?"
+msgstr "Wil je <a href=\"%s\">reacties in afwachting controleren</a>?"
+
+#: views/notice.php:99
+msgid "Akismet is now protecting your site from spam. Happy blogging!"
+msgstr "Akismet beschermt je site nu tegen spam. Veel plezier met bloggen!"
+
+#: views/notice.php:8
+msgid "Set up your Akismet account"
+msgstr "Configureer je Akismet account"
+
+#: views/config.php:26
+msgid "Detailed Stats"
+msgstr "Gedetailleerde statistieken"
+
+#: views/config.php:22
+msgid "Statistics"
+msgstr "Statistieken"
+
+#: class.akismet-admin.php:1125
+msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started, just go to <a href=\"admin.php?page=akismet-key-config\">your Akismet Settings page</a> to set up your API key."
+msgstr "Met miljoenen gebruikers is Akismet de beste manier om je <strong>blog te beschermen tegen spam</strong>. Het houdt je site beschermd zelfs terwijl je slaapt. Om te beginnen: activeer de Akismet plugin en ga dan naar <a href=\"admin.php?page=akismet-key-config\">je Akismet instellingen-painga</a> om je API sleutel te verkrijgen."
+
+#: class.akismet-admin.php:1122
+msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. Your site is fully configured and being protected, even while you sleep."
+msgstr "Met miljoenen gebruikers is Akismet de beste manier om je <strong>blog te beschermen tegen spam</strong>. Je site is volledig geconfigureerd en beschermd, zelfs terwijl je slaapt."
+
+#: class.akismet-admin.php:1021
+msgid "%s comment was caught as spam."
+msgid_plural "%s comments were caught as spam."
+msgstr[0] "%s reactie is als spam opgevangen."
+msgstr[1] "%s comments zijn als spam opgevangen."
+
+#: class.akismet-admin.php:1018
+msgid "No comments were caught as spam."
+msgstr "Geen reacties zijn als spam opgevangen."
+
+#: class.akismet-admin.php:1014
+msgid "Akismet checked %s comment."
+msgid_plural "Akismet checked %s comments."
+msgstr[0] "Akismet heeft %s reactie gecontroleerd."
+msgstr[1] "Akismet heeft %s reacties gecontroleerd."
+
+#: class.akismet-admin.php:1011
+msgid "There were no comments to check. Akismet will only check comments in the Pending queue."
+msgstr "Er zijn geen reacties om te controleren. Akismet controleert alleen reacties in afwachting."
+
+#: class.akismet-admin.php:372
+msgid "Checking for Spam"
+msgstr "Aan het controleren voor spam"
+
+#: class.akismet.php:492
+msgid "Comment not found."
+msgstr "Reactie niet gevonden."
+
+#: class.akismet-cli.php:88
+msgid "%d comment could not be checked."
+msgid_plural "%d comments could not be checked."
+msgstr[0] "%d reactie kon niet gecontroleerd worden."
+msgstr[1] "%d reacties konden niet gecontroleerd worden."
+
+#: class.akismet-cli.php:85
+msgid "%d comment moved to Spam."
+msgid_plural "%d comments moved to Spam."
+msgstr[0] "%d reactie verplaatst naar Spam."
+msgstr[1] "%d reacties verplaatst naar Spam."
+
+#: class.akismet-cli.php:84
+msgid "Processed %d comment."
+msgid_plural "Processed %d comments."
+msgstr[0] "%d reactie verwerkt."
+msgstr[1] "%d reacties verwerkt."
+
+#: class.akismet-cli.php:46
+msgid "Comment #%d could not be checked."
+msgstr "Reactie #%d kon niet gecontroleerd worden."
+
+#: class.akismet-cli.php:43
+msgid "Failed to connect to Akismet."
+msgstr "Verbinden met Akismet is mislukt."
+
+#: class.akismet-cli.php:39
+msgid "Comment #%d is not spam."
+msgstr "Reactie #%d is geen spam."
+
+#: class.akismet-cli.php:36
+msgid "Comment #%d is spam."
+msgstr "Reactie #%d is spam."
+
+#: views/config.php:49
+msgid "%s false positive"
+msgid_plural "%s false positives"
+msgstr[0] "%s false positive"
+msgstr[1] "%s false positives"
+
+#: views/config.php:47
+msgid "%s missed spam"
+msgid_plural "%s missed spam"
+msgstr[0] "%s gemiste spam"
+msgstr[1] "%s gemiste spam"
+
+#: views/start.php:79
+msgid "Log in or sign up now."
+msgstr "Login of registreer nu."
+
+#: views/start.php:84
+msgid "Already have your key? Enter it here."
+msgstr "Heb je al een API sleutel? Voer hem hier in."
+
+#: views/start.php:69
+msgid "Sign up with a different email address"
+msgstr "Registreer met een ander e-mailadres"
+
+#: views/start.php:71
+msgid "Choose this option to use Akismet independently of your Jetpack connection."
+msgstr "Gebruik deze optie om Akismet te gebruiken zonder Jetpack verbinding."
+
+#: views/notice.php:79
+msgid "You don&#8217;t have an Akismet plan."
+msgstr "Je hebt geen Akismet pakket."
+
+#: views/notice.php:64
+msgid "Your Akismet subscription is suspended."
+msgstr "Je Akismet abonnement is gestopt."
+
+#: views/notice.php:59
+msgid "Your Akismet plan has been cancelled."
+msgstr "Je Akismet abonnement is geannuleerd."
+
+#: views/notice.php:55
+msgid "We cannot process your payment. Please <a href=\"%s\" target=\"_blank\">update your payment details</a>."
+msgstr "We konden je betaling niet verwerken. <a href=\"%s\" target=\"_blank\">werk je betalingsgegevens bij</a>."
+
+#: views/notice.php:54
+msgid "Please update your payment information."
+msgstr "Werk je betalingsgegevens hieronder bij."
+
+#: views/notice.php:11
+msgid "<strong>Almost done</strong> - configure Akismet and say goodbye to spam"
+msgstr "<strong>Bijna klaar</strong> - configureer Akismet en zeg vaarwel tegen spam"
+
+#: class.akismet-admin.php:946
+msgid "Akismet has saved you %d minute!"
+msgid_plural "Akismet has saved you %d minutes!"
+msgstr[0] "Akismet heeft je %d minuut bespaard."
+msgstr[1] "Akismet heeft je %d minuten bespaard."
+
+#: class.akismet-admin.php:944
+msgid "Akismet has saved you %d hour!"
+msgid_plural "Akismet has saved you %d hours!"
+msgstr[0] "Akismet heeft je %d uur bespaard."
+msgstr[1] "Akismet heeft je %d uren bespaard."
+
+#: class.akismet-admin.php:942
+msgid "Akismet has saved you %s day!"
+msgid_plural "Akismet has saved you %s days!"
+msgstr[0] "Akismet heeft je %s dag bespaard."
+msgstr[1] "Akismet heeft je %s dagen bespaard."
+
+#: class.akismet-admin.php:161 class.akismet-admin.php:199
+#: class.akismet-admin.php:212
+msgid "Akismet filters out spam, so you can focus on more important things."
+msgstr "Akismet filtert spam zodat jij kunt focussen op belangrijkere dingen."
+
+#: views/notice.php:129
+msgid "To continue your service, <a href=\"%s\" target=\"_blank\">upgrade to an Enterprise subscription</a>, which covers an unlimited number of sites."
+msgstr "Om verder te gaan, <a href=\"%s\" target=\"_blank\">upgrade naar een Enterprise abonnement</a>, zodat je de mogelijkheid hebt om ongelimiteerde sites te beheren."
+
+#: views/notice.php:122
+msgid "Your Pro subscription allows the use of Akismet on only one site. Please <a href=\"%s\" target=\"_blank\">purchase additional Pro subscriptions</a> or upgrade to an Enterprise subscription that allows the use of Akismet on unlimited sites."
+msgstr "Met je Pro abonnement kan je maar één website koppelen aan Akismet. Upgrade naar een Enterprise abonnement of  <a href=\"%s\" target=\"_blank\">koop een bijkomend Pro abonnement</a> zodat je Akismet op ongelimiteerde sites kan gebruiken."
+
+#: views/notice.php:115
+msgid "The connection to akismet.com could not be established. Please refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a> and check your server configuration."
+msgstr "De verbinding met akismet.com kan niet tot stand worden gebracht. Raadpleeg <a href=\"%s\" target=\"_blank\">onze documentatie over firewalls</a> en controleer je serverconfiguratie."
+
+#: views/notice.php:114
+msgid "The API key you entered could not be verified."
+msgstr "De sleutel die je hebt ingevoerd kon niet worden gecontroleerd."
+
+#: views/notice.php:110
+msgid "Your API key is no longer valid. Please enter a new key or contact support@akismet.com."
+msgstr "De API-sleutel is niet langer geldig. Voer een nieuwe sleutel in of neem contact op met: support@akismet.com."
+
+#: views/notice.php:83 views/notice.php:124 views/notice.php:131
+msgid "Please <a href=\"%s\" target=\"_blank\">contact our support team</a> with any questions."
+msgstr "Bij vragen kan je <a href=\"%s\" target=\"_blank\">het support team</a> benaderen."
+
+#: views/notice.php:81
+msgid "In 2012, Akismet began using subscription plans for all accounts (even free ones). A plan has not been assigned to your account, and we&#8217;d appreciate it if you&#8217;d <a href=\"%s\" target=\"_blank\">sign into your account</a> and choose one."
+msgstr "In 2012 is Akismet begonnen met abonnementen voor alle accounts. Volgens onze gegevens is er geen abonnement aan je account gekoppeld. We stellen het op prijs dat je <a href=\"%s\" target=\"_blank\">met je account gaat inloggen</a> en een abonnement kiest."
+
+#: views/config.php:95
+msgid "All systems functional."
+msgstr "Alle systemen functioneren."
+
+#: views/config.php:95
+msgid "Enabled."
+msgstr "Ingeschakeld."
+
+#: views/config.php:92
+msgid "Akismet encountered a problem with a previous SSL request and disabled it temporarily. It will begin using SSL for requests again shortly."
+msgstr "Akismet is een probleem met een eerder SSL verzoek tegengekomen en heeft dit tijdelijk uitgeschakeld. Het gebruik van SSL voor verzoeken zal vanzelf weer worden ingeschakeld."
+
+#: views/config.php:92
+msgid "Temporarily disabled."
+msgstr "Tijdelijk uitgeschakeld."
+
+#: views/config.php:86
+msgid "Your Web server cannot make SSL requests; contact your Web host and ask them to add support for SSL requests."
+msgstr "Je webserver kan geen SSL verzoeken doen; neem contact op met je webhoster en vraag hen ondersteuning voor SSL verzoeken toe te voegen."
+
+#: views/config.php:86
+msgid "Disabled."
+msgstr "Uitgeschakeld."
+
+#: views/config.php:79
+msgid "SSL Status"
+msgstr "SSL status"
+
+#: class.akismet-admin.php:583
+msgid "This comment was reported as not spam."
+msgstr "Deze reactie is gerapporteerd als geen spam."
+
+#: class.akismet-admin.php:575
+msgid "This comment was reported as spam."
+msgstr "Deze reactie is gerapporteerd als spam."
+
+#: class.akismet-admin.php:130
+msgid "(undo)"
+msgstr "(ongedaan maken)"
+
+#: class.akismet-admin.php:129
+msgid "URL removed"
+msgstr "URL verwijderd"
+
+#: class.akismet-admin.php:128
+msgid "Removing..."
+msgstr "Verwijderen..."
+
+#: class.akismet-admin.php:88 class.akismet-admin.php:220
+#: class.akismet-admin.php:633 views/config.php:60
+msgid "Settings"
+msgstr "Instellingen"
+
+#: class.akismet-admin.php:131
+msgid "Re-adding..."
+msgstr "Opnieuw toevoegen..."
+
+#: class.akismet-admin.php:158 class.akismet-admin.php:196
+#: class.akismet-admin.php:209
+msgid "Overview"
+msgstr "Overzicht"
+
+#: class.akismet-admin.php:160 class.akismet-admin.php:171
+#: class.akismet-admin.php:182
+msgid "Akismet Setup"
+msgstr "Akismet-instellingen"
+
+#: class.akismet-admin.php:162
+msgid "On this page, you are able to set up the Akismet plugin."
+msgstr "Op deze pagina kun je de Akismet-plugin instellen."
+
+#: class.akismet-admin.php:169
+msgid "New to Akismet"
+msgstr "Nieuw bij Akismet"
+
+#: class.akismet-admin.php:172
+msgid "You need to enter an API key to activate the Akismet service on your site."
+msgstr "Je hebt een API-sleutel nodig om de Akismet-service te activeren op je site."
+
+#: class.akismet-admin.php:180
+msgid "Enter an API Key"
+msgstr "API-sleutel invoeren"
+
+#: class.akismet-admin.php:173
+msgid "Sign up for an account on %s to get an API Key."
+msgstr "Je aanmelden voor een account op %s om een API-sleutel te krijgen."
+
+#: class.akismet-admin.php:183
+msgid "If you already have an API key"
+msgstr "Als je al een API-sleutel hebt"
+
+#: class.akismet-admin.php:185
+msgid "Copy and paste the API key into the text field."
+msgstr "De API-sleutel knippen en plakken in het tekstveld."
+
+#: class.akismet-admin.php:186
+msgid "Click the Use this Key button."
+msgstr "Klik op de knop 'Deze sleutel gebruiken'."
+
+#: class.akismet-admin.php:198
+msgid "Akismet Stats"
+msgstr "Akismet-statistieken"
+
+#: class.akismet-admin.php:200
+msgid "On this page, you are able to view stats on spam filtered on your site."
+msgstr "Op deze pagina kun je statistieken zien over de spam die weggefilterd is op je site."
+
+#: class.akismet-admin.php:211 class.akismet-admin.php:222
+#: class.akismet-admin.php:235
+msgid "Akismet Configuration"
+msgstr "Akismet-instellingen"
+
+#: class.akismet-admin.php:223 views/config.php:70
+msgid "API Key"
+msgstr "API-sleutel"
+
+#: class.akismet-admin.php:223
+msgid "Enter/remove an API key."
+msgstr "API-sleutel invoeren of verwijderen."
+
+#: class.akismet-admin.php:224 views/config.php:105
+msgid "Comments"
+msgstr "Reacties"
+
+#: class.akismet-admin.php:224
+msgid "Show the number of approved comments beside each comment author in the comments list page."
+msgstr "Het aantal toegestane reacties tonen naast elke reactie-auteur op de reactie-overzichtspagina."
+
+#: class.akismet-admin.php:225
+msgid "Choose to either discard the worst spam automatically or to always put all spam in spam folder."
+msgstr "Kies ervoor om automatisch de ergste spam te verwijderen of om deze altijd in de spam-map te stoppen."
+
+#: class.akismet-admin.php:225 views/config.php:128
+msgid "Strictness"
+msgstr "Striktheid"
+
+#: class.akismet-admin.php:233 views/config.php:177
+msgid "Account"
+msgstr "Account"
+
+#: class.akismet-admin.php:236 views/config.php:185
+msgid "Subscription Type"
+msgstr "Abonnementstype"
+
+#: class.akismet-admin.php:237
+msgid "The subscription status - active, cancelled or suspended"
+msgstr "Abonnementstatus - actief, geannuleerd of geschorst"
+
+#: class.akismet-admin.php:237 views/config.php:192
+msgid "Status"
+msgstr "Status"
+
+#: class.akismet-admin.php:236
+msgid "The Akismet subscription plan"
+msgstr "Het Akismet-abonnementsplan"
+
+#: class.akismet-admin.php:247
+msgid "Akismet FAQ"
+msgstr "Akismet-FAQ"
+
+#: class.akismet-admin.php:246
+msgid "For more information:"
+msgstr "Voor meer informatie:"
+
+#: class.akismet-admin.php:248
+msgid "Akismet Support"
+msgstr "Akismet-ondersteuning"
+
+#: class.akismet-admin.php:254
+msgid "Cheatin&#8217; uh?"
+msgstr "Aan het valsspelen?"
+
+#: class.akismet-admin.php:318
+msgctxt "comments"
+msgid "Spam"
+msgstr "Spam"
+
+#: class.akismet-admin.php:320
+msgid "<a href=\"%1$s\">Akismet</a> has protected your site from <a href=\"%2$s\">%3$s spam comment</a>."
+msgid_plural "<a href=\"%1$s\">Akismet</a> has protected your site from <a href=\"%2$s\">%3$s spam comments</a>."
+msgstr[0] "<a href=\"%1$s\">Akismet</a> heeft je site beschermd tegen <a href=\"%2$s\">%3$s spamreactie</a>."
+msgstr[1] "<a href=\"%1$s\">Akismet</a> heeft je site beschermd tegen <a href=\"%2$s\">%3$s spamreacties</a>."
+
+#: class.akismet-admin.php:330
+msgid "<a href=\"%1$s\">Akismet</a> has protected your site from %2$s spam comment already. "
+msgid_plural "<a href=\"%1$s\">Akismet</a> has protected your site from %2$s spam comments already. "
+msgstr[0] "<a href=\"%1$s\">Akismet</a> heeft je site beschermd tegen %2$s spamreactie."
+msgstr[1] "<a href=\"%1$s\">Akismet</a> heeft je website al beschermd voor %2$s spamreacties. "
+
+#: class.akismet-admin.php:336
+msgid "<a href=\"%s\">Akismet</a> blocks spam from getting to your blog. "
+msgstr "<a href=\"%s\">Akismet</a> zorgt voor het blokkeren van spam op je site. "
+
+#: class.akismet-admin.php:342
+msgid "There&#8217;s <a href=\"%2$s\">%1$s comment</a> in your spam queue right now."
+msgid_plural "There are <a href=\"%2$s\">%1$s comments</a> in your spam queue right now."
+msgstr[0] "Er is nu <a href=\"%2$s\">%1$s reactie</a> in je spam-wachtrij."
+msgstr[1] "Er zijn nu <a href=\"%2$s\">%1$s reacties</a> in je spam-wachtrij."
+
+#: class.akismet-admin.php:348
+msgid "There&#8217;s nothing in your <a href='%s'>spam queue</a> at the moment."
+msgstr "Er staat niets in de <a href='%s'>spam-wachtrij</a> op dit moment."
+
+#: class.akismet-admin.php:562
+msgid "Akismet re-checked and cleared this comment."
+msgstr "Akismet heeft deze reactie opnieuw gecontroleerd en goedgekeurd."
+
+#: class.akismet-admin.php:556
+msgid "Akismet re-checked and caught this comment as spam."
+msgstr "Akismet heeft deze reactie opnieuw gecontroleerd en gemarkeerd als spam."
+
+#: class.akismet-admin.php:377
+msgid "Check for Spam"
+msgstr "Op spam controleren"
+
+#: class.akismet-admin.php:599
+msgid "Akismet was unable to recheck this comment (response: %s)."
+msgstr "Akismet kon deze reactie niet opnieuw controleren (antwoord: %s)."
+
+#: class.akismet-admin.php:484
+msgid "Flagged as spam by Akismet"
+msgstr "Door Akismet als spam gemarkeerd"
+
+#: class.akismet-admin.php:480
+msgid "Awaiting spam check"
+msgstr "In afwachting van spam-controle"
+
+#: class.akismet-admin.php:490
+msgid "Flagged as spam by %s"
+msgstr "Gemarkeerd als spam door %s"
+
+#: class.akismet-admin.php:486
+msgid "Cleared by Akismet"
+msgstr "Goedgekeurd door Akismet"
+
+#: class.akismet-admin.php:492
+msgid "Un-spammed by %s"
+msgstr "Ontspamd door %s"
+
+#: class.akismet-admin.php:527
+msgid "%s approved"
+msgid_plural "%s approved"
+msgstr[0] "%s goedgekeurd"
+msgstr[1] "%s goedgekeurd"
+
+#: class.akismet-admin.php:504
+msgid "History"
+msgstr "Geschiedenis"
+
+#: class.akismet-admin.php:504 class.akismet-admin.php:512
+msgid "View comment history"
+msgstr "Reactiegeschiedenis bekijken"
+
+#: class.akismet-admin.php:832
+msgid "Please check your <a href=\"%s\">Akismet configuration</a> and contact your web host if problems persist."
+msgstr "De <a href=\"%s\">Akismet-configuratie</a> controleren en contact opnemen met de hosting provider als het probleem blijft bestaan."
+
+#: class.akismet-admin.php:621
+msgid "%s ago"
+msgstr "%s geleden"
+
+#: class.akismet-admin.php:939
+msgid "Cleaning up spam takes time."
+msgstr "Opruimen van spam duurt even."
+
+#: class.akismet-widget.php:12
+msgid "Akismet Widget"
+msgstr "Akismet-widget"
+
+#: class.akismet-widget.php:13
+msgid "Display the number of spam comments Akismet has caught"
+msgstr "Toon het aantal reacties dat door Akismet is gemarkeerd als spam"
+
+#: class.akismet-widget.php:74
+msgid "Title:"
+msgstr "Titel:"
+
+#: class.akismet-widget.php:69 class.akismet-widget.php:90
+msgid "Spam Blocked"
+msgstr "Spam geblokkeerd"
+
+#: class.akismet-widget.php:102
+msgid "<strong class=\"count\">%1$s spam</strong> blocked by <strong>Akismet</strong>"
+msgid_plural "<strong class=\"count\">%1$s spam</strong> blocked by <strong>Akismet</strong>"
+msgstr[0] "<strong class=\"count\">%1$s spam</strong> reactie geblokkeerd door <strong>Akismet</strong>"
+msgstr[1] "<strong class=\"count\">%1$s spam</strong> reacties geblokkeerd door <strong>Akismet</strong>"
+
+#: class.akismet-admin.php:559
+msgid "Akismet caught this comment as spam."
+msgstr "Akismet heeft deze reactie gemarkeerd als spam."
+
+#: class.akismet-admin.php:607
+msgid "Comment status was changed to %s"
+msgstr "Reactiestatus is gewijzigd in %s"
+
+#: class.akismet-admin.php:565
+msgid "Akismet cleared this comment."
+msgstr "Akismet heeft deze reactie goedgekeurd."
+
+#: class.akismet-admin.php:568
+msgid "Comment was caught by wp_blacklist_check."
+msgstr "Reactie is gemarkeerd door wp_blacklist_check."
+
+#: class.akismet-admin.php:594
+msgid "Akismet was unable to check this comment (response: %s) but will automatically retry later."
+msgstr "Akismet kon deze reactie niet controleren (antwoord: %s), maar probeert dit automatisch opnieuw."
+
+#: class.akismet-admin.php:613
+msgid "%1$s changed the comment status to %2$s."
+msgstr "%1$s heeft de status van de reactie veranderd naar %2$s."
+
+#: class.akismet-admin.php:572
+msgid "%s reported this comment as spam."
+msgstr "%s rapporteerde deze reactie als spam."
+
+#: class.akismet-admin.php:580
+msgid "%s reported this comment as not spam."
+msgstr "%s rapporteerde deze reactie als geen spam."
+
+#: class.akismet-admin.php:587
+msgid "Akismet caught this comment as spam during an automatic retry."
+msgstr "Akismet heeft deze reactie als spam gemarkeerd tijdens een automatisch identificatie."
+
+#: class.akismet-admin.php:590
+msgid "Akismet cleared this comment during an automatic retry."
+msgstr "Akismet heeft deze reactie goedgekeurd tijdens een automatische opschoning."
+
+#: class.akismet.php:1248
+msgid "Please <a href=\"%1$s\">upgrade WordPress</a> to a current version, or <a href=\"%2$s\">downgrade to version 2.4 of the Akismet plugin</a>."
+msgstr "<a href=\"%1$s\">WordPress bijwerken</a> naar een recente versie, of <a href=\"%2$s\">ga terug naar versie 2.4 van de Akismet-plugin</a>."
+
+#: class.akismet.php:1248
+msgid "Akismet %s requires WordPress %s or higher."
+msgstr "Akismet %s vereist WordPress %s of nieuwer."
+
+#: views/config.php:37 views/config.php:42
+msgid "Spam blocked"
+msgid_plural "Spam blocked"
+msgstr[0] "Spam geblokkeerd"
+msgstr[1] ""
+
+#: views/config.php:35
+msgid "Past six months"
+msgstr "Afgelopen zes maanden"
+
+#: views/config.php:40
+msgid "All time"
+msgstr "Allertijden"
+
+#: views/config.php:45
+msgid "Accuracy"
+msgstr "Accuraatheid"
+
+#: views/config.php:109
+msgid "Show approved comments"
+msgstr "Goedgekeurde reacties tonen"
+
+#: views/config.php:122
+msgid "Show the number of approved comments beside each comment author"
+msgstr "Het aantal toegestane reacties tonen naast elke reactie-auteur."
+
+#: views/config.php:131
+msgid "Akismet anti-spam strictness"
+msgstr "Akismet-antispam-striktheid"
+
+#: views/config.php:132
+msgid "Silently discard the worst and most pervasive spam so I never see it."
+msgstr "Stilletjes de ergste en vervelendste spam verwijderen zodat ik het nooit hoef te zien."
+
+#: views/config.php:133
+msgid "Always put spam in the Spam folder for review."
+msgstr "Altijd spam in de spam-map plaatsen voor beoordeling."
+
+#: views/config.php:141
+msgid "Spam in the <a href=\"%1$s\">spam folder</a> older than 1 day is deleted automatically."
+msgid_plural "Spam in the <a href=\"%1$s\">spam folder</a> older than %2$d days is deleted automatically."
+msgstr[0] "Spam ouder dan 1 dag in de <a href=\"%1$s\">spam map</a> wordt automatisch verwijderd."
+msgstr[1] "Spam ouder dan %2$d dagen in de <a href=\"%1$s\">spam map</a> wordt automatisch verwijderd."
+
+#: views/config.php:135
+msgid "Note:"
+msgstr "Notitie:"
+
+#: views/config.php:197
+msgid "Cancelled"
+msgstr "Geannuleerd"
+
+#: views/config.php:165
+msgid "Save Changes"
+msgstr "Wijzigingen opslaan"
+
+#: views/config.php:159
+msgid "Disconnect this account"
+msgstr "Dit account ontkoppelen"
+
+#: views/config.php:199
+msgid "Suspended"
+msgstr "Opgeheven"
+
+#: views/config.php:203
+msgid "No Subscription Found"
+msgstr "Geen abonnement gevonden"
+
+#: views/config.php:201
+msgid "Missing"
+msgstr "Ontbrekend"
+
+#: views/config.php:211
+msgid "Next Billing Date"
+msgstr "Volgende facturatiedatum"
+
+#: views/config.php:205
+msgid "Active"
+msgstr "Actief"
+
+#: views/config.php:222
+msgid "Upgrade"
+msgstr "Upgraden"
+
+#: views/config.php:222
+msgid "Change"
+msgstr "Wijzig"
+
+#: views/notice.php:17
+msgid "Akismet has detected a problem."
+msgstr "Akismet heeft een probleem gedetecteerd."
+
+#: views/notice.php:18
+msgid "Some comments have not yet been checked for spam by Akismet. They have been temporarily held for moderation and will automatically be rechecked later."
+msgstr "Enkele reacties zijn nog niet door Akismet gecontroleerd op spam. Deze zijn tijdelijk vastgehouden voor controle en zullen later automatisch opnieuw gecontroleerd worden."
+
+#: views/notice.php:25
+msgid "Akismet Error Code: %s"
+msgstr "Akismet foutcode: %s"
+
+#. translators: the placeholder is a clickable URL that leads to more
+#. information regarding an error code.
+#: views/notice.php:30
+msgid "For more information: %s"
+msgstr "Voor meer informatie: %s"
+
+#: views/notice.php:45
+msgid "Your web host or server administrator has disabled PHP&#8217;s <code>gethostbynamel</code> function.  <strong>Akismet cannot work correctly until this is fixed.</strong>  Please contact your web host or firewall administrator and give them <a href=\"%s\" target=\"_blank\">this information about Akismet&#8217;s system requirements</a>."
+msgstr "Je hosting provider of serverbeheerder heeft de <code>gethostbynamel</code>-functies van PHP uitgeschakeld.  <strong>Akismet kan niet correct functioneren totdat dit gerepareerd is.</strong> Neem contact op met de webhoster of firewall-beheerder en geef <a href=\"%s\" target=\"_blank\">deze informatie over de systeemeisen van Akismet.</a>."
+
+#: views/notice.php:44
+msgid "Network functions are disabled."
+msgstr "Netwerkfuncties zijn uitgeschakeld."
+
+#: views/notice.php:50
+msgid "Your firewall may be blocking Akismet from connecting to its API. Please contact your host and refer to <a href=\"%s\" target=\"_blank\">our guide about firewalls</a>."
+msgstr "Mogelijk blokkeert de firewall Akismet om te verbinden met de API. Neem contact op met de hosting provider en verwijs naar <a href=\"%s\" target=\"_blank\">onze documentatie over firewalls</a>."
+
+#: views/notice.php:60
+msgid "Please visit your <a href=\"%s\" target=\"_blank\">Akismet account page</a> to reactivate your subscription."
+msgstr "Ga naar de <a href=\"%s\" target=\"_blank\">Akismet-accountpagina</a> om je abonnement opnieuw te activeren."
+
+#: views/notice.php:65 views/notice.php:75
+msgid "Please contact <a href=\"%s\" target=\"_blank\">Akismet support</a> for assistance."
+msgstr "Neem contact op met <a href=\"%s\" target=\"_blank\">Akismet support</a> voor ondersteuning."
+
+#: views/notice.php:70
+msgid "You can help us fight spam and upgrade your account by <a href=\"%s\" target=\"_blank\">contributing a token amount</a>."
+msgstr "Je kunt ons helpen spam te bestrijden door upgraden van je account en <a href=\"%s\" target=\"_blank\">een klein bedrag bij te dragen</a>."
+
+#: views/notice.php:74
+msgid "There is a problem with your API key."
+msgstr "Er is een probleem met je API-sleutel."
+
+#: views/notice.php:106
+msgid "The key you entered is invalid. Please double-check it."
+msgstr "De sleutel die je hebt ingevoerd is ongeldig. Controleer hem nog eens."
+
+#: views/notice.php:120
+msgid "You&#8217;re using your Akismet key on more sites than your Pro subscription allows."
+msgstr "Je gebruikt de Akismet-sleutel op meer sites dan het Pro-abonnement is toegestaan."
+
+#: views/notice.php:127
+msgid "You&#8217;re using Akismet on far too many sites for your Pro subscription."
+msgstr "Je gebruikt Akismet op teveel sites voor je Pro-abonnement."
+
+#: views/start.php:47
+msgid "Connected via Jetpack"
+msgstr "Gekoppeld via Jetpack"
+
+#: views/start.php:41
+msgid "Reactivate Akismet"
+msgstr "Akismet heractiveren"
+
+#: views/start.php:43
+msgid "Your subscription for %s is cancelled."
+msgstr "Je abonnement voor %s is geannuleerd."
+
+#: views/start.php:48
+msgid "Your subscription for %s is suspended."
+msgstr "Je abonnement voor %s is geschorst."
+
+#: views/start.php:49
+msgid "No worries! Get in touch and we&#8217;ll sort this out."
+msgstr "Geen zorgen! Neem contact op en we zorgen dat het goed komt."
+
+#: views/start.php:50
+msgid "Contact Akismet support"
+msgstr "Contact opnemen met Akismet-support"
+
+#: views/start.php:75
+msgid "Activate Akismet"
+msgstr "Akismet activeren"
+
+#: views/start.php:77
+msgid "Get your API key"
+msgstr "Je API-sleutel verkrijgen"
+
+#. Plugin URI of the plugin/theme
+msgid "https://akismet.com/"
+msgstr "https://akismet.com/"
+
+#. Author URI of the plugin/theme
+msgid "https://automattic.com/wordpress-plugins/"
+msgstr "https://automattic.com/wordpress-plugins/"
+
+#. Author of the plugin/theme
+msgid "Automattic"
+msgstr "Automattic"
+
+#: class.akismet-admin.php:127
+msgid "Remove this URL"
+msgstr "Deze URL verwijderen"
+
+#: class.akismet-admin.php:72
+msgid "Comment History"
+msgstr "Reactiehistorie"

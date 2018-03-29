@@ -1,0 +1,108 @@
+/* ==========================================================================
+   $BASE-TIME-PICKER
+   ========================================================================== */
+/**
+ * The list of times.
+ */
+.um .picker__list {
+  list-style: none;
+  list-style: none !important;
+  padding: 5px !important;
+  margin: 0px !important;
+}
+
+/**
+ * The times on the clock.
+ */
+.um .picker__list-item {
+  position: relative;
+  border-radius: 2px;
+  display: inline-block;
+  width: 25%;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 6px 0px !important;
+  margin: 5px 0 !important;
+} 
+
+@media (min-height: 46.75em) {
+  .um .picker__list-item {
+
+  }
+}
+
+/* Hovered time */
+.um .picker__list-item:hover {
+  cursor: pointer;
+  z-index: 10;
+}
+/* Highlighted and hovered/focused time */
+.um .picker__list-item--highlighted {
+  z-index: 10;
+}
+
+.um .picker__list-item--highlighted:hover,
+.um .picker--focused .picker__list-item--highlighted {
+  cursor: pointer;
+   font-weight: bold;
+}
+
+/* Selected and hovered/focused time */
+.um .picker__list-item--selected,
+.um .picker__list-item--selected:hover,
+.um .picker--focused .picker__list-item--selected {
+  z-index: 10;
+}
+
+/* Disabled time */
+.um .picker__list-item--disabled,
+.um .picker__list-item--disabled:hover,
+.um .picker--focused .picker__list-item--disabled {
+  color: #a9e792;
+  cursor: default;
+  background: transparent;
+  z-index: auto;
+}
+
+/**
+ * The clear button
+ */
+.um .picker--time .picker__button--clear {
+  width: 100%;
+  display: inline-block;
+  background: none;
+  box-shadow: none !important;
+  border: 0!important;
+  outline: 0 !important;
+  background: none !important;
+  border-radius: 0 0 2px 2px;
+  color: #fff !important;
+}
+.um .picker--time .picker__button--clear:hover,
+.um .picker--time .picker__button--clear:focus {
+	cursor: pointer;
+}
+
+/* ==========================================================================
+   $DEFAULT-TIME-PICKER
+   ========================================================================== */
+/**
+ * The frame the bounds the time picker.
+ */
+.um .picker--time .picker__frame {
+  min-width: 256px;
+  max-width: 400px;
+}
+/**
+ * The picker box.
+ */
+.um .picker--time .picker__box {
+  font-size: 15px;
+  padding: 0;
+  border-radius: 2px !important;
+}
+@media (min-height: 40.125em) {
+	.um .picker--time .picker__frame {
+		margin-bottom: 10% !important;
+	}
+}

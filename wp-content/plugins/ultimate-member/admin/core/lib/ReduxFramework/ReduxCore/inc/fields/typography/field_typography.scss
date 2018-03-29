@@ -1,0 +1,247 @@
+.redux-main {
+    .redux-typography-container {
+        display: block;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 660px;
+
+        .clearfix {
+            clear: both;
+
+            &:after {
+                visibility: hidden;
+                display: block;
+                font-size: 0;
+                content: " ";
+                clear: both;
+                height: 0;
+            }
+        }
+
+        input.wp-picker-default,
+        .redux-typography-color {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+            height: 24px;
+            padding: 0px 14px !important;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 4px !important;
+            font-size: 12px !important;
+        }
+
+        .select_wrapper {
+            display: block;
+            position: relative;
+            float: left;
+            clear: none;
+            margin: 0 10px 0 0;
+            width: 48% !important;
+            min-width: 210px !important;
+            max-width: 324px !important;
+            height: 57px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+
+            &:nth-child(odd) {
+                margin-right: 10px !important;
+            }
+
+            &:nth-child(even) {
+                margin-right: 10px !important;
+            }
+
+            &.typography-family {
+                .select2-container {
+                    width: 100%
+                }
+            }
+
+            .redux-typography {
+                font-size: 14px !important;
+                display: block;
+                float: left;
+                height: 28px !important;
+                line-height: 50px !important;
+                padding: 0px !important;
+                width: 100% !important;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+        }
+
+        .wp-picker-container {
+            float: left;
+            clear: left;
+            margin-bottom: 12px;
+            padding: 3px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        .input_wrapper {
+            display: block;
+            position: relative;
+            margin: 0 4px 0 5px;
+            padding: 0;
+            width: 23%;
+            max-width: 23%;
+            min-width: 70px;
+            float: left;
+            clear: none;
+            height: 57px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+            vertical-align: baseline;
+
+            &.font-size {
+                margin-left: 0px;
+            }
+
+            input.mini {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                -o-box-sizing: border-box;
+                box-sizing: border-box;
+                width: 78%;
+                text-align: center;
+                margin: 0;
+                height: 28px;
+                top: 3px;
+                padding: 0 2px 0 5px;
+                text-decoration: none;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+            }
+        }
+
+        .picker-wrapper {
+            display: block;
+            display: block;
+            position: relative;
+            margin: 0 4px 0 5px;
+            margin: 0;
+            padding: 0;
+            width: 23%;
+            width: 100%;
+            max-width: 23%;
+            min-width: 70px;
+            min-width: 100%;
+            clear: none;
+            height: 57px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -o-box-sizing: border-box;
+            box-sizing: border-box;
+            vertical-align: baseline;
+        }
+
+        label {
+            display: block;
+            position: relative;
+            font-size: 12px !important;
+            text-align: left;
+            color: #999999;
+            margin: 4px 0 2px 0 !important;
+            cursor: default;
+        }
+
+        .typography-preview {
+            display: none;
+            width: 100%;
+            border: 1px dotted lightgray;
+            max-width: 850px;
+            padding: 10px;
+            font-size: 10pt;
+            height: auto;
+            margin: 5px 0 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .typography-color {
+            border: 0 none;
+            margin: 0;
+        }
+
+        ::-webkit-input-placeholder {
+            line-height: 19px;
+        }
+    }
+
+    @media screen and (max-width: 540px) {
+        .redux-main {
+            .redux-typography-container {
+                max-width: 230px;
+                margin: 0 auto;
+
+                .select_wrapper {
+                    max-width: 210px;
+                    min-width: 210px;
+                    width: 210px;
+                    margin-left: 0 !important;
+                    margin-right: 0 !important;
+                }
+
+                .input_wrapper {
+                    max-width: 101px;
+                    min-width: 101px;
+                    width: 101px;
+                    margin-left: 0 !important;
+                    margin-right: 5px !important;
+                    input.mini {
+                        width: 73%;
+                    }
+                }
+
+                .input-append .add-on {
+                    width: 30%;
+                    padding: 5px !important;
+                }
+
+            }
+
+            .redux-main .wp-picker-container .wp-picker-input-wrap {
+                margin-top: 7px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .redux-main {
+        .redux-typography-container .iris-picker .iris-square {
+            margin-right: 3%;
+        }
+    }
+}
+
+.wp-customizer {
+    .redux-typography-container {
+        .input_wrapper {
+            width: 40%;
+            max-width: 40%;
+            min-width: 20%;
+            input.mini {
+                width: 70%;
+            }
+        }
+        .select_wrapper {
+            width: 100% !important;
+        }
+    }
+}

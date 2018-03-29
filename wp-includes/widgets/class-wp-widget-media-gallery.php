@@ -22,21 +22,17 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 	 * @since 4.9.0
 	 */
 	public function __construct() {
-		parent::__construct(
-			'media_gallery', __( 'Gallery' ), array(
-				'description' => __( 'Displays an image gallery.' ),
-				'mime_type'   => 'image',
-			)
-		);
+		parent::__construct( 'media_gallery', __( 'Gallery' ), array(
+			'description' => __( 'Displays an image gallery.' ),
+			'mime_type'   => 'image',
+		) );
 
-		$this->l10n = array_merge(
-			$this->l10n, array(
-				'no_media_selected' => __( 'No images selected' ),
-				'add_media'         => _x( 'Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
-				'replace_media'     => '',
-				'edit_media'        => _x( 'Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
-			)
-		);
+		$this->l10n = array_merge( $this->l10n, array(
+			'no_media_selected' => __( 'No images selected' ),
+			'add_media' => _x( 'Add Images', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+			'replace_media' => '',
+			'edit_media' => _x( 'Edit Gallery', 'label for button in the gallery widget; should not be longer than ~13 characters long' ),
+		) );
 	}
 
 	/**
@@ -51,37 +47,37 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 	 */
 	public function get_instance_schema() {
 		$schema = array(
-			'title'          => array(
-				'type'                  => 'string',
-				'default'               => '',
-				'sanitize_callback'     => 'sanitize_text_field',
-				'description'           => __( 'Title for the widget' ),
+			'title' => array(
+				'type' => 'string',
+				'default' => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'description' => __( 'Title for the widget' ),
 				'should_preview_update' => false,
 			),
-			'ids'            => array(
-				'type'              => 'array',
-				'items'             => array(
+			'ids' => array(
+				'type' => 'array',
+				'items' => array(
 					'type' => 'integer',
 				),
-				'default'           => array(),
+				'default' => array(),
 				'sanitize_callback' => 'wp_parse_id_list',
 			),
-			'columns'        => array(
-				'type'    => 'integer',
+			'columns' => array(
+				'type' => 'integer',
 				'default' => 3,
 				'minimum' => 1,
 				'maximum' => 9,
 			),
-			'size'           => array(
-				'type'    => 'string',
-				'enum'    => array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ),
+			'size' => array(
+				'type' => 'string',
+				'enum' => array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ),
 				'default' => 'thumbnail',
 			),
-			'link_type'      => array(
-				'type'                  => 'string',
-				'enum'                  => array( 'post', 'file', 'none' ),
-				'default'               => 'post',
-				'media_prop'            => 'link',
+			'link_type' => array(
+				'type' => 'string',
+				'enum' => array( 'post', 'file', 'none' ),
+				'default' => 'post',
+				'media_prop' => 'link',
 				'should_preview_update' => false,
 			),
 			'orderby_random' => array(

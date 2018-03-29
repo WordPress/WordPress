@@ -7,7 +7,7 @@
 		$footer = $( '#wpfooter' );
 
 	/**
-	 * Handles the resizing of the editor.
+	 * @summary Handles the resizing of the editor.
 	 *
 	 * @since 4.0.0
 	 *
@@ -60,9 +60,10 @@
 			};
 
 		/**
-		 * Resizes textarea based on scroll height and width.
+		 * @summary Resizes textarea based on scroll height and width.
 		 *
-		 * Doesn't shrink the editor size below the 300px auto resize minimum height.
+		 * Resizes textarea based on scroll height and width. Doesn't shrink the
+		 * editor size below the 300px auto resize minimum height.
 		 *
 		 * @since 4.6.1
 		 *
@@ -89,7 +90,7 @@
 		}, 300 );
 
 		/**
-		 * Resizes the text editor depending on the old text length.
+		 * @summary Resizes the text editor depending on the old text length.
 		 *
 		 * If there is an mceEditor and it is hidden, it resizes the editor depending
 		 * on the old text length. If the current length of the text is smaller than
@@ -122,7 +123,7 @@
 		}
 
 		/**
-		 * Gets the height and widths of elements.
+		 * @summary Gets the height and widths of elements.
 		 *
 		 * Gets the heights of the window, the adminbar, the tools, the menu,
 		 * the visualTop, the textTop, the bottom, the statusbar and sideSortables
@@ -157,8 +158,8 @@
 
 		// We need to wait for TinyMCE to initialize.
 		/**
-		 * Binds all necessary functions for editor expand to the editor when the editor
-		 * is initialized.
+		 * @summary Binds all necessary functions for editor expand to the editor
+		 * when the editor is initialized.
 		 *
 		 * @since 4.0.0
 		 *
@@ -171,7 +172,7 @@
 			// VK contains the type of key pressed. VK = virtual keyboard.
 			var VK = window.tinymce.util.VK,
 				/**
-				 * Hides any float panel with a hover state. Additionally hides tooltips.
+				 * @summary Hides any float panel with a hover state. Additionally hides tooltips.
 				 *
 				 * @returns {void}
 				 */
@@ -198,7 +199,7 @@
 			$menuBar = $contentWrap.find( '.mce-menubar' );
 
 			/**
-			 * Gets the offset of the editor.
+			 * @summary Gets the offset of the editor.
 			 *
 			 * @returns {Number|Boolean} Returns the offset of the editor
 			 * or false if there is no offset height.
@@ -231,7 +232,7 @@
 			}
 
 			/**
-			 * Filters the special keys that should not be used for scrolling.
+			 * @summary Filters the special keys that should not be used for scrolling.
 			 *
 			 * @since 4.0.0
 			 *
@@ -254,7 +255,7 @@
 			}
 
 			/**
-			 * Makes sure the cursor is always visible in the editor.
+			 * @summary Makes sure the cursor is always visible in the editor.
 			 *
 			 * Makes sure the cursor is kept between the toolbars of the editor and scrolls
 			 * the window when the cursor moves out of the viewport to a wpview.
@@ -321,7 +322,7 @@
 			}
 
 			/**
-			 * If the editor is fullscreen, calls adjust.
+			 * @summary If the editor is fullscreen, calls adjust.
 			 *
 			 * @since 4.1.0
 			 *
@@ -337,7 +338,7 @@
 			}
 
 			/**
-			 * Shows the editor when scrolled.
+			 * @summary Shows the editor when scrolled.
 			 *
 			 * Binds the hideFloatPanels function on the window scroll.mce-float-panels event.
 			 * Executes the wpAutoResize on the active editor.
@@ -356,7 +357,7 @@
 			}
 
 			/**
-			 * Resizes the editor.
+			 * @summary Resizes the editor.
 			 *
 			 * Removes all functions from the window scroll.mce-float-panels event.
 			 * Resizes the text editor and scrolls to a position based on the pageXOffset and adminBarHeight.
@@ -383,7 +384,7 @@
 			}
 
 			/**
-			 * Toggles advanced states.
+			 * @summary Toggles advanced states.
 			 *
 			 * @since 4.1.0
 			 *
@@ -394,7 +395,7 @@
 			}
 
 			/**
-			 * Binds events of the editor and window.
+			 * @summary Binds events of the editor and window.
 			 *
 			 * @since 4.0.0
 			 *
@@ -419,7 +420,7 @@
 			};
 
 			/**
-			 * Unbinds the events of the editor and window.
+			 * @summary Unbinds the events of the editor and window.
 			 *
 			 * @since 4.0.0
 			 *
@@ -446,11 +447,10 @@
 		} );
 
 		/**
-		 * Adjusts the toolbars heights and positions.
+		 * @summary Adjusts the toolbars heights and positions.
 		 *
-		 * Adjusts the toolbars heights and positions based on the scroll position on
-		 * the page, the active editor mode and the heights of the editor, admin bar and
-		 * side bar.
+		 * Adjusts the toolbar heights and positions based on the scroll position on the page,
+		 * the active editor mode and the heights of the editor, admin bar and side bar.
 		 *
 		 * @since 4.0.0
 		 *
@@ -764,7 +764,7 @@
 		}
 
 		/**
-		 * Resizes the editor and adjusts the toolbars.
+		 * @summary Resizes the editor and adjusts the toolbars.
 		 *
 		 * @since 4.0.0
 		 *
@@ -776,7 +776,7 @@
 		}
 
 		/**
-		 * Runs the passed function with 500ms intervals.
+		 * @summary Runs the passed function with 500ms intervals.
 		 *
 		 * @since 4.0.0
 		 *
@@ -791,7 +791,7 @@
 		}
 
 		/**
-		 * Runs adjust after 100ms.
+		 * @summary Runs adjust after 100ms.
 		 *
 		 * @since 4.0.0
 		 *
@@ -803,7 +803,7 @@
 		}
 
 		/**
-		 * Binds editor expand events on elements.
+		 * @summary Binds editor expand events on elements.
 		 *
 		 * @since 4.0.0
 		 *
@@ -873,7 +873,7 @@
 		}
 
 		/**
-		 * Unbinds editor expand events.
+		 * @summary Unbinds editor expand events.
 		 *
 		 * @since 4.0.0
 		 *
@@ -967,7 +967,7 @@
 	} );
 
 	/**
-	 * Handles the distraction free writing of TinyMCE.
+	 * @summary Handles the distraction free writing of TinyMCE.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1017,7 +1017,7 @@
 		} );
 
 		/**
-		 * Recalculates the bottom and right position of the editor in the DOM.
+		 * @summary Recalculates the bottom and right position of the editor in the DOM.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1030,7 +1030,7 @@
 		}
 
 		/**
-		 * Activates the distraction free writing mode.
+		 * @summary Activates the distraction free writing mode.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1046,7 +1046,7 @@
 		}
 
 		/**
-		 * Deactivates the distraction free writing mode.
+		 * @summary Deactivates the distraction free writing mode.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1064,7 +1064,7 @@
 		}
 
 		/**
-		 * Returns _isActive.
+		 * @summary Returns _isActive.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1075,7 +1075,7 @@
 		}
 
 		/**
-		 * Binds events on the editor for distraction free writing.
+		 * @summary Binds events on the editor for distraction free writing.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1098,7 +1098,7 @@
 		}
 
 		/**
-		 * Unbinds events on the editor for distraction free writing.
+		 * @summary Unbinds events on the editor for distraction free writing.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1121,7 +1121,7 @@
 		}
 
 		/**
-		 * Binds or unbinds the editor expand events.
+		 * @summary Binds or unbinds the editor expand events.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1136,7 +1136,7 @@
 		}
 
 		/**
-		 * Returns the value of _isOn.
+		 * @summary Returns the value of _isOn.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1147,7 +1147,7 @@
 		}
 
 		/**
-		 * Fades out all elements except for the editor.
+		 * @summary Fades out all elements except for the editor.
 		 *
 		 * The fading is done based on key presses and mouse movements.
 		 * Also calls the fadeIn on certain key presses
@@ -1290,7 +1290,7 @@
 		}
 
 		/**
-		 * Fades all elements back in.
+		 * @summary Fades all elements back in.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1338,7 +1338,7 @@
 		}
 
 		/**
-		 * Fades in if the focused element based on it position.
+		 * @summary Fades in if the focused element based on it position.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1360,7 +1360,7 @@
 		}
 
 		/**
-		 * Fades out the admin bar based on focus on the admin bar.
+		 * @summary Fades out the admin bar based on focus on the admin bar.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1381,7 +1381,7 @@
 		}
 
 		/**
-		 * Fades in the admin bar.
+		 * @summary Fades in the admin bar.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1396,7 +1396,7 @@
 		}
 
 		/**
-		 * Fades out the edit slug box.
+		 * @summary Fades out the edit slug box.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1413,7 +1413,7 @@
 		}
 
 		/**
-		 * Fades in the edit slug box.
+		 * @summary Fades in the edit slug box.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1430,7 +1430,7 @@
 		}
 
 		/**
-		 * Triggers the toggle on Alt + Shift + W.
+		 * @summary Triggers the toggle on Alt + Shift + W.
 		 *
 		 * Keycode 87 = w.
 		 *
@@ -1451,7 +1451,7 @@
 		}
 
 		/**
-		 * Adds the distraction free writing button when setting up TinyMCE.
+		 * @summary Adds the distraction free writing button when setting up TinyMCE.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1492,7 +1492,7 @@
 		} );
 
 		/**
-		 * Binds and unbinds events on the editor.
+		 * @summary Binds and unbinds events on the editor.
 		 *
 		 * @since 4.1.0
 		 *
@@ -1549,7 +1549,7 @@
 		} );
 
 		/**
-		 *  Binds events on quicktags init.
+		 * @summary  Binds events on quicktags init.
 		 *
 		 * @since 4.1.0
 		 *

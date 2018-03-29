@@ -1,0 +1,40 @@
+@font-face {
+  font-family: "raty";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../font/raty.eot");
+  src: url("../font/raty.eot?#iefix") format("embedded-opentype");
+  src: url("../font/raty.svg#raty") format("svg");
+  src: url("../font/raty.ttf") format("truetype");
+  src: url("../font/raty.woff") format("woff");
+}
+
+.cancel-on-png, .cancel-off-png, .star-on-png, .star-off-png, .star-half-png {
+  font-family: "raty";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  margin-right: 0.2em;
+  color: #ccc;
+}
+
+.star-on-png,
+.star-half-png 
+{color: #ffbe32}
+
+/* Icons */
+
+.cancel-on-png:before {content: "\e600";}
+.cancel-off-png:before {content: "\e601";}
+.star-on-png:before {content: "\f005";}
+.star-off-png:before {content: "\f006";}
+.star-half-png:before {content: "\f123";}

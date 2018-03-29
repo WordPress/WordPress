@@ -7,12 +7,10 @@
 	/**
 	 * Custom video details frame that removes the replace-video state.
 	 *
-	 * @class    wp.mediaWidgets.controlConstructors~VideoDetailsMediaFrame
-	 * @augments wp.media.view.MediaFrame.VideoDetails
-	 *
-	 * @private
+	 * @class VideoDetailsMediaFrame
+	 * @constructor
 	 */
-	VideoDetailsMediaFrame = wp.media.view.MediaFrame.VideoDetails.extend(/** @lends wp.mediaWidgets.controlConstructors~VideoDetailsMediaFrame.prototype */{
+	VideoDetailsMediaFrame = wp.media.view.MediaFrame.VideoDetails.extend({
 
 		/**
 		 * Create the default states.
@@ -51,8 +49,8 @@
 	 *
 	 * See WP_Widget_Video::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class    wp.mediaWidgets.modelConstructors.media_video
-	 * @augments wp.mediaWidgets.MediaWidgetModel
+	 * @class VideoWidgetModel
+	 * @constructor
 	 */
 	VideoWidgetModel = component.MediaWidgetModel.extend({});
 
@@ -61,10 +59,10 @@
 	 *
 	 * See WP_Widget_Video::enqueue_admin_scripts() for amending prototype from PHP exports.
 	 *
-	 * @class    wp.mediaWidgets.controlConstructors.media_video
-	 * @augments wp.mediaWidgets.MediaWidgetControl
+	 * @class VideoWidgetControl
+	 * @constructor
 	 */
-	VideoWidgetControl = component.MediaWidgetControl.extend(/** @lends wp.mediaWidgets.controlConstructors.media_video.prototype */{
+	VideoWidgetControl = component.MediaWidgetControl.extend({
 
 		/**
 		 * Show display settings.

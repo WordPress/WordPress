@@ -1,0 +1,340 @@
+/*
+	- Members mode .um alias
+*/
+
+.um-members img {
+	display: block;
+	overflow:hidden;
+	-moz-border-radius: 0!important;
+	-webkit-border-radius: 0!important;
+	border-radius: 0!important;
+	margin: 0!important;
+	padding: 0!important;
+}
+
+.um-members a,
+.um-members a:hover {text-decoration:none !important}
+
+/*
+	- Members overview
+*/
+
+.um-members-intro {
+	text-align: center;
+	margin: 0 0 20px 0;
+}
+
+.um-members-total {
+	font-size: 30px;
+	font-weight: 300;
+}
+
+/*
+	- no results
+*/
+
+.um-members-none {
+	text-align: center;
+	font-size: 18px;
+}
+
+/*
+	- Members search
+*/
+
+.um-search {
+	text-align: center;
+	padding: 20px 50px;
+}
+
+.um-search.um-search-2 {
+	padding-left: 20%;
+	padding-right: 20%;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.um-search.um-search-1 {
+	padding-left: 32%;
+	padding-right: 32%;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.um-search.um-search-1 .um-search-submit .um-button {
+	display: block !important;
+	min-width: 100% !important;
+	margin: 0 0 10px 0 !important;
+}
+
+.um-search.um-search-1 .um-search-filter {
+	width: 100%;
+	padding: 0 0 10px 0;
+	float: none;
+}
+
+.um-search.um-search-2 .um-search-filter {
+	width: 50%;
+}
+
+.um-search-filter {
+	padding: 0 15px 30px 15px;
+	display: block;
+	float: left;
+	width: 33%;
+	box-sizing: border-box;
+}
+
+.um-search-submit .um-button {
+	display: inline-block !important;
+	width: auto !important;
+	padding: 12px 20px !important;
+	margin: 0 10px !important;
+	min-width: 150px !important;
+}
+
+/*
+	- Member box
+*/
+
+.um-members {
+	-ms-word-break: break-all;
+	word-break: break-word;
+	word-wrap: break-word;
+}
+
+.um-member {
+	float: left;
+	width: 30%;
+	background: #fff;
+	text-align: center;
+	border: 1px solid #eee;
+	box-sizing: border-box;
+	margin-bottom: 40px;
+	position: relative;
+}
+
+.um-member.awaiting_admin_review,
+.um-member.inactive,
+.um-member.rejected  {
+	opacity: 0.7;
+}
+
+.um-member-status {display:none}
+.um-member-status.awaiting_admin_review,
+.um-member-status.inactive,
+.um-member-status.rejected
+ {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 7px 15px;
+	background: #C74A4A;
+	color: #fff;
+	z-index: 10;
+	font-size: 13px;
+	box-sizing: border-box;
+}
+
+.um-member-status.inactive,
+.um-member-status.rejected
+{background: #999}
+
+.um-gutter-sizer { width: 5% }
+
+/*
+	- Member cover
+*/
+
+.um-member-cover {
+	background-color: #eee;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.um-member-cover-e {
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.um-member-cover-e img {width: 100% !important;}
+
+/*
+	- Member photo
+*/
+
+.um-member-photo {
+	padding: 40px 0 20px 0;
+	text-align: center;
+}
+
+.um-member-photo a{ display: inline !important; }
+
+.um-member-photo img {
+	display: inline !important;
+	border: 5px solid #fff;
+	background: #fff;
+	width: 140px;
+	height: 140px;
+	float: none !important;
+}
+
+.um-member.with-cover .um-member-photo {padding-top: 0}
+.um-member.with-cover .um-member-photo img {
+	width: 90px;
+	height: 90px;
+	position: relative;
+	top: -35px;
+	margin-bottom: -45px !important;
+	float: none !important;
+	opacity: 1;
+}
+
+.um-member-photo.radius-1 img { -moz-border-radius: 999px !important;-webkit-border-radius: 999px !important;border-radius: 999px !important }
+.um-member-photo.radius-2 img { -moz-border-radius: 4px !important;-webkit-border-radius: 4px !important;border-radius: 4px !important }
+.um-member-photo.radius-3 img { -moz-border-radius: 0 !important;-webkit-border-radius: 0 !important; border-radius: 0 !important }
+
+/*
+	- Member name
+*/
+
+.um-member-card.no-photo {
+	padding-top: 30px;
+}
+
+.um-member-card {
+	padding-bottom: 15px;
+}
+
+.um-member-name {
+	margin: 0 0 4px 0;
+}
+
+.um-member-name a {
+	font-size: 16px;
+	line-height: 26px;
+	color: #444;
+	font-weight: 700;
+}
+
+.um-member-tagline {
+	font-size: 13px;
+	line-height: 22px;
+	color: #999;
+	padding: 0 15px;
+}
+
+/*
+	- Member meta
+*/
+
+.um-member-less { display: none }
+
+.um-member-more a, .um-member-less a {
+	color: #666;
+	display: inline-block;
+}
+
+.um-member-more i, .um-member-less i {
+	display: block;
+	font-size: 32px;
+	height: 32px;
+	line-height: 32px;
+}
+
+.um-member-meta {
+	display: none;
+	margin: 20px 15px 0 15px;
+	padding: 15px 0;
+	border-top: 1px solid #e5e5e5;
+}
+
+.um-member-meta.no-animate {
+	display: block;
+}
+
+.um-member-metaline {
+	font-size: 13px;
+	padding: 12px 0 0 0;
+	line-height: 16px;
+	vertical-align: middle;
+}
+
+.um-member-metaline span {
+	display: block;
+	text-align: center;
+}
+
+/*
+	- Member connect bar
+*/
+
+.um-member-connect {
+	padding-top: 20px;
+}
+
+.um-member-connect a {
+	display: inline-block;
+	width: 40px;
+	line-height: 40px;
+	height: 40px;
+	-moz-border-radius: 999px;
+	-webkit-border-radius: 999px;
+	border-radius: 999px;
+	color: #fff !important;
+	opacity: 0.85;
+	margin: 0 1px;
+	font-size: 22px;
+	transition: 0.25s;
+}
+
+.um-member-connect i {
+
+}
+
+.um-member-connect a:hover {
+	opacity: 1;
+	color: #fff;
+}
+
+/*
+	- Members pagination
+*/
+
+.um-members-pagi,
+.um-members-pagidrop
+{
+	text-align: center;
+	padding: 5px 0;
+	font-size: 15px;
+}
+
+.um-members-pagi span.current,
+.um-members-pagi span.current:hover {
+	color: #fff !important;
+}
+
+.um-members-pagi i:before {font-size: 20px;vertical-align: middle !important;height: 34px;line-height: 34px;top: -2px;position: relative;}
+
+.um-members-pagi span.disabled {opacity: .4;cursor: default}
+
+.um-members-pagi span.none {color: #aaa !important;}
+
+.um-members-pagi span {cursor: default}
+.um-members-pagi span,
+.um-members-pagi a {
+	display: inline-block;
+	width: auto;
+	height: 34px;
+	line-height: 34px;
+	transition: all .2s linear;
+	padding: 0px 14px;
+	color: #666 !important;
+	font-weight: normal;
+}
+
+.um-members-pagi a:hover {
+	text-decoration: none !important;
+}
