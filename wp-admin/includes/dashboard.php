@@ -1620,11 +1620,10 @@ function wp_dashboard_php_nag() {
 
 	$information_url = _x( 'https://wordpress.org/support/upgrade-php/', 'localized PHP upgrade information page' );
 
-	$msg = __( 'Hi, it&#8217;s your friends at WordPress here.' );
 	if ( ! $response['is_secure'] ) {
-		$msg .= ' ' . __( 'We noticed that your site is running on an insecure version of PHP, which is why we&#8217;re showing you this notice.' );
+		$msg = __( 'WordPress has detected that your site is running on an insecure version of PHP, which is why we&#8217;re showing you this notice.' );
 	} else {
-		$msg .= ' ' . __( 'We noticed that your site is running on an outdated version of PHP, which is why we&#8217;re showing you this notice.' );
+		$msg = __( 'WordPress has detected that your site is running on an outdated version of PHP, which is why we&#8217;re showing you this notice.' );
 	}
 
 	?>
@@ -1634,15 +1633,13 @@ function wp_dashboard_php_nag() {
 	<p><?php _e( 'PHP is the programming language that WordPress is built on. Newer versions of PHP are both faster and more secure, so upgrading is better for your site, and better for the people who are building WordPress.' ); ?></p>
 	<p><?php _e( 'If you want to know exactly how PHP works and why it is important, continue reading.' ); ?></p>
 
-	<h3><?php _e( 'Okay, how do I update?' ); ?></h3>
+	<h3><?php _e( 'How can I upgrade my PHP version?' ); ?></h3>
 	<p><?php _e( 'The button below will take you to a page with more details on what PHP is, how to upgrade your PHP version, and what to do if it turns out you can&#8217;t.' ); ?></p>
 	<p>
 		<a class="button button-primary button-hero" href="<?php echo esc_url( $information_url ); ?>"><?php _e( 'Show me how to upgrade my PHP' ); ?></a>
 	</p>
 
-	<h3><?php _e( 'Thank you for taking the time to read this!' ); ?></h3>
-	<p><?php _e( 'If you carefully follow the instructions we&#8217;ve provided, upgrading shouldn&#8217;t take more than a few minutes, and it is generally very safe to do.' ); ?></p>
-	<p><?php _e( 'Good luck and happy blogging!' ); ?></p>
+	<p><?php _e( 'Upgrading usually takes only a few minutes and should be safe if you follow the provided instructions.' ); ?></p>
 	<?php
 }
 
