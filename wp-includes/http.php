@@ -530,7 +530,7 @@ function wp_http_validate_url( $url ) {
 	$parsed_home = @parse_url( get_option( 'home' ) );
 
 	if ( isset( $parsed_home['host'] ) ) {
-		$same_host = ( strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] ) || 'localhost' === strtolower( $parsed_url['host'] ) );
+		$same_host = strtolower( $parsed_home['host'] ) === strtolower( $parsed_url['host'] );
 	} else {
 		$same_host = false;
 	}
