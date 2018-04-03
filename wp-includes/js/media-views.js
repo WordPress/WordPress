@@ -1243,12 +1243,14 @@ var Library = wp.media.controller.Library,
  *
  * A state for editing a gallery's images and settings.
  *
- * @memberOf wp.media.controller
+ * @since 3.5.0
  *
  * @class
  * @augments wp.media.controller.Library
  * @augments wp.media.controller.State
  * @augments Backbone.Model
+ *
+ * @memberOf wp.media.controller
  *
  * @param {object}                     [attributes]                       The attributes hash passed to the state.
  * @param {string}                     [attributes.id=gallery-edit]       Unique identifier.
@@ -1264,9 +1266,9 @@ var Library = wp.media.controller.Library,
  * @param {boolean}                    [attributes.describe=true]         Whether to offer UI to describe attachments - e.g. captioning images in a gallery.
  * @param {boolean}                    [attributes.displaySettings=true]  Whether to show the attachment display settings interface.
  * @param {boolean}                    [attributes.dragInfo=true]         Whether to show instructional text about the attachments being sortable.
- * @param {int}                        [attributes.idealColumnWidth=170]  The ideal column width in pixels for attachments.
+ * @param {number}                     [attributes.idealColumnWidth=170]  The ideal column width in pixels for attachments.
  * @param {boolean}                    [attributes.editing=false]         Whether the gallery is being created, or editing an existing instance.
- * @param {int}                        [attributes.priority=60]           The priority for the state link in the media menu.
+ * @param {number}                     [attributes.priority=60]           The priority for the state link in the media menu.
  * @param {boolean}                    [attributes.syncSelection=false]   Whether the Attachments selection should be persisted from the last state.
  *                                                                        Defaults to false for this state, because the library passed in  *is* the selection.
  * @param {view}                       [attributes.AttachmentView]        The single `Attachment` view to be used in the `Attachments`.
@@ -1392,14 +1394,16 @@ var Selection = wp.media.model.Selection,
  *
  * A state for selecting more images to add to a gallery.
  *
- * @memberOf wp.media.controller
+ * @since 3.5.0
  *
  * @class
  * @augments wp.media.controller.Library
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  *
- * @param {object}                     [attributes]                         The attributes hash passed to the state.
+ * @memberof wp.media.controller
+ *
+ * @param {Object}                     [attributes]                         The attributes hash passed to the state.
  * @param {string}                     [attributes.id=gallery-library]      Unique identifier.
  * @param {string}                     [attributes.title=Add to Gallery]    Title for the state. Displays in the frame's title region.
  * @param {boolean}                    [attributes.multiple=add]            Whether multi-select is enabled. @todo 'add' doesn't seem do anything special, and gets used as a boolean.
@@ -1416,7 +1420,7 @@ var Selection = wp.media.model.Selection,
  * @param {boolean}                    [attributes.sortable=true]           Whether the Attachments should be sortable. Depends on the orderby property being set to menuOrder on the attachments collection.
  * @param {boolean}                    [attributes.autoSelect=true]         Whether an uploaded attachment should be automatically added to the selection.
  * @param {boolean}                    [attributes.contentUserSetting=true] Whether the content region's mode should be set and persisted per user.
- * @param {int}                        [attributes.priority=100]            The priority for the state link in the media menu.
+ * @param {number}                     [attributes.priority=100]            The priority for the state link in the media menu.
  * @param {boolean}                    [attributes.syncSelection=false]     Whether the Attachments selection should be persisted from the last state.
  *                                                                          Defaults to false because for this state, because the library of the Edit Gallery state is the selection.
  */
@@ -1433,10 +1437,13 @@ GalleryAdd = Library.extend(/** @lends wp.media.controller.GalleryAdd.prototype 
 	}, Library.prototype.defaults ),
 
 	/**
+	 * Initializes the library. Creates a library of images if a library isn't supplied.
+	 *
 	 * @since 3.5.0
+	 *
+	 * @returns {void}
 	 */
 	initialize: function() {
-		// If a library wasn't supplied, create a library of images.
 		if ( ! this.get('library') ) {
 			this.set( 'library', wp.media.query({ type: 'image' }) );
 		}
@@ -1445,7 +1452,14 @@ GalleryAdd = Library.extend(/** @lends wp.media.controller.GalleryAdd.prototype 
 	},
 
 	/**
+	 * Activates the library.
+	 *
+	 * Removes all event listeners if in edit mode. Creates a validator to check an attachment.
+	 * Resets library and re-enables event listeners. Activates edit mode. Calls the parent's activate method.
+	 *
 	 * @since 3.5.0
+	 *
+	 * @returns {void}
 	 */
 	activate: function() {
 		var library = this.get('library'),
@@ -1455,15 +1469,19 @@ GalleryAdd = Library.extend(/** @lends wp.media.controller.GalleryAdd.prototype 
 			library.unobserve( this.editLibrary );
 		}
 
-		// Accepts attachments that exist in the original library and
-		// that do not exist in gallery's library.
+		/*
+		 * Accept attachments that exist in the original library but
+		 * that do not exist in gallery's library yet.
+		 */
 		library.validator = function( attachment ) {
 			return !! this.mirroring.get( attachment.cid ) && ! edit.get( attachment.cid ) && Selection.prototype.validator.apply( this, arguments );
 		};
 
-		// Reset the library to ensure that all attachments are re-added
-		// to the collection. Do so silently, as calling `observe` will
-		// trigger the `reset` event.
+		/*
+		 * Reset the library to ensure that all attachments are re-added
+		 * to the collection. Do so silently, as calling `observe` will
+		 * trigger the `reset` event.
+		 */
 		library.reset( library.mirroring.models, { silent: true });
 		library.observe( edit );
 		this.editLibrary = edit;
