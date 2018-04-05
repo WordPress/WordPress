@@ -5,9 +5,6 @@
  *
  * @since 3.5.0
  *
- * @global
- * @name Global
- *
  * @deprecated 4.1.0 The page this is used on is never linked to from the UI.
  *             Setting a custom header is completely handled by the Customizer.
  */
