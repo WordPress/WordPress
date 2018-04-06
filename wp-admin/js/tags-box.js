@@ -6,10 +6,24 @@ var tagBox, array_unique_noempty;
 ( function( $ ) {
 	var tagDelimiter = ( window.tagsSuggestL10n && window.tagsSuggestL10n.tagDelimiter ) || ',';
 
-	// Return an array with any duplicate, whitespace or empty values removed
+	/**
+	 * Filters unique items and returns a new array.
+	 *
+	 * Filters all items from an array into a new array containing only the unique
+	 * items. This also excludes whitespace or empty values.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @global
+	 *
+	 * @param {Array} array The array to filter through.
+	 *
+	 * @return {Array} A new array containing only the unique items.
+	 */
 	array_unique_noempty = function( array ) {
 		var out = [];
 
+		// Trim the values and ensure they are unique.
 		$.each( array, function( key, val ) {
 			val = $.trim( val );
 
@@ -21,7 +35,27 @@ var tagBox, array_unique_noempty;
 		return out;
 	};
 
+	/**
+	 * The TagBox object.
+	 *
+	 * Contains functions to create and manage tags that can be associated with a
+	 * post.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @global
+	 */
 	tagBox = {
+		/**
+		 * Cleans up tags by removing redundant characters.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @param {string} tags Comma separated tags that need to be cleaned up.
+		 *
+		 * @return {string} The cleaned up tags.
+		 */
 		clean : function( tags ) {
 			if ( ',' !== tagDelimiter ) {
 				tags = tags.replace( new RegExp( tagDelimiter, 'g' ), ',' );
@@ -36,6 +70,16 @@ var tagBox, array_unique_noempty;
 			return tags;
 		},
 
+		/**
+		 * Parses tags and makes them editable.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @param {Object} el The tag element to retrieve the ID from.
+		 *
+		 * @return {boolean} Always returns false.
+		 */
 		parseTags : function(el) {
 			var id = el.id,
 				num = id.split('-check-num-')[1],
@@ -46,6 +90,7 @@ var tagBox, array_unique_noempty;
 
 			delete current_tags[num];
 
+			// Sanitize the current tags and push them as if they're new tags.
 			$.each( current_tags, function( key, val ) {
 				val = $.trim( val );
 				if ( val ) {
@@ -59,6 +104,16 @@ var tagBox, array_unique_noempty;
 			return false;
 		},
 
+		/**
+		 * Creates clickable links, buttons and fields for adding or editing tags.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @param {Object} el The container HTML element.
+		 *
+		 * @return {void}
+		 */
 		quickClicks : function( el ) {
 			var thetags = $('.the-tags', el),
 				tagchecklist = $('.tagchecklist', el),
@@ -73,6 +128,17 @@ var tagBox, array_unique_noempty;
 			current_tags = thetags.val().split( tagDelimiter );
 			tagchecklist.empty();
 
+			/**
+			 * Creates a delete button if tag editing is enabled, before adding it to the tag list.
+			 *
+			 * @since 2.5.0
+			 * @memberOf tagBox
+			 *
+			 * @param {string} key The index of the current tag.
+			 * @param {string} val The value of the current tag.
+			 *
+			 * @return {void}
+			 */
 			$.each( current_tags, function( key, val ) {
 				var listItem, xbutton;
 
@@ -95,6 +161,18 @@ var tagBox, array_unique_noempty;
 						'<span class="screen-reader-text">' + window.tagsSuggestL10n.removeTerm + ' ' + listItem.html() + '</span>' +
 						'</button>' );
 
+					/**
+					 * Handles the click and keypress event of the tag remove button.
+					 *
+					 * Makes sure the focus ends up in the tag input field when using
+					 * the keyboard to delete the tag.
+					 *
+					 * @since 4.2.0
+					 *
+					 * @param {Event} e The click or keypress event to handle.
+					 *
+					 * @return {void}
+					 */
 					xbutton.on( 'click keypress', function( e ) {
 						// On click or when using the Enter/Spacebar keys.
 						if ( 'click' === e.type || 13 === e.keyCode || 32 === e.keyCode ) {
@@ -118,10 +196,27 @@ var tagBox, array_unique_noempty;
 				// Append the list item to the tag list.
 				tagchecklist.append( listItem );
 			});
+
 			// The buttons list is built now, give feedback to screen reader users.
 			tagBox.screenReadersMessage();
 		},
 
+		/**
+		 * Adds a new tag.
+		 *
+		 * Also ensures that the quick links are properly generated.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @param {Object} el The container HTML element.
+		 * @param {Object|boolean} a When this is an HTML element the text of that
+		 *                           element will be used for the new tag.
+		 * @param {number|boolean} f If this value is not passed then the tag input
+		 *                           field is focused.
+		 *
+		 * @return {boolean} Always returns false.
+		 */
 		flushTags : function( el, a, f ) {
 			var tagsval, newtags, text,
 				tags = $( '.the-tags', el ),
@@ -158,9 +253,34 @@ var tagBox, array_unique_noempty;
 			return false;
 		},
 
+		/**
+		 * Retrieves the available tags and creates a tagcloud.
+		 *
+		 * Retrieves the available tags from the database and creates an interactive
+		 * tagcloud. Clicking a tag will add it.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @param {string} id The ID to extract the taxonomy from.
+		 *
+		 * @return {void}
+		 */
 		get : function( id ) {
 			var tax = id.substr( id.indexOf('-') + 1 );
 
+			/**
+			 * Puts a received tag cloud into a DOM element.
+			 *
+			 * The tag cloud HTML is generated on the server.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param {number|string} r The response message from the AJAX call.
+			 * @param {string} stat The status of the AJAX request.
+			 *
+			 * @return {void}
+			 */
 			$.post( ajaxurl, { 'action': 'get-tagcloud', 'tax': tax }, function( r, stat ) {
 				if ( 0 === r || 'success' != stat ) {
 					return;
@@ -168,6 +288,13 @@ var tagBox, array_unique_noempty;
 
 				r = $( '<div id="tagcloud-' + tax + '" class="the-tagcloud">' + r + '</div>' );
 
+				/**
+				 * Adds a new tag when a tag in the tagcloud is clicked.
+				 *
+				 * @since 2.9.0
+				 *
+				 * @return {boolean} Returns false to prevent the default action.
+				 */
 				$( 'a', r ).click( function() {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( '#' + tax ), this );
@@ -186,9 +313,13 @@ var tagBox, array_unique_noempty;
 		userAction: '',
 
 		/**
-		 * Dispatch an audible message to screen readers.
+		 * Dispatches an audible message to screen readers.
+		 *
+		 * This will inform the user when a tag has been added or removed.
 		 *
 		 * @since 4.7.0
+		 *
+		 * @return {void}
 		 */
 		screenReadersMessage: function() {
 			var message;
@@ -209,6 +340,18 @@ var tagBox, array_unique_noempty;
 			window.wp.a11y.speak( message, 'assertive' );
 		},
 
+		/**
+		 * Initializes the tags box by setting up the links, buttons. Sets up event
+		 * handling.
+		 *
+		 * This includes handling of pressing the enter key in the input field and the
+		 * retrieval of tag suggestions.
+		 *
+		 * @since 2.9.0
+		 * @memberOf tagBox
+		 *
+		 * @return {void}
+		 */
 		init : function() {
 			var ajaxtag = $('div.ajaxtag');
 
@@ -221,6 +364,17 @@ var tagBox, array_unique_noempty;
 				tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 			});
 
+			/**
+			 * Handles pressing enter on the new tag input field.
+			 *
+			 * Prevents submitting the post edit form.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param {Event} event The keypress event that occurred.
+			 *
+			 * @return {void}
+			 */
 			$( 'input.newtag', ajaxtag ).keypress( function( event ) {
 				if ( 13 == event.which ) {
 					tagBox.userAction = 'add';
@@ -237,14 +391,29 @@ var tagBox, array_unique_noempty;
 				$( element ).wpTagsSuggest();
 			});
 
-			// save tags on post save/publish
+			/**
+			 * Before a post is saved the value currently in the new tag input field will be
+			 * added as a tag.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @return {void}
+			 */
 			$('#post').submit(function(){
 				$('div.tagsdiv').each( function() {
 					tagBox.flushTags(this, false, 1);
 				});
 			});
 
-			// Fetch and toggle the Tag cloud.
+			/**
+			 * Handles clicking on the tag cloud link.
+			 *
+			 * Makes sure the ARIA attributes are set correctly.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @return {void}
+			 */
 			$('.tagcloud-link').click(function(){
 				// On the first click, fetch the tag cloud and insert it in the DOM.
 				tagBox.get( $( this ).attr( 'id' ) );
