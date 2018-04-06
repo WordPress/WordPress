@@ -427,7 +427,7 @@ if ( isset( $_GET['key'] ) ) {
 }
 
 // validate action so as to default to the login screen
-if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'emailconfirm' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'verifyaccount' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
 	$action = 'login';
 }
 
@@ -858,12 +858,12 @@ switch ( $action ) {
 
 		break;
 
-	case 'emailconfirm' :
+	case 'verifyaccount' :
 		if ( isset( $_GET['confirm_action'], $_GET['confirm_key'], $_GET['uid'] ) ) {
-			$action_name = sanitize_key( wp_unslash( $_GET['confirm_action'] ) );
 			$key         = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
 			$uid         = sanitize_text_field( wp_unslash( $_GET['uid'] ) );
-			$result      = check_confirm_account_action_key( $action_name, $key, $uid );
+			$action_name = sanitize_key( wp_unslash( $_GET['confirm_action'] ) );
+			$result      = wp_check_account_verification_key( $key, $uid, $action_name );
 		} else {
 			$result = new WP_Error( 'invalid_key', __( 'Invalid key' ) );
 		}
