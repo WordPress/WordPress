@@ -233,7 +233,7 @@ class WP_Community_Events {
 	 *                      or false on failure.
 	 */
 	public static function get_unsafe_client_ip() {
-		$client_ip = $netmask = false;
+		$client_ip = false;
 		$ip_prefix = '';
 
 		// In order of preference, with the best ones for this purpose first.
@@ -279,13 +279,27 @@ class WP_Community_Events {
 
 		if ( $is_ipv6 ) {
 			// IPv6 addresses will always be enclosed in [] if there's a port.
-			$ip_start = 1;
-			$ip_end   = (int) strpos( $client_ip, ']' ) - 1;
-			$netmask  = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
+			$left_bracket  = strpos( $client_ip, '[' );
+			$right_bracket = strpos( $client_ip, ']' );
+			$percent       = strpos( $client_ip, '%' );
+			$netmask       = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
 
 			// Strip the port (and [] from IPv6 addresses), if they exist.
-			if ( $ip_end > 0 ) {
-				$client_ip = substr( $client_ip, $ip_start, $ip_end );
+			if ( false !== $left_bracket && false !== $right_bracket ) {
+				$client_ip = substr( $client_ip, $left_bracket + 1, $right_bracket - $left_bracket - 1 );
+			} elseif ( false !== $left_bracket || false !== $right_bracket ) {
+				// The IP has one bracket, but not both, so it's malformed.
+				return false;
+			}
+
+			// Strip the reachability scope.
+			if ( false !== $percent ) {
+				$client_ip = substr( $client_ip, 0, $percent );
+			}
+
+			// No invalid characters should be left.
+			if ( preg_match( '/[^0-9a-f:]/i', $client_ip ) ) {
+				return false;
 			}
 
 			// Partially anonymize the IP by reducing it to the corresponding network ID.
