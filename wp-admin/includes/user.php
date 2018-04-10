@@ -579,3 +579,854 @@ Please click the following link to activate your user account:
 		), wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) )
 	);
 }
+
+/**
+ * Get action description from the name.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @return string
+ */
+function _wp_privacy_action_description( $request_type ) {
+	switch ( $request_type ) {
+		case 'user_export_request':
+			return __( 'Export Personal Data' );
+		case 'user_remove_request':
+			return __( 'Remove Personal Data' );
+	}
+}
+
+/**
+ * Log a request and send to the user.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @param string $email_address Email address sending the request to.
+ * @param string $action Action being requested.
+ * @param string $description Description of request.
+ * @return bool|WP_Error depending on success.
+ */
+function _wp_privacy_create_request( $email_address, $action, $description ) {
+	$user_id = 0;
+	$user    = get_user_by( 'email', $email_address );
+
+	if ( $user ) {
+		$user_id = $user->ID;
+	}
+
+	$privacy_request_id = wp_insert_post( array(
+		'post_author'   => $user_id,
+		'post_status'   => 'request-pending',
+		'post_type'     => $action,
+		'post_date'     => current_time( 'mysql', false ),
+		'post_date_gmt' => current_time( 'mysql', true ),
+	), true );
+
+	if ( is_wp_error( $privacy_request_id ) ) {
+		return $privacy_request_id;
+	}
+
+	update_post_meta( $privacy_request_id, '_user_email', $email_address );
+	update_post_meta( $privacy_request_id, '_action_name', $action );
+	update_post_meta( $privacy_request_id, '_confirmed_timestamp', false );
+
+	return wp_send_account_verification_key( $email_address, $action, $description, array(
+		'privacy_request_id' => $privacy_request_id,
+	) );
+}
+
+/**
+ * Resend an existing request and return the result.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @param int $privacy_request_id Request ID.
+ * @return bool|WP_Error
+ */
+function _wp_privacy_resend_request( $privacy_request_id ) {
+	$privacy_request_id = absint( $privacy_request_id );
+	$privacy_request    = get_post( $privacy_request_id );
+
+	if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
+	}
+
+	$email_address = get_post_meta( $privacy_request_id, '_user_email', true );
+	$action        = get_post_meta( $privacy_request_id, '_action_name', true );
+	$description   = _wp_privacy_action_description( $action );
+	$result        = wp_send_account_verification_key( $email_address, $action, $description, array(
+		'privacy_request_id' => $privacy_request_id,
+	) );
+
+	if ( is_wp_error( $result ) ) {
+		return $result;
+	} elseif ( ! $result ) {
+		return new WP_Error( 'privacy_request_error', __( 'Unable to initiate confirmation request.' ) );
+	}
+
+	wp_update_post( array(
+		'ID'            => $privacy_request_id,
+		'post_status'   => 'request-pending',
+		'post_date'     => current_time( 'mysql', false ),
+		'post_date_gmt' => current_time( 'mysql', true ),
+	) );
+
+	return true;
+}
+
+/**
+ * Marks a request as completed by the admin and logs the datetime.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @param int $privacy_request_id Request ID.
+ * @return bool|WP_Error
+ */
+function _wp_privacy_completed_request( $privacy_request_id ) {
+	$privacy_request_id = absint( $privacy_request_id );
+	$privacy_request    = get_post( $privacy_request_id );
+
+	if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
+	}
+
+	wp_update_post( array(
+		'ID'          => $privacy_request_id,
+		'post_status' => 'request-completed',
+	) );
+
+	update_post_meta( $privacy_request_id, '_completed_timestamp', time() );
+}
+
+/**
+ * Handle list table actions.
+ *
+ * @since 5.0.0
+ * @access private
+ */
+function _wp_personal_data_handle_actions() {
+	if ( isset( $_POST['export_personal_data_email_retry'] ) ) { // WPCS: input var ok.
+		check_admin_referer( 'bulk-privacy_requests' );
+
+		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['export_personal_data_email_retry'] ) ) ) ); // WPCS: input var ok, sanitization ok.
+		$result     = _wp_privacy_resend_request( $request_id );
+
+		if ( is_wp_error( $result ) ) {
+			add_settings_error(
+				'export_personal_data_email_retry',
+				'export_personal_data_email_retry',
+				$result->get_error_message(),
+				'error'
+			);
+		} else {
+			add_settings_error(
+				'export_personal_data_email_retry',
+				'export_personal_data_email_retry',
+				__( 'Confirmation request re-resent successfully.' ),
+				'updated'
+			);
+		}
+
+	} elseif ( isset( $_POST['export_personal_data_email_send'] ) ) { // WPCS: input var ok.
+		check_admin_referer( 'bulk-privacy_requests' );
+
+		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['export_personal_data_email_send'] ) ) ) ); // WPCS: input var ok, sanitization ok.
+		$result     = false;
+
+		/**
+		 * TODO: Email the data to the user here.
+		 */
+
+		if ( is_wp_error( $result ) ) {
+			add_settings_error(
+				'export_personal_data_email_send',
+				'export_personal_data_email_send',
+				$result->get_error_message(),
+				'error'
+			);
+		} else {
+			_wp_privacy_completed_request( $request_id );
+			add_settings_error(
+				'export_personal_data_email_send',
+				'export_personal_data_email_send',
+				__( 'Personal data was sent to the user successfully.' ),
+				'updated'
+			);
+		}
+
+	} elseif ( isset( $_POST['action'] ) ) {
+		$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : ''; // WPCS: input var ok, CSRF ok.
+
+		switch ( $action ) {
+			case 'add_export_personal_data_request':
+			case 'add_remove_personal_data_request':
+				check_admin_referer( 'personal-data-request' );
+
+				if ( ! isset( $_POST['type_of_action'], $_POST['username_or_email_to_export'] ) ) { // WPCS: input var ok.
+					add_settings_error(
+						'action_type',
+						'action_type',
+						__( 'Invalid action.' ),
+						'error'
+					);
+				}
+				$action_type               = sanitize_text_field( wp_unslash( $_POST['type_of_action'] ) ); // WPCS: input var ok.
+				$username_or_email_address = sanitize_text_field( wp_unslash( $_POST['username_or_email_to_export'] ) ); // WPCS: input var ok.
+				$email_address             = '';
+
+				if ( ! in_array( $action_type, _wp_privacy_action_request_types(), true ) ) {
+					add_settings_error(
+						'action_type',
+						'action_type',
+						__( 'Invalid action.' ),
+						'error'
+					);
+				}
+
+				if ( ! is_email( $username_or_email_address ) ) {
+					$user = get_user_by( 'login', $username_or_email_address );
+					if ( ! $user instanceof WP_User ) {
+						add_settings_error(
+							'username_or_email_to_export',
+							'username_or_email_to_export',
+							__( 'Unable to add export request. A valid email address or username must be supplied.' ),
+							'error'
+						);
+					} else {
+						$email_address = $user->user_email;
+					}
+				} else {
+					$email_address = $username_or_email_address;
+				}
+
+				if ( ! empty( $email_address ) ) {
+					$result = _wp_privacy_create_request( $email_address, $action_type, _wp_privacy_action_description( $action_type ) );
+
+					if ( is_wp_error( $result ) ) {
+						add_settings_error(
+							'username_or_email_to_export',
+							'username_or_email_to_export',
+							$result->get_error_message(),
+							'error'
+						);
+					} elseif ( ! $result ) {
+						add_settings_error(
+							'username_or_email_to_export',
+							'username_or_email_to_export',
+							__( 'Unable to initiate confirmation request.' ),
+							'error'
+						);
+					} else {
+						add_settings_error(
+							'username_or_email_to_export',
+							'username_or_email_to_export',
+							__( 'Confirmation request initiated successfully.' ),
+							'updated'
+						);
+					}
+				}
+				break;
+		}
+	}
+}
+
+/**
+ * Personal data export.
+ *
+ * @since 5.0.0
+ * @access private
+ */
+function _wp_personal_data_export_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Sorry, you are not allowed to manage privacy on this site.' ) );
+	}
+
+	_wp_personal_data_handle_actions();
+
+	$requests_table = new WP_Privacy_Data_Export_Requests_Table( array(
+		'plural'   => 'privacy_requests',
+		'singular' => 'privacy_request',
+	) );
+	$requests_table->process_bulk_action();
+	$requests_table->prepare_items();
+	?>
+	<div class="wrap nosubsub">
+		<h1><?php esc_html_e( 'Export Personal Data' ); ?></h1>
+		<hr class="wp-header-end" />
+
+		<?php settings_errors(); ?>
+
+		<form method="post" class="wp-privacy-request-form">
+			<h2><?php esc_html_e( 'Add Data Export Request' ); ?></h2>
+			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
+
+			<div class="wp-privacy-request-form-field">
+				<label for="username_or_email_to_export"><?php esc_html_e( 'Username or email address' ); ?></label>
+				<input type="text" required class="regular-text" id="username_or_email_to_export" name="username_or_email_to_export" />
+				<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
+			</div>
+			<?php wp_nonce_field( 'personal-data-request' ); ?>
+			<input type="hidden" name="action" value="add_export_personal_data_request" />
+			<input type="hidden" name="type_of_action" value="user_export_request" />
+		</form>
+		<hr />
+
+		<?php $requests_table->views(); ?>
+
+		<form class="search-form wp-clearfix">
+			<?php $requests_table->search_box( __( 'Search Requests' ), 'requests' ); ?>
+			<input type="hidden" name="page" value="export_personal_data" />
+			<input type="hidden" name="filter-status" value="<?php echo isset( $_REQUEST['filter-status'] ) ? esc_attr( sanitize_text_field( $_REQUEST['filter-status'] ) ) : ''; ?>" />
+			<input type="hidden" name="orderby" value="<?php echo isset( $_REQUEST['orderby'] ) ? esc_attr( sanitize_text_field( $_REQUEST['orderby'] ) ) : ''; ?>" />
+			<input type="hidden" name="order" value="<?php echo isset( $_REQUEST['order'] ) ? esc_attr( sanitize_text_field( $_REQUEST['order'] ) ) : ''; ?>" />
+		</form>
+
+		<form method="post">
+			<?php
+			$requests_table->display();
+			$requests_table->embed_scripts();
+			?>
+		</form>
+	</div>
+	<?php
+}
+
+/**
+ * Personal data anonymization.
+ *
+ * @since 5.0.0
+ * @access private
+ */
+function _wp_personal_data_removal_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Sorry, you are not allowed to manage privacy on this site.' ) );
+	}
+
+	_wp_personal_data_handle_actions();
+
+	$requests_table = new WP_Privacy_Data_Removal_Requests_Table( array(
+		'plural'   => 'privacy_requests',
+		'singular' => 'privacy_request',
+	) );
+	$requests_table->process_bulk_action();
+	$requests_table->prepare_items();
+	?>
+	<div class="wrap nosubsub">
+		<h1><?php esc_html_e( 'Remove Personal Data' ); ?></h1>
+		<hr class="wp-header-end" />
+
+		<?php settings_errors(); ?>
+
+		<form method="post" class="wp-privacy-request-form">
+			<h2><?php esc_html_e( 'Add Data Removal Request' ); ?></h2>
+			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
+
+			<div class="wp-privacy-request-form-field">
+				<label for="username_or_email_to_export"><?php esc_html_e( 'Username or email address' ); ?></label>
+				<input type="text" required class="regular-text" id="username_or_email_to_export" name="username_or_email_to_export" />
+				<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
+			</div>
+			<?php wp_nonce_field( 'personal-data-request' ); ?>
+			<input type="hidden" name="action" value="add_remove_personal_data_request" />
+			<input type="hidden" name="type_of_action" value="user_remove_request" />
+		</form>
+		<hr />
+
+		<?php $requests_table->views(); ?>
+
+		<form class="search-form wp-clearfix">
+			<?php $requests_table->search_box( __( 'Search Requests' ), 'requests' ); ?>
+			<input type="hidden" name="page" value="export_personal_data" />
+			<input type="hidden" name="filter-status" value="<?php echo isset( $_REQUEST['filter-status'] ) ? esc_attr( sanitize_text_field( $_REQUEST['filter-status'] ) ) : ''; ?>" />
+			<input type="hidden" name="orderby" value="<?php echo isset( $_REQUEST['orderby'] ) ? esc_attr( sanitize_text_field( $_REQUEST['orderby'] ) ) : ''; ?>" />
+			<input type="hidden" name="order" value="<?php echo isset( $_REQUEST['order'] ) ? esc_attr( sanitize_text_field( $_REQUEST['order'] ) ) : ''; ?>" />
+		</form>
+
+		<form method="post">
+			<?php
+			$requests_table->display();
+			$requests_table->embed_scripts();
+			?>
+		</form>
+	</div>
+	<?php
+}
+
+/**
+ * Add requests pages.
+ *
+ * @since 5.0.0
+ * @access private
+ */
+function _wp_privacy_hook_requests_page() {
+	add_submenu_page( 'tools.php', __( 'Export Personal Data' ), __( 'Export Personal Data' ), 'manage_options', 'export_personal_data', '_wp_personal_data_export_page' );
+	add_submenu_page( 'tools.php', __( 'Remove Personal Data' ), __( 'Remove Personal Data' ), 'manage_options', 'remove_personal_data', '_wp_personal_data_removal_page' );
+}
+
+// TODO: move the following classes in new files.
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+}
+
+/**
+ * WP_Privacy_Requests_Table class.
+ */
+abstract class WP_Privacy_Requests_Table extends WP_List_Table {
+
+	/**
+	 * Action name for the requests this table will work with. Classes
+	 * which inherit from WP_Privacy_Requests_Table should define this.
+	 * e.g. 'user_export_request'
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $request_type Name of action.
+	 */
+	protected $request_type = 'INVALID';
+
+	/**
+	 * Get columns to show in the list table.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array Array of columns.
+	 */
+	public function get_columns() {
+		$columns = array(
+			'cb'         => '<input type="checkbox" />',
+			'email'      => __( 'Requester' ),
+			'status'     => __( 'Status' ),
+			'requested'  => __( 'Requested' ),
+			'next_steps' => __( 'Next Steps' ),
+		);
+		return $columns;
+	}
+
+	/**
+	 * Get a list of sortable columns.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return array
+	 */
+	protected function get_sortable_columns() {
+		return array();
+	}
+
+	/**
+	 * Default primary column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return string
+	 */
+	protected function get_default_primary_column_name() {
+		return 'email';
+	}
+
+	/**
+	 * Get an associative array ( id => link ) with the list
+	 * of views available on this table.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return array
+	 */
+	protected function get_views() {
+		$current_status = isset( $_REQUEST['filter-status'] ) ? sanitize_text_field( $_REQUEST['filter-status'] ): '';
+		$statuses       = _wp_privacy_statuses();
+		$views          = array();
+		$admin_url      = admin_url( 'tools.php?page=' . $this->request_type );
+		$counts         = wp_count_posts( $this->request_type );
+
+		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';
+		$views['all']            = '<a href="' . esc_url( $admin_url ) . "\" $current_link_attributes>" . esc_html__( 'All' ) . ' (' . absint( array_sum( (array) $counts ) ) . ')</a>';
+
+		foreach ( $statuses as $status => $label ) {
+			$current_link_attributes = $status === $current_status ? ' class="current" aria-current="page"' : '';
+			$views[ $status ]        = '<a href="' . esc_url( add_query_arg( 'filter-status', $status, $admin_url ) ) . "\" $current_link_attributes>" . esc_html( $label ) . ' (' . absint( $counts->$status ) . ')</a>';
+		}
+
+		return $views;
+	}
+
+	/**
+	 * Get bulk actions.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return array
+	 */
+	protected function get_bulk_actions() {
+		return array(
+			'delete' => __( 'Remove' ),
+			'resend' => __( 'Resend email' ),
+		);
+	}
+
+	/**
+	 * Process bulk actions.
+	 *
+	 * @since 5.0.0
+	 */
+	public function process_bulk_action() {
+		$action      = $this->current_action();
+		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array(); // WPCS: input var ok, CSRF ok.
+
+		if ( $request_ids ) {
+			check_admin_referer( 'bulk-privacy_requests' );
+		}
+
+		switch ( $action ) {
+			case 'delete':
+				$count = 0;
+
+				foreach ( $request_ids as $request_id ) {
+					if ( wp_delete_post( $request_id, true ) ) {
+						$count ++;
+					}
+				}
+
+				add_settings_error(
+					'bulk_action',
+					'bulk_action',
+					sprintf( _n( 'Deleted %d request', 'Deleted %d requests', $count ), $count ),
+					'updated'
+				);
+				break;
+			case 'resend':
+				$count = 0;
+
+				foreach ( $request_ids as $request_id ) {
+					if ( _wp_privacy_resend_request( $request_id ) ) {
+						$count ++;
+					}
+				}
+
+				add_settings_error(
+					'bulk_action',
+					'bulk_action',
+					sprintf( _n( 'Re-sent %d request', 'Re-sent %d requests', $count ), $count ),
+					'updated'
+				);
+				break;
+		}
+	}
+
+	/**
+	 * Prepare items to output.
+	 *
+	 * @since 5.0.0
+	 */
+	public function prepare_items() {
+		global $wpdb;
+
+		$primary               = $this->get_primary_column_name();
+		$this->_column_headers = array(
+			$this->get_columns(),
+			array(),
+			$this->get_sortable_columns(),
+			$primary,
+		);
+
+		$this->items    = array();
+		$posts_per_page = 20;
+		$args           = array(
+			'post_type'      => $this->request_type,
+			'posts_per_page' => $posts_per_page,
+			'offset'         => isset( $_REQUEST['paged'] ) ? max( 0, absint( $_REQUEST['paged'] ) - 1 ) * $posts_per_page: 0,
+			'post_status'    => 'any',
+		);
+
+		if ( ! empty( $_REQUEST['filter-status'] ) ) {
+			$filter_status       = isset( $_REQUEST['filter-status'] ) ? sanitize_text_field( $_REQUEST['filter-status'] ) : '';
+			$args['post_status'] = $filter_status;
+		}
+
+		if ( ! empty( $_REQUEST['s'] ) ) {
+			$args['meta_query'] = array(
+				$name_query,
+				'relation'  => 'AND',
+				array(
+					'key'     => '_user_email',
+					'value'   => isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ): '',
+					'compare' => 'LIKE'
+				),
+			);
+		}
+
+		$privacy_requests_query = new WP_Query( $args );
+		$privacy_requests       = $privacy_requests_query->posts;
+
+		foreach ( $privacy_requests as $privacy_request ) {
+			$this->items[] = array(
+				'request_id' => $privacy_request->ID,
+				'user_id'    => $privacy_request->post_author,
+				'email'      => get_post_meta( $privacy_request->ID, '_user_email', true ),
+				'action'     => get_post_meta( $privacy_request->ID, '_action_name', true ),
+				'requested'  => strtotime( $privacy_request->post_date_gmt ),
+				'confirmed'  => get_post_meta( $privacy_request->ID, '_confirmed_timestamp', true ),
+				'completed'  => get_post_meta( $privacy_request->ID, '_completed_timestamp', true ),
+			);
+		}
+
+		$this->set_pagination_args(
+			array(
+				'total_items' => $privacy_requests_query->found_posts,
+				'per_page'    => $posts_per_page,
+			)
+		);
+	}
+
+	/**
+	 * Checkbox column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf( '<input type="checkbox" name="request_id[]" value="%1$s" /><span class="spinner"></span>', esc_attr( $item['request_id'] ) );
+	}
+
+	/**
+	 * Status column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 * @return string
+	 */
+	public function column_status( $item ) {
+		$status        = get_post_status( $item['request_id'] );
+		$status_object = get_post_status_object( $status );
+
+		if ( ! $status_object || empty( $status_object->label ) ) {
+			return '-';
+		}
+
+		$timestamp = false;
+
+		switch ( $status ) {
+			case 'request-confirmed':
+				$timestamp = $item['confirmed'];
+				break;
+			case 'request-completed':
+				$timestamp = $item['completed'];
+				break;
+		}
+
+		echo '<span class="status-label status-' . esc_attr( $status ) . '">';
+		echo esc_html( $status_object->label );
+
+		if ( $timestamp ) {
+			echo ' (' . $this->get_timestamp_as_date( $timestamp ) . ')';
+		}
+
+		echo '</span>';
+	}
+
+	/**
+	 * Convert timestamp for display.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param int $timestamp Event timestamp.
+	 * @return string
+	 */
+	protected function get_timestamp_as_date( $timestamp ) {
+		if ( empty( $timestamp ) ) {
+			return '';
+		}
+
+		$time_diff = current_time( 'timestamp', true ) - $timestamp;
+
+		if ( $time_diff >= 0 && $time_diff < DAY_IN_SECONDS ) {
+			return sprintf( __( '%s ago' ), human_time_diff( $timestamp ) );
+		}
+
+		return date_i18n( get_option( 'date_format' ), $timestamp );
+	}
+
+	/**
+	 * Default column handler.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item         Item being shown.
+	 * @param string $column_name Name of column being shown.
+	 * @return string
+	 */
+	public function column_default( $item, $column_name ) {
+		$cell_value = $item[ $column_name ];
+
+		if ( in_array( $column_name, array( 'requested' ), true ) ) {
+			return $this->get_timestamp_as_date( $cell_value );
+		}
+
+		return $cell_value;
+	}
+
+	/**
+	 * Actions column. Overriden by children.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 * @return string
+	 */
+	public function column_email( $item ) {
+		return sprintf( '%1$s %2$s', $item['email'], $this->row_actions( array() ) );
+	}
+
+	/**
+	 * Next steps column. Overriden by children.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 */
+	public function column_next_steps( $item ) {}
+
+	/**
+	 * Generates content for a single row of the table
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param object $item The current item
+	 */
+	public function single_row( $item ) {
+		$status = get_post_status( $item['request_id'] );
+
+		echo '<tr class="status-' . esc_attr( $status ) . '">';
+		$this->single_row_columns( $item );
+		echo '</tr>';
+	}
+
+	/**
+	 * Embed scripts used to perform actions. Overriden by children.
+	 *
+	 * @since 5.0.0
+	 */
+	public function embed_scripts() {}
+}
+
+/**
+ * WP_Privacy_Data_Export_Requests_Table class.
+ *
+ * @since 5.0.0
+ */
+class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
+	/**
+	 * Action name for the requests this table will work with. Classes
+	 * which inherit from WP_Privacy_Requests_Table should define this.
+	 * e.g. 'user_export_request'
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $request_type Name of action.
+	 */
+	protected $request_type = 'user_export_request';
+
+	/**
+	 * Actions column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 * @return string
+	 */
+	public function column_email( $item ) {
+		$row_actions = array(
+			'download_data' => __( 'Download Personal Data' ),
+		);
+
+		return sprintf( '%1$s %2$s', $item['email'], $this->row_actions( $row_actions ) );
+	}
+
+	/**
+	 * Next steps column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 */
+	public function column_next_steps( $item ) {
+		$status = get_post_status( $item['request_id'] );
+
+		switch ( $status ) {
+			case 'request-pending':
+				esc_html_e( 'Waiting for confirmation' );
+				break;
+			case 'request-confirmed':
+				// TODO Complete in follow on patch.
+				break;
+			case 'request-failed':
+				submit_button( __( 'Retry' ), 'secondary', 'export_personal_data_email_retry[' . $item['request_id'] . ']', false );
+				break;
+			case 'request-completed':
+				echo '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
+					'action' => 'delete',
+					'request_id' => array( $item['request_id'] )
+				), admin_url( 'tools.php?page=export_personal_data' ) ), 'bulk-privacy_requests' ) ) . '">' . esc_html__( 'Remove request' ) . '</a>';
+				break;
+		}
+	}
+}
+
+/**
+ * WP_Privacy_Data_Removal_Requests_Table class.
+ *
+	 * @since 5.0.0
+ */
+class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
+	/**
+	 * Action name for the requests this table will work with. Classes
+	 * which inherit from WP_Privacy_Requests_Table should define this.
+	 * e.g. 'user_remove_request'
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $request_type Name of action.
+	 */
+	protected $request_type = 'user_remove_request';
+
+	/**
+	 * Actions column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 * @return string
+	 */
+	public function column_email( $item ) {
+		$row_actions = array(
+			// TODO Complete in follow on patch.
+			'remove_data' => __( 'Remove Personal Data' ),
+		);
+
+		// If we have a user ID, include a delete user action.
+		if ( ! empty( $item['user_id'] ) ) {
+			// TODO Complete in follow on patch.
+			$row_actions['delete_user'] = __( 'Delete User' );
+		}
+
+		return sprintf( '%1$s %2$s', $item['email'], $this->row_actions( $row_actions ) );
+	}
+
+	/**
+	 * Next steps column.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $item Item being shown.
+	 */
+	public function column_next_steps( $item ) {
+	}
+
+}

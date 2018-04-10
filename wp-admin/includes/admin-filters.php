@@ -45,6 +45,10 @@ add_action( 'admin_head', 'wp_color_scheme_settings' );
 add_action( 'admin_head', 'wp_site_icon' );
 add_action( 'admin_head', '_ipad_meta' );
 
+// Privacy tools
+add_action( 'account_action_failed', '_wp_privacy_account_request_failed' );
+add_action( 'admin_menu', '_wp_privacy_hook_requests_page' );
+
 // Prerendering.
 if ( ! is_customize_preview() ) {
 	add_filter( 'admin_print_styles', 'wp_resource_hints', 1 );

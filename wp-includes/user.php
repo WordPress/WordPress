@@ -2811,11 +2811,78 @@ function new_user_email_admin_notice() {
 }
 
 /**
+ * Get all user privacy request types.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @return array
+ */
+function _wp_privacy_action_request_types() {
+	return array(
+		'user_export_request',
+		'user_remove_request',
+	);
+}
+
+/**
+ * Update log when privacy request is confirmed.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @param array $result Result of the request from the user.
+ */
+function _wp_privacy_account_request_confirmed( $result ) {
+	if ( isset( $result['action'], $result['request_data'], $result['request_data']['privacy_request_id'] ) && in_array( $result['action'], _wp_privacy_action_request_types(), true ) ) {
+		$privacy_request_id = absint( $result['request_data']['privacy_request_id'] );
+		$privacy_request    = get_post( $privacy_request_id );
+
+		if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+			return;
+		}
+
+		update_post_meta( $privacy_request_id, '_confirmed_timestamp', time() );
+		wp_update_post( array(
+			'ID'          => $privacy_request_id,
+			'post_status' => 'request-confirmed',
+		) );
+	}
+}
+add_action( 'account_action_confirmed', '_wp_privacy_account_request_confirmed' );
+
+/**
+ * Update log when privacy request fails.
+ *
+ * @since 5.0.0
+ * @access private
+ *
+ * @param array $result Result of the request from the user.
+ */
+function _wp_privacy_account_request_failed( $result ) {
+	if ( isset( $result['action'], $result['request_data'], $result['request_data']['privacy_request_id'] ) &&
+		in_array( $result['action'], _wp_privacy_action_request_types(), true ) ) {
+
+		$privacy_request_id = absint( $result['request_data']['privacy_request_id'] );
+		$privacy_request    = get_post( $privacy_request_id );
+
+		if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+			return;
+		}
+
+		wp_update_post( array(
+			'ID'          => $privacy_request_id,
+			'post_status' => 'request-failed',
+		) );
+	}
+}
+
+/**
  * Send a confirmation request email to confirm an action.
  *
  * @since 5.0.0
  *
- * @param string $email              User email address. This can be the address of a registered or non-registered user. Defaults to logged in user email address. 
+ * @param string $email              User email address. This can be the address of a registered or non-registered user. Defaults to logged in user email address.
  * @param string $action_name        Name of the action that is being confirmed. Defaults to 'confirm_email'.
  * @param string $action_description User facing description of the action they will be confirming. Defaults to "confirm your email address".
  * @param array  $request_data       Misc data you want to send with the verification request and pass to the actions once the request is confirmed.
@@ -2917,7 +2984,7 @@ All at ###SITENAME###
 	 * ###SITEURL###            The URL to the site.
 	 *
 	 * @since 5.0.0
-	 * 
+	 *
 	 * @param string $email_text     Text in the email.
 	 * @param array  $email_data {
 	 *     Data relating to the account action email.
@@ -3039,14 +3106,14 @@ function wp_check_account_verification_key( $key, $uid, $action_name ) {
 		$raw_data = get_user_meta( $user->ID, '_verify_action_' . $action_name, true );
 		$email    = $user->user_email;
 
-		if ( false !== strpos( $confirm_action_data, ':' ) ) {
-			list( $key_request_time, $saved_key ) = explode( ':', $confirm_action_data, 2 );
+		if ( false !== strpos( $raw_data, ':' ) ) {
+			list( $key_request_time, $saved_key ) = explode( ':', $raw_data, 2 );
 		}
 	} else {
 		$raw_data = get_site_option( '_verify_action_' . $action_name . '_' . $uid, '' );
 
-		if ( false !== strpos( $confirm_action_data, ':' ) ) {
-			list( $key_request_time, $saved_key, $email ) = explode( ':', $confirm_action_data, 3 );
+		if ( false !== strpos( $raw_data, ':' ) ) {
+			list( $key_request_time, $saved_key, $email ) = explode( ':', $raw_data, 3 );
 		}
 	}
 
@@ -3068,7 +3135,7 @@ function wp_check_account_verification_key( $key, $uid, $action_name ) {
 	 * Filters the expiration time of confirm keys.
 	 *
 	 * @since 5.0.0
-	 * 
+	 *
 	 * @param int $expiration The expiration time in seconds.
 	 */
 	$expiration_duration = apply_filters( 'account_verification_expiration', DAY_IN_SECONDS );
