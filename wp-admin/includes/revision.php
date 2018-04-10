@@ -111,8 +111,20 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 			// It's a better user experience to still show the Title, even if it didn't change.
 			// No, you didn't see this.
 			$diff  = '<table class="diff"><colgroup><col class="content diffsplit left"><col class="content diffsplit middle"><col class="content diffsplit right"></colgroup><tbody><tr>';
-			$diff .= '<td>' . esc_html( $compare_from->post_title ) . '</td><td></td><td>' . esc_html( $compare_to->post_title ) . '</td>';
-			$diff .= '</tr></tbody>';
+
+			// In split screen mode, show the title before/after side by side.
+			if ( true === $args['show_split_view'] ) {
+				$diff .= '<td>' . esc_html( $compare_from->post_title ) . '</td><td></td><td>' . esc_html( $compare_to->post_title ) . '</td>';
+			} else {
+				$diff .= '<td>' . esc_html( $compare_from->post_title ) . '</td>';
+
+				// In single column mode, only show the title once if unchanged.
+				if ( $compare_from->post_title !== $compare_to->post_title ) {
+					$diff .= '</tr><tr><td>' . esc_html( $compare_to->post_title ) . '</td>';
+				}
+			}
+
+ 			$diff .= '</tr></tbody>';
 			$diff .= '</table>';
 		}
 
