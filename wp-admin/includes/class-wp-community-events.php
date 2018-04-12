@@ -234,7 +234,6 @@ class WP_Community_Events {
 	 */
 	public static function get_unsafe_client_ip() {
 		$client_ip = false;
-		$ip_prefix = '';
 
 		// In order of preference, with the best ones for this purpose first.
 		$address_headers = array(
@@ -265,57 +264,13 @@ class WP_Community_Events {
 			return false;
 		}
 
-		// Detect what kind of IP address this is.
-		$is_ipv6 = substr_count( $client_ip, ':' ) > 1;
-		$is_ipv4 = ( 3 === substr_count( $client_ip, '.' ) );
+		$anon_ip = wp_privacy_anonymize_ip( $client_ip, true );
 
-		if ( $is_ipv6 && $is_ipv4 ) {
-			// IPv6 compatibility mode, temporarily strip the IPv6 part, and treat it like IPv4.
-			$ip_prefix = '::ffff:';
-			$client_ip = preg_replace( '/^\[?[0-9a-f:]*:/i', '', $client_ip );
-			$client_ip = str_replace( ']', '', $client_ip );
-			$is_ipv6   = false;
-		}
-
-		if ( $is_ipv6 ) {
-			// IPv6 addresses will always be enclosed in [] if there's a port.
-			$left_bracket  = strpos( $client_ip, '[' );
-			$right_bracket = strpos( $client_ip, ']' );
-			$percent       = strpos( $client_ip, '%' );
-			$netmask       = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
-
-			// Strip the port (and [] from IPv6 addresses), if they exist.
-			if ( false !== $left_bracket && false !== $right_bracket ) {
-				$client_ip = substr( $client_ip, $left_bracket + 1, $right_bracket - $left_bracket - 1 );
-			} elseif ( false !== $left_bracket || false !== $right_bracket ) {
-				// The IP has one bracket, but not both, so it's malformed.
-				return false;
-			}
-
-			// Strip the reachability scope.
-			if ( false !== $percent ) {
-				$client_ip = substr( $client_ip, 0, $percent );
-			}
-
-			// No invalid characters should be left.
-			if ( preg_match( '/[^0-9a-f:]/i', $client_ip ) ) {
-				return false;
-			}
-
-			// Partially anonymize the IP by reducing it to the corresponding network ID.
-			if ( function_exists( 'inet_pton' ) && function_exists( 'inet_ntop' ) ) {
-				$client_ip = inet_ntop( inet_pton( $client_ip ) & inet_pton( $netmask ) );
-			}
-		} elseif ( $is_ipv4 ) {
-			// Strip any port and partially anonymize the IP.
-			$last_octet_position = strrpos( $client_ip, '.' );
-			$client_ip           = substr( $client_ip, 0, $last_octet_position ) . '.0';
-		} else {
+		if ( '0.0.0.0' === $anon_ip || '::' === $anon_ip ) {
 			return false;
 		}
 
-		// Restore the IPv6 prefix to compatibility mode addresses.
-		return $ip_prefix . $client_ip;
+		return $anon_ip;
 	}
 
 	/**
