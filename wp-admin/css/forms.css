@@ -1076,6 +1076,119 @@ table.form-table td .updated p {
 	clear: both;
 }
 
+/*------------------------------------------------------------------------------
+   Privacy Policy settings screen
+------------------------------------------------------------------------------*/
+.tools-privacy-policy-page form {
+	margin-bottom: 1.3em;
+}
+
+.tools-privacy-policy-page input.button,
+.tools-privacy-policy-page select {
+	margin-left: 6px;
+}
+
+.tools-privacy-edit {
+	margin: 2.3em 0;
+}
+
+.tools-privacy-policy-page span {
+	line-height: 2em;
+}
+
+.privacy_requests .column-email {
+	width: 40%;
+}
+
+.privacy_requests .column-type {
+	text-align: center;
+}
+
+.privacy_requests thead td:first-child,
+.privacy_requests tfoot td:first-child {
+	border-left: 4px solid #fff;
+}
+
+.privacy_requests tbody th {
+	border-left: 4px solid #fff;
+	background: #fff;
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.privacy_requests tbody td {
+	background: #fff;
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.privacy_requests .status-request-confirmed th,
+.privacy_requests .status-request-confirmed td {
+	background-color: #f7fcfe;
+	border-left-color: #00a0d2;
+}
+
+.privacy_requests .status-request-failed th,
+.privacy_requests .status-request-failed td {
+	background-color: #fef7f1;
+	border-left-color: #d64d21;
+}
+
+.status-label {
+	font-weight: bold;
+}
+
+.status-label.status-request-pending {
+	font-weight: normal;
+	font-style: italic;
+	color: #6c7781;
+}
+
+.status-label.status-request-failed {
+	color: #aa0000;
+	font-weight: bold;
+}
+
+.wp-privacy-request-form {
+	clear: both;
+}
+
+.wp-privacy-request-form-field {
+	margin: 1.5em 0;
+}
+
+.wp-privacy-request-form label {
+	font-weight: bold;
+	line-height: 1.5;
+	padding-bottom: .5em;
+	display: block;
+}
+
+.wp-privacy-request-form input {
+	line-height: 1.5;
+	margin: 0;
+}
+
+.email-personal-data::before {
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	margin: 3px 5px 0 -2px;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align: top;
+}
+
+.email-personal-data--sending::before {
+	color: #f56e28;
+	content: "\f463";
+	-webkit-animation: rotation 2s infinite linear;
+	animation: rotation 2s infinite linear;
+}
+
+.email-personal-data--sent::before {
+	color: #79ba49;
+	content: "\f147";
+}
+
 
 /* =Media Queries
 -------------------------------------------------------------- */
@@ -1404,85 +1517,6 @@ table.form-table td .updated p {
 	}
 }
 
-
-/* Privacy */
-
-.privacy_requests .column-email {
-	width: 40%;
-}
-.privacy_requests .column-type {
-	text-align: center;
-}
-.privacy_requests thead td:first-child,
-.privacy_requests tfoot td:first-child {
-	border-left: 4px solid #fff;
-}
-.privacy_requests tbody th {
-	border-left: 4px solid #fff;
-	background: #fff;
-	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
-}
-.privacy_requests tbody td {
-	background: #fff;
-	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
-}
-.privacy_requests .status-request-confirmed th,
-.privacy_requests .status-request-confirmed td {
-	background-color: #f7fcfe;
-	border-left-color: #00a0d2;
-}
-.privacy_requests .status-request-failed th,
-.privacy_requests .status-request-failed td {
-	background-color: #fef7f1;
-	border-left-color: #d64d21;
-}
-.status-label {
-	font-weight: bold;
-}
-.status-label.status-request-pending {
-	font-weight: normal;
-	font-style: italic;
-	color: #6c7781;
-}
-.status-label.status-request-failed {
-	color: #aa0000;
-	font-weight: bold;
-}
-.wp-privacy-request-form {
-	clear: both;
-}
-.wp-privacy-request-form-field {
-	margin: 1.5em 0;
-}
-.wp-privacy-request-form label {
-	font-weight: bold;
-	line-height: 1.5;
-	padding-bottom: .5em;
-	display: block;
-}
-.wp-privacy-request-form input {
-	line-height: 1.5;
-	margin: 0;
-}
-.email-personal-data::before {
-	display: inline-block;
-	font: normal 20px/1 dashicons;
-	margin: 3px 5px 0 -2px;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	vertical-align: top;
-}
-.email-personal-data--sending::before {
-	color: #f56e28;
-	content: "\f463";
-	-webkit-animation: rotation 2s infinite linear;
-	animation: rotation 2s infinite linear;
-}
-.email-personal-data--sent::before {
-	color: #79ba49;
-	content: "\f147";
-}
 @-webkit-keyframes rotation {
 	0% {
 		-webkit-transform: rotate(0deg);
@@ -1493,6 +1527,7 @@ table.form-table td .updated p {
 		transform: rotate(359deg);
 	}
 }
+
 @keyframes rotation {
 	0% {
 		-webkit-transform: rotate(0deg);
