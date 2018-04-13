@@ -1788,6 +1788,7 @@ if ( is_rtl() ) {
 <?php
 /** This filter is documented in wp-admin/admin-header.php */
 $admin_body_classes = apply_filters( 'admin_body_class', '' );
+$admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 ?>
 <body
 <?php
@@ -1798,7 +1799,7 @@ if ( isset( $GLOBALS['body_id'] ) ) {
 	echo ' id="' . $GLOBALS['body_id'] . '"';
 }
 ?>
- class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
+ class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes; ?>">
 <script type="text/javascript">
 (function(){
 var c = document.body.className;
