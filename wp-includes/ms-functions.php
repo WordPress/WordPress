@@ -2193,8 +2193,8 @@ function signup_nonce_check( $result ) {
 		return $result;
 	}
 
-	if ( wp_create_nonce( 'signup_form_' . $_POST['signup_form_id'] ) != $_POST['_signup_form'] ) {
-		wp_die( __( 'Please try again.' ) );
+	if ( ! wp_verify_nonce( $_POST['_signup_form'], 'signup_form_' . $_POST['signup_form_id'] ) ) {
+		$result['errors']->add( 'invalid_nonce', __( 'Unable to submit this form, please try again.' ) );
 	}
 
 	return $result;
