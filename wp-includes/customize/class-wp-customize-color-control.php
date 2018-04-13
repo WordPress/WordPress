@@ -111,7 +111,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 				<input class="color-picker-hue" type="text" data-type="hue" />
 			<# } else { #>
 				<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
-			 <# } #>
+			<# } #>
 			</label>
 		</div>
 		<?php
