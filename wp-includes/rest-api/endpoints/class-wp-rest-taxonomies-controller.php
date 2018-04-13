@@ -304,7 +304,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 					'readonly'    => true,
 				),
 				'visibility'   => array(
-					'description' => __( 'The visibility settings for the taxomonmy.' ),
+					'description' => __( 'The visibility settings for the taxonomy.' ),
 					'type'        => 'object',
 					'context'     => array( 'edit' ),
 					'readonly'    => true,
