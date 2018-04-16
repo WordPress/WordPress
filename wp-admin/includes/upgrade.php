@@ -307,6 +307,44 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 			)
 		);
 
+		// Privacy Policy page
+		if ( class_exists( 'WP_Privacy_Policy_Content' ) ) {
+			include_once( ABSPATH . 'wp-admin/includes/misc.php' );
+		}
+
+		$privacy_policy_content = WP_Privacy_Policy_Content::get_default_content();
+
+		$privacy_policy_guid = get_option( 'home' ) . '/?page_id=3';
+		$wpdb->insert(
+			$wpdb->posts, array(
+				'post_author'           => $user_id,
+				'post_date'             => $now,
+				'post_date_gmt'         => $now_gmt,
+				'post_content'          => $privacy_policy_content,
+				'post_excerpt'          => '',
+				'comment_status'        => 'closed',
+				'post_title'            => __( 'Privacy Policy' ),
+				/* translators: Privacy Policy page slug */
+				'post_name'             => __( 'privacy-policy' ),
+				'post_modified'         => $now,
+				'post_modified_gmt'     => $now_gmt,
+				'guid'                  => $privacy_policy_guid,
+				'post_type'             => 'page',
+				'post_status'           => 'draft',
+				'to_ping'               => '',
+				'pinged'                => '',
+				'post_content_filtered' => '',
+			)
+		);
+		$wpdb->insert(
+			$wpdb->postmeta, array(
+				'post_id'    => 3,
+				'meta_key'   => '_wp_page_template',
+				'meta_value' => 'default',
+			)
+		);
+		update_option( 'wp_page_for_privacy_policy', 3 );
+
 		// Set up default widgets for default theme.
 		update_option(
 			'widget_search', array(
