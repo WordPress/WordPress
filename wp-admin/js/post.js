@@ -1267,4 +1267,27 @@ jQuery(document).ready( function($) {
 
 		update();
 	} );
+
+	// Privacy policy postbox, copy button.
+	$( document ).on( 'click', function( event ) {
+		var $target = $( event.target );
+		var node, range;
+
+		if ( $target.is( 'button.privacy-text-copy-button' ) ) {
+			node = $target.parent().find( 'div.policy-text' )[0];
+
+			if ( node ) {
+				try {
+					window.getSelection().removeAllRanges();
+					range = document.createRange();  
+					range.selectNode( node );  
+					window.getSelection().addRange( range );
+
+					document.execCommand( 'copy' );
+					window.getSelection().removeAllRanges();
+				} catch ( er ) {}
+			}
+		}
+	});
+
 } )( jQuery, new wp.utils.WordCounter() );

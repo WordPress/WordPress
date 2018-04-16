@@ -4273,3 +4273,20 @@ function get_parent_theme_file_path( $file = '' ) {
 	 */
 	return apply_filters( 'parent_theme_file_path', $path, $file );
 }
+
+/**
+ * Retrieves the URL to the privacy policy page.
+ *
+ * @since 4.9.6
+ *
+ * @return string The URL to the privacy policy page. Empty string if it doesn't exist.
+ */
+function get_privacy_policy_url() {
+	$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+	if ( empty( $policy_page_id ) ) {
+		return '';
+	}
+
+	return get_permalink( $policy_page_id );
+}

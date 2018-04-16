@@ -552,4 +552,8 @@ add_filter( 'pre_oembed_result', 'wp_filter_pre_oembed_result', 10, 3 );
 // Capabilities
 add_filter( 'user_has_cap', 'wp_maybe_grant_install_languages_cap', 1 );
 
+// Trigger the check for policy text changes after active plugins change.
+add_action( 'update_site_option_active_sitewide_plugins', '_wp_privacy_active_plugins_change' );
+add_action( 'update_option_active_plugins', '_wp_privacy_active_plugins_change' );
+
 unset( $filter, $action );

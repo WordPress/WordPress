@@ -6245,3 +6245,13 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
 	 */
 	return apply_filters( 'wp_privacy_anonymize_data', $anonymous, $type, $data );
 }
+
+/**
+ * Trigger the check for policy text changes.
+ *
+ * @since 4.9.6
+ * @access private 
+ */
+function _wp_privacy_active_plugins_change() {
+	update_option( '_wp_privacy_text_change_check', 'check' );
+}
