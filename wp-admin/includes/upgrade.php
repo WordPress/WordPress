@@ -308,13 +308,13 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 		);
 
 		// Privacy Policy page
-		if ( class_exists( 'WP_Privacy_Policy_Content' ) ) {
+		if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
 			include_once( ABSPATH . 'wp-admin/includes/misc.php' );
 		}
 
 		$privacy_policy_content = WP_Privacy_Policy_Content::get_default_content();
-
 		$privacy_policy_guid = get_option( 'home' ) . '/?page_id=3';
+
 		$wpdb->insert(
 			$wpdb->posts, array(
 				'post_author'           => $user_id,
