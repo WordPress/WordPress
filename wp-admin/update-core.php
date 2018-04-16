@@ -265,7 +265,7 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 	$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
 
 	$icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
-	$preferred_icons = array( 'svg', '1x', '2x', 'default' );
+	$preferred_icons = array( 'svg', '2x', '1x', 'default' );
 	foreach ( $preferred_icons as $preferred_icon ) {
 		if ( ! empty( $plugin_data->update->icons[ $preferred_icon ] ) ) {
 			$icon = '<img src="' . esc_url( $plugin_data->update->icons[ $preferred_icon ] ) . '" alt="" />';
