@@ -299,7 +299,7 @@ function wp_print_file_editor_templates() {
 				<p>
 					<?php
 					printf(
-						/* translators: %$1s is line number and %1$s is file path. */
+						/* translators: 1: line number, 2: file path */
 						__( 'Your PHP code changes were rolled back due to an error on line %1$s of file %2$s. Please fix and try saving again.' ),
 						'{{ data.line }}',
 						'{{ data.file }}'
