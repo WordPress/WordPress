@@ -1623,7 +1623,7 @@ final class WP_Privacy_Policy_Content {
 		 *
 		 * @param $content string The defauld policy content.
 		 */
-		return apply_filters( 'wp_get_default_privcy_policy_content', $content );
+		return apply_filters( 'wp_get_default_privacy_policy_content', $content );
 	}
 
 	/**
