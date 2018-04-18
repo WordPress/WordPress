@@ -709,6 +709,15 @@ function wp_default_scripts( &$scripts ) {
 		);
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array( 'jquery' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize(
+			'xfn', 'privacyToolsL10n', array(
+				'noDataFound'     => __( 'No personal data was found for this user.' ),
+				'foundAndRemoved' => __( 'All of the personal data found for this user was removed.' ),
+				'noneRemoved'     => __( 'Personal data was found for this user but was not removed.' ),
+				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not removed.' ),
+				'anErrorOccurred' => __( 'An error occurred while attempting to find and remove personal data.' ),
+			)
+		);
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array( 'jquery-ui-sortable' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
