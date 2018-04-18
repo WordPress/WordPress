@@ -3276,10 +3276,12 @@ function wp_handle_comment_submission( $comment_data ) {
 }
 
 /**
- * Registers the personal data exporter for comments
+ * Registers the personal data exporter for comments.
  *
- * @param array   $exporters   An array of personal data exporters.
- * @return array  An array of personal data exporters.
+ * @since 4.9.6
+ *
+ * @param  array $exporters An array of personal data exporters.
+ * @return array $exporters An array of personal data exporters.
  */
 function wp_register_comment_personal_data_exporter( $exporters ) {
 	$exporters[] = array(
@@ -3293,19 +3295,17 @@ function wp_register_comment_personal_data_exporter( $exporters ) {
 /**
  * Finds and exports personal data associated with an email address from the comments table.
  *
- * @param string  $email_address The comment author email address.
- * @param int     $page          Comment page.
- * @return array  An array of personal data.
+ * @since 4.9.6
+ *
+ * @param  string $email_address The comment author email address.
+ * @param  int    $page          Comment page.
+ * @return array  $return        An array of personal data.
  */
 function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 
-	// Technically, strtolower isn't necessary since get_comments will match email insensitive
-	// But it is a good example for plugin developers whose targets might not be as generous
-	$email_address = trim( strtolower( $email_address ) );
-
-	// Limit us to 500 comments at a time to avoid timing out
+	// Limit us to 500 comments at a time to avoid timing out.
 	$number = 500;
-	$page = (int) $page;
+	$page   = (int) $page;
 
 	$data_to_export = array();
 
@@ -3336,7 +3336,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 		foreach ( $comment_prop_to_export as $key => $name ) {
 			$value = '';
 
-			switch( $key ) {
+			switch ( $key ) {
 				case 'comment_author':
 				case 'comment_author_email':
 				case 'comment_author_url':
@@ -3356,7 +3356,10 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 			}
 
 			if ( ! empty( $value ) ) {
-				$comment_data_to_export[] = array( 'name' => $name, 'value' => $value );
+				$comment_data_to_export[] = array(
+					'name'  => $name,
+					'value' => $value,
+				);
 			}
 		}
 
