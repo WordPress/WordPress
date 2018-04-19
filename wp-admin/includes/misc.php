@@ -1549,6 +1549,8 @@ final class WP_Privacy_Policy_Content {
 		$content = '';
 		$date_format = get_option( 'date_format' );
 		$copy = __( 'Copy' );
+		$more = __( 'Read More' );
+		$less = __( 'Read Less' );
 
 		foreach ( $content_array as $section ) {
 			$class = $meta = '';
@@ -1567,19 +1569,37 @@ final class WP_Privacy_Policy_Content {
 				$meta  = sprintf( __( 'Policy text added %s.' ), $date );
 			}
 
-			$content .= '<div class="privacy-text-section' . $class . '">';
-			$content .= '<h3>' . $section['plugin_name'] . '</h3>';
-			$content .= '<button type="button" class="privacy-text-copy-button button">';
-			$content .= $copy;
-			$content .= '<span class="screen-reader-text">' . sprintf( __( 'Copy suggested policy text from %s.' ), $section['plugin_name'] ) . '</span>';
-			$content .= '</button>';
+			$plugin_name = esc_html( $section['plugin_name'] );
+
+			$content .= '<div class="privacy-text-section folded' . $class . '">';
+			$content .= '<h3>' . $plugin_name . '</h3>';
 
 			if ( ! empty( $meta ) ) {
 				$content .= '<span class="privacy-text-meta">' . $meta . '</span>';
 			}
 
-			$content .= '<div class="policy-text">' . $section['policy_text'] . '</div>';
-			$content .= "</div>\n";
+			$content .= '<div class="policy-text" aria-expanded="false">' . $section['policy_text'] . '</div>';
+
+			$content .= '<div class="privacy-text-actions">';
+				$content .= '<button type="button" class="button-link policy-text-more">';
+					$content .= $more;
+					$content .= '<span class="screen-reader-text">' . sprintf( __( 'Expand suggested policy text section from %s.' ), $plugin_name ) . '</span>';
+				$content .= '</button>';
+
+				$content .= '<button type="button" class="button-link policy-text-less">';
+					$content .= $less;
+					$content .= '<span class="screen-reader-text">' . sprintf( __( 'Collapse suggested policy text section from %s.' ), $plugin_name ) . '</span>';
+				$content .= '</button>';
+
+				if ( empty( $section['removed'] ) ) {
+					$content .= '<button type="button" class="privacy-text-copy button">';
+						$content .= $copy;
+						$content .= '<span class="screen-reader-text">' . sprintf( __( 'Copy suggested policy text from %s.' ), $plugin_name ) . '</span>';
+					$content .= '</button>';
+				}
+
+			$content .= '</div>'; // End of .privacy-text-actions.
+			$content .= "</div>\n"; // End of .privacy-text-section.
 		}
 
 		?>
@@ -1589,7 +1609,7 @@ final class WP_Privacy_Policy_Content {
 				<span class="toggle-indicator" aria-hidden="true"></span>
 			</button>
 			<div class="privacy-text-box-head hndle">
-				<h2><?php _e( 'This suggested privacy policy text comes from plugins you have installed.' ); ?></h2>
+				<h2><?php _e( 'This suggested privacy policy text comes from plugins and themes you have installed.' ); ?></h2>
 				<p>
 					<?php _e( 'We suggest reviewing this text then copying and pasting it into your privacy policy page.' ); ?>
 					<?php _e( 'Please remember you are responsible for the policies you choose to adopt, so review the content and make any necessary edits.' ); ?>
@@ -1606,7 +1626,7 @@ final class WP_Privacy_Policy_Content {
 	/**
 	 * Return the default suggested privacy policy content.
 	 *
-	 * @since 4.9.6	 	 
+	 * @since 4.9.6
 	 *
 	 * @return string The defauld policy content.
 	 */
@@ -1633,6 +1653,6 @@ final class WP_Privacy_Policy_Content {
 	 */
 	public static function add_suggested_content() {
 		$content = self::get_default_content();
-		wp_add_privacy_policy_content(  'WordPress', $content );
+		wp_add_privacy_policy_content( 'WordPress', $content );
 	}
 }

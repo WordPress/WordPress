@@ -1268,26 +1268,35 @@ jQuery(document).ready( function($) {
 		update();
 	} );
 
+} )( jQuery, new wp.utils.WordCounter() );
+
+( function( $ ) {
 	// Privacy policy postbox, copy button.
 	$( document ).on( 'click', function( event ) {
 		var $target = $( event.target );
 		var node, range;
 
-		if ( $target.is( 'button.privacy-text-copy-button' ) ) {
-			node = $target.parent().find( 'div.policy-text' )[0];
+		if ( $target.is( 'button.privacy-text-copy' ) ) {
+			node = $target.parent().parent().find( 'div.policy-text' )[0];
 
 			if ( node ) {
 				try {
 					window.getSelection().removeAllRanges();
-					range = document.createRange();  
-					range.selectNode( node );  
+					range = document.createRange();
+					range.selectNodeContents( node );
 					window.getSelection().addRange( range );
 
 					document.execCommand( 'copy' );
 					window.getSelection().removeAllRanges();
 				} catch ( er ) {}
 			}
+		} else if ( $target.is( 'button.policy-text-more' ) ) {
+			$target.parents( '.privacy-text-section' ).removeClass( 'folded' )
+				.find( '.policy-text' ).attr( 'aria-expanded', 'true' );
+		} else if ( $target.is( 'button.policy-text-less' ) ) {
+			$target.parents( '.privacy-text-section' ).addClass( 'folded' )
+				.find( '.policy-text' ).attr( 'aria-expanded', 'false' );
 		}
 	});
 
-} )( jQuery, new wp.utils.WordCounter() );
+} )( jQuery );
