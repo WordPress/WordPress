@@ -90,25 +90,25 @@ jQuery( document ).ready( function( $ ) {
 			appendResultsAfterRow( $requestRow, 'notice-success', summaryMessage, [] );
 		}
 
-		function on_erasure_failure( textStatus, error ) {
+		function on_erasure_failure() {
 			set_action_state( $action, 'remove_personal_data_failed' );
 			appendResultsAfterRow( $requestRow, 'notice-error', strings.anErrorOccurred, [] );
 		}
 
 		function do_next_erasure( eraserIndex, pageIndex ) {
 			$.ajax( {
-				url: ajaxurl,
+				url: window.ajaxurl,
 				data: {
 					action: 'wp-privacy-erase-personal-data',
 					eraser: eraserIndex,
 					id: requestID,
 					page: pageIndex,
-					security: nonce,
+					security: nonce
 				},
 				method: 'post'
 			} ).done( function( response ) {
 				if ( ! response.success ) {
-					on_erasure_failure( 'error', response.data );
+					on_erasure_failure();
 					return;
 				}
 				var responseData = response.data;
@@ -130,8 +130,8 @@ jQuery( document ).ready( function( $ ) {
 						on_erasure_done_success();
 					}
 				}
-			} ).fail( function( jqxhr, textStatus, error ) {
-				on_erasure_failure( textStatus, error );
+			} ).fail( function() {
+				on_erasure_failure();
 			} );
 		}
 
@@ -139,5 +139,5 @@ jQuery( document ).ready( function( $ ) {
 		set_action_state( $action, 'remove_personal_data_processing' );
 
 		do_next_erasure( 1, 1 );
-	} )
+	} );
 } );
