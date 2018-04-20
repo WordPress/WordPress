@@ -4284,9 +4284,9 @@ function get_parent_theme_file_path( $file = '' ) {
 function get_privacy_policy_url() {
 	$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
-	if ( empty( $policy_page_id ) ) {
-		return '';
+	if ( ! empty( $policy_page_id ) && get_post_status( $policy_page_id ) === 'publish' ) {
+		return get_permalink( $policy_page_id );
 	}
 
-	return get_permalink( $policy_page_id );
+	return '';
 }
