@@ -329,6 +329,7 @@ add_action( 'do_pings', 'do_all_pings', 10, 1 );
 add_action( 'do_robots', 'do_robots' );
 add_action( 'set_comment_cookies', 'wp_set_comment_cookies', 10, 3 );
 add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_comment_personal_data_exporter', 10 );
+add_filter( 'wp_privacy_personal_data_erasers', 'wp_register_comment_personal_data_eraser', 10 );
 add_action( 'sanitize_comment_cookies', 'sanitize_comment_cookies' );
 add_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 add_action( 'admin_print_scripts', 'print_head_scripts', 20 );

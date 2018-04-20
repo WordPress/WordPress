@@ -72,15 +72,15 @@ jQuery( document ).ready( function( $ ) {
 			set_action_state( $action, 'remove_personal_data_idle' );
 			var summaryMessage = strings.noDataFound;
 			var classes = 'notice-success';
-			if ( 0 == removedCount ) {
-				if ( 0 == retainedCount ) {
+			if ( 0 === removedCount ) {
+				if ( 0 === retainedCount ) {
 					summaryMessage = strings.noDataFound;
 				} else {
 					summaryMessage = strings.noneRemoved;
 					classes = 'notice-warning';
 				}
 			} else {
-				if ( 0 == retainedCount ) {
+				if ( 0 === retainedCount ) {
 					summaryMessage = strings.foundAndRemoved;
 				} else {
 					summaryMessage = strings.someNotRemoved;
