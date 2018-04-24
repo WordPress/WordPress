@@ -1653,6 +1653,6 @@ final class WP_Privacy_Policy_Content {
 	 */
 	public static function add_suggested_content() {
 		$content = self::get_default_content();
-		wp_add_privacy_policy_content( 'WordPress', $content );
+		wp_add_privacy_policy_content( __( 'WordPress' ), $content );
 	}
 }
