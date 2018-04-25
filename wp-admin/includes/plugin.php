@@ -2016,14 +2016,22 @@ function plugin_sandbox_scrape( $plugin ) {
 }
 
 /**
- * Helper function for adding plugin specific information to the postbox shown when editing the privacy policy.
+ * Helper function for adding content to the postbox shown when editing the privacy policy.
+ *
+ * Plugins and themes should suggest text for inclusion in the site's privacy policy.
+ * The suggested text should contain information about any functionality that affects user privacy,
+ * and will be shown in the Suggested Privacy Policy Content postbox.
+ *
+ * A plugin or theme can use this function multiple times as long as it will help to better present
+ * the suggested policy content. For example modular plugins such as WooCommerse or Jetpack
+ * can add or remove suggested content depending on the modules/extensions that are enabled.
  *
  * Intended for use with the `'admin_init'` action.
  *
  * @since 4.9.6
  *
- * @param string $plugin_name The plugin'as name. Will be shown in the privacy policy metabox.
- * @param string $policy_text The content that should appear in the site's privacy policy.
+ * @param string $plugin_name The name of the plugin or theme that is suggesting content for the site's privacy policy.
+ * @param string $policy_text The suggested content for inclusion in the policy.
  *                            For more information see the Plugins Handbook https://developer.wordpress.org/plugins/. 
  */
 function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {

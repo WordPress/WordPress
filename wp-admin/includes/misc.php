@@ -1281,14 +1281,18 @@ final class WP_Privacy_Policy_Content {
 	private function __construct() {}
 
 	/**
-	 * Add privacy information to the postbox shown when editing the privacy policy.
+	 * Add content to the postbox shown when editing the privacy policy.
+	 *
+	 * Plugins and themes should suggest text for inclusion in the site's privacy policy.
+	 * The suggested text should contain information about any functionality that affects user privacy,
+	 * and will be shown in the Suggested Privacy Policy Content postbox.
 	 *
 	 * Intended for use from `wp_add_privacy_policy_content()`.
 	 *
-	 * $since 5.0.0
+	 * $since 4.9.6
 	 *
-	 * @param string $plugin_name The plugin'as name. Will be shown in the privacy policy metabox.
-	 * @param string $policy_text The content that should appear in the site's privacy policy.
+	 * @param string $plugin_name The name of the plugin or theme that is suggesting content for the site's privacy policy.
+	 * @param string $policy_text The suggested content for inclusion in the policy.
 	 */
 	public static function add( $plugin_name, $policy_text ) {
 		if ( empty( $plugin_name ) || empty( $policy_text ) ) {
