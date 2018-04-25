@@ -192,6 +192,19 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_forbidden_orderby', __( 'Sorry, you are not allowed to order users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
+		if ( 'authors' === $request['who'] ) {
+			$can_view = false;
+			$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+			foreach ( $types as $type ) {
+				if ( current_user_can( $type->cap->edit_posts ) ) {
+					$can_view = true;
+				}
+			}
+			if ( ! $can_view ) {
+				return new WP_Error( 'rest_forbidden_who', __( 'Sorry, you are not allowed to query users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
+		}
+
 		return true;
 	}
 
@@ -256,7 +269,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$prepared_args['orderby'] = $orderby_possibles[ $request['orderby'] ];
 		}
 
-		if ( ! current_user_can( 'list_users' ) ) {
+		if ( isset( $registered['who'] ) && ! empty( $request['who'] ) && 'authors' === $request['who'] ) {
+			$prepared_args['who'] = 'authors';
+		} elseif ( ! current_user_can( 'list_users' ) ) {
 			$prepared_args['has_published_posts'] = get_post_types( array( 'show_in_rest' => true ), 'names' );
 		}
 
@@ -1369,6 +1384,14 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'type'        => 'array',
 			'items'       => array(
 				'type' => 'string',
+			),
+		);
+
+		$query_params['who'] = array(
+			'description' => __( 'Limit result set to users who are considered authors.' ),
+			'type'        => 'string',
+			'enum'        => array(
+				'authors',
 			),
 		);
 
