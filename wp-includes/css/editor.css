@@ -4,6 +4,10 @@
 
 /* TinyMCE widgets/containers */
 
+.mce-tinymce {
+	box-shadow: none;
+}
+
 .mce-container,
 .mce-container *,
 .mce-widget,
@@ -25,6 +29,7 @@
 	opacity: 0.7;
 	filter: alpha(opacity=70);
 	transition: none;
+	background: #000;
 }
 
 .mce-window {
@@ -216,6 +221,7 @@ div.mce-tab:focus {
 .mce-menu-item {
 	border: none;
 	margin-bottom: 2px;
+	padding: 6px 15px 6px 12px;
 }
 
 .mce-menu-has-icons i.mce-ico {
@@ -410,6 +416,14 @@ div.mce-path {
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.3 );
 }
 
+.mce-btn.mce-active,
+.mce-btn.mce-active button,
+.mce-btn.mce-active:hover button,
+.mce-btn.mce-active i,
+.mce-btn.mce-active:hover i {
+	color: inherit;
+}
+
 .mce-toolbar .mce-btn-group .mce-btn.mce-active:hover,
 .mce-toolbar .mce-btn-group .mce-btn.mce-active:focus {
 	border-color: #23282d;
@@ -562,12 +576,16 @@ div.mce-path {
 	color: #fff;
 }
 
-.mce-menu .mce-menu-item-preview.mce-active {
-	border-left: none;
-}
-
-.mce-menu .mce-menu-item-preview.mce-active .mce-text {
-	color: #fff;
+.mce-menu-item:hover .mce-text,
+.mce-menu-item:focus .mce-text,
+.mce-menu-item:hover .mce-ico,
+.mce-menu-item:focus .mce-ico,
+.mce-menu-item:hover .mce-menu-shortcut,
+.mce-menu-item:focus .mce-menu-shortcut,
+.mce-menu-item.mce-active .mce-menu-shortcut,
+.mce-menu-item.mce-disabled:hover .mce-text,
+.mce-menu-item.mce-disabled:hover .mce-ico {
+	color: inherit;
 }
 
 .mce-menu .mce-menu-item.mce-disabled {
