@@ -1117,17 +1117,25 @@ a.rsswidget {
 }
 
 /* PHP Nag */
-#dashboard_php_nag h2.hndle {
-	border-right: 4px solid #dc3232;
+#dashboard_php_nag .dashicons-warning {
+	color: #ffb900;
+	padding-left: 6px;
+}
+
+#dashboard_php_nag.php-insecure .dashicons-warning {
+	color: #df3232;
+}
+
+#dashboard_php_nag p {
+	margin: 12px 0;
 }
 
 #dashboard_php_nag h3 {
 	font-weight: 600;
 }
 
-#dashboard_php_nag .button.button-hero {
-	display: block;
-	text-align: center;
+#dashboard_php_nag .button .dashicons-external {
+	line-height: 25px;
 }
 
 /* =Media Queries

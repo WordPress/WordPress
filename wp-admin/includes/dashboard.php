@@ -35,11 +35,11 @@ function wp_dashboard_setup() {
 		}
 	}
 
-	// PHP Version
+	// PHP Version.
 	$response = wp_check_php_version();
-	if ( $response && ! $response['is_acceptable'] && current_user_can( 'upgrade_php' ) ) {
-		$title = $response['is_secure'] ? __( 'Your site could be much faster!' ) : __( 'Your site could be much faster and more secure!' );
-		wp_add_dashboard_widget( 'dashboard_php_nag', $title, 'wp_dashboard_php_nag' );
+	if ( $response && isset( $response['is_acceptable'] ) && ! $response['is_acceptable'] && current_user_can( 'upgrade_php' ) ) {
+		add_filter( 'postbox_classes_dashboard_dashboard_php_nag', 'dashboard_php_nag_class' );
+		wp_add_dashboard_widget( 'dashboard_php_nag', __( 'PHP Update Required' ), 'wp_dashboard_php_nag' );
 	}
 
 	// Right Now
@@ -1618,29 +1618,48 @@ function wp_dashboard_php_nag() {
 		return;
 	}
 
-	$information_url = _x( 'https://wordpress.org/support/upgrade-php/', 'localized PHP upgrade information page' );
-
-	if ( ! $response['is_secure'] ) {
-		$msg = __( 'WordPress has detected that your site is running on an insecure version of PHP, which is why we&#8217;re showing you this notice.' );
+	if ( isset( $response['is_secure'] ) && ! $response['is_secure'] ) {
+		$msg = __( 'WordPress has detected that your site is running on an insecure version of PHP.' );
 	} else {
-		$msg = __( 'WordPress has detected that your site is running on an outdated version of PHP, which is why we&#8217;re showing you this notice.' );
+		$msg = __( 'WordPress has detected that your site is running on an outdated version of PHP.' );
 	}
 
 	?>
 	<p><?php echo $msg; ?></p>
 
-	<h3><?php _e( 'What is PHP and why should I care?' ); ?></h3>
-	<p><?php _e( 'PHP is the programming language that WordPress is built on. Newer versions of PHP are both faster and more secure, so upgrading is better for your site, and better for the people who are building WordPress.' ); ?></p>
-	<p><?php _e( 'If you want to know exactly how PHP works and why it is important, continue reading.' ); ?></p>
+	<h3><?php _e( 'What is PHP and how does it affect my site?' ); ?></h3>
+	<p><?php _e( 'PHP is the programming language we use to build and maintain WordPress. Newer versions of PHP are both faster and more secure, so updating will have a positive effect on your site’s performance.' ); ?></p>
 
-	<h3><?php _e( 'How can I upgrade my PHP version?' ); ?></h3>
-	<p><?php _e( 'The button below will take you to a page with more details on what PHP is, how to upgrade your PHP version, and what to do if it turns out you can&#8217;t.' ); ?></p>
-	<p>
-		<a class="button button-primary button-hero" href="<?php echo esc_url( $information_url ); ?>"><?php _e( 'Show me how to upgrade my PHP' ); ?></a>
+	<p class="button-container">
+		<?php
+			printf(
+				'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				esc_url( _x( 'https://wordpress.org/support/upgrade-php/', 'localized PHP upgrade information page' ) ),
+				__( 'Learn more about updating PHP' ),
+				/* translators: accessibility text */
+				__( '(opens in a new tab)' )
+			);
+		?>
 	</p>
-
-	<p><?php _e( 'Upgrading usually takes only a few minutes and should be safe if you follow the provided instructions.' ); ?></p>
 	<?php
+}
+
+/**
+ * Adds an additional class to the PHP nag if the current version is insecure.
+ *
+ * @since 5.0.0
+ *
+ * @param array $classes Metabox classes.
+ * @return array Modified metabox classes.
+ */
+function dashboard_php_nag_class( $classes ) {
+	$response = wp_check_php_version();
+
+	if ( $response && isset( $response['is_secure'] ) && ! $response['is_secure'] ) {
+		$classes[] = 'php-insecure';
+	}
+
+	return $classes;
 }
 
 /**
@@ -1648,7 +1667,7 @@ function wp_dashboard_php_nag() {
  *
  * @since 5.0.0
  *
- * @return array Array of PHP version data.
+ * @return array|false $response Array of PHP version data. False on failure.
  */
 function wp_check_php_version() {
 	$version = phpversion();
@@ -1665,16 +1684,16 @@ function wp_check_php_version() {
 
 		$response = wp_remote_get( $url );
 
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 			return false;
 		}
 
 		/**
 		 * Response should be an array with:
-		 *  'recommended_version' - string - The PHP version recommended by WordPress
-		 *  'is_supported' - boolean - Whether the PHP version is actively supported
-		 *  'is_secure' - boolean - Whether the PHP version receives security updates
-		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable for WordPress
+		 *  'recommended_version' - string - The PHP version recommended by WordPress.
+		 *  'is_supported' - boolean - Whether the PHP version is actively supported.
+		 *  'is_secure' - boolean - Whether the PHP version receives security updates.
+		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable for WordPress.
 		 */
 		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 
