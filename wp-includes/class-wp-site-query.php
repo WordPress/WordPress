@@ -40,6 +40,22 @@ class WP_Site_Query {
 	);
 
 	/**
+	 * Metadata query container.
+	 *
+	 * @since 5.0.0
+	 * @var WP_Meta_Query
+	 */
+	public $meta_query = false;
+
+	/**
+	 * Metadata query clauses.
+	 *
+	 * @since 5.0.0
+	 * @var array
+	 */
+	protected $meta_query_clauses;
+
+	/**
 	 * Date query container.
 	 *
 	 * @since 4.6.0
@@ -92,7 +108,8 @@ class WP_Site_Query {
 	 *
 	 * @since 4.6.0
 	 * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
-	 * @since 5.0.0 Introduced the 'update_site_meta_cache' parameter.
+	 * @since 5.0.0 Introduced the 'update_site_meta_cache', 'meta_query', 'meta_key',
+	 *              'meta_value', 'meta_type' and 'meta_compare' parameters.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or query string of site query parameters. Default empty.
@@ -139,6 +156,15 @@ class WP_Site_Query {
 	 *                                                Default empty array.
 	 *     @type bool         $update_site_cache      Whether to prime the cache for found sites. Default true.
 	 *     @type bool         $update_site_meta_cache Whether to prime the metadata cache for found sites. Default true.
+	 *     @type array        $meta_query             Meta query clauses to limit retrieved sites by. See `WP_Meta_Query`.
+	 *                                                Default empty.
+	 *     @type string       $meta_key               Limit sites to those matching a specific metadata key.
+	 *                                                Can be used in conjunction with `$meta_value`. Default empty.
+	 *     @type string       $meta_value             Limit sites to those matching a specific metadata value.
+	 *                                                Usually used in conjunction with `$meta_key`. Default empty.
+	 *     @type string       $meta_type              Data type that the `$meta_value` column will be CAST to for
+	 *                                                comparisons. Default empty.
+	 *     @type string       $meta_compare           Comparison operator to test the `$meta_value`. Default empty.
 	 * }
 	 */
 	public function __construct( $query = '' ) {
@@ -175,6 +201,11 @@ class WP_Site_Query {
 			'date_query'             => null, // See WP_Date_Query
 			'update_site_cache'      => true,
 			'update_site_meta_cache' => true,
+			'meta_query'             => '',
+			'meta_key'               => '',
+			'meta_value'             => '',
+			'meta_type'              => '',
+			'meta_compare'           => '',
 		);
 
 		if ( ! empty( $query ) ) {
@@ -228,11 +259,19 @@ class WP_Site_Query {
 	 *
 	 * @since 4.6.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return array|int List of WP_Site objects, a list of site ids when 'fields' is set to 'ids',
 	 *                   or the number of sites when 'count' is passed as a query var.
 	 */
 	public function get_sites() {
+		global $wpdb;
+
 		$this->parse_query();
+
+		// Parse meta query.
+		$this->meta_query = new WP_Meta_Query();
+		$this->meta_query->parse_query_vars( $this->query_vars );
 
 		/**
 		 * Fires before sites are retrieved.
@@ -242,6 +281,12 @@ class WP_Site_Query {
 		 * @param WP_Site_Query $this Current instance of WP_Site_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_sites', array( &$this ) );
+
+		// Reparse query vars, in case they were modified in a 'pre_get_sites' callback.
+		$this->meta_query->parse_query_vars( $this->query_vars );
+		if ( ! empty( $this->meta_query->queries ) ) {
+			$this->meta_query_clauses = $this->meta_query->get_sql( 'blog', $wpdb->blogs, 'blog_id', $this );
+		}
 
 		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
 		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
@@ -370,7 +415,7 @@ class WP_Site_Query {
 
 			$orderby = implode( ', ', $orderby_array );
 		} else {
-			$orderby = "blog_id $order";
+			$orderby = "{$wpdb->blogs}.blog_id $order";
 		}
 
 		$number = absint( $this->query_vars['number'] );
@@ -387,23 +432,23 @@ class WP_Site_Query {
 		if ( $this->query_vars['count'] ) {
 			$fields = 'COUNT(*)';
 		} else {
-			$fields = 'blog_id';
+			$fields = "{$wpdb->blogs}.blog_id";
 		}
 
 		// Parse site IDs for an IN clause.
 		$site_id = absint( $this->query_vars['ID'] );
 		if ( ! empty( $site_id ) ) {
-			$this->sql_clauses['where']['ID'] = $wpdb->prepare( 'blog_id = %d', $site_id );
+			$this->sql_clauses['where']['ID'] = $wpdb->prepare( "{$wpdb->blogs}.blog_id = %d", $site_id );
 		}
 
 		// Parse site IDs for an IN clause.
 		if ( ! empty( $this->query_vars['site__in'] ) ) {
-			$this->sql_clauses['where']['site__in'] = 'blog_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['site__in'] ) ) . ' )';
+			$this->sql_clauses['where']['site__in'] = "{$wpdb->blogs}.blog_id IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['site__in'] ) ) . ' )';
 		}
 
 		// Parse site IDs for a NOT IN clause.
 		if ( ! empty( $this->query_vars['site__not_in'] ) ) {
-			$this->sql_clauses['where']['site__not_in'] = 'blog_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['site__not_in'] ) ) . ' )';
+			$this->sql_clauses['where']['site__not_in'] = "{$wpdb->blogs}.blog_id NOT IN ( " . implode( ',', wp_parse_id_list( $this->query_vars['site__not_in'] ) ) . ' )';
 		}
 
 		$network_id = absint( $this->query_vars['network_id'] );
@@ -525,6 +570,17 @@ class WP_Site_Query {
 		}
 
 		$join = '';
+
+		if ( ! empty( $this->meta_query_clauses ) ) {
+			$join .= $this->meta_query_clauses['join'];
+
+			// Strip leading 'AND'.
+			$this->sql_clauses['where']['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $this->meta_query_clauses['where'] );
+
+			if ( ! $this->query_vars['count'] ) {
+				$groupby = "{$wpdb->blogs}.blog_id";
+			}
+		}
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
@@ -675,8 +731,40 @@ class WP_Site_Query {
 				$parsed = 'CHAR_LENGTH(path)';
 				break;
 			case 'id':
-				$parsed = 'blog_id';
+				$parsed = "{$wpdb->blogs}.blog_id";
 				break;
+		}
+
+		if ( ! empty( $parsed ) || empty( $this->meta_query_clauses ) ) {
+			return $parsed;
+		}
+
+		$meta_clauses = $this->meta_query->get_clauses();
+		if ( empty( $meta_clauses ) ) {
+			return $parsed;
+		}
+
+		$primary_meta_query = reset( $meta_clauses );
+		if ( ! empty( $primary_meta_query['key'] ) && $primary_meta_query['key'] === $orderby ) {
+			$orderby = 'meta_value';
+		}
+
+		switch ( $orderby ) {
+			case 'meta_value':
+				if ( ! empty( $primary_meta_query['type'] ) ) {
+					$parsed = "CAST({$primary_meta_query['alias']}.meta_value AS {$primary_meta_query['cast']})";
+				} else {
+					$parsed = "{$primary_meta_query['alias']}.meta_value";
+				}
+				break;
+			case 'meta_value_num':
+				$parsed = "{$primary_meta_query['alias']}.meta_value+0";
+				break;
+			default:
+				if ( isset( $meta_clauses[ $orderby ] ) ) {
+					$meta_clause = $meta_clauses[ $orderby ];
+					$parsed      = "CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
+				}
 		}
 
 		return $parsed;
