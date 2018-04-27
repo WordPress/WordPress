@@ -4327,16 +4327,39 @@ function wp_ajax_edit_theme_plugin_file() {
 	}
 }
 
+/**
+ * Ajax handler for exporting a user's personal data.
+ *
+ * @since 4.9.6
+ */
 function wp_ajax_wp_privacy_export_personal_data() {
-	check_ajax_referer( 'wp-privacy-export-personal-data', 'security' );
+	$request_id  = (int) $_POST['id'];
+
+	if ( empty( $request_id ) ) {
+		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
+	}
 
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_send_json_error( __( 'Error: Invalid request.' ) );
 	}
 
-	$email_address  = sanitize_text_field( $_POST['email'] );
+	check_ajax_referer( 'wp-privacy-export-personal-data-' . $request_id, 'security' );
+
+	// Get the request data.
+	$request = wp_get_user_request_data( $request_id );
+
+	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
+		wp_send_json_error( __( 'Error: Invalid request type.' ) );
+	}
+
+	$email_address = $request->email;
+	if ( ! is_email( $email_address ) ) {
+		wp_send_json_error( __( 'Error: A valid email address must be given.' ) );
+	}
+
 	$exporter_index = (int) $_POST['exporter'];
 	$page           = (int) $_POST['page'];
+	$send_as_email  = isset( $_POST['sendAsEmail'] ) ? ( "true" === $_POST['sendAsEmail'] ) : false;
 
 	/**
 	 * Filters the array of exporter callbacks.
@@ -4348,8 +4371,8 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 *     [
 	 *         callback               string  Callable exporter that accepts an email address and
 	 *                                        a page and returns an array of name => value
-	 *                                        pairs of personal data
-	 *         exporter_friendly_name string  Translated user facing friendly name for the exporter
+	 *                                        pairs of personal data.
+	 *         exporter_friendly_name string  Translated user facing friendly name for the exporter.
 	 *     ]
 	 * }
 	 */
@@ -4375,25 +4398,19 @@ function wp_ajax_wp_privacy_export_personal_data() {
 			wp_send_json_error( 'Page index cannot be less than one.' );
 		}
 
-		// Surprisingly, email addresses can contain mutli-byte characters now
-		$email_address = trim( mb_strtolower( $email_address ) );
-
-		if ( ! is_email( $email_address ) ) {
-			wp_send_json_error( 'A valid email address must be given.' );
-		}
-
 		$exporter = $exporters[ $index ];
+
 		if ( ! is_array( $exporter ) ) {
 			wp_send_json_error( "Expected an array describing the exporter at index {$exporter_index}." );
 		}
-		if ( ! array_key_exists( 'callback', $exporter ) ) {
-			wp_send_json_error( "Exporter array at index {$exporter_index} does not include a callback." );
-		}
-		if ( ! is_callable( $exporter['callback'] ) ) {
-			wp_send_json_error( "Exporter callback at index {$exporter_index} is not a valid callback." );
-		}
 		if ( ! array_key_exists( 'exporter_friendly_name', $exporter ) ) {
 			wp_send_json_error( "Exporter array at index {$exporter_index} does not include a friendly name." );
+		}
+		if ( ! array_key_exists( 'callback', $exporter ) ) {
+			wp_send_json_error( "Exporter does not include a callback: {$exporter['exporter_friendly_name']}." );
+		}
+		if ( ! is_callable( $exporter['callback'] ) ) {
+			wp_send_json_error( "Exporter callback is not a valid callback: {$exporter['exporter_friendly_name']}." );
 		}
 
 		$callback = $exporters[ $index ]['callback'];
@@ -4417,7 +4434,7 @@ function wp_ajax_wp_privacy_export_personal_data() {
 			wp_send_json_error( "Expected done (boolean) in response array from exporter: {$exporter_friendly_name}." );
 		}
 	} else {
-		// No exporters, so we're done
+		// No exporters, so we're done.
 		$response = array(
 			'data' => array(),
 			'done' => true,
@@ -4435,8 +4452,11 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 * @param int    $exporter_index  The index of the exporter that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
 	 * @param int    $page            The zero-based page for this response.
+	 * @param int    $request_id      The privacy request post ID associated with this request.
+	 * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
 	 */
-	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page );
+	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page, $request_id, $send_as_email );
+
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( $response );
 	}
@@ -4462,7 +4482,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 
 	check_ajax_referer( 'wp-privacy-erase-personal-data-' . $request_id, 'security' );
 
-	// Find the request CPT
+	// Get the request data.
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {

@@ -132,6 +132,10 @@ add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
 add_action( 'upgrader_process_complete', 'wp_update_plugins', 10, 0 );
 add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
 
+// Privacy hooks
+add_filter( 'wp_privacy_personal_data_export_page', 'wp_privacy_process_personal_data_export_page', 10, 6 );
+add_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
+
 // Privacy policy text changes check.
 add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'text_change_check' ), 20 );
 
@@ -143,4 +147,3 @@ add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'add_suggested_con
 
 // Stop checking for text changes after the policy page is updated.
 add_action( 'post_updated', array( 'WP_Privacy_Policy_Content', '_policy_page_updated' ) );
-

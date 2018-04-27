@@ -3352,6 +3352,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 
 				case 'comment_link':
 					$value = get_comment_link( $comment->comment_ID );
+					$value = '<a href="' . $value . '" target="_blank" rel="noreferrer noopener">' . $value . '</a>';
 					break;
 			}
 

@@ -22,7 +22,6 @@ jQuery( document ).ready(function( $ ) {
 });
 
 // Privacy request action handling
-
 jQuery( document ).ready( function( $ ) {
 	var strings = window.privacyToolsL10n || {};
 
@@ -39,16 +38,97 @@ jQuery( document ).ready( function( $ ) {
 
 	function appendResultsAfterRow( $requestRow, classes, summaryMessage, additionalMessages ) {
 		clearResultsAfterRow( $requestRow );
+
+		var itemList = '';
 		if ( additionalMessages.length ) {
-			// TODO - render additionalMessages after the summaryMessage
+			$.each( additionalMessages, function( index, value ) {
+				itemList = itemList + '<li>' + value + '</li>';
+			} );
+			itemList = '<ul>' + itemList + '</ul>';
 		}
 
 		$requestRow.after( function() {
-			return '<tr class="request-results"><td colspan="5"><div class="notice inline notice-alt ' + classes + '"><p>' +
-				summaryMessage +
-				'</p></div></td></tr>';
+			return '<tr class="request-results"><td colspan="5">' +
+				'<div class="notice inline notice-alt ' + classes + '">' +
+				'<p>' + summaryMessage + '</p>' +
+				itemList +
+				'</div>' +
+				'</td>' +
+				'</tr>';
 		} );
 	}
+
+	$( '.export_personal_data a' ).click( function( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		var $this          = $( this );
+		var $action        = $this.parents( '.export_personal_data' );
+		var $requestRow    = $this.parents( 'tr' );
+		var requestID      = $action.data( 'request-id' );
+		var nonce          = $action.data( 'nonce' );
+		var exportersCount = $action.data( 'exporters-count' );
+		var sendAsEmail    = $action.data( 'send-as-email' ) ? true : false;
+
+		$action.blur();
+		clearResultsAfterRow( $requestRow );
+
+		function on_export_done_success( zipUrl ) {
+			set_action_state( $action, 'export_personal_data_success' );
+			if ( 'undefined' !== typeof zipUrl ) {
+				window.location = zipUrl;
+			} else if ( ! sendAsEmail ) {
+				on_export_failure( strings.noExportFile );
+			}
+		}
+
+		function on_export_failure( errorMessage ) {
+			set_action_state( $action, 'export_personal_data_failed' );
+			if ( errorMessage ) {
+				appendResultsAfterRow( $requestRow, 'notice-error', strings.exportError, [ errorMessage ] );
+			}
+		}
+
+		function do_next_export( exporterIndex, pageIndex ) {
+			$.ajax(
+				{
+					url: window.ajaxurl,
+					data: {
+						action: 'wp-privacy-export-personal-data',
+						exporter: exporterIndex,
+						id: requestID,
+						page: pageIndex,
+						security: nonce,
+						sendAsEmail: sendAsEmail
+					},
+					method: 'post'
+				}
+			).done( function( response ) {
+				if ( ! response.success ) {
+					// e.g. invalid request ID
+					on_export_failure( response.data );
+					return;
+				}
+				var responseData = response.data;
+				if ( ! responseData.done ) {
+					setTimeout( do_next_export( exporterIndex, pageIndex + 1 ) );
+				} else {
+					if ( exporterIndex < exportersCount ) {
+						setTimeout( do_next_export( exporterIndex + 1, 1 ) );
+					} else {
+						on_export_done_success( responseData.url );
+					}
+				}
+			} ).fail( function( jqxhr, textStatus, error ) {
+				// e.g. Nonce failure
+				on_export_failure( error );
+			} );
+		}
+
+		// And now, let's begin
+		set_action_state( $action, 'export_personal_data_processing' );
+		do_next_export( 1, 1 );
+	} );
 
 	$( '.remove_personal_data a' ).click( function( event ) {
 		event.preventDefault();
@@ -92,7 +172,7 @@ jQuery( document ).ready( function( $ ) {
 
 		function on_erasure_failure() {
 			set_action_state( $action, 'remove_personal_data_failed' );
-			appendResultsAfterRow( $requestRow, 'notice-error', strings.anErrorOccurred, [] );
+			appendResultsAfterRow( $requestRow, 'notice-error', strings.removalError, [] );
 		}
 
 		function do_next_erasure( eraserIndex, pageIndex ) {

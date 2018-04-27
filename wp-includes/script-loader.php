@@ -715,7 +715,9 @@ function wp_default_scripts( &$scripts ) {
 				'foundAndRemoved' => __( 'All of the personal data found for this user was removed.' ),
 				'noneRemoved'     => __( 'Personal data was found for this user but was not removed.' ),
 				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not removed.' ),
-				'anErrorOccurred' => __( 'An error occurred while attempting to find and remove personal data.' ),
+				'removalError'    => __( 'An error occurred while attempting to find and remove personal data.' ),
+				'noExportFile'    => __( 'No personal data export file was generated.' ),
+				'exportError'     => __( 'An error occurred while attempting to export personal data.' ),
 			)
 		);
 

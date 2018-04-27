@@ -3145,7 +3145,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
  * @since 4.9.6
  *
  * @param int $request_id Request ID to get data about.
- * @return array|false
+ * @return WP_User_Request|false
  */
 function wp_get_user_request_data( $request_id ) {
 	$request_id = absint( $request_id );

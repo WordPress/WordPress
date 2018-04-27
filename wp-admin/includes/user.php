@@ -664,33 +664,6 @@ function _wp_personal_data_handle_actions() {
 			);
 		}
 
-	} elseif ( isset( $_POST['export_personal_data_email_send'] ) ) { // WPCS: input var ok.
-		check_admin_referer( 'bulk-privacy_requests' );
-
-		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['export_personal_data_email_send'] ) ) ) ); // WPCS: input var ok, sanitization ok.
-		$result     = false;
-
-		/**
-		 * TODO: Email the data to the user here.
-		 */
-
-		if ( is_wp_error( $result ) ) {
-			add_settings_error(
-				'export_personal_data_email_send',
-				'export_personal_data_email_send',
-				$result->get_error_message(),
-				'error'
-			);
-		} else {
-			_wp_privacy_completed_request( $request_id );
-			add_settings_error(
-				'export_personal_data_email_send',
-				'export_personal_data_email_send',
-				__( 'Personal data was sent to the user successfully.' ),
-				'updated'
-			);
-		}
-
 	} elseif ( isset( $_POST['action'] ) ) {
 		$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : ''; // WPCS: input var ok, CSRF ok.
 
@@ -818,6 +791,9 @@ function _wp_personal_data_export_page() {
 
 	_wp_personal_data_handle_actions();
 	_wp_personal_data_cleanup_requests();
+
+	// "Borrow" xfn.js for now so we don't have to create new files.
+	wp_enqueue_script( 'xfn' );
 
 	$requests_table = new WP_Privacy_Data_Export_Requests_Table( array(
 		'plural'   => 'privacy_requests',
@@ -1361,15 +1337,18 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 		$request_id      = $item->ID;
 		$nonce           = wp_create_nonce( 'wp-privacy-export-personal-data-' . $request_id );
 
-		$download_data_markup = '<div class="download_personal_data" ' .
+		$download_data_markup = '<div class="export_personal_data" ' .
 			'data-exporters-count="' . esc_attr( $exporters_count ) . '" ' .
 			'data-request-id="' . esc_attr( $request_id ) . '" ' .
 			'data-nonce="' . esc_attr( $nonce ) .
 			'">';
 
-		$download_data_markup .= '<span class="download_personal_data_idle"><a href="#" >' . __( 'Download Personal Data' ) . '</a></span>' .
-			'<span style="display:none" class="download_personal_data_processing" >' . __( 'Downloading Data...' ) . '</span>' .
-			'<span style="display:none" class="download_personal_data_failed">' . __( 'Download Failed!' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
+		$download_data_markup .= '<span class="export_personal_data_idle"><a href="#" >' . __( 'Download Personal Data' ) . '</a></span>' .
+			'<span style="display:none" class="export_personal_data_processing" >' . __( 'Downloading Data...' ) . '</span>' .
+			'<span style="display:none" class="export_personal_data_success"><a href="#" >' . __( 'Download Personal Data Again' ) . '</a></span>' .
+			'<span style="display:none" class="export_personal_data_failed">' . __( 'Download Failed!' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
+
+		$download_data_markup .= '</div>';
 
 		$row_actions = array(
 			'download_data' => $download_data_markup,
@@ -1393,7 +1372,26 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 				esc_html_e( 'Waiting for confirmation' );
 				break;
 			case 'request-confirmed':
-				// TODO Complete in follow on patch.
+				$exporters       = apply_filters( 'wp_privacy_personal_data_exporters', array() );
+				$exporters_count = count( $exporters );
+				$request_id      = $item->ID;
+				$nonce           = wp_create_nonce( 'wp-privacy-export-personal-data-' . $request_id );
+
+				echo '<div class="export_personal_data" ' .
+					'data-send-as-email="1" ' .
+					'data-exporters-count="' . esc_attr( $exporters_count ) . '" ' .
+					'data-request-id="' . esc_attr( $request_id ) . '" ' .
+					'data-nonce="' . esc_attr( $nonce ) .
+					'">';
+
+				?>
+				<span class="export_personal_data_idle"><a class="button" href="#" ><?php _e( 'Email Data' ); ?></a></span>
+				<span style="display:none" class="export_personal_data_processing button updating-message" ><?php _e( 'Sending Email...' ); ?></span>
+				<span style="display:none" class="export_personal_data_success success-message" ><?php _e( 'Email Sent!' ); ?></span>
+				<span style="display:none" class="export_personal_data_failed"><?php _e( 'Email Failed!' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
+				<?php
+
+				echo '</div>';
 				break;
 			case 'request-failed':
 				submit_button( __( 'Retry' ), 'secondary', 'privacy_action_email_retry[' . $item->ID . ']', false );
@@ -1461,6 +1459,8 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 				'<span style="display:none" class="remove_personal_data_processing" >' . __( 'Removing Data...' ) . '</span>' .
 				'<span style="display:none" class="remove_personal_data_failed">' . __( 'Force Remove Failed!' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
 
+			$remove_data_markup .= '</div>';
+
 			$row_actions = array(
 				'remove_data' => $remove_data_markup,
 			);
@@ -1501,6 +1501,8 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 				<span style="display:none" class="remove_personal_data_processing button updating-message" ><?php _e( 'Removing Data...' ); ?></span>
 				<span style="display:none" class="remove_personal_data_failed"><?php _e( 'Removing Data Failed!' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
 				<?php
+
+				echo '</div>';
 
 				break;
 			case 'request-failed':
