@@ -4464,11 +4464,11 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 
 	// Find the request CPT
 	$request = get_post( $request_id );
-	if ( 'user_remove_request' !== $request->post_type ) {
+	if ( 'remove_personal_data' !== $request->post_title ) {
 		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
 	}
 
-	$email_address = get_post_meta( $request_id, '_user_email', true );
+	$email_address = get_post_meta( $request_id, '_wp_user_request_user_email', true );
 
 	if ( ! is_email( $email_address ) ) {
 		wp_send_json_error( __( 'Error: Invalid email address in request.' ) );

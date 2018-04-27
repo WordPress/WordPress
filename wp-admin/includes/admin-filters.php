@@ -46,7 +46,6 @@ add_action( 'admin_head', 'wp_site_icon' );
 add_action( 'admin_head', '_ipad_meta' );
 
 // Privacy tools
-add_action( 'account_action_failed', '_wp_privacy_account_request_failed' );
 add_action( 'admin_menu', '_wp_privacy_hook_requests_page' );
 
 // Prerendering.

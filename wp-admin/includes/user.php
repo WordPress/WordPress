@@ -581,98 +581,29 @@ Please click the following link to activate your user account:
 }
 
 /**
- * Get action description from the name.
- *
- * @since 4.9.6
- * @access private
- *
- * @return string
- */
-function _wp_privacy_action_description( $request_type ) {
-	switch ( $request_type ) {
-		case 'user_export_request':
-			return __( 'Export Personal Data' );
-		case 'user_remove_request':
-			return __( 'Remove Personal Data' );
-	}
-}
-
-/**
- * Log a request and send to the user.
- *
- * @since 4.9.6
- * @access private
- *
- * @param string $email_address Email address sending the request to.
- * @param string $action Action being requested.
- * @param string $description Description of request.
- * @return bool|WP_Error depending on success.
- */
-function _wp_privacy_create_request( $email_address, $action, $description ) {
-	$user_id = 0;
-	$user    = get_user_by( 'email', $email_address );
-
-	if ( $user ) {
-		$user_id = $user->ID;
-	}
-
-	$privacy_request_id = wp_insert_post( array(
-		'post_author'   => $user_id,
-		'post_status'   => 'request-pending',
-		'post_type'     => $action,
-		'post_date'     => current_time( 'mysql', false ),
-		'post_date_gmt' => current_time( 'mysql', true ),
-	), true );
-
-	if ( is_wp_error( $privacy_request_id ) ) {
-		return $privacy_request_id;
-	}
-
-	update_post_meta( $privacy_request_id, '_user_email', $email_address );
-	update_post_meta( $privacy_request_id, '_action_name', $action );
-	update_post_meta( $privacy_request_id, '_confirmed_timestamp', false );
-
-	return wp_send_account_verification_key( $email_address, $action, $description, array(
-		'privacy_request_id' => $privacy_request_id,
-	) );
-}
-
-/**
  * Resend an existing request and return the result.
  *
  * @since 4.9.6
  * @access private
  *
- * @param int $privacy_request_id Request ID.
+ * @param int $request_id Request ID.
  * @return bool|WP_Error
  */
-function _wp_privacy_resend_request( $privacy_request_id ) {
-	$privacy_request_id = absint( $privacy_request_id );
-	$privacy_request    = get_post( $privacy_request_id );
+function _wp_privacy_resend_request( $request_id ) {
+	$request_id = absint( $request_id );
+	$request    = get_post( $request_id );
 
-	if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+	if ( ! $request || 'user_request' !== $request->post_type ) {
 		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
 	}
 
-	$email_address = get_post_meta( $privacy_request_id, '_user_email', true );
-	$action        = get_post_meta( $privacy_request_id, '_action_name', true );
-	$description   = _wp_privacy_action_description( $action );
-	$result        = wp_send_account_verification_key( $email_address, $action, $description, array(
-		'privacy_request_id' => $privacy_request_id,
-	) );
+	$result = wp_send_user_request( $request_id );
 
 	if ( is_wp_error( $result ) ) {
 		return $result;
 	} elseif ( ! $result ) {
 		return new WP_Error( 'privacy_request_error', __( 'Unable to initiate confirmation request.' ) );
 	}
-
-	wp_update_post( array(
-		'ID'            => $privacy_request_id,
-		'post_status'   => 'request-pending',
-		'post_date'     => current_time( 'mysql', false ),
-		'post_date_gmt' => current_time( 'mysql', true ),
-	) );
 
 	return true;
 }
@@ -683,23 +614,23 @@ function _wp_privacy_resend_request( $privacy_request_id ) {
  * @since 4.9.6
  * @access private
  *
- * @param int $privacy_request_id Request ID.
- * @return bool|WP_Error
+ * @param int $request_id Request ID.
+ * @return int|WP_Error Request ID on succes or WP_Error.
  */
-function _wp_privacy_completed_request( $privacy_request_id ) {
-	$privacy_request_id = absint( $privacy_request_id );
-	$privacy_request    = get_post( $privacy_request_id );
+function _wp_privacy_completed_request( $request_id ) {
+	$request_id   = absint( $request_id );
+	$request_data = wp_get_user_request_data( $request_id );
 
-	if ( ! $privacy_request || ! in_array( $privacy_request->post_type, _wp_privacy_action_request_types(), true ) ) {
+	if ( ! $request_data ) {
 		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
 	}
 
-	wp_update_post( array(
-		'ID'          => $privacy_request_id,
-		'post_status' => 'request-completed',
+	update_post_meta( $request_id, '_wp_user_request_confirmed_timestamp', time() );
+	$request = wp_update_post( array(
+		'ID'          => $request_data['request_id'],
+		'post_status' => 'request-confirmed',
 	) );
-
-	update_post_meta( $privacy_request_id, '_completed_timestamp', time() );
+	return $request;
 }
 
 /**
@@ -803,32 +734,38 @@ function _wp_personal_data_handle_actions() {
 					$email_address = $username_or_email_address;
 				}
 
-				if ( ! empty( $email_address ) ) {
-					$result = _wp_privacy_create_request( $email_address, $action_type, _wp_privacy_action_description( $action_type ) );
-
-					if ( is_wp_error( $result ) ) {
-						add_settings_error(
-							'username_or_email_to_export',
-							'username_or_email_to_export',
-							$result->get_error_message(),
-							'error'
-						);
-					} elseif ( ! $result ) {
-						add_settings_error(
-							'username_or_email_to_export',
-							'username_or_email_to_export',
-							__( 'Unable to initiate confirmation request.' ),
-							'error'
-						);
-					} else {
-						add_settings_error(
-							'username_or_email_to_export',
-							'username_or_email_to_export',
-							__( 'Confirmation request initiated successfully.' ),
-							'updated'
-						);
-					}
+				if ( empty( $email_address ) ) {
+					break;
 				}
+
+				$request_id = wp_create_user_request( $email_address, $action_type );
+
+				if ( is_wp_error( $request_id ) ) {
+					add_settings_error(
+						'username_or_email_to_export',
+						'username_or_email_to_export',
+						$request_id->get_error_message(),
+						'error'
+					);
+					break;
+				} elseif ( ! $request_id ) {
+					add_settings_error(
+						'username_or_email_to_export',
+						'username_or_email_to_export',
+						__( 'Unable to initiate confirmation request.' ),
+						'error'
+					);
+					break;
+				}
+
+				wp_send_user_request( $request_id );
+
+				add_settings_error(
+					'username_or_email_to_export',
+					'username_or_email_to_export',
+					__( 'Confirmation request initiated successfully.' ),
+					'updated'
+				);
 				break;
 		}
 	}
@@ -871,7 +808,7 @@ function _wp_personal_data_export_page() {
 			</div>
 			<?php wp_nonce_field( 'personal-data-request' ); ?>
 			<input type="hidden" name="action" value="add_export_personal_data_request" />
-			<input type="hidden" name="type_of_action" value="user_export_request" />
+			<input type="hidden" name="type_of_action" value="export_personal_data" />
 		</form>
 		<hr />
 
@@ -937,7 +874,7 @@ function _wp_personal_data_removal_page() {
 			</div>
 			<?php wp_nonce_field( 'personal-data-request' ); ?>
 			<input type="hidden" name="action" value="add_remove_personal_data_request" />
-			<input type="hidden" name="type_of_action" value="user_remove_request" />
+			<input type="hidden" name="type_of_action" value="remove_personal_data" />
 		</form>
 		<hr />
 
@@ -1011,11 +948,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'cb'         => '<input type="checkbox" />',
-			'email'      => __( 'Requester' ),
-			'status'     => __( 'Status' ),
-			'requested'  => __( 'Requested' ),
-			'next_steps' => __( 'Next Steps' ),
+			'cb'                  => '<input type="checkbox" />',
+			'email'               => __( 'Requester' ),
+			'status'              => __( 'Status' ),
+			'requested_timestamp' => __( 'Requested' ),
+			'next_steps'          => __( 'Next Steps' ),
 		);
 		return $columns;
 	}
@@ -1043,6 +980,43 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Count number of requests for each status.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @return object Number of posts for each status.
+	 */
+	protected function get_request_counts() {
+		global $wpdb;
+
+		$cache_key = $this->post_type . '-' . $this->request_type;
+		$counts    = wp_cache_get( $cache_key, 'counts' );
+
+		if ( false !== $counts ) {
+			return $counts;
+		}
+
+		$query = "
+			SELECT post_status, COUNT( * ) AS num_posts 
+			FROM {$wpdb->posts} 
+			WHERE post_type = %s
+			AND post_title = %s
+			GROUP BY post_status";
+
+		$results = (array) $wpdb->get_results( $wpdb->prepare( $query, $this->post_type, $this->request_type ), ARRAY_A );
+		$counts  = array_fill_keys( get_post_stati(), 0 );
+
+		foreach ( $results as $row ) {
+			$counts[ $row['post_status'] ] = $row['num_posts'];
+		}
+
+		$counts = (object) $counts;
+		wp_cache_set( $cache_key, $counts, 'counts' );
+
+		return $counts;
+	}
+
+	/**
 	 * Get an associative array ( id => link ) with the list
 	 * of views available on this table.
 	 *
@@ -1055,7 +1029,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$statuses       = _wp_privacy_statuses();
 		$views          = array();
 		$admin_url      = admin_url( 'tools.php?page=' . $this->request_type );
-		$counts         = wp_count_posts( $this->post_type );
+		$counts         = $this->get_request_counts();
 
 		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';
 		$views['all']            = '<a href="' . esc_url( $admin_url ) . "\" $current_link_attributes>" . esc_html__( 'All' ) . ' <span class="count">(' . absint( array_sum( (array) $counts ) ) . ')</span></a>';
@@ -1090,6 +1064,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	public function process_bulk_action() {
 		$action      = $this->current_action();
 		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array(); // WPCS: input var ok, CSRF ok.
+		$count = 0;
 
 		if ( $request_ids ) {
 			check_admin_referer( 'bulk-privacy_requests' );
@@ -1097,8 +1072,6 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 
 		switch ( $action ) {
 			case 'delete':
-				$count = 0;
-
 				foreach ( $request_ids as $request_id ) {
 					if ( wp_delete_post( $request_id, true ) ) {
 						$count ++;
@@ -1113,11 +1086,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 				);
 				break;
 			case 'resend':
-				$count = 0;
-
 				foreach ( $request_ids as $request_id ) {
-					if ( _wp_privacy_resend_request( $request_id ) ) {
-						$count ++;
+					$resend = _wp_privacy_resend_request( $request_id );
+					
+					if ( $resend && ! is_wp_error( $resend ) ) {
+						$count++;
 					}
 				}
 
@@ -1151,6 +1124,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$posts_per_page = 20;
 		$args           = array(
 			'post_type'      => $this->post_type,
+			'title'          => $this->request_type,
 			'posts_per_page' => $posts_per_page,
 			'offset'         => isset( $_REQUEST['paged'] ) ? max( 0, absint( $_REQUEST['paged'] ) - 1 ) * $posts_per_page: 0,
 			'post_status'    => 'any',
@@ -1166,31 +1140,23 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 				$name_query,
 				'relation'  => 'AND',
 				array(
-					'key'     => '_user_email',
+					'key'     => '_wp_user_request_user_email',
 					'value'   => isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ): '',
-					'compare' => 'LIKE'
+					'compare' => 'LIKE',
 				),
 			);
 		}
 
-		$privacy_requests_query = new WP_Query( $args );
-		$privacy_requests       = $privacy_requests_query->posts;
+		$requests_query = new WP_Query( $args );
+		$requests       = $requests_query->posts;
 
-		foreach ( $privacy_requests as $privacy_request ) {
-			$this->items[] = array(
-				'request_id' => $privacy_request->ID,
-				'user_id'    => $privacy_request->post_author,
-				'email'      => get_post_meta( $privacy_request->ID, '_user_email', true ),
-				'action'     => get_post_meta( $privacy_request->ID, '_action_name', true ),
-				'requested'  => strtotime( $privacy_request->post_date_gmt ),
-				'confirmed'  => get_post_meta( $privacy_request->ID, '_confirmed_timestamp', true ),
-				'completed'  => get_post_meta( $privacy_request->ID, '_completed_timestamp', true ),
-			);
+		foreach ( $requests as $request ) {
+			$this->items[] = wp_get_user_request_data( $request->ID );
 		}
 
 		$this->set_pagination_args(
 			array(
-				'total_items' => $privacy_requests_query->found_posts,
+				'total_items' => $requests_query->found_posts,
 				'per_page'    => $posts_per_page,
 			)
 		);
@@ -1228,10 +1194,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 
 		switch ( $status ) {
 			case 'request-confirmed':
-				$timestamp = $item['confirmed'];
+				$timestamp = $item['confirmed_timestamp'];
 				break;
 			case 'request-completed':
-				$timestamp = $item['completed'];
+				$timestamp = $item['completed_timestamp'];
 				break;
 		}
 
@@ -1279,7 +1245,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	public function column_default( $item, $column_name ) {
 		$cell_value = $item[ $column_name ];
 
-		if ( in_array( $column_name, array( 'requested' ), true ) ) {
+		if ( in_array( $column_name, array( 'requested_timestamp' ), true ) ) {
 			return $this->get_timestamp_as_date( $cell_value );
 		}
 
@@ -1352,7 +1318,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 	 *
 	 * @var string $post_type The post type.
 	 */
-	protected $post_type = 'user_export_request';
+	protected $post_type = 'user_request';
 
 	/**
 	 * Actions column.
@@ -1437,7 +1403,7 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 	 *
 	 * @var string $post_type The post type.
 	 */
-	protected $post_type = 'user_remove_request';
+	protected $post_type = 'user_request';
 
 	/**
 	 * Actions column.

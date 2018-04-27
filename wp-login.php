@@ -427,7 +427,7 @@ if ( isset( $_GET['key'] ) ) {
 }
 
 // validate action so as to default to the login screen
-if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'verifyaccount' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
+if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
 	$action = 'login';
 }
 
@@ -858,26 +858,21 @@ switch ( $action ) {
 
 		break;
 
-	case 'verifyaccount' :
-		if ( isset( $_GET['confirm_action'], $_GET['confirm_key'], $_GET['uid'] ) ) {
-			$key         = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
-			$uid         = sanitize_text_field( wp_unslash( $_GET['uid'] ) );
-			$action_name = sanitize_key( wp_unslash( $_GET['confirm_action'] ) );
-			$result      = wp_check_account_verification_key( $key, $uid, $action_name );
+	case 'confirmaction' :
+		if ( ! isset( $_GET['request_id'] ) ) {
+			wp_die( __( 'Invalid request' ) );
+		}
+
+		$request_id = (int) $_GET['request_id'];
+
+		if ( isset( $_GET['confirm_key'] ) ) {
+			$key    = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
+			$result = wp_validate_user_request_key( $request_id, $key );
 		} else {
 			$result = new WP_Error( 'invalid_key', __( 'Invalid key' ) );
 		}
 
 		if ( is_wp_error( $result ) ) {
-			/**
-			 * Fires an action hook when the account action was not confirmed.
-			 *
-			 * After running this action hook the page will die.
-			 *
-			 * @param WP_Error $result Error object.
-			 */
-			do_action( 'account_action_failed', $result );
-
 			wp_die( $result );
 		}
 
@@ -890,17 +885,13 @@ switch ( $action ) {
 		 * After firing this action hook the page will redirect to wp-login a callback
 		 * redirects or exits first.
 		 *
-		 * @param array $result {
-		 *     Data about the action which was confirmed.
-		 *
-		 *     @type string $action Name of the action that was confirmed.
-		 *     @type string $email  Email of the user who confirmed the action.
-		 * }
+		 * @param int $request_id Request ID.
 		 */
-		do_action( 'account_action_confirmed', $result );
+		do_action( 'user_request_action_confirmed', $request_id );
 
-		$message = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
-		login_header( '', $message );
+		$message = apply_filters( 'user_request_action_confirmed_message', '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>', $request_id );
+
+		login_header( __( 'User action confirmed.' ), $message );
 		login_footer();
 		exit;
 
