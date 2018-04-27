@@ -2840,13 +2840,13 @@ function _wp_privacy_account_request_confirmed( $request_id ) {
 		return;
 	}
 
-	if ( ! in_array( $request_data['status'], array( 'request-pending', 'request-failed' ), true ) ) {
+	if ( ! in_array( $request_data->status, array( 'request-pending', 'request-failed' ), true ) ) {
 		return;
 	}
 
 	update_post_meta( $request_id, '_wp_user_request_confirmed_timestamp', time() );
 	wp_update_post( array(
-		'ID'          => $request_data['request_id'],
+		'ID'          => $request_id,
 		'post_status' => 'request-confirmed',
 	) );
 }
@@ -2862,7 +2862,7 @@ function _wp_privacy_account_request_confirmed( $request_id ) {
 function _wp_privacy_account_request_confirmed_message( $message, $request_id ) {
 	$request = wp_get_user_request_data( $request_id );
 
-	if ( $request && in_array( $request['action'], _wp_privacy_action_request_types(), true ) ) {
+	if ( $request && in_array( $request->action_name, _wp_privacy_action_request_types(), true ) ) {
 		$message = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
 		$message .= __( 'The site administrator has been notified and will fulfill your request as soon as possible.' );
 	}
@@ -2900,16 +2900,11 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 
 	// Check for duplicates.
 	$requests_query = new WP_Query( array(
-		'post_type'   => 'user_request',
-		'title'       => $action_name,
-		'post_status' => 'any',
-		'fields'      => 'ids',
-		'meta_query'  => array(
-			array(
-				'key'     => '_wp_user_request_user_email',
-				'value'   => $email_address,
-			),
-		),
+		'post_type'     => 'user_request',
+		'post_name__in' => array( $action_name ),  // Action name stored in post_name column.
+		'title'         => $email_address, // Email address stored in post_title column.
+		'post_status'   => 'any',
+		'fields'        => 'ids',
 	) );
 
 	if ( $requests_query->found_posts ) {
@@ -2918,20 +2913,14 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 
 	$request_id = wp_insert_post( array(
 		'post_author'   => $user_id,
-		'post_title'    => $action_name,
+		'post_name'     => $action_name,
+		'post_title'    => $email_address,
 		'post_content'  => wp_json_encode( $request_data ),
 		'post_status'   => 'request-pending',
 		'post_type'     => 'user_request',
 		'post_date'     => current_time( 'mysql', false ),
 		'post_date_gmt' => current_time( 'mysql', true ),
 	), true );
-
-	if ( is_wp_error( $request_id ) ) {
-		return $request_id;
-	}
-
-	update_post_meta( $request_id, '_wp_user_request_user_email', $email_address );
-	update_post_meta( $request_id, '_wp_user_request_confirmed_timestamp', false );
 
 	return $request_id;
 }
@@ -2963,7 +2952,7 @@ function wp_user_request_action_description( $action_name ) {
 	 *
 	 * @param string $description The default description.
 	 * @param string $action_name The name of the request.
-	 */	 	 	 	
+	 */
 	return apply_filters( 'user_request_action_description', $description, $action_name );
 }
 
@@ -2979,25 +2968,15 @@ function wp_user_request_action_description( $action_name ) {
  */
 function wp_send_user_request( $request_id ) {
 	$request_id = absint( $request_id );
-	$request    = get_post( $request_id );
+	$request    = wp_get_user_request_data( $request_id );
 
-	if ( ! $request || 'user_request' !== $request->post_type ) {
+	if ( ! $request ) {
 		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
 	}
 
-	if ( 'request-pending' !== $request->post_status ) {
-		wp_update_post( array(
-			'ID'            => $request_id,
-			'post_status'   => 'request-pending',
-			'post_date'     => current_time( 'mysql', false ),
-			'post_date_gmt' => current_time( 'mysql', true ),
-		) );
-	}
-
 	$email_data = array(
-		'action_name' => $request->post_title,
-		'email'       => get_post_meta( $request->ID, '_wp_user_request_user_email', true ),
-		'description' => wp_user_request_action_description( $request->post_title ),
+		'email'       => $request->email,
+		'description' => wp_user_request_action_description( $request->action_name ),
 		'confirm_url' => add_query_arg( array(
 			'action'      => 'confirmaction',
 			'request_id'  => $request_id,
@@ -3045,12 +3024,12 @@ All at ###SITENAME###
 	 * @param array  $email_data {
 	 *     Data relating to the account action email.
 	 *
-	 *     @type string $action_name Name of the action being performed.
-	 *     @type string $email       The email address this is being sent to.
-	 *     @type string $description Description of the action being performed so the user knows what the email is for.
-	 *     @type string $confirm_url The link to click on to confirm the account action.
-	 *     @type string $sitename    The site name sending the mail.
-	 *     @type string $siteurl     The site URL sending the mail.
+	 *     @type WP_User_Request $request User request object.
+	 *     @type string          $email       The email address this is being sent to.
+	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
+	 *     @type string          $confirm_url The link to click on to confirm the account action.
+	 *     @type string          $sitename    The site name sending the mail.
+	 *     @type string          $siteurl     The site URL sending the mail.
 	 * }
 	 */
 	$content = apply_filters( 'user_request_action_email_content', $email_text, $email_data );
@@ -3066,7 +3045,7 @@ All at ###SITENAME###
 }
 
 /**
- * Returns a confirmation key for a user action and stores the hashed version.
+ * Returns a confirmation key for a user action and stores the hashed version for future comparison.
  *
  * @since 4.9.6
  *
@@ -3085,8 +3064,13 @@ function wp_generate_user_request_key( $request_id ) {
 		$wp_hasher = new PasswordHash( 8, true );
 	}
 
-	update_post_meta( $request_id, '_wp_user_request_confirm_key', $wp_hasher->HashPassword( $key ) );
-	update_post_meta( $request_id, '_wp_user_request_confirm_key_timestamp', time() );
+	wp_update_post( array(
+		'ID'                => $request_id,
+		'post_status'       => 'request-pending',
+		'post_password'     => $wp_hasher->HashPassword( $key ),
+		'post_modified'     => current_time( 'mysql', false ),
+		'post_modified_gmt' => current_time( 'mysql', true ),
+	) );
 
 	return $key;
 }
@@ -3110,7 +3094,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
 	}
 
-	if ( ! in_array( $request['status'], array( 'request-pending', 'request-failed' ), true ) ) {
+	if ( ! in_array( $request->status, array( 'request-pending', 'request-failed' ), true ) ) {
 		return __( 'This link has expired.' );
 	}
 
@@ -3123,8 +3107,8 @@ function wp_validate_user_request_key( $request_id, $key ) {
 		$wp_hasher = new PasswordHash( 8, true );
 	}
 
-	$key_request_time = $request['confirm_key_timestamp'];
-	$saved_key        = $request['confirm_key'];
+	$key_request_time = $request->modified_timestamp;
+	$saved_key        = $request->confirm_key;
 
 	if ( ! $saved_key ) {
 		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
@@ -3165,23 +3149,119 @@ function wp_validate_user_request_key( $request_id, $key ) {
  */
 function wp_get_user_request_data( $request_id ) {
 	$request_id = absint( $request_id );
-	$request    = get_post( $request_id );
+	$post       = get_post( $request_id );
 
-	if ( ! $request || 'user_request' !== $request->post_type ) {
+	if ( ! $post || 'user_request' !== $post->post_type ) {
 		return false;
 	}
 
-	return array(
-		'request_id'            => $request->ID,
-		'user_id'               => $request->post_author,
-		'email'                 => get_post_meta( $request->ID, '_wp_user_request_user_email', true ),
-		'action'                => $request->post_title,
-		'requested_timestamp'   => strtotime( $request->post_date_gmt ),
-		'confirmed_timestamp'   => get_post_meta( $request->ID, '_wp_user_request_confirmed_timestamp', true ),
-		'completed_timestamp'   => get_post_meta( $request->ID, '_wp_user_request_completed_timestamp', true ),
-		'request_data'          => json_decode( $request->post_content, true ),
-		'status'                => $request->post_status,
-		'confirm_key'           => get_post_meta( $request_id, '_wp_user_request_confirm_key', true ),
-		'confirm_key_timestamp' => get_post_meta( $request_id, '_wp_user_request_confirm_key_timestamp', true ),
-	);
+	return new WP_User_Request( $post );
+}
+
+/**
+ * WP_User_Request class.
+ *
+ * Represents user request data loaded from a WP_Post object.
+ *
+ * @since 4.9.6
+ */
+final class WP_User_Request {
+	/**
+	 * Request ID.
+	 *
+	 * @var int
+	 */
+	public $ID = 0;
+
+	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
+
+	public $user_id = 0;
+
+	/**
+	 * User email.
+	 *
+	 * @var int
+	 */
+	public $email = '';
+
+	/**
+	 * Action name.
+	 *
+	 * @var string
+	 */
+	public $action_name = '';
+
+	/**
+	 * Current status.
+	 *
+	 * @var string
+	 */
+	public $status = '';
+
+	/**
+	 * Timestamp this request was created.
+	 *
+	 * @var int|null
+	 */
+	public $created_timestamp = null;
+
+	/**
+	 * Timestamp this request was last modified.
+	 *
+	 * @var int|null
+	 */
+	public $modified_timestamp = null;
+
+	/**
+	 * Timestamp this request was confirmed.
+	 *
+	 * @var int
+	 */
+	public $confirmed_timestamp = null;
+
+	/**
+	 * Timestamp this request was completed.
+	 *
+	 * @var int
+	 */
+	public $completed_timestamp = null;
+
+	/**
+	 * Misc data assigned to this request.
+	 *
+	 * @var array
+	 */
+	public $request_data = array();
+
+	/**
+	 * Key used to confirm this request.
+	 *
+	 * @var string
+	 */
+	public $confirm_key = '';
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param WP_Post|object $post Post object.
+	 */
+	public function __construct( $post ) {
+		$this->ID                  = $post->ID;
+		$this->user_id             = $post->post_author;
+		$this->email               = $post->post_title;
+		$this->action_name         = $post->post_name;
+		$this->status              = $post->post_status;
+		$this->created_timestamp   = strtotime( $post->post_date_gmt );
+		$this->modified_timestamp  = strtotime( $post->post_modified_gmt );
+		$this->confirmed_timestamp = (int) get_post_meta( $post->ID, '_wp_user_request_confirmed_timestamp', true );
+		$this->completed_timestamp = (int) get_post_meta( $post->ID, '_wp_user_request_completed_timestamp', true );
+		$this->request_data        = json_decode( $post->post_content, true );
+		$this->confirm_key         = $post->post_password;
+	}
 }

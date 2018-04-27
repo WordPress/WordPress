@@ -4463,12 +4463,13 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	check_ajax_referer( 'wp-privacy-erase-personal-data-' . $request_id, 'security' );
 
 	// Find the request CPT
-	$request = get_post( $request_id );
-	if ( 'remove_personal_data' !== $request->post_title ) {
+	$request = wp_get_user_request_data( $request_id );
+
+	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {
 		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
 	}
 
-	$email_address = get_post_meta( $request_id, '_wp_user_request_user_email', true );
+	$email_address = $request->email;
 
 	if ( ! is_email( $email_address ) ) {
 		wp_send_json_error( __( 'Error: Invalid email address in request.' ) );
