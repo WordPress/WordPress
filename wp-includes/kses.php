@@ -31,15 +31,15 @@
  */
 
 /**
- * You can override this in a plugin.
+ * Specifies the default allowable HTML tags.
  *
- * The {@see 'wp_kses_allowed_html'} filter is more powerful and supplies context.
- *
- * `CUSTOM_TAGS` is not recommended and should be considered deprecated.
+ * Using `CUSTOM_TAGS` is not recommended and should be considered deprecated. The
+ * {@see 'wp_kses_allowed_html'} filter is more powerful and supplies context.
  *
  * @see wp_kses_allowed_html()
- *
  * @since 1.2.0
+ *
+ * @var array[]|bool Array of default allowable HTML tags, or false to use the defaults.
  */
 if ( ! defined( 'CUSTOM_TAGS' ) ) {
 	define( 'CUSTOM_TAGS', false );
@@ -51,11 +51,11 @@ global $allowedposttags, $allowedtags, $allowedentitynames;
 
 if ( ! CUSTOM_TAGS ) {
 	/**
-	 * Kses global for default allowable HTML tags.
+	 * KSES global for default allowable HTML tags.
 	 *
-	 * Can be override by using CUSTOM_TAGS constant.
+	 * Can be overridden with the `CUSTOM_TAGS` constant.
 	 *
-	 * @global array $allowedposttags
+	 * @var array[] $allowedposttags Array of default allowable HTML tags.
 	 * @since 2.0.0
 	 */
 	$allowedposttags = array(
@@ -416,9 +416,7 @@ if ( ! CUSTOM_TAGS ) {
 	);
 
 	/**
-	 * Kses allowed HTML elements.
-	 *
-	 * @global array $allowedtags
+	 * @var array[] $allowedtags Array of KSES allowed HTML elements.
 	 * @since 1.0.0
 	 */
 	$allowedtags = array(
@@ -451,6 +449,10 @@ if ( ! CUSTOM_TAGS ) {
 		'strong'     => array(),
 	);
 
+	/**
+	 * @var string[] $allowedentitynames Array of KSES allowed HTML entitity names.
+	 * @since 1.0.0
+	 */
 	$allowedentitynames = array(
 		'nbsp',
 		'iexcl',
@@ -714,24 +716,23 @@ if ( ! CUSTOM_TAGS ) {
 }
 
 /**
- * Filters content and keeps only allowable HTML elements.
+ * Filters text content and strips out disallowed HTML.
  *
  * This function makes sure that only the allowed HTML element names, attribute
- * names and attribute values plus only sane HTML entities will occur in
- * $string. You have to remove any slashes from PHP's magic quotes before you
- * call this function.
+ * names, attribute values, and HTML entities will occur in the given text string.
  *
- * The default allowed protocols are 'http', 'https', 'ftp', 'mailto', 'news',
- * 'irc', 'gopher', 'nntp', 'feed', 'telnet, 'mms', 'rtsp' and 'svn'. This
- * covers all common link protocols, except for 'javascript' which should not
- * be allowed for untrusted users.
+ * This function expects unslashed data.
+ *
+ * @see wp_kses_post() for specifically filtering post content and fields.
+ * @see wp_allowed_protocols() for the default allowed protocols in link URLs.
  *
  * @since 1.0.0
  *
- * @param string $string            Content to filter through kses
- * @param array  $allowed_html      List of allowed HTML elements
- * @param array  $allowed_protocols Optional. Allowed protocol in links.
- * @return string Filtered content with only allowed HTML elements
+ * @param string         $string            Text content to filter.
+ * @param array[]|string $allowed_html      An array of allowed HTML elements and attributes, or a
+ *                                          context name such as 'post'.
+ * @param string[]       $allowed_protocols Array of allowed URL protocols.
+ * @return string Filtered content containing only the allowed HTML.
  */
 function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 	if ( empty( $allowed_protocols ) ) {
@@ -739,20 +740,19 @@ function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 	}
 	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
 	$string = wp_kses_normalize_entities( $string );
-	$string = wp_kses_hook( $string, $allowed_html, $allowed_protocols ); // WP changed the order of these funcs and added args to wp_kses_hook
+	$string = wp_kses_hook( $string, $allowed_html, $allowed_protocols );
 	return wp_kses_split( $string, $allowed_html, $allowed_protocols );
 }
 
 /**
- * Filters one attribute only and ensures its value is allowed.
+ * Filters one HTML attribute and ensures its value is allowed.
  *
- * This function has the advantage of being more secure than esc_attr() and can
- * escape data in some situations where wp_kses() must strip the whole attribute.
+ * This function can escape data in some situations where `wp_kses()` must strip the whole attribute.
  *
  * @since 4.2.3
  *
- * @param string $string The 'whole' attribute, including name and value.
- * @param string $element The element name to which the attribute belongs.
+ * @param string $string  The 'whole' attribute, including name and value.
+ * @param string $element The HTML element name to which the attribute belongs.
  * @return string Filtered attribute.
  */
 function wp_kses_one_attr( $string, $element ) {
@@ -818,7 +818,7 @@ function wp_kses_one_attr( $string, $element ) {
 }
 
 /**
- * Return a list of allowed tags and attributes for a given context.
+ * Returns an array of allowed HTML tags and attributes for a given context.
  *
  * @since 3.5.0
  *
@@ -826,22 +826,22 @@ function wp_kses_one_attr( $string, $element ) {
  * @global array $allowedtags
  * @global array $allowedentitynames
  *
- * @param string|array $context The context for which to retrieve tags.
- *                              Allowed values are post, strip, data, entities, or
- *                              the name of a field filter such as pre_user_description.
- * @return array List of allowed tags and their allowed attributes.
+ * @param string|array $context The context for which to retrieve tags. Allowed values are 'post',
+ *                              'strip', 'data', 'entities', or the name of a field filter such as
+ *                              'pre_user_description'.
+ * @return array Array of allowed HTML tags and their allowed attributes.
  */
 function wp_kses_allowed_html( $context = '' ) {
 	global $allowedposttags, $allowedtags, $allowedentitynames;
 
 	if ( is_array( $context ) ) {
 		/**
-		 * Filters HTML elements allowed for a given context.
+		 * Filters the HTML that is allowed for a given context.
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param array  $context      Context to judge allowed tags by.
-		 * @param string $context_type Context type (explicit).
+		 * @param array[]|string $context      Context to judge allowed tags by.
+		 * @param string         $context_type Context name.
 		 */
 		return apply_filters( 'wp_kses_allowed_html', $context, 'explicit' );
 	}
@@ -874,16 +874,16 @@ function wp_kses_allowed_html( $context = '' ) {
 }
 
 /**
- * You add any kses hooks here.
+ * You add any KSES hooks here.
  *
- * There is currently only one kses WordPress hook, {@see 'pre_kses'}, and it is called here.
+ * There is currently only one KSES WordPress hook, {@see 'pre_kses'}, and it is called here.
  * All parameters are passed to the hooks and expected to receive a string.
  *
  * @since 1.0.0
  *
- * @param string $string            Content to filter through kses
- * @param array  $allowed_html      List of allowed HTML elements
- * @param array  $allowed_protocols Allowed protocol in links
+ * @param string          $string            Content to filter through KSES.
+ * @param array[]|string  $allowed_html      List of allowed HTML elements.
+ * @param string[]        $allowed_protocols Array of allowed URL protocols.
  * @return string Filtered content through {@see 'pre_kses'} hook.
  */
 function wp_kses_hook( $string, $allowed_html, $allowed_protocols ) {
@@ -892,19 +892,19 @@ function wp_kses_hook( $string, $allowed_html, $allowed_protocols ) {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param string $string            Content to run through kses.
-	 * @param array  $allowed_html      Allowed HTML elements.
-	 * @param array  $allowed_protocols Allowed protocol in links.
+	 * @param string          $string            Content to run through KSES.
+	 * @param array[]|string  $allowed_html      Allowed HTML elements.
+	 * @param string[]        $allowed_protocols Array of allowed URL protocols.
 	 */
 	return apply_filters( 'pre_kses', $string, $allowed_html, $allowed_protocols );
 }
 
 /**
- * This function returns kses' version number.
+ * Returns the version number of KSES.
  *
  * @since 1.0.0
  *
- * @return string KSES Version Number
+ * @return string KSES version number.
  */
 function wp_kses_version() {
 	return '0.2.2';
@@ -913,16 +913,16 @@ function wp_kses_version() {
 /**
  * Searches for HTML tags, no matter how malformed.
  *
- * It also matches stray ">" characters.
+ * It also matches stray `>` characters.
  *
  * @since 1.0.0
  *
  * @global array $pass_allowed_html
  * @global array $pass_allowed_protocols
  *
- * @param string $string            Content to filter
- * @param array  $allowed_html      Allowed HTML elements
- * @param array  $allowed_protocols Allowed protocols to keep
+ * @param string   $string            Content to filter.
+ * @param array    $allowed_html      Allowed HTML elements.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
  * @return string Content with fixed HTML tags
  */
 function wp_kses_split( $string, $allowed_html, $allowed_protocols ) {
@@ -933,10 +933,11 @@ function wp_kses_split( $string, $allowed_html, $allowed_protocols ) {
 }
 
 /**
- * Callback for wp_kses_split.
+ * Callback for `wp_kses_split()`.
  *
  * @since 3.1.0
  * @access private
+ * @ignore
  *
  * @global array $pass_allowed_html
  * @global array $pass_allowed_protocols
@@ -949,11 +950,11 @@ function _wp_kses_split_callback( $match ) {
 }
 
 /**
- * Callback for wp_kses_split for fixing malformed HTML tags.
+ * Callback for `wp_kses_split()` for fixing malformed HTML tags.
  *
  * This function does a lot of work. It rejects some very malformed things like
- * <:::>. It returns an empty string, if the element isn't allowed (look ma, no
- * strip_tags()!). Otherwise it splits the tag into an element and an attribute
+ * `<:::>`. It returns an empty string, if the element isn't allowed (look ma, no
+ * `strip_tags()`!). Otherwise it splits the tag into an element and an attribute
  * list.
  *
  * After the tag is split into an element and an attribute list, it is run
@@ -961,11 +962,12 @@ function _wp_kses_split_callback( $match ) {
  * completed, will be returned.
  *
  * @access private
+ * @ignore
  * @since 1.0.0
  *
- * @param string $string            Content to filter
- * @param array  $allowed_html      Allowed HTML elements
- * @param array  $allowed_protocols Allowed protocols to keep
+ * @param string   $string            Content to filter.
+ * @param array    $allowed_html      Allowed HTML elements.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
  * @return string Fixed HTML element
  */
 function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
@@ -1021,19 +1023,19 @@ function wp_kses_split2( $string, $allowed_html, $allowed_protocols ) {
 /**
  * Removes all attributes, if none are allowed for this element.
  *
- * If some are allowed it calls wp_kses_hair() to split them further, and then
- * it builds up new HTML code from the data that kses_hair() returns. It also
- * removes "<" and ">" characters, if there are any left. One more thing it does
+ * If some are allowed it calls `wp_kses_hair()` to split them further, and then
+ * it builds up new HTML code from the data that `kses_hair()` returns. It also
+ * removes `<` and `>` characters, if there are any left. One more thing it does
  * is to check if the tag has a closing XHTML slash, and if it does, it puts one
  * in the returned code as well.
  *
  * @since 1.0.0
  *
- * @param string $element           HTML element/tag
- * @param string $attr              HTML attributes from HTML element to closing HTML element tag
- * @param array  $allowed_html      Allowed HTML elements
- * @param array  $allowed_protocols Allowed protocols to keep
- * @return string Sanitized HTML element
+ * @param string   $element           HTML element/tag.
+ * @param string   $attr              HTML attributes from HTML element to closing HTML element tag.
+ * @param array    $allowed_html      Allowed HTML elements.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @return string Sanitized HTML element.
  */
 function wp_kses_attr( $element, $attr, $allowed_html, $allowed_protocols ) {
 	if ( ! is_array( $allowed_html ) ) {
@@ -1071,17 +1073,17 @@ function wp_kses_attr( $element, $attr, $allowed_html, $allowed_protocols ) {
 }
 
 /**
- * Determine whether an attribute is allowed.
+ * Determines whether an attribute is allowed.
  *
  * @since 4.2.3
  *
- * @param string $name The attribute name. Returns empty string when not allowed.
- * @param string $value The attribute value. Returns a filtered value.
- * @param string $whole The name=value input. Returns filtered input.
- * @param string $vless 'y' when attribute like "enabled", otherwise 'n'.
- * @param string $element The name of the element to which this attribute belongs.
- * @param array $allowed_html The full list of allowed elements and attributes.
- * @return bool Is the attribute allowed?
+ * @param string $name         The attribute name. Passed by reference. Returns empty string when not allowed.
+ * @param string $value        The attribute value. Passed by reference. Returns a filtered value.
+ * @param string $whole        The `name=value` input. Passed by reference. Returns filtered input.
+ * @param string $vless        Whether the attribute is valueless. Use 'y' or 'n'.
+ * @param string $element      The name of the element to which this attribute belongs.
+ * @param array  $allowed_html The full list of allowed elements and attributes.
+ * @return bool Whether or not the attribute is allowed.
  */
 function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowed_html ) {
 	$allowed_attr = $allowed_html[ strtolower( $element ) ];
@@ -1126,13 +1128,13 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
  * or apostrophes around them, to make it easier to produce HTML code that will
  * conform to W3C's HTML specification. It will also remove bad URL protocols
  * from attribute values. It also reduces duplicate attributes by using the
- * attribute defined first (foo='bar' foo='baz' will result in foo='bar').
+ * attribute defined first (`foo='bar' foo='baz'` will result in `foo='bar'`).
  *
  * @since 1.0.0
  *
- * @param string $attr              Attribute list from HTML element to closing HTML element tag
- * @param array  $allowed_protocols Allowed protocols to keep
- * @return array List of attributes after parsing
+ * @param string   $attr              Attribute list from HTML element to closing HTML element tag.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @return array[] Array of attribute information after parsing.
  */
 function wp_kses_hair( $attr, $allowed_protocols ) {
 	$attrarr  = array();
@@ -1271,12 +1273,12 @@ function wp_kses_hair( $attr, $allowed_protocols ) {
  *
  * Does not modify input.  May return "evil" output.
  *
- * Based on wp_kses_split2() and wp_kses_attr()
+ * Based on `wp_kses_split2()` and `wp_kses_attr()`.
  *
  * @since 4.2.3
  *
- * @param string $element HTML element/tag
- * @return array|bool List of attributes found in $element. Returns false on failure.
+ * @param string $element HTML element.
+ * @return array|bool List of attributes found in the element. Returns false on failure.
  */
 function wp_kses_attr_parse( $element ) {
 	$valid = preg_match( '%^(<\s*)(/\s*)?([a-zA-Z0-9]+\s*)([^>]*)(>?)$%', $element, $matches );
@@ -1322,11 +1324,11 @@ function wp_kses_attr_parse( $element ) {
  * Does not modify input.  May return "evil" output.
  * In case of unexpected input, returns false instead of stripping things.
  *
- * Based on wp_kses_hair() but does not return a multi-dimensional array.
+ * Based on `wp_kses_hair()` but does not return a multi-dimensional array.
  *
  * @since 4.2.3
  *
- * @param string $attr Attribute list from HTML element to closing HTML element tag
+ * @param string $attr Attribute list from HTML element to closing HTML element tag.
  * @return array|bool List of attributes found in $attr. Returns false on failure.
  */
 function wp_kses_hair_parse( $attr ) {
@@ -1374,16 +1376,16 @@ function wp_kses_hair_parse( $attr ) {
 /**
  * Performs different checks for attribute values.
  *
- * The currently implemented checks are "maxlen", "minlen", "maxval", "minval"
+ * The currently implemented checks are "maxlen", "minlen", "maxval", "minval",
  * and "valueless".
  *
  * @since 1.0.0
  *
- * @param string $value      Attribute value
- * @param string $vless      Whether the value is valueless. Use 'y' or 'n'
+ * @param string $value      Attribute value.
+ * @param string $vless      Whether the attribute is valueless. Use 'y' or 'n'.
  * @param string $checkname  What $checkvalue is checking for.
- * @param mixed  $checkvalue What constraint the value should pass
- * @return bool Whether check passes
+ * @param mixed  $checkvalue What constraint the value should pass.
+ * @return bool Whether check passes.
  */
 function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 	$ok = true;
@@ -1437,9 +1439,9 @@ function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 
 		case 'valueless':
 			// The valueless check makes sure if the attribute has a value
-			// (like <a href="blah">) or not (<option selected>). If the given value
+			// (like `<a href="blah">`) or not (`<option selected>`). If the given value
 			// is a "y" or a "Y", the attribute must not have a value.
-			// If the given value is an "n" or an "N", the attribute must have one.
+			// If the given value is an "n" or an "N", the attribute must have a value.
 
 			if ( strtolower( $checkvalue ) != $vless ) {
 				$ok = false;
@@ -1451,18 +1453,18 @@ function wp_kses_check_attr_val( $value, $vless, $checkname, $checkvalue ) {
 }
 
 /**
- * Sanitize string from bad protocols.
+ * Sanitizes a string and removed disallowed URL protocols.
  *
- * This function removes all non-allowed protocols from the beginning of
- * $string. It ignores whitespace and the case of the letters, and it does
- * understand HTML entities. It does its work in a while loop, so it won't be
- * fooled by a string like "javascript:javascript:alert(57)".
+ * This function removes all non-allowed protocols from the beginning of the
+ * string. It ignores whitespace and the case of the letters, and it does
+ * understand HTML entities. It does its work recursively, so it won't be
+ * fooled by a string like `javascript:javascript:alert(57)`.
  *
  * @since 1.0.0
  *
- * @param string $string            Content to filter bad protocols from
- * @param array  $allowed_protocols Allowed protocols to keep
- * @return string Filtered content
+ * @param string   $string            Content to filter bad protocols from.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @return string Filtered content.
  */
 function wp_kses_bad_protocol( $string, $allowed_protocols ) {
 	$string     = wp_kses_no_null( $string );
@@ -1481,15 +1483,15 @@ function wp_kses_bad_protocol( $string, $allowed_protocols ) {
 }
 
 /**
- * Removes any invalid control characters in $string.
+ * Removes any invalid control characters in a text string.
  *
- * Also removes any instance of the '\0' string.
+ * Also removes any instance of the `\0` string.
  *
  * @since 1.0.0
  *
- * @param string $string
- * @param array $options Set 'slash_zero' => 'keep' when '\0' is allowed. Default is 'remove'.
- * @return string
+ * @param string $string  Content to filter null characters from.
+ * @param array  $options Set 'slash_zero' => 'keep' when '\0' is allowed. Default is 'remove'.
+ * @return string Filtered content.
  */
 function wp_kses_no_null( $string, $options = null ) {
 	if ( ! isset( $options['slash_zero'] ) ) {
@@ -1507,26 +1509,25 @@ function wp_kses_no_null( $string, $options = null ) {
 /**
  * Strips slashes from in front of quotes.
  *
- * This function changes the character sequence \" to just ". It leaves all
- * other slashes alone. It's really weird, but the quoting from
- * preg_replace(//e) seems to require this.
+ * This function changes the character sequence `\"` to just `"`. It leaves all other
+ * slashes alone. The quoting from `preg_replace(//e)` requires this.
  *
  * @since 1.0.0
  *
- * @param string $string String to strip slashes
- * @return string Fixed string with quoted slashes
+ * @param string $string String to strip slashes from.
+ * @return string Fixed string with quoted slashes.
  */
 function wp_kses_stripslashes( $string ) {
 	return preg_replace( '%\\\\"%', '"', $string );
 }
 
 /**
- * Goes through an array and changes the keys to all lower case.
+ * Converts the keys of an array to lowercase.
  *
  * @since 1.0.0
  *
- * @param array $inarray Unfiltered array
- * @return array Fixed array with all lowercase keys
+ * @param array $inarray Unfiltered array.
+ * @return array Fixed array with all lowercase keys.
  */
 function wp_kses_array_lc( $inarray ) {
 	$outarray = array();
@@ -1538,14 +1539,14 @@ function wp_kses_array_lc( $inarray ) {
 		foreach ( (array) $inval as $inkey2 => $inval2 ) {
 			$outkey2                         = strtolower( $inkey2 );
 			$outarray[ $outkey ][ $outkey2 ] = $inval2;
-		} // foreach $inval
-	} // foreach $inarray
+		}
+	}
 
 	return $outarray;
 }
 
 /**
- * Handles parsing errors in wp_kses_hair().
+ * Handles parsing errors in `wp_kses_hair()`.
  *
  * The general plan is to remove everything to and including some whitespace,
  * but it deals with quotes and apostrophes as well.
@@ -1562,14 +1563,14 @@ function wp_kses_html_error( $string ) {
 /**
  * Sanitizes content from bad protocols and other characters.
  *
- * This function searches for URL protocols at the beginning of $string, while
+ * This function searches for URL protocols at the beginning of the string, while
  * handling whitespace and HTML entities.
  *
  * @since 1.0.0
  *
- * @param string $string            Content to check for bad protocols
- * @param string $allowed_protocols Allowed protocols
- * @return string Sanitized content
+ * @param string   $string            Content to check for bad protocols.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @return string Sanitized content.
  */
 function wp_kses_bad_protocol_once( $string, $allowed_protocols, $count = 1 ) {
 	$string2 = preg_split( '/:|&#0*58;|&#x0*3a;/i', $string, 2 );
@@ -1592,17 +1593,18 @@ function wp_kses_bad_protocol_once( $string, $allowed_protocols, $count = 1 ) {
 }
 
 /**
- * Callback for wp_kses_bad_protocol_once() regular expression.
+ * Callback for `wp_kses_bad_protocol_once()` regular expression.
  *
  * This function processes URL protocols, checks to see if they're in the
  * whitelist or not, and returns different data depending on the answer.
  *
  * @access private
+ * @ignore
  * @since 1.0.0
  *
- * @param string $string            URI scheme to check against the whitelist
- * @param string $allowed_protocols Allowed protocols
- * @return string Sanitized content
+ * @param string   $string            URI scheme to check against the whitelist.
+ * @param string[] $allowed_protocols Array of allowed URL protocols.
+ * @return string Sanitized content.
  */
 function wp_kses_bad_protocol_once2( $string, $allowed_protocols ) {
 	$string2 = wp_kses_decode_entities( $string );
@@ -1633,8 +1635,8 @@ function wp_kses_bad_protocol_once2( $string, $allowed_protocols ) {
  *
  * @since 1.0.0
  *
- * @param string $string Content to normalize entities
- * @return string Content with normalized entities
+ * @param string $string Content to normalize entities.
+ * @return string Content with normalized entities.
  */
 function wp_kses_normalize_entities( $string ) {
 	// Disarm all entities by converting & to &amp;
@@ -1649,7 +1651,7 @@ function wp_kses_normalize_entities( $string ) {
 }
 
 /**
- * Callback for wp_kses_normalize_entities() regular expression.
+ * Callback for `wp_kses_normalize_entities()` regular expression.
  *
  * This function only accepts valid named entity references, which are finite,
  * case-sensitive, and highly scrutinized by HTML and XML validators.
@@ -1658,8 +1660,8 @@ function wp_kses_normalize_entities( $string ) {
  *
  * @global array $allowedentitynames
  *
- * @param array $matches preg_replace_callback() matches array
- * @return string Correctly encoded entity
+ * @param array $matches preg_replace_callback() matches array.
+ * @return string Correctly encoded entity.
  */
 function wp_kses_named_entities( $matches ) {
 	global $allowedentitynames;
@@ -1673,16 +1675,17 @@ function wp_kses_named_entities( $matches ) {
 }
 
 /**
- * Callback for wp_kses_normalize_entities() regular expression.
+ * Callback for `wp_kses_normalize_entities()` regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept 16-bit
+ * This function helps `wp_kses_normalize_entities()` to only accept 16-bit
  * values and nothing more for `&#number;` entities.
  *
  * @access private
+ * @ignore
  * @since 1.0.0
  *
- * @param array $matches preg_replace_callback() matches array
- * @return string Correctly encoded entity
+ * @param array $matches `preg_replace_callback()` matches array.
+ * @return string Correctly encoded entity.
  */
 function wp_kses_normalize_entities2( $matches ) {
 	if ( empty( $matches[1] ) ) {
@@ -1701,16 +1704,17 @@ function wp_kses_normalize_entities2( $matches ) {
 }
 
 /**
- * Callback for wp_kses_normalize_entities() for regular expression.
+ * Callback for `wp_kses_normalize_entities()` for regular expression.
  *
- * This function helps wp_kses_normalize_entities() to only accept valid Unicode
+ * This function helps `wp_kses_normalize_entities()` to only accept valid Unicode
  * numeric entities in hex form.
  *
  * @since 2.7.0
  * @access private
+ * @ignore
  *
- * @param array $matches preg_replace_callback() matches array
- * @return string Correctly encoded entity
+ * @param array $matches `preg_replace_callback()` matches array.
+ * @return string Correctly encoded entity.
  */
 function wp_kses_normalize_entities3( $matches ) {
 	if ( empty( $matches[1] ) ) {
@@ -1722,12 +1726,12 @@ function wp_kses_normalize_entities3( $matches ) {
 }
 
 /**
- * Helper function to determine if a Unicode value is valid.
+ * Determines if a Unicode codepoint is valid.
  *
  * @since 2.7.0
  *
- * @param int $i Unicode value
- * @return bool True if the value was a valid Unicode number
+ * @param int $i Unicode codepoint.
+ * @return bool Whether or not the codepoint is a valid Unicode codepoint.
  */
 function valid_unicode( $i ) {
 	return ( $i == 0x9 || $i == 0xa || $i == 0xd ||
@@ -1737,16 +1741,16 @@ function valid_unicode( $i ) {
 }
 
 /**
- * Convert all entities to their character counterparts.
+ * Converts all numeric HTML entities to their named counterparts.
  *
  * This function decodes numeric HTML entities (`&#65;` and `&#x41;`).
- * It doesn't do anything with other entities like &auml;, but we don't
+ * It doesn't do anything with named entities like `&auml;`, but we don't
  * need them in the URL protocol whitelisting system anyway.
  *
  * @since 1.0.0
  *
- * @param string $string Content to change entities
- * @return string Content after decoded entities
+ * @param string $string Content to change entities.
+ * @return string Content after decoded entities.
  */
 function wp_kses_decode_entities( $string ) {
 	$string = preg_replace_callback( '/&#([0-9]+);/', '_wp_kses_decode_entities_chr', $string );
@@ -1756,9 +1760,11 @@ function wp_kses_decode_entities( $string ) {
 }
 
 /**
- * Regex callback for wp_kses_decode_entities()
+ * Regex callback for `wp_kses_decode_entities()`.
  *
  * @since 2.9.0
+ * @access private
+ * @ignore
  *
  * @param array $match preg match
  * @return string
@@ -1768,9 +1774,11 @@ function _wp_kses_decode_entities_chr( $match ) {
 }
 
 /**
- * Regex callback for wp_kses_decode_entities()
+ * Regex callback for `wp_kses_decode_entities()`.
  *
  * @since 2.9.0
+ * @access private
+ * @ignore
  *
  * @param array $match preg match
  * @return string
@@ -1780,38 +1788,44 @@ function _wp_kses_decode_entities_chr_hexdec( $match ) {
 }
 
 /**
- * Sanitize content with allowed HTML Kses rules.
+ * Sanitize content with allowed HTML KSES rules.
+ *
+ * This function expects slashed data.
  *
  * @since 1.0.0
  *
- * @param string $data Content to filter, expected to be escaped with slashes
- * @return string Filtered content
+ * @param string $data Content to filter, expected to be escaped with slashes.
+ * @return string Filtered content.
  */
 function wp_filter_kses( $data ) {
 	return addslashes( wp_kses( stripslashes( $data ), current_filter() ) );
 }
 
 /**
- * Sanitize content with allowed HTML Kses rules.
+ * Sanitize content with allowed HTML KSES rules.
+ *
+ * This function expects unslashed data.
  *
  * @since 2.9.0
  *
- * @param string $data Content to filter, expected to not be escaped
- * @return string Filtered content
+ * @param string $data Content to filter, expected to not be escaped.
+ * @return string Filtered content.
  */
 function wp_kses_data( $data ) {
 	return wp_kses( $data, current_filter() );
 }
 
 /**
- * Sanitize content for allowed HTML tags for post content.
+ * Sanitizes content for allowed HTML tags for post content.
  *
- * Post content refers to the page contents of the 'post' type and not $_POST
+ * Post content refers to the page contents of the 'post' type and not `$_POST`
  * data from forms.
+ *
+ * This function expects slashed data.
  *
  * @since 2.0.0
  *
- * @param string $data Post content to filter, expected to be escaped with slashes
+ * @param string $data Post content to filter, expected to be escaped with slashes.
  * @return string Filtered post content with allowed HTML tags and attributes intact.
  */
 function wp_filter_post_kses( $data ) {
@@ -1819,14 +1833,16 @@ function wp_filter_post_kses( $data ) {
 }
 
 /**
- * Sanitize content for allowed HTML tags for post content.
+ * Sanitizes content for allowed HTML tags for post content.
  *
- * Post content refers to the page contents of the 'post' type and not $_POST
+ * Post content refers to the page contents of the 'post' type and not `$_POST`
  * data from forms.
+ *
+ * This function expects unslashed data.
  *
  * @since 2.9.0
  *
- * @param string $data Post content to filter
+ * @param string $data Post content to filter.
  * @return string Filtered post content with allowed HTML tags and attributes intact.
  */
 function wp_kses_post( $data ) {
@@ -1849,24 +1865,26 @@ function wp_kses_post_deep( $data ) {
 }
 
 /**
- * Strips all of the HTML in the content.
+ * Strips all HTML from a text string.
+ *
+ * This function expects slashed data.
  *
  * @since 2.1.0
  *
- * @param string $data Content to strip all HTML from
- * @return string Filtered content without any HTML
+ * @param string $data Content to strip all HTML from.
+ * @return string Filtered content without any HTML.
  */
 function wp_filter_nohtml_kses( $data ) {
 	return addslashes( wp_kses( stripslashes( $data ), 'strip' ) );
 }
 
 /**
- * Adds all Kses input form content filters.
+ * Adds all KSES input form content filters.
  *
- * All hooks have default priority. The wp_filter_kses() function is added to
+ * All hooks have default priority. The `wp_filter_kses()` function is added to
  * the 'pre_comment_content' and 'title_save_pre' hooks.
  *
- * The wp_filter_post_kses() function is added to the 'content_save_pre',
+ * The `wp_filter_post_kses()` function is added to the 'content_save_pre',
  * 'excerpt_save_pre', and 'content_filtered_save_pre' hooks.
  *
  * @since 2.0.0
@@ -1889,13 +1907,13 @@ function kses_init_filters() {
 }
 
 /**
- * Removes all Kses input form content filters.
+ * Removes all KSES input form content filters.
  *
- * A quick procedural method to removing all of the filters that kses uses for
+ * A quick procedural method to removing all of the filters that KSES uses for
  * content in WordPress Loop.
  *
- * Does not remove the kses_init() function from {@see 'init'} hook (priority is
- * default). Also does not remove kses_init() function from {@see 'set_current_user'}
+ * Does not remove the `kses_init()` function from {@see 'init'} hook (priority is
+ * default). Also does not remove `kses_init()` function from {@see 'set_current_user'}
  * hook (priority is also default).
  *
  * @since 2.0.6
@@ -1915,15 +1933,11 @@ function kses_remove_filters() {
 }
 
 /**
- * Sets up most of the Kses filters for input form content.
+ * Sets up most of the KSES filters for input form content.
  *
- * If you remove the kses_init() function from {@see 'init'} hook and
- * {@see 'set_current_user'} (priority is default), then none of the Kses filter hooks
- * will be added.
- *
- * First removes all of the Kses filters in case the current user does not need
- * to have Kses filter the content. If the user does not have unfiltered_html
- * capability, then Kses filters are added.
+ * First removes all of the KSES filters in case the current user does not need
+ * to have KSES filter the content. If the user does not have `unfiltered_html`
+ * capability, then KSES filters are added.
  *
  * @since 2.0.0
  */
@@ -1936,13 +1950,13 @@ function kses_init() {
 }
 
 /**
- * Inline CSS filter
+ * Filters an inline style attribute and removes disallowed rules.
  *
  * @since 2.8.1
  *
  * @param string $css        A string of CSS rules.
  * @param string $deprecated Not used.
- * @return string            Filtered string of CSS rules.
+ * @return string Filtered string of CSS rules.
  */
 function safecss_filter_attr( $css, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
@@ -1966,7 +1980,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 4.6.0 Added support for `list-style-type`.
 	 * @since 5.0.0 Added support for `text-transform`.
 	 *
-	 * @param array $attr List of allowed CSS attributes.
+	 * @param string[] $attr Array of allowed CSS attributes.
 	 */
 	$allowed_attr = apply_filters(
 		'safe_style_css', array(
@@ -2077,6 +2091,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
  *
  * @since 3.5.0
  * @access private
+ * @ignore
  *
  * @param array $value An array of attributes.
  * @return array The array of attributes with global attributes added.
