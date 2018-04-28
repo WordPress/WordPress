@@ -2950,6 +2950,8 @@ function wp_user_request_action_description( $action_name ) {
 	/**
 	 * Filters the user action description.
 	 *
+	 * @since 4.9.6
+	 *
 	 * @param string $description The default description.
 	 * @param string $action_name The name of the request.
 	 */
