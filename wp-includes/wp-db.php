@@ -1848,7 +1848,8 @@ class wpdb {
 	 * @since 0.71
 	 *
 	 * @param string $query Database query
-	 * @return int|false Number of rows affected/selected or false on error
+	 * @return int|bool Boolean true for CREATE, ALTER, TRUNCATE and DROP queries. Number of rows
+	 *                  affected/selected for all other queries. Boolean false on error.
 	 */
 	public function query( $query ) {
 		if ( ! $this->ready ) {
