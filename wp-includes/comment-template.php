@@ -2491,7 +2491,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				 * @since 4.2.0
 				 *
 				 * @param string $submit_button HTML markup for the submit button.
-				 * @param array  $args          Arguments passed to `comment_form()`.
+				 * @param array  $args          Arguments passed to comment_form().
 				 */
 				$submit_button = apply_filters( 'comment_form_submit_button', $submit_button, $args );
 
