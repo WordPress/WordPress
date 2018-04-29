@@ -584,12 +584,20 @@ function install_plugin_information() {
 				<li>
 					<strong><?php _e( 'Requires WordPress Version:' ); ?></strong>
 					<?php
-					/* translators: %s: WordPress version */
+					/* translators: %s: version number */
 					printf( __( '%s or higher' ), $api->requires );
 					?>
 				</li>
 			<?php } if ( ! empty( $api->tested ) ) { ?>
 				<li><strong><?php _e( 'Compatible up to:' ); ?></strong> <?php echo $api->tested; ?></li>
+			<?php } if ( ! empty( $api->requires_php ) ) { ?>
+				<li>
+					<strong><?php _e( 'Requires PHP Version:' ); ?></strong>
+					<?php
+					/* translators: %s: version number */
+					printf( __( '%s or higher' ), $api->requires_php );
+					?>
+				</li>
 			<?php } if ( isset( $api->active_installs ) ) { ?>
 				<li><strong><?php _e( 'Active Installations:' ); ?></strong> <?php
 					if ( $api->active_installs >= 1000000 ) {
