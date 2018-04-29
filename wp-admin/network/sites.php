@@ -357,7 +357,7 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <?php echo $msg; ?>
 
-<form method="get" id="ms-search">
+<form method="get" id="ms-search" class="wp-clearfix">
 <?php $wp_list_table->search_box( __( 'Search Sites' ), 'site' ); ?>
 <input type="hidden" name="action" value="blogs" />
 </form>

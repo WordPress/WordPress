@@ -610,15 +610,9 @@ th.asc a:focus span.sorting-indicator {
 	visibility: visible;
 }
 
-/* Bulk Actions */
-.tablenav-pages a,
-.tablenav-pages-navspan {
-	font-weight: 600;
-	padding: 0 2px;
-}
-
 .tablenav-pages .current-page {
 	margin: 0 0 0 2px;
+	padding-top: 5px;
 	padding-bottom: 5px;
 	font-size: 13px;
 	text-align: center;
@@ -630,12 +624,6 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav #table-paging {
 	margin-right: 2px;
-}
-
-.tablenav a.button,
-.tablenav a.button-secondary {
-	display: block;
-	margin: 3px 0 0 8px;
 }
 
 .tablenav {
@@ -651,10 +639,7 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav .tablenav-pages {
 	float: left;
-	height: 28px;
-	margin-top: 3px;
-	cursor: default;
-	color: #555;
+	margin: 3px 0 9px;
 }
 
 .tablenav .no-pages,
@@ -662,39 +647,17 @@ th.asc a:focus span.sorting-indicator {
 	display: none;
 }
 
-.tablenav .tablenav-pages a,
-.tablenav-pages span.current  {
-	text-decoration: none;
-	padding: 3px 6px;
-}
-
-.tablenav .tablenav-pages a,
-.tablenav-pages-navspan {
+.tablenav .tablenav-pages .button,
+.tablenav .tablenav-pages .tablenav-pages-navspan {
 	display: inline-block;
-	min-width: 17px;
-	border: 1px solid #ccc; /* same color as buttons border */
-	padding: 3px 5px 7px;
-	background: #e5e5e5;
+	vertical-align: baseline;
+	min-width: 28px;
+	min-height: 28px;
+	margin: 0;
+	padding: 0 4px;
 	font-size: 16px;
-	line-height: 1;
-	font-weight: 400;
+	line-height: 1.5;
 	text-align: center;
-}
-
-.tablenav-pages-navspan {
-	height: 16px;
-	border-color: #ddd; /* same as disabled buttons */
-	background: #f7f7f7; /* same as disabled buttons */
-	color: #a0a5aa; /* same as disabled buttons */
-}
-
-.tablenav .tablenav-pages a:hover,
-.tablenav .tablenav-pages a:focus {
-	border-color: #5b9dd9;
-	color: #fff;
-	background: #00a0d2;
-	box-shadow: none;
-	outline: none; /* IE8 */
 }
 
 .tablenav .displaying-num {
@@ -703,8 +666,7 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav .one-page .displaying-num {
 	display: inline-block;
-	margin-top: 5px;
-	margin-left: 0;
+	margin: 5px 0;
 }
 
 .tablenav .actions {
@@ -721,24 +683,7 @@ th.asc a:focus span.sorting-indicator {
 	margin-left: 20px;
 }
 
-/* @todo: unclear if the following tablenav rules are actually used.
-classes exist in paginate_links() but not seen in list table output. */
-.tablenav .dots {
-	border-color: transparent;
-}
-
-.tablenav .next,
-.tablenav .prev {
-	border-color: transparent;
-	color: #0073aa;
-}
-
-.tablenav .next:hover,
-.tablenav .prev:hover {
-	border-color: transparent;
-	color: #00a0d2;
-}
-
+/* This view-switcher is still used on multisite. */
 .tablenav .view-switch {
 	float: left;
 	margin: 0 5px;
@@ -1717,7 +1662,6 @@ div.action-links,
 
 	.tablenav .tablenav-pages {
 		width: 100%;
-		height: auto;
 		text-align: center;
 		margin: 0 0 25px;
 	}
@@ -1739,19 +1683,19 @@ div.action-links,
 		font-size: 16px;
 	}
 
-	.tablenav-pages .pagination-links a,
-	.tablenav-pages-navspan {
-		padding: 9px 11px 12px;
+	.tablenav .tablenav-pages .button,
+	.tablenav .tablenav-pages .tablenav-pages-navspan {
+		min-width: 44px;
+		padding: 12px 8px;
 		font-size: 18px;
-	}
-
-	.tablenav-pages-navspan {
-		height: 18px;
+		line-height: 1;
 	}
 
 	.tablenav-pages .pagination-links .current-page {
-		padding: 8px 9px 9px;
+		min-width: 44px;
+		padding: 12px 6px;
 		font-size: 16px;
+		line-height: 18px;
 	}
 
 	/* WP List Table Adjustments: General */

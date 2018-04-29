@@ -84,9 +84,7 @@ input[type=radio]:checked:before {
 /* List tables */
 
 .wrap .add-new-h2:hover, /* deprecated */
-.wrap .page-title-action:hover,
-.tablenav .tablenav-pages a:hover,
-.tablenav .tablenav-pages a:focus {
+.wrap .page-title-action:hover {
 	color: $menu-text;
 	background-color: $menu-background;
 }
