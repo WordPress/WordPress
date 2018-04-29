@@ -580,7 +580,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	/**
 	 * Filters theme data before it is prepared for JavaScript.
 	 *
-	 * Passing a non-empty array will result in `wp_prepare_themes_for_js()` returning
+	 * Passing a non-empty array will result in wp_prepare_themes_for_js() returning
 	 * early with that value instead.
 	 *
 	 * @since 4.2.0
