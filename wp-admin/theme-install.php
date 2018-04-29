@@ -309,8 +309,8 @@ if ( $tab ) {
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
 			<button class="close-full-overlay"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
-			<button class="previous-theme"><span class="screen-reader-text"><?php _ex( 'Previous', 'Button label for a theme' ); ?></span></button>
-			<button class="next-theme"><span class="screen-reader-text"><?php _ex( 'Next', 'Button label for a theme' ); ?></span></button>
+			<button class="previous-theme"><span class="screen-reader-text"><?php _e( 'Previous theme' ); ?></span></button>
+			<button class="next-theme"><span class="screen-reader-text"><?php _e( 'Next theme' ); ?></span></button>
 			<# if ( data.installed ) { #>
 				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php _e( 'Activate' ); ?></a>
 			<# } else { #>
