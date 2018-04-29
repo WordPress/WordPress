@@ -1185,7 +1185,7 @@ final class WP_Theme implements ArrayAccess {
 		/**
 		 * Filters list of page templates for a theme.
 		 *
-		 * @since 5.0.0
+		 * @since 4.9.6
 		 *
 		 * @param string[]     $post_templates Array of page templates. Keys are filenames,
 		 *                                     values are translated names.
