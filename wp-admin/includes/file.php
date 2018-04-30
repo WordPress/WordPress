@@ -2122,21 +2122,41 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	fclose( $file );
 
 	// Now, generate the ZIP.
+	$error            = false;
 	$archive_filename = $file_basename . '.zip';
 	$archive_pathname = $exports_dir . $archive_filename;
 	$archive_url      = $exports_url . $archive_filename;
 
 	$zip = new ZipArchive;
+	if ( true === $zip->open( $archive_pathname, ZipArchive::CREATE ) ) {
+		if ( ! $zip->addFile( $html_report_pathname, 'index.html' ) ) {
+			$error = __( 'Unable to add data to export file.' );
+		}
 
-	if ( TRUE === $zip->open( $archive_pathname, ZipArchive::CREATE ) ) {
-		$zip->addFile( $html_report_pathname, 'index.html' );
 		$zip->close();
+
+		if ( ! $error ) {
+			/**
+			 * Fires right after all personal data has been written to the export file.
+			 *
+			 * @since 4.9.6
+			 *
+			 * @param string $archive_pathname     The full path to the export file on the filesystem.
+			 * @param string $archive_url          The URL of the archive file.
+			 * @param string $html_report_pathname The full path to the personal data report on the filesystem.
+			 */
+			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname );
+		}
 	} else {
-		wp_send_json_error( __( 'Unable to open export file (archive) for writing' ) );
+		$error = __( 'Unable to open export file (archive) for writing.' );
 	}
 
 	// And remove the HTML file.
 	unlink( $html_report_pathname );
+
+	if ( $error ) {
+		wp_send_json_error( $error );
+	}
 
 	// Save the export file in the request.
 	update_post_meta( $request_id, '_export_file_url', $archive_url );
