@@ -1639,9 +1639,10 @@ final class WP_Privacy_Policy_Content {
 		$content =
 			'<div contenteditable="false">' .
 				'<p class="wp-policy-help">' . __( 'Hello,' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'This is a template with the suggested text for your privacy policy. We have added the sections you will need, and have included a short description under eash section heading (in italics) to help you get started.' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'Please edit the content, and follow the instructions in the descriptions. Then delete the descriptions (the italics text), add any content from your plugins to the matching sections, publish your policy page, and add it to your menu.' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'If you are a company that collects more personal data from users, consider asking for a legal advice about your completed policy.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'This text template will help you to create your web site&#8217;s privacy policy.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'We have suggested the sections you will need. Under each section heading you will find a short description of what information you should provide, in italics, which will help you to get started.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'Please edit your privacy policy content, making sure to delete the descriptions, and adding any information from your themes and plugins. Once you publish your policy page, remember to add it to your navigation menu.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'It is your responsibility to write a comprehensive privacy policy, to make sure it reflects all national and international legal requirements on privacy, and to keep your policy current and accurate.' ) . '</p>' .
 				'<hr>' .
 			'</div>' .
 
@@ -1654,8 +1655,8 @@ final class WP_Privacy_Policy_Content {
 
 			'<h2>' . __( 'What personal data we collect and why we collect it' ) . '</h2>' .
 			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'In this section you should include transactional data, such as purchase information; technical data, such as information about cookies; and personal data, such as user account information.' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'You must also note any collection and retention of sensitive personal data.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'In this section you should note what personal data you collect from users and site visitors. This may include transactional data, such as purchase information; technical data, such as information about cookies; and personal data, such as user account information.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'You must also note any collection and retention of sensitive personal data, such as data concerning health.' ) . '</p>' .
 				'<p class="wp-policy-help">' . __( 'In addition to listing what personal data you collect, you need to note why you collect it. These explanations must note either the legal basis for your data collection and retention or the active consent the user has given.' ) . '</p>' .
 				'<p class="wp-policy-help">' . __( 'Personal data is not just created by a user&#8217;s interactions with your site. Personal data is also generated from technical processes such as contact forms, comments, cookies, analytics, and third party embeds.' ) . '</p>' .
 				'<p class="wp-policy-help">' . __( 'By default WprdPress does not collect any personal data about visitors, and only collects the data shown on the User Profile screen fro registered users. However some of your plugins may collect personal data, add the relevant information below.' ) . '</p>' .
@@ -1664,11 +1665,13 @@ final class WP_Privacy_Policy_Content {
 
 			'<h3>' . __( 'Contact forms' ) . '</h3>' .
 			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'In this subsection you should note what personal data is captured when someone submits a contact form and how long you keep it for. For example, you may note that you keep contact form submissions for a certain period of time for customer service purposes, but you do not use the information submitted through them for marketing purposes.' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'By default WordPress does not include a contact form. Add information from your contact form plugin here, if any.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'By default, WordPress does not include a contact form. If you use a contact form plugin, use this subsection to note what personal data is captured when someone submits a contact form, and how long you keep it. For example, you may note that you keep contact form submissions for a certain period for customer service purposes, but you do not use the information submitted through them for marketing purposes.' ) . '</p>' .
 			'</div>' .
 
 			'<h3>' . __( 'Comments' ) . '</h3>' .
+			'<div contenteditable="false">' .
+				'<p class="wp-policy-help">' . __( 'In this subsection you should note what information is captured through comments.' ) . '</p>' .
+			'</div>' .
 			'<p>' . __( 'When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&#8217;s IP address and browser user agent string to help spam detection.' ) . '</p>' .
 			'<p>' . __( 'An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available here: https://automattic.com/privacy/. After approval of your comment, your profile picture is visible to the public in the context of your comment.' ) . '</p>' .
 
@@ -1676,26 +1679,24 @@ final class WP_Privacy_Policy_Content {
 			'<div contenteditable="false">' .
 				'<p class="wp-policy-help">' . __( 'In this subsection you should list the cookies your web site uses, including those set by your plugins, social media, and analytics. We have provided the cookies which WordPress installs by default.' ) . '</p>' .
 			'</div>' .
-			'<p>' . __( 'If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are convenience cookies allowing us to recognise you as a commenter and pre-fill the comments form. They will persist for one year.' ) . '</p>' .
-			'<p>' . __( 'If you attempt to log in to our site, we will set a temporary cookie to determine if your browser accepts cookies at all. This cookie contains no personal data and is discarded when you close your browser.' ) . '</p>' .
-			'<p>' . __( 'If you have an account and you log in to this site, we will set up several cookies to save your log in information and some of your screen options. The logged-in cookies last for two days, and the screen options cookies last for a year.' ) . '</p>' .
-			'<p>' . __( 'If you select &quot;Remember Me&quot; these cookies will persist for two weeks. If you log out of your account, the log in cookies will be removed. It is important that you log out if you are using a public computer.' ) . '</p>' .
+			'<p>' . __( 'If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.' ) . '</p>' .
+			'<p>' . __( 'If you have an account and you log in to this site, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.' ) . '</p>' .
+			'<p>' . __( 'When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed.' ) . '</p>' .
 			'<p>' . __( 'If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day.' ) . '</p>' .
 
 			'<h3>' . __( 'Embedded content from other websites' ) . '</h3>' .
-			'<p>' . __( 'Embeds are pieces from other websites that are shown on our website. They behave in the exact same way as if the visitor has visited the other website.' ) . '</p>' .
-			'<p>' . __( 'Articles on this site may include embedded content from other websites (e.g. videos, images, articles, etc.).' ) . '</p>' .
-			'<p>' . __( 'These websites may collect data about you, use cookies, embed additional third party tracking, and monitor your interaction with that embedded content, including tracing your interaction with the embedded content if you have an account and are logged in to that website.' ) . '</p>' .
+			'<p>' . __( 'Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.' ) . '</p>' .
+			'<p>' . __( 'These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracing your interaction with the embedded content if you have an account and are logged in to that website.' ) . '</p>' .
 
 			'<h3>' . __( 'Analytics' ) . '</h3>' .
 			'<div contenteditable="false">' .
 				'<p class="wp-policy-help">' . __( 'In this subsection you should note what analytics package you use, how users can opt out of analytics tracking, and a link to information on how your analytics provider conforms to European data protection law.' ) . '</p>' .
-				'<p class="wp-policy-help">' . __( 'By default WordPress does not collect any analytics data. However many web hosting accounts collect some anonymous analytics data. You may also have installed a WordPress plugin that provides analytics services. In that case, add information from that plugin here.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'By default WordPress does not collect any analytics data. However, many web hosting accounts collect some anonymous analytics data. You may also have installed a WordPress plugin that provides analytics services. In that case, add information from that plugin here.' ) . '</p>' .
 			'</div>' .
 
 			'<h2>' . __( 'Who we share your data with' ) . '</h2>' .
 			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'In this section you should name and list all third party providers with whom you share site data, including partners, SAAS, payment processors, and third party service providers, and note what data you share with them and why. Link to their own privacy notices if possible.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'In this section you should name and list all third party providers with whom you share site data, including partners, cloud-based services, payment processors, and third party service providers, and note what data you share with them and why. Link to their own privacy notices if possible.' ) . '</p>' .
 				'<p class="wp-policy-help">' . __( 'By default WordPress does not share any personal data with anybody.' ) . '</p>' .
 			'</div>' .
 
@@ -1703,20 +1704,21 @@ final class WP_Privacy_Policy_Content {
 			'<div contenteditable="false">' .
 				'<p class="wp-policy-help">' . __( 'In this section you should explain how long you retain personal data collected or processed by the web site. While it is your responsibility to come up with the schedule of how long you keep each dataset for and why you keep it, that information does need to be listed here. For example, you may want to say that you keep contact form entries for six months, analytics records for a year, and customer purchase records for ten years.' ) . '</p>' .
 			'</div>' .
-			'<p>' . __( 'For visitors that leave comments: indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.' ) . '</p>' .
-			'<p>' . __( 'For users that register on our website (if any), we also store the data they provide in their profile. All registered users can see, edit or delete their data at any time except they cannot change their username.' ) . '</p>' .
+			'<p>' . __( 'If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.' ) . '</p>' .
+			'<p>' . __( 'For users that register on our website (if any), we also store the personal information they provide in their user profile. All users can see, edit or delete their personal information at any time except they cannot change their username. Web site administrators can also see and edit that information.' ) . '</p>' .
 
 			'<h2>' . __( 'What rights you have over your data' ) . '</h2>' .
-			'<p>' . __( 'If you are a registered user or have left comments on our site you can request to see or download the data we have about you.' ) . '</p>' .
-			'<p>' . __( 'Typically for visitors that have left comments the data will be their email address, any IP addresses assigned to them at the time of leaving the comments and the user agent strings of the browsers they used. The rest of the data is public as published by the visitors.' ) . '</p>' .
-			'<p>' . __( 'You can also request &quot;to be forgotten&quot; and we will erase any personally identifiable data we have about you, typically a year after it was published. Of course this excludes data we need for administrative or security purposes or if we are required by law to retain some of the data.' ) . '</p>' .
+			'<div contenteditable="false">' .
+				'<p class="wp-policy-help">' . __( 'In this section you should explain what rights your users have over their data and how they can invoke those rights.' ) . '</p>' .
+			'</div>' .
+			'<p>' . __( 'If you have an account on this site, or have left comments, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we delete any personal data we hold about you. This does not include any data we are obliged to keep for administrative, legal, or security purposes.' ) . '</p>' .
 
 			'<h2>' . __( 'Where we send your data' ) . '</h2>' .
 			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'In this section you should list all transfers of your site data outside the European Union and describe the means by which that data is safeguarded to European data protection standards. This could include your web hosting, cloud storage, SAAS accounts, or other third party services.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'In this section you should list all transfers of your site data outside the European Union and describe the means by which that data is safeguarded to European data protection standards. This could include your web hosting, cloud storage, or other third party services.' ) . '</p>' .
 				'<p class="wp-policy-help">' . __( 'European data protection law requires data about European residents which is transferred outside the European Union to be safeguarded to the same standards as if the data was in Europe. So in addition to listing where data goes, you should describe how you ensure that these standards are met either by yourself or by your third party providers, whether that is through an agreement such as Privacy Shield, model clauses in your contracts, or binding corporate rules.' ) . '</p>' .
 			'</div>' .
-			'<p>' . __( 'For visitors that leave comments we may send the data to a spam detection service.' ) . '</p>' .
+			'<p>' . __( 'Visitor comments may be checked through an automated spam detection service. This may be located abroad.' ) . '</p>' .
 
 			'<h2>' . __( 'Your contact information' ) . '</h2>' .
 			'<div contenteditable="false">' .
@@ -1725,7 +1727,7 @@ final class WP_Privacy_Policy_Content {
 
 			'<h2>' . __( 'Additional information' ) . '</h2>' .
 			'<div contenteditable="false">' .
-				'<p class="wp-policy-help">' . __( 'If this is your business website and your business engages in more complex collection or processing of personal data, you should note the following information in your privacy notice in addition to the information we have already discussed.' ) . '</p>' .
+				'<p class="wp-policy-help">' . __( 'If you use your site for commercial purposes and you engage in more complex collection or processing of personal data, you should note the following information in your privacy notice in addition to the information we have already discussed.</p>' ) . '</p>' .
 			'</div>' .
 
 			'<h3>' . __( 'How we protect your data' ) . '</h3>' .
@@ -1748,7 +1750,10 @@ final class WP_Privacy_Policy_Content {
 				'<p class="wp-policy-help">' . __( 'If your web site provides a service which includes automated decision making - for example, allowing customers to apply for credit, or aggregating their data into an advertising profile - you must note that this is taking place, and include information about how that information is used, what decisions are made with that aggregated data, and what rights users have over decisions made without human intervention.' ) . '</p>' .
 			'</div>' .
 
-			'<h3>' . __( 'Industry regulatory disclosure requirements' ) . '</h3>';
+			'<h3>' . __( 'Industry regulatory disclosure requirements' ) . '</h3>' .
+			'<div contenteditable="false">' .
+				'<p class="wp-policy-help">' . __( 'If you are a member of a regulated industry, or if you are subject to additional privacy laws, you may be required to disclose that information here.' ) . '</p>' .
+			'</div>';
 
 		// End of the suggested policy text.
 
