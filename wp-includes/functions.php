@@ -6257,3 +6257,51 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
 function _wp_privacy_active_plugins_change() {
 	update_option( '_wp_privacy_text_change_check', 'check' );
 }
+
+/**
+ * Schedule a `WP_Cron` job to delete expired export files.
+ *
+ * @since 4.9.6
+ */
+function wp_schedule_delete_old_privacy_export_files() {
+	if ( ! wp_next_scheduled( 'wp_privacy_delete_old_export_files' ) ) {
+		wp_schedule_event( time(), 'hourly', 'wp_privacy_delete_old_export_files' );
+	}
+}
+
+/**
+ * Cleans up export files older than three days old.
+ *
+ * The export files are stored in `wp-content/uploads`, and are therefore publicly
+ * accessible. A CSPRN is appended to the filename to mitigate the risk of an
+ * unauthorized person downloading the file, but it is still possible. Deleting
+ * the file after the data subject has had a chance to delete it adds an additional
+ * layer of protection.
+ *
+ * @since 4.9.6
+ */
+function wp_privacy_delete_old_export_files() {
+	$upload_dir   = wp_upload_dir();
+	$exports_dir  = trailingslashit( $upload_dir['basedir'] . '/exports' );
+	$export_files = list_files( $exports_dir, 100, array( 'index.html' ) );
+
+	/**
+	 * Filters the lifetime, in seconds, of a personal data export file.
+	 *
+	 * By default, the lifetime is 3 days. Once the file reaches that age, it will automatically
+	 * be deleted by a cron job.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param int $expiration The expiration age of the export, in seconds.
+	 */
+	$expiration = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
+
+	foreach ( (array) $export_files as $export_file ) {
+		$file_age_in_seconds = time() - filemtime( $export_file );
+
+		if ( $expiration < $file_age_in_seconds ) {
+			unlink( $export_file );
+		}
+	}
+}
