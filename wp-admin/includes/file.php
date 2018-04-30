@@ -2042,7 +2042,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 
 	$stripped_email       = str_replace( '@', '-at-', $email_address );
 	$stripped_email       = sanitize_title( $stripped_email ); // slugify the email address
-	$obscura              = md5( rand() );
+	$obscura              = wp_generate_password( 32, false, false );
 	$file_basename        = 'wp-personal-data-file-' . $stripped_email . '-' . $obscura;
 	$html_report_filename = $file_basename . '.html';
 	$html_report_pathname = $exports_dir . $html_report_filename;
