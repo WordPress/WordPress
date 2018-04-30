@@ -53,6 +53,12 @@ if ( ! $credits ) {
 
 echo '<p class="about-description">' . __( 'WordPress is created by a worldwide team of passionate individuals.' ) . "</p>\n";
 
+echo '<p>' . sprintf(
+	/* translators: %s: https://make.wordpress.org/ */
+	__( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
+	__( 'https://make.wordpress.org/' )
+) . '</p>';
+
 foreach ( $credits['groups'] as $group_slug => $group_data ) {
 	if ( $group_data['name'] ) {
 		if ( 'Translators' == $group_data['name'] ) {
@@ -104,16 +110,6 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 }
 
 ?>
-<p class="clear">
-<?php
-	/* translators: %s: https://make.wordpress.org/ */
-	printf(
-		__( 'Want to see your name in lights on this page? <a href="%s">Get involved in WordPress</a>.' ),
-		__( 'https://make.wordpress.org/' )
-	);
-?>
-</p>
-
 </div>
 </div>
 <?php
