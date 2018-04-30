@@ -155,6 +155,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			'capabilities' => $post_type->cap,
 			'description'  => $post_type->description,
 			'hierarchical' => $post_type->hierarchical,
+			'viewable'     => is_post_type_viewable( $post_type ),
 			'labels'       => $post_type->labels,
 			'name'         => $post_type->label,
 			'slug'         => $post_type->name,
@@ -221,6 +222,12 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'description'  => __( 'Whether or not the post type should have children.' ),
 					'type'         => 'boolean',
 					'context'      => array( 'view', 'edit' ),
+					'readonly'     => true,
+				),
+				'viewable'         => array(
+					'description'  => __( 'Whether or not the post type can be viewed.' ),
+					'type'         => 'boolean',
+					'context'      => array( 'edit' ),
 					'readonly'     => true,
 				),
 				'labels'           => array(
