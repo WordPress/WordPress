@@ -59,7 +59,7 @@ function wpmu_signup_stylesheet() {
 	<style type="text/css">
 		.mu_register { width: 90%; margin:0 auto; }
 		.mu_register form { margin-top: 2em; }
-		.mu_register .error { font-weight:700; padding:10px; color:#333333; background:#FFEBE8; border:1px solid #CC0000; }
+		.mu_register .error { font-weight: 600; padding: 10px; color: #333333; background: #FFEBE8; border: 1px solid #CC0000; }
 		.mu_register input[type="submit"],
 			.mu_register #blog_title,
 			.mu_register #user_email,
@@ -67,10 +67,10 @@ function wpmu_signup_stylesheet() {
 			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }
 		.mu_register #site-language { display: block; }
 		.mu_register .prefix_address,
-			.mu_register .suffix_address {font-size: 18px;display:inline; }
-		.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
+			.mu_register .suffix_address { font-size: 18px; display:inline; }
+		.mu_register label { font-weight: 600; font-size: 15px; display: block; margin: 10px 0; }
 		.mu_register label.checkbox { display:inline; }
-		.mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
+		.mu_register .mu_alert { font-weight: 600; padding: 10px; color: #333333; background: #ffffe0; border: 1px solid #e6db55; }
 	</style>
 	<?php
 }
