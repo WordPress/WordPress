@@ -505,3 +505,21 @@ endif;
 if ( ! function_exists( 'spl_autoload_register' ) ) {
 	require_once ABSPATH . WPINC . '/spl-autoload-compat.php';
 }
+
+if ( ! function_exists( 'is_countable' ) ) {
+	/**
+	 * Polyfill for is_countable() function added in PHP 7.3.
+	 *
+	 * Verify that the content of a variable is an array or an object
+	 * implementing Countable.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param mixed $var The value to check.
+	 *
+	 * @return bool True if `$var` is countable, false otherwise.
+	 */
+	function is_countable( $var ) {
+		return ( is_array( $var ) || $var instanceof Countable );
+	}
+}
