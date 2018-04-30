@@ -36,11 +36,17 @@ if ( ! empty( $action ) ) {
 			'updated'
 		);
 	} elseif ( 'create-privacy-page' === $action ) {
+		if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/misc.php' );
+		}
+
+		$privacy_policy_page_content = WP_Privacy_Policy_Content::get_default_content();
 		$privacy_policy_page_id = wp_insert_post(
 			array(
-				'post_title'  => __( 'Privacy Policy' ),
-				'post_status' => 'draft',
-				'post_type'   => 'page',
+				'post_title'   => __( 'Privacy Policy' ),
+				'post_status'  => 'draft',
+				'post_type'    => 'page',
+				'post_content' => $privacy_policy_page_content,
 			),
 			true
 		);

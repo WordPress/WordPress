@@ -749,6 +749,17 @@ span.wp-media-buttons-icon:before {
 	display: inline;
 }
 
+#privacy-text-box .policy-text h2 {
+	margin: 1.2em 0 1em;
+	padding: 0;
+}
+
+p.wp-policy-help {
+	font-size: 0.85em;
+	color: #555;
+	font-style: italic;
+	font-weight: 600;
+}
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
