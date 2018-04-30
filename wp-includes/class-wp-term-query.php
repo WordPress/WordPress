@@ -678,7 +678,7 @@ class WP_Term_Query {
 		$cache        = wp_cache_get( $cache_key, 'terms' );
 		if ( false !== $cache ) {
 			if ( 'all' === $_fields ) {
-				$cache = array_map( 'get_term', $cache );
+				$cache = $this->populate_terms( $cache );
 			}
 
 			$this->terms = $cache;
@@ -810,7 +810,7 @@ class WP_Term_Query {
 		wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
 
 		if ( 'all' === $_fields || 'all_with_object_id' === $_fields ) {
-			$terms = array_map( 'get_term', $terms );
+			$terms = $this->populate_terms( $terms );
 		}
 
 		$this->terms = $terms;
@@ -971,5 +971,32 @@ class WP_Term_Query {
 		$like = '%' . $wpdb->esc_like( $string ) . '%';
 
 		return $wpdb->prepare( '((t.name LIKE %s) OR (t.slug LIKE %s))', $like, $like );
+	}
+
+	/**
+	 * Creates an array of term objects from an array of term IDs.
+	 *
+	 * Also discards invalid term objects.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $term_ids Term IDs.
+	 * @return array
+	 */
+	protected function populate_terms( $term_ids ) {
+		$terms = array();
+
+		if ( ! is_array( $term_ids ) ) {
+			return $terms;
+		}
+
+		foreach ( $term_ids as $key => $term_id ) {
+			$term = get_term( $term_id );
+			if ( $term instanceof WP_Term ) {
+				$terms[ $key ] = $term;
+			}
+		}
+
+		return $terms;
 	}
 }
