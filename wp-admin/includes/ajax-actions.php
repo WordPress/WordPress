@@ -4334,14 +4334,18 @@ function wp_ajax_edit_theme_plugin_file() {
  * @since 4.9.6
  */
 function wp_ajax_wp_privacy_export_personal_data() {
-	$request_id  = (int) $_POST['id'];
 
-	if ( empty( $request_id ) ) {
-		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
+	if ( empty( $_POST['id'] ) ) {
+		wp_send_json_error( __( 'Missing request ID.' ) );
+	}
+	$request_id = (int) $_POST['id'];
+
+	if ( $request_id < 1 ) {
+		wp_send_json_error( __( 'Invalid request ID.' ) );
 	}
 
 	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( __( 'Error: Invalid request.' ) );
+		wp_send_json_error( __( 'Invalid request.' ) );
 	}
 
 	check_ajax_referer( 'wp-privacy-export-personal-data-' . $request_id, 'security' );
@@ -4350,17 +4354,25 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Error: Invalid request type.' ) );
+		wp_send_json_error( __( 'Invalid request type.' ) );
 	}
 
 	$email_address = $request->email;
 	if ( ! is_email( $email_address ) ) {
-		wp_send_json_error( __( 'Error: A valid email address must be given.' ) );
+		wp_send_json_error( __( 'A valid email address must be given.' ) );
 	}
 
+	if ( ! isset( $_POST['exporter'] ) ) {
+		wp_send_json_error( __( 'Missing exporter index.' ) );
+	}
 	$exporter_index = (int) $_POST['exporter'];
-	$page           = (int) $_POST['page'];
-	$send_as_email  = isset( $_POST['sendAsEmail'] ) ? ( "true" === $_POST['sendAsEmail'] ) : false;
+
+	if ( ! isset( $_POST['page'] ) ) {
+		wp_send_json_error( __( 'Missing page index.' ) );
+	}
+	$page = (int) $_POST['page'];
+
+	$send_as_email = isset( $_POST['sendAsEmail'] ) ? ( 'true' === $_POST['sendAsEmail'] ) : false;
 
 	/**
 	 * Filters the array of exporter callbacks.
@@ -4369,49 +4381,65 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 *
 	 * @param array $args {
 	 *     An array of callable exporters of personal data. Default empty array.
-	 *     [
-	 *         callback               string  Callable exporter that accepts an email address and
-	 *                                        a page and returns an array of name => value
-	 *                                        pairs of personal data.
-	 *         exporter_friendly_name string  Translated user facing friendly name for the exporter.
-	 *     ]
+	 *
+	 *     @type array {
+	 *         Array of personal data exporters.
+	 *
+	 *         @type string $callback               Callable exporter function that accepts an
+	 *                                              email address and a page and returns an array
+	 *                                              of name => value pairs of personal data.
+	 *         @type string $exporter_friendly_name Translated user facing friendly name for the
+	 *                                              exporter.
+	 *     }
 	 * }
 	 */
 	$exporters = apply_filters( 'wp_privacy_personal_data_exporters', array() );
 
 	if ( ! is_array( $exporters ) ) {
-		wp_send_json_error( 'An exporter has improperly used the registration filter.' );
+		wp_send_json_error( __( 'An exporter has improperly used the registration filter.' ) );
 	}
 
 	// Do we have any registered exporters?
 	if ( 0 < count( $exporters ) ) {
 		if ( $exporter_index < 1 ) {
-			wp_send_json_error( 'Exporter index cannot be negative.' );
+			wp_send_json_error( __( 'Exporter index cannot be negative.' ) );
 		}
 
 		if ( $exporter_index > count( $exporters ) ) {
-			wp_send_json_error( 'Exporter index out of range.' );
+			wp_send_json_error( __( 'Exporter index out of range.' ) );
 		}
 
 		$index = $exporter_index - 1;
 
 		if ( $page < 1 ) {
-			wp_send_json_error( 'Page index cannot be less than one.' );
+			wp_send_json_error( __( 'Page index cannot be less than one.' ) );
 		}
 
 		$exporter = $exporters[ $index ];
 
 		if ( ! is_array( $exporter ) ) {
-			wp_send_json_error( "Expected an array describing the exporter at index {$exporter_index}." );
+			wp_send_json_error(
+				/* translators: %d: array index */
+				sprintf( __( 'Expected an array describing the exporter at index %d.' ), $exporter_index )
+			);
 		}
 		if ( ! array_key_exists( 'exporter_friendly_name', $exporter ) ) {
-			wp_send_json_error( "Exporter array at index {$exporter_index} does not include a friendly name." );
+			wp_send_json_error(
+				/* translators: %d: array index */
+				sprintf( __( 'Exporter array at index %d does not include a friendly name.' ), $exporter_index )
+			);
 		}
 		if ( ! array_key_exists( 'callback', $exporter ) ) {
-			wp_send_json_error( "Exporter does not include a callback: {$exporter['exporter_friendly_name']}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Exporter does not include a callback: %s.' ), esc_html( $exporter['exporter_friendly_name'] ) )
+			);
 		}
 		if ( ! is_callable( $exporter['callback'] ) ) {
-			wp_send_json_error( "Exporter callback is not a valid callback: {$exporter['exporter_friendly_name']}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Exporter callback is not a valid callback: %s.' ), esc_html( $exporter['exporter_friendly_name'] ) )
+			);
 		}
 
 		$callback = $exporters[ $index ]['callback'];
@@ -4423,16 +4451,28 @@ function wp_ajax_wp_privacy_export_personal_data() {
 		}
 
 		if ( ! is_array( $response ) ) {
-			wp_send_json_error( "Expected response as an array from exporter: {$exporter_friendly_name}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Expected response as an array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
+			);
 		}
 		if ( ! array_key_exists( 'data', $response ) ) {
-			wp_send_json_error( "Expected data in response array from exporter: {$exporter_friendly_name}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Expected data in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
+			);
 		}
 		if ( ! is_array( $response['data'] ) ) {
-			wp_send_json_error( "Expected data array in response array from exporter: {$exporter_friendly_name}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Expected data array in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
+			);
 		}
 		if ( ! array_key_exists( 'done', $response ) ) {
-			wp_send_json_error( "Expected done (boolean) in response array from exporter: {$exporter_friendly_name}." );
+			wp_send_json_error(
+				/* translators: %s: exporter friendly name */
+				sprintf( __( 'Expected done (boolean) in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
+			);
 		}
 	} else {
 		// No exporters, so we're done.
@@ -4452,7 +4492,7 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 * @param array  $response        The personal data for the given exporter and page.
 	 * @param int    $exporter_index  The index of the exporter that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
-	 * @param int    $page            The zero-based page for this response.
+	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
 	 */
@@ -4471,14 +4511,19 @@ function wp_ajax_wp_privacy_export_personal_data() {
  * @since 4.9.6
  */
 function wp_ajax_wp_privacy_erase_personal_data() {
-	$request_id  = (int) $_POST['id'];
 
-	if ( empty( $request_id ) ) {
-		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
+	if ( empty( $_POST['id'] ) ) {
+		wp_send_json_error( __( 'Missing request ID.' ) );
+	}
+
+	$request_id = (int) $_POST['id'];
+
+	if ( $request_id < 1 ) {
+		wp_send_json_error( __( 'Invalid request ID.' ) );
 	}
 
 	if ( ! current_user_can( 'delete_users' ) ) {
-		wp_send_json_error( __( 'Error: Invalid request.' ) );
+		wp_send_json_error( __( 'Invalid request.' ) );
 	}
 
 	check_ajax_referer( 'wp-privacy-erase-personal-data-' . $request_id, 'security' );
@@ -4487,17 +4532,26 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'remove_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Error: Invalid request ID.' ) );
+		wp_send_json_error( __( 'Invalid request ID.' ) );
 	}
 
 	$email_address = $request->email;
 
 	if ( ! is_email( $email_address ) ) {
-		wp_send_json_error( __( 'Error: Invalid email address in request.' ) );
+		wp_send_json_error( __( 'Invalid email address in request.' ) );
+	}
+
+	if ( ! isset( $_POST['eraser'] ) ) {
+		wp_send_json_error( __( 'Missing eraser index.' ) );
 	}
 
 	$eraser_index = (int) $_POST['eraser'];
-	$page         = (int) $_POST['page'];
+
+	if ( ! isset( $_POST['page'] ) ) {
+		wp_send_json_error( __( 'Missing page index.' ) );
+	}
+
+	$page = (int) $_POST['page'];
 
 	/**
 	 * Filters the array of personal data eraser callbacks.
@@ -4506,71 +4560,63 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 *
 	 * @param array $args {
 	 *     An array of callable erasers of personal data. Default empty array.
-	 *     [
-	 *         callback             string Callable eraser that accepts an email address and
-	 *                                     a page and returns an array with the number of items
-	 *                                     removed, the number of items retained and any messages
-	 *                                     from the eraser, as well as if additional pages are
-	 *                                     available.
-	 *         eraser_friendly_name string Translated user facing friendly name for the eraser.
-	 *     ]
+	 *     @type array {
+	 *         Array of personal data exporters.
+	 *
+	 *         @type string $callback               Callable eraser that accepts an email address and
+	 *                                              a page and returns an array with the number of items
+	 *                                              removed, the number of items retained and any messages
+	 *                                              from the eraser, as well as if additional pages are
+	 *                                              available.
+	 *         @type string $exporter_friendly_name Translated user facing friendly name for the eraser.
+	 *     }
 	 * }
 	 */
 	$erasers = apply_filters( 'wp_privacy_personal_data_erasers', array() );
 
 	// Do we have any registered erasers?
 	if ( 0 < count( $erasers ) ) {
+
 		if ( $eraser_index < 1 ) {
-			wp_send_json_error( __( 'Error: Eraser index cannot be less than one.' ) );
+			wp_send_json_error( __( 'Eraser index cannot be less than one.' ) );
 		}
 
 		if ( $eraser_index > count( $erasers ) ) {
-			wp_send_json_error( __( 'Error: Eraser index is out of range.' ) );
+			wp_send_json_error( __( 'Eraser index is out of range.' ) );
 		}
 
 		if ( $page < 1 ) {
-			wp_send_json_error( __( 'Error: Page index cannot be less than one.' ) );
+			wp_send_json_error( __( 'Page index cannot be less than one.' ) );
 		}
 
-		$index = $eraser_index - 1; // Convert to zero based for eraser index
+		$index  = $eraser_index - 1; // Convert to zero based for eraser index.
 		$eraser = $erasers[ $index ];
+
 		if ( ! is_array( $eraser ) ) {
-			wp_send_json_error(
-				sprintf(
-					__( 'Error: Expected an array describing the eraser at index %d.' ),
-					$eraser_index
-				)
-			);
-		}
-		if ( ! array_key_exists( 'callback', $eraser ) ) {
-			wp_send_json_error(
-				sprintf(
-					__( 'Error: Eraser array at index %d does not include a callback.' ),
-					$eraser_index
-				)
-			);
-		}
-		if ( ! is_callable( $eraser['callback'] ) ) {
-			wp_send_json_error(
-				sprintf(
-					__( 'Error: Eraser callback at index %d is not a valid callback.' ),
-					$eraser_index
-				)
-			);
-		}
-		if ( ! array_key_exists( 'eraser_friendly_name', $eraser ) ) {
-			wp_send_json_error(
-				sprintf(
-					__( 'Error: Eraser array at index %d does not include a friendly name.' ),
-					$eraser_index
-				)
-			);
+			/* translators: %d: array index */
+			wp_send_json_error( sprintf( __( 'Expected an array describing the eraser at index %d.' ), $eraser_index ) );
 		}
 
-		$callback = $erasers[ $index ]['callback'];
+		if ( ! array_key_exists( 'callback', $eraser ) ) {
+			/* translators: %d: array index */
+			wp_send_json_error( sprintf( __( 'Eraser array at index %d does not include a callback.' ), $eraser_index ) );
+		}
+
+		if ( ! is_callable( $eraser['callback'] ) ) {
+			/* translators: %d: array index */
+			wp_send_json_error( sprintf( __( 'Eraser callback at index %d is not a valid callback.' ), $eraser_index ) );
+		}
+
+		if ( ! array_key_exists( 'eraser_friendly_name', $eraser ) ) {
+			/* translators: %d: array index */
+			wp_send_json_error( sprintf( __( 'Eraser array at index %d does not include a friendly name.' ), $eraser_index ) );
+		}
+
+		$callback             = $erasers[ $index ]['callback'];
 		$eraser_friendly_name = $erasers[ $index ]['eraser_friendly_name'];
 
 		$response = call_user_func( $callback, $email_address, $page );
+
 		if ( is_wp_error( $response ) ) {
 			wp_send_json_error( $response );
 		}
@@ -4578,64 +4624,75 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_array( $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Did not receive array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Did not receive array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
+
 		if ( ! array_key_exists( 'num_items_removed', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Expected num_items_removed key in response array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Expected num_items_removed key in response array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
+
 		if ( ! array_key_exists( 'num_items_retained', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Expected num_items_retained key in response array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Expected num_items_retained key in response array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
+
 		if ( ! array_key_exists( 'messages', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Expected messages key in response array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Expected messages key in response array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
+
 		if ( ! is_array( $response['messages'] ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Expected messages key to reference an array in response array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Expected messages key to reference an array in response array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
+
 		if ( ! array_key_exists( 'done', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					__( 'Error: Expected done flag in response array from %s eraser (index %d).' ),
-					$eraser_friendly_name,
+					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					__( 'Expected done flag in response array from %1$s eraser (index %2$d).' ),
+					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
 	} else {
-		// No erasers, so we're done
+		// No erasers, so we're done.
 		$response = array(
-			'num_items_removed' => 0,
+			'num_items_removed'  => 0,
 			'num_items_retained' => 0,
-			'messages' => array(),
-			'done' => true,
+			'messages'           => array(),
+			'done'               => true,
 		);
 	}
 
@@ -4649,10 +4706,11 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 * @param array  $response        The personal data for the given exporter and page.
 	 * @param int    $exporter_index  The index of the exporter that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
-	 * @param int    $page            The zero-based page for this response.
+	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 */
 	$response = apply_filters( 'wp_privacy_personal_data_erasure_page', $response, $eraser_index, $email_address, $page, $request_id );
+
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( $response );
 	}
