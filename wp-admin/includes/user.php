@@ -1264,7 +1264,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_email( $item ) {
-		return sprintf( '%1$s %2$s', $item->email, $this->row_actions( array() ) );
+		return sprintf( '<a href="%1$s">%2$s</a> %3$s', esc_url( 'mailto:' . $item->email ), $item->email, $this->row_actions( array() ) );
 	}
 
 	/**
@@ -1354,7 +1354,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 			'download_data' => $download_data_markup,
 		);
 
-		return sprintf( '%1$s %2$s', $item->email, $this->row_actions( $row_actions ) );
+		return sprintf( '<a href="%1$s">%2$s</a> %3$s', esc_url( 'mailto:' . $item->email ), $item->email, $this->row_actions( $row_actions ) );
 	}
 
 	/**
@@ -1466,7 +1466,7 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 			);
 		}
 
-		return sprintf( '%1$s %2$s', $item->email, $this->row_actions( $row_actions ) );
+		return sprintf( '<a href="%1$s">%2$s</a> %3$s', esc_url( 'mailto:' . $item->email ), $item->email, $this->row_actions( $row_actions ) );
 	}
 
 	/**
