@@ -6281,6 +6281,8 @@ function wp_schedule_delete_old_privacy_export_files() {
  * @since 4.9.6
  */
 function wp_privacy_delete_old_export_files() {
+	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
 	$upload_dir   = wp_upload_dir();
 	$exports_dir  = trailingslashit( $upload_dir['basedir'] . '/exports' );
 	$export_files = list_files( $exports_dir, 100, array( 'index.html' ) );
