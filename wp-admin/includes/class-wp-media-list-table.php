@@ -134,7 +134,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		$type_links['mine'] = sprintf(
 			'<option value="mine"%s>%s</option>',
 			selected( 'mine' === $filter, true, false ),
-			__( 'Mine' )
+			_x( 'Mine', 'media items' )
 		);
 
 		return $type_links;
