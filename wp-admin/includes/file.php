@@ -1976,9 +1976,15 @@ function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
 		$group_html .= '<tbody>';
 
 		foreach ( (array) $group_item_data as $group_item_datum ) {
+			$value = $group_item_datum['value'];
+			// If it looks like a link, make it a link
+			if ( false === strpos( $value, ' ' ) && ( 0 === strpos( $value, 'http://' ) || 0 === strpos( $value, 'https://' ) ) ) {
+				$value = '<a href="' . esc_url( $value ) . '">' . esc_html( $value ) . '</a>';
+			}
+
 			$group_html .= '<tr>';
 			$group_html .= '<th>' . esc_html( $group_item_datum['name'] ) . '</th>';
-			$group_html .= '<td>' . wp_kses( $group_item_datum['value'], $allowed_tags, $allowed_protocols ) . '</td>';
+			$group_html .= '<td>' . wp_kses( $value, $allowed_tags, $allowed_protocols ) . '</td>';
 			$group_html .= '</tr>';
 		}
 
