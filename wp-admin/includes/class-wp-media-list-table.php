@@ -121,7 +121,14 @@ class WP_Media_List_Table extends WP_List_Table {
 				$label[0]
 			);
 		}
+
 		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . __( 'Unattached' ) . '</option>';
+
+		$type_links['mine'] = sprintf(
+			'<option value="mine"%s>%s</option>',
+			selected( 'mine' === $filter, true, false ),
+			_x( 'Mine', 'media items' )
+		);
 
 		if ( $this->is_trash || ( defined( 'MEDIA_TRASH' ) && MEDIA_TRASH ) ) {
 			$type_links['trash'] = sprintf(
@@ -130,12 +137,6 @@ class WP_Media_List_Table extends WP_List_Table {
 				_x( 'Trash', 'attachment filter' )
 			);
 		}
-
-		$type_links['mine'] = sprintf(
-			'<option value="mine"%s>%s</option>',
-			selected( 'mine' === $filter, true, false ),
-			_x( 'Mine', 'media items' )
-		);
 
 		return $type_links;
 	}
