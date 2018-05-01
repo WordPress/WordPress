@@ -130,6 +130,13 @@ class WP_Media_List_Table extends WP_List_Table {
 				_x( 'Trash', 'attachment filter' )
 			);
 		}
+
+		$type_links['mine'] = sprintf(
+			'<option value="mine"%s>%s</option>',
+			selected( 'mine' === $filter, true, false ),
+			__( 'Mine' )
+		);
+
 		return $type_links;
 	}
 

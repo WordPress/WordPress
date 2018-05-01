@@ -2627,6 +2627,7 @@ function wp_ajax_query_attachments() {
 		'paged',
 		'post_mime_type',
 		'post_parent',
+		'author',
 		'post__in',
 		'post__not_in',
 		'year',
