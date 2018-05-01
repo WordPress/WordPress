@@ -3281,7 +3281,7 @@ function wp_handle_comment_submission( $comment_data ) {
  *
  * @since 4.9.6
  *
- * @param  array $exporters An array of personal data exporters.
+ * @param array $exporters An array of personal data exporters.
  * @return array $exporters An array of personal data exporters.
  */
 function wp_register_comment_personal_data_exporter( $exporters ) {
@@ -3298,12 +3298,11 @@ function wp_register_comment_personal_data_exporter( $exporters ) {
  *
  * @since 4.9.6
  *
- * @param  string $email_address The comment author email address.
- * @param  int    $page          Comment page.
- * @return array  $return        An array of personal data.
+ * @param string $email_address The comment author email address.
+ * @param int    $page          Comment page.
+ * @return array $return An array of personal data.
  */
 function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
-
 	// Limit us to 500 comments at a time to avoid timing out.
 	$number = 500;
 	$page   = (int) $page;
@@ -3312,11 +3311,12 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 
 	$comments = get_comments(
 		array(
-			'author_email' => $email_address,
-			'number'       => $number,
-			'paged'        => $page,
-			'order_by'     => 'comment_ID',
-			'order'        => 'ASC',
+			'author_email'              => $email_address,
+			'number'                    => $number,
+			'paged'                     => $page,
+			'order_by'                  => 'comment_ID',
+			'order'                     => 'ASC',
+			'update_comment_meta_cache' => false,
 		)
 	);
 
@@ -3325,7 +3325,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 		'comment_author_email' => __( 'Comment Author Email' ),
 		'comment_author_url'   => __( 'Comment Author URL' ),
 		'comment_author_IP'    => __( 'Comment Author IP' ),
-		'comment_agent'        => __( 'Comment Agent' ),
+		'comment_agent'        => __( 'Comment Author User Agent' ),
 		'comment_date'         => __( 'Comment Date' ),
 		'comment_content'      => __( 'Comment Content' ),
 		'comment_link'         => __( 'Comment URL' ),
@@ -3344,7 +3344,7 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 				case 'comment_author_IP':
 				case 'comment_agent':
 				case 'comment_date':
-					$value = $comment->$key;
+					$value = $comment->{$key};
 					break;
 
 				case 'comment_content':
