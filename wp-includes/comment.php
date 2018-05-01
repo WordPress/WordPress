@@ -3412,17 +3412,18 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 
 	if ( empty( $email_address ) ) {
 		return array(
-			'num_items_removed'  => 0,
-			'num_items_retained' => 0,
-			'messages'           => array(),
-			'done'               => true,
+			'items_removed'  => false,
+			'items_retained' => false,
+			'messages'       => array(),
+			'done'           => true,
 		);
 	}
 
 	// Limit us to 500 comments at a time to avoid timing out.
-	$number            = 500;
-	$page              = (int) $page;
-	$num_items_removed = 0;
+	$number         = 500;
+	$page           = (int) $page;
+	$items_removed  = false;
+	$items_retained = false;
 
 	$comments = get_comments(
 		array(
@@ -3469,6 +3470,8 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 				$messages[] = sprintf( __( 'Comment %d contains personal data but could not be anonymized.' ), $comment_id );
 			}
 
+			$items_retained = true;
+
 			continue;
 		}
 
@@ -3479,17 +3482,20 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 		$updated = $wpdb->update( $wpdb->comments, $anonymized_comment, $args );
 
 		if ( $updated ) {
-			$num_items_removed++;
+			$items_removed = true;
 			clean_comment_cache( $comment_id );
+		} else {
+			$items_retained = true;
 		}
 	}
 
 	$done = count( $comments ) < $number;
 
 	return array(
-		'num_items_removed'  => $num_items_removed,
-		'num_items_retained' => count( $comments ) - $num_items_removed,
-		'messages'           => $messages,
-		'done'               => $done,
+		'items_removed'  => $items_removed,
+		'items_retained' => $items_retained,
+		'messages'       => $messages,
+		'done'           => $done,
 	);
 }
+

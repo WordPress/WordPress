@@ -4564,8 +4564,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 *         Array of personal data exporters.
 	 *
 	 *         @type string $callback               Callable eraser that accepts an email address and
-	 *                                              a page and returns an array with the number of items
-	 *                                              removed, the number of items retained and any messages
+	 *                                              a page and returns an array with boolean values for
+	 *                                              whether items were removed or retained and any messages
 	 *                                              from the eraser, as well as if additional pages are
 	 *                                              available.
 	 *         @type string $exporter_friendly_name Translated user facing friendly name for the eraser.
@@ -4632,22 +4632,22 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 			);
 		}
 
-		if ( ! array_key_exists( 'num_items_removed', $response ) ) {
+		if ( ! array_key_exists( 'items_removed', $response ) ) {
 			wp_send_json_error(
 				sprintf(
 					/* translators: %1$s: eraser friendly name, %2$d: array index */
-					__( 'Expected num_items_removed key in response array from %1$s eraser (index %2$d).' ),
+					__( 'Expected items_removed key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
 			);
 		}
 
-		if ( ! array_key_exists( 'num_items_retained', $response ) ) {
+		if ( ! array_key_exists( 'items_retained', $response ) ) {
 			wp_send_json_error(
 				sprintf(
 					/* translators: %1$s: eraser friendly name, %2$d: array index */
-					__( 'Expected num_items_retained key in response array from %1$s eraser (index %2$d).' ),
+					__( 'Expected items_retained key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
 				)
@@ -4689,10 +4689,10 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	} else {
 		// No erasers, so we're done.
 		$response = array(
-			'num_items_removed'  => 0,
-			'num_items_retained' => 0,
-			'messages'           => array(),
-			'done'               => true,
+			'items_removed'  => false,
+			'items_retained' => false,
+			'messages'       => array(),
+			'done'           => true,
 		);
 	}
 

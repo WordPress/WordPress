@@ -141,8 +141,8 @@ jQuery( document ).ready( function( $ ) {
 		var nonce         = $action.data( 'nonce' );
 		var erasersCount  = $action.data( 'erasers-count' );
 
-		var removedCount  = 0;
-		var retainedCount = 0;
+		var hasRemoved    = false;
+		var hasRetained   = false;
 		var messages      = [];
 
 		$action.blur();
@@ -152,15 +152,15 @@ jQuery( document ).ready( function( $ ) {
 			set_action_state( $action, 'remove_personal_data_idle' );
 			var summaryMessage = strings.noDataFound;
 			var classes = 'notice-success';
-			if ( 0 === removedCount ) {
-				if ( 0 === retainedCount ) {
+			if ( false === hasRemoved ) {
+				if ( false === hasRetained ) {
 					summaryMessage = strings.noDataFound;
 				} else {
 					summaryMessage = strings.noneRemoved;
 					classes = 'notice-warning';
 				}
 			} else {
-				if ( 0 === retainedCount ) {
+				if ( false === hasRetained ) {
 					summaryMessage = strings.foundAndRemoved;
 				} else {
 					summaryMessage = strings.someNotRemoved;
@@ -192,11 +192,11 @@ jQuery( document ).ready( function( $ ) {
 					return;
 				}
 				var responseData = response.data;
-				if ( responseData.num_items_removed ) {
-					removedCount += responseData.num_items_removed;
+				if ( responseData.items_removed ) {
+					hasRemoved = hasRemoved || responseData.items_removed;
 				}
-				if ( responseData.num_items_retained ) {
-					retainedCount += responseData.num_items_removed;
+				if ( responseData.items_retained ) {
+					hasRetained = hasRetained || responseData.items_retained;
 				}
 				if ( responseData.messages ) {
 					messages = messages.concat( responseData.messages );
