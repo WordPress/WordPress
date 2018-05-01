@@ -752,7 +752,7 @@ function _wp_personal_data_handle_actions() {
 						add_settings_error(
 							'username_or_email_to_export',
 							'username_or_email_to_export',
-							__( 'Unable to add export request. A valid email address or username must be supplied.' ),
+							__( 'Unable to add this request. A valid email address or username must be supplied.' ),
 							'error'
 						);
 					} else {
@@ -939,13 +939,22 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	/**
 	 * Action name for the requests this table will work with. Classes
 	 * which inherit from WP_Privacy_Requests_Table should define this.
-	 * e.g. 'user_export_request'
+	 * e.g. 'export_personal_data'
 	 *
 	 * @since 5.0.0
 	 *
 	 * @var string $request_type Name of action.
 	 */
 	protected $request_type = 'INVALID';
+
+	/**
+	 * Post type to be used.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $post_type The post type.
+	 */
+	protected $post_type = 'INVALID';
 
 	/**
 	 * Get columns to show in the list table.
@@ -1000,7 +1009,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$statuses       = _wp_privacy_statuses();
 		$views          = array();
 		$admin_url      = admin_url( 'tools.php?page=' . $this->request_type );
-		$counts         = wp_count_posts( $this->request_type );
+		$counts         = wp_count_posts( $this->post_type );
 
 		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';
 		$views['all']            = '<a href="' . esc_url( $admin_url ) . "\" $current_link_attributes>" . esc_html__( 'All' ) . ' (' . absint( array_sum( (array) $counts ) ) . ')</a>';
@@ -1095,7 +1104,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$this->items    = array();
 		$posts_per_page = 20;
 		$args           = array(
-			'post_type'      => $this->request_type,
+			'post_type'      => $this->post_type,
 			'posts_per_page' => $posts_per_page,
 			'offset'         => isset( $_REQUEST['paged'] ) ? max( 0, absint( $_REQUEST['paged'] ) - 1 ) * $posts_per_page: 0,
 			'post_status'    => 'any',
@@ -1282,15 +1291,22 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
  */
 class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 	/**
-	 * Action name for the requests this table will work with. Classes
-	 * which inherit from WP_Privacy_Requests_Table should define this.
-	 * e.g. 'user_export_request'
+	 * Action name for the requests this table will work with.
 	 *
 	 * @since 5.0.0
 	 *
 	 * @var string $request_type Name of action.
 	 */
-	protected $request_type = 'user_export_request';
+	protected $request_type = 'export_personal_data';
+
+	/**
+	 * Post type for the requests.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $post_type The post type.
+	 */
+	protected $post_type = 'user_export_request';
 
 	/**
 	 * Actions column.
@@ -1345,15 +1361,22 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
  */
 class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 	/**
-	 * Action name for the requests this table will work with. Classes
-	 * which inherit from WP_Privacy_Requests_Table should define this.
-	 * e.g. 'user_remove_request'
+	 * Action name for the requests this table will work with.
 	 *
 	 * @since 5.0.0
 	 *
 	 * @var string $request_type Name of action.
 	 */
-	protected $request_type = 'user_remove_request';
+	protected $request_type = 'remove_personal_data';
+
+	/**
+	 * Post type for the requests.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @var string $post_type The post type.
+	 */
+	protected $post_type = 'user_remove_request';
 
 	/**
 	 * Actions column.
