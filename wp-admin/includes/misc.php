@@ -1555,6 +1555,7 @@ final class WP_Privacy_Policy_Content {
 		$copy = __( 'Copy' );
 		$more = __( 'Read More' );
 		$less = __( 'Read Less' );
+		$folded = ( count( $content_array ) > 1 ) ? ' folded' : '';
 
 		foreach ( $content_array as $section ) {
 			$class = $meta = '';
@@ -1575,7 +1576,7 @@ final class WP_Privacy_Policy_Content {
 
 			$plugin_name = esc_html( $section['plugin_name'] );
 
-			$content .= '<div class="privacy-text-section folded' . $class . '">';
+			$content .= '<div class="privacy-text-section' . $folded . $class . '">';
 			$content .= '<h3>' . $plugin_name . '</h3>';
 
 			if ( ! empty( $meta ) ) {
