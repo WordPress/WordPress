@@ -2705,6 +2705,13 @@ footer.entry-meta {
 	margin: -10px auto 0;
 }
 
+.site-footer span[role=separator] {
+	padding: 0 0.25em 0 0.5em;
+}
+
+.site-footer span[role=separator]::before {
+	content: '\002f';
+}
 
 /**
  * 8.0 Media Queries

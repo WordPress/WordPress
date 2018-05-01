@@ -2443,6 +2443,16 @@ body.search-no-results .page-header {
 	padding: 0 0.307692308em 0 0.538461538em;
 }
 
+.site-footer span[role=separator] {
+	font-family: Montserrat, sans-serif;
+	opacity: 0.7;
+	padding: 0 0.307692308em 0 0.538461538em;
+}
+
+.site-footer span[role=separator]::before {
+	content: '\002f';
+}
+
 
 /**
  * 12.0 - Media

@@ -98,7 +98,8 @@ textarea,
 .site-footer .site-title,
 .site-footer .site-title:after,
 .widecolumn label,
-.widecolumn .mu_register label {
+.widecolumn .mu_register label,
+.site-footer span[role=separator] {
 	font-family: Arial, Tahoma, sans-serif;
 }
 
@@ -397,16 +398,6 @@ body:not(.search-results) .entry-summary .alignleft {
 
 .comment-reply-title small a {
 	float: left;
-}
-
-
-/**
- * 8.4 - Footer
- */
-
-.site-footer .site-title:after {
-	padding-right: 0.538461538em;
-	padding-left: 0.307692308em;
 }
 
 

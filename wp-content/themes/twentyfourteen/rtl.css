@@ -355,6 +355,14 @@ td {
 	margin: -1px 0 0 18px;
 }
 
+/**
+ * 8.0 Footer
+ * -----------------------------------------------------------------------------
+ */
+
+.site-info span[role=separator] {
+	padding: 0 0.5em;
+}
 
 /**
  * 9.0 Featured Content

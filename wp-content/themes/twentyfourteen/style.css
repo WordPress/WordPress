@@ -2916,6 +2916,13 @@ a.post-thumbnail:hover {
 	color: #41a62a;
 }
 
+.site-info span[role=separator] {
+	padding: 0 0.25em 0 0.5em;
+}
+
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
 
 /**
  * 9.0 Featured Content

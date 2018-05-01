@@ -2352,6 +2352,12 @@ p.comment-form-comment {
 	color: #555;
 	font-weight: bold;
 }
+#site-generator span[role=separator] {
+	padding: 0 0.25em 0 0.5em
+}
+#site-generator span[role=separator]::before {
+	content: '\007c';
+}
 
 
 /* =Responsive Structure
