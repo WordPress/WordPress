@@ -3523,6 +3523,7 @@ function wp_enqueue_media( $args = array() ) {
 		'noItemsFound'           => __( 'No items found.' ),
 		'insertIntoPost'         => $post_type_object->labels->insert_into_item,
 		'unattached'             => __( 'Unattached' ),
+		'mine'                   => _x( 'Mine', 'media items' ),
 		'trash'                  => _x( 'Trash', 'noun' ),
 		'uploadedToThisPost'     => $post_type_object->labels->uploaded_to_this_item,
 		'warnDelete'             => __( "You are about to permanently delete this item from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),

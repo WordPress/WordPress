@@ -1147,6 +1147,10 @@ function wp_edit_attachments_query_vars( $q = false ) {
 		$q['post_parent'] = 0;
 	}
 
+	if ( isset( $q['mine'] ) || ( isset( $q['attachment-filter'] ) && 'mine' == $q['attachment-filter'] ) ) {
+		$q['author'] = get_current_user_id();
+	}
+
 	// Filter query clauses to include filenames.
 	if ( isset( $q['s'] ) ) {
 		add_filter( 'posts_clauses', '_filter_query_attachment_filenames' );
