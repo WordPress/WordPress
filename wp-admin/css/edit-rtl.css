@@ -717,6 +717,7 @@ span.wp-media-buttons-icon:before {
 }
 
 .privacy-text-actions {
+	height: 32px;
 	line-height: 32px;
 	padding-bottom: 6px;
 }

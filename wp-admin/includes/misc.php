@@ -1586,15 +1586,17 @@ final class WP_Privacy_Policy_Content {
 			$content .= '<div class="policy-text" aria-expanded="false">' . $section['policy_text'] . '</div>';
 
 			$content .= '<div class="privacy-text-actions">';
-				$content .= '<button type="button" class="button-link policy-text-more">';
-					$content .= $more;
-					$content .= '<span class="screen-reader-text">' . sprintf( __( 'Expand suggested policy text section from %s.' ), $plugin_name ) . '</span>';
-				$content .= '</button>';
+				if ( $folded ) {
+					$content .= '<button type="button" class="button-link policy-text-more">';
+						$content .= $more;
+						$content .= '<span class="screen-reader-text">' . sprintf( __( 'Expand suggested policy text section from %s.' ), $plugin_name ) . '</span>';
+					$content .= '</button>';
 
-				$content .= '<button type="button" class="button-link policy-text-less">';
-					$content .= $less;
-					$content .= '<span class="screen-reader-text">' . sprintf( __( 'Collapse suggested policy text section from %s.' ), $plugin_name ) . '</span>';
-				$content .= '</button>';
+					$content .= '<button type="button" class="button-link policy-text-less">';
+						$content .= $less;
+						$content .= '<span class="screen-reader-text">' . sprintf( __( 'Collapse suggested policy text section from %s.' ), $plugin_name ) . '</span>';
+					$content .= '</button>';
+				}
 
 				if ( empty( $section['removed'] ) ) {
 					$content .= '<button type="button" class="privacy-text-copy button">';
