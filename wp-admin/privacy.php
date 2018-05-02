@@ -123,13 +123,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<p>
 		<?php _e( 'The first step towards privacy laws compliance is to have a comprehensive Privacy Policy.' ); ?>
 		<?php _e( 'If you already have a Privacy Policy page, please select it below. If not, create one.' ); ?>
-		<?php _e( 'The new policy will include the suggested privacy text.' ); ?>
 	</p>
 	<p>
-		<?php _e( 'After your Privacy Policy page is set, we suggest that you edit it.' ); ?>
-		<?php _e( 'On the edit page screen you will find additional privacy information added by your plugins.' ); ?>
-		<?php _e( 'We would also suggest reviewing your privacy policy from time to time, after a WordPress or a plugin update.' ); ?>
-		<?php _e( 'There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
+		<?php _e( 'The new page will include help and suggestions for your privacy policy.' ); ?>
+		<?php _e( 'However, it is your responsibility to use those resources correctly, to provide the information that your privacy policy requires, and to keep that information current and accurate.' ); ?>
+	</p>
+	<p>
+		<?php _e( 'After your Privacy Policy page is set, we suggest that you edit it. On the edit page screen you will find additional privacy information added by your themes and plugins.' ); ?>
+		<?php _e( 'We would also suggest reviewing your privacy policy from time to time, especially after an update. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<?php
 	if ( $privacy_policy_page_exists ) {
