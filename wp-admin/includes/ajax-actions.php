@@ -4344,7 +4344,7 @@ function wp_ajax_wp_privacy_export_personal_data() {
 		wp_send_json_error( __( 'Invalid request ID.' ) );
 	}
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! current_user_can( 'export_others_personal_data' ) ) {
 		wp_send_json_error( __( 'Invalid request.' ) );
 	}
 
@@ -4522,7 +4522,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		wp_send_json_error( __( 'Invalid request ID.' ) );
 	}
 
-	if ( ! current_user_can( 'delete_users' ) ) {
+	// Both capabilities are required to avoid confusion, see `_wp_personal_data_removal_page()`.
+	if ( ! current_user_can( 'erase_others_personal_data' ) || ! current_user_can( 'delete_users' ) ) {
 		wp_send_json_error( __( 'Invalid request.' ) );
 	}
 

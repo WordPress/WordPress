@@ -555,6 +555,10 @@ function map_meta_cap( $cap, $user_id ) {
 				$caps[] = 'update_core';
 			}
 			break;
+		case 'export_others_personal_data':
+		case 'erase_others_personal_data':
+			$caps[] = is_multisite() ? 'manage_network' : 'manage_options';
+			break;
 		default:
 			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;

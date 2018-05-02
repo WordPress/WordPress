@@ -785,8 +785,8 @@ function _wp_personal_data_cleanup_requests() {
  * @access private
  */
 function _wp_personal_data_export_page() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( esc_html__( 'Sorry, you are not allowed to manage privacy on this site.' ) );
+	if ( ! current_user_can( 'export_others_personal_data' ) ) {
+		wp_die( __( 'Sorry, you are not allowed to export personal data on this site.' ) );
 	}
 
 	_wp_personal_data_handle_actions();
@@ -850,8 +850,14 @@ function _wp_personal_data_export_page() {
  * @access private
  */
 function _wp_personal_data_removal_page() {
-	if ( ! current_user_can( 'delete_users' ) ) {
-		wp_die( esc_html__( 'Sorry, you are not allowed to manage privacy on this site.' ) );
+	/*
+	 * Require both caps in order to make it explicitly clear that delegating
+	 * erasure from network admins to single-site admins will give them the
+	 * ability to affect global users, rather than being limited to the site
+	 * that they administer.
+	 */
+	if ( ! current_user_can( 'erase_others_personal_data' ) || ! current_user_can( 'delete_users' ) ) {
+		wp_die( __( 'Sorry, you are not allowed to erase data on this site.' ) );
 	}
 
 	_wp_personal_data_handle_actions();
@@ -917,8 +923,8 @@ function _wp_personal_data_removal_page() {
  * @access private
  */
 function _wp_privacy_hook_requests_page() {
-	add_submenu_page( 'tools.php', __( 'Export Personal Data' ), __( 'Export Personal Data' ), 'manage_options', 'export_personal_data', '_wp_personal_data_export_page' );
-	add_submenu_page( 'tools.php', __( 'Remove Personal Data' ), __( 'Remove Personal Data' ), 'manage_options', 'remove_personal_data', '_wp_personal_data_removal_page' );
+	add_submenu_page( 'tools.php', __( 'Export Personal Data' ), __( 'Export Personal Data' ), 'export_others_personal_data', 'export_personal_data', '_wp_personal_data_export_page' );
+	add_submenu_page( 'tools.php', __( 'Remove Personal Data' ), __( 'Remove Personal Data' ), 'erase_others_personal_data', 'remove_personal_data', '_wp_personal_data_removal_page' );
 }
 
 // TODO: move the following classes in new files.
