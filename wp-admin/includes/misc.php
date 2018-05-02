@@ -1213,3 +1213,377 @@ All at ###SITENAME###
 		restore_previous_locale();
 	}
 }
+
+/**
+ * WP_Privacy_Policy_Content class.
+ * TODO: move this to a new file.
+ *
+ * @since 4.9.6
+ */
+final class WP_Privacy_Policy_Content {
+
+	private static $policy_content = array();
+
+	/**
+	 * Constructor
+	 *
+	 * @since 4.9.6
+	 */
+	private function __construct() {}
+
+	/**
+	 * Add privacy information to the postbox shown when editing the privacy policy.
+	 *
+	 * Intended for use from `wp_add_privacy_policy_content()`.
+	 *
+	 * $since 5.0.0
+	 *
+	 * @param string $plugin_name The plugin'as name. Will be shown in the privacy policy metabox.
+	 * @param string $policy_text The content that should appear in the site's privacy policy.
+	 */
+	public static function add( $plugin_name, $policy_text ) {
+		if ( empty( $plugin_name ) || empty( $policy_text ) ) {
+			return;
+		}
+
+		$data = array(
+			'plugin_name' => $plugin_name,
+			'policy_text' => $policy_text,
+		);
+
+		if ( ! in_array( $data, self::$policy_content, true ) ) {
+			self::$policy_content[] = $data;
+		}
+	}
+
+	/**
+	 * Quick check if any privacy info has changed.
+	 *
+	 * @since 4.9.6
+	 */
+	public static function text_change_check() {
+
+		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		// The site doesn't have a privacy policy.
+		if ( empty( $policy_page_id ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'edit_post', $policy_page_id ) ) {
+			return;
+		}
+
+		// Also run when the option doesn't exist yet.
+		if ( get_option( '_wp_privacy_text_change_check' ) === 'no-check' ) {
+			return;
+		}
+
+		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+		$new = self::$policy_content;
+
+		// Remove the extra values added to the meta.
+		foreach ( $old as $key => $data ) {
+			$old[ $key ] = array(
+				'plugin_name' => $data['plugin_name'],
+				'policy_text' => $data['policy_text'],
+			);
+		}
+
+		// The == operator (equal, not identical) was used intentionally.
+		// See http://php.net/manual/en/language.operators.array.php
+		if ( $new != $old ) {
+			// A plugin was activated or deactivated, or some policy text has changed.
+			// Show a notice on all screens in wp-admin.
+			add_action( 'admin_notices', array( 'WP_Privacy_Policy_Content', 'policy_text_changed_notice' ) );
+		} else {
+			// Stop checking.
+			update_option( '_wp_privacy_text_change_check', 'no-check' );
+		}
+	}
+
+	/**
+	 * Output an admin notice when some privacy info has changed.
+	 *
+	 * @since 4.9.6
+	 */
+	public static function policy_text_changed_notice() {
+		global $post;
+		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		?>
+		<div class="policy-text-updated notice notice-warning is-dismissible">
+			<p><?php
+
+				_e( 'The suggested privacy policy text has changed.' );
+
+				if ( empty( $post ) || $post->ID != $policy_page_id ) {
+					?>
+					<a href="<?php echo get_edit_post_link( $policy_page_id ); ?>"><?php _e( 'Edit the privacy policy.' ); ?></a>
+					<?php
+				}
+
+			?></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Stop checking for changed privacy info when the policy page is updated.
+	 *
+	 * @since 4.9.6
+	 * @access private
+	 */
+	public static function _policy_page_updated( $post_id ) {
+		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		if ( ! $policy_page_id || $policy_page_id !== (int) $post_id ) {
+			return;
+		}
+
+		// The policy page was updated.
+		// Stop checking for text changes.
+		update_option( '_wp_privacy_text_change_check', 'no-check' );
+
+		// Remove updated|removed status.
+		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+		$done = array();
+		$update_cache = false;
+
+		foreach ( $old as $old_key => $old_data ) {
+			if ( ! empty( $old_data['removed'] ) ) {
+				// Remove the old policy text.
+				$update_cache = true;
+				continue;
+			}
+
+			if ( ! empty( $old_data['updated'] ) ) {
+				// 'updated' is now 'added'.
+				$done[] = array(
+					'plugin_name' => $old_data['plugin_name'],
+					'policy_text' => $old_data['policy_text'],
+					'added'       => $old_data['updated'],
+				);
+				$update_cache = true;
+			} else {
+				$done[] = $old_data;
+			}
+		}
+
+		if ( $update_cache ) {
+			delete_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+			// Update the cache.
+			foreach ( $done as $data ) {
+				add_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content', $data );
+			}
+		}
+	}
+
+	/**
+	 * Check for updated, added or removed privacy policy information from plugins.
+	 *
+	 * Caches the current info in post_meta of the policy page.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @return array The privacy policy text/informtion added by core and plugins.
+	 */
+	public static function get_suggested_policy_text() {
+		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+		$new = self::$policy_content;
+		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+		$checked = array();
+		$time = time();
+		$update_cache = false;
+
+		// Check for no-changes and updates.
+		foreach ( $new as $new_key => $new_data ) {
+			foreach ( $old as $old_key => $old_data ) {
+				$found = false;
+
+				if ( $new_data['policy_text'] === $old_data['policy_text'] ) {
+					// Use the new plugin name in case it was changed, translated, etc.
+					if ( $old_data['plugin_name'] !== $new_data['plugin_name'] ) {
+						$old_data['plugin_name'] = $new_data['plugin_name'];
+						$update_cache = true;
+					}
+
+					// A plugin was re-activated.
+					if ( ! empty( $old_data['removed'] ) ) {
+						unset( $old_data['removed'] );
+						$old_data['added'] = $time;
+						$update_cache = true;
+					}
+
+					$checked[] = $old_data;
+					$found = true;
+				} elseif ( $new_data['plugin_name'] === $old_data['plugin_name'] ) {
+					// The info for the policy was updated.
+					$checked[] = array(
+						'plugin_name' => $new_data['plugin_name'],
+						'policy_text' => $new_data['policy_text'],
+						'updated'     => $time,
+					);
+					$found = $update_cache = true;
+				}
+
+				if ( $found ) {
+					unset( $new[ $new_key ], $old[ $old_key ] );
+					continue 2;
+				}
+			}
+		}
+
+		if ( ! empty( $new ) ) {
+			// A plugin was activated.
+			foreach ( $new as $new_data ) {
+				if ( ! empty( $new_data['plugin_name'] ) && ! empty( $new_data['policy_text'] ) ) {
+					$new_data['added'] = $time;
+					array_unshift( $checked, $new_data );
+				}
+			}
+			$update_cache = true;
+		}
+
+		if ( ! empty( $old ) ) {
+			// A plugin was deactivated.
+			foreach ( $old as $old_data ) {
+				if ( ! empty( $old_data['plugin_name'] ) && ! empty( $old_data['policy_text'] ) ) {
+					$data = array(
+						'plugin_name' => $old_data['plugin_name'],
+						'policy_text' => $old_data['policy_text'],
+						'removed'     => $time,
+					);
+					array_unshift( $checked, $data );
+				}
+			}
+			$update_cache = true;
+		}
+
+		if ( $update_cache ) {
+			delete_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+			// Update the cache.
+			foreach ( $checked as $data ) {
+				add_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content', $data );
+			}
+		}
+
+		// Stop checking for changes after the postbox has been loaded.
+		// TODO make this user removable?
+		if ( get_option( '_wp_privacy_text_change_check' ) !== 'no-check' ) {
+			update_option( '_wp_privacy_text_change_check', 'no-check' );
+		}
+
+		return $checked;
+	}
+
+	/**
+	 * Output the postbox when editing the privacy policy page
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param $post WP_Post The currently edited post.
+	 */
+	public static function privacy_policy_postbox( $post ) {
+		if ( ! ( $post instanceof WP_Post ) ) {
+			return;
+		}
+
+		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		if ( ! $policy_page_id || $policy_page_id != $post->ID ) {
+			return;
+		}
+
+		$content_array = self::get_suggested_policy_text();
+
+		$content = '';
+		$date_format = get_option( 'date_format' );
+		$copy = __( 'Copy' );
+
+		foreach ( $content_array as $section ) {
+			$class = $meta = '';
+
+			if ( ! empty( $section['removed'] ) ) {
+				$class = ' text-removed';
+				$date = date_i18n( $date_format, $section['removed'] );
+				$meta  = sprintf( __( 'Policy text removed %s.' ), $date );
+			} elseif ( ! empty( $section['updated'] ) ) {
+				$class = ' text-updated';
+				$date = date_i18n( $date_format, $section['updated'] );
+				$meta  = sprintf( __( 'Policy text last updated %s.' ), $date );
+			} elseif ( ! empty( $section['added'] ) ) {
+				$class = ' text-added';
+				$date = date_i18n( $date_format, $section['added'] );
+				$meta  = sprintf( __( 'Policy text added %s.' ), $date );
+			}
+
+			$content .= '<div class="privacy-text-section' . $class . '">';
+			$content .= '<h3>' . $section['plugin_name'] . '</h3>';
+			$content .= '<button type="button" class="privacy-text-copy-button button">';
+			$content .= $copy;
+			$content .= '<span class="screen-reader-text">' . sprintf( __( 'Copy suggested policy text from %s.' ), $section['plugin_name'] ) . '</span>';
+			$content .= '</button>';
+
+			if ( ! empty( $meta ) ) {
+				$content .= '<span class="privacy-text-meta">' . $meta . '</span>';
+			}
+
+			$content .= '<div class="policy-text">' . $section['policy_text'] . '</div>';
+			$content .= "</div>\n";
+		}
+
+		?>
+		<div id="privacy-text-box" class="privacy-text-box postbox <?php echo postbox_classes( 'privacy-text-box', 'page' ); ?>">
+			<button type="button" class="handlediv" aria-expanded="true">
+				<span class="screen-reader-text"><?php _e( 'Toggle panel: Suggested privacy policy text' ); ?></span>
+				<span class="toggle-indicator" aria-hidden="true"></span>
+			</button>
+			<div class="privacy-text-box-head hndle">
+				<h2><?php _e( 'This suggested privacy policy text comes from plugins you have installed.' ); ?></h2>
+				<p>
+					<?php _e( 'We suggest reviewing this text then copying and pasting it into your privacy policy page.' ); ?>
+					<?php _e( 'Please remember you are responsible for the policies you choose to adopt, so review the content and make any necessary edits.' ); ?>
+				</p>
+			</div>
+
+			<div class="privacy-text-box-body">
+				<?php echo $content; ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Return the default suggested privacy policy content.
+	 *
+	 * @since 4.9.6	 	 
+	 *
+	 * @return string The defauld policy content.
+	 */
+	public static function get_default_content() {
+		$content  = '<p>' . __( 'Lorem ipsum dolor sit amet consectetuer id elit enim neque est. Sodales tincidunt Nulla leo penatibus Vestibulum adipiscing est cursus Nam Vestibulum. Orci Vivamus mollis eget pretium dictumst Donec Integer auctor sociis rutrum. Mauris felis Donec neque cursus tellus odio adipiscing netus elit Donec. Vestibulum Cras ligula vitae pretium Curabitur eros Nam Lorem eros non. Sed id mauris justo tristique orci neque eleifend lacus lorem.' ) . "</p>\n";
+		$content .= '<p>' . __( 'Sed consequat Nullam et vel platea semper id mauris Nam eget. Sem neque a amet eu ipsum id dignissim neque eu pulvinar. Mauris nulla egestas et laoreet penatibus ipsum lobortis convallis congue libero. Tortor nibh pellentesque tellus odio Morbi cursus eros tincidunt tincidunt sociis. Egestas at In Donec mi dignissim Nam rutrum felis metus Maecenas. Sed tellus consectetuer.' ) . "</p>\n";
+		$content .= '<p>' . __( 'Justo orci pulvinar mauris tincidunt sed Pellentesque dis sapien tempor ligula. Dolor laoreet fames eros accumsan Integer feugiat nec augue Phasellus rutrum. Id Sed facilisi elit mus nulla at dapibus ut enim sociis. Fringilla ridiculus dui justo eu Maecenas ipsum ut aliquet magna non. Id magna adipiscing Vestibulum Curabitur vel pretium ac justo platea neque. Maecenas Donec Quisque urna interdum.' ) . "</p>\n";
+		$content .= '<p>' . __( 'Tellus sagittis leo adipiscing ante facilisis Aliquam tellus at at elit. Ut dignissim tempus eu Fusce Vestibulum at eros ante dis tempus. Sed libero orci at id ut pretium metus adipiscing justo malesuada. In tempus vitae commodo libero In neque sagittis turpis In In. Eleifend elit dis ac eros urna auctor semper quis odio pretium. Ut Aenean cursus.' ) . "</p>\n";
+
+		/**
+		 * Filters the default content suggested for inclusion in a privacy policy.
+		 *
+		 * @since 4.9.6
+		 *
+		 * @param $content string The defauld policy content.
+		 */
+		return apply_filters( 'wp_get_default_privcy_policy_content', $content );
+	}
+
+	/**
+	 * Add the suggested privacy policy text to the policy postbox.
+	 *
+	 * @since 4.9.6
+	 */
+	public static function add_suggested_content() {
+		$content = self::get_default_content();
+		wp_add_privacy_policy_content(  'WordPress', $content );
+	}
+}

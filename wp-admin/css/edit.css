@@ -646,6 +646,68 @@ span.wp-media-buttons-icon:before {
  	margin-bottom: 20px;
 }
 
+/* Sugested text for privacy policy postbox */
+.privacy-text-box {
+	margin: 10px 0 0;
+	
+}
+
+.privacy-text-box-head {
+	border-left: 4px solid #ffb900;
+	border-bottom: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	
+}
+
+.privacy-text-box .privacy-text-box-head.hndle {
+	cursor: pointer;
+}
+
+.privacy-text-box-head p {
+	padding: 0 12px 14px;
+	margin: 0;
+}
+
+.privacy-text-box-body {
+	height: 320px;
+	overflow: auto;
+	
+}
+
+#privacy-text-box .inside {
+	margin: 0;
+}
+
+.privacy-text-box h3 {
+	font-size: 1em;
+	margin: 1em 0;
+}
+
+.privacy-text-section .privacy-text-copy-button {
+	float: right;
+	margin-top: -1.8em;
+}
+
+.privacy-text-section {
+	padding: 1px 14px 1px 12px;
+	border-top: 1px solid #e3e3e3;
+	border-left: 4px solid transparent;
+}
+
+.privacy-text-section.text-updated {
+	border-left-color: #46b450;
+	background-color: #ecf7ed;
+}
+
+.privacy-text-section.text-removed {
+	border-left-color: #dc3232;
+	background-color: #fbeaea;
+}
+
+.closed .privacy-text-box-body {
+	display: none;
+}
+
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
 ------------------------------------------------------------------------------*/
