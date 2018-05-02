@@ -1132,6 +1132,10 @@ h3#reply-title {
 	font-size: 14px;
 	width: auto;
 }
+#respond #wp-comment-cookies-consent {
+	width: auto;
+	margin: 0 10px 0 0;
+}
 
 
 /* =Widget Areas

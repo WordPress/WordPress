@@ -2394,6 +2394,16 @@ body.search-no-results .page-header {
 	top: -5px;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+	font-family: Merriweather, Georgia, serif;
+	letter-spacing: 0;
+	text-transform: none;
+}
 
 /**
  * 11.5 - Sidebar

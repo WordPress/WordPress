@@ -288,6 +288,9 @@ td {
 	margin-left: 10px;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
 
 /**
  * 7.0 Sidebars

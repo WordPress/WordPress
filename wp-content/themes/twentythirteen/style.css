@@ -2391,6 +2391,10 @@ footer.entry-meta {
 	width: 100%;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
 .form-allowed-tags,
 .form-allowed-tags code {
 	color: #686758;

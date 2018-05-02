@@ -2186,6 +2186,13 @@ a.post-thumbnail:hover {
 	margin-bottom: 0;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+}
 
 /**
  * 7.0 Sidebars

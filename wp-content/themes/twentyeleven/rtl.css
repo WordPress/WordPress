@@ -103,6 +103,9 @@ input#s {
 	background-position: 97% 6px;
 	padding: 4px 28px 4px 10px;
 }
+#respond #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
 
 /* Assistive text */
 #access a.assistive-text:focus {
