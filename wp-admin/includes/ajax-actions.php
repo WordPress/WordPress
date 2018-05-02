@@ -4625,7 +4625,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_array( $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Did not receive array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4636,7 +4636,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'items_removed', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Expected items_removed key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4647,7 +4647,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'items_retained', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Expected items_retained key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4658,7 +4658,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'messages', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Expected messages key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4669,7 +4669,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_array( $response['messages'] ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Expected messages key to reference an array in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4680,7 +4680,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'done', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %1$s: eraser friendly name, %2$d: array index */
+					/* translators: 1: eraser friendly name, 2: array index */
 					__( 'Expected done flag in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
