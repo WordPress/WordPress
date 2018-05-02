@@ -2055,7 +2055,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	}
 
 	$title = sprintf(
-		// translators: %s Users e-mail address.
+		/* translators: %s: user's e-mail address */
 		__( 'Personal Data Export for %s' ),
 		$email_address
 	);
