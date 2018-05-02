@@ -659,7 +659,7 @@ function _wp_personal_data_handle_actions() {
 			add_settings_error(
 				'privacy_action_email_retry',
 				'privacy_action_email_retry',
-				__( 'Confirmation request re-resent successfully.' ),
+				__( 'Confirmation request sent again successfully.' ),
 				'updated'
 			);
 		}
