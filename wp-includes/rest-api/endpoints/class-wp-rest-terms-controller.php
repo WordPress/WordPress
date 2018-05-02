@@ -691,42 +691,42 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $item, $request ) {
 
-		$schema = $this->get_item_schema();
+		$fields = $this->get_fields_for_response( $request );
 		$data   = array();
 
-		if ( ! empty( $schema['properties']['id'] ) ) {
+		if ( in_array( 'id', $fields, true ) ) {
 			$data['id'] = (int) $item->term_id;
 		}
 
-		if ( ! empty( $schema['properties']['count'] ) ) {
+		if ( in_array( 'count', $fields, true ) ) {
 			$data['count'] = (int) $item->count;
 		}
 
-		if ( ! empty( $schema['properties']['description'] ) ) {
+		if ( in_array( 'description', $fields, true ) ) {
 			$data['description'] = $item->description;
 		}
 
-		if ( ! empty( $schema['properties']['link'] ) ) {
+		if ( in_array( 'link', $fields, true ) ) {
 			$data['link'] = get_term_link( $item );
 		}
 
-		if ( ! empty( $schema['properties']['name'] ) ) {
+		if ( in_array( 'name', $fields, true ) ) {
 			$data['name'] = $item->name;
 		}
 
-		if ( ! empty( $schema['properties']['slug'] ) ) {
+		if ( in_array( 'slug', $fields, true ) ) {
 			$data['slug'] = $item->slug;
 		}
 
-		if ( ! empty( $schema['properties']['taxonomy'] ) ) {
+		if ( in_array( 'taxonomy', $fields, true ) ) {
 			$data['taxonomy'] = $item->taxonomy;
 		}
 
-		if ( ! empty( $schema['properties']['parent'] ) ) {
+		if ( in_array( 'parent', $fields, true ) ) {
 			$data['parent'] = (int) $item->parent;
 		}
 
-		if ( ! empty( $schema['properties']['meta'] ) ) {
+		if ( in_array( 'meta', $fields, true ) ) {
 			$data['meta'] = $this->meta->get_value( $item->term_id, $request );
 		}
 

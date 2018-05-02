@@ -284,62 +284,84 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	 */
 	public function prepare_item_for_response( $post, $request ) {
 		$response = parent::prepare_item_for_response( $post, $request );
+		$fields   = $this->get_fields_for_response( $request );
 		$data     = $response->get_data();
 
-		$data['description'] = array(
-			'raw'      => $post->post_content,
+		if ( in_array( 'description', $fields, true ) ) {
+			$data['description'] = array(
+				'raw'      => $post->post_content,
+				/** This filter is documented in wp-includes/post-template.php */
+				'rendered' => apply_filters( 'the_content', $post->post_content ),
+			);
+		}
+
+		if ( in_array( 'caption', $fields, true ) ) {
 			/** This filter is documented in wp-includes/post-template.php */
-			'rendered' => apply_filters( 'the_content', $post->post_content ),
-		);
+			$caption         = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
+			$data['caption'] = array(
+				'raw'      => $post->post_excerpt,
+				'rendered' => $caption,
+			);
+		}
 
-		/** This filter is documented in wp-includes/post-template.php */
-		$caption         = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
-		$data['caption'] = array(
-			'raw'      => $post->post_excerpt,
-			'rendered' => $caption,
-		);
+		if ( in_array( 'alt_text', $fields, true ) ) {
+			$data['alt_text'] = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
+		}
 
-		$data['alt_text']      = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
-		$data['media_type']    = wp_attachment_is_image( $post->ID ) ? 'image' : 'file';
-		$data['mime_type']     = $post->post_mime_type;
-		$data['media_details'] = wp_get_attachment_metadata( $post->ID );
-		$data['post']          = ! empty( $post->post_parent ) ? (int) $post->post_parent : null;
-		$data['source_url']    = wp_get_attachment_url( $post->ID );
+		if ( in_array( 'media_type', $fields, true ) ) {
+			$data['media_type'] = wp_attachment_is_image( $post->ID ) ? 'image' : 'file';
+		}
 
-		// Ensure empty details is an empty object.
-		if ( empty( $data['media_details'] ) ) {
-			$data['media_details'] = new stdClass;
-		} elseif ( ! empty( $data['media_details']['sizes'] ) ) {
+		if ( in_array( 'mime_type', $fields, true ) ) {
+			$data['mime_type'] = $post->post_mime_type;
+		}
 
-			foreach ( $data['media_details']['sizes'] as $size => &$size_data ) {
+		if ( in_array( 'media_details', $fields, true ) ) {
+			$data['media_details'] = wp_get_attachment_metadata( $post->ID );
 
-				if ( isset( $size_data['mime-type'] ) ) {
-					$size_data['mime_type'] = $size_data['mime-type'];
-					unset( $size_data['mime-type'] );
+			// Ensure empty details is an empty object.
+			if ( empty( $data['media_details'] ) ) {
+				$data['media_details'] = new stdClass;
+			} elseif ( ! empty( $data['media_details']['sizes'] ) ) {
+
+				foreach ( $data['media_details']['sizes'] as $size => &$size_data ) {
+
+					if ( isset( $size_data['mime-type'] ) ) {
+						$size_data['mime_type'] = $size_data['mime-type'];
+						unset( $size_data['mime-type'] );
+					}
+
+					// Use the same method image_downsize() does.
+					$image_src = wp_get_attachment_image_src( $post->ID, $size );
+					if ( ! $image_src ) {
+						continue;
+					}
+
+					$size_data['source_url'] = $image_src[0];
 				}
 
-				// Use the same method image_downsize() does.
-				$image_src = wp_get_attachment_image_src( $post->ID, $size );
-				if ( ! $image_src ) {
-					continue;
+				$full_src = wp_get_attachment_image_src( $post->ID, 'full' );
+
+				if ( ! empty( $full_src ) ) {
+					$data['media_details']['sizes']['full'] = array(
+						'file'       => wp_basename( $full_src[0] ),
+						'width'      => $full_src[1],
+						'height'     => $full_src[2],
+						'mime_type'  => $post->post_mime_type,
+						'source_url' => $full_src[0],
+					);
 				}
-
-				$size_data['source_url'] = $image_src[0];
+			} else {
+				$data['media_details']['sizes'] = new stdClass;
 			}
+		}
 
-			$full_src = wp_get_attachment_image_src( $post->ID, 'full' );
+		if ( in_array( 'post', $fields, true ) ) {
+			$data['post'] = ! empty( $post->post_parent ) ? (int) $post->post_parent : null;
+		}
 
-			if ( ! empty( $full_src ) ) {
-				$data['media_details']['sizes']['full'] = array(
-					'file'       => wp_basename( $full_src[0] ),
-					'width'      => $full_src[1],
-					'height'     => $full_src[2],
-					'mime_type'  => $post->post_mime_type,
-					'source_url' => $full_src[0],
-				);
-			}
-		} else {
-			$data['media_details']['sizes'] = new stdClass;
+		if ( in_array( 'source_url', $fields, true ) ) {
+			$data['source_url'] = wp_get_attachment_url( $post->ID );
 		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
