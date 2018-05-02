@@ -3249,3 +3249,116 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 		'done' => $done,
 	);
 }
+
+/**
+ * Registers the personal data eraser for comments.
+ *
+ * @since 4.9.6
+ *
+ * @param  array $erasers An array of personal data erasers.
+ * @return array $erasers An array of personal data erasers.
+ */
+function wp_register_comment_personal_data_eraser( $erasers ) {
+	$erasers[] = array(
+		'eraser_friendly_name' => __( 'WordPress Comments' ),
+		'callback'             => 'wp_comments_personal_data_eraser',
+	);
+
+	return $erasers;
+}
+
+/**
+ * Erases personal data associated with an email address from the comments table.
+ *
+ * @since 4.9.6
+ *
+ * @param  string $email_address The comment author email address.
+ * @param  int    $page          Comment page.
+ * @return array
+ */
+function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
+	global $wpdb;
+
+	if ( empty( $email_address ) ) {
+		return array(
+			'num_items_removed'  => 0,
+			'num_items_retained' => 0,
+			'messages'           => array(),
+			'done'               => true,
+		);
+	}
+
+	// Limit us to 500 comments at a time to avoid timing out.
+	$number            = 500;
+	$page              = (int) $page;
+	$num_items_removed = 0;
+
+	$comments = get_comments(
+		array(
+			'author_email'       => $email_address,
+			'number'             => $number,
+			'paged'              => $page,
+			'order_by'           => 'comment_ID',
+			'order'              => 'ASC',
+			'include_unapproved' => true,
+		)
+	);
+
+	$anon_author = __( 'Anonymous' );
+	$messages    = array();
+
+	foreach ( (array) $comments as $comment ) {
+		$anonymized_comment                         = array();
+		$anonymized_comment['comment_agent']        = '';
+		$anonymized_comment['comment_author']       = $anon_author;
+		$anonymized_comment['comment_author_email'] = wp_privacy_anonymize_data( 'email', $comment->comment_author_email );
+		$anonymized_comment['comment_author_IP']    = wp_privacy_anonymize_data( 'ip', $comment->comment_author_IP );
+		$anonymized_comment['comment_author_url']   = wp_privacy_anonymize_data( 'url', $comment->comment_author_url );
+		$anonymized_comment['user_id']              = 0;
+
+		$comment_id = (int) $comment->comment_ID;
+
+		/**
+		 * Filters whether to anonymize the comment.
+		 *
+		 * @since 4.9.6
+		 *
+		 * @param bool|string                    Whether to apply the comment anonymization (bool).
+		 *                                       Custom prevention message (string). Default true.
+		 * @param WP_Comment $comment            WP_Comment object.
+		 * @param array      $anonymized_comment Anonymized comment data.
+		 */
+		$anon_message = apply_filters( 'wp_anonymize_comment', true, $comment, $anonymized_comment );
+
+		if ( true !== $anon_message ) {
+			if ( $anon_message && is_string( $anon_message ) ) {
+				$messages[] = esc_html( $anon_message );
+			} else {
+				/* translators: %d: Comment ID */
+				$messages[] = sprintf( __( 'Comment %d contains personal data but could not be anonymized.' ), $comment_id );
+			}
+
+			continue;
+		}
+
+		$args = array(
+			'comment_ID' => $comment_id,
+		);
+
+		$updated = $wpdb->update( $wpdb->comments, $anonymized_comment, $args );
+
+		if ( $updated ) {
+			$num_items_removed++;
+			clean_comment_cache( $comment_id );
+		}
+	}
+
+	$done = count( $comments ) < $number;
+
+	return array(
+		'num_items_removed'  => $num_items_removed,
+		'num_items_retained' => count( $comments ) - $num_items_removed,
+		'messages'           => $messages,
+		'done'               => $done,
+	);
+}
