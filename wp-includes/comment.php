@@ -522,14 +522,28 @@ function wp_queue_comments_for_comment_meta_lazyload( $comments ) {
  * Sets the cookies used to store an unauthenticated commentator's identity. Typically used
  * to recall previous comments by this commentator that are still held in moderation.
  *
- * @param WP_Comment $comment Comment object.
- * @param object     $user    Comment author's object.
- *
  * @since 3.4.0
+ * @since 4.9.6 The `$cookies_consent` parameter was added.
+ *
+ * @param WP_Comment $comment         Comment object.
+ * @param WP_User    $user            Comment author's user object. The user may not exist.
+ * @param boolean    $cookies_consent Optional. Comment author's consent to store cookies. Default true.
  */
-function wp_set_comment_cookies($comment, $user) {
-	if ( $user->exists() )
+function wp_set_comment_cookies( $comment, $user, $cookies_consent = true ) {
+	// If the user already exists, or the user opted out of cookies, don't set cookies.
+	if ( $user->exists() ) {
 		return;
+	}
+
+	if ( false === $cookies_consent ) {
+		// Remove any existing cookies.
+		$past = time() - YEAR_IN_SECONDS;
+		setcookie( 'comment_author_' . COOKIEHASH, ' ', $past, COOKIEPATH, COOKIE_DOMAIN );
+		setcookie( 'comment_author_email_' . COOKIEHASH, ' ', $past, COOKIEPATH, COOKIE_DOMAIN );
+		setcookie( 'comment_author_url_' . COOKIEHASH, ' ', $past, COOKIEPATH, COOKIE_DOMAIN );
+
+		return;
+	}
 
 	/**
 	 * Filters the lifetime of the comment cookie in seconds.
@@ -538,11 +552,11 @@ function wp_set_comment_cookies($comment, $user) {
 	 *
 	 * @param int $seconds Comment cookie lifetime. Default 30000000.
 	 */
-	$comment_cookie_lifetime = apply_filters( 'comment_cookie_lifetime', 30000000 );
+	$comment_cookie_lifetime = time() + apply_filters( 'comment_cookie_lifetime', 30000000 );
 	$secure = ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) );
-	setcookie( 'comment_author_' . COOKIEHASH, $comment->comment_author, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
-	setcookie( 'comment_author_email_' . COOKIEHASH, $comment->comment_author_email, time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
-	setcookie( 'comment_author_url_' . COOKIEHASH, esc_url($comment->comment_author_url), time() + $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
+	setcookie( 'comment_author_' . COOKIEHASH, $comment->comment_author, $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
+	setcookie( 'comment_author_email_' . COOKIEHASH, $comment->comment_author_email, $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
+	setcookie( 'comment_author_url_' . COOKIEHASH, esc_url( $comment->comment_author_url ), $comment_cookie_lifetime, COOKIEPATH, COOKIE_DOMAIN, $secure );
 }
 
 /**

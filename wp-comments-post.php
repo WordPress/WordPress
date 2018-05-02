@@ -33,16 +33,19 @@ if ( is_wp_error( $comment ) ) {
 }
 
 $user = wp_get_current_user();
+$cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
 
 /**
  * Perform other actions when comment cookies are set.
  *
  * @since 3.4.0
+ * @since 4.9.6 The `$cookies_consent` parameter was added.
  *
- * @param WP_Comment $comment Comment object.
- * @param WP_User    $user    User object. The user may not exist.
+ * @param WP_Comment $comment         Comment object.
+ * @param WP_User    $user            Comment author's user object. The user may not exist.
+ * @param boolean    $cookies_consent Comment author's consent to store cookies.
  */
-do_action( 'set_comment_cookies', $comment, $user );
+do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 
 $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
 
