@@ -14,6 +14,9 @@ $title = __( 'Freedoms' );
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
+
+$is_privacy_notice = isset( $_GET['privacy-notice'] );
+
 ?>
 <div class="wrap about-wrap full-width-layout">
 
@@ -26,10 +29,21 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <h2 class="nav-tab-wrapper wp-clearfix">
 	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
 	<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
-	<a href="freedoms.php" class="nav-tab nav-tab-active"><?php _e( 'Freedoms' ); ?></a>
-	<a href="privacy.php" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
+	<a href="freedoms.php" class="nav-tab<?php if ( ! $is_privacy_notice ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Freedoms' ); ?></a>
+	<a href="freedoms.php?privacy-notice" class="nav-tab<?php if ( $is_privacy_notice ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Privacy' ); ?></a>
 </h2>
 
+<?php if ( $is_privacy_notice ) : ?>
+
+<div class="about-wrap-content">
+	<p class="about-description"><?php _e( 'From time to time, your WordPress site may send data to WordPress.org &#8212; including, but not limited to &#8212; the version of WordPress you are using, and a list of installed plugins and themes.' ); ?></p>
+
+	<p><?php printf( __( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), 'https://wordpress.org/about/stats/' ); ?></p>
+
+	<p><?php printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), 'https://wordpress.org/about/privacy/' ); ?></p>
+</div>
+
+<?php else : ?>
 <div class="about-wrap-content">
 	<p class="about-description"><?php printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), 'https://wordpress.org/about/license/' ); ?></p>
 
@@ -52,5 +66,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<p><?php _e( 'Don&#8217;t you wish all software came with these freedoms? So do we! For more information, check out the <a href="https://www.fsf.org/">Free Software Foundation</a>.' ); ?></p>
 </div>
 
+<?php endif; ?>
 </div>
 <?php include( ABSPATH . 'wp-admin/admin-footer.php' ); ?>
