@@ -4561,6 +4561,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 *
 	 * @param array $args {
 	 *     An array of callable erasers of personal data. Default empty array.
+	 *
 	 *     @type array {
 	 *         Array of personal data exporters.
 	 *
