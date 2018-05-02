@@ -2406,6 +2406,18 @@ a.post-thumbnail:focus {
 	top: -3px;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	display: inline;
+	font-size: 12px;
+	font-size: 1.2rem;
+	font-weight: normal;
+	letter-spacing: 0;
+	text-transform: none;
+}
 
 /**
  * 13.0 Footer
@@ -3040,6 +3052,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -3669,6 +3682,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -4288,6 +4302,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -4945,6 +4960,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,
@@ -5486,6 +5502,7 @@ p > video {
 	.comment-awaiting-moderation,
 	.logged-in-as,
 	.comment-form label,
+	.comment-form .comment-form-cookies-consent label,
 	.form-allowed-tags,
 	.site-info,
 	.wp-caption-text,

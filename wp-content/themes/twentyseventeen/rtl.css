@@ -199,6 +199,10 @@ input[type="checkbox"] {
 	text-align: left;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
+
 /* Post Formats */
 
 .format-quote blockquote .icon {

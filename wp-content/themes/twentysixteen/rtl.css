@@ -400,6 +400,13 @@ body:not(.search-results) .entry-summary .alignleft {
 	float: left;
 }
 
+.comment-form #wp-comment-cookies-consent {
+	margin: 0 0 0 10px;
+}
+
+.comment-form .comment-form-cookies-consent label {
+	font-family: Arial, Tahoma, sans-serif;
+}
 
 /**
  * 9.0 - Multisites

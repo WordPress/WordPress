@@ -1360,6 +1360,12 @@ a.comment-edit-link:hover {
 	line-height: 2;
 	color: #5e5e5e;
 }
+#respond #wp-comment-cookies-consent {
+	margin: 0 10px 0 0;
+}
+#respond .comment-form-cookies-consent label {
+	display: inline;
+}
 .required {
 	color: red;
 }
