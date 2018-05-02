@@ -2013,13 +2013,13 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Invalid request ID when generating export file' ) );
+		wp_send_json_error( __( 'Invalid request ID when generating export file.' ) );
 	}
 
 	$email_address = $request->email;
 
 	if ( ! is_email( $email_address ) ) {
-		wp_send_json_error( __( 'Invalid email address when generating export file' ) );
+		wp_send_json_error( __( 'Invalid email address when generating export file.' ) );
 	}
 
 	// Create the exports folder if needed.
@@ -2037,7 +2037,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	if ( ! file_exists( $index_pathname ) ) {
 		$file = fopen( $index_pathname, 'w' );
 		if ( false === $file ) {
-			wp_send_json_error( __( 'Unable to protect export folder from browsing' ) );
+			wp_send_json_error( __( 'Unable to protect export folder from browsing.' ) );
 		}
 		fwrite( $file, 'Silence is golden.' );
 		fclose( $file );
@@ -2051,7 +2051,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$html_report_pathname = $exports_dir . $html_report_filename;
 	$file = fopen( $html_report_pathname, 'w' );
 	if ( false === $file ) {
-		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing' ) );
+		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
 	}
 
 	$title = sprintf(
@@ -2094,19 +2094,19 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 		'items'       => array(
 			'about-1' => array(
 				array(
-					'name'  => __( 'Report generated for' ),
+					'name'  => _x( 'Report generated for', 'email address' ),
 					'value' => $email_address,
 				),
 				array(
-					'name'  => __( 'For site' ),
+					'name'  => _x( 'For site', 'website name' ),
 					'value' => get_bloginfo( 'name' ),
 				),
 				array(
-					'name'  => __( 'At URL' ),
+					'name'  => _x( 'At URL', 'website URL' ),
 					'value' => get_bloginfo( 'url' ),
 				),
 				array(
-					'name'  => __( 'On' ),
+					'name'  => _x( 'On', 'date/time' ),
 					'value' => current_time( 'mysql' ),
 				),
 			),
@@ -2289,7 +2289,7 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		wp_send_json_error( __( 'Invalid request ID when merging exporter data' ) );
+		wp_send_json_error( __( 'Invalid request ID when merging exporter data.' ) );
 	}
 
 	$export_data = array();

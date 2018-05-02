@@ -201,7 +201,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				<form method="post" action="">
 					<input type="hidden" name="action" value="create-privacy-page" />
 					<span>
-						<?php _e( 'Or create a new page: ' ); ?>
+						<?php _e( 'Or create a new page:' ); ?> 
 					</span>
 					<?php
 					wp_nonce_field( 'create-privacy-page' );

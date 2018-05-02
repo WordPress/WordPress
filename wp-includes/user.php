@@ -2987,11 +2987,11 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 	$action_name   = sanitize_key( $action_name );
 
 	if ( ! is_email( $email_address ) ) {
-		return new WP_Error( 'invalid_email', __( 'Invalid email address' ) );
+		return new WP_Error( 'invalid_email', __( 'Invalid email address.' ) );
 	}
 
 	if ( ! $action_name ) {
-		return new WP_Error( 'invalid_action', __( 'Invalid action name' ) );
+		return new WP_Error( 'invalid_action', __( 'Invalid action name.' ) );
 	}
 
 	$user    = get_user_by( 'email', $email_address );

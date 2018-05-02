@@ -1352,7 +1352,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 		$download_data_markup .= '<span class="export_personal_data_idle"><a href="#" >' . __( 'Download Personal Data' ) . '</a></span>' .
 			'<span style="display:none" class="export_personal_data_processing" >' . __( 'Downloading Data...' ) . '</span>' .
 			'<span style="display:none" class="export_personal_data_success"><a href="#" >' . __( 'Download Personal Data Again' ) . '</a></span>' .
-			'<span style="display:none" class="export_personal_data_failed">' . __( 'Download Failed!' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
+			'<span style="display:none" class="export_personal_data_failed">' . __( 'Download has failed.' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
 
 		$download_data_markup .= '</div>';
 
@@ -1393,8 +1393,8 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 				?>
 				<span class="export_personal_data_idle"><a class="button" href="#" ><?php _e( 'Email Data' ); ?></a></span>
 				<span style="display:none" class="export_personal_data_processing button updating-message" ><?php _e( 'Sending Email...' ); ?></span>
-				<span style="display:none" class="export_personal_data_success success-message" ><?php _e( 'Email Sent!' ); ?></span>
-				<span style="display:none" class="export_personal_data_failed"><?php _e( 'Email Failed!' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
+				<span style="display:none" class="export_personal_data_success success-message" ><?php _e( 'Email sent.' ); ?></span>
+				<span style="display:none" class="export_personal_data_failed"><?php _e( 'Email could not be sent.' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
 				<?php
 
 				echo '</div>';
@@ -1463,7 +1463,7 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 
 			$remove_data_markup .= '<span class="remove_personal_data_idle"><a href="#" >' . __( 'Force Remove Personal Data' ) . '</a></span>' .
 				'<span style="display:none" class="remove_personal_data_processing" >' . __( 'Removing Data...' ) . '</span>' .
-				'<span style="display:none" class="remove_personal_data_failed">' . __( 'Force Remove Failed!' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
+				'<span style="display:none" class="remove_personal_data_failed">' . __( 'Force Remove has failed.' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
 
 			$remove_data_markup .= '</div>';
 
@@ -1505,7 +1505,7 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 				?>
 				<span class="remove_personal_data_idle"><a class="button" href="#" ><?php _e( 'Remove Personal Data' ); ?></a></span>
 				<span style="display:none" class="remove_personal_data_processing button updating-message" ><?php _e( 'Removing Data...' ); ?></span>
-				<span style="display:none" class="remove_personal_data_failed"><?php _e( 'Removing Data Failed!' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
+				<span style="display:none" class="remove_personal_data_failed"><?php _e( 'Removing Data has failed.' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
 				<?php
 
 				echo '</div>';
