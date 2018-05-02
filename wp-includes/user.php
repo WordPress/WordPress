@@ -2748,6 +2748,105 @@ function _wp_privacy_action_request_types() {
 }
 
 /**
+ * Registers the personal data exporter for users.
+ *
+ * @since 4.9.6
+ *
+ * @param array $exporters  An array of personal data exporters.
+ * @return array An array of personal data exporters.
+ */
+function wp_register_user_personal_data_exporter( $exporters ) {
+	$exporters[] = array(
+		'exporter_friendly_name' => __( 'WordPress User' ),
+		'callback'               => 'wp_user_personal_data_exporter',
+	);
+
+	return $exporters;
+}
+
+/**
+ * Finds and exports personal data associated with an email address from the user and user_meta table.
+ *
+ * @since 4.9.6
+ *
+ * @param string $email_address  The users email address.
+ * @return array An array of personal data.
+ */
+function wp_user_personal_data_exporter( $email_address ) {
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$user_meta = get_user_meta( $user->ID );
+
+	$user_prop_to_export = array(
+		'ID'              => __( 'User ID' ),
+		'user_login'      => __( 'User Login Name' ),
+		'user_nicename'   => __( 'User Nice Name' ),
+		'user_email'      => __( 'User Email' ),
+		'user_url'        => __( 'User URL' ),
+		'user_registered' => __( 'User Registration Date' ),
+		'display_name'    => __( 'User Display Name' ),
+		'nickname'        => __( 'User Nickname' ),
+		'first_name'      => __( 'User First Name' ),
+		'last_name'       => __( 'User Last Name' ),
+		'description'     => __( 'User Description' ),
+	);
+
+	$user_data_to_export = array();
+
+	foreach ( $user_prop_to_export as $key => $name ) {
+		$value = '';
+
+		switch ( $key ) {
+			case 'ID':
+			case 'user_login':
+			case 'user_nicename':
+			case 'user_email':
+			case 'user_url':
+			case 'user_registered':
+			case 'display_name':
+				$value = $user->data->$key;
+				break;
+			case 'nickname':
+			case 'first_name':
+			case 'last_name':
+			case 'description':
+				$value = $user_meta[ $key ][0];
+				break;
+		}
+
+		if ( ! empty( $value ) ) {
+			$user_data_to_export[] = array(
+				'name'  => $name,
+				'value' => $value,
+			);
+		}
+	}
+
+	$data_to_export[] = array(
+		'group_id'    => 'user',
+		'group_label' => __( 'User' ),
+		'item_id'     => "user-{$user->ID}",
+		'data'        => $user_data_to_export,
+	);
+
+	return array(
+		'data' => $data_to_export,
+		'done' => true,
+	);
+}
+
+/**
  * Update log when privacy request is confirmed.
  *
  * @since 4.9.6
