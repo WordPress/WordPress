@@ -649,14 +649,12 @@ span.wp-media-buttons-icon:before {
 /* Sugested text for privacy policy postbox */
 .privacy-text-box {
 	margin: 10px 0 0;
-	
 }
 
 .privacy-text-box-head {
 	border-right: 4px solid #ffb900;
 	border-bottom: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-	
 }
 
 .privacy-text-box .privacy-text-box-head.hndle {
@@ -671,7 +669,6 @@ span.wp-media-buttons-icon:before {
 .privacy-text-box-body {
 	height: 320px;
 	overflow: auto;
-	
 }
 
 #privacy-text-box .inside {
@@ -680,15 +677,15 @@ span.wp-media-buttons-icon:before {
 
 .privacy-text-box h3 {
 	font-size: 1em;
-	margin: 1em 0;
+	margin: 1em 0 0.5em;
 }
 
-.privacy-text-section .privacy-text-copy-button {
+.privacy-text-section .privacy-text-copy {
 	float: left;
-	margin-top: -1.8em;
 }
 
 .privacy-text-section {
+	position: relative;
 	padding: 1px 12px 1px 14px;
 	border-top: 1px solid #e3e3e3;
 	border-right: 4px solid transparent;
@@ -704,9 +701,54 @@ span.wp-media-buttons-icon:before {
 	background-color: #fbeaea;
 }
 
+.privacy-text-meta {
+ 	font-size: 11px;
+	color: #555D66;
+	font-weight: 600;
+}
+
 .closed .privacy-text-box-body {
 	display: none;
 }
+
+.privacy-text-section.folded {
+	height: 150px;
+	overflow: hidden;
+}
+
+.privacy-text-actions {
+	line-height: 32px;
+	padding-bottom: 6px;
+}
+
+.folded .privacy-text-actions {
+	position: absolute;
+	bottom: 0;
+	background-color: white;
+	width: calc(100% - 24px);
+	box-shadow: 0px -5px 10px 5px rgba(255, 255, 255, .8);
+}
+
+.text-removed .privacy-text-actions {
+	background-color: #fbeaea;
+	box-shadow: 0px -5px 10px 5px rgba(251, 234, 234, .8);
+}
+
+.text-updated .privacy-text-actions {
+	background-color: #ecf7ed;
+	box-shadow: 0px -5px 10px 5px rgba(236, 247, 237, .8);
+}
+
+.policy-text-more,
+.folded .privacy-text-copy,
+.folded .policy-text-less {
+	display: none;
+}
+
+.folded .policy-text-more {
+	display: inline;
+}
+
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
