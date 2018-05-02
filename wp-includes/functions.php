@@ -6133,7 +6133,7 @@ All at ###SITENAME###
 /**
  * Return an anonymized IPv4 or IPv6 address.
  *
- * @since 5.0.0 Abstracted from `WP_Community_Events::get_unsafe_client_ip()`.
+ * @since 4.9.6 Abstracted from `WP_Community_Events::get_unsafe_client_ip()`.
  *
  * @param  string $ip_addr        The IPv4 or IPv6 address to be anonymized.
  * @param  bool   $ipv6_fallback  Optional. Whether to return the original IPv6 address if the needed functions
@@ -6203,7 +6203,7 @@ function wp_privacy_anonymize_ip( $ip_addr, $ipv6_fallback = false ) {
 /**
  * Return uniform "anonymous" data by type.
  *
- * @since 5.0.0
+ * @since 4.9.6
  *
  * @param  string $type The type of data to be anonymized.
  * @param  string $data Optional The data to be anonymized.
@@ -6239,7 +6239,7 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
 	/**
 	 * Filters the anonymous data for each type.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.6
 	 *
 	 * @param string $anonymous Anonymized data.
 	 * @param string $type      Type of the data.
@@ -6252,7 +6252,7 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
  * Trigger the check for policy text changes.
  *
  * @since 4.9.6
- * @access private 
+ * @access private
  */
 function _wp_privacy_active_plugins_change() {
 	update_option( '_wp_privacy_text_change_check', 'check' );
