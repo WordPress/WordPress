@@ -29,7 +29,7 @@ if ( ! empty( $action ) ) {
 			'page_for_privacy_policy',
 			'page_for_privacy_policy',
 			sprintf(
-				// translators: URL to Customizer -> Menus
+				/* translators: %s: URL to Customizer -> Menus */
 				__( 'Privacy policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
 				'customize.php?autofocus[panel]=nav_menus'
 			),
@@ -65,7 +65,7 @@ if ( ! empty( $action ) ) {
 				'page_for_privacy_policy',
 				'page_for_privacy_policy',
 				sprintf(
-					// translators: URL to edit Privacy Policy page
+					/* translators: %s: URL to edit Privacy Policy page */
 					__( 'Your Privacy Policy page created successfully. You&#8217;ll want to <a href="%s">review and edit your policy</a> next.' ),
 					'post.php?post=' . $privacy_policy_page_id . '&action=edit'
 				),
@@ -96,7 +96,7 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 				'page_for_privacy_policy',
 				'page_for_privacy_policy',
 				sprintf(
-					// translators: URL to Pages Trash.
+					/* translators: URL to Pages Trash */
 					__( 'The currently selected privacy policy page is in the trash. Please create or select new privacy policy page or <a href="%s">restore the current page</a>.' ),
 					'edit.php?post_status=trash&post_type=page'
 				),
@@ -153,7 +153,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<p class="tools-privacy-edit"><strong>
 			<?php
 			printf(
-				// translators: %1$s URL to Edit Page, %2$s URL to View Page
+				/* translators: 1: URL to edit page, 2: URL to view page */
 				__( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy page content.' ),
 				$edit_href,
 				$view_href
