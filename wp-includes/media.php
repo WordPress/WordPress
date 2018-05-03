@@ -3965,7 +3965,7 @@ function wpview_media_sandbox_styles() {
  * @return array  An array of personal data exporters.
  */
 function wp_register_media_personal_data_exporter( $exporters ) {
-	$exporters[] = array(
+	$exporters['wordpress-media'] = array(
 		'exporter_friendly_name' => __( 'WordPress Media' ),
 		'callback'               => 'wp_media_personal_data_exporter',
 	);

@@ -2756,7 +2756,7 @@ function _wp_privacy_action_request_types() {
  * @return array An array of personal data exporters.
  */
 function wp_register_user_personal_data_exporter( $exporters ) {
-	$exporters[] = array(
+	$exporters['wordpress-user'] = array(
 		'exporter_friendly_name' => __( 'WordPress User' ),
 		'callback'               => 'wp_user_personal_data_exporter',
 	);
