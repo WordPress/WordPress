@@ -270,7 +270,7 @@ $menu[80]                               = array( __( 'Settings' ), 'manage_optio
 	$submenu['options-general.php'][25] = array( __( 'Discussion' ), 'manage_options', 'options-discussion.php' );
 	$submenu['options-general.php'][30] = array( __( 'Media' ), 'manage_options', 'options-media.php' );
 	$submenu['options-general.php'][40] = array( __( 'Permalinks' ), 'manage_options', 'options-permalink.php' );
-	$submenu['options-general.php'][45] = array( __( 'Privacy' ), 'manage_options', 'privacy.php' );
+	$submenu['options-general.php'][45] = array( __( 'Privacy' ), 'manage_privacy_policy', 'privacy.php' );
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 

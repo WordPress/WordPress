@@ -557,6 +557,7 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		case 'export_others_personal_data':
 		case 'erase_others_personal_data':
+		case 'manage_privacy_policy':
 			$caps[] = is_multisite() ? 'manage_network' : 'manage_options';
 			break;
 		default:
