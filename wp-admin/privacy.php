@@ -61,16 +61,8 @@ if ( ! empty( $action ) ) {
 		} else {
 			update_option( 'wp_page_for_privacy_policy', $privacy_policy_page_id );
 
-			add_settings_error(
-				'page_for_privacy_policy',
-				'page_for_privacy_policy',
-				sprintf(
-					/* translators: %s: URL to edit Privacy Policy page */
-					__( 'Your privacy policy page created successfully. You&#8217;ll want to <a href="%s">review and edit your policy</a> next.' ),
-					'post.php?post=' . $privacy_policy_page_id . '&action=edit'
-				),
-				'updated'
-			);
+			wp_redirect( admin_url( 'post.php?post=' . $privacy_policy_page_id . '&action=edit' ) );
+			exit;
 		}
 	}
 }
