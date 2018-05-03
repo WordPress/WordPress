@@ -1649,7 +1649,8 @@ final class WP_Privacy_Policy_Content {
 			'<h2>' . __( 'Who we are' ) . '</h2>' .
 			'<p class="wp-policy-help">' . __( 'In this section you should note your site URL, as well as the name of the company, organization, or individual behind it, and some accurate contact information.' ) . '</p>' .
 			'<p class="wp-policy-help">' . __( 'The amount of information you may be required to show will vary depending on your local or national business regulations. You may, for example, be required to display a physical address, a registered address, or your company registration number.' ) . '</p>' .
-			'<p>' . __( 'Our website address is: $1%s.' ) . '</p>' .
+			/* translators: %s Site URL */
+			'<p>' . sprintf( __( 'Our website address is: %s.' ), get_bloginfo( 'url', 'display' ) ) . '</p>' .
 
 			'<h2>' . __( 'What personal data we collect and why we collect it' ) . '</h2>' .
 			'<p class="wp-policy-help">' . __( 'In this section you should note what personal data you collect from users and site visitors. This may include transactional data, such as purchase information; technical data, such as information about cookies; and personal data, such as user account information.' ) . '</p>' .
@@ -1722,14 +1723,12 @@ final class WP_Privacy_Policy_Content {
 			'<p class="wp-policy-help">' . __( 'If you are a  member of a regulated industry, or if you are subject to additional privacy laws, you may be required to disclose that information here.' ) . '</p>';
 			// End of the suggested policy text.
 
-		$content = str_replace( '$1%s', get_bloginfo( 'url', 'display' ), $content );
-
 		/**
 		 * Filters the default content suggested for inclusion in a privacy policy.
 		 *
 		 * @since 4.9.6
 		 *
-		 * @param $content string The defauld policy content.
+		 * @param $content string The default policy content.
 		 */
 		return apply_filters( 'wp_get_default_privacy_policy_content', $content );
 	}
