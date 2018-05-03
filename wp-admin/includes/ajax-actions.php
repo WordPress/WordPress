@@ -4409,24 +4409,24 @@ function wp_ajax_wp_privacy_export_personal_data() {
 			wp_send_json_error( __( 'Exporter index out of range.' ) );
 		}
 
-		$index = $exporter_index - 1;
-
 		if ( $page < 1 ) {
 			wp_send_json_error( __( 'Page index cannot be less than one.' ) );
 		}
 
-		$exporter = $exporters[ $index ];
+		$exporter_keys = array_keys( $exporters );
+		$exporter_key  = $exporter_keys[ $exporter_index - 1 ];
+		$exporter      = $exporters[ $exporter_key ];
 
 		if ( ! is_array( $exporter ) ) {
 			wp_send_json_error(
-				/* translators: %d: array index */
-				sprintf( __( 'Expected an array describing the exporter at index %d.' ), $exporter_index )
+				/* translators: %s: array index */
+				sprintf( __( 'Expected an array describing the exporter at index %s.' ), $exporter_key )
 			);
 		}
 		if ( ! array_key_exists( 'exporter_friendly_name', $exporter ) ) {
 			wp_send_json_error(
-				/* translators: %d: array index */
-				sprintf( __( 'Exporter array at index %d does not include a friendly name.' ), $exporter_index )
+				/* translators: %s: array index */
+				sprintf( __( 'Exporter array at index %s does not include a friendly name.' ), $exporter_key )
 			);
 		}
 		if ( ! array_key_exists( 'callback', $exporter ) ) {
@@ -4442,8 +4442,8 @@ function wp_ajax_wp_privacy_export_personal_data() {
 			);
 		}
 
-		$callback = $exporters[ $index ]['callback'];
-		$exporter_friendly_name = $exporters[ $index ]['exporter_friendly_name'];
+		$callback               = $exporter['callback'];
+		$exporter_friendly_name = $exporter['exporter_friendly_name'];
 
 		$response = call_user_func( $callback, $email_address, $page );
 		if ( is_wp_error( $response ) ) {
@@ -4495,8 +4495,9 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
+	 * @param int    $exporter_key    The key (slug) of the exporter that provided this data.
 	 */
-	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page, $request_id, $send_as_email );
+	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page, $request_id, $send_as_email, $exporter_key );
 
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( $response );
@@ -4591,8 +4592,9 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 			wp_send_json_error( __( 'Page index cannot be less than one.' ) );
 		}
 
-		$index  = $eraser_index - 1; // Convert to zero based for eraser index.
-		$eraser = $erasers[ $index ];
+		$eraser_keys = array_keys( $erasers );
+		$eraser_key  = $eraser_keys[ $eraser_index - 1 ];
+		$eraser      = $erasers[ $eraser_key ];
 
 		if ( ! is_array( $eraser ) ) {
 			/* translators: %d: array index */
@@ -4614,8 +4616,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 			wp_send_json_error( sprintf( __( 'Eraser array at index %d does not include a friendly name.' ), $eraser_index ) );
 		}
 
-		$callback             = $erasers[ $index ]['callback'];
-		$eraser_friendly_name = $erasers[ $index ]['eraser_friendly_name'];
+		$callback             = $eraser['callback'];
+		$eraser_friendly_name = $eraser['eraser_friendly_name'];
 
 		$response = call_user_func( $callback, $email_address, $page );
 
@@ -4706,12 +4708,13 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 * @since 4.9.6
 	 *
 	 * @param array  $response        The personal data for the given exporter and page.
-	 * @param int    $exporter_index  The index of the exporter that provided this data.
+	 * @param int    $eraser_index    The index of the eraser that provided this data.
 	 * @param string $email_address   The email address associated with this personal data.
 	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
+	 * @param int    $eraser_key      The key (slug) of the eraser that provided this data.
 	 */
-	$response = apply_filters( 'wp_privacy_personal_data_erasure_page', $response, $eraser_index, $email_address, $page, $request_id );
+	$response = apply_filters( 'wp_privacy_personal_data_erasure_page', $response, $eraser_index, $email_address, $page, $request_id, $eraser_key );
 
 	if ( is_wp_error( $response ) ) {
 		wp_send_json_error( $response );

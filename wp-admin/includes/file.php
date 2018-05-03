@@ -2262,9 +2262,10 @@ All at ###SITENAME###
  * @param int    $page            The page of personal data for this exporter. Begins at 1.
  * @param int    $request_id      The request ID for this personal data export.
  * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
+ * @param string $exporter_key    The slug (key) of the exporter.
  * @return array The filtered response.
  */
-function wp_privacy_process_personal_data_export_page( $response, $exporter_index, $email_address, $page, $request_id, $send_as_email ) {
+function wp_privacy_process_personal_data_export_page( $response, $exporter_index, $email_address, $page, $request_id, $send_as_email, $exporter_key ) {
 	/* Do some simple checks on the shape of the response from the exporter.
 	 * If the exporter response is malformed, don't attempt to consume it - let it
 	 * pass through to generate a warning to the user by default ajax processing.
