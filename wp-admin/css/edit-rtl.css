@@ -717,6 +717,7 @@ span.wp-media-buttons-icon:before {
 }
 
 .privacy-text-actions {
+	height: 32px;
 	line-height: 32px;
 	padding-bottom: 6px;
 }
@@ -749,6 +750,14 @@ span.wp-media-buttons-icon:before {
 	display: inline;
 }
 
+#privacy-text-box .policy-text h2 {
+	margin: 1.2em 0 1em;
+	padding: 0;
+}
+
+p.wp-policy-help {
+	display: none;
+}
 
 /*------------------------------------------------------------------------------
   11.1 - Custom Fields
