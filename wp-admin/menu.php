@@ -256,7 +256,6 @@ $menu[75]                     = array( __( 'Tools' ), 'edit_posts', 'tools.php',
 	$submenu['tools.php'][5]  = array( __( 'Available Tools' ), 'edit_posts', 'tools.php' );
 	$submenu['tools.php'][10] = array( __( 'Import' ), 'import', 'import.php' );
 	$submenu['tools.php'][15] = array( __( 'Export' ), 'export', 'export.php' );
-	$submenu['tools.php'][20] = array( __( 'Privacy' ), 'manage_options', 'privacy.php' );
 if ( is_multisite() && ! is_main_site() ) {
 	$submenu['tools.php'][25] = array( __( 'Delete Site' ), 'delete_site', 'ms-delete-site.php' );
 }
@@ -271,6 +270,7 @@ $menu[80]                               = array( __( 'Settings' ), 'manage_optio
 	$submenu['options-general.php'][25] = array( __( 'Discussion' ), 'manage_options', 'options-discussion.php' );
 	$submenu['options-general.php'][30] = array( __( 'Media' ), 'manage_options', 'options-media.php' );
 	$submenu['options-general.php'][40] = array( __( 'Permalinks' ), 'manage_options', 'options-permalink.php' );
+	$submenu['options-general.php'][45] = array( __( 'Privacy' ), 'manage_options', 'privacy.php' );
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
