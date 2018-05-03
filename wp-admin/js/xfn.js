@@ -167,7 +167,7 @@ jQuery( document ).ready( function( $ ) {
 					classes = 'notice-warning';
 				}
 			}
-			appendResultsAfterRow( $requestRow, 'notice-success', summaryMessage, [] );
+			appendResultsAfterRow( $requestRow, 'notice-success', summaryMessage, messages );
 		}
 
 		function on_erasure_failure() {
