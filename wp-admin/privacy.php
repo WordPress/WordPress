@@ -1,6 +1,6 @@
 <?php
 /**
- * Privacy Tools Screen.
+ * Privacy Settings Screen.
  *
  * @package WordPress
  * @subpackage Administration
@@ -111,7 +111,7 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 get_current_screen()->add_help_tab( array(
 	'id'      => 'privacy',
 	'title'   => __( 'Privacy' ),
-	'content' => '<p>' . __( 'This page provides tools with which you can manage your user&#8217;s personal data and site&#8217;s privacy policy.' ) . '</p>',
+	'content' => '<p>' . __( 'This page provides settings with which you can manage your site&#8217;s privacy policy.' ) . '</p>',
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -123,8 +123,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 <div class="wrap">
-	<h1><?php _e( 'Privacy Tools' ); ?></h1>
-	<?php settings_errors(); ?>
+	<h1><?php _e( 'Privacy Settings' ); ?></h1>
 	<h2><?php _e( 'Privacy Policy page' ); ?></h2>
 	<p>
 		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a privacy policy.' ); ?>
@@ -205,7 +204,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					</span>
 					<?php
 					wp_nonce_field( 'create-privacy-page' );
-	
+
 					submit_button( __( 'Create New Page' ), 'primary', 'submit', false, array( 'id' => 'create-page' ) );
 					?>
 				</form>
