@@ -6264,6 +6264,10 @@ function _wp_privacy_active_plugins_change() {
  * @since 4.9.6
  */
 function wp_schedule_delete_old_privacy_export_files() {
+	if ( wp_installing() ) {
+		return;
+	}
+
 	if ( ! wp_next_scheduled( 'wp_privacy_delete_old_export_files' ) ) {
 		wp_schedule_event( time(), 'hourly', 'wp_privacy_delete_old_export_files' );
 	}
