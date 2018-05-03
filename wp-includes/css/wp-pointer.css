@@ -36,6 +36,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.wp-pointer-content h4 {
+	margin: 1.33em 15px;
+}
+
 .wp-pointer-content p {
 	padding: 0 15px;
 }
