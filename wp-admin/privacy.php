@@ -127,7 +127,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<?php settings_errors(); ?>
 	<h2><?php _e( 'Privacy Policy page' ); ?></h2>
 	<p>
-		<?php _e( 'The first step towards privacy laws compliance is to have a comprehensive Privacy Policy.' ); ?>
+		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a privacy policy.' ); ?>
 		<?php _e( 'If you already have a Privacy Policy page, please select it below. If not, create one.' ); ?>
 	</p>
 	<p>
