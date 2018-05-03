@@ -1252,7 +1252,7 @@ var Library = wp.media.controller.Library,
  *
  * @memberOf wp.media.controller
  *
- * @param {object}                     [attributes]                       The attributes hash passed to the state.
+ * @param {Object}                     [attributes]                       The attributes hash passed to the state.
  * @param {string}                     [attributes.id=gallery-edit]       Unique identifier.
  * @param {string}                     [attributes.title=Edit Gallery]    Title for the state. Displays in the frame's title region.
  * @param {wp.media.model.Attachments} [attributes.library]               The collection of attachments in the gallery.
@@ -1295,7 +1295,14 @@ GalleryEdit = Library.extend(/** @lends wp.media.controller.GalleryEdit.prototyp
 	},
 
 	/**
+	 * Initializes the library.
+	 *
+	 * Creates a selection if a library isn't supplied and creates an attachment
+	 * view if no attachment view is supplied.
+	 *
 	 * @since 3.5.0
+	 *
+	 * @return {void}
 	 */
 	initialize: function() {
 		// If we haven't been provided a `library`, create a `Selection`.
@@ -1312,7 +1319,14 @@ GalleryEdit = Library.extend(/** @lends wp.media.controller.GalleryEdit.prototyp
 	},
 
 	/**
+	 * Activates the library.
+	 *
+	 * Limits the library to images, watches for uploaded attachments. Watches for
+	 * the browse event on the frame and binds it to gallerySettings.
+	 *
 	 * @since 3.5.0
+	 *
+	 * @return {void}
 	 */
 	activate: function() {
 		var library = this.get('library');
@@ -1329,7 +1343,13 @@ GalleryEdit = Library.extend(/** @lends wp.media.controller.GalleryEdit.prototyp
 	},
 
 	/**
+	 * Deactivates the library.
+	 *
+	 * Stops watching for uploaded attachments and browse events.
+	 *
 	 * @since 3.5.0
+	 *
+	 * @return {void}
 	 */
 	deactivate: function() {
 		// Stop watching for uploaded attachments.
@@ -1341,9 +1361,14 @@ GalleryEdit = Library.extend(/** @lends wp.media.controller.GalleryEdit.prototyp
 	},
 
 	/**
+	 * Adds the gallery settings to the sidebar and adds a reverse button to the
+	 * toolbar.
+	 *
 	 * @since 3.5.0
 	 *
-	 * @param browser
+	 * @param {wp.media.view.Frame} browser The file browser.
+	 *
+	 * @return {void}
 	 */
 	gallerySettings: function( browser ) {
 		if ( ! this.get('displaySettings') ) {
