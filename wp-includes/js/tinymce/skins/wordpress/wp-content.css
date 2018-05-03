@@ -267,9 +267,7 @@ a[data-wplink-url-error]:before {
 
 /* Special styling for the suggestes policy text tutorial sections after they have been pasted in the editor. */
 p.wp-policy-help {
-	font-size: 0.85em;
-	font-style: italic;
-	font-weight: 600;
+    background-color: #ff0;
 }
 
 /**
