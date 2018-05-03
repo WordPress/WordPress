@@ -9,7 +9,7 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'manage_privacy_policy' ) ) {
+if ( ! current_user_can( 'manage_privacy_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage privacy on this site.' ) );
 }
 
@@ -200,7 +200,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				<form method="post" action="">
 					<input type="hidden" name="action" value="create-privacy-page" />
 					<span>
-						<?php _e( 'Or create a new page:' ); ?> 
+						<?php _e( 'Or create a new page:' ); ?>
 					</span>
 					<?php
 					wp_nonce_field( 'create-privacy-page' );
