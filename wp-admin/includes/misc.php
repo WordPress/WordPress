@@ -1635,7 +1635,7 @@ final class WP_Privacy_Policy_Content {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return string The defauld policy content.
+	 * @return string The default policy content.
 	 */
 	public static function get_default_content() {
 		// Start of the suggested privacy policy text.
@@ -1705,7 +1705,7 @@ final class WP_Privacy_Policy_Content {
 			'<p class="wp-policy-help">' . __( 'In this section you should provide a contact method for privacy-specific concerns. If you are required to have a Data Protection Officer, list their name and full contact details here as well.' ) . '</p>' .
 
 			'<h2>' . __( 'Additional information' ) . '</h2>' .
-			'<p class="wp-policy-help">' . __( 'If you use your website for commercial purposes and you engage in more complex collection or processing of personal data, you should note the following information in your privacy notice in addition to the information we have already discussed.</p>' ) . '</p>' .
+			'<p class="wp-policy-help">' . __( 'If you use your website for commercial purposes and you engage in more complex collection or processing of personal data, you should note the following information in your privacy notice in addition to the information we have already discussed.' ) . '</p>' .
 
 			'<h3>' . __( 'How we protect your data' ) . '</h3>' .
 			'<p class="wp-policy-help">' . __( 'In this section you should explain what measures you have taken to protect your users&#8217; data. This could include technical measures such as encryption; security measures such as 2FA; and human measures such as staff training in data protection. If you have carried out a Privacy Impact Assessment, you can mention it here too.' ) . '</p>' .
