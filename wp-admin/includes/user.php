@@ -753,6 +753,7 @@ function _wp_personal_data_handle_actions() {
  * @access private
  */
 function _wp_personal_data_cleanup_requests() {
+	/** This filter is documented in wp-includes/user.php */
 	$expires        = (int) apply_filters( 'user_request_key_expiration', DAY_IN_SECONDS );
 	$requests_query = new WP_Query( array(
 		'post_type'      => 'user_request',
