@@ -1392,7 +1392,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 					'">';
 
 				?>
-				<span class="export_personal_data_idle"><a class="button" href="#" ><?php _e( 'Email Data' ); ?></a></span>
+				<span class="export_personal_data_idle"><a class="button" href="#" ><?php _e( 'Send Export Link' ); ?></a></span>
 				<span style="display:none" class="export_personal_data_processing button updating-message" ><?php _e( 'Sending Email...' ); ?></span>
 				<span style="display:none" class="export_personal_data_success success-message" ><?php _e( 'Email sent.' ); ?></span>
 				<span style="display:none" class="export_personal_data_failed"><?php _e( 'Email could not be sent.' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
