@@ -306,7 +306,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
 					/* translators: accessibility text */
-					__( '(opens in a new window)' )
+					__( '(opens in a new tab)' )
 				)
 			);
 			$content .= '</p>';

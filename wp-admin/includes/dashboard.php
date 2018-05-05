@@ -1127,7 +1127,7 @@ function wp_dashboard_events_news() {
 				'https://make.wordpress.org/community/meetups-landing-page',
 				__( 'Meetups' ),
 				/* translators: accessibility text */
-				__( '(opens in a new window)' )
+				__( '(opens in a new tab)' )
 			);
 		?>
 
@@ -1139,7 +1139,7 @@ function wp_dashboard_events_news() {
 				'https://central.wordcamp.org/schedule/',
 				__( 'WordCamps' ),
 				/* translators: accessibility text */
-				__( '(opens in a new window)' )
+				__( '(opens in a new tab)' )
 			);
 		?>
 
@@ -1152,7 +1152,7 @@ function wp_dashboard_events_news() {
 				esc_url( _x( 'https://wordpress.org/news/', 'Events and News dashboard widget' ) ),
 				__( 'News' ),
 				/* translators: accessibility text */
-				__( '(opens in a new window)' )
+				__( '(opens in a new tab)' )
 			);
 		?>
 	</p>
