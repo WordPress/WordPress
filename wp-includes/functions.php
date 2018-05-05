@@ -5632,7 +5632,7 @@ function wp_auth_check_html() {
 	<div class="wp-auth-fallback">
 		<p><b class="wp-auth-fallback-expired" tabindex="0"><?php _e( 'Session expired' ); ?></b></p>
 		<p><a href="<?php echo esc_url( $login_url ); ?>" target="_blank"><?php _e( 'Please log in again.' ); ?></a>
-		<?php _e( 'The login page will open in a new window. After logging in you can close it and return to this page.' ); ?></p>
+		<?php _e( 'The login page will open in a new tab. After logging in you can close it and return to this page.' ); ?></p>
 	</div>
 	</div>
 	</div>

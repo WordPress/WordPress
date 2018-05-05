@@ -4244,7 +4244,7 @@ final class WP_Customize_Manager {
 				<label for="{{ elementPrefix }}customize-preview-link-input" class="screen-reader-text"><?php esc_html_e( 'Preview Link' ); ?></label>
 				<a href="" target="">
 					<span class="preview-control-element" data-component="url"></span>
-					<span class="screen-reader-text"><?php _e( '(opens in a new window)' ); ?></span>
+					<span class="screen-reader-text"><?php _e( '(opens in a new tab)' ); ?></span>
 				</a>
 				<input id="{{ elementPrefix }}customize-preview-link-input" readonly tabindex="-1" class="preview-control-element" data-component="input">
 				<button class="customize-copy-preview-link preview-control-element button button-secondary" data-component="button" data-copy-text="<?php esc_attr_e( 'Copy' ); ?>" data-copied-text="<?php esc_attr_e( 'Copied' ); ?>" ><?php esc_html_e( 'Copy' ); ?></button>
@@ -5463,7 +5463,7 @@ final class WP_Customize_Manager {
 			esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
 			__( 'Learn more about CSS' ),
 			/* translators: accessibility text */
-			__( '(opens in a new window)' )
+			__( '(opens in a new tab)' )
 		);
 		$section_description .= '</p>';
 
@@ -5484,7 +5484,7 @@ final class WP_Customize_Manager {
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
 					/* translators: accessibility text */
-					__( '(opens in a new window)' )
+					__( '(opens in a new tab)' )
 				)
 			);
 			$section_description .= '</p>';
