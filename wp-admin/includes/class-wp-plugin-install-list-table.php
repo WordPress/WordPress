@@ -652,7 +652,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					if ( $plugin['active_installs'] >= 1000000 ) {
 						$active_installs_millions = floor( $plugin['active_installs'] / 1000000 );
 						$active_installs_text = sprintf(
-							_nx( '%s+ Million', '%s+ Million', 'Active plugin installations', $active_installs_millions ),
+							_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
 							number_format_i18n( $active_installs_millions )
 						);
 					} elseif ( 0 == $plugin['active_installs'] ) {
