@@ -877,13 +877,13 @@ function _wp_personal_data_removal_page() {
 
 	?>
 	<div class="wrap nosubsub">
-		<h1><?php esc_html_e( 'Remove Personal Data' ); ?></h1>
+		<h1><?php esc_html_e( 'Erase Personal Data' ); ?></h1>
 		<hr class="wp-header-end" />
 
 		<?php settings_errors(); ?>
 
 		<form method="post" class="wp-privacy-request-form">
-			<h2><?php esc_html_e( 'Add Data Removal Request' ); ?></h2>
+			<h2><?php esc_html_e( 'Add Data Erasure Request' ); ?></h2>
 			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
 
 			<div class="wp-privacy-request-form-field">
@@ -925,7 +925,7 @@ function _wp_personal_data_removal_page() {
  */
 function _wp_privacy_hook_requests_page() {
 	add_submenu_page( 'tools.php', __( 'Export Personal Data' ), __( 'Export Personal Data' ), 'export_others_personal_data', 'export_personal_data', '_wp_personal_data_export_page' );
-	add_submenu_page( 'tools.php', __( 'Remove Personal Data' ), __( 'Remove Personal Data' ), 'erase_others_personal_data', 'remove_personal_data', '_wp_personal_data_removal_page' );
+	add_submenu_page( 'tools.php', __( 'Erase Personal Data' ), __( 'Erase Personal Data' ), 'erase_others_personal_data', 'remove_personal_data', '_wp_personal_data_removal_page' );
 }
 
 // TODO: move the following classes in new files.
@@ -1016,8 +1016,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		}
 
 		$query = "
-			SELECT post_status, COUNT( * ) AS num_posts 
-			FROM {$wpdb->posts} 
+			SELECT post_status, COUNT( * ) AS num_posts
+			FROM {$wpdb->posts}
 			WHERE post_type = %s
 			AND post_name = %s
 			GROUP BY post_status";
@@ -1462,9 +1462,9 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 				'data-nonce="' . esc_attr( $nonce ) .
 				'">';
 
-			$remove_data_markup .= '<span class="remove_personal_data_idle"><a href="#" >' . __( 'Force Remove Personal Data' ) . '</a></span>' .
-				'<span style="display:none" class="remove_personal_data_processing" >' . __( 'Removing Data...' ) . '</span>' .
-				'<span style="display:none" class="remove_personal_data_failed">' . __( 'Force Remove has failed.' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
+			$remove_data_markup .= '<span class="remove_personal_data_idle"><a href="#" >' . __( 'Force Erase Personal Data' ) . '</a></span>' .
+				'<span style="display:none" class="remove_personal_data_processing" >' . __( 'Erasing Data...' ) . '</span>' .
+				'<span style="display:none" class="remove_personal_data_failed">' . __( 'Force Erase has failed.' ) . ' <a href="#" >' . __( 'Retry' ) . '</a></span>';
 
 			$remove_data_markup .= '</div>';
 
@@ -1504,9 +1504,9 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 					'">';
 
 				?>
-				<span class="remove_personal_data_idle"><a class="button" href="#" ><?php _e( 'Remove Personal Data' ); ?></a></span>
-				<span style="display:none" class="remove_personal_data_processing button updating-message" ><?php _e( 'Removing Data...' ); ?></span>
-				<span style="display:none" class="remove_personal_data_failed"><?php _e( 'Removing Data has failed.' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
+				<span class="remove_personal_data_idle"><a class="button" href="#" ><?php _e( 'Erase Personal Data' ); ?></a></span>
+				<span style="display:none" class="remove_personal_data_processing button updating-message" ><?php _e( 'Erasing Data...' ); ?></span>
+				<span style="display:none" class="remove_personal_data_failed"><?php _e( 'Erasing Data has failed.' ); ?> <a class="button" href="#" ><?php _e( 'Retry' ); ?></a></span>
 				<?php
 
 				echo '</div>';

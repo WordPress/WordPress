@@ -712,10 +712,10 @@ function wp_default_scripts( &$scripts ) {
 		did_action( 'init' ) && $scripts->localize(
 			'xfn', 'privacyToolsL10n', array(
 				'noDataFound'     => __( 'No personal data was found for this user.' ),
-				'foundAndRemoved' => __( 'All of the personal data found for this user was removed.' ),
-				'noneRemoved'     => __( 'Personal data was found for this user but was not removed.' ),
-				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not removed.' ),
-				'removalError'    => __( 'An error occurred while attempting to find and remove personal data.' ),
+				'foundAndRemoved' => __( 'All of the personal data found for this user was erased.' ),
+				'noneRemoved'     => __( 'Personal data was found for this user but was not erased.' ),
+				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not erased.' ),
+				'removalError'    => __( 'An error occurred while attempting to find and erase personal data.' ),
 				'noExportFile'    => __( 'No personal data export file was generated.' ),
 				'exportError'     => __( 'An error occurred while attempting to export personal data.' ),
 			)
