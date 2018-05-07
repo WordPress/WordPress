@@ -429,7 +429,7 @@ function has_excerpt( $post = 0 ) {
 }
 
 /**
- * Display the classes for the post div.
+ * Displays the classes for the post container element.
  *
  * @since 2.7.0
  *
@@ -442,7 +442,7 @@ function post_class( $class = '', $post_id = null ) {
 }
 
 /**
- * Retrieves the classes for the post div as an array.
+ * Retrieves an array of the class names for the post container element.
  *
  * The class names are many. If the post is a sticky, then the 'sticky'
  * class name. The class 'hentry' is always added to each post. If the post has a
@@ -451,16 +451,16 @@ function post_class( $class = '', $post_id = null ) {
  * eg 'category-foo' or 'my_custom_taxonomy-bar'.
  *
  * The 'post_tag' taxonomy is a special
- * case; the class has the 'tag-' prefix instead of 'post_tag-'. All classes are
- * passed through the filter, {@see 'post_class'}, with the list of classes, followed by
+ * case; the class has the 'tag-' prefix instead of 'post_tag-'. All class names are
+ * passed through the filter, {@see 'post_class'}, with the list of class names, followed by
  * $class parameter value, with the post ID as the last parameter.
  *
  * @since 2.7.0
- * @since 4.2.0 Custom taxonomy classes were added.
+ * @since 4.2.0 Custom taxonomy class names were added.
  *
- * @param string|array $class   One or more classes to add to the class list.
- * @param int|WP_Post  $post_id Optional. Post ID or post object.
- * @return array Array of classes.
+ * @param string|string[] $class   Space-separated string or array of class names to add to the class list.
+ * @param int|WP_Post     $post_id Optional. Post ID or post object.
+ * @return string[] Array of class names.
  */
 function get_post_class( $class = '', $post_id = null ) {
 	$post = get_post( $post_id );
@@ -552,13 +552,13 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes = array_map( 'esc_attr', $classes );
 
 	/**
-	 * Filters the list of CSS classes for the current post.
+	 * Filters the list of CSS class names for the current post.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array $classes An array of post classes.
-	 * @param array $class   An array of additional classes added to the post.
-	 * @param int   $post_id The post ID.
+	 * @param string[] $classes An array of post class names.
+	 * @param string[] $class   An array of additional class names added to the post.
+	 * @param int      $post_id The post ID.
 	 */
 	$classes = apply_filters( 'post_class', $classes, $class, $post->ID );
 
@@ -566,26 +566,26 @@ function get_post_class( $class = '', $post_id = null ) {
 }
 
 /**
- * Display the classes for the body element.
+ * Displays the class names for the body element.
  *
  * @since 2.8.0
  *
- * @param string|array $class One or more classes to add to the class list.
+ * @param string|string[] $class Space-separated string or array of class names to add to the class list.
  */
 function body_class( $class = '' ) {
-	// Separates classes with a single space, collates classes for body element
+	// Separates class names with a single space, collates class names for body element
 	echo 'class="' . join( ' ', get_body_class( $class ) ) . '"';
 }
 
 /**
- * Retrieve the classes for the body element as an array.
+ * Retrieves an array of the class names for the body element.
  *
  * @since 2.8.0
  *
  * @global WP_Query $wp_query
  *
- * @param string|array $class One or more classes to add to the class list.
- * @return array Array of classes.
+ * @param string|string[] $class Space-separated string or array of class names to add to the class list.
+ * @return string[] Array of class names.
  */
 function get_body_class( $class = '' ) {
 	global $wp_query;
@@ -800,12 +800,12 @@ function get_body_class( $class = '' ) {
 	$classes = array_map( 'esc_attr', $classes );
 
 	/**
-	 * Filters the list of CSS body classes for the current post or page.
+	 * Filters the list of CSS body class names for the current post or page.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $classes An array of body classes.
-	 * @param array $class   An array of additional classes added to the body.
+	 * @param string[] $classes An array of body class names.
+	 * @param string[] $class   An array of additional class names added to the body.
 	 */
 	$classes = apply_filters( 'body_class', $classes, $class );
 

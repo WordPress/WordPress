@@ -810,27 +810,27 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	}
 
 	/**
-	 * Filters a term.
+	 * Filters a taxonomy term object.
 	 *
 	 * @since 2.3.0
-	 * @since 4.4.0 `$_term` can now also be a WP_Term object.
+	 * @since 4.4.0 `$_term` is now a `WP_Term` object.
 	 *
-	 * @param int|WP_Term $_term    Term object or ID.
-	 * @param string      $taxonomy The taxonomy slug.
+	 * @param WP_Term $_term    Term object.
+	 * @param string  $taxonomy The taxonomy slug.
 	 */
 	$_term = apply_filters( 'get_term', $_term, $taxonomy );
 
 	/**
-	 * Filters a taxonomy.
+	 * Filters a taxonomy term object.
 	 *
 	 * The dynamic portion of the filter name, `$taxonomy`, refers
-	 * to the taxonomy slug.
+	 * to the slug of the term's taxonomy.
 	 *
 	 * @since 2.3.0
-	 * @since 4.4.0 `$_term` can now also be a WP_Term object.
+	 * @since 4.4.0 `$_term` is now a `WP_Term` object.
 	 *
-	 * @param int|WP_Term $_term    Term object or ID.
-	 * @param string      $taxonomy The taxonomy slug.
+	 * @param WP_Term $_term    Term object.
+	 * @param string  $taxonomy The taxonomy slug.
 	 */
 	$_term = apply_filters( "get_{$taxonomy}", $_term, $taxonomy );
 
