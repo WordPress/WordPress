@@ -609,13 +609,13 @@ function _wp_privacy_resend_request( $request_id ) {
 }
 
 /**
- * Marks a request as completed by the admin and logs the datetime.
+ * Marks a request as completed by the admin and logs the current timestamp.
  *
  * @since 4.9.6
  * @access private
  *
- * @param int $request_id Request ID.
- * @return int|WP_Error Request ID on succes or WP_Error.
+ * @param  int          $request_id Request ID.
+ * @return int|WP_Error $request    Request ID on success or WP_Error.
  */
 function _wp_privacy_completed_request( $request_id ) {
 	$request_id   = absint( $request_id );
@@ -625,11 +625,11 @@ function _wp_privacy_completed_request( $request_id ) {
 		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
 	}
 
-	update_post_meta( $request_id, '_wp_user_request_confirmed_timestamp', time() );
+	update_post_meta( $request_id, '_wp_user_request_completed_timestamp', time() );
 
 	$request = wp_update_post( array(
 		'ID'          => $request_id,
-		'post_status' => 'request-confirmed',
+		'post_status' => 'request-completed',
 	) );
 
 	return $request;
