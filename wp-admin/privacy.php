@@ -13,8 +13,12 @@ if ( ! current_user_can( 'manage_privacy_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage privacy on this site.' ) );
 }
 
+if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/misc.php' );
+}
+
 // "Borrow" xfn.js for now so we don't have to create new files.
-// wp_enqueue_script( 'xfn' );
+wp_enqueue_script( 'xfn' );
 
 $action = isset( $_POST['action'] ) ? $_POST['action'] : '';
 
@@ -36,9 +40,6 @@ if ( ! empty( $action ) ) {
 			'updated'
 		);
 	} elseif ( 'create-privacy-page' === $action ) {
-		if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/misc.php' );
-		}
 
 		$privacy_policy_page_content = WP_Privacy_Policy_Content::get_default_content();
 		$privacy_policy_page_id = wp_insert_post(
@@ -115,6 +116,20 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 <div class="wrap">
+<?php
+
+if ( isset( $_GET['wp-suggested-policy-content'] ) ) {
+
+	?>
+	<h1><?php _e( 'Privacy Policy Guide' ); ?></h1>
+	<div class="wp-suggested-policy-content">
+		<?php WP_Privacy_Policy_Content::privacy_policy_guide(); ?>
+	</div>
+	<?php
+
+} else {
+
+?>
 	<h1><?php _e( 'Privacy Settings' ); ?></h1>
 	<h2><?php _e( 'Privacy Policy page' ); ?></h2>
 	<p>
@@ -205,5 +220,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</table>
 </div>
 <?php
+} // End if/else isset( $_GET['wp-suggested-policy-content'] ).
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

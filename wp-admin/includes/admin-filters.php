@@ -140,10 +140,10 @@ add_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_persona
 add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'text_change_check' ), 20 );
 
 // Show a "postbox" with the text suggestions for a privacy policy.
-add_action( 'edit_form_after_title', array( 'WP_Privacy_Policy_Content', 'privacy_policy_postbox' ) );
+add_action( 'edit_form_after_title', array( 'WP_Privacy_Policy_Content', 'notice' ) );
 
 // Add the suggested policy text from WordPress.
-add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'add_suggested_content' ), 15 );
+add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'add_suggested_content' ), 1 );
 
 // Stop checking for text changes after the policy page is updated.
 add_action( 'post_updated', array( 'WP_Privacy_Policy_Content', '_policy_page_updated' ) );

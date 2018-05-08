@@ -221,3 +221,36 @@ jQuery( document ).ready( function( $ ) {
 		do_next_erasure( 1, 1 );
 	} );
 } );
+
+( function( $ ) {
+	// Privacy policy page, copy button.
+	$( document ).on( 'click', function( event ) {
+		var $target = $( event.target );
+		var $parent, $container, range;
+
+		if ( $target.is( 'button.privacy-text-copy' ) ) {
+			$parent = $target.parent().parent();
+			$container = $parent.find( 'div.wp-suggested-text' );
+
+			if ( ! $container.length ) {
+				$container = $parent.find( 'div.policy-text' );
+			}
+
+			if ( $container.length ) {
+				try {
+					window.getSelection().removeAllRanges();
+					range = document.createRange();
+					$container.addClass( 'hide-privacy-policy-tutorial' );
+
+					range.selectNodeContents( $container[0] );
+					window.getSelection().addRange( range );
+					document.execCommand( 'copy' );
+
+					$container.removeClass( 'hide-privacy-policy-tutorial' );
+					window.getSelection().removeAllRanges();
+				} catch ( er ) {}
+			}
+		}
+	});
+
+} )( jQuery );
