@@ -3166,7 +3166,6 @@ All at ###SITENAME###
 	 */
 	$subject = apply_filters( 'user_request_action_email_subject', $subject, $blogname, $email_data );
 
-	/* translators: %s Site name. */
 	return wp_mail( $email_data['email'], $subject, $content );
 }
 
