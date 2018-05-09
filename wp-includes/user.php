@@ -3141,8 +3141,33 @@ All at ###SITENAME###
 	$content = str_replace( '###SITENAME###', wp_specialchars_decode( $email_data['sitename'], ENT_QUOTES ), $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
+	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+	/* translators: Privacy data request subject. 1: Site name, 2: Name of the action */
+	$subject = sprintf( __( '[%1$s] Confirm Action: %2$s' ), $blogname, $email_data['description'] );
+
+	/**
+	 * Filters the subject of the email sent when an account action is attempted.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param string $subject    The email subject.
+	 * @param string $blogname   The name of the site.
+	 * @param array  $email_data {
+	 *     Data relating to the account action email.
+	 *
+	 *     @type WP_User_Request $request User request object.
+	 *     @type string          $email       The email address this is being sent to.
+	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
+	 *     @type string          $confirm_url The link to click on to confirm the account action.
+	 *     @type string          $sitename    The site name sending the mail.
+	 *     @type string          $siteurl     The site URL sending the mail.
+	 * }
+	 */
+	$subject = apply_filters( 'user_request_action_email_subject', $subject, $blogname, $email_data );
+
 	/* translators: %s Site name. */
-	return wp_mail( $email_data['email'], sprintf( __( '[%s] Confirm Action' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) ), $content );
+	return wp_mail( $email_data['email'], $subject, $content );
 }
 
 /**
