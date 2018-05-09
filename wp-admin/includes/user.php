@@ -1361,7 +1361,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	public function single_row( $item ) {
 		$status = $item->status;
 
-		echo '<tr class="status-' . esc_attr( $status ) . '">';
+		echo '<tr id="request-' . esc_attr( $item->ID ) . '" class="status-' . esc_attr( $status ) . '">';
 		$this->single_row_columns( $item );
 		echo '</tr>';
 	}
