@@ -3112,20 +3112,20 @@ All at ###SITENAME###
 	 * Filters the text of the email sent when an account action is attempted.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
-	 * ###USERNAME###           The user's username, if the user has an account. Prefixed with single space. Otherwise left blank.
+	 *
 	 * ###DESCRIPTION### Description of the action being performed so the user knows what the email is for.
 	 * ###CONFIRM_URL### The link to click on to confirm the account action.
-	 * ###EMAIL###              The email we are sending to.
-	 * ###SITENAME###           The name of the site.
-	 * ###SITEURL###            The URL to the site.
+	 * ###EMAIL###       The email we are sending to.
+	 * ###SITENAME###    The name of the site.
+	 * ###SITEURL###     The URL to the site.
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param string $email_text     Text in the email.
+	 * @param string $email_text Text in the email.
 	 * @param array  $email_data {
 	 *     Data relating to the account action email.
 	 *
-	 *     @type WP_User_Request $request User request object.
+	 *     @type WP_User_Request $request     User request object.
 	 *     @type string          $email       The email address this is being sent to.
 	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
 	 *     @type string          $confirm_url The link to click on to confirm the account action.
