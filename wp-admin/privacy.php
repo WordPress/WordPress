@@ -101,17 +101,6 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 	}
 }
 
-get_current_screen()->add_help_tab( array(
-	'id'      => 'privacy',
-	'title'   => __( 'Privacy' ),
-	'content' => '<p>' . __( 'This page provides settings with which you can manage your site&#8217;s privacy policy.' ) . '</p>',
-) );
-
-get_current_screen()->set_help_sidebar(
-	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="#">Documentation on privacy</a>' ) . '</p>'
-);
-
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
