@@ -13,9 +13,6 @@ if ( ! current_user_can( 'manage_privacy_options' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to manage privacy on this site.' ) );
 }
 
-// "Borrow" xfn.js for now so we don't have to create new files.
-// wp_enqueue_script( 'xfn' );
-
 $action = isset( $_POST['action'] ) ? $_POST['action'] : '';
 
 if ( ! empty( $action ) ) {
@@ -36,6 +33,7 @@ if ( ! empty( $action ) ) {
 			'updated'
 		);
 	} elseif ( 'create-privacy-page' === $action ) {
+
 		if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/misc.php' );
 		}
@@ -119,6 +117,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<?php _e( 'We would also suggest reviewing your privacy policy from time to time, especially after an update. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<?php
+
 	if ( $privacy_policy_page_exists ) {
 		$edit_href = add_query_arg(
 			array(
@@ -129,17 +128,26 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		);
 
 		$view_href = get_permalink( $privacy_policy_page_id );
+
 		?>
 		<p class="tools-privacy-edit"><strong>
 			<?php
-			printf(
-				/* translators: 1: URL to edit page, 2: URL to view page */
-				__( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy page content.' ),
-				$edit_href,
-				$view_href
-			);
+
+			/* translators: 1: URL to edit page, 2: URL to view page */
+			printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy page content.' ), $edit_href, $view_href );
+
 			?>
 		</strong></p>
+		<p>
+			<?php
+
+			printf(
+				__( 'Need help putting together your new Privacy Policy page? %s for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
+				'<a href="' . admin_url( 'tools.php?wp-privacy-policy-guide' ) . '">' . __( 'Check out our guide' ) . '</a>'
+			);
+
+			?>
+		</p>
 		<?php
 	}
 	?>

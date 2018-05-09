@@ -646,37 +646,33 @@ span.wp-media-buttons-icon:before {
  	margin-bottom: 20px;
 }
 
-/* Sugested text for privacy policy postbox */
+/* Suggested text for privacy policy */
+.wp-privacy-policy-guide {
+	max-width: 1000px;
+}
+
 .privacy-text-box {
-	margin: 10px 0 0;
+	width: calc(100% - 260px);
 }
 
-.privacy-text-box-head {
-	border-left: 4px solid #ffb900;
-	border-bottom: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+.privacy-text-box-toc {
+	float: right;
+	width: 250px;
+	background-color: #fff;
 }
 
-.privacy-text-box .privacy-text-box-head.hndle {
-	cursor: pointer;
-}
-
-.privacy-text-box-head p {
-	padding: 0 12px 14px;
+.privacy-text-box-toc p {
 	margin: 0;
+	padding: 0.7em 1em;
+	border-bottom: 1px solid #eee;
 }
 
-.privacy-text-box-body {
-	height: 320px;
-	overflow: auto;
+.privacy-text-box-toc ol {
+	margin-left: 2em;
 }
 
-#privacy-text-box .inside {
-	margin: 0;
-}
-
-.privacy-text-box h3 {
-	font-size: 1em;
+.wp-privacy-policy-guide h3 {
+	font-size: 1.2em;
 	margin: 1em 0 0.5em;
 }
 
@@ -686,34 +682,18 @@ span.wp-media-buttons-icon:before {
 
 .privacy-text-section {
 	position: relative;
-	padding: 1px 14px 1px 12px;
 	border-top: 1px solid #e3e3e3;
-	border-left: 4px solid transparent;
 }
 
-.privacy-text-section.text-updated {
-	border-left-color: #46b450;
-	background-color: #ecf7ed;
-}
-
+.privacy-text-box-head,
 .privacy-text-section.text-removed {
-	border-left-color: #dc3232;
-	background-color: #fbeaea;
+	padding-bottom: 12px;
 }
 
-.privacy-text-meta {
- 	font-size: 11px;
-	color: #555D66;
+.text-removed .policy-text {
+	font-style: italic;
+	color: #666;
 	font-weight: 600;
-}
-
-.closed .privacy-text-box-body {
-	display: none;
-}
-
-.privacy-text-section.folded {
-	height: 150px;
-	overflow: hidden;
 }
 
 .privacy-text-actions {
@@ -722,41 +702,35 @@ span.wp-media-buttons-icon:before {
 	padding-bottom: 6px;
 }
 
-.folded .privacy-text-actions {
-	position: absolute;
-	bottom: 0;
-	background-color: white;
-	width: calc(100% - 24px);
-	box-shadow: 0px -5px 10px 5px rgba(255, 255, 255, .8);
-}
-
-.text-removed .privacy-text-actions {
-	background-color: #fbeaea;
-	box-shadow: 0px -5px 10px 5px rgba(251, 234, 234, .8);
-}
-
-.text-updated .privacy-text-actions {
-	background-color: #ecf7ed;
-	box-shadow: 0px -5px 10px 5px rgba(236, 247, 237, .8);
-}
-
-.policy-text-more,
-.folded .privacy-text-copy,
-.folded .policy-text-less {
-	display: none;
-}
-
-.folded .policy-text-more {
-	display: inline;
-}
-
-#privacy-text-box .policy-text h2 {
+.wp-privacy-policy-guide .policy-text h2 {
 	margin: 1.2em 0 1em;
 	padding: 0;
 }
 
-p.wp-policy-help {
-	display: none;
+.suggested-policy-content {
+	font-style: italic;
+}
+
+.privacy-text-section a.return-to-top {
+	float: right;
+	margin-right: -250px;
+	margin-top: 6px;
+}
+
+.hide-privacy-policy-tutorial .privacy-policy-tutorial {
+	visibility: hidden;
+}
+
+.wp-suggested-text p {
+	font-style: italic;
+}
+
+.wp-suggested-text p.privacy-policy-tutorial {
+	font-style: normal;
+}
+
+.notice.wp-pp-notice {
+	margin: 15px 0 3px;
 }
 
 /*------------------------------------------------------------------------------
@@ -1682,5 +1656,20 @@ table.links-table {
 	.links-table th,
 	.links-table td {
 		padding: 10px 0;
+	}
+	
+	.privacy-text-box {
+		width: auto;
+	}
+	
+	.privacy-text-box-toc {
+		float: none;
+		width: auto;
+		height: 100%;
+	}
+
+	.privacy-text-section a.return-to-top {
+		float: none;
+		margin: 0;
 	}
 }
