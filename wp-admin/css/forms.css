@@ -1466,6 +1466,12 @@ table.form-table td .updated p {
 		max-width: 6.25em;
 		margin: 0;
 	}
+
+	/* Privacy Policy settings screen */
+ 	.tools-privacy-policy-page input#set-page,
+	.tools-privacy-policy-page select {
+		margin: 10px 0 0;
+	}
 }
 
 @media only screen and (max-width: 768px) {
