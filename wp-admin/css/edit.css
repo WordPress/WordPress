@@ -647,7 +647,7 @@ span.wp-media-buttons-icon:before {
 }
 
 /* Suggested text for privacy policy */
-.wp-suggested-policy-content {
+.wp-privacy-policy-guide {
 	max-width: 1000px;
 }
 
@@ -671,8 +671,8 @@ span.wp-media-buttons-icon:before {
 	margin-left: 2em;
 }
 
-.wp-suggested-policy-content h3 {
-	font-size: 1em;
+.wp-privacy-policy-guide h3 {
+	font-size: 1.2em;
 	margin: 1em 0 0.5em;
 }
 
@@ -685,24 +685,15 @@ span.wp-media-buttons-icon:before {
 	border-top: 1px solid #e3e3e3;
 }
 
-.privacy-text-section.text-updated {
-	padding: 1px 15px;
-	border-left: 4px solid #46b450;
-	background-color: #ecf7ed;
-}
-
+.privacy-text-box-head,
 .privacy-text-section.text-removed {
-	padding: 1px 14px 1px 12px;
-	border-left: 4px solid #dc3232;
-	background-color: #fbeaea;
+	padding-bottom: 12px;
 }
 
-.privacy-text-meta {
-	font-size: 11px;
+.text-removed .policy-text {
 	font-style: italic;
-	color: #6C7781;
+	color: #666;
 	font-weight: 600;
-	margin-top: -12px;
 }
 
 .privacy-text-actions {
@@ -711,7 +702,7 @@ span.wp-media-buttons-icon:before {
 	padding-bottom: 6px;
 }
 
-.wp-suggested-policy-content .policy-text h2 {
+.wp-privacy-policy-guide .policy-text h2 {
 	margin: 1.2em 0 1em;
 	padding: 0;
 }
@@ -1674,6 +1665,7 @@ table.links-table {
 	.privacy-text-box-toc {
 		float: none;
 		width: auto;
+		height: 100%;
 	}
 
 	.privacy-text-section a.return-to-top {
