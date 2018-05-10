@@ -890,7 +890,7 @@ switch ( $action ) {
 		 */
 		do_action( 'user_request_action_confirmed', $request_id );
 
-		$message = apply_filters( 'user_request_action_confirmed_message', '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>', $request_id );
+		$message = _wp_privacy_account_request_confirmed_message( $request_id );
 
 		login_header( __( 'User action confirmed.' ), $message );
 		login_footer();
