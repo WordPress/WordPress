@@ -2048,7 +2048,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$obscura              = wp_generate_password( 32, false, false );
 	$file_basename        = 'wp-personal-data-file-' . $stripped_email . '-' . $obscura;
 	$html_report_filename = $file_basename . '.html';
-	$html_report_pathname = $exports_dir . $html_report_filename;
+	$html_report_pathname = wp_normalize_path( $exports_dir . $html_report_filename );
 	$file = fopen( $html_report_pathname, 'w' );
 	if ( false === $file ) {
 		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
@@ -2144,7 +2144,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 		$archive_url      = $exports_url . $archive_filename;
 
 		update_post_meta( $request_id, '_export_file_url', $archive_url );
-		update_post_meta( $request_id, '_export_file_path', $archive_pathname );
+		update_post_meta( $request_id, '_export_file_path', wp_normalize_path( $archive_pathname ) );
 	}
 
 	if ( ! empty( $archive_pathname ) && file_exists( $archive_pathname ) ) {
