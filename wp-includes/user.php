@@ -3078,7 +3078,7 @@ function _wp_privacy_account_request_confirmed_message( $message, $request_id ) 
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( $request && in_array( $request->action_name, _wp_privacy_action_request_types(), true ) ) {
-		$message = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
+		$message  = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
 		$message .= __( 'The site administrator has been notified and will fulfill your request as soon as possible.' );
 	}
 
@@ -3111,7 +3111,7 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 	}
 
 	$user    = get_user_by( 'email', $email_address );
-	$user_id = $user && ! is_wp_error( $user ) ? $user->ID: 0;
+	$user_id = $user && ! is_wp_error( $user ) ? $user->ID : 0;
 
 	// Check for duplicates.
 	$requests_query = new WP_Query( array(

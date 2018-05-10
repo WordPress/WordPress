@@ -1132,6 +1132,18 @@ table.form-table td .updated p {
 	border-left-color: #d64d21;
 }
 
+.privacy_requests .request-results .notice {
+	margin: -2px 0 0;
+}
+
+.privacy_requests .request-results .notice p {
+	margin: 0.5em 0;
+}
+
+.request-results td {
+	padding: 0 0 1px;
+}
+
 .status-label {
 	font-weight: 600;
 }
