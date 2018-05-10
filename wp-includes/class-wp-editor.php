@@ -1401,8 +1401,16 @@ final class _WP_Editors {
 		$version = 'ver=' . $tinymce_version;
 		$baseurl = self::get_baseurl();
 
-		$compressed = $compress_scripts && $concatenate_scripts && isset($_SERVER['HTTP_ACCEPT_ENCODING'])
-			&& false !== stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip');
+		$has_custom_theme = false;
+		foreach ( self::$mce_settings as $init ) {
+			if ( ! empty( $init['theme_url'] ) ) {
+				$has_custom_theme = true;
+				break;
+			}
+		}
+
+		$compressed = $compress_scripts && $concatenate_scripts && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] )
+			&& false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $has_custom_theme;
 
 		// Load tinymce.js when running from /src, else load wp-tinymce.js.gz (production) or tinymce.min.js (SCRIPT_DEBUG)
 		$mce_suffix = false !== strpos( get_bloginfo( 'version' ), '-src' ) ? '' : '.min';
