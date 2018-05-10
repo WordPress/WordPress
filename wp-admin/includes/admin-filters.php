@@ -136,6 +136,7 @@ add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
 add_filter( 'wp_privacy_personal_data_erasure_page', 'wp_privacy_process_personal_data_erasure_page', 10, 5 );
 add_filter( 'wp_privacy_personal_data_export_page', 'wp_privacy_process_personal_data_export_page', 10, 7 );
 add_action( 'wp_privacy_personal_data_export_file', 'wp_privacy_generate_personal_data_export_file', 10 );
+add_action( 'wp_privacy_personal_data_erased', '_wp_privacy_send_erasure_fulfillment_notification', 10 );
 
 // Privacy policy text changes check.
 add_action( 'admin_init', array( 'WP_Privacy_Policy_Content', 'text_change_check' ), 100 );

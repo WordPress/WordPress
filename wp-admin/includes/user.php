@@ -981,6 +981,15 @@ function wp_privacy_process_personal_data_erasure_page( $response, $eraser_index
 
 	_wp_privacy_completed_request( $request_id );
 
+	/**
+	 * Fires immediately after a personal data erasure request has been marked completed.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param int $request_id The privacy request post ID associated with this request.
+	 */
+	do_action( 'wp_privacy_personal_data_erased', $request_id );
+
 	return $response;
 }
 
