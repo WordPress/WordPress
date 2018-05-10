@@ -520,7 +520,11 @@ if ( ! function_exists( 'is_countable' ) ) {
 	 * @return bool True if `$var` is countable, false otherwise.
 	 */
 	function is_countable( $var ) {
-		return ( is_array( $var ) || $var instanceof Countable );
+		return ( is_array( $var )
+			|| $var instanceof Countable
+			|| $var instanceof SimpleXMLElement
+			|| $var instanceof ResourceBundle
+		);
 	}
 }
 
