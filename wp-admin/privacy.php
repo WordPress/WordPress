@@ -106,15 +106,15 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<h2><?php _e( 'Privacy Policy page' ); ?></h2>
 	<p>
 		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a privacy policy.' ); ?>
-		<?php _e( 'If you already have a privacy policy page, please select it below. If not, create one.' ); ?>
+		<?php _e( 'If you already have a privacy policy page, please select it below. If not, please create one.' ); ?>
 	</p>
 	<p>
 		<?php _e( 'The new page will include help and suggestions for your privacy policy.' ); ?>
 		<?php _e( 'However, it is your responsibility to use those resources correctly, to provide the information that your privacy policy requires, and to keep that information current and accurate.' ); ?>
 	</p>
 	<p>
-		<?php _e( 'After your privacy policy page is set, we suggest that you edit it. On the edit page screen you will find additional privacy information added by your themes and plugins.' ); ?>
-		<?php _e( 'We would also suggest reviewing your privacy policy from time to time, especially after an update. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
+		<?php _e( 'After your privacy policy page is set, we suggest that you edit it.' ); ?>
+		<?php _e( 'We would also suggest reviewing your privacy policy from time to time, especially after installing or updating any themes or plugins. There may be changes or new suggested information for you to consider adding to your policy.' ); ?>
 	</p>
 	<?php
 
