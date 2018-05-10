@@ -1115,9 +1115,21 @@ table.form-table td .updated p {
 	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
 }
 
+.privacy_requests tbody .has-request-results th {
+	box-shadow: none;
+}
+
+.privacy_requests tbody .request-results th .notice {
+	margin: 0 0 5px;
+}
+
 .privacy_requests tbody td {
 	background: #fff;
 	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.privacy_requests tbody .has-request-results td {
+	box-shadow: none;
 }
 
 .privacy_requests .status-request-confirmed th,
@@ -1132,16 +1144,8 @@ table.form-table td .updated p {
 	border-right-color: #d64d21;
 }
 
-.privacy_requests .request-results .notice {
-	margin: -2px 0 0;
-}
-
-.privacy_requests .request-results .notice p {
-	margin: 0.5em 0;
-}
-
-.request-results td {
-	padding: 0 0 1px;
+.privacy_requests .export_personal_data_failed a {
+	vertical-align: baseline;
 }
 
 .status-label {
