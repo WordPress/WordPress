@@ -349,6 +349,7 @@ add_action( 'welcome_panel', 'wp_welcome_panel' );
 
 // Privacy
 add_action( 'user_request_action_confirmed', '_wp_privacy_account_request_confirmed' );
+add_action( 'user_request_action_confirmed', '_wp_privacy_send_request_confirmation_notification', 12 ); // After request marked as completed.
 add_filter( 'user_request_action_confirmed_message', '_wp_privacy_account_request_confirmed_message', 10, 2 );
 add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_comment_personal_data_exporter' );
 add_filter( 'wp_privacy_personal_data_exporters', 'wp_register_media_personal_data_exporter' );

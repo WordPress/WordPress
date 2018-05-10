@@ -2951,6 +2951,122 @@ function _wp_privacy_account_request_confirmed( $request_id ) {
 }
 
 /**
+ * Notify the site administrator via email when a request is confirmed.
+ *
+ * Without this, the admin would have to manually check the site to see if any
+ * action was needed on their part yet.
+ *
+ * @since 4.9.6
+ *
+ * @param int $request_id The ID of the request.
+ */
+function _wp_privacy_send_request_confirmation_notification( $request_id ) {
+	$request_data = wp_get_user_request_data( $request_id );
+
+	if ( ! is_a( $request_data, 'WP_User_Request' ) || 'request-confirmed' !== $request_data->status ) {
+		return;
+	}
+
+	$already_notified = (bool) get_post_meta( $request_id, '_wp_admin_notified', true );
+
+	if ( $already_notified ) {
+		return;
+	}
+
+	$subject = sprintf(
+		/* translators: %s Site name. */
+		__( '[%s] Action Confirmed' ),
+		wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
+	);
+
+	$manage_url = add_query_arg( 'page', $request_data->action_name, admin_url( 'tools.php' ) );
+
+	/**
+	 * Filters the recipient of the data request confirmation notification.
+	 *
+	 * In a Multisite environment, this will default to the email address of the
+	 * network admin because, by default, single site admins do not have the
+	 * capabilities required to process requests. Some networks may wish to
+	 * delegate those capabilities to a single-site admin, or a dedicated person
+	 * responsible for managing privacy requests.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param string          $admin_email  The email address of the notification recipient.
+	 * @param WP_User_Request $request_data The request that is initiating the notification.
+	 */
+	$admin_email = apply_filters( 'user_request_confirmed_email_to', get_site_option( 'admin_email' ), $request_data );
+
+	$email_data = array(
+		'request'     => $request_data,
+		'user_email'  => $request_data->email,
+		'description' => wp_user_request_action_description( $request_data->action_name ),
+		'manage_url'  => $manage_url,
+		'sitename'    => get_option( 'blogname' ),
+		'siteurl'     => home_url(),
+		'admin_email' => $admin_email,
+	);
+
+	/* translators: Do not translate SITENAME, USER_EMAIL, DESCRIPTION, MANAGE_URL, SITEURL; those are placeholders. */
+	$email_text = __(
+		'Howdy,
+
+A user data privacy request has been confirmed on ###SITENAME###:
+
+User: ###USER_EMAIL###
+Request: ###DESCRIPTION###
+
+You can view and manage these data privacy requests here:
+
+###MANAGE_URL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###'
+	);
+
+	/**
+	 * Filters the body of the user request confirmation email.
+	 *
+	 * The email is sent to an administrator when an user request is confirmed.
+	 * The following strings have a special meaning and will get replaced dynamically:
+	 *
+	 * ###SITENAME###    The name of the site.
+	 * ###USER_EMAIL###  The user email for the request.
+	 * ###DESCRIPTION### Description of the action being performed so the user knows what the email is for.
+	 * ###MANAGE_URL###  The URL to manage requests.
+	 * ###SITEURL###     The URL to the site.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param string $email_text Text in the email.
+	 * @param array  $email_data {
+	 *     Data relating to the account action email.
+	 *
+	 *     @type WP_User_Request $request     User request object.
+	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
+	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
+	 *     @type string          $sitename    The site name sending the mail.
+	 *     @type string          $siteurl     The site URL sending the mail.
+	 * }
+	 */
+	$content = apply_filters( 'user_confirmed_action_email_content', $email_text, $email_data );
+
+	$content = str_replace( '###SITENAME###', wp_specialchars_decode( $email_data['sitename'], ENT_QUOTES ), $content );
+	$content = str_replace( '###USER_EMAIL###', $email_data['user_email'], $content );
+	$content = str_replace( '###DESCRIPTION###', $email_data['description'], $content );
+	$content = str_replace( '###MANAGE_URL###', esc_url_raw( $email_data['manage_url'] ), $content );
+	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
+
+	$email_sent = wp_mail( $email_data['admin_email'], $subject, $content );
+
+	if ( $email_sent ) {
+		update_post_meta( $request_id, '_wp_admin_notified', true );
+	}
+}
+
+/**
  * Return request confirmation message HTML.
  *
  * @since 4.9.6
