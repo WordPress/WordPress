@@ -4476,6 +4476,8 @@ function wp_ajax_wp_privacy_export_personal_data() {
 		}
 	} else {
 		// No exporters, so we're done.
+		$exporter_key = '';
+
 		$response = array(
 			'data' => array(),
 			'done' => true,
@@ -4495,7 +4497,7 @@ function wp_ajax_wp_privacy_export_personal_data() {
 	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
 	 * @param bool   $send_as_email   Whether the final results of the export should be emailed to the user.
-	 * @param int    $exporter_key    The key (slug) of the exporter that provided this data.
+	 * @param string $exporter_key    The key (slug) of the exporter that provided this data.
 	 */
 	$response = apply_filters( 'wp_privacy_personal_data_export_page', $response, $exporter_index, $email_address, $page, $request_id, $send_as_email, $exporter_key );
 
@@ -4692,6 +4694,8 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		}
 	} else {
 		// No erasers, so we're done.
+		$eraser_key = '';
+
 		$response = array(
 			'items_removed'  => false,
 			'items_retained' => false,
@@ -4712,7 +4716,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	 * @param string $email_address   The email address associated with this personal data.
 	 * @param int    $page            The page for this response.
 	 * @param int    $request_id      The privacy request post ID associated with this request.
-	 * @param int    $eraser_key      The key (slug) of the eraser that provided this data.
+	 * @param string $eraser_key      The key (slug) of the eraser that provided this data.
 	 */
 	$response = apply_filters( 'wp_privacy_personal_data_erasure_page', $response, $eraser_index, $email_address, $page, $request_id, $eraser_key );
 
