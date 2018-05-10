@@ -3106,7 +3106,7 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 
 	$email_data = array(
 		'request'            => $request_data,
-		'user_email'         => $request_data->email,
+		'message_recipient'  => $user_email,
 		'privacy_policy_url' => get_privacy_policy_url(),
 		'sitename'           => get_option( 'blogname' ),
 		'siteurl'            => home_url(),
@@ -3161,7 +3161,9 @@ All at ###SITENAME###
 	 *     Data relating to the account action email.
 	 *
 	 *     @type WP_User_Request $request            User request object.
-	 *     @type string          $user_email         The email address confirming a request.
+	 *     @type string          $message_recipient  The address that the email will be sent to. Defaults
+	 *                                               to the value of `$request->email`, but can be changed
+	 *                                               by the `user_erasure_fulfillment_email_to` filter.
 	 *     @type string          $privacy_policy_url Privacy policy URL.
 	 *     @type string          $sitename           The site name sending the mail.
 	 *     @type string          $siteurl            The site URL sending the mail.
