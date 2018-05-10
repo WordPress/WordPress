@@ -37,11 +37,12 @@
 }
 
 .wp-pointer-content h4 {
-	margin: 1.33em 15px;
+	margin: 1.33em 20px 1em;
+	font-size: 1.15em;
 }
 
 .wp-pointer-content p {
-	padding: 0 15px;
+	padding: 0 20px;
 }
 
 .wp-pointer-buttons {
