@@ -6249,16 +6249,6 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
 }
 
 /**
- * Trigger the check for policy text changes.
- *
- * @since 4.9.6
- * @access private
- */
-function _wp_privacy_active_plugins_change() {
-	update_option( '_wp_privacy_text_change_check', 'check' );
-}
-
-/**
  * Schedule a `WP_Cron` job to delete expired export files.
  *
  * @since 4.9.6

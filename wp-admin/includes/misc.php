@@ -1320,69 +1320,94 @@ final class WP_Privacy_Policy_Content {
 
 		// The site doesn't have a privacy policy.
 		if ( empty( $policy_page_id ) ) {
-			return;
+			return false;
 		}
 
 		if ( ! current_user_can( 'edit_post', $policy_page_id ) ) {
-			return;
-		}
-
-		// Also run when the option doesn't exist yet.
-		if ( get_option( '_wp_privacy_text_change_check' ) === 'no-check' ) {
-			return;
+			return false;
 		}
 
 		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
+
+		// Updates are not relevant if the user has not reviewed any suggestions yet.
+		if ( empty( $old ) ) {
+			return false;
+		}
+
+		$cached = get_option( '_wp_suggested_policy_text_has_changed' );
+
+		/*
+		 * When this function is called before `admin_init`, `self::$policy_content`
+		 * has not been populated yet, so use the cached result from the last
+		 * execution instead.
+		 */
+		if ( ! did_action( 'admin_init' ) ) {
+			return 'changed' === $cached;
+		}
+
 		$new = self::$policy_content;
 
 		// Remove the extra values added to the meta.
 		foreach ( $old as $key => $data ) {
+			if ( ! empty( $data['removed'] ) ) {
+				unset( $old[ $key ] );
+				continue;
+			}
+
 			$old[ $key ] = array(
 				'plugin_name' => $data['plugin_name'],
 				'policy_text' => $data['policy_text'],
 			);
 		}
 
+		// Normalize the order of texts, to facilitate comparison.
+		sort( $old );
+		sort( $new );
+
 		// The == operator (equal, not identical) was used intentionally.
 		// See http://php.net/manual/en/language.operators.array.php
 		if ( $new != $old ) {
 			// A plugin was activated or deactivated, or some policy text has changed.
-			// Show a notice on all screens in wp-admin.
+			// Show a notice on the relevant screens to inform the admin.
 			add_action( 'admin_notices', array( 'WP_Privacy_Policy_Content', 'policy_text_changed_notice' ) );
+			$state = 'changed';
 		} else {
-			// Stop checking.
-			update_option( '_wp_privacy_text_change_check', 'no-check' );
+			$state = 'not-changed';
 		}
+
+		// Cache the result for use before `admin_init` (see above).
+		if ( $cached !== $state ) {
+			update_option( '_wp_suggested_policy_text_has_changed', $state );
+		}
+
+		return 'changed' === $state;
 	}
 
 	/**
-	 * Output an admin notice when some privacy info has changed.
+	 * Output a warning when some privacy info has changed.
 	 *
 	 * @since 4.9.6
 	 */
 	public static function policy_text_changed_notice() {
 		global $post;
-		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
+
+		$screen = get_current_screen()->id;
+
+		if ( 'privacy' !== $screen ) {
+			return;
+		}
 
 		?>
 		<div class="policy-text-updated notice notice-warning is-dismissible">
 			<p><?php
-
-				_e( 'The suggested privacy policy text has changed.' );
-
-				if ( empty( $post ) || $post->ID != $policy_page_id ) {
-					?>
-					<a href="<?php echo get_edit_post_link( $policy_page_id ); ?>"><?php _e( 'Edit the privacy policy.' ); ?></a>
-					<?php
-				}
-
+				_e( 'The suggested privacy policy text has changed. Please update your privacy policy.' );
 			?></p>
 		</div>
 		<?php
 	}
 
 	/**
-	 * Stop checking for changed privacy info when the policy page is updated.
+	 * Update the cached policy info when the policy page is updated.
 	 *
 	 * @since 4.9.6
 	 * @access private
@@ -1394,9 +1419,8 @@ final class WP_Privacy_Policy_Content {
 			return;
 		}
 
-		// The policy page was updated.
-		// Stop checking for text changes.
-		update_option( '_wp_privacy_text_change_check', 'no-check' );
+		// Update the cache in case the user hasn't visited the policy guide.
+		self::get_suggested_policy_text();
 
 		// Remove updated|removed status.
 		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
@@ -1496,7 +1520,7 @@ final class WP_Privacy_Policy_Content {
 			foreach ( $new as $new_data ) {
 				if ( ! empty( $new_data['plugin_name'] ) && ! empty( $new_data['policy_text'] ) ) {
 					$new_data['added'] = $time;
-					array_unshift( $checked, $new_data );
+					$checked[]         = $new_data;
 				}
 			}
 			$update_cache = true;
@@ -1511,7 +1535,8 @@ final class WP_Privacy_Policy_Content {
 						'policy_text' => $old_data['policy_text'],
 						'removed'     => $time,
 					);
-					array_unshift( $checked, $data );
+
+					$checked[] = $data;
 				}
 			}
 			$update_cache = true;
@@ -1523,11 +1548,6 @@ final class WP_Privacy_Policy_Content {
 			foreach ( $checked as $data ) {
 				add_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content', $data );
 			}
-		}
-
-		// Stop checking for changes after the page has been loaded.
-		if ( get_option( '_wp_privacy_text_change_check' ) !== 'no-check' ) {
-			update_option( '_wp_privacy_text_change_check', 'no-check' );
 		}
 
 		return $checked;
