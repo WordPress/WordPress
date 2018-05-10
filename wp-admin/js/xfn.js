@@ -31,13 +31,16 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	function clearResultsAfterRow( $requestRow ) {
+		$requestRow.removeClass( 'has-request-results' );
+
 		if ( $requestRow.next().hasClass( 'request-results' ) ) {
 			$requestRow.next().remove();
 		}
 	}
 
 	function appendResultsAfterRow( $requestRow, classes, summaryMessage, additionalMessages ) {
-		var itemList = '';
+		var itemList = '',
+			resultRowClasses = 'request-results';
 
 		clearResultsAfterRow( $requestRow );
 
@@ -48,8 +51,18 @@ jQuery( document ).ready( function( $ ) {
 			itemList = '<ul>' + itemList + '</ul>';
 		}
 
+		$requestRow.addClass( 'has-request-results' );
+
+		if ( $requestRow.hasClass( 'status-request-confirmed' ) ) {
+			resultRowClasses = resultRowClasses + ' status-request-confirmed';
+		}
+
+		if ( $requestRow.hasClass( 'status-request-failed' ) ) {
+			resultRowClasses = resultRowClasses + ' status-request-failed';
+		}
+
 		$requestRow.after( function() {
-			return '<tr class="request-results"><td colspan="5">' +
+			return '<tr class="' + resultRowClasses + '"><th colspan="5">' +
 				'<div class="notice inline notice-alt ' + classes + '">' +
 				'<p>' + summaryMessage + '</p>' +
 				itemList +
