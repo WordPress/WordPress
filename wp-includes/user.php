@@ -3108,15 +3108,34 @@ All at ###SITENAME###
  * @since 4.9.6
  * @access private
  *
+ * @param int $request_id The request ID being confirmed.
  * @return string $message The confirmation message.
  */
-function _wp_privacy_account_request_confirmed_message( $message, $request_id ) {
+function _wp_privacy_account_request_confirmed_message( $request_id ) {
 	$request = wp_get_user_request_data( $request_id );
 
+	$message = '<p class="success">' . __( 'Action has been confirmed.' ) . '</p>';
+	$message .= '<p>' . __( 'The site administrator has been notified and will fulfill your request as soon as possible.' ) . '</p>';
+
 	if ( $request && in_array( $request->action_name, _wp_privacy_action_request_types(), true ) ) {
-		$message  = '<p class="message">' . __( 'Action has been confirmed.' ) . '</p>';
-		$message .= __( 'The site administrator has been notified and will fulfill your request as soon as possible.' );
+		if ( 'export_personal_data' === $request->action_name ) {
+			$message = '<p class="success">' . __( 'Thanks for confirming your export request.' ) . '</p>';
+			$message .= '<p>' . __( 'The site administrator has been notified. You will receive a link to download your export via email when they fulfill your request.' ) . '</p>';
+		} elseif ( 'remove_personal_data' === $request->action_name ) {
+			$message = '<p class="success">' . __( 'Thanks for confirming your erasure request.' ) . '</p>';
+			$message .= '<p>' . __( 'The site administrator has been notified. You will receive an email confirmation when they erase your data.' ) . '</p>';
+		}
 	}
+
+	/**
+	 * Filters the message displayed to a user when they confirm a data request.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param string $message    The message to the user.
+	 * @param int    $request_id The ID of the request being confirmed.
+	 */
+	$message = apply_filters( 'user_request_action_confirmed_message', $message, $request_id );
 
 	return $message;
 }
