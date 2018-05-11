@@ -1691,10 +1691,12 @@ final class WP_Privacy_Policy_Content {
 	 */
 	public static function get_default_content( $descr = false ) {
 		$suggested_text = $descr ? '<strong class="privacy-policy-tutorial">' . __( 'Suggested text:' ) . ' </strong>' : '';
+		$content = '';
 
 		// Start of the suggested privacy policy text.
-		$content =
-			'<div class="wp-suggested-text">' .
+		$descr && $content .=
+			'<div class="wp-suggested-text">';
+		$content .=
 			'<h2>' . __( 'Who we are' ) . '</h2>';
 		$descr && $content .=
 			'<p class="privacy-policy-tutorial">' . __( 'In this section you should note your site URL, as well as the name of the company, organization, or individual behind it, and some accurate contact information.' ) . '</p>' .
@@ -1807,8 +1809,7 @@ final class WP_Privacy_Policy_Content {
 		$content .=
 			'<h3>' . __( 'Industry regulatory disclosure requirements' ) . '</h3>';
 		$descr && $content .=
-			'<p class="privacy-policy-tutorial">' . __( 'If you are a member of a regulated industry, or if you are subject to additional privacy laws, you may be required to disclose that information here.' ) . '</p>';
-		$content .=
+			'<p class="privacy-policy-tutorial">' . __( 'If you are a member of a regulated industry, or if you are subject to additional privacy laws, you may be required to disclose that information here.' ) . '</p>' .
 			'</div>';
 		// End of the suggested privacy policy text.
 
