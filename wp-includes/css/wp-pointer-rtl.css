@@ -207,6 +207,15 @@
 	content: " ";
 }
 
+.wp-pointer.arrow-bottom .wp-pointer-content {
+	margin-bottom: -45px;
+}
+
+.wp-pointer.arrow-bottom .wp-pointer-arrow {
+	top: 100%;
+	margin-top: -30px;
+}
+
 /* Disable pointers at responsive sizes */
 @media screen and ( max-width: 782px ) {
 	.wp-pointer {
