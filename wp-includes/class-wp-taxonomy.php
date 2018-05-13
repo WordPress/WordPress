@@ -147,7 +147,7 @@ final class WP_Taxonomy {
 	 * Capabilities for this taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @var array
+	 * @var object
 	 */
 	public $cap;
 
