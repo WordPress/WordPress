@@ -183,7 +183,7 @@ final class WP_Internal_Pointers {
 			'content'  => $content,
 			'position' => $position,
 			'pointerClass' => 'wp-pointer arrow-bottom',
-			'pointerWidth' => 420,
+			'pointerWidth' => auto,
 		);
 		self::print_js( 'wp496_privacy', '#menu-tools', $js_args );
 	}
