@@ -1389,8 +1389,6 @@ final class WP_Privacy_Policy_Content {
 	 * @since 4.9.6
 	 */
 	public static function policy_text_changed_notice() {
-		global $post;
-
 		$screen = get_current_screen()->id;
 
 		if ( 'privacy' !== $screen ) {
@@ -1398,7 +1396,7 @@ final class WP_Privacy_Policy_Content {
 		}
 
 		?>
-		<div class="policy-text-updated notice notice-warning is-dismissible">
+		<div class="policy-text-updated notice notice-warning">
 			<p><?php
 				_e( 'The suggested privacy policy text has changed. Please update your privacy policy.' );
 			?></p>
