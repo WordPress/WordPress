@@ -196,6 +196,6 @@ final class WP_Internal_Pointers {
 	 * @param int $user_id User ID.
 	 */
 	public static function dismiss_pointers_for_new_users( $user_id ) {
-		add_user_meta( $user_id, 'dismissed_wp_pointers', '' );
+		add_user_meta( $user_id, 'dismissed_wp_pointers', 'wp496_privacy' );
 	}
 }
