@@ -170,18 +170,20 @@ final class WP_Internal_Pointers {
 		if ( is_rtl() ) {
 			$position = array(
 				'edge'  => 'right',
-				'align' => 'left',
+				'align' => 'bottom',
 			);
 		} else {
 			$position = array(
 				'edge'  => 'left',
-				'align' => 'right',
+				'align' => 'bottom',
 			);
 		}
 
 		$js_args = array(
 			'content'  => $content,
 			'position' => $position,
+			'pointerClass' => 'wp-pointer arrow-bottom',
+			'pointerWidth' => 420,
 		);
 		self::print_js( 'wp496_privacy', '#menu-tools', $js_args );
 	}
