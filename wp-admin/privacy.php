@@ -98,11 +98,14 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 	}
 }
 
+$title       = __( 'Privacy Settings' );
+$parent_file = 'options-general.php';
+
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 ?>
 <div class="wrap">
-	<h1><?php _e( 'Privacy Settings' ); ?></h1>
+	<h1><?php echo $title; ?></h1>
 	<h2><?php _e( 'Privacy Policy page' ); ?></h2>
 	<p>
 		<?php _e( 'As a website owner, you may need to follow national or international privacy laws. For example, you may need to create and display a privacy policy.' ); ?>
