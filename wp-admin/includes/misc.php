@@ -1609,8 +1609,8 @@ final class WP_Privacy_Policy_Content {
 		$content_array = self::get_suggested_policy_text();
 
 		$content = '';
-		$toc = array( '<li><a href="#">' . __( 'Introduction' ) . '</a></li>' );
-		$date_format = get_option( 'date_format' );
+		$toc = array( '<li><a href="#wp-privacy-policy-guide-introduction">' . __( 'Introduction' ) . '</a></li>' );
+		$date_format = __( 'F j, Y' );
 		$copy = __( 'Copy' );
 		$return_to_top = '<a href="#" class="return-to-top">' . __( '&uarr; Return to Top' ) . '</a>';
 
@@ -1635,11 +1635,12 @@ final class WP_Privacy_Policy_Content {
 			}
 
 			$plugin_name = esc_html( $section['plugin_name'] );
-			$toc_id = sanitize_title( $plugin_name );
+			$toc_id = 'wp-privacy-policy-guide-' . sanitize_title( $plugin_name );
 			$toc[] = sprintf( '<li><a href="#%1$s">%2$s</a>' . $meta . '</li>', $toc_id, $plugin_name );
 
 			$content .= '<div class="privacy-text-section' . $class . '">';
 			$content .= '<a id="' . $toc_id . '">&nbsp;</a>';
+			/* translators: %s: plugin name */
 			$content .= '<h2>' . sprintf( __( 'Source: %s' ), $plugin_name ) . '</h2>';
 			$content .= $removed;
 
@@ -1672,6 +1673,7 @@ final class WP_Privacy_Policy_Content {
 		?>
 		<div class="privacy-text-box">
 			<div class="privacy-text-box-head">
+				<a id="wp-privacy-policy-guide-introduction">&nbsp;</a>
 				<h2><?php _e( 'Introduction' ); ?></h2>
 				<p><?php _e( 'Hello,' ); ?></p>
 				<p><?php _e( 'This text template will help you to create your web site&#8217;s privacy policy.' ); ?></p>
