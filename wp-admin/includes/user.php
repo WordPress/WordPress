@@ -587,7 +587,7 @@ Please click the following link to activate your user account:
  * @access private
  *
  * @param int $request_id Request ID.
- * @return bool|WP_Error
+ * @return bool|WP_Error Returns true/false based on the success of sending the email, or a WP_Error object.
  */
 function _wp_privacy_resend_request( $request_id ) {
 	$request_id = absint( $request_id );
@@ -754,6 +754,7 @@ function _wp_personal_data_handle_actions() {
 function _wp_personal_data_cleanup_requests() {
 	/** This filter is documented in wp-includes/user.php */
 	$expires        = (int) apply_filters( 'user_request_key_expiration', DAY_IN_SECONDS );
+
 	$requests_query = new WP_Query( array(
 		'post_type'      => 'user_request',
 		'posts_per_page' => -1,
@@ -1011,13 +1012,16 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 /**
  * WP_Privacy_Requests_Table class.
+ *
+ * @since 4.9.6
  */
 abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 
 	/**
 	 * Action name for the requests this table will work with. Classes
 	 * which inherit from WP_Privacy_Requests_Table should define this.
-	 * e.g. 'export_personal_data'
+	 *
+	 * Example: 'export_personal_data'.
 	 *
 	 * @since 4.9.6
 	 *
@@ -1039,7 +1043,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param array Array of columns.
+	 * @return array Array of columns.
 	 */
 	public function get_columns() {
 		$columns = array(
@@ -1057,7 +1061,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return array
+	 * @return array Default sortable columns.
 	 */
 	protected function get_sortable_columns() {
 		return array();
@@ -1068,7 +1072,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return string
+	 * @return string Default primary column name.
 	 */
 	protected function get_default_primary_column_name() {
 		return 'email';
@@ -1112,12 +1116,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get an associative array ( id => link ) with the list
-	 * of views available on this table.
+	 * Get an associative array ( id => link ) with the list of views available on this table.
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return array
+	 * @return array Associative array of views in the format of $view_name => $view_markup.
 	 */
 	protected function get_views() {
 		$current_status = isset( $_REQUEST['filter-status'] ) ? sanitize_text_field( $_REQUEST['filter-status'] ) : '';
@@ -1142,7 +1145,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return array
+	 * @return array List of bulk actions.
 	 */
 	protected function get_bulk_actions() {
 		return array(
@@ -1256,7 +1259,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @since 4.9.6
 	 *
 	 * @param WP_User_Request $item Item being shown.
-	 * @return string
+	 * @return string Checkbox column markup.
 	 */
 	public function column_cb( $item ) {
 		return sprintf( '<input type="checkbox" name="request_id[]" value="%1$s" /><span class="spinner"></span>', esc_attr( $item->ID ) );
@@ -1268,7 +1271,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @since 4.9.6
 	 *
 	 * @param WP_User_Request $item Item being shown.
-	 * @return string
+	 * @return string Status column markup.
 	 */
 	public function column_status( $item ) {
 		$status        = get_post_status( $item->ID );
@@ -1305,7 +1308,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @since 4.9.6
 	 *
 	 * @param int $timestamp Event timestamp.
-	 * @return string
+	 * @return string Human readable date.
 	 */
 	protected function get_timestamp_as_date( $timestamp ) {
 		if ( empty( $timestamp ) ) {
@@ -1327,9 +1330,9 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param WP_User_Request $item         Item being shown.
+	 * @param WP_User_Request $item        Item being shown.
 	 * @param string          $column_name Name of column being shown.
-	 * @return string
+	 * @return string Default column output.
 	 */
 	public function column_default( $item, $column_name ) {
 		$cell_value = $item->$column_name;
@@ -1342,19 +1345,19 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Actions column. Overriden by children.
+	 * Actions column. Overridden by children.
 	 *
 	 * @since 4.9.6
 	 *
 	 * @param WP_User_Request $item Item being shown.
-	 * @return string
+	 * @return string Email column markup.
 	 */
 	public function column_email( $item ) {
 		return sprintf( '<a href="%1$s">%2$s</a> %3$s', esc_url( 'mailto:' . $item->email ), $item->email, $this->row_actions( array() ) );
 	}
 
 	/**
-	 * Next steps column. Overriden by children.
+	 * Next steps column. Overridden by children.
 	 *
 	 * @since 4.9.6
 	 *
@@ -1363,11 +1366,11 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	public function column_next_steps( $item ) {}
 
 	/**
-	 * Generates content for a single row of the table
+	 * Generates content for a single row of the table,
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param WP_User_Request $item The current item
+	 * @param WP_User_Request $item The current item.
 	 */
 	public function single_row( $item ) {
 		$status = $item->status;
@@ -1378,7 +1381,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Embed scripts used to perform actions. Overriden by children.
+	 * Embed scripts used to perform actions. Overridden by children.
 	 *
 	 * @since 4.9.6
 	 */
@@ -1415,7 +1418,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 	 * @since 4.9.6
 	 *
 	 * @param WP_User_Request $item Item being shown.
-	 * @return string
+	 * @return string Email column markup.
 	 */
 	public function column_email( $item ) {
 		$exporters       = apply_filters( 'wp_privacy_personal_data_exporters', array() );
@@ -1444,7 +1447,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 	}
 
 	/**
-	 * Next steps column.
+	 * Displays the next steps column.
 	 *
 	 * @since 4.9.6
 	 *
@@ -1495,7 +1498,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 /**
  * WP_Privacy_Data_Removal_Requests_Table class.
  *
-	 * @since 4.9.6
+ * @since 4.9.6
  */
 class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 	/**
@@ -1522,7 +1525,7 @@ class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Requests_Table {
 	 * @since 4.9.6
 	 *
 	 * @param WP_User_Request $item Item being shown.
-	 * @return string
+	 * @return string Email column markup.
 	 */
 	public function column_email( $item ) {
 		$row_actions = array();

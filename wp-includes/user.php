@@ -2816,7 +2816,7 @@ function new_user_email_admin_notice() {
  * @since 4.9.6
  * @access private
  *
- * @return array
+ * @return array List of core privacy action types.
  */
 function _wp_privacy_action_request_types() {
 	return array(
@@ -3281,7 +3281,7 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
  * @since 4.9.6
  *
  * @param string $action_name Action name of the request.
- * @return string
+ * @return string Human readable action name.
  */
 function wp_user_request_action_description( $action_name ) {
 	switch ( $action_name ) {
@@ -3407,7 +3407,7 @@ All at ###SITENAME###
 	 * @param array  $email_data {
 	 *     Data relating to the account action email.
 	 *
-	 *     @type WP_User_Request $request User request object.
+	 *     @type WP_User_Request $request     User request object.
 	 *     @type string          $email       The email address this is being sent to.
 	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
 	 *     @type string          $confirm_url The link to click on to confirm the account action.
@@ -3452,7 +3452,7 @@ function wp_generate_user_request_key( $request_id ) {
 }
 
 /**
- * Valdate a user request by comparing the key with the request's key.
+ * Validate a user request by comparing the key with the request's key.
  *
  * @since 4.9.6
  *
