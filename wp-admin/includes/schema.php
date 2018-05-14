@@ -516,6 +516,9 @@ function populate_options() {
 	// 4.4.0
 	'medium_large_size_w' => 768,
 	'medium_large_size_h' => 0,
+
+		// 4.9.6
+		'wp_page_for_privacy_policy'      => 0,
 	);
 
 	// 3.3
