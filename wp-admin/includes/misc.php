@@ -1351,7 +1351,11 @@ final class WP_Privacy_Policy_Content {
 		?>
 		<div class="policy-text-updated notice notice-warning is-dismissible">
 			<p><?php
-				_e( 'The suggested privacy policy text has changed. Please update your privacy policy.' );
+				printf(
+					/* translators: %s: Privacy Policy Guide URL */
+					__( 'The suggested privacy policy text has changed. Please <a href="%s">review the guide</a> and update your privacy policy.' ),
+					esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) )
+				);
 			?></p>
 		</div>
 		<?php
