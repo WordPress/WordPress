@@ -1421,9 +1421,6 @@ final class WP_Privacy_Policy_Content {
 			return;
 		}
 
-		// Update the cache in case the user hasn't visited the policy guide.
-		self::get_suggested_policy_text();
-
 		// Remove updated|removed status.
 		$old = (array) get_post_meta( $policy_page_id, '_wp_suggested_privacy_policy_content' );
 		$done = array();
