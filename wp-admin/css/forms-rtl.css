@@ -1132,6 +1132,14 @@ table.form-table td .updated p {
 	box-shadow: none;
 }
 
+.privacy_requests .next_steps .button {
+	height: auto;
+	line-height: 1.5;
+	padding: 4px 10px;
+	word-break: break-word;
+	white-space: unset;
+}
+
 .privacy_requests .status-request-confirmed th,
 .privacy_requests .status-request-confirmed td {
 	background-color: #f7fcfe;
