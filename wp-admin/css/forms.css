@@ -1488,6 +1488,15 @@ table.form-table td .updated p {
 	.tools-privacy-policy-page select {
 		margin: 10px 0 0;
 	}
+
+	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column) {
+		display: table-cell;
+	}
+
+	.wp-list-table.privacy_requests.widefat th input,
+	.wp-list-table.privacy_requests.widefat thead td input {
+		margin-left: 5px;
+	}
 }
 
 @media only screen and (max-width: 768px) {
