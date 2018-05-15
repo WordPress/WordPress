@@ -204,7 +204,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					</form>
 				<?php endif; ?>
 
-				<form method="post" action="">
+				<form class="wp-create-privacy-page" method="post" action="">
 					<input type="hidden" name="action" value="create-privacy-page" />
 					<span>
 						<?php

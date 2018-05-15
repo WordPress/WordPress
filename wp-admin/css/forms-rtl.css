@@ -1492,9 +1492,22 @@ table.form-table td .updated p {
 	}
 
 	/* Privacy Policy settings screen */
+	.tools-privacy-policy-page form.wp-create-privacy-page {
+	    margin-bottom: 1em;
+	}
+
  	.tools-privacy-policy-page input#set-page,
 	.tools-privacy-policy-page select {
 		margin: 10px 0 0;
+	}
+
+	.tools-privacy-policy-page .wp-create-privacy-page span {
+	    display: block;
+	    margin-bottom: 1em;
+	}
+
+	.tools-privacy-policy-page .wp-create-privacy-page .button {
+	    margin-right: 0;
 	}
 
 	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column) {
