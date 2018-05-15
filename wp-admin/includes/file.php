@@ -2023,9 +2023,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	}
 
 	// Create the exports folder if needed.
-	$upload_dir  = wp_upload_dir();
-	$exports_dir = trailingslashit( $upload_dir['basedir'] . '/exports' );
-	$exports_url = trailingslashit( $upload_dir['baseurl'] . '/exports' );
+	$exports_dir = wp_privacy_exports_dir();
+	$exports_url = wp_privacy_exports_url();
 
 	$result = wp_mkdir_p( $exports_dir );
 	if ( is_wp_error( $result ) ) {
