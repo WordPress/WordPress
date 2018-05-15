@@ -1136,7 +1136,7 @@ table.form-table td .updated p {
 	height: auto;
 	line-height: 1.5;
 	padding: 4px 10px;
-	word-break: break-word;
+	word-break: break-all;
 	white-space: unset;
 }
 
