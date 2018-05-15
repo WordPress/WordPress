@@ -121,6 +121,15 @@ function map_meta_cap( $cap, $user_id ) {
 					$caps[] = $post_type->cap->delete_private_posts;
 				}
 			}
+
+			/*
+			 * Setting the privacy policy page requires `manage_privacy_options`,
+			 * so deleting it should require that too.
+			 */
+			if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
+				$caps = array_merge( $caps, map_meta_cap( 'manage_privacy_options', $user_id ) );
+			}
+
 			break;
 		// edit_post breaks down to edit_posts, edit_published_posts, or
 		// edit_others_posts
@@ -183,6 +192,15 @@ function map_meta_cap( $cap, $user_id ) {
 					$caps[] = $post_type->cap->edit_private_posts;
 				}
 			}
+
+			/*
+			 * Setting the privacy policy page requires `manage_privacy_options`,
+			 * so editing it should require that too.
+			 */
+			if ( (int) get_option( 'wp_page_for_privacy_policy' ) === $post->ID ) {
+				$caps = array_merge( $caps, map_meta_cap( 'manage_privacy_options', $user_id ) );
+			}
+
 			break;
 		case 'read_post':
 		case 'read_page':
