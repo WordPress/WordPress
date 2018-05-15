@@ -202,9 +202,7 @@ p {
 .login .privacy-policy-page-link {
 	text-align: center;
 	width: 100%;
-	position: absolute;
-	bottom: 20px;
-	right: 0;
+	margin: 5em 0 2em;
 }
 
 .login form .input,
@@ -263,13 +261,6 @@ body.interim-login {
 
 @-ms-viewport {
 	width: device-width;
-}
-
-@media ( max-height: 600px ) {
-	.login .privacy-policy-page-link {
-		position: relative;
-		margin: 60px 0 20px 0;
-	}
 }
 
 @media screen and ( max-height: 550px ) {
