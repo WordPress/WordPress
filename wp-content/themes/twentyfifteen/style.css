@@ -2446,6 +2446,13 @@ a.post-thumbnail:focus {
 	color: #333;
 }
 
+.site-info span[role=separator] {
+	padding: 0 0.25em 0 0.5em;
+}
+
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
 
 /**
  * 14.0 Media

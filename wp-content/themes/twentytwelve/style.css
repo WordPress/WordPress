@@ -694,6 +694,12 @@ footer[role="contentinfo"] a {
 footer[role="contentinfo"] a:hover {
 	color: #21759b;
 }
+.site-info span[role=separator] {
+	padding: 0 0.3em 0 0.6em;
+}
+.site-info span[role=separator]::before {
+	content: '\002f';
+}
 
 
 /* =Main content and comment content
