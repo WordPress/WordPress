@@ -1940,7 +1940,7 @@ function wp_print_request_filesystem_credentials_modal() {
  *
  * @since 4.9.6
  *
- * @param array  $group_data {
+ * @param array $group_data {
  *     The group data to render.
  *
  *     @type string $group_label  The user-facing heading for the group, e.g. 'Comments'.
@@ -2002,7 +2002,7 @@ function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
  *
  * @since 4.9.6
  *
- * @param int  $request_id  The export request ID.
+ * @param int $request_id The export request ID.
  */
 function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	if ( ! class_exists( 'ZipArchive' ) ) {
@@ -2166,7 +2166,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 			 * @param string $archive_pathname     The full path to the export file on the filesystem.
 			 * @param string $archive_url          The URL of the archive file.
 			 * @param string $html_report_pathname The full path to the personal data report on the filesystem.
-			 * @param string $request_id           The export request ID.
+			 * @param int    $request_id           The export request ID.
 			 */
 			do_action( 'wp_privacy_personal_data_export_file_created', $archive_pathname, $archive_url, $html_report_pathname, $request_id );
 		}
@@ -2187,8 +2187,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
  *
  * @since 4.9.6
  *
- * @param int  $request_id  The request ID for this personal data export.
- * @return true|WP_Error    True on success or `WP_Error` on failure.
+ * @param int $request_id The request ID for this personal data export.
+ * @return true|WP_Error True on success or `WP_Error` on failure.
  */
 function wp_privacy_send_personal_data_export_email( $request_id ) {
 	// Get the request data.
@@ -2198,7 +2198,7 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 		return new WP_Error( 'invalid', __( 'Invalid request ID when sending personal data export email.' ) );
 	}
 
-	/** This filter is documented in wp-admin/includes/file.php */
+	/** This filter is documented in wp-includes/functions.php */
 	$expiration      = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 	$expiration_date = date_i18n( get_option( 'date_format' ), time() + $expiration );
 
@@ -2320,6 +2320,7 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	update_post_meta( $request_id, '_export_data_raw', $export_data );
 
 	// If we are not yet on the last page of the last exporter, return now.
+	/** This filter is documented in wp-admin/includes/ajax-actions.php */
 	$exporters = apply_filters( 'wp_privacy_personal_data_exporters', array() );
 	$is_last_exporter = $exporter_index === count( $exporters );
 	$exporter_done = $response['done'];
@@ -2355,7 +2356,13 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 	delete_post_meta( $request_id, '_export_data_raw' );
 	update_post_meta( $request_id, '_export_data_grouped', $groups );
 
-	// Generate the export file from the collected, grouped personal data.
+	/**
+	 * Generate the export file from the collected, grouped personal data.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param int $request_id The export request ID.
+	 */
 	do_action( 'wp_privacy_personal_data_export_file', $request_id );
 
 	// Clear the grouped data now that it is no longer needed.
