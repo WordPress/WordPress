@@ -2026,9 +2026,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$exports_dir = wp_privacy_exports_dir();
 	$exports_url = wp_privacy_exports_url();
 
-	$result = wp_mkdir_p( $exports_dir );
-	if ( is_wp_error( $result ) ) {
-		wp_send_json_error( $result->get_error_message() );
+	if ( ! wp_mkdir_p( $exports_dir ) ) {
+		wp_send_json_error( __( 'Unable to create export folder.' ) );
 	}
 
 	// Protect export folder from browsing.
