@@ -420,8 +420,9 @@ function wp_sidebar_description( $id ) {
 
 	global $wp_registered_sidebars;
 
-	if ( isset($wp_registered_sidebars[$id]['description']) )
-		return esc_html( $wp_registered_sidebars[$id]['description'] );
+	if ( isset( $wp_registered_sidebars[ $id ]['description'] ) ) {
+		return wp_kses( $wp_registered_sidebars[ $id ]['description'], 'sidebar_description' );
+	}
 }
 
 /**
