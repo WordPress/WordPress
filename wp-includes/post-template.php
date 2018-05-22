@@ -257,7 +257,8 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
  * @global int   $page      Page number of a single post/page.
  * @global int   $more      Boolean indicator for whether single post/page is being viewed.
  * @global bool  $preview   Whether post/page is in preview mode.
- * @global array $pages     Array of all pages in post/page. Each array element contains part of the content separated by the <!--nextpage--> tag.
+ * @global array $pages     Array of all pages in post/page. Each array element contains
+ *                          part of the content separated by the `<!--nextpage-->` tag.
  * @global int   $multipage Boolean indicator for whether multiple pages are in play.
  *
  * @param string $more_link_text Optional. Content for when there is more text.
@@ -862,7 +863,7 @@ function post_password_required( $post = null ) {
 /**
  * The formatted output of a list of pages.
  *
- * Displays page links for paginated posts (i.e. includes the <!--nextpage-->.
+ * Displays page links for paginated posts (i.e. including the `<!--nextpage-->`
  * Quicktag one or more times). This tag must be within The Loop.
  *
  * @since 1.2.0
