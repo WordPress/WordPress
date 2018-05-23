@@ -50,7 +50,6 @@
 
 .wp-color-result:active {
 	/* See Trac ticket #39662 */
-	-webkit-transform: none !important;
 	transform: none !important;
 }
 

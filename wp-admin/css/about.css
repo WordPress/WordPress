@@ -168,9 +168,7 @@
 /* 1.2 - Structure */
 
 .about-wrap [class$="-col"] {
-	display: -webkit-box;
 	display: flex;
-	-webkit-box-pack: justify;
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
@@ -191,7 +189,6 @@
 }
 
 .about-wrap [class$="-col"] .col {
-	-webkit-box-flex: 1;
 	flex: 1;
 }
 
@@ -201,7 +198,6 @@
 }
 
 .about-wrap .three-col .col {
-	-webkit-align-self: flex-start;
 	align-self: flex-start;
 	min-width: 31%;
 	max-width: 31%;
@@ -381,22 +377,15 @@
 .about-wrap .floating-header-section .section-content {
 	-ms-grid-column: 2;
 	grid-column: 2;
-	display: -webkit-box;
 	display: flex;
-	-webkit-box-pack: justify;
 	justify-content: space-between;
-	-webkit-box-align: start;
 	align-items: flex-start;
-	-webkit-box-orient: horizontal;
-	-webkit-box-direction: normal;
 	flex-flow: row wrap;
-	-webkit-box-flex: 2;
 	flex-grow: 2;
 	flex-shrink: 0;
 }
 
 .about-wrap .floating-header-section .section-item {
-	-webkit-box-flex: 1;
 	flex-grow: 1;
 	max-width: calc(50% - 30px);
 }
@@ -425,7 +414,6 @@
 }
 
 .about-wrap .floating-header-section.has-long-title .section-content {
-	-webkit-box-pack: start;
 	justify-content: flex-start;
 }
 

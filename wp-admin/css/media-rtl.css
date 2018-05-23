@@ -891,7 +891,6 @@ border color while dragging a file over the uploader drop area */
 	margin: -10px -10px 0 0;
 	background: transparent url(../images/spinner.gif) no-repeat center;
 	background-size: 20px 20px;
-	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
 }
 
