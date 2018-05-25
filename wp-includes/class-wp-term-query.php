@@ -671,7 +671,7 @@ class WP_Term_Query {
 		$cache_key = "get_terms:$key:$last_changed";
 		$cache = wp_cache_get( $cache_key, 'terms' );
 		if ( false !== $cache ) {
-			if ( 'all' === $_fields ) {
+			if ( 'all' === $_fields || 'all_with_object_id' === $_fields ) {
 				$cache = array_map( 'get_term', $cache );
 			}
 
