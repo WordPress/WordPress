@@ -736,6 +736,10 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 				$output = 'ltr';
 			}
 			break;
+		// * - 'privacy_url' - The Sites Privacy Url (set in Settings > Privacy)
+		case 'privacy_url':
+			$output = get_privacy_policy_url();
+			break;
 		case 'name':
 		default:
 			$output = get_option( 'blogname' );
