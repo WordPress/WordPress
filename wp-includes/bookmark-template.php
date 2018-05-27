@@ -28,7 +28,7 @@
  *
  *     @type int|bool $show_updated     Whether to show the time the bookmark was last updated.
  *                                      Accepts 1|true or 0|false. Default 0|false.
- *     @type int|bool $show_description Whether to show the bookmakr description. Accepts 1|true,
+ *     @type int|bool $show_description Whether to show the bookmark description. Accepts 1|true,
  *                                      Accepts 1|true or 0|false. Default 0|false.
  *     @type int|bool $show_images      Whether to show the link image if available. Accepts 1|true
  *                                      or 0|false. Default 1|true.
