@@ -3768,9 +3768,14 @@ function language_attributes( $doctype = 'html' ) {
  *     @type string $before_page_number A string to appear before the page number. Default empty.
  *     @type string $after_page_number  A string to append after the page number. Default empty.
  * }
+ * @param bool $merge_args {
+ * Optional. Default true.
+ * Normally, this method will merge the passed args with args from current url on pagination,
+ * if you don't want this, you should to set $merge_args to false. 
+ *}
  * @return string|array|void String of page links or array of page links.
  */
-function paginate_links( $args = '' ) {
+function paginate_links( $args = '', $merge_args=true ) {
 	global $wp_query, $wp_rewrite;
 
 	// Setting up default values based on the current URL.
@@ -3827,8 +3832,12 @@ function paginate_links( $args = '' ) {
 		foreach ( $format_args as $format_arg => $format_arg_value ) {
 			unset( $url_query_args[ $format_arg ] );
 		}
-
-		$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
+		
+		// Merge passed args with args from url
+		if ( $merge_args )
+		{
+			$args['add_args'] = array_merge( $args['add_args'], urlencode_deep( $url_query_args ) );
+		}
 	}
 
 	// Who knows what else people pass in $args
