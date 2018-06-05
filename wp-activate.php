@@ -5,10 +5,17 @@
  *
  * @package WordPress
  */
+/**[Korean]
+ * 사용자가 새로운 사이트에 가입한 후 이메일로 전송되는 활성화키와 사용자 화면에 보여지는 키와 같은지
+ * 확인한다.
+ *
+ * @package WordPress
+ */
 
 define( 'WP_INSTALLING', true );
 
 /** Sets up the WordPress Environment. */
+/** WordPress 환경을 설정한다. **/
 require( dirname( __FILE__ ) . '/wp-load.php' );
 
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
@@ -32,10 +39,22 @@ $wp_query->is_404 = false;
  *
  * @since 3.0.0
  */
+/**[Korean]
+ * 활성화 사이트가 로드되기 전에 실행한다.
+ *
+ * @since 3.0.0
+ */
 do_action( 'activate_header' );
 
 /**
  * Adds an action hook specific to this page.
+ *
+ * Fires on {@see 'wp_head'}.
+ *
+ * @since MU (3.0.0)
+ */
+/**[Korean]
+ * 해당 페이지에 action hook을 추가한다.
  *
  * Fires on {@see 'wp_head'}.
  *
@@ -58,6 +77,12 @@ add_action( 'wp_head', 'do_activate_header' );
  *
  * @since MU (3.0.0)
  */
+/**[korean]
+ * 이 페이지에 Styles를 로드한다.
+ *
+ * @since MU (3.0.0)
+ */
+
 function wpmu_activate_stylesheet() {
 	?>
 	<style type="text/css">
