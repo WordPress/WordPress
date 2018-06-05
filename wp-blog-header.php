@@ -23,6 +23,7 @@ if ( ! isset( $wp_did_header ) ) {
 	wp();
 	
 	// Load the theme template.
+	// 테마 템플릿을 로드한다.[]
 	require_once( ABSPATH . WPINC . '/template-loader.php' );
 
 }
