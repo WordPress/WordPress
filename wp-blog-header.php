@@ -19,7 +19,7 @@ if ( ! isset( $wp_did_header ) ) {
 	require_once( dirname( __FILE__ ) . '/wp-load.php' );
 
 	// Set up the WordPress query.
-	// 워드프레스 쿼리를 설정한다.
+	// 워드프레스 쿼리를 설정한다.[Korean] 
 	wp();
 	
 	// Load the theme template.
