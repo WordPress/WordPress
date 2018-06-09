@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles Comment Post to WordPress and prevents duplicate comment posting.
+ * '댓글쓰기' 기능을 처리하고 댓글이 복제되는 것을 막는다.
  *
  * @package WordPress
  */
@@ -17,7 +17,7 @@ if ( 'POST' != $_SERVER['REQUEST_METHOD'] ) {
 	exit;
 }
 
-/** Sets up the WordPress Environment. */
+/** 워드프레스 환경을 설정한다. */
 require( dirname( __FILE__ ) . '/wp-load.php' );
 
 nocache_headers();
@@ -41,25 +41,25 @@ $user = wp_get_current_user();
 $cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
 
 /**
- * Perform other actions when comment cookies are set.
+ * comment cookie들이 설정되었을 때 다른 행동을 수행한다.
  *
  * @since 3.4.0
- * @since 4.9.6 The `$cookies_consent` parameter was added.
+ * @since 4.9.6 `$cookies_consent` 파라미터가 추가되었음.
  *
  * @param WP_Comment $comment         Comment object.
- * @param WP_User    $user            Comment author's user object. The user may not exist.
- * @param boolean    $cookies_consent Comment author's consent to store cookies.
+ * @param WP_User    $user            Comment 작성자의 user object. 처음에는 아마 존재하지 않는다.
+ * @param boolean    $cookies_consent Comment 작성자가 쿠키를 저장할지 안할지 여부
  */
 do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 
 $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
 
 /**
- * Filters the location URI to send the commenter after posting.
- *
+ * 게시 후 주석을 보내도록 위치 URI를 필터링합니다.
+ * 
  * @since 2.0.5
  *
- * @param string     $location The 'redirect_to' URI sent via $_POST.
+ * @param string     $_POST를 통하여 'redirect_to' URI가 보내는 위치
  * @param WP_Comment $comment  Comment object.
  */
 $location = apply_filters( 'comment_post_redirect', $location, $comment );
