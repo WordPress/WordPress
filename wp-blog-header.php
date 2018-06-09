@@ -1,10 +1,6 @@
 <?php
+
 /**
- * Loads the WordPress environment and template.
- *
- * @package WordPress
- */
-/**[Korean]
  * WordPress 환경와 템플릿을 로드한다.
  *
  * @package WordPress
