@@ -138,11 +138,11 @@ function wp_authenticate_username_password( $user, $username, $password ) {
 		$error = new WP_Error();
 
 		if ( empty( $username ) ) {
-			$error->add( 'empty_username', __( '<strong>ERROR</strong>: The username field is empty.' ) );
+			$error->add( 'empty_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The username field is empty.' ) ) );
 		}
 
 		if ( empty( $password ) ) {
-			$error->add( 'empty_password', __( '<strong>ERROR</strong>: The password field is empty.' ) );
+			$error->add( 'empty_password', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The password field is empty.' ) ) );
 		}
 
 		return $error;
@@ -152,8 +152,7 @@ function wp_authenticate_username_password( $user, $username, $password ) {
 
 	if ( ! $user ) {
 		return new WP_Error(
-			'invalid_username',
-			__( '<strong>ERROR</strong>: Invalid username.' ) .
+			'invalid_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'Invalid username.' ) ) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
 			'</a>'
@@ -177,11 +176,13 @@ function wp_authenticate_username_password( $user, $username, $password ) {
 	if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
 		return new WP_Error(
 			'incorrect_password',
-			sprintf(
-				/* translators: %s: user name */
-				__( '<strong>ERROR</strong>: The password you entered for the username %s is incorrect.' ),
-				'<strong>' . $username . '</strong>'
-			) .
+        sprintf(
+            '<strong>%s</strong>: %s <strong>%s</strong> %s',
+            __( 'ERROR' ),
+            __( 'The password you entered for the username' ),
+            $username,
+            __( 'is incorrect.' )
+        ) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
 			'</a>'
@@ -215,11 +216,11 @@ function wp_authenticate_email_password( $user, $email, $password ) {
 		$error = new WP_Error();
 
 		if ( empty( $email ) ) {
-			$error->add( 'empty_username', __( '<strong>ERROR</strong>: The email field is empty.' ) ); // Uses 'empty_username' for back-compat with wp_signon()
+			$error->add( 'empty_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The email field is empty.' ) ) ); // Uses 'empty_username' for back-compat with wp_signon()
 		}
 
 		if ( empty( $password ) ) {
-			$error->add( 'empty_password', __( '<strong>ERROR</strong>: The password field is empty.' ) );
+			$error->add( 'empty_password', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The password field is empty.' ) ) );
 		}
 
 		return $error;
@@ -234,7 +235,7 @@ function wp_authenticate_email_password( $user, $email, $password ) {
 	if ( ! $user ) {
 		return new WP_Error(
 			'invalid_email',
-			__( '<strong>ERROR</strong>: Invalid email address.' ) .
+			sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'Invalid email address.' ) ) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
 			'</a>'
@@ -251,11 +252,13 @@ function wp_authenticate_email_password( $user, $email, $password ) {
 	if ( ! wp_check_password( $password, $user->user_pass, $user->ID ) ) {
 		return new WP_Error(
 			'incorrect_password',
-			sprintf(
-				/* translators: %s: email address */
-				__( '<strong>ERROR</strong>: The password you entered for the email address %s is incorrect.' ),
-				'<strong>' . $email . '</strong>'
-			) .
+        sprintf(
+            '<strong>%s</strong>: %s <strong>%s</strong> %s',
+            __( 'ERROR' ),
+            __( 'The password you entered for the email address' ),
+            $email,
+            __( 'is incorrect.' )
+        ) .
 			' <a href="' . wp_lostpassword_url() . '">' .
 			__( 'Lost your password?' ) .
 			'</a>'
@@ -328,7 +331,7 @@ function wp_authenticate_spam_check( $user ) {
 		$spammed = apply_filters( 'check_is_user_spammed', is_user_spammy( $user ), $user );
 
 		if ( $spammed ) {
-			return new WP_Error( 'spammer_account', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.' ) );
+			return new WP_Error( 'spammer_account', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'Your account has been marked as a spammer.' ) ) );
 		}
 	}
 	return $user;
@@ -2413,29 +2416,29 @@ function register_new_user( $user_login, $user_email ) {
 
 	// Check the username
 	if ( $sanitized_user_login == '' ) {
-		$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Please enter a username.' ) );
+		$errors->add( 'empty_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'Please enter a username.' ) ) );
 	} elseif ( ! validate_username( $user_login ) ) {
-		$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username.' ) );
+		$errors->add( 'invalid_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'This username is invalid because it uses illegal characters. Please enter a valid username.' ) ) );
 		$sanitized_user_login = '';
 	} elseif ( username_exists( $sanitized_user_login ) ) {
-		$errors->add( 'username_exists', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ) );
+		$errors->add( 'username_exists', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'This username is already registered. Please choose another one.' ) ) );
 
 	} else {
 		/** This filter is documented in wp-includes/user.php */
 		$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
 		if ( in_array( strtolower( $sanitized_user_login ), $illegal_user_logins ) ) {
-			$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
+			$errors->add( 'invalid_username', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( ' Sorry, that username is not allowed.' ) ) );
 		}
 	}
 
 	// Check the email address
 	if ( $user_email == '' ) {
-		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please type your email address.' ) );
+		$errors->add( 'empty_email', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'Please type your email address.' ) ) );
 	} elseif ( ! is_email( $user_email ) ) {
-		$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ) );
+		$errors->add( 'invalid_email', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The email address isn&#8217;t correct.' ) ) );
 		$user_email = '';
 	} elseif ( email_exists( $user_email ) ) {
-		$errors->add( 'email_exists', __( '<strong>ERROR</strong>: This email is already registered, please choose another one.' ) );
+		$errors->add( 'email_exists', sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'This email is already registered, please choose another one.' ) ) );
 	}
 
 	/**
@@ -2478,6 +2481,7 @@ function register_new_user( $user_login, $user_email ) {
 	if ( ! $user_id || is_wp_error( $user_id ) ) {
 		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
 		return $errors;
+
 	}
 
 	update_user_option( $user_id, 'default_password_nag', true, true ); //Set up the Password change nag.
@@ -2707,7 +2711,9 @@ function send_confirmation_on_profile_email() {
 	if ( $current_user->user_email != $_POST['email'] ) {
 		if ( ! is_email( $_POST['email'] ) ) {
 			$errors->add(
-				'user_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ), array(
+				'user_email',
+                sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The email address isn&#8217;t correct.' ) ),
+                array(
 					'form-field' => 'email',
 				)
 			);
@@ -2717,7 +2723,9 @@ function send_confirmation_on_profile_email() {
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST['email'] ) ) ) {
 			$errors->add(
-				'user_email', __( '<strong>ERROR</strong>: The email address is already used.' ), array(
+				'user_email',
+                sprintf( '<strong>%s</strong>: %s', __( 'ERROR' ), __( 'The email address is already used.' ) ),
+                array(
 					'form-field' => 'email',
 				)
 			);
