@@ -2973,7 +2973,8 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 		return;
 	}
 
-	$manage_url = add_query_arg( 'page', $request_data->action_name, admin_url( 'tools.php' ) );
+	$manage_url         = add_query_arg( 'page', $request_data->action_name, admin_url( 'tools.php' ) );
+	$action_description = wp_user_request_action_description( $request_data->action_name );
 
 	/**
 	 * Filters the recipient of the data request confirmation notification.
@@ -2994,7 +2995,7 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 	$email_data = array(
 		'request'     => $request_data,
 		'user_email'  => $request_data->email,
-		'description' => wp_user_request_action_description( $request_data->action_name ),
+		'description' => $action_description,
 		'manage_url'  => $manage_url,
 		'sitename'    => get_option( 'blogname' ),
 		'siteurl'     => home_url(),
@@ -3057,9 +3058,10 @@ All at ###SITENAME###
 	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
 	$subject = sprintf(
-		/* translators: %s Site name. */
-		__( '[%s] Action Confirmed' ),
-		$blogname
+		/* translators: 1: Site name. 2: Name of the confirmed action. */
+		__( '[%1$s] Action Confirmed: %2$s' ),
+		$blogname,
+		$action_description
 	);
 
 	/**
