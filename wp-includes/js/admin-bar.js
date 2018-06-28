@@ -10,12 +10,33 @@ if ( typeof(jQuery) != 'undefined' ) {
 	jQuery(document).ready(function($){
 		var adminbar = $('#wpadminbar'), refresh, touchOpen, touchClose, disableHoverIntent = false;
 
-		refresh = function(i, el){ // force the browser to refresh the tabbing index
+		/**
+		 * Forces the browser to refresh the tabbing index.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param {number}      i  The index of the HTML element to remove the tab index
+		 *                         from. This parameter is necessary because we use this
+		 *                         function in .each calls.
+		 * @param {HTMLElement} el The HTML element to remove the tab index from.
+		 *
+		 * @return {void}
+		 */
+		refresh = function(i, el){
 			var node = $(el), tab = node.attr('tabindex');
 			if ( tab )
 				node.attr('tabindex', '0').attr('tabindex', tab);
 		};
 
+		/**
+		 * Adds or removes the hover class on touch.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param {boolean} unbind If true removes the wp-mobile-hover class.
+		 *
+		 * @return {void}
+		 */
 		touchOpen = function(unbind) {
 			adminbar.find('li.menupop').on('click.wp-mobile-hover', function(e) {
 				var el = $(this);
@@ -43,6 +64,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			});
 		};
 
+		/**
+		 * Removes the hover class if clicked or touched outside the admin bar.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @return {void}
+		 */
 		touchClose = function() {
 			var mobileEvent = /Mobile\/.+Safari/.test(navigator.userAgent) ? 'touchstart' : 'click';
 			// close any open drop-downs when the click/touch is not on the toolbar
@@ -54,6 +82,8 @@ if ( typeof(jQuery) != 'undefined' ) {
 
 		adminbar.removeClass('nojq').removeClass('nojs');
 
+		// If clicked on the adminbar add the hoverclass, if clicked outside it remove
+		// it.
 		if ( 'ontouchstart' in window ) {
 			adminbar.on('touchstart', function(){
 				touchOpen(true);
@@ -65,6 +95,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 			touchClose();
 		}
 
+		// Adds or removes the hover class based on the hover intent.
 		adminbar.find('li.menupop').hoverIntent({
 			over: function() {
 				if ( disableHoverIntent )
@@ -83,9 +114,21 @@ if ( typeof(jQuery) != 'undefined' ) {
 			interval: 100
 		});
 
+		// Prevents the toolbar from covering up content when a hash is present in the
+		// URL.
 		if ( window.location.hash )
 			window.scrollBy( 0, -32 );
 
+		/**
+		 * Handles the selected state of the Shortlink link.
+		 *
+		 * When the input is visible the link should be selected, when the input is
+		 * unfocused the link should be unselected.
+		 *
+		 * @param {Object} e The click event.
+		 *
+		 * @return {void}
+		 **/
 		$('#wp-admin-bar-get-shortlink').click(function(e){
 			e.preventDefault();
 			$(this).addClass('selected').children('.shortlink-input').blur(function(){
@@ -93,7 +136,18 @@ if ( typeof(jQuery) != 'undefined' ) {
 			}).focus().select();
 		});
 
+		/**
+		 * Removes the hoverclass if the enter key is pressed.
+		 *
+		 * Makes sure the tab index is refreshed by refreshing each ab-item
+		 * and its children.
+		 *
+		 * @param {Object} e The keydown event.
+		 *
+		 * @return {void}
+		 */
 		$('#wpadminbar li.menupop > .ab-item').bind('keydown.adminbar', function(e){
+			// Key code 13 is the enter key.
 			if ( e.which != 13 )
 				return;
 
@@ -116,7 +170,18 @@ if ( typeof(jQuery) != 'undefined' ) {
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		}).each(refresh);
 
+		/**
+		 * Removes the hover class when the escape key is pressed.
+		 *
+		 * Makes sure the tab index is refreshed by refreshing each ab-item
+		 * and its children.
+		 *
+		 * @param {Object} e The keydown event.
+		 *
+		 * @return {void}
+		 */
 		$('#wpadminbar .ab-item').bind('keydown.adminbar', function(e){
+			// Key code 27 is the escape key.
 			if ( e.which != 27 )
 				return;
 
@@ -129,6 +194,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		});
 
+		/**
+		 * Scrolls to top of page by clicking the adminbar.
+		 *
+		 * @param {Object} e The click event.
+		 *
+		 * @return {void}
+		 */
 		adminbar.click( function(e) {
 			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' ) {
 				return;
@@ -139,7 +211,15 @@ if ( typeof(jQuery) != 'undefined' ) {
 			e.preventDefault();
 		});
 
-		// fix focus bug in WebKit
+		/**
+		 * Sets the focus on an element with a href attribute.
+		 *
+		 * The timeout is used to fix a focus bug in WebKit.
+		 *
+		 * @param {Object} e The keydown event.
+		 *
+		 * @return {void}
+		 */
 		$('.screen-reader-shortcut').keydown( function(e) {
 			var id, ua;
 
@@ -158,15 +238,29 @@ if ( typeof(jQuery) != 'undefined' ) {
 		});
 
 		$( '#adminbar-search' ).on({
+			/**
+			 * Adds the adminbar-focused class on focus.
+			 *
+			 * @return {void}
+			 */
 			focus: function() {
 				$( '#adminbarsearch' ).addClass( 'adminbar-focused' );
+			/**
+			 * Removes the adminbar-focused class on blur.
+			 *
+			 * @return {void}
+			 */
 			}, blur: function() {
 				$( '#adminbarsearch' ).removeClass( 'adminbar-focused' );
 			}
 		} );
 
-		// Empty sessionStorage on logging out
 		if ( 'sessionStorage' in window ) {
+			/**
+			 * Empties sessionStorage on logging out.
+			 *
+			 * @return {void}
+			 */
 			$('#wp-admin-bar-logout a').click( function() {
 				try {
 					for ( var key in sessionStorage ) {
@@ -184,7 +278,26 @@ if ( typeof(jQuery) != 'undefined' ) {
 		}
 	});
 } else {
+	/**
+	 * Wrapper function for the adminbar that's used if jQuery isn't available.
+	 *
+	 * @param {Object} d The document object.
+	 * @param {Object} w The window object.
+	 *
+	 * @return {void}
+	 */
 	(function(d, w) {
+		/**
+		 * Adds an event listener to an object.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param {Object}   obj  The object to add the event listener to.
+		 * @param {string}   type The type of event.
+		 * @param {function} fn   The function to bind to the event listener.
+		 *
+		 * @return {void}
+		 */
 		var addEvent = function( obj, type, fn ) {
 			if ( obj.addEventListener )
 				obj.addEventListener(type, fn, false);
@@ -196,7 +309,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 		rselected = new RegExp('\\bselected\\b', 'g'),
 
 		/**
-		 * Get the timeout ID of the given element
+		 * Gets the timeout ID of the given element.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param {HTMLElement} el The HTML element.
+		 *
+		 * @return {number|boolean} The ID value of the timer that is set or false.
 		 */
 		getTOID = function(el) {
 			var i = q.length;
@@ -207,11 +326,21 @@ if ( typeof(jQuery) != 'undefined' ) {
 			return false;
 		},
 
+		/**
+		 * Adds the hoverclass to menu items.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param {HTMLElement} t The HTML element.
+		 *
+		 * @return {void}
+		 */
 		addHoverClass = function(t) {
 			var i, id, inA, hovering, ul, li,
 				ancestors = [],
 				ancestorLength = 0;
 
+			// aB is adminbar. d is document.
 			while ( t && t != aB && t != d ) {
 				if ( 'LI' == t.nodeName.toUpperCase() ) {
 					ancestors[ ancestors.length ] = t;
@@ -224,7 +353,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 				t = t.parentNode;
 			}
 
-			// Remove any selected classes.
+			// Removes any selected classes.
 			if ( hovering && hovering.parentNode ) {
 				ul = hovering.parentNode;
 				if ( ul && 'UL' == ul.nodeName.toUpperCase() ) {
@@ -237,7 +366,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 				}
 			}
 
-			/* remove the hover class for any objects not in the immediate element's ancestry */
+			// Removes the hover class for any objects not in the immediate element's ancestry.
 			i = q.length;
 			while ( i-- ) {
 				inA = false;
@@ -252,6 +381,15 @@ if ( typeof(jQuery) != 'undefined' ) {
 			}
 		},
 
+		/**
+		 * Removes the hoverclass from menu items.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param {HTMLElement} t The HTML element.
+		 *
+		 * @return {void}
+		 */
 		removeHoverClass = function(t) {
 			while ( t && t != aB && t != d ) {
 				if ( 'LI' == t.nodeName.toUpperCase() ) {
@@ -266,6 +404,15 @@ if ( typeof(jQuery) != 'undefined' ) {
 			}
 		},
 
+		/**
+		 * Handles the click on the Shortlink link in the adminbar.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param {HTMLElement} e The HTML element.
+		 *
+		 * @return {boolean} Returns false to prevent default click behavior.
+		 */
 		clickShortlink = function(e) {
 			var i, l, node,
 				t = e.target || e.srcElement;
@@ -304,6 +451,15 @@ if ( typeof(jQuery) != 'undefined' ) {
 			return false;
 		},
 
+		/**
+		 * Scrolls to the top of the page.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param {HTMLElement} t The HTML element.
+		 *
+		 * @return {void}
+		 */
 		scrollToTop = function(t) {
 			var distance, speed, step, steps, timer, speed_step;
 
