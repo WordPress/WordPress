@@ -12,7 +12,13 @@ jQuery(document).ready( function($) {
 	// postboxes
 	postboxes.add_postbox_toggles('link');
 
-	// category tabs
+	/**
+	 * Adds event that opens a particular category tab.
+	 *
+	 * @ignore
+	 *
+	 * @return {boolean} Always returns false to prevent the default behavior.
+	 */
 	$('#category-tabs a').click(function(){
 		var t = $(this).attr('href');
 		$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
@@ -29,7 +35,24 @@ jQuery(document).ready( function($) {
 
 	// Ajax Cat
 	newCat = $('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ); } );
+
+	/**
+	 * After adding a new category, focus on the category add input field.
+	 *
+	 * @return {void}
+	 */
 	$('#link-category-add-submit').click( function() { newCat.focus(); } );
+
+	/**
+	 * Synchronize category checkboxes.
+	 *
+	 * This function makes sure that the checkboxes are synced between the all
+	 * categories tab and the most used categories tab.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @return {void}
+	 */
 	syncChecks = function() {
 		if ( noSyncChecks )
 			return;
@@ -39,6 +62,21 @@ jQuery(document).ready( function($) {
 		noSyncChecks = false;
 	};
 
+	/**
+	 * Adds event listeners to an added category.
+	 *
+	 * This is run on the addAfter event to make sure the correct event listeners
+	 * are bound to the DOM elements.
+	 *
+	 * @since 2.5.0
+	 *
+	 * @param {string} r Raw XML response returned from the server after adding a
+	 *                   category.
+	 * @param {Object} s List manager configuration object; settings for the Ajax
+	 *                   request.
+	 *
+	 * @return {void}
+	 */
 	catAddAfter = function( r, s ) {
 		$(s.what + ' response_data', r).each( function() {
 			var t = $($(this).text());
@@ -50,18 +88,43 @@ jQuery(document).ready( function($) {
 		} );
 	};
 
+	/*
+	 * Instantiates the list manager.
+	 *
+	 * @see js/_enqueues/lib/lists.js
+	 */
 	$('#categorychecklist').wpList( {
+		// CSS class name for alternate styling.
 		alt: '',
+
+		// The type of list.
 		what: 'link-category',
+
+		// ID of the element the parsed Ajax response will be stored in.
 		response: 'category-ajax-response',
+
+		// Callback that's run after an item got added to the list.
 		addAfter: catAddAfter
 	} );
 
+	// All categories is the default tab, so we delete the user setting.
 	$('a[href="#categories-all"]').click(function(){deleteUserSetting('cats');});
+
+	// Set a preference for the popular categories to cookies.
 	$('a[href="#categories-pop"]').click(function(){setUserSetting('cats','pop');});
+
 	if ( 'pop' == getUserSetting('cats') )
 		$('a[href="#categories-pop"]').click();
 
+	/**
+	 * Adds event handler that shows the interface controls to add a new category.
+	 *
+	 * @ignore
+	 *
+	 * @param {Event} event The event object.
+	 * @returns {boolean} Always returns false to prevent regular link
+	 *                    functionality.
+	 */
 	$('#category-add-toggle').click( function() {
 		$(this).parents('div:first').toggleClass( 'wp-hidden-children' );
 		$('#category-tabs a[href="#categories-all"]').click();
