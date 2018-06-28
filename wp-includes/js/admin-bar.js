@@ -409,7 +409,7 @@ if ( typeof(jQuery) != 'undefined' ) {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param {HTMLElement} e The HTML element.
+		 * @param {Object} e The click event.
 		 *
 		 * @return {boolean} Returns false to prevent default click behavior.
 		 */
