@@ -2650,7 +2650,7 @@ function send_confirmation_on_profile_email() {
 			return;
 		}
 
-		$hash           = md5( $_POST['email'] . time() . mt_rand() );
+		$hash           = md5( $_POST['email'] . time() . wp_rand() );
 		$new_user_email = array(
 			'hash'     => $hash,
 			'newemail' => $_POST['email'],

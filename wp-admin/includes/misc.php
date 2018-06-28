@@ -1158,7 +1158,7 @@ function update_option_new_admin_email( $old_value, $value ) {
 		return;
 	}
 
-	$hash = md5( $value . time() . mt_rand() );
+	$hash = md5( $value . time() . wp_rand() );
 	$new_admin_email = array(
 		'hash'     => $hash,
 		'newemail' => $value,
