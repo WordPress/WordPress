@@ -113,8 +113,6 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $site_id Optional Site ID, defaults to current site.
@@ -792,8 +790,6 @@ class WP_User {
 	 *
 	 * @since 3.0.0
 	 * @deprecated 4.9.0 Use WP_User::for_site()
-	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $blog_id Optional. Site ID, defaults to current site.
 	 */
