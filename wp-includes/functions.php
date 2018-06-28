@@ -5863,10 +5863,7 @@ function wp_post_preview_js() {
  * @return string Date formatted for ISO8601 without time zone.
  */
 function mysql_to_rfc3339( $date_string ) {
-	$formatted = mysql2date( 'c', $date_string, false );
-
-	// Strip timezone information
-	return preg_replace( '/(?:Z|[+-]\d{2}(?::\d{2})?)$/', '', $formatted );
+	return mysql2date( 'Y-m-d\TH:i:s', $date_string, false );
 }
 
 /**
