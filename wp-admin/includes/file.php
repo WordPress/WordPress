@@ -2065,7 +2065,7 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 	$expiration      = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 	$expiration_date = date_i18n( get_option( 'date_format' ), time() + $expiration );
 
-/* translators: Do not translate EXPIRATION, LINK, EMAIL, SITENAME, SITEURL: those are placeholders. */
+/* translators: Do not translate EXPIRATION, LINK, SITENAME, SITEURL: those are placeholders. */
 $email_text = __(
 'Howdy,
 
@@ -2075,8 +2075,6 @@ and security, we will automatically delete the file on ###EXPIRATION###,
 so please download it before then.
 
 ###LINK###
-
-This email has been sent to ###EMAIL###.
 
 Regards,
 All at ###SITENAME###
@@ -2089,7 +2087,6 @@ All at ###SITENAME###
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 * ###EXPIRATION###         The date when the URL will be automatically deleted.
 	 * ###LINK###               URL of the personal data export file for the user.
-	 * ###EMAIL###              The email we are sending to.
 	 * ###SITENAME###           The name of the site.
 	 * ###SITEURL###            The URL to the site.
 	 *

@@ -3260,7 +3260,7 @@ function wp_send_user_request( $request_id ) {
 		'siteurl'     => network_home_url(),
 	);
 
-	/* translators: Do not translate DESCRIPTION, CONFIRM_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
+	/* translators: Do not translate DESCRIPTION, CONFIRM_URL, SITENAME, SITEURL: those are placeholders. */
 	$email_text = __(
 		'Howdy,
 
@@ -3274,8 +3274,6 @@ To confirm this, please click on the following link:
 You can safely ignore and delete this email if you do not want to
 take this action.
 
-This email has been sent to ###EMAIL###.
-
 Regards,
 All at ###SITENAME###
 ###SITEURL###'
@@ -3288,7 +3286,6 @@ All at ###SITENAME###
 	 *
 	 * ###DESCRIPTION### Description of the action being performed so the user knows what the email is for.
 	 * ###CONFIRM_URL### The link to click on to confirm the account action.
-	 * ###EMAIL###       The email we are sending to.
 	 * ###SITENAME###    The name of the site.
 	 * ###SITEURL###     The URL to the site.
 	 *
