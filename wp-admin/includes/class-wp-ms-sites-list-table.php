@@ -406,14 +406,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function column_users( $blog ) {
 		$user_count = wp_cache_get( $blog['blog_id'] . '_user_count', 'blog-details' );
 		if ( ! $user_count ) {
-			$blog_users = get_users(
-				array(
-					'blog_id' => $blog['blog_id'],
-					'fields'  => 'ID',
-				)
-			);
-			$user_count = count( $blog_users );
-			unset( $blog_users );
+			$blog_users = new WP_User_Query( array(
+				'blog_id'     => $blog['blog_id'],
+				'fields'      => 'ID',
+				'number'      => 1,
+				'count_total' => true,
+			) );
+			$user_count = $blog_users->get_total();
 			wp_cache_set( $blog['blog_id'] . '_user_count', $user_count, 'blog-details', 12 * HOUR_IN_SECONDS );
 		}
 
