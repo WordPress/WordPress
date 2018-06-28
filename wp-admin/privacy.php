@@ -22,14 +22,33 @@ if ( ! empty( $action ) ) {
 		$privacy_policy_page_id = isset( $_POST['page_for_privacy_policy'] ) ? (int) $_POST['page_for_privacy_policy'] : 0;
 		update_option( 'wp_page_for_privacy_policy', $privacy_policy_page_id );
 
+		$privacy_page_updated_message = __( 'Privacy policy page updated successfully.' );
+
+		if ( $privacy_policy_page_id ) {
+			/*
+			 * Don't always link to the menu customizer:
+			 *
+			 * - Unpublished pages can't be selected by default.
+			 * - `WP_Customize_Nav_Menus::__construct()` checks the user's capabilities.
+			 * - Themes might not "officially" support menus.
+			 */
+			if (
+				'publish' === get_post_status( $privacy_policy_page_id )
+				&& current_user_can( 'edit_theme_options' )
+				&& current_theme_supports( 'menus' )
+			) {
+				$privacy_page_updated_message = sprintf(
+					/* translators: %s: URL to Customizer -> Menus */
+					__( 'Privacy policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
+					esc_url( add_query_arg( 'autofocus[panel]', 'nav_menus', admin_url( 'customize.php' ) ) )
+				);
+			}
+		}
+
 		add_settings_error(
 			'page_for_privacy_policy',
 			'page_for_privacy_policy',
-			sprintf(
-				/* translators: %s: URL to Customizer -> Menus */
-				__( 'Privacy policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
-				'customize.php?autofocus[panel]=nav_menus'
-			),
+			$privacy_page_updated_message,
 			'updated'
 		);
 	} elseif ( 'create-privacy-page' === $action ) {
