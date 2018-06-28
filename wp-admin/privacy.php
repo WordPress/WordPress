@@ -155,8 +155,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<p class="tools-privacy-edit"><strong>
 			<?php
 
-			/* translators: 1: URL to edit page, 2: URL to view page */
-			printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy page content.' ), $edit_href, $view_href );
+			if ( 'publish' === get_post_status( $privacy_policy_page_id ) ) {
+				/* translators: 1: URL to edit page, 2: URL to view page */
+				printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your privacy policy page content.' ), $edit_href, $view_href );
+			} else {
+				/* translators: 1: URL to edit page, 2: URL to preview page */
+				printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">preview</a> your privacy policy page content.' ), $edit_href, $view_href );
+			}
 
 			?>
 		</strong></p>
