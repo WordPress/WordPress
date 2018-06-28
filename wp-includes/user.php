@@ -3431,7 +3431,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	}
 
 	if ( ! $expiration_time || time() > $expiration_time ) {
-		$return = new WP_Error( 'expired_key', __( 'The confirmation email has expired.' ) );
+		return new WP_Error( 'expired_key', __( 'The confirmation email has expired.' ) );
 	}
 
 	return true;
