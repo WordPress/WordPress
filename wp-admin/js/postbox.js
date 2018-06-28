@@ -4,6 +4,7 @@
  *
  * @since 2.5.0
  * @requires jQuery
+ * @output wp-admin/js/postbox.js
  */
 
 /* global ajaxurl, postBoxL10n */

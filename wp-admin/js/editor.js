@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/editor.js
+ */
+
 window.wp = window.wp || {};
 
 ( function( $, wp ) {

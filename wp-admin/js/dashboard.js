@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/dashboard.js
+ */
+
 /* global pagenow, ajaxurl, postboxes, wpActiveEditor:true */
 var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
 window.wp = window.wp || {};

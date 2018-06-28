@@ -1,15 +1,17 @@
-/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice */
-
 /**
  * Creates a dialog containing posts that can have a particular media attached
  * to it.
  *
  * @since 2.7.0
+ * @output wp-admin/js/media.js
  *
  * @namespace findPosts
  *
  * @requires jQuery
  */
+
+/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice */
+
 var findPosts;
 
 ( function( $ ){

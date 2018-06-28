@@ -74,6 +74,10 @@ module.exports = __webpack_require__(1);
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/**
+ * @output wp-includes/js/media-audiovideo.js
+ */
+
 var media = wp.media,
 	baseSettings = window._wpmejsSettings || {},
 	l10n = window._wpMediaViewsL10n || {};

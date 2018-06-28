@@ -76,6 +76,10 @@ module.exports = __webpack_require__(23);
 /***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
+/**
+ * @output wp-includes/js/media-models.js
+ */
+
 var $ = jQuery,
 	Attachment, Attachments, l10n, media;
 

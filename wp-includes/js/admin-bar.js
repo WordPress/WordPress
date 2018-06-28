@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/admin-bar.js
+ */
+
 /* jshint loopfunc: true */
 // use jQuery and hoverIntent if loaded
 if ( typeof(jQuery) != 'undefined' ) {

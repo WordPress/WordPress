@@ -1,4 +1,8 @@
-/*global ajaxurl, isRtl */
+/**
+ * @output wp-admin/js/widgets.js
+ */
+
+/* global ajaxurl, isRtl */
 var wpWidgets;
 (function($) {
 	var $document = $( document );

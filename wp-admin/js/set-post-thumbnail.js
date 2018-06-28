@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/set-post-thumbnail.js
+ */
+
 /* global setPostThumbnailL10n, ajaxurl, post_id, alert */
 /* exported WPSetAsThumbnail */
 

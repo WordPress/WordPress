@@ -6,6 +6,7 @@
  *
  * @package WordPress
  * @subpackage Administration
+ * @output wp-admin/js/nav-menu.js
  */
 
 /* global menus, postboxes, columns, isRtl, navMenuL10n, ajaxurl */

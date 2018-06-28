@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wplink.js
+ */
+
 var wpLink;
 
 ( function( $, wpLinkL10n, wp ) {

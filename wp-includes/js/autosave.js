@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/autosave.js
+ */
+
 /* global tinymce, wpCookies, autosaveL10n, switchEditors */
 // Back-compat
 window.autosave = function() {

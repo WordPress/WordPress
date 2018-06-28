@@ -1,4 +1,9 @@
+/**
+ * @output wp-includes/js/zxcvbn-async.js
+ */
+
 /* global _zxcvbnSettings */
+
 /**
  * Loads zxcvbn asynchronously by inserting an async script tag before the first
  * script tag on the page.

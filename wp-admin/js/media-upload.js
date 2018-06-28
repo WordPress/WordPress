@@ -1,5 +1,3 @@
-/* global tinymce, QTags */
-
 /**
  * Contains global functions for the media upload within the post edit screen.
  *
@@ -9,9 +7,12 @@
  *
  * @file
  * @since 2.5.0
+ * @output wp-admin/js/media-upload.js
  *
  * @requires jQuery
  */
+
+/* global tinymce, QTags */
 
 var wpActiveEditor, send_to_editor;
 

@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wp-util.js
+ */
+
 /* global _wpUtilSettings */
 
 /** @namespace wp */

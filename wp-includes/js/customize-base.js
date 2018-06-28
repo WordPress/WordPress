@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/customize-base.js
+ */
+
 /** @namespace wp */
 window.wp = window.wp || {};
 

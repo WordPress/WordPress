@@ -1,8 +1,10 @@
-/* global plugininstallL10n, tb_click, tb_remove */
-
 /**
  * @file Functionality for the plugin install screens.
+ *
+ * @output wp-admin/js/plugin-install.js
  */
+
+/* global plugininstallL10n, tb_click, tb_remove */
 var tb_position;
 jQuery( document ).ready( function( $ ) {
 

@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wp-a11y.js
+ */
+
 /** @namespace wp */
 window.wp = window.wp || {};
 

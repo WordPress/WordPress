@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/customize-nav-menus.js
+ */
+
 /* global _wpCustomizeNavMenusSettings, wpNavMenu, console */
 ( function( api, wp, $ ) {
 	'use strict';

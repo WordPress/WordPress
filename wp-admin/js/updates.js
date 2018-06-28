@@ -2,6 +2,7 @@
  * Functions for ajaxified updates, deletions and installs inside the WordPress admin.
  *
  * @version 4.2.0
+ * @output wp-admin/js/updates.js
  */
 
 /* global pagenow */
@@ -2322,14 +2323,14 @@
 			$( 'input.wp-filter-search' ).trigger( 'input' );
 		} );
 
-		/** 
-		 * Trigger a search event when the "Try Again" button is clicked. 
-		 * 
+		/**
+		 * Trigger a search event when the "Try Again" button is clicked.
+		 *
 		 * @since 4.9.0
-		 */ 
-		$document.on( 'click', '.try-again', function( event ) { 
-			event.preventDefault(); 
-			$pluginInstallSearch.trigger( 'input' ); 
+		 */
+		$document.on( 'click', '.try-again', function( event ) {
+			event.preventDefault();
+			$pluginInstallSearch.trigger( 'input' );
 		} );
 
 		/**

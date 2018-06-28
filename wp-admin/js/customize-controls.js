@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/customize-controls.js
+ */
+
 /* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer, console, confirm */
 (function( exports, $ ){
 	var Container, focus, normalizedTransitionendEventName, api = wp.customize;

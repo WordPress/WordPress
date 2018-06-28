@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wp-sanitize.js
+ */
+
 ( function () {
 
 	window.wp = window.wp || {};

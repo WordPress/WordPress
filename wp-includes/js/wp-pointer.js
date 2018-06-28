@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wp-pointer.js
+ */
+
 /* global wpPointerL10n */
 
 /**

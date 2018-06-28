@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/password-strength-meter.js
+ */
+
 /* global zxcvbn */
 window.wp = window.wp || {};
 

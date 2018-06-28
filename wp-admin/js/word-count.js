@@ -4,6 +4,7 @@
  *
  * @namespace wp.utils
  * @since     2.6.0
+ * @output wp-admin/js/word-count.js
  */
 
 ( function() {

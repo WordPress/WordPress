@@ -9,6 +9,7 @@
  * - Allows specifying only an endpoint namespace/path instead of a full URL.
  *
  * @since     4.9.0
+ * @output wp-includes/js/api-request.js
  */
 
 ( function( $ ) {

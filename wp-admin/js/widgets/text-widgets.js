@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/widgets/text-widgets.js
+ */
+
 /* global tinymce, switchEditors */
 /* eslint consistent-this: [ "error", "control" ] */
 

@@ -1,5 +1,10 @@
+/**
+ * Interim login dialog.
+ *
+ * @output wp-includes/js/wp-auth-check.js
+ */
+
 /* global adminpage */
-// Interim login dialog
 (function($){
 	var wrap, next;
 

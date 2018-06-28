@@ -1,7 +1,10 @@
-/* global inlineEditL10n, ajaxurl */
 /**
  * This file is used on the term overview page to power quick-editing terms.
+ *
+ * @output wp-admin/js/inline-edit-tax.js
  */
+
+/* global inlineEditL10n, ajaxurl */
 
 window.wp = window.wp || {};
 

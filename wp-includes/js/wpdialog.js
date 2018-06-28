@@ -1,3 +1,7 @@
+/**
+ * @output wp-includes/js/wpdialog.js
+ */
+
 /*
  * Wrap the jQuery UI Dialog open function remove focus from tinyMCE.
  */

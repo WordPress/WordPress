@@ -1,4 +1,3 @@
-/* global ajaxurl, current_site_id, isRtl */
 /**
  * Suggests users in a multisite environment.
  *
@@ -8,7 +7,10 @@
  * site are shown.
  *
  * @since 3.4.0
+ * @output wp-admin/js/user-suggest.js
  */
+
+/* global ajaxurl, current_site_id, isRtl */
 
 (function( $ ) {
 	var id = ( typeof current_site_id !== 'undefined' ) ? '&site_id=' + current_site_id : '';

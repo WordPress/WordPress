@@ -74,6 +74,10 @@ module.exports = __webpack_require__(30);
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/**
+ * @output wp-includes/js/media-views.js
+ */
+
 var media = wp.media,
 	$ = jQuery,
 	l10n;

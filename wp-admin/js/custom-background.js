@@ -1,3 +1,7 @@
+/**
+ * @output wp-admin/js/custom-background.js
+ */
+
 /* global ajaxurl */
 
 /**
