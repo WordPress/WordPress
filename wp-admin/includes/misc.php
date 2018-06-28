@@ -206,7 +206,7 @@ function save_mod_rewrite_rules() {
 
 	global $wp_rewrite;
 
-	// Ensure get_home_path is declared.
+	// Ensure get_home_path() is declared.
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 	$home_path     = get_home_path();
@@ -243,7 +243,7 @@ function iis7_save_url_rewrite_rules() {
 
 	global $wp_rewrite;
 
-	// Ensure get_home_path is declared.
+	// Ensure get_home_path() is declared.
 	require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
 	$home_path       = get_home_path();
