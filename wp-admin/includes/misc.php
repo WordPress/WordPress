@@ -1701,7 +1701,7 @@ final class WP_Privacy_Policy_Content {
 
 			'<h3>' . __( 'Embedded content from other websites' ) . '</h3>' .
 			'<p>' . $suggested_text . __( 'Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.' ) . '</p>' .
-			'<p>' . __( 'These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracing your interaction with the embedded content if you have an account and are logged in to that website.' ) . '</p>' .
+			'<p>' . __( 'These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracking your interaction with the embedded content if you have an account and are logged in to that website.' ) . '</p>' .
 
 			'<h3>' . __( 'Analytics' ) . '</h3>';
 		$descr && $content .=
