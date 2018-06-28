@@ -63,11 +63,6 @@ if ( ! current_user_can( $post_type_object->cap->edit_posts ) || ! current_user_
 	);
 }
 
-// Schedule auto-draft cleanup
-if ( ! wp_next_scheduled( 'wp_scheduled_auto_draft_delete' ) ) {
-	wp_schedule_event( time(), 'daily', 'wp_scheduled_auto_draft_delete' );
-}
-
 $post    = get_default_post_to_edit( $post_type, true );
 $post_ID = $post->ID;
 
