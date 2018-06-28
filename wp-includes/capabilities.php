@@ -554,7 +554,7 @@ function map_meta_cap( $cap, $user_id ) {
 				$caps[] = 'manage_options';
 			}
 			break;
-		case 'upgrade_php':
+		case 'update_php':
 			if ( is_multisite() && ! is_super_admin( $user_id ) ) {
 				$caps[] = 'do_not_allow';
 			} else {
