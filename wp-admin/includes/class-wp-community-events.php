@@ -395,7 +395,7 @@ class WP_Community_Events {
 	 * higher position, so that it doesn't get trimmed off.
 	 *
 	 * @since 4.8.0
-	 * @since 5.0.0 Stick a WordCamp to the final list.
+	 * @since 4.9.7 Stick a WordCamp to the final list.
 	 *
 	 * @param  array $response_body The response body which contains the events.
 	 * @return array The response body with events trimmed.
