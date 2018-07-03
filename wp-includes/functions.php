@@ -138,6 +138,36 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 					$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) - 1 );
 				}
 			}
+		} else {
+			$offset = get_option( 'gmt_offset' );
+			foreach ( $timezone_formats as $timezone_format ) {
+				if ( 'I' === $timezone_format ) {
+					continue;
+				}
+
+				if ( false !== strpos( $dateformatstring, $timezone_format ) ) {
+					if ( 'Z' === $timezone_format ) {
+						$formatted = (string) ( $offset * HOUR_IN_SECONDS );
+					} else {
+						$prefix    = '';
+						$hours     = (int) $offset;
+						$separator = '';
+						$minutes   = abs( ( $offset - $hours ) * 60 );
+
+						if ( 'T' === $timezone_format ) {
+							$prefix = 'GMT';
+						} elseif ( 'e' === $timezone_format || 'P' === $timezone_format ) {
+							$separator = ':';
+						}
+
+						$formatted = sprintf( '%s%+03d%s%02d', $prefix, $hours, $separator, $minutes );
+					}
+
+					$dateformatstring = ' ' . $dateformatstring;
+					$dateformatstring = preg_replace( "/([^\\\])$timezone_format/", "\\1" . backslashit( $formatted ), $dateformatstring );
+					$dateformatstring = substr( $dateformatstring, 1 );
+				}
+			}
 		}
 	}
 	$j = @date( $dateformatstring, $i );
