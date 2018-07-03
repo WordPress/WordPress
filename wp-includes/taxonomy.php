@@ -4548,3 +4548,22 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 
 	return $parent;
 }
+
+/**
+ * Determines whether a taxonomy is considered "viewable".
+ *
+ * @since 5.0.0
+ *
+ * @param string|WP_Taxonomy $taxonomy Taxonomy name or object.
+ * @return bool Whether the taxonomy should be considered viewable.
+ */
+function is_taxonomy_viewable( $taxonomy ) {
+	if ( is_scalar( $taxonomy ) ) {
+		$taxonomy = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy ) {
+			return false;
+		}
+	}
+
+	return $taxonomy->publicly_queryable;
+}

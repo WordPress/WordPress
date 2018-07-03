@@ -470,7 +470,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				__( 'Delete' )
 			);
 		}
-		if ( $tax->public ) {
+		if ( is_taxonomy_viewable( $tax ) ) {
 			$actions['view'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				get_term_link( $tag ),
