@@ -938,16 +938,16 @@
 		 *
 		 * @borrows wp.customize~focus as focus
 		 *
-		 * @param {string}         id - The ID for the container.
-		 * @param {object}         options - Object containing one property: params.
-		 * @param {string}         options.title - Title shown when panel is collapsed and expanded.
-		 * @param {string=}        [options.description] - Description shown at the top of the panel.
-		 * @param {number=100}     [options.priority] - The sort priority for the panel.
-		 * @param {string}         [options.templateId] - Template selector for container.
-		 * @param {string=default} [options.type] - The type of the panel. See wp.customize.panelConstructor.
-		 * @param {string=}        [options.content] - The markup to be used for the panel container. If empty, a JS template is used.
-		 * @param {boolean=true}   [options.active] - Whether the panel is active or not.
-		 * @param {object}         [options.params] - Deprecated wrapper for the above properties.
+		 * @param {string}  id - The ID for the container.
+		 * @param {object}  options - Object containing one property: params.
+		 * @param {string}  options.title - Title shown when panel is collapsed and expanded.
+		 * @param {string}  [options.description] - Description shown at the top of the panel.
+		 * @param {number}  [options.priority=100] - The sort priority for the panel.
+		 * @param {string}  [options.templateId] - Template selector for container.
+		 * @param {string}  [options.type=default] - The type of the panel. See wp.customize.panelConstructor.
+		 * @param {string}  [options.content] - The markup to be used for the panel container. If empty, a JS template is used.
+		 * @param {boolean} [options.active=true] - Whether the panel is active or not.
+		 * @param {object}  [options.params] - Deprecated wrapper for the above properties.
 		 */
 		initialize: function ( id, options ) {
 			var container = this;
@@ -1406,17 +1406,17 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {string}         id - The ID for the section.
-		 * @param {object}         options - Options.
-		 * @param {string}         options.title - Title shown when section is collapsed and expanded.
-		 * @param {string=}        [options.description] - Description shown at the top of the section.
-		 * @param {number=100}     [options.priority] - The sort priority for the section.
-		 * @param {string=default} [options.type] - The type of the section. See wp.customize.sectionConstructor.
-		 * @param {string=}        [options.content] - The markup to be used for the section container. If empty, a JS template is used.
-		 * @param {boolean=true}   [options.active] - Whether the section is active or not.
-		 * @param {string}         options.panel - The ID for the panel this section is associated with.
-		 * @param {string=}        [options.customizeAction] - Additional context information shown before the section title when expanded.
-		 * @param {object}         [options.params] - Deprecated wrapper for the above properties.
+		 * @param {string}  id - The ID for the section.
+		 * @param {object}  options - Options.
+		 * @param {string}  options.title - Title shown when section is collapsed and expanded.
+		 * @param {string}  [options.description] - Description shown at the top of the section.
+		 * @param {number}  [options.priority=100] - The sort priority for the section.
+		 * @param {string}  [options.type=default] - The type of the section. See wp.customize.sectionConstructor.
+		 * @param {string}  [options.content] - The markup to be used for the section container. If empty, a JS template is used.
+		 * @param {boolean} [options.active=true] - Whether the section is active or not.
+		 * @param {string}  options.panel - The ID for the panel this section is associated with.
+		 * @param {string}  [options.customizeAction] - Additional context information shown before the section title when expanded.
+		 * @param {object}  [options.params] - Deprecated wrapper for the above properties.
 		 */
 		initialize: function ( id, options ) {
 			var section = this, params;
@@ -2756,15 +2756,15 @@
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param {string}         id - The ID for the panel.
-		 * @param {object}         options - Object containing one property: params.
-		 * @param {string}         options.title - Title shown when panel is collapsed and expanded.
-		 * @param {string=}        [options.description] - Description shown at the top of the panel.
-		 * @param {number=100}     [options.priority] - The sort priority for the panel.
-		 * @param {string=default} [options.type] - The type of the panel. See wp.customize.panelConstructor.
-		 * @param {string=}        [options.content] - The markup to be used for the panel container. If empty, a JS template is used.
-		 * @param {boolean=true}   [options.active] - Whether the panel is active or not.
-		 * @param {object}         [options.params] - Deprecated wrapper for the above properties.
+		 * @param {string}  id - The ID for the panel.
+		 * @param {object}  options - Object containing one property: params.
+		 * @param {string}  options.title - Title shown when panel is collapsed and expanded.
+		 * @param {string}  [options.description] - Description shown at the top of the panel.
+		 * @param {number}  [options.priority=100] - The sort priority for the panel.
+		 * @param {string}  [options.type=default] - The type of the panel. See wp.customize.panelConstructor.
+		 * @param {string}  [options.content] - The markup to be used for the panel container. If empty, a JS template is used.
+		 * @param {boolean} [options.active=true] - Whether the panel is active or not.
+		 * @param {object}  [options.params] - Deprecated wrapper for the above properties.
 		 */
 		initialize: function ( id, options ) {
 			var panel = this, params;
