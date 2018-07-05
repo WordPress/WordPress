@@ -1,14 +1,15 @@
 <?php
+
 /**
- * Confirms that the activation key that is sent in an email after a user signs
- * up for a new site matches the key for that user and then displays confirmation.
+ * 사용자가 새로운 사이트에 가입한 후 이메일로 전송되는 활성화키와 사용자 화면에 보여지는 키와 같은지
+ * 확인한다.
  *
  * @package WordPress
  */
 
 define( 'WP_INSTALLING', true );
 
-/** Sets up the WordPress Environment. */
+/** WordPress 환경을 설정한다. **/
 require( dirname( __FILE__ ) . '/wp-load.php' );
 
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
@@ -24,18 +25,18 @@ if ( is_object( $wp_object_cache ) ) {
 	$wp_object_cache->cache_enabled = false;
 }
 
-// Fix for page title
+// 페이지 타이틀을 고친다.
 $wp_query->is_404 = false;
 
-/**
- * Fires before the Site Activation page is loaded.
+/**[Korean]
+ * 활성화 사이트가 로드되기 전에 실행한다.
  *
  * @since 3.0.0
  */
 do_action( 'activate_header' );
 
 /**
- * Adds an action hook specific to this page.
+ * 해당 페이지에 action hook을 추가한다.
  *
  * Fires on {@see 'wp_head'}.
  *
@@ -43,9 +44,9 @@ do_action( 'activate_header' );
  */
 function do_activate_header() {
 	/**
-	 * Fires before the Site Activation page is loaded.
+	 * 활성페이지가 로드되기 전에 실행한다.
 	 *
-	 * Fires on the {@see 'wp_head'} action.
+	 * the {@see 'wp_head'} action을 실행한다.
 	 *
 	 * @since 3.0.0
 	 */
@@ -54,10 +55,11 @@ function do_activate_header() {
 add_action( 'wp_head', 'do_activate_header' );
 
 /**
- * Loads styles specific to this page.
+ * 이 페이지에 Styles를 로드한다.
  *
  * @since MU (3.0.0)
  */
+
 function wpmu_activate_stylesheet() {
 	?>
 	<style type="text/css">
