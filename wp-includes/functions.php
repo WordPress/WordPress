@@ -1809,7 +1809,7 @@ function path_join( $base, $path ) {
  * @since 3.9.0
  * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
  * @since 4.5.0 Allows for Windows network shares.
- * @since 5.0.0 Allows for PHP file wrappers.
+ * @since 4.9.7 Allows for PHP file wrappers.
  *
  * @param string $path Path to normalize.
  * @return string Normalized path.
