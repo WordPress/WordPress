@@ -1704,17 +1704,30 @@ function path_join( $base, $path ) {
  * @since 3.9.0
  * @since 4.4.0 Ensures upper-case drive letters on Windows systems.
  * @since 4.5.0 Allows for Windows network shares.
+ * @since 4.9.7 Allows for PHP file wrappers.
  *
  * @param string $path Path to normalize.
  * @return string Normalized path.
  */
 function wp_normalize_path( $path ) {
+	$wrapper = '';
+	if ( wp_is_stream( $path ) ) {
+		list( $wrapper, $path ) = explode( '://', $path, 2 );
+		$wrapper .= '://';
+	}
+
+	// Standardise all paths to use /
 	$path = str_replace( '\\', '/', $path );
+
+	// Replace multiple slashes down to a singular, allowing for network shares having two slashes.
 	$path = preg_replace( '|(?<=.)/+|', '/', $path );
+
+	// Windows paths should uppercase the drive letter
 	if ( ':' === substr( $path, 1, 1 ) ) {
 		$path = ucfirst( $path );
 	}
-	return $path;
+
+	return $wrapper . $path;
 }
 
 /**
@@ -5501,6 +5514,28 @@ function wp_delete_file( $file ) {
 	if ( ! empty( $delete ) ) {
 		@unlink( $delete );
 	}
+}
+
+/**
+ * Deletes a file if its path is within the given directory.
+ *
+ * @since 4.9.7
+ *
+ * @param string $file      Absolute path to the file to delete.
+ * @param string $directory Absolute path to a directory.
+ * @return bool True on success, false on failure.
+ */
+function wp_delete_file_from_directory( $file, $directory ) {
+	$real_file = realpath( wp_normalize_path( $file ) );
+	$real_directory = realpath( wp_normalize_path( $directory ) );
+
+	if ( false === $real_file || false === $real_directory || strpos( wp_normalize_path( $real_file ), trailingslashit( wp_normalize_path( $real_directory ) ) ) !== 0 ) {
+		return false;
+	}
+
+	wp_delete_file( $file );
+
+	return true;
 }
 
 /**
