@@ -1514,6 +1514,10 @@ div.action-links,
 	content: "\f147";
 }
 
+.plugin-card .notice {
+	margin: 20px 20px 0 20px;
+}
+
 .plugin-icon {
 	position: absolute;
 	top: 20px;
