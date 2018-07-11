@@ -1582,7 +1582,18 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$response->add_links( $this->prepare_links( $post ) );
+		$links = $this->prepare_links( $post );
+		$response->add_links( $links );
+
+		if ( ! empty( $links['self']['href'] ) ) {
+			$actions = $this->get_available_actions( $post, $request );
+
+			$self = $links['self']['href'];
+
+			foreach ( $actions as $rel ) {
+				$response->add_link( $rel, $self );
+			}
+		}
 
 		/**
 		 * Filters the post data for a response.
@@ -1719,6 +1730,60 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Get the link relations available for the post and current user.
+	 *
+	 * @since 4.9.7
+	 *
+	 * @param WP_Post $post Post object.
+	 * @param WP_REST_Request Request object.
+	 *
+	 * @return array List of link relations.
+	 */
+	protected function get_available_actions( $post, $request ) {
+
+		if ( 'edit' !== $request['context'] ) {
+			return array();
+		}
+
+		$rels = array();
+
+		$post_type = get_post_type_object( $post->post_type );
+
+		if ( 'attachment' !== $this->post_type && current_user_can( $post_type->cap->publish_posts ) ) {
+			$rels[] = 'https://api.w.org/action-publish';
+		}
+
+		if ( 'post' === $post_type->name ) {
+			if ( current_user_can( $post_type->cap->edit_others_posts ) && current_user_can( $post_type->cap->publish_posts ) ) {
+				$rels[] = 'https://api.w.org/action-sticky';
+			}
+		}
+
+		if ( post_type_supports( $post_type->name, 'author' ) ) {
+			if ( current_user_can( $post_type->cap->edit_others_posts ) ) {
+				$rels[] = 'https://api.w.org/action-assign-author';
+			}
+		}
+
+		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+
+		foreach ( $taxonomies as $tax ) {
+			$tax_base   = ! empty( $tax->rest_base ) ? $tax->rest_base : $tax->name;
+			$create_cap = is_taxonomy_hierarchical( $tax->name ) ? $tax->cap->edit_terms : $tax->cap->assign_terms;
+
+			if ( current_user_can( $create_cap ) ) {
+				$rels[] = 'https://api.w.org/action-create-' . $tax_base;
+			}
+
+			if ( current_user_can( $tax->cap->assign_terms ) ) {
+				$rels[] = 'https://api.w.org/action-assign-' . $tax_base;
+			}
+		}
+
+		return $rels;
 	}
 
 	/**
@@ -2061,7 +2126,123 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
+		$schema_links = $this->get_schema_links();
+
+		if ( $schema_links ) {
+			$schema['links'] = $schema_links;
+		}
+
 		return $this->add_additional_fields_schema( $schema );
+	}
+
+	/**
+	 * Retrieve Link Description Objects that should be added to the Schema for the posts collection.
+	 *
+	 * @since 4.9.7
+	 *
+	 * @return array
+	 */
+	protected function get_schema_links() {
+
+		$href = rest_url( "{$this->namespace}/{$this->rest_base}/{id}" );
+
+		$links = array();
+
+		if ( 'attachment' !== $this->post_type ) {
+			$links[] = array(
+				'rel'          => 'https://api.w.org/action-publish',
+				'title'        => __( 'The current user can publish this post.' ),
+				'href'         => $href,
+				'targetSchema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						'status' => array(
+							'type' => 'string',
+							'enum' => array( 'publish', 'future' ),
+						),
+					),
+				),
+			);
+		}
+
+		if ( 'post' === $this->post_type ) {
+			$links[] = array(
+				'rel'          => 'https://api.w.org/action-sticky',
+				'title'        => __( 'The current user can sticky this post.' ),
+				'href'         => $href,
+				'targetSchema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						'sticky' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+			);
+		}
+
+		if ( post_type_supports( $this->post_type, 'author' ) ) {
+			$links[] = array(
+				'rel'          => 'https://api.w.org/action-assign-author',
+				'title'        => __( 'The current user can change the author on this post.' ),
+				'href'         => $href,
+				'targetSchema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						'author' => array(
+							'type' => 'integer',
+						),
+					),
+				),
+			);
+		}
+
+		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+
+		foreach ( $taxonomies as $tax ) {
+			$tax_base = ! empty( $tax->rest_base ) ? $tax->rest_base : $tax->name;
+
+			/* translators: %s: taxonomy name */
+			$assign_title = sprintf( __( 'The current user can assign terms in the %s taxonomy.' ), $tax->name );
+			/* translators: %s: taxonomy name */
+			$create_title = sprintf( __( 'The current user can create terms in the %s taxonomy.' ), $tax->name );
+
+			$links[] = array(
+				'rel'          => 'https://api.w.org/action-assign-' . $tax_base,
+				'title'        => $assign_title,
+				'href'         => $href,
+				'targetSchema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						$tax_base => array(
+							'type'  => 'array',
+							'items' => array(
+								'type' => 'integer',
+							),
+						),
+					),
+				),
+			);
+
+			$links[] = array(
+				'rel'          => 'https://api.w.org/action-create-' . $tax_base,
+				'title'        => $create_title,
+				'href'         => $href,
+				'targetSchema' => array(
+					'type'       => 'object',
+					'properties' => array(
+						$tax_base => array(
+							'type'  => 'array',
+							'items' => array(
+								'type' => 'integer',
+							),
+						),
+					),
+				),
+			);
+		}
+
+		return $links;
 	}
 
 	/**
