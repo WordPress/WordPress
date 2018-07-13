@@ -380,7 +380,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		}
 
 		$taxonomy_obj = get_taxonomy( $this->taxonomy );
-		if ( ! current_user_can( $taxonomy_obj->cap->edit_terms ) ) {
+		if ( ( is_taxonomy_hierarchical( $this->taxonomy )
+				&& ! current_user_can( $taxonomy_obj->cap->edit_terms ) )
+			|| ( ! is_taxonomy_hierarchical( $this->taxonomy )
+				&& ! current_user_can( $taxonomy_obj->cap->assign_terms ) ) ) {
 			return new WP_Error( 'rest_cannot_create', __( 'Sorry, you are not allowed to create new terms.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
