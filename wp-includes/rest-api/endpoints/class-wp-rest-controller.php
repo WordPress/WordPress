@@ -506,6 +506,35 @@ abstract class WP_REST_Controller {
 	}
 
 	/**
+	 * Gets an array of fields to be included on the response.
+	 *
+	 * Included fields are based on item schema and `_fields=` request argument.
+	 *
+	 * @since 4.9.6
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return array Fields to be included in the response.
+	 */
+	public function get_fields_for_response( $request ) {
+		$schema = $this->get_item_schema();
+		$fields = isset( $schema['properties'] ) ? array_keys( $schema['properties'] ) : array();
+		if ( ! isset( $request['_fields'] ) ) {
+			return $fields;
+		}
+		$requested_fields = is_array( $request['_fields'] ) ? $request['_fields'] : preg_split( '/[\s,]+/', $request['_fields'] );
+		if ( 0 === count( $requested_fields ) ) {
+			return $fields;
+		}
+		// Trim off outside whitespace from the comma delimited list.
+		$requested_fields = array_map( 'trim', $requested_fields );
+		// Always persist 'id', because it can be needed for add_additional_fields_to_object().
+		if ( in_array( 'id', $fields, true ) ) {
+			$requested_fields[] = 'id';
+		}
+		return array_intersect( $fields, $requested_fields );
+	}
+
+	/**
 	 * Retrieves an array of endpoint arguments from the item schema for the controller.
 	 *
 	 * @since 4.7.0

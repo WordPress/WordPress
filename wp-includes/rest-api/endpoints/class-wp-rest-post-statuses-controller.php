@@ -195,15 +195,36 @@ class WP_REST_Post_Statuses_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $status, $request ) {
 
-		$data = array(
-			'name'         => $status->label,
-			'private'      => (bool) $status->private,
-			'protected'    => (bool) $status->protected,
-			'public'       => (bool) $status->public,
-			'queryable'    => (bool) $status->publicly_queryable,
-			'show_in_list' => (bool) $status->show_in_admin_all_list,
-			'slug'         => $status->name,
-		);
+		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
+
+		if ( in_array( 'name', $fields, true ) ) {
+			$data['name'] = $status->label;
+		}
+
+		if ( in_array( 'private', $fields, true ) ) {
+			$data['private'] = (bool) $status->private;
+		}
+
+		if ( in_array( 'protected', $fields, true ) ) {
+			$data['protected'] = (bool) $status->protected;
+		}
+
+		if ( in_array( 'public', $fields, true ) ) {
+			$data['public'] = (bool) $status->public;
+		}
+
+		if ( in_array( 'queryable', $fields, true ) ) {
+			$data['queryable'] = (bool) $status->publicly_queryable;
+		}
+
+		if ( in_array( 'show_in_list', $fields, true ) ) {
+			$data['show_in_list'] = (bool) $status->show_in_admin_all_list;
+		}
+
+		if ( in_array( 'slug', $fields, true ) ) {
+			$data['slug'] = $status->name;
+		}
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data = $this->add_additional_fields_to_object( $data, $request );

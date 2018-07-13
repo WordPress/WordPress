@@ -151,18 +151,49 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		$base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
 		$supports = get_all_post_type_supports( $post_type->name );
 
-		$data = array(
-			'capabilities' => $post_type->cap,
-			'description'  => $post_type->description,
-			'hierarchical' => $post_type->hierarchical,
-			'viewable'     => is_post_type_viewable( $post_type ),
-			'labels'       => $post_type->labels,
-			'name'         => $post_type->label,
-			'slug'         => $post_type->name,
-			'supports'     => $supports,
-			'taxonomies'   => array_values( $taxonomies ),
-			'rest_base'    => $base,
-		);
+		$fields = $this->get_fields_for_response( $request );
+		$data   = array();
+
+		if ( in_array( 'capabilities', $fields, true ) ) {
+			$data['capabilities'] = $post_type->cap;
+		}
+
+		if ( in_array( 'description', $fields, true ) ) {
+			$data['description'] = $post_type->description;
+		}
+
+		if ( in_array( 'hierarchical', $fields, true ) ) {
+			$data['hierarchical'] = $post_type->hierarchical;
+		}
+
+		if ( in_array( 'viewable', $fields, true ) ) {
+			$data['viewable'] = is_post_type_viewable( $post_type );
+		}
+
+		if ( in_array( 'labels', $fields, true ) ) {
+			$data['labels'] = $post_type->labels;
+		}
+
+		if ( in_array( 'name', $fields, true ) ) {
+			$data['name'] = $post_type->label;
+		}
+
+		if ( in_array( 'slug', $fields, true ) ) {
+			$data['slug'] = $post_type->name;
+		}
+
+		if ( in_array( 'supports', $fields, true ) ) {
+			$data['supports'] = $supports;
+		}
+
+		if ( in_array( 'taxonomies', $fields, true ) ) {
+			$data['taxonomies'] = array_values( $taxonomies );
+		}
+
+		if ( in_array( 'rest_base', $fields, true ) ) {
+			$data['rest_base'] = $base;
+		}
+
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
 		$data    = $this->filter_response_by_context( $data, $context );
