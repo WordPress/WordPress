@@ -1667,9 +1667,23 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'revisions' ) ) {
+			$revisions       = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
+			$revisions_count = count( $revisions );
+
 			$links['version-history'] = array(
-				'href' => rest_url( trailingslashit( $base ) . $post->ID . '/revisions' ),
+				'href'  => rest_url( trailingslashit( $base ) . $post->ID . '/revisions' ),
+				'count' => $revisions_count,
 			);
+
+			if ( $revisions_count > 0 ) {
+				$last_revision = array_shift( $revisions );
+
+				$links['predecessor-version'] = array(
+					'href' => rest_url( trailingslashit( $base ) . $post->ID . '/revisions/' . $last_revision ),
+					'id'   => $last_revision,
+				);
+			}
+
 		}
 
 		$post_type_obj = get_post_type_object( $post->post_type );
