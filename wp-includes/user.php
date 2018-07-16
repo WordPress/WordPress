@@ -2966,6 +2966,7 @@ All at ###SITENAME###
 	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
 	 *     @type string          $sitename    The site name sending the mail.
 	 *     @type string          $siteurl     The site URL sending the mail.
+	 *     @type string          $admin_email The administrator email receiving the mail.
 	 * }
 	 */
 	$content = apply_filters( 'user_confirmed_action_email_content', $email_text, $email_data );
@@ -2988,7 +2989,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the subject of the user request confirmation email.
 	 *
-	 * @since 4.9.7
+	 * @since 4.9.8
 	 *
 	 * @param string $subject    The email subject.
 	 * @param string $blogname   The name of the site.
