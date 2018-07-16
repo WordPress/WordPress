@@ -2895,13 +2895,8 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 		return;
 	}
 
-	$subject = sprintf(
-		/* translators: %s Site name. */
-		__( '[%s] Action Confirmed' ),
-		wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
-	);
-
-	$manage_url = add_query_arg( 'page', $request_data->action_name, admin_url( 'tools.php' ) );
+	$manage_url         = add_query_arg( 'page', $request_data->action_name, admin_url( 'tools.php' ) );
+	$action_description = wp_user_request_action_description( $request_data->action_name );
 
 	/**
 	 * Filters the recipient of the data request confirmation notification.
@@ -2922,7 +2917,7 @@ function _wp_privacy_send_request_confirmation_notification( $request_id ) {
 	$email_data = array(
 		'request'     => $request_data,
 		'user_email'  => $request_data->email,
-		'description' => wp_user_request_action_description( $request_data->action_name ),
+		'description' => $action_description,
 		'manage_url'  => $manage_url,
 		'sitename'    => get_option( 'blogname' ),
 		'siteurl'     => home_url(),
@@ -2980,6 +2975,36 @@ All at ###SITENAME###
 	$content = str_replace( '###DESCRIPTION###', $email_data['description'], $content );
 	$content = str_replace( '###MANAGE_URL###', esc_url_raw( $email_data['manage_url'] ), $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
+
+	$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+	$subject = sprintf(
+		/* translators: 1: Site name. 2: Name of the confirmed action. */
+		__( '[%1$s] Action Confirmed: %2$s' ),
+		$blogname,
+		$action_description
+	);
+
+	/**
+	 * Filters the subject of the user request confirmation email.
+	 *
+	 * @since 4.9.7
+	 *
+	 * @param string $subject    The email subject.
+	 * @param string $blogname   The name of the site.
+	 * @param array  $email_data {
+	 *     Data relating to the account action email.
+	 *
+	 *     @type WP_User_Request $request     User request object.
+	 *     @type string          $user_email  The email address confirming a request
+	 *     @type string          $description Description of the action being performed so the user knows what the email is for.
+	 *     @type string          $manage_url  The link to click manage privacy requests of this type.
+	 *     @type string          $sitename    The site name sending the mail.
+	 *     @type string          $siteurl     The site URL sending the mail.
+	 *     @type string          $admin_email The administrator email receiving the mail.
+	 * }
+	 */
+	$subject = apply_filters( 'user_request_confirmed_email_subject', $subject, $blogname, $email_data );
 
 	$email_sent = wp_mail( $email_data['admin_email'], $subject, $content );
 
