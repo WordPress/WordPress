@@ -1900,7 +1900,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 		if ( false === $file ) {
 			wp_send_json_error( __( 'Unable to protect export folder from browsing.' ) );
 		}
-		fwrite( $file, 'Silence is golden.' );
+		fwrite( $file, '<!-- Silence is golden. -->' );
 		fclose( $file );
 	}
 
