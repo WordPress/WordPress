@@ -1275,7 +1275,7 @@ All at ###SITENAME###
  * Appends '(Draft)' to draft page titles in the privacy page dropdown
  * so that unpublished content is obvious.
  *
- * @since 4.9.7
+ * @since 4.9.8
  * @access private
  *
  * @param string  $title Page title.
