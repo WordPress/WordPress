@@ -3281,7 +3281,7 @@ function wp_send_user_request( $request_id ) {
 			'action'      => 'confirmaction',
 			'request_id'  => $request_id,
 			'confirm_key' => wp_generate_user_request_key( $request_id ),
-		), site_url( 'wp-login.php' ) ),
+		), wp_login_url() ),
 		'sitename'    => is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' ),
 		'siteurl'     => network_home_url(),
 	);
