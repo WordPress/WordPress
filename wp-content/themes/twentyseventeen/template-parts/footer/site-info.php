@@ -15,7 +15,7 @@
 		the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
 	}
 	?>
-	<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentyseventeen' ) ); ?>" class="imprint">
-		<?php printf( __( 'Proudly powered by %s', 'twentyseventeen' ), 'WordPress' ); ?>
+	<a href="<?php echo esc_url( __( 'https://aryadiesel763.com/', 'aryadiesel763' ) ); ?>" class="imprint">
+		<?php printf( __( 'Proudly powered by %s', 'twentyseventeen' ), 'aryadiesel' ); ?>
 	</a>
 </div><!-- .site-info -->
