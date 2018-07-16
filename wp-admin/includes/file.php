@@ -2099,20 +2099,20 @@ All at ###SITENAME###
 
 	$email_address = $request->email;
 	$export_file_url = get_post_meta( $request_id, '_export_file_url', true );
-	$site_name = is_multisite() ? get_site_option( 'site_name' ) : get_option( 'blogname' );
-	$site_url = network_home_url();
+	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	$site_url = home_url();
 
 	$content = str_replace( '###EXPIRATION###', $expiration_date, $content );
 	$content = str_replace( '###LINK###', esc_url_raw( $export_file_url ), $content );
 	$content = str_replace( '###EMAIL###', $email_address, $content );
-	$content = str_replace( '###SITENAME###', wp_specialchars_decode( $site_name, ENT_QUOTES ), $content );
+	$content = str_replace( '###SITENAME###', $site_name, $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $site_url ), $content );
 
 	$mail_success = wp_mail(
 		$email_address,
 		sprintf(
 			__( '[%s] Personal Data Export' ),
-			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
+			$site_name
 		),
 		$content
 	);
