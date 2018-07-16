@@ -364,7 +364,7 @@ function get_inline_data( $post ) {
 	/**
 	 * Fires after outputting the fields for the inline editor for posts and pages.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.8
 	 *
 	 * @param WP_Post      $post             The current post object.
 	 * @param WP_Post_Type $post_type_object The current post's post type object.
