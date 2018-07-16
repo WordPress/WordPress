@@ -1223,6 +1223,27 @@ All at ###SITENAME###
 }
 
 /**
+ * Appends '(Draft)' to draft page titles in the privacy page dropdown
+ * so that unpublished content is obvious.
+ *
+ * @since 4.9.8
+ * @access private
+ *
+ * @param string  $title Page title.
+ * @param WP_Post $page  Page data object.
+ *
+ * @return string Page title.
+ */
+function _wp_privacy_settings_filter_draft_page_titles( $title, $page ) {
+	if ( 'draft' === $page->post_status && 'privacy' === get_current_screen()->id ) {
+		/* translators: %s: Page Title */
+		$title = sprintf( __( '%s (Draft)' ), $title );
+	}
+
+	return $title;
+}
+
+/**
  * WP_Privacy_Policy_Content class.
  * TODO: move this to a new file.
  *
