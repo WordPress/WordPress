@@ -3061,7 +3061,7 @@ All at ###SITENAME###
 	/**
 	 * Filters the subject of the user request confirmation email.
 	 *
-	 * @since 4.9.7
+	 * @since 4.9.8
 	 *
 	 * @param string $subject    The email subject.
 	 * @param string $sitename   The name of the site.
