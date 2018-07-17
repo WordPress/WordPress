@@ -5227,8 +5227,9 @@ function _device_can_upload() {
  * @return bool True if the path is a stream URL.
  */
 function wp_is_stream( $path ) {
-	$wrappers = stream_get_wrappers();
-	$wrappers_re = '(' . join('|', $wrappers) . ')';
+	$wrappers    = stream_get_wrappers();
+	$wrappers    = array_map( 'preg_quote', $wrappers );
+	$wrappers_re = '(' . join( '|', $wrappers ) . ')';
 
 	return preg_match( "!^$wrappers_re://!", $path ) === 1;
 }
