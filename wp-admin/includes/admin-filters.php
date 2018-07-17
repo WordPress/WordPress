@@ -47,6 +47,8 @@ add_action( 'admin_head', '_ipad_meta' );
 
 // Privacy tools
 add_action( 'admin_menu', '_wp_privacy_hook_requests_page' );
+add_action( 'load-tools_page_export_personal_data', '_wp_privacy_requests_screen_options' );
+add_action( 'load-tools_page_remove_personal_data', '_wp_privacy_requests_screen_options' );
 
 // Prerendering.
 if ( ! is_customize_preview() ) {
