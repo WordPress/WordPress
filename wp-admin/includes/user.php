@@ -964,6 +964,19 @@ function _wp_privacy_hook_requests_page() {
 	add_submenu_page( 'tools.php', __( 'Erase Personal Data' ), __( 'Erase Personal Data' ), 'erase_others_personal_data', 'remove_personal_data', '_wp_personal_data_removal_page' );
 }
 
+/**
+ * Add options for the privacy requests screens.
+ *
+ * @since 4.9.8
+ * @access private
+ */
+function _wp_privacy_requests_screen_options() {
+	$args = array(
+		'option'  => str_replace( 'tools_page_', '', get_current_screen()->id ) . '_requests_per_page',
+	);
+	add_screen_option( 'per_page', $args );
+}
+
 // TODO: move the following classes in new files.
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -1181,7 +1194,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		);
 
 		$this->items    = array();
-		$posts_per_page = 20;
+		$posts_per_page = $this->get_items_per_page( $this->request_type . '_requests_per_page' );
 		$args           = array(
 			'post_type'      => $this->post_type,
 			'post_name__in'  => array( $this->request_type ),
