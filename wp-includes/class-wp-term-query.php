@@ -978,7 +978,7 @@ class WP_Term_Query {
 	 *
 	 * Also discards invalid term objects.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.8
 	 *
 	 * @param array $term_ids Term IDs.
 	 * @return array
