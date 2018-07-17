@@ -236,12 +236,12 @@ ol {
 	counter-reset: item;
 }
 
-ol li {
+ol > li {
 	display: block;
 	position: relative;
 }
 
-ol li:before {
+ol > li:before {
 	content: counter(item);
 	counter-increment: item;
 	font-weight: 800;
@@ -584,7 +584,7 @@ object {
 	counter-reset: item;
 }
 
-.rtl ol li:before {
+.rtl ol > li:before {
 	left: auto;
 	right: -1.5em;
 }
