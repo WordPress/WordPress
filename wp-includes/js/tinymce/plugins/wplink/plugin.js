@@ -564,7 +564,7 @@
 		} );
 
 		editor.addButton( 'wp_link_edit', {
-			tooltip: 'Edit ', // trailing space is needed, used for context
+			tooltip: 'Edit|button', // '|button' is not displayed, only used for context
 			icon: 'dashicon dashicons-edit',
 			cmd: 'WP_Link'
 		} );
