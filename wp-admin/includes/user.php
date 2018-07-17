@@ -601,10 +601,10 @@ function _wp_privacy_completed_request( $request_id ) {
  * @access private
  */
 function _wp_personal_data_handle_actions() {
-	if ( isset( $_POST['privacy_action_email_retry'] ) ) { // WPCS: input var ok.
+	if ( isset( $_POST['privacy_action_email_retry'] ) ) {
 		check_admin_referer( 'bulk-privacy_requests' );
 
-		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['privacy_action_email_retry'] ) ) ) ); // WPCS: input var ok, sanitization ok.
+		$request_id = absint( current( array_keys( (array) wp_unslash( $_POST['privacy_action_email_retry'] ) ) ) );
 		$result     = _wp_privacy_resend_request( $request_id );
 
 		if ( is_wp_error( $result ) ) {
@@ -623,7 +623,7 @@ function _wp_personal_data_handle_actions() {
 			);
 		}
 	} elseif ( isset( $_POST['action'] ) ) {
-		$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : ''; // WPCS: input var ok, CSRF ok.
+		$action = isset( $_POST['action'] ) ? sanitize_key( wp_unslash( $_POST['action'] ) ) : '';
 
 		switch ( $action ) {
 			case 'add_export_personal_data_request':
@@ -1120,7 +1120,8 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 */
 	public function process_bulk_action() {
 		$action      = $this->current_action();
-		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array(); // WPCS: input var ok, CSRF ok.
+		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array();
+		
 		$count       = 0;
 
 		if ( $request_ids ) {
