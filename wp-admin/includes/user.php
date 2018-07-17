@@ -630,7 +630,7 @@ function _wp_personal_data_handle_actions() {
 			case 'add_remove_personal_data_request':
 				check_admin_referer( 'personal-data-request' );
 
-				if ( ! isset( $_POST['type_of_action'], $_POST['username_or_email_to_export'] ) ) { // WPCS: input var ok.
+				if ( ! isset( $_POST['type_of_action'], $_POST['username_or_email_for_privacy_request'] ) ) {
 					add_settings_error(
 						'action_type',
 						'action_type',
@@ -638,8 +638,8 @@ function _wp_personal_data_handle_actions() {
 						'error'
 					);
 				}
-				$action_type               = sanitize_text_field( wp_unslash( $_POST['type_of_action'] ) ); // WPCS: input var ok.
-				$username_or_email_address = sanitize_text_field( wp_unslash( $_POST['username_or_email_to_export'] ) ); // WPCS: input var ok.
+				$action_type               = sanitize_text_field( wp_unslash( $_POST['type_of_action'] ) );
+				$username_or_email_address = sanitize_text_field( wp_unslash( $_POST['username_or_email_for_privacy_request'] ) );
 				$email_address             = '';
 
 				if ( ! in_array( $action_type, _wp_privacy_action_request_types(), true ) ) {
@@ -655,8 +655,8 @@ function _wp_personal_data_handle_actions() {
 					$user = get_user_by( 'login', $username_or_email_address );
 					if ( ! $user instanceof WP_User ) {
 						add_settings_error(
-							'username_or_email_to_export',
-							'username_or_email_to_export',
+							'username_or_email_for_privacy_request',
+							'username_or_email_for_privacy_request',
 							__( 'Unable to add this request. A valid email address or username must be supplied.' ),
 							'error'
 						);
@@ -675,16 +675,16 @@ function _wp_personal_data_handle_actions() {
 
 				if ( is_wp_error( $request_id ) ) {
 					add_settings_error(
-						'username_or_email_to_export',
-						'username_or_email_to_export',
+						'username_or_email_for_privacy_request',
+						'username_or_email_for_privacy_request',
 						$request_id->get_error_message(),
 						'error'
 					);
 					break;
 				} elseif ( ! $request_id ) {
 					add_settings_error(
-						'username_or_email_to_export',
-						'username_or_email_to_export',
+						'username_or_email_for_privacy_request',
+						'username_or_email_for_privacy_request',
 						__( 'Unable to initiate confirmation request.' ),
 						'error'
 					);
@@ -694,8 +694,8 @@ function _wp_personal_data_handle_actions() {
 				wp_send_user_request( $request_id );
 
 				add_settings_error(
-					'username_or_email_to_export',
-					'username_or_email_to_export',
+					'username_or_email_for_privacy_request',
+					'username_or_email_for_privacy_request',
 					__( 'Confirmation request initiated successfully.' ),
 					'updated'
 				);
@@ -773,8 +773,8 @@ function _wp_personal_data_export_page() {
 			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
 
 			<div class="wp-privacy-request-form-field">
-				<label for="username_or_email_to_export"><?php esc_html_e( 'Username or email address' ); ?></label>
-				<input type="text" required class="regular-text" id="username_or_email_to_export" name="username_or_email_to_export" />
+				<label for="username_or_email_for_privacy_request"><?php esc_html_e( 'Username or email address' ); ?></label>
+				<input type="text" required class="regular-text" id="username_or_email_for_privacy_request" name="username_or_email_for_privacy_request" />
 				<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
 			</div>
 			<?php wp_nonce_field( 'personal-data-request' ); ?>
@@ -846,8 +846,8 @@ function _wp_personal_data_removal_page() {
 			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
 
 			<div class="wp-privacy-request-form-field">
-				<label for="username_or_email_to_export"><?php esc_html_e( 'Username or email address' ); ?></label>
-				<input type="text" required class="regular-text" id="username_or_email_to_export" name="username_or_email_to_export" />
+				<label for="username_or_email_for_privacy_request"><?php esc_html_e( 'Username or email address' ); ?></label>
+				<input type="text" required class="regular-text" id="username_or_email_for_privacy_request" name="username_or_email_for_privacy_request" />
 				<?php submit_button( __( 'Send Request' ), 'secondary', 'submit', false ); ?>
 			</div>
 			<?php wp_nonce_field( 'personal-data-request' ); ?>
