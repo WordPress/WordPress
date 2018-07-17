@@ -1775,6 +1775,10 @@ function _post_states($post) {
 		}
 	}
 
+	if ( intval( get_option( 'wp_page_for_privacy_policy' ) ) === $post->ID ) {
+		$post_states['page_for_privacy_policy'] = __( 'Privacy Policy Page' );
+	}
+
 	/**
 	 * Filters the default post display states used in the posts list table.
 	 *
