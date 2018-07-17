@@ -3290,6 +3290,7 @@ function wp_send_user_request( $request_id ) {
 	}
 
 	$email_data = array(
+		'request'     => $request,
 		'email'       => $request->email,
 		'description' => wp_user_request_action_description( $request->action_name ),
 		'confirm_url' => add_query_arg( array(
