@@ -1749,7 +1749,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	/**
 	 * Get the link relations available for the post and current user.
 	 *
-	 * @since 4.9.7
+	 * @since 4.9.8
 	 *
 	 * @param WP_Post $post Post object.
 	 * @param WP_REST_Request Request object.
@@ -2152,7 +2152,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	/**
 	 * Retrieve Link Description Objects that should be added to the Schema for the posts collection.
 	 *
-	 * @since 4.9.7
+	 * @since 4.9.8
 	 *
 	 * @return array
 	 */
