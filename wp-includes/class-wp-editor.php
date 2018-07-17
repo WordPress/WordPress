@@ -286,12 +286,11 @@ final class _WP_Editors {
 
 		// Back-compat for the `htmledit_pre` and `richedit_pre` filters
 		if ( 'html' === $default_editor && has_filter( 'htmledit_pre' ) ) {
-			// TODO: needs _deprecated_filter(), use _deprecated_function() as substitute for now
-			_deprecated_function( 'add_filter( htmledit_pre )', '4.3.0', 'add_filter( format_for_editor )' );
-			$content = apply_filters( 'htmledit_pre', $content );
+			/** This filter is documented in wp-includes/deprecated.php */
+			$content = apply_filters_deprecated( 'htmledit_pre', array( $content ), '4.3.0', 'format_for_editor' );
 		} elseif ( 'tinymce' === $default_editor && has_filter( 'richedit_pre' ) ) {
-			_deprecated_function( 'add_filter( richedit_pre )', '4.3.0', 'add_filter( format_for_editor )' );
-			$content = apply_filters( 'richedit_pre', $content );
+			/** This filter is documented in wp-includes/deprecated.php */
+			$content = apply_filters_deprecated( 'richedit_pre', array( $content ), '4.3.0', 'format_for_editor' );
 		}
 
 		if ( false !== stripos( $content, 'textarea' ) ) {
