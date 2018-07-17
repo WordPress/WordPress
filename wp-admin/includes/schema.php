@@ -519,6 +519,9 @@ function populate_options() {
 
 		// 4.9.6
 		'wp_page_for_privacy_policy'      => 0,
+
+		// 4.9.8
+		'show_comments_cookies_opt_in'    => 0,
 	);
 
 	// 3.3
