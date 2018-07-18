@@ -31,6 +31,49 @@ jQuery(document).ready( function($) {
 		updateWelcomePanel( this.checked ? 1 : 0 );
 	});
 
+	var tryGutenbergPanel = $( '#try-gutenberg-panel' ),
+		tryGutenbergPanelHide = $('#wp_try_gutenberg_panel-hide'),
+		updateTryGutenbergPanel, installGutenbergSuccess;
+
+	updateTryGutenbergPanel = function( visible ) {
+		$.post( ajaxurl, {
+			action: 'update-try-gutenberg-panel',
+			visible: visible,
+			trygutenbergpanelnonce: $( '#trygutenbergpanelnonce' ).val()
+		});
+	};
+
+	installGutenbergSuccess = function( response ) {
+		response.activateUrl += '&from=try-gutenberg';
+		response.activateLabel = wp.updates.l10n.activatePluginLabel.replace( '%s', response.pluginName );
+		wp.updates.installPluginSuccess( response );
+	};
+
+	if ( tryGutenbergPanel.hasClass( 'hidden' ) && tryGutenbergPanelHide.prop( 'checked' ) ) {
+		tryGutenbergPanel.removeClass( 'hidden' );
+	}
+
+	$( '.try-gutenberg-panel-close, .try-gutenberg-panel-dismiss a', tryGutenbergPanel ).click( function( e ) {
+		e.preventDefault();
+		tryGutenbergPanel.addClass( 'hidden' );
+		updateTryGutenbergPanel( 0 );
+		$('#wp_try_gutenberg_panel-hide').prop( 'checked', false );
+	});
+
+	tryGutenbergPanelHide.click( function() {
+		tryGutenbergPanel.toggleClass( 'hidden', ! this.checked );
+		updateTryGutenbergPanel( this.checked ? 1 : 0 );
+	});
+
+	tryGutenbergPanel.on( 'click', '.install-now', function( e ) {
+		e.preventDefault();
+		var args = {
+			slug: $( e.target ).data( 'slug' ),
+			success: installGutenbergSuccess
+		};
+		wp.updates.installPlugin( args );
+	} );
+
 	// These widgets are sometimes populated via ajax
 	ajaxWidgets = ['dashboard_primary'];
 

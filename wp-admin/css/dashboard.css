@@ -98,7 +98,8 @@
 }
 
 /* Welcome Panel */
-.welcome-panel {
+.welcome-panel,
+.try-gutenberg-panel {
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
@@ -110,7 +111,8 @@
 	line-height: 2.1em;
 }
 
-.welcome-panel h2 {
+.welcome-panel h2,
+.try-gutenberg-panel h2 {
 	margin: 0;
 	font-size: 21px;
 	font-weight: 400;
@@ -122,25 +124,42 @@
 	font-size: 16px;
 }
 
-.welcome-panel li {
+.try-gutenberg-panel h3 {
+	margin: 17px 0 0;
+	font-size: 16px;
+}
+
+.welcome-panel li,
+.try-gutenberg-panel li {
 	font-size: 14px;
 }
 
-.welcome-panel p {
+.welcome-panel p,
+.try-gutenberg-panel p {
 	color: #72777c;
 }
 
-.welcome-panel a {
+.welcome-panel a,
+.try-gutenberg-action a {
 	text-decoration: none;
 }
 
-.welcome-panel .about-description {
+.welcome-panel .about-description,
+.try-gutenberg-panel .about-description {
 	font-size: 16px;
 	margin: 0;
 }
 
-.welcome-panel .welcome-panel-close {
+.try-gutenberg-panel-content hr {
+	margin: 20px -23px 0 -23px;
+	border-top: 1px solid #f3f4f5;
+	border-bottom: none;
+}
+
+.welcome-panel .welcome-panel-close,
+.try-gutenberg-panel .try-gutenberg-panel-close {
 	position: absolute;
+	z-index: 10;
 	top: 10px;
 	right: 10px;
 	padding: 10px 15px 10px 21px;
@@ -149,7 +168,8 @@
 	text-decoration: none;
 }
 
-.welcome-panel .welcome-panel-close:before {
+.welcome-panel .welcome-panel-close:before,
+.try-gutenberg-panel .try-gutenberg-panel-close:before {
 	position: absolute;
 	top: 8px;
 	left: 0;
@@ -164,9 +184,21 @@
 	white-space: normal;
 }
 
-.welcome-panel-content {
-	margin-left: 13px;
+.welcome-panel-content,
+.try-gutenberg-panel-content {
+	margin: 0 13px;
 	max-width: 1500px;
+}
+
+.try-gutenberg-panel img {
+	margin-top: 23px;
+	width: calc( 100% - 40px );
+	border: 1px solid #f3f4f5;
+}
+
+.try-gutenberg-panel .install-now.updating-message:before,
+.try-gutenberg-panel .install-now.updated-message:before {
+	margin-top: 11px;
 }
 
 .welcome-panel .welcome-panel-column-container {
@@ -180,6 +212,10 @@
 	float: left;
 }
 
+.try-gutenberg-panel .try-gutenberg-panel-column > * {
+	padding-right: 40px;
+}
+
 .ie8 .welcome-panel .welcome-panel-column {
 	min-width: 230px;
 }
@@ -188,11 +224,27 @@
 	width: 36%;
 }
 
+.try-gutenberg-panel .try-gutenberg-panel-column-container {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-columns: 36% 32% 32%;
+	grid-template-columns: 36% 32% 32%;
+	margin-bottom: 13px;
+}
+
+.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-rows: 45px auto 100px;
+	grid-template-rows: 45px auto 100px;
+}
+
 .welcome-panel-column p.hide-if-no-customize {
 	margin-top: 10px;
 }
 
-.welcome-panel-column p {
+.welcome-panel-column p,
+.try-gutenberg-panel-column p {
 	margin-top: 7px;
 	color: #444;
 }
@@ -202,7 +254,7 @@
 }
 
 .welcome-panel .welcome-panel-column ul {
-	margin: 0.8em 1em 1em 0;
+		margin: 0.8em 1em 1em 0;
 }
 
 .welcome-panel .welcome-panel-column li {
@@ -1207,12 +1259,28 @@ a.rsswidget {
 	}
 }
 
+@media screen and (max-width: 1024px) {
+	.try-gutenberg-panel .try-gutenberg-panel-column-container {
+		-ms-grid-columns: 50% 50%;
+		grid-template-columns: 50% 50%;
+	}
+
+	.try-gutenberg-panel .try-gutenberg-panel-image-column {
+		display: none;
+	}
+}
+
 @media screen and (max-width: 870px) {
 	.welcome-panel .welcome-panel-column,
 	.welcome-panel .welcome-panel-column:first-child {
 		display: block;
 		float: none;
 		width: 100%;
+	}
+
+	.try-gutenberg-panel .try-gutenberg-panel-column-container {
+		-ms-grid-columns: 100%;
+		grid-template-columns: 100%;
 	}
 
 	.welcome-panel .welcome-panel-column li {
@@ -1223,7 +1291,6 @@ a.rsswidget {
 	.welcome-panel .welcome-panel-column ul {
 		margin: 0.4em 0 0;
 	}
-
 }
 
 @media screen and ( max-width: 782px ) {
@@ -1266,7 +1333,8 @@ a.rsswidget {
 /* Smartphone */
 @media screen and (max-width: 600px) {
 	/* Keep the close icon from overlapping the Welcome text. */
-	.welcome-panel .welcome-panel-close {
+	.welcome-panel .welcome-panel-close,
+	.try-gutenberg-panel .try-gutenberg-panel-close {
 		overflow: hidden;
 		text-indent: 40px;
 		white-space: nowrap;
@@ -1278,7 +1346,8 @@ a.rsswidget {
 	}
 
 	/* Make the close icon larger for tappability. */
-	.welcome-panel .welcome-panel-close:before {
+	.welcome-panel .welcome-panel-close:before,
+	.try-gutenberg-panel .try-gutenberg-panel-close:before {
 		font-size: 20px;
 		top: 5px;
 		left: -35px;

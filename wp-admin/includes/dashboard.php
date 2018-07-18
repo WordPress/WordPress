@@ -1619,3 +1619,118 @@ function wp_welcome_panel() {
 	</div>
 	<?php
 }
+
+/**
+ * Displays a Try Gutenberg Panel, to introduce people to Gutenberg
+ *
+ * @since 4.9.8
+ */
+function wp_try_gutenberg_panel() {
+	$plugins = get_plugins();
+	$action = $url = $classes = '';
+	$classic_action = $classic_url = $classic_classes = '';
+
+	if ( current_user_can( 'install_plugins' ) ) {
+		if ( empty( $plugins['gutenberg/gutenberg.php'] ) ) {
+			$action = __( 'Install Gutenberg' );
+			$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
+			$classes = ' install-now';
+		} else if ( is_plugin_inactive( 'gutenberg/gutenberg.php' ) ) {
+			$action = __( 'Activate Gutenberg' );
+			$url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=gutenberg/gutenberg.php&from=try-gutenberg' ), 'activate-plugin_gutenberg/gutenberg.php' );
+			$classes = ' activate-now';
+		}
+
+		if ( empty( $plugins['classic-editor/classic-editor.php'] ) ) {
+			$classic_action = __( 'Install the Classic Editor' );
+			$classic_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=classic-editor' ), 'install-plugin_classic-editor' );
+			$classic_classes = ' install-now';
+		} else if ( is_plugin_inactive( 'classic-editor/classic-editor.php' ) ) {
+			$classic_action = __( 'Activate the Classic Editor' );
+			$classic_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=classic-editor/classic-editor.php&from=try-gutenberg' ), 'activate-plugin_classic-editor/classic-editor.php' );
+			$classic_classes = ' activate-now';
+		} else {
+			$classic_action = __( 'The Classic Editor is activated' );
+			$classic_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=classic-editor/classic-editor.php&from=try-gutenberg' ), 'activate-plugin_classic-editor/classic-editor.php' );;
+			$classic_classes = ' button-disabled install-now updated-message';
+		}
+	}
+
+	if ( current_user_can( 'edit_posts' ) && is_plugin_active( 'gutenberg/gutenberg.php' ) ) {
+		$action = __( 'Try Gutenberg' );
+		$url = admin_url( 'admin.php?page=gutenberg' );
+	}
+
+	?>
+	<div class="try-gutenberg-panel-content">
+		<h2><?php _e( 'A new, modern publishing experience is coming soon.' ); ?></h2>
+
+		<p class="about-description"><?php _e( "Take your words, media, and layout in new directions with Gutenberg, the WordPress editor we're currently building." ); ?></p>
+
+		<hr />
+
+		<div class="try-gutenberg-panel-column-container">
+			<div class="try-gutenberg-panel-column try-gutenberg-panel-image-column">
+				<picture>
+					<source srcset="about:blank" media="(max-width: 1024px)">
+					<img src="https://s.w.org/images/core/gutenberg-screenshot.png?<?php echo date( 'Ymd' ); ?>" alt="<?php esc_attr_e( 'Screenshot from the Gutenberg interface' ); ?>" />
+				</picture>
+			</div>
+			<div class="try-gutenberg-panel-column plugin-card-gutenberg">
+
+				<h3><?php _e( 'Test the new editor today.' ); ?></h3>
+
+				<p>
+					<?php _e( "You can take Gutenberg for a spin (and share your feedback, if you’d like) before we officially release it, by installing it as a plugin." ); ?>
+					<?php
+						printf(
+							/* translators: 1: Gutenberg call for testing handbook link, 2: Gutenberg GitHub repository issues link, 3: Gutenberg GitHub repository CONTRIBUTING.md link */
+							__( 'You can help by <a href="%1$s">testing</a>, <a href="%2$s">filing bugs</a>, or contributing on the <a href="%3$s">GitHub repository</a>.' ),
+							'https://make.wordpress.org/test/handbook/call-for-testing/gutenberg-testing/',
+							'https://github.com/WordPress/gutenberg/issues',
+							'https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md'
+						);
+				 	?>
+				</p>
+
+					<?php if ( $action ) { ?>
+						<div class="try-gutenberg-action">
+							<p><a class="button button-primary button-hero<?php echo $classes; ?>" href="<?php echo esc_url( $url ); ?>" data-name="<?php esc_attr_e( 'Gutenberg' ); ?>" data-slug="gutenberg"><?php echo $action; ?></a></p>
+							<p>
+								<?php
+									printf(
+										/* translators: Link to https://wordpress.org/gutenberg/ */
+										__( '<a href="%s">Learn more about Gutenberg</a>' ),
+										'https://wordpress.org/gutenberg/'
+									);
+								?>
+							</p>
+						</div>
+					<?php } ?>
+			</div>
+
+			<div class="try-gutenberg-panel-column plugin-card-classic-editor">
+
+				<h3><?php _e( 'Not quite ready?' ); ?></h3>
+
+				<p>
+					<?php _e( 'The new editor will be enabled by default in the next major release of WordPress. If you’re not sure how compatible your current themes and plugins are, we’ve got you covered.' ); ?>
+					<?php
+						printf(
+							/* translators: Link to the Classic Editor plugin page */
+							__( 'Install the <a href="%s">Classic Editor plugin</a> to keep using the current editor until you’re ready to make the switch.' ),
+							'http://wordpress.org/plugins/classic-editor'
+						);
+					?>
+				</p>
+
+				<?php if ( $classic_action ) { ?>
+					<div class="try-gutenberg-action">
+						<p><a class="button button-secondary button-hero<?php echo $classic_classes; ?>" href="<?php echo esc_url( $classic_url ); ?>" data-name="<?php esc_attr_e( 'Classic Editor' ); ?>" data-slug="classic-editor"><?php echo $classic_action; ?></a></p>
+					</div>
+				<?php } ?>
+			</div>
+		</div>
+	</div>
+	<?php
+}
