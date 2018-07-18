@@ -4158,12 +4158,14 @@ function the_privacy_policy_link( $before = '', $after = '' ) {
 function get_the_privacy_policy_link( $before = '', $after = '' ) {
 	$link               = '';
 	$privacy_policy_url = get_privacy_policy_url();
+	$policy_page_id     = (int) get_option( 'wp_page_for_privacy_policy' );
+	$page_title         = ( $policy_page_id ) ? get_the_title( $policy_page_id ) : '';
 
-	if ( $privacy_policy_url ) {
+	if ( $privacy_policy_url && $page_title ) {
 		$link = sprintf(
 			'<a class="privacy-policy-link" href="%s">%s</a>',
 			esc_url( $privacy_policy_url ),
-			__( 'Privacy Policy' )
+			esc_html( $page_title )
 		);
 	}
 
