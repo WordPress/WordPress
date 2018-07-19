@@ -72,7 +72,7 @@ if ( ! empty( $action ) ) {
 			add_settings_error(
 				'page_for_privacy_policy',
 				'page_for_privacy_policy',
-				__( 'Unable to create Privacy Policy page.' ),
+				__( 'Unable to create a Privacy Policy page.' ),
 				'error'
 			);
 		} else {
@@ -96,7 +96,7 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 		add_settings_error(
 			'page_for_privacy_policy',
 			'page_for_privacy_policy',
-			__( 'The currently selected Privacy Policy page does not exist. Please create or select new page.' ),
+			__( 'The currently selected Privacy Policy page does not exist. Please create or select a new page.' ),
 			'error'
 		);
 	} else {
@@ -106,7 +106,7 @@ if ( ! empty( $privacy_policy_page_id ) ) {
 				'page_for_privacy_policy',
 				sprintf(
 					/* translators: URL to Pages Trash */
-					__( 'The currently selected Privacy Policy page is in the trash. Please create or select new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
+					__( 'The currently selected Privacy Policy page is in the trash. Please create or select a new Privacy Policy page or <a href="%s">restore the current page</a>.' ),
 					'edit.php?post_status=trash&post_type=page'
 				),
 				'error'
