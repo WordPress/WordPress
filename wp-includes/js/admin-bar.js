@@ -303,10 +303,13 @@ if ( typeof(jQuery) != 'undefined' ) {
 		 * @return {void}
 		 */
 		var addEvent = function( obj, type, fn ) {
-			if ( obj.addEventListener )
-				obj.addEventListener(type, fn, false);
-			else if ( obj.attachEvent )
-				obj.attachEvent('on' + type, function() { return fn.call(obj, window.event);});
+			if ( typeof obj.addEventListener === 'function' ) {
+				obj.addEventListener( type, fn, false );
+			} else if ( typeof obj.attachEvent === 'function' ) {
+				obj.attachEvent( 'on' + type, function() {
+					return fn.call( obj, window.event );
+				} );
+			}
 		},
 
 		aB, hc = new RegExp('\\bhover\\b', 'g'), q = [],
