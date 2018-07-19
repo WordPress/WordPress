@@ -28,6 +28,17 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
 	}
 
 	/**
+	 * Retrieves the object meta subtype.
+	 *
+	 * @since 4.9.8
+	 *
+	 * @return string 'comment' There are no subtypes.
+	 */
+	protected function get_meta_subtype() {
+		return 'comment';
+	}
+
+	/**
 	 * Retrieves the type for register_rest_field() in the context of comments.
 	 *
 	 * @since 4.7.0

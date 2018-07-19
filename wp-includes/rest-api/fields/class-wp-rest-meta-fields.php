@@ -25,6 +25,17 @@ abstract class WP_REST_Meta_Fields {
 	abstract protected function get_meta_type();
 
 	/**
+	 * Retrieves the object meta subtype.
+	 *
+	 * @since 4.9.8
+	 *
+	 * @return string Subtype for the meta type, or empty string if no specific subtype.
+	 */
+	protected function get_meta_subtype() {
+		return '';
+	}
+
+	/**
 	 * Retrieves the object type for register_rest_field().
 	 *
 	 * @since 4.7.0
@@ -317,7 +328,15 @@ abstract class WP_REST_Meta_Fields {
 	protected function get_registered_fields() {
 		$registered = array();
 
-		foreach ( get_registered_meta_keys( $this->get_meta_type() ) as $name => $args ) {
+		$meta_type    = $this->get_meta_type();
+		$meta_subtype = $this->get_meta_subtype();
+
+		$meta_keys = get_registered_meta_keys( $meta_type );
+		if ( ! empty( $meta_subtype ) ) {
+			$meta_keys = array_merge( $meta_keys, get_registered_meta_keys( $meta_type, $meta_subtype ) );
+		}
+
+		foreach ( $meta_keys as $name => $args ) {
 			if ( empty( $args['show_in_rest'] ) ) {
 				continue;
 			}
