@@ -979,6 +979,7 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
  * @param string $meta_key       Meta key.
  * @param mixed  $meta_value     Meta value to sanitize.
  * @param string $object_type    Type of object the meta is registered to.
+ * @param string $object_subtype Optional. The subtype of the object type.
  *
  * @return mixed Sanitized $meta_value.
  */
