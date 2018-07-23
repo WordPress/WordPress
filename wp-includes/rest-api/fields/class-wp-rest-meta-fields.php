@@ -27,7 +27,7 @@ abstract class WP_REST_Meta_Fields {
 	/**
 	 * Retrieves the object meta subtype.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.8
 	 *
 	 * @return string Subtype for the meta type, or empty string if no specific subtype.
 	 */

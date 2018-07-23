@@ -1325,7 +1325,7 @@ function has_term_meta( $term_id ) {
 /**
  * Registers a meta key for terms.
  *
- * @since 5.0.0
+ * @since 4.9.8
  *
  * @param string $taxonomy Taxonomy to register a meta key for. Pass an empty string
  *                         to register the meta key across all existing taxonomies.
@@ -1343,7 +1343,7 @@ function register_term_meta( $taxonomy, $meta_key, array $args ) {
 /**
  * Unregisters a meta key for terms.
  *
- * @since 5.0.0
+ * @since 4.9.8
  *
  * @param string $taxonomy Taxonomy the meta key is currently registered for. Pass
  *                         an empty string if the meta key is registered across all

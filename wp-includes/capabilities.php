@@ -304,7 +304,7 @@ function map_meta_cap( $cap, $user_id ) {
 					 * and `$object_subtype`, refer to the metadata object type (comment, post, term or user),
 					 * the meta key value, and the object subtype respectively.
 					 *
-					 * @since 5.0.0
+					 * @since 4.9.8
 					 *
 					 * @param bool     $allowed   Whether the user can add the object meta. Default false.
 					 * @param string   $meta_key  The meta key.
@@ -350,7 +350,7 @@ function map_meta_cap( $cap, $user_id ) {
 					 *
 					 * @since 4.6.0 As `auth_post_{$post_type}_meta_{$meta_key}`.
 					 * @since 4.7.0
-					 * @deprecated 5.0.0 Use `auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}`
+					 * @deprecated 4.9.8 Use `auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}`
 					 *
 					 * @param bool     $allowed   Whether the user can add the object meta. Default false.
 					 * @param string   $meta_key  The meta key.
@@ -359,7 +359,7 @@ function map_meta_cap( $cap, $user_id ) {
 					 * @param string   $cap       Capability name.
 					 * @param string[] $caps      Array of the user's capabilities.
 					 */
-					$allowed = apply_filters_deprecated( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", array( $allowed, $meta_key, $object_id, $user_id, $cap, $caps ), '5.0.0', "auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}" );
+					$allowed = apply_filters_deprecated( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", array( $allowed, $meta_key, $object_id, $user_id, $cap, $caps ), '4.9.8', "auth_{$object_type}_meta_{$meta_key}_for_{$object_subtype}" );
 				}
 
 				if ( ! $allowed ) {

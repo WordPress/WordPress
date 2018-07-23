@@ -1992,7 +1992,7 @@ function delete_post_meta_by_key( $post_meta_key ) {
 /**
  * Registers a meta key for posts.
  *
- * @since 5.0.0
+ * @since 4.9.8
  *
  * @param string $post_type Post type to register a meta key for. Pass an empty string
  *                          to register the meta key across all existing post types.
@@ -2010,7 +2010,7 @@ function register_post_meta( $post_type, $meta_key, array $args ) {
 /**
  * Unregisters a meta key for posts.
  *
- * @since 5.0.0
+ * @since 4.9.8
  *
  * @param string $post_type Post type the meta key is currently registered for. Pass
  *                          an empty string if the meta key is registered across all

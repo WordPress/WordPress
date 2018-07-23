@@ -974,7 +974,7 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
  * Sanitize meta value.
  *
  * @since 3.1.3
- * @since 5.0.0 The `$object_subtype` parameter was added.
+ * @since 4.9.8 The `$object_subtype` parameter was added.
  *
  * @param string $meta_key       Meta key.
  * @param mixed  $meta_value     Meta value to sanitize.
@@ -992,7 +992,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
 		 * and `$object_subtype`, refer to the metadata object type (comment, post, term or user),
 		 * the meta key value, and the object subtype respectively.
 		 *
-		 * @since 5.0.0
+		 * @since 4.9.8
 		 *
 		 * @param mixed  $meta_value     Meta value to sanitize.
 		 * @param string $meta_key       Meta key.
@@ -1032,7 +1032,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * @since 4.6.0 {@link https://core.trac.wordpress.org/ticket/35658 Modified
  *              to support an array of data to attach to registered meta keys}. Previous arguments for
  *              `$sanitize_callback` and `$auth_callback` have been folded into this array.
- * @since 5.0.0 The `$object_subtype` argument was added to the arguments array.
+ * @since 4.9.8 The `$object_subtype` argument was added to the arguments array.
  *
  * @param string $object_type    Type of object this meta is registered to.
  * @param string $meta_key       Meta key to register.
@@ -1148,7 +1148,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
  * Checks if a meta key is registered.
  *
  * @since 4.6.0
- * @since 5.0.0 The `$object_subtype` parameter was added.
+ * @since 4.9.8 The `$object_subtype` parameter was added.
  *
  * @param string $object_type    The type of object.
  * @param string $meta_key       The meta key.
@@ -1167,7 +1167,7 @@ function registered_meta_key_exists( $object_type, $meta_key, $object_subtype = 
  * Unregisters a meta key from the list of registered keys.
  *
  * @since 4.6.0
- * @since 5.0.0 The `$object_subtype` parameter was added.
+ * @since 4.9.8 The `$object_subtype` parameter was added.
  *
  * @param string $object_type    The type of object.
  * @param string $meta_key       The meta key.
@@ -1216,7 +1216,7 @@ function unregister_meta_key( $object_type, $meta_key, $object_subtype = '' ) {
  * Retrieves a list of registered meta keys for an object type.
  *
  * @since 4.6.0
- * @since 5.0.0 The `$object_subtype` parameter was added.
+ * @since 4.9.8 The `$object_subtype` parameter was added.
  *
  * @param string $object_type    The type of object. Post, comment, user, term.
  * @param string $object_subtype Optional. The subtype of the object type.
@@ -1300,7 +1300,7 @@ function _wp_register_meta_args_whitelist( $args, $default_args ) {
 /**
  * Returns the object subtype for a given object ID of a specific type.
  *
- * @since 5.0.0
+ * @since 4.9.8
  *
  * @param string $object_type Type of object to request metadata for. (e.g. comment, post, term, user)
  * @param int    $object_id   ID of the object to retrieve its subtype.
@@ -1353,7 +1353,7 @@ function get_object_subtype( $object_type, $object_id ) {
 	 * The dynamic portion of the hook, `$object_type`, refers to the object
 	 * type (post, comment, term, or user).
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.8
 	 *
 	 * @param string $object_subtype Empty string to override.
 	 * @param int    $object_id      ID of the object to get the subtype for.
