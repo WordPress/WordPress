@@ -1701,7 +1701,7 @@ function wp_try_gutenberg_panel() {
 									printf(
 										/* translators: Link to https://wordpress.org/gutenberg/ */
 										__( '<a href="%s">Learn more about Gutenberg</a>' ),
-										'https://wordpress.org/gutenberg/'
+										__( 'https://wordpress.org/gutenberg/' )
 									);
 								?>
 							</p>
@@ -1719,7 +1719,7 @@ function wp_try_gutenberg_panel() {
 						printf(
 							/* translators: Link to the Classic Editor plugin page */
 							__( 'Install the <a href="%s">Classic Editor plugin</a> to keep using the current editor until you’re ready to make the switch.' ),
-							'http://wordpress.org/plugins/classic-editor'
+							__( 'https://wordpress.org/plugins/classic-editor' )
 						);
 					?>
 				</p>
