@@ -1951,7 +1951,8 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 
 	// First, build an "About" group on the fly for this report.
 	$about_group = array(
-		'group_label' => __( 'About' ),
+		/* translators: Header for the About section in a personal data export. */
+		'group_label' => _x( 'About', 'personal data group label' ),
 		'items'       => array(
 			'about-1' => array(
 				array(
