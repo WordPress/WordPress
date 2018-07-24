@@ -235,8 +235,8 @@
 .try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
 	display: -ms-grid;
 	display: grid;
-	-ms-grid-rows: 45px auto 100px;
-	grid-template-rows: 45px auto 100px;
+	-ms-grid-rows: auto 100px;
+	grid-template-rows: auto 100px;
 }
 
 .welcome-panel-column p.hide-if-no-customize {

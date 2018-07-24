@@ -1678,20 +1678,22 @@ function wp_try_gutenberg_panel() {
 			</div>
 			<div class="try-gutenberg-panel-column plugin-card-gutenberg">
 
-				<h3><?php _e( 'Test the new editor today.' ); ?></h3>
+				<div>
+					<h3><?php _e( 'Test the new editor today.' ); ?></h3>
 
-				<p>
-					<?php _e( "You can take Gutenberg for a spin (and share your feedback, if you’d like) before we officially release it, by installing it as a plugin." ); ?>
-					<?php
-						printf(
-							/* translators: 1: Gutenberg call for testing handbook link, 2: Gutenberg GitHub repository issues link, 3: Gutenberg GitHub repository CONTRIBUTING.md link */
-							__( 'You can help by <a href="%1$s">testing</a>, <a href="%2$s">filing bugs</a>, or contributing on the <a href="%3$s">GitHub repository</a>.' ),
-							'https://make.wordpress.org/test/handbook/call-for-testing/gutenberg-testing/',
-							'https://github.com/WordPress/gutenberg/issues',
-							'https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md'
-						);
-				 	?>
-				</p>
+					<p>
+						<?php _e( "You can take Gutenberg for a spin (and share your feedback, if you’d like) before we officially release it, by installing it as a plugin." ); ?>
+						<?php
+							printf(
+								/* translators: 1: Gutenberg call for testing handbook link, 2: Gutenberg GitHub repository issues link, 3: Gutenberg GitHub repository CONTRIBUTING.md link */
+								__( 'You can help by <a href="%1$s">testing</a>, <a href="%2$s">filing bugs</a>, or contributing on the <a href="%3$s">GitHub repository</a>.' ),
+								'https://make.wordpress.org/test/handbook/call-for-testing/gutenberg-testing/',
+								'https://github.com/WordPress/gutenberg/issues',
+								'https://github.com/WordPress/gutenberg/blob/master/CONTRIBUTING.md'
+							);
+						?>
+					</p>
+				</div>
 
 					<?php if ( $action ) { ?>
 						<div class="try-gutenberg-action">
@@ -1711,18 +1713,20 @@ function wp_try_gutenberg_panel() {
 
 			<div class="try-gutenberg-panel-column plugin-card-classic-editor">
 
-				<h3><?php _e( 'Not quite ready?' ); ?></h3>
+				<div>
+					<h3><?php _e( 'Not quite ready?' ); ?></h3>
 
-				<p>
-					<?php _e( 'The new editor will be enabled by default in the next major release of WordPress. If you’re not sure how compatible your current themes and plugins are, we’ve got you covered.' ); ?>
-					<?php
-						printf(
-							/* translators: Link to the Classic Editor plugin page */
-							__( 'Install the <a href="%s">Classic Editor plugin</a> to keep using the current editor until you’re ready to make the switch.' ),
-							__( 'https://wordpress.org/plugins/classic-editor' )
-						);
-					?>
-				</p>
+					<p>
+						<?php _e( 'The new editor will be enabled by default in the next major release of WordPress. If you’re not sure how compatible your current themes and plugins are, we’ve got you covered.' ); ?>
+						<?php
+							printf(
+								/* translators: Link to the Classic Editor plugin page */
+								__( 'Install the <a href="%s">Classic Editor plugin</a> to keep using the current editor until you’re ready to make the switch.' ),
+								__( 'https://wordpress.org/plugins/classic-editor' )
+							);
+						?>
+					</p>
+				</div>
 
 				<?php if ( $classic_action ) { ?>
 					<div class="try-gutenberg-action">
