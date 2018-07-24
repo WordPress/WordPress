@@ -136,7 +136,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		$attachment = $this->prepare_item_for_database( $request );
-		$attachment->file = $file;
 		$attachment->post_mime_type = $type;
 		$attachment->guid = $url;
 
@@ -144,7 +143,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$attachment->post_title = preg_replace( '/\.[^.]+$/', '', basename( $file ) );
 		}
 
-		$id = wp_insert_post( wp_slash( (array) $attachment ), true );
+		// $post_parent is inherited from $attachment['post_parent'].
+		$id = wp_insert_attachment( wp_slash( (array) $attachment ), $file, 0, true );
 
 		if ( is_wp_error( $id ) ) {
 			if ( 'db_update_error' === $id->get_error_code() ) {
