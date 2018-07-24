@@ -116,7 +116,6 @@ $whitelist_options = array(
 		'default_comments_page',
 		'comment_order',
 		'comment_registration',
-		'show_comments_cookies_opt_in',
 	),
 	'media' => array(
 		'thumbnail_size_w',
