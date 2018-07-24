@@ -2209,6 +2209,11 @@ function comment_form( $args = array(), $post_id = null ) {
 		$consent           = empty( $commenter['comment_author_email'] ) ? '' : ' checked="checked"';
 		$fields['cookies'] = '<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . $consent . ' />' .
 							 '<label for="wp-comment-cookies-consent">' . __( 'Save my name, email, and website in this browser for the next time I comment.' ) . '</label></p>';
+
+		// Ensure that the passed fields include cookies consent.
+		if ( isset( $args['fields'] ) && ! isset( $args['fields']['cookies'] ) ) {
+			$args['fields']['cookies'] = $fields['cookies'];
+		}
 	}
 
 	$required_text = sprintf( ' ' . __( 'Required fields are marked %s' ), '<span class="required">*</span>' );
