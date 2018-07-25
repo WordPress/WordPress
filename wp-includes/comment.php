@@ -2471,6 +2471,10 @@ function wp_update_comment_count_now( $post_id ) {
 	 * @param int $old     The old comment count.
 	 */
 	do_action( 'wp_update_comment_count', $post_id, $new, $old );
+
+	/** This action is documented in wp-includes/post.php */
+	do_action( "edit_post_{$post->post_type}", $post_id, $post );
+
 	/** This action is documented in wp-includes/post.php */
 	do_action( 'edit_post', $post_id, $post );
 

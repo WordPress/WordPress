@@ -2989,6 +2989,9 @@ final class WP_Customize_Manager {
 		wp_transition_post_status( $new_status, $old_status, $post );
 
 		/** This action is documented in wp-includes/post.php */
+		do_action( "edit_post_{$post->post_type}", $post->ID, $post );
+
+		/** This action is documented in wp-includes/post.php */
 		do_action( 'edit_post', $post->ID, $post );
 
 		/** This action is documented in wp-includes/post.php */

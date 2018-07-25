@@ -3799,12 +3799,26 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		/**
 		 * Fires once an existing post has been updated.
 		 *
+		 * The dynamic portion of the hook name, `$post->post_type`, refers to
+		 * the post type slug.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param int     $post_ID Post ID.
+		 * @param WP_Post $post    Post object.
+		 */
+		do_action( "edit_post_{$post->post_type}", $post_ID, $post );
+
+		/**
+		 * Fires once an existing post has been updated.
+		 *
 		 * @since 1.2.0
 		 *
 		 * @param int     $post_ID Post ID.
 		 * @param WP_Post $post    Post object.
 		 */
 		do_action( 'edit_post', $post_ID, $post );
+
 		$post_after = get_post( $post_ID );
 
 		/**
@@ -3949,6 +3963,9 @@ function wp_publish_post( $post ) {
 	$old_status        = $post->post_status;
 	$post->post_status = 'publish';
 	wp_transition_post_status( 'publish', $old_status, $post );
+
+	/** This action is documented in wp-includes/post.php */
+	do_action( "edit_post_{$post->post_type}", $post->ID, $post );
 
 	/** This action is documented in wp-includes/post.php */
 	do_action( 'edit_post', $post->ID, $post );
