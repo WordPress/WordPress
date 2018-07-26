@@ -1632,9 +1632,11 @@ function wp_try_gutenberg_panel() {
 
 	if ( current_user_can( 'install_plugins' ) ) {
 		if ( empty( $plugins['gutenberg/gutenberg.php'] ) ) {
-			$action = __( 'Install Gutenberg' );
-			$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
-			$classes = ' install-now';
+			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' ) {
+				$action = __( 'Install Gutenberg' );
+				$url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
+				$classes = ' install-now';
+			}
 		} else if ( is_plugin_inactive( 'gutenberg/gutenberg.php' ) ) {
 			$action = __( 'Activate Gutenberg' );
 			$url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=gutenberg/gutenberg.php&from=try-gutenberg' ), 'activate-plugin_gutenberg/gutenberg.php' );
@@ -1642,9 +1644,11 @@ function wp_try_gutenberg_panel() {
 		}
 
 		if ( empty( $plugins['classic-editor/classic-editor.php'] ) ) {
-			$classic_action = __( 'Install the Classic Editor' );
-			$classic_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=classic-editor' ), 'install-plugin_classic-editor' );
-			$classic_classes = ' install-now';
+			if ( get_filesystem_method( array(), WP_PLUGIN_DIR ) === 'direct' ) {
+				$classic_action = __( 'Install the Classic Editor' );
+				$classic_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=classic-editor' ), 'install-plugin_classic-editor' );
+				$classic_classes = ' install-now';
+			}
 		} else if ( is_plugin_inactive( 'classic-editor/classic-editor.php' ) ) {
 			$classic_action = __( 'Activate the Classic Editor' );
 			$classic_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=classic-editor/classic-editor.php&from=try-gutenberg' ), 'activate-plugin_classic-editor/classic-editor.php' );
@@ -1695,20 +1699,34 @@ function wp_try_gutenberg_panel() {
 					</p>
 				</div>
 
+				<div class="try-gutenberg-action">
 					<?php if ( $action ) { ?>
-						<div class="try-gutenberg-action">
-							<p><a class="button button-primary button-hero<?php echo $classes; ?>" href="<?php echo esc_url( $url ); ?>" data-name="<?php esc_attr_e( 'Gutenberg' ); ?>" data-slug="gutenberg"><?php echo $action; ?></a></p>
-							<p>
-								<?php
-									printf(
-										/* translators: Link to https://wordpress.org/gutenberg/ */
-										__( '<a href="%s">Learn more about Gutenberg</a>' ),
-										__( 'https://wordpress.org/gutenberg/' )
-									);
-								?>
-							</p>
-						</div>
+						<p><a class="button button-primary button-hero<?php echo $classes; ?>" href="<?php echo esc_url( $url ); ?>" data-name="<?php esc_attr_e( 'Gutenberg' ); ?>" data-slug="gutenberg"><?php echo $action; ?></a></p>
 					<?php } ?>
+
+					<p>
+						<?php
+							$learnmore = sprintf(
+								/* translators: Link to https://wordpress.org/gutenberg/ */
+								__( '<a href="%s">Learn more about Gutenberg</a>' ),
+								__( 'https://wordpress.org/gutenberg/' )
+							);
+
+							/**
+							 * Filters the "Learn more" link in the Try Gutenberg panel.
+							 *
+							 * It allows hosts or site owners to change the link, to provide extra
+							 * information about Gutenberg, specific to their service.
+							 *
+							 * WARNING: This filter will only exist in the 4.9.x series, it will not be
+							 * added to WordPress 5.0 and later.
+							 *
+							 * @since 4.9.8
+							 */
+							echo apply_filters( 'try_gutenberg_learn_more_link', $learnmore );
+						?>
+					</p>
+				</div>
 			</div>
 
 			<div class="try-gutenberg-panel-column plugin-card-classic-editor">
