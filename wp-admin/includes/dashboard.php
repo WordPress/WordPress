@@ -24,6 +24,18 @@ function wp_dashboard_setup() {
 
 	/* Register Widgets and Controls */
 
+	// Try Gutenberg
+
+	// If Gutenberg isn't activated, only show the panel to users who can install and activate it.
+	$plugins = get_plugins();
+	if ( is_plugin_inactive( 'gutenberg/gutenberg.php' ) && ! current_user_can( 'install_plugins' ) ) {
+		remove_action( 'try_gutenberg_panel', 'wp_try_gutenberg_panel' );
+	}
+	// If Gutenberg is activated, only show it to users who can use it.
+	if ( is_plugin_active( 'gutenberg/gutenberg.php' ) && ! current_user_can( 'edit_posts' ) ) {
+		remove_action( 'try_gutenberg_panel', 'wp_try_gutenberg_panel' );
+	}
+
 	$response = wp_check_browser_version();
 
 	if ( $response && $response['upgrade'] ) {
