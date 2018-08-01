@@ -41,6 +41,15 @@ add_action( 'wpmu_new_blog', 'wpmu_log_new_registrations', 10, 2 );
 add_action( 'wpmu_new_blog', 'newblog_notify_siteadmin', 10, 2 );
 add_action( 'wpmu_activate_blog', 'wpmu_welcome_notification', 10, 5 );
 add_action( 'after_signup_site', 'wpmu_signup_blog_notification', 10, 7 );
+add_filter( 'wp_normalize_site_data', 'wp_normalize_site_data', 10, 1 );
+add_action( 'wp_validate_site_data', 'wp_validate_site_data', 10, 3 );
+add_action( 'wp_insert_site', 'wp_maybe_update_network_site_counts_on_update', 10, 1 );
+add_action( 'wp_update_site', 'wp_maybe_update_network_site_counts_on_update', 10, 2 );
+add_action( 'wp_delete_site', 'wp_maybe_update_network_site_counts_on_update', 10, 1 );
+add_action( 'wp_insert_site', 'wp_maybe_transition_site_statuses_on_update', 10, 1 );
+add_action( 'wp_update_site', 'wp_maybe_transition_site_statuses_on_update', 10, 2 );
+add_action( 'wp_update_site', 'wp_maybe_clean_new_site_cache_on_update', 10, 2 );
+add_action( 'update_blog_public', 'wp_update_blog_public_option_on_site_update', 1, 2 );
 
 // Register Nonce
 add_action( 'signup_hidden_fields', 'signup_nonce_fields' );

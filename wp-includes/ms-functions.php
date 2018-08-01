@@ -1273,18 +1273,8 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 	);
 	$meta     = wp_parse_args( $meta, $defaults );
 
-	$domain = preg_replace( '/\s+/', '', sanitize_user( $domain, true ) );
-
-	if ( is_subdomain_install() ) {
-		$domain = str_replace( '@', '', $domain );
-	}
-
 	$title   = strip_tags( $title );
 	$user_id = (int) $user_id;
-
-	if ( empty( $path ) ) {
-		$path = '/';
-	}
 
 	// Check if the domain has been used already. We should return an error message.
 	if ( domain_exists( $domain, $path, $network_id ) ) {
@@ -1295,8 +1285,28 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 		wp_installing( true );
 	}
 
-	if ( ! $blog_id = insert_blog( $domain, $path, $network_id ) ) {
-		return new WP_Error( 'insert_blog', __( 'Could not create site.' ) );
+	$site_data_whitelist = array( 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id' );
+
+	$site_data = array_merge(
+		array(
+			'domain'     => $domain,
+			'path'       => $path,
+			'network_id' => $network_id,
+		),
+		array_intersect_key(
+			$meta,
+			array_flip( $site_data_whitelist )
+		)
+	);
+
+	$meta = array_diff_key( $meta, array_flip( $site_data_whitelist ) );
+
+	remove_action( 'update_blog_public', 'wp_update_blog_public_option_on_site_update', 1 );
+	$blog_id = wp_insert_site( $site_data );
+	add_action( 'update_blog_public', 'wp_update_blog_public_option_on_site_update', 1, 2 );
+
+	if ( is_wp_error( $blog_id ) ) {
+		return $blog_id;
 	}
 
 	switch_to_blog( $blog_id );
@@ -1306,20 +1316,19 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 	add_user_to_blog( $blog_id, $user_id, 'administrator' );
 
 	foreach ( $meta as $key => $value ) {
-		if ( in_array( $key, array( 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id' ) ) ) {
-			update_blog_status( $blog_id, $key, $value );
-		} else {
-			update_option( $key, $value );
-		}
+		update_option( $key, $value );
 	}
 
-	update_option( 'blog_public', (int) $meta['public'] );
+	update_option( 'blog_public', (int) $site_data['public'] );
 
 	if ( ! is_super_admin( $user_id ) && ! get_user_meta( $user_id, 'primary_blog', true ) ) {
 		update_user_meta( $user_id, 'primary_blog', $blog_id );
 	}
 
 	restore_current_blog();
+
+	$site = get_site( $blog_id );
+
 	/**
 	 * Fires immediately after a new site is created.
 	 *
@@ -1332,7 +1341,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 	 * @param int    $network_id Network ID. Only relevant on multi-network installations.
 	 * @param array  $meta       Meta data. Used to set initial site options.
 	 */
-	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $network_id, $meta );
+	do_action( 'wpmu_new_blog', $blog_id, $user_id, $site->domain, $site->path, $site->network_id, $meta );
 
 	wp_cache_set( 'last_changed', microtime(), 'sites' );
 
@@ -1486,47 +1495,6 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
 }
 
 /**
- * Store basic site info in the blogs table.
- *
- * This function creates a row in the wp_blogs table and returns
- * the new blog's ID. It is the first step in creating a new blog.
- *
- * @since MU (3.0.0)
- *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param string $domain     The domain of the new site.
- * @param string $path       The path of the new site.
- * @param int    $network_id Unless you're running a multi-network installation, be sure to set this value to 1.
- * @return int|false The ID of the new row
- */
-function insert_blog( $domain, $path, $network_id ) {
-	global $wpdb;
-
-	$path       = trailingslashit( $path );
-	$network_id = (int) $network_id;
-
-	$result = $wpdb->insert(
-		$wpdb->blogs, array(
-			'site_id'    => $network_id,
-			'domain'     => $domain,
-			'path'       => $path,
-			'registered' => current_time( 'mysql' ),
-		)
-	);
-	if ( ! $result ) {
-		return false;
-	}
-
-	$blog_id = $wpdb->insert_id;
-	clean_blog_cache( $blog_id );
-
-	wp_maybe_update_network_site_counts( $network_id );
-
-	return $blog_id;
-}
-
-/**
  * Install an empty blog.
  *
  * Creates the new blog tables and options. If calling this function
@@ -1538,7 +1506,7 @@ function insert_blog( $domain, $path, $network_id ) {
  * @global wpdb     $wpdb
  * @global WP_Roles $wp_roles
  *
- * @param int    $blog_id    The value returned by insert_blog().
+ * @param int    $blog_id    The value returned by wp_insert_site().
  * @param string $blog_title The title of the new site.
  */
 function install_blog( $blog_id, $blog_title = '' ) {

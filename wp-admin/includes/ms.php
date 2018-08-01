@@ -56,6 +56,7 @@ function check_upload_size( $file ) {
  * Delete a site.
  *
  * @since 3.0.0
+ * @since 5.0.0 Use wp_delete_site() internally to delete the site row from the database.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -142,7 +143,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 			}
 		}
 
-		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
+		wp_delete_site( $blog_id );
 
 		/**
 		 * Filters the upload base directory to delete when the site is deleted.
