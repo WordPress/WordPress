@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: np_lab.web_service_project.AppTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s - in np_lab.web_service_project.AppTest
