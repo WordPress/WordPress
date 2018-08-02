@@ -61,7 +61,7 @@ Source: https://unsplash.com/@englr?photo=bIhpiQA009k
 == Changelog ==
 
 = 1.7 =
-* Released: July 31, 2018
+* Released: August 2, 2018
 
 https://codex.wordpress.org/Twenty_Seventeen_Theme_Changelog#Version_1.7
 
