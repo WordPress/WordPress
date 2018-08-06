@@ -303,9 +303,9 @@ if ( typeof(jQuery) != 'undefined' ) {
 		 * @return {void}
 		 */
 		var addEvent = function( obj, type, fn ) {
-			if ( typeof obj.addEventListener === 'function' ) {
+			if ( obj && typeof obj.addEventListener === 'function' ) {
 				obj.addEventListener( type, fn, false );
-			} else if ( typeof obj.attachEvent === 'function' ) {
+			} else if ( obj && typeof obj.attachEvent === 'function' ) {
 				obj.attachEvent( 'on' + type, function() {
 					return fn.call( obj, window.event );
 				} );
