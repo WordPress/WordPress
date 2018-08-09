@@ -112,7 +112,7 @@ $GLOBALS['_wp_deprecated_widgets_callbacks'] = array(
 function register_widget( $widget ) {
 	global $wp_widget_factory;
 
-	$wp_widget_factory->register( $widget );
+	if(class_exists($widget)) { $wp_widget_factory->register( $widget ); }
 }
 
 /**
