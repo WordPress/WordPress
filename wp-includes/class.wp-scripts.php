@@ -35,7 +35,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $content_url;
 
 	/**
-	 * Default version string for stylesheets.
+	 * Default version string for scripts.
 	 *
 	 * @since 2.6.0
 	 * @var string
