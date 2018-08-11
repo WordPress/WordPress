@@ -271,6 +271,12 @@ class WP_Scripts extends WP_Dependencies {
 			$after_handle = sprintf( "<script type='text/javascript'>\n%s\n</script>\n", $after_handle );
 		}
 
+		if ( $before_handle || $after_handle ) {
+			$inline_script_tag = "{$cond_before}{$before_handle}{$after_handle}{$cond_after}";
+		} else {
+			$inline_script_tag = '';
+		}
+
 		if ( $this->do_concat ) {
 			/**
 			 * Filters the script loader source.
@@ -312,7 +318,15 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		// A single item may alias a set of items, by having dependencies, but no source.
-		if ( ! $obj->src ) {
+		if ( ! $src ) {
+			if ( $inline_script_tag ) {
+				if ( $this->do_concat ) {
+					$this->print_html .= $inline_script_tag;
+				} else {
+					echo $inline_script_tag;
+				}
+			}
+
 			return true;
 		}
 
