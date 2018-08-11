@@ -132,6 +132,7 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		$obj = $this->registered[ $handle ];
+
 		if ( null === $obj->ver ) {
 			$ver = '';
 		} else {
@@ -142,12 +143,29 @@ class WP_Styles extends WP_Dependencies {
 			$ver = $ver ? $ver . '&amp;' . $this->args[ $handle ] : $this->args[ $handle ];
 		}
 
+		$src         = $obj->src;
+		$cond_before = $cond_after = '';
+		$conditional = isset( $obj->extra['conditional'] ) ? $obj->extra['conditional'] : '';
+
+		if ( $conditional ) {
+			$cond_before = "<!--[if {$conditional}]>\n";
+			$cond_after  = "<![endif]-->\n";
+		}
+
+		$inline_style = $this->print_inline_style( $handle, false );
+
+		if ( $inline_style ) {
+			$inline_style_tag = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $inline_style );
+		} else {
+			$inline_style_tag = '';
+		}
+
 		if ( $this->do_concat ) {
-			if ( $this->in_default_dir( $obj->src ) && ! isset( $obj->extra['conditional'] ) && ! isset( $obj->extra['alt'] ) ) {
+			if ( $this->in_default_dir( $src ) && ! $conditional && ! isset( $obj->extra['alt'] ) ) {
 				$this->concat         .= "$handle,";
 				$this->concat_version .= "$handle$ver";
 
-				$this->print_code .= $this->print_inline_style( $handle, false );
+				$this->print_code .= $inline_style;
 
 				return true;
 			}
@@ -160,19 +178,19 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		// A single item may alias a set of items, by having dependencies, but no source.
-		if ( ! $obj->src ) {
-			if ( $inline_style = $this->print_inline_style( $handle, false ) ) {
-				$inline_style = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $inline_style );
+		if ( ! $src ) {
+			if ( $inline_style_tag ) {
 				if ( $this->do_concat ) {
-					$this->print_html .= $inline_style;
+					$this->print_html .= $inline_style_tag;
 				} else {
-					echo $inline_style;
+					echo $inline_style_tag;
 				}
 			}
+
 			return true;
 		}
 
-		$href = $this->_css_href( $obj->src, $ver, $handle );
+		$href = $this->_css_href( $src, $ver, $handle );
 		if ( ! $href ) {
 			return true;
 		}
@@ -193,10 +211,11 @@ class WP_Styles extends WP_Dependencies {
 		 * @param string $media  The stylesheet's media attribute.
 		 */
 		$tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle, $href, $media );
+
 		if ( 'rtl' === $this->text_direction && isset( $obj->extra['rtl'] ) && $obj->extra['rtl'] ) {
 			if ( is_bool( $obj->extra['rtl'] ) || 'replace' === $obj->extra['rtl'] ) {
 				$suffix   = isset( $obj->extra['suffix'] ) ? $obj->extra['suffix'] : '';
-				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $obj->src, $ver, "$handle-rtl" ) );
+				$rtl_href = str_replace( "{$suffix}.css", "-rtl{$suffix}.css", $this->_css_href( $src, $ver, "$handle-rtl" ) );
 			} else {
 				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );
 			}
@@ -211,24 +230,18 @@ class WP_Styles extends WP_Dependencies {
 			}
 		}
 
-		$conditional_pre = $conditional_post = '';
-		if ( isset( $obj->extra['conditional'] ) && $obj->extra['conditional'] ) {
-			$conditional_pre  = "<!--[if {$obj->extra['conditional']}]>\n";
-			$conditional_post = "<![endif]-->\n";
-		}
-
 		if ( $this->do_concat ) {
-			$this->print_html .= $conditional_pre;
+			$this->print_html .= $cond_before;
 			$this->print_html .= $tag;
-			if ( $inline_style = $this->print_inline_style( $handle, false ) ) {
-				$this->print_html .= sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $inline_style );
+			if ( $inline_style_tag ) {
+				$this->print_html .= $inline_style_tag;
 			}
-			$this->print_html .= $conditional_post;
+			$this->print_html .= $cond_after;
 		} else {
-			echo $conditional_pre;
+			echo $cond_before;
 			echo $tag;
 			$this->print_inline_style( $handle );
-			echo $conditional_post;
+			echo $cond_after;
 		}
 
 		return true;
