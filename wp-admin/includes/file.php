@@ -2196,7 +2196,7 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 	$request = wp_get_user_request_data( $request_id );
 
 	if ( ! $request || 'export_personal_data' !== $request->action_name ) {
-		return new WP_Error( 'invalid', __( 'Invalid request ID when sending personal data export email.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid request ID when sending personal data export email.' ) );
 	}
 
 	/** This filter is documented in wp-includes/functions.php */
@@ -2256,7 +2256,7 @@ All at ###SITENAME###
 	);
 
 	if ( ! $mail_success ) {
-		return new WP_Error( 'error', __( 'Unable to send personal data export email.' ) );
+		return new WP_Error( 'privacy_email_error', __( 'Unable to send personal data export email.' ) );
 	}
 
 	return true;

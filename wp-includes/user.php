@@ -3357,15 +3357,24 @@ function wp_user_request_action_description( $action_name ) {
  * @since 4.9.6
  *
  * @param string $request_id ID of the request created via wp_create_user_request().
- * @return WP_Error|bool Will return true/false based on the success of sending the email, or a WP_Error object.
+ * @return bool|WP_Error True on success, `WP_Error` on failure.
  */
 function wp_send_user_request( $request_id ) {
 	$request_id = absint( $request_id );
 	$request    = wp_get_user_request_data( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid user request.' ) );
 	}
+
+	// Localize message content for user; fallback to site default for visitors.
+	if ( ! empty( $request->user_id ) ) {
+		$locale = get_user_locale( $request->user_id );
+	} else {
+		$locale = get_locale();
+	}
+
+	$switched_locale = switch_to_locale( $locale );
 
 	$email_data = array(
 		'request'     => $request,
@@ -3454,7 +3463,17 @@ All at ###SITENAME###
 	 */
 	$subject = apply_filters( 'user_request_action_email_subject', $subject, $email_data['sitename'], $email_data );
 
-	return wp_mail( $email_data['email'], $subject, $content );
+	$email_sent = wp_mail( $email_data['email'], $subject, $content );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
+	if ( ! $email_sent ) {
+		return new WP_Error( 'privacy_email_error', __( 'Unable to send personal data export confirmation email.' ) );
+	}
+
+	return true;
 }
 
 /**
@@ -3504,7 +3523,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	$request    = wp_get_user_request_data( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid request.' ) );
 	}
 
 	if ( ! in_array( $request->status, array( 'request-pending', 'request-failed' ), true ) ) {
@@ -3591,7 +3610,6 @@ final class WP_User_Request {
 	 *
 	 * @var int
 	 */
-
 	public $user_id = 0;
 
 	/**
