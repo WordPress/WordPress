@@ -658,20 +658,20 @@ function install_plugin_information() {
 				</li>
 			<?php } if ( isset( $api->active_installs ) ) { ?>
 				<li><strong><?php _e( 'Active Installations:' ); ?></strong>
-										<?php
-										if ( $api->active_installs >= 1000000 ) {
-											$active_installs_millions = floor( $api->active_installs / 1000000 );
-											printf(
-												_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
-												number_format_i18n( $active_installs_millions )
-											);
-										} elseif ( 0 == $api->active_installs ) {
-											_ex( 'Less Than 10', 'Active plugin installations' );
-										} else {
-											echo number_format_i18n( $api->active_installs ) . '+';
-										}
-					?>
-					</li>
+				<?php
+				if ( $api->active_installs >= 1000000 ) {
+					$active_installs_millions = floor( $api->active_installs / 1000000 );
+					printf(
+						_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
+						number_format_i18n( $active_installs_millions )
+					);
+				} elseif ( 0 == $api->active_installs ) {
+					_ex( 'Less Than 10', 'Active plugin installations' );
+				} else {
+					echo number_format_i18n( $api->active_installs ) . '+';
+				}
+				?>
+				</li>
 			<?php } if ( ! empty( $api->slug ) && empty( $api->external ) ) { ?>
 				<li><a target="_blank" href="<?php echo __( 'https://wordpress.org/plugins/' ) . $api->slug; ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
 			<?php } if ( ! empty( $api->homepage ) ) { ?>

@@ -17,6 +17,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 $is_privacy_notice = isset( $_GET['privacy-notice'] );
 
+if ( $is_privacy_notice ) {
+	$freedoms_class = '';
+	$privacy_class  = ' nav-tab-active';
+} else {
+	$freedoms_class = ' nav-tab-active';
+	$privacy_class  = '';
+}
+
 ?>
 <div class="wrap about-wrap full-width-layout">
 
@@ -29,8 +37,8 @@ $is_privacy_notice = isset( $_GET['privacy-notice'] );
 <h2 class="nav-tab-wrapper wp-clearfix">
 	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
 	<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
-	<a href="freedoms.php" class="nav-tab<?php if ( ! $is_privacy_notice ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Freedoms' ); ?></a>
-	<a href="freedoms.php?privacy-notice" class="nav-tab<?php if ( $is_privacy_notice ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Privacy' ); ?></a>
+	<a href="freedoms.php" class="nav-tab<?php echo $freedoms_class; ?>"><?php _e( 'Freedoms' ); ?></a>
+	<a href="freedoms.php?privacy-notice" class="nav-tab<?php echo $privacy_class; ?>"><?php _e( 'Privacy' ); ?></a>
 </h2>
 
 <?php if ( $is_privacy_notice ) : ?>

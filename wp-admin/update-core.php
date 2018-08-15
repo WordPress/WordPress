@@ -310,29 +310,29 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 		<td class="check-column">
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-										<?php
-										/* translators: %s: plugin name */
-										printf(
-											__( 'Select %s' ),
-											$plugin_data->Name
-										);
-				?>
-				</label>
-			</td>
-			<td class="plugin-title"><p>
-				<?php echo $icon; ?>
-				<strong><?php echo $plugin_data->Name; ?></strong>
-				<?php
-				/* translators: 1: plugin version, 2: new version */
+			<?php
+				/* translators: %s: plugin name */
 				printf(
-					__( 'You have version %1$s installed. Update to %2$s.' ),
-					$plugin_data->Version,
-					$plugin_data->update->new_version
+					__( 'Select %s' ),
+					$plugin_data->Name
 				);
-				echo ' ' . $details . $compat . $upgrade_notice;
 			?>
-			</p></td>
-		</tr>
+			</label>
+		</td>
+		<td class="plugin-title"><p>
+			<?php echo $icon; ?>
+			<strong><?php echo $plugin_data->Name; ?></strong>
+			<?php
+			/* translators: 1: plugin version, 2: new version */
+			printf(
+				__( 'You have version %1$s installed. Update to %2$s.' ),
+				$plugin_data->Version,
+				$plugin_data->update->new_version
+			);
+			echo ' ' . $details . $compat . $upgrade_notice;
+		?>
+		</p></td>
+	</tr>
 		<?php
 }
 ?>
@@ -386,28 +386,28 @@ foreach ( $themes as $stylesheet => $theme ) {
 		<td class="check-column">
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-										<?php
-										/* translators: %s: theme name */
-										printf(
-											__( 'Select %s' ),
-											$theme->display( 'Name' )
-										);
-				?>
-				</label>
-			</td>
-			<td class="plugin-title"><p>
-				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
-				<strong><?php echo $theme->display( 'Name' ); ?></strong>
-				<?php
-				/* translators: 1: theme version, 2: new version */
+			<?php
+				/* translators: %s: theme name */
 				printf(
-					__( 'You have version %1$s installed. Update to %2$s.' ),
-					$theme->display( 'Version' ),
-					$theme->update['new_version']
+					__( 'Select %s' ),
+					$theme->display( 'Name' )
 				);
 			?>
-			</p></td>
-		</tr>
+			</label>
+		</td>
+		<td class="plugin-title"><p>
+			<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
+			<strong><?php echo $theme->display( 'Name' ); ?></strong>
+			<?php
+			/* translators: 1: theme version, 2: new version */
+			printf(
+				__( 'You have version %1$s installed. Update to %2$s.' ),
+				$theme->display( 'Version' ),
+				$theme->update['new_version']
+			);
+		?>
+		</p></td>
+	</tr>
 		<?php
 }
 ?>

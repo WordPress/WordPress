@@ -2177,23 +2177,27 @@ function _wp_admin_html_begin() {
 <!DOCTYPE html>
 <!--[if IE 8]>
 <html xmlns="http://www.w3.org/1999/xhtml" class="ie8 <?php echo $admin_html_class; ?>"
-																	<?php
-																	/**
-																	 * Fires inside the HTML tag in the admin header.
-																	 *
-																	 * @since 2.2.0
-																	 */
-																	do_action( 'admin_xml_ns' );
-?>
-	<?php language_attributes(); ?>>
+	<?php
+	/**
+	 * Fires inside the HTML tag in the admin header.
+	 *
+	 * @since 2.2.0
+	 */
+	do_action( 'admin_xml_ns' );
+
+	language_attributes();
+	?>
+	>
 <![endif]-->
 <!--[if !(IE 8) ]><!-->
 <html xmlns="http://www.w3.org/1999/xhtml" class="<?php echo $admin_html_class; ?>"
-																<?php
-																/** This action is documented in wp-admin/includes/template.php */
-																do_action( 'admin_xml_ns' );
-?>
-	<?php language_attributes(); ?>>
+	<?php
+	/** This action is documented in wp-admin/includes/template.php */
+	do_action( 'admin_xml_ns' );
+
+	language_attributes();
+	?>
+	>
 <!--<![endif]-->
 <head>
 <meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php echo get_option( 'blog_charset' ); ?>" />

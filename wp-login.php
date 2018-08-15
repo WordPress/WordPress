@@ -256,9 +256,9 @@ function login_footer( $input_id = '' ) {
 	if ( ! $interim_login ) :
 	?>
 	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-											<?php
-											/* translators: %s: site title */
-											printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+	<?php
+		/* translators: %s: site title */
+		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
 	?>
 	</a></p>
 	<?php the_privacy_policy_link( '<div class="privacy-policy-page-link">', '</div>' ); ?>

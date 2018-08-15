@@ -757,15 +757,15 @@ function post_comment_status_meta_box( $post ) {
 <input name="advanced_view" type="hidden" value="1" />
 <p class="meta-options">
 	<label for="comment_status" class="selectit"><input name="comment_status" type="checkbox" id="comment_status" value="open" <?php checked( $post->comment_status, 'open' ); ?> /> <?php _e( 'Allow comments' ); ?></label><br />
-	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked( $post->ping_status, 'open' ); ?> /> 
-																																						<?php
-																																						printf(
-																																							/* translators: %s: Codex URL */
-																																							__( 'Allow <a href="%s">trackbacks and pingbacks</a> on this page' ),
-																																							__( 'https://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments' )
-																																						);
+	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked( $post->ping_status, 'open' ); ?> />
+		<?php
+		printf(
+			/* translators: %s: Codex URL */
+			__( 'Allow <a href="%s">trackbacks and pingbacks</a> on this page' ),
+			__( 'https://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments' )
+		);
 		?>
-		</label>
+	</label>
 	<?php
 	/**
 	 * Fires at the end of the Discussion meta box on the post editing screen.
@@ -1350,16 +1350,14 @@ function attachment_id3_data_meta_box( $post ) {
 	}
 
 	foreach ( wp_get_attachment_id3_keys( $post, 'edit' ) as $key => $label ) :
+		$value = '';
+		if ( ! empty( $meta[ $key ] ) ) {
+			$value = $meta[ $key ];
+		}
 	?>
 	<p>
 		<label for="title"><?php echo $label; ?></label><br />
-		<input type="text" name="id3_<?php echo esc_attr( $key ); ?>" id="id3_<?php echo esc_attr( $key ); ?>" class="large-text" value="
-												<?php
-												if ( ! empty( $meta[ $key ] ) ) {
-													echo esc_attr( $meta[ $key ] );
-												}
-		?>
-		" />
+		<input type="text" name="id3_<?php echo esc_attr( $key ); ?>" id="id3_<?php echo esc_attr( $key ); ?>" class="large-text" value="<?php echo esc_attr( $value ); ?>" />
 	</p>
 	<?php
 	endforeach;

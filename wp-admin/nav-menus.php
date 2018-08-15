@@ -628,15 +628,16 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<h2 class="nav-tab-wrapper wp-clearfix">
 		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
-		<?php if ( $num_locations && $menu_count ) : ?>
-			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab
-								<?php
-								if ( $locations_screen ) {
-									echo ' nav-tab-active';}
-?>
-"><?php esc_html_e( 'Manage Locations' ); ?></a>
 		<?php
-			endif;
+		if ( $num_locations && $menu_count ) {
+			$active_tab_class = '';
+			if ( $locations_screen ) {
+				$active_tab_class = ' nav-tab-active';
+			}
+			?>
+			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php echo $active_tab_class; ?>"><?php esc_html_e( 'Manage Locations' ); ?></a>
+			<?php
+		}
 		?>
 	</h2>
 	<?php
@@ -694,8 +695,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 											), admin_url( 'nav-menus.php' )
 										)
 									);
-?>
-">
+									?>
+									">
 										<span aria-hidden="true"><?php _ex( 'Edit', 'menu' ); ?></span><span class="screen-reader-text"><?php _e( 'Edit selected menu' ); ?></span>
 									</a>
 								</span>
@@ -712,8 +713,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 											), admin_url( 'nav-menus.php' )
 										)
 									);
-?>
-">
+									?>
+									">
 										<?php _ex( 'Use new menu', 'menu' ); ?>
 									</a>
 								</span>
@@ -818,9 +819,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		endif;
 
 		$metabox_holder_disabled_class = '';
-if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
-	$metabox_holder_disabled_class = ' metabox-holder-disabled';
-}
+		if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
+			$metabox_holder_disabled_class = ' metabox-holder-disabled';
+		}
 	?>
 	</div><!-- /manage-menus -->
 	<div id="nav-menus-frame" class="wp-clearfix">
@@ -842,9 +843,9 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
 			<?php
 				$new_screen_class = '';
-			if ( $add_new_screen ) {
-				$new_screen_class = 'blank-slate';
-			}
+				if ( $add_new_screen ) {
+					$new_screen_class = 'blank-slate';
+				}
 			?>
 				<h2><?php _e( 'Menu structure' ); ?></h2>
 				<div class="menu-edit <?php echo $new_screen_class; ?>">
@@ -906,9 +907,9 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 								endif;
 
 								$no_menus_style = '';
-if ( $one_theme_location_no_menus ) {
-	$no_menus_style = 'style="display: none;"';
-}
+								if ( $one_theme_location_no_menus ) {
+									$no_menus_style = 'style="display: none;"';
+								}
 							?>
 							<div class="menu-settings" <?php echo $no_menus_style; ?>>
 								<h3><?php _e( 'Menu Settings' ); ?></h3>
@@ -976,8 +977,8 @@ if ( $one_theme_location_no_menus ) {
 										), 'delete-nav_menu-' . $nav_menu_selected_id
 									)
 								);
-?>
-"><?php _e( 'Delete Menu' ); ?></a>
+								?>
+								"><?php _e( 'Delete Menu' ); ?></a>
 							</span><!-- END .delete-action -->
 							<?php endif; ?>
 							<div class="publishing-action">

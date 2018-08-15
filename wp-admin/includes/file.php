@@ -1817,21 +1817,20 @@ if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
 }
 	_e( 'If you do not remember your credentials, you should contact your web host.' );
 
+	$hostname_value = esc_attr( $hostname );
+	if ( ! empty( $port ) ) {
+		$hostname_value .= ":$port";
+	}
+
 	$password_value = '';
-if ( defined( 'FTP_PASS' ) ) {
-	$password_value = '*****';
-}
+	if ( defined( 'FTP_PASS' ) ) {
+		$password_value = '*****';
+	}
 ?>
 </p>
 <label for="hostname">
 	<span class="field-title"><?php _e( 'Hostname' ); ?></span>
-	<input name="hostname" type="text" id="hostname" aria-describedby="request-filesystem-credentials-desc" class="code" placeholder="<?php esc_attr_e( 'example: www.wordpress.org' ); ?>" value="
-																																						<?php
-																																						echo esc_attr( $hostname );
-																																						if ( ! empty( $port ) ) {
-																																							echo ":$port";}
-?>
-"<?php disabled( defined( 'FTP_HOST' ) ); ?> />
+	<input name="hostname" type="text" id="hostname" aria-describedby="request-filesystem-credentials-desc" class="code" placeholder="<?php esc_attr_e( 'example: www.wordpress.org' ); ?>" value="<?php echo $hostname_value; ?>"<?php disabled( defined( 'FTP_HOST' ) ); ?> />
 </label>
 <div class="ftp-username">
 	<label for="username">
@@ -1858,12 +1857,7 @@ if ( defined( 'FTP_PASS' ) ) {
 foreach ( $types as $name => $text ) :
 	?>
 	<label for="<?php echo esc_attr( $name ); ?>">
-		<input type="radio" name="connection_type" id="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $name ); ?>"
-																	<?php
-																	checked( $name, $connection_type );
-																	echo $disabled;
-?>
- />
+		<input type="radio" name="connection_type" id="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $name ); ?>" <?php checked( $name, $connection_type ); ?> <?php echo $disabled; ?> />
 		<?php echo $text; ?>
 	</label>
 <?php
