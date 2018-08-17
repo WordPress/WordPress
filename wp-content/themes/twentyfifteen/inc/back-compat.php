@@ -45,7 +45,9 @@ function twentyfifteen_upgrade_notice() {
  */
 function twentyfifteen_customize() {
 	wp_die(
-		sprintf( __( 'Twenty Fifteen requires at least WordPress version 4.1. You are running version %s. Please upgrade and try again.', 'twentyfifteen' ), $GLOBALS['wp_version'] ), '', array(
+		sprintf( __( 'Twenty Fifteen requires at least WordPress version 4.1. You are running version %s. Please upgrade and try again.', 'twentyfifteen' ), $GLOBALS['wp_version'] ),
+		'',
+		array(
 			'back_link' => true,
 		)
 	);

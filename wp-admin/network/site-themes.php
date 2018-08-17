@@ -151,7 +151,8 @@ if ( $action ) {
 			array(
 				'id'    => $id,
 				$action => $n,
-			), $referer
+			),
+			$referer
 		)
 	);
 	exit;

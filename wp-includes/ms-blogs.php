@@ -1439,9 +1439,12 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 		return $value;
 	}
 
-	$result = wp_update_site( $blog_id, array(
-		$pref => $value,
-	) );
+	$result = wp_update_site(
+		$blog_id,
+		array(
+			$pref => $value,
+		)
+	);
 
 	if ( is_wp_error( $result ) ) {
 		return false;

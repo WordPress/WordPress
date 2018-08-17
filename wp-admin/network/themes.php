@@ -181,14 +181,16 @@ if ( $action ) {
 
 			foreach ( $themes as $theme ) {
 				$delete_result = delete_theme(
-					$theme, esc_url(
+					$theme,
+					esc_url(
 						add_query_arg(
 							array(
 								'verify-delete' => 1,
 								'action'        => 'delete-selected',
 								'checked'       => $_REQUEST['checked'],
 								'_wpnonce'      => $_REQUEST['_wpnonce'],
-							), network_admin_url( 'themes.php' )
+							),
+							network_admin_url( 'themes.php' )
 						)
 					)
 				);
@@ -201,7 +203,8 @@ if ( $action ) {
 						'deleted' => count( $themes ),
 						'paged'   => $paged,
 						's'       => $s,
-					), network_admin_url( 'themes.php' )
+					),
+					network_admin_url( 'themes.php' )
 				)
 			);
 			exit;

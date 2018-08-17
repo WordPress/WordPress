@@ -43,7 +43,7 @@
 							get_the_title()
 						)
 					);
-				?>
+					?>
 			</div><!-- .entry-content -->
 
 		</div><!-- .wrap -->

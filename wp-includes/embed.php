@@ -401,7 +401,8 @@ function get_oembed_endpoint_url( $permalink = '', $format = 'json' ) {
 			array(
 				'url'    => urlencode( $permalink ),
 				'format' => ( 'json' !== $format ) ? $format : false,
-			), $url
+			),
+			$url
 		);
 	}
 
@@ -522,7 +523,8 @@ function get_oembed_response_data( $post, $width ) {
 	 * }
 	 */
 	$min_max_width = apply_filters(
-		'oembed_min_max_width', array(
+		'oembed_min_max_width',
+		array(
 			'min' => 200,
 			'max' => 600,
 		)
@@ -1082,7 +1084,8 @@ function wp_filter_pre_oembed_result( $result, $url, $args ) {
 
 	if ( is_multisite() ) {
 		$url_parts = wp_parse_args(
-			wp_parse_url( $url ), array(
+			wp_parse_url( $url ),
+			array(
 				'host' => '',
 				'path' => '/',
 			)

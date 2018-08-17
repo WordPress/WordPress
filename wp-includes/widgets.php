@@ -681,7 +681,8 @@ function dynamic_sidebar( $index = 1 ) {
 		$params = array_merge(
 			array(
 				array_merge(
-					$sidebar, array(
+					$sidebar,
+					array(
 						'widget_id'   => $id,
 						'widget_name' => $wp_registered_widgets[ $id ]['name'],
 					)
@@ -1573,7 +1574,7 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 
 	$esc_number = esc_attr( $args['number'] );
 	if ( $inputs['url'] ) :
-?>
+		?>
 	<p><label for="rss-url-<?php echo $esc_number; ?>"><?php _e( 'Enter the RSS feed URL here:' ); ?></label>
 	<input class="widefat" id="rss-url-<?php echo $esc_number; ?>" name="widget-rss[<?php echo $esc_number; ?>][url]" type="text" value="<?php echo esc_url( $args['url'] ); ?>" /></p>
 <?php endif; if ( $inputs['title'] ) : ?>
@@ -1597,14 +1598,14 @@ function wp_widget_rss_form( $args, $inputs = null ) {
 <?php endif; if ( $inputs['show_date'] ) : ?>
 	<p><input id="rss-show-date-<?php echo $esc_number; ?>" name="widget-rss[<?php echo $esc_number; ?>][show_date]" type="checkbox" value="1" <?php checked( $args['show_date'] ); ?>/>
 	<label for="rss-show-date-<?php echo $esc_number; ?>"><?php _e( 'Display item date?' ); ?></label></p>
-<?php
+	<?php
 	endif;
 foreach ( array_keys( $default_inputs ) as $input ) :
 	if ( 'hidden' === $inputs[ $input ] ) :
 		$id = str_replace( '_', '-', $input );
-?>
+		?>
 <input type="hidden" id="rss-<?php echo esc_attr( $id ); ?>-<?php echo $esc_number; ?>" name="widget-rss[<?php echo $esc_number; ?>][<?php echo esc_attr( $input ); ?>]" value="<?php echo esc_attr( $args[ $input ] ); ?>" />
-<?php
+		<?php
 	endif;
 	endforeach;
 }

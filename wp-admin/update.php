@@ -106,7 +106,8 @@ if ( isset( $_GET['action'] ) ) {
 
 		check_admin_referer( 'install-plugin_' . $plugin );
 		$api = plugins_api(
-			'plugin_information', array(
+			'plugin_information',
+			array(
 				'slug'   => $plugin,
 				'fields' => array(
 					'sections' => false,
@@ -225,7 +226,8 @@ if ( isset( $_GET['action'] ) ) {
 
 		check_admin_referer( 'install-theme_' . $theme );
 		$api = themes_api(
-			'theme_information', array(
+			'theme_information',
+			array(
 				'slug'   => $theme,
 				'fields' => array(
 					'sections' => false,

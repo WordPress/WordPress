@@ -33,8 +33,10 @@ function wp_load_press_this() {
 						'action' => 'activate',
 						'plugin' => $plugin_file,
 						'from'   => 'press-this',
-					), admin_url( 'plugins.php' )
-				), 'activate-plugin_' . $plugin_file
+					),
+					admin_url( 'plugins.php' )
+				),
+				'activate-plugin_' . $plugin_file
 			);
 			$action = sprintf(
 				'<a href="%1$s" aria-label="%2$s">%2$s</a>',
@@ -49,8 +51,10 @@ function wp_load_press_this() {
 							'action' => 'install-plugin',
 							'plugin' => $plugin_slug,
 							'from'   => 'press-this',
-						), self_admin_url( 'update.php' )
-					), 'install-plugin_' . $plugin_slug
+						),
+						self_admin_url( 'update.php' )
+					),
+					'install-plugin_' . $plugin_slug
 				);
 				$action = sprintf(
 					'<a href="%1$s" class="install-now" data-slug="%2$s" data-name="%2$s" aria-label="%3$s">%3$s</a>',

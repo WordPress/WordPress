@@ -107,7 +107,8 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 
 		// Add support for custom backgrounds.
 		add_theme_support(
-			'custom-background', array(
+			'custom-background',
+			array(
 				/*
 				* Let WordPress know what our default background color is.
 				* This is dependent on our current color scheme.
@@ -258,24 +259,24 @@ if ( ! function_exists( 'twentyeleven_header_style' ) ) :
 		<?php
 		// Has the text been hidden?
 		if ( 'blank' == $text_color ) :
-	?>
+			?>
 		#site-title,
 		#site-description {
 			position: absolute;
 			clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
 			clip: rect(1px, 1px, 1px, 1px);
 		}
-	<?php
-		// If the user has set a custom color for the text use that
+			<?php
+			// If the user has set a custom color for the text use that
 		else :
-	?>
+			?>
 		#site-title a,
 		#site-description {
 			color: #<?php echo $text_color; ?>;
 		}
 	<?php endif; ?>
 	</style>
-	<?php
+		<?php
 	}
 endif; // twentyeleven_header_style
 
@@ -288,7 +289,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 	 * @since Twenty Eleven 1.0
 	 */
 	function twentyeleven_admin_header_style() {
-	?>
+		?>
 	<style type="text/css" id="twentyeleven-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
@@ -310,10 +311,10 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 		line-height: 23px;
 		padding: 0 0 3em;
 	}
-	<?php
+		<?php
 		// If the user has set a custom color for the text use that
-	if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
-	?>
+		if ( get_header_textcolor() != HEADER_TEXTCOLOR ) :
+			?>
 	#site-title a,
 	#site-description {
 		color: #<?php echo get_header_textcolor(); ?>;
@@ -325,7 +326,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_style' ) ) :
 		width: 100%;
 	}
 	</style>
-	<?php
+		<?php
 	}
 endif; // twentyeleven_admin_header_style
 
@@ -339,7 +340,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 	 */
 	function twentyeleven_admin_header_image() {
 
-?>
+		?>
 		<div id="headimg">
 			<?php
 			$color = get_header_textcolor();
@@ -355,7 +356,7 @@ if ( ! function_exists( 'twentyeleven_admin_header_image' ) ) :
 			<img src="<?php echo esc_url( $image ); ?>" alt="" />
 		<?php endif; ?>
 		</div>
-	<?php
+		<?php
 	}
 endif; // twentyeleven_admin_header_image
 
@@ -529,13 +530,13 @@ if ( ! function_exists( 'twentyeleven_content_nav' ) ) :
 		global $wp_query;
 
 		if ( $wp_query->max_num_pages > 1 ) :
-	?>
+			?>
 			<nav id="<?php echo esc_attr( $html_id ); ?>">
 				<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>
 				<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'twentyeleven' ) ); ?></div>
 				<div class="nav-next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'twentyeleven' ) ); ?></div>
 			</nav><!-- #nav-above -->
-		<?php
+			<?php
 	endif;
 	}
 endif; // twentyeleven_content_nav
@@ -636,13 +637,13 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 		switch ( $comment->comment_type ) :
 			case 'pingback':
 			case 'trackback':
-		?>
+				?>
 		<li class="post pingback">
 		<p><?php _e( 'Pingback:', 'twentyeleven' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?></p>
-	<?php
+				<?php
 				break;
 			default:
-		?>
+				?>
 		<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<article id="comment-<?php comment_ID(); ?>" class="comment">
 			<footer class="comment-meta">
@@ -667,7 +668,7 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 								sprintf( __( '%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
 							)
 						);
-						?>
+					?>
 
 						<?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .comment-author .vcard -->
@@ -685,18 +686,19 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 					<?php
 					comment_reply_link(
 						array_merge(
-							$args, array(
+							$args,
+							array(
 								'reply_text' => __( 'Reply <span>&darr;</span>', 'twentyeleven' ),
 								'depth'      => $depth,
 								'max_depth'  => $args['max_depth'],
 							)
 						)
 					);
-?>
+					?>
 				</div><!-- .reply -->
 			</article><!-- #comment-## -->
 
-		<?php
+				<?php
 				break;
 		endswitch;
 	}

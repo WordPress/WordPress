@@ -15,7 +15,7 @@
  */
 function wp_underscore_audio_template() {
 	$audio_types = wp_get_audio_extensions();
-?>
+	?>
 <audio style="visibility: hidden"
 	controls
 	class="wp-audio-shortcode"
@@ -24,7 +24,7 @@ function wp_underscore_audio_template() {
 	<#
 	<?php
 	foreach ( array( 'autoplay', 'loop' ) as $attr ) :
-	?>
+		?>
 	if ( ! _.isUndefined( data.model.<?php echo $attr; ?> ) && data.model.<?php echo $attr; ?> ) {
 		#> <?php echo $attr; ?><#
 	}
@@ -36,15 +36,15 @@ function wp_underscore_audio_template() {
 
 	<?php
 	foreach ( $audio_types as $type ) :
-	?>
+		?>
 	<# if ( ! _.isEmpty( data.model.<?php echo $type; ?> ) ) { #>
 	<source src="{{ data.model.<?php echo $type; ?> }}" type="{{ wp.media.view.settings.embedMimes[ '<?php echo $type; ?>' ] }}" />
 	<# } #>
-	<?php
+		<?php
 	endforeach;
-?>
+	?>
 </audio>
-<?php
+	<?php
 }
 
 /**
@@ -55,7 +55,7 @@ function wp_underscore_audio_template() {
  */
 function wp_underscore_video_template() {
 	$video_types = wp_get_video_extensions();
-?>
+	?>
 <#  var w_rule = '', classes = [],
 		w, h, settings = wp.media.view.settings,
 		isYouTube = isVimeo = false;
@@ -96,18 +96,18 @@ function wp_underscore_video_template() {
 	<# if ( w ) { #>width="{{ w }}"<# } #>
 	<# if ( h ) { #>height="{{ h }}"<# } #>
 	<?php
-	$props       = array(
+	$props = array(
 		'poster'  => '',
 		'preload' => 'metadata',
 	);
 	foreach ( $props as $key => $value ) :
 		if ( empty( $value ) ) {
-		?>
+			?>
 		<#
 		if ( ! _.isUndefined( data.model.<?php echo $key; ?> ) && data.model.<?php echo $key; ?> ) {
 			#> <?php echo $key; ?>="{{ data.model.<?php echo $key; ?> }}"<#
 		} #>
-		<?php
+			<?php
 		} else {
 			echo $key
 			?>
@@ -119,7 +119,7 @@ function wp_underscore_video_template() {
 	<#
 	<?php
 	foreach ( array( 'autoplay', 'loop' ) as $attr ) :
-	?>
+		?>
 	if ( ! _.isUndefined( data.model.<?php echo $attr; ?> ) && data.model.<?php echo $attr; ?> ) {
 		#> <?php echo $attr; ?><#
 	}
@@ -137,7 +137,7 @@ function wp_underscore_video_template() {
 
 	<?php
 	foreach ( $video_types as $type ) :
-	?>
+		?>
 	<# if ( data.model.<?php echo $type; ?> ) { #>
 	<source src="{{ data.model.<?php echo $type; ?> }}" type="{{ settings.embedMimes[ '<?php echo $type; ?>' ] }}" />
 	<# } #>
@@ -145,7 +145,7 @@ function wp_underscore_video_template() {
 	{{{ data.model.content }}}
 </video>
 </div>
-<?php
+	<?php
 }
 
 /**
@@ -413,7 +413,7 @@ function wp_print_media_templates() {
 					'artist' => __( 'Artist' ),
 					'album'  => __( 'Album' ),
 				) as $key => $label ) :
-				?>
+					?>
 				<label class="setting" data-setting="<?php echo esc_attr( $key ); ?>">
 					<span class="name"><?php echo $label; ?></span>
 					<input type="text" value="{{ data.<?php echo $key; ?> || data.meta.<?php echo $key; ?> || '' }}" />
@@ -596,7 +596,7 @@ function wp_print_media_templates() {
 			'artist' => __( 'Artist' ),
 			'album'  => __( 'Album' ),
 		) as $key => $label ) :
-		?>
+			?>
 		<label class="setting" data-setting="<?php echo esc_attr( $key ); ?>">
 			<span class="name"><?php echo $label; ?></span>
 			<input type="text" value="{{ data.<?php echo $key; ?> || data.meta.<?php echo $key; ?> || '' }}" />
@@ -719,7 +719,8 @@ function wp_print_media_templates() {
 					<?php
 					/** This filter is documented in wp-admin/includes/media.php */
 					$sizes = apply_filters(
-						'image_size_names_choose', array(
+						'image_size_names_choose',
+						array(
 							'thumbnail' => __( 'Thumbnail' ),
 							'medium'    => __( 'Medium' ),
 							'large'     => __( 'Large' ),
@@ -728,7 +729,7 @@ function wp_print_media_templates() {
 					);
 
 					foreach ( $sizes as $value => $name ) :
-					?>
+						?>
 						<#
 						var size = data.sizes['<?php echo esc_js( $value ); ?>'];
 						if ( size ) { #>
@@ -797,7 +798,8 @@ function wp_print_media_templates() {
 				<?php
 				/** This filter is documented in wp-admin/includes/media.php */
 				$size_names = apply_filters(
-					'image_size_names_choose', array(
+					'image_size_names_choose',
+					array(
 						'thumbnail' => __( 'Thumbnail' ),
 						'medium'    => __( 'Medium' ),
 						'large'     => __( 'Large' ),
@@ -806,7 +808,7 @@ function wp_print_media_templates() {
 				);
 
 				foreach ( $size_names as $size => $label ) :
-				?>
+					?>
 					<option value="<?php echo esc_attr( $size ); ?>">
 						<?php echo esc_html( $label ); ?>
 					</option>
@@ -867,7 +869,7 @@ function wp_print_media_templates() {
 		<?php
 		/** This filter is documented in wp-admin/includes/media.php */
 		if ( ! apply_filters( 'disable_captions', '' ) ) :
-		?>
+			?>
 			<label class="setting caption">
 				<span><?php _e( 'Caption' ); ?></span>
 				<textarea data-setting="caption" />
@@ -933,7 +935,7 @@ function wp_print_media_templates() {
 					<?php
 					/** This filter is documented in wp-admin/includes/media.php */
 					if ( ! apply_filters( 'disable_captions', '' ) ) :
-					?>
+						?>
 						<label class="setting caption">
 							<span><?php _e( 'Caption' ); ?></span>
 							<textarea data-setting="caption">{{ data.model.caption }}</textarea>
@@ -976,7 +978,8 @@ function wp_print_media_templates() {
 									<?php
 									/** This filter is documented in wp-admin/includes/media.php */
 									$sizes = apply_filters(
-										'image_size_names_choose', array(
+										'image_size_names_choose',
+										array(
 											'thumbnail' => __( 'Thumbnail' ),
 											'medium'    => __( 'Medium' ),
 											'large'     => __( 'Large' ),
@@ -985,7 +988,7 @@ function wp_print_media_templates() {
 									);
 
 									foreach ( $sizes as $value => $name ) :
-									?>
+										?>
 										<#
 										var size = data.sizes['<?php echo esc_js( $value ); ?>'];
 										if ( size ) { #>
@@ -1093,7 +1096,7 @@ function wp_print_media_templates() {
 				<?php
 
 				foreach ( $audio_types as $type ) :
-				?>
+					?>
 				<# if ( ! _.isEmpty( data.model.<?php echo $type; ?> ) ) {
 					if ( ! _.isUndefined( html5types.<?php echo $type; ?> ) ) {
 						delete html5types.<?php echo $type; ?>;
@@ -1176,7 +1179,7 @@ function wp_print_media_templates() {
 				<# } #>
 				<?php
 				foreach ( $video_types as $type ) :
-				?>
+					?>
 				<# if ( ! _.isEmpty( data.model.<?php echo $type; ?> ) ) {
 					if ( ! _.isUndefined( html5types.<?php echo $type; ?> ) ) {
 						delete html5types.<?php echo $type; ?>;

@@ -50,7 +50,7 @@
 							'menu_id'        => 'primary-menu',
 						)
 					);
-?>
+					?>
 					<?php get_search_form(); ?>
 				</nav><!-- #site-navigation -->
 			</div><!-- #navbar -->

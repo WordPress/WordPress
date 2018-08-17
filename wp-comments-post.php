@@ -27,7 +27,9 @@ if ( is_wp_error( $comment ) ) {
 	$data = intval( $comment->get_error_data() );
 	if ( ! empty( $data ) ) {
 		wp_die(
-			'<p>' . $comment->get_error_message() . '</p>', __( 'Comment Submission Failure' ), array(
+			'<p>' . $comment->get_error_message() . '</p>',
+			__( 'Comment Submission Failure' ),
+			array(
 				'response'  => $data,
 				'back_link' => true,
 			)
@@ -37,7 +39,7 @@ if ( is_wp_error( $comment ) ) {
 	}
 }
 
-$user = wp_get_current_user();
+$user            = wp_get_current_user();
 $cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
 
 /**

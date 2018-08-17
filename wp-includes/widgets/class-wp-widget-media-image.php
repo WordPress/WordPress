@@ -23,14 +23,17 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'media_image', __( 'Image' ), array(
+			'media_image',
+			__( 'Image' ),
+			array(
 				'description' => __( 'Displays an image.' ),
 				'mime_type'   => 'image',
 			)
 		);
 
 		$this->l10n = array_merge(
-			$this->l10n, array(
+			$this->l10n,
+			array(
 				'no_media_selected'          => __( 'No image selected' ),
 				'add_media'                  => _x( 'Add Image', 'label for button in the image widget' ),
 				'replace_media'              => _x( 'Replace Image', 'label for button in the image widget; should preferably not be longer than ~13 characters long' ),
@@ -173,7 +176,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 	public function render_media( $instance ) {
 		$instance = array_merge( wp_list_pluck( $this->get_instance_schema(), 'default' ), $instance );
 		$instance = wp_parse_args(
-			$instance, array(
+			$instance,
+			array(
 				'size' => 'thumbnail',
 			)
 		);
@@ -270,7 +274,8 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				array(
 					'width'   => $width,
 					'caption' => $caption,
-				), $image
+				),
+				$image
 			);
 		}
 

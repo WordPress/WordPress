@@ -69,7 +69,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize(
-		'utils', 'userSettings', array(
+		'utils',
+		'userSettings',
+		array(
 			'url'    => (string) SITECOOKIEPATH,
 			'uid'    => (string) get_current_user_id(),
 			'time'   => (string) time(),
@@ -79,7 +81,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array( 'jquery', 'hoverIntent', 'utils' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'common', 'commonL10n', array(
+		'common',
+		'commonL10n',
+		array(
 			'warnDelete'   => __( "You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
 			'dismiss'      => __( 'Dismiss this notice.' ),
 			'collapseMenu' => __( 'Collapse Main menu' ),
@@ -93,7 +97,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'quicktags', "/wp-includes/js/quicktags$suffix.js", array(), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'quicktags', 'quicktagsL10n', array(
+		'quicktags',
+		'quicktagsL10n',
+		array(
 			'closeAllOpenTags'      => __( 'Close all open tags' ),
 			'closeTags'             => __( 'close tags' ),
 			'enterURL'              => __( 'Enter the URL' ),
@@ -135,7 +141,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-ajax-response', "/wp-includes/js/wp-ajax-response$suffix.js", array( 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'wp-ajax-response', 'wpAjax', array(
+		'wp-ajax-response',
+		'wpAjax',
+		array(
 			'noPerm' => __( 'Sorry, you are not allowed to do that.' ),
 			'broken' => __( 'Something went wrong.' ),
 		)
@@ -144,7 +152,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wp-api-request', "/wp-includes/js/api-request$suffix.js", array( 'jquery' ), false, 1 );
 	// `wpApiSettings` is also used by `wp-api`, which depends on this script.
 	did_action( 'init' ) && $scripts->localize(
-		'wp-api-request', 'wpApiSettings', array(
+		'wp-api-request',
+		'wpApiSettings',
+		array(
 			'root'          => esc_url_raw( get_rest_url() ),
 			'nonce'         => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
 			'versionString' => 'wp/v2/',
@@ -153,7 +163,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-pointer', "/wp-includes/js/wp-pointer$suffix.js", array( 'jquery-ui-widget', 'jquery-ui-position' ), '20111129a', 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'wp-pointer', 'wpPointerL10n', array(
+		'wp-pointer',
+		'wpPointerL10n',
+		array(
 			'dismiss' => __( 'Dismiss' ),
 		)
 	);
@@ -162,7 +174,8 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'heartbeat', "/wp-includes/js/heartbeat$suffix.js", array( 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'heartbeat', 'heartbeatSettings',
+		'heartbeat',
+		'heartbeatSettings',
 		/**
 		 * Filters the Heartbeat settings.
 		 *
@@ -175,7 +188,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-auth-check', "/wp-includes/js/wp-auth-check$suffix.js", array( 'heartbeat' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'wp-auth-check', 'authcheckL10n', array(
+		'wp-auth-check',
+		'authcheckL10n',
+		array(
 			'beforeunload' => __( 'Your session has expired. You can log in again from this page or go to the login page.' ),
 
 			/**
@@ -254,7 +269,9 @@ function wp_default_scripts( &$scripts ) {
 
 	// Strings for 'jquery-ui-autocomplete' live region messages
 	did_action( 'init' ) && $scripts->localize(
-		'jquery-ui-autocomplete', 'uiAutocompleteL10n', array(
+		'jquery-ui-autocomplete',
+		'uiAutocompleteL10n',
+		array(
 			'noResults'    => __( 'No results found.' ),
 			/* translators: Number of results found when using jQuery UI Autocomplete */
 			'oneResult'    => __( '1 result found. Use up and down arrow keys to navigate.' ),
@@ -287,7 +304,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'thickbox', '/wp-includes/js/thickbox/thickbox.js', array( 'jquery' ), '3.1-20121105', 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'thickbox', 'thickboxL10n', array(
+		'thickbox',
+		'thickboxL10n',
+		array(
 			'next'             => __( 'Next &gt;' ),
 			'prev'             => __( '&lt; Prev' ),
 			'image'            => __( 'Image' ),
@@ -358,7 +377,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-util', "/wp-includes/js/wp-util$suffix.js", array( 'underscore', 'jquery' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'wp-util', '_wpUtilSettings', array(
+		'wp-util',
+		'_wpUtilSettings',
+		array(
 			'ajax' => array(
 				'url' => admin_url( 'admin-ajax.php', 'relative' ),
 			),
@@ -378,8 +399,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'mediaelement-migrate', "/wp-includes/js/mediaelement/mediaelement-migrate$suffix.js", array(), false, 1 );
 
 	did_action( 'init' ) && $scripts->add_inline_script(
-		'mediaelement-core', sprintf(
-			'var mejsL10n = %s;', wp_json_encode(
+		'mediaelement-core',
+		sprintf(
+			'var mejsL10n = %s;',
+			wp_json_encode(
 				array(
 					'language' => strtolower( strtok( is_admin() ? get_user_locale() : get_locale(), '_-' ) ),
 					'strings'  => array(
@@ -467,7 +490,8 @@ function wp_default_scripts( &$scripts ) {
 					),
 				)
 			)
-		), 'before'
+		),
+		'before'
 	);
 
 	$scripts->add( 'mediaelement-vimeo', '/wp-includes/js/mediaelement/renderers/vimeo.min.js', array( 'mediaelement' ), '4.2.6-78496d1', 1 );
@@ -478,7 +502,8 @@ function wp_default_scripts( &$scripts ) {
 		'stretching'  => 'responsive',
 	);
 	did_action( 'init' ) && $scripts->localize(
-		'mediaelement', '_wpmejsSettings',
+		'mediaelement',
+		'_wpmejsSettings',
 		/**
 		 * Filters the MediaElement configuration settings.
 		 *
@@ -499,8 +524,10 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'code-editor', "/wp-admin/js/code-editor$suffix.js", array( 'jquery', 'wp-codemirror', 'underscore' ) );
 	$scripts->add( 'wp-theme-plugin-editor', "/wp-admin/js/theme-plugin-editor$suffix.js", array( 'wp-util', 'wp-sanitize', 'jquery', 'jquery-ui-core', 'wp-a11y', 'underscore' ) );
 	did_action( 'init' ) && $scripts->add_inline_script(
-		'wp-theme-plugin-editor', sprintf(
-			'wp.themePluginEditor.l10n = %s;', wp_json_encode(
+		'wp-theme-plugin-editor',
+		sprintf(
+			'wp.themePluginEditor.l10n = %s;',
+			wp_json_encode(
 				array(
 					'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 					'saveError' => __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' ),
@@ -519,14 +546,18 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'zxcvbn-async', "/wp-includes/js/zxcvbn-async$suffix.js", array(), '1.0' );
 	did_action( 'init' ) && $scripts->localize(
-		'zxcvbn-async', '_zxcvbnSettings', array(
+		'zxcvbn-async',
+		'_zxcvbnSettings',
+		array(
 			'src' => empty( $guessed_url ) ? includes_url( '/js/zxcvbn.min.js' ) : $scripts->base_url . '/wp-includes/js/zxcvbn.min.js',
 		)
 	);
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'password-strength-meter', 'pwsL10n', array(
+		'password-strength-meter',
+		'pwsL10n',
+		array(
 			'unknown'  => _x( 'Password strength unknown', 'password strength' ),
 			'short'    => _x( 'Very weak', 'password strength' ),
 			'bad'      => _x( 'Weak', 'password strength' ),
@@ -538,7 +569,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'user-profile', 'userProfileL10n', array(
+		'user-profile',
+		'userProfileL10n',
+		array(
 			'warn'     => __( 'Your new password has not been saved.' ),
 			'warnWeak' => __( 'Confirm use of weak password' ),
 			'show'     => __( 'Show' ),
@@ -557,7 +590,9 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'wplink', 'wpLinkL10n', array(
+		'wplink',
+		'wpLinkL10n',
+		array(
 			'title'          => __( 'Insert/edit link' ),
 			'update'         => __( 'Update' ),
 			'save'           => __( 'Add Link' ),
@@ -583,7 +618,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'customize-views', '/wp-includes/js/customize-views.js', array( 'jquery', 'underscore', 'imgareaselect', 'customize-models', 'media-editor', 'media-views' ), false, 1 );
 	$scripts->add( 'customize-controls', "/wp-admin/js/customize-controls$suffix.js", array( 'customize-base', 'wp-a11y', 'wp-util', 'jquery-ui-core' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'customize-controls', '_wpCustomizeControlsL10n', array(
+		'customize-controls',
+		'_wpCustomizeControlsL10n',
+		array(
 			'activate'                => __( 'Activate &amp; Publish' ),
 			'save'                    => __( 'Save &amp; Publish' ), // @todo Remove as not required.
 			'publish'                 => __( 'Publish' ),
@@ -662,7 +699,9 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'shortcode', "/wp-includes/js/shortcode$suffix.js", array( 'underscore' ), false, 1 );
 	$scripts->add( 'media-models', "/wp-includes/js/media-models$suffix.js", array( 'wp-backbone' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize(
-		'media-models', '_wpMediaModelsL10n', array(
+		'media-models',
+		'_wpMediaModelsL10n',
+		array(
 			'settings' => array(
 				'ajaxurl' => admin_url( 'admin-ajax.php', 'relative' ),
 				'post'    => array( 'id' => 0 ),
@@ -684,7 +723,9 @@ function wp_default_scripts( &$scripts ) {
 	if ( is_admin() ) {
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array( 'jquery', 'wp-ajax-response' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'admin-tags', 'tagsl10n', array(
+			'admin-tags',
+			'tagsl10n',
+			array(
 				'noPerm' => __( 'Sorry, you are not allowed to do that.' ),
 				'broken' => __( 'Something went wrong.' ),
 			)
@@ -692,7 +733,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-comments', "/wp-admin/js/edit-comments$suffix.js", array( 'wp-lists', 'quicktags', 'jquery-query' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'admin-comments', 'adminCommentsL10n', array(
+			'admin-comments',
+			'adminCommentsL10n',
+			array(
 				'hotkeys_highlight_first' => isset( $_GET['hotkeys_highlight_first'] ),
 				'hotkeys_highlight_last'  => isset( $_GET['hotkeys_highlight_last'] ),
 				'replyApprove'            => __( 'Approve and Reply' ),
@@ -707,7 +750,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'xfn', 'privacyToolsL10n', array(
+			'xfn',
+			'privacyToolsL10n',
+			array(
 				'noDataFound'     => __( 'No personal data was found for this user.' ),
 				'foundAndRemoved' => __( 'All of the personal data found for this user was erased.' ),
 				'noneRemoved'     => __( 'Personal data was found for this user but was not erased.' ),
@@ -720,7 +765,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array( 'jquery-ui-sortable' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'postbox', 'postBoxL10n', array(
+			'postbox',
+			'postBoxL10n',
+			array(
 				'postBoxEmptyString' => __( 'Drag boxes here' ),
 			)
 		);
@@ -729,7 +776,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'tags-suggest', "/wp-admin/js/tags-suggest$suffix.js", array( 'jquery-ui-autocomplete', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'tags-suggest', 'tagsSuggestL10n', array(
+			'tags-suggest',
+			'tagsSuggestL10n',
+			array(
 				'tagDelimiter' => _x( ',', 'tag delimiter' ),
 				'removeTerm'   => __( 'Remove term:' ),
 				'termSelected' => __( 'Term selected.' ),
@@ -751,7 +800,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'underscore', 'word-count', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'post', 'postL10n', array(
+			'post',
+			'postL10n',
+			array(
 				'ok'                 => __( 'OK' ),
 				'cancel'             => __( 'Cancel' ),
 				'publishOn'          => __( 'Publish on:' ),
@@ -785,7 +836,9 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'comment', "/wp-admin/js/comment$suffix.js", array( 'jquery', 'postbox' ) );
 		$scripts->add_data( 'comment', 'group', 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'comment', 'commentL10n', array(
+			'comment',
+			'commentL10n',
+			array(
 				'submittedOn' => __( 'Submitted on:' ),
 				/* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
 				'dateFormat'  => __( '%1$s %2$s, %3$s @ %4$s:%5$s' ),
@@ -796,8 +849,10 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->add_inline_script(
-			'admin-widgets', sprintf(
-				'wpWidgets.l10n = %s;', wp_json_encode(
+			'admin-widgets',
+			sprintf(
+				'wpWidgets.l10n = %s;',
+				wp_json_encode(
 					array(
 						'save'        => __( 'Save' ),
 						'saved'       => __( 'Saved' ),
@@ -822,7 +877,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'tags-suggest', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'inline-edit-post', 'inlineEditL10n', array(
+			'inline-edit-post',
+			'inlineEditL10n',
+			array(
 				'error'      => __( 'Error while saving the changes.' ),
 				'ntdeltitle' => __( 'Remove From Bulk Edit' ),
 				'notitle'    => __( '(no title)' ),
@@ -833,7 +890,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'inline-edit-tax', 'inlineEditL10n', array(
+			'inline-edit-tax',
+			'inlineEditL10n',
+			array(
 				'error' => __( 'Error while saving the changes.' ),
 				'saved' => __( 'Changes saved.' ),
 			)
@@ -841,7 +900,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'jquery-ui-core', 'thickbox' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'plugin-install', 'plugininstallL10n', array(
+			'plugin-install',
+			'plugininstallL10n',
+			array(
 				'plugin_information' => __( 'Plugin:' ),
 				'plugin_modal_label' => __( 'Plugin details' ),
 				'ays'                => __( 'Are you sure you want to install this plugin?' ),
@@ -850,7 +911,9 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'updates', '_wpUpdatesSettings', array(
+			'updates',
+			'_wpUpdatesSettings',
+			array(
 				'ajax_nonce' => wp_create_nonce( 'updates' ),
 				'l10n'       => array(
 					/* translators: %s: Search string */
@@ -941,7 +1004,9 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'iris', '/wp-admin/js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), '1.0.7', 1 );
 		$scripts->add( 'wp-color-picker', "/wp-admin/js/color-picker$suffix.js", array( 'iris' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'wp-color-picker', 'wpColorPickerL10n', array(
+			'wp-color-picker',
+			'wpColorPickerL10n',
+			array(
 				'clear'            => __( 'Clear' ),
 				'clearAriaLabel'   => __( 'Clear color' ),
 				'defaultString'    => __( 'Default' ),
@@ -958,21 +1023,27 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media-grid', "/wp-includes/js/media-grid$suffix.js", array( 'media-editor' ), false, 1 );
 		$scripts->add( 'media', "/wp-admin/js/media$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'media', 'attachMediaBoxL10n', array(
+			'media',
+			'attachMediaBoxL10n',
+			array(
 				'error' => __( 'An error has occurred. Please reload the page and try again.' ),
 			)
 		);
 
 		$scripts->add( 'image-edit', "/wp-admin/js/image-edit$suffix.js", array( 'jquery', 'json2', 'imgareaselect' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'image-edit', 'imageEditL10n', array(
+			'image-edit',
+			'imageEditL10n',
+			array(
 				'error' => __( 'Could not load the preview image. Please reload the page and try again.' ),
 			)
 		);
 
 		$scripts->add( 'set-post-thumbnail', "/wp-admin/js/set-post-thumbnail$suffix.js", array( 'jquery' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
-			'set-post-thumbnail', 'setPostThumbnailL10n', array(
+			'set-post-thumbnail',
+			'setPostThumbnailL10n',
+			array(
 				'setThumbnail' => __( 'Use as featured image' ),
 				'saving'       => __( 'Saving...' ), // no ellipsis
 				'error'        => __( 'Could not set that as the thumbnail image. Try a different attachment.' ),
@@ -983,7 +1054,9 @@ function wp_default_scripts( &$scripts ) {
 		// Navigation Menus
 		$scripts->add( 'nav-menu', "/wp-admin/js/nav-menu$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-lists', 'postbox', 'json2' ) );
 		did_action( 'init' ) && $scripts->localize(
-			'nav-menu', 'navMenuL10n', array(
+			'nav-menu',
+			'navMenuL10n',
+			array(
 				'noResultsFound' => __( 'No results found.' ),
 				'warnDeleteMenu' => __( "You are about to permanently delete this menu. \n 'Cancel' to stop, 'OK' to delete." ),
 				'saveAlert'      => __( 'The changes you made will be lost if you navigate away from this page.' ),
@@ -1204,20 +1277,26 @@ function wp_prototype_before_jquery( $js_array ) {
 function wp_just_in_time_script_localization() {
 
 	wp_localize_script(
-		'autosave', 'autosaveL10n', array(
+		'autosave',
+		'autosaveL10n',
+		array(
 			'autosaveInterval' => AUTOSAVE_INTERVAL,
 			'blog_id'          => get_current_blog_id(),
 		)
 	);
 
 	wp_localize_script(
-		'mce-view', 'mceViewL10n', array(
+		'mce-view',
+		'mceViewL10n',
+		array(
 			'shortcodes' => ! empty( $GLOBALS['shortcode_tags'] ) ? array_keys( $GLOBALS['shortcode_tags'] ) : array(),
 		)
 	);
 
 	wp_localize_script(
-		'word-count', 'wordCountL10n', array(
+		'word-count',
+		'wordCountL10n',
+		array(
 			/*
 			 * translators: If your word count is based on single characters (e.g. East Asian characters),
 			 * enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
@@ -1326,7 +1405,9 @@ function wp_localize_community_events() {
 	$events_client = new WP_Community_Events( $user_id, $saved_location );
 
 	wp_localize_script(
-		'dashboard', 'communityEventsData', array(
+		'dashboard',
+		'communityEventsData',
+		array(
 			'nonce' => wp_create_nonce( 'community_events' ),
 			'cache' => $events_client->get_cached_events(),
 

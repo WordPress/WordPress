@@ -25,7 +25,8 @@ if ( post_password_required() ) {
 			<?php
 				printf(
 					_nx( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'comments title', 'twentythirteen' ),
-					number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>'
+					number_format_i18n( get_comments_number() ),
+					'<span>' . get_the_title() . '</span>'
 				);
 			?>
 		</h2>
@@ -45,7 +46,7 @@ if ( post_password_required() ) {
 		<?php
 			// Are there comments to navigate through?
 		if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
-		?>
+			?>
 		<nav class="navigation comment-navigation" role="navigation">
 		<h1 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'twentythirteen' ); ?></h1>
 		<div class="nav-previous"><?php previous_comments_link( __( '&larr; Older Comments', 'twentythirteen' ) ); ?></div>

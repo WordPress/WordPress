@@ -725,7 +725,8 @@ function switch_theme( $stylesheet ) {
 
 	if ( is_array( $_sidebars_widgets ) ) {
 		set_theme_mod(
-			'sidebars_widgets', array(
+			'sidebars_widgets',
+			array(
 				'time' => time(),
 				'data' => $_sidebars_widgets,
 			)
@@ -1677,11 +1678,11 @@ function _custom_background_cb() {
 
 		$style .= $image . $position . $size . $repeat . $attachment;
 	}
-?>
+	?>
 <style type="text/css" id="custom-background-css">
 body.custom-background { <?php echo trim( $style ); ?> }
 </style>
-<?php
+	<?php
 }
 
 /**
@@ -1692,11 +1693,11 @@ body.custom-background { <?php echo trim( $style ); ?> }
 function wp_custom_css_cb() {
 	$styles = wp_get_custom_css();
 	if ( $styles || is_customize_preview() ) :
-	?>
+		?>
 		<style type="text/css" id="wp-custom-css">
 			<?php echo strip_tags( $styles ); // Note that esc_html() cannot be used because `div &gt; span` is not interpreted properly. ?>
 		</style>
-	<?php
+		<?php
 	endif;
 }
 
@@ -1802,7 +1803,8 @@ function wp_get_custom_css( $stylesheet = '' ) {
  */
 function wp_update_custom_css_post( $css, $args = array() ) {
 	$args = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			'preprocessed' => '',
 			'stylesheet'   => get_stylesheet(),
 		)
@@ -2021,7 +2023,8 @@ function get_theme_starter_content() {
 				array(
 					'title'  => _x( 'Find Us', 'Theme starter content' ),
 					'text'   => join(
-						'', array(
+						'',
+						array(
 							'<strong>' . _x( 'Address', 'Theme starter content' ) . "</strong>\n",
 							_x( '123 Main Street', 'Theme starter content' ) . "\n" . _x( 'New York, NY 10001', 'Theme starter content' ) . "\n\n",
 							'<strong>' . _x( 'Hours', 'Theme starter content' ) . "</strong>\n",
@@ -2539,10 +2542,13 @@ function add_theme_support( $feature ) {
 			if ( did_action( 'wp_loaded' ) ) {
 				/* translators: 1: title-tag, 2: wp_loaded */
 				_doing_it_wrong(
-					"add_theme_support( 'title-tag' )", sprintf(
+					"add_theme_support( 'title-tag' )",
+					sprintf(
 						__( 'Theme support for %1$s should be registered before the %2$s hook.' ),
-						'<code>title-tag</code>', '<code>wp_loaded</code>'
-					), '4.1.0'
+						'<code>title-tag</code>',
+						'<code>wp_loaded</code>'
+					),
+					'4.1.0'
 				);
 
 				return false;
@@ -2613,7 +2619,7 @@ function _custom_logo_header_styles() {
 				clip: rect(1px, 1px, 1px, 1px);
 			}
 		</style>
-	<?php
+		<?php
 	}
 }
 

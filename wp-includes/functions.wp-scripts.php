@@ -39,13 +39,15 @@ function _wp_scripts_maybe_doing_it_wrong( $function ) {
 	}
 
 	_doing_it_wrong(
-		$function, sprintf(
+		$function,
+		sprintf(
 			/* translators: 1: wp_enqueue_scripts, 2: admin_enqueue_scripts, 3: login_enqueue_scripts */
 			__( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
 			'<code>wp_enqueue_scripts</code>',
 			'<code>admin_enqueue_scripts</code>',
 			'<code>login_enqueue_scripts</code>'
-		), '3.3.0'
+		),
+		'3.3.0'
 	);
 }
 
@@ -111,12 +113,14 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
 
 	if ( false !== stripos( $data, '</script>' ) ) {
 		_doing_it_wrong(
-			__FUNCTION__, sprintf(
+			__FUNCTION__,
+			sprintf(
 				/* translators: 1: <script>, 2: wp_add_inline_script() */
 				__( 'Do not pass %1$s tags to %2$s.' ),
 				'<code>&lt;script&gt;</code>',
 				'<code>wp_add_inline_script()</code>'
-			), '4.5.0'
+			),
+			'4.5.0'
 		);
 		$data = trim( preg_replace( '#<script[^>]*>(.*)</script>#is', '$1', $data ) );
 	}

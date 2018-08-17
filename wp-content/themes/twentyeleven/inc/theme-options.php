@@ -274,7 +274,7 @@ function twentyeleven_settings_field_color_scheme() {
 	$options = twentyeleven_get_theme_options();
 
 	foreach ( twentyeleven_color_schemes() as $scheme ) {
-	?>
+		?>
 	<div class="layout image-radio-option color-scheme">
 	<label class="description">
 		<input type="radio" name="twentyeleven_theme_options[color_scheme]" value="<?php echo esc_attr( $scheme['value'] ); ?>" <?php checked( $options['color_scheme'], $scheme['value'] ); ?> />
@@ -285,7 +285,7 @@ function twentyeleven_settings_field_color_scheme() {
 		</span>
 	</label>
 	</div>
-	<?php
+		<?php
 	}
 }
 
@@ -438,7 +438,7 @@ function twentyeleven_print_link_color_style() {
 	if ( $default_options['link_color'] == $link_color ) {
 		return;
 	}
-?>
+	?>
 	<style>
 		/* Link color */
 		a,
@@ -466,7 +466,7 @@ function twentyeleven_print_link_color_style() {
 			background-color: <?php echo $link_color; ?>;
 		}
 	</style>
-<?php
+	<?php
 }
 add_action( 'wp_head', 'twentyeleven_print_link_color_style' );
 
@@ -523,14 +523,16 @@ function twentyeleven_customize_register( $wp_customize ) {
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
 		$wp_customize->selective_refresh->add_partial(
-			'blogname', array(
+			'blogname',
+			array(
 				'selector'            => '#site-title a',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentyeleven_customize_partial_blogname',
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'blogdescription', array(
+			'blogdescription',
+			array(
 				'selector'            => '#site-description',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentyeleven_customize_partial_blogdescription',
@@ -542,7 +544,8 @@ function twentyeleven_customize_register( $wp_customize ) {
 	$defaults = twentyeleven_get_default_theme_options();
 
 	$wp_customize->add_setting(
-		'twentyeleven_theme_options[color_scheme]', array(
+		'twentyeleven_theme_options[color_scheme]',
+		array(
 			'default'    => $defaults['color_scheme'],
 			'type'       => 'option',
 			'capability' => 'edit_theme_options',
@@ -556,7 +559,8 @@ function twentyeleven_customize_register( $wp_customize ) {
 	}
 
 	$wp_customize->add_control(
-		'twentyeleven_color_scheme', array(
+		'twentyeleven_color_scheme',
+		array(
 			'label'    => __( 'Color Scheme', 'twentyeleven' ),
 			'section'  => 'colors',
 			'settings' => 'twentyeleven_theme_options[color_scheme]',
@@ -568,7 +572,8 @@ function twentyeleven_customize_register( $wp_customize ) {
 
 	// Link Color (added to Color Scheme section in Customizer)
 	$wp_customize->add_setting(
-		'twentyeleven_theme_options[link_color]', array(
+		'twentyeleven_theme_options[link_color]',
+		array(
 			'default'           => twentyeleven_get_default_link_color( $options['color_scheme'] ),
 			'type'              => 'option',
 			'sanitize_callback' => 'sanitize_hex_color',
@@ -578,7 +583,9 @@ function twentyeleven_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			$wp_customize, 'link_color', array(
+			$wp_customize,
+			'link_color',
+			array(
 				'label'    => __( 'Link Color', 'twentyeleven' ),
 				'section'  => 'colors',
 				'settings' => 'twentyeleven_theme_options[link_color]',
@@ -588,14 +595,16 @@ function twentyeleven_customize_register( $wp_customize ) {
 
 	// Default Layout
 	$wp_customize->add_section(
-		'twentyeleven_layout', array(
+		'twentyeleven_layout',
+		array(
 			'title'    => __( 'Layout', 'twentyeleven' ),
 			'priority' => 50,
 		)
 	);
 
 	$wp_customize->add_setting(
-		'twentyeleven_theme_options[theme_layout]', array(
+		'twentyeleven_theme_options[theme_layout]',
+		array(
 			'type'              => 'option',
 			'default'           => $defaults['theme_layout'],
 			'sanitize_callback' => 'sanitize_key',
@@ -609,7 +618,8 @@ function twentyeleven_customize_register( $wp_customize ) {
 	}
 
 	$wp_customize->add_control(
-		'twentyeleven_theme_options[theme_layout]', array(
+		'twentyeleven_theme_options[theme_layout]',
+		array(
 			'section' => 'twentyeleven_layout',
 			'type'    => 'radio',
 			'choices' => $choices,

@@ -173,7 +173,8 @@ Name: %3$s'
 				array(
 					'update' => 'added',
 					'id'     => $id,
-				), 'site-new.php'
+				),
+				'site-new.php'
 			)
 		);
 		exit;
@@ -212,13 +213,15 @@ if ( ! empty( $messages ) ) {
 	}
 }
 ?>
-<p><?php
+<p>
+<?php
 printf(
 	/* translators: %s: asterisk to mark required form fields. */
 	__( 'Required fields are marked %s' ),
 	'<span class="required">*</span>'
 );
-?></p>
+?>
+</p>
 <form method="post" action="<?php echo network_admin_url( 'site-new.php?action=add-site' ); ?>" novalidate="novalidate">
 <?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ); ?>
 	<table class="form-table">
@@ -227,15 +230,15 @@ printf(
 			<td>
 			<?php if ( is_subdomain_install() ) { ?>
 				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required /><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', get_network()->domain ); ?></span>
-			<?php
+				<?php
 } else {
 	echo get_network()->domain . get_network()->path
 	?>
 				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off" required />
-<?php
+	<?php
 }
 			echo '<p class="description" id="site-address-desc">' . __( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ) . '</p>';
-			?>
+?>
 			</td>
 		</tr>
 		<tr class="form-field form-required">

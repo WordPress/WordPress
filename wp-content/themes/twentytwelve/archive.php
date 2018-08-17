@@ -35,7 +35,7 @@ get_header(); ?>
 					else :
 						_e( 'Archives', 'twentytwelve' );
 					endif;
-				?>
+					?>
 				</h1>
 			</header><!-- .archive-header -->
 

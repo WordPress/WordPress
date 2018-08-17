@@ -381,7 +381,8 @@ function get_comment_count( $post_id = 0 ) {
 		FROM {$wpdb->comments}
 		{$where}
 		GROUP BY comment_approved
-	", ARRAY_A
+	",
+		ARRAY_A
 	);
 
 	$comment_count = array(
@@ -2520,7 +2521,8 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	}
 
 	$response = wp_safe_remote_head(
-		$url, array(
+		$url,
+		array(
 			'timeout'     => 2,
 			'httpversion' => '1.0',
 		)
@@ -2541,7 +2543,8 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 
 	// Now do a GET since we're going to look in the html headers (and we're sure it's not a binary file)
 	$response = wp_safe_remote_get(
-		$url, array(
+		$url,
+		array(
 			'timeout'     => 2,
 			'httpversion' => '1.0',
 		)
@@ -2656,7 +2659,9 @@ function do_trackbacks( $post_id ) {
 				$wpdb->query(
 					$wpdb->prepare(
 						"UPDATE $wpdb->posts SET to_ping = TRIM(REPLACE(to_ping, %s,
-					'')) WHERE ID = %d", $tb_ping, $post->ID
+					'')) WHERE ID = %d",
+						$tb_ping,
+						$post->ID
 					)
 				);
 			}

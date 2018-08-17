@@ -158,7 +158,7 @@ if ( $viewable ) {
 /* translators: Publish box date format, see https://secure.php.net/date */
 $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
 
-$messages['post'] = array(
+$messages['post']       = array(
 	0  => '', // Unused. Messages start at index 1.
 	1  => __( 'Post updated.' ) . $view_post_link_html,
 	2  => __( 'Custom field updated.' ),
@@ -172,7 +172,7 @@ $messages['post'] = array(
 	9  => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
 	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
 );
-$messages['page'] = array(
+$messages['page']       = array(
 	0  => '', // Unused. Messages start at index 1.
 	1  => __( 'Page updated.' ) . $view_page_link_html,
 	2  => __( 'Custom field updated.' ),
@@ -394,7 +394,8 @@ do_action( 'do_meta_boxes', $post_type, 'advanced', $post );
 do_action( 'do_meta_boxes', $post_type, 'side', $post );
 
 add_screen_option(
-	'layout_columns', array(
+	'layout_columns',
+	array(
 		'max'     => 2,
 		'default' => 2,
 	)
@@ -586,7 +587,7 @@ $referer = wp_get_referer();
 <input type="hidden" id="referredby" name="referredby" value="<?php echo $referer ? esc_url( $referer ) : ''; ?>" />
 <?php if ( ! empty( $active_post_lock ) ) { ?>
 <input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
-<?php
+	<?php
 }
 if ( 'draft' != get_post_status( $post ) ) {
 	wp_original_referer_field( true, 'previous' );
@@ -632,50 +633,50 @@ do_action( 'edit_form_top', $post );
 	<label class="screen-reader-text" id="title-prompt-text" for="title"><?php echo $title_placeholder; ?></label>
 	<input type="text" name="post_title" size="30" value="<?php echo esc_attr( $post->post_title ); ?>" id="title" spellcheck="true" autocomplete="off" />
 </div>
-<?php
-/**
- * Fires before the permalink field in the edit form.
- *
- * @since 4.1.0
- *
- * @param WP_Post $post Post object.
- */
-do_action( 'edit_form_before_permalink', $post );
-?>
+	<?php
+	/**
+	 * Fires before the permalink field in the edit form.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param WP_Post $post Post object.
+	 */
+	do_action( 'edit_form_before_permalink', $post );
+	?>
 <div class="inside">
-<?php
-if ( $viewable ) :
-	$sample_permalink_html = $post_type_object->public ? get_sample_permalink_html( $post->ID ) : '';
+	<?php
+	if ( $viewable ) :
+		$sample_permalink_html = $post_type_object->public ? get_sample_permalink_html( $post->ID ) : '';
 
-	// As of 4.4, the Get Shortlink button is hidden by default.
-	if ( has_filter( 'pre_get_shortlink' ) || has_filter( 'get_shortlink' ) ) {
-		$shortlink = wp_get_shortlink( $post->ID, 'post' );
+		// As of 4.4, the Get Shortlink button is hidden by default.
+		if ( has_filter( 'pre_get_shortlink' ) || has_filter( 'get_shortlink' ) ) {
+			$shortlink = wp_get_shortlink( $post->ID, 'post' );
 
-		if ( ! empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url( '?page_id=' . $post->ID ) ) {
-			$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr( $shortlink ) . '" /><button type="button" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val());">' . __( 'Get Shortlink' ) . '</button>';
+			if ( ! empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url( '?page_id=' . $post->ID ) ) {
+				$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr( $shortlink ) . '" /><button type="button" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val());">' . __( 'Get Shortlink' ) . '</button>';
+			}
 		}
-	}
 
-	if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) ) {
-		$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
-	?>
+		if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) ) {
+			$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
+			?>
 	<div id="edit-slug-box" class="hide-if-no-js">
-	<?php
-	if ( $has_sample_permalink ) {
-		echo $sample_permalink_html;
-	}
-	?>
+			<?php
+			if ( $has_sample_permalink ) {
+				echo $sample_permalink_html;
+			}
+			?>
 	</div>
-	<?php
-	}
+			<?php
+		}
 endif;
-?>
+	?>
 </div>
-<?php
-wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
-?>
+	<?php
+	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
+	?>
 </div><!-- /titlediv -->
-<?php
+	<?php
 }
 /**
  * Fires after the title field.
@@ -691,48 +692,50 @@ if ( post_type_supports( $post_type, 'editor' ) ) {
 	if ( $_wp_editor_expand ) {
 		$_wp_editor_expand_class = ' wp-editor-expand';
 	}
-?>
+	?>
 <div id="postdivrich" class="postarea<?php echo $_wp_editor_expand_class; ?>">
 
-<?php
-wp_editor(
-	$post->post_content, 'content', array(
-		'_content_editor_dfw' => $_content_editor_dfw,
-		'drag_drop_upload'    => true,
-		'tabfocus_elements'   => 'content-html,save-post',
-		'editor_height'       => 300,
-		'tinymce'             => array(
-			'resize'                  => false,
-			'wp_autoresize_on'        => $_wp_editor_expand,
-			'add_unload_trigger'      => false,
-			'wp_keep_scroll_position' => ! $is_IE,
-		),
-	)
-);
-?>
+	<?php
+	wp_editor(
+		$post->post_content,
+		'content',
+		array(
+			'_content_editor_dfw' => $_content_editor_dfw,
+			'drag_drop_upload'    => true,
+			'tabfocus_elements'   => 'content-html,save-post',
+			'editor_height'       => 300,
+			'tinymce'             => array(
+				'resize'                  => false,
+				'wp_autoresize_on'        => $_wp_editor_expand,
+				'add_unload_trigger'      => false,
+				'wp_keep_scroll_position' => ! $is_IE,
+			),
+		)
+	);
+	?>
 <table id="post-status-info"><tbody><tr>
 	<td id="wp-word-count" class="hide-if-no-js"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
-<?php
-if ( 'auto-draft' != $post->post_status ) {
-	echo '<span id="last-edit">';
-	if ( $last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) ) ) {
-		/* translators: 1: Name of most recent post author, 2: Post edited date, 3: Post edited time */
-		printf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
-	} else {
-		/* translators: 1: Post edited date, 2: Post edited time */
-		printf( __( 'Last edited on %1$s at %2$s' ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
+	<?php
+	if ( 'auto-draft' != $post->post_status ) {
+		echo '<span id="last-edit">';
+		if ( $last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) ) ) {
+			/* translators: 1: Name of most recent post author, 2: Post edited date, 3: Post edited time */
+			printf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
+		} else {
+			/* translators: 1: Post edited date, 2: Post edited time */
+			printf( __( 'Last edited on %1$s at %2$s' ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
+		}
+		echo '</span>';
 	}
-	echo '</span>';
-}
 	?>
 	</td>
 	<td id="content-resize-handle" class="hide-if-no-js"><br /></td>
 </tr></tbody></table>
 
 </div>
-<?php
+	<?php
 }
 /**
  * Fires after the content editor.

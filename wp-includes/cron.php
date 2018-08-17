@@ -692,7 +692,8 @@ function spawn_cron( $gmt_time = 0 ) {
 	 * @param string $doing_wp_cron The unix timestamp of the cron lock.
 	 */
 	$cron_request = apply_filters(
-		'cron_request', array(
+		'cron_request',
+		array(
 			'url'  => add_query_arg( 'doing_wp_cron', $doing_wp_cron, site_url( 'wp-cron.php' ) ),
 			'key'  => $doing_wp_cron,
 			'args' => array(
@@ -701,7 +702,8 @@ function spawn_cron( $gmt_time = 0 ) {
 				/** This filter is documented in wp-includes/class-wp-http-streams.php */
 				'sslverify' => apply_filters( 'https_local_ssl_verify', false ),
 			),
-		), $doing_wp_cron
+		),
+		$doing_wp_cron
 	);
 
 	$result = wp_remote_post( $cron_request['url'], $cron_request['args'] );

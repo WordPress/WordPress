@@ -645,7 +645,9 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 		case 'home': // DEPRECATED
 		case 'siteurl': // DEPRECATED
 			_deprecated_argument(
-				__FUNCTION__, '2.2.0', sprintf(
+				__FUNCTION__,
+				'2.2.0',
+				sprintf(
 					/* translators: 1: 'siteurl'/'home' argument, 2: bloginfo() function name, 3: 'url' argument */
 					__( 'The %1$s option is deprecated for the family of %2$s functions. Use the %3$s option instead.' ),
 					'<code>' . $show . '</code>',
@@ -722,7 +724,9 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			break;
 		case 'text_direction':
 			_deprecated_argument(
-				__FUNCTION__, '2.2.0', sprintf(
+				__FUNCTION__,
+				'2.2.0',
+				sprintf(
 					/* translators: 1: 'text_direction' argument, 2: bloginfo() function name, 3: is_rtl() function name */
 					__( 'The %1$s option is deprecated for the family of %2$s functions. Use the %3$s function instead.' ),
 					'<code>' . $show . '</code>',
@@ -1886,7 +1890,8 @@ function wp_get_archives( $args = '' ) {
 						array(
 							'm' => $arc_year,
 							'w' => $result->week,
-						), home_url( '/' )
+						),
+						home_url( '/' )
 					);
 					if ( 'post' !== $r['post_type'] ) {
 						$url = add_query_arg( 'post_type', $r['post_type'], $url );
@@ -2106,7 +2111,8 @@ function get_calendar( $initial = true, $echo = true ) {
 		"SELECT DISTINCT DAYOFMONTH(post_date)
 		FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
 		AND post_type = 'post' AND post_status = 'publish'
-		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'", ARRAY_N
+		AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'",
+		ARRAY_N
 	);
 	if ( $dayswithposts ) {
 		foreach ( (array) $dayswithposts as $daywith ) {
@@ -3359,7 +3365,8 @@ function wp_enqueue_code_editor( $args ) {
 
 	if ( 'text/css' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'css',
 				'lint'              => true,
 				'autoCloseBrackets' => true,
@@ -3368,7 +3375,8 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( 'text/x-scss' === $type || 'text/x-less' === $type || 'text/x-sass' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => $type,
 				'lint'              => false,
 				'autoCloseBrackets' => true,
@@ -3377,13 +3385,15 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( 'text/x-diff' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode' => 'diff',
 			)
 		);
 	} elseif ( 'text/html' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'htmlmixed',
 				'lint'              => true,
 				'autoCloseBrackets' => true,
@@ -3399,14 +3409,16 @@ function wp_enqueue_code_editor( $args ) {
 		}
 	} elseif ( 'text/x-gfm' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'                => 'gfm',
 				'highlightFormatting' => true,
 			)
 		);
 	} elseif ( 'application/javascript' === $type || 'text/javascript' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'javascript',
 				'lint'              => true,
 				'autoCloseBrackets' => true,
@@ -3415,7 +3427,8 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( false !== strpos( $type, 'json' ) ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => array(
 					'name' => 'javascript',
 				),
@@ -3431,7 +3444,8 @@ function wp_enqueue_code_editor( $args ) {
 		}
 	} elseif ( false !== strpos( $type, 'jsx' ) ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'jsx',
 				'autoCloseBrackets' => true,
 				'matchBrackets'     => true,
@@ -3439,20 +3453,23 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( 'text/x-markdown' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'                => 'markdown',
 				'highlightFormatting' => true,
 			)
 		);
 	} elseif ( 'text/nginx' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode' => 'nginx',
 			)
 		);
 	} elseif ( 'application/x-httpd-php' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'php',
 				'autoCloseBrackets' => true,
 				'autoCloseTags'     => true,
@@ -3464,7 +3481,8 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( 'text/x-sql' === $type || 'text/x-mysql' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'sql',
 				'autoCloseBrackets' => true,
 				'matchBrackets'     => true,
@@ -3472,7 +3490,8 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( false !== strpos( $type, 'xml' ) ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode'              => 'xml',
 				'autoCloseBrackets' => true,
 				'autoCloseTags'     => true,
@@ -3483,7 +3502,8 @@ function wp_enqueue_code_editor( $args ) {
 		);
 	} elseif ( 'text/x-yaml' === $type ) {
 		$settings['codemirror'] = array_merge(
-			$settings['codemirror'], array(
+			$settings['codemirror'],
+			array(
 				'mode' => 'yaml',
 			)
 		);
@@ -3973,7 +3993,8 @@ function register_admin_color_schemes() {
 	$suffix .= SCRIPT_DEBUG ? '' : '.min';
 
 	wp_admin_css_color(
-		'fresh', _x( 'Default', 'admin color scheme' ),
+		'fresh',
+		_x( 'Default', 'admin color scheme' ),
 		false,
 		array( '#222', '#333', '#0073aa', '#00a0d2' ),
 		array(
@@ -3989,7 +4010,8 @@ function register_admin_color_schemes() {
 	}
 
 	wp_admin_css_color(
-		'light', _x( 'Light', 'admin color scheme' ),
+		'light',
+		_x( 'Light', 'admin color scheme' ),
 		admin_url( "css/colors/light/colors$suffix.css" ),
 		array( '#e5e5e5', '#999', '#d64e07', '#04a4cc' ),
 		array(
@@ -4000,7 +4022,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'blue', _x( 'Blue', 'admin color scheme' ),
+		'blue',
+		_x( 'Blue', 'admin color scheme' ),
 		admin_url( "css/colors/blue/colors$suffix.css" ),
 		array( '#096484', '#4796b3', '#52accc', '#74B6CE' ),
 		array(
@@ -4011,7 +4034,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'midnight', _x( 'Midnight', 'admin color scheme' ),
+		'midnight',
+		_x( 'Midnight', 'admin color scheme' ),
 		admin_url( "css/colors/midnight/colors$suffix.css" ),
 		array( '#25282b', '#363b3f', '#69a8bb', '#e14d43' ),
 		array(
@@ -4022,7 +4046,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'sunrise', _x( 'Sunrise', 'admin color scheme' ),
+		'sunrise',
+		_x( 'Sunrise', 'admin color scheme' ),
 		admin_url( "css/colors/sunrise/colors$suffix.css" ),
 		array( '#b43c38', '#cf4944', '#dd823b', '#ccaf0b' ),
 		array(
@@ -4033,7 +4058,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'ectoplasm', _x( 'Ectoplasm', 'admin color scheme' ),
+		'ectoplasm',
+		_x( 'Ectoplasm', 'admin color scheme' ),
 		admin_url( "css/colors/ectoplasm/colors$suffix.css" ),
 		array( '#413256', '#523f6d', '#a3b745', '#d46f15' ),
 		array(
@@ -4044,7 +4070,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'ocean', _x( 'Ocean', 'admin color scheme' ),
+		'ocean',
+		_x( 'Ocean', 'admin color scheme' ),
 		admin_url( "css/colors/ocean/colors$suffix.css" ),
 		array( '#627c83', '#738e96', '#9ebaa0', '#aa9d88' ),
 		array(
@@ -4055,7 +4082,8 @@ function register_admin_color_schemes() {
 	);
 
 	wp_admin_css_color(
-		'coffee', _x( 'Coffee', 'admin color scheme' ),
+		'coffee',
+		_x( 'Coffee', 'admin color scheme' ),
 		admin_url( "css/colors/coffee/colors$suffix.css" ),
 		array( '#46403c', '#59524c', '#c7a589', '#9ea476' ),
 		array(

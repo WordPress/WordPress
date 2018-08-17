@@ -37,7 +37,7 @@ get_header(); ?>
 								'number'     => 10,
 							)
 						);
-?>
+						?>
 						</ul>
 					</div>
 
@@ -45,10 +45,12 @@ get_header(); ?>
 					/* translators: %1$s: smilie */
 					$archive_content = '<p>' . sprintf( __( 'Try looking in the monthly archives. %1$s', 'twentyeleven' ), convert_smilies( ':)' ) ) . '</p>';
 					the_widget(
-						'WP_Widget_Archives', array(
+						'WP_Widget_Archives',
+						array(
 							'count'    => 0,
 							'dropdown' => 1,
-						), array( 'after_title' => '</h2>' . $archive_content )
+						),
+						array( 'after_title' => '</h2>' . $archive_content )
 					);
 					?>
 

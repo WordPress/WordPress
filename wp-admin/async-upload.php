@@ -63,7 +63,8 @@ if ( isset( $_REQUEST['attachment_id'] ) && ( $id = intval( $_REQUEST['attachmen
 		case 2:
 			add_filter( 'attachment_fields_to_edit', 'media_single_attachment_fields_to_edit', 10, 2 );
 			echo get_media_item(
-				$id, array(
+				$id,
+				array(
 					'send'   => false,
 					'delete' => true,
 				)

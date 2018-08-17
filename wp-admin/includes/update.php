@@ -34,7 +34,8 @@ function get_core_updates( $options = array() ) {
 		array(
 			'available' => true,
 			'dismissed' => false,
-		), $options
+		),
+		$options
 	);
 	$dismissed = get_site_option( 'dismissed_update_core' );
 
@@ -549,7 +550,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 			'TB_iframe' => 'true',
 			'width'     => 1024,
 			'height'    => 800,
-		), $current->response[ $theme_key ]['url']
+		),
+		$current->response[ $theme_key ]['url']
 	);
 
 	/** @var WP_MS_Themes_List_Table $wp_list_table */

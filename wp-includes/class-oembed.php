@@ -451,7 +451,8 @@ class WP_oEmbed {
 			 *                         used by at least Vimeo).
 			 */
 			$linktypes = apply_filters(
-				'oembed_linktypes', array(
+				'oembed_linktypes',
+				array(
 					'application/json+oembed' => 'json',
 					'text/xml+oembed'         => 'xml',
 					'application/xml+oembed'  => 'xml',

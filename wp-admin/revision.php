@@ -63,7 +63,8 @@ switch ( $action ) {
 			array(
 				'message'  => 5,
 				'revision' => $revision->ID,
-			), get_edit_post_link( $post->ID, 'url' )
+			),
+			get_edit_post_link( $post->ID, 'url' )
 		);
 		break;
 	case 'view':

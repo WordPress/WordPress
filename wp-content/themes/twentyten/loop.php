@@ -58,9 +58,9 @@
 <?php
 while ( have_posts() ) :
 	the_post();
-?>
+	?>
 
-<?php /* How to display posts of the Gallery format. The gallery category is the old way. */ ?>
+	<?php /* How to display posts of the Gallery format. The gallery category is the old way. */ ?>
 
 	<?php if ( ( function_exists( 'get_post_format' ) && 'gallery' == get_post_format( $post->ID ) ) || in_category( _x( 'gallery', 'gallery category slug', 'twentyten' ) ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -71,7 +71,7 @@ while ( have_posts() ) :
 			</div><!-- .entry-meta -->
 
 			<div class="entry-content">
-<?php if ( post_password_required() ) : ?>
+		<?php if ( post_password_required() ) : ?>
 				<?php the_content(); ?>
 <?php else : ?>
 				<?php
@@ -79,7 +79,7 @@ while ( have_posts() ) :
 				if ( $images ) :
 					$total_images = count( $images );
 					$image        = reset( $images );
-				?>
+					?>
 					<div class="gallery-thumb">
 						<a class="size-thumbnail" href="<?php the_permalink(); ?>"><?php echo wp_get_attachment_image( $image, 'thumbnail' ); ?></a>
 					</div><!-- .gallery-thumb -->
@@ -90,7 +90,7 @@ while ( have_posts() ) :
 							'href="' . esc_url( get_permalink() ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark"',
 							number_format_i18n( $total_images )
 						);
-							?>
+					?>
 							</em></p>
 				<?php endif; // end twentyten_get_gallery_images() check ?>
 						<?php the_excerpt(); ?>
@@ -110,7 +110,7 @@ while ( have_posts() ) :
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
 
-<?php /* How to display posts of the Aside format. The asides category is the old way. */ ?>
+		<?php /* How to display posts of the Aside format. The asides category is the old way. */ ?>
 
 	<?php elseif ( ( function_exists( 'get_post_format' ) && 'aside' == get_post_format( $post->ID ) ) || in_category( _x( 'asides', 'asides category slug', 'twentyten' ) ) ) : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -133,7 +133,7 @@ while ( have_posts() ) :
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
 
-<?php /* How to display all other posts. */ ?>
+	<?php /* How to display all other posts. */ ?>
 
 	<?php else : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -157,7 +157,7 @@ while ( have_posts() ) :
 						'after'  => '</div>',
 					)
 				);
-?>
+				?>
 			</div><!-- .entry-content -->
 	<?php endif; ?>
 
@@ -171,7 +171,7 @@ while ( have_posts() ) :
 				<?php
 					$tags_list = get_the_tag_list( '', ', ' );
 				if ( $tags_list ) :
-				?>
+					?>
 				<span class="tag-links">
 					<?php printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyten' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list ); ?>
 				</span>

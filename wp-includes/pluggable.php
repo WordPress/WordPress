@@ -1336,7 +1336,7 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 	 * @param string $location      The path or URL to redirect to.
 	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
 	 * @param string $x_redirect_by Optional. The application doing the redirect. Default 'WordPress'.
- 	 * @return bool  $redirect False if the redirect was cancelled, true otherwise.
+	 * @return bool  $redirect False if the redirect was cancelled, true otherwise.
 	 */
 	function wp_safe_redirect( $location, $status = 302, $x_redirect_by = 'WordPress' ) {
 
@@ -1753,8 +1753,10 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 		$notify_message .= sprintf(
 			_n(
 				'Currently %s comment is waiting for approval. Please visit the moderation panel:',
-				'Currently %s comments are waiting for approval. Please visit the moderation panel:', $comments_waiting
-			), number_format_i18n( $comments_waiting )
+				'Currently %s comments are waiting for approval. Please visit the moderation panel:',
+				$comments_waiting
+			),
+			number_format_i18n( $comments_waiting )
 		) . "\r\n";
 		$notify_message .= admin_url( 'edit-comments.php?comment_status=moderated#wpbody-content' ) . "\r\n";
 
@@ -2489,10 +2491,12 @@ if ( ! function_exists( 'wp_set_password' ) ) :
 
 		$hash = wp_hash_password( $password );
 		$wpdb->update(
-			$wpdb->users, array(
+			$wpdb->users,
+			array(
 				'user_pass'           => $hash,
 				'user_activation_key' => '',
-			), array( 'ID' => $user_id )
+			),
+			array( 'ID' => $user_id )
 		);
 
 		wp_cache_delete( $user_id, 'users' );

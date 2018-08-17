@@ -27,7 +27,9 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 	 */
 	public function __construct( $manager ) {
 		parent::__construct(
-			$manager, 'background_image', array(
+			$manager,
+			'background_image',
+			array(
 				'label'   => __( 'Background Image' ),
 				'section' => 'background_image',
 			)
@@ -44,7 +46,9 @@ class WP_Customize_Background_Image_Control extends WP_Customize_Image_Control {
 
 		$custom_background = get_theme_support( 'custom-background' );
 		wp_localize_script(
-			'customize-controls', '_wpCustomizeBackground', array(
+			'customize-controls',
+			'_wpCustomizeBackground',
+			array(
 				'defaults' => ! empty( $custom_background[0] ) ? $custom_background[0] : array(),
 				'nonces'   => array(
 					'add' => wp_create_nonce( 'background-add' ),

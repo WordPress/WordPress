@@ -1183,7 +1183,8 @@ class WP_Rewrite {
 					if ( ! $page ) {
 						// Require <permalink>/attachment/stuff form for pages because of confusion with subpages.
 						$rewrite = array_merge(
-							$rewrite, array(
+							$rewrite,
+							array(
 								$sub1        => $subquery,
 								$sub1tb      => $subtbquery,
 								$sub1feed    => $subfeedquery,
@@ -1202,7 +1203,8 @@ class WP_Rewrite {
 							$sub2feed2   => $subfeedquery,
 							$sub2comment => $subcommentquery,
 							$sub2embed   => $subembedquery,
-						), $rewrite
+						),
+						$rewrite
 					);
 				}
 			}

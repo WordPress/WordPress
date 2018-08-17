@@ -299,9 +299,9 @@ function wp_widget_control( $sidebar_args ) {
 	</div>
 
 	<div class="widget-description">
-<?php echo ( $widget_description = wp_widget_description( $widget_id ) ) ? "$widget_description\n" : "$widget_title\n"; ?>
+	<?php echo ( $widget_description = wp_widget_description( $widget_id ) ) ? "$widget_description\n" : "$widget_title\n"; ?>
 	</div>
-<?php
+	<?php
 	echo $sidebar_args['after_widget'];
 
 	return $sidebar_args;

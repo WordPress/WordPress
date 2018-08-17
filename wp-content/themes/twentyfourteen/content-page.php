@@ -28,6 +28,6 @@
 			);
 
 			edit_post_link( __( 'Edit', 'twentyfourteen' ), '<span class="edit-link">', '</span>' );
-		?>
+			?>
 	</div><!-- .entry-content -->
 </article><!-- #post-## -->

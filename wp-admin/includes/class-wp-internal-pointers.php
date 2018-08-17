@@ -180,8 +180,8 @@ final class WP_Internal_Pointers {
 		}
 
 		$js_args = array(
-			'content'  => $content,
-			'position' => $position,
+			'content'      => $content,
+			'position'     => $position,
 			'pointerClass' => 'wp-pointer arrow-bottom',
 			'pointerWidth' => 420,
 		);

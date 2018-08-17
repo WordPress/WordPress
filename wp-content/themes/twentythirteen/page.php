@@ -20,7 +20,7 @@ get_header(); ?>
 			<?php
 			while ( have_posts() ) :
 				the_post();
-?>
+				?>
 
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<header class="entry-header">
@@ -44,7 +44,7 @@ get_header(); ?>
 								'link_after'  => '</span>',
 							)
 						);
-?>
+						?>
 					</div><!-- .entry-content -->
 
 					<footer class="entry-meta">

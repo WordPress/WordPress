@@ -22,7 +22,7 @@ get_header(); ?>
 			// Start the loop.
 			while ( have_posts() ) :
 				the_post();
-			?>
+				?>
 
 				<?php
 				/*

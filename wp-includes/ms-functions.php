@@ -498,7 +498,7 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 		$limited_email_domains = array_map( 'strtolower', $limited_email_domains );
-		$emaildomain = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
+		$emaildomain           = strtolower( substr( $user_email, 1 + strpos( $user_email, '@' ) ) );
 		if ( ! in_array( $emaildomain, $limited_email_domains, true ) ) {
 			$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!' ) );
 		}
@@ -692,7 +692,8 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		// If registered more than two days ago, cancel registration and let this signup go through.
 		if ( $diff > 2 * DAY_IN_SECONDS ) {
 			$wpdb->delete(
-				$wpdb->signups, array(
+				$wpdb->signups,
+				array(
 					'domain' => $mydomain,
 					'path'   => $path,
 				)
@@ -767,7 +768,8 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 	$meta = apply_filters( 'signup_site_meta', $meta, $domain, $path, $title, $user, $user_email, $key );
 
 	$wpdb->insert(
-		$wpdb->signups, array(
+		$wpdb->signups,
+		array(
 			'domain'         => $domain,
 			'path'           => $path,
 			'title'          => $title,
@@ -832,7 +834,8 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	$meta = apply_filters( 'signup_user_meta', $meta, $user, $user_email, $key );
 
 	$wpdb->insert(
-		$wpdb->signups, array(
+		$wpdb->signups,
+		array(
 			'domain'         => '',
 			'path'           => '',
 			'title'          => '',
@@ -938,7 +941,13 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		apply_filters(
 			'wpmu_signup_blog_notification_email',
 			__( "To activate your blog, please click the following link:\n\n%1\$s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%2\$s" ),
-			$domain, $path, $title, $user_login, $user_email, $key, $meta
+			$domain,
+			$path,
+			$title,
+			$user_login,
+			$user_email,
+			$key,
+			$meta
 		),
 		$activate_url,
 		esc_url( "http://{$domain}{$path}" ),
@@ -964,7 +973,13 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 			'wpmu_signup_blog_notification_subject',
 			/* translators: New site notification email subject. 1: Network name, 2: New site URL */
 			_x( '[%1$s] Activate %2$s', 'New site notification email subject' ),
-			$domain, $path, $title, $user_login, $user_email, $key, $meta
+			$domain,
+			$path,
+			$title,
+			$user_login,
+			$user_email,
+			$key,
+			$meta
 		),
 		$from_name,
 		esc_url( 'http://' . $domain . $path )
@@ -1042,7 +1057,10 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		apply_filters(
 			'wpmu_signup_user_notification_email',
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
-			$user_login, $user_email, $key, $meta
+			$user_login,
+			$user_email,
+			$key,
+			$meta
 		),
 		site_url( "wp-activate.php?key=$key" )
 	);
@@ -1063,7 +1081,10 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 			'wpmu_signup_user_notification_subject',
 			/* translators: New user notification email subject. 1: Network name, 2: New user login */
 			_x( '[%1$s] Activate %2$s', 'New user notification email subject' ),
-			$user_login, $user_email, $key, $meta
+			$user_login,
+			$user_email,
+			$key,
+			$meta
 		),
 		$from_name,
 		$user_login
@@ -1128,10 +1149,12 @@ function wpmu_activate_signup( $key ) {
 
 	if ( empty( $signup->domain ) ) {
 		$wpdb->update(
-			$wpdb->signups, array(
+			$wpdb->signups,
+			array(
 				'active'    => 1,
 				'activated' => $now,
-			), array( 'activation_key' => $key )
+			),
+			array( 'activation_key' => $key )
 		);
 
 		if ( isset( $user_already_exists ) ) {
@@ -1164,20 +1187,24 @@ function wpmu_activate_signup( $key ) {
 		if ( 'blog_taken' == $blog_id->get_error_code() ) {
 			$blog_id->add_data( $signup );
 			$wpdb->update(
-				$wpdb->signups, array(
+				$wpdb->signups,
+				array(
 					'active'    => 1,
 					'activated' => $now,
-				), array( 'activation_key' => $key )
+				),
+				array( 'activation_key' => $key )
 			);
 		}
 		return $blog_id;
 	}
 
 	$wpdb->update(
-		$wpdb->signups, array(
+		$wpdb->signups,
+		array(
 			'active'    => 1,
 			'activated' => $now,
-		), array( 'activation_key' => $key )
+		),
+		array( 'activation_key' => $key )
 	);
 	/**
 	 * Fires immediately after a site is activated.
@@ -1385,7 +1412,11 @@ URL: %2$s
 Remote IP address: %3$s
 
 Disable these notifications: %4$s'
-		), $blogname, $siteurl, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url
+		),
+		$blogname,
+		$siteurl,
+		wp_unslash( $_SERVER['REMOTE_ADDR'] ),
+		$options_site_url
 	);
 	/**
 	 * Filters the message body of the new site activation email sent
@@ -1433,7 +1464,10 @@ function newuser_notify_siteadmin( $user_id ) {
 Remote IP address: %2$s
 
 Disable these notifications: %3$s'
-		), $user->user_login, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url
+		),
+		$user->user_login,
+		wp_unslash( $_SERVER['REMOTE_ADDR'] ),
+		$options_site_url
 	);
 
 	/**
@@ -2001,7 +2035,8 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	$user = get_userdata( (int) $user_id );
 	if ( $user ) {
 		$wpdb->insert(
-			$wpdb->registration_log, array(
+			$wpdb->registration_log,
+			array(
 				'email'           => $user->user_email,
 				'IP'              => preg_replace( '/[^0-9., ]/', '', wp_unslash( $_SERVER['REMOTE_ADDR'] ) ),
 				'blog_id'         => $blog_id,
@@ -2050,7 +2085,8 @@ function global_terms( $term_id, $deprecated = '' ) {
 		$used_global_id = $wpdb->get_var( $wpdb->prepare( "SELECT cat_ID FROM $wpdb->sitecategories WHERE cat_ID = %d", $c->term_id ) );
 		if ( null == $used_global_id ) {
 			$wpdb->insert(
-				$wpdb->sitecategories, array(
+				$wpdb->sitecategories,
+				array(
 					'cat_ID'            => $term_id,
 					'cat_name'          => $c->name,
 					'category_nicename' => $c->slug,
@@ -2065,7 +2101,8 @@ function global_terms( $term_id, $deprecated = '' ) {
 			$max_local_id  = $wpdb->get_var( "SELECT MAX(term_id) FROM $wpdb->terms" );
 			$new_global_id = max( $max_global_id, $max_local_id ) + mt_rand( 100, 400 );
 			$wpdb->insert(
-				$wpdb->sitecategories, array(
+				$wpdb->sitecategories,
+				array(
 					'cat_ID'            => $new_global_id,
 					'cat_name'          => $c->name,
 					'category_nicename' => $c->slug,
@@ -2890,9 +2927,12 @@ All at ###SITENAME###
 	$email_change_email['message'] = str_replace( '###SITEURL###', home_url(), $email_change_email['message'] );
 
 	wp_mail(
-		$email_change_email['to'], sprintf(
+		$email_change_email['to'],
+		sprintf(
 			$email_change_email['subject'],
 			$network_name
-		), $email_change_email['message'], $email_change_email['headers']
+		),
+		$email_change_email['message'],
+		$email_change_email['headers']
 	);
 }

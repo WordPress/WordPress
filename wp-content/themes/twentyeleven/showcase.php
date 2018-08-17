@@ -28,15 +28,15 @@ get_header(); ?>
 					the_post();
 					?>
 
-				<?php
+					<?php
 					/*
 					 * We are using a heading by rendering the_content
 					 * If we have content for this page, let's display it.
 					 */
-				if ( '' != get_the_content() ) {
-					get_template_part( 'content', 'intro' );
-				}
-				?>
+					if ( '' != get_the_content() ) {
+						get_template_part( 'content', 'intro' );
+					}
+					?>
 
 				<?php endwhile; ?>
 
@@ -77,88 +77,88 @@ get_header(); ?>
 						} else {
 							$header_image_width = HEADER_IMAGE_WIDTH;
 						}
-					?>
+						?>
 
 					<div class="featured-posts">
 					<h1 class="showcase-heading"><?php _e( 'Featured Post', 'twentyeleven' ); ?></h1>
 
-				<?php
-				// Let's roll.
-				while ( $featured->have_posts() ) :
-					$featured->the_post();
+						<?php
+						// Let's roll.
+						while ( $featured->have_posts() ) :
+							$featured->the_post();
 
-					// Increase the counter.
-					$counter_slider++;
+							// Increase the counter.
+							$counter_slider++;
 
-					/*
-					* We're going to add a class to our featured post for featured images
-					* by default it'll have the feature-text class.
-					*/
-					$feature_class = 'feature-text';
+							/*
+							* We're going to add a class to our featured post for featured images
+							* by default it'll have the feature-text class.
+							*/
+							$feature_class = 'feature-text';
 
-					if ( has_post_thumbnail() ) {
-						// ... but if it has a featured image let's add some class
-						$feature_class = 'feature-image small';
+							if ( has_post_thumbnail() ) {
+								// ... but if it has a featured image let's add some class
+								$feature_class = 'feature-image small';
 
-						// Hang on. Let's check this here image out.
-						$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array( $header_image_width, $header_image_width ) );
+								// Hang on. Let's check this here image out.
+								$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array( $header_image_width, $header_image_width ) );
 
-						// Is it bigger than or equal to our header?
-						if ( $image[1] >= $header_image_width ) {
-							// If bigger, let's add a BIGGER class. It's EXTRA classy now.
-							$feature_class = 'feature-image large';
-						}
-					}
-					?>
+								// Is it bigger than or equal to our header?
+								if ( $image[1] >= $header_image_width ) {
+									// If bigger, let's add a BIGGER class. It's EXTRA classy now.
+									$feature_class = 'feature-image large';
+								}
+							}
+							?>
 
 					<section class="featured-post <?php echo esc_attr( $feature_class ); ?>" id="featured-post-<?php echo esc_attr( $counter_slider ); ?>">
 
-					<?php
-						/*
-						 * If the thumbnail is as big as the header image
-						 * make it a large featured post, otherwise render it small
-						 */
-					if ( has_post_thumbnail() ) {
-						if ( $image[1] >= $header_image_width ) {
-							$thumbnail_size = 'large-feature';
-						} else {
-							$thumbnail_size = 'small-feature';
-						}
-						?>
-						<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
 							<?php
-					}
-						?>
-						<?php get_template_part( 'content', 'featured' ); ?>
+								/*
+								 * If the thumbnail is as big as the header image
+								 * make it a large featured post, otherwise render it small
+								 */
+							if ( has_post_thumbnail() ) {
+								if ( $image[1] >= $header_image_width ) {
+									$thumbnail_size = 'large-feature';
+								} else {
+									$thumbnail_size = 'small-feature';
+								}
+								?>
+						<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
+								<?php
+							}
+							?>
+							<?php get_template_part( 'content', 'featured' ); ?>
 					</section>
-				<?php endwhile; ?>
+						<?php endwhile; ?>
 
-					<?php
-					// Show slider only if we have more than one featured post.
-					if ( $featured->post_count > 1 ) :
-					?>
+						<?php
+						// Show slider only if we have more than one featured post.
+						if ( $featured->post_count > 1 ) :
+							?>
 					<nav class="feature-slider">
 					<ul>
-					<?php
+							<?php
 
-					// Reset the counter so that we end up with matching elements
-					$counter_slider = 0;
+							// Reset the counter so that we end up with matching elements
+							$counter_slider = 0;
 
-					// Begin from zero
-					rewind_posts();
+							// Begin from zero
+							rewind_posts();
 
-					// Let's roll again.
-					while ( $featured->have_posts() ) :
-						$featured->the_post();
-						$counter_slider++;
-						if ( 1 == $counter_slider ) {
-							$class = ' class="active"';
-						} else {
-							$class = '';
-						}
-					?>
+							// Let's roll again.
+							while ( $featured->have_posts() ) :
+								$featured->the_post();
+								$counter_slider++;
+								if ( 1 == $counter_slider ) {
+									$class = ' class="active"';
+								} else {
+									$class = '';
+								}
+								?>
 					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>" title="<?php echo esc_attr( sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>"<?php echo $class; ?>></a></li>
-					<?php endwhile; ?>
+						<?php endwhile; ?>
 					</ul>
 					</nav>
 					<?php endif; // End check for more than one sticky post. ?>
@@ -206,7 +206,7 @@ get_header(); ?>
 					// For all other recent posts, just display the title and comment status.
 					while ( $recent->have_posts() ) :
 						$recent->the_post();
-					?>
+						?>
 
 						<li class="entry-title">
 							<a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
@@ -215,7 +215,7 @@ get_header(); ?>
 							</span>
 						</li>
 
-					<?php
+						<?php
 					endwhile;
 
 					// If we had some posts, close the <ol>
@@ -230,7 +230,9 @@ get_header(); ?>
 
 						<?php
 						the_widget(
-							'Twenty_Eleven_Ephemera_Widget', '', array(
+							'Twenty_Eleven_Ephemera_Widget',
+							'',
+							array(
 								'before_title' => '<h3 class="widget-title">',
 								'after_title'  => '</h3>',
 							)

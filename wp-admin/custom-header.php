@@ -380,7 +380,7 @@ class Custom_Image_Header {
 	});
 })(jQuery);
 </script>
-<?php
+		<?php
 	}
 
 	/**
@@ -390,7 +390,7 @@ class Custom_Image_Header {
 	 */
 	public function js_2() {
 
-	?>
+		?>
 <script type="text/javascript">
 	function onEndCrop( coords ) {
 		jQuery( '#x1' ).val(coords.x);
@@ -426,19 +426,19 @@ class Custom_Image_Header {
 			y2: yinit,
 			<?php
 			if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
-			?>
+				?>
 			aspectRatio: xinit + ':' + yinit,
-			<?php
+				<?php
 			}
 			if ( ! current_theme_supports( 'custom-header', 'flex-height' ) ) {
-			?>
+				?>
 			maxHeight: <?php echo get_theme_support( 'custom-header', 'height' ); ?>,
-			<?php
+				<?php
 			}
 			if ( ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
-			?>
+				?>
 			maxWidth: <?php echo get_theme_support( 'custom-header', 'width' ); ?>,
-			<?php
+				<?php
 			}
 			?>
 			onInit: function () {
@@ -454,7 +454,7 @@ class Custom_Image_Header {
 		});
 	});
 </script>
-<?php
+		<?php
 	}
 
 	/**
@@ -464,153 +464,154 @@ class Custom_Image_Header {
 	 */
 	public function step_1() {
 		$this->process_default_headers();
-?>
+		?>
 
 <div class="wrap">
 <h1><?php _e( 'Custom Header' ); ?></h1>
 
-<?php if ( current_user_can( 'customize' ) ) { ?>
+		<?php if ( current_user_can( 'customize' ) ) { ?>
 <div class="notice notice-info hide-if-no-customize">
 	<p>
-		<?php
-		printf(
-			__( 'You can now manage and live-preview Custom Header in the <a href="%1$s">Customizer</a>.' ),
-			admin_url( 'customize.php?autofocus[control]=header_image' )
-		);
-		?>
+			<?php
+				printf(
+					__( 'You can now manage and live-preview Custom Header in the <a href="%1$s">Customizer</a>.' ),
+					admin_url( 'customize.php?autofocus[control]=header_image' )
+				);
+			?>
 	</p>
 </div>
-<?php } ?>
+		<?php } ?>
 
-<?php if ( ! empty( $this->updated ) ) { ?>
+		<?php if ( ! empty( $this->updated ) ) { ?>
 <div id="message" class="updated">
 <p><?php printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) ); ?></p>
 </div>
-<?php } ?>
+		<?php } ?>
 
 <h3><?php _e( 'Header Image' ); ?></h3>
 
 <table class="form-table">
 <tbody>
 
-<?php if ( get_custom_header() || display_header_text() ) : ?>
+		<?php if ( get_custom_header() || display_header_text() ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Preview' ); ?></th>
 <td>
-	<?php
-	if ( $this->admin_image_div_callback ) {
-		call_user_func( $this->admin_image_div_callback );
-	} else {
-		$custom_header = get_custom_header();
-		$header_image  = get_header_image();
+			<?php
+			if ( $this->admin_image_div_callback ) {
+				call_user_func( $this->admin_image_div_callback );
+			} else {
+				$custom_header = get_custom_header();
+				$header_image  = get_header_image();
 
-		if ( $header_image ) {
-			$header_image_style = 'background-image:url(' . esc_url( $header_image ) . ');';
-		} else {
-			$header_image_style = '';
-		}
+				if ( $header_image ) {
+					$header_image_style = 'background-image:url(' . esc_url( $header_image ) . ');';
+				} else {
+					$header_image_style = '';
+				}
 
-		if ( $custom_header->width ) {
-			$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
-		}
-		if ( $custom_header->height ) {
-			$header_image_style .= 'height:' . $custom_header->height . 'px;';
-		}
-	?>
+				if ( $custom_header->width ) {
+					$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
+				}
+				if ( $custom_header->height ) {
+					$header_image_style .= 'height:' . $custom_header->height . 'px;';
+				}
+				?>
 	<div id="headimg" style="<?php echo $header_image_style; ?>">
-		<?php
-		if ( display_header_text() ) {
-			$style = ' style="color:#' . get_header_textcolor() . ';"';
-		} else {
-			$style = ' style="display:none;"';
-		}
-		?>
+				<?php
+				if ( display_header_text() ) {
+					$style = ' style="color:#' . get_header_textcolor() . ';"';
+				} else {
+					$style = ' style="display:none;"';
+				}
+				?>
 		<h1><a id="name" class="displaying-header-text" <?php echo $style; ?> onclick="return false;" href="<?php bloginfo( 'url' ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 		<div id="desc" class="displaying-header-text" <?php echo $style; ?>><?php bloginfo( 'description' ); ?></div>
 	</div>
-	<?php } ?>
+			<?php } ?>
 </td>
 </tr>
-<?php endif; ?>
+		<?php endif; ?>
 
-<?php if ( current_user_can( 'upload_files' ) && current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
+		<?php if ( current_user_can( 'upload_files' ) && current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Select Image' ); ?></th>
 <td>
 	<p><?php _e( 'You can select an image to be shown at the top of your site by uploading from your computer or choosing from your media library. After selecting an image you will be able to crop it.' ); ?><br />
-	<?php
-	if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
-		printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
-	} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
-		if ( ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
-			printf(
-				/* translators: %s: size in pixels */
-				__( 'Images should be at least %s wide.' ) . ' ',
-				sprintf(
-					/* translators: %d: custom header width */
-					'<strong>' . __( '%d pixels' ) . '</strong>',
-					get_theme_support( 'custom-header', 'width' )
-				)
-			);
-		}
-	} elseif ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
-		if ( ! current_theme_supports( 'custom-header', 'flex-height' ) ) {
-			printf(
-				/* translators: %s: size in pixels */
-				__( 'Images should be at least %s tall.' ) . ' ',
-				sprintf(
-					/* translators: %d: custom header height */
-					'<strong>' . __( '%d pixels' ) . '</strong>',
-					get_theme_support( 'custom-header', 'height' )
-				)
-			);
-		}
-	}
-	if ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) {
-		if ( current_theme_supports( 'custom-header', 'width' ) ) {
-			printf(
-				/* translators: %s: size in pixels */
-				__( 'Suggested width is %s.' ) . ' ',
-				sprintf(
-					/* translators: %d: custom header width */
-					'<strong>' . __( '%d pixels' ) . '</strong>',
-					get_theme_support( 'custom-header', 'width' )
-				)
-			);
-		}
-		if ( current_theme_supports( 'custom-header', 'height' ) ) {
-			printf(
-				/* translators: %s: size in pixels */
-				__( 'Suggested height is %s.' ) . ' ',
-				sprintf(
-					/* translators: %d: custom header height */
-					'<strong>' . __( '%d pixels' ) . '</strong>',
-					get_theme_support( 'custom-header', 'height' )
-				)
-			);
-		}
-	}
-	?>
+			<?php
+			if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
+				printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
+			} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
+				if ( ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
+					printf(
+						/* translators: %s: size in pixels */
+						__( 'Images should be at least %s wide.' ) . ' ',
+						sprintf(
+							/* translators: %d: custom header width */
+							'<strong>' . __( '%d pixels' ) . '</strong>',
+							get_theme_support( 'custom-header', 'width' )
+						)
+					);
+				}
+			} elseif ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
+				if ( ! current_theme_supports( 'custom-header', 'flex-height' ) ) {
+					printf(
+						/* translators: %s: size in pixels */
+						__( 'Images should be at least %s tall.' ) . ' ',
+						sprintf(
+							/* translators: %d: custom header height */
+							'<strong>' . __( '%d pixels' ) . '</strong>',
+							get_theme_support( 'custom-header', 'height' )
+						)
+					);
+				}
+			}
+			if ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) {
+				if ( current_theme_supports( 'custom-header', 'width' ) ) {
+					printf(
+						/* translators: %s: size in pixels */
+						__( 'Suggested width is %s.' ) . ' ',
+						sprintf(
+							/* translators: %d: custom header width */
+							'<strong>' . __( '%d pixels' ) . '</strong>',
+							get_theme_support( 'custom-header', 'width' )
+						)
+					);
+				}
+				if ( current_theme_supports( 'custom-header', 'height' ) ) {
+					printf(
+						/* translators: %s: size in pixels */
+						__( 'Suggested height is %s.' ) . ' ',
+						sprintf(
+							/* translators: %d: custom header height */
+							'<strong>' . __( '%d pixels' ) . '</strong>',
+							get_theme_support( 'custom-header', 'height' )
+						)
+					);
+				}
+			}
+			?>
 	</p>
 	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_url( add_query_arg( 'step', 2 ) ); ?>">
 	<p>
 		<label for="upload"><?php _e( 'Choose an image from your computer:' ); ?></label><br />
 		<input type="file" id="upload" name="import" />
 		<input type="hidden" name="action" value="save" />
-		<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ); ?>
-		<?php submit_button( __( 'Upload' ), '', 'submit', false ); ?>
+			<?php wp_nonce_field( 'custom-header-upload', '_wpnonce-custom-header-upload' ); ?>
+			<?php submit_button( __( 'Upload' ), '', 'submit', false ); ?>
 	</p>
-	<?php
-		$modal_update_href = esc_url(
-			add_query_arg(
-				array(
-					'page'                          => 'custom-header',
-					'step'                          => 2,
-					'_wpnonce-custom-header-upload' => wp_create_nonce( 'custom-header-upload' ),
-				), admin_url( 'themes.php' )
-			)
-		);
-	?>
+			<?php
+				$modal_update_href = esc_url(
+					add_query_arg(
+						array(
+							'page' => 'custom-header',
+							'step' => 2,
+							'_wpnonce-custom-header-upload' => wp_create_nonce( 'custom-header-upload' ),
+						),
+						admin_url( 'themes.php' )
+					)
+				);
+			?>
 	<p>
 		<label for="choose-from-library-link"><?php _e( 'Or choose an image from your media library:' ); ?></label><br />
 		<button id="choose-from-library-link" class="button"
@@ -621,36 +622,36 @@ class Custom_Image_Header {
 	</form>
 </td>
 </tr>
-<?php endif; ?>
+		<?php endif; ?>
 </tbody>
 </table>
 
 <form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ); ?>">
-<?php submit_button( null, 'screen-reader-text', 'save-header-options', false ); ?>
+		<?php submit_button( null, 'screen-reader-text', 'save-header-options', false ); ?>
 <table class="form-table">
 <tbody>
-	<?php if ( get_uploaded_header_images() ) : ?>
+		<?php if ( get_uploaded_header_images() ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Uploaded Images' ); ?></th>
 <td>
 	<p><?php _e( 'You can choose one of your previously uploaded headers, or show a random one.' ); ?></p>
-	<?php
-		$this->show_header_selector( 'uploaded' );
-	?>
+			<?php
+			$this->show_header_selector( 'uploaded' );
+			?>
 </td>
 </tr>
-	<?php
+			<?php
 	endif;
 if ( ! empty( $this->default_headers ) ) :
 	?>
 <tr>
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
-<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
+	<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
-<?php else : ?>
+	<?php else : ?>
 	<p><?php _e( 'You can use one of these cool headers or show a random one on each page.' ); ?></p>
-<?php endif; ?>
+	<?php endif; ?>
 	<?php
 	$this->show_header_selector( 'default' );
 	?>
@@ -684,7 +685,7 @@ if ( $default_image && get_header_image() != $default_image ) :
 </tbody>
 </table>
 
-<?php if ( current_theme_supports( 'custom-header', 'header-text' ) ) : ?>
+		<?php if ( current_theme_supports( 'custom-header', 'header-text' ) ) : ?>
 
 <h3><?php _e( 'Header Text' ); ?></h3>
 
@@ -703,50 +704,50 @@ if ( $default_image && get_header_image() != $default_image ) :
 <th scope="row"><?php _e( 'Text Color' ); ?></th>
 <td>
 	<p>
-	<?php
-	$default_color = '';
-	if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
-		$default_color = get_theme_support( 'custom-header', 'default-text-color' );
-		if ( $default_color && false === strpos( $default_color, '#' ) ) {
-			$default_color = '#' . $default_color;
-		}
-	}
+			<?php
+			$default_color = '';
+			if ( current_theme_supports( 'custom-header', 'default-text-color' ) ) {
+				$default_color = get_theme_support( 'custom-header', 'default-text-color' );
+				if ( $default_color && false === strpos( $default_color, '#' ) ) {
+					$default_color = '#' . $default_color;
+				}
+			}
 
-	$default_color_attr = $default_color ? ' data-default-color="' . esc_attr( $default_color ) . '"' : '';
+			$default_color_attr = $default_color ? ' data-default-color="' . esc_attr( $default_color ) . '"' : '';
 
-	$header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
-	if ( $header_textcolor && false === strpos( $header_textcolor, '#' ) ) {
-		$header_textcolor = '#' . $header_textcolor;
-	}
+			$header_textcolor = display_header_text() ? get_header_textcolor() : get_theme_support( 'custom-header', 'default-text-color' );
+			if ( $header_textcolor && false === strpos( $header_textcolor, '#' ) ) {
+				$header_textcolor = '#' . $header_textcolor;
+			}
 
-	echo '<input type="text" name="text-color" id="text-color" value="' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
-	if ( $default_color ) {
-		echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), esc_html( $default_color ) ) . '</span>';
-	}
-	?>
+			echo '<input type="text" name="text-color" id="text-color" value="' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
+			if ( $default_color ) {
+				echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), esc_html( $default_color ) ) . '</span>';
+			}
+			?>
 	</p>
 </td>
 </tr>
 </tbody>
 </table>
-<?php
+			<?php
 endif;
 
-/**
- * Fires just before the submit button in the custom header options form.
- *
- * @since 3.1.0
- */
-do_action( 'custom_header_options' );
+		/**
+		 * Fires just before the submit button in the custom header options form.
+		 *
+		 * @since 3.1.0
+		 */
+		do_action( 'custom_header_options' );
 
-wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
+		wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
 ?>
 
-<?php submit_button( null, 'primary', 'save-header-options' ); ?>
+		<?php submit_button( null, 'primary', 'save-header-options' ); ?>
 </form>
 </div>
 
-<?php
+		<?php
 	}
 
 	/**
@@ -852,18 +853,18 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
 	<input type="hidden" name="height" id="height" value="<?php echo esc_attr( $height ); ?>"/>
 	<input type="hidden" name="attachment_id" id="attachment_id" value="<?php echo esc_attr( $attachment_id ); ?>" />
 	<input type="hidden" name="oitar" id="oitar" value="<?php echo esc_attr( $oitar ); ?>" />
-	<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) { ?>
+		<?php if ( empty( $_POST ) && isset( $_GET['file'] ) ) { ?>
 	<input type="hidden" name="create-new-attachment" value="true" />
 	<?php } ?>
-	<?php wp_nonce_field( 'custom-header-crop-image' ); ?>
+		<?php wp_nonce_field( 'custom-header-crop-image' ); ?>
 
 	<p class="submit">
-	<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
-	<?php
-	if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) ) {
-		submit_button( __( 'Skip Cropping, Publish Image as Is' ), '', 'skip-cropping', false );
-	}
-	?>
+		<?php submit_button( __( 'Crop and Publish' ), 'primary', 'submit', false ); ?>
+		<?php
+		if ( isset( $oitar ) && 1 == $oitar && ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) ) {
+			submit_button( __( 'Skip Cropping, Publish Image as Is' ), '', 'skip-cropping', false );
+		}
+		?>
 	</p>
 </form>
 </div>

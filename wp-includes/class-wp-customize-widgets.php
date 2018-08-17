@@ -401,7 +401,8 @@ final class WP_Customize_Widgets {
 		if ( ! $this->manager->is_theme_active() ) {
 			$setting_id   = 'old_sidebars_widgets_data';
 			$setting_args = $this->get_setting_args(
-				$setting_id, array(
+				$setting_id,
+				array(
 					'type'  => 'global_variable',
 					'dirty' => true,
 				)
@@ -410,7 +411,8 @@ final class WP_Customize_Widgets {
 		}
 
 		$this->manager->add_panel(
-			'widgets', array(
+			'widgets',
+			array(
 				'type'                     => 'widgets',
 				'title'                    => __( 'Widgets' ),
 				'description'              => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
@@ -468,7 +470,9 @@ final class WP_Customize_Widgets {
 					$this->manager->add_section( $section );
 
 					$control           = new WP_Widget_Area_Customize_Control(
-						$this->manager, $setting_id, array(
+						$this->manager,
+						$setting_id,
+						array(
 							'section'    => $section_id,
 							'sidebar_id' => $sidebar_id,
 							'priority'   => count( $sidebar_widget_ids ), // place 'Add Widget' and 'Reorder' buttons at end.
@@ -493,7 +497,9 @@ final class WP_Customize_Widgets {
 				$id_base           = $wp_registered_widget_controls[ $widget_id ]['id_base'];
 
 				$control = new WP_Widget_Form_Customize_Control(
-					$this->manager, $setting_id, array(
+					$this->manager,
+					$setting_id,
+					array(
 						'label'          => $registered_widget['name'],
 						'section'        => $section_id,
 						'sidebar_id'     => $sidebar_id,
@@ -733,7 +739,9 @@ final class WP_Customize_Widgets {
 						$non_rendered_count
 					),
 					number_format_i18n( $non_rendered_count )
-				), ENT_QUOTES, get_bloginfo( 'charset' )
+				),
+				ENT_QUOTES,
+				get_bloginfo( 'charset' )
 			);
 		}
 
@@ -741,7 +749,9 @@ final class WP_Customize_Widgets {
 			$no_areas_shown_message = html_entity_decode(
 				sprintf(
 					__( 'Your theme has 1 widget area, but this particular page doesn&#8217;t display it.' )
-				), ENT_QUOTES, get_bloginfo( 'charset' )
+				),
+				ENT_QUOTES,
+				get_bloginfo( 'charset' )
 			);
 		} else {
 			$no_areas_shown_message = html_entity_decode(
@@ -753,7 +763,9 @@ final class WP_Customize_Widgets {
 						$registered_sidebar_count
 					),
 					number_format_i18n( $registered_sidebar_count )
-				), ENT_QUOTES, get_bloginfo( 'charset' )
+				),
+				ENT_QUOTES,
+				get_bloginfo( 'charset' )
 			);
 		}
 
@@ -990,7 +1002,8 @@ final class WP_Customize_Widgets {
 
 			// The properties here are mapped to the Backbone Widget model.
 			$available_widget = array_merge(
-				$available_widget, array(
+				$available_widget,
+				array(
 					'temp_id'      => isset( $args['_temp_id'] ) ? $args['_temp_id'] : null,
 					'is_multi'     => $is_multi_widget,
 					'control_tpl'  => $control_tpl,
@@ -1703,7 +1716,8 @@ final class WP_Customize_Widgets {
 						'data-customize-partial-placement-context',
 						'data-customize-partial-widget-id',
 						'data-customize-partial-options',
-					), true
+					),
+					true
 				)
 			);
 		}

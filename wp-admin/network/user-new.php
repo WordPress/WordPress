@@ -66,7 +66,8 @@ if ( isset( $_REQUEST['action'] ) && 'add-user' == $_REQUEST['action'] ) {
 					array(
 						'update'  => 'added',
 						'user_id' => $user_id,
-					), 'user-new.php'
+					),
+					'user-new.php'
 				)
 			);
 			exit;
@@ -109,7 +110,7 @@ if ( ! empty( $messages ) ) {
 }
 
 if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) {
-?>
+	?>
 	<div class="error">
 		<?php
 		foreach ( $add_user_errors->get_error_messages() as $message ) {

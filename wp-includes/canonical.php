@@ -416,8 +416,10 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	$redirect['path'] = preg_replace( '|/' . preg_quote( $wp_rewrite->index, '|' ) . '/*?$|', '/', $redirect['path'] );
 
 	$punctuation_pattern = implode(
-		'|', array_map(
-			'preg_quote', array(
+		'|',
+		array_map(
+			'preg_quote',
+			array(
 				' ',
 				'%20',  // space
 				'!',

@@ -36,8 +36,10 @@ function twentyfourteen_custom_header_setup() {
 	 * }
 	 */
 	add_theme_support(
-		'custom-header', apply_filters(
-			'twentyfourteen_custom_header_args', array(
+		'custom-header',
+		apply_filters(
+			'twentyfourteen_custom_header_args',
+			array(
 				'default-text-color'     => 'fff',
 				'width'                  => 1260,
 				'height'                 => 240,
@@ -71,23 +73,23 @@ if ( ! function_exists( 'twentyfourteen_header_style' ) ) :
 		<?php
 		// Has the text been hidden?
 		if ( ! display_header_text() ) :
-	?>
+			?>
 		.site-title,
 		.site-description {
 			clip: rect(1px 1px 1px 1px); /* IE7 */
 			clip: rect(1px, 1px, 1px, 1px);
 			position: absolute;
 		}
-	<?php
-		// If the user has set a custom color for the text, use that.
+			<?php
+			// If the user has set a custom color for the text, use that.
 		elseif ( $text_color != get_theme_support( 'custom-header', 'default-text-color' ) ) :
-	?>
+			?>
 		.site-title a {
 			color: #<?php echo esc_attr( $text_color ); ?>;
 		}
 	<?php endif; ?>
 	</style>
-	<?php
+		<?php
 	}
 endif; // twentyfourteen_header_style
 
@@ -101,7 +103,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 	 * @since Twenty Fourteen 1.0
 	 */
 	function twentyfourteen_admin_header_style() {
-	?>
+		?>
 	<style type="text/css" id="twentyfourteen-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		background-color: #000;
@@ -126,7 +128,7 @@ if ( ! function_exists( 'twentyfourteen_admin_header_style' ) ) :
 		vertical-align: middle;
 	}
 	</style>
-	<?php
+		<?php
 	}
 endif; // twentyfourteen_admin_header_style
 
@@ -139,13 +141,13 @@ if ( ! function_exists( 'twentyfourteen_admin_header_image' ) ) :
 	 * @since Twenty Fourteen 1.0
 	 */
 	function twentyfourteen_admin_header_image() {
-	?>
+		?>
 	<div id="headimg">
 		<?php if ( get_header_image() ) : ?>
 		<img src="<?php header_image(); ?>" alt="">
 		<?php endif; ?>
 		<h1 class="displaying-header-text"><a id="name" style="<?php echo esc_attr( sprintf( 'color: #%s;', get_header_textcolor() ) ); ?>" onclick="return false;" href="<?php echo esc_url( home_url( '/' ) ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a></h1>
 	</div>
-<?php
+		<?php
 	}
 endif; // twentyfourteen_admin_header_image

@@ -336,7 +336,8 @@ class WP_Automatic_Updater {
 
 		// Boom, This sites about to get a whole new splash of paint!
 		$upgrade_result = $upgrader->upgrade(
-			$upgrader_item, array(
+			$upgrader_item,
+			array(
 				'clear_update_cache'           => false,
 				// Always use partial builds if possible for core updates.
 				'pre_check_md5'                => false,
@@ -574,7 +575,8 @@ class WP_Automatic_Updater {
 		}
 
 		update_site_option(
-			'auto_core_update_failed', array(
+			'auto_core_update_failed',
+			array(
 				'attempted'  => $core_update->current,
 				'current'    => $wp_version,
 				'error_code' => $error_code,
@@ -600,7 +602,8 @@ class WP_Automatic_Updater {
 	 */
 	protected function send_email( $type, $core_update, $result = null ) {
 		update_site_option(
-			'auto_core_update_notified', array(
+			'auto_core_update_notified',
+			array(
 				'type'      => $type,
 				'email'     => get_site_option( 'admin_email' ),
 				'version'   => $core_update->current,

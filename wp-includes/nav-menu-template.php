@@ -448,9 +448,12 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$_indexless_current = untrailingslashit( preg_replace( '/' . preg_quote( $wp_rewrite->index, '/' ) . '$/', '', $current_url ) );
 
 			$matches = array(
-				$current_url,            urldecode( $current_url ),
-				$_indexless_current,     urldecode( $_indexless_current ),
-				$_root_relative_current, urldecode( $_root_relative_current ),
+				$current_url,
+				urldecode( $current_url ),
+				$_indexless_current,
+				urldecode( $_indexless_current ),
+				$_root_relative_current,
+				urldecode( $_root_relative_current ),
 			);
 
 			if ( $raw_item_url && in_array( $item_url, $matches ) ) {

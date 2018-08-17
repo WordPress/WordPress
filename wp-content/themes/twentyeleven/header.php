@@ -45,7 +45,7 @@ if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
 	echo esc_html( ' | ' . sprintf( __( 'Page %s', 'twentyeleven' ), max( $paged, $page ) ) );
 }
 
-	?>
+?>
 	</title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
@@ -128,14 +128,14 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 				if ( $header_image ) {
 					$header_image_class = ' with-image';
 				}
-			?>
+				?>
 			<div class="only-search<?php echo $header_image_class; ?>">
-			<?php get_search_form(); ?>
-			</div>
-			<?php
-				else :
-			?>
 				<?php get_search_form(); ?>
+			</div>
+				<?php
+				else :
+					?>
+					<?php get_search_form(); ?>
 			<?php endif; ?>
 
 			<nav id="access" role="navigation">

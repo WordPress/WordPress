@@ -177,7 +177,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	if ( $file_description != $file_show ) {
 		$description .= ' <span>(' . esc_html( $file_show ) . ')</span>';
 	}
-?>
+	?>
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
@@ -271,7 +271,7 @@ if ( $theme->errors() ) {
 if ( $error ) :
 	echo '<div class="error"><p>' . __( 'Oops, no such file exists! Double check the name and try again, merci.' ) . '</p></div>';
 else :
-?>
+	?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
 		<?php wp_nonce_field( 'edit-theme_' . $stylesheet . '_' . $relative_file, 'nonce' ); ?>
 		<div>
@@ -296,7 +296,7 @@ else :
 					<p>
 						<?php
 						if ( is_writeable( $file ) ) {
-						?>
+							?>
 						<strong><?php _e( 'Caution:' ); ?></strong><?php } ?>
 						<?php _e( 'This is a file in your current parent theme.' ); ?>
 					</p>
@@ -314,7 +314,7 @@ else :
 	</div>
 	<?php wp_print_file_editor_templates(); ?>
 	</form>
-<?php
+	<?php
 endif; // $error
 ?>
 <br class="clear" />
@@ -331,7 +331,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 	} else {
 		$return_url = admin_url( '/' );
 	}
-?>
+	?>
 <div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
 	<div class="notification-dialog-background"></div>
 	<div class="notification-dialog">
@@ -356,7 +356,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 		</div>
 	</div>
 </div>
-<?php
+	<?php
 endif; // editor warning notice
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

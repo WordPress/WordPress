@@ -353,7 +353,8 @@ function wp_dropdown_categories( $args = '' ) {
 	// Back compat.
 	if ( isset( $args['type'] ) && 'link' == $args['type'] ) {
 		_deprecated_argument(
-			__FUNCTION__, '3.0.0',
+			__FUNCTION__,
+			'3.0.0',
 			/* translators: 1: "type => link", 2: "taxonomy => link_category" */
 			sprintf(
 				__( '%1$s is deprecated. Use %2$s instead.' ),
@@ -698,8 +699,10 @@ function wp_tag_cloud( $args = '' ) {
 	$args     = wp_parse_args( $args, $defaults );
 
 	$tags = get_terms(
-		$args['taxonomy'], array_merge(
-			$args, array(
+		$args['taxonomy'],
+		array_merge(
+			$args,
+			array(
 				'orderby' => 'count',
 				'order'   => 'DESC',
 			)

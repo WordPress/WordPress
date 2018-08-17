@@ -38,7 +38,7 @@
 					'link_after'  => '</span>',
 				)
 			);
-		?>
+			?>
 		<?php else : ?>
 			<?php echo get_post_gallery(); ?>
 		<?php endif; // is_single() ?>

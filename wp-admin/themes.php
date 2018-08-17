@@ -133,7 +133,9 @@ if ( current_user_can( 'switch_themes' ) ) {
 wp_reset_vars( array( 'theme', 'search' ) );
 
 wp_localize_script(
-	'theme', '_wpThemeSettings', array(
+	'theme',
+	'_wpThemeSettings',
+	array(
 		'themes'   => $themes,
 		'settings' => array(
 			'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
@@ -172,9 +174,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<hr class="wp-header-end">
 <?php
 if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) :
-?>
+	?>
 <div id="message1" class="updated notice is-dismissible"><p><?php _e( 'The active theme is broken. Reverting to the default theme.' ); ?></p></div>
-<?php
+	<?php
 elseif ( isset( $_GET['activated'] ) ) :
 	if ( isset( $_GET['previewed'] ) ) {
 		?>
@@ -184,11 +186,11 @@ elseif ( isset( $_GET['activated'] ) ) :
 																		<?php
 }
 	elseif ( isset( $_GET['deleted'] ) ) :
-	?>
+		?>
 <div id="message3" class="updated notice is-dismissible"><p><?php _e( 'Theme deleted.' ); ?></p></div>
 <?php elseif ( isset( $_GET['delete-active-child'] ) ) : ?>
 	<div id="message4" class="error"><p><?php _e( 'You cannot delete a theme while it has an active child theme.' ); ?></p></div>
-<?php
+	<?php
 endif;
 
 $ct = wp_get_theme();
@@ -335,16 +337,16 @@ foreach ( $themes as $theme ) :
 <?php
 // List broken themes, if any.
 if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes = wp_get_themes( array( 'errors' => true ) ) ) {
-?>
+	?>
 
 <div class="broken-themes">
 <h3><?php _e( 'Broken Themes' ); ?></h3>
 <p><?php _e( 'The following themes are installed but incomplete.' ); ?></p>
 
-<?php
-$can_delete  = current_user_can( 'delete_themes' );
-$can_install = current_user_can( 'install_themes' );
-?>
+	<?php
+	$can_delete  = current_user_can( 'delete_themes' );
+	$can_install = current_user_can( 'install_themes' );
+	?>
 <table>
 	<tr>
 		<th><?php _ex( 'Name', 'theme name' ); ?></th>
@@ -367,7 +369,8 @@ $can_install = current_user_can( 'install_themes' );
 					array(
 						'action'     => 'delete',
 						'stylesheet' => urlencode( $stylesheet ),
-					), admin_url( 'themes.php' )
+					),
+					admin_url( 'themes.php' )
 				);
 				$delete_url = wp_nonce_url( $delete_url, 'delete-theme_' . $stylesheet );
 				?>
@@ -384,7 +387,8 @@ $can_install = current_user_can( 'install_themes' );
 						array(
 							'action' => 'install-theme',
 							'theme'  => urlencode( $parent_theme_name ),
-						), admin_url( 'update.php' )
+						),
+						admin_url( 'update.php' )
 					);
 					$install_url = wp_nonce_url( $install_url, 'install-theme_' . $parent_theme_name );
 					?>
@@ -398,7 +402,7 @@ $can_install = current_user_can( 'install_themes' );
 </table>
 </div>
 
-<?php
+	<?php
 }
 ?>
 </div><!-- .wrap -->
@@ -533,7 +537,9 @@ wp_print_admin_notice_templates();
 wp_print_update_row_templates();
 
 wp_localize_script(
-	'updates', '_wpUpdatesItemCounts', array(
+	'updates',
+	'_wpUpdatesItemCounts',
+	array(
 		'totals' => wp_get_update_data(),
 	)
 );

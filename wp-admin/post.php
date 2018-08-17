@@ -242,7 +242,8 @@ switch ( $action ) {
 				array(
 					'trashed' => 1,
 					'ids'     => $post_id,
-				), $sendback
+				),
+				$sendback
 			)
 		);
 		exit();

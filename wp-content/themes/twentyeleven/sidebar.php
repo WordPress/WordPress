@@ -11,7 +11,7 @@ $options        = twentyeleven_get_theme_options();
 $current_layout = $options['theme_layout'];
 
 if ( 'content' != $current_layout ) :
-?>
+	?>
 		<div id="secondary" class="widget-area" role="complementary">
 			<?php if ( ! dynamic_sidebar( 'sidebar-1' ) ) : ?>
 

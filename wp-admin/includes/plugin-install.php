@@ -288,7 +288,8 @@ function install_dashboard() {
 			$tags[ $tag['name'] ] = (object) $data;
 		}
 		echo wp_generate_tag_cloud(
-			$tags, array(
+			$tags,
+			array(
 				'single_text'   => __( '%s plugin' ),
 				'multiple_text' => __( '%s plugins' ),
 			)
@@ -331,7 +332,7 @@ function install_search_form( $deprecated = true ) {
  * @since 2.8.0
  */
 function install_plugins_upload() {
-?>
+	?>
 <div class="upload-plugin">
 	<p class="install-help"><?php _e( 'If you have a plugin in a .zip format, you may install it by uploading it here.' ); ?></p>
 	<form method="post" enctype="multipart/form-data" class="wp-upload-form" action="<?php echo self_admin_url( 'update.php?action=upload-plugin' ); ?>">
@@ -341,7 +342,7 @@ function install_plugins_upload() {
 		<?php submit_button( __( 'Install Now' ), '', 'install-plugin-submit', false ); ?>
 	</form>
 </div>
-<?php
+	<?php
 }
 
 /**
@@ -501,8 +502,9 @@ function install_plugin_information() {
 	}
 
 	$api = plugins_api(
-		'plugin_information', array(
-			'slug'   => wp_unslash( $_REQUEST['plugin'] ),
+		'plugin_information',
+		array(
+			'slug' => wp_unslash( $_REQUEST['plugin'] ),
 		)
 	);
 
@@ -690,13 +692,13 @@ function install_plugin_information() {
 					'number' => $api->num_ratings,
 				)
 			);
-?>
+			?>
 			<p aria-hidden="true" class="fyi-description"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></p>
-		<?php
+			<?php
 }
 
 if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
-		?>
+	?>
 			<h3><?php _e( 'Reviews' ); ?></h3>
 			<p class="fyi-description"><?php _e( 'Read all reviews on WordPress.org or write your own!' ); ?></p>
 			<?php
@@ -726,7 +728,7 @@ if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
 			}
 }
 if ( ! empty( $api->contributors ) ) {
-		?>
+	?>
 			<h3><?php _e( 'Contributors' ); ?></h3>
 			<ul class="contributors">
 				<?php
@@ -738,7 +740,7 @@ if ( ! empty( $api->contributors ) ) {
 					$contrib_name = esc_html( $contrib_name );
 
 					$contrib_profile = esc_url( $contrib_details['profile'] );
-					$contrib_avatar = esc_url( add_query_arg( 's', '36', $contrib_details['avatar'] ) );
+					$contrib_avatar  = esc_url( add_query_arg( 's', '36', $contrib_details['avatar'] ) );
 
 					echo "<li><a href='{$contrib_profile}' target='_blank'><img src='{$contrib_avatar}' width='18' height='18' alt='' />{$contrib_name}</a></li>";
 				}

@@ -100,7 +100,8 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 
 		// This theme allows users to set a custom background.
 		add_theme_support(
-			'custom-background', array(
+			'custom-background',
+			array(
 				// Let WordPress know what our default background color is.
 				'default-color' => 'f1f1f1',
 			)
@@ -226,7 +227,7 @@ if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 	 * @since Twenty Ten 1.0
 	 */
 	function twentyten_admin_header_style() {
-	?>
+		?>
 	<style type="text/css" id="twentyten-admin-header-css">
 	/* Shows the same border as on front end */
 	#headimg {
@@ -238,7 +239,7 @@ if ( ! function_exists( 'twentyten_admin_header_style' ) ) :
 	#headimg #desc { }
 	*/
 	</style>
-	<?php
+		<?php
 	}
 endif;
 
@@ -377,14 +378,14 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 		$GLOBALS['comment'] = $comment;
 		switch ( $comment->comment_type ) :
 			case '':
-		?>
+				?>
 		<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<div id="comment-<?php comment_ID(); ?>">
 			<div class="comment-author vcard">
 				<?php echo get_avatar( $comment, 40 ); ?>
 				<?php printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
 			</div><!-- .comment-author .vcard -->
-			<?php if ( $comment->comment_approved == '0' ) : ?>
+				<?php if ( $comment->comment_approved == '0' ) : ?>
 				<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
 				<br />
 			<?php endif; ?>
@@ -393,11 +394,11 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 				<?php
 					/* translators: 1: date, 2: time */
 					printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(), get_comment_time() );
-					?>
+				?>
 					</a>
 					<?php
 					edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' );
-				?>
+					?>
 				</div><!-- .comment-meta .commentmetadata -->
 
 				<div class="comment-body"><?php comment_text(); ?></div>
@@ -406,24 +407,25 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 				<?php
 				comment_reply_link(
 					array_merge(
-						$args, array(
+						$args,
+						array(
 							'depth'     => $depth,
 							'max_depth' => $args['max_depth'],
 						)
 					)
 				);
-?>
+				?>
 				</div><!-- .reply -->
 			</div><!-- #comment-##  -->
 
-		<?php
+				<?php
 				break;
 			case 'pingback':
 			case 'trackback':
-		?>
+				?>
 		<li class="post pingback">
 		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __( '(Edit)', 'twentyten' ), ' ' ); ?></p>
-	<?php
+				<?php
 				break;
 		endswitch;
 	}

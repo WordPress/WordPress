@@ -164,7 +164,8 @@ class WP_Widget {
 		$this->name            = $name;
 		$this->option_name     = 'widget_' . $this->id_base;
 		$this->widget_options  = wp_parse_args(
-			$widget_options, array(
+			$widget_options,
+			array(
 				'classname'                   => $this->option_name,
 				'customize_selective_refresh' => false,
 			)

@@ -183,7 +183,8 @@ function get_theme_update_available( $theme ) {
 				'TB_iframe' => 'true',
 				'width'     => 1024,
 				'height'    => 800,
-			), $update['url']
+			),
+			$update['url']
 		); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
 		$update_url  = wp_nonce_url( admin_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $stylesheet ) ), 'upgrade-theme_' . $stylesheet );
 

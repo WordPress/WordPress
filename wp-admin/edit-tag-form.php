@@ -77,7 +77,7 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
 							<?php
 							echo esc_html( $tax->labels->back_to_items );
-	?>
+							?>
 	</a></p>
 	<?php } ?>
 </div>
@@ -284,5 +284,5 @@ do_action( "{$taxonomy}_edit_form", $tag, $taxonomy );
 <script type="text/javascript">
 try{document.forms.edittag.name.focus();}catch(e){}
 </script>
-<?php
+	<?php
 endif;

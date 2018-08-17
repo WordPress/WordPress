@@ -97,11 +97,13 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		 */
 		$comments = get_comments(
 			apply_filters(
-				'widget_comments_args', array(
+				'widget_comments_args',
+				array(
 					'number'      => $number,
 					'status'      => 'approve',
 					'post_status' => 'publish',
-				), $instance
+				),
+				$instance
 			)
 		);
 

@@ -173,7 +173,8 @@ function get_permalink( $post = 0, $leavename = false ) {
 			$cats = get_the_category( $post->ID );
 			if ( $cats ) {
 				$cats = wp_list_sort(
-					$cats, array(
+					$cats,
+					array(
 						'term_id' => 'ASC',
 					)
 				);
@@ -292,7 +293,8 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
 				array(
 					'post_type' => $post->post_type,
 					'p'         => $post->ID,
-				), ''
+				),
+				''
 			);
 		}
 		$post_link = home_url( $post_link );
@@ -698,21 +700,24 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 				array(
 					'feed'          => $feed,
 					'attachment_id' => $post_id,
-				), home_url( '/' )
+				),
+				home_url( '/' )
 			);
 		} elseif ( 'page' == $post->post_type ) {
 			$url = add_query_arg(
 				array(
 					'feed'    => $feed,
 					'page_id' => $post_id,
-				), home_url( '/' )
+				),
+				home_url( '/' )
 			);
 		} else {
 			$url = add_query_arg(
 				array(
 					'feed' => $feed,
 					'p'    => $post_id,
-				), home_url( '/' )
+				),
+				home_url( '/' )
 			);
 		}
 	}
@@ -2522,7 +2527,8 @@ function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
  */
 function get_the_post_navigation( $args = array() ) {
 	$args = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			'prev_text'          => '%title',
 			'next_text'          => '%title',
 			'in_same_term'       => false,
@@ -2595,7 +2601,8 @@ function get_the_posts_navigation( $args = array() ) {
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
 		$args = wp_parse_args(
-			$args, array(
+			$args,
+			array(
 				'prev_text'          => __( 'Older posts' ),
 				'next_text'          => __( 'Newer posts' ),
 				'screen_reader_text' => __( 'Posts navigation' ),
@@ -2650,7 +2657,8 @@ function get_the_posts_pagination( $args = array() ) {
 	// Don't print empty markup if there's only one page.
 	if ( $GLOBALS['wp_query']->max_num_pages > 1 ) {
 		$args = wp_parse_args(
-			$args, array(
+			$args,
+			array(
 				'mid_size'           => 1,
 				'prev_text'          => _x( 'Previous', 'previous set of posts' ),
 				'next_text'          => _x( 'Next', 'next set of posts' ),
@@ -2955,7 +2963,8 @@ function get_the_comments_navigation( $args = array() ) {
 	// Are there comments to navigate through?
 	if ( get_comment_pages_count() > 1 ) {
 		$args = wp_parse_args(
-			$args, array(
+			$args,
+			array(
 				'prev_text'          => __( 'Older comments' ),
 				'next_text'          => __( 'Newer comments' ),
 				'screen_reader_text' => __( 'Comments navigation' ),
@@ -3007,7 +3016,8 @@ function the_comments_navigation( $args = array() ) {
 function get_the_comments_pagination( $args = array() ) {
 	$navigation   = '';
 	$args         = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			'screen_reader_text' => __( 'Comments navigation' ),
 		)
 	);
@@ -3965,7 +3975,8 @@ function get_avatar_url( $id_or_email, $args = null ) {
  */
 function get_avatar_data( $id_or_email, $args = null ) {
 	$args = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			'size'           => 96,
 			'height'         => null,
 			'width'          => null,

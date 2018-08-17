@@ -111,9 +111,9 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	}
 
 	if ( $errmsg = $errors->get_error_message( 'blogname' ) ) {
-	?>
+		?>
 		<p class="error"><?php echo $errmsg; ?></p>
-	<?php
+		<?php
 	}
 
 	if ( ! is_subdomain_install() ) {
@@ -138,10 +138,10 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	<label for="blog_title"><?php _e( 'Site Title:' ); ?></label>
 	<?php if ( $errmsg = $errors->get_error_message( 'blog_title' ) ) { ?>
 		<p class="error"><?php echo $errmsg; ?></p>
-	<?php
+		<?php
 }
 	echo '<input name="blog_title" type="text" id="blog_title" value="' . esc_attr( $blog_title ) . '" />';
-	?>
+?>
 
 	<?php
 	// Site Language.
@@ -175,7 +175,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 			);
 			?>
 		</p>
-	<?php
+		<?php
 		endif; // Languages.
 
 		$blog_public_on_checked = $blog_public_off_checked = '';
@@ -334,7 +334,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	<?php
 	$blogs = get_blogs_of_user( $current_user->ID );
 	if ( ! empty( $blogs ) ) {
-	?>
+		?>
 
 			<p><?php _e( 'Sites you are already a member of:' ); ?></p>
 			<ul>

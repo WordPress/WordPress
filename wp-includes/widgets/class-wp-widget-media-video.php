@@ -23,14 +23,17 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 	 */
 	public function __construct() {
 		parent::__construct(
-			'media_video', __( 'Video' ), array(
+			'media_video',
+			__( 'Video' ),
+			array(
 				'description' => __( 'Displays a video from the media library or from YouTube, Vimeo, or another provider.' ),
 				'mime_type'   => 'video',
 			)
 		);
 
 		$this->l10n = array_merge(
-			$this->l10n, array(
+			$this->l10n,
+			array(
 				'no_media_selected'          => __( 'No video selected' ),
 				'add_media'                  => _x( 'Add Video', 'label for button in the video widget' ),
 				'replace_media'              => _x( 'Replace Video', 'label for button in the video widget; should preferably not be longer than ~13 characters long' ),

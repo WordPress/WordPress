@@ -1384,7 +1384,8 @@ function add_network_option( $network_id, $option, $value ) {
 
 		$serialized_value = maybe_serialize( $value );
 		$result           = $wpdb->insert(
-			$wpdb->sitemeta, array(
+			$wpdb->sitemeta,
+			array(
 				'site_id'    => $network_id,
 				'meta_key'   => $option,
 				'meta_value' => $serialized_value,
@@ -1492,7 +1493,8 @@ function delete_network_option( $network_id, $option ) {
 		wp_cache_delete( $cache_key, 'site-options' );
 
 		$result = $wpdb->delete(
-			$wpdb->sitemeta, array(
+			$wpdb->sitemeta,
+			array(
 				'meta_key' => $option,
 				'site_id'  => $network_id,
 			)
@@ -1603,7 +1605,9 @@ function update_network_option( $network_id, $option, $value ) {
 
 		$serialized_value = maybe_serialize( $value );
 		$result           = $wpdb->update(
-			$wpdb->sitemeta, array( 'meta_value' => $serialized_value ), array(
+			$wpdb->sitemeta,
+			array( 'meta_value' => $serialized_value ),
+			array(
 				'site_id'  => $network_id,
 				'meta_key' => $option,
 			)
@@ -1873,7 +1877,9 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
  */
 function register_initial_settings() {
 	register_setting(
-		'general', 'blogname', array(
+		'general',
+		'blogname',
+		array(
 			'show_in_rest' => array(
 				'name' => 'title',
 			),
@@ -1883,7 +1889,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'general', 'blogdescription', array(
+		'general',
+		'blogdescription',
+		array(
 			'show_in_rest' => array(
 				'name' => 'description',
 			),
@@ -1894,7 +1902,9 @@ function register_initial_settings() {
 
 	if ( ! is_multisite() ) {
 		register_setting(
-			'general', 'siteurl', array(
+			'general',
+			'siteurl',
+			array(
 				'show_in_rest' => array(
 					'name'   => 'url',
 					'schema' => array(
@@ -1909,7 +1919,9 @@ function register_initial_settings() {
 
 	if ( ! is_multisite() ) {
 		register_setting(
-			'general', 'admin_email', array(
+			'general',
+			'admin_email',
+			array(
 				'show_in_rest' => array(
 					'name'   => 'email',
 					'schema' => array(
@@ -1923,7 +1935,9 @@ function register_initial_settings() {
 	}
 
 	register_setting(
-		'general', 'timezone_string', array(
+		'general',
+		'timezone_string',
+		array(
 			'show_in_rest' => array(
 				'name' => 'timezone',
 			),
@@ -1933,7 +1947,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'general', 'date_format', array(
+		'general',
+		'date_format',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'string',
 			'description'  => __( 'A date format for all date strings.' ),
@@ -1941,7 +1957,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'general', 'time_format', array(
+		'general',
+		'time_format',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'string',
 			'description'  => __( 'A time format for all time strings.' ),
@@ -1949,7 +1967,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'general', 'start_of_week', array(
+		'general',
+		'start_of_week',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'integer',
 			'description'  => __( 'A day number of the week that the week should start on.' ),
@@ -1957,7 +1977,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'general', 'WPLANG', array(
+		'general',
+		'WPLANG',
+		array(
 			'show_in_rest' => array(
 				'name' => 'language',
 			),
@@ -1968,7 +1990,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'writing', 'use_smilies', array(
+		'writing',
+		'use_smilies',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'boolean',
 			'description'  => __( 'Convert emoticons like :-) and :-P to graphics on display.' ),
@@ -1977,7 +2001,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'writing', 'default_category', array(
+		'writing',
+		'default_category',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'integer',
 			'description'  => __( 'Default post category.' ),
@@ -1985,7 +2011,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'writing', 'default_post_format', array(
+		'writing',
+		'default_post_format',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'string',
 			'description'  => __( 'Default post format.' ),
@@ -1993,7 +2021,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'reading', 'posts_per_page', array(
+		'reading',
+		'posts_per_page',
+		array(
 			'show_in_rest' => true,
 			'type'         => 'integer',
 			'description'  => __( 'Blog pages show at most.' ),
@@ -2002,7 +2032,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'discussion', 'default_ping_status', array(
+		'discussion',
+		'default_ping_status',
+		array(
 			'show_in_rest' => array(
 				'schema' => array(
 					'enum' => array( 'open', 'closed' ),
@@ -2014,7 +2046,9 @@ function register_initial_settings() {
 	);
 
 	register_setting(
-		'discussion', 'default_comment_status', array(
+		'discussion',
+		'default_comment_status',
+		array(
 			'show_in_rest' => array(
 				'schema' => array(
 					'enum' => array( 'open', 'closed' ),
@@ -2025,11 +2059,15 @@ function register_initial_settings() {
 		)
 	);
 
-	register_setting( 'permalink', 'permalink_structure', array(
-		'show_in_rest' => true,
-		'type'         => 'string',
-		'description'  => __( 'Custom URL structure for permalinks and archives.' ),
-	) );
+	register_setting(
+		'permalink',
+		'permalink_structure',
+		array(
+			'show_in_rest' => true,
+			'type'         => 'string',
+			'description'  => __( 'Custom URL structure for permalinks and archives.' ),
+		)
+	);
 }
 
 /**
@@ -2092,7 +2130,8 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 
 	if ( 'misc' == $option_group ) {
 		_deprecated_argument(
-			__FUNCTION__, '3.0.0',
+			__FUNCTION__,
+			'3.0.0',
 			/* translators: %s: misc */
 			sprintf(
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
@@ -2104,7 +2143,8 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 
 	if ( 'privacy' == $option_group ) {
 		_deprecated_argument(
-			__FUNCTION__, '3.5.0',
+			__FUNCTION__,
+			'3.5.0',
 			/* translators: %s: privacy */
 			sprintf(
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
@@ -2142,7 +2182,8 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 
 	if ( 'misc' == $option_group ) {
 		_deprecated_argument(
-			__FUNCTION__, '3.0.0',
+			__FUNCTION__,
+			'3.0.0',
 			/* translators: %s: misc */
 			sprintf(
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
@@ -2154,7 +2195,8 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 
 	if ( 'privacy' == $option_group ) {
 		_deprecated_argument(
-			__FUNCTION__, '3.5.0',
+			__FUNCTION__,
+			'3.5.0',
 			/* translators: %s: privacy */
 			sprintf(
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
@@ -2170,7 +2212,8 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
 	}
 	if ( '' !== $deprecated ) {
 		_deprecated_argument(
-			__FUNCTION__, '4.7.0',
+			__FUNCTION__,
+			'4.7.0',
 			/* translators: 1: $sanitize_callback, 2: register_setting() */
 			sprintf(
 				__( '%1$s is deprecated. The callback from %2$s is used instead.' ),

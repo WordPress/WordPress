@@ -27,7 +27,7 @@ global $feature_class;
 				'after'  => '</div>',
 			)
 		);
-?>
+		?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
@@ -47,7 +47,7 @@ global $feature_class;
 				esc_url( get_permalink() ),
 				the_title_attribute( 'echo=0' )
 			);
-		?>
+			?>
 
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 	</footer><!-- .entry-meta -->

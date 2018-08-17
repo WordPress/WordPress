@@ -353,7 +353,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 		if ( ! isset( $this->value['nav_menu_term_id'] ) && $this->post_id > 0 ) {
 			$menus = wp_get_post_terms(
-				$this->post_id, WP_Customize_Nav_Menu_Setting::TAXONOMY, array(
+				$this->post_id,
+				WP_Customize_Nav_Menu_Setting::TAXONOMY,
+				array(
 					'fields' => 'ids',
 				)
 			);
@@ -557,7 +559,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 		if ( ARRAY_A === $args['output'] ) {
 			$items = wp_list_sort(
-				$items, array(
+				$items,
+				array(
 					$args['output_key'] => 'ASC',
 				)
 			);

@@ -107,9 +107,16 @@ if ( ! class_exists( 'MO', false ) ) :
 			$hash_addr                 = $translations_lenghts_addr + 8 * $total;
 			$current_addr              = $hash_addr;
 			fwrite(
-				$fh, pack(
-					'V*', $magic, $revision, $total, $originals_lenghts_addr,
-					$translations_lenghts_addr, $size_of_hash, $hash_addr
+				$fh,
+				pack(
+					'V*',
+					$magic,
+					$revision,
+					$total,
+					$originals_lenghts_addr,
+					$translations_lenghts_addr,
+					$size_of_hash,
+					$hash_addr
 				)
 			);
 			fseek( $fh, $originals_lenghts_addr );

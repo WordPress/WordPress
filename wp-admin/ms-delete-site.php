@@ -87,7 +87,7 @@ Webmaster
 
 	<p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked.' ); ?></p>
 
-<?php
+	<?php
 } else {
 	?>
 	<p><?php printf( __( 'If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.' ), get_network()->site_name ); ?></p>

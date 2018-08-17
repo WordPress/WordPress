@@ -22,14 +22,16 @@ function twentyfourteen_customize_register( $wp_customize ) {
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
 		$wp_customize->selective_refresh->add_partial(
-			'blogname', array(
+			'blogname',
+			array(
 				'selector'            => '.site-title a',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentyfourteen_customize_partial_blogname',
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'blogdescription', array(
+			'blogdescription',
+			array(
 				'selector'            => '.site-description',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentyfourteen_customize_partial_blogdescription',
@@ -54,7 +56,8 @@ function twentyfourteen_customize_register( $wp_customize ) {
 
 	// Add the featured content section in case it's not already there.
 	$wp_customize->add_section(
-		'featured_content', array(
+		'featured_content',
+		array(
 			'title'           => __( 'Featured Content', 'twentyfourteen' ),
 			'description'     => sprintf(
 				__( 'Use a <a href="%1$s">tag</a> to feature your posts. If no posts match the tag, <a href="%2$s">sticky posts</a> will be displayed instead.', 'twentyfourteen' ),
@@ -68,14 +71,16 @@ function twentyfourteen_customize_register( $wp_customize ) {
 
 	// Add the featured content layout setting and control.
 	$wp_customize->add_setting(
-		'featured_content_layout', array(
+		'featured_content_layout',
+		array(
 			'default'           => 'grid',
 			'sanitize_callback' => 'twentyfourteen_sanitize_layout',
 		)
 	);
 
 	$wp_customize->add_control(
-		'featured_content_layout', array(
+		'featured_content_layout',
+		array(
 			'label'   => __( 'Layout', 'twentyfourteen' ),
 			'section' => 'featured_content',
 			'type'    => 'select',

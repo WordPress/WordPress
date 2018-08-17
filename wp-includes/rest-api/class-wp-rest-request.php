@@ -802,7 +802,9 @@ class WP_REST_Request implements ArrayAccess {
 
 		if ( $invalid_params ) {
 			return new WP_Error(
-				'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array(
+				'rest_invalid_param',
+				sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ),
+				array(
 					'status' => 400,
 					'params' => $invalid_params,
 				)
@@ -845,7 +847,9 @@ class WP_REST_Request implements ArrayAccess {
 
 		if ( ! empty( $required ) ) {
 			return new WP_Error(
-				'rest_missing_callback_param', sprintf( __( 'Missing parameter(s): %s' ), implode( ', ', $required ) ), array(
+				'rest_missing_callback_param',
+				sprintf( __( 'Missing parameter(s): %s' ), implode( ', ', $required ) ),
+				array(
 					'status' => 400,
 					'params' => $required,
 				)
@@ -878,7 +882,9 @@ class WP_REST_Request implements ArrayAccess {
 
 		if ( $invalid_params ) {
 			return new WP_Error(
-				'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array(
+				'rest_invalid_param',
+				sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ),
+				array(
 					'status' => 400,
 					'params' => $invalid_params,
 				)

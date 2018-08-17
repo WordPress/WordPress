@@ -586,7 +586,8 @@ abstract class WP_REST_Controller {
 				// Only use required / default from arg_options on CREATABLE endpoints.
 				if ( WP_REST_Server::CREATABLE !== $method ) {
 					$params['arg_options'] = array_diff_key(
-						$params['arg_options'], array(
+						$params['arg_options'],
+						array(
 							'required' => '',
 							'default'  => '',
 						)

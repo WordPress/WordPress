@@ -306,12 +306,16 @@ class Plugin_Upgrader extends WP_Upgrader {
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
 
 		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
-		do_action( 'upgrader_process_complete', $this, array(
-			'action'  => 'update',
-			'type'    => 'plugin',
-			'bulk'    => true,
-			'plugins' => $plugins,
-		) );
+		do_action(
+			'upgrader_process_complete',
+			$this,
+			array(
+				'action'  => 'update',
+				'type'    => 'plugin',
+				'bulk'    => true,
+				'plugins' => $plugins,
+			)
+		);
 
 		$this->skin->bulk_footer();
 

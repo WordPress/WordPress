@@ -20,7 +20,7 @@
 			else :
 				the_title( sprintf( '<h2 class="entry-title"><a href="%s">', esc_url( twentyfifteen_get_link_url() ) ), '</a></h2>' );
 			endif;
-		?>
+			?>
 	</header>
 	<!-- .entry-header -->
 
@@ -44,7 +44,7 @@
 					'separator'   => '<span class="screen-reader-text">, </span>',
 				)
 			);
-		?>
+			?>
 	</div>
 	<!-- .entry-content -->
 

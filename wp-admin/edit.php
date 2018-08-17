@@ -127,7 +127,8 @@ if ( $doaction ) {
 					'trashed' => $trashed,
 					'ids'     => join( ',', $post_ids ),
 					'locked'  => $locked,
-				), $sendback
+				),
+				$sendback
 			);
 			break;
 		case 'untrash':
@@ -290,7 +291,8 @@ get_current_screen()->set_screen_reader_content(
 );
 
 add_screen_option(
-	'per_page', array(
+	'per_page',
+	array(
 		'default' => 20,
 		'option'  => 'edit_' . $post_type . '_per_page',
 	)

@@ -50,7 +50,7 @@ if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 				get_template_part( 'content', 'none' );
 
 			endif;
-		?>
+			?>
 
 		</div><!-- #content -->
 	</div><!-- #primary -->

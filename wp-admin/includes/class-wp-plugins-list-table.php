@@ -256,7 +256,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		wp_localize_script(
-			'updates', '_wpUpdatesItemCounts', array(
+			'updates',
+			'_wpUpdatesItemCounts',
+			array(
 				'plugins' => $js_plugins,
 				'totals'  => wp_get_update_data(),
 			)

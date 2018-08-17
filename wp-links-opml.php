@@ -72,31 +72,31 @@ foreach ( (array) $cats as $cat ) :
 	 */
 	$catname = apply_filters( 'link_category', $cat->name );
 
-?>
+	?>
 <outline type="category" title="<?php echo esc_attr( $catname ); ?>">
-<?php
+	<?php
 	$bookmarks = get_bookmarks( array( 'category' => $cat->term_id ) );
-foreach ( (array) $bookmarks as $bookmark ) :
-	/**
-	 * Filters the OPML outline link title text.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @param string $title The OPML outline title text.
-	 */
-	$title = apply_filters( 'link_title', $bookmark->link_name );
-?>
+	foreach ( (array) $bookmarks as $bookmark ) :
+		/**
+		 * Filters the OPML outline link title text.
+		 *
+		 * @since 2.2.0
+		 *
+		 * @param string $title The OPML outline title text.
+		 */
+		$title = apply_filters( 'link_title', $bookmark->link_name );
+		?>
 <outline text="<?php echo esc_attr( $title ); ?>" type="link" xmlUrl="<?php echo esc_attr( $bookmark->link_rss ); ?>" htmlUrl="<?php echo esc_attr( $bookmark->link_url ); ?>" updated="
 							<?php
 							if ( '0000-00-00 00:00:00' != $bookmark->link_updated ) {
 								echo $bookmark->link_updated;}
-?>
+							?>
 " />
-<?php
+		<?php
 	endforeach; // $bookmarks
-?>
+	?>
 </outline>
-<?php
+	<?php
 endforeach; // $cats
 ?>
 </body>

@@ -91,7 +91,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		 * to output valid HTML5.
 		 */
 		add_theme_support(
-			'html5', array(
+			'html5',
+			array(
 				'search-form',
 				'comment-form',
 				'comment-list',
@@ -105,7 +106,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 		 * See https://codex.wordpress.org/Post_Formats
 		 */
 		add_theme_support(
-			'post-formats', array(
+			'post-formats',
+			array(
 				'aside',
 				'image',
 				'video',
@@ -118,8 +120,10 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 
 		// This theme allows users to set a custom background.
 		add_theme_support(
-			'custom-background', apply_filters(
-				'twentyfourteen_custom_background_args', array(
+			'custom-background',
+			apply_filters(
+				'twentyfourteen_custom_background_args',
+				array(
 					'default-color' => 'f5f5f5',
 				)
 			)
@@ -127,7 +131,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 
 		// Add support for featured content.
 		add_theme_support(
-			'featured-content', array(
+			'featured-content',
+			array(
 				'featured_content_filter' => 'twentyfourteen_get_featured_posts',
 				'max_posts'               => 6,
 			)
@@ -286,7 +291,9 @@ function twentyfourteen_scripts() {
 	if ( is_front_page() && 'slider' == get_theme_mod( 'featured_content_layout' ) ) {
 		wp_enqueue_script( 'twentyfourteen-slider', get_template_directory_uri() . '/js/slider.js', array( 'jquery' ), '20131205', true );
 		wp_localize_script(
-			'twentyfourteen-slider', 'featuredSliderDefaults', array(
+			'twentyfourteen-slider',
+			'featuredSliderDefaults',
+			array(
 				'prevText' => __( 'Previous', 'twentyfourteen' ),
 				'nextText' => __( 'Next', 'twentyfourteen' ),
 			)
@@ -423,7 +430,7 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 			if ( ! $post_count ) {
 				continue;
 			}
-		?>
+			?>
 
 		<div class="contributor">
 		<div class="contributor-info">
@@ -440,7 +447,7 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 		</div><!-- .contributor-info -->
 	</div><!-- .contributor -->
 
-	<?php
+			<?php
 	endforeach;
 	}
 endif;

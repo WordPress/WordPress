@@ -437,7 +437,7 @@ function wp_read_image_metadata( $file ) {
 		}
 	}
 
-	$exif = array(); 
+	$exif = array();
 
 	/**
 	 * Filters the image types to check for exif data.

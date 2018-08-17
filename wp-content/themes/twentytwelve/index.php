@@ -24,7 +24,7 @@ get_header(); ?>
 			<?php
 			while ( have_posts() ) :
 				the_post();
-?>
+				?>
 				<?php get_template_part( 'content', get_post_format() ); ?>
 			<?php endwhile; ?>
 
@@ -37,7 +37,7 @@ get_header(); ?>
 			<?php
 			if ( current_user_can( 'edit_posts' ) ) :
 				// Show a different message to a logged-in user who can add posts.
-			?>
+				?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php _e( 'No posts to display', 'twentytwelve' ); ?></h1>
 				</header>
@@ -46,10 +46,10 @@ get_header(); ?>
 					<p><?php printf( __( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentytwelve' ), admin_url( 'post-new.php' ) ); ?></p>
 				</div><!-- .entry-content -->
 
-			<?php
+				<?php
 			else :
 				// Show the default message to everyone else.
-			?>
+				?>
 				<header class="entry-header">
 					<h1 class="entry-title"><?php _e( 'Nothing Found', 'twentytwelve' ); ?></h1>
 				</header>

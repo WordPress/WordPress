@@ -8,7 +8,7 @@
 
 // Sanity check.
 if ( false ) {
-?>
+	?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -21,7 +21,7 @@ if ( false ) {
 	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
 </body>
 </html>
-<?php
+	<?php
 }
 
 /**
@@ -63,7 +63,7 @@ function display_header( $body_classes = '' ) {
 	if ( $body_classes ) {
 		$body_classes = ' ' . $body_classes;
 	}
-?>
+	?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
@@ -79,7 +79,7 @@ function display_header( $body_classes = '' ) {
 <body class="wp-core-ui<?php echo $body_classes; ?>">
 <p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
 
-<?php
+	<?php
 } // end display_header()
 
 /**
@@ -108,7 +108,7 @@ function display_setup_form( $error = null ) {
 	$admin_email  = isset( $_POST['admin_email'] ) ? trim( wp_unslash( $_POST['admin_email'] ) ) : '';
 
 	if ( ! is_null( $error ) ) {
-?>
+		?>
 <h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p class="message"><?php echo $error; ?></p>
 <?php } ?>
@@ -129,7 +129,7 @@ function display_setup_form( $error = null ) {
 				?>
 				<input name="user_name" type="text" id="user_login" size="25" value="<?php echo esc_attr( sanitize_user( $user_name, true ) ); ?>" />
 				<p><?php _e( 'Usernames can have only alphanumeric characters, spaces, underscores, hyphens, periods, and the @ symbol.' ); ?></p>
-			<?php
+				<?php
 			}
 			?>
 			</td>
@@ -189,7 +189,7 @@ function display_setup_form( $error = null ) {
 					<legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
 					<?php
 					if ( has_action( 'blog_privacy_selector' ) ) {
-					?>
+						?>
 						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
 						<label for="blog-public"><?php _e( 'Allow search engines to index this site' ); ?></label><br/>
 						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
@@ -199,7 +199,7 @@ function display_setup_form( $error = null ) {
 						/** This action is documented in wp-admin/options-reading.php */
 						do_action( 'blog_privacy_selector' );
 					} else {
-					?>
+						?>
 						<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
 						<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
 						<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
@@ -211,7 +211,7 @@ function display_setup_form( $error = null ) {
 	<p class="step"><?php submit_button( __( 'Install WordPress' ), 'large', 'Submit', false, array( 'id' => 'submit' ) ); ?></p>
 	<input type="hidden" name="language" value="<?php echo isset( $_REQUEST['language'] ) ? esc_attr( $_REQUEST['language'] ) : ''; ?>" />
 </form>
-<?php
+	<?php
 } // end display_setup_form()
 
 // Let's check to make sure WP isn't already installed.
@@ -317,14 +317,14 @@ switch ( $step ) {
 		$scripts_to_print[] = 'user-profile';
 
 		display_header();
-?>
+		?>
 <h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p><?php _e( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
 
 <h2><?php _e( 'Information needed' ); ?></h2>
 <p><?php _e( 'Please provide the following information. Don&#8217;t worry, you can always change these settings later.' ); ?></p>
 
-<?php
+		<?php
 		display_setup_form();
 		break;
 	case 2:
@@ -376,7 +376,7 @@ switch ( $step ) {
 		if ( $error === false ) {
 			$wpdb->show_errors();
 			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
-?>
+			?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
 
@@ -390,9 +390,9 @@ switch ( $step ) {
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
 		<td>
-		<?php
-		if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) :
-		?>
+			<?php
+			if ( ! empty( $result['password'] ) && empty( $admin_password_check ) ) :
+				?>
 			<code><?php echo esc_html( $result['password'] ); ?></code><br />
 		<?php endif ?>
 			<p><?php echo $result['password_message']; ?></p>
@@ -402,7 +402,7 @@ switch ( $step ) {
 
 <p class="step"><a href="<?php echo esc_url( wp_login_url() ); ?>" class="button button-large"><?php _e( 'Log In' ); ?></a></p>
 
-<?php
+			<?php
 		}
 		break;
 }

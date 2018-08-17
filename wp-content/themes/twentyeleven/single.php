@@ -15,7 +15,7 @@ get_header(); ?>
 				<?php
 				while ( have_posts() ) :
 					the_post();
-?>
+					?>
 
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'twentyeleven' ); ?></h3>

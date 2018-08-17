@@ -110,7 +110,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		if ( ! $diff && 'post_title' === $field ) {
 			// It's a better user experience to still show the Title, even if it didn't change.
 			// No, you didn't see this.
-			$diff  = '<table class="diff"><colgroup><col class="content diffsplit left"><col class="content diffsplit middle"><col class="content diffsplit right"></colgroup><tbody><tr>';
+			$diff = '<table class="diff"><colgroup><col class="content diffsplit left"><col class="content diffsplit middle"><col class="content diffsplit right"></colgroup><tbody><tr>';
 
 			// In split screen mode, show the title before/after side by side.
 			if ( true === $args['show_split_view'] ) {
@@ -124,7 +124,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 				}
 			}
 
- 			$diff .= '</tr></tbody>';
+			$diff .= '</tr></tbody>';
 			$diff .= '</table>';
 		}
 
@@ -167,7 +167,8 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 	$now_gmt = time();
 
 	$revisions = wp_get_post_revisions(
-		$post->ID, array(
+		$post->ID,
+		array(
 			'order'         => 'ASC',
 			'check_enabled' => false,
 		)
@@ -194,7 +195,9 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		$modified_gmt = strtotime( $revision->post_modified_gmt . ' +0000' );
 		if ( $can_restore ) {
 			$restore_link = str_replace(
-				'&amp;', '&', wp_nonce_url(
+				'&amp;',
+				'&',
+				wp_nonce_url(
 					add_query_arg(
 						array(
 							'revision' => $revision->ID,
@@ -394,7 +397,7 @@ function wp_print_revision_templates() {
 							__( 'Autosave by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);
-							?>
+						?>
 							</span>
 					<# } else if ( data.attributes.current ) { #>
 						<span class="byline">
@@ -403,7 +406,7 @@ function wp_print_revision_templates() {
 							__( 'Current Revision by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);
-							?>
+						?>
 							</span>
 					<# } else { #>
 						<span class="byline">
@@ -412,7 +415,7 @@ function wp_print_revision_templates() {
 							__( 'Revision by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);
-							?>
+						?>
 							</span>
 					<# } #>
 						<span class="time-ago">{{ data.attributes.timeAgo }}</span>

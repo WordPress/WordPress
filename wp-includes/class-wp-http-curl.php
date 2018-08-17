@@ -189,7 +189,8 @@ class WP_Http_Curl {
 			}
 			if ( ! $this->stream_handle ) {
 				return new WP_Error(
-					'http_request_failed', sprintf(
+					'http_request_failed',
+					sprintf(
 						/* translators: 1: fopen(), 2: file name */
 						__( 'Could not open handle for %1$s to %2$s.' ),
 						'fopen()',

@@ -77,7 +77,8 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	if ( $unique && $wpdb->get_var(
 		$wpdb->prepare(
 			"SELECT COUNT(*) FROM $table WHERE meta_key = %s AND $column = %d",
-			$meta_key, $object_id
+			$meta_key,
+			$object_id
 		)
 	) ) {
 		return false;
@@ -101,7 +102,8 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
 
 	$result = $wpdb->insert(
-		$table, array(
+		$table,
+		array(
 			$column      => $object_id,
 			'meta_key'   => $meta_key,
 			'meta_value' => $meta_value,

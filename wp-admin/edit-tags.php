@@ -55,7 +55,8 @@ if ( 'post' != $post_type ) {
 }
 
 add_screen_option(
-	'per_page', array(
+	'per_page',
+	array(
 		'default' => 20,
 		'option'  => 'edit_' . $tax->name . '_per_page',
 	)
@@ -95,7 +96,8 @@ switch ( $wp_list_table->current_action() ) {
 				array(
 					'error'   => true,
 					'message' => 4,
-				), $referer
+				),
+				$referer
 			);
 		}
 
@@ -187,7 +189,8 @@ switch ( $wp_list_table->current_action() ) {
 				array(
 					'error'   => true,
 					'message' => 5,
-				), $referer
+				),
+				$referer
 			);
 		}
 		break;
@@ -337,8 +340,8 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 
 <?php if ( $message ) : ?>
 <div id="message" class="<?php echo $class; ?> notice is-dismissible"><p><?php echo $message; ?></p></div>
-<?php
-$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message', 'error' ), $_SERVER['REQUEST_URI'] );
+	<?php
+	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'message', 'error' ), $_SERVER['REQUEST_URI'] );
 endif;
 ?>
 <div id="ajax-response"></div>
@@ -401,160 +404,160 @@ if ( current_user_can( $tax->cap->edit_terms ) ) {
 	 * @param string $taxonomy The taxonomy slug.
 	 */
 	do_action( "{$taxonomy}_pre_add_form", $taxonomy );
-?>
+	?>
 
 <div class="form-wrap">
 <h2><?php echo $tax->labels->add_new_item; ?></h2>
 <form id="addtag" method="post" action="edit-tags.php" class="validate"
-<?php
-/**
- * Fires inside the Add Tag form tag.
- *
- * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
- *
- * @since 3.7.0
- */
-do_action( "{$taxonomy}_term_new_form_tag" );
-?>
+	<?php
+	/**
+	 * Fires inside the Add Tag form tag.
+	 *
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * @since 3.7.0
+	 */
+	do_action( "{$taxonomy}_term_new_form_tag" );
+	?>
 >
 <input type="hidden" name="action" value="add-tag" />
 <input type="hidden" name="screen" value="<?php echo esc_attr( $current_screen->id ); ?>" />
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>" />
-<?php wp_nonce_field( 'add-tag', '_wpnonce_add-tag' ); ?>
+	<?php wp_nonce_field( 'add-tag', '_wpnonce_add-tag' ); ?>
 
 <div class="form-field form-required term-name-wrap">
 	<label for="tag-name"><?php _ex( 'Name', 'term name' ); ?></label>
 	<input name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true" />
 	<p><?php _e( 'The name is how it appears on your site.' ); ?></p>
 </div>
-<?php if ( ! global_terms_enabled() ) : ?>
+	<?php if ( ! global_terms_enabled() ) : ?>
 <div class="form-field term-slug-wrap">
 	<label for="tag-slug"><?php _e( 'Slug' ); ?></label>
 	<input name="slug" id="tag-slug" type="text" value="" size="40" />
 	<p><?php _e( 'The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.' ); ?></p>
 </div>
 <?php endif; // global_terms_enabled() ?>
-<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
+	<?php if ( is_taxonomy_hierarchical( $taxonomy ) ) : ?>
 <div class="form-field term-parent-wrap">
 	<label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label>
-	<?php
-	$dropdown_args = array(
-		'hide_empty'       => 0,
-		'hide_if_empty'    => false,
-		'taxonomy'         => $taxonomy,
-		'name'             => 'parent',
-		'orderby'          => 'name',
-		'hierarchical'     => true,
-		'show_option_none' => __( 'None' ),
-	);
+		<?php
+		$dropdown_args = array(
+			'hide_empty'       => 0,
+			'hide_if_empty'    => false,
+			'taxonomy'         => $taxonomy,
+			'name'             => 'parent',
+			'orderby'          => 'name',
+			'hierarchical'     => true,
+			'show_option_none' => __( 'None' ),
+		);
 
-	/**
-	 * Filters the taxonomy parent drop-down on the Edit Term page.
-	 *
-	 * @since 3.7.0
-	 * @since 4.2.0 Added `$context` parameter.
-	 *
-	 * @param array  $dropdown_args {
-	 *     An array of taxonomy parent drop-down arguments.
-	 *
-	 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0|false.
-	 *     @type bool     $hide_if_empty    Whether to hide the drop-down if no terms exist. Default false.
-	 *     @type string   $taxonomy         The taxonomy slug.
-	 *     @type string   $name             Value of the name attribute to use for the drop-down select element.
-	 *                                      Default 'parent'.
-	 *     @type string   $orderby          The field to order by. Default 'name'.
-	 *     @type bool     $hierarchical     Whether the taxonomy is hierarchical. Default true.
-	 *     @type string   $show_option_none Label to display if there are no terms. Default 'None'.
-	 * }
-	 * @param string $taxonomy The taxonomy slug.
-	 * @param string $context  Filter context. Accepts 'new' or 'edit'.
-	 */
-	$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'new' );
+		/**
+		 * Filters the taxonomy parent drop-down on the Edit Term page.
+		 *
+		 * @since 3.7.0
+		 * @since 4.2.0 Added `$context` parameter.
+		 *
+		 * @param array  $dropdown_args {
+		 *     An array of taxonomy parent drop-down arguments.
+		 *
+		 *     @type int|bool $hide_empty       Whether to hide terms not attached to any posts. Default 0|false.
+		 *     @type bool     $hide_if_empty    Whether to hide the drop-down if no terms exist. Default false.
+		 *     @type string   $taxonomy         The taxonomy slug.
+		 *     @type string   $name             Value of the name attribute to use for the drop-down select element.
+		 *                                      Default 'parent'.
+		 *     @type string   $orderby          The field to order by. Default 'name'.
+		 *     @type bool     $hierarchical     Whether the taxonomy is hierarchical. Default true.
+		 *     @type string   $show_option_none Label to display if there are no terms. Default 'None'.
+		 * }
+		 * @param string $taxonomy The taxonomy slug.
+		 * @param string $context  Filter context. Accepts 'new' or 'edit'.
+		 */
+		$dropdown_args = apply_filters( 'taxonomy_parent_dropdown_args', $dropdown_args, $taxonomy, 'new' );
 
-	wp_dropdown_categories( $dropdown_args );
-	?>
-	<?php if ( 'category' == $taxonomy ) : ?>
+		wp_dropdown_categories( $dropdown_args );
+		?>
+		<?php if ( 'category' == $taxonomy ) : ?>
 		<p><?php _e( 'Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.' ); ?></p>
 	<?php else : ?>
 		<p><?php _e( 'Assign a parent term to create a hierarchy. The term Jazz, for example, would be the parent of Bebop and Big Band.' ); ?></p>
 	<?php endif; ?>
 </div>
-<?php endif; // is_taxonomy_hierarchical() ?>
+	<?php endif; // is_taxonomy_hierarchical() ?>
 <div class="form-field term-description-wrap">
 	<label for="tag-description"><?php _e( 'Description' ); ?></label>
 	<textarea name="description" id="tag-description" rows="5" cols="40"></textarea>
 	<p><?php _e( 'The description is not prominent by default; however, some themes may show it.' ); ?></p>
 </div>
 
-<?php
-if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
+	<?php
+	if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
+		/**
+		 * Fires after the Add Tag form fields for non-hierarchical taxonomies.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $taxonomy The taxonomy slug.
+		 */
+		do_action( 'add_tag_form_fields', $taxonomy );
+	}
+
 	/**
-	 * Fires after the Add Tag form fields for non-hierarchical taxonomies.
+	 * Fires after the Add Term form fields.
+	 *
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $taxonomy The taxonomy slug.
 	 */
-	do_action( 'add_tag_form_fields', $taxonomy );
-}
+	do_action( "{$taxonomy}_add_form_fields", $taxonomy );
 
-/**
- * Fires after the Add Term form fields.
- *
- * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
- *
- * @since 3.0.0
- *
- * @param string $taxonomy The taxonomy slug.
- */
-do_action( "{$taxonomy}_add_form_fields", $taxonomy );
+	submit_button( $tax->labels->add_new_item );
 
-submit_button( $tax->labels->add_new_item );
+	if ( 'category' == $taxonomy ) {
+		/**
+		 * Fires at the end of the Edit Category form.
+		 *
+		 * @since 2.1.0
+		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 *
+		 * @param object $arg Optional arguments cast to an object.
+		 */
+		do_action( 'edit_category_form', (object) array( 'parent' => 0 ) );
+	} elseif ( 'link_category' == $taxonomy ) {
+		/**
+		 * Fires at the end of the Edit Link form.
+		 *
+		 * @since 2.3.0
+		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 *
+		 * @param object $arg Optional arguments cast to an object.
+		 */
+		do_action( 'edit_link_category_form', (object) array( 'parent' => 0 ) );
+	} else {
+		/**
+		 * Fires at the end of the Add Tag form.
+		 *
+		 * @since 2.7.0
+		 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+		 *
+		 * @param string $taxonomy The taxonomy slug.
+		 */
+		do_action( 'add_tag_form', $taxonomy );
+	}
 
-if ( 'category' == $taxonomy ) {
 	/**
-	 * Fires at the end of the Edit Category form.
+	 * Fires at the end of the Add Term form for all taxonomies.
 	 *
-	 * @since 2.1.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
-	 * @param object $arg Optional arguments cast to an object.
-	 */
-	do_action( 'edit_category_form', (object) array( 'parent' => 0 ) );
-} elseif ( 'link_category' == $taxonomy ) {
-	/**
-	 * Fires at the end of the Edit Link form.
-	 *
-	 * @since 2.3.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
-	 *
-	 * @param object $arg Optional arguments cast to an object.
-	 */
-	do_action( 'edit_link_category_form', (object) array( 'parent' => 0 ) );
-} else {
-	/**
-	 * Fires at the end of the Add Tag form.
-	 *
-	 * @since 2.7.0
-	 * @deprecated 3.0.0 Use {$taxonomy}_add_form instead.
+	 * @since 3.0.0
 	 *
 	 * @param string $taxonomy The taxonomy slug.
 	 */
-	do_action( 'add_tag_form', $taxonomy );
-}
-
-/**
- * Fires at the end of the Add Term form for all taxonomies.
- *
- * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
- *
- * @since 3.0.0
- *
- * @param string $taxonomy The taxonomy slug.
- */
-do_action( "{$taxonomy}_add_form", $taxonomy );
-?>
+	do_action( "{$taxonomy}_add_form", $taxonomy );
+	?>
 </form></div>
 <?php } ?>
 
@@ -587,15 +590,15 @@ do_action( "{$taxonomy}_add_form", $taxonomy );
 	);
 	?>
 </p>
-<?php if ( current_user_can( 'import' ) ) : ?>
+	<?php if ( current_user_can( 'import' ) ) : ?>
 <p><?php printf( __( 'Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.' ), esc_url( $import_link ) ); ?></p>
-<?php endif; ?>
+	<?php endif; ?>
 </div>
 <?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
 <div class="form-wrap edit-term-notes">
 <p><?php printf( __( 'Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.' ), esc_url( $import_link ) ); ?></p>
 </div>
-<?php
+	<?php
 endif;
 
 /**
@@ -620,7 +623,7 @@ do_action( "after-{$taxonomy}-table", $taxonomy );
 <script type="text/javascript">
 try{document.forms.addtag['tag-name'].focus();}catch(e){}
 </script>
-<?php
+	<?php
 endif;
 
 $wp_list_table->inline_edit();

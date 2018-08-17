@@ -38,7 +38,7 @@
 					'link_after'  => '</span>',
 				)
 			);
-		?>
+			?>
 	</div><!-- .entry-content -->
 
 	<?php if ( is_single() ) : ?>

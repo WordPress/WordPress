@@ -31,7 +31,8 @@ if ( post_password_required() ) {
 			<?php
 				printf(
 					_n( 'One thought on &ldquo;%2$s&rdquo;', '%1$s thoughts on &ldquo;%2$s&rdquo;', get_comments_number(), 'twentytwelve' ),
-					number_format_i18n( get_comments_number() ), '<span>' . get_the_title() . '</span>'
+					number_format_i18n( get_comments_number() ),
+					'<span>' . get_the_title() . '</span>'
 				);
 			?>
 		</h2>
@@ -44,7 +45,7 @@ if ( post_password_required() ) {
 					'style'    => 'ol',
 				)
 			);
-?>
+			?>
 		</ol><!-- .commentlist -->
 
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // are there comments to navigate through ?>
@@ -60,7 +61,7 @@ if ( post_password_required() ) {
 		 * But we only want the note on posts and pages that had comments in the first place.
 		 */
 		if ( ! comments_open() && get_comments_number() ) :
-		?>
+			?>
 		<p class="nocomments"><?php _e( 'Comments are closed.', 'twentytwelve' ); ?></p>
 		<?php endif; ?>
 

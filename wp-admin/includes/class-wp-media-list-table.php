@@ -171,26 +171,26 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( 'bar' !== $which ) {
 			return;
 		}
-?>
+		?>
 		<div class="actions">
-<?php
-if ( ! is_singular() ) {
-	if ( ! $this->is_trash ) {
-		$this->months_dropdown( 'attachment' );
-	}
+		<?php
+		if ( ! is_singular() ) {
+			if ( ! $this->is_trash ) {
+				$this->months_dropdown( 'attachment' );
+			}
 
-	/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
-	do_action( 'restrict_manage_posts', $this->screen->post_type, $which );
+			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
+			do_action( 'restrict_manage_posts', $this->screen->post_type, $which );
 
-	submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
-}
+			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+		}
 
-if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_items() ) {
-	submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
-}
+		if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_items() ) {
+			submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
+		}
 		?>
 		</div>
-<?php
+		<?php
 	}
 
 	/**
@@ -236,7 +236,7 @@ if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_it
 		$views = $this->get_views();
 
 		$this->screen->render_screen_reader_content( 'heading_views' );
-?>
+		?>
 <div class="wp-filter">
 	<div class="filter-items">
 		<?php $this->view_switcher( $mode ); ?>
@@ -252,28 +252,28 @@ if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_it
 			?>
 		</select>
 
-<?php
+		<?php
 		$this->extra_tablenav( 'bar' );
 
 		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
 		$views = apply_filters( "views_{$this->screen->id}", array() );
 
 		// Back compat for pre-4.0 view links.
-if ( ! empty( $views ) ) {
-	echo '<ul class="filter-links">';
-	foreach ( $views as $class => $view ) {
-		echo "<li class='$class'>$view</li>";
-	}
-	echo '</ul>';
-}
-?>
+		if ( ! empty( $views ) ) {
+			echo '<ul class="filter-links">';
+			foreach ( $views as $class => $view ) {
+				echo "<li class='$class'>$view</li>";
+			}
+			echo '</ul>';
+		}
+		?>
 	</div>
 
 	<div class="search-form">
 		<label for="media-search-input" class="screen-reader-text"><?php esc_html_e( 'Search Media' ); ?></label>
 		<input type="search" placeholder="<?php esc_attr_e( 'Search media items...' ); ?>" id="media-search-input" class="search" name="s" value="<?php _admin_search_query(); ?>"></div>
 	</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -354,14 +354,14 @@ if ( ! empty( $views ) ) {
 	 */
 	public function column_cb( $post ) {
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
-		?>
+			?>
 			<label class="screen-reader-text" for="cb-select-<?php echo $post->ID; ?>">
 																		<?php
 																		echo sprintf( __( 'Select %s' ), _draft_or_post_title() );
-			?>
+																		?>
 			</label>
 			<input type="checkbox" name="media[]" id="cb-select-<?php echo $post->ID; ?>" value="<?php echo $post->ID; ?>" />
-		<?php
+			<?php
 		}
 	}
 
@@ -395,9 +395,9 @@ if ( ! empty( $views ) ) {
 			<?php
 			echo $link_start;
 			if ( $thumb ) :
-			?>
+				?>
 				<span class="media-icon <?php echo sanitize_html_class( $mime . '-icon' ); ?>"><?php echo $thumb; ?></span>
-			<?php
+				<?php
 			endif;
 			echo $title . $link_end;
 			_media_states( $post );
@@ -487,12 +487,12 @@ if ( ! empty( $views ) ) {
 			$parent_type = get_post_type_object( $parent->post_type );
 
 			if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $post->post_parent ) ) {
-?>
+				?>
 				<strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 					<?php echo $title; ?></a></strong>
 								<?php
 			} elseif ( $parent_type && current_user_can( 'read_post', $post->post_parent ) ) {
-?>
+				?>
 				<strong><?php echo $title; ?></strong>
 									<?php
 			} else {
@@ -505,7 +505,8 @@ if ( ! empty( $views ) ) {
 						'parent_post_id' => $post->post_parent,
 						'media[]'        => $post->ID,
 						'_wpnonce'       => wp_create_nonce( 'bulk-' . $this->_args['plural'] ),
-					), 'upload.php'
+					),
+					'upload.php'
 				);
 				printf(
 					'<br /><a href="%s" class="hide-if-no-js detach-from-parent" aria-label="%s">%s</a>',
@@ -631,11 +632,11 @@ if ( ! empty( $views ) ) {
 				continue;
 			}
 			$post_owner = ( get_current_user_id() == $post->post_author ) ? 'self' : 'other';
-		?>
+			?>
 			<tr id="post-<?php echo $post->ID; ?>" class="<?php echo trim( ' author-' . $post_owner . ' status-' . $post->post_status ); ?>">
 				<?php $this->single_row_columns( $post ); ?>
 			</tr>
-		<?php
+			<?php
 		endwhile;
 	}
 

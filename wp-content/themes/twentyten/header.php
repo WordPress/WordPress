@@ -35,7 +35,7 @@ if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
 	echo esc_html( ' | ' . sprintf( __( 'Page %s', 'twentyten' ), max( $paged, $page ) ) );
 }
 
-	?>
+?>
 	</title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
@@ -100,7 +100,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 							$header_image_width  = HEADER_IMAGE_WIDTH;
 							$header_image_height = HEADER_IMAGE_HEIGHT;
 						}
-					?>
+						?>
 						<img src="<?php header_image(); ?>" width="<?php echo esc_attr( $header_image_width ); ?>" height="<?php echo esc_attr( $header_image_height ); ?>" alt="" />
 					<?php endif; ?>
 			</div><!-- #branding -->
@@ -116,7 +116,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 						'theme_location'  => 'primary',
 					)
 				);
-?>
+				?>
 			</div><!-- #access -->
 		</div><!-- #masthead -->
 	</div><!-- #header -->

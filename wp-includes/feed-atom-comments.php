@@ -76,7 +76,7 @@ if ( have_comments() ) :
 	while ( have_comments() ) :
 		the_comment();
 		$comment_post = $GLOBALS['post'] = get_post( $comment->comment_post_ID );
-	?>
+		?>
 	<entry>
 		<title>
 		<?php
@@ -90,7 +90,7 @@ if ( have_comments() ) :
 			/* translators: Comment author title. %s: Comment author name */
 			printf( ent2ncr( __( 'By: %s' ) ), get_comment_author_rss() );
 		}
-			?>
+		?>
 			</title>
 			<link rel="alternate" href="<?php comment_link(); ?>" type="<?php bloginfo_rss( 'html_type' ); ?>" />
 
@@ -99,14 +99,14 @@ if ( have_comments() ) :
 			<?php
 			if ( get_comment_author_url() ) {
 				echo '<uri>' . get_comment_author_url() . '</uri>';}
-?>
+			?>
 
 		</author>
 
 		<id><?php comment_guid(); ?></id>
 		<updated><?php echo mysql2date( 'Y-m-d\TH:i:s\Z', get_comment_time( 'Y-m-d H:i:s', true, false ), false ); ?></updated>
 		<published><?php echo mysql2date( 'Y-m-d\TH:i:s\Z', get_comment_time( 'Y-m-d H:i:s', true, false ), false ); ?></published>
-	<?php if ( post_password_required( $comment_post ) ) : ?>
+		<?php if ( post_password_required( $comment_post ) ) : ?>
 		<content type="html" xml:base="<?php comment_link(); ?>"><![CDATA[<?php echo get_the_password_form(); ?>]]></content>
 	<?php else : // post pass ?>
 		<content type="html" xml:base="<?php comment_link(); ?>"><![CDATA[<?php comment_text(); ?>]]></content>
@@ -120,9 +120,9 @@ if ( $comment->comment_parent == 0 ) : // This comment is top level
 	else : // This comment is in reply to another comment
 		$parent_comment = get_comment( $comment->comment_parent );
 		// The rel attribute below and the id tag above should be GUIDs, but WP doesn't create them for comments (unlike posts). Either way, it's more important that they both use the same system
-	?>
+		?>
 		<thr:in-reply-to ref="<?php comment_guid( $parent_comment ); ?>" href="<?php echo get_comment_link( $parent_comment ); ?>" type="<?php bloginfo_rss( 'html_type' ); ?>" />
-<?php
+		<?php
 endif;
 	/**
 	 * Fires at the end of each Atom comment feed item.
@@ -135,7 +135,7 @@ endif;
 	do_action( 'comment_atom_entry', $comment->comment_ID, $comment_post->ID );
 	?>
 	</entry>
-	<?php
+		<?php
 	endwhile;
 endif;
 ?>

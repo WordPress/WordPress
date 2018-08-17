@@ -1152,7 +1152,8 @@ function get_trackback_url() {
 function trackback_url( $deprecated_echo = true ) {
 	if ( true !== $deprecated_echo ) {
 		_deprecated_argument(
-			__FUNCTION__, '2.5.0',
+			__FUNCTION__,
+			'2.5.0',
 			/* translators: %s: get_trackback_url() */
 			sprintf(
 				__( 'Use %s instead if you do not want the value echoed.' ),
@@ -1676,23 +1677,23 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		);
 	} else {
 		$data_attributes = array(
-			'commentid'        => $comment->comment_ID,
-			'postid'           => $post->ID,
-			'belowelement'     => $args['add_below'] . '-' . $comment->comment_ID,
-			'respondelement'   => $args['respond_id'],
+			'commentid'      => $comment->comment_ID,
+			'postid'         => $post->ID,
+			'belowelement'   => $args['add_below'] . '-' . $comment->comment_ID,
+			'respondelement' => $args['respond_id'],
 		);
 
 		$data_attribute_string = '';
 
 		foreach ( $data_attributes as $name => $value ) {
-			$data_attribute_string .= " data-${name}=\"" . esc_attr( $value ) . "\"";
+			$data_attribute_string .= " data-${name}=\"" . esc_attr( $value ) . '"';
 		}
 
 		$data_attribute_string = trim( $data_attribute_string );
 
 		$link = sprintf(
 			"<a rel='nofollow' class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
-			esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . "#" . $args['respond_id'],
+			esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . '#' . $args['respond_id'],
 			$data_attribute_string,
 			esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
 			$args['reply_text']
@@ -1779,7 +1780,9 @@ function get_post_reply_link( $args = array(), $post = null ) {
 	} else {
 		$onclick = sprintf(
 			'return addComment.moveForm( "%1$s-%2$s", "0", "%3$s", "%2$s" )',
-			$args['add_below'], $post->ID, $args['respond_id']
+			$args['add_below'],
+			$post->ID,
+			$args['respond_id']
 		);
 
 		$link = sprintf(
@@ -2263,11 +2266,11 @@ function comment_form( $args = array(), $post_id = null ) {
 	$html_req = ( $req ? " required='required'" : '' );
 	$html5    = 'html5' === $args['format'];
 	$fields   = array(
-		'author'  => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+		'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 					 '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" maxlength="245"' . $html_req . ' /></p>',
-		'email'   => '<p class="comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+		'email'  => '<p class="comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
 					 '<input id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="30" maxlength="100" aria-describedby="email-notes"' . $html_req . ' /></p>',
-		'url'     => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label> ' .
+		'url'    => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label> ' .
 					 '<input id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" maxlength="200" /></p>',
 	);
 
@@ -2376,7 +2379,7 @@ function comment_form( $args = array(), $post_id = null ) {
 			 */
 			do_action( 'comment_form_must_log_in_after' );
 		else :
-		?>
+			?>
 			<form action="<?php echo esc_url( $args['action'] ); ?>" method="post" id="<?php echo esc_attr( $args['id_form'] ); ?>" class="<?php echo esc_attr( $args['class_form'] ); ?>"<?php echo $html5 ? ' novalidate' : ''; ?>>
 				<?php
 				/**

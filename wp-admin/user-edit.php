@@ -184,52 +184,52 @@ switch ( $action ) {
 		$sessions = WP_Session_Tokens::get_instance( $profileuser->ID );
 
 		include( ABSPATH . 'wp-admin/admin-header.php' );
-	?>
+		?>
 
-	<?php if ( ! IS_PROFILE_PAGE && is_super_admin( $profileuser->ID ) && current_user_can( 'manage_network_options' ) ) { ?>
+		<?php if ( ! IS_PROFILE_PAGE && is_super_admin( $profileuser->ID ) && current_user_can( 'manage_network_options' ) ) { ?>
 	<div class="notice notice-info"><p><strong><?php _e( 'Important:' ); ?></strong> <?php _e( 'This user has super admin privileges.' ); ?></p></div>
 <?php } ?>
-<?php if ( isset( $_GET['updated'] ) ) : ?>
+		<?php if ( isset( $_GET['updated'] ) ) : ?>
 <div id="message" class="updated notice is-dismissible">
-	<?php if ( IS_PROFILE_PAGE ) : ?>
+			<?php if ( IS_PROFILE_PAGE ) : ?>
 	<p><strong><?php _e( 'Profile updated.' ); ?></strong></p>
 	<?php else : ?>
 	<p><strong><?php _e( 'User updated.' ); ?></strong></p>
 	<?php endif; ?>
-	<?php if ( $wp_http_referer && false === strpos( $wp_http_referer, 'user-new.php' ) && ! IS_PROFILE_PAGE ) : ?>
+			<?php if ( $wp_http_referer && false === strpos( $wp_http_referer, 'user-new.php' ) && ! IS_PROFILE_PAGE ) : ?>
 	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), self_admin_url( 'users.php' ) ) ); ?>"><?php _e( '&larr; Back to Users' ); ?></a></p>
 	<?php endif; ?>
 </div>
-<?php endif; ?>
-<?php if ( isset( $_GET['error'] ) ) : ?>
+		<?php endif; ?>
+		<?php if ( isset( $_GET['error'] ) ) : ?>
 <div class="notice notice-error">
-	<?php if ( 'new-email' == $_GET['error'] ) : ?>
+			<?php if ( 'new-email' == $_GET['error'] ) : ?>
 	<p><?php _e( 'Error while saving the new email address. Please try again.' ); ?></p>
 	<?php endif; ?>
 </div>
-<?php endif; ?>
-<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
+		<?php endif; ?>
+		<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
 <div class="error"><p><?php echo implode( "</p>\n<p>", $errors->get_error_messages() ); ?></p></div>
-<?php endif; ?>
+		<?php endif; ?>
 
 <div class="wrap" id="profile-page">
 <h1 class="wp-heading-inline">
-<?php
-echo esc_html( $title );
-?>
+		<?php
+		echo esc_html( $title );
+		?>
 </h1>
 
-<?php
-if ( ! IS_PROFILE_PAGE ) {
-	if ( current_user_can( 'create_users' ) ) {
-	?>
+		<?php
+		if ( ! IS_PROFILE_PAGE ) {
+			if ( current_user_can( 'create_users' ) ) {
+				?>
 		<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
 	<?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
 		<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
-	<?php
+				<?php
 }
-}
-?>
+		}
+		?>
 
 <hr class="wp-header-end">
 
@@ -241,12 +241,12 @@ if ( ! IS_PROFILE_PAGE ) {
 											 * @since 3.0.0
 											 */
 											do_action( 'user_edit_form_tag' );
-	?>
+											?>
 	>
-	<?php wp_nonce_field( 'update-user_' . $user_id ); ?>
-<?php if ( $wp_http_referer ) : ?>
+		<?php wp_nonce_field( 'update-user_' . $user_id ); ?>
+		<?php if ( $wp_http_referer ) : ?>
 	<input type="hidden" name="wp_http_referer" value="<?php echo esc_url( $wp_http_referer ); ?>" />
-<?php endif; ?>
+		<?php endif; ?>
 <p>
 <input type="hidden" name="from" value="profile" />
 <input type="hidden" name="checkuser_id" value="<?php echo get_current_user_id(); ?>" />
@@ -255,25 +255,25 @@ if ( ! IS_PROFILE_PAGE ) {
 <h2><?php _e( 'Personal Options' ); ?></h2>
 
 <table class="form-table">
-<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
+		<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
 	<tr class="user-rich-editing-wrap">
 		<th scope="row"><?php _e( 'Visual Editor' ); ?></th>
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php checked( 'false', $profileuser->rich_editing ); ?> /> <?php _e( 'Disable the visual editor when writing' ); ?></label></td>
 	</tr>
-<?php endif; ?>
-<?php
-$show_syntax_highlighting_preference = (
-	// For Custom HTML widget and Additional CSS in Customizer.
-	user_can( $profileuser, 'edit_theme_options' )
-	||
-	// Edit plugins.
-	user_can( $profileuser, 'edit_plugins' )
-	||
-	// Edit themes.
-	user_can( $profileuser, 'edit_themes' )
-	);
-	?>
-	<?php if ( $show_syntax_highlighting_preference ) : ?>
+		<?php endif; ?>
+		<?php
+		$show_syntax_highlighting_preference = (
+		// For Custom HTML widget and Additional CSS in Customizer.
+		user_can( $profileuser, 'edit_theme_options' )
+		||
+		// Edit plugins.
+		user_can( $profileuser, 'edit_plugins' )
+		||
+		// Edit themes.
+		user_can( $profileuser, 'edit_themes' )
+		);
+		?>
+		<?php if ( $show_syntax_highlighting_preference ) : ?>
 	<tr class="user-syntax-highlighting-wrap">
 		<th scope="row"><?php _e( 'Syntax Highlighting' ); ?></th>
 		<td>
@@ -281,30 +281,30 @@ $show_syntax_highlighting_preference = (
 		</td>
 	</tr>
 <?php endif; ?>
-<?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
+		<?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
 <tr class="user-admin-color-wrap">
 <th scope="row"><?php _e( 'Admin Color Scheme' ); ?></th>
 <td>
-<?php
-	/**
-	 * Fires in the 'Admin Color Scheme' section of the user editing screen.
-	 *
-	 * The section is only enabled if a callback is hooked to the action,
-	 * and if there is more than one defined color scheme for the admin.
-	 *
-	 * @since 3.0.0
-	 * @since 3.8.1 Added `$user_id` parameter.
-	 *
-	 * @param int $user_id The user ID.
-	 */
-	do_action( 'admin_color_scheme_picker', $user_id );
-?>
+			<?php
+			/**
+			 * Fires in the 'Admin Color Scheme' section of the user editing screen.
+			 *
+			 * The section is only enabled if a callback is hooked to the action,
+			 * and if there is more than one defined color scheme for the admin.
+			 *
+			 * @since 3.0.0
+			 * @since 3.8.1 Added `$user_id` parameter.
+			 *
+			 * @param int $user_id The user ID.
+			 */
+			do_action( 'admin_color_scheme_picker', $user_id );
+			?>
 </td>
 </tr>
-<?php
+			<?php
 endif; // $_wp_admin_css_colors
 if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) :
-?>
+	?>
 <tr class="user-comment-shortcuts-wrap">
 <th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
 <td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php checked( 'true', $profileuser->comment_shortcuts ); ?> /> <?php _e( 'Enable keyboard shortcuts for comment moderation.' ); ?></label> <?php _e( '<a href="https://codex.wordpress.org/Keyboard_Shortcuts" target="_blank">More information</a>' ); ?></td>
@@ -315,73 +315,73 @@ if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) :
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Toolbar' ); ?></span></legend>
 <label for="admin_bar_front">
 <input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1"<?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
-<?php _e( 'Show Toolbar when viewing site' ); ?></label><br />
+		<?php _e( 'Show Toolbar when viewing site' ); ?></label><br />
 </fieldset>
 </td>
 </tr>
 
-<?php
-$languages = get_available_languages();
-if ( $languages ) :
-?>
+		<?php
+		$languages = get_available_languages();
+		if ( $languages ) :
+			?>
 <tr class="user-language-wrap">
 	<th scope="row">
-		<?php /* translators: The user language selection field label */ ?>
+			<?php /* translators: The user language selection field label */ ?>
 		<label for="locale"><?php _e( 'Language' ); ?></label>
 	</th>
 	<td>
-		<?php
-		$user_locale = $profileuser->locale;
+			<?php
+				$user_locale = $profileuser->locale;
 
-		if ( 'en_US' === $user_locale ) {
-			$user_locale = '';
-		} elseif ( '' === $user_locale || ! in_array( $user_locale, $languages, true ) ) {
-			$user_locale = 'site-default';
-		}
+			if ( 'en_US' === $user_locale ) {
+				$user_locale = '';
+			} elseif ( '' === $user_locale || ! in_array( $user_locale, $languages, true ) ) {
+				$user_locale = 'site-default';
+			}
 
-		wp_dropdown_languages(
-			array(
-				'name'                        => 'locale',
-				'id'                          => 'locale',
-				'selected'                    => $user_locale,
-				'languages'                   => $languages,
-				'show_available_translations' => false,
-				'show_option_site_default'    => true,
-			)
-		);
-		?>
+			wp_dropdown_languages(
+				array(
+					'name'                        => 'locale',
+					'id'                          => 'locale',
+					'selected'                    => $user_locale,
+					'languages'                   => $languages,
+					'show_available_translations' => false,
+					'show_option_site_default'    => true,
+				)
+			);
+			?>
 	</td>
 </tr>
-<?php
+			<?php
 endif;
-?>
+		?>
 
-<?php
-/**
- * Fires at the end of the 'Personal Options' settings table on the user editing screen.
- *
- * @since 2.7.0
- *
- * @param WP_User $profileuser The current WP_User object.
- */
-do_action( 'personal_options', $profileuser );
-?>
+		<?php
+		/**
+		 * Fires at the end of the 'Personal Options' settings table on the user editing screen.
+		 *
+		 * @since 2.7.0
+		 *
+		 * @param WP_User $profileuser The current WP_User object.
+		 */
+		do_action( 'personal_options', $profileuser );
+		?>
 
 </table>
-<?php
-if ( IS_PROFILE_PAGE ) {
-	/**
-	 * Fires after the 'Personal Options' settings table on the 'Your Profile' editing screen.
-	 *
-	 * The action only fires if the current user is editing their own profile.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param WP_User $profileuser The current WP_User object.
-	 */
-	do_action( 'profile_personal_options', $profileuser );
-}
-?>
+		<?php
+		if ( IS_PROFILE_PAGE ) {
+			/**
+			 * Fires after the 'Personal Options' settings table on the 'Your Profile' editing screen.
+			 *
+			 * The action only fires if the current user is editing their own profile.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param WP_User $profileuser The current WP_User object.
+			 */
+			do_action( 'profile_personal_options', $profileuser );
+		}
+		?>
 
 <h2><?php _e( 'Name' ); ?></h2>
 
@@ -391,33 +391,33 @@ if ( IS_PROFILE_PAGE ) {
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr( $profileuser->user_login ); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
 	</tr>
 
-<?php if ( ! IS_PROFILE_PAGE && ! is_network_admin() && current_user_can( 'promote_user', $profileuser->ID ) ) : ?>
+		<?php if ( ! IS_PROFILE_PAGE && ! is_network_admin() && current_user_can( 'promote_user', $profileuser->ID ) ) : ?>
 <tr class="user-role-wrap"><th><label for="role"><?php _e( 'Role' ); ?></label></th>
 <td><select name="role" id="role">
-<?php
-// Compare user role against currently editable roles
-$user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
-$user_role  = reset( $user_roles );
+			<?php
+			// Compare user role against currently editable roles
+			$user_roles = array_intersect( array_values( $profileuser->roles ), array_keys( get_editable_roles() ) );
+			$user_role  = reset( $user_roles );
 
-// print the full list of roles with the primary one selected.
-wp_dropdown_roles( $user_role );
+			// print the full list of roles with the primary one selected.
+			wp_dropdown_roles( $user_role );
 
-// print the 'no role' option. Make it selected if the user has no role yet.
-if ( $user_role ) {
-	echo '<option value="">' . __( '&mdash; No role for this site &mdash;' ) . '</option>';
-} else {
-	echo '<option value="" selected="selected">' . __( '&mdash; No role for this site &mdash;' ) . '</option>';
-}
-?>
+			// print the 'no role' option. Make it selected if the user has no role yet.
+			if ( $user_role ) {
+				echo '<option value="">' . __( '&mdash; No role for this site &mdash;' ) . '</option>';
+			} else {
+				echo '<option value="" selected="selected">' . __( '&mdash; No role for this site &mdash;' ) . '</option>';
+			}
+			?>
 </select></td></tr>
-<?php
+			<?php
 endif; //!IS_PROFILE_PAGE
 
 if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && ! isset( $super_admins ) ) {
-?>
+	?>
 <tr class="user-super-admin-wrap"><th><?php _e( 'Super Admin' ); ?></th>
 <td>
-<?php if ( $profileuser->user_email != get_site_option( 'admin_email' ) || ! is_super_admin( $profileuser->ID ) ) : ?>
+	<?php if ( $profileuser->user_email != get_site_option( 'admin_email' ) || ! is_super_admin( $profileuser->ID ) ) : ?>
 <p><label><input type="checkbox" id="super_admin" name="super_admin"<?php checked( is_super_admin( $profileuser->ID ) ); ?> /> <?php _e( 'Grant this user super admin privileges for the Network.' ); ?></label></p>
 <?php else : ?>
 <p><?php _e( 'Super admin privileges cannot be removed because this user has the network admin email.' ); ?></p>
@@ -470,9 +470,9 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 			$public_display = array_unique( $public_display );
 
 		foreach ( $public_display as $id => $item ) {
-		?>
+			?>
 		<option <?php selected( $profileuser->display_name, $item ); ?>><?php echo $item; ?></option>
-		<?php
+			<?php
 		}
 		?>
 		</select>
@@ -488,30 +488,30 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 		<td><input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profileuser->user_email ); ?>" class="regular-text ltr" />
 		<?php
 		if ( $profileuser->ID == $current_user->ID ) :
-		?>
+			?>
 		<p class="description" id="email-description">
 			<?php _e( 'If you change this we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?>
 		</p>
-		<?php
+			<?php
 		endif;
 
 		$new_email = get_user_meta( $current_user->ID, '_new_email', true );
 		if ( $new_email && $new_email['newemail'] != $current_user->user_email && $profileuser->ID == $current_user->ID ) :
-		?>
+			?>
 		<div class="updated inline">
 		<p>
-		<?php
-		printf(
-			/* translators: %s: new email */
-			__( 'There is a pending change of your email to %s.' ),
-			'<code>' . esc_html( $new_email['newemail'] ) . '</code>'
-		);
-		printf(
-			' <a href="%1$s">%2$s</a>',
-			esc_url( wp_nonce_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ), 'dismiss-' . $current_user->ID . '_new_email' ) ),
-			__( 'Cancel' )
-		);
-		?>
+			<?php
+			printf(
+				/* translators: %s: new email */
+				__( 'There is a pending change of your email to %s.' ),
+				'<code>' . esc_html( $new_email['newemail'] ) . '</code>'
+			);
+			printf(
+				' <a href="%1$s">%2$s</a>',
+				esc_url( wp_nonce_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ), 'dismiss-' . $current_user->ID . '_new_email' ) ),
+				__( 'Cancel' )
+			);
+			?>
 		</p>
 		</div>
 		<?php endif; ?>
@@ -523,30 +523,30 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<td><input type="url" name="url" id="url" value="<?php echo esc_attr( $profileuser->user_url ); ?>" class="regular-text code" /></td>
 	</tr>
 
-	<?php
-	foreach ( wp_get_user_contact_methods( $profileuser ) as $name => $desc ) {
-	?>
+		<?php
+		foreach ( wp_get_user_contact_methods( $profileuser ) as $name => $desc ) {
+			?>
 	<tr class="user-<?php echo $name; ?>-wrap">
 <th><label for="<?php echo $name; ?>">
-	<?php
-	/**
-	 * Filters a user contactmethod label.
-	 *
-	 * The dynamic portion of the filter hook, `$name`, refers to
-	 * each of the keys in the contactmethods array.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param string $desc The translatable label for the contactmethod.
-	 */
-	echo apply_filters( "user_{$name}_label", $desc );
-	?>
+			<?php
+			/**
+			 * Filters a user contactmethod label.
+			 *
+			 * The dynamic portion of the filter hook, `$name`, refers to
+			 * each of the keys in the contactmethods array.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $desc The translatable label for the contactmethod.
+			 */
+			echo apply_filters( "user_{$name}_label", $desc );
+			?>
 	</label></th>
 	<td><input type="text" name="<?php echo $name; ?>" id="<?php echo $name; ?>" value="<?php echo esc_attr( $profileuser->$name ); ?>" class="regular-text" /></td>
 	</tr>
-	<?php
-	}
-	?>
+			<?php
+		}
+		?>
 	</table>
 
 	<h2><?php IS_PROFILE_PAGE ? _e( 'About Yourself' ) : _e( 'About the user' ); ?></h2>
@@ -558,22 +558,22 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<p class="description"><?php _e( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ); ?></p></td>
 </tr>
 
-<?php if ( get_option( 'show_avatars' ) ) : ?>
+		<?php if ( get_option( 'show_avatars' ) ) : ?>
 <tr class="user-profile-picture">
 	<th><?php _e( 'Profile Picture' ); ?></th>
 	<td>
-		<?php echo get_avatar( $user_id ); ?>
+			<?php echo get_avatar( $user_id ); ?>
 		<p class="description">
-		<?php
-		if ( IS_PROFILE_PAGE ) {
-			/* translators: %s: Gravatar URL */
-			$description = sprintf(
-				__( 'You can change your profile picture on <a href="%s">Gravatar</a>.' ),
-				__( 'https://en.gravatar.com/' )
-			);
-		} else {
-			$description = '';
-		}
+			<?php
+			if ( IS_PROFILE_PAGE ) {
+				/* translators: %s: Gravatar URL */
+				$description = sprintf(
+					__( 'You can change your profile picture on <a href="%s">Gravatar</a>.' ),
+					__( 'https://en.gravatar.com/' )
+				);
+			} else {
+				$description = '';
+			}
 
 			/**
 			 * Filters the user profile picture description displayed under the Gravatar.
@@ -585,25 +585,25 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 			 * @param WP_User $profileuser The current WP_User object.
 			 */
 			echo apply_filters( 'user_profile_picture_description', $description, $profileuser );
-		?>
+			?>
 		</p>
 	</td>
 </tr>
 <?php endif; ?>
 
-	<?php
-	/**
-	 * Filters the display of the password fields.
-	 *
-	 * @since 1.5.1
-	 * @since 2.8.0 Added the `$profileuser` parameter.
-	 * @since 4.4.0 Now evaluated only in user-edit.php.
-	 *
-	 * @param bool    $show        Whether to show the password fields. Default true.
-	 * @param WP_User $profileuser User object for the current user to edit.
-	 */
-	if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
-	?>
+		<?php
+		/**
+		 * Filters the display of the password fields.
+		 *
+		 * @since 1.5.1
+		 * @since 2.8.0 Added the `$profileuser` parameter.
+		 * @since 4.4.0 Now evaluated only in user-edit.php.
+		 *
+		 * @param bool    $show        Whether to show the password fields. Default true.
+		 * @param WP_User $profileuser User object for the current user to edit.
+		 */
+		if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
+			?>
 	</table>
 
 	<h2><?php _e( 'Account Management' ); ?></h2>
@@ -644,11 +644,11 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 		</label>
 	</td>
 </tr>
-<?php endif; ?>
+	<?php endif; ?>
 
-<?php
-if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) :
-?>
+		<?php
+		if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) :
+			?>
 	<tr class="user-sessions-wrap hide-if-no-js">
 		<th><?php _e( 'Sessions' ); ?></th>
 		<td aria-live="assertive">
@@ -685,77 +685,77 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) :
 
 	</table>
 
-	<?php
-	if ( IS_PROFILE_PAGE ) {
-		/**
-		 * Fires after the 'About Yourself' settings table on the 'Your Profile' editing screen.
-		 *
-		 * The action only fires if the current user is editing their own profile.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param WP_User $profileuser The current WP_User object.
-		 */
-		do_action( 'show_user_profile', $profileuser );
-	} else {
-		/**
-		 * Fires after the 'About the User' settings table on the 'Edit User' screen.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param WP_User $profileuser The current WP_User object.
-		 */
-		do_action( 'edit_user_profile', $profileuser );
-	}
-	?>
+		<?php
+		if ( IS_PROFILE_PAGE ) {
+			/**
+			 * Fires after the 'About Yourself' settings table on the 'Your Profile' editing screen.
+			 *
+			 * The action only fires if the current user is editing their own profile.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param WP_User $profileuser The current WP_User object.
+			 */
+			do_action( 'show_user_profile', $profileuser );
+		} else {
+			/**
+			 * Fires after the 'About the User' settings table on the 'Edit User' screen.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param WP_User $profileuser The current WP_User object.
+			 */
+			do_action( 'edit_user_profile', $profileuser );
+		}
+		?>
 
-	<?php
-	/**
-	 * Filters whether to display additional capabilities for the user.
-	 *
-	 * The 'Additional Capabilities' section will only be enabled if
-	 * the number of the user's capabilities exceeds their number of
-	 * roles.
-	 *
-	 * @since 2.8.0
-	 *
-	 * @param bool    $enable      Whether to display the capabilities. Default true.
-	 * @param WP_User $profileuser The current WP_User object.
-	 */
-	if ( count( $profileuser->caps ) > count( $profileuser->roles )
-	&& apply_filters( 'additional_capabilities_display', true, $profileuser )
-	) :
-	?>
+		<?php
+		/**
+		 * Filters whether to display additional capabilities for the user.
+		 *
+		 * The 'Additional Capabilities' section will only be enabled if
+		 * the number of the user's capabilities exceeds their number of
+		 * roles.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool    $enable      Whether to display the capabilities. Default true.
+		 * @param WP_User $profileuser The current WP_User object.
+		 */
+		if ( count( $profileuser->caps ) > count( $profileuser->roles )
+		&& apply_filters( 'additional_capabilities_display', true, $profileuser )
+		) :
+			?>
 	<h2><?php _e( 'Additional Capabilities' ); ?></h2>
 <table class="form-table">
 <tr class="user-capabilities-wrap">
 	<th scope="row"><?php _e( 'Capabilities' ); ?></th>
 	<td>
-<?php
-	$output = '';
-foreach ( $profileuser->caps as $cap => $value ) {
-	if ( ! $wp_roles->is_role( $cap ) ) {
-		if ( '' != $output ) {
-			$output .= ', ';
-		}
-		$output .= $value ? $cap : sprintf( __( 'Denied: %s' ), $cap );
-	}
-}
-	echo $output;
-?>
+			<?php
+			$output = '';
+			foreach ( $profileuser->caps as $cap => $value ) {
+				if ( ! $wp_roles->is_role( $cap ) ) {
+					if ( '' != $output ) {
+						$output .= ', ';
+					}
+					$output .= $value ? $cap : sprintf( __( 'Denied: %s' ), $cap );
+				}
+			}
+			echo $output;
+			?>
 	</td>
 </tr>
 </table>
-<?php endif; ?>
+	<?php endif; ?>
 
 <input type="hidden" name="action" value="update" />
 <input type="hidden" name="user_id" id="user_id" value="<?php echo esc_attr( $user_id ); ?>" />
 
-<?php submit_button( IS_PROFILE_PAGE ? __( 'Update Profile' ) : __( 'Update User' ) ); ?>
+		<?php submit_button( IS_PROFILE_PAGE ? __( 'Update Profile' ) : __( 'Update User' ) ); ?>
 
 </form>
 </div>
-<?php
+		<?php
 		break;
 }
 ?>

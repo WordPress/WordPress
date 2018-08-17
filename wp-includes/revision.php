@@ -474,7 +474,8 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 	}
 
 	$args = array_merge(
-		$args, array(
+		$args,
+		array(
 			'post_parent' => $post->ID,
 			'post_type'   => 'revision',
 			'post_status' => 'inherit',

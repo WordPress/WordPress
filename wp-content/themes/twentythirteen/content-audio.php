@@ -38,7 +38,7 @@
 					'link_after'  => '</span>',
 				)
 			);
-		?>
+			?>
 		</div><!-- .audio-content -->
 	</div><!-- .entry-content -->
 

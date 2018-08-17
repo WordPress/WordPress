@@ -153,7 +153,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$total_this_page = $totals[ $status ];
 
 		wp_localize_script(
-			'updates', '_wpUpdatesItemCounts', array(
+			'updates',
+			'_wpUpdatesItemCounts',
+			array(
 				'themes' => $totals,
 				'totals' => wp_get_update_data(),
 			)
@@ -423,7 +425,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 						'theme'  => $theme_key,
 						'paged'  => $page,
 						's'      => $s,
-					), $url
+					),
+					$url
 				);
 
 				if ( $this->is_site_themes ) {
@@ -448,7 +451,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					'theme'  => $theme_key,
 					'paged'  => $page,
 					's'      => $s,
-				), $url
+				),
+				$url
 			);
 
 			if ( $this->is_site_themes ) {
@@ -475,7 +479,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					'theme_status' => $context,
 					'paged'        => $page,
 					's'            => $s,
-				), 'themes.php'
+				),
+				'themes.php'
 			);
 
 			/* translators: %s: theme name */

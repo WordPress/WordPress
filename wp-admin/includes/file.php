@@ -890,11 +890,13 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 * @param string $context The type of upload action. Values include 'upload' or 'sideload'.
 	 */
 	return apply_filters(
-		'wp_handle_upload', array(
+		'wp_handle_upload',
+		array(
 			'file' => $new_file,
 			'url'  => $url,
 			'type' => $type,
-		), 'wp_handle_sideload' === $action ? 'sideload' : 'upload'
+		),
+		'wp_handle_sideload' === $action ? 'sideload' : 'upload'
 	);
 }
 
@@ -982,7 +984,8 @@ function download_url( $url, $timeout = 300 ) {
 	}
 
 	$response = wp_safe_remote_get(
-		$url, array(
+		$url,
+		array(
 			'timeout'  => $timeout,
 			'stream'   => true,
 			'filename' => $tmpfname,
@@ -1679,7 +1682,8 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	}
 
 	$credentials = get_option(
-		'ftp_credentials', array(
+		'ftp_credentials',
+		array(
 			'hostname' => '',
 			'username' => '',
 		)
@@ -1786,35 +1790,35 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	 */
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
 
-?>
+	?>
 <form action="<?php echo esc_url( $form_post ); ?>" method="post">
 <div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
-<?php
-// Print a H1 heading in the FTP credentials modal dialog, default is a H2.
-$heading_tag = 'h2';
-if ( 'plugins.php' === $pagenow || 'plugin-install.php' === $pagenow ) {
-	$heading_tag = 'h1';
-}
-echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connection Information' ) . "</$heading_tag>";
-?>
+	<?php
+	// Print a H1 heading in the FTP credentials modal dialog, default is a H2.
+	$heading_tag = 'h2';
+	if ( 'plugins.php' === $pagenow || 'plugin-install.php' === $pagenow ) {
+		$heading_tag = 'h1';
+	}
+	echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connection Information' ) . "</$heading_tag>";
+	?>
 <p id="request-filesystem-credentials-desc">
-<?php
+	<?php
 	$label_user = __( 'Username' );
 	$label_pass = __( 'Password' );
 	_e( 'To perform the requested action, WordPress needs to access your web server.' );
 	echo ' ';
-if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
-	if ( isset( $types['ssh'] ) ) {
-		_e( 'Please enter your FTP or SSH credentials to proceed.' );
-		$label_user = __( 'FTP/SSH Username' );
-		$label_pass = __( 'FTP/SSH Password' );
-	} else {
-		_e( 'Please enter your FTP credentials to proceed.' );
-		$label_user = __( 'FTP Username' );
-		$label_pass = __( 'FTP Password' );
+	if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
+		if ( isset( $types['ssh'] ) ) {
+			_e( 'Please enter your FTP or SSH credentials to proceed.' );
+			$label_user = __( 'FTP/SSH Username' );
+			$label_pass = __( 'FTP/SSH Password' );
+		} else {
+			_e( 'Please enter your FTP credentials to proceed.' );
+			$label_user = __( 'FTP Username' );
+			$label_pass = __( 'FTP Password' );
+		}
+		echo ' ';
 	}
-	echo ' ';
-}
 	_e( 'If you do not remember your credentials, you should contact your web host.' );
 
 	$hostname_value = esc_attr( $hostname );
@@ -1826,7 +1830,7 @@ if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
 	if ( defined( 'FTP_PASS' ) ) {
 		$password_value = '*****';
 	}
-?>
+	?>
 </p>
 <label for="hostname">
 	<span class="field-title"><?php _e( 'Hostname' ); ?></span>
@@ -1846,31 +1850,31 @@ if ( ( isset( $types['ftp'] ) || isset( $types['ftps'] ) ) ) {
 		<?php
 		if ( ! defined( 'FTP_PASS' ) ) {
 			_e( 'This password will not be stored on the server.' );}
-?>
+		?>
 </em>
 	</label>
 </div>
 <fieldset>
 <legend><?php _e( 'Connection Type' ); ?></legend>
-<?php
+	<?php
 	$disabled = disabled( ( defined( 'FTP_SSL' ) && FTP_SSL ) || ( defined( 'FTP_SSH' ) && FTP_SSH ), true, false );
-foreach ( $types as $name => $text ) :
-	?>
+	foreach ( $types as $name => $text ) :
+		?>
 	<label for="<?php echo esc_attr( $name ); ?>">
 		<input type="radio" name="connection_type" id="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $name ); ?>" <?php checked( $name, $connection_type ); ?> <?php echo $disabled; ?> />
 		<?php echo $text; ?>
 	</label>
-<?php
+		<?php
 	endforeach;
-?>
+	?>
 </fieldset>
-<?php
-if ( isset( $types['ssh'] ) ) {
-	$hidden_class = '';
-	if ( 'ssh' != $connection_type || empty( $connection_type ) ) {
-		$hidden_class = ' class="hidden"';
-	}
-?>
+	<?php
+	if ( isset( $types['ssh'] ) ) {
+		$hidden_class = '';
+		if ( 'ssh' != $connection_type || empty( $connection_type ) ) {
+			$hidden_class = ' class="hidden"';
+		}
+		?>
 <fieldset id="ssh-keys"<?php echo $hidden_class; ?>>
 <legend><?php _e( 'Authentication Keys' ); ?></legend>
 <label for="public_key">
@@ -1883,15 +1887,15 @@ if ( isset( $types['ssh'] ) ) {
 </label>
 <p id="auth-keys-desc"><?php _e( 'Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.' ); ?></p>
 </fieldset>
-<?php
-}
-
-foreach ( (array) $extra_fields as $field ) {
-	if ( isset( $submitted_form[ $field ] ) ) {
-		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( $submitted_form[ $field ] ) . '" />';
+		<?php
 	}
-}
-?>
+
+	foreach ( (array) $extra_fields as $field ) {
+		if ( isset( $submitted_form[ $field ] ) ) {
+			echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( $submitted_form[ $field ] ) . '" />';
+		}
+	}
+	?>
 	<p class="request-filesystem-credentials-action-buttons">
 		<?php wp_nonce_field( 'filesystem-credentials', '_fs_nonce', false, true ); ?>
 		<button class="button cancel-button" data-js-action="close" type="button"><?php _e( 'Cancel' ); ?></button>
@@ -1899,7 +1903,7 @@ foreach ( (array) $extra_fields as $field ) {
 	</p>
 </div>
 </form>
-<?php
+	<?php
 	return false;
 }
 
@@ -1953,11 +1957,11 @@ function wp_print_request_filesystem_credentials_modal() {
  */
 function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
 	$allowed_tags      = array(
-		'a' => array(
+		'a'  => array(
 			'href'   => array(),
-			'target' => array()
+			'target' => array(),
 		),
-		'br' => array()
+		'br' => array(),
 	);
 	$allowed_protocols = array( 'http', 'https' );
 	$group_html        = '';
@@ -2041,7 +2045,7 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	$file_basename        = 'wp-personal-data-file-' . $stripped_email . '-' . $obscura;
 	$html_report_filename = $file_basename . '.html';
 	$html_report_pathname = wp_normalize_path( $exports_dir . $html_report_filename );
-	$file = fopen( $html_report_pathname, 'w' );
+	$file                 = fopen( $html_report_pathname, 'w' );
 	if ( false === $file ) {
 		wp_send_json_error( __( 'Unable to open export file (HTML report) for writing.' ) );
 	}
@@ -2060,22 +2064,22 @@ function wp_privacy_generate_personal_data_export_file( $request_id ) {
 	fwrite( $file, "<head>\n" );
 	fwrite( $file, "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\n" );
 	fwrite( $file, "<style type='text/css'>" );
-	fwrite( $file, "body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }" );
-	fwrite( $file, "table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }" );
-	fwrite( $file, "th { padding: 5px; text-align: left; width: 20%; }" );
-	fwrite( $file, "td { padding: 5px; }" );
-	fwrite( $file, "tr:nth-child(odd) { background-color: #fafafa; }" );
-	fwrite( $file, "</style>" );
-	fwrite( $file, "<title>" );
+	fwrite( $file, 'body { color: black; font-family: Arial, sans-serif; font-size: 11pt; margin: 15px auto; width: 860px; }' );
+	fwrite( $file, 'table { background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }' );
+	fwrite( $file, 'th { padding: 5px; text-align: left; width: 20%; }' );
+	fwrite( $file, 'td { padding: 5px; }' );
+	fwrite( $file, 'tr:nth-child(odd) { background-color: #fafafa; }' );
+	fwrite( $file, '</style>' );
+	fwrite( $file, '<title>' );
 	fwrite( $file, esc_html( $title ) );
-	fwrite( $file, "</title>" );
+	fwrite( $file, '</title>' );
 	fwrite( $file, "</head>\n" );
 
 	// Body.
 	fwrite( $file, "<body>\n" );
 
 	// Heading.
-	fwrite( $file, "<h1>" . esc_html__( 'Personal Data Export' ) . "</h1>" );
+	fwrite( $file, '<h1>' . esc_html__( 'Personal Data Export' ) . '</h1>' );
 
 	// And now, all the Groups.
 	$groups = get_post_meta( $request_id, '_export_data_grouped', true );
@@ -2197,9 +2201,9 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 	$expiration      = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 	$expiration_date = date_i18n( get_option( 'date_format' ), time() + $expiration );
 
-/* translators: Do not translate EXPIRATION, LINK, SITENAME, SITEURL: those are placeholders. */
-$email_text = __(
-'Howdy,
+	/* translators: Do not translate EXPIRATION, LINK, SITENAME, SITEURL: those are placeholders. */
+	$email_text = __(
+		'Howdy,
 
 Your request for an export of personal data has been completed. You may
 download your personal data by clicking on the link below. For privacy
@@ -2211,7 +2215,7 @@ so please download it before then.
 Regards,
 All at ###SITENAME###
 ###SITEURL###'
-);
+	);
 
 	/**
 	 * Filters the text of the email sent with a personal data export file.
@@ -2229,10 +2233,10 @@ All at ###SITENAME###
 	 */
 	$content = apply_filters( 'wp_privacy_personal_data_email_content', $email_text, $request_id );
 
-	$email_address = $request->email;
+	$email_address   = $request->email;
 	$export_file_url = get_post_meta( $request_id, '_export_file_url', true );
-	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-	$site_url = home_url();
+	$site_name       = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+	$site_url        = home_url();
 
 	$content = str_replace( '###EXPIRATION###', $expiration_date, $content );
 	$content = str_replace( '###LINK###', esc_url_raw( $export_file_url ), $content );
@@ -2313,9 +2317,9 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 
 	// If we are not yet on the last page of the last exporter, return now.
 	/** This filter is documented in wp-admin/includes/ajax-actions.php */
-	$exporters = apply_filters( 'wp_privacy_personal_data_exporters', array() );
+	$exporters        = apply_filters( 'wp_privacy_personal_data_exporters', array() );
 	$is_last_exporter = $exporter_index === count( $exporters );
-	$exporter_done = $response['done'];
+	$exporter_done    = $response['done'];
 	if ( ! $is_last_exporter || ! $exporter_done ) {
 		return $response;
 	}
@@ -2339,8 +2343,8 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 			$groups[ $group_id ]['items'][ $item_id ] = array();
 		}
 
-		$old_item_data = $groups[ $group_id ]['items'][ $item_id ];
-		$merged_item_data = array_merge( $export_datum['data'], $old_item_data );
+		$old_item_data                            = $groups[ $group_id ]['items'][ $item_id ];
+		$merged_item_data                         = array_merge( $export_datum['data'], $old_item_data );
 		$groups[ $group_id ]['items'][ $item_id ] = $merged_item_data;
 	}
 

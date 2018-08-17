@@ -136,7 +136,7 @@ function dismissed_updates() {
 
 		$show_text = esc_js( __( 'Show hidden updates' ) );
 		$hide_text = esc_js( __( 'Hide hidden updates' ) );
-	?>
+		?>
 	<script type="text/javascript">
 		jQuery(function( $ ) {
 			$( 'dismissed-updates' ).show();
@@ -144,14 +144,14 @@ function dismissed_updates() {
 			$( '#show-dismissed' ).click( function() { $( '#dismissed-updates' ).toggle( 'fast' ); } );
 		});
 	</script>
-	<?php
+		<?php
 		echo '<p class="hide-if-no-js"><button type="button" class="button" id="show-dismissed" aria-expanded="false">' . __( 'Show hidden updates' ) . '</button></p>';
 		echo '<ul id="dismissed-updates" class="core-updates dismissed">';
-	foreach ( (array) $dismissed as $update ) {
-		echo '<li>';
-		list_core_update( $update );
-		echo '</li>';
-	}
+		foreach ( (array) $dismissed as $update ) {
+			echo '<li>';
+			list_core_update( $update );
+			echo '</li>';
+		}
 		echo '</ul>';
 	}
 }
@@ -249,7 +249,7 @@ function list_plugin_updates() {
 <h2><?php _e( 'Plugins' ); ?></h2>
 <p><?php _e( 'The following plugins have new versions available. Check the ones you want to update and then click &#8220;Update Plugins&#8221;.' ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-plugins" class="upgrade">
-<?php wp_nonce_field( 'upgrade-core' ); ?>
+	<?php wp_nonce_field( 'upgrade-core' ); ?>
 <p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e( 'Update Plugins' ); ?>" name="upgrade" /></p>
 <table class="widefat updates-table" id="update-plugins-table">
 	<thead>
@@ -260,52 +260,52 @@ function list_plugin_updates() {
 	</thead>
 
 	<tbody class="plugins">
-<?php
-foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
-	$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
+	<?php
+	foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
+		$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
 
-	$icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
-	$preferred_icons = array( 'svg', '2x', '1x', 'default' );
-	foreach ( $preferred_icons as $preferred_icon ) {
-		if ( ! empty( $plugin_data->update->icons[ $preferred_icon ] ) ) {
-			$icon = '<img src="' . esc_url( $plugin_data->update->icons[ $preferred_icon ] ) . '" alt="" />';
-			break;
+		$icon            = '<span class="dashicons dashicons-admin-plugins"></span>';
+		$preferred_icons = array( 'svg', '2x', '1x', 'default' );
+		foreach ( $preferred_icons as $preferred_icon ) {
+			if ( ! empty( $plugin_data->update->icons[ $preferred_icon ] ) ) {
+				$icon = '<img src="' . esc_url( $plugin_data->update->icons[ $preferred_icon ] ) . '" alt="" />';
+				break;
+			}
 		}
-	}
 
-	// Get plugin compat for running version of WordPress.
-	if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $cur_wp_version, '>=' ) ) {
-		$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $cur_wp_version );
-	} else {
-		$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $cur_wp_version );
-	}
-	// Get plugin compat for updated version of WordPress.
-	if ( $core_update_version ) {
-		if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $core_update_version, '>=' ) ) {
-			$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
+		// Get plugin compat for running version of WordPress.
+		if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $cur_wp_version, '>=' ) ) {
+			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $cur_wp_version );
 		} else {
-			$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
+			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $cur_wp_version );
 		}
-	}
-	// Get the upgrade notice for the new plugin version.
-	if ( isset( $plugin_data->update->upgrade_notice ) ) {
-		$upgrade_notice = '<br />' . strip_tags( $plugin_data->update->upgrade_notice );
-	} else {
-		$upgrade_notice = '';
-	}
+		// Get plugin compat for updated version of WordPress.
+		if ( $core_update_version ) {
+			if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $core_update_version, '>=' ) ) {
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
+			} else {
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
+			}
+		}
+		// Get the upgrade notice for the new plugin version.
+		if ( isset( $plugin_data->update->upgrade_notice ) ) {
+			$upgrade_notice = '<br />' . strip_tags( $plugin_data->update->upgrade_notice );
+		} else {
+			$upgrade_notice = '';
+		}
 
-	$details_url = self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662' );
-	$details     = sprintf(
-		'<a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
-		esc_url( $details_url ),
-		/* translators: 1: plugin name, 2: version number */
-		esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_data->Name, $plugin_data->update->new_version ) ),
-		/* translators: %s: plugin version */
-		sprintf( __( 'View version %s details.' ), $plugin_data->update->new_version )
-	);
+		$details_url = self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662' );
+		$details     = sprintf(
+			'<a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
+			esc_url( $details_url ),
+			/* translators: 1: plugin name, 2: version number */
+			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_data->Name, $plugin_data->update->new_version ) ),
+			/* translators: %s: plugin version */
+			sprintf( __( 'View version %s details.' ), $plugin_data->update->new_version )
+		);
 
-	$checkbox_id = 'checkbox_' . md5( $plugin_data->Name );
-	?>
+		$checkbox_id = 'checkbox_' . md5( $plugin_data->Name );
+		?>
 	<tr>
 		<td class="check-column">
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
@@ -320,7 +320,7 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 			</label>
 		</td>
 		<td class="plugin-title"><p>
-			<?php echo $icon; ?>
+				<?php echo $icon; ?>
 			<strong><?php echo $plugin_data->Name; ?></strong>
 			<?php
 			/* translators: 1: plugin version, 2: new version */
@@ -329,13 +329,13 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 				$plugin_data->Version,
 				$plugin_data->update->new_version
 			);
-			echo ' ' . $details . $compat . $upgrade_notice;
-		?>
+				echo ' ' . $details . $compat . $upgrade_notice;
+			?>
 		</p></td>
 	</tr>
-		<?php
-}
-?>
+			<?php
+	}
+	?>
 	</tbody>
 
 	<tfoot>
@@ -347,7 +347,7 @@ foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
 </table>
 <p><input id="upgrade-plugins-2" class="button" type="submit" value="<?php esc_attr_e( 'Update Plugins' ); ?>" name="upgrade" /></p>
 </form>
-<?php
+	<?php
 }
 
 /**
@@ -362,12 +362,12 @@ function list_theme_updates() {
 	}
 
 	$form_action = 'update-core.php?action=do-theme-upgrade';
-?>
+	?>
 <h2><?php _e( 'Themes' ); ?></h2>
 <p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
 <p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.' ), __( 'https://codex.wordpress.org/Child_Themes' ) ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
-<?php wp_nonce_field( 'upgrade-core' ); ?>
+	<?php wp_nonce_field( 'upgrade-core' ); ?>
 <p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e( 'Update Themes' ); ?>" name="upgrade" /></p>
 <table class="widefat updates-table" id="update-themes-table">
 	<thead>
@@ -378,10 +378,10 @@ function list_theme_updates() {
 	</thead>
 
 	<tbody class="plugins">
-<?php
-foreach ( $themes as $stylesheet => $theme ) {
-	$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
-	?>
+	<?php
+	foreach ( $themes as $stylesheet => $theme ) {
+		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
+		?>
 	<tr>
 		<td class="check-column">
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
@@ -405,12 +405,12 @@ foreach ( $themes as $stylesheet => $theme ) {
 				$theme->display( 'Version' ),
 				$theme->update['new_version']
 			);
-		?>
+			?>
 		</p></td>
 	</tr>
-		<?php
-}
-?>
+			<?php
+	}
+	?>
 	</tbody>
 
 	<tfoot>
@@ -422,7 +422,7 @@ foreach ( $themes as $stylesheet => $theme ) {
 </table>
 <p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e( 'Update Themes' ); ?>" name="upgrade" /></p>
 </form>
-<?php
+	<?php
 }
 
 /**
@@ -481,52 +481,53 @@ function do_core_upgrade( $reinstall = false ) {
 	// that it's safe to do so. This only happens when there are no new files to create.
 	$allow_relaxed_file_ownership = ! $reinstall && isset( $update->new_files ) && ! $update->new_files;
 
-?>
+	?>
 	<div class="wrap">
 	<h1><?php _e( 'Update WordPress' ); ?></h1>
-<?php
+	<?php
 
-if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH, array( 'version', 'locale' ), $allow_relaxed_file_ownership ) ) ) {
-	echo '</div>';
-	return;
-}
-
-if ( ! WP_Filesystem( $credentials, ABSPATH, $allow_relaxed_file_ownership ) ) {
-	// Failed to connect, Error and request again
-	request_filesystem_credentials( $url, '', true, ABSPATH, array( 'version', 'locale' ), $allow_relaxed_file_ownership );
-	echo '</div>';
-	return;
-}
-
-if ( $wp_filesystem->errors->has_errors() ) {
-	foreach ( $wp_filesystem->errors->get_error_messages() as $message ) {
-		show_message( $message );
+	if ( false === ( $credentials = request_filesystem_credentials( $url, '', false, ABSPATH, array( 'version', 'locale' ), $allow_relaxed_file_ownership ) ) ) {
+		echo '</div>';
+		return;
 	}
-	echo '</div>';
-	return;
-}
 
-if ( $reinstall ) {
-	$update->response = 'reinstall';
-}
+	if ( ! WP_Filesystem( $credentials, ABSPATH, $allow_relaxed_file_ownership ) ) {
+		// Failed to connect, Error and request again
+		request_filesystem_credentials( $url, '', true, ABSPATH, array( 'version', 'locale' ), $allow_relaxed_file_ownership );
+		echo '</div>';
+		return;
+	}
+
+	if ( $wp_filesystem->errors->has_errors() ) {
+		foreach ( $wp_filesystem->errors->get_error_messages() as $message ) {
+			show_message( $message );
+		}
+		echo '</div>';
+		return;
+	}
+
+	if ( $reinstall ) {
+		$update->response = 'reinstall';
+	}
 
 	add_filter( 'update_feedback', 'show_message' );
 
 	$upgrader = new Core_Upgrader();
 	$result   = $upgrader->upgrade(
-		$update, array(
+		$update,
+		array(
 			'allow_relaxed_file_ownership' => $allow_relaxed_file_ownership,
 		)
 	);
 
-if ( is_wp_error( $result ) ) {
-	show_message( $result );
-	if ( 'up_to_date' != $result->get_error_code() && 'locked' != $result->get_error_code() ) {
-		show_message( __( 'Installation Failed' ) );
+	if ( is_wp_error( $result ) ) {
+		show_message( $result );
+		if ( 'up_to_date' != $result->get_error_code() && 'locked' != $result->get_error_code() ) {
+			show_message( __( 'Installation Failed' ) );
+		}
+		echo '</div>';
+		return;
 	}
-	echo '</div>';
-	return;
-}
 
 	show_message( __( 'WordPress updated successfully' ) );
 	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.' ), $result, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
@@ -668,7 +669,9 @@ if ( 'upgrade-core' == $action ) {
 	echo '</div>';
 
 	wp_localize_script(
-		'updates', '_wpUpdatesItemCounts', array(
+		'updates',
+		'_wpUpdatesItemCounts',
+		array(
 			'totals' => wp_get_update_data(),
 		)
 	);
@@ -702,7 +705,9 @@ if ( 'upgrade-core' == $action ) {
 	}
 
 	wp_localize_script(
-		'updates', '_wpUpdatesItemCounts', array(
+		'updates',
+		'_wpUpdatesItemCounts',
+		array(
 			'totals' => wp_get_update_data(),
 		)
 	);
@@ -738,7 +743,9 @@ if ( 'upgrade-core' == $action ) {
 	echo '</div>';
 
 	wp_localize_script(
-		'updates', '_wpUpdatesItemCounts', array(
+		'updates',
+		'_wpUpdatesItemCounts',
+		array(
 			'totals' => wp_get_update_data(),
 		)
 	);
@@ -776,7 +783,9 @@ if ( 'upgrade-core' == $action ) {
 	<?php
 
 	wp_localize_script(
-		'updates', '_wpUpdatesItemCounts', array(
+		'updates',
+		'_wpUpdatesItemCounts',
+		array(
 			'totals' => wp_get_update_data(),
 		)
 	);
@@ -803,7 +812,9 @@ if ( 'upgrade-core' == $action ) {
 	$result   = $upgrader->bulk_upgrade();
 
 	wp_localize_script(
-		'updates', '_wpUpdatesItemCounts', array(
+		'updates',
+		'_wpUpdatesItemCounts',
+		array(
 			'totals' => wp_get_update_data(),
 		)
 	);

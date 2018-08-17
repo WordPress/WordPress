@@ -206,7 +206,8 @@ switch ( $wp_list_table->current_action() ) {
 			array(
 				'delete_count' => $delete_count,
 				'update'       => $update,
-			), $redirect
+			),
+			$redirect
 		);
 		wp_redirect( $redirect );
 		exit();
@@ -245,48 +246,48 @@ switch ( $wp_list_table->current_action() ) {
 		}
 
 		include( ABSPATH . 'wp-admin/admin-header.php' );
-	?>
+		?>
 	<form method="post" name="updateusers" id="updateusers">
-	<?php wp_nonce_field( 'delete-users' ); ?>
-<?php echo $referer; ?>
+		<?php wp_nonce_field( 'delete-users' ); ?>
+		<?php echo $referer; ?>
 
 <div class="wrap">
 <h1><?php _e( 'Delete Users' ); ?></h1>
-<?php if ( isset( $_REQUEST['error'] ) ) : ?>
+		<?php if ( isset( $_REQUEST['error'] ) ) : ?>
 	<div class="error">
 		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php _e( 'Please select an option.' ); ?></p>
 	</div>
-<?php endif; ?>
+		<?php endif; ?>
 
-<?php if ( 1 == count( $userids ) ) : ?>
+		<?php if ( 1 == count( $userids ) ) : ?>
 	<p><?php _e( 'You have specified this user for deletion:' ); ?></p>
-<?php else : ?>
+		<?php else : ?>
 	<p><?php _e( 'You have specified these users for deletion:' ); ?></p>
-<?php endif; ?>
+		<?php endif; ?>
 
 <ul>
-<?php
-	$go_delete = 0;
-foreach ( $userids as $id ) {
-	$user = get_userdata( $id );
-	if ( $id == $current_user->ID ) {
-		/* translators: 1: user id, 2: user login */
-		echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>' ), $id, $user->user_login ) . "</li>\n";
-	} else {
-		/* translators: 1: user id, 2: user login */
-		echo '<li><input type="hidden" name="users[]" value="' . esc_attr( $id ) . '" />' . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
-		$go_delete++;
-	}
-}
-	?>
+		<?php
+		$go_delete = 0;
+		foreach ( $userids as $id ) {
+			$user = get_userdata( $id );
+			if ( $id == $current_user->ID ) {
+				/* translators: 1: user id, 2: user login */
+				echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>' ), $id, $user->user_login ) . "</li>\n";
+			} else {
+				/* translators: 1: user id, 2: user login */
+				echo '<li><input type="hidden" name="users[]" value="' . esc_attr( $id ) . '" />' . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
+				$go_delete++;
+			}
+		}
+		?>
 	</ul>
-	<?php
-	if ( $go_delete ) :
+		<?php
+		if ( $go_delete ) :
 
-		if ( ! $users_have_content ) :
-	?>
+			if ( ! $users_have_content ) :
+				?>
 			<input type="hidden" name="delete_option" value="delete" />
-		<?php else : ?>
+			<?php else : ?>
 		<?php if ( 1 == $go_delete ) : ?>
 			<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
 		<?php else : ?>
@@ -320,15 +321,15 @@ foreach ( $userids as $id ) {
 	 * @param int[]   $userids      Array of IDs for users being deleted.
 	 */
 	do_action( 'delete_user_form', $current_user, $userids );
-	?>
+?>
 	<input type="hidden" name="action" value="dodelete" />
-	<?php submit_button( __( 'Confirm Deletion' ), 'primary' ); ?>
+			<?php submit_button( __( 'Confirm Deletion' ), 'primary' ); ?>
 	<?php else : ?>
 	<p><?php _e( 'There are no valid users selected for deletion.' ); ?></p>
 	<?php endif; ?>
 	</div>
 	</form>
-	<?php
+		<?php
 
 		break;
 
@@ -387,46 +388,46 @@ foreach ( $userids as $id ) {
 		}
 
 		include( ABSPATH . 'wp-admin/admin-header.php' );
-	?>
+		?>
 	<form method="post" name="updateusers" id="updateusers">
-	<?php wp_nonce_field( 'remove-users' ); ?>
-<?php echo $referer; ?>
+		<?php wp_nonce_field( 'remove-users' ); ?>
+		<?php echo $referer; ?>
 
 <div class="wrap">
 <h1><?php _e( 'Remove Users from Site' ); ?></h1>
 
-<?php if ( 1 == count( $userids ) ) : ?>
+		<?php if ( 1 == count( $userids ) ) : ?>
 	<p><?php _e( 'You have specified this user for removal:' ); ?></p>
-<?php else : ?>
+		<?php else : ?>
 	<p><?php _e( 'You have specified these users for removal:' ); ?></p>
-<?php endif; ?>
+		<?php endif; ?>
 
 <ul>
-<?php
-	$go_remove = false;
-foreach ( $userids as $id ) {
-	$id   = (int) $id;
-	$user = get_userdata( $id );
-	if ( ! current_user_can( 'remove_user', $id ) ) {
-		/* translators: 1: user id, 2: user login */
-		echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>Sorry, you are not allowed to remove this user.</strong>' ), $id, $user->user_login ) . "</li>\n";
-	} else {
-		/* translators: 1: user id, 2: user login */
-		echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
-		$go_remove = true;
-	}
-}
-	?>
+		<?php
+		$go_remove = false;
+		foreach ( $userids as $id ) {
+			$id   = (int) $id;
+			$user = get_userdata( $id );
+			if ( ! current_user_can( 'remove_user', $id ) ) {
+				/* translators: 1: user id, 2: user login */
+				echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>Sorry, you are not allowed to remove this user.</strong>' ), $id, $user->user_login ) . "</li>\n";
+			} else {
+				/* translators: 1: user id, 2: user login */
+				echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
+				$go_remove = true;
+			}
+		}
+		?>
 	</ul>
-	<?php if ( $go_remove ) : ?>
+		<?php if ( $go_remove ) : ?>
 		<input type="hidden" name="action" value="doremove" />
-		<?php submit_button( __( 'Confirm Removal' ), 'primary' ); ?>
+			<?php submit_button( __( 'Confirm Removal' ), 'primary' ); ?>
 	<?php else : ?>
 	<p><?php _e( 'There are no valid users selected for removal.' ); ?></p>
 	<?php endif; ?>
 	</div>
 	</form>
-	<?php
+		<?php
 
 		break;
 
@@ -476,7 +477,8 @@ foreach ( $userids as $id ) {
 							__( 'New user created. <a href="%s">Edit user</a>' ),
 							esc_url(
 								add_query_arg(
-									'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
+									'wp_http_referer',
+									urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 									self_admin_url( 'user-edit.php?user_id=' . $user_id )
 								)
 							)
@@ -505,9 +507,9 @@ foreach ( $userids as $id ) {
 					break;
 			}
 		endif;
-	?>
+		?>
 
-	<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
+		<?php if ( isset( $errors ) && is_wp_error( $errors ) ) : ?>
 		<div class="error">
 			<ul>
 			<?php
@@ -517,7 +519,7 @@ foreach ( $userids as $id ) {
 			?>
 			</ul>
 		</div>
-	<?php
+			<?php
 	endif;
 
 if ( ! empty( $messages ) ) {
@@ -529,18 +531,18 @@ if ( ! empty( $messages ) ) {
 
 	<div class="wrap">
 	<h1 class="wp-heading-inline">
-<?php
-echo esc_html( $title );
-?>
+		<?php
+		echo esc_html( $title );
+		?>
 </h1>
 
-<?php
-if ( current_user_can( 'create_users' ) ) {
-?>
+		<?php
+		if ( current_user_can( 'create_users' ) ) {
+			?>
 	<a href="<?php echo admin_url( 'user-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
 <?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
 	<a href="<?php echo admin_url( 'user-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
-<?php
+			<?php
 }
 
 if ( strlen( $usersearch ) ) {
@@ -551,22 +553,22 @@ if ( strlen( $usersearch ) ) {
 
 <hr class="wp-header-end">
 
-<?php $wp_list_table->views(); ?>
+		<?php $wp_list_table->views(); ?>
 
 <form method="get">
 
-<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
+		<?php $wp_list_table->search_box( __( 'Search Users' ), 'user' ); ?>
 
-<?php if ( ! empty( $_REQUEST['role'] ) ) { ?>
+		<?php if ( ! empty( $_REQUEST['role'] ) ) { ?>
 <input type="hidden" name="role" value="<?php echo esc_attr( $_REQUEST['role'] ); ?>" />
 <?php } ?>
 
-<?php $wp_list_table->display(); ?>
+		<?php $wp_list_table->display(); ?>
 </form>
 
 <br class="clear" />
 </div>
-<?php
+		<?php
 		break;
 
 } // end of the $doaction switch

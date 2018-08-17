@@ -1077,7 +1077,7 @@ function wp_admin_bar_add_secondary_groups( $wp_admin_bar ) {
 function wp_admin_bar_header() {
 	?>
 <style type="text/css" media="print">#wpadminbar { display:none; }</style>
-<?php
+	<?php
 }
 
 /**
@@ -1087,7 +1087,7 @@ function wp_admin_bar_header() {
  */
 function _admin_bar_bump_cb() {
 
-?>
+	?>
 <style type="text/css" media="screen">
 	html { margin-top: 32px !important; }
 	* html body { margin-top: 32px !important; }
@@ -1096,7 +1096,7 @@ function _admin_bar_bump_cb() {
 		* html body { margin-top: 46px !important; }
 	}
 </style>
-<?php
+	<?php
 }
 
 /**

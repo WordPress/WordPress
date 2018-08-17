@@ -158,7 +158,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$total_comments = get_comments(
 			array_merge(
-				$args, array(
+				$args,
+				array(
 					'count'  => true,
 					'offset' => 0,
 					'number' => 0,
@@ -224,7 +225,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			), // singular not used
 
 			/* translators: %s: current user's comments count */
-			'mine' => _nx_noop(
+			'mine'      => _nx_noop(
 				'Mine <span class="count">(%s)</span>',
 				'Mine <span class="count">(%s)</span>',
 				'comments'
@@ -277,11 +278,13 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 			if ( 'mine' === $status ) {
 				$current_user_id    = get_current_user_id();
-				$num_comments->mine = get_comments( array(
-					'user_id' => $current_user_id,
-					'count'   => true,
-				) );
-				$link = add_query_arg( 'user_id', $current_user_id, $link );
+				$num_comments->mine = get_comments(
+					array(
+						'user_id' => $current_user_id,
+						'count'   => true,
+					)
+				);
+				$link               = add_query_arg( 'user_id', $current_user_id, $link );
 			} else {
 				$link = remove_query_arg( 'user_id', $link );
 			}
@@ -367,49 +370,50 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( ! isset( $has_items ) ) {
 			$has_items = $this->has_items();
 		}
-?>
+		?>
 		<div class="alignleft actions">
-<?php
-if ( 'top' === $which ) {
-?>
+		<?php
+		if ( 'top' === $which ) {
+			?>
 	<label class="screen-reader-text" for="filter-by-comment-type"><?php _e( 'Filter by comment type' ); ?></label>
 	<select id="filter-by-comment-type" name="comment_type">
 		<option value=""><?php _e( 'All comment types' ); ?></option>
-<?php
-		/**
-		 * Filters the comment types dropdown menu.
-		 *
-		 * @since 2.7.0
-		 *
-		 * @param string[] $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
-		 */
-		$comment_types = apply_filters(
-			'admin_comment_types_dropdown', array(
-				'comment' => __( 'Comments' ),
-				'pings'   => __( 'Pings' ),
-			)
-		);
+			<?php
+				/**
+				 * Filters the comment types dropdown menu.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param string[] $comment_types An array of comment types. Accepts 'Comments', 'Pings'.
+				 */
+				$comment_types = apply_filters(
+					'admin_comment_types_dropdown',
+					array(
+						'comment' => __( 'Comments' ),
+						'pings'   => __( 'Pings' ),
+					)
+				);
 
-foreach ( $comment_types as $type => $label ) {
-	echo "\t" . '<option value="' . esc_attr( $type ) . '"' . selected( $comment_type, $type, false ) . ">$label</option>\n";
-}
-	?>
+			foreach ( $comment_types as $type => $label ) {
+				echo "\t" . '<option value="' . esc_attr( $type ) . '"' . selected( $comment_type, $type, false ) . ">$label</option>\n";
+			}
+			?>
 	</select>
-<?php
-	/**
-	 * Fires just before the Filter submit button for comment types.
-	 *
-	 * @since 3.5.0
-	 */
-	do_action( 'restrict_manage_comments' );
-	submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
-}
+			<?php
+			/**
+			 * Fires just before the Filter submit button for comment types.
+			 *
+			 * @since 3.5.0
+			 */
+			do_action( 'restrict_manage_comments' );
+			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+		}
 
-if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $has_items ) {
-	wp_nonce_field( 'bulk-destroy', '_destroy_nonce' );
-	$title = ( 'spam' === $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
-	submit_button( $title, 'apply', 'delete_all', false );
-}
+		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $has_items ) {
+			wp_nonce_field( 'bulk-destroy', '_destroy_nonce' );
+			$title = ( 'spam' === $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
+			submit_button( $title, 'apply', 'delete_all', false );
+		}
 		/**
 		 * Fires after the Filter submit button for comment types.
 		 *
@@ -490,7 +494,7 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 
 		$this->screen->render_screen_reader_content( 'heading_list' );
 
-?>
+		?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
 	<thead>
 	<tr>
@@ -516,7 +520,7 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 	</tfoot>
 
 </table>
-<?php
+		<?php
 
 		$this->display_tablenav( 'bottom' );
 	}
@@ -676,10 +680,10 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 	 */
 	public function column_cb( $comment ) {
 		if ( $this->user_can ) {
-		?>
+			?>
 		<label class="screen-reader-text" for="cb-select-<?php echo $comment->comment_ID; ?>"><?php _e( 'Select comment' ); ?></label>
 		<input id="cb-select-<?php echo $comment->comment_ID; ?>" type="checkbox" name="delete_comments[]" value="<?php echo $comment->comment_ID; ?>" />
-		<?php
+			<?php
 		}
 	}
 
@@ -709,7 +713,7 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 		if ( $this->user_can ) {
 			/** This filter is documented in wp-admin/includes/comment.php */
 			$comment_content = apply_filters( 'comment_edit_pre', $comment->comment_content );
-		?>
+			?>
 		<div id="inline-<?php echo $comment->comment_ID; ?>" class="hidden">
 			<textarea class="comment" rows="1" cols="1"><?php echo esc_textarea( $comment_content ); ?></textarea>
 			<div class="author-email"><?php echo esc_attr( $comment->comment_author_email ); ?></div>
@@ -717,7 +721,7 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 			<div class="author-url"><?php echo esc_attr( $comment->comment_author_url ); ?></div>
 			<div class="comment_status"><?php echo $comment->comment_approved; ?></div>
 		</div>
-		<?php
+			<?php
 		}
 	}
 
@@ -759,7 +763,8 @@ if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_us
 					array(
 						's'    => $author_ip,
 						'mode' => 'detail',
-					), admin_url( 'edit-comments.php' )
+					),
+					admin_url( 'edit-comments.php' )
 				);
 				if ( 'spam' === $comment_status ) {
 					$author_ip_url = add_query_arg( 'comment_status', 'spam', $author_ip_url );

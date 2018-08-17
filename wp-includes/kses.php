@@ -1983,7 +1983,8 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @param string[] $attr Array of allowed CSS attributes.
 	 */
 	$allowed_attr = apply_filters(
-		'safe_style_css', array(
+		'safe_style_css',
+		array(
 			'background',
 			'background-color',
 

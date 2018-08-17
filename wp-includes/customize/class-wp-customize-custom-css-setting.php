@@ -181,7 +181,8 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 		}
 
 		$r = wp_update_custom_css_post(
-			$css, array(
+			$css,
+			array(
 				'stylesheet' => $this->stylesheet,
 			)
 		);

@@ -111,7 +111,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		// We don't have the parent theme, let's install it.
 		$api = themes_api(
-			'theme_information', array(
+			'theme_information',
+			array(
 				'slug'   => $theme_info->get( 'Template' ),
 				'fields' => array(
 					'sections' => false,
@@ -418,7 +419,9 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
 		do_action(
-			'upgrader_process_complete', $this, array(
+			'upgrader_process_complete',
+			$this,
+			array(
 				'action' => 'update',
 				'type'   => 'theme',
 				'bulk'   => true,
@@ -468,7 +471,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		// A proper archive should have a style.css file in the single subdirectory
 		if ( ! file_exists( $working_directory . 'style.css' ) ) {
 			return new WP_Error(
-				'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'],
+				'incompatible_archive_theme_no_style',
+				$this->strings['incompatible_archive'],
 				/* translators: %s: style.css */
 				sprintf(
 					__( 'The theme is missing the %s stylesheet.' ),
@@ -478,7 +482,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		}
 
 		$info = get_file_data(
-			$working_directory . 'style.css', array(
+			$working_directory . 'style.css',
+			array(
 				'Name'     => 'Theme Name',
 				'Template' => 'Template',
 			)
@@ -486,7 +491,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		if ( empty( $info['Name'] ) ) {
 			return new WP_Error(
-				'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'],
+				'incompatible_archive_theme_no_name',
+				$this->strings['incompatible_archive'],
 				/* translators: %s: style.css */
 				sprintf(
 					__( 'The %s stylesheet doesn&#8217;t contain a valid theme header.' ),
@@ -498,7 +504,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		// If it's not a child theme, it must have at least an index.php to be legit.
 		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) ) {
 			return new WP_Error(
-				'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'],
+				'incompatible_archive_theme_no_index',
+				$this->strings['incompatible_archive'],
 				/* translators: %s: index.php */
 				sprintf(
 					__( 'The theme is missing the %s file.' ),

@@ -41,11 +41,11 @@
 
 					$description = get_bloginfo( 'description', 'display' );
 if ( $description || is_customize_preview() ) :
-					?>
+	?>
 						<p class="site-description"><?php echo $description; ?></p>
 					<?php
 					endif;
-				?>
+?>
 				<button class="secondary-toggle"><?php _e( 'Menu and widgets', 'twentyfifteen' ); ?></button>
 			</div><!-- .site-branding -->
 		</header><!-- .site-header -->

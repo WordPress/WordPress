@@ -130,6 +130,6 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 				</div>
 			<# } #>
 		</div>
-	<?php
+		<?php
 	}
 }

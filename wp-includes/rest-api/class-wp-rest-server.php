@@ -265,7 +265,10 @@ class WP_REST_Server {
 		 * @param bool $rest_enabled Whether the REST API is enabled. Default true.
 		 */
 		apply_filters_deprecated(
-			'rest_enabled', array( true ), '4.7.0', 'rest_authentication_errors',
+			'rest_enabled',
+			array( true ),
+			'4.7.0',
+			'rest_authentication_errors',
 			__( 'The REST API can no longer be completely disabled, the rest_authentication_errors filter can be used to restrict access to the API, instead.' )
 		);
 
@@ -656,7 +659,9 @@ class WP_REST_Server {
 			$this->namespaces[ $namespace ] = array();
 
 			$this->register_route(
-				$namespace, '/' . $namespace, array(
+				$namespace,
+				'/' . $namespace,
+				array(
 					array(
 						'methods'  => self::READABLE,
 						'callback' => array( $this, 'get_namespace_index' ),

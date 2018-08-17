@@ -909,7 +909,8 @@ function count_users( $strategy = 'time', $site_id = null ) {
 			FROM {$wpdb->usermeta}
 			INNER JOIN {$wpdb->users} ON user_id = ID
 			WHERE meta_key = '{$blog_prefix}capabilities'
-		", ARRAY_N
+		",
+			ARRAY_N
 		);
 
 		// Run the previous loop again to associate results with role names.
@@ -2606,7 +2607,8 @@ function wp_get_users_with_no_role( $site_id = null ) {
 		FROM $wpdb->usermeta
 		WHERE meta_key = '{$prefix}capabilities'
 		AND meta_value NOT REGEXP %s
-	", $regex
+	",
+			$regex
 		)
 	);
 
@@ -2707,7 +2709,9 @@ function send_confirmation_on_profile_email() {
 	if ( $current_user->user_email != $_POST['email'] ) {
 		if ( ! is_email( $_POST['email'] ) ) {
 			$errors->add(
-				'user_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ), array(
+				'user_email',
+				__( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ),
+				array(
 					'form-field' => 'email',
 				)
 			);
@@ -2717,7 +2721,9 @@ function send_confirmation_on_profile_email() {
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST['email'] ) ) ) {
 			$errors->add(
-				'user_email', __( '<strong>ERROR</strong>: The email address is already used.' ), array(
+				'user_email',
+				__( '<strong>ERROR</strong>: The email address is already used.' ),
+				array(
 					'form-field' => 'email',
 				)
 			);
@@ -2940,10 +2946,12 @@ function _wp_privacy_account_request_confirmed( $request_id ) {
 	}
 
 	update_post_meta( $request_id, '_wp_user_request_confirmed_timestamp', time() );
-	wp_update_post( array(
-		'ID'          => $request_id,
-		'post_status' => 'request-confirmed',
-	) );
+	wp_update_post(
+		array(
+			'ID'          => $request_id,
+			'post_status' => 'request-confirmed',
+		)
+	);
 }
 
 /**
@@ -3126,7 +3134,7 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 		'siteurl'            => home_url(),
 	);
 
-	$subject  = sprintf(
+	$subject = sprintf(
 		/* translators: %s: Site name. */
 		__( '[%s] Erasure Request Fulfilled' ),
 		$email_data['sitename']
@@ -3235,15 +3243,15 @@ All at ###SITENAME###
 function _wp_privacy_account_request_confirmed_message( $request_id ) {
 	$request = wp_get_user_request_data( $request_id );
 
-	$message = '<p class="success">' . __( 'Action has been confirmed.' ) . '</p>';
+	$message  = '<p class="success">' . __( 'Action has been confirmed.' ) . '</p>';
 	$message .= '<p>' . __( 'The site administrator has been notified and will fulfill your request as soon as possible.' ) . '</p>';
 
 	if ( $request && in_array( $request->action_name, _wp_privacy_action_request_types(), true ) ) {
 		if ( 'export_personal_data' === $request->action_name ) {
-			$message = '<p class="success">' . __( 'Thanks for confirming your export request.' ) . '</p>';
+			$message  = '<p class="success">' . __( 'Thanks for confirming your export request.' ) . '</p>';
 			$message .= '<p>' . __( 'The site administrator has been notified. You will receive a link to download your export via email when they fulfill your request.' ) . '</p>';
 		} elseif ( 'remove_personal_data' === $request->action_name ) {
-			$message = '<p class="success">' . __( 'Thanks for confirming your erasure request.' ) . '</p>';
+			$message  = '<p class="success">' . __( 'Thanks for confirming your erasure request.' ) . '</p>';
 			$message .= '<p>' . __( 'The site administrator has been notified. You will receive an email confirmation when they erase your data.' ) . '</p>';
 		}
 	}
@@ -3290,28 +3298,33 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 	$user_id = $user && ! is_wp_error( $user ) ? $user->ID : 0;
 
 	// Check for duplicates.
-	$requests_query = new WP_Query( array(
-		'post_type'     => 'user_request',
-		'post_name__in' => array( $action_name ),  // Action name stored in post_name column.
-		'title'         => $email_address, // Email address stored in post_title column.
-		'post_status'   => 'any',
-		'fields'        => 'ids',
-	) );
+	$requests_query = new WP_Query(
+		array(
+			'post_type'     => 'user_request',
+			'post_name__in' => array( $action_name ),  // Action name stored in post_name column.
+			'title'         => $email_address, // Email address stored in post_title column.
+			'post_status'   => 'any',
+			'fields'        => 'ids',
+		)
+	);
 
 	if ( $requests_query->found_posts ) {
 		return new WP_Error( 'duplicate_request', __( 'A request for this email address already exists.' ) );
 	}
 
-	$request_id = wp_insert_post( array(
-		'post_author'   => $user_id,
-		'post_name'     => $action_name,
-		'post_title'    => $email_address,
-		'post_content'  => wp_json_encode( $request_data ),
-		'post_status'   => 'request-pending',
-		'post_type'     => 'user_request',
-		'post_date'     => current_time( 'mysql', false ),
-		'post_date_gmt' => current_time( 'mysql', true ),
-	), true );
+	$request_id = wp_insert_post(
+		array(
+			'post_author'   => $user_id,
+			'post_name'     => $action_name,
+			'post_title'    => $email_address,
+			'post_content'  => wp_json_encode( $request_data ),
+			'post_status'   => 'request-pending',
+			'post_type'     => 'user_request',
+			'post_date'     => current_time( 'mysql', false ),
+			'post_date_gmt' => current_time( 'mysql', true ),
+		),
+		true
+	);
 
 	return $request_id;
 }
@@ -3380,11 +3393,14 @@ function wp_send_user_request( $request_id ) {
 		'request'     => $request,
 		'email'       => $request->email,
 		'description' => wp_user_request_action_description( $request->action_name ),
-		'confirm_url' => add_query_arg( array(
-			'action'      => 'confirmaction',
-			'request_id'  => $request_id,
-			'confirm_key' => wp_generate_user_request_key( $request_id ),
-		), wp_login_url() ),
+		'confirm_url' => add_query_arg(
+			array(
+				'action'      => 'confirmaction',
+				'request_id'  => $request_id,
+				'confirm_key' => wp_generate_user_request_key( $request_id ),
+			),
+			wp_login_url()
+		),
 		'sitename'    => wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ),
 		'siteurl'     => home_url(),
 	);
@@ -3496,13 +3512,15 @@ function wp_generate_user_request_key( $request_id ) {
 		$wp_hasher = new PasswordHash( 8, true );
 	}
 
-	wp_update_post( array(
-		'ID'                => $request_id,
-		'post_status'       => 'request-pending',
-		'post_password'     => $wp_hasher->HashPassword( $key ),
-		'post_modified'     => current_time( 'mysql', false ),
-		'post_modified_gmt' => current_time( 'mysql', true ),
-	) );
+	wp_update_post(
+		array(
+			'ID'                => $request_id,
+			'post_status'       => 'request-pending',
+			'post_password'     => $wp_hasher->HashPassword( $key ),
+			'post_modified'     => current_time( 'mysql', false ),
+			'post_modified_gmt' => current_time( 'mysql', true ),
+		)
+	);
 
 	return $key;
 }

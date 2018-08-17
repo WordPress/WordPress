@@ -376,7 +376,8 @@ class Featured_Content {
 	 */
 	public static function customize_register( $wp_customize ) {
 		$wp_customize->add_section(
-			'featured_content', array(
+			'featured_content',
+			array(
 				'title'          => __( 'Featured Content', 'twentyfourteen' ),
 				'description'    => sprintf(
 					__( 'Use a <a href="%1$s">tag</a> to feature your posts. If no posts match the tag, <a href="%2$s">sticky posts</a> will be displayed instead.', 'twentyfourteen' ),
@@ -390,14 +391,16 @@ class Featured_Content {
 
 		// Add Featured Content settings.
 		$wp_customize->add_setting(
-			'featured-content[tag-name]', array(
+			'featured-content[tag-name]',
+			array(
 				'default'              => _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ),
 				'type'                 => 'option',
 				'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
 			)
 		);
 		$wp_customize->add_setting(
-			'featured-content[hide-tag]', array(
+			'featured-content[hide-tag]',
+			array(
 				'default'              => true,
 				'type'                 => 'option',
 				'sanitize_js_callback' => array( __CLASS__, 'delete_transient' ),
@@ -406,14 +409,16 @@ class Featured_Content {
 
 		// Add Featured Content controls.
 		$wp_customize->add_control(
-			'featured-content[tag-name]', array(
+			'featured-content[tag-name]',
+			array(
 				'label'    => __( 'Tag Name', 'twentyfourteen' ),
 				'section'  => 'featured_content',
 				'priority' => 20,
 			)
 		);
 		$wp_customize->add_control(
-			'featured-content[hide-tag]', array(
+			'featured-content[hide-tag]',
+			array(
 				'label'    => __( 'Don&rsquo;t display tag on front end.', 'twentyfourteen' ),
 				'section'  => 'featured_content',
 				'type'     => 'checkbox',

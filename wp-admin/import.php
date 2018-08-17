@@ -65,7 +65,7 @@ $parent_file = 'tools.php';
 								<?php
 								/* translators: %s: importer slug */
 								printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
-		?>
+								?>
 		</p>
 	</div>
 <?php endif; ?>
@@ -96,7 +96,7 @@ if ( empty( $importers ) ) {
 	echo '<p>' . __( 'No importers are available.' ) . '</p>'; // TODO: make more helpful
 } else {
 	uasort( $importers, '_usort_by_first_member' );
-?>
+	?>
 <table class="widefat importers striped">
 
 	<?php
@@ -119,8 +119,10 @@ if ( empty( $importers ) ) {
 								'action' => 'activate',
 								'plugin' => $plugin_file,
 								'from'   => 'import',
-							), admin_url( 'plugins.php' )
-						), 'activate-plugin_' . $plugin_file
+							),
+							admin_url( 'plugins.php' )
+						),
+						'activate-plugin_' . $plugin_file
 					);
 					$action      = sprintf(
 						'<a href="%s" aria-label="%s">%s</a>',
@@ -142,8 +144,10 @@ if ( empty( $importers ) ) {
 								'action' => 'install-plugin',
 								'plugin' => $plugin_slug,
 								'from'   => 'import',
-							), self_admin_url( 'update.php' )
-						), 'install-plugin_' . $plugin_slug
+							),
+							self_admin_url( 'update.php' )
+						),
+						'install-plugin_' . $plugin_slug
 					);
 					$action = sprintf(
 						'<a href="%1$s" class="install-now" data-slug="%2$s" data-name="%3$s" aria-label="%4$s">%5$s</a>',
@@ -166,7 +170,8 @@ if ( empty( $importers ) ) {
 			$url    = add_query_arg(
 				array(
 					'import' => $importer_id,
-				), self_admin_url( 'admin.php' )
+				),
+				self_admin_url( 'admin.php' )
 			);
 			$action = sprintf(
 				'<a href="%1$s" aria-label="%2$s">%3$s</a>',
@@ -188,7 +193,8 @@ if ( empty( $importers ) ) {
 					'TB_iframe' => 'true',
 					'width'     => 600,
 					'height'    => 550,
-				), network_admin_url( 'plugin-install.php' )
+				),
+				network_admin_url( 'plugin-install.php' )
 			);
 			$action .= sprintf(
 				' | <a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
@@ -212,7 +218,7 @@ if ( empty( $importers ) ) {
 	}
 	?>
 </table>
-<?php
+	<?php
 }
 
 if ( current_user_can( 'install_plugins' ) ) {

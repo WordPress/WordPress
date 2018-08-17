@@ -180,7 +180,9 @@ class Core_Upgrader extends WP_Upgrader {
 
 				$original_result = $result;
 				$result          = new WP_Error(
-					'rollback_was_required', $this->strings['rollback_was_required'], (object) array(
+					'rollback_was_required',
+					$this->strings['rollback_was_required'],
+					(object) array(
 						'update'   => $original_result,
 						'rollback' => $rollback_result,
 					)
@@ -189,10 +191,14 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 
 		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
-		do_action( 'upgrader_process_complete', $this, array(
-			'action' => 'update',
-			'type'   => 'core',
-		) );
+		do_action(
+			'upgrader_process_complete',
+			$this,
+			array(
+				'action' => 'update',
+				'type'   => 'core',
+			)
+		);
 
 		// Clear the current updates
 		delete_site_transient( 'update_core' );

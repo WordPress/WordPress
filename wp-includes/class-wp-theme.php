@@ -231,7 +231,8 @@ final class WP_Theme implements ArrayAccess {
 			}
 			$this->template = $this->stylesheet;
 			$this->cache_add(
-				'theme', array(
+				'theme',
+				array(
 					'headers'    => $this->headers,
 					'errors'     => $this->errors,
 					'stylesheet' => $this->stylesheet,
@@ -247,7 +248,8 @@ final class WP_Theme implements ArrayAccess {
 			$this->errors          = new WP_Error( 'theme_stylesheet_not_readable', __( 'Stylesheet is not readable.' ) );
 			$this->template        = $this->stylesheet;
 			$this->cache_add(
-				'theme', array(
+				'theme',
+				array(
 					'headers'    => $this->headers,
 					'errors'     => $this->errors,
 					'stylesheet' => $this->stylesheet,
@@ -270,7 +272,8 @@ final class WP_Theme implements ArrayAccess {
 			/* translators: %s: Template */
 			$this->errors = new WP_Error( 'theme_child_invalid', sprintf( __( 'The theme defines itself as its parent theme. Please check the %s header.' ), '<code>Template</code>' ) );
 			$this->cache_add(
-				'theme', array(
+				'theme',
+				array(
 					'headers'    => $this->headers,
 					'errors'     => $this->errors,
 					'stylesheet' => $this->stylesheet,
@@ -293,7 +296,8 @@ final class WP_Theme implements ArrayAccess {
 				);
 				$this->errors = new WP_Error( 'theme_no_index', $error_message );
 				$this->cache_add(
-					'theme', array(
+					'theme',
+					array(
 						'headers'    => $this->headers,
 						'errors'     => $this->errors,
 						'stylesheet' => $this->stylesheet,
@@ -319,7 +323,8 @@ final class WP_Theme implements ArrayAccess {
 				// Parent theme is missing.
 				$this->errors = new WP_Error( 'theme_no_parent', sprintf( __( 'The parent theme is missing. Please install the "%s" parent theme.' ), esc_html( $this->template ) ) );
 				$this->cache_add(
-					'theme', array(
+					'theme',
+					array(
 						'headers'    => $this->headers,
 						'errors'     => $this->errors,
 						'stylesheet' => $this->stylesheet,
@@ -338,7 +343,8 @@ final class WP_Theme implements ArrayAccess {
 				$_child->parent = null;
 				$_child->errors = new WP_Error( 'theme_parent_invalid', sprintf( __( 'The "%s" theme is not a valid parent theme.' ), esc_html( $_child->template ) ) );
 				$_child->cache_add(
-					'theme', array(
+					'theme',
+					array(
 						'headers'    => $_child->headers,
 						'errors'     => $_child->errors,
 						'stylesheet' => $_child->stylesheet,
@@ -349,7 +355,8 @@ final class WP_Theme implements ArrayAccess {
 				if ( $_child->stylesheet == $this->template ) {
 					$this->errors = new WP_Error( 'theme_parent_invalid', sprintf( __( 'The "%s" theme is not a valid parent theme.' ), esc_html( $this->template ) ) );
 					$this->cache_add(
-						'theme', array(
+						'theme',
+						array(
 							'headers'    => $this->headers,
 							'errors'     => $this->errors,
 							'stylesheet' => $this->stylesheet,

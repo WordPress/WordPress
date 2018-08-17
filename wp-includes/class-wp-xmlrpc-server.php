@@ -1555,7 +1555,8 @@ class wp_xmlrpc_server extends IXR_Server {
 					$ambiguous_terms = array();
 					if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 						$tax_term_names = get_terms(
-							$taxonomy, array(
+							$taxonomy,
+							array(
 								'fields'     => 'names',
 								'hide_empty' => false,
 							)
@@ -6839,8 +6840,14 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_type = 'pingback';
 
 		$commentdata = compact(
-			'comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email',
-			'comment_content', 'comment_type', 'remote_source', 'remote_source_original'
+			'comment_post_ID',
+			'comment_author',
+			'comment_author_url',
+			'comment_author_email',
+			'comment_content',
+			'comment_type',
+			'remote_source',
+			'remote_source_original'
 		);
 
 		$comment_ID = wp_new_comment( $commentdata );

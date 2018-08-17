@@ -58,7 +58,7 @@ if ( ! empty( $action ) ) {
 		}
 
 		$privacy_policy_page_content = WP_Privacy_Policy_Content::get_default_content();
-		$privacy_policy_page_id = wp_insert_post(
+		$privacy_policy_page_id      = wp_insert_post(
 			array(
 				'post_title'   => __( 'Privacy Policy' ),
 				'post_status'  => 'draft',
@@ -195,16 +195,19 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			</th>
 			<td>
 				<?php
-				$has_pages = (bool) get_posts( array(
-					'post_type' => 'page',
-					'posts_per_page' => 1,
-					'post_status' => array(
-						'publish',
-						'draft',
-					),
-				) );
+				$has_pages = (bool) get_posts(
+					array(
+						'post_type'      => 'page',
+						'posts_per_page' => 1,
+						'post_status'    => array(
+							'publish',
+							'draft',
+						),
+					)
+				);
 
-				if ( $has_pages ) : ?>
+				if ( $has_pages ) :
+					?>
 					<form method="post" action="">
 						<label for="page_for_privacy_policy">
 							<?php _e( 'Select an existing page:' ); ?>

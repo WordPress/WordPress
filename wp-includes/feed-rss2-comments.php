@@ -99,7 +99,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 		<dc:creator><![CDATA[<?php echo get_comment_author_rss(); ?>]]></dc:creator>
 		<pubDate><?php echo mysql2date( 'D, d M Y H:i:s +0000', get_comment_time( 'Y-m-d H:i:s', true, false ), false ); ?></pubDate>
 		<guid isPermaLink="false"><?php comment_guid(); ?></guid>
-		<?php if ( post_password_required( $comment_post ) ) : ?>
+			<?php if ( post_password_required( $comment_post ) ) : ?>
 		<description><?php echo ent2ncr( __( 'Protected Comments: Please enter your password to view comments.' ) ); ?></description>
 		<content:encoded><![CDATA[<?php echo get_the_password_form(); ?>]]></content:encoded>
 		<?php else : // post pass ?>
@@ -116,11 +116,11 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 			 * @param int $comment_post->ID    The ID of the post the comment is connected to.
 			 */
 			do_action( 'commentrss2_item', $comment->comment_ID, $comment_post->ID );
-		?>
+?>
 			</item>
-		<?php
+			<?php
 		endwhile;
 endif;
-?>
+	?>
 </channel>
 </rss>

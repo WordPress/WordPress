@@ -19,7 +19,7 @@
 if ( have_posts() ) {
 	while ( have_posts() ) :
 		the_post();
-	?>
+		?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<?php if ( is_front_page() ) { ?>
@@ -37,7 +37,7 @@ if ( have_posts() ) {
 								'after'  => '</div>',
 							)
 						);
-	?>
+						?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-content -->
 				</div><!-- #post-## -->

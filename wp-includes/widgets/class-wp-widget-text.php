@@ -358,7 +358,8 @@ class WP_Widget_Text extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$new_instance = wp_parse_args(
-			$new_instance, array(
+			$new_instance,
+			array(
 				'title'  => '',
 				'text'   => '',
 				'filter' => false, // For back-compat.

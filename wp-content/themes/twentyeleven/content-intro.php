@@ -22,7 +22,7 @@
 				'after'  => '</div>',
 			)
 		);
-?>
+		?>
 		<?php edit_post_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 	</div><!-- .entry-content -->
 </article><!-- #post-<?php the_ID(); ?> -->

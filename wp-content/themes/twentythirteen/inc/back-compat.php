@@ -45,7 +45,9 @@ function twentythirteen_upgrade_notice() {
  */
 function twentythirteen_customize() {
 	wp_die(
-		sprintf( __( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ), $GLOBALS['wp_version'] ), '', array(
+		sprintf( __( 'Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again.', 'twentythirteen' ), $GLOBALS['wp_version'] ),
+		'',
+		array(
 			'back_link' => true,
 		)
 	);

@@ -58,7 +58,9 @@ function create_initial_taxonomies() {
 	}
 
 	register_taxonomy(
-		'category', 'post', array(
+		'category',
+		'post',
+		array(
 			'hierarchical'          => true,
 			'query_var'             => 'category_name',
 			'rewrite'               => $rewrite['category'],
@@ -79,7 +81,9 @@ function create_initial_taxonomies() {
 	);
 
 	register_taxonomy(
-		'post_tag', 'post', array(
+		'post_tag',
+		'post',
+		array(
 			'hierarchical'          => false,
 			'query_var'             => 'tag',
 			'rewrite'               => $rewrite['post_tag'],
@@ -100,7 +104,9 @@ function create_initial_taxonomies() {
 	);
 
 	register_taxonomy(
-		'nav_menu', 'nav_menu_item', array(
+		'nav_menu',
+		'nav_menu_item',
+		array(
 			'public'            => false,
 			'hierarchical'      => false,
 			'labels'            => array(
@@ -116,7 +122,9 @@ function create_initial_taxonomies() {
 	);
 
 	register_taxonomy(
-		'link_category', 'link', array(
+		'link_category',
+		'link',
+		array(
 			'hierarchical' => false,
 			'labels'       => array(
 				'name'                       => __( 'Link Categories' ),
@@ -148,7 +156,9 @@ function create_initial_taxonomies() {
 	);
 
 	register_taxonomy(
-		'post_format', 'post', array(
+		'post_format',
+		'post',
+		array(
 			'public'            => true,
 			'hierarchical'      => false,
 			'labels'            => array(
@@ -1867,7 +1877,9 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 
 	foreach ( $object_ids as $object_id ) {
 		$terms = wp_get_object_terms(
-			$object_id, $taxonomy, array(
+			$object_id,
+			$taxonomy,
+			array(
 				'fields'  => 'ids',
 				'orderby' => 'none',
 			)
@@ -2200,7 +2212,9 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 			$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
 			wp_update_term(
-				$alias->term_id, $taxonomy, array(
+				$alias->term_id,
+				$taxonomy,
+				array(
 					'term_group' => $term_group,
 				)
 			);
@@ -2212,7 +2226,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * unless a unique slug has been explicitly provided.
 	 */
 	$name_matches = get_terms(
-		$taxonomy, array(
+		$taxonomy,
+		array(
 			'name'                   => $name,
 			'hide_empty'             => false,
 			'parent'                 => $args['parent'],
@@ -2239,7 +2254,8 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		if ( ! $slug_provided || $name_match->slug === $slug || $slug_match ) {
 			if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 				$siblings = get_terms(
-					$taxonomy, array(
+					$taxonomy,
+					array(
 						'get'                    => 'all',
 						'parent'                 => $parent,
 						'update_term_meta_cache' => false,
@@ -2450,7 +2466,9 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 
 	if ( ! $append ) {
 		$old_tt_ids = wp_get_object_terms(
-			$object_id, $taxonomy, array(
+			$object_id,
+			$taxonomy,
+			array(
 				'fields'                 => 'tt_ids',
 				'orderby'                => 'none',
 				'update_term_meta_cache' => false,
@@ -2499,7 +2517,8 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 		 */
 		do_action( 'add_term_relationship', $object_id, $tt_id, $taxonomy );
 		$wpdb->insert(
-			$wpdb->term_relationships, array(
+			$wpdb->term_relationships,
+			array(
 				'object_id'        => $object_id,
 				'term_taxonomy_id' => $tt_id,
 			)
@@ -2890,7 +2909,9 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 			$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
 			wp_update_term(
-				$alias->term_id, $taxonomy, array(
+				$alias->term_id,
+				$taxonomy,
+				array(
 					'term_group' => $term_group,
 				)
 			);
@@ -3402,7 +3423,9 @@ function update_object_term_cache( $object_ids, $object_type ) {
 	}
 
 	$terms = wp_get_object_terms(
-		$ids, $taxonomies, array(
+		$ids,
+		$taxonomies,
+		array(
 			'fields'                 => 'all_with_object_id',
 			'orderby'                => 'name',
 			'update_term_meta_cache' => false,
@@ -3476,7 +3499,8 @@ function _get_term_hierarchy( $taxonomy ) {
 	}
 	$children = array();
 	$terms    = get_terms(
-		$taxonomy, array(
+		$taxonomy,
+		array(
 			'get'                    => 'all',
 			'orderby'                => 'id',
 			'fields'                 => 'id=>parent',
@@ -4326,7 +4350,8 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 	$post = get_post( $post );
 
 	$args = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
 			'template'      => __( '%s: %l.' ),
 			'term_template' => '<a href="%1$s">%2$s</a>',

@@ -20,7 +20,7 @@ _deprecated_file(
 			<?php
 			  /* Widgetized sidebar, if you have the plugin installed. */
 			if ( ! function_exists( 'dynamic_sidebar' ) || ! dynamic_sidebar() ) :
-					?>
+				?>
 			<li>
 				<?php get_search_form(); ?>
 			</li>
@@ -31,13 +31,13 @@ _deprecated_file(
 			</li>
 			-->
 
-			<?php
-			if ( is_404() || is_category() || is_day() || is_month() ||
+				<?php
+				if ( is_404() || is_category() || is_day() || is_month() ||
 				is_year() || is_search() || is_paged() ) :
-			?>
+					?>
 			 <li>
 
-			<?php if ( is_404() ) : /* If this is a 404 page */ ?>
+					<?php if ( is_404() ) : /* If this is a 404 page */ ?>
 			<?php elseif ( is_category() ) : /* If this is a category archive */ ?>
 				<p>
 				<?php
@@ -111,10 +111,10 @@ _deprecated_file(
 			<?php endif; ?>
 
 			</li>
-		<?php endif; ?>
+			<?php endif; ?>
 		</ul>
 		<ul role="navigation">
-			<?php wp_list_pages( 'title_li=<h2>' . __( 'Pages' ) . '</h2>' ); ?>
+				<?php wp_list_pages( 'title_li=<h2>' . __( 'Pages' ) . '</h2>' ); ?>
 
 			<li><h2><?php _e( 'Archives' ); ?></h2>
 				<ul>
@@ -122,18 +122,18 @@ _deprecated_file(
 				</ul>
 			</li>
 
-			<?php
-			wp_list_categories(
-				array(
-					'show_count' => 1,
-					'title_li'   => '<h2>' . __( 'Categories' ) . '</h2>',
-				)
-			);
-?>
+				<?php
+				wp_list_categories(
+					array(
+						'show_count' => 1,
+						'title_li'   => '<h2>' . __( 'Categories' ) . '</h2>',
+					)
+				);
+				?>
 		</ul>
 		<ul>
-			<?php if ( is_home() || is_page() ) { /* If this is the frontpage */ ?>
-				<?php wp_list_bookmarks(); ?>
+				<?php if ( is_home() || is_page() ) { /* If this is the frontpage */ ?>
+					<?php wp_list_bookmarks(); ?>
 
 				<li><h2><?php _e( 'Meta' ); ?></h2>
 				<ul>

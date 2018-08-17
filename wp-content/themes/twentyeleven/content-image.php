@@ -34,7 +34,7 @@
 					'after'  => '</div>',
 				)
 			);
-?>
+			?>
 		</div><!-- .entry-content -->
 
 		<footer class="entry-meta">
@@ -49,16 +49,16 @@
 						esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
 						get_the_author()
 					);
-				?>
+					?>
 			</div><!-- .entry-meta -->
 			<div class="entry-meta">
 				<?php
 					/* translators: used between list items, there is a space after the comma */
 					$categories_list = get_the_category_list( __( ', ', 'twentyeleven' ) );
 				if ( $categories_list ) :
-				?>
+					?>
 				<span class="cat-links">
-				<?php printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list ); ?>
+					<?php printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list ); ?>
 				</span>
 				<?php endif; // End if categories ?>
 				<?php

@@ -16,7 +16,7 @@
 		<div class="entry-meta">
 			<span class="cat-links"><?php echo get_the_category_list( _x( ', ', 'Used between list items, there is a space after the comma.', 'twentyfourteen' ) ); ?></span>
 		</div><!-- .entry-meta -->
-		<?php
+			<?php
 			endif;
 
 if ( is_single() ) :
@@ -24,7 +24,7 @@ if ( is_single() ) :
 			else :
 				the_title( '<h1 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h1>' );
 			endif;
-		?>
+			?>
 
 		<div class="entry-meta">
 			<span class="post-format">
@@ -59,7 +59,7 @@ if ( is_single() ) :
 					'link_after'  => '</span>',
 				)
 			);
-		?>
+			?>
 	</div><!-- .entry-content -->
 
 	<?php the_tags( '<footer class="entry-meta"><span class="tag-links">', '', '</span></footer>' ); ?>

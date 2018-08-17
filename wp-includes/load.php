@@ -225,7 +225,7 @@ function wp_maintenance() {
 	if ( is_rtl() ) {
 		$dir_attr = ' dir="rtl"';
 	}
-?>
+	?>
 	<!DOCTYPE html>
 	<html xmlns="http://www.w3.org/1999/xhtml"<?php echo $dir_attr; ?>>
 	<head>
@@ -237,7 +237,7 @@ function wp_maintenance() {
 		<h1><?php _e( 'Briefly unavailable for scheduled maintenance. Check back in a minute.' ); ?></h1>
 	</body>
 	</html>
-<?php
+	<?php
 	die();
 }
 

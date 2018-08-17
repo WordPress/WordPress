@@ -806,7 +806,7 @@ final class WP_Screen {
 									<?php echo esc_html( $tab['title'] ); ?>
 								</a>
 							</li>
-						<?php
+							<?php
 							$class = '';
 						endforeach;
 						?>
@@ -837,7 +837,7 @@ final class WP_Screen {
 								}
 								?>
 							</div>
-						<?php
+							<?php
 							$classes = 'help-tab-content';
 						endforeach;
 						?>
@@ -890,10 +890,10 @@ final class WP_Screen {
 			<div id="contextual-help-link-wrap" class="hide-if-no-js screen-meta-toggle">
 			<button type="button" id="contextual-help-link" class="button show-settings" aria-controls="contextual-help-wrap" aria-expanded="false"><?php _e( 'Help' ); ?></button>
 			</div>
-		<?php
+			<?php
 		endif;
 if ( $this->show_screen_options() ) :
-		?>
+	?>
 			<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
 			<button type="button" id="show-settings-link" class="button show-settings" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( 'Screen Options' ); ?></button>
 			</div>
@@ -968,7 +968,8 @@ if ( $this->show_screen_options() ) :
 	 */
 	public function render_screen_options( $options = array() ) {
 		$options = wp_parse_args(
-			$options, array(
+			$options,
+			array(
 				'wrap' => true,
 			)
 		);
@@ -1121,12 +1122,12 @@ if ( $this->show_screen_options() ) :
 													?>
 													<label class="columns-prefs-<?php echo $i; ?>">
 				<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>'
-					<?php checked( $screen_layout_columns, $i ); ?> />
-				<?php printf( _n( '%s column', '%s columns', $i ), number_format_i18n( $i ) ); ?>
+													<?php checked( $screen_layout_columns, $i ); ?> />
+													<?php printf( _n( '%s column', '%s columns', $i ), number_format_i18n( $i ) ); ?>
 				</label>
-				<?php
+													<?php
 			endfor;
-			?>
+												?>
 		</fieldset>
 		<?php
 	}
@@ -1235,7 +1236,7 @@ if ( $this->show_screen_options() ) :
 
 		// This needs a submit button
 		add_filter( 'screen_options_show_submit', '__return_true' );
-?>
+		?>
 		<fieldset class="metabox-prefs view-mode">
 		<legend><?php _e( 'View Mode' ); ?></legend>
 				<label for="list-view-mode">
@@ -1247,7 +1248,7 @@ if ( $this->show_screen_options() ) :
 					<?php _e( 'Excerpt View' ); ?>
 				</label>
 		</fieldset>
-<?php
+		<?php
 	}
 
 	/**

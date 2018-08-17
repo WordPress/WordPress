@@ -67,7 +67,8 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 				'action'     => 'activate',
 				'template'   => urlencode( $template ),
 				'stylesheet' => urlencode( $stylesheet ),
-			), admin_url( 'themes.php' )
+			),
+			admin_url( 'themes.php' )
 		);
 		$activate_link = wp_nonce_url( $activate_link, 'switch-theme_' . $stylesheet );
 

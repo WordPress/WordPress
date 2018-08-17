@@ -298,7 +298,7 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 	} else {
 		$return_url = admin_url( '/' );
 	}
-?>
+	?>
 <div id="file-editor-warning" class="notification-dialog-wrap file-editor-warning hide-if-no-js hidden">
 	<div class="notification-dialog-background"></div>
 	<div class="notification-dialog">
@@ -315,7 +315,7 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 		</div>
 	</div>
 </div>
-<?php
+	<?php
 endif; // editor warning notice
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

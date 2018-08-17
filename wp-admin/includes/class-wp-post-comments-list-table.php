@@ -49,13 +49,13 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 		$singular = $this->_args['singular'];
 
 		wp_nonce_field( 'fetch-list-' . get_class( $this ), '_ajax_fetch_list_nonce' );
-?>
+		?>
 <table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" style="display:none;">
 	<tbody id="the-comment-list"
-	<?php
-	if ( $singular ) {
-		echo " data-wp-lists='list:$singular'";
-	}
+		<?php
+		if ( $singular ) {
+			echo " data-wp-lists='list:$singular'";
+		}
 		?>
 		>
 		<?php
@@ -65,7 +65,7 @@ class WP_Post_Comments_List_Table extends WP_Comments_List_Table {
 		?>
 	</tbody>
 </table>
-<?php
+		<?php
 	}
 
 	/**

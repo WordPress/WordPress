@@ -55,7 +55,8 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 */
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$widget_opts = wp_parse_args(
-			$widget_options, array(
+			$widget_options,
+			array(
 				'description'                 => __( 'A media item.' ),
 				'customize_selective_refresh' => true,
 				'mime_type'                   => '',
@@ -80,7 +81,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 			'media_library_state_single' => __( 'Media Widget' ),
 			'unsupported_file_type'      => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an appropriate file instead.' ),
 		);
-		$this->l10n = array_merge( $l10n_defaults, array_filter( $this->l10n ) );
+		$this->l10n    = array_merge( $l10n_defaults, array_filter( $this->l10n ) );
 
 		parent::__construct(
 			$id_base,
@@ -338,7 +339,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 				id="<?php echo esc_attr( $this->get_field_id( $name ) ); // Needed specifically by wpWidgets.appendTitle(). ?>"
 				value="<?php echo esc_attr( is_array( $value ) ? join( ',', $value ) : strval( $value ) ); ?>"
 			/>
-		<?php
+			<?php
 		endforeach;
 	}
 

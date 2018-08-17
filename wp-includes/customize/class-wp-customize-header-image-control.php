@@ -28,7 +28,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 	 */
 	public function __construct( $manager ) {
 		parent::__construct(
-			$manager, 'header_image', array(
+			$manager,
+			'header_image',
+			array(
 				'label'    => __( 'Header Image' ),
 				'settings' => array(
 					'default' => 'header_image',
@@ -51,7 +53,9 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 		$this->prepare_control();
 
 		wp_localize_script(
-			'customize-views', '_wpCustomizeHeader', array(
+			'customize-views',
+			'_wpCustomizeHeader',
+			array(
 				'data'     => array(
 					'width'         => absint( get_theme_support( 'custom-header', 'width' ) ),
 					'height'        => absint( get_theme_support( 'custom-header', 'height' ) ),

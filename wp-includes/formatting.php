@@ -130,14 +130,16 @@ function wptexturize( $text, $reset = false ) {
 			 * lines of code 'til we have enough of 'em, then we need to insert apostrophes instead of quotes.
 			 */
 			$cockney = explode(
-				',', _x(
+				',',
+				_x(
 					"'tain't,'twere,'twas,'tis,'twill,'til,'bout,'nuff,'round,'cause,'em",
 					'Comma-separated list of words to texturize in your language'
 				)
 			);
 
 			$cockneyreplace = explode(
-				',', _x(
+				',',
+				_x(
 					'&#8217;tain&#8217;t,&#8217;twere,&#8217;twas,&#8217;tis,&#8217;twill,&#8217;til,&#8217;bout,&#8217;nuff,&#8217;round,&#8217;cause,&#8217;em',
 					'Comma-separated list of replacement words in your language'
 				)
@@ -2262,7 +2264,9 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 				'%cc%80',
 				'%cc%84',
 				'%cc%8c',
-			), '', $title
+			),
+			'',
+			$title
 		);
 
 		// Convert times to x
@@ -3072,12 +3076,12 @@ function wp_targeted_link_rel_callback( $matches ) {
 	}
 
 	if ( ! empty( $rel_match[0] ) ) {
-		$parts = preg_split( '|\s+|', strtolower( $rel_match[2] ) );
-		$parts = array_map( 'esc_attr', $parts );
-		$needed = explode( ' ', $rel );
-		$parts = array_unique( array_merge( $parts, $needed ) );
+		$parts     = preg_split( '|\s+|', strtolower( $rel_match[2] ) );
+		$parts     = array_map( 'esc_attr', $parts );
+		$needed    = explode( ' ', $rel );
+		$parts     = array_unique( array_merge( $parts, $needed ) );
 		$delimiter = trim( $rel_match[1] ) ? $rel_match[1] : '"';
-		$rel = 'rel=' . $delimiter . trim( implode( ' ', $parts ) ) . $delimiter;
+		$rel       = 'rel=' . $delimiter . trim( implode( ' ', $parts ) ) . $delimiter;
 		$link_html = str_replace( $rel_match[0], $rel, $link_html );
 	} else {
 		$link_html .= " rel=\"$rel\"";
@@ -4843,7 +4847,8 @@ function wp_sprintf_l( $pattern, $args ) {
 	 * @param array $delimiters An array of translated delimiters.
 	 */
 	$l = apply_filters(
-		'wp_sprintf_l', array(
+		'wp_sprintf_l',
+		array(
 			/* translators: used to join items in a list with more than 2 items */
 			'between'          => sprintf( __( '%1$s, %2$s' ), '', '' ),
 			/* translators: used to join last two items in a list with more than 2 times */
@@ -5336,7 +5341,7 @@ function print_emoji_styles() {
 	}
 
 	$printed = true;
-?>
+	?>
 <style type="text/css">
 img.wp-smiley,
 img.emoji {
@@ -5351,7 +5356,7 @@ img.emoji {
 	padding: 0 !important;
 }
 </style>
-<?php
+	<?php
 }
 
 /**

@@ -66,7 +66,9 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	public function register_routes() {
 
 		register_rest_route(
-			$this->namespace, '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base, array(
+			$this->namespace,
+			'/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base,
+			array(
 				'args'   => array(
 					'parent' => array(
 						'description' => __( 'The ID for the parent of the object.' ),
@@ -84,7 +86,9 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			$this->namespace, '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+			$this->namespace,
+			'/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)',
+			array(
 				'args'   => array(
 					'parent' => array(
 						'description' => __( 'The ID for the parent of the object.' ),

@@ -93,7 +93,8 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		 * to output valid HTML5.
 		 */
 		add_theme_support(
-			'html5', array(
+			'html5',
+			array(
 				'search-form',
 				'comment-form',
 				'comment-list',
@@ -108,7 +109,8 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		 * See: https://codex.wordpress.org/Post_Formats
 		 */
 		add_theme_support(
-			'post-formats', array(
+			'post-formats',
+			array(
 				'aside',
 				'image',
 				'video',
@@ -127,7 +129,8 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		 * @since Twenty Fifteen 1.5
 		 */
 		add_theme_support(
-			'custom-logo', array(
+			'custom-logo',
+			array(
 				'height'      => 248,
 				'width'       => 248,
 				'flex-height' => true,
@@ -152,8 +155,10 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		 * }
 		 */
 		add_theme_support(
-			'custom-background', apply_filters(
-				'twentyfifteen_custom_background_args', array(
+			'custom-background',
+			apply_filters(
+				'twentyfifteen_custom_background_args',
+				array(
 					'default-color'      => $default_color,
 					'default-attachment' => 'fixed',
 				)
@@ -252,7 +257,8 @@ if ( ! function_exists( 'twentyfifteen_fonts_url' ) ) :
 				array(
 					'family' => urlencode( implode( '|', $fonts ) ),
 					'subset' => urlencode( $subsets ),
-				), 'https://fonts.googleapis.com/css'
+				),
+				'https://fonts.googleapis.com/css'
 			);
 		}
 
@@ -307,7 +313,9 @@ function twentyfifteen_scripts() {
 
 	wp_enqueue_script( 'twentyfifteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20150330', true );
 	wp_localize_script(
-		'twentyfifteen-script', 'screenReaderText', array(
+		'twentyfifteen-script',
+		'screenReaderText',
+		array(
 			'expand'   => '<span class="screen-reader-text">' . __( 'expand child menu', 'twentyfifteen' ) . '</span>',
 			'collapse' => '<span class="screen-reader-text">' . __( 'collapse child menu', 'twentyfifteen' ) . '</span>',
 		)

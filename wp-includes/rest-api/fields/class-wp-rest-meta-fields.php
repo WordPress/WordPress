@@ -53,7 +53,9 @@ abstract class WP_REST_Meta_Fields {
 	 */
 	public function register_field() {
 		register_rest_field(
-			$this->get_rest_field_type(), 'meta', array(
+			$this->get_rest_field_type(),
+			'meta',
+			array(
 				'get_callback'    => array( $this, 'get_value' ),
 				'update_callback' => array( $this, 'update_value' ),
 				'schema'          => $this->get_field_schema(),

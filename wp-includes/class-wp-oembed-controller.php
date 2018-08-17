@@ -32,7 +32,9 @@ final class WP_oEmbed_Controller {
 		$maxwidth = apply_filters( 'oembed_default_width', 600 );
 
 		register_rest_route(
-			'oembed/1.0', '/embed', array(
+			'oembed/1.0',
+			'/embed',
+			array(
 				array(
 					'methods'  => WP_REST_Server::READABLE,
 					'callback' => array( $this, 'get_item' ),
@@ -55,7 +57,9 @@ final class WP_oEmbed_Controller {
 		);
 
 		register_rest_route(
-			'oembed/1.0', '/proxy', array(
+			'oembed/1.0',
+			'/proxy',
+			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_proxy_item' ),

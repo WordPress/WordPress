@@ -67,7 +67,7 @@ if ( post_password_required() ) {
 	<?php
 		// If comments are closed and there are comments, let's leave a little note, shall we?
 	if ( ! comments_open() && get_comments_number() && post_type_supports( get_post_type(), 'comments' ) ) :
-	?>
+		?>
 	<p class="no-comments"><?php _e( 'Comments are closed.', 'twentysixteen' ); ?></p>
 	<?php endif; ?>
 
@@ -78,6 +78,6 @@ if ( post_password_required() ) {
 				'title_reply_after'  => '</h2>',
 			)
 		);
-	?>
+		?>
 
 </div><!-- .comments-area -->

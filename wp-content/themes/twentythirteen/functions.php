@@ -84,7 +84,8 @@ function twentythirteen_setup() {
 	 * and comments to output valid HTML5.
 	 */
 	add_theme_support(
-		'html5', array(
+		'html5',
+		array(
 			'search-form',
 			'comment-form',
 			'comment-list',
@@ -98,7 +99,8 @@ function twentythirteen_setup() {
 	 * See https://codex.wordpress.org/Post_Formats
 	 */
 	add_theme_support(
-		'post-formats', array(
+		'post-formats',
+		array(
 			'aside',
 			'audio',
 			'chat',
@@ -334,7 +336,7 @@ if ( ! function_exists( 'twentythirteen_paging_nav' ) ) :
 
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
-	<?php
+		<?php
 	}
 endif;
 
@@ -364,7 +366,7 @@ if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 
 		</div><!-- .nav-links -->
 	</nav><!-- .navigation -->
-	<?php
+		<?php
 	}
 endif;
 
@@ -611,14 +613,16 @@ function twentythirteen_customize_register( $wp_customize ) {
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
 		$wp_customize->selective_refresh->add_partial(
-			'blogname', array(
+			'blogname',
+			array(
 				'selector'            => '.site-title',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentythirteen_customize_partial_blogname',
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'blogdescription', array(
+			'blogdescription',
+			array(
 				'selector'            => '.site-description',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentythirteen_customize_partial_blogdescription',

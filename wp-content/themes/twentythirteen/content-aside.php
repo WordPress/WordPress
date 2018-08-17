@@ -27,7 +27,7 @@
 					'link_after'  => '</span>',
 				)
 			);
-		?>
+			?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">

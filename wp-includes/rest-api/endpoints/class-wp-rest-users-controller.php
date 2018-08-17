@@ -46,7 +46,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	public function register_routes() {
 
 		register_rest_route(
-			$this->namespace, '/' . $this->rest_base, array(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
@@ -64,7 +66,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			$this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+			$this->namespace,
+			'/' . $this->rest_base . '/(?P<id>[\d]+)',
+			array(
 				'args'   => array(
 					'id' => array(
 						'description' => __( 'Unique identifier for the user.' ),
@@ -108,7 +112,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			$this->namespace, '/' . $this->rest_base . '/me', array(
+			$this->namespace,
+			'/' . $this->rest_base . '/me',
+			array(
 				array(
 					'methods'  => WP_REST_Server::READABLE,
 					'callback' => array( $this, 'get_current_item' ),
@@ -194,7 +200,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		if ( 'authors' === $request['who'] ) {
 			$can_view = false;
-			$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+			$types    = get_post_types( array( 'show_in_rest' => true ), 'objects' );
 			foreach ( $types as $type ) {
 				if ( post_type_supports( $type->name, 'author' )
 					&& current_user_can( $type->cap->edit_posts ) ) {

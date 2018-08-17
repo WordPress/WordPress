@@ -143,10 +143,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$installed_plugins = $this->get_installed_plugins();
 
 		$args = array(
-			'page'              => $paged,
-			'per_page'          => $per_page,
+			'page'     => $paged,
+			'per_page' => $per_page,
 			// Send the locale to the API so it can provide context-sensitive results.
-			'locale'            => get_user_locale(),
+			'locale'   => get_user_locale(),
 		);
 
 		switch ( $tab ) {
@@ -256,7 +256,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			}
 
 			wp_localize_script(
-				'updates', '_wpUpdatesItemCounts', array(
+				'updates',
+				'_wpUpdatesItemCounts',
+				array(
 					'plugins' => $js_plugins,
 					'totals'  => wp_get_update_data(),
 				)
@@ -273,7 +275,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			</div>
 		<?php } else { ?>
 			<div class="no-plugin-results"><?php _e( 'No plugins found. Try a different search.' ); ?></div>
-		<?php
+			<?php
 }
 	}
 
@@ -308,7 +310,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
 		$this->screen->render_screen_reader_content( 'heading_views' );
-?>
+		?>
 <div class="wp-filter">
 	<ul class="filter-links">
 		<?php
@@ -321,9 +323,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 	</ul>
 
-	<?php install_search_form(); ?>
+		<?php install_search_form(); ?>
 </div>
-<?php
+		<?php
 	}
 
 	/**
@@ -340,16 +342,16 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$this->display_tablenav( 'top' );
 
-?>
+		?>
 <div class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
-<?php
-	$this->screen->render_screen_reader_content( 'heading_list' );
-?>
+		<?php
+		$this->screen->render_screen_reader_content( 'heading_list' );
+		?>
 	<div id="the-list"<?php echo $data_attr; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</div>
 </div>
-<?php
+		<?php
 		$this->display_tablenav( 'bottom' );
 	}
 
@@ -365,7 +367,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		if ( 'top' === $which ) {
 			wp_referer_field();
-		?>
+			?>
 			<div class="tablenav top">
 				<div class="alignleft actions">
 					<?php
@@ -385,7 +387,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				<?php $this->pagination( $which ); ?>
 				<br class="clear" />
 			</div>
-		<?php
+			<?php
 }
 	}
 
@@ -560,7 +562,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 									'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
 									'action'   => 'activate',
 									'plugin'   => $status['file'],
-								), network_admin_url( 'plugins.php' )
+								),
+								network_admin_url( 'plugins.php' )
 							);
 
 							if ( is_network_admin() ) {
@@ -621,7 +624,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 
 			$last_updated_timestamp = strtotime( $plugin['last_updated'] );
-		?>
+			?>
 		<div class="plugin-card plugin-card-<?php echo sanitize_html_class( $plugin['slug'] ); ?>">
 			<?php
 			if ( ! $compatible_php || ! $compatible_wp ) {
@@ -651,7 +654,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							self_admin_url( 'update-core.php' )
 						);
 					}
-				} elseif ( ! $compatible_php  ) {
+				} elseif ( ! $compatible_php ) {
 					_e( 'This plugin doesn&#8217;t work with your version of PHP. ' );
 					printf(
 						/* translators: %s: "Updating PHP" page URL */
@@ -703,7 +706,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<?php
 					if ( $plugin['active_installs'] >= 1000000 ) {
 						$active_installs_millions = floor( $plugin['active_installs'] / 1000000 );
-						$active_installs_text = sprintf(
+						$active_installs_text     = sprintf(
 							_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
 							number_format_i18n( $active_installs_millions )
 						);
@@ -728,7 +731,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				</div>
 			</div>
 		</div>
-		<?php
+			<?php
 		}
 
 		// Close off the group divs of the last one

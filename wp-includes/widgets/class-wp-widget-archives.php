@@ -72,11 +72,13 @@ class WP_Widget_Archives extends WP_Widget {
 			 * @param array $instance Settings for the current Archives widget instance.
 			 */
 			$dropdown_args = apply_filters(
-				'widget_archives_dropdown_args', array(
+				'widget_archives_dropdown_args',
+				array(
 					'type'            => 'monthly',
 					'format'          => 'option',
 					'show_post_count' => $c,
-				), $instance
+				),
+				$instance
 			);
 
 			switch ( $dropdown_args['type'] ) {
@@ -104,29 +106,31 @@ class WP_Widget_Archives extends WP_Widget {
 		</select>
 		<?php } else { ?>
 		<ul>
-		<?php
-		/**
-		 * Filters the arguments for the Archives widget.
-		 *
-		 * @since 2.8.0
-		 * @since 4.9.0 Added the `$instance` parameter.
-		 *
-		 * @see wp_get_archives()
-		 *
-		 * @param array $args     An array of Archives option arguments.
-		 * @param array $instance Array of settings for the current widget.
-		 */
-		wp_get_archives(
-			apply_filters(
-				'widget_archives_args', array(
-					'type'            => 'monthly',
-					'show_post_count' => $c,
-				), $instance
-			)
-		);
-		?>
+			<?php
+			/**
+			 * Filters the arguments for the Archives widget.
+			 *
+			 * @since 2.8.0
+			 * @since 4.9.0 Added the `$instance` parameter.
+			 *
+			 * @see wp_get_archives()
+			 *
+			 * @param array $args     An array of Archives option arguments.
+			 * @param array $instance Array of settings for the current widget.
+			 */
+			wp_get_archives(
+				apply_filters(
+					'widget_archives_args',
+					array(
+						'type'            => 'monthly',
+						'show_post_count' => $c,
+					),
+					$instance
+				)
+			);
+			?>
 		</ul>
-		<?php
+			<?php
 }
 
 		echo $args['after_widget'];
@@ -145,7 +149,8 @@ class WP_Widget_Archives extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance             = $old_instance;
 		$new_instance         = wp_parse_args(
-			(array) $new_instance, array(
+			(array) $new_instance,
+			array(
 				'title'    => '',
 				'count'    => 0,
 				'dropdown' => '',
@@ -167,7 +172,8 @@ class WP_Widget_Archives extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$instance = wp_parse_args(
-			(array) $instance, array(
+			(array) $instance,
+			array(
 				'title'    => '',
 				'count'    => 0,
 				'dropdown' => '',

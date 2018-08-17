@@ -269,7 +269,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 					'term_group'       => 0,
 					'taxonomy'         => self::TAXONOMY,
 					'filter'           => 'raw',
-				), $setting_value
+				),
+				$setting_value
 			);
 
 			array_splice( $menus, $index, ( -1 === $index ? 0 : 1 ), array( $menu_obj ) );
@@ -278,7 +279,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 		// Make sure the menu objects get re-sorted after an update/insert.
 		if ( ! $is_delete && ! empty( $args['orderby'] ) ) {
 			$menus = wp_list_sort(
-				$menus, array(
+				$menus,
+				array(
 					$args['orderby'] => 'ASC',
 				)
 			);
@@ -366,7 +368,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 				'term_group'       => 0,
 				'taxonomy'         => self::TAXONOMY,
 				'filter'           => 'raw',
-			), $setting_value
+			),
+			$setting_value
 		);
 
 		return $menu_obj;

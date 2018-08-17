@@ -77,7 +77,7 @@ if ( empty( $blogs ) ) :
 	_e( 'You must be a member of at least one site to use this page.' );
 	echo '</p>';
 else :
-?>
+	?>
 
 <hr class="wp-header-end">
 

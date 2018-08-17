@@ -36,7 +36,9 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	public function register_routes() {
 
 		register_rest_route(
-			$this->namespace, '/' . $this->rest_base, array(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
@@ -187,7 +189,9 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				 */
 				if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 					return new WP_Error(
-						'rest_invalid_stored_value', sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ), array( 'status' => 500 )
+						'rest_invalid_stored_value',
+						sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
+						array( 'status' => 500 )
 					);
 				}
 

@@ -80,8 +80,8 @@ if ( is_multisite() && ! current_user_can( 'manage_network_options' ) && 'update
 	);
 }
 
-$whitelist_options = array(
-	'general' => array(
+$whitelist_options         = array(
+	'general'    => array(
 		'blogname',
 		'blogdescription',
 		'gmt_offset',
@@ -118,7 +118,7 @@ $whitelist_options = array(
 		'comment_registration',
 		'show_comments_cookies_opt_in',
 	),
-	'media' => array(
+	'media'      => array(
 		'thumbnail_size_w',
 		'thumbnail_size_h',
 		'thumbnail_crop',
@@ -130,7 +130,7 @@ $whitelist_options = array(
 		'image_default_align',
 		'image_default_link_type',
 	),
-	'reading' => array(
+	'reading'    => array(
 		'posts_per_page',
 		'posts_per_rss',
 		'rss_use_excerpt',
@@ -139,7 +139,7 @@ $whitelist_options = array(
 		'page_for_posts',
 		'blog_public',
 	),
-	'writing' => array(
+	'writing'    => array(
 		'default_category',
 		'default_email_category',
 		'default_link_category',
@@ -261,7 +261,8 @@ if ( 'update' == $action ) {
 		foreach ( $options as $option ) {
 			if ( $unregistered ) {
 				_deprecated_argument(
-					'options.php', '2.7.0',
+					'options.php',
+					'2.7.0',
 					sprintf(
 						/* translators: %s: the option/setting */
 						__( 'The %s setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API' ),

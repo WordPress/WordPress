@@ -212,7 +212,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$taxonomy = $this->screen->taxonomy;
 
 		$args = wp_parse_args(
-			$this->callback_args, array(
+			$this->callback_args,
+			array(
 				'page'       => 1,
 				'number'     => 20,
 				'search'     => '',
@@ -385,7 +386,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				urlencode( wp_unslash( $uri ) ),
 				$edit_link
 			);
-			$name = sprintf(
+			$name      = sprintf(
 				'<a class="row-title" href="%s" aria-label="%s">%s</a>',
 				esc_url( $edit_link ),
 				/* translators: %s: taxonomy term name */
@@ -607,7 +608,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( ! current_user_can( $tax->cap->edit_terms ) ) {
 			return;
 		}
-?>
+		?>
 
 	<form method="get"><table style="display: none"><tbody id="inlineedit">
 		<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
@@ -619,14 +620,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 					<span class="title"><?php _ex( 'Name', 'term name' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
 				</label>
-	<?php if ( ! global_terms_enabled() ) { ?>
+		<?php if ( ! global_terms_enabled() ) { ?>
 				<label>
 					<span class="title"><?php _e( 'Slug' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="slug" class="ptitle" value="" /></span>
 				</label>
 	<?php } ?>
 			</div></fieldset>
-	<?php
+		<?php
 
 		$core_columns = array(
 			'cb'          => true,
@@ -638,16 +639,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		list( $columns ) = $this->get_column_info();
 
-	foreach ( $columns as $column_name => $column_display_name ) {
-		if ( isset( $core_columns[ $column_name ] ) ) {
-			continue;
+		foreach ( $columns as $column_name => $column_display_name ) {
+			if ( isset( $core_columns[ $column_name ] ) ) {
+				continue;
+			}
+
+			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
+			do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
 		}
 
-		/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
-		do_action( 'quick_edit_custom_box', $column_name, 'edit-tags', $this->screen->taxonomy );
-	}
-
-	?>
+		?>
 
 		<div class="inline-edit-save submit">
 			<button type="button" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></button>
@@ -663,6 +664,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 		</div>
 		</td></tr>
 		</tbody></table></form>
-	<?php
+		<?php
 	}
 }

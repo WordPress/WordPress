@@ -18,7 +18,7 @@ get_header(); ?>
 				// Start the Loop.
 			while ( have_posts() ) :
 				the_post();
-			?>
+				?>
 
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'image-attachment' ); ?>>
 			<header class="entry-header">
@@ -91,7 +91,7 @@ get_header(); ?>
 				</div><!-- .entry-content -->
 			</article><!-- #post -->
 
-			<?php comments_template(); ?>
+				<?php comments_template(); ?>
 
 			<?php endwhile; // End the loop. ?>
 

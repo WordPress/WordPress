@@ -19,7 +19,9 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	 */
 	function __construct() {
 		parent::__construct(
-			'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), array(
+			'widget_twentyeleven_ephemera',
+			__( 'Twenty Eleven Ephemera', 'twentyeleven' ),
+			array(
 				'classname'                   => 'widget_twentyeleven_ephemera',
 				'description'                 => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
 				'customize_selective_refresh' => true,
@@ -106,7 +108,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			<?php
 			while ( $ephemera->have_posts() ) :
 				$ephemera->the_post();
-?>
+				?>
 
 				<?php if ( 'link' != get_post_format() ) : ?>
 
@@ -188,7 +190,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 	function form( $instance ) {
 		$title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 10;
-?>
+		?>
 			<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'twentyeleven' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 

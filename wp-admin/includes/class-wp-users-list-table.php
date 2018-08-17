@@ -264,7 +264,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	protected function extra_tablenav( $which ) {
 		$id        = 'bottom' === $which ? 'new_role2' : 'new_role';
 		$button_id = 'bottom' === $which ? 'changeit2' : 'changeit';
-	?>
+		?>
 	<div class="alignleft actions">
 		<?php if ( current_user_can( 'promote_users' ) && $this->has_items() ) : ?>
 		<label class="screen-reader-text" for="<?php echo $id; ?>"><?php _e( 'Change role to&hellip;' ); ?></label>
@@ -272,7 +272,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			<option value=""><?php _e( 'Change role to&hellip;' ); ?></option>
 			<?php wp_dropdown_roles(); ?>
 		</select>
-	<?php
+			<?php
 			submit_button( __( 'Change' ), '', $button_id, false );
 		endif;
 
@@ -286,9 +286,9 @@ class WP_Users_List_Table extends WP_List_Table {
 		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 		 */
 		do_action( 'restrict_manage_users', $which );
-	?>
+?>
 		</div>
-	<?php
+		<?php
 		/**
 		 * Fires immediately following the closing "actions" div in the tablenav for the users
 		 * list table.

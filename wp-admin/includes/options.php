@@ -13,7 +13,7 @@
  * @since 4.2.0
  */
 function options_discussion_add_js() {
-?>
+	?>
 	<script>
 	(function($){
 		var parent = $( '#show_avatars' ),
@@ -23,7 +23,7 @@ function options_discussion_add_js() {
 		});
 	})(jQuery);
 	</script>
-<?php
+	<?php
 }
 
 /**
@@ -32,7 +32,7 @@ function options_discussion_add_js() {
  * @since 3.5.0
  */
 function options_general_add_js() {
-?>
+	?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		var $siteName = $( '#wp-admin-bar-site-name' ).children( 'a' ).first(),
@@ -88,7 +88,7 @@ function options_general_add_js() {
 		});
 	});
 </script>
-<?php
+	<?php
 }
 
 /**
@@ -97,7 +97,7 @@ function options_general_add_js() {
  * @since 3.5.0
  */
 function options_reading_add_js() {
-?>
+	?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		var section = $('#front-static-pages'),
@@ -110,7 +110,7 @@ function options_reading_add_js() {
 		 section.find('input:radio').change(check_disabled);
 	});
 </script>
-<?php
+	<?php
 }
 
 /**

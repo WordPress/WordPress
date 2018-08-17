@@ -217,7 +217,7 @@ function network_step1( $errors = false ) {
 	}
 
 	if ( allow_subdomain_install() && allow_subdirectory_install() ) :
-	?>
+		?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
 		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories.' ); ?>
 			<strong><?php _e( 'You cannot change this later.' ); ?></strong></p>
@@ -250,7 +250,7 @@ function network_step1( $errors = false ) {
 			</tr>
 		</table>
 
-<?php
+		<?php
 	endif;
 
 	if ( WP_CONTENT_DIR != ABSPATH . 'wp-content' && ( allow_subdirectory_install() || ! allow_subdomain_install() ) ) {
@@ -282,7 +282,7 @@ function network_step1( $errors = false ) {
 						__( 'The internet address of your network will be %s.' ),
 						'<code>' . $hostname . '</code>'
 					);
-					?>
+				?>
 				</td>
 			</tr>
 		</table>
@@ -411,15 +411,15 @@ function network_step2( $errors = false ) {
 	} else {
 		if ( is_multisite() ) {
 			$subdomain_install = is_subdomain_install();
-?>
+			?>
 	<p><?php _e( 'The original configuration steps are shown here for reference.' ); ?></p>
-<?php
+			<?php
 		} else {
 			$subdomain_install = (bool) $wpdb->get_var( "SELECT meta_value FROM $wpdb->sitemeta WHERE site_id = 1 AND meta_key = 'subdomain_install'" );
-?>
+			?>
 	<div class="error"><p><strong><?php _e( 'Warning:' ); ?></strong> <?php _e( 'An existing WordPress network was detected.' ); ?></p></div>
 	<p><?php _e( 'Please complete the configuration steps. To create a new network, you will need to empty or remove the network database tables.' ); ?></p>
-<?php
+			<?php
 		}
 	}
 
@@ -428,7 +428,7 @@ function network_step2( $errors = false ) {
 	$subdir_replacement_12 = $subdomain_install ? '$1' : '$2';
 
 	if ( $_POST || ! is_multisite() ) {
-?>
+		?>
 		<h3><?php esc_html_e( 'Enabling the Network' ); ?></h3>
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p>
@@ -459,9 +459,9 @@ function network_step2( $errors = false ) {
 		}
 		?>
 		</p></div>
-<?php
+		<?php
 	}
-?>
+	?>
 		<ol>
 			<li><p>
 			<?php
@@ -487,7 +487,7 @@ define('PATH_CURRENT_SITE', '<?php echo $base; ?>');
 define('SITE_ID_CURRENT_SITE', 1);
 define('BLOG_ID_CURRENT_SITE', 1);
 </textarea>
-<?php
+	<?php
 	$keys_salts = array(
 		'AUTH_KEY'         => '',
 		'SECURE_AUTH_KEY'  => '',
@@ -498,58 +498,58 @@ define('BLOG_ID_CURRENT_SITE', 1);
 		'LOGGED_IN_SALT'   => '',
 		'NONCE_SALT'       => '',
 	);
-foreach ( $keys_salts as $c => $v ) {
-	if ( defined( $c ) ) {
-		unset( $keys_salts[ $c ] );
+	foreach ( $keys_salts as $c => $v ) {
+		if ( defined( $c ) ) {
+			unset( $keys_salts[ $c ] );
+		}
 	}
-}
 
-if ( ! empty( $keys_salts ) ) {
-	$keys_salts_str = '';
-	$from_api       = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
-	if ( is_wp_error( $from_api ) ) {
-		foreach ( $keys_salts as $c => $v ) {
-			$keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password( 64, true, true ) . "' );";
+	if ( ! empty( $keys_salts ) ) {
+		$keys_salts_str = '';
+		$from_api       = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
+		if ( is_wp_error( $from_api ) ) {
+			foreach ( $keys_salts as $c => $v ) {
+				$keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password( 64, true, true ) . "' );";
+			}
+		} else {
+			$from_api = explode( "\n", wp_remote_retrieve_body( $from_api ) );
+			foreach ( $keys_salts as $c => $v ) {
+				$keys_salts_str .= "\ndefine( '$c', '" . substr( array_shift( $from_api ), 28, 64 ) . "' );";
+			}
 		}
-	} else {
-		$from_api = explode( "\n", wp_remote_retrieve_body( $from_api ) );
-		foreach ( $keys_salts as $c => $v ) {
-			$keys_salts_str .= "\ndefine( '$c', '" . substr( array_shift( $from_api ), 28, 64 ) . "' );";
-		}
-	}
-	$num_keys_salts = count( $keys_salts );
-?>
+		$num_keys_salts = count( $keys_salts );
+		?>
 <p>
-	<?php
-	if ( 1 == $num_keys_salts ) {
-		printf(
-			/* translators: %s: wp-config.php */
-			__( 'This unique authentication key is also missing from your %s file.' ),
-			'<code>wp-config.php</code>'
-		);
-	} else {
-		printf(
-			/* translators: %s: wp-config.php */
-			__( 'These unique authentication keys are also missing from your %s file.' ),
-			'<code>wp-config.php</code>'
-		);
-	}
+		<?php
+		if ( 1 == $num_keys_salts ) {
+			printf(
+				/* translators: %s: wp-config.php */
+				__( 'This unique authentication key is also missing from your %s file.' ),
+				'<code>wp-config.php</code>'
+			);
+		} else {
+			printf(
+				/* translators: %s: wp-config.php */
+				__( 'These unique authentication keys are also missing from your %s file.' ),
+				'<code>wp-config.php</code>'
+			);
+		}
 		?>
 		<?php _e( 'To make your installation more secure, you should also add:' ); ?>
 	</p>
 	<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
-<?php
-}
-?>
+		<?php
+	}
+	?>
 </li>
-<?php
-if ( iis7_supports_permalinks() ) :
-	// IIS doesn't support RewriteBase, all your RewriteBase are belong to us
-	$iis_subdir_match       = ltrim( $base, '/' ) . $subdir_match;
-	$iis_rewrite_base       = ltrim( $base, '/' ) . $rewrite_base;
-	$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
+	<?php
+	if ( iis7_supports_permalinks() ) :
+		// IIS doesn't support RewriteBase, all your RewriteBase are belong to us
+		$iis_subdir_match       = ltrim( $base, '/' ) . $subdir_match;
+		$iis_rewrite_base       = ltrim( $base, '/' ) . $rewrite_base;
+		$iis_subdir_replacement = $subdomain_install ? '' : '{R:1}';
 
-	$web_config_file = '<?xml version="1.0" encoding="UTF-8"?>
+		$web_config_file = '<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
         <rewrite>
@@ -558,13 +558,13 @@ if ( iis7_supports_permalinks() ) :
                     <match url="^index\.php$" ignoreCase="false" />
                     <action type="None" />
                 </rule>';
-	if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
-		$web_config_file .= '
+		if ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) {
+			$web_config_file .= '
                 <rule name="WordPress Rule for Files" stopProcessing="true">
                     <match url="^' . $iis_subdir_match . 'files/(.+)" ignoreCase="false" />
                     <action type="Rewrite" url="' . $iis_rewrite_base . WPINC . '/ms-files.php?file={R:1}" appendQueryString="false" />
                 </rule>';
-	}
+		}
 			$web_config_file .= '
                 <rule name="WordPress Rule 2" stopProcessing="true">
                     <match url="^' . $iis_subdir_match . 'wp-admin$" ignoreCase="false" />
@@ -603,16 +603,16 @@ if ( iis7_supports_permalinks() ) :
 				'<code>web.config</code>',
 				'<code>' . $home_path . '</code>'
 			);
-	echo '</p>';
-	if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' ) {
-		echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
-	}
-	?>
+		echo '</p>';
+		if ( ! $subdomain_install && WP_CONTENT_DIR != ABSPATH . 'wp-content' ) {
+			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
+		}
+		?>
 	<textarea class="code" readonly="readonly" cols="100" rows="20"><?php echo esc_textarea( $web_config_file ); ?>
 		</textarea></li>
 		</ol>
 
-	<?php
+		<?php
 	else : // end iis7_supports_permalinks(). construct an htaccess file instead:
 
 		$ms_files_rewriting = '';
@@ -651,15 +651,15 @@ EOF;
 		}
 		?>
 		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>">
-<?php echo esc_textarea( $htaccess_file ); ?></textarea></li>
+		<?php echo esc_textarea( $htaccess_file ); ?></textarea></li>
 		</ol>
 
-	<?php
+		<?php
 	endif; // end IIS/Apache code branches.
 
 	if ( ! is_multisite() ) {
 		?>
 		<p><?php _e( 'Once you complete these steps, your network is enabled and configured. You will have to log in again.' ); ?> <a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log In' ); ?></a></p>
-	<?php
+		<?php
 	}
 }

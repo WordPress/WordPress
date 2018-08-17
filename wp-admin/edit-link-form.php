@@ -51,7 +51,8 @@ do_action( 'do_meta_boxes', 'link', 'advanced', $link );
 do_action( 'do_meta_boxes', 'link', 'side', $link );
 
 add_screen_option(
-	'layout_columns', array(
+	'layout_columns',
+	array(
 		'max'     => 2,
 		'default' => 2,
 	)
@@ -153,7 +154,7 @@ do_meta_boxes( null, 'advanced', $link );
 <?php
 
 if ( $link_id ) :
-?>
+	?>
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="link_id" value="<?php echo (int) $link_id; ?>" />
 <input type="hidden" name="cat_id" value="<?php echo (int) $cat_id; ?>" />

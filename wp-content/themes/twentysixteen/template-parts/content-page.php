@@ -42,6 +42,6 @@
 			'<footer class="entry-footer"><span class="edit-link">',
 			'</span></footer><!-- .entry-footer -->'
 		);
-	?>
+		?>
 
 </article><!-- #post-## -->

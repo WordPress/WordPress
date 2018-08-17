@@ -19,7 +19,8 @@
  */
 function create_initial_post_types() {
 	register_post_type(
-		'post', array(
+		'post',
+		array(
 			'labels'                => array(
 				'name_admin_bar' => _x( 'Post', 'add new from admin bar' ),
 			),
@@ -41,7 +42,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'page', array(
+		'page',
+		array(
 			'labels'                => array(
 				'name_admin_bar' => _x( 'Page', 'add new from admin bar' ),
 			),
@@ -64,7 +66,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'attachment', array(
+		'attachment',
+		array(
 			'labels'                => array(
 				'name'           => _x( 'Media', 'post type general name' ),
 				'name_admin_bar' => _x( 'Media', 'add new from admin bar' ),
@@ -97,7 +100,8 @@ function create_initial_post_types() {
 	add_post_type_support( 'attachment:video', 'thumbnail' );
 
 	register_post_type(
-		'revision', array(
+		'revision',
+		array(
 			'labels'           => array(
 				'name'          => __( 'Revisions' ),
 				'singular_name' => __( 'Revision' ),
@@ -117,7 +121,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'nav_menu_item', array(
+		'nav_menu_item',
+		array(
 			'labels'           => array(
 				'name'          => __( 'Navigation Menu Items' ),
 				'singular_name' => __( 'Navigation Menu Item' ),
@@ -132,7 +137,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'custom_css', array(
+		'custom_css',
+		array(
 			'labels'           => array(
 				'name'          => __( 'Custom CSS' ),
 				'singular_name' => __( 'Custom CSS' ),
@@ -163,7 +169,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'customize_changeset', array(
+		'customize_changeset',
+		array(
 			'labels'           => array(
 				'name'               => _x( 'Changesets', 'post type general name' ),
 				'singular_name'      => _x( 'Changeset', 'post type singular name' ),
@@ -210,7 +217,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'oembed_cache', array(
+		'oembed_cache',
+		array(
 			'labels'           => array(
 				'name'          => __( 'oEmbed Responses' ),
 				'singular_name' => __( 'oEmbed Response' ),
@@ -227,7 +235,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_type(
-		'user_request', array(
+		'user_request',
+		array(
 			'labels'           => array(
 				'name'          => __( 'User Requests' ),
 				'singular_name' => __( 'User Request' ),
@@ -244,7 +253,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'publish', array(
+		'publish',
+		array(
 			'label'       => _x( 'Published', 'post status' ),
 			'public'      => true,
 			'_builtin'    => true, /* internal use only. */
@@ -253,7 +263,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'future', array(
+		'future',
+		array(
 			'label'       => _x( 'Scheduled', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
@@ -262,7 +273,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'draft', array(
+		'draft',
+		array(
 			'label'       => _x( 'Draft', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
@@ -271,7 +283,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'pending', array(
+		'pending',
+		array(
 			'label'       => _x( 'Pending', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
@@ -280,7 +293,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'private', array(
+		'private',
+		array(
 			'label'       => _x( 'Private', 'post status' ),
 			'private'     => true,
 			'_builtin'    => true, /* internal use only. */
@@ -289,7 +303,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'trash', array(
+		'trash',
+		array(
 			'label'                     => _x( 'Trash', 'post status' ),
 			'internal'                  => true,
 			'_builtin'                  => true, /* internal use only. */
@@ -299,7 +314,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'auto-draft', array(
+		'auto-draft',
+		array(
 			'label'    => 'auto-draft',
 			'internal' => true,
 			'_builtin' => true, /* internal use only. */
@@ -307,7 +323,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'inherit', array(
+		'inherit',
+		array(
 			'label'               => 'inherit',
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
@@ -316,7 +333,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'request-pending', array(
+		'request-pending',
+		array(
 			'label'               => _x( 'Pending', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
@@ -325,7 +343,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'request-confirmed', array(
+		'request-confirmed',
+		array(
 			'label'               => _x( 'Confirmed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
@@ -334,7 +353,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'request-failed', array(
+		'request-failed',
+		array(
 			'label'               => _x( 'Failed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
@@ -343,7 +363,8 @@ function create_initial_post_types() {
 	);
 
 	register_post_status(
-		'request-completed', array(
+		'request-completed',
+		array(
 			'label'               => _x( 'Completed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
@@ -4701,7 +4722,8 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 			FROM $wpdb->posts
 			WHERE post_title = %s
 			AND post_type IN ($post_type_in_string)
-		", $page_title
+		",
+			$page_title
 		);
 	} else {
 		$sql = $wpdb->prepare(
@@ -4710,7 +4732,9 @@ function get_page_by_title( $page_title, $output = OBJECT, $post_type = 'page' )
 			FROM $wpdb->posts
 			WHERE post_title = %s
 			AND post_type = %s
-		", $page_title, $post_type
+		",
+			$page_title,
+			$post_type
 		);
 	}
 
@@ -5902,7 +5926,7 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
  */
 function wp_check_for_changed_dates( $post_id, $post, $post_before ) {
 	$previous_date = date( 'Y-m-d', strtotime( $post_before->post_date ) );
-	$new_date = date( 'Y-m-d', strtotime( $post->post_date ) );
+	$new_date      = date( 'Y-m-d', strtotime( $post->post_date ) );
 	// Don't bother if it hasn't changed.
 	if ( $new_date == $previous_date ) {
 		return;

@@ -96,28 +96,28 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
  * @global array $wp_settings
  */
 if ( isset( $GLOBALS['wp_settings']['media']['embeds'] ) ) :
-?>
+	?>
 <h2 class="title"><?php _e( 'Embeds' ); ?></h2>
 <table class="form-table">
-<?php do_settings_fields( 'media', 'embeds' ); ?>
+	<?php do_settings_fields( 'media', 'embeds' ); ?>
 </table>
 <?php endif; ?>
 
 <?php if ( ! is_multisite() ) : ?>
 <h2 class="title"><?php _e( 'Uploading Files' ); ?></h2>
 <table class="form-table">
-<?php
-// If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
-if ( get_option( 'upload_url_path' ) || ( get_option( 'upload_path' ) != 'wp-content/uploads' && get_option( 'upload_path' ) ) ) :
-?>
+	<?php
+	// If upload_url_path is not the default (empty), and upload_path is not the default ('wp-content/uploads' or empty)
+	if ( get_option( 'upload_url_path' ) || ( get_option( 'upload_path' ) != 'wp-content/uploads' && get_option( 'upload_path' ) ) ) :
+		?>
 <tr>
 <th scope="row"><label for="upload_path"><?php _e( 'Store uploads in this folder' ); ?></label></th>
 <td><input name="upload_path" type="text" id="upload_path" value="<?php echo esc_attr( get_option( 'upload_path' ) ); ?>" class="regular-text code" />
 <p class="description">
-<?php
-	/* translators: %s: wp-content/uploads */
-	printf( __( 'Default is %s' ), '<code>wp-content/uploads</code>' );
-?>
+		<?php
+		/* translators: %s: wp-content/uploads */
+		printf( __( 'Default is %s' ), '<code>wp-content/uploads</code>' );
+		?>
 </p>
 </td>
 </tr>
@@ -136,12 +136,12 @@ if ( get_option( 'upload_url_path' ) || ( get_option( 'upload_path' ) != 'wp-con
 <?php endif; ?>
 <label for="uploads_use_yearmonth_folders">
 <input name="uploads_use_yearmonth_folders" type="checkbox" id="uploads_use_yearmonth_folders" value="1"<?php checked( '1', get_option( 'uploads_use_yearmonth_folders' ) ); ?> />
-<?php _e( 'Organize my uploads into month- and year-based folders' ); ?>
+	<?php _e( 'Organize my uploads into month- and year-based folders' ); ?>
 </label>
 </td>
 </tr>
 
-<?php do_settings_fields( 'media', 'uploads' ); ?>
+	<?php do_settings_fields( 'media', 'uploads' ); ?>
 </table>
 <?php endif; ?>
 

@@ -189,7 +189,8 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 			}
 		}
 		$offer = (object) array_intersect_key(
-			$offer, array_fill_keys(
+			$offer,
+			array_fill_keys(
 				array(
 					'response',
 					'download',
@@ -204,7 +205,8 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 					'notify_email',
 					'support_email',
 					'new_files',
-				), ''
+				),
+				''
 			)
 		);
 	}

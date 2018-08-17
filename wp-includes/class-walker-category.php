@@ -168,7 +168,8 @@ class Walker_Category extends Walker {
 			if ( ! empty( $args['current_category'] ) ) {
 				// 'current_category' can be an array, so we use `get_terms()`.
 				$_current_terms = get_terms(
-					$category->taxonomy, array(
+					$category->taxonomy,
+					array(
 						'include'    => $args['current_category'],
 						'hide_empty' => false,
 					)

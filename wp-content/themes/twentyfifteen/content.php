@@ -23,7 +23,7 @@
 			else :
 				the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 			endif;
-		?>
+			?>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
@@ -46,7 +46,7 @@
 					'separator'   => '<span class="screen-reader-text">, </span>',
 				)
 			);
-		?>
+			?>
 	</div><!-- .entry-content -->
 
 	<?php

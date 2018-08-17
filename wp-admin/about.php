@@ -40,7 +40,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 							__( 'Major Customizer Improvements, Code Error Checking, and More! %s' ),
 							'&#x1F389'
 						);
-					?>
+						?>
 				</h2>
 				<p><?php _e( 'Welcome to an improved Customizer workflow with design drafts, locking, scheduling, and preview links. What&#8217;s more, code syntax highlighting and error checking will make for a clean and smooth site building experience. Finally, if all that wasn&#8217;t pretty great, we&#8217;ve got a great new Gallery widget and improvements to theme browsing and switching.' ); ?></p>
 			</div>
@@ -181,7 +181,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 						__( 'Lend a Hand with Gutenberg %s' ),
 						'&#x1F91D'
 					);
-				?>
+					?>
 			</h2>
 			<p>
 			<?php
@@ -190,7 +190,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				__( 'https://wordpress.org/plugins/gutenberg/' ),
 				'https://github.com/WordPress/gutenberg'
 			);
-				?>
+			?>
 				</p>
 		</div>
 
@@ -204,7 +204,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					__( 'Developer Happiness %s' ),
 					'&#x1F60A'
 				);
-			?>
+				?>
 			</h2>
 
 			<div class="under-the-hood two-col">
@@ -217,7 +217,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 							__( 'We&#8217;ve made numerous improvements to the Customizer JS API in WordPress 4.9, eliminating many pain points and making it just as easy to work with as the PHP API. There are also new base control templates, a date/time control, and section/panel/global notifications to name a few. <a href="%s">Check out the full list.</a>' ),
 							'https://make.wordpress.org/core/2017/11/01/improvements-to-the-customize-js-api-in-4-9/'
 						);
-					?>
+						?>
 					</p>
 				</div>
 				<div class="col">

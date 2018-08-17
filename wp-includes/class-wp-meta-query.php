@@ -498,7 +498,8 @@ class WP_Meta_Query {
 		}
 
 		if ( ! in_array(
-			$clause['compare'], array(
+			$clause['compare'],
+			array(
 				'=',
 				'!=',
 				'>',

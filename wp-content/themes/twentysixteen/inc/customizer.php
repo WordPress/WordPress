@@ -31,8 +31,10 @@ function twentysixteen_custom_header_and_background() {
 	 * }
 	 */
 	add_theme_support(
-		'custom-background', apply_filters(
-			'twentysixteen_custom_background_args', array(
+		'custom-background',
+		apply_filters(
+			'twentysixteen_custom_background_args',
+			array(
 				'default-color' => $default_background_color,
 			)
 		)
@@ -55,8 +57,10 @@ function twentysixteen_custom_header_and_background() {
 	 * }
 	 */
 	add_theme_support(
-		'custom-header', apply_filters(
-			'twentysixteen_custom_header_args', array(
+		'custom-header',
+		apply_filters(
+			'twentysixteen_custom_header_args',
+			array(
 				'default-text-color' => $default_text_color,
 				'width'              => 1200,
 				'height'             => 280,
@@ -116,14 +120,16 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	if ( isset( $wp_customize->selective_refresh ) ) {
 		$wp_customize->selective_refresh->add_partial(
-			'blogname', array(
+			'blogname',
+			array(
 				'selector'            => '.site-title a',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentysixteen_customize_partial_blogname',
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'blogdescription', array(
+			'blogdescription',
+			array(
 				'selector'            => '.site-description',
 				'container_inclusive' => false,
 				'render_callback'     => 'twentysixteen_customize_partial_blogdescription',
@@ -133,7 +139,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	// Add color scheme setting and control.
 	$wp_customize->add_setting(
-		'color_scheme', array(
+		'color_scheme',
+		array(
 			'default'           => 'default',
 			'sanitize_callback' => 'twentysixteen_sanitize_color_scheme',
 			'transport'         => 'postMessage',
@@ -141,7 +148,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 	);
 
 	$wp_customize->add_control(
-		'color_scheme', array(
+		'color_scheme',
+		array(
 			'label'    => __( 'Base Color Scheme', 'twentysixteen' ),
 			'section'  => 'colors',
 			'type'     => 'select',
@@ -152,7 +160,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	// Add page background color setting and control.
 	$wp_customize->add_setting(
-		'page_background_color', array(
+		'page_background_color',
+		array(
 			'default'           => $color_scheme[1],
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'postMessage',
@@ -161,7 +170,9 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			$wp_customize, 'page_background_color', array(
+			$wp_customize,
+			'page_background_color',
+			array(
 				'label'   => __( 'Page Background Color', 'twentysixteen' ),
 				'section' => 'colors',
 			)
@@ -173,7 +184,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	// Add link color setting and control.
 	$wp_customize->add_setting(
-		'link_color', array(
+		'link_color',
+		array(
 			'default'           => $color_scheme[2],
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'postMessage',
@@ -182,7 +194,9 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			$wp_customize, 'link_color', array(
+			$wp_customize,
+			'link_color',
+			array(
 				'label'   => __( 'Link Color', 'twentysixteen' ),
 				'section' => 'colors',
 			)
@@ -191,7 +205,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	// Add main text color setting and control.
 	$wp_customize->add_setting(
-		'main_text_color', array(
+		'main_text_color',
+		array(
 			'default'           => $color_scheme[3],
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'postMessage',
@@ -200,7 +215,9 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			$wp_customize, 'main_text_color', array(
+			$wp_customize,
+			'main_text_color',
+			array(
 				'label'   => __( 'Main Text Color', 'twentysixteen' ),
 				'section' => 'colors',
 			)
@@ -209,7 +226,8 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	// Add secondary text color setting and control.
 	$wp_customize->add_setting(
-		'secondary_text_color', array(
+		'secondary_text_color',
+		array(
 			'default'           => $color_scheme[4],
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'postMessage',
@@ -218,7 +236,9 @@ function twentysixteen_customize_register( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			$wp_customize, 'secondary_text_color', array(
+			$wp_customize,
+			'secondary_text_color',
+			array(
 				'label'   => __( 'Secondary Text Color', 'twentysixteen' ),
 				'section' => 'colors',
 			)
@@ -289,7 +309,8 @@ function twentysixteen_get_color_schemes() {
 	 * }
 	 */
 	return apply_filters(
-		'twentysixteen_color_schemes', array(
+		'twentysixteen_color_schemes',
+		array(
 			'default' => array(
 				'label'  => __( 'Default', 'twentysixteen' ),
 				'colors' => array(
@@ -488,7 +509,8 @@ add_action( 'customize_preview_init', 'twentysixteen_customize_preview_js' );
  */
 function twentysixteen_get_color_scheme_css( $colors ) {
 	$colors = wp_parse_args(
-		$colors, array(
+		$colors,
+		array(
 			'background_color'      => '',
 			'page_background_color' => '',
 			'link_color'            => '',

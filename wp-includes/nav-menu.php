@@ -723,7 +723,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		if ( ! empty( $terms ) ) {
 			foreach ( array_keys( $terms ) as $taxonomy ) {
 				get_terms(
-					$taxonomy, array(
+					$taxonomy,
+					array(
 						'include'      => $terms[ $taxonomy ],
 						'hierarchical' => false,
 					)
@@ -741,7 +742,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	if ( ARRAY_A == $args['output'] ) {
 		$items = wp_list_sort(
-			$items, array(
+			$items,
+			array(
 				$args['output_key'] => 'ASC',
 			)
 		);

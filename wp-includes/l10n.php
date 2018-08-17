@@ -1123,7 +1123,8 @@ function wp_get_installed_translations( $type ) {
  */
 function wp_get_pomo_file_data( $po_file ) {
 	$headers = get_file_data(
-		$po_file, array(
+		$po_file,
+		array(
 			'POT-Creation-Date'  => '"POT-Creation-Date',
 			'PO-Revision-Date'   => '"PO-Revision-Date',
 			'Project-Id-Version' => '"Project-Id-Version',
@@ -1167,7 +1168,8 @@ function wp_get_pomo_file_data( $po_file ) {
 function wp_dropdown_languages( $args = array() ) {
 
 	$parsed_args = wp_parse_args(
-		$args, array(
+		$args,
+		array(
 			'id'                          => 'locale',
 			'name'                        => 'locale',
 			'languages'                   => array(),

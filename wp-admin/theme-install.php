@@ -41,7 +41,9 @@ foreach ( $installed_themes as $k => $v ) {
 }
 
 wp_localize_script(
-	'theme', '_wpThemeSettings', array(
+	'theme',
+	'_wpThemeSettings',
+	array(
 		'themes'          => false,
 		'settings'        => array(
 			'isInstall'  => true,

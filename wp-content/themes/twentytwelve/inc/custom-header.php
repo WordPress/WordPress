@@ -81,17 +81,17 @@ function twentytwelve_header_style() {
 	<?php
 		// Has the text been hidden?
 	if ( ! display_header_text() ) :
-	?>
+		?>
 	.site-title,
 	.site-description {
 		position: absolute;
 		clip: rect(1px 1px 1px 1px); /* IE7 */
 		clip: rect(1px, 1px, 1px, 1px);
 	}
-	<?php
-	// If the user has set a custom color for the text, use that.
+		<?php
+		// If the user has set a custom color for the text, use that.
 		else :
-	?>
+			?>
 		.site-header h1 a,
 		.site-header h2 {
 			color: #<?php echo $text_color; ?>;
@@ -107,7 +107,7 @@ function twentytwelve_header_style() {
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_admin_header_style() {
-?>
+	?>
 	<style type="text/css" id="twentytwelve-admin-header-css">
 	.appearance_page_custom-header #headimg {
 		border: none;
@@ -138,7 +138,7 @@ function twentytwelve_admin_header_style() {
 		max-width: <?php echo get_theme_support( 'custom-header', 'max-width' ); ?>px;
 	}
 	</style>
-<?php
+	<?php
 }
 
 /**
@@ -160,9 +160,9 @@ function twentytwelve_admin_header_image() {
 		<?php
 		$header_image = get_header_image();
 		if ( ! empty( $header_image ) ) :
-		?>
+			?>
 			<img src="<?php echo esc_url( $header_image ); ?>" class="header-image" width="<?php echo esc_attr( get_custom_header()->width ); ?>" height="<?php echo esc_attr( get_custom_header()->height ); ?>" alt="" />
 		<?php endif; ?>
 	</div>
-<?php
+	<?php
 }

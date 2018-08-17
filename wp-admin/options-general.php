@@ -80,7 +80,7 @@ if ( ! is_multisite() ) {
 	if ( defined( 'WP_HOME' ) ) {
 		$wp_home_class = ' disabled';
 	}
-?>
+	?>
 
 <tr>
 <th scope="row"><label for="siteurl"><?php _e( 'WordPress Address (URL)' ); ?></label></th>
@@ -90,15 +90,15 @@ if ( ! is_multisite() ) {
 <tr>
 <th scope="row"><label for="home"><?php _e( 'Site Address (URL)' ); ?></label></th>
 <td><input name="home" type="url" id="home" aria-describedby="home-description" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php echo $wp_home_class; ?>" />
-<?php if ( ! defined( 'WP_HOME' ) ) : ?>
+	<?php if ( ! defined( 'WP_HOME' ) ) : ?>
 <p class="description" id="home-description">
-<?php
-	printf(
-		/* translators: %s: Codex URL */
-		__( 'Enter the address here if you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
-		__( 'https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory' )
-	);
-?>
+		<?php
+		printf(
+			/* translators: %s: Codex URL */
+			__( 'Enter the address here if you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
+			__( 'https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory' )
+		);
+		?>
 </p>
 <?php endif; ?>
 </td>
@@ -113,7 +113,7 @@ if ( ! is_multisite() ) {
 <?php
 $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) :
-?>
+	?>
 	<div class="updated inline">
 	<p>
 	<?php
@@ -140,7 +140,7 @@ if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) :
 <th scope="row"><?php _e( 'Membership' ); ?></th>
 <td> <fieldset><legend class="screen-reader-text"><span><?php _e( 'Membership' ); ?></span></legend><label for="users_can_register">
 <input name="users_can_register" type="checkbox" id="users_can_register" value="1" <?php checked( '1', get_option( 'users_can_register' ) ); ?> />
-<?php _e( 'Anyone can register' ); ?></label>
+	<?php _e( 'Anyone can register' ); ?></label>
 </fieldset></td>
 </tr>
 
@@ -151,7 +151,7 @@ if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) :
 </td>
 </tr>
 
-<?php
+	<?php
 }
 
 $languages    = get_available_languages();
@@ -241,7 +241,7 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 			'<abbr>' . __( 'UTC' ) . '</abbr>',
 			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
 		);
-	?>
+		?>
 	</span>
 <?php if ( get_option( 'timezone_string' ) || ! empty( $current_offset ) ) : ?>
 	<span id="local-time">

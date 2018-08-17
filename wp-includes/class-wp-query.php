@@ -1099,14 +1099,16 @@ class WP_Query {
 					$terms = preg_split( '/[+]+/', $term );
 					foreach ( $terms as $term ) {
 						$tax_query[] = array_merge(
-							$tax_query_defaults, array(
+							$tax_query_defaults,
+							array(
 								'terms' => array( $term ),
 							)
 						);
 					}
 				} else {
 					$tax_query[] = array_merge(
-						$tax_query_defaults, array(
+						$tax_query_defaults,
+						array(
 							'terms' => preg_split( '/[,]+/', $term ),
 						)
 					);
@@ -1428,7 +1430,8 @@ class WP_Query {
 		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
 		 */
 		$words = explode(
-			',', _x(
+			',',
+			_x(
 				'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
 				'Comma-separated list of search stopwords in your language'
 			)
@@ -1742,7 +1745,8 @@ class WP_Query {
 
 		if ( isset( $q['caller_get_posts'] ) ) {
 			_deprecated_argument(
-				'WP_Query', '3.1.0',
+				'WP_Query',
+				'3.1.0',
 				/* translators: 1: caller_get_posts, 2: ignore_sticky_posts */
 				sprintf(
 					__( '%1$s is deprecated. Use %2$s instead.' ),
@@ -2201,7 +2205,8 @@ class WP_Query {
 				$q['comment_count'] = array_merge(
 					array(
 						'compare' => '=',
-					), $q['comment_count']
+					),
+					$q['comment_count']
 				);
 
 				// Fallback for invalid compare operators is '='.
