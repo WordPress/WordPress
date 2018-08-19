@@ -1323,7 +1323,7 @@ function wp_list_pages( $args = '' ) {
 /**
  * Displays or retrieves a list of pages with an optional home link.
  *
- * The arguments are listed below and part of the arguments are for wp_list_pages()} function.
+ * The arguments are listed below and part of the arguments are for wp_list_pages() function.
  * Check that function for more info on those arguments.
  *
  * @since 2.7.0
