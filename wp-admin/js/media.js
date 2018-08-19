@@ -10,12 +10,10 @@
  * @requires jQuery
  */
 
-/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice */
-
-var findPosts;
+/* global ajaxurl, attachMediaBoxL10n, _wpMediaGridSettings, showNotice, findPosts */
 
 ( function( $ ){
-	findPosts = {
+	window.findPosts = {
 		/**
 		 * Opens a dialog to attach media to a post.
 		 *

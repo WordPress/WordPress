@@ -8,8 +8,7 @@
  *
  * @type {Object}
  */
-var addComment;
-addComment = ( function( window ) {
+window.addComment = ( function( window ) {
 	// Avoid scope lookups on commonly used variables.
 	var document = window.document;
 

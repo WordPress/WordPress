@@ -2,7 +2,7 @@
  * @output wp-admin/js/gallery.js
  */
 
-/* global unescape, getUserSetting, setUserSetting */
+/* global unescape, getUserSetting, setUserSetting, wpgallery, tinymce */
 
 jQuery(document).ready(function($) {
 	var gallerySortable, gallerySortableInit, sortIt, clearAll, w, desc = false;
@@ -88,12 +88,12 @@ jQuery(document).ready(function($) {
 	}
 });
 
-jQuery(window).unload( function () { tinymce = tinyMCE = wpgallery = null; } ); // Cleanup
+jQuery(window).unload( function () { window.tinymce = window.tinyMCE = window.wpgallery = null; } ); // Cleanup
 
 /* gallery settings */
-var tinymce = null, tinyMCE, wpgallery;
+window.tinymce = null;
 
-wpgallery = {
+window.wpgallery = {
 	mcemode : false,
 	editor : {},
 	dom : {},
@@ -123,8 +123,8 @@ wpgallery = {
 		}
 
 		// Find window & API
-		tinymce = w.tinymce;
-		tinyMCE = w.tinyMCE;
+		window.tinymce = w.tinymce;
+		window.tinyMCE = w.tinyMCE;
 		t.editor = tinymce.EditorManager.activeEditor;
 
 		t.setup();

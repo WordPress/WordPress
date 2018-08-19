@@ -3,7 +3,7 @@
  */
 
 /* global adminCommentsL10n, thousandsSeparator, list_args, QTags, ajaxurl, wpAjax */
-var setCommentsList, theList, theExtraList, commentReply;
+/* global commentReply, theExtraList, theList, setCommentsList */
 
 (function($) {
 var getCount, updateCount, updateCountText, updatePending, updateApproved,
@@ -188,7 +188,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 		});
 	};
 
-setCommentsList = function() {
+window.setCommentsList = function() {
 	var totalInput, perPageInput, pageInput, dimAfter, delBefore, updateTotalCount, delAfter, refillTheExtraList, diff,
 		lastConfidentTime = 0;
 
@@ -564,8 +564,8 @@ setCommentsList = function() {
 		});
 	};
 
-	theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
-	theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
+	window.theExtraList = $('#the-extra-comment-list').wpList( { alt: '', delColor: 'none', addColor: 'none' } );
+	window.theList = $('#the-comment-list').wpList( { alt: '', delBefore: delBefore, dimAfter: dimAfter, delAfter: delAfter, addColor: 'none' } )
 		.bind('wpListDelEnd', function(e, s){
 			var wpListsData = $(s.target).attr('data-wp-lists'), id = s.element.replace(/[^0-9]+/g, '');
 
@@ -574,7 +574,7 @@ setCommentsList = function() {
 		});
 };
 
-commentReply = {
+window.commentReply = {
 	cid : '',
 	act : '',
 	originalContent : '',

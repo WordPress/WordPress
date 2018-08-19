@@ -5,7 +5,6 @@
 /* global zxcvbn */
 window.wp = window.wp || {};
 
-var passwordStrength;
 (function($){
 
 	/**
@@ -118,5 +117,5 @@ var passwordStrength;
 	 *
 	 * @type {wp.passwordStrength.meter}
 	 */
-	passwordStrength = wp.passwordStrength.meter;
+	window.passwordStrength = wp.passwordStrength.meter;
 })(jQuery);
