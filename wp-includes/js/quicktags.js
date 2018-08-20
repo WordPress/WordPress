@@ -35,46 +35,19 @@ window.edButtons = [];
  *
  * Define all former global functions so plugins that hack quicktags.js directly don't cause fatal errors.
  */
-window.edAddTag = function(){},
-window.edCheckOpenTags = function(){},
-window.edCloseAllTags = function(){},
-window.edInsertImage = function(){},
-window.edInsertLink = function(){},
-window.edInsertTag = function(){},
-window.edLink = function(){},
-window.edQuickLink = function(){},
-window.edRemoveTag = function(){},
-window.edShowButton = function(){},
-window.edShowLinks = function(){},
-window.edSpell = function(){},
+window.edAddTag = function(){};
+window.edCheckOpenTags = function(){};
+window.edCloseAllTags = function(){};
+window.edInsertImage = function(){};
+window.edInsertLink = function(){};
+window.edInsertTag = function(){};
+window.edLink = function(){};
+window.edQuickLink = function(){};
+window.edRemoveTag = function(){};
+window.edShowButton = function(){};
+window.edShowLinks = function(){};
+window.edSpell = function(){};
 window.edToolbar = function(){};
-
-/**
- * Initialize new instance of the Quicktags editor
- */
-window.quicktags = function(settings) {
-	return new QTags(settings);
-}
-
-/**
- * Inserts content at the caret in the active editor (textarea)
- *
- * Added for back compatibility
- * @see QTags.insertContent()
- */
-window.edInsertContent = function(bah, txt) {
-	return QTags.insertContent(txt);
-}
-
-/**
- * Adds a button to all instances of the editor
- *
- * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
- * @see QTags.addButton()
- */
-window.edButton = function(id, display, tagStart, tagEnd, access) {
-	return QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );
-}
 
 /* jshint ignore:end */
 
@@ -747,3 +720,30 @@ window.edButton = function(id, display, tagStart, tagEnd, access) {
 	edButtons[140] = new qt.CloseButton();
 
 })();
+
+/**
+ * Initialize new instance of the Quicktags editor
+ */
+window.quicktags = function(settings) {
+	return new window.QTags(settings);
+};
+
+/**
+ * Inserts content at the caret in the active editor (textarea)
+ *
+ * Added for back compatibility
+ * @see QTags.insertContent()
+ */
+window.edInsertContent = function(bah, txt) {
+	return window.QTags.insertContent(txt);
+};
+
+/**
+ * Adds a button to all instances of the editor
+ *
+ * Added for back compatibility, use QTags.addButton() as it gives more flexibility like type of button, button placement, etc.
+ * @see QTags.addButton()
+ */
+window.edButton = function(id, display, tagStart, tagEnd, access) {
+	return window.QTags.addButton( id, display, tagStart, tagEnd, access, '', -1 );
+};
