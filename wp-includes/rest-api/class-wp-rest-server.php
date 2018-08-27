@@ -904,9 +904,9 @@ class WP_REST_Server {
 				 *
 				 * @since 4.7.0
 				 *
-				 * @param WP_HTTP_Response $response Result to send to the client. Usually a WP_REST_Response.
-				 * @param WP_REST_Server   $handler  ResponseHandler instance (usually WP_REST_Server).
-				 * @param WP_REST_Request  $request  Request used to generate the response.
+				 * @param WP_HTTP_Response|WP_Error $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+				 * @param array                     $handler  Route handler used for the request.
+				 * @param WP_REST_Request           $request  Request used to generate the response.
 				 */
 				$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
 
@@ -932,7 +932,7 @@ class WP_REST_Server {
 					 * @since 4.4.0
 					 * @since 4.5.0 Added `$route` and `$handler` parameters.
 					 *
-					 * @param bool            $dispatch_result Dispatch result, will be used if not empty.
+					 * @param mixed           $dispatch_result Dispatch result, will be used if not empty.
 					 * @param WP_REST_Request $request         Request used to generate the response.
 					 * @param string          $route           Route matched for the request.
 					 * @param array           $handler         Route handler used for the request.
@@ -963,9 +963,9 @@ class WP_REST_Server {
 				 *
 				 * @since 4.7.0
 				 *
-				 * @param WP_HTTP_Response $response Result to send to the client. Usually a WP_REST_Response.
-				 * @param WP_REST_Server   $handler  ResponseHandler instance (usually WP_REST_Server).
-				 * @param WP_REST_Request  $request  Request used to generate the response.
+				 * @param WP_HTTP_Response|WP_Error $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+				 * @param array                     $handler  Route handler used for the request.
+				 * @param WP_REST_Request           $request  Request used to generate the response.
 				 */
 				$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
 

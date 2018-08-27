@@ -3414,9 +3414,9 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array   $response   Array of prepared attachment data.
-	 * @param WP_Post $attachment Attachment object.
-	 * @param array   $meta       Array of attachment meta data.
+	 * @param array       $response   Array of prepared attachment data.
+	 * @param WP_Post     $attachment Attachment object.
+	 * @param array|false $meta       Array of attachment meta data, or false if there is none.
 	 */
 	return apply_filters( 'wp_prepare_attachment_for_js', $response, $attachment, $meta );
 }

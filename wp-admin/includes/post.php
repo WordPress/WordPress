@@ -1519,9 +1519,9 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 	 * @since 3.5.0 Added the `$post_id` parameter.
 	 * @since 4.6.0 Added the `$thumbnail_id` parameter.
 	 *
-	 * @param string $content      Admin post thumbnail HTML markup.
-	 * @param int    $post_id      Post ID.
-	 * @param int    $thumbnail_id Thumbnail ID.
+	 * @param string   $content      Admin post thumbnail HTML markup.
+	 * @param int      $post_id      Post ID.
+	 * @param int|null $thumbnail_id Thumbnail attachment ID, or null if there isn't one.
 	 */
 	return apply_filters( 'admin_post_thumbnail_html', $content, $post->ID, $thumbnail_id );
 }

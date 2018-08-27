@@ -193,7 +193,7 @@ class WP_REST_Response extends WP_HTTP_Response {
 	}
 
 	/**
-	 * Retrieves the handler that was responsible for generating the response.
+	 * Sets the handler that was responsible for generating the response.
 	 *
 	 * @since 4.4.0
 	 *

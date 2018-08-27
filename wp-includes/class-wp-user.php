@@ -80,7 +80,8 @@ class WP_User {
 	 * All capabilities the user has, including individual and role based.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var bool[] Array of key/value pairs where keys represent a capability name and boolean values
+	 *             represent whether the user has that capability.
 	 */
 	public $allcaps = array();
 
@@ -478,16 +479,15 @@ class WP_User {
 	}
 
 	/**
-	 * Retrieve all of the role capabilities and merge with individual capabilities.
+	 * Retrieves all of the capabilities of the roles of the user, and merges them with individual user capabilities.
 	 *
-	 * All of the capabilities of the roles the user belongs to are merged with
-	 * user's individual capabilities. This also means that the user can be denied
-	 * specific capabilities that their role might have, but the user isn't granted
-	 * permission to.
+	 * All of the capabilities of the roles of the user are merged with the user's individual capabilities. This means
+	 * that the user can be denied specific capabilities that their role might have, but the user is specifically denied.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return array List of all capabilities for the user.
+	 * @return bool[] Array of key/value pairs where keys represent a capability name and boolean values
+	 *                represent whether the user has that capability.
 	 */
 	public function get_role_caps() {
 		$switch_site = false;
@@ -751,11 +751,18 @@ class WP_User {
 		 * Dynamically filter a user's capabilities.
 		 *
 		 * @since 2.0.0
-		 * @since 3.7.0 Added the user object.
+		 * @since 3.7.0 Added the `$user` parameter.
 		 *
-		 * @param bool[]   $allcaps An array of all the user's capabilities.
-		 * @param string[] $caps    Actual capabilities for meta capability.
-		 * @param array    $args    Optional parameters passed to has_cap(), typically object ID.
+		 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
+		 *                          represent whether the user has that capability.
+		 * @param string[] $caps    Required primitive capabilities for the requested capability.
+		 * @param array    $args {
+		 *     Arguments that accompany the requested capability check.
+		 *
+		 *     @type string    $0 Requested capability.
+		 *     @type int       $1 Concerned user ID.
+		 *     @type mixed  ...$2 Optional second and further parameters, typically object ID.
+		 * }
 		 * @param WP_User  $user    The user object.
 		 */
 		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );

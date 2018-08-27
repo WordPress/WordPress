@@ -2904,11 +2904,11 @@ function wp_site_icon() {
 	}
 
 	/**
-	 * Filters the site icon meta tags, so Plugins can add their own.
+	 * Filters the site icon meta tags, so plugins can add their own.
 	 *
 	 * @since 4.3.0
 	 *
-	 * @param array $meta_tags Site Icon meta elements.
+	 * @param string[] $meta_tags Array of Site Icon meta tags.
 	 */
 	$meta_tags = apply_filters( 'site_icon_meta_tags', $meta_tags );
 	$meta_tags = array_filter( $meta_tags );

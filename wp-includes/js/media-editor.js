@@ -609,8 +609,7 @@
 			return wp.media.view.settings.post.featuredImageId;
 		},
 		/**
-		 * Set the featured image id, save the post thumbnail data and
-		 * set the HTML in the post meta box to the new featured image.
+		 * Sets the featured image ID property and sets the HTML in the post meta box to the new featured image.
 		 *
 		 * @param {number} id The post ID of the featured image, or -1 to unset it.
 		 */

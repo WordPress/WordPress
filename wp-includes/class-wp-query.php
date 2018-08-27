@@ -1686,14 +1686,14 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve the posts based on query variables.
+	 * Retrieves an array of posts based on query variables.
 	 *
 	 * There are a few filters and actions that can be used to modify the post
 	 * database query.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return array List of posts.
+	 * @return WP_Post[]|int[] Array of post objects or post IDs.
 	 */
 	public function get_posts() {
 		global $wpdb;
@@ -3357,7 +3357,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 *
 	 * @param string|array $query URL query string or array of query arguments.
-	 * @return array List of posts.
+	 * @return WP_Post[]|int[] Array of post objects or post IDs.
 	 */
 	public function query( $query ) {
 		$this->init();
