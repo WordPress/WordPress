@@ -876,7 +876,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			 *
 			 * @param string $value The query_var value.
 			 */
-			$query_args[ $key ] = apply_filters( "rest_query_var-{$key}", $value );
+			$query_args[ $key ] = apply_filters( "rest_query_var-{$key}", $value ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 
 		if ( 'post' !== $this->post_type || ! isset( $query_args['ignore_sticky_posts'] ) ) {
