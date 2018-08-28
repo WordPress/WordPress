@@ -1634,7 +1634,7 @@
 				 */
 				getActiveSectionCount = function() {
 					return _.filter( panel.sections(), function( section ) {
-						return section.active();
+						return 'sidebar' === section.params.type && section.active();
 					} ).length;
 				};
 
