@@ -613,7 +613,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 				array(
 					'parent' => $menu_id,
 					'id'     => $menu_id . '-n',
-					'title'  => __( 'New Post' ),
+					'title'  => get_post_type_object( 'post' )->labels->new_item,
 					'href'   => admin_url( 'post-new.php' ),
 				)
 			);
