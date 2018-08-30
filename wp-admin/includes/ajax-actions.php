@@ -390,10 +390,12 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 					'time'                 => $time,
 					'in_moderation'        => $counts->moderated,
 					'i18n_comments_text'   => sprintf(
+						/* translators: %s: number of comments approved */
 						_n( '%s Comment', '%s Comments', $counts->approved ),
 						number_format_i18n( $counts->approved )
 					),
 					'i18n_moderation_text' => sprintf(
+						/* translators: %s: number of comments in moderation */
 						_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
 						number_format_i18n( $counts->moderated )
 					),
@@ -452,6 +454,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			'supplemental' => array(
 				'status'           => $comment ? $comment->comment_approved : '',
 				'postId'           => $comment ? $comment->comment_post_ID : '',
+				/* translators: %s: number of comments */
 				'total_items_i18n' => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
 				'total_pages'      => ceil( $total / $per_page ),
 				'total_pages_i18n' => number_format_i18n( ceil( $total / $per_page ) ),
@@ -835,6 +838,7 @@ function wp_ajax_dim_comment() {
 		$x = new WP_Ajax_Response(
 			array(
 				'what' => 'comment',
+				/* translators: %d: comment ID */
 				'id'   => new WP_Error( 'invalid_comment', sprintf( __( 'Comment %d does not exist' ), $id ) ),
 			)
 		);
@@ -1214,10 +1218,12 @@ function wp_ajax_replyto_comment( $action ) {
 	$response['supplemental'] = array(
 		'in_moderation'        => $counts->moderated,
 		'i18n_comments_text'   => sprintf(
+			/* translators: %s: number of comments approved */
 			_n( '%s Comment', '%s Comments', $counts->approved ),
 			number_format_i18n( $counts->approved )
 		),
 		'i18n_moderation_text' => sprintf(
+			/* translators: %s: number of comments moderated */
 			_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
 			number_format_i18n( $counts->moderated )
 		),
@@ -1813,7 +1819,15 @@ function wp_ajax_inline_save() {
 	if ( $last = wp_check_post_lock( $post_ID ) ) {
 		$last_user      = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
-		printf( $_POST['post_type'] == 'page' ? __( 'Saving is disabled: %s is currently editing this page.' ) : __( 'Saving is disabled: %s is currently editing this post.' ), esc_html( $last_user_name ) );
+
+		/* translators: %s: user who is currently editing the post */
+		$msg_template = __( 'Saving is disabled: %s is currently editing this post.' );
+		if ( $_POST['post_type'] == 'page' ) {
+			/* translators: %s: user who is currently editing the page */
+			$msg_template = __( 'Saving is disabled: %s is currently editing this page.' );
+		}
+
+		printf( $msg_template, esc_html( $last_user_name ) );
 		wp_die();
 	}
 
@@ -2508,9 +2522,11 @@ function wp_ajax_wp_fullscreen_save_post() {
 	}
 
 	if ( $last_id = get_post_meta( $post_id, '_edit_last', true ) ) {
-		$last_user   = get_userdata( $last_id );
+		$last_user = get_userdata( $last_id );
+		/* translators: 1: display_name of last user, 2: date of last edit, 3: time of last edit. */
 		$last_edited = sprintf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), $last_date, $last_time );
 	} else {
+		/* translators: 1: date of last edit, 2: time of last edit. */
 		$last_edited = sprintf( __( 'Last edited on %1$s at %2$s' ), $last_date, $last_time );
 	}
 
@@ -3336,6 +3352,7 @@ function wp_ajax_parse_embed() {
 		wp_send_json_error(
 			array(
 				'type'    => 'not-embeddable',
+				/* translators: %s: URL which cannot be embedded, between code tags */
 				'message' => sprintf( __( '%s failed to embed.' ), '<code>' . esc_html( $url ) . '</code>' ),
 			)
 		);

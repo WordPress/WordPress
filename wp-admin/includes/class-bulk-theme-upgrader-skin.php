@@ -20,6 +20,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	public function add_strings() {
 		parent::add_strings();
+		/* translators: 1: name of theme being updated, 2: number of updating themes, 3: total number of themes being updated */
 		$this->upgrader->strings['skin_before_update_header'] = __( 'Updating Theme %1$s (%2$d/%3$d)' );
 	}
 

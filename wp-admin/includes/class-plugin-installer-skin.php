@@ -42,6 +42,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	 */
 	public function before() {
 		if ( ! empty( $this->api ) ) {
+			/* translators: 1: name of API, 2: version of API */
 			$this->upgrader->strings['process_success'] = sprintf( __( 'Successfully installed the plugin <strong>%1$s %2$s</strong>.' ), $this->api->name, $this->api->version );
 		}
 	}

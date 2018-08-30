@@ -217,7 +217,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if ( 'custom' != $item->type && $original_title !== false ) : ?>
 						<p class="link-to-original">
-							<?php printf( __( 'Original: %s' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
+							<?php
+							/* translators: %s: original title */
+							printf( __( 'Original: %s' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' );
+							?>
 						</p>
 					<?php endif; ?>
 					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="

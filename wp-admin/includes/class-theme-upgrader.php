@@ -473,8 +473,8 @@ class Theme_Upgrader extends WP_Upgrader {
 			return new WP_Error(
 				'incompatible_archive_theme_no_style',
 				$this->strings['incompatible_archive'],
-				/* translators: %s: style.css */
 				sprintf(
+					/* translators: %s: style.css */
 					__( 'The theme is missing the %s stylesheet.' ),
 					'<code>style.css</code>'
 				)
@@ -493,8 +493,8 @@ class Theme_Upgrader extends WP_Upgrader {
 			return new WP_Error(
 				'incompatible_archive_theme_no_name',
 				$this->strings['incompatible_archive'],
-				/* translators: %s: style.css */
 				sprintf(
+					/* translators: %s: style.css */
 					__( 'The %s stylesheet doesn&#8217;t contain a valid theme header.' ),
 					'<code>style.css</code>'
 				)
@@ -506,8 +506,8 @@ class Theme_Upgrader extends WP_Upgrader {
 			return new WP_Error(
 				'incompatible_archive_theme_no_index',
 				$this->strings['incompatible_archive'],
-				/* translators: %s: index.php */
 				sprintf(
+					/* translators: %s: index.php */
 					__( 'The theme is missing the %s file.' ),
 					'<code>index.php</code>'
 				)
