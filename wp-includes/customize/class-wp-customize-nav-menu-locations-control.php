@@ -74,8 +74,8 @@ class WP_Customize_Nav_Menu_Locations_Control extends WP_Customize_Control {
 								<?php echo $description; ?>
 								<span class="theme-location-set">
 									<?php
-									/* translators: %s: menu name */
 									printf(
+										/* translators: %s: menu name */
 										_x( '(Current: %s)', 'menu location' ),
 										'<span class="current-menu-location-name-' . esc_attr( $location ) . '"></span>'
 									);
