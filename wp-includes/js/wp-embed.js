@@ -29,7 +29,7 @@
 
 	window.wp.receiveEmbedMessage = function( e ) {
 		var data = e.data;
-		if ( ! ( data.secret || data.message || data.value ) ) {
+		if ( ! data || ! ( data.secret || data.message || data.value ) ) {
 			return;
 		}
 
