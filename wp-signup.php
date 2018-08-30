@@ -323,13 +323,19 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	$blog_title = $filtered_results['blog_title'];
 	$errors     = $filtered_results['errors'];
 
+	/* translators: %s: Network's site name. */
 	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), get_network()->site_name ) . '</h2>';
 
 	if ( $errors->has_errors() ) {
 		echo '<p>' . __( 'There was a problem, please correct the form below and try again.' ) . '</p>';
 	}
 	?>
-	<p><?php printf( __( 'Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart&#8217;s content, but write responsibly!' ), $current_user->display_name ); ?></p>
+	<p>
+		<?php
+		/* translators: %s: Current user's display name. */
+		printf( __( 'Welcome back, %s. By filling out the form below, you can <strong>add another site to your account</strong>. There is no limit to the number of sites you can have, so create to your heart&#8217;s content, but write responsibly!' ), $current_user->display_name );
+		?>
+	</p>
 
 	<?php
 	$blogs = get_blogs_of_user( $current_user->ID );
@@ -955,13 +961,14 @@ if ( $active_signup == 'none' ) {
 				$newblog = get_blogaddress_by_name( $newblogname );
 
 				if ( $active_signup == 'blog' || $active_signup == 'all' ) {
-					/* translators: %s: site address */
 					printf(
+						/* translators: %s: site address */
 						'<p><em>' . __( 'The site you were looking for, %s, does not exist, but you can create it now!' ) . '</em></p>',
 						'<strong>' . $newblog . '</strong>'
 					);
-				} else {                  /* translators: %s: site address */
+				} else {
 					printf(
+						/* translators: %s: site address */
 						'<p><em>' . __( 'The site you were looking for, %s, does not exist.' ) . '</em></p>',
 						'<strong>' . $newblog . '</strong>'
 					);
