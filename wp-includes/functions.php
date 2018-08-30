@@ -5592,7 +5592,7 @@ function wp_is_stream( $path ) {
  *
  * @since 3.5.0
  *
- * @see checkdate()
+ * @link https://secure.php.net/manual/en/function.checkdate.php
  *
  * @param  int    $month       Month number.
  * @param  int    $day         Day number.
