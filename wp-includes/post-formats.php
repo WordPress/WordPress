@@ -15,7 +15,9 @@
  * @return string|false The format if successful. False otherwise.
  */
 function get_post_format( $post = null ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
 		return false;
 	}
 
@@ -67,7 +69,7 @@ function has_post_format( $format = array(), $post = null ) {
 function set_post_format( $post, $format ) {
 	$post = get_post( $post );
 
-	if ( empty( $post ) ) {
+	if ( ! $post ) {
 		return new WP_Error( 'invalid_post', __( 'Invalid post.' ) );
 	}
 
