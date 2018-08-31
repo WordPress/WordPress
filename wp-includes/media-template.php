@@ -454,7 +454,7 @@ function wp_print_media_templates() {
 			<div class="actions">
 				<a class="view-attachment" href="{{ data.link }}"><?php _e( 'View attachment page' ); ?></a>
 				<# if ( data.can.save ) { #> |
-					<a href="post.php?post={{ data.id }}&action=edit"><?php _e( 'Edit more details' ); ?></a>
+					<a href="{{ data.editLink }}"><?php _e( 'Edit more details' ); ?></a>
 				<# } #>
 				<# if ( ! data.uploading && data.can.remove ) { #> |
 					<?php if ( MEDIA_TRASH ) : ?>
