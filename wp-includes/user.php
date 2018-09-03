@@ -3545,7 +3545,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	}
 
 	if ( ! in_array( $request->status, array( 'request-pending', 'request-failed' ), true ) ) {
-		return __( 'This link has expired.' );
+		return new WP_Error( 'expired_link', __( 'This link has expired.' ) );
 	}
 
 	if ( empty( $key ) ) {
