@@ -1592,7 +1592,7 @@ final class WP_Privacy_Policy_Content {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @param $post WP_Post The currently edited post.
+	 * @param WP_Post $post The currently edited post.
 	 */
 	public static function notice( $post ) {
 		if ( ! ( $post instanceof WP_Post ) ) {
