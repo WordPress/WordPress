@@ -3821,7 +3821,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		 * The dynamic portion of the hook name, `$post->post_type`, refers to
 		 * the post type slug.
 		 *
-		 * @since 5.0.0
+		 * @since 4.9.9
 		 *
 		 * @param int     $post_ID Post ID.
 		 * @param WP_Post $post    Post object.
