@@ -356,12 +356,15 @@ $wp_queries = wp_get_db_schema( 'all' );
  * Create WordPress options and set the default values.
  *
  * @since 1.5.0
+ * @since 5.0.0 The $options parameter has been added.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  * @global int  $wp_db_version
  * @global int  $wp_current_db_version
+ *
+ * @param array $options Optional. Custom option $key => $value pairs to use. Default empty array.
  */
-function populate_options() {
+function populate_options( array $options = array() ) {
 	global $wpdb, $wp_db_version, $wp_current_db_version;
 
 	$guessurl = wp_guess_url();
@@ -406,7 +409,7 @@ function populate_options() {
 			$timezone_string = $offset_or_tz;
 	}
 
-	$options = array(
+	$defaults = array(
 		'siteurl'                         => $guessurl,
 		'home'                            => $guessurl,
 		'blogname'                        => __( 'My Site' ),
@@ -542,16 +545,18 @@ function populate_options() {
 
 	// 3.3
 	if ( ! is_multisite() ) {
-		$options['initial_db_version'] = ! empty( $wp_current_db_version ) && $wp_current_db_version < $wp_db_version
+		$defaults['initial_db_version'] = ! empty( $wp_current_db_version ) && $wp_current_db_version < $wp_db_version
 			? $wp_current_db_version : $wp_db_version;
 	}
 
 	// 3.0 multisite
 	if ( is_multisite() ) {
 		/* translators: site tagline */
-		$options['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
-		$options['permalink_structure'] = '/%year%/%monthnum%/%day%/%postname%/';
+		$defaults['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
+		$defaults['permalink_structure'] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
+
+	$options = wp_parse_args( $options, $defaults );
 
 	// Set autoload to no for these options
 	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
