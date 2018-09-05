@@ -1292,3 +1292,42 @@ We hope you enjoy your new site. Thanks!
 	}
 	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
 }
+
+/**
+ * Creates WordPress site meta and sets the default values.
+ *
+ * @since 5.0.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param int   $site_id Site ID to populate meta for.
+ * @param array $meta    Optional. Custom meta $key => $value pairs to use. Default empty array.
+ */
+function populate_site_meta( $site_id, array $meta = array() ) {
+	global $wpdb;
+
+	$site_id = (int) $site_id;
+
+	if ( ! is_site_meta_supported() ) {
+		return;
+	}
+
+	if ( empty( $meta ) ) {
+		return;
+	}
+
+	$insert = '';
+	foreach ( $meta as $meta_key => $meta_value ) {
+		if ( is_array( $meta_value ) ) {
+			$meta_value = serialize( $meta_value );
+		}
+		if ( ! empty( $insert ) ) {
+			$insert .= ', ';
+		}
+		$insert .= $wpdb->prepare( '( %d, %s, %s)', $site_id, $meta_key, $meta_value );
+	}
+
+	$wpdb->query( "INSERT INTO $wpdb->blogmeta ( blog_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
+
+	wp_cache_set( 'last_changed', microtime(), 'sites' );
+}
