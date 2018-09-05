@@ -383,7 +383,8 @@ function populate_options( array $options = array() ) {
 	}
 
 	// If WP_DEFAULT_THEME doesn't exist, fall back to the latest core default theme.
-	$stylesheet = $template = WP_DEFAULT_THEME;
+	$stylesheet = WP_DEFAULT_THEME;
+	$template   = WP_DEFAULT_THEME;
 	$theme      = wp_get_theme( WP_DEFAULT_THEME );
 	if ( ! $theme->exists() ) {
 		$theme = WP_Theme::get_core_default_theme();
@@ -402,7 +403,7 @@ function populate_options( array $options = array() ) {
 	 * or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
 	 * for all timezone strings supported by PHP.
 	 */
-	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' );
+	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' ); // phpcs:ignore WordPress.WP.I18n.NoEmptyStrings
 	if ( is_numeric( $offset_or_tz ) ) {
 		$gmt_offset = $offset_or_tz;
 	} elseif ( $offset_or_tz && in_array( $offset_or_tz, timezone_identifiers_list() ) ) {
@@ -562,7 +563,7 @@ function populate_options( array $options = array() ) {
 	$fat_options = array( 'moderation_keys', 'recently_edited', 'blacklist_keys', 'uninstall_plugins' );
 
 	$keys             = "'" . implode( "', '", array_keys( $options ) ) . "'";
-	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" );
+	$existing_options = $wpdb->get_col( "SELECT option_name FROM $wpdb->options WHERE option_name in ( $keys )" ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
 
 	$insert = '';
 	foreach ( $options as $option => $value ) {
@@ -585,7 +586,7 @@ function populate_options( array $options = array() ) {
 	}
 
 	if ( ! empty( $insert ) ) {
-		$wpdb->query( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert );
+		$wpdb->query( "INSERT INTO $wpdb->options (option_name, option_value, autoload) VALUES " . $insert ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
 	}
 
 	// In case it is set, but blank, update "home".
@@ -960,7 +961,6 @@ endif;
  *
  * @global wpdb       $wpdb
  * @global object     $current_site
- * @global int        $wp_db_version
  * @global WP_Rewrite $wp_rewrite
  *
  * @param int    $network_id        ID of network to populate.
@@ -974,7 +974,7 @@ endif;
  *                       so the error code must be checked) or failure.
  */
 function populate_network( $network_id = 1, $domain = '', $email = '', $site_name = '', $path = '/', $subdomain_install = false ) {
-	global $wpdb, $current_site, $wp_db_version, $wp_rewrite;
+	global $wpdb, $current_site, $wp_rewrite;
 
 	$errors = new WP_Error();
 	if ( '' == $domain ) {
@@ -1004,32 +1004,6 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		return $errors;
 	}
 
-	// If a user with the provided email does not exist, default to the current user as the new network admin.
-	$site_user = get_user_by( 'email', $email );
-	if ( false === $site_user ) {
-		$site_user = wp_get_current_user();
-	}
-
-	// Set up site tables.
-	$template       = get_option( 'template' );
-	$stylesheet     = get_option( 'stylesheet' );
-	$allowed_themes = array( $stylesheet => true );
-
-	if ( $template != $stylesheet ) {
-		$allowed_themes[ $template ] = true;
-	}
-
-	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template ) {
-		$allowed_themes[ WP_DEFAULT_THEME ] = true;
-	}
-
-	// If WP_DEFAULT_THEME doesn't exist, also whitelist the latest core default theme.
-	if ( ! wp_get_theme( WP_DEFAULT_THEME )->exists() ) {
-		if ( $core_default = WP_Theme::get_core_default_theme() ) {
-			$allowed_themes[ $core_default->get_stylesheet() ] = true;
-		}
-	}
-
 	if ( 1 == $network_id ) {
 		$wpdb->insert(
 			$wpdb->site,
@@ -1050,128 +1024,16 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		);
 	}
 
-	wp_cache_delete( 'networks_have_paths', 'site-options' );
-
-	if ( ! is_multisite() ) {
-		$site_admins = array( $site_user->user_login );
-		$users       = get_users(
-			array(
-				'fields' => array( 'user_login' ),
-				'role'   => 'administrator',
-			)
-		);
-		if ( $users ) {
-			foreach ( $users as $user ) {
-				$site_admins[] = $user->user_login;
-			}
-
-			$site_admins = array_unique( $site_admins );
-		}
-	} else {
-		$site_admins = get_site_option( 'site_admins' );
-	}
-
-	/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
-	$welcome_email = __(
-		'Howdy USERNAME,
-
-Your new SITE_NAME site has been successfully set up at:
-BLOG_URL
-
-You can log in to the administrator account with the following information:
-
-Username: USERNAME
-Password: PASSWORD
-Log in here: BLOG_URLwp-login.php
-
-We hope you enjoy your new site. Thanks!
-
---The Team @ SITE_NAME'
+	populate_network_meta(
+		$network_id,
+		array(
+			'admin_email'       => $email,
+			'site_name'         => $site_name,
+			'subdomain_install' => $subdomain_install,
+		)
 	);
 
-	$misc_exts        = array(
-		// Images.
-		'jpg',
-		'jpeg',
-		'png',
-		'gif',
-		// Video.
-		'mov',
-		'avi',
-		'mpg',
-		'3gp',
-		'3g2',
-		// "audio".
-		'midi',
-		'mid',
-		// Miscellaneous.
-		'pdf',
-		'doc',
-		'ppt',
-		'odt',
-		'pptx',
-		'docx',
-		'pps',
-		'ppsx',
-		'xls',
-		'xlsx',
-		'key',
-	);
-	$audio_exts       = wp_get_audio_extensions();
-	$video_exts       = wp_get_video_extensions();
-	$upload_filetypes = array_unique( array_merge( $misc_exts, $audio_exts, $video_exts ) );
-
-	$sitemeta = array(
-		'site_name'                   => $site_name,
-		'admin_email'                 => $email,
-		'admin_user_id'               => $site_user->ID,
-		'registration'                => 'none',
-		'upload_filetypes'            => implode( ' ', $upload_filetypes ),
-		'blog_upload_space'           => 100,
-		'fileupload_maxk'             => 1500,
-		'site_admins'                 => $site_admins,
-		'allowedthemes'               => $allowed_themes,
-		'illegal_names'               => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
-		'wpmu_upgrade_site'           => $wp_db_version,
-		'welcome_email'               => $welcome_email,
-		/* translators: %s: site link */
-		'first_post'                  => __( 'Welcome to %s. This is your first post. Edit or delete it, then start blogging!' ),
-		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
-		'siteurl'                     => get_option( 'siteurl' ) . '/',
-		'add_new_users'               => '0',
-		'upload_space_check_disabled' => is_multisite() ? get_site_option( 'upload_space_check_disabled' ) : '1',
-		'subdomain_install'           => intval( $subdomain_install ),
-		'global_terms_enabled'        => global_terms_enabled() ? '1' : '0',
-		'ms_files_rewriting'          => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
-		'initial_db_version'          => get_option( 'initial_db_version' ),
-		'active_sitewide_plugins'     => array(),
-		'WPLANG'                      => get_locale(),
-	);
-	if ( ! $subdomain_install ) {
-		$sitemeta['illegal_names'][] = 'blog';
-	}
-
-	/**
-	 * Filters meta for a network on creation.
-	 *
-	 * @since 3.7.0
-	 *
-	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
-	 * @param int   $network_id ID of network to populate.
-	 */
-	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
-
-	$insert = '';
-	foreach ( $sitemeta as $meta_key => $meta_value ) {
-		if ( is_array( $meta_value ) ) {
-			$meta_value = serialize( $meta_value );
-		}
-		if ( ! empty( $insert ) ) {
-			$insert .= ', ';
-		}
-		$insert .= $wpdb->prepare( '( %d, %s, %s)', $network_id, $meta_key, $meta_value );
-	}
-	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert );
+	$site_user = get_userdata( (int) $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wpdb->sitemeta WHERE meta_key = %s AND site_id = %d", 'admin_user_id', $network_id ) ) );
 
 	/*
 	 * When upgrading from single to multisite, assume the current site will
@@ -1195,9 +1057,9 @@ We hope you enjoy your new site. Thanks!
 				'registered' => current_time( 'mysql' ),
 			)
 		);
-		$current_site->blog_id = $blog_id = $wpdb->insert_id;
+		$current_site->blog_id = $wpdb->insert_id;
 		update_user_meta( $site_user->ID, 'source_domain', $domain );
-		update_user_meta( $site_user->ID, 'primary_blog', $blog_id );
+		update_user_meta( $site_user->ID, 'primary_blog', $current_site->blog_id );
 
 		if ( $subdomain_install ) {
 			$wp_rewrite->set_permalink_structure( '/%year%/%monthnum%/%day%/%postname%/' );
@@ -1254,4 +1116,179 @@ We hope you enjoy your new site. Thanks!
 	}
 
 	return true;
+}
+
+/**
+ * Creates WordPress network meta and sets the default values.
+ *
+ * @since 5.0.0
+ *
+ * @global wpdb $wpdb          WordPress database abstraction object.
+ * @global int  $wp_db_version WordPress database version.
+ *
+ * @param int   $network_id Network ID to populate meta for.
+ * @param array $meta       Optional. Custom meta $key => $value pairs to use. Default empty array.
+ */
+function populate_network_meta( $network_id, array $meta = array() ) {
+	global $wpdb, $wp_db_version;
+
+	$network_id = (int) $network_id;
+
+	$email             = ! empty( $meta['admin_email'] ) ? $meta['admin_email'] : '';
+	$subdomain_install = isset( $meta['subdomain_install'] ) ? (int) $meta['subdomain_install'] : 0;
+
+	// If a user with the provided email does not exist, default to the current user as the new network admin.
+	$site_user = ! empty( $email ) ? get_user_by( 'email', $email ) : false;
+	if ( false === $site_user ) {
+		$site_user = wp_get_current_user();
+	}
+
+	if ( empty( $email ) ) {
+		$email = $site_user->user_email;
+	}
+
+	$template       = get_option( 'template' );
+	$stylesheet     = get_option( 'stylesheet' );
+	$allowed_themes = array( $stylesheet => true );
+
+	if ( $template != $stylesheet ) {
+		$allowed_themes[ $template ] = true;
+	}
+
+	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template ) {
+		$allowed_themes[ WP_DEFAULT_THEME ] = true;
+	}
+
+	// If WP_DEFAULT_THEME doesn't exist, also whitelist the latest core default theme.
+	if ( ! wp_get_theme( WP_DEFAULT_THEME )->exists() ) {
+		$core_default = WP_Theme::get_core_default_theme();
+		if ( $core_default ) {
+			$allowed_themes[ $core_default->get_stylesheet() ] = true;
+		}
+	}
+
+	wp_cache_delete( 'networks_have_paths', 'site-options' );
+
+	if ( ! is_multisite() ) {
+		$site_admins = array( $site_user->user_login );
+		$users       = get_users(
+			array(
+				'fields' => array( 'user_login' ),
+				'role'   => 'administrator',
+			)
+		);
+		if ( $users ) {
+			foreach ( $users as $user ) {
+				$site_admins[] = $user->user_login;
+			}
+
+			$site_admins = array_unique( $site_admins );
+		}
+	} else {
+		$site_admins = get_site_option( 'site_admins' );
+	}
+
+	/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
+	$welcome_email = __(
+		'Howdy USERNAME,
+
+Your new SITE_NAME site has been successfully set up at:
+BLOG_URL
+
+You can log in to the administrator account with the following information:
+
+Username: USERNAME
+Password: PASSWORD
+Log in here: BLOG_URLwp-login.php
+
+We hope you enjoy your new site. Thanks!
+
+--The Team @ SITE_NAME'
+	);
+
+	$misc_exts = array(
+		// Images.
+		'jpg',
+		'jpeg',
+		'png',
+		'gif',
+		// Video.
+		'mov',
+		'avi',
+		'mpg',
+		'3gp',
+		'3g2',
+		// "audio".
+		'midi',
+		'mid',
+		// Miscellaneous.
+		'pdf',
+		'doc',
+		'ppt',
+		'odt',
+		'pptx',
+		'docx',
+		'pps',
+		'ppsx',
+		'xls',
+		'xlsx',
+		'key',
+	);
+	$audio_exts       = wp_get_audio_extensions();
+	$video_exts       = wp_get_video_extensions();
+	$upload_filetypes = array_unique( array_merge( $misc_exts, $audio_exts, $video_exts ) );
+
+	$sitemeta = array(
+		'site_name'                   => __( 'My Network' ),
+		'admin_email'                 => $email,
+		'admin_user_id'               => $site_user->ID,
+		'registration'                => 'none',
+		'upload_filetypes'            => implode( ' ', $upload_filetypes ),
+		'blog_upload_space'           => 100,
+		'fileupload_maxk'             => 1500,
+		'site_admins'                 => $site_admins,
+		'allowedthemes'               => $allowed_themes,
+		'illegal_names'               => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
+		'wpmu_upgrade_site'           => $wp_db_version,
+		'welcome_email'               => $welcome_email,
+		/* translators: %s: site link */
+		'first_post'                  => __( 'Welcome to %s. This is your first post. Edit or delete it, then start blogging!' ),
+		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
+		'siteurl'                     => get_option( 'siteurl' ) . '/',
+		'add_new_users'               => '0',
+		'upload_space_check_disabled' => is_multisite() ? get_site_option( 'upload_space_check_disabled' ) : '1',
+		'subdomain_install'           => $subdomain_install,
+		'global_terms_enabled'        => global_terms_enabled() ? '1' : '0',
+		'ms_files_rewriting'          => is_multisite() ? get_site_option( 'ms_files_rewriting' ) : '0',
+		'initial_db_version'          => get_option( 'initial_db_version' ),
+		'active_sitewide_plugins'     => array(),
+		'WPLANG'                      => get_locale(),
+	);
+	if ( ! $subdomain_install ) {
+		$sitemeta['illegal_names'][] = 'blog';
+	}
+
+	$sitemeta = wp_parse_args( $meta, $sitemeta );
+
+	/**
+	 * Filters meta for a network on creation.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array $sitemeta   Associative array of network meta keys and values to be inserted.
+	 * @param int   $network_id ID of network to populate.
+	 */
+	$sitemeta = apply_filters( 'populate_network_meta', $sitemeta, $network_id );
+
+	$insert = '';
+	foreach ( $sitemeta as $meta_key => $meta_value ) {
+		if ( is_array( $meta_value ) ) {
+			$meta_value = serialize( $meta_value );
+		}
+		if ( ! empty( $insert ) ) {
+			$insert .= ', ';
+		}
+		$insert .= $wpdb->prepare( '( %d, %s, %s)', $network_id, $meta_key, $meta_value );
+	}
+	$wpdb->query( "INSERT INTO $wpdb->sitemeta ( site_id, meta_key, meta_value ) VALUES " . $insert ); // phpcs:ignore WordPress.WP.PreparedSQL.NotPrepared
 }
