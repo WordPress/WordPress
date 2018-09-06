@@ -626,7 +626,7 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type ) {
 	/**
 	 * Fires after a taxonomy is registered for an object type.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.9
 	 *
 	 * @param string $taxonomy    Taxonomy name.
 	 * @param string $object_type Name of the object type.
@@ -668,7 +668,7 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
 	/**
 	 * Fires after a taxonomy is unregistered for an object type.
 	 *
-	 * @since 5.0.0
+	 * @since 4.9.9
 	 *
 	 * @param string $taxonomy    Taxonomy name.
 	 * @param string $object_type Name of the object type.
