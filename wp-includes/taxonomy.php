@@ -578,6 +578,16 @@ function register_taxonomy_for_object_type( $taxonomy, $object_type) {
 	// Filter out empties.
 	$wp_taxonomies[ $taxonomy ]->object_type = array_filter( $wp_taxonomies[ $taxonomy ]->object_type );
 
+	/**
+	 * Fires after a taxonomy is registered for an object type.
+	 *
+	 * @since 4.9.9
+	 *
+	 * @param string $taxonomy    Taxonomy name.
+	 * @param string $object_type Name of the object type.
+	 */
+	do_action( 'registered_taxonomy_for_object_type', $taxonomy, $object_type );
+
 	return true;
 }
 
@@ -606,6 +616,17 @@ function unregister_taxonomy_for_object_type( $taxonomy, $object_type ) {
 		return false;
 
 	unset( $wp_taxonomies[ $taxonomy ]->object_type[ $key ] );
+
+	/**
+	 * Fires after a taxonomy is unregistered for an object type.
+	 *
+	 * @since 4.9.9
+	 *
+	 * @param string $taxonomy    Taxonomy name.
+	 * @param string $object_type Name of the object type.
+	 */
+	do_action( 'unregistered_taxonomy_for_object_type', $taxonomy, $object_type );
+
 	return true;
 }
 
