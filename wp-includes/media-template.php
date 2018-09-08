@@ -371,12 +371,20 @@ function wp_print_media_templates() {
 				<div class="file-size"><strong><?php _e( 'File size:' ); ?></strong> {{ data.filesizeHumanReadable }}</div>
 				<# if ( 'image' === data.type && ! data.uploading ) { #>
 					<# if ( data.width && data.height ) { #>
-						<div class="dimensions"><strong><?php _e( 'Dimensions:' ); ?></strong> {{ data.width }} &times; {{ data.height }}</div>
+						<div class="dimensions"><strong><?php _e( 'Dimensions:' ); ?></strong>
+							<?php
+							/* translators: 1: a number of pixels wide, 2: a number of pixels tall. */
+							printf( __( '%1$s by %2$s pixels' ), '{{ data.width }}', '{{ data.height }}' );
+							?>
+						</div>
 					<# } #>
 				<# } #>
 
-				<# if ( data.fileLength ) { #>
-					<div class="file-length"><strong><?php _e( 'Length:' ); ?></strong> {{ data.fileLength }}</div>
+				<# if ( data.fileLength && data.fileLengthHumanReadable ) { #>
+					<div class="file-length"><strong><?php _e( 'Length:' ); ?></strong>
+						<span aria-hidden="true">{{ data.fileLength }}</span>
+						<span class="screen-reader-text">{{ data.fileLengthHumanReadable }}</span>
+					</div>
 				<# } #>
 
 				<# if ( 'audio' === data.type && data.meta.bitrate ) { #>
@@ -547,7 +555,12 @@ function wp_print_media_templates() {
 				<div class="file-size">{{ data.filesizeHumanReadable }}</div>
 				<# if ( 'image' === data.type && ! data.uploading ) { #>
 					<# if ( data.width && data.height ) { #>
-						<div class="dimensions">{{ data.width }} &times; {{ data.height }}</div>
+						<div class="dimensions">
+							<?php
+							/* translators: 1: a number of pixels wide, 2: a number of pixels tall. */
+							printf( __( '%1$s by %2$s pixels' ), '{{ data.width }}', '{{ data.height }}' );
+							?>
+						</div>
 					<# } #>
 
 					<# if ( data.can.save && data.sizes ) { #>
@@ -555,8 +568,11 @@ function wp_print_media_templates() {
 					<# } #>
 				<# } #>
 
-				<# if ( data.fileLength ) { #>
-					<div class="file-length"><?php _e( 'Length:' ); ?> {{ data.fileLength }}</div>
+				<# if ( data.fileLength && data.fileLengthHumanReadable ) { #>
+					<div class="file-length"><?php _e( 'Length:' ); ?>
+						<span aria-hidden="true">{{ data.fileLength }}</span>
+						<span class="screen-reader-text">{{ data.fileLengthHumanReadable }}</span>
+					</div>
 				<# } #>
 
 				<# if ( ! data.uploading && data.can.remove ) { #>
