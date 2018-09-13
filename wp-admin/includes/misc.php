@@ -1322,7 +1322,7 @@ final class WP_Privacy_Policy_Content {
 	 *
 	 * Intended for use from `wp_add_privacy_policy_content()`.
 	 *
-	 * $since 4.9.6
+	 * @since 4.9.6
 	 *
 	 * @param string $plugin_name The name of the plugin or theme that is suggesting content for the site's privacy policy.
 	 * @param string $policy_text The suggested content for inclusion in the policy.
