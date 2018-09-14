@@ -140,33 +140,38 @@ function list_files( $folder = '', $levels = 100, $exclusions = array() ) {
 
 	$files = array();
 
-	$dir = @opendir( $folder );
-	if ( $dir ) {
-		while ( ( $file = readdir( $dir ) ) !== false ) {
-			// Skip current and parent folder links.
-			if ( in_array( $file, array( '.', '..' ), true ) ) {
-				continue;
-			}
+	if ( is_dir( $folder )) {
 
-			// Skip hidden and excluded files.
-			if ( '.' === $file[0] || in_array( $file, $exclusions, true ) ) {
-				continue;
-			}
+		$dir = @opendir( $folder );
 
-			if ( is_dir( $folder . $file ) ) {
-				$files2 = list_files( $folder . $file, $levels - 1 );
-				if ( $files2 ) {
-					$files = array_merge( $files, $files2 );
-				} else {
-					$files[] = $folder . $file . '/';
+		if ( $dir ) {
+			while ( ( $file = readdir( $dir ) ) !== false ) {
+				// Skip current and parent folder links.
+				if ( in_array( $file, array( '.', '..' ), true ) ) {
+					continue;
 				}
-			} else {
-				$files[] = $folder . $file;
+
+				// Skip hidden and excluded files.
+				if ( '.' === $file[0] || in_array( $file, $exclusions, true ) ) {
+					continue;
+				}
+
+				if ( is_dir( $folder . $file ) ) {
+					$files2 = list_files( $folder . $file, $levels - 1 );
+					if ( $files2 ) {
+						$files = array_merge($files, $files2 );
+					} else {
+						$files[] = $folder . $file . '/';
+					}
+				} else {
+					$files[] = $folder . $file;
+				}
 			}
 		}
+		
+		@closedir( $dir );
 	}
-	@closedir( $dir );
-
+	
 	return $files;
 }
 
