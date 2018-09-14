@@ -11,7 +11,7 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 require( dirname( __FILE__ ) . '/wp-load.php' );
 
-// Redirect to https login if forced to use SSL
+// Redirect to HTTPS login if forced to use SSL.
 if ( force_ssl_admin() && ! is_ssl() ) {
 	if ( 0 === strpos( $_SERVER['REQUEST_URI'], 'http' ) ) {
 		wp_safe_redirect( set_url_scheme( $_SERVER['REQUEST_URI'], 'https' ) );
@@ -24,6 +24,8 @@ if ( force_ssl_admin() && ! is_ssl() ) {
 
 /**
  * Output the login page header.
+ *
+ * @since 2.1.0
  *
  * @param string   $title    Optional. WordPress login Page title to display in the `<title>` element.
  *                           Default 'Log In'.
@@ -89,7 +91,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	/*
 	 * Remove all stored post data on logging out.
 	 * This could be added by add_action('login_head'...) like wp_shake_js(),
-	 * but maybe better if it's not removable by plugins
+	 * but maybe better if it's not removable by plugins.
 	 */
 	if ( 'loggedout' == $wp_error->get_error_code() ) {
 		?>
@@ -202,7 +204,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 		echo $message . "\n";
 	}
 
-	// In case a plugin uses $error rather than the $wp_errors object
+	// In case a plugin uses $error rather than the $wp_errors object.
 	if ( ! empty( $error ) ) {
 		$wp_error->add( 'error', $error );
 		unset( $error );
@@ -247,7 +249,9 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 /**
  * Outputs the footer for the login page.
  *
- * @param string $input_id Which input to auto-focus
+ * @since 3.1.0
+ *
+ * @param string $input_id Which input to auto-focus.
  */
 function login_footer( $input_id = '' ) {
 	global $interim_login;
@@ -288,6 +292,8 @@ function login_footer( $input_id = '' ) {
 }
 
 /**
+ * Outputs the Javascript to handle the form shaking.
+ *
  * @since 3.0.0
  */
 function wp_shake_js() {
@@ -303,6 +309,8 @@ addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.
 }
 
 /**
+ * Outputs the viewport meta tag.
+ *
  * @since 3.7.0
  */
 function wp_login_viewport_meta() {
@@ -313,6 +321,8 @@ function wp_login_viewport_meta() {
 
 /**
  * Handles sending password retrieval email to user.
+ *
+ * @since 2.5.0
  *
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
@@ -417,7 +427,7 @@ function retrieve_password() {
 }
 
 //
-// Main
+// Main.
 //
 
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'login';
@@ -427,7 +437,7 @@ if ( isset( $_GET['key'] ) ) {
 	$action = 'resetpass';
 }
 
-// validate action so as to default to the login screen
+// Validate action so as to default to the login screen.
 if ( ! in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login', 'confirmaction' ), true ) && false === has_filter( 'login_form_' . $action ) ) {
 	$action = 'login';
 }
@@ -890,6 +900,8 @@ switch ( $action ) {
 		 * After firing this action hook the page will redirect to wp-login a callback
 		 * redirects or exits first.
 		 *
+		 * @since 4.9.6
+		 *
 		 * @param int $request_id Request ID.
 		 */
 		do_action( 'user_request_action_confirmed', $request_id );
@@ -908,7 +920,7 @@ switch ( $action ) {
 			wp_enqueue_script( 'customize-base' );
 		}
 
-		// If the user wants ssl but the session is not ssl, force a secure cookie.
+		// If the user wants SSL but the session is not SSL, force a secure cookie.
 		if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
 			$user_name = sanitize_user( $_POST['log'] );
 			$user      = get_user_by( 'login', $user_name );
@@ -927,7 +939,7 @@ switch ( $action ) {
 
 		if ( isset( $_REQUEST['redirect_to'] ) ) {
 			$redirect_to = $_REQUEST['redirect_to'];
-			// Redirect to https if user wants ssl
+			// Redirect to HTTPS if user wants SSL.
 			if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) ) {
 				$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
 			}
@@ -1022,7 +1034,7 @@ switch ( $action ) {
 				$errors->add( 'expired', __( 'Your session has expired. Please log in to continue where you left off.' ), 'message' );
 			}
 		} else {
-			// Some parts of this script use the main login form to display a message
+			// Some parts of this script use the main login form to display a message.
 			if ( isset( $_GET['loggedout'] ) && true == $_GET['loggedout'] ) {
 				$errors->add( 'loggedout', __( 'You are now logged out.' ), 'message' );
 			} elseif ( isset( $_GET['registration'] ) && 'disabled' == $_GET['registration'] ) {
@@ -1172,4 +1184,4 @@ switch ( $action ) {
 		}
 
 		break;
-} // end action switch
+} // End action switch.
