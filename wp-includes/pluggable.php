@@ -886,13 +886,13 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 		 * @since 2.5.0
 		 * @since 4.9.0 The `$token` parameter was added.
 		 *
-		 * @param string $auth_cookie Authentication cookie.
+		 * @param string $auth_cookie Authentication cookie value.
 		 * @param int    $expire      The time the login grace period expires as a UNIX timestamp.
 		 *                            Default is 12 hours past the cookie's expiration time.
 		 * @param int    $expiration  The time when the authentication cookie expires as a UNIX timestamp.
 		 *                            Default is 14 days from now.
 		 * @param int    $user_id     User ID.
-		 * @param string $scheme      Authentication scheme. Values include 'auth', 'secure_auth', or 'logged_in'.
+		 * @param string $scheme      Authentication scheme. Values include 'auth' or 'secure_auth'.
 		 * @param string $token       User's session token to use for this cookie.
 		 */
 		do_action( 'set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme, $token );
@@ -903,7 +903,7 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 		 * @since 2.6.0
 		 * @since 4.9.0 The `$token` parameter was added.
 		 *
-		 * @param string $logged_in_cookie The logged-in cookie.
+		 * @param string $logged_in_cookie The logged-in cookie value.
 		 * @param int    $expire           The time the login grace period expires as a UNIX timestamp.
 		 *                                 Default is 12 hours past the cookie's expiration time.
 		 * @param int    $expiration       The time when the logged-in authentication cookie expires as a UNIX timestamp.
