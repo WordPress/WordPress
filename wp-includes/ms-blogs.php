@@ -58,7 +58,7 @@ function get_blogaddress_by_id( $blog_id ) {
  */
 function get_blogaddress_by_name( $blogname ) {
 	if ( is_subdomain_install() ) {
-		if ( $blogname == 'main' ) {
+		if ( 'main' === $blogname ) {
 			$blogname = 'www';
 		}
 		$url = rtrim( network_home_url(), '/' );
@@ -178,12 +178,12 @@ function get_blog_details( $fields = null, $get_all = true ) {
 
 	$blog_id = (int) $blog_id;
 
-	$all     = $get_all == true ? '' : 'short';
+	$all     = $get_all ? '' : 'short';
 	$details = wp_cache_get( $blog_id . $all, 'blog-details' );
 
 	if ( $details ) {
 		if ( ! is_object( $details ) ) {
-			if ( $details == -1 ) {
+			if ( -1 == $details ) {
 				return false;
 			} else {
 				// Clear old pre-serialized objects. Cache clients do better with that.
@@ -203,7 +203,7 @@ function get_blog_details( $fields = null, $get_all = true ) {
 		// If short was requested and full cache is set, we can return.
 		if ( $details ) {
 			if ( ! is_object( $details ) ) {
-				if ( $details == -1 ) {
+				if ( -1 == $details ) {
 					return false;
 				} else {
 					// Clear old pre-serialized objects. Cache clients do better with that.
@@ -1175,10 +1175,12 @@ function wp_uninitialize_site( $site_id ) {
 		return new WP_Error( 'site_already_uninitialized', __( 'The site appears to be already uninitialized.' ) );
 	}
 
-	$users = get_users( array(
-		'blog_id' => $site->id,
-		'fields'  => 'ids',
-	) );
+	$users = get_users(
+		array(
+			'blog_id' => $site->id,
+			'fields'  => 'ids',
+		)
+	);
 
 	// Remove users from the site.
 	if ( ! empty( $users ) ) {
@@ -1229,7 +1231,7 @@ function wp_uninitialize_site( $site_id ) {
 		// Get indexed directory from stack
 		$dir = $stack[ $index ];
 
-		// phpcs:disable Generic.PHP.NoSilencedErrors.Discouraged
+		// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged
 		$dh = @opendir( $dir );
 		if ( $dh ) {
 			$file = @readdir( $dh );
@@ -1259,7 +1261,7 @@ function wp_uninitialize_site( $site_id ) {
 		}
 	}
 
-	// phpcs:enable Generic.PHP.NoSilencedErrors.Discouraged
+	// phpcs:enable WordPress.PHP.NoSilencedErrors.Discouraged
 	if ( $switch ) {
 		restore_current_blog();
 	}
