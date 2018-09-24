@@ -1285,7 +1285,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * @param string $path       The new site's path.
  * @param string $title      The new site's title.
  * @param int    $user_id    The user ID of the new site's admin.
- * @param array  $meta       Optional. Array of key=>value pairs used to set initial site options.
+ * @param array  $options    Optional. Array of key=>value pairs used to set initial site options.
  *                           If valid status keys are included ('public', 'archived', 'mature',
  *                           'spam', 'deleted', or 'lang_id') the given site status(es) will be
  *                           updated. Otherwise, keys and values will be used to set options for
@@ -1293,12 +1293,11 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * @param int    $network_id Optional. Network ID. Only relevant on multi-network installations.
  * @return int|WP_Error Returns WP_Error object on failure, the new site ID on success.
  */
-function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $network_id = 1 ) {
+function wpmu_create_blog( $domain, $path, $title, $user_id, $options = array(), $network_id = 1 ) {
 	$defaults = array(
 		'public' => 0,
-		'WPLANG' => get_network_option( $network_id, 'WPLANG' ),
 	);
-	$meta     = wp_parse_args( $meta, $defaults );
+	$options  = wp_parse_args( $options, $defaults );
 
 	$title   = strip_tags( $title );
 	$user_id = (int) $user_id;
@@ -1320,55 +1319,21 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 			'path'       => $path,
 			'network_id' => $network_id,
 		),
-		array_intersect_key(
-			$meta,
-			array_flip( $site_data_whitelist )
-		)
+		array_intersect_key( $options, array_flip( $site_data_whitelist ) )
 	);
 
-	$meta = array_diff_key( $meta, array_flip( $site_data_whitelist ) );
+	// Data to pass to wp_initialize_site().
+	$site_initialization_data = array(
+		'title'   => $title,
+		'user_id' => $user_id,
+		'options' => array_diff_key( $options, array_flip( $site_data_whitelist ) ),
+	);
 
-	remove_action( 'update_blog_public', 'wp_update_blog_public_option_on_site_update', 1 );
-	$blog_id = wp_insert_site( $site_data );
-	add_action( 'update_blog_public', 'wp_update_blog_public_option_on_site_update', 1, 2 );
+	$blog_id = wp_insert_site( array_merge( $site_data, $site_initialization_data ) );
 
 	if ( is_wp_error( $blog_id ) ) {
 		return $blog_id;
 	}
-
-	switch_to_blog( $blog_id );
-	install_blog( $blog_id, $title );
-	wp_install_defaults( $user_id );
-
-	add_user_to_blog( $blog_id, $user_id, 'administrator' );
-
-	foreach ( $meta as $key => $value ) {
-		update_option( $key, $value );
-	}
-
-	update_option( 'blog_public', (int) $site_data['public'] );
-
-	if ( ! is_super_admin( $user_id ) && ! get_user_meta( $user_id, 'primary_blog', true ) ) {
-		update_user_meta( $user_id, 'primary_blog', $blog_id );
-	}
-
-	restore_current_blog();
-
-	$site = get_site( $blog_id );
-
-	/**
-	 * Fires immediately after a new site is created.
-	 *
-	 * @since MU (3.0.0)
-	 *
-	 * @param int    $blog_id    Site ID.
-	 * @param int    $user_id    User ID.
-	 * @param string $domain     Site domain.
-	 * @param string $path       Site path.
-	 * @param int    $network_id Network ID. Only relevant on multi-network installations.
-	 * @param array  $meta       Meta data. Used to set initial site options.
-	 */
-	do_action( 'wpmu_new_blog', $blog_id, $user_id, $site->domain, $site->path, $site->network_id, $meta );
 
 	wp_cache_set( 'last_changed', microtime(), 'sites' );
 
@@ -1382,12 +1347,17 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
  * the notification email.
  *
  * @since MU (3.0.0)
+ * @since 5.0.0 $blog_id now supports input from the {@see 'wp_initialize_site'} action.
  *
- * @param int    $blog_id    The new site's ID.
- * @param string $deprecated Not used.
+ * @param WP_Site|int $blog_id    The new site's object or ID.
+ * @param string      $deprecated Not used.
  * @return bool
  */
 function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
+	if ( is_object( $blog_id ) ) {
+		$blog_id = $blog_id->blog_id;
+	}
+
 	if ( get_site_option( 'registrationnotification' ) != 'yes' ) {
 		return false;
 	}
@@ -1526,101 +1496,6 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
 	 * @param int      $network_id Network ID. Relevant only on multi-network installations.
 	 */
 	return apply_filters( 'domain_exists', $result, $domain, $path, $network_id );
-}
-
-/**
- * Install an empty blog.
- *
- * Creates the new blog tables and options. If calling this function
- * directly, be sure to use switch_to_blog() first, so that $wpdb
- * points to the new blog.
- *
- * @since MU (3.0.0)
- *
- * @global wpdb     $wpdb
- * @global WP_Roles $wp_roles
- *
- * @param int    $blog_id    The value returned by wp_insert_site().
- * @param string $blog_title The title of the new site.
- */
-function install_blog( $blog_id, $blog_title = '' ) {
-	global $wpdb, $wp_roles;
-
-	// Cast for security
-	$blog_id = (int) $blog_id;
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-	$suppress = $wpdb->suppress_errors();
-	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) ) {
-		die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p></body></html>' );
-	}
-	$wpdb->suppress_errors( $suppress );
-
-	$url = get_blogaddress_by_id( $blog_id );
-
-	// Set everything up
-	make_db_current_silent( 'blog' );
-	populate_options();
-	populate_roles();
-
-	// populate_roles() clears previous role definitions so we start over.
-	$wp_roles = new WP_Roles();
-
-	$siteurl = $home = untrailingslashit( $url );
-
-	if ( ! is_subdomain_install() ) {
-
-		if ( 'https' === parse_url( get_site_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
-			$siteurl = set_url_scheme( $siteurl, 'https' );
-		}
-		if ( 'https' === parse_url( get_home_url( get_network()->site_id ), PHP_URL_SCHEME ) ) {
-			$home = set_url_scheme( $home, 'https' );
-		}
-	}
-
-	update_option( 'siteurl', $siteurl );
-	update_option( 'home', $home );
-
-	if ( get_site_option( 'ms_files_rewriting' ) ) {
-		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
-	} else {
-		update_option( 'upload_path', get_blog_option( get_network()->site_id, 'upload_path' ) );
-	}
-
-	update_option( 'blogname', wp_unslash( $blog_title ) );
-	update_option( 'admin_email', '' );
-
-	// remove all perms
-	$table_prefix = $wpdb->get_blog_prefix();
-	delete_metadata( 'user', 0, $table_prefix . 'user_level', null, true ); // delete all
-	delete_metadata( 'user', 0, $table_prefix . 'capabilities', null, true ); // delete all
-}
-
-/**
- * Set blog defaults.
- *
- * This function creates a row in the wp_blogs table.
- *
- * @since MU (3.0.0)
- * @deprecated MU
- * @deprecated Use wp_install_defaults()
- *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param int $blog_id Ignored in this function.
- * @param int $user_id
- */
-function install_blog_defaults( $blog_id, $user_id ) {
-	global $wpdb;
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-	$suppress = $wpdb->suppress_errors();
-
-	wp_install_defaults( $user_id );
-
-	$wpdb->suppress_errors( $suppress );
 }
 
 /**
@@ -2024,14 +1899,24 @@ function update_posts_count( $deprecated = '' ) {
  * Logs the user email, IP, and registration date of a new site.
  *
  * @since MU (3.0.0)
+ * @since 5.0.0 Parameters now support input from the {@see 'wp_initialize_site'} action.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $blog_id
- * @param int $user_id
+ * @param WP_Site|int $blog_id The new site's object or ID.
+ * @param int|array   $user_id User ID, or array of arguments including 'user_id'.
  */
 function wpmu_log_new_registrations( $blog_id, $user_id ) {
 	global $wpdb;
+
+	if ( is_object( $blog_id ) ) {
+		$blog_id = $blog_id->blog_id;
+	}
+
+	if ( is_array( $user_id ) ) {
+		$user_id = ! empty( $user_id['user_id'] ) ? $user_id['user_id'] : 0;
+	}
+
 	$user = get_userdata( (int) $user_id );
 	if ( $user ) {
 		$wpdb->insert(

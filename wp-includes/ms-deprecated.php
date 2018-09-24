@@ -580,3 +580,103 @@ function insert_blog($domain, $path, $site_id) {
 
 	return $site_id;
 }
+
+/**
+ * Install an empty blog.
+ *
+ * Creates the new blog tables and options. If calling this function
+ * directly, be sure to use switch_to_blog() first, so that $wpdb
+ * points to the new blog.
+ *
+ * @since MU (3.0.0)
+ * @deprecated 5.0.0
+ *
+ * @global wpdb     $wpdb
+ * @global WP_Roles $wp_roles
+ *
+ * @param int    $blog_id    The value returned by wp_insert_site().
+ * @param string $blog_title The title of the new site.
+ */
+function install_blog( $blog_id, $blog_title = '' ) {
+	global $wpdb, $wp_roles;
+
+	_deprecated_function( __FUNCTION__, '5.0.0' );
+
+	// Cast for security
+	$blog_id = (int) $blog_id;
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+	$suppress = $wpdb->suppress_errors();
+	if ( $wpdb->get_results( "DESCRIBE {$wpdb->posts}" ) ) {
+		die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p></body></html>' );
+	}
+	$wpdb->suppress_errors( $suppress );
+
+	$url = get_blogaddress_by_id( $blog_id );
+
+	// Set everything up
+	make_db_current_silent( 'blog' );
+	populate_options();
+	populate_roles();
+
+	// populate_roles() clears previous role definitions so we start over.
+	$wp_roles = new WP_Roles();
+
+	$siteurl = $home = untrailingslashit( $url );
+
+	if ( ! is_subdomain_install() ) {
+
+		if ( 'https' === parse_url( get_site_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+			$siteurl = set_url_scheme( $siteurl, 'https' );
+		}
+		if ( 'https' === parse_url( get_home_url( get_network()->site_id ), PHP_URL_SCHEME ) ) {
+			$home = set_url_scheme( $home, 'https' );
+		}
+	}
+
+	update_option( 'siteurl', $siteurl );
+	update_option( 'home', $home );
+
+	if ( get_site_option( 'ms_files_rewriting' ) ) {
+		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
+	} else {
+		update_option( 'upload_path', get_blog_option( get_network()->site_id, 'upload_path' ) );
+	}
+
+	update_option( 'blogname', wp_unslash( $blog_title ) );
+	update_option( 'admin_email', '' );
+
+	// remove all perms
+	$table_prefix = $wpdb->get_blog_prefix();
+	delete_metadata( 'user', 0, $table_prefix . 'user_level', null, true ); // delete all
+	delete_metadata( 'user', 0, $table_prefix . 'capabilities', null, true ); // delete all
+}
+
+/**
+ * Set blog defaults.
+ *
+ * This function creates a row in the wp_blogs table.
+ *
+ * @since MU (3.0.0)
+ * @deprecated MU
+ * @deprecated Use wp_install_defaults()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param int $blog_id Ignored in this function.
+ * @param int $user_id
+ */
+function install_blog_defaults( $blog_id, $user_id ) {
+	global $wpdb;
+
+	_deprecated_function( __FUNCTION__, 'MU' );
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+	$suppress = $wpdb->suppress_errors();
+
+	wp_install_defaults( $user_id );
+
+	$wpdb->suppress_errors( $suppress );
+}

@@ -73,31 +73,6 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	$blog = get_site( $blog_id );
-	/**
-	 * Fires before a site is deleted.
-	 *
-	 * @since MU (3.0.0)
-	 *
-	 * @param int  $blog_id The site ID.
-	 * @param bool $drop    True if site's table should be dropped. Default is false.
-	 */
-	do_action( 'delete_blog', $blog_id, $drop );
-
-	$users = get_users(
-		array(
-			'blog_id' => $blog_id,
-			'fields'  => 'ids',
-		)
-	);
-
-	// Remove users from this blog.
-	if ( ! empty( $users ) ) {
-		foreach ( $users as $user_id ) {
-			remove_user_from_blog( $user_id, $blog_id );
-		}
-	}
-
-	update_blog_status( $blog_id, 'deleted', 1 );
 
 	$current_network = get_network();
 
@@ -119,87 +94,30 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	if ( $drop ) {
-		$uploads = wp_get_upload_dir();
-
-		$tables = $wpdb->tables( 'blog' );
-		/**
-		 * Filters the tables to drop when the site is deleted.
-		 *
-		 * @since MU (3.0.0)
-		 *
-		 * @param string[] $tables  Array of names of the site tables to be dropped.
-		 * @param int      $blog_id The ID of the site to drop tables for.
-		 */
-		$drop_tables = apply_filters( 'wpmu_drop_tables', $tables, $blog_id );
-
-		foreach ( (array) $drop_tables as $table ) {
-			$wpdb->query( "DROP TABLE IF EXISTS `$table`" );
-		}
-
-		if ( is_site_meta_supported() ) {
-			$blog_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->blogmeta WHERE blog_id = %d ", $blog_id ) );
-			foreach ( $blog_meta_ids as $mid ) {
-				delete_metadata_by_mid( 'blog', $mid );
-			}
-		}
-
 		wp_delete_site( $blog_id );
+	} else {
+		/** This action is documented in wp-includes/ms-blogs.php */
+		do_action_deprecated( 'delete_blog', array( $blog_id, false ), '5.0.0' );
 
-		/**
-		 * Filters the upload base directory to delete when the site is deleted.
-		 *
-		 * @since MU (3.0.0)
-		 *
-		 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
-		 * @param int    $blog_id            The site ID.
-		 */
-		$dir     = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $blog_id );
-		$dir     = rtrim( $dir, DIRECTORY_SEPARATOR );
-		$top_dir = $dir;
-		$stack   = array( $dir );
-		$index   = 0;
+		$users = get_users(
+			array(
+				'blog_id' => $blog_id,
+				'fields'  => 'ids',
+			)
+		);
 
-		while ( $index < count( $stack ) ) {
-			// Get indexed directory from stack
-			$dir = $stack[ $index ];
-
-			$dh = @opendir( $dir );
-			if ( $dh ) {
-				while ( ( $file = @readdir( $dh ) ) !== false ) {
-					if ( $file == '.' || $file == '..' ) {
-						continue;
-					}
-
-					if ( @is_dir( $dir . DIRECTORY_SEPARATOR . $file ) ) {
-						$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
-					} elseif ( @is_file( $dir . DIRECTORY_SEPARATOR . $file ) ) {
-						@unlink( $dir . DIRECTORY_SEPARATOR . $file );
-					}
-				}
-				@closedir( $dh );
-			}
-			$index++;
-		}
-
-		$stack = array_reverse( $stack ); // Last added dirs are deepest
-		foreach ( (array) $stack as $dir ) {
-			if ( $dir != $top_dir ) {
-				@rmdir( $dir );
+		// Remove users from this blog.
+		if ( ! empty( $users ) ) {
+			foreach ( $users as $user_id ) {
+				remove_user_from_blog( $user_id, $blog_id );
 			}
 		}
 
-		clean_blog_cache( $blog );
+		update_blog_status( $blog_id, 'deleted', 1 );
+
+		/** This action is documented in wp-includes/ms-blogs.php */
+		do_action_deprecated( 'deleted_blog', array( $blog_id, false ), '5.0.0' );
 	}
-
-	/**
-	 * Fires after the site is deleted from the network.
-	 *
-	 * @since 4.8.0
-	 *
-	 * @param int  $blog_id The site ID.
-	 * @param bool $drop    True if site's tables should be dropped. Default is false.
-	 */
-	do_action( 'deleted_blog', $blog_id, $drop );
 
 	if ( $switch ) {
 		restore_current_blog();

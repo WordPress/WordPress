@@ -442,6 +442,12 @@ function wp_insert_site( array $data ) {
 		'lang_id'      => 0,
 	);
 
+	// Extract the passed arguments that may be relevant for site initialization.
+	$args = array_diff_key( $data, $defaults );
+	if ( isset( $args['site_id'] ) ) {
+		unset( $args['site_id'] );
+	}
+
 	$data = wp_prepare_site_data( $data, $defaults );
 	if ( is_wp_error( $data ) ) {
 		return $data;
@@ -463,6 +469,37 @@ function wp_insert_site( array $data ) {
 	 * @param WP_Site $new_site New site object.
 	 */
 	do_action( 'wp_insert_site', $new_site );
+
+	/**
+	 * Fires when a site's initialization routine should be executed.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_Site $new_site New site object.
+	 * @param array   $args     Arguments for the initialization.
+	 */
+	do_action( 'wp_initialize_site', $new_site, $args );
+
+	// Only compute extra hook parameters if the deprecated hook is actually in use.
+	if ( has_action( 'wpmu_new_blog' ) ) {
+		$user_id = ! empty( $args['user_id'] ) ? $args['user_id'] : 0;
+		$meta    = ! empty( $args['options'] ) ? $args['options'] : array();
+
+		/**
+		 * Fires immediately after a new site is created.
+		 *
+		 * @since MU (3.0.0)
+		 * @deprecated 5.0.0 Use wp_insert_site
+		 *
+		 * @param int    $site_id    Site ID.
+		 * @param int    $user_id    User ID.
+		 * @param string $domain     Site domain.
+		 * @param string $path       Site path.
+		 * @param int    $network_id Network ID. Only relevant on multi-network installations.
+		 * @param array  $meta       Meta data. Used to set initial site options.
+		 */
+		do_action_deprecated( 'wpmu_new_blog', array( $new_site->id, $user_id, $new_site->domain, $new_site->path, $new_site->network_id, $meta ), '5.0.0', 'wp_insert_site' );
+	}
 
 	return (int) $new_site->id;
 }
@@ -543,6 +580,52 @@ function wp_delete_site( $site_id ) {
 		return new WP_Error( 'site_not_exist', __( 'Site does not exist.' ) );
 	}
 
+	$errors = new WP_Error();
+
+	/**
+	 * Fires before a site should be deleted from the database.
+	 *
+	 * Plugins should amend the `$errors` object via its `WP_Error::add()` method. If any errors
+	 * are present, the site will not be deleted.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_Error $errors   Error object to add validation errors to.
+	 * @param WP_Site  $old_site The site object to be deleted.
+	 */
+	do_action( 'wp_validate_site_deletion', $errors, $old_site );
+
+	if ( ! empty( $errors->errors ) ) {
+		return $errors;
+	}
+
+	/**
+	 * Fires before a site is deleted.
+	 *
+	 * @since MU (3.0.0)
+	 * @deprecated 5.0.0
+	 *
+	 * @param int  $site_id The site ID.
+	 * @param bool $drop    True if site's table should be dropped. Default is false.
+	 */
+	do_action_deprecated( 'delete_blog', array( $old_site->id, true ), '5.0.0' );
+
+	/**
+	 * Fires when a site's uninitialization routine should be executed.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_Site $old_site Deleted site object.
+	 */
+	do_action( 'wp_uninitialize_site', $old_site );
+
+	if ( is_site_meta_supported() ) {
+		$blog_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->blogmeta WHERE blog_id = %d ", $old_site->id ) );
+		foreach ( $blog_meta_ids as $mid ) {
+			delete_metadata_by_mid( 'blog', $mid );
+		}
+	}
+
 	if ( false === $wpdb->delete( $wpdb->blogs, array( 'blog_id' => $old_site->id ) ) ) {
 		return new WP_Error( 'db_delete_error', __( 'Could not delete site from the database.' ), $wpdb->last_error );
 	}
@@ -557,6 +640,17 @@ function wp_delete_site( $site_id ) {
 	 * @param WP_Site $old_site Deleted site object.
 	 */
 	do_action( 'wp_delete_site', $old_site );
+
+	/**
+	 * Fires after the site is deleted from the network.
+	 *
+	 * @since 4.8.0
+	 * @deprecated 5.0.0
+	 *
+	 * @param int  $site_id The site ID.
+	 * @param bool $drop    True if site's tables should be dropped. Default is false.
+	 */
+	do_action_deprecated( 'deleted_blog', array( $old_site->id, true ), '5.0.0' );
 
 	return $old_site;
 }
@@ -619,7 +713,7 @@ function _prime_site_caches( $ids, $update_meta_cache = true ) {
 
 	$non_cached_ids = _get_non_cached_ids( $ids, 'sites' );
 	if ( ! empty( $non_cached_ids ) ) {
-		$fresh_sites = $wpdb->get_results( sprintf( "SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", join( ',', array_map( 'intval', $non_cached_ids ) ) ) );
+		$fresh_sites = $wpdb->get_results( sprintf( "SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", join( ',', array_map( 'intval', $non_cached_ids ) ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		update_site_cache( $fresh_sites, $update_meta_cache );
 	}
@@ -910,6 +1004,322 @@ function wp_validate_site_data( $errors, $data, $old_site = null ) {
 			$errors->add( 'site_taken', __( 'Sorry, that site already exists!' ) );
 		}
 	}
+}
+
+/**
+ * Runs the initialization routine for a given site.
+ *
+ * This process includes creating the site's database tables and
+ * populating them with defaults.
+ *
+ * @since 5.0.0
+ *
+ * @global wpdb     $wpdb     WordPress database abstraction object.
+ * @global WP_Roles $wp_roles WordPress role management object.
+ *
+ * @param int|WP_Site $site_id Site ID or object.
+ * @param array       $args    {
+ *     Optional. Arguments to modify the initialization behavior.
+ *
+ *     @type int    $user_id Required. User ID for the site administrator.
+ *     @type string $title   Site title. Default is 'Site %d' where %d is the
+ *                           site ID.
+ *     @type array  $options Custom option $key => $value pairs to use. Default
+ *                           empty array.
+ *     @type array  $meta    Custom site metadata $key => $value pairs to use.
+ *                           Default empty array.
+ * }
+ * @return bool|WP_Error True on success, or error object on failure.
+ */
+function wp_initialize_site( $site_id, array $args = array() ) {
+	global $wpdb, $wp_roles;
+
+	if ( empty( $site_id ) ) {
+		return new WP_Error( 'site_empty_id', __( 'Site ID must not be empty.' ) );
+	}
+
+	$site = get_site( $site_id );
+	if ( ! $site ) {
+		return new WP_Error( 'site_invalid_id', __( 'Site with the ID does not exist.' ) );
+	}
+
+	if ( wp_is_site_initialized( $site ) ) {
+		return new WP_Error( 'site_already_initialized', __( 'The site appears to be already initialized.' ) );
+	}
+
+	$network = get_network( $site->network_id );
+	if ( ! $network ) {
+		$network = get_network();
+	}
+
+	$args = wp_parse_args(
+		$args,
+		array(
+			'user_id' => 0,
+			/* translators: %d: site ID */
+			'title'   => sprintf( __( 'Site %d' ), $site->id ),
+			'options' => array(),
+			'meta'    => array(),
+		)
+	);
+
+	/**
+	 * Filters the arguments for initializing a site.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array      $args    Arguments to modify the initialization behavior.
+	 * @param WP_Site    $site    Site that is being initialized.
+	 * @param WP_Network $network Network that the site belongs to.
+	 */
+	$args = apply_filters( 'wp_initialize_site_args', $args, $site, $network );
+
+	$orig_installing = wp_installing();
+	if ( ! $orig_installing ) {
+		wp_installing( true );
+	}
+
+	$switch = false;
+	if ( get_current_blog_id() !== $site->id ) {
+		$switch = true;
+		switch_to_blog( $site->id );
+	}
+
+	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+	// Set up the database tables.
+	make_db_current_silent( 'blog' );
+
+	$home_scheme    = 'http';
+	$siteurl_scheme = 'http';
+	if ( ! is_subdomain_install() ) {
+		if ( 'https' === parse_url( get_home_url( $network->site_id ), PHP_URL_SCHEME ) ) {
+			$home_scheme = 'https';
+		}
+		if ( 'https' === parse_url( get_network_option( $network->id, 'siteurl' ), PHP_URL_SCHEME ) ) {
+			$siteurl_scheme = 'https';
+		}
+	}
+
+	// Populate the site's options.
+	populate_options(
+		array_merge(
+			array(
+				'home'        => untrailingslashit( $home_scheme . '://' . $site->domain . $site->path ),
+				'siteurl'     => untrailingslashit( $siteurl_scheme . '://' . $site->domain . $site->path ),
+				'blogname'    => wp_unslash( $args['title'] ),
+				'admin_email' => '',
+				'upload_path' => get_network_option( $network->id, 'ms_files_rewriting' ) ? UPLOADBLOGSDIR . "/{$site->id}/files" : get_blog_option( $network->site_id, 'upload_path' ),
+				'blog_public' => (int) $site->public,
+				'WPLANG'      => get_network_option( $network->id, 'WPLANG' ),
+			),
+			$args['options']
+		)
+	);
+
+	// Populate the site's roles.
+	populate_roles();
+	$wp_roles = new WP_Roles();
+
+	// Populate metadata for the site.
+	populate_site_meta( $site->id, $args['meta'] );
+
+	// Remove all permissions that may exist for the site.
+	$table_prefix = $wpdb->get_blog_prefix();
+	delete_metadata( 'user', 0, $table_prefix . 'user_level', null, true ); // delete all
+	delete_metadata( 'user', 0, $table_prefix . 'capabilities', null, true ); // delete all
+
+	// Install default site content.
+	wp_install_defaults( $args['user_id'] );
+
+	// Set the site administrator.
+	add_user_to_blog( $site->id, $args['user_id'], 'administrator' );
+	if ( ! user_can( $args['user_id'], 'manage_network' ) && ! get_user_meta( $args['user_id'], 'primary_blog', true ) ) {
+		update_user_meta( $args['user_id'], 'primary_blog', $site->id );
+	}
+
+	if ( $switch ) {
+		restore_current_blog();
+	}
+
+	wp_installing( $orig_installing );
+
+	return true;
+}
+
+/**
+ * Runs the uninitialization routine for a given site.
+ *
+ * This process includes dropping the site's database tables and deleting its uploads directory.
+ *
+ * @since 5.0.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param int|WP_Site $site_id Site ID or object.
+ * @return bool|WP_Error True on success, or error object on failure.
+ */
+function wp_uninitialize_site( $site_id ) {
+	global $wpdb;
+
+	if ( empty( $site_id ) ) {
+		return new WP_Error( 'site_empty_id', __( 'Site ID must not be empty.' ) );
+	}
+
+	$site = get_site( $site_id );
+	if ( ! $site ) {
+		return new WP_Error( 'site_invalid_id', __( 'Site with the ID does not exist.' ) );
+	}
+
+	if ( ! wp_is_site_initialized( $site ) ) {
+		return new WP_Error( 'site_already_uninitialized', __( 'The site appears to be already uninitialized.' ) );
+	}
+
+	$users = get_users( array(
+		'blog_id' => $site->id,
+		'fields'  => 'ids',
+	) );
+
+	// Remove users from the site.
+	if ( ! empty( $users ) ) {
+		foreach ( $users as $user_id ) {
+			remove_user_from_blog( $user_id, $site->id );
+		}
+	}
+
+	$switch = false;
+	if ( get_current_blog_id() !== $site->id ) {
+		$switch = true;
+		switch_to_blog( $site->id );
+	}
+
+	$uploads = wp_get_upload_dir();
+
+	$tables = $wpdb->tables( 'blog' );
+
+	/**
+	 * Filters the tables to drop when the site is deleted.
+	 *
+	 * @since MU (3.0.0)
+	 *
+	 * @param string[] $tables  Array of names of the site tables to be dropped.
+	 * @param int      $site_id The ID of the site to drop tables for.
+	 */
+	$drop_tables = apply_filters( 'wpmu_drop_tables', $tables, $site->id );
+
+	foreach ( (array) $drop_tables as $table ) {
+		$wpdb->query( "DROP TABLE IF EXISTS `$table`" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	}
+
+	/**
+	 * Filters the upload base directory to delete when the site is deleted.
+	 *
+	 * @since MU (3.0.0)
+	 *
+	 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
+	 * @param int    $site_id            The site ID.
+	 */
+	$dir     = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $site->id );
+	$dir     = rtrim( $dir, DIRECTORY_SEPARATOR );
+	$top_dir = $dir;
+	$stack   = array( $dir );
+	$index   = 0;
+
+	while ( $index < count( $stack ) ) {
+		// Get indexed directory from stack
+		$dir = $stack[ $index ];
+
+		// phpcs:disable Generic.PHP.NoSilencedErrors.Discouraged
+		$dh = @opendir( $dir );
+		if ( $dh ) {
+			$file = @readdir( $dh );
+			while ( false !== $file ) {
+				if ( '.' === $file || '..' === $file ) {
+					$file = @readdir( $dh );
+					continue;
+				}
+
+				if ( @is_dir( $dir . DIRECTORY_SEPARATOR . $file ) ) {
+					$stack[] = $dir . DIRECTORY_SEPARATOR . $file;
+				} elseif ( @is_file( $dir . DIRECTORY_SEPARATOR . $file ) ) {
+					@unlink( $dir . DIRECTORY_SEPARATOR . $file );
+				}
+
+				$file = @readdir( $dh );
+			}
+			@closedir( $dh );
+		}
+		$index++;
+	}
+
+	$stack = array_reverse( $stack ); // Last added dirs are deepest
+	foreach ( (array) $stack as $dir ) {
+		if ( $dir != $top_dir ) {
+			@rmdir( $dir );
+		}
+	}
+
+	// phpcs:enable Generic.PHP.NoSilencedErrors.Discouraged
+	if ( $switch ) {
+		restore_current_blog();
+	}
+
+	return true;
+}
+
+/**
+ * Checks whether a site is initialized.
+ *
+ * A site is considered initialized when its database tables are present.
+ *
+ * @since 5.0.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param int|WP_Site $site_id Site ID or object.
+ * @return bool True if the site is initialized, false otherwise.
+ */
+function wp_is_site_initialized( $site_id ) {
+	global $wpdb;
+
+	if ( is_object( $site_id ) ) {
+		$site_id = $site_id->blog_id;
+	}
+	$site_id = (int) $site_id;
+
+	/**
+	 * Filters the check for whether a site is initialized before the database is accessed.
+	 *
+	 * Returning a non-null value will effectively short-circuit the function, returning
+	 * that value instead.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param bool|null $pre     The value to return, if not null.
+	 * @param int       $site_id The site ID that is being checked.
+	 */
+	$pre = apply_filters( 'pre_wp_is_site_initialized', null, $site_id );
+	if ( null !== $pre ) {
+		return (bool) $pre;
+	}
+
+	$switch = false;
+	if ( get_current_blog_id() !== $site_id ) {
+		$switch = true;
+		remove_action( 'switch_blog', 'wp_switch_roles_and_user', 1 );
+		switch_to_blog( $site_id );
+	}
+
+	$suppress = $wpdb->suppress_errors();
+	$result   = (bool) $wpdb->get_results( "DESCRIBE {$wpdb->posts}" );
+	$wpdb->suppress_errors( $suppress );
+
+	if ( $switch ) {
+		restore_current_blog();
+		add_action( 'switch_blog', 'wp_switch_roles_and_user', 1, 2 );
+	}
+
+	return $result;
 }
 
 /**
@@ -1621,7 +2031,7 @@ function _prime_network_caches( $network_ids ) {
 
 	$non_cached_ids = _get_non_cached_ids( $network_ids, 'networks' );
 	if ( ! empty( $non_cached_ids ) ) {
-		$fresh_networks = $wpdb->get_results( sprintf( "SELECT $wpdb->site.* FROM $wpdb->site WHERE id IN (%s)", join( ',', array_map( 'intval', $non_cached_ids ) ) ) );
+		$fresh_networks = $wpdb->get_results( sprintf( "SELECT $wpdb->site.* FROM $wpdb->site WHERE id IN (%s)", join( ',', array_map( 'intval', $non_cached_ids ) ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		update_network_cache( $fresh_networks );
 	}
@@ -1757,7 +2167,7 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
 	}
 
 	if ( $new_site->spam != $old_site->spam ) {
-		if ( $new_site->spam == 1 ) {
+		if ( 1 == $new_site->spam ) {
 
 			/**
 			 * Fires when the 'spam' status is added to a site.
@@ -1781,7 +2191,7 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
 	}
 
 	if ( $new_site->mature != $old_site->mature ) {
-		if ( $new_site->mature == 1 ) {
+		if ( 1 == $new_site->mature ) {
 
 			/**
 			 * Fires when the 'mature' status is added to a site.
@@ -1805,7 +2215,7 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
 	}
 
 	if ( $new_site->archived != $old_site->archived ) {
-		if ( $new_site->archived == 1 ) {
+		if ( 1 == $new_site->archived ) {
 
 			/**
 			 * Fires when the 'archived' status is added to a site.
@@ -1829,7 +2239,7 @@ function wp_maybe_transition_site_statuses_on_update( $new_site, $old_site = nul
 	}
 
 	if ( $new_site->deleted != $old_site->deleted ) {
-		if ( $new_site->deleted == 1 ) {
+		if ( 1 == $new_site->deleted ) {
 
 			/**
 			 * Fires when the 'deleted' status is added to a site.
@@ -1889,5 +2299,11 @@ function wp_maybe_clean_new_site_cache_on_update( $new_site, $old_site ) {
  * @param string $public  The value of the site status.
  */
 function wp_update_blog_public_option_on_site_update( $site_id, $public ) {
+
+	// Bail if the site's database tables do not exist (yet).
+	if ( ! wp_is_site_initialized( $site_id ) ) {
+		return;
+	}
+
 	update_blog_option( $site_id, 'blog_public', $public );
 }
