@@ -600,17 +600,21 @@ class WP_User_Query {
 			$this->results = $wpdb->get_col( $this->request );
 		}
 
-		/**
-		 * Filters SELECT FOUND_ROWS() query for the current WP_User_Query instance.
-		 *
-		 * @since 3.2.0
-		 *
-		 * @global wpdb $wpdb WordPress database abstraction object.
-		 *
-		 * @param string $sql The SELECT FOUND_ROWS() query for the current WP_User_Query.
-		 */
 		if ( isset( $qv['count_total'] ) && $qv['count_total'] ) {
-			$this->total_users = (int) $wpdb->get_var( apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()' ) );
+			/**
+			 * Filters SELECT FOUND_ROWS() query for the current WP_User_Query instance.
+			 *
+			 * @since 3.2.0
+			 * @since 4.9.9 Added the `$this` parameter.
+			 *
+			 * @global wpdb $wpdb WordPress database abstraction object.
+			 *
+			 * @param string $sql         The SELECT FOUND_ROWS() query for the current WP_User_Query.
+			 * @param WP_User_Query $this The current WP_User_Query instance.
+			 */
+			$found_users_query = apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()', $this );
+
+			$this->total_users = (int) $wpdb->get_var( $found_users_query );
 		}
 
 		if ( ! $this->results ) {
