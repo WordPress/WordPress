@@ -187,6 +187,7 @@ function twentyseventeen_social_links_icons() {
 		'mailto:'         => 'envelope-o',
 		'medium.com'      => 'medium',
 		'pinterest.com'   => 'pinterest-p',
+		'pinterest.de'    => 'pinterest-p',
 		'pscp.tv'         => 'periscope',
 		'getpocket.com'   => 'get-pocket',
 		'reddit.com'      => 'reddit-alien',
