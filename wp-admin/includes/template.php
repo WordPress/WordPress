@@ -1482,8 +1482,8 @@ function do_settings_sections( $page ) {
  *
  * @since 2.7.0
  *
- * @param string $page Slug title of the admin page who's settings fields you want to show.
- * @param string $section Slug title of the settings section who's fields you want to show.
+ * @param string $page Slug title of the admin page whose settings fields you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
  */
 function do_settings_fields( $page, $section ) {
 	global $wp_settings_fields;
@@ -1568,7 +1568,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
- * @param string $setting Optional slug title of a specific setting who's errors you want.
+ * @param string $setting Optional slug title of a specific setting whose errors you want.
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
  * @return array Array of settings errors
  */
@@ -1631,7 +1631,7 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  *
  * @since 3.0.0
  *
- * @param string $setting        Optional slug title of a specific setting who's errors you want.
+ * @param string $setting        Optional slug title of a specific setting whose errors you want.
  * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
  * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has
  *                               already been submitted.

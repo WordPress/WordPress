@@ -244,7 +244,7 @@ function edit_user( $user_id = 0 ) {
  * Fetch a filtered list of user roles that the current user is
  * allowed to edit.
  *
- * Simple function who's main purpose is to allow filtering of the
+ * Simple function whose main purpose is to allow filtering of the
  * list of roles in the $wp_roles object so that plugins can remove
  * inappropriate ones depending on the situation or user making edits.
  * Specifically because without filtering anyone with the edit_users
