@@ -93,7 +93,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$paged = $this->get_pagenum();
 
-		$per_page = 30;
+		$per_page = 36;
 
 		// These are the tabs which are shown on the page
 		$tabs = array();
