@@ -1458,12 +1458,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="" /></span>
 			</label>
 
+		<?php if ( $post_type_object->publicly_queryable ) : // publicly_queryable check ?>
+
 			<label>
 				<span class="title"><?php _e( 'Slug' ); ?></span>
 				<span class="input-text-wrap"><input type="text" name="post_name" value="" /></span>
 			</label>
 
-	<?php
+			<?php
+	endif; // publicly_queryable check
 	endif; // $bulk
 	endif; // post_type_supports title
 			?>
