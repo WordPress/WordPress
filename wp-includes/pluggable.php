@@ -1554,7 +1554,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 			default: // Comments
 				/* translators: %s: post title */
 				$notify_message = sprintf( __( 'New comment on your post "%s"' ), $post->post_title ) . "\r\n";
-				/* translators: 1: comment author, 2: comment author's IP address, 3: comment author's hostname */
+				/* translators: 1: comment author's name, 2: comment author's IP address, 3: comment author's hostname */
 				$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 				/* translators: %s: comment author email */
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
@@ -1724,7 +1724,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 				/* translators: %s: post title */
 				$notify_message  = sprintf( __( 'A new comment on the post "%s" is waiting for your approval' ), $post->post_title ) . "\r\n";
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "\r\n\r\n";
-				/* translators: 1: comment author name, 2: comment author's IP address, 3: comment author's hostname */
+				/* translators: 1: comment author's name, 2: comment author's IP address, 3: comment author's hostname */
 				$notify_message .= sprintf( __( 'Author: %1$s (IP address: %2$s, %3$s)' ), $comment->comment_author, $comment->comment_author_IP, $comment_author_domain ) . "\r\n";
 				/* translators: %s: comment author email */
 				$notify_message .= sprintf( __( 'Email: %s' ), $comment->comment_author_email ) . "\r\n";
