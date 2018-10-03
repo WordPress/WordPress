@@ -1864,6 +1864,30 @@ div.action-links,
 		word-wrap: normal;
 	}
 
+	/* Make row actions more easy to select on mobile */
+	body:not(.plugins-php) .row-actions {
+		display: -ms-grid;
+		display: grid;
+		-ms-grid-columns: auto auto auto;
+		grid-template-columns: auto auto auto;
+		color: transparent;
+	}
+
+	.row-actions span {
+		padding: 4px 0;
+	}
+
+	.row-actions span a,
+	.row-actions span .button-link {
+		display: inline-block;
+		padding: 4px 0;
+	}
+
+	.row-actions span.approve:before,
+	.row-actions span.unapprove:before {
+		content: "| ";
+	}
+
 	/* Quick Edit and Bulk Edit */
 	#wpbody-content .quick-edit-row-post .inline-edit-col-left,
 	#wpbody-content .quick-edit-row-post .inline-edit-col-right,
@@ -2100,6 +2124,12 @@ div.action-links,
 @media screen and ( max-width: 480px ) {
 	.tablenav-pages .current-page {
 		margin: 0;
+	}
+
+	/* Drop row actions to two columns on a small screen */
+	.row-actions:not(.plugins-php) {
+		-ms-grid-columns: auto auto;
+		grid-template-columns: auto auto;
 	}
 
 	.tablenav-pages .tablenav-paging-text {
