@@ -226,18 +226,54 @@
 }
 
 .try-gutenberg-panel .try-gutenberg-panel-column-container {
-	display: -ms-grid;
-	display: grid;
-	-ms-grid-columns: 36% 32% 32%;
-	grid-template-columns: 36% 32% 32%;
+	display: flex;
 	margin-bottom: 13px;
 }
 
+@supports (display: grid) {
+	.try-gutenberg-panel .try-gutenberg-panel-column-container {
+		display: -ms-grid;
+		display: grid;
+		-ms-grid-columns: 36% 32% 32%;
+		grid-template-columns: 36% 32% 32%;
+	}
+}
+
+.try-gutenberg-panel .try-gutenberg-panel-image-column {
+	width: 36%;
+}
+
+@supports (display: grid) {
+	.try-gutenberg-panel .try-gutenberg-panel-image-column {
+		width: auto;
+	}
+}
+
 .try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
-	display: -ms-grid;
-	display: grid;
-	-ms-grid-rows: auto 100px;
-	grid-template-rows: auto 100px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 32%;
+}
+
+@supports (display: grid) {
+	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
+		display: -ms-grid;
+		display: grid;
+		-ms-grid-rows: auto 100px;
+		grid-template-rows: auto 100px;
+		width: auto;
+	}
+}
+
+.try-gutenberg-panel .try-gutenberg-action {
+	height: 100px;
+}
+
+@supports (display: grid) {
+	.try-gutenberg-panel .try-gutenberg-action {
+		height: auto;
+	}
 }
 
 .welcome-panel-column p.hide-if-no-customize {
@@ -255,7 +291,7 @@
 }
 
 .welcome-panel .welcome-panel-column ul {
-		margin: 0.8em 1em 1em 0;
+	margin: 0.8em 1em 1em 0;
 }
 
 .welcome-panel .welcome-panel-column li {
@@ -1269,6 +1305,16 @@ a.rsswidget {
 	.try-gutenberg-panel .try-gutenberg-panel-image-column {
 		display: none;
 	}
+
+	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
+		width: 50%;
+	}
+
+	@supports (display: grid) {
+		.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
+			width: auto;
+		}
+	}
 }
 
 @media screen and (max-width: 870px) {
@@ -1280,8 +1326,18 @@ a.rsswidget {
 	}
 
 	.try-gutenberg-panel .try-gutenberg-panel-column-container {
-		-ms-grid-columns: 100%;
-		grid-template-columns: 100%;
+		flex-wrap: wrap;
+	}
+
+	@supports (display: grid) {
+		.try-gutenberg-panel .try-gutenberg-panel-column-container {
+			-ms-grid-columns: 100%;
+			grid-template-columns: 100%;
+		}
+	}
+
+	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
+		width: 100%;
 	}
 
 	.welcome-panel .welcome-panel-column li {
