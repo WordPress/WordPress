@@ -322,6 +322,12 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 					'context'      => array( 'view', 'edit' ),
 					'readonly'     => true,
 				),
+				'visibility'       => array(
+					'description'  => __( 'The visibility settings for the taxonomy.' ),
+					'type'         => 'object',
+					'context'      => array( 'edit' ),
+					'readonly'     => true,
+				),
 				'rest_base'            => array(
 					'description'  => __( 'REST base route for the taxonomy.' ),
 					'type'         => 'string',
