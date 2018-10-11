@@ -441,7 +441,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$schema = $this->get_item_schema();
 		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], (int) $request['id'] );
+			$meta_update = $this->meta->update_value( $request['meta'], $term->term_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
