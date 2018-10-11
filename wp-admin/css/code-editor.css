@@ -70,7 +70,3 @@
 .CodeMirror {
 	text-align: left;
 }
-
-.wrap .CodeMirror .CodeMirror-linenumber { 
-    color: #666; 
-}
