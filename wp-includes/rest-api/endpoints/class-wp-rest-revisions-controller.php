@@ -197,122 +197,14 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			return $parent;
 		}
 
-		// Ensure a search string is set in case the orderby is set to 'relevance'.
-		if ( ! empty( $request['orderby'] ) && 'relevance' === $request['orderby'] && empty( $request['search'] ) ) {
-			return new WP_Error( 'rest_no_search_term_defined', __( 'You need to define a search term to order by relevance.' ), array( 'status' => 400 ) );
-		}
-
-		// Ensure an include parameter is set in case the orderby is set to 'include'.
-		if ( ! empty( $request['orderby'] ) && 'include' === $request['orderby'] && empty( $request['include'] ) ) {
-			return new WP_Error( 'rest_orderby_include_missing_include', __( 'You need to define an include parameter to order by include.' ), array( 'status' => 400 ) );
-		}
-
-		if ( wp_revisions_enabled( $parent ) ) {
-			$registered = $this->get_collection_params();
-			$args       = array(
-				'post_parent'      => $parent->ID,
-				'post_type'        => 'revision',
-				'post_status'      => 'inherit',
-				'posts_per_page'   => -1,
-				'orderby'          => 'date ID',
-				'order'            => 'DESC',
-				'suppress_filters' => true,
-			);
-
-			$parameter_mappings = array(
-				'exclude'  => 'post__not_in',
-				'include'  => 'post__in',
-				'offset'   => 'offset',
-				'order'    => 'order',
-				'orderby'  => 'orderby',
-				'page'     => 'paged',
-				'per_page' => 'posts_per_page',
-				'search'   => 's',
-			);
-
-			foreach ( $parameter_mappings as $api_param => $wp_param ) {
-				if ( isset( $registered[ $api_param ], $request[ $api_param ] ) ) {
-					$args[ $wp_param ] = $request[ $api_param ];
-				}
-			}
-
-			// For backward-compatibility, 'date' needs to resolve to 'date ID'.
-			if ( isset( $args['orderby'] ) && 'date' === $args['orderby'] ) {
-				$args['orderby'] = 'date ID';
-			}
-
-			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
-			$args       = apply_filters( 'rest_revision_query', $args, $request );
-			$query_args = $this->prepare_items_query( $args, $request );
-
-			$revisions_query = new WP_Query();
-			$revisions       = $revisions_query->query( $query_args );
-			$offset          = isset( $query_args['offset'] ) ? (int) $query_args['offset'] : 0;
-			$page            = (int) $query_args['paged'];
-			$total_revisions = $revisions_query->found_posts;
-
-			if ( $total_revisions < 1 ) {
-				// Out-of-bounds, run the query again without LIMIT for total count.
-				unset( $query_args['paged'], $query_args['offset'] );
-
-				$count_query = new WP_Query();
-				$count_query->query( $query_args );
-
-				$total_revisions = $count_query->found_posts;
-			}
-
-			if ( $revisions_query->query_vars['posts_per_page'] > 0 ) {
-				$max_pages = ceil( $total_revisions / (int) $revisions_query->query_vars['posts_per_page'] );
-			} else {
-				$max_pages = $total_revisions > 0 ? 1 : 0;
-			}
-
-			if ( $total_revisions > 0 ) {
-				if ( $offset >= $total_revisions ) {
-					return new WP_Error( 'rest_revision_invalid_offset_number', __( 'The offset number requested is larger than or equal to the number of available revisions.' ), array( 'status' => 400 ) );
-				} elseif ( ! $offset && $page > $max_pages ) {
-					return new WP_Error( 'rest_revision_invalid_page_number', __( 'The page number requested is larger than the number of pages available.' ), array( 'status' => 400 ) );
-				}
-			}
-		} else {
-			$revisions       = array();
-			$total_revisions = 0;
-			$max_pages       = 0;
-			$page            = (int) $request['page'];
-		}
+		$revisions = wp_get_post_revisions( $request['parent'] );
 
 		$response = array();
 		foreach ( $revisions as $revision ) {
 			$data = $this->prepare_item_for_response( $revision, $request );
 			$response[] = $this->prepare_response_for_collection( $data );
 		}
-
-		$response = rest_ensure_response( $response );
-
-		$response->header( 'X-WP-Total', (int) $total_revisions );
-		$response->header( 'X-WP-TotalPages', (int) $max_pages );
-
-		$request_params = $request->get_query_params();
-		$base           = add_query_arg( $request_params, rest_url( sprintf( '%s/%s/%d/%s', $this->namespace, $this->parent_base, $request['parent'], $this->rest_base ) ) );
-
-		if ( $page > 1 ) {
-			$prev_page = $page - 1;
-
-			if ( $prev_page > $max_pages ) {
-				$prev_page = $max_pages;
-			}
-
-			$prev_link = add_query_arg( 'page', $prev_page, $base );
-			$response->link_header( 'prev', $prev_link );
-		}
-		if ( $max_pages > $page ) {
-			$next_page = $page + 1;
-			$next_link = add_query_arg( 'page', $next_page, $base );
-
-			$response->link_header( 'next', $next_link );
-		}
-
-		return $response;
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -423,41 +315,6 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		$response = new WP_REST_Response();
 		$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
 		return $response;
-	}
-
-	/**
-	 * Determines the allowed query_vars for a get_items() response and prepares
-	 * them for WP_Query.
-	 *
-	 * @since 5.0.0
-	 *
-	 * @param array           $prepared_args Optional. Prepared WP_Query arguments. Default empty array.
-	 * @param WP_REST_Request $request       Optional. Full details about the request.
-	 * @return array Items query arguments.
-	 */
-	protected function prepare_items_query( $prepared_args = array(), $request = null ) {
-		$query_args = array();
-
-		foreach ( $prepared_args as $key => $value ) {
-			/** This filter is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
-			$query_args[ $key ] = apply_filters( "rest_query_var-{$key}", $value ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
-		}
-
-		// Map to proper WP_Query orderby param.
-		if ( isset( $query_args['orderby'] ) && isset( $request['orderby'] ) ) {
-			$orderby_mappings = array(
-				'id'            => 'ID',
-				'include'       => 'post__in',
-				'slug'          => 'post_name',
-				'include_slugs' => 'post_name__in',
-			);
-
-			if ( isset( $orderby_mappings[ $request['orderby'] ] ) ) {
-				$query_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
-			}
-		}
-
-		return $query_args;
 	}
 
 	/**
@@ -680,58 +537,9 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return array Collection parameters.
 	 */
 	public function get_collection_params() {
-		$query_params = parent::get_collection_params();
-
-		$query_params['context']['default'] = 'view';
-
-		unset( $query_params['per_page']['default'] );
-
-		$query_params['exclude'] = array(
-			'description' => __( 'Ensure result set excludes specific IDs.' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'integer',
-			),
-			'default'     => array(),
+		return array(
+			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 		);
-
-		$query_params['include'] = array(
-			'description' => __( 'Limit result set to specific IDs.' ),
-			'type'        => 'array',
-			'items'       => array(
-				'type' => 'integer',
-			),
-			'default'     => array(),
-		);
-
-		$query_params['offset'] = array(
-			'description' => __( 'Offset the result set by a specific number of items.' ),
-			'type'        => 'integer',
-		);
-
-		$query_params['order'] = array(
-			'description' => __( 'Order sort attribute ascending or descending.' ),
-			'type'        => 'string',
-			'default'     => 'desc',
-			'enum'        => array( 'asc', 'desc' ),
-		);
-
-		$query_params['orderby'] = array(
-			'description' => __( 'Sort collection by object attribute.' ),
-			'type'        => 'string',
-			'default'     => 'date',
-			'enum'        => array(
-				'date',
-				'id',
-				'include',
-				'relevance',
-				'slug',
-				'include_slugs',
-				'title',
-			),
-		);
-
-		return $query_params;
 	}
 
 	/**
