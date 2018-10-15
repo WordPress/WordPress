@@ -854,6 +854,7 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
  * Determine whether an attribute is allowed.
  *
  * @since 4.2.3
+ * @since 5.0.0 Add support for `data-*` wildcard attributes.
  *
  * @param string $name The attribute name. Returns empty string when not allowed.
  * @param string $value The attribute value. Returns a filtered value.
@@ -864,12 +865,31 @@ function wp_kses_attr($element, $attr, $allowed_html, $allowed_protocols) {
  * @return bool Is the attribute allowed?
  */
 function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowed_html ) {
-	$allowed_attr = $allowed_html[strtolower( $element )];
+	$allowed_attr = $allowed_html[ strtolower( $element ) ];
 
 	$name_low = strtolower( $name );
+
 	if ( ! isset( $allowed_attr[$name_low] ) || '' == $allowed_attr[$name_low] ) {
-		$name = $value = $whole = '';
-		return false;
+		/*
+		 * Allow `data-*` attributes.
+		 *
+		 * When specifying `$allowed_html`, the attribute name should be set as
+		 * `data-*` (not to be mixed with the HTML 4.0 `data` attribute, see
+		 * https://www.w3.org/TR/html40/struct/objects.html#adef-data).
+		 *
+		 * Note: the attribute name should only contain `A-Za-z0-9_-` chars,
+		 * double hyphens `--` are not accepted by WordPress.
+		 */
+		if ( strpos( $name_low, 'data-' ) === 0 && ! empty( $allowed_attr['data-*'] ) && preg_match( '/^data(?:-[a-z0-9_]+)+$/', $name_low, $match ) ) {
+			/*
+			 * Add the whole attribute name to the allowed attributes and set any restrictions
+			 * for the `data-*` attribute values for the current element.
+			 */
+			$allowed_attr[ $match[0] ] = $allowed_attr['data-*'];
+		} else {
+			$name = $value = $whole = '';
+			return false;
+		}
 	}
 
 	if ( 'style' == $name_low ) {
@@ -884,7 +904,7 @@ function wp_kses_attr_check( &$name, &$value, &$whole, $vless, $element, $allowe
 		$value = $new_value;
 	}
 
-	if ( is_array( $allowed_attr[$name_low] ) ) {
+	if ( is_array( $allowed_attr[ $name_low ] ) ) {
 		// there are some checks
 		foreach ( $allowed_attr[$name_low] as $currkey => $currval ) {
 			if ( ! wp_kses_check_attr_val( $value, $vless, $currkey, $currval ) ) {
@@ -1808,6 +1828,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
  * Helper function to add global attributes to a tag in the allowed html list.
  *
  * @since 3.5.0
+ * @since 5.0.0 Add support for `data-*` wildcard attributes.
  * @access private
  *
  * @param array $value An array of attributes.
@@ -1820,6 +1841,7 @@ function _wp_add_global_attributes( $value ) {
 		'style' => true,
 		'title' => true,
 		'role' => true,
+		'data-*' => true,
 	);
 
 	if ( true === $value )
