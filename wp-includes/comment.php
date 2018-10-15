@@ -422,12 +422,8 @@ function get_comment_count( $post_id = 0 ) {
  * @param bool $unique Optional, default is false. Whether the same key should not be added.
  * @return int|bool Meta ID on success, false on failure.
  */
-function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) {
-	$added = add_metadata( 'comment', $comment_id, $meta_key, $meta_value, $unique );
-	if ( $added ) {
-		wp_cache_set( 'last_changed', microtime(), 'comment' );
-	}
-	return $added;
+function add_comment_meta( $comment_id, $meta_key, $meta_value, $unique = false ) {
+	return add_metadata( 'comment', $comment_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -445,12 +441,8 @@ function add_comment_meta($comment_id, $meta_key, $meta_value, $unique = false) 
  * @param mixed $meta_value Optional. Metadata value.
  * @return bool True on success, false on failure.
  */
-function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
-	$deleted = delete_metadata( 'comment', $comment_id, $meta_key, $meta_value );
-	if ( $deleted ) {
-		wp_cache_set( 'last_changed', microtime(), 'comment' );
-	}
-	return $deleted;
+function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
+	return delete_metadata( 'comment', $comment_id, $meta_key, $meta_value );
 }
 
 /**
@@ -465,8 +457,8 @@ function delete_comment_meta($comment_id, $meta_key, $meta_value = '') {
  * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
  *  is true.
  */
-function get_comment_meta($comment_id, $key = '', $single = false) {
-	return get_metadata('comment', $comment_id, $key, $single);
+function get_comment_meta( $comment_id, $key = '', $single = false ) {
+	return get_metadata( 'comment', $comment_id, $key, $single );
 }
 
 /**
@@ -486,12 +478,8 @@ function get_comment_meta($comment_id, $key = '', $single = false) {
  * @param mixed $prev_value Optional. Previous value to check before removing.
  * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
  */
-function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = '') {
-	$updated = update_metadata( 'comment', $comment_id, $meta_key, $meta_value, $prev_value );
-	if ( $updated ) {
-		wp_cache_set( 'last_changed', microtime(), 'comment' );
-	}
-	return $updated;
+function update_comment_meta( $comment_id, $meta_key, $meta_value, $prev_value = '' ) {
+	return update_metadata( 'comment', $comment_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -3061,7 +3049,7 @@ function wp_handle_comment_submission( $comment_data ) {
 		 * @param int $comment_post_ID Post ID.
 		 */
 		do_action( 'comment_on_draft', $comment_post_ID );
-		
+
 		if ( current_user_can( 'read_post', $comment_post_ID ) ) {
 			return new WP_Error( 'comment_on_draft', __( 'Sorry, comments are not allowed for this item.' ), 403 );
 		} else {
@@ -3386,4 +3374,13 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 		'messages'       => $messages,
 		'done'           => $done,
 	);
+}
+
+/**
+ * Sets the last changed time for the 'comment' cache group.
+ *
+ * @since 5.0.0
+ */
+function wp_cache_set_comments_last_changed() {
+	wp_cache_set( 'last_changed', microtime(), 'comment' );
 }
