@@ -41,22 +41,26 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_register_tinymce_scripts( &$scripts ) {
+function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 	global $tinymce_version, $concatenate_scripts, $compress_scripts;
 	$suffix     = SCRIPT_DEBUG ? '' : '.min';
+
+	script_concat_settings();
+
 	$compressed = $compress_scripts && $concatenate_scripts && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] )
-	              && false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' );
+	              && false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $force_uncompressed;
+
 	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production) or
 	// tinymce.min.js (when SCRIPT_DEBUG is true).
 	$mce_suffix = false !== strpos( get_bloginfo( 'version' ), '-src' ) ? '' : '.min';
 	if ( $compressed ) {
 		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array(), $tinymce_version );
 	} else {
-		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce{$mce_suffix}.js", array(), $tinymce_version );
-		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin{$suffix}.js", array( 'wp-tinymce-root' ), $tinymce_version );
+		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$mce_suffix.js", array(), $tinymce_version );
+		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
 	}
 
-	$scripts->add( 'wp-tinymce-lists', includes_url( 'js/tinymce/plugins/lists/index' . $suffix . '.js', array( 'wp-tinymce' ), $tinymce_version ) );
+	$scripts->add( 'wp-tinymce-lists', includes_url( "js/tinymce/plugins/lists/plugin$suffix.js", array( 'wp-tinymce' ), $tinymce_version ) );
 }
 
 /**
@@ -69,8 +73,10 @@ function wp_register_tinymce_scripts( &$scripts ) {
  *
  * @param WP_Scripts $scripts WP_Scripts object.
  */
-function wp_default_packages_vendor( &$scripts, $dev_suffix ) {
+function wp_default_packages_vendor( &$scripts ) {
 	wp_register_tinymce_scripts( $scripts );
+
+	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	$vendor_scripts = array(
 		'react',
@@ -90,7 +96,7 @@ function wp_default_packages_vendor( &$scripts, $dev_suffix ) {
 			$dependencies = array();
 		}
 
-		$path     = '/js/dist/vendor/' . $handle . $dev_suffix . '.js';
+		$path     = "/js/dist/vendor/$handle$dev_suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
@@ -124,7 +130,7 @@ function wp_default_packages_vendor( &$scripts, $dev_suffix ) {
  * @param array      $tests   Features to detect.
  * @return string Conditional polyfill inline script.
  */
-function wp_get_script_polyfill( $scripts, $tests ) {
+function wp_get_script_polyfill( &$scripts, $tests ) {
 	$polyfill = '';
 	foreach ( $tests as $test => $handle ) {
 		if ( ! array_key_exists( $handle, $scripts->registered ) ) {
@@ -147,7 +153,7 @@ function wp_get_script_polyfill( $scripts, $tests ) {
 }
 
 /**
- * Register all the WordPress packages scripts that are in the standardized
+ * Registers all the WordPress packages scripts that are in the standardized
  * `js/dist/` location.
  *
  * For the order of `$scripts->add` see `wp_default_scripts`.
@@ -155,9 +161,10 @@ function wp_get_script_polyfill( $scripts, $tests ) {
  * @since 5.0.0
  *
  * @param WP_Scripts $scripts WP_Scripts object.
- * @param string     $suffix  The suffix to use before `.js`.
  */
-function wp_default_packages_scripts( &$scripts, $suffix ) {
+function wp_default_packages_scripts( &$scripts ) {
+	$suffix = wp_scripts_get_suffix();
+
 	$packages_dependencies = array(
 		'api-fetch' => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n' ),
 		'a11y' => array( 'wp-dom-ready', 'wp-polyfill' ),
@@ -330,7 +337,7 @@ function wp_default_packages_scripts( &$scripts, $suffix ) {
 
 	foreach ( $packages_dependencies as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
-		$path     = '/js/dist/' . $package . $suffix . '.js';
+		$path    = "/js/dist/$package$suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
@@ -422,12 +429,14 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 		'after'
 	);
 
+	/* This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_settings = apply_filters(
 		'tiny_mce_before_init',
 		array(
 			'plugins'          => implode(
 				',',
 				array_unique(
+					/* This filter is documented in wp-includes/class-wp-editor.php */
 					apply_filters(
 						'tiny_mce_plugins',
 						array(
@@ -456,6 +465,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 			'toolbar1'         => implode(
 				',',
 				array_merge(
+					/* This filter is documented in wp-includes/class-wp-editor.php */
 					apply_filters(
 						'mce_buttons',
 						array(
@@ -481,6 +491,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 			),
 			'toolbar2'         => implode(
 				',',
+				/* This filter is documented in wp-includes/class-wp-editor.php */
 				apply_filters(
 					'mce_buttons_2',
 					array(
@@ -499,8 +510,11 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 					'editor'
 				)
 			),
+			/* This filter is documented in wp-includes/class-wp-editor.php */
 			'toolbar3'         => implode( ',', apply_filters( 'mce_buttons_3', array(), 'editor' ) ),
+			/* This filter is documented in wp-includes/class-wp-editor.php */
 			'toolbar4'         => implode( ',', apply_filters( 'mce_buttons_4', array(), 'editor' ) ),
+			/* This filter is documented in wp-includes/class-wp-editor.php */
 			'external_plugins' => apply_filters( 'mce_external_plugins', array() ),
 		),
 		'editor'
@@ -525,6 +539,57 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 }
 
 /**
+ * Registers all the WordPress packages scripts.
+ *
+ * @since 5.0.0
+ *
+ * @param WP_Scripts $scripts WP_Scripts object.
+ */
+function wp_default_packages( &$scripts ) {
+	wp_default_packages_vendor( $scripts );
+	wp_register_tinymce_scripts( $scripts );
+	wp_default_packages_scripts( $scripts );
+
+	if ( did_action( 'init' ) ) {
+		wp_default_packages_inline_scripts( $scripts );
+	}
+}
+
+/**
+ * Returns the suffix that can be used for the scripts.
+ *
+ * There are two suffix types, the normal one and the dev suffix.
+ *
+ * @since 5.0.0
+ *
+ * @param string $type The type of suffix to retrieve.
+ * @return string The script suffix.
+ */
+function wp_scripts_get_suffix( $type = '' ) {
+	static $suffixes;
+
+	if ( $suffixes === null ) {
+		include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+
+		$develop_src = false !== strpos( $wp_version, '-src' );
+
+		if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+			define( 'SCRIPT_DEBUG', $develop_src );
+		}
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
+		$dev_suffix = $develop_src ? '' : '.min';
+
+		$suffixes = array( 'suffix' => $suffix, 'dev_suffix' => $dev_suffix );
+	}
+
+	if ( $type === 'dev' ) {
+		return $suffixes['dev_suffix'];
+	}
+
+	return $suffixes['suffix'];
+}
+
+/**
  * Register all WordPress scripts.
  *
  * Localizes some of them.
@@ -536,13 +601,8 @@ function wp_default_packages_inline_scripts( &$scripts ) {
  * @param WP_Scripts $scripts WP_Scripts object.
  */
 function wp_default_scripts( &$scripts ) {
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
-
-	$develop_src = false !== strpos( $wp_version, '-src' );
-
-	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
-		define( 'SCRIPT_DEBUG', $develop_src );
-	}
+	$suffix = wp_scripts_get_suffix();
+	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	if ( ! $guessurl = site_url() ) {
 		$guessed_url = true;
@@ -554,8 +614,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->default_version = get_bloginfo( 'version' );
 	$scripts->default_dirs = array('/wp-admin/js/', '/wp-includes/js/');
 
-	$suffix = SCRIPT_DEBUG ? '' : '.min';
-	$dev_suffix = $develop_src ? '' : '.min';
 
 	$scripts->add( 'utils', "/wp-includes/js/utils$suffix.js" );
 	did_action( 'init' ) && $scripts->localize( 'utils', 'userSettings', array(
@@ -612,7 +670,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array('prototype'), '3517m' );
 
-	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('utils','jquery'), false, 1 );
+	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array('wp-tinymce','utils','jquery'), false, 1 );
 
 	// Back-compat for old DFW. To-do: remove at the end of 2016.
 	$scripts->add( 'wp-fullscreen-stub', "/wp-admin/js/wp-fullscreen-stub$suffix.js", array(), false, 1 );
@@ -1127,12 +1185,6 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'mce-view', "/wp-includes/js/mce-view$suffix.js", array( 'shortcode', 'jquery', 'media-views', 'media-audiovideo' ), false, 1 );
 
 	$scripts->add( 'wp-api', "/wp-includes/js/wp-api$suffix.js", array( 'jquery', 'backbone', 'underscore', 'wp-api-request' ), false, 1 );
-
-	wp_default_packages_vendor( $scripts, $dev_suffix );
-	wp_default_packages_scripts( $scripts, $suffix );
-	if ( did_action( 'init' ) ) {
-		wp_default_packages_inline_scripts( $scripts );
-	}
 
 	if ( is_admin() ) {
 		$scripts->add( 'admin-tags', "/wp-admin/js/tags$suffix.js", array( 'jquery', 'wp-ajax-response' ), false, 1 );
