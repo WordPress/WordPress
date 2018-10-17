@@ -622,8 +622,19 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		$context = current_user_can( 'moderate_comments' ) ? 'edit' : 'view';
-
 		$request->set_param( 'context', $context );
+
+		/**
+		 * Fires completely after a comment is created or updated via the REST API.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_Comment      $comment  Inserted or updated comment object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a comment, false
+		 *                                  when updating.
+		 */
+		do_action( 'rest_after_insert_comment', $comment, $request, true );
 
 		$response = $this->prepare_item_for_response( $comment, $request );
 		$response = rest_ensure_response( $response );
@@ -746,6 +757,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		$request->set_param( 'context', 'edit' );
+
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php */
+		do_action( 'rest_after_insert_comment', $comment, $request, false );
 
 		$response = $this->prepare_item_for_response( $comment, $request );
 
