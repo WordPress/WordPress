@@ -385,9 +385,15 @@ abstract class WP_REST_Controller {
 
 		$additional_fields = $this->get_additional_fields();
 
+		$requested_fields = $this->get_fields_for_response( $request );
+
 		foreach ( $additional_fields as $field_name => $field_options ) {
 
 			if ( ! $field_options['get_callback'] ) {
+				continue;
+			}
+
+			if ( ! in_array( $field_name, $requested_fields, true ) ) {
 				continue;
 			}
 
