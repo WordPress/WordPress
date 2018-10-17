@@ -295,19 +295,17 @@ abstract class WP_REST_Meta_Fields {
 			);
 		}
 
-		$meta_key   = wp_slash( $meta_key );
-		$meta_value = wp_slash( $value );
-
 		// Do the exact same check for a duplicate value as in update_metadata() to avoid update_metadata() returning false.
 		$old_value = get_metadata( $meta_type, $object_id, $meta_key );
+		$subtype   = get_object_subtype( $meta_type, $object_id );
 
 		if ( 1 === count( $old_value ) ) {
-			if ( $old_value[0] === $meta_value ) {
+			if ( (string) sanitize_meta( $meta_key, $value, $meta_type, $subtype ) === $old_value[0] ) {
 				return true;
 			}
 		}
 
-		if ( ! update_metadata( $meta_type, $object_id, $meta_key, $meta_value ) ) {
+		if ( ! update_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
 				__( 'Could not update meta value in database.' ),
