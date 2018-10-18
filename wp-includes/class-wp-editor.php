@@ -1425,6 +1425,8 @@ final class _WP_Editors {
 			script_concat_settings();
 		}
 
+		wp_print_scripts( [ 'wp-tinymce' ] );
+
 		echo "<script type='text/javascript'>\n" . self::wp_mce_translation() . "</script>\n";
 	}
 
