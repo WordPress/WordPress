@@ -306,7 +306,14 @@ class WP_Block_Parser {
 				 * block and add it as a new innerBlock to the parent
 				 */
 				$stack_top = array_pop( $this->stack );
-				$stack_top->block->innerHTML .= substr( $this->document, $stack_top->prev_offset, $start_offset - $stack_top->prev_offset );
+
+				$html = substr( $this->document, $stack_top->prev_offset, $start_offset - $stack_top->prev_offset );
+				if ( $stack_top->block->innerBlocks ) {
+					$stack_top->block->innerBlocks[] = (array) $this->freeform( $html );
+				} else {
+					$stack_top->block->innerHTML = $html;
+				}
+
 				$stack_top->prev_offset = $start_offset + $token_length;
 
 				$this->add_inner_block(
@@ -440,8 +447,8 @@ class WP_Block_Parser {
 	 */
 	function add_inner_block( WP_Block_Parser_Block $block, $token_start, $token_length, $last_offset = null ) {
 		$parent = $this->stack[ count( $this->stack ) - 1 ];
-		$parent->block->innerBlocks[] = $block;
-		$parent->block->innerHTML .= substr( $this->document, $parent->prev_offset, $token_start - $parent->prev_offset );
+		$parent->block->innerBlocks[] = (array) $this->freeform( substr( $this->document, $parent->prev_offset, $token_start - $parent->prev_offset ) );
+		$parent->block->innerBlocks[] = (array) $block;
 		$parent->prev_offset = $last_offset ? $last_offset : $token_start + $token_length;
 	}
 
@@ -456,9 +463,15 @@ class WP_Block_Parser {
 		$stack_top   = array_pop( $this->stack );
 		$prev_offset = $stack_top->prev_offset;
 
-		$stack_top->block->innerHTML .= isset( $end_offset )
+		$html = isset( $end_offset )
 			? substr( $this->document, $prev_offset, $end_offset - $prev_offset )
 			: substr( $this->document, $prev_offset );
+
+		if ( $stack_top->block->innerBlocks ) {
+			$stack_top->block->innerBlocks[] = (array) $this->freeform( $html );
+		} else {
+			$stack_top->block->innerHTML = $html;
+		}
 
 		if ( isset( $stack_top->leading_html_start ) ) {
 			$this->output[] = (array) self::freeform( substr(
