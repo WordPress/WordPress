@@ -96,7 +96,7 @@ function wp_default_packages_vendor( &$scripts ) {
 			$dependencies = array();
 		}
 
-		$path     = "/js/dist/vendor/$handle$dev_suffix.js";
+		$path = "/wp-includes/js/dist/vendor/$handle$dev_suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
@@ -337,7 +337,7 @@ function wp_default_packages_scripts( &$scripts ) {
 
 	foreach ( $packages_dependencies as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
-		$path    = "/js/dist/$package$suffix.js";
+		$path    = "/wp-includes/js/dist/$package$suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
@@ -1607,12 +1607,12 @@ function wp_default_styles( &$styles ) {
 	}
 	$styles->add( 'wp-editor-font', $fonts_url );
 
-	$styles->add( 'wp-block-library-theme', '/styles/dist/block-library/theme.css' );
+	$styles->add( 'wp-block-library-theme', '/wp-includes/css/dist/block-library/theme.css' );
 	$styles->add_data( 'wp-block-library-theme', 'rtl', 'replace' );
 
 	$styles->add(
 		'wp-edit-blocks',
-		'/styles/dist/block-library/editor.css',
+		'/wp-includes/css/dist/block-library/editor.css',
 		array(
 			'wp-components',
 			'wp-editor',
@@ -1633,7 +1633,7 @@ function wp_default_styles( &$styles ) {
 
 	foreach ( $package_styles as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
-		$path     = '/styles/dist/' . $package . '/style.css';
+		$path     = '/wp-includes/css/dist/' . $package . '/style.css';
 
 		$styles->add( $handle, $path, $dependencies );
 		$styles->add_data( $handle, 'rtl', 'replace' );
