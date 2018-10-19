@@ -262,3 +262,17 @@ function _recurse_do_blocks( $blocks, $all_blocks ) {
 
 	return $rendered_content;
 }
+
+/**
+ * Returns the current version of the block format that the content string is using.
+ *
+ * If the string doesn't contain blocks, it returns 0.
+ *
+ * @since 5.0.0
+ *
+ * @param string $content Content to test.
+ * @return int The block format version.
+ */
+function block_version( $content ) {
+	return has_blocks( $content ) ? 1 : 0;
+}
