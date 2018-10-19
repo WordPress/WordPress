@@ -122,6 +122,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$type    = $file['type'];
 		$file    = $file['file'];
 
+		// Include image functions to get access to wp_read_image_metadata().
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
 		// use image exif/iptc data for title and caption defaults if possible
 		$image_meta = wp_read_image_metadata( $file );
 
@@ -169,8 +172,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		 */
 		do_action( 'rest_insert_attachment', $attachment, $request, true );
 
-		// Include admin functions to get access to wp_generate_attachment_metadata().
-		require_once ABSPATH . 'wp-admin/includes/admin.php';
+		// Include admin function to get access to wp_generate_attachment_metadata().
+		require_once ABSPATH . 'wp-admin/includes/image.php';
 
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 
@@ -557,8 +560,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		// Get the content-type.
 		$type = array_shift( $headers['content_type'] );
 
-		/** Include admin functions to get access to wp_tempnam() and wp_handle_sideload() */
-		require_once ABSPATH . 'wp-admin/includes/admin.php';
+		/** Include admin functions to get access to wp_tempnam() and wp_handle_sideload(). */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 
 		// Save the file.
 		$tmpfname = wp_tempnam( $filename );
@@ -757,8 +760,8 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $size_check;
 		}
 
-		/** Include admin functions to get access to wp_handle_upload() */
-		require_once ABSPATH . 'wp-admin/includes/admin.php';
+		/** Include admin function to get access to wp_handle_upload(). */
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 
 		$file = wp_handle_upload( $files['file'], $overrides );
 
