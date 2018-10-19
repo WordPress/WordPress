@@ -1951,27 +1951,27 @@ function get_block_categories( $post ) {
 	$default_categories = array(
 		array(
 			'slug'  => 'common',
-			'title' => __( 'Common Blocks', 'gutenberg' ),
+			'title' => __( 'Common Blocks' ),
 		),
 		array(
 			'slug'  => 'formatting',
-			'title' => __( 'Formatting', 'gutenberg' ),
+			'title' => __( 'Formatting' ),
 		),
 		array(
 			'slug'  => 'layout',
-			'title' => __( 'Layout Elements', 'gutenberg' ),
+			'title' => __( 'Layout Elements' ),
 		),
 		array(
 			'slug'  => 'widgets',
-			'title' => __( 'Widgets', 'gutenberg' ),
+			'title' => __( 'Widgets' ),
 		),
 		array(
 			'slug'  => 'embed',
-			'title' => __( 'Embeds', 'gutenberg' ),
+			'title' => __( 'Embeds' ),
 		),
 		array(
 			'slug'  => 'reusable',
-			'title' => __( 'Reusable Blocks', 'gutenberg' ),
+			'title' => __( 'Reusable Blocks' ),
 		),
 	);
 
