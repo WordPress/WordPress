@@ -45,12 +45,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					'4.9.8',
 					number_format_i18n( 46 )
 				);
-
-				printf(
-					/* translators: %s: Codex URL */
-					__( 'For more information, see <a href="%s">the release notes</a>.' ),
-					'https://codex.wordpress.org/Version_4.9.8'
-				);
+				?>
+				<?php
+				/* translators: %s: Codex URL */
+				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.9.8' );
 				?>
 			</p>
 			<p>
