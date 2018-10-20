@@ -56,6 +56,22 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	protected $compat_fields = array( '_show_split_view', 'inline_diff_renderer', '_diff_threshold' );
 
 	/**
+	 * Caches the output of count_chars() in compute_string_distance()
+	 *
+	 * @var array
+	 * @since 5.0.0
+	 */
+	protected $count_cache = array();
+
+	/**
+	 * Caches the difference calculation in compute_string_distance()
+	 *
+	 * @var array
+	 * @since 5.0.0
+	 */
+	protected $difference_cache = array();
+
+	/**
 	 * Constructor - Call parent constructor with params array.
 	 *
 	 * This will set class properties based on the key value pairs in the array.
@@ -391,13 +407,11 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			if ( false === $final_pos ) { // This orig is paired with a blank final.
 				array_splice( $final_rows, $orig_pos, 0, -1 );
 			} elseif ( $final_pos < $orig_pos ) { // This orig's match is up a ways. Pad final with blank rows.
-				$diff_pos = $final_pos - $orig_pos;
-				while ( $diff_pos < 0 )
-					array_splice( $final_rows, $orig_pos, 0, $diff_pos++ );
+				$diff_array = range( -1, $final_pos - $orig_pos );
+				array_splice( $final_rows, $orig_pos, 0, $diff_array );
 			} elseif ( $final_pos > $orig_pos ) { // This orig's match is down a ways. Pad orig with blank rows.
-				$diff_pos = $orig_pos - $final_pos;
-				while ( $diff_pos < 0 )
-					array_splice( $orig_rows, $orig_pos, 0, $diff_pos++ );
+				$diff_array = range( -1, $orig_pos - $final_pos );
+				array_splice( $orig_rows, $orig_pos, 0, $diff_array );
 			}
 		}
 
@@ -425,12 +439,28 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * @return int
 	 */
 	public function compute_string_distance( $string1, $string2 ) {
-		// Vectors containing character frequency for all chars in each string
-		$chars1 = count_chars($string1);
-		$chars2 = count_chars($string2);
+		// Use an md5 hash of the strings for a count cache, as it's fast to generate, and collisions aren't a concern.
+		$count_key1 = md5( $string1 );
+		$count_key2 = md5( $string2 );
 
-		// L1-norm of difference vector.
-		$difference = array_sum( array_map( array($this, 'difference'), $chars1, $chars2 ) );
+		// Cache vectors containing character frequency for all chars in each string.
+		if ( ! isset( $this->count_cache[ $count_key1 ] ) ) {
+			$this->count_cache[ $count_key1 ] = count_chars( $string1 );
+		}
+		if ( ! isset( $this->count_cache[ $count_key2 ] ) ) {
+			$this->count_cache[ $count_key2 ] = count_chars( $string2 );
+		}
+
+		$chars1 = $this->count_cache[ $count_key1 ];
+		$chars2 = $this->count_cache[ $count_key2 ];
+
+		$difference_key = md5( implode( ',', $chars1 ) . ':' . implode( ',', $chars2 ) );
+		if ( ! isset( $this->difference_cache[ $difference_key ] ) ) {
+			// L1-norm of difference vector.
+			$this->difference_cache[ $difference_key ] = array_sum( array_map( array( $this, 'difference' ), $chars1, $chars2 ) );
+		}
+
+		$difference = $this->difference_cache[ $difference_key ];
 
 		// $string1 has zero length? Odd. Give huge penalty by not dividing.
 		if ( !$string1 )
