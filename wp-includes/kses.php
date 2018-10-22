@@ -1707,14 +1707,14 @@ function kses_init() {
  * @return string            Filtered string of CSS rules.
  */
 function safecss_filter_attr( $css, $deprecated = '' ) {
-	if ( !empty( $deprecated ) )
+	if ( ! empty( $deprecated ) ) {
 		_deprecated_argument( __FUNCTION__, '2.8.1' ); // Never implemented
+	}
 
-	$css = wp_kses_no_null($css);
-	$css = str_replace(array("\n","\r","\t"), '', $css);
+	$css = wp_kses_no_null( $css );
+	$css = str_replace( array( "\n", "\r", "\t" ), '', $css );
 
-	if ( preg_match( '%[\\\\(&=}]|/\*%', $css ) ) // remove any inline css containing \ ( & } = or comments
-		return '';
+	$allowed_protocols = wp_allowed_protocols();
 
 	$css_array = explode( ';', trim( $css ) );
 
@@ -1724,12 +1724,14 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * @since 2.8.1
 	 * @since 4.4.0 Added support for `min-height`, `max-height`, `min-width`, and `max-width`.
 	 * @since 4.6.0 Added support for `list-style-type`.
+	 * @since 5.0.0 Added support for `background-image`.
 	 *
 	 * @param array $attr List of allowed CSS attributes.
 	 */
 	$allowed_attr = apply_filters( 'safe_style_css', array(
 		'background',
 		'background-color',
+		'background-image',
 
 		'border',
 		'border-width',
@@ -1798,25 +1800,83 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		'list-style-type',
 	) );
 
-	if ( empty($allowed_attr) )
+
+	/*
+	 * CSS attributes that accept URL data types.
+	 *
+	 * This is in accordance to the CSS spec and unrelated to
+	 * the sub-set of supported attributes above.
+	 *
+	 * See: https://developer.mozilla.org/en-US/docs/Web/CSS/url
+	 */
+	$css_url_data_types = array(
+		'background',
+		'background-image',
+
+		'cursor',
+
+		'list-style',
+		'list-style-image',
+	);
+
+	if ( empty( $allowed_attr ) ) {
 		return $css;
+	}
 
 	$css = '';
 	foreach ( $css_array as $css_item ) {
-		if ( $css_item == '' )
+		if ( $css_item == '' ) {
 			continue;
-		$css_item = trim( $css_item );
-		$found = false;
+		}
+
+		$css_item        = trim( $css_item );
+		$css_test_string = $css_item;
+		$found           = false;
+		$url_attr        = false;
+
 		if ( strpos( $css_item, ':' ) === false ) {
 			$found = true;
 		} else {
-			$parts = explode( ':', $css_item );
-			if ( in_array( trim( $parts[0] ), $allowed_attr ) )
+			$parts = explode( ':', $css_item, 2 );
+			$css_selector = trim( $parts[0] );
+
+			if ( in_array( $css_selector, $allowed_attr, true ) ) {
 				$found = true;
+				$url_attr = in_array( $css_selector, $css_url_data_types, true );
+			}
 		}
-		if ( $found ) {
-			if( $css != '' )
+
+		if ( $found && $url_attr ) {
+			// Simplified: matches the sequence `url(*)`.
+			preg_match_all( '/url\([^)]+\)/', $parts[1], $url_matches );
+
+			foreach ( $url_matches[0] as $url_match ) {
+				// Clean up the URL from each of the matches above.
+				preg_match( '/^url\(\s*([\'\"]?)(.*)(\g1)\s*\)$/', $url_match, $url_pieces );
+
+				if ( empty( $url_pieces[2] ) ) {
+					$found = false;
+					break;
+				}
+
+				$url = trim( $url_pieces[2] );
+
+				if ( empty( $url ) || $url !== wp_kses_bad_protocol( $url, $allowed_protocols ) ) {
+					$found = false;
+					break;
+				} else {
+					// Remove the whole `url(*)` bit that was matched above from the CSS.
+					$css_test_string = str_replace( $url_match, '', $css_test_string );
+				}
+			}
+		}
+
+		// Remove any CSS containing containing \ ( & } = or comments, except for url() useage checked above.
+		if ( $found && ! preg_match( '%[\\\(&=}]|/\*%', $css_test_string ) ) {
+			if ( $css != '' ) {
 				$css .= ';';
+			}
+
 			$css .= $css_item;
 		}
 	}
