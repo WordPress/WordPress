@@ -1890,6 +1890,12 @@ function use_block_editor_for_post( $post ) {
 		return false;
 	}
 
+	// We're in the meta box loader, so don't use the block editor.
+	if ( isset( $_GET['meta-box-loader'] ) ) {
+		check_admin_referer( 'meta-box-loader' );
+		return false;
+	}
+
 	$use_block_editor = use_block_editor_for_post_type( $post->post_type );
 
 	/**
@@ -2016,4 +2022,139 @@ function get_block_editor_server_block_settings() {
 	}
 
 	return $blocks;
+}
+
+/**
+ * Renders the meta boxes forms.
+ *
+ * @since 5.0.0
+ */
+function the_block_editor_meta_boxes() {
+	global $post, $current_screen, $wp_meta_boxes;
+
+	// Handle meta box state.
+	$_original_meta_boxes = $wp_meta_boxes;
+
+	/**
+	 * Fires right before the meta boxes are rendered.
+	 *
+	 * This allows for the filtering of meta box data, that should already be
+	 * present by this point. Do not use as a means of adding meta box data.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $wp_meta_boxes Global meta box state.
+	 */
+	$wp_meta_boxes = apply_filters( 'filter_block_editor_meta_boxes', $wp_meta_boxes );
+	$locations     = array( 'side', 'normal', 'advanced' );
+	$priorities    = array( 'high', 'sorted', 'core', 'default', 'low' );
+
+	// Render meta boxes.
+	?>
+	<form class="metabox-base-form">
+	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
+	</form>
+	<?php foreach ( $locations as $location ) : ?>
+		<form class="metabox-location-<?php echo esc_attr( $location ); ?>">
+			<div id="poststuff" class="sidebar-open">
+				<div id="postbox-container-2" class="postbox-container">
+					<?php
+					do_meta_boxes(
+						$current_screen,
+						$location,
+						$post
+					);
+					?>
+				</div>
+			</div>
+		</form>
+	<?php endforeach; ?>
+	<?php
+
+	$meta_boxes_per_location = array();
+	foreach ( $locations as $location ) {
+		$meta_boxes_per_location[ $location ] = array();
+
+		if ( ! isset( $wp_meta_boxes[ $current_screen->id ][ $location ] ) ) {
+			continue;
+		}
+
+		foreach ( $priorities as $priority ) {
+			if ( ! isset( $wp_meta_boxes[ $current_screen->id ][ $location ][ $priority ] ) ) {
+				continue;
+			}
+
+			$meta_boxes = (array) $wp_meta_boxes[ $current_screen->id ][ $location ][ $priority ];
+			foreach ( $meta_boxes as $meta_box ) {
+				if ( ! empty( $meta_box['title'] ) ) {
+					$meta_boxes_per_location[ $location ][] = array(
+						'id'    => $meta_box['id'],
+						'title' => $meta_box['title'],
+					);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sadly we probably can not add this data directly into editor settings.
+	 *
+	 * Some meta boxes need admin_head to fire for meta box registry.
+	 * admin_head fires after admin_enqueue_scripts, which is where we create our
+	 * editor instance.
+	 */
+	$script = 'window._wpLoadBlockEditor.then( function() {
+		wp.data.dispatch( \'core/edit-post\' ).setAvailableMetaBoxesPerLocation( ' . wp_json_encode( $meta_boxes_per_location ) . ' );
+	} );';
+
+	wp_add_inline_script( 'wp-edit-post', $script );
+
+	/**
+	 * When `wp-edit-post` is output in the `<head>`, the inline script needs to be manually printed. Otherwise,
+	 * meta boxes will not display because inline scripts for `wp-edit-post` will not be printed again after this point.
+	 */
+	if ( wp_script_is( 'wp-edit-post', 'done' ) ) {
+		printf( "<script type='text/javascript'>\n%s\n</script>\n", trim( $script ) );
+	}
+
+	// Reset meta box data.
+	$wp_meta_boxes = $_original_meta_boxes;
+}
+
+/**
+ * Renders the hidden form required for the meta boxes form.
+ *
+ * @since 5.0.0
+ *
+ * @param WP_Post $post Current post object.
+ */
+function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
+	$form_extra = '';
+	if ( 'auto-draft' === $post->post_status ) {
+		$form_extra .= "<input type='hidden' id='auto_draft' name='auto_draft' value='1' />";
+	}
+	$form_action  = 'editpost';
+	$nonce_action = 'update-post_' . $post->ID;
+	$form_extra  .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_attr( $post->ID ) . "' />";
+	$referer      = wp_get_referer();
+	$current_user = wp_get_current_user();
+	$user_id      = $current_user->ID;
+	wp_nonce_field( $nonce_action );
+	?>
+	<input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_id; ?>" />
+	<input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ); ?>" />
+	<input type="hidden" id="originalaction" name="originalaction" value="<?php echo esc_attr( $form_action ); ?>" />
+	<input type="hidden" id="post_type" name="post_type" value="<?php echo esc_attr( $post->post_type ); ?>" />
+	<input type="hidden" id="original_post_status" name="original_post_status" value="<?php echo esc_attr( $post->post_status ); ?>" />
+	<input type="hidden" id="referredby" name="referredby" value="<?php echo $referer ? esc_url( $referer ) : ''; ?>" />
+
+	<?php
+	if ( 'draft' !== get_post_status( $post ) ) {
+		wp_original_referer_field( true, 'previous' );
+	}
+	echo $form_extra;
+	wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+	// Permalink title nonce.
+	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 }
