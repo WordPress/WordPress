@@ -130,7 +130,6 @@ p.wp-embed-heading {
 	position: absolute;
 	top: 50%;
 	left: 0;
-	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
 	height: 25px;
 	width: 25px;
@@ -240,7 +239,6 @@ p.wp-embed-heading {
 
 .wp-embed-share-dialog-content {
 	height: 100%;
-	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	overflow: hidden;
 }
