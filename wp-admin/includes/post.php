@@ -2086,12 +2086,14 @@ function the_block_editor_meta_boxes() {
 
 			$meta_boxes = (array) $wp_meta_boxes[ $current_screen->id ][ $location ][ $priority ];
 			foreach ( $meta_boxes as $meta_box ) {
-				if ( ! empty( $meta_box['title'] ) ) {
-					$meta_boxes_per_location[ $location ][] = array(
-						'id'    => $meta_box['id'],
-						'title' => $meta_box['title'],
-					);
+				if ( false == $meta_box || ! $meta_box['title'] ) {
+					continue;
 				}
+
+				$meta_boxes_per_location[ $location ][] = array(
+					'id'    => $meta_box['id'],
+					'title' => $meta_box['title'],
+				);
 			}
 		}
 	}
