@@ -166,7 +166,7 @@ function wp_default_packages_scripts( &$scripts ) {
 	$suffix = wp_scripts_get_suffix();
 
 	$packages_dependencies = array(
-		'api-fetch' => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n' ),
+		'api-fetch' => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n', 'wp-url' ),
 		'a11y' => array( 'wp-dom-ready', 'wp-polyfill' ),
 		'autop' => array( 'wp-polyfill' ),
 		'blob' => array( 'wp-polyfill' ),
