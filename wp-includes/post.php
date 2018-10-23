@@ -238,6 +238,9 @@ function create_initial_post_types() {
 			'show_ui'               => true,
 			'show_in_menu'          => false,
 			'rewrite'               => false,
+			'show_in_rest'          => true,
+			'rest_base'             => 'blocks',
+			'rest_controller_class' => 'WP_REST_Blocks_Controller',
 			'capability_type'       => 'block',
 			'capabilities' => array(
 				// You need to be able to edit posts, in order to read blocks in their raw form.
