@@ -111,8 +111,9 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 			$formats                           = array_merge( array( 'standard' ), $formats );
 			$data['theme_supports']['formats'] = $formats;
 
-			$data['theme_supports']['post-thumbnails'] = false;
-			$post_thumbnails                           = get_theme_support( 'post-thumbnails' );
+			$data['theme_supports']['post-thumbnails']   = false;
+			$data['theme_supports']['responsive-embeds'] = (bool) get_theme_support( 'responsive-embeds' );
+			$post_thumbnails                             = get_theme_support( 'post-thumbnails' );
 
 			if ( $post_thumbnails ) {
 				// $post_thumbnails can contain a nested array of post types.
@@ -156,14 +157,19 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 					'type'        => 'array',
 					'readonly'    => true,
 					'properties'  => array(
-						'formats'         => array(
+						'formats'           => array(
 							'description' => __( 'Post formats supported.' ),
 							'type'        => 'array',
 							'readonly'    => true,
 						),
-						'post-thumbnails' => array(
+						'post-thumbnails'   => array(
 							'description' => __( 'Whether the theme supports post thumbnails.' ),
 							'type'        => array( 'array', 'bool' ),
+							'readonly'    => true,
+						),
+						'responsive-embeds' => array(
+							'description' => __( 'Whether the theme supports responsive embedded content.', 'gutenberg' ),
+							'type'        => 'bool',
 							'readonly'    => true,
 						),
 					),
