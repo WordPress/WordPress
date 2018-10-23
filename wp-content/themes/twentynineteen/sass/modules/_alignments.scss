@@ -1,0 +1,14 @@
+.alignleft {
+	float: left;
+	margin-right: $size__spacing-unit;
+}
+
+.alignright {
+	float: right;
+	margin-left: $size__spacing-unit;
+}
+
+.aligncenter {
+	clear: both;
+	@include center-block;
+}

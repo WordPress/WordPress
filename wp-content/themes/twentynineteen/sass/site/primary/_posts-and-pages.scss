@@ -1,0 +1,240 @@
+.sticky {
+	display: block;
+}
+
+.sticky-post {
+	background: $color__background-button;
+	color: #fff;
+	display: inline-block;
+	font-weight: bold;
+	line-height: 1;
+	padding: .25rem;
+	position: absolute;
+	text-transform: uppercase;
+	top: -$size__spacing-unit;
+	z-index: 1;
+}
+
+.updated:not(.published) {
+	display: none;
+}
+
+.page-links {
+	clear: both;
+	margin: 0 0 calc(1.5 * #{$size__spacing-unit});
+}
+
+.hentry {
+
+	margin-top: calc(6 * #{$size__spacing-unit});
+
+	&:first-of-type {
+		margin-top: 0;
+	}
+
+	.entry-header {
+
+		margin: calc(3 * #{ $size__spacing-unit}) $size__spacing-unit $size__spacing-unit;
+		position: relative;
+
+		@include media(tablet) {
+			margin: calc(3 * #{ $size__spacing-unit}) calc(2 * (100vw / 12 ) ) $size__spacing-unit;
+
+			.featured-image & {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.entry-title {
+
+		@include post-section-dash;
+		margin: 0;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				color: $color__text-hover;
+			}
+		}
+	}
+
+	.entry-meta,
+	.entry-footer {
+
+		color: $color__text-light;
+		font-weight: 500;
+
+		> span {
+
+			margin-right: $size__spacing-unit;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		a {
+
+			@include link-transition;
+			color: currentColor;
+
+			&:hover {
+				text-decoration: none;
+				color: $color__link;
+			}
+		}
+
+		.svg-icon {
+			position: relative;
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: 0.5em;
+		}
+	}
+
+	.entry-meta {
+
+		margin: $size__spacing-unit 0;
+
+		&.has-discussion .comment-count {
+
+			@include media(desktop) {
+				float: right;
+				position: relative;
+			}
+
+			.discussion-avatar-list {
+				display: none;
+
+				@include media(desktop) {
+					bottom: 100%;
+					display: block;
+					position: absolute;
+				}
+			}
+		}
+	}
+
+	.entry-footer {
+
+		margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit $size__spacing-unit;
+
+		@include media(tablet) {
+			margin: calc(3 * #{$size__spacing-unit}) calc(2 * (100vw / 12));
+			max-width: calc(8 * (100vw / 12));
+		}
+
+		@include media(tablet) {
+			max-width: calc(6 * (100vw / 12));
+		}
+	}
+
+	.post-thumbnail {
+
+		margin: $size__spacing-unit;
+
+		@include media(tablet) {
+			margin: $size__spacing-unit calc(2 * (100vw / 12));
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		.post-thumbnail-inner {
+			display: block;
+
+			img {
+				position: relative;
+				display: block;
+				width: 100%;
+			}
+		}
+
+	}
+
+	.image-filters-enabled & {
+
+		.post-thumbnail {
+			position: relative;
+			display: block;
+
+			.post-thumbnail-inner {
+				@include filter-grayscale;
+			}
+
+			&:before, &:after {
+				position: absolute;
+				display: block;
+				width: 100%;
+				height: 100%;
+				top: 0; left: 0;
+				content: "\020";
+				display: block;
+				pointer-events: none;
+			}
+
+			@include filter-duotone;
+
+		}
+
+	}
+
+	.entry-content {
+
+		.more-link {
+			@include link-transition;
+			display: inline;
+			color: inherit;
+
+			&:after {
+				content: "»";
+				margin-left: 0.5em;
+			}
+
+			&:hover {
+				color: $color__link;
+				text-decoration: none;
+			}
+		}
+
+		a {
+			text-decoration: underline;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+
+		// Overwrite iframe embeds that have inline styles.
+		> iframe[style] {
+
+			margin: 32px $size__spacing-unit !important;
+			max-width: calc(100vw - (2 * #{ $size__spacing-unit })) !important;
+
+			@include media(tablet) {
+				margin: 32px calc(2 * (100vw / 12)) !important;
+				max-width: calc(8 * (100vw / 12)) !important;
+			}
+
+			@include media(desktop) {
+				max-width: calc(6 * (100vw / 12)) !important;
+			}
+		}
+
+		// Classic editor audio embeds.
+		.wp-audio-shortcode {
+			max-width: calc(100vw - (2 * #{ $size__spacing-unit }));
+
+			@include media(tablet) {
+				max-width: calc(8 * (100vw / 12));
+			}
+
+			@include media(desktop) {
+				max-width: calc(6 * (100vw / 12));
+			}
+		}
+	}
+}

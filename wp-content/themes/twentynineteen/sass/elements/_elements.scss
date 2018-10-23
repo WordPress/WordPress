@@ -1,0 +1,109 @@
+html {
+	box-sizing: border-box;
+}
+
+::-moz-selection {
+	background: $color__background_selection;
+}
+::selection {
+	background: $color__background_selection;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	background: $color__background-body;
+}
+
+a {
+	@include link-transition;
+	color: $color__link;
+}
+
+a:visited {
+
+}
+
+a:hover,
+a:active {
+	color: $color__link-hover;
+	outline: 0;
+	text-decoration: none;
+}
+
+a:focus {
+	outline: 0;
+	text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	clear: both;
+	margin: $size__spacing-unit 0;
+}
+
+h1:not(.site-title), h2 {
+	@include post-section-dash;
+}
+
+hr {
+	background-color: $color__text-light;
+	border: 0;
+	height: 2px;
+}
+
+@import "lists";
+
+img {
+	height: auto;
+	max-width: 100%;
+	position: relative;
+	&:before {
+		background-color: $color__background-pre;
+		border: 1px dashed $color__background-hr;
+		border-radius: 3px;
+		content: " ";
+		display: block;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+	&:after {
+		color: $color__text-input;
+		content: "This image is broken :-/ ( "attr(alt)" )";
+		display: block;
+		left: 50%;
+		position: absolute;
+		text-align: center;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 100%;
+	}
+}
+
+figure {
+	margin: 0;
+}
+
+blockquote {
+
+	border-left: 2px solid $color__link;
+	margin-left: -($size__spacing-unit * 2);
+	padding: $size__spacing-unit 0 ($size__spacing-unit * .5) ($size__spacing-unit * 2);
+
+	> p {
+		margin: 0 0 $size__spacing-unit;
+	}
+
+	cite {
+		color: $color__text-light;
+	}
+}
+
+@import "tables";

@@ -1,0 +1,128 @@
+// Site header
+
+.site-header {
+
+	padding: 1em;
+
+	@include media(tablet) {
+		margin: 0;
+		padding: 3rem 0;
+
+		&.featured-image {
+			display: flex;
+			min-height: 100vh;
+			flex-direction: column;
+			justify-content: space-between;
+			margin-bottom: 3rem;
+
+			.site-branding-container {
+				margin-bottom: auto;
+			}
+		}
+	}
+}
+
+// Site branding
+
+.site-branding {
+
+	color: $color__text-light;
+	position: relative;
+
+	@include media(tablet) {
+		margin: 0 calc(2 * (100vw / 12));
+		max-width: 22em;
+	}
+}
+
+// Site logo
+
+.site-logo {
+
+	position: relative;
+	z-index: 999;
+	margin-bottom: calc(.66 * #{$size__spacing-unit});
+
+	@include media(tablet) {
+		margin-bottom: 0;
+		position: absolute;
+		right: calc(100% + (0.5 * calc(100vw / 12)));
+		top: 4px; // Accounts for box-shadow widths
+		z-index: 999;
+	}
+
+	.custom-logo-link {
+		border-radius: 100%;
+		box-sizing: content-box;
+		box-shadow: 0 0 0 0 rgba(black, 0);
+		display: block;
+		width: 32px;
+		height: 32px;
+		overflow: hidden;
+		transition: box-shadow $background_transition ease-in-out;
+
+		.custom-logo {
+			min-height: inherit;
+		}
+
+		&:hover,
+		&:active,
+		&:focus {
+			box-shadow: 0 0 0 2px rgba(black, 1);
+		}
+
+		@include media(tablet) {
+			width: 64px;
+			height: 64px;
+		}
+	}
+}
+
+// Site title
+
+.site-title {
+
+	margin: auto;
+	display: inline;
+	color: $color__text-main;
+
+	.featured-image & {
+		margin: 0;
+
+		@include media(tablet) {
+			display: inline-block;
+		}
+	}
+
+	/* When there is no description set, make sure navigation appears below title. */
+	+ .main-navigation {
+		display: block;
+	}
+
+	a {
+		color: inherit;
+
+		&:hover {
+			color: $color__text-hover;
+		}
+	}
+
+	@include media(tablet) {
+		display: inline;
+	}
+}
+
+// Site description
+
+.site-description {
+
+	display: inline;
+	color: $color__text-light;
+	font-weight: normal;
+	margin: 0;
+
+	&:not(:empty):before {
+		content: "\2014";
+		margin: 0 .2em;
+	}
+}

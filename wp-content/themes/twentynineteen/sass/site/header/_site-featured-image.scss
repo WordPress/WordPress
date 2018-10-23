@@ -1,0 +1,181 @@
+// Featured image styles
+
+.site-header.featured-image {
+
+	/* Need relative positioning to properly align layers. */
+	position: relative;
+
+	/* Add text shadow to text, to increase readability. */
+	text-shadow: 0 1px 2px rgba(black, 0.35);
+
+	/* Set white text color when featured image is set. */
+	.site-branding .site-title,
+	.site-branding .site-description,
+	.main-navigation a:after,
+	.main-navigation .main-menu > li.menu-item-has-children:after,
+	.main-navigation li,
+	.social-navigation li,
+	.entry-meta,
+	.entry-title {
+		color: white;
+	}
+
+	.main-navigation a,
+	.social-navigation a,
+	.site-title a,
+	.hentry a {
+		color: white;
+		transition: opacity $link_transition ease-in-out;
+
+		&:hover,
+		&:active {
+			color: white;
+			opacity: 0.6;
+		}
+
+		&:focus {
+			color: white;
+		}
+	}
+
+	// add focus state to social media icons
+	.social-navigation a {
+		&:focus {
+			color: white;
+			opacity: 1;
+			border-bottom: 1px solid white;
+		}
+	}
+
+	.social-navigation svg,
+	.hentry svg {
+		/* Use -webkit- only if supporting: Chrome < 54, iOS < 9.3, Android < 4.4.4 */
+		-webkit-filter: drop-shadow(0 1px 2px rgba(black, 0.35) );
+			filter: drop-shadow(0 1px 2px rgba(black, 0.35) );
+	}
+
+	/* Post header styles */
+	.hentry .entry-header {
+
+		margin-left: 0;
+		margin-right: 0;
+
+		@include media (tablet) {
+
+			margin-left: calc(2 * (100vw / 12));
+			margin-right: calc(2 * (100vw / 12));
+		}
+
+		.entry-title {
+
+			&:before {
+				background: white;
+			}
+		}
+	}
+
+	/* Custom Logo Link */
+
+	.custom-logo-link {
+
+		background: white;
+		box-shadow: 0 0 0 0 rgba(white, 0);
+
+		&:hover,
+		&:active,
+		&:focus {
+			box-shadow: 0 0 0 2px rgba(white, 1);
+		}
+	}
+
+	/* Make sure important elements are above pseudo elements used for effects. */
+	.site-branding,
+	.hentry .entry-header {
+		z-index: 10;
+	}
+
+	/* Set up image filter layer positioning */
+	.site-branding-container:before,
+	.site-branding-container:after,
+	.hentry:before,
+	.hentry:after,
+	&:after {
+		display: block;
+		position: absolute;
+		top: 0; left: 0;
+		content: "\020";
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Background & Effects */
+	/* Shared background settings between pseudo elements. See .site-branding-container */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	/* The intensity of each blend mode is controlled via layer opacity. */
+
+	/* First layer: grayscale. */
+	.site-branding-container:before {
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+		filter: grayscale(100%);
+		z-index: 1;
+	}
+
+	/* Second layer: screen. */
+	.hentry:before {
+		background: $color__link;
+		mix-blend-mode: screen;
+		opacity: 0.1;
+		z-index: 2;
+	}
+
+	/* Third layer: multiply. */
+	.hentry:after {
+		background: $color__link;
+		mix-blend-mode: multiply;
+		opacity: 1;
+		z-index: 3;
+	}
+
+	/* Fourth layer: overlay. */
+	.site-branding-container:after {
+		background: rgba(white, 0.35);
+		mix-blend-mode: overlay;
+		opacity: 0.5;
+		z-index: 4;
+	}
+
+	/* Fifth layer: readability overlay */
+	&:after {
+		background: mix($color__link, black, 12%);
+
+		/**
+		 * Add a transition to the readability overlay, to add a subtle
+		 * but smooth effect when resizing the screen.
+		 */
+		transition: opacity 1200ms ease-in-out;
+
+		z-index: 5;
+		opacity: 0.38;
+
+		@include media(tablet) {
+			opacity: 0.18;
+		}
+
+		@include media(desktop) {
+			opacity: 0.1;
+		}
+	}
+
+	::-moz-selection {
+		background: rgba(white, 0.17);
+	}
+
+	::selection {
+		background: rgba(white, 0.17);
+	}
+}

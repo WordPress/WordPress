@@ -1,0 +1,23 @@
+// Font and typographic variables
+
+$font__body: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+$font__heading: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+$font__code: Menlo, monaco, Consolas, Lucida Console, monospace;
+$font__pre: "Courier 10 Pitch", Courier, monospace;
+
+$font__size_base: 22px;
+$font__size-ratio: 1.125;
+
+$font__size-xxs:   1em / (1.5 * $font__size-ratio);
+$font__size-xs:    1em / (1.25 * $font__size-ratio);
+$font__size-sm:    1em / (1 * $font__size-ratio);
+$font__size-md:    1em * (1 * $font__size-ratio);
+$font__size-lg:    1em * (1.5 * $font__size-ratio);
+$font__size-xl:    1em * (2 * $font__size-ratio);
+$font__size-xxl:   1em * (2.5 * $font__size-ratio);
+$font__size-xxxl:  1em * (3 * $font__size-ratio);
+
+$font__line-height-body: 1.8;
+$font__line-height-pre: 1.6;
+$font__line-height-heading: 1.2;
+$font__line-height-double:  2 * $font__line-height-heading;

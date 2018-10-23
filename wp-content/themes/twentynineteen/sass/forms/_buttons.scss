@@ -1,0 +1,33 @@
+.button,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+
+	@include button-transition;
+	background: $color__background-button;
+	border: none;
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: white;
+	font-family: $font__heading;
+	font-size: $font__size-sm;
+	font-weight: 600;
+	line-height: $font__line-height-heading;
+	outline: none;
+	padding: ( $size__spacing-unit * .66 ) $size__spacing-unit;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&:hover,
+	&:focus {
+		background: $color__background-button-hover;
+	}
+
+	&:focus {
+		outline: thin dotted;
+		outline-offset: -4px;
+	}
+}

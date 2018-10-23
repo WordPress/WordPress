@@ -1,0 +1,105 @@
+@charset "UTF-8";
+/*
+Theme Name: Twenty Nineteen
+
+Adding print support. The print styles are based on the the great work of
+Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272/.
+*/
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Margins
+# Typography÷
+# Page breaks
+# Links
+# Visibility
+--------------------------------------------------------------*/
+@media print {
+  /* Margins */
+  @page {
+    margin: 2cm;
+  }
+  .hentry .entry-header, .site-footer .site-info {
+    margin: 0;
+  }
+  /* Fonts */
+  body {
+    font: 13pt Georgia, "Times New Roman", Times, serif;
+    line-height: 1.3;
+    background: #fff !important;
+    color: #000;
+  }
+  h1 {
+    font-size: 24pt;
+  }
+  h2,
+  h3,
+  h4,
+  .has-regular-font-size,
+  .has-large-font-size,
+  h2.author-title,
+  p.author-bio,
+  .comments-title, h3 {
+    font-size: 14pt;
+    margin-top: 25px;
+  }
+  /* Page breaks */
+  a {
+    page-break-inside: avoid;
+  }
+  blockquote {
+    page-break-inside: avoid;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  img {
+    page-break-inside: avoid;
+    page-break-after: avoid;
+  }
+  table, pre {
+    page-break-inside: avoid;
+  }
+  ul, ol, dl {
+    page-break-before: avoid;
+  }
+  /* Links */
+  a:link, a:visited, a {
+    background: transparent;
+    color: #520;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: left;
+  }
+  a {
+    page-break-inside: avoid;
+  }
+  a[href^=http]:after {
+    content: " < " attr(href) "> ";
+  }
+  a:after > img {
+    content: "";
+  }
+  article a[href^="#"]:after {
+    content: "";
+  }
+  a:not(:local-link):after {
+    content: " < " attr(href) "> ";
+  }
+  /* Visibility */
+  .main-navigation,
+  .social-navigation,
+  .site-branding-container:before,
+  .hentry .entry-title:before,
+  .entry-meta, .entry-footer,
+  .author-description:before,
+  .post-navigation {
+    display: none;
+  }
+}

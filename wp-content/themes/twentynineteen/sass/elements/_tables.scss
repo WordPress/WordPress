@@ -1,0 +1,8 @@
+table {
+	margin: 0 0 $size__spacing-unit;
+	width: 100%;
+
+	td, th {
+		border-color: $color__text-light;
+	}
+}

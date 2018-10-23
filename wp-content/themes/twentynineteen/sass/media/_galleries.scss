@@ -1,0 +1,46 @@
+.gallery {
+	display: flex;
+	margin-bottom: calc(1.5 * #{$size__spacing-unit});
+}
+
+.gallery-item {
+	display: inline-block;
+	margin-right: $size__spacing-unit;
+	margin-bottom: $size__spacing-unit;
+	text-align: center;
+	vertical-align: top;
+	width: 100%;
+
+	// Loops to enumerate the classes for gallery columns.
+	@for $i from 2 through 9 {
+		.gallery-columns-#{$i} & {
+			max-width: calc( ( 12 / #{$i} ) * (100% / 12) );
+		}
+	}
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+}
+
+.gallery-caption {
+	display: block;
+	font-size: $font__size-xs;
+	font-family: $font__heading;
+	line-height: $font__line-height-pre;
+	margin: 0;
+	padding: ( $size__spacing-unit * .5 );
+}
+
+.gallery-item > div > a {
+	display: block;
+	line-height: 0;
+
+	// Accessibility
+	box-shadow: 0 0 0 0 transparent;
+
+	&:focus {
+		box-shadow: 0 0 0 2px rgba( $color__link, 1 );
+	}
+}
+
