@@ -225,6 +225,39 @@ function create_initial_post_types() {
 		'supports'         => array(),
 	) );
 
+	register_post_type(
+		'wp_block',
+		array(
+			'labels'                => array(
+				'name'          => __( 'Blocks'),
+				'singular_name' => __( 'Block' ),
+				'search_items'  => __( 'Search Blocks' ),
+			),
+			'public'                => false,
+			'_builtin'              => true, /* internal use only. don't use this when registering your own post type. */
+			'show_ui'               => true,
+			'show_in_menu'          => false,
+			'rewrite'               => false,
+			'capability_type'       => 'block',
+			'capabilities' => array(
+				// You need to be able to edit posts, in order to read blocks in their raw form.
+				'read'                   => 'edit_posts',
+				// You need to be able to publish posts, in order to create blocks.
+				'create_posts'           => 'publish_posts',
+				'edit_published_posts'   => 'edit_published_posts',
+				'delete_published_posts' => 'delete_published_posts',
+				'edit_others_posts'      => 'edit_others_posts',
+				'delete_others_posts'    => 'delete_others_posts',
+			),
+			'map_meta_cap'          => true,
+			'supports'              => array(
+				'title',
+				'editor',
+			),
+		)
+	);
+
+
 	register_post_status( 'publish', array(
 		'label'       => _x( 'Published', 'post status' ),
 		'public'      => true,
