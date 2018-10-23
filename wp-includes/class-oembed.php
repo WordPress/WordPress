@@ -405,9 +405,9 @@ class WP_oEmbed {
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param string $data The returned oEmbed HTML.
-		 * @param string $url  URL of the content to be embedded.
-		 * @param array  $args Optional arguments, usually passed from a shortcode.
+		 * @param string|false $data The returned oEmbed HTML (false if unsafe).
+		 * @param string       $url  URL of the content to be embedded.
+		 * @param array        $args Optional arguments, usually passed from a shortcode.
 		 */
 		return apply_filters( 'oembed_result', $this->data2html( $data, $url ), $url, $args );
 	}
