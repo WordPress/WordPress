@@ -75,6 +75,41 @@ function twentyten_setup() {
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
+	// Load regular editor styles into the new block-based editor.
+	add_theme_support( 'editor-styles' );
+
+	// Load default block styles.
+	add_theme_support( 'wp-block-styles' );
+
+		// Add support for custom color scheme.
+	add_theme_support( 'editor-color-palette', array(
+		array(
+			'name'  => __( 'Blue', 'twentyten' ),
+			'slug'  => 'blue',
+			'color' => '#0066cc',
+		),
+		array(
+			'name'  => __( 'Black', 'twentyten' ),
+			'slug'  => 'black',
+			'color' => '#000',
+		),
+		array(
+			'name'  => __( 'Medium Gray', 'twentyten' ),
+			'slug'  => 'medium-gray',
+			'color' => '#666',
+		),
+		array(
+			'name'  => __( 'Light Gray', 'twentyten' ),
+			'slug'  => 'light-gray',
+			'color' => '#f1f1f1',
+		),
+		array(
+			'name'  => __( 'White', 'twentyten' ),
+			'slug'  => 'white',
+			'color' => '#fff',
+		),
+	) );
+
 	// Post Format support. You can also use the legacy "gallery" or "asides" (note the plural) categories.
 	add_theme_support( 'post-formats', array( 'aside', 'gallery' ) );
 
@@ -612,3 +647,27 @@ function twentyten_widget_tag_cloud_args( $args ) {
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );
+
+/**
+ * Enqueue scripts and styles for front end.
+ *
+ * @since Twenty Ten 2.6
+ */
+function twentyten_scripts_styles() {
+	// Theme block stylesheet.
+	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20181018' );
+}
+add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
+
+/**
+ * Enqueue editor styles for Gutenberg
+ *
+ * @since Twenty Ten 2.6
+ */
+function twentyten_block_editor_styles() {
+	// Block styles.
+	wp_enqueue_style( 'twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css' );
+}
+add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
+
+
