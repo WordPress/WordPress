@@ -229,7 +229,7 @@ function create_initial_post_types() {
 		'wp_block',
 		array(
 			'labels'                => array(
-				'name'          => __( 'Blocks'),
+				'name'          => __( 'Blocks' ),
 				'singular_name' => __( 'Block' ),
 				'search_items'  => __( 'Search Blocks' ),
 			),
@@ -242,7 +242,7 @@ function create_initial_post_types() {
 			'rest_base'             => 'blocks',
 			'rest_controller_class' => 'WP_REST_Blocks_Controller',
 			'capability_type'       => 'block',
-			'capabilities' => array(
+			'capabilities'          => array(
 				// You need to be able to edit posts, in order to read blocks in their raw form.
 				'read'                   => 'edit_posts',
 				// You need to be able to publish posts, in order to create blocks.
