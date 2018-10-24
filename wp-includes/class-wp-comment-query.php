@@ -633,6 +633,7 @@ class WP_Comment_Query {
 		$number = absint( $this->query_vars['number'] );
 		$offset = absint( $this->query_vars['offset'] );
 		$paged = absint( $this->query_vars['paged'] );
+ 		$limits = '';
 
 		if ( ! empty( $number ) ) {
 			if ( $offset ) {
@@ -817,7 +818,8 @@ class WP_Comment_Query {
 			$this->sql_clauses['where']['post_author__not_in'] = 'post_author NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['post_author__not_in'] ) ) . ' )';
 		}
 
-		$join = '';
+		$join    = '';
+		$groupby = '';
 
 		if ( $join_posts_table ) {
 			$join .= "JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->comments.comment_post_ID";
