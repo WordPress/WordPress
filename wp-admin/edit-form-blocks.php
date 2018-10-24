@@ -187,8 +187,7 @@ $styles = array(
 if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 	foreach ( $editor_styles as $style ) {
 		if ( preg_match( '~^(https?:)?//~', $style ) ) {
-			//$response = wp_remote_get( $style );
-			var_dump( $response );
+			$response = wp_remote_get( $style );
 			if ( ! is_wp_error( $response ) ) {
 				$styles[] = array(
 					'css' => wp_remote_retrieve_body( $response ),
