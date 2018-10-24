@@ -66,6 +66,9 @@ if ( ! CUSTOM_TAGS ) {
 			'rev' => true,
 			'name' => true,
 			'target' => true,
+			'download' => array(
+				'valueless' => 'y',
+			),
 		),
 		'abbr' => array(),
 		'acronym' => array(),
