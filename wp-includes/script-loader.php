@@ -408,9 +408,10 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 						),
 					),
 					'formats'  => array(
-						'time'     => get_option( 'time_format', __( 'g:i a', 'default' ) ),
-						'date'     => get_option( 'date_format', __( 'F j, Y', 'default' ) ),
-						'datetime' => __( 'F j, Y g:i a', 'default' ),
+						'time'                => get_option( 'time_format', __( 'g:i a', 'default' ) ),
+						'date'                => get_option( 'date_format', __( 'F j, Y', 'default' ) ),
+						'datetime'            => __( 'F j, Y g:i a', 'default' ),
+						'datetimeAbbreviated' => __( 'M j, Y g:i a', 'default' ),
 					),
 					'timezone' => array(
 						'offset' => get_option( 'gmt_offset', 0 ),
