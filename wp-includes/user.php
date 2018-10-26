@@ -1314,7 +1314,11 @@ function clean_user_cache( $user ) {
 }
 
 /**
- * Checks whether the given username exists.
+ * Determines whether the given username exists.
+ * 
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.0.0
  *
@@ -1340,7 +1344,11 @@ function username_exists( $username ) {
 }
 
 /**
- * Checks whether the given email exists.
+ * Determines whether the given email exists.
+ * 
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 2.1.0
  *
