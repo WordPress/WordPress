@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/url/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/url/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \*******************************************************************/
+/***/ "./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js":
+/*!****************************************************************************!*\
+  !*** ./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
+  \****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -114,17 +114,17 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
-  \*****************************************************************/
+/***/ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js":
+/*!**************************************************************************!*\
+  !*** ./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -147,96 +147,10 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/url/build-module/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@wordpress/url/build-module/index.js ***!
-  \***********************************************************/
-/*! exports provided: isURL, addQueryArgs, prependHTTP, safeDecodeURI */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qs */ "./node_modules/qs/lib/index.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * External dependencies
- */
-
-var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
-var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
-var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
-/**
- * Determines whether the given string looks like a URL.
- *
- * @param {string} url The string to scrutinise.
- *
- * @return {boolean} Whether or not it looks like a URL.
- */
-
-function isURL(url) {
-  return URL_REGEXP.test(url);
-}
-/**
- * Appends arguments to the query string of the url
- *
- * @param  {string} url   URL
- * @param  {Object} args  Query Args
- *
- * @return {string}       Updated URL
- */
-
-function addQueryArgs(url, args) {
-  var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
-  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
-  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, query, args));
-}
-/**
- * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
- *
- * @param  {string} url The URL to test
- *
- * @return {string}     The updated URL
- */
-
-function prependHTTP(url) {
-  if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {
-    return 'http://' + url;
-  }
-
-  return url;
-}
-/**
- * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
- * `decodeURI` throws an error.
- *
- * @param {string} uri URI to decode.
- *
- * @return {string} Decoded URI if possible.
- */
-
-function safeDecodeURI(uri) {
-  try {
-    return decodeURI(uri);
-  } catch (uriError) {
-    return uri;
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/qs/lib/formats.js":
-/*!****************************************!*\
-  !*** ./node_modules/qs/lib/formats.js ***!
-  \****************************************/
+/***/ "./packages/node_modules/qs/lib/formats.js":
+/*!*************************************************!*\
+  !*** ./packages/node_modules/qs/lib/formats.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -263,19 +177,19 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/qs/lib/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/index.js ***!
-  \**************************************/
+/***/ "./packages/node_modules/qs/lib/index.js":
+/*!***********************************************!*\
+  !*** ./packages/node_modules/qs/lib/index.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(/*! ./stringify */ "./node_modules/qs/lib/stringify.js");
-var parse = __webpack_require__(/*! ./parse */ "./node_modules/qs/lib/parse.js");
-var formats = __webpack_require__(/*! ./formats */ "./node_modules/qs/lib/formats.js");
+var stringify = __webpack_require__(/*! ./stringify */ "./packages/node_modules/qs/lib/stringify.js");
+var parse = __webpack_require__(/*! ./parse */ "./packages/node_modules/qs/lib/parse.js");
+var formats = __webpack_require__(/*! ./formats */ "./packages/node_modules/qs/lib/formats.js");
 
 module.exports = {
     formats: formats,
@@ -286,17 +200,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/qs/lib/parse.js":
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/parse.js ***!
-  \**************************************/
+/***/ "./packages/node_modules/qs/lib/parse.js":
+/*!***********************************************!*\
+  !*** ./packages/node_modules/qs/lib/parse.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ "./node_modules/qs/lib/utils.js");
+var utils = __webpack_require__(/*! ./utils */ "./packages/node_modules/qs/lib/utils.js");
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -472,18 +386,18 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ "./node_modules/qs/lib/stringify.js":
-/*!******************************************!*\
-  !*** ./node_modules/qs/lib/stringify.js ***!
-  \******************************************/
+/***/ "./packages/node_modules/qs/lib/stringify.js":
+/*!***************************************************!*\
+  !*** ./packages/node_modules/qs/lib/stringify.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(/*! ./utils */ "./node_modules/qs/lib/utils.js");
-var formats = __webpack_require__(/*! ./formats */ "./node_modules/qs/lib/formats.js");
+var utils = __webpack_require__(/*! ./utils */ "./packages/node_modules/qs/lib/utils.js");
+var formats = __webpack_require__(/*! ./formats */ "./packages/node_modules/qs/lib/formats.js");
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
@@ -694,10 +608,10 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ "./node_modules/qs/lib/utils.js":
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/utils.js ***!
-  \**************************************/
+/***/ "./packages/node_modules/qs/lib/utils.js":
+/*!***********************************************!*\
+  !*** ./packages/node_modules/qs/lib/utils.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -915,6 +829,92 @@ module.exports = {
     isRegExp: isRegExp,
     merge: merge
 };
+
+
+/***/ }),
+
+/***/ "./packages/packages/url/build-module/index.js":
+/*!*****************************************************!*\
+  !*** ./packages/packages/url/build-module/index.js ***!
+  \*****************************************************/
+/*! exports provided: isURL, addQueryArgs, prependHTTP, safeDecodeURI */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qs */ "./packages/node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * External dependencies
+ */
+
+var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
+var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
+var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
+/**
+ * Determines whether the given string looks like a URL.
+ *
+ * @param {string} url The string to scrutinise.
+ *
+ * @return {boolean} Whether or not it looks like a URL.
+ */
+
+function isURL(url) {
+  return URL_REGEXP.test(url);
+}
+/**
+ * Appends arguments to the query string of the url
+ *
+ * @param  {string} url   URL
+ * @param  {Object} args  Query Args
+ *
+ * @return {string}       Updated URL
+ */
+
+function addQueryArgs(url, args) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, query, args));
+}
+/**
+ * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
+ *
+ * @param  {string} url The URL to test
+ *
+ * @return {string}     The updated URL
+ */
+
+function prependHTTP(url) {
+  if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {
+    return 'http://' + url;
+  }
+
+  return url;
+}
+/**
+ * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
+ * `decodeURI` throws an error.
+ *
+ * @param {string} uri URI to decode.
+ *
+ * @return {string} Decoded URI if possible.
+ */
+
+function safeDecodeURI(uri) {
+  try {
+    return decodeURI(uri);
+  } catch (uriError) {
+    return uri;
+  }
+}
 
 
 /***/ })

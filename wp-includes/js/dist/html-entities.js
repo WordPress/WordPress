@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["htmlEntities"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/html-entities/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/html-entities/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/html-entities/build-module/index.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/html-entities/build-module/index.js ***!
-  \*********************************************************************/
+/***/ "./packages/packages/html-entities/build-module/index.js":
+/*!***************************************************************!*\
+  !*** ./packages/packages/html-entities/build-module/index.js ***!
+  \***************************************************************/
 /*! exports provided: decodeEntities */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

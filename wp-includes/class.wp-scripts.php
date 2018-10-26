@@ -478,6 +478,41 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Register a translation textdomain.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $handle Name of the script to register a translation domain to.
+	 * @param string $domain The textdomain.
+	 * @param string $path   Optional. The full file path to the directory containing translation files.
+	 *
+	 * @return bool True if the textdomain was registered, false if not.
+	 */
+	public function set_translations( $handle, $domain, $path = null ) {
+		if ( ! isset( $this->registered[ $handle ] ) ) {
+			return false;
+		}
+
+		$json_translations = load_script_textdomain( $handle, $domain, $path );
+
+		if ( ! $json_translations ) {
+			return false;
+		}
+
+		/** @var \_WP_Dependency $obj */
+		$obj = $this->registered[ $handle ];
+		$obj->deps[] = 'wp-i18n';
+
+		return $this->add_inline_script(
+			$handle,
+			'(function( translations ){' .
+			    'wp.i18n.setLocaleData( translations.locale_data, "' . $domain . '" );' .
+			'})(' . $json_translations . ');',
+			'before'
+		);
+	}
+
+	/**
 	 * Determines script dependencies.
      *
 	 * @since 2.1.0

@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/is-shallow-equal/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/is-shallow-equal/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/is-shallow-equal/arrays.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/arrays.js ***!
-  \************************************************************/
+/***/ "./packages/packages/is-shallow-equal/arrays.js":
+/*!******************************************************!*\
+  !*** ./packages/packages/is-shallow-equal/arrays.js ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -130,10 +130,10 @@ module.exports = isShallowEqualArrays;
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/is-shallow-equal/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/index.js ***!
-  \***********************************************************/
+/***/ "./packages/packages/is-shallow-equal/index.js":
+/*!*****************************************************!*\
+  !*** ./packages/packages/is-shallow-equal/index.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -143,8 +143,8 @@ module.exports = isShallowEqualArrays;
 /**
  * Internal dependencies;
  */
-var isShallowEqualObjects = __webpack_require__( /*! ./objects */ "./node_modules/@wordpress/is-shallow-equal/objects.js" );
-var isShallowEqualArrays = __webpack_require__( /*! ./arrays */ "./node_modules/@wordpress/is-shallow-equal/arrays.js" );
+var isShallowEqualObjects = __webpack_require__( /*! ./objects */ "./packages/packages/is-shallow-equal/objects.js" );
+var isShallowEqualArrays = __webpack_require__( /*! ./arrays */ "./packages/packages/is-shallow-equal/arrays.js" );
 
 var isArray = Array.isArray;
 
@@ -174,10 +174,10 @@ module.exports = isShallowEqual;
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/is-shallow-equal/objects.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/objects.js ***!
-  \*************************************************************/
+/***/ "./packages/packages/is-shallow-equal/objects.js":
+/*!*******************************************************!*\
+  !*** ./packages/packages/is-shallow-equal/objects.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

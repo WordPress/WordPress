@@ -82,23 +82,23 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/hooks/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/hooks/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createAddHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createAddHook.js ***!
-  \*********************************************************************/
+/***/ "./packages/packages/hooks/build-module/createAddHook.js":
+/*!***************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createAddHook.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js");
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./node_modules/@wordpress/hooks/build-module/index.js");
+/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./packages/packages/hooks/build-module/validateNamespace.js");
+/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./packages/packages/hooks/build-module/validateHookName.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./packages/packages/hooks/build-module/index.js");
 
 
 
@@ -192,10 +192,10 @@ function createAddHook(hooks) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createCurrentHook.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createCurrentHook.js ***!
-  \*************************************************************************/
+/***/ "./packages/packages/hooks/build-module/createCurrentHook.js":
+/*!*******************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createCurrentHook.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -232,16 +232,16 @@ function createCurrentHook(hooks) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createDidHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createDidHook.js ***!
-  \*********************************************************************/
+/***/ "./packages/packages/hooks/build-module/createDidHook.js":
+/*!***************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createDidHook.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
+/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateHookName.js */ "./packages/packages/hooks/build-module/validateHookName.js");
 
 /**
  * Returns a function which, when invoked, will return the number of times a
@@ -274,10 +274,10 @@ function createDidHook(hooks) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createDoingHook.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createDoingHook.js ***!
-  \***********************************************************************/
+/***/ "./packages/packages/hooks/build-module/createDoingHook.js":
+/*!*****************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createDoingHook.js ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -317,10 +317,10 @@ function createDoingHook(hooks) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createHasHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createHasHook.js ***!
-  \*********************************************************************/
+/***/ "./packages/packages/hooks/build-module/createHasHook.js":
+/*!***************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createHasHook.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -353,22 +353,22 @@ function createHasHook(hooks) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createHooks.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createHooks.js ***!
-  \*******************************************************************/
+/***/ "./packages/packages/hooks/build-module/createHooks.js":
+/*!*************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createHooks.js ***!
+  \*************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _createAddHook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createAddHook */ "./node_modules/@wordpress/hooks/build-module/createAddHook.js");
-/* harmony import */ var _createRemoveHook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createRemoveHook */ "./node_modules/@wordpress/hooks/build-module/createRemoveHook.js");
-/* harmony import */ var _createHasHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createHasHook */ "./node_modules/@wordpress/hooks/build-module/createHasHook.js");
-/* harmony import */ var _createRunHook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createRunHook */ "./node_modules/@wordpress/hooks/build-module/createRunHook.js");
-/* harmony import */ var _createCurrentHook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createCurrentHook */ "./node_modules/@wordpress/hooks/build-module/createCurrentHook.js");
-/* harmony import */ var _createDoingHook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createDoingHook */ "./node_modules/@wordpress/hooks/build-module/createDoingHook.js");
-/* harmony import */ var _createDidHook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./createDidHook */ "./node_modules/@wordpress/hooks/build-module/createDidHook.js");
+/* harmony import */ var _createAddHook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createAddHook */ "./packages/packages/hooks/build-module/createAddHook.js");
+/* harmony import */ var _createRemoveHook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createRemoveHook */ "./packages/packages/hooks/build-module/createRemoveHook.js");
+/* harmony import */ var _createHasHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createHasHook */ "./packages/packages/hooks/build-module/createHasHook.js");
+/* harmony import */ var _createRunHook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createRunHook */ "./packages/packages/hooks/build-module/createRunHook.js");
+/* harmony import */ var _createCurrentHook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createCurrentHook */ "./packages/packages/hooks/build-module/createCurrentHook.js");
+/* harmony import */ var _createDoingHook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createDoingHook */ "./packages/packages/hooks/build-module/createDoingHook.js");
+/* harmony import */ var _createDidHook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./createDidHook */ "./packages/packages/hooks/build-module/createDidHook.js");
 
 
 
@@ -414,18 +414,18 @@ function createHooks() {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createRemoveHook.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createRemoveHook.js ***!
-  \************************************************************************/
+/***/ "./packages/packages/hooks/build-module/createRemoveHook.js":
+/*!******************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createRemoveHook.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js");
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./node_modules/@wordpress/hooks/build-module/index.js");
+/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./packages/packages/hooks/build-module/validateNamespace.js");
+/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./packages/packages/hooks/build-module/validateHookName.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./packages/packages/hooks/build-module/index.js");
 
 
 
@@ -510,10 +510,10 @@ function createRemoveHook(hooks, removeAll) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createRunHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createRunHook.js ***!
-  \*********************************************************************/
+/***/ "./packages/packages/hooks/build-module/createRunHook.js":
+/*!***************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/createRunHook.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -596,10 +596,10 @@ function createRunHook(hooks, returnFirstArg) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/index.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/index.js ***!
-  \*************************************************************/
+/***/ "./packages/packages/hooks/build-module/index.js":
+/*!*******************************************************!*\
+  !*** ./packages/packages/hooks/build-module/index.js ***!
+  \*******************************************************/
 /*! exports provided: createHooks, addAction, addFilter, removeAction, removeFilter, hasAction, hasFilter, removeAllActions, removeAllFilters, doAction, applyFilters, currentAction, currentFilter, doingAction, doingFilter, didAction, didFilter, actions, filters */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -623,7 +623,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "didFilter", function() { return didFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return actions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return filters; });
-/* harmony import */ var _createHooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createHooks */ "./node_modules/@wordpress/hooks/build-module/createHooks.js");
+/* harmony import */ var _createHooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createHooks */ "./packages/packages/hooks/build-module/createHooks.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createHooks", function() { return _createHooks__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
 
@@ -653,10 +653,10 @@ var _createHooks = Object(_createHooks__WEBPACK_IMPORTED_MODULE_0__["default"])(
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/validateHookName.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/validateHookName.js ***!
-  \************************************************************************/
+/***/ "./packages/packages/hooks/build-module/validateHookName.js":
+/*!******************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/validateHookName.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -698,10 +698,10 @@ function validateHookName(hookName) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/validateNamespace.js ***!
-  \*************************************************************************/
+/***/ "./packages/packages/hooks/build-module/validateNamespace.js":
+/*!*******************************************************************!*\
+  !*** ./packages/packages/hooks/build-module/validateNamespace.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
