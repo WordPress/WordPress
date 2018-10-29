@@ -575,7 +575,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inherits */ "./node_modules/@babel/runtime/helpers/esm/inherits.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _create_higher_order_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../create-higher-order-component */ "./node_modules/@wordpress/compose/build-module/create-higher-order-component/index.js");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _create_higher_order_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../create-higher-order-component */ "./node_modules/@wordpress/compose/build-module/create-higher-order-component/index.js");
 
 
 
@@ -587,6 +589,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
@@ -603,7 +606,11 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var remountOnPropChange = function remountOnPropChange(propName) {
-  return Object(_create_higher_order_component__WEBPACK_IMPORTED_MODULE_7__["default"])(function (WrappedComponent) {
+  return Object(_create_higher_order_component__WEBPACK_IMPORTED_MODULE_8__["default"])(function (WrappedComponent) {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default()('remountOnPropChange', {
+      plugin: 'Gutenberg',
+      version: '4.4.0'
+    });
     return (
       /*#__PURE__*/
       function (_Component) {
@@ -1158,6 +1165,17 @@ function withState() {
   }, 'withState');
 }
 
+
+/***/ }),
+
+/***/ "@wordpress/deprecated":
+/*!*********************************************!*\
+  !*** external {"this":["wp","deprecated"]} ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

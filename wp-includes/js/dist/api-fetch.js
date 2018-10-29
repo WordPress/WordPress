@@ -275,6 +275,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./middlewares/fetch-all-middleware */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js");
 /* harmony import */ var _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./middlewares/namespace-endpoint */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js");
 /* harmony import */ var _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./middlewares/http-v1 */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js");
+/* harmony import */ var _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./middlewares/user-locale */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js");
 
 
 
@@ -286,6 +287,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -402,7 +404,7 @@ function apiFetch(options) {
     });
   };
 
-  var steps = [raw, _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"], _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__["default"]].concat(middlewares).reverse();
+  var steps = [raw, _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"], _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__["default"], _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_10__["default"]].concat(middlewares).reverse();
 
   var runMiddleware = function runMiddleware(index) {
     return function (nextOptions) {
@@ -849,6 +851,43 @@ var createRootURLMiddleware = function createRootURLMiddleware(rootURL) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (createRootURLMiddleware);
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+
+function userLocaleMiddleware(options, next) {
+  if (typeof options.url === 'string' && !Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_0__["hasQueryArg"])(options.url, '_locale')) {
+    options.url = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_0__["addQueryArgs"])(options.url, {
+      _locale: 'user'
+    });
+  }
+
+  if (typeof options.path === 'string' && !Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_0__["hasQueryArg"])(options.path, '_locale')) {
+    options.path = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_0__["addQueryArgs"])(options.path, {
+      _locale: 'user'
+    });
+  }
+
+  return next(options, next);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (userLocaleMiddleware);
 
 
 /***/ }),

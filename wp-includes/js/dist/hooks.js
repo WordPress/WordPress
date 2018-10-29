@@ -565,13 +565,6 @@ function createRunHook(hooks, returnFirstArg) {
 
     hooks.__current.push(hookInfo);
 
-    if (!hooks[hookName]) {
-      hooks[hookName] = {
-        runs: 0,
-        handlers: []
-      };
-    }
-
     while (hookInfo.currentIndex < handlers.length) {
       var handler = handlers[hookInfo.currentIndex];
       var result = handler.callback.apply(null, args);

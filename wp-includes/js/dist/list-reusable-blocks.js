@@ -545,7 +545,7 @@ function (_Component) {
         disabled: !file || isLoading,
         isDefault: true,
         className: "list-reusable-blocks-import-form__button"
-      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["__"])('Import')));
+      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["_x"])('Import', 'button label')));
     }
   }]);
 
