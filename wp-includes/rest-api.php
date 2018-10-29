@@ -1343,12 +1343,22 @@ function rest_preload_api_request( $memo, $path ) {
 		return $memo;
 	}
 
+	$method = 'GET';
+	if ( is_array( $path ) && 2 === count( $path ) ) {
+		$method = end( $path );
+		$path   = reset( $path );
+
+		if ( ! in_array( $method, array( 'GET', 'OPTIONS' ), true ) ) {
+			$method = 'GET';
+		}
+	}
+
 	$path_parts = parse_url( $path );
 	if ( false === $path_parts ) {
 		return $memo;
 	}
 
-	$request = new WP_REST_Request( 'GET', $path_parts['path'] );
+	$request = new WP_REST_Request( $method, $path_parts['path'] );
 	if ( ! empty( $path_parts['query'] ) ) {
 		parse_str( $path_parts['query'], $query_params );
 		$request->set_query_params( $query_params );
@@ -1367,10 +1377,19 @@ function rest_preload_api_request( $memo, $path ) {
 			$data['_links'] = $links;
 		}
 
-		$memo[ $path ] = array(
-			'body'    => $data,
-			'headers' => $response->headers,
-		);
+		if ( 'OPTIONS' === $method ) {
+			$response = rest_send_allow_header( $response, $server, $request );
+
+			$memo[ $method ][ $path ] = array(
+				'body'    => $data,
+				'headers' => $response->headers,
+			);
+		} else {
+			$memo[ $path ] = array(
+				'body'    => $data,
+				'headers' => $response->headers,
+			);
+		}
 	}
 
 	return $memo;

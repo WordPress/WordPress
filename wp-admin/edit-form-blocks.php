@@ -49,7 +49,20 @@ $preload_paths = array(
 	sprintf( '/wp/v2/%s/%s?context=edit', $rest_base, $post->ID ),
 	sprintf( '/wp/v2/types/%s?context=edit', $post_type ),
 	sprintf( '/wp/v2/users/me?post_type=%s&context=edit', $post_type ),
+	array( '/wp/v2/media', 'OPTIONS' ),
 );
+
+/**
+ * Preload common data by specifying an array of REST API paths that will be preloaded.
+ *
+ * Filters the array of paths that will be preloaded.
+ *
+ * @since 5.0.0
+ *
+ * @param array  $preload_paths Array of paths to preload.
+ * @param object $post          The post resource data.
+ */
+$preload_paths = apply_filters( 'block_editor_preload_paths', $preload_paths, $post );
 
 /*
  * Ensure the global $post remains the same after API data is preloaded.
