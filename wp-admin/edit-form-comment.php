@@ -177,7 +177,7 @@ endif; ?>
 
 <div id="postbox-container-2" class="postbox-container">
 <?php
-/** This action is documented in wp-admin/edit-form-advanced.php */
+/** This action is documented in wp-admin/includes/meta-boxes.php */
 do_action( 'add_meta_boxes', 'comment', $comment );
 
 /**

@@ -122,10 +122,10 @@ function wp_dashboard_setup() {
 		exit;
 	}
 
-	/** This action is documented in wp-admin/edit-form-advanced.php */
+	/** This action is documented in wp-admin/includes/meta-boxes.php */
 	do_action( 'do_meta_boxes', $screen->id, 'normal', '' );
 
-	/** This action is documented in wp-admin/edit-form-advanced.php */
+	/** This action is documented in wp-admin/includes/meta-boxes.php */
 	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
 }
 
