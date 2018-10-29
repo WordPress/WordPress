@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/autop/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/autop/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
-/*!****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -103,10 +103,10 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
-/*!**********************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -141,10 +141,10 @@ function _iterableToArrayLimit(arr, i) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
-/*!*****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -157,19 +157,19 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
-/*!***************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
-  \***************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _slicedToArray; });
-/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
-/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
+/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
+/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
+/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
 
 
 
@@ -179,10 +179,10 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ "./packages/packages/autop/build-module/index.js":
-/*!*******************************************************!*\
-  !*** ./packages/packages/autop/build-module/index.js ***!
-  \*******************************************************/
+/***/ "./node_modules/@wordpress/autop/build-module/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@wordpress/autop/build-module/index.js ***!
+  \*************************************************************/
 /*! exports provided: autop, removep */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -190,7 +190,7 @@ function _slicedToArray(arr, i) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autop", function() { return autop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removep", function() { return removep; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
 
 
 /**

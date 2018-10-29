@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/dom/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/dom/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -109,10 +109,10 @@ function _arrayWithoutHoles(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
-/*!*****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -125,10 +125,10 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -141,19 +141,19 @@ function _nonIterableSpread() {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toConsumableArray; });
-/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
-/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
-/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
+/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
 
 
 
@@ -163,10 +163,10 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ "./packages/packages/dom/build-module/dom.js":
-/*!***************************************************!*\
-  !*** ./packages/packages/dom/build-module/dom.js ***!
-  \***************************************************/
+/***/ "./node_modules/@wordpress/dom/build-module/dom.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@wordpress/dom/build-module/dom.js ***!
+  \*********************************************************/
 /*! exports provided: isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -818,17 +818,17 @@ function replaceTag(node, tagName, doc) {
 
 /***/ }),
 
-/***/ "./packages/packages/dom/build-module/focusable.js":
-/*!*********************************************************!*\
-  !*** ./packages/packages/dom/build-module/focusable.js ***!
-  \*********************************************************/
+/***/ "./node_modules/@wordpress/dom/build-module/focusable.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@wordpress/dom/build-module/focusable.js ***!
+  \***************************************************************/
 /*! exports provided: find */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 
 
 /**
@@ -912,19 +912,19 @@ function find(context) {
 
 /***/ }),
 
-/***/ "./packages/packages/dom/build-module/index.js":
-/*!*****************************************************!*\
-  !*** ./packages/packages/dom/build-module/index.js ***!
-  \*****************************************************/
+/***/ "./node_modules/@wordpress/dom/build-module/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@wordpress/dom/build-module/index.js ***!
+  \***********************************************************/
 /*! exports provided: focus, isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return focus; });
-/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./packages/packages/dom/build-module/focusable.js");
-/* harmony import */ var _tabbable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabbable */ "./packages/packages/dom/build-module/tabbable.js");
-/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom */ "./packages/packages/dom/build-module/dom.js");
+/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./node_modules/@wordpress/dom/build-module/focusable.js");
+/* harmony import */ var _tabbable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabbable */ "./node_modules/@wordpress/dom/build-module/tabbable.js");
+/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom */ "./node_modules/@wordpress/dom/build-module/dom.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isHorizontalEdge"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isVerticalEdge"]; });
@@ -971,10 +971,10 @@ var focus = {
 
 /***/ }),
 
-/***/ "./packages/packages/dom/build-module/tabbable.js":
-/*!********************************************************!*\
-  !*** ./packages/packages/dom/build-module/tabbable.js ***!
-  \********************************************************/
+/***/ "./node_modules/@wordpress/dom/build-module/tabbable.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@wordpress/dom/build-module/tabbable.js ***!
+  \**************************************************************/
 /*! exports provided: isTabbableIndex, find */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -982,7 +982,7 @@ var focus = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTabbableIndex", function() { return isTabbableIndex; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
-/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./packages/packages/dom/build-module/focusable.js");
+/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./node_modules/@wordpress/dom/build-module/focusable.js");
 /**
  * Internal dependencies
  */

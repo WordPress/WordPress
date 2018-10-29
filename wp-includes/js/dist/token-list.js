@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["tokenList"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/token-list/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/token-list/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/classCallCheck.js":
-/*!****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/classCallCheck.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -105,10 +105,10 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/createClass.js":
-/*!*************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/createClass.js ***!
-  \*************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/createClass.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/createClass.js ***!
+  \****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -133,18 +133,18 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ "./packages/packages/token-list/build-module/index.js":
-/*!************************************************************!*\
-  !*** ./packages/packages/token-list/build-module/index.js ***!
-  \************************************************************/
+/***/ "./node_modules/@wordpress/token-list/build-module/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@wordpress/token-list/build-module/index.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TokenList; });
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/classCallCheck */ "./packages/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/createClass */ "./packages/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 

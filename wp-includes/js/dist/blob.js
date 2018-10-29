@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/blob/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/blob/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/packages/blob/build-module/index.js":
-/*!******************************************************!*\
-  !*** ./packages/packages/blob/build-module/index.js ***!
-  \******************************************************/
+/***/ "./node_modules/@wordpress/blob/build-module/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@wordpress/blob/build-module/index.js ***!
+  \************************************************************/
 /*! exports provided: createBlobURL, getBlobByURL, revokeBlobURL, isBlobURL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

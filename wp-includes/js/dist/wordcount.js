@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/wordcount/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/wordcount/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/packages/wordcount/build-module/defaultSettings.js":
-/*!*********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/defaultSettings.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/defaultSettings.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/defaultSettings.js ***!
+  \***************************************************************************/
 /*! exports provided: defaultSettings */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -162,10 +162,10 @@ var defaultSettings = {
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/index.js":
-/*!***********************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/index.js ***!
-  \***********************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/index.js ***!
+  \*****************************************************************/
 /*! exports provided: count */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -174,16 +174,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "count", function() { return count; });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _defaultSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultSettings */ "./packages/packages/wordcount/build-module/defaultSettings.js");
-/* harmony import */ var _stripTags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stripTags */ "./packages/packages/wordcount/build-module/stripTags.js");
-/* harmony import */ var _transposeAstralsToCountableChar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transposeAstralsToCountableChar */ "./packages/packages/wordcount/build-module/transposeAstralsToCountableChar.js");
-/* harmony import */ var _stripHTMLEntities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stripHTMLEntities */ "./packages/packages/wordcount/build-module/stripHTMLEntities.js");
-/* harmony import */ var _stripConnectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stripConnectors */ "./packages/packages/wordcount/build-module/stripConnectors.js");
-/* harmony import */ var _stripRemovables__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./stripRemovables */ "./packages/packages/wordcount/build-module/stripRemovables.js");
-/* harmony import */ var _stripHTMLComments__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stripHTMLComments */ "./packages/packages/wordcount/build-module/stripHTMLComments.js");
-/* harmony import */ var _stripShortcodes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stripShortcodes */ "./packages/packages/wordcount/build-module/stripShortcodes.js");
-/* harmony import */ var _stripSpaces__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./stripSpaces */ "./packages/packages/wordcount/build-module/stripSpaces.js");
-/* harmony import */ var _transposeHTMLEntitiesToCountableChars__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./transposeHTMLEntitiesToCountableChars */ "./packages/packages/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js");
+/* harmony import */ var _defaultSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultSettings */ "./node_modules/@wordpress/wordcount/build-module/defaultSettings.js");
+/* harmony import */ var _stripTags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stripTags */ "./node_modules/@wordpress/wordcount/build-module/stripTags.js");
+/* harmony import */ var _transposeAstralsToCountableChar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transposeAstralsToCountableChar */ "./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js");
+/* harmony import */ var _stripHTMLEntities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stripHTMLEntities */ "./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js");
+/* harmony import */ var _stripConnectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stripConnectors */ "./node_modules/@wordpress/wordcount/build-module/stripConnectors.js");
+/* harmony import */ var _stripRemovables__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./stripRemovables */ "./node_modules/@wordpress/wordcount/build-module/stripRemovables.js");
+/* harmony import */ var _stripHTMLComments__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stripHTMLComments */ "./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js");
+/* harmony import */ var _stripShortcodes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stripShortcodes */ "./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js");
+/* harmony import */ var _stripSpaces__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./stripSpaces */ "./node_modules/@wordpress/wordcount/build-module/stripSpaces.js");
+/* harmony import */ var _transposeHTMLEntitiesToCountableChars__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./transposeHTMLEntitiesToCountableChars */ "./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js");
 
 
 
@@ -276,10 +276,10 @@ function count(text, type, userSettings) {
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripConnectors.js":
-/*!*********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripConnectors.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripConnectors.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripConnectors.js ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -304,10 +304,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripHTMLComments.js":
-/*!***********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripHTMLComments.js ***!
-  \***********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -332,10 +332,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripHTMLEntities.js":
-/*!***********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripHTMLEntities.js ***!
-  \***********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js ***!
+  \*****************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -360,10 +360,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripRemovables.js":
-/*!*********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripRemovables.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripRemovables.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripRemovables.js ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -388,10 +388,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripShortcodes.js":
-/*!*********************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripShortcodes.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -416,10 +416,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripSpaces.js":
-/*!*****************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripSpaces.js ***!
-  \*****************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripSpaces.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripSpaces.js ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -442,10 +442,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/stripTags.js":
-/*!***************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/stripTags.js ***!
-  \***************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/stripTags.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/stripTags.js ***!
+  \*********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -468,10 +468,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/transposeAstralsToCountableChar.js":
-/*!*************************************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/transposeAstralsToCountableChar.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -496,10 +496,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./packages/packages/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js":
-/*!*******************************************************************************************!*\
-  !*** ./packages/packages/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js ***!
-  \*******************************************************************************************/
+/***/ "./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js ***!
+  \*************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

@@ -82,46 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/blocks/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/blocks/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/webpack/buildin/global.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
-/*!****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -134,10 +103,10 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -156,10 +125,10 @@ function _arrayWithoutHoles(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -183,10 +152,10 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/extends.js":
-/*!*********************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/extends.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -213,10 +182,10 @@ function _extends() {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
-/*!*****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -229,10 +198,10 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
-/*!**********************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -267,10 +236,10 @@ function _iterableToArrayLimit(arr, i) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
-/*!*****************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -283,10 +252,10 @@ function _nonIterableRest() {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -299,17 +268,17 @@ function _nonIterableSpread() {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js":
-/*!**************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
-  \**************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./packages/node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -332,19 +301,19 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
-/*!***************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
-  \***************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _slicedToArray; });
-/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
-/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
+/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
+/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
+/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
 
 
 
@@ -354,19 +323,19 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/toArray.js":
-/*!*********************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/toArray.js ***!
-  \*********************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/toArray.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toArray.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toArray; });
-/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
-/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
+/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
+/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
 
 
 
@@ -376,19 +345,19 @@ function _toArray(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toConsumableArray; });
-/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./packages/node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
-/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
-/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
+/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
 
 
 
@@ -398,10 +367,5212 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/hpq/es/get-path.js":
-/*!**************************************************!*\
-  !*** ./packages/node_modules/hpq/es/get-path.js ***!
-  \**************************************************/
+/***/ "./node_modules/@wordpress/blocks/build-module/api/categories.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/categories.js ***!
+  \***********************************************************************/
+/*! exports provided: getCategories, setCategories */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return getCategories; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return setCategories; });
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Returns all the block categories.
+ *
+ * @return {Object[]} Block categories.
+ */
+
+function getCategories() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/blocks').getCategories();
+}
+/**
+ * Sets the block categories.
+ *
+ * @param {Object[]} categories Block categories.
+ */
+
+function setCategories(categories) {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["dispatch"])('core/blocks').setCategories(categories);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/children.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/children.js ***!
+  \*********************************************************************/
+/*! exports provided: getSerializeCapableElement, concat, fromDOM, toHTML, matcher, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSerializeCapableElement", function() { return getSerializeCapableElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return concat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromDOM", function() { return fromDOM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTML", function() { return toHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcher", function() { return matcher; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./node_modules/@wordpress/blocks/build-module/api/node.js");
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * A representation of a block's rich text value.
+ *
+ * @typedef {WPBlockNode[]} WPBlockChildren
+ */
+
+/**
+ * Given block children, returns a serialize-capable WordPress element.
+ *
+ * @param {WPBlockChildren} children Block children object to convert.
+ *
+ * @return {WPElement} A serialize-capable element.
+ */
+
+function getSerializeCapableElement(children) {
+  // The fact that block children are compatible with the element serializer is
+  // merely an implementation detail that currently serves to be true, but
+  // should not be mistaken as being a guarantee on the external API. The
+  // public API only offers guarantees to work with strings (toHTML) and DOM
+  // elements (fromDOM), and should provide utilities to manipulate the value
+  // rather than expect consumers to inspect or construct its shape (concat).
+  return children;
+}
+/**
+ * Given block children, returns an array of block nodes.
+ *
+ * @param {WPBlockChildren} children Block children object to convert.
+ *
+ * @return {Array<WPBlockNode>} An array of individual block nodes.
+ */
+
+function getChildrenArray(children) {
+  // The fact that block children are compatible with the element serializer
+  // is merely an implementation detail that currently serves to be true, but
+  // should not be mistaken as being a guarantee on the external API.
+  return children;
+}
+/**
+ * Given two or more block nodes, returns a new block node representing a
+ * concatenation of its values.
+ *
+ * @param {...WPBlockChildren} blockNodes Block nodes to concatenate.
+ *
+ * @return {WPBlockChildren} Concatenated block node.
+ */
+
+
+function concat() {
+  var result = [];
+
+  for (var i = 0; i < arguments.length; i++) {
+    var blockNode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(i < 0 || arguments.length <= i ? undefined : arguments[i]);
+
+    for (var j = 0; j < blockNode.length; j++) {
+      var child = blockNode[j];
+      var canConcatToPreviousString = typeof child === 'string' && typeof result[result.length - 1] === 'string';
+
+      if (canConcatToPreviousString) {
+        result[result.length - 1] += child;
+      } else {
+        result.push(child);
+      }
+    }
+  }
+
+  return result;
+}
+/**
+ * Given an iterable set of DOM nodes, returns equivalent block children.
+ * Ignores any non-element/text nodes included in set.
+ *
+ * @param {Iterable.<Node>} domNodes Iterable set of DOM nodes to convert.
+ *
+ * @return {WPBlockChildren} Block children equivalent to DOM nodes.
+ */
+
+function fromDOM(domNodes) {
+  var result = [];
+
+  for (var i = 0; i < domNodes.length; i++) {
+    try {
+      result.push(_node__WEBPACK_IMPORTED_MODULE_2__["fromDOM"](domNodes[i]));
+    } catch (error) {// Simply ignore if DOM node could not be converted.
+    }
+  }
+
+  return result;
+}
+/**
+ * Given a block node, returns its HTML string representation.
+ *
+ * @param {WPBlockChildren} children Block node(s) to convert to string.
+ *
+ * @return {string} String HTML representation of block node.
+ */
+
+function toHTML(children) {
+  var element = getSerializeCapableElement(children);
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["renderToString"])(element);
+}
+/**
+ * Given a selector, returns an hpq matcher generating a WPBlockChildren value
+ * matching the selector result.
+ *
+ * @param {string} selector DOM selector.
+ *
+ * @return {Function} hpq matcher.
+ */
+
+function matcher(selector) {
+  return function (domNode) {
+    var match = domNode;
+
+    if (selector) {
+      match = domNode.querySelector(selector);
+    }
+
+    if (match) {
+      return fromDOM(match.childNodes);
+    }
+
+    return [];
+  };
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  concat: concat,
+  getChildrenArray: getChildrenArray,
+  fromDOM: fromDOM,
+  toHTML: toHTML,
+  matcher: matcher
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/factory.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/factory.js ***!
+  \********************************************************************/
+/*! exports provided: createBlock, cloneBlock, getPossibleBlockTransformations, findTransform, getBlockTransforms, switchToBlockType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return createBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return cloneBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return getPossibleBlockTransformations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return findTransform; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return getBlockTransforms; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return switchToBlockType; });
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Returns a block object given its type and attributes.
+ *
+ * @param {string} name            Block name.
+ * @param {Object} blockAttributes Block attributes.
+ * @param {?Array} innerBlocks     Nested blocks.
+ *
+ * @return {Object} Block object.
+ */
+
+function createBlock(name) {
+  var blockAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  // Get the type definition associated with a registered block.
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name); // Ensure attributes contains only values defined by block type, and merge
+  // default values for missing attributes.
+
+  var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["reduce"])(blockType.attributes, function (result, schema, key) {
+    var value = blockAttributes[key];
+
+    if (undefined !== value) {
+      result[key] = value;
+    } else if (schema.hasOwnProperty('default')) {
+      result[key] = schema.default;
+    }
+
+    if (schema.source === 'html' && typeof result[key] !== 'string') {
+      result[key] = '';
+    }
+
+    if (['node', 'children'].indexOf(schema.source) !== -1) {
+      // Ensure value passed is always an array, which we're expecting in
+      // the RichText component to handle the deprecated value.
+      if (typeof result[key] === 'string') {
+        result[key] = [result[key]];
+      } else if (!Array.isArray(result[key])) {
+        result[key] = [];
+      }
+    }
+
+    return result;
+  }, {});
+  var clientId = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()(); // Blocks are stored with a unique ID, the assigned type name, the block
+  // attributes, and their inner blocks.
+
+  return {
+    clientId: clientId,
+    name: name,
+    isValid: true,
+    attributes: attributes,
+    innerBlocks: innerBlocks
+  };
+}
+/**
+ * Given a block object, returns a copy of the block object, optionally merging
+ * new attributes and/or replacing its inner blocks.
+ *
+ * @param {Object} block              Block object.
+ * @param {Object} mergeAttributes    Block attributes.
+ * @param {?Array} newInnerBlocks     Nested blocks.
+ *
+ * @return {Object} A cloned block.
+ */
+
+function cloneBlock(block) {
+  var mergeAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var newInnerBlocks = arguments.length > 2 ? arguments[2] : undefined;
+  var clientId = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()();
+  return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
+    clientId: clientId,
+    attributes: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block.attributes, mergeAttributes),
+    innerBlocks: newInnerBlocks || block.innerBlocks.map(function (innerBlock) {
+      return cloneBlock(innerBlock);
+    })
+  });
+}
+/**
+ * Returns a boolean indicating whether a transform is possible based on
+ * various bits of context.
+ *
+ * @param {Object} transform The transform object to validate.
+ * @param {string} direction Is this a 'from' or 'to' transform.
+ * @param {Array} blocks The blocks to transform from.
+ * @param {boolean} isMultiBlock Have multiple blocks been selected?
+ *
+ * @return {boolean} Is the transform possible?
+ */
+
+var isPossibleTransformForSource = function isPossibleTransformForSource(transform, direction, blocks) {
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
+    return false;
+  }
+
+  var isMultiBlock = blocks.length > 1;
+  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks); // If multiple blocks are selected, only multi block transforms are allowed.
+
+  var isValidForMultiBlocks = !isMultiBlock || transform.isMultiBlock;
+
+  if (!isValidForMultiBlocks) {
+    return false;
+  } // Only consider 'block' type transforms as valid.
+
+
+  var isBlockType = transform.type === 'block';
+
+  if (!isBlockType) {
+    return false;
+  } // Check if the transform's block name matches the source block only if this is a transform 'from'.
+
+
+  var hasMatchingName = direction !== 'from' || transform.blocks.indexOf(sourceBlock.name) !== -1;
+
+  if (!hasMatchingName) {
+    return false;
+  } // If the transform has a `isMatch` function specified, check that it returns true.
+
+
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(transform.isMatch)) {
+    var attributes = transform.isMultiBlock ? blocks.map(function (block) {
+      return block.attributes;
+    }) : sourceBlock.attributes;
+
+    if (!transform.isMatch(attributes)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+/**
+ * Returns block types that the 'blocks' can be transformed into, based on
+ * 'from' transforms on other blocks.
+ *
+ * @param {Array}  blocks  The blocks to transform from.
+ * @param {boolean} isMultiBlock Have multiple blocks been selected?
+ *
+ * @return {Array} Block types that the blocks can be transformed into.
+ */
+
+
+var getBlockTypesForPossibleFromTransforms = function getBlockTypesForPossibleFromTransforms(blocks) {
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
+    return [];
+  }
+
+  var allBlockTypes = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])(); // filter all blocks to find those with a 'from' transform.
+
+  var blockTypesWithPossibleFromTransforms = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["filter"])(allBlockTypes, function (blockType) {
+    var fromTransforms = getBlockTransforms('from', blockType.name);
+    return !!findTransform(fromTransforms, function (transform) {
+      return isPossibleTransformForSource(transform, 'from', blocks);
+    });
+  });
+  return blockTypesWithPossibleFromTransforms;
+};
+/**
+ * Returns block types that the 'blocks' can be transformed into, based on
+ * the source block's own 'to' transforms.
+ *
+ * @param {Array} blocks The blocks to transform from.
+ * @param {boolean} isMultiBlock Have multiple blocks been selected?
+ *
+ * @return {Array} Block types that the source can be transformed into.
+ */
+
+
+var getBlockTypesForPossibleToTransforms = function getBlockTypesForPossibleToTransforms(blocks) {
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
+    return [];
+  }
+
+  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks);
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(sourceBlock.name);
+  var transformsTo = getBlockTransforms('to', blockType.name); // filter all 'to' transforms to find those that are possible.
+
+  var possibleTransforms = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["filter"])(transformsTo, function (transform) {
+    return isPossibleTransformForSource(transform, 'to', blocks);
+  }); // Build a list of block names using the possible 'to' transforms.
+
+  var blockNames = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(possibleTransforms, function (transformation) {
+    return transformation.blocks;
+  }); // Map block names to block types.
+
+  return blockNames.map(function (name) {
+    return Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name);
+  });
+};
+/**
+ * Returns an array of block types that the set of blocks received as argument
+ * can be transformed into.
+ *
+ * @param {Array} blocks Blocks array.
+ *
+ * @return {Array} Block types that the blocks argument can be transformed to.
+ */
+
+
+function getPossibleBlockTransformations(blocks) {
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
+    return [];
+  }
+
+  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks);
+  var isMultiBlock = blocks.length > 1;
+
+  if (isMultiBlock && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["every"])(blocks, {
+    name: sourceBlock.name
+  })) {
+    return [];
+  }
+
+  var blockTypesForFromTransforms = getBlockTypesForPossibleFromTransforms(blocks);
+  var blockTypesForToTransforms = getBlockTypesForPossibleToTransforms(blocks);
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["uniq"])(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(blockTypesForFromTransforms).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(blockTypesForToTransforms)));
+}
+/**
+ * Given an array of transforms, returns the highest-priority transform where
+ * the predicate function returns a truthy value. A higher-priority transform
+ * is one with a lower priority value (i.e. first in priority order). Returns
+ * null if the transforms set is empty or the predicate function returns a
+ * falsey value for all entries.
+ *
+ * @param {Object[]} transforms Transforms to search.
+ * @param {Function} predicate  Function returning true on matching transform.
+ *
+ * @return {?Object} Highest-priority transform candidate.
+ */
+
+function findTransform(transforms, predicate) {
+  // The hooks library already has built-in mechanisms for managing priority
+  // queue, so leverage via locally-defined instance.
+  var hooks = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["createHooks"])();
+
+  var _loop = function _loop(i) {
+    var candidate = transforms[i];
+
+    if (predicate(candidate)) {
+      hooks.addFilter('transform', 'transform/' + i.toString(), function (result) {
+        return result ? result : candidate;
+      }, candidate.priority);
+    }
+  };
+
+  for (var i = 0; i < transforms.length; i++) {
+    _loop(i);
+  } // Filter name is arbitrarily chosen but consistent with above aggregation.
+
+
+  return hooks.applyFilters('transform', null);
+}
+/**
+ * Returns normal block transforms for a given transform direction, optionally
+ * for a specific block by name, or an empty array if there are no transforms.
+ * If no block name is provided, returns transforms for all blocks. A normal
+ * transform object includes `blockName` as a property.
+ *
+ * @param {string}  direction Transform direction ("to", "from").
+ * @param {?string} blockName Optional block name.
+ *
+ * @return {Array} Block transforms for direction.
+ */
+
+function getBlockTransforms(direction, blockName) {
+  // When retrieving transforms for all block types, recurse into self.
+  if (blockName === undefined) {
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])(), function (_ref) {
+      var name = _ref.name;
+      return getBlockTransforms(direction, name);
+    });
+  } // Validate that block type exists and has array of direction.
+
+
+  var _ref2 = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(blockName) || {},
+      transforms = _ref2.transforms;
+
+  if (!transforms || !Array.isArray(transforms[direction])) {
+    return [];
+  } // Map transforms to normal form.
+
+
+  return transforms[direction].map(function (transform) {
+    return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, transform, {
+      blockName: blockName
+    });
+  });
+}
+/**
+ * Switch one or more blocks into one or more blocks of the new block type.
+ *
+ * @param {Array|Object} blocks Blocks array or block object.
+ * @param {string}       name   Block name.
+ *
+ * @return {Array} Array of blocks.
+ */
+
+function switchToBlockType(blocks, name) {
+  var blocksArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(blocks);
+  var isMultiBlock = blocksArray.length > 1;
+  var firstBlock = blocksArray[0];
+  var sourceName = firstBlock.name;
+
+  if (isMultiBlock && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["every"])(blocksArray, function (block) {
+    return block.name === sourceName;
+  })) {
+    return null;
+  } // Find the right transformation by giving priority to the "to"
+  // transformation.
+
+
+  var transformationsFrom = getBlockTransforms('from', name);
+  var transformationsTo = getBlockTransforms('to', sourceName);
+  var transformation = findTransform(transformationsTo, function (t) {
+    return t.type === 'block' && t.blocks.indexOf(name) !== -1 && (!isMultiBlock || t.isMultiBlock);
+  }) || findTransform(transformationsFrom, function (t) {
+    return t.type === 'block' && t.blocks.indexOf(sourceName) !== -1 && (!isMultiBlock || t.isMultiBlock);
+  }); // Stop if there is no valid transformation.
+
+  if (!transformation) {
+    return null;
+  }
+
+  var transformationResults;
+
+  if (transformation.isMultiBlock) {
+    transformationResults = transformation.transform(blocksArray.map(function (currentBlock) {
+      return currentBlock.attributes;
+    }));
+  } else {
+    transformationResults = transformation.transform(firstBlock.attributes);
+  } // Ensure that the transformation function returned an object or an array
+  // of objects.
+
+
+  if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isObjectLike"])(transformationResults)) {
+    return null;
+  } // If the transformation function returned a single object, we want to work
+  // with an array instead.
+
+
+  transformationResults = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(transformationResults); // Ensure that every block object returned by the transformation has a
+  // valid block type.
+
+  if (transformationResults.some(function (result) {
+    return !Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(result.name);
+  })) {
+    return null;
+  }
+
+  var firstSwitchedBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["findIndex"])(transformationResults, function (result) {
+    return result.name === name;
+  }); // Ensure that at least one block object returned by the transformation has
+  // the expected "destination" block type.
+
+  if (firstSwitchedBlock < 0) {
+    return null;
+  }
+
+  return transformationResults.map(function (result, index) {
+    var transformedBlock = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, result, {
+      // The first transformed block whose type matches the "destination"
+      // type gets to keep the existing client ID of the first block.
+      clientId: index === firstSwitchedBlock ? firstBlock.clientId : result.clientId
+    });
+    /**
+     * Filters an individual transform result from block transformation.
+     * All of the original blocks are passed, since transformations are
+     * many-to-many, not one-to-one.
+     *
+     * @param {Object}   transformedBlock The transformed block.
+     * @param {Object[]} blocks           Original blocks transformed.
+     */
+
+
+    return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["applyFilters"])('blocks.switchToBlockType.transformedBlock', transformedBlock, blocks);
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/index.js ***!
+  \******************************************************************/
+/*! exports provided: createBlock, cloneBlock, getPossibleBlockTransformations, switchToBlockType, getBlockTransforms, findTransform, parse, getBlockAttributes, parseWithAttributeSchema, rawHandler, getPhrasingContentSchema, serialize, getBlockContent, getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, isValidBlock, getCategories, setCategories, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, unstable__bootstrapServerSideBlockDefinitions, registerBlockStyle, isUnmodifiedDefaultBlock, normalizeIconObject, isValidIcon, doBlocksMatchTemplate, synchronizeBlocksWithTemplate, children, node */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["createBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["cloneBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["getPossibleBlockTransformations"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["switchToBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["getBlockTransforms"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["findTransform"]; });
+
+/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parser */ "./node_modules/@wordpress/blocks/build-module/api/parser.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["getBlockAttributes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["parseWithAttributeSchema"]; });
+
+/* harmony import */ var _raw_handling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./raw-handling */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rawHandler", function() { return _raw_handling__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _raw_handling__WEBPACK_IMPORTED_MODULE_2__["getPhrasingContentSchema"]; });
+
+/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serializer */ "./node_modules/@wordpress/blocks/build-module/api/serializer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serialize", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockContent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockDefaultClassName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockMenuDefaultClassName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getSaveElement"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getSaveContent"]; });
+
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./validation */ "./node_modules/@wordpress/blocks/build-module/api/validation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return _validation__WEBPACK_IMPORTED_MODULE_4__["isValidBlock"]; });
+
+/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./categories */ "./node_modules/@wordpress/blocks/build-module/api/categories.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return _categories__WEBPACK_IMPORTED_MODULE_5__["getCategories"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return _categories__WEBPACK_IMPORTED_MODULE_5__["setCategories"]; });
+
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["registerBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["unregisterBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setUnknownTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getUnknownTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setFreeformContentHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getFreeformContentHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setUnregisteredTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getUnregisteredTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setDefaultBlockName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getDefaultBlockName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockTypes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasBlockSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["isReusableBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getChildBlockNames"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasChildBlocks"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasChildBlocksWithInserterSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["unstable__bootstrapServerSideBlockDefinitions"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["registerBlockStyle"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/utils.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["isUnmodifiedDefaultBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["normalizeIconObject"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["isValidIcon"]; });
+
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./templates */ "./node_modules/@wordpress/blocks/build-module/api/templates.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return _templates__WEBPACK_IMPORTED_MODULE_8__["doBlocksMatchTemplate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return _templates__WEBPACK_IMPORTED_MODULE_8__["synchronizeBlocksWithTemplate"]; });
+
+/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./children */ "./node_modules/@wordpress/blocks/build-module/api/children.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _children__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./node */ "./node_modules/@wordpress/blocks/build-module/api/node.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _node__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/matchers.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/matchers.js ***!
+  \*********************************************************************/
+/*! exports provided: attr, prop, text, query, node, children, html */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
+/* harmony import */ var hpq__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hpq */ "./node_modules/hpq/es/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "attr", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["attr"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "prop", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["prop"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "text", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["text"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "query", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["query"]; });
+
+/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node */ "./node_modules/@wordpress/blocks/build-module/api/node.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _node__WEBPACK_IMPORTED_MODULE_1__["matcher"]; });
+
+/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./children */ "./node_modules/@wordpress/blocks/build-module/api/children.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _children__WEBPACK_IMPORTED_MODULE_2__["matcher"]; });
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function html(selector, multilineTag) {
+  return function (domNode) {
+    var match = domNode;
+
+    if (selector) {
+      match = domNode.querySelector(selector);
+    }
+
+    if (!match) {
+      return '';
+    }
+
+    if (multilineTag) {
+      var value = '';
+      var length = match.children.length;
+
+      for (var index = 0; index < length; index++) {
+        var child = match.children[index];
+
+        if (child.nodeName.toLowerCase() !== multilineTag) {
+          continue;
+        }
+
+        value += child.outerHTML;
+      }
+
+      return value;
+    }
+
+    return match.innerHTML;
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/node.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/node.js ***!
+  \*****************************************************************/
+/*! exports provided: getNamedNodeMapAsObject, fromDOM, toHTML, matcher, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamedNodeMapAsObject", function() { return getNamedNodeMapAsObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromDOM", function() { return fromDOM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTML", function() { return toHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcher", function() { return matcher; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./children */ "./node_modules/@wordpress/blocks/build-module/api/children.js");
+
+
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var _window$Node = window.Node,
+    TEXT_NODE = _window$Node.TEXT_NODE,
+    ELEMENT_NODE = _window$Node.ELEMENT_NODE;
+/**
+ * A representation of a single node within a block's rich text value. If
+ * representing a text node, the value is simply a string of the node value.
+ * As representing an element node, it is an object of:
+ *
+ * 1. `type` (string): Tag name.
+ * 2. `props` (object): Attributes and children array of WPBlockNode.
+ *
+ * @typedef {string|Object} WPBlockNode
+ */
+
+/**
+ * Given a single node and a node type (e.g. `'br'`), returns true if the node
+ * corresponds to that type, false otherwise.
+ *
+ * @param {WPBlockNode} node Block node to test
+ * @param {string} type      Node to type to test against.
+ *
+ * @return {boolean} Whether node is of intended type.
+ */
+
+function isNodeOfType(node, type) {
+  return node && node.type === type;
+}
+/**
+ * Given an object implementing the NamedNodeMap interface, returns a plain
+ * object equivalent value of name, value key-value pairs.
+ *
+ * @see https://dom.spec.whatwg.org/#interface-namednodemap
+ *
+ * @param {NamedNodeMap} nodeMap NamedNodeMap to convert to object.
+ *
+ * @return {Object} Object equivalent value of NamedNodeMap.
+ */
+
+
+function getNamedNodeMapAsObject(nodeMap) {
+  var result = {};
+
+  for (var i = 0; i < nodeMap.length; i++) {
+    var _nodeMap$i = nodeMap[i],
+        name = _nodeMap$i.name,
+        value = _nodeMap$i.value;
+    result[name] = value;
+  }
+
+  return result;
+}
+/**
+ * Given a DOM Element or Text node, returns an equivalent block node. Throws
+ * if passed any node type other than element or text.
+ *
+ * @throws {TypeError} If non-element/text node is passed.
+ *
+ * @param {Node} domNode DOM node to convert.
+ *
+ * @return {WPBlockNode} Block node equivalent to DOM node.
+ */
+
+function fromDOM(domNode) {
+  if (domNode.nodeType === TEXT_NODE) {
+    return domNode.nodeValue;
+  }
+
+  if (domNode.nodeType !== ELEMENT_NODE) {
+    throw new TypeError('A block node can only be created from a node of type text or ' + 'element.');
+  }
+
+  return {
+    type: domNode.nodeName.toLowerCase(),
+    props: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, getNamedNodeMapAsObject(domNode.attributes), {
+      children: _children__WEBPACK_IMPORTED_MODULE_1__["fromDOM"](domNode.childNodes)
+    })
+  };
+}
+/**
+ * Given a block node, returns its HTML string representation.
+ *
+ * @param {WPBlockNode} node Block node to convert to string.
+ *
+ * @return {string} String HTML representation of block node.
+ */
+
+function toHTML(node) {
+  return _children__WEBPACK_IMPORTED_MODULE_1__["toHTML"]([node]);
+}
+/**
+ * Given a selector, returns an hpq matcher generating a WPBlockNode value
+ * matching the selector result.
+ *
+ * @param {string} selector DOM selector.
+ *
+ * @return {Function} hpq matcher.
+ */
+
+function matcher(selector) {
+  return function (domNode) {
+    var match = domNode;
+
+    if (selector) {
+      match = domNode.querySelector(selector);
+    }
+
+    try {
+      return fromDOM(match);
+    } catch (error) {
+      return null;
+    }
+  };
+}
+/* harmony default export */ __webpack_exports__["default"] = ({
+  isNodeOfType: isNodeOfType,
+  fromDOM: fromDOM,
+  toHTML: toHTML,
+  matcher: matcher
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/parser.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/parser.js ***!
+  \*******************************************************************/
+/*! exports provided: toBooleanAttributeMatcher, isOfType, isOfTypes, isAmbiguousStringSource, asType, matcherFromSource, parseWithAttributeSchema, getBlockAttribute, getBlockAttributes, getMigratedBlock, createBlockWithFallback, parseWithGrammar, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toBooleanAttributeMatcher", function() { return toBooleanAttributeMatcher; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOfType", function() { return isOfType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOfTypes", function() { return isOfTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAmbiguousStringSource", function() { return isAmbiguousStringSource; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "asType", function() { return asType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcherFromSource", function() { return matcherFromSource; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return parseWithAttributeSchema; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockAttribute", function() { return getBlockAttribute; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return getBlockAttributes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMigratedBlock", function() { return getMigratedBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlockWithFallback", function() { return createBlockWithFallback; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseWithGrammar", function() { return parseWithGrammar; });
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var hpq__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! hpq */ "./node_modules/hpq/es/index.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_autop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/autop */ "@wordpress/autop");
+/* harmony import */ var _wordpress_autop__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_autop__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/block-serialization-default-parser */ "@wordpress/block-serialization-default-parser");
+/* harmony import */ var _wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./validation */ "./node_modules/@wordpress/blocks/build-module/api/validation.js");
+/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./serializer */ "./node_modules/@wordpress/blocks/build-module/api/serializer.js");
+/* harmony import */ var _matchers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./matchers */ "./node_modules/@wordpress/blocks/build-module/api/matchers.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+/**
+ * Sources which are guaranteed to return a string value.
+ *
+ * @type {Set}
+ */
+
+var STRING_SOURCES = new Set(['attribute', 'html', 'text', 'tag']);
+/**
+ * Higher-order hpq matcher which enhances an attribute matcher to return true
+ * or false depending on whether the original matcher returns undefined. This
+ * is useful for boolean attributes (e.g. disabled) whose attribute values may
+ * be technically falsey (empty string), though their mere presence should be
+ * enough to infer as true.
+ *
+ * @param {Function} matcher Original hpq matcher.
+ *
+ * @return {Function} Enhanced hpq matcher.
+ */
+
+var toBooleanAttributeMatcher = function toBooleanAttributeMatcher(matcher) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flow"])([matcher, // Expected values from `attr( 'disabled' )`:
+  //
+  // <input>
+  // - Value:       `undefined`
+  // - Transformed: `false`
+  //
+  // <input disabled>
+  // - Value:       `''`
+  // - Transformed: `true`
+  //
+  // <input disabled="disabled">
+  // - Value:       `'disabled'`
+  // - Transformed: `true`
+  function (value) {
+    return value !== undefined;
+  }]);
+};
+/**
+ * Returns true if value is of the given JSON schema type, or false otherwise.
+ *
+ * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
+ *
+ * @param {*}      value Value to test.
+ * @param {string} type  Type to test.
+ *
+ * @return {boolean} Whether value is of type.
+ */
+
+function isOfType(value, type) {
+  switch (type) {
+    case 'string':
+      return typeof value === 'string';
+
+    case 'boolean':
+      return typeof value === 'boolean';
+
+    case 'object':
+      return !!value && value.constructor === Object;
+
+    case 'null':
+      return value === null;
+
+    case 'array':
+      return Array.isArray(value);
+
+    case 'integer':
+    case 'number':
+      return typeof value === 'number';
+  }
+
+  return true;
+}
+/**
+ * Returns true if value is of an array of given JSON schema types, or false
+ * otherwise.
+ *
+ * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
+ *
+ * @param {*}        value Value to test.
+ * @param {string[]} types Types to test.
+ *
+ * @return {boolean} Whether value is of types.
+ */
+
+function isOfTypes(value, types) {
+  return types.some(function (type) {
+    return isOfType(value, type);
+  });
+}
+/**
+ * Returns true if the given attribute schema describes a value which may be
+ * an ambiguous string.
+ *
+ * Some sources are ambiguously serialized as strings, for which value casting
+ * is enabled. This is only possible when a singular type is assigned to the
+ * attribute schema, since the string ambiguity makes it impossible to know the
+ * correct type of multiple to which to cast.
+ *
+ * @param {Object} attributeSchema Attribute's schema.
+ *
+ * @return {boolean} Whether attribute schema defines an ambiguous string
+ *                   source.
+ */
+
+function isAmbiguousStringSource(attributeSchema) {
+  var source = attributeSchema.source,
+      type = attributeSchema.type;
+  var isStringSource = STRING_SOURCES.has(source);
+  var isSingleType = typeof type === 'string';
+  return isStringSource && isSingleType;
+}
+/**
+ * Returns value coerced to the specified JSON schema type string.
+ *
+ * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
+ *
+ * @param {*}      value Original value.
+ * @param {string} type  Type to coerce.
+ *
+ * @return {*} Coerced value.
+ */
+
+function asType(value, type) {
+  switch (type) {
+    case 'string':
+      return String(value);
+
+    case 'boolean':
+      return Boolean(value);
+
+    case 'object':
+      return Object(value);
+
+    case 'null':
+      return null;
+
+    case 'array':
+      if (Array.isArray(value)) {
+        return value;
+      }
+
+      return Array.from(value);
+
+    case 'integer':
+    case 'number':
+      return Number(value);
+  }
+
+  return value;
+}
+/**
+ * Returns an hpq matcher given a source object.
+ *
+ * @param {Object} sourceConfig Attribute Source object.
+ *
+ * @return {Function} A hpq Matcher.
+ */
+
+function matcherFromSource(sourceConfig) {
+  switch (sourceConfig.source) {
+    case 'attribute':
+      var matcher = Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["attr"])(sourceConfig.selector, sourceConfig.attribute);
+
+      if (sourceConfig.type === 'boolean') {
+        matcher = toBooleanAttributeMatcher(matcher);
+      }
+
+      return matcher;
+
+    case 'html':
+      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["html"])(sourceConfig.selector, sourceConfig.multiline);
+
+    case 'text':
+      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["text"])(sourceConfig.selector);
+
+    case 'children':
+      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["children"])(sourceConfig.selector);
+
+    case 'node':
+      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["node"])(sourceConfig.selector);
+
+    case 'query':
+      var subMatchers = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(sourceConfig.query, matcherFromSource);
+      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["query"])(sourceConfig.selector, subMatchers);
+
+    case 'tag':
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flow"])([Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["prop"])(sourceConfig.selector, 'nodeName'), function (value) {
+        return value.toLowerCase();
+      }]);
+
+    default:
+      // eslint-disable-next-line no-console
+      console.error("Unknown source type \"".concat(sourceConfig.source, "\""));
+  }
+}
+/**
+ * Given a block's raw content and an attribute's schema returns the attribute's
+ * value depending on its source.
+ *
+ * @param {string} innerHTML         Block's raw content.
+ * @param {Object} attributeSchema   Attribute's schema.
+ *
+ * @return {*} Attribute value.
+ */
+
+function parseWithAttributeSchema(innerHTML, attributeSchema) {
+  return Object(hpq__WEBPACK_IMPORTED_MODULE_2__["parse"])(innerHTML, matcherFromSource(attributeSchema));
+}
+/**
+ * Given an attribute key, an attribute's schema, a block's raw content and the
+ * commentAttributes returns the attribute value depending on its source
+ * definition of the given attribute key.
+ *
+ * @param {string} attributeKey      Attribute key.
+ * @param {Object} attributeSchema   Attribute's schema.
+ * @param {string} innerHTML         Block's raw content.
+ * @param {Object} commentAttributes Block's comment attributes.
+ *
+ * @return {*} Attribute value.
+ */
+
+function getBlockAttribute(attributeKey, attributeSchema, innerHTML, commentAttributes) {
+  var type = attributeSchema.type;
+  var value;
+
+  switch (attributeSchema.source) {
+    // undefined source means that it's an attribute serialized to the block's "comment"
+    case undefined:
+      value = commentAttributes ? commentAttributes[attributeKey] : undefined;
+      break;
+
+    case 'attribute':
+    case 'property':
+    case 'html':
+    case 'text':
+    case 'children':
+    case 'node':
+    case 'query':
+    case 'tag':
+      value = parseWithAttributeSchema(innerHTML, attributeSchema);
+      break;
+  }
+
+  if (value !== undefined) {
+    if (isAmbiguousStringSource(attributeSchema)) {
+      if (!isOfTypes(value, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(type))) {
+        _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default()('Attribute type coercion', {
+          plugin: 'Gutenberg',
+          version: '4.2',
+          hint: 'Omit the source to preserve type via serialized ' + 'comment demarcation.'
+        });
+        value = asType(value, type);
+      }
+    } else if (type !== undefined && !isOfTypes(value, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(type))) {
+      // Reject the value if it is not valid of type. Reverting to the
+      // undefined value ensures the default is restored, if applicable.
+      value = undefined;
+    }
+  }
+
+  if (value === undefined) {
+    return attributeSchema.default;
+  }
+
+  return value;
+}
+/**
+ * Returns the block attributes of a registered block node given its type.
+ *
+ * @param {?Object} blockType  Block type.
+ * @param {string}  innerHTML  Raw block content.
+ * @param {?Object} attributes Known block attributes (from delimiters).
+ *
+ * @return {Object} All block attributes.
+ */
+
+function getBlockAttributes(blockType, innerHTML, attributes) {
+  var blockAttributes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(blockType.attributes, function (attributeSchema, attributeKey) {
+    return getBlockAttribute(attributeKey, attributeSchema, innerHTML, attributes);
+  });
+  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__["applyFilters"])('blocks.getBlockAttributes', blockAttributes, blockType, innerHTML, attributes);
+}
+/**
+ * Given a block object, returns a new copy of the block with any applicable
+ * deprecated migrations applied, or the original block if it was both valid
+ * and no eligible migrations exist.
+ *
+ * @param {WPBlock} block Original block object.
+ *
+ * @return {WPBlock} Migrated block object.
+ */
+
+function getMigratedBlock(block) {
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(block.name);
+  var deprecatedDefinitions = blockType.deprecated;
+
+  if (!deprecatedDefinitions || !deprecatedDefinitions.length) {
+    return block;
+  }
+
+  var _block = block,
+      originalContent = _block.originalContent,
+      attributes = _block.attributes,
+      innerBlocks = _block.innerBlocks;
+
+  for (var i = 0; i < deprecatedDefinitions.length; i++) {
+    // A block can opt into a migration even if the block is valid by
+    // defining isEligible on its deprecation. If the block is both valid
+    // and does not opt to migrate, skip.
+    var _deprecatedDefinition = deprecatedDefinitions[i].isEligible,
+        isEligible = _deprecatedDefinition === void 0 ? lodash__WEBPACK_IMPORTED_MODULE_3__["stubFalse"] : _deprecatedDefinition;
+
+    if (block.isValid && !isEligible(attributes, innerBlocks)) {
+      continue;
+    } // Block type properties which could impact either serialization or
+    // parsing are not considered in the deprecated block type by default,
+    // and must be explicitly provided.
+
+
+    var deprecatedBlockType = Object.assign(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["omit"])(blockType, ['attributes', 'save', 'supports']), deprecatedDefinitions[i]);
+    var migratedAttributes = getBlockAttributes(deprecatedBlockType, originalContent, attributes); // Ignore the deprecation if it produces a block which is not valid.
+
+    var isValid = Object(_validation__WEBPACK_IMPORTED_MODULE_10__["isValidBlock"])(originalContent, deprecatedBlockType, migratedAttributes);
+
+    if (!isValid) {
+      continue;
+    }
+
+    block = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
+      isValid: true
+    });
+    var migratedInnerBlocks = innerBlocks; // A block may provide custom behavior to assign new attributes and/or
+    // inner blocks.
+
+    var migrate = deprecatedBlockType.migrate;
+
+    if (migrate) {
+      var _castArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(migrate(migratedAttributes, innerBlocks));
+
+      var _castArray2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_castArray, 2);
+
+      var _castArray2$ = _castArray2[0];
+      migratedAttributes = _castArray2$ === void 0 ? attributes : _castArray2$;
+      var _castArray2$2 = _castArray2[1];
+      migratedInnerBlocks = _castArray2$2 === void 0 ? innerBlocks : _castArray2$2;
+    }
+
+    block.attributes = migratedAttributes;
+    block.innerBlocks = migratedInnerBlocks;
+  }
+
+  return block;
+}
+/**
+ * Creates a block with fallback to the unknown type handler.
+ *
+ * @param {Object} blockNode Parsed block node.
+ *
+ * @return {?Object} An initialized block object (if possible).
+ */
+
+function createBlockWithFallback(blockNode) {
+  var originalName = blockNode.blockName;
+  var attributes = blockNode.attrs,
+      _blockNode$innerBlock = blockNode.innerBlocks,
+      innerBlocks = _blockNode$innerBlock === void 0 ? [] : _blockNode$innerBlock,
+      innerHTML = blockNode.innerHTML;
+  var freeformContentFallbackBlock = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getFreeformContentHandlerName"])();
+  var unregisteredFallbackBlock = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getUnregisteredTypeHandlerName"])() || freeformContentFallbackBlock;
+  attributes = attributes || {}; // Trim content to avoid creation of intermediary freeform segments.
+
+  innerHTML = innerHTML.trim(); // Use type from block content if available. Otherwise, default to the
+  // freeform content fallback.
+
+  var name = originalName || freeformContentFallbackBlock; // Convert 'core/cover-image' block in existing content to 'core/cover'.
+
+  if ('core/cover-image' === name) {
+    name = 'core/cover';
+  } // Convert 'core/text' blocks in existing content to 'core/paragraph'.
+
+
+  if ('core/text' === name || 'core/cover-text' === name) {
+    name = 'core/paragraph';
+  } // Fallback content may be upgraded from classic editor expecting implicit
+  // automatic paragraphs, so preserve them. Assumes wpautop is idempotent,
+  // meaning there are no negative consequences to repeated autop calls.
+
+
+  if (name === freeformContentFallbackBlock) {
+    innerHTML = Object(_wordpress_autop__WEBPACK_IMPORTED_MODULE_4__["autop"])(innerHTML).trim();
+  } // Try finding the type for known block name, else fall back again.
+
+
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(name);
+
+  if (!blockType) {
+    // Preserve undelimited content for use by the unregistered type handler.
+    var originalUndelimitedContent = innerHTML; // If detected as a block which is not registered, preserve comment
+    // delimiters in content of unregistered type handler.
+
+    if (name) {
+      innerHTML = Object(_serializer__WEBPACK_IMPORTED_MODULE_11__["getCommentDelimitedContent"])(name, attributes, innerHTML);
+    }
+
+    name = unregisteredFallbackBlock;
+    attributes = {
+      originalName: originalName,
+      originalUndelimitedContent: originalUndelimitedContent
+    };
+    blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(name);
+  } // Coerce inner blocks from parsed form to canonical form.
+
+
+  innerBlocks = innerBlocks.map(createBlockWithFallback);
+  var isFallbackBlock = name === freeformContentFallbackBlock || name === unregisteredFallbackBlock; // Include in set only if type was determined.
+
+  if (!blockType || !innerHTML && isFallbackBlock) {
+    return;
+  }
+
+  var block = Object(_factory__WEBPACK_IMPORTED_MODULE_9__["createBlock"])(name, getBlockAttributes(blockType, innerHTML, attributes), innerBlocks); // Block validation assumes an idempotent operation from source block to serialized block
+  // provided there are no changes in attributes. The validation procedure thus compares the
+  // provided source value with the serialized output before there are any modifications to
+  // the block. When both match, the block is marked as valid.
+
+  if (!isFallbackBlock) {
+    block.isValid = Object(_validation__WEBPACK_IMPORTED_MODULE_10__["isValidBlock"])(innerHTML, blockType, block.attributes);
+  } // Preserve original content for future use in case the block is parsed as
+  // invalid, or future serialization attempt results in an error.
+
+
+  block.originalContent = innerHTML;
+  block = getMigratedBlock(block);
+  return block;
+}
+/**
+ * Creates a parse implementation for the post content which returns a list of blocks.
+ *
+ * @param {Function} parseImplementation Parse implementation.
+ *
+ * @return {Function} An implementation which parses the post content.
+ */
+
+var createParse = function createParse(parseImplementation) {
+  return function (content) {
+    return parseImplementation(content).reduce(function (memo, blockNode) {
+      var block = createBlockWithFallback(blockNode);
+
+      if (block) {
+        memo.push(block);
+      }
+
+      return memo;
+    }, []);
+  };
+};
+/**
+ * Parses the post content with a PegJS grammar and returns a list of blocks.
+ *
+ * @param {string} content The post content.
+ *
+ * @return {Array} Block list.
+ */
+
+
+var parseWithGrammar = createParse(_wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__["parse"]);
+/* harmony default export */ __webpack_exports__["default"] = (parseWithGrammar);
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/blockquote-normaliser.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/blockquote-normaliser.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./normalise-blocks */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js");
+/**
+ * Internal dependencies
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node) {
+  if (node.nodeName !== 'BLOCKQUOTE') {
+    return;
+  }
+
+  node.innerHTML = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_0__["default"])(node.innerHTML);
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/figure-content-reducer.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/figure-content-reducer.js ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Whether or not the given node is figure content.
+ *
+ * @param {Node}   node   The node to check.
+ * @param {Object} schema The schema to use.
+ *
+ * @return {boolean} True if figure content, false if not.
+ */
+
+function isFigureContent(node, schema) {
+  var tag = node.nodeName.toLowerCase(); // We are looking for tags that can be a child of the figure tag, excluding
+  // `figcaption` and any phrasing content.
+
+  if (tag === 'figcaption' || Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
+    return false;
+  }
+
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["has"])(schema, ['figure', 'children', tag]);
+}
+/**
+ * Whether or not the given node can have an anchor.
+ *
+ * @param {Node}   node   The node to check.
+ * @param {Object} schema The schema to use.
+ *
+ * @return {boolean} True if it can, false if not.
+ */
+
+
+function canHaveAnchor(node, schema) {
+  var tag = node.nodeName.toLowerCase();
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["has"])(schema, ['figure', 'children', 'a', 'children', tag]);
+}
+/**
+ * This filter takes figure content out of paragraphs, wraps it in a figure
+ * element, and moves any anchors with it if needed.
+ *
+ * @param {Node}     node   The node to filter.
+ * @param {Document} doc    The document of the node.
+ * @param {Object}   schema The schema to use.
+ *
+ * @return {void}
+ */
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node, doc, schema) {
+  if (!isFigureContent(node, schema)) {
+    return;
+  }
+
+  var nodeToInsert = node;
+  var parentNode = node.parentNode; // If the figure content can have an anchor and its parent is an anchor with
+  // only the figure content, take the anchor out instead of just the content.
+
+  if (canHaveAnchor(node, schema) && parentNode.nodeName === 'A' && parentNode.childNodes.length === 1) {
+    nodeToInsert = node.parentNode;
+  }
+
+  var wrapper = nodeToInsert;
+
+  while (wrapper && wrapper.nodeName !== 'P') {
+    wrapper = wrapper.parentElement;
+  }
+
+  var figure = doc.createElement('figure');
+
+  if (wrapper) {
+    wrapper.parentNode.insertBefore(figure, wrapper);
+  } else {
+    nodeToInsert.parentNode.insertBefore(figure, nodeToInsert);
+  }
+
+  figure.appendChild(nodeToInsert);
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (node) {
+  if (node.nodeName !== 'SCRIPT' && node.nodeName !== 'NOSCRIPT' && node.nodeName !== 'TEMPLATE' && node.nodeName !== 'STYLE') {
+    return;
+  }
+
+  node.parentNode.removeChild(node);
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/iframe-remover.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/iframe-remover.js ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Removes iframes.
+ *
+ * @param {Node} node The node to check.
+ *
+ * @return {void}
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node) {
+  if (node.nodeName === 'IFRAME') {
+    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["remove"])(node);
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _wordpress_blob__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blob */ "@wordpress/blob");
+/* harmony import */ var _wordpress_blob__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blob__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var _window = window,
+    atob = _window.atob,
+    File = _window.File;
+/* harmony default export */ __webpack_exports__["default"] = (function (node) {
+  if (node.nodeName !== 'IMG') {
+    return;
+  }
+
+  if (node.src.indexOf('file:') === 0) {
+    node.src = '';
+  } // This piece cannot be tested outside a browser env.
+
+
+  if (node.src.indexOf('data:') === 0) {
+    var _node$src$split = node.src.split(','),
+        _node$src$split2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_node$src$split, 2),
+        properties = _node$src$split2[0],
+        data = _node$src$split2[1];
+
+    var _properties$slice$spl = properties.slice(5).split(';'),
+        _properties$slice$spl2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_properties$slice$spl, 1),
+        type = _properties$slice$spl2[0];
+
+    if (!data || !type) {
+      node.src = '';
+      return;
+    }
+
+    var decoded; // Can throw DOMException!
+
+    try {
+      decoded = atob(data);
+    } catch (e) {
+      node.src = '';
+      return;
+    }
+
+    var uint8Array = new Uint8Array(decoded.length);
+
+    for (var i = 0; i < uint8Array.length; i++) {
+      uint8Array[i] = decoded.charCodeAt(i);
+    }
+
+    var name = type.replace('/', '.');
+    var file = new File([uint8Array], name, {
+      type: type
+    });
+    node.src = Object(_wordpress_blob__WEBPACK_IMPORTED_MODULE_1__["createBlobURL"])(file);
+  } // Remove trackers and hardly visible images.
+
+
+  if (node.height === 1 || node.width === 1) {
+    node.parentNode.removeChild(node);
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js ***!
+  \*******************************************************************************/
+/*! exports provided: getPhrasingContentSchema, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rawHandler; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../serializer */ "./node_modules/@wordpress/blocks/build-module/api/serializer.js");
+/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../parser */ "./node_modules/@wordpress/blocks/build-module/api/parser.js");
+/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./normalise-blocks */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js");
+/* harmony import */ var _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./special-comment-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js");
+/* harmony import */ var _is_inline_content__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./is-inline-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js");
+/* harmony import */ var _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./phrasing-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js");
+/* harmony import */ var _head_remover__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./head-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js");
+/* harmony import */ var _ms_list_converter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ms-list-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js");
+/* harmony import */ var _list_reducer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./list-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js");
+/* harmony import */ var _image_corrector__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./image-corrector */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js");
+/* harmony import */ var _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./blockquote-normaliser */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/blockquote-normaliser.js");
+/* harmony import */ var _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./figure-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/figure-content-reducer.js");
+/* harmony import */ var _shortcode_converter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shortcode-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js");
+/* harmony import */ var _markdown_converter__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./markdown-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js");
+/* harmony import */ var _iframe_remover__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./iframe-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/iframe-remover.js");
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js");
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Browser dependencies
+ */
+
+var _window = window,
+    console = _window.console;
+
+/**
+ * Filters HTML to only contain phrasing content.
+ *
+ * @param {string} HTML The HTML to filter.
+ *
+ * @return {string} HTML only containing phrasing content.
+ */
+
+function filterInlineHTML(HTML) {
+  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(HTML, [_phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"]]);
+  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(HTML, Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])(), {
+    inline: true
+  }); // Allows us to ask for this information when we get a report.
+
+  console.log('Processed inline HTML:\n\n', HTML);
+  return HTML;
+}
+
+function getRawTransformations() {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(Object(_factory__WEBPACK_IMPORTED_MODULE_2__["getBlockTransforms"])('from'), {
+    type: 'raw'
+  }).map(function (transform) {
+    return transform.isMatch ? transform : Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, transform, {
+      isMatch: function isMatch(node) {
+        return transform.selector && node.matches(transform.selector);
+      }
+    });
+  });
+}
+/**
+ * Converts an HTML string to known blocks. Strips everything else.
+ *
+ * @param {string}  [options.HTML]                     The HTML to convert.
+ * @param {string}  [options.plainText]                Plain text version.
+ * @param {string}  [options.mode]                     Handle content as blocks or inline content.
+ *                                                     * 'AUTO': Decide based on the content passed.
+ *                                                     * 'INLINE': Always handle as inline content, and return string.
+ *                                                     * 'BLOCKS': Always handle as blocks, and return array of blocks.
+ * @param {Array}   [options.tagName]                  The tag into which content will be inserted.
+ * @param {boolean} [options.canUserUseUnfilteredHTML] Whether or not the user can use unfiltered HTML.
+ *
+ * @return {Array|string} A list of blocks or a string, depending on `handlerMode`.
+ */
+
+
+function rawHandler(_ref) {
+  var _ref$HTML = _ref.HTML,
+      HTML = _ref$HTML === void 0 ? '' : _ref$HTML,
+      _ref$plainText = _ref.plainText,
+      plainText = _ref$plainText === void 0 ? '' : _ref$plainText,
+      _ref$mode = _ref.mode,
+      mode = _ref$mode === void 0 ? 'AUTO' : _ref$mode,
+      tagName = _ref.tagName,
+      _ref$canUserUseUnfilt = _ref.canUserUseUnfilteredHTML,
+      canUserUseUnfilteredHTML = _ref$canUserUseUnfilt === void 0 ? false : _ref$canUserUseUnfilt;
+  // First of all, strip any meta tags.
+  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters, parse entirely as blocks.
+
+  if (mode !== 'INLINE' && HTML.indexOf('<!-- wp:') !== -1) {
+    return Object(_parser__WEBPACK_IMPORTED_MODULE_5__["parseWithGrammar"])(HTML);
+  } // Normalize unicode to use composed characters.
+  // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
+  // Not normalizing the content will only affect older browsers and won't
+  // entirely break the app.
+  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
+  // See: https://core.trac.wordpress.org/ticket/30130
+  // See: https://github.com/WordPress/gutenberg/pull/6983#pullrequestreview-125151075
+
+
+  if (String.prototype.normalize) {
+    HTML = HTML.normalize();
+  } // Parse Markdown (and encoded HTML) if:
+  // * There is a plain text version.
+  // * There is no HTML version, or it has no formatting.
+
+
+  if (plainText && (!HTML || Object(_utils__WEBPACK_IMPORTED_MODULE_20__["isPlain"])(HTML))) {
+    HTML = Object(_markdown_converter__WEBPACK_IMPORTED_MODULE_17__["default"])(plainText); // Switch to inline mode if:
+    // * The current mode is AUTO.
+    // * The original plain text had no line breaks.
+    // * The original plain text was not an HTML paragraph.
+    // * The converted text is just a paragraph.
+
+    if (mode === 'AUTO' && plainText.indexOf('\n') === -1 && plainText.indexOf('<p>') !== 0 && HTML.indexOf('<p>') === 0) {
+      mode = 'INLINE';
+    }
+  }
+
+  if (mode === 'INLINE') {
+    return filterInlineHTML(HTML);
+  } // An array of HTML strings and block objects. The blocks replace matched
+  // shortcodes.
+
+
+  var pieces = Object(_shortcode_converter__WEBPACK_IMPORTED_MODULE_16__["default"])(HTML); // The call to shortcodeConverter will always return more than one element
+  // if shortcodes are matched. The reason is when shortcodes are matched
+  // empty HTML strings are included.
+
+  var hasShortcodes = pieces.length > 1;
+
+  if (mode === 'AUTO' && !hasShortcodes && Object(_is_inline_content__WEBPACK_IMPORTED_MODULE_8__["default"])(HTML, tagName)) {
+    return filterInlineHTML(HTML);
+  }
+
+  var rawTransformations = getRawTransformations();
+  var phrasingContentSchema = Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])();
+  var blockContentSchema = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["getBlockContentSchema"])(rawTransformations);
+  var blocks = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["compact"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flatMap"])(pieces, function (piece) {
+    // Already a block from shortcode.
+    if (typeof piece !== 'string') {
+      return piece;
+    }
+
+    var filters = [_ms_list_converter__WEBPACK_IMPORTED_MODULE_11__["default"], _head_remover__WEBPACK_IMPORTED_MODULE_10__["default"], _list_reducer__WEBPACK_IMPORTED_MODULE_12__["default"], _image_corrector__WEBPACK_IMPORTED_MODULE_13__["default"], _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"], _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__["default"], _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__["default"], _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__["default"]];
+
+    if (!canUserUseUnfilteredHTML) {
+      // Should run before `figureContentReducer`.
+      filters.unshift(_iframe_remover__WEBPACK_IMPORTED_MODULE_18__["default"]);
+    }
+
+    var schema = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, blockContentSchema, phrasingContentSchema);
+
+    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(piece, filters, blockContentSchema);
+    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(piece, schema);
+    piece = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_6__["default"])(piece); // Allows us to ask for this information when we get a report.
+
+    console.log('Processed HTML piece:\n\n', piece);
+    var doc = document.implementation.createHTMLDocument('');
+    doc.body.innerHTML = piece;
+    return Array.from(doc.body.children).map(function (node) {
+      var rawTransformation = Object(_factory__WEBPACK_IMPORTED_MODULE_2__["findTransform"])(rawTransformations, function (_ref2) {
+        var isMatch = _ref2.isMatch;
+        return isMatch(node);
+      });
+
+      if (!rawTransformation) {
+        console.warn('A block registered a raw transformation schema for `' + node.nodeName + '` but did not match it. ' + 'Make sure there is a `selector` or `isMatch` property that can match the schema.\n' + 'Sanitized HTML: `' + node.outerHTML + '`');
+        return;
+      }
+
+      var transform = rawTransformation.transform,
+          blockName = rawTransformation.blockName;
+
+      if (transform) {
+        return transform(node);
+      }
+
+      return Object(_factory__WEBPACK_IMPORTED_MODULE_2__["createBlock"])(blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_5__["getBlockAttributes"])(Object(_registration__WEBPACK_IMPORTED_MODULE_3__["getBlockType"])(blockName), node.outerHTML));
+    });
+  })); // If we're allowed to return inline content and there is only one block
+  // and the original plain text content does not have any line breaks, then
+  // treat it as inline paste.
+
+  if (mode === 'AUTO' && blocks.length === 1) {
+    var trimmedPlainText = plainText.trim();
+
+    if (trimmedPlainText !== '' && trimmedPlainText.indexOf('\n') === -1) {
+      return Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(Object(_serializer__WEBPACK_IMPORTED_MODULE_4__["getBlockContent"])(blocks[0]), phrasingContentSchema);
+    }
+  }
+
+  return blocks;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Checks if the given node should be considered inline content, optionally
+ * depending on a context tag.
+ *
+ * @param {Node}   node       Node name.
+ * @param {string} contextTag Tag name.
+ *
+ * @return {boolean} True if the node is inline content, false if nohe.
+ */
+
+function isInline(node, contextTag) {
+  if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
+    return true;
+  }
+
+  if (!contextTag) {
+    return false;
+  }
+
+  var tag = node.nodeName.toLowerCase();
+  var inlineWhitelistTagGroups = [['ul', 'li', 'ol'], ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']];
+  return inlineWhitelistTagGroups.some(function (tagGroup) {
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["difference"])([tag, contextTag], tagGroup).length === 0;
+  });
+}
+
+function deepCheck(nodes, contextTag) {
+  return nodes.every(function (node) {
+    return isInline(node, contextTag) && deepCheck(Array.from(node.children), contextTag);
+  });
+}
+
+function isDoubleBR(node) {
+  return node.nodeName === 'BR' && node.previousSibling && node.previousSibling.nodeName === 'BR';
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (HTML, contextTag) {
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = HTML;
+  var nodes = Array.from(doc.body.children);
+  return !nodes.some(isDoubleBR) && deepCheck(nodes, contextTag);
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_1__);
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+function isList(node) {
+  return node.nodeName === 'OL' || node.nodeName === 'UL';
+}
+
+function shallowTextContent(element) {
+  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(element.childNodes).map(function (_ref) {
+    var _ref$nodeValue = _ref.nodeValue,
+        nodeValue = _ref$nodeValue === void 0 ? '' : _ref$nodeValue;
+    return nodeValue;
+  }).join('');
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node) {
+  if (!isList(node)) {
+    return;
+  }
+
+  var list = node;
+  var prevElement = node.previousElementSibling; // Merge with previous list if:
+  // * There is a previous list of the same type.
+  // * There is only one list item.
+
+  if (prevElement && prevElement.nodeName === node.nodeName && list.children.length === 1) {
+    prevElement.appendChild(list.firstChild);
+    list.parentNode.removeChild(list);
+  }
+
+  var parentElement = node.parentNode; // Nested list with empty parent item.
+
+  if (parentElement && parentElement.nodeName === 'LI' && parentElement.children.length === 1 && !/\S/.test(shallowTextContent(parentElement))) {
+    var parentListItem = parentElement;
+    var prevListItem = parentListItem.previousElementSibling;
+    var parentList = parentListItem.parentNode;
+
+    if (prevListItem) {
+      prevListItem.appendChild(list);
+      parentList.removeChild(parentListItem);
+    } else {
+      parentList.parentNode.insertBefore(list, parentList);
+      parentList.parentNode.removeChild(parentList);
+    }
+  } // Invalid: OL/UL > OL/UL.
+
+
+  if (parentElement && isList(parentElement)) {
+    var _prevListItem = node.previousElementSibling;
+
+    if (_prevListItem) {
+      _prevListItem.appendChild(node);
+    } else {
+      Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(node);
+    }
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! showdown */ "./node_modules/showdown/dist/showdown.js");
+/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(showdown__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * External dependencies
+ */
+ // Reuse the same showdown converter.
+
+var converter = new showdown__WEBPACK_IMPORTED_MODULE_0___default.a.Converter({
+  noHeaderId: true,
+  tables: true,
+  literalMidWordUnderscores: true,
+  omitExtraWLInCodeBlocks: true,
+  simpleLineBreaks: true,
+  strikethrough: true
+});
+/**
+ * Corrects the Slack Markdown variant of the code block.
+ * If uncorrected, it will be converted to inline code.
+ *
+ * @see https://get.slack.help/hc/en-us/articles/202288908-how-can-i-add-formatting-to-my-messages-#code-blocks
+ *
+ * @param {string} text The potential Markdown text to correct.
+ *
+ * @return {string} The corrected Markdown.
+ */
+
+function slackMarkdownVariantCorrector(text) {
+  return text.replace(/((?:^|\n)```)([^\n`]+)(```(?:$|\n))/, function (match, p1, p2, p3) {
+    return "".concat(p1, "\n").concat(p2, "\n").concat(p3);
+  });
+}
+/**
+ * Converts a piece of text into HTML based on any Markdown present.
+ * Also decodes any encoded HTML.
+ *
+ * @param {string} text The plain text to convert.
+ *
+ * @return {string} HTML.
+ */
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function (text) {
+  return converter.makeHtml(slackMarkdownVariantCorrector(text));
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Browser dependencies
+ */
+var _window = window,
+    parseInt = _window.parseInt;
+
+function isList(node) {
+  return node.nodeName === 'OL' || node.nodeName === 'UL';
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node, doc) {
+  if (node.nodeName !== 'P') {
+    return;
+  }
+
+  var style = node.getAttribute('style');
+
+  if (!style) {
+    return;
+  } // Quick check.
+
+
+  if (style.indexOf('mso-list') === -1) {
+    return;
+  }
+
+  var matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
+
+  if (!matches) {
+    return;
+  }
+
+  var level = parseInt(matches[1], 10) - 1 || 0;
+  var prevNode = node.previousElementSibling; // Add new list if no previous.
+
+  if (!prevNode || !isList(prevNode)) {
+    // See https://html.spec.whatwg.org/multipage/grouping-content.html#attr-ol-type.
+    var type = node.textContent.trim().slice(0, 1);
+    var isNumeric = /[1iIaA]/.test(type);
+    var newListNode = doc.createElement(isNumeric ? 'ol' : 'ul');
+
+    if (isNumeric) {
+      newListNode.setAttribute('type', type);
+    }
+
+    node.parentNode.insertBefore(newListNode, node);
+  }
+
+  var listNode = node.previousElementSibling;
+  var listType = listNode.nodeName;
+  var listItem = doc.createElement('li');
+  var receivingNode = listNode; // Remove the first span with list info.
+
+  node.removeChild(node.firstElementChild); // Add content.
+
+  while (node.firstChild) {
+    listItem.appendChild(node.firstChild);
+  } // Change pointer depending on indentation level.
+
+
+  while (level--) {
+    receivingNode = receivingNode.lastElementChild || receivingNode; // If it's a list, move pointer to the last item.
+
+    if (isList(receivingNode)) {
+      receivingNode = receivingNode.lastElementChild || receivingNode;
+    }
+  } // Make sure we append to a list.
+
+
+  if (!isList(receivingNode)) {
+    receivingNode = receivingNode.appendChild(doc.createElement(listType));
+  } // Append the list item to the list.
+
+
+  receivingNode.appendChild(listItem); // Remove the wrapper paragraph.
+
+  node.parentNode.removeChild(node);
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js");
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Browser dependencies
+ */
+
+var _window$Node = window.Node,
+    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
+    TEXT_NODE = _window$Node.TEXT_NODE;
+/* harmony default export */ __webpack_exports__["default"] = (function (HTML) {
+  var decuDoc = document.implementation.createHTMLDocument('');
+  var accuDoc = document.implementation.createHTMLDocument('');
+  var decu = decuDoc.body;
+  var accu = accuDoc.body;
+  decu.innerHTML = HTML;
+
+  while (decu.firstChild) {
+    var node = decu.firstChild; // Text nodes: wrap in a paragraph, or append to previous.
+
+    if (node.nodeType === TEXT_NODE) {
+      if (!node.nodeValue.trim()) {
+        decu.removeChild(node);
+      } else {
+        if (!accu.lastChild || accu.lastChild.nodeName !== 'P') {
+          accu.appendChild(accuDoc.createElement('P'));
+        }
+
+        accu.lastChild.appendChild(node);
+      } // Element nodes.
+
+    } else if (node.nodeType === ELEMENT_NODE) {
+      // BR nodes: create a new paragraph on double, or append to previous.
+      if (node.nodeName === 'BR') {
+        if (node.nextSibling && node.nextSibling.nodeName === 'BR') {
+          accu.appendChild(accuDoc.createElement('P'));
+          decu.removeChild(node.nextSibling);
+        } // Don't append to an empty paragraph.
+
+
+        if (accu.lastChild && accu.lastChild.nodeName === 'P' && accu.lastChild.hasChildNodes()) {
+          accu.lastChild.appendChild(node);
+        } else {
+          decu.removeChild(node);
+        }
+      } else if (node.nodeName === 'P') {
+        // Only append non-empty paragraph nodes.
+        if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isEmpty"])(node)) {
+          decu.removeChild(node);
+        } else {
+          accu.appendChild(node);
+        }
+      } else if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
+        if (!accu.lastChild || accu.lastChild.nodeName !== 'P') {
+          accu.appendChild(accuDoc.createElement('P'));
+        }
+
+        accu.lastChild.appendChild(node);
+      } else {
+        accu.appendChild(node);
+      }
+    } else {
+      decu.removeChild(node);
+    }
+  }
+
+  return accu.innerHTML;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js ***!
+  \**************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function isBlockContent(node) {
+  var schema = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return schema.hasOwnProperty(node.nodeName.toLowerCase());
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node, doc, schema) {
+  if (node.nodeName === 'SPAN') {
+    var _node$style = node.style,
+        fontWeight = _node$style.fontWeight,
+        fontStyle = _node$style.fontStyle;
+
+    if (fontWeight === 'bold' || fontWeight === '700') {
+      node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'strong', doc);
+    } else if (fontStyle === 'italic') {
+      node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'em', doc);
+    }
+  } else if (node.nodeName === 'B') {
+    node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'strong', doc);
+  } else if (node.nodeName === 'I') {
+    node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'em', doc);
+  } else if (node.nodeName === 'A') {
+    if (node.target.toLowerCase() === '_blank') {
+      node.rel = 'noreferrer noopener';
+    } else {
+      node.removeAttribute('target');
+      node.removeAttribute('rel');
+    }
+  }
+
+  if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node) && node.hasChildNodes() && Array.from(node.childNodes).some(function (child) {
+    return isBlockContent(child, schema);
+  })) {
+    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["unwrap"])(node);
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js ***!
+  \******************************************************************************************/
+/*! exports provided: getPhrasingContentSchema, isPhrasingContent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return getPhrasingContentSchema; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPhrasingContent", function() { return isPhrasingContent; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * External dependencies
+ */
+
+var phrasingContentSchema = {
+  strong: {},
+  em: {},
+  del: {},
+  ins: {},
+  a: {
+    attributes: ['href', 'target', 'rel']
+  },
+  code: {},
+  abbr: {
+    attributes: ['title']
+  },
+  sub: {},
+  sup: {},
+  br: {},
+  '#text': {}
+}; // Recursion is needed.
+// Possible: strong > em > strong.
+// Impossible: strong > strong.
+
+['strong', 'em', 'del', 'ins', 'a', 'code', 'abbr', 'sub', 'sup'].forEach(function (tag) {
+  phrasingContentSchema[tag].children = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["omit"])(phrasingContentSchema, tag);
+});
+/**
+ * Get schema of possible paths for phrasing content.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
+ *
+ * @return {Object} Schema.
+ */
+
+function getPhrasingContentSchema() {
+  return phrasingContentSchema;
+}
+/**
+ * Find out whether or not the given node is phrasing content.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
+ *
+ * @param {Element} node The node to test.
+ *
+ * @return {boolean} True if phrasing content, false if not.
+ */
+
+function isPhrasingContent(node) {
+  var tag = node.nodeName.toLowerCase();
+  return getPhrasingContentSchema().hasOwnProperty(tag) || tag === 'span';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/shortcode */ "@wordpress/shortcode");
+/* harmony import */ var _wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../parser */ "./node_modules/@wordpress/blocks/build-module/api/parser.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+function segmentHTMLToShortcodeBlock(HTML) {
+  var lastIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  // Get all matches.
+  var transformsFrom = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["getBlockTransforms"])('from');
+  var transformation = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["findTransform"])(transformsFrom, function (transform) {
+    return transform.type === 'shortcode' && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["some"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(transform.tag), function (tag) {
+      return Object(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__["regexp"])(tag).test(HTML);
+    });
+  });
+
+  if (!transformation) {
+    return [HTML];
+  }
+
+  var transformTags = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(transformation.tag);
+  var transformTag = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["first"])(transformTags);
+  var match;
+
+  if (match = Object(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__["next"])(transformTag, HTML, lastIndex)) {
+    var beforeHTML = HTML.substr(0, match.index);
+    lastIndex = match.index + match.content.length; // If the shortcode content does not contain HTML and the shortcode is
+    // not on a new line (or in paragraph from Markdown converter),
+    // consider the shortcode as inline text, and thus skip conversion for
+    // this segment.
+
+    if (!Object(lodash__WEBPACK_IMPORTED_MODULE_2__["includes"])(match.shortcode.content || '', '<') && !/(\n|<p>)\s*$/.test(beforeHTML)) {
+      return segmentHTMLToShortcodeBlock(HTML, lastIndex);
+    }
+
+    var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["mapValues"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pickBy"])(transformation.attributes, function (schema) {
+      return schema.shortcode;
+    }), // Passing all of `match` as second argument is intentionally broad
+    // but shouldn't be too relied upon.
+    //
+    // See: https://github.com/WordPress/gutenberg/pull/3610#discussion_r152546926
+    function (schema) {
+      return schema.shortcode(match.shortcode.attrs, match);
+    });
+    var block = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["createBlock"])(transformation.blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_6__["getBlockAttributes"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(transformation.blockName), {
+      attributes: transformation.attributes
+    }), match.shortcode.content, attributes));
+    return [beforeHTML, block].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(segmentHTMLToShortcodeBlock(HTML.substr(lastIndex))));
+  }
+
+  return [HTML];
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (segmentHTMLToShortcodeBlock);
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js":
+/*!***************************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var COMMENT_NODE = window.Node.COMMENT_NODE;
+/**
+ * Looks for `<!--nextpage-->` and `<!--more-->` comments, as well as the
+ * `<!--more Some text-->` variant and its `<!--noteaser-->` companion,
+ * and replaces them with a custom element representing a future block.
+ *
+ * The custom element is a way to bypass the rest of the `raw-handling`
+ * transforms, which would eliminate other kinds of node with which to carry
+ * `<!--more-->`'s data: nodes with `data` attributes, empty paragraphs, etc.
+ *
+ * The custom element is then expected to be recognized by any registered
+ * block's `raw` transform.
+ *
+ * @param {Node}     node The node to be processed.
+ * @param {Document} doc  The document of the node.
+ * @return {void}
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (function (node, doc) {
+  if (node.nodeType !== COMMENT_NODE) {
+    return;
+  }
+
+  if (node.nodeValue === 'nextpage') {
+    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replace"])(node, createNextpage(doc));
+    return;
+  }
+
+  if (node.nodeValue.indexOf('more') === 0) {
+    // Grab any custom text in the comment.
+    var customText = node.nodeValue.slice(4).trim();
+    /*
+     * When a `<!--more-->` comment is found, we need to look for any
+     * `<!--noteaser-->` sibling, but it may not be a direct sibling
+     * (whitespace typically lies in between)
+     */
+
+    var sibling = node;
+    var noTeaser = false;
+
+    while (sibling = sibling.nextSibling) {
+      if (sibling.nodeType === COMMENT_NODE && sibling.nodeValue === 'noteaser') {
+        noTeaser = true;
+        Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["remove"])(sibling);
+        break;
+      }
+    }
+
+    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replace"])(node, createMore(customText, noTeaser, doc));
+  }
+});
+
+function createMore(customText, noTeaser, doc) {
+  var node = doc.createElement('wp-block');
+  node.dataset.block = 'core/more';
+
+  if (customText) {
+    node.dataset.customText = customText;
+  }
+
+  if (noTeaser) {
+    // "Boolean" data attribute
+    node.dataset.noTeaser = '';
+  }
+
+  return node;
+}
+
+function createNextpage(doc) {
+  var node = doc.createElement('wp-block');
+  node.dataset.block = 'core/nextpage';
+  return node;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js ***!
+  \*******************************************************************************/
+/*! exports provided: getBlockContentSchema, isEmpty, isPlain, deepFilterNodeList, deepFilterHTML, removeInvalidHTML */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockContentSchema", function() { return getBlockContentSchema; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return isEmpty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlain", function() { return isPlain; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deepFilterNodeList", function() { return deepFilterNodeList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deepFilterHTML", function() { return deepFilterHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeInvalidHTML", function() { return removeInvalidHTML; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
+/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! .. */ "./node_modules/@wordpress/blocks/build-module/api/index.js");
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Browser dependencies
+ */
+
+var _window$Node = window.Node,
+    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
+    TEXT_NODE = _window$Node.TEXT_NODE;
+/**
+ * Given raw transforms from blocks, merges all schemas into one.
+ *
+ * @param {Array} transforms Block transforms, of the `raw` type.
+ *
+ * @return {Object} A complete block content schema.
+ */
+
+function getBlockContentSchema(transforms) {
+  var schemas = transforms.map(function (_ref) {
+    var blockName = _ref.blockName,
+        schema = _ref.schema;
+
+    // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
+    if (Object(___WEBPACK_IMPORTED_MODULE_4__["hasBlockSupport"])(blockName, 'anchor')) {
+      for (var tag in schema) {
+        if (!schema[tag].attributes) {
+          schema[tag].attributes = [];
+        }
+
+        schema[tag].attributes.push('id');
+      }
+    }
+
+    return schema;
+  });
+  return lodash__WEBPACK_IMPORTED_MODULE_2__["mergeWith"].apply(void 0, [{}].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(schemas), [function (objValue, srcValue, key) {
+    if (key === 'children') {
+      if (objValue === '*' || srcValue === '*') {
+        return '*';
+      }
+
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, objValue, srcValue);
+    } else if (key === 'attributes' || key === 'require') {
+      return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(objValue || []).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(srcValue || []));
+    }
+  }]));
+}
+/**
+ * Recursively checks if an element is empty. An element is not empty if it
+ * contains text or contains elements with attributes such as images.
+ *
+ * @param {Element} element The element to check.
+ *
+ * @return {boolean} Wether or not the element is empty.
+ */
+
+function isEmpty(element) {
+  if (!element.hasChildNodes()) {
+    return true;
+  }
+
+  return Array.from(element.childNodes).every(function (node) {
+    if (node.nodeType === TEXT_NODE) {
+      return !node.nodeValue.trim();
+    }
+
+    if (node.nodeType === ELEMENT_NODE) {
+      if (node.nodeName === 'BR') {
+        return true;
+      } else if (node.hasAttributes()) {
+        return false;
+      }
+
+      return isEmpty(node);
+    }
+
+    return true;
+  });
+}
+/**
+ * Checks wether HTML can be considered plain text. That is, it does not contain
+ * any elements that are not line breaks.
+ *
+ * @param {string} HTML The HTML to check.
+ *
+ * @return {boolean} Wether the HTML can be considered plain text.
+ */
+
+function isPlain(HTML) {
+  return !/<(?!br[ />])/i.test(HTML);
+}
+/**
+ * Given node filters, deeply filters and mutates a NodeList.
+ *
+ * @param {NodeList} nodeList The nodeList to filter.
+ * @param {Array}    filters  An array of functions that can mutate with the provided node.
+ * @param {Document} doc      The document of the nodeList.
+ * @param {Object}   schema   The schema to use.
+ */
+
+function deepFilterNodeList(nodeList, filters, doc, schema) {
+  Array.from(nodeList).forEach(function (node) {
+    deepFilterNodeList(node.childNodes, filters, doc, schema);
+    filters.forEach(function (item) {
+      // Make sure the node is still attached to the document.
+      if (!doc.contains(node)) {
+        return;
+      }
+
+      item(node, doc, schema);
+    });
+  });
+}
+/**
+ * Given node filters, deeply filters HTML tags.
+ * Filters from the deepest nodes to the top.
+ *
+ * @param {string} HTML    The HTML to filter.
+ * @param {Array}  filters An array of functions that can mutate with the provided node.
+ * @param {Object} schema  The schema to use.
+ *
+ * @return {string} The filtered HTML.
+ */
+
+function deepFilterHTML(HTML) {
+  var filters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var schema = arguments.length > 2 ? arguments[2] : undefined;
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = HTML;
+  deepFilterNodeList(doc.body.childNodes, filters, doc, schema);
+  return doc.body.innerHTML;
+}
+/**
+ * Given a schema, unwraps or removes nodes, attributes and classes on a node
+ * list.
+ *
+ * @param {NodeList} nodeList The nodeList to filter.
+ * @param {Document} doc      The document of the nodeList.
+ * @param {Object}   schema   An array of functions that can mutate with the provided node.
+ * @param {Object}   inline   Whether to clean for inline mode.
+ */
+
+function cleanNodeList(nodeList, doc, schema, inline) {
+  Array.from(nodeList).forEach(function (node) {
+    var tag = node.nodeName.toLowerCase(); // It's a valid child.
+
+    if (schema.hasOwnProperty(tag)) {
+      if (node.nodeType === ELEMENT_NODE) {
+        var _schema$tag = schema[tag],
+            _schema$tag$attribute = _schema$tag.attributes,
+            attributes = _schema$tag$attribute === void 0 ? [] : _schema$tag$attribute,
+            _schema$tag$classes = _schema$tag.classes,
+            classes = _schema$tag$classes === void 0 ? [] : _schema$tag$classes,
+            children = _schema$tag.children,
+            _schema$tag$require = _schema$tag.require,
+            require = _schema$tag$require === void 0 ? [] : _schema$tag$require; // If the node is empty and it's supposed to have children,
+        // remove the node.
+
+
+        if (isEmpty(node) && children) {
+          Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["remove"])(node);
+          return;
+        }
+
+        if (node.hasAttributes()) {
+          // Strip invalid attributes.
+          Array.from(node.attributes).forEach(function (_ref2) {
+            var name = _ref2.name;
+
+            if (name !== 'class' && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["includes"])(attributes, name)) {
+              node.removeAttribute(name);
+            }
+          }); // Strip invalid classes.
+
+          if (node.classList.length) {
+            var mattchers = classes.map(function (item) {
+              if (typeof item === 'string') {
+                return function (className) {
+                  return className === item;
+                };
+              } else if (item instanceof RegExp) {
+                return function (className) {
+                  return item.test(className);
+                };
+              }
+
+              return lodash__WEBPACK_IMPORTED_MODULE_2__["noop"];
+            });
+            Array.from(node.classList).forEach(function (name) {
+              if (!mattchers.some(function (isMatch) {
+                return isMatch(name);
+              })) {
+                node.classList.remove(name);
+              }
+            });
+
+            if (!node.classList.length) {
+              node.removeAttribute('class');
+            }
+          }
+        }
+
+        if (node.hasChildNodes()) {
+          // Do not filter any content.
+          if (children === '*') {
+            return;
+          } // Continue if the node is supposed to have children.
+
+
+          if (children) {
+            // If a parent requires certain children, but it does
+            // not have them, drop the parent and continue.
+            if (require.length && !node.querySelector(require.join(','))) {
+              cleanNodeList(node.childNodes, doc, schema, inline);
+              Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["unwrap"])(node);
+            }
+
+            cleanNodeList(node.childNodes, doc, children, inline); // Remove children if the node is not supposed to have any.
+          } else {
+            while (node.firstChild) {
+              Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["remove"])(node.firstChild);
+            }
+          }
+        }
+      } // Invalid child. Continue with schema at the same place and unwrap.
+
+    } else {
+      cleanNodeList(node.childNodes, doc, schema, inline); // For inline mode, insert a line break when unwrapping nodes that
+      // are not phrasing content.
+
+      if (inline && !Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_5__["isPhrasingContent"])(node) && node.nextElementSibling) {
+        Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["insertAfter"])(doc.createElement('br'), node);
+      }
+
+      Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["unwrap"])(node);
+    }
+  });
+}
+/**
+ * Given a schema, unwraps or removes nodes, attributes and classes on HTML.
+ *
+ * @param {string} HTML   The HTML to clean up.
+ * @param {Object} schema Schema for the HTML.
+ * @param {Object} inline Whether to clean for inline mode.
+ *
+ * @return {string} The cleaned up HTML.
+ */
+
+
+function removeInvalidHTML(HTML, schema, inline) {
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = HTML;
+  cleanNodeList(doc.body.childNodes, doc, schema, inline);
+  return doc.body.innerHTML;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/registration.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/registration.js ***!
+  \*************************************************************************/
+/*! exports provided: unstable__bootstrapServerSideBlockDefinitions, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, registerBlockStyle */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return unstable__bootstrapServerSideBlockDefinitions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return registerBlockType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return unregisterBlockType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return setUnknownTypeHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return getUnknownTypeHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return setFreeformContentHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return getFreeformContentHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return setUnregisteredTypeHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return getUnregisteredTypeHandlerName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return setDefaultBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return getDefaultBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return getBlockType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return getBlockTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return getBlockSupport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return hasBlockSupport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return isReusableBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return getChildBlockNames; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return hasChildBlocks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return hasChildBlocksWithInserterSupport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return registerBlockStyle; });
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/utils.js");
+
+
+
+/* eslint no-console: [ 'error', { allow: [ 'error' ] } ] */
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Defined behavior of a block type.
+ *
+ * @typedef {WPBlockType}
+ *
+ * @property {string}                    name       Block's namespaced name.
+ * @property {string}                    title      Human-readable label for a block.
+ *                                                  Shown in the block inserter.
+ * @property {string}                    category   Category classification of block,
+ *                                                  impacting where block is shown in
+ *                                                  inserter results.
+ * @property {(Object|string|WPElement)} icon       Slug of the Dashicon to be shown
+ *                                                  as the icon for the block in the
+ *                                                  inserter, or element or an object describing the icon.
+ * @property {?string[]}                 keywords   Additional keywords to produce
+ *                                                  block as inserter search result.
+ * @property {?Object}                   attributes Block attributes.
+ * @property {Function}                  save       Serialize behavior of a block,
+ *                                                  returning an element describing
+ *                                                  structure of the block's post
+ *                                                  content markup.
+ * @property {WPComponent}               edit       Component rendering element to be
+ *                                                  interacted with in an editor.
+ */
+
+var serverSideBlockDefinitions = {};
+/**
+ * Set the server side block definition of blocks.
+ *
+ * @param {Object} definitions Server-side block definitions
+ */
+
+function unstable__bootstrapServerSideBlockDefinitions(definitions) {
+  // eslint-disable-line camelcase
+  serverSideBlockDefinitions = definitions;
+}
+/**
+ * Registers a new block provided a unique name and an object defining its
+ * behavior. Once registered, the block is made available as an option to any
+ * editor interface where blocks are implemented.
+ *
+ * @param {string} name     Block name.
+ * @param {Object} settings Block settings.
+ *
+ * @return {?WPBlock} The block, if it has been successfully registered;
+ *                     otherwise `undefined`.
+ */
+
+function registerBlockType(name, settings) {
+  settings = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({
+    name: name
+  }, Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(serverSideBlockDefinitions, name), settings);
+
+  if (typeof name !== 'string') {
+    console.error('Block names must be strings.');
+    return;
+  }
+
+  if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(name)) {
+    console.error('Block names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-block');
+    return;
+  }
+
+  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name)) {
+    console.error('Block "' + name + '" is already registered.');
+    return;
+  }
+
+  settings = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.registerBlockType', settings, name);
+
+  if (!settings || !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(settings.save)) {
+    console.error('The "save" property must be specified and must be a valid function.');
+    return;
+  }
+
+  if ('edit' in settings && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(settings.edit)) {
+    console.error('The "edit" property must be a valid function.');
+    return;
+  }
+
+  if ('keywords' in settings && settings.keywords.length > 3) {
+    console.error('The block "' + name + '" can have a maximum of 3 keywords.');
+    return;
+  }
+
+  if (!('category' in settings)) {
+    console.error('The block "' + name + '" must have a category.');
+    return;
+  }
+
+  if ('category' in settings && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["some"])(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getCategories(), {
+    slug: settings.category
+  })) {
+    console.error('The block "' + name + '" must have a registered category.');
+    return;
+  }
+
+  if (!('title' in settings) || settings.title === '') {
+    console.error('The block "' + name + '" must have a title.');
+    return;
+  }
+
+  if (typeof settings.title !== 'string') {
+    console.error('Block titles must be strings.');
+    return;
+  }
+
+  settings.icon = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["normalizeIconObject"])(settings.icon);
+
+  if (!Object(_utils__WEBPACK_IMPORTED_MODULE_6__["isValidIcon"])(settings.icon.src)) {
+    console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/block-api/#icon-optional');
+    return;
+  }
+
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').addBlockTypes(settings);
+  return settings;
+}
+/**
+ * Unregisters a block.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {?WPBlock} The previous block value, if it has been successfully
+ *                     unregistered; otherwise `undefined`.
+ */
+
+function unregisterBlockType(name) {
+  var oldBlock = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name);
+
+  if (!oldBlock) {
+    console.error('Block "' + name + '" is not registered.');
+    return;
+  }
+
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').removeBlockTypes(name);
+  return oldBlock;
+}
+/**
+ * Assigns name of block handling unknown block types.
+ *
+ * @param {string} name Block name.
+ */
+
+function setUnknownTypeHandlerName(name) {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('setUnknownTypeHandlerName', {
+    plugin: 'Gutenberg',
+    version: '4.2',
+    alternative: 'setFreeformContentHandlerName and setUnregisteredTypeHandlerName'
+  });
+  setFreeformContentHandlerName(name);
+}
+/**
+ * Retrieves name of block handling unknown block types, or undefined if no
+ * handler has been defined.
+ *
+ * @return {?string} Blog name.
+ */
+
+function getUnknownTypeHandlerName() {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('getUnknownTypeHandlerName', {
+    plugin: 'Gutenberg',
+    version: '4.2',
+    alternative: 'getFreeformContentHandlerName and getUnregisteredTypeHandlerName'
+  });
+  return getFreeformContentHandlerName();
+}
+/**
+ * Assigns name of block for handling non-block content.
+ *
+ * @param {string} name Block name.
+ */
+
+function setFreeformContentHandlerName(name) {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setFreeformFallbackBlockName(name);
+}
+/**
+ * Retrieves name of block handling non-block content, or undefined if no
+ * handler has been defined.
+ *
+ * @return {?string} Blog name.
+ */
+
+function getFreeformContentHandlerName() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getFreeformFallbackBlockName();
+}
+/**
+ * Assigns name of block handling unregistered block types.
+ *
+ * @param {string} name Block name.
+ */
+
+function setUnregisteredTypeHandlerName(name) {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setUnregisteredFallbackBlockName(name);
+}
+/**
+ * Retrieves name of block handling unregistered block types, or undefined if no
+ * handler has been defined.
+ *
+ * @return {?string} Blog name.
+ */
+
+function getUnregisteredTypeHandlerName() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getUnregisteredFallbackBlockName();
+}
+/**
+ * Assigns the default block name.
+ *
+ * @param {string} name Block name.
+ */
+
+function setDefaultBlockName(name) {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setDefaultBlockName(name);
+}
+/**
+ * Retrieves the default block name.
+ *
+ * @return {?string} Block name.
+ */
+
+function getDefaultBlockName() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getDefaultBlockName();
+}
+/**
+ * Returns a registered block type.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {?Object} Block type.
+ */
+
+function getBlockType(name) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name);
+}
+/**
+ * Returns all registered blocks.
+ *
+ * @return {Array} Block settings.
+ */
+
+function getBlockTypes() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockTypes();
+}
+/**
+ * Returns the block support value for a feature, if defined.
+ *
+ * @param  {(string|Object)} nameOrType      Block name or type object
+ * @param  {string}          feature         Feature to retrieve
+ * @param  {*}               defaultSupports Default value to return if not
+ *                                           explicitly defined
+ *
+ * @return {?*} Block support value
+ */
+
+function getBlockSupport(nameOrType, feature, defaultSupports) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockSupport(nameOrType, feature, defaultSupports);
+}
+/**
+ * Returns true if the block defines support for a feature, or false otherwise.
+ *
+ * @param {(string|Object)} nameOrType      Block name or type object.
+ * @param {string}          feature         Feature to test.
+ * @param {boolean}         defaultSupports Whether feature is supported by
+ *                                          default if not explicitly defined.
+ *
+ * @return {boolean} Whether block supports feature.
+ */
+
+function hasBlockSupport(nameOrType, feature, defaultSupports) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasBlockSupport(nameOrType, feature, defaultSupports);
+}
+/**
+ * Determines whether or not the given block is a reusable block. This is a
+ * special block type that is used to point to a global block stored via the
+ * API.
+ *
+ * @param {Object} blockOrType Block or Block Type to test.
+ *
+ * @return {boolean} Whether the given block is a reusable block.
+ */
+
+function isReusableBlock(blockOrType) {
+  return blockOrType.name === 'core/block';
+}
+/**
+ * Returns an array with the child blocks of a given block.
+ *
+ * @param {string} blockName Name of block (example: “latest-posts”).
+ *
+ * @return {Array} Array of child block names.
+ */
+
+var getChildBlockNames = function getChildBlockNames(blockName) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getChildBlockNames(blockName);
+};
+/**
+ * Returns a boolean indicating if a block has child blocks or not.
+ *
+ * @param {string} blockName Name of block (example: “latest-posts”).
+ *
+ * @return {boolean} True if a block contains child blocks and false otherwise.
+ */
+
+var hasChildBlocks = function hasChildBlocks(blockName) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasChildBlocks(blockName);
+};
+/**
+ * Returns a boolean indicating if a block has at least one child block with inserter support.
+ *
+ * @param {string} blockName Block type name.
+ *
+ * @return {boolean} True if a block contains at least one child blocks with inserter support
+ *                   and false otherwise.
+ */
+
+var hasChildBlocksWithInserterSupport = function hasChildBlocksWithInserterSupport(blockName) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasChildBlocksWithInserterSupport(blockName);
+};
+/**
+ * Registers a new block style variation for the given block.
+ *
+ * @param {string} blockName      Name of block (example: “core/latest-posts”).
+ * @param {Object} styleVariation Object containing `name` which is the class name applied to the block and `label` which identifies the variation to the user.
+ */
+
+var registerBlockStyle = function registerBlockStyle(blockName, styleVariation) {
+  Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["addFilter"])('blocks.registerBlockType', "".concat(blockName, "/").concat(styleVariation.name), function (settings, name) {
+    if (blockName !== name) {
+      return settings;
+    }
+
+    return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, settings, {
+      styles: Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(settings, ['styles'], [])).concat([styleVariation])
+    });
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/serializer.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/serializer.js ***!
+  \***********************************************************************/
+/*! exports provided: getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, getCommentAttributes, serializeAttributes, getBlockContent, getCommentDelimitedContent, serializeBlock, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return getBlockDefaultClassName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return getBlockMenuDefaultClassName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return getSaveElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return getSaveContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCommentAttributes", function() { return getCommentAttributes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeAttributes", function() { return serializeAttributes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return getBlockContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCommentDelimitedContent", function() { return getCommentDelimitedContent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeBlock", function() { return serializeBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return serialize; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/is-shallow-equal */ "@wordpress/is-shallow-equal");
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony import */ var _block_content_provider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../block-content-provider */ "./node_modules/@wordpress/blocks/build-module/block-content-provider/index.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Returns the block's default classname from its name.
+ *
+ * @param {string} blockName The block name.
+ *
+ * @return {string} The block's default class.
+ */
+
+function getBlockDefaultClassName(blockName) {
+  // Generated HTML classes for blocks follow the `wp-block-{name}` nomenclature.
+  // Blocks provided by WordPress drop the prefixes 'core/' or 'core-' (used in 'core-embed/').
+  var className = 'wp-block-' + blockName.replace(/\//, '-').replace(/^core-/, '');
+  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getBlockDefaultClassName', className, blockName);
+}
+/**
+ * Returns the block's default menu item classname from its name.
+ *
+ * @param {string} blockName The block name.
+ *
+ * @return {string} The block's default menu item class.
+ */
+
+function getBlockMenuDefaultClassName(blockName) {
+  // Generated HTML classes for blocks follow the `editor-block-list-item-{name}` nomenclature.
+  // Blocks provided by WordPress drop the prefixes 'core/' or 'core-' (used in 'core-embed/').
+  var className = 'editor-block-list-item-' + blockName.replace(/\//, '-').replace(/^core-/, '');
+  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getBlockMenuDefaultClassName', className, blockName);
+}
+/**
+ * Given a block type containing a save render implementation and attributes, returns the
+ * enhanced element to be saved or string when raw HTML expected.
+ *
+ * @param {Object} blockType   Block type.
+ * @param {Object} attributes  Block attributes.
+ * @param {?Array} innerBlocks Nested blocks.
+ *
+ * @return {Object|string} Save element or raw HTML string.
+ */
+
+function getSaveElement(blockType, attributes) {
+  var innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  var save = blockType.save; // Component classes are unsupported for save since serialization must
+  // occur synchronously. For improved interoperability with higher-order
+  // components which often return component class, emulate basic support.
+
+  if (save.prototype instanceof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]) {
+    var instance = new save({
+      attributes: attributes
+    });
+    save = instance.render.bind(instance);
+  }
+
+  var element = save({
+    attributes: attributes,
+    innerBlocks: innerBlocks
+  });
+
+  if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isObject"])(element) && Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["hasFilter"])('blocks.getSaveContent.extraProps')) {
+    /**
+     * Filters the props applied to the block save result element.
+     *
+     * @param {Object}      props      Props applied to save element.
+     * @param {WPBlockType} blockType  Block type definition.
+     * @param {Object}      attributes Block attributes.
+     */
+    var props = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getSaveContent.extraProps', Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, element.props), blockType, attributes);
+
+    if (!_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4___default()(props, element.props)) {
+      element = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["cloneElement"])(element, props);
+    }
+  }
+  /**
+   * Filters the save result of a block during serialization.
+   *
+   * @param {WPElement}   element    Block save result.
+   * @param {WPBlockType} blockType  Block type definition.
+   * @param {Object}      attributes Block attributes.
+   */
+
+
+  element = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getSaveElement', element, blockType, attributes);
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_block_content_provider__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    innerBlocks: innerBlocks
+  }, element);
+}
+/**
+ * Given a block type containing a save render implementation and attributes, returns the
+ * static markup to be saved.
+ *
+ * @param {Object} blockType   Block type.
+ * @param {Object} attributes  Block attributes.
+ * @param {?Array} innerBlocks Nested blocks.
+ *
+ * @return {string} Save content.
+ */
+
+function getSaveContent(blockType, attributes, innerBlocks) {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["renderToString"])(getSaveElement(blockType, attributes, innerBlocks));
+}
+/**
+ * Returns attributes which are to be saved and serialized into the block
+ * comment delimiter.
+ *
+ * When a block exists in memory it contains as its attributes both those
+ * parsed the block comment delimiter _and_ those which matched from the
+ * contents of the block.
+ *
+ * This function returns only those attributes which are needed to persist and
+ * which cannot be matched from the block content.
+ *
+ * @param {Object<string,*>} allAttributes Attributes from in-memory block data.
+ * @param {Object<string,*>} blockType     Block type.
+ *
+ * @return {Object<string,*>} Subset of attributes for comment serialization.
+ */
+
+function getCommentAttributes(allAttributes, blockType) {
+  var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["reduce"])(blockType.attributes, function (result, attributeSchema, key) {
+    var value = allAttributes[key]; // Ignore undefined values.
+
+    if (undefined === value) {
+      return result;
+    } // Ignore all attributes but the ones with an "undefined" source
+    // "undefined" source refers to attributes saved in the block comment.
+
+
+    if (attributeSchema.source !== undefined) {
+      return result;
+    } // Ignore default value.
+
+
+    if ('default' in attributeSchema && attributeSchema.default === value) {
+      return result;
+    } // Otherwise, include in comment set.
+
+
+    result[key] = value;
+    return result;
+  }, {});
+  return attributes;
+}
+/**
+ * Given an attributes object, returns a string in the serialized attributes
+ * format prepared for post content.
+ *
+ * @param {Object} attributes Attributes object.
+ *
+ * @return {string} Serialized attributes.
+ */
+
+function serializeAttributes(attributes) {
+  return JSON.stringify(attributes) // Don't break HTML comments.
+  .replace(/--/g, "\\u002d\\u002d") // Don't break non-standard-compliant tools.
+  .replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026") // Bypass server stripslashes behavior which would unescape stringify's
+  // escaping of quotation mark.
+  //
+  // See: https://developer.wordpress.org/reference/functions/wp_kses_stripslashes/
+  .replace(/\\"/g, "\\u0022");
+}
+/**
+ * Given a block object, returns the Block's Inner HTML markup.
+ *
+ * @param {Object} block Block Object.
+ *
+ * @return {string} HTML.
+ */
+
+function getBlockContent(block) {
+  // @todo why not getBlockInnerHtml?
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(block.name); // If block was parsed as invalid or encounters an error while generating
+  // save content, use original content instead to avoid content loss. If a
+  // block contains nested content, exempt it from this condition because we
+  // otherwise have no access to its original content and content loss would
+  // still occur.
+
+  var saveContent = block.originalContent;
+
+  if (block.isValid || block.innerBlocks.length) {
+    try {
+      saveContent = getSaveContent(blockType, block.attributes, block.innerBlocks);
+    } catch (error) {}
+  }
+
+  return saveContent;
+}
+/**
+ * Returns the content of a block, including comment delimiters.
+ *
+ * @param {string} rawBlockName Block name.
+ * @param {Object} attributes   Block attributes.
+ * @param {string} content      Block save content.
+ *
+ * @return {string} Comment-delimited block content.
+ */
+
+function getCommentDelimitedContent(rawBlockName, attributes, content) {
+  var serializedAttributes = !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isEmpty"])(attributes) ? serializeAttributes(attributes) + ' ' : ''; // Strip core blocks of their namespace prefix.
+
+  var blockName = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["startsWith"])(rawBlockName, 'core/') ? rawBlockName.slice(5) : rawBlockName; // @todo make the `wp:` prefix potentially configurable.
+
+  if (!content) {
+    return "<!-- wp:".concat(blockName, " ").concat(serializedAttributes, "/-->");
+  }
+
+  return "<!-- wp:".concat(blockName, " ").concat(serializedAttributes, "-->\n") + content + "\n<!-- /wp:".concat(blockName, " -->");
+}
+/**
+ * Returns the content of a block, including comment delimiters, determining
+ * serialized attributes and content form from the current state of the block.
+ *
+ * @param {Object} block Block instance.
+ *
+ * @return {string} Serialized block.
+ */
+
+function serializeBlock(block) {
+  var blockName = block.name;
+  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(blockName);
+  var saveContent = getBlockContent(block);
+  var saveAttributes = getCommentAttributes(block.attributes, blockType);
+
+  switch (blockName) {
+    case Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getFreeformContentHandlerName"])():
+    case Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getUnregisteredTypeHandlerName"])():
+      return saveContent;
+
+    default:
+      return getCommentDelimitedContent(blockName, saveAttributes, saveContent);
+  }
+}
+/**
+ * Takes a block or set of blocks and returns the serialized post content.
+ *
+ * @param {Array} blocks Block(s) to serialize.
+ *
+ * @return {string} The post content.
+ */
+
+function serialize(blocks) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(blocks).map(serializeBlock).join('\n\n');
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/templates.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/templates.js ***!
+  \**********************************************************************/
+/*! exports provided: doBlocksMatchTemplate, synchronizeBlocksWithTemplate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return doBlocksMatchTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return synchronizeBlocksWithTemplate; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Checks whether a list of blocks matches a template by comparing the block names.
+ *
+ * @param {Array} blocks    Block list.
+ * @param {Array} template  Block template.
+ *
+ * @return {boolean}        Whether the list of blocks matches a templates
+ */
+
+function doBlocksMatchTemplate() {
+  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var template = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  return blocks.length === template.length && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["every"])(template, function (_ref, index) {
+    var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, 3),
+        name = _ref2[0],
+        innerBlocksTemplate = _ref2[2];
+
+    var block = blocks[index];
+    return name === block.name && doBlocksMatchTemplate(block.innerBlocks, innerBlocksTemplate);
+  });
+}
+/**
+ * Synchronize a block list with a block template.
+ *
+ * Synchronizing a block list with a block template means that we loop over the blocks
+ * keep the block as is if it matches the block at the same position in the template
+ * (If it has the same name) and if doesn't match, we create a new block based on the template.
+ * Extra blocks not present in the template are removed.
+ *
+ * @param {Array} blocks    Block list.
+ * @param {Array} template  Block template.
+ *
+ * @return {Array}          Updated Block list.
+ */
+
+function synchronizeBlocksWithTemplate() {
+  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var template = arguments.length > 1 ? arguments[1] : undefined;
+
+  // If no template is provided, return blocks unmodified.
+  if (!template) {
+    return blocks;
+  }
+
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["map"])(template, function (_ref3, index) {
+    var _ref4 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref3, 3),
+        name = _ref4[0],
+        attributes = _ref4[1],
+        innerBlocksTemplate = _ref4[2];
+
+    var block = blocks[index];
+
+    if (block && block.name === name) {
+      var innerBlocks = synchronizeBlocksWithTemplate(block.innerBlocks, innerBlocksTemplate);
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, block, {
+        innerBlocks: innerBlocks
+      });
+    } // To support old templates that were using the "children" format
+    // for the attributes using "html" strings now, we normalize the template attributes
+    // before creating the blocks.
+
+
+    var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name);
+
+    var isHTMLAttribute = function isHTMLAttribute(attributeDefinition) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(attributeDefinition, ['source']) === 'html';
+    };
+
+    var isQueryAttribute = function isQueryAttribute(attributeDefinition) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(attributeDefinition, ['source']) === 'query';
+    };
+
+    var normalizeAttributes = function normalizeAttributes(schema, values) {
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["mapValues"])(values, function (value, key) {
+        return normalizeAttribute(schema[key], value);
+      });
+    };
+
+    var normalizeAttribute = function normalizeAttribute(definition, value) {
+      if (isHTMLAttribute(definition) && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isArray"])(value)) {
+        // Introduce a deprecated call at this point
+        // When we're confident that "children" format should be removed from the templates.
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__["renderToString"])(value);
+      }
+
+      if (isQueryAttribute(definition) && value) {
+        return value.map(function (subValues) {
+          return normalizeAttributes(definition.query, subValues);
+        });
+      }
+
+      return value;
+    };
+
+    var normalizedAttributes = normalizeAttributes(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(blockType, ['attributes'], {}), attributes);
+    return Object(_factory__WEBPACK_IMPORTED_MODULE_4__["createBlock"])(name, normalizedAttributes, synchronizeBlocksWithTemplate([], innerBlocksTemplate));
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/utils.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/utils.js ***!
+  \******************************************************************/
+/*! exports provided: isUnmodifiedDefaultBlock, isValidIcon, normalizeIconObject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return isUnmodifiedDefaultBlock; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return isValidIcon; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return normalizeIconObject; });
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tinycolor2 */ "./node_modules/tinycolor2/tinycolor.js");
+/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(tinycolor2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
+/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Array of icon colors containing a color to be used if the icon color
+ * was not explicitly set but the icon background color was.
+ *
+ * @type {Object}
+ */
+
+var ICON_COLORS = ['#191e23', '#f8f9f9'];
+/**
+ * Determines whether the block is a default block
+ * and its attributes are equal to the default attributes
+ * which means the block is unmodified.
+ *
+ * @param  {WPBlock} block Block Object
+ *
+ * @return {boolean}       Whether the block is an unmodified default block
+ */
+
+function isUnmodifiedDefaultBlock(block) {
+  var defaultBlockName = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getDefaultBlockName"])();
+
+  if (block.name !== defaultBlockName) {
+    return false;
+  }
+
+  var newDefaultBlock = Object(_factory__WEBPACK_IMPORTED_MODULE_6__["createBlock"])(defaultBlockName);
+  var attributeKeys = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["applyFilters"])('blocks.isUnmodifiedDefaultBlock.attributes', Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keys"])(newDefaultBlock.attributes)).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keys"])(block.attributes))));
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["every"])(attributeKeys, function (key) {
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isEqual"])(newDefaultBlock.attributes[key], block.attributes[key]);
+  });
+}
+/**
+ * Function that checks if the parameter is a valid icon.
+ *
+ * @param {*} icon  Parameter to be checked.
+ *
+ * @return {boolean} True if the parameter is a valid icon and false otherwise.
+ */
+
+function isValidIcon(icon) {
+  return !!icon && (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isString"])(icon) || Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["isValidElement"])(icon) || Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(icon) || icon instanceof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+}
+/**
+ * Function that receives an icon as set by the blocks during the registration
+ * and returns a new icon object that is normalized so we can rely on just on possible icon structure
+ * in the codebase.
+ *
+ * @param {(Object|string|WPElement)} icon  Slug of the Dashicon to be shown
+ *                                          as the icon for the block in the
+ *                                          inserter, or element or an object describing the icon.
+ *
+ * @return {Object} Object describing the icon.
+ */
+
+function normalizeIconObject(icon) {
+  if (!icon) {
+    return {
+      src: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        viewBox: "0 0 24 24"
+      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("path", {
+        d: "M19 7h-1V5h-4v2h-4V5H6v2H5c-1.1 0-2 .9-2 2v10h18V9c0-1.1-.9-2-2-2zm0 10H5V9h14v8z"
+      }))
+    };
+  }
+
+  if (isValidIcon(icon)) {
+    return {
+      src: icon
+    };
+  }
+
+  if (icon.background) {
+    var tinyBgColor = tinycolor2__WEBPACK_IMPORTED_MODULE_3___default()(icon.background);
+
+    if (!icon.foreground) {
+      var foreground = Object(tinycolor2__WEBPACK_IMPORTED_MODULE_3__["mostReadable"])(tinyBgColor, ICON_COLORS, {
+        includeFallbackColors: true,
+        level: 'AA',
+        size: 'large'
+      }).toHexString();
+      icon.foreground = foreground;
+    }
+
+    icon.shadowColor = tinyBgColor.setAlpha(0.3).toRgbString();
+  }
+
+  return icon;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/api/validation.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/api/validation.js ***!
+  \***********************************************************************/
+/*! exports provided: getTextPiecesSplitOnWhitespace, getTextWithCollapsedWhitespace, getMeaningfulAttributePairs, isEqualTextTokensWithCollapsedWhitespace, getNormalizedStyleValue, getStyleProperties, isEqualAttributesOfName, isEqualTagAttributePairs, isEqualTokensOfType, getNextNonWhitespaceToken, isClosedByToken, isEquivalentHTML, isValidBlock */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTextPiecesSplitOnWhitespace", function() { return getTextPiecesSplitOnWhitespace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTextWithCollapsedWhitespace", function() { return getTextWithCollapsedWhitespace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMeaningfulAttributePairs", function() { return getMeaningfulAttributePairs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTextTokensWithCollapsedWhitespace", function() { return isEqualTextTokensWithCollapsedWhitespace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNormalizedStyleValue", function() { return getNormalizedStyleValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getStyleProperties", function() { return getStyleProperties; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualAttributesOfName", function() { return isEqualAttributesOfName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTagAttributePairs", function() { return isEqualTagAttributePairs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTokensOfType", function() { return isEqualTokensOfType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextNonWhitespaceToken", function() { return getNextNonWhitespaceToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isClosedByToken", function() { return isClosedByToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEquivalentHTML", function() { return isEquivalentHTML; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return isValidBlock; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toArray */ "./node_modules/@babel/runtime/helpers/esm/toArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-html-tokenizer */ "./node_modules/simple-html-tokenizer/dist/es6/index.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./serializer */ "./node_modules/@wordpress/blocks/build-module/api/serializer.js");
+
+
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Globally matches any consecutive whitespace
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_WHITESPACE = /[\t\n\r\v\f ]+/g;
+/**
+ * Matches a string containing only whitespace
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_ONLY_WHITESPACE = /^[\t\n\r\v\f ]*$/;
+/**
+ * Matches a CSS URL type value
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_STYLE_URL_TYPE = /^url\s*\(['"\s]*(.*?)['"\s]*\)$/;
+/**
+ * Boolean attributes are attributes whose presence as being assigned is
+ * meaningful, even if only empty.
+ *
+ * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
+ * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
+ *
+ * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
+ *     .filter( ( tr ) => tr.lastChild.textContent.indexOf( 'Boolean attribute' ) !== -1 )
+ *     .reduce( ( result, tr ) => Object.assign( result, {
+ *         [ tr.firstChild.textContent.trim() ]: true
+ *     } ), {} ) ).sort();
+ *
+ * @type {Array}
+ */
+
+var BOOLEAN_ATTRIBUTES = ['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch'];
+/**
+ * Enumerated attributes are attributes which must be of a specific value form.
+ * Like boolean attributes, these are meaningful if specified, even if not of a
+ * valid enumerated value.
+ *
+ * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute
+ * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
+ *
+ * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
+ *     .filter( ( tr ) => /^("(.+?)";?\s*)+/.test( tr.lastChild.textContent.trim() ) )
+ *     .reduce( ( result, tr ) => Object.assign( result, {
+ *         [ tr.firstChild.textContent.trim() ]: true
+ *     } ), {} ) ).sort();
+ *
+ * @type {Array}
+ */
+
+var ENUMERATED_ATTRIBUTES = ['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap'];
+/**
+ * Meaningful attributes are those who cannot be safely ignored when omitted in
+ * one HTML markup string and not another.
+ *
+ * @type {Array}
+ */
+
+var MEANINGFUL_ATTRIBUTES = BOOLEAN_ATTRIBUTES.concat(ENUMERATED_ATTRIBUTES);
+/**
+ * Object of logger functions.
+ */
+
+var log = function () {
+  /**
+   * Creates a logger with block validation prefix.
+   *
+   * @param {Function} logger Original logger function.
+   *
+   * @return {Function} Augmented logger function.
+   */
+  function createLogger(logger) {
+    // In test environments, pre-process the sprintf message to improve
+    // readability of error messages. We'd prefer to avoid pulling in this
+    // dependency in runtime environments, and it can be dropped by a combo
+    // of Webpack env substitution + UglifyJS dead code elimination.
+    if (false) {}
+
+    return function (message) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      return logger.apply(void 0, ['Block validation: ' + message].concat(args));
+    };
+  }
+
+  return {
+    /* eslint-disable no-console */
+    error: createLogger(console.error),
+    warning: createLogger(console.warn)
+    /* eslint-enable no-console */
+
+  };
+}();
+/**
+ * Given a specified string, returns an array of strings split by consecutive
+ * whitespace, ignoring leading or trailing whitespace.
+ *
+ * @param {string} text Original text.
+ *
+ * @return {string[]} Text pieces split on whitespace.
+ */
+
+
+function getTextPiecesSplitOnWhitespace(text) {
+  return text.trim().split(REGEXP_WHITESPACE);
+}
+/**
+ * Given a specified string, returns a new trimmed string where all consecutive
+ * whitespace is collapsed to a single space.
+ *
+ * @param {string} text Original text.
+ *
+ * @return {string} Trimmed text with consecutive whitespace collapsed.
+ */
+
+function getTextWithCollapsedWhitespace(text) {
+  return getTextPiecesSplitOnWhitespace(text).join(' ');
+}
+/**
+ * Returns attribute pairs of the given StartTag token, including only pairs
+ * where the value is non-empty or the attribute is a boolean attribute, an
+ * enumerated attribute, or a custom data- attribute.
+ *
+ * @see MEANINGFUL_ATTRIBUTES
+ *
+ * @param {Object} token StartTag token.
+ *
+ * @return {Array[]} Attribute pairs.
+ */
+
+function getMeaningfulAttributePairs(token) {
+  return token.attributes.filter(function (pair) {
+    var _pair = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(pair, 2),
+        key = _pair[0],
+        value = _pair[1];
+
+    return value || key.indexOf('data-') === 0 || Object(lodash__WEBPACK_IMPORTED_MODULE_5__["includes"])(MEANINGFUL_ATTRIBUTES, key);
+  });
+}
+/**
+ * Returns true if two text tokens (with `chars` property) are equivalent, or
+ * false otherwise.
+ *
+ * @param {Object} actual   Actual token.
+ * @param {Object} expected Expected token.
+ *
+ * @return {boolean} Whether two text tokens are equivalent.
+ */
+
+function isEqualTextTokensWithCollapsedWhitespace(actual, expected) {
+  // This is an overly simplified whitespace comparison. The specification is
+  // more prescriptive of whitespace behavior in inline and block contexts.
+  //
+  // See: https://medium.com/@patrickbrosset/when-does-white-space-matter-in-html-b90e8a7cdd33
+  var isEquivalentText = lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual.chars, expected.chars].map(getTextWithCollapsedWhitespace)));
+
+  if (!isEquivalentText) {
+    log.warning('Expected text `%s`, saw `%s`.', expected.chars, actual.chars);
+  }
+
+  return isEquivalentText;
+}
+/**
+ * Given a style value, returns a normalized style value for strict equality
+ * comparison.
+ *
+ * @param {string} value Style value.
+ *
+ * @return {string} Normalized style value.
+ */
+
+function getNormalizedStyleValue(value) {
+  return value // Normalize URL type to omit whitespace or quotes
+  .replace(REGEXP_STYLE_URL_TYPE, 'url($1)');
+}
+/**
+ * Given a style attribute string, returns an object of style properties.
+ *
+ * @param {string} text Style attribute.
+ *
+ * @return {Object} Style properties.
+ */
+
+function getStyleProperties(text) {
+  var pairs = text // Trim ending semicolon (avoid including in split)
+  .replace(/;?\s*$/, '') // Split on property assignment
+  .split(';') // For each property assignment...
+  .map(function (style) {
+    // ...split further into key-value pairs
+    var _style$split = style.split(':'),
+        _style$split2 = Object(_babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_style$split),
+        key = _style$split2[0],
+        valueParts = _style$split2.slice(1);
+
+    var value = valueParts.join(':');
+    return [key.trim(), getNormalizedStyleValue(value.trim())];
+  });
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"])(pairs);
+}
+/**
+ * Attribute-specific equality handlers
+ *
+ * @type {Object}
+ */
+
+var isEqualAttributesOfName = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  class: function _class(actual, expected) {
+    // Class matches if members are the same, even if out of order or
+    // superfluous whitespace between.
+    return !lodash__WEBPACK_IMPORTED_MODULE_5__["xor"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getTextPiecesSplitOnWhitespace))).length;
+  },
+  style: function style(actual, expected) {
+    return lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getStyleProperties)));
+  }
+}, Object(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"])(BOOLEAN_ATTRIBUTES.map(function (attribute) {
+  return [attribute, lodash__WEBPACK_IMPORTED_MODULE_5__["stubTrue"]];
+})));
+/**
+ * Given two sets of attribute tuples, returns true if the attribute sets are
+ * equivalent.
+ *
+ * @param {Array[]} actual   Actual attributes tuples.
+ * @param {Array[]} expected Expected attributes tuples.
+ *
+ * @return {boolean} Whether attributes are equivalent.
+ */
+
+function isEqualTagAttributePairs(actual, expected) {
+  // Attributes is tokenized as tuples. Their lengths should match. This also
+  // avoids us needing to check both attributes sets, since if A has any keys
+  // which do not exist in B, we know the sets to be different.
+  if (actual.length !== expected.length) {
+    log.warning('Expected attributes %o, instead saw %o.', expected, actual);
+    return false;
+  } // Convert tuples to object for ease of lookup
+
+
+  var _map = [actual, expected].map(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"]),
+      _map2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_map, 2),
+      actualAttributes = _map2[0],
+      expectedAttributes = _map2[1];
+
+  for (var name in actualAttributes) {
+    // As noted above, if missing member in B, assume different
+    if (!expectedAttributes.hasOwnProperty(name)) {
+      log.warning('Encountered unexpected attribute `%s`.', name);
+      return false;
+    }
+
+    var actualValue = actualAttributes[name];
+    var expectedValue = expectedAttributes[name];
+    var isEqualAttributes = isEqualAttributesOfName[name];
+
+    if (isEqualAttributes) {
+      // Defer custom attribute equality handling
+      if (!isEqualAttributes(actualValue, expectedValue)) {
+        log.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
+        return false;
+      }
+    } else if (actualValue !== expectedValue) {
+      // Otherwise strict inequality should bail
+      log.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
+      return false;
+    }
+  }
+
+  return true;
+}
+/**
+ * Token-type-specific equality handlers
+ *
+ * @type {Object}
+ */
+
+var isEqualTokensOfType = {
+  StartTag: function StartTag(actual, expected) {
+    if (actual.tagName !== expected.tagName) {
+      log.warning('Expected tag name `%s`, instead saw `%s`.', expected.tagName, actual.tagName);
+      return false;
+    }
+
+    return isEqualTagAttributePairs.apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getMeaningfulAttributePairs)));
+  },
+  Chars: isEqualTextTokensWithCollapsedWhitespace,
+  Comment: isEqualTextTokensWithCollapsedWhitespace
+};
+/**
+ * Given an array of tokens, returns the first token which is not purely
+ * whitespace.
+ *
+ * Mutates the tokens array.
+ *
+ * @param {Object[]} tokens Set of tokens to search.
+ *
+ * @return {Object} Next non-whitespace token.
+ */
+
+function getNextNonWhitespaceToken(tokens) {
+  var token;
+
+  while (token = tokens.shift()) {
+    if (token.type !== 'Chars') {
+      return token;
+    }
+
+    if (!REGEXP_ONLY_WHITESPACE.test(token.chars)) {
+      return token;
+    }
+  }
+}
+/**
+ * Tokenize an HTML string, gracefully handling any errors thrown during
+ * underlying tokenization.
+ *
+ * @param {string} html HTML string to tokenize.
+ *
+ * @return {Object[]|null} Array of valid tokenized HTML elements, or null on error
+ */
+
+function getHTMLTokens(html) {
+  try {
+    return Object(simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4__["tokenize"])(html);
+  } catch (e) {
+    log.warning('Malformed HTML detected: %s', html);
+  }
+
+  return null;
+}
+/**
+ * Returns true if the next HTML token closes the current token.
+ *
+ * @param {Object} currentToken Current token to compare with.
+ * @param {Object|undefined} nextToken Next token to compare against.
+ *
+ * @return {boolean} true if `nextToken` closes `currentToken`, false otherwise
+ */
+
+
+function isClosedByToken(currentToken, nextToken) {
+  // Ensure this is a self closed token
+  if (!currentToken.selfClosing) {
+    return false;
+  } // Check token names and determine if nextToken is the closing tag for currentToken
+
+
+  if (nextToken && nextToken.tagName === currentToken.tagName && nextToken.type === 'EndTag') {
+    return true;
+  }
+
+  return false;
+}
+/**
+ * Returns true if the given HTML strings are effectively equivalent, or
+ * false otherwise. Invalid HTML is not considered equivalent, even if the
+ * strings directly match.
+ *
+ * @param {string} actual Actual HTML string.
+ * @param {string} expected Expected HTML string.
+ *
+ * @return {boolean} Whether HTML strings are equivalent.
+ */
+
+function isEquivalentHTML(actual, expected) {
+  // Tokenize input content and reserialized save content
+  var _map3 = [actual, expected].map(getHTMLTokens),
+      _map4 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_map3, 2),
+      actualTokens = _map4[0],
+      expectedTokens = _map4[1]; // If either is malformed then stop comparing - the strings are not equivalent
+
+
+  if (!actualTokens || !expectedTokens) {
+    return false;
+  }
+
+  var actualToken, expectedToken;
+
+  while (actualToken = getNextNonWhitespaceToken(actualTokens)) {
+    expectedToken = getNextNonWhitespaceToken(expectedTokens); // Inequal if exhausted all expected tokens
+
+    if (!expectedToken) {
+      log.warning('Expected end of content, instead saw %o.', actualToken);
+      return false;
+    } // Inequal if next non-whitespace token of each set are not same type
+
+
+    if (actualToken.type !== expectedToken.type) {
+      log.warning('Expected token of type `%s` (%o), instead saw `%s` (%o).', expectedToken.type, expectedToken, actualToken.type, actualToken);
+      return false;
+    } // Defer custom token type equality handling, otherwise continue and
+    // assume as equal
+
+
+    var isEqualTokens = isEqualTokensOfType[actualToken.type];
+
+    if (isEqualTokens && !isEqualTokens(actualToken, expectedToken)) {
+      return false;
+    } // Peek at the next tokens (actual and expected) to see if they close
+    // a self-closing tag
+
+
+    if (isClosedByToken(actualToken, expectedTokens[0])) {
+      // Consume the next expected token that closes the current actual
+      // self-closing token
+      getNextNonWhitespaceToken(expectedTokens);
+    } else if (isClosedByToken(expectedToken, actualTokens[0])) {
+      // Consume the next actual token that closes the current expected
+      // self-closing token
+      getNextNonWhitespaceToken(actualTokens);
+    }
+  }
+
+  if (expectedToken = getNextNonWhitespaceToken(expectedTokens)) {
+    // If any non-whitespace tokens remain in expected token set, this
+    // indicates inequality
+    log.warning('Expected %o, instead saw end of content.', expectedToken);
+    return false;
+  }
+
+  return true;
+}
+/**
+ * Returns true if the parsed block is valid given the input content. A block
+ * is considered valid if, when serialized with assumed attributes, the content
+ * matches the original value.
+ *
+ * Logs to console in development environments when invalid.
+ *
+ * @param {string} innerHTML  Original block content.
+ * @param {string} blockType  Block type.
+ * @param {Object} attributes Parsed block attributes.
+ *
+ * @return {boolean} Whether block is valid.
+ */
+
+function isValidBlock(innerHTML, blockType, attributes) {
+  var saveContent;
+
+  try {
+    saveContent = Object(_serializer__WEBPACK_IMPORTED_MODULE_6__["getSaveContent"])(blockType, attributes);
+  } catch (error) {
+    log.error('Block validation failed because an error occurred while generating block content:\n\n%s', error.toString());
+    return false;
+  }
+
+  var isValid = isEquivalentHTML(innerHTML, saveContent);
+
+  if (!isValid) {
+    log.error('Block validation failed for `%s` (%o).\n\nExpected:\n\n%s\n\nActual:\n\n%s', blockType.name, blockType, saveContent, innerHTML);
+  }
+
+  return isValid;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/block-content-provider/index.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/block-content-provider/index.js ***!
+  \*************************************************************************************/
+/*! exports provided: withBlockContentContext, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withBlockContentContext", function() { return withBlockContentContext; });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api */ "./node_modules/@wordpress/blocks/build-module/api/index.js");
+
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+var _createContext = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createContext"])(function () {}),
+    Consumer = _createContext.Consumer,
+    Provider = _createContext.Provider;
+/**
+ * An internal block component used in block content serialization to inject
+ * nested block content within the `save` implementation of the ancestor
+ * component in which it is nested. The component provides a pre-bound
+ * `BlockContent` component via context, which is used by the developer-facing
+ * `InnerBlocks.Content` component to render block content.
+ *
+ * @example
+ *
+ * ```jsx
+ * <BlockContentProvider innerBlocks={ innerBlocks }>
+ * 	{ blockSaveElement }
+ * </BlockContentProvider>
+ * ```
+ *
+ * @return {WPElement} Element with BlockContent injected via context.
+ */
+
+
+var BlockContentProvider = function BlockContentProvider(_ref) {
+  var children = _ref.children,
+      innerBlocks = _ref.innerBlocks;
+
+  var BlockContent = function BlockContent() {
+    // Value is an array of blocks, so defer to block serializer
+    var html = Object(_api__WEBPACK_IMPORTED_MODULE_3__["serialize"])(innerBlocks); // Use special-cased raw HTML tag to avoid default escaping
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["RawHTML"], null, html);
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Provider, {
+    value: BlockContent
+  }, children);
+};
+/**
+ * A Higher Order Component used to inject BlockContent using context to the
+ * wrapped component.
+ *
+ * @return {Component} Enhanced component with injected BlockContent as prop.
+ */
+
+
+var withBlockContentContext = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["createHigherOrderComponent"])(function (OriginalComponent) {
+  return function (props) {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Consumer, null, function (context) {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+        BlockContent: context
+      }));
+    });
+  };
+}, 'withBlockContentContext');
+/* harmony default export */ __webpack_exports__["default"] = (BlockContentProvider);
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/index.js ***!
+  \**************************************************************/
+/*! exports provided: withBlockContentContext, createBlock, cloneBlock, getPossibleBlockTransformations, switchToBlockType, getBlockTransforms, findTransform, parse, getBlockAttributes, parseWithAttributeSchema, rawHandler, getPhrasingContentSchema, serialize, getBlockContent, getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, isValidBlock, getCategories, setCategories, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, unstable__bootstrapServerSideBlockDefinitions, registerBlockStyle, isUnmodifiedDefaultBlock, normalizeIconObject, isValidIcon, doBlocksMatchTemplate, synchronizeBlocksWithTemplate, children, node */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/blocks/build-module/store/index.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./node_modules/@wordpress/blocks/build-module/api/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["createBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["cloneBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getPossibleBlockTransformations"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["switchToBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockTransforms"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["findTransform"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["parse"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockAttributes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["parseWithAttributeSchema"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rawHandler", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["rawHandler"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getPhrasingContentSchema"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serialize", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["serialize"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockContent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockDefaultClassName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockMenuDefaultClassName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getSaveElement"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getSaveContent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isValidBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getCategories"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setCategories"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["unregisterBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setUnknownTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getUnknownTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setFreeformContentHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getFreeformContentHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setUnregisteredTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getUnregisteredTypeHandlerName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setDefaultBlockName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getDefaultBlockName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockType"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockTypes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasBlockSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isReusableBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getChildBlockNames"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasChildBlocks"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasChildBlocksWithInserterSupport"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["unstable__bootstrapServerSideBlockDefinitions"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["registerBlockStyle"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isUnmodifiedDefaultBlock"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["normalizeIconObject"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isValidIcon"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["doBlocksMatchTemplate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["synchronizeBlocksWithTemplate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["children"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["node"]; });
+
+/* harmony import */ var _block_content_provider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block-content-provider */ "./node_modules/@wordpress/blocks/build-module/block-content-provider/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withBlockContentContext", function() { return _block_content_provider__WEBPACK_IMPORTED_MODULE_2__["withBlockContentContext"]; });
+
+// A "block" is the abstract term used to describe units of markup that,
+// when composed together, form the content or layout of a page.
+// The API for blocks is exposed via `wp.blocks`.
+//
+// Supported blocks are registered by calling `registerBlockType`. Once registered,
+// the block is made available as an option to the editor interface.
+//
+// Blocks are inferred from the HTML source of a post through a parsing mechanism
+// and then stored as objects in state, from which it is then rendered for editing.
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/store/actions.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/store/actions.js ***!
+  \**********************************************************************/
+/*! exports provided: addBlockTypes, removeBlockTypes, setDefaultBlockName, setFallbackBlockName, setFreeformFallbackBlockName, setUnregisteredFallbackBlockName, setCategories */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addBlockTypes", function() { return addBlockTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeBlockTypes", function() { return removeBlockTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return setDefaultBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFallbackBlockName", function() { return setFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFreeformFallbackBlockName", function() { return setFreeformFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredFallbackBlockName", function() { return setUnregisteredFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return setCategories; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Returns an action object used in signalling that block types have been added.
+ *
+ * @param {Array|Object} blockTypes Block types received.
+ *
+ * @return {Object} Action object.
+ */
+
+function addBlockTypes(blockTypes) {
+  return {
+    type: 'ADD_BLOCK_TYPES',
+    blockTypes: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(blockTypes)
+  };
+}
+/**
+ * Returns an action object used to remove a registered block type.
+ *
+ * @param {string|Array} names Block name.
+ *
+ * @return {Object} Action object.
+ */
+
+function removeBlockTypes(names) {
+  return {
+    type: 'REMOVE_BLOCK_TYPES',
+    names: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(names)
+  };
+}
+/**
+ * Returns an action object used to set the default block name.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {Object} Action object.
+ */
+
+function setDefaultBlockName(name) {
+  return {
+    type: 'SET_DEFAULT_BLOCK_NAME',
+    name: name
+  };
+}
+/**
+ * Returns an action object used to set the name of the block used as a fallback
+ * for non-block content.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {Object} Action object.
+ */
+
+function setFallbackBlockName(name) {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default()('setFallbackBlockName', {
+    plugin: 'Gutenberg',
+    version: '4.2',
+    alternative: 'setFreeformFallbackBlockName and setUnregisteredFallbackBlockName'
+  });
+  return setFreeformFallbackBlockName(name);
+}
+/**
+ * Returns an action object used to set the name of the block used as a fallback
+ * for non-block content.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {Object} Action object.
+ */
+
+function setFreeformFallbackBlockName(name) {
+  return {
+    type: 'SET_FREEFORM_FALLBACK_BLOCK_NAME',
+    name: name
+  };
+}
+/**
+ * Returns an action object used to set the name of the block used as a fallback
+ * for unregistered blocks.
+ *
+ * @param {string} name Block name.
+ *
+ * @return {Object} Action object.
+ */
+
+function setUnregisteredFallbackBlockName(name) {
+  return {
+    type: 'SET_UNREGISTERED_FALLBACK_BLOCK_NAME',
+    name: name
+  };
+}
+/**
+ * Returns an action object used to set block categories.
+ *
+ * @param {Object[]} categories Block categories.
+ *
+ * @return {Object} Action object.
+ */
+
+function setCategories(categories) {
+  return {
+    type: 'SET_CATEGORIES',
+    categories: categories
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/store/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/store/index.js ***!
+  \********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./node_modules/@wordpress/blocks/build-module/store/reducer.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./node_modules/@wordpress/blocks/build-module/store/selectors.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./node_modules/@wordpress/blocks/build-module/store/actions.js");
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["registerStore"])('core/blocks', {
+  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/store/reducer.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/store/reducer.js ***!
+  \**********************************************************************/
+/*! exports provided: DEFAULT_CATEGORIES, blockTypes, createBlockNameSetterReducer, defaultBlockName, freeformFallbackBlockName, unregisteredFallbackBlockName, categories, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_CATEGORIES", function() { return DEFAULT_CATEGORIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "blockTypes", function() { return blockTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlockNameSetterReducer", function() { return createBlockNameSetterReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultBlockName", function() { return defaultBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "freeformFallbackBlockName", function() { return freeformFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisteredFallbackBlockName", function() { return unregisteredFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "categories", function() { return categories; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Module Constants
+ */
+
+var DEFAULT_CATEGORIES = [{
+  slug: 'common',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Common Blocks')
+}, {
+  slug: 'formatting',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Formatting')
+}, {
+  slug: 'layout',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Layout Elements')
+}, {
+  slug: 'widgets',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Widgets')
+}, {
+  slug: 'embed',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Embeds')
+}, {
+  slug: 'reusable',
+  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Reusable Blocks')
+}];
+/**
+ * Reducer managing the block types
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function blockTypes() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'ADD_BLOCK_TYPES':
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keyBy"])(action.blockTypes, 'name'));
+
+    case 'REMOVE_BLOCK_TYPES':
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["omit"])(state, action.names);
+  }
+
+  return state;
+}
+/**
+ * Higher-order Reducer creating a reducer keeping track of given block name.
+ *
+ * @param {string} setActionType  Action type.
+ *
+ * @return {function} Reducer.
+ */
+
+function createBlockNameSetterReducer(setActionType) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var action = arguments.length > 1 ? arguments[1] : undefined;
+
+    switch (action.type) {
+      case 'REMOVE_BLOCK_TYPES':
+        if (action.names.indexOf(state) !== -1) {
+          return null;
+        }
+
+        return state;
+
+      case setActionType:
+        return action.name || null;
+    }
+
+    return state;
+  };
+}
+var defaultBlockName = createBlockNameSetterReducer('SET_DEFAULT_BLOCK_NAME');
+var freeformFallbackBlockName = createBlockNameSetterReducer('SET_FREEFORM_FALLBACK_BLOCK_NAME');
+var unregisteredFallbackBlockName = createBlockNameSetterReducer('SET_UNREGISTERED_FALLBACK_BLOCK_NAME');
+/**
+ * Reducer managing the categories
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function categories() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CATEGORIES;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  if (action.type === 'SET_CATEGORIES') {
+    return action.categories || [];
+  }
+
+  return state;
+}
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["combineReducers"])({
+  blockTypes: blockTypes,
+  defaultBlockName: defaultBlockName,
+  freeformFallbackBlockName: freeformFallbackBlockName,
+  unregisteredFallbackBlockName: unregisteredFallbackBlockName,
+  categories: categories
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/blocks/build-module/store/selectors.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@wordpress/blocks/build-module/store/selectors.js ***!
+  \************************************************************************/
+/*! exports provided: getBlockTypes, getBlockType, getCategories, getDefaultBlockName, getFallbackBlockName, getFreeformFallbackBlockName, getUnregisteredFallbackBlockName, getChildBlockNames, getBlockSupport, hasBlockSupport, hasChildBlocks, hasChildBlocksWithInserterSupport */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return getBlockTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return getBlockType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return getCategories; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return getDefaultBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFallbackBlockName", function() { return getFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFreeformFallbackBlockName", function() { return getFreeformFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredFallbackBlockName", function() { return getUnregisteredFallbackBlockName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return getChildBlockNames; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return getBlockSupport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return hasBlockSupport; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return hasChildBlocks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return hasChildBlocksWithInserterSupport; });
+/* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ "./node_modules/rememo/es/rememo.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2__);
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Returns all the available block types.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Array} Block Types.
+ */
+
+var getBlockTypes = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state) {
+  return Object.values(state.blockTypes);
+}, function (state) {
+  return [state.blockTypes];
+});
+/**
+ * Returns a block type by name.
+ *
+ * @param {Object} state Data state.
+ * @param {string} name Block type name.
+ *
+ * @return {Object?} Block Type.
+ */
+
+function getBlockType(state, name) {
+  return state.blockTypes[name];
+}
+/**
+ * Returns all the available categories.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Array} Categories list.
+ */
+
+function getCategories(state) {
+  return state.categories;
+}
+/**
+ * Returns the name of the default block name.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {string?} Default block name.
+ */
+
+function getDefaultBlockName(state) {
+  return state.defaultBlockName;
+}
+/**
+ * Returns the name of the fallback block name.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {string?} Fallback block name.
+ */
+
+function getFallbackBlockName(state) {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default()('getFallbackBlockName', {
+    plugin: 'Gutenberg',
+    version: '4.2',
+    alternative: 'getFreeformFallbackBlockName and getUnregisteredFallbackBlockName'
+  });
+  return getFreeformFallbackBlockName(state);
+}
+/**
+ * Returns the name of the block for handling non-block content.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {string?} Name of the block for handling non-block content.
+ */
+
+function getFreeformFallbackBlockName(state) {
+  return state.freeformFallbackBlockName;
+}
+/**
+ * Returns the name of the block for handling unregistered blocks.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {string?} Name of the block for handling unregistered blocks.
+ */
+
+function getUnregisteredFallbackBlockName(state) {
+  return state.unregisteredFallbackBlockName;
+}
+/**
+ * Returns an array with the child blocks of a given block.
+ *
+ * @param {Object} state     Data state.
+ * @param {string} blockName Block type name.
+ *
+ * @return {Array} Array of child block names.
+ */
+
+var getChildBlockNames = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state, blockName) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(state.blockTypes, function (blockType) {
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["includes"])(blockType.parent, blockName);
+  }), function (_ref) {
+    var name = _ref.name;
+    return name;
+  });
+}, function (state) {
+  return [state.blockTypes];
+});
+/**
+ * Returns the block support value for a feature, if defined.
+ *
+ * @param  {Object}          state           Data state.
+ * @param  {(string|Object)} nameOrType      Block name or type object
+ * @param  {string}          feature         Feature to retrieve
+ * @param  {*}               defaultSupports Default value to return if not
+ *                                           explicitly defined
+ *
+ * @return {?*} Block support value
+ */
+
+var getBlockSupport = function getBlockSupport(state, nameOrType, feature, defaultSupports) {
+  var blockType = 'string' === typeof nameOrType ? getBlockType(state, nameOrType) : nameOrType;
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(blockType, ['supports', feature], defaultSupports);
+};
+/**
+ * Returns true if the block defines support for a feature, or false otherwise.
+ *
+ * @param  {Object}         state           Data state.
+ * @param {(string|Object)} nameOrType      Block name or type object.
+ * @param {string}          feature         Feature to test.
+ * @param {boolean}         defaultSupports Whether feature is supported by
+ *                                          default if not explicitly defined.
+ *
+ * @return {boolean} Whether block supports feature.
+ */
+
+function hasBlockSupport(state, nameOrType, feature, defaultSupports) {
+  return !!getBlockSupport(state, nameOrType, feature, defaultSupports);
+}
+/**
+ * Returns a boolean indicating if a block has child blocks or not.
+ *
+ * @param {Object} state     Data state.
+ * @param {string} blockName Block type name.
+ *
+ * @return {boolean} True if a block contains child blocks and false otherwise.
+ */
+
+var hasChildBlocks = function hasChildBlocks(state, blockName) {
+  return getChildBlockNames(state, blockName).length > 0;
+};
+/**
+ * Returns a boolean indicating if a block has at least one child block with inserter support.
+ *
+ * @param {Object} state     Data state.
+ * @param {string} blockName Block type name.
+ *
+ * @return {boolean} True if a block contains at least one child blocks with inserter support
+ *                   and false otherwise.
+ */
+
+var hasChildBlocksWithInserterSupport = function hasChildBlocksWithInserterSupport(state, blockName) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["some"])(getChildBlockNames(state, blockName), function (childBlockName) {
+    return hasBlockSupport(state, childBlockName, 'inserter', true);
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/hpq/es/get-path.js":
+/*!*****************************************!*\
+  !*** ./node_modules/hpq/es/get-path.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -433,10 +5604,10 @@ function getPath(object, path) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/hpq/es/index.js":
-/*!***********************************************!*\
-  !*** ./packages/node_modules/hpq/es/index.js ***!
-  \***********************************************/
+/***/ "./node_modules/hpq/es/index.js":
+/*!**************************************!*\
+  !*** ./node_modules/hpq/es/index.js ***!
+  \**************************************/
 /*! exports provided: parse, prop, attr, html, text, query */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -448,7 +5619,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "text", function() { return text; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "query", function() { return query; });
-/* harmony import */ var _get_path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-path */ "./packages/node_modules/hpq/es/get-path.js");
+/* harmony import */ var _get_path__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-path */ "./node_modules/hpq/es/get-path.js");
 /**
  * Internal dependencies
  */
@@ -587,10 +5758,10 @@ function query(selector, matchers) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/rememo/es/rememo.js":
-/*!***************************************************!*\
-  !*** ./packages/node_modules/rememo/es/rememo.js ***!
-  \***************************************************/
+/***/ "./node_modules/rememo/es/rememo.js":
+/*!******************************************!*\
+  !*** ./node_modules/rememo/es/rememo.js ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -874,14 +6045,14 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/showdown/dist/showdown.js":
-/*!*********************************************************!*\
-  !*** ./packages/node_modules/showdown/dist/showdown.js ***!
-  \*********************************************************/
+/***/ "./node_modules/showdown/dist/showdown.js":
+/*!************************************************!*\
+  !*** ./node_modules/showdown/dist/showdown.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.8.6 - 22-12-2017 */
+var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.8.7 - 16-10-2018 */
 (function(){
 /**
  * Created by Tivie on 13-07-2015.
@@ -3017,8 +8188,8 @@ showdown.helper.emojis = {
   'zzz':'\ud83d\udca4',
 
   /* special emojis :P */
-  'octocat':  '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAOwUlEQVR42uVbCVyO6RbPmn0sw9gZS0aZO4y5GTEUE2ObxjZjrbHEJVy3sWS5pkaWxjLEkCVDSbSgFLdESaWSLIVUSIi4kvb9f895vi/zbbR+yZ339/tbnu99n/ec/3Oe85xznufV0CjDBaAdwZqwnzCJ0FXjHV70/i8J5oQDhCFV8cJdq1atwqxZs+Ds7Iz4+HhqwgXCLELNKlK6G2Ej4e6lS5ewZcsWzJgxA+fOnWNZFqvzxT1v3boF/qcsBg0ahP3796OwsJAFWKYuIqjfPoS9cXFxWL58Obp06SInh5aWFr//jjoJWLlu3TolAorRuXNn7Ny5k4W4Spgj81xrgj5hLmED4RDhlNRygglBhADCSakpWxFMCHoETUJTwrYHDx7A1NT0je9nPHz4kN/fXl0EeI0aNeqtAjB69+4NPz8/FsSdlXvy5An8/f1hZ2cHCwsLGBsbY/To0cJy9PT0MGDAAAwePBhGRkbClNesWYODBw8iODgYOTk53M/d9evXo27duiW++8iRI3z/ZHURENOjR48ShSjGuHHjhHJ16tQp9TOKaNWqlZKpvw1MHluQOpSvk5eXh5YtW5ZbmarAvHnzmIBd6iCgXnZ2Npo1a1atCWAfwY5SHQTUKCoqQocOHao1AebmHBJgi7p8QBDP6epMwKFDvMDAWF0ELLS1ta3WBNy9e5cJMFIXAdvt7e2rNQHDhw9nAv5D+KKylV9y8+bNCi1pVYWZM2cyCfaVTcDdsqzH7xpBQRxcwqyylLdi5/K+KM/Q0dFhAqIri4Bn1T0AUgVpdmhYUeVHnD59+r1TnjF27Fgm4HhFCThoYmLyXhLQoEGD4mRKsyIE3OrZs+d7SQCDCyZcNSqv8k1evXoFTU3NUr+wzUcfYqRBf8yb/C2WzfoBFoTF08fBdMIITDD8CsP1+kL30x7Q6dYZH7drjfZ0f4fWLdG1Q1t81qMLBvTRwejB/TBl1BDMnzQGS2dMxKo5k7Fs9iSY/jAaBvR8Pc26pZaH02quLZSXgO6xsbGlelGnli1wZKcVMqN8gKcRwItrf+K/VB95doXaLwOJIVSzOU/+2Re5kV7IuuyJrIhTyLt6mmztLBBPNZLHoUAy9fE8UvJ8ikxfj8PwJPQErJeYlkquTZs2MQFLykuANgc/Jb2kn3Z3ZMaQUrmxwO1zyAo7gfRAJ6RfOIyMEFdkXj5F8BTK5lzxQv610yi8QcFatI8gQoCIK7x+hojwRnaE5H4JTiEj9Pjr/rJDqcZyn9b4ovu45LYbdWvXeqtsXMHiSlZ5CegRExPz1hd83PYj5POo0QinXyLFg48hnZTOiQ1Dzr1IZEaeQRoJn0HKZIR7lA2kfHrQUerXHTlx4ZL+rnjjFRGRGeYB5MUj2GnbW+XbuJFrp1heXgI6JCYmvvUFN1x3Aek3SWkapRAXMeJFGS8ge2Xfuog0toaykED3Mpk8+shOk+sv68Y50V9WuKewBKt5094o39atW/mRf5WXgIYZGRlo3Lixys4nj6A6Z1YMcqRCpwU4ouDlUyHk/QA/hNttR25Wlvh/ZthJUsil9ATQ/axkYbqEzDgfL0Ts/x35+aLyTES7IY36Q6w/+Q4/tP6wuUoZ9+7dy7ebVmQZjO/atavKzn32rAdeXkd6KCkXdAxZ13yFcLFnvPD73zrDVrsdTs6eggKSuSjjORHkUGoC0i86Iyc6QPQX7eqMnTodYNuzHU4vnosiaitMSUSavwMy6d3IvEUrzViVMrq5uXEX4ytCgL++vr5Sx7Vr1cIDX0dKkQJfj37Rs3jw1sBxkwlwGD4Ax3+ciN1faCHW76xQRFgAOcjSEMBkIe0x8nLzcez7kTg8Rh/uxuOxR/cTJISFSfq7eATpZCk8CAfXLVFJwIULXHnHoIoQYLtw4UKljps2aogXQcQuef/XAiMDKY+S4DhyEFwpDnCj9f+Afl8EbbWRTANaAdihlYoAMn8aZzyNuYODX/eD29TvRH/7v+qN8H27JdOAyWQfQQ74xPafVRLAPox9WUlK6hIGEgx4f00Kg2JcvHhRqeP6FIwknXemyen/2gLIIeC/CYk49M0AuE4xgtu0sThg8AUCN62TEuBdRgJo2Y+Kxh9D/k59SQiwH9QHobt3SAk4KSGA4oWjm1YqyVi8U6Soj4yOrHM/jTAyKVby/PnzIoNi8L+L4eXlpXoFcLcTgc1rAlISkJeXDxeK2A6P1hdTwI6mQPTJE+WbAlnJyE7PhNO3Q3BkrKGYWtxfHMkkmQLO0ilwA7+vXqAkn66urtBLUZ9iHfm30NBQaPAf165dA0d9vP2UlJSEp0+f4vHjx3j06JH4e+rUqUovcNmyGkiNEkLwklXsBG+ecMUOnfbYod1emG5uboFKJ8jPFVD0l0dBUHqoPDHpQeQEb0qc4FUHe3KAbYUT9JgzDbwOFL5MfN0fXkXhJ5PxSvLt2LFD1Ah5u4z1YJ14l4qnBe8v3rhxAzz4PAVG8nLHivIP0dHRiIiIQGRkpEgmrl69ClW1QBMjQ7LDW8hmU+RRI69ckJIkhL7jfRJBm62R+TJVYq6h0jhBRslsivqenT2MF/7OyI70VmkFhWnPJaS6OyPkt43IycqR9EfWlH7JDQUUTuNhCHR7Ke9YcRp/5coVoQPrcvnyZURFRYmBZlLS0kR8MVLD29sbnp6e8PHxQUBAgCgn8YO8E3z79m3BGKeVc+bMkXuBZt06SA12F/F5Go0gR4C8HBalPZMPXKL8lQKhPAqF+f97KXFyNx6HQsoPsshJ/kmAp2TKkJLISpXvjyxNhMYcDVLOEO+lPDi8B5mamipkZx1YF9YpJCRErAy+vr5CZ9ZdWABhDGEYYTBhAOFz3g4nfMJelNCbkNCpUye5F034mvxIPi1/FM+zQCw0k5B9O0iEr5kRXkqhMJOVf9NXIHjtT7hmaymSoBzKETimkAuFpaF1dkwI9RcmIYaXv3BJXoGCuyIgk5WpefPmKCgoYK46SmX/RKoL69Sfl0WuFEl1HlmWJXE5z6WmTZvKJxxmxkIQ3AuU5APk6NICj4hRT6eITTEEzqWk55HHPjz3cxJhNF5cxeNT9kj2cRDTQjEkzpDtjyyCic5l5fEA7uSHFEefR5pPsahrb2B9QkICFHeJ51HunkdLIg0VLY0BFKdLwllVHp4dHyvst3QuEiiju21vA/+VZkiluIKt4I3RIfWXQ4QgKUxkni47LJWUP3PmjHo2RxVI+CebmKJP6EiFDVurxUgmExe5PHlnPAkn8w4QqW62NCVmYopozid5H0CI9RKE21ggJeAYEeMnfitOnRn5XCfgeJ+VTosWQU8MOc6ZE0cqnUm4fv165SrPBVHCfMI4TowUfmOfsIcdJh92kBWmUcP6GDt8EDZbzIffH5tx3/ewSFjw5LKk0MEFEkZenDBjgew7Yiog5brkt+QrknvJmhIp4Apw/A1bVpjhG/0v5d7Vrl07bNu2TelUSqUoz8uI3Z49OEtBAy+TdP1CqKtwHzvQUxxgTJs2TeX5gdq1a0ObSmCjh+jB+NuvRamL1+3ls77HCip1rTSdJP5eNnMizKndjMLoH42G4bthX+FzHS3UVVEC69evH3799VeKMXJZrlWKclUGAZ5jxoxB02ZNsNlxH74aagBHZyex986HlVTczyGmI58h4CjL2toa48ePFxsUPEotWrQoc0GT0/C2bduiY8eO4ISMcxLeoOFYhS6qm2EpoZG65jmbv+dPSyRZlt5QfVjvtX19AOFNL+aDFNI4m0eFc9Ho5ORkaGtrl5kAVp6DMOk88efEjLe++ZhclZwHTJHEHbs4YOCmLj2645fdvwnTK42zoXtaEHwNDQ3LXdZm5yad3/2r+gQmDsRnIF5KAldX6zdsgG/GG8F44Vzcu3eP2y1K6GPr2rVrK1zbnz59Or/LoaoJCPZ4kCZsjw9GECL79OmDj9q2wb+320C3/5fgPQO6Vrzh+fpcDqxXr16lbHBwgkZXm6okYJr0ECMrX5vraiJ1lArEjrEnzWuOqemiYj9spGd2ee478XkiPsJakmJ83qA05/8qXNurJFLiunXrhpo1a6LxB02wyHIFZpovgOHwYfjZ0hK2lH5u2rwZ5suWYv5ycyUlmjRpgl69eimlrFy3kwuoyOvXr19frm3RokVMwPZ3TYC57E6xVq+e6KzVDSaL/oEp82Zh8IhhWLjGAp/p9oX5ujVKBNjY2MDV1VWuzd3dXaTesm2biUQuZ8u28elSPmKr8a4vdog8GnJpcT1N1KHUuBbt0jSgWuGbzJh3mVhh2TYHBwdxjFa2jVcZnvPVlQBOLXdZWlqW2ZFxNYYVlm07fPgwAgMD5dr4OD5HeHLFFxM+O42DGtXhIkFaMQlcUjIzM0P37t1Ro0YNpZPjPJcVK7SOjo5ybU5OTqIAo0gAh97VlgAZIj4l8Pn4WFaO64ocuXG6zJtDbMqySnC7IgF8uptLVrJtq1evFuWqak+A4j4i4TNpltiJ8LPiNFFFwNGjRyWFyfedAFUny/joekkEuLi4KK0CfykCeFnkiu1flgBeFtl3/D8SsMbKykpOifv37ysRcPz4cVHKUiSA8wwNdR9/VTMBSh9Y8S4Nf2qnSICiBbDzVCRg9uzZTMC+94kAv6FDh8opwRsVHPjItnl4eEDxHNLKlStFXV+2javQ/M1SpZe+1KA4L4G7WDG57fSm/OUbXiqG0ewAFYOeYcN4fwZhvLkp2y4tftrxcltdlf/w+fPn4qNGxTCYU2m6nrRu3VqunT/EoiuZvw6TTZHpyuNNmEaNGsndP3fu3OJAq1N1JOAHDmyKheVtNP4OkE2crULRAW7fvl20EyyLy24a8p+/7WISFixYIMLt4t82bNhQYjXqXREgPq3j74mlX3AmSL8E1eOPIBXnuVT5OsVZpuLnOMeOHeN7vifwiYhYzhC5IpwlOXj1QXWdBmy/XWU/X+UqMZfKBw4cKAobHPlJlZe9h6tOu+7cuSN2dg0MDMSSyZUpmXvaSD+crq/xvl0k9BTCRa7qEPq+5T4t6ffF52WVV+f1P6zyLG30bsU4AAAAAElFTkSuQmCC">',
-  'showdown': '<img width="20" height="20" align="absmiddle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAECtaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzA2NyA3OS4xNTc3NDcsIDIwMTUvMDMvMzAtMjM6NDA6NDIgICAgICAgICI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMTctMTAtMjRUMTM6MzE6MzArMDE6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8cGhvdG9zaG9wOkNvbG9yTW9kZT4zPC9waG90b3Nob3A6Q29sb3JNb2RlPgogICAgICAgICA8cGhvdG9zaG9wOklDQ1Byb2ZpbGU+c1JHQiBJRUM2MTk2Ni0yLjE8L3Bob3Rvc2hvcDpJQ0NQcm9maWxlPgogICAgICAgICA8cGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgICAgIDxyZGY6QmFnPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHBob3Rvc2hvcDpMYXllck5hbWU+UyAtPC9waG90b3Nob3A6TGF5ZXJOYW1lPgogICAgICAgICAgICAgICAgICA8cGhvdG9zaG9wOkxheWVyVGV4dD5TIC08L3Bob3Rvc2hvcDpMYXllclRleHQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpCYWc+CiAgICAgICAgIDwvcGhvdG9zaG9wOlRleHRMYXllcnM+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6N2NkMzQxNzctOWYyZi0yNDRiLWEyYjQtMzU1MzJkY2Y1MWJiPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6M2E1YzgxYmYtYjhiNy0xMWU3LTk0NDktYTQ2MzdlZjJkNjMzPC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTUtMDEtMTVUMjE6MDE6MTlaPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPnNhdmVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdEV2dDppbnN0YW5jZUlEPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE3LTEwLTI0VDEzOjMxOjMwKzAxOjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoV2luZG93cyk8L3N0RXZ0OnNvZnR3YXJlQWdlbnQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpjaGFuZ2VkPi88L3N0RXZ0OmNoYW5nZWQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jb252ZXJ0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+ZnJvbSBhcHBsaWNhdGlvbi92bmQuYWRvYmUucGhvdG9zaG9wIHRvIGltYWdlL3BuZzwvc3RFdnQ6cGFyYW1ldGVycz4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmRlcml2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnBhcmFtZXRlcnM+Y29udmVydGVkIGZyb20gYXBwbGljYXRpb24vdm5kLmFkb2JlLnBob3Rvc2hvcCB0byBpbWFnZS9wbmc8L3N0RXZ0OnBhcmFtZXRlcnM+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5zYXZlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOjdjZDM0MTc3LTlmMmYtMjQ0Yi1hMmI0LTM1NTMyZGNmNTFiYjwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNy0xMC0yNFQxMzozMTozMCswMTowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDx4bXBNTTpEZXJpdmVkRnJvbSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgIDxzdFJlZjppbnN0YW5jZUlEPnhtcC5paWQ6ODZjNjBkMGQtOGY0Yy01ZTRlLWEwMjQtODI4ZWQyNTIwZDc3PC9zdFJlZjppbnN0YW5jZUlEPgogICAgICAgICAgICA8c3RSZWY6ZG9jdW1lbnRJRD54bXAuZGlkOjYwQzVBRTY1RjY5Q0U0MTE5NDVBODU1RTNCQ0E3RUVCPC9zdFJlZjpkb2N1bWVudElEPgogICAgICAgICAgICA8c3RSZWY6b3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6NjBDNUFFNjVGNjlDRTQxMTk0NUE4NTVFM0JDQTdFRUI8L3N0UmVmOm9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPC94bXBNTTpEZXJpdmVkRnJvbT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+MTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NjQ8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/Pse7bzcAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAA1JJREFUeNrsm1+OmlAUhz+aeS9dwZggJn1AnRUMO6jpBgZXULuC2hWUWUGZBTSxKyiuoA4mfUBMnB04K5g+9DihRBHlyh/lJLwIXLgf99xzzu9etZeXFy7Z3nDh1gBoAFy4XeVtQNO0zNcapmUDfUBPnFoBfhQGq6IBaHmjwD4Ahmk5wAD4kKG5J8CNwsAFaHe6DvA9cc0wCgOv8gDka3vA9RHNPgo0D7hNnJtGYWBXxgV2dH4MfMnRRA+Y1WIO2NJ5F/ikoKm3tYsChmkNFHW+fmHQMC1dfHaXPQP3wM1yMdc2B/AOGALTWobBmI1Shu0UGCwX83XyRBQGawHntTtdG5gUNfxVu4CTNqNv6/wWGL7kCc+1AmCYVisl3I2ydD4GYZUCs7IjoLXrxHIx9w9tLAqDCfBwDrXAY457x+cAoCfuwRGjYFUnAGk+PsjR7s8Dn1VeLWCYVlpDw+VivjVHSHt+u9PVJbzGzZXQWTkAkz0V31fATUaEsjVJlQBs4FeGcteLgzgbAALBA+4y3voAeJL8nA0AHfClnM1qm1HhnYUidCSE+KzvSSJUTwAxCOMcpfETMFYpfRUKIAbCFhC3OTJJJwqDWS0BxED0JZ4Pjix1P2+E0loCSMBwyK4S/xc1ojBwag8gMU84cvTKGgmlAYhngu1O9xAXuVE5J1QCQCz3bwHuHvdQui5QKQAxEO6eEKpsFCgTRSXkvdoxSlBMCxhJJbgrrbZRtHCiShN0pRB6PeQ3ckBw2K0oKXMBVYJIP+Nvh9qulFivGoBt1lLQxowT2ykBXCfnhZIglgYACWmqXQv+baioBYCeiCQHm+QEg1O7RhF7hO4OhSAhcJKSFU7qBGADwZeqMMuXn6TUBw8qlaMrirNb4LdhWlP+SWD+cjFfxTpuS2GUpik+o3jFSEkqbJiWn0P0OMSGqlWiOu0TvD+FRHZKAE+oW+cfRmEwqlsesJJEJs8y91QqP+9UL6lqEtz2gpuNEY5sm9sIHln2DRa2aFKGJtiXkZEMiWtgVvRKUSUFkSKt2S7fAGgAXLYpmQQXf36MUChTZdUa2u8/rkvPA6Tz30r4eH3ybcBS5gJ6SaNXb+aABkA1AMxKenclBZLW/He4cYEGwEXb3wEASelexk6LIIIAAAAASUVORK5CYII=">'
+  'octocat':  '<img alt=":octocat:" height="20" width="20" align="absmiddle" src="https://assets-cdn.github.com/images/icons/emoji/octocat.png">',
+  'showdown': '<span style="font-family: \'Anonymous Pro\', monospace; text-decoration: underline; text-decoration-style: dashed; text-decoration-color: #3e8b8a;text-underline-position: under;">S</span>'
 };
 
 /**
@@ -3310,8 +8481,8 @@ showdown.Converter = function (converterOptions) {
     text = text.replace(/\r\n/g, '\n'); // DOS to Unix
     text = text.replace(/\r/g, '\n'); // Mac to Unix
 
-    // Stardardize line spaces (nbsp causes trouble in older browsers and some regex flavors)
-    text = text.replace(/\u00A0/g, ' ');
+    // Stardardize line spaces
+    text = text.replace(/\u00A0/g, '&nbsp;');
 
     if (options.smartIndentationFix) {
       text = rTrimInputText(text);
@@ -3595,7 +8766,7 @@ showdown.subParser('anchors', function (text, options, globals) {
 
   // Lastly handle GithubMentions if option is enabled
   if (options.ghMentions) {
-    text = text.replace(/(^|\s)(\\)?(@([a-z\d\-]+))(?=[.!?;,[\]()]|\s|$)/gmi, function (wm, st, escape, mentions, username) {
+    text = text.replace(/(^|\s)(\\)?(@([a-z\d]+(?:[a-z\d.-]+?[a-z\d]+)*))/gmi, function (wm, st, escape, mentions, username) {
       if (escape === '\\') {
         return st + mentions;
       }
@@ -4116,7 +9287,7 @@ showdown.subParser('githubCodeBlocks', function (text, options, globals) {
 
   text += '¨0';
 
-  text = text.replace(/(?:^|\n)(```+|~~~+)([^\s`~]*)\n([\s\S]*?)\n\1/g, function (wholeMatch, delim, language, codeblock) {
+  text = text.replace(/(?:^|\n)(?: {0,3})(```+|~~~+)(?: *)([^\s`~]*)\n([\s\S]*?)\n(?: {0,3})\1/g, function (wholeMatch, delim, language, codeblock) {
     var end = (options.omitExtraWLInCodeBlocks) ? '' : '\n';
 
     // First parse the github code block
@@ -4579,7 +9750,7 @@ showdown.subParser('images', function (text, options, globals) {
     url = url.replace(showdown.helper.regexes.asteriskDashAndColon, showdown.helper.escapeCharactersCallback);
     var result = '<img src="' + url + '" alt="' + altText + '"';
 
-    if (title) {
+    if (title && showdown.helper.isString(title)) {
       title = title
         .replace(/"/g, '&quot;')
       //title = showdown.helper.escapeCharacters(title, '*_', false);
@@ -4665,13 +9836,13 @@ showdown.subParser('italicsAndBold', function (text, options, globals) {
 
   // Now parse asterisks
   if (options.literalMidWordAsterisks) {
-    text = text.replace(/([^*]|^)\B\*\*\*(\S[\s\S]+?)\*\*\*\B(?!\*)/g, function (wm, lead, txt) {
+    text = text.replace(/([^*]|^)\B\*\*\*(\S[\s\S]*?)\*\*\*\B(?!\*)/g, function (wm, lead, txt) {
       return parseInside (txt, lead + '<strong><em>', '</em></strong>');
     });
-    text = text.replace(/([^*]|^)\B\*\*(\S[\s\S]+?)\*\*\B(?!\*)/g, function (wm, lead, txt) {
+    text = text.replace(/([^*]|^)\B\*\*(\S[\s\S]*?)\*\*\B(?!\*)/g, function (wm, lead, txt) {
       return parseInside (txt, lead + '<strong>', '</strong>');
     });
-    text = text.replace(/([^*]|^)\B\*(\S[\s\S]+?)\*\B(?!\*)/g, function (wm, lead, txt) {
+    text = text.replace(/([^*]|^)\B\*(\S[\s\S]*?)\*\B(?!\*)/g, function (wm, lead, txt) {
       return parseInside (txt, lead + '<em>', '</em>');
     });
   } else {
@@ -5383,26 +10554,19 @@ if (true) {
 
 /***/ }),
 
-/***/ "./packages/node_modules/simple-html-tokenizer/dist/simple-html-tokenizer.js":
-/*!***********************************************************************************!*\
-  !*** ./packages/node_modules/simple-html-tokenizer/dist/simple-html-tokenizer.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/entity-parser.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/entity-parser.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function (global, factory) {
-	 true ? factory(exports) :
-	undefined;
-}(this, (function (exports) { 'use strict';
-
-var namedCharRefs = {
-    Aacute: "Á", aacute: "á", Abreve: "Ă", abreve: "ă", ac: "∾", acd: "∿", acE: "∾̳", Acirc: "Â", acirc: "â", acute: "´", Acy: "А", acy: "а", AElig: "Æ", aelig: "æ", af: "\u2061", Afr: "𝔄", afr: "𝔞", Agrave: "À", agrave: "à", alefsym: "ℵ", aleph: "ℵ", Alpha: "Α", alpha: "α", Amacr: "Ā", amacr: "ā", amalg: "⨿", AMP: "&", amp: "&", And: "⩓", and: "∧", andand: "⩕", andd: "⩜", andslope: "⩘", andv: "⩚", ang: "∠", ange: "⦤", angle: "∠", angmsd: "∡", angmsdaa: "⦨", angmsdab: "⦩", angmsdac: "⦪", angmsdad: "⦫", angmsdae: "⦬", angmsdaf: "⦭", angmsdag: "⦮", angmsdah: "⦯", angrt: "∟", angrtvb: "⊾", angrtvbd: "⦝", angsph: "∢", angst: "Å", angzarr: "⍼", Aogon: "Ą", aogon: "ą", Aopf: "𝔸", aopf: "𝕒", ap: "≈", apacir: "⩯", apE: "⩰", ape: "≊", apid: "≋", apos: "'", ApplyFunction: "\u2061", approx: "≈", approxeq: "≊", Aring: "Å", aring: "å", Ascr: "𝒜", ascr: "𝒶", Assign: "≔", ast: "*", asymp: "≈", asympeq: "≍", Atilde: "Ã", atilde: "ã", Auml: "Ä", auml: "ä", awconint: "∳", awint: "⨑", backcong: "≌", backepsilon: "϶", backprime: "‵", backsim: "∽", backsimeq: "⋍", Backslash: "∖", Barv: "⫧", barvee: "⊽", Barwed: "⌆", barwed: "⌅", barwedge: "⌅", bbrk: "⎵", bbrktbrk: "⎶", bcong: "≌", Bcy: "Б", bcy: "б", bdquo: "„", becaus: "∵", Because: "∵", because: "∵", bemptyv: "⦰", bepsi: "϶", bernou: "ℬ", Bernoullis: "ℬ", Beta: "Β", beta: "β", beth: "ℶ", between: "≬", Bfr: "𝔅", bfr: "𝔟", bigcap: "⋂", bigcirc: "◯", bigcup: "⋃", bigodot: "⨀", bigoplus: "⨁", bigotimes: "⨂", bigsqcup: "⨆", bigstar: "★", bigtriangledown: "▽", bigtriangleup: "△", biguplus: "⨄", bigvee: "⋁", bigwedge: "⋀", bkarow: "⤍", blacklozenge: "⧫", blacksquare: "▪", blacktriangle: "▴", blacktriangledown: "▾", blacktriangleleft: "◂", blacktriangleright: "▸", blank: "␣", blk12: "▒", blk14: "░", blk34: "▓", block: "█", bne: "=⃥", bnequiv: "≡⃥", bNot: "⫭", bnot: "⌐", Bopf: "𝔹", bopf: "𝕓", bot: "⊥", bottom: "⊥", bowtie: "⋈", boxbox: "⧉", boxDL: "╗", boxDl: "╖", boxdL: "╕", boxdl: "┐", boxDR: "╔", boxDr: "╓", boxdR: "╒", boxdr: "┌", boxH: "═", boxh: "─", boxHD: "╦", boxHd: "╤", boxhD: "╥", boxhd: "┬", boxHU: "╩", boxHu: "╧", boxhU: "╨", boxhu: "┴", boxminus: "⊟", boxplus: "⊞", boxtimes: "⊠", boxUL: "╝", boxUl: "╜", boxuL: "╛", boxul: "┘", boxUR: "╚", boxUr: "╙", boxuR: "╘", boxur: "└", boxV: "║", boxv: "│", boxVH: "╬", boxVh: "╫", boxvH: "╪", boxvh: "┼", boxVL: "╣", boxVl: "╢", boxvL: "╡", boxvl: "┤", boxVR: "╠", boxVr: "╟", boxvR: "╞", boxvr: "├", bprime: "‵", Breve: "˘", breve: "˘", brvbar: "¦", Bscr: "ℬ", bscr: "𝒷", bsemi: "⁏", bsim: "∽", bsime: "⋍", bsol: "\\", bsolb: "⧅", bsolhsub: "⟈", bull: "•", bullet: "•", bump: "≎", bumpE: "⪮", bumpe: "≏", Bumpeq: "≎", bumpeq: "≏", Cacute: "Ć", cacute: "ć", Cap: "⋒", cap: "∩", capand: "⩄", capbrcup: "⩉", capcap: "⩋", capcup: "⩇", capdot: "⩀", CapitalDifferentialD: "ⅅ", caps: "∩︀", caret: "⁁", caron: "ˇ", Cayleys: "ℭ", ccaps: "⩍", Ccaron: "Č", ccaron: "č", Ccedil: "Ç", ccedil: "ç", Ccirc: "Ĉ", ccirc: "ĉ", Cconint: "∰", ccups: "⩌", ccupssm: "⩐", Cdot: "Ċ", cdot: "ċ", cedil: "¸", Cedilla: "¸", cemptyv: "⦲", cent: "¢", CenterDot: "·", centerdot: "·", Cfr: "ℭ", cfr: "𝔠", CHcy: "Ч", chcy: "ч", check: "✓", checkmark: "✓", Chi: "Χ", chi: "χ", cir: "○", circ: "ˆ", circeq: "≗", circlearrowleft: "↺", circlearrowright: "↻", circledast: "⊛", circledcirc: "⊚", circleddash: "⊝", CircleDot: "⊙", circledR: "®", circledS: "Ⓢ", CircleMinus: "⊖", CirclePlus: "⊕", CircleTimes: "⊗", cirE: "⧃", cire: "≗", cirfnint: "⨐", cirmid: "⫯", cirscir: "⧂", ClockwiseContourIntegral: "∲", CloseCurlyDoubleQuote: "”", CloseCurlyQuote: "’", clubs: "♣", clubsuit: "♣", Colon: "∷", colon: ":", Colone: "⩴", colone: "≔", coloneq: "≔", comma: ",", commat: "@", comp: "∁", compfn: "∘", complement: "∁", complexes: "ℂ", cong: "≅", congdot: "⩭", Congruent: "≡", Conint: "∯", conint: "∮", ContourIntegral: "∮", Copf: "ℂ", copf: "𝕔", coprod: "∐", Coproduct: "∐", COPY: "©", copy: "©", copysr: "℗", CounterClockwiseContourIntegral: "∳", crarr: "↵", Cross: "⨯", cross: "✗", Cscr: "𝒞", cscr: "𝒸", csub: "⫏", csube: "⫑", csup: "⫐", csupe: "⫒", ctdot: "⋯", cudarrl: "⤸", cudarrr: "⤵", cuepr: "⋞", cuesc: "⋟", cularr: "↶", cularrp: "⤽", Cup: "⋓", cup: "∪", cupbrcap: "⩈", CupCap: "≍", cupcap: "⩆", cupcup: "⩊", cupdot: "⊍", cupor: "⩅", cups: "∪︀", curarr: "↷", curarrm: "⤼", curlyeqprec: "⋞", curlyeqsucc: "⋟", curlyvee: "⋎", curlywedge: "⋏", curren: "¤", curvearrowleft: "↶", curvearrowright: "↷", cuvee: "⋎", cuwed: "⋏", cwconint: "∲", cwint: "∱", cylcty: "⌭", Dagger: "‡", dagger: "†", daleth: "ℸ", Darr: "↡", dArr: "⇓", darr: "↓", dash: "‐", Dashv: "⫤", dashv: "⊣", dbkarow: "⤏", dblac: "˝", Dcaron: "Ď", dcaron: "ď", Dcy: "Д", dcy: "д", DD: "ⅅ", dd: "ⅆ", ddagger: "‡", ddarr: "⇊", DDotrahd: "⤑", ddotseq: "⩷", deg: "°", Del: "∇", Delta: "Δ", delta: "δ", demptyv: "⦱", dfisht: "⥿", Dfr: "𝔇", dfr: "𝔡", dHar: "⥥", dharl: "⇃", dharr: "⇂", DiacriticalAcute: "´", DiacriticalDot: "˙", DiacriticalDoubleAcute: "˝", DiacriticalGrave: "`", DiacriticalTilde: "˜", diam: "⋄", Diamond: "⋄", diamond: "⋄", diamondsuit: "♦", diams: "♦", die: "¨", DifferentialD: "ⅆ", digamma: "ϝ", disin: "⋲", div: "÷", divide: "÷", divideontimes: "⋇", divonx: "⋇", DJcy: "Ђ", djcy: "ђ", dlcorn: "⌞", dlcrop: "⌍", dollar: "$", Dopf: "𝔻", dopf: "𝕕", Dot: "¨", dot: "˙", DotDot: "⃜", doteq: "≐", doteqdot: "≑", DotEqual: "≐", dotminus: "∸", dotplus: "∔", dotsquare: "⊡", doublebarwedge: "⌆", DoubleContourIntegral: "∯", DoubleDot: "¨", DoubleDownArrow: "⇓", DoubleLeftArrow: "⇐", DoubleLeftRightArrow: "⇔", DoubleLeftTee: "⫤", DoubleLongLeftArrow: "⟸", DoubleLongLeftRightArrow: "⟺", DoubleLongRightArrow: "⟹", DoubleRightArrow: "⇒", DoubleRightTee: "⊨", DoubleUpArrow: "⇑", DoubleUpDownArrow: "⇕", DoubleVerticalBar: "∥", DownArrow: "↓", Downarrow: "⇓", downarrow: "↓", DownArrowBar: "⤓", DownArrowUpArrow: "⇵", DownBreve: "̑", downdownarrows: "⇊", downharpoonleft: "⇃", downharpoonright: "⇂", DownLeftRightVector: "⥐", DownLeftTeeVector: "⥞", DownLeftVector: "↽", DownLeftVectorBar: "⥖", DownRightTeeVector: "⥟", DownRightVector: "⇁", DownRightVectorBar: "⥗", DownTee: "⊤", DownTeeArrow: "↧", drbkarow: "⤐", drcorn: "⌟", drcrop: "⌌", Dscr: "𝒟", dscr: "𝒹", DScy: "Ѕ", dscy: "ѕ", dsol: "⧶", Dstrok: "Đ", dstrok: "đ", dtdot: "⋱", dtri: "▿", dtrif: "▾", duarr: "⇵", duhar: "⥯", dwangle: "⦦", DZcy: "Џ", dzcy: "џ", dzigrarr: "⟿", Eacute: "É", eacute: "é", easter: "⩮", Ecaron: "Ě", ecaron: "ě", ecir: "≖", Ecirc: "Ê", ecirc: "ê", ecolon: "≕", Ecy: "Э", ecy: "э", eDDot: "⩷", Edot: "Ė", eDot: "≑", edot: "ė", ee: "ⅇ", efDot: "≒", Efr: "𝔈", efr: "𝔢", eg: "⪚", Egrave: "È", egrave: "è", egs: "⪖", egsdot: "⪘", el: "⪙", Element: "∈", elinters: "⏧", ell: "ℓ", els: "⪕", elsdot: "⪗", Emacr: "Ē", emacr: "ē", empty: "∅", emptyset: "∅", EmptySmallSquare: "◻", emptyv: "∅", EmptyVerySmallSquare: "▫", emsp: " ", emsp13: " ", emsp14: " ", ENG: "Ŋ", eng: "ŋ", ensp: " ", Eogon: "Ę", eogon: "ę", Eopf: "𝔼", eopf: "𝕖", epar: "⋕", eparsl: "⧣", eplus: "⩱", epsi: "ε", Epsilon: "Ε", epsilon: "ε", epsiv: "ϵ", eqcirc: "≖", eqcolon: "≕", eqsim: "≂", eqslantgtr: "⪖", eqslantless: "⪕", Equal: "⩵", equals: "=", EqualTilde: "≂", equest: "≟", Equilibrium: "⇌", equiv: "≡", equivDD: "⩸", eqvparsl: "⧥", erarr: "⥱", erDot: "≓", Escr: "ℰ", escr: "ℯ", esdot: "≐", Esim: "⩳", esim: "≂", Eta: "Η", eta: "η", ETH: "Ð", eth: "ð", Euml: "Ë", euml: "ë", euro: "€", excl: "!", exist: "∃", Exists: "∃", expectation: "ℰ", ExponentialE: "ⅇ", exponentiale: "ⅇ", fallingdotseq: "≒", Fcy: "Ф", fcy: "ф", female: "♀", ffilig: "ﬃ", fflig: "ﬀ", ffllig: "ﬄ", Ffr: "𝔉", ffr: "𝔣", filig: "ﬁ", FilledSmallSquare: "◼", FilledVerySmallSquare: "▪", fjlig: "fj", flat: "♭", fllig: "ﬂ", fltns: "▱", fnof: "ƒ", Fopf: "𝔽", fopf: "𝕗", ForAll: "∀", forall: "∀", fork: "⋔", forkv: "⫙", Fouriertrf: "ℱ", fpartint: "⨍", frac12: "½", frac13: "⅓", frac14: "¼", frac15: "⅕", frac16: "⅙", frac18: "⅛", frac23: "⅔", frac25: "⅖", frac34: "¾", frac35: "⅗", frac38: "⅜", frac45: "⅘", frac56: "⅚", frac58: "⅝", frac78: "⅞", frasl: "⁄", frown: "⌢", Fscr: "ℱ", fscr: "𝒻", gacute: "ǵ", Gamma: "Γ", gamma: "γ", Gammad: "Ϝ", gammad: "ϝ", gap: "⪆", Gbreve: "Ğ", gbreve: "ğ", Gcedil: "Ģ", Gcirc: "Ĝ", gcirc: "ĝ", Gcy: "Г", gcy: "г", Gdot: "Ġ", gdot: "ġ", gE: "≧", ge: "≥", gEl: "⪌", gel: "⋛", geq: "≥", geqq: "≧", geqslant: "⩾", ges: "⩾", gescc: "⪩", gesdot: "⪀", gesdoto: "⪂", gesdotol: "⪄", gesl: "⋛︀", gesles: "⪔", Gfr: "𝔊", gfr: "𝔤", Gg: "⋙", gg: "≫", ggg: "⋙", gimel: "ℷ", GJcy: "Ѓ", gjcy: "ѓ", gl: "≷", gla: "⪥", glE: "⪒", glj: "⪤", gnap: "⪊", gnapprox: "⪊", gnE: "≩", gne: "⪈", gneq: "⪈", gneqq: "≩", gnsim: "⋧", Gopf: "𝔾", gopf: "𝕘", grave: "`", GreaterEqual: "≥", GreaterEqualLess: "⋛", GreaterFullEqual: "≧", GreaterGreater: "⪢", GreaterLess: "≷", GreaterSlantEqual: "⩾", GreaterTilde: "≳", Gscr: "𝒢", gscr: "ℊ", gsim: "≳", gsime: "⪎", gsiml: "⪐", GT: ">", Gt: "≫", gt: ">", gtcc: "⪧", gtcir: "⩺", gtdot: "⋗", gtlPar: "⦕", gtquest: "⩼", gtrapprox: "⪆", gtrarr: "⥸", gtrdot: "⋗", gtreqless: "⋛", gtreqqless: "⪌", gtrless: "≷", gtrsim: "≳", gvertneqq: "≩︀", gvnE: "≩︀", Hacek: "ˇ", hairsp: " ", half: "½", hamilt: "ℋ", HARDcy: "Ъ", hardcy: "ъ", hArr: "⇔", harr: "↔", harrcir: "⥈", harrw: "↭", Hat: "^", hbar: "ℏ", Hcirc: "Ĥ", hcirc: "ĥ", hearts: "♥", heartsuit: "♥", hellip: "…", hercon: "⊹", Hfr: "ℌ", hfr: "𝔥", HilbertSpace: "ℋ", hksearow: "⤥", hkswarow: "⤦", hoarr: "⇿", homtht: "∻", hookleftarrow: "↩", hookrightarrow: "↪", Hopf: "ℍ", hopf: "𝕙", horbar: "―", HorizontalLine: "─", Hscr: "ℋ", hscr: "𝒽", hslash: "ℏ", Hstrok: "Ħ", hstrok: "ħ", HumpDownHump: "≎", HumpEqual: "≏", hybull: "⁃", hyphen: "‐", Iacute: "Í", iacute: "í", ic: "\u2063", Icirc: "Î", icirc: "î", Icy: "И", icy: "и", Idot: "İ", IEcy: "Е", iecy: "е", iexcl: "¡", iff: "⇔", Ifr: "ℑ", ifr: "𝔦", Igrave: "Ì", igrave: "ì", ii: "ⅈ", iiiint: "⨌", iiint: "∭", iinfin: "⧜", iiota: "℩", IJlig: "Ĳ", ijlig: "ĳ", Im: "ℑ", Imacr: "Ī", imacr: "ī", image: "ℑ", ImaginaryI: "ⅈ", imagline: "ℐ", imagpart: "ℑ", imath: "ı", imof: "⊷", imped: "Ƶ", Implies: "⇒", in: "∈", incare: "℅", infin: "∞", infintie: "⧝", inodot: "ı", Int: "∬", int: "∫", intcal: "⊺", integers: "ℤ", Integral: "∫", intercal: "⊺", Intersection: "⋂", intlarhk: "⨗", intprod: "⨼", InvisibleComma: "\u2063", InvisibleTimes: "\u2062", IOcy: "Ё", iocy: "ё", Iogon: "Į", iogon: "į", Iopf: "𝕀", iopf: "𝕚", Iota: "Ι", iota: "ι", iprod: "⨼", iquest: "¿", Iscr: "ℐ", iscr: "𝒾", isin: "∈", isindot: "⋵", isinE: "⋹", isins: "⋴", isinsv: "⋳", isinv: "∈", it: "\u2062", Itilde: "Ĩ", itilde: "ĩ", Iukcy: "І", iukcy: "і", Iuml: "Ï", iuml: "ï", Jcirc: "Ĵ", jcirc: "ĵ", Jcy: "Й", jcy: "й", Jfr: "𝔍", jfr: "𝔧", jmath: "ȷ", Jopf: "𝕁", jopf: "𝕛", Jscr: "𝒥", jscr: "𝒿", Jsercy: "Ј", jsercy: "ј", Jukcy: "Є", jukcy: "є", Kappa: "Κ", kappa: "κ", kappav: "ϰ", Kcedil: "Ķ", kcedil: "ķ", Kcy: "К", kcy: "к", Kfr: "𝔎", kfr: "𝔨", kgreen: "ĸ", KHcy: "Х", khcy: "х", KJcy: "Ќ", kjcy: "ќ", Kopf: "𝕂", kopf: "𝕜", Kscr: "𝒦", kscr: "𝓀", lAarr: "⇚", Lacute: "Ĺ", lacute: "ĺ", laemptyv: "⦴", lagran: "ℒ", Lambda: "Λ", lambda: "λ", Lang: "⟪", lang: "⟨", langd: "⦑", langle: "⟨", lap: "⪅", Laplacetrf: "ℒ", laquo: "«", Larr: "↞", lArr: "⇐", larr: "←", larrb: "⇤", larrbfs: "⤟", larrfs: "⤝", larrhk: "↩", larrlp: "↫", larrpl: "⤹", larrsim: "⥳", larrtl: "↢", lat: "⪫", lAtail: "⤛", latail: "⤙", late: "⪭", lates: "⪭︀", lBarr: "⤎", lbarr: "⤌", lbbrk: "❲", lbrace: "{", lbrack: "[", lbrke: "⦋", lbrksld: "⦏", lbrkslu: "⦍", Lcaron: "Ľ", lcaron: "ľ", Lcedil: "Ļ", lcedil: "ļ", lceil: "⌈", lcub: "{", Lcy: "Л", lcy: "л", ldca: "⤶", ldquo: "“", ldquor: "„", ldrdhar: "⥧", ldrushar: "⥋", ldsh: "↲", lE: "≦", le: "≤", LeftAngleBracket: "⟨", LeftArrow: "←", Leftarrow: "⇐", leftarrow: "←", LeftArrowBar: "⇤", LeftArrowRightArrow: "⇆", leftarrowtail: "↢", LeftCeiling: "⌈", LeftDoubleBracket: "⟦", LeftDownTeeVector: "⥡", LeftDownVector: "⇃", LeftDownVectorBar: "⥙", LeftFloor: "⌊", leftharpoondown: "↽", leftharpoonup: "↼", leftleftarrows: "⇇", LeftRightArrow: "↔", Leftrightarrow: "⇔", leftrightarrow: "↔", leftrightarrows: "⇆", leftrightharpoons: "⇋", leftrightsquigarrow: "↭", LeftRightVector: "⥎", LeftTee: "⊣", LeftTeeArrow: "↤", LeftTeeVector: "⥚", leftthreetimes: "⋋", LeftTriangle: "⊲", LeftTriangleBar: "⧏", LeftTriangleEqual: "⊴", LeftUpDownVector: "⥑", LeftUpTeeVector: "⥠", LeftUpVector: "↿", LeftUpVectorBar: "⥘", LeftVector: "↼", LeftVectorBar: "⥒", lEg: "⪋", leg: "⋚", leq: "≤", leqq: "≦", leqslant: "⩽", les: "⩽", lescc: "⪨", lesdot: "⩿", lesdoto: "⪁", lesdotor: "⪃", lesg: "⋚︀", lesges: "⪓", lessapprox: "⪅", lessdot: "⋖", lesseqgtr: "⋚", lesseqqgtr: "⪋", LessEqualGreater: "⋚", LessFullEqual: "≦", LessGreater: "≶", lessgtr: "≶", LessLess: "⪡", lesssim: "≲", LessSlantEqual: "⩽", LessTilde: "≲", lfisht: "⥼", lfloor: "⌊", Lfr: "𝔏", lfr: "𝔩", lg: "≶", lgE: "⪑", lHar: "⥢", lhard: "↽", lharu: "↼", lharul: "⥪", lhblk: "▄", LJcy: "Љ", ljcy: "љ", Ll: "⋘", ll: "≪", llarr: "⇇", llcorner: "⌞", Lleftarrow: "⇚", llhard: "⥫", lltri: "◺", Lmidot: "Ŀ", lmidot: "ŀ", lmoust: "⎰", lmoustache: "⎰", lnap: "⪉", lnapprox: "⪉", lnE: "≨", lne: "⪇", lneq: "⪇", lneqq: "≨", lnsim: "⋦", loang: "⟬", loarr: "⇽", lobrk: "⟦", LongLeftArrow: "⟵", Longleftarrow: "⟸", longleftarrow: "⟵", LongLeftRightArrow: "⟷", Longleftrightarrow: "⟺", longleftrightarrow: "⟷", longmapsto: "⟼", LongRightArrow: "⟶", Longrightarrow: "⟹", longrightarrow: "⟶", looparrowleft: "↫", looparrowright: "↬", lopar: "⦅", Lopf: "𝕃", lopf: "𝕝", loplus: "⨭", lotimes: "⨴", lowast: "∗", lowbar: "_", LowerLeftArrow: "↙", LowerRightArrow: "↘", loz: "◊", lozenge: "◊", lozf: "⧫", lpar: "(", lparlt: "⦓", lrarr: "⇆", lrcorner: "⌟", lrhar: "⇋", lrhard: "⥭", lrm: "\u200e", lrtri: "⊿", lsaquo: "‹", Lscr: "ℒ", lscr: "𝓁", Lsh: "↰", lsh: "↰", lsim: "≲", lsime: "⪍", lsimg: "⪏", lsqb: "[", lsquo: "‘", lsquor: "‚", Lstrok: "Ł", lstrok: "ł", LT: "<", Lt: "≪", lt: "<", ltcc: "⪦", ltcir: "⩹", ltdot: "⋖", lthree: "⋋", ltimes: "⋉", ltlarr: "⥶", ltquest: "⩻", ltri: "◃", ltrie: "⊴", ltrif: "◂", ltrPar: "⦖", lurdshar: "⥊", luruhar: "⥦", lvertneqq: "≨︀", lvnE: "≨︀", macr: "¯", male: "♂", malt: "✠", maltese: "✠", Map: "⤅", map: "↦", mapsto: "↦", mapstodown: "↧", mapstoleft: "↤", mapstoup: "↥", marker: "▮", mcomma: "⨩", Mcy: "М", mcy: "м", mdash: "—", mDDot: "∺", measuredangle: "∡", MediumSpace: " ", Mellintrf: "ℳ", Mfr: "𝔐", mfr: "𝔪", mho: "℧", micro: "µ", mid: "∣", midast: "*", midcir: "⫰", middot: "·", minus: "−", minusb: "⊟", minusd: "∸", minusdu: "⨪", MinusPlus: "∓", mlcp: "⫛", mldr: "…", mnplus: "∓", models: "⊧", Mopf: "𝕄", mopf: "𝕞", mp: "∓", Mscr: "ℳ", mscr: "𝓂", mstpos: "∾", Mu: "Μ", mu: "μ", multimap: "⊸", mumap: "⊸", nabla: "∇", Nacute: "Ń", nacute: "ń", nang: "∠⃒", nap: "≉", napE: "⩰̸", napid: "≋̸", napos: "ŉ", napprox: "≉", natur: "♮", natural: "♮", naturals: "ℕ", nbsp: " ", nbump: "≎̸", nbumpe: "≏̸", ncap: "⩃", Ncaron: "Ň", ncaron: "ň", Ncedil: "Ņ", ncedil: "ņ", ncong: "≇", ncongdot: "⩭̸", ncup: "⩂", Ncy: "Н", ncy: "н", ndash: "–", ne: "≠", nearhk: "⤤", neArr: "⇗", nearr: "↗", nearrow: "↗", nedot: "≐̸", NegativeMediumSpace: "​", NegativeThickSpace: "​", NegativeThinSpace: "​", NegativeVeryThinSpace: "​", nequiv: "≢", nesear: "⤨", nesim: "≂̸", NestedGreaterGreater: "≫", NestedLessLess: "≪", NewLine: "\u000a", nexist: "∄", nexists: "∄", Nfr: "𝔑", nfr: "𝔫", ngE: "≧̸", nge: "≱", ngeq: "≱", ngeqq: "≧̸", ngeqslant: "⩾̸", nges: "⩾̸", nGg: "⋙̸", ngsim: "≵", nGt: "≫⃒", ngt: "≯", ngtr: "≯", nGtv: "≫̸", nhArr: "⇎", nharr: "↮", nhpar: "⫲", ni: "∋", nis: "⋼", nisd: "⋺", niv: "∋", NJcy: "Њ", njcy: "њ", nlArr: "⇍", nlarr: "↚", nldr: "‥", nlE: "≦̸", nle: "≰", nLeftarrow: "⇍", nleftarrow: "↚", nLeftrightarrow: "⇎", nleftrightarrow: "↮", nleq: "≰", nleqq: "≦̸", nleqslant: "⩽̸", nles: "⩽̸", nless: "≮", nLl: "⋘̸", nlsim: "≴", nLt: "≪⃒", nlt: "≮", nltri: "⋪", nltrie: "⋬", nLtv: "≪̸", nmid: "∤", NoBreak: "\u2060", NonBreakingSpace: " ", Nopf: "ℕ", nopf: "𝕟", Not: "⫬", not: "¬", NotCongruent: "≢", NotCupCap: "≭", NotDoubleVerticalBar: "∦", NotElement: "∉", NotEqual: "≠", NotEqualTilde: "≂̸", NotExists: "∄", NotGreater: "≯", NotGreaterEqual: "≱", NotGreaterFullEqual: "≧̸", NotGreaterGreater: "≫̸", NotGreaterLess: "≹", NotGreaterSlantEqual: "⩾̸", NotGreaterTilde: "≵", NotHumpDownHump: "≎̸", NotHumpEqual: "≏̸", notin: "∉", notindot: "⋵̸", notinE: "⋹̸", notinva: "∉", notinvb: "⋷", notinvc: "⋶", NotLeftTriangle: "⋪", NotLeftTriangleBar: "⧏̸", NotLeftTriangleEqual: "⋬", NotLess: "≮", NotLessEqual: "≰", NotLessGreater: "≸", NotLessLess: "≪̸", NotLessSlantEqual: "⩽̸", NotLessTilde: "≴", NotNestedGreaterGreater: "⪢̸", NotNestedLessLess: "⪡̸", notni: "∌", notniva: "∌", notnivb: "⋾", notnivc: "⋽", NotPrecedes: "⊀", NotPrecedesEqual: "⪯̸", NotPrecedesSlantEqual: "⋠", NotReverseElement: "∌", NotRightTriangle: "⋫", NotRightTriangleBar: "⧐̸", NotRightTriangleEqual: "⋭", NotSquareSubset: "⊏̸", NotSquareSubsetEqual: "⋢", NotSquareSuperset: "⊐̸", NotSquareSupersetEqual: "⋣", NotSubset: "⊂⃒", NotSubsetEqual: "⊈", NotSucceeds: "⊁", NotSucceedsEqual: "⪰̸", NotSucceedsSlantEqual: "⋡", NotSucceedsTilde: "≿̸", NotSuperset: "⊃⃒", NotSupersetEqual: "⊉", NotTilde: "≁", NotTildeEqual: "≄", NotTildeFullEqual: "≇", NotTildeTilde: "≉", NotVerticalBar: "∤", npar: "∦", nparallel: "∦", nparsl: "⫽⃥", npart: "∂̸", npolint: "⨔", npr: "⊀", nprcue: "⋠", npre: "⪯̸", nprec: "⊀", npreceq: "⪯̸", nrArr: "⇏", nrarr: "↛", nrarrc: "⤳̸", nrarrw: "↝̸", nRightarrow: "⇏", nrightarrow: "↛", nrtri: "⋫", nrtrie: "⋭", nsc: "⊁", nsccue: "⋡", nsce: "⪰̸", Nscr: "𝒩", nscr: "𝓃", nshortmid: "∤", nshortparallel: "∦", nsim: "≁", nsime: "≄", nsimeq: "≄", nsmid: "∤", nspar: "∦", nsqsube: "⋢", nsqsupe: "⋣", nsub: "⊄", nsubE: "⫅̸", nsube: "⊈", nsubset: "⊂⃒", nsubseteq: "⊈", nsubseteqq: "⫅̸", nsucc: "⊁", nsucceq: "⪰̸", nsup: "⊅", nsupE: "⫆̸", nsupe: "⊉", nsupset: "⊃⃒", nsupseteq: "⊉", nsupseteqq: "⫆̸", ntgl: "≹", Ntilde: "Ñ", ntilde: "ñ", ntlg: "≸", ntriangleleft: "⋪", ntrianglelefteq: "⋬", ntriangleright: "⋫", ntrianglerighteq: "⋭", Nu: "Ν", nu: "ν", num: "#", numero: "№", numsp: " ", nvap: "≍⃒", nVDash: "⊯", nVdash: "⊮", nvDash: "⊭", nvdash: "⊬", nvge: "≥⃒", nvgt: ">⃒", nvHarr: "⤄", nvinfin: "⧞", nvlArr: "⤂", nvle: "≤⃒", nvlt: "<⃒", nvltrie: "⊴⃒", nvrArr: "⤃", nvrtrie: "⊵⃒", nvsim: "∼⃒", nwarhk: "⤣", nwArr: "⇖", nwarr: "↖", nwarrow: "↖", nwnear: "⤧", Oacute: "Ó", oacute: "ó", oast: "⊛", ocir: "⊚", Ocirc: "Ô", ocirc: "ô", Ocy: "О", ocy: "о", odash: "⊝", Odblac: "Ő", odblac: "ő", odiv: "⨸", odot: "⊙", odsold: "⦼", OElig: "Œ", oelig: "œ", ofcir: "⦿", Ofr: "𝔒", ofr: "𝔬", ogon: "˛", Ograve: "Ò", ograve: "ò", ogt: "⧁", ohbar: "⦵", ohm: "Ω", oint: "∮", olarr: "↺", olcir: "⦾", olcross: "⦻", oline: "‾", olt: "⧀", Omacr: "Ō", omacr: "ō", Omega: "Ω", omega: "ω", Omicron: "Ο", omicron: "ο", omid: "⦶", ominus: "⊖", Oopf: "𝕆", oopf: "𝕠", opar: "⦷", OpenCurlyDoubleQuote: "“", OpenCurlyQuote: "‘", operp: "⦹", oplus: "⊕", Or: "⩔", or: "∨", orarr: "↻", ord: "⩝", order: "ℴ", orderof: "ℴ", ordf: "ª", ordm: "º", origof: "⊶", oror: "⩖", orslope: "⩗", orv: "⩛", oS: "Ⓢ", Oscr: "𝒪", oscr: "ℴ", Oslash: "Ø", oslash: "ø", osol: "⊘", Otilde: "Õ", otilde: "õ", Otimes: "⨷", otimes: "⊗", otimesas: "⨶", Ouml: "Ö", ouml: "ö", ovbar: "⌽", OverBar: "‾", OverBrace: "⏞", OverBracket: "⎴", OverParenthesis: "⏜", par: "∥", para: "¶", parallel: "∥", parsim: "⫳", parsl: "⫽", part: "∂", PartialD: "∂", Pcy: "П", pcy: "п", percnt: "%", period: ".", permil: "‰", perp: "⊥", pertenk: "‱", Pfr: "𝔓", pfr: "𝔭", Phi: "Φ", phi: "φ", phiv: "ϕ", phmmat: "ℳ", phone: "☎", Pi: "Π", pi: "π", pitchfork: "⋔", piv: "ϖ", planck: "ℏ", planckh: "ℎ", plankv: "ℏ", plus: "+", plusacir: "⨣", plusb: "⊞", pluscir: "⨢", plusdo: "∔", plusdu: "⨥", pluse: "⩲", PlusMinus: "±", plusmn: "±", plussim: "⨦", plustwo: "⨧", pm: "±", Poincareplane: "ℌ", pointint: "⨕", Popf: "ℙ", popf: "𝕡", pound: "£", Pr: "⪻", pr: "≺", prap: "⪷", prcue: "≼", prE: "⪳", pre: "⪯", prec: "≺", precapprox: "⪷", preccurlyeq: "≼", Precedes: "≺", PrecedesEqual: "⪯", PrecedesSlantEqual: "≼", PrecedesTilde: "≾", preceq: "⪯", precnapprox: "⪹", precneqq: "⪵", precnsim: "⋨", precsim: "≾", Prime: "″", prime: "′", primes: "ℙ", prnap: "⪹", prnE: "⪵", prnsim: "⋨", prod: "∏", Product: "∏", profalar: "⌮", profline: "⌒", profsurf: "⌓", prop: "∝", Proportion: "∷", Proportional: "∝", propto: "∝", prsim: "≾", prurel: "⊰", Pscr: "𝒫", pscr: "𝓅", Psi: "Ψ", psi: "ψ", puncsp: " ", Qfr: "𝔔", qfr: "𝔮", qint: "⨌", Qopf: "ℚ", qopf: "𝕢", qprime: "⁗", Qscr: "𝒬", qscr: "𝓆", quaternions: "ℍ", quatint: "⨖", quest: "?", questeq: "≟", QUOT: "\"", quot: "\"", rAarr: "⇛", race: "∽̱", Racute: "Ŕ", racute: "ŕ", radic: "√", raemptyv: "⦳", Rang: "⟫", rang: "⟩", rangd: "⦒", range: "⦥", rangle: "⟩", raquo: "»", Rarr: "↠", rArr: "⇒", rarr: "→", rarrap: "⥵", rarrb: "⇥", rarrbfs: "⤠", rarrc: "⤳", rarrfs: "⤞", rarrhk: "↪", rarrlp: "↬", rarrpl: "⥅", rarrsim: "⥴", Rarrtl: "⤖", rarrtl: "↣", rarrw: "↝", rAtail: "⤜", ratail: "⤚", ratio: "∶", rationals: "ℚ", RBarr: "⤐", rBarr: "⤏", rbarr: "⤍", rbbrk: "❳", rbrace: "}", rbrack: "]", rbrke: "⦌", rbrksld: "⦎", rbrkslu: "⦐", Rcaron: "Ř", rcaron: "ř", Rcedil: "Ŗ", rcedil: "ŗ", rceil: "⌉", rcub: "}", Rcy: "Р", rcy: "р", rdca: "⤷", rdldhar: "⥩", rdquo: "”", rdquor: "”", rdsh: "↳", Re: "ℜ", real: "ℜ", realine: "ℛ", realpart: "ℜ", reals: "ℝ", rect: "▭", REG: "®", reg: "®", ReverseElement: "∋", ReverseEquilibrium: "⇋", ReverseUpEquilibrium: "⥯", rfisht: "⥽", rfloor: "⌋", Rfr: "ℜ", rfr: "𝔯", rHar: "⥤", rhard: "⇁", rharu: "⇀", rharul: "⥬", Rho: "Ρ", rho: "ρ", rhov: "ϱ", RightAngleBracket: "⟩", RightArrow: "→", Rightarrow: "⇒", rightarrow: "→", RightArrowBar: "⇥", RightArrowLeftArrow: "⇄", rightarrowtail: "↣", RightCeiling: "⌉", RightDoubleBracket: "⟧", RightDownTeeVector: "⥝", RightDownVector: "⇂", RightDownVectorBar: "⥕", RightFloor: "⌋", rightharpoondown: "⇁", rightharpoonup: "⇀", rightleftarrows: "⇄", rightleftharpoons: "⇌", rightrightarrows: "⇉", rightsquigarrow: "↝", RightTee: "⊢", RightTeeArrow: "↦", RightTeeVector: "⥛", rightthreetimes: "⋌", RightTriangle: "⊳", RightTriangleBar: "⧐", RightTriangleEqual: "⊵", RightUpDownVector: "⥏", RightUpTeeVector: "⥜", RightUpVector: "↾", RightUpVectorBar: "⥔", RightVector: "⇀", RightVectorBar: "⥓", ring: "˚", risingdotseq: "≓", rlarr: "⇄", rlhar: "⇌", rlm: "\u200f", rmoust: "⎱", rmoustache: "⎱", rnmid: "⫮", roang: "⟭", roarr: "⇾", robrk: "⟧", ropar: "⦆", Ropf: "ℝ", ropf: "𝕣", roplus: "⨮", rotimes: "⨵", RoundImplies: "⥰", rpar: ")", rpargt: "⦔", rppolint: "⨒", rrarr: "⇉", Rrightarrow: "⇛", rsaquo: "›", Rscr: "ℛ", rscr: "𝓇", Rsh: "↱", rsh: "↱", rsqb: "]", rsquo: "’", rsquor: "’", rthree: "⋌", rtimes: "⋊", rtri: "▹", rtrie: "⊵", rtrif: "▸", rtriltri: "⧎", RuleDelayed: "⧴", ruluhar: "⥨", rx: "℞", Sacute: "Ś", sacute: "ś", sbquo: "‚", Sc: "⪼", sc: "≻", scap: "⪸", Scaron: "Š", scaron: "š", sccue: "≽", scE: "⪴", sce: "⪰", Scedil: "Ş", scedil: "ş", Scirc: "Ŝ", scirc: "ŝ", scnap: "⪺", scnE: "⪶", scnsim: "⋩", scpolint: "⨓", scsim: "≿", Scy: "С", scy: "с", sdot: "⋅", sdotb: "⊡", sdote: "⩦", searhk: "⤥", seArr: "⇘", searr: "↘", searrow: "↘", sect: "§", semi: ";", seswar: "⤩", setminus: "∖", setmn: "∖", sext: "✶", Sfr: "𝔖", sfr: "𝔰", sfrown: "⌢", sharp: "♯", SHCHcy: "Щ", shchcy: "щ", SHcy: "Ш", shcy: "ш", ShortDownArrow: "↓", ShortLeftArrow: "←", shortmid: "∣", shortparallel: "∥", ShortRightArrow: "→", ShortUpArrow: "↑", shy: "\u00ad", Sigma: "Σ", sigma: "σ", sigmaf: "ς", sigmav: "ς", sim: "∼", simdot: "⩪", sime: "≃", simeq: "≃", simg: "⪞", simgE: "⪠", siml: "⪝", simlE: "⪟", simne: "≆", simplus: "⨤", simrarr: "⥲", slarr: "←", SmallCircle: "∘", smallsetminus: "∖", smashp: "⨳", smeparsl: "⧤", smid: "∣", smile: "⌣", smt: "⪪", smte: "⪬", smtes: "⪬︀", SOFTcy: "Ь", softcy: "ь", sol: "/", solb: "⧄", solbar: "⌿", Sopf: "𝕊", sopf: "𝕤", spades: "♠", spadesuit: "♠", spar: "∥", sqcap: "⊓", sqcaps: "⊓︀", sqcup: "⊔", sqcups: "⊔︀", Sqrt: "√", sqsub: "⊏", sqsube: "⊑", sqsubset: "⊏", sqsubseteq: "⊑", sqsup: "⊐", sqsupe: "⊒", sqsupset: "⊐", sqsupseteq: "⊒", squ: "□", Square: "□", square: "□", SquareIntersection: "⊓", SquareSubset: "⊏", SquareSubsetEqual: "⊑", SquareSuperset: "⊐", SquareSupersetEqual: "⊒", SquareUnion: "⊔", squarf: "▪", squf: "▪", srarr: "→", Sscr: "𝒮", sscr: "𝓈", ssetmn: "∖", ssmile: "⌣", sstarf: "⋆", Star: "⋆", star: "☆", starf: "★", straightepsilon: "ϵ", straightphi: "ϕ", strns: "¯", Sub: "⋐", sub: "⊂", subdot: "⪽", subE: "⫅", sube: "⊆", subedot: "⫃", submult: "⫁", subnE: "⫋", subne: "⊊", subplus: "⪿", subrarr: "⥹", Subset: "⋐", subset: "⊂", subseteq: "⊆", subseteqq: "⫅", SubsetEqual: "⊆", subsetneq: "⊊", subsetneqq: "⫋", subsim: "⫇", subsub: "⫕", subsup: "⫓", succ: "≻", succapprox: "⪸", succcurlyeq: "≽", Succeeds: "≻", SucceedsEqual: "⪰", SucceedsSlantEqual: "≽", SucceedsTilde: "≿", succeq: "⪰", succnapprox: "⪺", succneqq: "⪶", succnsim: "⋩", succsim: "≿", SuchThat: "∋", Sum: "∑", sum: "∑", sung: "♪", Sup: "⋑", sup: "⊃", sup1: "¹", sup2: "²", sup3: "³", supdot: "⪾", supdsub: "⫘", supE: "⫆", supe: "⊇", supedot: "⫄", Superset: "⊃", SupersetEqual: "⊇", suphsol: "⟉", suphsub: "⫗", suplarr: "⥻", supmult: "⫂", supnE: "⫌", supne: "⊋", supplus: "⫀", Supset: "⋑", supset: "⊃", supseteq: "⊇", supseteqq: "⫆", supsetneq: "⊋", supsetneqq: "⫌", supsim: "⫈", supsub: "⫔", supsup: "⫖", swarhk: "⤦", swArr: "⇙", swarr: "↙", swarrow: "↙", swnwar: "⤪", szlig: "ß", Tab: "\u0009", target: "⌖", Tau: "Τ", tau: "τ", tbrk: "⎴", Tcaron: "Ť", tcaron: "ť", Tcedil: "Ţ", tcedil: "ţ", Tcy: "Т", tcy: "т", tdot: "⃛", telrec: "⌕", Tfr: "𝔗", tfr: "𝔱", there4: "∴", Therefore: "∴", therefore: "∴", Theta: "Θ", theta: "θ", thetasym: "ϑ", thetav: "ϑ", thickapprox: "≈", thicksim: "∼", ThickSpace: "  ", thinsp: " ", ThinSpace: " ", thkap: "≈", thksim: "∼", THORN: "Þ", thorn: "þ", Tilde: "∼", tilde: "˜", TildeEqual: "≃", TildeFullEqual: "≅", TildeTilde: "≈", times: "×", timesb: "⊠", timesbar: "⨱", timesd: "⨰", tint: "∭", toea: "⤨", top: "⊤", topbot: "⌶", topcir: "⫱", Topf: "𝕋", topf: "𝕥", topfork: "⫚", tosa: "⤩", tprime: "‴", TRADE: "™", trade: "™", triangle: "▵", triangledown: "▿", triangleleft: "◃", trianglelefteq: "⊴", triangleq: "≜", triangleright: "▹", trianglerighteq: "⊵", tridot: "◬", trie: "≜", triminus: "⨺", TripleDot: "⃛", triplus: "⨹", trisb: "⧍", tritime: "⨻", trpezium: "⏢", Tscr: "𝒯", tscr: "𝓉", TScy: "Ц", tscy: "ц", TSHcy: "Ћ", tshcy: "ћ", Tstrok: "Ŧ", tstrok: "ŧ", twixt: "≬", twoheadleftarrow: "↞", twoheadrightarrow: "↠", Uacute: "Ú", uacute: "ú", Uarr: "↟", uArr: "⇑", uarr: "↑", Uarrocir: "⥉", Ubrcy: "Ў", ubrcy: "ў", Ubreve: "Ŭ", ubreve: "ŭ", Ucirc: "Û", ucirc: "û", Ucy: "У", ucy: "у", udarr: "⇅", Udblac: "Ű", udblac: "ű", udhar: "⥮", ufisht: "⥾", Ufr: "𝔘", ufr: "𝔲", Ugrave: "Ù", ugrave: "ù", uHar: "⥣", uharl: "↿", uharr: "↾", uhblk: "▀", ulcorn: "⌜", ulcorner: "⌜", ulcrop: "⌏", ultri: "◸", Umacr: "Ū", umacr: "ū", uml: "¨", UnderBar: "_", UnderBrace: "⏟", UnderBracket: "⎵", UnderParenthesis: "⏝", Union: "⋃", UnionPlus: "⊎", Uogon: "Ų", uogon: "ų", Uopf: "𝕌", uopf: "𝕦", UpArrow: "↑", Uparrow: "⇑", uparrow: "↑", UpArrowBar: "⤒", UpArrowDownArrow: "⇅", UpDownArrow: "↕", Updownarrow: "⇕", updownarrow: "↕", UpEquilibrium: "⥮", upharpoonleft: "↿", upharpoonright: "↾", uplus: "⊎", UpperLeftArrow: "↖", UpperRightArrow: "↗", Upsi: "ϒ", upsi: "υ", upsih: "ϒ", Upsilon: "Υ", upsilon: "υ", UpTee: "⊥", UpTeeArrow: "↥", upuparrows: "⇈", urcorn: "⌝", urcorner: "⌝", urcrop: "⌎", Uring: "Ů", uring: "ů", urtri: "◹", Uscr: "𝒰", uscr: "𝓊", utdot: "⋰", Utilde: "Ũ", utilde: "ũ", utri: "▵", utrif: "▴", uuarr: "⇈", Uuml: "Ü", uuml: "ü", uwangle: "⦧", vangrt: "⦜", varepsilon: "ϵ", varkappa: "ϰ", varnothing: "∅", varphi: "ϕ", varpi: "ϖ", varpropto: "∝", vArr: "⇕", varr: "↕", varrho: "ϱ", varsigma: "ς", varsubsetneq: "⊊︀", varsubsetneqq: "⫋︀", varsupsetneq: "⊋︀", varsupsetneqq: "⫌︀", vartheta: "ϑ", vartriangleleft: "⊲", vartriangleright: "⊳", Vbar: "⫫", vBar: "⫨", vBarv: "⫩", Vcy: "В", vcy: "в", VDash: "⊫", Vdash: "⊩", vDash: "⊨", vdash: "⊢", Vdashl: "⫦", Vee: "⋁", vee: "∨", veebar: "⊻", veeeq: "≚", vellip: "⋮", Verbar: "‖", verbar: "|", Vert: "‖", vert: "|", VerticalBar: "∣", VerticalLine: "|", VerticalSeparator: "❘", VerticalTilde: "≀", VeryThinSpace: " ", Vfr: "𝔙", vfr: "𝔳", vltri: "⊲", vnsub: "⊂⃒", vnsup: "⊃⃒", Vopf: "𝕍", vopf: "𝕧", vprop: "∝", vrtri: "⊳", Vscr: "𝒱", vscr: "𝓋", vsubnE: "⫋︀", vsubne: "⊊︀", vsupnE: "⫌︀", vsupne: "⊋︀", Vvdash: "⊪", vzigzag: "⦚", Wcirc: "Ŵ", wcirc: "ŵ", wedbar: "⩟", Wedge: "⋀", wedge: "∧", wedgeq: "≙", weierp: "℘", Wfr: "𝔚", wfr: "𝔴", Wopf: "𝕎", wopf: "𝕨", wp: "℘", wr: "≀", wreath: "≀", Wscr: "𝒲", wscr: "𝓌", xcap: "⋂", xcirc: "◯", xcup: "⋃", xdtri: "▽", Xfr: "𝔛", xfr: "𝔵", xhArr: "⟺", xharr: "⟷", Xi: "Ξ", xi: "ξ", xlArr: "⟸", xlarr: "⟵", xmap: "⟼", xnis: "⋻", xodot: "⨀", Xopf: "𝕏", xopf: "𝕩", xoplus: "⨁", xotime: "⨂", xrArr: "⟹", xrarr: "⟶", Xscr: "𝒳", xscr: "𝓍", xsqcup: "⨆", xuplus: "⨄", xutri: "△", xvee: "⋁", xwedge: "⋀", Yacute: "Ý", yacute: "ý", YAcy: "Я", yacy: "я", Ycirc: "Ŷ", ycirc: "ŷ", Ycy: "Ы", ycy: "ы", yen: "¥", Yfr: "𝔜", yfr: "𝔶", YIcy: "Ї", yicy: "ї", Yopf: "𝕐", yopf: "𝕪", Yscr: "𝒴", yscr: "𝓎", YUcy: "Ю", yucy: "ю", Yuml: "Ÿ", yuml: "ÿ", Zacute: "Ź", zacute: "ź", Zcaron: "Ž", zcaron: "ž", Zcy: "З", zcy: "з", Zdot: "Ż", zdot: "ż", zeetrf: "ℨ", ZeroWidthSpace: "​", Zeta: "Ζ", zeta: "ζ", Zfr: "ℨ", zfr: "𝔷", ZHcy: "Ж", zhcy: "ж", zigrarr: "⇝", Zopf: "ℤ", zopf: "𝕫", Zscr: "𝒵", zscr: "𝓏", zwj: "\u200d", zwnj: "\u200c"
-};
-
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 var HEXCHARCODE = /^#[xX]([A-Fa-f0-9]+)$/;
 var CHARCODE = /^#([0-9]+)$/;
 var NAMED = /^([A-Za-z0-9]+)$/;
-var EntityParser = (function () {
+var EntityParser = /** @class */ (function () {
     function EntityParser(named) {
         this.named = named;
     }
@@ -5425,21 +10589,23 @@ var EntityParser = (function () {
     };
     return EntityParser;
 }());
+/* harmony default export */ __webpack_exports__["default"] = (EntityParser);
 
-var WSP = /[\t\n\f ]/;
-var ALPHA = /[A-Za-z]/;
-var CRLF = /\r\n?/g;
-function isSpace(char) {
-    return WSP.test(char);
-}
-function isAlpha(char) {
-    return ALPHA.test(char);
-}
-function preprocessInput(input) {
-    return input.replace(CRLF, "\n");
-}
 
-var EventedTokenizer = (function () {
+/***/ }),
+
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/evented-tokenizer.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/evented-tokenizer.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./node_modules/simple-html-tokenizer/dist/es6/utils.js");
+
+var EventedTokenizer = /** @class */ (function () {
     function EventedTokenizer(delegate, entityParser) {
         this.delegate = delegate;
         this.entityParser = entityParser;
@@ -5488,7 +10654,7 @@ var EventedTokenizer = (function () {
                 else if (char === "/") {
                     this.state = 'endTagOpen';
                 }
-                else if (isAlpha(char)) {
+                else if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isAlpha"])(char)) {
                     this.state = 'tagName';
                     this.delegate.beginStartTag();
                     this.delegate.appendToTagName(char.toLowerCase());
@@ -5562,7 +10728,7 @@ var EventedTokenizer = (function () {
             },
             tagName: function () {
                 var char = this.consume();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.state = 'beforeAttributeName';
                 }
                 else if (char === "/") {
@@ -5578,7 +10744,7 @@ var EventedTokenizer = (function () {
             },
             beforeAttributeName: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.consume();
                     return;
                 }
@@ -5605,7 +10771,7 @@ var EventedTokenizer = (function () {
             },
             attributeName: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.state = 'afterAttributeName';
                     this.consume();
                 }
@@ -5638,7 +10804,7 @@ var EventedTokenizer = (function () {
             },
             afterAttributeName: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.consume();
                     return;
                 }
@@ -5670,7 +10836,7 @@ var EventedTokenizer = (function () {
             },
             beforeAttributeValue: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.consume();
                 }
                 else if (char === '"') {
@@ -5725,7 +10891,7 @@ var EventedTokenizer = (function () {
             },
             attributeValueUnquoted: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.delegate.finishAttributeValue();
                     this.consume();
                     this.state = 'beforeAttributeName';
@@ -5747,7 +10913,7 @@ var EventedTokenizer = (function () {
             },
             afterAttributeValueQuoted: function () {
                 var char = this.peek();
-                if (isSpace(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isSpace"])(char)) {
                     this.consume();
                     this.state = 'beforeAttributeName';
                 }
@@ -5778,7 +10944,7 @@ var EventedTokenizer = (function () {
             },
             endTagOpen: function () {
                 var char = this.consume();
-                if (isAlpha(char)) {
+                if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isAlpha"])(char)) {
                     this.state = 'tagName';
                     this.delegate.beginEndTag();
                     this.delegate.appendToTagName(char.toLowerCase());
@@ -5803,7 +10969,7 @@ var EventedTokenizer = (function () {
         this.tokenizeEOF();
     };
     EventedTokenizer.prototype.tokenizePart = function (input) {
-        this.input += preprocessInput(input);
+        this.input += Object(_utils__WEBPACK_IMPORTED_MODULE_0__["preprocessInput"])(input);
         while (this.index < this.input.length) {
             this.states[this.state].call(this);
         }
@@ -5861,18 +11027,119 @@ var EventedTokenizer = (function () {
     };
     return EventedTokenizer;
 }());
+/* harmony default export */ __webpack_exports__["default"] = (EventedTokenizer);
 
-var Tokenizer = (function () {
+
+/***/ }),
+
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/html5-named-char-refs.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/html5-named-char-refs.js ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+    Aacute: "Á", aacute: "á", Abreve: "Ă", abreve: "ă", ac: "∾", acd: "∿", acE: "∾̳", Acirc: "Â", acirc: "â", acute: "´", Acy: "А", acy: "а", AElig: "Æ", aelig: "æ", af: "\u2061", Afr: "𝔄", afr: "𝔞", Agrave: "À", agrave: "à", alefsym: "ℵ", aleph: "ℵ", Alpha: "Α", alpha: "α", Amacr: "Ā", amacr: "ā", amalg: "⨿", AMP: "&", amp: "&", And: "⩓", and: "∧", andand: "⩕", andd: "⩜", andslope: "⩘", andv: "⩚", ang: "∠", ange: "⦤", angle: "∠", angmsd: "∡", angmsdaa: "⦨", angmsdab: "⦩", angmsdac: "⦪", angmsdad: "⦫", angmsdae: "⦬", angmsdaf: "⦭", angmsdag: "⦮", angmsdah: "⦯", angrt: "∟", angrtvb: "⊾", angrtvbd: "⦝", angsph: "∢", angst: "Å", angzarr: "⍼", Aogon: "Ą", aogon: "ą", Aopf: "𝔸", aopf: "𝕒", ap: "≈", apacir: "⩯", apE: "⩰", ape: "≊", apid: "≋", apos: "'", ApplyFunction: "\u2061", approx: "≈", approxeq: "≊", Aring: "Å", aring: "å", Ascr: "𝒜", ascr: "𝒶", Assign: "≔", ast: "*", asymp: "≈", asympeq: "≍", Atilde: "Ã", atilde: "ã", Auml: "Ä", auml: "ä", awconint: "∳", awint: "⨑", backcong: "≌", backepsilon: "϶", backprime: "‵", backsim: "∽", backsimeq: "⋍", Backslash: "∖", Barv: "⫧", barvee: "⊽", Barwed: "⌆", barwed: "⌅", barwedge: "⌅", bbrk: "⎵", bbrktbrk: "⎶", bcong: "≌", Bcy: "Б", bcy: "б", bdquo: "„", becaus: "∵", Because: "∵", because: "∵", bemptyv: "⦰", bepsi: "϶", bernou: "ℬ", Bernoullis: "ℬ", Beta: "Β", beta: "β", beth: "ℶ", between: "≬", Bfr: "𝔅", bfr: "𝔟", bigcap: "⋂", bigcirc: "◯", bigcup: "⋃", bigodot: "⨀", bigoplus: "⨁", bigotimes: "⨂", bigsqcup: "⨆", bigstar: "★", bigtriangledown: "▽", bigtriangleup: "△", biguplus: "⨄", bigvee: "⋁", bigwedge: "⋀", bkarow: "⤍", blacklozenge: "⧫", blacksquare: "▪", blacktriangle: "▴", blacktriangledown: "▾", blacktriangleleft: "◂", blacktriangleright: "▸", blank: "␣", blk12: "▒", blk14: "░", blk34: "▓", block: "█", bne: "=⃥", bnequiv: "≡⃥", bNot: "⫭", bnot: "⌐", Bopf: "𝔹", bopf: "𝕓", bot: "⊥", bottom: "⊥", bowtie: "⋈", boxbox: "⧉", boxDL: "╗", boxDl: "╖", boxdL: "╕", boxdl: "┐", boxDR: "╔", boxDr: "╓", boxdR: "╒", boxdr: "┌", boxH: "═", boxh: "─", boxHD: "╦", boxHd: "╤", boxhD: "╥", boxhd: "┬", boxHU: "╩", boxHu: "╧", boxhU: "╨", boxhu: "┴", boxminus: "⊟", boxplus: "⊞", boxtimes: "⊠", boxUL: "╝", boxUl: "╜", boxuL: "╛", boxul: "┘", boxUR: "╚", boxUr: "╙", boxuR: "╘", boxur: "└", boxV: "║", boxv: "│", boxVH: "╬", boxVh: "╫", boxvH: "╪", boxvh: "┼", boxVL: "╣", boxVl: "╢", boxvL: "╡", boxvl: "┤", boxVR: "╠", boxVr: "╟", boxvR: "╞", boxvr: "├", bprime: "‵", Breve: "˘", breve: "˘", brvbar: "¦", Bscr: "ℬ", bscr: "𝒷", bsemi: "⁏", bsim: "∽", bsime: "⋍", bsol: "\\", bsolb: "⧅", bsolhsub: "⟈", bull: "•", bullet: "•", bump: "≎", bumpE: "⪮", bumpe: "≏", Bumpeq: "≎", bumpeq: "≏", Cacute: "Ć", cacute: "ć", Cap: "⋒", cap: "∩", capand: "⩄", capbrcup: "⩉", capcap: "⩋", capcup: "⩇", capdot: "⩀", CapitalDifferentialD: "ⅅ", caps: "∩︀", caret: "⁁", caron: "ˇ", Cayleys: "ℭ", ccaps: "⩍", Ccaron: "Č", ccaron: "č", Ccedil: "Ç", ccedil: "ç", Ccirc: "Ĉ", ccirc: "ĉ", Cconint: "∰", ccups: "⩌", ccupssm: "⩐", Cdot: "Ċ", cdot: "ċ", cedil: "¸", Cedilla: "¸", cemptyv: "⦲", cent: "¢", CenterDot: "·", centerdot: "·", Cfr: "ℭ", cfr: "𝔠", CHcy: "Ч", chcy: "ч", check: "✓", checkmark: "✓", Chi: "Χ", chi: "χ", cir: "○", circ: "ˆ", circeq: "≗", circlearrowleft: "↺", circlearrowright: "↻", circledast: "⊛", circledcirc: "⊚", circleddash: "⊝", CircleDot: "⊙", circledR: "®", circledS: "Ⓢ", CircleMinus: "⊖", CirclePlus: "⊕", CircleTimes: "⊗", cirE: "⧃", cire: "≗", cirfnint: "⨐", cirmid: "⫯", cirscir: "⧂", ClockwiseContourIntegral: "∲", CloseCurlyDoubleQuote: "”", CloseCurlyQuote: "’", clubs: "♣", clubsuit: "♣", Colon: "∷", colon: ":", Colone: "⩴", colone: "≔", coloneq: "≔", comma: ",", commat: "@", comp: "∁", compfn: "∘", complement: "∁", complexes: "ℂ", cong: "≅", congdot: "⩭", Congruent: "≡", Conint: "∯", conint: "∮", ContourIntegral: "∮", Copf: "ℂ", copf: "𝕔", coprod: "∐", Coproduct: "∐", COPY: "©", copy: "©", copysr: "℗", CounterClockwiseContourIntegral: "∳", crarr: "↵", Cross: "⨯", cross: "✗", Cscr: "𝒞", cscr: "𝒸", csub: "⫏", csube: "⫑", csup: "⫐", csupe: "⫒", ctdot: "⋯", cudarrl: "⤸", cudarrr: "⤵", cuepr: "⋞", cuesc: "⋟", cularr: "↶", cularrp: "⤽", Cup: "⋓", cup: "∪", cupbrcap: "⩈", CupCap: "≍", cupcap: "⩆", cupcup: "⩊", cupdot: "⊍", cupor: "⩅", cups: "∪︀", curarr: "↷", curarrm: "⤼", curlyeqprec: "⋞", curlyeqsucc: "⋟", curlyvee: "⋎", curlywedge: "⋏", curren: "¤", curvearrowleft: "↶", curvearrowright: "↷", cuvee: "⋎", cuwed: "⋏", cwconint: "∲", cwint: "∱", cylcty: "⌭", Dagger: "‡", dagger: "†", daleth: "ℸ", Darr: "↡", dArr: "⇓", darr: "↓", dash: "‐", Dashv: "⫤", dashv: "⊣", dbkarow: "⤏", dblac: "˝", Dcaron: "Ď", dcaron: "ď", Dcy: "Д", dcy: "д", DD: "ⅅ", dd: "ⅆ", ddagger: "‡", ddarr: "⇊", DDotrahd: "⤑", ddotseq: "⩷", deg: "°", Del: "∇", Delta: "Δ", delta: "δ", demptyv: "⦱", dfisht: "⥿", Dfr: "𝔇", dfr: "𝔡", dHar: "⥥", dharl: "⇃", dharr: "⇂", DiacriticalAcute: "´", DiacriticalDot: "˙", DiacriticalDoubleAcute: "˝", DiacriticalGrave: "`", DiacriticalTilde: "˜", diam: "⋄", Diamond: "⋄", diamond: "⋄", diamondsuit: "♦", diams: "♦", die: "¨", DifferentialD: "ⅆ", digamma: "ϝ", disin: "⋲", div: "÷", divide: "÷", divideontimes: "⋇", divonx: "⋇", DJcy: "Ђ", djcy: "ђ", dlcorn: "⌞", dlcrop: "⌍", dollar: "$", Dopf: "𝔻", dopf: "𝕕", Dot: "¨", dot: "˙", DotDot: "⃜", doteq: "≐", doteqdot: "≑", DotEqual: "≐", dotminus: "∸", dotplus: "∔", dotsquare: "⊡", doublebarwedge: "⌆", DoubleContourIntegral: "∯", DoubleDot: "¨", DoubleDownArrow: "⇓", DoubleLeftArrow: "⇐", DoubleLeftRightArrow: "⇔", DoubleLeftTee: "⫤", DoubleLongLeftArrow: "⟸", DoubleLongLeftRightArrow: "⟺", DoubleLongRightArrow: "⟹", DoubleRightArrow: "⇒", DoubleRightTee: "⊨", DoubleUpArrow: "⇑", DoubleUpDownArrow: "⇕", DoubleVerticalBar: "∥", DownArrow: "↓", Downarrow: "⇓", downarrow: "↓", DownArrowBar: "⤓", DownArrowUpArrow: "⇵", DownBreve: "̑", downdownarrows: "⇊", downharpoonleft: "⇃", downharpoonright: "⇂", DownLeftRightVector: "⥐", DownLeftTeeVector: "⥞", DownLeftVector: "↽", DownLeftVectorBar: "⥖", DownRightTeeVector: "⥟", DownRightVector: "⇁", DownRightVectorBar: "⥗", DownTee: "⊤", DownTeeArrow: "↧", drbkarow: "⤐", drcorn: "⌟", drcrop: "⌌", Dscr: "𝒟", dscr: "𝒹", DScy: "Ѕ", dscy: "ѕ", dsol: "⧶", Dstrok: "Đ", dstrok: "đ", dtdot: "⋱", dtri: "▿", dtrif: "▾", duarr: "⇵", duhar: "⥯", dwangle: "⦦", DZcy: "Џ", dzcy: "џ", dzigrarr: "⟿", Eacute: "É", eacute: "é", easter: "⩮", Ecaron: "Ě", ecaron: "ě", ecir: "≖", Ecirc: "Ê", ecirc: "ê", ecolon: "≕", Ecy: "Э", ecy: "э", eDDot: "⩷", Edot: "Ė", eDot: "≑", edot: "ė", ee: "ⅇ", efDot: "≒", Efr: "𝔈", efr: "𝔢", eg: "⪚", Egrave: "È", egrave: "è", egs: "⪖", egsdot: "⪘", el: "⪙", Element: "∈", elinters: "⏧", ell: "ℓ", els: "⪕", elsdot: "⪗", Emacr: "Ē", emacr: "ē", empty: "∅", emptyset: "∅", EmptySmallSquare: "◻", emptyv: "∅", EmptyVerySmallSquare: "▫", emsp: " ", emsp13: " ", emsp14: " ", ENG: "Ŋ", eng: "ŋ", ensp: " ", Eogon: "Ę", eogon: "ę", Eopf: "𝔼", eopf: "𝕖", epar: "⋕", eparsl: "⧣", eplus: "⩱", epsi: "ε", Epsilon: "Ε", epsilon: "ε", epsiv: "ϵ", eqcirc: "≖", eqcolon: "≕", eqsim: "≂", eqslantgtr: "⪖", eqslantless: "⪕", Equal: "⩵", equals: "=", EqualTilde: "≂", equest: "≟", Equilibrium: "⇌", equiv: "≡", equivDD: "⩸", eqvparsl: "⧥", erarr: "⥱", erDot: "≓", Escr: "ℰ", escr: "ℯ", esdot: "≐", Esim: "⩳", esim: "≂", Eta: "Η", eta: "η", ETH: "Ð", eth: "ð", Euml: "Ë", euml: "ë", euro: "€", excl: "!", exist: "∃", Exists: "∃", expectation: "ℰ", ExponentialE: "ⅇ", exponentiale: "ⅇ", fallingdotseq: "≒", Fcy: "Ф", fcy: "ф", female: "♀", ffilig: "ﬃ", fflig: "ﬀ", ffllig: "ﬄ", Ffr: "𝔉", ffr: "𝔣", filig: "ﬁ", FilledSmallSquare: "◼", FilledVerySmallSquare: "▪", fjlig: "fj", flat: "♭", fllig: "ﬂ", fltns: "▱", fnof: "ƒ", Fopf: "𝔽", fopf: "𝕗", ForAll: "∀", forall: "∀", fork: "⋔", forkv: "⫙", Fouriertrf: "ℱ", fpartint: "⨍", frac12: "½", frac13: "⅓", frac14: "¼", frac15: "⅕", frac16: "⅙", frac18: "⅛", frac23: "⅔", frac25: "⅖", frac34: "¾", frac35: "⅗", frac38: "⅜", frac45: "⅘", frac56: "⅚", frac58: "⅝", frac78: "⅞", frasl: "⁄", frown: "⌢", Fscr: "ℱ", fscr: "𝒻", gacute: "ǵ", Gamma: "Γ", gamma: "γ", Gammad: "Ϝ", gammad: "ϝ", gap: "⪆", Gbreve: "Ğ", gbreve: "ğ", Gcedil: "Ģ", Gcirc: "Ĝ", gcirc: "ĝ", Gcy: "Г", gcy: "г", Gdot: "Ġ", gdot: "ġ", gE: "≧", ge: "≥", gEl: "⪌", gel: "⋛", geq: "≥", geqq: "≧", geqslant: "⩾", ges: "⩾", gescc: "⪩", gesdot: "⪀", gesdoto: "⪂", gesdotol: "⪄", gesl: "⋛︀", gesles: "⪔", Gfr: "𝔊", gfr: "𝔤", Gg: "⋙", gg: "≫", ggg: "⋙", gimel: "ℷ", GJcy: "Ѓ", gjcy: "ѓ", gl: "≷", gla: "⪥", glE: "⪒", glj: "⪤", gnap: "⪊", gnapprox: "⪊", gnE: "≩", gne: "⪈", gneq: "⪈", gneqq: "≩", gnsim: "⋧", Gopf: "𝔾", gopf: "𝕘", grave: "`", GreaterEqual: "≥", GreaterEqualLess: "⋛", GreaterFullEqual: "≧", GreaterGreater: "⪢", GreaterLess: "≷", GreaterSlantEqual: "⩾", GreaterTilde: "≳", Gscr: "𝒢", gscr: "ℊ", gsim: "≳", gsime: "⪎", gsiml: "⪐", GT: ">", Gt: "≫", gt: ">", gtcc: "⪧", gtcir: "⩺", gtdot: "⋗", gtlPar: "⦕", gtquest: "⩼", gtrapprox: "⪆", gtrarr: "⥸", gtrdot: "⋗", gtreqless: "⋛", gtreqqless: "⪌", gtrless: "≷", gtrsim: "≳", gvertneqq: "≩︀", gvnE: "≩︀", Hacek: "ˇ", hairsp: " ", half: "½", hamilt: "ℋ", HARDcy: "Ъ", hardcy: "ъ", hArr: "⇔", harr: "↔", harrcir: "⥈", harrw: "↭", Hat: "^", hbar: "ℏ", Hcirc: "Ĥ", hcirc: "ĥ", hearts: "♥", heartsuit: "♥", hellip: "…", hercon: "⊹", Hfr: "ℌ", hfr: "𝔥", HilbertSpace: "ℋ", hksearow: "⤥", hkswarow: "⤦", hoarr: "⇿", homtht: "∻", hookleftarrow: "↩", hookrightarrow: "↪", Hopf: "ℍ", hopf: "𝕙", horbar: "―", HorizontalLine: "─", Hscr: "ℋ", hscr: "𝒽", hslash: "ℏ", Hstrok: "Ħ", hstrok: "ħ", HumpDownHump: "≎", HumpEqual: "≏", hybull: "⁃", hyphen: "‐", Iacute: "Í", iacute: "í", ic: "\u2063", Icirc: "Î", icirc: "î", Icy: "И", icy: "и", Idot: "İ", IEcy: "Е", iecy: "е", iexcl: "¡", iff: "⇔", Ifr: "ℑ", ifr: "𝔦", Igrave: "Ì", igrave: "ì", ii: "ⅈ", iiiint: "⨌", iiint: "∭", iinfin: "⧜", iiota: "℩", IJlig: "Ĳ", ijlig: "ĳ", Im: "ℑ", Imacr: "Ī", imacr: "ī", image: "ℑ", ImaginaryI: "ⅈ", imagline: "ℐ", imagpart: "ℑ", imath: "ı", imof: "⊷", imped: "Ƶ", Implies: "⇒", in: "∈", incare: "℅", infin: "∞", infintie: "⧝", inodot: "ı", Int: "∬", int: "∫", intcal: "⊺", integers: "ℤ", Integral: "∫", intercal: "⊺", Intersection: "⋂", intlarhk: "⨗", intprod: "⨼", InvisibleComma: "\u2063", InvisibleTimes: "\u2062", IOcy: "Ё", iocy: "ё", Iogon: "Į", iogon: "į", Iopf: "𝕀", iopf: "𝕚", Iota: "Ι", iota: "ι", iprod: "⨼", iquest: "¿", Iscr: "ℐ", iscr: "𝒾", isin: "∈", isindot: "⋵", isinE: "⋹", isins: "⋴", isinsv: "⋳", isinv: "∈", it: "\u2062", Itilde: "Ĩ", itilde: "ĩ", Iukcy: "І", iukcy: "і", Iuml: "Ï", iuml: "ï", Jcirc: "Ĵ", jcirc: "ĵ", Jcy: "Й", jcy: "й", Jfr: "𝔍", jfr: "𝔧", jmath: "ȷ", Jopf: "𝕁", jopf: "𝕛", Jscr: "𝒥", jscr: "𝒿", Jsercy: "Ј", jsercy: "ј", Jukcy: "Є", jukcy: "є", Kappa: "Κ", kappa: "κ", kappav: "ϰ", Kcedil: "Ķ", kcedil: "ķ", Kcy: "К", kcy: "к", Kfr: "𝔎", kfr: "𝔨", kgreen: "ĸ", KHcy: "Х", khcy: "х", KJcy: "Ќ", kjcy: "ќ", Kopf: "𝕂", kopf: "𝕜", Kscr: "𝒦", kscr: "𝓀", lAarr: "⇚", Lacute: "Ĺ", lacute: "ĺ", laemptyv: "⦴", lagran: "ℒ", Lambda: "Λ", lambda: "λ", Lang: "⟪", lang: "⟨", langd: "⦑", langle: "⟨", lap: "⪅", Laplacetrf: "ℒ", laquo: "«", Larr: "↞", lArr: "⇐", larr: "←", larrb: "⇤", larrbfs: "⤟", larrfs: "⤝", larrhk: "↩", larrlp: "↫", larrpl: "⤹", larrsim: "⥳", larrtl: "↢", lat: "⪫", lAtail: "⤛", latail: "⤙", late: "⪭", lates: "⪭︀", lBarr: "⤎", lbarr: "⤌", lbbrk: "❲", lbrace: "{", lbrack: "[", lbrke: "⦋", lbrksld: "⦏", lbrkslu: "⦍", Lcaron: "Ľ", lcaron: "ľ", Lcedil: "Ļ", lcedil: "ļ", lceil: "⌈", lcub: "{", Lcy: "Л", lcy: "л", ldca: "⤶", ldquo: "“", ldquor: "„", ldrdhar: "⥧", ldrushar: "⥋", ldsh: "↲", lE: "≦", le: "≤", LeftAngleBracket: "⟨", LeftArrow: "←", Leftarrow: "⇐", leftarrow: "←", LeftArrowBar: "⇤", LeftArrowRightArrow: "⇆", leftarrowtail: "↢", LeftCeiling: "⌈", LeftDoubleBracket: "⟦", LeftDownTeeVector: "⥡", LeftDownVector: "⇃", LeftDownVectorBar: "⥙", LeftFloor: "⌊", leftharpoondown: "↽", leftharpoonup: "↼", leftleftarrows: "⇇", LeftRightArrow: "↔", Leftrightarrow: "⇔", leftrightarrow: "↔", leftrightarrows: "⇆", leftrightharpoons: "⇋", leftrightsquigarrow: "↭", LeftRightVector: "⥎", LeftTee: "⊣", LeftTeeArrow: "↤", LeftTeeVector: "⥚", leftthreetimes: "⋋", LeftTriangle: "⊲", LeftTriangleBar: "⧏", LeftTriangleEqual: "⊴", LeftUpDownVector: "⥑", LeftUpTeeVector: "⥠", LeftUpVector: "↿", LeftUpVectorBar: "⥘", LeftVector: "↼", LeftVectorBar: "⥒", lEg: "⪋", leg: "⋚", leq: "≤", leqq: "≦", leqslant: "⩽", les: "⩽", lescc: "⪨", lesdot: "⩿", lesdoto: "⪁", lesdotor: "⪃", lesg: "⋚︀", lesges: "⪓", lessapprox: "⪅", lessdot: "⋖", lesseqgtr: "⋚", lesseqqgtr: "⪋", LessEqualGreater: "⋚", LessFullEqual: "≦", LessGreater: "≶", lessgtr: "≶", LessLess: "⪡", lesssim: "≲", LessSlantEqual: "⩽", LessTilde: "≲", lfisht: "⥼", lfloor: "⌊", Lfr: "𝔏", lfr: "𝔩", lg: "≶", lgE: "⪑", lHar: "⥢", lhard: "↽", lharu: "↼", lharul: "⥪", lhblk: "▄", LJcy: "Љ", ljcy: "љ", Ll: "⋘", ll: "≪", llarr: "⇇", llcorner: "⌞", Lleftarrow: "⇚", llhard: "⥫", lltri: "◺", Lmidot: "Ŀ", lmidot: "ŀ", lmoust: "⎰", lmoustache: "⎰", lnap: "⪉", lnapprox: "⪉", lnE: "≨", lne: "⪇", lneq: "⪇", lneqq: "≨", lnsim: "⋦", loang: "⟬", loarr: "⇽", lobrk: "⟦", LongLeftArrow: "⟵", Longleftarrow: "⟸", longleftarrow: "⟵", LongLeftRightArrow: "⟷", Longleftrightarrow: "⟺", longleftrightarrow: "⟷", longmapsto: "⟼", LongRightArrow: "⟶", Longrightarrow: "⟹", longrightarrow: "⟶", looparrowleft: "↫", looparrowright: "↬", lopar: "⦅", Lopf: "𝕃", lopf: "𝕝", loplus: "⨭", lotimes: "⨴", lowast: "∗", lowbar: "_", LowerLeftArrow: "↙", LowerRightArrow: "↘", loz: "◊", lozenge: "◊", lozf: "⧫", lpar: "(", lparlt: "⦓", lrarr: "⇆", lrcorner: "⌟", lrhar: "⇋", lrhard: "⥭", lrm: "\u200e", lrtri: "⊿", lsaquo: "‹", Lscr: "ℒ", lscr: "𝓁", Lsh: "↰", lsh: "↰", lsim: "≲", lsime: "⪍", lsimg: "⪏", lsqb: "[", lsquo: "‘", lsquor: "‚", Lstrok: "Ł", lstrok: "ł", LT: "<", Lt: "≪", lt: "<", ltcc: "⪦", ltcir: "⩹", ltdot: "⋖", lthree: "⋋", ltimes: "⋉", ltlarr: "⥶", ltquest: "⩻", ltri: "◃", ltrie: "⊴", ltrif: "◂", ltrPar: "⦖", lurdshar: "⥊", luruhar: "⥦", lvertneqq: "≨︀", lvnE: "≨︀", macr: "¯", male: "♂", malt: "✠", maltese: "✠", Map: "⤅", map: "↦", mapsto: "↦", mapstodown: "↧", mapstoleft: "↤", mapstoup: "↥", marker: "▮", mcomma: "⨩", Mcy: "М", mcy: "м", mdash: "—", mDDot: "∺", measuredangle: "∡", MediumSpace: " ", Mellintrf: "ℳ", Mfr: "𝔐", mfr: "𝔪", mho: "℧", micro: "µ", mid: "∣", midast: "*", midcir: "⫰", middot: "·", minus: "−", minusb: "⊟", minusd: "∸", minusdu: "⨪", MinusPlus: "∓", mlcp: "⫛", mldr: "…", mnplus: "∓", models: "⊧", Mopf: "𝕄", mopf: "𝕞", mp: "∓", Mscr: "ℳ", mscr: "𝓂", mstpos: "∾", Mu: "Μ", mu: "μ", multimap: "⊸", mumap: "⊸", nabla: "∇", Nacute: "Ń", nacute: "ń", nang: "∠⃒", nap: "≉", napE: "⩰̸", napid: "≋̸", napos: "ŉ", napprox: "≉", natur: "♮", natural: "♮", naturals: "ℕ", nbsp: " ", nbump: "≎̸", nbumpe: "≏̸", ncap: "⩃", Ncaron: "Ň", ncaron: "ň", Ncedil: "Ņ", ncedil: "ņ", ncong: "≇", ncongdot: "⩭̸", ncup: "⩂", Ncy: "Н", ncy: "н", ndash: "–", ne: "≠", nearhk: "⤤", neArr: "⇗", nearr: "↗", nearrow: "↗", nedot: "≐̸", NegativeMediumSpace: "​", NegativeThickSpace: "​", NegativeThinSpace: "​", NegativeVeryThinSpace: "​", nequiv: "≢", nesear: "⤨", nesim: "≂̸", NestedGreaterGreater: "≫", NestedLessLess: "≪", NewLine: "\u000a", nexist: "∄", nexists: "∄", Nfr: "𝔑", nfr: "𝔫", ngE: "≧̸", nge: "≱", ngeq: "≱", ngeqq: "≧̸", ngeqslant: "⩾̸", nges: "⩾̸", nGg: "⋙̸", ngsim: "≵", nGt: "≫⃒", ngt: "≯", ngtr: "≯", nGtv: "≫̸", nhArr: "⇎", nharr: "↮", nhpar: "⫲", ni: "∋", nis: "⋼", nisd: "⋺", niv: "∋", NJcy: "Њ", njcy: "њ", nlArr: "⇍", nlarr: "↚", nldr: "‥", nlE: "≦̸", nle: "≰", nLeftarrow: "⇍", nleftarrow: "↚", nLeftrightarrow: "⇎", nleftrightarrow: "↮", nleq: "≰", nleqq: "≦̸", nleqslant: "⩽̸", nles: "⩽̸", nless: "≮", nLl: "⋘̸", nlsim: "≴", nLt: "≪⃒", nlt: "≮", nltri: "⋪", nltrie: "⋬", nLtv: "≪̸", nmid: "∤", NoBreak: "\u2060", NonBreakingSpace: " ", Nopf: "ℕ", nopf: "𝕟", Not: "⫬", not: "¬", NotCongruent: "≢", NotCupCap: "≭", NotDoubleVerticalBar: "∦", NotElement: "∉", NotEqual: "≠", NotEqualTilde: "≂̸", NotExists: "∄", NotGreater: "≯", NotGreaterEqual: "≱", NotGreaterFullEqual: "≧̸", NotGreaterGreater: "≫̸", NotGreaterLess: "≹", NotGreaterSlantEqual: "⩾̸", NotGreaterTilde: "≵", NotHumpDownHump: "≎̸", NotHumpEqual: "≏̸", notin: "∉", notindot: "⋵̸", notinE: "⋹̸", notinva: "∉", notinvb: "⋷", notinvc: "⋶", NotLeftTriangle: "⋪", NotLeftTriangleBar: "⧏̸", NotLeftTriangleEqual: "⋬", NotLess: "≮", NotLessEqual: "≰", NotLessGreater: "≸", NotLessLess: "≪̸", NotLessSlantEqual: "⩽̸", NotLessTilde: "≴", NotNestedGreaterGreater: "⪢̸", NotNestedLessLess: "⪡̸", notni: "∌", notniva: "∌", notnivb: "⋾", notnivc: "⋽", NotPrecedes: "⊀", NotPrecedesEqual: "⪯̸", NotPrecedesSlantEqual: "⋠", NotReverseElement: "∌", NotRightTriangle: "⋫", NotRightTriangleBar: "⧐̸", NotRightTriangleEqual: "⋭", NotSquareSubset: "⊏̸", NotSquareSubsetEqual: "⋢", NotSquareSuperset: "⊐̸", NotSquareSupersetEqual: "⋣", NotSubset: "⊂⃒", NotSubsetEqual: "⊈", NotSucceeds: "⊁", NotSucceedsEqual: "⪰̸", NotSucceedsSlantEqual: "⋡", NotSucceedsTilde: "≿̸", NotSuperset: "⊃⃒", NotSupersetEqual: "⊉", NotTilde: "≁", NotTildeEqual: "≄", NotTildeFullEqual: "≇", NotTildeTilde: "≉", NotVerticalBar: "∤", npar: "∦", nparallel: "∦", nparsl: "⫽⃥", npart: "∂̸", npolint: "⨔", npr: "⊀", nprcue: "⋠", npre: "⪯̸", nprec: "⊀", npreceq: "⪯̸", nrArr: "⇏", nrarr: "↛", nrarrc: "⤳̸", nrarrw: "↝̸", nRightarrow: "⇏", nrightarrow: "↛", nrtri: "⋫", nrtrie: "⋭", nsc: "⊁", nsccue: "⋡", nsce: "⪰̸", Nscr: "𝒩", nscr: "𝓃", nshortmid: "∤", nshortparallel: "∦", nsim: "≁", nsime: "≄", nsimeq: "≄", nsmid: "∤", nspar: "∦", nsqsube: "⋢", nsqsupe: "⋣", nsub: "⊄", nsubE: "⫅̸", nsube: "⊈", nsubset: "⊂⃒", nsubseteq: "⊈", nsubseteqq: "⫅̸", nsucc: "⊁", nsucceq: "⪰̸", nsup: "⊅", nsupE: "⫆̸", nsupe: "⊉", nsupset: "⊃⃒", nsupseteq: "⊉", nsupseteqq: "⫆̸", ntgl: "≹", Ntilde: "Ñ", ntilde: "ñ", ntlg: "≸", ntriangleleft: "⋪", ntrianglelefteq: "⋬", ntriangleright: "⋫", ntrianglerighteq: "⋭", Nu: "Ν", nu: "ν", num: "#", numero: "№", numsp: " ", nvap: "≍⃒", nVDash: "⊯", nVdash: "⊮", nvDash: "⊭", nvdash: "⊬", nvge: "≥⃒", nvgt: ">⃒", nvHarr: "⤄", nvinfin: "⧞", nvlArr: "⤂", nvle: "≤⃒", nvlt: "<⃒", nvltrie: "⊴⃒", nvrArr: "⤃", nvrtrie: "⊵⃒", nvsim: "∼⃒", nwarhk: "⤣", nwArr: "⇖", nwarr: "↖", nwarrow: "↖", nwnear: "⤧", Oacute: "Ó", oacute: "ó", oast: "⊛", ocir: "⊚", Ocirc: "Ô", ocirc: "ô", Ocy: "О", ocy: "о", odash: "⊝", Odblac: "Ő", odblac: "ő", odiv: "⨸", odot: "⊙", odsold: "⦼", OElig: "Œ", oelig: "œ", ofcir: "⦿", Ofr: "𝔒", ofr: "𝔬", ogon: "˛", Ograve: "Ò", ograve: "ò", ogt: "⧁", ohbar: "⦵", ohm: "Ω", oint: "∮", olarr: "↺", olcir: "⦾", olcross: "⦻", oline: "‾", olt: "⧀", Omacr: "Ō", omacr: "ō", Omega: "Ω", omega: "ω", Omicron: "Ο", omicron: "ο", omid: "⦶", ominus: "⊖", Oopf: "𝕆", oopf: "𝕠", opar: "⦷", OpenCurlyDoubleQuote: "“", OpenCurlyQuote: "‘", operp: "⦹", oplus: "⊕", Or: "⩔", or: "∨", orarr: "↻", ord: "⩝", order: "ℴ", orderof: "ℴ", ordf: "ª", ordm: "º", origof: "⊶", oror: "⩖", orslope: "⩗", orv: "⩛", oS: "Ⓢ", Oscr: "𝒪", oscr: "ℴ", Oslash: "Ø", oslash: "ø", osol: "⊘", Otilde: "Õ", otilde: "õ", Otimes: "⨷", otimes: "⊗", otimesas: "⨶", Ouml: "Ö", ouml: "ö", ovbar: "⌽", OverBar: "‾", OverBrace: "⏞", OverBracket: "⎴", OverParenthesis: "⏜", par: "∥", para: "¶", parallel: "∥", parsim: "⫳", parsl: "⫽", part: "∂", PartialD: "∂", Pcy: "П", pcy: "п", percnt: "%", period: ".", permil: "‰", perp: "⊥", pertenk: "‱", Pfr: "𝔓", pfr: "𝔭", Phi: "Φ", phi: "φ", phiv: "ϕ", phmmat: "ℳ", phone: "☎", Pi: "Π", pi: "π", pitchfork: "⋔", piv: "ϖ", planck: "ℏ", planckh: "ℎ", plankv: "ℏ", plus: "+", plusacir: "⨣", plusb: "⊞", pluscir: "⨢", plusdo: "∔", plusdu: "⨥", pluse: "⩲", PlusMinus: "±", plusmn: "±", plussim: "⨦", plustwo: "⨧", pm: "±", Poincareplane: "ℌ", pointint: "⨕", Popf: "ℙ", popf: "𝕡", pound: "£", Pr: "⪻", pr: "≺", prap: "⪷", prcue: "≼", prE: "⪳", pre: "⪯", prec: "≺", precapprox: "⪷", preccurlyeq: "≼", Precedes: "≺", PrecedesEqual: "⪯", PrecedesSlantEqual: "≼", PrecedesTilde: "≾", preceq: "⪯", precnapprox: "⪹", precneqq: "⪵", precnsim: "⋨", precsim: "≾", Prime: "″", prime: "′", primes: "ℙ", prnap: "⪹", prnE: "⪵", prnsim: "⋨", prod: "∏", Product: "∏", profalar: "⌮", profline: "⌒", profsurf: "⌓", prop: "∝", Proportion: "∷", Proportional: "∝", propto: "∝", prsim: "≾", prurel: "⊰", Pscr: "𝒫", pscr: "𝓅", Psi: "Ψ", psi: "ψ", puncsp: " ", Qfr: "𝔔", qfr: "𝔮", qint: "⨌", Qopf: "ℚ", qopf: "𝕢", qprime: "⁗", Qscr: "𝒬", qscr: "𝓆", quaternions: "ℍ", quatint: "⨖", quest: "?", questeq: "≟", QUOT: "\"", quot: "\"", rAarr: "⇛", race: "∽̱", Racute: "Ŕ", racute: "ŕ", radic: "√", raemptyv: "⦳", Rang: "⟫", rang: "⟩", rangd: "⦒", range: "⦥", rangle: "⟩", raquo: "»", Rarr: "↠", rArr: "⇒", rarr: "→", rarrap: "⥵", rarrb: "⇥", rarrbfs: "⤠", rarrc: "⤳", rarrfs: "⤞", rarrhk: "↪", rarrlp: "↬", rarrpl: "⥅", rarrsim: "⥴", Rarrtl: "⤖", rarrtl: "↣", rarrw: "↝", rAtail: "⤜", ratail: "⤚", ratio: "∶", rationals: "ℚ", RBarr: "⤐", rBarr: "⤏", rbarr: "⤍", rbbrk: "❳", rbrace: "}", rbrack: "]", rbrke: "⦌", rbrksld: "⦎", rbrkslu: "⦐", Rcaron: "Ř", rcaron: "ř", Rcedil: "Ŗ", rcedil: "ŗ", rceil: "⌉", rcub: "}", Rcy: "Р", rcy: "р", rdca: "⤷", rdldhar: "⥩", rdquo: "”", rdquor: "”", rdsh: "↳", Re: "ℜ", real: "ℜ", realine: "ℛ", realpart: "ℜ", reals: "ℝ", rect: "▭", REG: "®", reg: "®", ReverseElement: "∋", ReverseEquilibrium: "⇋", ReverseUpEquilibrium: "⥯", rfisht: "⥽", rfloor: "⌋", Rfr: "ℜ", rfr: "𝔯", rHar: "⥤", rhard: "⇁", rharu: "⇀", rharul: "⥬", Rho: "Ρ", rho: "ρ", rhov: "ϱ", RightAngleBracket: "⟩", RightArrow: "→", Rightarrow: "⇒", rightarrow: "→", RightArrowBar: "⇥", RightArrowLeftArrow: "⇄", rightarrowtail: "↣", RightCeiling: "⌉", RightDoubleBracket: "⟧", RightDownTeeVector: "⥝", RightDownVector: "⇂", RightDownVectorBar: "⥕", RightFloor: "⌋", rightharpoondown: "⇁", rightharpoonup: "⇀", rightleftarrows: "⇄", rightleftharpoons: "⇌", rightrightarrows: "⇉", rightsquigarrow: "↝", RightTee: "⊢", RightTeeArrow: "↦", RightTeeVector: "⥛", rightthreetimes: "⋌", RightTriangle: "⊳", RightTriangleBar: "⧐", RightTriangleEqual: "⊵", RightUpDownVector: "⥏", RightUpTeeVector: "⥜", RightUpVector: "↾", RightUpVectorBar: "⥔", RightVector: "⇀", RightVectorBar: "⥓", ring: "˚", risingdotseq: "≓", rlarr: "⇄", rlhar: "⇌", rlm: "\u200f", rmoust: "⎱", rmoustache: "⎱", rnmid: "⫮", roang: "⟭", roarr: "⇾", robrk: "⟧", ropar: "⦆", Ropf: "ℝ", ropf: "𝕣", roplus: "⨮", rotimes: "⨵", RoundImplies: "⥰", rpar: ")", rpargt: "⦔", rppolint: "⨒", rrarr: "⇉", Rrightarrow: "⇛", rsaquo: "›", Rscr: "ℛ", rscr: "𝓇", Rsh: "↱", rsh: "↱", rsqb: "]", rsquo: "’", rsquor: "’", rthree: "⋌", rtimes: "⋊", rtri: "▹", rtrie: "⊵", rtrif: "▸", rtriltri: "⧎", RuleDelayed: "⧴", ruluhar: "⥨", rx: "℞", Sacute: "Ś", sacute: "ś", sbquo: "‚", Sc: "⪼", sc: "≻", scap: "⪸", Scaron: "Š", scaron: "š", sccue: "≽", scE: "⪴", sce: "⪰", Scedil: "Ş", scedil: "ş", Scirc: "Ŝ", scirc: "ŝ", scnap: "⪺", scnE: "⪶", scnsim: "⋩", scpolint: "⨓", scsim: "≿", Scy: "С", scy: "с", sdot: "⋅", sdotb: "⊡", sdote: "⩦", searhk: "⤥", seArr: "⇘", searr: "↘", searrow: "↘", sect: "§", semi: ";", seswar: "⤩", setminus: "∖", setmn: "∖", sext: "✶", Sfr: "𝔖", sfr: "𝔰", sfrown: "⌢", sharp: "♯", SHCHcy: "Щ", shchcy: "щ", SHcy: "Ш", shcy: "ш", ShortDownArrow: "↓", ShortLeftArrow: "←", shortmid: "∣", shortparallel: "∥", ShortRightArrow: "→", ShortUpArrow: "↑", shy: "\u00ad", Sigma: "Σ", sigma: "σ", sigmaf: "ς", sigmav: "ς", sim: "∼", simdot: "⩪", sime: "≃", simeq: "≃", simg: "⪞", simgE: "⪠", siml: "⪝", simlE: "⪟", simne: "≆", simplus: "⨤", simrarr: "⥲", slarr: "←", SmallCircle: "∘", smallsetminus: "∖", smashp: "⨳", smeparsl: "⧤", smid: "∣", smile: "⌣", smt: "⪪", smte: "⪬", smtes: "⪬︀", SOFTcy: "Ь", softcy: "ь", sol: "/", solb: "⧄", solbar: "⌿", Sopf: "𝕊", sopf: "𝕤", spades: "♠", spadesuit: "♠", spar: "∥", sqcap: "⊓", sqcaps: "⊓︀", sqcup: "⊔", sqcups: "⊔︀", Sqrt: "√", sqsub: "⊏", sqsube: "⊑", sqsubset: "⊏", sqsubseteq: "⊑", sqsup: "⊐", sqsupe: "⊒", sqsupset: "⊐", sqsupseteq: "⊒", squ: "□", Square: "□", square: "□", SquareIntersection: "⊓", SquareSubset: "⊏", SquareSubsetEqual: "⊑", SquareSuperset: "⊐", SquareSupersetEqual: "⊒", SquareUnion: "⊔", squarf: "▪", squf: "▪", srarr: "→", Sscr: "𝒮", sscr: "𝓈", ssetmn: "∖", ssmile: "⌣", sstarf: "⋆", Star: "⋆", star: "☆", starf: "★", straightepsilon: "ϵ", straightphi: "ϕ", strns: "¯", Sub: "⋐", sub: "⊂", subdot: "⪽", subE: "⫅", sube: "⊆", subedot: "⫃", submult: "⫁", subnE: "⫋", subne: "⊊", subplus: "⪿", subrarr: "⥹", Subset: "⋐", subset: "⊂", subseteq: "⊆", subseteqq: "⫅", SubsetEqual: "⊆", subsetneq: "⊊", subsetneqq: "⫋", subsim: "⫇", subsub: "⫕", subsup: "⫓", succ: "≻", succapprox: "⪸", succcurlyeq: "≽", Succeeds: "≻", SucceedsEqual: "⪰", SucceedsSlantEqual: "≽", SucceedsTilde: "≿", succeq: "⪰", succnapprox: "⪺", succneqq: "⪶", succnsim: "⋩", succsim: "≿", SuchThat: "∋", Sum: "∑", sum: "∑", sung: "♪", Sup: "⋑", sup: "⊃", sup1: "¹", sup2: "²", sup3: "³", supdot: "⪾", supdsub: "⫘", supE: "⫆", supe: "⊇", supedot: "⫄", Superset: "⊃", SupersetEqual: "⊇", suphsol: "⟉", suphsub: "⫗", suplarr: "⥻", supmult: "⫂", supnE: "⫌", supne: "⊋", supplus: "⫀", Supset: "⋑", supset: "⊃", supseteq: "⊇", supseteqq: "⫆", supsetneq: "⊋", supsetneqq: "⫌", supsim: "⫈", supsub: "⫔", supsup: "⫖", swarhk: "⤦", swArr: "⇙", swarr: "↙", swarrow: "↙", swnwar: "⤪", szlig: "ß", Tab: "\u0009", target: "⌖", Tau: "Τ", tau: "τ", tbrk: "⎴", Tcaron: "Ť", tcaron: "ť", Tcedil: "Ţ", tcedil: "ţ", Tcy: "Т", tcy: "т", tdot: "⃛", telrec: "⌕", Tfr: "𝔗", tfr: "𝔱", there4: "∴", Therefore: "∴", therefore: "∴", Theta: "Θ", theta: "θ", thetasym: "ϑ", thetav: "ϑ", thickapprox: "≈", thicksim: "∼", ThickSpace: "  ", thinsp: " ", ThinSpace: " ", thkap: "≈", thksim: "∼", THORN: "Þ", thorn: "þ", Tilde: "∼", tilde: "˜", TildeEqual: "≃", TildeFullEqual: "≅", TildeTilde: "≈", times: "×", timesb: "⊠", timesbar: "⨱", timesd: "⨰", tint: "∭", toea: "⤨", top: "⊤", topbot: "⌶", topcir: "⫱", Topf: "𝕋", topf: "𝕥", topfork: "⫚", tosa: "⤩", tprime: "‴", TRADE: "™", trade: "™", triangle: "▵", triangledown: "▿", triangleleft: "◃", trianglelefteq: "⊴", triangleq: "≜", triangleright: "▹", trianglerighteq: "⊵", tridot: "◬", trie: "≜", triminus: "⨺", TripleDot: "⃛", triplus: "⨹", trisb: "⧍", tritime: "⨻", trpezium: "⏢", Tscr: "𝒯", tscr: "𝓉", TScy: "Ц", tscy: "ц", TSHcy: "Ћ", tshcy: "ћ", Tstrok: "Ŧ", tstrok: "ŧ", twixt: "≬", twoheadleftarrow: "↞", twoheadrightarrow: "↠", Uacute: "Ú", uacute: "ú", Uarr: "↟", uArr: "⇑", uarr: "↑", Uarrocir: "⥉", Ubrcy: "Ў", ubrcy: "ў", Ubreve: "Ŭ", ubreve: "ŭ", Ucirc: "Û", ucirc: "û", Ucy: "У", ucy: "у", udarr: "⇅", Udblac: "Ű", udblac: "ű", udhar: "⥮", ufisht: "⥾", Ufr: "𝔘", ufr: "𝔲", Ugrave: "Ù", ugrave: "ù", uHar: "⥣", uharl: "↿", uharr: "↾", uhblk: "▀", ulcorn: "⌜", ulcorner: "⌜", ulcrop: "⌏", ultri: "◸", Umacr: "Ū", umacr: "ū", uml: "¨", UnderBar: "_", UnderBrace: "⏟", UnderBracket: "⎵", UnderParenthesis: "⏝", Union: "⋃", UnionPlus: "⊎", Uogon: "Ų", uogon: "ų", Uopf: "𝕌", uopf: "𝕦", UpArrow: "↑", Uparrow: "⇑", uparrow: "↑", UpArrowBar: "⤒", UpArrowDownArrow: "⇅", UpDownArrow: "↕", Updownarrow: "⇕", updownarrow: "↕", UpEquilibrium: "⥮", upharpoonleft: "↿", upharpoonright: "↾", uplus: "⊎", UpperLeftArrow: "↖", UpperRightArrow: "↗", Upsi: "ϒ", upsi: "υ", upsih: "ϒ", Upsilon: "Υ", upsilon: "υ", UpTee: "⊥", UpTeeArrow: "↥", upuparrows: "⇈", urcorn: "⌝", urcorner: "⌝", urcrop: "⌎", Uring: "Ů", uring: "ů", urtri: "◹", Uscr: "𝒰", uscr: "𝓊", utdot: "⋰", Utilde: "Ũ", utilde: "ũ", utri: "▵", utrif: "▴", uuarr: "⇈", Uuml: "Ü", uuml: "ü", uwangle: "⦧", vangrt: "⦜", varepsilon: "ϵ", varkappa: "ϰ", varnothing: "∅", varphi: "ϕ", varpi: "ϖ", varpropto: "∝", vArr: "⇕", varr: "↕", varrho: "ϱ", varsigma: "ς", varsubsetneq: "⊊︀", varsubsetneqq: "⫋︀", varsupsetneq: "⊋︀", varsupsetneqq: "⫌︀", vartheta: "ϑ", vartriangleleft: "⊲", vartriangleright: "⊳", Vbar: "⫫", vBar: "⫨", vBarv: "⫩", Vcy: "В", vcy: "в", VDash: "⊫", Vdash: "⊩", vDash: "⊨", vdash: "⊢", Vdashl: "⫦", Vee: "⋁", vee: "∨", veebar: "⊻", veeeq: "≚", vellip: "⋮", Verbar: "‖", verbar: "|", Vert: "‖", vert: "|", VerticalBar: "∣", VerticalLine: "|", VerticalSeparator: "❘", VerticalTilde: "≀", VeryThinSpace: " ", Vfr: "𝔙", vfr: "𝔳", vltri: "⊲", vnsub: "⊂⃒", vnsup: "⊃⃒", Vopf: "𝕍", vopf: "𝕧", vprop: "∝", vrtri: "⊳", Vscr: "𝒱", vscr: "𝓋", vsubnE: "⫋︀", vsubne: "⊊︀", vsupnE: "⫌︀", vsupne: "⊋︀", Vvdash: "⊪", vzigzag: "⦚", Wcirc: "Ŵ", wcirc: "ŵ", wedbar: "⩟", Wedge: "⋀", wedge: "∧", wedgeq: "≙", weierp: "℘", Wfr: "𝔚", wfr: "𝔴", Wopf: "𝕎", wopf: "𝕨", wp: "℘", wr: "≀", wreath: "≀", Wscr: "𝒲", wscr: "𝓌", xcap: "⋂", xcirc: "◯", xcup: "⋃", xdtri: "▽", Xfr: "𝔛", xfr: "𝔵", xhArr: "⟺", xharr: "⟷", Xi: "Ξ", xi: "ξ", xlArr: "⟸", xlarr: "⟵", xmap: "⟼", xnis: "⋻", xodot: "⨀", Xopf: "𝕏", xopf: "𝕩", xoplus: "⨁", xotime: "⨂", xrArr: "⟹", xrarr: "⟶", Xscr: "𝒳", xscr: "𝓍", xsqcup: "⨆", xuplus: "⨄", xutri: "△", xvee: "⋁", xwedge: "⋀", Yacute: "Ý", yacute: "ý", YAcy: "Я", yacy: "я", Ycirc: "Ŷ", ycirc: "ŷ", Ycy: "Ы", ycy: "ы", yen: "¥", Yfr: "𝔜", yfr: "𝔶", YIcy: "Ї", yicy: "ї", Yopf: "𝕐", yopf: "𝕪", Yscr: "𝒴", yscr: "𝓎", YUcy: "Ю", yucy: "ю", Yuml: "Ÿ", yuml: "ÿ", Zacute: "Ź", zacute: "ź", Zcaron: "Ž", zcaron: "ž", Zcy: "З", zcy: "з", Zdot: "Ż", zdot: "ż", zeetrf: "ℨ", ZeroWidthSpace: "​", Zeta: "Ζ", zeta: "ζ", Zfr: "ℨ", zfr: "𝔷", ZHcy: "Ж", zhcy: "ж", zigrarr: "⇝", Zopf: "ℤ", zopf: "𝕫", Zscr: "𝒵", zscr: "𝓏", zwj: "\u200d", zwnj: "\u200c"
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/index.js ***!
+  \**************************************************************/
+/*! exports provided: HTML5NamedCharRefs, EntityParser, EventedTokenizer, Tokenizer, tokenize */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _html5_named_char_refs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./html5-named-char-refs */ "./node_modules/simple-html-tokenizer/dist/es6/html5-named-char-refs.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HTML5NamedCharRefs", function() { return _html5_named_char_refs__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _entity_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entity-parser */ "./node_modules/simple-html-tokenizer/dist/es6/entity-parser.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EntityParser", function() { return _entity_parser__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _evented_tokenizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./evented-tokenizer */ "./node_modules/simple-html-tokenizer/dist/es6/evented-tokenizer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventedTokenizer", function() { return _evented_tokenizer__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _tokenizer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tokenizer */ "./node_modules/simple-html-tokenizer/dist/es6/tokenizer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tokenizer", function() { return _tokenizer__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _tokenize__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tokenize */ "./node_modules/simple-html-tokenizer/dist/es6/tokenize.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "tokenize", function() { return _tokenize__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/tokenize.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/tokenize.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return tokenize; });
+/* harmony import */ var _tokenizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tokenizer */ "./node_modules/simple-html-tokenizer/dist/es6/tokenizer.js");
+/* harmony import */ var _entity_parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entity-parser */ "./node_modules/simple-html-tokenizer/dist/es6/entity-parser.js");
+/* harmony import */ var _html5_named_char_refs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./html5-named-char-refs */ "./node_modules/simple-html-tokenizer/dist/es6/html5-named-char-refs.js");
+
+
+
+function tokenize(input, options) {
+    var tokenizer = new _tokenizer__WEBPACK_IMPORTED_MODULE_0__["default"](new _entity_parser__WEBPACK_IMPORTED_MODULE_1__["default"](_html5_named_char_refs__WEBPACK_IMPORTED_MODULE_2__["default"]), options);
+    return tokenizer.tokenize(input);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/tokenizer.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/tokenizer.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _evented_tokenizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./evented-tokenizer */ "./node_modules/simple-html-tokenizer/dist/es6/evented-tokenizer.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./node_modules/simple-html-tokenizer/dist/es6/utils.js");
+
+
+;
+var Tokenizer = /** @class */ (function () {
     function Tokenizer(entityParser, options) {
         if (options === void 0) { options = {}; }
         this.options = options;
-        this.token = null;
+        this._token = null;
         this.startLine = 1;
         this.startColumn = 0;
         this.tokens = [];
         this.currentAttribute = null;
-        this.tokenizer = new EventedTokenizer(this, entityParser);
+        this.tokenizer = new _evented_tokenizer__WEBPACK_IMPORTED_MODULE_0__["default"](this, entityParser);
     }
+    Object.defineProperty(Tokenizer.prototype, "token", {
+        get: function () {
+            return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(this._token);
+        },
+        set: function (value) {
+            this._token = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Tokenizer.prototype.tokenize = function (input) {
         this.tokens = [];
         this.tokenizer.tokenize(input);
@@ -5889,7 +11156,7 @@ var Tokenizer = (function () {
         return this.tokens[0];
     };
     Tokenizer.prototype.reset = function () {
-        this.token = null;
+        this._token = null;
         this.startLine = 1;
         this.startColumn = 0;
     };
@@ -5966,18 +11233,22 @@ var Tokenizer = (function () {
     };
     // Tags - attributes
     Tokenizer.prototype.beginAttribute = function () {
-        this.currentAttribute = ["", "", null];
-        this.token.attributes.push(this.currentAttribute);
+        var attributes = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(this.token.attributes, "current token's attributs");
+        this.currentAttribute = ["", "", false];
+        attributes.push(this.currentAttribute);
     };
     Tokenizer.prototype.appendToAttributeName = function (char) {
-        this.currentAttribute[0] += char;
+        var currentAttribute = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(this.currentAttribute);
+        currentAttribute[0] += char;
     };
     Tokenizer.prototype.beginAttributeValue = function (isQuoted) {
-        this.currentAttribute[2] = isQuoted;
+        var currentAttribute = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(this.currentAttribute);
+        currentAttribute[2] = isQuoted;
     };
     Tokenizer.prototype.appendToAttributeValue = function (char) {
-        this.currentAttribute[1] = this.currentAttribute[1] || "";
-        this.currentAttribute[1] += char;
+        var currentAttribute = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(this.currentAttribute);
+        currentAttribute[1] = currentAttribute[1] || "";
+        currentAttribute[1] += char;
     };
     Tokenizer.prototype.finishAttributeValue = function () {
     };
@@ -5986,30 +11257,53 @@ var Tokenizer = (function () {
     };
     return Tokenizer;
 }());
-
-function tokenize(input, options) {
-    var tokenizer = new Tokenizer(new EntityParser(namedCharRefs), options);
-    return tokenizer.tokenize(input);
-}
-
-exports.HTML5NamedCharRefs = namedCharRefs;
-exports.EntityParser = EntityParser;
-exports.EventedTokenizer = EventedTokenizer;
-exports.Tokenizer = Tokenizer;
-exports.tokenize = tokenize;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-
+/* harmony default export */ __webpack_exports__["default"] = (Tokenizer);
 
 
 /***/ }),
 
-/***/ "./packages/node_modules/tinycolor2/tinycolor.js":
-/*!*******************************************************!*\
-  !*** ./packages/node_modules/tinycolor2/tinycolor.js ***!
-  \*******************************************************/
+/***/ "./node_modules/simple-html-tokenizer/dist/es6/utils.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/simple-html-tokenizer/dist/es6/utils.js ***!
+  \**************************************************************/
+/*! exports provided: isSpace, isAlpha, preprocessInput, unwrap, or */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSpace", function() { return isSpace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAlpha", function() { return isAlpha; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "preprocessInput", function() { return preprocessInput; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "or", function() { return or; });
+var WSP = /[\t\n\f ]/;
+var ALPHA = /[A-Za-z]/;
+var CRLF = /\r\n?/g;
+function isSpace(char) {
+    return WSP.test(char);
+}
+function isAlpha(char) {
+    return ALPHA.test(char);
+}
+function preprocessInput(input) {
+    return input.replace(CRLF, "\n");
+}
+function unwrap(maybe, msg) {
+    if (!maybe)
+        throw new Error((msg || 'value') + " was null");
+    return maybe;
+}
+function or(maybe, otherwise) {
+    return maybe || otherwise;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/tinycolor2/tinycolor.js":
+/*!**********************************************!*\
+  !*** ./node_modules/tinycolor2/tinycolor.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7211,10 +12505,10 @@ else {}
 
 /***/ }),
 
-/***/ "./packages/node_modules/uuid/lib/bytesToUuid.js":
-/*!*******************************************************!*\
-  !*** ./packages/node_modules/uuid/lib/bytesToUuid.js ***!
-  \*******************************************************/
+/***/ "./node_modules/uuid/lib/bytesToUuid.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -7230,14 +12524,15 @@ for (var i = 0; i < 256; ++i) {
 function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
-  return bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
 }
 
 module.exports = bytesToUuid;
@@ -7245,36 +12540,39 @@ module.exports = bytesToUuid;
 
 /***/ }),
 
-/***/ "./packages/node_modules/uuid/lib/rng-browser.js":
-/*!*******************************************************!*\
-  !*** ./packages/node_modules/uuid/lib/rng-browser.js ***!
-  \*******************************************************/
+/***/ "./node_modules/uuid/lib/rng-browser.js":
+/*!**********************************************!*\
+  !*** ./node_modules/uuid/lib/rng-browser.js ***!
+  \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
+// Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
 // feature-detection
-var rng;
 
-var crypto = global.crypto || global.msCrypto; // for IE 11
-if (crypto && crypto.getRandomValues) {
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
   // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
   var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-  rng = function whatwgRNG() {
-    crypto.getRandomValues(rnds8);
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
     return rnds8;
   };
-}
-
-if (!rng) {
+} else {
   // Math.random()-based (RNG)
   //
   // If all else fails, use Math.random().  It's fast, but is of unspecified
   // quality.
   var rnds = new Array(16);
-  rng = function() {
+
+  module.exports = function mathRNG() {
     for (var i = 0, r; i < 16; i++) {
       if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
       rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
@@ -7284,27 +12582,24 @@ if (!rng) {
   };
 }
 
-module.exports = rng;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
-/***/ "./packages/node_modules/uuid/v4.js":
-/*!******************************************!*\
-  !*** ./packages/node_modules/uuid/v4.js ***!
-  \******************************************/
+/***/ "./node_modules/uuid/v4.js":
+/*!*********************************!*\
+  !*** ./node_modules/uuid/v4.js ***!
+  \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(/*! ./lib/rng */ "./packages/node_modules/uuid/lib/rng-browser.js");
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./packages/node_modules/uuid/lib/bytesToUuid.js");
+var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/uuid/lib/rng-browser.js");
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./node_modules/uuid/lib/bytesToUuid.js");
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
 
   if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
+    buf = options === 'binary' ? new Array(16) : null;
     options = null;
   }
   options = options || {};
@@ -7326,5209 +12621,6 @@ function v4(options, buf, offset) {
 }
 
 module.exports = v4;
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/categories.js":
-/*!*****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/categories.js ***!
-  \*****************************************************************/
-/*! exports provided: getCategories, setCategories */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return getCategories; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return setCategories; });
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * WordPress dependencies
- */
-
-/**
- * Returns all the block categories.
- *
- * @return {Object[]} Block categories.
- */
-
-function getCategories() {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/blocks').getCategories();
-}
-/**
- * Sets the block categories.
- *
- * @param {Object[]} categories Block categories.
- */
-
-function setCategories(categories) {
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["dispatch"])('core/blocks').setCategories(categories);
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/children.js":
-/*!***************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/children.js ***!
-  \***************************************************************/
-/*! exports provided: getSerializeCapableElement, concat, fromDOM, toHTML, matcher, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSerializeCapableElement", function() { return getSerializeCapableElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return concat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromDOM", function() { return fromDOM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTML", function() { return toHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcher", function() { return matcher; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node */ "./packages/packages/blocks/build-module/api/node.js");
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * A representation of a block's rich text value.
- *
- * @typedef {WPBlockNode[]} WPBlockChildren
- */
-
-/**
- * Given block children, returns a serialize-capable WordPress element.
- *
- * @param {WPBlockChildren} children Block children object to convert.
- *
- * @return {WPElement} A serialize-capable element.
- */
-
-function getSerializeCapableElement(children) {
-  // The fact that block children are compatible with the element serializer is
-  // merely an implementation detail that currently serves to be true, but
-  // should not be mistaken as being a guarantee on the external API. The
-  // public API only offers guarantees to work with strings (toHTML) and DOM
-  // elements (fromDOM), and should provide utilities to manipulate the value
-  // rather than expect consumers to inspect or construct its shape (concat).
-  return children;
-}
-/**
- * Given block children, returns an array of block nodes.
- *
- * @param {WPBlockChildren} children Block children object to convert.
- *
- * @return {Array<WPBlockNode>} An array of individual block nodes.
- */
-
-function getChildrenArray(children) {
-  // The fact that block children are compatible with the element serializer
-  // is merely an implementation detail that currently serves to be true, but
-  // should not be mistaken as being a guarantee on the external API.
-  return children;
-}
-/**
- * Given two or more block nodes, returns a new block node representing a
- * concatenation of its values.
- *
- * @param {...WPBlockChildren} blockNodes Block nodes to concatenate.
- *
- * @return {WPBlockChildren} Concatenated block node.
- */
-
-
-function concat() {
-  var result = [];
-
-  for (var i = 0; i < arguments.length; i++) {
-    var blockNode = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(i < 0 || arguments.length <= i ? undefined : arguments[i]);
-
-    for (var j = 0; j < blockNode.length; j++) {
-      var child = blockNode[j];
-      var canConcatToPreviousString = typeof child === 'string' && typeof result[result.length - 1] === 'string';
-
-      if (canConcatToPreviousString) {
-        result[result.length - 1] += child;
-      } else {
-        result.push(child);
-      }
-    }
-  }
-
-  return result;
-}
-/**
- * Given an iterable set of DOM nodes, returns equivalent block children.
- * Ignores any non-element/text nodes included in set.
- *
- * @param {Iterable.<Node>} domNodes Iterable set of DOM nodes to convert.
- *
- * @return {WPBlockChildren} Block children equivalent to DOM nodes.
- */
-
-function fromDOM(domNodes) {
-  var result = [];
-
-  for (var i = 0; i < domNodes.length; i++) {
-    try {
-      result.push(_node__WEBPACK_IMPORTED_MODULE_2__["fromDOM"](domNodes[i]));
-    } catch (error) {// Simply ignore if DOM node could not be converted.
-    }
-  }
-
-  return result;
-}
-/**
- * Given a block node, returns its HTML string representation.
- *
- * @param {WPBlockChildren} children Block node(s) to convert to string.
- *
- * @return {string} String HTML representation of block node.
- */
-
-function toHTML(children) {
-  var element = getSerializeCapableElement(children);
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["renderToString"])(element);
-}
-/**
- * Given a selector, returns an hpq matcher generating a WPBlockChildren value
- * matching the selector result.
- *
- * @param {string} selector DOM selector.
- *
- * @return {Function} hpq matcher.
- */
-
-function matcher(selector) {
-  return function (domNode) {
-    var match = domNode;
-
-    if (selector) {
-      match = domNode.querySelector(selector);
-    }
-
-    if (match) {
-      return fromDOM(match.childNodes);
-    }
-
-    return [];
-  };
-}
-/* harmony default export */ __webpack_exports__["default"] = ({
-  concat: concat,
-  getChildrenArray: getChildrenArray,
-  fromDOM: fromDOM,
-  toHTML: toHTML,
-  matcher: matcher
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/factory.js":
-/*!**************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/factory.js ***!
-  \**************************************************************/
-/*! exports provided: createBlock, cloneBlock, getPossibleBlockTransformations, findTransform, getBlockTransforms, switchToBlockType */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return createBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return cloneBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return getPossibleBlockTransformations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return findTransform; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return getBlockTransforms; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return switchToBlockType; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "./packages/node_modules/uuid/v4.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Returns a block object given its type and attributes.
- *
- * @param {string} name            Block name.
- * @param {Object} blockAttributes Block attributes.
- * @param {?Array} innerBlocks     Nested blocks.
- *
- * @return {Object} Block object.
- */
-
-function createBlock(name) {
-  var blockAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  // Get the type definition associated with a registered block.
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name); // Ensure attributes contains only values defined by block type, and merge
-  // default values for missing attributes.
-
-  var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["reduce"])(blockType.attributes, function (result, schema, key) {
-    var value = blockAttributes[key];
-
-    if (undefined !== value) {
-      result[key] = value;
-    } else if (schema.hasOwnProperty('default')) {
-      result[key] = schema.default;
-    }
-
-    if (schema.source === 'html' && typeof result[key] !== 'string') {
-      result[key] = '';
-    }
-
-    if (['node', 'children'].indexOf(schema.source) !== -1) {
-      // Ensure value passed is always an array, which we're expecting in
-      // the RichText component to handle the deprecated value.
-      if (typeof result[key] === 'string') {
-        result[key] = [result[key]];
-      } else if (!Array.isArray(result[key])) {
-        result[key] = [];
-      }
-    }
-
-    return result;
-  }, {});
-  var clientId = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()(); // Blocks are stored with a unique ID, the assigned type name, the block
-  // attributes, and their inner blocks.
-
-  return {
-    clientId: clientId,
-    name: name,
-    isValid: true,
-    attributes: attributes,
-    innerBlocks: innerBlocks
-  };
-}
-/**
- * Given a block object, returns a copy of the block object, optionally merging
- * new attributes and/or replacing its inner blocks.
- *
- * @param {Object} block              Block object.
- * @param {Object} mergeAttributes    Block attributes.
- * @param {?Array} newInnerBlocks     Nested blocks.
- *
- * @return {Object} A cloned block.
- */
-
-function cloneBlock(block) {
-  var mergeAttributes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var newInnerBlocks = arguments.length > 2 ? arguments[2] : undefined;
-  var clientId = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()();
-  return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
-    clientId: clientId,
-    attributes: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block.attributes, mergeAttributes),
-    innerBlocks: newInnerBlocks || block.innerBlocks.map(function (innerBlock) {
-      return cloneBlock(innerBlock);
-    })
-  });
-}
-/**
- * Returns a boolean indicating whether a transform is possible based on
- * various bits of context.
- *
- * @param {Object} transform The transform object to validate.
- * @param {string} direction Is this a 'from' or 'to' transform.
- * @param {Array} blocks The blocks to transform from.
- * @param {boolean} isMultiBlock Have multiple blocks been selected?
- *
- * @return {boolean} Is the transform possible?
- */
-
-var isPossibleTransformForSource = function isPossibleTransformForSource(transform, direction, blocks) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
-    return false;
-  }
-
-  var isMultiBlock = blocks.length > 1;
-  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks); // If multiple blocks are selected, only multi block transforms are allowed.
-
-  var isValidForMultiBlocks = !isMultiBlock || transform.isMultiBlock;
-
-  if (!isValidForMultiBlocks) {
-    return false;
-  } // Only consider 'block' type transforms as valid.
-
-
-  var isBlockType = transform.type === 'block';
-
-  if (!isBlockType) {
-    return false;
-  } // Check if the transform's block name matches the source block only if this is a transform 'from'.
-
-
-  var hasMatchingName = direction !== 'from' || transform.blocks.indexOf(sourceBlock.name) !== -1;
-
-  if (!hasMatchingName) {
-    return false;
-  } // If the transform has a `isMatch` function specified, check that it returns true.
-
-
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isFunction"])(transform.isMatch)) {
-    var attributes = transform.isMultiBlock ? blocks.map(function (block) {
-      return block.attributes;
-    }) : sourceBlock.attributes;
-
-    if (!transform.isMatch(attributes)) {
-      return false;
-    }
-  }
-
-  return true;
-};
-/**
- * Returns block types that the 'blocks' can be transformed into, based on
- * 'from' transforms on other blocks.
- *
- * @param {Array}  blocks  The blocks to transform from.
- * @param {boolean} isMultiBlock Have multiple blocks been selected?
- *
- * @return {Array} Block types that the blocks can be transformed into.
- */
-
-
-var getBlockTypesForPossibleFromTransforms = function getBlockTypesForPossibleFromTransforms(blocks) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
-    return [];
-  }
-
-  var allBlockTypes = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])(); // filter all blocks to find those with a 'from' transform.
-
-  var blockTypesWithPossibleFromTransforms = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["filter"])(allBlockTypes, function (blockType) {
-    var fromTransforms = getBlockTransforms('from', blockType.name);
-    return !!findTransform(fromTransforms, function (transform) {
-      return isPossibleTransformForSource(transform, 'from', blocks);
-    });
-  });
-  return blockTypesWithPossibleFromTransforms;
-};
-/**
- * Returns block types that the 'blocks' can be transformed into, based on
- * the source block's own 'to' transforms.
- *
- * @param {Array} blocks The blocks to transform from.
- * @param {boolean} isMultiBlock Have multiple blocks been selected?
- *
- * @return {Array} Block types that the source can be transformed into.
- */
-
-
-var getBlockTypesForPossibleToTransforms = function getBlockTypesForPossibleToTransforms(blocks) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
-    return [];
-  }
-
-  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks);
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(sourceBlock.name);
-  var transformsTo = getBlockTransforms('to', blockType.name); // filter all 'to' transforms to find those that are possible.
-
-  var possibleTransforms = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["filter"])(transformsTo, function (transform) {
-    return isPossibleTransformForSource(transform, 'to', blocks);
-  }); // Build a list of block names using the possible 'to' transforms.
-
-  var blockNames = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(possibleTransforms, function (transformation) {
-    return transformation.blocks;
-  }); // Map block names to block types.
-
-  return blockNames.map(function (name) {
-    return Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name);
-  });
-};
-/**
- * Returns an array of block types that the set of blocks received as argument
- * can be transformed into.
- *
- * @param {Array} blocks Blocks array.
- *
- * @return {Array} Block types that the blocks argument can be transformed to.
- */
-
-
-function getPossibleBlockTransformations(blocks) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(blocks)) {
-    return [];
-  }
-
-  var sourceBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["first"])(blocks);
-  var isMultiBlock = blocks.length > 1;
-
-  if (isMultiBlock && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["every"])(blocks, {
-    name: sourceBlock.name
-  })) {
-    return [];
-  }
-
-  var blockTypesForFromTransforms = getBlockTypesForPossibleFromTransforms(blocks);
-  var blockTypesForToTransforms = getBlockTypesForPossibleToTransforms(blocks);
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["uniq"])(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(blockTypesForFromTransforms).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(blockTypesForToTransforms)));
-}
-/**
- * Given an array of transforms, returns the highest-priority transform where
- * the predicate function returns a truthy value. A higher-priority transform
- * is one with a lower priority value (i.e. first in priority order). Returns
- * null if the transforms set is empty or the predicate function returns a
- * falsey value for all entries.
- *
- * @param {Object[]} transforms Transforms to search.
- * @param {Function} predicate  Function returning true on matching transform.
- *
- * @return {?Object} Highest-priority transform candidate.
- */
-
-function findTransform(transforms, predicate) {
-  // The hooks library already has built-in mechanisms for managing priority
-  // queue, so leverage via locally-defined instance.
-  var hooks = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["createHooks"])();
-
-  var _loop = function _loop(i) {
-    var candidate = transforms[i];
-
-    if (predicate(candidate)) {
-      hooks.addFilter('transform', 'transform/' + i.toString(), function (result) {
-        return result ? result : candidate;
-      }, candidate.priority);
-    }
-  };
-
-  for (var i = 0; i < transforms.length; i++) {
-    _loop(i);
-  } // Filter name is arbitrarily chosen but consistent with above aggregation.
-
-
-  return hooks.applyFilters('transform', null);
-}
-/**
- * Returns normal block transforms for a given transform direction, optionally
- * for a specific block by name, or an empty array if there are no transforms.
- * If no block name is provided, returns transforms for all blocks. A normal
- * transform object includes `blockName` as a property.
- *
- * @param {string}  direction Transform direction ("to", "from").
- * @param {?string} blockName Optional block name.
- *
- * @return {Array} Block transforms for direction.
- */
-
-function getBlockTransforms(direction, blockName) {
-  // When retrieving transforms for all block types, recurse into self.
-  if (blockName === undefined) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flatMap"])(Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])(), function (_ref) {
-      var name = _ref.name;
-      return getBlockTransforms(direction, name);
-    });
-  } // Validate that block type exists and has array of direction.
-
-
-  var _ref2 = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(blockName) || {},
-      transforms = _ref2.transforms;
-
-  if (!transforms || !Array.isArray(transforms[direction])) {
-    return [];
-  } // Map transforms to normal form.
-
-
-  return transforms[direction].map(function (transform) {
-    return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, transform, {
-      blockName: blockName
-    });
-  });
-}
-/**
- * Switch one or more blocks into one or more blocks of the new block type.
- *
- * @param {Array|Object} blocks Blocks array or block object.
- * @param {string}       name   Block name.
- *
- * @return {Array} Array of blocks.
- */
-
-function switchToBlockType(blocks, name) {
-  var blocksArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(blocks);
-  var isMultiBlock = blocksArray.length > 1;
-  var firstBlock = blocksArray[0];
-  var sourceName = firstBlock.name;
-
-  if (isMultiBlock && !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["every"])(blocksArray, function (block) {
-    return block.name === sourceName;
-  })) {
-    return null;
-  } // Find the right transformation by giving priority to the "to"
-  // transformation.
-
-
-  var transformationsFrom = getBlockTransforms('from', name);
-  var transformationsTo = getBlockTransforms('to', sourceName);
-  var transformation = findTransform(transformationsTo, function (t) {
-    return t.type === 'block' && t.blocks.indexOf(name) !== -1 && (!isMultiBlock || t.isMultiBlock);
-  }) || findTransform(transformationsFrom, function (t) {
-    return t.type === 'block' && t.blocks.indexOf(sourceName) !== -1 && (!isMultiBlock || t.isMultiBlock);
-  }); // Stop if there is no valid transformation.
-
-  if (!transformation) {
-    return null;
-  }
-
-  var transformationResults;
-
-  if (transformation.isMultiBlock) {
-    transformationResults = transformation.transform(blocksArray.map(function (currentBlock) {
-      return currentBlock.attributes;
-    }));
-  } else {
-    transformationResults = transformation.transform(firstBlock.attributes);
-  } // Ensure that the transformation function returned an object or an array
-  // of objects.
-
-
-  if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isObjectLike"])(transformationResults)) {
-    return null;
-  } // If the transformation function returned a single object, we want to work
-  // with an array instead.
-
-
-  transformationResults = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(transformationResults); // Ensure that every block object returned by the transformation has a
-  // valid block type.
-
-  if (transformationResults.some(function (result) {
-    return !Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(result.name);
-  })) {
-    return null;
-  }
-
-  var firstSwitchedBlock = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["findIndex"])(transformationResults, function (result) {
-    return result.name === name;
-  }); // Ensure that at least one block object returned by the transformation has
-  // the expected "destination" block type.
-
-  if (firstSwitchedBlock < 0) {
-    return null;
-  }
-
-  return transformationResults.map(function (result, index) {
-    var transformedBlock = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, result, {
-      // The first transformed block whose type matches the "destination"
-      // type gets to keep the existing client ID of the first block.
-      clientId: index === firstSwitchedBlock ? firstBlock.clientId : result.clientId
-    });
-    /**
-     * Filters an individual transform result from block transformation.
-     * All of the original blocks are passed, since transformations are
-     * many-to-many, not one-to-one.
-     *
-     * @param {Object}   transformedBlock The transformed block.
-     * @param {Object[]} blocks           Original blocks transformed.
-     */
-
-
-    return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["applyFilters"])('blocks.switchToBlockType.transformedBlock', transformedBlock, blocks);
-  });
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/index.js":
-/*!************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/index.js ***!
-  \************************************************************/
-/*! exports provided: createBlock, cloneBlock, getPossibleBlockTransformations, switchToBlockType, getBlockTransforms, findTransform, parse, getBlockAttributes, parseWithAttributeSchema, rawHandler, getPhrasingContentSchema, serialize, getBlockContent, getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, isValidBlock, getCategories, setCategories, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, unstable__bootstrapServerSideBlockDefinitions, registerBlockStyle, isUnmodifiedDefaultBlock, normalizeIconObject, isValidIcon, doBlocksMatchTemplate, synchronizeBlocksWithTemplate, children, node */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./factory */ "./packages/packages/blocks/build-module/api/factory.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["createBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["cloneBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["getPossibleBlockTransformations"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["switchToBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["getBlockTransforms"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return _factory__WEBPACK_IMPORTED_MODULE_0__["findTransform"]; });
-
-/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parser */ "./packages/packages/blocks/build-module/api/parser.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["getBlockAttributes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return _parser__WEBPACK_IMPORTED_MODULE_1__["parseWithAttributeSchema"]; });
-
-/* harmony import */ var _raw_handling__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./raw-handling */ "./packages/packages/blocks/build-module/api/raw-handling/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rawHandler", function() { return _raw_handling__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _raw_handling__WEBPACK_IMPORTED_MODULE_2__["getPhrasingContentSchema"]; });
-
-/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serializer */ "./packages/packages/blocks/build-module/api/serializer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serialize", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockContent"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockDefaultClassName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getBlockMenuDefaultClassName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getSaveElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return _serializer__WEBPACK_IMPORTED_MODULE_3__["getSaveContent"]; });
-
-/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./validation */ "./packages/packages/blocks/build-module/api/validation.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return _validation__WEBPACK_IMPORTED_MODULE_4__["isValidBlock"]; });
-
-/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./categories */ "./packages/packages/blocks/build-module/api/categories.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return _categories__WEBPACK_IMPORTED_MODULE_5__["getCategories"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return _categories__WEBPACK_IMPORTED_MODULE_5__["setCategories"]; });
-
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["registerBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["unregisterBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setUnknownTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getUnknownTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setFreeformContentHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getFreeformContentHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setUnregisteredTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getUnregisteredTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["setDefaultBlockName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getDefaultBlockName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockTypes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getBlockSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasBlockSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["isReusableBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["getChildBlockNames"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasChildBlocks"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["hasChildBlocksWithInserterSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["unstable__bootstrapServerSideBlockDefinitions"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return _registration__WEBPACK_IMPORTED_MODULE_6__["registerBlockStyle"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./packages/packages/blocks/build-module/api/utils.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["isUnmodifiedDefaultBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["normalizeIconObject"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return _utils__WEBPACK_IMPORTED_MODULE_7__["isValidIcon"]; });
-
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./templates */ "./packages/packages/blocks/build-module/api/templates.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return _templates__WEBPACK_IMPORTED_MODULE_8__["doBlocksMatchTemplate"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return _templates__WEBPACK_IMPORTED_MODULE_8__["synchronizeBlocksWithTemplate"]; });
-
-/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./children */ "./packages/packages/blocks/build-module/api/children.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _children__WEBPACK_IMPORTED_MODULE_9__["default"]; });
-
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./node */ "./packages/packages/blocks/build-module/api/node.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _node__WEBPACK_IMPORTED_MODULE_10__["default"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/matchers.js":
-/*!***************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/matchers.js ***!
-  \***************************************************************/
-/*! exports provided: attr, prop, text, query, node, children, html */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "html", function() { return html; });
-/* harmony import */ var hpq__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hpq */ "./packages/node_modules/hpq/es/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "attr", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["attr"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "prop", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["prop"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "text", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["text"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "query", function() { return hpq__WEBPACK_IMPORTED_MODULE_0__["query"]; });
-
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node */ "./packages/packages/blocks/build-module/api/node.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _node__WEBPACK_IMPORTED_MODULE_1__["matcher"]; });
-
-/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./children */ "./packages/packages/blocks/build-module/api/children.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _children__WEBPACK_IMPORTED_MODULE_2__["matcher"]; });
-
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-function html(selector, multilineTag) {
-  return function (domNode) {
-    var match = domNode;
-
-    if (selector) {
-      match = domNode.querySelector(selector);
-    }
-
-    if (!match) {
-      return '';
-    }
-
-    if (multilineTag) {
-      var value = '';
-      var length = match.children.length;
-
-      for (var index = 0; index < length; index++) {
-        var child = match.children[index];
-
-        if (child.nodeName.toLowerCase() !== multilineTag) {
-          continue;
-        }
-
-        value += child.outerHTML;
-      }
-
-      return value;
-    }
-
-    return match.innerHTML;
-  };
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/node.js":
-/*!***********************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/node.js ***!
-  \***********************************************************/
-/*! exports provided: getNamedNodeMapAsObject, fromDOM, toHTML, matcher, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNamedNodeMapAsObject", function() { return getNamedNodeMapAsObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromDOM", function() { return fromDOM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTML", function() { return toHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcher", function() { return matcher; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _children__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./children */ "./packages/packages/blocks/build-module/api/children.js");
-
-
-/**
- * Internal dependencies
- */
-
-/**
- * Browser dependencies
- */
-
-var _window$Node = window.Node,
-    TEXT_NODE = _window$Node.TEXT_NODE,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE;
-/**
- * A representation of a single node within a block's rich text value. If
- * representing a text node, the value is simply a string of the node value.
- * As representing an element node, it is an object of:
- *
- * 1. `type` (string): Tag name.
- * 2. `props` (object): Attributes and children array of WPBlockNode.
- *
- * @typedef {string|Object} WPBlockNode
- */
-
-/**
- * Given a single node and a node type (e.g. `'br'`), returns true if the node
- * corresponds to that type, false otherwise.
- *
- * @param {WPBlockNode} node Block node to test
- * @param {string} type      Node to type to test against.
- *
- * @return {boolean} Whether node is of intended type.
- */
-
-function isNodeOfType(node, type) {
-  return node && node.type === type;
-}
-/**
- * Given an object implementing the NamedNodeMap interface, returns a plain
- * object equivalent value of name, value key-value pairs.
- *
- * @see https://dom.spec.whatwg.org/#interface-namednodemap
- *
- * @param {NamedNodeMap} nodeMap NamedNodeMap to convert to object.
- *
- * @return {Object} Object equivalent value of NamedNodeMap.
- */
-
-
-function getNamedNodeMapAsObject(nodeMap) {
-  var result = {};
-
-  for (var i = 0; i < nodeMap.length; i++) {
-    var _nodeMap$i = nodeMap[i],
-        name = _nodeMap$i.name,
-        value = _nodeMap$i.value;
-    result[name] = value;
-  }
-
-  return result;
-}
-/**
- * Given a DOM Element or Text node, returns an equivalent block node. Throws
- * if passed any node type other than element or text.
- *
- * @throws {TypeError} If non-element/text node is passed.
- *
- * @param {Node} domNode DOM node to convert.
- *
- * @return {WPBlockNode} Block node equivalent to DOM node.
- */
-
-function fromDOM(domNode) {
-  if (domNode.nodeType === TEXT_NODE) {
-    return domNode.nodeValue;
-  }
-
-  if (domNode.nodeType !== ELEMENT_NODE) {
-    throw new TypeError('A block node can only be created from a node of type text or ' + 'element.');
-  }
-
-  return {
-    type: domNode.nodeName.toLowerCase(),
-    props: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, getNamedNodeMapAsObject(domNode.attributes), {
-      children: _children__WEBPACK_IMPORTED_MODULE_1__["fromDOM"](domNode.childNodes)
-    })
-  };
-}
-/**
- * Given a block node, returns its HTML string representation.
- *
- * @param {WPBlockNode} node Block node to convert to string.
- *
- * @return {string} String HTML representation of block node.
- */
-
-function toHTML(node) {
-  return _children__WEBPACK_IMPORTED_MODULE_1__["toHTML"]([node]);
-}
-/**
- * Given a selector, returns an hpq matcher generating a WPBlockNode value
- * matching the selector result.
- *
- * @param {string} selector DOM selector.
- *
- * @return {Function} hpq matcher.
- */
-
-function matcher(selector) {
-  return function (domNode) {
-    var match = domNode;
-
-    if (selector) {
-      match = domNode.querySelector(selector);
-    }
-
-    try {
-      return fromDOM(match);
-    } catch (error) {
-      return null;
-    }
-  };
-}
-/* harmony default export */ __webpack_exports__["default"] = ({
-  isNodeOfType: isNodeOfType,
-  fromDOM: fromDOM,
-  toHTML: toHTML,
-  matcher: matcher
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/parser.js":
-/*!*************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/parser.js ***!
-  \*************************************************************/
-/*! exports provided: toBooleanAttributeMatcher, isOfType, isOfTypes, isAmbiguousStringSource, asType, matcherFromSource, parseWithAttributeSchema, getBlockAttribute, getBlockAttributes, getMigratedBlock, createBlockWithFallback, parseWithGrammar, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toBooleanAttributeMatcher", function() { return toBooleanAttributeMatcher; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOfType", function() { return isOfType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isOfTypes", function() { return isOfTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAmbiguousStringSource", function() { return isAmbiguousStringSource; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "asType", function() { return asType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matcherFromSource", function() { return matcherFromSource; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return parseWithAttributeSchema; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockAttribute", function() { return getBlockAttribute; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return getBlockAttributes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMigratedBlock", function() { return getMigratedBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlockWithFallback", function() { return createBlockWithFallback; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseWithGrammar", function() { return parseWithGrammar; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var hpq__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! hpq */ "./packages/node_modules/hpq/es/index.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_autop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/autop */ "@wordpress/autop");
-/* harmony import */ var _wordpress_autop__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_autop__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/block-serialization-default-parser */ "@wordpress/block-serialization-default-parser");
-/* harmony import */ var _wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./factory */ "./packages/packages/blocks/build-module/api/factory.js");
-/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./validation */ "./packages/packages/blocks/build-module/api/validation.js");
-/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./serializer */ "./packages/packages/blocks/build-module/api/serializer.js");
-/* harmony import */ var _matchers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./matchers */ "./packages/packages/blocks/build-module/api/matchers.js");
-
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-/**
- * Sources which are guaranteed to return a string value.
- *
- * @type {Set}
- */
-
-var STRING_SOURCES = new Set(['attribute', 'html', 'text', 'tag']);
-/**
- * Higher-order hpq matcher which enhances an attribute matcher to return true
- * or false depending on whether the original matcher returns undefined. This
- * is useful for boolean attributes (e.g. disabled) whose attribute values may
- * be technically falsey (empty string), though their mere presence should be
- * enough to infer as true.
- *
- * @param {Function} matcher Original hpq matcher.
- *
- * @return {Function} Enhanced hpq matcher.
- */
-
-var toBooleanAttributeMatcher = function toBooleanAttributeMatcher(matcher) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flow"])([matcher, // Expected values from `attr( 'disabled' )`:
-  //
-  // <input>
-  // - Value:       `undefined`
-  // - Transformed: `false`
-  //
-  // <input disabled>
-  // - Value:       `''`
-  // - Transformed: `true`
-  //
-  // <input disabled="disabled">
-  // - Value:       `'disabled'`
-  // - Transformed: `true`
-  function (value) {
-    return value !== undefined;
-  }]);
-};
-/**
- * Returns true if value is of the given JSON schema type, or false otherwise.
- *
- * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
- *
- * @param {*}      value Value to test.
- * @param {string} type  Type to test.
- *
- * @return {boolean} Whether value is of type.
- */
-
-function isOfType(value, type) {
-  switch (type) {
-    case 'string':
-      return typeof value === 'string';
-
-    case 'boolean':
-      return typeof value === 'boolean';
-
-    case 'object':
-      return !!value && value.constructor === Object;
-
-    case 'null':
-      return value === null;
-
-    case 'array':
-      return Array.isArray(value);
-
-    case 'integer':
-    case 'number':
-      return typeof value === 'number';
-  }
-
-  return true;
-}
-/**
- * Returns true if value is of an array of given JSON schema types, or false
- * otherwise.
- *
- * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
- *
- * @param {*}        value Value to test.
- * @param {string[]} types Types to test.
- *
- * @return {boolean} Whether value is of types.
- */
-
-function isOfTypes(value, types) {
-  return types.some(function (type) {
-    return isOfType(value, type);
-  });
-}
-/**
- * Returns true if the given attribute schema describes a value which may be
- * an ambiguous string.
- *
- * Some sources are ambiguously serialized as strings, for which value casting
- * is enabled. This is only possible when a singular type is assigned to the
- * attribute schema, since the string ambiguity makes it impossible to know the
- * correct type of multiple to which to cast.
- *
- * @param {Object} attributeSchema Attribute's schema.
- *
- * @return {boolean} Whether attribute schema defines an ambiguous string
- *                   source.
- */
-
-function isAmbiguousStringSource(attributeSchema) {
-  var source = attributeSchema.source,
-      type = attributeSchema.type;
-  var isStringSource = STRING_SOURCES.has(source);
-  var isSingleType = typeof type === 'string';
-  return isStringSource && isSingleType;
-}
-/**
- * Returns value coerced to the specified JSON schema type string.
- *
- * @see http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.25
- *
- * @param {*}      value Original value.
- * @param {string} type  Type to coerce.
- *
- * @return {*} Coerced value.
- */
-
-function asType(value, type) {
-  switch (type) {
-    case 'string':
-      return String(value);
-
-    case 'boolean':
-      return Boolean(value);
-
-    case 'object':
-      return Object(value);
-
-    case 'null':
-      return null;
-
-    case 'array':
-      if (Array.isArray(value)) {
-        return value;
-      }
-
-      return Array.from(value);
-
-    case 'integer':
-    case 'number':
-      return Number(value);
-  }
-
-  return value;
-}
-/**
- * Returns an hpq matcher given a source object.
- *
- * @param {Object} sourceConfig Attribute Source object.
- *
- * @return {Function} A hpq Matcher.
- */
-
-function matcherFromSource(sourceConfig) {
-  switch (sourceConfig.source) {
-    case 'attribute':
-      var matcher = Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["attr"])(sourceConfig.selector, sourceConfig.attribute);
-
-      if (sourceConfig.type === 'boolean') {
-        matcher = toBooleanAttributeMatcher(matcher);
-      }
-
-      return matcher;
-
-    case 'html':
-      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["html"])(sourceConfig.selector, sourceConfig.multiline);
-
-    case 'text':
-      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["text"])(sourceConfig.selector);
-
-    case 'children':
-      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["children"])(sourceConfig.selector);
-
-    case 'node':
-      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["node"])(sourceConfig.selector);
-
-    case 'query':
-      var subMatchers = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(sourceConfig.query, matcherFromSource);
-      return Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["query"])(sourceConfig.selector, subMatchers);
-
-    case 'tag':
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flow"])([Object(_matchers__WEBPACK_IMPORTED_MODULE_12__["prop"])(sourceConfig.selector, 'nodeName'), function (value) {
-        return value.toLowerCase();
-      }]);
-
-    default:
-      // eslint-disable-next-line no-console
-      console.error("Unknown source type \"".concat(sourceConfig.source, "\""));
-  }
-}
-/**
- * Given a block's raw content and an attribute's schema returns the attribute's
- * value depending on its source.
- *
- * @param {string} innerHTML         Block's raw content.
- * @param {Object} attributeSchema   Attribute's schema.
- *
- * @return {*} Attribute value.
- */
-
-function parseWithAttributeSchema(innerHTML, attributeSchema) {
-  return Object(hpq__WEBPACK_IMPORTED_MODULE_2__["parse"])(innerHTML, matcherFromSource(attributeSchema));
-}
-/**
- * Given an attribute key, an attribute's schema, a block's raw content and the
- * commentAttributes returns the attribute value depending on its source
- * definition of the given attribute key.
- *
- * @param {string} attributeKey      Attribute key.
- * @param {Object} attributeSchema   Attribute's schema.
- * @param {string} innerHTML         Block's raw content.
- * @param {Object} commentAttributes Block's comment attributes.
- *
- * @return {*} Attribute value.
- */
-
-function getBlockAttribute(attributeKey, attributeSchema, innerHTML, commentAttributes) {
-  var type = attributeSchema.type;
-  var value;
-
-  switch (attributeSchema.source) {
-    // undefined source means that it's an attribute serialized to the block's "comment"
-    case undefined:
-      value = commentAttributes ? commentAttributes[attributeKey] : undefined;
-      break;
-
-    case 'attribute':
-    case 'property':
-    case 'html':
-    case 'text':
-    case 'children':
-    case 'node':
-    case 'query':
-    case 'tag':
-      value = parseWithAttributeSchema(innerHTML, attributeSchema);
-      break;
-  }
-
-  if (value !== undefined) {
-    if (isAmbiguousStringSource(attributeSchema)) {
-      if (!isOfTypes(value, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(type))) {
-        _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default()('Attribute type coercion', {
-          plugin: 'Gutenberg',
-          version: '4.2',
-          hint: 'Omit the source to preserve type via serialized ' + 'comment demarcation.'
-        });
-        value = asType(value, type);
-      }
-    } else if (type !== undefined && !isOfTypes(value, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(type))) {
-      // Reject the value if it is not valid of type. Reverting to the
-      // undefined value ensures the default is restored, if applicable.
-      value = undefined;
-    }
-  }
-
-  if (value === undefined) {
-    return attributeSchema.default;
-  }
-
-  return value;
-}
-/**
- * Returns the block attributes of a registered block node given its type.
- *
- * @param {?Object} blockType  Block type.
- * @param {string}  innerHTML  Raw block content.
- * @param {?Object} attributes Known block attributes (from delimiters).
- *
- * @return {Object} All block attributes.
- */
-
-function getBlockAttributes(blockType, innerHTML, attributes) {
-  var blockAttributes = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(blockType.attributes, function (attributeSchema, attributeKey) {
-    return getBlockAttribute(attributeKey, attributeSchema, innerHTML, attributes);
-  });
-  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_5__["applyFilters"])('blocks.getBlockAttributes', blockAttributes, blockType, innerHTML, attributes);
-}
-/**
- * Given a block object, returns a new copy of the block with any applicable
- * deprecated migrations applied, or the original block if it was both valid
- * and no eligible migrations exist.
- *
- * @param {WPBlock} block Original block object.
- *
- * @return {WPBlock} Migrated block object.
- */
-
-function getMigratedBlock(block) {
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(block.name);
-  var deprecatedDefinitions = blockType.deprecated;
-
-  if (!deprecatedDefinitions || !deprecatedDefinitions.length) {
-    return block;
-  }
-
-  var _block = block,
-      originalContent = _block.originalContent,
-      attributes = _block.attributes,
-      innerBlocks = _block.innerBlocks;
-
-  for (var i = 0; i < deprecatedDefinitions.length; i++) {
-    // A block can opt into a migration even if the block is valid by
-    // defining isEligible on its deprecation. If the block is both valid
-    // and does not opt to migrate, skip.
-    var _deprecatedDefinition = deprecatedDefinitions[i].isEligible,
-        isEligible = _deprecatedDefinition === void 0 ? lodash__WEBPACK_IMPORTED_MODULE_3__["stubFalse"] : _deprecatedDefinition;
-
-    if (block.isValid && !isEligible(attributes, innerBlocks)) {
-      continue;
-    } // Block type properties which could impact either serialization or
-    // parsing are not considered in the deprecated block type by default,
-    // and must be explicitly provided.
-
-
-    var deprecatedBlockType = Object.assign(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["omit"])(blockType, ['attributes', 'save', 'supports']), deprecatedDefinitions[i]);
-    var migratedAttributes = getBlockAttributes(deprecatedBlockType, originalContent, attributes); // Ignore the deprecation if it produces a block which is not valid.
-
-    var isValid = Object(_validation__WEBPACK_IMPORTED_MODULE_10__["isValidBlock"])(originalContent, deprecatedBlockType, migratedAttributes);
-
-    if (!isValid) {
-      continue;
-    }
-
-    block = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
-      isValid: true
-    });
-    var migratedInnerBlocks = innerBlocks; // A block may provide custom behavior to assign new attributes and/or
-    // inner blocks.
-
-    var migrate = deprecatedBlockType.migrate;
-
-    if (migrate) {
-      var _castArray = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(migrate(migratedAttributes, innerBlocks));
-
-      var _castArray2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_castArray, 2);
-
-      var _castArray2$ = _castArray2[0];
-      migratedAttributes = _castArray2$ === void 0 ? attributes : _castArray2$;
-      var _castArray2$2 = _castArray2[1];
-      migratedInnerBlocks = _castArray2$2 === void 0 ? innerBlocks : _castArray2$2;
-    }
-
-    block.attributes = migratedAttributes;
-    block.innerBlocks = migratedInnerBlocks;
-  }
-
-  return block;
-}
-/**
- * Creates a block with fallback to the unknown type handler.
- *
- * @param {Object} blockNode Parsed block node.
- *
- * @return {?Object} An initialized block object (if possible).
- */
-
-function createBlockWithFallback(blockNode) {
-  var originalName = blockNode.blockName;
-  var attributes = blockNode.attrs,
-      _blockNode$innerBlock = blockNode.innerBlocks,
-      innerBlocks = _blockNode$innerBlock === void 0 ? [] : _blockNode$innerBlock,
-      innerHTML = blockNode.innerHTML;
-  var freeformContentFallbackBlock = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getFreeformContentHandlerName"])();
-  var unregisteredFallbackBlock = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getUnregisteredTypeHandlerName"])() || freeformContentFallbackBlock;
-  attributes = attributes || {}; // Trim content to avoid creation of intermediary freeform segments.
-
-  innerHTML = innerHTML.trim(); // Use type from block content if available. Otherwise, default to the
-  // freeform content fallback.
-
-  var name = originalName || freeformContentFallbackBlock; // Convert 'core/cover-image' block in existing content to 'core/cover'.
-
-  if ('core/cover-image' === name) {
-    name = 'core/cover';
-  } // Convert 'core/text' blocks in existing content to 'core/paragraph'.
-
-
-  if ('core/text' === name || 'core/cover-text' === name) {
-    name = 'core/paragraph';
-  } // Fallback content may be upgraded from classic editor expecting implicit
-  // automatic paragraphs, so preserve them. Assumes wpautop is idempotent,
-  // meaning there are no negative consequences to repeated autop calls.
-
-
-  if (name === freeformContentFallbackBlock) {
-    innerHTML = Object(_wordpress_autop__WEBPACK_IMPORTED_MODULE_4__["autop"])(innerHTML).trim();
-  } // Try finding the type for known block name, else fall back again.
-
-
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(name);
-
-  if (!blockType) {
-    // Preserve undelimited content for use by the unregistered type handler.
-    var originalUndelimitedContent = innerHTML; // If detected as a block which is not registered, preserve comment
-    // delimiters in content of unregistered type handler.
-
-    if (name) {
-      innerHTML = Object(_serializer__WEBPACK_IMPORTED_MODULE_11__["getCommentDelimitedContent"])(name, attributes, innerHTML);
-    }
-
-    name = unregisteredFallbackBlock;
-    attributes = {
-      originalName: originalName,
-      originalUndelimitedContent: originalUndelimitedContent
-    };
-    blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(name);
-  } // Coerce inner blocks from parsed form to canonical form.
-
-
-  innerBlocks = innerBlocks.map(createBlockWithFallback);
-  var isFallbackBlock = name === freeformContentFallbackBlock || name === unregisteredFallbackBlock; // Include in set only if type was determined.
-
-  if (!blockType || !innerHTML && isFallbackBlock) {
-    return;
-  }
-
-  var block = Object(_factory__WEBPACK_IMPORTED_MODULE_9__["createBlock"])(name, getBlockAttributes(blockType, innerHTML, attributes), innerBlocks); // Block validation assumes an idempotent operation from source block to serialized block
-  // provided there are no changes in attributes. The validation procedure thus compares the
-  // provided source value with the serialized output before there are any modifications to
-  // the block. When both match, the block is marked as valid.
-
-  if (!isFallbackBlock) {
-    block.isValid = Object(_validation__WEBPACK_IMPORTED_MODULE_10__["isValidBlock"])(innerHTML, blockType, block.attributes);
-  } // Preserve original content for future use in case the block is parsed as
-  // invalid, or future serialization attempt results in an error.
-
-
-  block.originalContent = innerHTML;
-  block = getMigratedBlock(block);
-  return block;
-}
-/**
- * Creates a parse implementation for the post content which returns a list of blocks.
- *
- * @param {Function} parseImplementation Parse implementation.
- *
- * @return {Function} An implementation which parses the post content.
- */
-
-var createParse = function createParse(parseImplementation) {
-  return function (content) {
-    return parseImplementation(content).reduce(function (memo, blockNode) {
-      var block = createBlockWithFallback(blockNode);
-
-      if (block) {
-        memo.push(block);
-      }
-
-      return memo;
-    }, []);
-  };
-};
-/**
- * Parses the post content with a PegJS grammar and returns a list of blocks.
- *
- * @param {string} content The post content.
- *
- * @return {Array} Block list.
- */
-
-
-var parseWithGrammar = createParse(_wordpress_block_serialization_default_parser__WEBPACK_IMPORTED_MODULE_6__["parse"]);
-/* harmony default export */ __webpack_exports__["default"] = (parseWithGrammar);
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/blockquote-normaliser.js":
-/*!*****************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/blockquote-normaliser.js ***!
-  \*****************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./normalise-blocks */ "./packages/packages/blocks/build-module/api/raw-handling/normalise-blocks.js");
-/**
- * Internal dependencies
- */
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node) {
-  if (node.nodeName !== 'BLOCKQUOTE') {
-    return;
-  }
-
-  node.innerHTML = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_0__["default"])(node.innerHTML);
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/figure-content-reducer.js":
-/*!******************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/figure-content-reducer.js ***!
-  \******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Whether or not the given node is figure content.
- *
- * @param {Node}   node   The node to check.
- * @param {Object} schema The schema to use.
- *
- * @return {boolean} True if figure content, false if not.
- */
-
-function isFigureContent(node, schema) {
-  var tag = node.nodeName.toLowerCase(); // We are looking for tags that can be a child of the figure tag, excluding
-  // `figcaption` and any phrasing content.
-
-  if (tag === 'figcaption' || Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
-    return false;
-  }
-
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["has"])(schema, ['figure', 'children', tag]);
-}
-/**
- * Whether or not the given node can have an anchor.
- *
- * @param {Node}   node   The node to check.
- * @param {Object} schema The schema to use.
- *
- * @return {boolean} True if it can, false if not.
- */
-
-
-function canHaveAnchor(node, schema) {
-  var tag = node.nodeName.toLowerCase();
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["has"])(schema, ['figure', 'children', 'a', 'children', tag]);
-}
-/**
- * This filter takes figure content out of paragraphs, wraps it in a figure
- * element, and moves any anchors with it if needed.
- *
- * @param {Node}     node   The node to filter.
- * @param {Document} doc    The document of the node.
- * @param {Object}   schema The schema to use.
- *
- * @return {void}
- */
-
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node, doc, schema) {
-  if (!isFigureContent(node, schema)) {
-    return;
-  }
-
-  var nodeToInsert = node;
-  var parentNode = node.parentNode; // If the figure content can have an anchor and its parent is an anchor with
-  // only the figure content, take the anchor out instead of just the content.
-
-  if (canHaveAnchor(node, schema) && parentNode.nodeName === 'A' && parentNode.childNodes.length === 1) {
-    nodeToInsert = node.parentNode;
-  }
-
-  var wrapper = nodeToInsert;
-
-  while (wrapper && wrapper.nodeName !== 'P') {
-    wrapper = wrapper.parentElement;
-  }
-
-  var figure = doc.createElement('figure');
-
-  if (wrapper) {
-    wrapper.parentNode.insertBefore(figure, wrapper);
-  } else {
-    nodeToInsert.parentNode.insertBefore(figure, nodeToInsert);
-  }
-
-  figure.appendChild(nodeToInsert);
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/head-remover.js":
-/*!********************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/head-remover.js ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function (node) {
-  if (node.nodeName !== 'SCRIPT' && node.nodeName !== 'NOSCRIPT' && node.nodeName !== 'TEMPLATE' && node.nodeName !== 'STYLE') {
-    return;
-  }
-
-  node.parentNode.removeChild(node);
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/iframe-remover.js":
-/*!**********************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/iframe-remover.js ***!
-  \**********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * WordPress dependencies
- */
-
-/**
- * Removes iframes.
- *
- * @param {Node} node The node to check.
- *
- * @return {void}
- */
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node) {
-  if (node.nodeName === 'IFRAME') {
-    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["remove"])(node);
-  }
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/image-corrector.js":
-/*!***********************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/image-corrector.js ***!
-  \***********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _wordpress_blob__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blob */ "@wordpress/blob");
-/* harmony import */ var _wordpress_blob__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blob__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Browser dependencies
- */
-
-var _window = window,
-    atob = _window.atob,
-    File = _window.File;
-/* harmony default export */ __webpack_exports__["default"] = (function (node) {
-  if (node.nodeName !== 'IMG') {
-    return;
-  }
-
-  if (node.src.indexOf('file:') === 0) {
-    node.src = '';
-  } // This piece cannot be tested outside a browser env.
-
-
-  if (node.src.indexOf('data:') === 0) {
-    var _node$src$split = node.src.split(','),
-        _node$src$split2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_node$src$split, 2),
-        properties = _node$src$split2[0],
-        data = _node$src$split2[1];
-
-    var _properties$slice$spl = properties.slice(5).split(';'),
-        _properties$slice$spl2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_properties$slice$spl, 1),
-        type = _properties$slice$spl2[0];
-
-    if (!data || !type) {
-      node.src = '';
-      return;
-    }
-
-    var decoded; // Can throw DOMException!
-
-    try {
-      decoded = atob(data);
-    } catch (e) {
-      node.src = '';
-      return;
-    }
-
-    var uint8Array = new Uint8Array(decoded.length);
-
-    for (var i = 0; i < uint8Array.length; i++) {
-      uint8Array[i] = decoded.charCodeAt(i);
-    }
-
-    var name = type.replace('/', '.');
-    var file = new File([uint8Array], name, {
-      type: type
-    });
-    node.src = Object(_wordpress_blob__WEBPACK_IMPORTED_MODULE_1__["createBlobURL"])(file);
-  } // Remove trackers and hardly visible images.
-
-
-  if (node.height === 1 || node.width === 1) {
-    node.parentNode.removeChild(node);
-  }
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/index.js":
-/*!*************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/index.js ***!
-  \*************************************************************************/
-/*! exports provided: getPhrasingContentSchema, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rawHandler; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../factory */ "./packages/packages/blocks/build-module/api/factory.js");
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../serializer */ "./packages/packages/blocks/build-module/api/serializer.js");
-/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../parser */ "./packages/packages/blocks/build-module/api/parser.js");
-/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./normalise-blocks */ "./packages/packages/blocks/build-module/api/raw-handling/normalise-blocks.js");
-/* harmony import */ var _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./special-comment-converter */ "./packages/packages/blocks/build-module/api/raw-handling/special-comment-converter.js");
-/* harmony import */ var _is_inline_content__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./is-inline-content */ "./packages/packages/blocks/build-module/api/raw-handling/is-inline-content.js");
-/* harmony import */ var _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./phrasing-content-reducer */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content-reducer.js");
-/* harmony import */ var _head_remover__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./head-remover */ "./packages/packages/blocks/build-module/api/raw-handling/head-remover.js");
-/* harmony import */ var _ms_list_converter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ms-list-converter */ "./packages/packages/blocks/build-module/api/raw-handling/ms-list-converter.js");
-/* harmony import */ var _list_reducer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./list-reducer */ "./packages/packages/blocks/build-module/api/raw-handling/list-reducer.js");
-/* harmony import */ var _image_corrector__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./image-corrector */ "./packages/packages/blocks/build-module/api/raw-handling/image-corrector.js");
-/* harmony import */ var _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./blockquote-normaliser */ "./packages/packages/blocks/build-module/api/raw-handling/blockquote-normaliser.js");
-/* harmony import */ var _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./figure-content-reducer */ "./packages/packages/blocks/build-module/api/raw-handling/figure-content-reducer.js");
-/* harmony import */ var _shortcode_converter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shortcode-converter */ "./packages/packages/blocks/build-module/api/raw-handling/shortcode-converter.js");
-/* harmony import */ var _markdown_converter__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./markdown-converter */ "./packages/packages/blocks/build-module/api/raw-handling/markdown-converter.js");
-/* harmony import */ var _iframe_remover__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./iframe-remover */ "./packages/packages/blocks/build-module/api/raw-handling/iframe-remover.js");
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./utils */ "./packages/packages/blocks/build-module/api/raw-handling/utils.js");
-
-
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Browser dependencies
- */
-
-var _window = window,
-    console = _window.console;
-
-/**
- * Filters HTML to only contain phrasing content.
- *
- * @param {string} HTML The HTML to filter.
- *
- * @return {string} HTML only containing phrasing content.
- */
-
-function filterInlineHTML(HTML) {
-  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(HTML, [_phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"]]);
-  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(HTML, Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])(), {
-    inline: true
-  }); // Allows us to ask for this information when we get a report.
-
-  console.log('Processed inline HTML:\n\n', HTML);
-  return HTML;
-}
-
-function getRawTransformations() {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(Object(_factory__WEBPACK_IMPORTED_MODULE_2__["getBlockTransforms"])('from'), {
-    type: 'raw'
-  }).map(function (transform) {
-    return transform.isMatch ? transform : Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, transform, {
-      isMatch: function isMatch(node) {
-        return transform.selector && node.matches(transform.selector);
-      }
-    });
-  });
-}
-/**
- * Converts an HTML string to known blocks. Strips everything else.
- *
- * @param {string}  [options.HTML]                     The HTML to convert.
- * @param {string}  [options.plainText]                Plain text version.
- * @param {string}  [options.mode]                     Handle content as blocks or inline content.
- *                                                     * 'AUTO': Decide based on the content passed.
- *                                                     * 'INLINE': Always handle as inline content, and return string.
- *                                                     * 'BLOCKS': Always handle as blocks, and return array of blocks.
- * @param {Array}   [options.tagName]                  The tag into which content will be inserted.
- * @param {boolean} [options.canUserUseUnfilteredHTML] Whether or not the user can use unfiltered HTML.
- *
- * @return {Array|string} A list of blocks or a string, depending on `handlerMode`.
- */
-
-
-function rawHandler(_ref) {
-  var _ref$HTML = _ref.HTML,
-      HTML = _ref$HTML === void 0 ? '' : _ref$HTML,
-      _ref$plainText = _ref.plainText,
-      plainText = _ref$plainText === void 0 ? '' : _ref$plainText,
-      _ref$mode = _ref.mode,
-      mode = _ref$mode === void 0 ? 'AUTO' : _ref$mode,
-      tagName = _ref.tagName,
-      _ref$canUserUseUnfilt = _ref.canUserUseUnfilteredHTML,
-      canUserUseUnfilteredHTML = _ref$canUserUseUnfilt === void 0 ? false : _ref$canUserUseUnfilt;
-  // First of all, strip any meta tags.
-  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters, parse entirely as blocks.
-
-  if (mode !== 'INLINE' && HTML.indexOf('<!-- wp:') !== -1) {
-    return Object(_parser__WEBPACK_IMPORTED_MODULE_5__["parseWithGrammar"])(HTML);
-  } // Normalize unicode to use composed characters.
-  // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
-  // Not normalizing the content will only affect older browsers and won't
-  // entirely break the app.
-  // See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
-  // See: https://core.trac.wordpress.org/ticket/30130
-  // See: https://github.com/WordPress/gutenberg/pull/6983#pullrequestreview-125151075
-
-
-  if (String.prototype.normalize) {
-    HTML = HTML.normalize();
-  } // Parse Markdown (and encoded HTML) if:
-  // * There is a plain text version.
-  // * There is no HTML version, or it has no formatting.
-
-
-  if (plainText && (!HTML || Object(_utils__WEBPACK_IMPORTED_MODULE_20__["isPlain"])(HTML))) {
-    HTML = Object(_markdown_converter__WEBPACK_IMPORTED_MODULE_17__["default"])(plainText); // Switch to inline mode if:
-    // * The current mode is AUTO.
-    // * The original plain text had no line breaks.
-    // * The original plain text was not an HTML paragraph.
-    // * The converted text is just a paragraph.
-
-    if (mode === 'AUTO' && plainText.indexOf('\n') === -1 && plainText.indexOf('<p>') !== 0 && HTML.indexOf('<p>') === 0) {
-      mode = 'INLINE';
-    }
-  }
-
-  if (mode === 'INLINE') {
-    return filterInlineHTML(HTML);
-  } // An array of HTML strings and block objects. The blocks replace matched
-  // shortcodes.
-
-
-  var pieces = Object(_shortcode_converter__WEBPACK_IMPORTED_MODULE_16__["default"])(HTML); // The call to shortcodeConverter will always return more than one element
-  // if shortcodes are matched. The reason is when shortcodes are matched
-  // empty HTML strings are included.
-
-  var hasShortcodes = pieces.length > 1;
-
-  if (mode === 'AUTO' && !hasShortcodes && Object(_is_inline_content__WEBPACK_IMPORTED_MODULE_8__["default"])(HTML, tagName)) {
-    return filterInlineHTML(HTML);
-  }
-
-  var rawTransformations = getRawTransformations();
-  var phrasingContentSchema = Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])();
-  var blockContentSchema = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["getBlockContentSchema"])(rawTransformations);
-  var blocks = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["compact"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flatMap"])(pieces, function (piece) {
-    // Already a block from shortcode.
-    if (typeof piece !== 'string') {
-      return piece;
-    }
-
-    var filters = [_ms_list_converter__WEBPACK_IMPORTED_MODULE_11__["default"], _head_remover__WEBPACK_IMPORTED_MODULE_10__["default"], _list_reducer__WEBPACK_IMPORTED_MODULE_12__["default"], _image_corrector__WEBPACK_IMPORTED_MODULE_13__["default"], _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"], _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__["default"], _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__["default"], _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__["default"]];
-
-    if (!canUserUseUnfilteredHTML) {
-      // Should run before `figureContentReducer`.
-      filters.unshift(_iframe_remover__WEBPACK_IMPORTED_MODULE_18__["default"]);
-    }
-
-    var schema = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, blockContentSchema, phrasingContentSchema);
-
-    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(piece, filters, blockContentSchema);
-    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(piece, schema);
-    piece = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_6__["default"])(piece); // Allows us to ask for this information when we get a report.
-
-    console.log('Processed HTML piece:\n\n', piece);
-    var doc = document.implementation.createHTMLDocument('');
-    doc.body.innerHTML = piece;
-    return Array.from(doc.body.children).map(function (node) {
-      var rawTransformation = Object(_factory__WEBPACK_IMPORTED_MODULE_2__["findTransform"])(rawTransformations, function (_ref2) {
-        var isMatch = _ref2.isMatch;
-        return isMatch(node);
-      });
-
-      if (!rawTransformation) {
-        console.warn('A block registered a raw transformation schema for `' + node.nodeName + '` but did not match it. ' + 'Make sure there is a `selector` or `isMatch` property that can match the schema.\n' + 'Sanitized HTML: `' + node.outerHTML + '`');
-        return;
-      }
-
-      var transform = rawTransformation.transform,
-          blockName = rawTransformation.blockName;
-
-      if (transform) {
-        return transform(node);
-      }
-
-      return Object(_factory__WEBPACK_IMPORTED_MODULE_2__["createBlock"])(blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_5__["getBlockAttributes"])(Object(_registration__WEBPACK_IMPORTED_MODULE_3__["getBlockType"])(blockName), node.outerHTML));
-    });
-  })); // If we're allowed to return inline content and there is only one block
-  // and the original plain text content does not have any line breaks, then
-  // treat it as inline paste.
-
-  if (mode === 'AUTO' && blocks.length === 1) {
-    var trimmedPlainText = plainText.trim();
-
-    if (trimmedPlainText !== '' && trimmedPlainText.indexOf('\n') === -1) {
-      return Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(Object(_serializer__WEBPACK_IMPORTED_MODULE_4__["getBlockContent"])(blocks[0]), phrasingContentSchema);
-    }
-  }
-
-  return blocks;
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/is-inline-content.js":
-/*!*************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/is-inline-content.js ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Checks if the given node should be considered inline content, optionally
- * depending on a context tag.
- *
- * @param {Node}   node       Node name.
- * @param {string} contextTag Tag name.
- *
- * @return {boolean} True if the node is inline content, false if nohe.
- */
-
-function isInline(node, contextTag) {
-  if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
-    return true;
-  }
-
-  if (!contextTag) {
-    return false;
-  }
-
-  var tag = node.nodeName.toLowerCase();
-  var inlineWhitelistTagGroups = [['ul', 'li', 'ol'], ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']];
-  return inlineWhitelistTagGroups.some(function (tagGroup) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["difference"])([tag, contextTag], tagGroup).length === 0;
-  });
-}
-
-function deepCheck(nodes, contextTag) {
-  return nodes.every(function (node) {
-    return isInline(node, contextTag) && deepCheck(Array.from(node.children), contextTag);
-  });
-}
-
-function isDoubleBR(node) {
-  return node.nodeName === 'BR' && node.previousSibling && node.previousSibling.nodeName === 'BR';
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (function (HTML, contextTag) {
-  var doc = document.implementation.createHTMLDocument('');
-  doc.body.innerHTML = HTML;
-  var nodes = Array.from(doc.body.children);
-  return !nodes.some(isDoubleBR) && deepCheck(nodes, contextTag);
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/list-reducer.js":
-/*!********************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/list-reducer.js ***!
-  \********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_1__);
-
-
-/**
- * WordPress dependencies
- */
-
-
-function isList(node) {
-  return node.nodeName === 'OL' || node.nodeName === 'UL';
-}
-
-function shallowTextContent(element) {
-  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(element.childNodes).map(function (_ref) {
-    var _ref$nodeValue = _ref.nodeValue,
-        nodeValue = _ref$nodeValue === void 0 ? '' : _ref$nodeValue;
-    return nodeValue;
-  }).join('');
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node) {
-  if (!isList(node)) {
-    return;
-  }
-
-  var list = node;
-  var prevElement = node.previousElementSibling; // Merge with previous list if:
-  // * There is a previous list of the same type.
-  // * There is only one list item.
-
-  if (prevElement && prevElement.nodeName === node.nodeName && list.children.length === 1) {
-    prevElement.appendChild(list.firstChild);
-    list.parentNode.removeChild(list);
-  }
-
-  var parentElement = node.parentNode; // Nested list with empty parent item.
-
-  if (parentElement && parentElement.nodeName === 'LI' && parentElement.children.length === 1 && !/\S/.test(shallowTextContent(parentElement))) {
-    var parentListItem = parentElement;
-    var prevListItem = parentListItem.previousElementSibling;
-    var parentList = parentListItem.parentNode;
-
-    if (prevListItem) {
-      prevListItem.appendChild(list);
-      parentList.removeChild(parentListItem);
-    } else {
-      parentList.parentNode.insertBefore(list, parentList);
-      parentList.parentNode.removeChild(parentList);
-    }
-  } // Invalid: OL/UL > OL/UL.
-
-
-  if (parentElement && isList(parentElement)) {
-    var _prevListItem = node.previousElementSibling;
-
-    if (_prevListItem) {
-      _prevListItem.appendChild(node);
-    } else {
-      Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_1__["unwrap"])(node);
-    }
-  }
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/markdown-converter.js":
-/*!**************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/markdown-converter.js ***!
-  \**************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! showdown */ "./packages/node_modules/showdown/dist/showdown.js");
-/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(showdown__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
- // Reuse the same showdown converter.
-
-var converter = new showdown__WEBPACK_IMPORTED_MODULE_0___default.a.Converter({
-  noHeaderId: true,
-  tables: true,
-  literalMidWordUnderscores: true,
-  omitExtraWLInCodeBlocks: true,
-  simpleLineBreaks: true,
-  strikethrough: true
-});
-/**
- * Corrects the Slack Markdown variant of the code block.
- * If uncorrected, it will be converted to inline code.
- *
- * @see https://get.slack.help/hc/en-us/articles/202288908-how-can-i-add-formatting-to-my-messages-#code-blocks
- *
- * @param {string} text The potential Markdown text to correct.
- *
- * @return {string} The corrected Markdown.
- */
-
-function slackMarkdownVariantCorrector(text) {
-  return text.replace(/((?:^|\n)```)([^\n`]+)(```(?:$|\n))/, function (match, p1, p2, p3) {
-    return "".concat(p1, "\n").concat(p2, "\n").concat(p3);
-  });
-}
-/**
- * Converts a piece of text into HTML based on any Markdown present.
- * Also decodes any encoded HTML.
- *
- * @param {string} text The plain text to convert.
- *
- * @return {string} HTML.
- */
-
-
-/* harmony default export */ __webpack_exports__["default"] = (function (text) {
-  return converter.makeHtml(slackMarkdownVariantCorrector(text));
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/ms-list-converter.js":
-/*!*************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/ms-list-converter.js ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Browser dependencies
- */
-var _window = window,
-    parseInt = _window.parseInt;
-
-function isList(node) {
-  return node.nodeName === 'OL' || node.nodeName === 'UL';
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node, doc) {
-  if (node.nodeName !== 'P') {
-    return;
-  }
-
-  var style = node.getAttribute('style');
-
-  if (!style) {
-    return;
-  } // Quick check.
-
-
-  if (style.indexOf('mso-list') === -1) {
-    return;
-  }
-
-  var matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
-
-  if (!matches) {
-    return;
-  }
-
-  var level = parseInt(matches[1], 10) - 1 || 0;
-  var prevNode = node.previousElementSibling; // Add new list if no previous.
-
-  if (!prevNode || !isList(prevNode)) {
-    // See https://html.spec.whatwg.org/multipage/grouping-content.html#attr-ol-type.
-    var type = node.textContent.trim().slice(0, 1);
-    var isNumeric = /[1iIaA]/.test(type);
-    var newListNode = doc.createElement(isNumeric ? 'ol' : 'ul');
-
-    if (isNumeric) {
-      newListNode.setAttribute('type', type);
-    }
-
-    node.parentNode.insertBefore(newListNode, node);
-  }
-
-  var listNode = node.previousElementSibling;
-  var listType = listNode.nodeName;
-  var listItem = doc.createElement('li');
-  var receivingNode = listNode; // Remove the first span with list info.
-
-  node.removeChild(node.firstElementChild); // Add content.
-
-  while (node.firstChild) {
-    listItem.appendChild(node.firstChild);
-  } // Change pointer depending on indentation level.
-
-
-  while (level--) {
-    receivingNode = receivingNode.lastElementChild || receivingNode; // If it's a list, move pointer to the last item.
-
-    if (isList(receivingNode)) {
-      receivingNode = receivingNode.lastElementChild || receivingNode;
-    }
-  } // Make sure we append to a list.
-
-
-  if (!isList(receivingNode)) {
-    receivingNode = receivingNode.appendChild(doc.createElement(listType));
-  } // Append the list item to the list.
-
-
-  receivingNode.appendChild(listItem); // Remove the wrapper paragraph.
-
-  node.parentNode.removeChild(node);
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/normalise-blocks.js":
-/*!************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/normalise-blocks.js ***!
-  \************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./packages/packages/blocks/build-module/api/raw-handling/utils.js");
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-/**
- * Internal dependencies
- */
-
-
-/**
- * Browser dependencies
- */
-
-var _window$Node = window.Node,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
-    TEXT_NODE = _window$Node.TEXT_NODE;
-/* harmony default export */ __webpack_exports__["default"] = (function (HTML) {
-  var decuDoc = document.implementation.createHTMLDocument('');
-  var accuDoc = document.implementation.createHTMLDocument('');
-  var decu = decuDoc.body;
-  var accu = accuDoc.body;
-  decu.innerHTML = HTML;
-
-  while (decu.firstChild) {
-    var node = decu.firstChild; // Text nodes: wrap in a paragraph, or append to previous.
-
-    if (node.nodeType === TEXT_NODE) {
-      if (!node.nodeValue.trim()) {
-        decu.removeChild(node);
-      } else {
-        if (!accu.lastChild || accu.lastChild.nodeName !== 'P') {
-          accu.appendChild(accuDoc.createElement('P'));
-        }
-
-        accu.lastChild.appendChild(node);
-      } // Element nodes.
-
-    } else if (node.nodeType === ELEMENT_NODE) {
-      // BR nodes: create a new paragraph on double, or append to previous.
-      if (node.nodeName === 'BR') {
-        if (node.nextSibling && node.nextSibling.nodeName === 'BR') {
-          accu.appendChild(accuDoc.createElement('P'));
-          decu.removeChild(node.nextSibling);
-        } // Don't append to an empty paragraph.
-
-
-        if (accu.lastChild && accu.lastChild.nodeName === 'P' && accu.lastChild.hasChildNodes()) {
-          accu.lastChild.appendChild(node);
-        } else {
-          decu.removeChild(node);
-        }
-      } else if (node.nodeName === 'P') {
-        // Only append non-empty paragraph nodes.
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_0__["isEmpty"])(node)) {
-          decu.removeChild(node);
-        } else {
-          accu.appendChild(node);
-        }
-      } else if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node)) {
-        if (!accu.lastChild || accu.lastChild.nodeName !== 'P') {
-          accu.appendChild(accuDoc.createElement('P'));
-        }
-
-        accu.lastChild.appendChild(node);
-      } else {
-        accu.appendChild(node);
-      }
-    } else {
-      decu.removeChild(node);
-    }
-  }
-
-  return accu.innerHTML;
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content-reducer.js":
-/*!********************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/phrasing-content-reducer.js ***!
-  \********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-function isBlockContent(node) {
-  var schema = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return schema.hasOwnProperty(node.nodeName.toLowerCase());
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node, doc, schema) {
-  if (node.nodeName === 'SPAN') {
-    var _node$style = node.style,
-        fontWeight = _node$style.fontWeight,
-        fontStyle = _node$style.fontStyle;
-
-    if (fontWeight === 'bold' || fontWeight === '700') {
-      node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'strong', doc);
-    } else if (fontStyle === 'italic') {
-      node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'em', doc);
-    }
-  } else if (node.nodeName === 'B') {
-    node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'strong', doc);
-  } else if (node.nodeName === 'I') {
-    node = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replaceTag"])(node, 'em', doc);
-  } else if (node.nodeName === 'A') {
-    if (node.target.toLowerCase() === '_blank') {
-      node.rel = 'noreferrer noopener';
-    } else {
-      node.removeAttribute('target');
-      node.removeAttribute('rel');
-    }
-  }
-
-  if (Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_1__["isPhrasingContent"])(node) && node.hasChildNodes() && Array.from(node.childNodes).some(function (child) {
-    return isBlockContent(child, schema);
-  })) {
-    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["unwrap"])(node);
-  }
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js":
-/*!************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js ***!
-  \************************************************************************************/
-/*! exports provided: getPhrasingContentSchema, isPhrasingContent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return getPhrasingContentSchema; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPhrasingContent", function() { return isPhrasingContent; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
-
-var phrasingContentSchema = {
-  strong: {},
-  em: {},
-  del: {},
-  ins: {},
-  a: {
-    attributes: ['href', 'target', 'rel']
-  },
-  code: {},
-  abbr: {
-    attributes: ['title']
-  },
-  sub: {},
-  sup: {},
-  br: {},
-  '#text': {}
-}; // Recursion is needed.
-// Possible: strong > em > strong.
-// Impossible: strong > strong.
-
-['strong', 'em', 'del', 'ins', 'a', 'code', 'abbr', 'sub', 'sup'].forEach(function (tag) {
-  phrasingContentSchema[tag].children = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["omit"])(phrasingContentSchema, tag);
-});
-/**
- * Get schema of possible paths for phrasing content.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
- *
- * @return {Object} Schema.
- */
-
-function getPhrasingContentSchema() {
-  return phrasingContentSchema;
-}
-/**
- * Find out whether or not the given node is phrasing content.
- *
- * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
- *
- * @param {Element} node The node to test.
- *
- * @return {boolean} True if phrasing content, false if not.
- */
-
-function isPhrasingContent(node) {
-  var tag = node.nodeName.toLowerCase();
-  return getPhrasingContentSchema().hasOwnProperty(tag) || tag === 'span';
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/shortcode-converter.js":
-/*!***************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/shortcode-converter.js ***!
-  \***************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/shortcode */ "@wordpress/shortcode");
-/* harmony import */ var _wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../factory */ "./packages/packages/blocks/build-module/api/factory.js");
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../parser */ "./packages/packages/blocks/build-module/api/parser.js");
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-function segmentHTMLToShortcodeBlock(HTML) {
-  var lastIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  // Get all matches.
-  var transformsFrom = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["getBlockTransforms"])('from');
-  var transformation = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["findTransform"])(transformsFrom, function (transform) {
-    return transform.type === 'shortcode' && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["some"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(transform.tag), function (tag) {
-      return Object(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__["regexp"])(tag).test(HTML);
-    });
-  });
-
-  if (!transformation) {
-    return [HTML];
-  }
-
-  var transformTags = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(transformation.tag);
-  var transformTag = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["first"])(transformTags);
-  var match;
-
-  if (match = Object(_wordpress_shortcode__WEBPACK_IMPORTED_MODULE_3__["next"])(transformTag, HTML, lastIndex)) {
-    var beforeHTML = HTML.substr(0, match.index);
-    lastIndex = match.index + match.content.length; // If the shortcode content does not contain HTML and the shortcode is
-    // not on a new line (or in paragraph from Markdown converter),
-    // consider the shortcode as inline text, and thus skip conversion for
-    // this segment.
-
-    if (!Object(lodash__WEBPACK_IMPORTED_MODULE_2__["includes"])(match.shortcode.content || '', '<') && !/(\n|<p>)\s*$/.test(beforeHTML)) {
-      return segmentHTMLToShortcodeBlock(HTML, lastIndex);
-    }
-
-    var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["mapValues"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pickBy"])(transformation.attributes, function (schema) {
-      return schema.shortcode;
-    }), // Passing all of `match` as second argument is intentionally broad
-    // but shouldn't be too relied upon.
-    //
-    // See: https://github.com/WordPress/gutenberg/pull/3610#discussion_r152546926
-    function (schema) {
-      return schema.shortcode(match.shortcode.attrs, match);
-    });
-    var block = Object(_factory__WEBPACK_IMPORTED_MODULE_4__["createBlock"])(transformation.blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_6__["getBlockAttributes"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(transformation.blockName), {
-      attributes: transformation.attributes
-    }), match.shortcode.content, attributes));
-    return [beforeHTML, block].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(segmentHTMLToShortcodeBlock(HTML.substr(lastIndex))));
-  }
-
-  return [HTML];
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (segmentHTMLToShortcodeBlock);
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/special-comment-converter.js":
-/*!*********************************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/special-comment-converter.js ***!
-  \*********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * WordPress dependencies
- */
-
-/**
- * Browser dependencies
- */
-
-var COMMENT_NODE = window.Node.COMMENT_NODE;
-/**
- * Looks for `<!--nextpage-->` and `<!--more-->` comments, as well as the
- * `<!--more Some text-->` variant and its `<!--noteaser-->` companion,
- * and replaces them with a custom element representing a future block.
- *
- * The custom element is a way to bypass the rest of the `raw-handling`
- * transforms, which would eliminate other kinds of node with which to carry
- * `<!--more-->`'s data: nodes with `data` attributes, empty paragraphs, etc.
- *
- * The custom element is then expected to be recognized by any registered
- * block's `raw` transform.
- *
- * @param {Node}     node The node to be processed.
- * @param {Document} doc  The document of the node.
- * @return {void}
- */
-
-/* harmony default export */ __webpack_exports__["default"] = (function (node, doc) {
-  if (node.nodeType !== COMMENT_NODE) {
-    return;
-  }
-
-  if (node.nodeValue === 'nextpage') {
-    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replace"])(node, createNextpage(doc));
-    return;
-  }
-
-  if (node.nodeValue.indexOf('more') === 0) {
-    // Grab any custom text in the comment.
-    var customText = node.nodeValue.slice(4).trim();
-    /*
-     * When a `<!--more-->` comment is found, we need to look for any
-     * `<!--noteaser-->` sibling, but it may not be a direct sibling
-     * (whitespace typically lies in between)
-     */
-
-    var sibling = node;
-    var noTeaser = false;
-
-    while (sibling = sibling.nextSibling) {
-      if (sibling.nodeType === COMMENT_NODE && sibling.nodeValue === 'noteaser') {
-        noTeaser = true;
-        Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["remove"])(sibling);
-        break;
-      }
-    }
-
-    Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_0__["replace"])(node, createMore(customText, noTeaser, doc));
-  }
-});
-
-function createMore(customText, noTeaser, doc) {
-  var node = doc.createElement('wp-block');
-  node.dataset.block = 'core/more';
-
-  if (customText) {
-    node.dataset.customText = customText;
-  }
-
-  if (noTeaser) {
-    // "Boolean" data attribute
-    node.dataset.noTeaser = '';
-  }
-
-  return node;
-}
-
-function createNextpage(doc) {
-  var node = doc.createElement('wp-block');
-  node.dataset.block = 'core/nextpage';
-  return node;
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/raw-handling/utils.js":
-/*!*************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/raw-handling/utils.js ***!
-  \*************************************************************************/
-/*! exports provided: getBlockContentSchema, isEmpty, isPlain, deepFilterNodeList, deepFilterHTML, removeInvalidHTML */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockContentSchema", function() { return getBlockContentSchema; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return isEmpty; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPlain", function() { return isPlain; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deepFilterNodeList", function() { return deepFilterNodeList; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deepFilterHTML", function() { return deepFilterHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeInvalidHTML", function() { return removeInvalidHTML; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
-/* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! .. */ "./packages/packages/blocks/build-module/api/index.js");
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./phrasing-content */ "./packages/packages/blocks/build-module/api/raw-handling/phrasing-content.js");
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Browser dependencies
- */
-
-var _window$Node = window.Node,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
-    TEXT_NODE = _window$Node.TEXT_NODE;
-/**
- * Given raw transforms from blocks, merges all schemas into one.
- *
- * @param {Array} transforms Block transforms, of the `raw` type.
- *
- * @return {Object} A complete block content schema.
- */
-
-function getBlockContentSchema(transforms) {
-  var schemas = transforms.map(function (_ref) {
-    var blockName = _ref.blockName,
-        schema = _ref.schema;
-
-    // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
-    if (Object(___WEBPACK_IMPORTED_MODULE_4__["hasBlockSupport"])(blockName, 'anchor')) {
-      for (var tag in schema) {
-        if (!schema[tag].attributes) {
-          schema[tag].attributes = [];
-        }
-
-        schema[tag].attributes.push('id');
-      }
-    }
-
-    return schema;
-  });
-  return lodash__WEBPACK_IMPORTED_MODULE_2__["mergeWith"].apply(void 0, [{}].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(schemas), [function (objValue, srcValue, key) {
-    if (key === 'children') {
-      if (objValue === '*' || srcValue === '*') {
-        return '*';
-      }
-
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, objValue, srcValue);
-    } else if (key === 'attributes' || key === 'require') {
-      return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(objValue || []).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(srcValue || []));
-    }
-  }]));
-}
-/**
- * Recursively checks if an element is empty. An element is not empty if it
- * contains text or contains elements with attributes such as images.
- *
- * @param {Element} element The element to check.
- *
- * @return {boolean} Wether or not the element is empty.
- */
-
-function isEmpty(element) {
-  if (!element.hasChildNodes()) {
-    return true;
-  }
-
-  return Array.from(element.childNodes).every(function (node) {
-    if (node.nodeType === TEXT_NODE) {
-      return !node.nodeValue.trim();
-    }
-
-    if (node.nodeType === ELEMENT_NODE) {
-      if (node.nodeName === 'BR') {
-        return true;
-      } else if (node.hasAttributes()) {
-        return false;
-      }
-
-      return isEmpty(node);
-    }
-
-    return true;
-  });
-}
-/**
- * Checks wether HTML can be considered plain text. That is, it does not contain
- * any elements that are not line breaks.
- *
- * @param {string} HTML The HTML to check.
- *
- * @return {boolean} Wether the HTML can be considered plain text.
- */
-
-function isPlain(HTML) {
-  return !/<(?!br[ />])/i.test(HTML);
-}
-/**
- * Given node filters, deeply filters and mutates a NodeList.
- *
- * @param {NodeList} nodeList The nodeList to filter.
- * @param {Array}    filters  An array of functions that can mutate with the provided node.
- * @param {Document} doc      The document of the nodeList.
- * @param {Object}   schema   The schema to use.
- */
-
-function deepFilterNodeList(nodeList, filters, doc, schema) {
-  Array.from(nodeList).forEach(function (node) {
-    deepFilterNodeList(node.childNodes, filters, doc, schema);
-    filters.forEach(function (item) {
-      // Make sure the node is still attached to the document.
-      if (!doc.contains(node)) {
-        return;
-      }
-
-      item(node, doc, schema);
-    });
-  });
-}
-/**
- * Given node filters, deeply filters HTML tags.
- * Filters from the deepest nodes to the top.
- *
- * @param {string} HTML    The HTML to filter.
- * @param {Array}  filters An array of functions that can mutate with the provided node.
- * @param {Object} schema  The schema to use.
- *
- * @return {string} The filtered HTML.
- */
-
-function deepFilterHTML(HTML) {
-  var filters = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  var schema = arguments.length > 2 ? arguments[2] : undefined;
-  var doc = document.implementation.createHTMLDocument('');
-  doc.body.innerHTML = HTML;
-  deepFilterNodeList(doc.body.childNodes, filters, doc, schema);
-  return doc.body.innerHTML;
-}
-/**
- * Given a schema, unwraps or removes nodes, attributes and classes on a node
- * list.
- *
- * @param {NodeList} nodeList The nodeList to filter.
- * @param {Document} doc      The document of the nodeList.
- * @param {Object}   schema   An array of functions that can mutate with the provided node.
- * @param {Object}   inline   Whether to clean for inline mode.
- */
-
-function cleanNodeList(nodeList, doc, schema, inline) {
-  Array.from(nodeList).forEach(function (node) {
-    var tag = node.nodeName.toLowerCase(); // It's a valid child.
-
-    if (schema.hasOwnProperty(tag)) {
-      if (node.nodeType === ELEMENT_NODE) {
-        var _schema$tag = schema[tag],
-            _schema$tag$attribute = _schema$tag.attributes,
-            attributes = _schema$tag$attribute === void 0 ? [] : _schema$tag$attribute,
-            _schema$tag$classes = _schema$tag.classes,
-            classes = _schema$tag$classes === void 0 ? [] : _schema$tag$classes,
-            children = _schema$tag.children,
-            _schema$tag$require = _schema$tag.require,
-            require = _schema$tag$require === void 0 ? [] : _schema$tag$require; // If the node is empty and it's supposed to have children,
-        // remove the node.
-
-
-        if (isEmpty(node) && children) {
-          Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["remove"])(node);
-          return;
-        }
-
-        if (node.hasAttributes()) {
-          // Strip invalid attributes.
-          Array.from(node.attributes).forEach(function (_ref2) {
-            var name = _ref2.name;
-
-            if (name !== 'class' && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["includes"])(attributes, name)) {
-              node.removeAttribute(name);
-            }
-          }); // Strip invalid classes.
-
-          if (node.classList.length) {
-            var mattchers = classes.map(function (item) {
-              if (typeof item === 'string') {
-                return function (className) {
-                  return className === item;
-                };
-              } else if (item instanceof RegExp) {
-                return function (className) {
-                  return item.test(className);
-                };
-              }
-
-              return lodash__WEBPACK_IMPORTED_MODULE_2__["noop"];
-            });
-            Array.from(node.classList).forEach(function (name) {
-              if (!mattchers.some(function (isMatch) {
-                return isMatch(name);
-              })) {
-                node.classList.remove(name);
-              }
-            });
-
-            if (!node.classList.length) {
-              node.removeAttribute('class');
-            }
-          }
-        }
-
-        if (node.hasChildNodes()) {
-          // Do not filter any content.
-          if (children === '*') {
-            return;
-          } // Continue if the node is supposed to have children.
-
-
-          if (children) {
-            // If a parent requires certain children, but it does
-            // not have them, drop the parent and continue.
-            if (require.length && !node.querySelector(require.join(','))) {
-              cleanNodeList(node.childNodes, doc, schema, inline);
-              Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["unwrap"])(node);
-            }
-
-            cleanNodeList(node.childNodes, doc, children, inline); // Remove children if the node is not supposed to have any.
-          } else {
-            while (node.firstChild) {
-              Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["remove"])(node.firstChild);
-            }
-          }
-        }
-      } // Invalid child. Continue with schema at the same place and unwrap.
-
-    } else {
-      cleanNodeList(node.childNodes, doc, schema, inline); // For inline mode, insert a line break when unwrapping nodes that
-      // are not phrasing content.
-
-      if (inline && !Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_5__["isPhrasingContent"])(node) && node.nextElementSibling) {
-        Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["insertAfter"])(doc.createElement('br'), node);
-      }
-
-      Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_3__["unwrap"])(node);
-    }
-  });
-}
-/**
- * Given a schema, unwraps or removes nodes, attributes and classes on HTML.
- *
- * @param {string} HTML   The HTML to clean up.
- * @param {Object} schema Schema for the HTML.
- * @param {Object} inline Whether to clean for inline mode.
- *
- * @return {string} The cleaned up HTML.
- */
-
-
-function removeInvalidHTML(HTML, schema, inline) {
-  var doc = document.implementation.createHTMLDocument('');
-  doc.body.innerHTML = HTML;
-  cleanNodeList(doc.body.childNodes, doc, schema, inline);
-  return doc.body.innerHTML;
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/registration.js":
-/*!*******************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/registration.js ***!
-  \*******************************************************************/
-/*! exports provided: unstable__bootstrapServerSideBlockDefinitions, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, registerBlockStyle */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return unstable__bootstrapServerSideBlockDefinitions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return registerBlockType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return unregisterBlockType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return setUnknownTypeHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return getUnknownTypeHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return setFreeformContentHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return getFreeformContentHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return setUnregisteredTypeHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return getUnregisteredTypeHandlerName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return setDefaultBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return getDefaultBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return getBlockType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return getBlockTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return getBlockSupport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return hasBlockSupport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return isReusableBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return getChildBlockNames; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return hasChildBlocks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return hasChildBlocksWithInserterSupport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return registerBlockStyle; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils */ "./packages/packages/blocks/build-module/api/utils.js");
-
-
-
-/* eslint no-console: [ 'error', { allow: [ 'error' ] } ] */
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Defined behavior of a block type.
- *
- * @typedef {WPBlockType}
- *
- * @property {string}                    name       Block's namespaced name.
- * @property {string}                    title      Human-readable label for a block.
- *                                                  Shown in the block inserter.
- * @property {string}                    category   Category classification of block,
- *                                                  impacting where block is shown in
- *                                                  inserter results.
- * @property {(Object|string|WPElement)} icon       Slug of the Dashicon to be shown
- *                                                  as the icon for the block in the
- *                                                  inserter, or element or an object describing the icon.
- * @property {?string[]}                 keywords   Additional keywords to produce
- *                                                  block as inserter search result.
- * @property {?Object}                   attributes Block attributes.
- * @property {Function}                  save       Serialize behavior of a block,
- *                                                  returning an element describing
- *                                                  structure of the block's post
- *                                                  content markup.
- * @property {WPComponent}               edit       Component rendering element to be
- *                                                  interacted with in an editor.
- */
-
-var serverSideBlockDefinitions = {};
-/**
- * Set the server side block definition of blocks.
- *
- * @param {Object} definitions Server-side block definitions
- */
-
-function unstable__bootstrapServerSideBlockDefinitions(definitions) {
-  // eslint-disable-line camelcase
-  serverSideBlockDefinitions = definitions;
-}
-/**
- * Registers a new block provided a unique name and an object defining its
- * behavior. Once registered, the block is made available as an option to any
- * editor interface where blocks are implemented.
- *
- * @param {string} name     Block name.
- * @param {Object} settings Block settings.
- *
- * @return {?WPBlock} The block, if it has been successfully registered;
- *                     otherwise `undefined`.
- */
-
-function registerBlockType(name, settings) {
-  settings = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({
-    name: name
-  }, Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(serverSideBlockDefinitions, name), settings);
-
-  if (typeof name !== 'string') {
-    console.error('Block names must be strings.');
-    return;
-  }
-
-  if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(name)) {
-    console.error('Block names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-block');
-    return;
-  }
-
-  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name)) {
-    console.error('Block "' + name + '" is already registered.');
-    return;
-  }
-
-  settings = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.registerBlockType', settings, name);
-
-  if (!settings || !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(settings.save)) {
-    console.error('The "save" property must be specified and must be a valid function.');
-    return;
-  }
-
-  if ('edit' in settings && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(settings.edit)) {
-    console.error('The "edit" property must be a valid function.');
-    return;
-  }
-
-  if ('keywords' in settings && settings.keywords.length > 3) {
-    console.error('The block "' + name + '" can have a maximum of 3 keywords.');
-    return;
-  }
-
-  if (!('category' in settings)) {
-    console.error('The block "' + name + '" must have a category.');
-    return;
-  }
-
-  if ('category' in settings && !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["some"])(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getCategories(), {
-    slug: settings.category
-  })) {
-    console.error('The block "' + name + '" must have a registered category.');
-    return;
-  }
-
-  if (!('title' in settings) || settings.title === '') {
-    console.error('The block "' + name + '" must have a title.');
-    return;
-  }
-
-  if (typeof settings.title !== 'string') {
-    console.error('Block titles must be strings.');
-    return;
-  }
-
-  settings.icon = Object(_utils__WEBPACK_IMPORTED_MODULE_6__["normalizeIconObject"])(settings.icon);
-
-  if (!Object(_utils__WEBPACK_IMPORTED_MODULE_6__["isValidIcon"])(settings.icon.src)) {
-    console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/block-api/#icon-optional');
-    return;
-  }
-
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').addBlockTypes(settings);
-  return settings;
-}
-/**
- * Unregisters a block.
- *
- * @param {string} name Block name.
- *
- * @return {?WPBlock} The previous block value, if it has been successfully
- *                     unregistered; otherwise `undefined`.
- */
-
-function unregisterBlockType(name) {
-  var oldBlock = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name);
-
-  if (!oldBlock) {
-    console.error('Block "' + name + '" is not registered.');
-    return;
-  }
-
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').removeBlockTypes(name);
-  return oldBlock;
-}
-/**
- * Assigns name of block handling unknown block types.
- *
- * @param {string} name Block name.
- */
-
-function setUnknownTypeHandlerName(name) {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('setUnknownTypeHandlerName', {
-    plugin: 'Gutenberg',
-    version: '4.2',
-    alternative: 'setFreeformContentHandlerName and setUnregisteredTypeHandlerName'
-  });
-  setFreeformContentHandlerName(name);
-}
-/**
- * Retrieves name of block handling unknown block types, or undefined if no
- * handler has been defined.
- *
- * @return {?string} Blog name.
- */
-
-function getUnknownTypeHandlerName() {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('getUnknownTypeHandlerName', {
-    plugin: 'Gutenberg',
-    version: '4.2',
-    alternative: 'getFreeformContentHandlerName and getUnregisteredTypeHandlerName'
-  });
-  return getFreeformContentHandlerName();
-}
-/**
- * Assigns name of block for handling non-block content.
- *
- * @param {string} name Block name.
- */
-
-function setFreeformContentHandlerName(name) {
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setFreeformFallbackBlockName(name);
-}
-/**
- * Retrieves name of block handling non-block content, or undefined if no
- * handler has been defined.
- *
- * @return {?string} Blog name.
- */
-
-function getFreeformContentHandlerName() {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getFreeformFallbackBlockName();
-}
-/**
- * Assigns name of block handling unregistered block types.
- *
- * @param {string} name Block name.
- */
-
-function setUnregisteredTypeHandlerName(name) {
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setUnregisteredFallbackBlockName(name);
-}
-/**
- * Retrieves name of block handling unregistered block types, or undefined if no
- * handler has been defined.
- *
- * @return {?string} Blog name.
- */
-
-function getUnregisteredTypeHandlerName() {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getUnregisteredFallbackBlockName();
-}
-/**
- * Assigns the default block name.
- *
- * @param {string} name Block name.
- */
-
-function setDefaultBlockName(name) {
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/blocks').setDefaultBlockName(name);
-}
-/**
- * Retrieves the default block name.
- *
- * @return {?string} Block name.
- */
-
-function getDefaultBlockName() {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getDefaultBlockName();
-}
-/**
- * Returns a registered block type.
- *
- * @param {string} name Block name.
- *
- * @return {?Object} Block type.
- */
-
-function getBlockType(name) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockType(name);
-}
-/**
- * Returns all registered blocks.
- *
- * @return {Array} Block settings.
- */
-
-function getBlockTypes() {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockTypes();
-}
-/**
- * Returns the block support value for a feature, if defined.
- *
- * @param  {(string|Object)} nameOrType      Block name or type object
- * @param  {string}          feature         Feature to retrieve
- * @param  {*}               defaultSupports Default value to return if not
- *                                           explicitly defined
- *
- * @return {?*} Block support value
- */
-
-function getBlockSupport(nameOrType, feature, defaultSupports) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getBlockSupport(nameOrType, feature, defaultSupports);
-}
-/**
- * Returns true if the block defines support for a feature, or false otherwise.
- *
- * @param {(string|Object)} nameOrType      Block name or type object.
- * @param {string}          feature         Feature to test.
- * @param {boolean}         defaultSupports Whether feature is supported by
- *                                          default if not explicitly defined.
- *
- * @return {boolean} Whether block supports feature.
- */
-
-function hasBlockSupport(nameOrType, feature, defaultSupports) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasBlockSupport(nameOrType, feature, defaultSupports);
-}
-/**
- * Determines whether or not the given block is a reusable block. This is a
- * special block type that is used to point to a global block stored via the
- * API.
- *
- * @param {Object} blockOrType Block or Block Type to test.
- *
- * @return {boolean} Whether the given block is a reusable block.
- */
-
-function isReusableBlock(blockOrType) {
-  return blockOrType.name === 'core/block';
-}
-/**
- * Returns an array with the child blocks of a given block.
- *
- * @param {string} blockName Name of block (example: “latest-posts”).
- *
- * @return {Array} Array of child block names.
- */
-
-var getChildBlockNames = function getChildBlockNames(blockName) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').getChildBlockNames(blockName);
-};
-/**
- * Returns a boolean indicating if a block has child blocks or not.
- *
- * @param {string} blockName Name of block (example: “latest-posts”).
- *
- * @return {boolean} True if a block contains child blocks and false otherwise.
- */
-
-var hasChildBlocks = function hasChildBlocks(blockName) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasChildBlocks(blockName);
-};
-/**
- * Returns a boolean indicating if a block has at least one child block with inserter support.
- *
- * @param {string} blockName Block type name.
- *
- * @return {boolean} True if a block contains at least one child blocks with inserter support
- *                   and false otherwise.
- */
-
-var hasChildBlocksWithInserterSupport = function hasChildBlocksWithInserterSupport(blockName) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/blocks').hasChildBlocksWithInserterSupport(blockName);
-};
-/**
- * Registers a new block style variation for the given block.
- *
- * @param {string} blockName      Name of block (example: “core/latest-posts”).
- * @param {Object} styleVariation Object containing `name` which is the class name applied to the block and `label` which identifies the variation to the user.
- */
-
-var registerBlockStyle = function registerBlockStyle(blockName, styleVariation) {
-  Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["addFilter"])('blocks.registerBlockType', "".concat(blockName, "/").concat(styleVariation.name), function (settings, name) {
-    if (blockName !== name) {
-      return settings;
-    }
-
-    return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, settings, {
-      styles: Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(settings, ['styles'], [])).concat([styleVariation])
-    });
-  });
-};
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/serializer.js":
-/*!*****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/serializer.js ***!
-  \*****************************************************************/
-/*! exports provided: getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, getCommentAttributes, serializeAttributes, getBlockContent, getCommentDelimitedContent, serializeBlock, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return getBlockDefaultClassName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return getBlockMenuDefaultClassName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return getSaveElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return getSaveContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCommentAttributes", function() { return getCommentAttributes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeAttributes", function() { return serializeAttributes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return getBlockContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCommentDelimitedContent", function() { return getCommentDelimitedContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serializeBlock", function() { return serializeBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return serialize; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/is-shallow-equal */ "@wordpress/is-shallow-equal");
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony import */ var _block_content_provider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../block-content-provider */ "./packages/packages/blocks/build-module/block-content-provider/index.js");
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Returns the block's default classname from its name.
- *
- * @param {string} blockName The block name.
- *
- * @return {string} The block's default class.
- */
-
-function getBlockDefaultClassName(blockName) {
-  // Generated HTML classes for blocks follow the `wp-block-{name}` nomenclature.
-  // Blocks provided by WordPress drop the prefixes 'core/' or 'core-' (used in 'core-embed/').
-  var className = 'wp-block-' + blockName.replace(/\//, '-').replace(/^core-/, '');
-  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getBlockDefaultClassName', className, blockName);
-}
-/**
- * Returns the block's default menu item classname from its name.
- *
- * @param {string} blockName The block name.
- *
- * @return {string} The block's default menu item class.
- */
-
-function getBlockMenuDefaultClassName(blockName) {
-  // Generated HTML classes for blocks follow the `editor-block-list-item-{name}` nomenclature.
-  // Blocks provided by WordPress drop the prefixes 'core/' or 'core-' (used in 'core-embed/').
-  var className = 'editor-block-list-item-' + blockName.replace(/\//, '-').replace(/^core-/, '');
-  return Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getBlockMenuDefaultClassName', className, blockName);
-}
-/**
- * Given a block type containing a save render implementation and attributes, returns the
- * enhanced element to be saved or string when raw HTML expected.
- *
- * @param {Object} blockType   Block type.
- * @param {Object} attributes  Block attributes.
- * @param {?Array} innerBlocks Nested blocks.
- *
- * @return {Object|string} Save element or raw HTML string.
- */
-
-function getSaveElement(blockType, attributes) {
-  var innerBlocks = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  var save = blockType.save; // Component classes are unsupported for save since serialization must
-  // occur synchronously. For improved interoperability with higher-order
-  // components which often return component class, emulate basic support.
-
-  if (save.prototype instanceof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]) {
-    var instance = new save({
-      attributes: attributes
-    });
-    save = instance.render.bind(instance);
-  }
-
-  var element = save({
-    attributes: attributes,
-    innerBlocks: innerBlocks
-  });
-
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isObject"])(element) && Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["hasFilter"])('blocks.getSaveContent.extraProps')) {
-    /**
-     * Filters the props applied to the block save result element.
-     *
-     * @param {Object}      props      Props applied to save element.
-     * @param {WPBlockType} blockType  Block type definition.
-     * @param {Object}      attributes Block attributes.
-     */
-    var props = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getSaveContent.extraProps', Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, element.props), blockType, attributes);
-
-    if (!_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_4___default()(props, element.props)) {
-      element = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["cloneElement"])(element, props);
-    }
-  }
-  /**
-   * Filters the save result of a block during serialization.
-   *
-   * @param {WPElement}   element    Block save result.
-   * @param {WPBlockType} blockType  Block type definition.
-   * @param {Object}      attributes Block attributes.
-   */
-
-
-  element = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_3__["applyFilters"])('blocks.getSaveElement', element, blockType, attributes);
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_block_content_provider__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    innerBlocks: innerBlocks
-  }, element);
-}
-/**
- * Given a block type containing a save render implementation and attributes, returns the
- * static markup to be saved.
- *
- * @param {Object} blockType   Block type.
- * @param {Object} attributes  Block attributes.
- * @param {?Array} innerBlocks Nested blocks.
- *
- * @return {string} Save content.
- */
-
-function getSaveContent(blockType, attributes, innerBlocks) {
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["renderToString"])(getSaveElement(blockType, attributes, innerBlocks));
-}
-/**
- * Returns attributes which are to be saved and serialized into the block
- * comment delimiter.
- *
- * When a block exists in memory it contains as its attributes both those
- * parsed the block comment delimiter _and_ those which matched from the
- * contents of the block.
- *
- * This function returns only those attributes which are needed to persist and
- * which cannot be matched from the block content.
- *
- * @param {Object<string,*>} allAttributes Attributes from in-memory block data.
- * @param {Object<string,*>} blockType     Block type.
- *
- * @return {Object<string,*>} Subset of attributes for comment serialization.
- */
-
-function getCommentAttributes(allAttributes, blockType) {
-  var attributes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["reduce"])(blockType.attributes, function (result, attributeSchema, key) {
-    var value = allAttributes[key]; // Ignore undefined values.
-
-    if (undefined === value) {
-      return result;
-    } // Ignore all attributes but the ones with an "undefined" source
-    // "undefined" source refers to attributes saved in the block comment.
-
-
-    if (attributeSchema.source !== undefined) {
-      return result;
-    } // Ignore default value.
-
-
-    if ('default' in attributeSchema && attributeSchema.default === value) {
-      return result;
-    } // Otherwise, include in comment set.
-
-
-    result[key] = value;
-    return result;
-  }, {});
-  return attributes;
-}
-/**
- * Given an attributes object, returns a string in the serialized attributes
- * format prepared for post content.
- *
- * @param {Object} attributes Attributes object.
- *
- * @return {string} Serialized attributes.
- */
-
-function serializeAttributes(attributes) {
-  return JSON.stringify(attributes) // Don't break HTML comments.
-  .replace(/--/g, "\\u002d\\u002d") // Don't break non-standard-compliant tools.
-  .replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026") // Bypass server stripslashes behavior which would unescape stringify's
-  // escaping of quotation mark.
-  //
-  // See: https://developer.wordpress.org/reference/functions/wp_kses_stripslashes/
-  .replace(/\\"/g, "\\u0022");
-}
-/**
- * Given a block object, returns the Block's Inner HTML markup.
- *
- * @param {Object} block Block Object.
- *
- * @return {string} HTML.
- */
-
-function getBlockContent(block) {
-  // @todo why not getBlockInnerHtml?
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(block.name); // If block was parsed as invalid or encounters an error while generating
-  // save content, use original content instead to avoid content loss. If a
-  // block contains nested content, exempt it from this condition because we
-  // otherwise have no access to its original content and content loss would
-  // still occur.
-
-  var saveContent = block.originalContent;
-
-  if (block.isValid || block.innerBlocks.length) {
-    try {
-      saveContent = getSaveContent(blockType, block.attributes, block.innerBlocks);
-    } catch (error) {}
-  }
-
-  return saveContent;
-}
-/**
- * Returns the content of a block, including comment delimiters.
- *
- * @param {string} rawBlockName Block name.
- * @param {Object} attributes   Block attributes.
- * @param {string} content      Block save content.
- *
- * @return {string} Comment-delimited block content.
- */
-
-function getCommentDelimitedContent(rawBlockName, attributes, content) {
-  var serializedAttributes = !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isEmpty"])(attributes) ? serializeAttributes(attributes) + ' ' : ''; // Strip core blocks of their namespace prefix.
-
-  var blockName = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["startsWith"])(rawBlockName, 'core/') ? rawBlockName.slice(5) : rawBlockName; // @todo make the `wp:` prefix potentially configurable.
-
-  if (!content) {
-    return "<!-- wp:".concat(blockName, " ").concat(serializedAttributes, "/-->");
-  }
-
-  return "<!-- wp:".concat(blockName, " ").concat(serializedAttributes, "-->\n") + content + "\n<!-- /wp:".concat(blockName, " -->");
-}
-/**
- * Returns the content of a block, including comment delimiters, determining
- * serialized attributes and content form from the current state of the block.
- *
- * @param {Object} block Block instance.
- *
- * @return {string} Serialized block.
- */
-
-function serializeBlock(block) {
-  var blockName = block.name;
-  var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(blockName);
-  var saveContent = getBlockContent(block);
-  var saveAttributes = getCommentAttributes(block.attributes, blockType);
-
-  switch (blockName) {
-    case Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getFreeformContentHandlerName"])():
-    case Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getUnregisteredTypeHandlerName"])():
-      return saveContent;
-
-    default:
-      return getCommentDelimitedContent(blockName, saveAttributes, saveContent);
-  }
-}
-/**
- * Takes a block or set of blocks and returns the serialized post content.
- *
- * @param {Array} blocks Block(s) to serialize.
- *
- * @return {string} The post content.
- */
-
-function serialize(blocks) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["castArray"])(blocks).map(serializeBlock).join('\n\n');
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/templates.js":
-/*!****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/templates.js ***!
-  \****************************************************************/
-/*! exports provided: doBlocksMatchTemplate, synchronizeBlocksWithTemplate */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return doBlocksMatchTemplate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return synchronizeBlocksWithTemplate; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./factory */ "./packages/packages/blocks/build-module/api/factory.js");
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Checks whether a list of blocks matches a template by comparing the block names.
- *
- * @param {Array} blocks    Block list.
- * @param {Array} template  Block template.
- *
- * @return {boolean}        Whether the list of blocks matches a templates
- */
-
-function doBlocksMatchTemplate() {
-  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var template = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  return blocks.length === template.length && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["every"])(template, function (_ref, index) {
-    var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, 3),
-        name = _ref2[0],
-        innerBlocksTemplate = _ref2[2];
-
-    var block = blocks[index];
-    return name === block.name && doBlocksMatchTemplate(block.innerBlocks, innerBlocksTemplate);
-  });
-}
-/**
- * Synchronize a block list with a block template.
- *
- * Synchronizing a block list with a block template means that we loop over the blocks
- * keep the block as is if it matches the block at the same position in the template
- * (If it has the same name) and if doesn't match, we create a new block based on the template.
- * Extra blocks not present in the template are removed.
- *
- * @param {Array} blocks    Block list.
- * @param {Array} template  Block template.
- *
- * @return {Array}          Updated Block list.
- */
-
-function synchronizeBlocksWithTemplate() {
-  var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var template = arguments.length > 1 ? arguments[1] : undefined;
-
-  // If no template is provided, return blocks unmodified.
-  if (!template) {
-    return blocks;
-  }
-
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["map"])(template, function (_ref3, index) {
-    var _ref4 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref3, 3),
-        name = _ref4[0],
-        attributes = _ref4[1],
-        innerBlocksTemplate = _ref4[2];
-
-    var block = blocks[index];
-
-    if (block && block.name === name) {
-      var innerBlocks = synchronizeBlocksWithTemplate(block.innerBlocks, innerBlocksTemplate);
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, block, {
-        innerBlocks: innerBlocks
-      });
-    } // To support old templates that were using the "children" format
-    // for the attributes using "html" strings now, we normalize the template attributes
-    // before creating the blocks.
-
-
-    var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getBlockType"])(name);
-
-    var isHTMLAttribute = function isHTMLAttribute(attributeDefinition) {
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(attributeDefinition, ['source']) === 'html';
-    };
-
-    var isQueryAttribute = function isQueryAttribute(attributeDefinition) {
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(attributeDefinition, ['source']) === 'query';
-    };
-
-    var normalizeAttributes = function normalizeAttributes(schema, values) {
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["mapValues"])(values, function (value, key) {
-        return normalizeAttribute(schema[key], value);
-      });
-    };
-
-    var normalizeAttribute = function normalizeAttribute(definition, value) {
-      if (isHTMLAttribute(definition) && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isArray"])(value)) {
-        // Introduce a deprecated call at this point
-        // When we're confident that "children" format should be removed from the templates.
-        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__["renderToString"])(value);
-      }
-
-      if (isQueryAttribute(definition) && value) {
-        return value.map(function (subValues) {
-          return normalizeAttributes(definition.query, subValues);
-        });
-      }
-
-      return value;
-    };
-
-    var normalizedAttributes = normalizeAttributes(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(blockType, ['attributes'], {}), attributes);
-    return Object(_factory__WEBPACK_IMPORTED_MODULE_4__["createBlock"])(name, normalizedAttributes, synchronizeBlocksWithTemplate([], innerBlocksTemplate));
-  });
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/utils.js":
-/*!************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/utils.js ***!
-  \************************************************************/
-/*! exports provided: isUnmodifiedDefaultBlock, isValidIcon, normalizeIconObject */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return isUnmodifiedDefaultBlock; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return isValidIcon; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return normalizeIconObject; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tinycolor2 */ "./packages/node_modules/tinycolor2/tinycolor.js");
-/* harmony import */ var tinycolor2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(tinycolor2__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./registration */ "./packages/packages/blocks/build-module/api/registration.js");
-/* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./factory */ "./packages/packages/blocks/build-module/api/factory.js");
-
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Array of icon colors containing a color to be used if the icon color
- * was not explicitly set but the icon background color was.
- *
- * @type {Object}
- */
-
-var ICON_COLORS = ['#191e23', '#f8f9f9'];
-/**
- * Determines whether the block is a default block
- * and its attributes are equal to the default attributes
- * which means the block is unmodified.
- *
- * @param  {WPBlock} block Block Object
- *
- * @return {boolean}       Whether the block is an unmodified default block
- */
-
-function isUnmodifiedDefaultBlock(block) {
-  var defaultBlockName = Object(_registration__WEBPACK_IMPORTED_MODULE_5__["getDefaultBlockName"])();
-
-  if (block.name !== defaultBlockName) {
-    return false;
-  }
-
-  var newDefaultBlock = Object(_factory__WEBPACK_IMPORTED_MODULE_6__["createBlock"])(defaultBlockName);
-  var attributeKeys = Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_4__["applyFilters"])('blocks.isUnmodifiedDefaultBlock.attributes', Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keys"])(newDefaultBlock.attributes)).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(Object(lodash__WEBPACK_IMPORTED_MODULE_2__["keys"])(block.attributes))));
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["every"])(attributeKeys, function (key) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isEqual"])(newDefaultBlock.attributes[key], block.attributes[key]);
-  });
-}
-/**
- * Function that checks if the parameter is a valid icon.
- *
- * @param {*} icon  Parameter to be checked.
- *
- * @return {boolean} True if the parameter is a valid icon and false otherwise.
- */
-
-function isValidIcon(icon) {
-  return !!icon && (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isString"])(icon) || Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["isValidElement"])(icon) || Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isFunction"])(icon) || icon instanceof _wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]);
-}
-/**
- * Function that receives an icon as set by the blocks during the registration
- * and returns a new icon object that is normalized so we can rely on just on possible icon structure
- * in the codebase.
- *
- * @param {(Object|string|WPElement)} icon  Slug of the Dashicon to be shown
- *                                          as the icon for the block in the
- *                                          inserter, or element or an object describing the icon.
- *
- * @return {Object} Object describing the icon.
- */
-
-function normalizeIconObject(icon) {
-  if (!icon) {
-    return {
-      src: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("svg", {
-        xmlns: "http://www.w3.org/2000/svg",
-        viewBox: "0 0 24 24"
-      }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("path", {
-        d: "M19 7h-1V5h-4v2h-4V5H6v2H5c-1.1 0-2 .9-2 2v10h18V9c0-1.1-.9-2-2-2zm0 10H5V9h14v8z"
-      }))
-    };
-  }
-
-  if (isValidIcon(icon)) {
-    return {
-      src: icon
-    };
-  }
-
-  if (icon.background) {
-    var tinyBgColor = tinycolor2__WEBPACK_IMPORTED_MODULE_3___default()(icon.background);
-
-    if (!icon.foreground) {
-      var foreground = Object(tinycolor2__WEBPACK_IMPORTED_MODULE_3__["mostReadable"])(tinyBgColor, ICON_COLORS, {
-        includeFallbackColors: true,
-        level: 'AA',
-        size: 'large'
-      }).toHexString();
-      icon.foreground = foreground;
-    }
-
-    icon.shadowColor = tinyBgColor.setAlpha(0.3).toRgbString();
-  }
-
-  return icon;
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/api/validation.js":
-/*!*****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/api/validation.js ***!
-  \*****************************************************************/
-/*! exports provided: getTextPiecesSplitOnWhitespace, getTextWithCollapsedWhitespace, getMeaningfulAttributePairs, isEqualTextTokensWithCollapsedWhitespace, getNormalizedStyleValue, getStyleProperties, isEqualAttributesOfName, isEqualTagAttributePairs, isEqualTokensOfType, getNextNonWhitespaceToken, isClosedByToken, isEquivalentHTML, isValidBlock */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTextPiecesSplitOnWhitespace", function() { return getTextPiecesSplitOnWhitespace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTextWithCollapsedWhitespace", function() { return getTextWithCollapsedWhitespace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMeaningfulAttributePairs", function() { return getMeaningfulAttributePairs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTextTokensWithCollapsedWhitespace", function() { return isEqualTextTokensWithCollapsedWhitespace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNormalizedStyleValue", function() { return getNormalizedStyleValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getStyleProperties", function() { return getStyleProperties; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualAttributesOfName", function() { return isEqualAttributesOfName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTagAttributePairs", function() { return isEqualTagAttributePairs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTokensOfType", function() { return isEqualTokensOfType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextNonWhitespaceToken", function() { return getNextNonWhitespaceToken; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isClosedByToken", function() { return isClosedByToken; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEquivalentHTML", function() { return isEquivalentHTML; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return isValidBlock; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./packages/node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./packages/node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! simple-html-tokenizer */ "./packages/node_modules/simple-html-tokenizer/dist/simple-html-tokenizer.js");
-/* harmony import */ var simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./serializer */ "./packages/packages/blocks/build-module/api/serializer.js");
-
-
-
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Globally matches any consecutive whitespace
- *
- * @type {RegExp}
- */
-
-var REGEXP_WHITESPACE = /[\t\n\r\v\f ]+/g;
-/**
- * Matches a string containing only whitespace
- *
- * @type {RegExp}
- */
-
-var REGEXP_ONLY_WHITESPACE = /^[\t\n\r\v\f ]*$/;
-/**
- * Matches a CSS URL type value
- *
- * @type {RegExp}
- */
-
-var REGEXP_STYLE_URL_TYPE = /^url\s*\(['"\s]*(.*?)['"\s]*\)$/;
-/**
- * Boolean attributes are attributes whose presence as being assigned is
- * meaningful, even if only empty.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => tr.lastChild.textContent.indexOf( 'Boolean attribute' ) !== -1 )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * @type {Array}
- */
-
-var BOOLEAN_ATTRIBUTES = ['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch'];
-/**
- * Enumerated attributes are attributes which must be of a specific value form.
- * Like boolean attributes, these are meaningful if specified, even if not of a
- * valid enumerated value.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => /^("(.+?)";?\s*)+/.test( tr.lastChild.textContent.trim() ) )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * @type {Array}
- */
-
-var ENUMERATED_ATTRIBUTES = ['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap'];
-/**
- * Meaningful attributes are those who cannot be safely ignored when omitted in
- * one HTML markup string and not another.
- *
- * @type {Array}
- */
-
-var MEANINGFUL_ATTRIBUTES = BOOLEAN_ATTRIBUTES.concat(ENUMERATED_ATTRIBUTES);
-/**
- * Object of logger functions.
- */
-
-var log = function () {
-  /**
-   * Creates a logger with block validation prefix.
-   *
-   * @param {Function} logger Original logger function.
-   *
-   * @return {Function} Augmented logger function.
-   */
-  function createLogger(logger) {
-    // In test environments, pre-process the sprintf message to improve
-    // readability of error messages. We'd prefer to avoid pulling in this
-    // dependency in runtime environments, and it can be dropped by a combo
-    // of Webpack env substitution + UglifyJS dead code elimination.
-    if (false) {}
-
-    return function (message) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      return logger.apply(void 0, ['Block validation: ' + message].concat(args));
-    };
-  }
-
-  return {
-    /* eslint-disable no-console */
-    error: createLogger(console.error),
-    warning: createLogger(console.warn)
-    /* eslint-enable no-console */
-
-  };
-}();
-/**
- * Given a specified string, returns an array of strings split by consecutive
- * whitespace, ignoring leading or trailing whitespace.
- *
- * @param {string} text Original text.
- *
- * @return {string[]} Text pieces split on whitespace.
- */
-
-
-function getTextPiecesSplitOnWhitespace(text) {
-  return text.trim().split(REGEXP_WHITESPACE);
-}
-/**
- * Given a specified string, returns a new trimmed string where all consecutive
- * whitespace is collapsed to a single space.
- *
- * @param {string} text Original text.
- *
- * @return {string} Trimmed text with consecutive whitespace collapsed.
- */
-
-function getTextWithCollapsedWhitespace(text) {
-  return getTextPiecesSplitOnWhitespace(text).join(' ');
-}
-/**
- * Returns attribute pairs of the given StartTag token, including only pairs
- * where the value is non-empty or the attribute is a boolean attribute, an
- * enumerated attribute, or a custom data- attribute.
- *
- * @see MEANINGFUL_ATTRIBUTES
- *
- * @param {Object} token StartTag token.
- *
- * @return {Array[]} Attribute pairs.
- */
-
-function getMeaningfulAttributePairs(token) {
-  return token.attributes.filter(function (pair) {
-    var _pair = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(pair, 2),
-        key = _pair[0],
-        value = _pair[1];
-
-    return value || key.indexOf('data-') === 0 || Object(lodash__WEBPACK_IMPORTED_MODULE_5__["includes"])(MEANINGFUL_ATTRIBUTES, key);
-  });
-}
-/**
- * Returns true if two text tokens (with `chars` property) are equivalent, or
- * false otherwise.
- *
- * @param {Object} actual   Actual token.
- * @param {Object} expected Expected token.
- *
- * @return {boolean} Whether two text tokens are equivalent.
- */
-
-function isEqualTextTokensWithCollapsedWhitespace(actual, expected) {
-  // This is an overly simplified whitespace comparison. The specification is
-  // more prescriptive of whitespace behavior in inline and block contexts.
-  //
-  // See: https://medium.com/@patrickbrosset/when-does-white-space-matter-in-html-b90e8a7cdd33
-  var isEquivalentText = lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual.chars, expected.chars].map(getTextWithCollapsedWhitespace)));
-
-  if (!isEquivalentText) {
-    log.warning('Expected text `%s`, saw `%s`.', expected.chars, actual.chars);
-  }
-
-  return isEquivalentText;
-}
-/**
- * Given a style value, returns a normalized style value for strict equality
- * comparison.
- *
- * @param {string} value Style value.
- *
- * @return {string} Normalized style value.
- */
-
-function getNormalizedStyleValue(value) {
-  return value // Normalize URL type to omit whitespace or quotes
-  .replace(REGEXP_STYLE_URL_TYPE, 'url($1)');
-}
-/**
- * Given a style attribute string, returns an object of style properties.
- *
- * @param {string} text Style attribute.
- *
- * @return {Object} Style properties.
- */
-
-function getStyleProperties(text) {
-  var pairs = text // Trim ending semicolon (avoid including in split)
-  .replace(/;?\s*$/, '') // Split on property assignment
-  .split(';') // For each property assignment...
-  .map(function (style) {
-    // ...split further into key-value pairs
-    var _style$split = style.split(':'),
-        _style$split2 = Object(_babel_runtime_helpers_esm_toArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_style$split),
-        key = _style$split2[0],
-        valueParts = _style$split2.slice(1);
-
-    var value = valueParts.join(':');
-    return [key.trim(), getNormalizedStyleValue(value.trim())];
-  });
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"])(pairs);
-}
-/**
- * Attribute-specific equality handlers
- *
- * @type {Object}
- */
-
-var isEqualAttributesOfName = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-  class: function _class(actual, expected) {
-    // Class matches if members are the same, even if out of order or
-    // superfluous whitespace between.
-    return !lodash__WEBPACK_IMPORTED_MODULE_5__["xor"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getTextPiecesSplitOnWhitespace))).length;
-  },
-  style: function style(actual, expected) {
-    return lodash__WEBPACK_IMPORTED_MODULE_5__["isEqual"].apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getStyleProperties)));
-  }
-}, Object(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"])(BOOLEAN_ATTRIBUTES.map(function (attribute) {
-  return [attribute, lodash__WEBPACK_IMPORTED_MODULE_5__["stubTrue"]];
-})));
-/**
- * Given two sets of attribute tuples, returns true if the attribute sets are
- * equivalent.
- *
- * @param {Array[]} actual   Actual attributes tuples.
- * @param {Array[]} expected Expected attributes tuples.
- *
- * @return {boolean} Whether attributes are equivalent.
- */
-
-function isEqualTagAttributePairs(actual, expected) {
-  // Attributes is tokenized as tuples. Their lengths should match. This also
-  // avoids us needing to check both attributes sets, since if A has any keys
-  // which do not exist in B, we know the sets to be different.
-  if (actual.length !== expected.length) {
-    log.warning('Expected attributes %o, instead saw %o.', expected, actual);
-    return false;
-  } // Convert tuples to object for ease of lookup
-
-
-  var _map = [actual, expected].map(lodash__WEBPACK_IMPORTED_MODULE_5__["fromPairs"]),
-      _map2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_map, 2),
-      actualAttributes = _map2[0],
-      expectedAttributes = _map2[1];
-
-  for (var name in actualAttributes) {
-    // As noted above, if missing member in B, assume different
-    if (!expectedAttributes.hasOwnProperty(name)) {
-      log.warning('Encountered unexpected attribute `%s`.', name);
-      return false;
-    }
-
-    var actualValue = actualAttributes[name];
-    var expectedValue = expectedAttributes[name];
-    var isEqualAttributes = isEqualAttributesOfName[name];
-
-    if (isEqualAttributes) {
-      // Defer custom attribute equality handling
-      if (!isEqualAttributes(actualValue, expectedValue)) {
-        log.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
-        return false;
-      }
-    } else if (actualValue !== expectedValue) {
-      // Otherwise strict inequality should bail
-      log.warning('Expected attribute `%s` of value `%s`, saw `%s`.', name, expectedValue, actualValue);
-      return false;
-    }
-  }
-
-  return true;
-}
-/**
- * Token-type-specific equality handlers
- *
- * @type {Object}
- */
-
-var isEqualTokensOfType = {
-  StartTag: function StartTag(actual, expected) {
-    if (actual.tagName !== expected.tagName) {
-      log.warning('Expected tag name `%s`, instead saw `%s`.', expected.tagName, actual.tagName);
-      return false;
-    }
-
-    return isEqualTagAttributePairs.apply(void 0, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])([actual, expected].map(getMeaningfulAttributePairs)));
-  },
-  Chars: isEqualTextTokensWithCollapsedWhitespace,
-  Comment: isEqualTextTokensWithCollapsedWhitespace
-};
-/**
- * Given an array of tokens, returns the first token which is not purely
- * whitespace.
- *
- * Mutates the tokens array.
- *
- * @param {Object[]} tokens Set of tokens to search.
- *
- * @return {Object} Next non-whitespace token.
- */
-
-function getNextNonWhitespaceToken(tokens) {
-  var token;
-
-  while (token = tokens.shift()) {
-    if (token.type !== 'Chars') {
-      return token;
-    }
-
-    if (!REGEXP_ONLY_WHITESPACE.test(token.chars)) {
-      return token;
-    }
-  }
-}
-/**
- * Tokenize an HTML string, gracefully handling any errors thrown during
- * underlying tokenization.
- *
- * @param {string} html HTML string to tokenize.
- *
- * @return {Object[]|null} Array of valid tokenized HTML elements, or null on error
- */
-
-function getHTMLTokens(html) {
-  try {
-    return Object(simple_html_tokenizer__WEBPACK_IMPORTED_MODULE_4__["tokenize"])(html);
-  } catch (e) {
-    log.warning('Malformed HTML detected: %s', html);
-  }
-
-  return null;
-}
-/**
- * Returns true if the next HTML token closes the current token.
- *
- * @param {Object} currentToken Current token to compare with.
- * @param {Object|undefined} nextToken Next token to compare against.
- *
- * @return {boolean} true if `nextToken` closes `currentToken`, false otherwise
- */
-
-
-function isClosedByToken(currentToken, nextToken) {
-  // Ensure this is a self closed token
-  if (!currentToken.selfClosing) {
-    return false;
-  } // Check token names and determine if nextToken is the closing tag for currentToken
-
-
-  if (nextToken && nextToken.tagName === currentToken.tagName && nextToken.type === 'EndTag') {
-    return true;
-  }
-
-  return false;
-}
-/**
- * Returns true if the given HTML strings are effectively equivalent, or
- * false otherwise. Invalid HTML is not considered equivalent, even if the
- * strings directly match.
- *
- * @param {string} actual Actual HTML string.
- * @param {string} expected Expected HTML string.
- *
- * @return {boolean} Whether HTML strings are equivalent.
- */
-
-function isEquivalentHTML(actual, expected) {
-  // Tokenize input content and reserialized save content
-  var _map3 = [actual, expected].map(getHTMLTokens),
-      _map4 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_map3, 2),
-      actualTokens = _map4[0],
-      expectedTokens = _map4[1]; // If either is malformed then stop comparing - the strings are not equivalent
-
-
-  if (!actualTokens || !expectedTokens) {
-    return false;
-  }
-
-  var actualToken, expectedToken;
-
-  while (actualToken = getNextNonWhitespaceToken(actualTokens)) {
-    expectedToken = getNextNonWhitespaceToken(expectedTokens); // Inequal if exhausted all expected tokens
-
-    if (!expectedToken) {
-      log.warning('Expected end of content, instead saw %o.', actualToken);
-      return false;
-    } // Inequal if next non-whitespace token of each set are not same type
-
-
-    if (actualToken.type !== expectedToken.type) {
-      log.warning('Expected token of type `%s` (%o), instead saw `%s` (%o).', expectedToken.type, expectedToken, actualToken.type, actualToken);
-      return false;
-    } // Defer custom token type equality handling, otherwise continue and
-    // assume as equal
-
-
-    var isEqualTokens = isEqualTokensOfType[actualToken.type];
-
-    if (isEqualTokens && !isEqualTokens(actualToken, expectedToken)) {
-      return false;
-    } // Peek at the next tokens (actual and expected) to see if they close
-    // a self-closing tag
-
-
-    if (isClosedByToken(actualToken, expectedTokens[0])) {
-      // Consume the next expected token that closes the current actual
-      // self-closing token
-      getNextNonWhitespaceToken(expectedTokens);
-    } else if (isClosedByToken(expectedToken, actualTokens[0])) {
-      // Consume the next actual token that closes the current expected
-      // self-closing token
-      getNextNonWhitespaceToken(actualTokens);
-    }
-  }
-
-  if (expectedToken = getNextNonWhitespaceToken(expectedTokens)) {
-    // If any non-whitespace tokens remain in expected token set, this
-    // indicates inequality
-    log.warning('Expected %o, instead saw end of content.', expectedToken);
-    return false;
-  }
-
-  return true;
-}
-/**
- * Returns true if the parsed block is valid given the input content. A block
- * is considered valid if, when serialized with assumed attributes, the content
- * matches the original value.
- *
- * Logs to console in development environments when invalid.
- *
- * @param {string} innerHTML  Original block content.
- * @param {string} blockType  Block type.
- * @param {Object} attributes Parsed block attributes.
- *
- * @return {boolean} Whether block is valid.
- */
-
-function isValidBlock(innerHTML, blockType, attributes) {
-  var saveContent;
-
-  try {
-    saveContent = Object(_serializer__WEBPACK_IMPORTED_MODULE_6__["getSaveContent"])(blockType, attributes);
-  } catch (error) {
-    log.error('Block validation failed because an error occurred while generating block content:\n\n%s', error.toString());
-    return false;
-  }
-
-  var isValid = isEquivalentHTML(innerHTML, saveContent);
-
-  if (!isValid) {
-    log.error('Block validation failed for `%s` (%o).\n\nExpected:\n\n%s\n\nActual:\n\n%s', blockType.name, blockType, saveContent, innerHTML);
-  }
-
-  return isValid;
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/block-content-provider/index.js":
-/*!*******************************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/block-content-provider/index.js ***!
-  \*******************************************************************************/
-/*! exports provided: withBlockContentContext, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withBlockContentContext", function() { return withBlockContentContext; });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./packages/node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api */ "./packages/packages/blocks/build-module/api/index.js");
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-var _createContext = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createContext"])(function () {}),
-    Consumer = _createContext.Consumer,
-    Provider = _createContext.Provider;
-/**
- * An internal block component used in block content serialization to inject
- * nested block content within the `save` implementation of the ancestor
- * component in which it is nested. The component provides a pre-bound
- * `BlockContent` component via context, which is used by the developer-facing
- * `InnerBlocks.Content` component to render block content.
- *
- * @example
- *
- * ```jsx
- * <BlockContentProvider innerBlocks={ innerBlocks }>
- * 	{ blockSaveElement }
- * </BlockContentProvider>
- * ```
- *
- * @return {WPElement} Element with BlockContent injected via context.
- */
-
-
-var BlockContentProvider = function BlockContentProvider(_ref) {
-  var children = _ref.children,
-      innerBlocks = _ref.innerBlocks;
-
-  var BlockContent = function BlockContent() {
-    // Value is an array of blocks, so defer to block serializer
-    var html = Object(_api__WEBPACK_IMPORTED_MODULE_3__["serialize"])(innerBlocks); // Use special-cased raw HTML tag to avoid default escaping
-
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["RawHTML"], null, html);
-  };
-
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Provider, {
-    value: BlockContent
-  }, children);
-};
-/**
- * A Higher Order Component used to inject BlockContent using context to the
- * wrapped component.
- *
- * @return {Component} Enhanced component with injected BlockContent as prop.
- */
-
-
-var withBlockContentContext = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["createHigherOrderComponent"])(function (OriginalComponent) {
-  return function (props) {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Consumer, null, function (context) {
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
-        BlockContent: context
-      }));
-    });
-  };
-}, 'withBlockContentContext');
-/* harmony default export */ __webpack_exports__["default"] = (BlockContentProvider);
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/index.js":
-/*!********************************************************!*\
-  !*** ./packages/packages/blocks/build-module/index.js ***!
-  \********************************************************/
-/*! exports provided: withBlockContentContext, createBlock, cloneBlock, getPossibleBlockTransformations, switchToBlockType, getBlockTransforms, findTransform, parse, getBlockAttributes, parseWithAttributeSchema, rawHandler, getPhrasingContentSchema, serialize, getBlockContent, getBlockDefaultClassName, getBlockMenuDefaultClassName, getSaveElement, getSaveContent, isValidBlock, getCategories, setCategories, registerBlockType, unregisterBlockType, setUnknownTypeHandlerName, getUnknownTypeHandlerName, setFreeformContentHandlerName, getFreeformContentHandlerName, setUnregisteredTypeHandlerName, getUnregisteredTypeHandlerName, setDefaultBlockName, getDefaultBlockName, getBlockType, getBlockTypes, getBlockSupport, hasBlockSupport, isReusableBlock, getChildBlockNames, hasChildBlocks, hasChildBlocksWithInserterSupport, unstable__bootstrapServerSideBlockDefinitions, registerBlockStyle, isUnmodifiedDefaultBlock, normalizeIconObject, isValidIcon, doBlocksMatchTemplate, synchronizeBlocksWithTemplate, children, node */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./packages/packages/blocks/build-module/store/index.js");
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./packages/packages/blocks/build-module/api/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["createBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["cloneBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPossibleBlockTransformations", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getPossibleBlockTransformations"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "switchToBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["switchToBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTransforms", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockTransforms"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findTransform", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["findTransform"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["parse"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockAttributes", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockAttributes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseWithAttributeSchema", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["parseWithAttributeSchema"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "rawHandler", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["rawHandler"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getPhrasingContentSchema"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "serialize", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["serialize"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockContent", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockContent"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockDefaultClassName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockDefaultClassName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockMenuDefaultClassName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockMenuDefaultClassName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveElement", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getSaveElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSaveContent", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getSaveContent"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isValidBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getCategories"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setCategories"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["unregisterBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnknownTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setUnknownTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnknownTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getUnknownTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setFreeformContentHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFreeformContentHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getFreeformContentHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setUnregisteredTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredTypeHandlerName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getUnregisteredTypeHandlerName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["setDefaultBlockName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getDefaultBlockName"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockType"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockTypes"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getBlockSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasBlockSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isReusableBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isReusableBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["getChildBlockNames"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasChildBlocks"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["hasChildBlocksWithInserterSupport"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstable__bootstrapServerSideBlockDefinitions", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["unstable__bootstrapServerSideBlockDefinitions"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerBlockStyle", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["registerBlockStyle"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUnmodifiedDefaultBlock", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isUnmodifiedDefaultBlock"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalizeIconObject", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["normalizeIconObject"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidIcon", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["isValidIcon"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "doBlocksMatchTemplate", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["doBlocksMatchTemplate"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "synchronizeBlocksWithTemplate", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["synchronizeBlocksWithTemplate"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "children", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["children"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "node", function() { return _api__WEBPACK_IMPORTED_MODULE_1__["node"]; });
-
-/* harmony import */ var _block_content_provider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block-content-provider */ "./packages/packages/blocks/build-module/block-content-provider/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withBlockContentContext", function() { return _block_content_provider__WEBPACK_IMPORTED_MODULE_2__["withBlockContentContext"]; });
-
-// A "block" is the abstract term used to describe units of markup that,
-// when composed together, form the content or layout of a page.
-// The API for blocks is exposed via `wp.blocks`.
-//
-// Supported blocks are registered by calling `registerBlockType`. Once registered,
-// the block is made available as an option to the editor interface.
-//
-// Blocks are inferred from the HTML source of a post through a parsing mechanism
-// and then stored as objects in state, from which it is then rendered for editing.
-
-
-
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/store/actions.js":
-/*!****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/store/actions.js ***!
-  \****************************************************************/
-/*! exports provided: addBlockTypes, removeBlockTypes, setDefaultBlockName, setFallbackBlockName, setFreeformFallbackBlockName, setUnregisteredFallbackBlockName, setCategories */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addBlockTypes", function() { return addBlockTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeBlockTypes", function() { return removeBlockTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDefaultBlockName", function() { return setDefaultBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFallbackBlockName", function() { return setFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setFreeformFallbackBlockName", function() { return setFreeformFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setUnregisteredFallbackBlockName", function() { return setUnregisteredFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCategories", function() { return setCategories; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__);
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Returns an action object used in signalling that block types have been added.
- *
- * @param {Array|Object} blockTypes Block types received.
- *
- * @return {Object} Action object.
- */
-
-function addBlockTypes(blockTypes) {
-  return {
-    type: 'ADD_BLOCK_TYPES',
-    blockTypes: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(blockTypes)
-  };
-}
-/**
- * Returns an action object used to remove a registered block type.
- *
- * @param {string|Array} names Block name.
- *
- * @return {Object} Action object.
- */
-
-function removeBlockTypes(names) {
-  return {
-    type: 'REMOVE_BLOCK_TYPES',
-    names: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(names)
-  };
-}
-/**
- * Returns an action object used to set the default block name.
- *
- * @param {string} name Block name.
- *
- * @return {Object} Action object.
- */
-
-function setDefaultBlockName(name) {
-  return {
-    type: 'SET_DEFAULT_BLOCK_NAME',
-    name: name
-  };
-}
-/**
- * Returns an action object used to set the name of the block used as a fallback
- * for non-block content.
- *
- * @param {string} name Block name.
- *
- * @return {Object} Action object.
- */
-
-function setFallbackBlockName(name) {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default()('setFallbackBlockName', {
-    plugin: 'Gutenberg',
-    version: '4.2',
-    alternative: 'setFreeformFallbackBlockName and setUnregisteredFallbackBlockName'
-  });
-  return setFreeformFallbackBlockName(name);
-}
-/**
- * Returns an action object used to set the name of the block used as a fallback
- * for non-block content.
- *
- * @param {string} name Block name.
- *
- * @return {Object} Action object.
- */
-
-function setFreeformFallbackBlockName(name) {
-  return {
-    type: 'SET_FREEFORM_FALLBACK_BLOCK_NAME',
-    name: name
-  };
-}
-/**
- * Returns an action object used to set the name of the block used as a fallback
- * for unregistered blocks.
- *
- * @param {string} name Block name.
- *
- * @return {Object} Action object.
- */
-
-function setUnregisteredFallbackBlockName(name) {
-  return {
-    type: 'SET_UNREGISTERED_FALLBACK_BLOCK_NAME',
-    name: name
-  };
-}
-/**
- * Returns an action object used to set block categories.
- *
- * @param {Object[]} categories Block categories.
- *
- * @return {Object} Action object.
- */
-
-function setCategories(categories) {
-  return {
-    type: 'SET_CATEGORIES',
-    categories: categories
-  };
-}
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/store/index.js":
-/*!**************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/store/index.js ***!
-  \**************************************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./packages/packages/blocks/build-module/store/reducer.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./packages/packages/blocks/build-module/store/selectors.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./packages/packages/blocks/build-module/store/actions.js");
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["registerStore"])('core/blocks', {
-  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
-  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
-});
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/store/reducer.js":
-/*!****************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/store/reducer.js ***!
-  \****************************************************************/
-/*! exports provided: DEFAULT_CATEGORIES, blockTypes, createBlockNameSetterReducer, defaultBlockName, freeformFallbackBlockName, unregisteredFallbackBlockName, categories, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_CATEGORIES", function() { return DEFAULT_CATEGORIES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "blockTypes", function() { return blockTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlockNameSetterReducer", function() { return createBlockNameSetterReducer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultBlockName", function() { return defaultBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "freeformFallbackBlockName", function() { return freeformFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisteredFallbackBlockName", function() { return unregisteredFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "categories", function() { return categories; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./packages/node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Module Constants
- */
-
-var DEFAULT_CATEGORIES = [{
-  slug: 'common',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Common Blocks')
-}, {
-  slug: 'formatting',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Formatting')
-}, {
-  slug: 'layout',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Layout Elements')
-}, {
-  slug: 'widgets',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Widgets')
-}, {
-  slug: 'embed',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Embeds')
-}, {
-  slug: 'reusable',
-  title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('Reusable Blocks')
-}];
-/**
- * Reducer managing the block types
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-
-function blockTypes() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'ADD_BLOCK_TYPES':
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keyBy"])(action.blockTypes, 'name'));
-
-    case 'REMOVE_BLOCK_TYPES':
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["omit"])(state, action.names);
-  }
-
-  return state;
-}
-/**
- * Higher-order Reducer creating a reducer keeping track of given block name.
- *
- * @param {string} setActionType  Action type.
- *
- * @return {function} Reducer.
- */
-
-function createBlockNameSetterReducer(setActionType) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var action = arguments.length > 1 ? arguments[1] : undefined;
-
-    switch (action.type) {
-      case 'REMOVE_BLOCK_TYPES':
-        if (action.names.indexOf(state) !== -1) {
-          return null;
-        }
-
-        return state;
-
-      case setActionType:
-        return action.name || null;
-    }
-
-    return state;
-  };
-}
-var defaultBlockName = createBlockNameSetterReducer('SET_DEFAULT_BLOCK_NAME');
-var freeformFallbackBlockName = createBlockNameSetterReducer('SET_FREEFORM_FALLBACK_BLOCK_NAME');
-var unregisteredFallbackBlockName = createBlockNameSetterReducer('SET_UNREGISTERED_FALLBACK_BLOCK_NAME');
-/**
- * Reducer managing the categories
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-
-function categories() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CATEGORIES;
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  if (action.type === 'SET_CATEGORIES') {
-    return action.categories || [];
-  }
-
-  return state;
-}
-/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["combineReducers"])({
-  blockTypes: blockTypes,
-  defaultBlockName: defaultBlockName,
-  freeformFallbackBlockName: freeformFallbackBlockName,
-  unregisteredFallbackBlockName: unregisteredFallbackBlockName,
-  categories: categories
-}));
-
-
-/***/ }),
-
-/***/ "./packages/packages/blocks/build-module/store/selectors.js":
-/*!******************************************************************!*\
-  !*** ./packages/packages/blocks/build-module/store/selectors.js ***!
-  \******************************************************************/
-/*! exports provided: getBlockTypes, getBlockType, getCategories, getDefaultBlockName, getFallbackBlockName, getFreeformFallbackBlockName, getUnregisteredFallbackBlockName, getChildBlockNames, getBlockSupport, hasBlockSupport, hasChildBlocks, hasChildBlocksWithInserterSupport */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockTypes", function() { return getBlockTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockType", function() { return getBlockType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCategories", function() { return getCategories; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDefaultBlockName", function() { return getDefaultBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFallbackBlockName", function() { return getFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFreeformFallbackBlockName", function() { return getFreeformFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUnregisteredFallbackBlockName", function() { return getUnregisteredFallbackBlockName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChildBlockNames", function() { return getChildBlockNames; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlockSupport", function() { return getBlockSupport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasBlockSupport", function() { return hasBlockSupport; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocks", function() { return hasChildBlocks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasChildBlocksWithInserterSupport", function() { return hasChildBlocksWithInserterSupport; });
-/* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ "./packages/node_modules/rememo/es/rememo.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2__);
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Returns all the available block types.
- *
- * @param {Object} state Data state.
- *
- * @return {Array} Block Types.
- */
-
-var getBlockTypes = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state) {
-  return Object.values(state.blockTypes);
-}, function (state) {
-  return [state.blockTypes];
-});
-/**
- * Returns a block type by name.
- *
- * @param {Object} state Data state.
- * @param {string} name Block type name.
- *
- * @return {Object?} Block Type.
- */
-
-function getBlockType(state, name) {
-  return state.blockTypes[name];
-}
-/**
- * Returns all the available categories.
- *
- * @param {Object} state Data state.
- *
- * @return {Array} Categories list.
- */
-
-function getCategories(state) {
-  return state.categories;
-}
-/**
- * Returns the name of the default block name.
- *
- * @param {Object} state Data state.
- *
- * @return {string?} Default block name.
- */
-
-function getDefaultBlockName(state) {
-  return state.defaultBlockName;
-}
-/**
- * Returns the name of the fallback block name.
- *
- * @param {Object} state Data state.
- *
- * @return {string?} Fallback block name.
- */
-
-function getFallbackBlockName(state) {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_2___default()('getFallbackBlockName', {
-    plugin: 'Gutenberg',
-    version: '4.2',
-    alternative: 'getFreeformFallbackBlockName and getUnregisteredFallbackBlockName'
-  });
-  return getFreeformFallbackBlockName(state);
-}
-/**
- * Returns the name of the block for handling non-block content.
- *
- * @param {Object} state Data state.
- *
- * @return {string?} Name of the block for handling non-block content.
- */
-
-function getFreeformFallbackBlockName(state) {
-  return state.freeformFallbackBlockName;
-}
-/**
- * Returns the name of the block for handling unregistered blocks.
- *
- * @param {Object} state Data state.
- *
- * @return {string?} Name of the block for handling unregistered blocks.
- */
-
-function getUnregisteredFallbackBlockName(state) {
-  return state.unregisteredFallbackBlockName;
-}
-/**
- * Returns an array with the child blocks of a given block.
- *
- * @param {Object} state     Data state.
- * @param {string} blockName Block type name.
- *
- * @return {Array} Array of child block names.
- */
-
-var getChildBlockNames = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state, blockName) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["map"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["filter"])(state.blockTypes, function (blockType) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["includes"])(blockType.parent, blockName);
-  }), function (_ref) {
-    var name = _ref.name;
-    return name;
-  });
-}, function (state) {
-  return [state.blockTypes];
-});
-/**
- * Returns the block support value for a feature, if defined.
- *
- * @param  {Object}          state           Data state.
- * @param  {(string|Object)} nameOrType      Block name or type object
- * @param  {string}          feature         Feature to retrieve
- * @param  {*}               defaultSupports Default value to return if not
- *                                           explicitly defined
- *
- * @return {?*} Block support value
- */
-
-var getBlockSupport = function getBlockSupport(state, nameOrType, feature, defaultSupports) {
-  var blockType = 'string' === typeof nameOrType ? getBlockType(state, nameOrType) : nameOrType;
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(blockType, ['supports', feature], defaultSupports);
-};
-/**
- * Returns true if the block defines support for a feature, or false otherwise.
- *
- * @param  {Object}         state           Data state.
- * @param {(string|Object)} nameOrType      Block name or type object.
- * @param {string}          feature         Feature to test.
- * @param {boolean}         defaultSupports Whether feature is supported by
- *                                          default if not explicitly defined.
- *
- * @return {boolean} Whether block supports feature.
- */
-
-function hasBlockSupport(state, nameOrType, feature, defaultSupports) {
-  return !!getBlockSupport(state, nameOrType, feature, defaultSupports);
-}
-/**
- * Returns a boolean indicating if a block has child blocks or not.
- *
- * @param {Object} state     Data state.
- * @param {string} blockName Block type name.
- *
- * @return {boolean} True if a block contains child blocks and false otherwise.
- */
-
-var hasChildBlocks = function hasChildBlocks(state, blockName) {
-  return getChildBlockNames(state, blockName).length > 0;
-};
-/**
- * Returns a boolean indicating if a block has at least one child block with inserter support.
- *
- * @param {Object} state     Data state.
- * @param {string} blockName Block type name.
- *
- * @return {boolean} True if a block contains at least one child blocks with inserter support
- *                   and false otherwise.
- */
-
-var hasChildBlocksWithInserterSupport = function hasChildBlocksWithInserterSupport(state, blockName) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["some"])(getChildBlockNames(state, blockName), function (childBlockName) {
-    return hasBlockSupport(state, childBlockName, 'inserter', true);
-  });
-};
 
 
 /***/ }),

@@ -82,15 +82,15 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./packages/packages/a11y/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/a11y/build-module/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./packages/packages/a11y/build-module/addContainer.js":
-/*!*************************************************************!*\
-  !*** ./packages/packages/a11y/build-module/addContainer.js ***!
-  \*************************************************************/
+/***/ "./node_modules/@wordpress/a11y/build-module/addContainer.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@wordpress/a11y/build-module/addContainer.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -121,10 +121,10 @@ var addContainer = function addContainer(ariaLive) {
 
 /***/ }),
 
-/***/ "./packages/packages/a11y/build-module/clear.js":
-/*!******************************************************!*\
-  !*** ./packages/packages/a11y/build-module/clear.js ***!
-  \******************************************************/
+/***/ "./node_modules/@wordpress/a11y/build-module/clear.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@wordpress/a11y/build-module/clear.js ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -146,10 +146,10 @@ var clear = function clear() {
 
 /***/ }),
 
-/***/ "./packages/packages/a11y/build-module/filterMessage.js":
-/*!**************************************************************!*\
-  !*** ./packages/packages/a11y/build-module/filterMessage.js ***!
-  \**************************************************************/
+/***/ "./node_modules/@wordpress/a11y/build-module/filterMessage.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@wordpress/a11y/build-module/filterMessage.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -187,10 +187,10 @@ var filterMessage = function filterMessage(message) {
 
 /***/ }),
 
-/***/ "./packages/packages/a11y/build-module/index.js":
-/*!******************************************************!*\
-  !*** ./packages/packages/a11y/build-module/index.js ***!
-  \******************************************************/
+/***/ "./node_modules/@wordpress/a11y/build-module/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@wordpress/a11y/build-module/index.js ***!
+  \************************************************************/
 /*! exports provided: setup, speak */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -198,11 +198,11 @@ var filterMessage = function filterMessage(message) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setup", function() { return setup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "speak", function() { return speak; });
-/* harmony import */ var _addContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addContainer */ "./packages/packages/a11y/build-module/addContainer.js");
-/* harmony import */ var _clear__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./clear */ "./packages/packages/a11y/build-module/clear.js");
+/* harmony import */ var _addContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addContainer */ "./node_modules/@wordpress/a11y/build-module/addContainer.js");
+/* harmony import */ var _clear__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./clear */ "./node_modules/@wordpress/a11y/build-module/clear.js");
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _filterMessage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filterMessage */ "./packages/packages/a11y/build-module/filterMessage.js");
+/* harmony import */ var _filterMessage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filterMessage */ "./node_modules/@wordpress/a11y/build-module/filterMessage.js");
 
 
 
