@@ -37,6 +37,7 @@ remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 
 wp_enqueue_script( 'heartbeat' );
 wp_enqueue_script( 'wp-edit-post' );
+wp_enqueue_script( 'wp-format-library' );
 
 $rest_base = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
 
@@ -355,6 +356,7 @@ wp_enqueue_editor();
  * Styles
  */
 wp_enqueue_style( 'wp-edit-post' );
+wp_enqueue_style( 'wp-format-library' );
 
 /**
  * Fires after block assets have been enqueued for the editing interface.

@@ -62,6 +62,10 @@ function render_block_core_latest_posts( $attributes ) {
 		$class .= ' columns-' . $attributes['columns'];
 	}
 
+	if ( isset( $attributes['displayPostDate'] ) && $attributes['displayPostDate'] ) {
+		$class .= ' has-dates';
+	}
+
 	if ( isset( $attributes['className'] ) ) {
 		$class .= ' ' . $attributes['className'];
 	}
