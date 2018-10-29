@@ -1052,25 +1052,27 @@ function do_meta_boxes( $screen, $context, $object ) {
 					if ( false == $box || ! $box['title'] )
 						continue;
 
-					// Don't show boxes in the block editor, if they're just here for back compat.
-					if ( $screen->is_block_editor() && isset( $box['args']['__back_compat_meta_box'] ) && $box['args']['__back_compat_meta_box'] ) {
-						continue;
-					}
+					if ( is_array( $box[ 'args' ] ) ) {
+						// If a meta box is just here for back compat, don't show it in the block editor.
+						if ( $screen->is_block_editor() && isset( $box['args']['__back_compat_meta_box'] ) && $box['args']['__back_compat_meta_box'] ) {
+							continue;
+						}
 
-					// Don't show boxes in the block editor that aren't compatible with the block editor.
-					if ( $screen->is_block_editor() && isset( $box['args']['__block_editor_compatible_meta_box'] ) && ! $box['args']['__block_editor_compatible_meta_box'] ) {
-						continue;
-					}
+						// If a meta box doesn't work in the block editor, don't show it in the block editor.
+						if ( $screen->is_block_editor() && isset( $box['args']['__block_editor_compatible_meta_box'] ) && ! $box['args']['__block_editor_compatible_meta_box'] ) {
+							continue;
+						}
 
-					$block_compatible = true;
-					if ( isset( $box['args']['__block_editor_compatible_meta_box'] ) ) {
-						$block_compatible = (bool) $box['args']['__block_editor_compatible_meta_box'];
-						unset( $box['args']['__block_editor_compatible_meta_box'] );
-					}
+						$block_compatible = true;
+						if ( isset( $box['args']['__block_editor_compatible_meta_box'] ) ) {
+							$block_compatible = (bool) $box['args']['__block_editor_compatible_meta_box'];
+							unset( $box['args']['__block_editor_compatible_meta_box'] );
+						}
 
-					if ( isset( $box['args']['__back_compat_meta_box'] ) ) {
-						$block_compatible |= (bool) $box['args']['__back_compat_meta_box'];
-						unset( $box['args']['__back_compat_meta_box'] );
+						if ( isset( $box['args']['__back_compat_meta_box'] ) ) {
+							$block_compatible = $block_compatible || (bool) $box['args']['__back_compat_meta_box'];
+							unset( $box['args']['__back_compat_meta_box'] );
+						}
 					}
 
 					$i++;
