@@ -12,7 +12,7 @@ NOTE: This file customizes items that are out of the normal scope of style-edito
 
 /** === Title === */
 
-body.gutenberg-editor-page .gutenberg .editor-post-title__block {
+body.block-editor-page .block-editor .editor-post-title__block {
 	@include post-section-dash;
 
 	&:before {
@@ -32,14 +32,14 @@ body.gutenberg-editor-page .gutenberg .editor-post-title__block {
 
 /** === Default Appender === */
 
-body.gutenberg-editor-page .gutenberg .editor-default-block-appender__content {
+body.block-editor-page .block-editor .editor-default-block-appender__content {
 	font-family: $font__body;
 	font-size: $font__size_base;
 }
 
 /** === Off-Center Content === */
 
-body.gutenberg-editor-page .gutenberg .edit-post-layout {
+body.block-editor-page .block-editor .edit-post-layout {
 
 	@include media(tablet) {
 		.editor-writing-flow {

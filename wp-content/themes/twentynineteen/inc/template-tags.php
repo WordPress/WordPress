@@ -4,6 +4,7 @@
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen
+ * @since 1.0.0
  */
 
 if ( ! function_exists( 'twentynineteen_posted_on' ) ) :
@@ -25,7 +26,7 @@ if ( ! function_exists( 'twentynineteen_posted_on' ) ) :
 		);
 
 		printf(
-			'<span class="posted-on">%1$s<a href="%2$s" rel="bookmark">' . $time_string . '</a></span>',
+			'<span class="posted-on">%1$s<a href="%2$s" rel="bookmark">%3$s</a></span>',
 			twentynineteen_get_icon_svg( 'watch', 16 ),
 			esc_url( get_permalink() ),
 			$time_string
@@ -74,6 +75,9 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 
 		// Posted by
 		twentynineteen_posted_by();
+
+		// Posted on
+		twentynineteen_posted_on();
 
 		// Hide category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
@@ -185,11 +189,10 @@ if ( ! function_exists( 'twentynineteen_comment_avatar' ) ) :
 	 * Returns the HTML markup to generate a user avatar.
 	 */
 	function twentynineteen_get_user_avatar_markup( $id_or_email = null ) {
+
 		if ( ! isset( $id_or_email ) ) {
 			$id_or_email = get_current_user_id();
 		}
-
-		$classes = array( 'comment-author', 'vcard' );
 
 		return sprintf( '<div class="comment-user-avatar comment-author vcard">%s</div>', get_avatar( $id_or_email, twentynineteen_get_avatar_size() ) );
 	}
@@ -218,9 +221,9 @@ if ( ! function_exists( 'twentynineteen_comment_form' ) ) :
 	 */
 	function twentynineteen_comment_form( $order ) {
 		if ( true === $order || strtolower( $order ) === strtolower( get_option( 'comment_order', 'asc' ) ) ) {
+
 			comment_form(
 				array(
-					'title_reply_before' => twentynineteen_get_user_avatar_markup(),
 					'logged_in_as'       => null,
 					'title_reply'        => null,
 				)

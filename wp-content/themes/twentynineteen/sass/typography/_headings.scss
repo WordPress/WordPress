@@ -1,6 +1,7 @@
 .main-navigation,
 .page-description,
 h2.author-title,
+.author-description .author-link,
 .not-found .page-title,
 .error-404 .page-title,
 .post-navigation .post-title,
@@ -40,7 +41,7 @@ img:after,
 .site-branding,
 .main-navigation ul.main-menu > li,
 .social-navigation,
-.author-description p.author-bio,
+.author-description .author-bio,
 .nav-links {
 	line-height: 1.25;
 }

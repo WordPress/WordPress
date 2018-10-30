@@ -40,8 +40,13 @@
 	&:after {
 		background: $color__link;
 		mix-blend-mode: multiply;
-		opacity: 1;
+		opacity: .8;
 		z-index: 3;
+		
+		/* Browsers supporting mix-blend-mode don't need opacity < 1 */
+		@supports (mix-blend-mode: multiply) {
+			opacity: 1;
+		}
 	}
 }
 

@@ -1,9 +1,8 @@
 /* Site footer */
 
-.site-footer {
+#colophon {
 
-	color: $color__text-light;
-
+	.widget-area,
 	.site-info {
 
 		margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
@@ -18,12 +17,28 @@
 		}
 	}
 
-	a {
+	.site-info a {
 		color: inherit;
 
 		&:hover {
 			text-decoration: none;
 			color: $color__link;
 		}
+	}
+
+	.widget-column {
+		display: flex;
+		flex-wrap: wrap;
+		.widget {
+			width: 100%;
+			@include media(desktop) {
+				margin-right: calc(3 * #{$size__spacing-unit});
+				width: calc(50% - (3 * #{$size__spacing-unit}));
+			}
+		}
+	}
+
+	.site-info {
+		color: $color__text-light;
 	}
 }

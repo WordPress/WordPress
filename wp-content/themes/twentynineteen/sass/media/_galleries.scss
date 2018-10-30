@@ -1,11 +1,13 @@
 .gallery {
 	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
 	margin-bottom: calc(1.5 * #{$size__spacing-unit});
 }
 
 .gallery-item {
 	display: inline-block;
-	margin-right: $size__spacing-unit;
+	padding-right: $size__spacing-unit;
 	margin-bottom: $size__spacing-unit;
 	text-align: center;
 	vertical-align: top;
@@ -19,7 +21,7 @@
 	}
 
 	&:last-of-type {
-		margin-right: 0;
+		padding-right: 0;
 	}
 }
 

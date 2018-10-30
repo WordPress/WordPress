@@ -23,7 +23,7 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
     margin: 2cm;
   }
 
-  .hentry .entry-header, .site-footer .site-info {
+  .entry .entry-header, .site-footer .site-info {
     margin: 0;
   }
 
@@ -119,7 +119,7 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   .main-navigation,
   .social-navigation,
   .site-branding-container:before, 
-  .hentry .entry-title:before, 
+  .entry .entry-title:before, 
   .entry-meta, .entry-footer, 
   .author-description:before, 
   .post-navigation {

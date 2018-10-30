@@ -15,7 +15,8 @@ input[type="submit"] {
 	font-weight: 600;
 	line-height: $font__line-height-heading;
 	outline: none;
-	padding: ( $size__spacing-unit * .66 ) $size__spacing-unit;
+	padding: ( $size__spacing-unit * .76 ) $size__spacing-unit;
+	vertical-align: bottom;
 
 	&:hover {
 		cursor: pointer;

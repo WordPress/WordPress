@@ -4,6 +4,16 @@
 .post-navigation {
 
 	margin: calc(3 * 1rem) 0;
+	
+	@include media(tablet) {
+		margin: calc(3 * 1rem) calc(2 * (100vw / 12));
+		max-width: calc(6 * (100vw / 12));
+	}
+	
+	@include media(desktop) {
+		margin: calc(3 * 1rem) 0;
+		max-width: 100%;
+	}
 
 	.nav-links {
 
@@ -11,6 +21,10 @@
 		max-width: 100%;
 		display: flex;
 		flex-direction: column;
+		
+		@include media(tablet) {
+			margin: 0;
+		}
 
 		@include media(desktop) {
 			flex-direction: row;
@@ -73,6 +87,7 @@
 
 			@include media(desktop) {
 				order: 2;
+				padding-left: $size__spacing-unit;
 			}
 
 			.meta-nav {
@@ -138,15 +153,22 @@
 .comment-navigation {
 
 	.nav-links {
-
 		display: flex;
 		flex-direction: row;
+		margin: 0 $size__spacing-unit;
+
+		@include media(desktop) {
+			margin: 0 calc(2 * (100vw / 12));
+			max-width: calc(8 * (100vw / 12));
+		}
 	}
 
 	.nav-previous,
 	.nav-next {
 		min-width: 50%;
 		width: 100%;
+		font-family: $font__heading;
+		font-weight: bold;
 
 		.secondary-text {
 			display: none;

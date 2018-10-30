@@ -1,0 +1,296 @@
+/** === Main menu === */
+
+.main-navigation {
+
+	display: block;
+	margin-top: #{0.25 * $size__spacing-unit};
+
+	body.page & {
+		display: block;
+	}
+
+	> div {
+		display: inline;
+	}
+
+	.main-menu {
+
+		display: inline;
+		margin: 0;
+		padding: 0;
+
+		> li {
+
+			color: $color__link;
+			display: inline;
+
+			@include media(tablet) {
+				position: relative;
+			}
+
+			> a {
+
+				font-weight: 700;
+				color: $color__link;
+				margin-right: #{0.5 * $size__spacing-unit};
+
+				+ svg {
+					margin-right: #{0.5 * $size__spacing-unit};
+				}
+
+				&:hover,
+				&:hover + svg {
+					color: $color__link-hover;
+				}
+			}
+
+			&.menu-item-has-children {
+
+				display: inline-block;
+
+				> a {
+					margin-right: #{0.125 * $size__spacing-unit};
+				}
+
+				& > a,
+				.menu-item-has-children > a {
+
+					&:after {
+						content: "";
+						display: none;
+					}
+				}
+
+				.mobile-submenu-expand svg,
+				.desktop-submenu-expand svg {
+					position: relative;
+					top: 0.2rem;
+				}
+
+				&:not(:last-child) {
+
+					.mobile-submenu-expand,
+					.desktop-submenu-expand {
+						margin-right: #{0.5 * $size__spacing-unit};
+					}
+				}
+			}
+
+			&:last-child > a {
+				margin-right: 0;
+			}
+		}
+	}
+
+	.sub-menu {
+
+		background: $color__link;
+		color: $color__background-body;
+		list-style: none;
+		padding-left: 0;
+
+		display: none;
+		float: left;
+		position: absolute;
+		opacity: 0;
+		left: -999px;
+		z-index: 99999;
+
+		@include media(tablet) {
+			width: max-content;
+			max-width: calc(3 * (100vw / 12));
+		}
+
+		> li {
+
+			clear: both;
+			display: block;
+			float: none;
+			position: relative;
+			word-break: break-word;
+
+			&.menu-item-has-children {
+
+				.mobile-submenu-expand,
+				.desktop-submenu-expand {
+					position: absolute;
+					width: calc( 24px + #{$size__spacing-unit} );
+					right: 0;
+					top: calc( .125 * #{$size__spacing-unit} );
+					bottom: 0;
+					color: white;
+					line-height: 1;
+					padding: calc( .5 * #{$size__spacing-unit} );
+
+					svg {
+						top: 0;
+					}
+				}
+
+				&:not(:last-child) {
+
+					.mobile-submenu-expand,
+					.desktop-submenu-expand {
+						margin-right: 0;
+					}
+				}
+
+				@include media(tablet) {
+					.menu-item-has-children > a {
+
+						&:after {
+							content: "\203a";
+						}
+					}
+				}
+			}
+
+			> a:not(.mobile-submenu-expand) {
+				color: $color__background-body;
+				display: block;
+				line-height: $font__line-height-heading;
+				padding: calc( .5 * #{$size__spacing-unit} ) calc( 24px + #{$size__spacing-unit} ) calc( .5 * #{$size__spacing-unit} ) $size__spacing-unit;
+
+				&:hover,
+				&:focus {
+					background: $color__link-hover;
+
+					&:after {
+						background: $color__link-hover;
+					}
+				}
+			}
+
+			&.mobile-parent-nav-menu-item {
+				display: none;
+				font-size: $font__size-sm;
+				font-weight: normal;
+
+				svg {
+					position: relative;
+					top: 0.2rem;
+					margin-right: calc( .25 * #{$size__spacing-unit} );
+				}
+			}
+		}
+	}
+
+	/*
+	 * :focus-within needs its own selector so other similar
+	 * selectors don’t get ignored if a browser doesn’t recognize it
+	 */
+	.main-menu .menu-item-has-children:focus-within > .sub-menu {
+		display: block;
+		left: 0;
+		margin-top: 0;
+		opacity: 1;
+		width: calc( 100vw - #{$size__spacing-unit * 2});
+
+		.sub-menu {
+
+			margin-top: inherit;
+			position: relative;
+			padding-left: $size__spacing-unit;
+
+			@include media(tablet) {
+				padding-left: 0;
+				position: absolute;
+				left: 100%;
+				width: max-content;
+				top: 0;
+			}
+		}
+	}
+
+	.main-menu .menu-item-has-children:hover > .sub-menu,
+	.main-menu .menu-item-has-children:focus > .sub-menu,
+	.main-menu .menu-item-has-children .sub-menu:hover,
+	.main-menu .menu-item-has-children .sub-menu:focus {
+		display: table;
+		margin-top: 0;
+		opacity: 1;
+
+		/* Non-mobile position */
+		@include media(tablet) {
+			position: absolute;
+			left: 0;
+			right: auto;
+			top: auto;
+			bottom: auto;
+			height: auto;
+			width: max-content;
+			transform: none;
+			animation: fade_in 0.1s forwards;
+		}
+
+		.sub-menu {
+
+			@include media(tablet) {
+				margin-top: inherit;
+				padding-left: 0;
+				position: absolute;
+				left: 100%;
+				top: 0;
+			}
+		}
+	}
+
+	.main-menu .menu-item-has-children.focus .sub-menu.expanded-true {
+
+		display: table;
+		margin-top: 0;
+		opacity: 1;
+		padding-left: 0;
+
+		/* Mobile position */
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		position: fixed;
+		z-index: 100000; /* Make sure appears above mobile admin bar */
+		width: 100%;
+		height:  100%;
+		transform: translateX(+100%);
+		animation: slide_in_right 0.3s forwards;
+
+		> .mobile-parent-nav-menu-item {
+			display: inline-block;
+		}
+	}
+
+	/* Only show one submenu expand button at a time (desktop vs mobile) */
+	.desktop-submenu-expand {
+		display: none;
+
+		@include media(tablet) {
+			display: inline-block;
+		}
+	}
+
+	.mobile-submenu-expand {
+		display: inline-block;
+
+		@include media(tablet) {
+			display: none;
+		}
+	}
+
+}
+
+/* Menu Animation */
+
+@keyframes slide_in_right {
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes fade_in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}

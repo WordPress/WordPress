@@ -23,11 +23,11 @@ Twenty Nineteen is a Gutenberg-ready theme for WordPress.
 4. Go to https://codex.wordpress.org/Twenty_Nineteen for a guide on how to customize this theme.
 5. Navigate to Appearance > Customize in your admin panel and customize to taste.
 
- 
+
 ## Copyright
 
 Twenty Nineteen WordPress Theme, Copyright 2018 WordPress.org
-Twenty Nineteen is distributed under the terms of the GNU GPL
+Twenty Nineteen is distributed under the terms of the GNU GPL.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

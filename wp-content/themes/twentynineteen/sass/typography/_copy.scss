@@ -9,14 +9,8 @@ dfn, cite, em, i {
 
 blockquote {
 
-	> p {
-		font-size: $font__size-lg;
-		font-style: italic;
-		line-height: $font__line-height-heading;
-	}
-
 	cite {
-		font-size: $font__size-sm;
+		font-size: $font__size-xs;
 		font-style: normal;
 		font-family: $font__heading;
 	}

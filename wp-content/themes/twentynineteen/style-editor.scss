@@ -102,6 +102,21 @@ a {
 	}
 }
 
+.has-primary-background-color { 
+	
+	p,
+	h1, 
+	h2,
+	h3,
+	h4,
+	h5,
+	h6, 
+	a,
+	a:hover {
+		color: $color__background-body;
+	}
+}
+
 figcaption,
 .gallery-caption {
 	font-family: $font__heading;
@@ -123,12 +138,12 @@ figcaption,
 	}
 }
 
-/** === Cover Image === */
+/** === Cover === */
 
-.wp-block-cover-image {
+.wp-block-cover {
 
 	h2,
-	.wp-block-cover-image-text {
+	.wp-block-cover-text {
 		font-family: $font__heading;
 		font-size: $font__size-xl;
 		font-weight: bold;
@@ -139,7 +154,7 @@ figcaption,
 		justify-content: center;
 
 		h2,
-		.wp-block-cover-image-text {
+		.wp-block-cover-text {
 			padding: 1em;
 		}
 	}
@@ -148,28 +163,28 @@ figcaption,
 		justify-content: center;
 
 		h2,
-		.wp-block-cover-image-text {
+		.wp-block-cover-text {
 			padding: 1em;
 		}
 	}
 }
 
-body[data-type="core/cover-image"][data-align="left"],
-body[data-type="core/cover-image"][data-align="right"] {
+body[data-type="core/cover"][data-align="left"],
+body[data-type="core/cover"][data-align="right"] {
 
 	h2,
-	.wp-block-cover-image-text {
+	.wp-block-cover-text {
 		width: 100%;
 		max-width: 305px;
 	}
 }
 
-body[data-type="core/cover-image"][data-align="wide"],
-body[data-type="core/cover-image"][data-align="full"] {
+body[data-type="core/cover"][data-align="wide"],
+body[data-type="core/cover"][data-align="full"] {
 
 	@include media(desktop) {
 		h2,
-		.wp-block-cover-image-text {
+		.wp-block-cover-text {
 			padding: 0;
 			width: calc(6 * (100vw / 12));
 			max-width: calc(6 * (100vw / 12));
@@ -200,8 +215,7 @@ body[data-type="core/cover-image"][data-align="full"] {
 		font-weight: bold;
 	}
 
-	.wp-block-button__link:not(.has-background),
-	.wp-block-button__link:not(.has-background) {
+	&:not(.is-style-outline) .wp-block-button__link {
 		background: $color__background-button;
 	}
 
@@ -209,15 +223,19 @@ body[data-type="core/cover-image"][data-align="full"] {
 		border-radius: 5px;
 	}
 
-	&.is-style-outline .wp-block-button__link,
-	&.is-style-outline .wp-block-button__link:hover,
-	&.is-style-outline .wp-block-button__link:focus,
-	&.is-style-outline .wp-block-button__link:active {
+	&.is-style-outline,
+	&.is-style-outline:hover,
+	&.is-style-outline:focus,
+	&.is-style-outline:active {
 		background: transparent;
-		border-color: $color__background-button;
+		color: $color__background-button;
 
-		&:not(.has-text-color) {
-			color: $color__background-button;
+		.wp-block-button__link {
+			background: transparent;
+
+			&:not(.has-text-color) {
+				color: $color__background-button;
+			}
 		}
 	}
 }
@@ -274,9 +292,8 @@ body[data-type="core/cover-image"][data-align="full"] {
 			}
 		}
 
-		blockquote:not(.has-text-color) p,
-		.wp-block-pullquote__citation {
-			color: white;
+		blockquote:not(.has-text-color) {
+			color: $color__background-body;
 		}
 
 		&:not(.has-background-color) {
@@ -302,7 +319,6 @@ body[data-type="core/pullquote"][data-align="right"] {
 		line-height: 1.3;
 		margin-bottom: 0.5em;
 		margin-top: 0.5em;
-		color: $color__text-main;
 
 		@include media(tablet) {
 			font-size: $font__size-xl;
@@ -314,7 +330,6 @@ body[data-type="core/pullquote"][data-align="right"] {
 		font-size: $font__size-xs;
 		line-height: 1.6;
 		text-transform: none;
-		color: $color__text-light;
 	}
 
 	em {
@@ -334,11 +349,6 @@ body[data-type="core/pullquote"][data-align="right"] {
 
 		.wp-block-pullquote.is-style-solid-color {
 			padding: 1em;
-
-			p,
-			.wp-block-pullquote__citation {
-				color: white;
-			}
 		}
 	}
 
@@ -425,18 +435,16 @@ ul.wp-block-archives,
 		font-weight: bold;
 		line-height: $font__line-height-heading;
 
-		a {
-			text-decoration: none;
-
-			&:after {
-				color: $color__text-light;
-				content: ",";
-			}
+		&:not(.menu-item-has-children) {
+			padding-bottom: ( .75 * $size__spacing-unit );
 		}
 
-		&:last-child a:after {
-			color: $color__text-light;
-			content: ".";
+		a {
+			text-decoration: none;
+		}
+
+		ul {
+			padding-left: $size__spacing-unit;
 		}
 	}
 }
@@ -497,6 +505,19 @@ ul.wp-block-archives,
 }
 
 .wp-block-freeform {
+
+	/* Add style for galleries in classic-editor block */
+	blockquote {
+		border-left: 2px solid $color__link;
+
+		cite {
+			font-family: $font__heading;
+			font-size: $font__size-xs;
+			font-style: normal;
+			line-height: 1.6;
+			color: $color__text-light;
+		}
+	}
 
 	/* Add style for galleries in classic-editor block */
 	.gallery {

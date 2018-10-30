@@ -19,7 +19,7 @@ textarea {
 	border: solid 1px $color__border;
 	box-sizing: border-box;
 	outline: none;
-	padding: #{.5 * $size__spacing-unit} #{.66 * $size__spacing-unit};
+	padding: #{.36 * $size__spacing-unit} #{.66 * $size__spacing-unit};
 
 	&:focus {
 		border-color: $color__link;

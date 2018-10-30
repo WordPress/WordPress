@@ -9,18 +9,17 @@
 .comments-area {
 
 	/* Add extra margin when the comments section is located immediately after the
-	 * post itself (this happens on pages). 
+	 * post itself (this happens on pages).
 	 */
-	.hentry + & {
+	.entry + & {
 		margin-top: calc(3 * #{$size__spacing-unit});
 	}
 
-	.comments-title-wrap,
 	.comment-list,
+	.comment-navigation,
 	> .comment-respond,
 	.comment-form-flex,
 	.no-comments {
-
 		margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
 
 		@include media(tablet) {
@@ -31,13 +30,30 @@
 
 	.comments-title-wrap {
 
-		align-items: baseline;
-		display: flex;
-		justify-content: space-between;
+		margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
+
+		@include media(tablet) {
+			align-items: baseline;
+			display: flex;
+			justify-content: space-between;
+			margin: calc(3 * #{$size__spacing-unit}) calc(2 * (100vw / 12));
+			max-width: calc(8 * (100vw / 12));
+		}
 
 		.comments-title {
 			@include post-section-dash;
 			margin: 0;
+
+			@include media(tablet) {
+				flex: 1 0 calc(3 * (100vw / 12));
+			}
+		}
+
+		.discussion-meta {
+			@include media(tablet) {
+				flex: 0 0 calc(2 * (100vw / 12));
+				margin-left: #{$size__spacing-unit};
+			}
 		}
 	}
 }
@@ -48,11 +64,10 @@
 }
 
 #respond {
-
 	position: relative;
 
 	.comment-user-avatar {
-		display: none;
+		margin: $size__spacing-unit 0 -#{$size__spacing-unit};
 	}
 
 	.comment .comment-form {
@@ -74,26 +89,9 @@
 	> .comments-title:last-child {
 		display: none;
 	}
-
-	> #respond {
-		@include media(desktop) {
-
-			.comment-user-avatar {
-				position: absolute;
-				display: block;
-				top: 0;
-				left: 0;
-
-				.avatar {
-					display: block;
-				}
-			}
-		}
-	}
 }
 
 .comment-form-flex {
-
 	display: flex;
 	flex-direction: column;
 
@@ -104,8 +102,8 @@
 	}
 
 	#respond {
-
 		order: 2;
+
 		+ .comments-title {
 			display: block;
 		}
@@ -113,7 +111,6 @@
 }
 
 .comment-list {
-
 	list-style: none;
 	padding: 0;
 
@@ -125,11 +122,9 @@
 	> .comment:first-child {
 		margin-top: 0;
 	}
-
 }
 
 .comment-reply {
-
 	left: calc(#{$size__spacing-unit} + 100%);
 	bottom: 0;
 	position: absolute;
@@ -144,12 +139,10 @@
 }
 
 .comment {
-
 	list-style: none;
 	position: relative;
 
 	@include media(tablet) {
-
 		padding-left: calc(.5 * (#{$size__spacing-unit} + calc(100vw / 12 )));
 
 		.children {
@@ -217,9 +210,13 @@
 			height: 18px;
 			position: absolute;
 			background: lighten( $color__link, 8% );
-			right: calc(100% + #{$size__spacing-unit * .25});
+			right: calc(100% - #{$size__spacing-unit * 2.5});
 			top: -3px;
 			width: 18px;
+
+			@include media(tablet) {
+				right: calc(100% + #{$size__spacing-unit * .75});
+			}
 
 			svg {
 				width: inherit;
@@ -282,7 +279,6 @@
 		}
 
 		.comment-edit-link {
-
 			position: relative;
 			padding-left: $size__spacing-unit;
 			margin-left: -#{$size__spacing-unit};
@@ -345,19 +341,10 @@
 			height: calc(1.5 * #{$size__spacing-unit});
 			width: calc(1.5 * #{$size__spacing-unit});
 		}
-
-		@include media(tablet) {
-
-		}
 	}
 }
 
 .discussion-meta {
-
-	.discussion-avatar-list {
-		display: inline-block;
-		margin-right: 8px;
-	}
 
 	.discussion-meta-info {
 		margin: 0;
