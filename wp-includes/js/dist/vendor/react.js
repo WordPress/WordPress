@@ -1,4 +1,4 @@
-/** @license React v16.5.2
+/** @license React v16.6.0
  * react.development.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -17,7 +17,7 @@
 
 // TODO: this is special because it gets imported during build.
 
-var ReactVersion = '16.5.2';
+var ReactVersion = '16.6.0';
 
 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 // nor polyfill, then a plain number is used for performance.
@@ -30,9 +30,11 @@ var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeac
 var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
 var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
 var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
-var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
 var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-var REACT_PLACEHOLDER_TYPE = hasSymbol ? Symbol.for('react.placeholder') : 0xead1;
+var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
+var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
+var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
 
 var MAYBE_ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
 var FAUX_ITERATOR_SYMBOL = '@@iterator';
@@ -47,48 +49,6 @@ function getIteratorFn(maybeIterable) {
   }
   return null;
 }
-
-// Exports ReactDOM.createRoot
-
-
-// Experimental error-boundary API that can recover from errors within a single
-// render phase
-
-// Suspense
-var enableSuspense = false;
-// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
-
-
-// In some cases, StrictMode should also double-render lifecycles.
-// This can be confusing for tests though,
-// And it can be bad for performance in production.
-// This feature flag can be used to control the behavior:
-
-
-// To preserve the "Pause on caught exceptions" behavior of the debugger, we
-// replay the begin phase of a failed component inside invokeGuardedCallback.
-
-
-// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
-
-
-// Warn about legacy context API
-
-
-// Gather advanced timing metrics for Profiler subtrees.
-
-
-// Trace which interactions trigger each commit.
-var enableSchedulerTracing = true;
-
-// Only used in www builds.
-
-
-// Only used in www builds.
-
-
-// React Fire: prevent the value and checked attributes from syncing
-// with their related DOM properties
 
 /*
 object-assign
@@ -577,14 +537,34 @@ function createRef() {
 
 /* eslint-disable no-var */
 
-// TODO: Currently there's only a single priority level, Deferred. Will add
-// additional priorities.
-var DEFERRED_TIMEOUT = 5000;
+// TODO: Use symbols?
+var ImmediatePriority = 1;
+var UserBlockingPriority = 2;
+var NormalPriority = 3;
+var IdlePriority = 4;
+
+// Max 31 bit integer. The max integer size in V8 for 32-bit systems.
+// Math.pow(2, 30) - 1
+// 0b111111111111111111111111111111
+var maxSigned31BitInt = 1073741823;
+
+// Times out immediately
+var IMMEDIATE_PRIORITY_TIMEOUT = -1;
+// Eventually times out
+var USER_BLOCKING_PRIORITY = 250;
+var NORMAL_PRIORITY_TIMEOUT = 5000;
+// Never times out
+var IDLE_PRIORITY = maxSigned31BitInt;
 
 // Callbacks are stored as a circular, doubly linked list.
 var firstCallbackNode = null;
 
-var isPerformingWork = false;
+var currentPriorityLevel = NormalPriority;
+var currentEventStartTime = -1;
+var currentExpirationTime = -1;
+
+// This is set when a callback is being executed, to prevent re-entrancy.
+var isExecutingCallback = false;
 
 var isHostCallbackScheduled = false;
 
@@ -593,6 +573,11 @@ var hasNativePerformanceNow = typeof performance === 'object' && typeof performa
 var timeRemaining;
 if (hasNativePerformanceNow) {
   timeRemaining = function () {
+    if (firstCallbackNode !== null && firstCallbackNode.expirationTime < currentExpirationTime) {
+      // A higher priority callback was scheduled. Yield so we can switch to
+      // working on that.
+      return 0;
+    }
     // We assume that if we have a performance timer that the rAF callback
     // gets a performance timer value. Not sure if this is always true.
     var remaining = getFrameDeadline() - performance.now();
@@ -601,6 +586,9 @@ if (hasNativePerformanceNow) {
 } else {
   timeRemaining = function () {
     // Fallback to Date.now()
+    if (firstCallbackNode !== null && firstCallbackNode.expirationTime < currentExpirationTime) {
+      return 0;
+    }
     var remaining = getFrameDeadline() - Date.now();
     return remaining > 0 ? remaining : 0;
   };
@@ -612,22 +600,22 @@ var deadlineObject = {
 };
 
 function ensureHostCallbackIsScheduled() {
-  if (isPerformingWork) {
+  if (isExecutingCallback) {
     // Don't schedule work yet; wait until the next time we yield.
     return;
   }
-  // Schedule the host callback using the earliest timeout in the list.
-  var timesOutAt = firstCallbackNode.timesOutAt;
+  // Schedule the host callback using the earliest expiration in the list.
+  var expirationTime = firstCallbackNode.expirationTime;
   if (!isHostCallbackScheduled) {
     isHostCallbackScheduled = true;
   } else {
     // Cancel the existing host callback.
-    cancelCallback();
+    cancelHostCallback();
   }
-  requestCallback(flushWork, timesOutAt);
+  requestHostCallback(flushWork, expirationTime);
 }
 
-function flushFirstCallback(node) {
+function flushFirstCallback() {
   var flushedNode = firstCallbackNode;
 
   // Remove the node from the list before calling the callback. That way the
@@ -638,33 +626,117 @@ function flushFirstCallback(node) {
     firstCallbackNode = null;
     next = null;
   } else {
-    var previous = firstCallbackNode.previous;
-    firstCallbackNode = previous.next = next;
-    next.previous = previous;
+    var lastCallbackNode = firstCallbackNode.previous;
+    firstCallbackNode = lastCallbackNode.next = next;
+    next.previous = lastCallbackNode;
   }
 
   flushedNode.next = flushedNode.previous = null;
 
   // Now it's safe to call the callback.
   var callback = flushedNode.callback;
-  callback(deadlineObject);
+  var expirationTime = flushedNode.expirationTime;
+  var priorityLevel = flushedNode.priorityLevel;
+  var previousPriorityLevel = currentPriorityLevel;
+  var previousExpirationTime = currentExpirationTime;
+  currentPriorityLevel = priorityLevel;
+  currentExpirationTime = expirationTime;
+  var continuationCallback;
+  try {
+    continuationCallback = callback(deadlineObject);
+  } finally {
+    currentPriorityLevel = previousPriorityLevel;
+    currentExpirationTime = previousExpirationTime;
+  }
+
+  // A callback may return a continuation. The continuation should be scheduled
+  // with the same priority and expiration as the just-finished callback.
+  if (typeof continuationCallback === 'function') {
+    var continuationNode = {
+      callback: continuationCallback,
+      priorityLevel: priorityLevel,
+      expirationTime: expirationTime,
+      next: null,
+      previous: null
+    };
+
+    // Insert the new callback into the list, sorted by its expiration. This is
+    // almost the same as the code in `scheduleCallback`, except the callback
+    // is inserted into the list *before* callbacks of equal expiration instead
+    // of after.
+    if (firstCallbackNode === null) {
+      // This is the first callback in the list.
+      firstCallbackNode = continuationNode.next = continuationNode.previous = continuationNode;
+    } else {
+      var nextAfterContinuation = null;
+      var node = firstCallbackNode;
+      do {
+        if (node.expirationTime >= expirationTime) {
+          // This callback expires at or after the continuation. We will insert
+          // the continuation *before* this callback.
+          nextAfterContinuation = node;
+          break;
+        }
+        node = node.next;
+      } while (node !== firstCallbackNode);
+
+      if (nextAfterContinuation === null) {
+        // No equal or lower priority callback was found, which means the new
+        // callback is the lowest priority callback in the list.
+        nextAfterContinuation = firstCallbackNode;
+      } else if (nextAfterContinuation === firstCallbackNode) {
+        // The new callback is the highest priority callback in the list.
+        firstCallbackNode = continuationNode;
+        ensureHostCallbackIsScheduled();
+      }
+
+      var previous = nextAfterContinuation.previous;
+      previous.next = nextAfterContinuation.previous = continuationNode;
+      continuationNode.next = nextAfterContinuation;
+      continuationNode.previous = previous;
+    }
+  }
+}
+
+function flushImmediateWork() {
+  if (
+  // Confirm we've exited the outer most event handler
+  currentEventStartTime === -1 && firstCallbackNode !== null && firstCallbackNode.priorityLevel === ImmediatePriority) {
+    isExecutingCallback = true;
+    deadlineObject.didTimeout = true;
+    try {
+      do {
+        flushFirstCallback();
+      } while (
+      // Keep flushing until there are no more immediate callbacks
+      firstCallbackNode !== null && firstCallbackNode.priorityLevel === ImmediatePriority);
+    } finally {
+      isExecutingCallback = false;
+      if (firstCallbackNode !== null) {
+        // There's still work remaining. Request another callback.
+        ensureHostCallbackIsScheduled();
+      } else {
+        isHostCallbackScheduled = false;
+      }
+    }
+  }
 }
 
 function flushWork(didTimeout) {
-  isPerformingWork = true;
+  isExecutingCallback = true;
   deadlineObject.didTimeout = didTimeout;
   try {
     if (didTimeout) {
-      // Flush all the timed out callbacks without yielding.
+      // Flush all the expired callbacks without yielding.
       while (firstCallbackNode !== null) {
         // Read the current time. Flush all the callbacks that expire at or
         // earlier than that time. Then read the current time again and repeat.
         // This optimizes for as few performance.now calls as possible.
         var currentTime = getCurrentTime();
-        if (firstCallbackNode.timesOutAt <= currentTime) {
+        if (firstCallbackNode.expirationTime <= currentTime) {
           do {
             flushFirstCallback();
-          } while (firstCallbackNode !== null && firstCallbackNode.timesOutAt <= currentTime);
+          } while (firstCallbackNode !== null && firstCallbackNode.expirationTime <= currentTime);
           continue;
         }
         break;
@@ -678,46 +750,109 @@ function flushWork(didTimeout) {
       }
     }
   } finally {
-    isPerformingWork = false;
+    isExecutingCallback = false;
     if (firstCallbackNode !== null) {
       // There's still work remaining. Request another callback.
-      ensureHostCallbackIsScheduled(firstCallbackNode);
+      ensureHostCallbackIsScheduled();
     } else {
       isHostCallbackScheduled = false;
     }
+    // Before exiting, flush all the immediate work that was scheduled.
+    flushImmediateWork();
   }
 }
 
-function unstable_scheduleWork(callback, options) {
-  var currentTime = getCurrentTime();
+function unstable_runWithPriority(priorityLevel, eventHandler) {
+  switch (priorityLevel) {
+    case ImmediatePriority:
+    case UserBlockingPriority:
+    case NormalPriority:
+    case IdlePriority:
+      break;
+    default:
+      priorityLevel = NormalPriority;
+  }
 
-  var timesOutAt;
-  if (options !== undefined && options !== null && options.timeout !== null && options.timeout !== undefined) {
-    // Check for an explicit timeout
-    timesOutAt = currentTime + options.timeout;
+  var previousPriorityLevel = currentPriorityLevel;
+  var previousEventStartTime = currentEventStartTime;
+  currentPriorityLevel = priorityLevel;
+  currentEventStartTime = getCurrentTime();
+
+  try {
+    return eventHandler();
+  } finally {
+    currentPriorityLevel = previousPriorityLevel;
+    currentEventStartTime = previousEventStartTime;
+
+    // Before exiting, flush all the immediate work that was scheduled.
+    flushImmediateWork();
+  }
+}
+
+function unstable_wrapCallback(callback) {
+  var parentPriorityLevel = currentPriorityLevel;
+  return function () {
+    // This is a fork of runWithPriority, inlined for performance.
+    var previousPriorityLevel = currentPriorityLevel;
+    var previousEventStartTime = currentEventStartTime;
+    currentPriorityLevel = parentPriorityLevel;
+    currentEventStartTime = getCurrentTime();
+
+    try {
+      return callback.apply(this, arguments);
+    } finally {
+      currentPriorityLevel = previousPriorityLevel;
+      currentEventStartTime = previousEventStartTime;
+      flushImmediateWork();
+    }
+  };
+}
+
+function unstable_scheduleCallback(callback, deprecated_options) {
+  var startTime = currentEventStartTime !== -1 ? currentEventStartTime : getCurrentTime();
+
+  var expirationTime;
+  if (typeof deprecated_options === 'object' && deprecated_options !== null && typeof deprecated_options.timeout === 'number') {
+    // FIXME: Remove this branch once we lift expiration times out of React.
+    expirationTime = startTime + deprecated_options.timeout;
   } else {
-    // Compute an absolute timeout using the default constant.
-    timesOutAt = currentTime + DEFERRED_TIMEOUT;
+    switch (currentPriorityLevel) {
+      case ImmediatePriority:
+        expirationTime = startTime + IMMEDIATE_PRIORITY_TIMEOUT;
+        break;
+      case UserBlockingPriority:
+        expirationTime = startTime + USER_BLOCKING_PRIORITY;
+        break;
+      case IdlePriority:
+        expirationTime = startTime + IDLE_PRIORITY;
+        break;
+      case NormalPriority:
+      default:
+        expirationTime = startTime + NORMAL_PRIORITY_TIMEOUT;
+    }
   }
 
   var newNode = {
     callback: callback,
-    timesOutAt: timesOutAt,
+    priorityLevel: currentPriorityLevel,
+    expirationTime: expirationTime,
     next: null,
     previous: null
   };
 
-  // Insert the new callback into the list, sorted by its timeout.
+  // Insert the new callback into the list, ordered first by expiration, then
+  // by insertion. So the new callback is inserted any other callback with
+  // equal expiration.
   if (firstCallbackNode === null) {
     // This is the first callback in the list.
     firstCallbackNode = newNode.next = newNode.previous = newNode;
-    ensureHostCallbackIsScheduled(firstCallbackNode);
+    ensureHostCallbackIsScheduled();
   } else {
     var next = null;
     var node = firstCallbackNode;
     do {
-      if (node.timesOutAt > timesOutAt) {
-        // The new callback times out before this one.
+      if (node.expirationTime > expirationTime) {
+        // The new callback expires before this one.
         next = node;
         break;
       }
@@ -725,13 +860,13 @@ function unstable_scheduleWork(callback, options) {
     } while (node !== firstCallbackNode);
 
     if (next === null) {
-      // No callback with a later timeout was found, which means the new
-      // callback has the latest timeout in the list.
+      // No callback with a later expiration was found, which means the new
+      // callback has the latest expiration in the list.
       next = firstCallbackNode;
     } else if (next === firstCallbackNode) {
-      // The new callback has the earliest timeout in the entire list.
+      // The new callback has the earliest expiration in the entire list.
       firstCallbackNode = newNode;
-      ensureHostCallbackIsScheduled(firstCallbackNode);
+      ensureHostCallbackIsScheduled();
     }
 
     var previous = next.previous;
@@ -743,7 +878,7 @@ function unstable_scheduleWork(callback, options) {
   return newNode;
 }
 
-function unstable_cancelScheduledWork(callbackNode) {
+function unstable_cancelCallback(callbackNode) {
   var next = callbackNode.next;
   if (next === null) {
     // Already cancelled.
@@ -764,6 +899,10 @@ function unstable_cancelScheduledWork(callbackNode) {
   }
 
   callbackNode.next = callbackNode.previous = null;
+}
+
+function unstable_getCurrentPriorityLevel() {
+  return currentPriorityLevel;
 }
 
 // The remaining code is essentially a polyfill for requestIdleCallback. It
@@ -826,31 +965,59 @@ if (hasNativePerformanceNow) {
   };
 }
 
-var requestCallback;
-var cancelCallback;
+var requestHostCallback;
+var cancelHostCallback;
 var getFrameDeadline;
 
-if (typeof window === 'undefined') {
-  // If this accidentally gets imported in a non-browser environment, fallback
-  // to a naive implementation.
-  var timeoutID = -1;
-  requestCallback = function (callback, absoluteTimeout) {
-    timeoutID = setTimeout(callback, 0, true);
-  };
-  cancelCallback = function () {
-    clearTimeout(timeoutID);
-  };
-  getFrameDeadline = function () {
-    return 0;
-  };
-} else if (window._schedMock) {
+if (typeof window !== 'undefined' && window._schedMock) {
   // Dynamic injection, only for testing purposes.
   var impl = window._schedMock;
-  requestCallback = impl[0];
-  cancelCallback = impl[1];
+  requestHostCallback = impl[0];
+  cancelHostCallback = impl[1];
   getFrameDeadline = impl[2];
+} else if (
+// If Scheduler runs in a non-DOM environment, it falls back to a naive
+// implementation using setTimeout.
+typeof window === 'undefined' ||
+// "addEventListener" might not be available on the window object
+// if this is a mocked "window" object. So we need to validate that too.
+typeof window.addEventListener !== 'function') {
+  var _callback = null;
+  var _currentTime = -1;
+  var _flushCallback = function (didTimeout, ms) {
+    if (_callback !== null) {
+      var cb = _callback;
+      _callback = null;
+      try {
+        _currentTime = ms;
+        cb(didTimeout);
+      } finally {
+        _currentTime = -1;
+      }
+    }
+  };
+  requestHostCallback = function (cb, ms) {
+    if (_currentTime !== -1) {
+      // Protect against re-entrancy.
+      setTimeout(requestHostCallback, 0, cb, ms);
+    } else {
+      _callback = cb;
+      setTimeout(_flushCallback, ms, true, ms);
+      setTimeout(_flushCallback, maxSigned31BitInt, false, maxSigned31BitInt);
+    }
+  };
+  cancelHostCallback = function () {
+    _callback = null;
+  };
+  getFrameDeadline = function () {
+    return Infinity;
+  };
+  getCurrentTime = function () {
+    return _currentTime === -1 ? 0 : _currentTime;
+  };
 } else {
   if (typeof console !== 'undefined') {
+    // TODO: Remove fb.me link
     if (typeof localRequestAnimationFrame !== 'function') {
       console.error("This browser doesn't support requestAnimationFrame. " + 'Make sure that you load a ' + 'polyfill in older browsers. https://fb.me/react-polyfills');
     }
@@ -859,13 +1026,13 @@ if (typeof window === 'undefined') {
     }
   }
 
-  var scheduledCallback = null;
-  var isIdleScheduled = false;
+  var scheduledHostCallback = null;
+  var isMessageEventScheduled = false;
   var timeoutTime = -1;
 
   var isAnimationFrameScheduled = false;
 
-  var isPerformingIdleWork = false;
+  var isFlushingHostCallback = false;
 
   var frameDeadline = 0;
   // We start out assuming that we run at 30fps but then the heuristic tracking
@@ -885,7 +1052,12 @@ if (typeof window === 'undefined') {
       return;
     }
 
-    isIdleScheduled = false;
+    isMessageEventScheduled = false;
+
+    var prevScheduledCallback = scheduledHostCallback;
+    var prevTimeoutTime = timeoutTime;
+    scheduledHostCallback = null;
+    timeoutTime = -1;
 
     var currentTime = getCurrentTime();
 
@@ -893,7 +1065,7 @@ if (typeof window === 'undefined') {
     if (frameDeadline - currentTime <= 0) {
       // There's no time left in this idle period. Check if the callback has
       // a timeout and whether it's been exceeded.
-      if (timeoutTime !== -1 && timeoutTime <= currentTime) {
+      if (prevTimeoutTime !== -1 && prevTimeoutTime <= currentTime) {
         // Exceeded the timeout. Invoke the callback even though there's no
         // time left.
         didTimeout = true;
@@ -905,19 +1077,18 @@ if (typeof window === 'undefined') {
           requestAnimationFrameWithTimeout(animationTick);
         }
         // Exit without invoking the callback.
+        scheduledHostCallback = prevScheduledCallback;
+        timeoutTime = prevTimeoutTime;
         return;
       }
     }
 
-    timeoutTime = -1;
-    var callback = scheduledCallback;
-    scheduledCallback = null;
-    if (callback !== null) {
-      isPerformingIdleWork = true;
+    if (prevScheduledCallback !== null) {
+      isFlushingHostCallback = true;
       try {
-        callback(didTimeout);
+        prevScheduledCallback(didTimeout);
       } finally {
-        isPerformingIdleWork = false;
+        isFlushingHostCallback = false;
       }
     }
   };
@@ -926,12 +1097,27 @@ if (typeof window === 'undefined') {
   window.addEventListener('message', idleTick, false);
 
   var animationTick = function (rafTime) {
-    isAnimationFrameScheduled = false;
+    if (scheduledHostCallback !== null) {
+      // Eagerly schedule the next animation callback at the beginning of the
+      // frame. If the scheduler queue is not empty at the end of the frame, it
+      // will continue flushing inside that callback. If the queue *is* empty,
+      // then it will exit immediately. Posting the callback at the start of the
+      // frame ensures it's fired within the earliest possible frame. If we
+      // waited until the end of the frame to post the callback, we risk the
+      // browser skipping a frame and not firing the callback until the frame
+      // after that.
+      requestAnimationFrameWithTimeout(animationTick);
+    } else {
+      // No pending work. Exit.
+      isAnimationFrameScheduled = false;
+      return;
+    }
+
     var nextFrameTime = rafTime - frameDeadline + activeFrameTime;
     if (nextFrameTime < activeFrameTime && previousFrameTime < activeFrameTime) {
       if (nextFrameTime < 8) {
         // Defensive coding. We don't support higher frame rates than 120hz.
-        // If we get lower than that, it is probably a bug.
+        // If the calculated frame time gets lower than 8, it is probably a bug.
         nextFrameTime = 8;
       }
       // If one frame goes long, then the next one can be short to catch up.
@@ -946,17 +1132,16 @@ if (typeof window === 'undefined') {
       previousFrameTime = nextFrameTime;
     }
     frameDeadline = rafTime + activeFrameTime;
-    if (!isIdleScheduled) {
-      isIdleScheduled = true;
+    if (!isMessageEventScheduled) {
+      isMessageEventScheduled = true;
       window.postMessage(messageKey, '*');
     }
   };
 
-  requestCallback = function (callback, absoluteTimeout) {
-    scheduledCallback = callback;
+  requestHostCallback = function (callback, absoluteTimeout) {
+    scheduledHostCallback = callback;
     timeoutTime = absoluteTimeout;
-    if (isPerformingIdleWork) {
-      // If we're already performing idle work, an error must have been thrown.
+    if (isFlushingHostCallback || absoluteTimeout < 0) {
       // Don't wait for the next frame. Continue working ASAP, in a new event.
       window.postMessage(messageKey, '*');
     } else if (!isAnimationFrameScheduled) {
@@ -969,12 +1154,43 @@ if (typeof window === 'undefined') {
     }
   };
 
-  cancelCallback = function () {
-    scheduledCallback = null;
-    isIdleScheduled = false;
+  cancelHostCallback = function () {
+    scheduledHostCallback = null;
+    isMessageEventScheduled = false;
     timeoutTime = -1;
   };
 }
+
+// Helps identify side effects in begin-phase lifecycle hooks and setState reducers:
+
+
+// In some cases, StrictMode should also double-render lifecycles.
+// This can be confusing for tests though,
+// And it can be bad for performance in production.
+// This feature flag can be used to control the behavior:
+
+
+// To preserve the "Pause on caught exceptions" behavior of the debugger, we
+// replay the begin phase of a failed component inside invokeGuardedCallback.
+
+
+// Warn about deprecated, async-unsafe lifecycles; relates to RFC #6:
+
+
+// Gather advanced timing metrics for Profiler subtrees.
+
+
+// Trace which interactions trigger each commit.
+var enableSchedulerTracing = true;
+
+// Only used in www builds.
+
+
+// Only used in www builds.
+
+
+// React Fire: prevent the value and checked attributes from syncing
+// with their related DOM properties
 
 var DEFAULT_THREAD_ID = 0;
 
@@ -1379,10 +1595,13 @@ var describeComponentFrame = function (name, source, ownerName) {
 var Resolved = 1;
 
 
+function refineResolvedLazyComponent(lazyComponent) {
+  return lazyComponent._status === Resolved ? lazyComponent._result : null;
+}
 
-
-function refineResolvedThenable(thenable) {
-  return thenable._reactStatus === Resolved ? thenable._reactResult : null;
+function getWrappedName(outerType, innerType, wrapperName) {
+  var functionName = innerType.displayName || innerType.name || '';
+  return outerType.displayName || (functionName !== '' ? wrapperName + '(' + functionName + ')' : wrapperName);
 }
 
 function getComponentName(type) {
@@ -1402,8 +1621,8 @@ function getComponentName(type) {
     return type;
   }
   switch (type) {
-    case REACT_ASYNC_MODE_TYPE:
-      return 'AsyncMode';
+    case REACT_CONCURRENT_MODE_TYPE:
+      return 'ConcurrentMode';
     case REACT_FRAGMENT_TYPE:
       return 'Fragment';
     case REACT_PORTAL_TYPE:
@@ -1412,8 +1631,8 @@ function getComponentName(type) {
       return 'Profiler';
     case REACT_STRICT_MODE_TYPE:
       return 'StrictMode';
-    case REACT_PLACEHOLDER_TYPE:
-      return 'Placeholder';
+    case REACT_SUSPENSE_TYPE:
+      return 'Suspense';
   }
   if (typeof type === 'object') {
     switch (type.$$typeof) {
@@ -1422,16 +1641,17 @@ function getComponentName(type) {
       case REACT_PROVIDER_TYPE:
         return 'Context.Provider';
       case REACT_FORWARD_REF_TYPE:
-        var renderFn = type.render;
-        var functionName = renderFn.displayName || renderFn.name || '';
-        return type.displayName || (functionName !== '' ? 'ForwardRef(' + functionName + ')' : 'ForwardRef');
-    }
-    if (typeof type.then === 'function') {
-      var thenable = type;
-      var resolvedThenable = refineResolvedThenable(thenable);
-      if (resolvedThenable) {
-        return getComponentName(resolvedThenable);
-      }
+        return getWrappedName(type, type.render, 'ForwardRef');
+      case REACT_MEMO_TYPE:
+        return getComponentName(type.type);
+      case REACT_LAZY_TYPE:
+        {
+          var thenable = type;
+          var resolvedThenable = refineResolvedLazyComponent(thenable);
+          if (resolvedThenable) {
+            return getComponentName(resolvedThenable);
+          }
+        }
     }
   }
   return null;
@@ -1484,12 +1704,15 @@ var ReactSharedInternals = {
   // This re-export is only required for UMD bundles;
   // CJS bundles use the shared NPM package.
   objectAssign(ReactSharedInternals, {
-    Schedule: {
-      unstable_cancelScheduledWork: unstable_cancelScheduledWork,
+    Scheduler: {
+      unstable_cancelCallback: unstable_cancelCallback,
       unstable_now: getCurrentTime,
-      unstable_scheduleWork: unstable_scheduleWork
+      unstable_scheduleCallback: unstable_scheduleCallback,
+      unstable_runWithPriority: unstable_runWithPriority,
+      unstable_wrapCallback: unstable_wrapCallback,
+      unstable_getCurrentPriorityLevel: unstable_getCurrentPriorityLevel
     },
-    ScheduleTracing: {
+    SchedulerTracing: {
       __interactionsRef: interactionsRef,
       __subscriberRef: subscriberRef,
       unstable_clear: unstable_clear,
@@ -2172,12 +2395,6 @@ function onlyChild(children) {
   return children;
 }
 
-function readContext(context, observedBits) {
-  var dispatcher = ReactCurrentOwner.currentDispatcher;
-  !(dispatcher !== null) ? invariant(false, 'Context.unstable_read(): Context can only be read while React is rendering, e.g. inside the render method or getDerivedStateFromProps.') : void 0;
-  return dispatcher.readContext(context, observedBits);
-}
-
 function createContext(defaultValue, calculateChangedBits) {
   if (calculateChangedBits === undefined) {
     calculateChangedBits = null;
@@ -2199,16 +2416,69 @@ function createContext(defaultValue, calculateChangedBits) {
     _currentValue2: defaultValue,
     // These are circular
     Provider: null,
-    Consumer: null,
-    unstable_read: null
+    Consumer: null
   };
 
   context.Provider = {
     $$typeof: REACT_PROVIDER_TYPE,
     _context: context
   };
-  context.Consumer = context;
-  context.unstable_read = readContext.bind(null, context);
+
+  var hasWarnedAboutUsingNestedContextConsumers = false;
+  var hasWarnedAboutUsingConsumerProvider = false;
+
+  {
+    // A separate object, but proxies back to the original context object for
+    // backwards compatibility. It has a different $$typeof, so we can properly
+    // warn for the incorrect usage of Context as a Consumer.
+    var Consumer = {
+      $$typeof: REACT_CONTEXT_TYPE,
+      _context: context,
+      _calculateChangedBits: context._calculateChangedBits
+    };
+    // $FlowFixMe: Flow complains about not setting a value, which is intentional here
+    Object.defineProperties(Consumer, {
+      Provider: {
+        get: function () {
+          if (!hasWarnedAboutUsingConsumerProvider) {
+            hasWarnedAboutUsingConsumerProvider = true;
+            warning$1(false, 'Rendering <Context.Consumer.Provider> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Provider> instead?');
+          }
+          return context.Provider;
+        },
+        set: function (_Provider) {
+          context.Provider = _Provider;
+        }
+      },
+      _currentValue: {
+        get: function () {
+          return context._currentValue;
+        },
+        set: function (_currentValue) {
+          context._currentValue = _currentValue;
+        }
+      },
+      _currentValue2: {
+        get: function () {
+          return context._currentValue2;
+        },
+        set: function (_currentValue2) {
+          context._currentValue2 = _currentValue2;
+        }
+      },
+      Consumer: {
+        get: function () {
+          if (!hasWarnedAboutUsingNestedContextConsumers) {
+            hasWarnedAboutUsingNestedContextConsumers = true;
+            warning$1(false, 'Rendering <Context.Consumer.Consumer> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Consumer> instead?');
+          }
+          return context.Consumer;
+        }
+      }
+    });
+    // $FlowFixMe: Flow complains about missing properties because it doesn't understand defineProperty
+    context.Consumer = Consumer;
+  }
 
   {
     context._currentRenderer = null;
@@ -2219,20 +2489,12 @@ function createContext(defaultValue, calculateChangedBits) {
 }
 
 function lazy(ctor) {
-  var thenable = null;
   return {
-    then: function (resolve, reject) {
-      if (thenable === null) {
-        // Lazily create thenable by wrapping in an extra thenable.
-        thenable = ctor();
-        ctor = null;
-      }
-      return thenable.then(resolve, reject);
-    },
-
+    $$typeof: REACT_LAZY_TYPE,
+    _ctor: ctor,
     // React uses these fields to store the result.
-    _reactStatus: -1,
-    _reactResult: null
+    _status: -1,
+    _result: null
   };
 }
 
@@ -2260,7 +2522,20 @@ function forwardRef(render) {
 function isValidElementType(type) {
   return typeof type === 'string' || typeof type === 'function' ||
   // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_PLACEHOLDER_TYPE || typeof type === 'object' && type !== null && (typeof type.then === 'function' || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+  type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+}
+
+function memo(type, compare) {
+  {
+    if (!isValidElementType(type)) {
+      warningWithoutStack$1(false, 'memo: The first argument must be a component. Instead ' + 'received: %s', type === null ? 'null' : typeof type);
+    }
+  }
+  return {
+    $$typeof: REACT_MEMO_TYPE,
+    type: type,
+    compare: compare === undefined ? null : compare
+  };
 }
 
 /**
@@ -2513,7 +2788,7 @@ function validatePropTypes(element) {
   var name = void 0,
       propTypes = void 0;
   if (typeof type === 'function') {
-    // Class or functional component
+    // Class or function component
     name = type.displayName || type.name;
     propTypes = type.propTypes;
   } else if (typeof type === 'object' && type !== null && type.$$typeof === REACT_FORWARD_REF_TYPE) {
@@ -2665,10 +2940,13 @@ var React = {
 
   createContext: createContext,
   forwardRef: forwardRef,
+  lazy: lazy,
+  memo: memo,
 
   Fragment: REACT_FRAGMENT_TYPE,
   StrictMode: REACT_STRICT_MODE_TYPE,
-  unstable_AsyncMode: REACT_ASYNC_MODE_TYPE,
+  unstable_ConcurrentMode: REACT_CONCURRENT_MODE_TYPE,
+  Suspense: REACT_SUSPENSE_TYPE,
   unstable_Profiler: REACT_PROFILER_TYPE,
 
   createElement: createElementWithValidation,
@@ -2680,11 +2958,6 @@ var React = {
 
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: ReactSharedInternals
 };
-
-if (enableSuspense) {
-  React.Placeholder = REACT_PLACEHOLDER_TYPE;
-  React.lazy = lazy;
-}
 
 
 

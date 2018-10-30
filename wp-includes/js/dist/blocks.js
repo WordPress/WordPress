@@ -12403,7 +12403,7 @@ function validateWCAG2Parms(parms) {
 }
 
 // Node: Export function
-if (typeof module !== "undefined" && module.exports) {
+if ( true && module.exports) {
     module.exports = tinycolor;
 }
 // AMD/requirejs: Define the module

@@ -18051,7 +18051,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		return classes.join(' ');
 	}
 
-	if (typeof module !== 'undefined' && module.exports) {
+	if ( true && module.exports) {
 		classNames.default = classNames;
 		module.exports = classNames;
 	} else if (true) {
@@ -22285,7 +22285,7 @@ if (hasSymbols) {
 
 	module.exports = function isSymbol(value) {
 		// this environment does not support Symbols.
-		return false && value;
+		return  false && false;
 	};
 }
 
@@ -24046,7 +24046,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
     window.Mousetrap = Mousetrap;
 
     // expose as a common js module
-    if (typeof module !== 'undefined' && module.exports) {
+    if ( true && module.exports) {
         module.exports = Mousetrap;
     }
 
@@ -25192,7 +25192,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
           );
           err.name = 'Invariant Violation';
           throw err;
-        } else if ("development" !== 'production' && typeof console !== 'undefined') {
+        } else if ( true && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -41124,7 +41124,7 @@ module.exports = __webpack_require__(/*! ./dist/index.js */ "./node_modules/reac
   !*** ./node_modules/react-with-styles/lib/ThemedStyleSheet.js ***!
   \****************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -41160,7 +41160,7 @@ function get() {
 }
 
 function resolve() {
-  if ("development" !== 'production' && typeof performance !== 'undefined' && performance.mark !== undefined) {
+  if ( true && typeof performance !== 'undefined' && performance.mark !== undefined) {
     performance.mark('react-with-styles.resolve.start');
   }
 
@@ -41170,7 +41170,7 @@ function resolve() {
 
   var result = styleInterface.resolve(styles);
 
-  if ("development" !== 'production' && typeof performance !== 'undefined' && performance.mark !== undefined) {
+  if ( true && typeof performance !== 'undefined' && performance.mark !== undefined) {
     performance.mark('react-with-styles.resolve.end');
 
     performance.measure('\uD83D\uDC69\u200D\uD83C\uDFA8 [resolve]', 'react-with-styles.resolve.start', 'react-with-styles.resolve.end');
@@ -41347,7 +41347,7 @@ function withStyles(styleFn) {
       return styleDef;
     }
 
-    if ("development" !== 'production' && typeof performance !== 'undefined' && performance.mark !== undefined) {
+    if ( true && typeof performance !== 'undefined' && performance.mark !== undefined) {
       performance.mark('react-with-styles.createStyles.start');
     }
 
@@ -41365,7 +41365,7 @@ function withStyles(styleFn) {
       styleDef = styleDefLTR;
     }
 
-    if ("development" !== 'production' && typeof performance !== 'undefined' && performance.mark !== undefined) {
+    if ( true && typeof performance !== 'undefined' && performance.mark !== undefined) {
       performance.mark('react-with-styles.createStyles.end');
 
       performance.measure('\uD83D\uDC69\u200D\uD83C\uDFA8 withStyles(' + String(wrappedComponentName) + ') [create styles]', 'react-with-styles.createStyles.start', 'react-with-styles.createStyles.end');
@@ -42672,7 +42672,7 @@ function validateWCAG2Parms(parms) {
 }
 
 // Node: Export function
-if (typeof module !== "undefined" && module.exports) {
+if ( true && module.exports) {
     module.exports = tinycolor;
 }
 // AMD/requirejs: Define the module

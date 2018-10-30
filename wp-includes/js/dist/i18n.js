@@ -1307,7 +1307,7 @@ return parser;
 
   // Handle node, amd, and global systems
   if (true) {
-    if (typeof module !== 'undefined' && module.exports) {
+    if ( true && module.exports) {
       exports = module.exports = Jed;
     }
     exports.Jed = Jed;

@@ -561,7 +561,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	"use strict";
 
 	/*global define*/
-    if (typeof module === 'object' && module.exports) {
+    if ( true && module.exports) {
         module.exports = factory(__webpack_require__(/*! ./ */ "./node_modules/moment-timezone/index.js"));     // Node
     } else if (true) {
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! moment */ "moment")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
@@ -891,7 +891,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	"use strict";
 
 	/*global define*/
-	if (typeof module === 'object' && module.exports) {
+	if ( true && module.exports) {
 		module.exports = factory(__webpack_require__(/*! moment */ "moment")); // Node
 	} else if (true) {
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! moment */ "moment")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
