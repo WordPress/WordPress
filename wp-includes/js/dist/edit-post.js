@@ -1944,6 +1944,7 @@ var primary = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutL
     secondary = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].secondary,
     access = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].access,
     ctrl = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].ctrl,
+    alt = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].alt,
     ctrlShift = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].ctrlShift,
     shiftAlt = _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_0__["displayShortcutList"].shiftAlt;
 var globalShortcuts = {
@@ -1981,6 +1982,9 @@ var globalShortcuts = {
   }, {
     keyCombination: shiftAlt('p'),
     description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Navigate to the previous part of the editor (alternative).')
+  }, {
+    keyCombination: alt('F10'),
+    description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Navigate to the nearest toolbar.')
   }, {
     keyCombination: secondary('m'),
     description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Switch between Visual Editor and Code Editor.')

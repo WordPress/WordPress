@@ -937,10 +937,21 @@ __webpack_require__.r(__webpack_exports__);
 var stopKeyPropagation = function stopKeyPropagation(event) {
   return event.stopPropagation();
 };
+/**
+ * Generates the format object that will be applied to the link text.
+ *
+ * @param {string}  url              The href of the link.
+ * @param {boolean} opensInNewWindow Whether this link will open in a new window.
+ * @param {Object}  text             The text that is being hyperlinked.
+ *
+ * @return {Object} The final format object.
+ */
+
 
 function createLinkFormat(_ref) {
   var url = _ref.url,
-      opensInNewWindow = _ref.opensInNewWindow;
+      opensInNewWindow = _ref.opensInNewWindow,
+      text = _ref.text;
   var format = {
     type: 'core/link',
     attributes: {
@@ -949,8 +960,11 @@ function createLinkFormat(_ref) {
   };
 
   if (opensInNewWindow) {
+    // translators: accessibility label for external links, where the argument is the link text
+    var label = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_7__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_7__["__"])('%s (opens in a new tab)'), text).trim();
     format.attributes.target = '_blank';
     format.attributes.rel = 'noreferrer noopener';
+    format.attributes['aria-label'] = label;
   }
 
   return format;
@@ -1067,7 +1081,8 @@ function (_Component) {
       if (!isShowingInput(this.props, this.state)) {
         onChange(Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_11__["applyFormat"])(value, createLinkFormat({
           url: url,
-          opensInNewWindow: opensInNewWindow
+          opensInNewWindow: opensInNewWindow,
+          text: value.text
         })));
       }
     }
@@ -1093,7 +1108,8 @@ function (_Component) {
       var url = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_10__["prependHTTP"])(inputValue);
       var format = createLinkFormat({
         url: url,
-        opensInNewWindow: opensInNewWindow
+        opensInNewWindow: opensInNewWindow,
+        text: value.text
       });
       event.preventDefault();
 
