@@ -142,15 +142,6 @@ $meta_box_url = add_query_arg(
 wp_localize_script( 'wp-editor', '_wpMetaBoxUrl', $meta_box_url );
 
 
-// Populate default code editor settings by short-circuiting wp_enqueue_code_editor.
-wp_add_inline_script(
-	'wp-editor',
-	sprintf(
-		'window._wpGutenbergCodeEditorSettings = %s;',
-		wp_json_encode( wp_get_code_editor_settings( array( 'type' => 'text/html' ) ) )
-	)
-);
-
 /*
  * Initialize the editor.
  */
