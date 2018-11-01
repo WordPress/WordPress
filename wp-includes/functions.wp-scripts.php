@@ -193,12 +193,11 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 }
 
 /**
- * Register translated strings for a script.
+ * Sets translated strings for a script.
  *
  * Works only if the script has already been added.
  *
  * @see WP_Scripts::set_translations()
- * @link https://core.trac.wordpress.org/ticket/45103
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 5.0.0
@@ -214,10 +213,6 @@ function wp_set_script_translations( $handle, $domain, $path = null ) {
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
 		_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 		return false;
-	}
-
-	if ( ! wp_script_is( $handle, 'enqueued' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Script translations may only be set if the script is enqueued.' ), '5.0.0' );
 	}
 
 	return $wp_scripts->set_translations( $handle, $domain, $path );

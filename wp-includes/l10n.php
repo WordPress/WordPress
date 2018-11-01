@@ -876,6 +876,8 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @link https://core.trac.wordpress.org/ticket/45103
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
+ * @since 5.0.0
+ *
  * @param string $handle Name of the script to register a translation domain to.
  * @param string $domain The textdomain.
  * @param string $path   Optional. The full file path to the directory containing translation files.
@@ -886,10 +888,12 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 function load_script_textdomain( $handle, $domain, $path = null ) {
 	global $wp_scripts;
 
+	$path   = untrailingslashit( $path );
 	$locale = is_admin() ? get_locale() : get_user_locale();
 
 	// If a path was given and the handle file exists simply return it.
-	$handle_filename = $domain . '-' . $locale . '-' . $handle . '.json';
+	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
+	$handle_filename = $file_base . '-' . $handle . '.json';
 	if ( $path && file_exists( $path . '/' . $handle_filename ) ) {
 		return file_get_contents( $path . '/' . $handle_filename );
 	}
@@ -908,7 +912,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 
 	// If the host is the same or it's a relative URL.
 	if (
-		strpos( $content_url['path'], $src_url['path'] ) === 0 &&
+		strpos( $src_url['path'], $content_url['path'] ) === 0 &&
 		( ! isset( $src_url['host'] ) || $src_url['host'] !== $content_url['host'] )
 	) {
 		// Make the src relative the specific plugin or theme.
@@ -925,7 +929,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	) {
 		$relative = trim( $src_url['path'], '/' );
 	} else if (
-		( strpos( $site_url['path'], $src_url['path'] ) === 0 ) &&
+		( strpos( $src_url['path'], $site_url['path'] ) === 0 ) &&
 		( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] )
 	) {
 		// Make the src relative to the WP root.
@@ -943,7 +947,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 		$relative = substr( $relative, 0, -7 ) . '.js';
 	}
 
-	$md5_filename = $domain . '-' . $locale . '-' . md5( $relative ) . '.json';
+	$md5_filename = $file_base . '-' . md5( $relative ) . '.json';
 	if ( $path && file_exists( $path . '/' . $md5_filename ) ) {
 		return file_get_contents( $path . '/' . $md5_filename );
 	}

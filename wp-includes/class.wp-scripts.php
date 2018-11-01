@@ -325,6 +325,11 @@ class WP_Scripts extends WP_Dependencies {
 			return true;
 		}
 
+		$translations = $this->print_translations( $handle, false );
+		if ( $translations ) {
+			$translations = sprintf( "<script type='text/javascript'>\n%s\n</script>\n", $translations );
+		}
+
 		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && 0 === strpos( $src, $this->content_url ) ) ) {
 			$src = $this->base_url . $src;
 		}
@@ -338,7 +343,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! $src )
 			return true;
 
-		$tag = "{$cond_before}{$before_handle}<script type='text/javascript' src='$src'></script>\n{$after_handle}{$cond_after}";
+		$tag = "{$translations}{$cond_before}{$before_handle}<script type='text/javascript' src='$src'></script>\n{$after_handle}{$cond_after}";
 
 		/**
 		 * Filters the HTML script tag of an enqueued script.
@@ -478,7 +483,7 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Register a translation textdomain.
+	 * Sets a translation textdomain.
 	 *
 	 * @since 5.0.0
 	 *
@@ -493,23 +498,48 @@ class WP_Scripts extends WP_Dependencies {
 			return false;
 		}
 
+		/** @var \_WP_Dependency $obj */
+		$obj = $this->registered[ $handle ];
+
+		if ( ! in_array( 'wp-i18n', $obj->deps, true ) ) {
+			$obj->deps[] = 'wp-i18n';
+		}
+		return $obj->set_translations( $domain, $path );
+	}
+
+	/**
+	 * Prints translations set for a specific handle.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $handle Name of the script to add the inline script to. Must be lowercase.
+	 * @param bool   $echo   Optional. Whether to echo the script instead of just returning it.
+	 *                       Default true.
+	 * @return string|false Script on success, false otherwise.
+	 */
+	public function print_translations( $handle, $echo = true ) {
+		if ( ! isset( $this->registered[ $handle ] ) || empty( $this->registered[ $handle ]->textdomain ) ) {
+			return false;
+		}
+
+		$domain = $this->registered[ $handle ]->textdomain;
+		$path   = $this->registered[ $handle ]->translations_path;
+
 		$json_translations = load_script_textdomain( $handle, $domain, $path );
 
 		if ( ! $json_translations ) {
 			return false;
 		}
 
-		/** @var \_WP_Dependency $obj */
-		$obj = $this->registered[ $handle ];
-		$obj->deps[] = 'wp-i18n';
+		$output = '(function( translations ){' .
+		              'wp.i18n.setLocaleData( translations.locale_data, "' . $domain . '" );' .
+		          '})(' . $json_translations . ');';
 
-		return $this->add_inline_script(
-			$handle,
-			'(function( translations ){' .
-			    'wp.i18n.setLocaleData( translations.locale_data, "' . $domain . '" );' .
-			'})(' . $json_translations . ');',
-			'before'
-		);
+		if ( $echo ) {
+			printf( "<script type='text/javascript'>\n%s\n</script>\n", $output );
+		}
+
+		return $output;
 	}
 
 	/**
