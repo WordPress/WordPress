@@ -1426,7 +1426,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="" /></span>
 			</label>
 
-		<?php if ( $post_type_object->publicly_queryable ) : // publicly_queryable check ?>
+		<?php if ( is_post_type_viewable( $screen->post_type ) ) : // is_post_type_viewable check ?>
 
 			<label>
 				<span class="title"><?php _e( 'Slug' ); ?></span>
@@ -1434,7 +1434,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			</label>
 
 			<?php
-	endif; // publicly_queryable check
+	endif; // is_post_type_viewable check
 	endif; // $bulk
 	endif; // post_type_supports title
 			?>
