@@ -2,19 +2,13 @@
 
 .entry-content > *,
 .entry-summary > * {
+	@include postContentMaxWidth();
 
 	margin: 32px $size__spacing-unit;
-	max-width: calc(100vw - (2 * #{ $size__spacing-unit }));
 
 	@include media(tablet) {
 		margin: 32px calc(2 * (100vw / 12));
-		max-width: calc(8 * (100vw / 12));
 	}
-
-	@include media(desktop) {
-		max-width: calc(6 * (100vw / 12));
-	}
-
 /*
 	// Set top margins for headings
 	& + h1:before,
@@ -123,6 +117,11 @@
 				max-width: (0.33 * $desktop_width);
 			}
 		}
+
+		&.aligncenter {
+			margin: 32px calc(2 * (100vw / 12));
+			max-width: calc(6 * (100vw / 12));
+		}
 	}
 
 	//! Video
@@ -194,10 +193,10 @@
 		li {
 			color: $color__text-light;
 			font-family: $font__heading;
-			font-size: calc(#{$font__size_base} * #{$font__size-lg / 1em} );
+			font-size: calc(#{$font__size_base} * #{$font__size-ratio});
 			font-weight: bold;
 			line-height: $font__line-height-heading;
-			
+
 			&:not(.menu-item-has-children) {
 				padding-bottom: ( .75 * $size__spacing-unit );
 			}
@@ -205,7 +204,7 @@
 			a {
 				text-decoration: none;
 			}
-			
+
 			ul {
 				padding-left: $size__spacing-unit;
 			}
@@ -459,6 +458,11 @@
 			}
 		}
 
+		&.aligncenter {
+			margin: 32px calc(2 * (100vw / 12));
+			max-width: calc(6 * (100vw / 12));
+		}
+
 		&.has-left-content {
 			justify-content: center;
 
@@ -497,7 +501,7 @@
 		line-height: $font__line-height-pre;
 		margin: 0;
 		padding: ( $size__spacing-unit * .5 );
-		text-align: left;
+		text-align: center;
 	}
 
 	//! Separator
@@ -505,6 +509,7 @@
 	hr {
 		margin-bottom: (2 * $size__spacing-unit);
 		margin-top: (2 * $size__spacing-unit);
+		text-align: left;
 
 		&:not(.is-style-dots) {
 			background-color: $color__text-light;
@@ -526,11 +531,16 @@
 			}
 		}
 
-		&.is-style-dots:before {
-			color: $color__text-light;
-			font-size: $font__size-lg;
-			letter-spacing: $font__size-sm;
-			padding-left: $font__size-sm;
+		&.is-style-dots {
+			@include postContentMaxWidth();
+			text-align: center;
+
+			&:before {
+				color: $color__text-light;
+				font-size: $font__size-lg;
+				letter-spacing: $font__size-sm;
+				padding-left: $font__size-sm;
+			}
 		}
 	}
 
@@ -588,6 +598,8 @@
 
 		code {
 			font-size: $font__size-md;
+			white-space: pre-wrap;
+    	                word-break: break-word;
 		}
 	}
 
@@ -653,12 +665,12 @@
 		background-color: $color__link;
 
 		p,
-		h1, 
+		h1,
 		h2,
 		h3,
 		h4,
 		h5,
-		h6, 
+		h6,
 		a {
 			color: $color__background-body;
 		}

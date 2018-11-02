@@ -56,6 +56,7 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 /* If we add the border using a regular CSS border, it won't look good on non-retina devices,
  * since its edges can look jagged due to lack of antialiasing. In this case, we are several
  * layers of box-shadow to add the border visually, which will render the border smoother. */
+/* Calculates maximum width for post content */
 /* Normalize */
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
 /* Document
@@ -958,8 +959,8 @@ body.page .main-navigation {
   top: 0.2rem;
 }
 
-.main-navigation .main-menu > li.menu-item-has-children:not(:last-child) .mobile-submenu-expand,
-.main-navigation .main-menu > li.menu-item-has-children:not(:last-child) .desktop-submenu-expand {
+.main-navigation .main-menu > li.menu-item-has-children .mobile-submenu-expand,
+.main-navigation .main-menu > li.menu-item-has-children .desktop-submenu-expand {
   margin-left: 0.5rem;
 }
 
@@ -1014,8 +1015,8 @@ body.page .main-navigation {
   top: 0;
 }
 
-.main-navigation .sub-menu > li.menu-item-has-children:not(:last-child) .mobile-submenu-expand,
-.main-navigation .sub-menu > li.menu-item-has-children:not(:last-child) .desktop-submenu-expand {
+.main-navigation .sub-menu > li.menu-item-has-children .mobile-submenu-expand,
+.main-navigation .sub-menu > li.menu-item-has-children .desktop-submenu-expand {
   margin-left: 0;
 }
 
@@ -1082,9 +1083,6 @@ body.page .main-navigation {
 .main-navigation .main-menu .menu-item-has-children:focus > .sub-menu,
 .main-navigation .main-menu .menu-item-has-children .sub-menu:hover,
 .main-navigation .main-menu .menu-item-has-children .sub-menu:focus {
-  display: table;
-  margin-top: 0;
-  opacity: 1;
   /* Non-mobile position */
 }
 
@@ -1093,6 +1091,9 @@ body.page .main-navigation {
   .main-navigation .main-menu .menu-item-has-children:focus > .sub-menu,
   .main-navigation .main-menu .menu-item-has-children .sub-menu:hover,
   .main-navigation .main-menu .menu-item-has-children .sub-menu:focus {
+    display: table;
+    margin-top: 0;
+    opacity: 1;
     position: absolute;
     right: 0;
     left: auto;
@@ -1478,12 +1479,12 @@ body.page .main-navigation {
 
 /* Alignments */
 .alignleft {
-  float: right;
+  float: left;
   margin-left: 1rem;
 }
 
 .alignright {
-  float: left;
+  float: right;
   margin-right: 1rem;
 }
 
@@ -1539,20 +1540,25 @@ body.page .main-navigation {
   padding: 1em;
 }
 
+.site-header.featured-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 90vh;
+}
+
+.site-header.featured-image .site-branding-container {
+  margin-bottom: auto;
+}
+
 @media only screen and (min-width: 768px) {
   .site-header {
     margin: 0;
     padding: 3rem 0;
   }
   .site-header.featured-image {
-    display: flex;
     min-height: 100vh;
-    flex-direction: column;
-    justify-content: space-between;
     margin-bottom: 3rem;
-  }
-  .site-header.featured-image .site-branding-container {
-    margin-bottom: auto;
   }
 }
 
@@ -1754,6 +1760,7 @@ body.page .main-navigation {
 }
 
 .site-header.featured-image .site-featured-image .entry-header {
+  margin-top: calc( 4 * 1rem);
   margin-bottom: 0;
   margin-right: 0;
   margin-left: 0;
@@ -2401,6 +2408,28 @@ body.page .main-navigation {
   margin-top: 0;
 }
 
+.comment-list .pingback .comment-body {
+  color: #767676;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 0.71111em;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.comment-list .pingback .comment-body a:not(.comment-edit-link) {
+  font-weight: bold;
+  font-size: 19.55556px;
+  line-height: 1.5;
+  padding-left: 0.5rem;
+  display: block;
+}
+
+.comment-list .pingback .comment-body .comment-edit-link {
+  color: #767676;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 500;
+}
+
 .comment-reply {
   right: calc(1rem + 100%);
   bottom: 0;
@@ -2429,11 +2458,6 @@ body.page .main-navigation {
   }
 }
 
-.comment:hover > .comment-body > .comment-meta > .comment-metadata > .edit-link-sep,
-.comment:hover > .comment-body > .comment-meta > .comment-metadata > .edit-link {
-  opacity: 1;
-}
-
 .comment .comment-body {
   margin: calc(2 * 1rem) 0;
 }
@@ -2443,8 +2467,14 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
+  .comment .comment-meta {
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 768px) {
   .comment .comment-author {
-    display: inline-block;
+    flex: 0 0 auto;
     vertical-align: baseline;
   }
 }
@@ -2512,7 +2542,7 @@ body.page .main-navigation {
 
 @media only screen and (min-width: 768px) {
   .comment .comment-metadata {
-    display: inline-block;
+    flex: 1 0 auto;
     margin-right: 1rem;
     position: relative;
     vertical-align: baseline;
@@ -2545,15 +2575,11 @@ body.page .main-navigation {
 .comment .comment-metadata .edit-link-sep {
   color: #767676;
   margin: 0 0.2em;
-  opacity: 0;
-  transition: opacity 200ms ease-in-out;
   vertical-align: baseline;
 }
 
 .comment .comment-metadata .edit-link {
   color: #767676;
-  transition: opacity 200ms ease-in-out;
-  opacity: 0;
 }
 
 .comment .comment-metadata .edit-link svg {
@@ -2837,7 +2863,7 @@ body.page .main-navigation {
 .widget_rss ul li {
   color: #767676;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: calc(22px * 1.6875);
+  font-size: calc(22px * 1.125);
   font-weight: bold;
   line-height: 1.2;
 }
@@ -2875,8 +2901,8 @@ body.page .main-navigation {
 /* !Block styles */
 .entry-content > *,
 .entry-summary > * {
-  margin: 32px 1rem;
   max-width: calc(100vw - (2 * 1rem));
+  margin: 32px 1rem;
   /*
 	// Set top margins for headings
 	& + h1:before,
@@ -2893,7 +2919,6 @@ body.page .main-navigation {
 @media only screen and (min-width: 768px) {
   .entry-content > *,
   .entry-summary > * {
-    margin: 32px calc(2 * (100vw / 12));
     max-width: calc(8 * (100vw / 12));
   }
 }
@@ -2902,6 +2927,13 @@ body.page .main-navigation {
   .entry-content > *,
   .entry-summary > * {
     max-width: calc(6 * (100vw / 12));
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .entry-content > *,
+  .entry-summary > * {
+    margin: 32px calc(2 * (100vw / 12));
   }
 }
 
@@ -3024,6 +3056,11 @@ body.page .main-navigation {
   }
 }
 
+.entry-content .wp-block-audio.aligncenter {
+  margin: 32px calc(2 * (100vw / 12));
+  max-width: calc(6 * (100vw / 12));
+}
+
 .entry-content .wp-block-video video {
   width: 100%;
 }
@@ -3086,7 +3123,7 @@ body.page .main-navigation {
 .entry-content .wp-block-latest-posts li {
   color: #767676;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-size: calc(22px * 1.6875);
+  font-size: calc(22px * 1.125);
   font-weight: bold;
   line-height: 1.2;
 }
@@ -3362,6 +3399,12 @@ body.page .main-navigation {
   top: 50%;
 }
 
+.entry-content .wp-block-cover-image.aligncenter,
+.entry-content .wp-block-cover.aligncenter {
+  margin: 32px calc(2 * (100vw / 12));
+  max-width: calc(6 * (100vw / 12));
+}
+
 .entry-content .wp-block-cover-image.has-left-content,
 .entry-content .wp-block-cover.has-left-content {
   justify-content: center;
@@ -3405,13 +3448,14 @@ body.page .main-navigation {
   line-height: 1.6;
   margin: 0;
   padding: 0.5rem;
-  text-align: right;
+  text-align: center;
 }
 
 .entry-content .wp-block-separator,
 .entry-content hr {
   margin-bottom: 2rem;
   margin-top: 2rem;
+  text-align: right;
   /* Remove duplicate rule-line when a separator
 		 * is followed by an H1, or H2 */
 }
@@ -3433,6 +3477,26 @@ body.page .main-navigation {
 .entry-content hr + h1:before,
 .entry-content hr + h2:before {
   display: none;
+}
+
+.entry-content .wp-block-separator.is-style-dots,
+.entry-content hr.is-style-dots {
+  max-width: calc(100vw - (2 * 1rem));
+  text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+  .entry-content .wp-block-separator.is-style-dots,
+  .entry-content hr.is-style-dots {
+    max-width: calc(8 * (100vw / 12));
+  }
+}
+
+@media only screen and (min-width: 1168px) {
+  .entry-content .wp-block-separator.is-style-dots,
+  .entry-content hr.is-style-dots {
+    max-width: calc(6 * (100vw / 12));
+  }
 }
 
 .entry-content .wp-block-separator.is-style-dots:before,
@@ -3493,6 +3557,8 @@ body.page .main-navigation {
 
 .entry-content .wp-block-code code {
   font-size: 1.125em;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .entry-content .wp-block-columns .wp-block-column > *:first-child {
@@ -3591,11 +3657,13 @@ svg {
   margin-left: auto;
 }
 
-.wp-caption .wp-caption-text {
-  margin: calc(0.875 * 1rem) 0;
-}
-
 .wp-caption-text {
+  color: #767676;
+  font-size: 0.71111em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.5rem;
   text-align: center;
 }
 

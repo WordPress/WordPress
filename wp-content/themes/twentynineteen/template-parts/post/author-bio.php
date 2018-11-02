@@ -15,7 +15,7 @@ if ( (bool) get_the_author_meta( 'description' ) ) : ?>
 	<p class="author-description">
 		<?php the_author_meta( 'description' ); ?>
 		<a class="author-link" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
-			<?php _e( 'View more posts ', 'twentynineteen' ); ?>
+			<?php _e( 'View more posts', 'twentynineteen' ); ?>
 		</a>
 	</p><!-- .author-description -->
 </div><!-- .author-bio -->

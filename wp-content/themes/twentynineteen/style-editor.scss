@@ -1,9 +1,5 @@
 /*!
 Twenty Nineteen Editor Styles
-
-NOTE: Styling alignment styles require use of [data-align] selectors.
-This is not ideal, but it works. Styles using those selectors should be refactored
-when Gutenberg supports styling those variations more intuitively.
 */
 
 /** === Includes === */
@@ -12,10 +8,55 @@ when Gutenberg supports styling those variations more intuitively.
 @import "sass/variables-site/colors";
 @import "sass/mixins/mixins-master";
 
+/** === Editor Frame === */
+
+body {
+
+	// Non-standard media query necessary to override a Gutenberg breakpoint style. 
+	@media screen and (min-width: 600px) {
+		.wp-block[data-align="full"] {
+			width: calc( 100% + 90px );
+			max-width: calc( 100% + 90px );
+		}
+	}
+
+	@include media(tablet) {
+		overflow-x: hidden;
+
+		.editor-writing-flow {
+			max-width: 80%;
+			margin: 0 10%;
+		}
+
+		.editor-post-title__block,
+		.editor-default-block-appender,
+		.editor-block-list__block {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.wp-block[data-align="wide"] {
+			width: 100%;
+		}
+
+		.wp-block[data-align="full"] {
+			position: relative;
+			left: calc( -12.5% - 14px );
+			width: calc( 125% + 116px );
+			max-width: calc( 125% + 116px );
+		}
+
+		.wp-block[data-align="right"] {
+			max-width: 125%;
+		}
+	}
+}
+
 /** === Content Width === */
 
 .wp-block {
 	width: calc(100vw - (2 * #{$size__spacing-unit}));
+	max-width: 100%;
 
 	@include media(tablet) {
 		width: calc(8 * (100vw / 12));
@@ -23,6 +64,10 @@ when Gutenberg supports styling those variations more intuitively.
 
 	@include media(desktop) {
 		width: calc(6 * (100vw / 12 ));
+	}
+
+	.wp-block {
+		width: 100%;
 	}
 }
 
@@ -125,6 +170,33 @@ figcaption,
 	color: $color__text-light;
 }
 
+/** === Post Title === */
+
+.editor-post-title__block {
+	@include post-section-dash;
+
+	&:before {
+		width: $font__size-xxl;
+		margin-top: 0;
+		margin-bottom: 0;
+		margin-left: 1em;
+		position: relative;
+		top: 0.5em;
+	}
+
+	.editor-post-title__input {
+		font-family: $font__heading;
+		font-size: $font__size-xxl;
+	}
+}
+
+/** === Default Appender === */
+
+.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+	font-family: $font__body;
+	font-size: $font__size_base;
+}
+
 /** === Paragraph === */
 
 .wp-block-paragraph {
@@ -151,7 +223,6 @@ figcaption,
 	}
 
 	&.has-left-content {
-		justify-content: center;
 
 		h2,
 		.wp-block-cover-text {
@@ -160,7 +231,6 @@ figcaption,
 	}
 
 	&.has-right-content {
-		justify-content: center;
 
 		h2,
 		.wp-block-cover-text {
@@ -169,8 +239,8 @@ figcaption,
 	}
 }
 
-body[data-type="core/cover"][data-align="left"],
-body[data-type="core/cover"][data-align="right"] {
+.wp-block[data-type="core/cover"][data-align="left"],
+.wp-block[data-type="core/cover"][data-align="right"] {
 
 	h2,
 	.wp-block-cover-text {
@@ -179,8 +249,8 @@ body[data-type="core/cover"][data-align="right"] {
 	}
 }
 
-body[data-type="core/cover"][data-align="wide"],
-body[data-type="core/cover"][data-align="full"] {
+.wp-block[data-type="core/cover"][data-align="wide"],
+.wp-block[data-type="core/cover"][data-align="full"] {
 
 	@include media(desktop) {
 		h2,
@@ -307,9 +377,9 @@ body[data-type="core/cover"][data-align="full"] {
 	}
 }
 
-body[data-type="core/pullquote"],
-body[data-type="core/pullquote"][data-align="left"],
-body[data-type="core/pullquote"][data-align="right"] {
+.wp-block[data-type="core/pullquote"],
+.wp-block[data-type="core/pullquote"][data-align="left"],
+.wp-block[data-type="core/pullquote"][data-align="right"] {
 
 	blockquote > .block-library-pullquote__content .editor-rich-text__tinymce[data-is-empty="true"]::before,
 	blockquote > .editor-rich-text p,
@@ -337,8 +407,8 @@ body[data-type="core/pullquote"][data-align="right"] {
 	}
 }
 
-body[data-type="core/pullquote"][data-align="left"],
-body[data-type="core/pullquote"][data-align="right"] {
+.wp-block[data-type="core/pullquote"][data-align="left"],
+.wp-block[data-type="core/pullquote"][data-align="right"] {
 
 	.editor-block-list__block-edit {
 		max-width: 50%;
@@ -412,7 +482,8 @@ body[data-type="core/pullquote"][data-align="right"] {
 	&.is-style-dots:before {
 		color: $color__text-light;
 		font-size: $font__size-lg;
-		letter-spacing: $font__size-sm;
+		letter-spacing: calc(2 * #{$size__spacing-unit});
+		padding-left: calc(2 * #{$size__spacing-unit});
 	}
 }
 
@@ -431,7 +502,7 @@ ul.wp-block-archives,
 
 	li {
 		font-family: $font__heading;
-		font-size: $font__size-lg;
+		font-size: calc(#{$font__size_base} * #{$font__size-ratio});
 		font-weight: bold;
 		line-height: $font__line-height-heading;
 
@@ -498,6 +569,13 @@ ul.wp-block-archives,
 /* Properly center-align captions in the classic-editor block */
 .wp-caption {
 	dd {
+		color: $color__text-light;
+ 		font-size: $font__size-xs;
+ 		font-family: $font__heading;
+ 		line-height: $font__line-height-pre;
+ 		margin: 0;
+ 		padding: ( $size__spacing-unit * .5 );
+ 		text-align: left;
 		text-align: center;
 		-webkit-margin-start: 0px;
 		margin-inline-start: 0px;

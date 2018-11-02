@@ -42,7 +42,7 @@
 		mix-blend-mode: multiply;
 		opacity: .8;
 		z-index: 3;
-		
+
 		/* Browsers supporting mix-blend-mode don't need opacity < 1 */
 		@supports (mix-blend-mode: multiply) {
 			opacity: 1;
@@ -85,6 +85,19 @@
 		0 0 0 $size $color__text-light inset,         	// Original border.
 		0 0 0 ($size + 1px) $color__text-light inset, 	// Antialiasing, inner edge.
 		0 0 1px 0 rgba( $color__text-light, 0.7 );  	// Antialiasing, outer edge.
+}
+
+/* Calculates maximum width for post content */
+@mixin postContentMaxWidth() {
+	max-width: calc(100vw - (2 * #{ $size__spacing-unit }));
+
+	@include media(tablet) {
+		max-width: calc(8 * (100vw / 12));
+	}
+
+	@include media(desktop) {
+		max-width: calc(6 * (100vw / 12));
+	}
 }
 
 @import "utilities";

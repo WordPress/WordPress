@@ -1,23 +1,26 @@
 // Site header
 
 .site-header {
-
 	padding: 1em;
+
+	&.featured-image {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 90vh;
+
+		.site-branding-container {
+			margin-bottom: auto;
+		}
+	}
 
 	@include media(tablet) {
 		margin: 0;
 		padding: 3rem 0;
 
 		&.featured-image {
-			display: flex;
 			min-height: 100vh;
-			flex-direction: column;
-			justify-content: space-between;
 			margin-bottom: 3rem;
-
-			.site-branding-container {
-				margin-bottom: auto;
-			}
 		}
 	}
 }

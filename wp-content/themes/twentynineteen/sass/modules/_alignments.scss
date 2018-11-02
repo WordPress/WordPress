@@ -1,9 +1,11 @@
 .alignleft {
+	/*rtl:ignore*/
 	float: left;
 	margin-right: $size__spacing-unit;
 }
 
 .alignright {
+	/*rtl:ignore*/
 	float: right;
 	margin-left: $size__spacing-unit;
 }

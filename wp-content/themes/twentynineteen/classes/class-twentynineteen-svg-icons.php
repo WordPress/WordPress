@@ -197,8 +197,14 @@ class TwentyNineteen_SVG_Icons {
 			'facebook.com',
 			'fb.me',
 		),
+		'feed'    => array(
+			'feed',
+		),
 		'google-plus' => array(
 			'plus.google.com',
+		),
+		'mail'   => array(
+			'mailto:',
 		),
 		'slideshare'  => array(
 			'slideshare.net',

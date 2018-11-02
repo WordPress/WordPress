@@ -122,6 +122,31 @@
 	> .comment:first-child {
 		margin-top: 0;
 	}
+
+	.pingback {
+
+		.comment-body {
+			color: $color__text-light;
+			font-family: $font__heading;
+			font-size: $font__size-xs;
+			font-weight: 500;
+			margin-bottom: $size__spacing-unit;
+
+			a:not(.comment-edit-link) {
+				font-weight: bold;
+				font-size: $font__size-base / (1 * $font__size-ratio);
+				line-height: 1.5;
+				padding-right: #{0.5 * $size__spacing-unit};
+				display: block;
+			}
+
+			.comment-edit-link {
+				color: $color__text-light;
+				font-family: $font__heading;
+				font-weight: 500;
+			}
+		}
+	}
 }
 
 .comment-reply {
@@ -150,25 +175,22 @@
 		}
 	}
 
-	&:hover > .comment-body > .comment-meta > .comment-metadata {
-		> .edit-link-sep,
-		> .edit-link {
-			opacity: 1;
-		}
-	}
-
 	.comment-body {
 		margin: calc(2 * #{$size__spacing-unit}) 0;
 	}
 
 	.comment-meta {
 		position: relative;
+
+		@include media(tablet) {
+			display: flex;
+		}
 	}
 
 	.comment-author {
 
 		@include media(tablet) {
-			display: inline-block;
+			flex: 0 0 auto;
 			vertical-align: baseline;
 		}
 
@@ -231,7 +253,7 @@
 	.comment-metadata {
 
 		@include media(tablet) {
-			display: inline-block;
+			flex: 1 0 auto;
 			margin-left: $size__spacing-unit;
 			position: relative;
 			vertical-align: baseline;
@@ -261,15 +283,11 @@
 		.edit-link-sep {
 			color: $color__text-light;
 			margin: 0 0.2em;
-			opacity: 0;
-			transition: opacity 200ms ease-in-out;
 			vertical-align: baseline;
 		}
 
 		.edit-link {
 			color: $color__text-light;
-			transition: opacity 200ms ease-in-out;
-			opacity: 0;
 
 			svg {
 				transform: scale(0.8);

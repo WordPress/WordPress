@@ -24,7 +24,7 @@
 	});
 
 	// Primary color.
-	wp.customize( 'colorscheme_hue', function( value ) {
+	wp.customize( 'colorscheme_primary_hue', function( value ) {
 		value.bind( function( to ) {
 
 			// Update custom color CSS.

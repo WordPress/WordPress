@@ -83,6 +83,9 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 			)
 		);
 
+		// Add theme support for selective refresh for widgets.
+		add_theme_support( 'customize-selective-refresh-widgets' );
+
 		// Add support for Block Styles
 		add_theme_support( 'wp-block-styles' );
 
@@ -95,17 +98,20 @@ if ( ! function_exists( 'twentynineteen_setup' ) ) :
 		// Enqueue editor styles
 		add_editor_style( 'style-editor.css' );
 
-		// Add custom color to the editor color palette
+		// Editor color palette
 		add_theme_support(
-		'editor-color-palette',
+			'editor-color-palette',
 			array(
 				array(
 					'name'  => esc_html__( 'Primary Color', 'twentynineteen' ),
 					'slug'  => 'primary',
-					'color' => twentynineteen_hsl_hex( absint( get_theme_mod( 'colorscheme_hue', 199 ) ), 100, 33 ),
+					'color' => twentynineteen_hsl_hex( 'default' === get_theme_mod( 'colorscheme' ) ? 199 : get_theme_mod( 'colorscheme_primary_hue', 199 ), 100, 33 ),
 				),
 			)
 		);
+
+		// Add support for responsive embedded content
+		add_theme_support( 'responsive-embeds' );
 
 	}
 endif;
@@ -120,7 +126,7 @@ function twentynineteen_widgets_init() {
 
 	register_sidebar(
 		array(
-			'name'          => __( 'Footer 1', 'twentynineteen' ),
+			'name'          => __( 'Footer', 'twentynineteen' ),
 			'id'            => 'sidebar-1',
 			'description'   => __( 'Add widgets here to appear in your footer.', 'twentynineteen' ),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
@@ -160,11 +166,10 @@ function twentynineteen_scripts() {
 
 	if ( has_nav_menu( 'menu-1' ) ) {
 		wp_enqueue_script( 'twentynineteen-touch-navigation', get_theme_file_uri( '/js/touch-navigation.js' ), array(), '1.0', true );
-		$twentynineteen_l10n['expand']   = __( 'Expand child menu', 'twentynineteen' );
-		$twentynineteen_l10n['collapse'] = __( 'Collapse child menu', 'twentynineteen' );
+		$l10n_skip_link_focus_fix['expand']   = __( 'Expand child menu', 'twentynineteen' );
+		$l10n_skip_link_focus_fix['collapse'] = __( 'Collapse child menu', 'twentynineteen' );
+		wp_localize_script( 'twentynineteen-skip-link-focus-fix', 'twentynineteenScreenReaderText', $l10n_skip_link_focus_fix );
 	}
-
-	wp_localize_script( 'twentynineteen-skip-link-focus-fix', 'twentynineteenScreenReaderText', $twentynineteen_l10n );
 
 	wp_enqueue_style( 'twentynineteen-print-style', get_template_directory_uri() . '/print.css', array(), wp_get_theme()->get( 'Version' ), 'print' );
 
@@ -181,29 +186,38 @@ add_action( 'wp_enqueue_scripts', 'twentynineteen_scripts' );
 /**
  * Enqueue supplemental block editor styles
  */
-function twentynineteen_editor_frame_styles() {
+function twentynineteen_editor_customizer_styles() {
 
-	// Include color patterns
-	require_once( get_parent_theme_file_path( '/inc/color-patterns.php' ) );
+	wp_enqueue_style( 'twentynineteen-editor-customizer-styles', get_theme_file_uri( '/style-editor-customizer.css' ), false, '1.0', 'all' );
 
-	wp_enqueue_style( 'twentynineteen-editor-frame-styles', get_theme_file_uri( '/style-editor-frame.css' ), false, '1.0', 'all' );
-	wp_add_inline_style( 'twentynineteen-editor-frame-styles', twentynineteen_custom_colors_css() );
+	if ( 'custom' === get_theme_mod( 'colorscheme' ) ) {
+		// Include color patterns
+		require_once( get_parent_theme_file_path( '/inc/color-patterns.php' ) );
+		wp_add_inline_style( 'twentynineteen-editor-customizer-styles', twentynineteen_custom_colors_css() );
+	}
 }
-add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_frame_styles' );
+add_action( 'enqueue_block_editor_assets', 'twentynineteen_editor_customizer_styles' );
 
 /**
  * Display custom color CSS in customizer and on frontend.
  */
 function twentynineteen_colors_css_wrap() {
-	if ( 'custom' !== get_theme_mod( 'colorscheme' ) && ! is_customize_preview() ) {
+
+	// Only include custom colors in customizer or frontend
+	if ( ( ! is_customize_preview() && is_admin() ) || is_admin() ) {
 		return;
 	}
 
 	require_once( get_parent_theme_file_path( '/inc/color-patterns.php' ) );
-	$hue = absint( get_theme_mod( 'colorscheme_hue', 250 ) );
+
+	if ( 'default' === get_theme_mod( 'colorscheme', 'default' ) ) {
+		$primary_color = 199;
+	} else {
+		$primary_color = absint( get_theme_mod( 'colorscheme_primary_hue', 199 ) );
+	}
 	?>
 
-	<style type="text/css" id="custom-theme-colors" <?php echo is_customize_preview() ? 'data-hue="' . $hue . '"' : ''; ?>>
+	<style type="text/css" id="custom-theme-colors" <?php echo is_customize_preview() ? 'data-hue="' . $primary_color . '"' : ''; ?>>
 		<?php echo twentynineteen_custom_colors_css(); ?>
 	</style>
 <?php

@@ -67,12 +67,9 @@
 					top: 0.2rem;
 				}
 
-				&:not(:last-child) {
-
-					.mobile-submenu-expand,
-					.desktop-submenu-expand {
-						margin-right: #{0.5 * $size__spacing-unit};
-					}
+				.mobile-submenu-expand,
+				.desktop-submenu-expand {
+					margin-right: #{0.5 * $size__spacing-unit};
 				}
 			}
 
@@ -127,12 +124,9 @@
 					}
 				}
 
-				&:not(:last-child) {
-
-					.mobile-submenu-expand,
-					.desktop-submenu-expand {
-						margin-right: 0;
-					}
+				.mobile-submenu-expand,
+				.desktop-submenu-expand {
+					margin-right: 0;
 				}
 
 				@include media(tablet) {
@@ -206,12 +200,11 @@
 	.main-menu .menu-item-has-children:focus > .sub-menu,
 	.main-menu .menu-item-has-children .sub-menu:hover,
 	.main-menu .menu-item-has-children .sub-menu:focus {
-		display: table;
-		margin-top: 0;
-		opacity: 1;
-
 		/* Non-mobile position */
 		@include media(tablet) {
+			display: table;
+			margin-top: 0;
+			opacity: 1;
 			position: absolute;
 			left: 0;
 			right: auto;

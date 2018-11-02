@@ -8,10 +8,12 @@
 	margin-right: auto;
 }
 
-.wp-caption .wp-caption-text {
-	margin: calc(0.875 * #{$size__spacing-unit}) 0;
-}
-
 .wp-caption-text {
+	color: $color__text-light;
+	font-size: $font__size-xs;
+	font-family: $font__heading;
+ 	line-height: $font__line-height-pre;
+ 	margin: 0;
+ 	padding: ( $size__spacing-unit * .5 );
 	text-align: center;
 }

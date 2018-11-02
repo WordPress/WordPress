@@ -28,7 +28,7 @@
 		li {
 			color: $color__text-light;
 			font-family: $font__heading;
-			font-size: calc(#{$font__size_base} * #{$font__size-lg / 1em} );
+			font-size: calc(#{$font__size_base} * #{$font__size-ratio});
 			font-weight: bold;
 			line-height: $font__line-height-heading;
 

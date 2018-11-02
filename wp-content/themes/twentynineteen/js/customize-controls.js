@@ -12,7 +12,7 @@
 
 		// Only show the color hue control when there's a custom color scheme.
 		wp.customize( 'colorscheme', function( setting ) {
-			wp.customize.control( 'colorscheme_hue', function( control ) {
+			wp.customize.control( 'colorscheme_primary_hue', function( control ) {
 				var visibility = function() {
 					if ( 'custom' === setting.get() ) {
 						control.container.slideDown( 180 );
