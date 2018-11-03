@@ -973,7 +973,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: withSelect, withDispatch, RegistryProvider, RegistryConsumer, createRegistry, plugins, combineReducers, select, dispatch, subscribe, registerStore, registerReducer, registerActions, registerSelectors, registerResolvers, use */
+/*! exports provided: withSelect, withDispatch, RegistryProvider, RegistryConsumer, createRegistry, plugins, combineReducers, select, dispatch, subscribe, registerGenericStore, registerStore, registerReducer, registerActions, registerSelectors, registerResolvers, use */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -981,6 +981,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "select", function() { return select; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatch", function() { return dispatch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribe", function() { return subscribe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerGenericStore", function() { return registerGenericStore; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerStore", function() { return registerStore; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerReducer", function() { return registerReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerActions", function() { return registerActions; });
@@ -1037,12 +1038,401 @@ __webpack_require__.r(__webpack_exports__);
 var select = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].select;
 var dispatch = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch;
 var subscribe = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].subscribe;
+var registerGenericStore = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerGenericStore;
 var registerStore = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerStore;
 var registerReducer = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerReducer;
 var registerActions = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerActions;
 var registerSelectors = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerSelectors;
 var registerResolvers = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerResolvers;
 var use = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].use;
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/data/build-module/namespace-store.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@wordpress/data/build-module/namespace-store.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createNamespace; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _promise_middleware__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./promise-middleware */ "./node_modules/@wordpress/data/build-module/promise-middleware.js");
+/* harmony import */ var _resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./resolvers-cache-middleware */ "./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js");
+
+
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Creates a namespace object with a store derived from the reducer given.
+ *
+ * @param {string} key              Identifying string used for namespace and redex dev tools.
+ * @param {Object} options          Contains reducer, actions, selectors, and resolvers.
+ * @param {Object} registry         Temporary registry reference, required for namespace updates.
+ *
+ * @return {Object} Store Object.
+ */
+
+function createNamespace(key, options, registry) {
+  // TODO: After register[Reducer|Actions|Selectors|Resolvers] are deprecated and removed,
+  //       this function can be greatly simplified because it should no longer be called to modify
+  //       a namespace, but only to create one, and only once for each namespace.
+  // TODO: After removing `registry.namespaces`and making stores immutable after create,
+  //       reducer, store, actinos, selectors, and resolvers can all be removed from here.
+  var _ref = registry.namespaces[key] || {},
+      reducer = _ref.reducer,
+      store = _ref.store,
+      actions = _ref.actions,
+      selectors = _ref.selectors,
+      resolvers = _ref.resolvers;
+
+  if (options.reducer) {
+    reducer = options.reducer;
+    store = createReduxStore(reducer, key, registry);
+  }
+
+  if (options.actions) {
+    if (!store) {
+      throw new TypeError('Cannot specify actions when no reducer is present');
+    }
+
+    actions = mapActions(options.actions, store);
+  }
+
+  if (options.selectors) {
+    if (!store) {
+      throw new TypeError('Cannot specify selectors when no reducer is present');
+    }
+
+    selectors = mapSelectors(options.selectors, store);
+  }
+
+  if (options.resolvers) {
+    var fulfillment = getCoreDataFulfillment(registry, key);
+    var result = mapResolvers(options.resolvers, selectors, fulfillment, store);
+    resolvers = result.resolvers;
+    selectors = result.selectors;
+  }
+
+  var getSelectors = function getSelectors() {
+    return selectors;
+  };
+
+  var getActions = function getActions() {
+    return actions;
+  }; // Customize subscribe behavior to call listeners only on effective change,
+  // not on every dispatch.
+
+
+  var subscribe = store && function (listener) {
+    var lastState = store.getState();
+    store.subscribe(function () {
+      var state = store.getState();
+      var hasChanged = state !== lastState;
+      lastState = state;
+
+      if (hasChanged) {
+        listener();
+      }
+    });
+  };
+
+  return {
+    reducer: reducer,
+    store: store,
+    actions: actions,
+    selectors: selectors,
+    resolvers: resolvers,
+    getSelectors: getSelectors,
+    getActions: getActions,
+    subscribe: subscribe
+  };
+}
+/**
+ * Creates a redux store for a namespace.
+ *
+ * @param {Function} reducer    Root reducer for redux store.
+ * @param {string} key          Part of the state shape to register the
+ *                              selectors for.
+ * @param {Object} registry     Registry reference, for resolver enhancer support.
+ * @return {Object}             Newly created redux store.
+ */
+
+function createReduxStore(reducer, key, registry) {
+  var enhancers = [Object(redux__WEBPACK_IMPORTED_MODULE_2__["applyMiddleware"])(Object(_resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_5__["default"])(registry, key), _promise_middleware__WEBPACK_IMPORTED_MODULE_4__["default"])];
+
+  if (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__) {
+    enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__({
+      name: key,
+      instanceId: key
+    }));
+  }
+
+  return Object(redux__WEBPACK_IMPORTED_MODULE_2__["createStore"])(reducer, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["flowRight"])(enhancers));
+}
+/**
+ * Maps selectors to a redux store.
+ *
+ * @param {Object} selectors  Selectors to register. Keys will be used as the
+ *                            public facing API. Selectors will get passed the
+ *                            state as first argument.
+ * @param {Object} store      The redux store to which the selectors should be mapped.
+ * @return {Object}           Selectors mapped to the redux store provided.
+ */
+
+
+function mapSelectors(selectors, store) {
+  var createStateSelector = function createStateSelector(selector) {
+    return function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return selector.apply(void 0, [store.getState()].concat(args));
+    };
+  };
+
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(selectors, createStateSelector);
+}
+/**
+ * Maps actions to dispatch from a given store.
+ *
+ * @param {Object} actions    Actions to register.
+ * @param {Object} store      The redux store to which the actions should be mapped.
+ * @return {Object}           Actions mapped to the redux store provided.
+ */
+
+
+function mapActions(actions, store) {
+  var createBoundAction = function createBoundAction(action) {
+    return function () {
+      return store.dispatch(action.apply(void 0, arguments));
+    };
+  };
+
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(actions, createBoundAction);
+}
+/**
+ * Returns resolvers with matched selectors for a given namespace.
+ * Resolvers are side effects invoked once per argument set of a given selector call,
+ * used in ensuring that the data needs for the selector are satisfied.
+ *
+ * @param {Object} resolvers   Resolvers to register.
+ * @param {Object} selectors   The current selectors to be modified.
+ * @param {Object} fulfillment Fulfillment implementation functions.
+ * @param {Object} store       The redux store to which the resolvers should be mapped.
+ * @return {Object}            An object containing updated selectors and resolvers.
+ */
+
+
+function mapResolvers(resolvers, selectors, fulfillment, store) {
+  var mapSelector = function mapSelector(selector, selectorName) {
+    var resolver = resolvers[selectorName];
+
+    if (!resolver) {
+      return selector;
+    }
+
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+
+      function fulfillSelector() {
+        return _fulfillSelector.apply(this, arguments);
+      }
+
+      function _fulfillSelector() {
+        _fulfillSelector = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee() {
+          var state;
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  state = store.getState();
+
+                  if (!(typeof resolver.isFulfilled === 'function' && resolver.isFulfilled.apply(resolver, [state].concat(args)))) {
+                    _context.next = 3;
+                    break;
+                  }
+
+                  return _context.abrupt("return");
+
+                case 3:
+                  if (!fulfillment.hasStarted(selectorName, args)) {
+                    _context.next = 5;
+                    break;
+                  }
+
+                  return _context.abrupt("return");
+
+                case 5:
+                  fulfillment.start(selectorName, args);
+                  _context.next = 8;
+                  return fulfillment.fulfill.apply(fulfillment, [selectorName].concat(args));
+
+                case 8:
+                  fulfillment.finish(selectorName, args);
+
+                case 9:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, this);
+        }));
+        return _fulfillSelector.apply(this, arguments);
+      }
+
+      fulfillSelector.apply(void 0, args);
+      return selector.apply(void 0, args);
+    };
+  };
+
+  var mappedResolvers = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(resolvers, function (resolver) {
+    var _resolver$fulfill = resolver.fulfill,
+        resolverFulfill = _resolver$fulfill === void 0 ? resolver : _resolver$fulfill;
+    return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, resolver, {
+      fulfill: resolverFulfill
+    });
+  });
+  return {
+    resolvers: mappedResolvers,
+    selectors: Object(lodash__WEBPACK_IMPORTED_MODULE_3__["mapValues"])(selectors, mapSelector)
+  };
+}
+/**
+ * Bundles up fulfillment functions for resolvers.
+ * @param {Object} registry     Registry reference, for fulfilling via resolvers
+ * @param {string} key          Part of the state shape to register the
+ *                              selectors for.
+ * @return {Object}             An object providing fulfillment functions.
+ */
+
+
+function getCoreDataFulfillment(registry, key) {
+  var _registry$select = registry.select('core/data'),
+      hasStartedResolution = _registry$select.hasStartedResolution;
+
+  var _registry$dispatch = registry.dispatch('core/data'),
+      startResolution = _registry$dispatch.startResolution,
+      finishResolution = _registry$dispatch.finishResolution;
+
+  return {
+    hasStarted: function hasStarted() {
+      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
+      return hasStartedResolution.apply(void 0, [key].concat(args));
+    },
+    start: function start() {
+      for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+        args[_key4] = arguments[_key4];
+      }
+
+      return startResolution.apply(void 0, [key].concat(args));
+    },
+    finish: function finish() {
+      for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+        args[_key5] = arguments[_key5];
+      }
+
+      return finishResolution.apply(void 0, [key].concat(args));
+    },
+    fulfill: function fulfill() {
+      for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+        args[_key6] = arguments[_key6];
+      }
+
+      return fulfillWithRegistry.apply(void 0, [registry, key].concat(args));
+    }
+  };
+}
+/**
+ * Calls a resolver given arguments
+ *
+ * @param {Object} registry     Registry reference, for fulfilling via resolvers
+ * @param {string} key          Part of the state shape to register the
+ *                              selectors for.
+ * @param {string} selectorName Selector name to fulfill.
+ * @param {Array} args         Selector Arguments.
+ */
+
+
+function fulfillWithRegistry(_x, _x2, _x3) {
+  return _fulfillWithRegistry.apply(this, arguments);
+}
+
+function _fulfillWithRegistry() {
+  _fulfillWithRegistry = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(registry, key, selectorName) {
+    var namespace,
+        resolver,
+        _len7,
+        args,
+        _key7,
+        action,
+        _args2 = arguments;
+
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            namespace = registry.stores[key];
+            resolver = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(namespace, ['resolvers', selectorName]);
+
+            if (resolver) {
+              _context2.next = 4;
+              break;
+            }
+
+            return _context2.abrupt("return");
+
+          case 4:
+            for (_len7 = _args2.length, args = new Array(_len7 > 3 ? _len7 - 3 : 0), _key7 = 3; _key7 < _len7; _key7++) {
+              args[_key7 - 3] = _args2[_key7];
+            }
+
+            action = resolver.fulfill.apply(resolver, args);
+
+            if (!action) {
+              _context2.next = 9;
+              break;
+            }
+
+            _context2.next = 9;
+            return namespace.store.dispatch(action);
+
+          case 9:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, this);
+  }));
+  return _fulfillWithRegistry.apply(this, arguments);
+}
 
 
 /***/ }),
@@ -1422,20 +1812,22 @@ var promiseMiddleware = function promiseMiddleware() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRegistry", function() { return createRegistry; });
 /* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _namespace_store_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./namespace-store.js */ "./node_modules/@wordpress/data/build-module/namespace-store.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/data/build-module/store/index.js");
-/* harmony import */ var _promise_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./promise-middleware */ "./node_modules/@wordpress/data/build-module/promise-middleware.js");
-/* harmony import */ var _resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./resolvers-cache-middleware */ "./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js");
-
 
 
 
 /**
  * External dependencies
+ */
+
+/**
+ * WordPress dependencies
  */
 
 
@@ -1445,21 +1837,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * An isolated orchestrator of store registrations.
  *
  * @typedef {WPDataRegistry}
  *
- * @property {Function} registerReducer
- * @property {Function} registerSelectors
- * @property {Function} registerResolvers
- * @property {Function} registerActions
+ * @property {Function} registerGenericStore
  * @property {Function} registerStore
  * @property {Function} subscribe
  * @property {Function} select
  * @property {Function} dispatch
- * @property {Function} use
  */
 
 /**
@@ -1479,7 +1866,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function createRegistry() {
   var storeConfigs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var namespaces = {};
+  var stores = {};
   var listeners = [];
   /**
    * Global listener called for each store's update.
@@ -1489,214 +1876,6 @@ function createRegistry() {
     listeners.forEach(function (listener) {
       return listener();
     });
-  }
-  /**
-   * Registers a new sub-reducer to the global state and returns a Redux-like
-   * store object.
-   *
-   * @param {string} reducerKey Reducer key.
-   * @param {Object} reducer    Reducer function.
-   *
-   * @return {Object} Store Object.
-   */
-
-
-  function registerReducer(reducerKey, reducer) {
-    var enhancers = [Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(Object(_resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_7__["default"])(registry, reducerKey), _promise_middleware__WEBPACK_IMPORTED_MODULE_6__["default"])];
-
-    if (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__) {
-      enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__({
-        name: reducerKey,
-        instanceId: reducerKey
-      }));
-    }
-
-    var store = Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(reducer, Object(lodash__WEBPACK_IMPORTED_MODULE_4__["flowRight"])(enhancers));
-    namespaces[reducerKey] = {
-      store: store,
-      reducer: reducer
-    }; // Customize subscribe behavior to call listeners only on effective change,
-    // not on every dispatch.
-
-    var lastState = store.getState();
-    store.subscribe(function () {
-      var state = store.getState();
-      var hasChanged = state !== lastState;
-      lastState = state;
-
-      if (hasChanged) {
-        globalListener();
-      }
-    });
-    return store;
-  }
-  /**
-   * Registers selectors for external usage.
-   *
-   * @param {string} reducerKey   Part of the state shape to register the
-   *                              selectors for.
-   * @param {Object} newSelectors Selectors to register. Keys will be used as the
-   *                              public facing API. Selectors will get passed the
-   *                              state as first argument.
-   */
-
-
-  function registerSelectors(reducerKey, newSelectors) {
-    var store = namespaces[reducerKey].store;
-
-    var createStateSelector = function createStateSelector(selector) {
-      return function () {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
-        return selector.apply(void 0, [store.getState()].concat(args));
-      };
-    };
-
-    namespaces[reducerKey].selectors = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(newSelectors, createStateSelector);
-  }
-  /**
-   * Registers resolvers for a given reducer key. Resolvers are side effects
-   * invoked once per argument set of a given selector call, used in ensuring
-   * that the data needs for the selector are satisfied.
-   *
-   * @param {string} reducerKey   Part of the state shape to register the
-   *                              resolvers for.
-   * @param {Object} newResolvers Resolvers to register.
-   */
-
-
-  function registerResolvers(reducerKey, newResolvers) {
-    namespaces[reducerKey].resolvers = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(newResolvers, function (resolver) {
-      var _resolver$fulfill = resolver.fulfill,
-          resolverFulfill = _resolver$fulfill === void 0 ? resolver : _resolver$fulfill;
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, resolver, {
-        fulfill: resolverFulfill
-      });
-    });
-    namespaces[reducerKey].selectors = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(namespaces[reducerKey].selectors, function (selector, selectorName) {
-      var resolver = newResolvers[selectorName];
-
-      if (!resolver) {
-        return selector;
-      }
-
-      return function () {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        var _select = select('core/data'),
-            hasStartedResolution = _select.hasStartedResolution;
-
-        var _dispatch = dispatch('core/data'),
-            startResolution = _dispatch.startResolution,
-            finishResolution = _dispatch.finishResolution;
-
-        function fulfillSelector() {
-          return _fulfillSelector.apply(this, arguments);
-        }
-
-        function _fulfillSelector() {
-          _fulfillSelector = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
-          /*#__PURE__*/
-          regeneratorRuntime.mark(function _callee() {
-            var state;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    state = namespaces[reducerKey].store.getState();
-
-                    if (!(typeof resolver.isFulfilled === 'function' && resolver.isFulfilled.apply(resolver, [state].concat(args)))) {
-                      _context.next = 3;
-                      break;
-                    }
-
-                    return _context.abrupt("return");
-
-                  case 3:
-                    if (!hasStartedResolution(reducerKey, selectorName, args)) {
-                      _context.next = 5;
-                      break;
-                    }
-
-                    return _context.abrupt("return");
-
-                  case 5:
-                    startResolution(reducerKey, selectorName, args);
-                    _context.next = 8;
-                    return fulfill.apply(void 0, [reducerKey, selectorName].concat(args));
-
-                  case 8:
-                    finishResolution(reducerKey, selectorName, args);
-
-                  case 9:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee, this);
-          }));
-          return _fulfillSelector.apply(this, arguments);
-        }
-
-        fulfillSelector.apply(void 0, args);
-        return selector.apply(void 0, args);
-      };
-    });
-  }
-  /**
-   * Registers actions for external usage.
-   *
-   * @param {string} reducerKey   Part of the state shape to register the
-   *                              selectors for.
-   * @param {Object} newActions   Actions to register.
-   */
-
-
-  function registerActions(reducerKey, newActions) {
-    var store = namespaces[reducerKey].store;
-
-    var createBoundAction = function createBoundAction(action) {
-      return function () {
-        return store.dispatch(action.apply(void 0, arguments));
-      };
-    };
-
-    namespaces[reducerKey].actions = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(newActions, createBoundAction);
-  }
-  /**
-   * Convenience for registering reducer with actions and selectors.
-   *
-   * @param {string} reducerKey Reducer key.
-   * @param {Object} options    Store description (reducer, actions, selectors, resolvers).
-   *
-   * @return {Object} Registered store object.
-   */
-
-
-  function registerStore(reducerKey, options) {
-    if (!options.reducer) {
-      throw new TypeError('Must specify store reducer');
-    }
-
-    var store = registerReducer(reducerKey, options.reducer);
-
-    if (options.actions) {
-      registerActions(reducerKey, options.actions);
-    }
-
-    if (options.selectors) {
-      registerSelectors(reducerKey, options.selectors);
-    }
-
-    if (options.resolvers) {
-      registerResolvers(reducerKey, options.resolvers);
-    }
-
-    return store;
   }
   /**
    * Subscribe to changes to any data.
@@ -1710,7 +1889,7 @@ function createRegistry() {
   var subscribe = function subscribe(listener) {
     listeners.push(listener);
     return function () {
-      listeners = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["without"])(listeners, listener);
+      listeners = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["without"])(listeners, listener);
     };
   };
   /**
@@ -1724,20 +1903,8 @@ function createRegistry() {
 
 
   function select(reducerKey) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_4__["get"])(namespaces, [reducerKey, 'selectors']);
-  }
-  /**
-   * Calls a resolver given  arguments
-   *
-   * @param {string} reducerKey   Part of the state shape to register the
-   *                              selectors for.
-   * @param {string} selectorName Selector name to fulfill.
-   * @param {Array} args          Selector Arguments.
-   */
-
-
-  function fulfill(_x, _x2) {
-    return _fulfill.apply(this, arguments);
+    var store = stores[reducerKey];
+    return store && store.getSelectors();
   }
   /**
    * Returns the available actions for a part of the state.
@@ -1749,74 +1916,17 @@ function createRegistry() {
    */
 
 
-  function _fulfill() {
-    _fulfill = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
-    /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee2(reducerKey, selectorName) {
-      var resolver,
-          store,
-          _len3,
-          args,
-          _key3,
-          action,
-          _args2 = arguments;
-
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              resolver = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["get"])(namespaces, [reducerKey, 'resolvers', selectorName]);
-
-              if (resolver) {
-                _context2.next = 3;
-                break;
-              }
-
-              return _context2.abrupt("return");
-
-            case 3:
-              store = namespaces[reducerKey].store;
-
-              for (_len3 = _args2.length, args = new Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-                args[_key3 - 2] = _args2[_key3];
-              }
-
-              action = resolver.fulfill.apply(resolver, args);
-
-              if (!action) {
-                _context2.next = 9;
-                break;
-              }
-
-              _context2.next = 9;
-              return store.dispatch(action);
-
-            case 9:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    }));
-    return _fulfill.apply(this, arguments);
-  }
-
   function dispatch(reducerKey) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_4__["get"])(namespaces, [reducerKey, 'actions']);
-  }
-  /**
-   * Maps an object of function values to proxy invocation through to the
-   * current internal representation of the registry, which may be enhanced
-   * by plugins.
-   *
-   * @param {Object<string,Function>} attributes Object of function values.
-   *
-   * @return {Object<string,Function>} Object enhanced with plugin proxying.
-   */
+    var store = stores[reducerKey];
+    return store && store.getActions();
+  } //
+  // Deprecated
+  // TODO: Remove this after `use()` is removed.
+  //
 
 
   function withPlugins(attributes) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(attributes, function (attribute, key) {
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_2__["mapValues"])(attributes, function (attribute, key) {
       if (typeof attribute !== 'function') {
         return attribute;
       }
@@ -1826,42 +1936,138 @@ function createRegistry() {
       };
     });
   }
+  /**
+   * Registers a generic store.
+   *
+   * @param {string} key    Store registry key.
+   * @param {Object} config Configuration (getSelectors, getActions, subscribe).
+   */
+
+
+  function registerGenericStore(key, config) {
+    if (typeof config.getSelectors !== 'function') {
+      throw new TypeError('config.getSelectors must be a function');
+    }
+
+    if (typeof config.getActions !== 'function') {
+      throw new TypeError('config.getActions must be a function');
+    }
+
+    if (typeof config.subscribe !== 'function') {
+      throw new TypeError('config.subscribe must be a function');
+    }
+
+    stores[key] = config;
+    config.subscribe(globalListener);
+  }
 
   var registry = {
-    namespaces: namespaces,
-    registerReducer: registerReducer,
-    registerSelectors: registerSelectors,
-    registerResolvers: registerResolvers,
-    registerActions: registerActions,
-    registerStore: registerStore,
+    registerGenericStore: registerGenericStore,
+    stores: stores,
+    namespaces: stores,
+    // TODO: Deprecate/remove this.
     subscribe: subscribe,
     select: select,
     dispatch: dispatch,
     use: use
+  }; //
+  // Deprecated
+  //
+
+  registry.registerReducer = function (reducerKey, reducer) {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerReducer', {
+      alternative: 'registry.registerStore',
+      plugin: 'Gutenberg',
+      version: '4.4.0'
+    });
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
+      reducer: reducer
+    }, registry);
+    registerGenericStore(reducerKey, namespace);
+    return namespace.store;
+  }; //
+  // Deprecated
+  //
+
+
+  registry.registerActions = function (reducerKey, actions) {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerActions', {
+      alternative: 'registry.registerStore',
+      plugin: 'Gutenberg',
+      version: '4.4.0'
+    });
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
+      actions: actions
+    }, registry);
+    registerGenericStore(reducerKey, namespace);
+  }; //
+  // Deprecated
+  //
+
+
+  registry.registerSelectors = function (reducerKey, selectors) {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerSelectors', {
+      alternative: 'registry.registerStore',
+      plugin: 'Gutenberg',
+      version: '4.4.0'
+    });
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
+      selectors: selectors
+    }, registry);
+    registerGenericStore(reducerKey, namespace);
+  }; //
+  // Deprecated
+  //
+
+
+  registry.registerResolvers = function (reducerKey, resolvers) {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerResolvers', {
+      alternative: 'registry.registerStore',
+      plugin: 'Gutenberg',
+      version: '4.4.0'
+    });
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
+      resolvers: resolvers
+    }, registry);
+    registerGenericStore(reducerKey, namespace);
   };
   /**
-   * Enhances the registry with the prescribed set of overrides. Returns the
-   * enhanced registry to enable plugin chaining.
+   * Registers a standard `@wordpress/data` store.
    *
-   * @param {WPDataPlugin} plugin  Plugin by which to enhance.
-   * @param {?Object}      options Optional options to pass to plugin.
+   * @param {string} reducerKey Reducer key.
+   * @param {Object} options    Store description (reducer, actions, selectors, resolvers).
    *
-   * @return {WPDataRegistry} Enhanced registry.
+   * @return {Object} Registered store object.
    */
 
+
+  registry.registerStore = function (reducerKey, options) {
+    if (!options.reducer) {
+      throw new TypeError('Must specify store reducer');
+    }
+
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, options, registry);
+    registerGenericStore(reducerKey, namespace);
+    return namespace.store;
+  }; //
+  // TODO:
+  // This function will be deprecated as soon as it is no longer internally referenced.
+  //
+
+
   function use(plugin, options) {
-    registry = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, registry, plugin(registry, options));
+    registry = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, registry, plugin(registry, options));
     return registry;
   }
 
-  Object.entries(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({
+  Object.entries(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({
     'core/data': _store__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, storeConfigs)).map(function (_ref) {
     var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref, 2),
         name = _ref2[0],
         config = _ref2[1];
 
-    return registerStore(name, config);
+    return registry.registerStore(name, config);
   });
   return withPlugins(registry);
 }
@@ -3451,6 +3657,17 @@ module.exports = function(originalModule) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/deprecated":
+/*!*********************************************!*\
+  !*** external {"this":["wp","deprecated"]} ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

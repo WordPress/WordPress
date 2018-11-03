@@ -5513,18 +5513,18 @@ __webpack_require__.r(__webpack_exports__);
  * @return {?*}            Resolved value
  */
 function getPath(object, path) {
-	var segments = path.split('.');
+  var segments = path.split('.');
+  var segment;
 
-	var segment = void 0;
-	while (segment = segments.shift()) {
-		if (!(segment in object)) {
-			return;
-		}
+  while (segment = segments.shift()) {
+    if (!(segment in object)) {
+      return;
+    }
 
-		object = object[segment];
-	}
+    object = object[segment];
+  }
 
-	return object;
+  return object;
 }
 
 /***/ }),
@@ -5549,7 +5549,23 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+/**
+ * Function returning a DOM document created by `createHTMLDocument`. The same
+ * document is returned between invocations.
+ *
+ * @return {Document} DOM document.
+ */
 
+var getDocument = function () {
+  var doc;
+  return function () {
+    if (!doc) {
+      doc = document.implementation.createHTMLDocument('');
+    }
+
+    return doc;
+  };
+}();
 /**
  * Given a markup string or DOM element, creates an object aligning with the
  * shape of the matchers object, or the value returned by the matcher.
@@ -5558,35 +5574,36 @@ __webpack_require__.r(__webpack_exports__);
  * @param  {(Object|Function)} matchers Matcher function or object of matchers
  * @return {(Object|*)}                 Matched value(s), shaped by object
  */
+
+
 function parse(source, matchers) {
-	if (!matchers) {
-		return;
-	}
+  if (!matchers) {
+    return;
+  } // Coerce to element
 
-	// Coerce to element
-	if ('string' === typeof source) {
-		var doc = document.implementation.createHTMLDocument('');
-		doc.body.innerHTML = source;
-		source = doc.body;
-	}
 
-	// Return singular value
-	if ('function' === typeof matchers) {
-		return matchers(source);
-	}
+  if ('string' === typeof source) {
+    var doc = getDocument();
+    doc.body.innerHTML = source;
+    source = doc.body;
+  } // Return singular value
 
-	// Bail if we can't handle matchers
-	if (Object !== matchers.constructor) {
-		return;
-	}
 
-	// Shape result by matcher object
-	return Object.keys(matchers).reduce(function (memo, key) {
-		memo[key] = parse(source, matchers[key]);
-		return memo;
-	}, {});
+  if ('function' === typeof matchers) {
+    return matchers(source);
+  } // Bail if we can't handle matchers
+
+
+  if (Object !== matchers.constructor) {
+    return;
+  } // Shape result by matcher object
+
+
+  return Object.keys(matchers).reduce(function (memo, key) {
+    memo[key] = parse(source, matchers[key]);
+    return memo;
+  }, {});
 }
-
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by property if the attribute exists. If no selector is passed,
@@ -5596,24 +5613,25 @@ function parse(source, matchers) {
  * @param  {string}  name     Property name
  * @return {*}                Property value
  */
+
 function prop(selector, name) {
-	if (1 === arguments.length) {
-		name = selector;
-		selector = undefined;
-	}
+  if (1 === arguments.length) {
+    name = selector;
+    selector = undefined;
+  }
 
-	return function (node) {
-		var match = node;
-		if (selector) {
-			match = node.querySelector(selector);
-		}
+  return function (node) {
+    var match = node;
 
-		if (match) {
-			return Object(_get_path__WEBPACK_IMPORTED_MODULE_0__["default"])(match, name);
-		}
-	};
+    if (selector) {
+      match = node.querySelector(selector);
+    }
+
+    if (match) {
+      return Object(_get_path__WEBPACK_IMPORTED_MODULE_0__["default"])(match, name);
+    }
+  };
 }
-
 /**
  * Generates a function which matches node of type selector, returning an
  * attribute by name if the attribute exists. If no selector is passed,
@@ -5623,20 +5641,21 @@ function prop(selector, name) {
  * @param  {string}  name     Attribute name
  * @return {?string}          Attribute value
  */
+
 function attr(selector, name) {
-	if (1 === arguments.length) {
-		name = selector;
-		selector = undefined;
-	}
+  if (1 === arguments.length) {
+    name = selector;
+    selector = undefined;
+  }
 
-	return function (node) {
-		var attributes = prop(selector, 'attributes')(node);
-		if (attributes && attributes.hasOwnProperty(name)) {
-			return attributes[name].value;
-		}
-	};
+  return function (node) {
+    var attributes = prop(selector, 'attributes')(node);
+
+    if (attributes && attributes.hasOwnProperty(name)) {
+      return attributes[name].value;
+    }
+  };
 }
-
 /**
  * Convenience for `prop( selector, 'innerHTML' )`.
  *
@@ -5645,10 +5664,10 @@ function attr(selector, name) {
  * @param  {?string} selector Optional selector
  * @return {string}           Inner HTML
  */
-function html(selector) {
-	return prop(selector, 'innerHTML');
-}
 
+function html(selector) {
+  return prop(selector, 'innerHTML');
+}
 /**
  * Convenience for `prop( selector, 'textContent' )`.
  *
@@ -5657,10 +5676,10 @@ function html(selector) {
  * @param  {?string} selector Optional selector
  * @return {string}           Text content
  */
-function text(selector) {
-	return prop(selector, 'textContent');
-}
 
+function text(selector) {
+  return prop(selector, 'textContent');
+}
 /**
  * Creates a new matching context by first finding elements matching selector
  * using querySelectorAll before then running another `parse` on `matchers`
@@ -5672,13 +5691,14 @@ function text(selector) {
  * @param  {(Object|Function)} matchers Matcher function or object of matchers
  * @return {Array.<*,Object>}           Array of matched value(s)
  */
+
 function query(selector, matchers) {
-	return function (node) {
-		var matches = node.querySelectorAll(selector);
-		return [].map.call(matches, function (match) {
-			return parse(match, matchers);
-		});
-	};
+  return function (node) {
+    var matches = node.querySelectorAll(selector);
+    return [].map.call(matches, function (match) {
+      return parse(match, matchers);
+    });
+  };
 }
 
 /***/ }),

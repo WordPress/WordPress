@@ -264,19 +264,17 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _middlewares_nonce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middlewares/nonce */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js");
-/* harmony import */ var _middlewares_root_url__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/root-url */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js");
-/* harmony import */ var _middlewares_preloading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./middlewares/preloading */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js");
-/* harmony import */ var _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./middlewares/fetch-all-middleware */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js");
-/* harmony import */ var _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./middlewares/namespace-endpoint */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js");
-/* harmony import */ var _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./middlewares/http-v1 */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js");
-/* harmony import */ var _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./middlewares/user-locale */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js");
-
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _middlewares_nonce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./middlewares/nonce */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js");
+/* harmony import */ var _middlewares_root_url__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middlewares/root-url */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js");
+/* harmony import */ var _middlewares_preloading__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/preloading */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js");
+/* harmony import */ var _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./middlewares/fetch-all-middleware */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js");
+/* harmony import */ var _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./middlewares/namespace-endpoint */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js");
+/* harmony import */ var _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./middlewares/http-v1 */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js");
+/* harmony import */ var _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./middlewares/user-locale */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/user-locale.js");
 
 
 
@@ -295,39 +293,57 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * Default set of header values which should be sent with every request unless
+ * explicitly provided through apiFetch options.
+ *
+ * @type {Object}
+ */
+
+var DEFAULT_HEADERS = {
+  // The backend uses the Accept header as a condition for considering an
+  // incoming request as a REST request.
+  //
+  // See: https://core.trac.wordpress.org/ticket/44534
+  Accept: 'application/json, */*;q=0.1'
+};
+/**
+ * Default set of fetch option values which should be sent with every request
+ * unless explicitly provided through apiFetch options.
+ *
+ * @type {Object}
+ */
+
+var DEFAULT_OPTIONS = {
+  credentials: 'include'
+};
 var middlewares = [];
 
 function registerMiddleware(middleware) {
   middlewares.push(middleware);
 }
 
-function checkCloudflareError(error) {
-  if (typeof error === 'string' && error.indexOf('Cloudflare Ray ID') >= 0) {
-    throw {
-      code: 'cloudflare_error'
-    };
-  }
-}
-
 function apiFetch(options) {
   var raw = function raw(nextOptions) {
     var url = nextOptions.url,
         path = nextOptions.path,
-        body = nextOptions.body,
         data = nextOptions.data,
         _nextOptions$parse = nextOptions.parse,
         parse = _nextOptions$parse === void 0 ? true : _nextOptions$parse,
-        remainingOptions = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(nextOptions, ["url", "path", "body", "data", "parse"]);
+        remainingOptions = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(nextOptions, ["url", "path", "data", "parse"]);
 
-    var headers = remainingOptions.headers || {};
+    var body = nextOptions.body,
+        headers = nextOptions.headers; // Merge explicitly-provided headers with default values.
 
-    if (!headers['Content-Type'] && data) {
+    headers = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, DEFAULT_HEADERS, headers); // The `data` property is a shorthand for sending a JSON body.
+
+    if (data) {
+      body = JSON.stringify(data);
       headers['Content-Type'] = 'application/json';
     }
 
-    var responsePromise = window.fetch(url || path, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, remainingOptions, {
-      credentials: 'include',
-      body: body || JSON.stringify(data),
+    var responsePromise = window.fetch(url || path, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, DEFAULT_OPTIONS, remainingOptions, {
+      body: body,
       headers: headers
     }));
 
@@ -358,57 +374,26 @@ function apiFetch(options) {
 
       var invalidJsonError = {
         code: 'invalid_json',
-        message: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('The response is not a valid JSON response.')
+        message: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('The response is not a valid JSON response.')
       };
 
       if (!response || !response.json) {
         throw invalidJsonError;
       }
-      /*
-       * Response data is a stream, which will be consumed by the .json() call.
-       * If we need to re-use this data to send to the Cloudflare error handler,
-       * we need a clone of the original response, so the stream can be consumed
-       * in the .text() call, instead.
-       */
 
-
-      var responseClone = response.clone();
-      return response.json().catch(
-      /*#__PURE__*/
-      Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var text;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return responseClone.text();
-
-              case 2:
-                text = _context.sent;
-                checkCloudflareError(text);
-                throw invalidJsonError;
-
-              case 5:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }))).then(function (error) {
+      return response.json().catch(function () {
+        throw invalidJsonError;
+      }).then(function (error) {
         var unknownError = {
           code: 'unknown_error',
-          message: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__["__"])('An unknown error occurred.')
+          message: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('An unknown error occurred.')
         };
-        checkCloudflareError(error);
         throw error || unknownError;
       });
     });
   };
 
-  var steps = [raw, _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"], _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__["default"], _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_10__["default"]].concat(middlewares).reverse();
+  var steps = [raw, _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_6__["default"], _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_8__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_7__["default"], _middlewares_user_locale__WEBPACK_IMPORTED_MODULE_9__["default"]].concat(middlewares).reverse();
 
   var runMiddleware = function runMiddleware(index) {
     return function (nextOptions) {
@@ -422,10 +407,10 @@ function apiFetch(options) {
 }
 
 apiFetch.use = registerMiddleware;
-apiFetch.createNonceMiddleware = _middlewares_nonce__WEBPACK_IMPORTED_MODULE_4__["default"];
-apiFetch.createPreloadingMiddleware = _middlewares_preloading__WEBPACK_IMPORTED_MODULE_6__["default"];
-apiFetch.createRootURLMiddleware = _middlewares_root_url__WEBPACK_IMPORTED_MODULE_5__["default"];
-apiFetch.fetchAllMiddleware = _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"];
+apiFetch.createNonceMiddleware = _middlewares_nonce__WEBPACK_IMPORTED_MODULE_3__["default"];
+apiFetch.createPreloadingMiddleware = _middlewares_preloading__WEBPACK_IMPORTED_MODULE_5__["default"];
+apiFetch.createRootURLMiddleware = _middlewares_root_url__WEBPACK_IMPORTED_MODULE_4__["default"];
+apiFetch.fetchAllMiddleware = _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_6__["default"];
 /* harmony default export */ __webpack_exports__["default"] = (apiFetch);
 
 
@@ -621,22 +606,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 
 
+/**
+ * Set of HTTP methods which are eligible to be overridden.
+ *
+ * @type {Set}
+ */
+var OVERRIDE_METHODS = new Set(['PATCH', 'PUT', 'DELETE']);
+/**
+ * Default request method.
+ *
+ * "A request has an associated method (a method). Unless stated otherwise it
+ * is `GET`."
+ *
+ * @see  https://fetch.spec.whatwg.org/#requests
+ *
+ * @type {string}
+ */
+
+var DEFAULT_METHOD = 'GET';
+/**
+ * API Fetch middleware which overrides the request method for HTTP v1
+ * compatibility leveraging the REST API X-HTTP-Method-Override header.
+ *
+ * @param {Object}   options Fetch options.
+ * @param {Function} next    [description]
+ *
+ * @return {*} The evaluated result of the remaining middleware chain.
+ */
+
 function httpV1Middleware(options, next) {
-  var newOptions = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, options);
+  var _options = options,
+      _options$method = _options.method,
+      method = _options$method === void 0 ? DEFAULT_METHOD : _options$method;
 
-  if (newOptions.method) {
-    if (['PATCH', 'PUT', 'DELETE'].indexOf(newOptions.method.toUpperCase()) >= 0) {
-      if (!newOptions.headers) {
-        newOptions.headers = {};
-      }
-
-      newOptions.headers['X-HTTP-Method-Override'] = newOptions.method;
-      newOptions.headers['Content-Type'] = 'application/json';
-      newOptions.method = 'POST';
-    }
+  if (OVERRIDE_METHODS.has(method.toUpperCase())) {
+    options = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, options, {
+      headers: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, options.headers, {
+        'X-HTTP-Method-Override': method,
+        'Content-Type': 'application/json'
+      }),
+      method: 'POST'
+    });
   }
 
-  return next(newOptions, next);
+  return next(options, next);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (httpV1Middleware);
@@ -703,20 +716,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var createNonceMiddleware = function createNonceMiddleware(nonce) {
-  return function (options, next) {
-    var usedNonce = nonce;
-    /**
-     * This is not ideal but it's fine for now.
-     *
-     * Configure heartbeat to refresh the wp-api nonce, keeping the editor
-     * authorization intact.
-     */
+  var usedNonce = nonce;
+  /**
+   * This is not ideal but it's fine for now.
+   *
+   * Configure heartbeat to refresh the wp-api nonce, keeping the editor
+   * authorization intact.
+   */
 
-    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__["addAction"])('heartbeat.tick', 'core/api-fetch/create-nonce-middleware', function (response) {
-      if (response['rest-nonce']) {
-        usedNonce = response['rest-nonce'];
-      }
-    });
+  Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__["addAction"])('heartbeat.tick', 'core/api-fetch/create-nonce-middleware', function (response) {
+    if (response['rest-nonce']) {
+      usedNonce = response['rest-nonce'];
+    }
+  });
+  return function (options, next) {
     var headers = options.headers || {}; // If an 'X-WP-Nonce' header (or any case-insensitive variation
     // thereof) was specified, no need to add a nonce header.
 

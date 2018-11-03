@@ -977,16 +977,16 @@ function defaultGetBlockInsertionParentClientId() {
 /**
  * Returns the inserter items for the specified parent block.
  *
- * @param {string} parentClientId Client ID of the block for which to retrieve
- *                                inserter items.
+ * @param {string} rootClientId Client ID of the block for which to retrieve
+ *                              inserter items.
  *
  * @return {Array<Editor.InserterItem>} The inserter items for the specified
  *                                      parent.
  */
 
 
-function defaultGetInserterItems(parentClientId) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["select"])('core/editor').getInserterItems(parentClientId);
+function defaultGetInserterItems(rootClientId) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["select"])('core/editor').getInserterItems(rootClientId);
 }
 /**
  * Returns the name of the currently selected block.
@@ -1205,9 +1205,10 @@ function (_Component) {
     value: function componentDidUpdate(prevProps) {
       var _this$props = this.props,
           isDirty = _this$props.isDirty,
+          editsReference = _this$props.editsReference,
           isAutosaveable = _this$props.isAutosaveable;
 
-      if (prevProps.isDirty !== isDirty || prevProps.isAutosaveable !== isAutosaveable) {
+      if (prevProps.isDirty !== isDirty || prevProps.isAutosaveable !== isAutosaveable || prevProps.editsReference !== editsReference) {
         this.toggleTimer(isDirty && isAutosaveable);
       }
     }
@@ -1243,7 +1244,8 @@ function (_Component) {
   var _select = select('core/editor'),
       isEditedPostDirty = _select.isEditedPostDirty,
       isEditedPostAutosaveable = _select.isEditedPostAutosaveable,
-      getEditorSettings = _select.getEditorSettings;
+      getEditorSettings = _select.getEditorSettings,
+      getReferenceByDistinctEdits = _select.getReferenceByDistinctEdits;
 
   var _getEditorSettings = getEditorSettings(),
       autosaveInterval = _getEditorSettings.autosaveInterval;
@@ -1251,6 +1253,7 @@ function (_Component) {
   return {
     isDirty: isEditedPostDirty(),
     isAutosaveable: isEditedPostAutosaveable(),
+    editsReference: getReferenceByDistinctEdits(),
     autosaveInterval: autosaveInterval
   };
 }), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withDispatch"])(function (dispatch) {
@@ -3269,23 +3272,13 @@ function (_Component) {
   }, {
     key: "setBlockListRef",
     value: function setBlockListRef(node) {
-      // Disable reason: The root return element uses a component to manage
-      // event nesting, but the parent block list layout needs the raw DOM
-      // node to track multi-selection.
-      //
-      // eslint-disable-next-line react/no-find-dom-node
-      node = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["findDOMNode"])(node);
       this.wrapperNode = node;
       this.props.blockRef(node, this.props.clientId);
     }
   }, {
     key: "bindBlockNode",
     value: function bindBlockNode(node) {
-      // Disable reason: The block element uses a component to manage event
-      // nesting, but we rely on a raw DOM node for focusing.
-      //
-      // eslint-disable-next-line react/no-find-dom-node
-      this.node = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["findDOMNode"])(node);
+      this.node = node;
     }
     /**
      * When a block becomes selected, transition focus to an inner tabbable.
@@ -8210,7 +8203,7 @@ function EditorHistoryRedo(_ref) {
     icon: "redo",
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Redo'),
     shortcut: _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_5__["displayShortcut"].primaryShift('z'),
-    disabled: !hasRedo,
+    "aria-disabled": !hasRedo,
     onClick: redo,
     className: "editor-history__redo"
   });
@@ -8220,10 +8213,15 @@ function EditorHistoryRedo(_ref) {
   return {
     hasRedo: select('core/editor').hasEditorRedo()
   };
-}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["withDispatch"])(function (dispatch) {
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["withDispatch"])(function (dispatch, ownProps) {
   return {
     redo: function redo() {
-      return dispatch('core/editor').redo();
+      // If there are no redo levels this is a no-op, because we don't actually
+      // disable the button.
+      // See: https://github.com/WordPress/gutenberg/issues/3486
+      if (ownProps.hasRedo) {
+        dispatch('core/editor').redo();
+      }
     }
   };
 })])(EditorHistoryRedo));
@@ -8270,7 +8268,7 @@ function EditorHistoryUndo(_ref) {
     icon: "undo",
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Undo'),
     shortcut: _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_5__["displayShortcut"].primary('z'),
-    disabled: !hasUndo,
+    "aria-disabled": !hasUndo,
     onClick: undo,
     className: "editor-history__undo"
   });
@@ -8280,10 +8278,15 @@ function EditorHistoryUndo(_ref) {
   return {
     hasUndo: select('core/editor').hasEditorUndo()
   };
-}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["withDispatch"])(function (dispatch) {
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["withDispatch"])(function (dispatch, ownProps) {
   return {
     undo: function undo() {
-      return dispatch('core/editor').undo();
+      // If there are no undo levels this is a no-op, because we don't actually
+      // disable the button.
+      // See: https://github.com/WordPress/gutenberg/issues/3486
+      if (ownProps.hasUndo) {
+        dispatch('core/editor').undo();
+      }
     }
   };
 })])(EditorHistoryUndo));
@@ -8769,11 +8772,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************************************************!*\
   !*** ./node_modules/@wordpress/editor/build-module/components/ignore-nested-events/index.js ***!
   \**********************************************************************************************/
-/*! exports provided: default */
+/*! exports provided: IgnoreNestedEvents, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IgnoreNestedEvents", function() { return IgnoreNestedEvents; });
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
@@ -8879,7 +8883,8 @@ function (_Component) {
       var _this$props = this.props,
           _this$props$childHand = _this$props.childHandledEvents,
           childHandledEvents = _this$props$childHand === void 0 ? [] : _this$props$childHand,
-          props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(_this$props, ["childHandledEvents"]);
+          forwardedRef = _this$props.forwardedRef,
+          props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(_this$props, ["childHandledEvents", "forwardedRef"]);
 
       var eventHandlers = Object(lodash__WEBPACK_IMPORTED_MODULE_10__["reduce"])(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(childHandledEvents).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(Object.keys(props))), function (result, key) {
         // Try to match prop key as event handler
@@ -8906,14 +8911,23 @@ function (_Component) {
 
         return result;
       }, {});
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("div", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, eventHandlers));
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("div", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        ref: forwardedRef
+      }, props, eventHandlers));
     }
   }]);
 
   return IgnoreNestedEvents;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (IgnoreNestedEvents);
+var forwardedIgnoreNestedEvents = function forwardedIgnoreNestedEvents(props, ref) {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])(IgnoreNestedEvents, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+    forwardedRef: ref
+  }));
+};
+
+forwardedIgnoreNestedEvents.displayName = 'IgnoreNestedEvents';
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["forwardRef"])(forwardedIgnoreNestedEvents));
 
 
 /***/ }),
@@ -9542,12 +9556,12 @@ InnerBlocks = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_13__["compose"]
       getTemplateLock = _select.getTemplateLock;
 
   var clientId = ownProps.clientId;
-  var parentClientId = getBlockRootClientId(clientId);
+  var rootClientId = getBlockRootClientId(clientId);
   return {
     isSelectedBlockInRoot: isBlockSelected(clientId) || hasSelectedInnerBlock(clientId),
     block: getBlock(clientId),
     blockListSettings: getBlockListSettings(clientId),
-    parentLock: getTemplateLock(parentClientId)
+    parentLock: getTemplateLock(rootClientId)
   };
 }), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_10__["withDispatch"])(function (dispatch, ownProps) {
   var _dispatch = dispatch('core/editor'),
@@ -10312,7 +10326,7 @@ function (_Component) {
           _this3.props.setTimeout(function () {
             // We need a generic way to access the panel's container
             // eslint-disable-next-line react/no-find-dom-node
-            dom_scroll_into_view__WEBPACK_IMPORTED_MODULE_9___default()(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["findDOMNode"])(_this3.panels[panel]), _this3.inserterResults.current, {
+            dom_scroll_into_view__WEBPACK_IMPORTED_MODULE_9___default()(_this3.panels[panel], _this3.inserterResults.current, {
               alignWithTop: true
             });
           });
@@ -15908,8 +15922,8 @@ function (_Component) {
       var termNames = availableTerms.map(function (term) {
         return term.name;
       });
-      var newTermLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(taxonomy, ['data', 'labels', 'add_new_item'], slug === 'post_tag' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add New Tag') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add New Term'));
-      var singularName = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(taxonomy, ['data', 'labels', 'singular_name'], slug === 'post_tag' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Tag') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Term'));
+      var newTermLabel = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(taxonomy, ['labels', 'add_new_item'], slug === 'post_tag' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add New Tag') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Add New Term'));
+      var singularName = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["get"])(taxonomy, ['labels', 'singular_name'], slug === 'post_tag' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Tag') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["__"])('Term'));
       var termAddedLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_x"])('%s added', 'term'), singularName);
       var termRemovedLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_x"])('%s removed', 'term'), singularName);
       var removeTermLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_10__["_x"])('Remove %s', 'term'), singularName);
@@ -15991,7 +16005,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_13__);
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var _utils_terms__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../utils/terms */ "./node_modules/@wordpress/editor/build-module/utils/terms.js");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _utils_terms__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../utils/terms */ "./node_modules/@wordpress/editor/build-module/utils/terms.js");
 
 
 
@@ -16016,6 +16034,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 /**
  * Internal dependencies
  */
@@ -16028,7 +16048,8 @@ __webpack_require__.r(__webpack_exports__);
 var DEFAULT_QUERY = {
   per_page: -1,
   orderby: 'name',
-  order: 'asc'
+  order: 'asc',
+  _fields: 'id,name,parent'
 };
 var MIN_TERMS_COUNT_FOR_FILTER = 8;
 
@@ -16050,7 +16071,12 @@ function (_Component) {
     _this.onAddTerm = _this.onAddTerm.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(_this)));
     _this.onToggleForm = _this.onToggleForm.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(_this)));
     _this.setFilterValue = _this.setFilterValue.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(_this)));
+    _this.sortBySelected = _this.sortBySelected.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_8__["default"])(_this)));
     _this.state = {
+      loading: true,
+      availableTermsTree: [],
+      availableTerms: [],
+      adding: false,
       formName: '',
       formParent: '',
       showForm: false,
@@ -16066,11 +16092,12 @@ function (_Component) {
       var _this$props = this.props,
           onUpdateTerms = _this$props.onUpdateTerms,
           _this$props$terms = _this$props.terms,
-          terms = _this$props$terms === void 0 ? [] : _this$props$terms;
+          terms = _this$props$terms === void 0 ? [] : _this$props$terms,
+          taxonomy = _this$props.taxonomy;
       var termId = parseInt(event.target.value, 10);
       var hasTerm = terms.indexOf(termId) !== -1;
       var newTerms = hasTerm ? Object(lodash__WEBPACK_IMPORTED_MODULE_10__["without"])(terms, termId) : Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(terms).concat([termId]);
-      onUpdateTerms(newTerms);
+      onUpdateTerms(newTerms, taxonomy.rest_base);
     }
   }, {
     key: "onChangeFormName",
@@ -16106,17 +16133,21 @@ function (_Component) {
   }, {
     key: "onAddTerm",
     value: function onAddTerm(event) {
+      var _this2 = this;
+
       event.preventDefault();
       var _this$props2 = this.props,
           onUpdateTerms = _this$props2.onUpdateTerms,
-          addTermToEditedPost = _this$props2.addTermToEditedPost,
+          taxonomy = _this$props2.taxonomy,
           terms = _this$props2.terms,
-          availableTerms = _this$props2.availableTerms;
+          slug = _this$props2.slug;
       var _this$state = this.state,
           formName = _this$state.formName,
-          formParent = _this$state.formParent;
+          formParent = _this$state.formParent,
+          adding = _this$state.adding,
+          availableTerms = _this$state.availableTerms;
 
-      if (formName === '') {
+      if (formName === '' || adding) {
         return;
       } // check if the term we are adding already exists
 
@@ -16128,7 +16159,7 @@ function (_Component) {
         if (!Object(lodash__WEBPACK_IMPORTED_MODULE_10__["some"])(terms, function (term) {
           return term === existingTerm.id;
         })) {
-          onUpdateTerms(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(terms).concat([existingTerm.id]));
+          onUpdateTerms(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(terms).concat([existingTerm.id]), taxonomy.rest_base);
         }
 
         this.setState({
@@ -16138,13 +16169,122 @@ function (_Component) {
         return;
       }
 
-      addTermToEditedPost({
-        name: formName,
-        parent: formParent ? formParent : undefined
-      });
       this.setState({
-        formName: '',
-        formParent: ''
+        adding: true
+      });
+      this.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15___default()({
+        path: "/wp/v2/".concat(taxonomy.rest_base),
+        method: 'POST',
+        data: {
+          name: formName,
+          parent: formParent ? formParent : undefined
+        }
+      }); // Tries to create a term or fetch it if it already exists
+
+      var findOrCreatePromise = this.addRequest.catch(function (error) {
+        var errorCode = error.code;
+
+        if (errorCode === 'term_exists') {
+          // search the new category created since last fetch
+          _this2.addRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15___default()({
+            path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_16__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, DEFAULT_QUERY, {
+              parent: formParent || 0,
+              search: formName
+            }))
+          });
+          return _this2.addRequest.then(function (searchResult) {
+            return _this2.findTerm(searchResult, formParent, formName);
+          });
+        }
+
+        return Promise.reject(error);
+      });
+      findOrCreatePromise.then(function (term) {
+        var hasTerm = !!Object(lodash__WEBPACK_IMPORTED_MODULE_10__["find"])(_this2.state.availableTerms, function (availableTerm) {
+          return availableTerm.id === term.id;
+        });
+        var newAvailableTerms = hasTerm ? _this2.state.availableTerms : [term].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_this2.state.availableTerms));
+        var termAddedMessage = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["_x"])('%s added', 'term'), Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(_this2.props.taxonomy, ['labels', 'singular_name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Category') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Term')));
+
+        _this2.props.speak(termAddedMessage, 'assertive');
+
+        _this2.addRequest = null;
+
+        _this2.setState({
+          adding: false,
+          formName: '',
+          formParent: '',
+          availableTerms: newAvailableTerms,
+          availableTermsTree: _this2.sortBySelected(Object(_utils_terms__WEBPACK_IMPORTED_MODULE_17__["buildTermsTree"])(newAvailableTerms))
+        });
+
+        onUpdateTerms(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(terms).concat([term.id]), taxonomy.rest_base);
+      }, function (xhr) {
+        if (xhr.statusText === 'abort') {
+          return;
+        }
+
+        _this2.addRequest = null;
+
+        _this2.setState({
+          adding: false
+        });
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.fetchTerms();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      Object(lodash__WEBPACK_IMPORTED_MODULE_10__["invoke"])(this.fetchRequest, ['abort']);
+      Object(lodash__WEBPACK_IMPORTED_MODULE_10__["invoke"])(this.addRequest, ['abort']);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.taxonomy !== prevProps.taxonomy) {
+        this.fetchTerms();
+      }
+    }
+  }, {
+    key: "fetchTerms",
+    value: function fetchTerms() {
+      var _this3 = this;
+
+      var taxonomy = this.props.taxonomy;
+
+      if (!taxonomy) {
+        return;
+      }
+
+      this.fetchRequest = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_15___default()({
+        path: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_16__["addQueryArgs"])("/wp/v2/".concat(taxonomy.rest_base), DEFAULT_QUERY)
+      });
+      this.fetchRequest.then(function (terms) {
+        // resolve
+        var availableTermsTree = _this3.sortBySelected(Object(_utils_terms__WEBPACK_IMPORTED_MODULE_17__["buildTermsTree"])(terms));
+
+        _this3.fetchRequest = null;
+
+        _this3.setState({
+          loading: false,
+          availableTermsTree: availableTermsTree,
+          availableTerms: terms
+        });
+      }, function (xhr) {
+        // reject
+        if (xhr.statusText === 'abort') {
+          return;
+        }
+
+        _this3.fetchRequest = null;
+
+        _this3.setState({
+          loading: false
+        });
       });
     }
   }, {
@@ -16197,7 +16337,7 @@ function (_Component) {
   }, {
     key: "setFilterValue",
     value: function setFilterValue(event) {
-      var availableTermsTree = this.props.availableTermsTree;
+      var availableTermsTree = this.state.availableTermsTree;
       var filterValue = event.target.value;
       var filteredTermsTree = availableTermsTree.map(this.getFilterMatcher(filterValue)).filter(function (term) {
         return term;
@@ -16261,7 +16401,7 @@ function (_Component) {
   }, {
     key: "renderTerms",
     value: function renderTerms(renderedTerms) {
-      var _this2 = this;
+      var _this4 = this;
 
       var _this$props$terms2 = this.props.terms,
           terms = _this$props$terms2 === void 0 ? [] : _this$props$terms2;
@@ -16276,12 +16416,12 @@ function (_Component) {
           type: "checkbox",
           checked: terms.indexOf(term.id) !== -1,
           value: term.id,
-          onChange: _this2.onChange
+          onChange: _this4.onChange
         }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("label", {
           htmlFor: id
         }, Object(lodash__WEBPACK_IMPORTED_MODULE_10__["unescape"])(term.name)), !!term.children.length && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("div", {
           className: "editor-post-taxonomies__hierarchical-terms-subchoices"
-        }, _this2.renderTerms(term.children)));
+        }, _this4.renderTerms(term.children)));
       });
     }
   }, {
@@ -16292,24 +16432,24 @@ function (_Component) {
           taxonomy = _this$props3.taxonomy,
           instanceId = _this$props3.instanceId,
           hasCreateAction = _this$props3.hasCreateAction,
-          hasAssignAction = _this$props3.hasAssignAction,
-          availableTermsTree = _this$props3.availableTermsTree,
-          availableTerms = _this$props3.availableTerms;
+          hasAssignAction = _this$props3.hasAssignAction;
 
       if (!hasAssignAction) {
         return null;
       }
 
       var _this$state2 = this.state,
+          availableTermsTree = _this$state2.availableTermsTree,
+          availableTerms = _this$state2.availableTerms,
           filteredTermsTree = _this$state2.filteredTermsTree,
           formName = _this$state2.formName,
           formParent = _this$state2.formParent,
-          isRequestingTerms = _this$state2.isRequestingTerms,
+          loading = _this$state2.loading,
           showForm = _this$state2.showForm,
           filterValue = _this$state2.filterValue;
 
       var labelWithFallback = function labelWithFallback(labelProperty, fallbackIsCategory, fallbackIsNotCategory) {
-        return Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(taxonomy, ['data', 'labels', labelProperty], slug === 'category' ? fallbackIsCategory : fallbackIsNotCategory);
+        return Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(taxonomy, ['labels', labelProperty], slug === 'category' ? fallbackIsCategory : fallbackIsNotCategory);
       };
 
       var newTermButtonLabel = labelWithFallback('add_new_item', Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Add new category'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Add new term'));
@@ -16321,7 +16461,7 @@ function (_Component) {
       var filterInputId = "editor-post-taxonomies__hierarchical-terms-filter-".concat(instanceId);
       var filterLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["_x"])('Search %s', 'term'), Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(this.props.taxonomy, ['name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Categories') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Terms')));
       var groupLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["_x"])('Available %s', 'term'), Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(this.props.taxonomy, ['name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Categories') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_11__["__"])('Terms')));
-      var showFilter = availableTerms && availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
+      var showFilter = availableTerms.length >= MIN_TERMS_COUNT_FOR_FILTER;
       return [showFilter && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])("label", {
         key: "filter-label",
         htmlFor: filterInputId
@@ -16338,7 +16478,7 @@ function (_Component) {
         tabIndex: "0",
         role: "group",
         "aria-label": groupLabel
-      }, this.renderTerms('' !== filterValue ? filteredTermsTree : this.sortBySelected(availableTermsTree))), !isRequestingTerms && hasCreateAction && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_12__["Button"], {
+      }, this.renderTerms('' !== filterValue ? filteredTermsTree : availableTermsTree)), !loading && hasCreateAction && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_9__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_12__["Button"], {
         key: "term-add-button",
         onClick: this.onToggleForm,
         className: "editor-post-taxonomies__hierarchical-terms-add",
@@ -16382,33 +16522,19 @@ function (_Component) {
       getCurrentPost = _select.getCurrentPost;
 
   var _select2 = select('core'),
-      getTaxonomy = _select2.getTaxonomy,
-      getEntityRecords = _select2.getEntityRecords;
-
-  var _select3 = select('core/data'),
-      isResolving = _select3.isResolving;
+      getTaxonomy = _select2.getTaxonomy;
 
   var taxonomy = getTaxonomy(slug);
-  var availableTerms = getEntityRecords('taxonomy', slug, DEFAULT_QUERY);
-  var availableTermsTree = Object(_utils_terms__WEBPACK_IMPORTED_MODULE_15__["buildTermsTree"])(availableTerms);
   return {
     hasCreateAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(getCurrentPost(), ['_links', 'wp:action-create-' + taxonomy.rest_base], false) : false,
     hasAssignAction: taxonomy ? Object(lodash__WEBPACK_IMPORTED_MODULE_10__["get"])(getCurrentPost(), ['_links', 'wp:action-assign-' + taxonomy.rest_base], false) : false,
     terms: taxonomy ? select('core/editor').getEditedPostAttribute(taxonomy.rest_base) : [],
-    isRequestingTerms: isResolving('core', 'getEntityRecords', ['taxonomy', slug, DEFAULT_QUERY]),
-    taxonomy: taxonomy,
-    availableTerms: availableTerms,
-    availableTermsTree: availableTermsTree
+    taxonomy: taxonomy
   };
-}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_13__["withDispatch"])(function (dispatch, _ref2) {
-  var slug = _ref2.slug,
-      taxonomy = _ref2.taxonomy;
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_13__["withDispatch"])(function (dispatch) {
   return {
-    onUpdateTerms: function onUpdateTerms(terms) {
-      dispatch('core/editor').editPost(Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, taxonomy.rest_base, terms));
-    },
-    addTermToEditedPost: function addTermToEditedPost(term) {
-      return dispatch('core/editor').addTermToEditedPost(slug, term);
+    onUpdateTerms: function onUpdateTerms(terms, restBase) {
+      dispatch('core/editor').editPost(Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, restBase, terms));
     }
   };
 }), _wordpress_components__WEBPACK_IMPORTED_MODULE_12__["withSpokenMessages"], _wordpress_compose__WEBPACK_IMPORTED_MODULE_14__["withInstanceId"], Object(_wordpress_components__WEBPACK_IMPORTED_MODULE_12__["withFilters"])('editor.PostTaxonomyType')])(HierarchicalTermSelector));
@@ -18133,18 +18259,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var _window = window,
-    Node = _window.Node,
     getSelection = _window.getSelection;
-/**
- * Zero-width space character used by TinyMCE as a caret landing point for
- * inline boundary nodes.
- *
- * @see tinymce/src/core/main/ts/text/Zwsp.ts
- *
- * @type {string}
- */
-
-var TINYMCE_ZWSP = "\uFEFF";
 var RichText =
 /*#__PURE__*/
 function (_Component) {
@@ -18176,7 +18291,6 @@ function (_Component) {
     _this.onChange = _this.onChange.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
     _this.onNodeChange = _this.onNodeChange.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
     _this.onDeleteKeyDown = _this.onDeleteKeyDown.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
-    _this.onHorizontalNavigationKeyDown = _this.onHorizontalNavigationKeyDown.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
     _this.onKeyDown = _this.onKeyDown.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
     _this.onKeyUp = _this.onKeyUp.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
     _this.onPropagateUndo = _this.onPropagateUndo.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_10__["default"])(_this)));
@@ -18196,7 +18310,6 @@ function (_Component) {
       size: 1
     });
     _this.savedContent = value;
-    _this.containerRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_11__["createRef"])();
     _this.patterns = Object(_patterns__WEBPACK_IMPORTED_MODULE_30__["getPatterns"])({
       onReplace: onReplace,
       multilineTag: _this.multilineTag,
@@ -18273,10 +18386,7 @@ function (_Component) {
       this.editor = editor;
       editor.on('init', this.onInit);
       editor.on('nodechange', this.onNodeChange);
-      editor.on('keydown', this.onKeyDown);
-      editor.on('keyup', this.onKeyUp);
-      editor.on('BeforeExecCommand', this.onPropagateUndo);
-      editor.on('focus', this.onFocus); // The change event in TinyMCE fires every time an undo level is added.
+      editor.on('BeforeExecCommand', this.onPropagateUndo); // The change event in TinyMCE fires every time an undo level is added.
 
       editor.on('change', this.onCreateUndoLevel);
       var unstableOnSetup = this.props.unstableOnSetup;
@@ -18351,7 +18461,7 @@ function (_Component) {
   }, {
     key: "createRecord",
     value: function createRecord() {
-      var range = window.getSelection().getRangeAt(0);
+      var range = getSelection().getRangeAt(0);
       return Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["create"])({
         element: this.editableRef,
         range: range,
@@ -18367,7 +18477,7 @@ function (_Component) {
           return attribute.indexOf('data-mce-') === 0;
         },
         filterString: function filterString(string) {
-          return string.replace(TINYMCE_ZWSP, '');
+          return string.replace(_tinymce__WEBPACK_IMPORTED_MODULE_28__["TINYMCE_ZWSP"], '');
         }
       });
     }
@@ -18392,11 +18502,11 @@ function (_Component) {
       return Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isEmpty"])(this.formatToValue(this.props.value));
     }
     /**
-     * Handles a paste event from TinyMCE.
+     * Handles a paste event.
      *
      * Saves the pasted data as plain text in `pastedPlainText`.
      *
-     * @param {PasteEvent} event The paste event as triggered by TinyMCE.
+     * @param {PasteEvent} event The paste event.
      */
 
   }, {
@@ -18653,7 +18763,9 @@ function (_Component) {
      *
      * @link https://en.wikipedia.org/wiki/Caret_navigation
      *
-     * @param {tinymce.EditorEvent<KeyboardEvent>} event Keydown event.
+     * @param {KeyboardEvent} event Keydown event.
+     *
+     * @return {?boolean} True if the event was handled.
      */
 
   }, {
@@ -18670,7 +18782,7 @@ function (_Component) {
       var keyCode = event.keyCode;
       var isReverse = keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["BACKSPACE"]; // Only process delete if the key press occurs at uncollapsed edge.
 
-      if (!getSelection().isCollapsed) {
+      if (!Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isCollapsed"])(this.createRecord())) {
         return;
       }
 
@@ -18697,114 +18809,40 @@ function (_Component) {
         onRemove(!isReverse);
       }
 
-      event.preventDefault(); // Calling onMerge() or onRemove() will destroy the editor, so it's
-      // important that we stop other handlers (e.g. ones registered by
-      // TinyMCE) from also handling this event.
-
-      event.stopImmediatePropagation();
+      return true;
     }
     /**
-     * Handles a horizontal navigation key down event to handle the case where
-     * TinyMCE attempts to preventDefault when on the outside edge of an inline
-     * boundary when arrowing _away_ from the boundary, not within it. Replaces
-     * the TinyMCE event `preventDefault` behavior with a noop, such that those
-     * relying on `defaultPrevented` are not misinformed about the arrow event.
+     * Handles a keydown event.
      *
-     * If TinyMCE#4476 is resolved, this handling may be removed.
-     *
-     * @see https://github.com/tinymce/tinymce/issues/4476
-     *
-     * @param {tinymce.EditorEvent<KeyboardEvent>} event Keydown event.
-     */
-
-  }, {
-    key: "onHorizontalNavigationKeyDown",
-    value: function onHorizontalNavigationKeyDown(event) {
-      var _getSelection = getSelection(),
-          focusNode = _getSelection.focusNode;
-
-      var nodeType = focusNode.nodeType,
-          nodeValue = focusNode.nodeValue;
-
-      if (nodeType !== Node.TEXT_NODE) {
-        return;
-      }
-
-      if (nodeValue.length !== 1 || nodeValue[0] !== TINYMCE_ZWSP) {
-        return;
-      }
-
-      var keyCode = event.keyCode; // Consider to be moving away from inline boundary based on:
-      //
-      // 1. Within a text fragment consisting only of ZWSP.
-      // 2. If in reverse, there is no previous sibling. If forward, there is
-      //    no next sibling (i.e. end of node).
-
-      var isReverse = keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["LEFT"];
-      var edgeSibling = isReverse ? 'previousSibling' : 'nextSibling';
-
-      if (!focusNode[edgeSibling]) {
-        // Note: This is not reassigning on the native event, rather the
-        // "fixed" TinyMCE copy, which proxies its preventDefault to the
-        // native event. By reassigning here, we're effectively preventing
-        // the proxied call on the native event, but not otherwise mutating
-        // the original event object.
-        event.preventDefault = lodash__WEBPACK_IMPORTED_MODULE_13__["noop"];
-      }
-    }
-    /**
-     * Handles a keydown event from TinyMCE.
-     *
-     * @param {KeydownEvent} event The keydown event as triggered by TinyMCE.
+     * @param {KeyboardEvent} event The keydown event.
      */
 
   }, {
     key: "onKeyDown",
     value: function onKeyDown(event) {
       var keyCode = event.keyCode;
-      var isHorizontalNavigation = keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["LEFT"] || keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["RIGHT"];
-
-      if (isHorizontalNavigation) {
-        this.onHorizontalNavigationKeyDown(event);
-      }
 
       if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["DELETE"] || keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["BACKSPACE"]) {
-        if (this.multilineTag) {
-          var value = this.createRecord();
-          var start = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getSelectionStart"])(value);
-          var end = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getSelectionEnd"])(value);
-          var newValue;
+        event.preventDefault();
 
-          if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["BACKSPACE"]) {
-            if (Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["charAt"])(value, start - 1) === _wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["LINE_SEPARATOR"]) {
-              newValue = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["remove"])(value, // Only remove the line if the selection is
-              // collapsed.
-              Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isCollapsed"])(value) ? start - 1 : start, end);
-            }
-          } else if (Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["charAt"])(value, end) === _wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["LINE_SEPARATOR"]) {
-            newValue = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["remove"])(value, start, // Only remove the line if the selection is collapsed.
-            Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isCollapsed"])(value) ? end + 1 : end);
-          }
-
-          if (newValue) {
-            this.onChange(newValue);
-            event.preventDefault(); // It's important that we stop other handlers (e.g. ones
-            // registered by TinyMCE) from also handling this event.
-
-            event.stopImmediatePropagation();
-          }
+        if (this.onDeleteKeyDown(event)) {
+          return;
         }
 
-        this.onDeleteKeyDown(event);
-      } // If we click shift+Enter on inline RichTexts, we avoid creating two contenteditables
-      // We also split the content and call the onSplit prop if provided.
+        var value = this.createRecord();
+        var start = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getSelectionStart"])(value);
+        var end = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getSelectionEnd"])(value);
 
-
-      if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["ENTER"]) {
-        event.preventDefault(); // It's important that we stop other handlers (e.g. ones registered
-        // by TinyMCE) from also handling this event.
-
-        event.stopImmediatePropagation();
+        if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["BACKSPACE"]) {
+          this.onChange(Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["remove"])(value, // Only remove the line if the selection is
+          // collapsed.
+          Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isCollapsed"])(value) ? start - 1 : start, end));
+        } else {
+          this.onChange(Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["remove"])(value, start, // Only remove the line if the selection is collapsed.
+          Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["isCollapsed"])(value) ? end + 1 : end));
+        }
+      } else if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_17__["ENTER"]) {
+        event.preventDefault();
         var record = this.createRecord();
 
         if (this.props.onReplace) {
@@ -18849,9 +18887,10 @@ function (_Component) {
       }
     }
     /**
-     * Handles TinyMCE key up event.
+     * Handles a keyup event.
      *
-     * @param {number} keyCode The key code that has been pressed on the keyboard.
+     * @param {number} $1.keyCode The key code that has been pressed on the
+     *                            keyboard.
      */
 
   }, {
@@ -18986,7 +19025,8 @@ function (_Component) {
     value: function componentDidUpdate(prevProps) {
       var _this$props4 = this.props,
           tagName = _this$props4.tagName,
-          value = _this$props4.value;
+          value = _this$props4.value,
+          isSelected = _this$props4.isSelected;
 
       if (tagName === prevProps.tagName && value !== prevProps.value && value !== this.savedContent) {
         // Handle deprecated `children` and `node` sources.
@@ -19001,7 +19041,7 @@ function (_Component) {
 
         var record = this.formatToValue(value);
 
-        if (this.isActive()) {
+        if (isSelected) {
           var prevRecord = this.formatToValue(prevProps.value);
           var length = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getTextContent"])(prevRecord).length;
           record.start = length;
@@ -19010,6 +19050,20 @@ function (_Component) {
 
         this.applyRecord(record);
         this.savedContent = value;
+      } // If blocks are merged, but the content remains the same, e.g. merging
+      // an empty paragraph into another, then also set the selection to the
+      // end.
+
+
+      if (isSelected && !prevProps.isSelected && !this.isActive()) {
+        var _record = this.formatToValue(value);
+
+        var _prevRecord = this.formatToValue(prevProps.value);
+
+        var _length = Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_22__["getTextContent"])(_prevRecord).length;
+        _record.start = _length;
+        _record.end = _length;
+        this.applyRecord(_record);
       }
     }
   }, {
@@ -19105,7 +19159,6 @@ function (_Component) {
       var record = this.getRecord();
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_11__["createElement"])("div", {
         className: classes,
-        ref: this.containerRef,
         onFocus: this.setFocusedElement
       }, isSelected && !inlineToolbar && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_11__["createElement"])(_block_format_controls__WEBPACK_IMPORTED_MODULE_25__["default"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_11__["createElement"])(_format_toolbar__WEBPACK_IMPORTED_MODULE_27__["default"], {
         controls: formattingControls
@@ -19139,6 +19192,9 @@ function (_Component) {
           key: key,
           onPaste: _this3.onPaste,
           onInput: _this3.onInput,
+          onKeyDown: _this3.onKeyDown,
+          onKeyUp: _this3.onKeyUp,
+          onFocus: _this3.onFocus,
           multilineTag: _this3.multilineTag,
           multilineWrapperTags: _this3.multilineWrapperTags,
           setRef: _this3.setRef
@@ -19350,11 +19406,12 @@ function getPatterns(_ref) {
 /*!*************************************************************************************!*\
   !*** ./node_modules/@wordpress/editor/build-module/components/rich-text/tinymce.js ***!
   \*************************************************************************************/
-/*! exports provided: default */
+/*! exports provided: TINYMCE_ZWSP, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TINYMCE_ZWSP", function() { return TINYMCE_ZWSP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TinyMCE; });
 /* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
@@ -19407,6 +19464,23 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+/**
+ * Browser dependencies
+ */
+
+var _window = window,
+    getSelection = _window.getSelection;
+var TEXT_NODE = window.Node.TEXT_NODE;
+/**
+ * Zero-width space character used by TinyMCE as a caret landing point for
+ * inline boundary nodes.
+ *
+ * @see tinymce/src/core/main/ts/text/Zwsp.ts
+ *
+ * @type {string}
+ */
+
+var TINYMCE_ZWSP = "\uFEFF";
 /**
  * Determines whether we need a fix to provide `input` events for contenteditable.
  *
@@ -19501,26 +19575,31 @@ function (_Component) {
     _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__["default"])(TinyMCE).call(this));
     _this.bindEditorNode = _this.bindEditorNode.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.onFocus = _this.onFocus.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
+    _this.onKeyDown = _this.onKeyDown.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     return _this;
   }
 
   Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(TinyMCE, [{
     key: "onFocus",
     value: function onFocus() {
+      if (this.props.onFocus) {
+        this.props.onFocus();
+      }
+
       this.initialize();
-    }
+    } // We must prevent rerenders because RichText, the browser, and TinyMCE will
+    // modify the DOM. React will rerender the DOM fine, but we're losing
+    // selection and it would be more expensive to do so as it would just set
+    // the inner HTML through `dangerouslySetInnerHTML`. Instead RichText does
+    // it's own diffing and selection setting.
+    //
+    // Because we never update the component, we have to look through props and
+    // update the attributes on the wrapper nodes here. `componentDidUpdate`
+    // will never be called.
+
   }, {
     key: "shouldComponentUpdate",
-    value: function shouldComponentUpdate() {
-      // We must prevent rerenders because TinyMCE will modify the DOM, thus
-      // breaking React's ability to reconcile changes.
-      //
-      // See: https://github.com/facebook/react/issues/6802
-      return false;
-    }
-  }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    value: function shouldComponentUpdate(nextProps) {
       var _this2 = this;
 
       this.configureIsPlaceholderVisible(nextProps.isPlaceholderVisible);
@@ -19544,6 +19623,7 @@ function (_Component) {
       updatedKeys.forEach(function (key) {
         return _this2.editorNode.setAttribute(key, nextProps[key]);
       });
+      return false;
     }
   }, {
     key: "componentWillUnmount",
@@ -19612,6 +19692,7 @@ function (_Component) {
             });
             editor.dom.setHTML = setHTML;
           });
+          editor.on('keydown', _this3.onKeyDown, true);
         }
       }));
     }
@@ -19639,6 +19720,63 @@ function (_Component) {
       }
     }
   }, {
+    key: "onKeyDown",
+    value: function onKeyDown(event) {
+      var keyCode = event.keyCode; // Disables TinyMCE behaviour.
+
+      if (keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["ENTER"] || keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["BACKSPACE"] || keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["DELETE"]) {
+        event.preventDefault(); // For some reason this is needed to also prevent the insertion of
+        // line breaks.
+
+        return false;
+      } // Handles a horizontal navigation key down event to handle the case
+      // where TinyMCE attempts to preventDefault when on the outside edge of
+      // an inline boundary when arrowing _away_ from the boundary, not within
+      // it. Replaces the TinyMCE event `preventDefault` behavior with a noop,
+      // such that those relying on `defaultPrevented` are not misinformed
+      // about the arrow event.
+      //
+      // If TinyMCE#4476 is resolved, this handling may be removed.
+      //
+      // @see https://github.com/tinymce/tinymce/issues/4476
+
+
+      if (keyCode !== _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["LEFT"] && keyCode !== _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["RIGHT"]) {
+        return;
+      }
+
+      var _getSelection = getSelection(),
+          focusNode = _getSelection.focusNode;
+
+      var nodeType = focusNode.nodeType,
+          nodeValue = focusNode.nodeValue;
+
+      if (nodeType !== TEXT_NODE) {
+        return;
+      }
+
+      if (nodeValue.length !== 1 || nodeValue[0] !== TINYMCE_ZWSP) {
+        return;
+      } // Consider to be moving away from inline boundary based on:
+      //
+      // 1. Within a text fragment consisting only of ZWSP.
+      // 2. If in reverse, there is no previous sibling. If forward, there is
+      //    no next sibling (i.e. end of node).
+
+
+      var isReverse = event.keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_12__["LEFT"];
+      var edgeSibling = isReverse ? 'previousSibling' : 'nextSibling';
+
+      if (!focusNode[edgeSibling]) {
+        // Note: This is not reassigning on the native event, rather the
+        // "fixed" TinyMCE copy, which proxies its preventDefault to the
+        // native event. By reassigning here, we're effectively preventing
+        // the proxied call on the native event, but not otherwise mutating
+        // the original event object.
+        event.preventDefault = lodash__WEBPACK_IMPORTED_MODULE_9__["noop"];
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _objectSpread2;
@@ -19654,7 +19792,9 @@ function (_Component) {
           onPaste = _this$props.onPaste,
           onInput = _this$props.onInput,
           multilineTag = _this$props.multilineTag,
-          multilineWrapperTags = _this$props.multilineWrapperTags;
+          multilineWrapperTags = _this$props.multilineWrapperTags,
+          onKeyDown = _this$props.onKeyDown,
+          onKeyUp = _this$props.onKeyUp;
       /*
        * The role=textbox and aria-multiline=true must always be used together
        * as TinyMCE always behaves like a sort of textarea where text wraps in
@@ -19694,7 +19834,7 @@ function (_Component) {
         contentEditable: true
       }, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, IS_PLACEHOLDER_VISIBLE_ATTR_NAME, isPlaceholderVisible), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "ref", this.bindEditorNode), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "style", style), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "suppressContentEditableWarning", true), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "dangerouslySetInnerHTML", {
         __html: initialHTML
-      }), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onPaste", onPaste), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onInput", onInput), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onFocus", this.onFocus), _objectSpread2)));
+      }), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onPaste", onPaste), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onInput", onInput), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onFocus", this.onFocus), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onKeyDown", onKeyDown), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(_objectSpread2, "onKeyUp", onKeyUp), _objectSpread2)));
     }
   }]);
 
@@ -21144,10 +21284,11 @@ function (_Component) {
           if (target.isContentEditable ? this.isEntirelySelected : Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_8__["isEntirelySelected"])(target)) {
             onMultiSelect(Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(blocks), Object(lodash__WEBPACK_IMPORTED_MODULE_7__["last"])(blocks));
             event.preventDefault();
-          } // Set in case the meta key doesn't get released.
+          } // After pressing primary + A we can assume isEntirelySelected is true.
+          // Calling right away isEntirelySelected after primary + A may still return false on some browsers.
 
 
-          this.isEntirelySelected = Object(_wordpress_dom__WEBPACK_IMPORTED_MODULE_8__["isEntirelySelected"])(target);
+          this.isEntirelySelected = true;
         }
 
         return;
@@ -23716,7 +23857,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************************!*\
   !*** ./node_modules/@wordpress/editor/build-module/store/actions.js ***!
   \**********************************************************************/
-/*! exports provided: setupEditor, resetPost, resetAutosave, updatePost, setupEditorState, resetBlocks, receiveBlocks, updateBlockAttributes, updateBlock, selectBlock, startMultiSelect, stopMultiSelect, multiSelect, clearSelectedBlock, toggleSelection, replaceBlocks, replaceBlock, moveBlocksDown, moveBlocksUp, moveBlockToPosition, insertBlock, insertBlocks, showInsertionPoint, hideInsertionPoint, setTemplateValidity, synchronizeTemplate, editPost, savePost, refreshPost, trashPost, mergeBlocks, autosave, redo, undo, createUndoLevel, removeBlocks, removeBlock, toggleBlockMode, startTyping, stopTyping, enterFormattedText, exitFormattedText, updatePostLock, __experimentalFetchReusableBlocks, __experimentalReceiveReusableBlocks, __experimentalSaveReusableBlock, __experimentalDeleteReusableBlock, __experimentalUpdateReusableBlockTitle, __experimentalConvertBlockToStatic, __experimentalConvertBlockToReusable, insertDefaultBlock, updateBlockListSettings, updateEditorSettings, enablePublishSidebar, disablePublishSidebar, lockPostSaving, unlockPostSaving, addTermToEditedPost, createNotice, removeNotice, createSuccessNotice, createInfoNotice, createErrorNotice, createWarningNotice, fetchReusableBlocks, receiveReusableBlocks, saveReusableBlock, deleteReusableBlock, updateReusableBlockTitle, convertBlockToStatic, convertBlockToReusable */
+/*! exports provided: setupEditor, resetPost, resetAutosave, updatePost, setupEditorState, resetBlocks, receiveBlocks, updateBlockAttributes, updateBlock, selectBlock, startMultiSelect, stopMultiSelect, multiSelect, clearSelectedBlock, toggleSelection, replaceBlocks, replaceBlock, moveBlocksDown, moveBlocksUp, moveBlockToPosition, insertBlock, insertBlocks, showInsertionPoint, hideInsertionPoint, setTemplateValidity, synchronizeTemplate, editPost, savePost, refreshPost, trashPost, mergeBlocks, autosave, redo, undo, createUndoLevel, removeBlocks, removeBlock, toggleBlockMode, startTyping, stopTyping, enterFormattedText, exitFormattedText, updatePostLock, __experimentalFetchReusableBlocks, __experimentalReceiveReusableBlocks, __experimentalSaveReusableBlock, __experimentalDeleteReusableBlock, __experimentalUpdateReusableBlockTitle, __experimentalConvertBlockToStatic, __experimentalConvertBlockToReusable, insertDefaultBlock, updateBlockListSettings, updateEditorSettings, enablePublishSidebar, disablePublishSidebar, lockPostSaving, unlockPostSaving, createNotice, removeNotice, createSuccessNotice, createInfoNotice, createErrorNotice, createWarningNotice, fetchReusableBlocks, receiveReusableBlocks, saveReusableBlock, deleteReusableBlock, updateReusableBlockTitle, convertBlockToStatic, convertBlockToReusable */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23778,7 +23919,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disablePublishSidebar", function() { return disablePublishSidebar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lockPostSaving", function() { return lockPostSaving; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unlockPostSaving", function() { return unlockPostSaving; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTermToEditedPost", function() { return addTermToEditedPost; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNotice", function() { return createNotice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeNotice", function() { return removeNotice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createSuccessNotice", function() { return createSuccessNotice; });
@@ -24581,22 +24721,6 @@ function unlockPostSaving(lockName) {
     type: 'UNLOCK_POST_SAVING',
     lockName: lockName
   };
-}
-/**
- * Returns an action object signaling that a new term is added to the edited post.
- *
- * @param {string} slug  Taxonomy slug.
- * @param {Object} term  Term object.
- *
- * @return {Object} Action object.
- */
-
-function addTermToEditedPost(slug, term) {
-  return {
-    type: 'ADD_TERM_TO_EDITED_POST',
-    slug: slug,
-    term: term
-  };
 } //
 // Deprecated
 //
@@ -24773,13 +24897,14 @@ var PREFERENCES_DEFAULTS = {
 /**
  * The default editor settings
  *
- *  alignWide         boolean        Enable/Disable Wide/Full Alignments
- *  colors            Array          Palette colors
- *  fontSizes         Array          Available font sizes
- *  maxWidth          number         Max width to constraint resizing
- *  blockTypes        boolean|Array  Allowed block types
- *  hasFixedToolbar   boolean        Whether or not the editor toolbar is fixed
- *  focusMode         boolean        Whether the focus mode is enabled or not
+ *  alignWide            boolean        Enable/Disable Wide/Full Alignments
+ *  colors               Array          Palette colors
+ *  fontSizes            Array          Available font sizes
+ *  availableImageSizes  Array          Available image sizes
+ *  maxWidth             number         Max width to constraint resizing
+ *  blockTypes           boolean|Array  Allowed block types
+ *  hasFixedToolbar      boolean        Whether or not the editor toolbar is fixed
+ *  focusMode            boolean        Whether the focus mode is enabled or not
  */
 
 var EDITOR_SETTINGS_DEFAULTS = {
@@ -24850,6 +24975,19 @@ var EDITOR_SETTINGS_DEFAULTS = {
     size: 48,
     slug: 'huge'
   }],
+  availableImageSizes: [{
+    slug: 'thumbnail',
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Thumbnail')
+  }, {
+    slug: 'medium',
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Medium')
+  }, {
+    slug: 'large',
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Large')
+  }, {
+    slug: 'full',
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('Full Size')
+  }],
   // This is current max width of the block inner area
   // It's used to constraint image resizing and this value could be overridden later by themes
   maxWidth: 580,
@@ -24887,7 +25025,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selectors */ "./node_modules/@wordpress/editor/build-module/store/selectors.js");
 /* harmony import */ var _effects_reusable_blocks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./effects/reusable-blocks */ "./node_modules/@wordpress/editor/build-module/store/effects/reusable-blocks.js");
 /* harmony import */ var _effects_posts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./effects/posts */ "./node_modules/@wordpress/editor/build-module/store/effects/posts.js");
-/* harmony import */ var _effects_terms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./effects/terms */ "./node_modules/@wordpress/editor/build-module/store/effects/terms.js");
 
 
 
@@ -24904,7 +25041,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -25083,10 +25219,7 @@ function ensureDefaultBlock(action, store) {
   CONVERT_BLOCK_TO_STATIC: _effects_reusable_blocks__WEBPACK_IMPORTED_MODULE_7__["convertBlockToStatic"],
   CONVERT_BLOCK_TO_REUSABLE: _effects_reusable_blocks__WEBPACK_IMPORTED_MODULE_7__["convertBlockToReusable"],
   REMOVE_BLOCKS: [selectPreviousBlock, ensureDefaultBlock],
-  REPLACE_BLOCKS: [ensureDefaultBlock],
-  ADD_TERM_TO_EDITED_POST: function ADD_TERM_TO_EDITED_POST(action) {
-    Object(_effects_terms__WEBPACK_IMPORTED_MODULE_9__["addTermToEditedPost"])(action);
-  }
+  REPLACE_BLOCKS: [ensureDefaultBlock]
 });
 
 
@@ -25118,13 +25251,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
-/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../actions */ "./node_modules/@wordpress/editor/build-module/store/actions.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../selectors */ "./node_modules/@wordpress/editor/build-module/store/selectors.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/editor/build-module/store/effects/utils.js");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../actions */ "./node_modules/@wordpress/editor/build-module/store/actions.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../selectors */ "./node_modules/@wordpress/editor/build-module/store/selectors.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/editor/build-module/store/effects/utils.js");
 
 
 
@@ -25136,7 +25267,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
-
 
 
  // TODO: Ideally this would be the only dispatch in scope. This requires either
@@ -25177,10 +25307,10 @@ function () {
           case 0:
             dispatch = store.dispatch, getState = store.getState;
             state = getState();
-            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPost"])(state);
+            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPost"])(state);
             isAutosave = !!action.options.autosave; // Prevent save if not saveable.
 
-            isSaveable = isAutosave ? _selectors__WEBPACK_IMPORTED_MODULE_9__["isEditedPostAutosaveable"] : _selectors__WEBPACK_IMPORTED_MODULE_9__["isEditedPostSaveable"];
+            isSaveable = isAutosave ? _selectors__WEBPACK_IMPORTED_MODULE_8__["isEditedPostAutosaveable"] : _selectors__WEBPACK_IMPORTED_MODULE_8__["isEditedPostSaveable"];
 
             if (isSaveable(state)) {
               _context.next = 7;
@@ -25190,7 +25320,7 @@ function () {
             return _context.abrupt("return");
 
           case 7:
-            edits = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getPostEdits"])(state);
+            edits = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getPostEdits"])(state);
 
             if (isAutosave) {
               edits = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["pick"])(edits, ['title', 'content', 'excerpt']);
@@ -25207,18 +25337,18 @@ function () {
             // See: https://core.trac.wordpress.org/ticket/43316#comment:89
 
 
-            if (Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["isEditedPostNew"])(state)) {
+            if (Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["isEditedPostNew"])(state)) {
               edits = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
                 status: 'draft'
               }, edits);
             }
 
             toSend = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, edits, {
-              content: Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getEditedPostContent"])(state),
+              content: Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getEditedPostContent"])(state),
               id: post.id
             });
             _context.next = 13;
-            return Object(_utils__WEBPACK_IMPORTED_MODULE_10__["resolveSelector"])('core', 'getPostType', Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPostType"])(state));
+            return Object(_utils__WEBPACK_IMPORTED_MODULE_9__["resolveSelector"])('core', 'getPostType', Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPostType"])(state));
 
           case 13:
             postType = _context.sent;
@@ -25226,23 +25356,23 @@ function () {
               type: 'REQUEST_POST_UPDATE_START',
               optimist: {
                 type: redux_optimist__WEBPACK_IMPORTED_MODULE_2__["BEGIN"],
-                id: _selectors__WEBPACK_IMPORTED_MODULE_9__["POST_UPDATE_TRANSACTION_ID"]
+                id: _selectors__WEBPACK_IMPORTED_MODULE_8__["POST_UPDATE_TRANSACTION_ID"]
               },
               isAutosave: isAutosave
             }); // Optimistically apply updates under the assumption that the post
             // will be updated. See below logic in success resolution for revert
             // if the autosave is applied as a revision.
 
-            dispatch(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(_actions__WEBPACK_IMPORTED_MODULE_8__["updatePost"])(toSend), {
+            dispatch(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(_actions__WEBPACK_IMPORTED_MODULE_7__["updatePost"])(toSend), {
               optimist: {
-                id: _selectors__WEBPACK_IMPORTED_MODULE_9__["POST_UPDATE_TRANSACTION_ID"]
+                id: _selectors__WEBPACK_IMPORTED_MODULE_8__["POST_UPDATE_TRANSACTION_ID"]
               }
             }));
 
             if (isAutosave) {
               // Ensure autosaves contain all expected fields, using autosave or
               // post values as fallback if not otherwise included in edits.
-              toSend = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["pick"])(post, ['title', 'content', 'excerpt']), Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getAutosave"])(state), toSend, {
+              toSend = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["pick"])(post, ['title', 'content', 'excerpt']), Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getAutosave"])(state), toSend, {
                 parent: post.id
               });
               request = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
@@ -25251,8 +25381,8 @@ function () {
                 data: toSend
               });
             } else {
-              Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').removeNotice(SAVE_POST_NOTICE_ID);
-              Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').removeNotice('autosave-exists');
+              Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').removeNotice(SAVE_POST_NOTICE_ID);
+              Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').removeNotice('autosave-exists');
               request = _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
                 path: "/wp/v2/".concat(postType.rest_base, "/").concat(post.id),
                 method: 'PUT',
@@ -25266,7 +25396,7 @@ function () {
 
           case 20:
             newPost = _context.sent;
-            reset = isAutosave ? _actions__WEBPACK_IMPORTED_MODULE_8__["resetAutosave"] : _actions__WEBPACK_IMPORTED_MODULE_8__["resetPost"];
+            reset = isAutosave ? _actions__WEBPACK_IMPORTED_MODULE_7__["resetAutosave"] : _actions__WEBPACK_IMPORTED_MODULE_7__["resetPost"];
             dispatch(reset(newPost)); // An autosave may be processed by the server as a regular save
             // when its update is requested by the author and the post was
             // draft or auto-draft.
@@ -25282,7 +25412,7 @@ function () {
                 // were applied to the post proper, such that the post
                 // treated as having unsaved changes.
                 type: isRevision ? redux_optimist__WEBPACK_IMPORTED_MODULE_2__["REVERT"] : redux_optimist__WEBPACK_IMPORTED_MODULE_2__["COMMIT"],
-                id: _selectors__WEBPACK_IMPORTED_MODULE_9__["POST_UPDATE_TRANSACTION_ID"]
+                id: _selectors__WEBPACK_IMPORTED_MODULE_8__["POST_UPDATE_TRANSACTION_ID"]
               },
               isAutosave: isAutosave,
               postType: postType
@@ -25297,7 +25427,7 @@ function () {
               type: 'REQUEST_POST_UPDATE_FAILURE',
               optimist: {
                 type: redux_optimist__WEBPACK_IMPORTED_MODULE_2__["REVERT"],
-                id: _selectors__WEBPACK_IMPORTED_MODULE_9__["POST_UPDATE_TRANSACTION_ID"]
+                id: _selectors__WEBPACK_IMPORTED_MODULE_8__["POST_UPDATE_TRANSACTION_ID"]
               },
               post: post,
               edits: edits,
@@ -25335,7 +25465,7 @@ var requestPostUpdateSuccess = function requestPostUpdateSuccess(action, store) 
   //
   // See: https://github.com/WordPress/gutenberg/issues/7409
 
-  if (Object.keys(Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getPostEdits"])(getState())).length) {
+  if (Object.keys(Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getPostEdits"])(getState())).length) {
     dispatch({
       type: 'DIRTY_ARTIFICIALLY'
     });
@@ -25382,7 +25512,7 @@ var requestPostUpdateSuccess = function requestPostUpdateSuccess(action, store) 
       });
     }
 
-    Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').createSuccessNotice(noticeMessage, {
+    Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').createSuccessNotice(noticeMessage, {
       id: SAVE_POST_NOTICE_ID,
       actions: actions
     });
@@ -25415,23 +25545,9 @@ var requestPostUpdateFailure = function requestPostUpdateFailure(action) {
     future: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Scheduling failed')
   };
   var noticeMessage = !isPublished && publishStatus.indexOf(edits.status) !== -1 ? messages[edits.status] : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Updating failed');
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').createErrorNotice(noticeMessage, {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').createErrorNotice(noticeMessage, {
     id: SAVE_POST_NOTICE_ID
   });
-
-  if (error && 'cloudflare_error' === error.code) {
-    Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').createErrorNotice(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Cloudflare is blocking REST API requests.'), {
-      actions: [{
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Learn More'),
-        url: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_6__["addQueryArgs"])('post.php', {
-          post: post.id,
-          action: 'edit',
-          'classic-editor': '',
-          'cloudflare-error': ''
-        })
-      }]
-    });
-  }
 };
 /**
  * Trash Post Effect handler
@@ -25453,13 +25569,13 @@ function () {
           case 0:
             dispatch = store.dispatch, getState = store.getState;
             postId = action.postId;
-            postTypeSlug = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPostType"])(getState());
+            postTypeSlug = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPostType"])(getState());
             _context2.next = 5;
-            return Object(_utils__WEBPACK_IMPORTED_MODULE_10__["resolveSelector"])('core', 'getPostType', postTypeSlug);
+            return Object(_utils__WEBPACK_IMPORTED_MODULE_9__["resolveSelector"])('core', 'getPostType', postTypeSlug);
 
           case 5:
             postType = _context2.sent;
-            Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').removeNotice(TRASH_POST_NOTICE_ID);
+            Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').removeNotice(TRASH_POST_NOTICE_ID);
             _context2.prev = 7;
             _context2.next = 10;
             return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
@@ -25468,10 +25584,10 @@ function () {
             });
 
           case 10:
-            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPost"])(getState()); // TODO: This should be an updatePost action (updating subsets of post properties),
+            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPost"])(getState()); // TODO: This should be an updatePost action (updating subsets of post properties),
             // But right now editPost is tied with change detection.
 
-            dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["resetPost"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
+            dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["resetPost"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, post, {
               status: 'trash'
             })));
             _context2.next = 17;
@@ -25506,7 +25622,7 @@ function () {
 
 var trashPostFailure = function trashPostFailure(action) {
   var message = action.error.message && action.error.code !== 'unknown_error' ? action.error.message : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Trashing failed');
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/notices').createErrorNotice(message, {
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["dispatch"])('core/notices').createErrorNotice(message, {
     id: TRASH_POST_NOTICE_ID
   });
 };
@@ -25530,10 +25646,10 @@ function () {
           case 0:
             dispatch = store.dispatch, getState = store.getState;
             state = getState();
-            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPost"])(state);
-            postTypeSlug = Object(_selectors__WEBPACK_IMPORTED_MODULE_9__["getCurrentPostType"])(getState());
+            post = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPost"])(state);
+            postTypeSlug = Object(_selectors__WEBPACK_IMPORTED_MODULE_8__["getCurrentPostType"])(getState());
             _context3.next = 6;
-            return Object(_utils__WEBPACK_IMPORTED_MODULE_10__["resolveSelector"])('core', 'getPostType', postTypeSlug);
+            return Object(_utils__WEBPACK_IMPORTED_MODULE_9__["resolveSelector"])('core', 'getPostType', postTypeSlug);
 
           case 6:
             postType = _context3.sent;
@@ -25547,7 +25663,7 @@ function () {
 
           case 9:
             newPost = _context3.sent;
-            dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_8__["resetPost"])(newPost));
+            dispatch(Object(_actions__WEBPACK_IMPORTED_MODULE_7__["resetPost"])(newPost));
 
           case 11:
           case "end":
@@ -26005,97 +26121,6 @@ var convertBlockToReusable = function convertBlockToReusable(action, store) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/editor/build-module/store/effects/terms.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@wordpress/editor/build-module/store/effects/terms.js ***!
-  \****************************************************************************/
-/*! exports provided: addTermToEditedPost */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addTermToEditedPost", function() { return addTermToEditedPost; });
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/a11y */ "@wordpress/a11y");
-/* harmony import */ var _wordpress_a11y__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/editor/build-module/store/effects/utils.js");
-
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Effect handler adding a new term to currently edited post.
- *
- * @param {Object} action  action object.
- * @param {Object} store   Redux Store.
- */
-
-function addTermToEditedPost(_x2) {
-  return _addTermToEditedPost.apply(this, arguments);
-}
-
-function _addTermToEditedPost() {
-  _addTermToEditedPost = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(_ref) {
-    var slug, term, taxonomy, savedTerm, terms, termAddedMessage;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            slug = _ref.slug, term = _ref.term;
-            _context.next = 3;
-            return Object(_utils__WEBPACK_IMPORTED_MODULE_7__["resolveSelector"])('core', 'getTaxonomy', slug);
-
-          case 3:
-            taxonomy = _context.sent;
-            _context.next = 6;
-            return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core').saveEntityRecord('taxonomy', slug, term);
-
-          case 6:
-            savedTerm = _context.sent;
-            terms = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["select"])('core/editor').getEditedPostAttribute(taxonomy.rest_base);
-            termAddedMessage = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["_x"])('%s added', 'term'), Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(taxonomy, ['data', 'labels', 'singular_name'], slug === 'category' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Category') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Term')));
-            Object(_wordpress_a11y__WEBPACK_IMPORTED_MODULE_6__["speak"])(termAddedMessage, 'assertive');
-            Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["dispatch"])('core/editor').editPost(Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, taxonomy.rest_base, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(terms).concat([savedTerm.id])));
-
-          case 11:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-  return _addTermToEditedPost.apply(this, arguments);
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/@wordpress/editor/build-module/store/effects/utils.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/@wordpress/editor/build-module/store/effects/utils.js ***!
@@ -26396,7 +26421,7 @@ function getFlattenedBlocks(blocks) {
 
   while (stack.length) {
     // `innerBlocks` is redundant data which can fall out of sync, since
-    // this is reflected in `blockOrder`, so exclude from appended block.
+    // this is reflected in `blocks.order`, so exclude from appended block.
     var _stack$shift = stack.shift(),
         innerBlocks = _stack$shift.innerBlocks,
         block = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(_stack$shift, ["innerBlocks"]);
@@ -26484,7 +26509,7 @@ var withInnerBlocksRemoveCascade = function withInnerBlocksRemoveCascade(reducer
 
 
       for (var i = 0; i < clientIds.length; i++) {
-        clientIds.push.apply(clientIds, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(state.blockOrder[clientIds[i]]));
+        clientIds.push.apply(clientIds, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(state.blocks.order[clientIds[i]]));
       }
 
       action = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, action, {
@@ -26502,9 +26527,7 @@ var withInnerBlocksRemoveCascade = function withInnerBlocksRemoveCascade(reducer
  * Handles the following state keys:
  *  - edits: an object describing changes to be made to the current post, in
  *           the format accepted by the WP REST API
- *  - blocksByClientId: post content blocks keyed by client ID
- *  - blockOrder: object where each key is a client ID, its value an array of
- *                client IDs representing the order of its inner blocks
+ *  - blocks: post content blocks
  *
  * @param {Object} state  Current state.
  * @param {Object} action Dispatched action.
@@ -26579,228 +26602,230 @@ Object(_utils_with_change_detection__WEBPACK_IMPORTED_MODULE_11__["default"])({
 
     return state;
   },
-  blocksByClientId: function blocksByClientId() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var action = arguments.length > 1 ? arguments[1] : undefined;
+  blocks: Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_9__["combineReducers"])({
+    byClientId: function byClientId() {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var action = arguments.length > 1 ? arguments[1] : undefined;
 
-    switch (action.type) {
-      case 'RESET_BLOCKS':
-      case 'SETUP_EDITOR_STATE':
-        return getFlattenedBlocks(action.blocks);
+      switch (action.type) {
+        case 'RESET_BLOCKS':
+        case 'SETUP_EDITOR_STATE':
+          return getFlattenedBlocks(action.blocks);
 
-      case 'RECEIVE_BLOCKS':
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, getFlattenedBlocks(action.blocks));
+        case 'RECEIVE_BLOCKS':
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, getFlattenedBlocks(action.blocks));
 
-      case 'UPDATE_BLOCK_ATTRIBUTES':
-        // Ignore updates if block isn't known
-        if (!state[action.clientId]) {
-          return state;
-        } // Consider as updates only changed values
+        case 'UPDATE_BLOCK_ATTRIBUTES':
+          // Ignore updates if block isn't known
+          if (!state[action.clientId]) {
+            return state;
+          } // Consider as updates only changed values
 
 
-        var nextAttributes = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["reduce"])(action.attributes, function (result, value, key) {
-          if (value !== result[key]) {
-            // Avoid mutating original block by creating shallow clone
-            if (result === state[action.clientId].attributes) {
-              result = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, result);
+          var nextAttributes = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["reduce"])(action.attributes, function (result, value, key) {
+            if (value !== result[key]) {
+              // Avoid mutating original block by creating shallow clone
+              if (result === state[action.clientId].attributes) {
+                result = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, result);
+              }
+
+              result[key] = value;
             }
 
-            result[key] = value;
-          }
+            return result;
+          }, state[action.clientId].attributes); // Skip update if nothing has been changed. The reference will
+          // match the original block if `reduce` had no changed values.
 
-          return result;
-        }, state[action.clientId].attributes); // Skip update if nothing has been changed. The reference will
-        // match the original block if `reduce` had no changed values.
-
-        if (nextAttributes === state[action.clientId].attributes) {
-          return state;
-        } // Otherwise merge attributes into state
+          if (nextAttributes === state[action.clientId].attributes) {
+            return state;
+          } // Otherwise merge attributes into state
 
 
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, action.clientId, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[action.clientId], {
-          attributes: nextAttributes
-        })));
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, action.clientId, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[action.clientId], {
+            attributes: nextAttributes
+          })));
 
-      case 'UPDATE_BLOCK':
-        // Ignore updates if block isn't known
-        if (!state[action.clientId]) {
-          return state;
-        }
-
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, action.clientId, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[action.clientId], action.updates)));
-
-      case 'INSERT_BLOCKS':
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, getFlattenedBlocks(action.blocks));
-
-      case 'REPLACE_BLOCKS':
-        if (!action.blocks) {
-          return state;
-        }
-
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(state, action.clientIds), getFlattenedBlocks(action.blocks));
-
-      case 'REMOVE_BLOCKS':
-        return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(state, action.clientIds);
-
-      case 'SAVE_REUSABLE_BLOCK_SUCCESS':
-        {
-          var id = action.id,
-              updatedId = action.updatedId; // If a temporary reusable block is saved, we swap the temporary id with the final one
-
-          if (id === updatedId) {
+        case 'UPDATE_BLOCK':
+          // Ignore updates if block isn't known
+          if (!state[action.clientId]) {
             return state;
           }
 
-          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(state, function (block) {
-            if (block.name === 'core/block' && block.attributes.ref === id) {
-              return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
-                attributes: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block.attributes, {
-                  ref: updatedId
-                })
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, action.clientId, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[action.clientId], action.updates)));
+
+        case 'INSERT_BLOCKS':
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, getFlattenedBlocks(action.blocks));
+
+        case 'REPLACE_BLOCKS':
+          if (!action.blocks) {
+            return state;
+          }
+
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(state, action.clientIds), getFlattenedBlocks(action.blocks));
+
+        case 'REMOVE_BLOCKS':
+          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(state, action.clientIds);
+
+        case 'SAVE_REUSABLE_BLOCK_SUCCESS':
+          {
+            var id = action.id,
+                updatedId = action.updatedId; // If a temporary reusable block is saved, we swap the temporary id with the final one
+
+            if (id === updatedId) {
+              return state;
+            }
+
+            return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(state, function (block) {
+              if (block.name === 'core/block' && block.attributes.ref === id) {
+                return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block, {
+                  attributes: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, block.attributes, {
+                    ref: updatedId
+                  })
+                });
+              }
+
+              return block;
+            });
+          }
+      }
+
+      return state;
+    },
+    order: function order() {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var action = arguments.length > 1 ? arguments[1] : undefined;
+
+      switch (action.type) {
+        case 'RESET_BLOCKS':
+        case 'SETUP_EDITOR_STATE':
+          return mapBlockOrder(action.blocks);
+
+        case 'RECEIVE_BLOCKS':
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(mapBlockOrder(action.blocks), ''));
+
+        case 'INSERT_BLOCKS':
+          {
+            var _action$rootClientId = action.rootClientId,
+                rootClientId = _action$rootClientId === void 0 ? '' : _action$rootClientId,
+                blocks = action.blocks;
+            var subState = state[rootClientId] || [];
+            var mappedBlocks = mapBlockOrder(blocks, rootClientId);
+            var _action$index = action.index,
+                index = _action$index === void 0 ? subState.length : _action$index;
+            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, mappedBlocks, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, rootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["insertAt"])(subState, mappedBlocks[rootClientId], index)));
+          }
+
+        case 'MOVE_BLOCK_TO_POSITION':
+          {
+            var _objectSpread6;
+
+            var _action$fromRootClien = action.fromRootClientId,
+                fromRootClientId = _action$fromRootClien === void 0 ? '' : _action$fromRootClien,
+                _action$toRootClientI = action.toRootClientId,
+                toRootClientId = _action$toRootClientI === void 0 ? '' : _action$toRootClientI,
+                clientId = action.clientId;
+
+            var _action$index2 = action.index,
+                _index = _action$index2 === void 0 ? state[toRootClientId].length : _action$index2; // Moving inside the same parent block
+
+
+            if (fromRootClientId === toRootClientId) {
+              var _subState = state[toRootClientId];
+
+              var fromIndex = _subState.indexOf(clientId);
+
+              return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, toRootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(state[toRootClientId], fromIndex, _index)));
+            } // Moving from a parent block to another
+
+
+            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, (_objectSpread6 = {}, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_objectSpread6, fromRootClientId, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["without"])(state[fromRootClientId], clientId)), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_objectSpread6, toRootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["insertAt"])(state[toRootClientId], clientId, _index)), _objectSpread6));
+          }
+
+        case 'MOVE_BLOCKS_UP':
+          {
+            var clientIds = action.clientIds,
+                _action$rootClientId2 = action.rootClientId,
+                _rootClientId = _action$rootClientId2 === void 0 ? '' : _action$rootClientId2;
+
+            var firstClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(clientIds);
+            var _subState2 = state[_rootClientId];
+
+            if (!_subState2.length || firstClientId === Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(_subState2)) {
+              return state;
+            }
+
+            var firstIndex = _subState2.indexOf(firstClientId);
+
+            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _rootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(_subState2, firstIndex, firstIndex - 1, clientIds.length)));
+          }
+
+        case 'MOVE_BLOCKS_DOWN':
+          {
+            var _clientIds = action.clientIds,
+                _action$rootClientId3 = action.rootClientId,
+                _rootClientId2 = _action$rootClientId3 === void 0 ? '' : _action$rootClientId3;
+
+            var _firstClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(_clientIds);
+
+            var lastClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["last"])(_clientIds);
+            var _subState3 = state[_rootClientId2];
+
+            if (!_subState3.length || lastClientId === Object(lodash__WEBPACK_IMPORTED_MODULE_7__["last"])(_subState3)) {
+              return state;
+            }
+
+            var _firstIndex = _subState3.indexOf(_firstClientId);
+
+            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _rootClientId2, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(_subState3, _firstIndex, _firstIndex + 1, _clientIds.length)));
+          }
+
+        case 'REPLACE_BLOCKS':
+          {
+            var _blocks = action.blocks,
+                _clientIds2 = action.clientIds;
+
+            if (!_blocks) {
+              return state;
+            }
+
+            var _mappedBlocks = mapBlockOrder(_blocks);
+
+            return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["flow"])([function (nextState) {
+              return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(nextState, _clientIds2);
+            }, function (nextState) {
+              return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, nextState, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(_mappedBlocks, ''));
+            }, function (nextState) {
+              return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(nextState, function (subState) {
+                return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["reduce"])(subState, function (result, clientId) {
+                  if (clientId === _clientIds2[0]) {
+                    return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(result).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_mappedBlocks['']));
+                  }
+
+                  if (_clientIds2.indexOf(clientId) === -1) {
+                    result.push(clientId);
+                  }
+
+                  return result;
+                }, []);
               });
-            }
-
-            return block;
-          });
-        }
-    }
-
-    return state;
-  },
-  blockOrder: function blockOrder() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var action = arguments.length > 1 ? arguments[1] : undefined;
-
-    switch (action.type) {
-      case 'RESET_BLOCKS':
-      case 'SETUP_EDITOR_STATE':
-        return mapBlockOrder(action.blocks);
-
-      case 'RECEIVE_BLOCKS':
-        return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(mapBlockOrder(action.blocks), ''));
-
-      case 'INSERT_BLOCKS':
-        {
-          var _action$rootClientId = action.rootClientId,
-              rootClientId = _action$rootClientId === void 0 ? '' : _action$rootClientId,
-              blocks = action.blocks;
-          var subState = state[rootClientId] || [];
-          var mappedBlocks = mapBlockOrder(blocks, rootClientId);
-          var _action$index = action.index,
-              index = _action$index === void 0 ? subState.length : _action$index;
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, mappedBlocks, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, rootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["insertAt"])(subState, mappedBlocks[rootClientId], index)));
-        }
-
-      case 'MOVE_BLOCK_TO_POSITION':
-        {
-          var _objectSpread6;
-
-          var _action$fromRootClien = action.fromRootClientId,
-              fromRootClientId = _action$fromRootClien === void 0 ? '' : _action$fromRootClien,
-              _action$toRootClientI = action.toRootClientId,
-              toRootClientId = _action$toRootClientI === void 0 ? '' : _action$toRootClientI,
-              clientId = action.clientId;
-
-          var _action$index2 = action.index,
-              _index = _action$index2 === void 0 ? state[toRootClientId].length : _action$index2; // Moving inside the same parent block
-
-
-          if (fromRootClientId === toRootClientId) {
-            var _subState = state[toRootClientId];
-
-            var fromIndex = _subState.indexOf(clientId);
-
-            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, toRootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(state[toRootClientId], fromIndex, _index)));
-          } // Moving from a parent block to another
-
-
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, (_objectSpread6 = {}, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_objectSpread6, fromRootClientId, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["without"])(state[fromRootClientId], clientId)), Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])(_objectSpread6, toRootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["insertAt"])(state[toRootClientId], clientId, _index)), _objectSpread6));
-        }
-
-      case 'MOVE_BLOCKS_UP':
-        {
-          var clientIds = action.clientIds,
-              _action$rootClientId2 = action.rootClientId,
-              _rootClientId = _action$rootClientId2 === void 0 ? '' : _action$rootClientId2;
-
-          var firstClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(clientIds);
-          var _subState2 = state[_rootClientId];
-
-          if (!_subState2.length || firstClientId === Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(_subState2)) {
-            return state;
+            }])(state);
           }
 
-          var firstIndex = _subState2.indexOf(firstClientId);
-
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _rootClientId, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(_subState2, firstIndex, firstIndex - 1, clientIds.length)));
-        }
-
-      case 'MOVE_BLOCKS_DOWN':
-        {
-          var _clientIds = action.clientIds,
-              _action$rootClientId3 = action.rootClientId,
-              _rootClientId2 = _action$rootClientId3 === void 0 ? '' : _action$rootClientId3;
-
-          var _firstClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["first"])(_clientIds);
-
-          var lastClientId = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["last"])(_clientIds);
-          var _subState3 = state[_rootClientId2];
-
-          if (!_subState3.length || lastClientId === Object(lodash__WEBPACK_IMPORTED_MODULE_7__["last"])(_subState3)) {
-            return state;
-          }
-
-          var _firstIndex = _subState3.indexOf(_firstClientId);
-
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_4__["default"])({}, _rootClientId2, Object(_array__WEBPACK_IMPORTED_MODULE_13__["moveTo"])(_subState3, _firstIndex, _firstIndex + 1, _clientIds.length)));
-        }
-
-      case 'REPLACE_BLOCKS':
-        {
-          var _blocks = action.blocks,
-              _clientIds2 = action.clientIds;
-
-          if (!_blocks) {
-            return state;
-          }
-
-          var _mappedBlocks = mapBlockOrder(_blocks);
-
-          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["flow"])([function (nextState) {
-            return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(nextState, _clientIds2);
-          }, function (nextState) {
-            return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, nextState, Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(_mappedBlocks, ''));
-          }, function (nextState) {
+        case 'REMOVE_BLOCKS':
+          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["flow"])([// Remove inner block ordering for removed blocks
+          function (nextState) {
+            return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(nextState, action.clientIds);
+          }, // Remove deleted blocks from other blocks' orderings
+          function (nextState) {
             return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(nextState, function (subState) {
-              return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["reduce"])(subState, function (result, clientId) {
-                if (clientId === _clientIds2[0]) {
-                  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(result).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(_mappedBlocks['']));
-                }
-
-                if (_clientIds2.indexOf(clientId) === -1) {
-                  result.push(clientId);
-                }
-
-                return result;
-              }, []);
+              return lodash__WEBPACK_IMPORTED_MODULE_7__["without"].apply(void 0, [subState].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(action.clientIds)));
             });
           }])(state);
-        }
+      }
 
-      case 'REMOVE_BLOCKS':
-        return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["flow"])([// Remove inner block ordering for removed blocks
-        function (nextState) {
-          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["omit"])(nextState, action.clientIds);
-        }, // Remove deleted blocks from other blocks' orderings
-        function (nextState) {
-          return Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(nextState, function (subState) {
-            return lodash__WEBPACK_IMPORTED_MODULE_7__["without"].apply(void 0, [subState].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__["default"])(action.clientIds)));
-          });
-        }])(state);
+      return state;
     }
-
-    return state;
-  }
+  })
 });
 /**
  * Reducer returning the last-known state of the current post, in the format
@@ -27459,7 +27484,7 @@ function autosave() {
 /*!************************************************************************!*\
   !*** ./node_modules/@wordpress/editor/build-module/store/selectors.js ***!
   \************************************************************************/
-/*! exports provided: POST_UPDATE_TRANSACTION_ID, INSERTER_UTILITY_HIGH, INSERTER_UTILITY_MEDIUM, INSERTER_UTILITY_LOW, INSERTER_UTILITY_NONE, hasEditorUndo, hasEditorRedo, isEditedPostNew, isEditedPostDirty, isCleanNewPost, getCurrentPost, getCurrentPostType, getCurrentPostId, getCurrentPostRevisionsCount, getCurrentPostLastRevisionId, getPostEdits, getCurrentPostAttribute, getEditedPostAttribute, getAutosaveAttribute, getEditedPostVisibility, isCurrentPostPending, isCurrentPostPublished, isCurrentPostScheduled, isEditedPostPublishable, isEditedPostSaveable, isEditedPostEmpty, isEditedPostAutosaveable, getAutosave, hasAutosave, isEditedPostBeingScheduled, isEditedPostDateFloating, getBlockDependantsCacheBust, getBlockName, getBlock, getBlocks, getClientIdsOfDescendants, getClientIdsWithDescendants, getGlobalBlockCount, getBlocksByClientId, getBlockCount, getBlockSelectionStart, getBlockSelectionEnd, getSelectedBlockCount, hasSelectedBlock, getSelectedBlockClientId, getSelectedBlock, getBlockRootClientId, getBlockHierarchyRootClientId, getAdjacentBlockClientId, getPreviousBlockClientId, getNextBlockClientId, getSelectedBlocksInitialCaretPosition, getMultiSelectedBlockClientIds, getMultiSelectedBlocks, getFirstMultiSelectedBlockClientId, getLastMultiSelectedBlockClientId, isFirstMultiSelectedBlock, isBlockMultiSelected, isAncestorMultiSelected, getMultiSelectedBlocksStartClientId, getMultiSelectedBlocksEndClientId, getBlockOrder, getBlockIndex, isBlockSelected, hasSelectedInnerBlock, isBlockWithinSelection, hasMultiSelection, isMultiSelecting, isSelectionEnabled, getBlockMode, isTyping, isCaretWithinFormattedText, getBlockInsertionPoint, isBlockInsertionPointVisible, isValidTemplate, getTemplate, getTemplateLock, isSavingPost, didPostSaveRequestSucceed, didPostSaveRequestFail, isAutosavingPost, getSuggestedPostFormat, getBlocksForSerialization, getEditedPostContent, canInsertBlockType, getInserterItems, __experimentalGetReusableBlock, __experimentalIsSavingReusableBlock, __experimentalIsFetchingReusableBlock, __experimentalGetReusableBlocks, getStateBeforeOptimisticTransaction, isPublishingPost, isPermalinkEditable, getPermalink, getPermalinkParts, inSomeHistory, getBlockListSettings, getEditorSettings, getTokenSettings, isPostLocked, isPostSavingLocked, isPostLockTakeover, getPostLockUser, getActivePostLock, canUserUseUnfilteredHTML, isPublishSidebarEnabled, getNotices, getReusableBlock, isSavingReusableBlock, isFetchingReusableBlock, getReusableBlocks */
+/*! exports provided: POST_UPDATE_TRANSACTION_ID, INSERTER_UTILITY_HIGH, INSERTER_UTILITY_MEDIUM, INSERTER_UTILITY_LOW, INSERTER_UTILITY_NONE, hasEditorUndo, hasEditorRedo, isEditedPostNew, isEditedPostDirty, isCleanNewPost, getCurrentPost, getCurrentPostType, getCurrentPostId, getCurrentPostRevisionsCount, getCurrentPostLastRevisionId, getPostEdits, getReferenceByDistinctEdits, getCurrentPostAttribute, getEditedPostAttribute, getAutosaveAttribute, getEditedPostVisibility, isCurrentPostPending, isCurrentPostPublished, isCurrentPostScheduled, isEditedPostPublishable, isEditedPostSaveable, isEditedPostEmpty, isEditedPostAutosaveable, getAutosave, hasAutosave, isEditedPostBeingScheduled, isEditedPostDateFloating, getBlockDependantsCacheBust, getBlockName, getBlock, getBlocks, getClientIdsOfDescendants, getClientIdsWithDescendants, getGlobalBlockCount, getBlocksByClientId, getBlockCount, getBlockSelectionStart, getBlockSelectionEnd, getSelectedBlockCount, hasSelectedBlock, getSelectedBlockClientId, getSelectedBlock, getBlockRootClientId, getBlockHierarchyRootClientId, getAdjacentBlockClientId, getPreviousBlockClientId, getNextBlockClientId, getSelectedBlocksInitialCaretPosition, getMultiSelectedBlockClientIds, getMultiSelectedBlocks, getFirstMultiSelectedBlockClientId, getLastMultiSelectedBlockClientId, isFirstMultiSelectedBlock, isBlockMultiSelected, isAncestorMultiSelected, getMultiSelectedBlocksStartClientId, getMultiSelectedBlocksEndClientId, getBlockOrder, getBlockIndex, isBlockSelected, hasSelectedInnerBlock, isBlockWithinSelection, hasMultiSelection, isMultiSelecting, isSelectionEnabled, getBlockMode, isTyping, isCaretWithinFormattedText, getBlockInsertionPoint, isBlockInsertionPointVisible, isValidTemplate, getTemplate, getTemplateLock, isSavingPost, didPostSaveRequestSucceed, didPostSaveRequestFail, isAutosavingPost, getSuggestedPostFormat, getBlocksForSerialization, getEditedPostContent, canInsertBlockType, getInserterItems, __experimentalGetReusableBlock, __experimentalIsSavingReusableBlock, __experimentalIsFetchingReusableBlock, __experimentalGetReusableBlocks, getStateBeforeOptimisticTransaction, isPublishingPost, isPermalinkEditable, getPermalink, getPermalinkParts, inSomeHistory, getBlockListSettings, getEditorSettings, getTokenSettings, isPostLocked, isPostSavingLocked, isPostLockTakeover, getPostLockUser, getActivePostLock, canUserUseUnfilteredHTML, isPublishSidebarEnabled, getNotices, getReusableBlock, isSavingReusableBlock, isFetchingReusableBlock, getReusableBlocks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27480,6 +27505,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentPostRevisionsCount", function() { return getCurrentPostRevisionsCount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentPostLastRevisionId", function() { return getCurrentPostLastRevisionId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPostEdits", function() { return getPostEdits; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getReferenceByDistinctEdits", function() { return getReferenceByDistinctEdits; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentPostAttribute", function() { return getCurrentPostAttribute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEditedPostAttribute", function() { return getEditedPostAttribute; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAutosaveAttribute", function() { return getAutosaveAttribute; });
@@ -27770,6 +27796,30 @@ function getPostEdits(state) {
   return state.editor.present.edits;
 }
 /**
+ * Returns a new reference when edited values have changed. This is useful in
+ * inferring where an edit has been made between states by comparison of the
+ * return values using strict equality.
+ *
+ * @example
+ *
+ * ```
+ * const hasEditOccurred = (
+ *    getReferenceByDistinctEdits( beforeState ) !==
+ *    getReferenceByDistinctEdits( afterState )
+ * );
+ * ```
+ *
+ * @param {Object} state Editor state.
+ *
+ * @return {*} A value whose reference will change only when an edit occurs.
+ */
+
+var getReferenceByDistinctEdits = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function () {
+  return [];
+}, function (state) {
+  return [state.editor];
+});
+/**
  * Returns an attribute value of the saved post.
  *
  * @param {Object} state         Global application state.
@@ -27939,11 +27989,31 @@ function isEditedPostSaveable(state) {
  */
 
 function isEditedPostEmpty(state) {
-  // While the condition of truthy content string would be sufficient for
-  // determining emptiness, testing saveable blocks length is a trivial
-  // operation by comparison. Since this function can be called frequently,
-  // optimize for the fast case where saveable blocks are non-empty.
-  return !getBlocksForSerialization(state).length && !getEditedPostAttribute(state, 'content');
+  var blocks = getBlocksForSerialization(state); // While the condition of truthy content string is sufficient to determine
+  // emptiness, testing saveable blocks length is a trivial operation. Since
+  // this function can be called frequently, optimize for the fast case as a
+  // condition of the mere existence of blocks. Note that the value of edited
+  // content is used in place of blocks, thus allowed to fall through.
+
+  if (blocks.length && !('content' in getPostEdits(state))) {
+    // Pierce the abstraction of the serializer in knowing that blocks are
+    // joined with with newlines such that even if every individual block
+    // produces an empty save result, the serialized content is non-empty.
+    if (blocks.length > 1) {
+      return false;
+    } // Freeform and unregistered blocks omit comment delimiters in their
+    // output. The freeform block specifically may produce an empty string
+    // to save. In the case of a single freeform block, fall through to the
+    // full serialize. Otherwise, the single block is assumed non-empty by
+    // virtue of its comment delimiters.
+
+
+    if (blocks[0].name !== Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__["getFreeformContentHandlerName"])()) {
+      return false;
+    }
+  }
+
+  return !getEditedPostContent(state);
 }
 /**
  * Returns true if the post can be autosaved, or false otherwise.
@@ -28067,7 +28137,7 @@ var getBlockDependantsCacheBust = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["de
  */
 
 function getBlockName(state, clientId) {
-  var block = state.editor.present.blocksByClientId[clientId];
+  var block = state.editor.present.blocks.byClientId[clientId];
   return block ? block.name : null;
 }
 /**
@@ -28083,7 +28153,7 @@ function getBlockName(state, clientId) {
  */
 
 var getBlock = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (state, clientId) {
-  var block = state.editor.present.blocksByClientId[clientId];
+  var block = state.editor.present.blocks.byClientId[clientId];
 
   if (!block) {
     return null;
@@ -28115,7 +28185,7 @@ var getBlock = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (
     innerBlocks: getBlocks(state, clientId)
   });
 }, function (state, clientId) {
-  return [state.editor.present.blocksByClientId[clientId], getBlockDependantsCacheBust(state, clientId), state.editor.present.edits.meta, state.currentPost.meta];
+  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId), state.editor.present.edits.meta, state.currentPost.meta];
 });
 
 function getPostMeta(state, key) {
@@ -28140,7 +28210,7 @@ var getBlocks = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function 
     return getBlock(state, clientId);
   });
 }, function (state) {
-  return [state.editor.present.blockOrder, state.editor.present.blocksByClientId];
+  return [state.editor.present.blocks];
 });
 /**
  * Returns an array containing the clientIds of all descendants
@@ -28171,7 +28241,7 @@ var getClientIdsWithDescendants = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["de
   var topLevelIds = getBlockOrder(state);
   return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(topLevelIds).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(getClientIdsOfDescendants(state, topLevelIds)));
 }, function (state) {
-  return [state.editor.present.blockOrder];
+  return [state.editor.present.blocks.order];
 });
 /**
  * Returns the total number of blocks, or the total number of blocks with a specific name in a post.
@@ -28185,14 +28255,14 @@ var getClientIdsWithDescendants = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["de
 
 var getGlobalBlockCount = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (state, blockName) {
   if (!blockName) {
-    return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(state.editor.present.blocksByClientId);
+    return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(state.editor.present.blocks.byClientId);
   }
 
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["reduce"])(state.editor.present.blocksByClientId, function (count, block) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["reduce"])(state.editor.present.blocks.byClientId, function (count, block) {
     return block.name === blockName ? count + 1 : count;
   }, 0);
 }, function (state) {
-  return [state.editor.present.blocksByClientId];
+  return [state.editor.present.blocks.byClientId];
 });
 /**
  * Given an array of block client IDs, returns the corresponding array of block
@@ -28209,7 +28279,7 @@ var getBlocksByClientId = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])
     return getBlock(state, clientId);
   });
 }, function (state) {
-  return [state.editor.present.blocksByClientId, state.editor.present.blockOrder, state.editor.present.edits.meta, state.currentPost.meta, state.editor.present.blocksByClientId];
+  return [state.editor.present.edits.meta, state.currentPost.meta, state.editor.present.blocks];
 });
 /**
  * Returns the number of blocks currently present in the post.
@@ -28319,17 +28389,17 @@ function getSelectedBlock(state) {
  */
 
 var getBlockRootClientId = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (state, clientId) {
-  var blockOrder = state.editor.present.blockOrder;
+  var order = state.editor.present.blocks.order;
 
-  for (var rootClientId in blockOrder) {
-    if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["includes"])(blockOrder[rootClientId], clientId)) {
+  for (var rootClientId in order) {
+    if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["includes"])(order[rootClientId], clientId)) {
       return rootClientId;
     }
   }
 
   return null;
 }, function (state) {
-  return [state.editor.present.blockOrder];
+  return [state.editor.present.blocks.order];
 });
 /**
  * Given a block client ID, returns the root of the hierarchy from which the block is nested, return the block itself for root level blocks.
@@ -28351,7 +28421,7 @@ var getBlockHierarchyRootClientId = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["
 
   return current;
 }, function (state) {
-  return [state.editor.present.blockOrder];
+  return [state.editor.present.blocks.order];
 });
 /**
  * Returns the client ID of the block adjacent one at the given reference
@@ -28398,8 +28468,8 @@ function getAdjacentBlockClientId(state, startClientId) {
     return null;
   }
 
-  var blockOrder = state.editor.present.blockOrder;
-  var orderSet = blockOrder[rootClientId];
+  var order = state.editor.present.blocks.order;
+  var orderSet = order[rootClientId];
   var index = orderSet.indexOf(startClientId);
   var nextIndex = index + 1 * modifier; // Block was first in set and we're attempting to get previous.
 
@@ -28502,7 +28572,7 @@ var getMultiSelectedBlockClientIds = Object(rememo__WEBPACK_IMPORTED_MODULE_4__[
 
   return blockOrder.slice(startIndex, endIndex + 1);
 }, function (state) {
-  return [state.editor.present.blockOrder, state.blockSelection.start, state.blockSelection.end];
+  return [state.editor.present.blocks.order, state.blockSelection.start, state.blockSelection.end];
 });
 /**
  * Returns the current multi-selection set of blocks, or an empty array if
@@ -28524,7 +28594,7 @@ var getMultiSelectedBlocks = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default
     return getBlock(state, clientId);
   });
 }, function (state) {
-  return [state.editor.present.blockOrder, state.blockSelection.start, state.blockSelection.end, state.editor.present.blocksByClientId, state.editor.present.edits.meta, state.currentPost.meta];
+  return [state.editor.present.blocks.order, state.blockSelection.start, state.blockSelection.end, state.editor.present.blocks.byClientId, state.editor.present.edits.meta, state.currentPost.meta];
 });
 /**
  * Returns the client ID of the first block in the multi-selection set, or null
@@ -28599,7 +28669,7 @@ var isAncestorMultiSelected = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["defaul
 
   return isMultiSelected;
 }, function (state) {
-  return [state.editor.present.blockOrder, state.blockSelection.start, state.blockSelection.end];
+  return [state.editor.present.blocks.order, state.blockSelection.start, state.blockSelection.end];
 });
 /**
  * Returns the client ID of the block which begins the multi-selection set, or
@@ -28661,7 +28731,7 @@ function getMultiSelectedBlocksEndClientId(state) {
  */
 
 function getBlockOrder(state, rootClientId) {
-  return state.editor.present.blockOrder[rootClientId || ''] || EMPTY_ARRAY;
+  return state.editor.present.blocks.order[rootClientId || ''] || EMPTY_ARRAY;
 }
 /**
  * Returns the index at which the block corresponding to the specified client
@@ -29045,24 +29115,20 @@ var getEditedPostContent = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"]
 
   return content;
 }, function (state) {
-  return [state.editor.present.edits.content, state.editor.present.blocksByClientId, state.editor.present.blockOrder];
+  return [state.editor.present.edits.content, state.editor.present.blocks];
 });
 /**
- * Determines if the given block type is allowed to be inserted, and, if
- * parentClientId is provided, whether it is allowed to be nested within the
- * given parent.
+ * Determines if the given block type is allowed to be inserted into the block list.
  *
- * @param {Object}  state          Editor state.
- * @param {string}  blockName      The name of the given block type, e.g.
- *                                 'core/paragraph'.
- * @param {?string} parentClientId The parent that the given block is to be
- *                                 nested within, or null.
+ * @param {Object}  state        Editor state.
+ * @param {string}  blockName    The name of the block type, e.g.' core/paragraph'.
+ * @param {?string} rootClientId Optional root client ID of block list.
  *
  * @return {boolean} Whether the given block type is allowed to be inserted.
  */
 
 var canInsertBlockType = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (state, blockName) {
-  var parentClientId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var rootClientId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
   var checkAllowList = function checkAllowList(list, item) {
     var defaultResult = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -29093,17 +29159,17 @@ var canInsertBlockType = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(
     return false;
   }
 
-  var isLocked = !!getTemplateLock(state, parentClientId);
+  var isLocked = !!getTemplateLock(state, rootClientId);
 
   if (isLocked) {
     return false;
   }
 
-  var parentBlockListSettings = getBlockListSettings(state, parentClientId);
+  var parentBlockListSettings = getBlockListSettings(state, rootClientId);
   var parentAllowedBlocks = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(parentBlockListSettings, ['allowedBlocks']);
   var hasParentAllowedBlock = checkAllowList(parentAllowedBlocks, blockName);
   var blockAllowedParentBlocks = blockType.parent;
-  var parentName = getBlockName(state, parentClientId);
+  var parentName = getBlockName(state, rootClientId);
   var hasBlockAllowedParent = checkAllowList(blockAllowedParentBlocks, parentName);
 
   if (hasParentAllowedBlock !== null && hasBlockAllowedParent !== null) {
@@ -29115,8 +29181,8 @@ var canInsertBlockType = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(
   }
 
   return true;
-}, function (state, blockName, parentClientId) {
-  return [state.blockListSettings[parentClientId], state.editor.present.blocksByClientId[parentClientId], state.settings.allowedBlockTypes, state.settings.templateLock];
+}, function (state, blockName, rootClientId) {
+  return [state.blockListSettings[rootClientId], state.editor.present.blocks.byClientId[rootClientId], state.settings.allowedBlockTypes, state.settings.templateLock];
 });
 /**
  * Returns information about how recently and frequently a block has been inserted.
@@ -29152,8 +29218,8 @@ function getInsertUsage(state, id) {
  *
  * Items are returned ordered descendingly by their 'utility' and 'frecency'.
  *
- * @param {Object}  state          Editor state.
- * @param {?string} parentClientId The block we are inserting into, if any.
+ * @param {Object}  state        Editor state.
+ * @param {?string} rootClientId Optional root client ID of block list.
  *
  * @return {Editor.InserterItem[]} Items that appear in inserter.
  *
@@ -29173,7 +29239,7 @@ function getInsertUsage(state, id) {
 
 
 var getInserterItems = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(function (state) {
-  var parentClientId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var rootClientId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
   var calculateUtility = function calculateUtility(category, count, isContextual) {
     if (isContextual) {
@@ -29216,7 +29282,7 @@ var getInserterItems = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(fu
       return false;
     }
 
-    return canInsertBlockType(state, blockType.name, parentClientId);
+    return canInsertBlockType(state, blockType.name, rootClientId);
   };
 
   var buildBlockTypeInserterItem = function buildBlockTypeInserterItem(blockType) {
@@ -29252,7 +29318,7 @@ var getInserterItems = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(fu
   };
 
   var shouldIncludeReusableBlock = function shouldIncludeReusableBlock(reusableBlock) {
-    if (!canInsertBlockType(state, 'core/block', parentClientId)) {
+    if (!canInsertBlockType(state, 'core/block', rootClientId)) {
       return false;
     }
 
@@ -29268,7 +29334,7 @@ var getInserterItems = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(fu
       return false;
     }
 
-    if (!canInsertBlockType(state, referencedBlockType.name, parentClientId)) {
+    if (!canInsertBlockType(state, referencedBlockType.name, rootClientId)) {
       return false;
     }
 
@@ -29308,8 +29374,8 @@ var getInserterItems = Object(rememo__WEBPACK_IMPORTED_MODULE_4__["default"])(fu
   var reusableBlockInserterItems = __experimentalGetReusableBlocks(state).filter(shouldIncludeReusableBlock).map(buildReusableBlockInserterItem);
 
   return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["orderBy"])(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(blockTypeInserterItems).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(reusableBlockInserterItems)), ['utility', 'frecency'], ['desc', 'desc']);
-}, function (state, parentClientId) {
-  return [state.blockListSettings[parentClientId], state.editor.present.blockOrder, state.editor.present.blocksByClientId, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])()];
+}, function (state, rootClientId) {
+  return [state.blockListSettings[rootClientId], state.editor.present.blocks, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__["getBlockTypes"])()];
 });
 /**
  * Returns the reusable block with the given ID.
@@ -30378,10 +30444,16 @@ var withHistory = function withHistory() {
         return state;
       }
 
-      var nextPast = past;
+      var nextPast = past; // The `lastAction` property is used to compare actions in the
+      // `shouldOverwriteState` option. If an action should be ignored, do not
+      // submit that action as the last action, otherwise the ability to
+      // compare subsequent actions will break.
+
+      var lastActionToSubmit = previousAction;
 
       if (shouldCreateUndoLevel || !past.length || !shouldOverwriteState(action, previousAction)) {
         nextPast = Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(past).concat([present]);
+        lastActionToSubmit = action;
       }
 
       return {
@@ -30389,7 +30461,7 @@ var withHistory = function withHistory() {
         present: nextPresent,
         future: [],
         shouldCreateUndoLevel: false,
-        lastAction: action
+        lastAction: lastActionToSubmit
       };
     };
   };
@@ -38155,17 +38227,6 @@ module.exports = function(module) {
 	return module;
 };
 
-
-/***/ }),
-
-/***/ "@wordpress/a11y":
-/*!***************************************!*\
-  !*** external {"this":["wp","a11y"]} ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 
