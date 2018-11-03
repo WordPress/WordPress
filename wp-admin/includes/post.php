@@ -1958,7 +1958,7 @@ function get_block_categories( $post ) {
 		array(
 			'slug'  => 'common',
 			'title' => __( 'Common Blocks' ),
-			'icon'  => 'screenoptions',
+			'icon'  => null,
 		),
 		array(
 			'slug'  => 'formatting',
@@ -2060,6 +2060,10 @@ function the_block_editor_meta_boxes() {
 	<form class="metabox-base-form">
 	<?php the_block_editor_meta_box_post_form_hidden_fields( $post ); ?>
 	</form>
+	<form id="toggle-custom-fields-form" method="post" action="<?php echo esc_attr( admin_url( 'post.php' ) ); ?>">
+		<?php wp_nonce_field( 'toggle-custom-fields' ); ?>
+		<input type="hidden" name="action" value="toggle-custom-fields" />
+	</form>
 	<?php foreach ( $locations as $location ) : ?>
 		<form class="metabox-location-<?php echo esc_attr( $location ); ?>">
 			<div id="poststuff" class="sidebar-open">
@@ -2133,6 +2137,29 @@ function the_block_editor_meta_boxes() {
 	 */
 	if ( wp_script_is( 'wp-edit-post', 'done' ) ) {
 		printf( "<script type='text/javascript'>\n%s\n</script>\n", trim( $script ) );
+	}
+
+	/**
+	 * If the 'postcustom' meta box is enabled, then we need to perform some
+	 * extra initialization on it.
+	 */
+	$enable_custom_fields = (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true );
+	if ( $enable_custom_fields ) {
+		$script = "( function( $ ) {
+			if ( $('#postcustom').length ) {
+				$( '#the-list' ).wpList( {
+					addBefore: function( s ) {
+						s.data += '&post_id=$post->ID';
+						return s;
+					},
+					addAfter: function() {
+						$('table#list-table').show();
+					}
+				});
+			}
+		} )( jQuery );";
+ 		wp_enqueue_script( 'wp-lists' );
+		wp_add_inline_script( 'wp-lists', $script );
 	}
 
 	// Reset meta box data.
