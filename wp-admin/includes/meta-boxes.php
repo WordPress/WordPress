@@ -1360,11 +1360,12 @@ function register_and_do_post_meta_boxes( $post ) {
 	if ( post_type_supports($post_type, 'trackbacks') )
 		add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
 
-	if ( post_type_supports($post_type, 'custom-fields') )
+	if ( post_type_supports($post_type, 'custom-fields') ) {
 		$screen = get_current_screen();
 		if ( ! $screen || ! $screen->is_block_editor() || (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ) ) {
 			add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => false, '__block_editor_compatible_meta_box' => true ) );
 		}
+	}
 
 	/**
 	 * Fires in the middle of built-in meta box registration.
