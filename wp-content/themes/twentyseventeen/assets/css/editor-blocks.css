@@ -25,6 +25,10 @@ Description: Used to style Gutenberg Blocks in the editor.
 	font-size: 0.9375rem;
 }
 
+.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
 .edit-post-visual-editor .editor-block-list__block {
 	color: #333;
 }
@@ -346,10 +350,12 @@ html[lang="th"] .edit-post-visual-editor * {
 
 /* Main column width */
 
-body.gutenberg-editor-page .edit-post-visual-editor .editor-post-title__block,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-default-block-appender,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-block-list__block {
-	max-width: 740px;
+.editor-styles-wrapper {
+	max-width: 100% !important; /* Override where editor-style.css is affecting this. */
+}
+
+.wp-block {
+	max-width: 674px; /* Based on one-column post width; 644px + 30px to account for padding. */
 }
 
 /* Background color */
@@ -695,7 +701,7 @@ table.wp-block-table td:last-child {
 5.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
 
-/* Separators */
+/* Separator */
 
 .edit-post-visual-editor .wp-block-separator {
 	border: 0;
@@ -721,9 +727,24 @@ table.wp-block-table td:last-child {
 	transition: background-color 0.2s ease-in-out;
 	white-space: nowrap;
 }
+
+/* Media & Text */
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Widgets
 --------------------------------------------------------------*/
+
+/* Archives, Categories & Latest Posts */
+
+[data-align="center"] .wp-block-archives ul,
+[data-align="center"] .wp-block-categories ul,
+[data-align="center"] .wp-block-latest-posts ul {
+	list-style-position: inside;
+}
 
 /* Latest Comments */
 
