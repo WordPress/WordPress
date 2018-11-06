@@ -155,19 +155,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 4.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
 
-/* Columns */
-
-.wp-block-columns {
-	margin: 0 -0.5em;
-}
-.wp-block-column {
-	margin: 0 0.5em;
-}
-
 /* Separator */
 
 .wp-block-separator {
 	border: 0;
+}
+
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 24px;
 }
 
 /*--------------------------------------------------------------

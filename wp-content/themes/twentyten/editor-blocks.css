@@ -17,6 +17,16 @@ Description: Used to style Gutenberg Blocks in the editor.
 1.0 General Typography
 --------------------------------------------------------------*/
 
+.edit-post-visual-editor .editor-block-list__block,
+.edit-post-visual-editor .editor-block-list__block p,
+.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+	font-size: 16px;
+}
+
+.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+	font-family: Georgia, "Bitstream Charter", serif;
+}
+
 .edit-post-visual-editor .editor-block-list__block .mce-content-body,
 .wp-block-freeform.block-library-rich-text__tinymce p,
 .wp-block-freeform.block-library-rich-text__tinymce li {
@@ -65,10 +75,8 @@ Description: Used to style Gutenberg Blocks in the editor.
 
 /* Main column width */
 
-body.gutenberg-editor-page .edit-post-visual-editor .editor-post-title__block,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-default-block-appender,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-block-list__block {
-	max-width: 670px; /* 640px + 30px for padding */
+.wp-block {
+	max-width: 670px; /* 640px + 30px to account for padding */
 }
 
 /* Link styles */
@@ -218,9 +226,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-size: 18px;
 }
 
-/* Cover Image */
+/* Cover */
 
-.wp-block-cover-image-text {
+.wp-block-cover-image-text,
+.wp-block-cover-text {
 	font-size: 32px;
 }
 
