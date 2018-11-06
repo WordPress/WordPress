@@ -24,6 +24,10 @@ Description: Used to style Gutenberg Blocks in the editor.
 	font-size: 14px;
 }
 
+.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
 .edit-post-visual-editor .editor-block-list__block {
 	color: #444;
 }
@@ -70,10 +74,8 @@ Description: Used to style Gutenberg Blocks in the editor.
 
 /* Main column width */
 
-body.gutenberg-editor-page .edit-post-visual-editor .editor-post-title__block,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-default-block-appender,
-body.gutenberg-editor-page .edit-post-visual-editor .editor-block-list__block {
-	max-width: 655px;
+.wp-block {
+	max-width: 655px; /* 625px + 30px for padding */
 }
 
 /* Link styles */
@@ -218,9 +220,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	font-size: 18px;
 }
 
-/* Cover Image */
+/* Cover */
 
-.edit-post-visual-editor .editor-block-list__block .wp-block-cover-image p {
+.edit-post-visual-editor .editor-block-list__block .wp-block-cover-image p,
+.edit-post-visual-editor .editor-block-list__block .wp-block-cover p {
 	font-size: 28px;
 }
 
@@ -359,11 +362,26 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-right: auto;
 }
 
+/* Media & Text */
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Widgets
 --------------------------------------------------------------*/
 
+/* Archives, Categories & Latest Posts */
+
+[data-align="center"] .wp-block-archives ul,
+[data-align="center"] .wp-block-categories ul,
+[data-align="center"] .wp-block-latest-posts ul {
+	list-style-position: inside;
+}
+
 /* Archives */
+
 .gutenberg ul.wp-block-archives {
 	padding-left: 0;
 }
