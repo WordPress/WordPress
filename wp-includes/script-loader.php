@@ -43,7 +43,8 @@ require( ABSPATH . WPINC . '/functions.wp-styles.php' );
  */
 function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 	global $tinymce_version, $concatenate_scripts, $compress_scripts;
-	$suffix     = SCRIPT_DEBUG ? '' : '.min';
+	$suffix     = wp_scripts_get_suffix();
+	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	script_concat_settings();
 
@@ -52,12 +53,11 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 
 	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production) or
 	// tinymce.min.js (when SCRIPT_DEBUG is true).
-	$mce_suffix = false !== strpos( get_bloginfo( 'version' ), '-src' ) ? '' : '.min';
 	if ( $compressed ) {
 		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array(), $tinymce_version );
 	} else {
-		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$mce_suffix.js", array(), $tinymce_version );
-		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
+		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$dev_suffix.js", array(), $tinymce_version );
+		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$dev_suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
 	}
 
 	$scripts->add( 'wp-tinymce-lists', includes_url( "js/tinymce/plugins/lists/plugin$suffix.js", array( 'wp-tinymce' ), $tinymce_version ) );
@@ -74,8 +74,6 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
  * @param WP_Scripts $scripts WP_Scripts object.
  */
 function wp_default_packages_vendor( &$scripts ) {
-	wp_register_tinymce_scripts( $scripts );
-
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	$vendor_scripts = array(

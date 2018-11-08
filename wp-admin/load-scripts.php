@@ -32,7 +32,9 @@ $expires_offset = 31536000; // 1 year
 $out = '';
 
 $wp_scripts = new WP_Scripts();
-wp_default_scripts($wp_scripts);
+wp_default_scripts( $wp_scripts );
+wp_default_packages_vendor( $wp_scripts );
+wp_default_packages_scripts( $wp_scripts );
 
 if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) === $wp_version ) {
 	$protocol = $_SERVER['SERVER_PROTOCOL'];
