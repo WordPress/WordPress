@@ -115,13 +115,6 @@ if ( 'auto-draft' === $post->post_status ) {
 	);
 }
 
-// Prepare Jed locale data.
-$locale_data = wp_get_jed_locale_data( 'default' );
-wp_add_inline_script(
-	'wp-i18n',
-	'wp.i18n.setLocaleData( ' . wp_json_encode( $locale_data ) . ' );'
-);
-
 // Preload server-registered block schemas.
 wp_add_inline_script(
 	'wp-blocks',

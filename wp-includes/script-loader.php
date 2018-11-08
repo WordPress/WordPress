@@ -320,7 +320,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'html-entities' => array( 'wp-polyfill' ),
 		'i18n' => array( 'wp-polyfill' ),
 		'is-shallow-equal' => array( 'wp-polyfill' ),
-		'keycodes' => array( 'lodash', 'wp-polyfill' ),
+		'keycodes' => array( 'lodash', 'wp-polyfill', 'wp-i18n' ),
 		'list-reusable-blocks' => array(
 			'lodash',
 			'wp-api-fetch',
@@ -363,11 +363,28 @@ function wp_default_packages_scripts( &$scripts ) {
 		'wordcount' => array( 'wp-polyfill' ),
 	);
 
+	$package_translations = array(
+		'api-fetch' => 'default',
+		'blocks' => 'default',
+		'block-library' => 'default',
+		'components' => 'default',
+		'edit-post' => 'default',
+		'editor' => 'default',
+		'format-library' => 'default',
+		'keycodes' => 'default',
+		'list-reusable-blocks' => 'default',
+		'nux' => 'default',
+	);
+
 	foreach ( $packages_dependencies as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
 		$path    = "/wp-includes/js/dist/$package$suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
+
+		if ( isset( $package_translations[ $package ] ) ) {
+			$scripts->set_translations( $handle, $package_translations[ $package ] );
+		}
 	}
 }
 
