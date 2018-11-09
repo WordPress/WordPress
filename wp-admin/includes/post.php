@@ -2185,6 +2185,43 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	$current_user = wp_get_current_user();
 	$user_id      = $current_user->ID;
 	wp_nonce_field( $nonce_action );
+
+	/*
+	 * Some meta boxes hook into these actions to add hidden input fields in the classic post form. For backwards
+	 * compatibility, we can capture the output from these actions, and extract the hidden input fields.
+	 */
+	$actions = array(
+		'edit_form_after_title',
+		'edit_form_advanced',
+	);
+
+	foreach ( $actions as $action ) {
+		ob_start();
+		do_action_deprecated(
+			$action,
+			array( $post ),
+			'5.0.0',
+			'block_editor_meta_box_hidden_fields',
+			__( 'This action is still supported in the classic editor, but is deprecated in the block editor.' )
+		);
+		$classic_output = ob_get_clean();
+
+		if ( ! $classic_output ) {
+			continue;
+		}
+
+		$classic_elements = wp_html_split( $classic_output );
+		$hidden_inputs    = '';
+		foreach( $classic_elements as $element ) {
+			if ( 0 !== strpos( $element, '<input ') ) {
+				continue;
+			}
+
+			if ( preg_match( '/\stype=[\'"]hidden[\'"]\s/', $element ) ) {
+				echo $element;
+			}
+		}
+	}
 	?>
 	<input type="hidden" id="user-id" name="user_ID" value="<?php echo (int) $user_id; ?>" />
 	<input type="hidden" id="hiddenaction" name="action" value="<?php echo esc_attr( $form_action ); ?>" />
@@ -2202,4 +2239,16 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 	wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 	// Permalink title nonce.
 	wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
+
+	/**
+	 * Add hidden input fields to the meta box save form.
+	 *
+	 * Hook into this action to print `<input type="hidden" ... />` fields, which will be POSTed back to
+	 * the server when meta boxes are saved.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @params WP_Post $post The post that is being edited.
+	 */
+	do_action( 'block_editor_meta_box_hidden_fields', $post );
 }

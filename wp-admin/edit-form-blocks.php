@@ -386,10 +386,6 @@ do_action( 'enqueue_block_editor_assets' );
 require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
 register_and_do_post_meta_boxes( $post );
 
-// Some meta boxes hook into the 'edit_form_advanced' filter.
-/** This action is documented in wp-admin/edit-form-advanced.php */
-do_action( 'edit_form_advanced', $post );
-
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
