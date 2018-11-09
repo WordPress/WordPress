@@ -442,11 +442,6 @@ function wpautop( $pee, $br = true ) {
 	if ( trim($pee) === '' )
 		return '';
 
-	// We don't need to autop posts with blocks in them.
-	if ( has_blocks( $pee ) ) {
-		return $pee;
-	}
-
 	// Just to make things a little easier, pad the end.
 	$pee = $pee . "\n";
 
