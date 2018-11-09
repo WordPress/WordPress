@@ -2065,7 +2065,7 @@ function the_block_editor_meta_boxes() {
 		<input type="hidden" name="action" value="toggle-custom-fields" />
 	</form>
 	<?php foreach ( $locations as $location ) : ?>
-		<form class="metabox-location-<?php echo esc_attr( $location ); ?>">
+		<form class="metabox-location-<?php echo esc_attr( $location ); ?>" onsubmit="return false;">
 			<div id="poststuff" class="sidebar-open">
 				<div id="postbox-container-2" class="postbox-container">
 					<?php
