@@ -525,7 +525,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 		'wp_more',
 		'spellchecker',
 		'wp_add_media',
-		'kitchensink',
+		'wp_adv',
 	);
 
 	/* This filter is documented in wp-includes/class-wp-editor.php */

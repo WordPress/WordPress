@@ -361,6 +361,15 @@ div.mce-toolbar-grp > div {
 	margin: 0;
 }
 
+/* Classic block hide/show toolbars */
+.block-library-classic__toolbar .mce-toolbar-grp .mce-toolbar:not(:first-child) {
+	display: none;
+}
+
+.block-library-classic__toolbar.has-advanced-toolbar .mce-toolbar-grp .mce-toolbar {
+	display: block;
+}
+
 div.mce-statusbar {
 	border-top: 1px solid #e5e5e5;
 }
