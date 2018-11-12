@@ -114,41 +114,92 @@ function get_dynamic_block_names() {
 }
 
 /**
- * Remove all dynamic blocks from the given content.
+ * Parses blocks out of a content string, and renders those appropriate for the excerpt.
+ *
+ * As the excerpt should be a small string of text relevant to the full post content,
+ * this function renders the blocks that are most likely to contain such text.
  *
  * @since 5.0.0
  *
- * @param string $content Content of the current post.
- * @return string
+ * @param string $content The content to parse.
+ * @return string The parsed and filtered content.
  */
-function strip_dynamic_blocks( $content ) {
-	return _recurse_strip_dynamic_blocks( parse_blocks( $content ) );
+function excerpt_remove_blocks( $content ) {
+	$allowed_blocks = array(
+		// Classic blocks have their blockName set to null.
+		null,
+		'core/columns',
+		'core/freeform',
+		'core/heading',
+		'core/html',
+		'core/list',
+		'core/media-text',
+		'core/paragraph',
+		'core/preformatted',
+		'core/pullquote',
+		'core/quote',
+		'core/table',
+		'core/verse',
+	);
+	/**
+	 * Filters the list of blocks that can contribute to the excerpt.
+	 *
+	 * If a dynamic block is added to this list, it must not generate another
+	 * excerpt, as this will cause an infinite loop to occur.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $allowed_blocks The list of allowed blocks.
+	 */
+	$allowed_blocks = apply_filters( 'excerpt_allowed_blocks', $allowed_blocks );
+	$blocks = parse_blocks( $content );
+	$output = '';
+	 foreach ( $blocks as $block ) {
+		if ( in_array( $block['blockName'], $allowed_blocks, true ) ) {
+			$output .= render_block( $block );
+		}
+	}
+	 return $output;
 }
 
 /**
- * Helper function for strip_dynamic_blocks(), to recurse through the block tree.
+ * Renders a single block into a HTML string.
  *
  * @since 5.0.0
- * @access private
  *
- * @param array $blocks Array of blocks from parse_blocks().
- * @return string HTML from the non-dynamic blocks.
+ * @global WP_Post $post The post to edit.
+ *
+ * @param array $block A single parsed block object.
+ * @return string String of rendered HTML.
  */
-function _recurse_strip_dynamic_blocks( $blocks ) {
-	$clean_content  = '';
-	$dynamic_blocks = get_dynamic_block_names();
+function render_block( $block ) {
+	global $post;
 
-	foreach ( $blocks as $block ) {
-		if ( ! in_array( $block['blockName'], $dynamic_blocks ) ) {
-			if ( $block['innerBlocks'] ) {
-				$clean_content .= _recurse_strip_dynamic_blocks( $block['innerBlocks'] );
-			} else {
-				$clean_content .= $block['innerHTML'];
-			}
-		}
+	$block_type    = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
+	$is_dynamic    = $block['blockName'] && null !== $block_type && $block_type->is_dynamic();
+	$block_content = '';
+	$index         = 0;
+
+	foreach ( $block['innerContent'] as $chunk ) {
+		$block_content .= is_string( $chunk ) ? $chunk : render_block( $block['innerBlocks'][ $index++ ] );
 	}
 
-	return $clean_content;
+	if ( $is_dynamic ) {
+		$attributes    = is_array( $block['attrs'] ) ? (array) $block['attrs'] : array();
+		$global_post   = $post;
+		$block_content = $block_type->render( $attributes, $block_content );
+		$post          = $global_post;
+	}
+
+	/**
+	 * Filters the content of a single block.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $block_content The block content about to be appended.
+	 * @param array  $block         The full block, including name and attributes.
+	 */
+	return apply_filters( 'render_block', $block_content, $block );
 }
 
 /**
@@ -156,25 +207,10 @@ function _recurse_strip_dynamic_blocks( $blocks ) {
  *
  * @since 5.0.0
  *
- * @param  string $content Post content.
- * @return array  Array of parsed block objects.
+ * @param string $content Post content.
+ * @return array Array of parsed block objects.
  */
 function parse_blocks( $content ) {
-	/*
-	 * If there are no blocks in the content, return a single block, rather
-	 * than wasting time trying to parse the string.
-	 */
-	if ( ! has_blocks( $content ) ) {
-		return array(
-			array(
-				'blockName'   => null,
-				'attrs'       => array(),
-				'innerBlocks' => array(),
-				'innerHTML'   => $content,
-			),
-		);
-	}
-
 	/**
 	 * Filter to allow plugins to replace the server-side block parser
 	 *
@@ -206,7 +242,13 @@ function do_blocks( $content ) {
 	}
 
 	$blocks = parse_blocks( $content );
-	return _recurse_do_blocks( $blocks, $blocks );
+	$output = '';
+
+	foreach ( $blocks as $block ) {
+		$output .= render_block( $block );
+	}
+
+	return $output;
 }
 
 /**
@@ -228,67 +270,6 @@ function _restore_wpautop_hook( $content ) {
 	remove_filter( 'the_content', '_restore_wpautop_hook', $current_priority );
 
 	return $content;
-}
-
-/**
- * Helper function for do_blocks(), to recurse through the block tree.
- *
- * @since 5.0.0
- * @access private
- *
- * @param array $blocks     Array of blocks from parse_blocks().
- * @param array $all_blocks The top level array of blocks.
- * @return string The block HTML.
- */
-function _recurse_do_blocks( $blocks, $all_blocks ) {
-	global $post;
-
-	/*
-	 * Back up global post, to restore after render callback.
-	 * Allows callbacks to run new WP_Query instances without breaking the global post.
-	 */
-	$global_post = $post;
-
-	$rendered_content = '';
-	$dynamic_blocks   = get_dynamic_block_names();
-
-	foreach ( $blocks as $block ) {
-		$block = (array) $block;
-		if ( in_array( $block['blockName'], $dynamic_blocks ) ) {
-			// Find registered block type. We can assume it exists since we use the
-			// `get_dynamic_block_names` function as a source for pattern matching.
-			$block_type = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
-
-			// Replace dynamic block with server-rendered output.
-			$block_content = $block_type->render( (array) $block['attrs'], $block['innerHTML'] );
-		} else if ( $block['innerBlocks'] ) {
-			$block_content = _recurse_do_blocks( $block['innerBlocks'], $blocks );
-		} else {
-			$block_content = $block['innerHTML'];
-		}
-
-		/**
-		 * Filters the content of a single block.
-		 *
-		 * During the_content, each block is parsed and added to the output individually. This filter allows
-		 * that content to be altered immediately before it's appended.
-		 *
-		 * @since 5.0.0
-		 *
-		 * @param string $block_content The block content about to be appended.
-		 * @param array  $block         The full block, including name and attributes.
-		 * @param array  $all_blocks    The array of all blocks being processed.
-		 */
-		$rendered_content .= apply_filters( 'do_block', $block_content, $block, $all_blocks );
-
-		// Restore global $post.
-		$post = $global_post;
-	}
-
-	// Strip remaining block comment demarcations.
-	$rendered_content = preg_replace( '/<!--\s+\/?wp:.*?-->/m', '', $rendered_content );
-
-	return $rendered_content;
 }
 
 /**

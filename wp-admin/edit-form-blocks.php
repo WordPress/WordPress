@@ -103,15 +103,9 @@ if ( 'auto-draft' === $post->post_status ) {
 	$is_new_post = true;
 	// Override "(Auto Draft)" new post default title with empty string, or filtered value.
 	$initial_edits = array(
-		'title'   => array(
-			'raw' => $post->post_title,
-		),
-		'content' => array(
-			'raw' => $post->post_content,
-		),
-		'excerpt' => array(
-			'raw' => $post->post_excerpt,
-		),
+		'title'   => $post->post_title,
+		'content' => $post->post_content,
+		'excerpt' => $post->post_excerpt,
 	);
 }
 
@@ -202,8 +196,6 @@ if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 }
 
 // Image sizes.
-$image_sizes   = get_intermediate_image_sizes();
-$image_sizes[] = 'full';
 
 /** This filter is documented in wp-admin/includes/media.php */
 $image_size_names = apply_filters(
@@ -217,10 +209,10 @@ $image_size_names = apply_filters(
 );
 
 $available_image_sizes = array();
-foreach ( $image_sizes as $image_size_slug ) {
+foreach ( $image_size_names as $image_size_slug => $image_size_name ) {
 	$available_image_sizes[] = array(
 		'slug' => $image_size_slug,
-		'name' => isset( $image_size_names[ $image_size_slug ] ) ? $image_size_names[ $image_size_slug ] : $image_size_slug,
+		'name' => $image_size_name,
 	);
 }
 
@@ -259,10 +251,10 @@ if ( $user_id ) {
  *
  * @since 5.0.0
  *
- * @param string  $text Placeholder text. Default 'Write your story'.
+ * @param string  $text Placeholder text. Default 'Start writing or type / to choose a block'.
  * @param WP_Post $post Post object.
  */
-$body_placeholder = apply_filters( 'write_your_story', __( 'Write your story' ), $post );
+$body_placeholder = apply_filters( 'write_your_story', __( 'Start writing or type / to choose a block' ), $post );
 
 $editor_settings = array(
 	'alignWide'              => $align_wide,
@@ -279,7 +271,7 @@ $editor_settings = array(
 	'maxUploadFileSize'      => $max_upload_size,
 	'allowedMimeTypes'       => get_allowed_mime_types(),
 	'styles'                 => $styles,
-	'availableImageSizes'    => $available_image_sizes,
+	'imageSizes'             => $available_image_sizes,
 	'postLock'               => $lock_details,
 	'postLockUtils'          => array(
 		'nonce'       => wp_create_nonce( 'lock-post_' . $post->ID ),
