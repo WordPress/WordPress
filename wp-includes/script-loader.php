@@ -2252,7 +2252,7 @@ function script_concat_settings() {
 function wp_common_block_scripts_and_styles() {
 	global $current_screen;
 
-	if ( is_admin() && ! $current_screen->is_block_editor() ) {
+	if ( ( $current_screen instanceof WP_Screen ) && ! $current_screen->is_block_editor() ) {
 		return;
 	}
 
@@ -2286,7 +2286,7 @@ function wp_common_block_scripts_and_styles() {
 function wp_enqueue_registered_block_scripts_and_styles() {
 	global $current_screen;
 
-	$is_editor = ( is_admin() && $current_screen->is_block_editor() );
+	$is_editor = ( ( $current_screen instanceof WP_Screen ) && $current_screen->is_block_editor() );
 
 	$block_registry = WP_Block_Type_Registry::get_instance();
 	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
