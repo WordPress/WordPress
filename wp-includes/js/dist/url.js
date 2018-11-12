@@ -151,12 +151,22 @@ function _objectSpread(target) {
 /*!***********************************************************!*\
   !*** ./node_modules/@wordpress/url/build-module/index.js ***!
   \***********************************************************/
-/*! exports provided: isURL, addQueryArgs, getQueryArg, hasQueryArg, removeQueryArgs, prependHTTP, safeDecodeURI, filterURLForDisplay */
+/*! exports provided: isURL, getProtocol, isValidProtocol, getAuthority, isValidAuthority, getPath, isValidPath, getQueryString, isValidQueryString, getFragment, isValidFragment, addQueryArgs, getQueryArg, hasQueryArg, removeQueryArgs, prependHTTP, safeDecodeURI, filterURLForDisplay */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProtocol", function() { return getProtocol; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidProtocol", function() { return isValidProtocol; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAuthority", function() { return getAuthority; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidAuthority", function() { return isValidAuthority; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPath", function() { return getPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidPath", function() { return isValidPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getQueryString", function() { return getQueryString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidQueryString", function() { return isValidQueryString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFragment", function() { return getFragment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidFragment", function() { return isValidFragment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getQueryArg", function() { return getQueryArg; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasQueryArg", function() { return hasQueryArg; });
@@ -186,6 +196,156 @@ var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
 
 function isURL(url) {
   return URL_REGEXP.test(url);
+}
+/**
+ * Returns the protocol part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The protocol part of the URL.
+ */
+
+function getProtocol(url) {
+  var matches = /^([^\s:]+:)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Tests if a url protocol is valid.
+ *
+ * @param {string} protocol The url protocol.
+ *
+ * @return {boolean} True if the argument is a valid protocol (e.g. http://, tel:).
+ */
+
+function isValidProtocol(protocol) {
+  if (!protocol) {
+    return false;
+  }
+
+  return /^[a-z\-.\+]+[0-9]*:(?:\/\/)?\/?$/i.test(protocol);
+}
+/**
+ * Returns the authority part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The authority part of the URL.
+ */
+
+function getAuthority(url) {
+  var matches = /^[^\/\s:]+:(?:\/\/)?\/?([^\/\s#?]+)[\/#?]{0,1}\S*$/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided authority.
+ *
+ * @param {string} authority A string containing the URL authority.
+ *
+ * @return {boolean} True if the argument contains a valid authority.
+ */
+
+function isValidAuthority(authority) {
+  if (!authority) {
+    return false;
+  }
+
+  return /^[^\s#?]+$/.test(authority);
+}
+/**
+ * Returns the path part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The path part of the URL.
+ */
+
+function getPath(url) {
+  var matches = /^[^\/\s:]+:(?:\/\/)?[^\/\s#?]+[\/]([^\s#?]+)[#?]{0,1}\S*$/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided path.
+ *
+ * @param {string} path The URL path.
+ *
+ * @return {boolean} True if the argument contains a valid path
+ */
+
+function isValidPath(path) {
+  if (!path) {
+    return false;
+  }
+
+  return /^[^\s#?]+$/.test(path);
+}
+/**
+ * Returns the query string part of the URL.
+ *
+ * @param {string} url The full URL.
+ *
+ * @return {?string} The query string part of the URL.
+ */
+
+function getQueryString(url) {
+  var matches = /^\S+?\?([^\s#]+)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided query string.
+ *
+ * @param {string} queryString The query string.
+ *
+ * @return {boolean} True if the argument contains a valid query string.
+ */
+
+function isValidQueryString(queryString) {
+  if (!queryString) {
+    return false;
+  }
+
+  return /^[^\s#?\/]+$/.test(queryString);
+}
+/**
+ * Returns the fragment part of the URL.
+ *
+ * @param {string} url The full URL
+ *
+ * @return {?string} The fragment part of the URL.
+ */
+
+function getFragment(url) {
+  var matches = /^\S+(#[^\s\?]*)/.exec(url);
+
+  if (matches) {
+    return matches[1];
+  }
+}
+/**
+ * Checks for invalid characters within the provided fragment.
+ *
+ * @param {string} fragment The url fragment.
+ *
+ * @return {boolean} True if the argument contains a valid fragment.
+ */
+
+function isValidFragment(fragment) {
+  if (!fragment) {
+    return false;
+  }
+
+  return /^#[^\s#?\/]*$/.test(fragment);
 }
 /**
  * Appends arguments to the query string of the url

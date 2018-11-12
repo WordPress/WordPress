@@ -91,7 +91,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["date"] =
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/date/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: setSettings, __experimentalGetSettings, getSettings, moment, format, date, gmdate, dateI18n */
+/*! exports provided: setSettings, __experimentalGetSettings, getSettings, moment, format, date, gmdate, dateI18n, isInTheFuture, getDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -104,6 +104,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "date", function() { return date; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gmdate", function() { return gmdate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateI18n", function() { return dateI18n; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isInTheFuture", function() { return isInTheFuture; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDate", function() { return getDate; });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "moment");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
@@ -241,6 +243,12 @@ function setupWPTimezone() {
 
 
 var moment = function moment() {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('wp.date.moment', {
+    version: '4.4',
+    alternative: 'the moment script as a dependency',
+    plugin: 'Gutenberg'
+  });
+
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
@@ -514,6 +522,34 @@ function dateI18n(dateFormat) {
   dateMoment.locale(settings.l10n.locale); // Format and return.
 
   return format(dateFormat, dateMoment);
+}
+/**
+ * Check whether a date is considered in the future according to the WordPress settings.
+ *
+ * @param {string} dateValue Date String or Date object in the Defined WP Timezone.
+ *
+ * @return {boolean} Is in the future.
+ */
+
+function isInTheFuture(dateValue) {
+  var now = moment__WEBPACK_IMPORTED_MODULE_0___default.a.tz('WP');
+  var momentObject = moment__WEBPACK_IMPORTED_MODULE_0___default.a.tz(dateValue, 'WP');
+  return momentObject.isAfter(now);
+}
+/**
+ * Create and return a JavaScript Date Object from a date string in the WP timezone.
+ *
+ * @param {string?} dateString Date formatted in the WP timezone.
+ *
+ * @return {Date} Date
+ */
+
+function getDate(dateString) {
+  if (!dateString) {
+    return moment__WEBPACK_IMPORTED_MODULE_0___default.a.tz('WP').toDate();
+  }
+
+  return moment__WEBPACK_IMPORTED_MODULE_0___default.a.tz(dateString, 'WP').toDate();
 }
 setupWPTimezone();
 

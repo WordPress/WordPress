@@ -6335,7 +6335,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
 
 
 
@@ -6347,6 +6349,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
+
 
 /**
  * Internal dependencies
@@ -6367,8 +6370,9 @@ function (_Component) {
     _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__["default"])(Dropdown).apply(this, arguments));
     _this.toggle = _this.toggle.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.close = _this.close.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
+    _this.closeIfClickOutside = _this.closeIfClickOutside.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.refresh = _this.refresh.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
-    _this.popoverRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createRef"])();
+    _this.containerRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createRef"])();
     _this.state = {
       isOpen: false
     };
@@ -6399,14 +6403,17 @@ function (_Component) {
      * When contents change height due to user interaction,
      * `refresh` can be called to re-render Popover with correct
      * attributes which allow scroll, if need be.
+     * @deprecated
      */
 
   }, {
     key: "refresh",
     value: function refresh() {
-      if (this.popoverRef.current) {
-        this.popoverRef.current.refresh();
-      }
+      _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default()('Dropdown.refresh()', {
+        plugin: 'Gutenberg',
+        version: '4.5',
+        hint: 'Popover is now automatically re-rendered without needing to execute "refresh"'
+      });
     }
   }, {
     key: "toggle",
@@ -6416,6 +6423,22 @@ function (_Component) {
           isOpen: !state.isOpen
         };
       });
+    }
+    /**
+     * Closes the dropdown if a click occurs outside the dropdown wrapper. This
+     * is intentionally distinct from `onClose` in that a click outside the
+     * popover may occur in the toggling of the dropdown via its toggle button.
+     * The correct behavior is to keep the dropdown closed.
+     *
+     * @param {MouseEvent} event Click event triggering `onClickOutside`.
+     */
+
+  }, {
+    key: "closeIfClickOutside",
+    value: function closeIfClickOutside(event) {
+      if (!this.containerRef.current.contains(event.target)) {
+        this.close();
+      }
     }
   }, {
     key: "close",
@@ -6443,12 +6466,13 @@ function (_Component) {
         onClose: this.close
       };
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
-        className: className
-      }, renderToggle(args), isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_popover__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        className: className,
+        ref: this.containerRef
+      }, renderToggle(args), isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_popover__WEBPACK_IMPORTED_MODULE_8__["default"], {
         className: contentClassName,
-        ref: this.popoverRef,
         position: position,
         onClose: this.close,
+        onClickOutside: this.closeIfClickOutside,
         expandOnMobile: expandOnMobile,
         headerTitle: headerTitle
       }, renderContent(args)));
@@ -6703,7 +6727,8 @@ function FontSizePicker(_ref) {
       disableCustomFontSizes = _ref$disableCustomFon === void 0 ? false : _ref$disableCustomFon,
       onChange = _ref.onChange,
       value = _ref.value,
-      withSlider = _ref.withSlider;
+      _ref$withSlider = _ref.withSlider,
+      withSlider = _ref$withSlider === void 0 ? false : _ref$withSlider;
 
   var onChangeValue = function onChangeValue(event) {
     var newValue = event.target.value;
@@ -9322,7 +9347,7 @@ function Icon(_ref) {
 /*!******************************************************************!*\
   !*** ./node_modules/@wordpress/components/build-module/index.js ***!
   \******************************************************************/
-/*! exports provided: Autocomplete, BaseControl, Button, ButtonGroup, CheckboxControl, ClipboardButton, ColorIndicator, ColorPalette, ColorPicker, Dashicon, DateTimePicker, DatePicker, TimePicker, Disabled, Draggable, DropZone, DropZoneProvider, Dropdown, DropdownMenu, ExternalLink, FocusableIframe, FontSizePicker, FormFileUpload, FormToggle, FormTokenField, Icon, IconButton, KeyboardShortcuts, MenuGroup, MenuItem, MenuItemsChoice, Modal, ScrollLock, NavigableMenu, TabbableContainer, Notice, NoticeList, Panel, PanelBody, PanelColor, PanelHeader, PanelRow, Placeholder, Popover, QueryControls, RadioControl, RangeControl, ResizableBox, ResponsiveWrapper, SandBox, SelectControl, Spinner, ServerSideRender, TabPanel, TextControl, TextareaControl, ToggleControl, Toolbar, ToolbarButton, Tooltip, TreeSelect, createSlotFill, Slot, Fill, SlotFillProvider, navigateRegions, withConstrainedTabbing, withFallbackStyles, withFilters, withFocusOutside, withFocusReturn, withNotices, withSpokenMessages, Circle, G, Path, Polygon, Rect, SVG */
+/*! exports provided: Autocomplete, BaseControl, Button, ButtonGroup, CheckboxControl, ClipboardButton, ColorIndicator, ColorPalette, ColorPicker, Dashicon, DateTimePicker, DatePicker, TimePicker, Disabled, Draggable, DropZone, DropZoneProvider, Dropdown, DropdownMenu, ExternalLink, FocusableIframe, FontSizePicker, FormFileUpload, FormToggle, FormTokenField, Icon, IconButton, KeyboardShortcuts, MenuGroup, MenuItem, MenuItemsChoice, Modal, ScrollLock, NavigableMenu, TabbableContainer, Notice, NoticeList, Panel, PanelBody, PanelHeader, PanelRow, Placeholder, Popover, QueryControls, RadioControl, RangeControl, ResizableBox, ResponsiveWrapper, SandBox, SelectControl, Spinner, ServerSideRender, TabPanel, TextControl, TextareaControl, ToggleControl, Toolbar, ToolbarButton, Tooltip, TreeSelect, createSlotFill, Slot, Fill, SlotFillProvider, navigateRegions, withConstrainedTabbing, withFallbackStyles, withFilters, withFocusOutside, withFocusReturn, withNotices, withSpokenMessages, Circle, G, Path, Polygon, Rect, SVG */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9454,108 +9479,104 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _panel_body__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./panel/body */ "./node_modules/@wordpress/components/build-module/panel/body.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelBody", function() { return _panel_body__WEBPACK_IMPORTED_MODULE_36__["default"]; });
 
-/* harmony import */ var _panel_color__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./panel/color */ "./node_modules/@wordpress/components/build-module/panel/color.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelColor", function() { return _panel_color__WEBPACK_IMPORTED_MODULE_37__["default"]; });
+/* harmony import */ var _panel_header__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./panel/header */ "./node_modules/@wordpress/components/build-module/panel/header.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelHeader", function() { return _panel_header__WEBPACK_IMPORTED_MODULE_37__["default"]; });
 
-/* harmony import */ var _panel_header__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./panel/header */ "./node_modules/@wordpress/components/build-module/panel/header.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelHeader", function() { return _panel_header__WEBPACK_IMPORTED_MODULE_38__["default"]; });
+/* harmony import */ var _panel_row__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./panel/row */ "./node_modules/@wordpress/components/build-module/panel/row.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelRow", function() { return _panel_row__WEBPACK_IMPORTED_MODULE_38__["default"]; });
 
-/* harmony import */ var _panel_row__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./panel/row */ "./node_modules/@wordpress/components/build-module/panel/row.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PanelRow", function() { return _panel_row__WEBPACK_IMPORTED_MODULE_39__["default"]; });
+/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./placeholder */ "./node_modules/@wordpress/components/build-module/placeholder/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Placeholder", function() { return _placeholder__WEBPACK_IMPORTED_MODULE_39__["default"]; });
 
-/* harmony import */ var _placeholder__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./placeholder */ "./node_modules/@wordpress/components/build-module/placeholder/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Placeholder", function() { return _placeholder__WEBPACK_IMPORTED_MODULE_40__["default"]; });
+/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Popover", function() { return _popover__WEBPACK_IMPORTED_MODULE_40__["default"]; });
 
-/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Popover", function() { return _popover__WEBPACK_IMPORTED_MODULE_41__["default"]; });
+/* harmony import */ var _query_controls__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./query-controls */ "./node_modules/@wordpress/components/build-module/query-controls/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QueryControls", function() { return _query_controls__WEBPACK_IMPORTED_MODULE_41__["default"]; });
 
-/* harmony import */ var _query_controls__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./query-controls */ "./node_modules/@wordpress/components/build-module/query-controls/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "QueryControls", function() { return _query_controls__WEBPACK_IMPORTED_MODULE_42__["default"]; });
+/* harmony import */ var _radio_control__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./radio-control */ "./node_modules/@wordpress/components/build-module/radio-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RadioControl", function() { return _radio_control__WEBPACK_IMPORTED_MODULE_42__["default"]; });
 
-/* harmony import */ var _radio_control__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./radio-control */ "./node_modules/@wordpress/components/build-module/radio-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RadioControl", function() { return _radio_control__WEBPACK_IMPORTED_MODULE_43__["default"]; });
+/* harmony import */ var _range_control__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./range-control */ "./node_modules/@wordpress/components/build-module/range-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RangeControl", function() { return _range_control__WEBPACK_IMPORTED_MODULE_43__["default"]; });
 
-/* harmony import */ var _range_control__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./range-control */ "./node_modules/@wordpress/components/build-module/range-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RangeControl", function() { return _range_control__WEBPACK_IMPORTED_MODULE_44__["default"]; });
+/* harmony import */ var _resizable_box__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./resizable-box */ "./node_modules/@wordpress/components/build-module/resizable-box/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResizableBox", function() { return _resizable_box__WEBPACK_IMPORTED_MODULE_44__["default"]; });
 
-/* harmony import */ var _resizable_box__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./resizable-box */ "./node_modules/@wordpress/components/build-module/resizable-box/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResizableBox", function() { return _resizable_box__WEBPACK_IMPORTED_MODULE_45__["default"]; });
+/* harmony import */ var _responsive_wrapper__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./responsive-wrapper */ "./node_modules/@wordpress/components/build-module/responsive-wrapper/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResponsiveWrapper", function() { return _responsive_wrapper__WEBPACK_IMPORTED_MODULE_45__["default"]; });
 
-/* harmony import */ var _responsive_wrapper__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./responsive-wrapper */ "./node_modules/@wordpress/components/build-module/responsive-wrapper/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResponsiveWrapper", function() { return _responsive_wrapper__WEBPACK_IMPORTED_MODULE_46__["default"]; });
+/* harmony import */ var _sandbox__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./sandbox */ "./node_modules/@wordpress/components/build-module/sandbox/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SandBox", function() { return _sandbox__WEBPACK_IMPORTED_MODULE_46__["default"]; });
 
-/* harmony import */ var _sandbox__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./sandbox */ "./node_modules/@wordpress/components/build-module/sandbox/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SandBox", function() { return _sandbox__WEBPACK_IMPORTED_MODULE_47__["default"]; });
+/* harmony import */ var _select_control__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./select-control */ "./node_modules/@wordpress/components/build-module/select-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SelectControl", function() { return _select_control__WEBPACK_IMPORTED_MODULE_47__["default"]; });
 
-/* harmony import */ var _select_control__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./select-control */ "./node_modules/@wordpress/components/build-module/select-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SelectControl", function() { return _select_control__WEBPACK_IMPORTED_MODULE_48__["default"]; });
+/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./spinner */ "./node_modules/@wordpress/components/build-module/spinner/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Spinner", function() { return _spinner__WEBPACK_IMPORTED_MODULE_48__["default"]; });
 
-/* harmony import */ var _spinner__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./spinner */ "./node_modules/@wordpress/components/build-module/spinner/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Spinner", function() { return _spinner__WEBPACK_IMPORTED_MODULE_49__["default"]; });
+/* harmony import */ var _server_side_render__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./server-side-render */ "./node_modules/@wordpress/components/build-module/server-side-render/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServerSideRender", function() { return _server_side_render__WEBPACK_IMPORTED_MODULE_49__["default"]; });
 
-/* harmony import */ var _server_side_render__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./server-side-render */ "./node_modules/@wordpress/components/build-module/server-side-render/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ServerSideRender", function() { return _server_side_render__WEBPACK_IMPORTED_MODULE_50__["default"]; });
+/* harmony import */ var _tab_panel__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./tab-panel */ "./node_modules/@wordpress/components/build-module/tab-panel/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TabPanel", function() { return _tab_panel__WEBPACK_IMPORTED_MODULE_50__["default"]; });
 
-/* harmony import */ var _tab_panel__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./tab-panel */ "./node_modules/@wordpress/components/build-module/tab-panel/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TabPanel", function() { return _tab_panel__WEBPACK_IMPORTED_MODULE_51__["default"]; });
+/* harmony import */ var _text_control__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./text-control */ "./node_modules/@wordpress/components/build-module/text-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextControl", function() { return _text_control__WEBPACK_IMPORTED_MODULE_51__["default"]; });
 
-/* harmony import */ var _text_control__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./text-control */ "./node_modules/@wordpress/components/build-module/text-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextControl", function() { return _text_control__WEBPACK_IMPORTED_MODULE_52__["default"]; });
+/* harmony import */ var _textarea_control__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./textarea-control */ "./node_modules/@wordpress/components/build-module/textarea-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextareaControl", function() { return _textarea_control__WEBPACK_IMPORTED_MODULE_52__["default"]; });
 
-/* harmony import */ var _textarea_control__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./textarea-control */ "./node_modules/@wordpress/components/build-module/textarea-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextareaControl", function() { return _textarea_control__WEBPACK_IMPORTED_MODULE_53__["default"]; });
+/* harmony import */ var _toggle_control__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./toggle-control */ "./node_modules/@wordpress/components/build-module/toggle-control/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ToggleControl", function() { return _toggle_control__WEBPACK_IMPORTED_MODULE_53__["default"]; });
 
-/* harmony import */ var _toggle_control__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./toggle-control */ "./node_modules/@wordpress/components/build-module/toggle-control/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ToggleControl", function() { return _toggle_control__WEBPACK_IMPORTED_MODULE_54__["default"]; });
+/* harmony import */ var _toolbar__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./toolbar */ "./node_modules/@wordpress/components/build-module/toolbar/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return _toolbar__WEBPACK_IMPORTED_MODULE_54__["default"]; });
 
-/* harmony import */ var _toolbar__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./toolbar */ "./node_modules/@wordpress/components/build-module/toolbar/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return _toolbar__WEBPACK_IMPORTED_MODULE_55__["default"]; });
+/* harmony import */ var _toolbar_button__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./toolbar-button */ "./node_modules/@wordpress/components/build-module/toolbar-button/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ToolbarButton", function() { return _toolbar_button__WEBPACK_IMPORTED_MODULE_55__["default"]; });
 
-/* harmony import */ var _toolbar_button__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./toolbar-button */ "./node_modules/@wordpress/components/build-module/toolbar-button/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ToolbarButton", function() { return _toolbar_button__WEBPACK_IMPORTED_MODULE_56__["default"]; });
+/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./tooltip */ "./node_modules/@wordpress/components/build-module/tooltip/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tooltip", function() { return _tooltip__WEBPACK_IMPORTED_MODULE_56__["default"]; });
 
-/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./tooltip */ "./node_modules/@wordpress/components/build-module/tooltip/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Tooltip", function() { return _tooltip__WEBPACK_IMPORTED_MODULE_57__["default"]; });
+/* harmony import */ var _tree_select__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./tree-select */ "./node_modules/@wordpress/components/build-module/tree-select/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TreeSelect", function() { return _tree_select__WEBPACK_IMPORTED_MODULE_57__["default"]; });
 
-/* harmony import */ var _tree_select__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./tree-select */ "./node_modules/@wordpress/components/build-module/tree-select/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TreeSelect", function() { return _tree_select__WEBPACK_IMPORTED_MODULE_58__["default"]; });
+/* harmony import */ var _slot_fill__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./slot-fill */ "./node_modules/@wordpress/components/build-module/slot-fill/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSlotFill", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_58__["createSlotFill"]; });
 
-/* harmony import */ var _slot_fill__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./slot-fill */ "./node_modules/@wordpress/components/build-module/slot-fill/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createSlotFill", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_59__["createSlotFill"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Slot", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_58__["Slot"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Slot", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_59__["Slot"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fill", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_58__["Fill"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fill", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_59__["Fill"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SlotFillProvider", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_58__["Provider"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SlotFillProvider", function() { return _slot_fill__WEBPACK_IMPORTED_MODULE_59__["Provider"]; });
+/* harmony import */ var _higher_order_navigate_regions__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./higher-order/navigate-regions */ "./node_modules/@wordpress/components/build-module/higher-order/navigate-regions/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "navigateRegions", function() { return _higher_order_navigate_regions__WEBPACK_IMPORTED_MODULE_59__["default"]; });
 
-/* harmony import */ var _higher_order_navigate_regions__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./higher-order/navigate-regions */ "./node_modules/@wordpress/components/build-module/higher-order/navigate-regions/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "navigateRegions", function() { return _higher_order_navigate_regions__WEBPACK_IMPORTED_MODULE_60__["default"]; });
+/* harmony import */ var _higher_order_with_constrained_tabbing__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./higher-order/with-constrained-tabbing */ "./node_modules/@wordpress/components/build-module/higher-order/with-constrained-tabbing/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withConstrainedTabbing", function() { return _higher_order_with_constrained_tabbing__WEBPACK_IMPORTED_MODULE_60__["default"]; });
 
-/* harmony import */ var _higher_order_with_constrained_tabbing__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./higher-order/with-constrained-tabbing */ "./node_modules/@wordpress/components/build-module/higher-order/with-constrained-tabbing/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withConstrainedTabbing", function() { return _higher_order_with_constrained_tabbing__WEBPACK_IMPORTED_MODULE_61__["default"]; });
+/* harmony import */ var _higher_order_with_fallback_styles__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./higher-order/with-fallback-styles */ "./node_modules/@wordpress/components/build-module/higher-order/with-fallback-styles/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFallbackStyles", function() { return _higher_order_with_fallback_styles__WEBPACK_IMPORTED_MODULE_61__["default"]; });
 
-/* harmony import */ var _higher_order_with_fallback_styles__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./higher-order/with-fallback-styles */ "./node_modules/@wordpress/components/build-module/higher-order/with-fallback-styles/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFallbackStyles", function() { return _higher_order_with_fallback_styles__WEBPACK_IMPORTED_MODULE_62__["default"]; });
+/* harmony import */ var _higher_order_with_filters__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./higher-order/with-filters */ "./node_modules/@wordpress/components/build-module/higher-order/with-filters/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFilters", function() { return _higher_order_with_filters__WEBPACK_IMPORTED_MODULE_62__["default"]; });
 
-/* harmony import */ var _higher_order_with_filters__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./higher-order/with-filters */ "./node_modules/@wordpress/components/build-module/higher-order/with-filters/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFilters", function() { return _higher_order_with_filters__WEBPACK_IMPORTED_MODULE_63__["default"]; });
+/* harmony import */ var _higher_order_with_focus_outside__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./higher-order/with-focus-outside */ "./node_modules/@wordpress/components/build-module/higher-order/with-focus-outside/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFocusOutside", function() { return _higher_order_with_focus_outside__WEBPACK_IMPORTED_MODULE_63__["default"]; });
 
-/* harmony import */ var _higher_order_with_focus_outside__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./higher-order/with-focus-outside */ "./node_modules/@wordpress/components/build-module/higher-order/with-focus-outside/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFocusOutside", function() { return _higher_order_with_focus_outside__WEBPACK_IMPORTED_MODULE_64__["default"]; });
+/* harmony import */ var _higher_order_with_focus_return__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./higher-order/with-focus-return */ "./node_modules/@wordpress/components/build-module/higher-order/with-focus-return/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFocusReturn", function() { return _higher_order_with_focus_return__WEBPACK_IMPORTED_MODULE_64__["default"]; });
 
-/* harmony import */ var _higher_order_with_focus_return__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./higher-order/with-focus-return */ "./node_modules/@wordpress/components/build-module/higher-order/with-focus-return/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withFocusReturn", function() { return _higher_order_with_focus_return__WEBPACK_IMPORTED_MODULE_65__["default"]; });
+/* harmony import */ var _higher_order_with_notices__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./higher-order/with-notices */ "./node_modules/@wordpress/components/build-module/higher-order/with-notices/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withNotices", function() { return _higher_order_with_notices__WEBPACK_IMPORTED_MODULE_65__["default"]; });
 
-/* harmony import */ var _higher_order_with_notices__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./higher-order/with-notices */ "./node_modules/@wordpress/components/build-module/higher-order/with-notices/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withNotices", function() { return _higher_order_with_notices__WEBPACK_IMPORTED_MODULE_66__["default"]; });
-
-/* harmony import */ var _higher_order_with_spoken_messages__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./higher-order/with-spoken-messages */ "./node_modules/@wordpress/components/build-module/higher-order/with-spoken-messages/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withSpokenMessages", function() { return _higher_order_with_spoken_messages__WEBPACK_IMPORTED_MODULE_67__["default"]; });
+/* harmony import */ var _higher_order_with_spoken_messages__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./higher-order/with-spoken-messages */ "./node_modules/@wordpress/components/build-module/higher-order/with-spoken-messages/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withSpokenMessages", function() { return _higher_order_with_spoken_messages__WEBPACK_IMPORTED_MODULE_66__["default"]; });
 
 // Components
  // eslint-disable-next-line camelcase
-
 
 
 
@@ -9906,7 +9927,8 @@ function MenuItem(_ref) {
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(tagName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
     'aria-label': label,
-    'aria-checked': isSelected,
+    // Make sure aria-checked matches spec https://www.w3.org/TR/wai-aria-1.1/#aria-checked
+    'aria-checked': role === 'menuitemcheckbox' || role === 'menuitemradio' ? isSelected : undefined,
     role: role,
     className: className
   }, props), children, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(_shortcut__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -10548,17 +10570,15 @@ Modal.defaultProps = {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/components/build-module/navigable-container/index.js":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/@wordpress/components/build-module/navigable-container/index.js ***!
-  \**************************************************************************************/
-/*! exports provided: NavigableMenu, TabbableContainer */
+/***/ "./node_modules/@wordpress/components/build-module/navigable-container/container.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/navigable-container/container.js ***!
+  \******************************************************************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigableMenu", function() { return NavigableMenu; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabbableContainer", function() { return TabbableContainer; });
 /* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
@@ -10573,8 +10593,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/dom */ "@wordpress/dom");
 /* harmony import */ var _wordpress_dom__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/keycodes */ "@wordpress/keycodes");
-/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__);
 
 
 
@@ -10592,7 +10610,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress Dependencies
  */
-
 
 
 
@@ -10620,8 +10637,8 @@ function (_Component) {
     Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, NavigableContainer);
 
     _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__["default"])(NavigableContainer).apply(this, arguments));
-    _this.bindContainer = _this.bindContainer.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.onKeyDown = _this.onKeyDown.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
+    _this.bindContainer = _this.bindContainer.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.getFocusableContext = _this.getFocusableContext.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.getFocusableIndex = _this.getFocusableIndex.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     return _this;
@@ -10630,7 +10647,14 @@ function (_Component) {
   Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(NavigableContainer, [{
     key: "bindContainer",
     value: function bindContainer(ref) {
+      var forwardedRef = this.props.forwardedRef;
       this.container = ref;
+
+      if (Object(lodash__WEBPACK_IMPORTED_MODULE_9__["isFunction"])(forwardedRef)) {
+        forwardedRef(ref);
+      } else if (forwardedRef && 'current' in forwardedRef) {
+        forwardedRef.current = ref;
+      }
     }
   }, {
     key: "getFocusableContext",
@@ -10719,7 +10743,7 @@ function (_Component) {
 
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("div", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
         ref: this.bindContainer
-      }, Object(lodash__WEBPACK_IMPORTED_MODULE_9__["omit"])(props, ['stopNavigationEvents', 'eventToOffset', 'onNavigate', 'cycle', 'onlyBrowserTabstops']), {
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_9__["omit"])(props, ['stopNavigationEvents', 'eventToOffset', 'onNavigate', 'cycle', 'onlyBrowserTabstops', 'forwardedRef']), {
         onKeyDown: this.onKeyDown,
         onFocus: this.onFocus
       }), children);
@@ -10729,111 +10753,190 @@ function (_Component) {
   return NavigableContainer;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["Component"]);
 
-var NavigableMenu =
-/*#__PURE__*/
-function (_Component2) {
-  Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_6__["default"])(NavigableMenu, _Component2);
+var forwardedNavigableContainer = function forwardedNavigableContainer(props, ref) {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(NavigableContainer, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+    forwardedRef: ref
+  }));
+};
 
-  function NavigableMenu() {
-    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, NavigableMenu);
+forwardedNavigableContainer.displayName = 'NavigableContainer';
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["forwardRef"])(forwardedNavigableContainer));
 
-    return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__["default"])(NavigableMenu).apply(this, arguments));
-  }
 
-  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(NavigableMenu, [{
-    key: "render",
-    value: function render() {
-      var _this$props3 = this.props,
-          _this$props3$role = _this$props3.role,
-          role = _this$props3$role === void 0 ? 'menu' : _this$props3$role,
-          _this$props3$orientat = _this$props3.orientation,
-          orientation = _this$props3$orientat === void 0 ? 'vertical' : _this$props3$orientat,
-          rest = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_this$props3, ["role", "orientation"]);
+/***/ }),
 
-      var eventToOffset = function eventToOffset(evt) {
-        var keyCode = evt.keyCode;
-        var next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["DOWN"]];
-        var previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["UP"]];
+/***/ "./node_modules/@wordpress/components/build-module/navigable-container/index.js":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/navigable-container/index.js ***!
+  \**************************************************************************************/
+/*! exports provided: NavigableMenu, TabbableContainer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-        if (orientation === 'horizontal') {
-          next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["RIGHT"]];
-          previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["LEFT"]];
-        }
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./menu */ "./node_modules/@wordpress/components/build-module/navigable-container/menu.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NavigableMenu", function() { return _menu__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-        if (orientation === 'both') {
-          next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["RIGHT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["DOWN"]];
-          previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["LEFT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["UP"]];
-        }
+/* harmony import */ var _tabbable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabbable */ "./node_modules/@wordpress/components/build-module/navigable-container/tabbable.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TabbableContainer", function() { return _tabbable__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-        if (Object(lodash__WEBPACK_IMPORTED_MODULE_9__["includes"])(next, keyCode)) {
-          return 1;
-        } else if (Object(lodash__WEBPACK_IMPORTED_MODULE_9__["includes"])(previous, keyCode)) {
-          return -1;
-        }
-      };
+/**
+ * Internal Dependencies
+ */
 
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(NavigableContainer, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        stopNavigationEvents: true,
-        onlyBrowserTabstops: false,
-        role: role,
-        "aria-orientation": orientation,
-        eventToOffset: eventToOffset
-      }, rest));
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/components/build-module/navigable-container/menu.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/navigable-container/menu.js ***!
+  \*************************************************************************************/
+/*! exports provided: NavigableMenu, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigableMenu", function() { return NavigableMenu; });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/keycodes */ "@wordpress/keycodes");
+/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./container */ "./node_modules/@wordpress/components/build-module/navigable-container/container.js");
+
+
+
+
+/**
+ * External Dependencies
+ */
+
+/**
+ * WordPress Dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function NavigableMenu(_ref, ref) {
+  var _ref$role = _ref.role,
+      role = _ref$role === void 0 ? 'menu' : _ref$role,
+      _ref$orientation = _ref.orientation,
+      orientation = _ref$orientation === void 0 ? 'vertical' : _ref$orientation,
+      rest = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["role", "orientation"]);
+
+  var eventToOffset = function eventToOffset(evt) {
+    var keyCode = evt.keyCode;
+    var next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["DOWN"]];
+    var previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["UP"]];
+
+    if (orientation === 'horizontal') {
+      next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["RIGHT"]];
+      previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["LEFT"]];
     }
-  }]);
 
-  return NavigableMenu;
-}(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["Component"]);
-var TabbableContainer =
-/*#__PURE__*/
-function (_Component3) {
-  Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_6__["default"])(TabbableContainer, _Component3);
-
-  function TabbableContainer() {
-    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_2__["default"])(this, TabbableContainer);
-
-    return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__["default"])(TabbableContainer).apply(this, arguments));
-  }
-
-  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_3__["default"])(TabbableContainer, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var eventToOffset = function eventToOffset(evt) {
-        var keyCode = evt.keyCode,
-            shiftKey = evt.shiftKey;
-
-        if (_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_11__["TAB"] === keyCode) {
-          return shiftKey ? -1 : 1;
-        } // Allow custom handling of keys besides Tab.
-        //
-        // By default, TabbableContainer will move focus forward on Tab and
-        // backward on Shift+Tab. The handler below will be used for all other
-        // events. The semantics for `this.props.eventToOffset`'s return
-        // values are the following:
-        //
-        // - +1: move focus forward
-        // - -1: move focus backward
-        // -  0: don't move focus, but acknowledge event and thus stop it
-        // - undefined: do nothing, let the event propagate
-
-
-        if (_this2.props.eventToOffset) {
-          return _this2.props.eventToOffset(evt);
-        }
-      };
-
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(NavigableContainer, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-        stopNavigationEvents: true,
-        onlyBrowserTabstops: true,
-        eventToOffset: eventToOffset
-      }, this.props));
+    if (orientation === 'both') {
+      next = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["RIGHT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["DOWN"]];
+      previous = [_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["LEFT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_4__["UP"]];
     }
-  }]);
 
-  return TabbableContainer;
-}(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["Component"]);
+    if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["includes"])(next, keyCode)) {
+      return 1;
+    } else if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["includes"])(previous, keyCode)) {
+      return -1;
+    }
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_container__WEBPACK_IMPORTED_MODULE_5__["default"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    ref: ref,
+    stopNavigationEvents: true,
+    onlyBrowserTabstops: false,
+    role: role,
+    "aria-orientation": orientation,
+    eventToOffset: eventToOffset
+  }, rest));
+}
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["forwardRef"])(NavigableMenu));
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/components/build-module/navigable-container/tabbable.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/navigable-container/tabbable.js ***!
+  \*****************************************************************************************/
+/*! exports provided: TabbableContainer, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabbableContainer", function() { return TabbableContainer; });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/keycodes */ "@wordpress/keycodes");
+/* harmony import */ var _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./container */ "./node_modules/@wordpress/components/build-module/navigable-container/container.js");
+
+
+
+
+/**
+ * WordPress Dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+function TabbableContainer(_ref, ref) {
+  var eventToOffset = _ref.eventToOffset,
+      props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["eventToOffset"]);
+
+  var innerEventToOffset = function innerEventToOffset(evt) {
+    var keyCode = evt.keyCode,
+        shiftKey = evt.shiftKey;
+
+    if (_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_3__["TAB"] === keyCode) {
+      return shiftKey ? -1 : 1;
+    } // Allow custom handling of keys besides Tab.
+    //
+    // By default, TabbableContainer will move focus forward on Tab and
+    // backward on Shift+Tab. The handler below will be used for all other
+    // events. The semantics for `eventToOffset`'s return
+    // values are the following:
+    //
+    // - +1: move focus forward
+    // - -1: move focus backward
+    // -  0: don't move focus, but acknowledge event and thus stop it
+    // - undefined: do nothing, let the event propagate
+
+
+    if (eventToOffset) {
+      return eventToOffset(evt);
+    }
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_container__WEBPACK_IMPORTED_MODULE_4__["default"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    ref: ref,
+    stopNavigationEvents: true,
+    onlyBrowserTabstops: true,
+    eventToOffset: innerEventToOffset
+  }, props));
+}
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["forwardRef"])(TabbableContainer));
 
 
 /***/ }),
@@ -11133,72 +11236,6 @@ var forwardedPanelBody = function forwardedPanelBody(props, ref) {
 
 forwardedPanelBody.displayName = 'PanelBody';
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["forwardRef"])(forwardedPanelBody));
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/components/build-module/panel/color.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/components/build-module/panel/color.js ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _body__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./body */ "./node_modules/@wordpress/components/build-module/panel/body.js");
-/* harmony import */ var _color_indicator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../color-indicator */ "./node_modules/@wordpress/components/build-module/color-indicator/index.js");
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-function PanelColor(_ref) {
-  var colorValue = _ref.colorValue,
-      colorName = _ref.colorName,
-      title = _ref.title,
-      props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["colorValue", "colorName", "title"]);
-
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('wp.components.PanelColor', {
-    version: '4.3',
-    alternative: 'wp.editor.PanelColorSettings',
-    plugin: 'Gutenberg'
-  }); // translators: %s: The name of the color e.g: "vivid red" or color hex code if name is not available e.g: "#f00".
-
-  var currentColorLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('(current color: %s)'), colorName || colorValue);
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_body__WEBPACK_IMPORTED_MODULE_5__["default"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
-    title: [Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("span", {
-      className: "components-panel__color-title",
-      key: "title"
-    }, title), colorValue && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_color_indicator__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      key: "color",
-      className: "components-panel__color-indicator",
-      "aria-label": currentColorLabel,
-      colorValue: colorValue
-    })]
-  }));
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (PanelColor);
 
 
 /***/ }),
@@ -11534,8 +11571,8 @@ function (_Component) {
     _this.getAnchorRect = _this.getAnchorRect.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.updatePopoverSize = _this.updatePopoverSize.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.computePopoverPosition = _this.computePopoverPosition.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
-    _this.throttledComputePopoverPosition = _this.throttledComputePopoverPosition.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.maybeClose = _this.maybeClose.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
+    _this.throttledRefresh = _this.throttledRefresh.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__["default"])(_this)));
     _this.contentNode = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createRef"])();
     _this.anchorNode = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createRef"])();
     _this.state = {
@@ -11556,7 +11593,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.toggleWindowEvents(true);
+      this.toggleAutoRefresh(true);
       this.refresh();
       /*
        * Without the setTimeout, the dom node is not being focused. Related:
@@ -11579,29 +11616,41 @@ function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.toggleWindowEvents(false);
       clearTimeout(this.focusTimeout);
+      this.toggleAutoRefresh(false);
     }
   }, {
-    key: "toggleWindowEvents",
-    value: function toggleWindowEvents(isListening) {
-      var handler = isListening ? 'addEventListener' : 'removeEventListener';
-      window.cancelAnimationFrame(this.rafHandle);
-      window[handler]('resize', this.throttledComputePopoverPosition);
-      window[handler]('scroll', this.throttledComputePopoverPosition, true);
-    }
-  }, {
-    key: "throttledComputePopoverPosition",
-    value: function throttledComputePopoverPosition(event) {
-      var _this3 = this;
+    key: "toggleAutoRefresh",
+    value: function toggleAutoRefresh(isActive) {
+      window.cancelAnimationFrame(this.rafHandle); // Refresh the popover every time the window is resized or scrolled
 
-      if (event.type === 'scroll' && this.contentNode.current.contains(event.target)) {
+      var handler = isActive ? 'addEventListener' : 'removeEventListener';
+      window[handler]('resize', this.throttledRefresh);
+      window[handler]('scroll', this.throttledRefresh, true);
+      /*
+       * There are sometimes we need to reposition or resize the popover that are not
+       * handled by the resize/scroll window events (i.e. CSS changes in the layout
+       * that changes the position of the anchor).
+       *
+       * For these situations, we refresh the popover every 0.5s
+       */
+
+      if (isActive) {
+        this.autoRefresh = setInterval(this.throttledRefresh, 500);
+      } else {
+        clearInterval(this.autoRefresh);
+      }
+    }
+  }, {
+    key: "throttledRefresh",
+    value: function throttledRefresh(event) {
+      window.cancelAnimationFrame(this.rafHandle);
+
+      if (event && event.type === 'scroll' && this.contentNode.current.contains(event.target)) {
         return;
       }
 
-      this.rafHandle = window.requestAnimationFrame(function () {
-        return _this3.computePopoverPosition();
-      });
+      this.rafHandle = window.requestAnimationFrame(this.refresh);
     }
     /**
      * Calling `refresh()` will force the Popover to recalculate its size and
@@ -11675,13 +11724,12 @@ function (_Component) {
   }, {
     key: "updatePopoverSize",
     value: function updatePopoverSize() {
-      var rect = this.contentNode.current.getBoundingClientRect();
+      var popoverSize = {
+        width: this.contentNode.current.scrollWidth,
+        height: this.contentNode.current.scrollHeight
+      };
 
-      if (!this.state.popoverSize || rect.width !== this.state.popoverSize.width || rect.height !== this.state.popoverSize.height) {
-        var popoverSize = {
-          height: rect.height,
-          width: rect.width
-        };
+      if (!this.state.popoverSize || popoverSize.width !== this.state.popoverSize.width || popoverSize.height !== this.state.popoverSize.height) {
         this.setState({
           popoverSize: popoverSize
         });
@@ -11726,7 +11774,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$props3 = this.props,
           headerTitle = _this$props3.headerTitle,
@@ -11808,7 +11856,7 @@ function (_Component) {
         }
 
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])("span", {
-          ref: _this4.anchorNode
+          ref: _this3.anchorNode
         }, content, isMobile && expandOnMobile && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_scroll_lock__WEBPACK_IMPORTED_MODULE_17__["default"], null));
       });
     }
@@ -18021,7 +18069,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * clipboard.js v2.0.1
+ * clipboard.js v2.0.2
  * https://zenorocha.github.io/clipboard.js
  * 
  * Licensed MIT © Zeno Rocha
@@ -18030,7 +18078,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	if(true)
 		module.exports = factory();
 	else {}
-})(this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -18066,18 +18114,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -18095,848 +18160,104 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/clipboard.js");
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/******/ ({
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else { var mod; }
-})(this, function (module, _select) {
-    'use strict';
-
-    var _select2 = _interopRequireDefault(_select);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
-
-    var ClipboardAction = function () {
-        /**
-         * @param {Object} options
-         */
-        function ClipboardAction(options) {
-            _classCallCheck(this, ClipboardAction);
-
-            this.resolveOptions(options);
-            this.initSelection();
-        }
-
-        /**
-         * Defines base properties passed from constructor.
-         * @param {Object} options
-         */
-
-
-        _createClass(ClipboardAction, [{
-            key: 'resolveOptions',
-            value: function resolveOptions() {
-                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-                this.action = options.action;
-                this.container = options.container;
-                this.emitter = options.emitter;
-                this.target = options.target;
-                this.text = options.text;
-                this.trigger = options.trigger;
-
-                this.selectedText = '';
-            }
-        }, {
-            key: 'initSelection',
-            value: function initSelection() {
-                if (this.text) {
-                    this.selectFake();
-                } else if (this.target) {
-                    this.selectTarget();
-                }
-            }
-        }, {
-            key: 'selectFake',
-            value: function selectFake() {
-                var _this = this;
-
-                var isRTL = document.documentElement.getAttribute('dir') == 'rtl';
-
-                this.removeFake();
-
-                this.fakeHandlerCallback = function () {
-                    return _this.removeFake();
-                };
-                this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback) || true;
-
-                this.fakeElem = document.createElement('textarea');
-                // Prevent zooming on iOS
-                this.fakeElem.style.fontSize = '12pt';
-                // Reset box model
-                this.fakeElem.style.border = '0';
-                this.fakeElem.style.padding = '0';
-                this.fakeElem.style.margin = '0';
-                // Move element out of screen horizontally
-                this.fakeElem.style.position = 'absolute';
-                this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';
-                // Move element to the same position vertically
-                var yPosition = window.pageYOffset || document.documentElement.scrollTop;
-                this.fakeElem.style.top = yPosition + 'px';
-
-                this.fakeElem.setAttribute('readonly', '');
-                this.fakeElem.value = this.text;
-
-                this.container.appendChild(this.fakeElem);
-
-                this.selectedText = (0, _select2.default)(this.fakeElem);
-                this.copyText();
-            }
-        }, {
-            key: 'removeFake',
-            value: function removeFake() {
-                if (this.fakeHandler) {
-                    this.container.removeEventListener('click', this.fakeHandlerCallback);
-                    this.fakeHandler = null;
-                    this.fakeHandlerCallback = null;
-                }
-
-                if (this.fakeElem) {
-                    this.container.removeChild(this.fakeElem);
-                    this.fakeElem = null;
-                }
-            }
-        }, {
-            key: 'selectTarget',
-            value: function selectTarget() {
-                this.selectedText = (0, _select2.default)(this.target);
-                this.copyText();
-            }
-        }, {
-            key: 'copyText',
-            value: function copyText() {
-                var succeeded = void 0;
-
-                try {
-                    succeeded = document.execCommand(this.action);
-                } catch (err) {
-                    succeeded = false;
-                }
-
-                this.handleResult(succeeded);
-            }
-        }, {
-            key: 'handleResult',
-            value: function handleResult(succeeded) {
-                this.emitter.emit(succeeded ? 'success' : 'error', {
-                    action: this.action,
-                    text: this.selectedText,
-                    trigger: this.trigger,
-                    clearSelection: this.clearSelection.bind(this)
-                });
-            }
-        }, {
-            key: 'clearSelection',
-            value: function clearSelection() {
-                if (this.trigger) {
-                    this.trigger.focus();
-                }
-
-                window.getSelection().removeAllRanges();
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                this.removeFake();
-            }
-        }, {
-            key: 'action',
-            set: function set() {
-                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'copy';
-
-                this._action = action;
-
-                if (this._action !== 'copy' && this._action !== 'cut') {
-                    throw new Error('Invalid "action" value, use either "copy" or "cut"');
-                }
-            },
-            get: function get() {
-                return this._action;
-            }
-        }, {
-            key: 'target',
-            set: function set(target) {
-                if (target !== undefined) {
-                    if (target && (typeof target === 'undefined' ? 'undefined' : _typeof(target)) === 'object' && target.nodeType === 1) {
-                        if (this.action === 'copy' && target.hasAttribute('disabled')) {
-                            throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');
-                        }
-
-                        if (this.action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {
-                            throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');
-                        }
-
-                        this._target = target;
-                    } else {
-                        throw new Error('Invalid "target" value, use a valid Element');
-                    }
-                }
-            },
-            get: function get() {
-                return this._target;
-            }
-        }]);
-
-        return ClipboardAction;
-    }();
-
-    module.exports = ClipboardAction;
-});
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var is = __webpack_require__(6);
-var delegate = __webpack_require__(5);
-
-/**
- * Validates all params and calls the right
- * listener function based on its target type.
- *
- * @param {String|HTMLElement|HTMLCollection|NodeList} target
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listen(target, type, callback) {
-    if (!target && !type && !callback) {
-        throw new Error('Missing required arguments');
-    }
-
-    if (!is.string(type)) {
-        throw new TypeError('Second argument must be a String');
-    }
-
-    if (!is.fn(callback)) {
-        throw new TypeError('Third argument must be a Function');
-    }
-
-    if (is.node(target)) {
-        return listenNode(target, type, callback);
-    }
-    else if (is.nodeList(target)) {
-        return listenNodeList(target, type, callback);
-    }
-    else if (is.string(target)) {
-        return listenSelector(target, type, callback);
-    }
-    else {
-        throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
-    }
-}
-
-/**
- * Adds an event listener to a HTML element
- * and returns a remove listener function.
- *
- * @param {HTMLElement} node
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenNode(node, type, callback) {
-    node.addEventListener(type, callback);
-
-    return {
-        destroy: function() {
-            node.removeEventListener(type, callback);
-        }
-    }
-}
-
-/**
- * Add an event listener to a list of HTML elements
- * and returns a remove listener function.
- *
- * @param {NodeList|HTMLCollection} nodeList
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenNodeList(nodeList, type, callback) {
-    Array.prototype.forEach.call(nodeList, function(node) {
-        node.addEventListener(type, callback);
-    });
-
-    return {
-        destroy: function() {
-            Array.prototype.forEach.call(nodeList, function(node) {
-                node.removeEventListener(type, callback);
-            });
-        }
-    }
-}
-
-/**
- * Add an event listener to a selector
- * and returns a remove listener function.
- *
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenSelector(selector, type, callback) {
-    return delegate(document.body, selector, type, callback);
-}
-
-module.exports = listen;
-
-
-/***/ }),
-/* 2 */
+/***/ "./node_modules/delegate/src/closest.js":
+/*!**********************************************!*\
+  !*** ./node_modules/delegate/src/closest.js ***!
+  \**********************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-function E () {
-  // Keep this empty so it's easier to inherit from
-  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
-}
-
-E.prototype = {
-  on: function (name, callback, ctx) {
-    var e = this.e || (this.e = {});
-
-    (e[name] || (e[name] = [])).push({
-      fn: callback,
-      ctx: ctx
-    });
-
-    return this;
-  },
-
-  once: function (name, callback, ctx) {
-    var self = this;
-    function listener () {
-      self.off(name, listener);
-      callback.apply(ctx, arguments);
-    };
-
-    listener._ = callback
-    return this.on(name, listener, ctx);
-  },
-
-  emit: function (name) {
-    var data = [].slice.call(arguments, 1);
-    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
-    var i = 0;
-    var len = evtArr.length;
-
-    for (i; i < len; i++) {
-      evtArr[i].fn.apply(evtArr[i].ctx, data);
-    }
-
-    return this;
-  },
-
-  off: function (name, callback) {
-    var e = this.e || (this.e = {});
-    var evts = e[name];
-    var liveEvents = [];
-
-    if (evts && callback) {
-      for (var i = 0, len = evts.length; i < len; i++) {
-        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
-          liveEvents.push(evts[i]);
-      }
-    }
-
-    // Remove event from queue to prevent memory leak
-    // Suggested by https://github.com/lazd
-    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
-
-    (liveEvents.length)
-      ? e[name] = liveEvents
-      : delete e[name];
-
-    return this;
-  }
-};
-
-module.exports = E;
-
+eval("var DOCUMENT_NODE_TYPE = 9;\n\n/**\n * A polyfill for Element.matches()\n */\nif (typeof Element !== 'undefined' && !Element.prototype.matches) {\n    var proto = Element.prototype;\n\n    proto.matches = proto.matchesSelector ||\n                    proto.mozMatchesSelector ||\n                    proto.msMatchesSelector ||\n                    proto.oMatchesSelector ||\n                    proto.webkitMatchesSelector;\n}\n\n/**\n * Finds the closest parent that matches a selector.\n *\n * @param {Element} element\n * @param {String} selector\n * @return {Function}\n */\nfunction closest (element, selector) {\n    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {\n        if (typeof element.matches === 'function' &&\n            element.matches(selector)) {\n          return element;\n        }\n        element = element.parentNode;\n    }\n}\n\nmodule.exports = closest;\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/delegate/src/closest.js?");
 
 /***/ }),
-/* 3 */
+
+/***/ "./node_modules/delegate/src/delegate.js":
+/*!***********************************************!*\
+  !*** ./node_modules/delegate/src/delegate.js ***!
+  \***********************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(0), __webpack_require__(2), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else { var mod; }
-})(this, function (module, _clipboardAction, _tinyEmitter, _goodListener) {
-    'use strict';
-
-    var _clipboardAction2 = _interopRequireDefault(_clipboardAction);
-
-    var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
-
-    var _goodListener2 = _interopRequireDefault(_goodListener);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
-
-    function _possibleConstructorReturn(self, call) {
-        if (!self) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-
-        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-    }
-
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        }
-
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: false,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
-
-    var Clipboard = function (_Emitter) {
-        _inherits(Clipboard, _Emitter);
-
-        /**
-         * @param {String|HTMLElement|HTMLCollection|NodeList} trigger
-         * @param {Object} options
-         */
-        function Clipboard(trigger, options) {
-            _classCallCheck(this, Clipboard);
-
-            var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this));
-
-            _this.resolveOptions(options);
-            _this.listenClick(trigger);
-            return _this;
-        }
-
-        /**
-         * Defines if attributes would be resolved using internal setter functions
-         * or custom functions that were passed in the constructor.
-         * @param {Object} options
-         */
-
-
-        _createClass(Clipboard, [{
-            key: 'resolveOptions',
-            value: function resolveOptions() {
-                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-                this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
-                this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
-                this.text = typeof options.text === 'function' ? options.text : this.defaultText;
-                this.container = _typeof(options.container) === 'object' ? options.container : document.body;
-            }
-        }, {
-            key: 'listenClick',
-            value: function listenClick(trigger) {
-                var _this2 = this;
-
-                this.listener = (0, _goodListener2.default)(trigger, 'click', function (e) {
-                    return _this2.onClick(e);
-                });
-            }
-        }, {
-            key: 'onClick',
-            value: function onClick(e) {
-                var trigger = e.delegateTarget || e.currentTarget;
-
-                if (this.clipboardAction) {
-                    this.clipboardAction = null;
-                }
-
-                this.clipboardAction = new _clipboardAction2.default({
-                    action: this.action(trigger),
-                    target: this.target(trigger),
-                    text: this.text(trigger),
-                    container: this.container,
-                    trigger: trigger,
-                    emitter: this
-                });
-            }
-        }, {
-            key: 'defaultAction',
-            value: function defaultAction(trigger) {
-                return getAttributeValue('action', trigger);
-            }
-        }, {
-            key: 'defaultTarget',
-            value: function defaultTarget(trigger) {
-                var selector = getAttributeValue('target', trigger);
-
-                if (selector) {
-                    return document.querySelector(selector);
-                }
-            }
-        }, {
-            key: 'defaultText',
-            value: function defaultText(trigger) {
-                return getAttributeValue('text', trigger);
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                this.listener.destroy();
-
-                if (this.clipboardAction) {
-                    this.clipboardAction.destroy();
-                    this.clipboardAction = null;
-                }
-            }
-        }], [{
-            key: 'isSupported',
-            value: function isSupported() {
-                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];
-
-                var actions = typeof action === 'string' ? [action] : action;
-                var support = !!document.queryCommandSupported;
-
-                actions.forEach(function (action) {
-                    support = support && !!document.queryCommandSupported(action);
-                });
-
-                return support;
-            }
-        }]);
-
-        return Clipboard;
-    }(_tinyEmitter2.default);
-
-    /**
-     * Helper function to retrieve attribute value.
-     * @param {String} suffix
-     * @param {Element} element
-     */
-    function getAttributeValue(suffix, element) {
-        var attribute = 'data-clipboard-' + suffix;
-
-        if (!element.hasAttribute(attribute)) {
-            return;
-        }
-
-        return element.getAttribute(attribute);
-    }
-
-    module.exports = Clipboard;
-});
+eval("var closest = __webpack_require__(/*! ./closest */ \"./node_modules/delegate/src/closest.js\");\n\n/**\n * Delegates event to a selector.\n *\n * @param {Element} element\n * @param {String} selector\n * @param {String} type\n * @param {Function} callback\n * @param {Boolean} useCapture\n * @return {Object}\n */\nfunction _delegate(element, selector, type, callback, useCapture) {\n    var listenerFn = listener.apply(this, arguments);\n\n    element.addEventListener(type, listenerFn, useCapture);\n\n    return {\n        destroy: function() {\n            element.removeEventListener(type, listenerFn, useCapture);\n        }\n    }\n}\n\n/**\n * Delegates event to a selector.\n *\n * @param {Element|String|Array} [elements]\n * @param {String} selector\n * @param {String} type\n * @param {Function} callback\n * @param {Boolean} useCapture\n * @return {Object}\n */\nfunction delegate(elements, selector, type, callback, useCapture) {\n    // Handle the regular Element usage\n    if (typeof elements.addEventListener === 'function') {\n        return _delegate.apply(null, arguments);\n    }\n\n    // Handle Element-less usage, it defaults to global delegation\n    if (typeof type === 'function') {\n        // Use `document` as the first parameter, then apply arguments\n        // This is a short way to .unshift `arguments` without running into deoptimizations\n        return _delegate.bind(null, document).apply(null, arguments);\n    }\n\n    // Handle Selector-based usage\n    if (typeof elements === 'string') {\n        elements = document.querySelectorAll(elements);\n    }\n\n    // Handle Array-like based usage\n    return Array.prototype.map.call(elements, function (element) {\n        return _delegate(element, selector, type, callback, useCapture);\n    });\n}\n\n/**\n * Finds closest match and invokes callback.\n *\n * @param {Element} element\n * @param {String} selector\n * @param {String} type\n * @param {Function} callback\n * @return {Function}\n */\nfunction listener(element, selector, type, callback) {\n    return function(e) {\n        e.delegateTarget = closest(e.target, selector);\n\n        if (e.delegateTarget) {\n            callback.call(element, e);\n        }\n    }\n}\n\nmodule.exports = delegate;\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/delegate/src/delegate.js?");
 
 /***/ }),
-/* 4 */
+
+/***/ "./node_modules/good-listener/src/is.js":
+/*!**********************************************!*\
+  !*** ./node_modules/good-listener/src/is.js ***!
+  \**********************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-var DOCUMENT_NODE_TYPE = 9;
-
-/**
- * A polyfill for Element.matches()
- */
-if (typeof Element !== 'undefined' && !Element.prototype.matches) {
-    var proto = Element.prototype;
-
-    proto.matches = proto.matchesSelector ||
-                    proto.mozMatchesSelector ||
-                    proto.msMatchesSelector ||
-                    proto.oMatchesSelector ||
-                    proto.webkitMatchesSelector;
-}
-
-/**
- * Finds the closest parent that matches a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @return {Function}
- */
-function closest (element, selector) {
-    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
-        if (typeof element.matches === 'function' &&
-            element.matches(selector)) {
-          return element;
-        }
-        element = element.parentNode;
-    }
-}
-
-module.exports = closest;
-
+eval("/**\n * Check if argument is a HTML element.\n *\n * @param {Object} value\n * @return {Boolean}\n */\nexports.node = function(value) {\n    return value !== undefined\n        && value instanceof HTMLElement\n        && value.nodeType === 1;\n};\n\n/**\n * Check if argument is a list of HTML elements.\n *\n * @param {Object} value\n * @return {Boolean}\n */\nexports.nodeList = function(value) {\n    var type = Object.prototype.toString.call(value);\n\n    return value !== undefined\n        && (type === '[object NodeList]' || type === '[object HTMLCollection]')\n        && ('length' in value)\n        && (value.length === 0 || exports.node(value[0]));\n};\n\n/**\n * Check if argument is a string.\n *\n * @param {Object} value\n * @return {Boolean}\n */\nexports.string = function(value) {\n    return typeof value === 'string'\n        || value instanceof String;\n};\n\n/**\n * Check if argument is a function.\n *\n * @param {Object} value\n * @return {Boolean}\n */\nexports.fn = function(value) {\n    var type = Object.prototype.toString.call(value);\n\n    return type === '[object Function]';\n};\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/good-listener/src/is.js?");
 
 /***/ }),
-/* 5 */
+
+/***/ "./node_modules/good-listener/src/listen.js":
+/*!**************************************************!*\
+  !*** ./node_modules/good-listener/src/listen.js ***!
+  \**************************************************/
+/*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var closest = __webpack_require__(4);
-
-/**
- * Delegates event to a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-function _delegate(element, selector, type, callback, useCapture) {
-    var listenerFn = listener.apply(this, arguments);
-
-    element.addEventListener(type, listenerFn, useCapture);
-
-    return {
-        destroy: function() {
-            element.removeEventListener(type, listenerFn, useCapture);
-        }
-    }
-}
-
-/**
- * Delegates event to a selector.
- *
- * @param {Element|String|Array} [elements]
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-function delegate(elements, selector, type, callback, useCapture) {
-    // Handle the regular Element usage
-    if (typeof elements.addEventListener === 'function') {
-        return _delegate.apply(null, arguments);
-    }
-
-    // Handle Element-less usage, it defaults to global delegation
-    if (typeof type === 'function') {
-        // Use `document` as the first parameter, then apply arguments
-        // This is a short way to .unshift `arguments` without running into deoptimizations
-        return _delegate.bind(null, document).apply(null, arguments);
-    }
-
-    // Handle Selector-based usage
-    if (typeof elements === 'string') {
-        elements = document.querySelectorAll(elements);
-    }
-
-    // Handle Array-like based usage
-    return Array.prototype.map.call(elements, function (element) {
-        return _delegate(element, selector, type, callback, useCapture);
-    });
-}
-
-/**
- * Finds closest match and invokes callback.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @return {Function}
- */
-function listener(element, selector, type, callback) {
-    return function(e) {
-        e.delegateTarget = closest(e.target, selector);
-
-        if (e.delegateTarget) {
-            callback.call(element, e);
-        }
-    }
-}
-
-module.exports = delegate;
-
+eval("var is = __webpack_require__(/*! ./is */ \"./node_modules/good-listener/src/is.js\");\nvar delegate = __webpack_require__(/*! delegate */ \"./node_modules/delegate/src/delegate.js\");\n\n/**\n * Validates all params and calls the right\n * listener function based on its target type.\n *\n * @param {String|HTMLElement|HTMLCollection|NodeList} target\n * @param {String} type\n * @param {Function} callback\n * @return {Object}\n */\nfunction listen(target, type, callback) {\n    if (!target && !type && !callback) {\n        throw new Error('Missing required arguments');\n    }\n\n    if (!is.string(type)) {\n        throw new TypeError('Second argument must be a String');\n    }\n\n    if (!is.fn(callback)) {\n        throw new TypeError('Third argument must be a Function');\n    }\n\n    if (is.node(target)) {\n        return listenNode(target, type, callback);\n    }\n    else if (is.nodeList(target)) {\n        return listenNodeList(target, type, callback);\n    }\n    else if (is.string(target)) {\n        return listenSelector(target, type, callback);\n    }\n    else {\n        throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');\n    }\n}\n\n/**\n * Adds an event listener to a HTML element\n * and returns a remove listener function.\n *\n * @param {HTMLElement} node\n * @param {String} type\n * @param {Function} callback\n * @return {Object}\n */\nfunction listenNode(node, type, callback) {\n    node.addEventListener(type, callback);\n\n    return {\n        destroy: function() {\n            node.removeEventListener(type, callback);\n        }\n    }\n}\n\n/**\n * Add an event listener to a list of HTML elements\n * and returns a remove listener function.\n *\n * @param {NodeList|HTMLCollection} nodeList\n * @param {String} type\n * @param {Function} callback\n * @return {Object}\n */\nfunction listenNodeList(nodeList, type, callback) {\n    Array.prototype.forEach.call(nodeList, function(node) {\n        node.addEventListener(type, callback);\n    });\n\n    return {\n        destroy: function() {\n            Array.prototype.forEach.call(nodeList, function(node) {\n                node.removeEventListener(type, callback);\n            });\n        }\n    }\n}\n\n/**\n * Add an event listener to a selector\n * and returns a remove listener function.\n *\n * @param {String} selector\n * @param {String} type\n * @param {Function} callback\n * @return {Object}\n */\nfunction listenSelector(selector, type, callback) {\n    return delegate(document.body, selector, type, callback);\n}\n\nmodule.exports = listen;\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/good-listener/src/listen.js?");
 
 /***/ }),
-/* 6 */
+
+/***/ "./node_modules/select/src/select.js":
+/*!*******************************************!*\
+  !*** ./node_modules/select/src/select.js ***!
+  \*******************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-/**
- * Check if argument is a HTML element.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.node = function(value) {
-    return value !== undefined
-        && value instanceof HTMLElement
-        && value.nodeType === 1;
-};
-
-/**
- * Check if argument is a list of HTML elements.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.nodeList = function(value) {
-    var type = Object.prototype.toString.call(value);
-
-    return value !== undefined
-        && (type === '[object NodeList]' || type === '[object HTMLCollection]')
-        && ('length' in value)
-        && (value.length === 0 || exports.node(value[0]));
-};
-
-/**
- * Check if argument is a string.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.string = function(value) {
-    return typeof value === 'string'
-        || value instanceof String;
-};
-
-/**
- * Check if argument is a function.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.fn = function(value) {
-    var type = Object.prototype.toString.call(value);
-
-    return type === '[object Function]';
-};
-
+eval("function select(element) {\n    var selectedText;\n\n    if (element.nodeName === 'SELECT') {\n        element.focus();\n\n        selectedText = element.value;\n    }\n    else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {\n        var isReadOnly = element.hasAttribute('readonly');\n\n        if (!isReadOnly) {\n            element.setAttribute('readonly', '');\n        }\n\n        element.select();\n        element.setSelectionRange(0, element.value.length);\n\n        if (!isReadOnly) {\n            element.removeAttribute('readonly');\n        }\n\n        selectedText = element.value;\n    }\n    else {\n        if (element.hasAttribute('contenteditable')) {\n            element.focus();\n        }\n\n        var selection = window.getSelection();\n        var range = document.createRange();\n\n        range.selectNodeContents(element);\n        selection.removeAllRanges();\n        selection.addRange(range);\n\n        selectedText = selection.toString();\n    }\n\n    return selectedText;\n}\n\nmodule.exports = select;\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/select/src/select.js?");
 
 /***/ }),
-/* 7 */
+
+/***/ "./node_modules/tiny-emitter/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/tiny-emitter/index.js ***!
+  \********************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-function select(element) {
-    var selectedText;
+eval("function E () {\n  // Keep this empty so it's easier to inherit from\n  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)\n}\n\nE.prototype = {\n  on: function (name, callback, ctx) {\n    var e = this.e || (this.e = {});\n\n    (e[name] || (e[name] = [])).push({\n      fn: callback,\n      ctx: ctx\n    });\n\n    return this;\n  },\n\n  once: function (name, callback, ctx) {\n    var self = this;\n    function listener () {\n      self.off(name, listener);\n      callback.apply(ctx, arguments);\n    };\n\n    listener._ = callback\n    return this.on(name, listener, ctx);\n  },\n\n  emit: function (name) {\n    var data = [].slice.call(arguments, 1);\n    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();\n    var i = 0;\n    var len = evtArr.length;\n\n    for (i; i < len; i++) {\n      evtArr[i].fn.apply(evtArr[i].ctx, data);\n    }\n\n    return this;\n  },\n\n  off: function (name, callback) {\n    var e = this.e || (this.e = {});\n    var evts = e[name];\n    var liveEvents = [];\n\n    if (evts && callback) {\n      for (var i = 0, len = evts.length; i < len; i++) {\n        if (evts[i].fn !== callback && evts[i].fn._ !== callback)\n          liveEvents.push(evts[i]);\n      }\n    }\n\n    // Remove event from queue to prevent memory leak\n    // Suggested by https://github.com/lazd\n    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910\n\n    (liveEvents.length)\n      ? e[name] = liveEvents\n      : delete e[name];\n\n    return this;\n  }\n};\n\nmodule.exports = E;\n\n\n//# sourceURL=webpack://ClipboardJS/./node_modules/tiny-emitter/index.js?");
 
-    if (element.nodeName === 'SELECT') {
-        element.focus();
+/***/ }),
 
-        selectedText = element.value;
-    }
-    else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
-        var isReadOnly = element.hasAttribute('readonly');
+/***/ "./src/clipboard-action.js":
+/*!*********************************!*\
+  !*** ./src/clipboard-action.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-        if (!isReadOnly) {
-            element.setAttribute('readonly', '');
-        }
+"use strict";
+eval("\n\nvar _typeof = typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; };\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _select = __webpack_require__(/*! select */ \"./node_modules/select/src/select.js\");\n\nvar _select2 = _interopRequireDefault(_select);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\n/**\n * Inner class which performs selection from either `text` or `target`\n * properties and then executes copy or cut operations.\n */\nvar ClipboardAction = function () {\n    /**\n     * @param {Object} options\n     */\n    function ClipboardAction(options) {\n        _classCallCheck(this, ClipboardAction);\n\n        this.resolveOptions(options);\n        this.initSelection();\n    }\n\n    /**\n     * Defines base properties passed from constructor.\n     * @param {Object} options\n     */\n\n\n    _createClass(ClipboardAction, [{\n        key: 'resolveOptions',\n        value: function resolveOptions() {\n            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n\n            this.action = options.action;\n            this.container = options.container;\n            this.emitter = options.emitter;\n            this.target = options.target;\n            this.text = options.text;\n            this.trigger = options.trigger;\n\n            this.selectedText = '';\n        }\n\n        /**\n         * Decides which selection strategy is going to be applied based\n         * on the existence of `text` and `target` properties.\n         */\n\n    }, {\n        key: 'initSelection',\n        value: function initSelection() {\n            if (this.text) {\n                this.selectFake();\n            } else if (this.target) {\n                this.selectTarget();\n            }\n        }\n\n        /**\n         * Creates a fake textarea element, sets its value from `text` property,\n         * and makes a selection on it.\n         */\n\n    }, {\n        key: 'selectFake',\n        value: function selectFake() {\n            var _this = this;\n\n            var isRTL = document.documentElement.getAttribute('dir') == 'rtl';\n\n            this.removeFake();\n\n            this.fakeHandlerCallback = function () {\n                return _this.removeFake();\n            };\n            this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback) || true;\n\n            this.fakeElem = document.createElement('textarea');\n            // Prevent zooming on iOS\n            this.fakeElem.style.fontSize = '12pt';\n            // Reset box model\n            this.fakeElem.style.border = '0';\n            this.fakeElem.style.padding = '0';\n            this.fakeElem.style.margin = '0';\n            // Move element out of screen horizontally\n            this.fakeElem.style.position = 'absolute';\n            this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';\n            // Move element to the same position vertically\n            var yPosition = window.pageYOffset || document.documentElement.scrollTop;\n            this.fakeElem.style.top = yPosition + 'px';\n\n            this.fakeElem.setAttribute('readonly', '');\n            this.fakeElem.value = this.text;\n\n            this.container.appendChild(this.fakeElem);\n\n            this.selectedText = (0, _select2.default)(this.fakeElem);\n            this.copyText();\n        }\n\n        /**\n         * Only removes the fake element after another click event, that way\n         * a user can hit `Ctrl+C` to copy because selection still exists.\n         */\n\n    }, {\n        key: 'removeFake',\n        value: function removeFake() {\n            if (this.fakeHandler) {\n                this.container.removeEventListener('click', this.fakeHandlerCallback);\n                this.fakeHandler = null;\n                this.fakeHandlerCallback = null;\n            }\n\n            if (this.fakeElem) {\n                this.container.removeChild(this.fakeElem);\n                this.fakeElem = null;\n            }\n        }\n\n        /**\n         * Selects the content from element passed on `target` property.\n         */\n\n    }, {\n        key: 'selectTarget',\n        value: function selectTarget() {\n            this.selectedText = (0, _select2.default)(this.target);\n            this.copyText();\n        }\n\n        /**\n         * Executes the copy operation based on the current selection.\n         */\n\n    }, {\n        key: 'copyText',\n        value: function copyText() {\n            var succeeded = void 0;\n\n            try {\n                succeeded = document.execCommand(this.action);\n            } catch (err) {\n                succeeded = false;\n            }\n\n            this.handleResult(succeeded);\n        }\n\n        /**\n         * Fires an event based on the copy operation result.\n         * @param {Boolean} succeeded\n         */\n\n    }, {\n        key: 'handleResult',\n        value: function handleResult(succeeded) {\n            this.emitter.emit(succeeded ? 'success' : 'error', {\n                action: this.action,\n                text: this.selectedText,\n                trigger: this.trigger,\n                clearSelection: this.clearSelection.bind(this)\n            });\n        }\n\n        /**\n         * Moves focus away from `target` and back to the trigger, removes current selection.\n         */\n\n    }, {\n        key: 'clearSelection',\n        value: function clearSelection() {\n            if (this.trigger) {\n                this.trigger.focus();\n            }\n\n            window.getSelection().removeAllRanges();\n        }\n\n        /**\n         * Sets the `action` to be performed which can be either 'copy' or 'cut'.\n         * @param {String} action\n         */\n\n    }, {\n        key: 'destroy',\n\n\n        /**\n         * Destroy lifecycle.\n         */\n        value: function destroy() {\n            this.removeFake();\n        }\n    }, {\n        key: 'action',\n        set: function set() {\n            var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'copy';\n\n            this._action = action;\n\n            if (this._action !== 'copy' && this._action !== 'cut') {\n                throw new Error('Invalid \"action\" value, use either \"copy\" or \"cut\"');\n            }\n        }\n\n        /**\n         * Gets the `action` property.\n         * @return {String}\n         */\n        ,\n        get: function get() {\n            return this._action;\n        }\n\n        /**\n         * Sets the `target` property using an element\n         * that will be have its content copied.\n         * @param {Element} target\n         */\n\n    }, {\n        key: 'target',\n        set: function set(target) {\n            if (target !== undefined) {\n                if (target && (typeof target === 'undefined' ? 'undefined' : _typeof(target)) === 'object' && target.nodeType === 1) {\n                    if (this.action === 'copy' && target.hasAttribute('disabled')) {\n                        throw new Error('Invalid \"target\" attribute. Please use \"readonly\" instead of \"disabled\" attribute');\n                    }\n\n                    if (this.action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {\n                        throw new Error('Invalid \"target\" attribute. You can\\'t cut text from elements with \"readonly\" or \"disabled\" attributes');\n                    }\n\n                    this._target = target;\n                } else {\n                    throw new Error('Invalid \"target\" value, use a valid Element');\n                }\n            }\n        }\n\n        /**\n         * Gets the `target` property.\n         * @return {String|HTMLElement}\n         */\n        ,\n        get: function get() {\n            return this._target;\n        }\n    }]);\n\n    return ClipboardAction;\n}();\n\nmodule.exports = ClipboardAction;\n\n//# sourceURL=webpack://ClipboardJS/./src/clipboard-action.js?");
 
-        element.select();
-        element.setSelectionRange(0, element.value.length);
+/***/ }),
 
-        if (!isReadOnly) {
-            element.removeAttribute('readonly');
-        }
+/***/ "./src/clipboard.js":
+/*!**************************!*\
+  !*** ./src/clipboard.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-        selectedText = element.value;
-    }
-    else {
-        if (element.hasAttribute('contenteditable')) {
-            element.focus();
-        }
-
-        var selection = window.getSelection();
-        var range = document.createRange();
-
-        range.selectNodeContents(element);
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        selectedText = selection.toString();
-    }
-
-    return selectedText;
-}
-
-module.exports = select;
-
+"use strict";
+eval("\n\nvar _typeof = typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; };\n\nvar _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();\n\nvar _clipboardAction = __webpack_require__(/*! ./clipboard-action */ \"./src/clipboard-action.js\");\n\nvar _clipboardAction2 = _interopRequireDefault(_clipboardAction);\n\nvar _tinyEmitter = __webpack_require__(/*! tiny-emitter */ \"./node_modules/tiny-emitter/index.js\");\n\nvar _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);\n\nvar _goodListener = __webpack_require__(/*! good-listener */ \"./node_modules/good-listener/src/listen.js\");\n\nvar _goodListener2 = _interopRequireDefault(_goodListener);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return call && (typeof call === \"object\" || typeof call === \"function\") ? call : self; }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function, not \" + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }\n\n/**\n * Base class which takes one or more elements, adds event listeners to them,\n * and instantiates a new `ClipboardAction` on each click.\n */\nvar Clipboard = function (_Emitter) {\n    _inherits(Clipboard, _Emitter);\n\n    /**\n     * @param {String|HTMLElement|HTMLCollection|NodeList} trigger\n     * @param {Object} options\n     */\n    function Clipboard(trigger, options) {\n        _classCallCheck(this, Clipboard);\n\n        var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this));\n\n        _this.resolveOptions(options);\n        _this.listenClick(trigger);\n        return _this;\n    }\n\n    /**\n     * Defines if attributes would be resolved using internal setter functions\n     * or custom functions that were passed in the constructor.\n     * @param {Object} options\n     */\n\n\n    _createClass(Clipboard, [{\n        key: 'resolveOptions',\n        value: function resolveOptions() {\n            var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n\n            this.action = typeof options.action === 'function' ? options.action : this.defaultAction;\n            this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;\n            this.text = typeof options.text === 'function' ? options.text : this.defaultText;\n            this.container = _typeof(options.container) === 'object' ? options.container : document.body;\n        }\n\n        /**\n         * Adds a click event listener to the passed trigger.\n         * @param {String|HTMLElement|HTMLCollection|NodeList} trigger\n         */\n\n    }, {\n        key: 'listenClick',\n        value: function listenClick(trigger) {\n            var _this2 = this;\n\n            this.listener = (0, _goodListener2.default)(trigger, 'click', function (e) {\n                return _this2.onClick(e);\n            });\n        }\n\n        /**\n         * Defines a new `ClipboardAction` on each click event.\n         * @param {Event} e\n         */\n\n    }, {\n        key: 'onClick',\n        value: function onClick(e) {\n            var trigger = e.delegateTarget || e.currentTarget;\n\n            if (this.clipboardAction) {\n                this.clipboardAction = null;\n            }\n\n            this.clipboardAction = new _clipboardAction2.default({\n                action: this.action(trigger),\n                target: this.target(trigger),\n                text: this.text(trigger),\n                container: this.container,\n                trigger: trigger,\n                emitter: this\n            });\n        }\n\n        /**\n         * Default `action` lookup function.\n         * @param {Element} trigger\n         */\n\n    }, {\n        key: 'defaultAction',\n        value: function defaultAction(trigger) {\n            return getAttributeValue('action', trigger);\n        }\n\n        /**\n         * Default `target` lookup function.\n         * @param {Element} trigger\n         */\n\n    }, {\n        key: 'defaultTarget',\n        value: function defaultTarget(trigger) {\n            var selector = getAttributeValue('target', trigger);\n\n            if (selector) {\n                return document.querySelector(selector);\n            }\n        }\n\n        /**\n         * Returns the support of the given action, or all actions if no action is\n         * given.\n         * @param {String} [action]\n         */\n\n    }, {\n        key: 'defaultText',\n\n\n        /**\n         * Default `text` lookup function.\n         * @param {Element} trigger\n         */\n        value: function defaultText(trigger) {\n            return getAttributeValue('text', trigger);\n        }\n\n        /**\n         * Destroy lifecycle.\n         */\n\n    }, {\n        key: 'destroy',\n        value: function destroy() {\n            this.listener.destroy();\n\n            if (this.clipboardAction) {\n                this.clipboardAction.destroy();\n                this.clipboardAction = null;\n            }\n        }\n    }], [{\n        key: 'isSupported',\n        value: function isSupported() {\n            var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];\n\n            var actions = typeof action === 'string' ? [action] : action;\n            var support = !!document.queryCommandSupported;\n\n            actions.forEach(function (action) {\n                support = support && !!document.queryCommandSupported(action);\n            });\n\n            return support;\n        }\n    }]);\n\n    return Clipboard;\n}(_tinyEmitter2.default);\n\n/**\n * Helper function to retrieve attribute value.\n * @param {String} suffix\n * @param {Element} element\n */\n\n\nfunction getAttributeValue(suffix, element) {\n    var attribute = 'data-clipboard-' + suffix;\n\n    if (!element.hasAttribute(attribute)) {\n        return;\n    }\n\n    return element.getAttribute(attribute);\n}\n\nmodule.exports = Clipboard;\n\n//# sourceURL=webpack://ClipboardJS/./src/clipboard.js?");
 
 /***/ })
-/******/ ]);
+
+/******/ });
 });
 
 /***/ }),
@@ -25765,6 +25086,7 @@ var endsWith = function endsWith(str, searchStr) {
 };
 
 var getStringSize = function getStringSize(n) {
+  if (n.toString() === 'auto') return n.toString();
   if (endsWith(n.toString(), 'px')) return n.toString();
   if (endsWith(n.toString(), '%')) return n.toString();
   if (endsWith(n.toString(), 'vh')) return n.toString();

@@ -19,8 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @global WP_Post      $post
  * @global string       $title
  * @global array        $editor_styles
+ * @global array        $wp_meta_boxes
  */
-global $post_type, $post_type_object, $post, $title, $editor_styles;
+global $post_type, $post_type_object, $post, $title, $editor_styles, $wp_meta_boxes;
 
 if ( ! empty( $post_type_object ) ) {
 	$title = $post_type_object->labels->edit_item;
@@ -316,36 +317,6 @@ if ( $is_new_post && ! isset( $editor_settings['template'] ) && 'post' === $post
 	}
 }
 
-$init_script = <<<JS
-( function() {
-	window._wpLoadBlockEditor = new Promise( function( resolve ) {
-		wp.domReady( function() {
-			resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
-		} );
-	} );
-} )();
-JS;
-
-
-/**
- * Filters the settings to pass to the block editor.
- *
- * @since 5.0.0
- *
- * @param array   $editor_settings Default editor settings.
- * @param WP_Post $post            Post being edited.
- */
-$editor_settings = apply_filters( 'block_editor_settings', $editor_settings, $post );
-
-$script = sprintf(
-	$init_script,
-	$post->post_type,
-	$post->ID,
-	wp_json_encode( $editor_settings ),
-	wp_json_encode( $initial_edits )
-);
-wp_add_inline_script( 'wp-edit-post', $script );
-
 /**
  * Scripts
  */
@@ -377,6 +348,41 @@ do_action( 'enqueue_block_editor_assets' );
 // In order to duplicate classic meta box behaviour, we need to run the classic meta box actions.
 require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
 register_and_do_post_meta_boxes( $post );
+
+// Check if the Custom Fields meta box has been removed at some point.
+$core_meta_boxes = $wp_meta_boxes[ $current_screen->id ]['normal']['core'];
+if ( ! isset( $core_meta_boxes['postcustom'] ) || ! $core_meta_boxes['postcustom'] ) {
+	unset( $editor_settings['enableCustomFields'] );
+}
+
+/**
+ * Filters the settings to pass to the block editor.
+ *
+ * @since 5.0.0
+ *
+ * @param array   $editor_settings Default editor settings.
+ * @param WP_Post $post            Post being edited.
+ */
+$editor_settings = apply_filters( 'block_editor_settings', $editor_settings, $post );
+
+$init_script = <<<JS
+( function() {
+	window._wpLoadBlockEditor = new Promise( function( resolve ) {
+		wp.domReady( function() {
+			resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
+		} );
+	} );
+} )();
+JS;
+
+$script = sprintf(
+	$init_script,
+	$post->post_type,
+	$post->ID,
+	wp_json_encode( $editor_settings ),
+	wp_json_encode( $initial_edits )
+);
+wp_add_inline_script( 'wp-edit-post', $script );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
