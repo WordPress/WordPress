@@ -9090,7 +9090,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var CATEGORIES_LIST_QUERY = {
-  per_page: 100
+  per_page: -1
 };
 var MAX_POSTS_COLUMNS = 6;
 
@@ -10537,7 +10537,7 @@ function MissingBlockWarning(_ref) {
   var messageHTML;
 
   if (hasContent && hasHTMLBlock) {
-    messageHTML = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn\'t include support for the "%s" block. You can leave this block intact, convert its content to a Custom HTML block, or remove it entirely.'), originalName);
+    messageHTML = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn’t include support for the "%s" block. You can leave this block intact, convert its content to a Custom HTML block, or remove it entirely.'), originalName);
     actions.push(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
       key: "convert",
       onClick: convertToHTML,
@@ -10545,7 +10545,7 @@ function MissingBlockWarning(_ref) {
       isPrimary: true
     }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Keep as HTML')));
   } else {
-    messageHTML = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn\'t include support for the "%s" block. You can leave this block intact or remove it entirely.'), originalName);
+    messageHTML = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["sprintf"])(Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn’t include support for the "%s" block. You can leave this block intact or remove it entirely.'), originalName);
   }
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_5__["Warning"], {
@@ -10573,7 +10573,7 @@ var settings = {
   name: name,
   category: 'common',
   title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Unrecognized Block'),
-  description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn\'t include support for this block.'),
+  description: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Your site doesn’t include support for this block.'),
   supports: {
     className: false,
     customClassName: false,

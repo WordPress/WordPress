@@ -54,9 +54,14 @@
 
 .wp-block-audio figcaption {
   margin-top: 0.5em;
-  color: #6c7781;
+  margin-bottom: 1em;
+  color: #555d66;
   text-align: center;
   font-size: 13px; }
+
+.wp-block-audio audio {
+  width: 100%;
+  min-width: 300px; }
 
 .editor-block-list__layout .reusable-block-edit-panel {
   align-items: center;

@@ -4231,6 +4231,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var _block__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./block */ "./node_modules/@wordpress/editor/build-module/components/block-list/block.js");
 /* harmony import */ var _block_list_appender__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../block-list-appender */ "./node_modules/@wordpress/editor/build-module/components/block-list-appender/index.js");
+/* harmony import */ var _utils_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../utils/dom */ "./node_modules/@wordpress/editor/build-module/utils/dom.js");
 
 
 
@@ -4255,6 +4256,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -4333,8 +4335,14 @@ function (_Component) {
         this.props.onStartMultiSelect();
       }
 
-      var boundaries = this.nodes[this.selectionAtStart].getBoundingClientRect();
-      var y = clientY - boundaries.top;
+      var blockContentBoundaries = Object(_utils_dom__WEBPACK_IMPORTED_MODULE_14__["getBlockDOMNode"])(this.selectionAtStart).getBoundingClientRect(); // prevent multi-selection from triggering when the selected block is a float
+      // and the cursor is still between the top and the bottom of the block.
+
+      if (clientY >= blockContentBoundaries.top && clientY <= blockContentBoundaries.bottom) {
+        return;
+      }
+
+      var y = clientY - blockContentBoundaries.top;
       var key = Object(lodash__WEBPACK_IMPORTED_MODULE_9__["findLast"])(this.coordMapKeys, function (coordY) {
         return coordY < y;
       });
@@ -15371,7 +15379,6 @@ function PostSchedule(_ref) {
     key: "date-time-picker",
     currentDate: date,
     onChange: onUpdateDate,
-    locale: settings.l10n.locale,
     is12Hour: is12HourTime
   });
 }

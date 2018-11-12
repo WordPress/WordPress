@@ -201,6 +201,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-compose',
 			'wp-core-data',
 			'wp-data',
+			'wp-date',
 			'wp-editor',
 			'wp-element',
 			'wp-html-entities',

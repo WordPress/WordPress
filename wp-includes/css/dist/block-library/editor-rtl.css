@@ -58,9 +58,6 @@
 .wp-block-audio {
   margin: 0; }
 
-.wp-block-audio audio {
-  width: 100%; }
-
 .editor-block-list__block[data-type="core/button"][data-align="center"] {
   text-align: center; }
 
