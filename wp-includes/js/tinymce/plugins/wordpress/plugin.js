@@ -19,7 +19,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 	}
 
 	function toggleToolbars( state ) {
-		var iframe, initial, toolbars,
+		var initial, toolbars,
 			pixels = 0,
 			classicBlockToolbar = tinymce.$( '.block-library-classic__toolbar' );
 
@@ -437,7 +437,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		editor.addButton( 'wp_add_media', {
 			tooltip: 'Add Media',
 			icon: 'dashicon dashicons-admin-media',
-			cmd: 'WP_Medialib',
+			cmd: 'WP_Medialib'
 		} );
 
 		editor.addMenuItem( 'add_media', {
