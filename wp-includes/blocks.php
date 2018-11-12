@@ -184,10 +184,13 @@ function render_block( $block ) {
 		$block_content .= is_string( $chunk ) ? $chunk : render_block( $block['innerBlocks'][ $index++ ] );
 	}
 
+	if ( ! is_array( $block['attrs'] ) ) {
+		$block['attrs'] = array();
+	}
+
 	if ( $is_dynamic ) {
-		$attributes    = is_array( $block['attrs'] ) ? (array) $block['attrs'] : array();
 		$global_post   = $post;
-		$block_content = $block_type->render( $attributes, $block_content );
+		$block_content = $block_type->render( $block['attrs'], $block_content );
 		$post          = $global_post;
 	}
 
