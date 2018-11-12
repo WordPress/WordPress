@@ -71,25 +71,25 @@ add_filter( 'comment_form_defaults', 'twentynineteen_comment_form_defaults' );
  */
 function twentynineteen_get_the_archive_title() {
 	if ( is_category() ) {
-		$title = esc_html__( 'Category Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
+		$title = __( 'Category Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_tag() ) {
-		$title = esc_html__( 'Tag Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
+		$title = __( 'Tag Archives: ', 'twentynineteen' ) . '<span class="page-description">' . single_term_title( '', false ) . '</span>';
 	} elseif ( is_author() ) {
-		$title = esc_html__( 'Author Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_author_meta( 'display_name' ) . '</span>';
+		$title = __( 'Author Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_author_meta( 'display_name' ) . '</span>';
 	} elseif ( is_year() ) {
-		$title = esc_html__( 'Yearly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentynineteen' ) ) . '</span>';
+		$title = __( 'Yearly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentynineteen' ) ) . '</span>';
 	} elseif ( is_month() ) {
-		$title = esc_html__( 'Monthly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentynineteen' ) ) . '</span>';
+		$title = __( 'Monthly Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentynineteen' ) ) . '</span>';
 	} elseif ( is_day() ) {
-		$title = esc_html__( 'Daily Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date() . '</span>';
+		$title = __( 'Daily Archives: ', 'twentynineteen' ) . '<span class="page-description">' . get_the_date() . '</span>';
 	} elseif ( is_post_type_archive() ) {
-		$title = esc_html__( 'Post Type Archives: ', 'twentynineteen' ) . '<span class="page-description">' . post_type_archive_title( '', false ) . '</span>';
+		$title = __( 'Post Type Archives: ', 'twentynineteen' ) . '<span class="page-description">' . post_type_archive_title( '', false ) . '</span>';
 	} elseif ( is_tax() ) {
 		$tax = get_taxonomy( get_queried_object()->taxonomy );
 		/* translators: %s: Taxonomy singular name */
 		$title = sprintf( esc_html__( '%s Archives:', 'twentynineteen' ), $tax->labels->singular_name );
 	} else {
-		$title = esc_html__( 'Archives:', 'twentynineteen' );
+		$title = __( 'Archives:', 'twentynineteen' );
 	}
 	return $title;
 }
@@ -111,6 +111,28 @@ function twentynineteen_image_filters_enabled() {
 	}
 	return true;
 }
+
+/**
+ * Add custom sizes attribute to responsive image functionality for post thumbnails.
+ *
+ * @origin Twenty Nineteen 1.0
+ *
+ * @param array $attr  Attributes for the image markup.
+ * @return string Value for use in post thumbnail 'sizes' attribute.
+ */
+function twentynineteen_post_thumbnail_sizes_attr( $attr ) {
+
+	if ( is_admin() ) {
+		return $attr;
+	}
+
+	if ( ! is_singular() ) {
+		$attr['sizes'] = '(max-width: 34.9rem) calc(100vw - 2rem), (max-width: 53rem) calc(8 * (100vw / 12)), (min-width: 53rem) calc(6 * (100vw / 12)), 100vw';
+	}
+
+	return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'twentynineteen_post_thumbnail_sizes_attr', 10, 1 );
 
 /**
  * Returns the size for avatars used in the theme.
@@ -140,39 +162,73 @@ function twentynineteen_is_comment_by_post_author( $comment = null ) {
  */
 function twentynineteen_get_discussion_data() {
 	static $discussion, $post_id;
+
 	$current_post_id = get_the_ID();
-	if ( $current_post_id === $post_id ) { /* If we have discussion information for post ID, return cached object */
-		return $discussion;
+	if ( $current_post_id === $post_id ) {
+		return $discussion; /* If we have discussion information for post ID, return cached object */
+	} else {
+		$post_id = $current_post_id;
 	}
-	$authors    = array();
-	$commenters = array();
-	$user_id    = -1; // is_user_logged_in() ? get_current_user_id() : -1;
-	$comments   = get_comments(
+
+	$comments = get_comments(
 		array(
 			'post_id' => $current_post_id,
 			'orderby' => 'comment_date_gmt',
 			'order'   => get_option( 'comment_order', 'asc' ), /* Respect comment order from Settings » Discussion. */
 			'status'  => 'approve',
+			'number'  => 20, /* Only retrieve the last 20 comments, as the end goal is just 6 unique authors */
 		)
 	);
+
+	$authors = array();
 	foreach ( $comments as $comment ) {
-		$comment_user_id = (int) $comment->user_id;
-		if ( $comment_user_id !== $user_id ) {
-			$authors[]    = ( $comment_user_id > 0 ) ? $comment_user_id : $comment->comment_author_email;
-			$commenters[] = $comment->comment_author_email;
-		}
+		$authors[] = ( (int) $comment->user_id > 0 ) ? (int) $comment->user_id : $comment->comment_author_email;
 	}
+
 	$authors    = array_unique( $authors );
-	$responses  = count( $commenters );
-	$commenters = array_unique( $commenters );
-	$post_id    = $current_post_id;
 	$discussion = (object) array(
-		'authors'    => array_slice( $authors, 0, 6 ), /* Unique authors commenting on post (a subset of), excluding current user. */
-		'commenters' => count( $commenters ),          /* Number of commenters involved in discussion, excluding current user. */
-		'responses'  => $responses,                    /* Number of responses, excluding responses from current user. */
+		'authors'   => array_slice( $authors, 0, 6 ),           /* Six unique authors commenting on the post. */
+		'responses' => get_comments_number( $current_post_id ), /* Number of responses. */
 	);
+
 	return $discussion;
 }
+
+/**
+ * Add an extra menu to our nav for our priority+ navigation to use
+ *
+ * @param object $nav_menu  Nav menu.
+ * @param object $args      Nav menu args.
+ * @return string More link for hidden menu items.
+ */
+function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
+
+	if ( 'menu-1' === $args->theme_location ) :
+
+		$nav_menu .= '<div class="main-menu-more"	>';
+		$nav_menu .= '<ul class="main-menu" tabindex="0">';
+		$nav_menu .= '<li class="menu-item menu-item-has-children">';
+		$nav_menu .= '<a href="#" class="screen-reader-text" aria-label="More" aria-haspopup="true" aria-expanded="false">' . esc_html( 'More', 'twentynineteen' ) . '</a>';
+		$nav_menu .= '<span class="submenu-expand main-menu-more-toggle" tabindex="-1">';
+		$nav_menu .= twentynineteen_get_icon_svg( 'arrow_drop_down_ellipsis' );
+		$nav_menu .= '</span>';
+		$nav_menu .= '<ul class="sub-menu hidden-links is-hidden">';
+		$nav_menu .= '<li id="menu-item--1" class="mobile-parent-nav-menu-item menu-item--1">';
+		$nav_menu .= '<a class="menu-item-link-return" id="menu-item-link-return-1877" href="#menu-item-link-1877" onclick="event.preventDefault();" tabindex="-1">';
+		$nav_menu .= twentynineteen_get_icon_svg( 'chevron_left' );
+		$nav_menu .= esc_html__( 'Back', 'twentynineteen' );
+		$nav_menu .= '</a>';
+		$nav_menu .= '</li>';
+		$nav_menu .= '</ul>';
+		$nav_menu .= '</li>';
+		$nav_menu .= '</ul>';
+		$nav_menu .= '</div>';
+
+	endif;
+
+	return $nav_menu;
+}
+add_filter( 'wp_nav_menu', 'twentynineteen_add_ellipses_to_nav', 10, 2 );
 
 /**
  * WCAG 2.0 Attributes for Dropdown Menus
@@ -216,40 +272,35 @@ function twentynineteen_add_dropdown_icons( $output, $item, $depth, $args ) {
 		// Inject the keyboard_arrow_left SVG inside the parent nav menu item, and let the item link to the parent item.
 		// @todo Only do this for nested submenus? If on a first-level submenu, then really the link could be "#" since the desire is to remove the target entirely.
 		$link = sprintf(
-			'<a class="menu-item-link-return" id="%1$s" href="%2$s" onclick="%3$s" tabindex="-1">%4$s',
-			esc_attr( "menu-item-link-return-{$item->original_id}" ),
-			esc_attr( "#menu-item-link-{$item->original_id}" ),
-			esc_attr( 'event.preventDefault();' ),
+			'<span class="menu-item-link-return" tabindex="-1">%s',
 			twentynineteen_get_icon_svg( 'chevron_left', 24 )
 		);
 
+		// replace opening <a> with <span>
 		$output = preg_replace(
 			'/<a\s.*?>/',
 			$link,
 			$output,
 			1 // Limit.
 		);
-	} elseif ( in_array( 'menu-item-has-children', $item->classes, true ) ) {
-		// Add an ID to the link element itself to facilitate navigation from submenu back to parent.
-		$output = preg_replace( '/(?<=<a\s)/', sprintf( ' id="%s" ', esc_attr( "menu-item-link-{$item->ID}" ) ), $output );
 
-		// Add SVG icon to parent items.
-		if ( 0 === $depth ) {
-			$icon = twentynineteen_get_icon_svg( 'keyboard_arrow_down', 24 );
-		} else {
-			$icon = twentynineteen_get_icon_svg( 'chevron_right', 24 );
-		}
-
-		// @todo We might as well just go back to using the SVG element if the link approach is not suitable for no-JS environments.
-		$link = sprintf(
-			'<a class="mobile-submenu-expand" href="%s" onclick="%s" tabindex="-1">%s</a>',
-			esc_attr( "#menu-item-link-return-{$item->ID}" ),
-			esc_attr( 'event.preventDefault();' ),
-			$icon
+		// replace closing </a> with </span>
+		$output = preg_replace(
+			'#</a>#i',
+			'</span>',
+			$output,
+			1 // Limit.
 		);
 
-		$output .= $link;
-		$output .= "<span class='desktop-submenu-expand'>$icon</span>";
+	} elseif ( in_array( 'menu-item-has-children', $item->classes, true ) ) {
+
+		// Add SVG icon to parent items.
+		$icon = twentynineteen_get_icon_svg( 'keyboard_arrow_down', 24 );
+
+		$output .= sprintf(
+			'<span class="submenu-expand" tabindex="-1">%s</span>',
+			$icon
+		);
 	}
 
 	return $output;

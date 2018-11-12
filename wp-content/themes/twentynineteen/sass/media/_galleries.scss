@@ -7,7 +7,7 @@
 
 .gallery-item {
 	display: inline-block;
-	padding-right: $size__spacing-unit;
+	margin-right: $size__spacing-unit;
 	margin-bottom: $size__spacing-unit;
 	text-align: center;
 	vertical-align: top;
@@ -16,7 +16,11 @@
 	// Loops to enumerate the classes for gallery columns.
 	@for $i from 2 through 9 {
 		.gallery-columns-#{$i} & {
-			max-width: calc( ( 12 / #{$i} ) * (100% / 12) );
+			max-width: calc( ( 12 / #{$i} ) * (100% / 12) - ( #{$size__spacing-unit} * #{($i - 1) / $i} ) );
+
+			&:nth-of-type(#{$i}n+#{$i}) {
+				margin-right: 0;
+			}
 		}
 	}
 

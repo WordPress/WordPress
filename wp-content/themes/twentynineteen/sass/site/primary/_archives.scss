@@ -5,8 +5,7 @@
 	margin: $size__spacing-unit $size__spacing-unit calc(3 * #{$size__spacing-unit});
 
 	@include media(tablet) {
-		margin: 0 calc(2 * (100vw / 12)) calc(3 * #{$size__spacing-unit});
-		max-width: calc(8 * (100vw / 12));
+		margin: 0 $size__site-margins $size__site-margins;
 	}
 
 	.page-title {
@@ -42,7 +41,7 @@
 .hfeed .entry .entry-header {
 
 	@include media(tablet) {
-		margin: calc(3 * #{$size__spacing-unit}) calc(2 * (100vw / 12)) calc(#{ $size__spacing-unit } / 2);
+		margin: calc(3 * #{$size__spacing-unit}) $size__site-margins calc(#{ $size__spacing-unit } / 2);
 	}
 }
 
@@ -56,7 +55,7 @@
 		margin: calc(3 * #{$size__spacing-unit}) #{$size__spacing-unit};
 
 		@include media(tablet) {
-			margin: calc(3 * #{$size__spacing-unit}) calc(2 * (100vw / 12)) calc(#{ $size__spacing-unit } / 2);
+			margin: calc(3 * #{$size__spacing-unit}) $size__site-margins calc(#{ $size__spacing-unit } / 2);
 		}
 	}
 

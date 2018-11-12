@@ -3,10 +3,11 @@ html {
 }
 
 ::-moz-selection {
-	background: $color__background_selection;
+	background-color: $color__background_selection;
 }
+
 ::selection {
-	background: $color__background_selection;
+	background-color: $color__background_selection;
 }
 
 *,
@@ -16,7 +17,7 @@ html {
 }
 
 body {
-	background: $color__background-body;
+	background-color: $color__background-body;
 }
 
 a {
@@ -41,12 +42,18 @@ a:focus {
 	text-decoration: underline;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	clear: both;
 	margin: $size__spacing-unit 0;
 }
 
-h1:not(.site-title), h2 {
+h1:not(.site-title),
+h2 {
 	@include post-section-dash;
 }
 

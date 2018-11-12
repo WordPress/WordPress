@@ -21,21 +21,21 @@ if ( post_password_required() ) {
 	return;
 }
 
+$discussion = twentynineteen_get_discussion_data();
 ?>
 
 <div id="comments" class="<?php echo comments_open() ? 'comments-area' : 'comments-area comments-closed'; ?>">
-	<div class="<?php echo twentynineteen_get_discussion_data()->responses > 0 ? 'comments-title-wrap' : 'comments-title-wrap no-responses'; ?>">
+	<div class="<?php echo $discussion->responses > 0 ? 'comments-title-wrap' : 'comments-title-wrap no-responses'; ?>">
 		<h2 class="comments-title">
 		<?php
 			if ( comments_open() ) {
 				if ( have_comments() ) {
-					esc_html_e( 'Join the Conversation', 'twentynineteen' );
+					_e( 'Join the Conversation', 'twentynineteen' );
 				} else {
-					esc_html_e( 'Leave a comment', 'twentynineteen' );
+					_e( 'Leave a comment', 'twentynineteen' );
 				}
 			} else {
-				$comments_number = get_comments_number();
-				if ( '1' === $comments_number ) {
+				if ( '1' == $discussion->responses ) {
 					/* translators: %s: post title */
 					printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentynineteen' ), get_the_title() );
 				} else {
@@ -44,11 +44,11 @@ if ( post_password_required() ) {
 						_nx(
 							'%1$s reply on &ldquo;%2$s&rdquo;',
 							'%1$s replies on &ldquo;%2$s&rdquo;',
-							$comments_number,
+							$discussion->responses,
 							'comments title',
 							'twentynineteen'
 						),
-						number_format_i18n( $comments_number ),
+						number_format_i18n( $discussion->responses ),
 						get_the_title()
 					);
 				}
@@ -102,9 +102,9 @@ if ( post_password_required() ) {
 		if ( comments_open() && 'asc' === strtolower( get_option( 'comment_order', 'asc' ) ) ) :
 			?>
 			<div class="comment-form-flex">
-				<span class="screen-reader-text"><?php esc_html_e( 'Leave a comment', 'twentynineteen' ); ?></span>
+				<span class="screen-reader-text"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></span>
 				<?php twentynineteen_comment_form( 'asc' ); ?>
-				<h2 class="comments-title" aria-hidden="true"><?php esc_html_e( 'Leave a comment', 'twentynineteen' ); ?></h2>
+				<h2 class="comments-title" aria-hidden="true"><?php _e( 'Leave a comment', 'twentynineteen' ); ?></h2>
 			</div>
 			<?php
 		endif;
@@ -113,7 +113,7 @@ if ( post_password_required() ) {
 		if ( ! comments_open() ) :
 			?>
 			<p class="no-comments">
-				<?php esc_html_e( 'Comments are closed.', 'twentynineteen' ); ?>
+				<?php _e( 'Comments are closed.', 'twentynineteen' ); ?>
 			</p>
 			<?php
 		endif;

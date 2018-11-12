@@ -43,7 +43,7 @@ if ( ! function_exists( 'twentynineteen_posted_by' ) ) :
 			'<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
 			/* translators: 1: SVG icon. 2: post author, only visible to screen readers. 3: author link. */
 			twentynineteen_get_icon_svg( 'person', 16 ),
-			esc_html__( 'Posted by', 'twentynineteen' ),
+			__( 'Posted by', 'twentynineteen' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_html( get_the_author() )
 		);
@@ -83,25 +83,25 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 			twentynineteen_posted_on();
 
 			/* translators: used between list items, there is a space after the comma. */
-			$categories_list = get_the_category_list( esc_html__( ', ', 'twentynineteen' ) );
+			$categories_list = get_the_category_list( __( ', ', 'twentynineteen' ) );
 			if ( $categories_list ) {
 				/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of categories. */
 				printf(
 					'<span class="cat-links">%1$s<span class="screen-reader-text">%2$s</span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'archive', 16 ),
-					esc_html__( 'Posted in', 'twentynineteen' ),
+					__( 'Posted in', 'twentynineteen' ),
 					$categories_list
 				); // WPCS: XSS OK.
 			}
 
 			/* translators: used between list items, there is a space after the comma. */
-			$tags_list = get_the_tag_list( '', esc_html__( ', ', 'twentynineteen' ) );
+			$tags_list = get_the_tag_list( '', __( ', ', 'twentynineteen' ) );
 			if ( $tags_list ) {
 				/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of tags. */
 				printf(
 					'<span class="tags-links">%1$s<span class="screen-reader-text">%2$s </span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'tag', 16 ),
-					esc_html__( 'Tags:', 'twentynineteen' ),
+					__( 'Tags:', 'twentynineteen' ),
 					$tags_list
 				); // WPCS: XSS OK.
 			}
@@ -168,16 +168,6 @@ if ( ! function_exists( 'twentynineteen_post_thumbnail' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'twentynineteen_header_featured_image_css' ) ) :
-	/**
-	 * Returns the CSS for the header featured image background.
-	 */
-	function twentynineteen_header_featured_image_css() {
-		$img_url = get_the_post_thumbnail_url( get_the_ID(), 'post-thumbnail' );
-		return sprintf( 'body.singular .site-header.featured-image .site-branding-container:before { background-image: url(%s); }', esc_url( $img_url ) );
-	}
-endif;
-
 if ( ! function_exists( 'twentynineteen_comment_avatar' ) ) :
 	/**
 	 * Returns the HTML markup to generate a user avatar.
@@ -197,15 +187,17 @@ if ( ! function_exists( 'twentynineteen_discussion_avatars_list' ) ) :
 	 * Displays a list of avatars involved in a discussion for a given post.
 	 */
 	function twentynineteen_discussion_avatars_list( $comment_authors ) {
-		if ( ! empty( $comment_authors ) ) {
-			$out = array( '<ol class="discussion-avatar-list">' );
-			foreach ( $comment_authors as $id_or_email ) {
-				$out[] = sprintf( '<li>%s</li>', twentynineteen_get_user_avatar_markup( $id_or_email ) );
-			}
-			$out[] = '</ol><!-- .discussion-avatar-list -->';
-			echo implode( "\n", $out );
+		if ( empty( $comment_authors ) ) {
+			return;
 		}
-		return null;
+		echo '<ol class="discussion-avatar-list">', "\n";
+		foreach ( $comment_authors as $id_or_email ) {
+			printf(
+				"<li>%s</li>\n",
+				twentynineteen_get_user_avatar_markup( $id_or_email )
+			);
+		}
+		echo '</ol><!-- .discussion-avatar-list -->', "\n";
 	}
 endif;
 

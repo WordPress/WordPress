@@ -2,11 +2,14 @@
 
 .site-header.featured-image {
 
+	/* Hide overflow for overflowing featured image */
+	overflow: hidden;
+
 	/* Need relative positioning to properly align layers. */
 	position: relative;
 
 	/* Add text shadow to text, to increase readability. */
-	text-shadow: 0 1px 2px rgba(black, 0.35);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 
 	/* Set white text color when featured image is set. */
 	.site-branding .site-title,
@@ -54,91 +57,122 @@
 	.social-navigation svg,
 	.site-featured-image svg {
 		/* Use -webkit- only if supporting: Chrome < 54, iOS < 9.3, Android < 4.4.4 */
-		-webkit-filter: drop-shadow(0 1px 2px rgba(black, 0.35) );
-				filter: drop-shadow(0 1px 2px rgba(black, 0.35) );
+		-webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
+				filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35) );
 	}
 
 	/* Entry header */
+	.site-featured-image {
 
-	.site-featured-image .entry-header {
-		margin-top: calc( 4 * #{$size__spacing-unit});
-		margin-bottom: 0;
-		margin-left: 0;
-		margin-right: 0;
+		/* First layer: grayscale. */
+		.post-thumbnail img {
+			height: auto;
+			left: 50%;
+			max-width: 1000%;
+			min-height: 100%;
+			min-width: 100vw;
+			position: absolute;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: auto;
+			z-index: 1;
 
-		@include media (tablet) {
+			@supports ( object-fit: cover ) {
+				height: 100%;
+				left: 0;
+				object-fit: cover;
+				top: 0;
+				transform: none;
+				width: 100%;
+			}
 
-			margin-left: calc(2 * (100vw / 12));
-			margin-right: calc(2 * (100vw / 12));
-		}
-
-		.entry-title {
-
-			&:before {
-				background: $color__background-body;
+			/* When image filters are active, make it grayscale to colorize it blue. */
+			.image-filters-enabled & {
+				filter: grayscale(100%);
 			}
 		}
 
-		/* Entry meta */
+		.entry-header {
 
-		.entry-meta {
-
-			font-weight: 500;
-
-			> span {
-
-				margin-right: $size__spacing-unit;
-				display: inline-block;
-
-				&:last-child {
-					margin-right: 0;
-				}
-			}
-
-			a {
-
-				@include link-transition;
-				color: currentColor;
-
-				&:hover {
-					text-decoration: none;
-				}
-			}
-
-			.svg-icon {
-				position: relative;
-				display: inline-block;
-				vertical-align: middle;
-				margin-right: 0.5em;
-			}
-
-			.discussion-avatar-list {
-				display: none;
-			}
-		}
-
-		&.has-discussion {
+			margin-top: calc( 4 * #{$size__spacing-unit});
+			margin-bottom: 0;
+			margin-left: 0;
+			margin-right: 0;
 
 			@include media (tablet) {
 
-				.entry-meta {
-					display: flex;
+				margin-left: $size__site-margins;
+				margin-right: $size__site-margins;
+			}
+
+			.entry-title {
+
+				&:before {
+					background: $color__background-body;
+				}
+			}
+
+			/* Entry meta */
+
+			.entry-meta {
+
+				font-weight: 500;
+
+				> span {
+
+					margin-right: $size__spacing-unit;
+					display: inline-block;
+
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+
+				a {
+
+					@include link-transition;
+					color: currentColor;
+
+					&:hover {
+						text-decoration: none;
+					}
+				}
+
+				.svg-icon {
 					position: relative;
+					display: inline-block;
+					vertical-align: middle;
+					margin-right: 0.5em;
 				}
 
-				.entry-title {
-					padding-right: calc(1 * (100vw / 12) + #{$size__spacing-unit});
+				.discussion-avatar-list {
+					display: none;
 				}
+			}
 
-				.entry-meta .comment-count {
-					position: absolute;
-					right: 0;
-				}
+			&.has-discussion {
 
-				.entry-meta .discussion-avatar-list {
-					display: block;
-					position: absolute;
-					bottom: 100%;
+				@include media (tablet) {
+
+					.entry-meta {
+						display: flex;
+						position: relative;
+					}
+
+					.entry-title {
+						padding-right: calc(1 * (100vw / 12) + #{$size__spacing-unit});
+					}
+
+					.entry-meta .comment-count {
+						position: absolute;
+						right: 0;
+					}
+
+					.entry-meta .discussion-avatar-list {
+						display: block;
+						position: absolute;
+						bottom: 100%;
+					}
 				}
 			}
 		}
@@ -170,7 +204,6 @@
 	}
 
 	/* Set up image filter layer positioning */
-	.site-branding-container:before,
 	.site-branding-container:after,
 	.site-featured-image:before,
 	.site-featured-image:after,
@@ -184,25 +217,12 @@
 	}
 
 	/* Background & Effects */
-	/* Shared background settings between pseudo elements. See .site-branding-container */
+	/* Shared background settings between pseudo elements. */
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 
 	/* The intensity of each blend mode is controlled via layer opacity. */
-
-	/* First layer: grayscale. */
-  	.site-branding-container:before {
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		z-index: 1;
-
-		/* When image filters are active, make it grayscale to colorize it blue. */
-		.image-filters-enabled & {
-			filter: grayscale(100%);
-		}
-	}
 
 	/* Second layer: screen. */
 	.image-filters-enabled & .site-featured-image:before {
@@ -212,8 +232,8 @@
 	}
 
 	/* Third layer: multiply. */
-  	/* When image filters are inactive, a black overlay is added. */
-  	.site-featured-image:after {
+	/* When image filters are inactive, a black overlay is added. */
+	.site-featured-image:after {
 		background: #000;
 		mix-blend-mode: multiply;
 		opacity: .7;
@@ -233,7 +253,7 @@
 
 	/* Fourth layer: overlay. */
   	.image-filters-enabled & .site-branding-container:after {
-		background: rgba(#000, 0.35);
+		background: rgba(0, 0, 0, 0.35);
 		mix-blend-mode: overlay;
 		opacity: 0.5;
 		z-index: 4;
@@ -252,7 +272,7 @@
 		 * but smooth effect when resizing the screen.
 		 */
 		transition: opacity 1200ms ease-in-out;
-	  	opacity: 0.7;
+		opacity: 0.7;
 		z-index: 5;
 
 		/* When image filters are active, a blue overlay is added. */

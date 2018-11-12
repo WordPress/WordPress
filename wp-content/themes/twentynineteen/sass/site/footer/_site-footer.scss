@@ -4,12 +4,10 @@
 
 	.widget-area,
 	.site-info {
-
 		margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
 
 		@include media(tablet) {
-			margin: calc(3 * #{$size__spacing-unit}) calc(2 * (100vw / 12));
-			max-width: calc(8 * (100vw / 12));
+			margin: calc(3 * #{$size__spacing-unit}) $size__site-margins;
 		}
 
 		.imprint {

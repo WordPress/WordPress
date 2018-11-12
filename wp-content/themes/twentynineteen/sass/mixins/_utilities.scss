@@ -1,10 +1,17 @@
 
 @mixin media( $res ) {
+	@if mobile == $res {
+		@media only screen and (min-width: $mobile_width) {
+			@content;
+		}
+	}
+
 	@if tablet == $res {
 		@media only screen and (min-width: $tablet_width) {
 			@content;
 		}
 	}
+
 	@if desktop == $res {
 		@media only screen and (min-width: $desktop_width) {
 			@content;

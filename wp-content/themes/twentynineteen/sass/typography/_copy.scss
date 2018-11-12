@@ -3,7 +3,10 @@ p {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-dfn, cite, em, i {
+dfn,
+cite,
+em,
+i {
 	font-style: italic;
 }
 
@@ -23,7 +26,10 @@ pre {
 	overflow: auto;
 }
 
-code, kbd, tt, var {
+code,
+kbd,
+tt,
+var {
 	font-size: $font__size-sm;
 	font-family: $font__code;
 }
@@ -33,7 +39,8 @@ abbr, acronym {
 	cursor: help;
 }
 
-mark, ins {
+mark,
+ins {
 	background: #fff9c0;
 	text-decoration: none;
 }

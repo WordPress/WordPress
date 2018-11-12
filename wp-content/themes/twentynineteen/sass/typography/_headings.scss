@@ -1,6 +1,35 @@
+.author-description .author-link,
+.comment-metadata,
+.comment-reply-link,
+.comments-title,
+.comment-author .fn,
+.discussion-meta-info,
+.entry-meta,
+.entry-footer,
+.main-navigation,
+.no-comments,
+.not-found .page-title,
+.error-404 .page-title,
+.post-navigation .post-title,
+.page-links,
+.page-description,
+.pagination .nav-links,
+.sticky-post,
+.site-title,
+.site-info,
+#cancel-comment-reply-link,
+img:after,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $font__heading;
+}
+
 .main-navigation,
 .page-description,
-h2.author-title,
 .author-description .author-link,
 .not-found .page-title,
 .error-404 .page-title,
@@ -10,28 +39,17 @@ h2.author-title,
 .comment-author .fn,
 .no-comments,
 .site-title,
-h1, h2, h3, h4, h5, h6 {
-	font-family: $font__heading;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-weight: 700;
 	letter-spacing: -0.02em;
 	line-height: $font__line-height-heading;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.site-info,
-.page-description,
-.post-navigation .post-title,
-.comment-metadata,
-.discussion-meta-info,
-.entry-meta,
-.entry-footer,
-.comment-reply-link,
-#cancel-comment-reply-link,
-img:after,
-.page-links,
-.sticky-post {
-	font-family: $font__heading;
 }
 
 .page-title {

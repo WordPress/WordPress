@@ -1,8 +1,12 @@
 table {
 	margin: 0 0 $size__spacing-unit;
+	border-collapse: collapse;
 	width: 100%;
 
-	td, th {
-		border-color: $color__text-light;
+	td,
+	th {
+		padding: 0.5em;
+		border: 1px solid $color__text-light;
+		word-break: break-all;
 	}
 }

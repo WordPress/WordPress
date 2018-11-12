@@ -26,14 +26,17 @@ function twentynineteen_custom_colors_css() {
 	 * @param int $saturation Color saturation level.
 	 */
 
-	$saturation      = absint( apply_filters( 'twentynineteen_custom_colors_saturation', 100 ) );
-	$saturation      = $saturation . '%';
+	$saturation          = absint( apply_filters( 'twentynineteen_custom_colors_saturation', 100 ) );
+	$saturation          = $saturation . '%';
 
-	$lightness       = absint( apply_filters( 'twentynineteen_custom_colors_lightness', 33 ) );
-	$lightness       = $lightness . '%';
+	$lightness           = absint( apply_filters( 'twentynineteen_custom_colors_lightness', 33 ) );
+	$lightness           = $lightness . '%';
 
-	$lightness_hover = absint( apply_filters( 'twentynineteen_custom_colors_lightness_hover', 23 ) );
-	$lightness_hover = $lightness_hover . '%';
+	$lightness_hover     = absint( apply_filters( 'twentynineteen_custom_colors_lightness_hover', 23 ) );
+	$lightness_hover     = $lightness_hover . '%';
+
+	$lightness_selection = absint( apply_filters( 'twentynineteen_custom_colors_lightness_selection', 90 ) );
+	$lightness_selection = $lightness_selection . '%';
 
 	$theme_css = '
 		/*
@@ -54,14 +57,14 @@ function twentynineteen_custom_colors_css() {
 		.image-filters-enabled .entry .post-thumbnail:after,
 		.main-navigation .sub-menu,
 		.sticky-post,
-		.entry-content .wp-block-button .wp-block-button__link,
-		.button, button, input[type="button"], input[type="reset"], input[type="submit"],
-		.entry-content > .has-primary-background-color,
-		.entry-content > *[class^="wp-block-"].has-primary-background-color,
-		.entry-content > *[class^="wp-block-"] .has-primary-background-color,
-		.entry-content > *[class^="wp-block-"].is-style-solid-color,
-		.entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-background-color,
-		.entry-content .wp-block-file .wp-block-file__button {
+		.entry .entry-content .wp-block-button .wp-block-button__link,
+		.entry .button, button, input[type="button"], input[type="reset"], input[type="submit"],
+		.entry .entry-content > .has-primary-background-color,
+		.entry .entry-content > *[class^="wp-block-"].has-primary-background-color,
+		.entry .entry-content > *[class^="wp-block-"] .has-primary-background-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-background-color,
+		.entry .entry-content .wp-block-file .wp-block-file__button {
 			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
@@ -87,16 +90,15 @@ function twentynineteen_custom_colors_css() {
 		.entry .entry-footer a:hover,
 		.entry .entry-content .more-link:hover,
 		.main-navigation .main-menu > li > a + svg,
-		.comment-navigation .nav-previous a:hover,
-		.comment-navigation .nav-next a:hover,
+		.comment .comment-metadata > a:hover,
 		.comment .comment-metadata .comment-edit-link:hover,
 		#colophon .site-info a:hover,
 		.widget a,
-		.entry-content .wp-block-button.is-style-outline .wp-block-button__link,
-		.entry-content .wp-block-button.is-style-outline .wp-block-button__link,
-		.entry-content .wp-block-button.is-style-outline .wp-block-button__link,
-		.entry-content > *[class^="wp-block-"] .has-primary-color,
-		.entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-color {
+		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
+		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
+		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
+		.entry .entry-content > *[class^="wp-block-"] .has-primary-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-color {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
@@ -104,9 +106,10 @@ function twentynineteen_custom_colors_css() {
 		 * Set left border color for:
 		 * wp block quote
 		 */
-		.entry-content blockquote,
-		.entry-content .wp-block-quote:not(.is-large),
-		.entry-content .wp-block-quote:not(.is-style-large) {
+		blockquote,
+		.entry .entry-content blockquote,
+		.entry .entry-content .wp-block-quote:not(.is-large),
+		.entry .entry-content .wp-block-quote:not(.is-style-large) {
 			border-left-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
@@ -145,6 +148,8 @@ function twentynineteen_custom_colors_css() {
 		.author-bio .author-description .author-link:hover,
 		.comment .comment-author .fn a:hover,
 		.comment-reply-link:hover,
+		.comment-navigation .nav-previous a:hover,
+		.comment-navigation .nav-next a:hover,
 		#cancel-comment-reply-link:hover,
 		.widget a:hover {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_hover . ' ); /* base: #005177; */
@@ -154,9 +159,19 @@ function twentynineteen_custom_colors_css() {
 		.main-navigation .sub-menu > li > a:focus,
 		.main-navigation .sub-menu > li > a:hover:after,
 		.main-navigation .sub-menu > li > a:focus:after,
-		.main-navigation .sub-menu > li > a:not(.mobile-submenu-expand):hover,
-		.main-navigation .sub-menu > li > a:not(.mobile-submenu-expand):focus {
-			background: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_hover . ' ); /* base: #005177; */
+		.main-navigation .sub-menu > li > .menu-item-link-return:hover,
+		.main-navigation .sub-menu > li > .menu-item-link-return:focus,
+		.main-navigation .sub-menu > li > a:not(.submenu-expand):hover,
+		.main-navigation .sub-menu > li > a:not(.submenu-expand):focus {
+			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_hover . ' ); /* base: #005177; */
+		}
+
+		/* Text selection colors */
+		::selection {
+			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_selection . ' ); /* base: #005177; */
+		}
+		::-moz-selection {
+			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_selection . ' ); /* base: #005177; */
 		}';
 
 	$editor_css = '

@@ -21,7 +21,7 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'twentynineteen' ); ?></a>
+	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentynineteen' ); ?></a>
 
 		<header id="masthead" class="<?php echo is_singular() && twentynineteen_can_show_post_thumbnail() ? 'site-header featured-image' : 'site-header'; ?>">
 
@@ -31,9 +31,10 @@
 
 			<?php if ( is_singular() && twentynineteen_can_show_post_thumbnail() ) : ?>
 				<div class="site-featured-image">
+					<?php twentynineteen_post_thumbnail(); ?>
 					<?php the_post(); ?>
 					<?php $discussion = ! is_page() && twentynineteen_can_show_post_thumbnail() ? twentynineteen_get_discussion_data() : null; ?>
-					<div class="<?php echo ( ! empty( $discussion ) && count( $discussion->authors ) > 0 ) ? 'entry-header has-discussion' : 'entry-header'; ?>">
+					<div class="<?php echo ( ! empty( $discussion ) && count( $discussion->responses ) > 0 ) ? 'entry-header has-discussion' : 'entry-header'; ?>">
 						<?php get_template_part( 'template-parts/header/entry', 'header' ); ?>
 					</div><!-- .entry-header -->
 					<?php rewind_posts(); ?>

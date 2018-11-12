@@ -4,12 +4,12 @@
 .post-navigation {
 
 	margin: calc(3 * 1rem) 0;
-	
+
 	@include media(tablet) {
-		margin: calc(3 * 1rem) calc(2 * (100vw / 12));
+		margin: calc(3 * 1rem) $size__site-margins;
 		max-width: calc(6 * (100vw / 12));
 	}
-	
+
 	@include media(desktop) {
 		margin: calc(3 * 1rem) 0;
 		max-width: 100%;
@@ -21,15 +21,15 @@
 		max-width: 100%;
 		display: flex;
 		flex-direction: column;
-		
+
 		@include media(tablet) {
 			margin: 0;
 		}
 
 		@include media(desktop) {
 			flex-direction: row;
-			margin: 0 calc(2 * (100vw / 12));
-			max-width: calc(8 * (100vw / 12));
+			margin: 0 $size__site-margins;
+			max-width: $size__site-desktop-content;
 		}
 
 		a {
@@ -123,6 +123,21 @@
 			}
 		}
 
+		a:focus {
+			text-decoration: underline;
+			outline-offset: -1px;
+
+			&.prev,
+			&.next {
+				text-decoration: none;
+
+				.nav-prev-text,
+				.nav-next-text {
+					text-decoration: underline;
+				}
+			}
+		}
+
 		.nav-next-text,
 		.nav-prev-text {
 			display: none;
@@ -130,7 +145,7 @@
 
 		@include media(tablet) {
 
-			margin-left: calc(2 * (100vw / 12) );
+			margin-left: $size__site-margins;
 			padding: 0;
 
 			.prev,
@@ -155,12 +170,6 @@
 	.nav-links {
 		display: flex;
 		flex-direction: row;
-		margin: 0 $size__spacing-unit;
-
-		@include media(desktop) {
-			margin: 0 calc(2 * (100vw / 12));
-			max-width: calc(8 * (100vw / 12));
-		}
 	}
 
 	.nav-previous,
@@ -183,13 +192,6 @@
 			position: relative;
 			margin: 0 -0.35em;
 			top: -1px;
-		}
-
-		a {
-
-			&:hover {
-				color: $color__link;
-			}
 		}
 	}
 

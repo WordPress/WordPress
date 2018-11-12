@@ -1,5 +1,18 @@
 .wp-caption {
 	margin-bottom: calc(1.5 * #{$size__spacing-unit});
+
+	&.aligncenter {
+
+		@include media(tablet) {
+			position: relative;
+			left: calc( #{$size__site-tablet-content} / 2 );
+			transform: translateX( -50% );
+		}
+
+		@include media(desktop) {
+			left: calc( #{$size__site-desktop-content} / 2 );
+		}
+	}
 }
 
 .wp-caption img[class*="wp-image-"] {

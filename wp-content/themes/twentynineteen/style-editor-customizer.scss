@@ -1,5 +1,13 @@
 /*!
-Twenty Nineteen Customizer Styles
+Twenty Nineteen Customizer Styles & Non-latin Font Fallbacks
 
-NOTE: This file is empty by default. It is automatically populated with styles if the user selects a custom primary color in the customzier.
+NOTE: This file is automatically populated with additional styles if the user selects a custom primary color in the customzier.
 */
+
+/** === Includes === */
+
+@import "sass/mixins/mixins-master";
+
+/** === Non-Latin font fallbacks === */
+
+@include non-latin-fonts( '.wp-block' );

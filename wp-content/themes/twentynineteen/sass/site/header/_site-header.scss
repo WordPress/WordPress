@@ -33,7 +33,7 @@
 	position: relative;
 
 	@include media(tablet) {
-		margin: 0 calc(2 * (100vw / 12));
+		margin: 0 $size__site-margins;
 	}
 }
 
@@ -48,7 +48,7 @@
 	@include media(tablet) {
 		margin-bottom: 0;
 		position: absolute;
-		right: calc(100% + (0.5 * 100vw / 12));
+		right: calc(100% + (1.25 * #{$size__spacing-unit}));
 		top: 4px; // Accounts for box-shadow widths
 		z-index: 999;
 	}
@@ -56,7 +56,7 @@
 	.custom-logo-link {
 		border-radius: 100%;
 		box-sizing: content-box;
-		box-shadow: 0 0 0 0 rgba(black, 0);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 		display: block;
 		width: 32px;
 		height: 32px;
@@ -70,7 +70,7 @@
 		&:hover,
 		&:active,
 		&:focus {
-			box-shadow: 0 0 0 2px rgba(black, 1);
+			box-shadow: 0 0 0 2px rgba(0, 0, 0, 1);
 		}
 
 		@include media(tablet) {
