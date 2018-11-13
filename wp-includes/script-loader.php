@@ -2252,7 +2252,7 @@ function script_concat_settings() {
 function wp_common_block_scripts_and_styles() {
 	global $current_screen;
 
-	if ( ( $current_screen instanceof WP_Screen ) && ! $current_screen->is_block_editor() ) {
+	if ( is_admin() && ( $current_screen instanceof WP_Screen ) && ! $current_screen->is_block_editor() ) {
 		return;
 	}
 
