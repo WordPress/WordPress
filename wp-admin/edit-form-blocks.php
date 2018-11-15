@@ -325,6 +325,7 @@ wp_enqueue_media(
 		'post' => $post->ID,
 	)
 );
+wp_tinymce_inline_scripts();
 wp_enqueue_editor();
 
 /**

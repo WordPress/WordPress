@@ -484,8 +484,18 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 		'window.wp.oldEditor = window.wp.editor;',
 		'after'
 	);
+}
 
-	// TinyMCE init.
+/**
+ * Adds inline scripts required for the TinyMCE in the block editor.
+ *
+ * @since 5.0.0
+ *
+ * @global WP_Scripts $wp_scripts
+ */
+function wp_tinymce_inline_scripts() {
+	global $wp_scripts;
+
 	$tinymce_plugins = array(
 		'charmap',
 		'colorpicker',
@@ -596,7 +606,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 		}
 	}';
 
-	$scripts->add_inline_script( 'wp-block-library', $script, 'before' );
+	$wp_scripts->add_inline_script( 'wp-block-library', $script, 'before' );
 }
 
 /**
