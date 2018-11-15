@@ -79,7 +79,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	public function register_routes() {
 		register_rest_route(
 			$this->rest_namespace,
-			'/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base,
+			'/' . $this->parent_base . '/(?P<id>[\d]+)/' . $this->rest_base,
 			array(
 				'args'   => array(
 					'parent' => array(
@@ -90,14 +90,14 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this->revisions_controller, 'get_items_permissions_check' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 					'args'                => $this->get_collection_params(),
 				),
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_item' ),
 					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					'args'                => $this->parent_controller->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -144,6 +144,28 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	}
 
 	/**
+	 * Checks if a given request has access to get autosaves.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+	 */
+	public function get_items_permissions_check( $request ) {
+		$parent = $this->get_parent( $request['id'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
+		}
+
+		$parent_post_type_obj = get_post_type_object( $parent->post_type );
+		if ( ! current_user_can( $parent_post_type_obj->cap->edit_post, $parent->ID ) ) {
+			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to view autosaves of this post.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Checks if a given request has access to create an autosave revision.
 	 *
 	 * Autosave revisions inherit permissions from the parent post,
@@ -177,7 +199,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 			define( 'DOING_AUTOSAVE', true );
 		}
 
-		$post = get_post( $request->get_param( 'id' ) );
+		$post = get_post( $request['id'] );
 
 		if ( is_wp_error( $post ) ) {
 			return $post;
@@ -245,7 +267,7 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$parent = $this->get_parent( $request->get_param( 'parent' ) );
+		$parent = $this->get_parent( $request['id'] );
 		if ( is_wp_error( $parent ) ) {
 			return $parent;
 		}
@@ -388,5 +410,18 @@ class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_autosave', $response, $post, $request );
+	}
+
+	/**
+	 * Retrieves the query params for the autosaves collection.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @return array Collection parameters.
+	 */
+	public function get_collection_params() {
+		return array(
+			'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+		);
 	}
 }
