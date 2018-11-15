@@ -923,18 +923,14 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 
 		$relative = array_slice( $relative, 2 );
 		$relative = implode( '/', $relative );
-	} else if (
-		! isset( $site_url['path'] ) &&
-		( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] )
-	) {
-		$relative = trim( $src_url['path'], '/' );
-	} else if (
-		( strpos( $src_url['path'], $site_url['path'] ) === 0 ) &&
-		( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] )
-	) {
-		// Make the src relative to the WP root.
-		$relative = substr( $src, strlen( $site_url['path'] ) );
-		$relative = trim( $relative, '/' );
+	} elseif ( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] ) {
+		if ( ! isset( $site_url['path'] ) ) {
+			$relative = trim( $src_url['path'], '/' );
+		} elseif ( ( strpos( $src_url['path'], $site_url['path'] ) === 0 ) ) {
+			// Make the src relative to the WP root.
+			$relative = substr( $src, strlen( $site_url['path'] ) );
+			$relative = trim( $relative, '/' );
+		}
 	}
 
 	// If the source is not from WP.
