@@ -772,13 +772,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js");
 /* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/esm/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js");
 /* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inherits */ "./node_modules/@babel/runtime/helpers/esm/inherits.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/is-shallow-equal */ "@wordpress/is-shallow-equal");
-/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _registry_provider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../registry-provider */ "./node_modules/@wordpress/data/build-module/components/registry-provider/index.js");
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/is-shallow-equal */ "@wordpress/is-shallow-equal");
+/* harmony import */ var _wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _registry_provider__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../registry-provider */ "./node_modules/@wordpress/data/build-module/components/registry-provider/index.js");
+
 
 
 
@@ -810,7 +812,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var withSelect = function withSelect(mapSelectToProps) {
-  return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["createHigherOrderComponent"])(function (WrappedComponent) {
+  return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__["createHigherOrderComponent"])(function (WrappedComponent) {
     /**
      * Default merge props. A constant value is used as the fallback since it
      * can be more efficiently shallow compared in case component is repeatedly
@@ -842,6 +844,7 @@ var withSelect = function withSelect(mapSelectToProps) {
         Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, ComponentWithSelect);
 
         _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(ComponentWithSelect).call(this, props));
+        _this.onStoreChange = _this.onStoreChange.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this)));
 
         _this.subscribe(props.registry);
 
@@ -852,7 +855,14 @@ var withSelect = function withSelect(mapSelectToProps) {
       Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(ComponentWithSelect, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-          this.canRunSelection = true;
+          this.canRunSelection = true; // A state change may have occurred between the constructor and
+          // mount of the component (e.g. during the wrapped component's own
+          // constructor), in which case selection should be rerun.
+
+          if (this.hasQueuedSelection) {
+            this.hasQueuedSelection = false;
+            this.onStoreChange();
+          }
         }
       }, {
         key: "componentWillUnmount",
@@ -873,7 +883,7 @@ var withSelect = function withSelect(mapSelectToProps) {
           // `mergeProps` to rendered component if and only if updated.
 
 
-          var hasPropsChanged = hasRegistryChanged || !_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(this.props.ownProps, nextProps.ownProps); // Only render if props have changed or merge props have been updated
+          var hasPropsChanged = hasRegistryChanged || !_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8___default()(this.props.ownProps, nextProps.ownProps); // Only render if props have changed or merge props have been updated
           // from the store subscriber.
 
           if (this.state === nextState && !hasPropsChanged) {
@@ -883,7 +893,7 @@ var withSelect = function withSelect(mapSelectToProps) {
           if (hasPropsChanged) {
             var nextMergeProps = getNextMergeProps(nextProps);
 
-            if (!_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(this.mergeProps, nextMergeProps)) {
+            if (!_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8___default()(this.mergeProps, nextMergeProps)) {
               // If merge props change as a result of the incoming props,
               // they should be reflected as such in the upcoming render.
               // While side effects are discouraged in lifecycle methods,
@@ -900,46 +910,47 @@ var withSelect = function withSelect(mapSelectToProps) {
           return true;
         }
       }, {
+        key: "onStoreChange",
+        value: function onStoreChange() {
+          if (!this.canRunSelection) {
+            this.hasQueuedSelection = true;
+            return;
+          }
+
+          var nextMergeProps = getNextMergeProps(this.props);
+
+          if (_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_8___default()(this.mergeProps, nextMergeProps)) {
+            return;
+          }
+
+          this.mergeProps = nextMergeProps; // Schedule an update. Merge props are not assigned to state since
+          // derivation of merge props from incoming props occurs within
+          // shouldComponentUpdate, where setState is not allowed. setState
+          // is used here instead of forceUpdate because forceUpdate bypasses
+          // shouldComponentUpdate altogether, which isn't desireable if both
+          // state and props change within the same render. Unfortunately,
+          // this requires that next merge props are generated twice.
+
+          this.setState({});
+        }
+      }, {
         key: "subscribe",
         value: function subscribe(registry) {
-          var _this2 = this;
-
-          this.unsubscribe = registry.subscribe(function () {
-            if (!_this2.canRunSelection) {
-              return;
-            }
-
-            var nextMergeProps = getNextMergeProps(_this2.props);
-
-            if (_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(_this2.mergeProps, nextMergeProps)) {
-              return;
-            }
-
-            _this2.mergeProps = nextMergeProps; // Schedule an update. Merge props are not assigned to state
-            // because derivation of merge props from incoming props occurs
-            // within shouldComponentUpdate, where setState is not allowed.
-            // setState is used here instead of forceUpdate because forceUpdate
-            // bypasses shouldComponentUpdate altogether, which isn't desireable
-            // if both state and props change within the same render.
-            // Unfortunately this requires that next merge props are generated
-            // twice.
-
-            _this2.setState({});
-          });
+          this.unsubscribe = registry.subscribe(this.onStoreChange);
         }
       }, {
         key: "render",
         value: function render() {
-          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(WrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, this.props.ownProps, this.mergeProps));
+          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(WrappedComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, this.props.ownProps, this.mergeProps));
         }
       }]);
 
       return ComponentWithSelect;
-    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["Component"]);
 
     return function (ownProps) {
-      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_registry_provider__WEBPACK_IMPORTED_MODULE_9__["RegistryConsumer"], null, function (registry) {
-        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(ComponentWithSelect, {
+      return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_registry_provider__WEBPACK_IMPORTED_MODULE_10__["RegistryConsumer"], null, function (registry) {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(ComponentWithSelect, {
           ownProps: ownProps,
           registry: registry
         });
@@ -973,7 +984,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: withSelect, withDispatch, RegistryProvider, RegistryConsumer, createRegistry, plugins, combineReducers, select, dispatch, subscribe, registerGenericStore, registerStore, registerReducer, registerActions, registerSelectors, registerResolvers, use */
+/*! exports provided: withSelect, withDispatch, RegistryProvider, RegistryConsumer, createRegistry, plugins, combineReducers, select, dispatch, subscribe, registerGenericStore, registerStore, use */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -983,10 +994,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribe", function() { return subscribe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerGenericStore", function() { return registerGenericStore; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerStore", function() { return registerStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerReducer", function() { return registerReducer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerActions", function() { return registerActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerSelectors", function() { return registerSelectors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerResolvers", function() { return registerResolvers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "use", function() { return use; });
 /* harmony import */ var turbo_combine_reducers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! turbo-combine-reducers */ "./node_modules/turbo-combine-reducers/index.js");
 /* harmony import */ var turbo_combine_reducers__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(turbo_combine_reducers__WEBPACK_IMPORTED_MODULE_0__);
@@ -1040,10 +1047,6 @@ var dispatch = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].dispatc
 var subscribe = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].subscribe;
 var registerGenericStore = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerGenericStore;
 var registerStore = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerStore;
-var registerReducer = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerReducer;
-var registerActions = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerActions;
-var registerSelectors = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerSelectors;
-var registerResolvers = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].registerResolvers;
 var use = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].use;
 
 
@@ -1091,36 +1094,15 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function createNamespace(key, options, registry) {
-  // TODO: After register[Reducer|Actions|Selectors|Resolvers] are deprecated and removed,
-  //       this function can be greatly simplified because it should no longer be called to modify
-  //       a namespace, but only to create one, and only once for each namespace.
-  // TODO: After removing `registry.namespaces`and making stores immutable after create,
-  //       reducer, store, actinos, selectors, and resolvers can all be removed from here.
-  var _ref = registry.namespaces[key] || {},
-      reducer = _ref.reducer,
-      store = _ref.store,
-      actions = _ref.actions,
-      selectors = _ref.selectors,
-      resolvers = _ref.resolvers;
-
-  if (options.reducer) {
-    reducer = options.reducer;
-    store = createReduxStore(reducer, key, registry);
-  }
+  var reducer = options.reducer;
+  var store = createReduxStore(reducer, key, registry);
+  var selectors, actions, resolvers;
 
   if (options.actions) {
-    if (!store) {
-      throw new TypeError('Cannot specify actions when no reducer is present');
-    }
-
     actions = mapActions(options.actions, store);
   }
 
   if (options.selectors) {
-    if (!store) {
-      throw new TypeError('Cannot specify selectors when no reducer is present');
-    }
-
     selectors = mapSelectors(options.selectors, store);
   }
 
@@ -1152,7 +1134,9 @@ function createNamespace(key, options, registry) {
         listener();
       }
     });
-  };
+  }; // This can be simplified to just { subscribe, getSelectors, getActions }
+  // Once we remove the use function.
+
 
   return {
     reducer: reducer,
@@ -1815,21 +1799,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _namespace_store_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./namespace-store.js */ "./node_modules/@wordpress/data/build-module/namespace-store.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/data/build-module/store/index.js");
+/* harmony import */ var _namespace_store_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./namespace-store.js */ "./node_modules/@wordpress/data/build-module/namespace-store.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/data/build-module/store/index.js");
 
 
 
 /**
  * External dependencies
  */
-
-/**
- * WordPress dependencies
- */
-
 
 /**
  * Internal dependencies
@@ -1970,66 +1947,6 @@ function createRegistry() {
     select: select,
     dispatch: dispatch,
     use: use
-  }; //
-  // Deprecated
-  //
-
-  registry.registerReducer = function (reducerKey, reducer) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerReducer', {
-      alternative: 'registry.registerStore',
-      plugin: 'Gutenberg',
-      version: '4.4.0'
-    });
-    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
-      reducer: reducer
-    }, registry);
-    registerGenericStore(reducerKey, namespace);
-    return namespace.store;
-  }; //
-  // Deprecated
-  //
-
-
-  registry.registerActions = function (reducerKey, actions) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerActions', {
-      alternative: 'registry.registerStore',
-      plugin: 'Gutenberg',
-      version: '4.4.0'
-    });
-    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
-      actions: actions
-    }, registry);
-    registerGenericStore(reducerKey, namespace);
-  }; //
-  // Deprecated
-  //
-
-
-  registry.registerSelectors = function (reducerKey, selectors) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerSelectors', {
-      alternative: 'registry.registerStore',
-      plugin: 'Gutenberg',
-      version: '4.4.0'
-    });
-    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
-      selectors: selectors
-    }, registry);
-    registerGenericStore(reducerKey, namespace);
-  }; //
-  // Deprecated
-  //
-
-
-  registry.registerResolvers = function (reducerKey, resolvers) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('registry.registerResolvers', {
-      alternative: 'registry.registerStore',
-      plugin: 'Gutenberg',
-      version: '4.4.0'
-    });
-    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, {
-      resolvers: resolvers
-    }, registry);
-    registerGenericStore(reducerKey, namespace);
   };
   /**
    * Registers a standard `@wordpress/data` store.
@@ -2040,13 +1957,12 @@ function createRegistry() {
    * @return {Object} Registered store object.
    */
 
-
   registry.registerStore = function (reducerKey, options) {
     if (!options.reducer) {
       throw new TypeError('Must specify store reducer');
     }
 
-    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_4__["default"])(reducerKey, options, registry);
+    var namespace = Object(_namespace_store_js__WEBPACK_IMPORTED_MODULE_3__["default"])(reducerKey, options, registry);
     registerGenericStore(reducerKey, namespace);
     return namespace.store;
   }; //
@@ -2061,7 +1977,7 @@ function createRegistry() {
   }
 
   Object.entries(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({
-    'core/data': _store__WEBPACK_IMPORTED_MODULE_5__["default"]
+    'core/data': _store__WEBPACK_IMPORTED_MODULE_4__["default"]
   }, storeConfigs)).map(function (_ref) {
     var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref, 2),
         name = _ref2[0],
@@ -3657,17 +3573,6 @@ module.exports = function(originalModule) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

@@ -800,12 +800,14 @@ var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedDa
     var _options$parse = options.parse,
         parse = _options$parse === void 0 ? true : _options$parse;
 
-    if (typeof options.path === 'string' && parse) {
+    if (typeof options.path === 'string') {
       var method = options.method || 'GET';
       var path = getStablePath(options.path);
 
-      if ('GET' === method && preloadedData[path]) {
+      if (parse && 'GET' === method && preloadedData[path]) {
         return Promise.resolve(preloadedData[path].body);
+      } else if ('OPTIONS' === method && preloadedData[method][path]) {
+        return Promise.resolve(preloadedData[method][path]);
       }
     }
 

@@ -77,7 +77,7 @@ function wp_default_packages_vendor( &$scripts ) {
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	$vendor_scripts = array(
-		'react',
+		'react' => array( 'wp-polyfill' ),
 		'react-dom' => array( 'react' ),
 		'moment',
 		'lodash',
@@ -183,6 +183,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-dom',
 			'wp-element',
 			'wp-hooks',
+			'wp-html-entities',
 			'wp-i18n',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -234,7 +235,6 @@ function wp_default_packages_scripts( &$scripts ) {
 		),
 		'compose' => array(
 			'lodash',
-			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
 			'wp-polyfill'
@@ -243,7 +243,6 @@ function wp_default_packages_scripts( &$scripts ) {
 		'data' => array(
 			'lodash',
 			'wp-compose',
-			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -348,7 +347,6 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-components',
 			'wp-compose',
 			'wp-data',
-			'wp-deprecated',
 			'wp-i18n',
 			'wp-polyfill',
 			'lodash',
@@ -359,7 +357,6 @@ function wp_default_packages_scripts( &$scripts ) {
 			'lodash',
 			'wp-blocks',
 			'wp-data',
-			'wp-deprecated',
 			'wp-escape-html',
 			'wp-polyfill',
 		),

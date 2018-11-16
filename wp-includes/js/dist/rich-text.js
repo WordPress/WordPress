@@ -1410,10 +1410,11 @@ function insertLineSeparator(value) {
   var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.end;
   var beforeText = Object(_get_text_content__WEBPACK_IMPORTED_MODULE_0__["getTextContent"])(value).slice(0, startIndex);
   var previousLineSeparatorIndex = beforeText.lastIndexOf(_special_characters__WEBPACK_IMPORTED_MODULE_2__["LINE_SEPARATOR"]);
+  var previousLineSeparatorFormats = value.formats[previousLineSeparatorIndex];
   var formats = [,];
 
-  if (previousLineSeparatorIndex !== -1) {
-    formats = [value.formats[previousLineSeparatorIndex]];
+  if (previousLineSeparatorFormats) {
+    formats = [previousLineSeparatorFormats];
   }
 
   var valueToInsert = {
@@ -2846,13 +2847,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return toHTMLString; });
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
 /* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./to-tree */ "./node_modules/@wordpress/rich-text/build-module/to-tree.js");
+/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./to-tree */ "./node_modules/@wordpress/rich-text/build-module/to-tree.js");
 /**
  * Internal dependencies
  */
-
 
 /**
  * Internal dependencies
@@ -2876,20 +2874,7 @@ function toHTMLString(_ref) {
   var value = _ref.value,
       multilineTag = _ref.multilineTag,
       multilineWrapperTags = _ref.multilineWrapperTags;
-
-  // Check other arguments for backward compatibility.
-  if (value === undefined) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_1___default()('wp.richText.toHTMLString positional parameters', {
-      version: '4.4',
-      alternative: 'named parameters',
-      plugin: 'Gutenberg'
-    });
-    value = arguments[0];
-    multilineTag = arguments[1];
-    multilineWrapperTags = arguments[2];
-  }
-
-  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_2__["toTree"])({
+  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_1__["toTree"])({
     value: value,
     multilineTag: multilineTag,
     multilineWrapperTags: multilineWrapperTags,
@@ -3606,17 +3591,6 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

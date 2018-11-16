@@ -91,15 +91,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["date"] =
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/date/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: setSettings, __experimentalGetSettings, getSettings, moment, format, date, gmdate, dateI18n, isInTheFuture, getDate */
+/*! exports provided: setSettings, __experimentalGetSettings, format, date, gmdate, dateI18n, isInTheFuture, getDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setSettings", function() { return setSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__experimentalGetSettings", function() { return __experimentalGetSettings; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSettings", function() { return getSettings; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moment", function() { return moment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return format; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "date", function() { return date; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gmdate", function() { return gmdate; });
@@ -112,17 +110,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment-timezone/moment-timezone-utils */ "./node_modules/moment-timezone/moment-timezone-utils.js");
 /* harmony import */ var moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__);
 /**
  * External dependencies
  */
 
-
-
-/**
- * WordPress dependencies
- */
 
  // Changes made here will likely need to be made in `lib/client-assets.php` as
 // well because it uses the `setSettings()` function to change these settings.
@@ -217,16 +208,6 @@ function setSettings(dateSettings) {
 
 function __experimentalGetSettings() {
   return settings;
-} // deprecations
-
-function getSettings() {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('wp.date.getSettings', {
-    version: '4.4',
-    alternative: 'wp.date.__experimentalGetSettings',
-    plugin: 'Gutenberg',
-    hint: 'Unstable APIs are strongly discouraged to be used, and are subject to removal without notice.'
-  });
-  return settings;
 }
 
 function setupWPTimezone() {
@@ -237,30 +218,14 @@ function setupWPTimezone() {
     untils: [null],
     offsets: [-settings.timezone.offset * 60 || 0]
   }));
-} // Create a new moment object which mirrors moment but includes
-// the attached timezone, instead of setting a default timezone on
-// the global moment object.
-
-
-var moment = function moment() {
-  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('wp.date.moment', {
-    version: '4.4',
-    alternative: 'the moment script as a dependency',
-    plugin: 'Gutenberg'
-  });
-
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return moment__WEBPACK_IMPORTED_MODULE_0___default.a.tz.apply(moment__WEBPACK_IMPORTED_MODULE_0___default.a, args.concat(['WP']));
-}; // Date constants.
+} // Date constants.
 
 /**
  * Number of seconds in one minute.
  *
  * @type {Number}
  */
+
 
 var MINUTE_IN_SECONDS = 60;
 /**
@@ -1532,17 +1497,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	return moment;
 }));
 
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

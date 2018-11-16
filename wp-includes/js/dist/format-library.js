@@ -548,7 +548,7 @@ var image = {
         var _this$props = this.props,
             value = _this$props.value,
             onChange = _this$props.onChange;
-        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_10__["RichTextInserterItem"], {
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_10__["MediaUploadCheck"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_10__["RichTextInserterItem"], {
           name: name,
           icon: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["SVG"], {
             xmlns: "http://www.w3.org/2000/svg",
@@ -1010,23 +1010,37 @@ var LinkEditor = function LinkEditor(_ref2) {
   );
 };
 
-var LinkViewer = function LinkViewer(_ref3) {
-  var url = _ref3.url,
-      editLink = _ref3.editLink;
+var LinkViewerUrl = function LinkViewerUrl(_ref3) {
+  var url = _ref3.url;
   var prependedURL = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_11__["prependHTTP"])(url);
   var linkClassName = classnames__WEBPACK_IMPORTED_MODULE_7___default()('editor-format-toolbar__link-container-value', {
     'has-invalid-link': !Object(_utils__WEBPACK_IMPORTED_MODULE_15__["isValidHref"])(prependedURL)
   });
+
+  if (!url) {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("span", {
+      className: linkClassName
+    });
+  }
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["ExternalLink"], {
+    className: linkClassName,
+    href: url
+  }, Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_11__["filterURLForDisplay"])(Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_11__["safeDecodeURI"])(url)));
+};
+
+var LinkViewer = function LinkViewer(_ref4) {
+  var url = _ref4.url,
+      editLink = _ref4.editLink;
   return (// Disable reason: KeyPress must be suppressed so the block doesn't hide the toolbar
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
       className: "editor-format-toolbar__link-container-content",
       onKeyPress: stopKeyPropagation
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["ExternalLink"], {
-      className: linkClassName,
-      href: url
-    }, Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_11__["filterURLForDisplay"])(Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_11__["safeDecodeURI"])(url))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["IconButton"], {
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(LinkViewerUrl, {
+      url: url
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["IconButton"], {
       icon: "edit",
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_8__["__"])('Edit'),
       onClick: editLink
@@ -1055,7 +1069,10 @@ function (_Component) {
     _this.onClickOutside = _this.onClickOutside.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.resetState = _this.resetState.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.autocompleteRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createRef"])();
-    _this.state = {};
+    _this.state = {
+      opensInNewWindow: false,
+      inputValue: ''
+    };
     return _this;
   }
 
@@ -1083,7 +1100,8 @@ function (_Component) {
     key: "setLinkTarget",
     value: function setLinkTarget(opensInNewWindow) {
       var _this$props = this.props,
-          url = _this$props.activeAttributes.url,
+          _this$props$activeAtt = _this$props.activeAttributes.url,
+          url = _this$props$activeAtt === void 0 ? '' : _this$props$activeAtt,
           value = _this$props.value,
           onChange = _this$props.onChange;
       this.setState({

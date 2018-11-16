@@ -909,11 +909,12 @@ function (_Component) {
 /*!********************************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/components/fullscreen-mode/index.js ***!
   \********************************************************************************************/
-/*! exports provided: default */
+/*! exports provided: FullscreenMode, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullscreenMode", function() { return FullscreenMode; });
 /* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
 /* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js");
@@ -934,7 +935,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-
 var FullscreenMode =
 /*#__PURE__*/
 function (_Component) {
@@ -949,7 +949,23 @@ function (_Component) {
   Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(FullscreenMode, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.sync();
+      this.isSticky = false;
+      this.sync(); // `is-fullscreen-mode` is set in PHP as a body class by Gutenberg, and this causes
+      // `sticky-menu` to be applied by WordPress and prevents the admin menu being scrolled
+      // even if `is-fullscreen-mode` is then removed. Let's remove `sticky-menu` here as
+      // a consequence of the FullscreenMode setup
+
+      if (document.body.classList.contains('sticky-menu')) {
+        this.isSticky = true;
+        document.body.classList.remove('sticky-menu');
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.isSticky) {
+        document.body.classList.add('sticky-menu');
+      }
     }
   }, {
     key: "componentDidUpdate",
@@ -978,7 +994,6 @@ function (_Component) {
 
   return FullscreenMode;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["Component"]);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["withSelect"])(function (select) {
   return {
     isActive: select('core/edit-post').isFeatureActive('fullscreenMode')
@@ -1165,7 +1180,11 @@ function HeaderToolbar(_ref) {
   var hasFixedToolbar = _ref.hasFixedToolbar,
       isLargeViewport = _ref.isLargeViewport,
       mode = _ref.mode;
-  var toolbarAriaLabel = hasFixedToolbar ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Document and block tools') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Document tools');
+  var toolbarAriaLabel = hasFixedToolbar ?
+  /* translators: accessibility text for the editor toolbar when Unified Toolbar is on */
+  Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Document and block tools') :
+  /* translators: accessibility text for the editor toolbar when Unified Toolbar is off */
+  Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Document tools');
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_6__["NavigableToolbar"], {
     className: "edit-post-header-toolbar",
     "aria-label": toolbarAriaLabel
@@ -3213,11 +3232,20 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_0__["compose"])(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["withSelect"])(function (select, _ref) {
   var panelName = _ref.panelName;
+
+  var _select = select('core/edit-post'),
+      isEditorPanelEnabled = _select.isEditorPanelEnabled,
+      isEditorPanelRemoved = _select.isEditorPanelRemoved;
+
   return {
-    isChecked: select('core/edit-post').isEditorPanelEnabled(panelName)
+    isRemoved: isEditorPanelRemoved(panelName),
+    isChecked: isEditorPanelEnabled(panelName)
   };
-}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["withDispatch"])(function (dispatch, _ref2) {
-  var panelName = _ref2.panelName;
+}), Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_0__["ifCondition"])(function (_ref2) {
+  var isRemoved = _ref2.isRemoved;
+  return !isRemoved;
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["withDispatch"])(function (dispatch, _ref3) {
+  var panelName = _ref3.panelName;
   return {
     onChange: function onChange() {
       return dispatch('core/edit-post').toggleEditorPanelEnabled(panelName);
@@ -4117,6 +4145,177 @@ function PostFormat() {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-link/index.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-link/index.js ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_6__);
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+/**
+ * Module Constants
+ */
+
+var PANEL_NAME = 'post-link';
+
+function PostLink(_ref) {
+  var isOpened = _ref.isOpened,
+      onTogglePanel = _ref.onTogglePanel,
+      isEditable = _ref.isEditable,
+      postLink = _ref.postLink,
+      permalinkParts = _ref.permalinkParts,
+      editPermalink = _ref.editPermalink,
+      forceEmptyField = _ref.forceEmptyField,
+      setState = _ref.setState;
+  var prefix = permalinkParts.prefix,
+      postName = permalinkParts.postName,
+      suffix = permalinkParts.suffix;
+  var prefixElement, postNameElement, suffixElement;
+
+  if (isEditable) {
+    prefixElement = prefix && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      className: "edit-post-post-link__link-prefix"
+    }, prefix);
+    postNameElement = postName && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      className: "edit-post-post-link__link-post-name"
+    }, postName);
+    suffixElement = suffix && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      className: "edit-post-post-link__link-suffix"
+    }, suffix);
+  }
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Permalink'),
+    opened: isOpened,
+    onToggle: onTogglePanel
+  }, isEditable && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["TextControl"], {
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('URL'),
+    value: forceEmptyField ? '' : postName,
+    onChange: function onChange(newValue) {
+      editPermalink(newValue); // When we delete the field the permalink gets
+      // reverted to the original value.
+      // The forceEmptyField logic allows the user to have
+      // the field temporarily empty while typing.
+
+      if (!newValue) {
+        if (!forceEmptyField) {
+          setState({
+            forceEmptyField: true
+          });
+        }
+
+        return;
+      }
+
+      if (forceEmptyField) {
+        setState({
+          forceEmptyField: false
+        });
+      }
+    }
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", {
+    className: "edit-post-post-link__preview-label"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Preview')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+    className: "edit-post-post-link__link",
+    href: postLink,
+    target: "_blank"
+  }, isEditable ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, prefixElement, postNameElement, suffixElement) : postLink), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+    className: "edit-post-post-link__permalink-settings",
+    href: Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_6__["addQueryArgs"])('options-permalink.php'),
+    target: "_blank"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Permalink Settings')));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])([Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["withSelect"])(function (select) {
+  var _select = select('core/editor'),
+      isEditedPostNew = _select.isEditedPostNew,
+      isPermalinkEditable = _select.isPermalinkEditable,
+      getCurrentPost = _select.getCurrentPost,
+      isCurrentPostPublished = _select.isCurrentPostPublished,
+      getPermalinkParts = _select.getPermalinkParts,
+      getEditedPostAttribute = _select.getEditedPostAttribute;
+
+  var _select2 = select('core/edit-post'),
+      isEditorPanelOpened = _select2.isEditorPanelOpened;
+
+  var _select3 = select('core'),
+      getPostType = _select3.getPostType;
+
+  var _getCurrentPost = getCurrentPost(),
+      link = _getCurrentPost.link;
+
+  var postTypeName = getEditedPostAttribute('type');
+  var postType = getPostType(postTypeName);
+  return {
+    isNew: isEditedPostNew(),
+    postLink: link,
+    isEditable: isPermalinkEditable(),
+    isPublished: isCurrentPostPublished(),
+    isOpened: isEditorPanelOpened(PANEL_NAME),
+    permalinkParts: getPermalinkParts(),
+    isViewable: Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(postType, ['viewable'], false)
+  };
+}), Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__["ifCondition"])(function (_ref2) {
+  var isNew = _ref2.isNew,
+      postLink = _ref2.postLink,
+      isViewable = _ref2.isViewable;
+  return !isNew && postLink && isViewable;
+}), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["withDispatch"])(function (dispatch) {
+  var _dispatch = dispatch('core/edit-post'),
+      toggleEditorPanelOpened = _dispatch.toggleEditorPanelOpened;
+
+  var _dispatch2 = dispatch('core/editor'),
+      editPost = _dispatch2.editPost;
+
+  return {
+    onTogglePanel: function onTogglePanel() {
+      return toggleEditorPanelOpened(PANEL_NAME);
+    },
+    editPermalink: function editPermalink(newSlug) {
+      editPost({
+        slug: newSlug
+      });
+    }
+  };
+}), Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__["withState"])({
+  forceEmptyField: false
+})])(PostLink));
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-pending-status/index.js":
 /*!********************************************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-pending-status/index.js ***!
@@ -4659,9 +4858,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _post_taxonomies__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../post-taxonomies */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-taxonomies/index.js");
 /* harmony import */ var _featured_image__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../featured-image */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/featured-image/index.js");
 /* harmony import */ var _post_excerpt__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../post-excerpt */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-excerpt/index.js");
-/* harmony import */ var _discussion_panel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../discussion-panel */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/discussion-panel/index.js");
-/* harmony import */ var _page_attributes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../page-attributes */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/page-attributes/index.js");
-/* harmony import */ var _meta_boxes__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../meta-boxes */ "./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/index.js");
+/* harmony import */ var _post_link__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../post-link */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/post-link/index.js");
+/* harmony import */ var _discussion_panel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../discussion-panel */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/discussion-panel/index.js");
+/* harmony import */ var _page_attributes__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../page-attributes */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/page-attributes/index.js");
+/* harmony import */ var _meta_boxes__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../meta-boxes */ "./node_modules/@wordpress/edit-post/build-module/components/meta-boxes/index.js");
 
 
 /**
@@ -4688,6 +4888,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var SettingsSidebar = function SettingsSidebar(_ref) {
   var sidebarName = _ref.sidebarName;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(___WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -4695,7 +4896,7 @@ var SettingsSidebar = function SettingsSidebar(_ref) {
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Editor settings')
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_settings_header__WEBPACK_IMPORTED_MODULE_7__["default"], {
     sidebarName: sidebarName
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Panel"], null, sidebarName === 'edit-post/document' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_status__WEBPACK_IMPORTED_MODULE_8__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_last_revision__WEBPACK_IMPORTED_MODULE_9__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_taxonomies__WEBPACK_IMPORTED_MODULE_10__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_featured_image__WEBPACK_IMPORTED_MODULE_11__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_excerpt__WEBPACK_IMPORTED_MODULE_12__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_discussion_panel__WEBPACK_IMPORTED_MODULE_13__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_page_attributes__WEBPACK_IMPORTED_MODULE_14__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_meta_boxes__WEBPACK_IMPORTED_MODULE_15__["default"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Panel"], null, sidebarName === 'edit-post/document' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_status__WEBPACK_IMPORTED_MODULE_8__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_last_revision__WEBPACK_IMPORTED_MODULE_9__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_link__WEBPACK_IMPORTED_MODULE_13__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_taxonomies__WEBPACK_IMPORTED_MODULE_10__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_featured_image__WEBPACK_IMPORTED_MODULE_11__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_post_excerpt__WEBPACK_IMPORTED_MODULE_12__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_discussion_panel__WEBPACK_IMPORTED_MODULE_14__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_page_attributes__WEBPACK_IMPORTED_MODULE_15__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_meta_boxes__WEBPACK_IMPORTED_MODULE_16__["default"], {
     location: "side"
   })), sidebarName === 'edit-post/block' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["PanelBody"], {
     className: "edit-post-settings-sidebar__panel-block"
@@ -5867,7 +6068,7 @@ function KeyboardShortcutsHelpMenuItem(_ref) {
 /*!*************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/store/actions.js ***!
   \*************************************************************************/
-/*! exports provided: openGeneralSidebar, closeGeneralSidebar, openModal, closeModal, openPublishSidebar, closePublishSidebar, togglePublishSidebar, toggleEditorPanelEnabled, toggleEditorPanelOpened, toggleFeature, switchEditorMode, togglePinnedPluginItem, setAvailableMetaBoxesPerLocation, requestMetaBoxUpdates, metaBoxUpdatesSuccess */
+/*! exports provided: openGeneralSidebar, closeGeneralSidebar, openModal, closeModal, openPublishSidebar, closePublishSidebar, togglePublishSidebar, toggleEditorPanelEnabled, toggleEditorPanelOpened, removeEditorPanel, toggleFeature, switchEditorMode, togglePinnedPluginItem, setAvailableMetaBoxesPerLocation, requestMetaBoxUpdates, metaBoxUpdatesSuccess */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5881,6 +6082,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "togglePublishSidebar", function() { return togglePublishSidebar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleEditorPanelEnabled", function() { return toggleEditorPanelEnabled; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleEditorPanelOpened", function() { return toggleEditorPanelOpened; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeEditorPanel", function() { return removeEditorPanel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleFeature", function() { return toggleFeature; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchEditorMode", function() { return switchEditorMode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "togglePinnedPluginItem", function() { return togglePinnedPluginItem; });
@@ -5996,6 +6198,20 @@ function toggleEditorPanelEnabled(panelName) {
 function toggleEditorPanelOpened(panelName) {
   return {
     type: 'TOGGLE_PANEL_OPENED',
+    panelName: panelName
+  };
+}
+/**
+ * Returns an action object used to remove a panel from the editor.
+ *
+ * @param {string} panelName A string that identifies the panel to remove.
+ *
+ * @return {Object} Action object.
+ */
+
+function removeEditorPanel(panelName) {
+  return {
+    type: 'REMOVE_PANEL',
     panelName: panelName
   };
 }
@@ -6424,26 +6640,28 @@ function applyMiddlewares(store) {
 /*!*************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/store/reducer.js ***!
   \*************************************************************************/
-/*! exports provided: DEFAULT_ACTIVE_GENERAL_SIDEBAR, preferences, activeGeneralSidebar, panel, activeModal, publishSidebarActive, isSavingMetaBoxes, metaBoxLocations, default */
+/*! exports provided: DEFAULT_ACTIVE_GENERAL_SIDEBAR, preferences, removedPanels, activeGeneralSidebar, activeModal, publishSidebarActive, isSavingMetaBoxes, metaBoxLocations, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_ACTIVE_GENERAL_SIDEBAR", function() { return DEFAULT_ACTIVE_GENERAL_SIDEBAR; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "preferences", function() { return preferences; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removedPanels", function() { return removedPanels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "activeGeneralSidebar", function() { return activeGeneralSidebar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "panel", function() { return panel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "activeModal", function() { return activeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "publishSidebarActive", function() { return publishSidebarActive; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSavingMetaBoxes", function() { return isSavingMetaBoxes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "metaBoxLocations", function() { return metaBoxLocations; });
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./defaults */ "./node_modules/@wordpress/edit-post/build-module/store/defaults.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _defaults__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./defaults */ "./node_modules/@wordpress/edit-post/build-module/store/defaults.js");
+
 
 
 
@@ -6488,7 +6706,7 @@ var DEFAULT_ACTIVE_GENERAL_SIDEBAR = 'edit-post/document';
  * @return {Object} Updated state.
  */
 
-var preferences = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
+var preferences = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
   isGeneralSidebarDismissed: function isGeneralSidebarDismissed() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -6502,23 +6720,23 @@ var preferences = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineRe
     return state;
   },
   panels: function panels() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_4__["PREFERENCES_DEFAULTS"].panels;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_5__["PREFERENCES_DEFAULTS"].panels;
     var action = arguments.length > 1 ? arguments[1] : undefined;
 
     switch (action.type) {
       case 'TOGGLE_PANEL_ENABLED':
         {
           var panelName = action.panelName;
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, panelName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[panelName], {
-            enabled: !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(state, [panelName, 'enabled'], true)
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])({}, panelName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state[panelName], {
+            enabled: !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(state, [panelName, 'enabled'], true)
           })));
         }
 
       case 'TOGGLE_PANEL_OPENED':
         {
           var _panelName = action.panelName;
-          var isOpen = state[_panelName] === true || Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(state, [_panelName, 'opened'], false);
-          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _panelName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state[_panelName], {
+          var isOpen = state[_panelName] === true || Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(state, [_panelName, 'opened'], false);
+          return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])({}, _panelName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state[_panelName], {
             opened: !isOpen
           })));
         }
@@ -6527,17 +6745,17 @@ var preferences = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineRe
     return state;
   },
   features: function features() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_4__["PREFERENCES_DEFAULTS"].features;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_5__["PREFERENCES_DEFAULTS"].features;
     var action = arguments.length > 1 ? arguments[1] : undefined;
 
     if (action.type === 'TOGGLE_FEATURE') {
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, action.feature, !state[action.feature]));
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])({}, action.feature, !state[action.feature]));
     }
 
     return state;
   },
   editorMode: function editorMode() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_4__["PREFERENCES_DEFAULTS"].editorMode;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_5__["PREFERENCES_DEFAULTS"].editorMode;
     var action = arguments.length > 1 ? arguments[1] : undefined;
 
     if (action.type === 'SWITCH_MODE') {
@@ -6547,16 +6765,39 @@ var preferences = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineRe
     return state;
   },
   pinnedPluginItems: function pinnedPluginItems() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_4__["PREFERENCES_DEFAULTS"].pinnedPluginItems;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _defaults__WEBPACK_IMPORTED_MODULE_5__["PREFERENCES_DEFAULTS"].pinnedPluginItems;
     var action = arguments.length > 1 ? arguments[1] : undefined;
 
     if (action.type === 'TOGGLE_PINNED_PLUGIN_ITEM') {
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, action.pluginName, !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(state, [action.pluginName], true)));
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, state, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_1__["default"])({}, action.pluginName, !Object(lodash__WEBPACK_IMPORTED_MODULE_3__["get"])(state, [action.pluginName], true)));
     }
 
     return state;
   }
 });
+/**
+ * Reducer storing the list of all programmatically removed panels.
+ *
+ * @param {Array}  state  Current state.
+ * @param {Object} action Action object.
+ *
+ * @return {Array} Updated state.
+ */
+
+function removedPanels() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'REMOVE_PANEL':
+      if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["includes"])(state, action.panelName)) {
+        return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(state).concat([action.panelName]);
+      }
+
+  }
+
+  return state;
+}
 /**
  * Reducer returning the next active general sidebar state. The active general
  * sidebar is a unique name to identify either an editor or plugin sidebar.
@@ -6574,17 +6815,6 @@ function activeGeneralSidebar() {
   switch (action.type) {
     case 'OPEN_GENERAL_SIDEBAR':
       return action.name;
-  }
-
-  return state;
-}
-function panel() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'document';
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'SET_ACTIVE_PANEL':
-      return action.panel;
   }
 
   return state;
@@ -6675,17 +6905,17 @@ function metaBoxLocations() {
 
   return state;
 }
-var metaBoxes = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
+var metaBoxes = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
   isSaving: isSavingMetaBoxes,
   locations: metaBoxLocations
 });
-/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineReducers"])({
-  preferences: preferences,
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["combineReducers"])({
   activeGeneralSidebar: activeGeneralSidebar,
-  panel: panel,
   activeModal: activeModal,
+  metaBoxes: metaBoxes,
+  preferences: preferences,
   publishSidebarActive: publishSidebarActive,
-  metaBoxes: metaBoxes
+  removedPanels: removedPanels
 }));
 
 
@@ -6695,7 +6925,7 @@ var metaBoxes = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["combineRedu
 /*!***************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/store/selectors.js ***!
   \***************************************************************************/
-/*! exports provided: getEditorMode, isEditorSidebarOpened, isPluginSidebarOpened, getActiveGeneralSidebarName, getPreferences, getPreference, isPublishSidebarOpened, isEditorPanelEnabled, isEditorPanelOpened, isModalActive, isFeatureActive, isPluginItemPinned, getActiveMetaBoxLocations, isMetaBoxLocationVisible, isMetaBoxLocationActive, getMetaBoxesPerLocation, getAllMetaBoxes, hasMetaBoxes, isSavingMetaBoxes */
+/*! exports provided: getEditorMode, isEditorSidebarOpened, isPluginSidebarOpened, getActiveGeneralSidebarName, getPreferences, getPreference, isPublishSidebarOpened, isEditorPanelRemoved, isEditorPanelEnabled, isEditorPanelOpened, isModalActive, isFeatureActive, isPluginItemPinned, getActiveMetaBoxLocations, isMetaBoxLocationVisible, isMetaBoxLocationActive, getMetaBoxesPerLocation, getAllMetaBoxes, hasMetaBoxes, isSavingMetaBoxes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6707,6 +6937,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreferences", function() { return getPreferences; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreference", function() { return getPreference; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPublishSidebarOpened", function() { return isPublishSidebarOpened; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEditorPanelRemoved", function() { return isEditorPanelRemoved; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEditorPanelEnabled", function() { return isEditorPanelEnabled; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEditorPanelOpened", function() { return isEditorPanelOpened; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isModalActive", function() { return isModalActive; });
@@ -6823,6 +7054,19 @@ function isPublishSidebarOpened(state) {
   return state.publishSidebarActive;
 }
 /**
+ * Returns true if the given panel was programmatically removed, or false otherwise.
+ * All panels are not removed by default.
+ *
+ * @param {Object} state     Global application state.
+ * @param {string} panelName A string that identifies the panel.
+ *
+ * @return {boolean} Whether or not the panel is removed.
+ */
+
+function isEditorPanelRemoved(state, panelName) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["includes"])(state.removedPanels, panelName);
+}
+/**
  * Returns true if the given panel is enabled, or false otherwise. Panels are
  * enabled by default.
  *
@@ -6834,7 +7078,7 @@ function isPublishSidebarOpened(state) {
 
 function isEditorPanelEnabled(state, panelName) {
   var panels = getPreference(state, 'panels');
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(panels, [panelName, 'enabled'], true);
+  return !isEditorPanelRemoved(state, panelName) && Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(panels, [panelName, 'enabled'], true);
 }
 /**
  * Returns true if the given panel is open, or false otherwise. Panels are
