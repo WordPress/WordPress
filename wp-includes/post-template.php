@@ -1886,13 +1886,13 @@ function wp_list_post_revisions( $post_id = 0, $type = 'all' ) {
 		_deprecated_argument( __FUNCTION__, '3.6.0' );
 	}
 
-	if ( ! $revisions = wp_get_post_revisions( $post->ID ) ) {
+	if ( ! $revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) ) ) {
 		return;
 	}
 
 	$rows = '';
 	foreach ( $revisions as $revision ) {
-		if ( ! current_user_can( 'read_post', $revision->ID ) ) {
+		if ( ! current_user_can( 'read_post', $revision ) ) {
 			continue;
 		}
 
