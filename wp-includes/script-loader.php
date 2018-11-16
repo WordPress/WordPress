@@ -1675,12 +1675,12 @@ function wp_default_styles( &$styles ) {
 	}
 	$styles->add( 'wp-editor-font', $fonts_url );
 
-	$styles->add( 'wp-block-library-theme', '/wp-includes/css/dist/block-library/theme.css' );
+	$styles->add( 'wp-block-library-theme', "/wp-includes/css/dist/block-library/theme$suffix.css" );
 	$styles->add_data( 'wp-block-library-theme', 'rtl', 'replace' );
 
 	$styles->add(
 		'wp-edit-blocks',
-		'/wp-includes/css/dist/block-library/editor.css',
+		"/wp-includes/css/dist/block-library/editor$suffix.css",
 		array(
 			'wp-components',
 			'wp-editor',
@@ -1702,7 +1702,7 @@ function wp_default_styles( &$styles ) {
 
 	foreach ( $package_styles as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
-		$path     = '/wp-includes/css/dist/' . $package . '/style.css';
+		$path     = "/wp-includes/css/dist/$package/style$suffix.css";
 
 		$styles->add( $handle, $path, $dependencies );
 		$styles->add_data( $handle, 'rtl', 'replace' );
