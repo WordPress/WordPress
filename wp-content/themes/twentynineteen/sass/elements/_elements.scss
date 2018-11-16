@@ -77,7 +77,7 @@ figure {
 
 blockquote {
 	border-left: 2px solid $color__link;
-	margin-left: -($size__spacing-unit * 2);
+	margin-left: 0;
 	padding: 0 0 0 $size__spacing-unit;
 
 	> p {

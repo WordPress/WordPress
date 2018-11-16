@@ -53,6 +53,18 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 	## Captions
 	## Galleries
 --------------------------------------------------------------*/
+/*
+ * Chrome renders extra-wide &nbsp; characters for the Hoefler Text font.
+ * This results in a jumping cursor when typing in both the Classic and block
+ * editors. The following font-face override fixes the issue by manually inserting
+ * a custom font that includes just a Hoefler Text space replacement for that
+ * character instead.
+ */
+@font-face {
+  font-family: 'NonBreakingSpaceOverride';
+  src: url(data:application/font-woff2;charset=utf-8;base64,d09GMgABAAAAAAMoAA0AAAAACDQAAALTAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCahEICjx3CywAATYCJANUBCAFhiEHgWwbXQfILgpsY+rQRRARwyAs6uL7pxzYhxEE+32b3aeHmifR6tklkS9hiZA0ewkqGRJE+H7/+6378ASViK/PGeavqJyOzsceKi1s3BCiQsiOdn1r/RBgIJYEgCUhbm/8/8/h4saPssnTNkkiWUBrTRtjmQSajw3Ui3pZ3LYDPD+XG2C3JA/yKAS8/rU5eNfuGqRf4eNNgV4YAlIIgxglEkWe6FYpq10+wi3g+/nUgvgPFczNrz/RsTgVm/zfbPuHZlsuQECxuyqBcQwKFBjFgKO8AqP4bAN9tFJtnM9xPcbNjeXS/x1wY/xU52f5W/X1+9cnH4YwKIaoRRAkUkj/YlAAeF/624foiIDBgBmgQBeGAyhBljUPZUm/l2dTvmpqcBDUOHdbPZWd8JsBAsGr4w8/EDn82/bUPx4eh0YNrQTBuHO2FjQEAGBwK0DeI37DpQVqdERS4gZBhpeUhWCfLFz7J99aEBgsJCHvUGAdAPp4IADDCAPCEFMGpMZ9AQpTfQtQGhLbGVBZFV8BaqNyP68oTZgHNj3M8kBPfXTTC9t90UuzYhy9ciH0grVlOcqyCytisvbsERsEYztiznR0WCrmTksJwbSNK6fd1Rvr25I9oLvctUoEbNOmXJbqgYgPXEHJ82IUsrCnpkxh23F1rfZ2zcRnJYoXtauB3VTFkFXQg3uoZYD5qE0kdjDtoDoF1h2bulGmev5HbYhbrjtohQSRI4aNOkffIcT+d3v6atpaYh3JvPoQsztCcqvaBkppDSPcQ3bw3KaCBo1f5CJWTZEgW3LjLofYg51MaVezrx8xZitYbQ9KYeoRaqQdVLwSEfrKXLK1otCWOKNdR/YwYAfon5Yk8O2MJfSD10dPGA5PIJJQMkah0ugMJiv6x4Dm7LEa8xnrRGGGLAg4sAlbsA07sAt76DOsXKO3hIjtIlpnnFrt1qW4kh6NhS83P/6HB/fl1SMAAA==) format("woff2"), url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAUQAA0AAAAACDQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAE9AAAABwAAAAchf5yU0dERUYAAATYAAAAHAAAAB4AJwAbT1MvMgAAAaAAAABJAAAAYJAcgU5jbWFwAAACIAAAAF4AAAFqUUxBZ2dhc3AAAATQAAAACAAAAAgAAAAQZ2x5ZgAAApAAAAAyAAAAPL0n8y9oZWFkAAABMAAAADAAAAA2Fi93Z2hoZWEAAAFgAAAAHQAAACQOSgWaaG10eAAAAewAAAAzAAAAVC7TAQBsb2NhAAACgAAAABAAAAAsAOQBAm1heHAAAAGAAAAAHQAAACAAWQALbmFtZQAAAsQAAAF6AAADIYvD/Adwb3N0AAAEQAAAAI4AAADsapk2o3jaY2BkYGAA4ov5mwzj+W2+MnCzXwCKMNzgCBSB0LfbQDQ7AxuI4mBgAlEAFKQIRHjaY2BkYGD3+NvCwMDBAALsDAyMDKhAFAA3+wH3AAAAeNpjYGRgYBBl4GBgYgABEMnIABJzAPMZAAVmAGUAAAB42mNgZlJhnMDAysDCKsKygYGBYRqEZtrDYMT4D8gHSmEHjgUFOQwODAqqf9g9/rYwMLB7MNUAhRlBcsxBrMlASoGBEQAj8QtyAAAAeNrjYGBkAAGmWQwMjO8gmBnIZ2NA0ExAzNjAAFYJVn0ASBsD6VAIDZb7AtELAgANIgb9AHjaY2BgYGaAYBkGRgYQSAHyGMF8FgYPIM3HwMHAxMDGoMCwQIFLQV8hXvXP//9AcRCfAcb///h/ygPW+w/vb7olBjUHCTCyMcAFGZmABBO6AogThgZgIUsXAEDcEzcAAHjaY2BgECMCyoEgACZaAed42mNgYmRgYGBnYGNgYAZSDJqMgorCgoqCjECRXwwNrCAKSP5mAAFGBiRgyAAAi/YFBQAAeNqtkc1OwkAUhU/5M25cEhcsZick0AwlBJq6MWwgJkAgYV/KAA2lJeUn+hY+gktXvpKv4dLTMqKycGHsTZNv7px7z50ZAFd4hYHjdw1Ls4EiHjVncIFnzVnc4F1zDkWjrzmPW+NNcwGlzIRKI3fJlUyrEjZQxb3mDH2fNGfRx4vmHKqG0JzHg6E0F9DOlFBGBxUI1GEzLNT4S0aLuTtsGAEUuYcQHkyg3KmIum1bNUvKlrjbbAIleqHHnS4iSudpQcySMYtdFiXlAxzSbAwfMxK6kZoHKhbjjespMTioOPZnzI+4ucCeTVyKMVKLfeAS6vSWaTinuZwzyy/Dc7vaed+6KaV0kukdPUk6yOcctZPvvxxqksq2lEW8RvHjMEO2FCl/zy6p3NEm0R9OFSafJdldc4QVeyaaObMBO0/5cCaa6d9Ggyubxire+lEojscdjoWUR1xGOy8KD8mG2ZLO2l2paDc3A39qmU2z2W5YNv5+u79e6QfGJY/hAAB42m3NywrCMBQE0DupWp/1AYI7/6DEaLQu66Mrd35BKUWKJSlFv1+rue4cGM7shgR981qSon+ZNwUJ8iDgoYU2OvDRRQ99DDDECAHGmGCKmf80hZSx/Kik/LliFbtmN6xmt+yOjdg9GztV4tROnRwX/Bsaaw51nt4Lc7tWaZYHp/MlzKx51LZs5htNri+2AAAAAQAB//8AD3jaY2BkYGDgAWIxIGZiYARCESBmAfMYAAR6AEMAAAABAAAAANXtRbgAAAAA2AhRFAAAAADYCNuG) format("woff");
+}
+
 /* If we add the border using a regular CSS border, it won't look good on non-retina devices,
  * since its edges can look jagged due to lack of antialiasing. In this case, we are several
  * layers of box-shadow to add the border visually, which will render the border smoother. */
@@ -401,7 +413,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #111;
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: 400;
   font-size: 1em;
   line-height: 1.8;
@@ -415,7 +427,7 @@ select,
 optgroup,
 textarea {
   color: #111;
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: 400;
   line-height: 1.8;
   text-rendering: optimizeLegibility;
@@ -476,7 +488,7 @@ h6 {
 }
 
 .page-title {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
 }
 
 .site-branding,
@@ -844,7 +856,7 @@ figure {
 
 blockquote {
   border-right: 2px solid #0073aa;
-  margin-right: -2rem;
+  margin-right: 0;
   padding: 0 1rem 0 0;
 }
 
@@ -860,6 +872,7 @@ table {
   margin: 0 0 1rem;
   border-collapse: collapse;
   width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 table td,
@@ -880,13 +893,14 @@ input[type="submit"] {
   border: none;
   border-radius: 5px;
   box-sizing: border-box;
-  color: white;
+  color: #fff;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 0.88889em;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
   outline: none;
   padding: 0.76rem 1rem;
+  text-decoration: none;
   vertical-align: bottom;
 }
 
@@ -895,19 +909,17 @@ button:hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,
 input[type="submit"]:hover {
+  background: #111;
   cursor: pointer;
 }
 
-.button:hover, .button:focus,
-button:hover,
-button:focus,
-input[type="button"]:hover,
-input[type="button"]:focus,
-input[type="reset"]:hover,
-input[type="reset"]:focus,
-input[type="submit"]:hover,
-input[type="submit"]:focus {
-  background: #111;
+.button:visited,
+button:visited,
+input[type="button"]:visited,
+input[type="reset"]:visited,
+input[type="submit"]:visited {
+  color: #fff;
+  text-decoration: none;
 }
 
 .button:focus,
@@ -915,6 +927,7 @@ button:focus,
 input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus {
+  background: #111;
   outline: thin dotted;
   outline-offset: -4px;
 }
@@ -941,6 +954,9 @@ textarea {
   box-sizing: border-box;
   outline: none;
   padding: 0.36rem 0.66rem;
+  -webkit-appearance: none;
+  outline-offset: 0;
+  border-radius: 0;
 }
 
 input[type="text"]:focus,
@@ -962,6 +978,10 @@ textarea:focus {
   border-color: #0073aa;
   outline: thin solid rgba(0, 115, 170, 0.15);
   outline-offset: -4px;
+}
+
+input[type="search"]::-webkit-search-decoration {
+  display: none;
 }
 
 textarea {
@@ -1012,6 +1032,9 @@ a:focus {
 	 *
 	 * :focus-within needs its own selector so other similar
 	 * selectors don’t get ignored if a browser doesn’t recognize it
+	 */
+  /**
+	 * Fade-in animation for top-level submenus
 	 */
   /**
 	 * Full-screen touch device styles
@@ -1096,6 +1119,10 @@ body.page .main-navigation {
   vertical-align: text-bottom;
 }
 
+.wp-customizer-unloading .main-navigation .main-menu > li.menu-item-has-children .submenu-expand, .main-navigation .main-menu > li.menu-item-has-children .submenu-expand.is-empty {
+  display: none;
+}
+
 .main-navigation .main-menu > li.menu-item-has-children .submenu-expand svg {
   position: relative;
   top: 0.2rem;
@@ -1106,19 +1133,14 @@ body.page .main-navigation {
   margin-left: 0;
 }
 
-.main-navigation .main-menu .is-hidden {
-  display: none;
-}
-
 .main-navigation .sub-menu {
   background-color: #0073aa;
   color: #fff;
   list-style: none;
   padding-right: 0;
-  display: none;
   position: absolute;
   opacity: 0;
-  right: -999px;
+  right: -9999px;
   z-index: 99999;
 }
 
@@ -1182,6 +1204,10 @@ body.page .main-navigation {
 .main-navigation .sub-menu > li > .menu-item-link-return:hover:after,
 .main-navigation .sub-menu > li > .menu-item-link-return:focus:after {
   background: #005177;
+}
+
+.main-navigation .sub-menu > li > a:empty {
+  display: none;
 }
 
 .main-navigation .sub-menu > li.mobile-parent-nav-menu-item {
@@ -1320,12 +1346,12 @@ body.page .main-navigation {
 }
 
 .main-navigation .main-menu .menu-item-has-children:not(.off-canvas)[focus-within] > .sub-menu .sub-menu li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
 .main-navigation .main-menu .menu-item-has-children:not(.off-canvas):focus-within > .sub-menu .sub-menu li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
@@ -1485,7 +1511,7 @@ body.page .main-navigation {
 .main-navigation .main-menu .menu-item-has-children:not(.off-canvas):hover > .sub-menu .sub-menu li > a:before,
 .main-navigation .main-menu .menu-item-has-children:not(.off-canvas):focus > .sub-menu .sub-menu li > a:before,
 .main-navigation .main-menu .menu-item-has-children.is-focused:not(.off-canvas) > .sub-menu .sub-menu li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
@@ -1543,7 +1569,7 @@ body.page .main-navigation {
   content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
 }
 
-.main-navigation .main-menu .menu-item-has-children.off-canvas .sub-menu {
+.main-navigation .main-menu > .menu-item-has-children:not(.off-canvas):hover > .sub-menu {
   animation: fade_in 0.1s forwards;
 }
 
@@ -1608,6 +1634,10 @@ body.page .main-navigation {
   .admin-bar .main-navigation .main-menu .menu-item-has-children.off-canvas .sub-menu.expanded-true .sub-menu.expanded-true {
     top: 0;
   }
+}
+
+.main-navigation .main-menu-more:nth-child(n+3) {
+  display: none;
 }
 
 /* Menu animation */
@@ -2689,8 +2719,18 @@ body.page .main-navigation {
   text-decoration: underline;
 }
 
-.entry .entry-content a:hover {
+.entry .entry-content a.button, .entry .entry-content a:hover {
   text-decoration: none;
+}
+
+.entry .entry-content a.button {
+  display: inline-block;
+}
+
+.entry .entry-content a.button:hover {
+  background: #111;
+  color: #fff;
+  cursor: pointer;
 }
 
 .entry .entry-content > iframe[style] {
@@ -3395,7 +3435,7 @@ body.page .main-navigation {
 .widget_recent_comments ul ul li > a:before,
 .widget_recent_entries ul ul li > a:before,
 .widget_rss ul ul li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
@@ -3510,7 +3550,6 @@ body.page .main-navigation {
 
 .widget_calendar .calendar_wrap {
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 .widget_calendar .calendar_wrap table td,
@@ -3726,11 +3765,6 @@ body.page .main-navigation {
   }
 }
 
-.entry .entry-content .wp-block-audio.aligncenter {
-  margin: 32px calc(2 * (100vw / 12));
-  max-width: calc(6 * (100vw / 12));
-}
-
 .entry .entry-content .wp-block-video video {
   width: 100%;
 }
@@ -3821,7 +3855,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-categories ul li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
@@ -3886,7 +3920,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-verse {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-size: 22px;
   line-height: 1.8;
 }
@@ -4277,7 +4311,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-embed-twitter {
-  overflow: hidden;
+  word-break: break-word;
 }
 
 .entry .entry-content .wp-block-table th,
@@ -4290,6 +4324,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-file .wp-block-file__button {
+  display: table;
   transition: background 150ms ease-in-out;
   border: none;
   border-radius: 5px;
@@ -4301,6 +4336,8 @@ body.page .main-navigation {
   font-weight: bold;
   padding: 0.75rem 1rem;
   color: #fff;
+  margin-right: 0;
+  margin-top: calc(0.75 * 1rem);
 }
 
 @media only screen and (min-width: 1168px) {
@@ -4319,10 +4356,6 @@ body.page .main-navigation {
   background: #111;
   outline: thin dotted;
   outline-offset: -4px;
-}
-
-.entry .entry-content .wp-block-file * + .wp-block-file__button {
-  margin-right: 0.75rem;
 }
 
 .entry .entry-content .wp-block-code {

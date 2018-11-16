@@ -19,6 +19,9 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   @page {
     margin: 2cm;
   }
+  .entry {
+    margin-top: 1em;
+  }
   .entry .entry-header, .site-footer .site-info {
     margin: 0;
   }
@@ -97,9 +100,53 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   .social-navigation,
   .site-branding-container:before,
   .entry .entry-title:before,
-  .entry-meta, .entry-footer,
+  .entry-footer,
   .author-description:before,
-  .post-navigation {
+  .post-navigation,
+  .widget-area,
+  .comment-form-flex {
     display: none;
+  }
+  /* Site Header (With Featured Image) */
+  .site-header.featured-image {
+    min-height: 0;
+  }
+  .site-header.featured-image .main-navigation a,
+  .site-header.featured-image .main-navigation a + svg,
+  .site-header.featured-image .social-navigation a,
+  .site-header.featured-image .site-title a,
+  .site-header.featured-image .site-featured-image a,
+  .site-header.featured-image .site-branding .site-title,
+  .site-header.featured-image .site-branding .site-description,
+  .site-header.featured-image .main-navigation a:after,
+  .site-header.featured-image .main-navigation .main-menu > li.menu-item-has-children:after,
+  .site-header.featured-image .main-navigation li,
+  .site-header.featured-image .social-navigation li,
+  .site-header.featured-image .entry-meta,
+  .site-header.featured-image .entry-title {
+    color: #000;
+    text-shadow: none;
+  }
+  .site-header.featured-image .site-featured-image .entry-header,
+  .site-header.featured-image .site-branding-container {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .site-header.featured-image .site-featured-image .post-thumbnail img {
+    position: relative;
+    height: initial;
+    width: initial;
+    object-fit: none;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    margin-top: 1rem;
+  }
+  /* Remove image filters from featured image */
+  .image-filters-enabled *:after {
+    display: none !important;
+  }
+  .image-filters-enabled .site-header.featured-image .site-featured-image .post-thumbnail img {
+    filter: none;
   }
 }

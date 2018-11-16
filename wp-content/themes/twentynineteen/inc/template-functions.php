@@ -205,19 +205,19 @@ function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
 
 	if ( 'menu-1' === $args->theme_location ) :
 
-		$nav_menu .= '<div class="main-menu-more"	>';
+		$nav_menu .= '<div class="main-menu-more">';
 		$nav_menu .= '<ul class="main-menu" tabindex="0">';
 		$nav_menu .= '<li class="menu-item menu-item-has-children">';
-		$nav_menu .= '<a href="#" class="screen-reader-text" aria-label="More" aria-haspopup="true" aria-expanded="false">' . esc_html( 'More', 'twentynineteen' ) . '</a>';
-		$nav_menu .= '<span class="submenu-expand main-menu-more-toggle" tabindex="-1">';
+		$nav_menu .= '<a href="#" class="screen-reader-text" aria-label="More" aria-haspopup="true" aria-expanded="false">' . esc_html__( 'More', 'twentynineteen' ) . '</a>';
+		$nav_menu .= '<span class="submenu-expand main-menu-more-toggle is-empty" tabindex="-1">';
 		$nav_menu .= twentynineteen_get_icon_svg( 'arrow_drop_down_ellipsis' );
 		$nav_menu .= '</span>';
-		$nav_menu .= '<ul class="sub-menu hidden-links is-hidden">';
+		$nav_menu .= '<ul class="sub-menu hidden-links">';
 		$nav_menu .= '<li id="menu-item--1" class="mobile-parent-nav-menu-item menu-item--1">';
-		$nav_menu .= '<a class="menu-item-link-return" id="menu-item-link-return-1877" href="#menu-item-link-1877" onclick="event.preventDefault();" tabindex="-1">';
+		$nav_menu .= '<span class="menu-item-link-return">';
 		$nav_menu .= twentynineteen_get_icon_svg( 'chevron_left' );
 		$nav_menu .= esc_html__( 'Back', 'twentynineteen' );
-		$nav_menu .= '</a>';
+		$nav_menu .= '</span>';
 		$nav_menu .= '</li>';
 		$nav_menu .= '</ul>';
 		$nav_menu .= '</li>';

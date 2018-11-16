@@ -147,11 +147,6 @@
 				max-width: (0.33 * $desktop_width);
 			}
 		}
-
-		&.aligncenter {
-			margin: 32px calc(2 * (100vw / 12));
-			max-width: calc(6 * (100vw / 12));
-		}
 	}
 
 	//! Video
@@ -243,7 +238,7 @@
 		ul {
 			padding-top: ( .75 * $size__spacing-unit );
 		}
-		
+
 		li ul {
 			list-style: none;
 			padding-left: 0;
@@ -622,7 +617,7 @@
 
 	//! Twitter Embed
 	.wp-block-embed-twitter {
-		overflow: hidden;
+		word-break: break-word;
 	}
 
 	//! Table
@@ -639,6 +634,7 @@
 		font-family: $font__heading;
 
 		.wp-block-file__button {
+			display: table;
 			@include button-transition;
 			border: none;
 			border-radius: 5px;
@@ -650,6 +646,8 @@
 			font-weight: bold;
 			padding: ($size__spacing-unit * .75) $size__spacing-unit;
 			color: #fff;
+			margin-left: 0;
+			margin-top: calc(0.75 * #{$size__spacing-unit});
 
 			@include media(desktop) {
 				font-size: $font__size-base;
@@ -666,10 +664,6 @@
 				outline: thin dotted;
 				outline-offset: -4px;
 			}
-		}
-
-		* + .wp-block-file__button {
-			margin-left: ($size__spacing-unit * .75);
 		}
 	}
 

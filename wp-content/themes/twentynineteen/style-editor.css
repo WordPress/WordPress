@@ -2,12 +2,6 @@
 Twenty Nineteen Editor Styles
 */
 /** === Includes === */
-/* If we add the border using a regular CSS border, it won't look good on non-retina devices,
- * since its edges can look jagged due to lack of antialiasing. In this case, we are several
- * layers of box-shadow to add the border visually, which will render the border smoother. */
-/* Fallback for non-latin fonts */
-/* Calculates maximum width for post content */
-/* Nested sub-menu padding: 10 levels deep */
 /*
  * Chrome renders extra-wide &nbsp; characters for the Hoefler Text font.
  * This results in a jumping cursor when typing in both the Classic and block
@@ -20,38 +14,26 @@ Twenty Nineteen Editor Styles
   src: url(data:application/font-woff2;charset=utf-8;base64,d09GMgABAAAAAAMoAA0AAAAACDQAAALTAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCahEICjx3CywAATYCJANUBCAFhiEHgWwbXQfILgpsY+rQRRARwyAs6uL7pxzYhxEE+32b3aeHmifR6tklkS9hiZA0ewkqGRJE+H7/+6378ASViK/PGeavqJyOzsceKi1s3BCiQsiOdn1r/RBgIJYEgCUhbm/8/8/h4saPssnTNkkiWUBrTRtjmQSajw3Ui3pZ3LYDPD+XG2C3JA/yKAS8/rU5eNfuGqRf4eNNgV4YAlIIgxglEkWe6FYpq10+wi3g+/nUgvgPFczNrz/RsTgVm/zfbPuHZlsuQECxuyqBcQwKFBjFgKO8AqP4bAN9tFJtnM9xPcbNjeXS/x1wY/xU52f5W/X1+9cnH4YwKIaoRRAkUkj/YlAAeF/624foiIDBgBmgQBeGAyhBljUPZUm/l2dTvmpqcBDUOHdbPZWd8JsBAsGr4w8/EDn82/bUPx4eh0YNrQTBuHO2FjQEAGBwK0DeI37DpQVqdERS4gZBhpeUhWCfLFz7J99aEBgsJCHvUGAdAPp4IADDCAPCEFMGpMZ9AQpTfQtQGhLbGVBZFV8BaqNyP68oTZgHNj3M8kBPfXTTC9t90UuzYhy9ciH0grVlOcqyCytisvbsERsEYztiznR0WCrmTksJwbSNK6fd1Rvr25I9oLvctUoEbNOmXJbqgYgPXEHJ82IUsrCnpkxh23F1rfZ2zcRnJYoXtauB3VTFkFXQg3uoZYD5qE0kdjDtoDoF1h2bulGmev5HbYhbrjtohQSRI4aNOkffIcT+d3v6atpaYh3JvPoQsztCcqvaBkppDSPcQ3bw3KaCBo1f5CJWTZEgW3LjLofYg51MaVezrx8xZitYbQ9KYeoRaqQdVLwSEfrKXLK1otCWOKNdR/YwYAfon5Yk8O2MJfSD10dPGA5PIJJQMkah0ugMJiv6x4Dm7LEa8xnrRGGGLAg4sAlbsA07sAt76DOsXKO3hIjtIlpnnFrt1qW4kh6NhS83P/6HB/fl1SMAAA==) format("woff2"), url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAUQAA0AAAAACDQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAE9AAAABwAAAAchf5yU0dERUYAAATYAAAAHAAAAB4AJwAbT1MvMgAAAaAAAABJAAAAYJAcgU5jbWFwAAACIAAAAF4AAAFqUUxBZ2dhc3AAAATQAAAACAAAAAgAAAAQZ2x5ZgAAApAAAAAyAAAAPL0n8y9oZWFkAAABMAAAADAAAAA2Fi93Z2hoZWEAAAFgAAAAHQAAACQOSgWaaG10eAAAAewAAAAzAAAAVC7TAQBsb2NhAAACgAAAABAAAAAsAOQBAm1heHAAAAGAAAAAHQAAACAAWQALbmFtZQAAAsQAAAF6AAADIYvD/Adwb3N0AAAEQAAAAI4AAADsapk2o3jaY2BkYGAA4ov5mwzj+W2+MnCzXwCKMNzgCBSB0LfbQDQ7AxuI4mBgAlEAFKQIRHjaY2BkYGD3+NvCwMDBAALsDAyMDKhAFAA3+wH3AAAAeNpjYGRgYBBl4GBgYgABEMnIABJzAPMZAAVmAGUAAAB42mNgZlJhnMDAysDCKsKygYGBYRqEZtrDYMT4D8gHSmEHjgUFOQwODAqqf9g9/rYwMLB7MNUAhRlBcsxBrMlASoGBEQAj8QtyAAAAeNrjYGBkAAGmWQwMjO8gmBnIZ2NA0ExAzNjAAFYJVn0ASBsD6VAIDZb7AtELAgANIgb9AHjaY2BgYGaAYBkGRgYQSAHyGMF8FgYPIM3HwMHAxMDGoMCwQIFLQV8hXvXP//9AcRCfAcb///h/ygPW+w/vb7olBjUHCTCyMcAFGZmABBO6AogThgZgIUsXAEDcEzcAAHjaY2BgECMCyoEgACZaAed42mNgYmRgYGBnYGNgYAZSDJqMgorCgoqCjECRXwwNrCAKSP5mAAFGBiRgyAAAi/YFBQAAeNqtkc1OwkAUhU/5M25cEhcsZick0AwlBJq6MWwgJkAgYV/KAA2lJeUn+hY+gktXvpKv4dLTMqKycGHsTZNv7px7z50ZAFd4hYHjdw1Ls4EiHjVncIFnzVnc4F1zDkWjrzmPW+NNcwGlzIRKI3fJlUyrEjZQxb3mDH2fNGfRx4vmHKqG0JzHg6E0F9DOlFBGBxUI1GEzLNT4S0aLuTtsGAEUuYcQHkyg3KmIum1bNUvKlrjbbAIleqHHnS4iSudpQcySMYtdFiXlAxzSbAwfMxK6kZoHKhbjjespMTioOPZnzI+4ucCeTVyKMVKLfeAS6vSWaTinuZwzyy/Dc7vaed+6KaV0kukdPUk6yOcctZPvvxxqksq2lEW8RvHjMEO2FCl/zy6p3NEm0R9OFSafJdldc4QVeyaaObMBO0/5cCaa6d9Ggyubxire+lEojscdjoWUR1xGOy8KD8mG2ZLO2l2paDc3A39qmU2z2W5YNv5+u79e6QfGJY/hAAB42m3NywrCMBQE0DupWp/1AYI7/6DEaLQu66Mrd35BKUWKJSlFv1+rue4cGM7shgR981qSon+ZNwUJ8iDgoYU2OvDRRQ99DDDECAHGmGCKmf80hZSx/Kik/LliFbtmN6xmt+yOjdg9GztV4tROnRwX/Bsaaw51nt4Lc7tWaZYHp/MlzKx51LZs5htNri+2AAAAAQAB//8AD3jaY2BkYGDgAWIxIGZiYARCESBmAfMYAAR6AEMAAAABAAAAANXtRbgAAAAA2AhRFAAAAADYCNuG) format("woff");
 }
 
+/* If we add the border using a regular CSS border, it won't look good on non-retina devices,
+ * since its edges can look jagged due to lack of antialiasing. In this case, we are several
+ * layers of box-shadow to add the border visually, which will render the border smoother. */
+/* Fallback for non-latin fonts */
+/* Calculates maximum width for post content */
+/* Nested sub-menu padding: 10 levels deep */
 /** === Editor Frame === */
 body .wp-block[data-align="full"] {
   width: 100%;
 }
 
 @media only screen and (min-width: 600px) {
-  body {
-    padding-top: 0;
-  }
-  body :not(.editor-inner-blocks) > .editor-block-list__layout,
-  body .editor-post-title {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  body .editor-writing-flow {
-    padding-top: 50px;
-    overflow: hidden;
-  }
   body .wp-block[data-align="full"] {
-    position: relative;
-    left: 45px;
+    width: calc( 100% + 90px);
+    max-width: calc( 100% + 90px);
   }
 }
 
 @media only screen and (min-width: 768px) {
-  body :not(.editor-inner-blocks) > .editor-block-list__layout,
-  body .editor-post-title {
-    padding-left: 46px;
-    padding-right: 46px;
-  }
-  body .editor-block-list__layout,
-  body .editor-post-title {
+  body .editor-writing-flow {
     max-width: 80%;
     margin: 0 10%;
   }
@@ -68,7 +50,7 @@ body .wp-block[data-align="full"] {
     position: relative;
     left: calc( -12.5% - 14px);
     width: calc( 125% + 116px);
-    max-width: calc( 125% + 116px);
+    max-width: calc( 125% + 115px);
   }
   body .wp-block[data-align="right"] {
     max-width: 125%;
@@ -116,6 +98,7 @@ h4,
 h5,
 h6 {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: 700;
 }
 
 h1 {
@@ -234,8 +217,8 @@ figcaption,
 }
 
 /** === Default Appender === */
-.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+.editor-default-block-appender .editor-default-block-appender__content {
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-size: 22px;
 }
 
@@ -251,6 +234,11 @@ figcaption,
   line-height: 1;
   font-weight: bold;
   margin: 0 0.25em 0 0;
+}
+
+/** === Table === */
+.wp-block-table {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 /** === Cover === */
@@ -508,12 +496,29 @@ figcaption,
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
+.wp-block-file .wp-block-file__textlink {
+  text-decoration: underline;
+  color: #0073aa;
+}
+
+.wp-block-file .wp-block-file__textlink:hover {
+  color: #005177;
+  text-decoration: none;
+}
+
 .wp-block-file .wp-block-file__button {
+  display: table;
   line-height: 1.8;
   font-size: 0.88889em;
   font-weight: bold;
   background-color: #0073aa;
   border-radius: 5px;
+}
+
+.wp-block-file .wp-block-file__button-richtext-wrapper {
+  display: block;
+  margin-top: calc(0.75 * 1rem);
+  margin-left: 0;
 }
 
 /** === Verse === */
@@ -600,7 +605,7 @@ ul.wp-block-archives li ul,
 }
 
 .wp-block-categories ul ul li > a:before {
-  font-family: "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
+  font-family: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
   font-weight: normal;
 }
 
@@ -702,7 +707,6 @@ ul.wp-block-archives li ul,
 
 .wp-block-freeform {
   /* Add style for galleries in classic-editor block */
-  /* Add style for galleries in classic-editor block */
 }
 
 .wp-block-freeform blockquote {
@@ -715,51 +719,4 @@ ul.wp-block-archives li ul,
   font-style: normal;
   line-height: 1.6;
   color: #767676;
-}
-
-.wp-block-freeform .gallery {
-  display: flex;
-}
-
-.wp-block-freeform .gallery .gallery-item {
-  padding: 0.5rem;
-  text-align: center;
-  vertical-align: top;
-  width: 100%;
-}
-
-.wp-block-freeform .gallery .gallery-item .gallery-caption {
-  margin: 0;
-}
-
-.wp-block-freeform .gallery.gallery-columns-2 .gallery-item {
-  max-width: calc( ( 12 / 2 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-3 .gallery-item {
-  max-width: calc( ( 12 / 3 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-4 .gallery-item {
-  max-width: calc( ( 12 / 4 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-5 .gallery-item {
-  max-width: calc( ( 12 / 5 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-6 .gallery-item {
-  max-width: calc( ( 12 / 6 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-7 .gallery-item {
-  max-width: calc( ( 12 / 7 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-8 .gallery-item {
-  max-width: calc( ( 12 / 8 ) * (100% / 12));
-}
-
-.wp-block-freeform .gallery.gallery-columns-9 .gallery-item {
-  max-width: calc( ( 12 / 9 ) * (100% / 12));
 }

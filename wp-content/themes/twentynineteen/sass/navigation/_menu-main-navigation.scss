@@ -64,6 +64,7 @@
 				}
 
 				.submenu-expand {
+
 					display: inline-block;
 					margin-right: #{0.5 * $size__spacing-unit};
 
@@ -85,6 +86,11 @@
 						}
 					}
 
+					.wp-customizer-unloading &,
+					&.is-empty {
+						display: none;
+					}
+
 					svg {
 						position: relative;
 						top: 0.2rem;
@@ -97,10 +103,6 @@
 				margin-right: 0;
 			}
 		}
-
-		.is-hidden {
-			display: none;
-		}
 	}
 
 	.sub-menu {
@@ -110,10 +112,9 @@
 		list-style: none;
 		padding-left: 0;
 
-		display: none;
 		position: absolute;
 		opacity: 0;
-		left: -999px;
+		left: -9999px;
 		z-index: 99999;
 
 		@include media(tablet) {
@@ -179,6 +180,10 @@
 						background: $color__link-hover;
 					}
 				}
+			}
+
+			> a:empty {
+				display: none;
 			}
 
 			&.mobile-parent-nav-menu-item {
@@ -394,11 +399,16 @@
 	}
 
 	/**
+	 * Fade-in animation for top-level submenus
+	 */
+	.main-menu > .menu-item-has-children:not(.off-canvas):hover > .sub-menu {
+		animation: fade_in 0.1s forwards;
+	}
+
+	/**
 	 * Full-screen touch device styles
 	 */
 	.main-menu .menu-item-has-children.off-canvas .sub-menu {
-
-		animation: fade_in 0.1s forwards;
 
 		.submenu-expand .svg-icon {
 			transform: rotate(270deg);
@@ -463,6 +473,14 @@
 			}
 		}
 	}
+
+	// Hide duplicate menu-more-link when re-loading a menu in the customizer
+	.main-menu-more {
+		&:nth-child(n+3) {
+			display: none;
+		}
+	}
+
 }
 
 /* Menu animation */
