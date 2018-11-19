@@ -66,7 +66,7 @@
 				.submenu-expand {
 
 					display: inline-block;
-					margin-right: #{0.5 * $size__spacing-unit};
+					margin-right: #{0.25 * $size__spacing-unit};
 
 					/* Priority+ Menu */
 					&.main-menu-more-toggle {
@@ -267,37 +267,16 @@
 			}
 		}
 
-		/* Nested sub-menu padding: 10 levels deep */
-		.sub-menu li > a:before {
+		/* Nested sub-menu dashes */
+		.sub-menu {
+			counter-reset: submenu;
+		}
+
+		.sub-menu > li > a::before {
 			font-family: $font__body;
 			font-weight: normal;
-		}
-		.sub-menu > li > a:before {
-			content: "\2013\00a0";
-		}
-		.sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
+			content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+			counter-increment: submenu
 		}
 	}
 
@@ -364,37 +343,16 @@
 			}
 		}
 
-		/* Nested sub-menu padding: 10 levels deep */
-		.sub-menu li > a:before {
+		/* Nested sub-menu dashes */
+		.sub-menu {
+			counter-reset: submenu;
+		}
+
+		.sub-menu > li > a::before {
 			font-family: $font__body;
 			font-weight: normal;
-		}
-		.sub-menu > li > a:before {
-			content: "\2013\00a0";
-		}
-		.sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-		}
-		.sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu .sub-menu li > a:before {
-			content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
+			content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+			counter-increment: submenu
 		}
 	}
 
@@ -406,7 +364,7 @@
 	}
 
 	/**
-	 * Full-screen touch device styles
+	 * Off-canvas touch device styles
 	 */
 	.main-menu .menu-item-has-children.off-canvas .sub-menu {
 
@@ -426,6 +384,11 @@
 		li > a:hover,
 		li > a:focus {
 			background-color: transparent;
+		}
+
+		> li > a,
+		> li > .menu-item-link-return {
+			white-space: inherit;
 		}
 
 		&.expanded-true {

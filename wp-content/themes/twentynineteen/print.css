@@ -75,7 +75,6 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   /* Links */
   a:link, a:visited, a {
     background: transparent;
-    color: #520;
     font-weight: bold;
     text-decoration: underline;
     text-align: left;
@@ -97,6 +96,7 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   }
   /* Visibility */
   .main-navigation,
+  .site-title + .main-navigation,
   .social-navigation,
   .site-branding-container:before,
   .entry .entry-title:before,
@@ -104,8 +104,15 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   .author-description:before,
   .post-navigation,
   .widget-area,
-  .comment-form-flex {
+  .comment-form-flex,
+  .comment-reply,
+  .comment .comment-metadata .edit-link {
     display: none;
+  }
+  .entry .entry-content .wp-block-button .wp-block-button__link,
+  .entry .entry-content .button {
+    color: #000;
+    background: none;
   }
   /* Site Header (With Featured Image) */
   .site-header.featured-image {
@@ -123,7 +130,8 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   .site-header.featured-image .main-navigation li,
   .site-header.featured-image .social-navigation li,
   .site-header.featured-image .entry-meta,
-  .site-header.featured-image .entry-title {
+  .site-header.featured-image .entry-title,
+  .site-header.featured-image#masthead .site-title a {
     color: #000;
     text-shadow: none;
   }
@@ -145,6 +153,9 @@ Andreas Hecht in https://www.jotform.com/blog/css-perfect-print-stylesheet-98272
   /* Remove image filters from featured image */
   .image-filters-enabled *:after {
     display: none !important;
+  }
+  .image-filters-enabled .site-header.featured-image .site-featured-image:before {
+    display: none;
   }
   .image-filters-enabled .site-header.featured-image .site-featured-image .post-thumbnail img {
     filter: none;

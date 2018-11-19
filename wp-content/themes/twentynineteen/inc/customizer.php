@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Nineteen Theme Customizer
+ * Twenty Nineteen: Customizer
  *
  * @package WordPress
  * @subpackage Twenty_Nineteen
@@ -35,10 +35,10 @@ function twentynineteen_customize_register( $wp_customize ) {
 	}
 
 	/**
-	 * Custom colors.
+	 * Primary color.
 	 */
 	$wp_customize->add_setting(
-		'colorscheme',
+		'primary_color',
 		array(
 			'default'           => 'default',
 			'transport'         => 'postMessage',
@@ -47,22 +47,22 @@ function twentynineteen_customize_register( $wp_customize ) {
 	);
 
 	$wp_customize->add_control(
-		'colorscheme',
+		'primary_color',
 		array(
 			'type'     => 'radio',
-			'label'    => __( 'Color Scheme', 'twentynineteen' ),
+			'label'    => __( 'Primary Color', 'twentynineteen' ),
 			'choices'  => array(
-				'default'  => _x( 'Default', 'color scheme', 'twentynineteen' ),
-				'custom' => _x( 'Custom', 'color scheme', 'twentynineteen' ),
+				'default'  => _x( 'Default', 'primary color', 'twentynineteen' ),
+				'custom' => _x( 'Custom', 'primary color', 'twentynineteen' ),
 			),
 			'section'  => 'colors',
 			'priority' => 5,
 		)
 	);
 
-	// Add primary color setting and control.
+	// Add primary color hue setting and control.
 	$wp_customize->add_setting(
-		'colorscheme_primary_hue',
+		'primary_color_hue',
 		array(
 			'default'           => 199,
 			'transport'         => 'postMessage',
@@ -73,21 +73,21 @@ function twentynineteen_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
 			$wp_customize,
-			'colorscheme_primary_hue',
+			'primary_color_hue',
 			array(
-				'label'       => __( 'Primary Color', 'twentynineteen' ),
-				'description' => __( 'Changes the Color of the Featured Image overlay, Buttons, Links etc.', 'twentynineteen' ),
+				'description' => __( 'Apply a custom color for buttons, links, featured images, etc.', 'twentynineteen' ),
 				'section'     => 'colors',
 				'mode'        => 'hue',
 			)
 		)
 	);
 
+	// Add image filter setting and control.
 	$wp_customize->add_setting(
 		'image_filter',
 		array(
-			'default'           => 'active',
-			'sanitize_callback' => 'twentynineteen_sanitize_image_filter',
+			'default'           => 1,
+			'sanitize_callback' => 'absint',
 			'transport'         => 'postMessage',
 		)
 	);
@@ -95,14 +95,9 @@ function twentynineteen_customize_register( $wp_customize ) {
 	$wp_customize->add_control(
 		'image_filter',
 		array(
-			'label'       => __( 'Featured Image Color Filter', 'twentynineteen' ),
-			'section'     => 'colors',
-			'type'        => 'radio',
-			'description' => __( "Twenty Nineteen adds a color filter to featured images using your site's primary color. If you disable this effect, the theme will use a black filter in individual posts to keep text readable when it appears on top of the featured image.", 'twentynineteen' ) . '<br/><span style="font-style: normal; display: block; margin-top: 16px;">' . __( 'On Featured Images, apply', 'twentynineteen' ) . '</span>',
-			'choices'     => array(
-				'active'   => __( 'A color filter', 'twentynineteen' ),
-				'inactive' => __( 'A black filter', 'twentynineteen' ),
-			),
+			'label'   => __( 'Apply a filter to featured images using the primary color', 'twentynineteen' ),
+			'section' => 'colors',
+			'type'    => 'checkbox',
 		)
 	);
 }
@@ -143,7 +138,7 @@ function twentynineteen_panels_js() {
 add_action( 'customize_controls_enqueue_scripts', 'twentynineteen_panels_js' );
 
 /**
- * Sanitize image filter choice.
+ * Sanitize custom color choice.
  *
  * @param string $choice Whether image filter is active.
  *
@@ -160,23 +155,4 @@ function twentynineteen_sanitize_color_option( $choice ) {
 	}
 
 	return 'default';
-}
-/**
- * Sanitize image filter choice.
- *
- * @param string $choice Whether image filter is active.
- *
- * @return string
- */
-function twentynineteen_sanitize_image_filter( $choice ) {
-	$valid = array(
-		'active',
-		'inactive',
-	);
-
-	if ( in_array( $choice, $valid, true ) ) {
-		return $choice;
-	}
-
-	return 'active';
 }

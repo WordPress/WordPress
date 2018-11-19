@@ -90,7 +90,7 @@
 /* Fallback for non-latin fonts */
 
 @mixin non-latin-fonts( $wrapper_classname: '.site' ) {
-	
+
 	/* Arabic */
 	html[lang="ar"] #{$wrapper_classname} *,
 	html[lang="ary"] #{$wrapper_classname} *,
@@ -190,36 +190,15 @@
 /* Nested sub-menu padding: 10 levels deep */
 @mixin nestedSubMenuPadding() {
 
-	ul li > a:before {
+	ul {
+		counter-reset: submenu;
+	}
+
+	ul > li > a::before {
 		font-family: $font__body;
 		font-weight: normal;
-	}
-	ul > li > a:before {
-		content: "\2013\00a0";
-	}
-	ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0";
-	}
-	ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
-	}
-	ul ul ul ul ul ul ul ul ul li > a:before {
-		content: "\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0\2013\00a0";
+		content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+		counter-increment: submenu
 	}
 }
 

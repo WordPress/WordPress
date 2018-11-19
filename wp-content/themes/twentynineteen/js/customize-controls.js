@@ -10,9 +10,9 @@
 
 	wp.customize.bind( 'ready', function() {
 
-		// Only show the color hue control when there's a custom color scheme.
-		wp.customize( 'colorscheme', function( setting ) {
-			wp.customize.control( 'colorscheme_primary_hue', function( control ) {
+		// Only show the color hue control when there's a custom primary color.
+		wp.customize( 'primary_color', function( setting ) {
+			wp.customize.control( 'primary_color_hue', function( control ) {
 				var visibility = function() {
 					if ( 'custom' === setting.get() ) {
 						control.container.slideDown( 180 );

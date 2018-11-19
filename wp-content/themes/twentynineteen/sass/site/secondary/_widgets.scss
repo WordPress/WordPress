@@ -53,6 +53,14 @@
 
 .widget_search {
 
+	.search-field {
+		width: 100%;
+
+		@include media(mobile) {
+			width: auto;
+		}
+	}
+
 	.search-submit {
 		display: block;
 		margin-top: $size__spacing-unit;

@@ -8,14 +8,14 @@
  */
 
 /**
- * Generate the CSS for the current custom color scheme.
+ * Generate the CSS for the current primary color.
  */
 function twentynineteen_custom_colors_css() {
 
-	if ( 'default' === get_theme_mod( 'colorscheme', 'default' ) ) {
+	if ( 'default' === get_theme_mod( 'primary_color', 'default' ) ) {
 		$primary_color = 199;
 	} else {
-		$primary_color = absint( get_theme_mod( 'colorscheme_primary_hue', 199 ) );
+		$primary_color = absint( get_theme_mod( 'primary_color_hue', 199 ) );
 	}
 
 	/**
@@ -60,13 +60,13 @@ function twentynineteen_custom_colors_css() {
 		.image-filters-enabled .entry .post-thumbnail:after,
 		.main-navigation .sub-menu,
 		.sticky-post,
-		.entry .entry-content .wp-block-button .wp-block-button__link,
+		.entry .entry-content .wp-block-button .wp-block-button__link:not(.has-background),
 		.entry .button, button, input[type="button"], input[type="reset"], input[type="submit"],
 		.entry .entry-content > .has-primary-background-color,
 		.entry .entry-content > *[class^="wp-block-"].has-primary-background-color,
 		.entry .entry-content > *[class^="wp-block-"] .has-primary-background-color,
 		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color,
-		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-background-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color.has-primary-background-color,
 		.entry .entry-content .wp-block-file .wp-block-file__button {
 			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
@@ -85,7 +85,7 @@ function twentynineteen_custom_colors_css() {
 		 * - Widget links
 		 */
 		a,
-		a:not(.button):visited,
+		a:visited,
 		.main-navigation .main-menu > li,
 		.main-navigation ul.main-menu > li > a,
 		.post-navigation .post-title,
@@ -97,11 +97,11 @@ function twentynineteen_custom_colors_css() {
 		.comment .comment-metadata .comment-edit-link:hover,
 		#colophon .site-info a:hover,
 		.widget a,
-		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
-		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
-		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link,
+		.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color),
+		.entry .entry-content > .has-primary-color,
 		.entry .entry-content > *[class^="wp-block-"] .has-primary-color,
-		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color .has-primary-color {
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color blockquote.has-primary-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color blockquote.has-primary-color p {
 			color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness . ' ); /* base: #0073a8; */
 		}
 
@@ -147,8 +147,13 @@ function twentynineteen_custom_colors_css() {
 		a:hover, a:active,
 		.main-navigation .main-menu > li > a:hover,
 		.main-navigation .main-menu > li > a:hover + svg,
+		.post-navigation .nav-links a:hover,
 		.post-navigation .nav-links a:hover .post-title,
 		.author-bio .author-description .author-link:hover,
+		.entry .entry-content > .has-secondary-color,
+		.entry .entry-content > *[class^="wp-block-"] .has-secondary-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color blockquote.has-secondary-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color blockquote.has-secondary-color p,
 		.comment .comment-author .fn a:hover,
 		.comment-reply-link:hover,
 		.comment-navigation .nav-previous a:hover,
@@ -165,7 +170,11 @@ function twentynineteen_custom_colors_css() {
 		.main-navigation .sub-menu > li > .menu-item-link-return:hover,
 		.main-navigation .sub-menu > li > .menu-item-link-return:focus,
 		.main-navigation .sub-menu > li > a:not(.submenu-expand):hover,
-		.main-navigation .sub-menu > li > a:not(.submenu-expand):focus {
+		.main-navigation .sub-menu > li > a:not(.submenu-expand):focus,
+		.entry .entry-content > .has-secondary-background-color,
+		.entry .entry-content > *[class^="wp-block-"].has-secondary-background-color,
+		.entry .entry-content > *[class^="wp-block-"] .has-secondary-background-color,
+		.entry .entry-content > *[class^="wp-block-"].is-style-solid-color.has-secondary-background-color {
 			background-color: hsl( ' . $primary_color . ', ' . $saturation . ', ' . $lightness_hover . ' ); /* base: #005177; */
 		}
 

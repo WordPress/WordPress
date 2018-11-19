@@ -9,19 +9,6 @@
 		@include media(tablet) {
 			margin: calc(3 * #{$size__spacing-unit}) $size__site-margins;
 		}
-
-		.imprint {
-			margin-right: $size__spacing-unit;
-		}
-	}
-
-	.site-info a {
-		color: inherit;
-
-		&:hover {
-			text-decoration: none;
-			color: $color__link;
-		}
 	}
 
 	.widget-column {
@@ -38,5 +25,19 @@
 
 	.site-info {
 		color: $color__text-light;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				text-decoration: none;
+				color: $color__link;
+			}
+		}
+
+		.imprint,
+		.privacy-policy-link {
+			margin-right: $size__spacing-unit;
+		}
 	}
 }
