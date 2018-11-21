@@ -32,7 +32,7 @@ function render_block_core_archives( $attributes ) {
 		$class .= ' wp-block-archives-dropdown';
 
 		$dropdown_id = esc_attr( uniqid( 'wp-block-archives-' ) );
-		$title       = __( 'Archives' );
+		$title       = __( 'Archives', 'default' );
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
 		$dropdown_args = apply_filters(
@@ -50,19 +50,19 @@ function render_block_core_archives( $attributes ) {
 
 		switch ( $dropdown_args['type'] ) {
 			case 'yearly':
-				$label = __( 'Select Year' );
+				$label = __( 'Select Year', 'default' );
 				break;
 			case 'monthly':
-				$label = __( 'Select Month' );
+				$label = __( 'Select Month', 'default' );
 				break;
 			case 'daily':
-				$label = __( 'Select Day' );
+				$label = __( 'Select Day', 'default' );
 				break;
 			case 'weekly':
-				$label = __( 'Select Week' );
+				$label = __( 'Select Week', 'default' );
 				break;
 			default:
-				$label = __( 'Select Post' );
+				$label = __( 'Select Post', 'default' );
 				break;
 		}
 
@@ -101,7 +101,7 @@ function render_block_core_archives( $attributes ) {
 			$block_content = sprintf(
 				'<div class="%1$s">%2$s</div>',
 				$classnames,
-				__( 'No archives to show.' )
+				__( 'No archives to show.', 'default' )
 			);
 		} else {
 
