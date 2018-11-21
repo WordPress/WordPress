@@ -3634,7 +3634,8 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link:hover {
-  color: #111;
+  color: white;
+  border-color: #111;
 }
 
 .entry .entry-content .wp-block-archives,

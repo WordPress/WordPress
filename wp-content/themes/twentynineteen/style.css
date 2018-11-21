@@ -3646,6 +3646,7 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link:hover {
+  color: white;
   border-color: #111;
 }
 
