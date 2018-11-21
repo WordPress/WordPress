@@ -59,7 +59,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="full-width">
-			<img src="https://wordpress.org/gutenberg/files/2018/11/gutenberg-sketch.png" alt="">
+			<img src="https://wordpress.org/gutenberg/files/2018/11/Gutenberg-3.png" alt="">
 		</div>
 
 		<div class="feature-section one-col">
@@ -308,14 +308,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="full-width">
-			<img src="https://wordpress.org/gutenberg/files/2018/11/classic.png" alt="">
+			<img src="https://wordpress.org/gutenberg/files/2018/11/Classic-2.png" alt="">
 		</div>
 
 		<div class="feature-section one-col">
 			<div class="col">
 				<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress until 2021.' ); ?></p>
 				<p><?php _e( 'The Classic Editor plugin restores the previous WordPress editor and the Edit Post screen. It lets you keep using plugins that extend it, add old-style meta boxes, or otherwise depend on the previous editor. To install, visit your plugins page and click the “Install Now” button next to “Classic Editor.” After the plugin finishes installing, click “Activate.” That’s it! ' ); ?></p>
-				<p><em><?php _e( 'Note to users of assistive technology: if you experience usability issues with Gutenberg, we recommend you continue to use the Classic Editor.' ); ?></em></p>
+				<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with Gutenberg, we recommend you continue to use the Classic Editor.' ); ?></p>
 				<div class="col cta">
 					<a class="button button-primary button-hero" href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
 				</div>
