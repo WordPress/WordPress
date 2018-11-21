@@ -61,6 +61,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 								'type'                 => 'object',
 								'additionalProperties' => false,
 								'properties'           => $block_type->get_attributes(),
+								'default'              => array(),
 							),
 							'post_id'    => array(
 								'description' => __( 'ID of the post context.' ),
