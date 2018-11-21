@@ -90,6 +90,18 @@ function wp_default_packages_vendor( &$scripts ) {
 		'wp-polyfill',
 	);
 
+	$vendor_scripts_versions = array(
+		'react' => '16.6.3',
+		'react-dom' => '16.6.3',
+		'moment' => '2.22.2',
+		'lodash' => '4.17.11',
+		'wp-polyfill-fetch' => '3.0.0',
+		'wp-polyfill-formdata' => '3.0.12',
+		'wp-polyfill-node-contains' => '3.26.0-0',
+		'wp-polyfill-element-closest' => '2.0.2',
+		'wp-polyfill' => '7.0.0',
+	);
+
 	foreach ( $vendor_scripts as $handle => $dependencies ) {
 		if ( is_string( $dependencies ) ) {
 			$handle = $dependencies;
@@ -97,8 +109,9 @@ function wp_default_packages_vendor( &$scripts ) {
 		}
 
 		$path = "/wp-includes/js/dist/vendor/$handle$dev_suffix.js";
+		$version = $vendor_scripts_versions[ $handle ];
 
-		$scripts->add( $handle, $path, $dependencies, false, 1 );
+		$scripts->add( $handle, $path, $dependencies, false, $version );
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
@@ -193,6 +206,47 @@ function wp_get_script_polyfill( &$scripts, $tests ) {
 function wp_default_packages_scripts( &$scripts ) {
 	$suffix = wp_scripts_get_suffix();
 
+	$packages_versions = array(
+		'api-fetch' => '2.2.5',
+		'a11y' => '2.0.2',
+		'annotations' => '1.0.3',
+		'api-fetch' => '2.2.5',
+		'autop' => '2.0.2',
+		'blob' => '2.1.0',
+		'block-library' => '2.2.6',
+		'block-serialization-default-parser' => '2.0.0',
+		'blocks' => '6.0.2',
+		'components' => '7.0.1',
+		'compose' => '3.0.0',
+		'core-data' => '2.0.14',
+		'data' => '4.0.1',
+		'date' => '3.0.0',
+		'deprecated' => '2.0.3',
+		'dom' => '2.0.7',
+		'dom-ready' => '2.0.2',
+		'edit-post' => '3.1.1',
+		'editor' => '9.0.1',
+		'element' => '2.1.8',
+		'escape-html' => '1.0.1',
+		'format-library' => '1.2.4',
+		'hooks' => '2.0.3',
+		'html-entities' => '2.0.3',
+		'i18n' => '3.1.0',
+		'is-shallow-equal' => '1.1.4',
+		'keycodes' => '2.0.5',
+		'list-reusable-blocks' => '1.1.14',
+		'notices' => '1.1.0',
+		'nux' => '3.0.2',
+		'plugins' => '2.0.9',
+		'redux-routine' => '3.0.3',
+		'rich-text' => '3.0.2',
+		'shortcode' => '2.0.2',
+		'token-list' => '1.1.0',
+		'url' => '2.3.1',
+		'viewport' => '2.0.12',
+		'wordcount' => '2.0.3',
+	);
+
 	$packages_dependencies = array(
 		'api-fetch' => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n', 'wp-url' ),
 		'a11y' => array( 'wp-dom-ready', 'wp-polyfill' ),
@@ -244,7 +298,6 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-rich-text',
 		),
 		'block-serialization-default-parser' => array(),
-		'block-serialization-spec-parser' => array( 'wp-polyfill' ),
 		'components' => array(
 			'lodash',
 			'moment',
@@ -413,8 +466,9 @@ function wp_default_packages_scripts( &$scripts ) {
 	foreach ( $packages_dependencies as $package => $dependencies ) {
 		$handle  = 'wp-' . $package;
 		$path    = "/wp-includes/js/dist/$package$suffix.js";
+		$version = $packages_versions[ $package ];
 
-		$scripts->add( $handle, $path, $dependencies, false, 1 );
+		$scripts->add( $handle, $path, $dependencies, false, $version );
 
 		if ( isset( $package_translations[ $package ] ) ) {
 			$scripts->set_translations( $handle, $package_translations[ $package ] );
