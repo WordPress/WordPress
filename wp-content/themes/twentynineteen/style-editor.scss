@@ -464,7 +464,9 @@ figcaption,
 			width: calc(100% - (2 * #{ $size__spacing-unit}));
 			max-width: calc( 100% - (2 * #{ $size__spacing-unit}));
 
-			&.has-text-color p {
+			a,
+			&.has-text-color p,
+			&.has-text-color a {
 				color: inherit;
 			}
 

@@ -460,7 +460,9 @@ figcaption,
   max-width: calc( 100% - (2 * 1rem));
 }
 
-.wp-block-pullquote.is-style-solid-color blockquote.has-text-color p {
+.wp-block-pullquote.is-style-solid-color blockquote a,
+.wp-block-pullquote.is-style-solid-color blockquote.has-text-color p,
+.wp-block-pullquote.is-style-solid-color blockquote.has-text-color a {
   color: inherit;
 }
 
