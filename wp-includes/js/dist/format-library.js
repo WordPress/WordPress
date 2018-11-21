@@ -1079,11 +1079,6 @@ function (_Component) {
   Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(InlineLinkUI, [{
     key: "onKeyDown",
     value: function onKeyDown(event) {
-      if (event.keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["ESCAPE"]) {
-        event.stopPropagation();
-        this.resetState();
-      }
-
       if ([_wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["LEFT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["DOWN"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["RIGHT"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["UP"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["BACKSPACE"], _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_10__["ENTER"]].indexOf(event.keyCode) > -1) {
         // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
         event.stopPropagation();
@@ -1210,6 +1205,7 @@ function (_Component) {
 
       }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_13__["URLPopover"], {
         onClickOutside: this.onClickOutside,
+        onClose: this.resetState,
         focusOnMount: showInput ? 'firstElement' : false,
         renderSettings: function renderSettings() {
           return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["ToggleControl"], {
@@ -1413,13 +1409,19 @@ function isValidHref(href) {
 
   if (!trimmedHref) {
     return false;
-  } // Does the href start with something that looks like a url protocol?
+  } // Does the href start with something that looks like a URL protocol?
 
 
   if (/^\S+:/.test(trimmedHref)) {
     var protocol = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__["getProtocol"])(trimmedHref);
 
     if (!Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__["isValidProtocol"])(protocol)) {
+      return false;
+    } // Add some extra checks for http(s) URIs, since these are the most common use-case.
+    // This ensures URIs with an http protocol have exactly two forward slashes following the protocol.
+
+
+    if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["startsWith"])(protocol, 'http') && !/^https?:\/\/[^\/\s]/i.test(trimmedHref)) {
       return false;
     }
 
@@ -1443,7 +1445,7 @@ function isValidHref(href) {
 
     var fragment = Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__["getFragment"])(trimmedHref);
 
-    if (fragment && !Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__["isValidFragment"])(trimmedHref)) {
+    if (fragment && !Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_1__["isValidFragment"])(fragment)) {
       return false;
     }
   } // Validate anchor links.

@@ -6332,9 +6332,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
+/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../popover */ "./node_modules/@wordpress/components/build-module/popover/index.js");
 
 
 
@@ -6346,7 +6344,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
-
 
 /**
  * Internal dependencies
@@ -6368,7 +6365,6 @@ function (_Component) {
     _this.toggle = _this.toggle.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.close = _this.close.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.closeIfClickOutside = _this.closeIfClickOutside.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
-    _this.refresh = _this.refresh.bind(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(Object(_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this)));
     _this.containerRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createRef"])();
     _this.state = {
       isOpen: false
@@ -6395,22 +6391,6 @@ function (_Component) {
       if (prevState.isOpen !== isOpen && onToggle) {
         onToggle(isOpen);
       }
-    }
-    /**
-     * When contents change height due to user interaction,
-     * `refresh` can be called to re-render Popover with correct
-     * attributes which allow scroll, if need be.
-     * @deprecated
-     */
-
-  }, {
-    key: "refresh",
-    value: function refresh() {
-      _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_7___default()('Dropdown.refresh()', {
-        plugin: 'Gutenberg',
-        version: '4.5',
-        hint: 'Popover is now automatically re-rendered without needing to execute "refresh"'
-      });
     }
   }, {
     key: "toggle",
@@ -6465,7 +6445,7 @@ function (_Component) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])("div", {
         className: className,
         ref: this.containerRef
-      }, renderToggle(args), isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_popover__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      }, renderToggle(args), isOpen && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_popover__WEBPACK_IMPORTED_MODULE_7__["default"], {
         className: contentClassName,
         position: position,
         onClose: this.close,
@@ -11039,6 +11019,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -11054,10 +11035,16 @@ function Notice(_ref) {
       _ref$isDismissible = _ref.isDismissible,
       isDismissible = _ref$isDismissible === void 0 ? true : _ref$isDismissible,
       _ref$actions = _ref.actions,
-      actions = _ref$actions === void 0 ? [] : _ref$actions;
+      actions = _ref$actions === void 0 ? [] : _ref$actions,
+      __unstableHTML = _ref.__unstableHTML;
   var classes = classnames__WEBPACK_IMPORTED_MODULE_2___default()(className, 'components-notice', 'is-' + status, {
     'is-dismissible': isDismissible
   });
+
+  if (__unstableHTML) {
+    children = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["RawHTML"], null, children);
+  }
+
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: classes
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -11144,7 +11131,7 @@ function NoticeList(_ref) {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("div", {
     className: className
   }, children, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(notices).reverse().map(function (notice) {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(___WEBPACK_IMPORTED_MODULE_4__["default"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["omit"])(notice, 'content'), {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(___WEBPACK_IMPORTED_MODULE_4__["default"], Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["omit"])(notice, ['content']), {
       key: notice.id,
       onRemove: removeNotice(notice.id)
     }), notice.content);
@@ -11998,6 +11985,10 @@ var HEIGHT_OFFSET = 10; // used by the arrow and a bit of empty space
 var isMobileViewport = function isMobileViewport() {
   return window.innerWidth < 782;
 };
+
+var isRTL = function isRTL() {
+  return document.documentElement.dir === 'rtl';
+};
 /**
  * Utility used to compute the popover position over the xAxis
  *
@@ -12012,7 +12003,14 @@ var isMobileViewport = function isMobileViewport() {
 
 
 function computePopoverXAxisPosition(anchorRect, contentSize, xAxis, chosenYAxis) {
-  var width = contentSize.width; // x axis alignment choices
+  var width = contentSize.width; // Correct xAxis for RTL support
+
+  if (xAxis === 'left' && isRTL()) {
+    xAxis = 'right';
+  } else if (xAxis === 'right' && isRTL()) {
+    xAxis = 'left';
+  } // x axis alignment choices
+
 
   var anchorMidPoint = Math.round(anchorRect.left + anchorRect.width / 2);
   var centerAlignment = {
@@ -25978,7 +25976,7 @@ var getStringSize = function getStringSize(n) {
   return n + 'px';
 };
 
-var definedProps = ['style', 'className', 'grid', 'snap', 'bounds', 'size', 'defaultSize', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio', 'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight', 'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle', 'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent'];
+var definedProps = ['style', 'className', 'grid', 'snap', 'bounds', 'size', 'defaultSize', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio', 'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight', 'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle', 'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent', 'scale'];
 
 var baseClassName = '__resizable_base__';
 
@@ -26168,6 +26166,8 @@ var Resizable = function (_React$Component) {
           lockAspectRatio = _props.lockAspectRatio,
           lockAspectRatioExtraHeight = _props.lockAspectRatioExtraHeight,
           lockAspectRatioExtraWidth = _props.lockAspectRatioExtraWidth;
+
+      var scale = this.props.scale || 1;
       var _props2 = this.props,
           maxWidth = _props2.maxWidth,
           maxHeight = _props2.maxHeight,
@@ -26202,19 +26202,19 @@ var Resizable = function (_React$Component) {
       var newWidth = original.width;
       var newHeight = original.height;
       if (/right/i.test(direction)) {
-        newWidth = original.width + (clientX - original.x);
+        newWidth = original.width + (clientX - original.x) / scale;
         if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
       }
       if (/left/i.test(direction)) {
-        newWidth = original.width - (clientX - original.x);
+        newWidth = original.width - (clientX - original.x) / scale;
         if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
       }
       if (/bottom/i.test(direction)) {
-        newHeight = original.height + (clientY - original.y);
+        newHeight = original.height + (clientY - original.y) / scale;
         if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
       }
       if (/top/i.test(direction)) {
-        newHeight = original.height - (clientY - original.y);
+        newHeight = original.height - (clientY - original.y) / scale;
         if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
       }
 
@@ -26518,7 +26518,8 @@ Resizable.defaultProps = {
   grid: [1, 1],
   lockAspectRatio: false,
   lockAspectRatioExtraWidth: 0,
-  lockAspectRatioExtraHeight: 0
+  lockAspectRatioExtraHeight: 0,
+  scale: 1
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Resizable);
@@ -43020,17 +43021,6 @@ module.exports = g;
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

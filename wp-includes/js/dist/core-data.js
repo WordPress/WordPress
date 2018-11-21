@@ -814,7 +814,7 @@ function getKindEntities(kind) {
 /*!*****************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/index.js ***!
   \*****************************************************************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -908,14 +908,13 @@ var entityActions = _entities__WEBPACK_IMPORTED_MODULE_7__["defaultEntities"].re
 
   return result;
 }, {});
-var store = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["registerStore"])(_name__WEBPACK_IMPORTED_MODULE_8__["REDUCER_KEY"], {
+Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["registerStore"])(_name__WEBPACK_IMPORTED_MODULE_8__["REDUCER_KEY"], {
   reducer: _reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
   controls: _controls__WEBPACK_IMPORTED_MODULE_3__["default"],
   actions: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _actions__WEBPACK_IMPORTED_MODULE_5__, entityActions),
   selectors: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _selectors__WEBPACK_IMPORTED_MODULE_4__, entitySelectors),
   resolvers: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _resolvers__WEBPACK_IMPORTED_MODULE_6__, entityResolvers)
 });
-/* harmony default export */ __webpack_exports__["default"] = (store);
 
 
 /***/ }),

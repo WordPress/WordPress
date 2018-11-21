@@ -194,8 +194,48 @@ function () {
 
 
   Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(TokenList, [{
-    key: "item",
+    key: "toString",
 
+    /**
+     * Returns the stringified form of the TokenList.
+     *
+     * @link https://dom.spec.whatwg.org/#DOMTokenList-stringification-behavior
+     * @link https://www.ecma-international.org/ecma-262/9.0/index.html#sec-tostring
+     *
+     * @return {string} Token set as string.
+     */
+    value: function toString() {
+      return this.value;
+    }
+    /**
+     * Returns an iterator for the TokenList, iterating items of the set.
+     *
+     * @link https://dom.spec.whatwg.org/#domtokenlist
+     *
+     * @return {Generator} TokenList iterator.
+     */
+
+  }, {
+    key: Symbol.iterator,
+    value:
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function value() {
+      return regeneratorRuntime.wrap(function value$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              return _context.delegateYield(this._valueAsArray, "t0", 1);
+
+            case 1:
+              return _context.abrupt("return", _context.t0);
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, value, this);
+    })
     /**
      * Returns the token with index `index`.
      *
@@ -205,6 +245,9 @@ function () {
      *
      * @return {?string} Token at index.
      */
+
+  }, {
+    key: "item",
     value: function item(index) {
       return this._valueAsArray[index];
     }
@@ -377,5 +420,5 @@ function () {
 
 /***/ })
 
-/******/ });
+/******/ })["default"];
 //# sourceMappingURL=token-list.js.map

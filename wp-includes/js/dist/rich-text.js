@@ -578,10 +578,6 @@ function toFormat(_ref) {
     };
   }
 
-  if (formatType.__experimentalCreatePrepareEditableTree) {
-    return null;
-  }
-
   if (!attributes) {
     return {
       type: formatType.name
@@ -1809,16 +1805,22 @@ function normaliseFormats(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return registerFormatType; });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! memize */ "./node_modules/memize/index.js");
+/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__);
 
 
 
@@ -1826,10 +1828,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
+ * External dependencies
+ */
+
+
+/**
  * WordPress dependencies
  */
 
 
+
+
+/**
+ * Shared reference to an empty array for cases where it is important to avoid
+ * returning a new array reference on every invocation, as in a connected or
+ * other pure component which performs `shouldComponentUpdate` check on props.
+ * This should be used as a last resort, since the normalized data should be
+ * maintained by the reducer result in state.
+ *
+ * @type {Array}
+ */
+
+var EMPTY_ARRAY = [];
 /**
  * Registers a new format provided a unique name and an object defining its
  * behavior.
@@ -1856,7 +1876,7 @@ function registerFormatType(name, settings) {
     return;
   }
 
-  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["select"])('core/rich-text').getFormatType(settings.name)) {
+  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatType(settings.name)) {
     window.console.error('Format "' + settings.name + '" is already registered.');
     return;
   }
@@ -1877,14 +1897,14 @@ function registerFormatType(name, settings) {
   }
 
   if (settings.className === null) {
-    var formatTypeForBareElement = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["select"])('core/rich-text').getFormatTypeForBareElement(settings.tagName);
+    var formatTypeForBareElement = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatTypeForBareElement(settings.tagName);
 
     if (formatTypeForBareElement) {
       window.console.error("Format \"".concat(formatTypeForBareElement.name, "\" is already registered to handle bare tag name \"").concat(settings.tagName, "\"."));
       return;
     }
   } else {
-    var formatTypeForClassName = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["select"])('core/rich-text').getFormatTypeForClassName(settings.className);
+    var formatTypeForClassName = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatTypeForClassName(settings.className);
 
     if (formatTypeForClassName) {
       window.console.error("Format \"".concat(formatTypeForClassName.name, "\" is already registered to handle class name \"").concat(settings.className, "\"."));
@@ -1907,25 +1927,76 @@ function registerFormatType(name, settings) {
     return;
   }
 
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["dispatch"])('core/rich-text').addFormatTypes(settings);
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/rich-text').addFormatTypes(settings);
+  var getFunctionStackMemoized = memize__WEBPACK_IMPORTED_MODULE_6___default()(function () {
+    var previousStack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : EMPTY_ARRAY;
+    var newFunction = arguments.length > 1 ? arguments[1] : undefined;
+    return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(previousStack).concat([newFunction]);
+  });
 
-  if (settings.__experimentalCreatePrepareEditableTree && settings.__experimentalGetPropsForEditableTreePreparation) {
-    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_6__["addFilter"])('experimentalRichText', name, function (OriginalComponent) {
-      return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["withSelect"])(function (sel, _ref) {
+  if (settings.__experimentalGetPropsForEditableTreePreparation) {
+    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__["addFilter"])('experimentalRichText', name, function (OriginalComponent) {
+      var Component = OriginalComponent;
+
+      if (settings.__experimentalCreatePrepareEditableTree || settings.__experimentalCreateFormatToValue || settings.__experimentalCreateValueToFormat) {
+        Component = function Component(props) {
+          var additionalProps = {};
+
+          if (settings.__experimentalCreatePrepareEditableTree) {
+            additionalProps.prepareEditableTree = getFunctionStackMemoized(props.prepareEditableTree, settings.__experimentalCreatePrepareEditableTree(props["format_".concat(name)], {
+              richTextIdentifier: props.identifier,
+              blockClientId: props.clientId
+            }));
+          }
+
+          if (settings.__experimentalCreateOnChangeEditableValue) {
+            var dispatchProps = Object.keys(props).reduce(function (accumulator, propKey) {
+              var propValue = props[propKey];
+              var keyPrefix = "format_".concat(name, "_dispatch_");
+
+              if (propKey.startsWith(keyPrefix)) {
+                var realKey = propKey.replace(keyPrefix, '');
+                accumulator[realKey] = propValue;
+              }
+
+              return accumulator;
+            }, {});
+            additionalProps.onChangeEditableValue = getFunctionStackMemoized(props.onChangeEditableValue, settings.__experimentalCreateOnChangeEditableValue(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__["default"])({}, props["format_".concat(name)], dispatchProps), {
+              richTextIdentifier: props.identifier,
+              blockClientId: props.clientId
+            }));
+          }
+
+          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, additionalProps));
+        };
+      }
+
+      var hocs = [Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withSelect"])(function (sel, _ref) {
         var clientId = _ref.clientId,
             identifier = _ref.identifier;
-        return Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_2__["default"])({}, "format_".concat(name), settings.__experimentalGetPropsForEditableTreePreparation(sel, {
+        return Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, "format_".concat(name), settings.__experimentalGetPropsForEditableTreePreparation(sel, {
           richTextIdentifier: identifier,
           blockClientId: clientId
         }));
-      })(function (props) {
-        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
-          prepareEditableTree: Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(props.prepareEditableTree || []).concat([settings.__experimentalCreatePrepareEditableTree(props["format_".concat(name)], {
-            richTextIdentifier: props.identifier,
-            blockClientId: props.clientId
-          })])
+      })];
+
+      if (settings.__experimentalGetPropsForEditableTreeChangeHandler) {
+        hocs.push(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withDispatch"])(function (disp, _ref3) {
+          var clientId = _ref3.clientId,
+              identifier = _ref3.identifier;
+
+          var dispatchProps = settings.__experimentalGetPropsForEditableTreeChangeHandler(disp, {
+            richTextIdentifier: identifier,
+            blockClientId: clientId
+          });
+
+          return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["mapKeys"])(dispatchProps, function (value, key) {
+            return "format_".concat(name, "_dispatch_").concat(key);
+          });
         }));
-      });
+      }
+
+      return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__["compose"])(hocs)(Component);
     });
   }
 
@@ -3296,6 +3367,128 @@ function unregisterFormatType(name) {
 
 /***/ }),
 
+/***/ "./node_modules/memize/index.js":
+/*!**************************************!*\
+  !*** ./node_modules/memize/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = function memize( fn, options ) {
+	var size = 0,
+		maxSize, head, tail;
+
+	if ( options && options.maxSize ) {
+		maxSize = options.maxSize;
+	}
+
+	function memoized( /* ...args */ ) {
+		var node = head,
+			len = arguments.length,
+			args, i;
+
+		searchCache: while ( node ) {
+			// Perform a shallow equality test to confirm that whether the node
+			// under test is a candidate for the arguments passed. Two arrays
+			// are shallowly equal if their length matches and each entry is
+			// strictly equal between the two sets. Avoid abstracting to a
+			// function which could incur an arguments leaking deoptimization.
+
+			// Check whether node arguments match arguments length
+			if ( node.args.length !== arguments.length ) {
+				node = node.next;
+				continue;
+			}
+
+			// Check whether node arguments match arguments values
+			for ( i = 0; i < len; i++ ) {
+				if ( node.args[ i ] !== arguments[ i ] ) {
+					node = node.next;
+					continue searchCache;
+				}
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== head ) {
+				// As tail, shift to previous. Must only shift if not also
+				// head, since if both head and tail, there is no previous.
+				if ( node === tail ) {
+					tail = node.prev;
+				}
+
+				// Adjust siblings to point to each other. If node was tail,
+				// this also handles new tail's empty `next` assignment.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = head;
+				node.prev = null;
+				head.prev = node;
+				head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		// Create a copy of arguments (avoid leaking deoptimization)
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		node = {
+			args: args,
+
+			// Generate the result from original function
+			val: fn.apply( null, args )
+		};
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( head ) {
+			head.prev = node;
+			node.next = head;
+		} else {
+			// If no head, follows that there's no tail (at initial or reset)
+			tail = node;
+		}
+
+		// Trim tail if we're reached max size and are pending cache insertion
+		if ( size === maxSize ) {
+			tail = tail.prev;
+			tail.next = null;
+		} else {
+			size++;
+		}
+
+		head = node;
+
+		return node.val;
+	}
+
+	memoized.clear = function() {
+		head = null;
+		tail = null;
+		size = 0;
+	};
+
+	if ( false ) {}
+
+	return memoized;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/rememo/es/rememo.js":
 /*!******************************************!*\
   !*** ./node_modules/rememo/es/rememo.js ***!
@@ -3580,6 +3773,17 @@ function isShallowEqual( a, b, fromIndex ) {
 	return callSelector;
 });
 
+
+/***/ }),
+
+/***/ "@wordpress/compose":
+/*!******************************************!*\
+  !*** external {"this":["wp","compose"]} ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["compose"]; }());
 
 /***/ }),
 

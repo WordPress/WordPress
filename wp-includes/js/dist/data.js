@@ -672,7 +672,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 var withDispatch = function withDispatch(mapDispatchToProps) {
-  return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["createHigherOrderComponent"])(Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["compose"])([_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["pure"], function (WrappedComponent) {
+  return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["createHigherOrderComponent"])(function (WrappedComponent) {
     var ComponentWithDispatch =
     /*#__PURE__*/
     function (_Component) {
@@ -692,11 +692,6 @@ var withDispatch = function withDispatch(mapDispatchToProps) {
       }
 
       Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(ComponentWithDispatch, [{
-        key: "componentDidUpdate",
-        value: function componentDidUpdate() {
-          this.setProxyProps(this.props);
-        }
-      }, {
         key: "proxyDispatch",
         value: function proxyDispatch(propName) {
           var _mapDispatchToProps;
@@ -749,7 +744,7 @@ var withDispatch = function withDispatch(mapDispatchToProps) {
         });
       });
     };
-  }]), 'withDispatch');
+  }, 'withDispatch');
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (withDispatch);

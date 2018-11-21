@@ -51,6 +51,8 @@
     color: #fff; }
   .wp-block-button .editor-rich-text__tinymce[data-is-placeholder-visible="true"] + .editor-rich-text__tinymce {
     opacity: 0.8; }
+  .wp-block-button .editor-rich-text__tinymce[data-is-placeholder-visible="true"] {
+    height: auto; }
   .editor-block-preview__content .wp-block-button {
     max-width: 100%; }
     .editor-block-preview__content .wp-block-button .wp-block-button__link {
@@ -241,8 +243,10 @@
 
 .wp-block-embed {
   margin: 0;
-  clear: both;
-  min-width: 360px; }
+  clear: both; }
+  @media (min-width: 600px) {
+    .wp-block-embed {
+      min-width: 360px; } }
   .wp-block-embed.is-loading {
     display: flex;
     flex-direction: column;

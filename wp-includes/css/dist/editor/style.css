@@ -119,16 +119,12 @@
     max-width: 24px;
     max-height: 24px; }
 
-.editor-block-inspector__no-blocks,
-.editor-block-inspector__multi-blocks {
+.editor-block-inspector__no-blocks {
   display: block;
   font-size: 13px;
   background: #fff;
   padding: 32px 16px;
   text-align: center; }
-
-.editor-block-inspector__multi-blocks {
-  border-bottom: 1px solid #e2e4e7; }
 
 .editor-block-inspector__card {
   display: flex;
@@ -607,10 +603,13 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
   .editor-block-list__insertion-point-inserter:hover, .editor-block-list__insertion-point-inserter.is-visible {
     opacity: 1; }
 
-.edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point-inserter {
+.edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter,
+.edit-post-layout:not(.has-fixed-toolbar) .is-focused > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter {
   opacity: 0;
   pointer-events: none; }
-  .edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point-inserter:hover, .edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point-inserter.is-visible {
+  .edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter:hover, .edit-post-layout:not(.has-fixed-toolbar) .is-selected > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter.is-visible,
+  .edit-post-layout:not(.has-fixed-toolbar) .is-focused > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter:hover,
+  .edit-post-layout:not(.has-fixed-toolbar) .is-focused > .editor-block-list__insertion-point > .editor-block-list__insertion-point-inserter.is-visible {
     opacity: 1;
     pointer-events: auto; }
 
@@ -769,9 +768,6 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
       opacity: 0;
       animation: edit-post__fade-in-animation 60ms ease-out 0.5s;
       animation-fill-mode: forwards; }
-  .editor-block-list__breadcrumb.is-light .components-toolbar {
-    background: rgba(255, 255, 255, 0.5);
-    color: #32373c; }
   [data-align="left"] .editor-block-list__breadcrumb,
   [data-align="right"] .editor-block-list__breadcrumb {
     right: 0;
@@ -1110,7 +1106,7 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
 
 .editor-block-styles__item-preview {
   outline: 1px solid transparent;
-  box-shadow: inset 0 0 0 1px rgba(25, 30, 35, 0.2);
+  border: 1px solid rgba(25, 30, 35, 0.2);
   overflow: hidden;
   padding: 0;
   text-align: initial;
@@ -1662,6 +1658,29 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
 .components-form-file-upload .editor-media-placeholder__button {
   margin-right: 4px; }
 
+.editor-multi-selection-inspector__card {
+  display: flex;
+  align-items: flex-start;
+  margin: -16px;
+  padding: 16px; }
+
+.editor-multi-selection-inspector__card-content {
+  flex-grow: 1; }
+
+.editor-multi-selection-inspector__card-title {
+  font-weight: 500;
+  margin-bottom: 5px; }
+
+.editor-multi-selection-inspector__card-description {
+  font-size: 13px; }
+
+.editor-multi-selection-inspector__card .editor-block-icon {
+  margin-left: -2px;
+  margin-right: 10px;
+  padding: 0 3px;
+  width: 36px;
+  height: 24px; }
+
 .editor-page-attributes__template {
   margin-bottom: 10px; }
   .editor-page-attributes__template label,
@@ -2136,6 +2155,9 @@ body.admin-color-light .editor-post-text-editor__link{
 .edit-post-post-visibility__dialog .editor-post-visibility__dialog-password-input {
   margin-left: 28px; }
 
+.edit-post-post-visibility__dialog.components-popover.is-bottom {
+  z-index: 100001; }
+
 .editor-post-title__block {
   position: relative;
   padding: 5px 0;
@@ -2169,9 +2191,9 @@ body.admin-color-light .editor-post-text-editor__link{
       color: rgba(22, 36, 53, 0.55); }
     .editor-post-title__block .editor-post-title__input:-ms-input-placeholder {
       color: rgba(22, 36, 53, 0.55); }
-  .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar).is-selected .editor-post-title__input {
+  .editor-post-title__block:not(.is-focus-mode).is-selected .editor-post-title__input {
     border-color: rgba(145, 151, 162, 0.25); }
-    .is-dark-theme .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar).is-selected .editor-post-title__input {
+    .is-dark-theme .editor-post-title__block:not(.is-focus-mode).is-selected .editor-post-title__input {
       border-color: rgba(255, 255, 255, 0.3); }
   .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar) .editor-post-title__input:hover {
     border-color: #007cba; }

@@ -177,6 +177,16 @@ $styles = array(
 		),
 	),
 );
+
+/*
+ * Set a locale specific default font.
+ * Translators: Use this to specify the CSS font family for the default font
+ */
+$locale_font_family = esc_html_x( 'Noto Serif', 'CSS Font Family for Editor Font' );
+$styles[]           = array(
+	'css' => "body { font-family: '$locale_font_family' }",
+);
+
 if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
 	foreach ( $editor_styles as $style ) {
 		if ( preg_match( '~^(https?:)?//~', $style ) ) {

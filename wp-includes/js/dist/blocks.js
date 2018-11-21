@@ -2293,8 +2293,8 @@ function htmlToBlocks(_ref) {
     });
 
     if (!rawTransform) {
-      console.warn('A block registered a raw transformation schema for `' + node.nodeName + '` but did not match it. ' + 'Make sure there is a `selector` or `isMatch` property that can match the schema.\n' + 'Sanitized HTML: `' + node.outerHTML + '`');
-      return;
+      return Object(_factory__WEBPACK_IMPORTED_MODULE_2__["createBlock"])( // Should not be hardcoded.
+      'core/html', Object(_parser__WEBPACK_IMPORTED_MODULE_4__["getBlockAttributes"])('core/html', node.outerHTML));
     }
 
     var transform = rawTransform.transform,
@@ -2454,7 +2454,8 @@ function rawHandler(_ref4) {
     // additional tags, they do not remove any content.
 
 
-    var filters = [// Needed to create more and nextpage blocks.
+    var filters = [// Needed to adjust invalid lists.
+    _list_reducer__WEBPACK_IMPORTED_MODULE_11__["default"], // Needed to create more and nextpage blocks.
     _special_comment_converter__WEBPACK_IMPORTED_MODULE_6__["default"], // Needed to create media blocks.
     _figure_content_reducer__WEBPACK_IMPORTED_MODULE_14__["default"], // Needed to create the quote block, which cannot handle text
     // without wrapper paragraphs.
@@ -2580,7 +2581,11 @@ function shallowTextContent(element) {
   // * There is only one list item.
 
   if (prevElement && prevElement.nodeName === node.nodeName && list.children.length === 1) {
-    prevElement.appendChild(list.firstChild);
+    // Move all child nodes, including any text nodes, if any.
+    while (list.firstChild) {
+      prevElement.appendChild(list.firstChild);
+    }
+
     list.parentNode.removeChild(list);
   }
 

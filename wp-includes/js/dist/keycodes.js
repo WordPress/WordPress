@@ -194,7 +194,7 @@ function _toConsumableArray(arr) {
 /*!****************************************************************!*\
   !*** ./node_modules/@wordpress/keycodes/build-module/index.js ***!
   \****************************************************************/
-/*! exports provided: BACKSPACE, TAB, ENTER, ESCAPE, SPACE, LEFT, UP, RIGHT, DOWN, DELETE, F10, ALT, CTRL, COMMAND, SHIFT, rawShortcut, displayShortcutList, displayShortcut, shortcutAriaLabel, isKeyboardEvent */
+/*! exports provided: BACKSPACE, TAB, ENTER, ESCAPE, SPACE, LEFT, UP, RIGHT, DOWN, DELETE, F10, ALT, CTRL, COMMAND, SHIFT, modifiers, rawShortcut, displayShortcutList, displayShortcut, shortcutAriaLabel, isKeyboardEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -214,6 +214,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CTRL", function() { return CTRL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMMAND", function() { return COMMAND; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHIFT", function() { return SHIFT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "modifiers", function() { return modifiers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rawShortcut", function() { return rawShortcut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayShortcutList", function() { return displayShortcutList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "displayShortcut", function() { return displayShortcut; });
