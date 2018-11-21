@@ -53,3 +53,11 @@
 		}
 	}
 }
+
+.site-title + .social-navigation,
+.site-description + .social-navigation {
+
+	@include media(tablet) {
+		margin-top: calc(#{$size__spacing-unit} / 5 );
+	}
+}
