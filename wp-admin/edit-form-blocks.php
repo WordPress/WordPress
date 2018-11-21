@@ -273,6 +273,7 @@ $editor_settings = array(
 	'allowedMimeTypes'       => get_allowed_mime_types(),
 	'styles'                 => $styles,
 	'imageSizes'             => $available_image_sizes,
+	'richEditingEnabled'     => user_can_richedit(),
 	'postLock'               => $lock_details,
 	'postLockUtils'          => array(
 		'nonce'       => wp_create_nonce( 'lock-post_' . $post->ID ),
