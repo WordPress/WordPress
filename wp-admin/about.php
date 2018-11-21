@@ -24,9 +24,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
 		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s introduces a robust new content creation experience.' ), $display_version ); ?></p>
-		<p class="about-text">
-			<a href="#classic-editor"><?php _e( 'Learn how to keep using the old editor.' ); ?></a>
-		</p>
+
+		<?php if (
+			// Was the Gutenberg plugin installed before upgrading to 5.0.x?
+			get_option( 'upgrade_500_was_gutenberg_active' ) == '1'  &&
+			current_user_can( 'activate_plugins' ) &&
+			// Has it not been reactivated since?
+			is_plugin_inactive( 'gutenberg/gutenberg.php' ) &&
+			// Is it still installed?
+			file_exists( WP_PLUGIN_DIR . '/gutenberg/gutenberg.php' )
+		) : ?>
+			<div class="about-text" style="font-style:italic;">
+				<?php printf( __( 'The Gutenberg plugin has been deactivated, as the features are now included in WordPress %1$s by default. If you&#8217;d like to continue to test the upcoming changes in the WordPress editing experience, please %2$sreactivate the Gutenberg plugin%3$s.' ), $display_version, '<a href="' . esc_url( self_admin_url( 'plugins.php?s=gutenberg&plugin_status=all' ) ) . '">', '</a>' ); ?>
+			</div>
+		<?php else : ?>
+			<p class="about-text">
+				<a href="#classic-editor"><?php _e( 'Learn how to keep using the old editor.' ); ?></a>
+			</p>
+		<?php endif; ?>
+
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper wp-clearfix">
@@ -202,13 +218,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				</video>
 			</div>
 		</div>
-		
+
 		<div class="feature-section one-col cta">
 			<div class="col">
-				<a class="button button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>"><?php _e( 'Build your first post' ); ?></a>	
+				<a class="button button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>"><?php _e( 'Build your first post' ); ?></a>
 			</div>
 		</div>
-		
+
 		<hr />
 
 		<div class="feature-section one-col">
@@ -250,12 +266,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="feature-section one-col cta">
 			<div class="col">
-				<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo esc_url( admin_url( 'customize.php?theme=twentynineteen' ) ); ?>"><?php _e( 'Give Twenty Nineteen a try' ); ?></a>	
+				<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo esc_url( admin_url( 'customize.php?theme=twentynineteen' ) ); ?>"><?php _e( 'Give Twenty Nineteen a try' ); ?></a>
 			</div>
 		</div>
 
 		<hr />
-			
+
 		<div class="under-the-hood feature-section">
 			<div class="col">
 				<h2><?php _e( 'Developer Happiness' ); ?></h2>
@@ -276,25 +292,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php _e( 'The new block paradigm opens up a path of exploration and imagination when it comes to solving user needs. With the unified block insertion flow, it&#8217;s easier for your clients and customers to find and use blocks for all types of content. Developers can focus on executing their vision and providing rich editing experiences, rather than fussing with difficult APIs.' ); ?></p>
 			</div>
 		</div>
-		
+
 		<div class="under-the-hood feature-section one-col cta">
 			<div class="col">
-				<a class="button button-primary button-hero" href="<?php echo esc_url( 'https://wordpress.org/gutenberg/handbook/' ); ?>"><?php _e( 'Learn how to get started' ); ?></a>	
+				<a class="button button-primary button-hero" href="<?php echo esc_url( 'https://wordpress.org/gutenberg/handbook/' ); ?>"><?php _e( 'Learn how to get started' ); ?></a>
 			</div>
 		</div>
 
 		<hr />
-		
+
 		<div class="feature-section one-col" id="classic-editor">
 			<div class="col">
 				<h2><?php _e( 'Keep it Classic' ); ?></h2>
 			</div>
 		</div>
-		
+
 		<div class="full-width">
 			<img src="https://wordpress.org/gutenberg/files/2018/11/classic.png" alt="">
 		</div>
-		
+
 		<div class="feature-section one-col">
 			<div class="col">
 				<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress until 2021.' ); ?></p>
@@ -305,7 +321,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				</div>
 			</div>
 		</div>
-		
+
 		<hr />
 
 		<div class="return-to-dashboard">
