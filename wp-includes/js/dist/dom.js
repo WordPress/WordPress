@@ -82,115 +82,927 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/dom/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 323);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _arrayWithoutHoles; });\nfunction _arrayWithoutHoles(arr) {\n  if (Array.isArray(arr)) {\n    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {\n      arr2[i] = arr[i];\n    }\n\n    return arr2;\n  }\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js?");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _iterableToArray; });\nfunction _iterableToArray(iter) {\n  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === \"[object Arguments]\") return Array.from(iter);\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/iterableToArray.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _nonIterableSpread; });\nfunction _nonIterableSpread() {\n  throw new TypeError(\"Invalid attempt to spread non-iterable instance\");\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _toConsumableArray; });\n/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ \"./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js\");\n/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ \"./node_modules/@babel/runtime/helpers/esm/iterableToArray.js\");\n/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ \"./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js\");\n\n\n\nfunction _toConsumableArray(arr) {\n  return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/dom.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/dom.js ***!
-  \*********************************************************/
-/*! exports provided: isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isHorizontalEdge\", function() { return isHorizontalEdge; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isVerticalEdge\", function() { return isVerticalEdge; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getRectangleFromRange\", function() { return getRectangleFromRange; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"computeCaretRect\", function() { return computeCaretRect; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"placeCaretAtHorizontalEdge\", function() { return placeCaretAtHorizontalEdge; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"placeCaretAtVerticalEdge\", function() { return placeCaretAtVerticalEdge; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isTextField\", function() { return isTextField; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"documentHasSelection\", function() { return documentHasSelection; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isEntirelySelected\", function() { return isEntirelySelected; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getScrollContainer\", function() { return getScrollContainer; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getOffsetParent\", function() { return getOffsetParent; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"replace\", function() { return replace; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"remove\", function() { return remove; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"insertAfter\", function() { return insertAfter; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"unwrap\", function() { return unwrap; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"replaceTag\", function() { return replaceTag; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"wrap\", function() { return wrap; });\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/**\n * External dependencies\n */\n\n/**\n * Browser dependencies\n */\n\nvar _window = window,\n    getComputedStyle = _window.getComputedStyle;\nvar _window$Node = window.Node,\n    TEXT_NODE = _window$Node.TEXT_NODE,\n    ELEMENT_NODE = _window$Node.ELEMENT_NODE,\n    DOCUMENT_POSITION_PRECEDING = _window$Node.DOCUMENT_POSITION_PRECEDING,\n    DOCUMENT_POSITION_FOLLOWING = _window$Node.DOCUMENT_POSITION_FOLLOWING;\n/**\n * Returns true if the given selection object is in the forward direction, or\n * false otherwise.\n *\n * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition\n *\n * @param {Selection} selection Selection object to check.\n *\n * @return {boolean} Whether the selection is forward.\n */\n\nfunction isSelectionForward(selection) {\n  var anchorNode = selection.anchorNode,\n      focusNode = selection.focusNode,\n      anchorOffset = selection.anchorOffset,\n      focusOffset = selection.focusOffset;\n  var position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,\n  // so bitwise operators are intended.\n\n  /* eslint-disable no-bitwise */\n  // Compare whether anchor node precedes focus node. If focus node (where\n  // end of selection occurs) is after the anchor node, it is forward.\n\n  if (position & DOCUMENT_POSITION_PRECEDING) {\n    return false;\n  }\n\n  if (position & DOCUMENT_POSITION_FOLLOWING) {\n    return true;\n  }\n  /* eslint-enable no-bitwise */\n  // `compareDocumentPosition` returns 0 when passed the same node, in which\n  // case compare offsets.\n\n\n  if (position === 0) {\n    return anchorOffset <= focusOffset;\n  } // This should never be reached, but return true as default case.\n\n\n  return true;\n}\n/**\n * Check whether the selection is horizontally at the edge of the container.\n *\n * @param {Element} container Focusable element.\n * @param {boolean} isReverse Set to true to check left, false for right.\n *\n * @return {boolean} True if at the horizontal edge, false if not.\n */\n\n\nfunction isHorizontalEdge(container, isReverse) {\n  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"includes\"])(['INPUT', 'TEXTAREA'], container.tagName)) {\n    if (container.selectionStart !== container.selectionEnd) {\n      return false;\n    }\n\n    if (isReverse) {\n      return container.selectionStart === 0;\n    }\n\n    return container.value.length === container.selectionStart;\n  }\n\n  if (!container.isContentEditable) {\n    return true;\n  }\n\n  var selection = window.getSelection(); // Create copy of range for setting selection to find effective offset.\n\n  var range = selection.getRangeAt(0).cloneRange(); // Collapse in direction of selection.\n\n  if (!selection.isCollapsed) {\n    range.collapse(!isSelectionForward(selection));\n  }\n\n  var node = range.startContainer;\n  var extentOffset;\n\n  if (isReverse) {\n    // When in reverse, range node should be first.\n    extentOffset = 0;\n  } else if (node.nodeValue) {\n    // Otherwise, vary by node type. A text node has no children. Its range\n    // offset reflects its position in nodeValue.\n    //\n    // \"If the startContainer is a Node of type Text, Comment, or\n    // CDATASection, then the offset is the number of characters from the\n    // start of the startContainer to the boundary point of the Range.\"\n    //\n    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset\n    // See: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue\n    extentOffset = node.nodeValue.length;\n  } else {\n    // \"For other Node types, the startOffset is the number of child nodes\n    // between the start of the startContainer and the boundary point of\n    // the Range.\"\n    //\n    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset\n    extentOffset = node.childNodes.length;\n  } // Offset of range should be at expected extent.\n\n\n  var position = isReverse ? 'start' : 'end';\n  var offset = range[\"\".concat(position, \"Offset\")];\n\n  if (offset !== extentOffset) {\n    return false;\n  } // If confirmed to be at extent, traverse up through DOM, verifying that\n  // the node is at first or last child for reverse or forward respectively.\n  // Continue until container is reached.\n\n\n  var order = isReverse ? 'first' : 'last';\n\n  while (node !== container) {\n    var parentNode = node.parentNode;\n\n    if (parentNode[\"\".concat(order, \"Child\")] !== node) {\n      return false;\n    }\n\n    node = parentNode;\n  } // If reached, range is assumed to be at edge.\n\n\n  return true;\n}\n/**\n * Check whether the selection is vertically at the edge of the container.\n *\n * @param {Element} container Focusable element.\n * @param {boolean} isReverse Set to true to check top, false for bottom.\n *\n * @return {boolean} True if at the edge, false if not.\n */\n\nfunction isVerticalEdge(container, isReverse) {\n  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"includes\"])(['INPUT', 'TEXTAREA'], container.tagName)) {\n    return isHorizontalEdge(container, isReverse);\n  }\n\n  if (!container.isContentEditable) {\n    return true;\n  }\n\n  var selection = window.getSelection();\n  var range = selection.rangeCount ? selection.getRangeAt(0) : null;\n\n  if (!range) {\n    return false;\n  }\n\n  var rangeRect = getRectangleFromRange(range);\n\n  if (!rangeRect) {\n    return false;\n  }\n\n  var buffer = rangeRect.height / 2;\n  var editableRect = container.getBoundingClientRect(); // Too low.\n\n  if (isReverse && rangeRect.top - buffer > editableRect.top) {\n    return false;\n  } // Too high.\n\n\n  if (!isReverse && rangeRect.bottom + buffer < editableRect.bottom) {\n    return false;\n  }\n\n  return true;\n}\n/**\n * Get the rectangle of a given Range.\n *\n * @param {Range} range The range.\n *\n * @return {DOMRect} The rectangle.\n */\n\nfunction getRectangleFromRange(range) {\n  // For uncollapsed ranges, get the rectangle that bounds the contents of the\n  // range; this a rectangle enclosing the union of the bounding rectangles\n  // for all the elements in the range.\n  if (!range.collapsed) {\n    return range.getBoundingClientRect();\n  }\n\n  var rect = range.getClientRects()[0]; // If the collapsed range starts (and therefore ends) at an element node,\n  // `getClientRects` can be empty in some browsers. This can be resolved\n  // by adding a temporary text node with zero-width space to the range.\n  //\n  // See: https://stackoverflow.com/a/6847328/995445\n\n  if (!rect) {\n    var padNode = document.createTextNode(\"\\u200B\");\n    range.insertNode(padNode);\n    rect = range.getClientRects()[0];\n    padNode.parentNode.removeChild(padNode);\n  }\n\n  return rect;\n}\n/**\n * Get the rectangle for the selection in a container.\n *\n * @param {Element} container Editable container.\n *\n * @return {?DOMRect} The rectangle.\n */\n\nfunction computeCaretRect(container) {\n  if (!container.isContentEditable) {\n    return;\n  }\n\n  var selection = window.getSelection();\n  var range = selection.rangeCount ? selection.getRangeAt(0) : null;\n\n  if (!range) {\n    return;\n  }\n\n  return getRectangleFromRange(range);\n}\n/**\n * Places the caret at start or end of a given element.\n *\n * @param {Element} container Focusable element.\n * @param {boolean} isReverse True for end, false for start.\n */\n\nfunction placeCaretAtHorizontalEdge(container, isReverse) {\n  if (!container) {\n    return;\n  }\n\n  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"includes\"])(['INPUT', 'TEXTAREA'], container.tagName)) {\n    container.focus();\n\n    if (isReverse) {\n      container.selectionStart = container.value.length;\n      container.selectionEnd = container.value.length;\n    } else {\n      container.selectionStart = 0;\n      container.selectionEnd = 0;\n    }\n\n    return;\n  }\n\n  container.focus();\n\n  if (!container.isContentEditable) {\n    return;\n  } // Select on extent child of the container, not the container itself. This\n  // avoids the selection always being `endOffset` of 1 when placed at end,\n  // where `startContainer`, `endContainer` would always be container itself.\n\n\n  var rangeTarget = container[isReverse ? 'lastChild' : 'firstChild']; // If no range target, it implies that the container is empty. Focusing is\n  // sufficient for caret to be placed correctly.\n\n  if (!rangeTarget) {\n    return;\n  }\n\n  var selection = window.getSelection();\n  var range = document.createRange();\n  range.selectNodeContents(rangeTarget);\n  range.collapse(!isReverse);\n  selection.removeAllRanges();\n  selection.addRange(range);\n}\n/**\n * Polyfill.\n * Get a collapsed range for a given point.\n *\n * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint\n *\n * @param {Document} doc The document of the range.\n * @param {number}    x   Horizontal position within the current viewport.\n * @param {number}    y   Vertical position within the current viewport.\n *\n * @return {?Range} The best range for the given point.\n */\n\nfunction caretRangeFromPoint(doc, x, y) {\n  if (doc.caretRangeFromPoint) {\n    return doc.caretRangeFromPoint(x, y);\n  }\n\n  if (!doc.caretPositionFromPoint) {\n    return null;\n  }\n\n  var point = doc.caretPositionFromPoint(x, y); // If x or y are negative, outside viewport, or there is no text entry node.\n  // https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint\n\n  if (!point) {\n    return null;\n  }\n\n  var range = doc.createRange();\n  range.setStart(point.offsetNode, point.offset);\n  range.collapse(true);\n  return range;\n}\n/**\n * Get a collapsed range for a given point.\n * Gives the container a temporary high z-index (above any UI).\n * This is preferred over getting the UI nodes and set styles there.\n *\n * @param {Document} doc       The document of the range.\n * @param {number}    x         Horizontal position within the current viewport.\n * @param {number}    y         Vertical position within the current viewport.\n * @param {Element}  container Container in which the range is expected to be found.\n *\n * @return {?Range} The best range for the given point.\n */\n\n\nfunction hiddenCaretRangeFromPoint(doc, x, y, container) {\n  container.style.zIndex = '10000';\n  var range = caretRangeFromPoint(doc, x, y);\n  container.style.zIndex = null;\n  return range;\n}\n/**\n * Places the caret at the top or bottom of a given element.\n *\n * @param {Element} container           Focusable element.\n * @param {boolean} isReverse           True for bottom, false for top.\n * @param {DOMRect} [rect]              The rectangle to position the caret with.\n * @param {boolean} [mayUseScroll=true] True to allow scrolling, false to disallow.\n */\n\n\nfunction placeCaretAtVerticalEdge(container, isReverse, rect) {\n  var mayUseScroll = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;\n\n  if (!container) {\n    return;\n  }\n\n  if (!rect || !container.isContentEditable) {\n    placeCaretAtHorizontalEdge(container, isReverse);\n    return;\n  } // Offset by a buffer half the height of the caret rect. This is needed\n  // because caretRangeFromPoint may default to the end of the selection if\n  // offset is too close to the edge. It's unclear how to precisely calculate\n  // this threshold; it may be the padded area of some combination of line\n  // height, caret height, and font size. The buffer offset is effectively\n  // equivalent to a point at half the height of a line of text.\n\n\n  var buffer = rect.height / 2;\n  var editableRect = container.getBoundingClientRect();\n  var x = rect.left;\n  var y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;\n  var selection = window.getSelection();\n  var range = hiddenCaretRangeFromPoint(document, x, y, container);\n\n  if (!range || !container.contains(range.startContainer)) {\n    if (mayUseScroll && (!range || !range.startContainer || !range.startContainer.contains(container))) {\n      // Might be out of view.\n      // Easier than attempting to calculate manually.\n      container.scrollIntoView(isReverse);\n      placeCaretAtVerticalEdge(container, isReverse, rect, false);\n      return;\n    }\n\n    placeCaretAtHorizontalEdge(container, isReverse);\n    return;\n  } // Check if the closest text node is actually further away.\n  // If so, attempt to get the range again with the y position adjusted to get the right offset.\n\n\n  if (range.startContainer.nodeType === TEXT_NODE) {\n    var parentNode = range.startContainer.parentNode;\n    var parentRect = parentNode.getBoundingClientRect();\n    var side = isReverse ? 'bottom' : 'top';\n    var padding = parseInt(getComputedStyle(parentNode).getPropertyValue(\"padding-\".concat(side)), 10) || 0;\n    var actualY = isReverse ? parentRect.bottom - padding - buffer : parentRect.top + padding + buffer;\n\n    if (y !== actualY) {\n      range = hiddenCaretRangeFromPoint(document, x, actualY, container);\n    }\n  }\n\n  selection.removeAllRanges();\n  selection.addRange(range);\n  container.focus(); // Editable was already focussed, it goes back to old range...\n  // This fixes it.\n\n  selection.removeAllRanges();\n  selection.addRange(range);\n}\n/**\n * Check whether the given element is a text field, where text field is defined\n * by the ability to select within the input, or that it is contenteditable.\n *\n * See: https://html.spec.whatwg.org/#textFieldSelection\n *\n * @param {HTMLElement} element The HTML element.\n *\n * @return {boolean} True if the element is an text field, false if not.\n */\n\nfunction isTextField(element) {\n  try {\n    var nodeName = element.nodeName,\n        selectionStart = element.selectionStart,\n        contentEditable = element.contentEditable;\n    return nodeName === 'INPUT' && selectionStart !== null || nodeName === 'TEXTAREA' || contentEditable === 'true';\n  } catch (error) {\n    // Safari throws an exception when trying to get `selectionStart`\n    // on non-text <input> elements (which, understandably, don't\n    // have the text selection API). We catch this via a try/catch\n    // block, as opposed to a more explicit check of the element's\n    // input types, because of Safari's non-standard behavior. This\n    // also means we don't have to worry about the list of input\n    // types that support `selectionStart` changing as the HTML spec\n    // evolves over time.\n    return false;\n  }\n}\n/**\n * Check wether the current document has a selection.\n * This checks both for focus in an input field and general text selection.\n *\n * @return {boolean} True if there is selection, false if not.\n */\n\nfunction documentHasSelection() {\n  if (isTextField(document.activeElement)) {\n    return true;\n  }\n\n  var selection = window.getSelection();\n  var range = selection.rangeCount ? selection.getRangeAt(0) : null;\n  return range && !range.collapsed;\n}\n/**\n * Check whether the contents of the element have been entirely selected.\n * Returns true if there is no possibility of selection.\n *\n * @param {Element} element The element to check.\n *\n * @return {boolean} True if entirely selected, false if not.\n */\n\nfunction isEntirelySelected(element) {\n  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"includes\"])(['INPUT', 'TEXTAREA'], element.nodeName)) {\n    return element.selectionStart === 0 && element.value.length === element.selectionEnd;\n  }\n\n  if (!element.isContentEditable) {\n    return true;\n  }\n\n  var selection = window.getSelection();\n  var range = selection.rangeCount ? selection.getRangeAt(0) : null;\n\n  if (!range) {\n    return true;\n  }\n\n  var startContainer = range.startContainer,\n      endContainer = range.endContainer,\n      startOffset = range.startOffset,\n      endOffset = range.endOffset;\n\n  if (startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length) {\n    return true;\n  }\n\n  var lastChild = element.lastChild;\n  var lastChildContentLength = lastChild.nodeType === TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;\n  return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;\n}\n/**\n * Given a DOM node, finds the closest scrollable container node.\n *\n * @param {Element} node Node from which to start.\n *\n * @return {?Element} Scrollable container node, if found.\n */\n\nfunction getScrollContainer(node) {\n  if (!node) {\n    return;\n  } // Scrollable if scrollable height exceeds displayed...\n\n\n  if (node.scrollHeight > node.clientHeight) {\n    // ...except when overflow is defined to be hidden or visible\n    var _window$getComputedSt = window.getComputedStyle(node),\n        overflowY = _window$getComputedSt.overflowY;\n\n    if (/(auto|scroll)/.test(overflowY)) {\n      return node;\n    }\n  } // Continue traversing\n\n\n  return getScrollContainer(node.parentNode);\n}\n/**\n * Returns the closest positioned element, or null under any of the conditions\n * of the offsetParent specification. Unlike offsetParent, this function is not\n * limited to HTMLElement and accepts any Node (e.g. Node.TEXT_NODE).\n *\n * @see https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent\n *\n * @param {Node} node Node from which to find offset parent.\n *\n * @return {?Node} Offset parent.\n */\n\nfunction getOffsetParent(node) {\n  // Cannot retrieve computed style or offset parent only anything other than\n  // an element node, so find the closest element node.\n  var closestElement;\n\n  while (closestElement = node.parentNode) {\n    if (closestElement.nodeType === ELEMENT_NODE) {\n      break;\n    }\n  }\n\n  if (!closestElement) {\n    return null;\n  } // If the closest element is already positioned, return it, as offsetParent\n  // does not otherwise consider the node itself.\n\n\n  if (getComputedStyle(closestElement).position !== 'static') {\n    return closestElement;\n  }\n\n  return closestElement.offsetParent;\n}\n/**\n * Given two DOM nodes, replaces the former with the latter in the DOM.\n *\n * @param {Element} processedNode Node to be removed.\n * @param {Element} newNode       Node to be inserted in its place.\n * @return {void}\n */\n\nfunction replace(processedNode, newNode) {\n  insertAfter(newNode, processedNode.parentNode);\n  remove(processedNode);\n}\n/**\n * Given a DOM node, removes it from the DOM.\n *\n * @param {Element} node Node to be removed.\n * @return {void}\n */\n\nfunction remove(node) {\n  node.parentNode.removeChild(node);\n}\n/**\n * Given two DOM nodes, inserts the former in the DOM as the next sibling of\n * the latter.\n *\n * @param {Element} newNode       Node to be inserted.\n * @param {Element} referenceNode Node after which to perform the insertion.\n * @return {void}\n */\n\nfunction insertAfter(newNode, referenceNode) {\n  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);\n}\n/**\n * Unwrap the given node. This means any child nodes are moved to the parent.\n *\n * @param {Node} node The node to unwrap.\n *\n * @return {void}\n */\n\nfunction unwrap(node) {\n  var parent = node.parentNode;\n\n  while (node.firstChild) {\n    parent.insertBefore(node.firstChild, node);\n  }\n\n  parent.removeChild(node);\n}\n/**\n * Replaces the given node with a new node with the given tag name.\n *\n * @param {Element}  node    The node to replace\n * @param {string}   tagName The new tag name.\n *\n * @return {Element} The new node.\n */\n\nfunction replaceTag(node, tagName) {\n  var newNode = node.ownerDocument.createElement(tagName);\n\n  while (node.firstChild) {\n    newNode.appendChild(node.firstChild);\n  }\n\n  node.parentNode.replaceChild(newNode, node);\n  return newNode;\n}\n/**\n * Wraps the given node with a new node with the given tag name.\n *\n * @param {Element} newNode       The node to insert.\n * @param {Element} referenceNode The node to wrap.\n */\n\nfunction wrap(newNode, referenceNode) {\n  referenceNode.parentNode.insertBefore(newNode, referenceNode);\n  newNode.appendChild(referenceNode);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/dom/build-module/dom.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/focusable.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/focusable.js ***!
-  \***************************************************************/
-/*! exports provided: find */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"find\", function() { return find; });\n/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ \"./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js\");\n\n\n/**\n * References:\n *\n * Focusable:\n *  - https://www.w3.org/TR/html5/editing.html#focus-management\n *\n * Sequential focus navigation:\n *  - https://www.w3.org/TR/html5/editing.html#sequential-focus-navigation-and-the-tabindex-attribute\n *\n * Disabled elements:\n *  - https://www.w3.org/TR/html5/disabled-elements.html#disabled-elements\n *\n * getClientRects algorithm (requiring layout box):\n *  - https://www.w3.org/TR/cssom-view-1/#extension-to-the-element-interface\n *\n * AREA elements associated with an IMG:\n *  - https://w3c.github.io/html/editing.html#data-model\n */\nvar SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type=\"hidden\"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');\n/**\n * Returns true if the specified element is visible (i.e. neither display: none\n * nor visibility: hidden).\n *\n * @param {Element} element DOM element to test.\n *\n * @return {boolean} Whether element is visible.\n */\n\nfunction isVisible(element) {\n  return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;\n}\n/**\n * Returns true if the specified area element is a valid focusable element, or\n * false otherwise. Area is only focusable if within a map where a named map\n * referenced by an image somewhere in the document.\n *\n * @param {Element} element DOM area element to test.\n *\n * @return {boolean} Whether area element is valid for focus.\n */\n\n\nfunction isValidFocusableArea(element) {\n  var map = element.closest('map[name]');\n\n  if (!map) {\n    return false;\n  }\n\n  var img = document.querySelector('img[usemap=\"#' + map.name + '\"]');\n  return !!img && isVisible(img);\n}\n/**\n * Returns all focusable elements within a given context.\n *\n * @param {Element} context Element in which to search.\n *\n * @return {Element[]} Focusable elements.\n */\n\n\nfunction find(context) {\n  var elements = context.querySelectorAll(SELECTOR);\n  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(elements).filter(function (element) {\n    if (!isVisible(element)) {\n      return false;\n    }\n\n    var nodeName = element.nodeName;\n\n    if ('AREA' === nodeName) {\n      return isValidFocusableArea(element);\n    }\n\n    return true;\n  });\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/dom/build-module/focusable.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/index.js ***!
-  \***********************************************************/
-/*! exports provided: focus, isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"focus\", function() { return focus; });\n/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ \"./node_modules/@wordpress/dom/build-module/focusable.js\");\n/* harmony import */ var _tabbable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabbable */ \"./node_modules/@wordpress/dom/build-module/tabbable.js\");\n/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom */ \"./node_modules/@wordpress/dom/build-module/dom.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isHorizontalEdge\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"isHorizontalEdge\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isVerticalEdge\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"isVerticalEdge\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getRectangleFromRange\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"getRectangleFromRange\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"computeCaretRect\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"computeCaretRect\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"placeCaretAtHorizontalEdge\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"placeCaretAtHorizontalEdge\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"placeCaretAtVerticalEdge\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"placeCaretAtVerticalEdge\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isTextField\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"isTextField\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"documentHasSelection\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"documentHasSelection\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isEntirelySelected\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"isEntirelySelected\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getScrollContainer\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"getScrollContainer\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getOffsetParent\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"getOffsetParent\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"replace\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"replace\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"remove\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"remove\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"insertAfter\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"insertAfter\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"unwrap\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"unwrap\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"replaceTag\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"replaceTag\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"wrap\", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__[\"wrap\"]; });\n\n/**\n * Internal dependencies\n */\n\n\nvar focus = {\n  focusable: _focusable__WEBPACK_IMPORTED_MODULE_0__,\n  tabbable: _tabbable__WEBPACK_IMPORTED_MODULE_1__\n};\n\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/dom/build-module/index.js?");
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/tabbable.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/tabbable.js ***!
-  \**************************************************************/
-/*! exports provided: isTabbableIndex, find */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isTabbableIndex\", function() { return isTabbableIndex; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"find\", function() { return find; });\n/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ \"./node_modules/@wordpress/dom/build-module/focusable.js\");\n/**\n * Internal dependencies\n */\n\n/**\n * Returns the tab index of the given element. In contrast with the tabIndex\n * property, this normalizes the default (0) to avoid browser inconsistencies,\n * operating under the assumption that this function is only ever called with a\n * focusable node.\n *\n * @see https://bugzilla.mozilla.org/show_bug.cgi?id=1190261\n *\n * @param {Element} element Element from which to retrieve.\n *\n * @return {?number} Tab index of element (default 0).\n */\n\nfunction getTabIndex(element) {\n  var tabIndex = element.getAttribute('tabindex');\n  return tabIndex === null ? 0 : parseInt(tabIndex, 10);\n}\n/**\n * Returns true if the specified element is tabbable, or false otherwise.\n *\n * @param {Element} element Element to test.\n *\n * @return {boolean} Whether element is tabbable.\n */\n\n\nfunction isTabbableIndex(element) {\n  return getTabIndex(element) !== -1;\n}\n/**\n * An array map callback, returning an object with the element value and its\n * array index location as properties. This is used to emulate a proper stable\n * sort where equal tabIndex should be left in order of their occurrence in the\n * document.\n *\n * @param {Element} element Element.\n * @param {number}  index   Array index of element.\n *\n * @return {Object} Mapped object with element, index.\n */\n\nfunction mapElementToObjectTabbable(element, index) {\n  return {\n    element: element,\n    index: index\n  };\n}\n/**\n * An array map callback, returning an element of the given mapped object's\n * element value.\n *\n * @param {Object} object Mapped object with index.\n *\n * @return {Element} Mapped object element.\n */\n\n\nfunction mapObjectTabbableToElement(object) {\n  return object.element;\n}\n/**\n * A sort comparator function used in comparing two objects of mapped elements.\n *\n * @see mapElementToObjectTabbable\n *\n * @param {Object} a First object to compare.\n * @param {Object} b Second object to compare.\n *\n * @return {number} Comparator result.\n */\n\n\nfunction compareObjectTabbables(a, b) {\n  var aTabIndex = getTabIndex(a.element);\n  var bTabIndex = getTabIndex(b.element);\n\n  if (aTabIndex === bTabIndex) {\n    return a.index - b.index;\n  }\n\n  return aTabIndex - bTabIndex;\n}\n\nfunction find(context) {\n  return Object(_focusable__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(context).filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/dom/build-module/tabbable.js?");
-
-/***/ }),
-
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
+/***/ 2:
 /***/ (function(module, exports) {
 
-eval("(function() { module.exports = this[\"lodash\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%22lodash%22?");
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
+/***/ 323:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var focusable_namespaceObject = {};
+__webpack_require__.r(focusable_namespaceObject);
+__webpack_require__.d(focusable_namespaceObject, "find", function() { return find; });
+var tabbable_namespaceObject = {};
+__webpack_require__.r(tabbable_namespaceObject);
+__webpack_require__.d(tabbable_namespaceObject, "isTabbableIndex", function() { return isTabbableIndex; });
+__webpack_require__.d(tabbable_namespaceObject, "find", function() { return tabbable_find; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(19);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/focusable.js
+
+
+/**
+ * References:
+ *
+ * Focusable:
+ *  - https://www.w3.org/TR/html5/editing.html#focus-management
+ *
+ * Sequential focus navigation:
+ *  - https://www.w3.org/TR/html5/editing.html#sequential-focus-navigation-and-the-tabindex-attribute
+ *
+ * Disabled elements:
+ *  - https://www.w3.org/TR/html5/disabled-elements.html#disabled-elements
+ *
+ * getClientRects algorithm (requiring layout box):
+ *  - https://www.w3.org/TR/cssom-view-1/#extension-to-the-element-interface
+ *
+ * AREA elements associated with an IMG:
+ *  - https://w3c.github.io/html/editing.html#data-model
+ */
+var SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
+/**
+ * Returns true if the specified element is visible (i.e. neither display: none
+ * nor visibility: hidden).
+ *
+ * @param {Element} element DOM element to test.
+ *
+ * @return {boolean} Whether element is visible.
+ */
+
+function isVisible(element) {
+  return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
+}
+/**
+ * Returns true if the specified area element is a valid focusable element, or
+ * false otherwise. Area is only focusable if within a map where a named map
+ * referenced by an image somewhere in the document.
+ *
+ * @param {Element} element DOM area element to test.
+ *
+ * @return {boolean} Whether area element is valid for focus.
+ */
+
+
+function isValidFocusableArea(element) {
+  var map = element.closest('map[name]');
+
+  if (!map) {
+    return false;
+  }
+
+  var img = document.querySelector('img[usemap="#' + map.name + '"]');
+  return !!img && isVisible(img);
+}
+/**
+ * Returns all focusable elements within a given context.
+ *
+ * @param {Element} context Element in which to search.
+ *
+ * @return {Element[]} Focusable elements.
+ */
+
+
+function find(context) {
+  var elements = context.querySelectorAll(SELECTOR);
+  return Object(toConsumableArray["a" /* default */])(elements).filter(function (element) {
+    if (!isVisible(element)) {
+      return false;
+    }
+
+    var nodeName = element.nodeName;
+
+    if ('AREA' === nodeName) {
+      return isValidFocusableArea(element);
+    }
+
+    return true;
+  });
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/tabbable.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Returns the tab index of the given element. In contrast with the tabIndex
+ * property, this normalizes the default (0) to avoid browser inconsistencies,
+ * operating under the assumption that this function is only ever called with a
+ * focusable node.
+ *
+ * @see https://bugzilla.mozilla.org/show_bug.cgi?id=1190261
+ *
+ * @param {Element} element Element from which to retrieve.
+ *
+ * @return {?number} Tab index of element (default 0).
+ */
+
+function getTabIndex(element) {
+  var tabIndex = element.getAttribute('tabindex');
+  return tabIndex === null ? 0 : parseInt(tabIndex, 10);
+}
+/**
+ * Returns true if the specified element is tabbable, or false otherwise.
+ *
+ * @param {Element} element Element to test.
+ *
+ * @return {boolean} Whether element is tabbable.
+ */
+
+
+function isTabbableIndex(element) {
+  return getTabIndex(element) !== -1;
+}
+/**
+ * An array map callback, returning an object with the element value and its
+ * array index location as properties. This is used to emulate a proper stable
+ * sort where equal tabIndex should be left in order of their occurrence in the
+ * document.
+ *
+ * @param {Element} element Element.
+ * @param {number}  index   Array index of element.
+ *
+ * @return {Object} Mapped object with element, index.
+ */
+
+function mapElementToObjectTabbable(element, index) {
+  return {
+    element: element,
+    index: index
+  };
+}
+/**
+ * An array map callback, returning an element of the given mapped object's
+ * element value.
+ *
+ * @param {Object} object Mapped object with index.
+ *
+ * @return {Element} Mapped object element.
+ */
+
+
+function mapObjectTabbableToElement(object) {
+  return object.element;
+}
+/**
+ * A sort comparator function used in comparing two objects of mapped elements.
+ *
+ * @see mapElementToObjectTabbable
+ *
+ * @param {Object} a First object to compare.
+ * @param {Object} b Second object to compare.
+ *
+ * @return {number} Comparator result.
+ */
+
+
+function compareObjectTabbables(a, b) {
+  var aTabIndex = getTabIndex(a.element);
+  var bTabIndex = getTabIndex(b.element);
+
+  if (aTabIndex === bTabIndex) {
+    return a.index - b.index;
+  }
+
+  return aTabIndex - bTabIndex;
+}
+
+function tabbable_find(context) {
+  return find(context).filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement);
+}
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var _window = window,
+    getComputedStyle = _window.getComputedStyle;
+var _window$Node = window.Node,
+    TEXT_NODE = _window$Node.TEXT_NODE,
+    ELEMENT_NODE = _window$Node.ELEMENT_NODE,
+    DOCUMENT_POSITION_PRECEDING = _window$Node.DOCUMENT_POSITION_PRECEDING,
+    DOCUMENT_POSITION_FOLLOWING = _window$Node.DOCUMENT_POSITION_FOLLOWING;
+/**
+ * Returns true if the given selection object is in the forward direction, or
+ * false otherwise.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/compareDocumentPosition
+ *
+ * @param {Selection} selection Selection object to check.
+ *
+ * @return {boolean} Whether the selection is forward.
+ */
+
+function isSelectionForward(selection) {
+  var anchorNode = selection.anchorNode,
+      focusNode = selection.focusNode,
+      anchorOffset = selection.anchorOffset,
+      focusOffset = selection.focusOffset;
+  var position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
+  // so bitwise operators are intended.
+
+  /* eslint-disable no-bitwise */
+  // Compare whether anchor node precedes focus node. If focus node (where
+  // end of selection occurs) is after the anchor node, it is forward.
+
+  if (position & DOCUMENT_POSITION_PRECEDING) {
+    return false;
+  }
+
+  if (position & DOCUMENT_POSITION_FOLLOWING) {
+    return true;
+  }
+  /* eslint-enable no-bitwise */
+  // `compareDocumentPosition` returns 0 when passed the same node, in which
+  // case compare offsets.
+
+
+  if (position === 0) {
+    return anchorOffset <= focusOffset;
+  } // This should never be reached, but return true as default case.
+
+
+  return true;
+}
+/**
+ * Check whether the selection is horizontally at the edge of the container.
+ *
+ * @param {Element} container Focusable element.
+ * @param {boolean} isReverse Set to true to check left, false for right.
+ *
+ * @return {boolean} True if at the horizontal edge, false if not.
+ */
+
+
+function isHorizontalEdge(container, isReverse) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+    if (container.selectionStart !== container.selectionEnd) {
+      return false;
+    }
+
+    if (isReverse) {
+      return container.selectionStart === 0;
+    }
+
+    return container.value.length === container.selectionStart;
+  }
+
+  if (!container.isContentEditable) {
+    return true;
+  }
+
+  var selection = window.getSelection(); // Create copy of range for setting selection to find effective offset.
+
+  var range = selection.getRangeAt(0).cloneRange(); // Collapse in direction of selection.
+
+  if (!selection.isCollapsed) {
+    range.collapse(!isSelectionForward(selection));
+  }
+
+  var node = range.startContainer;
+  var extentOffset;
+
+  if (isReverse) {
+    // When in reverse, range node should be first.
+    extentOffset = 0;
+  } else if (node.nodeValue) {
+    // Otherwise, vary by node type. A text node has no children. Its range
+    // offset reflects its position in nodeValue.
+    //
+    // "If the startContainer is a Node of type Text, Comment, or
+    // CDATASection, then the offset is the number of characters from the
+    // start of the startContainer to the boundary point of the Range."
+    //
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue
+    extentOffset = node.nodeValue.length;
+  } else {
+    // "For other Node types, the startOffset is the number of child nodes
+    // between the start of the startContainer and the boundary point of
+    // the Range."
+    //
+    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset
+    extentOffset = node.childNodes.length;
+  } // Offset of range should be at expected extent.
+
+
+  var position = isReverse ? 'start' : 'end';
+  var offset = range["".concat(position, "Offset")];
+
+  if (offset !== extentOffset) {
+    return false;
+  } // If confirmed to be at extent, traverse up through DOM, verifying that
+  // the node is at first or last child for reverse or forward respectively.
+  // Continue until container is reached.
+
+
+  var order = isReverse ? 'first' : 'last';
+
+  while (node !== container) {
+    var parentNode = node.parentNode;
+
+    if (parentNode["".concat(order, "Child")] !== node) {
+      return false;
+    }
+
+    node = parentNode;
+  } // If reached, range is assumed to be at edge.
+
+
+  return true;
+}
+/**
+ * Check whether the selection is vertically at the edge of the container.
+ *
+ * @param {Element} container Focusable element.
+ * @param {boolean} isReverse Set to true to check top, false for bottom.
+ *
+ * @return {boolean} True if at the edge, false if not.
+ */
+
+function isVerticalEdge(container, isReverse) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+    return isHorizontalEdge(container, isReverse);
+  }
+
+  if (!container.isContentEditable) {
+    return true;
+  }
+
+  var selection = window.getSelection();
+  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+
+  if (!range) {
+    return false;
+  }
+
+  var rangeRect = getRectangleFromRange(range);
+
+  if (!rangeRect) {
+    return false;
+  }
+
+  var buffer = rangeRect.height / 2;
+  var editableRect = container.getBoundingClientRect(); // Too low.
+
+  if (isReverse && rangeRect.top - buffer > editableRect.top) {
+    return false;
+  } // Too high.
+
+
+  if (!isReverse && rangeRect.bottom + buffer < editableRect.bottom) {
+    return false;
+  }
+
+  return true;
+}
+/**
+ * Get the rectangle of a given Range.
+ *
+ * @param {Range} range The range.
+ *
+ * @return {DOMRect} The rectangle.
+ */
+
+function getRectangleFromRange(range) {
+  // For uncollapsed ranges, get the rectangle that bounds the contents of the
+  // range; this a rectangle enclosing the union of the bounding rectangles
+  // for all the elements in the range.
+  if (!range.collapsed) {
+    return range.getBoundingClientRect();
+  }
+
+  var rect = range.getClientRects()[0]; // If the collapsed range starts (and therefore ends) at an element node,
+  // `getClientRects` can be empty in some browsers. This can be resolved
+  // by adding a temporary text node with zero-width space to the range.
+  //
+  // See: https://stackoverflow.com/a/6847328/995445
+
+  if (!rect) {
+    var padNode = document.createTextNode("\u200B");
+    range.insertNode(padNode);
+    rect = range.getClientRects()[0];
+    padNode.parentNode.removeChild(padNode);
+  }
+
+  return rect;
+}
+/**
+ * Get the rectangle for the selection in a container.
+ *
+ * @param {Element} container Editable container.
+ *
+ * @return {?DOMRect} The rectangle.
+ */
+
+function computeCaretRect(container) {
+  if (!container.isContentEditable) {
+    return;
+  }
+
+  var selection = window.getSelection();
+  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+
+  if (!range) {
+    return;
+  }
+
+  return getRectangleFromRange(range);
+}
+/**
+ * Places the caret at start or end of a given element.
+ *
+ * @param {Element} container Focusable element.
+ * @param {boolean} isReverse True for end, false for start.
+ */
+
+function placeCaretAtHorizontalEdge(container, isReverse) {
+  if (!container) {
+    return;
+  }
+
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+    container.focus();
+
+    if (isReverse) {
+      container.selectionStart = container.value.length;
+      container.selectionEnd = container.value.length;
+    } else {
+      container.selectionStart = 0;
+      container.selectionEnd = 0;
+    }
+
+    return;
+  }
+
+  container.focus();
+
+  if (!container.isContentEditable) {
+    return;
+  } // Select on extent child of the container, not the container itself. This
+  // avoids the selection always being `endOffset` of 1 when placed at end,
+  // where `startContainer`, `endContainer` would always be container itself.
+
+
+  var rangeTarget = container[isReverse ? 'lastChild' : 'firstChild']; // If no range target, it implies that the container is empty. Focusing is
+  // sufficient for caret to be placed correctly.
+
+  if (!rangeTarget) {
+    return;
+  }
+
+  var selection = window.getSelection();
+  var range = document.createRange();
+  range.selectNodeContents(rangeTarget);
+  range.collapse(!isReverse);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+/**
+ * Polyfill.
+ * Get a collapsed range for a given point.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint
+ *
+ * @param {Document} doc The document of the range.
+ * @param {number}    x   Horizontal position within the current viewport.
+ * @param {number}    y   Vertical position within the current viewport.
+ *
+ * @return {?Range} The best range for the given point.
+ */
+
+function caretRangeFromPoint(doc, x, y) {
+  if (doc.caretRangeFromPoint) {
+    return doc.caretRangeFromPoint(x, y);
+  }
+
+  if (!doc.caretPositionFromPoint) {
+    return null;
+  }
+
+  var point = doc.caretPositionFromPoint(x, y); // If x or y are negative, outside viewport, or there is no text entry node.
+  // https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint
+
+  if (!point) {
+    return null;
+  }
+
+  var range = doc.createRange();
+  range.setStart(point.offsetNode, point.offset);
+  range.collapse(true);
+  return range;
+}
+/**
+ * Get a collapsed range for a given point.
+ * Gives the container a temporary high z-index (above any UI).
+ * This is preferred over getting the UI nodes and set styles there.
+ *
+ * @param {Document} doc       The document of the range.
+ * @param {number}    x         Horizontal position within the current viewport.
+ * @param {number}    y         Vertical position within the current viewport.
+ * @param {Element}  container Container in which the range is expected to be found.
+ *
+ * @return {?Range} The best range for the given point.
+ */
+
+
+function hiddenCaretRangeFromPoint(doc, x, y, container) {
+  container.style.zIndex = '10000';
+  var range = caretRangeFromPoint(doc, x, y);
+  container.style.zIndex = null;
+  return range;
+}
+/**
+ * Places the caret at the top or bottom of a given element.
+ *
+ * @param {Element} container           Focusable element.
+ * @param {boolean} isReverse           True for bottom, false for top.
+ * @param {DOMRect} [rect]              The rectangle to position the caret with.
+ * @param {boolean} [mayUseScroll=true] True to allow scrolling, false to disallow.
+ */
+
+
+function placeCaretAtVerticalEdge(container, isReverse, rect) {
+  var mayUseScroll = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
+  if (!container) {
+    return;
+  }
+
+  if (!rect || !container.isContentEditable) {
+    placeCaretAtHorizontalEdge(container, isReverse);
+    return;
+  } // Offset by a buffer half the height of the caret rect. This is needed
+  // because caretRangeFromPoint may default to the end of the selection if
+  // offset is too close to the edge. It's unclear how to precisely calculate
+  // this threshold; it may be the padded area of some combination of line
+  // height, caret height, and font size. The buffer offset is effectively
+  // equivalent to a point at half the height of a line of text.
+
+
+  var buffer = rect.height / 2;
+  var editableRect = container.getBoundingClientRect();
+  var x = rect.left;
+  var y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;
+  var selection = window.getSelection();
+  var range = hiddenCaretRangeFromPoint(document, x, y, container);
+
+  if (!range || !container.contains(range.startContainer)) {
+    if (mayUseScroll && (!range || !range.startContainer || !range.startContainer.contains(container))) {
+      // Might be out of view.
+      // Easier than attempting to calculate manually.
+      container.scrollIntoView(isReverse);
+      placeCaretAtVerticalEdge(container, isReverse, rect, false);
+      return;
+    }
+
+    placeCaretAtHorizontalEdge(container, isReverse);
+    return;
+  } // Check if the closest text node is actually further away.
+  // If so, attempt to get the range again with the y position adjusted to get the right offset.
+
+
+  if (range.startContainer.nodeType === TEXT_NODE) {
+    var parentNode = range.startContainer.parentNode;
+    var parentRect = parentNode.getBoundingClientRect();
+    var side = isReverse ? 'bottom' : 'top';
+    var padding = parseInt(getComputedStyle(parentNode).getPropertyValue("padding-".concat(side)), 10) || 0;
+    var actualY = isReverse ? parentRect.bottom - padding - buffer : parentRect.top + padding + buffer;
+
+    if (y !== actualY) {
+      range = hiddenCaretRangeFromPoint(document, x, actualY, container);
+    }
+  }
+
+  selection.removeAllRanges();
+  selection.addRange(range);
+  container.focus(); // Editable was already focussed, it goes back to old range...
+  // This fixes it.
+
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+/**
+ * Check whether the given element is a text field, where text field is defined
+ * by the ability to select within the input, or that it is contenteditable.
+ *
+ * See: https://html.spec.whatwg.org/#textFieldSelection
+ *
+ * @param {HTMLElement} element The HTML element.
+ *
+ * @return {boolean} True if the element is an text field, false if not.
+ */
+
+function isTextField(element) {
+  try {
+    var nodeName = element.nodeName,
+        selectionStart = element.selectionStart,
+        contentEditable = element.contentEditable;
+    return nodeName === 'INPUT' && selectionStart !== null || nodeName === 'TEXTAREA' || contentEditable === 'true';
+  } catch (error) {
+    // Safari throws an exception when trying to get `selectionStart`
+    // on non-text <input> elements (which, understandably, don't
+    // have the text selection API). We catch this via a try/catch
+    // block, as opposed to a more explicit check of the element's
+    // input types, because of Safari's non-standard behavior. This
+    // also means we don't have to worry about the list of input
+    // types that support `selectionStart` changing as the HTML spec
+    // evolves over time.
+    return false;
+  }
+}
+/**
+ * Check wether the current document has a selection.
+ * This checks both for focus in an input field and general text selection.
+ *
+ * @return {boolean} True if there is selection, false if not.
+ */
+
+function documentHasSelection() {
+  if (isTextField(document.activeElement)) {
+    return true;
+  }
+
+  var selection = window.getSelection();
+  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+  return range && !range.collapsed;
+}
+/**
+ * Check whether the contents of the element have been entirely selected.
+ * Returns true if there is no possibility of selection.
+ *
+ * @param {Element} element The element to check.
+ *
+ * @return {boolean} True if entirely selected, false if not.
+ */
+
+function isEntirelySelected(element) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
+    return element.selectionStart === 0 && element.value.length === element.selectionEnd;
+  }
+
+  if (!element.isContentEditable) {
+    return true;
+  }
+
+  var selection = window.getSelection();
+  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
+
+  if (!range) {
+    return true;
+  }
+
+  var startContainer = range.startContainer,
+      endContainer = range.endContainer,
+      startOffset = range.startOffset,
+      endOffset = range.endOffset;
+
+  if (startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length) {
+    return true;
+  }
+
+  var lastChild = element.lastChild;
+  var lastChildContentLength = lastChild.nodeType === TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;
+  return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
+}
+/**
+ * Given a DOM node, finds the closest scrollable container node.
+ *
+ * @param {Element} node Node from which to start.
+ *
+ * @return {?Element} Scrollable container node, if found.
+ */
+
+function getScrollContainer(node) {
+  if (!node) {
+    return;
+  } // Scrollable if scrollable height exceeds displayed...
+
+
+  if (node.scrollHeight > node.clientHeight) {
+    // ...except when overflow is defined to be hidden or visible
+    var _window$getComputedSt = window.getComputedStyle(node),
+        overflowY = _window$getComputedSt.overflowY;
+
+    if (/(auto|scroll)/.test(overflowY)) {
+      return node;
+    }
+  } // Continue traversing
+
+
+  return getScrollContainer(node.parentNode);
+}
+/**
+ * Returns the closest positioned element, or null under any of the conditions
+ * of the offsetParent specification. Unlike offsetParent, this function is not
+ * limited to HTMLElement and accepts any Node (e.g. Node.TEXT_NODE).
+ *
+ * @see https://drafts.csswg.org/cssom-view/#dom-htmlelement-offsetparent
+ *
+ * @param {Node} node Node from which to find offset parent.
+ *
+ * @return {?Node} Offset parent.
+ */
+
+function getOffsetParent(node) {
+  // Cannot retrieve computed style or offset parent only anything other than
+  // an element node, so find the closest element node.
+  var closestElement;
+
+  while (closestElement = node.parentNode) {
+    if (closestElement.nodeType === ELEMENT_NODE) {
+      break;
+    }
+  }
+
+  if (!closestElement) {
+    return null;
+  } // If the closest element is already positioned, return it, as offsetParent
+  // does not otherwise consider the node itself.
+
+
+  if (getComputedStyle(closestElement).position !== 'static') {
+    return closestElement;
+  }
+
+  return closestElement.offsetParent;
+}
+/**
+ * Given two DOM nodes, replaces the former with the latter in the DOM.
+ *
+ * @param {Element} processedNode Node to be removed.
+ * @param {Element} newNode       Node to be inserted in its place.
+ * @return {void}
+ */
+
+function replace(processedNode, newNode) {
+  insertAfter(newNode, processedNode.parentNode);
+  remove(processedNode);
+}
+/**
+ * Given a DOM node, removes it from the DOM.
+ *
+ * @param {Element} node Node to be removed.
+ * @return {void}
+ */
+
+function remove(node) {
+  node.parentNode.removeChild(node);
+}
+/**
+ * Given two DOM nodes, inserts the former in the DOM as the next sibling of
+ * the latter.
+ *
+ * @param {Element} newNode       Node to be inserted.
+ * @param {Element} referenceNode Node after which to perform the insertion.
+ * @return {void}
+ */
+
+function insertAfter(newNode, referenceNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+/**
+ * Unwrap the given node. This means any child nodes are moved to the parent.
+ *
+ * @param {Node} node The node to unwrap.
+ *
+ * @return {void}
+ */
+
+function unwrap(node) {
+  var parent = node.parentNode;
+
+  while (node.firstChild) {
+    parent.insertBefore(node.firstChild, node);
+  }
+
+  parent.removeChild(node);
+}
+/**
+ * Replaces the given node with a new node with the given tag name.
+ *
+ * @param {Element}  node    The node to replace
+ * @param {string}   tagName The new tag name.
+ *
+ * @return {Element} The new node.
+ */
+
+function replaceTag(node, tagName) {
+  var newNode = node.ownerDocument.createElement(tagName);
+
+  while (node.firstChild) {
+    newNode.appendChild(node.firstChild);
+  }
+
+  node.parentNode.replaceChild(newNode, node);
+  return newNode;
+}
+/**
+ * Wraps the given node with a new node with the given tag name.
+ *
+ * @param {Element} newNode       The node to insert.
+ * @param {Element} referenceNode The node to wrap.
+ */
+
+function wrap(newNode, referenceNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode);
+  newNode.appendChild(referenceNode);
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return build_module_focus; });
+/* concated harmony reexport isHorizontalEdge */__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return isHorizontalEdge; });
+/* concated harmony reexport isVerticalEdge */__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return isVerticalEdge; });
+/* concated harmony reexport getRectangleFromRange */__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return getRectangleFromRange; });
+/* concated harmony reexport computeCaretRect */__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return computeCaretRect; });
+/* concated harmony reexport placeCaretAtHorizontalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return placeCaretAtHorizontalEdge; });
+/* concated harmony reexport placeCaretAtVerticalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return placeCaretAtVerticalEdge; });
+/* concated harmony reexport isTextField */__webpack_require__.d(__webpack_exports__, "isTextField", function() { return isTextField; });
+/* concated harmony reexport documentHasSelection */__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return documentHasSelection; });
+/* concated harmony reexport isEntirelySelected */__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return isEntirelySelected; });
+/* concated harmony reexport getScrollContainer */__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return getScrollContainer; });
+/* concated harmony reexport getOffsetParent */__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return getOffsetParent; });
+/* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
+/* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* concated harmony reexport insertAfter */__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
+/* concated harmony reexport unwrap */__webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
+/* concated harmony reexport replaceTag */__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
+/* concated harmony reexport wrap */__webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
+/**
+ * Internal dependencies
+ */
+
+
+var build_module_focus = {
+  focusable: focusable_namespaceObject,
+  tabbable: tabbable_namespaceObject
+};
+
+
 
 /***/ })
 

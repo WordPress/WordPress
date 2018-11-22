@@ -82,20 +82,40 @@ this["wp"] = this["wp"] || {}; this["wp"]["htmlEntities"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/html-entities/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 275);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/html-entities/build-module/index.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/html-entities/build-module/index.js ***!
-  \*********************************************************************/
-/*! exports provided: decodeEntities */
+/***/ 275:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"decodeEntities\", function() { return decodeEntities; });\nvar _decodeTextArea;\n\nfunction decodeEntities(html) {\n  // not a string, or no entities to decode\n  if ('string' !== typeof html || -1 === html.indexOf('&')) {\n    return html;\n  } // create a textarea for decoding entities, that we can reuse\n\n\n  if (undefined === _decodeTextArea) {\n    if (document.implementation && document.implementation.createHTMLDocument) {\n      _decodeTextArea = document.implementation.createHTMLDocument('').createElement('textarea');\n    } else {\n      _decodeTextArea = document.createElement('textarea');\n    }\n  }\n\n  _decodeTextArea.innerHTML = html;\n  var decoded = _decodeTextArea.textContent;\n  _decodeTextArea.innerHTML = '';\n  return decoded;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/html-entities/build-module/index.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decodeEntities", function() { return decodeEntities; });
+var _decodeTextArea;
+
+function decodeEntities(html) {
+  // not a string, or no entities to decode
+  if ('string' !== typeof html || -1 === html.indexOf('&')) {
+    return html;
+  } // create a textarea for decoding entities, that we can reuse
+
+
+  if (undefined === _decodeTextArea) {
+    if (document.implementation && document.implementation.createHTMLDocument) {
+      _decodeTextArea = document.implementation.createHTMLDocument('').createElement('textarea');
+    } else {
+      _decodeTextArea = document.createElement('textarea');
+    }
+  }
+
+  _decodeTextArea.innerHTML = html;
+  var decoded = _decodeTextArea.textContent;
+  _decodeTextArea.innerHTML = '';
+  return decoded;
+}
+
 
 /***/ })
 
