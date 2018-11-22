@@ -35,7 +35,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			file_exists( WP_PLUGIN_DIR . '/gutenberg/gutenberg.php' )
 		) : ?>
 			<div class="about-text" style="font-style:italic;">
-				<?php printf( __( 'The Gutenberg plugin has been deactivated, as the features are now included in WordPress %1$s by default. If you&#8217;d like to continue to test the upcoming changes in the WordPress editing experience, please %2$sreactivate the Gutenberg plugin%3$s.' ), $display_version, '<a href="' . esc_url( self_admin_url( 'plugins.php?s=gutenberg&plugin_status=all' ) ) . '">', '</a>' ); ?>
+				<?php
+				printf(
+					/* translators: 1: WordPress version, 2: HTML start tag of link, 3: HTML end tag of link */
+					__( 'The Gutenberg plugin has been deactivated, as the features are now included in WordPress %1$s by default. If you&#8217;d like to continue to test the upcoming changes in the WordPress editing experience, please %2$sreactivate the Gutenberg plugin%3$s.' ),
+					$display_version,
+					'<a href="' . esc_url( self_admin_url( 'plugins.php?s=gutenberg&plugin_status=all' ) ) . '">',
+					'</a>'
+				);
+				?>
 			</div>
 		<?php else : ?>
 			<p class="about-text">
@@ -219,11 +227,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 		</div>
 
-		<div class="feature-section one-col cta">
-			<div class="col">
-				<a class="button button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>"><?php _e( 'Build your first post' ); ?></a>
+		<?php if ( current_user_can( 'edit_posts' ) ) { ?>
+			<div class="feature-section one-col cta">
+				<div class="col">
+					<a class="button button-primary button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>"><?php _e( 'Build your first post' ); ?></a>
+				</div>
 			</div>
-		</div>
+		<?php } ?>
+
 
 		<hr />
 
@@ -264,11 +275,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 		</div>
 
-		<div class="feature-section one-col cta">
-			<div class="col">
-				<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo esc_url( admin_url( 'customize.php?theme=twentynineteen' ) ); ?>"><?php _e( 'Give Twenty Nineteen a try' ); ?></a>
+		<?php if ( current_user_can( 'customize' ) ) { ?>
+			<div class="feature-section one-col cta">
+				<div class="col">
+					<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo esc_url( admin_url( 'customize.php?theme=twentynineteen' ) ); ?>"><?php _e( 'Give Twenty Nineteen a try' ); ?></a>
+				</div>
 			</div>
-		</div>
+		<?php } ?>
 
 		<hr />
 
@@ -315,10 +328,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress until 2021.' ); ?></p>
 				<p><?php _e( 'The Classic Editor plugin restores the previous WordPress editor and the Edit Post screen. It lets you keep using plugins that extend it, add old-style meta boxes, or otherwise depend on the previous editor. To install, visit your plugins page and click the “Install Now” button next to “Classic Editor.” After the plugin finishes installing, click “Activate.” That’s it! ' ); ?></p>
-				<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with Gutenberg, we recommend you continue to use the Classic Editor.' ); ?></p>
-				<div class="col cta">
-					<a class="button button-primary button-hero" href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
-				</div>
+				<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with the block editor, we recommend you continue to use the Classic Editor.' ); ?></p>
+				<?php if ( current_user_can( 'install_plugins' ) ) { ?>
+					<div class="col cta">
+						<a class="button button-primary button-hero" href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 
