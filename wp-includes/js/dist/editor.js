@@ -12539,14 +12539,19 @@ function isPermalinkEditable(state) {
  *
  * @param {Object} state Editor state.
  *
- * @return {string} The permalink.
+ * @return {?string} The permalink, or null if the post is not viewable.
  */
 
 function getPermalink(state) {
-  var _getPermalinkParts = getPermalinkParts(state),
-      prefix = _getPermalinkParts.prefix,
-      postName = _getPermalinkParts.postName,
-      suffix = _getPermalinkParts.suffix;
+  var permalinkParts = getPermalinkParts(state);
+
+  if (!permalinkParts) {
+    return null;
+  }
+
+  var prefix = permalinkParts.prefix,
+      postName = permalinkParts.postName,
+      suffix = permalinkParts.suffix;
 
   if (isPermalinkEditable(state)) {
     return prefix + postName + suffix;
@@ -12555,15 +12560,22 @@ function getPermalink(state) {
   return prefix;
 }
 /**
- * Returns the permalink for a post, split into it's three parts: the prefix, the postName, and the suffix.
+ * Returns the permalink for a post, split into it's three parts: the prefix,
+ * the postName, and the suffix.
  *
  * @param {Object} state Editor state.
  *
- * @return {Object} The prefix, postName, and suffix for the permalink.
+ * @return {Object} An object containing the prefix, postName, and suffix for
+ *                  the permalink, or null if the post is not viewable.
  */
 
 function getPermalinkParts(state) {
   var permalinkTemplate = selectors_getEditedPostAttribute(state, 'permalink_template');
+
+  if (!permalinkTemplate) {
+    return null;
+  }
+
   var postName = selectors_getEditedPostAttribute(state, 'slug') || selectors_getEditedPostAttribute(state, 'generated_slug');
 
   var _permalinkTemplate$sp = permalinkTemplate.split(PERMALINK_POSTNAME_REGEX),
@@ -17643,6 +17655,7 @@ var inserter_defaultRenderToggle = function defaultRenderToggle(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
     icon: "insert",
     label: Object(external_this_wp_i18n_["__"])('Add block'),
+    labelPosition: "bottom",
     onClick: onToggle,
     className: "editor-inserter__toggle",
     "aria-haspopup": "true",
@@ -23399,10 +23412,10 @@ var item_TableOfContentsItem = function TableOfContentsItem(_ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 /**
@@ -23511,10 +23524,9 @@ var document_outline_DocumentOutline = function DocumentOutline(_ref) {
         return onSelectHeading(item.clientId);
       },
       path: item.path
-    }, item.isEmpty ? emptyHeadingContent : Object(external_this_wp_element_["createElement"])(rich_text.Content, {
-      tagName: "span",
-      value: item.attributes.content
-    }), isIncorrectLevel && incorrectLevelContent, item.level === 1 && hasMultipleH1 && multipleH1Headings, hasTitle && item.level === 1 && !hasMultipleH1 && singleH1Headings);
+    }, item.isEmpty ? emptyHeadingContent : Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["create"])({
+      html: item.attributes.content
+    })), isIncorrectLevel && incorrectLevelContent, item.level === 1 && hasMultipleH1 && multipleH1Headings, hasTitle && item.level === 1 && !hasMultipleH1 && singleH1Headings);
   })));
 };
 /* harmony default export */ var document_outline = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select) {
@@ -28890,6 +28902,7 @@ function TableOfContents(_ref) {
         icon: "info-outline",
         "aria-expanded": isOpen,
         label: Object(external_this_wp_i18n_["__"])('Content structure'),
+        labelPosition: "bottom",
         disabled: !hasBlocks
       });
     },
@@ -29985,7 +29998,7 @@ function (_Component) {
         return name;
       });
       var possibleBlockTransformations = Object(external_lodash_["orderBy"])(Object(external_lodash_["filter"])(Object(external_this_wp_blocks_["getPossibleBlockTransformations"])(blocks), function (block) {
-        return !!itemsByName[block.name];
+        return block && !!itemsByName[block.name];
       }), function (block) {
         return itemsByName[block.name].frecency;
       }, 'desc');

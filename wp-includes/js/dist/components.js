@@ -25154,7 +25154,8 @@ function (_Component) {
           className = _this$props.className,
           tooltip = _this$props.tooltip,
           shortcut = _this$props.shortcut,
-          additionalProps = Object(objectWithoutProperties["a" /* default */])(_this$props, ["icon", "children", "label", "className", "tooltip", "shortcut"]);
+          labelPosition = _this$props.labelPosition,
+          additionalProps = Object(objectWithoutProperties["a" /* default */])(_this$props, ["icon", "children", "label", "className", "tooltip", "shortcut", "labelPosition"]);
 
       var classes = classnames_default()('components-icon-button', className);
       var tooltipText = tooltip || label; // Should show the tooltip if...
@@ -25176,7 +25177,8 @@ function (_Component) {
       if (showTooltip) {
         element = Object(external_this_wp_element_["createElement"])(build_module_tooltip, {
           text: tooltipText,
-          shortcut: shortcut
+          shortcut: shortcut,
+          position: labelPosition
         }, element);
       }
 

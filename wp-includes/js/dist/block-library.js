@@ -9335,7 +9335,8 @@ var media_text_settings = {
   keywords: [Object(external_this_wp_i18n_["__"])('image'), Object(external_this_wp_i18n_["__"])('video')],
   attributes: media_text_blockAttributes,
   supports: {
-    align: ['wide', 'full']
+    align: ['wide', 'full'],
+    html: false
   },
   transforms: {
     from: [{

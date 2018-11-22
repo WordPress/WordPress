@@ -2629,6 +2629,7 @@ var more_menu_MoreMenu = function MoreMenu() {
       return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
         icon: "ellipsis",
         label: isOpen ? ariaOpen : ariaClosed,
+        labelPosition: "bottom",
         onClick: onToggle,
         "aria-expanded": isOpen
       });

@@ -2304,8 +2304,6 @@ body.admin-color-light .editor-post-text-editor__link{
     height: 100%; }
     .editor-rich-text__tinymce[data-is-placeholder-visible="true"] > p {
       margin-top: 0; }
-    .editor-rich-text__tinymce[data-is-placeholder-visible="true"] + .editor-rich-text__tinymce {
-      padding-right: 36px; }
   .editor-rich-text__tinymce + .editor-rich-text__tinymce {
     pointer-events: none; }
     .editor-rich-text__tinymce + .editor-rich-text__tinymce,
