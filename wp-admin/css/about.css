@@ -476,6 +476,21 @@
 	margin: 0.6em 0;
 }
 
+.freedoms-php .about-wrap .col .freedoms-image {
+	background-image: url('https://s.w.org/wp-content/themes/pub/wporg-main/images/freedoms-2x.png');
+	background-size: 100%;
+	padding-top: 100%;
+}
+.freedoms-php .about-wrap .col:nth-of-type(2) .freedoms-image {
+	background-position: 0 34%;
+}
+.freedoms-php .about-wrap .col:nth-of-type(3) .freedoms-image {
+	background-position: 0 66%;
+}
+.freedoms-php .about-wrap .col:nth-of-type(4) .freedoms-image {
+	background-position: 0 100%;
+}
+
 /*------------------------------------------------------------------------------
   4.0 - Media Queries
 ------------------------------------------------------------------------------*/
@@ -507,7 +522,7 @@
 	.about-wrap .four-col .col {
 		min-width: 48% !important;
 	}
-	
+
 	.about-wrap .eight-col .col {
 		min-width: 24% !important;
 	}
@@ -518,7 +533,7 @@
 		display: block;
 		margin: 0 auto;
 	}
-	
+
 	.about-wrap figcaption {
 		position: relative;
 		margin-top: 10px;
