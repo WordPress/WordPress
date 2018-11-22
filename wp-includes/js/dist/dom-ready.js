@@ -95,29 +95,8 @@ this["wp"] = this["wp"] || {}; this["wp"]["domReady"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Specify a function to execute when the DOM is fully loaded.
- *
- * @param {Function} callback A function to execute after the DOM is ready.
- *
- * @return {void}
- */
-var domReady = function domReady(callback) {
-  if (document.readyState === 'complete' || // DOMContentLoaded + Images/Styles/etc loaded, so we call directly.
-  document.readyState === 'interactive' // DOMContentLoaded fires at this point, so we call directly.
-  ) {
-      return callback();
-    } // DOMContentLoaded has not fired yet, delay callback until then.
-
-
-  document.addEventListener('DOMContentLoaded', callback);
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (domReady);
-
+eval("__webpack_require__.r(__webpack_exports__);\n/**\n * Specify a function to execute when the DOM is fully loaded.\n *\n * @param {Function} callback A function to execute after the DOM is ready.\n *\n * @return {void}\n */\nvar domReady = function domReady(callback) {\n  if (document.readyState === 'complete' || // DOMContentLoaded + Images/Styles/etc loaded, so we call directly.\n  document.readyState === 'interactive' // DOMContentLoaded fires at this point, so we call directly.\n  ) {\n      return callback();\n    } // DOMContentLoaded has not fired yet, delay callback until then.\n\n\n  document.addEventListener('DOMContentLoaded', callback);\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (domReady);\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/dom-ready/build-module/index.js?");
 
 /***/ })
 
 /******/ })["default"];
-//# sourceMappingURL=dom-ready.js.map

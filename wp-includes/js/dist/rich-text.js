@@ -95,17 +95,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithoutHoles; });
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _arrayWithoutHoles; });\nfunction _arrayWithoutHoles(arr) {\n  if (Array.isArray(arr)) {\n    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {\n      arr2[i] = arr[i];\n    }\n\n    return arr2;\n  }\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js?");
 
 /***/ }),
 
@@ -117,22 +107,7 @@ function _arrayWithoutHoles(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _defineProperty; });\nfunction _defineProperty(obj, key, value) {\n  if (key in obj) {\n    Object.defineProperty(obj, key, {\n      value: value,\n      enumerable: true,\n      configurable: true,\n      writable: true\n    });\n  } else {\n    obj[key] = value;\n  }\n\n  return obj;\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/defineProperty.js?");
 
 /***/ }),
 
@@ -144,25 +119,7 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _extends; });\nfunction _extends() {\n  _extends = Object.assign || function (target) {\n    for (var i = 1; i < arguments.length; i++) {\n      var source = arguments[i];\n\n      for (var key in source) {\n        if (Object.prototype.hasOwnProperty.call(source, key)) {\n          target[key] = source[key];\n        }\n      }\n    }\n\n    return target;\n  };\n\n  return _extends.apply(this, arguments);\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/extends.js?");
 
 /***/ }),
 
@@ -174,11 +131,7 @@ function _extends() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _iterableToArray; });
-function _iterableToArray(iter) {
-  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _iterableToArray; });\nfunction _iterableToArray(iter) {\n  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === \"[object Arguments]\") return Array.from(iter);\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/iterableToArray.js?");
 
 /***/ }),
 
@@ -190,11 +143,7 @@ function _iterableToArray(iter) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableSpread; });
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _nonIterableSpread; });\nfunction _nonIterableSpread() {\n  throw new TypeError(\"Invalid attempt to spread non-iterable instance\");\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js?");
 
 /***/ }),
 
@@ -206,28 +155,7 @@ function _nonIterableSpread() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _objectSpread; });\n/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ \"./node_modules/@babel/runtime/helpers/esm/defineProperty.js\");\n\nfunction _objectSpread(target) {\n  for (var i = 1; i < arguments.length; i++) {\n    var source = arguments[i] != null ? arguments[i] : {};\n    var ownKeys = Object.keys(source);\n\n    if (typeof Object.getOwnPropertySymbols === 'function') {\n      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {\n        return Object.getOwnPropertyDescriptor(source, sym).enumerable;\n      }));\n    }\n\n    ownKeys.forEach(function (key) {\n      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(target, key, source[key]);\n    });\n  }\n\n  return target;\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/objectSpread.js?");
 
 /***/ }),
 
@@ -239,17 +167,7 @@ function _objectSpread(target) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toConsumableArray; });
-/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
-/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
-/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
-
-
-
-function _toConsumableArray(arr) {
-  return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__["default"])();
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _toConsumableArray; });\n/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ \"./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js\");\n/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ \"./node_modules/@babel/runtime/helpers/esm/iterableToArray.js\");\n/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ \"./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js\");\n\n\n\nfunction _toConsumableArray(arr) {\n  return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js?");
 
 /***/ }),
 
@@ -261,23 +179,7 @@ function _toConsumableArray(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typeof; });
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
-    _typeof = function _typeof(obj) {
-      return _typeof2(obj);
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
-    };
-  }
-
-  return _typeof(obj);
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _typeof; });\nfunction _typeof2(obj) { if (typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }; } return _typeof2(obj); }\n\nfunction _typeof(obj) {\n  if (typeof Symbol === \"function\" && _typeof2(Symbol.iterator) === \"symbol\") {\n    _typeof = function _typeof(obj) {\n      return _typeof2(obj);\n    };\n  } else {\n    _typeof = function _typeof(obj) {\n      return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : _typeof2(obj);\n    };\n  }\n\n  return _typeof(obj);\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/typeof.js?");
 
 /***/ }),
 
@@ -289,105 +191,7 @@ function _typeof(obj) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Apply a format object to a Rich Text value from the given `startIndex` to the
- * given `endIndex`. Indices are retrieved from the selection if none are
- * provided.
- *
- * @param {Object} value      Value to modify.
- * @param {Object} format     Format to apply.
- * @param {number} startIndex Start index.
- * @param {number} endIndex   End index.
- *
- * @return {Object} A new value with the format applied.
- */
-
-function applyFormat(_ref, format) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
-  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
-  var newFormats = formats.slice(0); // The selection is collpased.
-
-  if (startIndex === endIndex) {
-    var startFormat = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], {
-      type: format.type
-    }); // If the caret is at a format of the same type, expand start and end to
-    // the edges of the format. This is useful to apply new attributes.
-
-    if (startFormat) {
-      while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], startFormat)) {
-        applyFormats(newFormats, startIndex, format);
-        startIndex--;
-      }
-
-      endIndex++;
-
-      while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[endIndex], startFormat)) {
-        applyFormats(newFormats, endIndex, format);
-        endIndex++;
-      } // Otherwise, insert a placeholder with the format so new input appears
-      // with the format applied.
-
-    } else {
-      var previousFormat = newFormats[startIndex - 1] || [];
-      var hasType = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(previousFormat, {
-        type: format.type
-      });
-      return {
-        formats: formats,
-        text: text,
-        start: start,
-        end: end,
-        formatPlaceholder: {
-          index: startIndex,
-          format: hasType ? undefined : format
-        }
-      };
-    }
-  } else {
-    for (var index = startIndex; index < endIndex; index++) {
-      applyFormats(newFormats, index, format);
-    }
-  }
-
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])({
-    formats: newFormats,
-    text: text,
-    start: start,
-    end: end
-  });
-}
-
-function applyFormats(formats, index, format) {
-  if (formats[index]) {
-    var newFormatsAtIndex = formats[index].filter(function (_ref2) {
-      var type = _ref2.type;
-      return type !== format.type;
-    });
-    newFormatsAtIndex.push(format);
-    formats[index] = newFormatsAtIndex;
-  } else {
-    formats[index] = [format];
-  }
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"applyFormat\", function() { return applyFormat; });\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n/**\n * External dependencies\n */\n\n/**\n * Internal dependencies\n */\n\n\n/**\n * Apply a format object to a Rich Text value from the given `startIndex` to the\n * given `endIndex`. Indices are retrieved from the selection if none are\n * provided.\n *\n * @param {Object} value      Value to modify.\n * @param {Object} format     Format to apply.\n * @param {number} startIndex Start index.\n * @param {number} endIndex   End index.\n *\n * @return {Object} A new value with the format applied.\n */\n\nfunction applyFormat(_ref, format) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;\n  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;\n  var newFormats = formats.slice(0); // The selection is collpased.\n\n  if (startIndex === endIndex) {\n    var startFormat = Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[startIndex], {\n      type: format.type\n    }); // If the caret is at a format of the same type, expand start and end to\n    // the edges of the format. This is useful to apply new attributes.\n\n    if (startFormat) {\n      while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[startIndex], startFormat)) {\n        applyFormats(newFormats, startIndex, format);\n        startIndex--;\n      }\n\n      endIndex++;\n\n      while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[endIndex], startFormat)) {\n        applyFormats(newFormats, endIndex, format);\n        endIndex++;\n      } // Otherwise, insert a placeholder with the format so new input appears\n      // with the format applied.\n\n    } else {\n      var previousFormat = newFormats[startIndex - 1] || [];\n      var hasType = Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(previousFormat, {\n        type: format.type\n      });\n      return {\n        formats: formats,\n        text: text,\n        start: start,\n        end: end,\n        formatPlaceholder: {\n          index: startIndex,\n          format: hasType ? undefined : format\n        }\n      };\n    }\n  } else {\n    for (var index = startIndex; index < endIndex; index++) {\n      applyFormats(newFormats, index, format);\n    }\n  }\n\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__[\"normaliseFormats\"])({\n    formats: newFormats,\n    text: text,\n    start: start,\n    end: end\n  });\n}\n\nfunction applyFormats(formats, index, format) {\n  if (formats[index]) {\n    var newFormatsAtIndex = formats[index].filter(function (_ref2) {\n      var type = _ref2.type;\n      return type !== format.type;\n    });\n    newFormatsAtIndex.push(format);\n    formats[index] = newFormatsAtIndex;\n  } else {\n    formats[index] = [format];\n  }\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/apply-format.js?");
 
 /***/ }),
 
@@ -399,22 +203,7 @@ function applyFormats(formats, index, format) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "charAt", function() { return charAt; });
-/**
- * Gets the character at the specified index, or returns `undefined` if no
- * character was found.
- *
- * @param {Object} value Value to get the character from.
- * @param {string} index Index to use.
- *
- * @return {?string} A one character long string, or undefined.
- */
-function charAt(_ref, index) {
-  var text = _ref.text;
-  return text[index];
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"charAt\", function() { return charAt; });\n/**\n * Gets the character at the specified index, or returns `undefined` if no\n * character was found.\n *\n * @param {Object} value Value to get the character from.\n * @param {string} index Index to use.\n *\n * @return {?string} A one character long string, or undefined.\n */\nfunction charAt(_ref, index) {\n  var text = _ref.text;\n  return text[index];\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/char-at.js?");
 
 /***/ }),
 
@@ -426,37 +215,7 @@ function charAt(_ref, index) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return concat; });
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Combine all Rich Text values into one. This is similar to
- * `String.prototype.concat`.
- *
- * @param {...[object]} values An array of all values to combine.
- *
- * @return {Object} A new value combining all given records.
- */
-
-function concat() {
-  for (var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++) {
-    values[_key] = arguments[_key];
-  }
-
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_0__["normaliseFormats"])(values.reduce(function (accumlator, _ref) {
-    var formats = _ref.formats,
-        text = _ref.text;
-    return {
-      text: accumlator.text + text,
-      formats: accumlator.formats.concat(formats)
-    };
-  }));
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"concat\", function() { return concat; });\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n/**\n * Internal dependencies\n */\n\n/**\n * Combine all Rich Text values into one. This is similar to\n * `String.prototype.concat`.\n *\n * @param {...[object]} values An array of all values to combine.\n *\n * @return {Object} A new value combining all given records.\n */\n\nfunction concat() {\n  for (var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++) {\n    values[_key] = arguments[_key];\n  }\n\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_0__[\"normaliseFormats\"])(values.reduce(function (accumlator, _ref) {\n    var formats = _ref.formats,\n        text = _ref.text;\n    return {\n      text: accumlator.text + text,\n      formats: accumlator.formats.concat(formats)\n    };\n  }));\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/concat.js?");
 
 /***/ }),
 
@@ -468,26 +227,7 @@ function concat() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return createElement; });
-/**
- * Parse the given HTML into a body element.
- *
- * @param {HTMLDocument} document The HTML document to use to parse.
- * @param {string}       html     The HTML to parse.
- *
- * @return {HTMLBodyElement} Body element with parsed HTML.
- */
-function createElement(_ref, html) {
-  var implementation = _ref.implementation;
-
-  var _implementation$creat = implementation.createHTMLDocument(''),
-      body = _implementation$creat.body;
-
-  body.innerHTML = html;
-  return body;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createElement\", function() { return createElement; });\n/**\n * Parse the given HTML into a body element.\n *\n * @param {HTMLDocument} document The HTML document to use to parse.\n * @param {string}       html     The HTML to parse.\n *\n * @return {HTMLBodyElement} Body element with parsed HTML.\n */\nfunction createElement(_ref, html) {\n  var implementation = _ref.implementation;\n\n  var _implementation$creat = implementation.createHTMLDocument(''),\n      body = _implementation$creat.body;\n\n  body.innerHTML = html;\n  return body;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/create-element.js?");
 
 /***/ }),
 
@@ -499,600 +239,7 @@ function createElement(_ref, html) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
-/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./is-format-equal */ "./node_modules/@wordpress/rich-text/build-module/is-format-equal.js");
-/* harmony import */ var _create_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./create-element */ "./node_modules/@wordpress/rich-text/build-module/create-element.js");
-/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-
-/**
- * Browser dependencies
- */
-
-var _window$Node = window.Node,
-    TEXT_NODE = _window$Node.TEXT_NODE,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE;
-
-function createEmptyValue() {
-  return {
-    formats: [],
-    text: ''
-  };
-}
-
-function simpleFindKey(object, value) {
-  for (var key in object) {
-    if (object[key] === value) {
-      return key;
-    }
-  }
-}
-
-function toFormat(_ref) {
-  var type = _ref.type,
-      attributes = _ref.attributes;
-  var formatType;
-
-  if (attributes && attributes.class) {
-    formatType = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["select"])('core/rich-text').getFormatTypeForClassName(attributes.class);
-
-    if (formatType) {
-      // Preserve any additional classes.
-      attributes.class = " ".concat(attributes.class, " ").replace(" ".concat(formatType.className, " "), ' ').trim();
-
-      if (!attributes.class) {
-        delete attributes.class;
-      }
-    }
-  }
-
-  if (!formatType) {
-    formatType = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["select"])('core/rich-text').getFormatTypeForBareElement(type);
-  }
-
-  if (!formatType) {
-    return attributes ? {
-      type: type,
-      attributes: attributes
-    } : {
-      type: type
-    };
-  }
-
-  if (!attributes) {
-    return {
-      type: formatType.name
-    };
-  }
-
-  var registeredAttributes = {};
-  var unregisteredAttributes = {};
-
-  for (var name in attributes) {
-    var key = simpleFindKey(formatType.attributes, name);
-
-    if (key) {
-      registeredAttributes[key] = attributes[name];
-    } else {
-      unregisteredAttributes[name] = attributes[name];
-    }
-  }
-
-  return {
-    type: formatType.name,
-    attributes: registeredAttributes,
-    unregisteredAttributes: unregisteredAttributes
-  };
-}
-/**
- * Create a RichText value from an `Element` tree (DOM), an HTML string or a
- * plain text string, with optionally a `Range` object to set the selection. If
- * called without any input, an empty value will be created. If
- * `multilineTag` is provided, any content of direct children whose type matches
- * `multilineTag` will be separated by two newlines. The optional functions can
- * be used to filter out content.
- *
- * @param {?Object}   $1                      Optional named argements.
- * @param {?Element}  $1.element              Element to create value from.
- * @param {?string}   $1.text                 Text to create value from.
- * @param {?string}   $1.html                 HTML to create value from.
- * @param {?Range}    $1.range                Range to create value from.
- * @param {?string}   $1.multilineTag         Multiline tag if the structure is
- *                                            multiline.
- * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
- *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
- *
- * @return {Object} A rich text value.
- */
-
-
-function create() {
-  var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      element = _ref2.element,
-      text = _ref2.text,
-      html = _ref2.html,
-      range = _ref2.range,
-      multilineTag = _ref2.multilineTag,
-      multilineWrapperTags = _ref2.multilineWrapperTags,
-      removeNode = _ref2.removeNode,
-      unwrapNode = _ref2.unwrapNode,
-      filterString = _ref2.filterString,
-      removeAttribute = _ref2.removeAttribute;
-
-  if (typeof text === 'string' && text.length > 0) {
-    return {
-      formats: Array(text.length),
-      text: text
-    };
-  }
-
-  if (typeof html === 'string' && html.length > 0) {
-    element = Object(_create_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(document, html);
-  }
-
-  if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__["default"])(element) !== 'object') {
-    return createEmptyValue();
-  }
-
-  if (!multilineTag) {
-    return createFromElement({
-      element: element,
-      range: range,
-      removeNode: removeNode,
-      unwrapNode: unwrapNode,
-      filterString: filterString,
-      removeAttribute: removeAttribute
-    });
-  }
-
-  return createFromMultilineElement({
-    element: element,
-    range: range,
-    multilineTag: multilineTag,
-    multilineWrapperTags: multilineWrapperTags,
-    removeNode: removeNode,
-    unwrapNode: unwrapNode,
-    filterString: filterString,
-    removeAttribute: removeAttribute
-  });
-}
-/**
- * Helper to accumulate the value's selection start and end from the current
- * node and range.
- *
- * @param {Object} accumulator Object to accumulate into.
- * @param {Node}   node        Node to create value with.
- * @param {Range}  range       Range to create value with.
- * @param {Object} value       Value that is being accumulated.
- */
-
-function accumulateSelection(accumulator, node, range, value) {
-  if (!range) {
-    return;
-  }
-
-  var parentNode = node.parentNode;
-  var startContainer = range.startContainer,
-      startOffset = range.startOffset,
-      endContainer = range.endContainer,
-      endOffset = range.endOffset;
-  var currentLength = accumulator.text.length; // Selection can be extracted from value.
-
-  if (value.start !== undefined) {
-    accumulator.start = currentLength + value.start; // Range indicates that the current node has selection.
-  } else if (node === startContainer && node.nodeType === TEXT_NODE) {
-    accumulator.start = currentLength + startOffset; // Range indicates that the current node is selected.
-  } else if (parentNode === startContainer && node === startContainer.childNodes[startOffset]) {
-    accumulator.start = currentLength; // Range indicates that the selection is after the current node.
-  } else if (parentNode === startContainer && node === startContainer.childNodes[startOffset - 1]) {
-    accumulator.start = currentLength + value.text.length; // Fallback if no child inside handled the selection.
-  } else if (node === startContainer) {
-    accumulator.start = currentLength;
-  } // Selection can be extracted from value.
-
-
-  if (value.end !== undefined) {
-    accumulator.end = currentLength + value.end; // Range indicates that the current node has selection.
-  } else if (node === endContainer && node.nodeType === TEXT_NODE) {
-    accumulator.end = currentLength + endOffset; // Range indicates that the current node is selected.
-  } else if (parentNode === endContainer && node === endContainer.childNodes[endOffset - 1]) {
-    accumulator.end = currentLength + value.text.length; // Range indicates that the selection is before the current node.
-  } else if (parentNode === endContainer && node === endContainer.childNodes[endOffset]) {
-    accumulator.end = currentLength; // Fallback if no child inside handled the selection.
-  } else if (node === endContainer) {
-    accumulator.end = currentLength + endOffset;
-  }
-}
-/**
- * Adjusts the start and end offsets from a range based on a text filter.
- *
- * @param {Node}     node   Node of which the text should be filtered.
- * @param {Range}    range  The range to filter.
- * @param {Function} filter Function to use to filter the text.
- *
- * @return {?Object} Object containing range properties.
- */
-
-
-function filterRange(node, range, filter) {
-  if (!range) {
-    return;
-  }
-
-  var startContainer = range.startContainer,
-      endContainer = range.endContainer;
-  var startOffset = range.startOffset,
-      endOffset = range.endOffset;
-
-  if (node === startContainer) {
-    startOffset = filter(node.nodeValue.slice(0, startOffset)).length;
-  }
-
-  if (node === endContainer) {
-    endOffset = filter(node.nodeValue.slice(0, endOffset)).length;
-  }
-
-  return {
-    startContainer: startContainer,
-    startOffset: startOffset,
-    endContainer: endContainer,
-    endOffset: endOffset
-  };
-}
-/**
- * Creates a Rich Text value from a DOM element and range.
- *
- * @param {Object}    $1                      Named argements.
- * @param {?Element}  $1.element              Element to create value from.
- * @param {?Range}    $1.range                Range to create value from.
- * @param {?string}   $1.multilineTag         Multiline tag if the structure is
- *                                            multiline.
- * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
- *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
- *
- * @return {Object} A rich text value.
- */
-
-
-function createFromElement(_ref3) {
-  var element = _ref3.element,
-      range = _ref3.range,
-      multilineTag = _ref3.multilineTag,
-      multilineWrapperTags = _ref3.multilineWrapperTags,
-      _ref3$currentWrapperT = _ref3.currentWrapperTags,
-      currentWrapperTags = _ref3$currentWrapperT === void 0 ? [] : _ref3$currentWrapperT,
-      removeNode = _ref3.removeNode,
-      unwrapNode = _ref3.unwrapNode,
-      filterString = _ref3.filterString,
-      removeAttribute = _ref3.removeAttribute;
-  var accumulator = createEmptyValue();
-
-  if (!element) {
-    return accumulator;
-  }
-
-  if (!element.hasChildNodes()) {
-    accumulateSelection(accumulator, element, range, createEmptyValue());
-    return accumulator;
-  }
-
-  var length = element.childNodes.length; // Remove any line breaks in text nodes. They are not content, but used to
-  // format the HTML. Line breaks in HTML are stored as BR elements.
-  // See https://www.w3.org/TR/html5/syntax.html#newlines.
-
-  var filterStringComplete = function filterStringComplete(string) {
-    string = string.replace(/[\r\n]/g, '');
-
-    if (filterString) {
-      string = filterString(string);
-    }
-
-    return string;
-  }; // Optimise for speed.
-
-
-  for (var index = 0; index < length; index++) {
-    var node = element.childNodes[index];
-    var type = node.nodeName.toLowerCase();
-
-    if (node.nodeType === TEXT_NODE) {
-      var _text = filterStringComplete(node.nodeValue);
-
-      range = filterRange(node, range, filterStringComplete);
-      accumulateSelection(accumulator, node, range, {
-        text: _text
-      });
-      accumulator.text += _text; // Create a sparse array of the same length as `text`, in which
-      // formats can be added.
-
-      accumulator.formats.length += _text.length;
-      continue;
-    }
-
-    if (node.nodeType !== ELEMENT_NODE) {
-      continue;
-    }
-
-    if (removeNode && removeNode(node) || unwrapNode && unwrapNode(node) && !node.hasChildNodes()) {
-      accumulateSelection(accumulator, node, range, createEmptyValue());
-      continue;
-    }
-
-    if (type === 'br') {
-      accumulateSelection(accumulator, node, range, createEmptyValue());
-      accumulator.text += '\n';
-      accumulator.formats.length += 1;
-      continue;
-    }
-
-    var lastFormats = accumulator.formats[accumulator.formats.length - 1];
-    var lastFormat = lastFormats && lastFormats[lastFormats.length - 1];
-    var format = void 0;
-    var value = void 0;
-
-    if (!unwrapNode || !unwrapNode(node)) {
-      var newFormat = toFormat({
-        type: type,
-        attributes: getAttributes({
-          element: node,
-          removeAttribute: removeAttribute
-        })
-      });
-
-      if (newFormat) {
-        // Reuse the last format if it's equal.
-        if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_4__["isFormatEqual"])(newFormat, lastFormat)) {
-          format = lastFormat;
-        } else {
-          format = newFormat;
-        }
-      }
-    }
-
-    if (multilineWrapperTags && multilineWrapperTags.indexOf(type) !== -1) {
-      value = createFromMultilineElement({
-        element: node,
-        range: range,
-        multilineTag: multilineTag,
-        multilineWrapperTags: multilineWrapperTags,
-        removeNode: removeNode,
-        unwrapNode: unwrapNode,
-        filterString: filterString,
-        removeAttribute: removeAttribute,
-        currentWrapperTags: Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(currentWrapperTags).concat([format])
-      });
-      format = undefined;
-    } else {
-      value = createFromElement({
-        element: node,
-        range: range,
-        multilineTag: multilineTag,
-        multilineWrapperTags: multilineWrapperTags,
-        removeNode: removeNode,
-        unwrapNode: unwrapNode,
-        filterString: filterString,
-        removeAttribute: removeAttribute
-      });
-    }
-
-    var text = value.text;
-    var start = accumulator.text.length;
-    accumulateSelection(accumulator, node, range, value); // Don't apply the element as formatting if it has no content.
-
-    if (Object(_is_empty__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(value) && format && !format.attributes) {
-      continue;
-    }
-
-    var formats = accumulator.formats;
-
-    if (format && format.attributes && text.length === 0) {
-      format.object = true;
-      accumulator.text += _special_characters__WEBPACK_IMPORTED_MODULE_6__["OBJECT_REPLACEMENT_CHARACTER"];
-
-      if (formats[start]) {
-        formats[start].unshift(format);
-      } else {
-        formats[start] = [format];
-      }
-    } else {
-      accumulator.text += text;
-      accumulator.formats.length += text.length;
-      var i = value.formats.length; // Optimise for speed.
-
-      while (i--) {
-        var formatIndex = start + i;
-
-        if (format) {
-          if (formats[formatIndex]) {
-            formats[formatIndex].push(format);
-          } else {
-            formats[formatIndex] = [format];
-          }
-        }
-
-        if (value.formats[i]) {
-          if (formats[formatIndex]) {
-            var _formats$formatIndex;
-
-            (_formats$formatIndex = formats[formatIndex]).push.apply(_formats$formatIndex, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(value.formats[i]));
-          } else {
-            formats[formatIndex] = value.formats[i];
-          }
-        }
-      }
-    }
-  }
-
-  return accumulator;
-}
-/**
- * Creates a rich text value from a DOM element and range that should be
- * multiline.
- *
- * @param {Object}    $1                      Named argements.
- * @param {?Element}  $1.element              Element to create value from.
- * @param {?Range}    $1.range                Range to create value from.
- * @param {?string}   $1.multilineTag         Multiline tag if the structure is
- *                                            multiline.
- * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
- *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
- * @param {boolean}   $1.currentWrapperTags   Whether to prepend a line
- *                                            separator.
- *
- * @return {Object} A rich text value.
- */
-
-
-function createFromMultilineElement(_ref4) {
-  var element = _ref4.element,
-      range = _ref4.range,
-      multilineTag = _ref4.multilineTag,
-      multilineWrapperTags = _ref4.multilineWrapperTags,
-      removeNode = _ref4.removeNode,
-      unwrapNode = _ref4.unwrapNode,
-      filterString = _ref4.filterString,
-      removeAttribute = _ref4.removeAttribute,
-      _ref4$currentWrapperT = _ref4.currentWrapperTags,
-      currentWrapperTags = _ref4$currentWrapperT === void 0 ? [] : _ref4$currentWrapperT;
-  var accumulator = createEmptyValue();
-
-  if (!element || !element.hasChildNodes()) {
-    return accumulator;
-  }
-
-  var length = element.children.length; // Optimise for speed.
-
-  for (var index = 0; index < length; index++) {
-    var node = element.children[index];
-
-    if (node.nodeName.toLowerCase() !== multilineTag) {
-      continue;
-    }
-
-    var value = createFromElement({
-      element: node,
-      range: range,
-      multilineTag: multilineTag,
-      multilineWrapperTags: multilineWrapperTags,
-      currentWrapperTags: currentWrapperTags,
-      removeNode: removeNode,
-      unwrapNode: unwrapNode,
-      filterString: filterString,
-      removeAttribute: removeAttribute
-    }); // If a line consists of one single line break (invisible), consider the
-    // line empty, wether this is the browser's doing or not.
-
-    if (value.text === '\n') {
-      var start = value.start;
-      var end = value.end;
-      value = createEmptyValue();
-
-      if (start !== undefined) {
-        value.start = 0;
-      }
-
-      if (end !== undefined) {
-        value.end = 0;
-      }
-    } // Multiline value text should be separated by a double line break.
-
-
-    if (index !== 0 || currentWrapperTags.length > 0) {
-      var formats = currentWrapperTags.length > 0 ? [currentWrapperTags] : [,];
-      accumulator.formats = accumulator.formats.concat(formats);
-      accumulator.text += _special_characters__WEBPACK_IMPORTED_MODULE_6__["LINE_SEPARATOR"];
-    }
-
-    accumulateSelection(accumulator, node, range, value);
-    accumulator.formats = accumulator.formats.concat(value.formats);
-    accumulator.text += value.text;
-  }
-
-  return accumulator;
-}
-/**
- * Gets the attributes of an element in object shape.
- *
- * @param {Object}    $1                 Named argements.
- * @param {Element}   $1.element         Element to get attributes from.
- * @param {?Function} $1.removeAttribute Wether to remove an attribute based on
- *                                       the name.
- *
- * @return {?Object} Attribute object or `undefined` if the element has no
- *                   attributes.
- */
-
-
-function getAttributes(_ref5) {
-  var element = _ref5.element,
-      removeAttribute = _ref5.removeAttribute;
-
-  if (!element.hasAttributes()) {
-    return;
-  }
-
-  var length = element.attributes.length;
-  var accumulator; // Optimise for speed.
-
-  for (var i = 0; i < length; i++) {
-    var _element$attributes$i = element.attributes[i],
-        name = _element$attributes$i.name,
-        value = _element$attributes$i.value;
-
-    if (removeAttribute && removeAttribute(name)) {
-      continue;
-    }
-
-    accumulator = accumulator || {};
-    accumulator[name] = value;
-  }
-
-  return accumulator;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"create\", function() { return create; });\n/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ \"./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ \"./node_modules/@babel/runtime/helpers/esm/typeof.js\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./is-empty */ \"./node_modules/@wordpress/rich-text/build-module/is-empty.js\");\n/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./is-format-equal */ \"./node_modules/@wordpress/rich-text/build-module/is-format-equal.js\");\n/* harmony import */ var _create_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./create-element */ \"./node_modules/@wordpress/rich-text/build-module/create-element.js\");\n/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./special-characters */ \"./node_modules/@wordpress/rich-text/build-module/special-characters.js\");\n\n\n\n/**\n * WordPress dependencies\n */\n\n/**\n * Internal dependencies\n */\n\n\n\n\n\n/**\n * Browser dependencies\n */\n\nvar _window$Node = window.Node,\n    TEXT_NODE = _window$Node.TEXT_NODE,\n    ELEMENT_NODE = _window$Node.ELEMENT_NODE;\n\nfunction createEmptyValue() {\n  return {\n    formats: [],\n    text: ''\n  };\n}\n\nfunction simpleFindKey(object, value) {\n  for (var key in object) {\n    if (object[key] === value) {\n      return key;\n    }\n  }\n}\n\nfunction toFormat(_ref) {\n  var type = _ref.type,\n      attributes = _ref.attributes;\n  var formatType;\n\n  if (attributes && attributes.class) {\n    formatType = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__[\"select\"])('core/rich-text').getFormatTypeForClassName(attributes.class);\n\n    if (formatType) {\n      // Preserve any additional classes.\n      attributes.class = \" \".concat(attributes.class, \" \").replace(\" \".concat(formatType.className, \" \"), ' ').trim();\n\n      if (!attributes.class) {\n        delete attributes.class;\n      }\n    }\n  }\n\n  if (!formatType) {\n    formatType = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__[\"select\"])('core/rich-text').getFormatTypeForBareElement(type);\n  }\n\n  if (!formatType) {\n    return attributes ? {\n      type: type,\n      attributes: attributes\n    } : {\n      type: type\n    };\n  }\n\n  if (!attributes) {\n    return {\n      type: formatType.name\n    };\n  }\n\n  var registeredAttributes = {};\n  var unregisteredAttributes = {};\n\n  for (var name in attributes) {\n    var key = simpleFindKey(formatType.attributes, name);\n\n    if (key) {\n      registeredAttributes[key] = attributes[name];\n    } else {\n      unregisteredAttributes[name] = attributes[name];\n    }\n  }\n\n  return {\n    type: formatType.name,\n    attributes: registeredAttributes,\n    unregisteredAttributes: unregisteredAttributes\n  };\n}\n/**\n * Create a RichText value from an `Element` tree (DOM), an HTML string or a\n * plain text string, with optionally a `Range` object to set the selection. If\n * called without any input, an empty value will be created. If\n * `multilineTag` is provided, any content of direct children whose type matches\n * `multilineTag` will be separated by two newlines. The optional functions can\n * be used to filter out content.\n *\n * @param {?Object}   $1                      Optional named argements.\n * @param {?Element}  $1.element              Element to create value from.\n * @param {?string}   $1.text                 Text to create value from.\n * @param {?string}   $1.html                 HTML to create value from.\n * @param {?Range}    $1.range                Range to create value from.\n * @param {?string}   $1.multilineTag         Multiline tag if the structure is\n *                                            multiline.\n * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if\n *                                            nesting is possible.\n * @param {?Function} $1.removeNode           Function to declare whether the\n *                                            given node should be removed.\n * @param {?Function} $1.unwrapNode           Function to declare whether the\n *                                            given node should be unwrapped.\n * @param {?Function} $1.filterString         Function to filter the given\n *                                            string.\n * @param {?Function} $1.removeAttribute      Wether to remove an attribute\n *                                            based on the name.\n *\n * @return {Object} A rich text value.\n */\n\n\nfunction create() {\n  var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},\n      element = _ref2.element,\n      text = _ref2.text,\n      html = _ref2.html,\n      range = _ref2.range,\n      multilineTag = _ref2.multilineTag,\n      multilineWrapperTags = _ref2.multilineWrapperTags,\n      removeNode = _ref2.removeNode,\n      unwrapNode = _ref2.unwrapNode,\n      filterString = _ref2.filterString,\n      removeAttribute = _ref2.removeAttribute;\n\n  if (typeof text === 'string' && text.length > 0) {\n    return {\n      formats: Array(text.length),\n      text: text\n    };\n  }\n\n  if (typeof html === 'string' && html.length > 0) {\n    element = Object(_create_element__WEBPACK_IMPORTED_MODULE_5__[\"createElement\"])(document, html);\n  }\n\n  if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element) !== 'object') {\n    return createEmptyValue();\n  }\n\n  if (!multilineTag) {\n    return createFromElement({\n      element: element,\n      range: range,\n      removeNode: removeNode,\n      unwrapNode: unwrapNode,\n      filterString: filterString,\n      removeAttribute: removeAttribute\n    });\n  }\n\n  return createFromMultilineElement({\n    element: element,\n    range: range,\n    multilineTag: multilineTag,\n    multilineWrapperTags: multilineWrapperTags,\n    removeNode: removeNode,\n    unwrapNode: unwrapNode,\n    filterString: filterString,\n    removeAttribute: removeAttribute\n  });\n}\n/**\n * Helper to accumulate the value's selection start and end from the current\n * node and range.\n *\n * @param {Object} accumulator Object to accumulate into.\n * @param {Node}   node        Node to create value with.\n * @param {Range}  range       Range to create value with.\n * @param {Object} value       Value that is being accumulated.\n */\n\nfunction accumulateSelection(accumulator, node, range, value) {\n  if (!range) {\n    return;\n  }\n\n  var parentNode = node.parentNode;\n  var startContainer = range.startContainer,\n      startOffset = range.startOffset,\n      endContainer = range.endContainer,\n      endOffset = range.endOffset;\n  var currentLength = accumulator.text.length; // Selection can be extracted from value.\n\n  if (value.start !== undefined) {\n    accumulator.start = currentLength + value.start; // Range indicates that the current node has selection.\n  } else if (node === startContainer && node.nodeType === TEXT_NODE) {\n    accumulator.start = currentLength + startOffset; // Range indicates that the current node is selected.\n  } else if (parentNode === startContainer && node === startContainer.childNodes[startOffset]) {\n    accumulator.start = currentLength; // Range indicates that the selection is after the current node.\n  } else if (parentNode === startContainer && node === startContainer.childNodes[startOffset - 1]) {\n    accumulator.start = currentLength + value.text.length; // Fallback if no child inside handled the selection.\n  } else if (node === startContainer) {\n    accumulator.start = currentLength;\n  } // Selection can be extracted from value.\n\n\n  if (value.end !== undefined) {\n    accumulator.end = currentLength + value.end; // Range indicates that the current node has selection.\n  } else if (node === endContainer && node.nodeType === TEXT_NODE) {\n    accumulator.end = currentLength + endOffset; // Range indicates that the current node is selected.\n  } else if (parentNode === endContainer && node === endContainer.childNodes[endOffset - 1]) {\n    accumulator.end = currentLength + value.text.length; // Range indicates that the selection is before the current node.\n  } else if (parentNode === endContainer && node === endContainer.childNodes[endOffset]) {\n    accumulator.end = currentLength; // Fallback if no child inside handled the selection.\n  } else if (node === endContainer) {\n    accumulator.end = currentLength + endOffset;\n  }\n}\n/**\n * Adjusts the start and end offsets from a range based on a text filter.\n *\n * @param {Node}     node   Node of which the text should be filtered.\n * @param {Range}    range  The range to filter.\n * @param {Function} filter Function to use to filter the text.\n *\n * @return {?Object} Object containing range properties.\n */\n\n\nfunction filterRange(node, range, filter) {\n  if (!range) {\n    return;\n  }\n\n  var startContainer = range.startContainer,\n      endContainer = range.endContainer;\n  var startOffset = range.startOffset,\n      endOffset = range.endOffset;\n\n  if (node === startContainer) {\n    startOffset = filter(node.nodeValue.slice(0, startOffset)).length;\n  }\n\n  if (node === endContainer) {\n    endOffset = filter(node.nodeValue.slice(0, endOffset)).length;\n  }\n\n  return {\n    startContainer: startContainer,\n    startOffset: startOffset,\n    endContainer: endContainer,\n    endOffset: endOffset\n  };\n}\n/**\n * Creates a Rich Text value from a DOM element and range.\n *\n * @param {Object}    $1                      Named argements.\n * @param {?Element}  $1.element              Element to create value from.\n * @param {?Range}    $1.range                Range to create value from.\n * @param {?string}   $1.multilineTag         Multiline tag if the structure is\n *                                            multiline.\n * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if\n *                                            nesting is possible.\n * @param {?Function} $1.removeNode           Function to declare whether the\n *                                            given node should be removed.\n * @param {?Function} $1.unwrapNode           Function to declare whether the\n *                                            given node should be unwrapped.\n * @param {?Function} $1.filterString         Function to filter the given\n *                                            string.\n * @param {?Function} $1.removeAttribute      Wether to remove an attribute\n *                                            based on the name.\n *\n * @return {Object} A rich text value.\n */\n\n\nfunction createFromElement(_ref3) {\n  var element = _ref3.element,\n      range = _ref3.range,\n      multilineTag = _ref3.multilineTag,\n      multilineWrapperTags = _ref3.multilineWrapperTags,\n      _ref3$currentWrapperT = _ref3.currentWrapperTags,\n      currentWrapperTags = _ref3$currentWrapperT === void 0 ? [] : _ref3$currentWrapperT,\n      removeNode = _ref3.removeNode,\n      unwrapNode = _ref3.unwrapNode,\n      filterString = _ref3.filterString,\n      removeAttribute = _ref3.removeAttribute;\n  var accumulator = createEmptyValue();\n\n  if (!element) {\n    return accumulator;\n  }\n\n  if (!element.hasChildNodes()) {\n    accumulateSelection(accumulator, element, range, createEmptyValue());\n    return accumulator;\n  }\n\n  var length = element.childNodes.length; // Remove any line breaks in text nodes. They are not content, but used to\n  // format the HTML. Line breaks in HTML are stored as BR elements.\n  // See https://www.w3.org/TR/html5/syntax.html#newlines.\n\n  var filterStringComplete = function filterStringComplete(string) {\n    string = string.replace(/[\\r\\n]/g, '');\n\n    if (filterString) {\n      string = filterString(string);\n    }\n\n    return string;\n  }; // Optimise for speed.\n\n\n  for (var index = 0; index < length; index++) {\n    var node = element.childNodes[index];\n    var type = node.nodeName.toLowerCase();\n\n    if (node.nodeType === TEXT_NODE) {\n      var _text = filterStringComplete(node.nodeValue);\n\n      range = filterRange(node, range, filterStringComplete);\n      accumulateSelection(accumulator, node, range, {\n        text: _text\n      });\n      accumulator.text += _text; // Create a sparse array of the same length as `text`, in which\n      // formats can be added.\n\n      accumulator.formats.length += _text.length;\n      continue;\n    }\n\n    if (node.nodeType !== ELEMENT_NODE) {\n      continue;\n    }\n\n    if (removeNode && removeNode(node) || unwrapNode && unwrapNode(node) && !node.hasChildNodes()) {\n      accumulateSelection(accumulator, node, range, createEmptyValue());\n      continue;\n    }\n\n    if (type === 'br') {\n      accumulateSelection(accumulator, node, range, createEmptyValue());\n      accumulator.text += '\\n';\n      accumulator.formats.length += 1;\n      continue;\n    }\n\n    var lastFormats = accumulator.formats[accumulator.formats.length - 1];\n    var lastFormat = lastFormats && lastFormats[lastFormats.length - 1];\n    var format = void 0;\n    var value = void 0;\n\n    if (!unwrapNode || !unwrapNode(node)) {\n      var newFormat = toFormat({\n        type: type,\n        attributes: getAttributes({\n          element: node,\n          removeAttribute: removeAttribute\n        })\n      });\n\n      if (newFormat) {\n        // Reuse the last format if it's equal.\n        if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_4__[\"isFormatEqual\"])(newFormat, lastFormat)) {\n          format = lastFormat;\n        } else {\n          format = newFormat;\n        }\n      }\n    }\n\n    if (multilineWrapperTags && multilineWrapperTags.indexOf(type) !== -1) {\n      value = createFromMultilineElement({\n        element: node,\n        range: range,\n        multilineTag: multilineTag,\n        multilineWrapperTags: multilineWrapperTags,\n        removeNode: removeNode,\n        unwrapNode: unwrapNode,\n        filterString: filterString,\n        removeAttribute: removeAttribute,\n        currentWrapperTags: Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(currentWrapperTags).concat([format])\n      });\n      format = undefined;\n    } else {\n      value = createFromElement({\n        element: node,\n        range: range,\n        multilineTag: multilineTag,\n        multilineWrapperTags: multilineWrapperTags,\n        removeNode: removeNode,\n        unwrapNode: unwrapNode,\n        filterString: filterString,\n        removeAttribute: removeAttribute\n      });\n    }\n\n    var text = value.text;\n    var start = accumulator.text.length;\n    accumulateSelection(accumulator, node, range, value); // Don't apply the element as formatting if it has no content.\n\n    if (Object(_is_empty__WEBPACK_IMPORTED_MODULE_3__[\"isEmpty\"])(value) && format && !format.attributes) {\n      continue;\n    }\n\n    var formats = accumulator.formats;\n\n    if (format && format.attributes && text.length === 0) {\n      format.object = true;\n      accumulator.text += _special_characters__WEBPACK_IMPORTED_MODULE_6__[\"OBJECT_REPLACEMENT_CHARACTER\"];\n\n      if (formats[start]) {\n        formats[start].unshift(format);\n      } else {\n        formats[start] = [format];\n      }\n    } else {\n      accumulator.text += text;\n      accumulator.formats.length += text.length;\n      var i = value.formats.length; // Optimise for speed.\n\n      while (i--) {\n        var formatIndex = start + i;\n\n        if (format) {\n          if (formats[formatIndex]) {\n            formats[formatIndex].push(format);\n          } else {\n            formats[formatIndex] = [format];\n          }\n        }\n\n        if (value.formats[i]) {\n          if (formats[formatIndex]) {\n            var _formats$formatIndex;\n\n            (_formats$formatIndex = formats[formatIndex]).push.apply(_formats$formatIndex, Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(value.formats[i]));\n          } else {\n            formats[formatIndex] = value.formats[i];\n          }\n        }\n      }\n    }\n  }\n\n  return accumulator;\n}\n/**\n * Creates a rich text value from a DOM element and range that should be\n * multiline.\n *\n * @param {Object}    $1                      Named argements.\n * @param {?Element}  $1.element              Element to create value from.\n * @param {?Range}    $1.range                Range to create value from.\n * @param {?string}   $1.multilineTag         Multiline tag if the structure is\n *                                            multiline.\n * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if\n *                                            nesting is possible.\n * @param {?Function} $1.removeNode           Function to declare whether the\n *                                            given node should be removed.\n * @param {?Function} $1.unwrapNode           Function to declare whether the\n *                                            given node should be unwrapped.\n * @param {?Function} $1.filterString         Function to filter the given\n *                                            string.\n * @param {?Function} $1.removeAttribute      Wether to remove an attribute\n *                                            based on the name.\n * @param {boolean}   $1.currentWrapperTags   Whether to prepend a line\n *                                            separator.\n *\n * @return {Object} A rich text value.\n */\n\n\nfunction createFromMultilineElement(_ref4) {\n  var element = _ref4.element,\n      range = _ref4.range,\n      multilineTag = _ref4.multilineTag,\n      multilineWrapperTags = _ref4.multilineWrapperTags,\n      removeNode = _ref4.removeNode,\n      unwrapNode = _ref4.unwrapNode,\n      filterString = _ref4.filterString,\n      removeAttribute = _ref4.removeAttribute,\n      _ref4$currentWrapperT = _ref4.currentWrapperTags,\n      currentWrapperTags = _ref4$currentWrapperT === void 0 ? [] : _ref4$currentWrapperT;\n  var accumulator = createEmptyValue();\n\n  if (!element || !element.hasChildNodes()) {\n    return accumulator;\n  }\n\n  var length = element.children.length; // Optimise for speed.\n\n  for (var index = 0; index < length; index++) {\n    var node = element.children[index];\n\n    if (node.nodeName.toLowerCase() !== multilineTag) {\n      continue;\n    }\n\n    var value = createFromElement({\n      element: node,\n      range: range,\n      multilineTag: multilineTag,\n      multilineWrapperTags: multilineWrapperTags,\n      currentWrapperTags: currentWrapperTags,\n      removeNode: removeNode,\n      unwrapNode: unwrapNode,\n      filterString: filterString,\n      removeAttribute: removeAttribute\n    }); // If a line consists of one single line break (invisible), consider the\n    // line empty, wether this is the browser's doing or not.\n\n    if (value.text === '\\n') {\n      var start = value.start;\n      var end = value.end;\n      value = createEmptyValue();\n\n      if (start !== undefined) {\n        value.start = 0;\n      }\n\n      if (end !== undefined) {\n        value.end = 0;\n      }\n    } // Multiline value text should be separated by a double line break.\n\n\n    if (index !== 0 || currentWrapperTags.length > 0) {\n      var formats = currentWrapperTags.length > 0 ? [currentWrapperTags] : [,];\n      accumulator.formats = accumulator.formats.concat(formats);\n      accumulator.text += _special_characters__WEBPACK_IMPORTED_MODULE_6__[\"LINE_SEPARATOR\"];\n    }\n\n    accumulateSelection(accumulator, node, range, value);\n    accumulator.formats = accumulator.formats.concat(value.formats);\n    accumulator.text += value.text;\n  }\n\n  return accumulator;\n}\n/**\n * Gets the attributes of an element in object shape.\n *\n * @param {Object}    $1                 Named argements.\n * @param {Element}   $1.element         Element to get attributes from.\n * @param {?Function} $1.removeAttribute Wether to remove an attribute based on\n *                                       the name.\n *\n * @return {?Object} Attribute object or `undefined` if the element has no\n *                   attributes.\n */\n\n\nfunction getAttributes(_ref5) {\n  var element = _ref5.element,\n      removeAttribute = _ref5.removeAttribute;\n\n  if (!element.hasAttributes()) {\n    return;\n  }\n\n  var length = element.attributes.length;\n  var accumulator; // Optimise for speed.\n\n  for (var i = 0; i < length; i++) {\n    var _element$attributes$i = element.attributes[i],\n        name = _element$attributes$i.name,\n        value = _element$attributes$i.value;\n\n    if (removeAttribute && removeAttribute(name)) {\n      continue;\n    }\n\n    accumulator = accumulator || {};\n    accumulator[name] = value;\n  }\n\n  return accumulator;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/create.js?");
 
 /***/ }),
 
@@ -1104,39 +251,7 @@ function getAttributes(_ref5) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return getActiveFormat; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
-
-/**
- * Gets the format object by type at the start of the selection. This can be
- * used to get e.g. the URL of a link format at the current selection, but also
- * to check if a format is active at the selection. Returns undefined if there
- * is no format at the selection.
- *
- * @param {Object} value      Value to inspect.
- * @param {string} formatType Format type to look for.
- *
- * @return {?Object} Active format object of the specified type, or undefined.
- */
-
-function getActiveFormat(_ref, formatType) {
-  var formats = _ref.formats,
-      start = _ref.start;
-
-  if (start === undefined) {
-    return;
-  }
-
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(formats[start], {
-    type: formatType
-  });
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getActiveFormat\", function() { return getActiveFormat; });\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/**\n * External dependencies\n */\n\n/**\n * Gets the format object by type at the start of the selection. This can be\n * used to get e.g. the URL of a link format at the current selection, but also\n * to check if a format is active at the selection. Returns undefined if there\n * is no format at the selection.\n *\n * @param {Object} value      Value to inspect.\n * @param {string} formatType Format type to look for.\n *\n * @return {?Object} Active format object of the specified type, or undefined.\n */\n\nfunction getActiveFormat(_ref, formatType) {\n  var formats = _ref.formats,\n      start = _ref.start;\n\n  if (start === undefined) {\n    return;\n  }\n\n  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(formats[start], {\n    type: formatType\n  });\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/get-active-format.js?");
 
 /***/ }),
 
@@ -1148,26 +263,7 @@ function getActiveFormat(_ref, formatType) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatType", function() { return getFormatType; });
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * WordPress dependencies
- */
-
-/**
- * Returns a registered format type.
- *
- * @param {string} name Format name.
- *
- * @return {?Object} Format type.
- */
-
-function getFormatType(name) {
-  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/rich-text').getFormatType(name);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getFormatType\", function() { return getFormatType; });\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);\n/**\n * WordPress dependencies\n */\n\n/**\n * Returns a registered format type.\n *\n * @param {string} name Format name.\n *\n * @return {?Object} Format type.\n */\n\nfunction getFormatType(name) {\n  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__[\"select\"])('core/rich-text').getFormatType(name);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/get-format-type.js?");
 
 /***/ }),
 
@@ -1179,22 +275,7 @@ function getFormatType(name) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSelectionEnd", function() { return getSelectionEnd; });
-/**
- * Gets the end index of the current selection, or returns `undefined` if no
- * selection exists. The selection ends right before the character at this
- * index.
- *
- * @param {Object} value Value to get the selection from.
- *
- * @return {?number} Index where the selection ends.
- */
-function getSelectionEnd(_ref) {
-  var end = _ref.end;
-  return end;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getSelectionEnd\", function() { return getSelectionEnd; });\n/**\n * Gets the end index of the current selection, or returns `undefined` if no\n * selection exists. The selection ends right before the character at this\n * index.\n *\n * @param {Object} value Value to get the selection from.\n *\n * @return {?number} Index where the selection ends.\n */\nfunction getSelectionEnd(_ref) {\n  var end = _ref.end;\n  return end;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/get-selection-end.js?");
 
 /***/ }),
 
@@ -1206,22 +287,7 @@ function getSelectionEnd(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSelectionStart", function() { return getSelectionStart; });
-/**
- * Gets the start index of the current selection, or returns `undefined` if no
- * selection exists. The selection starts right before the character at this
- * index.
- *
- * @param {Object} value Value to get the selection from.
- *
- * @return {?number} Index where the selection starts.
- */
-function getSelectionStart(_ref) {
-  var start = _ref.start;
-  return start;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getSelectionStart\", function() { return getSelectionStart; });\n/**\n * Gets the start index of the current selection, or returns `undefined` if no\n * selection exists. The selection starts right before the character at this\n * index.\n *\n * @param {Object} value Value to get the selection from.\n *\n * @return {?number} Index where the selection starts.\n */\nfunction getSelectionStart(_ref) {\n  var start = _ref.start;\n  return start;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/get-selection-start.js?");
 
 /***/ }),
 
@@ -1233,21 +299,7 @@ function getSelectionStart(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTextContent", function() { return getTextContent; });
-/**
- * Get the textual content of a Rich Text value. This is similar to
- * `Element.textContent`.
- *
- * @param {Object} value Value to use.
- *
- * @return {string} The text content.
- */
-function getTextContent(_ref) {
-  var text = _ref.text;
-  return text;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getTextContent\", function() { return getTextContent; });\n/**\n * Get the textual content of a Rich Text value. This is similar to\n * `Element.textContent`.\n *\n * @param {Object} value Value to use.\n *\n * @return {string} The text content.\n */\nfunction getTextContent(_ref) {\n  var text = _ref.text;\n  return text;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/get-text-content.js?");
 
 /***/ }),
 
@@ -1259,114 +311,7 @@ function getTextContent(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/rich-text/build-module/store/index.js");
-/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./apply-format */ "./node_modules/@wordpress/rich-text/build-module/apply-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyFormat", function() { return _apply_format__WEBPACK_IMPORTED_MODULE_1__["applyFormat"]; });
-
-/* harmony import */ var _char_at__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./char-at */ "./node_modules/@wordpress/rich-text/build-module/char-at.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "charAt", function() { return _char_at__WEBPACK_IMPORTED_MODULE_2__["charAt"]; });
-
-/* harmony import */ var _concat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./concat */ "./node_modules/@wordpress/rich-text/build-module/concat.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return _concat__WEBPACK_IMPORTED_MODULE_3__["concat"]; });
-
-/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _create__WEBPACK_IMPORTED_MODULE_4__["create"]; });
-
-/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./get-active-format */ "./node_modules/@wordpress/rich-text/build-module/get-active-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return _get_active_format__WEBPACK_IMPORTED_MODULE_5__["getActiveFormat"]; });
-
-/* harmony import */ var _get_selection_end__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./get-selection-end */ "./node_modules/@wordpress/rich-text/build-module/get-selection-end.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSelectionEnd", function() { return _get_selection_end__WEBPACK_IMPORTED_MODULE_6__["getSelectionEnd"]; });
-
-/* harmony import */ var _get_selection_start__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./get-selection-start */ "./node_modules/@wordpress/rich-text/build-module/get-selection-start.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSelectionStart", function() { return _get_selection_start__WEBPACK_IMPORTED_MODULE_7__["getSelectionStart"]; });
-
-/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./get-text-content */ "./node_modules/@wordpress/rich-text/build-module/get-text-content.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTextContent", function() { return _get_text_content__WEBPACK_IMPORTED_MODULE_8__["getTextContent"]; });
-
-/* harmony import */ var _is_collapsed__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./is-collapsed */ "./node_modules/@wordpress/rich-text/build-module/is-collapsed.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return _is_collapsed__WEBPACK_IMPORTED_MODULE_9__["isCollapsed"]; });
-
-/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_10__["isEmpty"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmptyLine", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_10__["isEmptyLine"]; });
-
-/* harmony import */ var _join__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./join */ "./node_modules/@wordpress/rich-text/build-module/join.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "join", function() { return _join__WEBPACK_IMPORTED_MODULE_11__["join"]; });
-
-/* harmony import */ var _register_format_type__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./register-format-type */ "./node_modules/@wordpress/rich-text/build-module/register-format-type.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return _register_format_type__WEBPACK_IMPORTED_MODULE_12__["registerFormatType"]; });
-
-/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./remove-format */ "./node_modules/@wordpress/rich-text/build-module/remove-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeFormat", function() { return _remove_format__WEBPACK_IMPORTED_MODULE_13__["removeFormat"]; });
-
-/* harmony import */ var _remove__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./remove */ "./node_modules/@wordpress/rich-text/build-module/remove.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return _remove__WEBPACK_IMPORTED_MODULE_14__["remove"]; });
-
-/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./replace */ "./node_modules/@wordpress/rich-text/build-module/replace.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return _replace__WEBPACK_IMPORTED_MODULE_15__["replace"]; });
-
-/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return _insert__WEBPACK_IMPORTED_MODULE_16__["insert"]; });
-
-/* harmony import */ var _insert_line_separator__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./insert-line-separator */ "./node_modules/@wordpress/rich-text/build-module/insert-line-separator.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insertLineSeparator", function() { return _insert_line_separator__WEBPACK_IMPORTED_MODULE_17__["insertLineSeparator"]; });
-
-/* harmony import */ var _insert_object__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./insert-object */ "./node_modules/@wordpress/rich-text/build-module/insert-object.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insertObject", function() { return _insert_object__WEBPACK_IMPORTED_MODULE_18__["insertObject"]; });
-
-/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./slice */ "./node_modules/@wordpress/rich-text/build-module/slice.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "slice", function() { return _slice__WEBPACK_IMPORTED_MODULE_19__["slice"]; });
-
-/* harmony import */ var _split__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./split */ "./node_modules/@wordpress/rich-text/build-module/split.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "split", function() { return _split__WEBPACK_IMPORTED_MODULE_20__["split"]; });
-
-/* harmony import */ var _to_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./to-dom */ "./node_modules/@wordpress/rich-text/build-module/to-dom.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "apply", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_21__["apply"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstableToDom", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_21__["toDom"]; });
-
-/* harmony import */ var _to_html_string__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./to-html-string */ "./node_modules/@wordpress/rich-text/build-module/to-html-string.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return _to_html_string__WEBPACK_IMPORTED_MODULE_22__["toHTMLString"]; });
-
-/* harmony import */ var _toggle_format__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./toggle-format */ "./node_modules/@wordpress/rich-text/build-module/toggle-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return _toggle_format__WEBPACK_IMPORTED_MODULE_23__["toggleFormat"]; });
-
-/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LINE_SEPARATOR", function() { return _special_characters__WEBPACK_IMPORTED_MODULE_24__["LINE_SEPARATOR"]; });
-
-/* harmony import */ var _unregister_format_type__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./unregister-format-type */ "./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return _unregister_format_type__WEBPACK_IMPORTED_MODULE_25__["unregisterFormatType"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ \"./node_modules/@wordpress/rich-text/build-module/store/index.js\");\n/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./apply-format */ \"./node_modules/@wordpress/rich-text/build-module/apply-format.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"applyFormat\", function() { return _apply_format__WEBPACK_IMPORTED_MODULE_1__[\"applyFormat\"]; });\n\n/* harmony import */ var _char_at__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./char-at */ \"./node_modules/@wordpress/rich-text/build-module/char-at.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"charAt\", function() { return _char_at__WEBPACK_IMPORTED_MODULE_2__[\"charAt\"]; });\n\n/* harmony import */ var _concat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./concat */ \"./node_modules/@wordpress/rich-text/build-module/concat.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"concat\", function() { return _concat__WEBPACK_IMPORTED_MODULE_3__[\"concat\"]; });\n\n/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create */ \"./node_modules/@wordpress/rich-text/build-module/create.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"create\", function() { return _create__WEBPACK_IMPORTED_MODULE_4__[\"create\"]; });\n\n/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./get-active-format */ \"./node_modules/@wordpress/rich-text/build-module/get-active-format.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getActiveFormat\", function() { return _get_active_format__WEBPACK_IMPORTED_MODULE_5__[\"getActiveFormat\"]; });\n\n/* harmony import */ var _get_selection_end__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./get-selection-end */ \"./node_modules/@wordpress/rich-text/build-module/get-selection-end.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getSelectionEnd\", function() { return _get_selection_end__WEBPACK_IMPORTED_MODULE_6__[\"getSelectionEnd\"]; });\n\n/* harmony import */ var _get_selection_start__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./get-selection-start */ \"./node_modules/@wordpress/rich-text/build-module/get-selection-start.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getSelectionStart\", function() { return _get_selection_start__WEBPACK_IMPORTED_MODULE_7__[\"getSelectionStart\"]; });\n\n/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./get-text-content */ \"./node_modules/@wordpress/rich-text/build-module/get-text-content.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"getTextContent\", function() { return _get_text_content__WEBPACK_IMPORTED_MODULE_8__[\"getTextContent\"]; });\n\n/* harmony import */ var _is_collapsed__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./is-collapsed */ \"./node_modules/@wordpress/rich-text/build-module/is-collapsed.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isCollapsed\", function() { return _is_collapsed__WEBPACK_IMPORTED_MODULE_9__[\"isCollapsed\"]; });\n\n/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./is-empty */ \"./node_modules/@wordpress/rich-text/build-module/is-empty.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isEmpty\", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_10__[\"isEmpty\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"isEmptyLine\", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_10__[\"isEmptyLine\"]; });\n\n/* harmony import */ var _join__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./join */ \"./node_modules/@wordpress/rich-text/build-module/join.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"join\", function() { return _join__WEBPACK_IMPORTED_MODULE_11__[\"join\"]; });\n\n/* harmony import */ var _register_format_type__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./register-format-type */ \"./node_modules/@wordpress/rich-text/build-module/register-format-type.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"registerFormatType\", function() { return _register_format_type__WEBPACK_IMPORTED_MODULE_12__[\"registerFormatType\"]; });\n\n/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./remove-format */ \"./node_modules/@wordpress/rich-text/build-module/remove-format.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"removeFormat\", function() { return _remove_format__WEBPACK_IMPORTED_MODULE_13__[\"removeFormat\"]; });\n\n/* harmony import */ var _remove__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./remove */ \"./node_modules/@wordpress/rich-text/build-module/remove.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"remove\", function() { return _remove__WEBPACK_IMPORTED_MODULE_14__[\"remove\"]; });\n\n/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./replace */ \"./node_modules/@wordpress/rich-text/build-module/replace.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"replace\", function() { return _replace__WEBPACK_IMPORTED_MODULE_15__[\"replace\"]; });\n\n/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./insert */ \"./node_modules/@wordpress/rich-text/build-module/insert.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"insert\", function() { return _insert__WEBPACK_IMPORTED_MODULE_16__[\"insert\"]; });\n\n/* harmony import */ var _insert_line_separator__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./insert-line-separator */ \"./node_modules/@wordpress/rich-text/build-module/insert-line-separator.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"insertLineSeparator\", function() { return _insert_line_separator__WEBPACK_IMPORTED_MODULE_17__[\"insertLineSeparator\"]; });\n\n/* harmony import */ var _insert_object__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./insert-object */ \"./node_modules/@wordpress/rich-text/build-module/insert-object.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"insertObject\", function() { return _insert_object__WEBPACK_IMPORTED_MODULE_18__[\"insertObject\"]; });\n\n/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./slice */ \"./node_modules/@wordpress/rich-text/build-module/slice.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"slice\", function() { return _slice__WEBPACK_IMPORTED_MODULE_19__[\"slice\"]; });\n\n/* harmony import */ var _split__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./split */ \"./node_modules/@wordpress/rich-text/build-module/split.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"split\", function() { return _split__WEBPACK_IMPORTED_MODULE_20__[\"split\"]; });\n\n/* harmony import */ var _to_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./to-dom */ \"./node_modules/@wordpress/rich-text/build-module/to-dom.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"apply\", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_21__[\"apply\"]; });\n\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"unstableToDom\", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_21__[\"toDom\"]; });\n\n/* harmony import */ var _to_html_string__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./to-html-string */ \"./node_modules/@wordpress/rich-text/build-module/to-html-string.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"toHTMLString\", function() { return _to_html_string__WEBPACK_IMPORTED_MODULE_22__[\"toHTMLString\"]; });\n\n/* harmony import */ var _toggle_format__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./toggle-format */ \"./node_modules/@wordpress/rich-text/build-module/toggle-format.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"toggleFormat\", function() { return _toggle_format__WEBPACK_IMPORTED_MODULE_23__[\"toggleFormat\"]; });\n\n/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./special-characters */ \"./node_modules/@wordpress/rich-text/build-module/special-characters.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"LINE_SEPARATOR\", function() { return _special_characters__WEBPACK_IMPORTED_MODULE_24__[\"LINE_SEPARATOR\"]; });\n\n/* harmony import */ var _unregister_format_type__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./unregister-format-type */ \"./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js\");\n/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, \"unregisterFormatType\", function() { return _unregister_format_type__WEBPACK_IMPORTED_MODULE_25__[\"unregisterFormatType\"]; });\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/index.js?");
 
 /***/ }),
 
@@ -1378,48 +323,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertLineSeparator", function() { return insertLineSeparator; });
-/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-text-content */ "./node_modules/@wordpress/rich-text/build-module/get-text-content.js");
-/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
-/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Insert a line break character into a Rich Text value at the given
- * `startIndex`. Any content between `startIndex` and `endIndex` will be
- * removed. Indices are retrieved from the selection if none are provided.
- *
- * @param {Object} value         Value to modify.
- * @param {number} startIndex    Start index.
- * @param {number} endIndex      End index.
- *
- * @return {Object} A new value with the value inserted.
- */
-
-function insertLineSeparator(value) {
-  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : value.start;
-  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.end;
-  var beforeText = Object(_get_text_content__WEBPACK_IMPORTED_MODULE_0__["getTextContent"])(value).slice(0, startIndex);
-  var previousLineSeparatorIndex = beforeText.lastIndexOf(_special_characters__WEBPACK_IMPORTED_MODULE_2__["LINE_SEPARATOR"]);
-  var previousLineSeparatorFormats = value.formats[previousLineSeparatorIndex];
-  var formats = [,];
-
-  if (previousLineSeparatorFormats) {
-    formats = [previousLineSeparatorFormats];
-  }
-
-  var valueToInsert = {
-    formats: formats,
-    text: _special_characters__WEBPACK_IMPORTED_MODULE_2__["LINE_SEPARATOR"]
-  };
-  return Object(_insert__WEBPACK_IMPORTED_MODULE_1__["insert"])(value, valueToInsert, startIndex, endIndex);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"insertLineSeparator\", function() { return insertLineSeparator; });\n/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-text-content */ \"./node_modules/@wordpress/rich-text/build-module/get-text-content.js\");\n/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert */ \"./node_modules/@wordpress/rich-text/build-module/insert.js\");\n/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./special-characters */ \"./node_modules/@wordpress/rich-text/build-module/special-characters.js\");\n/**\n * Internal dependencies\n */\n\n\n\n/**\n * Insert a line break character into a Rich Text value at the given\n * `startIndex`. Any content between `startIndex` and `endIndex` will be\n * removed. Indices are retrieved from the selection if none are provided.\n *\n * @param {Object} value         Value to modify.\n * @param {number} startIndex    Start index.\n * @param {number} endIndex      End index.\n *\n * @return {Object} A new value with the value inserted.\n */\n\nfunction insertLineSeparator(value) {\n  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : value.start;\n  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.end;\n  var beforeText = Object(_get_text_content__WEBPACK_IMPORTED_MODULE_0__[\"getTextContent\"])(value).slice(0, startIndex);\n  var previousLineSeparatorIndex = beforeText.lastIndexOf(_special_characters__WEBPACK_IMPORTED_MODULE_2__[\"LINE_SEPARATOR\"]);\n  var previousLineSeparatorFormats = value.formats[previousLineSeparatorIndex];\n  var formats = [,];\n\n  if (previousLineSeparatorFormats) {\n    formats = [previousLineSeparatorFormats];\n  }\n\n  var valueToInsert = {\n    formats: formats,\n    text: _special_characters__WEBPACK_IMPORTED_MODULE_2__[\"LINE_SEPARATOR\"]\n  };\n  return Object(_insert__WEBPACK_IMPORTED_MODULE_1__[\"insert\"])(value, valueToInsert, startIndex, endIndex);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/insert-line-separator.js?");
 
 /***/ }),
 
@@ -1431,40 +335,7 @@ function insertLineSeparator(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertObject", function() { return insertObject; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
-
-
-/**
- * Internal dependencies
- */
-
-var OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
-/**
- * Insert a format as an object into a Rich Text value at the given
- * `startIndex`. Any content between `startIndex` and `endIndex` will be
- * removed. Indices are retrieved from the selection if none are provided.
- *
- * @param {Object} value          Value to modify.
- * @param {Object} formatToInsert Format to insert as object.
- * @param {number} startIndex     Start index.
- * @param {number} endIndex       End index.
- *
- * @return {Object} A new value with the object inserted.
- */
-
-function insertObject(value, formatToInsert, startIndex, endIndex) {
-  var valueToInsert = {
-    text: OBJECT_REPLACEMENT_CHARACTER,
-    formats: [[Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, formatToInsert, {
-      object: true
-    })]]
-  };
-  return Object(_insert__WEBPACK_IMPORTED_MODULE_1__["insert"])(value, valueToInsert, startIndex, endIndex);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"insertObject\", function() { return insertObject; });\n/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime/helpers/esm/objectSpread.js\");\n/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert */ \"./node_modules/@wordpress/rich-text/build-module/insert.js\");\n\n\n/**\n * Internal dependencies\n */\n\nvar OBJECT_REPLACEMENT_CHARACTER = \"\\uFFFC\";\n/**\n * Insert a format as an object into a Rich Text value at the given\n * `startIndex`. Any content between `startIndex` and `endIndex` will be\n * removed. Indices are retrieved from the selection if none are provided.\n *\n * @param {Object} value          Value to modify.\n * @param {Object} formatToInsert Format to insert as object.\n * @param {number} startIndex     Start index.\n * @param {number} endIndex       End index.\n *\n * @return {Object} A new value with the object inserted.\n */\n\nfunction insertObject(value, formatToInsert, startIndex, endIndex) {\n  var valueToInsert = {\n    text: OBJECT_REPLACEMENT_CHARACTER,\n    formats: [[Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, formatToInsert, {\n      object: true\n    })]]\n  };\n  return Object(_insert__WEBPACK_IMPORTED_MODULE_1__[\"insert\"])(value, valueToInsert, startIndex, endIndex);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/insert-object.js?");
 
 /***/ }),
 
@@ -1476,52 +347,7 @@ function insertObject(value, formatToInsert, startIndex, endIndex) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
-/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-/**
- * Internal dependencies
- */
-
-
-/**
- * Insert a Rich Text value, an HTML string, or a plain text string, into a
- * Rich Text value at the given `startIndex`. Any content between `startIndex`
- * and `endIndex` will be removed. Indices are retrieved from the selection if
- * none are provided.
- *
- * @param {Object} value         Value to modify.
- * @param {string} valueToInsert Value to insert.
- * @param {number} startIndex    Start index.
- * @param {number} endIndex      End index.
- *
- * @return {Object} A new value with the value inserted.
- */
-
-function insert(_ref, valueToInsert) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
-  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
-
-  if (typeof valueToInsert === 'string') {
-    valueToInsert = Object(_create__WEBPACK_IMPORTED_MODULE_0__["create"])({
-      text: valueToInsert
-    });
-  }
-
-  var index = startIndex + valueToInsert.text.length;
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])({
-    formats: formats.slice(0, startIndex).concat(valueToInsert.formats, formats.slice(endIndex)),
-    text: text.slice(0, startIndex) + valueToInsert.text + text.slice(endIndex),
-    start: index,
-    end: index
-  });
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"insert\", function() { return insert; });\n/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create */ \"./node_modules/@wordpress/rich-text/build-module/create.js\");\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n/**\n * Internal dependencies\n */\n\n\n/**\n * Insert a Rich Text value, an HTML string, or a plain text string, into a\n * Rich Text value at the given `startIndex`. Any content between `startIndex`\n * and `endIndex` will be removed. Indices are retrieved from the selection if\n * none are provided.\n *\n * @param {Object} value         Value to modify.\n * @param {string} valueToInsert Value to insert.\n * @param {number} startIndex    Start index.\n * @param {number} endIndex      End index.\n *\n * @return {Object} A new value with the value inserted.\n */\n\nfunction insert(_ref, valueToInsert) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;\n  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;\n\n  if (typeof valueToInsert === 'string') {\n    valueToInsert = Object(_create__WEBPACK_IMPORTED_MODULE_0__[\"create\"])({\n      text: valueToInsert\n    });\n  }\n\n  var index = startIndex + valueToInsert.text.length;\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__[\"normaliseFormats\"])({\n    formats: formats.slice(0, startIndex).concat(valueToInsert.formats, formats.slice(endIndex)),\n    text: text.slice(0, startIndex) + valueToInsert.text + text.slice(endIndex),\n    start: index,\n    end: index\n  });\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/insert.js?");
 
 /***/ }),
 
@@ -1533,30 +359,7 @@ function insert(_ref, valueToInsert) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return isCollapsed; });
-/**
- * Check if the selection of a Rich Text value is collapsed or not. Collapsed
- * means that no characters are selected, but there is a caret present. If there
- * is no selection, `undefined` will be returned. This is similar to
- * `window.getSelection().isCollapsed()`.
- *
- * @param {Object} value The rich text value to check.
- *
- * @return {?boolean} True if the selection is collapsed, false if not,
- *                    undefined if there is no selection.
- */
-function isCollapsed(_ref) {
-  var start = _ref.start,
-      end = _ref.end;
-
-  if (start === undefined || end === undefined) {
-    return;
-  }
-
-  return start === end;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isCollapsed\", function() { return isCollapsed; });\n/**\n * Check if the selection of a Rich Text value is collapsed or not. Collapsed\n * means that no characters are selected, but there is a caret present. If there\n * is no selection, `undefined` will be returned. This is similar to\n * `window.getSelection().isCollapsed()`.\n *\n * @param {Object} value The rich text value to check.\n *\n * @return {?boolean} True if the selection is collapsed, false if not,\n *                    undefined if there is no selection.\n */\nfunction isCollapsed(_ref) {\n  var start = _ref.start,\n      end = _ref.end;\n\n  if (start === undefined || end === undefined) {\n    return;\n  }\n\n  return start === end;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/is-collapsed.js?");
 
 /***/ }),
 
@@ -1568,57 +371,7 @@ function isCollapsed(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return isEmpty; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmptyLine", function() { return isEmptyLine; });
-/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
-
-/**
- * Check if a Rich Text value is Empty, meaning it contains no text or any
- * objects (such as images).
- *
- * @param {Object} value Value to use.
- *
- * @return {boolean} True if the value is empty, false if not.
- */
-
-function isEmpty(_ref) {
-  var text = _ref.text;
-  return text.length === 0;
-}
-/**
- * Check if the current collapsed selection is on an empty line in case of a
- * multiline value.
- *
- * @param  {Object} value Value te check.
- *
- * @return {boolean} True if the line is empty, false if not.
- */
-
-function isEmptyLine(_ref2) {
-  var text = _ref2.text,
-      start = _ref2.start,
-      end = _ref2.end;
-
-  if (start !== end) {
-    return false;
-  }
-
-  if (text.length === 0) {
-    return true;
-  }
-
-  if (start === 0 && text.slice(0, 1) === _special_characters__WEBPACK_IMPORTED_MODULE_0__["LINE_SEPARATOR"]) {
-    return true;
-  }
-
-  if (start === text.length && text.slice(-1) === _special_characters__WEBPACK_IMPORTED_MODULE_0__["LINE_SEPARATOR"]) {
-    return true;
-  }
-
-  return text.slice(start - 1, end + 1) === "".concat(_special_characters__WEBPACK_IMPORTED_MODULE_0__["LINE_SEPARATOR"]).concat(_special_characters__WEBPACK_IMPORTED_MODULE_0__["LINE_SEPARATOR"]);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isEmpty\", function() { return isEmpty; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isEmptyLine\", function() { return isEmptyLine; });\n/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./special-characters */ \"./node_modules/@wordpress/rich-text/build-module/special-characters.js\");\n\n/**\n * Check if a Rich Text value is Empty, meaning it contains no text or any\n * objects (such as images).\n *\n * @param {Object} value Value to use.\n *\n * @return {boolean} True if the value is empty, false if not.\n */\n\nfunction isEmpty(_ref) {\n  var text = _ref.text;\n  return text.length === 0;\n}\n/**\n * Check if the current collapsed selection is on an empty line in case of a\n * multiline value.\n *\n * @param  {Object} value Value te check.\n *\n * @return {boolean} True if the line is empty, false if not.\n */\n\nfunction isEmptyLine(_ref2) {\n  var text = _ref2.text,\n      start = _ref2.start,\n      end = _ref2.end;\n\n  if (start !== end) {\n    return false;\n  }\n\n  if (text.length === 0) {\n    return true;\n  }\n\n  if (start === 0 && text.slice(0, 1) === _special_characters__WEBPACK_IMPORTED_MODULE_0__[\"LINE_SEPARATOR\"]) {\n    return true;\n  }\n\n  if (start === text.length && text.slice(-1) === _special_characters__WEBPACK_IMPORTED_MODULE_0__[\"LINE_SEPARATOR\"]) {\n    return true;\n  }\n\n  return text.slice(start - 1, end + 1) === \"\".concat(_special_characters__WEBPACK_IMPORTED_MODULE_0__[\"LINE_SEPARATOR\"]).concat(_special_characters__WEBPACK_IMPORTED_MODULE_0__[\"LINE_SEPARATOR\"]);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/is-empty.js?");
 
 /***/ }),
 
@@ -1630,63 +383,7 @@ function isEmptyLine(_ref2) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isFormatEqual", function() { return isFormatEqual; });
-/**
- * Optimised equality check for format objects.
- *
- * @param {?Object} format1 Format to compare.
- * @param {?Object} format2 Format to compare.
- *
- * @return {boolean} True if formats are equal, false if not.
- */
-function isFormatEqual(format1, format2) {
-  // Both not defined.
-  if (format1 === format2) {
-    return true;
-  } // Either not defined.
-
-
-  if (!format1 || !format2) {
-    return false;
-  }
-
-  if (format1.type !== format2.type) {
-    return false;
-  }
-
-  var attributes1 = format1.attributes;
-  var attributes2 = format2.attributes; // Both not defined.
-
-  if (attributes1 === attributes2) {
-    return true;
-  } // Either not defined.
-
-
-  if (!attributes1 || !attributes2) {
-    return false;
-  }
-
-  var keys1 = Object.keys(attributes1);
-  var keys2 = Object.keys(attributes2);
-
-  if (keys1.length !== keys2.length) {
-    return false;
-  }
-
-  var length = keys1.length; // Optimise for speed.
-
-  for (var i = 0; i < length; i++) {
-    var name = keys1[i];
-
-    if (attributes1[name] !== attributes2[name]) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isFormatEqual\", function() { return isFormatEqual; });\n/**\n * Optimised equality check for format objects.\n *\n * @param {?Object} format1 Format to compare.\n * @param {?Object} format2 Format to compare.\n *\n * @return {boolean} True if formats are equal, false if not.\n */\nfunction isFormatEqual(format1, format2) {\n  // Both not defined.\n  if (format1 === format2) {\n    return true;\n  } // Either not defined.\n\n\n  if (!format1 || !format2) {\n    return false;\n  }\n\n  if (format1.type !== format2.type) {\n    return false;\n  }\n\n  var attributes1 = format1.attributes;\n  var attributes2 = format2.attributes; // Both not defined.\n\n  if (attributes1 === attributes2) {\n    return true;\n  } // Either not defined.\n\n\n  if (!attributes1 || !attributes2) {\n    return false;\n  }\n\n  var keys1 = Object.keys(attributes1);\n  var keys2 = Object.keys(attributes2);\n\n  if (keys1.length !== keys2.length) {\n    return false;\n  }\n\n  var length = keys1.length; // Optimise for speed.\n\n  for (var i = 0; i < length; i++) {\n    var name = keys1[i];\n\n    if (attributes1[name] !== attributes2[name]) {\n      return false;\n    }\n  }\n\n  return true;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/is-format-equal.js?");
 
 /***/ }),
 
@@ -1698,45 +395,7 @@ function isFormatEqual(format1, format2) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "join", function() { return join; });
-/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-/**
- * Internal dependencies
- */
-
-
-/**
- * Combine an array of Rich Text values into one, optionally separated by
- * `separator`, which can be a Rich Text value, HTML string, or plain text
- * string. This is similar to `Array.prototype.join`.
- *
- * @param {Array}         values    An array of values to join.
- * @param {string|Object} separator Separator string or value.
- *
- * @return {Object} A new combined value.
- */
-
-function join(values) {
-  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-  if (typeof separator === 'string') {
-    separator = Object(_create__WEBPACK_IMPORTED_MODULE_0__["create"])({
-      text: separator
-    });
-  }
-
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])(values.reduce(function (accumlator, _ref) {
-    var formats = _ref.formats,
-        text = _ref.text;
-    return {
-      text: accumlator.text + separator.text + text,
-      formats: accumlator.formats.concat(separator.formats, formats)
-    };
-  }));
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"join\", function() { return join; });\n/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./create */ \"./node_modules/@wordpress/rich-text/build-module/create.js\");\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n/**\n * Internal dependencies\n */\n\n\n/**\n * Combine an array of Rich Text values into one, optionally separated by\n * `separator`, which can be a Rich Text value, HTML string, or plain text\n * string. This is similar to `Array.prototype.join`.\n *\n * @param {Array}         values    An array of values to join.\n * @param {string|Object} separator Separator string or value.\n *\n * @return {Object} A new combined value.\n */\n\nfunction join(values) {\n  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';\n\n  if (typeof separator === 'string') {\n    separator = Object(_create__WEBPACK_IMPORTED_MODULE_0__[\"create\"])({\n      text: separator\n    });\n  }\n\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__[\"normaliseFormats\"])(values.reduce(function (accumlator, _ref) {\n    var formats = _ref.formats,\n        text = _ref.text;\n    return {\n      text: accumlator.text + separator.text + text,\n      formats: accumlator.formats.concat(separator.formats, formats)\n    };\n  }));\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/join.js?");
 
 /***/ }),
 
@@ -1748,50 +407,7 @@ function join(values) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normaliseFormats", function() { return normaliseFormats; });
-/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is-format-equal */ "./node_modules/@wordpress/rich-text/build-module/is-format-equal.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Normalises formats: ensures subsequent equal formats have the same reference.
- *
- * @param  {Object} value Value to normalise formats of.
- *
- * @return {Object} New value with normalised formats.
- */
-
-function normaliseFormats(_ref) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  var newFormats = formats.slice(0);
-  newFormats.forEach(function (formatsAtIndex, index) {
-    var lastFormatsAtIndex = newFormats[index - 1];
-
-    if (lastFormatsAtIndex) {
-      var newFormatsAtIndex = formatsAtIndex.slice(0);
-      newFormatsAtIndex.forEach(function (format, formatIndex) {
-        var lastFormat = lastFormatsAtIndex[formatIndex];
-
-        if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_0__["isFormatEqual"])(format, lastFormat)) {
-          newFormatsAtIndex[formatIndex] = lastFormat;
-        }
-      });
-      newFormats[index] = newFormatsAtIndex;
-    }
-  });
-  return {
-    formats: newFormats,
-    text: text,
-    start: start,
-    end: end
-  };
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"normaliseFormats\", function() { return normaliseFormats; });\n/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is-format-equal */ \"./node_modules/@wordpress/rich-text/build-module/is-format-equal.js\");\n/**\n * Internal dependencies\n */\n\n/**\n * Normalises formats: ensures subsequent equal formats have the same reference.\n *\n * @param  {Object} value Value to normalise formats of.\n *\n * @return {Object} New value with normalised formats.\n */\n\nfunction normaliseFormats(_ref) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  var newFormats = formats.slice(0);\n  newFormats.forEach(function (formatsAtIndex, index) {\n    var lastFormatsAtIndex = newFormats[index - 1];\n\n    if (lastFormatsAtIndex) {\n      var newFormatsAtIndex = formatsAtIndex.slice(0);\n      newFormatsAtIndex.forEach(function (format, formatIndex) {\n        var lastFormat = lastFormatsAtIndex[formatIndex];\n\n        if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_0__[\"isFormatEqual\"])(format, lastFormat)) {\n          newFormatsAtIndex[formatIndex] = lastFormat;\n        }\n      });\n      newFormats[index] = newFormatsAtIndex;\n    }\n  });\n  return {\n    formats: newFormats,\n    text: text,\n    start: start,\n    end: end\n  };\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/normalise-formats.js?");
 
 /***/ }),
 
@@ -1803,206 +419,7 @@ function normaliseFormats(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return registerFormatType; });
-/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! memize */ "./node_modules/memize/index.js");
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__);
-
-
-
-
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Shared reference to an empty array for cases where it is important to avoid
- * returning a new array reference on every invocation, as in a connected or
- * other pure component which performs `shouldComponentUpdate` check on props.
- * This should be used as a last resort, since the normalized data should be
- * maintained by the reducer result in state.
- *
- * @type {Array}
- */
-
-var EMPTY_ARRAY = [];
-/**
- * Registers a new format provided a unique name and an object defining its
- * behavior.
- *
- * @param {string} name     Format name.
- * @param {Object} settings Format settings.
- *
- * @return {?WPFormat} The format, if it has been successfully registered;
- *                     otherwise `undefined`.
- */
-
-function registerFormatType(name, settings) {
-  settings = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__["default"])({
-    name: name
-  }, settings);
-
-  if (typeof settings.name !== 'string') {
-    window.console.error('Format names must be strings.');
-    return;
-  }
-
-  if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(settings.name)) {
-    window.console.error('Format names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-format');
-    return;
-  }
-
-  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatType(settings.name)) {
-    window.console.error('Format "' + settings.name + '" is already registered.');
-    return;
-  }
-
-  if (typeof settings.tagName !== 'string' || settings.tagName === '') {
-    window.console.error('Format tag names must be a string.');
-    return;
-  }
-
-  if ((typeof settings.className !== 'string' || settings.className === '') && settings.className !== null) {
-    window.console.error('Format class names must be a string, or null to handle bare elements.');
-    return;
-  }
-
-  if (!/^[_a-zA-Z]+[a-zA-Z0-9-]*$/.test(settings.className)) {
-    window.console.error('A class name must begin with a letter, followed by any number of hyphens, letters, or numbers.');
-    return;
-  }
-
-  if (settings.className === null) {
-    var formatTypeForBareElement = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatTypeForBareElement(settings.tagName);
-
-    if (formatTypeForBareElement) {
-      window.console.error("Format \"".concat(formatTypeForBareElement.name, "\" is already registered to handle bare tag name \"").concat(settings.tagName, "\"."));
-      return;
-    }
-  } else {
-    var formatTypeForClassName = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["select"])('core/rich-text').getFormatTypeForClassName(settings.className);
-
-    if (formatTypeForClassName) {
-      window.console.error("Format \"".concat(formatTypeForClassName.name, "\" is already registered to handle class name \"").concat(settings.className, "\"."));
-      return;
-    }
-  }
-
-  if (!('title' in settings) || settings.title === '') {
-    window.console.error('The format "' + settings.name + '" must have a title.');
-    return;
-  }
-
-  if ('keywords' in settings && settings.keywords.length > 3) {
-    window.console.error('The format "' + settings.name + '" can have a maximum of 3 keywords.');
-    return;
-  }
-
-  if (typeof settings.title !== 'string') {
-    window.console.error('Format titles must be strings.');
-    return;
-  }
-
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["dispatch"])('core/rich-text').addFormatTypes(settings);
-  var getFunctionStackMemoized = memize__WEBPACK_IMPORTED_MODULE_6___default()(function () {
-    var previousStack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : EMPTY_ARRAY;
-    var newFunction = arguments.length > 1 ? arguments[1] : undefined;
-    return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__["default"])(previousStack).concat([newFunction]);
-  });
-
-  if (settings.__experimentalGetPropsForEditableTreePreparation) {
-    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__["addFilter"])('experimentalRichText', name, function (OriginalComponent) {
-      var Component = OriginalComponent;
-
-      if (settings.__experimentalCreatePrepareEditableTree || settings.__experimentalCreateFormatToValue || settings.__experimentalCreateValueToFormat) {
-        Component = function Component(props) {
-          var additionalProps = {};
-
-          if (settings.__experimentalCreatePrepareEditableTree) {
-            additionalProps.prepareEditableTree = getFunctionStackMemoized(props.prepareEditableTree, settings.__experimentalCreatePrepareEditableTree(props["format_".concat(name)], {
-              richTextIdentifier: props.identifier,
-              blockClientId: props.clientId
-            }));
-          }
-
-          if (settings.__experimentalCreateOnChangeEditableValue) {
-            var dispatchProps = Object.keys(props).reduce(function (accumulator, propKey) {
-              var propValue = props[propKey];
-              var keyPrefix = "format_".concat(name, "_dispatch_");
-
-              if (propKey.startsWith(keyPrefix)) {
-                var realKey = propKey.replace(keyPrefix, '');
-                accumulator[realKey] = propValue;
-              }
-
-              return accumulator;
-            }, {});
-            additionalProps.onChangeEditableValue = getFunctionStackMemoized(props.onChangeEditableValue, settings.__experimentalCreateOnChangeEditableValue(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__["default"])({}, props["format_".concat(name)], dispatchProps), {
-              richTextIdentifier: props.identifier,
-              blockClientId: props.clientId
-            }));
-          }
-
-          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, props, additionalProps));
-        };
-      }
-
-      var hocs = [Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withSelect"])(function (sel, _ref) {
-        var clientId = _ref.clientId,
-            identifier = _ref.identifier;
-        return Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])({}, "format_".concat(name), settings.__experimentalGetPropsForEditableTreePreparation(sel, {
-          richTextIdentifier: identifier,
-          blockClientId: clientId
-        }));
-      })];
-
-      if (settings.__experimentalGetPropsForEditableTreeChangeHandler) {
-        hocs.push(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withDispatch"])(function (disp, _ref3) {
-          var clientId = _ref3.clientId,
-              identifier = _ref3.identifier;
-
-          var dispatchProps = settings.__experimentalGetPropsForEditableTreeChangeHandler(disp, {
-            richTextIdentifier: identifier,
-            blockClientId: clientId
-          });
-
-          return Object(lodash__WEBPACK_IMPORTED_MODULE_5__["mapKeys"])(dispatchProps, function (value, key) {
-            return "format_".concat(name, "_dispatch_").concat(key);
-          });
-        }));
-      }
-
-      return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__["compose"])(hocs)(Component);
-    });
-  }
-
-  return settings;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"registerFormatType\", function() { return registerFormatType; });\n/* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ \"./node_modules/@babel/runtime/helpers/esm/defineProperty.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ \"./node_modules/@babel/runtime/helpers/esm/extends.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ \"./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime/helpers/esm/objectSpread.js\");\n/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ \"@wordpress/element\");\n/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);\n/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! memize */ \"./node_modules/memize/index.js\");\n/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_6__);\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/hooks */ \"@wordpress/hooks\");\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__);\n/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/compose */ \"@wordpress/compose\");\n/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__);\n\n\n\n\n\n\n/**\n * External dependencies\n */\n\n\n/**\n * WordPress dependencies\n */\n\n\n\n\n/**\n * Shared reference to an empty array for cases where it is important to avoid\n * returning a new array reference on every invocation, as in a connected or\n * other pure component which performs `shouldComponentUpdate` check on props.\n * This should be used as a last resort, since the normalized data should be\n * maintained by the reducer result in state.\n *\n * @type {Array}\n */\n\nvar EMPTY_ARRAY = [];\n/**\n * Registers a new format provided a unique name and an object defining its\n * behavior.\n *\n * @param {string} name     Format name.\n * @param {Object} settings Format settings.\n *\n * @return {?WPFormat} The format, if it has been successfully registered;\n *                     otherwise `undefined`.\n */\n\nfunction registerFormatType(name, settings) {\n  settings = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__[\"default\"])({\n    name: name\n  }, settings);\n\n  if (typeof settings.name !== 'string') {\n    window.console.error('Format names must be strings.');\n    return;\n  }\n\n  if (!/^[a-z][a-z0-9-]*\\/[a-z][a-z0-9-]*$/.test(settings.name)) {\n    window.console.error('Format names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-format');\n    return;\n  }\n\n  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"select\"])('core/rich-text').getFormatType(settings.name)) {\n    window.console.error('Format \"' + settings.name + '\" is already registered.');\n    return;\n  }\n\n  if (typeof settings.tagName !== 'string' || settings.tagName === '') {\n    window.console.error('Format tag names must be a string.');\n    return;\n  }\n\n  if ((typeof settings.className !== 'string' || settings.className === '') && settings.className !== null) {\n    window.console.error('Format class names must be a string, or null to handle bare elements.');\n    return;\n  }\n\n  if (!/^[_a-zA-Z]+[a-zA-Z0-9-]*$/.test(settings.className)) {\n    window.console.error('A class name must begin with a letter, followed by any number of hyphens, letters, or numbers.');\n    return;\n  }\n\n  if (settings.className === null) {\n    var formatTypeForBareElement = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"select\"])('core/rich-text').getFormatTypeForBareElement(settings.tagName);\n\n    if (formatTypeForBareElement) {\n      window.console.error(\"Format \\\"\".concat(formatTypeForBareElement.name, \"\\\" is already registered to handle bare tag name \\\"\").concat(settings.tagName, \"\\\".\"));\n      return;\n    }\n  } else {\n    var formatTypeForClassName = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"select\"])('core/rich-text').getFormatTypeForClassName(settings.className);\n\n    if (formatTypeForClassName) {\n      window.console.error(\"Format \\\"\".concat(formatTypeForClassName.name, \"\\\" is already registered to handle class name \\\"\").concat(settings.className, \"\\\".\"));\n      return;\n    }\n  }\n\n  if (!('title' in settings) || settings.title === '') {\n    window.console.error('The format \"' + settings.name + '\" must have a title.');\n    return;\n  }\n\n  if ('keywords' in settings && settings.keywords.length > 3) {\n    window.console.error('The format \"' + settings.name + '\" can have a maximum of 3 keywords.');\n    return;\n  }\n\n  if (typeof settings.title !== 'string') {\n    window.console.error('Format titles must be strings.');\n    return;\n  }\n\n  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"dispatch\"])('core/rich-text').addFormatTypes(settings);\n  var getFunctionStackMemoized = memize__WEBPACK_IMPORTED_MODULE_6___default()(function () {\n    var previousStack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : EMPTY_ARRAY;\n    var newFunction = arguments.length > 1 ? arguments[1] : undefined;\n    return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(previousStack).concat([newFunction]);\n  });\n\n  if (settings.__experimentalGetPropsForEditableTreePreparation) {\n    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_8__[\"addFilter\"])('experimentalRichText', name, function (OriginalComponent) {\n      var Component = OriginalComponent;\n\n      if (settings.__experimentalCreatePrepareEditableTree || settings.__experimentalCreateFormatToValue || settings.__experimentalCreateValueToFormat) {\n        Component = function Component(props) {\n          var additionalProps = {};\n\n          if (settings.__experimentalCreatePrepareEditableTree) {\n            additionalProps.prepareEditableTree = getFunctionStackMemoized(props.prepareEditableTree, settings.__experimentalCreatePrepareEditableTree(props[\"format_\".concat(name)], {\n              richTextIdentifier: props.identifier,\n              blockClientId: props.clientId\n            }));\n          }\n\n          if (settings.__experimentalCreateOnChangeEditableValue) {\n            var dispatchProps = Object.keys(props).reduce(function (accumulator, propKey) {\n              var propValue = props[propKey];\n              var keyPrefix = \"format_\".concat(name, \"_dispatch_\");\n\n              if (propKey.startsWith(keyPrefix)) {\n                var realKey = propKey.replace(keyPrefix, '');\n                accumulator[realKey] = propValue;\n              }\n\n              return accumulator;\n            }, {});\n            additionalProps.onChangeEditableValue = getFunctionStackMemoized(props.onChangeEditableValue, settings.__experimentalCreateOnChangeEditableValue(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_3__[\"default\"])({}, props[\"format_\".concat(name)], dispatchProps), {\n              richTextIdentifier: props.identifier,\n              blockClientId: props.clientId\n            }));\n          }\n\n          return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__[\"createElement\"])(OriginalComponent, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__[\"default\"])({}, props, additionalProps));\n        };\n      }\n\n      var hocs = [Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"withSelect\"])(function (sel, _ref) {\n        var clientId = _ref.clientId,\n            identifier = _ref.identifier;\n        return Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, \"format_\".concat(name), settings.__experimentalGetPropsForEditableTreePreparation(sel, {\n          richTextIdentifier: identifier,\n          blockClientId: clientId\n        }));\n      })];\n\n      if (settings.__experimentalGetPropsForEditableTreeChangeHandler) {\n        hocs.push(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__[\"withDispatch\"])(function (disp, _ref3) {\n          var clientId = _ref3.clientId,\n              identifier = _ref3.identifier;\n\n          var dispatchProps = settings.__experimentalGetPropsForEditableTreeChangeHandler(disp, {\n            richTextIdentifier: identifier,\n            blockClientId: clientId\n          });\n\n          return Object(lodash__WEBPACK_IMPORTED_MODULE_5__[\"mapKeys\"])(dispatchProps, function (value, key) {\n            return \"format_\".concat(name, \"_dispatch_\").concat(key);\n          });\n        }));\n      }\n\n      return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_9__[\"compose\"])(hocs)(Component);\n    });\n  }\n\n  return settings;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/register-format-type.js?");
 
 /***/ }),
 
@@ -2014,88 +431,7 @@ function registerFormatType(name, settings) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFormat", function() { return removeFormat; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Remove any format object from a Rich Text value by type from the given
- * `startIndex` to the given `endIndex`. Indices are retrieved from the
- * selection if none are provided.
- *
- * @param {Object} value      Value to modify.
- * @param {string} formatType Format type to remove.
- * @param {number} startIndex Start index.
- * @param {number} endIndex   End index.
- *
- * @return {Object} A new value with the format applied.
- */
-
-function removeFormat(_ref, formatType) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
-  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
-  var newFormats = formats.slice(0); // If the selection is collapsed, expand start and end to the edges of the
-  // format.
-
-  if (startIndex === endIndex) {
-    var format = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], {
-      type: formatType
-    });
-
-    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], format)) {
-      filterFormats(newFormats, startIndex, formatType);
-      startIndex--;
-    }
-
-    endIndex++;
-
-    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[endIndex], format)) {
-      filterFormats(newFormats, endIndex, formatType);
-      endIndex++;
-    }
-  } else {
-    for (var i = startIndex; i < endIndex; i++) {
-      if (newFormats[i]) {
-        filterFormats(newFormats, i, formatType);
-      }
-    }
-  }
-
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])({
-    formats: newFormats,
-    text: text,
-    start: start,
-    end: end
-  });
-}
-
-function filterFormats(formats, index, formatType) {
-  var newFormats = formats[index].filter(function (_ref2) {
-    var type = _ref2.type;
-    return type !== formatType;
-  });
-
-  if (newFormats.length) {
-    formats[index] = newFormats;
-  } else {
-    delete formats[index];
-  }
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"removeFormat\", function() { return removeFormat; });\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n/**\n * External dependencies\n */\n\n/**\n * Internal dependencies\n */\n\n\n/**\n * Remove any format object from a Rich Text value by type from the given\n * `startIndex` to the given `endIndex`. Indices are retrieved from the\n * selection if none are provided.\n *\n * @param {Object} value      Value to modify.\n * @param {string} formatType Format type to remove.\n * @param {number} startIndex Start index.\n * @param {number} endIndex   End index.\n *\n * @return {Object} A new value with the format applied.\n */\n\nfunction removeFormat(_ref, formatType) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;\n  var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;\n  var newFormats = formats.slice(0); // If the selection is collapsed, expand start and end to the edges of the\n  // format.\n\n  if (startIndex === endIndex) {\n    var format = Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[startIndex], {\n      type: formatType\n    });\n\n    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[startIndex], format)) {\n      filterFormats(newFormats, startIndex, formatType);\n      startIndex--;\n    }\n\n    endIndex++;\n\n    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"find\"])(newFormats[endIndex], format)) {\n      filterFormats(newFormats, endIndex, formatType);\n      endIndex++;\n    }\n  } else {\n    for (var i = startIndex; i < endIndex; i++) {\n      if (newFormats[i]) {\n        filterFormats(newFormats, i, formatType);\n      }\n    }\n  }\n\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__[\"normaliseFormats\"])({\n    formats: newFormats,\n    text: text,\n    start: start,\n    end: end\n  });\n}\n\nfunction filterFormats(formats, index, formatType) {\n  var newFormats = formats[index].filter(function (_ref2) {\n    var type = _ref2.type;\n    return type !== formatType;\n  });\n\n  if (newFormats.length) {\n    formats[index] = newFormats;\n  } else {\n    delete formats[index];\n  }\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/remove-format.js?");
 
 /***/ }),
 
@@ -2107,30 +443,7 @@ function filterFormats(formats, index, formatType) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
-/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
-/**
- * Internal dependencies
- */
-
-
-/**
- * Remove content from a Rich Text value between the given `startIndex` and
- * `endIndex`. Indices are retrieved from the selection if none are provided.
- *
- * @param {Object} value      Value to modify.
- * @param {number} startIndex Start index.
- * @param {number} endIndex   End index.
- *
- * @return {Object} A new value with the content removed.
- */
-
-function remove(value, startIndex, endIndex) {
-  return Object(_insert__WEBPACK_IMPORTED_MODULE_0__["insert"])(value, Object(_create__WEBPACK_IMPORTED_MODULE_1__["create"])(), startIndex, endIndex);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"remove\", function() { return remove; });\n/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./insert */ \"./node_modules/@wordpress/rich-text/build-module/insert.js\");\n/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./create */ \"./node_modules/@wordpress/rich-text/build-module/create.js\");\n/**\n * Internal dependencies\n */\n\n\n/**\n * Remove content from a Rich Text value between the given `startIndex` and\n * `endIndex`. Indices are retrieved from the selection if none are provided.\n *\n * @param {Object} value      Value to modify.\n * @param {number} startIndex Start index.\n * @param {number} endIndex   End index.\n *\n * @return {Object} A new value with the content removed.\n */\n\nfunction remove(value, startIndex, endIndex) {\n  return Object(_insert__WEBPACK_IMPORTED_MODULE_0__[\"insert\"])(value, Object(_create__WEBPACK_IMPORTED_MODULE_1__[\"create\"])(), startIndex, endIndex);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/remove.js?");
 
 /***/ }),
 
@@ -2142,78 +455,7 @@ function remove(value, startIndex, endIndex) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
-
-
-/**
- * Internal dependencies
- */
-
-/**
- * Search a Rich Text value and replace the match(es) with `replacement`. This
- * is similar to `String.prototype.replace`.
- *
- * @param {Object}         value        The value to modify.
- * @param {RegExp|string}  pattern      A RegExp object or literal. Can also be
- *                                      a string. It is treated as a verbatim
- *                                      string and is not interpreted as a
- *                                      regular expression. Only the first
- *                                      occurrence will be replaced.
- * @param {Function|string} replacement The match or matches are replaced with
- *                                      the specified or the value returned by
- *                                      the specified function.
- *
- * @return {Object} A new value with replacements applied.
- */
-
-function replace(_ref, pattern, replacement) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  text = text.replace(pattern, function (match) {
-    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      rest[_key - 1] = arguments[_key];
-    }
-
-    var offset = rest[rest.length - 2];
-    var newText = replacement;
-    var newFormats;
-
-    if (typeof newText === 'function') {
-      newText = replacement.apply(void 0, [match].concat(rest));
-    }
-
-    if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__["default"])(newText) === 'object') {
-      newFormats = newText.formats;
-      newText = newText.text;
-    } else {
-      newFormats = Array(newText.length);
-
-      if (formats[offset]) {
-        newFormats = newFormats.fill(formats[offset]);
-      }
-    }
-
-    formats = formats.slice(0, offset).concat(newFormats, formats.slice(offset + match.length));
-
-    if (start) {
-      start = end = offset + newText.length;
-    }
-
-    return newText;
-  });
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])({
-    formats: formats,
-    text: text,
-    start: start,
-    end: end
-  });
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"replace\", function() { return replace; });\n/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ \"./node_modules/@babel/runtime/helpers/esm/typeof.js\");\n/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ \"./node_modules/@wordpress/rich-text/build-module/normalise-formats.js\");\n\n\n/**\n * Internal dependencies\n */\n\n/**\n * Search a Rich Text value and replace the match(es) with `replacement`. This\n * is similar to `String.prototype.replace`.\n *\n * @param {Object}         value        The value to modify.\n * @param {RegExp|string}  pattern      A RegExp object or literal. Can also be\n *                                      a string. It is treated as a verbatim\n *                                      string and is not interpreted as a\n *                                      regular expression. Only the first\n *                                      occurrence will be replaced.\n * @param {Function|string} replacement The match or matches are replaced with\n *                                      the specified or the value returned by\n *                                      the specified function.\n *\n * @return {Object} A new value with replacements applied.\n */\n\nfunction replace(_ref, pattern, replacement) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  text = text.replace(pattern, function (match) {\n    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {\n      rest[_key - 1] = arguments[_key];\n    }\n\n    var offset = rest[rest.length - 2];\n    var newText = replacement;\n    var newFormats;\n\n    if (typeof newText === 'function') {\n      newText = replacement.apply(void 0, [match].concat(rest));\n    }\n\n    if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(newText) === 'object') {\n      newFormats = newText.formats;\n      newText = newText.text;\n    } else {\n      newFormats = Array(newText.length);\n\n      if (formats[offset]) {\n        newFormats = newFormats.fill(formats[offset]);\n      }\n    }\n\n    formats = formats.slice(0, offset).concat(newFormats, formats.slice(offset + match.length));\n\n    if (start) {\n      start = end = offset + newText.length;\n    }\n\n    return newText;\n  });\n  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__[\"normaliseFormats\"])({\n    formats: formats,\n    text: text,\n    start: start,\n    end: end\n  });\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/replace.js?");
 
 /***/ }),
 
@@ -2225,40 +467,7 @@ function replace(_ref, pattern, replacement) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slice", function() { return slice; });
-/**
- * Slice a Rich Text value from `startIndex` to `endIndex`. Indices are
- * retrieved from the selection if none are provided. This is similar to
- * `String.prototype.slice`.
- *
- * @param {Object} value       Value to modify.
- * @param {number} startIndex  Start index.
- * @param {number} endIndex    End index.
- *
- * @return {Object} A new extracted value.
- */
-function slice(_ref) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
-  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;
-
-  if (startIndex === undefined || endIndex === undefined) {
-    return {
-      formats: formats,
-      text: text
-    };
-  }
-
-  return {
-    formats: formats.slice(startIndex, endIndex),
-    text: text.slice(startIndex, endIndex)
-  };
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"slice\", function() { return slice; });\n/**\n * Slice a Rich Text value from `startIndex` to `endIndex`. Indices are\n * retrieved from the selection if none are provided. This is similar to\n * `String.prototype.slice`.\n *\n * @param {Object} value       Value to modify.\n * @param {number} startIndex  Start index.\n * @param {number} endIndex    End index.\n *\n * @return {Object} A new extracted value.\n */\nfunction slice(_ref) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;\n  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;\n\n  if (startIndex === undefined || endIndex === undefined) {\n    return {\n      formats: formats,\n      text: text\n    };\n  }\n\n  return {\n    formats: formats.slice(startIndex, endIndex),\n    text: text.slice(startIndex, endIndex)\n  };\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/slice.js?");
 
 /***/ }),
 
@@ -2270,14 +479,7 @@ function slice(_ref) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LINE_SEPARATOR", function() { return LINE_SEPARATOR; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OBJECT_REPLACEMENT_CHARACTER", function() { return OBJECT_REPLACEMENT_CHARACTER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZERO_WIDTH_NO_BREAK_SPACE", function() { return ZERO_WIDTH_NO_BREAK_SPACE; });
-var LINE_SEPARATOR = "\u2028";
-var OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
-var ZERO_WIDTH_NO_BREAK_SPACE = "\uFEFF";
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"LINE_SEPARATOR\", function() { return LINE_SEPARATOR; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"OBJECT_REPLACEMENT_CHARACTER\", function() { return OBJECT_REPLACEMENT_CHARACTER; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ZERO_WIDTH_NO_BREAK_SPACE\", function() { return ZERO_WIDTH_NO_BREAK_SPACE; });\nvar LINE_SEPARATOR = \"\\u2028\";\nvar OBJECT_REPLACEMENT_CHARACTER = \"\\uFFFC\";\nvar ZERO_WIDTH_NO_BREAK_SPACE = \"\\uFEFF\";\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/special-characters.js?");
 
 /***/ }),
 
@@ -2289,83 +491,7 @@ var ZERO_WIDTH_NO_BREAK_SPACE = "\uFEFF";
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "split", function() { return split; });
-/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./replace */ "./node_modules/@wordpress/rich-text/build-module/replace.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Split a Rich Text value in two at the given `startIndex` and `endIndex`, or
- * split at the given separator. This is similar to `String.prototype.split`.
- * Indices are retrieved from the selection if none are provided.
- *
- * @param {Object}        value   Value to modify.
- * @param {number|string} string  Start index, or string at which to split.
- * @param {number}        end     End index.
- *
- * @return {Array} An array of new values.
- */
-
-function split(_ref, string) {
-  var formats = _ref.formats,
-      text = _ref.text,
-      start = _ref.start,
-      end = _ref.end;
-
-  if (typeof string !== 'string') {
-    return splitAtSelection.apply(void 0, arguments);
-  }
-
-  var nextStart = 0;
-  return text.split(string).map(function (substring) {
-    var startIndex = nextStart;
-    var value = {
-      formats: formats.slice(startIndex, startIndex + substring.length),
-      text: substring
-    };
-    nextStart += string.length + substring.length;
-
-    if (start !== undefined && end !== undefined) {
-      if (start >= startIndex && start < nextStart) {
-        value.start = start - startIndex;
-      } else if (start < startIndex && end > startIndex) {
-        value.start = 0;
-      }
-
-      if (end >= startIndex && end < nextStart) {
-        value.end = end - startIndex;
-      } else if (start < nextStart && end > nextStart) {
-        value.end = substring.length;
-      }
-    }
-
-    return value;
-  });
-}
-
-function splitAtSelection(_ref2) {
-  var formats = _ref2.formats,
-      text = _ref2.text,
-      start = _ref2.start,
-      end = _ref2.end;
-  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
-  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;
-  var before = {
-    formats: formats.slice(0, startIndex),
-    text: text.slice(0, startIndex)
-  };
-  var after = {
-    formats: formats.slice(endIndex),
-    text: text.slice(endIndex),
-    start: 0,
-    end: 0
-  };
-  return [// Ensure newlines are trimmed.
-  Object(_replace__WEBPACK_IMPORTED_MODULE_0__["replace"])(before, /\u2028+$/, ''), Object(_replace__WEBPACK_IMPORTED_MODULE_0__["replace"])(after, /^\u2028+/, '')];
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"split\", function() { return split; });\n/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./replace */ \"./node_modules/@wordpress/rich-text/build-module/replace.js\");\n/**\n * Internal dependencies\n */\n\n/**\n * Split a Rich Text value in two at the given `startIndex` and `endIndex`, or\n * split at the given separator. This is similar to `String.prototype.split`.\n * Indices are retrieved from the selection if none are provided.\n *\n * @param {Object}        value   Value to modify.\n * @param {number|string} string  Start index, or string at which to split.\n * @param {number}        end     End index.\n *\n * @return {Array} An array of new values.\n */\n\nfunction split(_ref, string) {\n  var formats = _ref.formats,\n      text = _ref.text,\n      start = _ref.start,\n      end = _ref.end;\n\n  if (typeof string !== 'string') {\n    return splitAtSelection.apply(void 0, arguments);\n  }\n\n  var nextStart = 0;\n  return text.split(string).map(function (substring) {\n    var startIndex = nextStart;\n    var value = {\n      formats: formats.slice(startIndex, startIndex + substring.length),\n      text: substring\n    };\n    nextStart += string.length + substring.length;\n\n    if (start !== undefined && end !== undefined) {\n      if (start >= startIndex && start < nextStart) {\n        value.start = start - startIndex;\n      } else if (start < startIndex && end > startIndex) {\n        value.start = 0;\n      }\n\n      if (end >= startIndex && end < nextStart) {\n        value.end = end - startIndex;\n      } else if (start < nextStart && end > nextStart) {\n        value.end = substring.length;\n      }\n    }\n\n    return value;\n  });\n}\n\nfunction splitAtSelection(_ref2) {\n  var formats = _ref2.formats,\n      text = _ref2.text,\n      start = _ref2.start,\n      end = _ref2.end;\n  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;\n  var endIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : end;\n  var before = {\n    formats: formats.slice(0, startIndex),\n    text: text.slice(0, startIndex)\n  };\n  var after = {\n    formats: formats.slice(endIndex),\n    text: text.slice(endIndex),\n    start: 0,\n    end: 0\n  };\n  return [// Ensure newlines are trimmed.\n  Object(_replace__WEBPACK_IMPORTED_MODULE_0__[\"replace\"])(before, /\\u2028+$/, ''), Object(_replace__WEBPACK_IMPORTED_MODULE_0__[\"replace\"])(after, /^\\u2028+/, '')];\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/split.js?");
 
 /***/ }),
 
@@ -2377,45 +503,7 @@ function splitAtSelection(_ref2) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addFormatTypes", function() { return addFormatTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFormatTypes", function() { return removeFormatTypes; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
-
-/**
- * Returns an action object used in signalling that format types have been
- * added.
- *
- * @param {Array|Object} formatTypes Format types received.
- *
- * @return {Object} Action object.
- */
-
-function addFormatTypes(formatTypes) {
-  return {
-    type: 'ADD_FORMAT_TYPES',
-    formatTypes: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(formatTypes)
-  };
-}
-/**
- * Returns an action object used to remove a registered format type.
- *
- * @param {string|Array} names Format name.
- *
- * @return {Object} Action object.
- */
-
-function removeFormatTypes(names) {
-  return {
-    type: 'REMOVE_FORMAT_TYPES',
-    names: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(names)
-  };
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"addFormatTypes\", function() { return addFormatTypes; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"removeFormatTypes\", function() { return removeFormatTypes; });\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);\n/**\n * External dependencies\n */\n\n/**\n * Returns an action object used in signalling that format types have been\n * added.\n *\n * @param {Array|Object} formatTypes Format types received.\n *\n * @return {Object} Action object.\n */\n\nfunction addFormatTypes(formatTypes) {\n  return {\n    type: 'ADD_FORMAT_TYPES',\n    formatTypes: Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"castArray\"])(formatTypes)\n  };\n}\n/**\n * Returns an action object used to remove a registered format type.\n *\n * @param {string|Array} names Format name.\n *\n * @return {Object} Action object.\n */\n\nfunction removeFormatTypes(names) {\n  return {\n    type: 'REMOVE_FORMAT_TYPES',\n    names: Object(lodash__WEBPACK_IMPORTED_MODULE_0__[\"castArray\"])(names)\n  };\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/store/actions.js?");
 
 /***/ }),
 
@@ -2427,29 +515,7 @@ function removeFormatTypes(names) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./node_modules/@wordpress/rich-text/build-module/store/reducer.js");
-/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./node_modules/@wordpress/rich-text/build-module/store/selectors.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./node_modules/@wordpress/rich-text/build-module/store/actions.js");
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-
-Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["registerStore"])('core/rich-text', {
-  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
-  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
-});
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ \"./node_modules/@wordpress/rich-text/build-module/store/reducer.js\");\n/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ \"./node_modules/@wordpress/rich-text/build-module/store/selectors.js\");\n/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ \"./node_modules/@wordpress/rich-text/build-module/store/actions.js\");\n/**\n * WordPress dependencies\n */\n\n/**\n * Internal dependencies\n */\n\n\n\n\nObject(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__[\"registerStore\"])('core/rich-text', {\n  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__[\"default\"],\n  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,\n  actions: _actions__WEBPACK_IMPORTED_MODULE_3__\n});\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/store/index.js?");
 
 /***/ }),
 
@@ -2461,51 +527,7 @@ Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["registerStore"])('core/rich
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTypes", function() { return formatTypes; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Reducer managing the format types
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-
-function formatTypes() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'ADD_FORMAT_TYPES':
-      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keyBy"])(action.formatTypes, 'name'));
-
-    case 'REMOVE_FORMAT_TYPES':
-      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["omit"])(state, action.names);
-  }
-
-  return state;
-}
-/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["combineReducers"])({
-  formatTypes: formatTypes
-}));
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"formatTypes\", function() { return formatTypes; });\n/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime/helpers/esm/objectSpread.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);\n\n\n/**\n * External dependencies\n */\n\n/**\n * WordPress dependencies\n */\n\n\n/**\n * Reducer managing the format types\n *\n * @param {Object} state  Current state.\n * @param {Object} action Dispatched action.\n *\n * @return {Object} Updated state.\n */\n\nfunction formatTypes() {\n  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};\n  var action = arguments.length > 1 ? arguments[1] : undefined;\n\n  switch (action.type) {\n    case 'ADD_FORMAT_TYPES':\n      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_1__[\"keyBy\"])(action.formatTypes, 'name'));\n\n    case 'REMOVE_FORMAT_TYPES':\n      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__[\"omit\"])(state, action.names);\n  }\n\n  return state;\n}\n/* harmony default export */ __webpack_exports__[\"default\"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__[\"combineReducers\"])({\n  formatTypes: formatTypes\n}));\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/store/reducer.js?");
 
 /***/ }),
 
@@ -2517,81 +539,7 @@ function formatTypes() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatTypes", function() { return getFormatTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatType", function() { return getFormatType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatTypeForBareElement", function() { return getFormatTypeForBareElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatTypeForClassName", function() { return getFormatTypeForClassName; });
-/* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ "./node_modules/rememo/es/rememo.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/**
- * External dependencies
- */
-
-
-/**
- * Returns all the available format types.
- *
- * @param {Object} state Data state.
- *
- * @return {Array} Format types.
- */
-
-var getFormatTypes = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state) {
-  return Object.values(state.formatTypes);
-}, function (state) {
-  return [state.formatTypes];
-});
-/**
- * Returns a format type by name.
- *
- * @param {Object} state Data state.
- * @param {string} name Format type name.
- *
- * @return {Object?} Format type.
- */
-
-function getFormatType(state, name) {
-  return state.formatTypes[name];
-}
-/**
- * Gets the format type, if any, that can handle a bare element (without a
- * data-format-type attribute), given the tag name of this element.
- *
- * @param {Object} state              Data state.
- * @param {string} bareElementTagName The tag name of the element to find a
- *                                    format type for.
- * @return {?Object} Format type.
- */
-
-function getFormatTypeForBareElement(state, bareElementTagName) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(getFormatTypes(state), function (_ref) {
-    var tagName = _ref.tagName;
-    return bareElementTagName === tagName;
-  });
-}
-/**
- * Gets the format type, if any, that can handle an element, given its classes.
- *
- * @param {Object} state            Data state.
- * @param {string} elementClassName The classes of the element to find a format
- *                                  type for.
- * @return {?Object} Format type.
- */
-
-function getFormatTypeForClassName(state, elementClassName) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(getFormatTypes(state), function (_ref2) {
-    var className = _ref2.className;
-
-    if (className === null) {
-      return false;
-    }
-
-    return " ".concat(elementClassName, " ").indexOf(" ".concat(className, " ")) >= 0;
-  });
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getFormatTypes\", function() { return getFormatTypes; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getFormatType\", function() { return getFormatType; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getFormatTypeForBareElement\", function() { return getFormatTypeForBareElement; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getFormatTypeForClassName\", function() { return getFormatTypeForClassName; });\n/* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ \"./node_modules/rememo/es/rememo.js\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ \"lodash\");\n/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);\n/**\n * External dependencies\n */\n\n\n/**\n * Returns all the available format types.\n *\n * @param {Object} state Data state.\n *\n * @return {Array} Format types.\n */\n\nvar getFormatTypes = Object(rememo__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(function (state) {\n  return Object.values(state.formatTypes);\n}, function (state) {\n  return [state.formatTypes];\n});\n/**\n * Returns a format type by name.\n *\n * @param {Object} state Data state.\n * @param {string} name Format type name.\n *\n * @return {Object?} Format type.\n */\n\nfunction getFormatType(state, name) {\n  return state.formatTypes[name];\n}\n/**\n * Gets the format type, if any, that can handle a bare element (without a\n * data-format-type attribute), given the tag name of this element.\n *\n * @param {Object} state              Data state.\n * @param {string} bareElementTagName The tag name of the element to find a\n *                                    format type for.\n * @return {?Object} Format type.\n */\n\nfunction getFormatTypeForBareElement(state, bareElementTagName) {\n  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__[\"find\"])(getFormatTypes(state), function (_ref) {\n    var tagName = _ref.tagName;\n    return bareElementTagName === tagName;\n  });\n}\n/**\n * Gets the format type, if any, that can handle an element, given its classes.\n *\n * @param {Object} state            Data state.\n * @param {string} elementClassName The classes of the element to find a format\n *                                  type for.\n * @return {?Object} Format type.\n */\n\nfunction getFormatTypeForClassName(state, elementClassName) {\n  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__[\"find\"])(getFormatTypes(state), function (_ref2) {\n    var className = _ref2.className;\n\n    if (className === null) {\n      return false;\n    }\n\n    return \" \".concat(elementClassName, \" \").indexOf(\" \".concat(className, \" \")) >= 0;\n  });\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/store/selectors.js?");
 
 /***/ }),
 
@@ -2603,306 +551,7 @@ function getFormatTypeForClassName(state, elementClassName) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toDom", function() { return toDom; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apply", function() { return apply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyValue", function() { return applyValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applySelection", function() { return applySelection; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./to-tree */ "./node_modules/@wordpress/rich-text/build-module/to-tree.js");
-
-
-
-/**
- * Internal dependencies
- */
-
-/**
- * Browser dependencies
- */
-
-var _window$Node = window.Node,
-    TEXT_NODE = _window$Node.TEXT_NODE,
-    ELEMENT_NODE = _window$Node.ELEMENT_NODE;
-/**
- * Creates a path as an array of indices from the given root node to the given
- * node.
- *
- * @param {Node}        node     Node to find the path of.
- * @param {HTMLElement} rootNode Root node to find the path from.
- * @param {Array}       path     Initial path to build on.
- *
- * @return {Array} The path from the root node to the node.
- */
-
-function createPathToNode(node, rootNode, path) {
-  var parentNode = node.parentNode;
-  var i = 0;
-
-  while (node = node.previousSibling) {
-    i++;
-  }
-
-  path = [i].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(path));
-
-  if (parentNode !== rootNode) {
-    path = createPathToNode(parentNode, rootNode, path);
-  }
-
-  return path;
-}
-/**
- * Gets a node given a path (array of indices) from the given node.
- *
- * @param {HTMLElement} node Root node to find the wanted node in.
- * @param {Array}       path Path (indices) to the wanted node.
- *
- * @return {Object} Object with the found node and the remaining offset (if any).
- */
-
-
-function getNodeByPath(node, path) {
-  path = Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__["default"])(path);
-
-  while (node && path.length > 1) {
-    node = node.childNodes[path.shift()];
-  }
-
-  return {
-    node: node,
-    offset: path[0]
-  };
-}
-
-function createEmpty() {
-  var _document$implementat = document.implementation.createHTMLDocument(''),
-      body = _document$implementat.body;
-
-  return body;
-}
-
-function append(element, child) {
-  if (typeof child === 'string') {
-    child = element.ownerDocument.createTextNode(child);
-  }
-
-  var _child = child,
-      type = _child.type,
-      attributes = _child.attributes;
-
-  if (type) {
-    child = element.ownerDocument.createElement(type);
-
-    for (var key in attributes) {
-      child.setAttribute(key, attributes[key]);
-    }
-  }
-
-  return element.appendChild(child);
-}
-
-function appendText(node, text) {
-  node.appendData(text);
-}
-
-function getLastChild(_ref) {
-  var lastChild = _ref.lastChild;
-  return lastChild;
-}
-
-function getParent(_ref2) {
-  var parentNode = _ref2.parentNode;
-  return parentNode;
-}
-
-function isText(_ref3) {
-  var nodeType = _ref3.nodeType;
-  return nodeType === TEXT_NODE;
-}
-
-function getText(_ref4) {
-  var nodeValue = _ref4.nodeValue;
-  return nodeValue;
-}
-
-function remove(node) {
-  return node.parentNode.removeChild(node);
-}
-
-function padEmptyLines(_ref5) {
-  var element = _ref5.element,
-      createLinePadding = _ref5.createLinePadding,
-      multilineWrapperTags = _ref5.multilineWrapperTags;
-  var length = element.childNodes.length;
-  var doc = element.ownerDocument;
-
-  for (var index = 0; index < length; index++) {
-    var child = element.childNodes[index];
-
-    if (child.nodeType === TEXT_NODE) {
-      if (length === 1 && !child.nodeValue) {
-        // Pad if the only child is an empty text node.
-        element.appendChild(createLinePadding(doc));
-      }
-    } else {
-      if (multilineWrapperTags && !child.previousSibling && multilineWrapperTags.indexOf(child.nodeName.toLowerCase()) !== -1) {
-        // Pad the line if there is no content before a nested wrapper.
-        element.insertBefore(createLinePadding(doc), child);
-      }
-
-      padEmptyLines({
-        element: child,
-        createLinePadding: createLinePadding,
-        multilineWrapperTags: multilineWrapperTags
-      });
-    }
-  }
-}
-
-function prepareFormats() {
-  var prepareEditableTree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var value = arguments.length > 1 ? arguments[1] : undefined;
-  return prepareEditableTree.reduce(function (accumlator, fn) {
-    return fn(accumlator, value.text);
-  }, value.formats);
-}
-
-function toDom(_ref6) {
-  var value = _ref6.value,
-      multilineTag = _ref6.multilineTag,
-      multilineWrapperTags = _ref6.multilineWrapperTags,
-      createLinePadding = _ref6.createLinePadding,
-      prepareEditableTree = _ref6.prepareEditableTree;
-  var startPath = [];
-  var endPath = [];
-  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_2__["toTree"])({
-    value: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, value, {
-      formats: prepareFormats(prepareEditableTree, value)
-    }),
-    multilineTag: multilineTag,
-    multilineWrapperTags: multilineWrapperTags,
-    createEmpty: createEmpty,
-    append: append,
-    getLastChild: getLastChild,
-    getParent: getParent,
-    isText: isText,
-    getText: getText,
-    remove: remove,
-    appendText: appendText,
-    onStartIndex: function onStartIndex(body, pointer) {
-      startPath = createPathToNode(pointer, body, [pointer.nodeValue.length]);
-    },
-    onEndIndex: function onEndIndex(body, pointer) {
-      endPath = createPathToNode(pointer, body, [pointer.nodeValue.length]);
-    },
-    isEditableTree: true
-  });
-
-  if (createLinePadding) {
-    padEmptyLines({
-      element: tree,
-      createLinePadding: createLinePadding,
-      multilineWrapperTags: multilineWrapperTags
-    });
-  }
-
-  return {
-    body: tree,
-    selection: {
-      startPath: startPath,
-      endPath: endPath
-    }
-  };
-}
-/**
- * Create an `Element` tree from a Rich Text value and applies the difference to
- * the `Element` tree contained by `current`. If a `multilineTag` is provided,
- * text separated by two new lines will be wrapped in an `Element` of that type.
- *
- * @param {Object}      value        Value to apply.
- * @param {HTMLElement} current      The live root node to apply the element
- *                                   tree to.
- * @param {string}      multilineTag Multiline tag.
- */
-
-function apply(_ref7) {
-  var value = _ref7.value,
-      current = _ref7.current,
-      multilineTag = _ref7.multilineTag,
-      multilineWrapperTags = _ref7.multilineWrapperTags,
-      createLinePadding = _ref7.createLinePadding,
-      prepareEditableTree = _ref7.prepareEditableTree;
-
-  // Construct a new element tree in memory.
-  var _toDom = toDom({
-    value: value,
-    multilineTag: multilineTag,
-    multilineWrapperTags: multilineWrapperTags,
-    createLinePadding: createLinePadding,
-    prepareEditableTree: prepareEditableTree
-  }),
-      body = _toDom.body,
-      selection = _toDom.selection;
-
-  applyValue(body, current);
-
-  if (value.start !== undefined) {
-    applySelection(selection, current);
-  }
-}
-function applyValue(future, current) {
-  var i = 0;
-
-  while (future.firstChild) {
-    var currentChild = current.childNodes[i];
-    var futureNodeType = future.firstChild.nodeType;
-
-    if (!currentChild) {
-      current.appendChild(future.firstChild);
-    } else if (futureNodeType !== currentChild.nodeType || futureNodeType !== TEXT_NODE || future.firstChild.nodeValue !== currentChild.nodeValue) {
-      current.replaceChild(future.firstChild, currentChild);
-    } else {
-      future.removeChild(future.firstChild);
-    }
-
-    i++;
-  }
-
-  while (current.childNodes[i]) {
-    current.removeChild(current.childNodes[i]);
-  }
-}
-function applySelection(selection, current) {
-  var _getNodeByPath = getNodeByPath(current, selection.startPath),
-      startContainer = _getNodeByPath.node,
-      startOffset = _getNodeByPath.offset;
-
-  var _getNodeByPath2 = getNodeByPath(current, selection.endPath),
-      endContainer = _getNodeByPath2.node,
-      endOffset = _getNodeByPath2.offset;
-
-  var windowSelection = window.getSelection();
-  var range = current.ownerDocument.createRange();
-  var collapsed = startContainer === endContainer && startOffset === endOffset;
-
-  if (collapsed && startOffset === 0 && startContainer.previousSibling && startContainer.previousSibling.nodeType === ELEMENT_NODE && startContainer.previousSibling.nodeName !== 'BR') {
-    startContainer.insertData(0, "\uFEFF");
-    range.setStart(startContainer, 1);
-    range.setEnd(endContainer, 1);
-  } else if (collapsed && startOffset === 0 && startContainer === TEXT_NODE && startContainer.nodeValue.length === 0) {
-    startContainer.insertData(0, "\uFEFF");
-    range.setStart(startContainer, 1);
-    range.setEnd(endContainer, 1);
-  } else {
-    range.setStart(startContainer, startOffset);
-    range.setEnd(endContainer, endOffset);
-  }
-
-  windowSelection.removeAllRanges();
-  windowSelection.addRange(range);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"toDom\", function() { return toDom; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"apply\", function() { return apply; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"applyValue\", function() { return applyValue; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"applySelection\", function() { return applySelection; });\n/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime/helpers/esm/objectSpread.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ \"./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js\");\n/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./to-tree */ \"./node_modules/@wordpress/rich-text/build-module/to-tree.js\");\n\n\n\n/**\n * Internal dependencies\n */\n\n/**\n * Browser dependencies\n */\n\nvar _window$Node = window.Node,\n    TEXT_NODE = _window$Node.TEXT_NODE,\n    ELEMENT_NODE = _window$Node.ELEMENT_NODE;\n/**\n * Creates a path as an array of indices from the given root node to the given\n * node.\n *\n * @param {Node}        node     Node to find the path of.\n * @param {HTMLElement} rootNode Root node to find the path from.\n * @param {Array}       path     Initial path to build on.\n *\n * @return {Array} The path from the root node to the node.\n */\n\nfunction createPathToNode(node, rootNode, path) {\n  var parentNode = node.parentNode;\n  var i = 0;\n\n  while (node = node.previousSibling) {\n    i++;\n  }\n\n  path = [i].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(path));\n\n  if (parentNode !== rootNode) {\n    path = createPathToNode(parentNode, rootNode, path);\n  }\n\n  return path;\n}\n/**\n * Gets a node given a path (array of indices) from the given node.\n *\n * @param {HTMLElement} node Root node to find the wanted node in.\n * @param {Array}       path Path (indices) to the wanted node.\n *\n * @return {Object} Object with the found node and the remaining offset (if any).\n */\n\n\nfunction getNodeByPath(node, path) {\n  path = Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(path);\n\n  while (node && path.length > 1) {\n    node = node.childNodes[path.shift()];\n  }\n\n  return {\n    node: node,\n    offset: path[0]\n  };\n}\n\nfunction createEmpty() {\n  var _document$implementat = document.implementation.createHTMLDocument(''),\n      body = _document$implementat.body;\n\n  return body;\n}\n\nfunction append(element, child) {\n  if (typeof child === 'string') {\n    child = element.ownerDocument.createTextNode(child);\n  }\n\n  var _child = child,\n      type = _child.type,\n      attributes = _child.attributes;\n\n  if (type) {\n    child = element.ownerDocument.createElement(type);\n\n    for (var key in attributes) {\n      child.setAttribute(key, attributes[key]);\n    }\n  }\n\n  return element.appendChild(child);\n}\n\nfunction appendText(node, text) {\n  node.appendData(text);\n}\n\nfunction getLastChild(_ref) {\n  var lastChild = _ref.lastChild;\n  return lastChild;\n}\n\nfunction getParent(_ref2) {\n  var parentNode = _ref2.parentNode;\n  return parentNode;\n}\n\nfunction isText(_ref3) {\n  var nodeType = _ref3.nodeType;\n  return nodeType === TEXT_NODE;\n}\n\nfunction getText(_ref4) {\n  var nodeValue = _ref4.nodeValue;\n  return nodeValue;\n}\n\nfunction remove(node) {\n  return node.parentNode.removeChild(node);\n}\n\nfunction padEmptyLines(_ref5) {\n  var element = _ref5.element,\n      createLinePadding = _ref5.createLinePadding,\n      multilineWrapperTags = _ref5.multilineWrapperTags;\n  var length = element.childNodes.length;\n  var doc = element.ownerDocument;\n\n  for (var index = 0; index < length; index++) {\n    var child = element.childNodes[index];\n\n    if (child.nodeType === TEXT_NODE) {\n      if (length === 1 && !child.nodeValue) {\n        // Pad if the only child is an empty text node.\n        element.appendChild(createLinePadding(doc));\n      }\n    } else {\n      if (multilineWrapperTags && !child.previousSibling && multilineWrapperTags.indexOf(child.nodeName.toLowerCase()) !== -1) {\n        // Pad the line if there is no content before a nested wrapper.\n        element.insertBefore(createLinePadding(doc), child);\n      }\n\n      padEmptyLines({\n        element: child,\n        createLinePadding: createLinePadding,\n        multilineWrapperTags: multilineWrapperTags\n      });\n    }\n  }\n}\n\nfunction prepareFormats() {\n  var prepareEditableTree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];\n  var value = arguments.length > 1 ? arguments[1] : undefined;\n  return prepareEditableTree.reduce(function (accumlator, fn) {\n    return fn(accumlator, value.text);\n  }, value.formats);\n}\n\nfunction toDom(_ref6) {\n  var value = _ref6.value,\n      multilineTag = _ref6.multilineTag,\n      multilineWrapperTags = _ref6.multilineWrapperTags,\n      createLinePadding = _ref6.createLinePadding,\n      prepareEditableTree = _ref6.prepareEditableTree;\n  var startPath = [];\n  var endPath = [];\n  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_2__[\"toTree\"])({\n    value: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({}, value, {\n      formats: prepareFormats(prepareEditableTree, value)\n    }),\n    multilineTag: multilineTag,\n    multilineWrapperTags: multilineWrapperTags,\n    createEmpty: createEmpty,\n    append: append,\n    getLastChild: getLastChild,\n    getParent: getParent,\n    isText: isText,\n    getText: getText,\n    remove: remove,\n    appendText: appendText,\n    onStartIndex: function onStartIndex(body, pointer) {\n      startPath = createPathToNode(pointer, body, [pointer.nodeValue.length]);\n    },\n    onEndIndex: function onEndIndex(body, pointer) {\n      endPath = createPathToNode(pointer, body, [pointer.nodeValue.length]);\n    },\n    isEditableTree: true\n  });\n\n  if (createLinePadding) {\n    padEmptyLines({\n      element: tree,\n      createLinePadding: createLinePadding,\n      multilineWrapperTags: multilineWrapperTags\n    });\n  }\n\n  return {\n    body: tree,\n    selection: {\n      startPath: startPath,\n      endPath: endPath\n    }\n  };\n}\n/**\n * Create an `Element` tree from a Rich Text value and applies the difference to\n * the `Element` tree contained by `current`. If a `multilineTag` is provided,\n * text separated by two new lines will be wrapped in an `Element` of that type.\n *\n * @param {Object}      value        Value to apply.\n * @param {HTMLElement} current      The live root node to apply the element\n *                                   tree to.\n * @param {string}      multilineTag Multiline tag.\n */\n\nfunction apply(_ref7) {\n  var value = _ref7.value,\n      current = _ref7.current,\n      multilineTag = _ref7.multilineTag,\n      multilineWrapperTags = _ref7.multilineWrapperTags,\n      createLinePadding = _ref7.createLinePadding,\n      prepareEditableTree = _ref7.prepareEditableTree;\n\n  // Construct a new element tree in memory.\n  var _toDom = toDom({\n    value: value,\n    multilineTag: multilineTag,\n    multilineWrapperTags: multilineWrapperTags,\n    createLinePadding: createLinePadding,\n    prepareEditableTree: prepareEditableTree\n  }),\n      body = _toDom.body,\n      selection = _toDom.selection;\n\n  applyValue(body, current);\n\n  if (value.start !== undefined) {\n    applySelection(selection, current);\n  }\n}\nfunction applyValue(future, current) {\n  var i = 0;\n\n  while (future.firstChild) {\n    var currentChild = current.childNodes[i];\n    var futureNodeType = future.firstChild.nodeType;\n\n    if (!currentChild) {\n      current.appendChild(future.firstChild);\n    } else if (futureNodeType !== currentChild.nodeType || futureNodeType !== TEXT_NODE || future.firstChild.nodeValue !== currentChild.nodeValue) {\n      current.replaceChild(future.firstChild, currentChild);\n    } else {\n      future.removeChild(future.firstChild);\n    }\n\n    i++;\n  }\n\n  while (current.childNodes[i]) {\n    current.removeChild(current.childNodes[i]);\n  }\n}\nfunction applySelection(selection, current) {\n  var _getNodeByPath = getNodeByPath(current, selection.startPath),\n      startContainer = _getNodeByPath.node,\n      startOffset = _getNodeByPath.offset;\n\n  var _getNodeByPath2 = getNodeByPath(current, selection.endPath),\n      endContainer = _getNodeByPath2.node,\n      endOffset = _getNodeByPath2.offset;\n\n  var windowSelection = window.getSelection();\n  var range = current.ownerDocument.createRange();\n  var collapsed = startContainer === endContainer && startOffset === endOffset;\n\n  if (collapsed && startOffset === 0 && startContainer.previousSibling && startContainer.previousSibling.nodeType === ELEMENT_NODE && startContainer.previousSibling.nodeName !== 'BR') {\n    startContainer.insertData(0, \"\\uFEFF\");\n    range.setStart(startContainer, 1);\n    range.setEnd(endContainer, 1);\n  } else if (collapsed && startOffset === 0 && startContainer === TEXT_NODE && startContainer.nodeValue.length === 0) {\n    startContainer.insertData(0, \"\\uFEFF\");\n    range.setStart(startContainer, 1);\n    range.setEnd(endContainer, 1);\n  } else {\n    range.setStart(startContainer, startOffset);\n    range.setEnd(endContainer, endOffset);\n  }\n\n  windowSelection.removeAllRanges();\n  windowSelection.addRange(range);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/to-dom.js?");
 
 /***/ }),
 
@@ -2914,133 +563,7 @@ function applySelection(selection, current) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return toHTMLString; });
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./to-tree */ "./node_modules/@wordpress/rich-text/build-module/to-tree.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Create an HTML string from a Rich Text value. If a `multilineTag` is
- * provided, text separated by a line separator will be wrapped in it.
- *
- * @param {Object} $1                      Named argements.
- * @param {Object} $1.value                Rich text value.
- * @param {string} $1.multilineTag         Multiline tag.
- * @param {Array}  $1.multilineWrapperTags Tags where lines can be found if
- *                                         nesting is possible.
- *
- * @return {string} HTML string.
- */
-
-function toHTMLString(_ref) {
-  var value = _ref.value,
-      multilineTag = _ref.multilineTag,
-      multilineWrapperTags = _ref.multilineWrapperTags;
-  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_1__["toTree"])({
-    value: value,
-    multilineTag: multilineTag,
-    multilineWrapperTags: multilineWrapperTags,
-    createEmpty: createEmpty,
-    append: append,
-    getLastChild: getLastChild,
-    getParent: getParent,
-    isText: isText,
-    getText: getText,
-    remove: remove,
-    appendText: appendText
-  });
-  return createChildrenHTML(tree.children);
-}
-
-function createEmpty() {
-  return {};
-}
-
-function getLastChild(_ref2) {
-  var children = _ref2.children;
-  return children && children[children.length - 1];
-}
-
-function append(parent, object) {
-  if (typeof object === 'string') {
-    object = {
-      text: object
-    };
-  }
-
-  object.parent = parent;
-  parent.children = parent.children || [];
-  parent.children.push(object);
-  return object;
-}
-
-function appendText(object, text) {
-  object.text += text;
-}
-
-function getParent(_ref3) {
-  var parent = _ref3.parent;
-  return parent;
-}
-
-function isText(_ref4) {
-  var text = _ref4.text;
-  return typeof text === 'string';
-}
-
-function getText(_ref5) {
-  var text = _ref5.text;
-  return text;
-}
-
-function remove(object) {
-  var index = object.parent.children.indexOf(object);
-
-  if (index !== -1) {
-    object.parent.children.splice(index, 1);
-  }
-
-  return object;
-}
-
-function createElementHTML(_ref6) {
-  var type = _ref6.type,
-      attributes = _ref6.attributes,
-      object = _ref6.object,
-      children = _ref6.children;
-  var attributeString = '';
-
-  for (var key in attributes) {
-    if (!Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__["isValidAttributeName"])(key)) {
-      continue;
-    }
-
-    attributeString += " ".concat(key, "=\"").concat(Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__["escapeAttribute"])(attributes[key]), "\"");
-  }
-
-  if (object) {
-    return "<".concat(type).concat(attributeString, ">");
-  }
-
-  return "<".concat(type).concat(attributeString, ">").concat(createChildrenHTML(children), "</").concat(type, ">");
-}
-
-function createChildrenHTML() {
-  var children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  return children.map(function (child) {
-    return child.text === undefined ? createElementHTML(child) : Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__["escapeHTML"])(child.text);
-  }).join('');
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"toHTMLString\", function() { return toHTMLString; });\n/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/escape-html */ \"@wordpress/escape-html\");\n/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _to_tree__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./to-tree */ \"./node_modules/@wordpress/rich-text/build-module/to-tree.js\");\n/**\n * Internal dependencies\n */\n\n/**\n * Internal dependencies\n */\n\n\n/**\n * Create an HTML string from a Rich Text value. If a `multilineTag` is\n * provided, text separated by a line separator will be wrapped in it.\n *\n * @param {Object} $1                      Named argements.\n * @param {Object} $1.value                Rich text value.\n * @param {string} $1.multilineTag         Multiline tag.\n * @param {Array}  $1.multilineWrapperTags Tags where lines can be found if\n *                                         nesting is possible.\n *\n * @return {string} HTML string.\n */\n\nfunction toHTMLString(_ref) {\n  var value = _ref.value,\n      multilineTag = _ref.multilineTag,\n      multilineWrapperTags = _ref.multilineWrapperTags;\n  var tree = Object(_to_tree__WEBPACK_IMPORTED_MODULE_1__[\"toTree\"])({\n    value: value,\n    multilineTag: multilineTag,\n    multilineWrapperTags: multilineWrapperTags,\n    createEmpty: createEmpty,\n    append: append,\n    getLastChild: getLastChild,\n    getParent: getParent,\n    isText: isText,\n    getText: getText,\n    remove: remove,\n    appendText: appendText\n  });\n  return createChildrenHTML(tree.children);\n}\n\nfunction createEmpty() {\n  return {};\n}\n\nfunction getLastChild(_ref2) {\n  var children = _ref2.children;\n  return children && children[children.length - 1];\n}\n\nfunction append(parent, object) {\n  if (typeof object === 'string') {\n    object = {\n      text: object\n    };\n  }\n\n  object.parent = parent;\n  parent.children = parent.children || [];\n  parent.children.push(object);\n  return object;\n}\n\nfunction appendText(object, text) {\n  object.text += text;\n}\n\nfunction getParent(_ref3) {\n  var parent = _ref3.parent;\n  return parent;\n}\n\nfunction isText(_ref4) {\n  var text = _ref4.text;\n  return typeof text === 'string';\n}\n\nfunction getText(_ref5) {\n  var text = _ref5.text;\n  return text;\n}\n\nfunction remove(object) {\n  var index = object.parent.children.indexOf(object);\n\n  if (index !== -1) {\n    object.parent.children.splice(index, 1);\n  }\n\n  return object;\n}\n\nfunction createElementHTML(_ref6) {\n  var type = _ref6.type,\n      attributes = _ref6.attributes,\n      object = _ref6.object,\n      children = _ref6.children;\n  var attributeString = '';\n\n  for (var key in attributes) {\n    if (!Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__[\"isValidAttributeName\"])(key)) {\n      continue;\n    }\n\n    attributeString += \" \".concat(key, \"=\\\"\").concat(Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__[\"escapeAttribute\"])(attributes[key]), \"\\\"\");\n  }\n\n  if (object) {\n    return \"<\".concat(type).concat(attributeString, \">\");\n  }\n\n  return \"<\".concat(type).concat(attributeString, \">\").concat(createChildrenHTML(children), \"</\").concat(type, \">\");\n}\n\nfunction createChildrenHTML() {\n  var children = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];\n  return children.map(function (child) {\n    return child.text === undefined ? createElementHTML(child) : Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__[\"escapeHTML\"])(child.text);\n  }).join('');\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/to-html-string.js?");
 
 /***/ }),
 
@@ -3052,232 +575,7 @@ function createChildrenHTML() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toTree", function() { return toTree; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _get_format_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-format-type */ "./node_modules/@wordpress/rich-text/build-module/get-format-type.js");
-/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-function fromFormat(_ref) {
-  var type = _ref.type,
-      attributes = _ref.attributes,
-      unregisteredAttributes = _ref.unregisteredAttributes,
-      object = _ref.object;
-  var formatType = Object(_get_format_type__WEBPACK_IMPORTED_MODULE_2__["getFormatType"])(type);
-
-  if (!formatType) {
-    return {
-      type: type,
-      attributes: attributes,
-      object: object
-    };
-  }
-
-  var elementAttributes = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, unregisteredAttributes);
-
-  for (var name in attributes) {
-    var key = formatType.attributes[name];
-
-    if (key) {
-      elementAttributes[key] = attributes[name];
-    } else {
-      elementAttributes[name] = attributes[name];
-    }
-  }
-
-  if (formatType.className) {
-    if (elementAttributes.class) {
-      elementAttributes.class = "".concat(formatType.className, " ").concat(elementAttributes.class);
-    } else {
-      elementAttributes.class = formatType.className;
-    }
-  }
-
-  return {
-    type: formatType.tagName,
-    object: formatType.object,
-    attributes: elementAttributes
-  };
-}
-
-function toTree(_ref2) {
-  var value = _ref2.value,
-      multilineTag = _ref2.multilineTag,
-      _ref2$multilineWrappe = _ref2.multilineWrapperTags,
-      multilineWrapperTags = _ref2$multilineWrappe === void 0 ? [] : _ref2$multilineWrappe,
-      createEmpty = _ref2.createEmpty,
-      append = _ref2.append,
-      getLastChild = _ref2.getLastChild,
-      getParent = _ref2.getParent,
-      isText = _ref2.isText,
-      getText = _ref2.getText,
-      remove = _ref2.remove,
-      appendText = _ref2.appendText,
-      onStartIndex = _ref2.onStartIndex,
-      onEndIndex = _ref2.onEndIndex,
-      isEditableTree = _ref2.isEditableTree;
-  var formats = value.formats,
-      text = value.text,
-      start = value.start,
-      end = value.end,
-      formatPlaceholder = value.formatPlaceholder;
-  var formatsLength = formats.length + 1;
-  var tree = createEmpty();
-  var multilineFormat = {
-    type: multilineTag
-  };
-  var lastSeparatorFormats;
-  var lastCharacterFormats;
-  var lastCharacter; // If we're building a multiline tree, start off with a multiline element.
-
-  if (multilineTag) {
-    append(append(tree, {
-      type: multilineTag
-    }), '');
-    lastCharacterFormats = lastSeparatorFormats = [multilineFormat];
-  } else {
-    append(tree, '');
-  }
-
-  function setFormatPlaceholder(pointer, index) {
-    if (isEditableTree && formatPlaceholder && formatPlaceholder.index === index) {
-      var parent = getParent(pointer);
-
-      if (formatPlaceholder.format === undefined) {
-        pointer = getParent(parent);
-      } else {
-        pointer = append(parent, fromFormat(formatPlaceholder.format));
-      }
-
-      pointer = append(pointer, _special_characters__WEBPACK_IMPORTED_MODULE_3__["ZERO_WIDTH_NO_BREAK_SPACE"]);
-    }
-
-    return pointer;
-  }
-
-  var _loop = function _loop(i) {
-    var character = text.charAt(i);
-    var characterFormats = formats[i]; // Set multiline tags in queue for building the tree.
-
-    if (multilineTag) {
-      if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__["LINE_SEPARATOR"]) {
-        characterFormats = lastSeparatorFormats = (characterFormats || []).reduce(function (accumulator, format) {
-          if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__["LINE_SEPARATOR"] && multilineWrapperTags.indexOf(format.type) !== -1) {
-            accumulator.push(format);
-            accumulator.push(multilineFormat);
-          }
-
-          return accumulator;
-        }, [multilineFormat]);
-      } else {
-        characterFormats = Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(lastSeparatorFormats).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(characterFormats || []));
-      }
-    }
-
-    var pointer = getLastChild(tree); // Set selection for the start of line.
-
-    if (lastCharacter === _special_characters__WEBPACK_IMPORTED_MODULE_3__["LINE_SEPARATOR"]) {
-      var node = pointer;
-
-      while (!isText(node)) {
-        node = getLastChild(node);
-      }
-
-      if (onStartIndex && start === i) {
-        onStartIndex(tree, node);
-      }
-
-      if (onEndIndex && end === i) {
-        onEndIndex(tree, node);
-      }
-    }
-
-    if (characterFormats) {
-      characterFormats.forEach(function (format, formatIndex) {
-        if (pointer && lastCharacterFormats && format === lastCharacterFormats[formatIndex] && ( // Do not reuse the last element if the character is a
-        // line separator.
-        character !== _special_characters__WEBPACK_IMPORTED_MODULE_3__["LINE_SEPARATOR"] || characterFormats.length - 1 !== formatIndex)) {
-          pointer = getLastChild(pointer);
-          return;
-        }
-
-        var parent = getParent(pointer);
-        var newNode = append(parent, fromFormat(format));
-
-        if (isText(pointer) && getText(pointer).length === 0) {
-          remove(pointer);
-        }
-
-        pointer = append(format.object ? parent : newNode, '');
-      });
-    } // No need for further processing if the character is a line separator.
-
-
-    if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__["LINE_SEPARATOR"]) {
-      lastCharacterFormats = characterFormats;
-      lastCharacter = character;
-      return "continue";
-    }
-
-    pointer = setFormatPlaceholder(pointer, 0); // If there is selection at 0, handle it before characters are inserted.
-
-    if (i === 0) {
-      if (onStartIndex && start === 0) {
-        onStartIndex(tree, pointer);
-      }
-
-      if (onEndIndex && end === 0) {
-        onEndIndex(tree, pointer);
-      }
-    }
-
-    if (character !== _special_characters__WEBPACK_IMPORTED_MODULE_3__["OBJECT_REPLACEMENT_CHARACTER"]) {
-      if (character === '\n') {
-        pointer = append(getParent(pointer), {
-          type: 'br',
-          object: true
-        }); // Ensure pointer is text node.
-
-        pointer = append(getParent(pointer), '');
-      } else if (!isText(pointer)) {
-        pointer = append(getParent(pointer), character);
-      } else {
-        appendText(pointer, character);
-      }
-    }
-
-    pointer = setFormatPlaceholder(pointer, i + 1);
-
-    if (onStartIndex && start === i + 1) {
-      onStartIndex(tree, pointer);
-    }
-
-    if (onEndIndex && end === i + 1) {
-      onEndIndex(tree, pointer);
-    }
-
-    lastCharacterFormats = characterFormats;
-    lastCharacter = character;
-  };
-
-  for (var i = 0; i < formatsLength; i++) {
-    var _ret = _loop(i);
-
-    if (_ret === "continue") continue;
-  }
-
-  return tree;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"toTree\", function() { return toTree; });\n/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ \"./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js\");\n/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ \"./node_modules/@babel/runtime/helpers/esm/objectSpread.js\");\n/* harmony import */ var _get_format_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-format-type */ \"./node_modules/@wordpress/rich-text/build-module/get-format-type.js\");\n/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./special-characters */ \"./node_modules/@wordpress/rich-text/build-module/special-characters.js\");\n\n\n\n/**\n * Internal dependencies\n */\n\n\n\nfunction fromFormat(_ref) {\n  var type = _ref.type,\n      attributes = _ref.attributes,\n      unregisteredAttributes = _ref.unregisteredAttributes,\n      object = _ref.object;\n  var formatType = Object(_get_format_type__WEBPACK_IMPORTED_MODULE_2__[\"getFormatType\"])(type);\n\n  if (!formatType) {\n    return {\n      type: type,\n      attributes: attributes,\n      object: object\n    };\n  }\n\n  var elementAttributes = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__[\"default\"])({}, unregisteredAttributes);\n\n  for (var name in attributes) {\n    var key = formatType.attributes[name];\n\n    if (key) {\n      elementAttributes[key] = attributes[name];\n    } else {\n      elementAttributes[name] = attributes[name];\n    }\n  }\n\n  if (formatType.className) {\n    if (elementAttributes.class) {\n      elementAttributes.class = \"\".concat(formatType.className, \" \").concat(elementAttributes.class);\n    } else {\n      elementAttributes.class = formatType.className;\n    }\n  }\n\n  return {\n    type: formatType.tagName,\n    object: formatType.object,\n    attributes: elementAttributes\n  };\n}\n\nfunction toTree(_ref2) {\n  var value = _ref2.value,\n      multilineTag = _ref2.multilineTag,\n      _ref2$multilineWrappe = _ref2.multilineWrapperTags,\n      multilineWrapperTags = _ref2$multilineWrappe === void 0 ? [] : _ref2$multilineWrappe,\n      createEmpty = _ref2.createEmpty,\n      append = _ref2.append,\n      getLastChild = _ref2.getLastChild,\n      getParent = _ref2.getParent,\n      isText = _ref2.isText,\n      getText = _ref2.getText,\n      remove = _ref2.remove,\n      appendText = _ref2.appendText,\n      onStartIndex = _ref2.onStartIndex,\n      onEndIndex = _ref2.onEndIndex,\n      isEditableTree = _ref2.isEditableTree;\n  var formats = value.formats,\n      text = value.text,\n      start = value.start,\n      end = value.end,\n      formatPlaceholder = value.formatPlaceholder;\n  var formatsLength = formats.length + 1;\n  var tree = createEmpty();\n  var multilineFormat = {\n    type: multilineTag\n  };\n  var lastSeparatorFormats;\n  var lastCharacterFormats;\n  var lastCharacter; // If we're building a multiline tree, start off with a multiline element.\n\n  if (multilineTag) {\n    append(append(tree, {\n      type: multilineTag\n    }), '');\n    lastCharacterFormats = lastSeparatorFormats = [multilineFormat];\n  } else {\n    append(tree, '');\n  }\n\n  function setFormatPlaceholder(pointer, index) {\n    if (isEditableTree && formatPlaceholder && formatPlaceholder.index === index) {\n      var parent = getParent(pointer);\n\n      if (formatPlaceholder.format === undefined) {\n        pointer = getParent(parent);\n      } else {\n        pointer = append(parent, fromFormat(formatPlaceholder.format));\n      }\n\n      pointer = append(pointer, _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"ZERO_WIDTH_NO_BREAK_SPACE\"]);\n    }\n\n    return pointer;\n  }\n\n  var _loop = function _loop(i) {\n    var character = text.charAt(i);\n    var characterFormats = formats[i]; // Set multiline tags in queue for building the tree.\n\n    if (multilineTag) {\n      if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"LINE_SEPARATOR\"]) {\n        characterFormats = lastSeparatorFormats = (characterFormats || []).reduce(function (accumulator, format) {\n          if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"LINE_SEPARATOR\"] && multilineWrapperTags.indexOf(format.type) !== -1) {\n            accumulator.push(format);\n            accumulator.push(multilineFormat);\n          }\n\n          return accumulator;\n        }, [multilineFormat]);\n      } else {\n        characterFormats = Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(lastSeparatorFormats).concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(characterFormats || []));\n      }\n    }\n\n    var pointer = getLastChild(tree); // Set selection for the start of line.\n\n    if (lastCharacter === _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"LINE_SEPARATOR\"]) {\n      var node = pointer;\n\n      while (!isText(node)) {\n        node = getLastChild(node);\n      }\n\n      if (onStartIndex && start === i) {\n        onStartIndex(tree, node);\n      }\n\n      if (onEndIndex && end === i) {\n        onEndIndex(tree, node);\n      }\n    }\n\n    if (characterFormats) {\n      characterFormats.forEach(function (format, formatIndex) {\n        if (pointer && lastCharacterFormats && format === lastCharacterFormats[formatIndex] && ( // Do not reuse the last element if the character is a\n        // line separator.\n        character !== _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"LINE_SEPARATOR\"] || characterFormats.length - 1 !== formatIndex)) {\n          pointer = getLastChild(pointer);\n          return;\n        }\n\n        var parent = getParent(pointer);\n        var newNode = append(parent, fromFormat(format));\n\n        if (isText(pointer) && getText(pointer).length === 0) {\n          remove(pointer);\n        }\n\n        pointer = append(format.object ? parent : newNode, '');\n      });\n    } // No need for further processing if the character is a line separator.\n\n\n    if (character === _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"LINE_SEPARATOR\"]) {\n      lastCharacterFormats = characterFormats;\n      lastCharacter = character;\n      return \"continue\";\n    }\n\n    pointer = setFormatPlaceholder(pointer, 0); // If there is selection at 0, handle it before characters are inserted.\n\n    if (i === 0) {\n      if (onStartIndex && start === 0) {\n        onStartIndex(tree, pointer);\n      }\n\n      if (onEndIndex && end === 0) {\n        onEndIndex(tree, pointer);\n      }\n    }\n\n    if (character !== _special_characters__WEBPACK_IMPORTED_MODULE_3__[\"OBJECT_REPLACEMENT_CHARACTER\"]) {\n      if (character === '\\n') {\n        pointer = append(getParent(pointer), {\n          type: 'br',\n          object: true\n        }); // Ensure pointer is text node.\n\n        pointer = append(getParent(pointer), '');\n      } else if (!isText(pointer)) {\n        pointer = append(getParent(pointer), character);\n      } else {\n        appendText(pointer, character);\n      }\n    }\n\n    pointer = setFormatPlaceholder(pointer, i + 1);\n\n    if (onStartIndex && start === i + 1) {\n      onStartIndex(tree, pointer);\n    }\n\n    if (onEndIndex && end === i + 1) {\n      onEndIndex(tree, pointer);\n    }\n\n    lastCharacterFormats = characterFormats;\n    lastCharacter = character;\n  };\n\n  for (var i = 0; i < formatsLength; i++) {\n    var _ret = _loop(i);\n\n    if (_ret === \"continue\") continue;\n  }\n\n  return tree;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/to-tree.js?");
 
 /***/ }),
 
@@ -3289,34 +587,7 @@ function toTree(_ref2) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return toggleFormat; });
-/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-active-format */ "./node_modules/@wordpress/rich-text/build-module/get-active-format.js");
-/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./remove-format */ "./node_modules/@wordpress/rich-text/build-module/remove-format.js");
-/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./apply-format */ "./node_modules/@wordpress/rich-text/build-module/apply-format.js");
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Toggles a format object to a Rich Text value at the current selection.
- *
- * @param {Object} value      Value to modify.
- * @param {Object} format     Format to apply or remove.
- *
- * @return {Object} A new value with the format applied or removed.
- */
-
-function toggleFormat(value, format) {
-  if (Object(_get_active_format__WEBPACK_IMPORTED_MODULE_0__["getActiveFormat"])(value, format.type)) {
-    return Object(_remove_format__WEBPACK_IMPORTED_MODULE_1__["removeFormat"])(value, format.type);
-  }
-
-  return Object(_apply_format__WEBPACK_IMPORTED_MODULE_2__["applyFormat"])(value, format);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"toggleFormat\", function() { return toggleFormat; });\n/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-active-format */ \"./node_modules/@wordpress/rich-text/build-module/get-active-format.js\");\n/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./remove-format */ \"./node_modules/@wordpress/rich-text/build-module/remove-format.js\");\n/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./apply-format */ \"./node_modules/@wordpress/rich-text/build-module/apply-format.js\");\n/**\n * Internal dependencies\n */\n\n\n\n/**\n * Toggles a format object to a Rich Text value at the current selection.\n *\n * @param {Object} value      Value to modify.\n * @param {Object} format     Format to apply or remove.\n *\n * @return {Object} A new value with the format applied or removed.\n */\n\nfunction toggleFormat(value, format) {\n  if (Object(_get_active_format__WEBPACK_IMPORTED_MODULE_0__[\"getActiveFormat\"])(value, format.type)) {\n    return Object(_remove_format__WEBPACK_IMPORTED_MODULE_1__[\"removeFormat\"])(value, format.type);\n  }\n\n  return Object(_apply_format__WEBPACK_IMPORTED_MODULE_2__[\"applyFormat\"])(value, format);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/toggle-format.js?");
 
 /***/ }),
 
@@ -3328,42 +599,7 @@ function toggleFormat(value, format) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return unregisterFormatType; });
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__);
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Unregisters a format.
- *
- * @param {string} name Format name.
- *
- * @return {?WPFormat} The previous format value, if it has been successfully
- *                     unregistered; otherwise `undefined`.
- */
-
-function unregisterFormatType(name) {
-  var oldFormat = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/rich-text').getFormatType(name);
-
-  if (!oldFormat) {
-    window.console.error("Format ".concat(name, " is not registered."));
-    return;
-  }
-
-  if (oldFormat.__experimentalCreatePrepareEditableTree && oldFormat.__experimentalGetPropsForEditableTreePreparation) {
-    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__["removeFilter"])('experimentalRichText', name);
-  }
-
-  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["dispatch"])('core/rich-text').removeFormatTypes(name);
-  return oldFormat;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"unregisterFormatType\", function() { return unregisterFormatType; });\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ \"@wordpress/data\");\n/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/hooks */ \"@wordpress/hooks\");\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__);\n/**\n * WordPress dependencies\n */\n\n\n/**\n * Unregisters a format.\n *\n * @param {string} name Format name.\n *\n * @return {?WPFormat} The previous format value, if it has been successfully\n *                     unregistered; otherwise `undefined`.\n */\n\nfunction unregisterFormatType(name) {\n  var oldFormat = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__[\"select\"])('core/rich-text').getFormatType(name);\n\n  if (!oldFormat) {\n    window.console.error(\"Format \".concat(name, \" is not registered.\"));\n    return;\n  }\n\n  if (oldFormat.__experimentalCreatePrepareEditableTree && oldFormat.__experimentalGetPropsForEditableTreePreparation) {\n    Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__[\"removeFilter\"])('experimentalRichText', name);\n  }\n\n  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__[\"dispatch\"])('core/rich-text').removeFormatTypes(name);\n  return oldFormat;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js?");
 
 /***/ }),
 
@@ -3374,118 +610,7 @@ function unregisterFormatType(name) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function memize( fn, options ) {
-	var size = 0,
-		maxSize, head, tail;
-
-	if ( options && options.maxSize ) {
-		maxSize = options.maxSize;
-	}
-
-	function memoized( /* ...args */ ) {
-		var node = head,
-			len = arguments.length,
-			args, i;
-
-		searchCache: while ( node ) {
-			// Perform a shallow equality test to confirm that whether the node
-			// under test is a candidate for the arguments passed. Two arrays
-			// are shallowly equal if their length matches and each entry is
-			// strictly equal between the two sets. Avoid abstracting to a
-			// function which could incur an arguments leaking deoptimization.
-
-			// Check whether node arguments match arguments length
-			if ( node.args.length !== arguments.length ) {
-				node = node.next;
-				continue;
-			}
-
-			// Check whether node arguments match arguments values
-			for ( i = 0; i < len; i++ ) {
-				if ( node.args[ i ] !== arguments[ i ] ) {
-					node = node.next;
-					continue searchCache;
-				}
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== head ) {
-				// As tail, shift to previous. Must only shift if not also
-				// head, since if both head and tail, there is no previous.
-				if ( node === tail ) {
-					tail = node.prev;
-				}
-
-				// Adjust siblings to point to each other. If node was tail,
-				// this also handles new tail's empty `next` assignment.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = head;
-				node.prev = null;
-				head.prev = node;
-				head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		// Create a copy of arguments (avoid leaking deoptimization)
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		node = {
-			args: args,
-
-			// Generate the result from original function
-			val: fn.apply( null, args )
-		};
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( head ) {
-			head.prev = node;
-			node.next = head;
-		} else {
-			// If no head, follows that there's no tail (at initial or reset)
-			tail = node;
-		}
-
-		// Trim tail if we're reached max size and are pending cache insertion
-		if ( size === maxSize ) {
-			tail = tail.prev;
-			tail.next = null;
-		} else {
-			size++;
-		}
-
-		head = node;
-
-		return node.val;
-	}
-
-	memoized.clear = function() {
-		head = null;
-		tail = null;
-		size = 0;
-	};
-
-	if ( false ) {}
-
-	return memoized;
-};
-
+eval("module.exports = function memize( fn, options ) {\n\tvar size = 0,\n\t\tmaxSize, head, tail;\n\n\tif ( options && options.maxSize ) {\n\t\tmaxSize = options.maxSize;\n\t}\n\n\tfunction memoized( /* ...args */ ) {\n\t\tvar node = head,\n\t\t\tlen = arguments.length,\n\t\t\targs, i;\n\n\t\tsearchCache: while ( node ) {\n\t\t\t// Perform a shallow equality test to confirm that whether the node\n\t\t\t// under test is a candidate for the arguments passed. Two arrays\n\t\t\t// are shallowly equal if their length matches and each entry is\n\t\t\t// strictly equal between the two sets. Avoid abstracting to a\n\t\t\t// function which could incur an arguments leaking deoptimization.\n\n\t\t\t// Check whether node arguments match arguments length\n\t\t\tif ( node.args.length !== arguments.length ) {\n\t\t\t\tnode = node.next;\n\t\t\t\tcontinue;\n\t\t\t}\n\n\t\t\t// Check whether node arguments match arguments values\n\t\t\tfor ( i = 0; i < len; i++ ) {\n\t\t\t\tif ( node.args[ i ] !== arguments[ i ] ) {\n\t\t\t\t\tnode = node.next;\n\t\t\t\t\tcontinue searchCache;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t// At this point we can assume we've found a match\n\n\t\t\t// Surface matched node to head if not already\n\t\t\tif ( node !== head ) {\n\t\t\t\t// As tail, shift to previous. Must only shift if not also\n\t\t\t\t// head, since if both head and tail, there is no previous.\n\t\t\t\tif ( node === tail ) {\n\t\t\t\t\ttail = node.prev;\n\t\t\t\t}\n\n\t\t\t\t// Adjust siblings to point to each other. If node was tail,\n\t\t\t\t// this also handles new tail's empty `next` assignment.\n\t\t\t\tnode.prev.next = node.next;\n\t\t\t\tif ( node.next ) {\n\t\t\t\t\tnode.next.prev = node.prev;\n\t\t\t\t}\n\n\t\t\t\tnode.next = head;\n\t\t\t\tnode.prev = null;\n\t\t\t\thead.prev = node;\n\t\t\t\thead = node;\n\t\t\t}\n\n\t\t\t// Return immediately\n\t\t\treturn node.val;\n\t\t}\n\n\t\t// No cached value found. Continue to insertion phase:\n\n\t\t// Create a copy of arguments (avoid leaking deoptimization)\n\t\targs = new Array( len );\n\t\tfor ( i = 0; i < len; i++ ) {\n\t\t\targs[ i ] = arguments[ i ];\n\t\t}\n\n\t\tnode = {\n\t\t\targs: args,\n\n\t\t\t// Generate the result from original function\n\t\t\tval: fn.apply( null, args )\n\t\t};\n\n\t\t// Don't need to check whether node is already head, since it would\n\t\t// have been returned above already if it was\n\n\t\t// Shift existing head down list\n\t\tif ( head ) {\n\t\t\thead.prev = node;\n\t\t\tnode.next = head;\n\t\t} else {\n\t\t\t// If no head, follows that there's no tail (at initial or reset)\n\t\t\ttail = node;\n\t\t}\n\n\t\t// Trim tail if we're reached max size and are pending cache insertion\n\t\tif ( size === maxSize ) {\n\t\t\ttail = tail.prev;\n\t\t\ttail.next = null;\n\t\t} else {\n\t\t\tsize++;\n\t\t}\n\n\t\thead = node;\n\n\t\treturn node.val;\n\t}\n\n\tmemoized.clear = function() {\n\t\thead = null;\n\t\ttail = null;\n\t\tsize = 0;\n\t};\n\n\tif ( false ) {}\n\n\treturn memoized;\n};\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/memize/index.js?");
 
 /***/ }),
 
@@ -3497,282 +622,7 @@ module.exports = function memize( fn, options ) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-
-
-var LEAF_KEY, hasWeakMap;
-
-/**
- * Arbitrary value used as key for referencing cache object in WeakMap tree.
- *
- * @type {Object}
- */
-LEAF_KEY = {};
-
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
-
-/**
- * Returns the first argument as the sole entry in an array.
- *
- * @param {*} value Value to return.
- *
- * @return {Array} Value returned as entry in array.
- */
-function arrayOf( value ) {
-	return [ value ];
-}
-
-/**
- * Returns true if the value passed is object-like, or false otherwise. A value
- * is object-like if it can support property assignment, e.g. object or array.
- *
- * @param {*} value Value to test.
- *
- * @return {boolean} Whether value is object-like.
- */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
-}
-
-/**
- * Creates and returns a new cache object.
- *
- * @return {Object} Cache object.
- */
-function createCache() {
-	var cache = {
-		clear: function() {
-			cache.head = null;
-		},
-	};
-
-	return cache;
-}
-
-/**
- * Returns true if entries within the two arrays are strictly equal by
- * reference from a starting index.
- *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
- * @param {number} fromIndex Index from which to start comparison.
- *
- * @return {boolean} Whether arrays are shallowly equal.
- */
-function isShallowEqual( a, b, fromIndex ) {
-	var i;
-
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/**
- * Returns a memoized selector function. The getDependants function argument is
- * called before the memoized selector and is expected to return an immutable
- * reference or array of references on which the selector depends for computing
- * its own return value. The memoize cache is preserved only as long as those
- * dependant references remain the same. If getDependants returns a different
- * reference(s), the cache is cleared and the selector value regenerated.
- *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
- *
- * @return {Function} Memoized selector.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function( selector, getDependants ) {
-	var rootCache, getCache;
-
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
-
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
-
-	/**
-	 * Returns the cache for a given dependants array. When possible, a WeakMap
-	 * will be used to create a unique cache for each set of dependants. This
-	 * is feasible due to the nature of WeakMap in allowing garbage collection
-	 * to occur on entries where the key object is no longer referenced. Since
-	 * WeakMap requires the key to be an object, this is only possible when the
-	 * dependant is object-like. The root cache is created as a hierarchy where
-	 * each top-level key is the first entry in a dependants set, the value a
-	 * WeakMap where each key is the next dependant, and so on. This continues
-	 * so long as the dependants are object-like. If no dependants are object-
-	 * like, then the cache is shared across all invocations.
-	 *
-	 * @see isObjectLike
-	 *
-	 * @param {Array} dependants Selector dependants.
-	 *
-	 * @return {Object} Cache object.
-	 */
-	function getWeakMapCache( dependants ) {
-		var caches = rootCache,
-			isUniqueByDependants = true,
-			i, dependant, map, cache;
-
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
-
-			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
-				isUniqueByDependants = false;
-				break;
-			}
-
-			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
-				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
-			} else {
-				// Create, set, and traverse into a new one.
-				map = new WeakMap();
-				caches.set( dependant, map );
-				caches = map;
-			}
-		}
-
-		// We use an arbitrary (but consistent) object as key for the last item
-		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
-			cache = createCache();
-			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
-		}
-
-		return caches.get( LEAF_KEY );
-	}
-
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
-
-	/**
-	 * Resets root memoization cache.
-	 */
-	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
-	}
-
-	// eslint-disable-next-line jsdoc/check-param-names
-	/**
-	 * The augmented selector call, considering first whether dependants have
-	 * changed before passing it to underlying memoize function.
-	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
-	 *
-	 * @return {*} Selector result.
-	 */
-	function callSelector( /* source, ...extraArgs */ ) {
-		var len = arguments.length,
-			cache, node, i, args, dependants;
-
-		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
-
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
-				cache.clear();
-			}
-
-			cache.lastDependants = dependants;
-		}
-
-		node = cache.head;
-		while ( node ) {
-			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
-				node = node.next;
-				continue;
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
-				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = cache.head;
-				node.prev = null;
-				cache.head.prev = node;
-				cache.head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		node = {
-			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
-
-		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
-		node.args = args;
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( cache.head ) {
-			cache.head.prev = node;
-			node.next = cache.head;
-		}
-
-		cache.head = node;
-
-		return node.val;
-	}
-
-	callSelector.getDependants = getDependants;
-	callSelector.clear = clear;
-	clear();
-
-	return callSelector;
-});
-
+eval("__webpack_require__.r(__webpack_exports__);\n\n\nvar LEAF_KEY, hasWeakMap;\n\n/**\n * Arbitrary value used as key for referencing cache object in WeakMap tree.\n *\n * @type {Object}\n */\nLEAF_KEY = {};\n\n/**\n * Whether environment supports WeakMap.\n *\n * @type {boolean}\n */\nhasWeakMap = typeof WeakMap !== 'undefined';\n\n/**\n * Returns the first argument as the sole entry in an array.\n *\n * @param {*} value Value to return.\n *\n * @return {Array} Value returned as entry in array.\n */\nfunction arrayOf( value ) {\n\treturn [ value ];\n}\n\n/**\n * Returns true if the value passed is object-like, or false otherwise. A value\n * is object-like if it can support property assignment, e.g. object or array.\n *\n * @param {*} value Value to test.\n *\n * @return {boolean} Whether value is object-like.\n */\nfunction isObjectLike( value ) {\n\treturn !! value && 'object' === typeof value;\n}\n\n/**\n * Creates and returns a new cache object.\n *\n * @return {Object} Cache object.\n */\nfunction createCache() {\n\tvar cache = {\n\t\tclear: function() {\n\t\t\tcache.head = null;\n\t\t},\n\t};\n\n\treturn cache;\n}\n\n/**\n * Returns true if entries within the two arrays are strictly equal by\n * reference from a starting index.\n *\n * @param {Array}  a         First array.\n * @param {Array}  b         Second array.\n * @param {number} fromIndex Index from which to start comparison.\n *\n * @return {boolean} Whether arrays are shallowly equal.\n */\nfunction isShallowEqual( a, b, fromIndex ) {\n\tvar i;\n\n\tif ( a.length !== b.length ) {\n\t\treturn false;\n\t}\n\n\tfor ( i = fromIndex; i < a.length; i++ ) {\n\t\tif ( a[ i ] !== b[ i ] ) {\n\t\t\treturn false;\n\t\t}\n\t}\n\n\treturn true;\n}\n\n/**\n * Returns a memoized selector function. The getDependants function argument is\n * called before the memoized selector and is expected to return an immutable\n * reference or array of references on which the selector depends for computing\n * its own return value. The memoize cache is preserved only as long as those\n * dependant references remain the same. If getDependants returns a different\n * reference(s), the cache is cleared and the selector value regenerated.\n *\n * @param {Function} selector      Selector function.\n * @param {Function} getDependants Dependant getter returning an immutable\n *                                 reference or array of reference used in\n *                                 cache bust consideration.\n *\n * @return {Function} Memoized selector.\n */\n/* harmony default export */ __webpack_exports__[\"default\"] = (function( selector, getDependants ) {\n\tvar rootCache, getCache;\n\n\t// Use object source as dependant if getter not provided\n\tif ( ! getDependants ) {\n\t\tgetDependants = arrayOf;\n\t}\n\n\t/**\n\t * Returns the root cache. If WeakMap is supported, this is assigned to the\n\t * root WeakMap cache set, otherwise it is a shared instance of the default\n\t * cache object.\n\t *\n\t * @return {(WeakMap|Object)} Root cache object.\n\t */\n\tfunction getRootCache() {\n\t\treturn rootCache;\n\t}\n\n\t/**\n\t * Returns the cache for a given dependants array. When possible, a WeakMap\n\t * will be used to create a unique cache for each set of dependants. This\n\t * is feasible due to the nature of WeakMap in allowing garbage collection\n\t * to occur on entries where the key object is no longer referenced. Since\n\t * WeakMap requires the key to be an object, this is only possible when the\n\t * dependant is object-like. The root cache is created as a hierarchy where\n\t * each top-level key is the first entry in a dependants set, the value a\n\t * WeakMap where each key is the next dependant, and so on. This continues\n\t * so long as the dependants are object-like. If no dependants are object-\n\t * like, then the cache is shared across all invocations.\n\t *\n\t * @see isObjectLike\n\t *\n\t * @param {Array} dependants Selector dependants.\n\t *\n\t * @return {Object} Cache object.\n\t */\n\tfunction getWeakMapCache( dependants ) {\n\t\tvar caches = rootCache,\n\t\t\tisUniqueByDependants = true,\n\t\t\ti, dependant, map, cache;\n\n\t\tfor ( i = 0; i < dependants.length; i++ ) {\n\t\t\tdependant = dependants[ i ];\n\n\t\t\t// Can only compose WeakMap from object-like key.\n\t\t\tif ( ! isObjectLike( dependant ) ) {\n\t\t\t\tisUniqueByDependants = false;\n\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\t// Does current segment of cache already have a WeakMap?\n\t\t\tif ( caches.has( dependant ) ) {\n\t\t\t\t// Traverse into nested WeakMap.\n\t\t\t\tcaches = caches.get( dependant );\n\t\t\t} else {\n\t\t\t\t// Create, set, and traverse into a new one.\n\t\t\t\tmap = new WeakMap();\n\t\t\t\tcaches.set( dependant, map );\n\t\t\t\tcaches = map;\n\t\t\t}\n\t\t}\n\n\t\t// We use an arbitrary (but consistent) object as key for the last item\n\t\t// in the WeakMap to serve as our running cache.\n\t\tif ( ! caches.has( LEAF_KEY ) ) {\n\t\t\tcache = createCache();\n\t\t\tcache.isUniqueByDependants = isUniqueByDependants;\n\t\t\tcaches.set( LEAF_KEY, cache );\n\t\t}\n\n\t\treturn caches.get( LEAF_KEY );\n\t}\n\n\t// Assign cache handler by availability of WeakMap\n\tgetCache = hasWeakMap ? getWeakMapCache : getRootCache;\n\n\t/**\n\t * Resets root memoization cache.\n\t */\n\tfunction clear() {\n\t\trootCache = hasWeakMap ? new WeakMap() : createCache();\n\t}\n\n\t// eslint-disable-next-line jsdoc/check-param-names\n\t/**\n\t * The augmented selector call, considering first whether dependants have\n\t * changed before passing it to underlying memoize function.\n\t *\n\t * @param {Object} source    Source object for derivation.\n\t * @param {...*}   extraArgs Additional arguments to pass to selector.\n\t *\n\t * @return {*} Selector result.\n\t */\n\tfunction callSelector( /* source, ...extraArgs */ ) {\n\t\tvar len = arguments.length,\n\t\t\tcache, node, i, args, dependants;\n\n\t\t// Create copy of arguments (avoid leaking deoptimization).\n\t\targs = new Array( len );\n\t\tfor ( i = 0; i < len; i++ ) {\n\t\t\targs[ i ] = arguments[ i ];\n\t\t}\n\n\t\tdependants = getDependants.apply( null, args );\n\t\tcache = getCache( dependants );\n\n\t\t// If not guaranteed uniqueness by dependants (primitive type or lack\n\t\t// of WeakMap support), shallow compare against last dependants and, if\n\t\t// references have changed, destroy cache to recalculate result.\n\t\tif ( ! cache.isUniqueByDependants ) {\n\t\t\tif ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {\n\t\t\t\tcache.clear();\n\t\t\t}\n\n\t\t\tcache.lastDependants = dependants;\n\t\t}\n\n\t\tnode = cache.head;\n\t\twhile ( node ) {\n\t\t\t// Check whether node arguments match arguments\n\t\t\tif ( ! isShallowEqual( node.args, args, 1 ) ) {\n\t\t\t\tnode = node.next;\n\t\t\t\tcontinue;\n\t\t\t}\n\n\t\t\t// At this point we can assume we've found a match\n\n\t\t\t// Surface matched node to head if not already\n\t\t\tif ( node !== cache.head ) {\n\t\t\t\t// Adjust siblings to point to each other.\n\t\t\t\tnode.prev.next = node.next;\n\t\t\t\tif ( node.next ) {\n\t\t\t\t\tnode.next.prev = node.prev;\n\t\t\t\t}\n\n\t\t\t\tnode.next = cache.head;\n\t\t\t\tnode.prev = null;\n\t\t\t\tcache.head.prev = node;\n\t\t\t\tcache.head = node;\n\t\t\t}\n\n\t\t\t// Return immediately\n\t\t\treturn node.val;\n\t\t}\n\n\t\t// No cached value found. Continue to insertion phase:\n\n\t\tnode = {\n\t\t\t// Generate the result from original function\n\t\t\tval: selector.apply( null, args ),\n\t\t};\n\n\t\t// Avoid including the source object in the cache.\n\t\targs[ 0 ] = null;\n\t\tnode.args = args;\n\n\t\t// Don't need to check whether node is already head, since it would\n\t\t// have been returned above already if it was\n\n\t\t// Shift existing head down list\n\t\tif ( cache.head ) {\n\t\t\tcache.head.prev = node;\n\t\t\tnode.next = cache.head;\n\t\t}\n\n\t\tcache.head = node;\n\n\t\treturn node.val;\n\t}\n\n\tcallSelector.getDependants = getDependants;\n\tcallSelector.clear = clear;\n\tclear();\n\n\treturn callSelector;\n});\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/rememo/es/rememo.js?");
 
 /***/ }),
 
@@ -3783,7 +633,7 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["compose"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"compose\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22compose%22%5D%7D?");
 
 /***/ }),
 
@@ -3794,7 +644,7 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["data"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"data\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22data%22%5D%7D?");
 
 /***/ }),
 
@@ -3805,7 +655,7 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["element"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"element\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22element%22%5D%7D?");
 
 /***/ }),
 
@@ -3816,7 +666,7 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["escapeHtml"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"escapeHtml\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22escapeHtml%22%5D%7D?");
 
 /***/ }),
 
@@ -3827,7 +677,7 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["hooks"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"hooks\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22hooks%22%5D%7D?");
 
 /***/ }),
 
@@ -3838,9 +688,8 @@ function isShallowEqual( a, b, fromIndex ) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["lodash"]; }());
+eval("(function() { module.exports = this[\"lodash\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%22lodash%22?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=rich-text.js.map

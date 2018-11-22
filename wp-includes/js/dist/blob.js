@@ -95,75 +95,8 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlobURL", function() { return createBlobURL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlobByURL", function() { return getBlobByURL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "revokeBlobURL", function() { return revokeBlobURL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isBlobURL", function() { return isBlobURL; });
-/**
- * Browser dependencies
- */
-var _window$URL = window.URL,
-    createObjectURL = _window$URL.createObjectURL,
-    revokeObjectURL = _window$URL.revokeObjectURL;
-var cache = {};
-/**
- * Create a blob URL from a file.
- *
- * @param {File} file The file to create a blob URL for.
- *
- * @return {string} The blob URL.
- */
-
-function createBlobURL(file) {
-  var url = createObjectURL(file);
-  cache[url] = file;
-  return url;
-}
-/**
- * Retrieve a file based on a blob URL. The file must have been created by
- * `createBlobURL` and not removed by `revokeBlobURL`, otherwise it will return
- * `undefined`.
- *
- * @param {string} url The blob URL.
- *
- * @return {?File} The file for the blob URL.
- */
-
-function getBlobByURL(url) {
-  return cache[url];
-}
-/**
- * Remove the resource and file cache from memory.
- *
- * @param {string} url The blob URL.
- */
-
-function revokeBlobURL(url) {
-  if (cache[url]) {
-    revokeObjectURL(url);
-  }
-
-  delete cache[url];
-}
-/**
- * Check whether a url is a blob url.
- *
- * @param {string} url The URL.
- *
- * @return {boolean} Is the url a blob url?
- */
-
-function isBlobURL(url) {
-  if (!url || !url.indexOf) {
-    return false;
-  }
-
-  return url.indexOf('blob:') === 0;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"createBlobURL\", function() { return createBlobURL; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"getBlobByURL\", function() { return getBlobByURL; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"revokeBlobURL\", function() { return revokeBlobURL; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"isBlobURL\", function() { return isBlobURL; });\n/**\n * Browser dependencies\n */\nvar _window$URL = window.URL,\n    createObjectURL = _window$URL.createObjectURL,\n    revokeObjectURL = _window$URL.revokeObjectURL;\nvar cache = {};\n/**\n * Create a blob URL from a file.\n *\n * @param {File} file The file to create a blob URL for.\n *\n * @return {string} The blob URL.\n */\n\nfunction createBlobURL(file) {\n  var url = createObjectURL(file);\n  cache[url] = file;\n  return url;\n}\n/**\n * Retrieve a file based on a blob URL. The file must have been created by\n * `createBlobURL` and not removed by `revokeBlobURL`, otherwise it will return\n * `undefined`.\n *\n * @param {string} url The blob URL.\n *\n * @return {?File} The file for the blob URL.\n */\n\nfunction getBlobByURL(url) {\n  return cache[url];\n}\n/**\n * Remove the resource and file cache from memory.\n *\n * @param {string} url The blob URL.\n */\n\nfunction revokeBlobURL(url) {\n  if (cache[url]) {\n    revokeObjectURL(url);\n  }\n\n  delete cache[url];\n}\n/**\n * Check whether a url is a blob url.\n *\n * @param {string} url The URL.\n *\n * @return {boolean} Is the url a blob url?\n */\n\nfunction isBlobURL(url) {\n  if (!url || !url.indexOf) {\n    return false;\n  }\n\n  return url.indexOf('blob:') === 0;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/blob/build-module/index.js?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=blob.js.map

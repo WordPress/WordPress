@@ -95,72 +95,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["deprecated"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logged", function() { return logged; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return deprecated; });
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/hooks */ "@wordpress/hooks");
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * WordPress dependencies
- */
-
-/**
- * Object map tracking messages which have been logged, for use in ensuring a
- * message is only logged once.
- *
- * @type {Object}
- */
-
-var logged = Object.create(null);
-/**
- * Logs a message to notify developers about a deprecated feature.
- *
- * @param {string}  feature             Name of the deprecated feature.
- * @param {?Object} options             Personalisation options
- * @param {?string} options.version     Version in which the feature will be removed.
- * @param {?string} options.alternative Feature to use instead
- * @param {?string} options.plugin      Plugin name if it's a plugin feature
- * @param {?string} options.link        Link to documentation
- * @param {?string} options.hint        Additional message to help transition away from the deprecated feature.
- */
-
-function deprecated(feature) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var version = options.version,
-      alternative = options.alternative,
-      plugin = options.plugin,
-      link = options.link,
-      hint = options.hint;
-  var pluginMessage = plugin ? " from ".concat(plugin) : '';
-  var versionMessage = version ? "".concat(pluginMessage, " in ").concat(version) : '';
-  var useInsteadMessage = alternative ? " Please use ".concat(alternative, " instead.") : '';
-  var linkMessage = link ? " See: ".concat(link) : '';
-  var hintMessage = hint ? " Note: ".concat(hint) : '';
-  var message = "".concat(feature, " is deprecated and will be removed").concat(versionMessage, ".").concat(useInsteadMessage).concat(linkMessage).concat(hintMessage); // Skip if already logged.
-
-  if (message in logged) {
-    return;
-  }
-  /**
-   * Fires whenever a deprecated feature is encountered
-   *
-   * @param {string}  feature             Name of the deprecated feature.
-   * @param {?Object} options             Personalisation options
-   * @param {?string} options.version     Version in which the feature will be removed.
-   * @param {?string} options.alternative Feature to use instead
-   * @param {?string} options.plugin      Plugin name if it's a plugin feature
-   * @param {?string} options.link        Link to documentation
-   * @param {?string} options.hint        Additional message to help transition away from the deprecated feature.
-   * @param {?string} message             Message sent to console.warn
-   */
-
-
-  Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__["doAction"])('deprecated', feature, options, message); // eslint-disable-next-line no-console
-
-  console.warn(message);
-  logged[message] = true;
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"logged\", function() { return logged; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return deprecated; });\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/hooks */ \"@wordpress/hooks\");\n/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__);\n/**\n * WordPress dependencies\n */\n\n/**\n * Object map tracking messages which have been logged, for use in ensuring a\n * message is only logged once.\n *\n * @type {Object}\n */\n\nvar logged = Object.create(null);\n/**\n * Logs a message to notify developers about a deprecated feature.\n *\n * @param {string}  feature             Name of the deprecated feature.\n * @param {?Object} options             Personalisation options\n * @param {?string} options.version     Version in which the feature will be removed.\n * @param {?string} options.alternative Feature to use instead\n * @param {?string} options.plugin      Plugin name if it's a plugin feature\n * @param {?string} options.link        Link to documentation\n * @param {?string} options.hint        Additional message to help transition away from the deprecated feature.\n */\n\nfunction deprecated(feature) {\n  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n  var version = options.version,\n      alternative = options.alternative,\n      plugin = options.plugin,\n      link = options.link,\n      hint = options.hint;\n  var pluginMessage = plugin ? \" from \".concat(plugin) : '';\n  var versionMessage = version ? \"\".concat(pluginMessage, \" in \").concat(version) : '';\n  var useInsteadMessage = alternative ? \" Please use \".concat(alternative, \" instead.\") : '';\n  var linkMessage = link ? \" See: \".concat(link) : '';\n  var hintMessage = hint ? \" Note: \".concat(hint) : '';\n  var message = \"\".concat(feature, \" is deprecated and will be removed\").concat(versionMessage, \".\").concat(useInsteadMessage).concat(linkMessage).concat(hintMessage); // Skip if already logged.\n\n  if (message in logged) {\n    return;\n  }\n  /**\n   * Fires whenever a deprecated feature is encountered\n   *\n   * @param {string}  feature             Name of the deprecated feature.\n   * @param {?Object} options             Personalisation options\n   * @param {?string} options.version     Version in which the feature will be removed.\n   * @param {?string} options.alternative Feature to use instead\n   * @param {?string} options.plugin      Plugin name if it's a plugin feature\n   * @param {?string} options.link        Link to documentation\n   * @param {?string} options.hint        Additional message to help transition away from the deprecated feature.\n   * @param {?string} message             Message sent to console.warn\n   */\n\n\n  Object(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__[\"doAction\"])('deprecated', feature, options, message); // eslint-disable-next-line no-console\n\n  console.warn(message);\n  logged[message] = true;\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/deprecated/build-module/index.js?");
 
 /***/ }),
 
@@ -171,9 +106,8 @@ function deprecated(feature) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["hooks"]; }());
+eval("(function() { module.exports = this[\"wp\"][\"hooks\"]; }());\n\n//# sourceURL=webpack://wp.%5Bname%5D/external_%7B%22this%22:%5B%22wp%22,%22hooks%22%5D%7D?");
 
 /***/ })
 
 /******/ })["default"];
-//# sourceMappingURL=deprecated.js.map

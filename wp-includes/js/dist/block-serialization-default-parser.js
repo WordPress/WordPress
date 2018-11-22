@@ -95,11 +95,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockSerializationDefaultParser"] =
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _arrayWithHoles; });\nfunction _arrayWithHoles(arr) {\n  if (Array.isArray(arr)) return arr;\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js?");
 
 /***/ }),
 
@@ -111,33 +107,7 @@ function _arrayWithHoles(arr) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _iterableToArrayLimit; });
-function _iterableToArrayLimit(arr, i) {
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _iterableToArrayLimit; });\nfunction _iterableToArrayLimit(arr, i) {\n  var _arr = [];\n  var _n = true;\n  var _d = false;\n  var _e = undefined;\n\n  try {\n    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {\n      _arr.push(_s.value);\n\n      if (i && _arr.length === i) break;\n    }\n  } catch (err) {\n    _d = true;\n    _e = err;\n  } finally {\n    try {\n      if (!_n && _i[\"return\"] != null) _i[\"return\"]();\n    } finally {\n      if (_d) throw _e;\n    }\n  }\n\n  return _arr;\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js?");
 
 /***/ }),
 
@@ -149,11 +119,7 @@ function _iterableToArrayLimit(arr, i) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _nonIterableRest; });\nfunction _nonIterableRest() {\n  throw new TypeError(\"Invalid attempt to destructure non-iterable instance\");\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js?");
 
 /***/ }),
 
@@ -165,17 +131,7 @@ function _nonIterableRest() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _slicedToArray; });
-/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
-/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || Object(_iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__["default"])(arr, i) || Object(_nonIterableRest__WEBPACK_IMPORTED_MODULE_2__["default"])();
-}
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return _slicedToArray; });\n/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ \"./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js\");\n/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ \"./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js\");\n/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ \"./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js\");\n\n\n\nfunction _slicedToArray(arr, i) {\n  return Object(_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(arr) || Object(_iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(arr, i) || Object(_nonIterableRest__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n}\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@babel/runtime/helpers/esm/slicedToArray.js?");
 
 /***/ }),
 
@@ -187,269 +143,8 @@ function _slicedToArray(arr, i) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return parse; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-
-var document;
-var offset;
-var output;
-var stack;
-var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:[^}]+|}+(?=})|(?!}\s+-->)[^])*?}\s+)?(\/)?-->/g;
-
-function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
-  return {
-    blockName: blockName,
-    attrs: attrs,
-    innerBlocks: innerBlocks,
-    innerHTML: innerHTML,
-    innerContent: innerContent
-  };
-}
-
-function Freeform(innerHTML) {
-  return Block(null, {}, [], innerHTML, [innerHTML]);
-}
-
-function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
-  return {
-    block: block,
-    tokenStart: tokenStart,
-    tokenLength: tokenLength,
-    prevOffset: prevOffset || tokenStart + tokenLength,
-    leadingHtmlStart: leadingHtmlStart
-  };
-}
-
-var parse = function parse(doc) {
-  document = doc;
-  offset = 0;
-  output = [];
-  stack = [];
-  tokenizer.lastIndex = 0;
-
-  do {// twiddle our thumbs
-  } while (proceed());
-
-  return output;
-};
-
-function proceed() {
-  var next = nextToken();
-
-  var _next = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(next, 5),
-      tokenType = _next[0],
-      blockName = _next[1],
-      attrs = _next[2],
-      startOffset = _next[3],
-      tokenLength = _next[4];
-
-  var stackDepth = stack.length; // we may have some HTML soup before the next block
-
-  var leadingHtmlStart = startOffset > offset ? offset : null;
-
-  switch (tokenType) {
-    case 'no-more-tokens':
-      // if not in a block then flush output
-      if (0 === stackDepth) {
-        addFreeform();
-        return false;
-      } // Otherwise we have a problem
-      // This is an error
-      // we have options
-      //  - treat it all as freeform text
-      //  - assume an implicit closer (easiest when not nesting)
-      // for the easy case we'll assume an implicit closer
-
-
-      if (1 === stackDepth) {
-        addBlockFromStack();
-        return false;
-      } // for the nested case where it's more difficult we'll
-      // have to assume that multiple closers are missing
-      // and so we'll collapse the whole stack piecewise
-
-
-      while (0 < stack.length) {
-        addBlockFromStack();
-      }
-
-      return false;
-
-    case 'void-block':
-      // easy case is if we stumbled upon a void block
-      // in the top-level of the document
-      if (0 === stackDepth) {
-        if (null !== leadingHtmlStart) {
-          output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));
-        }
-
-        output.push(Block(blockName, attrs, [], '', []));
-        offset = startOffset + tokenLength;
-        return true;
-      } // otherwise we found an inner block
-
-
-      addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);
-      offset = startOffset + tokenLength;
-      return true;
-
-    case 'block-opener':
-      // track all newly-opened blocks on the stack
-      stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
-      offset = startOffset + tokenLength;
-      return true;
-
-    case 'block-closer':
-      // if we're missing an opener we're in trouble
-      // This is an error
-      if (0 === stackDepth) {
-        // we have options
-        //  - assume an implicit opener
-        //  - assume _this_ is the opener
-        //  - give up and close out the document
-        addFreeform();
-        return false;
-      } // if we're not nesting then this is easy - close the block
-
-
-      if (1 === stackDepth) {
-        addBlockFromStack(startOffset);
-        offset = startOffset + tokenLength;
-        return true;
-      } // otherwise we're nested and we have to close out the current
-      // block and add it as a innerBlock to the parent
-
-
-      var stackTop = stack.pop();
-      var html = document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
-      stackTop.block.innerHTML += html;
-      stackTop.block.innerContent.push(html);
-      stackTop.prevOffset = startOffset + tokenLength;
-      addInnerBlock(stackTop.block, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
-      offset = startOffset + tokenLength;
-      return true;
-
-    default:
-      // This is an error
-      addFreeform();
-      return false;
-  }
-}
-/**
- * Parse JSON if valid, otherwise return null
- *
- * Note that JSON coming from the block comment
- * delimiters is constrained to be an object
- * and cannot be things like `true` or `null`
- *
- * @param {string} input JSON input string to parse
- * @return {Object|null} parsed JSON if valid
- */
-
-
-function parseJSON(input) {
-  try {
-    return JSON.parse(input);
-  } catch (e) {
-    return null;
-  }
-}
-
-function nextToken() {
-  // aye the magic
-  // we're using a single RegExp to tokenize the block comment delimiters
-  // we're also using a trick here because the only difference between a
-  // block opener and a block closer is the leading `/` before `wp:` (and
-  // a closer has no attributes). we can trap them both and process the
-  // match back in Javascript to see which one it was.
-  var matches = tokenizer.exec(document); // we have no more tokens
-
-  if (null === matches) {
-    return ['no-more-tokens'];
-  }
-
-  var startedAt = matches.index;
-
-  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(matches, 6),
-      match = _matches[0],
-      closerMatch = _matches[1],
-      namespaceMatch = _matches[2],
-      nameMatch = _matches[3],
-      attrsMatch = _matches[4],
-      voidMatch = _matches[5];
-
-  var length = match.length;
-  var isCloser = !!closerMatch;
-  var isVoid = !!voidMatch;
-  var namespace = namespaceMatch || 'core/';
-  var name = namespace + nameMatch;
-  var hasAttrs = !!attrsMatch;
-  var attrs = hasAttrs ? parseJSON(attrsMatch) : {}; // This state isn't allowed
-  // This is an error
-
-  if (isCloser && (isVoid || hasAttrs)) {// we can ignore them since they don't hurt anything
-    // we may warn against this at some point or reject it
-  }
-
-  if (isVoid) {
-    return ['void-block', name, attrs, startedAt, length];
-  }
-
-  if (isCloser) {
-    return ['block-closer', name, null, startedAt, length];
-  }
-
-  return ['block-opener', name, attrs, startedAt, length];
-}
-
-function addFreeform(rawLength) {
-  var length = rawLength ? rawLength : document.length - offset;
-
-  if (0 === length) {
-    return;
-  }
-
-  output.push(Freeform(document.substr(offset, length)));
-}
-
-function addInnerBlock(block, tokenStart, tokenLength, lastOffset) {
-  var parent = stack[stack.length - 1];
-  parent.block.innerBlocks.push(block);
-  var html = document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
-
-  if (html) {
-    parent.block.innerHTML += html;
-    parent.block.innerContent.push(html);
-  }
-
-  parent.block.innerContent.push(null);
-  parent.prevOffset = lastOffset ? lastOffset : tokenStart + tokenLength;
-}
-
-function addBlockFromStack(endOffset) {
-  var _stack$pop = stack.pop(),
-      block = _stack$pop.block,
-      leadingHtmlStart = _stack$pop.leadingHtmlStart,
-      prevOffset = _stack$pop.prevOffset,
-      tokenStart = _stack$pop.tokenStart;
-
-  var html = endOffset ? document.substr(prevOffset, endOffset - prevOffset) : document.substr(prevOffset);
-
-  if (html) {
-    block.innerHTML += html;
-    block.innerContent.push(html);
-  }
-
-  if (null !== leadingHtmlStart) {
-    output.push(Freeform(document.substr(leadingHtmlStart, tokenStart - leadingHtmlStart)));
-  }
-
-  output.push(block);
-}
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"parse\", function() { return parse; });\n/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ \"./node_modules/@babel/runtime/helpers/esm/slicedToArray.js\");\n\nvar document;\nvar offset;\nvar output;\nvar stack;\nvar tokenizer = /<!--\\s+(\\/)?wp:([a-z][a-z0-9_-]*\\/)?([a-z][a-z0-9_-]*)\\s+({(?:[^}]+|}+(?=})|(?!}\\s+-->)[^])*?}\\s+)?(\\/)?-->/g;\n\nfunction Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {\n  return {\n    blockName: blockName,\n    attrs: attrs,\n    innerBlocks: innerBlocks,\n    innerHTML: innerHTML,\n    innerContent: innerContent\n  };\n}\n\nfunction Freeform(innerHTML) {\n  return Block(null, {}, [], innerHTML, [innerHTML]);\n}\n\nfunction Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {\n  return {\n    block: block,\n    tokenStart: tokenStart,\n    tokenLength: tokenLength,\n    prevOffset: prevOffset || tokenStart + tokenLength,\n    leadingHtmlStart: leadingHtmlStart\n  };\n}\n\nvar parse = function parse(doc) {\n  document = doc;\n  offset = 0;\n  output = [];\n  stack = [];\n  tokenizer.lastIndex = 0;\n\n  do {// twiddle our thumbs\n  } while (proceed());\n\n  return output;\n};\n\nfunction proceed() {\n  var next = nextToken();\n\n  var _next = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(next, 5),\n      tokenType = _next[0],\n      blockName = _next[1],\n      attrs = _next[2],\n      startOffset = _next[3],\n      tokenLength = _next[4];\n\n  var stackDepth = stack.length; // we may have some HTML soup before the next block\n\n  var leadingHtmlStart = startOffset > offset ? offset : null;\n\n  switch (tokenType) {\n    case 'no-more-tokens':\n      // if not in a block then flush output\n      if (0 === stackDepth) {\n        addFreeform();\n        return false;\n      } // Otherwise we have a problem\n      // This is an error\n      // we have options\n      //  - treat it all as freeform text\n      //  - assume an implicit closer (easiest when not nesting)\n      // for the easy case we'll assume an implicit closer\n\n\n      if (1 === stackDepth) {\n        addBlockFromStack();\n        return false;\n      } // for the nested case where it's more difficult we'll\n      // have to assume that multiple closers are missing\n      // and so we'll collapse the whole stack piecewise\n\n\n      while (0 < stack.length) {\n        addBlockFromStack();\n      }\n\n      return false;\n\n    case 'void-block':\n      // easy case is if we stumbled upon a void block\n      // in the top-level of the document\n      if (0 === stackDepth) {\n        if (null !== leadingHtmlStart) {\n          output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));\n        }\n\n        output.push(Block(blockName, attrs, [], '', []));\n        offset = startOffset + tokenLength;\n        return true;\n      } // otherwise we found an inner block\n\n\n      addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);\n      offset = startOffset + tokenLength;\n      return true;\n\n    case 'block-opener':\n      // track all newly-opened blocks on the stack\n      stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));\n      offset = startOffset + tokenLength;\n      return true;\n\n    case 'block-closer':\n      // if we're missing an opener we're in trouble\n      // This is an error\n      if (0 === stackDepth) {\n        // we have options\n        //  - assume an implicit opener\n        //  - assume _this_ is the opener\n        //  - give up and close out the document\n        addFreeform();\n        return false;\n      } // if we're not nesting then this is easy - close the block\n\n\n      if (1 === stackDepth) {\n        addBlockFromStack(startOffset);\n        offset = startOffset + tokenLength;\n        return true;\n      } // otherwise we're nested and we have to close out the current\n      // block and add it as a innerBlock to the parent\n\n\n      var stackTop = stack.pop();\n      var html = document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);\n      stackTop.block.innerHTML += html;\n      stackTop.block.innerContent.push(html);\n      stackTop.prevOffset = startOffset + tokenLength;\n      addInnerBlock(stackTop.block, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);\n      offset = startOffset + tokenLength;\n      return true;\n\n    default:\n      // This is an error\n      addFreeform();\n      return false;\n  }\n}\n/**\n * Parse JSON if valid, otherwise return null\n *\n * Note that JSON coming from the block comment\n * delimiters is constrained to be an object\n * and cannot be things like `true` or `null`\n *\n * @param {string} input JSON input string to parse\n * @return {Object|null} parsed JSON if valid\n */\n\n\nfunction parseJSON(input) {\n  try {\n    return JSON.parse(input);\n  } catch (e) {\n    return null;\n  }\n}\n\nfunction nextToken() {\n  // aye the magic\n  // we're using a single RegExp to tokenize the block comment delimiters\n  // we're also using a trick here because the only difference between a\n  // block opener and a block closer is the leading `/` before `wp:` (and\n  // a closer has no attributes). we can trap them both and process the\n  // match back in Javascript to see which one it was.\n  var matches = tokenizer.exec(document); // we have no more tokens\n\n  if (null === matches) {\n    return ['no-more-tokens'];\n  }\n\n  var startedAt = matches.index;\n\n  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(matches, 6),\n      match = _matches[0],\n      closerMatch = _matches[1],\n      namespaceMatch = _matches[2],\n      nameMatch = _matches[3],\n      attrsMatch = _matches[4],\n      voidMatch = _matches[5];\n\n  var length = match.length;\n  var isCloser = !!closerMatch;\n  var isVoid = !!voidMatch;\n  var namespace = namespaceMatch || 'core/';\n  var name = namespace + nameMatch;\n  var hasAttrs = !!attrsMatch;\n  var attrs = hasAttrs ? parseJSON(attrsMatch) : {}; // This state isn't allowed\n  // This is an error\n\n  if (isCloser && (isVoid || hasAttrs)) {// we can ignore them since they don't hurt anything\n    // we may warn against this at some point or reject it\n  }\n\n  if (isVoid) {\n    return ['void-block', name, attrs, startedAt, length];\n  }\n\n  if (isCloser) {\n    return ['block-closer', name, null, startedAt, length];\n  }\n\n  return ['block-opener', name, attrs, startedAt, length];\n}\n\nfunction addFreeform(rawLength) {\n  var length = rawLength ? rawLength : document.length - offset;\n\n  if (0 === length) {\n    return;\n  }\n\n  output.push(Freeform(document.substr(offset, length)));\n}\n\nfunction addInnerBlock(block, tokenStart, tokenLength, lastOffset) {\n  var parent = stack[stack.length - 1];\n  parent.block.innerBlocks.push(block);\n  var html = document.substr(parent.prevOffset, tokenStart - parent.prevOffset);\n\n  if (html) {\n    parent.block.innerHTML += html;\n    parent.block.innerContent.push(html);\n  }\n\n  parent.block.innerContent.push(null);\n  parent.prevOffset = lastOffset ? lastOffset : tokenStart + tokenLength;\n}\n\nfunction addBlockFromStack(endOffset) {\n  var _stack$pop = stack.pop(),\n      block = _stack$pop.block,\n      leadingHtmlStart = _stack$pop.leadingHtmlStart,\n      prevOffset = _stack$pop.prevOffset,\n      tokenStart = _stack$pop.tokenStart;\n\n  var html = endOffset ? document.substr(prevOffset, endOffset - prevOffset) : document.substr(prevOffset);\n\n  if (html) {\n    block.innerHTML += html;\n    block.innerContent.push(html);\n  }\n\n  if (null !== leadingHtmlStart) {\n    output.push(Freeform(document.substr(leadingHtmlStart, tokenStart - leadingHtmlStart)));\n  }\n\n  output.push(block);\n}\n\n\n//# sourceURL=webpack://wp.%5Bname%5D/./node_modules/@wordpress/block-serialization-default-parser/build-module/index.js?");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=block-serialization-default-parser.js.map
