@@ -111,7 +111,7 @@ function wp_default_packages_vendor( &$scripts ) {
 		$path = "/wp-includes/js/dist/vendor/$handle$dev_suffix.js";
 		$version = $vendor_scripts_versions[ $handle ];
 
-		$scripts->add( $handle, $path, $dependencies, false, $version );
+		$scripts->add( $handle, $path, $dependencies, $version, 1 );
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
@@ -210,7 +210,6 @@ function wp_default_packages_scripts( &$scripts ) {
 		'api-fetch' => '2.2.5',
 		'a11y' => '2.0.2',
 		'annotations' => '1.0.3',
-		'api-fetch' => '2.2.5',
 		'autop' => '2.0.2',
 		'blob' => '2.1.0',
 		'block-library' => '2.2.7',
@@ -468,7 +467,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		$path    = "/wp-includes/js/dist/$package$suffix.js";
 		$version = $packages_versions[ $package ];
 
-		$scripts->add( $handle, $path, $dependencies, false, $version );
+		$scripts->add( $handle, $path, $dependencies, $version, 1 );
 
 		if ( isset( $package_translations[ $package ] ) ) {
 			$scripts->set_translations( $handle, $package_translations[ $package ] );

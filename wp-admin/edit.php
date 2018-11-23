@@ -183,10 +183,8 @@ wp_enqueue_script('inline-edit-post');
 wp_enqueue_script('heartbeat');
 
 if ( 'wp_block' === $post_type ) {
+	wp_enqueue_script( 'wp-list-reusable-blocks' );
 	wp_enqueue_style( 'wp-list-reusable-blocks' );
-
-	// wp-list-reusable-blocks enhances the page's DOM and so needs to be loaded in the footer.
-	wp_enqueue_script( 'wp-list-reusable-blocks', '', array(), false, true );
 }
 
 $title = $post_type_object->labels->name;
