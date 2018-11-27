@@ -1045,7 +1045,7 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 	} elseif ( $object instanceof WP_Post ) {
 		$edit_url = add_query_arg( 'classic-editor', '', get_edit_post_link( $object ) );
 		echo '<p>';
-		/* translators: %s: A link to use the Classic Editor plugin. */
+		/* translators: %s: An edit post link to use the classic editor. */
 		printf( __( 'Please open the <a href="%s">classic editor</a> to use this meta box.'), esc_url( $edit_url ) );
 		echo '</p>';
 	}
