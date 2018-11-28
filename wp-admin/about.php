@@ -67,7 +67,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 
 		<div class="full-width">
-			<img src="https://wordpress.org/gutenberg/files/2018/11/Gutenberg-3.png" alt="">
+			<img src="https://wordpress.org/gutenberg/files/2018/11/Gutenberg-copy-2.jpg" alt="">
 		</div>
 
 		<div class="feature-section one-col">
@@ -79,25 +79,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section four-col">
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Plugin-1-1.gif" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Plugins-copy.jpg" alt=""/>
 					<figcaption><?php _e( 'Do more with fewer plugins.' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Layout-3.gif" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Layout.jpg" alt=""/>
 					<figcaption><?php _e( 'Create modern, multimedia-heavy layouts.' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Devices-1-1.gif" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Responsive.jpg" alt=""/>
 					<figcaption><?php _e( 'Work across all screen sizes and devices.' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Visual-1.gif" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Editor-Styles-copy.jpg" alt=""/>
 					<figcaption><?php _e( 'Trust that your editor looks like your website.' ); ?></figcaption>
 				</figure>
 			</div>
@@ -119,97 +119,97 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section eight-col">
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Paragraph.jpg" alt=""/>
 					<figcaption><?php _e( 'Paragraph' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Heading.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Heading.jpg" alt=""/>
 					<figcaption><?php _e( 'Heading' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Subheading.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Preformatted.jpg" alt=""/>
 					<figcaption><?php _e( 'Preformatted' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Quote.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Quote.jpg" alt=""/>
 					<figcaption><?php _e( 'Quote' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Image.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Image.jpg" alt=""/>
 					<figcaption><?php _e( 'Image' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Gallery.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Gallery.jpg" alt=""/>
 					<figcaption><?php _e( 'Gallery' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Cover-Image.png" alt=""/>
-					<figcaption><?php _e( 'Cover Image' ); ?></figcaption>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Cover-Image.jpg" alt=""/>
+					<figcaption><?php _e( 'Cover' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Video.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Video.jpg" alt=""/>
 					<figcaption><?php _e( 'Video' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Audio.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Audio.jpg" alt=""/>
 					<figcaption><?php _e( 'Audio' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Column.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Column.jpg" alt=""/>
 					<figcaption><?php _e( 'Columns' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-File.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-File.jpg" alt=""/>
 					<figcaption><?php _e( 'File' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Code.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Code.jpg" alt=""/>
 					<figcaption><?php _e( 'Code' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-List.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-List.jpg" alt=""/>
 					<figcaption><?php _e( 'List' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Button.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Button.jpg" alt=""/>
 					<figcaption><?php _e( 'Button' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-Embeds.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-Embeds.jpg" alt=""/>
 					<figcaption><?php _e( 'Embeds' ); ?></figcaption>
 				</figure>
 			</div>
 			<div class="col">
 				<figure>
-					<img src="https://wordpress.org/gutenberg/files/2018/07/Block-Icon-More.png" alt=""/>
+					<img src="https://wordpress.org/gutenberg/files/2018/11/Block-Icon-More.jpg" alt=""/>
 					<figcaption><?php _e( 'More' ); ?></figcaption>
 				</figure>
 			</div>
@@ -246,7 +246,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="full-width">
 			<figure>
-				<img src="https://wordpress.org/gutenberg/files/2018/11/twenty-nineteen.png" alt="">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/twenty-nineteen-copy.jpg" alt="">
 				<figcaption><?php _e( 'The front-end of Twenty Nineteen on the left, and how it looks in the editor on the right.' ); ?></figcaption>
 			</figure>
 		</div>
@@ -264,7 +264,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php _e( 'Twenty Nineteen features custom styles for the blocks available by default in 5.0. It makes extensive use of editor styles throughout the theme. That way, what you create in your content editor is what you see on the front of your site.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://wordpress.org/gutenberg/files/2018/11/twenty-nineteen-type.png" alt="">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/typography-copy.jpg" alt="">
 				<h3><?php _e( 'Simple, type-driven layout' ); ?></h3>
 				<p><?php _e( 'Featuring ample whitespace, and modern sans-serif headlines paired with classic serif body text, Twenty Nineteen is built to be beautiful on the go. It uses system fonts to increase loading speed. No more long waits on slow networks!' ); ?></p>
 			</div>
@@ -293,14 +293,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="under-the-hood feature-section three-col">
 			<div class="col">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/Protect-copy.jpg" alt=""/>
 				<h3><?php _e( 'Protect' ); ?></h3>
 				<p><?php _e( 'Blocks provide a comfortable way for users to change content directly, while also ensuring the content structure cannot be easily disturbed by accidental code edits. This allows the developer to control the output, building polished and semantic markup that is preserved through edits and not easily broken.' ); ?></p>
 			</div>
 			<div class="col">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/Compose-copy.jpg" alt=""/>
 				<h3><?php _e( 'Compose' ); ?></h3>
 				<p><?php _e( 'Take advantage of a wide collection of APIs and interface components to easily create blocks with intuitive controls for your clients. Utilizing these components not only speeds up development work but also provide a more consistent, usable, and accessible interface to all users.' ); ?></p>
 			</div>
 			<div class="col">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/Create-copy.jpg" alt=""/>
 				<h3><?php _e( 'Create' ); ?></h3>
 				<p><?php _e( 'The new block paradigm opens up a path of exploration and imagination when it comes to solving user needs. With the unified block insertion flow, it&#8217;s easier for your clients and customers to find and use blocks for all types of content. Developers can focus on executing their vision and providing rich editing experiences, rather than fussing with difficult APIs.' ); ?></p>
 			</div>
@@ -331,7 +334,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with the block editor, we recommend you continue to use the Classic Editor.' ); ?></p>
 				<?php if ( current_user_can( 'install_plugins' ) ) { ?>
 					<div class="col cta">
-						<a class="button button-primary button-hero" href="<?php echo esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
+						<a class="button button-primary button-hero" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg' ), 'save_wporg_username_' . get_current_user_id() ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
 					</div>
 				<?php } ?>
 			</div>

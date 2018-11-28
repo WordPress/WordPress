@@ -163,6 +163,7 @@
     font-size: 13px;
     text-align: center;
 	color: white;
+	text-overflow: ellipsis;
 }
 
 .about-wrap .about-description,
@@ -314,6 +315,10 @@
 .about-wrap .streamlined-updates p,
 .about-wrap .native-fonts p {
 	margin-bottom: 3em;
+}
+
+.about-wrap .under-the-hood img + h3 {
+	margin-top: 1.25em;
 }
 
 /* 2.2 - Structure */
@@ -537,8 +542,11 @@
 	.about-wrap figcaption {
 		position: relative;
 		margin-top: 10px;
-		padding-top: 0;
+		margin-bottom: 15px;
+		padding: 0;
+		background: none;
 		color: #40464D;
+		text-shadow: none;
 	}
 
 	.about-wrap .floating-header-section {
@@ -576,11 +584,19 @@
 		margin-bottom: 1.5em;
 		width: 100%;
 	}
+	
+	.about-wrap .feature-section .col {
+		margin-top: 1em;
+	}
 
 	.about-wrap .two-col .col,
 	.about-wrap .three-col .col,
 	.about-wrap .three-col .col {
 		min-width: 100% !important;
+	}
+	
+	.about-wrap .eight-col .col {
+		min-width: 48% !important;
 	}
 
 	.about-wrap .under-the-hood.four-col .col,
@@ -595,10 +611,9 @@
 	.about-wrap .under-the-hood:nth-of-type(3n) {
 		margin-top: 0;
 	}
-
-	.about-wrap .under-the-hood:nth-of-type(2n) h3,
-	.about-wrap .under-the-hood:nth-of-type(3n) h3 {
-		margin-top: 0;
+	
+	.about-wrap .under-the-hood img + h3 {
+		margin-top: 1.25em;
 	}
 
 	.about-wrap .floating-header-section {
