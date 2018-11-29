@@ -45,7 +45,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				);
 				?>
 			</div>
-		<?php else : ?>
+		<?php elseif ( ! file_exists( WP_PLUGIN_DIR . '/classic-editor/classic-editor.php' ) ) : ?>
 			<p class="about-text">
 				<a href="#classic-editor"><?php _e( 'Learn how to keep using the old editor.' ); ?></a>
 			</p>
@@ -317,30 +317,32 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<hr />
 
-		<div class="feature-section one-col" id="classic-editor">
-			<div class="col">
-				<h2><?php _e( 'Keep it Classic' ); ?></h2>
+		<?php if ( ! file_exists( WP_PLUGIN_DIR . '/classic-editor/classic-editor.php' ) ) : ?>
+			<div class="feature-section one-col" id="classic-editor">
+				<div class="col">
+					<h2><?php _e( 'Keep it Classic' ); ?></h2>
+				</div>
 			</div>
-		</div>
 
-		<div class="full-width">
-			<img src="https://wordpress.org/gutenberg/files/2018/11/Classic-2.png" alt="">
-		</div>
-
-		<div class="feature-section one-col">
-			<div class="col">
-				<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress until 2021.' ); ?></p>
-				<p><?php _e( 'The Classic Editor plugin restores the previous WordPress editor and the Edit Post screen. It lets you keep using plugins that extend it, add old-style meta boxes, or otherwise depend on the previous editor. To install, visit your plugins page and click the “Install Now” button next to “Classic Editor.” After the plugin finishes installing, click “Activate.” That’s it! ' ); ?></p>
-				<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with the block editor, we recommend you continue to use the Classic Editor.' ); ?></p>
-				<?php if ( current_user_can( 'install_plugins' ) ) { ?>
-					<div class="col cta">
-						<a class="button button-primary button-hero" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg' ), 'save_wporg_username_' . get_current_user_id() ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
-					</div>
-				<?php } ?>
+			<div class="full-width">
+				<img src="https://wordpress.org/gutenberg/files/2018/11/Classic-2.png" alt="">
 			</div>
-		</div>
 
-		<hr />
+			<div class="feature-section one-col">
+				<div class="col">
+					<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress until 2021.' ); ?></p>
+					<p><?php _e( 'The Classic Editor plugin restores the previous WordPress editor and the Edit Post screen. It lets you keep using plugins that extend it, add old-style meta boxes, or otherwise depend on the previous editor. To install, visit your plugins page and click the &#8220;Install Now&#8221; button next to &#8220;Classic Editor&#8221;. After the plugin finishes installing, click &#8220;Activate&#8221;. That’s it!' ); ?></p>
+					<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with the block editor, we recommend you continue to use the Classic Editor.' ); ?></p>
+					<?php if ( current_user_can( 'install_plugins' ) ) { ?>
+						<div class="col cta">
+							<a class="button button-primary button-hero" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg' ), 'save_wporg_username_' . get_current_user_id() ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+
+			<hr />
+		<?php endif; ?>
 
 		<div class="return-to-dashboard">
 			<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
