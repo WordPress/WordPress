@@ -5,7 +5,7 @@
  * @package WordPress
  */
 
-if ( ! function_exists( 'wp_latest_comments_draft_or_post_title' ) ) {
+if ( ! function_exists( 'gutenberg_draft_or_post_title' ) ) {
 	/**
 	 * Get the post title.
 	 *
