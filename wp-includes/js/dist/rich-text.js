@@ -188,7 +188,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -640,7 +640,7 @@ function concat() {
 var toConsumableArray = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(29);
+var esm_typeof = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/special-characters.js
 var LINE_SEPARATOR = "\u2028";

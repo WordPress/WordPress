@@ -126,7 +126,7 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -460,7 +460,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4245,16 +4245,16 @@ var settings_header_SettingsHeader = function SettingsHeader(_ref) {
 
   var blockLabel = Object(external_this_wp_i18n_["__"])('Block');
 
-  var _ref2 = sidebarName === 'edit-post/document' ? // translators: ARIA label for the Document Settings sidebar tab, selected.
-  [Object(external_this_wp_i18n_["__"])('Document settings (selected)'), 'is-active'] : // translators: ARIA label for the Document Settings sidebar tab, not selected.
-  [Object(external_this_wp_i18n_["__"])('Document settings'), ''],
+  var _ref2 = sidebarName === 'edit-post/document' ? // translators: ARIA label for the Document sidebar tab, selected.
+  [Object(external_this_wp_i18n_["__"])('Document (selected)'), 'is-active'] : // translators: ARIA label for the Document sidebar tab, not selected.
+  [Object(external_this_wp_i18n_["__"])('Document'), ''],
       _ref3 = Object(slicedToArray["a" /* default */])(_ref2, 2),
       documentAriaLabel = _ref3[0],
       documentActiveClass = _ref3[1];
 
-  var _ref4 = sidebarName === 'edit-post/block' ? // translators: ARIA label for the Block Settings sidebar tab, selected.
-  [Object(external_this_wp_i18n_["__"])('Block settings (selected)'), 'is-active'] : // translators: ARIA label for the Block Settings sidebar tab, not selected.
-  [Object(external_this_wp_i18n_["__"])('Block settings'), ''],
+  var _ref4 = sidebarName === 'edit-post/block' ? // translators: ARIA label for the Block sidebar tab, selected.
+  [Object(external_this_wp_i18n_["__"])('Block (selected)'), 'is-active'] : // translators: ARIA label for the Block sidebar tab, not selected.
+  [Object(external_this_wp_i18n_["__"])('Block'), ''],
       _ref5 = Object(slicedToArray["a" /* default */])(_ref4, 2),
       blockAriaLabel = _ref5[0],
       blockActiveClass = _ref5[1];
@@ -5194,182 +5194,6 @@ function (_Component) {
   };
 })(fullscreen_mode_FullscreenMode));
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/admin-notices/index.js
-
-
-
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Mapping of server-supported notice class names to an equivalent notices
- * module status.
- *
- * @type {Map}
- */
-
-var NOTICE_CLASS_STATUSES = {
-  'notice-success': 'success',
-  updated: 'success',
-  'notice-warning': 'warning',
-  'notice-error': 'error',
-  error: 'error',
-  'notice-info': 'info'
-};
-/**
- * Returns an array of admin notice Elements.
- *
- * @return {Element[]} Admin notice elements.
- */
-
-function getAdminNotices() {
-  // The order is reversed to match expectations of rendered order, since a
-  // NoticesList is itself rendered in reverse order (newest to oldest).
-  return Object(toConsumableArray["a" /* default */])(document.querySelectorAll('#wpbody-content > .notice')).reverse();
-}
-/**
- * Given an admin notice Element, returns the relevant notice content HTML.
- *
- * @param {Element} element Admin notice element.
- *
- * @return {Element} Upgraded notice HTML.
- */
-
-
-function getNoticeHTML(element) {
-  var fragments = [];
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = element.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var child = _step.value;
-
-      if (child.nodeType !== window.Node.ELEMENT_NODE) {
-        var value = child.nodeValue.trim();
-
-        if (value) {
-          fragments.push(child.nodeValue);
-        }
-      } else if (!child.classList.contains('notice-dismiss')) {
-        fragments.push(child.outerHTML);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return fragments.join('');
-}
-/**
- * Given an admin notice Element, returns the upgraded status type, or
- * undefined if one cannot be determined (i.e. one is not assigned).
- *
- * @param {Element} element Admin notice element.
- *
- * @return {?string} Upgraded status type.
- */
-
-
-function getNoticeStatus(element) {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = element.classList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var className = _step2.value;
-
-      if (NOTICE_CLASS_STATUSES.hasOwnProperty(className)) {
-        return NOTICE_CLASS_STATUSES[className];
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-}
-
-var admin_notices_AdminNotices =
-/*#__PURE__*/
-function (_Component) {
-  Object(inherits["a" /* default */])(AdminNotices, _Component);
-
-  function AdminNotices() {
-    Object(classCallCheck["a" /* default */])(this, AdminNotices);
-
-    return Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(AdminNotices).apply(this, arguments));
-  }
-
-  Object(createClass["a" /* default */])(AdminNotices, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.convertNotices();
-    }
-  }, {
-    key: "convertNotices",
-    value: function convertNotices() {
-      var createNotice = this.props.createNotice;
-      getAdminNotices().forEach(function (element) {
-        // Convert and create.
-        var status = getNoticeStatus(element);
-        var content = getNoticeHTML(element);
-        var isDismissible = element.classList.contains('is-dismissible');
-        createNotice(status, content, {
-          speak: false,
-          __unstableHTML: true,
-          isDismissible: isDismissible
-        }); // Remove (now-redundant) admin notice element.
-
-        element.parentNode.removeChild(element);
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return null;
-    }
-  }]);
-
-  return AdminNotices;
-}(external_this_wp_element_["Component"]);
-/* harmony default export */ var admin_notices = (Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
-  var _dispatch = dispatch('core/notices'),
-      createNotice = _dispatch.createNotice;
-
-  return {
-    createNotice: createNotice
-  };
-})(admin_notices_AdminNotices));
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/components/layout/index.js
 
 
@@ -5393,7 +5217,6 @@ function (_Component) {
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -5435,7 +5258,7 @@ function Layout(_ref) {
   };
   return Object(external_this_wp_element_["createElement"])("div", {
     className: className
-  }, Object(external_this_wp_element_["createElement"])(fullscreen_mode, null), Object(external_this_wp_element_["createElement"])(browser_url, null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["UnsavedChangesWarning"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["AutosaveMonitor"], null), Object(external_this_wp_element_["createElement"])(admin_notices, null), Object(external_this_wp_element_["createElement"])(header, null), Object(external_this_wp_element_["createElement"])("div", {
+  }, Object(external_this_wp_element_["createElement"])(fullscreen_mode, null), Object(external_this_wp_element_["createElement"])(browser_url, null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["UnsavedChangesWarning"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["AutosaveMonitor"], null), Object(external_this_wp_element_["createElement"])(header, null), Object(external_this_wp_element_["createElement"])("div", {
     className: "edit-post-layout__content",
     role: "region"
     /* translators: accessibility text for the content landmark region. */

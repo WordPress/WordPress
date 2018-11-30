@@ -903,7 +903,7 @@ var objectKeys = Object.keys || function (obj) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -1223,7 +1223,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3245,7 +3245,7 @@ function (_Component) {
         'is-focused': isSelected
       });
       var isResizable = ['wide', 'full'].indexOf(align) === -1 && isLargeViewport;
-      var isLinkURLInputDisabled = linkDestination !== LINK_DESTINATION_CUSTOM;
+      var isLinkURLInputReadOnly = linkDestination !== LINK_DESTINATION_CUSTOM;
 
       var getInspectorControls = function getInspectorControls(imageWidth, imageHeight) {
         return Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["InspectorControls"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
@@ -3311,8 +3311,8 @@ function (_Component) {
           label: Object(external_this_wp_i18n_["__"])('Link URL'),
           value: href || '',
           onChange: _this3.onSetCustomHref,
-          placeholder: !isLinkURLInputDisabled ? 'https://' : undefined,
-          disabled: isLinkURLInputDisabled
+          placeholder: !isLinkURLInputReadOnly ? 'https://' : undefined,
+          readOnly: isLinkURLInputReadOnly
         }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
           label: Object(external_this_wp_i18n_["__"])('Open in New Tab'),
           onChange: _this3.onSetNewTab,
@@ -8916,7 +8916,7 @@ function (_Component) {
           var open = _ref.open;
           return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
             className: "components-toolbar__control",
-            label: Object(external_this_wp_i18n_["__"])('Edit Media'),
+            label: Object(external_this_wp_i18n_["__"])('Edit media'),
             icon: "edit",
             onClick: open
           });

@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/latest-comments` block.
  *
- * @package gutenberg
+ * @package WordPress
  */
 
 if ( ! function_exists( 'gutenberg_draft_or_post_title' ) ) {

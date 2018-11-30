@@ -1114,12 +1114,14 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
   display: flex;
   height: 60px;
   background: #fff; }
-  .editor-block-styles__item-preview > * {
+  .editor-block-styles__item-preview .editor-block-preview__content {
     transform: scale(0.7);
     transform-origin: center center;
-    font-family: "Noto Serif", serif; }
-  .editor-block-styles__item-preview .editor-block-preview__content {
-    width: 100%; }
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    min-height: auto; }
 
 .editor-block-styles__item-label {
   text-align: center;
@@ -1187,7 +1189,8 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
     outline-offset: -2px; }
 
 .components-popover:not(.is-mobile).editor-block-switcher__popover .components-popover__content {
-  min-width: 320px; }
+  min-width: 300px;
+  max-width: 340px; }
 
 @media (min-width: 782px) {
   .editor-block-switcher__popover .components-popover__content {

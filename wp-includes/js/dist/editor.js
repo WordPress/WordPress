@@ -209,7 +209,7 @@ function _classCallCheck(instance, Constructor) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -530,24 +530,6 @@ function _slicedToArray(arr, i) {
 /***/ }),
 /* 27 */,
 /* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (false) { var throwOnDirectAccess, isValidElement, REACT_ELEMENT_TYPE; } else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(109)();
-}
-
-
-/***/ }),
-/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -567,6 +549,24 @@ function _typeof(obj) {
 
   return _typeof(obj);
 }
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (false) { var throwOnDirectAccess, isValidElement, REACT_ELEMENT_TYPE; } else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(109)();
+}
+
 
 /***/ }),
 /* 30 */
@@ -7234,7 +7234,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 exports.__esModule = true;
 var React = __webpack_require__(26);
-var PropTypes = __webpack_require__(28);
+var PropTypes = __webpack_require__(29);
 var autosize = __webpack_require__(271);
 var _getLineHeight = __webpack_require__(272);
 var getLineHeight = _getLineHeight;
@@ -7996,7 +7996,7 @@ var toConsumableArray = __webpack_require__(19);
 var defineProperty = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(29);
+var esm_typeof = __webpack_require__(28);
 
 // EXTERNAL MODULE: ./node_modules/redux-optimist/index.js
 var redux_optimist = __webpack_require__(53);
@@ -11283,8 +11283,11 @@ function hasSelectedBlock(state) {
 function selectors_getSelectedBlockClientId(state) {
   var _state$blockSelection2 = state.blockSelection,
       start = _state$blockSelection2.start,
-      end = _state$blockSelection2.end;
-  return start === end && start ? start : null;
+      end = _state$blockSelection2.end; // We need to check the block exists because the current state.blockSelection reducer
+  // doesn't take into account the UNDO / REDO actions to update selection.
+  // To be removed when that's fixed.
+
+  return start && start === end && !!state.editor.present.blocks.byClientId[start] ? start : null;
 }
 /**
  * Returns the currently selected block, or null if there is no selected block.
@@ -20127,6 +20130,7 @@ var aria_diffAriaProps = function diffAriaProps(props, nextProps) {
 var tinymce_window = window,
     tinymce_getSelection = tinymce_window.getSelection;
 var TEXT_NODE = window.Node.TEXT_NODE;
+var userAgent = window.navigator.userAgent;
 /**
  * Zero-width space character used by TinyMCE as a caret landing point for
  * inline boundary nodes.
@@ -20138,27 +20142,12 @@ var TEXT_NODE = window.Node.TEXT_NODE;
 
 var TINYMCE_ZWSP = "\uFEFF";
 /**
- * Determines whether we need a fix to provide `input` events for contenteditable.
- *
- * @param {Element} editorNode The root editor node.
- *
- * @return {boolean} A boolean indicating whether the fix is needed.
- */
-
-function needsInternetExplorerInputFix(editorNode) {
-  return (// Rely on userAgent in the absence of a reasonable feature test for contenteditable `input` events.
-    /Trident/.test(window.navigator.userAgent) && // IE11 dispatches input events for `<input>` and `<textarea>`.
-    !/input/i.test(editorNode.tagName) && !/textarea/i.test(editorNode.tagName)
-  );
-}
-/**
  * Applies a fix that provides `input` events for contenteditable in Internet Explorer.
  *
  * @param {Element} editorNode The root editor node.
  *
  * @return {Function} A function to remove the fix (for cleanup).
  */
-
 
 function applyInternetExplorerInputFix(editorNode) {
   /**
@@ -20217,6 +20206,13 @@ function applyInternetExplorerInputFix(editorNode) {
 }
 
 var IS_PLACEHOLDER_VISIBLE_ATTR_NAME = 'data-is-placeholder-visible';
+/**
+ * Whether or not the user agent is Internet Explorer.
+ *
+ * @type {boolean}
+ */
+
+var IS_IE = userAgent.indexOf('Trident') >= 0;
 
 var tinymce_TinyMCE =
 /*#__PURE__*/
@@ -20368,7 +20364,12 @@ function (_Component) {
               editor.shortcuts.remove("access+".concat(number));
             }); // Restore the original `setHTML` once initialized.
 
-            editor.dom.setHTML = setHTML;
+            editor.dom.setHTML = setHTML; // In IE11, focus is lost to parent after initialising
+            // TinyMCE, so we have to set it back.
+
+            if (IS_IE && document.activeElement !== _this3.editorNode && document.activeElement.contains(_this3.editorNode)) {
+              _this3.editorNode.focus();
+            }
           });
           editor.on('keydown', _this3.onKeyDown, true);
         }
@@ -20382,19 +20383,15 @@ function (_Component) {
       if (this.props.setRef) {
         this.props.setRef(editorNode);
       }
-      /**
-       * A ref function can be used for cleanup because React calls it with
-       * `null` when unmounting.
-       */
 
-
-      if (this.removeInternetExplorerInputFix) {
-        this.removeInternetExplorerInputFix();
-        this.removeInternetExplorerInputFix = null;
-      }
-
-      if (editorNode && needsInternetExplorerInputFix(editorNode)) {
-        this.removeInternetExplorerInputFix = applyInternetExplorerInputFix(editorNode);
+      if (IS_IE) {
+        if (editorNode) {
+          // Mounting:
+          this.removeInternetExplorerInputFix = applyInternetExplorerInputFix(editorNode);
+        } else {
+          // Unmounting:
+          this.removeInternetExplorerInputFix();
+        }
       }
     }
   }, {

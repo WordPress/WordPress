@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/categories` block.
  *
- * @package gutenberg
+ * @package WordPress
  */
 
 /**
