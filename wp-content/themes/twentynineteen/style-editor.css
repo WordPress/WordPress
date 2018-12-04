@@ -756,3 +756,8 @@ ul.wp-block-archives li ul,
   line-height: 1.6;
   color: #767676;
 }
+
+/* Make sure our non-latin font overrides don't overwrite the iconfont used in the classic editor toolbar */
+.wp-block[data-type="core/freeform"] .mce-btn i {
+	font-family: dashicons !important;
+}
