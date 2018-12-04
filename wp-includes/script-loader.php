@@ -178,6 +178,24 @@ function wp_get_script_polyfill( &$scripts, $tests ) {
 			continue;
 		}
 
+		$src = $scripts->registered[ $handle ]->src;
+		$ver = $scripts->registered[ $handle ]->ver;
+
+		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $scripts->content_url && 0 === strpos( $src, $scripts->content_url ) ) ) {
+			$src = $scripts->base_url . $src;
+		}
+
+		if ( ! empty( $ver ) ) {
+			$src = add_query_arg( 'ver', $ver, $src );
+		}
+
+		/** This filter is documented in wp-includes/class.wp-scripts.php */
+		$src = esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
+
+		if ( ! $src ) {
+			continue;
+		}
+
 		$polyfill .= (
 			// Test presence of feature...
 			'( ' . $test . ' ) || ' .
@@ -185,7 +203,7 @@ function wp_get_script_polyfill( &$scripts, $tests ) {
 			// at the `document.write`. Its caveat of synchronous mid-stream
 			// blocking write is exactly the behavior we need though.
 			'document.write( \'<script src="' .
-			esc_url( $scripts->registered[ $handle ]->src ) .
+			$src .
 			'"></scr\' + \'ipt>\' );'
 		);
 	}
