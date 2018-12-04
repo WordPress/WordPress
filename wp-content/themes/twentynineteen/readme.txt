@@ -57,8 +57,8 @@ Source: https://pexels.com/xxxxxxxxxx
 
 ## Changelog
 
-### X.X
+### 1.0
 
-* Released: XX-XX-XXXX
+* Released: December 6, 2018
 
 Initial release
