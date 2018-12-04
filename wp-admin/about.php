@@ -47,7 +47,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 		<?php elseif ( ! file_exists( WP_PLUGIN_DIR . '/classic-editor/classic-editor.php' ) ) : ?>
 			<p class="about-text">
-				<a href="#classic-editor"><?php _e( 'Learn how to keep using the old editor.' ); ?></a>
+				&#x2139; <a href="#classic-editor"><?php _e( 'Learn how to keep using the old editor.' ); ?></a>
 			</p>
 		<?php endif; ?>
 
