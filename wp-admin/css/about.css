@@ -46,7 +46,7 @@
 
 .about-wrap img {
 	margin: 0;
-	max-width: 100%;
+	width: 100%;
 	height: auto;
 	vertical-align: middle;
 }
@@ -584,7 +584,7 @@
 		margin-bottom: 1.5em;
 		width: 100%;
 	}
-	
+
 	.about-wrap .feature-section .col {
 		margin-top: 1em;
 	}
@@ -594,7 +594,7 @@
 	.about-wrap .three-col .col {
 		min-width: 100% !important;
 	}
-	
+
 	.about-wrap .eight-col .col {
 		min-width: 48% !important;
 	}
@@ -611,7 +611,7 @@
 	.about-wrap .under-the-hood:nth-of-type(3n) {
 		margin-top: 0;
 	}
-	
+
 	.about-wrap .under-the-hood img + h3 {
 		margin-top: 1.25em;
 	}
