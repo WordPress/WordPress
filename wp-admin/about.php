@@ -124,9 +124,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<h2><?php _e( 'Building with Blocks' ); ?></h2>
 				<p><?php _e( 'The new block-based editor won&#8217;t change the way any of your content looks to your visitors. What it will do is let you insert any type of multimedia in a snap and rearrange to your heart&#8217;s content. Each piece of content will be in its own block; a distinct wrapper for easy maneuvering. If you&#8217;re more of an HTML and CSS sort of person, then the blocks won&#8217;t stand in your way. WordPress is here to simplify the process, not the outcome.' ); ?></p>
-				<video controls autoplay loop>
-					<source src="https://wordpress.org/gutenberg/files/2018/11/add-block.mp4" type="video/mp4">
-					<source src="https://wordpress.org/gutenberg/files/2018/11/add-block.webm" type="video/webm">
+				<video controls>
+					<source src="https://s.w.org/images/core/5.0/videos/add-block.mp4" type="video/mp4">
+					<source src="https://s.w.org/images/core/5.0/videos/add-block.webm" type="video/webm">
 					<p><?php printf( __('Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.'), '<a href="https://wordpress.org/gutenberg/files/2018/11/add-block.mp4">', '</a>'); ?></p>
 				</video>
 				<p><?php _e( 'We have tons of blocks available by default, and more get added by the community every day. Here are a few of the blocks to help you get started:' ); ?></p>
@@ -284,9 +284,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<h2><?php _e( 'Freedom to Build, Freedom to Write' ); ?></h2>
 				<p><?php _e( 'This new editing experience provides a more consistent treatment of design as well as content. If you&#8217;re building client sites, you can create reusable blocks. This lets your clients add new content anytime, while still maintaining a consistent look and feel.' ); ?></p>
-				<video controls autoplay loop>
-					<source src="https://wordpress.org/gutenberg/files/2018/11/build.mp4" type="video/mp4">
-					<source src="https://wordpress.org/gutenberg/files/2018/11/build.webm" type="video/webm">
+				<video controls>
+					<source src="https://s.w.org/images/core/5.0/videos/build.mp4" type="video/mp4">
+					<source src="https://s.w.org/images/core/5.0/videos/build.webm" type="video/webm">
 					<p><?php printf( __('Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.'), '<a href="https://wordpress.org/gutenberg/files/2018/11/build.mp4">', '</a>'); ?></p>
 				</video>
 			</div>
