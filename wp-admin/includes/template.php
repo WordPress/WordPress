@@ -1256,7 +1256,7 @@ function do_accordion_sections( $screen, $context, $object ) {
 
 	$page = $screen->id;
 
-	$hidden     = get_hidden_meta_boxes( $screen );
+	$hidden = get_hidden_meta_boxes( $screen );
 	?>
 	<div id="side-sortables" class="accordion-container">
 		<ul class="outer-border">
