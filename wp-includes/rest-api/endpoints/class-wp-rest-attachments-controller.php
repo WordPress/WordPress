@@ -375,7 +375,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
-		$response->add_links( $links );
+
+		foreach ( $links as $rel => $rel_links ) {
+			foreach ( $rel_links as $link ) {
+				$response->add_link( $rel, $link['href'], $link['attributes'] );
+			}
+		}
 
 		/**
 		 * Filters an attachment returned from the REST API.

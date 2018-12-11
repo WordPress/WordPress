@@ -96,7 +96,7 @@ function wp_underscore_video_template() {
 	<# if ( w ) { #>width="{{ w }}"<# } #>
 	<# if ( h ) { #>height="{{ h }}"<# } #>
 	<?php
-	$props = array(
+	$props       = array(
 		'poster'  => '',
 		'preload' => 'metadata',
 	);
