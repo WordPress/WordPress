@@ -990,7 +990,7 @@ function rest_sanitize_boolean( $value ) {
 	}
 
 	// Everything else will map nicely to boolean.
-	return (boolean) $value;
+	return (bool) $value;
 }
 
 /**
