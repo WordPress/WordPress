@@ -1781,6 +1781,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$rels[] = 'https://api.w.org/action-publish';
 		}
 
+		if ( current_user_can( 'unfiltered_html' ) ) {
+			$rels[] = 'https://api.w.org/action-unfiltered-html';
+		}
+
 		if ( 'post' === $post_type->name ) {
 			if ( current_user_can( $post_type->cap->edit_others_posts ) && current_user_can( $post_type->cap->publish_posts ) ) {
 				$rels[] = 'https://api.w.org/action-sticky';
@@ -2189,6 +2193,22 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				),
 			);
 		}
+
+		$links[] = array(
+			'rel'          => 'https://api.w.org/action-unfiltered-html',
+			'title'        => __( 'The current user can post unfiltered HTML markup and JavaScript.' ),
+			'href'         => $href,
+			'targetSchema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'content' => array(
+						'raw' => array(
+							'type' => 'string',
+						),
+					),
+				),
+			),
+		);
 
 		if ( 'post' === $this->post_type ) {
 			$links[] = array(
