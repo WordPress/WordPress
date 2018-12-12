@@ -2119,12 +2119,17 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
  */
 function _wp_add_global_attributes( $value ) {
 	$global_attributes = array(
-		'class'  => true,
-		'id'     => true,
-		'style'  => true,
-		'title'  => true,
-		'role'   => true,
-		'data-*' => true,
+		'aria-describedby' => true,
+		'aria-details'     => true,
+		'aria-label'       => true,
+		'aria-labelledby'  => true,
+		'aria-hidden'      => true,
+		'class'            => true,
+		'id'               => true,
+		'style'            => true,
+		'title'            => true,
+		'role'             => true,
+		'data-*'           => true,
 	);
 
 	if ( true === $value ) {
