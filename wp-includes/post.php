@@ -1906,15 +1906,12 @@ function get_posts( $args = null ) {
  */
 function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
 	// Make sure meta is added to the post, not a revision.
-	if ( $the_post = wp_is_post_revision( $post_id ) ) {
+	$the_post = wp_is_post_revision( $post_id );
+	if ( $the_post ) {
 		$post_id = $the_post;
 	}
 
-	$added = add_metadata( 'post', $post_id, $meta_key, $meta_value, $unique );
-	if ( $added ) {
-		wp_cache_set( 'last_changed', microtime(), 'posts' );
-	}
-	return $added;
+	return add_metadata( 'post', $post_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -1934,15 +1931,12 @@ function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
  */
 function delete_post_meta( $post_id, $meta_key, $meta_value = '' ) {
 	// Make sure meta is added to the post, not a revision.
-	if ( $the_post = wp_is_post_revision( $post_id ) ) {
+	$the_post = wp_is_post_revision( $post_id );
+	if ( $the_post ) {
 		$post_id = $the_post;
 	}
 
-	$deleted = delete_metadata( 'post', $post_id, $meta_key, $meta_value );
-	if ( $deleted ) {
-		wp_cache_set( 'last_changed', microtime(), 'posts' );
-	}
-	return $deleted;
+	return delete_metadata( 'post', $post_id, $meta_key, $meta_value );
 }
 
 /**
@@ -1981,15 +1975,12 @@ function get_post_meta( $post_id, $key = '', $single = false ) {
  */
 function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
 	// Make sure meta is added to the post, not a revision.
-	if ( $the_post = wp_is_post_revision( $post_id ) ) {
+	$the_post = wp_is_post_revision( $post_id );
+	if ( $the_post ) {
 		$post_id = $the_post;
 	}
 
-	$updated = update_metadata( 'post', $post_id, $meta_key, $meta_value, $prev_value );
-	if ( $updated ) {
-		wp_cache_set( 'last_changed', microtime(), 'posts' );
-	}
-	return $updated;
+	return update_metadata( 'post', $post_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -2001,11 +1992,7 @@ function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) 
  * @return bool Whether the post meta key was deleted from the database.
  */
 function delete_post_meta_by_key( $post_meta_key ) {
-	$deleted = delete_metadata( 'post', null, $post_meta_key, '', true );
-	if ( $deleted ) {
-		wp_cache_set( 'last_changed', microtime(), 'posts' );
-	}
-	return $deleted;
+	return delete_metadata( 'post', null, $post_meta_key, '', true );
 }
 
 /**
@@ -6784,4 +6771,13 @@ function _filter_query_attachment_filenames( $clauses ) {
 	);
 
 	return $clauses;
+}
+
+/**
+ * Sets the last changed time for the 'posts' cache group.
+ *
+ * @since 5.0.0
+ */
+function wp_cache_set_posts_last_changed() {
+	wp_cache_set( 'last_changed', microtime(), 'posts' );
 }
