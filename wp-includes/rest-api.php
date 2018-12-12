@@ -233,6 +233,10 @@ function create_initial_rest_routes() {
 	// Settings.
 	$controller = new WP_REST_Settings_Controller;
 	$controller->register_routes();
+
+	// Themes.
+	$controller = new WP_REST_Themes_Controller;
+	$controller->register_routes();
 }
 
 /**
