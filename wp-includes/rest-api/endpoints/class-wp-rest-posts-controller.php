@@ -1587,6 +1587,23 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
+		$post_type_obj = get_post_type_object( $post->post_type );
+		if ( is_post_type_viewable( $post_type_obj ) && $post_type_obj->public ) {
+
+			if ( ! function_exists( 'get_sample_permalink' ) ) {
+				require_once ABSPATH . '/wp-admin/includes/post.php';
+			}
+
+			$sample_permalink = get_sample_permalink( $post->ID, $post->post_title, '' );
+
+			if ( in_array( 'permalink_template', $fields, true ) ) {
+				$data['permalink_template'] = $sample_permalink[0];
+			}
+			if ( in_array( 'generated_slug', $fields, true ) ) {
+				$data['generated_slug'] = $sample_permalink[1];
+			}
+		}
+
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
 		$data    = $this->filter_response_by_context( $data, $context );
@@ -1918,6 +1935,21 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		);
 
 		$post_type_obj = get_post_type_object( $this->post_type );
+		if ( is_post_type_viewable( $post_type_obj ) && $post_type_obj->public ) {
+			$schema['properties']['permalink_template'] = array(
+				'description' => __( 'Permalink template for the object.' ),
+				'type'        => 'string',
+				'context'     => array( 'edit' ),
+				'readonly'    => true,
+			);
+
+			$schema['properties']['generated_slug'] = array(
+				'description' => __( 'Slug automatically generated from the object title.' ),
+				'type'        => 'string',
+				'context'     => array( 'edit' ),
+				'readonly'    => true,
+			);
+		}
 
 		if ( $post_type_obj->hierarchical ) {
 			$schema['properties']['parent'] = array(
