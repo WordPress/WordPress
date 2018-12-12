@@ -469,6 +469,19 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'view' );
 
+		/**
+		 * Fires after a single term is completely created or updated via the REST API.
+		 *
+		 * The dynamic portion of the hook name, `$this->taxonomy`, refers to the taxonomy slug.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_Term         $term     Inserted or updated term object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a term, false when updating.
+		 */
+		do_action( "rest_after_insert_{$this->taxonomy}", $term, $request, true );
+
 		$response = $this->prepare_item_for_response( $term, $request );
 		$response = rest_ensure_response( $response );
 
@@ -557,6 +570,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		}
 
 		$request->set_param( 'context', 'view' );
+
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
+		do_action( "rest_after_insert_{$this->taxonomy}", $term, $request, false );
 
 		$response = $this->prepare_item_for_response( $term, $request );
 

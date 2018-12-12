@@ -188,6 +188,18 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		$request->set_param( 'context', 'edit' );
+
+		/**
+		 * Fires after a single attachment is completely created or updated via the REST API.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_Post         $attachment Inserted or updated attachment object.
+		 * @param WP_REST_Request $request    Request object.
+		 * @param bool            $creating   True when creating an attachment, false when updating.
+		 */
+		do_action( 'rest_after_insert_attachment', $attachment, $request, true );
+
 		$response = $this->prepare_item_for_response( $attachment, $request );
 		$response = rest_ensure_response( $response );
 		$response->set_status( 201 );
@@ -234,6 +246,10 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		}
 
 		$request->set_param( 'context', 'edit' );
+
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php */
+		do_action( 'rest_after_insert_attachment', $attachment, $request, false );
+
 		$response = $this->prepare_item_for_response( $attachment, $request );
 		$response = rest_ensure_response( $response );
 

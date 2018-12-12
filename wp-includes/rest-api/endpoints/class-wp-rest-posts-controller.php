@@ -608,6 +608,19 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
+		/**
+		 * Fires after a single post is completely created or updated via the REST API.
+		 *
+		 * The dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param WP_Post         $post     Inserted or updated post object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a post, false when updating.
+		 */
+		do_action( "rest_after_insert_{$this->post_type}", $post, $request, true );
+
 		$response = $this->prepare_item_for_response( $post, $request );
 		$response = rest_ensure_response( $response );
 
@@ -733,6 +746,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$request->set_param( 'context', 'edit' );
+
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
+		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
 
 		$response = $this->prepare_item_for_response( $post, $request );
 
