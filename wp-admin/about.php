@@ -60,6 +60,20 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="freedoms.php?privacy-notice" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 		</h2>
 
+		<div class="changelog point-releases">
+			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
+			<p>
+				<?php
+				/* translators: %s: WordPress version number */
+				printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '5.0.1' );
+				?>
+				<?php
+				/* translators: %s: Codex URL */
+				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_5.0.1' );
+				?>
+			</p>
+		</div>
+
 		<div class="feature-section one-col">
 			<div class="col">
 				<h2><?php _e( 'Say Hello to the New Editor' ); ?></h2>
