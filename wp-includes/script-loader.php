@@ -684,7 +684,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'colorpicker', "/wp-includes/js/colorpicker$suffix.js", array( 'prototype' ), '3517m' );
 
-	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array( 'wp-tinymce', 'utils', 'jquery' ), false, 1 );
+	$scripts->add( 'editor', "/wp-admin/js/editor$suffix.js", array( 'utils', 'jquery' ), false, 1 );
 
 	// Back-compat for old DFW. To-do: remove at the end of 2016.
 	$scripts->add( 'wp-fullscreen-stub', "/wp-admin/js/wp-fullscreen-stub$suffix.js", array(), false, 1 );
