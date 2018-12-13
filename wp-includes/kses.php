@@ -746,7 +746,7 @@ function wp_kses_split( $string, $allowed_html, $allowed_protocols ) {
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes
  *
- * @since 4.9.9
+ * @since 5.0.1
  *
  * @return array HTML attributes that must include a URL.
  */
@@ -777,7 +777,7 @@ function wp_kses_uri_attributes() {
 	 * Use this filter to add any `data-` attributes that are required to be
 	 * validated as a URL.
 	 *
-	 * @since 4.9.9
+	 * @since 5.0.1
 	 *
 	 * @param array $uri_attributes HTML attributes requiring validation as a URL.
 	 */
