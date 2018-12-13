@@ -98,8 +98,7 @@
 }
 
 /* Welcome Panel */
-.welcome-panel,
-.try-gutenberg-panel {
+.welcome-panel {
 	position: relative;
 	overflow: auto;
 	margin: 16px 0;
@@ -111,8 +110,7 @@
 	line-height: 2.1em;
 }
 
-.welcome-panel h2,
-.try-gutenberg-panel h2 {
+.welcome-panel h2 {
 	margin: 0;
 	font-size: 21px;
 	font-weight: 400;
@@ -124,41 +122,24 @@
 	font-size: 16px;
 }
 
-.try-gutenberg-panel h3 {
-	margin: 17px 0 0;
-	font-size: 16px;
-	line-height: 1.4;
-}
-
-.welcome-panel li,
-.try-gutenberg-panel li {
+.welcome-panel li {
 	font-size: 14px;
 }
 
-.welcome-panel p,
-.try-gutenberg-panel p {
+.welcome-panel p {
 	color: #72777c;
 }
 
-.welcome-panel a,
-.try-gutenberg-action a {
+.welcome-panel a {
 	text-decoration: none;
 }
 
-.welcome-panel .about-description,
-.try-gutenberg-panel .about-description {
+.welcome-panel .about-description {
 	font-size: 16px;
 	margin: 0;
 }
 
-.try-gutenberg-panel-content hr {
-	margin: 20px -23px 0 -23px;
-	border-top: 1px solid #f3f4f5;
-	border-bottom: none;
-}
-
-.welcome-panel .welcome-panel-close,
-.try-gutenberg-panel .try-gutenberg-panel-close {
+.welcome-panel .welcome-panel-close {
 	position: absolute;
 	z-index: 10;
 	top: 10px;
@@ -169,8 +150,7 @@
 	text-decoration: none;
 }
 
-.welcome-panel .welcome-panel-close:before,
-.try-gutenberg-panel .try-gutenberg-panel-close:before {
+.welcome-panel .welcome-panel-close:before {
 	position: absolute;
 	top: 8px;
 	left: 0;
@@ -185,21 +165,9 @@
 	white-space: normal;
 }
 
-.welcome-panel-content,
-.try-gutenberg-panel-content {
+.welcome-panel-content {
 	margin: 0 13px;
 	max-width: 1500px;
-}
-
-.try-gutenberg-panel img {
-	margin-top: 23px;
-	width: calc( 100% - 40px );
-	border: 1px solid #f3f4f5;
-}
-
-.try-gutenberg-panel .install-now.updating-message:before,
-.try-gutenberg-panel .install-now.updated-message:before {
-	margin-top: 11px;
 }
 
 .welcome-panel .welcome-panel-column-container {
@@ -213,10 +181,6 @@
 	float: left;
 }
 
-.try-gutenberg-panel .try-gutenberg-panel-column > * {
-	padding-right: 40px;
-}
-
 .ie8 .welcome-panel .welcome-panel-column {
 	min-width: 230px;
 }
@@ -225,63 +189,11 @@
 	width: 36%;
 }
 
-.try-gutenberg-panel .try-gutenberg-panel-column-container {
-	display: flex;
-	margin-bottom: 13px;
-}
-
-@supports (display: grid) {
-	.try-gutenberg-panel .try-gutenberg-panel-column-container {
-		display: -ms-grid;
-		display: grid;
-		-ms-grid-columns: 36% 32% 32%;
-		grid-template-columns: 36% 32% 32%;
-	}
-}
-
-.try-gutenberg-panel .try-gutenberg-panel-image-column {
-	width: 36%;
-}
-
-@supports (display: grid) {
-	.try-gutenberg-panel .try-gutenberg-panel-image-column {
-		width: auto;
-	}
-}
-
-.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 32%;
-}
-
-@supports (display: grid) {
-	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
-		display: -ms-grid;
-		display: grid;
-		-ms-grid-rows: auto 100px;
-		grid-template-rows: auto 100px;
-		width: auto;
-	}
-}
-
-.try-gutenberg-panel .try-gutenberg-action {
-	height: 100px;
-}
-
-@supports (display: grid) {
-	.try-gutenberg-panel .try-gutenberg-action {
-		height: auto;
-	}
-}
-
 .welcome-panel-column p.hide-if-no-customize {
 	margin-top: 10px;
 }
 
-.welcome-panel-column p,
-.try-gutenberg-panel-column p {
+.welcome-panel-column p {
 	margin-top: 7px;
 	color: #444;
 }
@@ -1296,47 +1208,11 @@ a.rsswidget {
 	}
 }
 
-@media screen and (max-width: 1024px) {
-	.try-gutenberg-panel .try-gutenberg-panel-column-container {
-		-ms-grid-columns: 50% 50%;
-		grid-template-columns: 50% 50%;
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-image-column {
-		display: none;
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
-		width: 50%;
-	}
-
-	@supports (display: grid) {
-		.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
-			width: auto;
-		}
-	}
-}
-
 @media screen and (max-width: 870px) {
 	.welcome-panel .welcome-panel-column,
 	.welcome-panel .welcome-panel-column:first-child {
 		display: block;
 		float: none;
-		width: 100%;
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-column-container {
-		flex-wrap: wrap;
-	}
-
-	@supports (display: grid) {
-		.try-gutenberg-panel .try-gutenberg-panel-column-container {
-			-ms-grid-columns: 100%;
-			grid-template-columns: 100%;
-		}
-	}
-
-	.try-gutenberg-panel .try-gutenberg-panel-column:not(.try-gutenberg-panel-image-column) {
 		width: 100%;
 	}
 
@@ -1390,8 +1266,7 @@ a.rsswidget {
 /* Smartphone */
 @media screen and (max-width: 600px) {
 	/* Keep the close icon from overlapping the Welcome text. */
-	.welcome-panel .welcome-panel-close,
-	.try-gutenberg-panel .try-gutenberg-panel-close {
+	.welcome-panel .welcome-panel-close {
 		overflow: hidden;
 		text-indent: 40px;
 		white-space: nowrap;
@@ -1403,8 +1278,7 @@ a.rsswidget {
 	}
 
 	/* Make the close icon larger for tappability. */
-	.welcome-panel .welcome-panel-close:before,
-	.try-gutenberg-panel .try-gutenberg-panel-close:before {
+	.welcome-panel .welcome-panel-close:before {
 		font-size: 20px;
 		top: 5px;
 		left: -35px;
