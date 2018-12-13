@@ -793,6 +793,10 @@ function upgrade_all() {
 		upgrade_460();
 	}
 
+	if ( $wp_current_db_version < 43764 ) {
+		upgrade_500();
+	}
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -2066,6 +2070,25 @@ function upgrade_460() {
 
 			update_option( 'uninstall_plugins', $uninstall_plugins );
 		}
+	}
+}
+
+/**
+ * Executes changes made in WordPress 5.0.0.
+ *
+ * @ignore
+ * @since 5.0.0
+ *
+ * @global int $wp_current_db_version Current database version.
+ */
+function upgrade_500() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 43764 ) {
+		// Allow bypassing Gutenberg plugin deactivation.
+		if ( defined( 'GUTENBERG_USE_PLUGIN' ) && GUTENBERG_USE_PLUGIN ) {
+			return;
+		}
+		deactivate_plugins( array( 'gutenberg/gutenberg.php' ), true );
 	}
 }
 
