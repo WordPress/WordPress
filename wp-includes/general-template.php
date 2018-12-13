@@ -3198,7 +3198,9 @@ function wp_enqueue_editor() {
  * @since 4.9.0
  *
  * @see wp_enqueue_editor()
+ * @see wp_get_code_editor_settings();
  * @see _WP_Editors::parse_settings()
+ *
  * @param array $args {
  *     Args.
  *
@@ -3211,13 +3213,100 @@ function wp_enqueue_editor() {
  *     @type array    $jshint     JSHint rule overrides.
  *     @type array    $htmlhint   JSHint rule overrides.
  * }
- * @returns array|false Settings for the enqueued code editor, or false if the editor was not enqueued .
+ * @return array|false Settings for the enqueued code editor, or false if the editor was not enqueued.
  */
 function wp_enqueue_code_editor( $args ) {
 	if ( is_user_logged_in() && 'false' === wp_get_current_user()->syntax_highlighting ) {
 		return false;
 	}
 
+	$settings = wp_get_code_editor_settings( $args );
+
+	if ( empty( $settings ) || empty( $settings['codemirror'] ) ) {
+		return false;
+	}
+
+	wp_enqueue_script( 'code-editor' );
+	wp_enqueue_style( 'code-editor' );
+
+	if ( isset( $settings['codemirror']['mode'] ) ) {
+		$mode = $settings['codemirror']['mode'];
+		if ( is_string( $mode ) ) {
+			$mode = array(
+				'name' => $mode,
+			);
+		}
+
+		if ( ! empty( $settings['codemirror']['lint'] ) ) {
+			switch ( $mode['name'] ) {
+				case 'css':
+				case 'text/css':
+				case 'text/x-scss':
+				case 'text/x-less':
+					wp_enqueue_script( 'csslint' );
+					break;
+				case 'htmlmixed':
+				case 'text/html':
+				case 'php':
+				case 'application/x-httpd-php':
+				case 'text/x-php':
+					wp_enqueue_script( 'htmlhint' );
+					wp_enqueue_script( 'csslint' );
+					wp_enqueue_script( 'jshint' );
+					if ( ! current_user_can( 'unfiltered_html' ) ) {
+						wp_enqueue_script( 'htmlhint-kses' );
+					}
+					break;
+				case 'javascript':
+				case 'application/ecmascript':
+				case 'application/json':
+				case 'application/javascript':
+				case 'application/ld+json':
+				case 'text/typescript':
+				case 'application/typescript':
+					wp_enqueue_script( 'jshint' );
+					wp_enqueue_script( 'jsonlint' );
+					break;
+			}
+		}
+	}
+
+	wp_add_inline_script( 'code-editor', sprintf( 'jQuery.extend( wp.codeEditor.defaultSettings, %s );', wp_json_encode( $settings ) ) );
+
+	/**
+	 * Fires when scripts and styles are enqueued for the code editor.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $settings Settings for the enqueued code editor.
+	 */
+	do_action( 'wp_enqueue_code_editor', $settings );
+
+	return $settings;
+}
+
+/**
+ * Generate and return code editor settings.
+ *
+ * @since 5.0.0
+ *
+ * @see wp_enqueue_code_editor()
+ *
+ * @param array $args {
+ *     Args.
+ *
+ *     @type string   $type       The MIME type of the file to be edited.
+ *     @type string   $file       Filename to be edited. Extension is used to sniff the type. Can be supplied as alternative to `$type` param.
+ *     @type WP_Theme $theme      Theme being edited when on theme editor.
+ *     @type string   $plugin     Plugin being edited when on plugin editor.
+ *     @type array    $codemirror Additional CodeMirror setting overrides.
+ *     @type array    $csslint    CSSLint rule overrides.
+ *     @type array    $jshint     JSHint rule overrides.
+ *     @type array    $htmlhint   JSHint rule overrides.
+ * }
+ * @return array|false Settings for the code editor.
+ */
+function wp_get_code_editor_settings( $args ) {
 	$settings = array(
 		'codemirror' => array(
 			'indentUnit'       => 4,
@@ -3550,7 +3639,7 @@ function wp_enqueue_code_editor( $args ) {
 	 *
 	 * @param array $settings The array of settings passed to the code editor. A falsey value disables the editor.
 	 * @param array $args {
-	 *     Args passed when calling `wp_enqueue_code_editor()`.
+	 *     Args passed when calling `get_code_editor_settings()`.
 	 *
 	 *     @type string   $type       The MIME type of the file to be edited.
 	 *     @type string   $file       Filename being edited.
@@ -3562,69 +3651,7 @@ function wp_enqueue_code_editor( $args ) {
 	 *     @type array    $htmlhint   JSHint rule overrides.
 	 * }
 	 */
-	$settings = apply_filters( 'wp_code_editor_settings', $settings, $args );
-
-	if ( empty( $settings ) || empty( $settings['codemirror'] ) ) {
-		return false;
-	}
-
-	wp_enqueue_script( 'code-editor' );
-	wp_enqueue_style( 'code-editor' );
-
-	if ( isset( $settings['codemirror']['mode'] ) ) {
-		$mode = $settings['codemirror']['mode'];
-		if ( is_string( $mode ) ) {
-			$mode = array(
-				'name' => $mode,
-			);
-		}
-
-		if ( ! empty( $settings['codemirror']['lint'] ) ) {
-			switch ( $mode['name'] ) {
-				case 'css':
-				case 'text/css':
-				case 'text/x-scss':
-				case 'text/x-less':
-					wp_enqueue_script( 'csslint' );
-					break;
-				case 'htmlmixed':
-				case 'text/html':
-				case 'php':
-				case 'application/x-httpd-php':
-				case 'text/x-php':
-					wp_enqueue_script( 'htmlhint' );
-					wp_enqueue_script( 'csslint' );
-					wp_enqueue_script( 'jshint' );
-					if ( ! current_user_can( 'unfiltered_html' ) ) {
-						wp_enqueue_script( 'htmlhint-kses' );
-					}
-					break;
-				case 'javascript':
-				case 'application/ecmascript':
-				case 'application/json':
-				case 'application/javascript':
-				case 'application/ld+json':
-				case 'text/typescript':
-				case 'application/typescript':
-					wp_enqueue_script( 'jshint' );
-					wp_enqueue_script( 'jsonlint' );
-					break;
-			}
-		}
-	}
-
-	wp_add_inline_script( 'code-editor', sprintf( 'jQuery.extend( wp.codeEditor.defaultSettings, %s );', wp_json_encode( $settings ) ) );
-
-	/**
-	 * Fires when scripts and styles are enqueued for the code editor.
-	 *
-	 * @since 4.9.0
-	 *
-	 * @param array $settings Settings for the enqueued code editor.
-	 */
-	do_action( 'wp_enqueue_code_editor', $settings );
-
-	return $settings;
+	return apply_filters( 'wp_code_editor_settings', $settings, $args );
 }
 
 /**
