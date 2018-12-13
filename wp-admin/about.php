@@ -108,7 +108,17 @@ $tech_features = array(
 		</h2>
 
 		<div class="changelog point-releases">
-			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 17 ); ?></h3>
+			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 18 ); ?></h3>
+			<p>
+				<?php
+				/* translators: %s: WordPress version number */
+				printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '4.3.18' );
+				?>
+				<?php
+				/* translators: %s: Codex URL */
+				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.18' );
+				?>
+			</p>
 			<p><?php printf( __( '<strong>Version %s</strong> addressed one security issue.' ), '4.3.17' ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.17' ); ?>
 			</p>
