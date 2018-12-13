@@ -230,6 +230,7 @@ require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-attachments-contro
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-post-types-controller.php' );
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-post-statuses-controller.php' );
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-revisions-controller.php' );
+require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-autosaves-controller.php' );
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-taxonomies-controller.php' );
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-terms-controller.php' );
 require( ABSPATH . WPINC . '/rest-api/endpoints/class-wp-rest-users-controller.php' );
