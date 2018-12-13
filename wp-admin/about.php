@@ -35,6 +35,16 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
 			<p>
 				<?php
+				/* translators: %s: WordPress version number */
+				printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '4.9.9' );
+				?>
+				<?php
+				/* translators: %s: Codex URL */
+				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.9.9' );
+				?>
+			</p>
+			<p>
+				<?php
 				printf(
 					/* translators: 1: WordPress version number, 2: plural number of bugs. */
 					_n(
