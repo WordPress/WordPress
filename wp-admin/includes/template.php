@@ -1187,6 +1187,8 @@ function do_meta_boxes( $screen, $context, $object ) {
 					if ( WP_DEBUG && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
 						if ( is_array( $box['callback'] ) ) {
 							$reflection = new ReflectionMethod( $box['callback'][0], $box['callback'][1] );
+						} elseif ( false !== strpos( $box['callback'], '::' ) ) {
+							$reflection = new ReflectionMethod( $box['callback'] );
 						} else {
 							$reflection = new ReflectionFunction( $box['callback'] );
 						}
