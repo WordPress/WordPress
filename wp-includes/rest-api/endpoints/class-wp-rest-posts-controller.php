@@ -1521,10 +1521,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( in_array( 'content', $fields, true ) ) {
 			$data['content'] = array(
-				'raw'       => $post->post_content,
+				'raw'           => $post->post_content,
 				/** This filter is documented in wp-includes/post-template.php */
-				'rendered'  => post_password_required( $post ) ? '' : apply_filters( 'the_content', $post->post_content ),
-				'protected' => (bool) $post->post_password,
+				'rendered'      => post_password_required( $post ) ? '' : apply_filters( 'the_content', $post->post_content ),
+				'protected'     => (bool) $post->post_password,
+				'block_version' => block_version( $post->post_content ),
 			);
 		}
 
@@ -2062,18 +2063,24 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 							'validate_callback' => null, // Note: validation implemented in self::prepare_item_for_database()
 						),
 						'properties'  => array(
-							'raw'       => array(
+							'raw'           => array(
 								'description' => __( 'Content for the object, as it exists in the database.' ),
 								'type'        => 'string',
 								'context'     => array( 'edit' ),
 							),
-							'rendered'  => array(
+							'rendered'      => array(
 								'description' => __( 'HTML content for the object, transformed for display.' ),
 								'type'        => 'string',
 								'context'     => array( 'view', 'edit' ),
 								'readonly'    => true,
 							),
-							'protected' => array(
+							'block_version' => array(
+								'description' => __( 'Version of the content block format used by the object.' ),
+								'type'        => 'integer',
+								'context'     => array( 'edit' ),
+								'readonly'    => true,
+							),
+							'protected'     => array(
 								'description' => __( 'Whether the content is protected with a password.' ),
 								'type'        => 'boolean',
 								'context'     => array( 'view', 'edit', 'embed' ),
