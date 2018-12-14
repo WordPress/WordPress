@@ -336,8 +336,8 @@ function wp_default_packages_scripts( &$scripts ) {
 	);
 
 	foreach ( $packages_dependencies as $package => $dependencies ) {
-		$handle  = 'wp-' . $package;
-		$path    = "/wp-includes/js/dist/$package$suffix.js";
+		$handle = 'wp-' . $package;
+		$path   = "/wp-includes/js/dist/$package$suffix.js";
 
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
@@ -1825,8 +1825,8 @@ function wp_default_styles( &$styles ) {
 	);
 
 	foreach ( $package_styles as $package => $dependencies ) {
-		$handle  = 'wp-' . $package;
-		$path     = '/wp-includes/css/dist/' . $package . '/style.css';
+		$handle = 'wp-' . $package;
+		$path   = '/wp-includes/css/dist/' . $package . '/style.css';
 
 		$styles->add( $handle, $path, $dependencies );
 		$styles->add_data( $handle, 'rtl', 'replace' );
