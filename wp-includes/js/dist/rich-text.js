@@ -261,9 +261,14 @@ function _typeof(obj) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _normalise_formats__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./normalise-formats */ "./node_modules/@wordpress/rich-text/build-module/normalise-formats.js");
+/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
+/* harmony import */ var _special_characters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./special-characters */ "./node_modules/@wordpress/rich-text/build-module/special-characters.js");
+
+
 /**
  * External dependencies
  */
@@ -271,6 +276,8 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
+
 
 
 /**
@@ -293,24 +300,44 @@ function applyFormat(_ref, format) {
       end = _ref.end;
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
-  var newFormats = formats.slice(0); // If the selection is collapsed, expand start and end to the edges of the
-  // format.
+  var newFormats = formats.slice(0); // The selection is collpased.
 
   if (startIndex === endIndex) {
-    var startFormat = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], {
+    var startFormat = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(newFormats[startIndex], {
       type: format.type
-    });
+    }); // If the caret is at a format of the same type, expand start and end to
+    // the edges of the format. This is useful to apply new attributes.
 
-    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[startIndex], startFormat)) {
-      applyFormats(newFormats, startIndex, format);
-      startIndex--;
-    }
+    if (startFormat) {
+      while (Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(newFormats[startIndex], startFormat)) {
+        applyFormats(newFormats, startIndex, format);
+        startIndex--;
+      }
 
-    endIndex++;
-
-    while (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(newFormats[endIndex], startFormat)) {
-      applyFormats(newFormats, endIndex, format);
       endIndex++;
+
+      while (Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(newFormats[endIndex], startFormat)) {
+        applyFormats(newFormats, endIndex, format);
+        endIndex++;
+      } // Otherwise, insert a placeholder with the format so new input appears
+      // with the format applied.
+
+    } else {
+      var previousFormat = newFormats[startIndex - 1] || [];
+      var hasType = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["find"])(previousFormat, {
+        type: format.type
+      });
+      return Object(_insert__WEBPACK_IMPORTED_MODULE_3__["insert"])({
+        formats: formats,
+        text: text,
+        start: start,
+        end: end
+      }, {
+        formats: hasType ? [Object(lodash__WEBPACK_IMPORTED_MODULE_1__["reject"])(previousFormat, {
+          type: format.type
+        })] : [Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(previousFormat).concat([format])],
+        text: _special_characters__WEBPACK_IMPORTED_MODULE_4__["ZERO_WIDTH_NO_BREAK_SPACE"]
+      });
     }
   } else {
     for (var index = startIndex; index < endIndex; index++) {
@@ -318,7 +345,7 @@ function applyFormat(_ref, format) {
     }
   }
 
-  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_1__["normaliseFormats"])({
+  return Object(_normalise_formats__WEBPACK_IMPORTED_MODULE_2__["normaliseFormats"])({
     formats: newFormats,
     text: text,
     start: start,
@@ -427,15 +454,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
-/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./is-format-equal */ "./node_modules/@wordpress/rich-text/build-module/is-format-equal.js");
-/* harmony import */ var _create_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create-element */ "./node_modules/@wordpress/rich-text/build-module/create-element.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
+/* harmony import */ var _is_format_equal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./is-format-equal */ "./node_modules/@wordpress/rich-text/build-module/is-format-equal.js");
+/* harmony import */ var _create_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./create-element */ "./node_modules/@wordpress/rich-text/build-module/create-element.js");
+/* harmony import */ var _get_format_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./get-format-types */ "./node_modules/@wordpress/rich-text/build-module/get-format-types.js");
 
 
 
 /**
+ * External dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
+
 
 
 
@@ -451,6 +487,57 @@ function createEmptyValue() {
   return {
     formats: [],
     text: ''
+  };
+}
+
+function simpleFindKey(object, value) {
+  for (var key in object) {
+    if (object[key] === value) {
+      return key;
+    }
+  }
+}
+
+function toFormat(_ref) {
+  var type = _ref.type,
+      attributes = _ref.attributes;
+  var formatType = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["find"])(Object(_get_format_types__WEBPACK_IMPORTED_MODULE_6__["getFormatTypes"])(), function (_ref2) {
+    var match = _ref2.match;
+    return type === match.tagName;
+  });
+
+  if (!formatType) {
+    return attributes ? {
+      type: type,
+      attributes: attributes
+    } : {
+      type: type
+    };
+  }
+
+  if (!attributes) {
+    return {
+      type: formatType.name
+    };
+  }
+
+  var registeredAttributes = {};
+  var unregisteredAttributes = {};
+
+  for (var name in attributes) {
+    var key = simpleFindKey(formatType.attributes, name);
+
+    if (key) {
+      registeredAttributes[key] = attributes[name];
+    } else {
+      unregisteredAttributes[name] = attributes[name];
+    }
+  }
+
+  return {
+    type: formatType.name,
+    attributes: registeredAttributes,
+    unregisteredAttributes: unregisteredAttributes
   };
 }
 /**
@@ -481,16 +568,16 @@ function createEmptyValue() {
 
 
 function create() {
-  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      element = _ref.element,
-      text = _ref.text,
-      html = _ref.html,
-      range = _ref.range,
-      multilineTag = _ref.multilineTag,
-      removeNode = _ref.removeNode,
-      unwrapNode = _ref.unwrapNode,
-      filterString = _ref.filterString,
-      removeAttribute = _ref.removeAttribute;
+  var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      element = _ref3.element,
+      text = _ref3.text,
+      html = _ref3.html,
+      range = _ref3.range,
+      multilineTag = _ref3.multilineTag,
+      removeNode = _ref3.removeNode,
+      unwrapNode = _ref3.unwrapNode,
+      filterString = _ref3.filterString,
+      removeAttribute = _ref3.removeAttribute;
 
   if (typeof text === 'string' && text.length > 0) {
     return {
@@ -500,7 +587,7 @@ function create() {
   }
 
   if (typeof html === 'string' && html.length > 0) {
-    element = Object(_create_element__WEBPACK_IMPORTED_MODULE_4__["createElement"])(document, html);
+    element = Object(_create_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(document, html);
   }
 
   if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_1__["default"])(element) !== 'object') {
@@ -623,13 +710,13 @@ function filterRange(node, range, filter) {
  */
 
 
-function createFromElement(_ref2) {
-  var element = _ref2.element,
-      range = _ref2.range,
-      removeNode = _ref2.removeNode,
-      unwrapNode = _ref2.unwrapNode,
-      filterString = _ref2.filterString,
-      removeAttribute = _ref2.removeAttribute;
+function createFromElement(_ref4) {
+  var element = _ref4.element,
+      range = _ref4.range,
+      removeNode = _ref4.removeNode,
+      unwrapNode = _ref4.unwrapNode,
+      filterString = _ref4.filterString,
+      removeAttribute = _ref4.removeAttribute;
   var accumulator = createEmptyValue();
 
   if (!element) {
@@ -694,19 +781,15 @@ function createFromElement(_ref2) {
     var format = void 0;
 
     if (!unwrapNode || !unwrapNode(node)) {
-      var type = node.nodeName.toLowerCase();
-      var attributes = getAttributes({
-        element: node,
-        removeAttribute: removeAttribute
-      });
-      var newFormat = attributes ? {
-        type: type,
-        attributes: attributes
-      } : {
-        type: type
-      }; // Reuse the last format if it's equal.
+      var newFormat = toFormat({
+        type: node.nodeName.toLowerCase(),
+        attributes: getAttributes({
+          element: node,
+          removeAttribute: removeAttribute
+        })
+      }); // Reuse the last format if it's equal.
 
-      if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_3__["isFormatEqual"])(newFormat, lastFormat)) {
+      if (Object(_is_format_equal__WEBPACK_IMPORTED_MODULE_4__["isFormatEqual"])(newFormat, lastFormat)) {
         format = lastFormat;
       } else {
         format = newFormat;
@@ -725,7 +808,7 @@ function createFromElement(_ref2) {
     var start = accumulator.text.length;
     accumulateSelection(accumulator, node, range, value); // Don't apply the element as formatting if it has no content.
 
-    if (Object(_is_empty__WEBPACK_IMPORTED_MODULE_2__["isEmpty"])(value) && format && !format.attributes) {
+    if (Object(_is_empty__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(value) && format && !format.attributes) {
       continue;
     }
 
@@ -792,14 +875,14 @@ function createFromElement(_ref2) {
  */
 
 
-function createFromMultilineElement(_ref3) {
-  var element = _ref3.element,
-      range = _ref3.range,
-      multilineTag = _ref3.multilineTag,
-      removeNode = _ref3.removeNode,
-      unwrapNode = _ref3.unwrapNode,
-      filterString = _ref3.filterString,
-      removeAttribute = _ref3.removeAttribute;
+function createFromMultilineElement(_ref5) {
+  var element = _ref5.element,
+      range = _ref5.range,
+      multilineTag = _ref5.multilineTag,
+      removeNode = _ref5.removeNode,
+      unwrapNode = _ref5.unwrapNode,
+      filterString = _ref5.filterString,
+      removeAttribute = _ref5.removeAttribute;
   var accumulator = createEmptyValue();
 
   if (!element || !element.hasChildNodes()) {
@@ -850,9 +933,9 @@ function createFromMultilineElement(_ref3) {
  */
 
 
-function getAttributes(_ref4) {
-  var element = _ref4.element,
-      removeAttribute = _ref4.removeAttribute;
+function getAttributes(_ref6) {
+  var element = _ref6.element,
+      removeAttribute = _ref6.removeAttribute;
 
   if (!element.hasAttributes()) {
     return;
@@ -924,6 +1007,66 @@ function getActiveFormat(_ref, formatType) {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/rich-text/build-module/get-format-type.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/get-format-type.js ***!
+  \***************************************************************************/
+/*! exports provided: getFormatType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatType", function() { return getFormatType; });
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Returns a registered format type.
+ *
+ * @param {string} name Format name.
+ *
+ * @return {?Object} Format type.
+ */
+
+function getFormatType(name) {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/rich-text').getFormatType(name);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/get-format-types.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/get-format-types.js ***!
+  \****************************************************************************/
+/*! exports provided: getFormatTypes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatTypes", function() { return getFormatTypes; });
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Returns all registered formats.
+ *
+ * @return {Array} Format settings.
+ */
+
+function getFormatTypes() {
+  return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/rich-text').getFormatTypes();
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/rich-text/build-module/get-text-content.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/@wordpress/rich-text/build-module/get-text-content.js ***!
@@ -954,62 +1097,81 @@ function getTextContent(_ref) {
 /*!*****************************************************************!*\
   !*** ./node_modules/@wordpress/rich-text/build-module/index.js ***!
   \*****************************************************************/
-/*! exports provided: applyFormat, concat, create, getActiveFormat, getTextContent, isCollapsed, isEmpty, isEmptyLine, join, removeFormat, remove, replace, insert, slice, split, apply, unstableToDom, toHTMLString */
+/*! exports provided: applyFormat, concat, create, getActiveFormat, getFormatType, getFormatTypes, getTextContent, isCollapsed, isEmpty, isEmptyLine, join, registerFormatType, removeFormat, remove, replace, insert, insertObject, slice, split, apply, unstableToDom, toHTMLString, toggleFormat, unregisterFormatType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apply-format */ "./node_modules/@wordpress/rich-text/build-module/apply-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyFormat", function() { return _apply_format__WEBPACK_IMPORTED_MODULE_0__["applyFormat"]; });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/rich-text/build-module/store/index.js");
+/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./apply-format */ "./node_modules/@wordpress/rich-text/build-module/apply-format.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyFormat", function() { return _apply_format__WEBPACK_IMPORTED_MODULE_1__["applyFormat"]; });
 
-/* harmony import */ var _concat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./concat */ "./node_modules/@wordpress/rich-text/build-module/concat.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return _concat__WEBPACK_IMPORTED_MODULE_1__["concat"]; });
+/* harmony import */ var _concat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./concat */ "./node_modules/@wordpress/rich-text/build-module/concat.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "concat", function() { return _concat__WEBPACK_IMPORTED_MODULE_2__["concat"]; });
 
-/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _create__WEBPACK_IMPORTED_MODULE_2__["create"]; });
+/* harmony import */ var _create__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./create */ "./node_modules/@wordpress/rich-text/build-module/create.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "create", function() { return _create__WEBPACK_IMPORTED_MODULE_3__["create"]; });
 
-/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./get-active-format */ "./node_modules/@wordpress/rich-text/build-module/get-active-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return _get_active_format__WEBPACK_IMPORTED_MODULE_3__["getActiveFormat"]; });
+/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./get-active-format */ "./node_modules/@wordpress/rich-text/build-module/get-active-format.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getActiveFormat", function() { return _get_active_format__WEBPACK_IMPORTED_MODULE_4__["getActiveFormat"]; });
 
-/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./get-text-content */ "./node_modules/@wordpress/rich-text/build-module/get-text-content.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTextContent", function() { return _get_text_content__WEBPACK_IMPORTED_MODULE_4__["getTextContent"]; });
+/* harmony import */ var _get_format_type__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./get-format-type */ "./node_modules/@wordpress/rich-text/build-module/get-format-type.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFormatType", function() { return _get_format_type__WEBPACK_IMPORTED_MODULE_5__["getFormatType"]; });
 
-/* harmony import */ var _is_collapsed__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./is-collapsed */ "./node_modules/@wordpress/rich-text/build-module/is-collapsed.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return _is_collapsed__WEBPACK_IMPORTED_MODULE_5__["isCollapsed"]; });
+/* harmony import */ var _get_format_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./get-format-types */ "./node_modules/@wordpress/rich-text/build-module/get-format-types.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFormatTypes", function() { return _get_format_types__WEBPACK_IMPORTED_MODULE_6__["getFormatTypes"]; });
 
-/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_6__["isEmpty"]; });
+/* harmony import */ var _get_text_content__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./get-text-content */ "./node_modules/@wordpress/rich-text/build-module/get-text-content.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTextContent", function() { return _get_text_content__WEBPACK_IMPORTED_MODULE_7__["getTextContent"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmptyLine", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_6__["isEmptyLine"]; });
+/* harmony import */ var _is_collapsed__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./is-collapsed */ "./node_modules/@wordpress/rich-text/build-module/is-collapsed.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isCollapsed", function() { return _is_collapsed__WEBPACK_IMPORTED_MODULE_8__["isCollapsed"]; });
 
-/* harmony import */ var _join__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./join */ "./node_modules/@wordpress/rich-text/build-module/join.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "join", function() { return _join__WEBPACK_IMPORTED_MODULE_7__["join"]; });
+/* harmony import */ var _is_empty__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./is-empty */ "./node_modules/@wordpress/rich-text/build-module/is-empty.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmpty", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_9__["isEmpty"]; });
 
-/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./remove-format */ "./node_modules/@wordpress/rich-text/build-module/remove-format.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeFormat", function() { return _remove_format__WEBPACK_IMPORTED_MODULE_8__["removeFormat"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmptyLine", function() { return _is_empty__WEBPACK_IMPORTED_MODULE_9__["isEmptyLine"]; });
 
-/* harmony import */ var _remove__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./remove */ "./node_modules/@wordpress/rich-text/build-module/remove.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return _remove__WEBPACK_IMPORTED_MODULE_9__["remove"]; });
+/* harmony import */ var _join__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./join */ "./node_modules/@wordpress/rich-text/build-module/join.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "join", function() { return _join__WEBPACK_IMPORTED_MODULE_10__["join"]; });
 
-/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./replace */ "./node_modules/@wordpress/rich-text/build-module/replace.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return _replace__WEBPACK_IMPORTED_MODULE_10__["replace"]; });
+/* harmony import */ var _register_format_type__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./register-format-type */ "./node_modules/@wordpress/rich-text/build-module/register-format-type.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return _register_format_type__WEBPACK_IMPORTED_MODULE_11__["registerFormatType"]; });
 
-/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return _insert__WEBPACK_IMPORTED_MODULE_11__["insert"]; });
+/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./remove-format */ "./node_modules/@wordpress/rich-text/build-module/remove-format.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeFormat", function() { return _remove_format__WEBPACK_IMPORTED_MODULE_12__["removeFormat"]; });
 
-/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./slice */ "./node_modules/@wordpress/rich-text/build-module/slice.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "slice", function() { return _slice__WEBPACK_IMPORTED_MODULE_12__["slice"]; });
+/* harmony import */ var _remove__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./remove */ "./node_modules/@wordpress/rich-text/build-module/remove.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return _remove__WEBPACK_IMPORTED_MODULE_13__["remove"]; });
 
-/* harmony import */ var _split__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./split */ "./node_modules/@wordpress/rich-text/build-module/split.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "split", function() { return _split__WEBPACK_IMPORTED_MODULE_13__["split"]; });
+/* harmony import */ var _replace__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./replace */ "./node_modules/@wordpress/rich-text/build-module/replace.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return _replace__WEBPACK_IMPORTED_MODULE_14__["replace"]; });
 
-/* harmony import */ var _to_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./to-dom */ "./node_modules/@wordpress/rich-text/build-module/to-dom.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "apply", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_14__["apply"]; });
+/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insert", function() { return _insert__WEBPACK_IMPORTED_MODULE_15__["insert"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstableToDom", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_14__["toDom"]; });
+/* harmony import */ var _insert_object__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./insert-object */ "./node_modules/@wordpress/rich-text/build-module/insert-object.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insertObject", function() { return _insert_object__WEBPACK_IMPORTED_MODULE_16__["insertObject"]; });
 
-/* harmony import */ var _to_html_string__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./to-html-string */ "./node_modules/@wordpress/rich-text/build-module/to-html-string.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return _to_html_string__WEBPACK_IMPORTED_MODULE_15__["toHTMLString"]; });
+/* harmony import */ var _slice__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./slice */ "./node_modules/@wordpress/rich-text/build-module/slice.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "slice", function() { return _slice__WEBPACK_IMPORTED_MODULE_17__["slice"]; });
+
+/* harmony import */ var _split__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./split */ "./node_modules/@wordpress/rich-text/build-module/split.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "split", function() { return _split__WEBPACK_IMPORTED_MODULE_18__["split"]; });
+
+/* harmony import */ var _to_dom__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./to-dom */ "./node_modules/@wordpress/rich-text/build-module/to-dom.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "apply", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_19__["apply"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unstableToDom", function() { return _to_dom__WEBPACK_IMPORTED_MODULE_19__["toDom"]; });
+
+/* harmony import */ var _to_html_string__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./to-html-string */ "./node_modules/@wordpress/rich-text/build-module/to-html-string.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toHTMLString", function() { return _to_html_string__WEBPACK_IMPORTED_MODULE_20__["toHTMLString"]; });
+
+/* harmony import */ var _toggle_format__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./toggle-format */ "./node_modules/@wordpress/rich-text/build-module/toggle-format.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return _toggle_format__WEBPACK_IMPORTED_MODULE_21__["toggleFormat"]; });
+
+/* harmony import */ var _unregister_format_type__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./unregister-format-type */ "./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return _unregister_format_type__WEBPACK_IMPORTED_MODULE_22__["unregisterFormatType"]; });
 
 
 
@@ -1027,6 +1189,58 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/insert-object.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/insert-object.js ***!
+  \*************************************************************************/
+/*! exports provided: insertObject */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertObject", function() { return insertObject; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _insert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./insert */ "./node_modules/@wordpress/rich-text/build-module/insert.js");
+
+
+/**
+ * Internal dependencies
+ */
+
+var OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
+/**
+ * Insert a format as an object into a Rich Text value at the given
+ * `startIndex`. Any content between `startIndex` and `endIndex` will be
+ * removed. Indices are retrieved from the selection if none are provided.
+ *
+ * @param {Object} value          Value to modify.
+ * @param {string} formatToInsert Format to insert as object.
+ * @param {number} startIndex     Start index.
+ * @param {number} endIndex       End index.
+ *
+ * @return {Object} A new value with the object inserted.
+ */
+
+function insertObject(value, formatToInsert, startIndex, endIndex) {
+  var valueToInsert = {
+    text: OBJECT_REPLACEMENT_CHARACTER,
+    formats: [[Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, formatToInsert, {
+      object: true
+    })]]
+  };
+  return Object(_insert__WEBPACK_IMPORTED_MODULE_1__["insert"])(value, valueToInsert, startIndex, endIndex);
+}
 
 
 /***/ }),
@@ -1355,6 +1569,100 @@ function normaliseFormats(_ref) {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/rich-text/build-module/register-format-type.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/register-format-type.js ***!
+  \********************************************************************************/
+/*! exports provided: registerFormatType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerFormatType", function() { return registerFormatType; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Registers a new format provided a unique name and an object defining its
+ * behavior.
+ *
+ * @param {string} name     Format name.
+ * @param {Object} settings Format settings.
+ *
+ * @return {?WPFormat} The format, if it has been successfully registered;
+ *                     otherwise `undefined`.
+ */
+
+function registerFormatType(name, settings) {
+  settings = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    name: name
+  }, settings);
+
+  if (typeof settings.name !== 'string') {
+    window.console.error('Format names must be strings.');
+    return;
+  }
+
+  if (!/^[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*$/.test(settings.name)) {
+    window.console.error('Format names must contain a namespace prefix, include only lowercase alphanumeric characters or dashes, and start with a letter. Example: my-plugin/my-custom-format');
+    return;
+  }
+
+  if (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["select"])('core/rich-text').getFormatType(settings.name)) {
+    window.console.error('Format "' + settings.name + '" is already registered.');
+    return;
+  }
+
+  if (!settings || !Object(lodash__WEBPACK_IMPORTED_MODULE_1__["isFunction"])(settings.edit)) {
+    window.console.error('The "edit" property must be specified and must be a valid function.');
+    return;
+  }
+
+  if (!('title' in settings) || settings.title === '') {
+    window.console.error('The format "' + settings.name + '" must have a title.');
+    return;
+  }
+
+  if ('keywords' in settings && settings.keywords.length > 3) {
+    window.console.error('The format "' + settings.name + '" can have a maximum of 3 keywords.');
+    return;
+  }
+
+  if (typeof settings.title !== 'string') {
+    window.console.error('Format titles must be strings.');
+    return;
+  }
+
+  settings.icon = Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["normalizeIconObject"])(settings.icon);
+
+  if (!Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["isValidIcon"])(settings.icon.src)) {
+    window.console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/format-api/#icon-optional');
+    return;
+  }
+
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["dispatch"])('core/rich-text').addFormatTypes(settings);
+  return settings;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/rich-text/build-module/remove-format.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/@wordpress/rich-text/build-module/remove-format.js ***!
@@ -1611,6 +1919,21 @@ function slice(_ref) {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/rich-text/build-module/special-characters.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/special-characters.js ***!
+  \******************************************************************************/
+/*! exports provided: ZERO_WIDTH_NO_BREAK_SPACE */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZERO_WIDTH_NO_BREAK_SPACE", function() { return ZERO_WIDTH_NO_BREAK_SPACE; });
+var ZERO_WIDTH_NO_BREAK_SPACE = "\uFEFF";
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/rich-text/build-module/split.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@wordpress/rich-text/build-module/split.js ***!
@@ -1694,6 +2017,191 @@ function splitAtSelection(_ref2) {
   };
   return [// Ensure newlines are trimmed.
   Object(_replace__WEBPACK_IMPORTED_MODULE_0__["replace"])(before, /\u2028+$/, ''), Object(_replace__WEBPACK_IMPORTED_MODULE_0__["replace"])(after, /^\u2028+/, '')];
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/store/actions.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/store/actions.js ***!
+  \*************************************************************************/
+/*! exports provided: addFormatTypes, removeFormatTypes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addFormatTypes", function() { return addFormatTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFormatTypes", function() { return removeFormatTypes; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * External dependencies
+ */
+
+/**
+ * Returns an action object used in signalling that format types have been
+ * added.
+ *
+ * @param {Array|Object} formatTypes Format types received.
+ *
+ * @return {Object} Action object.
+ */
+
+function addFormatTypes(formatTypes) {
+  return {
+    type: 'ADD_FORMAT_TYPES',
+    formatTypes: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(formatTypes)
+  };
+}
+/**
+ * Returns an action object used to remove a registered format type.
+ *
+ * @param {string|Array} names Format name.
+ *
+ * @return {Object} Action object.
+ */
+
+function removeFormatTypes(names) {
+  return {
+    type: 'REMOVE_FORMAT_TYPES',
+    names: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["castArray"])(names)
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/store/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/store/index.js ***!
+  \***********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducer */ "./node_modules/@wordpress/rich-text/build-module/store/reducer.js");
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./node_modules/@wordpress/rich-text/build-module/store/selectors.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions */ "./node_modules/@wordpress/rich-text/build-module/store/actions.js");
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["registerStore"])('core/rich-text', {
+  reducer: _reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  selectors: _selectors__WEBPACK_IMPORTED_MODULE_2__,
+  actions: _actions__WEBPACK_IMPORTED_MODULE_3__
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/store/reducer.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/store/reducer.js ***!
+  \*************************************************************************/
+/*! exports provided: formatTypes, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTypes", function() { return formatTypes; });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Reducer managing the format types
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function formatTypes() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'ADD_FORMAT_TYPES':
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, state, Object(lodash__WEBPACK_IMPORTED_MODULE_1__["keyBy"])(action.formatTypes, 'name'));
+
+    case 'REMOVE_FORMAT_TYPES':
+      return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["omit"])(state, action.names);
+  }
+
+  return state;
+}
+/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__["combineReducers"])({
+  formatTypes: formatTypes
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/store/selectors.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/store/selectors.js ***!
+  \***************************************************************************/
+/*! exports provided: getFormatTypes, getFormatType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatTypes", function() { return getFormatTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFormatType", function() { return getFormatType; });
+/* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ "./node_modules/rememo/es/rememo.js");
+/**
+ * External dependencies
+ */
+
+/**
+ * Returns all the available format types.
+ *
+ * @param {Object} state Data state.
+ *
+ * @return {Array} Format types.
+ */
+
+var getFormatTypes = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(function (state) {
+  return Object.values(state.formatTypes);
+}, function (state) {
+  return [state.formatTypes];
+});
+/**
+ * Returns a format type by name.
+ *
+ * @param {Object} state Data state.
+ * @param {string} name Format type name.
+ *
+ * @return {Object?} Format type.
+ */
+
+function getFormatType(state, name) {
+  return state.formatTypes[name];
 }
 
 
@@ -2097,11 +2605,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toTree", function() { return toTree; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var _split__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./split */ "./node_modules/@wordpress/rich-text/build-module/split.js");
+/* harmony import */ var _get_format_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./get-format-type */ "./node_modules/@wordpress/rich-text/build-module/get-format-type.js");
 
 
 /**
  * Internal dependencies
  */
+
+
+
+function fromFormat(_ref) {
+  var type = _ref.type,
+      attributes = _ref.attributes,
+      object = _ref.object;
+  var formatType = Object(_get_format_type__WEBPACK_IMPORTED_MODULE_2__["getFormatType"])(type);
+
+  if (!formatType) {
+    return {
+      type: type,
+      attributes: attributes,
+      object: object
+    };
+  }
+
+  if (!attributes) {
+    return {
+      type: formatType.match.tagName,
+      object: formatType.object
+    };
+  }
+
+  var elementAttributes = {};
+
+  for (var name in attributes) {
+    var key = formatType.attributes[name];
+
+    if (key) {
+      elementAttributes[key] = attributes[name];
+    } else {
+      elementAttributes[name] = attributes[name];
+    }
+  }
+
+  return {
+    type: formatType.match.tagName,
+    object: formatType.object,
+    attributes: elementAttributes
+  };
+}
 
 function toTree(value, multilineTag, settings) {
   if (multilineTag) {
@@ -2157,11 +2708,11 @@ function toTree(value, multilineTag, settings) {
             attributes = format.attributes,
             object = format.object;
         var parent = getParent(pointer);
-        var newNode = append(parent, {
+        var newNode = append(parent, fromFormat({
           type: type,
           attributes: attributes,
           object: object
-        });
+        }));
 
         if (isText(pointer) && getText(pointer).length === 0) {
           remove(pointer);
@@ -2215,6 +2766,394 @@ function toTree(value, multilineTag, settings) {
   return tree;
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/toggle-format.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/toggle-format.js ***!
+  \*************************************************************************/
+/*! exports provided: toggleFormat */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return toggleFormat; });
+/* harmony import */ var _get_active_format__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./get-active-format */ "./node_modules/@wordpress/rich-text/build-module/get-active-format.js");
+/* harmony import */ var _remove_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./remove-format */ "./node_modules/@wordpress/rich-text/build-module/remove-format.js");
+/* harmony import */ var _apply_format__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./apply-format */ "./node_modules/@wordpress/rich-text/build-module/apply-format.js");
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Toggles a format object to a Rich Text value at the current selection.
+ *
+ * @param {Object} value      Value to modify.
+ * @param {Object} format     Format to apply or remove.
+ *
+ * @return {Object} A new value with the format applied or removed.
+ */
+
+function toggleFormat(value, format) {
+  if (Object(_get_active_format__WEBPACK_IMPORTED_MODULE_0__["getActiveFormat"])(value, format.type)) {
+    return Object(_remove_format__WEBPACK_IMPORTED_MODULE_1__["removeFormat"])(value, format.type);
+  }
+
+  return Object(_apply_format__WEBPACK_IMPORTED_MODULE_2__["applyFormat"])(value, format);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@wordpress/rich-text/build-module/unregister-format-type.js ***!
+  \**********************************************************************************/
+/*! exports provided: unregisterFormatType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return unregisterFormatType; });
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Unregisters a format.
+ *
+ * @param {string} name Format name.
+ *
+ * @return {?WPFormat} The previous format value, if it has been successfully
+ *                     unregistered; otherwise `undefined`.
+ */
+
+function unregisterFormatType(name) {
+  var oldFormat = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["select"])('core/rich-text').getFormatType(name);
+
+  if (!oldFormat) {
+    window.console.error("Format ".concat(name, " is not registered."));
+    return;
+  }
+
+  Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_0__["dispatch"])('core/rich-text').removeFormatTypes(name);
+  return oldFormat;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/rememo/es/rememo.js":
+/*!******************************************!*\
+  !*** ./node_modules/rememo/es/rememo.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+var LEAF_KEY, hasWeakMap;
+
+/**
+ * Arbitrary value used as key for referencing cache object in WeakMap tree.
+ *
+ * @type {Object}
+ */
+LEAF_KEY = {};
+
+/**
+ * Whether environment supports WeakMap.
+ *
+ * @type {boolean}
+ */
+hasWeakMap = typeof WeakMap !== 'undefined';
+
+/**
+ * Returns the first argument as the sole entry in an array.
+ *
+ * @param {*} value Value to return.
+ *
+ * @return {Array} Value returned as entry in array.
+ */
+function arrayOf( value ) {
+	return [ value ];
+}
+
+/**
+ * Returns true if the value passed is object-like, or false otherwise. A value
+ * is object-like if it can support property assignment, e.g. object or array.
+ *
+ * @param {*} value Value to test.
+ *
+ * @return {boolean} Whether value is object-like.
+ */
+function isObjectLike( value ) {
+	return !! value && 'object' === typeof value;
+}
+
+/**
+ * Creates and returns a new cache object.
+ *
+ * @return {Object} Cache object.
+ */
+function createCache() {
+	var cache = {
+		clear: function() {
+			cache.head = null;
+		},
+	};
+
+	return cache;
+}
+
+/**
+ * Returns true if entries within the two arrays are strictly equal by
+ * reference from a starting index.
+ *
+ * @param {Array}  a         First array.
+ * @param {Array}  b         Second array.
+ * @param {number} fromIndex Index from which to start comparison.
+ *
+ * @return {boolean} Whether arrays are shallowly equal.
+ */
+function isShallowEqual( a, b, fromIndex ) {
+	var i;
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = fromIndex; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Returns a memoized selector function. The getDependants function argument is
+ * called before the memoized selector and is expected to return an immutable
+ * reference or array of references on which the selector depends for computing
+ * its own return value. The memoize cache is preserved only as long as those
+ * dependant references remain the same. If getDependants returns a different
+ * reference(s), the cache is cleared and the selector value regenerated.
+ *
+ * @param {Function} selector      Selector function.
+ * @param {Function} getDependants Dependant getter returning an immutable
+ *                                 reference or array of reference used in
+ *                                 cache bust consideration.
+ *
+ * @return {Function} Memoized selector.
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function( selector, getDependants ) {
+	var rootCache, getCache;
+
+	// Use object source as dependant if getter not provided
+	if ( ! getDependants ) {
+		getDependants = arrayOf;
+	}
+
+	/**
+	 * Returns the root cache. If WeakMap is supported, this is assigned to the
+	 * root WeakMap cache set, otherwise it is a shared instance of the default
+	 * cache object.
+	 *
+	 * @return {(WeakMap|Object)} Root cache object.
+	 */
+	function getRootCache() {
+		return rootCache;
+	}
+
+	/**
+	 * Returns the cache for a given dependants array. When possible, a WeakMap
+	 * will be used to create a unique cache for each set of dependants. This
+	 * is feasible due to the nature of WeakMap in allowing garbage collection
+	 * to occur on entries where the key object is no longer referenced. Since
+	 * WeakMap requires the key to be an object, this is only possible when the
+	 * dependant is object-like. The root cache is created as a hierarchy where
+	 * each top-level key is the first entry in a dependants set, the value a
+	 * WeakMap where each key is the next dependant, and so on. This continues
+	 * so long as the dependants are object-like. If no dependants are object-
+	 * like, then the cache is shared across all invocations.
+	 *
+	 * @see isObjectLike
+	 *
+	 * @param {Array} dependants Selector dependants.
+	 *
+	 * @return {Object} Cache object.
+	 */
+	function getWeakMapCache( dependants ) {
+		var caches = rootCache,
+			isUniqueByDependants = true,
+			i, dependant, map, cache;
+
+		for ( i = 0; i < dependants.length; i++ ) {
+			dependant = dependants[ i ];
+
+			// Can only compose WeakMap from object-like key.
+			if ( ! isObjectLike( dependant ) ) {
+				isUniqueByDependants = false;
+				break;
+			}
+
+			// Does current segment of cache already have a WeakMap?
+			if ( caches.has( dependant ) ) {
+				// Traverse into nested WeakMap.
+				caches = caches.get( dependant );
+			} else {
+				// Create, set, and traverse into a new one.
+				map = new WeakMap();
+				caches.set( dependant, map );
+				caches = map;
+			}
+		}
+
+		// We use an arbitrary (but consistent) object as key for the last item
+		// in the WeakMap to serve as our running cache.
+		if ( ! caches.has( LEAF_KEY ) ) {
+			cache = createCache();
+			cache.isUniqueByDependants = isUniqueByDependants;
+			caches.set( LEAF_KEY, cache );
+		}
+
+		return caches.get( LEAF_KEY );
+	}
+
+	// Assign cache handler by availability of WeakMap
+	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
+
+	/**
+	 * Resets root memoization cache.
+	 */
+	function clear() {
+		rootCache = hasWeakMap ? new WeakMap() : createCache();
+	}
+
+	// eslint-disable-next-line jsdoc/check-param-names
+	/**
+	 * The augmented selector call, considering first whether dependants have
+	 * changed before passing it to underlying memoize function.
+	 *
+	 * @param {Object} source    Source object for derivation.
+	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 *
+	 * @return {*} Selector result.
+	 */
+	function callSelector( /* source, ...extraArgs */ ) {
+		var len = arguments.length,
+			cache, node, i, args, dependants;
+
+		// Create copy of arguments (avoid leaking deoptimization).
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		dependants = getDependants.apply( null, args );
+		cache = getCache( dependants );
+
+		// If not guaranteed uniqueness by dependants (primitive type or lack
+		// of WeakMap support), shallow compare against last dependants and, if
+		// references have changed, destroy cache to recalculate result.
+		if ( ! cache.isUniqueByDependants ) {
+			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+				cache.clear();
+			}
+
+			cache.lastDependants = dependants;
+		}
+
+		node = cache.head;
+		while ( node ) {
+			// Check whether node arguments match arguments
+			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+				node = node.next;
+				continue;
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== cache.head ) {
+				// Adjust siblings to point to each other.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = cache.head;
+				node.prev = null;
+				cache.head.prev = node;
+				cache.head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		node = {
+			// Generate the result from original function
+			val: selector.apply( null, args ),
+		};
+
+		// Avoid including the source object in the cache.
+		args[ 0 ] = null;
+		node.args = args;
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( cache.head ) {
+			cache.head.prev = node;
+			node.next = cache.head;
+		}
+
+		cache.head = node;
+
+		return node.val;
+	}
+
+	callSelector.getDependants = getDependants;
+	callSelector.clear = clear;
+	clear();
+
+	return callSelector;
+});
+
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!*****************************************!*\
+  !*** external {"this":["wp","blocks"]} ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!***************************************!*\
+  !*** external {"this":["wp","data"]} ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 

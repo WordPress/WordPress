@@ -151,15 +151,19 @@ function _objectSpread(target) {
 /*!***********************************************************!*\
   !*** ./node_modules/@wordpress/url/build-module/index.js ***!
   \***********************************************************/
-/*! exports provided: isURL, addQueryArgs, prependHTTP, safeDecodeURI */
+/*! exports provided: isURL, addQueryArgs, getQueryArg, hasQueryArg, removeQueryArgs, prependHTTP, safeDecodeURI, filterURLForDisplay */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getQueryArg", function() { return getQueryArg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasQueryArg", function() { return hasQueryArg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeQueryArgs", function() { return removeQueryArgs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qs */ "./node_modules/@wordpress/url/node_modules/qs/lib/index.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
@@ -186,10 +190,10 @@ function isURL(url) {
 /**
  * Appends arguments to the query string of the url
  *
- * @param  {string} url   URL
- * @param  {Object} args  Query Args
+ * @param {string} url  URL
+ * @param {Object} args Query Args
  *
- * @return {string}       Updated URL
+ * @return {string} Updated URL
  */
 
 function addQueryArgs(url, args) {
@@ -197,6 +201,55 @@ function addQueryArgs(url, args) {
   var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
   var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
   return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, query, args));
+}
+/**
+ * Returns a single query argument of the url
+ *
+ * @param {string} url URL
+ * @param {string} arg Query arg name
+ *
+ * @return {Array|string} Query arg value.
+ */
+
+function getQueryArg(url, arg) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  return query[arg];
+}
+/**
+ * Determines whether the URL contains a given query arg.
+ *
+ * @param {string} url URL
+ * @param {string} arg Query arg name
+ *
+ * @return {boolean} Whether or not the URL contains the query aeg.
+ */
+
+function hasQueryArg(url, arg) {
+  return getQueryArg(url, arg) !== undefined;
+}
+/**
+ * Removes arguments from the query string of the url
+ *
+ * @param {string} url  URL
+ * @param {...string} args Query Args
+ *
+ * @return {string} Updated URL
+ */
+
+function removeQueryArgs(url) {
+  var queryStringIndex = url.indexOf('?');
+  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  args.forEach(function (arg) {
+    return delete query[arg];
+  });
+  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(query);
 }
 /**
  * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
@@ -228,6 +281,24 @@ function safeDecodeURI(uri) {
   } catch (uriError) {
     return uri;
   }
+}
+/**
+ * Returns a URL for display.
+ *
+ * @param {string} url Original URL.
+ *
+ * @return {string} Displayed URL.
+ */
+
+function filterURLForDisplay(url) {
+  // Remove protocol and www prefixes.
+  var filteredURL = url.replace(/^(?:https?:)\/\/(?:www\.)?/, ''); // Ends with / and only has that single slash, strip it.
+
+  if (filteredURL.match(/^[^\/]+\/$/)) {
+    return filteredURL.replace('/', '');
+  }
+
+  return filteredURL;
 }
 
 

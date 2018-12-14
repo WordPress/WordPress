@@ -91,12 +91,13 @@ this["wp"] = this["wp"] || {}; this["wp"]["date"] =
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/date/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: setSettings, getSettings, moment, format, date, gmdate, dateI18n */
+/*! exports provided: setSettings, __experimentalGetSettings, getSettings, moment, format, date, gmdate, dateI18n */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setSettings", function() { return setSettings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__experimentalGetSettings", function() { return __experimentalGetSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSettings", function() { return getSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "moment", function() { return moment; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return format; });
@@ -109,10 +110,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment-timezone/moment-timezone-utils */ "./node_modules/moment-timezone/moment-timezone-utils.js");
 /* harmony import */ var moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment_timezone_moment_timezone_utils__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
+/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3__);
 /**
  * External dependencies
  */
 
+
+
+/**
+ * WordPress dependencies
+ */
 
  // Changes made here will likely need to be made in `lib/client-assets.php` as
 // well because it uses the `setSettings()` function to change these settings.
@@ -205,7 +213,17 @@ function setSettings(dateSettings) {
  * @return {Object} Settings, including locale data.
  */
 
+function __experimentalGetSettings() {
+  return settings;
+} // deprecations
+
 function getSettings() {
+  _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_3___default()('wp.date.getSettings', {
+    version: '4.4',
+    alternative: 'wp.date.__experimentalGetSettings',
+    plugin: 'Gutenberg',
+    hint: 'Unstable APIs are strongly discouraged to be used, and are subject to removal without notice.'
+  });
   return settings;
 }
 
@@ -1478,6 +1496,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	return moment;
 }));
 
+
+/***/ }),
+
+/***/ "@wordpress/deprecated":
+/*!*********************************************!*\
+  !*** external {"this":["wp","deprecated"]} ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

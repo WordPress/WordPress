@@ -1138,7 +1138,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 					}
 
 					$block_compatible = true;
-					if ( is_array( $box[ 'args' ] ) ) {
+					if ( is_array( $box['args'] ) ) {
 						// If a meta box is just here for back compat, don't show it in the block editor.
 						if ( $screen->is_block_editor() && isset( $box['args']['__back_compat_meta_box'] ) && $box['args']['__back_compat_meta_box'] ) {
 							continue;

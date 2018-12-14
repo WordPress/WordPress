@@ -264,9 +264,12 @@ function matchCharacters(text, regex, settings) {
 
 
 function count(text, type, userSettings) {
-  var settings = loadSettings(type, userSettings);
+  if ('' === text) {
+    return 0;
+  }
 
   if (text) {
+    var settings = loadSettings(type, userSettings);
     var matchRegExp = settings[type + 'RegExp'];
     var results = 'words' === settings.type ? matchWords(text, matchRegExp, settings) : matchCharacters(text, matchRegExp, settings);
     return results ? results.length : 0;

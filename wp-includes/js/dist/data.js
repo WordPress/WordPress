@@ -87,133 +87,6 @@ this["wp"] = this["wp"] || {}; this["wp"]["data"] =
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/AsyncGenerator.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/AsyncGenerator.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AsyncGenerator; });
-/* harmony import */ var _AwaitValue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AwaitValue */ "./node_modules/@babel/runtime/helpers/esm/AwaitValue.js");
-
-function AsyncGenerator(gen) {
-  var front, back;
-
-  function send(key, arg) {
-    return new Promise(function (resolve, reject) {
-      var request = {
-        key: key,
-        arg: arg,
-        resolve: resolve,
-        reject: reject,
-        next: null
-      };
-
-      if (back) {
-        back = back.next = request;
-      } else {
-        front = back = request;
-        resume(key, arg);
-      }
-    });
-  }
-
-  function resume(key, arg) {
-    try {
-      var result = gen[key](arg);
-      var value = result.value;
-      var wrappedAwait = value instanceof _AwaitValue__WEBPACK_IMPORTED_MODULE_0__["default"];
-      Promise.resolve(wrappedAwait ? value.wrapped : value).then(function (arg) {
-        if (wrappedAwait) {
-          resume("next", arg);
-          return;
-        }
-
-        settle(result.done ? "return" : "normal", arg);
-      }, function (err) {
-        resume("throw", err);
-      });
-    } catch (err) {
-      settle("throw", err);
-    }
-  }
-
-  function settle(type, value) {
-    switch (type) {
-      case "return":
-        front.resolve({
-          value: value,
-          done: true
-        });
-        break;
-
-      case "throw":
-        front.reject(value);
-        break;
-
-      default:
-        front.resolve({
-          value: value,
-          done: false
-        });
-        break;
-    }
-
-    front = front.next;
-
-    if (front) {
-      resume(front.key, front.arg);
-    } else {
-      back = null;
-    }
-  }
-
-  this._invoke = send;
-
-  if (typeof gen.return !== "function") {
-    this.return = undefined;
-  }
-}
-
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-  AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-    return this;
-  };
-}
-
-AsyncGenerator.prototype.next = function (arg) {
-  return this._invoke("next", arg);
-};
-
-AsyncGenerator.prototype.throw = function (arg) {
-  return this._invoke("throw", arg);
-};
-
-AsyncGenerator.prototype.return = function (arg) {
-  return this._invoke("return", arg);
-};
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/AwaitValue.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/AwaitValue.js ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _AwaitValue; });
-function _AwaitValue(value) {
-  this.wrapped = value;
-}
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
@@ -226,6 +99,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithHoles; });
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithoutHoles; });
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
 }
 
 /***/ }),
@@ -246,36 +141,6 @@ function _assertThisInitialized(self) {
   }
 
   return self;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/asyncIterator.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/asyncIterator.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _asyncIterator; });
-function _asyncIterator(iterable) {
-  var method;
-
-  if (typeof Symbol === "function") {
-    if (Symbol.asyncIterator) {
-      method = iterable[Symbol.asyncIterator];
-      if (method != null) return method.call(iterable);
-    }
-
-    if (Symbol.iterator) {
-      method = iterable[Symbol.iterator];
-      if (method != null) return method.call(iterable);
-    }
-  }
-
-  throw new TypeError("Object is not async iterable");
 }
 
 /***/ }),
@@ -324,24 +189,6 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/awaitAsyncGenerator.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/awaitAsyncGenerator.js ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _awaitAsyncGenerator; });
-/* harmony import */ var _AwaitValue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AwaitValue */ "./node_modules/@babel/runtime/helpers/esm/AwaitValue.js");
-
-function _awaitAsyncGenerator(value) {
-  return new _AwaitValue__WEBPACK_IMPORTED_MODULE_0__["default"](value);
 }
 
 /***/ }),
@@ -497,6 +344,22 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
@@ -547,6 +410,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableRest; });
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableSpread; });
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
 }
 
 /***/ }),
@@ -651,6 +530,28 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toConsumableArray; });
+/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
+/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+
+
+
+function _toConsumableArray(arr) {
+  return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__["default"])();
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
@@ -675,26 +576,6 @@ function _typeof(obj) {
   }
 
   return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/wrapAsyncGenerator.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/wrapAsyncGenerator.js ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _wrapAsyncGenerator; });
-/* harmony import */ var _AsyncGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AsyncGenerator */ "./node_modules/@babel/runtime/helpers/esm/AsyncGenerator.js");
-
-function _wrapAsyncGenerator(fn) {
-  return function () {
-    return new _AsyncGenerator__WEBPACK_IMPORTED_MODULE_0__["default"](fn.apply(this, arguments));
-  };
 }
 
 /***/ }),
@@ -792,17 +673,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var withDispatch = function withDispatch(mapDispatchToProps) {
   return Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["createHigherOrderComponent"])(Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["compose"])([_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["pure"], function (WrappedComponent) {
-    var ComponentWithDispatch = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["remountOnPropChange"])('registry')(
+    var ComponentWithDispatch =
     /*#__PURE__*/
     function (_Component) {
-      Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(_class, _Component);
+      Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(ComponentWithDispatch, _Component);
 
-      function _class(props) {
+      function ComponentWithDispatch(props) {
         var _this;
 
-        Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _class);
+        Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, ComponentWithDispatch);
 
-        _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(_class).apply(this, arguments));
+        _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(ComponentWithDispatch).apply(this, arguments));
         _this.proxyProps = {};
 
         _this.setProxyProps(props);
@@ -810,7 +691,7 @@ var withDispatch = function withDispatch(mapDispatchToProps) {
         return _this;
       }
 
-      Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(_class, [{
+      Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(ComponentWithDispatch, [{
         key: "componentDidUpdate",
         value: function componentDidUpdate() {
           this.setProxyProps(this.props);
@@ -832,8 +713,12 @@ var withDispatch = function withDispatch(mapDispatchToProps) {
         value: function setProxyProps(props) {
           var _this2 = this;
 
-          // Assign as instance property so that in reconciling subsequent
-          // renders, the assigned prop values are referentially equal.
+          // Assign as instance property so that in subsequent render
+          // reconciliation, the prop values are referentially equal.
+          // Importantly, note that while `mapDispatchToProps` is
+          // called, it is done only to determine the keys for which
+          // proxy functions should be created. The actual registry
+          // dispatch does not occur until the function is called.
           var propsToDispatchers = mapDispatchToProps(this.props.registry.dispatch, props.ownProps);
           this.proxyProps = Object(lodash__WEBPACK_IMPORTED_MODULE_7__["mapValues"])(propsToDispatchers, function (dispatcher, propName) {
             // Prebind with prop name so we have reference to the original
@@ -853,8 +738,9 @@ var withDispatch = function withDispatch(mapDispatchToProps) {
         }
       }]);
 
-      return _class;
-    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]));
+      return ComponentWithDispatch;
+    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+
     return function (ownProps) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_registry_provider__WEBPACK_IMPORTED_MODULE_9__["RegistryConsumer"], null, function (registry) {
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(ComponentWithDispatch, {
@@ -945,25 +831,25 @@ var withSelect = function withSelect(mapSelectToProps) {
       return mapSelectToProps(props.registry.select, props.ownProps) || DEFAULT_MERGE_PROPS;
     }
 
-    var ComponentWithSelect = Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_8__["remountOnPropChange"])('registry')(
+    var ComponentWithSelect =
     /*#__PURE__*/
     function (_Component) {
-      Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(_class, _Component);
+      Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(ComponentWithSelect, _Component);
 
-      function _class(props) {
+      function ComponentWithSelect(props) {
         var _this;
 
-        Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, _class);
+        Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, ComponentWithSelect);
 
-        _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(_class).call(this, props));
+        _this = Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(ComponentWithSelect).call(this, props));
 
-        _this.subscribe();
+        _this.subscribe(props.registry);
 
         _this.mergeProps = getNextMergeProps(props);
         return _this;
       }
 
-      Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(_class, [{
+      Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(ComponentWithSelect, [{
         key: "componentDidMount",
         value: function componentDidMount() {
           this.canRunSelection = true;
@@ -977,37 +863,48 @@ var withSelect = function withSelect(mapSelectToProps) {
       }, {
         key: "shouldComponentUpdate",
         value: function shouldComponentUpdate(nextProps, nextState) {
-          var hasPropsChanged = !_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(this.props.ownProps, nextProps.ownProps); // Only render if props have changed or merge props have been updated
+          // Cycle subscription if registry changes.
+          var hasRegistryChanged = nextProps.registry !== this.props.registry;
+
+          if (hasRegistryChanged) {
+            this.unsubscribe();
+            this.subscribe(nextProps.registry);
+          } // Treat a registry change as equivalent to `ownProps`, to reflect
+          // `mergeProps` to rendered component if and only if updated.
+
+
+          var hasPropsChanged = hasRegistryChanged || !_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(this.props.ownProps, nextProps.ownProps); // Only render if props have changed or merge props have been updated
           // from the store subscriber.
 
           if (this.state === nextState && !hasPropsChanged) {
             return false;
-          } // If merge props change as a result of the incoming props, they
-          // should be reflected as such in the upcoming render.
-
+          }
 
           if (hasPropsChanged) {
             var nextMergeProps = getNextMergeProps(nextProps);
 
             if (!_wordpress_is_shallow_equal__WEBPACK_IMPORTED_MODULE_7___default()(this.mergeProps, nextMergeProps)) {
-              // Side effects are typically discouraged in lifecycle methods, but
-              // this component is heavily used and this is the most performant
-              // code we've found thus far.
-              // Prior efforts to use `getDerivedStateFromProps` have demonstrated
-              // miserable performance.
+              // If merge props change as a result of the incoming props,
+              // they should be reflected as such in the upcoming render.
+              // While side effects are discouraged in lifecycle methods,
+              // this component is used heavily, and prior efforts to use
+              // `getDerivedStateFromProps` had demonstrated miserable
+              // performance.
               this.mergeProps = nextMergeProps;
-            }
+            } // Regardless whether merge props are changing, fall through to
+            // incur the render since the component will need to receive
+            // the changed `ownProps`.
+
           }
 
           return true;
         }
       }, {
         key: "subscribe",
-        value: function subscribe() {
+        value: function subscribe(registry) {
           var _this2 = this;
 
-          var subscribe = this.props.registry.subscribe;
-          this.unsubscribe = subscribe(function () {
+          this.unsubscribe = registry.subscribe(function () {
             if (!_this2.canRunSelection) {
               return;
             }
@@ -1037,8 +934,9 @@ var withSelect = function withSelect(mapSelectToProps) {
         }
       }]);
 
-      return _class;
-    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]));
+      return ComponentWithSelect;
+    }(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]);
+
     return function (ownProps) {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_registry_provider__WEBPACK_IMPORTED_MODULE_9__["RegistryConsumer"], null, function (registry) {
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(ComponentWithSelect, {
@@ -1149,387 +1047,6 @@ var use = _default_registry__WEBPACK_IMPORTED_MODULE_1__["default"].use;
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/data/build-module/plugins/async-generator/index.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/@wordpress/data/build-module/plugins/async-generator/index.js ***!
-  \************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _middleware__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./middleware */ "./node_modules/@wordpress/data/build-module/plugins/async-generator/middleware.js");
-
-
-/**
- * External dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/* harmony default export */ __webpack_exports__["default"] = (function (registry) {
-  return {
-    registerStore: function registerStore(reducerKey, options) {
-      var store = registry.registerStore(reducerKey, options);
-      var enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"])(_middleware__WEBPACK_IMPORTED_MODULE_3__["default"]);
-
-      var createStore = function createStore() {
-        return store;
-      };
-
-      Object.assign(store, enhancer(createStore)(options.reducer));
-      return store;
-    },
-    __experimentalFulfill: function () {
-      var _experimentalFulfill = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(reducerKey, selectorName) {
-        var resolver,
-            store,
-            state,
-            _len,
-            args,
-            _key,
-            action,
-            _args = arguments;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                resolver = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(registry.namespaces, [reducerKey, 'resolvers', selectorName]);
-
-                if (resolver) {
-                  _context.next = 3;
-                  break;
-                }
-
-                return _context.abrupt("return");
-
-              case 3:
-                store = registry.namespaces[reducerKey].store;
-                state = store.getState();
-
-                for (_len = _args.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-                  args[_key - 2] = _args[_key];
-                }
-
-                action = resolver.fulfill.apply(resolver, [state].concat(args));
-
-                if (!action) {
-                  _context.next = 10;
-                  break;
-                }
-
-                _context.next = 10;
-                return store.dispatch(Object(_middleware__WEBPACK_IMPORTED_MODULE_3__["toAsyncIterable"])(action));
-
-              case 10:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function __experimentalFulfill(_x, _x2) {
-        return _experimentalFulfill.apply(this, arguments);
-      };
-    }()
-  };
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/data/build-module/plugins/async-generator/middleware.js":
-/*!*****************************************************************************************!*\
-  !*** ./node_modules/@wordpress/data/build-module/plugins/async-generator/middleware.js ***!
-  \*****************************************************************************************/
-/*! exports provided: toAsyncIterable, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toAsyncIterable", function() { return toAsyncIterable; });
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_asyncIterator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncIterator */ "./node_modules/@babel/runtime/helpers/esm/asyncIterator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/awaitAsyncGenerator */ "./node_modules/@babel/runtime/helpers/esm/awaitAsyncGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_esm_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/wrapAsyncGenerator */ "./node_modules/@babel/runtime/helpers/esm/wrapAsyncGenerator.js");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Returns true if the given argument appears to be a dispatchable action.
- *
- * @param {*} action Object to test.
- *
- * @return {boolean} Whether object is action-like.
- */
-
-function isActionLike(action) {
-  return !!action && typeof action.type === 'string';
-}
-/**
- * Returns true if the given object is an async iterable, or false otherwise.
- *
- * @param {*} object Object to test.
- *
- * @return {boolean} Whether object is an async iterable.
- */
-
-
-function isAsyncIterable(object) {
-  return !!object && typeof object[Symbol.asyncIterator] === 'function';
-}
-/**
- * Returns true if the given object is iterable, or false otherwise.
- *
- * @param {*} object Object to test.
- *
- * @return {boolean} Whether object is iterable.
- */
-
-
-function isIterable(object) {
-  return !!object && typeof object[Symbol.iterator] === 'function';
-}
-/**
- * Normalizes the given object argument to an async iterable, asynchronously
- * yielding on a singular or array of generator yields or promise resolution.
- *
- * @param {*} object Object to normalize.
- *
- * @return {AsyncGenerator} Async iterable actions.
- */
-
-
-function toAsyncIterable(object) {
-  if (isAsyncIterable(object)) {
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_4___default()('Writing Resolvers as async generators', {
-      alternative: 'resolvers as generators with controls',
-      plugin: 'Gutenberg',
-      version: 4.2
-    });
-    return object;
-  }
-
-  return Object(_babel_runtime_helpers_esm_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee() {
-    var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, maybeAction;
-
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            // Normalize as iterable...
-            if (!isIterable(object)) {
-              object = [object];
-            }
-
-            _iteratorNormalCompletion2 = true;
-            _didIteratorError2 = false;
-            _iteratorError2 = undefined;
-            _context.prev = 4;
-            _iterator2 = object[Symbol.iterator]();
-
-          case 6:
-            if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context.next = 13;
-              break;
-            }
-
-            maybeAction = _step2.value;
-            _context.next = 10;
-            return maybeAction;
-
-          case 10:
-            _iteratorNormalCompletion2 = true;
-            _context.next = 6;
-            break;
-
-          case 13:
-            _context.next = 19;
-            break;
-
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context["catch"](4);
-            _didIteratorError2 = true;
-            _iteratorError2 = _context.t0;
-
-          case 19:
-            _context.prev = 19;
-            _context.prev = 20;
-
-            if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-              _iterator2.return();
-            }
-
-          case 22:
-            _context.prev = 22;
-
-            if (!_didIteratorError2) {
-              _context.next = 25;
-              break;
-            }
-
-            throw _iteratorError2;
-
-          case 25:
-            return _context.finish(22);
-
-          case 26:
-            return _context.finish(19);
-
-          case 27:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[4, 15, 19, 27], [20,, 22, 26]]);
-  }))();
-}
-/**
- * Simplest possible promise redux middleware.
- *
- * @param {Object} store Redux store.
- *
- * @return {function} middleware.
- */
-
-var asyncGeneratorMiddleware = function asyncGeneratorMiddleware(store) {
-  return function (next) {
-    return function (action) {
-      if (!isAsyncIterable(action)) {
-        return next(action);
-      }
-
-      var runtime =
-      /*#__PURE__*/
-      function () {
-        var _ref2 = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee2(fulfillment) {
-          var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, maybeAction;
-
-          return regeneratorRuntime.wrap(function _callee2$(_context2) {
-            while (1) {
-              switch (_context2.prev = _context2.next) {
-                case 0:
-                  _iteratorNormalCompletion = true;
-                  _didIteratorError = false;
-                  _context2.prev = 2;
-                  _iterator = Object(_babel_runtime_helpers_esm_asyncIterator__WEBPACK_IMPORTED_MODULE_1__["default"])(fulfillment);
-
-                case 4:
-                  _context2.next = 6;
-                  return _iterator.next();
-
-                case 6:
-                  _step = _context2.sent;
-                  _iteratorNormalCompletion = _step.done;
-                  _context2.next = 10;
-                  return _step.value;
-
-                case 10:
-                  _value = _context2.sent;
-
-                  if (_iteratorNormalCompletion) {
-                    _context2.next = 17;
-                    break;
-                  }
-
-                  maybeAction = _value;
-
-                  // Dispatch if it quacks like an action.
-                  if (isActionLike(maybeAction)) {
-                    store.dispatch(maybeAction);
-                  }
-
-                case 14:
-                  _iteratorNormalCompletion = true;
-                  _context2.next = 4;
-                  break;
-
-                case 17:
-                  _context2.next = 23;
-                  break;
-
-                case 19:
-                  _context2.prev = 19;
-                  _context2.t0 = _context2["catch"](2);
-                  _didIteratorError = true;
-                  _iteratorError = _context2.t0;
-
-                case 23:
-                  _context2.prev = 23;
-                  _context2.prev = 24;
-
-                  if (!(!_iteratorNormalCompletion && _iterator.return != null)) {
-                    _context2.next = 28;
-                    break;
-                  }
-
-                  _context2.next = 28;
-                  return _iterator.return();
-
-                case 28:
-                  _context2.prev = 28;
-
-                  if (!_didIteratorError) {
-                    _context2.next = 31;
-                    break;
-                  }
-
-                  throw _iteratorError;
-
-                case 31:
-                  return _context2.finish(28);
-
-                case 32:
-                  return _context2.finish(23);
-
-                case 33:
-                case "end":
-                  return _context2.stop();
-              }
-            }
-          }, _callee2, this, [[2, 19, 23, 33], [24,, 28, 32]]);
-        }));
-
-        return function runtime(_x) {
-          return _ref2.apply(this, arguments);
-        };
-      }();
-
-      return runtime(action);
-    };
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (asyncGeneratorMiddleware);
-
-
-/***/ }),
-
 /***/ "./node_modules/@wordpress/data/build-module/plugins/controls/index.js":
 /*!*****************************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/plugins/controls/index.js ***!
@@ -1539,18 +1056,12 @@ var asyncGeneratorMiddleware = function asyncGeneratorMiddleware(store) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/redux-routine */ "@wordpress/redux-routine");
-/* harmony import */ var _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_3__);
-
-
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/redux-routine */ "@wordpress/redux-routine");
+/* harmony import */ var _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * External dependencies
  */
-
 
 /**
  * WordPress dependencies
@@ -1563,8 +1074,8 @@ __webpack_require__.r(__webpack_exports__);
       var store = registry.registerStore(reducerKey, options);
 
       if (options.controls) {
-        var middleware = _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_3___default()(options.controls);
-        var enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_1__["applyMiddleware"])(middleware);
+        var middleware = _wordpress_redux_routine__WEBPACK_IMPORTED_MODULE_1___default()(options.controls);
+        var enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(middleware);
 
         var createStore = function createStore() {
           return store;
@@ -1575,62 +1086,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return store;
-    },
-    __experimentalFulfill: function () {
-      var _experimentalFulfill = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(reducerKey, selectorName) {
-        var _len,
-            args,
-            _key,
-            resolver,
-            _args = arguments;
-
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                for (_len = _args.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-                  args[_key - 2] = _args[_key];
-                }
-
-                if (registry.namespaces[reducerKey].supportControls) {
-                  _context.next = 5;
-                  break;
-                }
-
-                _context.next = 4;
-                return registry.__experimentalFulfill.apply(registry, [reducerKey, selectorName].concat(args));
-
-              case 4:
-                return _context.abrupt("return");
-
-              case 5:
-                resolver = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(registry.namespaces, [reducerKey, 'resolvers', selectorName]);
-
-                if (resolver) {
-                  _context.next = 8;
-                  break;
-                }
-
-                return _context.abrupt("return");
-
-              case 8:
-                _context.next = 10;
-                return registry.namespaces[reducerKey].store.dispatch(resolver.fulfill.apply(resolver, args));
-
-              case 10:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function __experimentalFulfill(_x, _x2) {
-        return _experimentalFulfill.apply(this, arguments);
-      };
-    }()
+    }
   };
 });
 
@@ -1641,7 +1097,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/plugins/index.js ***!
   \********************************************************************/
-/*! exports provided: controls, persistence, asyncGenerator */
+/*! exports provided: controls, persistence */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1651,10 +1107,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _persistence__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./persistence */ "./node_modules/@wordpress/data/build-module/plugins/persistence/index.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "persistence", function() { return _persistence__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _async_generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./async-generator */ "./node_modules/@wordpress/data/build-module/plugins/async-generator/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "asyncGenerator", function() { return _async_generator__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
 
 
 
@@ -1970,13 +1422,14 @@ var promiseMiddleware = function promiseMiddleware() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createRegistry", function() { return createRegistry; });
 /* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./node_modules/@wordpress/data/build-module/store/index.js");
 /* harmony import */ var _promise_middleware__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./promise-middleware */ "./node_modules/@wordpress/data/build-module/promise-middleware.js");
+/* harmony import */ var _resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./resolvers-cache-middleware */ "./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js");
 
 
 
@@ -1989,6 +1442,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -2048,7 +1502,7 @@ function createRegistry() {
 
 
   function registerReducer(reducerKey, reducer) {
-    var enhancers = [Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(_promise_middleware__WEBPACK_IMPORTED_MODULE_6__["default"])];
+    var enhancers = [Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(Object(_resolvers_cache_middleware__WEBPACK_IMPORTED_MODULE_7__["default"])(registry, reducerKey), _promise_middleware__WEBPACK_IMPORTED_MODULE_6__["default"])];
 
     if (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__) {
       enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__({
@@ -2115,13 +1569,11 @@ function createRegistry() {
 
   function registerResolvers(reducerKey, newResolvers) {
     namespaces[reducerKey].resolvers = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(newResolvers, function (resolver) {
-      if (!resolver.fulfill) {
-        resolver = {
-          fulfill: resolver
-        };
-      }
-
-      return resolver;
+      var _resolver$fulfill = resolver.fulfill,
+          resolverFulfill = _resolver$fulfill === void 0 ? resolver : _resolver$fulfill;
+      return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, resolver, {
+        fulfill: resolverFulfill
+      });
     });
     namespaces[reducerKey].selectors = Object(lodash__WEBPACK_IMPORTED_MODULE_4__["mapValues"])(namespaces[reducerKey].selectors, function (selector, selectorName) {
       var resolver = newResolvers[selectorName];
@@ -2147,11 +1599,9 @@ function createRegistry() {
         }
 
         function _fulfillSelector() {
-          _fulfillSelector = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+          _fulfillSelector = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
           /*#__PURE__*/
           regeneratorRuntime.mark(function _callee() {
-            var _registry;
-
             var state;
             return regeneratorRuntime.wrap(function _callee$(_context) {
               while (1) {
@@ -2177,7 +1627,7 @@ function createRegistry() {
                   case 5:
                     startResolution(reducerKey, selectorName, args);
                     _context.next = 8;
-                    return (_registry = registry).__experimentalFulfill.apply(_registry, [reducerKey, selectorName].concat(args));
+                    return fulfill.apply(void 0, [reducerKey, selectorName].concat(args));
 
                   case 8:
                     finishResolution(reducerKey, selectorName, args);
@@ -2300,7 +1750,7 @@ function createRegistry() {
 
 
   function _fulfill() {
-    _fulfill = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__["default"])(
+    _fulfill = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee2(reducerKey, selectorName) {
       var resolver,
@@ -2387,8 +1837,7 @@ function createRegistry() {
     subscribe: subscribe,
     select: select,
     dispatch: dispatch,
-    use: use,
-    __experimentalFulfill: fulfill
+    use: use
   };
   /**
    * Enhances the registry with the prescribed set of overrides. Returns the
@@ -2401,11 +1850,11 @@ function createRegistry() {
    */
 
   function use(plugin, options) {
-    registry = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, registry, plugin(registry, options));
+    registry = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({}, registry, plugin(registry, options));
     return registry;
   }
 
-  Object.entries(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({
+  Object.entries(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_2__["default"])({
     'core/data': _store__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, storeConfigs)).map(function (_ref) {
     var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref, 2),
@@ -2420,17 +1869,86 @@ function createRegistry() {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@wordpress/data/build-module/resolvers-cache-middleware.js ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * creates a middleware handling resolvers cache invalidation.
+ *
+ * @param {Object} registry
+ * @param {string} reducerKey
+ *
+ * @return {function} middleware
+ */
+
+var createResolversCacheMiddleware = function createResolversCacheMiddleware(registry, reducerKey) {
+  return function () {
+    return function (next) {
+      return function (action) {
+        var resolvers = registry.select('core/data').getCachedResolvers(reducerKey);
+        Object.entries(resolvers).forEach(function (_ref) {
+          var _ref2 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, 2),
+              selectorName = _ref2[0],
+              resolversByArgs = _ref2[1];
+
+          var resolver = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(registry.namespaces, [reducerKey, 'resolvers', selectorName]);
+
+          if (!resolver || !resolver.shouldInvalidate) {
+            return;
+          }
+
+          resolversByArgs.forEach(function (value, args) {
+            // resolversByArgs is the map Map([ args ] => boolean) storing the cache resolution status for a given selector.
+            // If the value is false it means this resolver has finished its resolution which means we need to invalidate it,
+            // if it's true it means it's inflight and the invalidation is not necessary.
+            if (value !== false || !resolver.shouldInvalidate.apply(resolver, [action].concat(Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(args)))) {
+              return;
+            } // Trigger cache invalidation
+
+
+            registry.dispatch('core/data').invalidateResolution(reducerKey, selectorName, args);
+          });
+        });
+        next(action);
+      };
+    };
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (createResolversCacheMiddleware);
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/data/build-module/store/actions.js":
 /*!********************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/store/actions.js ***!
   \********************************************************************/
-/*! exports provided: startResolution, finishResolution */
+/*! exports provided: startResolution, finishResolution, invalidateResolution */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startResolution", function() { return startResolution; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "finishResolution", function() { return finishResolution; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invalidateResolution", function() { return invalidateResolution; });
 /**
  * Returns an action object used in signalling that selector resolution has
  * started.
@@ -2463,6 +1981,24 @@ function startResolution(reducerKey, selectorName, args) {
 function finishResolution(reducerKey, selectorName, args) {
   return {
     type: 'FINISH_RESOLUTION',
+    reducerKey: reducerKey,
+    selectorName: selectorName,
+    args: args
+  };
+}
+/**
+ * Returns an action object used in signalling that we should invalidate the resolution cache.
+ *
+ * @param {string} reducerKey   Registered store reducer key.
+ * @param {string} selectorName Name of selector for which resolver should be invalidated.
+ * @param {Array}  args         Arguments to associate for uniqueness.
+ *
+ * @return {Object} Action object.
+ */
+
+function invalidateResolution(reducerKey, selectorName, args) {
+  return {
+    type: 'INVALIDATE_RESOLUTION',
     reducerKey: reducerKey,
     selectorName: selectorName,
     args: args
@@ -2541,10 +2077,21 @@ var isResolved = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flowRight"])([Objec
   switch (action.type) {
     case 'START_RESOLUTION':
     case 'FINISH_RESOLUTION':
-      var isStarting = action.type === 'START_RESOLUTION';
-      var nextState = new equivalent_key_map__WEBPACK_IMPORTED_MODULE_1___default.a(state);
-      nextState.set(action.args, isStarting);
-      return nextState;
+      {
+        var isStarting = action.type === 'START_RESOLUTION';
+        var nextState = new equivalent_key_map__WEBPACK_IMPORTED_MODULE_1___default.a(state);
+        nextState.set(action.args, isStarting);
+        return nextState;
+      }
+
+    case 'INVALIDATE_RESOLUTION':
+      {
+        var _nextState = new equivalent_key_map__WEBPACK_IMPORTED_MODULE_1___default.a(state);
+
+        _nextState.delete(action.args);
+
+        return _nextState;
+      }
   }
 
   return state;
@@ -2558,7 +2105,7 @@ var isResolved = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flowRight"])([Objec
 /*!**********************************************************************!*\
   !*** ./node_modules/@wordpress/data/build-module/store/selectors.js ***!
   \**********************************************************************/
-/*! exports provided: getIsResolving, hasStartedResolution, hasFinishedResolution, isResolving */
+/*! exports provided: getIsResolving, hasStartedResolution, hasFinishedResolution, isResolving, getCachedResolvers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2567,6 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasStartedResolution", function() { return hasStartedResolution; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasFinishedResolution", function() { return hasFinishedResolution; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isResolving", function() { return isResolving; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCachedResolvers", function() { return getCachedResolvers; });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /**
@@ -2643,6 +2191,18 @@ function hasFinishedResolution(state, reducerKey, selectorName) {
 function isResolving(state, reducerKey, selectorName) {
   var args = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
   return getIsResolving(state, reducerKey, selectorName, args) === true;
+}
+/**
+ * Returns the list of the cached resolvers.
+ *
+ * @param {Object} state      Data state.
+ * @param {string} reducerKey Registered store reducer key.
+ *
+ * @return {Object} Resolvers mapped by args and selectorName.
+ */
+
+function getCachedResolvers(state, reducerKey) {
+  return state.hasOwnProperty(reducerKey) ? state[reducerKey] : {};
 }
 
 
@@ -3828,17 +3388,6 @@ module.exports = function(originalModule) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["compose"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

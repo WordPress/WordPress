@@ -231,7 +231,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
-			'wp-polyfill'
+			'wp-polyfill',
 		),
 		'core-data'                          => array( 'wp-data', 'wp-api-fetch', 'wp-polyfill', 'wp-url', 'lodash' ),
 		'data'                               => array(
