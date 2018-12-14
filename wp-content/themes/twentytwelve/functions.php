@@ -55,6 +55,44 @@ function twentytwelve_setup() {
 	// This theme styles the visual editor with editor-style.css to match the theme style.
 	add_editor_style();
 
+	// Load regular editor styles into the new block-based editor.
+	add_theme_support( 'editor-styles' );
+
+	// Load default block styles.
+	add_theme_support( 'wp-block-styles' );
+
+	// Add support for custom color scheme.
+	add_theme_support(
+		'editor-color-palette',
+		array(
+			array(
+				'name'  => __( 'Blue', 'twentytwelve' ),
+				'slug'  => 'blue',
+				'color' => '#21759b',
+			),
+			array(
+				'name'  => __( 'Dark Gray', 'twentytwelve' ),
+				'slug'  => 'dark-gray',
+				'color' => '#444',
+			),
+			array(
+				'name'  => __( 'Medium Gray', 'twentytwelve' ),
+				'slug'  => 'medium-gray',
+				'color' => '#9f9f9f',
+			),
+			array(
+				'name'  => __( 'Light Gray', 'twentytwelve' ),
+				'slug'  => 'light-gray',
+				'color' => '#e6e6e6',
+			),
+			array(
+				'name'  => __( 'White', 'twentytwelve' ),
+				'slug'  => 'white',
+				'color' => '#fff',
+			),
+		)
+	);
+
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -158,11 +196,27 @@ function twentytwelve_scripts_styles() {
 	// Loads our main stylesheet.
 	wp_enqueue_style( 'twentytwelve-style', get_stylesheet_uri() );
 
+	// Theme block stylesheet.
+	wp_enqueue_style( 'twentytwelve-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentytwelve-style' ), '20181018' );
+
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentytwelve-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentytwelve-style' ), '20121010' );
 	$wp_styles->add_data( 'twentytwelve-ie', 'conditional', 'lt IE 9' );
 }
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
+
+/**
+ * Enqueue editor styles for Gutenberg
+ *
+ * @since Twenty Twelve 2.6
+ */
+function twentytwelve_block_editor_styles() {
+	// Block styles.
+	wp_enqueue_style( 'twentytwelve-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css' );
+	// Add custom fonts.
+	wp_enqueue_style( 'twentytwelve-fonts', twentytwelve_get_font_url(), array(), null );
+}
+add_action( 'enqueue_block_editor_assets', 'twentytwelve_block_editor_styles' );
 
 /**
  * Add preconnect for Google Fonts.
