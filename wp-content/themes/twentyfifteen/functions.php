@@ -171,6 +171,79 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		 */
 		add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentyfifteen_fonts_url() ) );
 
+		// Load regular editor styles into the new block-based editor.
+		add_theme_support( 'editor-styles' );
+
+		// Load default block styles.
+		add_theme_support( 'wp-block-styles' );
+
+		// Add support for custom color scheme.
+		add_theme_support(
+			'editor-color-palette',
+			array(
+				array(
+					'name'  => __( 'Dark Gray', 'twentyfifteen' ),
+					'slug'  => 'dark-gray',
+					'color' => '#111',
+				),
+				array(
+					'name'  => __( 'Light Gray', 'twentyfifteen' ),
+					'slug'  => 'light-gray',
+					'color' => '#f1f1f1',
+				),
+				array(
+					'name'  => __( 'White', 'twentyfifteen' ),
+					'slug'  => 'white',
+					'color' => '#fff',
+				),
+				array(
+					'name'  => __( 'Yellow', 'twentyfifteen' ),
+					'slug'  => 'yellow',
+					'color' => '#f4ca16',
+				),
+				array(
+					'name'  => __( 'Dark Brown', 'twentyfifteen' ),
+					'slug'  => 'dark-brown',
+					'color' => '#352712',
+				),
+				array(
+					'name'  => __( 'Medium Pink', 'twentyfifteen' ),
+					'slug'  => 'medium-pink',
+					'color' => '#e53b51',
+				),
+				array(
+					'name'  => __( 'Light Pink', 'twentyfifteen' ),
+					'slug'  => 'light-pink',
+					'color' => '#ffe5d1',
+				),
+				array(
+					'name'  => __( 'Dark Purple', 'twentyfifteen' ),
+					'slug'  => 'dark-purple',
+					'color' => '#2e2256',
+				),
+				array(
+					'name'  => __( 'Purple', 'twentyfifteen' ),
+					'slug'  => 'purple',
+					'color' => '#674970',
+				),
+				array(
+					'name'  => __( 'Blue Gray', 'twentyfifteen' ),
+					'slug'  => 'blue-gray',
+					'color' => '#22313f',
+				),
+				array(
+					'name'  => __( 'Bright Blue', 'twentyfifteen' ),
+					'slug'  => 'bright-blue',
+					'color' => '#55c3dc',
+				),
+				array(
+					'name'  => __( 'Light Blue', 'twentyfifteen' ),
+					'slug'  => 'light-blue',
+					'color' => '#e9f2f9',
+				),
+			)
+		);
+
 		// Indicate widget sidebars can use selective refresh in the Customizer.
 		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
@@ -293,6 +366,9 @@ function twentyfifteen_scripts() {
 	// Load our main stylesheet.
 	wp_enqueue_style( 'twentyfifteen-style', get_stylesheet_uri() );
 
+	// Theme block stylesheet.
+	wp_enqueue_style( 'twentyfifteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentyfifteen-style' ), '20181018' );
+
 	// Load the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentyfifteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentyfifteen-style' ), '20141010' );
 	wp_style_add_data( 'twentyfifteen-ie', 'conditional', 'lt IE 9' );
@@ -322,6 +398,20 @@ function twentyfifteen_scripts() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'twentyfifteen_scripts' );
+
+/**
+ * Enqueue editor styles for Gutenberg
+ *
+ * @since Twenty Fifteen 2.1
+ */
+function twentyfifteen_block_editor_styles() {
+	// Block styles.
+	wp_enqueue_style( 'twentyfifteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css' );
+	// Add custom fonts.
+	wp_enqueue_style( 'twentyfifteen-fonts', twentyfifteen_fonts_url(), array(), null );
+}
+add_action( 'enqueue_block_editor_assets', 'twentyfifteen_block_editor_styles' );
+
 
 /**
  * Add preconnect for Google Fonts.
