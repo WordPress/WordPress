@@ -1137,6 +1137,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 						continue;
 					}
 
+					$block_compatible = true;
 					if ( is_array( $box[ 'args' ] ) ) {
 						// If a meta box is just here for back compat, don't show it in the block editor.
 						if ( $screen->is_block_editor() && isset( $box['args']['__back_compat_meta_box'] ) && $box['args']['__back_compat_meta_box'] ) {
@@ -1148,7 +1149,6 @@ function do_meta_boxes( $screen, $context, $object ) {
 							continue;
 						}
 
-						$block_compatible = true;
 						if ( isset( $box['args']['__block_editor_compatible_meta_box'] ) ) {
 							$block_compatible = (bool) $box['args']['__block_editor_compatible_meta_box'];
 							unset( $box['args']['__block_editor_compatible_meta_box'] );
@@ -1186,7 +1186,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 					echo "</h2>\n";
 					echo '<div class="inside">' . "\n";
 
-					if ( WP_DEBUG && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
+					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
 						if ( is_array( $box['callback'] ) ) {
 							$reflection = new ReflectionMethod( $box['callback'][0], $box['callback'][1] );
 						} elseif ( false !== strpos( $box['callback'], '::' ) ) {
