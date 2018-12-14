@@ -102,7 +102,7 @@ function wp_default_packages_vendor( &$scripts ) {
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill-ecmascript' ) );
-	did_action( 'init' ) && $scripts->add_inline_script(
+	did_action( 'init' ) && $scripts->add_data(
 		'wp-polyfill',
 		'data',
 		wp_get_script_polyfill(
