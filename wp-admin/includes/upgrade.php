@@ -192,8 +192,10 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 			$first_post = get_site_option( 'first_post' );
 
 			if ( ! $first_post ) {
-				/* translators: %s: site link */
-				$first_post = __( 'Welcome to %s. This is your first post. Edit or delete it, then start blogging!' );
+				$first_post = "<!-- wp:paragraph -->\n<p>" .
+				/* translators: first post content, %s: site link */
+				__( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ) .
+				"</p>\n<!-- /wp:paragraph -->";
 			}
 
 			$first_post = sprintf(
@@ -205,7 +207,10 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 			$first_post = str_replace( 'SITE_URL', esc_url( network_home_url() ), $first_post );
 			$first_post = str_replace( 'SITE_NAME', get_network()->site_name, $first_post );
 		} else {
-			$first_post = __( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' );
+			$first_post = "<!-- wp:paragraph -->\n<p>" .
+			/* translators: first post content, %s: site link */
+			__( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' ) .
+			"</p>\n<!-- /wp:paragraph -->";
 		}
 
 		$wpdb->insert(
@@ -270,20 +275,35 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 			$first_page = get_site_option( 'first_page' );
 		}
 
-		$first_page = ! empty( $first_page ) ? $first_page : sprintf(
-			__(
-				"This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
+		if ( empty( $first_page ) ) {
+			$first_page = "<!-- wp:paragraph -->\n<p>";
+			/* translators: first page content */
+			$first_page .= __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:" );
+			$first_page .= "</p>\n<!-- /wp:paragraph -->\n\n";
 
-<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
+			$first_page .= "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><p>";
+			/* translators: first page content */
+			$first_page .= __( "Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)" );
+			$first_page .= "</p></blockquote>\n<!-- /wp:quote -->\n\n";
 
-...or something like this:
+			$first_page .= "<!-- wp:paragraph -->\n<p>";
+			/* translators: first page content */
+			$first_page .= __( '...or something like this:' );
+			$first_page .= "</p>\n<!-- /wp:paragraph -->\n\n";
 
-<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
+			$first_page .= "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><p>";
+			/* translators: first page content */
+			$first_page .= __( 'The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.' );
+			$first_page .= "</p></blockquote>\n<!-- /wp:quote -->\n\n";
 
-As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!"
-			),
-			admin_url()
-		);
+			$first_page .= "<!-- wp:paragraph -->\n<p>";
+			$first_page .= sprintf(
+				/* translators: first page content, %s: site admin URL */
+				__( 'As a new WordPress user, you should go to <a href="%s">your dashboard</a> to delete this page and create new pages for your content. Have fun!' ),
+				admin_url()
+			);
+			$first_page .= "</p>\n<!-- /wp:paragraph -->";
+		}
 
 		$first_post_guid = get_option( 'home' ) . '/?page_id=2';
 		$wpdb->insert(
@@ -1188,7 +1208,7 @@ function upgrade_210() {
 					$type   = 'attachment';
 				}
 
-							$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_status = %s, post_type = %s WHERE ID = %d", $status, $type, $post->ID ) );
+				$wpdb->query( $wpdb->prepare( "UPDATE $wpdb->posts SET post_status = %s, post_type = %s WHERE ID = %d", $status, $type, $post->ID ) );
 			}
 		}
 	}
@@ -2234,7 +2254,7 @@ function upgrade_network() {
 		}
 	}
 
-	// 5.0
+	// 5.1
 	if ( $wp_current_db_version < 42836 ) {
 		$network_id = get_main_network_id();
 		delete_network_option( $network_id, 'site_meta_supported' );
