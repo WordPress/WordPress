@@ -434,8 +434,6 @@ As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to d
 					4 => 'categories-2',
 					5 => 'meta-2',
 				),
-				'sidebar-2'           => array(),
-				'sidebar-3'           => array(),
 				'array_version'       => 3,
 			)
 		);
