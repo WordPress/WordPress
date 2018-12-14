@@ -59,6 +59,19 @@ Description: Used to style Gutenberg Blocks.
 	}
 }
 
+/* Alignments */
+
+[class^="wp-block-"].alignleft,
+[class^="wp-block-"] .alignleft {
+	margin-right: 1em;
+}
+
+[class^="wp-block-"].alignright,
+[class^="wp-block-"] .alignright {
+	margin-left: 1em;
+}
+
+
 /*--------------------------------------------------------------
 2.0 Blocks - Common Blocks
 --------------------------------------------------------------*/
@@ -82,10 +95,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
-/* Cover Image */
+/* Cover */
 
 .wp-block-cover-image .wp-block-cover-image-text,
-.wp-block-cover-image h2 {
+.wp-block-cover .wp-block-cover-text,
+.wp-block-cover-image h2,
+.wp-block-cover h2 {
 	font-size: 29px;
 	line-height: 1.2069;
 }
@@ -187,8 +202,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Cover Image */
 
 .wp-block-cover-image.aligncenter,
+.wp-block-cover.aligncenter,
 .wp-block-cover-image.alignleft,
-.wp-block-cover-image.alignright {
+.wp-block-cover.alignleft,
+.wp-block-cover-image.alignright,
+.wp-block-cover.alignright {
 	display: flex;
 }
 
@@ -439,9 +457,28 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100%;
 }
 
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 1.6em;
+}
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/
+
+/* Archives, Categories & Latest Posts */
+
+.wp-block-archives.aligncenter,
+.wp-block-categories.aligncenter,
+.wp-block-latest-posts.aligncenter {
+	list-style-position: inside;
+	text-align: center;
+}
 
 /* Latest Comments */
 

@@ -130,18 +130,21 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
-/* Cover Image */
+/* Cover */
 
-.wp-block-cover-image.aligncenter {
+.wp-block-cover-image.aligncenter,
+.wp-block-cover.aligncenter {
 	clear: both;
 	display: flex;
 }
 
-.wp-block-cover-image.alignleft {
+.wp-block-cover-image.alignleft,
+.wp-block-cover.alignleft {
 	margin-right: 1.625em;
 }
 
-.wp-block-cover-image.alignright {
+.wp-block-cover-image.alignright,
+.wp-block-cover.alignright {
 	margin-left: 1.625em;
 }
 
@@ -260,9 +263,36 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100%;
 }
 
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 1.625em;
+}
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/
+
+/* Archives, Categories & Latest Posts */
+
+.wp-block-archives.aligncenter,
+.wp-block-categories.aligncenter,
+.wp-block-latest-posts.aligncenter {
+	list-style-position: inside;
+	margin-left: 2.5em;
+	text-align: center;
+}
+
+.rtl .wp-block-archives.aligncenter,
+.rtl .wp-block-categories.aligncenter,
+.rtl .wp-block-latest-posts.aligncenter {
+	margin-left: 0;
+	margin-right: 2.5em;
+}
 
 /* Latest Comments */
 

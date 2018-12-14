@@ -127,9 +127,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
-/* Cover Image */
+/* Cover */
 
-.wp-block-cover-image.aligncenter {
+.wp-block-cover-image.aligncenter,
+.wp-block-cover.aligncenter {
 	display: flex;
 }
 
@@ -296,9 +297,29 @@ pre.wp-block-code {
 	border: 0;
 }
 
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+}
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/
+
+/* Archives, Categories & Latest Posts */
+
+.wp-block-archives.aligncenter,
+.wp-block-categories.aligncenter,
+.wp-block-latest-posts.aligncenter {
+	list-style-position: inside;
+	text-align: center;
+}
 
 /* Latest Comments */
 

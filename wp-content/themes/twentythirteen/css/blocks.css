@@ -86,9 +86,9 @@ body:not(.sidebar) .wp-block-latest-comments.alignfull {
 	}
 }
 
-/* Make sure the full and wide blocks still stay in Twenty Thirteen's wide container */
-
 @media (min-width: 1600px) {
+
+	/* Make sure the full and wide blocks still stay in Twenty Thirteen's wide container */
 	body:not(.sidebar) .alignfull {
 		margin-left: calc(50% - 800px);
 		margin-right: calc(50% - 800px);
@@ -96,11 +96,25 @@ body:not(.sidebar) .wp-block-latest-comments.alignfull {
 		max-width: 1000%;
 	}
 
+	body:not(.sidebar) .wp-block-columns.alignfull,
+	body:not(.sidebar) .wp-block-audio.alignfull,
+	body:not(.sidebar) .wp-block-table.alignfull,
+	body:not(.sidebar) .wp-block-latest-comments.alignfull {
+		margin-left: calc(50% - 780px);
+		margin-right: calc(50% - 780px);
+	}
+
 	body:not(.sidebar) .wp-block-gallery.alignfull {
 		margin-left: calc(50% - 808px); /* Adjust for gallery margins */
 		margin-right: calc(50% - 808px);
 		width: auto;
 		max-width: 1000%;
+	}
+
+	/* Make sure the 'wide' alignment doesn't get too wide. */
+	body:not(.sidebar) .alignwide {
+		margin-left: -230px;
+		margin-right: -230px;
 	}
 }
 
@@ -172,9 +186,10 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
-/* Cover Image */
+/* Cover */
 
-.wp-block-cover-image.aligncenter {
+.wp-block-cover-image.aligncenter,
+.wp-block-cover.aligncenter {
 	clear: both;
 	display: flex;
 }
@@ -262,6 +277,50 @@ p.has-drop-cap:not(:focus)::first-letter {
 	border-top: 1px solid #ededed;
 }
 
+body:not(.sidebar) .wp-block-table.alignwide,
+body:not(.sidebar) .wp-block-table.alignfull {
+	width: 100%;
+}
+
+/* Some acrobatics to make sure the table blocks always fill the available space. */
+
+@media (max-width: 1599px) {
+	body:not(.sidebar) .wp-block-table.alignwide {
+		width: calc(302px + 50vw); /* Half the content area width plus half the screen width. */
+	}
+
+	body:not(.sidebar) .wp-block-table.alignfull {
+		width: 96vw;
+	}
+}
+
+@media (max-width: 999px) {
+	body.sidebar .wp-block-table.alignwide {
+		width: calc(302px + 50vw); /* Half the content area width plus half the screen width. */
+	}
+
+	body.sidebar .wp-block-table.alignfull {
+		width: 96vw;
+	}
+}
+
+@media (max-width: 654px) {
+	body:not(.sidebar) .wp-block-table.alignwide,
+	body.sidebar .wp-block-table.alignwide {
+		width: 96vw;
+	}
+}
+
+@media (min-width: 1600px) {
+	body:not(.sidebar) .wp-block-table.alignwide {
+		width: 1064px;
+	}
+
+	body:not(.sidebar) .wp-block-table.alignfull {
+		width: 1560px;
+	}
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Layout Elements
 --------------------------------------------------------------*/
@@ -319,9 +378,28 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100%;
 }
 
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 24px;
+}
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 6.0 Blocks - Widgets
 --------------------------------------------------------------*/
+
+/* Archives, Categories & Latest Posts */
+
+.wp-block-archives.aligncenter,
+.wp-block-categories.aligncenter,
+.wp-block-latest-posts.aligncenter {
+	list-style-position: inside;
+	text-align: center;
+}
 
 /* Latest Comments */
 

@@ -127,12 +127,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	width: 100%;
 }
 
-/* Cover Image */
+/* Cover */
 
-.wp-block-cover-image.aligncenter {
+.wp-block-cover-image.aligncenter,
+.wp-block-cover.aligncenter {
 	display: flex;
 }
-
 
 /* File */
 
@@ -242,16 +242,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-color: #55d737;
 }
 
-/* Columns */
-
-.wp-block-columns {
-	margin: 0 -0.5em;
-}
-
-.wp-block-column {
-	margin: 0 0.5em;
-}
-
 /* Separator */
 
 .wp-block-separator {
@@ -263,6 +253,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 	max-width: 100%;
 }
 
+/* Media & Text */
+
+.wp-block-media-text {
+	margin-bottom: 24px;
+}
+
+.wp-block-media-text *:last-child {
+	margin-bottom: 0;
+}
+
 /*--------------------------------------------------------------
 5.0 Blocks - Widgets
 --------------------------------------------------------------*/
@@ -272,6 +272,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 .wp-block-archives.aligncenter,
 .wp-block-categories.aligncenter,
 .wp-block-latest-posts.aligncenter {
+	list-style-position: inside;
 	margin-left: 20px;
 	text-align: center;
 }
