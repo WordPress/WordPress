@@ -3082,7 +3082,7 @@ function _close_comments_for_old_post( $open, $post_id ) {
  */
 function wp_handle_comment_submission( $comment_data ) {
 
-	$comment_post_ID = $comment_parent = 0;
+	$comment_post_ID = $comment_parent = $user_ID = 0;
 	$comment_author  = $comment_author_email = $comment_author_url = $comment_content = null;
 
 	if ( isset( $comment_data['comment_post_ID'] ) ) {

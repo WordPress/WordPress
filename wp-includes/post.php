@@ -3602,6 +3602,13 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$post_parent = 0;
 	}
 
+	$new_postarr = array_merge(
+		array(
+			'ID' => $post_ID,
+		),
+		compact( array_diff( array_keys( $defaults ), array( 'context', 'filter' ) ) )
+	);
+
 	/**
 	 * Filters the post parent -- used to check for and prevent hierarchy loops.
 	 *
@@ -3612,7 +3619,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 * @param array $new_postarr Array of parsed post data.
 	 * @param array $postarr     Array of sanitized, but otherwise unmodified post data.
 	 */
-	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, compact( array_keys( $postarr ) ), $postarr );
+	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, $new_postarr, $postarr );
 
 	/*
 	 * If the post is being untrashed and it has a desired slug stored in post meta,
