@@ -201,6 +201,32 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
 }
 
 /**
+ * Sets translated strings for a script.
+ *
+ * Works only if the script has already been added.
+ *
+ * @see WP_Scripts::set_translations()
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 5.0.0
+ *
+ * @param string $handle Script handle the textdomain will be attached to.
+ * @param string $domain The textdomain.
+ * @param string $path   Optional. The full file path to the directory containing translation files.
+ *
+ * @return bool True if the textdomain was successfully localized, false otherwise.
+ */
+function wp_set_script_translations( $handle, $domain, $path = null ) {
+	global $wp_scripts;
+	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
+		_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
+		return false;
+	}
+
+	return $wp_scripts->set_translations( $handle, $domain, $path );
+}
+
+/**
  * Remove a registered script.
  *
  * Note: there are intentional safeguards in place to prevent critical admin scripts,

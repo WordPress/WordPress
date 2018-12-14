@@ -68,6 +68,22 @@ class _WP_Dependency {
 	public $extra = array();
 
 	/**
+	 * Translation textdomain set for this dependency.
+	 *
+	 * @since 5.0.0
+	 * @var string
+	 */
+	public $textdomain;
+
+	/**
+	 * Translation path set for this dependency.
+	 *
+	 * @since 5.0.0
+	 * @var string
+	 */
+	public $translations_path;
+
+	/**
 	 * Setup dependencies.
 	 *
 	 * @since 2.6.0
@@ -96,4 +112,12 @@ class _WP_Dependency {
 		return true;
 	}
 
+	public function set_translations( $domain, $path = null ) {
+		if ( ! is_string( $domain ) ) {
+			return false;
+		}
+		$this->textdomain        = $domain;
+		$this->translations_path = $path;
+		return true;
+	}
 }

@@ -894,6 +894,91 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
+ * Load the script translated strings.
+ *
+ * @see WP_Scripts::set_translations()
+ * @link https://core.trac.wordpress.org/ticket/45103
+ * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ *
+ * @since 5.0.0
+ *
+ * @param string $handle Name of the script to register a translation domain to.
+ * @param string $domain The textdomain.
+ * @param string $path   Optional. The full file path to the directory containing translation files.
+ *
+ * @return false|string False if the script textdomain could not be loaded, the translated strings
+ *                      in JSON encoding otherwise.
+ */
+function load_script_textdomain( $handle, $domain, $path = null ) {
+	global $wp_scripts;
+
+	$path   = untrailingslashit( $path );
+	$locale = is_admin() ? get_locale() : get_user_locale();
+
+	// If a path was given and the handle file exists simply return it.
+	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
+	$handle_filename = $file_base . '-' . $handle . '.json';
+	if ( $path && file_exists( $path . '/' . $handle_filename ) ) {
+		return file_get_contents( $path . '/' . $handle_filename );
+	}
+
+	$obj = $wp_scripts->registered[ $handle ];
+
+	/** This filter is documented in wp-includes/class.wp-scripts.php */
+	$src = esc_url( apply_filters( 'script_loader_src', $obj->src, $handle ) );
+
+	$relative       = false;
+	$languages_path = WP_LANG_DIR;
+
+	$src_url     = wp_parse_url( $src );
+	$content_url = wp_parse_url( content_url() );
+	$site_url    = wp_parse_url( site_url() );
+
+	// If the host is the same or it's a relative URL.
+	if (
+		strpos( $src_url['path'], $content_url['path'] ) === 0 &&
+		( ! isset( $src_url['host'] ) || $src_url['host'] !== $content_url['host'] )
+	) {
+		// Make the src relative the specific plugin or theme.
+		$relative = trim( substr( $src, strlen( $content_url['path'] ) ), '/' );
+		$relative = explode( '/', $relative );
+
+		$languages_path = WP_LANG_DIR . '/' . $relative[0];
+
+		$relative = array_slice( $relative, 2 );
+		$relative = implode( '/', $relative );
+	} elseif ( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] ) {
+		if ( ! isset( $site_url['path'] ) ) {
+			$relative = trim( $src_url['path'], '/' );
+		} elseif ( ( strpos( $src_url['path'], $site_url['path'] ) === 0 ) ) {
+			// Make the src relative to the WP root.
+			$relative = substr( $src, strlen( $site_url['path'] ) );
+			$relative = trim( $relative, '/' );
+		}
+	}
+
+	// If the source is not from WP.
+	if ( false === $relative ) {
+		return false;
+	}
+
+	// Translations are always based on the unminified filename.
+	if ( substr( $relative, -7 ) === '.min.js' ) {
+		$relative = substr( $relative, 0, -7 ) . '.js';
+	}
+
+	$md5_filename = $file_base . '-' . md5( $relative ) . '.json';
+	if ( $path && file_exists( $path . '/' . $md5_filename ) ) {
+		return file_get_contents( $path . '/' . $md5_filename );
+	}
+	if ( file_exists( $languages_path . '/' . $md5_filename ) ) {
+		return file_get_contents( $languages_path . '/' . $md5_filename );
+	}
+
+	return false;
+}
+
+/**
  * Loads plugin and theme textdomains just-in-time.
  *
  * When a textdomain is encountered for the first time, we try to load
