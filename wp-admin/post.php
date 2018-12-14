@@ -16,9 +16,7 @@ $submenu_file = 'edit.php';
 
 wp_reset_vars( array( 'action' ) );
 
-if ( isset( $_GET['post'] ) && isset( $_POST['post_ID'] ) && (int) $_GET['post'] !== (int) $_POST['post_ID'] ) {
-	wp_die( __( 'A post ID mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
-} elseif ( isset( $_GET['post'] ) ) {
+if ( isset( $_GET['post'] ) ) {
 	$post_id = $post_ID = (int) $_GET['post'];
 } elseif ( isset( $_POST['post_ID'] ) ) {
 	$post_id = $post_ID = (int) $_POST['post_ID'];
@@ -42,10 +40,6 @@ if ( $post ) {
 	$post_type_object = get_post_type_object( $post_type );
 }
 
-if ( isset( $_POST['post_type'] ) && $post && $post_type !== $_POST['post_type'] ) {
-	wp_die( __( 'A post type mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
-}
-
 if ( isset( $_POST['deletepost'] ) ) {
 	$action = 'delete';
 } elseif ( isset( $_POST['wp-preview'] ) && 'dopreview' == $_POST['wp-preview'] ) {
@@ -54,8 +48,8 @@ if ( isset( $_POST['deletepost'] ) ) {
 
 $sendback = wp_get_referer();
 if ( ! $sendback ||
-	strpos( $sendback, 'post.php' ) !== false ||
-	strpos( $sendback, 'post-new.php' ) !== false ) {
+	 strpos( $sendback, 'post.php' ) !== false ||
+	 strpos( $sendback, 'post-new.php' ) !== false ) {
 	if ( 'attachment' == $post_type ) {
 		$sendback = admin_url( 'upload.php' );
 	} else {
@@ -169,6 +163,11 @@ switch ( $action ) {
 		 * @param object $post Post object.
 		 */
 		if ( apply_filters( 'replace_editor', false, $post ) === true ) {
+			break;
+		}
+
+		if ( use_block_editor_for_post( $post ) ) {
+			include( ABSPATH . 'wp-admin/edit-form-blocks.php' );
 			break;
 		}
 
