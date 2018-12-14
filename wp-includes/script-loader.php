@@ -402,16 +402,20 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 						'meridiem'      => (object) $wp_locale->meridiem,
 						'relative'      => array(
 							/* translators: %s: duration */
-							'future' => __( '%s from now', 'default' ),
+							'future' => __( '%s from now' ),
 							/* translators: %s: duration */
-							'past'   => __( '%s ago', 'default' ),
+							'past'   => __( '%s ago' ),
 						),
 					),
 					'formats'  => array(
-						'time'                => get_option( 'time_format', __( 'g:i a', 'default' ) ),
-						'date'                => get_option( 'date_format', __( 'F j, Y', 'default' ) ),
-						'datetime'            => __( 'F j, Y g:i a', 'default' ),
-						'datetimeAbbreviated' => __( 'M j, Y g:i a', 'default' ),
+						/* translators: Time format, see https://secure.php.net/date */
+						'time'                => get_option( 'time_format', __( 'g:i a' ) ),
+						/* translators: Date format, see https://secure.php.net/date */
+						'date'                => get_option( 'date_format', __( 'F j, Y' ) ),
+						/* translators: Date/Time format, see https://secure.php.net/date */
+						'datetime'            => __( 'F j, Y g:i a' ),
+						/* translators: Abbreviated date/time format, see https://secure.php.net/date */
+						'datetimeAbbreviated' => __( 'M j, Y g:i a' ),
 					),
 					'timezone' => array(
 						'offset' => get_option( 'gmt_offset', 0 ),
