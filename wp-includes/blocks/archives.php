@@ -29,6 +29,8 @@ function render_block_core_archives( $attributes ) {
 
 	if ( ! empty( $attributes['displayAsDropdown'] ) ) {
 
+		$class .= ' wp-block-archives-dropdown';
+
 		$dropdown_id = esc_attr( uniqid( 'wp-block-archives-' ) );
 		$title       = __( 'Archives', 'gutenberg' );
 
@@ -76,6 +78,8 @@ function render_block_core_archives( $attributes ) {
 			$block_content
 		);
 	} else {
+
+		$class .= ' wp-block-archives-list';
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-archives.php */
 		$archives_args = apply_filters(

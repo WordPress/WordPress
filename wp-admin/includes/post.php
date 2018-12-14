@@ -2107,26 +2107,32 @@ function get_block_categories( $post ) {
 		array(
 			'slug'  => 'common',
 			'title' => __( 'Common Blocks' ),
+			'icon'  => 'screenoptions',
 		),
 		array(
 			'slug'  => 'formatting',
 			'title' => __( 'Formatting' ),
+			'icon'  => null,
 		),
 		array(
 			'slug'  => 'layout',
 			'title' => __( 'Layout Elements' ),
+			'icon'  => null,
 		),
 		array(
 			'slug'  => 'widgets',
 			'title' => __( 'Widgets' ),
+			'icon'  => null,
 		),
 		array(
 			'slug'  => 'embed',
 			'title' => __( 'Embeds' ),
+			'icon'  => null,
 		),
 		array(
 			'slug'  => 'reusable',
 			'title' => __( 'Reusable Blocks' ),
+			'icon'  => null,
 		),
 	);
 
