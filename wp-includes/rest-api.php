@@ -249,6 +249,10 @@ function create_initial_rest_routes() {
 	$controller = new WP_REST_Search_Controller( $search_handlers );
 	$controller->register_routes();
 
+	// Block Renderer.
+	$controller = new WP_REST_Block_Renderer_Controller;
+	$controller->register_routes();
+
 	// Settings.
 	$controller = new WP_REST_Settings_Controller;
 	$controller->register_routes();
@@ -256,6 +260,7 @@ function create_initial_rest_routes() {
 	// Themes.
 	$controller = new WP_REST_Themes_Controller;
 	$controller->register_routes();
+
 }
 
 /**
