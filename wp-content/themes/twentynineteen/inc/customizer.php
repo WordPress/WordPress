@@ -52,8 +52,8 @@ function twentynineteen_customize_register( $wp_customize ) {
 			'type'     => 'radio',
 			'label'    => __( 'Primary Color', 'twentynineteen' ),
 			'choices'  => array(
-				'default'  => _x( 'Default', 'primary color', 'twentynineteen' ),
-				'custom' => _x( 'Custom', 'primary color', 'twentynineteen' ),
+				'default' => _x( 'Default', 'primary color', 'twentynineteen' ),
+				'custom'  => _x( 'Custom', 'primary color', 'twentynineteen' ),
 			),
 			'section'  => 'colors',
 			'priority' => 5,

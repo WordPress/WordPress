@@ -364,14 +364,14 @@ function twentynineteen_hsl_hex( $h, $s, $l, $to_hex = true ) {
 		$mid1;
 		$mid2;
 
-		$m = $l + $l - $v;
-		$sv = ( $v - $m ) / $v;
-		$h *= 6.0;
+		$m       = $l + $l - $v;
+		$sv      = ( $v - $m ) / $v;
+		$h      *= 6.0;
 		$sextant = floor( $h );
-		$fract = $h - $sextant;
-		$vsf = $v * $sv * $fract;
-		$mid1 = $m + $vsf;
-		$mid2 = $v - $vsf;
+		$fract   = $h - $sextant;
+		$vsf     = $v * $sv * $fract;
+		$mid1    = $m + $vsf;
+		$mid2    = $v - $vsf;
 
 		switch ( $sextant ) {
 			case 0:

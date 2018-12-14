@@ -26,20 +26,20 @@ function twentynineteen_custom_colors_css() {
 	 * @param int $saturation Color saturation level.
 	 */
 
-	$saturation           = absint( apply_filters( 'twentynineteen_custom_colors_saturation', 100 ) );
-	$saturation           = $saturation . '%';
+	$saturation = absint( apply_filters( 'twentynineteen_custom_colors_saturation', 100 ) );
+	$saturation = $saturation . '%';
 
 	$saturation_selection = absint( apply_filters( 'twentynineteen_custom_colors_saturation_selection', 50 ) );
 	$saturation_selection = $saturation_selection . '%';
 
-	$lightness            = absint( apply_filters( 'twentynineteen_custom_colors_lightness', 33 ) );
-	$lightness            = $lightness . '%';
+	$lightness = absint( apply_filters( 'twentynineteen_custom_colors_lightness', 33 ) );
+	$lightness = $lightness . '%';
 
-	$lightness_hover      = absint( apply_filters( 'twentynineteen_custom_colors_lightness_hover', 23 ) );
-	$lightness_hover      = $lightness_hover . '%';
+	$lightness_hover = absint( apply_filters( 'twentynineteen_custom_colors_lightness_hover', 23 ) );
+	$lightness_hover = $lightness_hover . '%';
 
-	$lightness_selection  = absint( apply_filters( 'twentynineteen_custom_colors_lightness_selection', 90 ) );
-	$lightness_selection  = $lightness_selection . '%';
+	$lightness_selection = absint( apply_filters( 'twentynineteen_custom_colors_lightness_selection', 90 ) );
+	$lightness_selection = $lightness_selection . '%';
 
 	$theme_css = '
 		/*
@@ -233,10 +233,10 @@ function twentynineteen_custom_colors_css() {
 			color: inherit;
 		}
 		';
-	$css = '';
+	$css        = '';
 	if ( function_exists( 'register_block_type' ) && is_admin() ) {
 		$css .= $editor_css;
-	} else if ( ! is_admin() ) {
+	} elseif ( ! is_admin() ) {
 		$css = $theme_css;
 	}
 
