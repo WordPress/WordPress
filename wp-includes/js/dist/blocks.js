@@ -642,6 +642,10 @@ function createBlock(name) {
       result[key] = schema.default;
     }
 
+    if (schema.source === 'html' && typeof result[key] !== 'string') {
+      result[key] = '';
+    }
+
     if (['node', 'children'].indexOf(schema.source) !== -1) {
       // Ensure value passed is always an array, which we're expecting in
       // the RichText component to handle the deprecated value.
@@ -1775,10 +1779,15 @@ function createBlockWithFallback(blockNode) {
   var unregisteredFallbackBlock = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getUnregisteredTypeHandlerName"])() || freeformContentFallbackBlock;
   attributes = attributes || {}; // Trim content to avoid creation of intermediary freeform segments.
 
-  var originalUndelimitedContent = innerHTML = innerHTML.trim(); // Use type from block content if available. Otherwise, default to the
+  innerHTML = innerHTML.trim(); // Use type from block content if available. Otherwise, default to the
   // freeform content fallback.
 
-  var name = originalName || freeformContentFallbackBlock; // Convert 'core/text' blocks in existing content to 'core/paragraph'.
+  var name = originalName || freeformContentFallbackBlock; // Convert 'core/cover-image' block in existing content to 'core/cover'.
+
+  if ('core/cover-image' === name) {
+    name = 'core/cover';
+  } // Convert 'core/text' blocks in existing content to 'core/paragraph'.
+
 
   if ('core/text' === name || 'core/cover-text' === name) {
     name = 'core/paragraph';
@@ -1795,8 +1804,10 @@ function createBlockWithFallback(blockNode) {
   var blockType = Object(_registration__WEBPACK_IMPORTED_MODULE_8__["getBlockType"])(name);
 
   if (!blockType) {
-    // If detected as a block which is not registered, preserve comment
+    // Preserve undelimited content for use by the unregistered type handler.
+    var originalUndelimitedContent = innerHTML; // If detected as a block which is not registered, preserve comment
     // delimiters in content of unregistered type handler.
+
     if (name) {
       innerHTML = Object(_serializer__WEBPACK_IMPORTED_MODULE_11__["getCommentDelimitedContent"])(name, attributes, innerHTML);
     }
@@ -2140,24 +2151,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _factory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../factory */ "./node_modules/@wordpress/blocks/build-module/api/factory.js");
 /* harmony import */ var _registration__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../registration */ "./node_modules/@wordpress/blocks/build-module/api/registration.js");
-/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../parser */ "./node_modules/@wordpress/blocks/build-module/api/parser.js");
-/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./normalise-blocks */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js");
-/* harmony import */ var _special_comment_converter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./special-comment-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js");
-/* harmony import */ var _is_inline_content__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./is-inline-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js");
-/* harmony import */ var _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./phrasing-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js");
-/* harmony import */ var _head_remover__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./head-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js");
-/* harmony import */ var _ms_list_converter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ms-list-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js");
-/* harmony import */ var _list_reducer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./list-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js");
-/* harmony import */ var _image_corrector__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./image-corrector */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js");
-/* harmony import */ var _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./blockquote-normaliser */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/blockquote-normaliser.js");
-/* harmony import */ var _figure_content_reducer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./figure-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/figure-content-reducer.js");
-/* harmony import */ var _shortcode_converter__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shortcode-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js");
-/* harmony import */ var _markdown_converter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./markdown-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js");
-/* harmony import */ var _iframe_remover__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./iframe-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/iframe-remover.js");
-/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _phrasing_content__WEBPACK_IMPORTED_MODULE_18__["getPhrasingContentSchema"]; });
+/* harmony import */ var _serializer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../serializer */ "./node_modules/@wordpress/blocks/build-module/api/serializer.js");
+/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../parser */ "./node_modules/@wordpress/blocks/build-module/api/parser.js");
+/* harmony import */ var _normalise_blocks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./normalise-blocks */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/normalise-blocks.js");
+/* harmony import */ var _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./special-comment-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/special-comment-converter.js");
+/* harmony import */ var _is_inline_content__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./is-inline-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js");
+/* harmony import */ var _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./phrasing-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js");
+/* harmony import */ var _head_remover__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./head-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js");
+/* harmony import */ var _ms_list_converter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ms-list-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js");
+/* harmony import */ var _list_reducer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./list-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js");
+/* harmony import */ var _image_corrector__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./image-corrector */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js");
+/* harmony import */ var _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./blockquote-normaliser */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/blockquote-normaliser.js");
+/* harmony import */ var _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./figure-content-reducer */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/figure-content-reducer.js");
+/* harmony import */ var _shortcode_converter__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shortcode-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js");
+/* harmony import */ var _markdown_converter__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./markdown-converter */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js");
+/* harmony import */ var _iframe_remover__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./iframe-remover */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/iframe-remover.js");
+/* harmony import */ var _phrasing_content__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./phrasing-content */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getPhrasingContentSchema", function() { return _phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"]; });
 
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/blocks/build-module/api/raw-handling/utils.js");
 
 
 /**
@@ -2167,6 +2179,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -2202,8 +2215,8 @@ var _window = window,
  */
 
 function filterInlineHTML(HTML) {
-  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_19__["deepFilterHTML"])(HTML, [_phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_8__["default"]]);
-  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_19__["removeInvalidHTML"])(HTML, Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_18__["getPhrasingContentSchema"])(), {
+  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(HTML, [_phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"]]);
+  HTML = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(HTML, Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])(), {
     inline: true
   }); // Allows us to ask for this information when we get a report.
 
@@ -2252,7 +2265,7 @@ function rawHandler(_ref) {
   HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters, parse entirely as blocks.
 
   if (mode !== 'INLINE' && HTML.indexOf('<!-- wp:') !== -1) {
-    return Object(_parser__WEBPACK_IMPORTED_MODULE_4__["parseWithGrammar"])(HTML);
+    return Object(_parser__WEBPACK_IMPORTED_MODULE_5__["parseWithGrammar"])(HTML);
   } // Normalize unicode to use composed characters.
   // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
   // Not normalizing the content will only affect older browsers and won't
@@ -2269,8 +2282,8 @@ function rawHandler(_ref) {
   // * There is no HTML version, or it has no formatting.
 
 
-  if (plainText && (!HTML || Object(_utils__WEBPACK_IMPORTED_MODULE_19__["isPlain"])(HTML))) {
-    HTML = Object(_markdown_converter__WEBPACK_IMPORTED_MODULE_16__["default"])(plainText); // Switch to inline mode if:
+  if (plainText && (!HTML || Object(_utils__WEBPACK_IMPORTED_MODULE_20__["isPlain"])(HTML))) {
+    HTML = Object(_markdown_converter__WEBPACK_IMPORTED_MODULE_17__["default"])(plainText); // Switch to inline mode if:
     // * The current mode is AUTO.
     // * The original plain text had no line breaks.
     // * The original plain text was not an HTML paragraph.
@@ -2287,37 +2300,37 @@ function rawHandler(_ref) {
   // shortcodes.
 
 
-  var pieces = Object(_shortcode_converter__WEBPACK_IMPORTED_MODULE_15__["default"])(HTML); // The call to shortcodeConverter will always return more than one element
+  var pieces = Object(_shortcode_converter__WEBPACK_IMPORTED_MODULE_16__["default"])(HTML); // The call to shortcodeConverter will always return more than one element
   // if shortcodes are matched. The reason is when shortcodes are matched
   // empty HTML strings are included.
 
   var hasShortcodes = pieces.length > 1;
 
-  if (mode === 'AUTO' && !hasShortcodes && Object(_is_inline_content__WEBPACK_IMPORTED_MODULE_7__["default"])(HTML, tagName)) {
+  if (mode === 'AUTO' && !hasShortcodes && Object(_is_inline_content__WEBPACK_IMPORTED_MODULE_8__["default"])(HTML, tagName)) {
     return filterInlineHTML(HTML);
   }
 
   var rawTransformations = getRawTransformations();
-  var phrasingContentSchema = Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_18__["getPhrasingContentSchema"])();
-  var blockContentSchema = Object(_utils__WEBPACK_IMPORTED_MODULE_19__["getBlockContentSchema"])(rawTransformations);
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_1__["compact"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flatMap"])(pieces, function (piece) {
+  var phrasingContentSchema = Object(_phrasing_content__WEBPACK_IMPORTED_MODULE_19__["getPhrasingContentSchema"])();
+  var blockContentSchema = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["getBlockContentSchema"])(rawTransformations);
+  var blocks = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["compact"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["flatMap"])(pieces, function (piece) {
     // Already a block from shortcode.
     if (typeof piece !== 'string') {
       return piece;
     }
 
-    var filters = [_ms_list_converter__WEBPACK_IMPORTED_MODULE_10__["default"], _head_remover__WEBPACK_IMPORTED_MODULE_9__["default"], _list_reducer__WEBPACK_IMPORTED_MODULE_11__["default"], _image_corrector__WEBPACK_IMPORTED_MODULE_12__["default"], _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_8__["default"], _special_comment_converter__WEBPACK_IMPORTED_MODULE_6__["default"], _figure_content_reducer__WEBPACK_IMPORTED_MODULE_14__["default"], _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_13__["default"]];
+    var filters = [_ms_list_converter__WEBPACK_IMPORTED_MODULE_11__["default"], _head_remover__WEBPACK_IMPORTED_MODULE_10__["default"], _list_reducer__WEBPACK_IMPORTED_MODULE_12__["default"], _image_corrector__WEBPACK_IMPORTED_MODULE_13__["default"], _phrasing_content_reducer__WEBPACK_IMPORTED_MODULE_9__["default"], _special_comment_converter__WEBPACK_IMPORTED_MODULE_7__["default"], _figure_content_reducer__WEBPACK_IMPORTED_MODULE_15__["default"], _blockquote_normaliser__WEBPACK_IMPORTED_MODULE_14__["default"]];
 
     if (!canUserUseUnfilteredHTML) {
       // Should run before `figureContentReducer`.
-      filters.unshift(_iframe_remover__WEBPACK_IMPORTED_MODULE_17__["default"]);
+      filters.unshift(_iframe_remover__WEBPACK_IMPORTED_MODULE_18__["default"]);
     }
 
     var schema = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, blockContentSchema, phrasingContentSchema);
 
-    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_19__["deepFilterHTML"])(piece, filters, blockContentSchema);
-    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_19__["removeInvalidHTML"])(piece, schema);
-    piece = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_5__["default"])(piece); // Allows us to ask for this information when we get a report.
+    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["deepFilterHTML"])(piece, filters, blockContentSchema);
+    piece = Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(piece, schema);
+    piece = Object(_normalise_blocks__WEBPACK_IMPORTED_MODULE_6__["default"])(piece); // Allows us to ask for this information when we get a report.
 
     console.log('Processed HTML piece:\n\n', piece);
     var doc = document.implementation.createHTMLDocument('');
@@ -2340,9 +2353,21 @@ function rawHandler(_ref) {
         return transform(node);
       }
 
-      return Object(_factory__WEBPACK_IMPORTED_MODULE_2__["createBlock"])(blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_4__["getBlockAttributes"])(Object(_registration__WEBPACK_IMPORTED_MODULE_3__["getBlockType"])(blockName), node.outerHTML));
+      return Object(_factory__WEBPACK_IMPORTED_MODULE_2__["createBlock"])(blockName, Object(_parser__WEBPACK_IMPORTED_MODULE_5__["getBlockAttributes"])(Object(_registration__WEBPACK_IMPORTED_MODULE_3__["getBlockType"])(blockName), node.outerHTML));
     });
-  }));
+  })); // If we're allowed to return inline content and there is only one block
+  // and the original plain text content does not have any line breaks, then
+  // treat it as inline paste.
+
+  if (mode === 'AUTO' && blocks.length === 1) {
+    var trimmedPlainText = plainText.trim();
+
+    if (trimmedPlainText !== '' && trimmedPlainText.indexOf('\n') === -1) {
+      return Object(_utils__WEBPACK_IMPORTED_MODULE_20__["removeInvalidHTML"])(Object(_serializer__WEBPACK_IMPORTED_MODULE_4__["getBlockContent"])(blocks[0]), phrasingContentSchema);
+    }
+  }
+
+  return blocks;
 }
 
 
@@ -4313,7 +4338,7 @@ function normalizeIconObject(icon) {
 /*!***********************************************************************!*\
   !*** ./node_modules/@wordpress/blocks/build-module/api/validation.js ***!
   \***********************************************************************/
-/*! exports provided: getTextPiecesSplitOnWhitespace, getTextWithCollapsedWhitespace, getMeaningfulAttributePairs, isEqualTextTokensWithCollapsedWhitespace, getNormalizedStyleValue, getStyleProperties, isEqualAttributesOfName, isEqualTagAttributePairs, isEqualTokensOfType, getNextNonWhitespaceToken, isEquivalentHTML, isValidBlock */
+/*! exports provided: getTextPiecesSplitOnWhitespace, getTextWithCollapsedWhitespace, getMeaningfulAttributePairs, isEqualTextTokensWithCollapsedWhitespace, getNormalizedStyleValue, getStyleProperties, isEqualAttributesOfName, isEqualTagAttributePairs, isEqualTokensOfType, getNextNonWhitespaceToken, isClosedByToken, isEquivalentHTML, isValidBlock */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4328,6 +4353,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTagAttributePairs", function() { return isEqualTagAttributePairs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEqualTokensOfType", function() { return isEqualTokensOfType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNextNonWhitespaceToken", function() { return getNextNonWhitespaceToken; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isClosedByToken", function() { return isClosedByToken; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEquivalentHTML", function() { return isEquivalentHTML; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidBlock", function() { return isValidBlock; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
@@ -4689,6 +4715,29 @@ function getHTMLTokens(html) {
   return null;
 }
 /**
+ * Returns true if the next HTML token closes the current token.
+ *
+ * @param {Object} currentToken Current token to compare with.
+ * @param {Object|undefined} nextToken Next token to compare against.
+ *
+ * @return {boolean} true if `nextToken` closes `currentToken`, false otherwise
+ */
+
+
+function isClosedByToken(currentToken, nextToken) {
+  // Ensure this is a self closed token
+  if (!currentToken.selfClosing) {
+    return false;
+  } // Check token names and determine if nextToken is the closing tag for currentToken
+
+
+  if (nextToken && nextToken.tagName === currentToken.tagName && nextToken.type === 'EndTag') {
+    return true;
+  }
+
+  return false;
+}
+/**
  * Returns true if the given HTML strings are effectively equivalent, or
  * false otherwise. Invalid HTML is not considered equivalent, even if the
  * strings directly match.
@@ -4698,7 +4747,6 @@ function getHTMLTokens(html) {
  *
  * @return {boolean} Whether HTML strings are equivalent.
  */
-
 
 function isEquivalentHTML(actual, expected) {
   // Tokenize input content and reserialized save content
@@ -4734,6 +4782,18 @@ function isEquivalentHTML(actual, expected) {
 
     if (isEqualTokens && !isEqualTokens(actualToken, expectedToken)) {
       return false;
+    } // Peek at the next tokens (actual and expected) to see if they close
+    // a self-closing tag
+
+
+    if (isClosedByToken(actualToken, expectedTokens[0])) {
+      // Consume the next expected token that closes the current actual
+      // self-closing token
+      getNextNonWhitespaceToken(expectedTokens);
+    } else if (isClosedByToken(expectedToken, actualTokens[0])) {
+      // Consume the next actual token that closes the current expected
+      // self-closing token
+      getNextNonWhitespaceToken(actualTokens);
     }
   }
 

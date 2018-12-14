@@ -319,7 +319,7 @@ function _toConsumableArray(arr) {
 /*!*******************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/actions.js ***!
   \*******************************************************************/
-/*! exports provided: receiveUserQuery, addEntities, receiveEntityRecords, receiveThemeSupportsFromIndex, receiveEmbedPreview */
+/*! exports provided: receiveUserQuery, addEntities, receiveEntityRecords, receiveThemeSupports, receiveEmbedPreview */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -327,7 +327,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUserQuery", function() { return receiveUserQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addEntities", function() { return addEntities; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveEntityRecords", function() { return receiveEntityRecords; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveThemeSupportsFromIndex", function() { return receiveThemeSupportsFromIndex; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveThemeSupports", function() { return receiveThemeSupports; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveEmbedPreview", function() { return receiveEmbedPreview; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
@@ -402,15 +402,15 @@ function receiveEntityRecords(kind, name, records, query) {
 /**
  * Returns an action object used in signalling that the index has been received.
  *
- * @param {Object} index Index received.
+ * @param {Object} themeSupports Theme support for the current theme.
  *
  * @return {Object} Action object.
  */
 
-function receiveThemeSupportsFromIndex(index) {
+function receiveThemeSupports(themeSupports) {
   return {
     type: 'RECEIVE_THEME_SUPPORTS',
-    themeSupports: index.theme_supports
+    themeSupports: themeSupports
   };
 }
 /**
@@ -1697,20 +1697,20 @@ function getEntityRecords(kind, name) {
  */
 
 function getThemeSupports() {
-  var index;
+  var activeThemes;
   return regeneratorRuntime.wrap(function getThemeSupports$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
           return Object(_controls__WEBPACK_IMPORTED_MODULE_5__["apiFetch"])({
-            path: '/'
+            path: '/wp/v2/themes?status=active'
           });
 
         case 2:
-          index = _context4.sent;
+          activeThemes = _context4.sent;
           _context4.next = 5;
-          return Object(_actions__WEBPACK_IMPORTED_MODULE_3__["receiveThemeSupportsFromIndex"])(index);
+          return Object(_actions__WEBPACK_IMPORTED_MODULE_3__["receiveThemeSupports"])(activeThemes[0].theme_supports);
 
         case 5:
         case "end":

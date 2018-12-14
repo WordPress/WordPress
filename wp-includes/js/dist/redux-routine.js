@@ -192,6 +192,51 @@ function createMiddleware() {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/redux-routine/build-module/is-action.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/redux-routine/build-module/is-action.js ***!
+  \*************************************************************************/
+/*! exports provided: isAction, isActionOfType */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAction", function() { return isAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isActionOfType", function() { return isActionOfType; });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * External imports
+ */
+
+/**
+ * Returns true if the given object quacks like an action.
+ *
+ * @param {*} object Object to test
+ *
+ * @return {boolean}  Whether object is an action.
+ */
+
+function isAction(object) {
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isPlainObject"])(object) && Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isString"])(object.type);
+}
+/**
+ * Returns true if the given object quacks like an action and has a specific
+ * action type
+ *
+ * @param {*}      object       Object to test
+ * @param {string} expectedType The expected type for the action.
+ *
+ * @return {boolean} Whether object is an action and is of specific type.
+ */
+
+function isActionOfType(object, expectedType) {
+  return isAction(object) && object.type === expectedType;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/redux-routine/build-module/is-generator.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/@wordpress/redux-routine/build-module/is-generator.js ***!
@@ -236,6 +281,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var is_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! is-promise */ "./node_modules/is-promise/index.js");
 /* harmony import */ var is_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(is_promise__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _cast_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cast-error */ "./node_modules/@wordpress/redux-routine/build-module/cast-error.js");
+/* harmony import */ var _is_action__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./is-action */ "./node_modules/@wordpress/redux-routine/build-module/is-action.js");
 
 
 /**
@@ -247,6 +293,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -263,7 +310,7 @@ function createRuntime() {
   var dispatch = arguments.length > 1 ? arguments[1] : undefined;
   var rungenControls = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["map"])(controls, function (control, actionType) {
     return function (value, next, iterate, yieldNext, yieldError) {
-      if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__["default"])(value) !== 'object' || value.type !== actionType) {
+      if (!Object(_is_action__WEBPACK_IMPORTED_MODULE_5__["isActionOfType"])(value, actionType)) {
         return false;
       }
 
@@ -283,7 +330,7 @@ function createRuntime() {
   });
 
   var unhandledActionControl = function unhandledActionControl(value, next) {
-    if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__["default"])(value) !== 'object' || !Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isString"])(value.type)) {
+    if (!Object(_is_action__WEBPACK_IMPORTED_MODULE_5__["isAction"])(value)) {
       return false;
     }
 

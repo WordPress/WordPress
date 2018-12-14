@@ -91,7 +91,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blob"] =
 /*!************************************************************!*\
   !*** ./node_modules/@wordpress/blob/build-module/index.js ***!
   \************************************************************/
-/*! exports provided: createBlobURL, getBlobByURL, revokeBlobURL */
+/*! exports provided: createBlobURL, getBlobByURL, revokeBlobURL, isBlobURL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99,6 +99,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBlobURL", function() { return createBlobURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlobByURL", function() { return getBlobByURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "revokeBlobURL", function() { return revokeBlobURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isBlobURL", function() { return isBlobURL; });
 /**
  * Browser dependencies
  */
@@ -144,6 +145,21 @@ function revokeBlobURL(url) {
   }
 
   delete cache[url];
+}
+/**
+ * Check whether a url is a blob url.
+ *
+ * @param {string} url The URL.
+ *
+ * @return {boolean} Is the url a blob url?
+ */
+
+function isBlobURL(url) {
+  if (!url || !url.indexOf) {
+    return false;
+  }
+
+  return url.indexOf('blob:') === 0;
 }
 
 

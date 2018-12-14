@@ -151,7 +151,7 @@ function _objectSpread(target) {
 /*!***********************************************************!*\
   !*** ./node_modules/@wordpress/url/build-module/index.js ***!
   \***********************************************************/
-/*! exports provided: isURL, addQueryArgs, prependHTTP */
+/*! exports provided: isURL, addQueryArgs, prependHTTP, safeDecodeURI */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -159,6 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addQueryArgs", function() { return addQueryArgs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! qs */ "./node_modules/@wordpress/url/node_modules/qs/lib/index.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
@@ -211,6 +212,22 @@ function prependHTTP(url) {
   }
 
   return url;
+}
+/**
+ * Safely decodes a URI with `decodeURI`. Returns the URI unmodified if
+ * `decodeURI` throws an error.
+ *
+ * @param {string} uri URI to decode.
+ *
+ * @return {string} Decoded URI if possible.
+ */
+
+function safeDecodeURI(uri) {
+  try {
+    return decodeURI(uri);
+  } catch (uriError) {
+    return uri;
+  }
 }
 
 

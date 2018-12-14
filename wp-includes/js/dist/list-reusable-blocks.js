@@ -201,33 +201,6 @@ function _createClass(Constructor, protoProps, staticProps) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js ***!
@@ -272,39 +245,6 @@ function _inherits(subClass, superClass) {
     }
   });
   if (superClass) Object(_setPrototypeOf__WEBPACK_IMPORTED_MODULE_0__["default"])(subClass, superClass);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]);
-    });
-  }
-
-  return target;
 }
 
 /***/ }),
@@ -695,14 +635,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _file__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./file */ "./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js");
-
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _file__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./file */ "./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js");
 
 
 /**
@@ -730,35 +668,39 @@ function exportReusableBlock(_x) {
 }
 
 function _exportReusableBlock() {
-  _exportReusableBlock = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  _exportReusableBlock = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(id) {
-    var postType, reusableBlock, fileContent, fileName;
+    var postType, post, title, content, fileContent, fileName;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
+            return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
               path: "/wp/v2/types/wp_block"
             });
 
           case 2:
             postType = _context.sent;
             _context.next = 5;
-            return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_3___default()({
-              path: "/wp/v2/".concat(postType.rest_base, "/").concat(id)
+            return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+              path: "/wp/v2/".concat(postType.rest_base, "/").concat(id, "?context=edit")
             });
 
           case 5:
-            reusableBlock = _context.sent;
-            fileContent = JSON.stringify(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-              __file: 'wp_block'
-            }, Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pick"])(reusableBlock, ['title', 'content'])), null, 2);
-            fileName = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["kebabCase"])(reusableBlock.title) + '.json';
-            Object(_file__WEBPACK_IMPORTED_MODULE_4__["download"])(fileName, fileContent, 'application/json');
+            post = _context.sent;
+            title = post.title.raw;
+            content = post.content.raw;
+            fileContent = JSON.stringify({
+              __file: 'wp_block',
+              title: title,
+              content: content
+            }, null, 2);
+            fileName = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["kebabCase"])(title) + '.json';
+            Object(_file__WEBPACK_IMPORTED_MODULE_3__["download"])(fileName, fileContent, 'application/json');
 
-          case 9:
+          case 11:
           case "end":
             return _context.stop();
         }
@@ -917,7 +859,8 @@ function _importReusableBlock() {
               path: "/wp/v2/".concat(postType.rest_base),
               data: {
                 title: parsedContent.title,
-                content: parsedContent.content
+                content: parsedContent.content,
+                status: 'publish'
               },
               method: 'POST'
             });

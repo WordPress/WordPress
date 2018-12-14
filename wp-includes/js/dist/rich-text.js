@@ -2061,6 +2061,10 @@ function createElementHTML(_ref5) {
   var attributeString = '';
 
   for (var key in attributes) {
+    if (!Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__["isValidAttributeName"])(key)) {
+      continue;
+    }
+
     attributeString += " ".concat(key, "=\"").concat(Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_0__["escapeAttribute"])(attributes[key]), "\"");
   }
 

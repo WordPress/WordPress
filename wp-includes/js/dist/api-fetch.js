@@ -272,8 +272,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _middlewares_nonce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./middlewares/nonce */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/nonce.js");
 /* harmony import */ var _middlewares_root_url__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./middlewares/root-url */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/root-url.js");
 /* harmony import */ var _middlewares_preloading__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./middlewares/preloading */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/preloading.js");
-/* harmony import */ var _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./middlewares/namespace-endpoint */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js");
-/* harmony import */ var _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./middlewares/http-v1 */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js");
+/* harmony import */ var _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./middlewares/fetch-all-middleware */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js");
+/* harmony import */ var _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./middlewares/namespace-endpoint */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/namespace-endpoint.js");
+/* harmony import */ var _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./middlewares/http-v1 */ "./node_modules/@wordpress/api-fetch/build-module/middlewares/http-v1.js");
 
 
 
@@ -285,6 +286,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 
@@ -400,21 +402,203 @@ function apiFetch(options) {
     });
   };
 
-  var steps = [raw, _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_8__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_7__["default"]].concat(middlewares);
+  var steps = [raw, _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"], _middlewares_http_v1__WEBPACK_IMPORTED_MODULE_9__["default"], _middlewares_namespace_endpoint__WEBPACK_IMPORTED_MODULE_8__["default"]].concat(middlewares).reverse();
 
-  var next = function next(nextOptions) {
-    var nextMiddleware = steps.pop();
-    return nextMiddleware(nextOptions, next);
+  var runMiddleware = function runMiddleware(index) {
+    return function (nextOptions) {
+      var nextMiddleware = steps[index];
+      var next = runMiddleware(index + 1);
+      return nextMiddleware(nextOptions, next);
+    };
   };
 
-  return next(options);
+  return runMiddleware(0)(options);
 }
 
 apiFetch.use = registerMiddleware;
 apiFetch.createNonceMiddleware = _middlewares_nonce__WEBPACK_IMPORTED_MODULE_4__["default"];
 apiFetch.createPreloadingMiddleware = _middlewares_preloading__WEBPACK_IMPORTED_MODULE_6__["default"];
 apiFetch.createRootURLMiddleware = _middlewares_root_url__WEBPACK_IMPORTED_MODULE_5__["default"];
+apiFetch.fetchAllMiddleware = _middlewares_fetch_all_middleware__WEBPACK_IMPORTED_MODULE_7__["default"];
 /* harmony default export */ __webpack_exports__["default"] = (apiFetch);
+
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/url */ "@wordpress/url");
+/* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_url__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+/**
+ * WordPress dependencies
+ */
+ // Apply query arguments to both URL and Path, whichever is present.
+
+var modifyQuery = function modifyQuery(_ref, queryArgs) {
+  var path = _ref.path,
+      url = _ref.url,
+      options = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_2__["default"])(_ref, ["path", "url"]);
+
+  return Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, options, {
+    url: url && Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_3__["addQueryArgs"])(url, queryArgs),
+    path: path && Object(_wordpress_url__WEBPACK_IMPORTED_MODULE_3__["addQueryArgs"])(path, queryArgs)
+  });
+}; // Duplicates parsing functionality from apiFetch.
+
+
+var parseResponse = function parseResponse(response) {
+  return response.json ? response.json() : Promise.reject(response);
+};
+
+var parseLinkHeader = function parseLinkHeader(linkHeader) {
+  if (!linkHeader) {
+    return {};
+  }
+
+  var match = linkHeader.match(/<([^>]+)>; rel="next"/);
+  return match ? {
+    next: match[1]
+  } : {};
+};
+
+var getNextPageUrl = function getNextPageUrl(response) {
+  var _parseLinkHeader = parseLinkHeader(response.headers.get('link')),
+      next = _parseLinkHeader.next;
+
+  return next;
+};
+
+var requestContainsUnboundedQuery = function requestContainsUnboundedQuery(options) {
+  var pathIsUnbounded = options.path && options.path.indexOf('per_page=-1') !== -1;
+  var urlIsUnbounded = options.url && options.url.indexOf('per_page=-1') !== -1;
+  return pathIsUnbounded || urlIsUnbounded;
+}; // The REST API enforces an upper limit on the per_page option. To handle large
+// collections, apiFetch consumers can pass `per_page=-1`; this middleware will
+// then recursively assemble a full response array from all available pages.
+
+
+var fetchAllMiddleware =
+/*#__PURE__*/
+function () {
+  var _ref2 = Object(_babel_runtime_helpers_esm_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee(options, next) {
+    var response, results, nextPage, mergedResults, nextResponse, nextResults;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!(options.parse === false)) {
+              _context.next = 2;
+              break;
+            }
+
+            return _context.abrupt("return", next(options));
+
+          case 2:
+            if (requestContainsUnboundedQuery(options)) {
+              _context.next = 4;
+              break;
+            }
+
+            return _context.abrupt("return", next(options));
+
+          case 4:
+            _context.next = 6;
+            return next(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, modifyQuery(options, {
+              per_page: 100
+            }), {
+              // Ensure headers are returned for page 1.
+              parse: false
+            }));
+
+          case 6:
+            response = _context.sent;
+            _context.next = 9;
+            return parseResponse(response);
+
+          case 9:
+            results = _context.sent;
+
+            if (Array.isArray(results)) {
+              _context.next = 12;
+              break;
+            }
+
+            return _context.abrupt("return", results);
+
+          case 12:
+            nextPage = getNextPageUrl(response);
+
+            if (nextPage) {
+              _context.next = 15;
+              break;
+            }
+
+            return _context.abrupt("return", results);
+
+          case 15:
+            // Iteratively fetch all remaining pages until no "next" header is found.
+            mergedResults = [].concat(results);
+
+          case 16:
+            if (!nextPage) {
+              _context.next = 27;
+              break;
+            }
+
+            _context.next = 19;
+            return next(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_1__["default"])({}, options, {
+              // Ensure the URL for the next page is used instead of any provided path.
+              path: undefined,
+              url: nextPage,
+              // Ensure we still get headers so we can identify the next page.
+              parse: false
+            }));
+
+          case 19:
+            nextResponse = _context.sent;
+            _context.next = 22;
+            return parseResponse(nextResponse);
+
+          case 22:
+            nextResults = _context.sent;
+            mergedResults = mergedResults.concat(nextResults);
+            nextPage = getNextPageUrl(nextResponse);
+            _context.next = 16;
+            break;
+
+          case 27:
+            return _context.abrupt("return", mergedResults);
+
+          case 28:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function fetchAllMiddleware(_x, _x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (fetchAllMiddleware);
 
 
 /***/ }),
@@ -688,6 +872,17 @@ var createRootURLMiddleware = function createRootURLMiddleware(rootURL) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/url":
+/*!**************************************!*\
+  !*** external {"this":["wp","url"]} ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ })
 

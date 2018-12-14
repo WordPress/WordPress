@@ -617,10 +617,22 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
  */
 
 function isTextField(element) {
-  var nodeName = element.nodeName,
-      selectionStart = element.selectionStart,
-      contentEditable = element.contentEditable;
-  return nodeName === 'INPUT' && selectionStart !== null || nodeName === 'TEXTAREA' || contentEditable === 'true';
+  try {
+    var nodeName = element.nodeName,
+        selectionStart = element.selectionStart,
+        contentEditable = element.contentEditable;
+    return nodeName === 'INPUT' && selectionStart !== null || nodeName === 'TEXTAREA' || contentEditable === 'true';
+  } catch (error) {
+    // Safari throws an exception when trying to get `selectionStart`
+    // on non-text <input> elements (which, understandably, don't
+    // have the text selection API). We catch this via a try/catch
+    // block, as opposed to a more explicit check of the element's
+    // input types, because of Safari's non-standard behavior. This
+    // also means we don't have to worry about the list of input
+    // types that support `selectionStart` changing as the HTML spec
+    // evolves over time.
+    return false;
+  }
 }
 /**
  * Check wether the current document has a selection.

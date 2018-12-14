@@ -114,6 +114,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+ // Changes made here will likely need to be made in `lib/client-assets.php` as
+// well because it uses the `setSettings()` function to change these settings.
 
 var settings = {
   l10n: {
@@ -136,7 +138,8 @@ var settings = {
   formats: {
     time: 'g: i a',
     date: 'F j, Y',
-    datetime: 'F j, Y g: i a'
+    datetime: 'F j, Y g: i a',
+    datetimeAbbreviated: 'M j, Y g: i a'
   },
   timezone: {
     offset: '0',
