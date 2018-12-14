@@ -76,6 +76,77 @@ function twentythirteen_setup() {
 	 */
 	add_editor_style( array( 'css/editor-style.css', 'genericons/genericons.css', twentythirteen_fonts_url() ) );
 
+	// Load regular editor styles into the new block-based editor.
+	add_theme_support( 'editor-styles' );
+
+	// Load default block styles.
+	add_theme_support( 'wp-block-styles' );
+
+	// Add support for full and wide align images.
+	add_theme_support( 'align-wide' );
+
+	// Add support for custom color scheme.
+	add_theme_support(
+		'editor-color-palette',
+		array(
+			array(
+				'name'  => __( 'Dark Gray', 'twentythirteen' ),
+				'slug'  => 'dark-gray',
+				'color' => '#141412',
+			),
+			array(
+				'name'  => __( 'Red', 'twentythirteen' ),
+				'slug'  => 'red',
+				'color' => '#bc360a',
+			),
+			array(
+				'name'  => __( 'Medium Orange', 'twentythirteen' ),
+				'slug'  => 'medium-orange',
+				'color' => '#db572f',
+			),
+			array(
+				'name'  => __( 'Light Orange', 'twentythirteen' ),
+				'slug'  => 'light-orange',
+				'color' => '#ea9629',
+			),
+			array(
+				'name'  => __( 'Yellow', 'twentythirteen' ),
+				'slug'  => 'yellow',
+				'color' => '#fbca3c',
+			),
+			array(
+				'name'  => __( 'White', 'twentythirteen' ),
+				'slug'  => 'white',
+				'color' => '#fff',
+			),
+			array(
+				'name'  => __( 'Dark Brown', 'twentythirteen' ),
+				'slug'  => 'dark-brown',
+				'color' => '#220e10',
+			),
+			array(
+				'name'  => __( 'Medium Brown', 'twentythirteen' ),
+				'slug'  => 'medium-brown',
+				'color' => '#722d19',
+			),
+			array(
+				'name'  => __( 'Light Brown', 'twentythirteen' ),
+				'slug'  => 'light-brown',
+				'color' => '#eadaa6',
+			),
+			array(
+				'name'  => __( 'Beige', 'twentythirteen' ),
+				'slug'  => 'beige',
+				'color' => '#e8e5ce',
+			),
+			array(
+				'name'  => __( 'Off-white', 'twentythirteen' ),
+				'slug'  => 'off-white',
+				'color' => '#f7f5e7',
+			),
+		)
+	);
+
 	// Adds RSS feed links to <head> for posts and comments.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -208,6 +279,9 @@ function twentythirteen_scripts_styles() {
 	// Loads our main stylesheet.
 	wp_enqueue_style( 'twentythirteen-style', get_stylesheet_uri(), array(), '2013-07-18' );
 
+	// Theme block stylesheet.
+	wp_enqueue_style( 'twentythirteen-block-style', get_template_directory_uri() . '/css/blocks.css', array( 'twentythirteen-style' ), '2018-10-18' );
+
 	// Loads the Internet Explorer specific stylesheet.
 	wp_enqueue_style( 'twentythirteen-ie', get_template_directory_uri() . '/css/ie.css', array( 'twentythirteen-style' ), '2013-07-18' );
 	wp_style_add_data( 'twentythirteen-ie', 'conditional', 'lt IE 9' );
@@ -238,6 +312,19 @@ function twentythirteen_resource_hints( $urls, $relation_type ) {
 	return $urls;
 }
 add_filter( 'wp_resource_hints', 'twentythirteen_resource_hints', 10, 2 );
+
+/**
+ * Enqueue editor styles for Gutenberg
+ *
+ * @since Twenty Thirteen 2.5
+ */
+function twentythirteen_block_editor_styles() {
+	// Block styles.
+	wp_enqueue_style( 'twentythirteen-block-editor-style', get_template_directory_uri() . '/css/editor-blocks.css' );
+	// Add custom fonts.
+	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
+}
+add_action( 'enqueue_block_editor_assets', 'twentythirteen_block_editor_styles' );
 
 /**
  * Filter the page title.
