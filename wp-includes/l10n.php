@@ -105,6 +105,54 @@ function get_user_locale( $user_id = 0 ) {
 }
 
 /**
+ * Determine the current locale desired for the request.
+ *
+ * @since 5.0.0
+ *
+ * @global string $pagenow
+ *
+ * @return string The determined locale.
+ */
+function determine_locale() {
+	/**
+	 * Filters the locale for the current request prior to the default determination process.
+	 *
+	 * Using this filter allows to override the default logic, effectively short-circuiting the function.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string|null The locale to return and short-circuit, or null as default.
+	 */
+	$determined_locale = apply_filters( 'pre_determine_locale', null );
+	if ( ! empty( $determined_locale ) && is_string( $determined_locale ) ) {
+		return $determined_locale;
+	}
+
+	$determined_locale = get_locale();
+
+	if ( is_admin() ) {
+		$determined_locale = get_user_locale();
+	}
+
+	if ( isset( $_GET['_locale'] ) && 'user' === $_GET['_locale'] && wp_is_json_request() && is_user_logged_in() ) {
+		$determined_locale = get_user_locale();
+	}
+
+	if ( ! empty( $_GET['wp_lang'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
+		$determined_locale = sanitize_text_field( $_GET['wp_lang'] );
+	}
+
+	/**
+	 * Filters the locale for the current request.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $locale The locale.
+	 */
+	return apply_filters( 'determine_locale', $determined_locale );
+}
+
+/**
  * Retrieve the translation of $text.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
@@ -685,7 +733,7 @@ function unload_textdomain( $domain ) {
  */
 function load_default_textdomain( $locale = null ) {
 	if ( null === $locale ) {
-		$locale = is_admin() ? get_user_locale() : get_locale();
+		$locale = determine_locale();
 	}
 
 	// Unload previously loaded strings so we can switch translations.
@@ -734,7 +782,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 	 * @param string $locale The plugin's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -768,7 +816,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
  */
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	/** This filter is documented in wp-includes/l10n.php */
-	$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'plugin_locale', determine_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -807,7 +855,7 @@ function load_theme_textdomain( $domain, $path = false ) {
 	 * @param string $locale The theme's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'theme_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'theme_locale', determine_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -941,7 +989,7 @@ function _get_path_to_translation_from_lang_dir( $domain ) {
 		}
 	}
 
-	$locale = is_admin() ? get_user_locale() : get_locale();
+	$locale = determine_locale();
 	$mofile = "{$domain}-{$locale}.mo";
 
 	$path = WP_LANG_DIR . '/plugins/' . $mofile;

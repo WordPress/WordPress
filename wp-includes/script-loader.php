@@ -954,7 +954,7 @@ function wp_default_scripts( &$scripts ) {
 			'var mejsL10n = %s;',
 			wp_json_encode(
 				array(
-					'language' => strtolower( strtok( is_admin() ? get_user_locale() : get_locale(), '_-' ) ),
+					'language' => strtolower( strtok( determine_locale(), '_-' ) ),
 					'strings'  => array(
 						'mejs.install-flash'       => __( 'You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/' ),
 						'mejs.fullscreen-off'      => __( 'Turn off Fullscreen' ),
