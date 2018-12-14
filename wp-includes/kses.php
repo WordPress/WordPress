@@ -61,11 +61,14 @@ if ( ! CUSTOM_TAGS ) {
 	$allowedposttags = array(
 		'address'    => array(),
 		'a'          => array(
-			'href'   => true,
-			'rel'    => true,
-			'rev'    => true,
-			'name'   => true,
-			'target' => true,
+			'href'     => true,
+			'rel'      => true,
+			'rev'      => true,
+			'name'     => true,
+			'target'   => true,
+			'download' => array(
+				'valueless' => 'y',
+			),
 		),
 		'abbr'       => array(),
 		'acronym'    => array(),
