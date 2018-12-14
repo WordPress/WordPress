@@ -1584,8 +1584,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__);
 
 
 /**
@@ -1595,7 +1593,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -1646,13 +1643,6 @@ function registerFormatType(name, settings) {
 
   if (typeof settings.title !== 'string') {
     window.console.error('Format titles must be strings.');
-    return;
-  }
-
-  settings.icon = Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["normalizeIconObject"])(settings.icon);
-
-  if (!Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__["isValidIcon"])(settings.icon.src)) {
-    window.console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/format-api/#icon-optional');
     return;
   }
 
@@ -3132,17 +3122,6 @@ function isShallowEqual( a, b, fromIndex ) {
 	return callSelector;
 });
 
-
-/***/ }),
-
-/***/ "@wordpress/blocks":
-/*!*****************************************!*\
-  !*** external {"this":["wp","blocks"]} ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blocks"]; }());
 
 /***/ }),
 

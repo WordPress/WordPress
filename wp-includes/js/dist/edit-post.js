@@ -1428,6 +1428,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var ariaClosed = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Show more tools & options');
+
+var ariaOpen = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Hide more tools & options');
+
 var MoreMenu = function MoreMenu() {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Dropdown"], {
     className: "edit-post-more-menu",
@@ -1438,7 +1442,7 @@ var MoreMenu = function MoreMenu() {
           onToggle = _ref.onToggle;
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["IconButton"], {
         icon: "ellipsis",
-        label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["_x"])('More', 'button to expand options'),
+        label: isOpen ? ariaOpen : ariaClosed,
         onClick: onToggle,
         "aria-expanded": isOpen
       });
@@ -5597,7 +5601,7 @@ function closeGeneralSidebar() {
   };
 }
 /**
- * Returns an action object used in signalling that the user opened an editor sidebar.
+ * Returns an action object used in signalling that the user opened a modal.
  *
  * @param {string} name A string that uniquely identifies the modal.
  *
@@ -5611,7 +5615,7 @@ function openModal(name) {
   };
 }
 /**
- * Returns an action object signalling that the user closed the sidebar.
+ * Returns an action object signalling that the user closed a modal.
  *
  * @return {Object} Action object.
  */
