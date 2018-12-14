@@ -166,7 +166,7 @@ function wp_default_packages_scripts( &$scripts ) {
 	$suffix = wp_scripts_get_suffix();
 
 	$packages_dependencies = array(
-		'api-fetch'                          => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n' ),
+		'api-fetch'                          => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n', 'wp-url' ),
 		'a11y'                               => array( 'wp-dom-ready', 'wp-polyfill' ),
 		'autop'                              => array( 'wp-polyfill' ),
 		'blob'                               => array( 'wp-polyfill' ),
@@ -962,12 +962,14 @@ function wp_default_scripts( &$scripts ) {
 						'mejs.fullscreen-on'       => __( 'Go Fullscreen' ),
 						'mejs.download-video'      => __( 'Download Video' ),
 						'mejs.fullscreen'          => __( 'Fullscreen' ),
+						'mejs.time-jump-forward'   => array( __( 'Jump forward 1 second' ), __( 'Jump forward %1 seconds' ) ),
 						'mejs.loop'                => __( 'Toggle Loop' ),
 						'mejs.play'                => __( 'Play' ),
 						'mejs.pause'               => __( 'Pause' ),
 						'mejs.close'               => __( 'Close' ),
 						'mejs.time-slider'         => __( 'Time Slider' ),
 						'mejs.time-help-text'      => __( 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' ),
+						'mejs.time-skip-back'      => array( __( 'Skip back 1 second' ), __( 'Skip back %1 seconds' ) ),
 						'mejs.captions-subtitles'  => __( 'Captions/Subtitles' ),
 						'mejs.captions-chapters'   => __( 'Chapters' ),
 						'mejs.none'                => __( 'None' ),
@@ -979,6 +981,7 @@ function wp_default_scripts( &$scripts ) {
 						'mejs.video-player'        => __( 'Video Player' ),
 						'mejs.audio-player'        => __( 'Audio Player' ),
 						'mejs.ad-skip'             => __( 'Skip ad' ),
+						'mejs.ad-skip-info'        => array( __( 'Skip in 1 second' ), __( 'Skip in %1 seconds' ) ),
 						'mejs.source-chooser'      => __( 'Source Chooser' ),
 						'mejs.stop'                => __( 'Stop' ),
 						'mejs.speed-rate'          => __( 'Speed Rate' ),
@@ -1067,8 +1070,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'wp-codemirror', '/wp-includes/js/codemirror/codemirror.min.js', array(), '5.29.1-alpha-ee20357' );
 	$scripts->add( 'csslint', '/wp-includes/js/codemirror/csslint.js', array(), '1.0.5' );
-	$scripts->add( 'jshint', '/wp-includes/js/codemirror/fakejshint.js', array( 'esprima' ), '2.9.5' );
-	$scripts->add( 'esprima', '/wp-includes/js/codemirror/esprima.js', array(), '4.0.0' );
+	$scripts->add( 'jshint', '/wp-includes/js/codemirror/jshint.js', array(), '2.9.5.999' );
 	$scripts->add( 'jsonlint', '/wp-includes/js/codemirror/jsonlint.js', array(), '1.6.2' );
 	$scripts->add( 'htmlhint', '/wp-includes/js/codemirror/htmlhint.js', array(), '0.9.14-xwp' );
 	$scripts->add( 'htmlhint-kses', '/wp-includes/js/codemirror/htmlhint-kses.js', array( 'htmlhint' ) );
@@ -1227,7 +1229,7 @@ function wp_default_scripts( &$scripts ) {
 			'themePreviewUnavailable' => __( 'Sorry, you can&#8217;t preview new themes when you have changes scheduled or saved as a draft. Please publish your changes, or wait until they publish to preview new themes.' ),
 			'themeInstallUnavailable' => sprintf(
 				/* translators: %s: URL to Add Themes admin screen */
-				__( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
+				   __( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
 				esc_url( admin_url( 'theme-install.php' ) )
 			),
 			'publishSettings'         => __( 'Publish Settings' ),
@@ -1335,17 +1337,6 @@ function wp_default_scripts( &$scripts ) {
 				'termSelected' => __( 'Term selected.' ),
 				'termAdded'    => __( 'Term added.' ),
 				'termRemoved'  => __( 'Term removed.' ),
-				'restURL'      => rest_url( '/wp/v2/tags' ),
-
-				/**
-				 * Filters the minimum number of characters required to fire a tag search via Ajax.
-				 *
-				 * Previous to 5.0.0, this filter passed taxonomy and search context parameters.
-				 * @since 4.0.0
-				 *
-				 * @param int         $characters The minimum number of characters required. Default 2.
-				 */
-				'minChars'     => (int) apply_filters( 'term_search_min_chars', 2 ),
 			)
 		);
 
@@ -1398,17 +1389,16 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'admin-gallery', "/wp-admin/js/gallery$suffix.js", array( 'jquery-ui-sortable' ) );
 
-		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'admin-widgets', "/wp-admin/js/widgets$suffix.js", array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), false, 1 );
 		did_action( 'init' ) && $scripts->add_inline_script(
 			'admin-widgets',
 			sprintf(
 				'wpWidgets.l10n = %s;',
 				wp_json_encode(
 					array(
-						'save'        => __( 'Save' ),
-						'saved'       => __( 'Saved' ),
-						'saveAlert'   => __( 'The changes you made will be lost if you navigate away from this page.' ),
-						'widgetAdded' => __( 'Widget has been added to the selected sidebar' ),
+						'save'      => __( 'Save' ),
+						'saved'     => __( 'Saved' ),
+						'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 					)
 				)
 			)
@@ -2413,77 +2403,6 @@ function script_concat_settings() {
 		$compress_css = defined( 'COMPRESS_CSS' ) ? COMPRESS_CSS : true;
 		if ( $compress_css && ( ! get_site_option( 'can_compress_scripts' ) || $compressed_output ) ) {
 			$compress_css = false;
-		}
-	}
-}
-
-/**
- * Handles the enqueueing of block scripts and styles that are common to both
- * the editor and the front-end.
- *
- * @since 5.0.0
- *
- * @global WP_Screen $current_screen
- */
-function wp_common_block_scripts_and_styles() {
-	global $current_screen;
-
-	if ( is_admin() && ! $current_screen->is_block_editor() ) {
-		return;
-	}
-
-	wp_enqueue_style( 'wp-block-library' );
-
-	if ( current_theme_supports( 'wp-block-styles' ) ) {
-		wp_enqueue_style( 'wp-block-library-theme' );
-	}
-
-	/**
-	 * Fires after enqueuing block assets for both editor and front-end.
-	 *
-	 * Call `add_action` on any hook before 'wp_enqueue_scripts'.
-	 *
-	 * In the function call you supply, simply use `wp_enqueue_script` and
-	 * `wp_enqueue_style` to add your functionality to the Gutenberg editor.
-	 *
-	 * @since 5.0.0
-	 */
-	  do_action( 'enqueue_block_assets' );
-}
-
-/**
- * Enqueues registered block scripts and styles, depending on current rendered
- * context (only enqueuing editor scripts while in context of the editor).
- *
- * @since 5.0.0
- *
- * @global WP_Screen $current_screen
- */
-function wp_enqueue_registered_block_scripts_and_styles() {
-	global $current_screen;
-
-	$is_editor = ( is_admin() && $current_screen->is_block_editor() );
-
-	$block_registry = WP_Block_Type_Registry::get_instance();
-	foreach ( $block_registry->get_all_registered() as $block_name => $block_type ) {
-		// Front-end styles.
-		if ( ! empty( $block_type->style ) ) {
-			wp_enqueue_style( $block_type->style );
-		}
-
-		// Front-end script.
-		if ( ! empty( $block_type->script ) ) {
-			wp_enqueue_script( $block_type->script );
-		}
-
-		// Editor styles.
-		if ( $is_editor && ! empty( $block_type->editor_style ) ) {
-			wp_enqueue_style( $block_type->editor_style );
-		}
-
-		// Editor script.
-		if ( $is_editor && ! empty( $block_type->editor_script ) ) {
-			wp_enqueue_script( $block_type->editor_script );
 		}
 	}
 }
