@@ -1,0 +1,205 @@
+// Rem output with px fallback
+@mixin font-size($sizeValue: 1) {
+	font-size: ($sizeValue * 16) * 1px;
+	font-size: $sizeValue * 1rem;
+}
+
+// Center block
+@mixin center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+// Clearfix
+@mixin clearfix() {
+	content: "";
+	display: table;
+	table-layout: fixed;
+}
+
+// Clear after (not all clearfix need this also)
+@mixin clearfix-after() {
+	clear: both;
+}
+
+// Column width with margin
+@mixin column-width($numberColumns: 3) {
+	width: map-get($columns, $numberColumns) - (($columns__margin * ($numberColumns - 1)) / $numberColumns);
+}
+
+@mixin filter-duotone {
+
+	&:before {
+		background: $color__link;
+		mix-blend-mode: screen;
+		opacity: 0.1;
+		z-index: 2;
+	}
+
+	&:after {
+		background: $color__link;
+		mix-blend-mode: multiply;
+		opacity: .8;
+		z-index: 3;
+
+		/* Browsers supporting mix-blend-mode don't need opacity < 1 */
+		@supports (mix-blend-mode: multiply) {
+			opacity: 1;
+		}
+	}
+}
+
+@mixin filter-grayscale {
+
+	position: relative;
+	filter: grayscale(100%);
+	z-index: 1;
+
+	&:after {
+		display: block;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+	}
+}
+
+@mixin post-section-dash {
+
+	&:before {
+		background: $color__text-light;
+		content: "\020";
+		display: block;
+		height: 2px;
+		margin: $size__spacing-unit 0;
+		width: 1em;
+	}
+}
+
+/* If we add the border using a regular CSS border, it won't look good on non-retina devices,
+ * since its edges can look jagged due to lack of antialiasing. In this case, we are several
+ * layers of box-shadow to add the border visually, which will render the border smoother. */
+
+@mixin box-shadow( $size ) {
+	box-shadow:
+		0 0 0 $size $color__text-light inset,         	// Original border.
+		0 0 0 ($size + 1px) $color__text-light inset, 	// Antialiasing, inner edge.
+		0 0 1px 0 rgba( $color__text-light, 0.7 );  	// Antialiasing, outer edge.
+}
+
+/* Fallback for non-latin fonts */
+
+@mixin non-latin-fonts( $wrapper_classname: '.site' ) {
+
+	/* Arabic */
+	html[lang="ar"] #{$wrapper_classname} *,
+	html[lang="ary"] #{$wrapper_classname} *,
+	html[lang="azb"] #{$wrapper_classname} *,
+	html[lang="ckb"] #{$wrapper_classname} *,
+	html[lang="fa-IR"] #{$wrapper_classname} *,
+	html[lang="haz"] #{$wrapper_classname} *,
+	html[lang="ps"] #{$wrapper_classname} * {
+	  font-family: Tahoma, Arial, sans-serif !important;
+	}
+
+	/* Cyrillic */
+	html[lang="be"] #{$wrapper_classname} *,
+	html[lang="bg-BG"] #{$wrapper_classname} *,
+	html[lang="kk"] #{$wrapper_classname} *,
+	html[lang="mk-MK"] #{$wrapper_classname} *,
+	html[lang="mn"] #{$wrapper_classname} *,
+	html[lang="ru-RU"] #{$wrapper_classname} *,
+	html[lang="sah"] #{$wrapper_classname} *,
+	html[lang="sr-RS"] #{$wrapper_classname} *,
+	html[lang="tt-RU"] #{$wrapper_classname} *,
+	html[lang="uk"] #{$wrapper_classname} * {
+	  font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif !important;
+	}
+
+	/* Chinese (Hong Kong) */
+	html[lang="zh-HK"] #{$wrapper_classname} * {
+		font-family: -apple-system, BlinkMacSystemFont, 'PingFang HK', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+	}
+
+	/* Chinese (Taiwan) */
+	html[lang="zh-TW"] #{$wrapper_classname} * {
+		font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+	}
+
+	/* Chinese (China) */
+	html[lang="zh-CN"] #{$wrapper_classname} * {
+		font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+	}
+
+	/* Devanagari */
+	html[lang="bn-BD"] #{$wrapper_classname} *,
+	html[lang="hi-IN"] #{$wrapper_classname} *,
+	html[lang="mr"] #{$wrapper_classname} *,
+	html[lang="ne-NP"] #{$wrapper_classname} * {
+	  font-family: Arial, sans-serif !important;
+	}
+
+	/* Greek */
+	html[lang="el"] #{$wrapper_classname} * {
+	  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+	}
+
+	/* Gujarati */
+	html[lang="gu"] #{$wrapper_classname} * {
+	  font-family: Arial, sans-serif !important;
+	}
+
+	/* Hebrew */
+	html[lang="he-IL"] #{$wrapper_classname} * {
+	  font-family: 'Arial Hebrew', Arial, sans-serif !important;
+	}
+
+	/* Japanese */
+	html[lang="ja"] #{$wrapper_classname} * {
+	  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", Meiryo, "Helvetica Neue", sans-serif !important;
+	}
+
+	/* Korean */
+	html[lang="ko-KR"] #{$wrapper_classname} * {
+	  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Nanum Gothic', Dotum, sans-serif !important;
+	}
+
+	/* Thai */
+	html[lang="th"] #{$wrapper_classname} * {
+	  font-family: 'Sukhumvit Set', 'Helvetica Neue', helvetica, arial, sans-serif !important;
+	}
+
+	/* Vietnamese */
+	html[lang="vi"] #{$wrapper_classname} * {
+	  font-family: 'Libre Franklin', sans-serif !important;
+	}
+}
+
+/* Calculates maximum width for post content */
+@mixin postContentMaxWidth() {
+
+	@include media(tablet) {
+		max-width: $size__site-tablet-content;
+	}
+
+	@include media(desktop) {
+		max-width: $size__site-desktop-content;
+	}
+}
+
+/* Nested sub-menu padding: 10 levels deep */
+@mixin nestedSubMenuPadding() {
+
+	ul {
+		counter-reset: submenu;
+	}
+
+	ul > li > a::before {
+		font-family: $font__body;
+		font-weight: normal;
+		content: "\2013\00a0" counters(submenu, "\2013\00a0", none);
+		counter-increment: submenu
+	}
+}
+
+@import "utilities";

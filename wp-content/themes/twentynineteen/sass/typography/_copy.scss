@@ -1,0 +1,62 @@
+p {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+
+	cite {
+		font-size: $font__size-xs;
+		font-style: normal;
+		font-family: $font__heading;
+	}
+}
+
+pre {
+	font-size: $font__size-sm;
+	font-family: $font__pre;
+	line-height: $font__line-height-body;
+	overflow: auto;
+}
+
+code,
+kbd,
+tt,
+var {
+	font-size: $font__size-sm;
+	font-family: $font__code;
+}
+
+abbr, acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+big {
+	font-size: 125%;
+}
+
+a {
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+	}
+
+	&:focus {
+		text-decoration: underline;
+	}
+}

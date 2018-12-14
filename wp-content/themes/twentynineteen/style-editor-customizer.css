@@ -1,0 +1,95 @@
+/*!
+Twenty Nineteen Customizer Styles & Non-latin Font Fallbacks
+
+NOTE: This file is automatically populated with additional styles if the user selects a custom primary color in the customzier.
+*/
+/** === Includes === */
+/* If we add the border using a regular CSS border, it won't look good on non-retina devices,
+ * since its edges can look jagged due to lack of antialiasing. In this case, we are several
+ * layers of box-shadow to add the border visually, which will render the border smoother. */
+/* Fallback for non-latin fonts */
+/* Calculates maximum width for post content */
+/* Nested sub-menu padding: 10 levels deep */
+/** === Non-Latin font fallbacks === */
+/* Arabic */
+html[lang="ar"] .wp-block *,
+html[lang="ary"] .wp-block *,
+html[lang="azb"] .wp-block *,
+html[lang="ckb"] .wp-block *,
+html[lang="fa-IR"] .wp-block *,
+html[lang="haz"] .wp-block *,
+html[lang="ps"] .wp-block * {
+  font-family: Tahoma, Arial, sans-serif !important;
+}
+
+/* Cyrillic */
+html[lang="be"] .wp-block *,
+html[lang="bg-BG"] .wp-block *,
+html[lang="kk"] .wp-block *,
+html[lang="mk-MK"] .wp-block *,
+html[lang="mn"] .wp-block *,
+html[lang="ru-RU"] .wp-block *,
+html[lang="sah"] .wp-block *,
+html[lang="sr-RS"] .wp-block *,
+html[lang="tt-RU"] .wp-block *,
+html[lang="uk"] .wp-block * {
+  font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* Chinese (Hong Kong) */
+html[lang="zh-HK"] .wp-block * {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang HK', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+}
+
+/* Chinese (Taiwan) */
+html[lang="zh-TW"] .wp-block * {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+}
+
+/* Chinese (China) */
+html[lang="zh-CN"] .wp-block * {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', "Microsoft YaHei New", STHeiti Light, sans-serif !important;
+}
+
+/* Devanagari */
+html[lang="bn-BD"] .wp-block *,
+html[lang="hi-IN"] .wp-block *,
+html[lang="mr"] .wp-block *,
+html[lang="ne-NP"] .wp-block * {
+  font-family: Arial, sans-serif !important;
+}
+
+/* Greek */
+html[lang="el"] .wp-block * {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+/* Gujarati */
+html[lang="gu"] .wp-block * {
+  font-family: Arial, sans-serif !important;
+}
+
+/* Hebrew */
+html[lang="he-IL"] .wp-block * {
+  font-family: 'Arial Hebrew', Arial, sans-serif !important;
+}
+
+/* Japanese */
+html[lang="ja"] .wp-block * {
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", Meiryo, "Helvetica Neue", sans-serif !important;
+}
+
+/* Korean */
+html[lang="ko-KR"] .wp-block * {
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Nanum Gothic', Dotum, sans-serif !important;
+}
+
+/* Thai */
+html[lang="th"] .wp-block * {
+  font-family: 'Sukhumvit Set', 'Helvetica Neue', helvetica, arial, sans-serif !important;
+}
+
+/* Vietnamese */
+html[lang="vi"] .wp-block * {
+  font-family: 'Libre Franklin', sans-serif !important;
+}
