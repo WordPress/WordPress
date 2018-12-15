@@ -320,7 +320,6 @@ a img {
 
 img {
 	height: auto; /* Make sure images are scaled correctly. */
-	width: inherit;  /* Make images fill their parent's space. Solves IE8. */
 	max-width: 100%; /* Adhere to container width. */
 }
 
