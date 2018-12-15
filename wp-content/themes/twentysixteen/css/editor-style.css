@@ -223,11 +223,11 @@ sub {
 	vertical-align: baseline;
 }
 
-sub {
+sup {
 	top: -6px;
 }
 
-sup {
+sub {
 	bottom: -3px;
 }
 
