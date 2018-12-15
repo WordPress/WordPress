@@ -363,10 +363,14 @@
 			padding: 0;
 
 			blockquote {
-				margin-left: 0;
+				margin: $size__spacing-unit 0;
 				padding: 0;
 				text-align: left;
 				max-width: 100%;
+
+				p:first-child {
+					margin-top: 0;
+				}
 			}
 		}
 
@@ -400,10 +404,11 @@
 			}
 
 			blockquote {
-				max-width: calc(100% - (2 * #{$size__spacing-unit}));
+				max-width: 100%;
 				color: $color__background-body;
 				padding-left: 0;
 				margin-left: $size__spacing-unit;
+				margin-right: $size__spacing-unit;
 
 				&.has-text-color p,
 				&.has-text-color a,
@@ -418,6 +423,13 @@
 				@include media(tablet) {
 					margin-left: 0;
 					margin-right: 0;
+				}
+			}
+
+			&.alignright,
+			&.alignleft {
+				@include media(tablet) {
+					padding: $size__spacing-unit calc(2 * #{$size__spacing-unit});
 				}
 			}
 
@@ -541,7 +553,7 @@
 			width: 100%;
 
 			@include media(tablet) {
-				padding: $size__spacing-unit;
+				padding: $size__spacing-unit calc(2 * #{$size__spacing-unit});
 			}
 		}
 
