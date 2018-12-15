@@ -332,12 +332,19 @@ figcaption,
 .wp-block[data-type="core/cover"][data-align="right"] .wp-block-cover {
   width: 100%;
   max-width: 100%;
+  padding: calc(1.375 * 1rem);
+}
+
+.wp-block[data-type="core/cover"][data-align="left"] .wp-block-cover p,
+.wp-block[data-type="core/cover"][data-align="right"] .wp-block-cover p {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 @media only screen and (min-width: 768px) {
   .wp-block[data-type="core/cover"][data-align="left"] .wp-block-cover,
   .wp-block[data-type="core/cover"][data-align="right"] .wp-block-cover {
-    padding: 1rem;
+    padding: calc(2.75 * 1rem) calc(2.75 * 1rem) calc(3.125 * 1rem);
   }
 }
 

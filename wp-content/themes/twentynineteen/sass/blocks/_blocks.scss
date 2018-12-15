@@ -428,6 +428,7 @@
 
 			&.alignright,
 			&.alignleft {
+
 				@include media(tablet) {
 					padding: $size__spacing-unit calc(2 * #{$size__spacing-unit});
 				}

@@ -294,12 +294,15 @@ figcaption,
 	.wp-block-cover {
 		width: 100%;
 		max-width: 100%;
-	}
+		padding: calc(1.375 * #{$size__spacing-unit});
 
-	@include media(tablet) {
+		p {
+			padding-left: 0;
+			padding-right: 0;
+		}
 
-		.wp-block-cover {
-			padding: $size__spacing-unit;
+		@include media(tablet) {
+			padding: calc(2.75 * #{$size__spacing-unit}) calc(2.75 * #{$size__spacing-unit}) calc(3.125 * #{$size__spacing-unit});
 		}
 	}
 }
