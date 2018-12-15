@@ -37,7 +37,7 @@
 						$discussion = ! is_page() && twentynineteen_can_show_post_thumbnail() ? twentynineteen_get_discussion_data() : null;
 
 						$classes = 'entry-header';
-						if ( ! empty( $discussion ) && count( $discussion->responses ) > 0 ) {
+						if ( ! empty( $discussion ) && absint( $discussion->responses ) > 0 ) {
 							$classes = 'entry-header has-discussion';
 						}
 					?>

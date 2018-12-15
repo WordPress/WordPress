@@ -529,10 +529,6 @@
 			line-height: 1.25;
 			padding: 0;
 			color: #fff;
-			-ms-hyphens: auto;
-			-moz-hyphens: auto;
-			-webkit-hyphens: auto;
-			hyphens: auto;
 
 			@include media(tablet) {
 				font-size: $font__size-xl;
