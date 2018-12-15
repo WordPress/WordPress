@@ -20,11 +20,11 @@ Description: Used to style Gutenberg Blocks in the editor.
 
 .edit-post-visual-editor .editor-block-list__block,
 .edit-post-visual-editor .editor-block-list__block p,
-.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+.editor-default-block-appender textarea.editor-default-block-appender__content {
 	font-size: 14px;
 }
 
-.editor-default-block-appender input[type="text"].editor-default-block-appender__content {
+.editor-default-block-appender textarea.editor-default-block-appender__content {
 	font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
