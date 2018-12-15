@@ -124,8 +124,7 @@ function wp_default_packages_vendor( &$scripts ) {
 				'document.contains'   => 'wp-polyfill-node-contains',
 				'window.FormData && window.FormData.prototype.keys' => 'wp-polyfill-formdata',
 				'Element.prototype.matches && Element.prototype.closest' => 'wp-polyfill-element-closest',
-			),
-			'after'
+			)
 		)
 	);
 
