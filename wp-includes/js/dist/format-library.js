@@ -874,7 +874,7 @@ function createLinkFormat(_ref) {
 
   if (opensInNewWindow) {
     // translators: accessibility label for external links, where the argument is the link text
-    var label = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s (opens in a new tab)'), text).trim();
+    var label = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s (opens in a new tab)'), text);
     format.attributes.target = '_blank';
     format.attributes.rel = 'noreferrer noopener';
     format.attributes['aria-label'] = label;
@@ -1009,10 +1009,11 @@ function (_Component) {
       }); // Apply now if URL is not being edited.
 
       if (!isShowingInput(this.props, this.state)) {
+        var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
         onChange(Object(external_this_wp_richText_["applyFormat"])(value, createLinkFormat({
           url: url,
           opensInNewWindow: opensInNewWindow,
-          text: value.text
+          text: selectedText
         })));
       }
     }
@@ -1036,10 +1037,11 @@ function (_Component) {
           inputValue = _this$state.inputValue,
           opensInNewWindow = _this$state.opensInNewWindow;
       var url = Object(external_this_wp_url_["prependHTTP"])(inputValue);
+      var selectedText = Object(external_this_wp_richText_["getTextContent"])(Object(external_this_wp_richText_["slice"])(value));
       var format = createLinkFormat({
         url: url,
         opensInNewWindow: opensInNewWindow,
-        text: value.text
+        text: selectedText
       });
       event.preventDefault();
 

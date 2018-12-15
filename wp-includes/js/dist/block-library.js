@@ -1093,7 +1093,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -1989,7 +1989,7 @@ var paragraph_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(33);
+var external_this_wp_blob_ = __webpack_require__(32);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
 var slicedToArray = __webpack_require__(25);
@@ -2458,7 +2458,7 @@ var DEFAULT_EMBED_BLOCK = 'core/embed';
 var WORDPRESS_EMBED_BLOCK = 'core-embed/wordpress';
 
 // EXTERNAL MODULE: ./node_modules/classnames/dedupe.js
-var dedupe = __webpack_require__(59);
+var dedupe = __webpack_require__(60);
 var dedupe_default = /*#__PURE__*/__webpack_require__.n(dedupe);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/embed/util.js
@@ -2627,6 +2627,22 @@ function getClassNames(html) {
   }
 
   return existingClassNames;
+}
+/**
+ * Fallback behaviour for unembeddable URLs.
+ * Creates a paragraph block containing a link to the URL, and calls `onReplace`.
+ *
+ * @param {string}   url       The URL that could not be embedded.
+ * @param {function} onReplace Function to call with the created fallback block.
+ */
+
+function util_fallback(url, onReplace) {
+  var link = Object(external_this_wp_element_["createElement"])("a", {
+    href: url
+  }, url);
+  onReplace(Object(external_this_wp_blocks_["createBlock"])('core/paragraph', {
+    content: Object(external_this_wp_element_["renderToString"])(link)
+  }));
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/image/image-size.js
@@ -3221,7 +3237,7 @@ function (_Component) {
         onChange: this.updateAlignment
       }), toolbarEditButton);
 
-      if (isEditing) {
+      if (isEditing || !url) {
         var src = isExternal ? url : undefined;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, controls, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["MediaPlaceholder"], {
           icon: "format-image",
@@ -7573,7 +7589,9 @@ var embed_placeholder_EmbedPlaceholder = function EmbedPlaceholder(props) {
       value = props.value,
       onSubmit = props.onSubmit,
       onChange = props.onChange,
-      cannotEmbed = props.cannotEmbed;
+      cannotEmbed = props.cannotEmbed,
+      fallback = props.fallback,
+      tryAgain = props.tryAgain;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Placeholder"], {
     icon: Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["BlockIcon"], {
       icon: icon,
@@ -7595,7 +7613,13 @@ var embed_placeholder_EmbedPlaceholder = function EmbedPlaceholder(props) {
     type: "submit"
   }, Object(external_this_wp_i18n_["_x"])('Embed', 'button label')), cannotEmbed && Object(external_this_wp_element_["createElement"])("p", {
     className: "components-placeholder__error"
-  }, Object(external_this_wp_i18n_["__"])('Sorry, we could not embed that content.'))));
+  }, Object(external_this_wp_i18n_["__"])('Sorry, we could not embed that content.'), Object(external_this_wp_element_["createElement"])("br", null), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+    isLarge: true,
+    onClick: tryAgain
+  }, Object(external_this_wp_i18n_["_x"])('Try again', 'button label')), " ", Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
+    isLarge: true,
+    onClick: fallback
+  }, Object(external_this_wp_i18n_["_x"])('Convert to link', 'button label')))));
 };
 
 /* harmony default export */ var embed_placeholder = (embed_placeholder_EmbedPlaceholder);
@@ -7839,10 +7863,11 @@ function getEmbedEditComponent(title, icon) {
         value: function componentDidUpdate(prevProps) {
           var hasPreview = undefined !== this.props.preview;
           var hadPreview = undefined !== prevProps.preview;
-          var switchedPreview = this.props.preview && this.props.attributes.url !== prevProps.attributes.url;
+          var previewChanged = prevProps.preview && this.props.preview && this.props.preview.html !== prevProps.preview.html;
+          var switchedPreview = previewChanged || hasPreview && !hadPreview;
           var switchedURL = this.props.attributes.url !== prevProps.attributes.url;
 
-          if (hasPreview && !hadPreview || switchedPreview || switchedURL) {
+          if (switchedPreview || switchedURL) {
             if (this.props.cannotEmbed) {
               // Can't embed this URL, and we've just received or switched the preview.
               return;
@@ -7958,7 +7983,8 @@ function getEmbedEditComponent(title, icon) {
               className = _this$props2.className,
               preview = _this$props2.preview,
               cannotEmbed = _this$props2.cannotEmbed,
-              themeSupportsResponsive = _this$props2.themeSupportsResponsive;
+              themeSupportsResponsive = _this$props2.themeSupportsResponsive,
+              tryAgain = _this$props2.tryAgain;
 
           if (fetching) {
             return Object(external_this_wp_element_["createElement"])(embed_loading, null);
@@ -7978,7 +8004,11 @@ function getEmbedEditComponent(title, icon) {
                 return _this2.setState({
                   url: event.target.value
                 });
-              }
+              },
+              fallback: function fallback() {
+                return util_fallback(url, _this2.props.onReplace);
+              },
+              tryAgain: tryAgain
             });
           }
 
@@ -8106,6 +8136,17 @@ function getEmbedBlockSettings(_ref) {
         fetching: fetching,
         themeSupportsResponsive: themeSupports['responsive-embeds'],
         cannotEmbed: cannotEmbed
+      };
+    }), Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps) {
+      var url = ownProps.attributes.url;
+      var coreData = dispatch('core/data');
+
+      var tryAgain = function tryAgain() {
+        coreData.invalidateResolution('core', 'getEmbedPreview', [url]);
+      };
+
+      return {
+        tryAgain: tryAgain
       };
     }))(edit),
     save: function save(_ref2) {
@@ -9062,7 +9103,7 @@ function (_Component) {
 var edit_ALLOWED_BLOCKS = ['core/button', 'core/paragraph', 'core/heading', 'core/list'];
 var TEMPLATE = [['core/paragraph', {
   fontSize: 'large',
-  placeholder: 'Content…'
+  placeholder: Object(external_this_wp_i18n_["_x"])('Content…', 'content placeholder')
 }]];
 
 var edit_MediaTextEdit =
@@ -11517,7 +11558,7 @@ var separator_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(57);
+var external_this_wp_autop_ = __webpack_require__(58);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/shortcode/index.js
 
@@ -13370,6 +13411,8 @@ var video_settings = {
 
 
 
+var classic_edit_window = window,
+    wp = classic_edit_window.wp;
 
 function isTmceEmpty(editor) {
   // When tinyMce is empty the content seems to be:
@@ -13465,6 +13508,7 @@ function (_Component) {
           content = _this$props2.attributes.content,
           setAttributes = _this$props2.setAttributes;
       var ref = this.ref;
+      var bookmark;
       this.editor = editor;
 
       if (content) {
@@ -13474,10 +13518,19 @@ function (_Component) {
       }
 
       editor.on('blur', function () {
+        bookmark = editor.selection.getBookmark(2, true);
         setAttributes({
           content: editor.getContent()
         });
+        editor.once('focus', function () {
+          if (bookmark) {
+            editor.selection.moveToBookmark(bookmark);
+          }
+        });
         return false;
+      });
+      editor.on('mousedown touchstart', function () {
+        bookmark = null;
       });
       editor.on('keydown', function (event) {
         if ((event.keyCode === external_this_wp_keycodes_["BACKSPACE"] || event.keyCode === external_this_wp_keycodes_["DELETE"]) && isTmceEmpty(editor)) {
@@ -13765,6 +13818,13 @@ var build_module_registerCoreBlocks = function registerCoreBlocks() {
 /***/ }),
 
 /***/ 32:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13772,13 +13832,6 @@ var build_module_registerCoreBlocks = function registerCoreBlocks() {
 function _iterableToArray(iter) {
   if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 
@@ -13984,14 +14037,21 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
 
 /***/ }),
 
-/***/ 59:
+/***/ 6:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["editor"]; }());
+
+/***/ }),
+
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -14104,13 +14164,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["editor"]; }());
 
 /***/ }),
 

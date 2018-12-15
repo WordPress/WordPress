@@ -334,7 +334,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -483,7 +483,7 @@ var external_lodash_ = __webpack_require__(2);
 var asyncToGenerator = __webpack_require__(38);
 
 // EXTERNAL MODULE: ./node_modules/redux/es/redux.js
-var redux = __webpack_require__(61);
+var redux = __webpack_require__(62);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
 var is_promise = __webpack_require__(86);
@@ -1724,7 +1724,7 @@ var with_select_withSelect = function withSelect(mapSelectToProps) {
      */
 
     function getNextMergeProps(props) {
-      return mapSelectToProps(props.registry.select, props.ownProps) || DEFAULT_MERGE_PROPS;
+      return mapSelectToProps(props.registry.select, props.ownProps, props.registry) || DEFAULT_MERGE_PROPS;
     }
 
     var ComponentWithSelect =
@@ -1922,7 +1922,7 @@ var with_dispatch_withDispatch = function withDispatch(mapDispatchToProps) {
           }
 
           // Original dispatcher is a pre-bound (dispatching) action creator.
-          (_mapDispatchToProps = mapDispatchToProps(this.props.registry.dispatch, this.props.ownProps))[propName].apply(_mapDispatchToProps, args);
+          (_mapDispatchToProps = mapDispatchToProps(this.props.registry.dispatch, this.props.ownProps, this.props.registry))[propName].apply(_mapDispatchToProps, args);
         }
       }, {
         key: "setProxyProps",
@@ -1935,11 +1935,16 @@ var with_dispatch_withDispatch = function withDispatch(mapDispatchToProps) {
           // called, it is done only to determine the keys for which
           // proxy functions should be created. The actual registry
           // dispatch does not occur until the function is called.
-          var propsToDispatchers = mapDispatchToProps(this.props.registry.dispatch, props.ownProps);
+          var propsToDispatchers = mapDispatchToProps(this.props.registry.dispatch, props.ownProps, this.props.registry);
           this.proxyProps = Object(external_lodash_["mapValues"])(propsToDispatchers, function (dispatcher, propName) {
-            // Prebind with prop name so we have reference to the original
+            if (typeof dispatcher !== 'function') {
+              // eslint-disable-next-line no-console
+              console.warn("Property ".concat(propName, " returned from mapDispatchToProps in withDispatch must be a function."));
+            } // Prebind with prop name so we have reference to the original
             // dispatcher to invoke. Track between re-renders to avoid
             // creating new function references every render.
+
+
             if (_this2.proxyProps.hasOwnProperty(propName)) {
               return _this2.proxyProps[propName];
             }
@@ -2021,7 +2026,7 @@ var build_module_use = default_registry.use;
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2131,7 +2136,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

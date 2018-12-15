@@ -132,7 +132,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -718,7 +718,7 @@ function __experimentalGetAnnotations(state) {
 }
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(56);
+var v4 = __webpack_require__(57);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
@@ -1097,7 +1097,7 @@ var block_addAnnotationClassName = function addAnnotationClassName(OriginalCompo
     return {
       className: annotations.map(function (annotation) {
         return 'is-annotated-by-' + annotation.source;
-      })
+      }).join(' ')
     };
   })(OriginalComponent);
 };
@@ -1115,7 +1115,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/anno
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1251,7 +1251,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(77);
