@@ -570,7 +570,8 @@ class WP_Site_Query {
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 
-		$join = '';
+		$join    = '';
+		$groupby = '';
 
 		if ( ! empty( $this->meta_query_clauses ) ) {
 			$join .= $this->meta_query_clauses['join'];
@@ -584,8 +585,6 @@ class WP_Site_Query {
 		}
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
-
-		$groupby = '';
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 
