@@ -1029,17 +1029,23 @@ function wp_edit_posts_query( $q = false ) {
 		$post_type = 'post';
 
 	$avail_post_stati = get_available_post_statuses($post_type);
+	$post_status      = '';
+	$perm             = '';
 
 	if ( isset($q['post_status']) && in_array( $q['post_status'], $post_stati ) ) {
 		$post_status = $q['post_status'];
 		$perm = 'readable';
 	}
 
+	$orderby = '';
+
 	if ( isset( $q['orderby'] ) ) {
 		$orderby = $q['orderby'];
 	} elseif ( isset( $q['post_status'] ) && in_array( $q['post_status'], array( 'pending', 'draft' ) ) ) {
 		$orderby = 'modified';
 	}
+
+	$order = '';
 
 	if ( isset( $q['order'] ) ) {
 		$order = $q['order'];
