@@ -10,6 +10,7 @@
 if ( (bool) get_the_author_meta( 'description' ) ) : ?>
 <div class="author-bio">
 	<h2 class="author-title">
+		<?php /* translators: %s: author name */ ?>
 		<span class="author-heading"><?php echo esc_html( sprintf( __( 'Published by %s', 'twentynineteen' ), get_the_author() ) ); ?></span>
 	</h2>
 	<p class="author-description">

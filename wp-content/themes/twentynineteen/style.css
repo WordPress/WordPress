@@ -3777,6 +3777,7 @@ body.page .main-navigation {
   margin-top: calc(4 * 1rem);
   margin-bottom: calc(4.33 * 1rem);
   margin-right: 0;
+  padding-left: 0;
 }
 
 .entry .entry-content .wp-block-pullquote p {
@@ -4057,6 +4058,10 @@ body.page .main-navigation {
 .entry .entry-content .wp-block-gallery .blocks-gallery-image:last-child,
 .entry .entry-content .wp-block-gallery .blocks-gallery-item:last-child {
   margin-bottom: 16px;
+}
+
+.entry .entry-content .wp-block-gallery figcaption a {
+  color: #fff;
 }
 
 .entry .entry-content .wp-block-audio figcaption,

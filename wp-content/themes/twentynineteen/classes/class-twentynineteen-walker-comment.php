@@ -51,7 +51,6 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 							 * fill color to the inner check shape when in circle form.
 							 */
 							if ( twentynineteen_is_comment_by_post_author( $comment ) ) {
-								/* translators: %s: SVG Icon */
 								printf( '<span class="post-author-badge" aria-hidden="true">%s</span>', twentynineteen_get_icon_svg( 'check', 24 ) );
 							}
 
@@ -110,5 +109,4 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 			?>
 		<?php
 	}
-
 }
