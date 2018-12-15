@@ -199,7 +199,7 @@ function twentytwelve_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'twentytwelve_scripts_styles' );
 
 /**
- * Enqueue editor styles for Gutenberg
+ * Enqueue styles for the block-based editor.
  *
  * @since Twenty Twelve 2.6
  */

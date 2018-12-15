@@ -1,6 +1,6 @@
 /*
 Theme Name: Twenty Twelve
-Description: Used to style Gutenberg Blocks in the editor.
+Description: Used to style blocks in the editor.
 */
 
 /*--------------------------------------------------------------
@@ -394,13 +394,13 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Archives */
 
-.gutenberg ul.wp-block-archives {
+.editor-block-list__block ul.wp-block-archives {
 	padding-left: 0;
 }
 
 /* Categories */
 
-.gutenberg .wp-block-categories ul {
+.editor-block-list__block .wp-block-categories ul {
 	padding-left: 0;
 }
 
@@ -448,7 +448,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Latest Posts */
 
-.gutenberg .wp-block-latest-posts {
+.editor-block-list__block .wp-block-latest-posts {
 	padding-left: 0;
 	padding-right: 0;
 }
