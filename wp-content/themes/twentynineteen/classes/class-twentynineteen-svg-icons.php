@@ -205,16 +205,16 @@ class TwentyNineteen_SVG_Icons {
 			'facebook.com',
 			'fb.me',
 		),
-		'feed'    => array(
+		'feed'        => array(
 			'feed',
 		),
 		'google-plus' => array(
 			'plus.google.com',
 		),
-		'lastfm'   => array(
+		'lastfm'      => array(
 			'last.fm',
 		),
-		'mail'   => array(
+		'mail'        => array(
 			'mailto:',
 		),
 		'slideshare'  => array(

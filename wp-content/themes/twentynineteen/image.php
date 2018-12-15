@@ -41,7 +41,7 @@ get_header();
 								echo wp_get_attachment_image( get_the_ID(), $image_size );
 							?>
 
-							<figcaption class="wp-caption-text"><?php echo get_the_excerpt(); ?></figcaption>
+							<figcaption class="wp-caption-text"><?php the_excerpt(); ?></figcaption>
 
 						</figure><!-- .entry-attachment -->
 

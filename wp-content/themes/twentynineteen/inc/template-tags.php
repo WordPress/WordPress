@@ -157,9 +157,7 @@ if ( ! function_exists( 'twentynineteen_post_thumbnail' ) ) :
 
 		<figure class="post-thumbnail">
 			<a class="post-thumbnail-inner" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
-				<?php
-				the_post_thumbnail( 'post-thumbnail' );
-				?>
+				<?php the_post_thumbnail( 'post-thumbnail' ); ?>
 			</a>
 		</figure>
 
@@ -210,8 +208,8 @@ if ( ! function_exists( 'twentynineteen_comment_form' ) ) :
 
 			comment_form(
 				array(
-					'logged_in_as'       => null,
-					'title_reply'        => null,
+					'logged_in_as' => null,
+					'title_reply'  => null,
 				)
 			);
 		}
@@ -223,13 +221,19 @@ if ( ! function_exists( 'twentynineteen_the_posts_navigation' ) ) :
 	 * Documentation for function.
 	 */
 	function twentynineteen_the_posts_navigation() {
-		$prev_icon = twentynineteen_get_icon_svg( 'chevron_left', 22 );
-		$next_icon = twentynineteen_get_icon_svg( 'chevron_right', 22 );
 		the_posts_pagination(
 			array(
 				'mid_size'  => 2,
-				'prev_text' => sprintf( '%s <span class="nav-prev-text">%s</span>', $prev_icon, __( 'Newer posts', 'twentynineteen' ) ),
-				'next_text' => sprintf( '<span class="nav-next-text">%s</span> %s', __( 'Older posts', 'twentynineteen' ), $next_icon ),
+				'prev_text' => sprintf(
+					'%s <span class="nav-prev-text">%s</span>',
+					twentynineteen_get_icon_svg( 'chevron_left', 22 ),
+					__( 'Newer posts', 'twentynineteen' )
+				),
+				'next_text' => sprintf(
+					'<span class="nav-next-text">%s</span> %s',
+					__( 'Older posts', 'twentynineteen' ),
+					twentynineteen_get_icon_svg( 'chevron_right', 22 )
+				),
 			)
 		);
 	}
