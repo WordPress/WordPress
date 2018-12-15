@@ -3690,6 +3690,11 @@ body.page .main-navigation {
   text-decoration: none;
 }
 
+.entry .entry-content .wp-block-archives.aligncenter,
+.entry .entry-content .wp-block-categories.aligncenter {
+  text-align: center;
+}
+
 .entry .entry-content .wp-block-categories ul {
   padding-top: 0.75rem;
 }
