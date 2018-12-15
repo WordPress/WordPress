@@ -384,10 +384,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Button */
 
 .wp-block-button .wp-block-button__link {
-	background-color: #333;
 	border: 0;
 	border-radius: 0;
-	color: #fff;
 	cursor: pointer;
 	font-family: "Noto Sans", sans-serif;
 	font-size: 12px;
@@ -399,11 +397,16 @@ p.has-drop-cap:not(:focus)::first-letter {
 	vertical-align: baseline;
 }
 
-.wp-block-button .wp-block-button__link:hover,
-.wp-block-button .wp-block-button__link:focus {
+.wp-block-button__link {
+	background-color: #333;
+	color: #fff;
+}
+
+.wp-block-button__link:hover,
+.wp-block-button__link:focus {
 	background-color: #707070;
 	background-color: rgba(51, 51, 51, 0.7);
-	outline: 0;
+	color: #fff;
 }
 
 @media screen and (min-width: 46.25em) {
