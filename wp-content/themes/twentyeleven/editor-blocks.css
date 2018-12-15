@@ -23,7 +23,7 @@ Description: Used to style Gutenberg Blocks in the editor.
 .editor-default-block-appender input[type="text"].editor-default-block-appender__content {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 15px;
-	font-size: 300;
+	font-weight: 300;
 	line-height: 1.625;
 }
 
