@@ -289,6 +289,9 @@ var modifiers = {
   ctrl: function ctrl() {
     return [CTRL];
   },
+  alt: function alt() {
+    return [ALT];
+  },
   ctrlShift: function ctrlShift() {
     return [CTRL, SHIFT];
   },
