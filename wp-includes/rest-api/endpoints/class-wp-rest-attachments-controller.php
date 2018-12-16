@@ -173,6 +173,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		do_action( 'rest_insert_attachment', $attachment, $request, true );
 
 		// Include admin function to get access to wp_generate_attachment_metadata().
+		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
