@@ -1363,3 +1363,182 @@ function attachment_id3_data_meta_box( $post ) {
 		<?php
 	endforeach;
 }
+
+/**
+ * Registers the default post meta boxes, and runs the `do_meta_boxes` actions.
+ *
+ * @since 5.0.0
+ *
+ * @param WP_Post $post The post object that these meta boxes are being generated for.
+ */
+function register_and_do_post_meta_boxes( $post ) {
+	$post_type        = $post->post_type;
+	$post_type_object = get_post_type_object( $post_type );
+
+	$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
+	if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
+		if ( wp_attachment_is( 'audio', $post ) ) {
+			$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+		} elseif ( wp_attachment_is( 'video', $post ) ) {
+			$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
+		}
+	}
+
+	$publish_callback_args = array( '__back_compat_meta_box' => true );
+	if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' != $post->post_status ) {
+		$revisions = wp_get_post_revisions( $post->ID );
+
+		// We should aim to show the revisions meta box only when there are revisions.
+		if ( count( $revisions ) > 1 ) {
+			reset( $revisions ); // Reset pointer for key()
+			$publish_callback_args = array(
+				'revisions_count'        => count( $revisions ),
+				'revision_id'            => key( $revisions ),
+				'__back_compat_meta_box' => true,
+			);
+			add_meta_box( 'revisionsdiv', __( 'Revisions' ), 'post_revisions_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+		}
+	}
+
+	if ( 'attachment' == $post_type ) {
+		wp_enqueue_script( 'image-edit' );
+		wp_enqueue_style( 'imgareaselect' );
+		add_meta_box( 'submitdiv', __( 'Save' ), 'attachment_submit_meta_box', null, 'side', 'core', array( '__back_compat_meta_box' => true ) );
+		add_action( 'edit_form_after_title', 'edit_form_image_editor' );
+
+		if ( wp_attachment_is( 'audio', $post ) ) {
+			add_meta_box( 'attachment-id3', __( 'Metadata' ), 'attachment_id3_data_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+		}
+	} else {
+		add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core', $publish_callback_args );
+	}
+
+	if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) ) {
+		add_meta_box( 'formatdiv', _x( 'Format', 'post format' ), 'post_format_meta_box', null, 'side', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	// all taxonomies
+	foreach ( get_object_taxonomies( $post ) as $tax_name ) {
+		$taxonomy = get_taxonomy( $tax_name );
+		if ( ! $taxonomy->show_ui || false === $taxonomy->meta_box_cb ) {
+			continue;
+		}
+
+		$label = $taxonomy->labels->name;
+
+		if ( ! is_taxonomy_hierarchical( $tax_name ) ) {
+			$tax_meta_box_id = 'tagsdiv-' . $tax_name;
+		} else {
+			$tax_meta_box_id = $tax_name . 'div';
+		}
+
+		add_meta_box(
+			$tax_meta_box_id,
+			$label,
+			$taxonomy->meta_box_cb,
+			null,
+			'side',
+			'core',
+			array(
+				'taxonomy'               => $tax_name,
+				'__back_compat_meta_box' => true,
+			)
+		);
+	}
+
+	if ( post_type_supports( $post_type, 'page-attributes' ) || count( get_page_templates( $post ) ) > 0 ) {
+		add_meta_box( 'pageparentdiv', $post_type_object->labels->attributes, 'page_attributes_meta_box', null, 'side', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	if ( $thumbnail_support && current_user_can( 'upload_files' ) ) {
+		add_meta_box( 'postimagediv', esc_html( $post_type_object->labels->featured_image ), 'post_thumbnail_meta_box', null, 'side', 'low', array( '__back_compat_meta_box' => true ) );
+	}
+
+	if ( post_type_supports( $post_type, 'excerpt' ) ) {
+		add_meta_box( 'postexcerpt', __( 'Excerpt' ), 'post_excerpt_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	if ( post_type_supports( $post_type, 'trackbacks' ) ) {
+		add_meta_box( 'trackbacksdiv', __( 'Send Trackbacks' ), 'post_trackback_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	if ( post_type_supports( $post_type, 'custom-fields' ) ) {
+		add_meta_box( 'postcustom', __( 'Custom Fields' ), 'post_custom_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	/**
+	 * Fires in the middle of built-in meta box registration.
+	 *
+	 * @since 2.1.0
+	 * @deprecated 3.7.0 Use 'add_meta_boxes' instead.
+	 *
+	 * @param WP_Post $post Post object.
+	 */
+	do_action( 'dbx_post_advanced', $post );
+
+	// Allow the Discussion meta box to show up if the post type supports comments,
+	// or if comments or pings are open.
+	if ( comments_open( $post ) || pings_open( $post ) || post_type_supports( $post_type, 'comments' ) ) {
+		add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	$stati = get_post_stati( array( 'public' => true ) );
+	if ( empty( $stati ) ) {
+		$stati = array( 'publish' );
+	}
+	$stati[] = 'private';
+
+	if ( in_array( get_post_status( $post ), $stati ) ) {
+		// If the post type support comments, or the post has comments, allow the
+		// Comments meta box.
+		if ( comments_open( $post ) || pings_open( $post ) || $post->comment_count > 0 || post_type_supports( $post_type, 'comments' ) ) {
+			add_meta_box( 'commentsdiv', __( 'Comments' ), 'post_comment_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+		}
+	}
+
+	if ( ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) ) {
+		add_meta_box( 'slugdiv', __( 'Slug' ), 'post_slug_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	if ( post_type_supports( $post_type, 'author' ) && current_user_can( $post_type_object->cap->edit_others_posts ) ) {
+		add_meta_box( 'authordiv', __( 'Author' ), 'post_author_meta_box', null, 'normal', 'core', array( '__back_compat_meta_box' => true ) );
+	}
+
+	/**
+	 * Fires after all built-in meta boxes have been added.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string  $post_type Post type.
+	 * @param WP_Post $post      Post object.
+	 */
+	do_action( 'add_meta_boxes', $post_type, $post );
+
+	/**
+	 * Fires after all built-in meta boxes have been added, contextually for the given post type.
+	 *
+	 * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param WP_Post $post Post object.
+	 */
+	do_action( "add_meta_boxes_{$post_type}", $post );
+
+	/**
+	 * Fires after meta boxes have been added.
+	 *
+	 * Fires once for each of the default meta box contexts: normal, advanced, and side.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string  $post_type Post type of the post.
+	 * @param string  $context   string  Meta box context.
+	 * @param WP_Post $post      Post object.
+	 */
+	do_action( 'do_meta_boxes', $post_type, 'normal', $post );
+	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	do_action( 'do_meta_boxes', $post_type, 'advanced', $post );
+	/** This action is documented in wp-admin/includes/meta-boxes.php */
+	do_action( 'do_meta_boxes', $post_type, 'side', $post );
+}
