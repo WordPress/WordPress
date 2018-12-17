@@ -530,12 +530,12 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 	$external_plugins = apply_filters( 'mce_external_plugins', array(), 'classic-block' );
 
 	$tinymce_settings = array(
-		'plugins'  => implode( ',', $tinymce_plugins ),
-		'toolbar1' => implode( ',', $toolbar1 ),
-		'toolbar2' => implode( ',', $toolbar2 ),
-		'toolbar3' => implode( ',', $toolbar3 ),
-		'toolbar4' => implode( ',', $toolbar4 ),
-		'external_plugins' => wp_json_encode( $external_plugins ),
+		'plugins'              => implode( ',', $tinymce_plugins ),
+		'toolbar1'             => implode( ',', $toolbar1 ),
+		'toolbar2'             => implode( ',', $toolbar2 ),
+		'toolbar3'             => implode( ',', $toolbar3 ),
+		'toolbar4'             => implode( ',', $toolbar4 ),
+		'external_plugins'     => wp_json_encode( $external_plugins ),
 		'classic_block_editor' => true,
 	);
 
@@ -547,7 +547,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 	$init_obj = '';
 	foreach ( $tinymce_settings as $key => $value ) {
 		if ( is_bool( $value ) ) {
-			$val = $value ? 'true' : 'false';
+			$val       = $value ? 'true' : 'false';
 			$init_obj .= $key . ':' . $val . ',';
 			continue;
 		} elseif ( ! empty( $value ) && is_string( $value ) && (
