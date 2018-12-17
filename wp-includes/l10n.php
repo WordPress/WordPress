@@ -870,23 +870,22 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
- * Load the script translated strings.
- *
- * @see WP_Scripts::set_translations()
- * @link https://core.trac.wordpress.org/ticket/45103
- * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
+ * Loads the script translated strings.
  *
  * @since 5.0.0
+ * @since 5.0.2 Uses load_script_translations() to load translation data.
+ *
+ * @see WP_Scripts::set_translations()
  *
  * @param string $handle Name of the script to register a translation domain to.
- * @param string $domain The textdomain.
+ * @param string $domain The text domain.
  * @param string $path   Optional. The full file path to the directory containing translation files.
  *
  * @return false|string False if the script textdomain could not be loaded, the translated strings
  *                      in JSON encoding otherwise.
  */
 function load_script_textdomain( $handle, $domain, $path = null ) {
-	global $wp_scripts;
+	$wp_scripts = wp_scripts();
 
 	if ( ! isset( $wp_scripts->registered[ $handle ] ) ) {
 		return false;
@@ -899,7 +898,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
 	$handle_filename = $file_base . '-' . $handle . '.json';
 	if ( $path && file_exists( $path . '/' . $handle_filename ) ) {
-		return file_get_contents( $path . '/' . $handle_filename );
+		return load_script_translations( $path . '/' . $handle_filename, $handle, $domain );
 	}
 
 	$obj = $wp_scripts->registered[ $handle ];
@@ -953,7 +952,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 
 	// If the source is not from WP.
 	if ( false === $relative ) {
-		return false;
+		return load_script_translations( false, $handle, $domain );
 	}
 
 	// Translations are always based on the unminified filename.
@@ -963,13 +962,72 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 
 	$md5_filename = $file_base . '-' . md5( $relative ) . '.json';
 	if ( $path && file_exists( $path . '/' . $md5_filename ) ) {
-		return file_get_contents( $path . '/' . $md5_filename );
+		return load_script_translations( $path . '/' . $md5_filename, $handle, $domain );
 	}
 	if ( file_exists( $languages_path . '/' . $md5_filename ) ) {
-		return file_get_contents( $languages_path . '/' . $md5_filename );
+		return load_script_translations( $languages_path . '/' . $md5_filename, $handle, $domain );
 	}
 
-	return false;
+	return load_script_translations( false, $handle, $domain );
+}
+
+/**
+ * Loads the translation data for the given script handle and text domain.
+ *
+ * @since 5.0.2
+ *
+ * @param string|false $file   Path to the translation file to load. False if there isn't one.
+ * @param string       $handle Name of the script to register a translation domain to.
+ * @param string       $domain The text domain.
+ * @return string|false The JSON-encoded translated strings for the given script handle and text domain. False if there are none.
+ */
+function load_script_translations( $file, $handle, $domain ) {
+	/**
+	 * Pre-filters script translations for the given file, script handle and text domain.
+	 *
+	 * Returning a non-null value allows to override the default logic, effectively short-circuiting the function.
+	 *
+	 * @since 5.0.2
+	 *
+	 * @param string|false $translations JSON-encoded translation data. Default null.
+	 * @param string|false $file         Path to the translation file to load. False if there isn't one.
+	 * @param string       $handle       Name of the script to register a translation domain to.
+	 * @param string       $domain       The text domain.
+	 */
+	$translations = apply_filters( 'pre_load_script_translations', null, $file, $handle, $domain );
+
+	if ( null !== $translations ) {
+		return $translations;
+	}
+
+	/**
+	 * Filters the file path for loading script translations for the given script handle and text domain.
+	 *
+	 * @since 5.0.2
+	 *
+	 * @param string|false $file   Path to the translation file to load. False if there isn't one.
+	 * @param string       $handle Name of the script to register a translation domain to.
+	 * @param string       $domain The text domain.
+	 */
+	$file = apply_filters( 'load_script_translation_file', $file, $handle, $domain );
+
+	if ( ! $file || ! is_readable( $file ) ) {
+		return false;
+	}
+
+	$translations = file_get_contents( $file );
+
+	/**
+	 * Filters script translations for the given file, script handle and text domain.
+	 *
+	 * @since 5.0.2
+	 *
+	 * @param string $translations JSON-encoded translation data.
+	 * @param string $file         Path to the translation file that was loaded.
+	 * @param string $handle       Name of the script to register a translation domain to.
+	 * @param string $domain       The text domain.
+	 */
+	return apply_filters( 'load_script_translations', $translations, $file, $handle, $domain );
 }
 
 /**
@@ -1404,9 +1462,9 @@ function wp_dropdown_languages( $args = array() ) {
 
 /**
  * Determines whether the current locale is right-to-left (RTL).
- * 
+ *
  * For more information on this and similar theme functions, check out
- * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/ 
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
  * Conditional Tags} article in the Theme Developer Handbook.
  *
  * @since 3.0.0
