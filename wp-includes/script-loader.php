@@ -516,12 +516,18 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 /**
  * Adds inline scripts required for the TinyMCE in the block editor.
  *
+ * These TinyMCE init settings are used to extend and override the default settings
+ * from `_WP_Editors::default_settings()` for the Classic block.
+ *
  * @since 5.0.0
  *
  * @global WP_Scripts $wp_scripts
  */
 function wp_tinymce_inline_scripts() {
 	global $wp_scripts;
+
+	/** This filter is documented in wp-includes/class-wp-editor.php */
+	$editor_settings = apply_filters( 'wp_editor_settings', array( 'tinymce' => true ), 'classic-block' );
 
 	$tinymce_plugins = array(
 		'charmap',
@@ -547,6 +553,13 @@ function wp_tinymce_inline_scripts() {
 	/* This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_plugins = apply_filters( 'tiny_mce_plugins', $tinymce_plugins, 'classic-block' );
 	$tinymce_plugins = array_unique( $tinymce_plugins );
+
+	$disable_captions = false;
+	// Runs after `tiny_mce_plugins` but before `mce_buttons`.
+	/** This filter is documented in wp-admin/includes/media.php */
+	if ( apply_filters( 'disable_captions', '' ) ) {
+		$disable_captions = true;
+	}
 
 	$toolbar1 = array(
 		'formatselect',
@@ -601,6 +614,14 @@ function wp_tinymce_inline_scripts() {
 		'external_plugins'     => wp_json_encode( $external_plugins ),
 		'classic_block_editor' => true,
 	);
+
+	if ( $disable_captions ) {
+		$tinymce_settings['wpeditimage_disable_captions'] = true;
+	}
+
+	if ( ! empty( $editor_settings['tinymce'] ) && is_array( $editor_settings['tinymce'] ) ) {
+		array_merge( $tinymce_settings, $editor_settings['tinymce'] );
+	}
 
 	/* This filter is documented in wp-includes/class-wp-editor.php */
 	$tinymce_settings = apply_filters( 'tiny_mce_before_init', $tinymce_settings, 'classic-block' );
