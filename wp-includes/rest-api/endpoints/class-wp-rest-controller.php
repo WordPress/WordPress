@@ -519,6 +519,16 @@ abstract class WP_REST_Controller {
 	public function get_fields_for_response( $request ) {
 		$schema = $this->get_item_schema();
 		$fields = isset( $schema['properties'] ) ? array_keys( $schema['properties'] ) : array();
+
+		$additional_fields = $this->get_additional_fields();
+		foreach ( $additional_fields as $field_name => $field_options ) {
+			// For back-compat, include any field with an empty schema
+			// because it won't be present in $this->get_item_schema().
+			if ( is_null( $field_options['schema'] ) ) {
+				$fields[] = $field_name;
+			}
+		}
+
 		if ( ! isset( $request['_fields'] ) ) {
 			return $fields;
 		}
