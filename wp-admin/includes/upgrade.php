@@ -2106,6 +2106,13 @@ function upgrade_500() {
 		if ( defined( 'GUTENBERG_USE_PLUGIN' ) && GUTENBERG_USE_PLUGIN ) {
 			return;
 		}
+
+		$was_active = is_plugin_active( 'gutenberg/gutenberg.php' );
+		if ( $was_active ) {
+			// FIXME: Leave until 501 or 510 to clean up.
+			update_site_option( 'upgrade_500_was_gutenberg_active', '1' );
+		}
+
 		deactivate_plugins( array( 'gutenberg/gutenberg.php' ), true );
 	}
 }
