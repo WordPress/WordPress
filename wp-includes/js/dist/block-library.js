@@ -8117,7 +8117,7 @@ function (_Component) {
         'is-focused': isSelected
       });
       var isResizable = ['wide', 'full'].indexOf(align) === -1 && isLargeViewport;
-      var isLinkURLInputDisabled = linkDestination !== LINK_DESTINATION_CUSTOM;
+      var isLinkURLInputReadOnly = linkDestination !== LINK_DESTINATION_CUSTOM;
 
       var getInspectorControls = function getInspectorControls(imageWidth, imageHeight) {
         return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_16__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_14__["PanelBody"], {
@@ -8183,8 +8183,8 @@ function (_Component) {
           label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_12__["__"])('Link URL'),
           value: href || '',
           onChange: _this3.onSetCustomHref,
-          placeholder: !isLinkURLInputDisabled ? 'https://' : undefined,
-          disabled: isLinkURLInputDisabled
+          placeholder: !isLinkURLInputReadOnly ? 'https://' : undefined,
+          readOnly: isLinkURLInputReadOnly
         }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_8__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_14__["ToggleControl"], {
           label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_12__["__"])('Open in New Tab'),
           onChange: _this3.onSetNewTab,
@@ -10320,7 +10320,8 @@ var settings = {
   keywords: [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('image'), Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('video')],
   attributes: blockAttributes,
   supports: {
-    align: ['wide', 'full']
+    align: ['wide', 'full'],
+    html: false
   },
   transforms: {
     from: [{
@@ -10562,7 +10563,7 @@ function (_Component) {
           var open = _ref.open;
           return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["IconButton"], {
             className: "components-toolbar__control",
-            label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Edit Media'),
+            label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Edit media'),
             icon: "edit",
             onClick: open
           });

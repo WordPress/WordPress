@@ -2369,13 +2369,16 @@ body.is-dragging-components-draggable {
   justify-content: space-between;
   background: #fff;
   align-items: center;
-  box-sizing: border-box;
   height: 56px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
   margin: 0 -16px 16px; }
+  @supports (-ms-ime-align: auto) {
+    .components-modal__header {
+      position: fixed;
+      width: 100%; } }
   .components-modal__header .components-modal__header-heading {
     font-size: 1em;
     font-weight: 400; }
@@ -2401,6 +2404,9 @@ body.is-dragging-components-draggable {
   box-sizing: border-box;
   height: 100%;
   padding: 0 16px 16px; }
+  @supports (-ms-ime-align: auto) {
+    .components-modal__content {
+      padding-top: 56px; } }
 
 .components-notice {
   background-color: #e5f5fa;

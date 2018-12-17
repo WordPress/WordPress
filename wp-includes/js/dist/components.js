@@ -9205,7 +9205,8 @@ function (_Component) {
           className = _this$props.className,
           tooltip = _this$props.tooltip,
           shortcut = _this$props.shortcut,
-          additionalProps = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_this$props, ["icon", "children", "label", "className", "tooltip", "shortcut"]);
+          labelPosition = _this$props.labelPosition,
+          additionalProps = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_this$props, ["icon", "children", "label", "className", "tooltip", "shortcut", "labelPosition"]);
 
       var classes = classnames__WEBPACK_IMPORTED_MODULE_8___default()('components-icon-button', className);
       var tooltipText = tooltip || label; // Should show the tooltip if...
@@ -9227,7 +9228,8 @@ function (_Component) {
       if (showTooltip) {
         element = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_7__["createElement"])(_tooltip__WEBPACK_IMPORTED_MODULE_10__["default"], {
           text: tooltipText,
-          shortcut: shortcut
+          shortcut: shortcut,
+          position: labelPosition
         }, element);
       }
 

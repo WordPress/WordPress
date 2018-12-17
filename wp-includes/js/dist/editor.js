@@ -6538,7 +6538,7 @@ function (_Component) {
         return name;
       });
       var possibleBlockTransformations = Object(lodash__WEBPACK_IMPORTED_MODULE_8__["orderBy"])(Object(lodash__WEBPACK_IMPORTED_MODULE_8__["filter"])(Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_11__["getPossibleBlockTransformations"])(blocks), function (block) {
-        return !!itemsByName[block.name];
+        return block && !!itemsByName[block.name];
       }), function (block) {
         return itemsByName[block.name].frecency;
       }, 'desc');
@@ -7781,8 +7781,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _item__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./item */ "./node_modules/@wordpress/editor/build-module/components/document-outline/item.js");
-/* harmony import */ var _rich_text__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./../rich-text */ "./node_modules/@wordpress/editor/build-module/components/rich-text/index.js");
+/* harmony import */ var _wordpress_rich_text__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/rich-text */ "@wordpress/rich-text");
+/* harmony import */ var _wordpress_rich_text__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _item__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./item */ "./node_modules/@wordpress/editor/build-module/components/document-outline/item.js");
 
 
 
@@ -7798,10 +7799,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 /**
@@ -7892,7 +7893,7 @@ var DocumentOutline = function DocumentOutline(_ref) {
   var hasMultipleH1 = countByLevel[1] > 1;
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("div", {
     className: "document-outline"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("ul", null, hasTitle && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_item__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])("ul", null, hasTitle && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_item__WEBPACK_IMPORTED_MODULE_8__["default"], {
     level: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__["__"])('Title'),
     isValid: true,
     onClick: focusTitle
@@ -7902,7 +7903,7 @@ var DocumentOutline = function DocumentOutline(_ref) {
     var isIncorrectLevel = item.level > prevHeadingLevel + 1;
     var isValid = !item.isEmpty && !isIncorrectLevel && !!item.level && (item.level !== 1 || !hasMultipleH1 && !hasTitle);
     prevHeadingLevel = item.level;
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_item__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_item__WEBPACK_IMPORTED_MODULE_8__["default"], {
       key: index,
       level: "H".concat(item.level),
       isValid: isValid,
@@ -7910,10 +7911,9 @@ var DocumentOutline = function DocumentOutline(_ref) {
         return onSelectHeading(item.clientId);
       },
       path: item.path
-    }, item.isEmpty ? emptyHeadingContent : Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["createElement"])(_rich_text__WEBPACK_IMPORTED_MODULE_8__["default"].Content, {
-      tagName: "span",
-      value: item.attributes.content
-    }), isIncorrectLevel && incorrectLevelContent, item.level === 1 && hasMultipleH1 && multipleH1Headings, hasTitle && item.level === 1 && !hasMultipleH1 && singleH1Headings);
+    }, item.isEmpty ? emptyHeadingContent : Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_7__["getTextContent"])(Object(_wordpress_rich_text__WEBPACK_IMPORTED_MODULE_7__["create"])({
+      html: item.attributes.content
+    })), isIncorrectLevel && incorrectLevelContent, item.level === 1 && hasMultipleH1 && multipleH1Headings, hasTitle && item.level === 1 && !hasMultipleH1 && singleH1Headings);
   })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__["compose"])(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__["withSelect"])(function (select) {
@@ -10011,6 +10011,7 @@ var defaultRenderToggle = function defaultRenderToggle(_ref) {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["IconButton"], {
     icon: "insert",
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_7__["__"])('Add block'),
+    labelPosition: "bottom",
     onClick: onToggle,
     className: "editor-inserter__toggle",
     "aria-haspopup": "true",
@@ -19889,6 +19890,7 @@ __webpack_require__.r(__webpack_exports__);
 var _window = window,
     getSelection = _window.getSelection;
 var TEXT_NODE = window.Node.TEXT_NODE;
+var userAgent = window.navigator.userAgent;
 /**
  * Zero-width space character used by TinyMCE as a caret landing point for
  * inline boundary nodes.
@@ -19900,27 +19902,12 @@ var TEXT_NODE = window.Node.TEXT_NODE;
 
 var TINYMCE_ZWSP = "\uFEFF";
 /**
- * Determines whether we need a fix to provide `input` events for contenteditable.
- *
- * @param {Element} editorNode The root editor node.
- *
- * @return {boolean} A boolean indicating whether the fix is needed.
- */
-
-function needsInternetExplorerInputFix(editorNode) {
-  return (// Rely on userAgent in the absence of a reasonable feature test for contenteditable `input` events.
-    /Trident/.test(window.navigator.userAgent) && // IE11 dispatches input events for `<input>` and `<textarea>`.
-    !/input/i.test(editorNode.tagName) && !/textarea/i.test(editorNode.tagName)
-  );
-}
-/**
  * Applies a fix that provides `input` events for contenteditable in Internet Explorer.
  *
  * @param {Element} editorNode The root editor node.
  *
  * @return {Function} A function to remove the fix (for cleanup).
  */
-
 
 function applyInternetExplorerInputFix(editorNode) {
   /**
@@ -19979,6 +19966,13 @@ function applyInternetExplorerInputFix(editorNode) {
 }
 
 var IS_PLACEHOLDER_VISIBLE_ATTR_NAME = 'data-is-placeholder-visible';
+/**
+ * Whether or not the user agent is Internet Explorer.
+ *
+ * @type {boolean}
+ */
+
+var IS_IE = userAgent.indexOf('Trident') >= 0;
 
 var TinyMCE =
 /*#__PURE__*/
@@ -20130,7 +20124,12 @@ function (_Component) {
               editor.shortcuts.remove("access+".concat(number));
             }); // Restore the original `setHTML` once initialized.
 
-            editor.dom.setHTML = setHTML;
+            editor.dom.setHTML = setHTML; // In IE11, focus is lost to parent after initialising
+            // TinyMCE, so we have to set it back.
+
+            if (IS_IE && document.activeElement !== _this3.editorNode && document.activeElement.contains(_this3.editorNode)) {
+              _this3.editorNode.focus();
+            }
           });
           editor.on('keydown', _this3.onKeyDown, true);
         }
@@ -20144,19 +20143,15 @@ function (_Component) {
       if (this.props.setRef) {
         this.props.setRef(editorNode);
       }
-      /**
-       * A ref function can be used for cleanup because React calls it with
-       * `null` when unmounting.
-       */
 
-
-      if (this.removeInternetExplorerInputFix) {
-        this.removeInternetExplorerInputFix();
-        this.removeInternetExplorerInputFix = null;
-      }
-
-      if (editorNode && needsInternetExplorerInputFix(editorNode)) {
-        this.removeInternetExplorerInputFix = applyInternetExplorerInputFix(editorNode);
+      if (IS_IE) {
+        if (editorNode) {
+          // Mounting:
+          this.removeInternetExplorerInputFix = applyInternetExplorerInputFix(editorNode);
+        } else {
+          // Unmounting:
+          this.removeInternetExplorerInputFix();
+        }
       }
     }
   }, {
@@ -20469,6 +20464,7 @@ function TableOfContents(_ref) {
         icon: "info-outline",
         "aria-expanded": isOpen,
         label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Content structure'),
+        labelPosition: "bottom",
         disabled: !hasBlocks
       });
     },
@@ -29070,8 +29066,11 @@ function hasSelectedBlock(state) {
 function getSelectedBlockClientId(state) {
   var _state$blockSelection2 = state.blockSelection,
       start = _state$blockSelection2.start,
-      end = _state$blockSelection2.end;
-  return start === end && start ? start : null;
+      end = _state$blockSelection2.end; // We need to check the block exists because the current state.blockSelection reducer
+  // doesn't take into account the UNDO / REDO actions to update selection.
+  // To be removed when that's fixed.
+
+  return start && start === end && !!state.editor.present.blocks.byClientId[start] ? start : null;
 }
 /**
  * Returns the currently selected block, or null if there is no selected block.
@@ -30326,14 +30325,19 @@ function isPermalinkEditable(state) {
  *
  * @param {Object} state Editor state.
  *
- * @return {string} The permalink.
+ * @return {?string} The permalink, or null if the post is not viewable.
  */
 
 function getPermalink(state) {
-  var _getPermalinkParts = getPermalinkParts(state),
-      prefix = _getPermalinkParts.prefix,
-      postName = _getPermalinkParts.postName,
-      suffix = _getPermalinkParts.suffix;
+  var permalinkParts = getPermalinkParts(state);
+
+  if (!permalinkParts) {
+    return null;
+  }
+
+  var prefix = permalinkParts.prefix,
+      postName = permalinkParts.postName,
+      suffix = permalinkParts.suffix;
 
   if (isPermalinkEditable(state)) {
     return prefix + postName + suffix;
@@ -30342,15 +30346,22 @@ function getPermalink(state) {
   return prefix;
 }
 /**
- * Returns the permalink for a post, split into it's three parts: the prefix, the postName, and the suffix.
+ * Returns the permalink for a post, split into it's three parts: the prefix,
+ * the postName, and the suffix.
  *
  * @param {Object} state Editor state.
  *
- * @return {Object} The prefix, postName, and suffix for the permalink.
+ * @return {Object} An object containing the prefix, postName, and suffix for
+ *                  the permalink, or null if the post is not viewable.
  */
 
 function getPermalinkParts(state) {
   var permalinkTemplate = getEditedPostAttribute(state, 'permalink_template');
+
+  if (!permalinkTemplate) {
+    return null;
+  }
+
   var postName = getEditedPostAttribute(state, 'slug') || getEditedPostAttribute(state, 'generated_slug');
 
   var _permalinkTemplate$sp = permalinkTemplate.split(PERMALINK_POSTNAME_REGEX),

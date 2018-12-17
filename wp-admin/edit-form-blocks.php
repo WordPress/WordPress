@@ -178,10 +178,7 @@ $styles = array(
 	),
 );
 
-/*
- * Set a locale specific default font.
- * Translators: Use this to specify the CSS font family for the default font
- */
+/* Translators: Use this to specify the CSS font family for the default font */
 $locale_font_family = esc_html_x( 'Noto Serif', 'CSS Font Family for Editor Font' );
 $styles[]           = array(
 	'css' => "body { font-family: '$locale_font_family' }",

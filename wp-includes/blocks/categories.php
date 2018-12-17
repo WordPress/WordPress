@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/categories` block.
  *
- * @package gutenberg
+ * @package WordPress
  */
 
 /**
@@ -27,7 +27,7 @@ function render_block_core_categories( $attributes ) {
 	if ( ! empty( $attributes['displayAsDropdown'] ) ) {
 		$id                       = 'wp-block-categories-' . $block_id;
 		$args['id']               = $id;
-		$args['show_option_none'] = __( 'Select Category', 'default' );
+		$args['show_option_none'] = __( 'Select Category' );
 		$wrapper_markup           = '<div class="%1$s">%2$s</div>';
 		$items_markup             = wp_dropdown_categories( $args );
 		$type                     = 'dropdown';

@@ -2,7 +2,7 @@
 /**
  * Server-side rendering of the `core/latest-posts` block.
  *
- * @package gutenberg
+ * @package WordPress
  */
 
 /**
@@ -21,7 +21,7 @@ function render_block_core_latest_posts( $attributes ) {
 	);
 
 	if ( isset( $attributes['categories'] ) ) {
-		$args['categories'] = $attributes['categories'];
+		$args['category'] = $attributes['categories'];
 	}
 
 	$recent_posts = wp_get_recent_posts( $args );
@@ -33,7 +33,7 @@ function render_block_core_latest_posts( $attributes ) {
 
 		$title = get_the_title( $post_id );
 		if ( ! $title ) {
-			$title = __( '(Untitled)', 'default' );
+			$title = __( '(Untitled)' );
 		}
 		$list_items_markup .= sprintf(
 			'<li><a href="%1$s">%2$s</a>',

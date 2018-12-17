@@ -592,204 +592,6 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/edit-post/build-module/components/admin-notices/index.js":
-/*!******************************************************************************************!*\
-  !*** ./node_modules/@wordpress/edit-post/build-module/components/admin-notices/index.js ***!
-  \******************************************************************************************/
-/*! exports provided: AdminNotices, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminNotices", function() { return AdminNotices; });
-/* harmony import */ var _babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/classCallCheck */ "./node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/createClass */ "./node_modules/@babel/runtime/helpers/esm/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js");
-/* harmony import */ var _babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js");
-/* harmony import */ var _babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inherits */ "./node_modules/@babel/runtime/helpers/esm/inherits.js");
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
-
-
-
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Mapping of server-supported notice class names to an equivalent notices
- * module status.
- *
- * @type {Map}
- */
-
-var NOTICE_CLASS_STATUSES = {
-  'notice-success': 'success',
-  updated: 'success',
-  'notice-warning': 'warning',
-  'notice-error': 'error',
-  error: 'error',
-  'notice-info': 'info'
-};
-/**
- * Returns an array of admin notice Elements.
- *
- * @return {Element[]} Admin notice elements.
- */
-
-function getAdminNotices() {
-  // The order is reversed to match expectations of rendered order, since a
-  // NoticesList is itself rendered in reverse order (newest to oldest).
-  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_5__["default"])(document.querySelectorAll('#wpbody-content > .notice')).reverse();
-}
-/**
- * Given an admin notice Element, returns the relevant notice content HTML.
- *
- * @param {Element} element Admin notice element.
- *
- * @return {Element} Upgraded notice HTML.
- */
-
-
-function getNoticeHTML(element) {
-  var fragments = [];
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = element.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var child = _step.value;
-
-      if (child.nodeType !== window.Node.ELEMENT_NODE) {
-        var value = child.nodeValue.trim();
-
-        if (value) {
-          fragments.push(child.nodeValue);
-        }
-      } else if (!child.classList.contains('notice-dismiss')) {
-        fragments.push(child.outerHTML);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  return fragments.join('');
-}
-/**
- * Given an admin notice Element, returns the upgraded status type, or
- * undefined if one cannot be determined (i.e. one is not assigned).
- *
- * @param {Element} element Admin notice element.
- *
- * @return {?string} Upgraded status type.
- */
-
-
-function getNoticeStatus(element) {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = element.classList[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var className = _step2.value;
-
-      if (NOTICE_CLASS_STATUSES.hasOwnProperty(className)) {
-        return NOTICE_CLASS_STATUSES[className];
-      }
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-}
-
-var AdminNotices =
-/*#__PURE__*/
-function (_Component) {
-  Object(_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__["default"])(AdminNotices, _Component);
-
-  function AdminNotices() {
-    Object(_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_0__["default"])(this, AdminNotices);
-
-    return Object(_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__["default"])(this, Object(_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__["default"])(AdminNotices).apply(this, arguments));
-  }
-
-  Object(_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_1__["default"])(AdminNotices, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.convertNotices();
-    }
-  }, {
-    key: "convertNotices",
-    value: function convertNotices() {
-      var createNotice = this.props.createNotice;
-      getAdminNotices().forEach(function (element) {
-        // Convert and create.
-        var status = getNoticeStatus(element);
-        var content = getNoticeHTML(element);
-        var isDismissible = element.classList.contains('is-dismissible');
-        createNotice(status, content, {
-          speak: false,
-          __unstableHTML: true,
-          isDismissible: isDismissible
-        }); // Remove (now-redundant) admin notice element.
-
-        element.parentNode.removeChild(element);
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return null;
-    }
-  }]);
-
-  return AdminNotices;
-}(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__["Component"]);
-/* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__["withDispatch"])(function (dispatch) {
-  var _dispatch = dispatch('core/notices'),
-      createNotice = _dispatch.createNotice;
-
-  return {
-    createNotice: createNotice
-  };
-})(AdminNotices));
-
-
-/***/ }),
-
 /***/ "./node_modules/@wordpress/edit-post/build-module/components/block-settings-menu/plugin-block-settings-menu-group.js":
 /*!***************************************************************************************************************************!*\
   !*** ./node_modules/@wordpress/edit-post/build-module/components/block-settings-menu/plugin-block-settings-menu-group.js ***!
@@ -1672,6 +1474,7 @@ var MoreMenu = function MoreMenu() {
       return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["IconButton"], {
         icon: "ellipsis",
         label: isOpen ? ariaOpen : ariaClosed,
+        labelPosition: "bottom",
         onClick: onToggle,
         "aria-expanded": isOpen
       });
@@ -2603,7 +2406,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sidebar_plugin_post_publish_panel__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../sidebar/plugin-post-publish-panel */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/plugin-post-publish-panel/index.js");
 /* harmony import */ var _sidebar_plugin_pre_publish_panel__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../sidebar/plugin-pre-publish-panel */ "./node_modules/@wordpress/edit-post/build-module/components/sidebar/plugin-pre-publish-panel/index.js");
 /* harmony import */ var _fullscreen_mode__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../fullscreen-mode */ "./node_modules/@wordpress/edit-post/build-module/components/fullscreen-mode/index.js");
-/* harmony import */ var _admin_notices__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../admin-notices */ "./node_modules/@wordpress/edit-post/build-module/components/admin-notices/index.js");
 
 
 
@@ -2626,7 +2428,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -2668,7 +2469,7 @@ function Layout(_ref) {
   };
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
     className: className
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_fullscreen_mode__WEBPACK_IMPORTED_MODULE_22__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_browser_url__WEBPACK_IMPORTED_MODULE_10__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_5__["UnsavedChangesWarning"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_5__["AutosaveMonitor"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_admin_notices__WEBPACK_IMPORTED_MODULE_23__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_header__WEBPACK_IMPORTED_MODULE_11__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_fullscreen_mode__WEBPACK_IMPORTED_MODULE_22__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_browser_url__WEBPACK_IMPORTED_MODULE_10__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_5__["UnsavedChangesWarning"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_wordpress_editor__WEBPACK_IMPORTED_MODULE_5__["AutosaveMonitor"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_header__WEBPACK_IMPORTED_MODULE_11__["default"], null), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
     className: "edit-post-layout__content",
     role: "region"
     /* translators: accessibility text for the content landmark region. */
@@ -4998,16 +4799,16 @@ var SettingsHeader = function SettingsHeader(_ref) {
 
   var blockLabel = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Block');
 
-  var _ref2 = sidebarName === 'edit-post/document' ? // translators: ARIA label for the Document Settings sidebar tab, selected.
-  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Document settings (selected)'), 'is-active'] : // translators: ARIA label for the Document Settings sidebar tab, not selected.
-  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Document settings'), ''],
+  var _ref2 = sidebarName === 'edit-post/document' ? // translators: ARIA label for the Document sidebar tab, selected.
+  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Document (selected)'), 'is-active'] : // translators: ARIA label for the Document sidebar tab, not selected.
+  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Document'), ''],
       _ref3 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref2, 2),
       documentAriaLabel = _ref3[0],
       documentActiveClass = _ref3[1];
 
-  var _ref4 = sidebarName === 'edit-post/block' ? // translators: ARIA label for the Block Settings sidebar tab, selected.
-  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Block settings (selected)'), 'is-active'] : // translators: ARIA label for the Block Settings sidebar tab, not selected.
-  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Block settings'), ''],
+  var _ref4 = sidebarName === 'edit-post/block' ? // translators: ARIA label for the Block sidebar tab, selected.
+  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Block (selected)'), 'is-active'] : // translators: ARIA label for the Block sidebar tab, not selected.
+  [Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('Block'), ''],
       _ref5 = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(_ref4, 2),
       blockAriaLabel = _ref5[0],
       blockActiveClass = _ref5[1];
