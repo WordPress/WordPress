@@ -262,6 +262,11 @@ Description: Used to style Gutenberg Blocks in the editor.
 	font-style: italic;
 	line-height: 1.6153846154;
 	padding-top: 0.5384615385em;
+	text-align: left;
+}
+
+.rtl [class^="wp-block-"] figcaption {
+	text-align: right;
 }
 
 /*--------------------------------------------------------------

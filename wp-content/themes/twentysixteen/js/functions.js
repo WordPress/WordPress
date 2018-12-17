@@ -148,25 +148,36 @@
 				entryFooterPos       = entryFooter.offset(),
 				entryFooterPosBottom = entryFooterPos.top + ( entryFooter.height() + 28 ),
 				caption              = element.closest( 'figure' ),
+				figcaption           = element.next( 'figcaption' ),
 				newImg;
 
 			// Add 'below-entry-meta' to elements below the entry meta.
 			if ( elementPosTop > entryFooterPosBottom ) {
 
 				// Check if full-size images and captions are larger than or equal to 840px.
-				if ( 'img.size-full' === param ) {
+				if ( 'img.size-full' === param || '.wp-block-image img' === param ) {
 
 					// Create an image to find native image width of resized images (i.e. max-width: 100%).
 					newImg = new Image();
 					newImg.src = element.attr( 'src' );
 
 					$( newImg ).on( 'load.twentysixteen', function() {
-						if ( newImg.width >= 840  ) {
+						if ( newImg.width >= 840 ) {
+
+							// Check if an image in an image block has a width attribute; if its value is less than 840, return.
+							if ( '.wp-block-image img' === param && element.is( '[width]' ) && element.attr( 'width' ) < 840 ) {
+								return;
+							}
+
 							element.addClass( 'below-entry-meta' );
 
 							if ( caption.hasClass( 'wp-caption' ) ) {
 								caption.addClass( 'below-entry-meta' );
 								caption.removeAttr( 'style' );
+							}
+
+							if ( figcaption ) {
+								figcaption.addClass( 'below-entry-meta' );
 							}
 						}
 					} );
@@ -190,11 +201,13 @@
 				resizeTimer = setTimeout( function() {
 					belowEntryMetaClass( 'img.size-full' );
 					belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
+					belowEntryMetaClass( '.wp-block-image img' );
 				}, 300 );
 				onResizeARIA();
 			} );
 
 		belowEntryMetaClass( 'img.size-full' );
 		belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
+		belowEntryMetaClass( '.wp-block-image img' );
 	} );
 } )( jQuery );
