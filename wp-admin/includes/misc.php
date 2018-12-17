@@ -1054,17 +1054,35 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 		}
 
 		$response['wp-refresh-post-nonces'] = array(
-			'replace'        => array(
+			'replace' => array(
 				'getpermalinknonce'    => wp_create_nonce( 'getpermalink' ),
 				'samplepermalinknonce' => wp_create_nonce( 'samplepermalink' ),
 				'closedpostboxesnonce' => wp_create_nonce( 'closedpostboxes' ),
 				'_ajax_linking_nonce'  => wp_create_nonce( 'internal-linking' ),
 				'_wpnonce'             => wp_create_nonce( 'update-post_' . $post_id ),
 			),
-			'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
 		);
 	}
 
+	return $response;
+}
+
+/**
+ * Add the latest Heartbeat and REST-API nonce to the Heartbeat response.
+ *
+ * @since 5.0.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @return array The Heartbeat response.
+ */
+function wp_refresh_heartbeat_nonces( $response ) {
+	// Refresh the Rest API nonce.
+	$response['rest_nonce'] = wp_create_nonce( 'wp_rest' );
+	// TEMPORARY: Compat with api-fetch library
+	$response['rest-nonce'] = $response['rest_nonce'];
+
+	// Refresh the Heartbeat nonce.
+	$response['heartbeat_nonce'] = wp_create_nonce( 'heartbeat-nonce' );
 	return $response;
 }
 
