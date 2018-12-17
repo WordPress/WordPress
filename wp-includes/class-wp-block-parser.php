@@ -359,6 +359,7 @@ class WP_Block_Parser {
 	 *
 	 * @internal
 	 * @since 3.8.0
+	 * @since 4.6.1 fixed a bug in attribute parsing which caused catastrophic backtracking on invalid block comments
 	 * @return array
 	 */
 	function next_token() {
@@ -373,12 +374,17 @@ class WP_Block_Parser {
 		 * match back in PHP to see which one it was.
 		 */
 		$has_match = preg_match(
-			'/<!--\s+(?<closer>\/)?wp:(?<namespace>[a-z][a-z0-9_-]*\/)?(?<name>[a-z][a-z0-9_-]*)\s+(?<attrs>{(?:[^}]+|}+(?=})|(?!}\s+-->).)*?}\s+)?(?<void>\/)?-->/s',
+			'/<!--\s+(?<closer>\/)?wp:(?<namespace>[a-z][a-z0-9_-]*\/)?(?<name>[a-z][a-z0-9_-]*)\s+(?<attrs>{(?:(?:[^}]+|}+(?=})|(?!}\s+\/?-->).)*+)?}\s+)?(?<void>\/)?-->/s',
 			$this->document,
 			$matches,
 			PREG_OFFSET_CAPTURE,
 			$this->offset
 		);
+
+		// if we get here we probably have catastrophic backtracking or out-of-memory in the PCRE
+		if ( false === $has_match ) {
+			return array( 'no-more-tokens', null, null, null, null );
+		}
 
 		// we have no more tokens
 		if ( 0 === $has_match ) {

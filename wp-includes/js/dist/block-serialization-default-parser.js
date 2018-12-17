@@ -195,7 +195,49 @@ var document;
 var offset;
 var output;
 var stack;
-var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:[^}]+|}+(?=})|(?!}\s+-->)[^])*?}\s+)?(\/)?-->/g;
+/**
+ * Matches block comment delimiters
+ *
+ * While most of this pattern is straightforward the attribute parsing
+ * incorporates a tricks to make sure we don't choke on specific input
+ *
+ *  - since JavaScript has no possessive quantifier or atomic grouping
+ *    we are emulating it with a trick
+ *
+ *    we want a possessive quantifier or atomic group to prevent backtracking
+ *    on the `}`s should we fail to match the remainder of the pattern
+ *
+ *    we can emulate this with a positive lookahead and back reference
+ *    (a++)*c === ((?=(a+))\1)*c
+ *
+ *    let's examine an example:
+ *      - /(a+)*c/.test('aaaaaaaaaaaaad') fails after over 49,000 steps
+ *      - /(a++)*c/.test('aaaaaaaaaaaaad') fails after 85 steps
+ *      - /(?>a+)*c/.test('aaaaaaaaaaaaad') fails after 126 steps
+ *
+ *    this is because the possessive `++` and the atomic group `(?>)`
+ *    tell the engine that all those `a`s belong together as a single group
+ *    and so it won't split it up when stepping backwards to try and match
+ *
+ *    if we use /((?=(a+))\1)*c/ then we get the same behavior as the atomic group
+ *    or possessive and prevent the backtracking because the `a+` is matched but
+ *    not captured. thus, we find the long string of `a`s and remember it, then
+ *    reference it as a whole unit inside our pattern
+ *
+ *    @cite http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead
+ *    @cite http://blog.stevenlevithan.com/archives/mimic-atomic-groups
+ *    @cite https://javascript.info/regexp-infinite-backtracking-problem
+ *
+ *    once browsers reliably support atomic grouping or possessive
+ *    quantifiers natively we should remove this trick and simplify
+ *
+ * @type RegExp
+ *
+ * @since 3.8.0
+ * @since 4.6.1 added optimization to prevent backtracking on attribute parsing
+ */
+
+var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
 
 function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
   return {
@@ -371,13 +413,15 @@ function nextToken() {
 
   var startedAt = matches.index;
 
-  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(matches, 6),
+  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(matches, 7),
       match = _matches[0],
       closerMatch = _matches[1],
       namespaceMatch = _matches[2],
       nameMatch = _matches[3],
       attrsMatch = _matches[4],
-      voidMatch = _matches[5];
+
+  /* internal/unused */
+  voidMatch = _matches[6];
 
   var length = match.length;
   var isCloser = !!closerMatch;
