@@ -155,9 +155,12 @@ html[lang="ur"] .edit-post-visual-editor h6 {
 
 /* Typography for Chinese Font */
 
-html[lang^="zh-"] .edit-post-visual-editor .editor-block-list__block,
-html[lang="zh-CN"] .edit-post-visual-editor .editor-block-list__block {
+html[lang^="zh-"] .edit-post-visual-editor .editor-block-list__block {
 	font-family: "PingFang TC", "Helvetica Neue", Helvetica, STHeitiTC-Light, Arial, sans-serif;
+}
+
+html[lang="zh-CN"] .edit-post-visual-editor .editor-block-list__block {
+	font-family: "PingFang SC", "Helvetica Neue", Helvetica, STHeitiSC-Light, Arial, sans-serif;
 }
 
 html[lang^="zh-"] .edit-post-visual-editor h1,
