@@ -312,6 +312,18 @@ switch ( $action ) {
 		wp_redirect( $url );
 		exit();
 
+	case 'toggle-custom-fields':
+		check_admin_referer( 'toggle-custom-fields' );
+
+		$current_user_id = get_current_user_id();
+		if ( $current_user_id ) {
+			$enable_custom_fields = (bool) get_user_meta( $current_user_id, 'enable_custom_fields', true );
+			update_user_meta( $current_user_id, 'enable_custom_fields', ! $enable_custom_fields );
+		}
+
+		wp_safe_redirect( wp_get_referer() );
+		exit();
+
 	default:
 		/**
 		 * Fires for a given custom post action request.

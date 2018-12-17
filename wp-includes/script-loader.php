@@ -235,6 +235,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'data'                               => array(
 			'lodash',
 			'wp-compose',
+			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -351,6 +352,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'lodash',
 			'wp-blocks',
 			'wp-data',
+			'wp-deprecated',
 			'wp-escape-html',
 			'wp-polyfill',
 		),
