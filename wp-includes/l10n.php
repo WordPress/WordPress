@@ -913,7 +913,7 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	global $wp_scripts;
 
 	$path   = untrailingslashit( $path );
-	$locale = is_admin() ? get_locale() : get_user_locale();
+	$locale = determine_locale();
 
 	// If a path was given and the handle file exists simply return it.
 	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
