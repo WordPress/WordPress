@@ -747,6 +747,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
+		// Filter is fired in WP_REST_Attachments_Controller subclass.
+		if ( 'attachment' === $this->post_type ) {
+			$response = $this->prepare_item_for_response( $post, $request );
+			return rest_ensure_response( $response );
+		}
+
 		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-posts-controller.php */
 		do_action( "rest_after_insert_{$this->post_type}", $post, $request, false );
 
