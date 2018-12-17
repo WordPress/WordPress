@@ -2259,11 +2259,6 @@ function the_block_editor_meta_boxes() {
 					continue;
 				}
 
-				// If a meta box doesn't work in the block editor, don't show it in the block editor.
-				if ( isset( $meta_box['args']['__block_editor_compatible_meta_box'] ) && ! $meta_box['args']['__block_editor_compatible_meta_box'] ) {
-					continue;
-				}
-
 				$meta_boxes_per_location[ $location ][] = array(
 					'id'    => $meta_box['id'],
 					'title' => $meta_box['title'],

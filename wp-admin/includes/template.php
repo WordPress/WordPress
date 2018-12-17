@@ -1079,8 +1079,107 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 	);
 }
 
+
 /**
- * Displays the meta boxes which are registered against the given screen and context.
+ * Function that renders a "fake" meta box with an information message,
+ * shown on the block editor, when an incompatible meta box is found.
+ *
+ * @since 5.0.0
+ *
+ * @param mixed $object The data object being rendered on this screen.
+ * @param array $box    {
+ *     Custom formats meta box arguments.
+ *
+ *     @type string   $id           Meta box 'id' attribute.
+ *     @type string   $title        Meta box title.
+ *     @type callable $old_callback The original callback for this meta box.
+ *     @type array    $args         Extra meta box arguments.
+ * }
+ */
+function do_block_editor_incompatible_meta_box( $object, $box ) {
+	$plugin  = _get_plugin_from_callback( $box['old_callback'] );
+	$plugins = get_plugins();
+	echo '<p>';
+	if ( $plugin ) {
+		/* translators: %s: the name of the plugin that generated this meta box. */
+		printf( __( "This meta box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
+	} else {
+		_e( "This meta box isn't compatible with the block editor." );
+	}
+	echo '</p>';
+
+	if ( empty( $plugins['classic-editor/classic-editor.php'] ) ) {
+		if ( current_user_can( 'install_plugins' ) ) {
+			echo '<p>';
+			/* translators: %s: A link to install the Classic Editor plugin. */
+			printf( __( 'Please install the <a href="%s">Classic Editor plugin</a> to use this meta box.' ), esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ) );
+			echo '</p>';
+		}
+	} elseif ( is_plugin_inactive( 'classic-editor/classic-editor.php' ) ) {
+		if ( current_user_can( 'activate_plugins' ) ) {
+			$activate_url = wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=classic-editor/classic-editor.php' ), 'activate-plugin_classic-editor/classic-editor.php' );
+			echo '<p>';
+			/* translators: %s: A link to activate the Classic Editor plugin. */
+			printf( __( 'Please activate the <a href="%s">Classic Editor plugin</a> to use this meta box.' ), esc_url( $activate_url ) );
+			echo '</p>';
+		}
+	} elseif ( $object instanceof WP_Post ) {
+		$edit_url = add_query_arg( 'classic-editor', '', get_edit_post_link( $object ) );
+		echo '<p>';
+		/* translators: %s: A link to use the Classic Editor plugin. */
+		printf( __( 'Please open the <a href="%s">classic editor</a> to use this meta box.' ), esc_url( $edit_url ) );
+		echo '</p>';
+	}
+}
+
+/**
+ * Internal helper function to find the plugin from a meta box callback.
+ *
+ * @since 5.0.0
+ *
+ * @access private
+ *
+ * @param callable $callback The callback function to check.
+ * @return array|null The plugin that the callback belongs to, or null if it doesn't belong to a plugin.
+ */
+function _get_plugin_from_callback( $callback ) {
+	try {
+		if ( is_array( $callback ) ) {
+			$reflection = new ReflectionMethod( $callback[0], $callback[1] );
+		} elseif ( is_string( $callback ) && false !== strpos( $callback, '::' ) ) {
+			$reflection = new ReflectionMethod( $callback );
+		} else {
+			$reflection = new ReflectionFunction( $callback );
+		}
+	} catch ( ReflectionException $exception ) {
+		// We could not properly reflect on the callable, so we abort here.
+		return null;
+	}
+
+	// Don't show an error if it's an internal PHP function.
+	if ( ! $reflection->isInternal() ) {
+
+		// Only show errors if the meta box was registered by a plugin.
+		$filename   = wp_normalize_path( $reflection->getFileName() );
+		$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
+		if ( strpos( $filename, $plugin_dir ) === 0 ) {
+			$filename = str_replace( $plugin_dir, '', $filename );
+			$filename = preg_replace( '|^/([^/]*/).*$|', '\\1', $filename );
+
+			$plugins = get_plugins();
+			foreach ( $plugins as $name => $plugin ) {
+				if ( strpos( $name, $filename ) === 0 ) {
+					return $plugin;
+				}
+			}
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Meta-Box template function.
  *
  * @since 2.5.0
  *
@@ -1144,14 +1243,15 @@ function do_meta_boxes( $screen, $context, $object ) {
 							continue;
 						}
 
-						// If a meta box doesn't work in the block editor, don't show it in the block editor.
-						if ( $screen->is_block_editor() && isset( $box['args']['__block_editor_compatible_meta_box'] ) && ! $box['args']['__block_editor_compatible_meta_box'] ) {
-							continue;
-						}
-
 						if ( isset( $box['args']['__block_editor_compatible_meta_box'] ) ) {
 							$block_compatible = (bool) $box['args']['__block_editor_compatible_meta_box'];
 							unset( $box['args']['__block_editor_compatible_meta_box'] );
+						}
+
+						// If the meta box is declared as incompatible with the block editor, override the callback function.
+						if ( ! $block_compatible && $screen->is_block_editor() ) {
+							$box['old_callback'] = $box['callback'];
+							$box['callback']     = 'do_block_editor_incompatible_meta_box';
 						}
 
 						if ( isset( $box['args']['__back_compat_meta_box'] ) ) {
@@ -1188,39 +1288,18 @@ function do_meta_boxes( $screen, $context, $object ) {
 					echo '<div class="inside">' . "\n";
 
 					if ( WP_DEBUG && ! $block_compatible && 'edit' === $screen->parent_base && ! $screen->is_block_editor() && ! isset( $_GET['meta-box-loader'] ) ) {
-						if ( is_array( $box['callback'] ) ) {
-							$reflection = new ReflectionMethod( $box['callback'][0], $box['callback'][1] );
-						} elseif ( false !== strpos( $box['callback'], '::' ) ) {
-							$reflection = new ReflectionMethod( $box['callback'] );
-						} else {
-							$reflection = new ReflectionFunction( $box['callback'] );
-						}
-
-						// Don't show an error if it's an internal PHP function.
-						if ( ! $reflection->isInternal() ) {
-
-							// Only show errors if the meta box was registered by a plugin.
-							$filename = $reflection->getFileName();
-							if ( strpos( $filename, WP_PLUGIN_DIR ) === 0 ) {
-								$filename = str_replace( WP_PLUGIN_DIR, '', $filename );
-								$filename = preg_replace( '|^/([^/]*/).*$|', '\\1', $filename );
-
-								$plugins = get_plugins();
-								foreach ( $plugins as $name => $plugin ) {
-									if ( strpos( $name, $filename ) === 0 ) {
-										?>
-											<div class="error inline">
-												<p>
-													<?php
-														/* translators: %s: the name of the plugin that generated this meta box. */
-														printf( __( "This meta box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
-													?>
-												</p>
-											</div>
-										<?php
-									}
-								}
-							}
+						$plugin = _get_plugin_from_callback( $box['callback'] );
+						if ( $plugin ) {
+							?>
+							<div class="error inline">
+								<p>
+									<?php
+										/* translators: %s: the name of the plugin that generated this meta box. */
+										printf( __( "This meta box, from the %s plugin, isn't compatible with the block editor." ), "<strong>{$plugin['Name']}</strong>" );
+									?>
+								</p>
+							</div>
+							<?php
 						}
 					}
 
