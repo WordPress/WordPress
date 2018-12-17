@@ -2,7 +2,7 @@
 Contributors: the WordPress team
 Requires at least: WordPress 3.2
 Tested up to: WordPress 5.0-trunk
-Stable tag: 2.8
+Stable tag: 2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -42,6 +42,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 2.9 =
+* Released: December 6, 2018
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.9
 
 = 2.8 =
 * Released: May 17, 2018
