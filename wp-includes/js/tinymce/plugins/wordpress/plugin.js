@@ -370,7 +370,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		html += '</div>';
 
 		dialog = editor.windowManager.open( {
-			title: 'Keyboard Shortcuts',
+			title: editor.settings.classic_block_editor ? 'Classic Block Keyboard Shortcuts' : 'Keyboard Shortcuts',
 			items: {
 				type: 'container',
 				classes: 'wp-help',
@@ -652,10 +652,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			u: 'InsertUnorderedList',
 			o: 'InsertOrderedList',
 			m: 'WP_Medialib',
-			z: 'WP_Adv',
 			t: 'WP_More',
 			d: 'Strikethrough',
-			h: 'WP_Help',
 			p: 'WP_Page',
 			x: 'WP_Code'
 		}, function( command, key ) {
@@ -667,6 +665,23 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				wp.autosave.server.triggerSave();
 			}
 		} );
+
+		// Alt+Shift+Z removes a block in the Block Editor, don't add it to the Classic Block.
+		if ( ! editor.settings.classic_block_editor ) {
+			editor.addShortcut( 'access+z', '', 'WP_Adv' );
+		}
+
+		// Workaround for not triggering the global help modal in the Block Editor by the Classic Block shortcut.
+		editor.on( 'keydown', function( event ) {
+			if ( event.shiftKey && event.altKey && event.code === 'KeyH' ) {
+				editor.execCommand( 'WP_Help' );
+				event.stopPropagation();
+				event.stopImmediatePropagation();
+				return false;
+			}
+
+			return true;
+		});
 
 		if ( window.getUserSetting( 'editor_plain_text_paste_warning' ) > 1 ) {
 			editor.settings.paste_plaintext_inform = false;

@@ -1287,6 +1287,7 @@ final class _WP_Editors {
 
 				// Shortcuts help modal
 				'Keyboard Shortcuts'                   => array( __( 'Keyboard Shortcuts' ), 'accessH' ),
+				'Classic Block Keyboard Shortcuts'     => __( 'Classic Block Keyboard Shortcuts' ),
 				'Default shortcuts,'                   => __( 'Default shortcuts,' ),
 				'Additional shortcuts,'                => __( 'Additional shortcuts,' ),
 				'Focus shortcuts:'                     => __( 'Focus shortcuts:' ),
