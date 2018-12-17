@@ -123,7 +123,7 @@ class WP_Block_Type {
 
 	/**
 	 * Validates attributes against the current block schema, populating
-	 * defaulted and missing values, and omitting unknown attributes.
+	 * defaulted and missing values.
 	 *
 	 * @since 5.0.0
 	 *
@@ -131,30 +131,41 @@ class WP_Block_Type {
 	 * @return array             Prepared block attributes.
 	 */
 	public function prepare_attributes_for_render( $attributes ) {
+		// If there are no attribute definitions for the block type, skip
+		// processing and return vebatim.
 		if ( ! isset( $this->attributes ) ) {
 			return $attributes;
 		}
 
-		$prepared_attributes = array();
-
-		foreach ( $this->attributes as $attribute_name => $schema ) {
-			$value = null;
-
-			if ( isset( $attributes[ $attribute_name ] ) ) {
-				$is_valid = rest_validate_value_from_schema( $attributes[ $attribute_name ], $schema );
-				if ( ! is_wp_error( $is_valid ) ) {
-					$value = rest_sanitize_value_from_schema( $attributes[ $attribute_name ], $schema );
-				}
+		foreach ( $attributes as $attribute_name => $value ) {
+			// If the attribute is not defined by the block type, it cannot be
+			// validated.
+			if ( ! isset( $this->attributes[ $attribute_name ] ) ) {
+				continue;
 			}
 
-			if ( is_null( $value ) && isset( $schema['default'] ) ) {
-				$value = $schema['default'];
-			}
+			$schema = $this->attributes[ $attribute_name ];
 
-			$prepared_attributes[ $attribute_name ] = $value;
+			// Validate value by JSON schema. An invalid value should revert to
+			// its default, if one exists. This occurs by virtue of the missing
+			// attributes loop immediately following. If there is not a default
+			// assigned, the attribute value should remain unset.
+			$is_valid = rest_validate_value_from_schema( $value, $schema );
+			if ( is_wp_error( $is_valid ) ) {
+				unset( $attributes[ $attribute_name ] );
+			}
 		}
 
-		return $prepared_attributes;
+		// Populate values of any missing attributes for which the block type
+		// defines a default.
+		$missing_schema_attributes = array_diff_key( $this->attributes, $attributes );
+		foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
+			if ( isset( $schema['default'] ) ) {
+				$attributes[ $attribute_name ] = $schema['default'];
+			}
+		}
+
+		return $attributes;
 	}
 
 	/**
