@@ -283,7 +283,7 @@ function _restore_wpautop_hook( $content ) {
  * @since 5.0.0
  *
  * @param string $content Content to test.
- * @return int The block format version.
+ * @return int The block format version is 1 if the content contains one or more blocks, 0 otherwise.
  */
 function block_version( $content ) {
 	return has_blocks( $content ) ? 1 : 0;
