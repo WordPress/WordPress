@@ -951,19 +951,21 @@ body.is-fullscreen-mode .components-notice-list {
     .edit-post-visual-editor .editor-block-list__block .editor-block-list__block-edit {
       margin-right: -28px;
       margin-left: -28px; }
-    .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-contextual-toolbar,
-    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-contextual-toolbar {
-      width: calc(100% + 86px);
+    .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar,
+    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar {
+      width: calc(100% + 30px);
       height: 0;
       text-align: center; }
-      .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-contextual-toolbar .editor-block-toolbar,
-      .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-contextual-toolbar .editor-block-toolbar {
+      .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar .editor-block-toolbar,
+      .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar .editor-block-toolbar {
         max-width: 610px;
         width: 100%;
         position: relative; }
-    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-contextual-toolbar {
-      width: calc(100% + 84px); }
-      .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-contextual-toolbar .editor-block-toolbar {
+    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar {
+      width: 100%;
+      margin-right: 0;
+      margin-left: 0; }
+      .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar .editor-block-toolbar {
         max-width: 608px; } }
 
 @media (min-width: 600px) {
@@ -982,6 +984,10 @@ body.is-fullscreen-mode .components-notice-list {
     .edit-post-visual-editor .editor-post-title__block > div {
       margin-right: -2px;
       margin-left: -2px; } }
+
+.edit-post-visual-editor .editor-block-list__layout > .editor-block-list__block[data-align="left"]:first-child,
+.edit-post-visual-editor .editor-block-list__layout > .editor-block-list__block[data-align="right"]:first-child {
+  margin-top: 34px; }
 
 .edit-post-visual-editor .editor-default-block-appender {
   margin-right: auto;
@@ -1461,12 +1467,12 @@ body.block-editor-page {
 .components-popover input[type="checkbox"],
 .components-modal__content input[type="checkbox"] {
   border-radius: 2px; }
-  .editor-post-permalink input[type="checkbox"]::before,
-  .edit-post-sidebar input[type="checkbox"]::before,
-  .editor-post-publish-panel input[type="checkbox"]::before,
-  .editor-block-list__block input[type="checkbox"]::before,
-  .components-popover input[type="checkbox"]::before,
-  .components-modal__content input[type="checkbox"]::before {
+  .editor-post-permalink input[type="checkbox"]:checked::before,
+  .edit-post-sidebar input[type="checkbox"]:checked::before,
+  .editor-post-publish-panel input[type="checkbox"]:checked::before,
+  .editor-block-list__block input[type="checkbox"]:checked::before,
+  .components-popover input[type="checkbox"]:checked::before,
+  .components-modal__content input[type="checkbox"]:checked::before {
     margin: -4px -5px 0 0;
     color: #fff; }
 
@@ -1477,12 +1483,12 @@ body.block-editor-page {
 .components-popover input[type="radio"],
 .components-modal__content input[type="radio"] {
   border-radius: 50%; }
-  .editor-post-permalink input[type="radio"]::before,
-  .edit-post-sidebar input[type="radio"]::before,
-  .editor-post-publish-panel input[type="radio"]::before,
-  .editor-block-list__block input[type="radio"]::before,
-  .components-popover input[type="radio"]::before,
-  .components-modal__content input[type="radio"]::before {
+  .editor-post-permalink input[type="radio"]:checked::before,
+  .edit-post-sidebar input[type="radio"]:checked::before,
+  .editor-post-publish-panel input[type="radio"]:checked::before,
+  .editor-block-list__block input[type="radio"]:checked::before,
+  .components-popover input[type="radio"]:checked::before,
+  .components-modal__content input[type="radio"]:checked::before {
     margin: 3px 3px 0 0;
     background-color: #fff; }
 

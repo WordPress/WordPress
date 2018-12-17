@@ -68,8 +68,10 @@
   font-size: 13px;
   position: relative;
   top: -14px;
-  margin: 0 -14px -14px -14px;
-  padding: 8px 14px; }
+  margin: 0 -14px;
+  padding: 8px 14px;
+  position: relative;
+  z-index: 7; }
   .editor-block-list__layout .editor-block-list__layout .reusable-block-edit-panel {
     margin: 0 -14px;
     padding: 8px 14px; }
@@ -130,7 +132,7 @@
   .wp-block-button.aligncenter {
     text-align: center; }
   .wp-block-button.alignright {
-    text-align: left; }
+    text-align: right; }
 
 .wp-block-button__link:not(.has-background) {
   background-color: #32373c; }
@@ -154,10 +156,10 @@
     color: #fff; }
 
 .wp-block-categories.alignleft {
-  margin-left: 2em; }
+  margin-right: 2em; }
 
 .wp-block-categories.alignright {
-  margin-right: 2em; }
+  margin-left: 2em; }
 
 .wp-block-columns {
   display: flex;
@@ -264,6 +266,10 @@
   .wp-block-cover-image.has-parallax,
   .wp-block-cover.has-parallax {
     background-attachment: fixed; }
+    @supports (-webkit-overflow-scrolling: touch) {
+      .wp-block-cover-image.has-parallax,
+      .wp-block-cover.has-parallax {
+        background-attachment: scroll; } }
   .wp-block-cover-image.has-background-dim::before,
   .wp-block-cover.has-background-dim::before {
     content: "";
@@ -404,7 +410,7 @@
   .wp-block-file.aligncenter {
     text-align: center; }
   .wp-block-file.alignright {
-    text-align: left; }
+    text-align: right; }
   .wp-block-file .wp-block-file__button {
     background: #32373c;
     border-radius: 2em;
@@ -585,11 +591,11 @@
       display: table-caption;
       caption-side: bottom; }
   .wp-block-image .alignleft {
-    float: right;
-    margin-left: 1em; }
-  .wp-block-image .alignright {
     float: left;
     margin-right: 1em; }
+  .wp-block-image .alignright {
+    float: right;
+    margin-left: 1em; }
   .wp-block-image .aligncenter {
     margin-right: auto;
     margin-left: auto; }
@@ -635,10 +641,10 @@
   width: 40px; }
 
 .wp-block-latest-posts.alignleft {
-  margin-left: 2em; }
+  margin-right: 2em; }
 
 .wp-block-latest-posts.alignright {
-  margin-right: 2em; }
+  margin-left: 2em; }
 
 .wp-block-latest-posts.is-grid {
   display: flex;
@@ -666,16 +672,16 @@
   color: #6c7781;
   font-size: 13px; }
 
-.wp-block-media-text,
-.wp-block-media-text.aligncenter {
+.wp-block-media-text {
   display: grid; }
 
 .wp-block-media-text {
   grid-template-rows: auto;
-  grid-template-areas: "media-text-media media-text-content";
   align-items: center;
+  grid-template-areas: "media-text-media media-text-content";
   grid-template-columns: 50% auto; }
-  .wp-block-media-text .has-media-on-the-right {
+  .wp-block-media-text.has-media-on-the-right {
+    grid-template-areas: "media-text-content media-text-media";
     grid-template-columns: auto 50%; }
 
 .wp-block-media-text .wp-block-media-text__media {
@@ -687,14 +693,25 @@
   grid-area: media-text-content;
   padding: 0 8% 0 8%; }
 
-.wp-block-media-text.has-media-on-the-right {
-  grid-template-areas: "media-text-content media-text-media"; }
-
 .wp-block-media-text > figure > img,
 .wp-block-media-text > figure > video {
   max-width: unset;
   width: 100%;
   vertical-align: middle; }
+
+/*
+* Here we here not able to use a mobile first CSS approach.
+* Custom widths are set using inline styles, and on mobile,
+* we need 100% width, so we use important to overwrite the inline style.
+* If the style were set on mobile first, on desktop styles,
+* we would have no way of setting the style again to the inline style.
+*/
+@media (max-width: 600px) {
+  .wp-block-media-text.is-stacked-on-mobile {
+    grid-template-columns: 100% !important;
+    grid-template-areas: "media-text-media" "media-text-content"; }
+  .wp-block-media-text.is-stacked-on-mobile.has-media-on-the-right {
+    grid-template-areas: "media-text-content" "media-text-media"; } }
 
 p.is-small-text {
   font-size: 14px; }

@@ -85,7 +85,7 @@ function wp_default_packages_vendor( &$scripts ) {
 		'wp-polyfill-formdata',
 		'wp-polyfill-node-contains',
 		'wp-polyfill-element-closest',
-		'wp-polyfill-ecmascript',
+		'wp-polyfill',
 	);
 
 	foreach ( $vendor_scripts as $handle => $dependencies ) {
@@ -99,7 +99,7 @@ function wp_default_packages_vendor( &$scripts ) {
 		$scripts->add( $handle, $path, $dependencies, false, 1 );
 	}
 
-	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill-ecmascript' ) );
+	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
 	did_action( 'init' ) && $scripts->add_data(
 		'wp-polyfill',
 		'data',
@@ -166,6 +166,13 @@ function wp_default_packages_scripts( &$scripts ) {
 	$packages_dependencies = array(
 		'api-fetch'                          => array( 'wp-polyfill', 'wp-hooks', 'wp-i18n', 'wp-url' ),
 		'a11y'                               => array( 'wp-dom-ready', 'wp-polyfill' ),
+		'annotations'                        => array(
+			'wp-data',
+			'wp-hooks',
+			'wp-i18n',
+			'wp-polyfill',
+			'wp-rich-text',
+		),
 		'autop'                              => array( 'wp-polyfill' ),
 		'blob'                               => array( 'wp-polyfill' ),
 		'blocks'                             => array(
@@ -259,7 +266,6 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-compose',
 			'wp-core-data',
 			'wp-data',
-			'wp-deprecated',
 			'wp-dom-ready',
 			'wp-editor',
 			'wp-element',
@@ -334,7 +340,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'lodash',
 			'wp-a11y',
 			'wp-data',
-			'wp-polyfill-ecmascript',
+			'wp-polyfill',
 		),
 		'nux'                                => array(
 			'wp-element',

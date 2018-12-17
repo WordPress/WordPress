@@ -195,19 +195,20 @@ var document;
 var offset;
 var output;
 var stack;
-var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?!}\s+-->)[^])+?}\s+)?(\/)?-->/g;
+var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:[^}]+|}+(?=})|(?!}\s+-->)[^])*?}\s+)?(\/)?-->/g;
 
-function Block(blockName, attrs, innerBlocks, innerHTML) {
+function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
   return {
     blockName: blockName,
     attrs: attrs,
     innerBlocks: innerBlocks,
-    innerHTML: innerHTML
+    innerHTML: innerHTML,
+    innerContent: innerContent
   };
 }
 
 function Freeform(innerHTML) {
-  return Block(null, {}, [], innerHTML);
+  return Block(null, {}, [], innerHTML, [innerHTML]);
 }
 
 function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
@@ -283,19 +284,19 @@ function proceed() {
           output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));
         }
 
-        output.push(Block(blockName, attrs, [], ''));
+        output.push(Block(blockName, attrs, [], '', []));
         offset = startOffset + tokenLength;
         return true;
       } // otherwise we found an inner block
 
 
-      addInnerBlock(Block(blockName, attrs, [], ''), startOffset, tokenLength);
+      addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);
       offset = startOffset + tokenLength;
       return true;
 
     case 'block-opener':
       // track all newly-opened blocks on the stack
-      stack.push(Frame(Block(blockName, attrs, [], ''), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
+      stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
       offset = startOffset + tokenLength;
       return true;
 
@@ -321,7 +322,9 @@ function proceed() {
 
 
       var stackTop = stack.pop();
-      stackTop.block.innerHTML += document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      var html = document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      stackTop.block.innerHTML += html;
+      stackTop.block.innerContent.push(html);
       stackTop.prevOffset = startOffset + tokenLength;
       addInnerBlock(stackTop.block, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
       offset = startOffset + tokenLength;
@@ -413,7 +416,14 @@ function addFreeform(rawLength) {
 function addInnerBlock(block, tokenStart, tokenLength, lastOffset) {
   var parent = stack[stack.length - 1];
   parent.block.innerBlocks.push(block);
-  parent.block.innerHTML += document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+  var html = document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+
+  if (html) {
+    parent.block.innerHTML += html;
+    parent.block.innerContent.push(html);
+  }
+
+  parent.block.innerContent.push(null);
   parent.prevOffset = lastOffset ? lastOffset : tokenStart + tokenLength;
 }
 
@@ -424,10 +434,11 @@ function addBlockFromStack(endOffset) {
       prevOffset = _stack$pop.prevOffset,
       tokenStart = _stack$pop.tokenStart;
 
-  if (endOffset) {
-    block.innerHTML += document.substr(prevOffset, endOffset - prevOffset);
-  } else {
-    block.innerHTML += document.substr(prevOffset);
+  var html = endOffset ? document.substr(prevOffset, endOffset - prevOffset) : document.substr(prevOffset);
+
+  if (html) {
+    block.innerHTML += html;
+    block.innerContent.push(html);
   }
 
   if (null !== leadingHtmlStart) {

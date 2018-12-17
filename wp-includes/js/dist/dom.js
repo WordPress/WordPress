@@ -167,7 +167,7 @@ function _toConsumableArray(arr) {
 /*!*********************************************************!*\
   !*** ./node_modules/@wordpress/dom/build-module/dom.js ***!
   \*********************************************************/
-/*! exports provided: isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag */
+/*! exports provided: isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -188,6 +188,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /**
@@ -799,13 +800,12 @@ function unwrap(node) {
  *
  * @param {Element}  node    The node to replace
  * @param {string}   tagName The new tag name.
- * @param {Document} doc     The document of the node.
  *
  * @return {Element} The new node.
  */
 
-function replaceTag(node, tagName, doc) {
-  var newNode = doc.createElement(tagName);
+function replaceTag(node, tagName) {
+  var newNode = node.ownerDocument.createElement(tagName);
 
   while (node.firstChild) {
     newNode.appendChild(node.firstChild);
@@ -813,6 +813,17 @@ function replaceTag(node, tagName, doc) {
 
   node.parentNode.replaceChild(newNode, node);
   return newNode;
+}
+/**
+ * Wraps the given node with a new node with the given tag name.
+ *
+ * @param {Element} newNode       The node to insert.
+ * @param {Element} referenceNode The node to wrap.
+ */
+
+function wrap(newNode, referenceNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode);
+  newNode.appendChild(referenceNode);
 }
 
 
@@ -916,7 +927,7 @@ function find(context) {
 /*!***********************************************************!*\
   !*** ./node_modules/@wordpress/dom/build-module/index.js ***!
   \***********************************************************/
-/*! exports provided: focus, isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag */
+/*! exports provided: focus, isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -956,6 +967,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["unwrap"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["replaceTag"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "wrap", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["wrap"]; });
 
 /**
  * Internal dependencies

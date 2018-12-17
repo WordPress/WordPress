@@ -146,12 +146,14 @@
       background: #fafafa;
       border-color: #999;
       box-shadow: inset 0 -1px 0 #999;
-      color: #23282d; }
+      color: #23282d;
+      text-decoration: none; }
     .components-button.is-default:focus:enabled {
       background: #fafafa;
       color: #23282d;
       border-color: #999;
-      box-shadow: inset 0 -1px 0 #999, 0 0 0 2px #bfe7f3; }
+      box-shadow: inset 0 -1px 0 #999, 0 0 0 2px #bfe7f3;
+      text-decoration: none; }
     .components-button.is-default:active:enabled {
       background: #eee;
       border-color: #999;
@@ -1732,6 +1734,8 @@ svg.dashicon {
     left: 0;
     bottom: 0;
     right: 0; }
+  .components-disabled * {
+    pointer-events: none; }
 
 body.is-dragging-components-draggable {
   cursor: move;
@@ -1800,6 +1804,9 @@ body.is-dragging-components-draggable {
 
 .components-drop-zone__content-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
+
+.components-drop-zone__provider {
+  height: 100%; }
 
 .components-dropdown-menu {
   padding: 3px;

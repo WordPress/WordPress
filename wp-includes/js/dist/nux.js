@@ -397,7 +397,7 @@ function DotTip(_ref) {
 
   if (id) {
     tipId = id;
-    Object(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__["deprecated"])('The id prop of wp.nux.DotTip', {
+    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('The id prop of wp.nux.DotTip', {
       plugin: 'Gutenberg',
       version: '4.4',
       alternative: 'the tipId prop'

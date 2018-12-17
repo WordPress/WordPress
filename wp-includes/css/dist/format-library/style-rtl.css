@@ -64,3 +64,5 @@
   white-space: nowrap;
   min-width: 150px;
   max-width: 500px; }
+  .editor-format-toolbar__link-container-value.has-invalid-link {
+    color: #d94f4f; }
