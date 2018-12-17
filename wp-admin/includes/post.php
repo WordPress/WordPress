@@ -2339,8 +2339,8 @@ function the_block_editor_meta_box_post_form_hidden_fields( $post ) {
 
 		$classic_elements = wp_html_split( $classic_output );
 		$hidden_inputs    = '';
-		foreach( $classic_elements as $element ) {
-			if ( 0 !== strpos( $element, '<input ') ) {
+		foreach ( $classic_elements as $element ) {
+			if ( 0 !== strpos( $element, '<input ' ) ) {
 				continue;
 			}
 
