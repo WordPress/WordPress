@@ -546,7 +546,8 @@ class WP_Scripts extends WP_Dependencies {
 		}
 
 		$output = '(function( translations ){' .
-					  'wp.i18n.setLocaleData( translations.locale_data, "' . $domain . '" );' .
+					  'translations.locale_data.messages[""].domain = "' . $domain . '";' .
+					  'wp.i18n.setLocaleData( translations.locale_data.messages, "' . $domain . '" );' .
 				  '})(' . $json_translations . ');';
 
 		if ( $echo ) {
