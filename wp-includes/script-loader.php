@@ -111,7 +111,7 @@ function wp_default_packages_vendor( &$scripts ) {
 		$path    = "/wp-includes/js/dist/vendor/$handle$dev_suffix.js";
 		$version = $vendor_scripts_versions[ $handle ];
 
-		$scripts->add( $handle, $path, $dependencies, false, $version );
+		$scripts->add( $handle, $path, $dependencies, $version, 1 );
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
@@ -466,7 +466,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		$path    = "/wp-includes/js/dist/$package$suffix.js";
 		$version = $packages_versions[ $package ];
 
-		$scripts->add( $handle, $path, $dependencies, false, $version );
+		$scripts->add( $handle, $path, $dependencies, $version, 1 );
 
 		if ( isset( $package_translations[ $package ] ) ) {
 			$scripts->set_translations( $handle, $package_translations[ $package ] );
