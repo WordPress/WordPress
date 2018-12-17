@@ -61,6 +61,9 @@ function twentytwelve_setup() {
 	// Load default block styles.
 	add_theme_support( 'wp-block-styles' );
 
+	// Add support for responsive embeds.
+	add_theme_support( 'responsive-embeds' );
+
 	// Add support for custom color scheme.
 	add_theme_support(
 		'editor-color-palette',

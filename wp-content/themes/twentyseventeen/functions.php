@@ -123,6 +123,9 @@ function twentyseventeen_setup() {
 	// Load default block styles.
 	add_theme_support( 'wp-block-styles' );
 
+	// Add support for responsive embeds.
+	add_theme_support( 'responsive-embeds' );
+
 	// Define and register starter content to showcase the theme on new sites.
 	$starter_content = array(
 		'widgets'     => array(
