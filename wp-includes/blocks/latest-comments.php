@@ -29,7 +29,7 @@ if ( ! function_exists( 'gutenberg_draft_or_post_title' ) ) {
 	function gutenberg_draft_or_post_title( $post = 0 ) {
 		$title = get_the_title( $post );
 		if ( empty( $title ) ) {
-			$title = __( '(no title)', 'gutenberg' );
+			$title = __( '(no title)', 'default' );
 		}
 		return esc_html( $title );
 	}
@@ -98,7 +98,7 @@ function gutenberg_render_block_core_latest_comments( $attributes = array() ) {
 
 			$list_items_markup .= sprintf(
 				/* translators: 1: author name (inside <a> or <span> tag, based on if they have a URL), 2: post title related to this comment */
-				__( '%1$s on %2$s', 'gutenberg' ),
+				__( '%1$s on %2$s', 'default' ),
 				$author_markup,
 				$post_title
 			);
@@ -119,7 +119,7 @@ function gutenberg_render_block_core_latest_comments( $attributes = array() ) {
 	}
 
 	$class = 'wp-block-latest-comments';
-	if ( $attributes['align'] ) {
+	if ( isset( $attributes['align'] ) ) {
 		$class .= " align{$attributes['align']}";
 	}
 	if ( $attributes['displayAvatar'] ) {
@@ -143,7 +143,7 @@ function gutenberg_render_block_core_latest_comments( $attributes = array() ) {
 	) : sprintf(
 		'<div class="%1$s">%2$s</div>',
 		$classnames,
-		__( 'No comments to show.', 'gutenberg' )
+		__( 'No comments to show.', 'default' )
 	);
 
 	return $block_content;

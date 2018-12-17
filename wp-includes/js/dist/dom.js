@@ -680,7 +680,14 @@ function isEntirelySelected(element) {
       endContainer = range.endContainer,
       startOffset = range.startOffset,
       endOffset = range.endOffset;
-  return startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length;
+
+  if (startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length) {
+    return true;
+  }
+
+  var lastChild = element.lastChild;
+  var lastChildContentLength = lastChild.nodeType === TEXT_NODE ? lastChild.data.length : lastChild.childNodes.length;
+  return startContainer === element.firstChild && endContainer === element.lastChild && startOffset === 0 && endOffset === lastChildContentLength;
 }
 /**
  * Given a DOM node, finds the closest scrollable container node.

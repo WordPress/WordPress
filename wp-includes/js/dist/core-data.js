@@ -319,7 +319,7 @@ function _toConsumableArray(arr) {
 /*!*******************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/actions.js ***!
   \*******************************************************************/
-/*! exports provided: receiveUserQuery, addEntities, receiveEntityRecords, receiveThemeSupports, receiveEmbedPreview, saveEntityRecord */
+/*! exports provided: receiveUserQuery, addEntities, receiveEntityRecords, receiveThemeSupports, receiveEmbedPreview, saveEntityRecord, receiveUploadPermissions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -330,6 +330,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveThemeSupports", function() { return receiveThemeSupports; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveEmbedPreview", function() { return receiveEmbedPreview; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveEntityRecord", function() { return saveEntityRecord; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUploadPermissions", function() { return receiveUploadPermissions; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
@@ -499,6 +500,20 @@ function saveEntityRecord(kind, name, record) {
       }
     }
   }, _marked, this);
+}
+/**
+ * Returns an action object used in signalling that Upload permissions have been received.
+ *
+ * @param {boolean} hasUploadPermissions Does the user have permission to upload files?
+ *
+ * @return {Object} Action object.
+ */
+
+function receiveUploadPermissions(hasUploadPermissions) {
+  return {
+    type: 'RECEIVE_UPLOAD_PERMISSIONS',
+    hasUploadPermissions: hasUploadPermissions
+  };
 }
 
 
@@ -799,7 +814,7 @@ function getKindEntities(kind) {
 /*!*****************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/index.js ***!
   \*****************************************************************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -893,14 +908,13 @@ var entityActions = _entities__WEBPACK_IMPORTED_MODULE_7__["defaultEntities"].re
 
   return result;
 }, {});
-var store = Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["registerStore"])(_name__WEBPACK_IMPORTED_MODULE_8__["REDUCER_KEY"], {
+Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_1__["registerStore"])(_name__WEBPACK_IMPORTED_MODULE_8__["REDUCER_KEY"], {
   reducer: _reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
   controls: _controls__WEBPACK_IMPORTED_MODULE_3__["default"],
   actions: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _actions__WEBPACK_IMPORTED_MODULE_5__, entityActions),
   selectors: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _selectors__WEBPACK_IMPORTED_MODULE_4__, entitySelectors),
   resolvers: Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, _resolvers__WEBPACK_IMPORTED_MODULE_6__, entityResolvers)
 });
-/* harmony default export */ __webpack_exports__["default"] = (store);
 
 
 /***/ }),
@@ -1338,7 +1352,7 @@ var getQueriedItems = Object(rememo__WEBPACK_IMPORTED_MODULE_0__["default"])(fun
 /*!*******************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/reducer.js ***!
   \*******************************************************************/
-/*! exports provided: terms, users, taxonomies, themeSupports, entitiesConfig, entities, embedPreviews, default */
+/*! exports provided: terms, users, taxonomies, themeSupports, entitiesConfig, entities, embedPreviews, hasUploadPermissions, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1350,6 +1364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "entitiesConfig", function() { return entitiesConfig; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "entities", function() { return entities; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "embedPreviews", function() { return embedPreviews; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasUploadPermissions", function() { return hasUploadPermissions; });
 /* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
 /* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
@@ -1581,13 +1596,34 @@ function embedPreviews() {
 
   return state;
 }
+/**
+ * Reducer managing Upload permissions.
+ *
+ * @param  {Object}  state  Current state.
+ * @param  {Object}  action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+
+function hasUploadPermissions() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'RECEIVE_UPLOAD_PERMISSIONS':
+      return action.hasUploadPermissions;
+  }
+
+  return state;
+}
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__["combineReducers"])({
   terms: terms,
   users: users,
   taxonomies: taxonomies,
   themeSupports: themeSupports,
   entities: entities,
-  embedPreviews: embedPreviews
+  embedPreviews: embedPreviews,
+  hasUploadPermissions: hasUploadPermissions
 }));
 
 
@@ -1597,7 +1633,7 @@ function embedPreviews() {
 /*!*********************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/resolvers.js ***!
   \*********************************************************************/
-/*! exports provided: getAuthors, getEntityRecord, getEntityRecords, getThemeSupports, getEmbedPreview */
+/*! exports provided: getAuthors, getEntityRecord, getEntityRecords, getThemeSupports, getEmbedPreview, hasUploadPermissions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1607,6 +1643,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEntityRecords", function() { return getEntityRecords; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getThemeSupports", function() { return getThemeSupports; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEmbedPreview", function() { return getEmbedPreview; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasUploadPermissions", function() { return hasUploadPermissions; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
@@ -1631,7 +1668,10 @@ regeneratorRuntime.mark(getEntityRecords),
 regeneratorRuntime.mark(getThemeSupports),
     _marked5 =
 /*#__PURE__*/
-regeneratorRuntime.mark(getEmbedPreview);
+regeneratorRuntime.mark(getEmbedPreview),
+    _marked6 =
+/*#__PURE__*/
+regeneratorRuntime.mark(hasUploadPermissions);
 
 /**
  * External dependencies
@@ -1857,6 +1897,46 @@ function getEmbedPreview(url) {
     }
   }, _marked5, this, [[0, 8]]);
 }
+/**
+ * Requests Upload Permissions from the REST API.
+ */
+
+function hasUploadPermissions() {
+  var response, allowHeader;
+  return regeneratorRuntime.wrap(function hasUploadPermissions$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return Object(_controls__WEBPACK_IMPORTED_MODULE_5__["apiFetch"])({
+            path: '/wp/v2/media',
+            method: 'OPTIONS',
+            parse: false
+          });
+
+        case 2:
+          response = _context6.sent;
+
+          if (Object(lodash__WEBPACK_IMPORTED_MODULE_1__["hasIn"])(response, ['headers', 'get'])) {
+            // If the request is fetched using the fetch api, the header can be
+            // retrieved using the 'get' method.
+            allowHeader = response.headers.get('allow');
+          } else {
+            // If the request was preloaded server-side and is returned by the
+            // preloading middleware, the header will be a simple property.
+            allowHeader = Object(lodash__WEBPACK_IMPORTED_MODULE_1__["get"])(response, ['headers', 'Allow'], '');
+          }
+
+          _context6.next = 6;
+          return Object(_actions__WEBPACK_IMPORTED_MODULE_3__["receiveUploadPermissions"])(Object(lodash__WEBPACK_IMPORTED_MODULE_1__["includes"])(allowHeader, 'POST'));
+
+        case 6:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, _marked6, this);
+}
 
 
 /***/ }),
@@ -1865,7 +1945,7 @@ function getEmbedPreview(url) {
 /*!*********************************************************************!*\
   !*** ./node_modules/@wordpress/core-data/build-module/selectors.js ***!
   \*********************************************************************/
-/*! exports provided: isRequestingEmbedPreview, getAuthors, getUserQueryResults, getEntitiesByKind, getEntity, getEntityRecord, getEntityRecords, getThemeSupports, getEmbedPreview, isPreviewEmbedFallback */
+/*! exports provided: isRequestingEmbedPreview, getAuthors, getUserQueryResults, getEntitiesByKind, getEntity, getEntityRecord, getEntityRecords, getThemeSupports, getEmbedPreview, isPreviewEmbedFallback, hasUploadPermissions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1880,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getThemeSupports", function() { return getThemeSupports; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getEmbedPreview", function() { return getEmbedPreview; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPreviewEmbedFallback", function() { return isPreviewEmbedFallback; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasUploadPermissions", function() { return hasUploadPermissions; });
 /* harmony import */ var rememo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rememo */ "./node_modules/rememo/es/rememo.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
@@ -2071,6 +2152,17 @@ function isPreviewEmbedFallback(state, url) {
   }
 
   return preview.html === oEmbedLinkCheck;
+}
+/**
+ * Return Upload Permissions.
+ *
+ * @param  {Object}  state State tree.
+ *
+ * @return {boolean} Upload Permissions.
+ */
+
+function hasUploadPermissions(state) {
+  return state.hasUploadPermissions;
 }
 
 

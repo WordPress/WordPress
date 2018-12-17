@@ -28,30 +28,6 @@
 /**
  * Styles that are reused verbatim in a few places
  */
-@keyframes fade-in {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-
-@keyframes editor_region_focus {
-  from {
-    box-shadow: inset 0 0 0 0 #33b3db; }
-  to {
-    box-shadow: inset 0 0 0 4px #33b3db; } }
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg); }
-  to {
-    transform: rotate(-360deg); } }
-
-@keyframes modal-appear {
-  from {
-    margin-top: 32px; }
-  to {
-    margin-top: 0; } }
-
 .nux-dot-tip::before, .nux-dot-tip::after {
   border-radius: 100%;
   content: " ";

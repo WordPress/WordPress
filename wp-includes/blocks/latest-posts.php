@@ -13,15 +13,18 @@
  * @return string Returns the post content with latest posts added.
  */
 function render_block_core_latest_posts( $attributes ) {
-	$recent_posts = wp_get_recent_posts(
-		array(
-			'numberposts' => $attributes['postsToShow'],
-			'post_status' => 'publish',
-			'order'       => $attributes['order'],
-			'orderby'     => $attributes['orderBy'],
-			'category'    => $attributes['categories'],
-		)
+	$args = array(
+		'numberposts' => $attributes['postsToShow'],
+		'post_status' => 'publish',
+		'order'       => $attributes['order'],
+		'orderby'     => $attributes['orderBy'],
 	);
+
+	if ( isset( $attributes['categories'] ) ) {
+		$args['categories'] = $attributes['categories'];
+	}
+
+	$recent_posts = wp_get_recent_posts( $args );
 
 	$list_items_markup = '';
 
@@ -30,7 +33,7 @@ function render_block_core_latest_posts( $attributes ) {
 
 		$title = get_the_title( $post_id );
 		if ( ! $title ) {
-			$title = __( '(Untitled)', 'gutenberg' );
+			$title = __( '(Untitled)', 'default' );
 		}
 		$list_items_markup .= sprintf(
 			'<li><a href="%1$s">%2$s</a>',

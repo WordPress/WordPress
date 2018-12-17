@@ -74,10 +74,12 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
  * @param WP_Scripts $scripts WP_Scripts object.
  */
 function wp_default_packages_vendor( &$scripts ) {
+	global $wp_locale;
+
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
 
 	$vendor_scripts = array(
-		'react',
+		'react'     => array( 'wp-polyfill' ),
 		'react-dom' => array( 'react' ),
 		'moment',
 		'lodash',
@@ -100,9 +102,8 @@ function wp_default_packages_vendor( &$scripts ) {
 	}
 
 	$scripts->add( 'wp-polyfill', null, array( 'wp-polyfill' ) );
-	did_action( 'init' ) && $scripts->add_data(
+	did_action( 'init' ) && $scripts->add_inline_script(
 		'wp-polyfill',
-		'data',
 		wp_get_script_polyfill(
 			$scripts,
 			array(
@@ -110,11 +111,40 @@ function wp_default_packages_vendor( &$scripts ) {
 				'document.contains'   => 'wp-polyfill-node-contains',
 				'window.FormData && window.FormData.prototype.keys' => 'wp-polyfill-formdata',
 				'Element.prototype.matches && Element.prototype.closest' => 'wp-polyfill-element-closest',
-			)
+			),
+			'after'
 		)
 	);
 
 	did_action( 'init' ) && $scripts->add_inline_script( 'lodash', 'window.lodash = _.noConflict();' );
+
+	did_action( 'init' ) && $scripts->add_inline_script(
+		'moment',
+		sprintf(
+			"moment.locale( '%s', %s );",
+			get_user_locale(),
+			wp_json_encode(
+				array(
+					'months'         => array_values( $wp_locale->month ),
+					'monthsShort'    => array_values( $wp_locale->month_abbrev ),
+					'weekdays'       => array_values( $wp_locale->weekday ),
+					'weekdaysShort'  => array_values( $wp_locale->weekday_abbrev ),
+					'week'           => array(
+						'dow' => (int) get_option( 'start_of_week', 0 ),
+					),
+					'longDateFormat' => array(
+						'LT'   => get_option( 'time_format', __( 'g:i a', 'default' ) ),
+						'LTS'  => null,
+						'L'    => null,
+						'LL'   => get_option( 'date_format', __( 'F j, Y', 'default' ) ),
+						'LLL'  => __( 'F j, Y g:i a', 'default' ),
+						'LLLL' => null,
+					),
+				)
+			)
+		),
+		'after'
+	);
 }
 
 /**
@@ -183,6 +213,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-dom',
 			'wp-element',
 			'wp-hooks',
+			'wp-html-entities',
 			'wp-i18n',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -201,6 +232,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-compose',
 			'wp-core-data',
 			'wp-data',
+			'wp-date',
 			'wp-editor',
 			'wp-element',
 			'wp-html-entities',
@@ -219,7 +251,6 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-a11y',
 			'wp-api-fetch',
 			'wp-compose',
-			'wp-deprecated',
 			'wp-dom',
 			'wp-element',
 			'wp-hooks',
@@ -233,7 +264,6 @@ function wp_default_packages_scripts( &$scripts ) {
 		),
 		'compose'                            => array(
 			'lodash',
-			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -242,7 +272,6 @@ function wp_default_packages_scripts( &$scripts ) {
 		'data'                               => array(
 			'lodash',
 			'wp-compose',
-			'wp-deprecated',
 			'wp-element',
 			'wp-is-shallow-equal',
 			'wp-polyfill',
@@ -272,6 +301,7 @@ function wp_default_packages_scripts( &$scripts ) {
 			'wp-embed',
 			'wp-i18n',
 			'wp-keycodes',
+			'wp-notices',
 			'wp-nux',
 			'wp-plugins',
 			'wp-polyfill',
@@ -344,10 +374,10 @@ function wp_default_packages_scripts( &$scripts ) {
 		),
 		'nux'                                => array(
 			'wp-element',
+			'lodash',
 			'wp-components',
 			'wp-compose',
 			'wp-data',
-			'wp-deprecated',
 			'wp-i18n',
 			'wp-polyfill',
 			'lodash',
@@ -356,9 +386,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'redux-routine'                      => array( 'wp-polyfill' ),
 		'rich-text'                          => array(
 			'lodash',
-			'wp-blocks',
 			'wp-data',
-			'wp-deprecated',
 			'wp-escape-html',
 			'wp-polyfill',
 		),
@@ -1852,11 +1880,13 @@ function wp_default_styles( &$styles ) {
 	$fonts_url = '';
 
 	/*
-	 * Translators: If there are characters in your language that are not supported
-	 * by Noto Serif, translate this to 'off'. Do not translate into your own language.
+	 * Translators: Use this to specify the proper Google Font name and variants
+	 * to load that is supported by your language. Do not translate.
+	 * Set to 'off' to disable loading.
 	 */
-	if ( 'off' !== _x( 'on', 'Noto Serif font: on or off' ) ) {
-		$fonts_url = 'https://fonts.googleapis.com/css?family=Noto+Serif%3A400%2C400i%2C700%2C700i';
+	$font_family = _x( 'Noto Serif:400,400i,700,700i', 'Google Font Name and Variants' );
+	if ( 'off' !== $font_family ) {
+		$fonts_url = 'https://fonts.googleapis.com/css?family=' . urlencode( $font_family );
 	}
 	$styles->add( 'wp-editor-font', $fonts_url );
 

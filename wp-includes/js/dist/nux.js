@@ -335,14 +335,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/deprecated */ "@wordpress/deprecated");
-/* harmony import */ var _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5__);
 
 
 /**
  * WordPress dependencies
  */
-
 
 
 
@@ -392,17 +389,7 @@ function DotTip(_ref) {
   }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Object(_wordpress_compose__WEBPACK_IMPORTED_MODULE_1__["compose"])(Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["withSelect"])(function (select, _ref2) {
-  var tipId = _ref2.tipId,
-      id = _ref2.id;
-
-  if (id) {
-    tipId = id;
-    _wordpress_deprecated__WEBPACK_IMPORTED_MODULE_5___default()('The id prop of wp.nux.DotTip', {
-      plugin: 'Gutenberg',
-      version: '4.4',
-      alternative: 'the tipId prop'
-    });
-  }
+  var tipId = _ref2.tipId;
 
   var _select = select('core/nux'),
       isTipVisible = _select.isTipVisible,
@@ -414,8 +401,7 @@ function DotTip(_ref) {
     hasNextTip: !!(associatedGuide && associatedGuide.nextTipId)
   };
 }), Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_4__["withDispatch"])(function (dispatch, _ref3) {
-  var tipId = _ref3.tipId,
-      id = _ref3.id;
+  var tipId = _ref3.tipId;
 
   var _dispatch = dispatch('core/nux'),
       dismissTip = _dispatch.dismissTip,
@@ -423,7 +409,7 @@ function DotTip(_ref) {
 
   return {
     onDismiss: function onDismiss() {
-      dismissTip(tipId || id);
+      dismissTip(tipId);
     },
     onDisable: function onDisable() {
       disableTips();
@@ -1112,17 +1098,6 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["data"]; }());
-
-/***/ }),
-
-/***/ "@wordpress/deprecated":
-/*!*********************************************!*\
-  !*** external {"this":["wp","deprecated"]} ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["deprecated"]; }());
 
 /***/ }),
 

@@ -217,7 +217,7 @@ function getProtocol(url) {
  *
  * @param {string} protocol The url protocol.
  *
- * @return {boolean} True if the argument is a valid protocol (e.g. http://, tel:).
+ * @return {boolean} True if the argument is a valid protocol (e.g. http:, tel:).
  */
 
 function isValidProtocol(protocol) {
@@ -225,7 +225,7 @@ function isValidProtocol(protocol) {
     return false;
   }
 
-  return /^[a-z\-.\+]+[0-9]*:(?:\/\/)?\/?$/i.test(protocol);
+  return /^[a-z\-.\+]+[0-9]*:$/i.test(protocol);
 }
 /**
  * Returns the authority part of the URL.
@@ -326,7 +326,7 @@ function isValidQueryString(queryString) {
  */
 
 function getFragment(url) {
-  var matches = /^\S+(#[^\s\?]*)/.exec(url);
+  var matches = /^\S+?(#[^\s\?]*)/.exec(url);
 
   if (matches) {
     return matches[1];
