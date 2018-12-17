@@ -1161,7 +1161,8 @@ function do_meta_boxes( $screen, $context, $object ) {
 					}
 
 					$i++;
-					$hidden_class = in_array( $box['id'], $hidden ) ? ' hide-if-js' : '';
+					// get_hidden_meta_boxes() doesn't apply in the block editor.
+					$hidden_class = ( ! $screen->is_block_editor() && in_array( $box['id'], $hidden ) ) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes( $box['id'], $page ) . $hidden_class . '" ' . '>' . "\n";
 					if ( 'dashboard_browser_nag' != $box['id'] ) {
 						$widget_title = $box['title'];
