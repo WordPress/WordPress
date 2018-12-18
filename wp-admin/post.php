@@ -200,7 +200,7 @@ switch ( $action ) {
 
 		// Update the thumbnail filename
 		$newmeta          = wp_get_attachment_metadata( $post_id, true );
-		$newmeta['thumb'] = $_POST['thumb'];
+		$newmeta['thumb'] = wp_basename( $_POST['thumb'] );
 
 		wp_update_attachment_metadata( $post_id, $newmeta );
 
