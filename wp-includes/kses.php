@@ -851,13 +851,13 @@ function wp_kses_allowed_html( $context = '' ) {
 				$tags = $allowedposttags;
 
 				$tags['form'] = array(
-					'action' => true,
-					'accept' => true,
+					'action'         => true,
+					'accept'         => true,
 					'accept-charset' => true,
-					'enctype' => true,
-					'method' => true,
-					'name' => true,
-					'target' => true,
+					'enctype'        => true,
+					'method'         => true,
+					'name'           => true,
+					'target'         => true,
 				);
 
 				/** This filter is documented in wp-includes/kses.php */
