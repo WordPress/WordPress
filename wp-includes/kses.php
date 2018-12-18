@@ -187,15 +187,6 @@ if ( ! CUSTOM_TAGS ) {
 			'lang'     => true,
 			'xml:lang' => true,
 		),
-		'form'       => array(
-			'action'         => true,
-			'accept'         => true,
-			'accept-charset' => true,
-			'enctype'        => true,
-			'method'         => true,
-			'name'           => true,
-			'target'         => true,
-		),
 		'h1'         => array(
 			'align' => true,
 		),
@@ -824,6 +815,7 @@ function wp_kses_one_attr( $string, $element ) {
  * Returns an array of allowed HTML tags and attributes for a given context.
  *
  * @since 3.5.0
+ * @since 5.0.1 `form` removed as allowable HTML tag.
  *
  * @global array $allowedposttags
  * @global array $allowedtags
@@ -852,7 +844,27 @@ function wp_kses_allowed_html( $context = '' ) {
 	switch ( $context ) {
 		case 'post':
 			/** This filter is documented in wp-includes/kses.php */
-			return apply_filters( 'wp_kses_allowed_html', $allowedposttags, $context );
+			$tags = apply_filters( 'wp_kses_allowed_html', $allowedposttags, $context );
+
+			// 5.0.1 removed the `<form>` tag, allow it if a filter is allowing it's sub-elements `<input>` or `<select>`.
+			if ( ! CUSTOM_TAGS && ! isset( $tags['form'] ) && ( isset( $tags['input'] ) || isset( $tags['select'] ) ) ) {
+				$tags = $allowedposttags;
+
+				$tags['form'] = array(
+					'action' => true,
+					'accept' => true,
+					'accept-charset' => true,
+					'enctype' => true,
+					'method' => true,
+					'name' => true,
+					'target' => true,
+				);
+
+				/** This filter is documented in wp-includes/kses.php */
+				$tags = apply_filters( 'wp_kses_allowed_html', $tags, $context );
+			}
+
+			return $tags;
 
 		case 'user_description':
 		case 'pre_user_description':
