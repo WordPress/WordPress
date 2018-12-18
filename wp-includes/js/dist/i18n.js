@@ -82,611 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/i18n/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 320);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@tannin/compile/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/@tannin/compile/index.js ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return compile; });
-/* harmony import */ var _tannin_postfix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tannin/postfix */ "./node_modules/@tannin/postfix/index.js");
-/* harmony import */ var _tannin_evaluate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @tannin/evaluate */ "./node_modules/@tannin/evaluate/index.js");
-
-
-
-/**
- * Given a C expression, returns a function which can be called to evaluate its
- * result.
- *
- * @example
- *
- * ```js
- * import compile from '@tannin/compile';
- *
- * const evaluate = compile( 'n > 1' );
- *
- * evaluate( { n: 2 } );
- * // ⇒ true
- * ```
- *
- * @param {string} expression C expression.
- *
- * @return {Function} Compiled evaluator.
- */
-function compile( expression ) {
-	var terms = Object(_tannin_postfix__WEBPACK_IMPORTED_MODULE_0__["default"])( expression );
-
-	return function( variables ) {
-		return Object(_tannin_evaluate__WEBPACK_IMPORTED_MODULE_1__["default"])( terms, variables );
-	};
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@tannin/evaluate/index.js":
-/*!************************************************!*\
-  !*** ./node_modules/@tannin/evaluate/index.js ***!
-  \************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return evaluate; });
-/**
- * Operator callback functions.
- *
- * @type {Object}
- */
-var OPERATORS = {
-	'!': function( a ) {
-		return ! a;
-	},
-	'*': function( a, b ) {
-		return a * b;
-	},
-	'/': function( a, b ) {
-		return a / b;
-	},
-	'%': function( a, b ) {
-		return a % b;
-	},
-	'+': function( a, b ) {
-		return a + b;
-	},
-	'-': function( a, b ) {
-		return a - b;
-	},
-	'<': function( a, b ) {
-		return a < b;
-	},
-	'<=': function( a, b ) {
-		return a <= b;
-	},
-	'>': function( a, b ) {
-		return a > b;
-	},
-	'>=': function( a, b ) {
-		return a >= b;
-	},
-	'==': function( a, b ) {
-		return a === b;
-	},
-	'!=': function( a, b ) {
-		return a !== b;
-	},
-	'&&': function( a, b ) {
-		return a && b;
-	},
-	'||': function( a, b ) {
-		return a || b;
-	},
-	'?:': function( a, b, c ) {
-		if ( a ) {
-			throw b;
-		}
-
-		return c;
-	},
-};
-
-/**
- * Given an array of postfix terms and operand variables, returns the result of
- * the postfix evaluation.
- *
- * @example
- *
- * ```js
- * import evaluate from '@tannin/evaluate';
- *
- * // 3 + 4 * 5 / 6 ⇒ '3 4 5 * 6 / +'
- * const terms = [ '3', '4', '5', '*', '6', '/', '+' ];
- *
- * evaluate( terms, {} );
- * // ⇒ 6.333333333333334
- * ```
- *
- * @param {string[]} postfix   Postfix terms.
- * @param {Object}   variables Operand variables.
- *
- * @return {*} Result of evaluation.
- */
-function evaluate( postfix, variables ) {
-	var stack = [],
-		i, getOperatorResult, term, value;
-
-	for ( i = 0; i < postfix.length; i++ ) {
-		term = postfix[ i ];
-
-		getOperatorResult = OPERATORS[ term ];
-		if ( getOperatorResult ) {
-			try {
-				// Pop from stack by number of function arguments.
-				value = getOperatorResult.apply(
-					null,
-					stack.splice( -1 * getOperatorResult.length )
-				);
-			} catch ( earlyReturn ) {
-				return earlyReturn;
-			}
-		} else if ( variables.hasOwnProperty( term ) ) {
-			value = variables[ term ];
-		} else {
-			value = +term;
-		}
-
-		stack.push( value );
-	}
-
-	return stack[ 0 ];
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@tannin/plural-forms/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@tannin/plural-forms/index.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return pluralForms; });
-/* harmony import */ var _tannin_compile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tannin/compile */ "./node_modules/@tannin/compile/index.js");
-
-
-/**
- * Given a C expression, returns a function which, when called with a value,
- * evaluates the result with the value assumed to be the "n" variable of the
- * expression. The result will be coerced to its numeric equivalent.
- *
- * @param {string} expression C expression.
- *
- * @return {Function} Evaluator function.
- */
-function pluralForms( expression ) {
-	var evaluate = Object(_tannin_compile__WEBPACK_IMPORTED_MODULE_0__["default"])( expression );
-
-	return function( n ) {
-		return +evaluate( { n: n } );
-	};
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@tannin/postfix/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/@tannin/postfix/index.js ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return postfix; });
-var PRECEDENCE, OPENERS, TERMINATORS, PATTERN;
-
-/**
- * Operator precedence mapping.
- *
- * @type {Object}
- */
-PRECEDENCE = {
-	'(': 9,
-	'!': 8,
-	'*': 7,
-	'/': 7,
-	'%': 7,
-	'+': 6,
-	'-': 6,
-	'<': 5,
-	'<=': 5,
-	'>': 5,
-	'>=': 5,
-	'==': 4,
-	'!=': 4,
-	'&&': 3,
-	'||': 2,
-	'?': 1,
-	'?:': 1,
-};
-
-/**
- * Characters which signal pair opening, to be terminated by terminators.
- *
- * @type {string[]}
- */
-OPENERS = [ '(', '?' ];
-
-/**
- * Characters which signal pair termination, the value an array with the
- * opener as its first member. The second member is an optional operator
- * replacement to push to the stack.
- *
- * @type {string[]}
- */
-TERMINATORS = {
-	')': [ '(' ],
-	':': [ '?', '?:' ],
-};
-
-/**
- * Pattern matching operators and openers.
- *
- * @type {RegExp}
- */
-PATTERN = /<=|>=|==|!=|&&|\|\||\?:|\(|!|\*|\/|%|\+|-|<|>|\?|\)|:/;
-
-/**
- * Given a C expression, returns the equivalent postfix (Reverse Polish)
- * notation terms as an array.
- *
- * If a postfix string is desired, simply `.join( ' ' )` the result.
- *
- * @example
- *
- * ```js
- * import postfix from '@tannin/postfix';
- *
- * postfix( 'n > 1' );
- * // ⇒ [ 'n', '1', '>' ]
- * ```
- *
- * @param {string} expression C expression.
- *
- * @return {string[]} Postfix terms.
- */
-function postfix( expression ) {
-	var terms = [],
-		stack = [],
-		match, operator, term, element;
-
-	while ( ( match = expression.match( PATTERN ) ) ) {
-		operator = match[ 0 ];
-
-		// Term is the string preceding the operator match. It may contain
-		// whitespace, and may be empty (if operator is at beginning).
-		term = expression.substr( 0, match.index ).trim();
-		if ( term ) {
-			terms.push( term );
-		}
-
-		while ( ( element = stack.pop() ) ) {
-			if ( TERMINATORS[ operator ] ) {
-				if ( TERMINATORS[ operator ][ 0 ] === element ) {
-					// Substitution works here under assumption that because
-					// the assigned operator will no longer be a terminator, it
-					// will be pushed to the stack during the condition below.
-					operator = TERMINATORS[ operator ][ 1 ] || operator;
-					break;
-				}
-			} else if ( OPENERS.indexOf( element ) >= 0 || PRECEDENCE[ element ] < PRECEDENCE[ operator ] ) {
-				// Push to stack if either an opener or when pop reveals an
-				// element of lower precedence.
-				stack.push( element );
-				break;
-			}
-
-			// For each popped from stack, push to terms.
-			terms.push( element );
-		}
-
-		if ( ! TERMINATORS[ operator ] ) {
-			stack.push( operator );
-		}
-
-		// Slice matched fragment from expression to continue match.
-		expression = expression.substr( match.index + operator.length );
-	}
-
-	// Push remainder of operand, if exists, to terms.
-	expression = expression.trim();
-	if ( expression ) {
-		terms.push( expression );
-	}
-
-	// Pop remaining items from stack into terms.
-	return terms.concat( stack.reverse() );
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/i18n/build-module/index.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@wordpress/i18n/build-module/index.js ***!
-  \************************************************************/
-/*! exports provided: setLocaleData, __, _x, _n, _nx, sprintf */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return setLocaleData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__", function() { return __; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_x", function() { return _x; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_n", function() { return _n; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_nx", function() { return _nx; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return sprintf; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var tannin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tannin */ "./node_modules/tannin/index.js");
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! memize */ "./node_modules/memize/index.js");
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var sprintf_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sprintf-js */ "./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js");
-/* harmony import */ var sprintf_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sprintf_js__WEBPACK_IMPORTED_MODULE_3__);
-
-
-/**
- * External dependencies
- */
-
-
-
-/**
- * Default locale data to use for Tannin domain when not otherwise provided.
- * Assumes an English plural forms expression.
- *
- * @type {Object}
- */
-
-var DEFAULT_LOCALE_DATA = {
-  '': {
-    plural_forms: 'plural=(n!=1)'
-  }
-};
-/**
- * Log to console, once per message; or more precisely, per referentially equal
- * argument set. Because Jed throws errors, we log these to the console instead
- * to avoid crashing the application.
- *
- * @param {...*} args Arguments to pass to `console.error`
- */
-
-var logErrorOnce = memize__WEBPACK_IMPORTED_MODULE_2___default()(console.error); // eslint-disable-line no-console
-
-/**
- * The underlying instance of Tannin to which exported functions interface.
- *
- * @type {Tannin}
- */
-
-var i18n = new tannin__WEBPACK_IMPORTED_MODULE_1__["default"]({});
-/**
- * Merges locale data into the Tannin instance by domain. Accepts data in a
- * Jed-formatted JSON object shape.
- *
- * @see http://messageformat.github.io/Jed/
- *
- * @param {?Object} data   Locale data configuration.
- * @param {?string} domain Domain for which configuration applies.
- */
-
-function setLocaleData(data) {
-  var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
-  i18n.data[domain] = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, DEFAULT_LOCALE_DATA, i18n.data[domain], data); // Populate default domain configuration (supported locale date which omits
-  // a plural forms expression).
-
-  i18n.data[domain][''] = Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, DEFAULT_LOCALE_DATA[''], i18n.data[domain]['']);
-}
-/**
- * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
- * otherwise previously assigned.
- *
- * @param {?string} domain  Domain to retrieve the translated text.
- * @param {?string} context Context information for the translators.
- * @param {string}  single  Text to translate if non-plural. Used as fallback
- *                          return value on a caught error.
- * @param {?string} plural  The text to be used if the number is plural.
- * @param {?number} number  The number to compare against to use either the
- *                          singular or plural form.
- *
- * @return {string} The translated string.
- */
-
-function dcnpgettext() {
-  var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
-  var context = arguments.length > 1 ? arguments[1] : undefined;
-  var single = arguments.length > 2 ? arguments[2] : undefined;
-  var plural = arguments.length > 3 ? arguments[3] : undefined;
-  var number = arguments.length > 4 ? arguments[4] : undefined;
-
-  if (!i18n.data[domain]) {
-    setLocaleData(undefined, domain);
-  }
-
-  return i18n.dcnpgettext(domain, context, single, plural, number);
-}
-/**
- * Retrieve the translation of text.
- *
- * @see https://developer.wordpress.org/reference/functions/__/
- *
- * @param {string}  text   Text to translate.
- * @param {?string} domain Domain to retrieve the translated text.
- *
- * @return {string} Translated text.
- */
-
-
-function __(text, domain) {
-  return dcnpgettext(domain, undefined, text);
-}
-/**
- * Retrieve translated string with gettext context.
- *
- * @see https://developer.wordpress.org/reference/functions/_x/
- *
- * @param {string}  text    Text to translate.
- * @param {string}  context Context information for the translators.
- * @param {?string} domain  Domain to retrieve the translated text.
- *
- * @return {string} Translated context string without pipe.
- */
-
-function _x(text, context, domain) {
-  return dcnpgettext(domain, context, text);
-}
-/**
- * Translates and retrieves the singular or plural form based on the supplied
- * number.
- *
- * @see https://developer.wordpress.org/reference/functions/_n/
- *
- * @param {string}  single The text to be used if the number is singular.
- * @param {string}  plural The text to be used if the number is plural.
- * @param {number}  number The number to compare against to use either the
- *                         singular or plural form.
- * @param {?string} domain Domain to retrieve the translated text.
- *
- * @return {string} The translated singular or plural form.
- */
-
-function _n(single, plural, number, domain) {
-  return dcnpgettext(domain, undefined, single, plural, number);
-}
-/**
- * Translates and retrieves the singular or plural form based on the supplied
- * number, with gettext context.
- *
- * @see https://developer.wordpress.org/reference/functions/_nx/
- *
- * @param {string}  single  The text to be used if the number is singular.
- * @param {string}  plural  The text to be used if the number is plural.
- * @param {number}  number  The number to compare against to use either the
- *                          singular or plural form.
- * @param {string}  context Context information for the translators.
- * @param {?string} domain  Domain to retrieve the translated text.
- *
- * @return {string} The translated singular or plural form.
- */
-
-function _nx(single, plural, number, context, domain) {
-  return dcnpgettext(domain, context, single, plural, number);
-}
-/**
- * Returns a formatted string. If an error occurs in applying the format, the
- * original format string is returned.
- *
- * @param {string}   format  The format of the string to generate.
- * @param {string[]} ...args Arguments to apply to the format.
- *
- * @see http://www.diveintojavascript.com/projects/javascript-sprintf
- *
- * @return {string} The formatted string.
- */
-
-function sprintf(format) {
-  try {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return sprintf_js__WEBPACK_IMPORTED_MODULE_3___default.a.sprintf.apply(sprintf_js__WEBPACK_IMPORTED_MODULE_3___default.a, [format].concat(args));
-  } catch (error) {
-    logErrorOnce('sprintf error: \n\n' + error.toString());
-    return format;
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js ***!
-  \*****************************************************************************/
-/*! no static exports found */
+/***/ 125:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -912,11 +313,658 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
 
 /***/ }),
 
-/***/ "./node_modules/memize/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/memize/index.js ***!
-  \**************************************/
-/*! no static exports found */
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+/***/ }),
+
+/***/ 320:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
+var objectSpread = __webpack_require__(8);
+
+// CONCATENATED MODULE: ./node_modules/@tannin/postfix/index.js
+var PRECEDENCE, OPENERS, TERMINATORS, PATTERN;
+
+/**
+ * Operator precedence mapping.
+ *
+ * @type {Object}
+ */
+PRECEDENCE = {
+	'(': 9,
+	'!': 8,
+	'*': 7,
+	'/': 7,
+	'%': 7,
+	'+': 6,
+	'-': 6,
+	'<': 5,
+	'<=': 5,
+	'>': 5,
+	'>=': 5,
+	'==': 4,
+	'!=': 4,
+	'&&': 3,
+	'||': 2,
+	'?': 1,
+	'?:': 1,
+};
+
+/**
+ * Characters which signal pair opening, to be terminated by terminators.
+ *
+ * @type {string[]}
+ */
+OPENERS = [ '(', '?' ];
+
+/**
+ * Characters which signal pair termination, the value an array with the
+ * opener as its first member. The second member is an optional operator
+ * replacement to push to the stack.
+ *
+ * @type {string[]}
+ */
+TERMINATORS = {
+	')': [ '(' ],
+	':': [ '?', '?:' ],
+};
+
+/**
+ * Pattern matching operators and openers.
+ *
+ * @type {RegExp}
+ */
+PATTERN = /<=|>=|==|!=|&&|\|\||\?:|\(|!|\*|\/|%|\+|-|<|>|\?|\)|:/;
+
+/**
+ * Given a C expression, returns the equivalent postfix (Reverse Polish)
+ * notation terms as an array.
+ *
+ * If a postfix string is desired, simply `.join( ' ' )` the result.
+ *
+ * @example
+ *
+ * ```js
+ * import postfix from '@tannin/postfix';
+ *
+ * postfix( 'n > 1' );
+ * // ⇒ [ 'n', '1', '>' ]
+ * ```
+ *
+ * @param {string} expression C expression.
+ *
+ * @return {string[]} Postfix terms.
+ */
+function postfix( expression ) {
+	var terms = [],
+		stack = [],
+		match, operator, term, element;
+
+	while ( ( match = expression.match( PATTERN ) ) ) {
+		operator = match[ 0 ];
+
+		// Term is the string preceding the operator match. It may contain
+		// whitespace, and may be empty (if operator is at beginning).
+		term = expression.substr( 0, match.index ).trim();
+		if ( term ) {
+			terms.push( term );
+		}
+
+		while ( ( element = stack.pop() ) ) {
+			if ( TERMINATORS[ operator ] ) {
+				if ( TERMINATORS[ operator ][ 0 ] === element ) {
+					// Substitution works here under assumption that because
+					// the assigned operator will no longer be a terminator, it
+					// will be pushed to the stack during the condition below.
+					operator = TERMINATORS[ operator ][ 1 ] || operator;
+					break;
+				}
+			} else if ( OPENERS.indexOf( element ) >= 0 || PRECEDENCE[ element ] < PRECEDENCE[ operator ] ) {
+				// Push to stack if either an opener or when pop reveals an
+				// element of lower precedence.
+				stack.push( element );
+				break;
+			}
+
+			// For each popped from stack, push to terms.
+			terms.push( element );
+		}
+
+		if ( ! TERMINATORS[ operator ] ) {
+			stack.push( operator );
+		}
+
+		// Slice matched fragment from expression to continue match.
+		expression = expression.substr( match.index + operator.length );
+	}
+
+	// Push remainder of operand, if exists, to terms.
+	expression = expression.trim();
+	if ( expression ) {
+		terms.push( expression );
+	}
+
+	// Pop remaining items from stack into terms.
+	return terms.concat( stack.reverse() );
+}
+
+// CONCATENATED MODULE: ./node_modules/@tannin/evaluate/index.js
+/**
+ * Operator callback functions.
+ *
+ * @type {Object}
+ */
+var OPERATORS = {
+	'!': function( a ) {
+		return ! a;
+	},
+	'*': function( a, b ) {
+		return a * b;
+	},
+	'/': function( a, b ) {
+		return a / b;
+	},
+	'%': function( a, b ) {
+		return a % b;
+	},
+	'+': function( a, b ) {
+		return a + b;
+	},
+	'-': function( a, b ) {
+		return a - b;
+	},
+	'<': function( a, b ) {
+		return a < b;
+	},
+	'<=': function( a, b ) {
+		return a <= b;
+	},
+	'>': function( a, b ) {
+		return a > b;
+	},
+	'>=': function( a, b ) {
+		return a >= b;
+	},
+	'==': function( a, b ) {
+		return a === b;
+	},
+	'!=': function( a, b ) {
+		return a !== b;
+	},
+	'&&': function( a, b ) {
+		return a && b;
+	},
+	'||': function( a, b ) {
+		return a || b;
+	},
+	'?:': function( a, b, c ) {
+		if ( a ) {
+			throw b;
+		}
+
+		return c;
+	},
+};
+
+/**
+ * Given an array of postfix terms and operand variables, returns the result of
+ * the postfix evaluation.
+ *
+ * @example
+ *
+ * ```js
+ * import evaluate from '@tannin/evaluate';
+ *
+ * // 3 + 4 * 5 / 6 ⇒ '3 4 5 * 6 / +'
+ * const terms = [ '3', '4', '5', '*', '6', '/', '+' ];
+ *
+ * evaluate( terms, {} );
+ * // ⇒ 6.333333333333334
+ * ```
+ *
+ * @param {string[]} postfix   Postfix terms.
+ * @param {Object}   variables Operand variables.
+ *
+ * @return {*} Result of evaluation.
+ */
+function evaluate_evaluate( postfix, variables ) {
+	var stack = [],
+		i, getOperatorResult, term, value;
+
+	for ( i = 0; i < postfix.length; i++ ) {
+		term = postfix[ i ];
+
+		getOperatorResult = OPERATORS[ term ];
+		if ( getOperatorResult ) {
+			try {
+				// Pop from stack by number of function arguments.
+				value = getOperatorResult.apply(
+					null,
+					stack.splice( -1 * getOperatorResult.length )
+				);
+			} catch ( earlyReturn ) {
+				return earlyReturn;
+			}
+		} else if ( variables.hasOwnProperty( term ) ) {
+			value = variables[ term ];
+		} else {
+			value = +term;
+		}
+
+		stack.push( value );
+	}
+
+	return stack[ 0 ];
+}
+
+// CONCATENATED MODULE: ./node_modules/@tannin/compile/index.js
+
+
+
+/**
+ * Given a C expression, returns a function which can be called to evaluate its
+ * result.
+ *
+ * @example
+ *
+ * ```js
+ * import compile from '@tannin/compile';
+ *
+ * const evaluate = compile( 'n > 1' );
+ *
+ * evaluate( { n: 2 } );
+ * // ⇒ true
+ * ```
+ *
+ * @param {string} expression C expression.
+ *
+ * @return {Function} Compiled evaluator.
+ */
+function compile( expression ) {
+	var terms = postfix( expression );
+
+	return function( variables ) {
+		return evaluate_evaluate( terms, variables );
+	};
+}
+
+// CONCATENATED MODULE: ./node_modules/@tannin/plural-forms/index.js
+
+
+/**
+ * Given a C expression, returns a function which, when called with a value,
+ * evaluates the result with the value assumed to be the "n" variable of the
+ * expression. The result will be coerced to its numeric equivalent.
+ *
+ * @param {string} expression C expression.
+ *
+ * @return {Function} Evaluator function.
+ */
+function pluralForms( expression ) {
+	var evaluate = compile( expression );
+
+	return function( n ) {
+		return +evaluate( { n: n } );
+	};
+}
+
+// CONCATENATED MODULE: ./node_modules/tannin/index.js
+
+
+/**
+ * Tannin constructor options.
+ *
+ * @property {?string}   contextDelimiter Joiner in string lookup with context.
+ * @property {?Function} onMissingKey     Callback to invoke when key missing.
+ *
+ * @type {Object}
+ *
+ * @typedef {TanninOptions}
+ */
+
+/**
+ * Default Tannin constructor options.
+ *
+ * @type {TanninOptions}
+ */
+var DEFAULT_OPTIONS = {
+	contextDelimiter: '\u0004',
+	onMissingKey: null,
+};
+
+/**
+ * Given a specific locale data's config `plural_forms` value, returns the
+ * expression.
+ *
+ * @example
+ *
+ * ```
+ * getPluralExpression( 'nplurals=2; plural=(n != 1);' ) === '(n != 1)'
+ * ```
+ *
+ * @param {string} pf Locale data plural forms.
+ *
+ * @return {string} Plural forms expression.
+ */
+function getPluralExpression( pf ) {
+	var parts, i, part;
+
+	parts = pf.split( ';' );
+
+	for ( i = 0; i < parts.length; i++ ) {
+		part = parts[ i ].trim();
+		if ( part.indexOf( 'plural=' ) === 0 ) {
+			return part.substr( 7 );
+		}
+	}
+}
+
+/**
+ * Tannin constructor.
+ *
+ * @param {Object}        data    Jed-formatted locale data.
+ * @param {TanninOptions} options Tannin options.
+ */
+function Tannin( data, options ) {
+	var key;
+
+	this.data = data;
+	this.pluralForms = {};
+
+	options = options || {};
+	this.options = {};
+	for ( key in DEFAULT_OPTIONS ) {
+		this.options[ key ] = options[ key ] || DEFAULT_OPTIONS[ key ];
+	}
+}
+
+/**
+ * Returns the plural form index for the given domain and value.
+ *
+ * @param {string} domain Domain on which to calculate plural form.
+ * @param {number} n      Value for which plural form is to be calculated.
+ *
+ * @return {number} Plural form index.
+ */
+Tannin.prototype.getPluralForm = function( domain, n ) {
+	var getPluralForm = this.pluralForms[ domain ],
+		config, plural;
+
+	if ( ! getPluralForm ) {
+		config = this.data[ domain ][ '' ];
+		plural = getPluralExpression(
+			config[ 'Plural-Forms' ] ||
+			config[ 'plural-forms' ] ||
+			config.plural_forms
+		);
+
+		getPluralForm = this.pluralForms[ domain ] = pluralForms( plural );
+	}
+
+	return getPluralForm( n );
+};
+
+/**
+ * Translate a string.
+ *
+ * @param {string} domain   Translation domain.
+ * @param {string} context  Context distinguishing terms of the same name.
+ * @param {string} singular Primary key for translation lookup.
+ * @param {string} plural   Fallback value used for non-zero plural form index.
+ * @param {number} n        Value to use in calculating plural form.
+ *
+ * @return {string} Translated string.
+ */
+Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) {
+	var index, key, entry;
+
+	if ( n === undefined ) {
+		// Default to singular.
+		index = 0;
+	} else {
+		// Find index by evaluating plural form for value.
+		index = this.getPluralForm( domain, n );
+	}
+
+	key = singular;
+
+	// If provided, context is prepended to key with delimiter.
+	if ( context ) {
+		key = context + this.options.contextDelimiter + singular;
+	}
+
+	entry = this.data[ domain ][ key ];
+
+	// Verify not only that entry exists, but that the intended index is within
+	// range and non-empty.
+	if ( entry && entry[ index ] ) {
+		return entry[ index ];
+	}
+
+	if ( this.options.onMissingKey ) {
+		this.options.onMissingKey( singular, domain );
+	}
+
+	// If entry not found, fall back to singular vs. plural with zero index
+	// representing the singular value.
+	return index === 0 ? singular : plural;
+};
+
+// EXTERNAL MODULE: ./node_modules/memize/index.js
+var memize = __webpack_require__(41);
+var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
+
+// EXTERNAL MODULE: ./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js
+var sprintf = __webpack_require__(125);
+var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLocaleData", function() { return setLocaleData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__", function() { return __; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_x", function() { return _x; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_n", function() { return _n; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_nx", function() { return _nx; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sprintf", function() { return build_module_sprintf; });
+
+
+/**
+ * External dependencies
+ */
+
+
+
+/**
+ * Default locale data to use for Tannin domain when not otherwise provided.
+ * Assumes an English plural forms expression.
+ *
+ * @type {Object}
+ */
+
+var DEFAULT_LOCALE_DATA = {
+  '': {
+    plural_forms: 'plural=(n!=1)'
+  }
+};
+/**
+ * Log to console, once per message; or more precisely, per referentially equal
+ * argument set. Because Jed throws errors, we log these to the console instead
+ * to avoid crashing the application.
+ *
+ * @param {...*} args Arguments to pass to `console.error`
+ */
+
+var logErrorOnce = memize_default()(console.error); // eslint-disable-line no-console
+
+/**
+ * The underlying instance of Tannin to which exported functions interface.
+ *
+ * @type {Tannin}
+ */
+
+var i18n = new Tannin({});
+/**
+ * Merges locale data into the Tannin instance by domain. Accepts data in a
+ * Jed-formatted JSON object shape.
+ *
+ * @see http://messageformat.github.io/Jed/
+ *
+ * @param {?Object} data   Locale data configuration.
+ * @param {?string} domain Domain for which configuration applies.
+ */
+
+function setLocaleData(data) {
+  var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
+  i18n.data[domain] = Object(objectSpread["a" /* default */])({}, DEFAULT_LOCALE_DATA, i18n.data[domain], data); // Populate default domain configuration (supported locale date which omits
+  // a plural forms expression).
+
+  i18n.data[domain][''] = Object(objectSpread["a" /* default */])({}, DEFAULT_LOCALE_DATA[''], i18n.data[domain]['']);
+}
+/**
+ * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
+ * otherwise previously assigned.
+ *
+ * @param {?string} domain  Domain to retrieve the translated text.
+ * @param {?string} context Context information for the translators.
+ * @param {string}  single  Text to translate if non-plural. Used as fallback
+ *                          return value on a caught error.
+ * @param {?string} plural  The text to be used if the number is plural.
+ * @param {?number} number  The number to compare against to use either the
+ *                          singular or plural form.
+ *
+ * @return {string} The translated string.
+ */
+
+function dcnpgettext() {
+  var domain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'default';
+  var context = arguments.length > 1 ? arguments[1] : undefined;
+  var single = arguments.length > 2 ? arguments[2] : undefined;
+  var plural = arguments.length > 3 ? arguments[3] : undefined;
+  var number = arguments.length > 4 ? arguments[4] : undefined;
+
+  if (!i18n.data[domain]) {
+    setLocaleData(undefined, domain);
+  }
+
+  return i18n.dcnpgettext(domain, context, single, plural, number);
+}
+/**
+ * Retrieve the translation of text.
+ *
+ * @see https://developer.wordpress.org/reference/functions/__/
+ *
+ * @param {string}  text   Text to translate.
+ * @param {?string} domain Domain to retrieve the translated text.
+ *
+ * @return {string} Translated text.
+ */
+
+
+function __(text, domain) {
+  return dcnpgettext(domain, undefined, text);
+}
+/**
+ * Retrieve translated string with gettext context.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_x/
+ *
+ * @param {string}  text    Text to translate.
+ * @param {string}  context Context information for the translators.
+ * @param {?string} domain  Domain to retrieve the translated text.
+ *
+ * @return {string} Translated context string without pipe.
+ */
+
+function _x(text, context, domain) {
+  return dcnpgettext(domain, context, text);
+}
+/**
+ * Translates and retrieves the singular or plural form based on the supplied
+ * number.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_n/
+ *
+ * @param {string}  single The text to be used if the number is singular.
+ * @param {string}  plural The text to be used if the number is plural.
+ * @param {number}  number The number to compare against to use either the
+ *                         singular or plural form.
+ * @param {?string} domain Domain to retrieve the translated text.
+ *
+ * @return {string} The translated singular or plural form.
+ */
+
+function _n(single, plural, number, domain) {
+  return dcnpgettext(domain, undefined, single, plural, number);
+}
+/**
+ * Translates and retrieves the singular or plural form based on the supplied
+ * number, with gettext context.
+ *
+ * @see https://developer.wordpress.org/reference/functions/_nx/
+ *
+ * @param {string}  single  The text to be used if the number is singular.
+ * @param {string}  plural  The text to be used if the number is plural.
+ * @param {number}  number  The number to compare against to use either the
+ *                          singular or plural form.
+ * @param {string}  context Context information for the translators.
+ * @param {?string} domain  Domain to retrieve the translated text.
+ *
+ * @return {string} The translated singular or plural form.
+ */
+
+function _nx(single, plural, number, context, domain) {
+  return dcnpgettext(domain, context, single, plural, number);
+}
+/**
+ * Returns a formatted string. If an error occurs in applying the format, the
+ * original format string is returned.
+ *
+ * @param {string}   format  The format of the string to generate.
+ * @param {string[]} ...args Arguments to apply to the format.
+ *
+ * @see http://www.diveintojavascript.com/projects/javascript-sprintf
+ *
+ * @return {string} The formatted string.
+ */
+
+function build_module_sprintf(format) {
+  try {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return sprintf_default.a.sprintf.apply(sprintf_default.a, [format].concat(args));
+  } catch (error) {
+    logErrorOnce('sprintf error: \n\n' + error.toString());
+    return format;
+  }
+}
+
+
+/***/ }),
+
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {
@@ -1034,160 +1082,32 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ "./node_modules/tannin/index.js":
-/*!**************************************!*\
-  !*** ./node_modules/tannin/index.js ***!
-  \**************************************/
-/*! exports provided: default */
+/***/ 8:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Tannin; });
-/* harmony import */ var _tannin_plural_forms__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @tannin/plural-forms */ "./node_modules/@tannin/plural-forms/index.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
 
-/**
- * Tannin constructor options.
- *
- * @property {?string}   contextDelimiter Joiner in string lookup with context.
- * @property {?Function} onMissingKey     Callback to invoke when key missing.
- *
- * @type {Object}
- *
- * @typedef {TanninOptions}
- */
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
 
-/**
- * Default Tannin constructor options.
- *
- * @type {TanninOptions}
- */
-var DEFAULT_OPTIONS = {
-	contextDelimiter: '\u0004',
-	onMissingKey: null,
-};
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
 
-/**
- * Given a specific locale data's config `plural_forms` value, returns the
- * expression.
- *
- * @example
- *
- * ```
- * getPluralExpression( 'nplurals=2; plural=(n != 1);' ) === '(n != 1)'
- * ```
- *
- * @param {string} pf Locale data plural forms.
- *
- * @return {string} Plural forms expression.
- */
-function getPluralExpression( pf ) {
-	var parts, i, part;
-
-	parts = pf.split( ';' );
-
-	for ( i = 0; i < parts.length; i++ ) {
-		part = parts[ i ].trim();
-		if ( part.indexOf( 'plural=' ) === 0 ) {
-			return part.substr( 7 );
-		}
-	}
+  return target;
 }
-
-/**
- * Tannin constructor.
- *
- * @param {Object}        data    Jed-formatted locale data.
- * @param {TanninOptions} options Tannin options.
- */
-function Tannin( data, options ) {
-	var key;
-
-	this.data = data;
-	this.pluralForms = {};
-
-	options = options || {};
-	this.options = {};
-	for ( key in DEFAULT_OPTIONS ) {
-		this.options[ key ] = options[ key ] || DEFAULT_OPTIONS[ key ];
-	}
-}
-
-/**
- * Returns the plural form index for the given domain and value.
- *
- * @param {string} domain Domain on which to calculate plural form.
- * @param {number} n      Value for which plural form is to be calculated.
- *
- * @return {number} Plural form index.
- */
-Tannin.prototype.getPluralForm = function( domain, n ) {
-	var getPluralForm = this.pluralForms[ domain ],
-		config, plural;
-
-	if ( ! getPluralForm ) {
-		config = this.data[ domain ][ '' ];
-		plural = getPluralExpression(
-			config[ 'Plural-Forms' ] ||
-			config[ 'plural-forms' ] ||
-			config.plural_forms
-		);
-
-		getPluralForm = this.pluralForms[ domain ] = Object(_tannin_plural_forms__WEBPACK_IMPORTED_MODULE_0__["default"])( plural );
-	}
-
-	return getPluralForm( n );
-};
-
-/**
- * Translate a string.
- *
- * @param {string} domain   Translation domain.
- * @param {string} context  Context distinguishing terms of the same name.
- * @param {string} singular Primary key for translation lookup.
- * @param {string} plural   Fallback value used for non-zero plural form index.
- * @param {number} n        Value to use in calculating plural form.
- *
- * @return {string} Translated string.
- */
-Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) {
-	var index, key, entry;
-
-	if ( n === undefined ) {
-		// Default to singular.
-		index = 0;
-	} else {
-		// Find index by evaluating plural form for value.
-		index = this.getPluralForm( domain, n );
-	}
-
-	key = singular;
-
-	// If provided, context is prepended to key with delimiter.
-	if ( context ) {
-		key = context + this.options.contextDelimiter + singular;
-	}
-
-	entry = this.data[ domain ][ key ];
-
-	// Verify not only that entry exists, but that the intended index is within
-	// range and non-empty.
-	if ( entry && entry[ index ] ) {
-		return entry[ index ];
-	}
-
-	if ( this.options.onMissingKey ) {
-		this.options.onMissingKey( singular, domain );
-	}
-
-	// If entry not found, fall back to singular vs. plural with zero index
-	// representing the singular value.
-	return index === 0 ? singular : plural;
-};
-
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=i18n.js.map

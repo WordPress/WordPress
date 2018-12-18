@@ -82,59 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/is-shallow-equal/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 277);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/is-shallow-equal/arrays.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/arrays.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Returns true if the two arrays are shallow equal, or false otherwise.
- *
- * @param {Array} a First array to compare.
- * @param {Array} b Second array to compare.
- *
- * @return {boolean} Whether the two arrays are shallow equal.
- */
-function isShallowEqualArrays( a, b ) {
-	var i;
-
-	if ( a === b ) {
-		return true;
-	}
-
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = 0; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-module.exports = isShallowEqualArrays;
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/is-shallow-equal/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/index.js ***!
-  \***********************************************************/
-/*! no static exports found */
+/***/ 277:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -143,8 +96,8 @@ module.exports = isShallowEqualArrays;
 /**
  * Internal dependencies;
  */
-var isShallowEqualObjects = __webpack_require__( /*! ./objects */ "./node_modules/@wordpress/is-shallow-equal/objects.js" );
-var isShallowEqualArrays = __webpack_require__( /*! ./arrays */ "./node_modules/@wordpress/is-shallow-equal/arrays.js" );
+var isShallowEqualObjects = __webpack_require__( 278 );
+var isShallowEqualArrays = __webpack_require__( 279 );
 
 var isArray = Array.isArray;
 
@@ -174,11 +127,7 @@ module.exports = isShallowEqual;
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/is-shallow-equal/objects.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@wordpress/is-shallow-equal/objects.js ***!
-  \*************************************************************/
-/*! no static exports found */
+/***/ 278:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -225,7 +174,45 @@ function isShallowEqualObjects( a, b ) {
 module.exports = isShallowEqualObjects;
 
 
+/***/ }),
+
+/***/ 279:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Returns true if the two arrays are shallow equal, or false otherwise.
+ *
+ * @param {Array} a First array to compare.
+ * @param {Array} b Second array to compare.
+ *
+ * @return {boolean} Whether the two arrays are shallow equal.
+ */
+function isShallowEqualArrays( a, b ) {
+	var i;
+
+	if ( a === b ) {
+		return true;
+	}
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = 0; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+module.exports = isShallowEqualArrays;
+
+
 /***/ })
 
 /******/ });
-//# sourceMappingURL=is-shallow-equal.js.map

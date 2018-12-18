@@ -82,754 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/redux-routine/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 323);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
-  \***********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typeof; });
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
-    _typeof = function _typeof(obj) {
-      return _typeof2(obj);
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
-    };
-  }
-
-  return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/redux-routine/build-module/cast-error.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@wordpress/redux-routine/build-module/cast-error.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return castError; });
-/**
- * Casts value as an error if it's not one.
- *
- * @param {*} error The value to cast.
- *
- * @return {Error} The cast error.
- */
-function castError(error) {
-  if (!(error instanceof Error)) {
-    error = new Error(error);
-  }
-
-  return error;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/redux-routine/build-module/index.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/redux-routine/build-module/index.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createMiddleware; });
-/* harmony import */ var _is_generator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is-generator */ "./node_modules/@wordpress/redux-routine/build-module/is-generator.js");
-/* harmony import */ var _runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./runtime */ "./node_modules/@wordpress/redux-routine/build-module/runtime.js");
-/**
- * Internal dependencies
- */
-
-
-/**
- * Creates a Redux middleware, given an object of controls where each key is an
- * action type for which to act upon, the value a function which returns either
- * a promise which is to resolve when evaluation of the action should continue,
- * or a value. The value or resolved promise value is assigned on the return
- * value of the yield assignment. If the control handler returns undefined, the
- * execution is not continued.
- *
- * @param {Object} controls Object of control handlers.
- *
- * @return {Function} Co-routine runtime
- */
-
-function createMiddleware() {
-  var controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return function (store) {
-    var runtime = Object(_runtime__WEBPACK_IMPORTED_MODULE_1__["default"])(controls, store.dispatch);
-    return function (next) {
-      return function (action) {
-        if (!Object(_is_generator__WEBPACK_IMPORTED_MODULE_0__["default"])(action)) {
-          return next(action);
-        }
-
-        return runtime(action);
-      };
-    };
-  };
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/redux-routine/build-module/is-action.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/redux-routine/build-module/is-action.js ***!
-  \*************************************************************************/
-/*! exports provided: isAction, isActionOfType */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAction", function() { return isAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isActionOfType", function() { return isActionOfType; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External imports
- */
-
-/**
- * Returns true if the given object quacks like an action.
- *
- * @param {*} object Object to test
- *
- * @return {boolean}  Whether object is an action.
- */
-
-function isAction(object) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isPlainObject"])(object) && Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isString"])(object.type);
-}
-/**
- * Returns true if the given object quacks like an action and has a specific
- * action type
- *
- * @param {*}      object       Object to test
- * @param {string} expectedType The expected type for the action.
- *
- * @return {boolean} Whether object is an action and is of specific type.
- */
-
-function isActionOfType(object, expectedType) {
-  return isAction(object) && object.type === expectedType;
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/redux-routine/build-module/is-generator.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@wordpress/redux-routine/build-module/is-generator.js ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return isGenerator; });
-/**
- * Returns true if the given object is a generator, or false otherwise.
- *
- * @link https://www.ecma-international.org/ecma-262/6.0/#sec-generator-objects
- *
- * @param {*} object Object to test.
- *
- * @return {boolean} Whether object is a generator.
- */
-function isGenerator(object) {
-  return !!object && object[Symbol.toStringTag] === 'Generator';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/redux-routine/build-module/runtime.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@wordpress/redux-routine/build-module/runtime.js ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createRuntime; });
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var rungen__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rungen */ "./node_modules/rungen/dist/index.js");
-/* harmony import */ var rungen__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(rungen__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var is_promise__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! is-promise */ "./node_modules/is-promise/index.js");
-/* harmony import */ var is_promise__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(is_promise__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _cast_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cast-error */ "./node_modules/@wordpress/redux-routine/build-module/cast-error.js");
-/* harmony import */ var _is_action__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./is-action */ "./node_modules/@wordpress/redux-routine/build-module/is-action.js");
-
-
-/**
- * External dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-/**
- * Create a co-routine runtime.
- *
- * @param {Object}    controls Object of control handlers.
- * @param {function}  dispatch Unhandled action dispatch.
- *
- * @return {function} co-routine runtime
- */
-
-function createRuntime() {
-  var controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var dispatch = arguments.length > 1 ? arguments[1] : undefined;
-  var rungenControls = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["map"])(controls, function (control, actionType) {
-    return function (value, next, iterate, yieldNext, yieldError) {
-      if (!Object(_is_action__WEBPACK_IMPORTED_MODULE_5__["isActionOfType"])(value, actionType)) {
-        return false;
-      }
-
-      var routine = control(value);
-
-      if (is_promise__WEBPACK_IMPORTED_MODULE_3___default()(routine)) {
-        // Async control routine awaits resolution.
-        routine.then(yieldNext, function (error) {
-          return yieldError(Object(_cast_error__WEBPACK_IMPORTED_MODULE_4__["default"])(error));
-        });
-      } else {
-        next(routine);
-      }
-
-      return true;
-    };
-  });
-
-  var unhandledActionControl = function unhandledActionControl(value, next) {
-    if (!Object(_is_action__WEBPACK_IMPORTED_MODULE_5__["isAction"])(value)) {
-      return false;
-    }
-
-    dispatch(value);
-    next();
-    return true;
-  };
-
-  rungenControls.push(unhandledActionControl);
-  var rungenRuntime = Object(rungen__WEBPACK_IMPORTED_MODULE_1__["create"])(rungenControls);
-  return function (action) {
-    return new Promise(function (resolve, reject) {
-      return rungenRuntime(action, function (result) {
-        if (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__["default"])(result) === 'object' && Object(lodash__WEBPACK_IMPORTED_MODULE_2__["isString"])(result.type)) {
-          dispatch(result);
-        }
-
-        resolve(result);
-      }, reject);
-    });
-  };
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/is-promise/index.js":
-/*!******************************************!*\
-  !*** ./node_modules/is-promise/index.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = isPromise;
-
-function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/controls/async.js":
-/*!****************************************************!*\
-  !*** ./node_modules/rungen/dist/controls/async.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.race = exports.join = exports.fork = exports.promise = undefined;
-
-var _is = __webpack_require__(/*! ../utils/is */ "./node_modules/rungen/dist/utils/is.js");
-
-var _is2 = _interopRequireDefault(_is);
-
-var _helpers = __webpack_require__(/*! ../utils/helpers */ "./node_modules/rungen/dist/utils/helpers.js");
-
-var _dispatcher = __webpack_require__(/*! ../utils/dispatcher */ "./node_modules/rungen/dist/utils/dispatcher.js");
-
-var _dispatcher2 = _interopRequireDefault(_dispatcher);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var promise = exports.promise = function promise(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.promise(value)) return false;
-  value.then(next, raiseNext);
-  return true;
-};
-
-var forkedTasks = new Map();
-var fork = exports.fork = function fork(value, next, rungen) {
-  if (!_is2.default.fork(value)) return false;
-  var task = Symbol('fork');
-  var dispatcher = (0, _dispatcher2.default)();
-  forkedTasks.set(task, dispatcher);
-  rungen(value.iterator.apply(null, value.args), function (result) {
-    return dispatcher.dispatch(result);
-  }, function (err) {
-    return dispatcher.dispatch((0, _helpers.error)(err));
-  });
-  var unsubscribe = dispatcher.subscribe(function () {
-    unsubscribe();
-    forkedTasks.delete(task);
-  });
-  next(task);
-  return true;
-};
-
-var join = exports.join = function join(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.join(value)) return false;
-  var dispatcher = forkedTasks.get(value.task);
-  if (!dispatcher) {
-    raiseNext('join error : task not found');
-  } else {
-    (function () {
-      var unsubscribe = dispatcher.subscribe(function (result) {
-        unsubscribe();
-        next(result);
-      });
-    })();
-  }
-  return true;
-};
-
-var race = exports.race = function race(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.race(value)) return false;
-  var finished = false;
-  var success = function success(result, k, v) {
-    if (finished) return;
-    finished = true;
-    result[k] = v;
-    next(result);
-  };
-
-  var fail = function fail(err) {
-    if (finished) return;
-    raiseNext(err);
-  };
-  if (_is2.default.array(value.competitors)) {
-    (function () {
-      var result = value.competitors.map(function () {
-        return false;
-      });
-      value.competitors.forEach(function (competitor, index) {
-        rungen(competitor, function (output) {
-          return success(result, index, output);
-        }, fail);
-      });
-    })();
-  } else {
-    (function () {
-      var result = Object.keys(value.competitors).reduce(function (p, c) {
-        p[c] = false;
-        return p;
-      }, {});
-      Object.keys(value.competitors).forEach(function (index) {
-        rungen(value.competitors[index], function (output) {
-          return success(result, index, output);
-        }, fail);
-      });
-    })();
-  }
-  return true;
-};
-
-var subscribe = function subscribe(value, next) {
-  if (!_is2.default.subscribe(value)) return false;
-  if (!_is2.default.channel(value.channel)) {
-    throw new Error('the first argument of "subscribe" must be a valid channel');
-  }
-  var unsubscribe = value.channel.subscribe(function (ret) {
-    unsubscribe && unsubscribe();
-    next(ret);
-  });
-
-  return true;
-};
-
-exports.default = [promise, fork, join, race, subscribe];
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/controls/builtin.js":
-/*!******************************************************!*\
-  !*** ./node_modules/rungen/dist/controls/builtin.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
-
-var _is = __webpack_require__(/*! ../utils/is */ "./node_modules/rungen/dist/utils/is.js");
-
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var any = exports.any = function any(value, next, rungen, yieldNext) {
-  yieldNext(value);
-  return true;
-};
-
-var error = exports.error = function error(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.error(value)) return false;
-  raiseNext(value.error);
-  return true;
-};
-
-var object = exports.object = function object(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.all(value) || !_is2.default.obj(value.value)) return false;
-  var result = {};
-  var keys = Object.keys(value.value);
-  var count = 0;
-  var hasError = false;
-  var gotResultSuccess = function gotResultSuccess(key, ret) {
-    if (hasError) return;
-    result[key] = ret;
-    count++;
-    if (count === keys.length) {
-      yieldNext(result);
-    }
-  };
-
-  var gotResultError = function gotResultError(key, error) {
-    if (hasError) return;
-    hasError = true;
-    raiseNext(error);
-  };
-
-  keys.map(function (key) {
-    rungen(value.value[key], function (ret) {
-      return gotResultSuccess(key, ret);
-    }, function (err) {
-      return gotResultError(key, err);
-    });
-  });
-
-  return true;
-};
-
-var array = exports.array = function array(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.all(value) || !_is2.default.array(value.value)) return false;
-  var result = [];
-  var count = 0;
-  var hasError = false;
-  var gotResultSuccess = function gotResultSuccess(key, ret) {
-    if (hasError) return;
-    result[key] = ret;
-    count++;
-    if (count === value.value.length) {
-      yieldNext(result);
-    }
-  };
-
-  var gotResultError = function gotResultError(key, error) {
-    if (hasError) return;
-    hasError = true;
-    raiseNext(error);
-  };
-
-  value.value.map(function (v, key) {
-    rungen(v, function (ret) {
-      return gotResultSuccess(key, ret);
-    }, function (err) {
-      return gotResultError(key, err);
-    });
-  });
-
-  return true;
-};
-
-var iterator = exports.iterator = function iterator(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.iterator(value)) return false;
-  rungen(value, next, raiseNext);
-  return true;
-};
-
-exports.default = [error, iterator, array, object, any];
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/controls/wrap.js":
-/*!***************************************************!*\
-  !*** ./node_modules/rungen/dist/controls/wrap.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.cps = exports.call = undefined;
-
-var _is = __webpack_require__(/*! ../utils/is */ "./node_modules/rungen/dist/utils/is.js");
-
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var call = exports.call = function call(value, next, rungen, yieldNext, raiseNext) {
-  if (!_is2.default.call(value)) return false;
-  try {
-    next(value.func.apply(value.context, value.args));
-  } catch (err) {
-    raiseNext(err);
-  }
-  return true;
-};
-
-var cps = exports.cps = function cps(value, next, rungen, yieldNext, raiseNext) {
-  var _value$func;
-
-  if (!_is2.default.cps(value)) return false;
-  (_value$func = value.func).call.apply(_value$func, [null].concat(_toConsumableArray(value.args), [function (err, result) {
-    if (err) raiseNext(err);else next(result);
-  }]));
-  return true;
-};
-
-exports.default = [call, cps];
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/create.js":
-/*!********************************************!*\
-  !*** ./node_modules/rungen/dist/create.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _builtin = __webpack_require__(/*! ./controls/builtin */ "./node_modules/rungen/dist/controls/builtin.js");
-
-var _builtin2 = _interopRequireDefault(_builtin);
-
-var _is = __webpack_require__(/*! ./utils/is */ "./node_modules/rungen/dist/utils/is.js");
-
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var create = function create() {
-  var userControls = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-
-  var controls = [].concat(_toConsumableArray(userControls), _toConsumableArray(_builtin2.default));
-
-  var runtime = function runtime(input) {
-    var success = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
-    var error = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
-
-    var iterate = function iterate(gen) {
-      var yieldValue = function yieldValue(isError) {
-        return function (ret) {
-          try {
-            var _ref = isError ? gen.throw(ret) : gen.next(ret);
-
-            var value = _ref.value;
-            var done = _ref.done;
-
-            if (done) return success(value);
-            next(value);
-          } catch (e) {
-            return error(e);
-          }
-        };
-      };
-
-      var next = function next(ret) {
-        controls.some(function (control) {
-          return control(ret, next, runtime, yieldValue(false), yieldValue(true));
-        });
-      };
-
-      yieldValue(false)();
-    };
-
-    var iterator = _is2.default.iterator(input) ? input : regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return input;
-
-            case 2:
-              return _context.abrupt('return', _context.sent);
-
-            case 3:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })();
-
-    iterate(iterator, success, error);
-  };
-
-  return runtime;
-};
-
-exports.default = create;
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/rungen/dist/index.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.wrapControls = exports.asyncControls = exports.create = undefined;
-
-var _helpers = __webpack_require__(/*! ./utils/helpers */ "./node_modules/rungen/dist/utils/helpers.js");
-
-Object.keys(_helpers).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _helpers[key];
-    }
-  });
-});
-
-var _create = __webpack_require__(/*! ./create */ "./node_modules/rungen/dist/create.js");
-
-var _create2 = _interopRequireDefault(_create);
-
-var _async = __webpack_require__(/*! ./controls/async */ "./node_modules/rungen/dist/controls/async.js");
-
-var _async2 = _interopRequireDefault(_async);
-
-var _wrap = __webpack_require__(/*! ./controls/wrap */ "./node_modules/rungen/dist/controls/wrap.js");
-
-var _wrap2 = _interopRequireDefault(_wrap);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.create = _create2.default;
-exports.asyncControls = _async2.default;
-exports.wrapControls = _wrap2.default;
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/utils/dispatcher.js":
-/*!******************************************************!*\
-  !*** ./node_modules/rungen/dist/utils/dispatcher.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var createDispatcher = function createDispatcher() {
-  var listeners = [];
-
-  return {
-    subscribe: function subscribe(listener) {
-      listeners.push(listener);
-      return function () {
-        listeners = listeners.filter(function (l) {
-          return l !== listener;
-        });
-      };
-    },
-    dispatch: function dispatch(action) {
-      listeners.slice().forEach(function (listener) {
-        return listener(action);
-      });
-    }
-  };
-};
-
-exports.default = createDispatcher;
-
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/utils/helpers.js":
-/*!***************************************************!*\
-  !*** ./node_modules/rungen/dist/utils/helpers.js ***!
-  \***************************************************/
-/*! no static exports found */
+/***/ 177:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -840,7 +98,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChannel = exports.subscribe = exports.cps = exports.apply = exports.call = exports.invoke = exports.delay = exports.race = exports.join = exports.fork = exports.error = exports.all = undefined;
 
-var _keys = __webpack_require__(/*! ./keys */ "./node_modules/rungen/dist/utils/keys.js");
+var _keys = __webpack_require__(178);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -970,11 +228,692 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
-/***/ "./node_modules/rungen/dist/utils/is.js":
-/*!**********************************************!*\
-  !*** ./node_modules/rungen/dist/utils/is.js ***!
-  \**********************************************/
-/*! no static exports found */
+/***/ 178:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var keys = {
+  all: Symbol('all'),
+  error: Symbol('error'),
+  fork: Symbol('fork'),
+  join: Symbol('join'),
+  race: Symbol('race'),
+  call: Symbol('call'),
+  cps: Symbol('cps'),
+  subscribe: Symbol('subscribe')
+};
+
+exports.default = keys;
+
+/***/ }),
+
+/***/ 194:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wrapControls = exports.asyncControls = exports.create = undefined;
+
+var _helpers = __webpack_require__(177);
+
+Object.keys(_helpers).forEach(function (key) {
+  if (key === "default") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _helpers[key];
+    }
+  });
+});
+
+var _create = __webpack_require__(293);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _async = __webpack_require__(295);
+
+var _async2 = _interopRequireDefault(_async);
+
+var _wrap = __webpack_require__(297);
+
+var _wrap2 = _interopRequireDefault(_wrap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.create = _create2.default;
+exports.asyncControls = _async2.default;
+exports.wrapControls = _wrap2.default;
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
+function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+    _typeof = function _typeof(obj) {
+      return _typeof2(obj);
+    };
+  } else {
+    _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+    };
+  }
+
+  return _typeof(obj);
+}
+
+/***/ }),
+
+/***/ 293:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _builtin = __webpack_require__(294);
+
+var _builtin2 = _interopRequireDefault(_builtin);
+
+var _is = __webpack_require__(95);
+
+var _is2 = _interopRequireDefault(_is);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var create = function create() {
+  var userControls = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+  var controls = [].concat(_toConsumableArray(userControls), _toConsumableArray(_builtin2.default));
+
+  var runtime = function runtime(input) {
+    var success = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
+    var error = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+
+    var iterate = function iterate(gen) {
+      var yieldValue = function yieldValue(isError) {
+        return function (ret) {
+          try {
+            var _ref = isError ? gen.throw(ret) : gen.next(ret);
+
+            var value = _ref.value;
+            var done = _ref.done;
+
+            if (done) return success(value);
+            next(value);
+          } catch (e) {
+            return error(e);
+          }
+        };
+      };
+
+      var next = function next(ret) {
+        controls.some(function (control) {
+          return control(ret, next, runtime, yieldValue(false), yieldValue(true));
+        });
+      };
+
+      yieldValue(false)();
+    };
+
+    var iterator = _is2.default.iterator(input) ? input : regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return input;
+
+            case 2:
+              return _context.abrupt('return', _context.sent);
+
+            case 3:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })();
+
+    iterate(iterator, success, error);
+  };
+
+  return runtime;
+};
+
+exports.default = create;
+
+/***/ }),
+
+/***/ 294:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
+
+var _is = __webpack_require__(95);
+
+var _is2 = _interopRequireDefault(_is);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var any = exports.any = function any(value, next, rungen, yieldNext) {
+  yieldNext(value);
+  return true;
+};
+
+var error = exports.error = function error(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.error(value)) return false;
+  raiseNext(value.error);
+  return true;
+};
+
+var object = exports.object = function object(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.all(value) || !_is2.default.obj(value.value)) return false;
+  var result = {};
+  var keys = Object.keys(value.value);
+  var count = 0;
+  var hasError = false;
+  var gotResultSuccess = function gotResultSuccess(key, ret) {
+    if (hasError) return;
+    result[key] = ret;
+    count++;
+    if (count === keys.length) {
+      yieldNext(result);
+    }
+  };
+
+  var gotResultError = function gotResultError(key, error) {
+    if (hasError) return;
+    hasError = true;
+    raiseNext(error);
+  };
+
+  keys.map(function (key) {
+    rungen(value.value[key], function (ret) {
+      return gotResultSuccess(key, ret);
+    }, function (err) {
+      return gotResultError(key, err);
+    });
+  });
+
+  return true;
+};
+
+var array = exports.array = function array(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.all(value) || !_is2.default.array(value.value)) return false;
+  var result = [];
+  var count = 0;
+  var hasError = false;
+  var gotResultSuccess = function gotResultSuccess(key, ret) {
+    if (hasError) return;
+    result[key] = ret;
+    count++;
+    if (count === value.value.length) {
+      yieldNext(result);
+    }
+  };
+
+  var gotResultError = function gotResultError(key, error) {
+    if (hasError) return;
+    hasError = true;
+    raiseNext(error);
+  };
+
+  value.value.map(function (v, key) {
+    rungen(v, function (ret) {
+      return gotResultSuccess(key, ret);
+    }, function (err) {
+      return gotResultError(key, err);
+    });
+  });
+
+  return true;
+};
+
+var iterator = exports.iterator = function iterator(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.iterator(value)) return false;
+  rungen(value, next, raiseNext);
+  return true;
+};
+
+exports.default = [error, iterator, array, object, any];
+
+/***/ }),
+
+/***/ 295:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.race = exports.join = exports.fork = exports.promise = undefined;
+
+var _is = __webpack_require__(95);
+
+var _is2 = _interopRequireDefault(_is);
+
+var _helpers = __webpack_require__(177);
+
+var _dispatcher = __webpack_require__(296);
+
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var promise = exports.promise = function promise(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.promise(value)) return false;
+  value.then(next, raiseNext);
+  return true;
+};
+
+var forkedTasks = new Map();
+var fork = exports.fork = function fork(value, next, rungen) {
+  if (!_is2.default.fork(value)) return false;
+  var task = Symbol('fork');
+  var dispatcher = (0, _dispatcher2.default)();
+  forkedTasks.set(task, dispatcher);
+  rungen(value.iterator.apply(null, value.args), function (result) {
+    return dispatcher.dispatch(result);
+  }, function (err) {
+    return dispatcher.dispatch((0, _helpers.error)(err));
+  });
+  var unsubscribe = dispatcher.subscribe(function () {
+    unsubscribe();
+    forkedTasks.delete(task);
+  });
+  next(task);
+  return true;
+};
+
+var join = exports.join = function join(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.join(value)) return false;
+  var dispatcher = forkedTasks.get(value.task);
+  if (!dispatcher) {
+    raiseNext('join error : task not found');
+  } else {
+    (function () {
+      var unsubscribe = dispatcher.subscribe(function (result) {
+        unsubscribe();
+        next(result);
+      });
+    })();
+  }
+  return true;
+};
+
+var race = exports.race = function race(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.race(value)) return false;
+  var finished = false;
+  var success = function success(result, k, v) {
+    if (finished) return;
+    finished = true;
+    result[k] = v;
+    next(result);
+  };
+
+  var fail = function fail(err) {
+    if (finished) return;
+    raiseNext(err);
+  };
+  if (_is2.default.array(value.competitors)) {
+    (function () {
+      var result = value.competitors.map(function () {
+        return false;
+      });
+      value.competitors.forEach(function (competitor, index) {
+        rungen(competitor, function (output) {
+          return success(result, index, output);
+        }, fail);
+      });
+    })();
+  } else {
+    (function () {
+      var result = Object.keys(value.competitors).reduce(function (p, c) {
+        p[c] = false;
+        return p;
+      }, {});
+      Object.keys(value.competitors).forEach(function (index) {
+        rungen(value.competitors[index], function (output) {
+          return success(result, index, output);
+        }, fail);
+      });
+    })();
+  }
+  return true;
+};
+
+var subscribe = function subscribe(value, next) {
+  if (!_is2.default.subscribe(value)) return false;
+  if (!_is2.default.channel(value.channel)) {
+    throw new Error('the first argument of "subscribe" must be a valid channel');
+  }
+  var unsubscribe = value.channel.subscribe(function (ret) {
+    unsubscribe && unsubscribe();
+    next(ret);
+  });
+
+  return true;
+};
+
+exports.default = [promise, fork, join, race, subscribe];
+
+/***/ }),
+
+/***/ 296:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var createDispatcher = function createDispatcher() {
+  var listeners = [];
+
+  return {
+    subscribe: function subscribe(listener) {
+      listeners.push(listener);
+      return function () {
+        listeners = listeners.filter(function (l) {
+          return l !== listener;
+        });
+      };
+    },
+    dispatch: function dispatch(action) {
+      listeners.slice().forEach(function (listener) {
+        return listener(action);
+      });
+    }
+  };
+};
+
+exports.default = createDispatcher;
+
+/***/ }),
+
+/***/ 297:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cps = exports.call = undefined;
+
+var _is = __webpack_require__(95);
+
+var _is2 = _interopRequireDefault(_is);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var call = exports.call = function call(value, next, rungen, yieldNext, raiseNext) {
+  if (!_is2.default.call(value)) return false;
+  try {
+    next(value.func.apply(value.context, value.args));
+  } catch (err) {
+    raiseNext(err);
+  }
+  return true;
+};
+
+var cps = exports.cps = function cps(value, next, rungen, yieldNext, raiseNext) {
+  var _value$func;
+
+  if (!_is2.default.cps(value)) return false;
+  (_value$func = value.func).call.apply(_value$func, [null].concat(_toConsumableArray(value.args), [function (err, result) {
+    if (err) raiseNext(err);else next(result);
+  }]));
+  return true;
+};
+
+exports.default = [call, cps];
+
+/***/ }),
+
+/***/ 323:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-generator.js
+/**
+ * Returns true if the given object is a generator, or false otherwise.
+ *
+ * @link https://www.ecma-international.org/ecma-262/6.0/#sec-generator-objects
+ *
+ * @param {*} object Object to test.
+ *
+ * @return {boolean} Whether object is a generator.
+ */
+function isGenerator(object) {
+  return !!object && object[Symbol.toStringTag] === 'Generator';
+}
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+var esm_typeof = __webpack_require__(28);
+
+// EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
+var dist = __webpack_require__(194);
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
+
+// EXTERNAL MODULE: ./node_modules/is-promise/index.js
+var is_promise = __webpack_require__(86);
+var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/cast-error.js
+/**
+ * Casts value as an error if it's not one.
+ *
+ * @param {*} error The value to cast.
+ *
+ * @return {Error} The cast error.
+ */
+function castError(error) {
+  if (!(error instanceof Error)) {
+    error = new Error(error);
+  }
+
+  return error;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
+/**
+ * External imports
+ */
+
+/**
+ * Returns true if the given object quacks like an action.
+ *
+ * @param {*} object Object to test
+ *
+ * @return {boolean}  Whether object is an action.
+ */
+
+function isAction(object) {
+  return Object(external_lodash_["isPlainObject"])(object) && Object(external_lodash_["isString"])(object.type);
+}
+/**
+ * Returns true if the given object quacks like an action and has a specific
+ * action type
+ *
+ * @param {*}      object       Object to test
+ * @param {string} expectedType The expected type for the action.
+ *
+ * @return {boolean} Whether object is an action and is of specific type.
+ */
+
+function isActionOfType(object, expectedType) {
+  return isAction(object) && object.type === expectedType;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/runtime.js
+
+
+/**
+ * External dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Create a co-routine runtime.
+ *
+ * @param {Object}    controls Object of control handlers.
+ * @param {function}  dispatch Unhandled action dispatch.
+ *
+ * @return {function} co-routine runtime
+ */
+
+function createRuntime() {
+  var controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var dispatch = arguments.length > 1 ? arguments[1] : undefined;
+  var rungenControls = Object(external_lodash_["map"])(controls, function (control, actionType) {
+    return function (value, next, iterate, yieldNext, yieldError) {
+      if (!isActionOfType(value, actionType)) {
+        return false;
+      }
+
+      var routine = control(value);
+
+      if (is_promise_default()(routine)) {
+        // Async control routine awaits resolution.
+        routine.then(yieldNext, function (error) {
+          return yieldError(castError(error));
+        });
+      } else {
+        next(routine);
+      }
+
+      return true;
+    };
+  });
+
+  var unhandledActionControl = function unhandledActionControl(value, next) {
+    if (!isAction(value)) {
+      return false;
+    }
+
+    dispatch(value);
+    next();
+    return true;
+  };
+
+  rungenControls.push(unhandledActionControl);
+  var rungenRuntime = Object(dist["create"])(rungenControls);
+  return function (action) {
+    return new Promise(function (resolve, reject) {
+      return rungenRuntime(action, function (result) {
+        if (Object(esm_typeof["a" /* default */])(result) === 'object' && Object(external_lodash_["isString"])(result.type)) {
+          dispatch(result);
+        }
+
+        resolve(result);
+      }, reject);
+    });
+  };
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createMiddleware; });
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Creates a Redux middleware, given an object of controls where each key is an
+ * action type for which to act upon, the value a function which returns either
+ * a promise which is to resolve when evaluation of the action should continue,
+ * or a value. The value or resolved promise value is assigned on the return
+ * value of the yield assignment. If the control handler returns undefined, the
+ * execution is not continued.
+ *
+ * @param {Object} controls Object of control handlers.
+ *
+ * @return {Function} Co-routine runtime
+ */
+
+function createMiddleware() {
+  var controls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return function (store) {
+    var runtime = createRuntime(controls, store.dispatch);
+    return function (next) {
+      return function (action) {
+        if (!isGenerator(action)) {
+          return next(action);
+        }
+
+        return runtime(action);
+      };
+    };
+  };
+}
+
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, exports) {
+
+module.exports = isPromise;
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+
+/***/ }),
+
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -986,7 +925,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(/*! ./keys */ "./node_modules/rungen/dist/utils/keys.js");
+var _keys = __webpack_require__(178);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -1037,46 +976,6 @@ var is = {
 
 exports.default = is;
 
-/***/ }),
-
-/***/ "./node_modules/rungen/dist/utils/keys.js":
-/*!************************************************!*\
-  !*** ./node_modules/rungen/dist/utils/keys.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var keys = {
-  all: Symbol('all'),
-  error: Symbol('error'),
-  fork: Symbol('fork'),
-  join: Symbol('join'),
-  race: Symbol('race'),
-  call: Symbol('call'),
-  cps: Symbol('cps'),
-  subscribe: Symbol('subscribe')
-};
-
-exports.default = keys;
-
-/***/ }),
-
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
 /***/ })
 
 /******/ })["default"];
-//# sourceMappingURL=redux-routine.js.map

@@ -82,21 +82,17 @@ this["wp"] = this["wp"] || {}; this["wp"]["dom"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/dom/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 324);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithoutHoles; });
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
     for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
@@ -106,91 +102,235 @@ function _arrayWithoutHoles(arr) {
     return arr2;
   }
 }
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
-  \********************************************************************/
-/*! exports provided: default */
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _iterableToArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
 function _iterableToArray(iter) {
   if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
+/***/ 324:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableSpread; });
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+var focusable_namespaceObject = {};
+__webpack_require__.r(focusable_namespaceObject);
+__webpack_require__.d(focusable_namespaceObject, "find", function() { return find; });
+var tabbable_namespaceObject = {};
+__webpack_require__.r(tabbable_namespaceObject);
+__webpack_require__.d(tabbable_namespaceObject, "isTabbableIndex", function() { return isTabbableIndex; });
+__webpack_require__.d(tabbable_namespaceObject, "find", function() { return tabbable_find; });
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(19);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/focusable.js
+
+
+/**
+ * References:
+ *
+ * Focusable:
+ *  - https://www.w3.org/TR/html5/editing.html#focus-management
+ *
+ * Sequential focus navigation:
+ *  - https://www.w3.org/TR/html5/editing.html#sequential-focus-navigation-and-the-tabindex-attribute
+ *
+ * Disabled elements:
+ *  - https://www.w3.org/TR/html5/disabled-elements.html#disabled-elements
+ *
+ * getClientRects algorithm (requiring layout box):
+ *  - https://www.w3.org/TR/cssom-view-1/#extension-to-the-element-interface
+ *
+ * AREA elements associated with an IMG:
+ *  - https://w3c.github.io/html/editing.html#data-model
+ */
+var SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
+/**
+ * Returns true if the specified element is visible (i.e. neither display: none
+ * nor visibility: hidden).
+ *
+ * @param {Element} element DOM element to test.
+ *
+ * @return {boolean} Whether element is visible.
+ */
+
+function isVisible(element) {
+  return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
+}
+/**
+ * Returns true if the specified area element is a valid focusable element, or
+ * false otherwise. Area is only focusable if within a map where a named map
+ * referenced by an image somewhere in the document.
+ *
+ * @param {Element} element DOM area element to test.
+ *
+ * @return {boolean} Whether area element is valid for focus.
+ */
+
+
+function isValidFocusableArea(element) {
+  var map = element.closest('map[name]');
+
+  if (!map) {
+    return false;
+  }
+
+  var img = document.querySelector('img[usemap="#' + map.name + '"]');
+  return !!img && isVisible(img);
+}
+/**
+ * Returns all focusable elements within a given context.
+ *
+ * @param {Element} context Element in which to search.
+ *
+ * @return {Element[]} Focusable elements.
+ */
+
+
+function find(context) {
+  var elements = context.querySelectorAll(SELECTOR);
+  return Object(toConsumableArray["a" /* default */])(elements).filter(function (element) {
+    if (!isVisible(element)) {
+      return false;
+    }
+
+    var nodeName = element.nodeName;
+
+    if ('AREA' === nodeName) {
+      return isValidFocusableArea(element);
+    }
+
+    return true;
+  });
 }
 
-/***/ }),
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/tabbable.js
+/**
+ * Internal dependencies
+ */
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
-  \**********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/**
+ * Returns the tab index of the given element. In contrast with the tabIndex
+ * property, this normalizes the default (0) to avoid browser inconsistencies,
+ * operating under the assumption that this function is only ever called with a
+ * focusable node.
+ *
+ * @see https://bugzilla.mozilla.org/show_bug.cgi?id=1190261
+ *
+ * @param {Element} element Element from which to retrieve.
+ *
+ * @return {?number} Tab index of element (default 0).
+ */
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _toConsumableArray; });
-/* harmony import */ var _arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
-/* harmony import */ var _iterableToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
-/* harmony import */ var _nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+function getTabIndex(element) {
+  var tabIndex = element.getAttribute('tabindex');
+  return tabIndex === null ? 0 : parseInt(tabIndex, 10);
+}
+/**
+ * Returns true if the specified element is tabbable, or false otherwise.
+ *
+ * @param {Element} element Element to test.
+ *
+ * @return {boolean} Whether element is tabbable.
+ */
 
 
+function isTabbableIndex(element) {
+  return getTabIndex(element) !== -1;
+}
+/**
+ * An array map callback, returning an object with the element value and its
+ * array index location as properties. This is used to emulate a proper stable
+ * sort where equal tabIndex should be left in order of their occurrence in the
+ * document.
+ *
+ * @param {Element} element Element.
+ * @param {number}  index   Array index of element.
+ *
+ * @return {Object} Mapped object with element, index.
+ */
 
-function _toConsumableArray(arr) {
-  return Object(_arrayWithoutHoles__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || Object(_iterableToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || Object(_nonIterableSpread__WEBPACK_IMPORTED_MODULE_2__["default"])();
+function mapElementToObjectTabbable(element, index) {
+  return {
+    element: element,
+    index: index
+  };
+}
+/**
+ * An array map callback, returning an element of the given mapped object's
+ * element value.
+ *
+ * @param {Object} object Mapped object with index.
+ *
+ * @return {Element} Mapped object element.
+ */
+
+
+function mapObjectTabbableToElement(object) {
+  return object.element;
+}
+/**
+ * A sort comparator function used in comparing two objects of mapped elements.
+ *
+ * @see mapElementToObjectTabbable
+ *
+ * @param {Object} a First object to compare.
+ * @param {Object} b Second object to compare.
+ *
+ * @return {number} Comparator result.
+ */
+
+
+function compareObjectTabbables(a, b) {
+  var aTabIndex = getTabIndex(a.element);
+  var bTabIndex = getTabIndex(b.element);
+
+  if (aTabIndex === bTabIndex) {
+    return a.index - b.index;
+  }
+
+  return aTabIndex - bTabIndex;
 }
 
-/***/ }),
+function tabbable_find(context) {
+  return find(context).filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement);
+}
 
-/***/ "./node_modules/@wordpress/dom/build-module/dom.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/dom.js ***!
-  \*********************************************************/
-/*! exports provided: isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return isHorizontalEdge; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return isVerticalEdge; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return getRectangleFromRange; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return computeCaretRect; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return placeCaretAtHorizontalEdge; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return placeCaretAtVerticalEdge; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTextField", function() { return isTextField; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return documentHasSelection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return isEntirelySelected; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return getScrollContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return getOffsetParent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/dom.js
 /**
  * External dependencies
  */
@@ -259,7 +399,7 @@ function isSelectionForward(selection) {
 
 
 function isHorizontalEdge(container, isReverse) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
     }
@@ -345,7 +485,7 @@ function isHorizontalEdge(container, isReverse) {
  */
 
 function isVerticalEdge(container, isReverse) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     return isHorizontalEdge(container, isReverse);
   }
 
@@ -445,7 +585,7 @@ function placeCaretAtHorizontalEdge(container, isReverse) {
     return;
   }
 
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     container.focus();
 
     if (isReverse) {
@@ -661,7 +801,7 @@ function documentHasSelection() {
  */
 
 function isEntirelySelected(element) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
+  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], element.nodeName)) {
     return element.selectionStart === 0 && element.value.length === element.selectionEnd;
   }
 
@@ -833,280 +973,37 @@ function wrap(newNode, referenceNode) {
   newNode.appendChild(referenceNode);
 }
 
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/focusable.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/focusable.js ***!
-  \***************************************************************/
-/*! exports provided: find */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
-/* harmony import */ var _babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
-
-
-/**
- * References:
- *
- * Focusable:
- *  - https://www.w3.org/TR/html5/editing.html#focus-management
- *
- * Sequential focus navigation:
- *  - https://www.w3.org/TR/html5/editing.html#sequential-focus-navigation-and-the-tabindex-attribute
- *
- * Disabled elements:
- *  - https://www.w3.org/TR/html5/disabled-elements.html#disabled-elements
- *
- * getClientRects algorithm (requiring layout box):
- *  - https://www.w3.org/TR/cssom-view-1/#extension-to-the-element-interface
- *
- * AREA elements associated with an IMG:
- *  - https://w3c.github.io/html/editing.html#data-model
- */
-var SELECTOR = ['[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
-/**
- * Returns true if the specified element is visible (i.e. neither display: none
- * nor visibility: hidden).
- *
- * @param {Element} element DOM element to test.
- *
- * @return {boolean} Whether element is visible.
- */
-
-function isVisible(element) {
-  return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
-}
-/**
- * Returns true if the specified area element is a valid focusable element, or
- * false otherwise. Area is only focusable if within a map where a named map
- * referenced by an image somewhere in the document.
- *
- * @param {Element} element DOM area element to test.
- *
- * @return {boolean} Whether area element is valid for focus.
- */
-
-
-function isValidFocusableArea(element) {
-  var map = element.closest('map[name]');
-
-  if (!map) {
-    return false;
-  }
-
-  var img = document.querySelector('img[usemap="#' + map.name + '"]');
-  return !!img && isVisible(img);
-}
-/**
- * Returns all focusable elements within a given context.
- *
- * @param {Element} context Element in which to search.
- *
- * @return {Element[]} Focusable elements.
- */
-
-
-function find(context) {
-  var elements = context.querySelectorAll(SELECTOR);
-  return Object(_babel_runtime_helpers_esm_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(elements).filter(function (element) {
-    if (!isVisible(element)) {
-      return false;
-    }
-
-    var nodeName = element.nodeName;
-
-    if ('AREA' === nodeName) {
-      return isValidFocusableArea(element);
-    }
-
-    return true;
-  });
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/index.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/index.js ***!
-  \***********************************************************/
-/*! exports provided: focus, isHorizontalEdge, isVerticalEdge, getRectangleFromRange, computeCaretRect, placeCaretAtHorizontalEdge, placeCaretAtVerticalEdge, isTextField, documentHasSelection, isEntirelySelected, getScrollContainer, getOffsetParent, replace, remove, insertAfter, unwrap, replaceTag, wrap */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return focus; });
-/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./node_modules/@wordpress/dom/build-module/focusable.js");
-/* harmony import */ var _tabbable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabbable */ "./node_modules/@wordpress/dom/build-module/tabbable.js");
-/* harmony import */ var _dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dom */ "./node_modules/@wordpress/dom/build-module/dom.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isHorizontalEdge"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isVerticalEdge"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["getRectangleFromRange"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["computeCaretRect"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["placeCaretAtHorizontalEdge"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["placeCaretAtVerticalEdge"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTextField", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isTextField"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["documentHasSelection"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["isEntirelySelected"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["getScrollContainer"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["getOffsetParent"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replace", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["replace"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "remove", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["remove"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "insertAfter", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["insertAfter"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unwrap", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["unwrap"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replaceTag", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["replaceTag"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "wrap", function() { return _dom__WEBPACK_IMPORTED_MODULE_2__["wrap"]; });
-
+// CONCATENATED MODULE: ./node_modules/@wordpress/dom/build-module/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return build_module_focus; });
+/* concated harmony reexport isHorizontalEdge */__webpack_require__.d(__webpack_exports__, "isHorizontalEdge", function() { return isHorizontalEdge; });
+/* concated harmony reexport isVerticalEdge */__webpack_require__.d(__webpack_exports__, "isVerticalEdge", function() { return isVerticalEdge; });
+/* concated harmony reexport getRectangleFromRange */__webpack_require__.d(__webpack_exports__, "getRectangleFromRange", function() { return getRectangleFromRange; });
+/* concated harmony reexport computeCaretRect */__webpack_require__.d(__webpack_exports__, "computeCaretRect", function() { return computeCaretRect; });
+/* concated harmony reexport placeCaretAtHorizontalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtHorizontalEdge", function() { return placeCaretAtHorizontalEdge; });
+/* concated harmony reexport placeCaretAtVerticalEdge */__webpack_require__.d(__webpack_exports__, "placeCaretAtVerticalEdge", function() { return placeCaretAtVerticalEdge; });
+/* concated harmony reexport isTextField */__webpack_require__.d(__webpack_exports__, "isTextField", function() { return isTextField; });
+/* concated harmony reexport documentHasSelection */__webpack_require__.d(__webpack_exports__, "documentHasSelection", function() { return documentHasSelection; });
+/* concated harmony reexport isEntirelySelected */__webpack_require__.d(__webpack_exports__, "isEntirelySelected", function() { return isEntirelySelected; });
+/* concated harmony reexport getScrollContainer */__webpack_require__.d(__webpack_exports__, "getScrollContainer", function() { return getScrollContainer; });
+/* concated harmony reexport getOffsetParent */__webpack_require__.d(__webpack_exports__, "getOffsetParent", function() { return getOffsetParent; });
+/* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
+/* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove; });
+/* concated harmony reexport insertAfter */__webpack_require__.d(__webpack_exports__, "insertAfter", function() { return insertAfter; });
+/* concated harmony reexport unwrap */__webpack_require__.d(__webpack_exports__, "unwrap", function() { return unwrap; });
+/* concated harmony reexport replaceTag */__webpack_require__.d(__webpack_exports__, "replaceTag", function() { return replaceTag; });
+/* concated harmony reexport wrap */__webpack_require__.d(__webpack_exports__, "wrap", function() { return wrap; });
 /**
  * Internal dependencies
  */
 
 
-var focus = {
-  focusable: _focusable__WEBPACK_IMPORTED_MODULE_0__,
-  tabbable: _tabbable__WEBPACK_IMPORTED_MODULE_1__
+var build_module_focus = {
+  focusable: focusable_namespaceObject,
+  tabbable: tabbable_namespaceObject
 };
 
 
 
-/***/ }),
-
-/***/ "./node_modules/@wordpress/dom/build-module/tabbable.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@wordpress/dom/build-module/tabbable.js ***!
-  \**************************************************************/
-/*! exports provided: isTabbableIndex, find */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isTabbableIndex", function() { return isTabbableIndex; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
-/* harmony import */ var _focusable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./focusable */ "./node_modules/@wordpress/dom/build-module/focusable.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Returns the tab index of the given element. In contrast with the tabIndex
- * property, this normalizes the default (0) to avoid browser inconsistencies,
- * operating under the assumption that this function is only ever called with a
- * focusable node.
- *
- * @see https://bugzilla.mozilla.org/show_bug.cgi?id=1190261
- *
- * @param {Element} element Element from which to retrieve.
- *
- * @return {?number} Tab index of element (default 0).
- */
-
-function getTabIndex(element) {
-  var tabIndex = element.getAttribute('tabindex');
-  return tabIndex === null ? 0 : parseInt(tabIndex, 10);
-}
-/**
- * Returns true if the specified element is tabbable, or false otherwise.
- *
- * @param {Element} element Element to test.
- *
- * @return {boolean} Whether element is tabbable.
- */
-
-
-function isTabbableIndex(element) {
-  return getTabIndex(element) !== -1;
-}
-/**
- * An array map callback, returning an object with the element value and its
- * array index location as properties. This is used to emulate a proper stable
- * sort where equal tabIndex should be left in order of their occurrence in the
- * document.
- *
- * @param {Element} element Element.
- * @param {number}  index   Array index of element.
- *
- * @return {Object} Mapped object with element, index.
- */
-
-function mapElementToObjectTabbable(element, index) {
-  return {
-    element: element,
-    index: index
-  };
-}
-/**
- * An array map callback, returning an element of the given mapped object's
- * element value.
- *
- * @param {Object} object Mapped object with index.
- *
- * @return {Element} Mapped object element.
- */
-
-
-function mapObjectTabbableToElement(object) {
-  return object.element;
-}
-/**
- * A sort comparator function used in comparing two objects of mapped elements.
- *
- * @see mapElementToObjectTabbable
- *
- * @param {Object} a First object to compare.
- * @param {Object} b Second object to compare.
- *
- * @return {number} Comparator result.
- */
-
-
-function compareObjectTabbables(a, b) {
-  var aTabIndex = getTabIndex(a.element);
-  var bTabIndex = getTabIndex(b.element);
-
-  if (aTabIndex === bTabIndex) {
-    return a.index - b.index;
-  }
-
-  return aTabIndex - bTabIndex;
-}
-
-function find(context) {
-  return Object(_focusable__WEBPACK_IMPORTED_MODULE_0__["find"])(context).filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement);
-}
-
-
-/***/ }),
-
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=dom.js.map

@@ -82,23 +82,79 @@ this["wp"] = this["wp"] || {}; this["wp"]["hooks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/hooks/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 312);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createAddHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createAddHook.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
+/***/ 312:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js");
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./node_modules/@wordpress/hooks/build-module/index.js");
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/validateNamespace.js
+/**
+ * Validate a namespace string.
+ *
+ * @param  {string} namespace The namespace to validate - should take the form
+ *                            `vendor/plugin/function`.
+ *
+ * @return {boolean}             Whether the namespace is valid.
+ */
+function validateNamespace(namespace) {
+  if ('string' !== typeof namespace || '' === namespace) {
+    // eslint-disable-next-line no-console
+    console.error('The namespace must be a non-empty string.');
+    return false;
+  }
+
+  if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
+    // eslint-disable-next-line no-console
+    console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
+    return false;
+  }
+
+  return true;
+}
+
+/* harmony default export */ var build_module_validateNamespace = (validateNamespace);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/validateHookName.js
+/**
+ * Validate a hookName string.
+ *
+ * @param  {string} hookName The hook name to validate. Should be a non empty string containing
+ *                           only numbers, letters, dashes, periods and underscores. Also,
+ *                           the hook name cannot begin with `__`.
+ *
+ * @return {boolean}            Whether the hook name is valid.
+ */
+function validateHookName(hookName) {
+  if ('string' !== typeof hookName || '' === hookName) {
+    // eslint-disable-next-line no-console
+    console.error('The hook name must be a non-empty string.');
+    return false;
+  }
+
+  if (/^__/.test(hookName)) {
+    // eslint-disable-next-line no-console
+    console.error('The hook name cannot begin with `__`.');
+    return false;
+  }
+
+  if (!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(hookName)) {
+    // eslint-disable-next-line no-console
+    console.error('The hook name can only contain numbers, letters, dashes, periods and underscores.');
+    return false;
+  }
+
+  return true;
+}
+
+/* harmony default export */ var build_module_validateHookName = (validateHookName);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createAddHook.js
 
 
 
@@ -122,11 +178,11 @@ function createAddHook(hooks) {
   return function addHook(hookName, namespace, callback) {
     var priority = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 10;
 
-    if (!Object(_validateHookName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(hookName)) {
+    if (!build_module_validateHookName(hookName)) {
       return;
     }
 
-    if (!Object(_validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__["default"])(namespace)) {
+    if (!build_module_validateNamespace(namespace)) {
       return;
     }
 
@@ -182,250 +238,14 @@ function createAddHook(hooks) {
     }
 
     if (hookName !== 'hookAdded') {
-      Object(___WEBPACK_IMPORTED_MODULE_2__["doAction"])('hookAdded', hookName, namespace, callback, priority);
+      doAction('hookAdded', hookName, namespace, callback, priority);
     }
   };
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (createAddHook);
+/* harmony default export */ var build_module_createAddHook = (createAddHook);
 
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createCurrentHook.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createCurrentHook.js ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Returns a function which, when invoked, will return the name of the
- * currently running hook, or `null` if no hook of the given type is currently
- * running.
- *
- * @param  {Object}   hooks          Stored hooks, keyed by hook name.
- *
- * @return {Function}                Function that returns the current hook.
- */
-function createCurrentHook(hooks) {
-  /**
-   * Returns the name of the currently running hook, or `null` if no hook of
-   * the given type is currently running.
-   *
-   * @return {?string}             The name of the currently running hook, or
-   *                               `null` if no hook is currently running.
-   */
-  return function currentHook() {
-    if (!hooks.__current || !hooks.__current.length) {
-      return null;
-    }
-
-    return hooks.__current[hooks.__current.length - 1].name;
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createCurrentHook);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createDidHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createDidHook.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
-
-/**
- * Returns a function which, when invoked, will return the number of times a
- * hook has been called.
- *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
- *
- * @return {Function}       Function that returns a hook's call count.
- */
-
-function createDidHook(hooks) {
-  /**
-   * Returns the number of times an action has been fired.
-   *
-   * @param  {string} hookName The hook name to check.
-   *
-   * @return {number}          The number of times the hook has run.
-   */
-  return function didHook(hookName) {
-    if (!Object(_validateHookName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(hookName)) {
-      return;
-    }
-
-    return hooks[hookName] && hooks[hookName].runs ? hooks[hookName].runs : 0;
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createDidHook);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createDoingHook.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createDoingHook.js ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Returns a function which, when invoked, will return whether a hook is
- * currently being executed.
- *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
- *
- * @return {Function}       Function that returns whether a hook is currently
- *                          being executed.
- */
-function createDoingHook(hooks) {
-  /**
-   * Returns whether a hook is currently being executed.
-   *
-   * @param  {?string} hookName The name of the hook to check for.  If
-   *                            omitted, will check for any hook being executed.
-   *
-   * @return {boolean}             Whether the hook is being executed.
-   */
-  return function doingHook(hookName) {
-    // If the hookName was not passed, check for any current hook.
-    if ('undefined' === typeof hookName) {
-      return 'undefined' !== typeof hooks.__current[0];
-    } // Return the __current hook.
-
-
-    return hooks.__current[0] ? hookName === hooks.__current[0].name : false;
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createDoingHook);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createHasHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createHasHook.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Returns a function which, when invoked, will return whether any handlers are
- * attached to a particular hook.
- *
- * @param  {Object}   hooks Stored hooks, keyed by hook name.
- *
- * @return {Function}       Function that returns whether any handlers are
- *                          attached to a particular hook.
- */
-function createHasHook(hooks) {
-  /**
-   * Returns how many handlers are attached for the given hook.
-   *
-   * @param  {string}  hookName The name of the hook to check for.
-   *
-   * @return {boolean} Whether there are handlers that are attached to the given hook.
-   */
-  return function hasHook(hookName) {
-    return hookName in hooks;
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createHasHook);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createHooks.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createHooks.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _createAddHook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createAddHook */ "./node_modules/@wordpress/hooks/build-module/createAddHook.js");
-/* harmony import */ var _createRemoveHook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createRemoveHook */ "./node_modules/@wordpress/hooks/build-module/createRemoveHook.js");
-/* harmony import */ var _createHasHook__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createHasHook */ "./node_modules/@wordpress/hooks/build-module/createHasHook.js");
-/* harmony import */ var _createRunHook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./createRunHook */ "./node_modules/@wordpress/hooks/build-module/createRunHook.js");
-/* harmony import */ var _createCurrentHook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createCurrentHook */ "./node_modules/@wordpress/hooks/build-module/createCurrentHook.js");
-/* harmony import */ var _createDoingHook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createDoingHook */ "./node_modules/@wordpress/hooks/build-module/createDoingHook.js");
-/* harmony import */ var _createDidHook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./createDidHook */ "./node_modules/@wordpress/hooks/build-module/createDidHook.js");
-
-
-
-
-
-
-
-/**
- * Returns an instance of the hooks object.
- *
- * @return {Object} Object that contains all hooks.
- */
-
-function createHooks() {
-  var actions = Object.create(null);
-  var filters = Object.create(null);
-  actions.__current = [];
-  filters.__current = [];
-  return {
-    addAction: Object(_createAddHook__WEBPACK_IMPORTED_MODULE_0__["default"])(actions),
-    addFilter: Object(_createAddHook__WEBPACK_IMPORTED_MODULE_0__["default"])(filters),
-    removeAction: Object(_createRemoveHook__WEBPACK_IMPORTED_MODULE_1__["default"])(actions),
-    removeFilter: Object(_createRemoveHook__WEBPACK_IMPORTED_MODULE_1__["default"])(filters),
-    hasAction: Object(_createHasHook__WEBPACK_IMPORTED_MODULE_2__["default"])(actions),
-    hasFilter: Object(_createHasHook__WEBPACK_IMPORTED_MODULE_2__["default"])(filters),
-    removeAllActions: Object(_createRemoveHook__WEBPACK_IMPORTED_MODULE_1__["default"])(actions, true),
-    removeAllFilters: Object(_createRemoveHook__WEBPACK_IMPORTED_MODULE_1__["default"])(filters, true),
-    doAction: Object(_createRunHook__WEBPACK_IMPORTED_MODULE_3__["default"])(actions),
-    applyFilters: Object(_createRunHook__WEBPACK_IMPORTED_MODULE_3__["default"])(filters, true),
-    currentAction: Object(_createCurrentHook__WEBPACK_IMPORTED_MODULE_4__["default"])(actions),
-    currentFilter: Object(_createCurrentHook__WEBPACK_IMPORTED_MODULE_4__["default"])(filters),
-    doingAction: Object(_createDoingHook__WEBPACK_IMPORTED_MODULE_5__["default"])(actions),
-    doingFilter: Object(_createDoingHook__WEBPACK_IMPORTED_MODULE_5__["default"])(filters),
-    didAction: Object(_createDidHook__WEBPACK_IMPORTED_MODULE_6__["default"])(actions),
-    didFilter: Object(_createDidHook__WEBPACK_IMPORTED_MODULE_6__["default"])(filters),
-    actions: actions,
-    filters: filters
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createHooks);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/createRemoveHook.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createRemoveHook.js ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validateNamespace.js */ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js");
-/* harmony import */ var _validateHookName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./validateHookName.js */ "./node_modules/@wordpress/hooks/build-module/validateHookName.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./node_modules/@wordpress/hooks/build-module/index.js");
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createRemoveHook.js
 
 
 
@@ -450,11 +270,11 @@ function createRemoveHook(hooks, removeAll) {
    * @return {number}             The number of callbacks removed.
    */
   return function removeHook(hookName, namespace) {
-    if (!Object(_validateHookName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(hookName)) {
+    if (!build_module_validateHookName(hookName)) {
       return;
     }
 
-    if (!removeAll && !Object(_validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__["default"])(namespace)) {
+    if (!removeAll && !build_module_validateNamespace(namespace)) {
       return;
     } // Bail if no hooks exist by this name
 
@@ -498,27 +318,41 @@ function createRemoveHook(hooks, removeAll) {
     }
 
     if (hookName !== 'hookRemoved') {
-      Object(___WEBPACK_IMPORTED_MODULE_2__["doAction"])('hookRemoved', hookName, namespace);
+      doAction('hookRemoved', hookName, namespace);
     }
 
     return handlersRemoved;
   };
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (createRemoveHook);
+/* harmony default export */ var build_module_createRemoveHook = (createRemoveHook);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHasHook.js
+/**
+ * Returns a function which, when invoked, will return whether any handlers are
+ * attached to a particular hook.
+ *
+ * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ *
+ * @return {Function}       Function that returns whether any handlers are
+ *                          attached to a particular hook.
+ */
+function createHasHook(hooks) {
+  /**
+   * Returns how many handlers are attached for the given hook.
+   *
+   * @param  {string}  hookName The name of the hook to check for.
+   *
+   * @return {boolean} Whether there are handlers that are attached to the given hook.
+   */
+  return function hasHook(hookName) {
+    return hookName in hooks;
+  };
+}
 
-/***/ }),
+/* harmony default export */ var build_module_createHasHook = (createHasHook);
 
-/***/ "./node_modules/@wordpress/hooks/build-module/createRunHook.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/createRunHook.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createRunHook.js
 /**
  * Returns a function which, when invoked, will execute all callbacks
  * registered to a hook of the specified type, optionally returning the final
@@ -584,20 +418,143 @@ function createRunHook(hooks, returnFirstArg) {
   };
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (createRunHook);
+/* harmony default export */ var build_module_createRunHook = (createRunHook);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createCurrentHook.js
+/**
+ * Returns a function which, when invoked, will return the name of the
+ * currently running hook, or `null` if no hook of the given type is currently
+ * running.
+ *
+ * @param  {Object}   hooks          Stored hooks, keyed by hook name.
+ *
+ * @return {Function}                Function that returns the current hook.
+ */
+function createCurrentHook(hooks) {
+  /**
+   * Returns the name of the currently running hook, or `null` if no hook of
+   * the given type is currently running.
+   *
+   * @return {?string}             The name of the currently running hook, or
+   *                               `null` if no hook is currently running.
+   */
+  return function currentHook() {
+    if (!hooks.__current || !hooks.__current.length) {
+      return null;
+    }
+
+    return hooks.__current[hooks.__current.length - 1].name;
+  };
+}
+
+/* harmony default export */ var build_module_createCurrentHook = (createCurrentHook);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createDoingHook.js
+/**
+ * Returns a function which, when invoked, will return whether a hook is
+ * currently being executed.
+ *
+ * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ *
+ * @return {Function}       Function that returns whether a hook is currently
+ *                          being executed.
+ */
+function createDoingHook(hooks) {
+  /**
+   * Returns whether a hook is currently being executed.
+   *
+   * @param  {?string} hookName The name of the hook to check for.  If
+   *                            omitted, will check for any hook being executed.
+   *
+   * @return {boolean}             Whether the hook is being executed.
+   */
+  return function doingHook(hookName) {
+    // If the hookName was not passed, check for any current hook.
+    if ('undefined' === typeof hookName) {
+      return 'undefined' !== typeof hooks.__current[0];
+    } // Return the __current hook.
 
 
-/***/ }),
+    return hooks.__current[0] ? hookName === hooks.__current[0].name : false;
+  };
+}
 
-/***/ "./node_modules/@wordpress/hooks/build-module/index.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/index.js ***!
-  \*************************************************************/
-/*! exports provided: createHooks, addAction, addFilter, removeAction, removeFilter, hasAction, hasFilter, removeAllActions, removeAllFilters, doAction, applyFilters, currentAction, currentFilter, doingAction, doingFilter, didAction, didFilter, actions, filters */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* harmony default export */ var build_module_createDoingHook = (createDoingHook);
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createDidHook.js
+
+/**
+ * Returns a function which, when invoked, will return the number of times a
+ * hook has been called.
+ *
+ * @param  {Object}   hooks Stored hooks, keyed by hook name.
+ *
+ * @return {Function}       Function that returns a hook's call count.
+ */
+
+function createDidHook(hooks) {
+  /**
+   * Returns the number of times an action has been fired.
+   *
+   * @param  {string} hookName The hook name to check.
+   *
+   * @return {number}          The number of times the hook has run.
+   */
+  return function didHook(hookName) {
+    if (!build_module_validateHookName(hookName)) {
+      return;
+    }
+
+    return hooks[hookName] && hooks[hookName].runs ? hooks[hookName].runs : 0;
+  };
+}
+
+/* harmony default export */ var build_module_createDidHook = (createDidHook);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/createHooks.js
+
+
+
+
+
+
+
+/**
+ * Returns an instance of the hooks object.
+ *
+ * @return {Object} Object that contains all hooks.
+ */
+
+function createHooks() {
+  var actions = Object.create(null);
+  var filters = Object.create(null);
+  actions.__current = [];
+  filters.__current = [];
+  return {
+    addAction: build_module_createAddHook(actions),
+    addFilter: build_module_createAddHook(filters),
+    removeAction: build_module_createRemoveHook(actions),
+    removeFilter: build_module_createRemoveHook(filters),
+    hasAction: build_module_createHasHook(actions),
+    hasFilter: build_module_createHasHook(filters),
+    removeAllActions: build_module_createRemoveHook(actions, true),
+    removeAllFilters: build_module_createRemoveHook(filters, true),
+    doAction: build_module_createRunHook(actions),
+    applyFilters: build_module_createRunHook(filters, true),
+    currentAction: build_module_createCurrentHook(actions),
+    currentFilter: build_module_createCurrentHook(filters),
+    doingAction: build_module_createDoingHook(actions),
+    doingFilter: build_module_createDoingHook(filters),
+    didAction: build_module_createDidHook(actions),
+    didFilter: build_module_createDidHook(filters),
+    actions: actions,
+    filters: filters
+  };
+}
+
+/* harmony default export */ var build_module_createHooks = (createHooks);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/hooks/build-module/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addAction", function() { return addAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addFilter", function() { return addFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeAction", function() { return removeAction; });
@@ -614,14 +571,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "doingFilter", function() { return doingFilter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "didAction", function() { return didAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "didFilter", function() { return didFilter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return actions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return filters; });
-/* harmony import */ var _createHooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createHooks */ "./node_modules/@wordpress/hooks/build-module/createHooks.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createHooks", function() { return _createHooks__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "actions", function() { return build_module_actions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filters", function() { return build_module_filters; });
+/* concated harmony reexport createHooks */__webpack_require__.d(__webpack_exports__, "createHooks", function() { return build_module_createHooks; });
 
 
-
-var _createHooks = Object(_createHooks__WEBPACK_IMPORTED_MODULE_0__["default"])(),
+var _createHooks = build_module_createHooks(),
     addAction = _createHooks.addAction,
     addFilter = _createHooks.addFilter,
     removeAction = _createHooks.removeAction,
@@ -638,96 +593,12 @@ var _createHooks = Object(_createHooks__WEBPACK_IMPORTED_MODULE_0__["default"])(
     doingFilter = _createHooks.doingFilter,
     didAction = _createHooks.didAction,
     didFilter = _createHooks.didFilter,
-    actions = _createHooks.actions,
-    filters = _createHooks.filters;
+    build_module_actions = _createHooks.actions,
+    build_module_filters = _createHooks.filters;
 
 
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/validateHookName.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/validateHookName.js ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Validate a hookName string.
- *
- * @param  {string} hookName The hook name to validate. Should be a non empty string containing
- *                           only numbers, letters, dashes, periods and underscores. Also,
- *                           the hook name cannot begin with `__`.
- *
- * @return {boolean}            Whether the hook name is valid.
- */
-function validateHookName(hookName) {
-  if ('string' !== typeof hookName || '' === hookName) {
-    // eslint-disable-next-line no-console
-    console.error('The hook name must be a non-empty string.');
-    return false;
-  }
-
-  if (/^__/.test(hookName)) {
-    // eslint-disable-next-line no-console
-    console.error('The hook name cannot begin with `__`.');
-    return false;
-  }
-
-  if (!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(hookName)) {
-    // eslint-disable-next-line no-console
-    console.error('The hook name can only contain numbers, letters, dashes, periods and underscores.');
-    return false;
-  }
-
-  return true;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (validateHookName);
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/hooks/build-module/validateNamespace.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/hooks/build-module/validateNamespace.js ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Validate a namespace string.
- *
- * @param  {string} namespace The namespace to validate - should take the form
- *                            `vendor/plugin/function`.
- *
- * @return {boolean}             Whether the namespace is valid.
- */
-function validateNamespace(namespace) {
-  if ('string' !== typeof namespace || '' === namespace) {
-    // eslint-disable-next-line no-console
-    console.error('The namespace must be a non-empty string.');
-    return false;
-  }
-
-  if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
-    // eslint-disable-next-line no-console
-    console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
-    return false;
-  }
-
-  return true;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (validateNamespace);
 
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=hooks.js.map

@@ -82,21 +82,16 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/element/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 319);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -114,54 +109,39 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectSpread.js ***!
-  \*****************************************************************/
-/*! exports provided: default */
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
 
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(target, key, source[key]);
-    });
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
   }
 
   return target;
 }
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js ***!
-  \****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutProperties; });
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutProperties; });
 
 function _objectWithoutProperties(source, excluded) {
   if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(source, excluded);
+  var target = _objectWithoutPropertiesLoose(source, excluded);
   var key, i;
 
   if (Object.getOwnPropertySymbols) {
@@ -180,43 +160,18 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
-  \*********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 26:
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
+(function() { module.exports = this["React"]; }());
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
-  \***********************************************************/
-/*! exports provided: default */
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _typeof; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
 
 function _typeof(obj) {
@@ -235,211 +190,25 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/element/build-module/index.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/index.js ***!
-  \***************************************************************/
-/*! exports provided: renderToString, RawHTML, Children, cloneElement, Component, createContext, createElement, createRef, forwardRef, Fragment, isValidElement, StrictMode, concatChildren, switchChildrenNodeName, createPortal, findDOMNode, render, unmountComponentAtNode, isEmptyElement */
+/***/ 319:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./react */ "./node_modules/@wordpress/element/build-module/react.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Children", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["Children"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneElement", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["cloneElement"]; });
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
+var objectSpread = __webpack_require__(8);
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["Component"]; });
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
+var objectWithoutProperties = __webpack_require__(21);
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createContext", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["createContext"]; });
+// EXTERNAL MODULE: external "React"
+var external_React_ = __webpack_require__(26);
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["createElement"]; });
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createRef", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["createRef"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "forwardRef", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["forwardRef"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fragment", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["Fragment"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidElement", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["isValidElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StrictMode", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["StrictMode"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "concatChildren", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["concatChildren"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "switchChildrenNodeName", function() { return _react__WEBPACK_IMPORTED_MODULE_0__["switchChildrenNodeName"]; });
-
-/* harmony import */ var _react_platform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./react-platform */ "./node_modules/@wordpress/element/build-module/react-platform.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPortal", function() { return _react_platform__WEBPACK_IMPORTED_MODULE_1__["createPortal"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return _react_platform__WEBPACK_IMPORTED_MODULE_1__["findDOMNode"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _react_platform__WEBPACK_IMPORTED_MODULE_1__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return _react_platform__WEBPACK_IMPORTED_MODULE_1__["unmountComponentAtNode"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./node_modules/@wordpress/element/build-module/utils.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return _utils__WEBPACK_IMPORTED_MODULE_2__["isEmptyElement"]; });
-
-/* harmony import */ var _serialize__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./serialize */ "./node_modules/@wordpress/element/build-module/serialize.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "renderToString", function() { return _serialize__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony import */ var _raw_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./raw-html */ "./node_modules/@wordpress/element/build-module/raw-html.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RawHTML", function() { return _raw_html__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/element/build-module/raw-html.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/raw-html.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RawHTML; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./react */ "./node_modules/@wordpress/element/build-module/react.js");
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * Component used as equivalent of Fragment with unescaped HTML, in cases where
- * it is desirable to render dangerous HTML without needing a wrapper element.
- * To preserve additional props, a `div` wrapper _will_ be created if any props
- * aside from `children` are passed.
- *
- * @param {string} props.children HTML to render.
- *
- * @return {WPElement} Dangerously-rendering element.
- */
-
-function RawHTML(_ref) {
-  var children = _ref.children,
-      props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["children"]);
-
-  // The DIV wrapper will be stripped by serializer, unless there are
-  // non-children props present.
-  return Object(_react__WEBPACK_IMPORTED_MODULE_2__["createElement"])('div', Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    dangerouslySetInnerHTML: {
-      __html: children
-    }
-  }, props));
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/element/build-module/react-platform.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/react-platform.js ***!
-  \************************************************************************/
-/*! exports provided: createPortal, findDOMNode, render, unmountComponentAtNode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-dom */ "react-dom");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPortal", function() { return react_dom__WEBPACK_IMPORTED_MODULE_0__["createPortal"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return react_dom__WEBPACK_IMPORTED_MODULE_0__["findDOMNode"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return react_dom__WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return react_dom__WEBPACK_IMPORTED_MODULE_0__["unmountComponentAtNode"]; });
-
-/**
- * External dependencies
- */
-
-/**
- * Creates a portal into which a component can be rendered.
- *
- * @see https://github.com/facebook/react/issues/10309#issuecomment-318433235
- *
- * @param {Component} component Component
- * @param {Element}   target    DOM node into which element should be rendered
- */
-
-
-/**
- * Finds the dom node of a React component
- *
- * @param {Component} component component's instance
- * @param {Element}   target    DOM node into which element should be rendered
- */
-
-
-/**
- * Renders a given element into the target DOM node.
- *
- * @param {WPElement} element Element to render
- * @param {Element}   target  DOM node into which element should be rendered
- */
-
-
-/**
- * Removes any mounted element from the target DOM node.
- *
- * @param {Element} target DOM node in which element is to be removed
- */
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/element/build-module/react.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/react.js ***!
-  \***************************************************************/
-/*! exports provided: Children, cloneElement, Component, createContext, createElement, createRef, forwardRef, Fragment, isValidElement, StrictMode, concatChildren, switchChildrenNodeName */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "concatChildren", function() { return concatChildren; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchChildrenNodeName", function() { return switchChildrenNodeName; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Children", function() { return react__WEBPACK_IMPORTED_MODULE_2__["Children"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "cloneElement", function() { return react__WEBPACK_IMPORTED_MODULE_2__["cloneElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return react__WEBPACK_IMPORTED_MODULE_2__["Component"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createContext", function() { return react__WEBPACK_IMPORTED_MODULE_2__["createContext"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return react__WEBPACK_IMPORTED_MODULE_2__["createElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createRef", function() { return react__WEBPACK_IMPORTED_MODULE_2__["createRef"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "forwardRef", function() { return react__WEBPACK_IMPORTED_MODULE_2__["forwardRef"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Fragment", function() { return react__WEBPACK_IMPORTED_MODULE_2__["Fragment"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isValidElement", function() { return react__WEBPACK_IMPORTED_MODULE_2__["isValidElement"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StrictMode", function() { return react__WEBPACK_IMPORTED_MODULE_2__["StrictMode"]; });
-
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react.js
 
 
 
@@ -538,9 +307,9 @@ function concatChildren() {
   }
 
   return childrenArguments.reduce(function (memo, children, i) {
-    react__WEBPACK_IMPORTED_MODULE_2__["Children"].forEach(children, function (child, j) {
+    external_React_["Children"].forEach(children, function (child, j) {
       if (child && 'string' !== typeof child) {
-        child = Object(react__WEBPACK_IMPORTED_MODULE_2__["cloneElement"])(child, {
+        child = Object(external_React_["cloneElement"])(child, {
           key: [i, j].join()
         });
       }
@@ -560,50 +329,128 @@ function concatChildren() {
  */
 
 function switchChildrenNodeName(children, nodeName) {
-  return children && react__WEBPACK_IMPORTED_MODULE_2__["Children"].map(children, function (elt, index) {
-    if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isString"])(elt)) {
-      return Object(react__WEBPACK_IMPORTED_MODULE_2__["createElement"])(nodeName, {
+  return children && external_React_["Children"].map(children, function (elt, index) {
+    if (Object(external_lodash_["isString"])(elt)) {
+      return Object(external_React_["createElement"])(nodeName, {
         key: index
       }, elt);
     }
 
     var _elt$props = elt.props,
         childrenProp = _elt$props.children,
-        props = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_elt$props, ["children"]);
+        props = Object(objectWithoutProperties["a" /* default */])(_elt$props, ["children"]);
 
-    return Object(react__WEBPACK_IMPORTED_MODULE_2__["createElement"])(nodeName, Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    return Object(external_React_["createElement"])(nodeName, Object(objectSpread["a" /* default */])({
       key: index
     }, props), childrenProp);
   });
 }
 
+// EXTERNAL MODULE: external "ReactDOM"
+var external_ReactDOM_ = __webpack_require__(48);
 
-/***/ }),
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/react-platform.js
+/**
+ * External dependencies
+ */
 
-/***/ "./node_modules/@wordpress/element/build-module/serialize.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/serialize.js ***!
-  \*******************************************************************/
-/*! exports provided: hasPrefix, renderElement, renderNativeComponent, renderComponent, renderAttributes, renderStyle, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/**
+ * Creates a portal into which a component can be rendered.
+ *
+ * @see https://github.com/facebook/react/issues/10309#issuecomment-318433235
+ *
+ * @param {Component} component Component
+ * @param {Element}   target    DOM node into which element should be rendered
+ */
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasPrefix", function() { return hasPrefix; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderElement", function() { return renderElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderNativeComponent", function() { return renderNativeComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderComponent", function() { return renderComponent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderAttributes", function() { return renderAttributes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderStyle", function() { return renderStyle; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread */ "./node_modules/@babel/runtime/helpers/esm/objectSpread.js");
-/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/escape-html */ "@wordpress/escape-html");
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./react */ "./node_modules/@wordpress/element/build-module/react.js");
-/* harmony import */ var _raw_html__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./raw-html */ "./node_modules/@wordpress/element/build-module/raw-html.js");
+
+/**
+ * Finds the dom node of a React component
+ *
+ * @param {Component} component component's instance
+ * @param {Element}   target    DOM node into which element should be rendered
+ */
+
+
+/**
+ * Renders a given element into the target DOM node.
+ *
+ * @param {WPElement} element Element to render
+ * @param {Element}   target  DOM node into which element should be rendered
+ */
+
+
+/**
+ * Removes any mounted element from the target DOM node.
+ *
+ * @param {Element} target DOM node in which element is to be removed
+ */
+
+
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/utils.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Checks if the provided WP element is empty.
+ *
+ * @param {*} element WP element to check.
+ * @return {boolean} True when an element is considered empty.
+ */
+
+var utils_isEmptyElement = function isEmptyElement(element) {
+  if (Object(external_lodash_["isNumber"])(element)) {
+    return false;
+  }
+
+  if (Object(external_lodash_["isString"])(element) || Object(external_lodash_["isArray"])(element)) {
+    return !element.length;
+  }
+
+  return !element;
+};
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
+var esm_typeof = __webpack_require__(28);
+
+// EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
+var external_this_wp_escapeHtml_ = __webpack_require__(60);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
+
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Component used as equivalent of Fragment with unescaped HTML, in cases where
+ * it is desirable to render dangerous HTML without needing a wrapper element.
+ * To preserve additional props, a `div` wrapper _will_ be created if any props
+ * aside from `children` are passed.
+ *
+ * @param {string} props.children HTML to render.
+ *
+ * @return {WPElement} Dangerously-rendering element.
+ */
+
+function RawHTML(_ref) {
+  var children = _ref.children,
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["children"]);
+
+  // The DIV wrapper will be stripped by serializer, unless there are
+  // non-children props present.
+  return Object(external_React_["createElement"])('div', Object(objectSpread["a" /* default */])({
+    dangerouslySetInnerHTML: {
+      __html: children
+    }
+  }, props));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/serialize.js
 
 
 
@@ -651,7 +498,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _createContext = Object(_react__WEBPACK_IMPORTED_MODULE_5__["createContext"])(),
+var _createContext = Object(external_React_["createContext"])(),
     Provider = _createContext.Provider,
     Consumer = _createContext.Consumer;
 /**
@@ -807,15 +654,15 @@ function getNormalAttributeName(attribute) {
 
 
 function getNormalStylePropertyName(property) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_3__["startsWith"])(property, '--')) {
+  if (Object(external_lodash_["startsWith"])(property, '--')) {
     return property;
   }
 
   if (hasPrefix(property, ['ms', 'O', 'Moz', 'Webkit'])) {
-    return '-' + Object(lodash__WEBPACK_IMPORTED_MODULE_3__["kebabCase"])(property);
+    return '-' + Object(external_lodash_["kebabCase"])(property);
   }
 
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_3__["kebabCase"])(property);
+  return Object(external_lodash_["kebabCase"])(property);
 }
 /**
  * Returns the normal form of the style property value for HTML. Appends a
@@ -857,9 +704,9 @@ function renderElement(element, context) {
     return renderChildren(element, context, legacyContext);
   }
 
-  switch (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(element)) {
+  switch (Object(esm_typeof["a" /* default */])(element)) {
     case 'string':
-      return Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__["escapeHTML"])(element);
+      return Object(external_this_wp_escapeHtml_["escapeHTML"])(element);
 
     case 'number':
       return element.toString();
@@ -869,22 +716,22 @@ function renderElement(element, context) {
       props = element.props;
 
   switch (type) {
-    case _react__WEBPACK_IMPORTED_MODULE_5__["StrictMode"]:
-    case _react__WEBPACK_IMPORTED_MODULE_5__["Fragment"]:
+    case external_React_["StrictMode"]:
+    case external_React_["Fragment"]:
       return renderChildren(props.children, context, legacyContext);
 
-    case _raw_html__WEBPACK_IMPORTED_MODULE_6__["default"]:
+    case RawHTML:
       var children = props.children,
-          wrapperProps = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(props, ["children"]);
+          wrapperProps = Object(objectWithoutProperties["a" /* default */])(props, ["children"]);
 
-      return renderNativeComponent(Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isEmpty"])(wrapperProps) ? null : 'div', Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__["default"])({}, wrapperProps, {
+      return renderNativeComponent(Object(external_lodash_["isEmpty"])(wrapperProps) ? null : 'div', Object(objectSpread["a" /* default */])({}, wrapperProps, {
         dangerouslySetInnerHTML: {
           __html: children
         }
       }), context, legacyContext);
   }
 
-  switch (Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(type)) {
+  switch (Object(esm_typeof["a" /* default */])(type)) {
     case 'string':
       return renderNativeComponent(type, props, context, legacyContext);
 
@@ -927,7 +774,7 @@ function renderNativeComponent(type, props, context) {
     // place of children. Ensure to omit so it is not assigned as attribute
     // as well.
     content = renderChildren(props.value, context, legacyContext);
-    props = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["omit"])(props, 'value');
+    props = Object(external_lodash_["omit"])(props, 'value');
   } else if (props.dangerouslySetInnerHTML && typeof props.dangerouslySetInnerHTML.__html === 'string') {
     // Dangerous content is left unescaped.
     content = props.dangerouslySetInnerHTML.__html;
@@ -982,7 +829,7 @@ function renderComponent(Component, props, context) {
 function renderChildren(children, context) {
   var legacyContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var result = '';
-  children = Object(lodash__WEBPACK_IMPORTED_MODULE_3__["castArray"])(children);
+  children = Object(external_lodash_["castArray"])(children);
 
   for (var i = 0; i < children.length; i++) {
     var child = children[i];
@@ -1006,13 +853,13 @@ function renderAttributes(props) {
   for (var key in props) {
     var attribute = getNormalAttributeName(key);
 
-    if (!Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__["isValidAttributeName"])(attribute)) {
+    if (!Object(external_this_wp_escapeHtml_["isValidAttributeName"])(attribute)) {
       continue;
     }
 
     var value = getNormalAttributeValue(key, props[key]); // If value is not of serializeable type, skip.
 
-    if (!ATTRIBUTES_TYPES.has(Object(_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_2__["default"])(value))) {
+    if (!ATTRIBUTES_TYPES.has(Object(esm_typeof["a" /* default */])(value))) {
       continue;
     } // Don't render internal attribute names.
 
@@ -1041,7 +888,7 @@ function renderAttributes(props) {
     }
 
     if (typeof value === 'string') {
-      value = Object(_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_4__["escapeAttribute"])(value);
+      value = Object(external_this_wp_escapeHtml_["escapeAttribute"])(value);
     }
 
     result += '="' + value + '"';
@@ -1059,7 +906,7 @@ function renderAttributes(props) {
 
 function renderStyle(style) {
   // Only generate from object, e.g. tolerate string value.
-  if (!Object(lodash__WEBPACK_IMPORTED_MODULE_3__["isPlainObject"])(style)) {
+  if (!Object(external_lodash_["isPlainObject"])(style)) {
     return style;
   }
 
@@ -1085,92 +932,77 @@ function renderStyle(style) {
 
   return result;
 }
-/* harmony default export */ __webpack_exports__["default"] = (renderElement);
+/* harmony default export */ var serialize = (renderElement);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/index.js
+/* concated harmony reexport Children */__webpack_require__.d(__webpack_exports__, "Children", function() { return external_React_["Children"]; });
+/* concated harmony reexport cloneElement */__webpack_require__.d(__webpack_exports__, "cloneElement", function() { return external_React_["cloneElement"]; });
+/* concated harmony reexport Component */__webpack_require__.d(__webpack_exports__, "Component", function() { return external_React_["Component"]; });
+/* concated harmony reexport createContext */__webpack_require__.d(__webpack_exports__, "createContext", function() { return external_React_["createContext"]; });
+/* concated harmony reexport createElement */__webpack_require__.d(__webpack_exports__, "createElement", function() { return external_React_["createElement"]; });
+/* concated harmony reexport createRef */__webpack_require__.d(__webpack_exports__, "createRef", function() { return external_React_["createRef"]; });
+/* concated harmony reexport forwardRef */__webpack_require__.d(__webpack_exports__, "forwardRef", function() { return external_React_["forwardRef"]; });
+/* concated harmony reexport Fragment */__webpack_require__.d(__webpack_exports__, "Fragment", function() { return external_React_["Fragment"]; });
+/* concated harmony reexport isValidElement */__webpack_require__.d(__webpack_exports__, "isValidElement", function() { return external_React_["isValidElement"]; });
+/* concated harmony reexport StrictMode */__webpack_require__.d(__webpack_exports__, "StrictMode", function() { return external_React_["StrictMode"]; });
+/* concated harmony reexport concatChildren */__webpack_require__.d(__webpack_exports__, "concatChildren", function() { return concatChildren; });
+/* concated harmony reexport switchChildrenNodeName */__webpack_require__.d(__webpack_exports__, "switchChildrenNodeName", function() { return switchChildrenNodeName; });
+/* concated harmony reexport createPortal */__webpack_require__.d(__webpack_exports__, "createPortal", function() { return external_ReactDOM_["createPortal"]; });
+/* concated harmony reexport findDOMNode */__webpack_require__.d(__webpack_exports__, "findDOMNode", function() { return external_ReactDOM_["findDOMNode"]; });
+/* concated harmony reexport render */__webpack_require__.d(__webpack_exports__, "render", function() { return external_ReactDOM_["render"]; });
+/* concated harmony reexport unmountComponentAtNode */__webpack_require__.d(__webpack_exports__, "unmountComponentAtNode", function() { return external_ReactDOM_["unmountComponentAtNode"]; });
+/* concated harmony reexport isEmptyElement */__webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return utils_isEmptyElement; });
+/* concated harmony reexport renderToString */__webpack_require__.d(__webpack_exports__, "renderToString", function() { return serialize; });
+/* concated harmony reexport RawHTML */__webpack_require__.d(__webpack_exports__, "RawHTML", function() { return RawHTML; });
 
 
-/***/ }),
 
-/***/ "./node_modules/@wordpress/element/build-module/utils.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/utils.js ***!
-  \***************************************************************/
-/*! exports provided: isEmptyElement */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmptyElement", function() { return isEmptyElement; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * External dependencies
- */
 
-/**
- * Checks if the provided WP element is empty.
- *
- * @param {*} element WP element to check.
- * @return {boolean} True when an element is considered empty.
- */
-
-var isEmptyElement = function isEmptyElement(element) {
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isNumber"])(element)) {
-    return false;
-  }
-
-  if (Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isString"])(element) || Object(lodash__WEBPACK_IMPORTED_MODULE_0__["isArray"])(element)) {
-    return !element.length;
-  }
-
-  return !element;
-};
 
 
 /***/ }),
 
-/***/ "@wordpress/escape-html":
-/*!*********************************************!*\
-  !*** external {"this":["wp","escapeHtml"]} ***!
-  \*********************************************/
-/*! no static exports found */
+/***/ 48:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["ReactDOM"]; }());
+
+/***/ }),
+
+/***/ 60:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());
 
 /***/ }),
 
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["lodash"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 
-/***/ }),
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
 
-/***/ "react":
-/*!************************!*\
-  !*** external "React" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
 
-(function() { module.exports = this["React"]; }());
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
 
-/***/ }),
-
-/***/ "react-dom":
-/*!***************************!*\
-  !*** external "ReactDOM" ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["ReactDOM"]; }());
+  return target;
+}
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=element.js.map

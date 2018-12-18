@@ -82,37 +82,25 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/notices/build/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 280);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ 122:
 /***/ (function(module, exports) {
 
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    default: obj
+  };
 }
 
-module.exports = _arrayWithoutHoles;
+module.exports = _interopRequireDefault;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
-  \***************************************************************/
-/*! no static exports found */
+/***/ 175:
 /***/ (function(module, exports) {
 
 function _defineProperty(obj, key, value) {
@@ -134,28 +122,101 @@ module.exports = _defineProperty;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/interopRequireDefault.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ 176:
+/***/ (function(module, exports, __webpack_require__) {
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
+"use strict";
 
-module.exports = _interopRequireDefault;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DEFAULT_STATUS = exports.DEFAULT_CONTEXT = void 0;
+
+/**
+ * Default context to use for notice grouping when not otherwise specified. Its
+ * specific value doesn't hold much meaning, but it must be reasonably unique
+ * and, more importantly, referenced consistently in the store implementation.
+ *
+ * @type {string}
+ */
+var DEFAULT_CONTEXT = 'global';
+/**
+ * Default notice status.
+ *
+ * @type {string}
+ */
+
+exports.DEFAULT_CONTEXT = DEFAULT_CONTEXT;
+var DEFAULT_STATUS = 'info';
+exports.DEFAULT_STATUS = DEFAULT_STATUS;
+
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/interopRequireWildcard.js ***!
-  \***********************************************************************/
-/*! no static exports found */
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 280:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(281);
+
+
+/***/ }),
+
+/***/ 281:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireWildcard = __webpack_require__(282);
+
+var _interopRequireDefault = __webpack_require__(122);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _data = __webpack_require__(5);
+
+var _reducer = _interopRequireDefault(__webpack_require__(283));
+
+var actions = _interopRequireWildcard(__webpack_require__(290));
+
+var selectors = _interopRequireWildcard(__webpack_require__(291));
+
+var _controls = _interopRequireDefault(__webpack_require__(292));
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+var _default = (0, _data.registerStore)('core/notices', {
+  reducer: _reducer.default,
+  actions: actions,
+  selectors: selectors,
+  controls: _controls.default
+});
+
+exports.default = _default;
+
+
+/***/ }),
+
+/***/ 282:
 /***/ (function(module, exports) {
 
 function _interopRequireWildcard(obj) {
@@ -187,11 +248,102 @@ module.exports = _interopRequireWildcard;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/iterableToArray.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/iterableToArray.js ***!
-  \****************************************************************/
-/*! no static exports found */
+/***/ 283:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(122);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(284));
+
+var _lodash = __webpack_require__(2);
+
+var _onSubKey = _interopRequireDefault(__webpack_require__(288));
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Reducer returning the next notices state. The notices state is an object
+ * where each key is a context, its value an array of notice objects.
+ *
+ * @param {Object} state  Current state.
+ * @param {Object} action Dispatched action.
+ *
+ * @return {Object} Updated state.
+ */
+var notices = (0, _onSubKey.default)('context')(function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case 'CREATE_NOTICE':
+      // Avoid duplicates on ID.
+      return (0, _toConsumableArray2.default)((0, _lodash.reject)(state, {
+        id: action.notice.id
+      })).concat([action.notice]);
+
+    case 'REMOVE_NOTICE':
+      return (0, _lodash.reject)(state, {
+        id: action.id
+      });
+  }
+
+  return state;
+});
+var _default = notices;
+exports.default = _default;
+
+
+/***/ }),
+
+/***/ 284:
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithoutHoles = __webpack_require__(285);
+
+var iterableToArray = __webpack_require__(286);
+
+var nonIterableSpread = __webpack_require__(287);
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
+
+/***/ }),
+
+/***/ 285:
+/***/ (function(module, exports) {
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+
+module.exports = _arrayWithoutHoles;
+
+/***/ }),
+
+/***/ 286:
 /***/ (function(module, exports) {
 
 function _iterableToArray(iter) {
@@ -202,11 +354,7 @@ module.exports = _iterableToArray;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ 287:
 /***/ (function(module, exports) {
 
 function _nonIterableSpread() {
@@ -217,14 +365,68 @@ module.exports = _nonIterableSpread;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/objectSpread.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/objectSpread.js ***!
-  \*************************************************************/
-/*! no static exports found */
+/***/ 288:
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(/*! ./defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(122);
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.onSubKey = void 0;
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(175));
+
+var _objectSpread3 = _interopRequireDefault(__webpack_require__(289));
+
+/**
+ * Higher-order reducer creator which creates a combined reducer object, keyed
+ * by a property on the action object.
+ *
+ * @param {string} actionProperty Action property by which to key object.
+ *
+ * @return {Function} Higher-order reducer.
+ */
+var onSubKey = function onSubKey(actionProperty) {
+  return function (reducer) {
+    return function () {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var action = arguments.length > 1 ? arguments[1] : undefined;
+      // Retrieve subkey from action. Do not track if undefined; useful for cases
+      // where reducer is scoped by action shape.
+      var key = action[actionProperty];
+
+      if (key === undefined) {
+        return state;
+      } // Avoid updating state if unchanged. Note that this also accounts for a
+      // reducer which returns undefined on a key which is not yet tracked.
+
+
+      var nextKeyState = reducer(state[key], action);
+
+      if (nextKeyState === state[key]) {
+        return state;
+      }
+
+      return (0, _objectSpread3.default)({}, state, (0, _defineProperty2.default)({}, key, nextKeyState));
+    };
+  };
+};
+
+exports.onSubKey = onSubKey;
+var _default = onSubKey;
+exports.default = _default;
+
+
+/***/ }),
+
+/***/ 289:
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineProperty = __webpack_require__(175);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -249,47 +451,7 @@ module.exports = _objectSpread;
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/toConsumableArray.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
-
-var iterableToArray = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/iterableToArray.js");
-
-var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/index.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/index.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(/*! ./store */ "./node_modules/@wordpress/notices/build/store/index.js");
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/store/actions.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/actions.js ***!
-  \****************************************************************/
-/*! no static exports found */
+/***/ 290:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -305,9 +467,9 @@ exports.createErrorNotice = createErrorNotice;
 exports.createWarningNotice = createWarningNotice;
 exports.removeNotice = removeNotice;
 
-var _lodash = __webpack_require__(/*! lodash */ "lodash");
+var _lodash = __webpack_require__(2);
 
-var _constants = __webpack_require__(/*! ./constants */ "./node_modules/@wordpress/notices/build/store/constants.js");
+var _constants = __webpack_require__(176);
 
 var _marked =
 /*#__PURE__*/
@@ -486,190 +648,7 @@ function removeNotice(id) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/notices/build/store/constants.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/constants.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DEFAULT_STATUS = exports.DEFAULT_CONTEXT = void 0;
-
-/**
- * Default context to use for notice grouping when not otherwise specified. Its
- * specific value doesn't hold much meaning, but it must be reasonably unique
- * and, more importantly, referenced consistently in the store implementation.
- *
- * @type {string}
- */
-var DEFAULT_CONTEXT = 'global';
-/**
- * Default notice status.
- *
- * @type {string}
- */
-
-exports.DEFAULT_CONTEXT = DEFAULT_CONTEXT;
-var DEFAULT_STATUS = 'info';
-exports.DEFAULT_STATUS = DEFAULT_STATUS;
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/store/controls.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/controls.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _a11y = __webpack_require__(/*! @wordpress/a11y */ "@wordpress/a11y");
-
-/**
- * WordPress dependencies
- */
-var _default = {
-  SPEAK: function SPEAK(action) {
-    (0, _a11y.speak)(action.message, 'assertive');
-  }
-};
-exports.default = _default;
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/store/index.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/index.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireWildcard = __webpack_require__(/*! @babel/runtime/helpers/interopRequireWildcard */ "./node_modules/@babel/runtime/helpers/interopRequireWildcard.js");
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _data = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-
-var _reducer = _interopRequireDefault(__webpack_require__(/*! ./reducer */ "./node_modules/@wordpress/notices/build/store/reducer.js"));
-
-var actions = _interopRequireWildcard(__webpack_require__(/*! ./actions */ "./node_modules/@wordpress/notices/build/store/actions.js"));
-
-var selectors = _interopRequireWildcard(__webpack_require__(/*! ./selectors */ "./node_modules/@wordpress/notices/build/store/selectors.js"));
-
-var _controls = _interopRequireDefault(__webpack_require__(/*! ./controls */ "./node_modules/@wordpress/notices/build/store/controls.js"));
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-var _default = (0, _data.registerStore)('core/notices', {
-  reducer: _reducer.default,
-  actions: actions,
-  selectors: selectors,
-  controls: _controls.default
-});
-
-exports.default = _default;
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/store/reducer.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/reducer.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js"));
-
-var _lodash = __webpack_require__(/*! lodash */ "lodash");
-
-var _onSubKey = _interopRequireDefault(__webpack_require__(/*! ./utils/on-sub-key */ "./node_modules/@wordpress/notices/build/store/utils/on-sub-key.js"));
-
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-/**
- * Reducer returning the next notices state. The notices state is an object
- * where each key is a context, its value an array of notice objects.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-var notices = (0, _onSubKey.default)('context')(function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case 'CREATE_NOTICE':
-      // Avoid duplicates on ID.
-      return (0, _toConsumableArray2.default)((0, _lodash.reject)(state, {
-        id: action.notice.id
-      })).concat([action.notice]);
-
-    case 'REMOVE_NOTICE':
-      return (0, _lodash.reject)(state, {
-        id: action.id
-      });
-  }
-
-  return state;
-});
-var _default = notices;
-exports.default = _default;
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/notices/build/store/selectors.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/selectors.js ***!
-  \******************************************************************/
-/*! no static exports found */
+/***/ 291:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -680,7 +659,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getNotices = getNotices;
 
-var _constants = __webpack_require__(/*! ./constants */ "./node_modules/@wordpress/notices/build/store/constants.js");
+var _constants = __webpack_require__(176);
 
 /**
  * Internal dependencies
@@ -746,100 +725,44 @@ function getNotices(state) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/notices/build/store/utils/on-sub-key.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@wordpress/notices/build/store/utils/on-sub-key.js ***!
-  \*************************************************************************/
-/*! no static exports found */
+/***/ 292:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.onSubKey = void 0;
+exports.default = void 0;
 
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
-
-var _objectSpread3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectSpread */ "./node_modules/@babel/runtime/helpers/objectSpread.js"));
+var _a11y = __webpack_require__(44);
 
 /**
- * Higher-order reducer creator which creates a combined reducer object, keyed
- * by a property on the action object.
- *
- * @param {string} actionProperty Action property by which to key object.
- *
- * @return {Function} Higher-order reducer.
+ * WordPress dependencies
  */
-var onSubKey = function onSubKey(actionProperty) {
-  return function (reducer) {
-    return function () {
-      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var action = arguments.length > 1 ? arguments[1] : undefined;
-      // Retrieve subkey from action. Do not track if undefined; useful for cases
-      // where reducer is scoped by action shape.
-      var key = action[actionProperty];
-
-      if (key === undefined) {
-        return state;
-      } // Avoid updating state if unchanged. Note that this also accounts for a
-      // reducer which returns undefined on a key which is not yet tracked.
-
-
-      var nextKeyState = reducer(state[key], action);
-
-      if (nextKeyState === state[key]) {
-        return state;
-      }
-
-      return (0, _objectSpread3.default)({}, state, (0, _defineProperty2.default)({}, key, nextKeyState));
-    };
-  };
+var _default = {
+  SPEAK: function SPEAK(action) {
+    (0, _a11y.speak)(action.message, 'assertive');
+  }
 };
-
-exports.onSubKey = onSubKey;
-var _default = onSubKey;
 exports.default = _default;
 
 
 /***/ }),
 
-/***/ "@wordpress/a11y":
-/*!***************************************!*\
-  !*** external {"this":["wp","a11y"]} ***!
-  \***************************************/
-/*! no static exports found */
+/***/ 44:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["a11y"]; }());
 
 /***/ }),
 
-/***/ "@wordpress/data":
-/*!***************************************!*\
-  !*** external {"this":["wp","data"]} ***!
-  \***************************************/
-/*! no static exports found */
+/***/ 5:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["data"]; }());
 
-/***/ }),
-
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=notices.js.map

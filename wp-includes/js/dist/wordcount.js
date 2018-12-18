@@ -82,21 +82,28 @@ this["wp"] = this["wp"] || {}; this["wp"]["wordcount"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/wordcount/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 311);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@wordpress/wordcount/build-module/defaultSettings.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/defaultSettings.js ***!
-  \***************************************************************************/
-/*! exports provided: defaultSettings */
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 311:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultSettings", function() { return defaultSettings; });
+
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/defaultSettings.js
 var defaultSettings = {
   HTMLRegExp: /<\/?[a-z][^>]*?>/gi,
   HTMLcommentRegExp: /<!--[\s\S]*?-->/g,
@@ -159,31 +166,157 @@ var defaultSettings = {
   }
 };
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripTags.js
+/**
+ * Replaces items matched in the regex with new line
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripTags = (function (settings, text) {
+  if (settings.HTMLRegExp) {
+    return text.replace(settings.HTMLRegExp, '\n');
+  }
+});
 
-/***/ }),
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js
+/**
+ * Replaces items matched in the regex with character.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var transposeAstralsToCountableChar = (function (settings, text) {
+  if (settings.astralRegExp) {
+    return text.replace(settings.astralRegExp, 'a');
+  }
 
-/***/ "./node_modules/@wordpress/wordcount/build-module/index.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/index.js ***!
-  \*****************************************************************/
-/*! exports provided: count */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+  return text;
+});
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js
+/**
+ * Removes items matched in the regex.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripHTMLEntities = (function (settings, text) {
+  if (settings.HTMLEntityRegExp) {
+    return text.replace(settings.HTMLEntityRegExp, '');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripConnectors.js
+/**
+ * Replaces items matched in the regex with spaces.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripConnectors = (function (settings, text) {
+  if (settings.connectorRegExp) {
+    return text.replace(settings.connectorRegExp, ' ');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripRemovables.js
+/**
+ * Removes items matched in the regex.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripRemovables = (function (settings, text) {
+  if (settings.removeRegExp) {
+    return text.replace(settings.removeRegExp, '');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js
+/**
+ * Removes items matched in the regex.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripHTMLComments = (function (settings, text) {
+  if (settings.HTMLcommentRegExp) {
+    return text.replace(settings.HTMLcommentRegExp, '');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js
+/**
+ * Replaces items matched in the regex with a new line.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripShortcodes = (function (settings, text) {
+  if (settings.shortcodesRegExp) {
+    return text.replace(settings.shortcodesRegExp, '\n');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/stripSpaces.js
+/**
+ * Replaces items matched in the regex with spaces.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var stripSpaces = (function (settings, text) {
+  if (settings.spaceRegExp) {
+    return text.replace(settings.spaceRegExp, ' ');
+  }
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js
+/**
+ * Replaces items matched in the regex with a single character.
+ *
+ * @param {Object} settings The main settings object containing regular expressions
+ * @param {string} text     The string being counted.
+ *
+ * @return {string} The manipulated text.
+ */
+/* harmony default export */ var transposeHTMLEntitiesToCountableChars = (function (settings, text) {
+  if (settings.HTMLEntityRegExp) {
+    return text.replace(settings.HTMLEntityRegExp, 'a');
+  }
+
+  return text;
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/wordcount/build-module/index.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "count", function() { return count; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "lodash");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _defaultSettings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultSettings */ "./node_modules/@wordpress/wordcount/build-module/defaultSettings.js");
-/* harmony import */ var _stripTags__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stripTags */ "./node_modules/@wordpress/wordcount/build-module/stripTags.js");
-/* harmony import */ var _transposeAstralsToCountableChar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transposeAstralsToCountableChar */ "./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js");
-/* harmony import */ var _stripHTMLEntities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./stripHTMLEntities */ "./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js");
-/* harmony import */ var _stripConnectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./stripConnectors */ "./node_modules/@wordpress/wordcount/build-module/stripConnectors.js");
-/* harmony import */ var _stripRemovables__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./stripRemovables */ "./node_modules/@wordpress/wordcount/build-module/stripRemovables.js");
-/* harmony import */ var _stripHTMLComments__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stripHTMLComments */ "./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js");
-/* harmony import */ var _stripShortcodes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stripShortcodes */ "./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js");
-/* harmony import */ var _stripSpaces__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./stripSpaces */ "./node_modules/@wordpress/wordcount/build-module/stripSpaces.js");
-/* harmony import */ var _transposeHTMLEntitiesToCountableChars__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./transposeHTMLEntitiesToCountableChars */ "./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js");
 
 
 
@@ -205,7 +338,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function loadSettings(type, userSettings) {
-  var settings = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(_defaultSettings__WEBPACK_IMPORTED_MODULE_1__["defaultSettings"], userSettings);
+  var settings = Object(external_lodash_["extend"])(defaultSettings, userSettings);
   settings.shortcodes = settings.l10n.shortcodes || {};
 
   if (settings.shortcodes && settings.shortcodes.length) {
@@ -232,7 +365,7 @@ function loadSettings(type, userSettings) {
 
 
 function matchWords(text, regex, settings) {
-  text = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flow"])(_stripTags__WEBPACK_IMPORTED_MODULE_2__["default"].bind(this, settings), _stripHTMLComments__WEBPACK_IMPORTED_MODULE_7__["default"].bind(this, settings), _stripShortcodes__WEBPACK_IMPORTED_MODULE_8__["default"].bind(this, settings), _stripSpaces__WEBPACK_IMPORTED_MODULE_9__["default"].bind(this, settings), _stripHTMLEntities__WEBPACK_IMPORTED_MODULE_4__["default"].bind(this, settings), _stripConnectors__WEBPACK_IMPORTED_MODULE_5__["default"].bind(this, settings), _stripRemovables__WEBPACK_IMPORTED_MODULE_6__["default"].bind(this, settings))(text);
+  text = Object(external_lodash_["flow"])(stripTags.bind(this, settings), stripHTMLComments.bind(this, settings), stripShortcodes.bind(this, settings), stripSpaces.bind(this, settings), stripHTMLEntities.bind(this, settings), stripConnectors.bind(this, settings), stripRemovables.bind(this, settings))(text);
   text = text + '\n';
   return text.match(regex);
 }
@@ -248,7 +381,7 @@ function matchWords(text, regex, settings) {
 
 
 function matchCharacters(text, regex, settings) {
-  text = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["flow"])(_stripTags__WEBPACK_IMPORTED_MODULE_2__["default"].bind(this, settings), _stripHTMLComments__WEBPACK_IMPORTED_MODULE_7__["default"].bind(this, settings), _stripShortcodes__WEBPACK_IMPORTED_MODULE_8__["default"].bind(this, settings), _stripSpaces__WEBPACK_IMPORTED_MODULE_9__["default"].bind(this, settings), _transposeAstralsToCountableChar__WEBPACK_IMPORTED_MODULE_3__["default"].bind(this, settings), _transposeHTMLEntitiesToCountableChars__WEBPACK_IMPORTED_MODULE_10__["default"].bind(this, settings))(text);
+  text = Object(external_lodash_["flow"])(stripTags.bind(this, settings), stripHTMLComments.bind(this, settings), stripShortcodes.bind(this, settings), stripSpaces.bind(this, settings), transposeAstralsToCountableChar.bind(this, settings), transposeHTMLEntitiesToCountableChars.bind(this, settings))(text);
   text = text + '\n';
   return text.match(regex);
 }
@@ -277,266 +410,6 @@ function count(text, type, userSettings) {
 }
 
 
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripConnectors.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripConnectors.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with spaces.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.connectorRegExp) {
-    return text.replace(settings.connectorRegExp, ' ');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripHTMLComments.js ***!
-  \*****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Removes items matched in the regex.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.HTMLcommentRegExp) {
-    return text.replace(settings.HTMLcommentRegExp, '');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripHTMLEntities.js ***!
-  \*****************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Removes items matched in the regex.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.HTMLEntityRegExp) {
-    return text.replace(settings.HTMLEntityRegExp, '');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripRemovables.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripRemovables.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Removes items matched in the regex.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.removeRegExp) {
-    return text.replace(settings.removeRegExp, '');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripShortcodes.js ***!
-  \***************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with a new line.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.shortcodesRegExp) {
-    return text.replace(settings.shortcodesRegExp, '\n');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripSpaces.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripSpaces.js ***!
-  \***********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with spaces.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.spaceRegExp) {
-    return text.replace(settings.spaceRegExp, ' ');
-  }
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/stripTags.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/stripTags.js ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with new line
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.HTMLRegExp) {
-    return text.replace(settings.HTMLRegExp, '\n');
-  }
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js":
-/*!*******************************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/transposeAstralsToCountableChar.js ***!
-  \*******************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with character.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.astralRegExp) {
-    return text.replace(settings.astralRegExp, 'a');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js":
-/*!*************************************************************************************************!*\
-  !*** ./node_modules/@wordpress/wordcount/build-module/transposeHTMLEntitiesToCountableChars.js ***!
-  \*************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/**
- * Replaces items matched in the regex with a single character.
- *
- * @param {Object} settings The main settings object containing regular expressions
- * @param {string} text     The string being counted.
- *
- * @return {string} The manipulated text.
- */
-/* harmony default export */ __webpack_exports__["default"] = (function (settings, text) {
-  if (settings.HTMLEntityRegExp) {
-    return text.replace(settings.HTMLEntityRegExp, 'a');
-  }
-
-  return text;
-});
-
-
-/***/ }),
-
-/***/ "lodash":
-/*!*************************!*\
-  !*** external "lodash" ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
 /***/ })
 
 /******/ });
-//# sourceMappingURL=wordcount.js.map
