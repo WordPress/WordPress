@@ -7882,8 +7882,9 @@ __webpack_require__.d(selectors_namespaceObject, "isEditedPostDateFloating", fun
 __webpack_require__.d(selectors_namespaceObject, "getBlockDependantsCacheBust", function() { return getBlockDependantsCacheBust; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockName", function() { return selectors_getBlockName; });
 __webpack_require__.d(selectors_namespaceObject, "isBlockValid", function() { return selectors_isBlockValid; });
-__webpack_require__.d(selectors_namespaceObject, "getBlockAttributes", function() { return selectors_getBlockAttributes; });
+__webpack_require__.d(selectors_namespaceObject, "getBlockAttributes", function() { return getBlockAttributes; });
 __webpack_require__.d(selectors_namespaceObject, "getBlock", function() { return selectors_getBlock; });
+__webpack_require__.d(selectors_namespaceObject, "__unstableGetBlockWithoutInnerBlocks", function() { return selectors_unstableGetBlockWithoutInnerBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getBlocks", function() { return selectors_getBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getClientIdsOfDescendants", function() { return selectors_getClientIdsOfDescendants; });
 __webpack_require__.d(selectors_namespaceObject, "getClientIdsWithDescendants", function() { return getClientIdsWithDescendants; });
@@ -11087,7 +11088,7 @@ function selectors_isBlockValid(state, clientId) {
  * @return {Object?} Block attributes.
  */
 
-var selectors_getBlockAttributes = Object(rememo["a" /* default */])(function (state, clientId) {
+var getBlockAttributes = Object(rememo["a" /* default */])(function (state, clientId) {
   var block = state.editor.present.blocks.byClientId[clientId];
 
   if (!block) {
@@ -11139,11 +11140,24 @@ var selectors_getBlock = Object(rememo["a" /* default */])(function (state, clie
   }
 
   return Object(objectSpread["a" /* default */])({}, block, {
-    attributes: selectors_getBlockAttributes(state, clientId),
+    attributes: getBlockAttributes(state, clientId),
     innerBlocks: selectors_getBlocks(state, clientId)
   });
 }, function (state, clientId) {
-  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId)].concat(Object(toConsumableArray["a" /* default */])(selectors_getBlockAttributes.getDependants(state, clientId)));
+  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId)].concat(Object(toConsumableArray["a" /* default */])(getBlockAttributes.getDependants(state, clientId)));
+});
+var selectors_unstableGetBlockWithoutInnerBlocks = Object(rememo["a" /* default */])(function (state, clientId) {
+  var block = state.editor.present.blocks.byClientId[clientId];
+
+  if (!block) {
+    return null;
+  }
+
+  return Object(objectSpread["a" /* default */])({}, block, {
+    attributes: getBlockAttributes(state, clientId)
+  });
+}, function (state, clientId) {
+  return [state.editor.present.blocks.byClientId[clientId]].concat(Object(toConsumableArray["a" /* default */])(getBlockAttributes.getDependants(state, clientId)));
 });
 
 function getPostMeta(state, key) {
@@ -19051,9 +19065,6 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
 
   var _select = select('core/editor'),
       isBlockSelected = _select.isBlockSelected,
-      getBlockName = _select.getBlockName,
-      isBlockValid = _select.isBlockValid,
-      getBlockAttributes = _select.getBlockAttributes,
       isAncestorMultiSelected = _select.isAncestorMultiSelected,
       isBlockMultiSelected = _select.isBlockMultiSelected,
       isFirstMultiSelectedBlock = _select.isFirstMultiSelectedBlock,
@@ -19068,7 +19079,10 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       hasSelectedInnerBlock = _select.hasSelectedInnerBlock,
       getTemplateLock = _select.getTemplateLock,
       getPreviousBlockClientId = _select.getPreviousBlockClientId,
-      getNextBlockClientId = _select.getNextBlockClientId;
+      getNextBlockClientId = _select.getNextBlockClientId,
+      __unstableGetBlockWithoutInnerBlocks = _select.__unstableGetBlockWithoutInnerBlocks;
+
+  var block = __unstableGetBlockWithoutInnerBlocks(clientId);
 
   var isSelected = isBlockSelected(clientId);
 
@@ -19077,9 +19091,15 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       focusMode = _getEditorSettings.focusMode;
 
   var templateLock = getTemplateLock(rootClientId);
-  var isParentOfSelectedBlock = hasSelectedInnerBlock(clientId, true);
-  var name = getBlockName(clientId);
-  var attributes = getBlockAttributes(clientId);
+  var isParentOfSelectedBlock = hasSelectedInnerBlock(clientId, true); // The fallback to `{}` is a temporary fix.
+  // This function should never be called when a block is not present in the state.
+  // It happens now because the order in withSelect rendering is not correct.
+
+  var _ref3 = block || {},
+      name = _ref3.name,
+      attributes = _ref3.attributes,
+      isValid = _ref3.isValid;
+
   return {
     isPartOfMultiSelection: isBlockMultiSelected(clientId) || isAncestorMultiSelected(clientId),
     isFirstMultiSelected: isFirstMultiSelectedBlock(clientId),
@@ -19096,13 +19116,17 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       name: name,
       attributes: attributes
     }),
-    isValid: isBlockValid(clientId),
     isMovable: 'all' !== templateLock,
     isLocked: !!templateLock,
     isFocusMode: focusMode && isLargeViewport,
     hasFixedToolbar: hasFixedToolbar && isLargeViewport,
+    // Users of the editor.BlockListBlock filter used to be able to access the block prop
+    // Ideally these blocks would rely on the clientId prop only.
+    // This is kept for backward compatibility reasons.
+    block: block,
     name: name,
     attributes: attributes,
+    isValid: isValid,
     isSelected: isSelected,
     isParentOfSelectedBlock: isParentOfSelectedBlock,
     // We only care about these selectors when events are triggered.
@@ -19111,8 +19135,8 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
     getNextBlockClientId: getNextBlockClientId
   };
 });
-var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref3) {
-  var select = _ref3.select;
+var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref4) {
+  var select = _ref4.select;
 
   var _select2 = select('core/editor'),
       getBlockSelectionStart = _select2.getBlockSelectionStart;
@@ -19177,9 +19201,9 @@ var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function 
     }
   };
 });
-/* harmony default export */ var block_list_block = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_components_["withFilters"])('editor.BlockListBlock'), Object(external_this_wp_viewport_["withViewportMatch"])({
+/* harmony default export */ var block_list_block = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_viewport_["withViewportMatch"])({
   isLargeViewport: 'medium'
-}), applyWithSelect, applyWithDispatch, Object(external_this_wp_components_["withFilters"])('editor.__experimentalBlockListBlock'))(block_BlockListBlock));
+}), applyWithSelect, applyWithDispatch, Object(external_this_wp_components_["withFilters"])('editor.BlockListBlock'))(block_BlockListBlock));
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
 var external_this_wp_htmlEntities_ = __webpack_require__(49);
@@ -33177,7 +33201,7 @@ function addAssignedAlign(props, blockType, attributes) {
   return props;
 }
 Object(external_this_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/align/addAttribute', addAttribute);
-Object(external_this_wp_hooks_["addFilter"])('editor.__experimentalBlockListBlock', 'core/editor/align/with-data-align', withDataAlign);
+Object(external_this_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/editor/align/with-data-align', withDataAlign);
 Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/editor/align/with-toolbar-controls', withToolbarControls);
 Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'core/align/addAssignedAlign', addAssignedAlign);
 
