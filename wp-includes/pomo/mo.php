@@ -35,6 +35,7 @@ if ( ! class_exists( 'MO', false ) ) :
 		 * Fills up with the entries from MO file $filename
 		 *
 		 * @param string $filename MO file to load
+		 * @return bool True if the import from file was successful, otherwise false.
 		 */
 		function import_from_file( $filename ) {
 			$reader = new POMO_FileReader( $filename );
@@ -211,6 +212,7 @@ if ( ! class_exists( 'MO', false ) ) :
 
 		/**
 		 * @param POMO_FileReader $reader
+		 * @return bool True if the import was successful, otherwise false.
 		 */
 		function import_from_reader( $reader ) {
 			$endian_string = MO::get_byteorder( $reader->readint32() );
@@ -307,6 +309,7 @@ if ( ! class_exists( 'MO', false ) ) :
 		 *  0x04 as context separator or 0x00 as singular/plural separator
 		 * @param string $translation translation string from MO file. Might contain
 		 *  0x00 as a plural translations separator
+		 * @return Translation_Entry Entry instance.
 		 */
 		function &make_entry( $original, $translation ) {
 			$entry = new Translation_Entry();
