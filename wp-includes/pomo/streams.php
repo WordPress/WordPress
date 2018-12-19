@@ -57,7 +57,7 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		/**
 		 * Reads an array of 32-bit Integers from the Stream
 		 *
-		 * @param integer count How many elements should be read
+		 * @param integer $count How many elements should be read
 		 * @return mixed Array of integers or false if there isn't
 		 *  enough data or on error
 		 */
@@ -157,6 +157,7 @@ if ( ! class_exists( 'POMO_FileReader', false ) ) :
 
 		/**
 		 * @param int $bytes
+		 * @return string|false Returns read string, otherwise false.
 		 */
 		function read( $bytes ) {
 			return fread( $this->_f, $bytes );
