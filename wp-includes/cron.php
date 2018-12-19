@@ -21,7 +21,7 @@
  * Use wp_schedule_event() to schedule a recurring event.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to boolean indicating success or failure,
+ * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see pre_schedule_event} filter added to short-circuit the function.
  *
  * @link https://codex.wordpress.org/Function_Reference/wp_schedule_single_event
@@ -137,7 +137,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
  * Use wp_schedule_single_event() to schedule a non-recurring event.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to boolean indicating success or failure,
+ * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see pre_schedule_event} filter added to short-circuit the function.
  *
  * @link https://codex.wordpress.org/Function_Reference/wp_schedule_event
@@ -204,7 +204,7 @@ function wp_schedule_event( $timestamp, $recurrence, $hook, $args = array() ) {
  * change the recurrence frequency.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to boolean indicating success or failure,
+ * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see pre_reschedule_event} filter added to short-circuit the function.
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when the event was scheduled.
@@ -293,7 +293,7 @@ function wp_reschedule_event( $timestamp, $recurrence, $hook, $args = array() ) 
  * identified.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to boolean indicating success or failure,
+ * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see pre_unschedule_event} filter added to short-circuit the function.
  *
  * @param int    $timestamp Unix timestamp (UTC) of the event.
@@ -351,7 +351,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
  * the `===` operator for testing the return value of this function.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to indicate success or failure,
+ * @since 5.1.0 Return value modified to indicate success or failure,
  *              {@see pre_clear_scheduled_hook} filter added to short-circuit the function.
  *
  * @param string $hook Action hook, the execution of which will be unscheduled.
@@ -421,7 +421,7 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
  * the `===` operator for testing the return value of this function.
  *
  * @since 4.9.0
- * @since 5.0.0 Return value added to indicate success or failure.
+ * @since 5.1.0 Return value added to indicate success or failure.
  *
  * @param string $hook Action hook, the execution of which will be unscheduled.
  * @return bool|int On success an integer indicating number of events unscheduled (0 indicates no
@@ -608,7 +608,7 @@ function wp_next_scheduled( $hook, $args = array() ) {
  * Sends a request to run cron through HTTP request that doesn't halt page loading.
  *
  * @since 2.1.0
- * @since 5.0.0 Return values added.
+ * @since 5.1.0 Return values added.
  *
  * @param int $gmt_time Optional. Unix timestamp (UTC). Default 0 (current time is used).
  * @return bool True if spawned, false if no events spawned.
@@ -725,7 +725,7 @@ function spawn_cron( $gmt_time = 0 ) {
  * the `===` operator for testing the return value of this function.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value added to indicate success or failure.
+ * @since 5.1.0 Return value added to indicate success or failure.
  *
  * @return bool|int On success an integer indicating number of events spawned (0 indicates no
  *                  events needed to be spawned), false if spawning fails for one or more events.
@@ -885,7 +885,7 @@ function _get_cron_array() {
  * Updates the CRON option with the new CRON array.
  *
  * @since 2.1.0
- * @since 5.0.0 Return value modified to outcome of {@see update_option}.
+ * @since 5.1.0 Return value modified to outcome of {@see update_option}.
  *
  * @access private
  *
