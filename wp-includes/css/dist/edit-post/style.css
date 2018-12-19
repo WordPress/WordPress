@@ -540,6 +540,8 @@ body.is-fullscreen-mode .components-notice-list {
     top: 10px;
     right: 20px;
     z-index: 5; }
+  .edit-post-meta-boxes-area .is-hidden {
+    display: none; }
 
 .edit-post-meta-boxes-area__clear {
   clear: both; }

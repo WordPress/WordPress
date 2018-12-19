@@ -275,6 +275,8 @@
     .wp-block-embed.is-loading p {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
       font-size: 13px; }
+  .wp-block-embed .components-placeholder__error {
+    word-break: break-word; }
 
 .wp-block-file {
   display: flex;
@@ -908,7 +910,9 @@ figure.block-library-media-text__media-container {
     border-top: 3px dashed #ccd0d4; }
 
 .editor-rich-text__tinymce[data-is-placeholder-visible="true"] + .editor-rich-text__tinymce.wp-block-paragraph {
-  padding-right: 36px; }
+  padding-right: 108px; }
+  .wp-block .wp-block .editor-rich-text__tinymce[data-is-placeholder-visible="true"] + .editor-rich-text__tinymce.wp-block-paragraph {
+    padding-right: 36px; }
 
 .wp-block-preformatted pre {
   white-space: pre-wrap; }

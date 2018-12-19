@@ -5335,7 +5335,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -5450,6 +5450,7 @@ __webpack_require__.d(actions_namespaceObject, "setDefaultBlockName", function()
 __webpack_require__.d(actions_namespaceObject, "setFreeformFallbackBlockName", function() { return setFreeformFallbackBlockName; });
 __webpack_require__.d(actions_namespaceObject, "setUnregisteredFallbackBlockName", function() { return setUnregisteredFallbackBlockName; });
 __webpack_require__.d(actions_namespaceObject, "setCategories", function() { return setCategories; });
+__webpack_require__.d(actions_namespaceObject, "updateCategory", function() { return updateCategory; });
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(5);
@@ -5610,8 +5611,28 @@ function reducer_categories() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CATEGORIES;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
-  if (action.type === 'SET_CATEGORIES') {
-    return action.categories || [];
+  switch (action.type) {
+    case 'SET_CATEGORIES':
+      return action.categories || [];
+
+    case 'UPDATE_CATEGORY':
+      {
+        if (!action.category || Object(external_lodash_["isEmpty"])(action.category)) {
+          return state;
+        }
+
+        var categoryToChange = Object(external_lodash_["find"])(state, ['slug', action.slug]);
+
+        if (categoryToChange) {
+          return Object(external_lodash_["map"])(state, function (category) {
+            if (category.slug === action.slug) {
+              return Object(objectSpread["a" /* default */])({}, category, action.category);
+            }
+
+            return category;
+          });
+        }
+      }
   }
 
   return state;
@@ -5916,6 +5937,22 @@ function setCategories(categories) {
     categories: categories
   };
 }
+/**
+ * Returns an action object used to update a category.
+ *
+ * @param {string} slug     Block category slug.
+ * @param {Object} category Object containing the category properties that should be updated.
+ *
+ * @return {Object} Action object.
+ */
+
+function updateCategory(slug, category) {
+  return {
+    type: 'UPDATE_CATEGORY',
+    slug: slug,
+    category: category
+  };
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/index.js
 /**
@@ -5936,7 +5973,7 @@ Object(external_this_wp_data_["registerStore"])('core/blocks', {
 });
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(56);
+var v4 = __webpack_require__(57);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
@@ -5952,7 +5989,6 @@ var external_this_wp_element_ = __webpack_require__(0);
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/utils.js
 
 
-
 /**
  * External dependencies
  */
@@ -5961,7 +5997,6 @@ var external_this_wp_element_ = __webpack_require__(0);
 /**
  * WordPress dependencies
  */
-
 
 
 /**
@@ -5993,12 +6028,18 @@ function isUnmodifiedDefaultBlock(block) {
 
   if (block.name !== defaultBlockName) {
     return false;
+  } // Cache a created default block if no cache exists or the default block
+  // name changed.
+
+
+  if (!isUnmodifiedDefaultBlock.block || isUnmodifiedDefaultBlock.block.name !== defaultBlockName) {
+    isUnmodifiedDefaultBlock.block = createBlock(defaultBlockName);
   }
 
-  var newDefaultBlock = createBlock(defaultBlockName);
-  var attributeKeys = Object(external_this_wp_hooks_["applyFilters"])('blocks.isUnmodifiedDefaultBlock.attributes', Object(toConsumableArray["a" /* default */])(Object(external_lodash_["keys"])(newDefaultBlock.attributes)).concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["keys"])(block.attributes))));
-  return Object(external_lodash_["every"])(attributeKeys, function (key) {
-    return Object(external_lodash_["isEqual"])(newDefaultBlock.attributes[key], block.attributes[key]);
+  var newDefaultBlock = isUnmodifiedDefaultBlock.block;
+  var blockType = registration_getBlockType(defaultBlockName);
+  return Object(external_lodash_["every"])(blockType.attributes, function (value, key) {
+    return newDefaultBlock.attributes[key] === block.attributes[key];
   });
 }
 /**
@@ -6972,7 +7013,7 @@ function query(selector, matchers) {
   };
 }
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(57);
+var external_this_wp_autop_ = __webpack_require__(58);
 
 // EXTERNAL MODULE: external {"this":["wp","blockSerializationDefaultParser"]}
 var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(183);
@@ -6981,7 +7022,7 @@ var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(183)
 var arrayWithHoles = __webpack_require__(35);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
 var nonIterableRest = __webpack_require__(36);
@@ -9379,7 +9420,8 @@ var utils_window$Node = window.Node,
 
 function getBlockContentSchema(transforms) {
   var schemas = transforms.map(function (_ref) {
-    var blockName = _ref.blockName,
+    var isMatch = _ref.isMatch,
+        blockName = _ref.blockName,
         schema = _ref.schema;
 
     // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
@@ -9391,19 +9433,48 @@ function getBlockContentSchema(transforms) {
 
         schema[tag].attributes.push('id');
       }
+    } // If an isMatch function exists add it to each schema tag that it applies to.
+
+
+    if (isMatch) {
+      for (var _tag in schema) {
+        schema[_tag].isMatch = isMatch;
+      }
     }
 
     return schema;
   });
   return external_lodash_["mergeWith"].apply(void 0, [{}].concat(Object(toConsumableArray["a" /* default */])(schemas), [function (objValue, srcValue, key) {
-    if (key === 'children') {
-      if (objValue === '*' || srcValue === '*') {
-        return '*';
-      }
+    switch (key) {
+      case 'children':
+        {
+          if (objValue === '*' || srcValue === '*') {
+            return '*';
+          }
 
-      return Object(objectSpread["a" /* default */])({}, objValue, srcValue);
-    } else if (key === 'attributes' || key === 'require') {
-      return Object(toConsumableArray["a" /* default */])(objValue || []).concat(Object(toConsumableArray["a" /* default */])(srcValue || []));
+          return Object(objectSpread["a" /* default */])({}, objValue, srcValue);
+        }
+
+      case 'attributes':
+      case 'require':
+        {
+          return Object(toConsumableArray["a" /* default */])(objValue || []).concat(Object(toConsumableArray["a" /* default */])(srcValue || []));
+        }
+
+      case 'isMatch':
+        {
+          // If one of the values being merge is undefined (matches everything),
+          // the result of the merge will be undefined.
+          if (!objValue || !srcValue) {
+            return undefined;
+          } // When merging two isMatch functions, the result is a new function
+          // that returns if one of the source functions returns true.
+
+
+          return function () {
+            return objValue.apply(void 0, arguments) || srcValue.apply(void 0, arguments);
+          };
+        }
     }
   }]));
 }
@@ -9504,9 +9575,10 @@ function deepFilterHTML(HTML) {
 
 function cleanNodeList(nodeList, doc, schema, inline) {
   Array.from(nodeList).forEach(function (node) {
-    var tag = node.nodeName.toLowerCase(); // It's a valid child.
+    var tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
+    // function, or with an isMatch function that matches the node.
 
-    if (schema.hasOwnProperty(tag)) {
+    if (schema.hasOwnProperty(tag) && (!schema[tag].isMatch || schema[tag].isMatch(node))) {
       if (node.nodeType === utils_ELEMENT_NODE) {
         var _schema$tag = schema[tag],
             _schema$tag$attribute = _schema$tag.attributes,
@@ -10042,7 +10114,7 @@ function shallowTextContent(element) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(33);
+var external_this_wp_blob_ = __webpack_require__(32);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
 
@@ -10638,6 +10710,16 @@ function categories_getCategories() {
 function categories_setCategories(categories) {
   Object(external_this_wp_data_["dispatch"])('core/blocks').setCategories(categories);
 }
+/**
+ * Updates a category.
+ *
+ * @param {string} slug          Block category slug.
+ * @param {Object} category Object containing the category properties that should be updated.
+ */
+
+function categories_updateCategory(slug, category) {
+  Object(external_this_wp_data_["dispatch"])('core/blocks').updateCategory(slug, category);
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/templates.js
 
@@ -10792,6 +10874,7 @@ function synchronizeBlocksWithTemplate() {
 /* concated harmony reexport isValidBlockContent */__webpack_require__.d(__webpack_exports__, "isValidBlockContent", function() { return isValidBlockContent; });
 /* concated harmony reexport getCategories */__webpack_require__.d(__webpack_exports__, "getCategories", function() { return categories_getCategories; });
 /* concated harmony reexport setCategories */__webpack_require__.d(__webpack_exports__, "setCategories", function() { return categories_setCategories; });
+/* concated harmony reexport updateCategory */__webpack_require__.d(__webpack_exports__, "updateCategory", function() { return categories_updateCategory; });
 /* concated harmony reexport registerBlockType */__webpack_require__.d(__webpack_exports__, "registerBlockType", function() { return registerBlockType; });
 /* concated harmony reexport unregisterBlockType */__webpack_require__.d(__webpack_exports__, "unregisterBlockType", function() { return unregisterBlockType; });
 /* concated harmony reexport setFreeformContentHandlerName */__webpack_require__.d(__webpack_exports__, "setFreeformContentHandlerName", function() { return setFreeformContentHandlerName; });
@@ -11118,6 +11201,13 @@ function isShallowEqual( a, b, fromIndex ) {
 /***/ }),
 
 /***/ 32:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11125,13 +11215,6 @@ function isShallowEqual( a, b, fromIndex ) {
 function _iterableToArray(iter) {
   if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 
@@ -12379,7 +12462,7 @@ else {}
 
 /***/ }),
 
-/***/ 56:
+/***/ 57:
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(77);
@@ -12415,7 +12498,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 57:
+/***/ 58:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());

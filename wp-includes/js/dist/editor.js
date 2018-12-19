@@ -392,7 +392,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -857,6 +857,12 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 /* 32 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -864,12 +870,6 @@ function isShallowEqual( a, b, fromIndex ) {
 function _iterableToArray(iter) {
   if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["blob"]; }());
 
 /***/ }),
 /* 34 */,
@@ -2327,7 +2327,8 @@ module.exports = __webpack_require__(270);
 
 
 /***/ }),
-/* 54 */
+/* 54 */,
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2338,15 +2339,15 @@ exports["default"] = TextareaAutosize_1["default"];
 
 
 /***/ }),
-/* 55 */,
 /* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2355,7 +2356,6 @@ exports["default"] = TextareaAutosize_1["default"];
 module.exports = __webpack_require__(118);
 
 /***/ }),
-/* 59 */,
 /* 60 */,
 /* 61 */,
 /* 62 */,
@@ -7883,6 +7883,7 @@ __webpack_require__.d(selectors_namespaceObject, "isEditedPostDateFloating", fun
 __webpack_require__.d(selectors_namespaceObject, "getBlockDependantsCacheBust", function() { return getBlockDependantsCacheBust; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockName", function() { return selectors_getBlockName; });
 __webpack_require__.d(selectors_namespaceObject, "isBlockValid", function() { return selectors_isBlockValid; });
+__webpack_require__.d(selectors_namespaceObject, "getBlockAttributes", function() { return selectors_getBlockAttributes; });
 __webpack_require__.d(selectors_namespaceObject, "getBlock", function() { return selectors_getBlock; });
 __webpack_require__.d(selectors_namespaceObject, "getBlocks", function() { return selectors_getBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getClientIdsOfDescendants", function() { return selectors_getClientIdsOfDescendants; });
@@ -7890,7 +7891,7 @@ __webpack_require__.d(selectors_namespaceObject, "getClientIdsWithDescendants", 
 __webpack_require__.d(selectors_namespaceObject, "getGlobalBlockCount", function() { return getGlobalBlockCount; });
 __webpack_require__.d(selectors_namespaceObject, "getBlocksByClientId", function() { return selectors_getBlocksByClientId; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockCount", function() { return selectors_getBlockCount; });
-__webpack_require__.d(selectors_namespaceObject, "getBlockSelectionStart", function() { return selectors_getBlockSelectionStart; });
+__webpack_require__.d(selectors_namespaceObject, "getBlockSelectionStart", function() { return getBlockSelectionStart; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockSelectionEnd", function() { return getBlockSelectionEnd; });
 __webpack_require__.d(selectors_namespaceObject, "getSelectedBlockCount", function() { return selectors_getSelectedBlockCount; });
 __webpack_require__.d(selectors_namespaceObject, "hasSelectedBlock", function() { return hasSelectedBlock; });
@@ -7922,8 +7923,8 @@ __webpack_require__.d(selectors_namespaceObject, "isSelectionEnabled", function(
 __webpack_require__.d(selectors_namespaceObject, "getBlockMode", function() { return selectors_getBlockMode; });
 __webpack_require__.d(selectors_namespaceObject, "isTyping", function() { return selectors_isTyping; });
 __webpack_require__.d(selectors_namespaceObject, "isCaretWithinFormattedText", function() { return selectors_isCaretWithinFormattedText; });
-__webpack_require__.d(selectors_namespaceObject, "getBlockInsertionPoint", function() { return selectors_getBlockInsertionPoint; });
-__webpack_require__.d(selectors_namespaceObject, "isBlockInsertionPointVisible", function() { return selectors_isBlockInsertionPointVisible; });
+__webpack_require__.d(selectors_namespaceObject, "getBlockInsertionPoint", function() { return getBlockInsertionPoint; });
+__webpack_require__.d(selectors_namespaceObject, "isBlockInsertionPointVisible", function() { return isBlockInsertionPointVisible; });
 __webpack_require__.d(selectors_namespaceObject, "isValidTemplate", function() { return isValidTemplate; });
 __webpack_require__.d(selectors_namespaceObject, "getTemplate", function() { return getTemplate; });
 __webpack_require__.d(selectors_namespaceObject, "getTemplateLock", function() { return selectors_getTemplateLock; });
@@ -8383,6 +8384,15 @@ function moveTo(array, from, to) {
   return insertAt(withoutMovedElements, array.slice(from, from + count), to);
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/constants.js
+/**
+ * Set of post properties for which edits should assume a merging behavior,
+ * assuming an object value.
+ *
+ * @type {Set}
+ */
+var EDIT_MERGE_PROPERTIES = new Set(['meta']);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/reducer.js
 
 
@@ -8411,14 +8421,7 @@ function moveTo(array, from, to) {
 
 
 
-/**
- * Set of post properties for which edits should assume a merging behavior,
- * assuming an object value.
- *
- * @type {Set}
- */
 
-var EDIT_MERGE_PROPERTIES = new Set(['meta']);
 /**
  * Returns a post attribute value, flattening nested rendered content using its
  * raw value in place of its original object form.
@@ -9168,6 +9171,11 @@ function blockSelection() {
 
 
       var nextSelectedBlockClientId = Object(external_lodash_["get"])(action.blocks, [0, 'clientId'], null);
+
+      if (nextSelectedBlockClientId === state.start && nextSelectedBlockClientId === state.end) {
+        return state;
+      }
+
       return Object(objectSpread["a" /* default */])({}, state, {
         start: nextSelectedBlockClientId,
         end: nextSelectedBlockClientId,
@@ -9205,7 +9213,7 @@ function blocksMode() {
  * @return {Object} Updated state.
  */
 
-function reducer_insertionPoint() {
+function insertionPoint() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
@@ -9651,7 +9659,7 @@ function reducer_previewLink() {
   blockSelection: blockSelection,
   blocksMode: blocksMode,
   blockListSettings: reducer_blockListSettings,
-  insertionPoint: reducer_insertionPoint,
+  insertionPoint: insertionPoint,
   preferences: preferences,
   saving: saving,
   postLock: postLock,
@@ -10479,7 +10487,7 @@ var rememo = __webpack_require__(31);
 var external_this_wp_date_ = __webpack_require__(46);
 
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(57);
+var external_this_wp_autop_ = __webpack_require__(58);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/store/selectors.js
 
@@ -10500,8 +10508,9 @@ var external_this_wp_autop_ = __webpack_require__(57);
 
 
 /**
- * Dependencies
+ * Internal dependencies
  */
+
 
 
 /***
@@ -10750,10 +10759,20 @@ function selectors_getEditedPostAttribute(state, attributeName) {
   switch (attributeName) {
     case 'content':
       return getEditedPostContent(state);
-  }
+  } // Fall back to saved post value if not edited.
+
 
   if (!edits.hasOwnProperty(attributeName)) {
     return selectors_getCurrentPostAttribute(state, attributeName);
+  } // Merge properties are objects which contain only the patch edit in state,
+  // and thus must be merged with the current post attribute.
+
+
+  if (EDIT_MERGE_PROPERTIES.has(attributeName)) {
+    // [TODO]: Since this will return a new reference on each invocation,
+    // consider caching in a way which would not impact non-merged property
+    // derivation. Alternatively, introduce a new selector for meta lookup.
+    return Object(objectSpread["a" /* default */])({}, selectors_getCurrentPostAttribute(state, attributeName), edits[attributeName]);
   }
 
   return edits[attributeName];
@@ -11060,18 +11079,16 @@ function selectors_isBlockValid(state, clientId) {
   return !!block && block.isValid;
 }
 /**
- * Returns a block given its client ID. This is a parsed copy of the block,
- * containing its `blockName`, `clientId`, and current `attributes` state. This
- * is not the block's registration settings, which must be retrieved from the
- * blocks module registration store.
+ * Returns a block's attributes given its client ID, or null if no block exists with
+ * the client ID.
  *
  * @param {Object} state    Editor state.
  * @param {string} clientId Block client ID.
  *
- * @return {Object} Parsed block object.
+ * @return {Object?} Block attributes.
  */
 
-var selectors_getBlock = Object(rememo["a" /* default */])(function (state, clientId) {
+var selectors_getBlockAttributes = Object(rememo["a" /* default */])(function (state, clientId) {
   var block = state.editor.present.blocks.byClientId[clientId];
 
   if (!block) {
@@ -11099,12 +11116,35 @@ var selectors_getBlock = Object(rememo["a" /* default */])(function (state, clie
     }, attributes);
   }
 
+  return attributes;
+}, function (state, clientId) {
+  return [state.editor.present.blocks.byClientId[clientId], state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta];
+});
+/**
+ * Returns a block given its client ID. This is a parsed copy of the block,
+ * containing its `blockName`, `clientId`, and current `attributes` state. This
+ * is not the block's registration settings, which must be retrieved from the
+ * blocks module registration store.
+ *
+ * @param {Object} state    Editor state.
+ * @param {string} clientId Block client ID.
+ *
+ * @return {Object} Parsed block object.
+ */
+
+var selectors_getBlock = Object(rememo["a" /* default */])(function (state, clientId) {
+  var block = state.editor.present.blocks.byClientId[clientId];
+
+  if (!block) {
+    return null;
+  }
+
   return Object(objectSpread["a" /* default */])({}, block, {
-    attributes: attributes,
+    attributes: selectors_getBlockAttributes(state, clientId),
     innerBlocks: selectors_getBlocks(state, clientId)
   });
 }, function (state, clientId) {
-  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId), state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta];
+  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId)].concat(Object(toConsumableArray["a" /* default */])(selectors_getBlockAttributes.getDependants(state, clientId)));
 });
 
 function getPostMeta(state, key) {
@@ -11225,7 +11265,7 @@ function selectors_getBlockCount(state, rootClientId) {
  * @return {?string} Client ID of block selection start.
  */
 
-function selectors_getBlockSelectionStart(state) {
+function getBlockSelectionStart(state) {
   return state.blockSelection.start;
 }
 /**
@@ -11837,7 +11877,7 @@ function selectors_isCaretWithinFormattedText(state) {
  * @return {Object} Insertion point object with `rootClientId`, `index`.
  */
 
-function selectors_getBlockInsertionPoint(state) {
+function getBlockInsertionPoint(state) {
   var rootClientId, index;
   var insertionPoint = state.insertionPoint,
       blockSelection = state.blockSelection;
@@ -11868,7 +11908,7 @@ function selectors_getBlockInsertionPoint(state) {
  * @return {?boolean} Whether the insertion point is visible or not.
  */
 
-function selectors_isBlockInsertionPointVisible(state) {
+function isBlockInsertionPointVisible(state) {
   return state.insertionPoint !== null;
 }
 /**
@@ -12789,7 +12829,7 @@ function () {
   var _ref = Object(asyncToGenerator["a" /* default */])(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(action, store) {
-    var id, dispatch, postType, result, reusableBlockOrBlocks;
+    var id, dispatch, postType, posts, results;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -12814,23 +12854,39 @@ function () {
             return _context.abrupt("return");
 
           case 7:
-            if (id) {
-              result = external_this_wp_apiFetch_default()({
-                path: "/wp/v2/".concat(postType.rest_base, "/").concat(id)
-              });
-            } else {
-              result = external_this_wp_apiFetch_default()({
-                path: "/wp/v2/".concat(postType.rest_base, "?per_page=-1")
-              });
+            _context.prev = 7;
+
+            if (!id) {
+              _context.next = 15;
+              break;
             }
 
-            _context.prev = 8;
             _context.next = 11;
-            return result;
+            return external_this_wp_apiFetch_default()({
+              path: "/wp/v2/".concat(postType.rest_base, "/").concat(id)
+            });
 
           case 11:
-            reusableBlockOrBlocks = _context.sent;
-            dispatch(__experimentalReceiveReusableBlocks(Object(external_lodash_["map"])(Object(external_lodash_["castArray"])(reusableBlockOrBlocks), function (post) {
+            _context.t0 = _context.sent;
+            posts = [_context.t0];
+            _context.next = 18;
+            break;
+
+          case 15:
+            _context.next = 17;
+            return external_this_wp_apiFetch_default()({
+              path: "/wp/v2/".concat(postType.rest_base, "?per_page=-1")
+            });
+
+          case 17:
+            posts = _context.sent;
+
+          case 18:
+            results = Object(external_lodash_["compact"])(Object(external_lodash_["map"])(posts, function (post) {
+              if (post.status !== 'publish' || post.content.protected) {
+                return null;
+              }
+
               var parsedBlocks = Object(external_this_wp_blocks_["parse"])(post.content.raw);
               return {
                 reusableBlock: {
@@ -12839,29 +12895,34 @@ function () {
                 },
                 parsedBlock: parsedBlocks.length === 1 ? parsedBlocks[0] : Object(external_this_wp_blocks_["createBlock"])('core/template', {}, parsedBlocks)
               };
-            })));
+            }));
+
+            if (results.length) {
+              dispatch(__experimentalReceiveReusableBlocks(results));
+            }
+
             dispatch({
               type: 'FETCH_REUSABLE_BLOCKS_SUCCESS',
               id: id
             });
-            _context.next = 19;
+            _context.next = 26;
             break;
 
-          case 16:
-            _context.prev = 16;
-            _context.t0 = _context["catch"](8);
+          case 23:
+            _context.prev = 23;
+            _context.t1 = _context["catch"](7);
             dispatch({
               type: 'FETCH_REUSABLE_BLOCKS_FAILURE',
               id: id,
-              error: _context.t0
+              error: _context.t1
             });
 
-          case 19:
+          case 26:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, this, [[8, 16]]);
+    }, _callee, this, [[7, 23]]);
   }));
 
   return function fetchReusableBlocks(_x, _x2) {
@@ -14268,8 +14329,9 @@ function createBlockCompleter() {
     getOptionKeywords: function getOptionKeywords(inserterItem) {
       var title = inserterItem.title,
           _inserterItem$keyword = inserterItem.keywords,
-          keywords = _inserterItem$keyword === void 0 ? [] : _inserterItem$keyword;
-      return Object(toConsumableArray["a" /* default */])(keywords).concat([title]);
+          keywords = _inserterItem$keyword === void 0 ? [] : _inserterItem$keyword,
+          category = inserterItem.category;
+      return [category].concat(Object(toConsumableArray["a" /* default */])(keywords), [title]);
     },
     getOptionLabel: function getOptionLabel(inserterItem) {
       var icon = inserterItem.icon,
@@ -14780,6 +14842,11 @@ function BlockNavigation(_ref2) {
       rootBlocks = _ref2.rootBlocks,
       selectedBlockClientId = _ref2.selectedBlockClientId,
       selectBlock = _ref2.selectBlock;
+
+  if (!rootBlocks || rootBlocks.length === 0) {
+    return null;
+  }
+
   var hasHierarchy = rootBlock && (rootBlock.clientId !== selectedBlockClientId || rootBlock.innerBlocks && rootBlock.innerBlocks.length !== 0);
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["NavigableMenu"], {
     role: "presentation",
@@ -14795,11 +14862,7 @@ function BlockNavigation(_ref2) {
     blocks: rootBlocks,
     selectedBlockClientId: selectedBlockClientId,
     selectBlock: selectBlock
-  }), (!rootBlocks || rootBlocks.length === 0) && // If there are no blocks in this document, don't render a list of blocks.
-  // Instead: inform the user no blocks exist yet.
-  Object(external_this_wp_element_["createElement"])("p", {
-    className: "editor-block-navigation__paragraph"
-  }, Object(external_this_wp_i18n_["__"])('No blocks created yet.')));
+  }));
 }
 
 /* harmony default export */ var block_navigation = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select) {
@@ -14837,6 +14900,7 @@ function BlockNavigation(_ref2) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -14851,25 +14915,27 @@ var MenuIcon = Object(external_this_wp_element_["createElement"])(external_this_
   d: "M5 5H3v2h2V5zm3 8h11v-2H8v2zm9-8H6v2h11V5zM7 11H5v2h2v-2zm0 8h2v-2H7v2zm3-2v2h11v-2H10z"
 }));
 
-function BlockNavigationDropdown() {
+function BlockNavigationDropdown(_ref) {
+  var hasBlocks = _ref.hasBlocks;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Dropdown"], {
-    renderToggle: function renderToggle(_ref) {
-      var isOpen = _ref.isOpen,
-          onToggle = _ref.onToggle;
+    renderToggle: function renderToggle(_ref2) {
+      var isOpen = _ref2.isOpen,
+          onToggle = _ref2.onToggle;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["KeyboardShortcuts"], {
         bindGlobal: true,
         shortcuts: Object(defineProperty["a" /* default */])({}, external_this_wp_keycodes_["rawShortcut"].access('o'), onToggle)
       }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
         icon: MenuIcon,
         "aria-expanded": isOpen,
-        onClick: onToggle,
+        onClick: hasBlocks ? onToggle : undefined,
         label: Object(external_this_wp_i18n_["__"])('Block Navigation'),
         className: "editor-block-navigation",
-        shortcut: external_this_wp_keycodes_["displayShortcut"].access('o')
+        shortcut: external_this_wp_keycodes_["displayShortcut"].access('o'),
+        "aria-disabled": !hasBlocks
       }));
     },
-    renderContent: function renderContent(_ref3) {
-      var onClose = _ref3.onClose;
+    renderContent: function renderContent(_ref4) {
+      var onClose = _ref4.onClose;
       return Object(external_this_wp_element_["createElement"])(block_navigation, {
         onSelect: onClose
       });
@@ -14877,7 +14943,11 @@ function BlockNavigationDropdown() {
   });
 }
 
-/* harmony default export */ var dropdown = (BlockNavigationDropdown);
+/* harmony default export */ var dropdown = (Object(external_this_wp_data_["withSelect"])(function (select) {
+  return {
+    hasBlocks: !!select('core/editor').getBlockCount()
+  };
+})(BlockNavigationDropdown));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/color-palette/with-color-context.js
 /**
@@ -16269,6 +16339,7 @@ function (_Component) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -16377,8 +16448,13 @@ var block_invalid_warning_blockToBlocks = function blockToBlocks(block) {
   });
 };
 
-/* harmony default export */ var block_invalid_warning = (Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref) {
-  var block = _ref.block;
+/* harmony default export */ var block_invalid_warning = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, _ref) {
+  var clientId = _ref.clientId;
+  return {
+    block: select('core/editor').getBlock(clientId)
+  };
+}), Object(external_this_wp_data_["withDispatch"])(function (dispatch, _ref2) {
+  var block = _ref2.block;
 
   var _dispatch = dispatch('core/editor'),
       replaceBlock = _dispatch.replaceBlock;
@@ -16394,7 +16470,7 @@ var block_invalid_warning_blockToBlocks = function blockToBlocks(block) {
       replaceBlock(block.clientId, block_invalid_warning_blockToBlocks(block));
     }
   };
-})(block_invalid_warning_BlockInvalidWarning));
+})])(block_invalid_warning_BlockInvalidWarning));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/block-list/block-crash-warning.js
 
@@ -16467,7 +16543,7 @@ function (_Component) {
 /* harmony default export */ var block_crash_boundary = (block_crash_boundary_BlockCrashBoundary);
 
 // EXTERNAL MODULE: ./node_modules/react-autosize-textarea/lib/index.js
-var react_autosize_textarea_lib = __webpack_require__(54);
+var react_autosize_textarea_lib = __webpack_require__(55);
 var react_autosize_textarea_lib_default = /*#__PURE__*/__webpack_require__.n(react_autosize_textarea_lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/block-list/block-html.js
@@ -16926,7 +17002,7 @@ function BlockListMultiControls(_ref) {
 })(BlockListMultiControls));
 
 // EXTERNAL MODULE: ./node_modules/dom-scroll-into-view/lib/index.js
-var dom_scroll_into_view_lib = __webpack_require__(58);
+var dom_scroll_into_view_lib = __webpack_require__(59);
 var dom_scroll_into_view_lib_default = /*#__PURE__*/__webpack_require__.n(dom_scroll_into_view_lib);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/block-preview/index.js
@@ -17837,7 +17913,6 @@ function BlockMobileToolbar(_ref) {
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -17887,14 +17962,13 @@ function (_Component) {
       var isInserterFocused = this.state.isInserterFocused;
       var _this$props = this.props,
           showInsertionPoint = _this$props.showInsertionPoint,
-          canShowInserter = _this$props.canShowInserter,
           rootClientId = _this$props.rootClientId,
           insertIndex = _this$props.insertIndex;
       return Object(external_this_wp_element_["createElement"])("div", {
         className: "editor-block-list__insertion-point"
       }, showInsertionPoint && Object(external_this_wp_element_["createElement"])("div", {
         className: "editor-block-list__insertion-point-indicator"
-      }), canShowInserter && Object(external_this_wp_element_["createElement"])("div", {
+      }), Object(external_this_wp_element_["createElement"])("div", {
         onFocus: this.onFocusInserter,
         onBlur: this.onBlurInserter // While ideally it would be enough to capture the
         // bubbling focus event from the Inserter, due to the
@@ -17924,14 +17998,12 @@ function (_Component) {
   var _select = select('core/editor'),
       getBlockIndex = _select.getBlockIndex,
       getBlockInsertionPoint = _select.getBlockInsertionPoint,
-      getBlock = _select.getBlock,
       isBlockInsertionPointVisible = _select.isBlockInsertionPointVisible;
 
   var blockIndex = getBlockIndex(clientId, rootClientId);
   var insertIndex = blockIndex;
   var insertionPoint = getBlockInsertionPoint();
-  var block = getBlock(clientId);
-  var showInsertionPoint = isBlockInsertionPointVisible() && insertionPoint.index === insertIndex && insertionPoint.rootClientId === rootClientId && !Object(external_this_wp_blocks_["isUnmodifiedDefaultBlock"])(block);
+  var showInsertionPoint = isBlockInsertionPointVisible() && insertionPoint.index === insertIndex && insertionPoint.rootClientId === rootClientId;
   return {
     showInsertionPoint: showInsertionPoint,
     insertIndex: insertIndex
@@ -18439,7 +18511,6 @@ function (_Component) {
     _this.onDragStart = _this.onDragStart.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onDragEnd = _this.onDragEnd.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.selectOnOpen = _this.selectOnOpen.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
-    _this.onShiftSelection = _this.onShiftSelection.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.hadTouchStart = false;
     _this.state = {
       error: null,
@@ -18541,10 +18612,11 @@ function (_Component) {
     key: "setAttributes",
     value: function setAttributes(attributes) {
       var _this$props = this.props,
-          block = _this$props.block,
+          clientId = _this$props.clientId,
+          name = _this$props.name,
           onChange = _this$props.onChange;
-      var type = Object(external_this_wp_blocks_["getBlockType"])(block.name);
-      onChange(block.clientId, attributes);
+      var type = Object(external_this_wp_blocks_["getBlockType"])(name);
+      onChange(clientId, attributes);
       var metaAttributes = Object(external_lodash_["reduce"])(attributes, function (result, value, key) {
         if (Object(external_lodash_["get"])(type, ['attributes', key, 'source']) === 'meta') {
           result[type.attributes[key].meta] = value;
@@ -18617,19 +18689,21 @@ function (_Component) {
     value: function mergeBlocks() {
       var forward = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
       var _this$props3 = this.props,
-          block = _this$props3.block,
-          previousBlockClientId = _this$props3.previousBlockClientId,
-          nextBlockClientId = _this$props3.nextBlockClientId,
-          onMerge = _this$props3.onMerge; // Do nothing when it's the first block.
+          clientId = _this$props3.clientId,
+          getPreviousBlockClientId = _this$props3.getPreviousBlockClientId,
+          getNextBlockClientId = _this$props3.getNextBlockClientId,
+          onMerge = _this$props3.onMerge;
+      var previousBlockClientId = getPreviousBlockClientId(clientId);
+      var nextBlockClientId = getNextBlockClientId(clientId); // Do nothing when it's the first block.
 
       if (!forward && !previousBlockClientId || forward && !nextBlockClientId) {
         return;
       }
 
       if (forward) {
-        onMerge(block.clientId, nextBlockClientId);
+        onMerge(clientId, nextBlockClientId);
       } else {
-        onMerge(previousBlockClientId, block.clientId);
+        onMerge(previousBlockClientId, clientId);
       }
     }
   }, {
@@ -18685,7 +18759,7 @@ function (_Component) {
 
       if (event.shiftKey) {
         if (!this.props.isSelected) {
-          this.onShiftSelection();
+          this.props.onShiftSelection();
           event.preventDefault();
         }
       } else {
@@ -18767,24 +18841,6 @@ function (_Component) {
       }
     }
   }, {
-    key: "onShiftSelection",
-    value: function onShiftSelection() {
-      if (!this.props.isSelectionEnabled) {
-        return;
-      }
-
-      var _this$props5 = this.props,
-          getBlockSelectionStart = _this$props5.getBlockSelectionStart,
-          onMultiSelect = _this$props5.onMultiSelect,
-          onSelect = _this$props5.onSelect;
-
-      if (getBlockSelectionStart()) {
-        onMultiSelect(getBlockSelectionStart(), this.props.clientId);
-      } else {
-        onSelect(this.props.clientId);
-      }
-    }
-  }, {
     key: "forceFocusedContextualToolbar",
     value: function forceFocusedContextualToolbar() {
       this.isForcingContextualToolbar = true; // trigger a re-render
@@ -18803,7 +18859,6 @@ function (_Component) {
       }, function (_ref) {
         var hoverArea = _ref.hoverArea;
         var _this3$props = _this3.props,
-            block = _this3$props.block,
             order = _this3$props.order,
             mode = _this3$props.mode,
             isFocusMode = _this3$props.isFocusMode,
@@ -18821,19 +18876,19 @@ function (_Component) {
             isMultiSelecting = _this3$props.isMultiSelecting,
             isEmptyDefaultBlock = _this3$props.isEmptyDefaultBlock,
             isMovable = _this3$props.isMovable,
-            isPreviousBlockADefaultEmptyBlock = _this3$props.isPreviousBlockADefaultEmptyBlock,
             isParentOfSelectedBlock = _this3$props.isParentOfSelectedBlock,
             isDraggable = _this3$props.isDraggable,
-            className = _this3$props.className;
+            className = _this3$props.className,
+            name = _this3$props.name,
+            isValid = _this3$props.isValid,
+            attributes = _this3$props.attributes;
         var isHovered = _this3.state.isHovered && !isMultiSelecting;
-        var blockName = block.name,
-            isValid = block.isValid;
-        var blockType = Object(external_this_wp_blocks_["getBlockType"])(blockName); // translators: %s: Type of block (i.e. Text, Image etc)
+        var blockType = Object(external_this_wp_blocks_["getBlockType"])(name); // translators: %s: Type of block (i.e. Text, Image etc)
 
         var blockLabel = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('Block: %s'), blockType.title); // The block as rendered in the editor is composed of general block UI
         // (mover, toolbar, wrapper) and the display of the block content.
 
-        var isUnregisteredBlock = block.name === Object(external_this_wp_blocks_["getUnregisteredTypeHandlerName"])(); // If the block is selected and we're typing the block should not appear.
+        var isUnregisteredBlock = name === Object(external_this_wp_blocks_["getUnregisteredTypeHandlerName"])(); // If the block is selected and we're typing the block should not appear.
         // Empty paragraph blocks should always show up as unselected.
 
         var showEmptyBlockSideInserter = (isSelected || isHovered) && isEmptyDefaultBlock && isValid;
@@ -18850,8 +18905,7 @@ function (_Component) {
             dragging = _this3$state.dragging; // Insertion point can only be made visible if the block is at the
         // the extent of a multi-selection, or not in a multi-selection.
 
-        var shouldShowInsertionPoint = isPartOfMultiSelection && isFirstMultiSelected || !isPartOfMultiSelection;
-        var canShowInBetweenInserter = !isEmptyDefaultBlock && !isPreviousBlockADefaultEmptyBlock; // The wp-block className is important for editor styles.
+        var shouldShowInsertionPoint = isPartOfMultiSelection && isFirstMultiSelected || !isPartOfMultiSelection; // The wp-block className is important for editor styles.
         // Generate the wrapper class names handling the different states of the block.
 
         var wrapperClassName = classnames_default()('wp-block editor-block-list__block', {
@@ -18870,7 +18924,7 @@ function (_Component) {
         var wrapperProps = _this3.props.wrapperProps;
 
         if (blockType.getEditWrapperProps) {
-          wrapperProps = Object(objectSpread["a" /* default */])({}, wrapperProps, blockType.getEditWrapperProps(block.attributes));
+          wrapperProps = Object(objectSpread["a" /* default */])({}, wrapperProps, blockType.getEditWrapperProps(attributes));
         }
 
         var blockElementId = "block-".concat(clientId); // We wrap the BlockEdit component in a div that hides it when editing in
@@ -18879,9 +18933,9 @@ function (_Component) {
         // `BlockHTML`, even in HTML mode.
 
         var blockEdit = Object(external_this_wp_element_["createElement"])(block_edit, {
-          name: blockName,
+          name: name,
           isSelected: isSelected,
-          attributes: block.attributes,
+          attributes: attributes,
           setAttributes: _this3.setAttributes,
           insertBlocksAfter: isLocked ? undefined : _this3.insertBlocksAfter,
           onReplace: isLocked ? undefined : onReplace,
@@ -18915,7 +18969,7 @@ function (_Component) {
           onMouseOverHandled: _this3.hideHoverEffects,
           onMouseLeave: _this3.hideHoverEffects,
           className: wrapperClassName,
-          "data-type": block.name,
+          "data-type": name,
           onTouchStart: _this3.onTouchStart,
           onFocus: _this3.onFocus,
           onClick: _this3.onClick,
@@ -18925,8 +18979,7 @@ function (_Component) {
           childHandledEvents: ['onDragStart', 'onMouseDown']
         }, wrapperProps), shouldShowInsertionPoint && Object(external_this_wp_element_["createElement"])(insertion_point, {
           clientId: clientId,
-          rootClientId: rootClientId,
-          canShowInserter: canShowInBetweenInserter
+          rootClientId: rootClientId
         }), Object(external_this_wp_element_["createElement"])(block_drop_zone, {
           index: order,
           clientId: clientId,
@@ -18968,10 +19021,10 @@ function (_Component) {
           clientId: clientId
         }), !isValid && [Object(external_this_wp_element_["createElement"])(block_invalid_warning, {
           key: "invalid-warning",
-          block: block
+          clientId: clientId
         }), Object(external_this_wp_element_["createElement"])("div", {
           key: "invalid-preview"
-        }, Object(external_this_wp_blocks_["getSaveElement"])(blockType, block.attributes))]), shouldShowMobileToolbar && Object(external_this_wp_element_["createElement"])(block_mobile_toolbar, {
+        }, Object(external_this_wp_blocks_["getSaveElement"])(blockType, attributes))]), shouldShowMobileToolbar && Object(external_this_wp_element_["createElement"])(block_mobile_toolbar, {
           clientId: clientId
         }), !!error && Object(external_this_wp_element_["createElement"])(block_crash_warning, null))), showEmptyBlockSideInserter && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("div", {
           className: "editor-block-list__side-inserter"
@@ -18999,9 +19052,9 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
 
   var _select = select('core/editor'),
       isBlockSelected = _select.isBlockSelected,
-      getPreviousBlockClientId = _select.getPreviousBlockClientId,
-      getNextBlockClientId = _select.getNextBlockClientId,
-      getBlock = _select.getBlock,
+      getBlockName = _select.getBlockName,
+      isBlockValid = _select.isBlockValid,
+      getBlockAttributes = _select.getBlockAttributes,
       isAncestorMultiSelected = _select.isAncestorMultiSelected,
       isBlockMultiSelected = _select.isBlockMultiSelected,
       isFirstMultiSelectedBlock = _select.isFirstMultiSelectedBlock,
@@ -19015,7 +19068,8 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       getEditorSettings = _select.getEditorSettings,
       hasSelectedInnerBlock = _select.hasSelectedInnerBlock,
       getTemplateLock = _select.getTemplateLock,
-      getBlockSelectionStart = _select.getBlockSelectionStart;
+      getPreviousBlockClientId = _select.getPreviousBlockClientId,
+      getNextBlockClientId = _select.getNextBlockClientId;
 
   var isSelected = isBlockSelected(clientId);
 
@@ -19023,13 +19077,11 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       hasFixedToolbar = _getEditorSettings.hasFixedToolbar,
       focusMode = _getEditorSettings.focusMode;
 
-  var block = getBlock(clientId);
-  var previousBlockClientId = getPreviousBlockClientId(clientId);
-  var previousBlock = getBlock(previousBlockClientId);
   var templateLock = getTemplateLock(rootClientId);
   var isParentOfSelectedBlock = hasSelectedInnerBlock(clientId, true);
+  var name = getBlockName(clientId);
+  var attributes = getBlockAttributes(clientId);
   return {
-    nextBlockClientId: getNextBlockClientId(clientId),
     isPartOfMultiSelection: isBlockMultiSelected(clientId) || isAncestorMultiSelected(clientId),
     isFirstMultiSelected: isFirstMultiSelectedBlock(clientId),
     isMultiSelecting: isMultiSelecting(),
@@ -19041,22 +19093,31 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
     mode: getBlockMode(clientId),
     isSelectionEnabled: isSelectionEnabled(),
     initialPosition: getSelectedBlocksInitialCaretPosition(),
-    isEmptyDefaultBlock: block && Object(external_this_wp_blocks_["isUnmodifiedDefaultBlock"])(block),
-    isPreviousBlockADefaultEmptyBlock: previousBlock && Object(external_this_wp_blocks_["isUnmodifiedDefaultBlock"])(previousBlock),
+    isEmptyDefaultBlock: name && Object(external_this_wp_blocks_["isUnmodifiedDefaultBlock"])({
+      name: name,
+      attributes: attributes
+    }),
+    isValid: isBlockValid(clientId),
     isMovable: 'all' !== templateLock,
     isLocked: !!templateLock,
     isFocusMode: focusMode && isLargeViewport,
     hasFixedToolbar: hasFixedToolbar && isLargeViewport,
-    previousBlockClientId: previousBlockClientId,
-    block: block,
+    name: name,
+    attributes: attributes,
     isSelected: isSelected,
     isParentOfSelectedBlock: isParentOfSelectedBlock,
-    // We only care about this value when the shift key is pressed.
-    // We call it dynamically in the event handler to avoid unnecessary re-renders.
-    getBlockSelectionStart: getBlockSelectionStart
+    // We only care about these selectors when events are triggered.
+    // We call them dynamically in the event handlers to avoid unnecessary re-renders.
+    getPreviousBlockClientId: getPreviousBlockClientId,
+    getNextBlockClientId: getNextBlockClientId
   };
 });
-var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps) {
+var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref3) {
+  var select = _ref3.select;
+
+  var _select2 = select('core/editor'),
+      getBlockSelectionStart = _select2.getBlockSelectionStart;
+
   var _dispatch = dispatch('core/editor'),
       updateBlockAttributes = _dispatch.updateBlockAttributes,
       selectBlock = _dispatch.selectBlock,
@@ -19078,7 +19139,6 @@ var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function 
       var initialPosition = arguments.length > 1 ? arguments[1] : undefined;
       selectBlock(clientId, initialPosition);
     },
-    onMultiSelect: multiSelect,
     onInsertBlocks: function onInsertBlocks(blocks, index) {
       var rootClientId = ownProps.rootClientId;
       insertBlocks(blocks, index, rootClientId);
@@ -19102,14 +19162,25 @@ var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function 
         meta: meta
       });
     },
+    onShiftSelection: function onShiftSelection() {
+      if (!ownProps.isSelectionEnabled) {
+        return;
+      }
+
+      if (getBlockSelectionStart()) {
+        multiSelect(getBlockSelectionStart(), ownProps.clientId);
+      } else {
+        selectBlock(ownProps.clientId);
+      }
+    },
     toggleSelection: function toggleSelection(selectionEnabled) {
       _toggleSelection(selectionEnabled);
     }
   };
 });
-/* harmony default export */ var block_list_block = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_viewport_["withViewportMatch"])({
+/* harmony default export */ var block_list_block = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_components_["withFilters"])('editor.BlockListBlock'), Object(external_this_wp_viewport_["withViewportMatch"])({
   isLargeViewport: 'medium'
-}), applyWithSelect, applyWithDispatch, Object(external_this_wp_components_["withFilters"])('editor.BlockListBlock'))(block_BlockListBlock));
+}), applyWithSelect, applyWithDispatch, Object(external_this_wp_components_["withFilters"])('editor.__experimentalBlockListBlock'))(block_BlockListBlock));
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
 var external_this_wp_htmlEntities_ = __webpack_require__(49);
@@ -19143,7 +19214,9 @@ function DefaultBlockAppender(_ref) {
       onAppend = _ref.onAppend,
       showPrompt = _ref.showPrompt,
       placeholder = _ref.placeholder,
-      rootClientId = _ref.rootClientId;
+      rootClientId = _ref.rootClientId,
+      hovered = _ref.hovered,
+      setState = _ref.setState;
 
   if (isLocked || !isVisible) {
     return null;
@@ -19166,7 +19239,17 @@ function DefaultBlockAppender(_ref) {
 
   return Object(external_this_wp_element_["createElement"])("div", {
     "data-root-client-id": rootClientId || '',
-    className: "wp-block editor-default-block-appender"
+    className: "wp-block editor-default-block-appender",
+    onMouseEnter: function onMouseEnter() {
+      return setState({
+        hovered: true
+      });
+    },
+    onMouseLeave: function onMouseLeave() {
+      return setState({
+        hovered: false
+      });
+    }
   }, Object(external_this_wp_element_["createElement"])(block_drop_zone, {
     rootClientId: rootClientId
   }), Object(external_this_wp_element_["createElement"])(react_autosize_textarea_lib_default.a, {
@@ -19176,13 +19259,15 @@ function DefaultBlockAppender(_ref) {
     readOnly: true,
     onFocus: onAppend,
     value: showPrompt ? value : ''
-  }), Object(external_this_wp_element_["createElement"])(inserter_with_shortcuts, {
+  }), hovered && Object(external_this_wp_element_["createElement"])(inserter_with_shortcuts, {
     rootClientId: rootClientId
   }), Object(external_this_wp_element_["createElement"])(inserter, {
     position: "top right"
   }));
 }
-/* harmony default export */ var default_block_appender = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
+/* harmony default export */ var default_block_appender = (Object(external_this_wp_compose_["compose"])(Object(external_this_wp_compose_["withState"])({
+  hovered: false
+}), Object(external_this_wp_data_["withSelect"])(function (select, ownProps) {
   var _select = select('core/editor'),
       getBlockCount = _select.getBlockCount,
       getBlockName = _select.getBlockName,
@@ -19990,7 +20075,7 @@ var memize = __webpack_require__(41);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(33);
+var external_this_wp_blob_ = __webpack_require__(32);
 
 // EXTERNAL MODULE: external {"this":["wp","deprecated"]}
 var external_this_wp_deprecated_ = __webpack_require__(65);
@@ -20229,6 +20314,7 @@ function (_Component) {
     _this.bindEditorNode = _this.bindEditorNode.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onFocus = _this.onFocus.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
+    _this.initialize = _this.initialize.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     return _this;
   }
 
@@ -20297,11 +20383,20 @@ function (_Component) {
         this.editorNode.setAttribute(IS_PLACEHOLDER_VISIBLE_ATTR_NAME, isPlaceholderVisibleString);
       }
     }
+    /**
+     * Initializes TinyMCE. Can only be called once per instance.
+     */
+
   }, {
     key: "initialize",
     value: function initialize() {
       var _this3 = this;
 
+      if (this.initialize.called) {
+        return;
+      }
+
+      this.initialize.called = true;
       var multilineTag = this.props.multilineTag;
       var settings = {
         theme: false,
@@ -20463,13 +20558,15 @@ function (_Component) {
           _this$props$tagName = _this$props.tagName,
           tagName = _this$props$tagName === void 0 ? 'div' : _this$props$tagName,
           style = _this$props.style,
-          defaultValue = _this$props.defaultValue,
+          record = _this$props.record,
+          valueToEditableHTML = _this$props.valueToEditableHTML,
           className = _this$props.className,
           isPlaceholderVisible = _this$props.isPlaceholderVisible,
           onPaste = _this$props.onPaste,
           onInput = _this$props.onInput,
           onKeyDown = _this$props.onKeyDown,
-          onCompositionEnd = _this$props.onCompositionEnd;
+          onCompositionEnd = _this$props.onCompositionEnd,
+          onBlur = _this$props.onBlur;
       /*
        * The role=textbox and aria-multiline=true must always be used together
        * as TinyMCE always behaves like a sort of textarea where text wraps in
@@ -20488,8 +20585,8 @@ function (_Component) {
         className: classnames_default()(className, 'editor-rich-text__tinymce'),
         contentEditable: true
       }, Object(defineProperty["a" /* default */])(_objectSpread2, IS_PLACEHOLDER_VISIBLE_ATTR_NAME, isPlaceholderVisible), Object(defineProperty["a" /* default */])(_objectSpread2, "ref", this.bindEditorNode), Object(defineProperty["a" /* default */])(_objectSpread2, "style", style), Object(defineProperty["a" /* default */])(_objectSpread2, "suppressContentEditableWarning", true), Object(defineProperty["a" /* default */])(_objectSpread2, "dangerouslySetInnerHTML", {
-        __html: defaultValue
-      }), Object(defineProperty["a" /* default */])(_objectSpread2, "onPaste", onPaste), Object(defineProperty["a" /* default */])(_objectSpread2, "onInput", onInput), Object(defineProperty["a" /* default */])(_objectSpread2, "onFocus", this.onFocus), Object(defineProperty["a" /* default */])(_objectSpread2, "onKeyDown", onKeyDown), Object(defineProperty["a" /* default */])(_objectSpread2, "onCompositionEnd", onCompositionEnd), _objectSpread2)));
+        __html: valueToEditableHTML(record)
+      }), Object(defineProperty["a" /* default */])(_objectSpread2, "onPaste", onPaste), Object(defineProperty["a" /* default */])(_objectSpread2, "onInput", onInput), Object(defineProperty["a" /* default */])(_objectSpread2, "onFocus", this.onFocus), Object(defineProperty["a" /* default */])(_objectSpread2, "onBlur", onBlur), Object(defineProperty["a" /* default */])(_objectSpread2, "onKeyDown", onKeyDown), Object(defineProperty["a" /* default */])(_objectSpread2, "onCompositionEnd", onCompositionEnd), _objectSpread2)));
     }
   }]);
 
@@ -20960,6 +21057,7 @@ function (_Component) {
 
     _this.onSetup = _this.onSetup.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onFocus = _this.onFocus.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
+    _this.onBlur = _this.onBlur.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onChange = _this.onChange.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onDeleteKeyDown = _this.onDeleteKeyDown.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
@@ -20975,7 +21073,7 @@ function (_Component) {
     _this.isEmpty = _this.isEmpty.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.valueToFormat = _this.valueToFormat.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.setRef = _this.setRef.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
-    _this.isActive = _this.isActive.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
+    _this.valueToEditableHTML = _this.valueToEditableHTML.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.formatToValue = memize_default()(_this.formatToValue.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this))), {
       size: 1
     });
@@ -20997,11 +21095,6 @@ function (_Component) {
   }
 
   Object(createClass["a" /* default */])(RichText, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      document.addEventListener('selectionchange', this.onSelectionChange);
-    }
-  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       document.removeEventListener('selectionchange', this.onSelectionChange);
@@ -21011,18 +21104,10 @@ function (_Component) {
     value: function setRef(node) {
       this.editableRef = node;
     }
-  }, {
-    key: "isActive",
-    value: function isActive() {
-      return this.editableRef === document.activeElement;
-    }
     /**
-     * Handles the onSetup event for the TinyMCE component.
+     * Sets a reference to the TinyMCE editor instance.
      *
-     * Will setup event handlers for the TinyMCE instance.
-     * An `onSetup` function in the props will be called if it is present.
-     *
-     * @param {tinymce} editor The editor instance as passed by TinyMCE.
+     * @param {Editor} editor The editor instance as passed by TinyMCE.
      */
 
   }, {
@@ -21255,6 +21340,13 @@ function (_Component) {
       if (unstableOnFocus) {
         unstableOnFocus();
       }
+
+      document.addEventListener('selectionchange', this.onSelectionChange);
+    }
+  }, {
+    key: "onBlur",
+    value: function onBlur() {
+      document.removeEventListener('selectionchange', this.onSelectionChange);
     }
     /**
      * Handle input on the next selection change event.
@@ -21298,11 +21390,6 @@ function (_Component) {
   }, {
     key: "onSelectionChange",
     value: function onSelectionChange() {
-      // Ensure it's the active element. This is a global event.
-      if (!this.isActive()) {
-        return;
-      }
-
       var _this$createRecord = this.createRecord(),
           start = _this$createRecord.start,
           end = _this$createRecord.end,
@@ -21607,20 +21694,6 @@ function (_Component) {
 
         this.applyRecord(record);
         this.savedContent = value;
-      } // If blocks are merged, but the content remains the same, e.g. merging
-      // an empty paragraph into another, then also set the selection to the
-      // end.
-
-
-      if (isSelected && !prevProps.isSelected && !this.isActive()) {
-        var _record = this.formatToValue(value);
-
-        var _prevRecord = this.formatToValue(prevProps.value);
-
-        var _length = Object(external_this_wp_richText_["getTextContent"])(_prevRecord).length;
-        _record.start = _length;
-        _record.end = _length;
-        this.applyRecord(_record);
       } // If any format props update, reapply value.
 
 
@@ -21640,12 +21713,16 @@ function (_Component) {
       });
 
       if (shouldReapply) {
-        var _record2 = this.formatToValue(value); // Maintain the previous selection:
+        var _record = this.formatToValue(value); // Maintain the previous selection if the instance is currently
+        // selected.
 
 
-        _record2.start = this.state.start;
-        _record2.end = this.state.end;
-        this.applyRecord(_record2);
+        if (isSelected) {
+          _record.start = this.state.start;
+          _record.end = this.state.end;
+        }
+
+        this.applyRecord(_record);
       }
     }
     /**
@@ -21813,18 +21890,17 @@ function (_Component) {
         record: record,
         onChange: this.onChange
       }, function (_ref6) {
-        var isExpanded = _ref6.isExpanded,
-            listBoxId = _ref6.listBoxId,
+        var listBoxId = _ref6.listBoxId,
             activeId = _ref6.activeId;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(tinymce_TinyMCE, Object(esm_extends["a" /* default */])({
           tagName: Tagname,
           onSetup: _this3.onSetup,
           style: style,
-          defaultValue: _this3.valueToEditableHTML(record),
+          record: record,
+          valueToEditableHTML: _this3.valueToEditableHTML,
           isPlaceholderVisible: isPlaceholderVisible,
           "aria-label": placeholder,
           "aria-autocomplete": "list",
-          "aria-expanded": isExpanded,
           "aria-owns": listBoxId,
           "aria-activedescendant": activeId
         }, ariaProps, {
@@ -21835,6 +21911,7 @@ function (_Component) {
           onCompositionEnd: _this3.onCompositionEnd,
           onKeyDown: _this3.onKeyDown,
           onFocus: _this3.onFocus,
+          onBlur: _this3.onBlur,
           multilineTag: _this3.multilineTag,
           multilineWrapperTags: _this3.multilineWrapperTags,
           setRef: _this3.setRef
@@ -25125,6 +25202,7 @@ function writeInterstitialMessage(targetDocument) {
   })), Object(external_this_wp_element_["createElement"])("p", null, Object(external_this_wp_i18n_["__"])('Generating preview…'))));
   markup += "\n\t\t<style>\n\t\t\tbody {\n\t\t\t\tmargin: 0;\n\t\t\t}\n\t\t\t.editor-post-preview-button__interstitial-message {\n\t\t\t\tdisplay: flex;\n\t\t\t\tflex-direction: column;\n\t\t\t\talign-items: center;\n\t\t\t\tjustify-content: center;\n\t\t\t\theight: 100vh;\n\t\t\t\twidth: 100vw;\n\t\t\t}\n\t\t\t@-webkit-keyframes paint {\n\t\t\t\t0% {\n\t\t\t\t\tstroke-dashoffset: 0;\n\t\t\t\t}\n\t\t\t}\n\t\t\t@-moz-keyframes paint {\n\t\t\t\t0% {\n\t\t\t\t\tstroke-dashoffset: 0;\n\t\t\t\t}\n\t\t\t}\n\t\t\t@-o-keyframes paint {\n\t\t\t\t0% {\n\t\t\t\t\tstroke-dashoffset: 0;\n\t\t\t\t}\n\t\t\t}\n\t\t\t@keyframes paint {\n\t\t\t\t0% {\n\t\t\t\t\tstroke-dashoffset: 0;\n\t\t\t\t}\n\t\t\t}\n\t\t\t.editor-post-preview-button__interstitial-message svg {\n\t\t\t\twidth: 192px;\n\t\t\t\theight: 192px;\n\t\t\t\tstroke: #555d66;\n\t\t\t\tstroke-width: 0.75;\n\t\t\t}\n\t\t\t.editor-post-preview-button__interstitial-message svg .outer,\n\t\t\t.editor-post-preview-button__interstitial-message svg .inner {\n\t\t\t\tstroke-dasharray: 280;\n\t\t\t\tstroke-dashoffset: 280;\n\t\t\t\t-webkit-animation: paint 1.5s ease infinite alternate;\n\t\t\t\t-moz-animation: paint 1.5s ease infinite alternate;\n\t\t\t\t-o-animation: paint 1.5s ease infinite alternate;\n\t\t\t\tanimation: paint 1.5s ease infinite alternate;\n\t\t\t}\n\t\t\tp {\n\t\t\t\ttext-align: center;\n\t\t\t\tfont-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif;\n\t\t\t}\n\t\t</style>\n\t";
   targetDocument.write(markup);
+  targetDocument.title = Object(external_this_wp_i18n_["__"])('Generating preview…');
   targetDocument.close();
 }
 
@@ -28803,11 +28881,20 @@ var external_this_wp_wordcount_ = __webpack_require__(97);
 
 
 
+
 function WordCount(_ref) {
   var content = _ref.content;
+
+  /*
+   * translators: If your word count is based on single characters (e.g. East Asian characters),
+   * enter 'characters_excluding_spaces' or 'characters_including_spaces'. Otherwise, enter 'words'.
+   * Do not translate into your own language.
+   */
+  var wordCountType = Object(external_this_wp_i18n_["_x"])('words', 'Word count type. Do not translate!');
+
   return Object(external_this_wp_element_["createElement"])("span", {
     className: "word-count"
-  }, Object(external_this_wp_wordcount_["count"])(content, 'words'));
+  }, Object(external_this_wp_wordcount_["count"])(content, wordCountType));
 }
 
 /* harmony default export */ var word_count = (Object(external_this_wp_data_["withSelect"])(function (select) {
@@ -28896,12 +28983,12 @@ function TableOfContents(_ref) {
       var isOpen = _ref2.isOpen,
           onToggle = _ref2.onToggle;
       return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
-        onClick: onToggle,
+        onClick: hasBlocks ? onToggle : undefined,
         icon: "info-outline",
         "aria-expanded": isOpen,
         label: Object(external_this_wp_i18n_["__"])('Content structure'),
         labelPosition: "bottom",
-        disabled: !hasBlocks
+        "aria-disabled": !hasBlocks
       });
     },
     renderContent: function renderContent() {
@@ -30220,7 +30307,6 @@ function BlockToolbar(_ref) {
 
 
 
-
 /**
  * WordPress dependencies
  */
@@ -30241,8 +30327,15 @@ function (_Component) {
     Object(classCallCheck["a" /* default */])(this, CopyHandler);
 
     _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(CopyHandler).apply(this, arguments));
-    _this.onCopy = _this.onCopy.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
-    _this.onCut = _this.onCut.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
+
+    _this.onCopy = function (event) {
+      return _this.props.onCopy(event);
+    };
+
+    _this.onCut = function (event) {
+      return _this.props.onCut(event);
+    };
+
     return _this;
   }
 
@@ -30259,40 +30352,6 @@ function (_Component) {
       document.removeEventListener('cut', this.onCut);
     }
   }, {
-    key: "onCopy",
-    value: function onCopy(event) {
-      var _this$props = this.props,
-          hasMultiSelection = _this$props.hasMultiSelection,
-          selectedBlockClientIds = _this$props.selectedBlockClientIds,
-          getBlocksByClientId = _this$props.getBlocksByClientId;
-
-      if (selectedBlockClientIds.length === 0) {
-        return;
-      } // Let native copy behaviour take over in input fields.
-
-
-      if (!hasMultiSelection && Object(external_this_wp_dom_["documentHasSelection"])()) {
-        return;
-      }
-
-      var serialized = Object(external_this_wp_blocks_["serialize"])(getBlocksByClientId(selectedBlockClientIds));
-      event.clipboardData.setData('text/plain', serialized);
-      event.clipboardData.setData('text/html', serialized);
-      event.preventDefault();
-    }
-  }, {
-    key: "onCut",
-    value: function onCut(event) {
-      var _this$props2 = this.props,
-          hasMultiSelection = _this$props2.hasMultiSelection,
-          selectedBlockClientIds = _this$props2.selectedBlockClientIds;
-      this.onCopy(event);
-
-      if (hasMultiSelection) {
-        this.props.onRemove(selectedBlockClientIds);
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
       return null;
@@ -30302,25 +30361,46 @@ function (_Component) {
   return CopyHandler;
 }(external_this_wp_element_["Component"]);
 
-/* harmony default export */ var copy_handler = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select) {
+/* harmony default export */ var copy_handler = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref) {
+  var select = _ref.select;
+
   var _select = select('core/editor'),
+      getBlocksByClientId = _select.getBlocksByClientId,
       getMultiSelectedBlockClientIds = _select.getMultiSelectedBlockClientIds,
       getSelectedBlockClientId = _select.getSelectedBlockClientId,
-      getBlocksByClientId = _select.getBlocksByClientId,
       hasMultiSelection = _select.hasMultiSelection;
 
-  var selectedBlockClientId = getSelectedBlockClientId();
-  var selectedBlockClientIds = selectedBlockClientId ? [selectedBlockClientId] : getMultiSelectedBlockClientIds();
-  return {
-    hasMultiSelection: hasMultiSelection(),
-    selectedBlockClientIds: selectedBlockClientIds,
-    // We only care about this value when the copy is performed
-    // We call it dynamically in the event handler to avoid unnecessary re-renders.
-    getBlocksByClientId: getBlocksByClientId
+  var _dispatch = dispatch('core/editor'),
+      removeBlocks = _dispatch.removeBlocks;
+
+  var onCopy = function onCopy(event) {
+    var selectedBlockClientIds = getSelectedBlockClientId() ? [getSelectedBlockClientId()] : getMultiSelectedBlockClientIds();
+
+    if (selectedBlockClientIds.length === 0) {
+      return;
+    } // Let native copy behaviour take over in input fields.
+
+
+    if (!hasMultiSelection() && Object(external_this_wp_dom_["documentHasSelection"])()) {
+      return;
+    }
+
+    var serialized = Object(external_this_wp_blocks_["serialize"])(getBlocksByClientId(selectedBlockClientIds));
+    event.clipboardData.setData('text/plain', serialized);
+    event.clipboardData.setData('text/html', serialized);
+    event.preventDefault();
   };
-}), Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
+
   return {
-    onRemove: dispatch('core/editor').removeBlocks
+    onCopy: onCopy,
+    onCut: function onCut(event) {
+      onCopy(event);
+
+      if (hasMultiSelection()) {
+        var selectedBlockClientIds = getSelectedBlockClientId() ? [getSelectedBlockClientId()] : getMultiSelectedBlockClientIds();
+        removeBlocks(selectedBlockClientIds);
+      }
+    }
   };
 })])(copy_handler_CopyHandler));
 
@@ -33039,11 +33119,11 @@ var withToolbarControls = Object(external_this_wp_compose_["createHigherOrderCom
 
 var align_insideSelectWithDataAlign = function insideSelectWithDataAlign(BlockListBlock) {
   return function (props) {
-    var block = props.block,
+    var name = props.name,
+        attributes = props.attributes,
         hasWideEnabled = props.hasWideEnabled;
-    var blockName = block.name;
-    var align = block.attributes.align;
-    var validAlignments = getValidAlignments(Object(external_this_wp_blocks_["getBlockSupport"])(blockName, 'align'), Object(external_this_wp_blocks_["hasBlockSupport"])(blockName, 'alignWide', true), hasWideEnabled);
+    var align = attributes.align;
+    var validAlignments = getValidAlignments(Object(external_this_wp_blocks_["getBlockSupport"])(name, 'align'), Object(external_this_wp_blocks_["hasBlockSupport"])(name, 'alignWide', true), hasWideEnabled);
     var wrapperProps = props.wrapperProps;
 
     if (Object(external_lodash_["includes"])(validAlignments, align)) {
@@ -33098,7 +33178,7 @@ function addAssignedAlign(props, blockType, attributes) {
   return props;
 }
 Object(external_this_wp_hooks_["addFilter"])('blocks.registerBlockType', 'core/align/addAttribute', addAttribute);
-Object(external_this_wp_hooks_["addFilter"])('editor.BlockListBlock', 'core/editor/align/with-data-align', withDataAlign);
+Object(external_this_wp_hooks_["addFilter"])('editor.__experimentalBlockListBlock', 'core/editor/align/with-data-align', withDataAlign);
 Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/editor/align/with-toolbar-controls', withToolbarControls);
 Object(external_this_wp_hooks_["addFilter"])('blocks.getSaveContent.extraProps', 'core/align/addAssignedAlign', addAssignedAlign);
 
@@ -33199,7 +33279,7 @@ var withInspectorControl = Object(external_this_wp_compose_["createHigherOrderCo
 
 function addSaveProps(extraProps, blockType, attributes) {
   if (Object(external_this_wp_blocks_["hasBlockSupport"])(blockType, 'anchor')) {
-    extraProps.id = attributes.anchor;
+    extraProps.id = attributes.anchor === '' ? null : attributes.anchor;
   }
 
   return extraProps;

@@ -72,7 +72,7 @@ function build_dropdown_script_block_core_categories( $dropdown_id ) {
 	?>
 	<script type='text/javascript'>
 	/* <![CDATA[ */
-	(function() {
+	( function() {
 		var dropdown = document.getElementById( '<?php echo esc_js( $dropdown_id ); ?>' );
 		function onCatChange() {
 			if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {

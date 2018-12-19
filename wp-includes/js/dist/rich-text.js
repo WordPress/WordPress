@@ -157,7 +157,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(32);
+var iterableToArray = __webpack_require__(33);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -699,6 +699,10 @@ function isEmptyLine(_ref2) {
 /**
  * Parse the given HTML into a body element.
  *
+ * Note: The current implementation will return a shared reference, reset on
+ * each call to `createElement`. Therefore, you should not hold a reference to
+ * the value to operate upon asynchronously, as it may have unexpected results.
+ *
  * @param {HTMLDocument} document The HTML document to use to parse.
  * @param {string}       html     The HTML to parse.
  *
@@ -707,11 +711,16 @@ function isEmptyLine(_ref2) {
 function createElement(_ref, html) {
   var implementation = _ref.implementation;
 
-  var _implementation$creat = implementation.createHTMLDocument(''),
-      body = _implementation$creat.body;
+  // Because `createHTMLDocument` is an expensive operation, and with this
+  // function being internal to `rich-text` (full control in avoiding a risk
+  // of asynchronous operations on the shared reference), a single document
+  // is reused and reset for each call to the function.
+  if (!createElement.body) {
+    createElement.body = implementation.createHTMLDocument('').body;
+  }
 
-  body.innerHTML = html;
-  return body;
+  createElement.body.innerHTML = html;
+  return createElement.body;
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/create.js
@@ -1017,12 +1026,12 @@ function createFromElement(_ref3) {
     return accumulator;
   }
 
-  var length = element.childNodes.length; // Remove any line breaks in text nodes. They are not content, but used to
-  // format the HTML. Line breaks in HTML are stored as BR elements.
-  // See https://www.w3.org/TR/html5/syntax.html#newlines.
+  var length = element.childNodes.length;
 
   var filterStringComplete = function filterStringComplete(string) {
-    string = string.replace(/[\r\n]/g, '');
+    // Reduce any whitespace used for HTML formatting to one space
+    // character, because it will also be displayed as such by the browser.
+    string = string.replace(/[\n\r\t]+/g, ' ');
 
     if (filterString) {
       string = filterString(string);
@@ -2268,6 +2277,7 @@ function toTree(_ref2) {
  * Internal dependencies
  */
 
+
 /**
  * Browser dependencies
  */
@@ -2324,13 +2334,21 @@ function getNodeByPath(node, path) {
     offset: path[0]
   };
 }
+/**
+ * Returns a new instance of a DOM tree upon which RichText operations can be
+ * applied.
+ *
+ * Note: The current implementation will return a shared reference, reset on
+ * each call to `createEmpty`. Therefore, you should not hold a reference to
+ * the value to operate upon asynchronously, as it may have unexpected results.
+ *
+ * @return {WPRichTextTree} RichText tree.
+ */
 
-function to_dom_createEmpty() {
-  var _document$implementat = document.implementation.createHTMLDocument(''),
-      body = _document$implementat.body;
 
-  return body;
-}
+var to_dom_createEmpty = function createEmpty() {
+  return createElement(document, '');
+};
 
 function to_dom_append(element, child) {
   if (typeof child === 'string') {
@@ -2503,17 +2521,17 @@ function apply(_ref7) {
 }
 function applyValue(future, current) {
   var i = 0;
+  var futureChild;
 
-  while (future.firstChild) {
+  while (futureChild = future.firstChild) {
     var currentChild = current.childNodes[i];
-    var futureNodeType = future.firstChild.nodeType;
 
     if (!currentChild) {
-      current.appendChild(future.firstChild);
-    } else if (futureNodeType !== currentChild.nodeType || futureNodeType !== to_dom_TEXT_NODE || future.firstChild.nodeValue !== currentChild.nodeValue) {
-      current.replaceChild(future.firstChild, currentChild);
+      current.appendChild(futureChild);
+    } else if (!currentChild.isEqualNode(futureChild)) {
+      current.replaceChild(futureChild, currentChild);
     } else {
-      future.removeChild(future.firstChild);
+      future.removeChild(futureChild);
     }
 
     i++;
@@ -2523,6 +2541,21 @@ function applyValue(future, current) {
     current.removeChild(current.childNodes[i]);
   }
 }
+/**
+ * Returns true if two ranges are equal, or false otherwise. Ranges are
+ * considered equal if their start and end occur in the same container and
+ * offset.
+ *
+ * @param {Range} a First range object to test.
+ * @param {Range} b First range object to test.
+ *
+ * @return {boolean} Whether the two ranges are equal.
+ */
+
+function isRangeEqual(a, b) {
+  return a.startContainer === b.startContainer && a.startOffset === b.startOffset && a.endContainer === b.endContainer && a.endOffset === b.endOffset;
+}
+
 function applySelection(selection, current) {
   var _getNodeByPath = getNodeByPath(current, selection.startPath),
       startContainer = _getNodeByPath.node,
@@ -2549,12 +2582,21 @@ function applySelection(selection, current) {
     range.setEnd(endContainer, endOffset);
   }
 
-  windowSelection.removeAllRanges();
+  if (windowSelection.rangeCount > 0) {
+    // If the to be added range and the live range are the same, there's no
+    // need to remove the live range and add the equivalent range.
+    if (isRangeEqual(range, windowSelection.getRangeAt(0))) {
+      return;
+    }
+
+    windowSelection.removeAllRanges();
+  }
+
   windowSelection.addRange(range);
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(60);
+var external_this_wp_escapeHtml_ = __webpack_require__(61);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
@@ -3074,7 +3116,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 32:
+/***/ 33:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3210,7 +3252,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 60:
+/***/ 61:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());

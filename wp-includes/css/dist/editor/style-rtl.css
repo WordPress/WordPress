@@ -2241,7 +2241,8 @@ body.admin-color-light .editor-post-text-editor__link{
 .editor-rich-text__tinymce {
   margin: 0;
   position: relative;
-  line-height: 1.8; }
+  line-height: 1.8;
+  white-space: pre-wrap; }
   .editor-rich-text__tinymce > p:empty {
     min-height: 28.8px; }
   .editor-rich-text__tinymce > p:first-child {
