@@ -198,9 +198,9 @@
 		&.is-style-outline .wp-block-button__link,
 		&.is-style-outline .wp-block-button__link:focus,
 		&.is-style-outline .wp-block-button__link:active {
-			@include button-all-transition;	
+			@include button-all-transition;
 			border-width: 2px;
-			border-style: solid;		
+			border-style: solid;
 
 			&:not(.has-background) {
 				background: transparent;
@@ -241,6 +241,14 @@
 			a {
 				text-decoration: none;
 			}
+		}
+	}
+
+	.wp-block-archives,
+	.wp-block-categories {
+
+		&.aligncenter {
+			text-align: center;
 		}
 	}
 
@@ -788,7 +796,7 @@
 	.has-secondary-background-color,
 	.has-dark-gray-background-color,
 	.has-light-gray-background-color {
-		
+
 		// Use white text against these backgrounds by default.
 		color: $color__background-body;
 

@@ -106,7 +106,7 @@ function twentynineteen_can_show_post_thumbnail() {
  * Returns true if image filters are enabled on the theme options.
  */
 function twentynineteen_image_filters_enabled() {
-	return 'inactive' !== get_theme_mod( 'image_filter', 1 );
+	return 0 !== get_theme_mod( 'image_filter', 1 );
 }
 
 /**

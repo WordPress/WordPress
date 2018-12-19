@@ -614,6 +614,13 @@ figcaption,
   padding-left: calc(2 * 1rem);
 }
 
+/* Remove duplicate rule-line when a separator
+ * is followed by an H1, or H2 */
+.wp-block[data-type="core/separator"] + .wp-block[data-type="core/heading"] h1:before,
+.wp-block[data-type="core/separator"] + .wp-block[data-type="core/heading"] h2:before {
+  display: none;
+}
+
 /** === Latest Posts, Archives, Categories === */
 ul.wp-block-archives,
 .wp-block-categories,
