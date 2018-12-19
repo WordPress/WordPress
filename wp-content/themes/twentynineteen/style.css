@@ -4200,6 +4200,12 @@ body.page .main-navigation {
   padding-right: 1rem;
 }
 
+@media only screen and (min-width: 600px) {
+  .entry .entry-content .wp-block-columns {
+    flex-wrap: nowrap;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .entry .entry-content .wp-block-columns .wp-block-column > *:first-child {
     margin-top: 0;

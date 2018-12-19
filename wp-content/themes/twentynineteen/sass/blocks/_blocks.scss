@@ -700,6 +700,10 @@
 			padding-right: $size__spacing-unit;
 		}
 
+		@include media(mobile) {
+			flex-wrap: nowrap;
+		}
+
 		@include media(tablet) {
 			.wp-block-column > * {
 
