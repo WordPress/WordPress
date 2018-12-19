@@ -982,6 +982,11 @@ select {
 	max-width: 100%;
 }
 
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin dotted #333;
+}
+
 input[type="radio"],
 input[type="checkbox"] {
 	margin-right: 0.5em;
