@@ -139,7 +139,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 		$title = wptexturize( $item[0] );
 
-		// hide separators from screen readers
+		// Hide separators from screen readers.
 		if ( $is_separator ) {
 			$aria_hidden = ' aria-hidden="true"';
 		}

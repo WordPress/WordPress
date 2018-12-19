@@ -101,7 +101,7 @@ if ( $_REQUEST['short'] ) {
 	// Short form response - attachment ID only.
 	echo $id;
 } else {
-	// Long form response - big chunk o html.
+	// Long form response - big chunk of html.
 	$type = $_REQUEST['type'];
 
 	/**

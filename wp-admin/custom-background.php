@@ -525,7 +525,7 @@ class Custom_Background {
 	/**
 	 * Ajax handler for adding custom background context to an attachment.
 	 *
-	 * Triggered when the user adds a new background image from the
+	 * Triggers when the user adds a new background image from the
 	 * Media Manager.
 	 *
 	 * @since 4.1.0

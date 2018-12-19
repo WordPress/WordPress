@@ -316,6 +316,6 @@ if ( ! in_array( 'plugin_editor_notice', $dismissed_pointers, true ) ) :
 	</div>
 </div>
 	<?php
-endif; // editor warning notice
+endif; // Editor warning notice.
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

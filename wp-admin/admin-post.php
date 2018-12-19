@@ -34,7 +34,7 @@ $action = empty( $_REQUEST['action'] ) ? '' : $_REQUEST['action'];
 if ( ! wp_validate_auth_cookie() ) {
 	if ( empty( $action ) ) {
 		/**
-		 * Fires on a non-authenticated admin post request where no action was supplied.
+		 * Fires on a non-authenticated admin post request where no action is supplied.
 		 *
 		 * @since 2.6.0
 		 */
@@ -53,7 +53,7 @@ if ( ! wp_validate_auth_cookie() ) {
 } else {
 	if ( empty( $action ) ) {
 		/**
-		 * Fires on an authenticated admin post request where no action was supplied.
+		 * Fires on an authenticated admin post request where no action is supplied.
 		 *
 		 * @since 2.6.0
 		 */
