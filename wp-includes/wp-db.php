@@ -1273,7 +1273,7 @@ class wpdb {
 	 *
 	 * Literal percentage signs (%) in the query string must be written as %%. Percentage wildcards (for example,
 	 * to use in LIKE syntax) must be passed via a substitution argument containing the complete LIKE string, these
-	 * cannot be inserted directly in the query string. Also see {@see esc_like()}.
+	 * cannot be inserted directly in the query string. Also see {@see wpdb::esc_like()}.
 	 *
 	 * Arguments may be passed as individual arguments to the method, or as a single array containing all arguments. A combination
 	 * of the two is not supported.
