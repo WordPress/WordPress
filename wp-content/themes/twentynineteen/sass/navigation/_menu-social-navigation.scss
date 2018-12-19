@@ -45,6 +45,9 @@
 					width: 32px;
 					height: 32px;
 
+					// Prevent icons from jumping in Safari using hardware acceleration.
+					transform: translateZ(0);
+
 					&#ui-icon-link {
 						transform: rotate(-45deg);
 					}

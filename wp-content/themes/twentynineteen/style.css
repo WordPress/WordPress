@@ -1604,6 +1604,7 @@ body.page .main-navigation {
   display: block;
   width: 32px;
   height: 32px;
+  transform: translateZ(0);
 }
 
 .social-navigation ul.social-links-menu li a svg#ui-icon-link {
