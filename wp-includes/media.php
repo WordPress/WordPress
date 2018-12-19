@@ -266,8 +266,8 @@ function image_downsize( $id, $size = 'medium' ) {
  * @global array $_wp_additional_image_sizes Associative array of additional image sizes.
  *
  * @param string     $name   Image size identifier.
- * @param int        $width  Image width in pixels.
- * @param int        $height Image height in pixels.
+ * @param int        $width  Optional. Image width in pixels. Default 0.
+ * @param int        $height Optional. Image height in pixels. Default 0.
  * @param bool|array $crop   Optional. Whether to crop images to specified width and height or resize.
  *                           An array can specify positioning of the crop area. Default false.
  */
