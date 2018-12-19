@@ -912,6 +912,10 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 function load_script_textdomain( $handle, $domain, $path = null ) {
 	global $wp_scripts;
 
+	if ( ! isset( $wp_scripts->registered[ $handle ] ) ) {
+		return false;
+	}
+
 	$path   = untrailingslashit( $path );
 	$locale = determine_locale();
 
@@ -924,8 +928,12 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 
 	$obj = $wp_scripts->registered[ $handle ];
 
+	$src = $obj->src;
+	if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $wp_scripts->content_url && 0 === strpos( $src, $wp_scripts->content_url ) ) ) {
+		$src = $wp_scripts->base_url . $src;
+	}
 	/** This filter is documented in wp-includes/class.wp-scripts.php */
-	$src = esc_url( apply_filters( 'script_loader_src', $obj->src, $handle ) );
+	$src = esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
 
 	$relative       = false;
 	$languages_path = WP_LANG_DIR;
@@ -937,25 +945,35 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	// If the host is the same or it's a relative URL.
 	if (
 		strpos( $src_url['path'], $content_url['path'] ) === 0 &&
-		( ! isset( $src_url['host'] ) || $src_url['host'] !== $content_url['host'] )
+		( ! isset( $src_url['host'] ) || $src_url['host'] === $content_url['host'] )
 	) {
 		// Make the src relative the specific plugin or theme.
-		$relative = trim( substr( $src, strlen( $content_url['path'] ) ), '/' );
+		$relative = trim( substr( $src_url['path'], strlen( $content_url['path'] ) ), '/' );
 		$relative = explode( '/', $relative );
 
 		$languages_path = WP_LANG_DIR . '/' . $relative[0];
 
 		$relative = array_slice( $relative, 2 );
 		$relative = implode( '/', $relative );
-	} elseif ( ! isset( $src_url['host'] ) || $src_url['host'] !== $site_url['host'] ) {
+	} elseif ( ! isset( $src_url['host'] ) || $src_url['host'] === $site_url['host'] ) {
 		if ( ! isset( $site_url['path'] ) ) {
 			$relative = trim( $src_url['path'], '/' );
-		} elseif ( ( strpos( $src_url['path'], $site_url['path'] ) === 0 ) ) {
+		} elseif ( ( strpos( $src_url['path'], trailingslashit( $site_url['path'] ) ) === 0 ) ) {
 			// Make the src relative to the WP root.
-			$relative = substr( $src, strlen( $site_url['path'] ) );
+			$relative = substr( $src_url['path'], strlen( $site_url['path'] ) );
 			$relative = trim( $relative, '/' );
 		}
 	}
+
+	/**
+	 * Filters the relative path of scripts used for finding translation files.
+	 *
+	 * @since 5.0.2
+	 *
+	 * @param string $relative The relative path of the script. False if it could not be determined.
+	 * @param string $src      The full source url of the script.
+	 */
+	$relative = apply_filters( 'load_script_textdomain_relative_path', $relative, $src );
 
 	// If the source is not from WP.
 	if ( false === $relative ) {
