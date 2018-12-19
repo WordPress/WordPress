@@ -326,9 +326,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background: #e05d22; /* Old browsers */
-	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
-	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
+	background: #e05d22;
 	border: none;
 	border-bottom: 3px solid #b93207;
 	border-radius: 2px;
@@ -338,6 +336,11 @@ p.has-drop-cap:not(:focus)::first-letter {
 	line-height: 24px;
 	padding: 11px 24px 10px;
 	text-decoration: none;
+}
+
+.wp-block-button__link:not(.has-background) {
+	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
+	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 }
 
 /* Separator */
