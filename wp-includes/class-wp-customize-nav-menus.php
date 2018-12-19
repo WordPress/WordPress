@@ -595,6 +595,11 @@ final class WP_Customize_Nav_Menus {
 		} else {
 			$description .= '<p>' . __( 'Menus can be displayed in locations defined by your theme.' ) . '</p>';
 		}
+
+		/*
+		 * Once multiple theme supports are allowed in WP_Customize_Panel,
+		 * this panel can be restricted to themes that support menus or widgets.
+		 */
 		$this->manager->add_panel(
 			new WP_Customize_Nav_Menus_Panel(
 				$this->manager,
@@ -603,7 +608,6 @@ final class WP_Customize_Nav_Menus {
 					'title'       => __( 'Menus' ),
 					'description' => $description,
 					'priority'    => 100,
-				// 'theme_supports' => 'menus|widgets', @todo allow multiple theme supports
 				)
 			)
 		);
