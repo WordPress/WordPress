@@ -221,10 +221,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background-color: #24890d;
 	border: 0;
 	border-radius: 2px;
-	color: #fff;
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 15px;
@@ -233,12 +231,18 @@ p.has-drop-cap:not(:focus)::first-letter {
 	vertical-align: bottom;
 }
 
-.wp-block-button .wp-block-button__link:hover,
-.wp-block-button .wp-block-button__link:focus {
-	background-color: #41a62a;
+.wp-block-button__link {
+	background-color: #24890d;
+	color: #fff;
 }
 
-.wp-block-button .wp-block-button__link:active {
+.wp-block-button__link:hover,
+.wp-block-button__link:focus {
+	background-color: #41a62a;
+	color: #fff;
+}
+
+.wp-block-button__link:active {
 	background-color: #55d737;
 }
 
