@@ -925,14 +925,11 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 		return load_script_translations( $path . '/' . $handle_filename, $handle, $domain );
 	}
 
-	$obj = $wp_scripts->registered[ $handle ];
+	$src = $wp_scripts->registered[ $handle ]->src;
 
-	$src = $obj->src;
 	if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $wp_scripts->content_url && 0 === strpos( $src, $wp_scripts->content_url ) ) ) {
 		$src = $wp_scripts->base_url . $src;
 	}
-	/** This filter is documented in wp-includes/class.wp-scripts.php */
-	$src = esc_url( apply_filters( 'script_loader_src', $src, $handle ) );
 
 	$relative       = false;
 	$languages_path = WP_LANG_DIR;
