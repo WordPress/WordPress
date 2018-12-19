@@ -1,6 +1,6 @@
 /*
 Theme Name: Twenty Seventeen
-Description: Used to style Gutenberg Blocks in the editor.
+Description: Used to style blocks in the editor.
 */
 
 /*--------------------------------------------------------------
@@ -359,12 +359,6 @@ html[lang="th"] .edit-post-visual-editor * {
 
 .wp-block {
 	max-width: 674px; /* Based on one-column post width; 644px + 30px to account for padding. */
-}
-
-/* Background color */
-
-.gutenberg-editor-page .editor-block-list__block {
-	background-color: transparent;
 }
 
 /* Alignments */
