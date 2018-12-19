@@ -380,7 +380,7 @@ function wp_script_is( $handle, $list = 'enqueued' ) {
  *
  * @since 4.2.0
  *
- * @see WP_Dependency::add_data()
+ * @see WP_Dependencies::add_data()
  *
  * @param string $handle Name of the script.
  * @param string $key    Name of data point for which we're storing a value.
