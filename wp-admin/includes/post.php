@@ -1157,7 +1157,7 @@ function wp_edit_posts_query( $q = false ) {
 	$query = compact( 'post_type', 'post_status', 'perm', 'order', 'orderby', 'posts_per_page' );
 
 	// Hierarchical types require special args.
-	if ( is_post_type_hierarchical( $post_type ) && ! isset( $orderby ) ) {
+	if ( is_post_type_hierarchical( $post_type ) && empty( $orderby ) ) {
 		$query['orderby']                = 'menu_order title';
 		$query['order']                  = 'asc';
 		$query['posts_per_page']         = -1;
