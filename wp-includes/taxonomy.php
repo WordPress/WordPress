@@ -840,6 +840,9 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 		return null;
 	}
 
+	// Ensure for filters that this is not empty.
+	$taxonomy = $_term->taxonomy;
+
 	/**
 	 * Filters a taxonomy term object.
 	 *
