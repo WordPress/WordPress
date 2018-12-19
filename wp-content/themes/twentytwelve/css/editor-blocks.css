@@ -235,7 +235,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .wp-block-file .wp-block-file__button,
-.wp-block-button .wp-block-button__link:hover {
+.wp-block-button .wp-block-file__button:hover {
 	background-color: #e6e6e6;
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
@@ -335,24 +335,36 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 /* Buttons */
 
-.wp-block-button .wp-block-button__link,
-.wp-block-button .wp-block-button__link:hover {
+.wp-block-button__link {
 	background-color: #e6e6e6;
-	background-repeat: repeat-x;
-	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	color: #7c7c7c;
+}
+
+.wp-block-button .wp-block-button__link {
 	border: 1px solid #d2d2d2;
 	border-radius: 3px;
-	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
-	color: #7c7c7c;
 	font-family: inherit;
 	font-size: 11px;
 	font-weight: normal;
 	line-height: 1.428571429;
 	padding: 6px 10px;
+}
+
+.wp-block-button .editor-rich-text__tinymce.mce-content-body {
+	line-height: 1.428571429;
+}
+
+.wp-block-button__link:not(.has-text-color) {
+	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
+}
+
+.wp-block-button .wp-block-button__link:not(.has-background) {
+	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-repeat: repeat-x;
 }
 
 /* Separator */
