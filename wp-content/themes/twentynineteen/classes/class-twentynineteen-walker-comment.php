@@ -33,10 +33,10 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 				<footer class="comment-meta">
 					<div class="comment-author vcard">
 						<?php
-							$comment_author_link = get_comment_author_link( $comment );
-							$comment_author_url  = get_comment_author_url( $comment );
-							$comment_author      = get_comment_author( $comment );
-							$avatar              = get_avatar( $comment, $args['avatar_size'] );
+						$comment_author_link = get_comment_author_link( $comment );
+						$comment_author_url  = get_comment_author_url( $comment );
+						$comment_author      = get_comment_author( $comment );
+						$avatar              = get_avatar( $comment, $args['avatar_size'] );
 						if ( 0 != $args['avatar_size'] ) {
 							if ( empty( $comment_author_url ) ) {
 								echo $avatar;
@@ -45,21 +45,34 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 								echo $avatar;
 							}
 						}
-
-							/*
-							 * Using the `check` icon instead of `check_circle`, since we can't add a
-							 * fill color to the inner check shape when in circle form.
-							 */
+						/*
+						 * Using the `check` icon instead of `check_circle`, since we can't add a
+						 * fill color to the inner check shape when in circle form.
+						 */
 						if ( twentynineteen_is_comment_by_post_author( $comment ) ) {
-							/* translators: %s: SVG Icon */
 							printf( '<span class="post-author-badge" aria-hidden="true">%s</span>', twentynineteen_get_icon_svg( 'check', 24 ) );
 						}
 
-							printf(
-								/* translators: %s: comment author link */
+						/*
+						 * Using the `check` icon instead of `check_circle`, since we can't add a
+						 * fill color to the inner check shape when in circle form.
+						 */
+						if ( twentynineteen_is_comment_by_post_author( $comment ) ) {
+							printf( '<span class="post-author-badge" aria-hidden="true">%s</span>', twentynineteen_get_icon_svg( 'check', 24 ) );
+						}
+
+						printf(
+							/* translators: %s: comment author link */
+							wp_kses(
 								__( '%s <span class="screen-reader-text says">says:</span>', 'twentynineteen' ),
-								sprintf( '<span class="fn">%s</span>', $comment_author )
-							);
+								array(
+									'span' => array(
+										'class' => array(),
+									),
+								)
+							),
+							'<b class="fn">' . get_comment_author_link( $comment ) . '</b>'
+						);
 
 						if ( ! empty( $comment_author_url ) ) {
 							echo '</a>';
@@ -110,5 +123,4 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 			?>
 		<?php
 	}
-
 }

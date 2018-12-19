@@ -324,6 +324,7 @@
 			margin-top: calc(4 * #{ $size__spacing-unit});
 			margin-bottom: calc(4.33 * #{ $size__spacing-unit});
 			margin-right: 0;
+			padding-left: 0;
 		}
 
 		p {
@@ -362,10 +363,14 @@
 			padding: 0;
 
 			blockquote {
-				margin-left: 0;
+				margin: $size__spacing-unit 0;
 				padding: 0;
 				text-align: left;
 				max-width: 100%;
+
+				p:first-child {
+					margin-top: 0;
+				}
 			}
 		}
 
@@ -399,10 +404,11 @@
 			}
 
 			blockquote {
-				max-width: calc(100% - (2 * #{$size__spacing-unit}));
+				max-width: 100%;
 				color: $color__background-body;
 				padding-left: 0;
 				margin-left: $size__spacing-unit;
+				margin-right: $size__spacing-unit;
 
 				&.has-text-color p,
 				&.has-text-color a,
@@ -417,6 +423,14 @@
 				@include media(tablet) {
 					margin-left: 0;
 					margin-right: 0;
+				}
+			}
+
+			&.alignright,
+			&.alignleft {
+
+				@include media(tablet) {
+					padding: $size__spacing-unit calc(2 * #{$size__spacing-unit});
 				}
 			}
 
@@ -528,10 +542,6 @@
 			line-height: 1.25;
 			padding: 0;
 			color: #fff;
-			-ms-hyphens: auto;
-			-moz-hyphens: auto;
-			-webkit-hyphens: auto;
-			hyphens: auto;
 
 			@include media(tablet) {
 				font-size: $font__size-xl;
@@ -544,7 +554,7 @@
 			width: 100%;
 
 			@include media(tablet) {
-				padding: $size__spacing-unit;
+				padding: $size__spacing-unit calc(2 * #{$size__spacing-unit});
 			}
 		}
 
@@ -577,6 +587,10 @@
 		.blocks-gallery-image:last-child,
 		.blocks-gallery-item:last-child {
 			margin-bottom: 16px;
+		}
+
+		figcaption a {
+			color: #fff;
 		}
 	}
 

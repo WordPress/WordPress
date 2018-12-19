@@ -3777,6 +3777,7 @@ body.page .main-navigation {
   margin-top: calc(4 * 1rem);
   margin-bottom: calc(4.33 * 1rem);
   margin-right: 0;
+  padding-left: 0;
 }
 
 .entry .entry-content .wp-block-pullquote p {
@@ -3816,10 +3817,14 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-pullquote.alignleft blockquote, .entry .entry-content .wp-block-pullquote.alignright blockquote {
-  margin-left: 0;
+  margin: 1rem 0;
   padding: 0;
   text-align: left;
   max-width: 100%;
+}
+
+.entry .entry-content .wp-block-pullquote.alignleft blockquote p:first-child, .entry .entry-content .wp-block-pullquote.alignright blockquote p:first-child {
+  margin-top: 0;
 }
 
 .entry .entry-content .wp-block-pullquote.is-style-solid-color {
@@ -3857,10 +3862,11 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote {
-  max-width: calc(100% - (2 * 1rem));
+  max-width: 100%;
   color: #fff;
   padding-left: 0;
   margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-text-color p,
@@ -3872,6 +3878,12 @@ body.page .main-navigation {
   .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote {
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .entry .entry-content .wp-block-pullquote.is-style-solid-color.alignright, .entry .entry-content .wp-block-pullquote.is-style-solid-color.alignleft {
+    padding: 1rem calc(2 * 1rem);
   }
 }
 
@@ -3979,10 +3991,6 @@ body.page .main-navigation {
   line-height: 1.25;
   padding: 0;
   color: #fff;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 
 @media only screen and (min-width: 768px) {
@@ -4007,7 +4015,7 @@ body.page .main-navigation {
   .entry .entry-content .wp-block-cover-image.alignleft, .entry .entry-content .wp-block-cover-image.alignright,
   .entry .entry-content .wp-block-cover.alignleft,
   .entry .entry-content .wp-block-cover.alignright {
-    padding: 1rem;
+    padding: 1rem calc(2 * 1rem);
   }
 }
 
@@ -4057,6 +4065,10 @@ body.page .main-navigation {
 .entry .entry-content .wp-block-gallery .blocks-gallery-image:last-child,
 .entry .entry-content .wp-block-gallery .blocks-gallery-item:last-child {
   margin-bottom: 16px;
+}
+
+.entry .entry-content .wp-block-gallery figcaption a {
+  color: #fff;
 }
 
 .entry .entry-content .wp-block-audio figcaption,

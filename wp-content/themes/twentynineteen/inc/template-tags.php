@@ -40,8 +40,8 @@ if ( ! function_exists( 'twentynineteen_posted_by' ) ) :
 	 */
 	function twentynineteen_posted_by() {
 		printf(
-			'<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
 			/* translators: 1: SVG icon. 2: post author, only visible to screen readers. 3: author link. */
+			'<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
 			twentynineteen_get_icon_svg( 'person', 16 ),
 			__( 'Posted by', 'twentynineteen' ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
@@ -85,8 +85,8 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 			/* translators: used between list items, there is a space after the comma. */
 			$categories_list = get_the_category_list( __( ', ', 'twentynineteen' ) );
 			if ( $categories_list ) {
-				/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of categories. */
 				printf(
+					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of categories. */
 					'<span class="cat-links">%1$s<span class="screen-reader-text">%2$s</span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'archive', 16 ),
 					__( 'Posted in', 'twentynineteen' ),
@@ -97,8 +97,8 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 			/* translators: used between list items, there is a space after the comma. */
 			$tags_list = get_the_tag_list( '', __( ', ', 'twentynineteen' ) );
 			if ( $tags_list ) {
-				/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of tags. */
 				printf(
+					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of tags. */
 					'<span class="tags-links">%1$s<span class="screen-reader-text">%2$s </span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'tag', 16 ),
 					__( 'Tags:', 'twentynineteen' ),
