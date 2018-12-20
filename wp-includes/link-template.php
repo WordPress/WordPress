@@ -4052,7 +4052,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 */
 	$args = apply_filters( 'pre_get_avatar_data', $args, $id_or_email );
 
-	if ( isset( $args['url'] ) && ! is_null( $args['url'] ) ) {
+	if ( isset( $args['url'] ) ) {
 		/** This filter is documented in wp-includes/link-template.php */
 		return apply_filters( 'get_avatar_data', $args, $id_or_email );
 	}
