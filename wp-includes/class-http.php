@@ -546,7 +546,7 @@ class WP_Http {
 	 * The order for requests is cURL, and then PHP Streams.
 	 *
 	 * @since 3.2.0
-	 * @deprecated 5.0.0 Use WP_Http::request()
+	 * @deprecated 5.1.0 Use WP_Http::request()
 	 * @see WP_Http::request()
 	 *
 	 * @param string $url URL to Request
