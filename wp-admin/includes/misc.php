@@ -925,7 +925,7 @@ function wp_color_scheme_settings() {
 	} else {
 		// Fall back to the default set of icon colors if the default scheme is missing.
 		$icon_colors = array(
-			'base'    => '#82878c',
+			'base'    => '#a0a5aa',
 			'focus'   => '#00a0d2',
 			'current' => '#fff',
 		);

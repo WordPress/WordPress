@@ -4043,7 +4043,7 @@ function register_admin_color_schemes() {
 		false,
 		array( '#222', '#333', '#0073aa', '#00a0d2' ),
 		array(
-			'base'    => '#82878c',
+			'base'    => '#a0a5aa',
 			'focus'   => '#00a0d2',
 			'current' => '#fff',
 		)
