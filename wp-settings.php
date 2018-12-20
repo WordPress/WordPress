@@ -276,6 +276,15 @@ $GLOBALS['wp_plugin_paths'] = array();
 // Load must-use plugins.
 foreach ( wp_get_mu_plugins() as $mu_plugin ) {
 	include_once( $mu_plugin );
+
+	/**
+	 * Fires once a single must-use plugin has loaded.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string $mu_plugin Loaded plugin's basename.
+	 */
+	do_action( 'mu_plugin_loaded', $mu_plugin );
 }
 unset( $mu_plugin );
 
@@ -284,6 +293,15 @@ if ( is_multisite() ) {
 	foreach ( wp_get_active_network_plugins() as $network_plugin ) {
 		wp_register_plugin_realpath( $network_plugin );
 		include_once( $network_plugin );
+
+		/**
+		 * Fires once a single network-activated plugin has loaded.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param string $network_plugin Loaded plugin's basename.
+		 */
+		do_action( 'network_plugin_loaded', $network_plugin );
 	}
 	unset( $network_plugin );
 }
@@ -322,6 +340,15 @@ register_theme_directory( get_theme_root() );
 foreach ( wp_get_active_and_valid_plugins() as $plugin ) {
 	wp_register_plugin_realpath( $plugin );
 	include_once( $plugin );
+
+	/**
+	 * Fires once a single activated plugin has loaded.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string $plugin Loaded plugin's basename.
+	 */
+	do_action( 'plugin_loaded', $plugin );
 }
 unset( $plugin );
 
