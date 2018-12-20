@@ -178,7 +178,7 @@ class wpdb {
 	 *
 	 * @since 1.5.0
 	 * @since 2.5.0 The third element in each query log was added to record the calling functions.
-	 * @since 5.0.0 The fourth element in each query log was added to record the start time.
+	 * @since 5.1.0 The fourth element in each query log was added to record the start time.
 	 *
 	 * @var array[] {
 	 *     Array of queries that were executed.
