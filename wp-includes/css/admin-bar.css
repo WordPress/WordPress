@@ -657,7 +657,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar.ie8 > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input {
 	/* IE8 z-index bug with transparent / empty elements - fill in with an encoded transparent GIF */
-	background: transparent 0 0 repeat scroll url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBR‌​AA7");
+	background: transparent 0 0 repeat scroll url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
 }
 
 /* IE8 doesn't redraw the pseudo elements unless you make a change to the content */
