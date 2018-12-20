@@ -1531,12 +1531,14 @@ div.action-links,
 	color: #444;
 }
 
-.plugin-card .compatibility-incompatible:before {
+.plugin-card .column-compatibility .compatibility-incompatible:before {
 	content: "\f158";
+	color: #c62d2d;
 }
 
-.plugin-card .compatibility-compatible:before {
+.plugin-card .column-compatibility .compatibility-compatible:before {
 	content: "\f147";
+	color: #31843f;
 }
 
 .plugin-card .notice {
