@@ -93,7 +93,7 @@ function wp_print_scripts( $handles = false ) {
 /**
  * Adds extra code to a registered script.
  *
- * Code will only be added if the script in already in the queue.
+ * Code will only be added if the script is already in the queue.
  * Accepts a string $data containing the Code. If two or more code blocks
  * are added to the same script $handle, they will be printed in the order
  * they were added, i.e. the latter added code can redeclare the previous.

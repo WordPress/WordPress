@@ -67,7 +67,7 @@ function wp_print_styles( $handles = false ) {
 /**
  * Add extra CSS styles to a registered stylesheet.
  *
- * Styles will only be added if the stylesheet in already in the queue.
+ * Styles will only be added if the stylesheet is already in the queue.
  * Accepts a string $data containing the CSS. If two or more CSS code blocks
  * are added to the same stylesheet $handle, they will be printed in the order
  * they were added, i.e. the latter added styles can redeclare the previous.
