@@ -219,19 +219,9 @@
 
 				var url = event.target.getAttribute( 'href' ) ? event.target.getAttribute( 'href' ) : '';
 
-				// If there’s a link, go to it on touchend
-				if ( '#' !== url && '' !== url ) {
-					window.location = url;
-
 				// Open submenu if url is #
-				} else if ( '#' === url && event.target.nextSibling.matches('.submenu-expand') ) {
-
+				if ( '#' === url && event.target.nextSibling.matches('.submenu-expand') ) {
 					openSubMenu( event.target );
-
-				// Prevent default touch events
-				} else {
-
-					event.preventDefault();
 				}
 			}
 
