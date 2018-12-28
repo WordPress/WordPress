@@ -2295,7 +2295,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * to be created. Plugins with different uniqueness requirements may use this filter
 	 * to bypass or modify the duplicate-term check.
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 *
 	 * @param object $duplicate_term Duplicate term row from terms table, if found.
 	 * @param string $term           Term being inserted.
