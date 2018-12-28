@@ -2619,6 +2619,7 @@ body.page .main-navigation {
 
 .entry .entry-content .more-link:after {
   content: "\02192";
+  display: inline-block;
   margin-right: 0.5em;
 }
 
