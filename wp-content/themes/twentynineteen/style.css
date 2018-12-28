@@ -3676,6 +3676,10 @@ body.page .main-navigation {
   border-color: #111;
 }
 
+.entry .entry-content .wp-block-button.is-style-outline .wp-block-button__link:hover:not(.has-background) {
+  color: #111;
+}
+
 .entry .entry-content .wp-block-archives,
 .entry .entry-content .wp-block-categories,
 .entry .entry-content .wp-block-latest-posts {
