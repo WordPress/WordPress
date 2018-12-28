@@ -1190,6 +1190,7 @@ body.page .main-navigation {
   color: #fff;
   display: block;
   line-height: 1.2;
+  text-shadow: none;
   padding: calc( .5 * 1rem) 1rem calc( .5 * 1rem) calc( 24px + 1rem);
   white-space: nowrap;
 }
@@ -2155,6 +2156,10 @@ body.page .main-navigation {
 .site-header.featured-image .site-featured-image a:focus,
 .site-header.featured-image .site-featured-image a:focus + svg {
   color: #fff;
+}
+
+.site-header.featured-image .main-navigation .sub-menu a {
+  opacity: inherit;
 }
 
 .site-header.featured-image .social-navigation a:focus {

@@ -169,6 +169,7 @@
 				color: $color__background-body;
 				display: block;
 				line-height: $font__line-height-heading;
+				text-shadow: none;
 				padding: calc( .5 * #{$size__spacing-unit} ) calc( 24px + #{$size__spacing-unit} ) calc( .5 * #{$size__spacing-unit} ) $size__spacing-unit;
 				white-space: nowrap;
 
