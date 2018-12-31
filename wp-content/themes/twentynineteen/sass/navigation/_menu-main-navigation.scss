@@ -13,6 +13,39 @@
 		display: inline;
 	}
 
+	/* Un-style buttons */
+	button {
+		display: inline-block;
+		border: none;
+		padding: 0;
+		margin: 0;
+		font-family: $font__heading;
+		font-weight: 700;
+		line-height: $font__line-height-heading;
+		text-decoration: none;
+		background: transparent;
+		color: inherit;
+		cursor: pointer;
+		transition: background 250ms ease-in-out,
+		            transform 150ms ease;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+
+		&:hover,
+		&:focus {
+			background: transparent;
+		}
+
+		&:focus {
+			outline: 1px solid transparent;
+			outline-offset: -4px;
+		}
+
+		&:active {
+			transform: scale(0.99);
+		}
+	}
+
 	.main-menu {
 
 		display: inline-block;
@@ -181,6 +214,13 @@
 						background: $color__link-hover;
 					}
 				}
+			}
+
+			> .menu-item-link-return {
+				width: 100%;
+				font-size: $font__size_base;
+				font-weight: normal;
+				text-align: left;
 			}
 
 			> a:empty {
