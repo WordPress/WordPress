@@ -246,7 +246,6 @@ pre.wp-block-code {
 
 .wp-block-button .wp-block-button__link {
 	border: 1px solid #d2d2d2;
-	border-radius: 3px;
 	font-family: inherit;
 	font-size: 11px;
 	font-size: 0.785714286rem;
@@ -262,6 +261,12 @@ pre.wp-block-code {
 	color: #7c7c7c;
 }
 
+.wp-block-button.is-style-outline .wp-block-button__link,
+.wp-block-button.is-style-outline .wp-block-button__link:visited {
+	background-color: inherit;
+	border-color: inherit;
+}
+
 .entry-content .wp-block-button__link:hover,
 .entry-content .wp-block-button__link:visited:hover,
 .entry-content .wp-block-button__link:focus {
@@ -274,7 +279,7 @@ pre.wp-block-code {
 	color: #757575;
 }
 
-.wp-block-button__link:not(.has-background) {
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);

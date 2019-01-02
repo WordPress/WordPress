@@ -371,20 +371,28 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background: #222;
-	border: none;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 	-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	-moz-box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
-	color: #eee;
 	cursor: pointer;
 	font-size: 15px;
 	line-height: 24px;
 	margin: 20px 0;
 	padding: 5px 22px;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+}
+
+.wp-block-button__link {
+	background: #222;
+	color: #eee;
+}
+
+.is-style-outline .wp-block-button__link {
+	color: #222;
+}
+
+.wp-block-button__link.has-text-color {
+	text-shadow: none;
 }
 
 /* Media & Text */

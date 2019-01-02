@@ -234,8 +234,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-decoration: underline;
 }
 
-.wp-block-file .wp-block-file__button,
-.wp-block-button .wp-block-file__button:hover {
+.wp-block-file .wp-block-file__button {
 	background-color: #e6e6e6;
 	background-repeat: repeat-x;
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
@@ -342,7 +341,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-button .wp-block-button__link {
 	border: 1px solid #d2d2d2;
-	border-radius: 3px;
 	font-family: inherit;
 	font-size: 11px;
 	font-weight: normal;
@@ -358,7 +356,12 @@ p.has-drop-cap:not(:focus)::first-letter {
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
 
-.wp-block-button .wp-block-button__link:not(.has-background) {
+.wp-block-button.is-style-outline .wp-block-button__link {
+	background-color: inherit;
+	border-color: inherit;
+}
+
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
 	background-image: -moz-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
