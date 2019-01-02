@@ -1405,7 +1405,6 @@ a.post-thumbnail:hover {
 	box-shadow: 1px 1px 1px rgba(0,0,0,.8);
 	color: #000;
 	height: 36px;
-	margin: -28px 0 0 -24px; /* Keep centered on video (container includes visible controls bar) */
 	width: 48px;
 }
 
@@ -1415,7 +1414,7 @@ a.post-thumbnail:hover {
 	content: '\f452';
 	display: inline-block;
 	font: normal 32px/1.125 Genericons;
-	position: absolute;
+	position: relative;
 	top: 1px;
 	left: 10px;
 }
