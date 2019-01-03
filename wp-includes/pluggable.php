@@ -1193,7 +1193,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 	 *     }
 	 *
 	 * @since 1.5.1
-	 * @since 5.0.0 The `$x_redirect_by` parameter was added.
+	 * @since 5.1.0 The `$x_redirect_by` parameter was added.
 	 *
 	 * @global bool $is_IIS
 	 *
@@ -1240,7 +1240,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 		 *
 		 * Allows applications to identify themselves when they're doing a redirect.
 		 *
-		 * @since 5.0.0
+		 * @since 5.1.0
 		 *
 		 * @param string $x_redirect_by The application doing the redirect.
 		 * @param int    $status        Status code to use.
@@ -1331,7 +1331,7 @@ if ( ! function_exists( 'wp_safe_redirect' ) ) :
 	 *     }
 	 *
 	 * @since 2.3.0
-	 * @since 5.0.0 The return value from wp_redirect() is now passed on, and the `$x_redirect_by` parameter was added.
+	 * @since 5.1.0 The return value from wp_redirect() is now passed on, and the `$x_redirect_by` parameter was added.
 	 *
 	 * @param string $location      The path or URL to redirect to.
 	 * @param int    $status        Optional. HTTP response status code to use. Default '302' (Moved Temporarily).
