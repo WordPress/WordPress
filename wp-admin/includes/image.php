@@ -130,7 +130,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 *
 		 * @since 2.9.0
 		 * @since 4.4.0 Added the `$metadata` argument.
-		 * @since 5.0.0 Added the `$attachment_id` argument.
+		 * @since 5.1.0 Added the `$attachment_id` argument.
 		 *
 		 * @param array $sizes         An associative array of image sizes.
 		 * @param array $metadata      An associative array of image metadata: width, height, file.
