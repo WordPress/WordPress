@@ -1953,7 +1953,7 @@ final class WP_Customize_Widgets {
 			$value = $this->_captured_options[ $option_name ];
 
 			/** This filter is documented in wp-includes/option.php */
-			$value = apply_filters( 'option_' . $option_name, $value );
+			$value = apply_filters( 'option_' . $option_name, $value, $option_name );
 		}
 
 		return $value;
