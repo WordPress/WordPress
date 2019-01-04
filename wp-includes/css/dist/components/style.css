@@ -732,6 +732,7 @@ svg.dashicon {
   fill: currentColor;
   outline: none; }
 
+/*rtl:begin:ignore*/
 .PresetDateRangePicker_panel {
   padding: 0 22px 11px; }
 
@@ -1553,6 +1554,7 @@ svg.dashicon {
   width: 15px;
   fill: #cacccd; }
 
+/*rtl:end:ignore*/
 .components-datetime .components-datetime__calendar-help {
   padding: 8px; }
   .components-datetime .components-datetime__calendar-help h4 {
@@ -1751,8 +1753,6 @@ body.is-dragging-components-draggable {
     transition: 0.3s opacity, 0.3s background-color; }
   .components-drop-zone.is-dragging-over-element {
     background-color: rgba(0, 113, 161, 0.8); }
-    .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
-      display: block; }
 
 .components-drop-zone__content {
   position: absolute;
@@ -1764,8 +1764,7 @@ body.is-dragging-components-draggable {
   width: 100%;
   text-align: center;
   color: #fff;
-  transition: transform 0.2s ease-in-out;
-  display: none; }
+  transition: transform 0.2s ease-in-out; }
 
 .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
   transform: translateY(-50%) scale(1.05); }

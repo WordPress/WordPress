@@ -7853,7 +7853,7 @@ __webpack_require__.d(selectors_namespaceObject, "INSERTER_UTILITY_LOW", functio
 __webpack_require__.d(selectors_namespaceObject, "INSERTER_UTILITY_NONE", function() { return INSERTER_UTILITY_NONE; });
 __webpack_require__.d(selectors_namespaceObject, "hasEditorUndo", function() { return hasEditorUndo; });
 __webpack_require__.d(selectors_namespaceObject, "hasEditorRedo", function() { return hasEditorRedo; });
-__webpack_require__.d(selectors_namespaceObject, "isEditedPostNew", function() { return isEditedPostNew; });
+__webpack_require__.d(selectors_namespaceObject, "isEditedPostNew", function() { return selectors_isEditedPostNew; });
 __webpack_require__.d(selectors_namespaceObject, "hasChangedContent", function() { return hasChangedContent; });
 __webpack_require__.d(selectors_namespaceObject, "isEditedPostDirty", function() { return selectors_isEditedPostDirty; });
 __webpack_require__.d(selectors_namespaceObject, "isCleanNewPost", function() { return selectors_isCleanNewPost; });
@@ -7900,8 +7900,8 @@ __webpack_require__.d(selectors_namespaceObject, "getSelectedBlock", function() 
 __webpack_require__.d(selectors_namespaceObject, "getBlockRootClientId", function() { return selectors_getBlockRootClientId; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockHierarchyRootClientId", function() { return getBlockHierarchyRootClientId; });
 __webpack_require__.d(selectors_namespaceObject, "getAdjacentBlockClientId", function() { return getAdjacentBlockClientId; });
-__webpack_require__.d(selectors_namespaceObject, "getPreviousBlockClientId", function() { return selectors_getPreviousBlockClientId; });
-__webpack_require__.d(selectors_namespaceObject, "getNextBlockClientId", function() { return selectors_getNextBlockClientId; });
+__webpack_require__.d(selectors_namespaceObject, "getPreviousBlockClientId", function() { return getPreviousBlockClientId; });
+__webpack_require__.d(selectors_namespaceObject, "getNextBlockClientId", function() { return getNextBlockClientId; });
 __webpack_require__.d(selectors_namespaceObject, "getSelectedBlocksInitialCaretPosition", function() { return selectors_getSelectedBlocksInitialCaretPosition; });
 __webpack_require__.d(selectors_namespaceObject, "getMultiSelectedBlockClientIds", function() { return selectors_getMultiSelectedBlockClientIds; });
 __webpack_require__.d(selectors_namespaceObject, "getMultiSelectedBlocks", function() { return getMultiSelectedBlocks; });
@@ -7946,9 +7946,9 @@ __webpack_require__.d(selectors_namespaceObject, "__experimentalIsFetchingReusab
 __webpack_require__.d(selectors_namespaceObject, "__experimentalGetReusableBlocks", function() { return __experimentalGetReusableBlocks; });
 __webpack_require__.d(selectors_namespaceObject, "getStateBeforeOptimisticTransaction", function() { return getStateBeforeOptimisticTransaction; });
 __webpack_require__.d(selectors_namespaceObject, "isPublishingPost", function() { return selectors_isPublishingPost; });
-__webpack_require__.d(selectors_namespaceObject, "isPermalinkEditable", function() { return isPermalinkEditable; });
+__webpack_require__.d(selectors_namespaceObject, "isPermalinkEditable", function() { return selectors_isPermalinkEditable; });
 __webpack_require__.d(selectors_namespaceObject, "getPermalink", function() { return getPermalink; });
-__webpack_require__.d(selectors_namespaceObject, "getPermalinkParts", function() { return getPermalinkParts; });
+__webpack_require__.d(selectors_namespaceObject, "getPermalinkParts", function() { return selectors_getPermalinkParts; });
 __webpack_require__.d(selectors_namespaceObject, "inSomeHistory", function() { return inSomeHistory; });
 __webpack_require__.d(selectors_namespaceObject, "getBlockListSettings", function() { return getBlockListSettings; });
 __webpack_require__.d(selectors_namespaceObject, "getEditorSettings", function() { return selectors_getEditorSettings; });
@@ -8463,33 +8463,64 @@ function mapBlockOrder(blocks) {
   return result;
 }
 /**
- * Given an array of blocks, returns an object containing all blocks, recursing
- * into inner blocks. Keys correspond to the block client ID, the value of
- * which is the block object.
+ * Helper method to iterate through all blocks, recursing into inner blocks,
+ * applying a transformation function to each one.
+ * Returns a flattened object with the transformed blocks.
  *
  * @param {Array} blocks Blocks to flatten.
+ * @param {Function} transform Transforming function to be applied to each block.
  *
- * @return {Object} Flattened blocks object.
+ * @return {Object} Flattened object.
  */
 
 
-function getFlattenedBlocks(blocks) {
-  var flattenedBlocks = {};
+function flattenBlocks(blocks, transform) {
+  var result = {};
 
   var stack = Object(toConsumableArray["a" /* default */])(blocks);
 
   while (stack.length) {
-    // `innerBlocks` is redundant data which can fall out of sync, since
-    // this is reflected in `blocks.order`, so exclude from appended block.
     var _stack$shift = stack.shift(),
         innerBlocks = _stack$shift.innerBlocks,
         block = Object(objectWithoutProperties["a" /* default */])(_stack$shift, ["innerBlocks"]);
 
     stack.push.apply(stack, Object(toConsumableArray["a" /* default */])(innerBlocks));
-    flattenedBlocks[block.clientId] = block;
+    result[block.clientId] = transform(block);
   }
 
-  return flattenedBlocks;
+  return result;
+}
+/**
+ * Given an array of blocks, returns an object containing all blocks, without
+ * attributes, recursing into inner blocks. Keys correspond to the block client
+ * ID, the value of which is the attributes object.
+ *
+ * @param {Array} blocks Blocks to flatten.
+ *
+ * @return {Object} Flattened block attributes object.
+ */
+
+
+function getFlattenedBlocksWithoutAttributes(blocks) {
+  return flattenBlocks(blocks, function (block) {
+    return Object(external_lodash_["omit"])(block, 'attributes');
+  });
+}
+/**
+ * Given an array of blocks, returns an object containing all block attributes,
+ * recursing into inner blocks. Keys correspond to the block client ID, the
+ * value of which is the attributes object.
+ *
+ * @param {Array} blocks Blocks to flatten.
+ *
+ * @return {Object} Flattened block attributes object.
+ */
+
+
+function getFlattenedBlockAttributes(blocks) {
+  return flattenBlocks(blocks, function (block) {
+    return block.attributes;
+  });
 }
 /**
  * Given a block order map object, returns *all* of the block client IDs that are
@@ -8636,8 +8667,48 @@ var reducer_withBlockReset = function withBlockReset(reducer) {
     if (state && action.type === 'RESET_BLOCKS') {
       var visibleClientIds = getNestedBlockClientIds(state.order);
       return Object(objectSpread["a" /* default */])({}, state, {
-        byClientId: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.byClientId, visibleClientIds), getFlattenedBlocks(action.blocks)),
+        byClientId: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.byClientId, visibleClientIds), getFlattenedBlocksWithoutAttributes(action.blocks)),
+        attributes: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.attributes, visibleClientIds), getFlattenedBlockAttributes(action.blocks)),
         order: Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state.order, visibleClientIds), mapBlockOrder(action.blocks))
+      });
+    }
+
+    return reducer(state, action);
+  };
+};
+/**
+ * Higher-order reducer which targets the combined blocks reducer and handles
+ * the `SAVE_REUSABLE_BLOCK_SUCCESS` action. This action can't be handled by
+ * regular reducers and needs a higher-order reducer since it needs access to
+ * both `byClientId` and `attributes` simultaneously.
+ *
+ * @param {Function} reducer Original reducer function.
+ *
+ * @return {Function} Enhanced reducer function.
+ */
+
+
+var reducer_withSaveReusableBlock = function withSaveReusableBlock(reducer) {
+  return function (state, action) {
+    if (state && action.type === 'SAVE_REUSABLE_BLOCK_SUCCESS') {
+      var id = action.id,
+          updatedId = action.updatedId; // If a temporary reusable block is saved, we swap the temporary id with the final one
+
+      if (id === updatedId) {
+        return state;
+      }
+
+      state = Object(objectSpread["a" /* default */])({}, state);
+      state.attributes = Object(external_lodash_["mapValues"])(state.attributes, function (attributes, clientId) {
+        var name = state.byClientId[clientId].name;
+
+        if (name === 'core/block' && attributes.ref === id) {
+          return Object(objectSpread["a" /* default */])({}, attributes, {
+            ref: updatedId
+          });
+        }
+
+        return attributes;
       });
     }
 
@@ -8716,7 +8787,7 @@ with_history({
 
     return state;
   },
-  blocks: Object(external_lodash_["flow"])([external_this_wp_data_["combineReducers"], reducer_withBlockReset, // Track whether changes exist, resetting at each post save. Relies on
+  blocks: Object(external_lodash_["flow"])([external_this_wp_data_["combineReducers"], reducer_withBlockReset, reducer_withSaveReusableBlock, // Track whether changes exist, resetting at each post save. Relies on
   // editor initialization firing post reset as an effect.
   with_change_detection({
     resetTypes: ['SETUP_EDITOR_STATE', 'REQUEST_POST_UPDATE_START'],
@@ -8728,10 +8799,60 @@ with_history({
 
       switch (action.type) {
         case 'SETUP_EDITOR_STATE':
-          return getFlattenedBlocks(action.blocks);
+          return getFlattenedBlocksWithoutAttributes(action.blocks);
 
         case 'RECEIVE_BLOCKS':
-          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlocks(action.blocks));
+          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlocksWithoutAttributes(action.blocks));
+
+        case 'UPDATE_BLOCK':
+          // Ignore updates if block isn't known
+          if (!state[action.clientId]) {
+            return state;
+          } // Do nothing if only attributes change.
+
+
+          var changes = Object(external_lodash_["omit"])(action.updates, 'attributes');
+
+          if (Object(external_lodash_["isEmpty"])(changes)) {
+            return state;
+          }
+
+          return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.clientId, Object(objectSpread["a" /* default */])({}, state[action.clientId], changes)));
+
+        case 'INSERT_BLOCKS':
+          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlocksWithoutAttributes(action.blocks));
+
+        case 'REPLACE_BLOCKS':
+          if (!action.blocks) {
+            return state;
+          }
+
+          return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.clientIds), getFlattenedBlocksWithoutAttributes(action.blocks));
+
+        case 'REMOVE_BLOCKS':
+          return Object(external_lodash_["omit"])(state, action.clientIds);
+      }
+
+      return state;
+    },
+    attributes: function attributes() {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var action = arguments.length > 1 ? arguments[1] : undefined;
+
+      switch (action.type) {
+        case 'SETUP_EDITOR_STATE':
+          return getFlattenedBlockAttributes(action.blocks);
+
+        case 'RECEIVE_BLOCKS':
+          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlockAttributes(action.blocks));
+
+        case 'UPDATE_BLOCK':
+          // Ignore updates if block isn't known or there are no attribute changes.
+          if (!state[action.clientId] || !action.updates.attributes) {
+            return state;
+          }
+
+          return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.clientId, Object(objectSpread["a" /* default */])({}, state[action.clientId], action.updates.attributes)));
 
         case 'UPDATE_BLOCK_ATTRIBUTES':
           // Ignore updates if block isn't known
@@ -8742,65 +8863,33 @@ with_history({
 
           var nextAttributes = Object(external_lodash_["reduce"])(action.attributes, function (result, value, key) {
             if (value !== result[key]) {
-              result = getMutateSafeObject(state[action.clientId].attributes, result);
+              result = getMutateSafeObject(state[action.clientId], result);
               result[key] = value;
             }
 
             return result;
-          }, state[action.clientId].attributes); // Skip update if nothing has been changed. The reference will
+          }, state[action.clientId]); // Skip update if nothing has been changed. The reference will
           // match the original block if `reduce` had no changed values.
 
-          if (nextAttributes === state[action.clientId].attributes) {
+          if (nextAttributes === state[action.clientId]) {
             return state;
-          } // Otherwise merge attributes into state
+          } // Otherwise replace attributes in state
 
 
-          return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.clientId, Object(objectSpread["a" /* default */])({}, state[action.clientId], {
-            attributes: nextAttributes
-          })));
-
-        case 'UPDATE_BLOCK':
-          // Ignore updates if block isn't known
-          if (!state[action.clientId]) {
-            return state;
-          }
-
-          return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.clientId, Object(objectSpread["a" /* default */])({}, state[action.clientId], action.updates)));
+          return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.clientId, nextAttributes));
 
         case 'INSERT_BLOCKS':
-          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlocks(action.blocks));
+          return Object(objectSpread["a" /* default */])({}, state, getFlattenedBlockAttributes(action.blocks));
 
         case 'REPLACE_BLOCKS':
           if (!action.blocks) {
             return state;
           }
 
-          return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.clientIds), getFlattenedBlocks(action.blocks));
+          return Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(state, action.clientIds), getFlattenedBlockAttributes(action.blocks));
 
         case 'REMOVE_BLOCKS':
           return Object(external_lodash_["omit"])(state, action.clientIds);
-
-        case 'SAVE_REUSABLE_BLOCK_SUCCESS':
-          {
-            var id = action.id,
-                updatedId = action.updatedId; // If a temporary reusable block is saved, we swap the temporary id with the final one
-
-            if (id === updatedId) {
-              return state;
-            }
-
-            return Object(external_lodash_["mapValues"])(state, function (block) {
-              if (block.name === 'core/block' && block.attributes.ref === id) {
-                return Object(objectSpread["a" /* default */])({}, block, {
-                  attributes: Object(objectSpread["a" /* default */])({}, block.attributes, {
-                    ref: updatedId
-                  })
-                });
-              }
-
-              return block;
-            });
-          }
       }
 
       return state;
@@ -8830,7 +8919,7 @@ with_history({
 
         case 'MOVE_BLOCK_TO_POSITION':
           {
-            var _objectSpread6;
+            var _objectSpread7;
 
             var _action$fromRootClien = action.fromRootClientId,
                 fromRootClientId = _action$fromRootClien === void 0 ? '' : _action$fromRootClien,
@@ -8851,7 +8940,7 @@ with_history({
             } // Moving from a parent block to another
 
 
-            return Object(objectSpread["a" /* default */])({}, state, (_objectSpread6 = {}, Object(defineProperty["a" /* default */])(_objectSpread6, fromRootClientId, Object(external_lodash_["without"])(state[fromRootClientId], clientId)), Object(defineProperty["a" /* default */])(_objectSpread6, toRootClientId, insertAt(state[toRootClientId], clientId, _index)), _objectSpread6));
+            return Object(objectSpread["a" /* default */])({}, state, (_objectSpread7 = {}, Object(defineProperty["a" /* default */])(_objectSpread7, fromRootClientId, Object(external_lodash_["without"])(state[fromRootClientId], clientId)), Object(defineProperty["a" /* default */])(_objectSpread7, toRootClientId, insertAt(state[toRootClientId], clientId, _index)), _objectSpread7));
           }
 
         case 'MOVE_BLOCKS_UP':
@@ -9621,10 +9710,10 @@ function autosave() {
   return state;
 }
 /**
- * Reducer returning the poost preview link
+ * Reducer returning the post preview link.
  *
- * @param  {string?} state  The preview link
- * @param  {Object} action Dispatched action.
+ * @param {string?} state  The preview link
+ * @param {Object}  action Dispatched action.
  *
  * @return {string?} Updated state.
  */
@@ -9635,9 +9724,15 @@ function reducer_previewLink() {
 
   switch (action.type) {
     case 'REQUEST_POST_UPDATE_SUCCESS':
-      return action.post.preview_link || Object(external_this_wp_url_["addQueryArgs"])(action.post.link, {
-        preview: true
-      });
+      if (action.post.preview_link) {
+        return action.post.preview_link;
+      } else if (action.post.link) {
+        return Object(external_this_wp_url_["addQueryArgs"])(action.post.link, {
+          preview: true
+        });
+      }
+
+      return state;
 
     case 'REQUEST_POST_UPDATE_START':
       // Invalidate known preview link when autosave starts.
@@ -10570,7 +10665,7 @@ function hasEditorRedo(state) {
  * @return {boolean} Whether the post is new.
  */
 
-function isEditedPostNew(state) {
+function selectors_isEditedPostNew(state) {
   return selectors_getCurrentPost(state).status === 'auto-draft';
 }
 /**
@@ -10627,7 +10722,7 @@ function selectors_isEditedPostDirty(state) {
  */
 
 function selectors_isCleanNewPost(state) {
-  return !selectors_isEditedPostDirty(state) && isEditedPostNew(state);
+  return !selectors_isEditedPostDirty(state) && selectors_isEditedPostNew(state);
 }
 /**
  * Returns the post currently being edited in its last known saved state, not
@@ -10754,13 +10849,14 @@ function selectors_getCurrentPostAttribute(state, attributeName) {
  */
 
 function selectors_getEditedPostAttribute(state, attributeName) {
-  var edits = getPostEdits(state); // Special cases
-
+  // Special cases
   switch (attributeName) {
     case 'content':
       return getEditedPostContent(state);
   } // Fall back to saved post value if not edited.
 
+
+  var edits = getPostEdits(state);
 
   if (!edits.hasOwnProperty(attributeName)) {
     return selectors_getCurrentPostAttribute(state, attributeName);
@@ -10810,11 +10906,14 @@ function getAutosaveAttribute(state, attributeName) {
 
 function selectors_getEditedPostVisibility(state) {
   var status = selectors_getEditedPostAttribute(state, 'status');
-  var password = selectors_getEditedPostAttribute(state, 'password');
 
   if (status === 'private') {
     return 'private';
-  } else if (password) {
+  }
+
+  var password = selectors_getEditedPostAttribute(state, 'password');
+
+  if (password) {
     return 'password';
   }
 
@@ -11095,7 +11194,7 @@ var getBlockAttributes = Object(rememo["a" /* default */])(function (state, clie
     return null;
   }
 
-  var attributes = block.attributes; // Inject custom source attribute values.
+  var attributes = state.editor.present.blocks.attributes[clientId]; // Inject custom source attribute values.
   //
   // TODO: Create generic external sourcing pattern, not explicitly
   // targeting meta attributes.
@@ -11118,7 +11217,7 @@ var getBlockAttributes = Object(rememo["a" /* default */])(function (state, clie
 
   return attributes;
 }, function (state, clientId) {
-  return [state.editor.present.blocks.byClientId[clientId], state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta];
+  return [state.editor.present.blocks.byClientId[clientId], state.editor.present.blocks.attributes[clientId], state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta];
 });
 /**
  * Returns a block given its client ID. This is a parsed copy of the block,
@@ -11144,7 +11243,7 @@ var selectors_getBlock = Object(rememo["a" /* default */])(function (state, clie
     innerBlocks: selectors_getBlocks(state, clientId)
   });
 }, function (state, clientId) {
-  return [state.editor.present.blocks.byClientId[clientId], getBlockDependantsCacheBust(state, clientId)].concat(Object(toConsumableArray["a" /* default */])(getBlockAttributes.getDependants(state, clientId)));
+  return Object(toConsumableArray["a" /* default */])(getBlockAttributes.getDependants(state, clientId)).concat([getBlockDependantsCacheBust(state, clientId)]);
 });
 var selectors_unstableGetBlockWithoutInnerBlocks = Object(rememo["a" /* default */])(function (state, clientId) {
   var block = state.editor.present.blocks.byClientId[clientId];
@@ -11475,7 +11574,7 @@ function getAdjacentBlockClientId(state, startClientId) {
  * @return {?string} Adjacent block's client ID, or null if none exists.
  */
 
-function selectors_getPreviousBlockClientId(state, startClientId) {
+function getPreviousBlockClientId(state, startClientId) {
   return getAdjacentBlockClientId(state, startClientId, -1);
 }
 /**
@@ -11490,7 +11589,7 @@ function selectors_getPreviousBlockClientId(state, startClientId) {
  * @return {?string} Adjacent block's client ID, or null if none exists.
  */
 
-function selectors_getNextBlockClientId(state, startClientId) {
+function getNextBlockClientId(state, startClientId) {
   return getAdjacentBlockClientId(state, startClientId, 1);
 }
 /**
@@ -11572,7 +11671,7 @@ var getMultiSelectedBlocks = Object(rememo["a" /* default */])(function (state) 
     return selectors_getBlock(state, clientId);
   });
 }, function (state) {
-  return [state.editor.present.blocks.order, state.blockSelection.start, state.blockSelection.end, state.editor.present.blocks.byClientId, state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta];
+  return Object(toConsumableArray["a" /* default */])(selectors_getMultiSelectedBlockClientIds.getDependants(state)).concat([state.editor.present.blocks, state.editor.present.edits.meta, state.initialEdits.meta, state.currentPost.meta]);
 });
 /**
  * Returns the client ID of the first block in the multi-selection set, or null
@@ -11618,7 +11717,7 @@ var isAncestorOf = Object(rememo["a" /* default */])(function (state, possibleAn
 
   return possibleAncestorId === idToCheck;
 }, function (state) {
-  return [state.editor.present.blocks];
+  return [state.editor.present.blocks.order];
 });
 /**
  * Returns true if a multi-selection exists, and the block corresponding to the
@@ -12448,7 +12547,7 @@ var selectors_getInserterItems = Object(rememo["a" /* default */])(function (sta
 
   return Object(external_lodash_["orderBy"])(Object(toConsumableArray["a" /* default */])(blockTypeInserterItems).concat(Object(toConsumableArray["a" /* default */])(reusableBlockInserterItems)), ['utility', 'frecency'], ['desc', 'desc']);
 }, function (state, rootClientId) {
-  return [state.blockListSettings[rootClientId], state.editor.present.blocks, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(external_this_wp_blocks_["getBlockTypes"])()];
+  return [state.blockListSettings[rootClientId], state.editor.present.blocks.byClientId, state.editor.present.blocks.order, state.preferences.insertUsage, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(external_this_wp_blocks_["getBlockTypes"])()];
 });
 /**
  * Determines whether there are items to show in the inserter.
@@ -12473,7 +12572,7 @@ var hasInserterItems = Object(rememo["a" /* default */])(function (state) {
   });
   return hasReusableBlock;
 }, function (state, rootClientId) {
-  return [state.blockListSettings[rootClientId], state.editor.present.blocks, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(external_this_wp_blocks_["getBlockTypes"])()];
+  return [state.blockListSettings[rootClientId], state.editor.present.blocks.byClientId, state.settings.allowedBlockTypes, state.settings.templateLock, state.reusableBlocks.data, Object(external_this_wp_blocks_["getBlockTypes"])()];
 });
 /**
  * Returns the reusable block with the given ID.
@@ -12587,7 +12686,7 @@ function selectors_isPublishingPost(state) {
  * @return {boolean} Whether or not the permalink is editable.
  */
 
-function isPermalinkEditable(state) {
+function selectors_isPermalinkEditable(state) {
   var permalinkTemplate = selectors_getEditedPostAttribute(state, 'permalink_template');
   return PERMALINK_POSTNAME_REGEX.test(permalinkTemplate);
 }
@@ -12600,7 +12699,7 @@ function isPermalinkEditable(state) {
  */
 
 function getPermalink(state) {
-  var permalinkParts = getPermalinkParts(state);
+  var permalinkParts = selectors_getPermalinkParts(state);
 
   if (!permalinkParts) {
     return null;
@@ -12610,7 +12709,7 @@ function getPermalink(state) {
       postName = permalinkParts.postName,
       suffix = permalinkParts.suffix;
 
-  if (isPermalinkEditable(state)) {
+  if (selectors_isPermalinkEditable(state)) {
     return prefix + postName + suffix;
   }
 
@@ -12626,7 +12725,7 @@ function getPermalink(state) {
  *                  the permalink, or null if the post is not viewable.
  */
 
-function getPermalinkParts(state) {
+function selectors_getPermalinkParts(state) {
   var permalinkTemplate = selectors_getEditedPostAttribute(state, 'permalink_template');
 
   if (!permalinkTemplate) {
@@ -13318,26 +13417,25 @@ function () {
   var _ref = Object(asyncToGenerator["a" /* default */])(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(action, store) {
-    var dispatch, getState, state, post, isAutosave, edits, toSend, postType, request, newPost, reset, isRevision;
+    var dispatch, getState, state, edits, isAutosave, post, toSend, postType, request, newPost, reset, isRevision;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             dispatch = store.dispatch, getState = store.getState;
-            state = getState();
-            post = selectors_getCurrentPost(state);
-            isAutosave = !!action.options.isAutosave; // Prevent save if not saveable.
+            state = getState(); // Prevent save if not saveable.
             // We don't check for dirtiness here as this can be overriden in the UI.
 
             if (selectors_isEditedPostSaveable(state)) {
-              _context.next = 6;
+              _context.next = 4;
               break;
             }
 
             return _context.abrupt("return");
 
-          case 6:
+          case 4:
             edits = getPostEdits(state);
+            isAutosave = !!action.options.isAutosave;
 
             if (isAutosave) {
               edits = Object(external_lodash_["pick"])(edits, ['title', 'content', 'excerpt']);
@@ -13354,12 +13452,13 @@ function () {
             // See: https://core.trac.wordpress.org/ticket/43316#comment:89
 
 
-            if (isEditedPostNew(state)) {
+            if (selectors_isEditedPostNew(state)) {
               edits = Object(objectSpread["a" /* default */])({
                 status: 'draft'
               }, edits);
             }
 
+            post = selectors_getCurrentPost(state);
             toSend = Object(objectSpread["a" /* default */])({}, edits, {
               content: getEditedPostContent(state),
               id: post.id
@@ -13757,7 +13856,7 @@ function selectPreviousBlock(action, store) {
   var rootClientId = selectors_getBlockRootClientId(previousState, firstRemovedBlockClientId); // Client ID of the block that was before the removed block or the
   // rootClientId if the removed block was first amongst its siblings.
 
-  var blockClientIdToSelect = selectors_getPreviousBlockClientId(previousState, firstRemovedBlockClientId) || rootClientId; // Dispatch select block action if the currently selected block
+  var blockClientIdToSelect = getPreviousBlockClientId(previousState, firstRemovedBlockClientId) || rootClientId; // Dispatch select block action if the currently selected block
   // is not already the block we want to be selected.
 
   if (blockClientIdToSelect !== selectedBlockClientId) {
@@ -13803,7 +13902,6 @@ function ensureDefaultBlock(action, store) {
         secondBlockClientId = _action$blocks[1];
 
     var blockA = selectors_getBlock(state, firstBlockClientId);
-    var blockB = selectors_getBlock(state, secondBlockClientId);
     var blockType = Object(external_this_wp_blocks_["getBlockType"])(blockA.name); // Only focus the previous block if it's not mergeable
 
     if (!blockType.merge) {
@@ -13813,6 +13911,7 @@ function ensureDefaultBlock(action, store) {
     // thus, we transform the block to merge first
 
 
+    var blockB = selectors_getBlock(state, secondBlockClientId);
     var blocksWithTheSameType = blockA.name === blockB.name ? [blockB] : Object(external_this_wp_blocks_["switchToBlockType"])(blockB, blockA.name); // If the block types can not match, do nothing
 
     if (!blocksWithTheSameType || !blocksWithTheSameType.length) {
@@ -16203,7 +16302,7 @@ var block_view_BlockView = function BlockView(_ref) {
     className: className
   }, Object(external_this_wp_element_["createElement"])("div", {
     className: "editor-block-compare__content"
-  }, Object(external_this_wp_element_["createElement"])("h1", {
+  }, Object(external_this_wp_element_["createElement"])("h2", {
     className: "editor-block-compare__heading"
   }, title), Object(external_this_wp_element_["createElement"])("div", {
     className: "editor-block-compare__html"
@@ -18512,7 +18611,6 @@ function (_Component) {
     _this.maybeHover = _this.maybeHover.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.forceFocusedContextualToolbar = _this.forceFocusedContextualToolbar.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.hideHoverEffects = _this.hideHoverEffects.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
-    _this.mergeBlocks = _this.mergeBlocks.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.insertBlocksAfter = _this.insertBlocksAfter.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onFocus = _this.onFocus.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.preventDrag = _this.preventDrag.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
@@ -18698,28 +18796,6 @@ function (_Component) {
       }
     }
   }, {
-    key: "mergeBlocks",
-    value: function mergeBlocks() {
-      var forward = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      var _this$props3 = this.props,
-          clientId = _this$props3.clientId,
-          getPreviousBlockClientId = _this$props3.getPreviousBlockClientId,
-          getNextBlockClientId = _this$props3.getNextBlockClientId,
-          onMerge = _this$props3.onMerge;
-      var previousBlockClientId = getPreviousBlockClientId(clientId);
-      var nextBlockClientId = getNextBlockClientId(clientId); // Do nothing when it's the first block.
-
-      if (!forward && !previousBlockClientId || forward && !nextBlockClientId) {
-        return;
-      }
-
-      if (forward) {
-        onMerge(clientId, nextBlockClientId);
-      } else {
-        onMerge(previousBlockClientId, clientId);
-      }
-    }
-  }, {
     key: "insertBlocksAfter",
     value: function insertBlocksAfter(blocks) {
       this.props.onInsertBlocks(blocks, this.props.order + 1);
@@ -18817,9 +18893,9 @@ function (_Component) {
         case external_this_wp_keycodes_["BACKSPACE"]:
         case external_this_wp_keycodes_["DELETE"]:
           // Remove block on backspace.
-          var _this$props4 = this.props,
-              clientId = _this$props4.clientId,
-              onRemove = _this$props4.onRemove;
+          var _this$props3 = this.props,
+              clientId = _this$props3.clientId,
+              onRemove = _this$props3.onRemove;
           onRemove(clientId);
           event.preventDefault();
           break;
@@ -18952,7 +19028,7 @@ function (_Component) {
           setAttributes: _this3.setAttributes,
           insertBlocksAfter: isLocked ? undefined : _this3.insertBlocksAfter,
           onReplace: isLocked ? undefined : onReplace,
-          mergeBlocks: isLocked ? undefined : _this3.mergeBlocks,
+          mergeBlocks: isLocked ? undefined : _this3.props.onMerge,
           clientId: clientId,
           isSelectionEnabled: _this3.props.isSelectionEnabled,
           toggleSelection: _this3.props.toggleSelection
@@ -19078,8 +19154,6 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
       getEditorSettings = _select.getEditorSettings,
       hasSelectedInnerBlock = _select.hasSelectedInnerBlock,
       getTemplateLock = _select.getTemplateLock,
-      getPreviousBlockClientId = _select.getPreviousBlockClientId,
-      getNextBlockClientId = _select.getNextBlockClientId,
       __unstableGetBlockWithoutInnerBlocks = _select.__unstableGetBlockWithoutInnerBlocks;
 
   var block = __unstableGetBlockWithoutInnerBlocks(clientId);
@@ -19128,11 +19202,7 @@ var applyWithSelect = Object(external_this_wp_data_["withSelect"])(function (sel
     attributes: attributes,
     isValid: isValid,
     isSelected: isSelected,
-    isParentOfSelectedBlock: isParentOfSelectedBlock,
-    // We only care about these selectors when events are triggered.
-    // We call them dynamically in the event handlers to avoid unnecessary re-renders.
-    getPreviousBlockClientId: getPreviousBlockClientId,
-    getNextBlockClientId: getNextBlockClientId
+    isParentOfSelectedBlock: isParentOfSelectedBlock
   };
 });
 var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref4) {
@@ -19174,8 +19244,26 @@ var applyWithDispatch = Object(external_this_wp_data_["withDispatch"])(function 
     onRemove: function onRemove(clientId) {
       removeBlock(clientId);
     },
-    onMerge: function onMerge() {
-      mergeBlocks.apply(void 0, arguments);
+    onMerge: function onMerge(forward) {
+      var clientId = ownProps.clientId;
+
+      var _select3 = select('core/editor'),
+          getPreviousBlockClientId = _select3.getPreviousBlockClientId,
+          getNextBlockClientId = _select3.getNextBlockClientId;
+
+      if (forward) {
+        var nextBlockClientId = getNextBlockClientId(clientId);
+
+        if (nextBlockClientId) {
+          mergeBlocks(clientId, nextBlockClientId);
+        }
+      } else {
+        var previousBlockClientId = getPreviousBlockClientId(clientId);
+
+        if (previousBlockClientId) {
+          mergeBlocks(previousBlockClientId, clientId);
+        }
+      }
     },
     onReplace: function onReplace(blocks) {
       replaceBlocks([ownProps.clientId], blocks);
@@ -21231,10 +21319,6 @@ function (_Component) {
 
       items = Object(external_lodash_["isNil"])(items) ? [] : items;
       files = Object(external_lodash_["isNil"])(files) ? [] : files;
-      var item = Object(external_lodash_["find"])(Object(toConsumableArray["a" /* default */])(items).concat(Object(toConsumableArray["a" /* default */])(files)), function (_ref3) {
-        var type = _ref3.type;
-        return /^image\/(?:jpe?g|png|gif)$/.test(type);
-      });
       var plainText = '';
       var html = ''; // IE11 only supports `Text` as an argument for `getData` and will
       // otherwise throw an invalid argument error, so we try the standard
@@ -21259,6 +21343,11 @@ function (_Component) {
       window.console.log('Received HTML:\n\n', html);
       window.console.log('Received plain text:\n\n', plainText); // Only process file if no HTML is present.
       // Note: a pasted file may have the URL as plain text.
+
+      var item = Object(external_lodash_["find"])(Object(toConsumableArray["a" /* default */])(items).concat(Object(toConsumableArray["a" /* default */])(files)), function (_ref3) {
+        var type = _ref3.type;
+        return /^image\/(?:jpe?g|png|gif)$/.test(type);
+      });
 
       if (item && !html) {
         var file = item.getAsFile ? item.getAsFile() : item;
@@ -21646,11 +21735,12 @@ function (_Component) {
     value: function splitContent() {
       var blocks = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var record = this.createRecord();
 
       if (!this.onSplit) {
         return;
       }
+
+      var record = this.createRecord();
 
       var _split = Object(external_this_wp_richText_["split"])(record),
           _split2 = Object(slicedToArray["a" /* default */])(_split, 2),
@@ -25903,6 +25993,10 @@ function (_Component) {
       }
 
       var onClick = function onClick() {
+        if (isButtonDisabled) {
+          return;
+        }
+
         onSubmit();
         onStatusChange(publishStatus);
         onSave();
@@ -27298,7 +27392,6 @@ function (_Component) {
           isPending = _this$props.isPending,
           isLargeViewport = _this$props.isLargeViewport;
       var forceSavedMessage = this.state.forceSavedMessage;
-      var hasPublishAction = Object(external_lodash_["get"])(post, ['_links', 'wp:action-publish'], false);
 
       if (isSaving) {
         // TODO: Classes generation should be common across all return
@@ -27331,6 +27424,8 @@ function (_Component) {
       } // Once the post has been submitted for review this button
       // is not needed for the contributor role.
 
+
+      var hasPublishAction = Object(external_lodash_["get"])(post, ['_links', 'wp:action-publish'], false);
 
       if (!hasPublishAction && isPending) {
         return null;
@@ -28103,7 +28198,9 @@ function PostTaxonomiesCheck(_ref) {
 /* harmony default export */ var post_taxonomies_check = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select) {
   return {
     postType: select('core/editor').getCurrentPostType(),
-    taxonomies: select('core').getTaxonomies()
+    taxonomies: select('core').getTaxonomies({
+      per_page: -1
+    })
   };
 })])(PostTaxonomiesCheck));
 
@@ -28378,6 +28475,7 @@ function (_Component) {
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -28451,16 +28549,17 @@ function (_Component) {
       var _this2 = this;
 
       var _this$props2 = this.props,
-          isNew = _this$props2.isNew,
-          postLink = _this$props2.postLink,
-          permalinkParts = _this$props2.permalinkParts,
-          postSlug = _this$props2.postSlug,
-          postTitle = _this$props2.postTitle,
-          postID = _this$props2.postID,
           isEditable = _this$props2.isEditable,
-          isPublished = _this$props2.isPublished;
+          isNew = _this$props2.isNew,
+          isPublished = _this$props2.isPublished,
+          isViewable = _this$props2.isViewable,
+          permalinkParts = _this$props2.permalinkParts,
+          postLink = _this$props2.postLink,
+          postSlug = _this$props2.postSlug,
+          postID = _this$props2.postID,
+          postTitle = _this$props2.postTitle;
 
-      if (isNew || !postLink) {
+      if (isNew || !isViewable || !permalinkParts || !postLink) {
         return null;
       }
 
@@ -28533,10 +28632,15 @@ function (_Component) {
       getEditedPostAttribute = _select.getEditedPostAttribute,
       isCurrentPostPublished = _select.isCurrentPostPublished;
 
+  var _select2 = select('core'),
+      getPostType = _select2.getPostType;
+
   var _getCurrentPost = getCurrentPost(),
       id = _getCurrentPost.id,
       link = _getCurrentPost.link;
 
+  var postTypeName = getEditedPostAttribute('type');
+  var postType = getPostType(postTypeName);
   return {
     isNew: isEditedPostNew(),
     postLink: link,
@@ -28545,7 +28649,8 @@ function (_Component) {
     isEditable: isPermalinkEditable(),
     isPublished: isCurrentPostPublished(),
     postTitle: getEditedPostAttribute('title'),
-    postID: id
+    postID: id,
+    isViewable: Object(external_lodash_["get"])(postType, ['viewable'], false)
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
   var _dispatch = dispatch('core/editor'),
@@ -31373,6 +31478,8 @@ function (_Component) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/editor-styles/ast/parse.js
 
+
+/* eslint-disable @wordpress/no-unused-vars-before-return */
 // Adapted from https://github.com/reworkcss/css
 // because we needed to remove source map support.
 // http://www.w3.org/TR/CSS21/grammar.htm
@@ -32294,6 +32401,7 @@ compress_Compiler.prototype.declaration = function (node) {
 };
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/editor-styles/ast/stringify/identity.js
+/* eslint-disable @wordpress/no-unused-vars-before-return */
 // Adapted from https://github.com/reworkcss/css
 // because we needed to remove source map support.
 

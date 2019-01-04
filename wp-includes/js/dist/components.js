@@ -29025,6 +29025,10 @@ var react_dates = __webpack_require__(187);
 
 var TIMEZONELESS_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
+var date_isRTL = function isRTL() {
+  return document.documentElement.dir === 'rtl';
+};
+
 var date_DatePicker =
 /*#__PURE__*/
 function (_Component) {
@@ -29074,7 +29078,8 @@ function (_Component) {
         numberOfMonths: 1,
         onDateChange: this.onChangeMoment,
         transitionDuration: 0,
-        weekDayFormat: "ddd"
+        weekDayFormat: "ddd",
+        isRTL: date_isRTL()
       }));
     }
   }]);
@@ -30321,20 +30326,24 @@ function (_Component) {
         'is-close-to-left': position && position.x === 'left',
         'is-close-to-right': position && position.x === 'right'
       }, "is-dragging-".concat(type), !!type));
+      var children;
+
+      if (isDraggingOverElement) {
+        children = Object(external_this_wp_element_["createElement"])("div", {
+          className: "components-drop-zone__content"
+        }, Object(external_this_wp_element_["createElement"])(dashicon_Dashicon, {
+          icon: "upload",
+          size: "40",
+          className: "components-drop-zone__content-icon"
+        }), Object(external_this_wp_element_["createElement"])("span", {
+          className: "components-drop-zone__content-text"
+        }, label ? label : Object(external_this_wp_i18n_["__"])('Drop files to upload')));
+      }
+
       return Object(external_this_wp_element_["createElement"])("div", {
         ref: this.dropZoneElement,
         className: classes
-      }, Object(external_this_wp_element_["createElement"])("div", {
-        className: "components-drop-zone__content"
-      }, [Object(external_this_wp_element_["createElement"])(dashicon_Dashicon, {
-        key: "icon",
-        icon: "upload",
-        size: "40",
-        className: "components-drop-zone__content-icon"
-      }), Object(external_this_wp_element_["createElement"])("span", {
-        key: "text",
-        className: "components-drop-zone__content-text"
-      }, label ? label : Object(external_this_wp_i18n_["__"])('Drop files to upload'))]));
+      }, children);
     }
   }]);
 
@@ -33724,7 +33733,7 @@ var getStringSize = function getStringSize(n) {
   return n + 'px';
 };
 
-var definedProps = ['style', 'className', 'grid', 'snap', 'bounds', 'size', 'defaultSize', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio', 'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight', 'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle', 'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent', 'scale'];
+var definedProps = ['style', 'className', 'grid', 'snap', 'bounds', 'size', 'defaultSize', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight', 'lockAspectRatio', 'lockAspectRatioExtraWidth', 'lockAspectRatioExtraHeight', 'enable', 'handleStyles', 'handleClasses', 'handleWrapperStyle', 'handleWrapperClass', 'children', 'onResizeStart', 'onResize', 'onResizeStop', 'handleComponent', 'scale', 'resizeRatio'];
 
 var baseClassName = '__resizable_base__';
 
@@ -33922,8 +33931,9 @@ var lib_Resizable = function (_React$Component) {
           minWidth = _props2.minWidth,
           minHeight = _props2.minHeight;
 
-      // TODO: refactor
+      var resizeRatio = this.props.resizeRatio || 1;
 
+      // TODO: refactor
       var parentSize = this.getParentSize();
       if (maxWidth && typeof maxWidth === 'string' && endsWith(maxWidth, '%')) {
         var _ratio = Number(maxWidth.replace('%', '')) / 100;
@@ -33950,19 +33960,19 @@ var lib_Resizable = function (_React$Component) {
       var newWidth = original.width;
       var newHeight = original.height;
       if (/right/i.test(direction)) {
-        newWidth = original.width + (clientX - original.x) / scale;
+        newWidth = original.width + (clientX - original.x) * resizeRatio / scale;
         if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
       }
       if (/left/i.test(direction)) {
-        newWidth = original.width - (clientX - original.x) / scale;
+        newWidth = original.width - (clientX - original.x) * resizeRatio / scale;
         if (lockAspectRatio) newHeight = (newWidth - lockAspectRatioExtraWidth) / ratio + lockAspectRatioExtraHeight;
       }
       if (/bottom/i.test(direction)) {
-        newHeight = original.height + (clientY - original.y) / scale;
+        newHeight = original.height + (clientY - original.y) * resizeRatio / scale;
         if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
       }
       if (/top/i.test(direction)) {
-        newHeight = original.height - (clientY - original.y) / scale;
+        newHeight = original.height - (clientY - original.y) * resizeRatio / scale;
         if (lockAspectRatio) newWidth = (newHeight - lockAspectRatioExtraHeight) * ratio + lockAspectRatioExtraWidth;
       }
 
@@ -34267,7 +34277,8 @@ lib_Resizable.defaultProps = {
   lockAspectRatio: false,
   lockAspectRatioExtraWidth: 0,
   lockAspectRatioExtraHeight: 0,
-  scale: 1
+  scale: 1,
+  resizeRatio: 1
 };
 
 /* harmony default export */ var re_resizable_lib = (lib_Resizable);
