@@ -499,14 +499,14 @@ class WP_Scripts extends WP_Dependencies {
 	 * Sets a translation textdomain.
 	 *
 	 * @since 5.0.0
+	 * @since 5.1.0 The `$domain` parameter was made optional.
 	 *
 	 * @param string $handle Name of the script to register a translation domain to.
-	 * @param string $domain The textdomain.
+	 * @param string $domain Optional. Text domain. Default 'default'.
 	 * @param string $path   Optional. The full file path to the directory containing translation files.
-	 *
-	 * @return bool True if the textdomain was registered, false if not.
+	 * @return bool True if the text domain was registered, false if not.
 	 */
-	public function set_translations( $handle, $domain, $path = null ) {
+	public function set_translations( $handle, $domain = 'default', $path = null ) {
 		if ( ! isset( $this->registered[ $handle ] ) ) {
 			return false;
 		}
@@ -517,6 +517,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! in_array( 'wp-i18n', $obj->deps, true ) ) {
 			$obj->deps[] = 'wp-i18n';
 		}
+
 		return $obj->set_translations( $domain, $path );
 	}
 

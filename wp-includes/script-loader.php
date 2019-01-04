@@ -466,16 +466,16 @@ function wp_default_packages_scripts( &$scripts ) {
 	);
 
 	$package_translations = array(
-		'api-fetch'            => 'default',
-		'blocks'               => 'default',
-		'block-library'        => 'default',
-		'components'           => 'default',
-		'edit-post'            => 'default',
-		'editor'               => 'default',
-		'format-library'       => 'default',
-		'keycodes'             => 'default',
-		'list-reusable-blocks' => 'default',
-		'nux'                  => 'default',
+		'api-fetch',
+		'blocks',
+		'block-library',
+		'components',
+		'edit-post',
+		'editor',
+		'format-library',
+		'keycodes',
+		'list-reusable-blocks',
+		'nux',
 	);
 
 	foreach ( $packages_dependencies as $package => $dependencies ) {
@@ -485,8 +485,8 @@ function wp_default_packages_scripts( &$scripts ) {
 
 		$scripts->add( $handle, $path, $dependencies, $version, 1 );
 
-		if ( isset( $package_translations[ $package ] ) ) {
-			$scripts->set_translations( $handle, $package_translations[ $package ] );
+		if ( in_array( $package, $package_translations, true ) ) {
+			$scripts->set_translations( $handle );
 		}
 	}
 }

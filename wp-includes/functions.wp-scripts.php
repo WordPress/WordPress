@@ -209,14 +209,14 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
  * @since 5.0.0
+ * @since 5.1.0 The `$domain` parameter was made optional.
  *
  * @param string $handle Script handle the textdomain will be attached to.
- * @param string $domain The textdomain.
+ * @param string $domain Optional. Text domain. Default 'default'.
  * @param string $path   Optional. The full file path to the directory containing translation files.
- *
- * @return bool True if the textdomain was successfully localized, false otherwise.
+ * @return bool True if the text domain was successfully localized, false otherwise.
  */
-function wp_set_script_translations( $handle, $domain, $path = null ) {
+function wp_set_script_translations( $handle, $domain = 'default', $path = null ) {
 	global $wp_scripts;
 	if ( ! ( $wp_scripts instanceof WP_Scripts ) ) {
 		_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
