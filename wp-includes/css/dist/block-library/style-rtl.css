@@ -710,6 +710,12 @@ p.has-drop-cap:not(:focus)::first-letter {
   text-transform: uppercase;
   font-style: normal; }
 
+p.has-drop-cap:not(:focus)::after {
+  content: "";
+  display: table;
+  clear: both;
+  padding-top: 14px; }
+
 p.has-background {
   padding: 20px 30px; }
 

@@ -6543,11 +6543,10 @@ function cloneBlock(block) {
 var factory_isPossibleTransformForSource = function isPossibleTransformForSource(transform, direction, blocks) {
   if (Object(external_lodash_["isEmpty"])(blocks)) {
     return false;
-  }
+  } // If multiple blocks are selected, only multi block transforms are allowed.
+
 
   var isMultiBlock = blocks.length > 1;
-  var sourceBlock = Object(external_lodash_["first"])(blocks); // If multiple blocks are selected, only multi block transforms are allowed.
-
   var isValidForMultiBlocks = !isMultiBlock || transform.isMultiBlock;
 
   if (!isValidForMultiBlocks) {
@@ -6562,6 +6561,7 @@ var factory_isPossibleTransformForSource = function isPossibleTransformForSource
   } // Check if the transform's block name matches the source block only if this is a transform 'from'.
 
 
+  var sourceBlock = Object(external_lodash_["first"])(blocks);
   var hasMatchingName = direction !== 'from' || transform.blocks.indexOf(sourceBlock.name) !== -1;
 
   if (!hasMatchingName) {
@@ -7955,9 +7955,7 @@ function getCommentDelimitedContent(rawBlockName, attributes, content) {
 
 function serializeBlock(block) {
   var blockName = block.name;
-  var blockType = registration_getBlockType(blockName);
   var saveContent = getBlockContent(block);
-  var saveAttributes = getCommentAttributes(blockType, block.attributes);
 
   switch (blockName) {
     case getFreeformContentHandlerName():
@@ -7965,7 +7963,11 @@ function serializeBlock(block) {
       return saveContent;
 
     default:
-      return getCommentDelimitedContent(blockName, saveAttributes, saveContent);
+      {
+        var blockType = registration_getBlockType(blockName);
+        var saveAttributes = getCommentAttributes(blockType, block.attributes);
+        return getCommentDelimitedContent(blockName, saveAttributes, saveContent);
+      }
   }
 }
 /**

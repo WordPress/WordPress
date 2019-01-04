@@ -731,7 +731,6 @@
 svg.dashicon {
   fill: currentColor;
   outline: none; }
-
 .PresetDateRangePicker_panel {
   padding: 0 22px 11px; }
 
@@ -739,11 +738,11 @@ svg.dashicon {
   position: relative;
   height: 100%;
   text-align: center;
-  background: 100% 0;
+  background: 0 0;
   border: 2px solid #00a699;
   color: #00a699;
   padding: 4px 12px;
-  margin-left: 8px;
+  margin-right: 8px;
   font: inherit;
   font-weight: 700;
   line-height: normal;
@@ -767,7 +766,7 @@ svg.dashicon {
   border: 1px solid #dbdbdb; }
 
 .SingleDatePickerInput__rtl {
-  direction: ltr; }
+  direction: rtl; }
 
 .SingleDatePickerInput__disabled {
   background-color: #f2f2f2; }
@@ -776,10 +775,10 @@ svg.dashicon {
   display: block; }
 
 .SingleDatePickerInput__showClearDate {
-  padding-left: 30px; }
+  padding-right: 30px; }
 
 .SingleDatePickerInput_clearDate {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -787,9 +786,9 @@ svg.dashicon {
   overflow: visible;
   cursor: pointer;
   padding: 10px;
-  margin: 0 5px 0 10px;
+  margin: 0 10px 0 5px;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 50%;
   transform: translateY(-50%); }
 
@@ -814,7 +813,7 @@ svg.dashicon {
   height: 9px; }
 
 .SingleDatePickerInput_calendarIcon {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -824,7 +823,7 @@ svg.dashicon {
   display: inline-block;
   vertical-align: middle;
   padding: 10px;
-  margin: 0 10px 0 5px; }
+  margin: 0 5px 0 10px; }
 
 .SingleDatePickerInput_calendarIcon_svg {
   fill: #82888a;
@@ -845,19 +844,19 @@ svg.dashicon {
   position: absolute; }
 
 .SingleDatePicker_picker__rtl {
-  direction: ltr; }
+  direction: rtl; }
 
 .SingleDatePicker_picker__directionLeft {
-  right: 0; }
+  left: 0; }
 
 .SingleDatePicker_picker__directionRight {
-  left: 0; }
+  right: 0; }
 
 .SingleDatePicker_picker__portal {
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   height: 100%;
   width: 100%; }
 
@@ -865,7 +864,7 @@ svg.dashicon {
   background-color: #fff; }
 
 .SingleDatePicker_closeButton {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -874,7 +873,7 @@ svg.dashicon {
   cursor: pointer;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   padding: 15px;
   z-index: 2; }
 
@@ -889,7 +888,7 @@ svg.dashicon {
   fill: #cacccd; }
 
 .DayPickerKeyboardShortcuts_buttonReset {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   border-radius: 0;
   color: inherit;
@@ -910,30 +909,30 @@ svg.dashicon {
 
 .DayPickerKeyboardShortcuts_show__bottomRight {
   border-top: 26px solid transparent;
-  border-left: 33px solid #00a699;
+  border-right: 33px solid #00a699;
   bottom: 0;
-  left: 0; }
+  right: 0; }
 
 .DayPickerKeyboardShortcuts_show__bottomRight:hover {
-  border-left: 33px solid #008489; }
+  border-right: 33px solid #008489; }
 
 .DayPickerKeyboardShortcuts_show__topRight {
-  border-bottom: 26px solid transparent;
-  border-left: 33px solid #00a699;
-  top: 0;
-  left: 0; }
-
-.DayPickerKeyboardShortcuts_show__topRight:hover {
-  border-left: 33px solid #008489; }
-
-.DayPickerKeyboardShortcuts_show__topLeft {
   border-bottom: 26px solid transparent;
   border-right: 33px solid #00a699;
   top: 0;
   right: 0; }
 
-.DayPickerKeyboardShortcuts_show__topLeft:hover {
+.DayPickerKeyboardShortcuts_show__topRight:hover {
   border-right: 33px solid #008489; }
+
+.DayPickerKeyboardShortcuts_show__topLeft {
+  border-bottom: 26px solid transparent;
+  border-left: 33px solid #00a699;
+  top: 0;
+  left: 0; }
+
+.DayPickerKeyboardShortcuts_show__topLeft:hover {
+  border-left: 33px solid #008489; }
 
 .DayPickerKeyboardShortcuts_showSpan {
   color: #fff;
@@ -941,15 +940,15 @@ svg.dashicon {
 
 .DayPickerKeyboardShortcuts_showSpan__bottomRight {
   bottom: 0;
-  left: -28px; }
+  right: -28px; }
 
 .DayPickerKeyboardShortcuts_showSpan__topRight {
   top: 1px;
-  left: -28px; }
+  right: -28px; }
 
 .DayPickerKeyboardShortcuts_showSpan__topLeft {
   top: 1px;
-  right: -28px; }
+  left: -28px; }
 
 .DayPickerKeyboardShortcuts_panel {
   overflow: auto;
@@ -959,8 +958,8 @@ svg.dashicon {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
   right: 0;
+  left: 0;
   z-index: 2;
   padding: 22px;
   margin: 33px; }
@@ -977,7 +976,7 @@ svg.dashicon {
 
 .DayPickerKeyboardShortcuts_close {
   position: absolute;
-  left: 22px;
+  right: 22px;
   top: 22px;
   z-index: 2; }
 
@@ -1059,7 +1058,7 @@ svg.dashicon {
   color: #fff; }
 
 .CalendarDay__last_in_range {
-  border-left: #00a699; }
+  border-right: #00a699; }
 
 .CalendarDay__selected,
 .CalendarDay__selected:active,
@@ -1123,7 +1122,7 @@ svg.dashicon {
 
 .CalendarMonthGrid {
   background: #fff;
-  text-align: right;
+  text-align: left;
   z-index: 0; }
 
 .CalendarMonthGrid__animating {
@@ -1131,7 +1130,7 @@ svg.dashicon {
 
 .CalendarMonthGrid__horizontal {
   position: absolute;
-  right: 9px; }
+  left: 9px; }
 
 .CalendarMonthGrid__vertical {
   margin: 0 auto; }
@@ -1166,7 +1165,7 @@ svg.dashicon {
   width: 100%;
   height: 52px;
   bottom: 0;
-  right: 0; }
+  left: 0; }
 
 .DayPickerNavigation__verticalScrollableDefault {
   position: relative; }
@@ -1201,10 +1200,10 @@ svg.dashicon {
   padding: 6px 9px; }
 
 .DayPickerNavigation_leftButton__horizontalDefault {
-  right: 22px; }
+  left: 22px; }
 
 .DayPickerNavigation_rightButton__horizontalDefault {
-  left: 22px; }
+  right: 22px; }
 
 .DayPickerNavigation_button__verticalDefault {
   padding: 5px;
@@ -1216,7 +1215,7 @@ svg.dashicon {
   width: 50%; }
 
 .DayPickerNavigation_nextButton__verticalDefault {
-  border-right: 0; }
+  border-left: 0; }
 
 .DayPickerNavigation_nextButton__verticalScrollableDefault {
   width: 100%; }
@@ -1236,7 +1235,7 @@ svg.dashicon {
 .DayPicker {
   background: #fff;
   position: relative;
-  text-align: right; }
+  text-align: left; }
 
 .DayPicker__horizontal {
   background: #fff; }
@@ -1254,7 +1253,7 @@ svg.dashicon {
 .DayPicker_portal__horizontal {
   box-shadow: none;
   position: absolute;
-  right: 50%;
+  left: 50%;
   top: 50%; }
 
 .DayPicker_portal__vertical {
@@ -1272,33 +1271,33 @@ svg.dashicon {
   position: relative; }
 
 .DayPicker_weekHeaders__horizontal {
-  margin-right: 9px; }
+  margin-left: 9px; }
 
 .DayPicker_weekHeader {
   color: #757575;
   position: absolute;
   top: 62px;
   z-index: 2;
-  text-align: right; }
+  text-align: left; }
 
 .DayPicker_weekHeader__vertical {
-  right: 50%; }
+  left: 50%; }
 
 .DayPicker_weekHeader__verticalScrollable {
   top: 0;
   display: table-row;
   border-bottom: 1px solid #dbdbdb;
   background: #fff;
-  margin-right: 0;
-  right: 0;
+  margin-left: 0;
+  left: 0;
   width: 100%;
   text-align: center; }
 
 .DayPicker_weekHeader_ul {
   list-style: none;
   margin: 1px 0;
-  padding-right: 0;
   padding-left: 0;
+  padding-right: 0;
   font-size: 14px; }
 
 .DayPicker_weekHeader_li {
@@ -1322,8 +1321,8 @@ svg.dashicon {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
   right: 0;
+  left: 0;
   overflow-y: scroll; }
 
 .DateInput {
@@ -1355,9 +1354,9 @@ svg.dashicon {
   padding: 11px 11px 9px;
   border: 0;
   border-top: 0;
-  border-left: 0;
-  border-bottom: 2px solid transparent;
   border-right: 0;
+  border-bottom: 2px solid transparent;
+  border-left: 0;
   border-radius: 0; }
 
 .DateInput_input__small {
@@ -1380,9 +1379,9 @@ svg.dashicon {
   background: #fff;
   border: 0;
   border-top: 0;
-  border-left: 0;
+  border-right: 0;
   border-bottom: 2px solid #008489;
-  border-right: 0; }
+  border-left: 0; }
 
 .DateInput_input__disabled {
   background: #f2f2f2;
@@ -1402,7 +1401,7 @@ svg.dashicon {
   position: absolute;
   width: 20px;
   height: 10px;
-  right: 22px;
+  left: 22px;
   z-index: 2; }
 
 .DateInput_fangShape {
@@ -1424,13 +1423,13 @@ svg.dashicon {
   border: 1px solid #dbdbdb; }
 
 .DateRangePickerInput__rtl {
-  direction: ltr; }
+  direction: rtl; }
 
 .DateRangePickerInput__block {
   display: block; }
 
 .DateRangePickerInput__showClearDates {
-  padding-left: 30px; }
+  padding-right: 30px; }
 
 .DateRangePickerInput_arrow {
   display: inline-block;
@@ -1444,7 +1443,7 @@ svg.dashicon {
   width: 24px; }
 
 .DateRangePickerInput_clearDates {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -1452,9 +1451,9 @@ svg.dashicon {
   overflow: visible;
   cursor: pointer;
   padding: 10px;
-  margin: 0 5px 0 10px;
+  margin: 0 10px 0 5px;
   position: absolute;
-  left: 0;
+  right: 0;
   top: 50%;
   transform: translateY(-50%); }
 
@@ -1479,7 +1478,7 @@ svg.dashicon {
   height: 9px; }
 
 .DateRangePickerInput_calendarIcon {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -1489,7 +1488,7 @@ svg.dashicon {
   display: inline-block;
   vertical-align: middle;
   padding: 10px;
-  margin: 0 10px 0 5px; }
+  margin: 0 5px 0 10px; }
 
 .DateRangePickerInput_calendarIcon_svg {
   fill: #82888a;
@@ -1510,19 +1509,19 @@ svg.dashicon {
   position: absolute; }
 
 .DateRangePicker_picker__rtl {
-  direction: ltr; }
+  direction: rtl; }
 
 .DateRangePicker_picker__directionLeft {
-  right: 0; }
+  left: 0; }
 
 .DateRangePicker_picker__directionRight {
-  left: 0; }
+  right: 0; }
 
 .DateRangePicker_picker__portal {
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   height: 100%;
   width: 100%; }
 
@@ -1530,7 +1529,7 @@ svg.dashicon {
   background-color: #fff; }
 
 .DateRangePicker_closeButton {
-  background: 100% 0;
+  background: 0 0;
   border: 0;
   color: inherit;
   font: inherit;
@@ -1539,7 +1538,7 @@ svg.dashicon {
   cursor: pointer;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   padding: 15px;
   z-index: 2; }
 
@@ -1552,7 +1551,6 @@ svg.dashicon {
   height: 15px;
   width: 15px;
   fill: #cacccd; }
-
 .components-datetime .components-datetime__calendar-help {
   padding: 8px; }
   .components-datetime .components-datetime__calendar-help h4 {
@@ -1751,8 +1749,6 @@ body.is-dragging-components-draggable {
     transition: 0.3s opacity, 0.3s background-color; }
   .components-drop-zone.is-dragging-over-element {
     background-color: rgba(0, 113, 161, 0.8); }
-    .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
-      display: block; }
 
 .components-drop-zone__content {
   position: absolute;
@@ -1764,8 +1760,7 @@ body.is-dragging-components-draggable {
   width: 100%;
   text-align: center;
   color: #fff;
-  transition: transform 0.2s ease-in-out;
-  display: none; }
+  transition: transform 0.2s ease-in-out; }
 
 .components-drop-zone.is-dragging-over-element .components-drop-zone__content {
   transform: translateY(-50%) scale(1.05); }

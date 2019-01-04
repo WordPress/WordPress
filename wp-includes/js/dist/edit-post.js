@@ -4899,8 +4899,9 @@ function PostLink(_ref) {
   var isEnabled = _ref2.isEnabled,
       isNew = _ref2.isNew,
       postLink = _ref2.postLink,
-      isViewable = _ref2.isViewable;
-  return isEnabled && !isNew && postLink && isViewable;
+      isViewable = _ref2.isViewable,
+      permalinkParts = _ref2.permalinkParts;
+  return isEnabled && !isNew && postLink && isViewable && permalinkParts;
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch) {
   var _dispatch = dispatch('core/edit-post'),
       toggleEditorPanelOpened = _dispatch.toggleEditorPanelOpened;

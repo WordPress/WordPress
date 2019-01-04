@@ -697,7 +697,6 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
   var editableRect = container.getBoundingClientRect();
   var x = rect.left;
   var y = isReverse ? editableRect.bottom - buffer : editableRect.top + buffer;
-  var selection = window.getSelection();
   var range = hiddenCaretRangeFromPoint(document, x, y, container);
 
   if (!range || !container.contains(range.startContainer)) {
@@ -727,6 +726,7 @@ function placeCaretAtVerticalEdge(container, isReverse, rect) {
     }
   }
 
+  var selection = window.getSelection();
   selection.removeAllRanges();
   selection.addRange(range);
   container.focus(); // Editable was already focussed, it goes back to old range...

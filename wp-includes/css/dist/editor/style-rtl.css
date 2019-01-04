@@ -858,7 +858,8 @@ body.admin-color-light .editor-block-list__insertion-point-indicator{
     margin-top: 14px; }
   .editor-block-compare__wrapper .editor-block-compare__heading {
     font-size: 1em;
-    font-weight: 400; }
+    font-weight: 400;
+    margin: 0.67em 0; }
 
 .editor-block-mover {
   min-height: 56px;
