@@ -492,6 +492,10 @@ html[lang="th"] .edit-post-visual-editor * {
 	margin-top: 0.075em;
 }
 
+.wp-block-paragraph.has-background {
+	padding: 20px 30px;
+}
+
 /* Gallery */
 
 .wp-block-gallery figcaption {
@@ -707,10 +711,8 @@ table.wp-block-table td:last-child {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background-color: #222;
 	-webkit-box-shadow: none;
 	box-shadow: none;
-	color: #fff;
 	display: inline-block;
 	font-size: 14px;
 	font-size: 0.875rem;
@@ -721,6 +723,15 @@ table.wp-block-table td:last-child {
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
 	white-space: nowrap;
+}
+
+.wp-block-button__link {
+	background-color: #222;
+	color: #fff;
+}
+
+.is-style-outline .wp-block-button__link {
+	color: #222;
 }
 
 /* Media & Text */
