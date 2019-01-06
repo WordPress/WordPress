@@ -532,10 +532,13 @@ class WP_Scripts extends WP_Dependencies {
 			$json_translations = '{ "locale_data": { "messages": { "": {} } } }';
 		}
 
-		$output = '(function( translations ){' .
-		              'translations.locale_data.messages[""].domain = "' . $domain . '";' .
-		              'wp.i18n.setLocaleData( translations.locale_data.messages, "' . $domain . '" );' .
-		          '})(' . $json_translations . ');';
+		$output = <<<JS
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "{$domain}", {$json_translations} );
+JS;
 
 		if ( $echo ) {
 			printf( "<script type='text/javascript'>\n%s\n</script>\n", $output );
@@ -546,7 +549,7 @@ class WP_Scripts extends WP_Dependencies {
 
 	/**
 	 * Determines script dependencies.
-     *
+	 *
 	 * @since 2.1.0
 	 *
 	 * @see WP_Dependencies::all_deps()
