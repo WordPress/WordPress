@@ -622,8 +622,8 @@ add_filter( 'widget_tag_cloud_args', 'twentyseventeen_widget_tag_cloud_args' );
  * with the optional prefix. As such the returned value is not universally unique,
  * but it is unique across the life of the PHP process.
  *
- * @since Twenty Seventeen 1.8
- * @see wp_unique_id() Themes requiring WordPress 4.9.9 and greater should use this instead.
+ * @since Twenty Seventeen 2.0
+ * @see wp_unique_id() Themes requiring WordPress 5.0.3 and greater should use this instead.
  *
  * @staticvar int $id_counter
  *
