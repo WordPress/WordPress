@@ -559,7 +559,7 @@ var wpLink;
 			}
 
 			// Up Arrow and Down Arrow keys.
-			if ( 38 !== event.keyCode && 40 !== event.keyCode ) {
+			if ( event.shiftKey || ( 38 !== event.keyCode && 40 !== event.keyCode ) ) {
 				return;
 			}
 
