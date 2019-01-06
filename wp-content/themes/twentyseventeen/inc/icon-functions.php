@@ -74,7 +74,7 @@ function twentyseventeen_get_svg( $args = array() ) {
 	 */
 	if ( $args['title'] ) {
 		$aria_hidden     = '';
-		$unique_id       = uniqid();
+		$unique_id       = twentyseventeen_unique_id();
 		$aria_labelledby = ' aria-labelledby="title-' . $unique_id . '"';
 
 		if ( $args['desc'] ) {
