@@ -560,6 +560,10 @@ code {
 	margin: 10px 20px 0 2px;
 }
 
+.wrap.block-editor-no-js {
+	padding-left: 20px;
+}
+
 .wrap > h2:first-child, /* Back-compat for pre-4.4 */
 .wrap [class$="icon32"] + h2, /* Back-compat for pre-4.4 */
 .postbox .inside h2, /* Back-compat for pre-4.4 */
