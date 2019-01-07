@@ -2574,23 +2574,29 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 			}
 		} elseif ( 'text/plain' === $real_mime ) {
 			// A few common file types are occasionally detected as text/plain; allow those.
-			if ( ! in_array( $type, array(
+			if ( ! in_array(
+				$type,
+				array(
 					'text/plain',
 					'text/csv',
 					'text/richtext',
 					'text/tsv',
 					'text/vtt',
-				) )
+				)
+			)
 			) {
 				$type = $ext = false;
 			}
-		} elseif( 'text/rtf' === $real_mime ) {
+		} elseif ( 'text/rtf' === $real_mime ) {
 			// Special casing for RTF files.
-			if ( ! in_array( $type, array(
+			if ( ! in_array(
+				$type,
+				array(
 					'text/rtf',
 					'text/plain',
 					'application/rtf',
-				) )
+				)
+			)
 			) {
 				$type = $ext = false;
 			}
