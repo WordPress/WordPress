@@ -708,10 +708,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Button */
 
 .wp-block-button .wp-block-button__link {
-	background-color: #333;
-	border: 0;
-	border-radius: 0;
-	color: #fff;
 	cursor: pointer;
 	font-family: "Noto Sans", sans-serif;
 	font-size: 12px;
@@ -720,6 +716,15 @@ p.has-drop-cap:not(:focus)::first-letter {
 	padding: 0.7917em 1.5em;
 	text-transform: uppercase;
 	vertical-align: baseline;
+}
+
+.wp-block-button__link {
+	background-color: #333;
+	color: #fff;
+}
+
+.is-style-outline .wp-block-button__link {
+	color: #333;
 }
 
 @media screen and (min-width: 46.25em) {

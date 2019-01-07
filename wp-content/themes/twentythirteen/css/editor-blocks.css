@@ -257,7 +257,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 	border: none;
 	border-bottom: 3px solid #b93207;
-	border-radius: 2px;
 	color: #fff;
 	display: inline-block;
 	font-size: 16px;
@@ -326,11 +325,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background: #e05d22;
-	border: none;
-	border-bottom: 3px solid #b93207;
-	border-radius: 2px;
-	color: #fff;
 	display: inline-block;
 	font-size: 16px;
 	line-height: 24px;
@@ -338,7 +332,18 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-decoration: none;
 }
 
-.wp-block-button__link:not(.has-background) {
+.wp-block-button__link {
+	background: #e05d22;
+	border-bottom: 3px solid #b93207;
+	color: #fff;
+}
+
+.is-style-outline .wp-block-button__link {
+	border-width: 2px;
+	color: #e05d22;
+}
+
+.wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
 	background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 }

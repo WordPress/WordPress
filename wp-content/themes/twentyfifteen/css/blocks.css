@@ -384,8 +384,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Button */
 
 .wp-block-button .wp-block-button__link {
-	border: 0;
-	border-radius: 0;
 	cursor: pointer;
 	font-family: "Noto Sans", sans-serif;
 	font-size: 12px;
@@ -397,13 +395,27 @@ p.has-drop-cap:not(:focus)::first-letter {
 	vertical-align: baseline;
 }
 
+.entry-content .wp-block-button:not(.is-style-outline) .wp-block-button__link {
+	border: 0;
+}
+
+.entry-content .wp-block-button.is-style-outline .wp-block-button__link:hover {
+	border-bottom: 2px solid;
+}
+
 .wp-block-button__link {
 	background-color: #333;
 	color: #fff;
 }
 
+.is-style-outline .wp-block-button__link:not(.has-text-color) {
+	color: #333;
+}
+
 .wp-block-button__link:hover,
-.wp-block-button__link:focus {
+.wp-block-button__link:focus,
+.is-style-outline .wp-block-button__link:hover,
+.is-style-outline .wp-block-button__link:focus {
 	background-color: #707070;
 	background-color: rgba(51, 51, 51, 0.7);
 	color: #fff;

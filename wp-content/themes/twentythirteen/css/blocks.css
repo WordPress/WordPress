@@ -201,8 +201,8 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
 	background:   linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 	border: none;
-	border-bottom: 3px solid #b93207;
 	border-radius: 2px;
+	border-bottom: 3px solid #b93207;
 	color: #fff;
 	display: inline-block;
 	font-size: 16px;
@@ -336,9 +336,7 @@ body:not(.sidebar) .wp-block-table.alignfull {
 }
 
 .wp-block-button .wp-block-button__link {
-	border: none;
 	border-bottom: 3px solid #b93207;
-	border-radius: 2px;
 	display: inline-block;
 	font-size: 16px;
 	padding: 11px 24px 10px;
@@ -350,19 +348,32 @@ body:not(.sidebar) .wp-block-table.alignfull {
 	color: #fff;
 }
 
-.entry-content .wp-block-button__link:not(.has-background) {
+.entry-content .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background) {
 	background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%); /* Chrome 10+, Safari 5.1+ */
 	background:   linear-gradient(to bottom, #e05d22 0%, #d94412 100%); /* W3C */
 }
 
 .entry-content .wp-block-button__link:hover,
-.entry-content .wp-block-button__link:focus {
+.entry-content .wp-block-button__link:focus,
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):hover,
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color):focus {
 	background: #ed6a31;
 	color: #fff;
 }
 
+.wp-block-button.is-style-outline .wp-block-button__link {
+	background-color: inherit;
+	border-color: inherit;
+	border-width: 2px;
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:not(.has-text-color) {
+	color: #ed6a31;
+}
+
 .entry-content .wp-block-button__link:not(.has-background):hover,
-.entry-content .wp-block-button__link:not(.has-background):hover {
+.entry-content .wp-block-button__link:not(.has-background):hover,
+.entry-content .wp-block-button:not(.is-style-outline) .wp-block-button__link:not(.has-background):hover {
 	background: -webkit-linear-gradient(top, #ed6a31 0%, #e55627 100%); /* Chrome 10+, Safari 5.1+ */
 	background: linear-gradient(to bottom, #ed6a31 0%, #e55627 100%); /* W3C */
 }

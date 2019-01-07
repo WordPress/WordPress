@@ -189,8 +189,6 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	display: inline-block;

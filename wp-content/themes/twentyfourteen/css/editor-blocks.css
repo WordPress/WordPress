@@ -389,15 +389,20 @@ p.has-drop-cap:not(:focus)::first-letter {
 /* Buttons */
 
 .wp-block-button .wp-block-button__link {
-	background-color: #24890d;
-	border: 0;
-	border-radius: 2px;
-	color: #fff;
 	font-size: 12px;
 	font-weight: 700;
 	padding: 10px 30px 11px;
 	text-transform: uppercase;
 	vertical-align: bottom;
+}
+
+.wp-block-button__link {
+	background-color: #24890d;
+	color: #fff;
+}
+
+.is-style-outline .wp-block-button__link {
+	color: #24890d;
 }
 
 .editor-block-list__block .wp-block-button .mce-content-body {
