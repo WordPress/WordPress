@@ -897,8 +897,13 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	// If a path was given and the handle file exists simply return it.
 	$file_base       = $domain === 'default' ? $locale : $domain . '-' . $locale;
 	$handle_filename = $file_base . '-' . $handle . '.json';
-	if ( $path && file_exists( $path . '/' . $handle_filename ) ) {
-		return load_script_translations( $path . '/' . $handle_filename, $handle, $domain );
+
+	if ( $path ) {
+		$translations = load_script_translations( $path . '/' . $handle_filename, $handle, $domain );
+
+		if ( $translations ) {
+			return $translations;
+		}
 	}
 
 	$src = $wp_scripts->registered[ $handle ]->src;
@@ -958,11 +963,19 @@ function load_script_textdomain( $handle, $domain, $path = null ) {
 	}
 
 	$md5_filename = $file_base . '-' . md5( $relative ) . '.json';
-	if ( $path && file_exists( $path . '/' . $md5_filename ) ) {
-		return load_script_translations( $path . '/' . $md5_filename, $handle, $domain );
+
+	if ( $path ) {
+		$translations = load_script_translations( $path . '/' . $md5_filename, $handle, $domain );
+
+		if ( $translations ) {
+			return $translations;
+		}
 	}
-	if ( file_exists( $languages_path . '/' . $md5_filename ) ) {
-		return load_script_translations( $languages_path . '/' . $md5_filename, $handle, $domain );
+
+	$translations = load_script_translations( $languages_path . '/' . $md5_filename, $handle, $domain );
+
+	if ( $translations ) {
+		return $translations;
 	}
 
 	return load_script_translations( false, $handle, $domain );
