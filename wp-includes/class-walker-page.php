@@ -158,8 +158,9 @@ class Walker_Page extends Walker {
 		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
 		$args['link_after']  = empty( $args['link_after'] ) ? '' : $args['link_after'];
 
-		$atts         = array();
-		$atts['href'] = get_permalink( $page->ID );
+		$atts                 = array();
+		$atts['href']         = get_permalink( $page->ID );
+		$atts['aria-current'] = ( $page->ID == $current_page ) ? 'page' : '';
 
 		/**
 		 * Filters the HTML attributes applied to a page menu item's anchor element.
@@ -169,7 +170,8 @@ class Walker_Page extends Walker {
 		 * @param array $atts {
 		 *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
 		 *
-		 *     @type string $href The href attribute.
+		 *     @type string $href         The href attribute.
+		 *     @type string $aria_current The aria-current attribute.
 		 * }
 		 * @param WP_Post $page         Page data object.
 		 * @param int     $depth        Depth of page, used for padding.
