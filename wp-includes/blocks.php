@@ -266,7 +266,6 @@ function do_blocks( $content ) {
  * @return string The unmodified content.
  */
 function _restore_wpautop_hook( $content ) {
-	global $wp_filter;
 	$current_priority = has_filter( 'the_content', '_restore_wpautop_hook' );
 
 	add_filter( 'the_content', 'wpautop', $current_priority - 1 );
