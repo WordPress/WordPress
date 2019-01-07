@@ -215,6 +215,9 @@
 		&.is-style-outline .wp-block-button__link:hover {
 			color: white;
 			border-color: $color__background-button-hover;
+			&:not(.has-background) {
+				color: $color__background-button-hover;
+			}
 		}
 	}
 
