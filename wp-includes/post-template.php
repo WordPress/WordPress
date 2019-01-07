@@ -871,7 +871,7 @@ function post_password_required( $post = null ) {
  * Quicktag one or more times). This tag must be within The Loop.
  *
  * @since 1.2.0
- * @since 5.0.0 Added the `aria_current` argument.
+ * @since 5.1.0 Added the `aria_current` argument.
  *
  * @global int $page
  * @global int $numpages
