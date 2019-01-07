@@ -601,9 +601,10 @@ class WP_User_Query {
 		 * by reference. If WP_User_Query does not perform a database query, it will not
 		 * have enough information to generate these values itself.
 		 *
-		 * @since 5.0.3
+		 * @since 5.1.0
 		 *
-		 * @param array|null $results Return an array of user data to short-circuit WP's user query or null to allow WP to run its normal queries.
+		 * @param array|null $results Return an array of user data to short-circuit WP's user query
+		 *                            or null to allow WP to run its normal queries.
 		 * @param WP_User_Query $this The WP_User_Query instance (passed by reference).
 		 */
 		$this->results = apply_filters_ref_array( 'users_pre_query', array( null, &$this ) );
@@ -622,7 +623,7 @@ class WP_User_Query {
 				 * Filters SELECT FOUND_ROWS() query for the current WP_User_Query instance.
 				 *
 				 * @since 3.2.0
-				 * @since 5.0.3 Added the `$this` parameter.
+				 * @since 5.1.0 Added the `$this` parameter.
 				 *
 				 * @global wpdb $wpdb WordPress database abstraction object.
 				 *
