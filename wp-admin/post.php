@@ -150,6 +150,8 @@ case 'edit':
 		$post_new_file = "post-new.php?post_type=$post_type";
 	}
 
+	$title = $post_type_object->labels->edit_item;
+
 	/**
 	 * Allows replacement of the editor.
 	 *
@@ -174,8 +176,7 @@ case 'edit':
 			wp_enqueue_script('autosave');
 	}
 
-	$title = $post_type_object->labels->edit_item;
-	$post = get_post($post_id, OBJECT, 'edit');
+	$post = get_post( $post_id, OBJECT, 'edit' );
 
 	if ( post_type_supports($post_type, 'comments') ) {
 		wp_enqueue_script('admin-comments');
