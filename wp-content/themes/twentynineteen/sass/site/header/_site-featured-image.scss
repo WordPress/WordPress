@@ -45,6 +45,10 @@
 		}
 	}
 
+	.main-navigation .sub-menu a {
+		opacity: inherit;
+	}
+
 	/* add focus state to social media icons */
 	.social-navigation a {
 		&:focus {
