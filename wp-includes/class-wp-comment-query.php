@@ -223,7 +223,7 @@ class WP_Comment_Query {
 	 *     @type string       $search                    Search term(s) to retrieve matching comments for.
 	 *                                                   Default empty.
 	 *     @type string|array $status                    Comment stati to limit results by. Accepts an array
-	 *                                                   or space/comma separate list of 'hold' (`comment_status=0`),
+	 *                                                   or space/comma-separated list of 'hold' (`comment_status=0`),
 	 *                                                   'approve' (`comment_status=1`), 'all', or a custom
 	 *                                                   comment status. Default 'all'.
 	 *     @type string|array $type                      Include comments of a given type, or array of types.
