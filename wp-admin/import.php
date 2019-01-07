@@ -61,7 +61,7 @@ $parent_file = 'tools.php';
 <h1><?php echo esc_html( $title ); ?></h1>
 <?php if ( ! empty( $_GET['invalid'] ) ) : ?>
 	<div class="error">
-		<p><strong><?php _e( 'ERROR:' ); ?></strong> 
+		<p><strong><?php _e( 'ERROR:' ); ?></strong>
 								<?php
 								/* translators: %s: importer slug */
 								printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
@@ -155,7 +155,7 @@ if ( empty( $importers ) ) {
 						esc_attr( $plugin_slug ),
 						esc_attr( $data[0] ),
 						/* translators: %s: Importer name */
-						esc_attr( sprintf( __( 'Install %s' ), $data[0] ) ),
+						esc_attr( sprintf( __( 'Install %s now' ), $data[0] ) ),
 						__( 'Install Now' )
 					);
 				} else {
