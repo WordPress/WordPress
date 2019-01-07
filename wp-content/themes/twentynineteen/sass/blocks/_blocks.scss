@@ -505,20 +505,40 @@
 
 	//! Image
 	.wp-block-image {
+		max-width: 100%;
 
 		img {
 			display: block;
 		}
 
-		&.alignleft,
-		&.alignright {
-			max-width: 100%;
+		.aligncenter {
+			
+			@include postContentMaxWidth();
+
+			@include media(tablet) {
+				margin: 0;
+				width: $size__site-tablet-content;
+
+				img {
+					margin: 0 auto;
+				}
+			}
+
+			@include media(desktop) {
+				width: $size__site-desktop-content;
+
+				img {
+					margin: 0 auto;
+				}
+			}
 		}
 
 		&.alignfull img {
 			width: 100vw;
+			max-width: calc( 100% + (2 * #{$size__spacing-unit}));
 
 			@include media(tablet) {
+				max-width: calc( 125% + 150px );
 				margin-left: auto;
 				margin-right: auto;
 			}
