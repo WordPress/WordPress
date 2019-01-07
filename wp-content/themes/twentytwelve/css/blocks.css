@@ -99,13 +99,13 @@ p.has-drop-cap:not(:focus)::first-letter {
 
 .wp-block-quote:not(.is-large):not(.is-style-large) {
 	border: 0;
-	padding: 1.714285714rem;
 	padding: 24px;
+	padding: 1.714285714rem;
 }
 
 .wp-block-quote {
-	padding: 1.714285714rem;
 	padding: 24px;
+	padding: 1.714285714rem;
 }
 
 .wp-block-quote cite {
