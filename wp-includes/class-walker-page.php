@@ -148,6 +148,7 @@ class Walker_Page extends Walker {
 		 * @param int      $current_page ID of the current page.
 		 */
 		$css_classes = implode( ' ', apply_filters( 'page_css_class', $css_class, $page, $depth, $args, $current_page ) );
+		$css_classes = $css_classes ? ' class="' . esc_attr( $css_classes ) . '"' : '';
 
 		if ( '' === $page->post_title ) {
 			/* translators: %d: ID of a post */
@@ -186,7 +187,7 @@ class Walker_Page extends Walker {
 		}
 
 		$output .= $indent . sprintf(
-			'<li class="%s"><a%s>%s%s%s</a>',
+			'<li%s><a%s>%s%s%s</a>',
 			$css_classes,
 			$attributes,
 			$args['link_before'],
