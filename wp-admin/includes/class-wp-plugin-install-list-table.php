@@ -640,13 +640,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							/* translators: 1: "Update WordPress" screen URL, 2: "Updating PHP" page URL */
 							__( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
 							self_admin_url( 'update-core.php' ),
-							esc_url( __( 'https://wordpress.org/support/upgrade-php/' ) )
+							esc_url( __( 'https://wordpress.org/support/update-php/' ) )
 						);
 					} else {
 						printf(
 							/* translators: %s: "Updating PHP" page URL */
 							__( '<a href="%s">Learn more about updating PHP</a>.' ),
-							esc_url( __( 'https://wordpress.org/support/upgrade-php/' ) )
+							esc_url( __( 'https://wordpress.org/support/update-php/' ) )
 						);
 					}
 				} elseif ( ! $compatible_wp ) {
@@ -663,7 +663,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					printf(
 						/* translators: %s: "Updating PHP" page URL */
 						__( '<a href="%s">Learn more about updating PHP</a>.' ),
-						esc_url( __( 'https://wordpress.org/support/upgrade-php/' ) )
+						esc_url( __( 'https://wordpress.org/support/update-php/' ) )
 					);
 				}
 				echo '</p></div>';

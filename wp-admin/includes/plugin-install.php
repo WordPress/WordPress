@@ -765,7 +765,7 @@ if ( ! empty( $api->contributors ) ) {
 		printf(
 			/* translators: "Updating PHP" page URL */
 			__( '<strong>Error:</strong> This plugin <strong>requires a newer version of PHP</strong>, so unfortunately you cannot install it. <a href="%s" target="_blank">Click here to learn more about updating PHP</a>.' ),
-			esc_url( __( 'https://wordpress.org/support/upgrade-php/' ) )
+			esc_url( __( 'https://wordpress.org/support/update-php/' ) )
 		);
 		echo '</p></div>';
 	}

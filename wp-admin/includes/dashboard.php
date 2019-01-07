@@ -1636,7 +1636,7 @@ function wp_dashboard_php_nag() {
 		<?php
 			printf(
 				'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
-				esc_url( _x( 'https://wordpress.org/support/upgrade-php/', 'localized PHP upgrade information page' ) ),
+				esc_url( _x( 'https://wordpress.org/support/update-php/', 'localized PHP upgrade information page' ) ),
 				__( 'Learn more about updating PHP' ),
 				/* translators: accessibility text */
 				__( '(opens in a new tab)' )
