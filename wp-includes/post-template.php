@@ -1602,6 +1602,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 * Filters a retrieved attachment page link.
 	 *
 	 * @since 2.7.0
+	 * @since 5.1.0 Added the $attr parameter.
 	 *
 	 * @param string       $link_html The page link HTML output.
 	 * @param int          $id        Post ID.
@@ -1610,8 +1611,9 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 * @param bool         $permalink Whether to add permalink to image. Default false.
 	 * @param bool         $icon      Whether to include an icon. Default false.
 	 * @param string|bool  $text      If string, will be link text. Default false.
+	 * @param array|string $attr      Array or string of attributes. Default empty.
 	 */
-	return apply_filters( 'wp_get_attachment_link', "<a href='" . esc_url( $url ) . "'>$link_text</a>", $id, $size, $permalink, $icon, $text );
+	return apply_filters( 'wp_get_attachment_link', "<a href='" . esc_url( $url ) . "'>$link_text</a>", $id, $size, $permalink, $icon, $text, $attr );
 }
 
 /**
