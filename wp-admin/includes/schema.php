@@ -356,7 +356,7 @@ $wp_queries = wp_get_db_schema( 'all' );
  * Create WordPress options and set the default values.
  *
  * @since 1.5.0
- * @since 5.0.0 The $options parameter has been added.
+ * @since 5.1.0 The $options parameter has been added.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  * @global int  $wp_db_version
