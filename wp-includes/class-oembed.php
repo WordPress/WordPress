@@ -64,8 +64,9 @@ class WP_oEmbed {
 			'http://gi*.photobucket.com/groups/*'          => array( 'http://api.photobucket.com/oembed', false ),
 			'#https?://(www\.)?scribd\.com/doc/.*#i'       => array( 'https://www.scribd.com/services/oembed', true ),
 			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
-			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://polldaddy.com/oembed/', true ),
-			'#https?://poll\.fm/.*#i'                      => array( 'https://polldaddy.com/oembed/', true ),
+			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://api.crowdsignal.com/oembed', true ),
+			'#https?://poll\.fm/.*#i'                      => array( 'https://api.crowdsignal.com/oembed', true ),
+			'#https?://survey\.fm/.*#i'                    => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://(www\.)?funnyordie\.com/videos/.*#i' => array( 'http://www.funnyordie.com/oembed', true ),
 			'#https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
 			'#https?://(www\.)?twitter\.com/\w{1,15}$#i'   => array( 'https://publish.twitter.com/oembed', true ),
@@ -152,7 +153,7 @@ class WP_oEmbed {
 		 * | WordPress.tv | wordpress.tv                              |      Yes       | 2.9.0   |
 		 * | YouTube      | youtube.com/watch                         |      Yes       | 2.9.0   |
 		 * | Funny or Die | funnyordie.com                            |      Yes       | 3.0.0   |
-		 * | Polldaddy    | polldaddy.com                             |      Yes       | 3.0.0   |
+		 * | Crowdsignal  | polldaddy.com                             |      Yes       | 3.0.0   |
 		 * | SmugMug      | smugmug.com                               |      Yes       | 3.0.0   |
 		 * | YouTube      | youtu.be                                  |      Yes       | 3.0.0   |
 		 * | Twitter      | twitter.com                               |      Yes       | 3.4.0   |
@@ -171,7 +172,7 @@ class WP_oEmbed {
 		 * | CollegeHumor | collegehumor.com                          |      Yes       | 4.0.0   |
 		 * | Issuu        | issuu.com                                 |      Yes       | 4.0.0   |
 		 * | Mixcloud     | mixcloud.com                              |      Yes       | 4.0.0   |
-		 * | Polldaddy    | poll.fm                                   |      Yes       | 4.0.0   |
+		 * | Crowdsigna   | poll.fm                                   |      Yes       | 4.0.0   |
 		 * | TED          | ted.com                                   |      Yes       | 4.0.0   |
 		 * | YouTube      | youtube.com/playlist                      |      Yes       | 4.0.0   |
 		 * | Tumblr       | tumblr.com                                |      Yes       | 4.2.0   |
@@ -191,13 +192,14 @@ class WP_oEmbed {
 		 * | Screencast   | screencast.com                            |      Yes       | 4.8.0   |
 		 * | Amazon       | amazon.com (com.mx, com.br, ca)           |      Yes       | 4.9.0   |
 		 * | Amazon       | amazon.de (fr, it, es, in, nl, ru, co.uk) |      Yes       | 4.9.0   |
-		 * | Amazon       | amazon.co.jp (com.au)                     |      Yes       | 4.9.0   |)
+		 * | Amazon       | amazon.co.jp (com.au)                     |      Yes       | 4.9.0   |
 		 * | Amazon       | amazon.cn                                 |      Yes       | 4.9.0   |
 		 * | Amazon       | a.co                                      |      Yes       | 4.9.0   |
 		 * | Amazon       | amzn.to (eu, in, asia)                    |      Yes       | 4.9.0   |
 		 * | Amazon       | z.cn                                      |      Yes       | 4.9.0   |
 		 * | Someecards   | someecards.com                            |      Yes       | 4.9.0   |
 		 * | Someecards   | some.ly                                   |      Yes       | 4.9.0   |
+		 * | Crowdsignal  | survey.fm                                 |      Yes       | 5.1.0   |
 		 *
 		 * No longer supported providers:
 		 *
