@@ -2692,10 +2692,9 @@ function _wp_get_current_user() {
  * @since 4.9.0 This function was moved from wp-admin/includes/ms.php so it's no longer Multisite specific.
  *
  * @global WP_Error $errors WP_Error object.
- * @global wpdb     $wpdb   WordPress database object.
  */
 function send_confirmation_on_profile_email() {
-	global $errors, $wpdb;
+	global $errors;
 
 	$current_user = wp_get_current_user();
 	if ( ! is_object( $errors ) ) {
@@ -2719,7 +2718,7 @@ function send_confirmation_on_profile_email() {
 			return;
 		}
 
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_email FROM {$wpdb->users} WHERE user_email=%s", $_POST['email'] ) ) ) {
+		if ( email_exists( $_POST['email'] ) )  {
 			$errors->add(
 				'user_email',
 				__( '<strong>ERROR</strong>: The email address is already used.' ),
