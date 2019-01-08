@@ -380,7 +380,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
  * @since 4.9.0
  * @access private
  *
- * @param string $plugin_editable_files List of plugin file paths.
+ * @param array $plugin_editable_files List of plugin file paths.
  * @return array Tree structure for listing plugin files.
  */
 function wp_make_plugin_file_tree( $plugin_editable_files ) {
