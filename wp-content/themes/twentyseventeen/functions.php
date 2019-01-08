@@ -439,7 +439,7 @@ function twentyseventeen_colors_css_wrap() {
 add_action( 'wp_head', 'twentyseventeen_colors_css_wrap' );
 
 /**
- * Enqueue scripts and styles.
+ * Enqueues scripts and styles.
  */
 function twentyseventeen_scripts() {
 	// Add custom fonts, used in the main stylesheet.
@@ -501,7 +501,7 @@ function twentyseventeen_scripts() {
 add_action( 'wp_enqueue_scripts', 'twentyseventeen_scripts' );
 
 /**
- * Enqueue styles for the block-based editor.
+ * Enqueues styles for the block-based editor.
  *
  * @since Twenty Seventeen 1.8
  */
