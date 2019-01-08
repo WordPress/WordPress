@@ -1546,6 +1546,9 @@ class WP_Query {
 			'menu_order',
 			'comment_count',
 			'rand',
+			'post__in',
+			'post_parent__in',
+			'post_name__in',
 		);
 
 		$primary_meta_key   = '';
@@ -1576,6 +1579,8 @@ class WP_Query {
 			return false;
 		}
 
+		$orderby_clause = '';
+
 		switch ( $orderby ) {
 			case 'post_name':
 			case 'post_author':
@@ -1602,6 +1607,23 @@ class WP_Query {
 				break;
 			case 'meta_value_num':
 				$orderby_clause = "{$primary_meta_query['alias']}.meta_value+0";
+				break;
+			case 'post__in':
+				if ( ! empty( $this->query_vars['post__in'] ) ) {
+					$orderby_clause = "FIELD({$wpdb->posts}.ID," . implode( ',', array_map( 'absint', $this->query_vars['post__in'] ) ) . ')';
+				}
+				break;
+			case 'post_parent__in':
+				if ( ! empty( $this->query_vars['post_parent__in'] ) ) {
+					$orderby_clause = "FIELD( {$wpdb->posts}.post_parent," . implode( ', ', array_map( 'absint', $this->query_vars['post_parent__in'] ) ) . ' )';
+				}
+				break;
+			case 'post_name__in':
+				if ( ! empty( $this->query_vars['post_name__in'] ) ) {
+					$post_name__in = array_map( 'sanitize_title_for_query', $this->query_vars['post_name__in'] );
+					$post_name__in_string = "'" . implode( "','", $post_name__in ) . "'";
+					$orderby_clause = "FIELD( {$wpdb->posts}.post_name," . $post_name__in_string . ' )';
+				}
 				break;
 			default:
 				if ( array_key_exists( $orderby, $meta_clauses ) ) {
@@ -2239,6 +2261,12 @@ class WP_Query {
 			$q['order'] = $rand ? '' : $this->parse_order( $q['order'] );
 		}
 
+		// These values of orderby should ignore the 'order' parameter.
+		$force_asc = array( 'post__in', 'post_name__in', 'post_parent__in' );
+		if ( isset( $q['orderby'] ) && in_array( $q['orderby'], $force_asc, true ) ) {
+			$q['order'] = '';
+		}
+
 		// Order by.
 		if ( empty( $q['orderby'] ) ) {
 			/*
@@ -2252,12 +2280,6 @@ class WP_Query {
 			}
 		} elseif ( 'none' == $q['orderby'] ) {
 			$orderby = '';
-		} elseif ( $q['orderby'] == 'post__in' && ! empty( $post__in ) ) {
-			$orderby = "FIELD( {$wpdb->posts}.ID, $post__in )";
-		} elseif ( $q['orderby'] == 'post_parent__in' && ! empty( $post_parent__in ) ) {
-			$orderby = "FIELD( {$wpdb->posts}.post_parent, $post_parent__in )";
-		} elseif ( $q['orderby'] == 'post_name__in' && ! empty( $post_name__in ) ) {
-			$orderby = "FIELD( {$wpdb->posts}.post_name, $post_name__in )";
 		} else {
 			$orderby_array = array();
 			if ( is_array( $q['orderby'] ) ) {
