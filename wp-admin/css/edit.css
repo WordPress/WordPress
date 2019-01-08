@@ -607,8 +607,16 @@ span.wp-media-buttons-icon:before {
 	line-height: 1.4;
 }
 
+#poststuff .stuffbox h2 {
+	padding: 8px 10px;
+}
+
 #poststuff .inside {
 	margin: 6px 0 0 0;
+}
+
+#poststuff .stuffbox .inside {
+  margin: 0;
 }
 
 #poststuff .inside #parent_id,
@@ -1246,6 +1254,15 @@ p.popular-tags a {
 
 .stuffbox .editcomment {
 	clear: none;
+	margin-top: 0;
+}
+
+#namediv.stuffbox .editcomment input {
+	width: 100%;
+}
+
+#namediv.stuffbox .editcomment.form-table td {
+	padding: 10px;
 }
 
 #comment-status-radio p {
@@ -1439,10 +1456,18 @@ table.links-table {
 		padding: 10px 10px;
 	}
 
+	#poststuff .stuffbox .inside {
+		padding: 0 2px 4px 0;
+	}
+
 	#poststuff h3.hndle, /* Back-compat for pre-4.4 */
 	#poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
 	#poststuff h2 {
 		padding: 12px;
+	}
+
+	#namediv.stuffbox .editcomment.form-table td {
+		padding: 5px 10px;
 	}
 
 	.post-format-options {

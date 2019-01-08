@@ -41,28 +41,29 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <div id="namediv" class="stuffbox">
 <div class="inside">
 <fieldset>
-<legend class="edit-comment-author"><?php _e( 'Author' ); ?></legend>
+<h2 class="edit-comment-author">
+	<span><?php _e( 'Author' ); ?></span>
+</h2>
 <table class="form-table editcomment">
 <tbody>
 <tr>
-	<td class="first"><label for="name"><?php _e( 'Name:' ); ?></label></td>
+	<td class="first"><label for="name"><?php _e( 'Name' ); ?></label></td>
 	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" id="name" /></td>
 </tr>
 <tr>
-	<td class="first"><label for="email"><?php _e( 'Email:' ); ?></label></td>
+	<td class="first"><label for="email"><?php _e( 'Email' ); ?></label></td>
 	<td>
 		<input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" />
 	</td>
 </tr>
 <tr>
-	<td class="first"><label for="newcomment_author_url"><?php _e( 'URL:' ); ?></label></td>
+	<td class="first"><label for="newcomment_author_url"><?php _e( 'URL' ); ?></label></td>
 	<td>
 		<input type="text" id="newcomment_author_url" name="newcomment_author_url" size="30" class="code" value="<?php echo esc_attr( $comment->comment_author_url ); ?>" />
 	</td>
 </tr>
 </tbody>
 </table>
-<br />
 </fieldset>
 </div>
 </div>

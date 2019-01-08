@@ -2061,11 +2061,17 @@ html.wp-toolbar {
 	user-select: none;
 }
 
-.postbox .inside,
-.stuffbox .inside {
+.postbox .inside {
 	padding: 0 12px 12px;
 	line-height: 1.4em;
 	font-size: 13px;
+}
+
+.stuffbox .inside {
+	padding: 0;
+	line-height: 1.4em;
+	font-size: 13px;
+	margin-top: 0;
 }
 
 .postbox .inside {
@@ -2363,11 +2369,8 @@ body.iframe {
 }
 
 .edit-comment-author {
-	font-size: 14px;
-	line-height: 1.4;
-	font-weight: 600;
 	color: #222;
-	margin: 2px 9px 0 0;
+	border-bottom: 1px solid #eee;
 }
 
 #namediv h3 label, /* Back-compat for pre-4.4 */
