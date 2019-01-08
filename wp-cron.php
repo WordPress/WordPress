@@ -66,17 +66,10 @@ function _get_cron_lock() {
 	return $value;
 }
 
-if ( false === $crons = _get_cron_array() ) {
+$crons = wp_get_ready_cron_jobs();
+if ( empty( $crons ) ) {
 	die();
 }
-
-$keys     = array_keys( $crons );
-$gmt_time = microtime( true );
-
-if ( isset( $keys[0] ) && $keys[0] > $gmt_time ) {
-	die();
-}
-
 
 // The cron lock: a unix timestamp from when the cron was spawned.
 $doing_cron_transient = get_transient( 'doing_cron' );
