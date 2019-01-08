@@ -4912,7 +4912,7 @@ function global_terms_enabled() {
  * a setting for the main network, making it essentially a global setting. Subsequent requests
  * will refer to this setting instead of running the query.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *

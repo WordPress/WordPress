@@ -699,7 +699,7 @@ function get_site( $site = null ) {
  * Adds any sites from the given ids to the cache that do not already exist in cache.
  *
  * @since 4.6.0
- * @since 5.0.0 Introduced the `$update_meta_cache` parameter.
+ * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
  * @access private
  *
  * @see update_site_cache()
@@ -723,7 +723,7 @@ function _prime_site_caches( $ids, $update_meta_cache = true ) {
  * Updates sites in cache.
  *
  * @since 4.6.0
- * @since 5.0.0 Introduced the `$update_meta_cache` parameter.
+ * @since 5.1.0 Introduced the `$update_meta_cache` parameter.
  *
  * @param array $sites             Array of site objects.
  * @param bool  $update_meta_cache Whether to update site meta cache. Default true.
@@ -750,7 +750,7 @@ function update_site_cache( $sites, $update_meta_cache = true ) {
  * Performs SQL query to retrieve all metadata for the sites matching `$site_ids` and stores them in the cache.
  * Subsequent calls to `get_site_meta()` will not need to query the database.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param array $site_ids List of site IDs.
  * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
@@ -1465,7 +1465,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
 /**
  * Adds metadata to a site.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param int    $site_id    Site ID.
  * @param string $meta_key   Metadata name.
@@ -1478,7 +1478,7 @@ function add_site_meta( $site_id, $meta_key, $meta_value, $unique = false ) {
 	// Bail if site meta table is not installed.
 	if ( ! is_site_meta_supported() ) {
 		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}
 
@@ -1499,7 +1499,7 @@ function add_site_meta( $site_id, $meta_key, $meta_value, $unique = false ) {
  * value, will keep from removing duplicate metadata with the same key. It also
  * allows removing all metadata matching key, if needed.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param int    $site_id    Site ID.
  * @param string $meta_key   Metadata name.
@@ -1511,7 +1511,7 @@ function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
 	// Bail if site meta table is not installed.
 	if ( ! is_site_meta_supported() ) {
 		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}
 
@@ -1528,7 +1528,7 @@ function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
 /**
  * Retrieves metadata for a site.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param int    $site_id Site ID.
  * @param string $key     Optional. The meta key to retrieve. By default, returns
@@ -1541,7 +1541,7 @@ function get_site_meta( $site_id, $key = '', $single = false ) {
 	// Bail if site meta table is not installed.
 	if ( ! is_site_meta_supported() ) {
 		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}
 
@@ -1556,7 +1556,7 @@ function get_site_meta( $site_id, $key = '', $single = false ) {
  *
  * If the meta field for the site does not exist, it will be added.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param int    $site_id    Site ID.
  * @param string $meta_key   Metadata key.
@@ -1570,7 +1570,7 @@ function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) 
 	// Bail if site meta table is not installed.
 	if ( ! is_site_meta_supported() ) {
 		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}
 
@@ -1587,7 +1587,7 @@ function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) 
 /**
  * Deletes everything from site meta matching meta key.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param string $meta_key Metadata key to search for when deleting.
  * @return bool Whether the site meta key was deleted from the database.
@@ -1596,7 +1596,7 @@ function delete_site_meta_by_key( $meta_key ) {
 	// Bail if site meta table is not installed.
 	if ( ! is_site_meta_supported() ) {
 		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.0.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}
 
