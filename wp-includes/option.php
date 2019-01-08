@@ -1193,7 +1193,7 @@ function update_site_option( $option, $value ) {
  *
  * @see get_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option to retrieve. Expected to not be SQL-escaped.
@@ -1326,7 +1326,7 @@ function get_network_option( $network_id, $option, $default = false ) {
  *
  * @see add_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of option to add. Expected to not be SQL-escaped.
@@ -1448,7 +1448,7 @@ function add_network_option( $network_id, $option, $value ) {
  *
  * @see delete_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of option to remove. Expected to not be SQL-escaped.
@@ -1541,7 +1541,7 @@ function delete_network_option( $network_id, $option ) {
  *
  * @see update_option()
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option. Expected to not be SQL-escaped.
@@ -2162,6 +2162,7 @@ function register_setting( $option_group, $option_name, $args = array() ) {
  * @since 4.7.0 `$sanitize_callback` was deprecated. The callback from `register_setting()` is now used instead.
  *
  * @global array $new_whitelist_options
+ * @global array $wp_registered_settings
  *
  * @param string   $option_group      The settings group name used during registration.
  * @param string   $option_name       The name of the option to unregister.
@@ -2233,6 +2234,8 @@ function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
  * Retrieves an array of registered settings.
  *
  * @since 4.7.0
+ *
+ * @global array $wp_registered_settings
  *
  * @return array List of registered settings, keyed by option name.
  */
