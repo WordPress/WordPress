@@ -11,6 +11,8 @@
  * Customize Nav Menu Locations Control Class.
  *
  * @since 4.9.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Locations_Control extends WP_Customize_Control {
 
