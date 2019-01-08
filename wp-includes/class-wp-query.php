@@ -1620,9 +1620,9 @@ class WP_Query {
 				break;
 			case 'post_name__in':
 				if ( ! empty( $this->query_vars['post_name__in'] ) ) {
-					$post_name__in = array_map( 'sanitize_title_for_query', $this->query_vars['post_name__in'] );
+					$post_name__in        = array_map( 'sanitize_title_for_query', $this->query_vars['post_name__in'] );
 					$post_name__in_string = "'" . implode( "','", $post_name__in ) . "'";
-					$orderby_clause = "FIELD( {$wpdb->posts}.post_name," . $post_name__in_string . ' )';
+					$orderby_clause       = "FIELD( {$wpdb->posts}.post_name," . $post_name__in_string . ' )';
 				}
 				break;
 			default:
