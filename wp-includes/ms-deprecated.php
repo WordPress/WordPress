@@ -559,7 +559,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
  * the new blog's ID. It is the first step in creating a new blog.
  *
  * @since MU (3.0.0)
- * @deprecated 5.0.0 Use `wp_insert_site()`
+ * @deprecated 5.1.0 Use `wp_insert_site()`
  * @see wp_insert_site()
  *
  * @param string $domain  The domain of the new site.
@@ -568,7 +568,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
  * @return int|false The ID of the new row
  */
 function insert_blog($domain, $path, $site_id) {
-	_deprecated_function( __FUNCTION__, '5.0.0', 'wp_insert_site()' );
+	_deprecated_function( __FUNCTION__, '5.1.0', 'wp_insert_site()' );
 
 	$data = array(
 		'domain'  => $domain,
@@ -594,7 +594,7 @@ function insert_blog($domain, $path, $site_id) {
  * points to the new blog.
  *
  * @since MU (3.0.0)
- * @deprecated 5.0.0
+ * @deprecated 5.1.0
  *
  * @global wpdb     $wpdb
  * @global WP_Roles $wp_roles
@@ -605,7 +605,7 @@ function insert_blog($domain, $path, $site_id) {
 function install_blog( $blog_id, $blog_title = '' ) {
 	global $wpdb, $wp_roles;
 
-	_deprecated_function( __FUNCTION__, '5.0.0' );
+	_deprecated_function( __FUNCTION__, '5.1.0' );
 
 	// Cast for security
 	$blog_id = (int) $blog_id;

@@ -1347,7 +1347,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $options = array(),
  * the notification email.
  *
  * @since MU (3.0.0)
- * @since 5.0.0 $blog_id now supports input from the {@see 'wp_initialize_site'} action.
+ * @since 5.1.0 $blog_id now supports input from the {@see 'wp_initialize_site'} action.
  *
  * @param WP_Site|int $blog_id    The new site's object or ID.
  * @param string      $deprecated Not used.
@@ -1899,7 +1899,7 @@ function update_posts_count( $deprecated = '' ) {
  * Logs the user email, IP, and registration date of a new site.
  *
  * @since MU (3.0.0)
- * @since 5.0.0 Parameters now support input from the {@see 'wp_initialize_site'} action.
+ * @since 5.1.0 Parameters now support input from the {@see 'wp_initialize_site'} action.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
