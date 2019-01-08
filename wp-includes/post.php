@@ -4117,6 +4117,26 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		return $slug;
 	}
 
+	/**
+	 * Filters the post slug before it is generated to be unique.
+	 *
+	 * Returning a non-null value will short-circuit the
+	 * unique slug generation, returning the passed value instead.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string $override_slug Short-circuit return value.
+	 * @param string $slug          The desired slug (post_name).
+	 * @param int    $post_ID       Post ID.
+	 * @param string $post_status   The post status.
+	 * @param string $post_type     Post type.
+	 * @param int    $post_parent   Post parent ID.
+	 */
+	$override_slug = apply_filters( 'pre_wp_unique_post_slug', null, $slug, $post_ID, $post_status, $post_type, $post_parent );
+	if ( null !== $override_slug ) {
+		return $override_slug;
+	}
+
 	global $wpdb, $wp_rewrite;
 
 	$original_slug = $slug;
