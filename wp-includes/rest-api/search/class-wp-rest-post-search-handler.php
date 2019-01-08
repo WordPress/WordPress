@@ -68,6 +68,18 @@ class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
 			$query_args['s'] = $request['search'];
 		}
 
+		/**
+		 * Filters the query arguments for a search request.
+		 *
+		 * Enables adding extra arguments or setting defaults for a post search request.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param array           $query_args Key value array of query var to query value.
+		 * @param WP_REST_Request $request    The request used.
+		 */
+		$query_args = apply_filters( 'rest_post_search_query', $query_args, $request );
+
 		$query     = new WP_Query();
 		$found_ids = $query->query( $query_args );
 		$total     = $query->found_posts;
