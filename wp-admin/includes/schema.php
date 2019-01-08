@@ -1296,7 +1296,7 @@ We hope you enjoy your new site. Thanks!
 /**
  * Creates WordPress site meta and sets the default values.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
