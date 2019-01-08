@@ -14,7 +14,7 @@
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return Whether a network exists.
+ * @return string|false Base domain if network exists, otherwise false.
  */
 function network_domain_check() {
 	global $wpdb;
