@@ -2718,7 +2718,7 @@ function send_confirmation_on_profile_email() {
 			return;
 		}
 
-		if ( email_exists( $_POST['email'] ) )  {
+		if ( email_exists( $_POST['email'] ) ) {
 			$errors->add(
 				'user_email',
 				__( '<strong>ERROR</strong>: The email address is already used.' ),
