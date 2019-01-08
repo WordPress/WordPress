@@ -1609,9 +1609,9 @@ function wp_check_browser_version() {
 }
 
 /**
- * Displays the PHP upgrade nag.
+ * Displays the PHP update nag.
  *
- * @since 5.0.0
+ * @since 5.1.0
  */
 function wp_dashboard_php_nag() {
 	$response = wp_check_php_version();
@@ -1626,6 +1626,9 @@ function wp_dashboard_php_nag() {
 		$msg = __( 'WordPress has detected that your site is running on an outdated version of PHP.' );
 	}
 
+	$update_url  = wp_get_update_php_url();
+	$default_url = wp_get_default_update_php_url();
+
 	?>
 	<p><?php echo $msg; ?></p>
 
@@ -1634,22 +1637,36 @@ function wp_dashboard_php_nag() {
 
 	<p class="button-container">
 		<?php
-			printf(
-				'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
-				esc_url( _x( 'https://wordpress.org/support/update-php/', 'localized PHP upgrade information page' ) ),
-				__( 'Learn more about updating PHP' ),
-				/* translators: accessibility text */
-				__( '(opens in a new tab)' )
-			);
+		printf(
+			'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+			esc_url( $update_url ),
+			__( 'Learn more about updating PHP' ),
+			/* translators: accessibility text */
+			__( '(opens in a new tab)' )
+		);
 		?>
 	</p>
 	<?php
+
+	if ( $update_url !== $default_url ) {
+		?>
+		<p class="description">
+			<?php
+			printf(
+				/* translators: %s: default Update PHP page URL */
+				__( 'This resource is provided by your web host, and is specific to your site. For more information, <a href="%s" target="_blank">see the official WordPress documentation</a>.' ),
+				esc_url( $default_url )
+			);
+			?>
+		</p>
+		<?php
+	}
 }
 
 /**
  * Adds an additional class to the PHP nag if the current version is insecure.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param array $classes Metabox classes.
  * @return array Modified metabox classes.
@@ -1665,9 +1682,9 @@ function dashboard_php_nag_class( $classes ) {
 }
 
 /**
- * Checks if the user needs to upgrade PHP.
+ * Checks if the user needs to update PHP.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @return array|false $response Array of PHP version data. False on failure.
  */
