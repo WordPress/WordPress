@@ -4574,7 +4574,7 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 /**
  * Determines whether a taxonomy is considered "viewable".
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param string|WP_Taxonomy $taxonomy Taxonomy name or object.
  * @return bool Whether the taxonomy should be considered viewable.
