@@ -466,7 +466,7 @@ function network_step2( $errors = false ) {
 			<li><p>
 			<?php
 			printf(
-				/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy blogging." */
+				/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy publishing." */
 				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
 				'<code>wp-config.php</code>',
 				'<code>' . $location_of_wp_config . '</code>',
@@ -475,7 +475,7 @@ function network_step2( $errors = false ) {
 				 * You can check the localized release package or
 				 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
 				 */
-				'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy blogging.' ) . ' */</code>'
+				'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>'
 			);
 			?>
 			</p>

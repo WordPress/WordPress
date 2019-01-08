@@ -63,7 +63,7 @@ if ( ! function_exists( 'wp_install' ) ) :
 
 		update_option( 'siteurl', $guessurl );
 
-		// If not a public blog, don't ping.
+		// If not a public site, don't ping.
 		if ( ! $public ) {
 			update_option( 'default_pingback_flag', 0 );
 		}
