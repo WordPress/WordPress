@@ -323,54 +323,68 @@ function size_format( $bytes, $decimals = 0 ) {
 }
 
 /**
- * Convert a filelength to human readable format.
+ * Convert a duration to human readable format.
  *
- * @since 5.0
+ * @since 5.1.0
  *
- * @param string $filelength Duration will be in string format (HH:ii:ss) OR (ii:ss).
- * @return boolean|string A human readable filelength string, false on failure.
+ * @param string $duration Duration will be in string format (HH:ii:ss) OR (ii:ss),
+ *                         with a possible prepended negative sign (-).
+ * @return string|false A human readable duration string, false on failure.
  */
-function human_readable_duration( $filelength = '' ) {
-	// Return false if filelength is empty or not in format.
-	if ( ( empty( $filelength ) || ! is_string( $filelength ) ) ) {
+function human_readable_duration( $duration = '' ) {
+	if ( ( empty( $duration ) || ! is_string( $duration ) ) ) {
 		return false;
 	}
 
-	// Validate filelength format.
-	if ( ! ( (bool) preg_match( '/^(([0-3]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/', $filelength ) ) ) {
+	$duration = trim( $duration );
+
+	// Remove prepended negative sign.
+	if ( '-' === substr( $duration, 0, 1 ) ) {
+		$duration = substr( $duration, 1 );
+	}
+
+	// Extract duration parts.
+	$duration_parts = array_reverse( explode( ':', $duration ) );
+	$duration_count = count( $duration_parts );
+
+	$hour   = null;
+	$minute = null;
+	$second = null;
+
+	if ( 3 === $duration_count ) {
+		// Validate HH:ii:ss duration format.
+		if ( ! ( (bool) preg_match( '/^([0-9]+):([0-5]?[0-9]):([0-5]?[0-9])$/', $duration ) ) ) {
+			return false;
+		}
+		// Three parts: hours, minutes & seconds.
+		list( $second, $minute, $hour ) = $duration_parts;
+	} elseif ( 2 === $duration_count ) {
+		// Validate ii:ss duration format.
+		if ( ! ( (bool) preg_match( '/^([0-5]?[0-9]):([0-5]?[0-9])$/', $duration ) ) ) {
+			return false;
+		}
+		// Two parts: minutes & seconds.
+		list( $second, $minute ) = $duration_parts;
+	} else {
 		return false;
 	}
 
 	$human_readable_duration = array();
 
-	// Extract duration.
-	$durations      = array_reverse( explode( ':', $filelength ) );
-	$duration_count = count( $durations );
-
-	if ( 3 === $duration_count ) {
-		// Three parts: hours, minutes & seconds.
-		list( $second, $minute, $hour ) = $durations;
-	} elseif ( 2 === $duration_count ) {
-		// Two parts: minutes & seconds.
-		list( $second, $minute ) = $durations;
-	} else {
-		return false;
-	}
-
 	// Add the hour part to the string.
-	if ( ! empty( $hour ) && is_numeric( $hour ) ) {
+	if ( is_numeric( $hour ) ) {
 		/* translators: Time duration in hour or hours. */
 		$human_readable_duration[] = sprintf( _n( '%s hour', '%s hours', $hour ), (int) $hour );
 	}
 
 	// Add the minute part to the string.
-	if ( ! empty( $minute ) && is_numeric( $minute ) ) {
+	if ( is_numeric( $minute ) ) {
 		/* translators: Time duration in minute or minutes. */
 		$human_readable_duration[] = sprintf( _n( '%s minute', '%s minutes', $minute ), (int) $minute );
 	}
 
 	// Add the second part to the string.
-	if ( ! empty( $second ) && is_numeric( $second ) ) {
+	if ( is_numeric( $second ) ) {
 		/* translators: Time duration in second or seconds. */
 		$human_readable_duration[] = sprintf( _n( '%s second', '%s seconds', $second ), (int) $second );
 	}
