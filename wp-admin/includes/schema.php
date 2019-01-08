@@ -1121,7 +1121,7 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 /**
  * Creates WordPress network meta and sets the default values.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @global wpdb $wpdb          WordPress database abstraction object.
  * @global int  $wp_db_version WordPress database version.
