@@ -1989,10 +1989,10 @@ final class WP_Privacy_Policy_Content {
 		 * @since 4.9.6
 		 * @since 5.0.0 Added the `$strings`, `$description`, and `$blocks` parameters.
 		 *
-		 * @param $content     string The default policy content.
-		 * @param $strings     array  An array of privacy policy content strings.
-		 * @param $description bool   Whether policy descriptions should be included.
-		 * @param $blocks      bool   Whether the content should be formatted for the block editor.
+		 * @param string $content     The default policy content.
+		 * @param array  $strings     An array of privacy policy content strings.
+		 * @param bool   $description Whether policy descriptions should be included.
+		 * @param bool   $blocks      Whether the content should be formatted for the block editor.
 		 */
 		return apply_filters( 'wp_get_default_privacy_policy_content', $content, $strings, $description, $blocks );
 	}
