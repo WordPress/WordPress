@@ -25,12 +25,12 @@ function twentyseventeen_custom_header_setup() {
 	 *     An array of custom-header support arguments.
 	 *
 	 *     @type string $default-image          Default image of the header.
-	 *     @type string $default_text_color     Default color of the header text.
 	 *     @type int    $width                  Width in pixels of the custom header image. Default 954.
 	 *     @type int    $height                 Height in pixels of the custom header image. Default 1300.
+	 *     @type string $flex-height            Flex support for height of header.
+	 *     @type string $video                  Video support for header.
 	 *     @type string $wp-head-callback       Callback function used to styles the header image and text
 	 *                                          displayed on the blog.
-	 *     @type string $flex-height            Flex support for height of header.
 	 * }
 	 */
 	add_theme_support(
