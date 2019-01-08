@@ -756,10 +756,6 @@ function update_site_cache( $sites, $update_meta_cache = true ) {
  * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
  */
 function update_sitemeta_cache( $site_ids ) {
-	if ( ! is_site_meta_supported() ) {
-		return false;
-	}
-
 	return update_meta_cache( 'blog', $site_ids );
 }
 
@@ -1475,21 +1471,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @return int|false Meta ID on success, false on failure.
  */
 function add_site_meta( $site_id, $meta_key, $meta_value, $unique = false ) {
-	// Bail if site meta table is not installed.
-	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
-		return false;
-	}
-
-	$added = add_metadata( 'blog', $site_id, $meta_key, $meta_value, $unique );
-
-	// Bust site query cache.
-	if ( $added ) {
-		wp_cache_set( 'last_changed', microtime(), 'sites' );
-	}
-
-	return $added;
+	return add_metadata( 'blog', $site_id, $meta_key, $meta_value, $unique );
 }
 
 /**
@@ -1508,21 +1490,7 @@ function add_site_meta( $site_id, $meta_key, $meta_value, $unique = false ) {
  * @return bool True on success, false on failure.
  */
 function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
-	// Bail if site meta table is not installed.
-	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
-		return false;
-	}
-
-	$deleted = delete_metadata( 'blog', $site_id, $meta_key, $meta_value );
-
-	// Bust site query cache.
-	if ( $deleted ) {
-		wp_cache_set( 'last_changed', microtime(), 'sites' );
-	}
-
-	return $deleted;
+	return delete_metadata( 'blog', $site_id, $meta_key, $meta_value );
 }
 
 /**
@@ -1538,13 +1506,6 @@ function delete_site_meta( $site_id, $meta_key, $meta_value = '' ) {
  *               field if $single is true.
  */
 function get_site_meta( $site_id, $key = '', $single = false ) {
-	// Bail if site meta table is not installed.
-	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
-		return false;
-	}
-
 	return get_metadata( 'blog', $site_id, $key, $single );
 }
 
@@ -1567,21 +1528,7 @@ function get_site_meta( $site_id, $key = '', $single = false ) {
  *                  false on failure.
  */
 function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) {
-	// Bail if site meta table is not installed.
-	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
-		return false;
-	}
-
-	$updated = update_metadata( 'blog', $site_id, $meta_key, $meta_value, $prev_value );
-
-	// Bust site query cache.
-	if ( $updated ) {
-		wp_cache_set( 'last_changed', microtime(), 'sites' );
-	}
-
-	return $updated;
+	return update_metadata( 'blog', $site_id, $meta_key, $meta_value, $prev_value );
 }
 
 /**
@@ -1593,21 +1540,7 @@ function update_site_meta( $site_id, $meta_key, $meta_value, $prev_value = '' ) 
  * @return bool Whether the site meta key was deleted from the database.
  */
 function delete_site_meta_by_key( $meta_key ) {
-	// Bail if site meta table is not installed.
-	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
-		return false;
-	}
-
-	$deleted = delete_metadata( 'blog', null, $meta_key, '', true );
-
-	// Bust site query cache.
-	if ( $deleted ) {
-		wp_cache_set( 'last_changed', microtime(), 'sites' );
-	}
-
-	return $deleted;
+	return delete_metadata( 'blog', null, $meta_key, '', true );
 }
 
 /**
@@ -2308,4 +2241,33 @@ function wp_update_blog_public_option_on_site_update( $site_id, $public ) {
 	}
 
 	update_blog_option( $site_id, 'blog_public', $public );
+}
+
+/**
+ * Sets the last changed time for the 'sites' cache group.
+ *
+ * @since 5.1.0
+ */
+function wp_cache_set_sites_last_changed() {
+	wp_cache_set( 'last_changed', microtime(), 'sites' );
+}
+
+/**
+ * Aborts calls to site meta if it is not supported.
+ *
+ * @since 5.1.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param mixed $check Skip-value for whether to proceed site meta function execution.
+ * @return mixed Original value of $check, or false if site meta is not supported.
+ */
+function wp_check_site_meta_support_prefilter( $check ) {
+	if ( ! is_site_meta_supported() ) {
+		/* translators: %s: database table name */
+		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
+		return false;
+	}
+
+	return $check;
 }
