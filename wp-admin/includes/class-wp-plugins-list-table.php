@@ -659,7 +659,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					$actions = array(
 						'network_active' => __( 'Network Active' ),
 					);
-					if ( ! $restrict_network_only && current_user_can( 'resume_plugin' ) && is_plugin_paused( $plugin_file ) ) {
+					if ( ! $restrict_network_only && current_user_can( 'resume_plugin', $plugin_file ) && is_plugin_paused( $plugin_file ) ) {
 						/* translators: %s: plugin name */
 						$actions['resume'] = '<a class="resume-link" href="' . wp_nonce_url( 'plugins.php?action=resume&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'resume-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( _x( 'Resume %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Resume' ) . '</a>';
 					}
@@ -672,7 +672,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						/* translators: %s: plugin name */
 						$actions['deactivate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( _x( 'Deactivate %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Deactivate' ) . '</a>';
 					}
-					if ( current_user_can( 'resume_plugin' ) && is_plugin_paused( $plugin_file ) ) {
+					if ( current_user_can( 'resume_plugin', $plugin_file ) && is_plugin_paused( $plugin_file ) ) {
 						/* translators: %s: plugin name */
 						$actions['resume'] = '<a class="resume-link" href="' . wp_nonce_url( 'plugins.php?action=resume&amp;plugin=' . urlencode( $plugin_file ) . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'resume-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( _x( 'Resume %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Resume' ) . '</a>';
 					}
