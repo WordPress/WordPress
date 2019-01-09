@@ -604,7 +604,7 @@ class WP_Query {
 	 *              Introduced `RAND(x)` syntax for `$orderby`, which allows an integer seed value to random sorts.
 	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced the `$lazy_load_term_meta` argument.
 	 * @since 4.9.0 Introduced the `$comment_count` parameter.
-	 * @since 5.0.0 Introduced the `$meta_compare_key` parameter.
+	 * @since 5.1.0 Introduced the `$meta_compare_key` parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
