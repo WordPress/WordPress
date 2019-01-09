@@ -1364,6 +1364,7 @@ function wp_get_pomo_file_data( $po_file ) {
  * @since 4.0.0
  * @since 4.3.0 Introduced the `echo` argument.
  * @since 4.7.0 Introduced the `show_option_site_default` argument.
+ * @since 5.1.0 Introduced the `show_option_en_us` argument.
  *
  * @see get_available_languages()
  * @see wp_get_available_translations()
@@ -1382,6 +1383,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *                                                  boolean equivalents. Default 1.
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
  *     @type bool     $show_option_site_default     Whether to show an option to fall back to the site's locale. Default false.
+ *     @type bool     $show_option_en_us            Whether to show an option for English (United States). Default true.
  * }
  * @return string HTML content
  */
@@ -1398,6 +1400,7 @@ function wp_dropdown_languages( $args = array() ) {
 			'echo'                        => 1,
 			'show_available_translations' => true,
 			'show_option_site_default'    => false,
+			'show_option_en_us'           => true,
 		)
 	);
 
@@ -1461,11 +1464,12 @@ function wp_dropdown_languages( $args = array() ) {
 		);
 	}
 
-	// Always show English.
-	$structure[] = sprintf(
-		'<option value="" lang="en" data-installed="1"%s>English (United States)</option>',
-		selected( '', $parsed_args['selected'], false )
-	);
+	if ( $parsed_args['show_option_en_us'] ) {
+		$structure[] = sprintf(
+			'<option value="" lang="en" data-installed="1"%s>English (United States)</option>',
+			selected( '', $parsed_args['selected'], false )
+		);
+	}
 
 	// List installed languages.
 	foreach ( $languages as $language ) {
