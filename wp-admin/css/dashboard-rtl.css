@@ -245,6 +245,11 @@
 	top: -1px;
 }
 
+.welcome-panel .welcome-setup-home:before {
+	content: "\f102";
+	top: -1px;
+}
+
 .welcome-panel .welcome-view-site:before {
 	content: "\f115";
 	top: -2px;
