@@ -11,6 +11,8 @@
  * Meta-based user sessions token manager.
  *
  * @since 4.0.0
+ *
+ * @see WP_Session_Tokens
  */
 class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 
