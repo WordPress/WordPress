@@ -2,7 +2,7 @@
 /**
  * The template part for displaying a message that posts cannot be found
  *
- * Learn more: {@link https://codex.wordpress.org/Template_Hierarchy}
+ * Learn more: {@link https://developer.wordpress.org/themes/basics/template-hierarchy/}
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
