@@ -172,7 +172,7 @@ class WP_oEmbed {
 		 * | CollegeHumor | collegehumor.com                          |      Yes       | 4.0.0   |
 		 * | Issuu        | issuu.com                                 |      Yes       | 4.0.0   |
 		 * | Mixcloud     | mixcloud.com                              |      Yes       | 4.0.0   |
-		 * | Crowdsigna   | poll.fm                                   |      Yes       | 4.0.0   |
+		 * | Crowdsignal  | poll.fm                                   |      Yes       | 4.0.0   |
 		 * | TED          | ted.com                                   |      Yes       | 4.0.0   |
 		 * | YouTube      | youtube.com/playlist                      |      Yes       | 4.0.0   |
 		 * | Tumblr       | tumblr.com                                |      Yes       | 4.2.0   |
