@@ -358,13 +358,13 @@ endif;
 $can_edit_terms = current_user_can( $tax->cap->edit_terms );
 
 if ( $can_edit_terms ) {
-?>
+	?>
 <div id="col-container" class="wp-clearfix">
 
 <div id="col-left">
 <div class="col-wrap">
 
-<?php
+	<?php
 	if ( 'category' == $taxonomy ) {
 		/**
 		 * Fires before the Add Category form.
@@ -616,7 +616,7 @@ endif;
 do_action( "after-{$taxonomy}-table", $taxonomy );
 
 if ( $can_edit_terms ) {
-?>
+	?>
 </div>
 </div><!-- /col-right -->
 
