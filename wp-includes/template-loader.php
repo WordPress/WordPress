@@ -4,7 +4,7 @@
  *
  * @package WordPress
  */
-if ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) {
+if ( wp_using_themes() ) {
 	/**
 	 * Fires before determining which template to load.
 	 *
@@ -44,7 +44,7 @@ elseif ( is_trackback() ) :
 	return;
 endif;
 
-if ( defined( 'WP_USE_THEMES' ) && WP_USE_THEMES ) :
+if ( wp_using_themes() ) :
 	$template = false;
 	if ( is_embed() && $template = get_embed_template() ) :
 	elseif ( is_404() && $template = get_404_template() ) :

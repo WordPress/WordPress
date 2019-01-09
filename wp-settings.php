@@ -17,8 +17,14 @@ define( 'WPINC', 'wp-includes' );
 
 // Include files required for initialization.
 require( ABSPATH . WPINC . '/load.php' );
+require( ABSPATH . WPINC . '/class-wp-paused-extensions-storage.php' );
+require( ABSPATH . WPINC . '/class-wp-shutdown-handler.php' );
+require( ABSPATH . WPINC . '/error-protection.php' );
 require( ABSPATH . WPINC . '/default-constants.php' );
 require_once( ABSPATH . WPINC . '/plugin.php' );
+
+// Make sure we register the premature shutdown handler as soon as possible.
+wp_register_premature_shutdown_handler();
 
 /*
  * These can't be directly globalized in version.php. When updating,
@@ -474,14 +480,12 @@ $GLOBALS['wp_locale_switcher'] = new WP_Locale_Switcher();
 $GLOBALS['wp_locale_switcher']->init();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
-if ( ! wp_installing() || 'wp-activate.php' === $pagenow ) {
-	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) ) {
-		include( STYLESHEETPATH . '/functions.php' );
-	}
-	if ( file_exists( TEMPLATEPATH . '/functions.php' ) ) {
-		include( TEMPLATEPATH . '/functions.php' );
+foreach ( wp_get_active_and_valid_themes() as $theme ) {
+	if ( file_exists( $theme . '/functions.php' ) ) {
+		include $theme . '/functions.php';
 	}
 }
+unset( $theme );
 
 /**
  * Fires after the theme is loaded.
@@ -526,3 +530,12 @@ if ( is_multisite() ) {
  * @since 3.0.0
  */
 do_action( 'wp_loaded' );
+
+/*
+ * Store the fact that we could successfully execute the entire WordPress
+ * lifecycle. This is used to skip the premature shutdown handler, as it cannot
+ * be unregistered.
+ */
+if ( ! defined( 'WP_EXECUTION_SUCCEEDED' ) ) {
+	define( 'WP_EXECUTION_SUCCEEDED', true );
+}

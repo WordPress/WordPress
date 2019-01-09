@@ -696,7 +696,115 @@ function wp_get_active_and_valid_plugins() {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 		}
 	}
+
+	/*
+	 * Remove plugins from the list of active plugins when we're on an endpoint
+	 * that should be protected against WSODs and the plugin is paused.
+	 */
+	if ( is_protected_endpoint() ) {
+		$plugins = wp_skip_paused_plugins( $plugins );
+	}
+
 	return $plugins;
+}
+
+/**
+ * Filters a given list of plugins, removing any paused plugins from it.
+ *
+ * @since 5.1.0
+ *
+ * @param array $plugins List of absolute plugin main file paths.
+ * @return array Filtered value of $plugins, without any paused plugins.
+ */
+function wp_skip_paused_plugins( array $plugins ) {
+	$paused_plugins = wp_paused_plugins()->get_all();
+
+	if ( empty( $paused_plugins ) ) {
+		return $plugins;
+	}
+
+	foreach ( $plugins as $index => $plugin ) {
+		list( $plugin ) = explode( '/', plugin_basename( $plugin ) );
+
+		if ( array_key_exists( $plugin, $paused_plugins ) ) {
+			unset( $plugins[ $index ] );
+
+			// Store list of paused plugins for displaying an admin notice.
+			$GLOBALS['_paused_plugins'][ $plugin ] = $paused_plugins[ $plugin ];
+		}
+	}
+
+	return $plugins;
+}
+
+/**
+ * Retrieves an array of active and valid themes.
+ *
+ * While upgrading or installing WordPress, no themes are returned.
+ *
+ * @since 5.1.0
+ * @access private
+ *
+ * @return array Array of paths to theme directories.
+ */
+function wp_get_active_and_valid_themes() {
+	global $pagenow;
+
+	$themes = array();
+
+	if ( wp_installing() && 'wp-activate.php' !== $pagenow ) {
+		return $themes;
+	}
+
+	if ( TEMPLATEPATH !== STYLESHEETPATH ) {
+		$themes[] = STYLESHEETPATH;
+	}
+
+	$themes[] = TEMPLATEPATH;
+
+	/*
+	 * Remove themes from the list of active themes when we're on an endpoint
+	 * that should be protected against WSODs and the theme is paused.
+	 */
+	if ( is_protected_endpoint() ) {
+		$themes = wp_skip_paused_themes( $themes );
+
+		// If no active and valid themes exist, skip loading themes.
+		if ( empty( $themes ) ) {
+			add_filter( 'wp_using_themes', '__return_false' );
+		}
+	}
+
+	return $themes;
+}
+
+/**
+ * Filters a given list of themes, removing any paused themes from it.
+ *
+ * @since 5.1.0
+ *
+ * @param array $themes List of absolute theme directory paths.
+ * @return array Filtered value of $themes, without any paused themes.
+ */
+function wp_skip_paused_themes( array $themes ) {
+	$paused_themes = wp_paused_themes()->get_all();
+
+	if ( empty( $paused_themes ) ) {
+		return $themes;
+	}
+
+	foreach ( $themes as $index => $theme ) {
+		$theme = basename( $theme );
+
+		if ( array_key_exists( $theme, $paused_themes ) ) {
+			unset( $themes[ $index ] );
+
+			// Store list of paused themes for displaying an admin notice.
+			$GLOBALS['_paused_themes'][ $theme ] = $paused_themes[ $theme ];
+		}
+	}
+
+	return $themes;
 }
 
 /**
@@ -1161,6 +1269,106 @@ function wp_doing_ajax() {
 	 * @param bool $wp_doing_ajax Whether the current request is a WordPress Ajax request.
 	 */
 	return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
+ * Determines whether the current request should use themes.
+ *
+ * @since 5.1.0
+ *
+ * @return bool True if themes should be used, false otherwise.
+ */
+function wp_using_themes() {
+	/**
+	 * Filters whether the current request should use themes.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param bool $wp_using_themes Whether the current request should use themes.
+	 */
+	return apply_filters( 'wp_using_themes', defined( 'WP_USE_THEMES' ) && WP_USE_THEMES );
+}
+
+/**
+ * Determines whether we are currently on an endpoint that should be protected against WSODs.
+ *
+ * @since 5.1.0
+ *
+ * @return bool True if the current endpoint should be protected.
+ */
+function is_protected_endpoint() {
+	// Protect login pages.
+	if ( isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] ) {
+		return true;
+	}
+
+	// Protect the admin backend.
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return true;
+	}
+
+	// Protect AJAX actions that could help resolve a fatal error should be available.
+	if ( is_protected_ajax_action() ) {
+		return true;
+	}
+
+	/**
+	 * Filters whether the current request is against a protected endpoint.
+	 *
+	 * This filter is only fired when an endpoint is requested which is not already protected by
+	 * WordPress core. As such, it exclusively allows providing further protected endpoints in
+	 * addition to the admin backend, login pages and protected AJAX actions.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param bool $is_protected_endpoint Whether the currently requested endpoint is protected. Default false.
+	 */
+	return (bool) apply_filters( 'is_protected_endpoint', false );
+}
+
+/**
+ * Determines whether we are currently handling an AJAX action that should be protected against WSODs.
+ *
+ * @since 5.1.0
+ *
+ * @return bool True if the current AJAX action should be protected.
+ */
+function is_protected_ajax_action() {
+	if ( ! wp_doing_ajax() ) {
+		return false;
+	}
+
+	if ( ! isset( $_REQUEST['action'] ) ) {
+		return false;
+	}
+
+	$actions_to_protect = array(
+		'edit-theme-plugin-file', // Saving changes in the core code editor.
+		'heartbeat',              // Keep the heart beating.
+		'install-plugin',         // Installing a new plugin.
+		'install-theme',          // Installing a new theme.
+		'search-plugins',         // Searching in the list of plugins.
+		'search-install-plugins', // Searching for a plugin in the plugin install screen.
+		'update-plugin',          // Update an existing plugin.
+		'update-theme',           // Update an existing theme.
+	);
+
+	/**
+	 * Filters the array of protected AJAX actions.
+	 *
+	 * This filter is only fired when doing AJAX and the AJAX request has an 'action' property.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $actions_to_protect Array of strings with AJAX actions to protect.
+	 */
+	$actions_to_protect = (array) apply_filters( 'wp_protected_ajax_actions', $actions_to_protect );
+
+	if ( ! in_array( $_REQUEST['action'], $actions_to_protect, true ) ) {
+		return false;
+	}
+
+	return true;
 }
 
 /**

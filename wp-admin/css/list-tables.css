@@ -1301,6 +1301,31 @@ ul.cat-checklist {
 	text-decoration: underline;
 }
 
+.plugins tr.paused th.check-column {
+	border-left: 4px solid #d54e21;
+}
+
+.plugins tr.paused th,
+.plugins tr.paused td {
+	background-color: #fef7f1;
+}
+
+.plugins tr.paused .plugin-title,
+.plugins .paused .dashicons-warning {
+	color: #dc3232;
+}
+
+.plugins .paused .error-display p,
+.plugins .paused .error-display code {
+	font-size: 90%;
+	font-style: italic;
+	color: rgb( 0, 0, 0, 0.7 );
+}
+
+.plugins .resume-link {
+	color: #dc3232;
+}
+
 .plugin-card .update-now:before {
 	color: #f56e28;
 	content: "\f463";

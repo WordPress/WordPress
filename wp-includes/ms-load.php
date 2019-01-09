@@ -52,6 +52,15 @@ function wp_get_active_network_plugins() {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 		}
 	}
+
+	/*
+	 * Remove plugins from the list of active plugins when we're on an endpoint
+	 * that should be protected against WSODs and the plugin is paused.
+	 */
+	if ( is_protected_endpoint() ) {
+		$plugins = wp_skip_paused_plugins( $plugins );
+	}
+
 	return $plugins;
 }
 

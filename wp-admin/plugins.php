@@ -389,6 +389,27 @@ if ( $action ) {
 			}
 			break;
 
+		case 'resume':
+			if ( ! current_user_can( 'resume_plugin', $plugin ) ) {
+				wp_die( __( 'Sorry, you are not allowed to resume this plugin.' ) );
+			}
+
+			if ( is_multisite() && ! is_network_admin() && is_network_only_plugin( $plugin ) ) {
+				wp_redirect( self_admin_url( "plugins.php?plugin_status=$status&paged=$page&s=$s" ) );
+				exit;
+			}
+
+			check_admin_referer( 'resume-plugin_' . $plugin );
+
+			$result = resume_plugin( $plugin, self_admin_url( 'plugins.php?error=resuming' ), is_network_admin() );
+
+			if ( is_wp_error( $result ) ) {
+				wp_die( $result );
+			}
+
+			wp_redirect( self_admin_url( "plugins.php?resume=true&plugin_status=$status&paged=$page&s=$s" ) );
+			exit;
+
 		default:
 			if ( isset( $_POST['checked'] ) ) {
 				check_admin_referer( 'bulk-plugins' );
@@ -488,6 +509,8 @@ if ( isset( $_GET['error'] ) ) :
 			$_GET['charsout']
 		);
 		$errmsg .= ' ' . __( 'If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin.' );
+	} elseif ( 'resuming' === $_GET['error'] ) {
+		$errmsg = __( 'Plugin could not be resumed because it triggered a <strong>fatal error</strong>.' );
 	} else {
 		$errmsg = __( 'Plugin could not be activated because it triggered a <strong>fatal error</strong>.' );
 	}
@@ -541,6 +564,8 @@ elseif ( isset( $_GET['deleted'] ) ) :
 	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Selected plugins <strong>deactivated</strong>.' ); ?></p></div>
 <?php elseif ( 'update-selected' == $action ) : ?>
 	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'All selected plugins are up to date.' ); ?></p></div>
+<?php elseif ( isset( $_GET['resume'] ) ) : ?>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin <strong>resumed</strong>.' ); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">

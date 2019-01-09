@@ -763,3 +763,127 @@ function customize_themes_print_templates() {
 	</script>
 	<?php
 }
+
+/**
+ * Determines whether a theme is technically active but was paused while
+ * loading.
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 5.1.0
+ *
+ * @param string $theme Path to the theme directory relative to the themes directory.
+ * @return bool True, if in the list of paused themes. False, not in the list.
+ */
+function is_theme_paused( $theme ) {
+	if ( ! isset( $GLOBALS['_paused_themes'] ) ) {
+		return false;
+	}
+
+	if ( $theme !== get_stylesheet() && $theme !== get_template() ) {
+		return false;
+	}
+
+	return array_key_exists( $theme, $GLOBALS['_paused_themes'] );
+}
+
+/**
+ * Gets the error that was recorded for a paused theme.
+ *
+ * @since 5.1.0
+ *
+ * @param string $theme Path to the theme directory relative to the themes
+ *                      directory.
+ * @return array|false Array of error information as it was returned by
+ *                     `error_get_last()`, or false if none was recorded.
+ */
+function wp_get_theme_error( $theme ) {
+	if ( ! isset( $GLOBALS['_paused_themes'] ) ) {
+		return false;
+	}
+
+	if ( ! array_key_exists( $theme, $GLOBALS['_paused_themes'] ) ) {
+		return false;
+	}
+
+	return $GLOBALS['_paused_themes'][ $theme ];
+}
+
+/**
+ * Gets the number of sites on which a specific theme is paused.
+ *
+ * @since 5.1.0
+ *
+ * @param string $theme Path to the theme directory relative to the themes directory.
+ * @return int Site count.
+ */
+function count_paused_theme_sites_for_network( $theme ) {
+	if ( ! is_multisite() ) {
+		return is_theme_paused( $theme ) ? 1 : 0;
+	}
+
+	$query_args = array(
+		'count'      => true,
+		'number'     => 0,
+		'network_id' => get_current_network_id(),
+		'meta_query' => array(
+			wp_paused_themes()->get_site_meta_query_clause( $theme ),
+		),
+	);
+
+	return get_sites( $query_args );
+}
+
+/**
+ * Tries to resume a single theme.
+ *
+ * @since 5.1.0
+ *
+ * @param string $theme Single theme to resume.
+ * @return bool|WP_Error True on success, false if `$theme` was not paused,
+ *                       `WP_Error` on failure.
+ */
+function resume_theme( $theme ) {
+	$result = wp_forget_extension_error( 'themes', $theme );
+
+	if ( ! $result ) {
+		return new WP_Error(
+			'could_not_resume_theme',
+			__( 'Could not resume the theme.' )
+		);
+	}
+
+	return true;
+}
+
+/**
+ * Renders an admin notice in case some themes have been paused due to errors.
+ *
+ * @since 5.1.0
+ */
+function paused_themes_notice() {
+	if ( 'themes.php' === $GLOBALS['pagenow'] ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'switch_themes' ) ) {
+		return;
+	}
+
+	if ( ! isset( $GLOBALS['_paused_themes'] ) || empty( $GLOBALS['_paused_themes'] ) ) {
+		return;
+	}
+
+	printf(
+		'<div class="notice notice-error"><p><strong>%s</strong><br>%s</p><p>%s</p></div>',
+		__( 'One or more themes failed to load properly.' ),
+		__( 'You can find more details and make changes on the Themes screen.' ),
+		sprintf(
+			'<a href="%s">%s</a>',
+			admin_url( 'themes.php' ),
+			'Go to the Themes screen'
+		)
+	);
+}

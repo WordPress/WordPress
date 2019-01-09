@@ -438,12 +438,14 @@ function get_dropins() {
  */
 function _get_dropins() {
 	$dropins = array(
-		'advanced-cache.php' => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ), // WP_CACHE
-		'db.php'             => array( __( 'Custom database class.' ), true ), // auto on load
-		'db-error.php'       => array( __( 'Custom database error message.' ), true ), // auto on error
-		'install.php'        => array( __( 'Custom installation script.' ), true ), // auto on installation
-		'maintenance.php'    => array( __( 'Custom maintenance message.' ), true ), // auto on maintenance
-		'object-cache.php'   => array( __( 'External object cache.' ), true ), // auto on load
+		'advanced-cache.php'   => array( __( 'Advanced caching plugin.' ), 'WP_CACHE' ), // WP_CACHE
+		'db.php'               => array( __( 'Custom database class.' ), true ), // auto on load
+		'db-error.php'         => array( __( 'Custom database error message.' ), true ), // auto on error
+		'install.php'          => array( __( 'Custom installation script.' ), true ), // auto on installation
+		'maintenance.php'      => array( __( 'Custom maintenance message.' ), true ), // auto on maintenance
+		'object-cache.php'     => array( __( 'External object cache.' ), true ), // auto on load
+		'php-error.php'        => array( __( 'Custom PHP error message.' ), true ), // auto on error
+		'shutdown-handler.php' => array( __( 'Custom PHP shutdown handler.' ), true ), // auto on error
 	);
 
 	if ( is_multisite() ) {
@@ -494,6 +496,84 @@ function is_plugin_active( $plugin ) {
  */
 function is_plugin_inactive( $plugin ) {
 	return ! is_plugin_active( $plugin );
+}
+
+/**
+ * Determines whether a plugin is technically active but was paused while
+ * loading.
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 5.1.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return bool True, if in the list of paused plugins. False, not in the list.
+ */
+function is_plugin_paused( $plugin ) {
+	if ( ! isset( $GLOBALS['_paused_plugins'] ) ) {
+		return false;
+	}
+
+	if ( ! is_plugin_active( $plugin ) && ! is_plugin_active_for_network( $plugin ) ) {
+		return false;
+	}
+
+	list( $plugin ) = explode( '/', $plugin );
+
+	return array_key_exists( $plugin, $GLOBALS['_paused_plugins'] );
+}
+
+/**
+ * Gets the error that was recorded for a paused plugin.
+ *
+ * @since 5.1.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins
+ *                       directory.
+ * @return array|false Array of error information as it was returned by
+ *                     `error_get_last()`, or false if none was recorded.
+ */
+function wp_get_plugin_error( $plugin ) {
+	if ( ! isset( $GLOBALS['_paused_plugins'] ) ) {
+		return false;
+	}
+
+	list( $plugin ) = explode( '/', $plugin );
+
+	if ( ! array_key_exists( $plugin, $GLOBALS['_paused_plugins'] ) ) {
+		return false;
+	}
+
+	return $GLOBALS['_paused_plugins'][ $plugin ];
+}
+
+/**
+ * Gets the number of sites on which a specific plugin is paused.
+ *
+ * @since 5.1.0
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ * @return int Site count.
+ */
+function count_paused_plugin_sites_for_network( $plugin ) {
+	if ( ! is_multisite() ) {
+		return is_plugin_paused( $plugin ) ? 1 : 0;
+	}
+
+	list( $plugin ) = explode( '/', $plugin );
+
+	$query_args = array(
+		'count'      => true,
+		'number'     => 0,
+		'network_id' => get_current_network_id(),
+		'meta_query' => array(
+			wp_paused_plugins()->get_site_meta_query_clause( $plugin ),
+		),
+	);
+
+	return get_sites( $query_args );
 }
 
 /**
@@ -693,6 +773,11 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			continue;
 		}
 
+		// Clean up the database before deactivating the plugin.
+		if ( is_plugin_paused( $plugin ) ) {
+			resume_plugin( $plugin );
+		}
+
 		$network_deactivating = false !== $network_wide && is_plugin_active_for_network( $plugin );
 
 		if ( ! $silent ) {
@@ -887,6 +972,11 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 			uninstall_plugin( $plugin_file );
 		}
 
+		// Clean up the database before removing the plugin.
+		if ( is_plugin_paused( $plugin_file ) ) {
+			resume_plugin( $plugin_file );
+		}
+
 		/**
 		 * Fires immediately before a plugin deletion attempt.
 		 *
@@ -954,6 +1044,57 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		}
 
 		return new WP_Error( 'could_not_remove_plugin', sprintf( $message, implode( ', ', $errors ) ) );
+	}
+
+	return true;
+}
+
+/**
+ * Tries to resume a single plugin.
+ *
+ * If a redirect was provided, we first ensure the plugin does not throw fatal
+ * errors anymore.
+ *
+ * The way it works is by setting the redirection to the error before trying to
+ * include the plugin file. If the plugin fails, then the redirection will not
+ * be overwritten with the success message and the plugin will not be resumed.
+ *
+ * @since 5.1.0
+ *
+ * @param string $plugin       Single plugin to resume.
+ * @param string $redirect     Optional. URL to redirect to. Default empty string.
+ * @param bool   $network_wide Optional. Whether to resume the plugin for the entire
+ *                             network. Default false.
+ * @return bool|WP_Error True on success, false if `$plugin` was not paused,
+ *                       `WP_Error` on failure.
+ */
+function resume_plugin( $plugin, $redirect = '', $network_wide = false ) {
+	/*
+	 * We'll override this later if the plugin could be included without
+	 * creating a fatal error.
+	 */
+	if ( ! empty( $redirect ) ) {
+		wp_redirect(
+			add_query_arg(
+				'_error_nonce',
+				wp_create_nonce( 'plugin-resume-error_' . $plugin ),
+				$redirect
+			)
+		);
+
+		// Load the plugin to test whether it throws a fatal error.
+		ob_start();
+		plugin_sandbox_scrape( $plugin );
+		ob_clean();
+	}
+
+	$result = wp_forget_extension_error( 'plugins', $plugin, $network_wide );
+
+	if ( ! $result ) {
+		return new WP_Error(
+			'could_not_resume_plugin',
+			__( 'Could not resume the plugin.' )
+		);
 	}
 
 	return true;
@@ -2065,4 +2206,34 @@ function wp_add_privacy_policy_content( $plugin_name, $policy_text ) {
 	}
 
 	WP_Privacy_Policy_Content::add( $plugin_name, $policy_text );
+}
+
+/**
+ * Renders an admin notice in case some plugins have been paused due to errors.
+ *
+ * @since 5.1.0
+ */
+function paused_plugins_notice() {
+	if ( 'plugins.php' === $GLOBALS['pagenow'] ) {
+		return;
+	}
+
+	if ( ! current_user_can( 'deactivate_plugins' ) ) {
+		return;
+	}
+
+	if ( ! isset( $GLOBALS['_paused_plugins'] ) || empty( $GLOBALS['_paused_plugins'] ) ) {
+		return;
+	}
+
+	printf(
+		'<div class="notice notice-error"><p><strong>%s</strong><br>%s</p><p>%s</p></div>',
+		__( 'One or more plugins failed to load properly.' ),
+		__( 'You can find more details and make changes on the Plugins screen.' ),
+		sprintf(
+			'<a href="%s">%s</a>',
+			admin_url( 'plugins.php?plugin_status=paused' ),
+			'Go to the Plugins screen'
+		)
+	);
 }
