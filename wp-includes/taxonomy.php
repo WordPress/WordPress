@@ -333,7 +333,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  * @since 4.5.0 Introduced `publicly_queryable` argument.
  * @since 4.7.0 Introduced `show_in_rest`, 'rest_base' and 'rest_controller_class'
  *              arguments to register the Taxonomy in REST API.
- * @since 5.0.0 Introduced `meta_box_sanitize_cb` argument.
+ * @since 5.1.0 Introduced `meta_box_sanitize_cb` argument.
  *
  * @global array $wp_taxonomies Registered taxonomies.
  *
