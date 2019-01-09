@@ -164,7 +164,7 @@ class WP_Error {
 	/**
 	 * Verify if the instance contains errors.
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 *
 	 * @return bool
 	 */
