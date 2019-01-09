@@ -39,7 +39,7 @@ if ( ! empty( $action ) ) {
 			) {
 				$privacy_page_updated_message = sprintf(
 					/* translators: %s: URL to Customizer -> Menus */
-					__( 'Privacy Policy page updated successfully. Remember to <a href="%s">update your menus</a>!' ),
+					__( 'Privacy Policy page setting updated successfully. Remember to <a href="%s">update your menus</a>!' ),
 					esc_url( add_query_arg( 'autofocus[panel]', 'nav_menus', admin_url( 'customize.php' ) ) )
 				);
 			}
