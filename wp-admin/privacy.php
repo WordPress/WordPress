@@ -165,22 +165,23 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 			?>
 		</strong></p>
-		<p>
-			<?php
-
-			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
-			printf(
-				__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
-				admin_url( 'tools.php?wp-privacy-policy-guide' ),
-				'',
-				''
-			);
-
-			?>
-		</p>
 		<?php
 	}
 	?>
+	<p>
+		<?php
+
+		printf(
+			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
+			__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
+			admin_url( 'tools.php?wp-privacy-policy-guide' ),
+			'',
+			''
+		);
+
+		?>
+	</p>
+
 	<hr>
 	<table class="form-table tools-privacy-policy-page">
 		<tr>
