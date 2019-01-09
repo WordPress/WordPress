@@ -76,7 +76,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?twitter\.com/i/moments/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
 			'#https?://(www\.)?soundcloud\.com/.*#i'       => array( 'https://soundcloud.com/oembed', true ),
 			'#https?://(.+?\.)?slideshare\.net/.*#i'       => array( 'https://www.slideshare.net/api/oembed/2', true ),
-			'#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i' => array( 'https://api.instagram.com/oembed', true ),
+			'#https?://(www\.)?instagr(\.am|am\.com)/(p|tv)/.*#i' => array( 'https://api.instagram.com/oembed', true ),
 			'#https?://(open|play)\.spotify\.com/.*#i'     => array( 'https://embed.spotify.com/oembed/', true ),
 			'#https?://(.+\.)?imgur\.com/.*#i'             => array( 'https://api.imgur.com/oembed', true ),
 			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'    => array( 'https://api.meetup.com/oembed', true ),
@@ -200,6 +200,8 @@ class WP_oEmbed {
 		 * | Someecards   | someecards.com                            |      Yes       | 4.9.0   |
 		 * | Someecards   | some.ly                                   |      Yes       | 4.9.0   |
 		 * | Crowdsignal  | survey.fm                                 |      Yes       | 5.1.0   |
+		 * | Instagram TV | instagram.com                             |      Yes       | 5.1.0   |
+		 * | Instagram TV | instagr.am                                |      Yes       | 5.1.0   |
 		 *
 		 * No longer supported providers:
 		 *
