@@ -5706,16 +5706,16 @@ function _device_can_upload() {
  * @return bool True if the path is a stream URL.
  */
 function wp_is_stream( $path ) {
-	if ( false === strpos( $path, '://' ) ) {
+	$scheme_separator = strpos( $path, '://' );
+
+	if ( false === $scheme_separator ) {
 		// $path isn't a stream
 		return false;
 	}
 
-	$wrappers    = stream_get_wrappers();
-	$wrappers    = array_map( 'preg_quote', $wrappers );
-	$wrappers_re = '(' . join( '|', $wrappers ) . ')';
+	$stream = substr( $path, 0, $scheme_separator );
 
-	return preg_match( "!^$wrappers_re://!", $path ) === 1;
+	return in_array( $stream, stream_get_wrappers(), true );
 }
 
 /**
