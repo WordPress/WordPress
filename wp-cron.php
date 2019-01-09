@@ -76,6 +76,8 @@ if ( empty( $crons ) ) {
 	die();
 }
 
+$gmt_time = microtime( true );
+
 // The cron lock: a unix timestamp from when the cron was spawned.
 $doing_cron_transient = get_transient( 'doing_cron' );
 
