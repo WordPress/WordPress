@@ -315,7 +315,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		 * Filters the comment status links.
 		 *
 		 * @since 2.5.0
-		 * @since 5.0.0 The 'Mine' link was added.
+		 * @since 5.1.0 The 'Mine' link was added.
 		 *
 		 * @param string[] $status_links An associative array of fully-formed comment status links. Includes 'All', 'Mine',
 		 *                              'Pending', 'Approved', 'Spam', and 'Trash'.
