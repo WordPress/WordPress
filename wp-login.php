@@ -334,7 +334,7 @@ function retrieve_password() {
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) ) {
-			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no user registered with that email address.' ) );
+			$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
 		}
 	} else {
 		$login     = trim( $_POST['user_login'] );
@@ -357,7 +357,7 @@ function retrieve_password() {
 	}
 
 	if ( ! $user_data ) {
-		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: Invalid username or email.' ) );
+		$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
 		return $errors;
 	}
 
