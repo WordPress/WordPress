@@ -354,14 +354,17 @@ endif;
 
 </form>
 
+<?php
+$can_edit_terms = current_user_can( $tax->cap->edit_terms );
+
+if ( $can_edit_terms ) {
+?>
 <div id="col-container" class="wp-clearfix">
 
 <div id="col-left">
 <div class="col-wrap">
 
 <?php
-
-if ( current_user_can( $tax->cap->edit_terms ) ) {
 	if ( 'category' == $taxonomy ) {
 		/**
 		 * Fires before the Add Category form.
@@ -559,13 +562,12 @@ if ( current_user_can( $tax->cap->edit_terms ) ) {
 	do_action( "{$taxonomy}_add_form", $taxonomy );
 	?>
 </form></div>
-<?php } ?>
-
 </div>
 </div><!-- /col-left -->
 
 <div id="col-right">
 <div class="col-wrap">
+<?php } ?>
 
 <?php $wp_list_table->views(); ?>
 
@@ -612,12 +614,15 @@ endif;
  * @param string $taxonomy The taxonomy name.
  */
 do_action( "after-{$taxonomy}-table", $taxonomy );
-?>
 
+if ( $can_edit_terms ) {
+?>
 </div>
 </div><!-- /col-right -->
 
 </div><!-- /col-container -->
+<?php } ?>
+
 </div><!-- /wrap -->
 
 <?php if ( ! wp_is_mobile() ) : ?>
