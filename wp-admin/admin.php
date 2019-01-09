@@ -234,7 +234,18 @@ if ( isset( $plugin_page ) ) {
 		/**
 		 * Used to call the registered callback for a plugin screen.
 		 *
-		 * @ignore
+		 * This hook uses a dynamic hook name, `$page_hook`, which refers to a mixture of plugin
+		 * page information including:
+		 * 1. The page type. If the plugin page is registered as a submenu page, such as for
+		 *    Settings, the page type would be 'settings'. Otherwise the type is 'toplevel'.
+		 * 2. A separator of '_page_'.
+		 * 3. The plugin basename minus the file extension.
+		 *
+		 * Together, the three parts form the `$page_hook`. Citing the example above,
+		 * the hook name used would be 'settings_page_pluginbasename'.
+		 *
+		 * @see get_plugin_page_hook()
+		 *
 		 * @since 1.5.0
 		 */
 		do_action( $page_hook );
