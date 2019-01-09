@@ -3531,9 +3531,9 @@ function wp_generate_user_request_key( $request_id ) {
 
 	wp_update_post(
 		array(
-			'ID'                => $request_id,
-			'post_status'       => 'request-pending',
-			'post_password'     => $wp_hasher->HashPassword( $key ),
+			'ID'            => $request_id,
+			'post_status'   => 'request-pending',
+			'post_password' => $wp_hasher->HashPassword( $key ),
 		)
 	);
 
