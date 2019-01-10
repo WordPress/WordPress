@@ -1,13 +1,12 @@
 /**
  * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
- *
- * @output wp-admin/js/tags-suggest.js
  */
 ( function( $ ) {
 	if ( typeof window.tagsSuggestL10n === 'undefined' || typeof window.uiAutocompleteL10n === 'undefined' ) {
 		return;
 	}
 
+	var tempID = 0;
 	var separator = window.tagsSuggestL10n.tagDelimiter || ',';
 
 	function split( val ) {
@@ -54,15 +53,33 @@
 
 				term = getLast( request.term );
 
-				$.get( window.tagsSuggestL10n.restURL, {
-					_fields: [ 'id', 'name' ],
-					taxonomy: taxonomy,
-					search: term
+				$.get( window.ajaxurl, {
+					action: 'ajax-tag-search',
+					tax: taxonomy,
+					q: term
 				} ).always( function() {
 					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
 				} ).done( function( data ) {
-					cache = data;
-					response( data );
+					var tagName;
+					var tags = [];
+
+					if ( data ) {
+						data = data.split( '\n' );
+
+						for ( tagName in data ) {
+							var id = ++tempID;
+
+							tags.push({
+								id: id,
+								name: data[tagName]
+							});
+						}
+
+						cache = tags;
+						response( tags );
+					} else {
+						response( tags );
+					}
 				} );
 
 				last = request.term;
@@ -101,7 +118,7 @@
 			close: function() {
 				$element.attr( 'aria-expanded', 'false' );
 			},
-			minLength: window.tagsSuggestL10n.minChars,
+			minLength: 2,
 			position: {
 				my: 'left top+2',
 				at: 'left bottom',
