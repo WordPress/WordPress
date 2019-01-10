@@ -5476,7 +5476,7 @@ function _print_emoji_detection_script() {
  * @return string The encoded content.
  */
 function wp_encode_emoji( $content ) {
-	$emoji = _wp_emoji_list( 'partials' );
+	$emoji  = _wp_emoji_list( 'partials' );
 	$compat = version_compare( phpversion(), '5.4', '<' );
 
 	foreach ( $emoji as $emojum ) {
