@@ -134,6 +134,10 @@
 	word-wrap: normal !important; /* many screen reader and browser combinations announce broken words as they would appear visually */
 }
 
+.button .screen-reader-text {
+	height: auto; /* Fixes a Safari+VoiceOver bug, see ticket #42006 */
+}
+
 .screen-reader-shortcut {
 	position: absolute;
 	top: -1000em;
