@@ -1102,8 +1102,12 @@ span.description,
   13.0 - Tags
 ------------------------------------------------------------------------------*/
 
+#poststuff .tagsdiv .ajaxtag {
+	margin-top: 1em;
+}
+
 #poststuff .tagsdiv .howto {
-	margin: 0 0 6px 0;
+	margin: 1em 0 6px 0;
 }
 
 .ajaxtag .newtag {
@@ -1676,11 +1680,11 @@ table.links-table {
 	.links-table td {
 		padding: 10px 0;
 	}
-	
+
 	.privacy-text-box {
 		width: auto;
 	}
-	
+
 	.privacy-text-box-toc {
 		float: none;
 		width: auto;
