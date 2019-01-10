@@ -184,7 +184,7 @@ function render_block( $block ) {
 	 * @param array  $block      The block being rendered.
 	 */
 	$pre_render = apply_filters( 'pre_render_block', null, $block );
-	if ( is_null( $pre_render ) ) {
+	if ( ! is_null( $pre_render ) ) {
 		return $pre_render;
 	}
 
