@@ -113,7 +113,7 @@ function setup_config_display_header( $body_classes = array() ) {
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="<?php echo implode( ' ', $body_classes ); ?>">
-<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>"><?php _e( 'WordPress' ); ?></a></p>
 	<?php
 } // end function setup_config_display_header();
 
@@ -201,6 +201,8 @@ switch ( $step ) {
 		$GLOBALS['wp_locale'] = new WP_Locale();
 
 		setup_config_display_header();
+
+		$autofocus = wp_is_mobile() ? '' : ' autofocus';
 		?>
 <h1 class="screen-reader-text"><?php _e( 'Set up your database connection' ); ?></h1>
 <form method="post" action="setup-config.php?step=2">
@@ -208,7 +210,7 @@ switch ( $step ) {
 	<table class="form-table">
 		<tr>
 			<th scope="row"><label for="dbname"><?php _e( 'Database Name' ); ?></label></th>
-			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress" /></td>
+			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress"<?php echo $autofocus; ?>/></td>
 			<td><?php _e( 'The name of the database you want to use with WordPress.' ); ?></td>
 		</tr>
 		<tr>

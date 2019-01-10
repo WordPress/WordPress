@@ -107,10 +107,6 @@ label {
 	display: block;
 }
 
-#logo a:focus {
-	box-shadow: none;
-}
-
 .step {
 	margin: 20px 0 15px;
 }
