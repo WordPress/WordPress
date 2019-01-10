@@ -48,8 +48,9 @@
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-	outline: none;
 	color: #124964;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .media-frame a.button {
@@ -195,6 +196,9 @@
 	color: #00a0d2;
 	border-color: #5b9dd9;
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .media-modal-close span.media-modal-icon {
@@ -835,7 +839,9 @@
 	box-shadow:
 		inset 0 0 2px 3px #fff,
 		inset 0 0 0 7px #5b9dd9;
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -6px;
 }
 
 .wp-core-ui .selected.attachment {
@@ -1009,6 +1015,11 @@
 	box-shadow:
 		0 0 0 1px #fff,
 		0 0 0 2px #0073aa;
+}
+
+.wp-core-ui .attachment.selected .check:focus {
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-core-ui .attachment.details .check .media-modal-icon,
@@ -1485,6 +1496,8 @@
 	box-shadow:
 		0 0 0 1px #fff,
 		0 0 2px 3px #5b9dd9;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-core-ui .media-selection .selected.attachment {
@@ -1777,8 +1790,9 @@
 .wp-core-ui.media-modal .image-editor .imgedit-help-toggle:focus {
 	color: #0074a2;
 	border-color: #5b9dd9;
-	outline: none;
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wp-core-ui.media-modal .imgedit-group-top .dashicons-arrow-down.imgedit-help-toggle {

@@ -92,9 +92,12 @@ TABLE OF CONTENTS:
 	padding: 0 36px;
 }
 
+/* Only visible in Windows High Contrast mode */
 .wp-core-ui .button:active,
 .wp-core-ui .button:focus {
-	outline: none;
+	outline: 2px solid transparent;
+	/* Reset inherited offset from Gutenberg */
+	outline-offset: 0;
 }
 
 .wp-core-ui .button.hidden {
@@ -190,7 +193,6 @@ TABLE OF CONTENTS:
 	border: 0;
 	border-radius: 0;
 	background: none;
-	outline: none;
 	cursor: pointer;
 	text-align: left;
 	/* Mimics the default link style in common.css */
@@ -211,6 +213,8 @@ TABLE OF CONTENTS:
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .wp-core-ui .button-link-delete {
@@ -280,14 +284,14 @@ TABLE OF CONTENTS:
 }
 
 .wp-core-ui .button.button-primary.button-hero {
- box-shadow: 0 2px 0 #006799;
+	box-shadow: 0 2px 0 #006799;
 }
 
 .wp-core-ui .button.button-primary.button-hero.active,
 .wp-core-ui .button.button-primary.button-hero.active:hover,
 .wp-core-ui .button.button-primary.button-hero.active:focus,
 .wp-core-ui .button.button-primary.button-hero:active {
- box-shadow: inset 0 3px 0 #006799;
+	box-shadow: inset 0 3px 0 #006799;
 }
 
 /* ----------------------------------------------------------------------------

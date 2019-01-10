@@ -52,6 +52,8 @@ select:focus,
 textarea:focus {
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 /* rtl:ignore */
@@ -236,10 +238,12 @@ textarea[readonly] {
 	color: #72777c;
 }
 
-.form-invalid input, .form-invalid input:focus,
-.form-invalid select, .form-invalid select:focus {
+.form-invalid input,
+.form-invalid input:focus,
+.form-invalid select,
+.form-invalid select:focus {
 	border-color: #dc3232 !important;
- box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
+	box-shadow: 0 0 2px rgba( 204, 0, 0, 0.8 );
 }
 
 .form-table .form-required.form-invalid td:after {

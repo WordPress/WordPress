@@ -53,7 +53,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar a:hover,
 #wpadminbar a img,
 #wpadminbar a img:hover {
-	outline: none;
 	border: none;
 	text-decoration: none;
 	background: none;
@@ -71,7 +70,11 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar textarea,
 #wpadminbar div {
 	box-shadow: none;
-	outline: none;
+}
+
+#wpadminbar a:focus {
+	/* Inherits transparent outline only visible in Windows High Contrast mode */
+	outline-offset: -1px;
 }
 
 #wpadminbar {

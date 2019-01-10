@@ -158,7 +158,9 @@
 	line-height: normal;
 	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 	text-decoration: none;
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .hidden,
@@ -273,13 +275,21 @@ a:focus .media-icon img,
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
 }
 
 .ie8 a:focus {
 	outline: #5b9dd9 solid 1px;
 }
 
-#adminmenu a:focus,
+#adminmenu a:focus {
+	box-shadow: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
+	outline-offset: -1px;
+}
+
 .screen-reader-text:focus {
 	box-shadow: none;
 	outline: none;
@@ -617,7 +627,6 @@ code {
 	line-height: normal; /* IE8-IE11 need this for buttons */
 	color: #0073aa; /* some of these controls are button elements and don't inherit from links */
 	cursor: pointer;
-	outline: 0;
 }
 
 .wrap .wp-heading-inline + .page-title-action {
@@ -639,6 +648,8 @@ code {
 .wrap .page-title-action:focus {
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .wrap h1.long-header {

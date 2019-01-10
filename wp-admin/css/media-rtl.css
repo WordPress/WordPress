@@ -310,10 +310,12 @@
 }
 
 #find-posts-close:focus {
-	outline: none;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 #find-posts-close:before {
@@ -528,7 +530,9 @@ border color while dragging a file over the uploader drop area */
 	box-shadow:
 		inset 0 0 2px 3px #f1f1f1,
 		inset 0 0 0 7px #5b9dd9;
-	outline: none;
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -6px;
 }
 
 .media-frame.mode-grid .selected.attachment {
@@ -679,6 +683,14 @@ border color while dragging a file over the uploader drop area */
 	color: #000;
 	outline: none;
 	box-shadow: none;
+}
+
+.upload-php .media-modal-close:focus,
+.edit-attachment-frame .edit-media-header .left:focus,
+.edit-attachment-frame .edit-media-header .right:focus {
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .upload-php .media-modal-close:focus .media-modal-icon:before,
@@ -1079,8 +1091,9 @@ border color while dragging a file over the uploader drop area */
 .image-editor .imgedit-settings .imgedit-help-toggle:focus {
 	color: #0074a2;
 	border-color: #5b9dd9;
-	outline: none;
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
 }
 
 .form-table td.imgedit-response {

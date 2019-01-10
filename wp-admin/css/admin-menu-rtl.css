@@ -330,7 +330,6 @@
 #adminmenu .wp-submenu li {
 	padding: 0;
 	margin: 0;
-	overflow: hidden;
 }
 
 #adminmenu .wp-menu-image img {
@@ -547,16 +546,20 @@ ul#adminmenu > li.current > a.current:after {
 	padding: 0;
 	position: relative;
 	overflow: visible;
-	line-height: 34px;
 	background: none;
 	color: #aaa;
 	cursor: pointer;
-	outline: 0;
 }
 
-#collapse-button:hover,
+#collapse-button:hover {
+	color: #00b9eb;
+}
+
 #collapse-button:focus {
 	color: #00b9eb;
+	/* Only visible in Windows High Contrast mode */
+	outline: 1px solid transparent;
+	outline-offset: -1px;
 }
 
 #collapse-button .collapse-button-icon,
@@ -566,7 +569,10 @@ ul#adminmenu > li.current > a.current:after {
 	position: absolute;
 	top: 0;
 	right: 0;
-	line-height: 34px;
+}
+
+#collapse-button .collapse-button-label {
+	top: 8px;
 }
 
 #collapse-button .collapse-button-icon {
