@@ -3387,7 +3387,7 @@ function wp_read_audio_metadata( $file ) {
 	if ( empty( $metadata['created_timestamp'] ) ) {
 		$created_timestamp = wp_get_media_creation_timestamp( $data );
 
-		if ( false !==  $created_timestamp ) {
+		if ( false !== $created_timestamp ) {
 			$metadata['created_timestamp'] = $created_timestamp;
 		}
 	}
