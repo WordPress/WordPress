@@ -5088,7 +5088,7 @@ function get_pages( $args = array() ) {
 
 	$author_query = '';
 	if ( ! empty( $r['authors'] ) ) {
-		$post_authors = preg_split( '/[\s,]+/', $r['authors'] );
+		$post_authors = wp_parse_list( $r['authors'] );
 
 		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {

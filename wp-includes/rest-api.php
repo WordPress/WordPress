@@ -679,7 +679,7 @@ function rest_filter_response_fields( $response, $server, $request ) {
 
 	$data = $response->get_data();
 
-	$fields = is_array( $request['_fields'] ) ? $request['_fields'] : preg_split( '/[\s,]+/', $request['_fields'] );
+	$fields = wp_parse_list( $request['_fields'] );
 
 	if ( 0 === count( $fields ) ) {
 		return $response;
@@ -1109,8 +1109,8 @@ function rest_get_avatar_sizes() {
  */
 function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	if ( 'array' === $args['type'] ) {
-		if ( ! is_array( $value ) ) {
-			$value = preg_split( '/[\s,]+/', $value );
+		if ( ! is_null( $value ) ) {
+			$value = wp_parse_list( $value );
 		}
 		if ( ! wp_is_numeric_array( $value ) ) {
 			/* translators: 1: parameter, 2: type name */
@@ -1253,9 +1253,7 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		if ( empty( $args['items'] ) ) {
 			return (array) $value;
 		}
-		if ( ! is_array( $value ) ) {
-			$value = preg_split( '/[\s,]+/', $value );
-		}
+		$value = wp_parse_list( $value );
 		foreach ( $value as $index => $v ) {
 			$value[ $index ] = rest_sanitize_value_from_schema( $v, $args['items'] );
 		}

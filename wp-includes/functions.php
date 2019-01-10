@@ -3823,6 +3823,22 @@ function wp_parse_args( $args, $defaults = '' ) {
 }
 
 /**
+ * Cleans up an array, comma- or space-separated list of scalar values.
+ *
+ * @since 5.1.0
+ *
+ * @param array|string $list List of values.
+ * @return array Sanitized array of values.
+ */
+function wp_parse_list( $list ) {
+	if ( ! is_array( $list ) ) {
+		return preg_split( '/[\s,]+/', $list, -1, PREG_SPLIT_NO_EMPTY );
+	}
+
+	return $list;
+}
+
+/**
  * Clean up an array, comma- or space-separated list of IDs.
  *
  * @since 3.0.0
@@ -3831,9 +3847,7 @@ function wp_parse_args( $args, $defaults = '' ) {
  * @return array Sanitized array of IDs.
  */
 function wp_parse_id_list( $list ) {
-	if ( ! is_array( $list ) ) {
-		$list = preg_split( '/[\s,]+/', $list );
-	}
+	$list = wp_parse_list( $list );
 
 	return array_unique( array_map( 'absint', $list ) );
 }
@@ -3847,15 +3861,9 @@ function wp_parse_id_list( $list ) {
  * @return array Sanitized array of slugs.
  */
 function wp_parse_slug_list( $list ) {
-	if ( ! is_array( $list ) ) {
-		$list = preg_split( '/[\s,]+/', $list );
-	}
+	$list = wp_parse_list( $list );
 
-	foreach ( $list as $key => $value ) {
-		$list[ $key ] = sanitize_title( $value );
-	}
-
-	return array_unique( $list );
+	return array_unique( array_map( 'sanitize_title', $list ) );
 }
 
 /**

@@ -482,9 +482,11 @@ class WP_Comment_Query {
 
 		// 'status' accepts an array or a comma-separated string.
 		$status_clauses = array();
-		$statuses       = $this->query_vars['status'];
-		if ( ! is_array( $statuses ) ) {
-			$statuses = preg_split( '/[\s,]+/', $statuses );
+		$statuses       = wp_parse_list( $this->query_vars['status'] );
+
+		// Empty 'status' should be interpreted as 'all'.
+		if ( empty( $statuses ) ) {
+			$statuses = array( 'all' );
 		}
 
 		// 'any' overrides other statuses.
@@ -517,14 +519,10 @@ class WP_Comment_Query {
 
 		// User IDs or emails whose unapproved comments are included, regardless of $status.
 		if ( ! empty( $this->query_vars['include_unapproved'] ) ) {
-			$include_unapproved = $this->query_vars['include_unapproved'];
+			$include_unapproved = wp_parse_list( $this->query_vars['include_unapproved'] );
 
-			// Accepts arrays or comma-separated strings.
-			if ( ! is_array( $include_unapproved ) ) {
-				$include_unapproved = preg_split( '/[\s,]+/', $include_unapproved );
-			}
-
-			$unapproved_ids = $unapproved_emails = array();
+			$unapproved_ids    = array();
+			$unapproved_emails = array();
 			foreach ( $include_unapproved as $unapproved_identifier ) {
 				// Numeric values are assumed to be user ids.
 				if ( is_numeric( $unapproved_identifier ) ) {
