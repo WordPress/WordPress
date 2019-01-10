@@ -275,6 +275,12 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 /* 16 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -329,12 +335,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 /* 18 */
@@ -23068,14 +23068,14 @@ var assertThisInitialized = __webpack_require__(3);
 var toConsumableArray = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(17);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(17);
+var external_this_wp_keycodes_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
@@ -35129,14 +35129,9 @@ function ToolbarButton(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/toolbar/toolbar-container.js
 
 
-/**
- * External dependencies
- */
-
-
 var toolbar_container_ToolbarContainer = function ToolbarContainer(props) {
   return Object(external_this_wp_element_["createElement"])("div", {
-    className: classnames_default()('components-toolbar', props.className)
+    className: props.className
   }, props.children);
 };
 

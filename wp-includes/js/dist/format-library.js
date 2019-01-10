@@ -182,6 +182,13 @@ function _inherits(subClass, superClass) {
 /***/ }),
 
 /***/ 16:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -236,13 +243,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -638,11 +638,11 @@ var italic = {
 var external_this_wp_url_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(17);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(17);
+var external_this_wp_keycodes_ = __webpack_require__(16);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
 var external_this_wp_dom_ = __webpack_require__(22);
@@ -1061,7 +1061,7 @@ function (_Component) {
       } else if (isActive) {
         speak(Object(external_this_wp_i18n_["__"])('Link edited.'), 'assertive');
       } else {
-        speak(Object(external_this_wp_i18n_["__"])('Link inserted'), 'assertive');
+        speak(Object(external_this_wp_i18n_["__"])('Link inserted.'), 'assertive');
       }
     }
   }, {

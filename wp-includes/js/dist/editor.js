@@ -290,6 +290,12 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 /* 16 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -344,12 +350,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 /* 18 */
@@ -14069,7 +14069,7 @@ var esm_extends = __webpack_require__(18);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(17);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
@@ -14878,7 +14878,7 @@ BlockFormatControls.Slot = block_format_controls_Slot;
 /* harmony default export */ var block_format_controls = (BlockFormatControls);
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(17);
+var external_this_wp_keycodes_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/editor/build-module/components/block-navigation/index.js
 
@@ -23239,7 +23239,7 @@ function (_Component) {
             if (this.state.selectedSuggestion !== null) {
               this.selectLink(post); // Announce a link has been selected when tabbing away from the input field.
 
-              this.props.speak(Object(external_this_wp_i18n_["__"])('Link selected'));
+              this.props.speak(Object(external_this_wp_i18n_["__"])('Link selected.'));
             }
 
             break;

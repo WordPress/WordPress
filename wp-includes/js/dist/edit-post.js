@@ -218,6 +218,13 @@ function _defineProperty(obj, key, value) {
 /***/ }),
 
 /***/ 16:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -272,13 +279,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1066,7 +1066,7 @@ function CopyContentMenuItem(_ref) {
 }))(CopyContentMenuItem));
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(17);
+var external_this_wp_keycodes_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/keyboard-shortcuts-help-menu-item/index.js
 
@@ -2036,7 +2036,7 @@ var effects = {
       window.tinyMCE.triggerSave();
     }
 
-    var state = store.getState(); // Additional data needed for backwards compatibility.
+    var state = store.getState(); // Additional data needed for backward compatibility.
     // If we do not provide this data, the post will be overridden with the default values.
 
     var post = Object(external_this_wp_data_["select"])('core/editor').getCurrentPost(state);
@@ -2251,7 +2251,7 @@ store_store.dispatch({
 });
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(17);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
@@ -5743,7 +5743,15 @@ function reinitializeEditor(postType, postId, target, settings, initialEdits) {
 function initializeEditor(id, postType, postId, settings, initialEdits) {
   var target = document.getElementById(id);
   var reboot = reinitializeEditor.bind(null, postType, postId, target, settings, initialEdits);
-  Object(external_this_wp_blockLibrary_["registerCoreBlocks"])();
+  Object(external_this_wp_blockLibrary_["registerCoreBlocks"])(); // Show a console log warning if the browser is not in Standards rendering mode.
+
+  var documentMode = document.compatMode === 'CSS1Compat' ? 'Standards' : 'Quirks';
+
+  if (documentMode !== 'Standards') {
+    // eslint-disable-next-line no-console
+    console.warn("Your browser is using Quirks Mode. \nThis can cause rendering issues such as blocks overlaying meta boxes in the editor. Quirks Mode can be triggered by PHP errors or HTML code appearing before the opening <!DOCTYPE html>. Try checking the raw page source or your site's PHP error log and resolving errors there, removing any HTML before the doctype, or disabling plugins.");
+  }
+
   Object(external_this_wp_data_["dispatch"])('core/nux').triggerGuide(['core/editor.inserter', 'core/editor.settings', 'core/editor.preview', 'core/editor.publish']);
   Object(external_this_wp_element_["render"])(Object(external_this_wp_element_["createElement"])(editor, {
     settings: settings,

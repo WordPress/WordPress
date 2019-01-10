@@ -988,6 +988,13 @@ function _defineProperty(obj, key, value) {
 /***/ }),
 
 /***/ 16:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
+
+/***/ }),
+
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1042,13 +1049,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -1440,7 +1440,7 @@ var objectSpread = __webpack_require__(8);
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(16);
+var classnames = __webpack_require__(17);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 
 // EXTERNAL MODULE: external "lodash"
@@ -2882,9 +2882,12 @@ function (_Component) {
   Object(createClass["a" /* default */])(ImageEdit, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
       var _this$props = this.props,
           attributes = _this$props.attributes,
-          setAttributes = _this$props.setAttributes;
+          setAttributes = _this$props.setAttributes,
+          noticeOperations = _this$props.noticeOperations;
       var id = attributes.id,
           _attributes$url = attributes.url,
           url = _attributes$url === void 0 ? '' : _attributes$url;
@@ -2901,7 +2904,14 @@ function (_Component) {
 
               setAttributes(edit_pickRelevantMediaFiles(image));
             },
-            allowedTypes: ALLOWED_MEDIA_TYPES
+            allowedTypes: ALLOWED_MEDIA_TYPES,
+            onError: function onError(message) {
+              noticeOperations.createErrorNotice(message);
+
+              _this2.setState({
+                isEditing: true
+              });
+            }
           });
         }
       }
@@ -3109,12 +3119,12 @@ function (_Component) {
   }, {
     key: "updateDimensions",
     value: function updateDimensions() {
-      var _this2 = this;
+      var _this3 = this;
 
       var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
       var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
       return function () {
-        _this2.props.setAttributes({
+        _this3.props.setAttributes({
           width: width,
           height: height
         });
@@ -3177,7 +3187,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var isEditing = this.state.isEditing;
       var _this$props3 = this.props,
@@ -3269,13 +3279,13 @@ function (_Component) {
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextareaControl"], {
           label: Object(external_this_wp_i18n_["__"])('Alt Text (Alternative Text)'),
           value: alt,
-          onChange: _this3.updateAlt,
+          onChange: _this4.updateAlt,
           help: Object(external_this_wp_i18n_["__"])('Alternative text describes your image to people who can’t see it. Add a short description with its key details.')
         }), !Object(external_lodash_["isEmpty"])(imageSizeOptions) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
           label: Object(external_this_wp_i18n_["__"])('Image Size'),
           value: url,
           options: imageSizeOptions,
-          onChange: _this3.updateImageURL
+          onChange: _this4.updateImageURL
         }), isResizable && Object(external_this_wp_element_["createElement"])("div", {
           className: "block-library-image__dimensions"
         }, Object(external_this_wp_element_["createElement"])("p", {
@@ -3289,7 +3299,7 @@ function (_Component) {
           value: width !== undefined ? width : '',
           placeholder: imageWidth,
           min: 1,
-          onChange: _this3.updateWidth
+          onChange: _this4.updateWidth
         }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
           type: "number",
           className: "block-library-image__dimensions__height",
@@ -3297,7 +3307,7 @@ function (_Component) {
           value: height !== undefined ? height : '',
           placeholder: imageHeight,
           min: 1,
-          onChange: _this3.updateHeight
+          onChange: _this4.updateHeight
         })), Object(external_this_wp_element_["createElement"])("div", {
           className: "block-library-image__dimensions__row"
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ButtonGroup"], {
@@ -3311,36 +3321,36 @@ function (_Component) {
             isSmall: true,
             isPrimary: isCurrent,
             "aria-pressed": isCurrent,
-            onClick: _this3.updateDimensions(scaledWidth, scaledHeight)
+            onClick: _this4.updateDimensions(scaledWidth, scaledHeight)
           }, scale, "%");
         })), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
           isSmall: true,
-          onClick: _this3.updateDimensions()
+          onClick: _this4.updateDimensions()
         }, Object(external_this_wp_i18n_["__"])('Reset'))))), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PanelBody"], {
           title: Object(external_this_wp_i18n_["__"])('Link Settings')
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SelectControl"], {
           label: Object(external_this_wp_i18n_["__"])('Link To'),
           value: linkDestination,
-          options: _this3.getLinkDestinationOptions(),
-          onChange: _this3.onSetLinkDestination
+          options: _this4.getLinkDestinationOptions(),
+          onChange: _this4.onSetLinkDestination
         }), linkDestination !== LINK_DESTINATION_NONE && Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
           label: Object(external_this_wp_i18n_["__"])('Link URL'),
           value: href || '',
-          onChange: _this3.onSetCustomHref,
+          onChange: _this4.onSetCustomHref,
           placeholder: !isLinkURLInputReadOnly ? 'https://' : undefined,
           readOnly: isLinkURLInputReadOnly
         }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["ToggleControl"], {
           label: Object(external_this_wp_i18n_["__"])('Open in New Tab'),
-          onChange: _this3.onSetNewTab,
+          onChange: _this4.onSetNewTab,
           checked: linkTarget === '_blank'
         }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
           label: Object(external_this_wp_i18n_["__"])('Link CSS Class'),
           value: linkClass || '',
-          onChange: _this3.onSetLinkClass
+          onChange: _this4.onSetLinkClass
         }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
           label: Object(external_this_wp_i18n_["__"])('Link Rel'),
           value: rel || '',
-          onChange: _this3.onSetLinkRel
+          onChange: _this4.onSetLinkRel
         }))));
       }; // Disable reason: Each block can be selected by clicking on it
 
@@ -3358,7 +3368,7 @@ function (_Component) {
             imageWidth = sizes.imageWidth,
             imageHeight = sizes.imageHeight;
 
-        var filename = _this3.getFilename(url);
+        var filename = _this4.getFilename(url);
 
         var defaultedAlt;
 
@@ -3377,9 +3387,9 @@ function (_Component) {
         Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])("img", {
           src: url,
           alt: defaultedAlt,
-          onClick: _this3.onImageClick,
+          onClick: _this4.onImageClick,
           onError: function onError() {
-            return _this3.onImageError(url);
+            return _this4.onImageError(url);
           }
         }), Object(external_this_wp_blob_["isBlobURL"])(url) && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Spinner"], null))
         /* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
@@ -4636,7 +4646,7 @@ var quote_settings = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(17);
+var external_this_wp_keycodes_ = __webpack_require__(16);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/gallery/gallery-image.js
 
@@ -5276,34 +5286,34 @@ var gallery_settings = {
       isMultiBlock: true,
       blocks: ['core/image'],
       transform: function transform(attributes) {
+        // Init the align attribute from the first item which may be either the placeholder or an image.
+        var align = attributes[0].align; // Loop through all the images and check if they have the same align.
+
+        align = Object(external_lodash_["every"])(attributes, ['align', align]) ? align : undefined;
         var validImages = Object(external_lodash_["filter"])(attributes, function (_ref) {
           var id = _ref.id,
               url = _ref.url;
           return id && url;
         });
-
-        if (validImages.length > 0) {
-          return Object(external_this_wp_blocks_["createBlock"])('core/gallery', {
-            images: validImages.map(function (_ref2) {
-              var id = _ref2.id,
-                  url = _ref2.url,
-                  alt = _ref2.alt,
-                  caption = _ref2.caption;
-              return {
-                id: id,
-                url: url,
-                alt: alt,
-                caption: caption
-              };
-            }),
-            ids: validImages.map(function (_ref3) {
-              var id = _ref3.id;
-              return id;
-            })
-          });
-        }
-
-        return Object(external_this_wp_blocks_["createBlock"])('core/gallery');
+        return Object(external_this_wp_blocks_["createBlock"])('core/gallery', {
+          images: validImages.map(function (_ref2) {
+            var id = _ref2.id,
+                url = _ref2.url,
+                alt = _ref2.alt,
+                caption = _ref2.caption;
+            return {
+              id: id,
+              url: url,
+              alt: alt,
+              caption: caption
+            };
+          }),
+          ids: validImages.map(function (_ref3) {
+            var id = _ref3.id;
+            return id;
+          }),
+          align: align
+        });
       }
     }, {
       type: 'shortcode',
@@ -5378,7 +5388,8 @@ var gallery_settings = {
       type: 'block',
       blocks: ['core/image'],
       transform: function transform(_ref8) {
-        var images = _ref8.images;
+        var images = _ref8.images,
+            align = _ref8.align;
 
         if (images.length > 0) {
           return images.map(function (_ref9) {
@@ -5390,12 +5401,15 @@ var gallery_settings = {
               id: id,
               url: url,
               alt: alt,
-              caption: caption
+              caption: caption,
+              align: align
             });
           });
         }
 
-        return Object(external_this_wp_blocks_["createBlock"])('core/image');
+        return Object(external_this_wp_blocks_["createBlock"])('core/image', {
+          align: align
+        });
       }
     }]
   },
@@ -7794,7 +7808,7 @@ var embed_preview_EmbedPreview = function EmbedPreview(props) {
     href: url
   }, url)), Object(external_this_wp_element_["createElement"])("p", {
     className: "components-placeholder__error"
-  }, Object(external_this_wp_i18n_["__"])('Previews for this are unavailable in the editor, sorry!'))) : embedWrapper, (!external_this_wp_editor_["RichText"].isEmpty(caption) || isSelected) && Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["RichText"], {
+  }, Object(external_this_wp_i18n_["__"])('Sorry, we cannot preview this embedded content in the editor.'))) : embedWrapper, (!external_this_wp_editor_["RichText"].isEmpty(caption) || isSelected) && Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["RichText"], {
     tagName: "figcaption",
     placeholder: Object(external_this_wp_i18n_["__"])('Write caption…'),
     value: caption,
@@ -8580,7 +8594,8 @@ function (_Component) {
         text: href,
         className: "".concat(className, "__copy-url-button"),
         onCopy: this.confirmCopyURL,
-        onFinishCopy: this.resetCopyConfirmation
+        onFinishCopy: this.resetCopyConfirmation,
+        disabled: Object(external_this_wp_blob_["isBlobURL"])(href)
       }, showCopyConfirmation ? Object(external_this_wp_i18n_["__"])('Copied!') : Object(external_this_wp_i18n_["__"])('Copy URL'))));
     }
   }]);
