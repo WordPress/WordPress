@@ -60,14 +60,11 @@ class WP_oEmbed {
 			'#https?://flic\.kr/.*#i'                      => array( 'https://www.flickr.com/services/oembed/', true ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'           => array( 'https://api.smugmug.com/services/oembed/', true ),
 			'#https?://(www\.)?hulu\.com/watch/.*#i'       => array( 'http://www.hulu.com/api/oembed.{format}', true ),
-			'http://i*.photobucket.com/albums/*'           => array( 'http://api.photobucket.com/oembed', false ),
-			'http://gi*.photobucket.com/groups/*'          => array( 'http://api.photobucket.com/oembed', false ),
 			'#https?://(www\.)?scribd\.com/doc/.*#i'       => array( 'https://www.scribd.com/services/oembed', true ),
 			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://poll\.fm/.*#i'                      => array( 'https://api.crowdsignal.com/oembed', true ),
 			'#https?://survey\.fm/.*#i'                    => array( 'https://api.crowdsignal.com/oembed', true ),
-			'#https?://(www\.)?funnyordie\.com/videos/.*#i' => array( 'http://www.funnyordie.com/oembed', true ),
 			'#https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/.*#i' => array( 'https://publish.twitter.com/oembed', true ),
 			'#https?://(www\.)?twitter\.com/\w{1,15}$#i'   => array( 'https://publish.twitter.com/oembed', true ),
 			'#https?://(www\.)?twitter\.com/\w{1,15}/likes$#i' => array( 'https://publish.twitter.com/oembed', true ),
@@ -147,12 +144,10 @@ class WP_oEmbed {
 		 * | Dailymotion  | dailymotion.com                           |      Yes       | 2.9.0   |
 		 * | Flickr       | flickr.com                                |      Yes       | 2.9.0   |
 		 * | Hulu         | hulu.com                                  |      Yes       | 2.9.0   |
-		 * | Photobucket  | photobucket.com                           |      No        | 2.9.0   |
 		 * | Scribd       | scribd.com                                |      Yes       | 2.9.0   |
 		 * | Vimeo        | vimeo.com                                 |      Yes       | 2.9.0   |
 		 * | WordPress.tv | wordpress.tv                              |      Yes       | 2.9.0   |
 		 * | YouTube      | youtube.com/watch                         |      Yes       | 2.9.0   |
-		 * | Funny or Die | funnyordie.com                            |      Yes       | 3.0.0   |
 		 * | Crowdsignal  | polldaddy.com                             |      Yes       | 3.0.0   |
 		 * | SmugMug      | smugmug.com                               |      Yes       | 3.0.0   |
 		 * | YouTube      | youtu.be                                  |      Yes       | 3.0.0   |
@@ -214,6 +209,8 @@ class WP_oEmbed {
 		 * | Rdio         | rdio.com             |      Yes       | 3.6.0     | 4.4.1     |
 		 * | Rdio         | rd.io                |      Yes       | 3.6.0     | 4.4.1     |
 		 * | Vine         | vine.co              |      Yes       | 4.1.0     | 4.9.0     |
+		 * | Photobucket  | photobucket.com      |      No        | 2.9.0     | 5.1.0     |
+		 * | Funny or Die | funnyordie.com       |      Yes       | 3.0.0     | 5.1.0     |
 		 *
 		 * @see wp_oembed_add_provider()
 		 *
