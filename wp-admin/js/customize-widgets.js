@@ -144,7 +144,6 @@
 
 		events: {
 			'input #widgets-search': 'search',
-			'keyup #widgets-search': 'search',
 			'focus .widget-tpl' : 'focus',
 			'click .widget-tpl' : '_submit',
 			'keypress .widget-tpl' : '_submit',

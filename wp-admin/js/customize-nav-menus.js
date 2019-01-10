@@ -156,7 +156,6 @@
 
 		events: {
 			'input #menu-items-search': 'debounceSearch',
-			'keyup #menu-items-search': 'debounceSearch',
 			'focus .menu-item-tpl': 'focus',
 			'click .menu-item-tpl': '_submit',
 			'click #custom-menu-item-submit': '_submitLink',

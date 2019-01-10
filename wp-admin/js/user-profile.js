@@ -17,19 +17,7 @@
 		$toggleButton,
 		$submitButtons,
 		$submitButton,
-		currentPass,
-		inputEvent;
-
-	/*
-	 * Use feature detection to determine whether password inputs should use
-	 * the `keyup` or `input` event. Input is preferred but lacks support
-	 * in legacy browsers.
-	 */
-	if ( 'oninput' in document.createElement( 'input' ) ) {
-		inputEvent = 'input';
-	} else {
-		inputEvent = 'keyup';
-	}
+		currentPass;
 
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
@@ -71,7 +59,7 @@
 			.addClass( $pass1[0].className )
 			.data( 'pw', $pass1.data( 'pw' ) )
 			.val( $pass1.val() )
-			.on( inputEvent, function () {
+			.on( 'input', function () {
 				if ( $pass1Text.val() === currentPass ) {
 					return;
 				}
@@ -86,7 +74,7 @@
 			generatePassword();
 		}
 
-		$pass1.on( inputEvent + ' pwupdate', function () {
+		$pass1.on( 'input' + ' pwupdate', function () {
 			if ( $pass1.val() === currentPass ) {
 				return;
 			}
@@ -188,7 +176,7 @@
 		 * This fixes the issue by copying any changes from the hidden
 		 * pass2 field to the pass1 field, then running check_pass_strength.
 		 */
-		$pass2 = $('#pass2').on( inputEvent, function () {
+		$pass2 = $( '#pass2' ).on( 'input', function () {
 			if ( $pass2.val().length > 0 ) {
 				$pass1.val( $pass2.val() );
 				$pass2.val('');
@@ -336,7 +324,7 @@
 			current_name = select.val(),
 			greeting     = $( '#wp-admin-bar-my-account' ).find( '.display-name' );
 
-		$('#pass1').val('').on( inputEvent + ' pwupdate', check_pass_strength );
+		$( '#pass1' ).val( '' ).on( 'input' + ' pwupdate', check_pass_strength );
 		$('#pass-strength-result').show();
 		$('.color-palette').click( function() {
 			$(this).siblings('input[name="admin_color"]').prop('checked', true);

@@ -873,26 +873,14 @@
 		},
 
 		attachQuickSearchListeners : function() {
-			var searchTimer,
-				inputEvent;
+			var searchTimer;
 
 			// Prevent form submission.
 			$( '#nav-menu-meta' ).on( 'submit', function( event ) {
 				event.preventDefault();
 			});
 
-			/*
-			 * Use feature detection to determine whether inputs should use
-			 * the `keyup` or `input` event. Input is preferred but lacks support
-			 * in legacy browsers. See changeset 34078, see also ticket #26600#comment:59
-			 */
-			if ( 'oninput' in document.createElement( 'input' ) ) {
-				inputEvent = 'input';
-			} else {
-				inputEvent = 'keyup';
-			}
-
-			$( '#nav-menu-meta' ).on( inputEvent, '.quick-search', function() {
+			$( '#nav-menu-meta' ).on( 'input', '.quick-search', function() {
 				var $this = $( this );
 
 				$this.attr( 'autocomplete', 'off' );
