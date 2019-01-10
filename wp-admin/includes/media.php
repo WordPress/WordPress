@@ -3340,7 +3340,7 @@ function wp_read_video_metadata( $file ) {
 }
 
 /**
- * Retrieve metadata from a audio file's ID3 tags
+ * Retrieve metadata from an audio file's ID3 tags.
  *
  * @since 3.6.0
  *
@@ -3382,6 +3382,14 @@ function wp_read_audio_metadata( $file ) {
 	}
 	if ( ! empty( $data['playtime_string'] ) ) {
 		$metadata['length_formatted'] = $data['playtime_string'];
+	}
+
+	if ( empty( $metadata['created_timestamp'] ) ) {
+		$created_timestamp = wp_get_media_creation_timestamp( $data );
+
+		if ( false !==  $created_timestamp ) {
+			$metadata['created_timestamp'] = $created_timestamp;
+		}
 	}
 
 	wp_add_id3_tag_data( $metadata, $data );
