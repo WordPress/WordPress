@@ -175,6 +175,28 @@ function excerpt_remove_blocks( $content ) {
 function render_block( $block ) {
 	global $post;
 
+	/**
+	 * Allows render_block() to be shortcircuited, by returning a non-null value.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param string $pre_render The pre-rendered content. Default null.
+	 * @param array  $block      The block being rendered.
+	 */
+	$pre_render = apply_filters( 'pre_render_block', null, $block );
+	if ( is_null( $pre_render ) ) {
+		return $pre_render;
+	}
+
+	/**
+	 * Filters the block being rendered in render_block(), before it's processed.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $block The block being rendered.
+	 */
+	$block = apply_filters( 'render_block_data', $block );
+
 	$block_type    = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 	$is_dynamic    = $block['blockName'] && null !== $block_type && $block_type->is_dynamic();
 	$block_content = '';
