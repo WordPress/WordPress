@@ -455,8 +455,8 @@ if ( ! function_exists( 'twentyfourteen_the_attached_image' ) ) :
 			// get the URL of the next image attachment...
 			if ( $next_id ) {
 				$next_attachment_url = get_attachment_link( $next_id );
-			} // or get the URL of the first image attachment.
-			else {
+			} else {
+				// or get the URL of the first image attachment.
 				$next_attachment_url = get_attachment_link( reset( $attachment_ids ) );
 			}
 		}

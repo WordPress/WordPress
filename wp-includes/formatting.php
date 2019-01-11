@@ -2478,8 +2478,9 @@ function force_balance_tags( $text ) {
 			if ( $stacksize <= 0 ) {
 				$tag = '';
 				// or close to be safe $tag = '/' . $tag;
-			} // if stacktop value = tag close value then pop
-			elseif ( $tagstack[ $stacksize - 1 ] == $tag ) { // found closing tag
+
+				// if stacktop value = tag close value then pop
+			} elseif ( $tagstack[ $stacksize - 1 ] == $tag ) { // found closing tag
 				$tag = '</' . $tag . '>'; // Close Tag
 				// Pop
 				array_pop( $tagstack );
@@ -2505,18 +2506,15 @@ function force_balance_tags( $text ) {
 			// If it's an empty tag "< >", do nothing
 			if ( '' == $tag ) {
 				// do nothing
-			} // ElseIf it presents itself as a self-closing tag...
-			elseif ( substr( $regex[2], -1 ) == '/' ) {
+			} elseif ( substr( $regex[2], -1 ) == '/' ) { // ElseIf it presents itself as a self-closing tag...
 				// ...but it isn't a known single-entity self-closing tag, then don't let it be treated as such and
 				// immediately close it with a closing tag (the tag will encapsulate no text as a result)
 				if ( ! in_array( $tag, $single_tags ) ) {
 					$regex[2] = trim( substr( $regex[2], 0, -1 ) ) . "></$tag";
 				}
-			} // ElseIf it's a known single-entity tag but it doesn't close itself, do so
-			elseif ( in_array( $tag, $single_tags ) ) {
+			} elseif ( in_array( $tag, $single_tags ) ) { // ElseIf it's a known single-entity tag but it doesn't close itself, do so
 				$regex[2] .= '/';
-			} // Else it's not a single-entity tag
-			else {
+			} else { // Else it's not a single-entity tag
 				// If the top of the stack is the same as the tag we want to push, close previous tag
 				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags ) && $tagstack[ $stacksize - 1 ] == $tag ) {
 					$tagqueue = '</' . array_pop( $tagstack ) . '>';

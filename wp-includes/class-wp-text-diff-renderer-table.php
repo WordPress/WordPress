@@ -389,8 +389,8 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 			// Best match of this final is already taken?  Must mean this final is a new row.
 			if ( isset( $orig_matches[ $o ] ) ) {
 				$final_matches[ $f ] = 'x';
-			} // Best match of this orig is already taken?  Must mean this orig is a deleted row.
-			elseif ( isset( $final_matches[ $f ] ) ) {
+			} elseif ( isset( $final_matches[ $f ] ) ) {
+				// Best match of this orig is already taken?  Must mean this orig is a deleted row.
 				$orig_matches[ $o ] = 'x';
 			}
 		}

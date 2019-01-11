@@ -68,11 +68,11 @@ function wp_fix_server_vars() {
 	// Fix for IIS when running with PHP ISAPI
 	if ( empty( $_SERVER['REQUEST_URI'] ) || ( PHP_SAPI != 'cgi-fcgi' && preg_match( '/^Microsoft-IIS\//', $_SERVER['SERVER_SOFTWARE'] ) ) ) {
 
-		// IIS Mod-Rewrite
 		if ( isset( $_SERVER['HTTP_X_ORIGINAL_URL'] ) ) {
+			// IIS Mod-Rewrite
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
-		} // IIS Isapi_Rewrite
-		elseif ( isset( $_SERVER['HTTP_X_REWRITE_URL'] ) ) {
+		} elseif ( isset( $_SERVER['HTTP_X_REWRITE_URL'] ) ) {
+			// IIS Isapi_Rewrite
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
 		} else {
 			// Use ORIG_PATH_INFO if there is no PATH_INFO

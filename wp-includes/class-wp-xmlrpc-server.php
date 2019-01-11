@@ -2897,8 +2897,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// If we found the page then format the data.
 		if ( $page->ID && ( $page->post_type == 'page' ) ) {
 			return $this->_prepare_page( $page );
-		} // If the page doesn't exist indicate that.
-		else {
+		} else {
+			// If the page doesn't exist indicate that.
 			return new IXR_Error( 404, __( 'Sorry, no such page.' ) );
 		}
 	}
