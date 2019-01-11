@@ -173,6 +173,7 @@ switch ( $action ) {
 			exit;
 		}
 
+		// Intentional fall-through to display $errors.
 	default:
 		$profileuser = get_user_to_edit( $user_id );
 

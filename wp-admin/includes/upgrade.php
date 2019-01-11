@@ -1749,6 +1749,7 @@ function upgrade_330() {
 			$sidebars_widgets                   = $_sidebars_widgets;
 			unset( $_sidebars_widgets );
 
+			// intentional fall-through to upgrade to the next version.
 		case 2:
 			$sidebars_widgets                  = retrieve_widgets();
 			$sidebars_widgets['array_version'] = 3;

@@ -655,6 +655,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 					'<code>url</code>'
 				)
 			);
+			// Intentional fall-through to be handled by the 'url' case.
 		case 'url':
 			$output = home_url();
 			break;

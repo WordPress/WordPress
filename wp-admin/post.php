@@ -205,6 +205,7 @@ switch ( $action ) {
 
 		wp_update_attachment_metadata( $post_id, $newmeta );
 
+		// Intentional fall-through to trigger the edit_post() call.
 	case 'editpost':
 		check_admin_referer( 'update-post_' . $post_id );
 
