@@ -874,6 +874,7 @@ final class WP_Theme implements ArrayAccess {
 				if ( isset( $this->name_translated ) ) {
 					return $this->name_translated;
 				}
+				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
 				$this->name_translated = translate( $value, $this->get( 'TextDomain' ) );
 				return $this->name_translated;
 			case 'Tags':
@@ -925,6 +926,7 @@ final class WP_Theme implements ArrayAccess {
 				return $value;
 
 			default:
+				// phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText,WordPress.WP.I18n.NonSingularStringLiteralDomain
 				$value = translate( $value, $this->get( 'TextDomain' ) );
 		}
 		return $value;

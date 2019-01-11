@@ -1037,6 +1037,7 @@ function register_post_status( $post_status, $args = array() ) {
 	}
 
 	if ( false === $args->label_count ) {
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle,WordPress.WP.I18n.NonSingularStringLiteralPlural
 		$args->label_count = _n_noop( $args->label, $args->label );
 	}
 

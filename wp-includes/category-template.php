@@ -836,12 +836,14 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
 		// Look for the alternative callback style. Ignore the previous default.
 		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
+			// wpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle,WordPress.WP.I18n.NonSingularStringLiteralPlural
 			$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 		} else {
 			$translate_nooped_plural = false;
 		}
 	} elseif ( isset( $args['single_text'] ) && isset( $args['multiple_text'] ) ) {
 		// If no callback exists, look for the old-style single_text and multiple_text arguments.
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralSingle,WordPress.WP.I18n.NonSingularStringLiteralPlural
 		$translate_nooped_plural = _n_noop( $args['single_text'], $args['multiple_text'] );
 	} else {
 		// This is the default for when no callback, plural, or argument is passed in.

@@ -34,11 +34,20 @@
 <?php if ( have_comments() ) : ?>
 			<h3 id="comments-title">
 			<?php
-			printf(
-				_n( 'One Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten' ),
-				number_format_i18n( get_comments_number() ),
-				'<em>' . get_the_title() . '</em>'
-			);
+			if ( 1 === get_comments_number() ) {
+				printf(
+					/* translators: %s: The post title. */
+					__( 'One Response to %s', 'twentyten' ),
+					'<em>' . get_the_title() . '</em>'
+				);
+			} else {
+				/* translators: %1$s: The number of comments. %2$s: The post title. */
+				printf(
+					_n( '%1$s Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten' ),
+					number_format_i18n( get_comments_number() ),
+					'<em>' . get_the_title() . '</em>'
+				);
+			}
 			?>
 			</h3>
 

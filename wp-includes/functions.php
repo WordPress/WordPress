@@ -5073,6 +5073,7 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 		$exists[4] = ( $exists[1] && $exists[3] );
 		$exists[5] = ( $exists[2] && $exists[3] );
 
+		// phpcs:disable WordPress.WP.I18n.LowLevelTranslationFunction,WordPress.WP.I18n.NonSingularStringLiteralText
 		$zonen[] = array(
 			'continent'   => ( $exists[0] ? $zone[0] : '' ),
 			'city'        => ( $exists[1] ? $zone[1] : '' ),
@@ -5081,6 +5082,7 @@ function wp_timezone_choice( $selected_zone, $locale = null ) {
 			't_city'      => ( $exists[4] ? translate( str_replace( '_', ' ', $zone[1] ), 'continents-cities' ) : '' ),
 			't_subcity'   => ( $exists[5] ? translate( str_replace( '_', ' ', $zone[2] ), 'continents-cities' ) : '' ),
 		);
+		// phpcs:enable
 	}
 	usort( $zonen, '_wp_timezone_choice_usort_callback' );
 
