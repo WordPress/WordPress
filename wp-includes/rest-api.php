@@ -17,7 +17,10 @@ define( 'REST_API_VERSION', '2.0' );
 /**
  * Registers a REST API route.
  *
+ * Note: Do not use before the {@see 'rest_api_init'} hook.
+ *
  * @since 4.4.0
+ * @since 5.1.0 Added a _doing_it_wrong() notice when not called on or after the rest_api_init hook.
  *
  * @param string $namespace The first URL segment after core prefix. Should be unique to your package/plugin.
  * @param string $route     The base URL for route you are adding.
@@ -39,6 +42,10 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 	} elseif ( empty( $route ) ) {
 		_doing_it_wrong( 'register_rest_route', __( 'Route must be specified.' ), '4.4.0' );
 		return false;
+	}
+
+	if ( ! did_action( 'rest_api_init' ) ) {
+		_doing_it_wrong( 'register_rest_route', __( 'REST API routes must be registered on the rest_api_init action.' ), '5.1.0' );
 	}
 
 	if ( isset( $args['args'] ) ) {
