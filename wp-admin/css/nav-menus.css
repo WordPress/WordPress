@@ -492,13 +492,13 @@ li.menu-item.ui-sortable-helper .menu-item-bar {
 }
 
 li.menu-item.ui-sortable-helper .menu-item-transport .menu-item-bar {
-	margin-top: 13px;
+	margin-top: 9px; /* Must use the same value used by the dragged item .menu-item-bar */
 }
 
 .menu .sortable-placeholder {
 	height: 35px;
 	width: 410px;
-	margin-top: 13px;
+	margin-top: 9px; /* Must use the same value used by the dragged item .menu-item-bar */
 }
 
 /* Hide the transport list when it's empty */
