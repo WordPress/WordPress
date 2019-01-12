@@ -642,43 +642,43 @@ class Custom_Image_Header {
 </tr>
 			<?php
 	endif;
-if ( ! empty( $this->default_headers ) ) :
-	?>
+		if ( ! empty( $this->default_headers ) ) :
+			?>
 <tr>
 <th scope="row"><?php _e( 'Default Images' ); ?></th>
 <td>
-	<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
+			<?php if ( current_theme_supports( 'custom-header', 'uploads' ) ) : ?>
 	<p><?php _e( 'If you don&lsquo;t want to upload your own image, you can use one of these cool headers, or show a random one.' ); ?></p>
 	<?php else : ?>
 	<p><?php _e( 'You can use one of these cool headers or show a random one on each page.' ); ?></p>
 	<?php endif; ?>
-	<?php
-	$this->show_header_selector( 'default' );
-	?>
+			<?php
+			$this->show_header_selector( 'default' );
+			?>
 </td>
 </tr>
-	<?php
+			<?php
 	endif;
-if ( get_header_image() ) :
-	?>
+		if ( get_header_image() ) :
+			?>
 <tr>
 <th scope="row"><?php _e( 'Remove Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will remove the header image. You will not be able to restore any customizations.' ); ?></p>
-	<?php submit_button( __( 'Remove Header Image' ), '', 'removeheader', false ); ?>
+			<?php submit_button( __( 'Remove Header Image' ), '', 'removeheader', false ); ?>
 </td>
 </tr>
-	<?php
+			<?php
 	endif;
 
-	$default_image = sprintf( get_theme_support( 'custom-header', 'default-image' ), get_template_directory_uri(), get_stylesheet_directory_uri() );
-if ( $default_image && get_header_image() != $default_image ) :
-	?>
+		$default_image = sprintf( get_theme_support( 'custom-header', 'default-image' ), get_template_directory_uri(), get_stylesheet_directory_uri() );
+		if ( $default_image && get_header_image() != $default_image ) :
+			?>
 <tr>
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
 <td>
 	<p><?php _e( 'This will restore the original header image. You will not be able to restore any customizations.' ); ?></p>
-	<?php submit_button( __( 'Restore Original Header Image' ), '', 'resetheader', false ); ?>
+			<?php submit_button( __( 'Restore Original Header Image' ), '', 'resetheader', false ); ?>
 </td>
 </tr>
 	<?php endif; ?>
@@ -741,7 +741,7 @@ endif;
 		do_action( 'custom_header_options' );
 
 		wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' );
-?>
+		?>
 
 		<?php submit_button( null, 'primary', 'save-header-options' ); ?>
 </form>

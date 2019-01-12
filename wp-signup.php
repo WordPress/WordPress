@@ -139,9 +139,9 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	<?php if ( $errmsg = $errors->get_error_message( 'blog_title' ) ) { ?>
 		<p class="error"><?php echo $errmsg; ?></p>
 		<?php
-}
+	}
 	echo '<input name="blog_title" type="text" id="blog_title" value="' . esc_attr( $blog_title ) . '" />';
-?>
+	?>
 
 	<?php
 	// Site Language.

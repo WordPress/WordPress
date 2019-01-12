@@ -66,7 +66,7 @@ do_action( 'rss_tag_pre', 'atom' );
 			 * @since 3.2.0
 			 */
 			do_action( 'atom_author' );
-?>
+			?>
 		</author>
 		<title type="<?php html_type_rss(); ?>"><![CDATA[<?php the_title_rss(); ?>]]></title>
 		<link rel="alternate" type="<?php bloginfo_rss( 'html_type' ); ?>" href="<?php the_permalink_rss(); ?>" />

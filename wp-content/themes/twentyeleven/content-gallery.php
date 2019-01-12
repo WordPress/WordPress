@@ -55,14 +55,14 @@
 						<?php endif; // end twentyeleven_get_gallery_images() check ?>
 				<?php the_excerpt(); ?>
 		<?php endif; ?>
-		<?php
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>',
-				'after'  => '</div>',
-			)
-		);
-		?>
+			<?php
+			wp_link_pages(
+				array(
+					'before' => '<div class="page-link"><span>' . __( 'Pages:', 'twentyeleven' ) . '</span>',
+					'after'  => '</div>',
+				)
+			);
+			?>
 	</div><!-- .entry-content -->
 	<?php endif; ?>
 

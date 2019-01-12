@@ -280,7 +280,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		<?php } else { ?>
 			<div class="no-plugin-results"><?php _e( 'No plugins found. Try a different search.' ); ?></div>
 			<?php
-}
+		}
 	}
 
 	/**
@@ -392,7 +392,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				<br class="clear" />
 			</div>
 			<?php
-}
+		}
 	}
 
 	/**

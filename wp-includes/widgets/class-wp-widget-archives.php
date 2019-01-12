@@ -131,7 +131,7 @@ class WP_Widget_Archives extends WP_Widget {
 			?>
 		</ul>
 			<?php
-}
+		}
 
 		echo $args['after_widget'];
 	}

@@ -1218,7 +1218,7 @@ class WP_List_Table {
 		endif;
 		$this->extra_tablenav( $which );
 		$this->pagination( $which );
-?>
+		?>
 
 		<br class="clear" />
 	</div>

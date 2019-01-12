@@ -349,28 +349,28 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 </p>
 		<?php else : ?>
 <p>
-	<?php
-	printf(
-		/* translators: 1: Codex URL, 2: web.config, 3: CTRL + a */
-		__( 'If the root directory of your site was <a href="%1$s">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your %2$s file. Create a new file, called %2$s in the root directory of your site. Click in the field and press %3$s to select all. Then insert this code into the %2$s file.' ),
-		__( 'https://codex.wordpress.org/Changing_File_Permissions' ),
-		'<code>web.config</code>',
-		'<kbd>CTRL + a</kbd>'
-	);
-	?>
+			<?php
+			printf(
+				/* translators: 1: Codex URL, 2: web.config, 3: CTRL + a */
+				__( 'If the root directory of your site was <a href="%1$s">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your %2$s file. Create a new file, called %2$s in the root directory of your site. Click in the field and press %3$s to select all. Then insert this code into the %2$s file.' ),
+				__( 'https://codex.wordpress.org/Changing_File_Permissions' ),
+				'<code>web.config</code>',
+				'<kbd>CTRL + a</kbd>'
+			);
+			?>
 </p>
 <form action="options-permalink.php" method="post">
-	<?php wp_nonce_field( 'update-permalink' ); ?>
+			<?php wp_nonce_field( 'update-permalink' ); ?>
 	<p><textarea rows="18" class="large-text readonly" name="rules" id="rules" readonly="readonly"><?php echo esc_textarea( $wp_rewrite->iis7_url_rewrite_rules( true ) ); ?></textarea></p>
 </form>
 <p>
-	<?php
-	printf(
-		/* translators: %s: web.config */
-		__( 'If you temporarily make your site&#8217;s root directory writable for us to generate the %s file automatically, do not forget to revert the permissions after the file has been created.' ),
-		'<code>web.config</code>'
-	);
-	?>
+			<?php
+			printf(
+				/* translators: %s: web.config */
+				__( 'If you temporarily make your site&#8217;s root directory writable for us to generate the %s file automatically, do not forget to revert the permissions after the file has been created.' ),
+				'<code>web.config</code>'
+			);
+			?>
 </p>
 		<?php endif; ?>
 	<?php endif; ?>

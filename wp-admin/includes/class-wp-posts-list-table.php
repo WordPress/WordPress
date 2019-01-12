@@ -1471,14 +1471,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="input-text-wrap"><input type="text" name="post_title" class="ptitle" value="" /></span>
 			</label>
 
-		<?php if ( is_post_type_viewable( $screen->post_type ) ) : // is_post_type_viewable check ?>
+				<?php if ( is_post_type_viewable( $screen->post_type ) ) : // is_post_type_viewable check ?>
 
 			<label>
 				<span class="title"><?php _e( 'Slug' ); ?></span>
 				<span class="input-text-wrap"><input type="text" name="post_name" value="" /></span>
 			</label>
 
-			<?php
+					<?php
 	endif; // is_post_type_viewable check
 	endif; // $bulk
 	endif; // post_type_supports title
@@ -1493,39 +1493,39 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<?php
 	endif; // $bulk
 
-if ( post_type_supports( $screen->post_type, 'author' ) ) :
-	$authors_dropdown = '';
+			if ( post_type_supports( $screen->post_type, 'author' ) ) :
+				$authors_dropdown = '';
 
-	if ( current_user_can( $post_type_object->cap->edit_others_posts ) ) :
-		$users_opt = array(
-			'hide_if_only_one_author' => false,
-			'who'                     => 'authors',
-			'name'                    => 'post_author',
-			'class'                   => 'authors',
-			'multi'                   => 1,
-			'echo'                    => 0,
-			'show'                    => 'display_name_with_login',
-		);
-		if ( $bulk ) {
-			$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
-		}
+				if ( current_user_can( $post_type_object->cap->edit_others_posts ) ) :
+					$users_opt = array(
+						'hide_if_only_one_author' => false,
+						'who'                     => 'authors',
+						'name'                    => 'post_author',
+						'class'                   => 'authors',
+						'multi'                   => 1,
+						'echo'                    => 0,
+						'show'                    => 'display_name_with_login',
+					);
+					if ( $bulk ) {
+						$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
+					}
 
-		if ( $authors = wp_dropdown_users( $users_opt ) ) :
-			$authors_dropdown  = '<label class="inline-edit-author">';
-			$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
-			$authors_dropdown .= $authors;
-			$authors_dropdown .= '</label>';
-		endif;
-	endif; // authors
-	?>
+					if ( $authors = wp_dropdown_users( $users_opt ) ) :
+						$authors_dropdown  = '<label class="inline-edit-author">';
+						$authors_dropdown .= '<span class="title">' . __( 'Author' ) . '</span>';
+						$authors_dropdown .= $authors;
+						$authors_dropdown .= '</label>';
+					endif;
+				endif; // authors
+				?>
 
-	<?php
-	if ( ! $bulk ) {
-		echo $authors_dropdown;}
+				<?php
+				if ( ! $bulk ) {
+					echo $authors_dropdown;}
 	endif; // post_type_supports author
 
-if ( ! $bulk && $can_publish ) :
-	?>
+			if ( ! $bulk && $can_publish ) :
+				?>
 
 		<div class="inline-edit-group wp-clearfix">
 			<label class="alignleft">
@@ -1545,7 +1545,7 @@ if ( ! $bulk && $can_publish ) :
 				</label>
 			</div>
 
-	<?php endif; ?>
+				<?php endif; ?>
 
 		</div></fieldset>
 
@@ -1690,7 +1690,7 @@ if ( ! $bulk && $can_publish ) :
 			<?php else : // $bulk ?>
 
 			<div class="inline-edit-group wp-clearfix">
-			<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
+				<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 				<label class="alignleft">
 					<input type="checkbox" name="comment_status" value="open" />
 					<span class="checkbox-title"><?php _e( 'Allow Comments' ); ?></span>
@@ -1703,7 +1703,7 @@ if ( ! $bulk && $can_publish ) :
 			<?php endif; ?>
 			</div>
 
-	<?php
+				<?php
 	endif; // $bulk
 	endif; // post_type_supports comments or pings
 			?>

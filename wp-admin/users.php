@@ -288,40 +288,40 @@ switch ( $wp_list_table->current_action() ) {
 				?>
 			<input type="hidden" name="delete_option" value="delete" />
 			<?php else : ?>
-		<?php if ( 1 == $go_delete ) : ?>
+				<?php if ( 1 == $go_delete ) : ?>
 			<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
 		<?php else : ?>
 			<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
 		<?php endif; ?>
 		<ul style="list-style:none;">
 			<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
-			<?php _e( 'Delete all content.' ); ?></label></li>
+				<?php _e( 'Delete all content.' ); ?></label></li>
 			<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
-			<?php
-			echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
-			wp_dropdown_users(
-				array(
-					'name'    => 'reassign_user',
-					'exclude' => array_diff( $userids, array( $current_user->ID ) ),
-					'show'    => 'display_name_with_login',
-				)
-			);
-			?>
+				<?php
+				echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
+				wp_dropdown_users(
+					array(
+						'name'    => 'reassign_user',
+						'exclude' => array_diff( $userids, array( $current_user->ID ) ),
+						'show'    => 'display_name_with_login',
+					)
+				);
+				?>
 			</li>
 		</ul></fieldset>
-	<?php
+				<?php
 	endif;
-	/**
-	 * Fires at the end of the delete users form prior to the confirm button.
-	 *
-	 * @since 4.0.0
-	 * @since 4.5.0 The `$userids` parameter was added.
-	 *
-	 * @param WP_User $current_user WP_User object for the current user.
-	 * @param int[]   $userids      Array of IDs for users being deleted.
-	 */
-	do_action( 'delete_user_form', $current_user, $userids );
-?>
+			/**
+			 * Fires at the end of the delete users form prior to the confirm button.
+			 *
+			 * @since 4.0.0
+			 * @since 4.5.0 The `$userids` parameter was added.
+			 *
+			 * @param WP_User $current_user WP_User object for the current user.
+			 * @param int[]   $userids      Array of IDs for users being deleted.
+			 */
+			do_action( 'delete_user_form', $current_user, $userids );
+			?>
 	<input type="hidden" name="action" value="dodelete" />
 			<?php submit_button( __( 'Confirm Deletion' ), 'primary' ); ?>
 	<?php else : ?>
@@ -522,12 +522,12 @@ switch ( $wp_list_table->current_action() ) {
 			<?php
 	endif;
 
-if ( ! empty( $messages ) ) {
-	foreach ( $messages as $msg ) {
-		echo $msg;
-	}
-}
-?>
+		if ( ! empty( $messages ) ) {
+			foreach ( $messages as $msg ) {
+				echo $msg;
+			}
+		}
+		?>
 
 	<div class="wrap">
 	<h1 class="wp-heading-inline">

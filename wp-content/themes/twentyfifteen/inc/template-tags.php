@@ -209,7 +209,7 @@ if ( ! function_exists( 'twentyfifteen_post_thumbnail' ) ) :
 		?>
 	</a>
 
-	<?php
+		<?php
 	endif; // End is_singular()
 	}
 endif;

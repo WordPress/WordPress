@@ -696,10 +696,10 @@ function install_plugin_information() {
 			?>
 			<p aria-hidden="true" class="fyi-description"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></p>
 			<?php
-}
+		}
 
-if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
-	?>
+		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
+			?>
 			<h3><?php _e( 'Reviews' ); ?></h3>
 			<p class="fyi-description"><?php _e( 'Read all reviews on WordPress.org or write your own!' ); ?></p>
 			<?php
@@ -727,9 +727,9 @@ if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
 				</div>
 				<?php
 			}
-}
-if ( ! empty( $api->contributors ) ) {
-	?>
+		}
+		if ( ! empty( $api->contributors ) ) {
+			?>
 			<h3><?php _e( 'Contributors' ); ?></h3>
 			<ul class="contributors">
 				<?php
@@ -747,10 +747,10 @@ if ( ! empty( $api->contributors ) ) {
 				}
 				?>
 			</ul>
-			<?php if ( ! empty( $api->donate_link ) ) { ?>
+					<?php if ( ! empty( $api->donate_link ) ) { ?>
 				<a target="_blank" href="<?php echo esc_url( $api->donate_link ); ?>"><?php _e( 'Donate to this plugin &#187;' ); ?></a>
 			<?php } ?>
-		<?php } ?>
+				<?php } ?>
 	</div>
 	<div id="section-holder" class="wrap">
 	<?php

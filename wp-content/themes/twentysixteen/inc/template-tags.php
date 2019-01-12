@@ -145,7 +145,7 @@ if ( ! function_exists( 'twentysixteen_post_thumbnail' ) ) :
 		<?php the_post_thumbnail( 'post-thumbnail', array( 'alt' => the_title_attribute( 'echo=0' ) ) ); ?>
 	</a>
 
-	<?php
+		<?php
 	endif; // End is_singular()
 	}
 endif;

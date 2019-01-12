@@ -998,11 +998,11 @@ function confirm_delete_users( $users ) {
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed.' ); ?></p>
 	<?php else : ?>
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, these users will be permanently removed.' ); ?></p>
-	<?php
+		<?php
 	endif;
 
 	submit_button( __( 'Confirm Deletion' ), 'primary' );
-?>
+	?>
 	</form>
 	<?php
 	return true;

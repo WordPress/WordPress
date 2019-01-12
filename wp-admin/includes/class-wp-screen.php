@@ -918,8 +918,8 @@ final class WP_Screen {
 			</div>
 			<?php
 		endif;
-if ( $this->show_screen_options() ) :
-	?>
+		if ( $this->show_screen_options() ) :
+			?>
 			<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
 			<button type="button" id="show-settings-link" class="button show-settings" aria-controls="screen-options-wrap" aria-expanded="false"><?php _e( 'Screen Options' ); ?></button>
 			</div>

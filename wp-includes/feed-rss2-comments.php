@@ -105,7 +105,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 		<?php else : // post pass ?>
 		<description><![CDATA[<?php comment_text_rss(); ?>]]></description>
 		<content:encoded><![CDATA[<?php comment_text(); ?>]]></content:encoded>
-		<?php
+			<?php
 		endif; // post pass
 			/**
 			 * Fires at the end of each RSS2 comment feed item.
@@ -116,7 +116,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 			 * @param int $comment_post->ID    The ID of the post the comment is connected to.
 			 */
 			do_action( 'commentrss2_item', $comment->comment_ID, $comment_post->ID );
-?>
+		?>
 			</item>
 			<?php
 		endwhile;

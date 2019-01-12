@@ -24,7 +24,7 @@
 			 */
 			return;
 		endif;
-?>
+	?>
 
 	<?php // You can start editing here -- including this comment! ?>
 

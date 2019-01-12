@@ -286,7 +286,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 		 */
 		do_action( 'restrict_manage_users', $which );
-?>
+		?>
 		</div>
 		<?php
 		/**

@@ -133,7 +133,7 @@ while ( have_posts() ) :
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
 
-	<?php /* How to display all other posts. */ ?>
+		<?php /* How to display all other posts. */ ?>
 
 	<?php else : ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -143,7 +143,7 @@ while ( have_posts() ) :
 				<?php twentyten_posted_on(); ?>
 			</div><!-- .entry-meta -->
 
-	<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
+		<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
 			<div class="entry-summary">
 				<?php the_excerpt(); ?>
 			</div><!-- .entry-summary -->

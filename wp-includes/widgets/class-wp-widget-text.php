@@ -493,7 +493,7 @@ class WP_Widget_Text extends WP_Widget {
 			<p>
 				<input id="<?php echo $this->get_field_id( 'filter' ); ?>" name="<?php echo $this->get_field_name( 'filter' ); ?>" type="checkbox"<?php checked( ! empty( $instance['filter'] ) ); ?> />&nbsp;<label for="<?php echo $this->get_field_id( 'filter' ); ?>"><?php _e( 'Automatically add paragraphs' ); ?></label>
 			</p>
-		<?php
+			<?php
 		endif;
 	}
 
