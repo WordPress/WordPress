@@ -555,7 +555,7 @@ class WP_Comment_Query {
 				preg_split( '/[,\s]/', $this->query_vars['orderby'] );
 
 			$orderby_array            = array();
-			$found_orderby_comment_ID = false;
+			$found_orderby_comment_id = false;
 			foreach ( $ordersby as $_key => $_value ) {
 				if ( ! $_value ) {
 					continue;
@@ -569,8 +569,8 @@ class WP_Comment_Query {
 					$_order   = $_value;
 				}
 
-				if ( ! $found_orderby_comment_ID && in_array( $_orderby, array( 'comment_ID', 'comment__in' ) ) ) {
-					$found_orderby_comment_ID = true;
+				if ( ! $found_orderby_comment_id && in_array( $_orderby, array( 'comment_ID', 'comment__in' ) ) ) {
+					$found_orderby_comment_id = true;
 				}
 
 				$parsed = $this->parse_orderby( $_orderby );
@@ -593,24 +593,24 @@ class WP_Comment_Query {
 			}
 
 			// To ensure determinate sorting, always include a comment_ID clause.
-			if ( ! $found_orderby_comment_ID ) {
-				$comment_ID_order = '';
+			if ( ! $found_orderby_comment_id ) {
+				$comment_id_order = '';
 
 				// Inherit order from comment_date or comment_date_gmt, if available.
 				foreach ( $orderby_array as $orderby_clause ) {
 					if ( preg_match( '/comment_date(?:_gmt)*\ (ASC|DESC)/', $orderby_clause, $match ) ) {
-						$comment_ID_order = $match[1];
+						$comment_id_order = $match[1];
 						break;
 					}
 				}
 
 				// If no date-related order is available, use the date from the first available clause.
-				if ( ! $comment_ID_order ) {
+				if ( ! $comment_id_order ) {
 					foreach ( $orderby_array as $orderby_clause ) {
 						if ( false !== strpos( 'ASC', $orderby_clause ) ) {
-							$comment_ID_order = 'ASC';
+							$comment_id_order = 'ASC';
 						} else {
-							$comment_ID_order = 'DESC';
+							$comment_id_order = 'DESC';
 						}
 
 						break;
@@ -618,11 +618,11 @@ class WP_Comment_Query {
 				}
 
 				// Default to DESC.
-				if ( ! $comment_ID_order ) {
-					$comment_ID_order = 'DESC';
+				if ( ! $comment_id_order ) {
+					$comment_id_order = 'DESC';
 				}
 
-				$orderby_array[] = "$wpdb->comments.comment_ID $comment_ID_order";
+				$orderby_array[] = "$wpdb->comments.comment_ID $comment_id_order";
 			}
 
 			$orderby = implode( ', ', $orderby_array );
