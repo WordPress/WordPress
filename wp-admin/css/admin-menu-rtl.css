@@ -298,7 +298,8 @@
 .folded #adminmenu .wp-has-current-submenu li > a {
 	padding-left: 16px;
 	padding-right: 14px;
-	transition: all .1s ease-in-out;
+	/* Exclude from the transition the outline for Windows High Contrast mode */
+	transition: all .1s ease-in-out, outline 0s;
 }
 
 #adminmenu .wp-has-current-submenu ul > li > a,
