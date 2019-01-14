@@ -1896,9 +1896,8 @@ final class WP_Customize_Manager {
 	 * @return array Headers.
 	 */
 	public function filter_iframe_security_headers( $headers ) {
-		$customize_url                      = admin_url( 'customize.php' );
-		$headers['X-Frame-Options']         = 'ALLOW-FROM ' . $customize_url;
-		$headers['Content-Security-Policy'] = 'frame-ancestors ' . preg_replace( '#^(\w+://[^/]+).+?$#', '$1', $customize_url );
+		$headers['X-Frame-Options']         = 'SAMEORIGIN';
+		$headers['Content-Security-Policy'] = "frame-ancestors 'self'";
 		return $headers;
 	}
 
