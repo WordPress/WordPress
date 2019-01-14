@@ -5057,7 +5057,8 @@ function get_pages( $args = array() ) {
 	$last_changed = wp_cache_get_last_changed( 'posts' );
 
 	$cache_key = "get_pages:$key:$last_changed";
-	if ( $cache = wp_cache_get( $cache_key, 'posts' ) ) {
+	$cache     = wp_cache_get( $cache_key, 'posts' );
+	if ( false !== $cache ) {
 		// Convert to WP_Post instances.
 		$pages = array_map( 'get_post', $cache );
 		/** This filter is documented in wp-includes/post.php */
@@ -5218,6 +5219,8 @@ function get_pages( $args = array() ) {
 	$pages = $wpdb->get_results( $query );
 
 	if ( empty( $pages ) ) {
+		wp_cache_set( $cache_key, array(), 'posts' );
+
 		/** This filter is documented in wp-includes/post.php */
 		$pages = apply_filters( 'get_pages', array(), $r );
 		return $pages;
