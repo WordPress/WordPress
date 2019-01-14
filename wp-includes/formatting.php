@@ -2232,6 +2232,8 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 		// Strip these characters entirely
 		$title = str_replace(
 			array(
+				// soft hyphens
+				'%c2%ad',
 				// iexcl and iquest
 				'%c2%a1',
 				'%c2%bf',
