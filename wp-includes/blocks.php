@@ -188,14 +188,17 @@ function render_block( $block ) {
 		return $pre_render;
 	}
 
+	$source_block = $block;
+
 	/**
 	 * Filters the block being rendered in render_block(), before it's processed.
 	 *
 	 * @since 5.1.0
 	 *
-	 * @param array $block The block being rendered.
+	 * @param array $block        The block being rendered.
+	 * @param array $source_block An un-modified copy of $block, as it appeared in the source content.
 	 */
-	$block = apply_filters( 'render_block_data', $block );
+	$block = apply_filters( 'render_block_data', $block, $source_block );
 
 	$block_type    = WP_Block_Type_Registry::get_instance()->get_registered( $block['blockName'] );
 	$is_dynamic    = $block['blockName'] && null !== $block_type && $block_type->is_dynamic();
