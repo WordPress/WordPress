@@ -6289,6 +6289,7 @@
 				name: 'customize-' + previewFrame.channel()
 			} );
 			previewFrame.iframe.attr( 'onmousewheel', '' ); // Workaround for Safari bug. See WP Trac #38149.
+			previewFrame.iframe.attr( 'sandbox', 'allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts' );
 
 			if ( ! hasPendingChangesetUpdate ) {
 				previewFrame.iframe.attr( 'src', urlParser.href );

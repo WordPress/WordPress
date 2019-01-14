@@ -379,11 +379,6 @@
 			queryParams.customize_messenger_channel = api.settings.channel;
 		}
 		element.search = $.param( queryParams );
-
-		// Prevent links from breaking out of preview iframe.
-		if ( api.settings.channel ) {
-			element.target = '_self';
-		}
 	};
 
 	/**
