@@ -1400,7 +1400,8 @@ function clean_user_cache( $user ) {
  * @return int|false The user's ID on success, and false on failure.
  */
 function username_exists( $username ) {
-	if ( $user = get_user_by( 'login', $username ) ) {
+	$user = get_user_by( 'login', $username );
+	if ( $user ) {
 		$user_id = $user->ID;
 	} else {
 		$user_id = false;
@@ -1430,7 +1431,8 @@ function username_exists( $username ) {
  * @return int|false The user's ID on success, and false on failure.
  */
 function email_exists( $email ) {
-	if ( $user = get_user_by( 'email', $email ) ) {
+	$user = get_user_by( 'email', $email );
+	if ( $user ) {
 		return $user->ID;
 	}
 	return false;
@@ -2823,9 +2825,13 @@ All at ###SITENAME###
  */
 function new_user_email_admin_notice() {
 	global $pagenow;
-	if ( 'profile.php' === $pagenow && isset( $_GET['updated'] ) && $email = get_user_meta( get_current_user_id(), '_new_email', true ) ) {
-		/* translators: %s: New email address */
-		echo '<div class="notice notice-info"><p>' . sprintf( __( 'Your email address has not been updated yet. Please check your inbox at %s for a confirmation email.' ), '<code>' . esc_html( $email['newemail'] ) . '</code>' ) . '</p></div>';
+
+	if ( 'profile.php' === $pagenow && isset( $_GET['updated'] ) ) {
+		$email = get_user_meta( get_current_user_id(), '_new_email', true );
+		if ( $email ) {
+			/* translators: %s: New email address */
+			echo '<div class="notice notice-info"><p>' . sprintf( __( 'Your email address has not been updated yet. Please check your inbox at %s for a confirmation email.' ), '<code>' . esc_html( $email['newemail'] ) . '</code>' ) . '</p></div>';
+		}
 	}
 }
 
