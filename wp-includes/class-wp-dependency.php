@@ -112,6 +112,16 @@ class _WP_Dependency {
 		return true;
 	}
 
+	/**
+	 * Sets the translation domain for this dependency.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $domain The translation textdomain.
+	 * @param string $path   Optional. The full file path to the directory containing translation files.
+	 *
+	 * @return bool False if $domain is not a string, true otherwise.
+	 */
 	public function set_translations( $domain, $path = null ) {
 		if ( ! is_string( $domain ) ) {
 			return false;
