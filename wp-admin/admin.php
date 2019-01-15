@@ -174,7 +174,9 @@ if ( isset( $plugin_page ) ) {
 	} else {
 		$the_parent = $pagenow;
 	}
-	if ( ! $page_hook = get_plugin_page_hook( $plugin_page, $the_parent ) ) {
+
+	$page_hook = get_plugin_page_hook( $plugin_page, $the_parent );
+	if ( ! $page_hook ) {
 		$page_hook = get_plugin_page_hook( $plugin_page, $plugin_page );
 
 		// Back-compat for plugins using add_management_page().
