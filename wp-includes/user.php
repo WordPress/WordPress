@@ -2217,6 +2217,10 @@ function wp_get_password_hint() {
 function get_password_reset_key( $user ) {
 	global $wpdb, $wp_hasher;
 
+	if ( ! ( $user instanceof WP_User ) ) {
+		return new WP_Error( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
+	}
+
 	/**
 	 * Fires before a new password is retrieved.
 	 *
