@@ -4497,7 +4497,7 @@ function _doing_it_wrong( $function, $message, $version ) {
 	 * Filters whether to trigger an error for _doing_it_wrong() calls.
 	 *
 	 * @since 3.1.0
-	 * @since 5.0.0 Added the $function, $message and $version parameters.
+	 * @since 5.1.0 Added the $function, $message and $version parameters.
 	 *
 	 * @param bool   $trigger  Whether to trigger the error for _doing_it_wrong() calls. Default true.
 	 * @param string $function The function that was called.
