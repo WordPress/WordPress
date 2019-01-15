@@ -2926,6 +2926,42 @@ div.action-links {
 		padding: 12px 16px 0;
 		height: 46px;
 	}
+
+	/* Fix help tab columns for smaller screens */
+	#screen-meta #contextual-help-wrap {
+		overflow: visible;
+	}
+
+	#screen-meta #contextual-help-back,
+	#screen-meta .contextual-help-sidebar {
+		display: none;
+	}
+
+	#screen-meta .contextual-help-tabs {
+		clear: both;
+		width: 100%;
+		float: none;
+	}
+
+	#screen-meta .contextual-help-tabs ul {
+		margin: 0 0 1em;
+		padding: 1em 0 0;
+	}
+
+	#screen-meta .contextual-help-tabs .active {
+		margin: 0;
+	}
+
+	#screen-meta .contextual-help-tabs-wrap {
+		clear: both;
+		max-width: 100%;
+		float: none;
+	}
+
+	#screen-meta-links {
+		margin-bottom: 60px; /* Add margins beneath links for better spacing between boxes and elements */
+	}
+
 }
 
 /* Thickbox for the Plugin details modal. */
@@ -3723,7 +3759,6 @@ img {
 	}
 
 	/* Hidden Elements */
-	#contextual-help-link-wrap,
 	#collapse-menu,
 	.post-format-select {
 		display: none !important;
