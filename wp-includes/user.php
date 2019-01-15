@@ -1005,7 +1005,7 @@ function count_users( $strategy = 'time', $site_id = null ) {
  * @global string  $user_url      The url in the user's profile
  * @global string  $user_identity The display name of the user
  *
- * @param int $for_user_id Optional. Default 0. User ID to set up global data.
+ * @param int $for_user_id Optional. User ID to set up global data. Default 0.
  */
 function setup_userdata( $for_user_id = 0 ) {
 	global $user_login, $userdata, $user_level, $user_ID, $user_email, $user_url, $user_identity;
