@@ -165,13 +165,15 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 	}
 
 	// Sanitize fields
-	$allowed_tags      = $allowed_tags_in_links = array(
+	$allowed_tags_in_links = array(
 		'abbr'    => array( 'title' => true ),
 		'acronym' => array( 'title' => true ),
 		'code'    => true,
 		'em'      => true,
 		'strong'  => true,
 	);
+
+	$allowed_tags      = $allowed_tags_in_links;
 	$allowed_tags['a'] = array(
 		'href'  => true,
 		'title' => true,
