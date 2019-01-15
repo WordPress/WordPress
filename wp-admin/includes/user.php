@@ -618,26 +618,26 @@ function _wp_privacy_resend_request( $request_id ) {
  * @access private
  *
  * @param  int          $request_id Request ID.
- * @return int|WP_Error $request    Request ID on success or WP_Error.
+ * @return int|WP_Error $result Request ID on success or WP_Error.
  */
 function _wp_privacy_completed_request( $request_id ) {
-	$request_id   = absint( $request_id );
-	$request_data = wp_get_user_request_data( $request_id );
+	$request_id = absint( $request_id );
+	$request    = wp_get_user_request_data( $request_id );
 
-	if ( ! $request_data ) {
+	if ( ! $request ) {
 		return new WP_Error( 'privacy_request_error', __( 'Invalid request.' ) );
 	}
 
 	update_post_meta( $request_id, '_wp_user_request_completed_timestamp', time() );
 
-	$request = wp_update_post(
+	$result = wp_update_post(
 		array(
 			'ID'          => $request_id,
 			'post_status' => 'request-completed',
 		)
 	);
 
-	return $request;
+	return $result;
 }
 
 /**
