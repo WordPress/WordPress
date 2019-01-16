@@ -762,12 +762,19 @@ function install_plugin_information() {
 
 	if ( ! $compatible_php ) {
 		echo '<div class="notice notice-error notice-alt"><p>';
-		printf(
-			/* translators: "Updating PHP" page URL */
-			__( '<strong>Error:</strong> This plugin <strong>requires a newer version of PHP</strong>, so unfortunately you cannot install it. <a href="%s" target="_blank">Click here to learn more about updating PHP</a>.' ),
-			esc_url( __( 'https://wordpress.org/support/update-php/' ) )
-		);
-		echo '</p></div>';
+		_e( '<strong>Error:</strong> This plugin <strong>requires a newer version of PHP</strong>.' );
+		if ( current_user_can( 'update_php' ) ) {
+			printf(
+				/* translators: %s: "Update PHP" page URL */
+				' ' . __( '<a href="%s" target="_blank">Click here to learn more about updating PHP</a>.' ),
+				esc_url( wp_get_update_php_url() )
+			);
+			echo '</p>';
+			wp_update_php_annotation();
+		} else {
+			echo '</p>';
+		}
+		echo '</div>';
 	}
 
 	if ( ! $tested_wp ) {

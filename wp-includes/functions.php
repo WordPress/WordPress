@@ -6716,3 +6716,28 @@ function wp_get_update_php_url() {
 function wp_get_default_update_php_url() {
 	return _x( 'https://wordpress.org/support/update-php/', 'localized PHP upgrade information page' );
 }
+
+/**
+ * Prints the default annotation for the web host altering the "Update PHP" page URL.
+ *
+ * This function is to be used after {@see wp_get_update_php_url()} to display a consistent
+ * annotation if the web host has altered the default "Update PHP" page URL.
+ *
+ * @since 5.1.0
+ */
+function wp_update_php_annotation() {
+	$update_url  = wp_get_update_php_url();
+	$default_url = wp_get_default_update_php_url();
+
+	if ( $update_url === $default_url ) {
+		return;
+	}
+
+	echo '<p class="description">';
+	printf(
+		/* translators: %s: default Update PHP page URL */
+		__( 'This resource is provided by your web host, and is specific to your site. For more information, <a href="%s" target="_blank">see the official WordPress documentation</a>.' ),
+		esc_url( $default_url )
+	);
+	echo'</p>';
+}
