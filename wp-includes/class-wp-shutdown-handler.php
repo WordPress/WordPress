@@ -141,9 +141,7 @@ class WP_Shutdown_Handler {
 	 */
 	protected function get_error_message_markup() {
 		if ( ! function_exists( '__' ) ) {
-			function __( $text ) {
-				return $text;
-			}
+			wp_load_translations_early();
 		}
 
 		$message = sprintf(
