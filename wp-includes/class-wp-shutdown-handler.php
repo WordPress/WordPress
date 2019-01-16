@@ -122,12 +122,11 @@ class WP_Shutdown_Handler {
 	 * Displays the PHP error template and sends the HTTP status code, typically 500.
 	 *
 	 * A drop-in 'php-error.php' can be used as a custom template. This drop-in should control the HTTP status code and
-	 * print the HTML markup indicating that a PHP error occurred. Alternatively, {@see wp_die()} can be used. Note
-	 * that this drop-in may potentially be executed very early in the WordPress bootstrap process, so any core
-	 * functions used that are not part of `wp-includes/load.php` should be checked for before being called.
+	 * print the HTML markup indicating that a PHP error occurred. Note that this drop-in may potentially be executed
+	 * very early in the WordPress bootstrap process, so any core functions used that are not part of
+	 * `wp-includes/load.php` should be checked for before being called.
 	 *
-	 * The default template also displays a link to the admin in order to fix the problem, however doing so is not
-	 * mandatory.
+	 * If no such drop-in is available, this will call {@see WP_Shutdown_Handler::display_default_error_template()}.
 	 *
 	 * @since 5.1.0
 	 */
@@ -141,54 +140,57 @@ class WP_Shutdown_Handler {
 			}
 		}
 
-		// Otherwise, fail with a `wp_die()` message.
-		$message = $this->get_error_message_markup();
-
-		// `wp_die()` wraps the message in paragraph tags, so let's just try working around that.
-		if ( substr( $message, 0, 3 ) === '<p>' && substr( $message, -4 ) === '</p>' ) {
-			$message = substr( $message, 3, -4 );
-		}
-
-		wp_die( $message, '', 500 );
+		// Otherwise, display the default error template.
+		$this->display_default_error_template();
 	}
 
 	/**
-	 * Returns the error message markup to display in the default error template.
+	 * Displays the default PHP error template.
+	 *
+	 * This method is called conditionally if no 'php-error.php' drop-in is available.
+	 *
+	 * It calls {@see wp_die()} with a message indicating that the site is experiencing technical difficulties and a
+	 * login link to the admin backend. The {@see 'wp_php_error_message'} and {@see 'wp_php_error_args'} filters can
+	 * be used to modify these parameters.
 	 *
 	 * @since 5.1.0
-	 *
-	 * @return string Error message HTML output.
 	 */
-	protected function get_error_message_markup() {
+	protected function display_default_error_template() {
 		if ( ! function_exists( '__' ) ) {
 			wp_load_translations_early();
 		}
 
-		$message = sprintf(
-			'<p>%s</p>',
-			__( 'The site is experiencing technical difficulties.' )
-		);
+		if ( ! function_exists( 'wp_die' ) ) {
+			require_once ABSPATH . WPINC . '/functions.php';
+		}
 
+		$message = __( 'The site is experiencing technical difficulties.' );
+
+		$args = array( 'response' => 500 );
 		if ( function_exists( 'admin_url' ) ) {
-			$message .= sprintf(
-				'<hr><p><em>%s <a href="%s">%s</a></em></p>',
-				__( 'Are you the site owner?' ),
-				admin_url(),
-				__( 'Log into the admin backend to fix this.' )
-			);
+			$args['link_url']  = admin_url();
+			$args['link_text'] = __( 'Log into the admin backend to fix this.' );
 		}
 
-		if ( function_exists( 'apply_filters' ) ) {
-			/**
-			 * Filters the message that the default PHP error page displays.
-			 *
-			 * @since 5.1.0
-			 *
-			 * @param string $message HTML error message to display.
-			 */
-			$message = apply_filters( 'wp_technical_issues_display', $message );
-		}
+		/**
+		 * Filters the message that the default PHP error template displays.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param string $message HTML error message to display.
+		 */
+		$message = apply_filters( 'wp_php_error_message', $message );
 
-		return $message;
+		/**
+		 * Filters the arguments passed to {@see wp_die()} for the default PHP error template.
+		 *
+		 * @since 5.1.0
+		 *
+		 * @param array $args Associative array of arguments passed to `wp_die()`. By default these contain a
+		 *                    'response' key, and optionally 'link_url' and 'link_text' keys.
+		 */
+		$args = apply_filters( 'wp_php_error_args', $args );
+
+		wp_die( $message, '', $args );
 	}
 }

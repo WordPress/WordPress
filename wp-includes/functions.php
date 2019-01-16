@@ -2933,6 +2933,7 @@ function wp_nonce_ays( $action ) {
  * @since 2.0.4
  * @since 4.1.0 The `$title` and `$args` parameters were changed to optionally accept
  *              an integer to be used as the response code.
+ * @since 5.1.0 The `$link_url` and `$link_text` arguments were added.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
@@ -2946,6 +2947,10 @@ function wp_nonce_ays( $action ) {
  *     as the response code. Default empty array.
  *
  *     @type int    $response       The HTTP response code. Default 200 for Ajax requests, 500 otherwise.
+ *     @type string $link_url       A URL to include a link to. Only works in combination with $link_text.
+ *                                  Default empty string.
+ *     @type string $link_text      A label for the link to include. Only works in combination with $link_url.
+ *                                  Default empty string.
  *     @type bool   $back_link      Whether to include a link to go back. Default false.
  *     @type string $text_direction The text direction. This is only useful internally, when WordPress
  *                                  is still loading and the site's locale is not set up yet. Accepts 'rtl'.
@@ -3033,6 +3038,15 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		}
 	} elseif ( is_string( $message ) ) {
 		$message = "<p>$message</p>";
+	}
+
+	if ( ! empty( $r['link_url'] ) && ! empty( $r['link_text'] ) ) {
+		$link_url = $r['link_url'];
+		if ( function_exists( 'esc_url' ) ) {
+			$link_url = esc_url( $link_url );
+		}
+		$link_text = $r['link_text'];
+		$message  .= "\n<p><a href='{$link_url}'>{$link_text}</a></p>";
 	}
 
 	if ( isset( $r['back_link'] ) && $r['back_link'] ) {
