@@ -5102,6 +5102,10 @@ function sanitize_textarea_field( $str ) {
  * @return string Sanitized string.
  */
 function _sanitize_text_fields( $str, $keep_newlines = false ) {
+	if ( ! is_string( $str ) ) {
+		return '';
+	}
+
 	$filtered = wp_check_invalid_utf8( $str );
 
 	if ( strpos( $filtered, '<' ) !== false ) {
