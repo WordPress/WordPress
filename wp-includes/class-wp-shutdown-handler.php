@@ -31,13 +31,17 @@ class WP_Shutdown_Handler {
 		}
 
 		try {
-			// Bail if no error found or if it could not be stored.
-			if ( ! $this->detect_error() ) {
+			// Bail if no error found.
+			$error = $this->detect_error();
+			if ( ! $error ) {
 				return;
 			}
 
-			// Redirect the request to catch multiple errors in one go.
-			$this->redirect_protected();
+			// If the error was stored and thus the extension paused,
+			// redirect the request to catch multiple errors in one go.
+			if ( $this->store_error( $error ) ) {
+				$this->redirect_protected();
+			}
 
 			// Display the PHP error template.
 			$this->display_error_template();
@@ -47,26 +51,42 @@ class WP_Shutdown_Handler {
 	}
 
 	/**
-	 * Detects the error causing the crash and stores it if one was found.
+	 * Detects the error causing the crash if it should be handled.
 	 *
 	 * @since 5.1.0
 	 *
-	 * @return bool True if an error was found and stored, false otherwise.
+	 * @return array|null Error that was triggered, or null if no error received or if the error should not be handled.
 	 */
 	protected function detect_error() {
 		$error = error_get_last();
 
 		// No error, just skip the error handling code.
 		if ( null === $error ) {
-			return false;
+			return null;
 		}
 
 		// Bail if this error should not be handled.
 		if ( ! wp_should_handle_error( $error ) ) {
+			return null;
+		}
+
+		return $error;
+	}
+
+	/**
+	 * Stores the given error so that the extension causing it is paused.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param array $error Error that was triggered.
+	 * @return bool True if the error was stored successfully, false otherwise.
+	 */
+	protected function store_error( $error ) {
+		// Do not pause extensions if they only crash on a non-protected endpoint.
+		if ( ! is_protected_endpoint() ) {
 			return false;
 		}
 
-		// Try to store the error so that the respective extension is paused.
 		return wp_record_extension_error( $error );
 	}
 
