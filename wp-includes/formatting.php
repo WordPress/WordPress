@@ -3456,9 +3456,9 @@ function sanitize_email( $email ) {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param string $email   The sanitized email address.
-		 * @param string $email   The email address, as provided to sanitize_email().
-		 * @param string $message A message to pass to the user.
+		 * @param string $sanitized_email The sanitized email address.
+		 * @param string $email           The email address, as provided to sanitize_email().
+		 * @param string|null $message    A message to pass to the user. null if email is sanitized.
 		 */
 		return apply_filters( 'sanitize_email', '', $email, 'email_too_short' );
 	}
@@ -3531,11 +3531,11 @@ function sanitize_email( $email ) {
 	$domain = join( '.', $new_subs );
 
 	// Put the email back together
-	$email = $local . '@' . $domain;
+	$sanitized_email = $local . '@' . $domain;
 
 	// Congratulations your email made it!
 	/** This filter is documented in wp-includes/formatting.php */
-	return apply_filters( 'sanitize_email', $email, $email, null );
+	return apply_filters( 'sanitize_email', $sanitized_email, $email, null );
 }
 
 /**
