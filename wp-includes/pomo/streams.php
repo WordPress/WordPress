@@ -32,7 +32,7 @@ if ( ! class_exists( 'POMO_Reader', false ) ) :
 		/**
 		 * Sets the endianness of the file.
 		 *
-		 * @param $endian string 'big' or 'little'
+		 * @param string $endian Set the endianness of the file. Accepts 'big', or 'little'.
 		 */
 		function setEndian( $endian ) {
 			$this->endian = $endian;
