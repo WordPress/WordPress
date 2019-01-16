@@ -1671,7 +1671,7 @@ final class WP_Privacy_Policy_Content {
 		$content       = '';
 		$toc           = array( '<li><a href="#wp-privacy-policy-guide-introduction">' . __( 'Introduction' ) . '</a></li>' );
 		$date_format   = __( 'F j, Y' );
-		$copy          = __( 'Copy' );
+		$copy          = __( 'Copy this section to clipboard' );
 		$return_to_top = '<a href="#" class="return-to-top">' . __( '&uarr; Return to Top' ) . '</a>';
 
 		foreach ( $content_array as $section ) {
