@@ -63,13 +63,7 @@ if ( empty( $link_cat ) ) {
 }
 
 foreach ( (array) $cats as $cat ) :
-	/**
-	 * Filters the OPML outline link category name.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @param string $catname The OPML outline category name.
-	 */
+	/** This filter is documented in wp-includes/bookmark-template.php */
 	$catname = apply_filters( 'link_category', $cat->name );
 
 	?>

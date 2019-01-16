@@ -165,13 +165,7 @@ Please click the following link to confirm the invite:
 		if ( is_wp_error( $user_details['errors'] ) && $user_details['errors']->has_errors() ) {
 			$add_user_errors = $user_details['errors'];
 		} else {
-			/**
-			 * Filters the user_login, also known as the username, before it is added to the site.
-			 *
-			 * @since 2.0.3
-			 *
-			 * @param string $user_login The sanitized username.
-			 */
+			/** This filter is documented in wp-includes/user.php */
 			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
