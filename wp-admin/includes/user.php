@@ -809,6 +809,7 @@ function _wp_personal_data_export_page() {
 		array(
 			'plural'   => 'privacy_requests',
 			'singular' => 'privacy_request',
+			'screen'   => 'export_personal_data',
 		)
 	);
 	$requests_table->process_bulk_action();
@@ -882,6 +883,7 @@ function _wp_personal_data_removal_page() {
 		array(
 			'plural'   => 'privacy_requests',
 			'singular' => 'privacy_request',
+			'screen'   => 'remove_personal_data',
 		)
 	);
 
@@ -1090,7 +1092,15 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * @return array Default sortable columns.
 	 */
 	protected function get_sortable_columns() {
-		return array();
+		// The initial sorting is by 'Requested' (post_date) and descending.
+		// With initial sorting, the first click on 'Requested' should be ascending.
+		// With 'Requester' sorting active, the next click on 'Requested' should be descending.
+		$desc_first = isset( $_GET['orderby'] );
+
+		return array(
+			'email'             => 'requester',
+			'created_timestamp' => array( 'requested', $desc_first ),
+		);
 	}
 
 	/**
@@ -1235,17 +1245,10 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	 * Prepare items to output.
 	 *
 	 * @since 4.9.6
+	 * @since 5.1.0 Added support for column sorting.
 	 */
 	public function prepare_items() {
 		global $wpdb;
-
-		$primary               = $this->get_primary_column_name();
-		$this->_column_headers = array(
-			$this->get_columns(),
-			array(),
-			$this->get_sortable_columns(),
-			$primary,
-		);
 
 		$this->items    = array();
 		$posts_per_page = $this->get_items_per_page( $this->request_type . '_requests_per_page' );
@@ -1257,6 +1260,19 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			'post_status'    => 'any',
 			's'              => isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ) : '',
 		);
+
+		$orderby_mapping = array(
+			'requester' => 'post_title',
+			'requested' => 'post_date',
+		);
+
+		if ( isset( $_REQUEST['orderby'] ) && isset( $orderby_mapping[ $_REQUEST['orderby'] ] ) ) {
+			$args['orderby'] = $orderby_mapping[ $_REQUEST['orderby'] ];
+		}
+
+		if ( isset( $_REQUEST['order'] ) && in_array( strtoupper( $_REQUEST['order'] ), array( 'ASC', 'DESC' ), true ) ) {
+			$args['order'] = strtoupper( $_REQUEST['order'] );
+		}
 
 		if ( ! empty( $_REQUEST['filter-status'] ) ) {
 			$filter_status       = isset( $_REQUEST['filter-status'] ) ? sanitize_text_field( $_REQUEST['filter-status'] ) : '';
