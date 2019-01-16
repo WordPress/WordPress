@@ -890,7 +890,7 @@ function get_theme_mods() {
  *
  * @param string      $name    Theme modification name.
  * @param bool|string $default
- * @return string
+ * @return mixed
  */
 function get_theme_mod( $name, $default = false ) {
 	$mods = get_theme_mods();
