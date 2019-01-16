@@ -288,12 +288,12 @@ function the_author_posts() {
  *
  * @global object $authordata The current author's DB object.
  *
- * @return string An HTML link to the author page.
+ * @return string An HTML link to the author page, or an empty string if $authordata isn't defined.
  */
 function get_the_author_posts_link() {
 	global $authordata;
 	if ( ! is_object( $authordata ) ) {
-		return;
+		return '';
 	}
 
 	$link = sprintf(
