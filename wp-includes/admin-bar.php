@@ -1136,7 +1136,7 @@ function is_admin_bar_showing() {
 	global $show_admin_bar, $pagenow;
 
 	// For all these types of requests, we never want an admin bar.
-	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'DOING_AJAX' ) || defined( 'IFRAME_REQUEST' ) ) {
+	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'DOING_AJAX' ) || defined( 'IFRAME_REQUEST' ) || wp_is_json_request() ) {
 		return false;
 	}
 
