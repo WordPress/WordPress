@@ -1894,6 +1894,11 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 			_deprecated_argument( __FUNCTION__, '4.3.1' );
 		}
 
+		// Accepts only 'user', 'admin' , 'both' or default '' as $notify
+		if ( ! in_array( $notify, array( 'user', 'admin', 'both', '' ), true ) ) {
+			return;
+		}
+
 		global $wpdb, $wp_hasher;
 		$user = get_userdata( $user_id );
 
