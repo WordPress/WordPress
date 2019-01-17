@@ -270,7 +270,8 @@ function get_plugin_files( $plugin ) {
  */
 function get_plugins( $plugin_folder = '' ) {
 
-	if ( ! $cache_plugins = wp_cache_get( 'plugins', 'plugins' ) ) {
+	$cache_plugins = wp_cache_get( 'plugins', 'plugins' );
+	if ( ! $cache_plugins ) {
 		$cache_plugins = array();
 	}
 
