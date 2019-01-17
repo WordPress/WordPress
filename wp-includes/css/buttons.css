@@ -72,8 +72,8 @@ TABLE OF CONTENTS:
 .wp-core-ui .button.button-large,
 .wp-core-ui .button-group.button-large .button {
 	height: 30px;
-    line-height: 28px;
-    padding: 0 12px 2px;
+	line-height: 28px;
+	padding: 0 12px 2px;
 }
 
 .wp-core-ui .button.button-small,
@@ -127,7 +127,7 @@ TABLE OF CONTENTS:
 	border-color: #cccccc;
 	background: #f7f7f7;
 	box-shadow: 0 1px 0 #cccccc;
- 	vertical-align: top;
+	vertical-align: top;
 }
 
 .wp-core-ui p .button {
@@ -338,7 +338,7 @@ TABLE OF CONTENTS:
   5.0 - Responsive Button Styles
 ---------------------------------------------------------------------------- */
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 
 	.wp-core-ui .button,
 	.wp-core-ui .button.button-large,

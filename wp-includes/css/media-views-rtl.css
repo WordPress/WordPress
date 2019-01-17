@@ -1121,7 +1121,7 @@
 }
 
 .uploader-inline .close:focus {
-	outline: 1px solid  #5b9dd9;
+	outline: 1px solid #5b9dd9;
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 

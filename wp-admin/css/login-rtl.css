@@ -79,22 +79,22 @@ p {
 }
 
 .login .password-input-wrapper {
-    display: table;
+	display: table;
 }
 
 .login .input.password-input {
-    display: table-cell;
-    margin: 0;
+	display: table-cell;
+	margin: 0;
 }
 
 .login .pw-weak {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .login .button.button-secondary {
-    display: table-cell;
-    border-radius: 0;
-    vertical-align: middle;
+	display: table-cell;
+	border-radius: 0;
+	vertical-align: middle;
 }
 
 .login form {
@@ -263,13 +263,13 @@ body.interim-login {
 	width: device-width;
 }
 
-@media screen and ( max-height: 550px ) {
+@media screen and (max-height: 550px) {
 	#login {
 		padding: 20px 0;
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.interim-login input[type=checkbox] {
 		height: 16px;
 		width: 16px;

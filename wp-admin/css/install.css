@@ -63,7 +63,7 @@ ul, ol, dl {
 }
 
 a img {
-	border:0
+	border: 0
 }
 abbr {
 	border: 0;
@@ -84,7 +84,7 @@ label {
 	margin: 6px 0 14px 0;
 	padding: 0 0 7px 0;
 	border-bottom: none;
-	text-align:center
+	text-align: center
 }
 #logo a {
 	background-image: url(../images/w-logo-blue.png?ver=20131202);
@@ -330,7 +330,7 @@ body.rtl,
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 
 	.form-table {
 		margin-top: 0;

@@ -22,8 +22,8 @@
 	font-family: Tahoma, sans-serif;
 }
 
-html:lang(he-il) .rtl #wpadminbar *  {
- 	font-family: Arial, sans-serif;
+html:lang(he-il) .rtl #wpadminbar * {
+	font-family: Arial, sans-serif;
 }
 
 #wpadminbar .ab-empty-item {
@@ -368,7 +368,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	border-radius: 10px;
 }
 
-#wpadminbar .quicklinks a:hover span#ab-updates  {
+#wpadminbar .quicklinks a:hover span#ab-updates {
 	background: #fff;
 	color: #000;
 }
@@ -787,7 +787,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 /* End no @font-face */
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	/* Toolbar Touchification*/
 	html #wpadminbar {
 		height: 46px;

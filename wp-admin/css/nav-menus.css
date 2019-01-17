@@ -37,8 +37,8 @@ ul.add-menu-item-tabs li {
 }
 
 #wpbody-content #menu-settings-column {
-	display:inline;
-	width:281px;
+	display: inline;
+	width: 281px;
 	margin-left: -300px;
 	clear: both;
 	float: left;
@@ -318,7 +318,7 @@ ul.add-menu-item-tabs li {
 }
 
 .button-controls {
-	clear:both;
+	clear: both;
 	margin: 10px 0;
 }
 
@@ -415,7 +415,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu {
-	padding-top:1em;
+	padding-top: 1em;
 }
 
 #menu-to-edit {
@@ -429,13 +429,13 @@ ul.add-menu-item-tabs li {
 
 .menu li {
 	margin-bottom: 0;
-	position:relative;
+	position: relative;
 }
 
 .menu-item-bar {
-	clear:both;
-	line-height:1.5em;
-	position:relative;
+	clear: both;
+	line-height: 1.5em;
+	position: relative;
 	margin: 9px 0 0;
 }
 
@@ -784,7 +784,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	body.nav-menus-php,
 	body.wp-customizer {
 		min-width: 0 !important;

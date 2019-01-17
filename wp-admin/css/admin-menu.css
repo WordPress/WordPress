@@ -742,7 +742,7 @@ li#wp-admin-bar-menu-toggle {
 
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.auto-fold #wpcontent {
 		position: relative;
 		margin-left: 0;

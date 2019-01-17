@@ -64,12 +64,12 @@
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-    padding: 40px 10px 15px;
-    overflow: auto;
-    box-sizing: border-box;
-    background: linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 60%,transparent);
-    font-weight: 600;
-    text-shadow: 0px 0px 5px rgba(0,0,0,.75);
+	padding: 40px 10px 15px;
+	overflow: auto;
+	box-sizing: border-box;
+	background: linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 60%,transparent);
+	font-weight: 600;
+	text-shadow: 0px 0px 5px rgba(0,0,0,.75);
 }
 
 .about-wrap .jetpack-video-wrapper {
@@ -160,8 +160,8 @@
 }
 
 .about-wrap figcaption {
-    font-size: 13px;
-    text-align: center;
+	font-size: 13px;
+	text-align: center;
 	color: white;
 	text-overflow: ellipsis;
 }

@@ -508,7 +508,7 @@ fieldset label,
 }
 
 .pw-weak {
-	display:none;
+	display: none;
 }
 
 .indicator-hint {
@@ -1218,7 +1218,7 @@ table.form-table td .updated p {
 /* =Media Queries
 -------------------------------------------------------------- */
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	/* Input Elements */
 	textarea {
 		-webkit-appearance: none;
@@ -1494,21 +1494,21 @@ table.form-table td .updated p {
 
 	/* Privacy Policy settings screen */
 	.tools-privacy-policy-page form.wp-create-privacy-page {
-	    margin-bottom: 1em;
+		margin-bottom: 1em;
 	}
 
- 	.tools-privacy-policy-page input#set-page,
+	.tools-privacy-policy-page input#set-page,
 	.tools-privacy-policy-page select {
 		margin: 10px 0 0;
 	}
 
 	.tools-privacy-policy-page .wp-create-privacy-page span {
-	    display: block;
-	    margin-bottom: 1em;
+		display: block;
+		margin-bottom: 1em;
 	}
 
 	.tools-privacy-policy-page .wp-create-privacy-page .button {
-	    margin-left: 0;
+		margin-left: 0;
 	}
 
 	.wp-list-table.privacy_requests tr:not(.inline-edit-row):not(.no-items) td.column-primary:not(.check-column) {
@@ -1531,7 +1531,7 @@ table.form-table td .updated p {
 	}
 
 	.form-wrap .form-field {
-		padding:0;
+		padding: 0;
 	}
 
 	/* users */

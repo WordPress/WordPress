@@ -874,13 +874,13 @@ li.assigned-to-menu-location .add-new-menu-item {
 }
 
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
 		top: 63px;
 	}
 }
 
-@media screen and ( max-width: 640px ) {
+@media screen and (max-width: 640px) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
 		top: 130px;
 	}

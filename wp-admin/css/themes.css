@@ -312,7 +312,7 @@ body.js .theme-browser.search-loading {
 	text-indent: -4px;
 	padding: 0;
 	text-shadow: none;
-	z-index:4;
+	z-index: 4;
 }
 
 .rtl .theme-browser .theme.add-new-theme span:after {
@@ -1617,9 +1617,10 @@ body.full-overlay-active {
 	box-shadow: none;
 	border-top: 1px solid transparent;
 	border-bottom: 4px solid transparent;
-	transition: .15s color ease-in-out,
-	            .15s background-color ease-in-out,
-	            .15s border-color ease-in-out;
+	transition:
+		.15s color ease-in-out,
+		.15s background-color ease-in-out,
+		.15s border-color ease-in-out;
 }
 
 .wp-full-overlay-footer .devices button:focus {
@@ -1672,7 +1673,7 @@ body.full-overlay-active {
 	content: "\f470";
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width: 1024px) {
 	.wp-full-overlay-footer .devices {
 		display: none;
 	}
@@ -1879,7 +1880,7 @@ body.full-overlay-active {
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.available-theme .action-links .delete-theme {
 		float: none;
 		margin: 0;

@@ -167,7 +167,7 @@ body.post-new-php .submitbox .submitdelete {
 	border: 0 none;
 	float: left;
 	padding: 0 12px;
-	margin:0;
+	margin: 0;
 }
 
 .category-add input[type="text"],
@@ -616,7 +616,7 @@ span.wp-media-buttons-icon:before {
 }
 
 #poststuff .stuffbox .inside {
-  margin: 0;
+	margin: 0;
 }
 
 #poststuff .inside #parent_id,
@@ -651,7 +651,7 @@ span.wp-media-buttons-icon:before {
 
 #post-body-content,
 .edit-form-section {
- 	margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 /* Suggested text for privacy policy */
@@ -1011,11 +1011,11 @@ a.post-state-format.format-link:before {
 }
 
 div.tabs-panel-active {
-	display:block;
+	display: block;
 }
 
 div.tabs-panel-inactive {
-	display:none;
+	display: none;
 }
 
 #front-page-warning,
@@ -1444,7 +1444,7 @@ table.links-table {
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wp-core-ui .edit-tag-actions .button-primary {
 		margin-bottom: 0;
 	}

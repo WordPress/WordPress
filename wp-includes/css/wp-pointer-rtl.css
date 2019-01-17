@@ -217,7 +217,7 @@
 }
 
 /* Disable pointers at responsive sizes */
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wp-pointer {
 		display: none;
 	}

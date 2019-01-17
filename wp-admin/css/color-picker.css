@@ -70,7 +70,7 @@
 
 .wp-picker-input-wrap .button,
 .wp-customizer .wp-picker-input-wrap .button {
- 	margin-left: 6px;
+	margin-left: 6px;
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
@@ -125,7 +125,7 @@
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wp-picker-container input[type="text"].wp-color-picker {
 		width: 80px;
 		padding: 6px 5px 5px;
@@ -160,7 +160,7 @@
 	}
 }
 
-@media screen and ( max-width: 640px ) {
+@media screen and (max-width: 640px) {
 	.wp-customizer .wp-picker-container .wp-color-result.button {
 		font-size: 14px;
 		line-height: 29px;

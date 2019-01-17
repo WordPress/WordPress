@@ -337,13 +337,13 @@
 	left: 0;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.find-box-inside {
 		bottom: 57px;
 	}
 }
 
-@media screen and ( max-width: 660px ) {
+@media screen and (max-width: 660px) {
 
 	.find-box {
 		top: 0;
@@ -462,7 +462,7 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 12px;
 	padding: 0 16px;
 	border-right: 4px solid #dd3d36;
- 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 }
 
@@ -1176,7 +1176,7 @@ audio, video {
 	}
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
 		line-height: 1.5em;
@@ -1220,7 +1220,7 @@ audio, video {
 	}
 }
 
-@media only screen and ( max-width: 782px ) {
+@media only screen and (max-width: 782px) {
 	.media-frame.mode-select .attachments-browser.fixed .media-toolbar {
 		top: 46px;
 		left: 10px;

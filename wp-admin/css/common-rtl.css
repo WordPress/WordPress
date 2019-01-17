@@ -1538,8 +1538,8 @@ div.error {
 
 /* Error icon. */
 .update-message.notice-error p:before {
-	 color: #dc3232;
-	 content: "\f534";
+	color: #dc3232;
+	content: "\f534";
 }
 
 .wrap .notice p:before,
@@ -1749,7 +1749,7 @@ form.upgrade .hint {
 #contextual-help-wrap h5 {
 	margin: 0;
 	padding: 8px 0;
- 	font-size: 13px;
+	font-size: 13px;
 	font-weight: 600;
 }
 
@@ -1991,7 +1991,7 @@ html.wp-toolbar {
 	width: 200px;
 	text-align: center;
 	color: #ccc;
-	font-size:18px;
+	font-size: 18px;
 	display: none;
 }
 
@@ -2223,10 +2223,10 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 
 /* Back-compat for plugins. Deprecated. Use .wp-clearfix instead. */
 .nav-tab-wrapper:not(.wp-clearfix):after {
- 	content: "";
- 	display: table;
- 	clear: both;
- }
+	content: "";
+	display: table;
+	clear: both;
+}
 
 .ie8 .nav-tab-wrapper {
 	/* contain floats establishing a new block formatting context */
@@ -2875,7 +2875,7 @@ div.action-links {
 	margin-left: 1em;
 }
 
-@media screen and ( max-width: 771px ) {
+@media screen and (max-width: 771px) {
 	#plugin-information-title.with-banner {
 		height: 100px;
 	}
@@ -2992,7 +2992,7 @@ div.action-links {
 }
 
 /* move plugin install close icon to top on narrow screens */
-@media screen and ( max-width: 830px ) {
+@media screen and (max-width: 830px) {
 	.plugin-details-modal #TB_closeWindowButton {
 		left: 0;
 		top: -30px;
@@ -3388,7 +3388,7 @@ img {
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top .widget-action .toggle-indicator:before,
-.widget.widget-in-question .widget-top .widget-action .toggle-indicator:before  {
+.widget.widget-in-question .widget-top .widget-action .toggle-indicator:before {
 	content: "\f142";
 }
 
@@ -3681,7 +3681,7 @@ img {
 	width: device-width;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 	html.wp-toolbar {
 		padding-top: 46px;
 	}

@@ -197,7 +197,7 @@
 	border-color: #cccccc;
 	background: #f7f7f7;
 	box-shadow: 0 1px 0 #cccccc;
- 	vertical-align: top;
+	vertical-align: top;
 }
 
 .ui-button:active,
@@ -242,7 +242,7 @@
 	transform: none !important;
 }
 
-@media screen and ( max-width: 782px ) {
+@media screen and (max-width: 782px) {
 
 	.ui-button {
 		padding: 6px 14px;
@@ -301,7 +301,7 @@
 	line-height: 36px;
 	width: 36px;
 	height: 36px;
-	content: '\f158';
+	content: "\f158";
 }
 
 .ui-button.ui-dialog-titlebar-close:hover {
