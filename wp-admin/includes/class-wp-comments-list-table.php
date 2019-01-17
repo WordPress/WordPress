@@ -280,6 +280,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$current_user_id    = get_current_user_id();
 				$num_comments->mine = get_comments(
 					array(
+						'post_id' => $post_id ? $post_id : 0,
 						'user_id' => $current_user_id,
 						'count'   => true,
 					)
