@@ -6549,6 +6549,9 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 		} else {
 			selection.add( this.model );
 		}
+
+		// Trigger an action button update.
+		this.controller.trigger( 'selection:toggle' );
 	}
 });
 
