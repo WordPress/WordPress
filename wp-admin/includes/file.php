@@ -1010,7 +1010,7 @@ function download_url( $url, $timeout = 300 ) {
 			/**
 			 * Filters the maximum error response body size in `download_url()`.
 			 *
-			 * @since 5.0.0
+			 * @since 5.1.0
 			 *
 			 * @see download_url()
 			 *

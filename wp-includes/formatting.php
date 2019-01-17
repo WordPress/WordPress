@@ -3058,7 +3058,7 @@ function wp_targeted_link_rel_callback( $matches ) {
 	/**
 	 * Filters the rel values that are added to links with `target` attribute.
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 *
 	 * @param string The rel values.
 	 * @param string $link_html The matched content of the link tag including all HTML attributes.
