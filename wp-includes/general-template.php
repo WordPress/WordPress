@@ -1693,9 +1693,8 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
 	 * @param string $format    Link format. Can be 'link', 'option', 'html', or custom.
 	 * @param string $before    Content to prepend to the description.
 	 * @param string $after     Content to append to the description.
-	 * @param bool   $selected  True if the current page is the selected archive
 	 */
-	return apply_filters( 'get_archives_link', $link_html, $url, $text, $format, $before, $after, $selected );
+	return apply_filters( 'get_archives_link', $link_html, $url, $text, $format, $before, $after );
 }
 
 /**
@@ -1821,9 +1820,7 @@ function wp_get_archives( $args = '' ) {
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$selected = is_archive() && ( string ) $r[ 'year' ] === $result->year
-							&& ( string ) $r[ 'monthnum' ] === $result->month;
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'], $selected );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'yearly' == $r['type'] ) {
@@ -1845,8 +1842,7 @@ function wp_get_archives( $args = '' ) {
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$selected = is_archive() && ( string ) $r[ 'year' ] === $result->year;
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'], $selected );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'daily' == $r['type'] ) {
@@ -1869,10 +1865,7 @@ function wp_get_archives( $args = '' ) {
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
-				$selected = is_archive() && ( string ) $r[ 'year' ] === $result->year
-							&& ( string ) $r[ 'monthnum' ] === $result->month
-							&& ( string ) $r[ 'day' ] === $result->dayofmonth;
-				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'], $selected );
+				$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 			}
 		}
 	} elseif ( 'weekly' == $r['type'] ) {
@@ -1908,9 +1901,7 @@ function wp_get_archives( $args = '' ) {
 					if ( $r['show_post_count'] ) {
 						$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 					}
-					$selected = is_archive() && ( string ) $r[ 'year' ] === $result->yr
-								&& ( string ) $r[ 'week' ] === $result->week;
-					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'], $selected );
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 				}
 			}
 		}
@@ -1933,8 +1924,7 @@ function wp_get_archives( $args = '' ) {
 					} else {
 						$text = $result->ID;
 					}
-					$selected = $result->ID === get_the_ID();
-					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'], $selected );
+					$output .= get_archives_link( $url, $text, $r['format'], $r['before'], $r['after'] );
 				}
 			}
 		}
