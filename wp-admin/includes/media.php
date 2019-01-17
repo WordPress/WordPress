@@ -467,7 +467,7 @@ function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data 
 	unset( $attachment['ID'] );
 
 	// Save the attachment metadata
-	$id = wp_insert_attachment( $attachment, $file, $post_id );
+	$id = wp_insert_attachment( $attachment, $file, $post_id, true );
 	if ( ! is_wp_error( $id ) ) {
 		wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
 	}
