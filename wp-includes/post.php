@@ -507,6 +507,7 @@ function update_attached_file( $attachment_id, $file ) {
  * The path is relative to the current upload dir.
  *
  * @since 2.9.0
+ * @access private
  *
  * @param string $path Full path to the file.
  * @return string Relative path on success, unchanged path on failure.
@@ -913,6 +914,7 @@ function get_page_statuses() {
  * Return statuses for privacy requests.
  *
  * @since 4.9.6
+ * @access private
  *
  * @return array
  */
@@ -2481,6 +2483,7 @@ function unstick_post( $post_id ) {
  * Return the cache key for wp_count_posts() based on the passed arguments.
  *
  * @since 3.9.0
+ * @access private
  *
  * @param string $type Optional. Post type to retrieve count Default 'post'.
  * @param string $perm Optional. 'readable' or empty. Default empty.
@@ -4903,6 +4906,7 @@ function get_page_hierarchy( &$pages, $page_id = 0 ) {
  * $children contains parent-children relations
  *
  * @since 2.9.0
+ * @access private
  *
  * @see _page_traverse_name()
  *
