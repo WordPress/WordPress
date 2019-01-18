@@ -54,7 +54,7 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production) or
 	// tinymce.min.js (when SCRIPT_DEBUG is true).
 	if ( $compressed ) {
-		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.php', array(), $tinymce_version );
+		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . 'wp-tinymce.js', array(), $tinymce_version );
 	} else {
 		$scripts->add( 'wp-tinymce-root', includes_url( 'js/tinymce/' ) . "tinymce$dev_suffix.js", array(), $tinymce_version );
 		$scripts->add( 'wp-tinymce', includes_url( 'js/tinymce/' ) . "plugins/compat3x/plugin$dev_suffix.js", array( 'wp-tinymce-root' ), $tinymce_version );
