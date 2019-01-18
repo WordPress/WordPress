@@ -1398,7 +1398,7 @@ ul.cat-checklist {
 	margin-left: 0;
 }
 
-@media screen and (min-width: 1600px) {
+@media screen and (min-width: 1600px) and ( max-width: 2299px ) {
 	.plugin-card {
 		width: 30%;
 		width: calc( 33.1% - 8px );
