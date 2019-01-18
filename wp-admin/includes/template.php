@@ -870,7 +870,7 @@ function page_template_dropdown( $default = '', $post_type = 'page' ) {
  * @param int         $level   Optional. Page depth level. Default 0.
  * @param int|WP_Post $post    Post ID or WP_Post object.
  *
- * @return null|false Boolean False if page has no children, otherwise print out html elements
+ * @return null|false Boolean False if page has no children, otherwise print out html elements.
  */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0, $post = null ) {
 	global $wpdb;
@@ -1370,7 +1370,7 @@ function remove_meta_box( $id, $screen, $context ) {
 }
 
 /**
- * Meta Box Accordion Template Function
+ * Meta Box Accordion Template Function.
  *
  * Largely made up of abstracted code from do_meta_boxes(), this
  * function serves to build meta boxes as list items for display as
@@ -1450,7 +1450,7 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * Part of the Settings API. Use this to define new settings sections for an admin page.
  * Show settings sections in your admin page callback function with do_settings_sections().
- * Add settings fields to your section with add_settings_field()
+ * Add settings fields to your section with add_settings_field().
  *
  * The $callback argument should be the name of a function that echoes out any
  * content you want to show at the top of the settings section before the actual
@@ -1458,7 +1458,7 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * @since 2.7.0
  *
- * @global $wp_settings_sections Storage array of all settings sections added to admin pages
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages.
  *
  * @param string   $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
  * @param string   $title    Formatted title of the section. Shown as the heading for the section.
@@ -1504,7 +1504,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
 }
 
 /**
- * Add a new field to a section of a settings page
+ * Add a new field to a section of a settings page.
  *
  * Part of the Settings API. Use this to define a settings field that will show
  * as part of a settings section inside a settings page. The fields are shown using
@@ -1517,7 +1517,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
  * @since 2.7.0
  * @since 4.2.0 The `$class` argument was added.
  *
- * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections.
  *
  * @param string   $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
  * @param string   $title    Formatted title of the field. Shown as the label for the field
@@ -1582,11 +1582,11 @@ function add_settings_field( $id, $title, $callback, $page, $section = 'default'
  * to output all the sections and fields that were added to that $page with
  * add_settings_section() and add_settings_field()
  *
- * @global $wp_settings_sections Storage array of all settings sections added to admin pages
- * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages.
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections.
  * @since 2.7.0
  *
- * @param string $page The slug name of the page whose settings sections you want to output
+ * @param string $page The slug name of the page whose settings sections you want to output.
  */
 function do_settings_sections( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
@@ -1614,13 +1614,13 @@ function do_settings_sections( $page ) {
 }
 
 /**
- * Print out the settings fields for a particular settings section
+ * Print out the settings fields for a particular settings section.
  *
  * Part of the Settings API. Use this in a settings page to output
  * a specific section. Should normally be called by do_settings_sections()
  * rather than directly.
  *
- * @global $wp_settings_fields Storage array of settings fields and their pages/sections
+ * @global $wp_settings_fields Storage array of settings fields and their pages/sections.
  *
  * @since 2.7.0
  *
@@ -1657,7 +1657,7 @@ function do_settings_fields( $page, $section ) {
 }
 
 /**
- * Register a settings error to be displayed to the user
+ * Register a settings error to be displayed to the user.
  *
  * Part of the Settings API. Use this to show messages to users about settings validation
  * problems, missing settings or anything else.
@@ -1673,7 +1673,7 @@ function do_settings_fields( $page, $section ) {
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
- * @param string $setting Slug title of the setting to which this error applies
+ * @param string $setting Slug title of the setting to which this error applies.
  * @param string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
  * @param string $message The formatted message text to display to the user (will be shown inside styled
  *                        `<div>` and `<p>` tags).
@@ -1692,7 +1692,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 }
 
 /**
- * Fetch settings errors registered by add_settings_error()
+ * Fetch settings errors registered by add_settings_error().
  *
  * Checks the $wp_settings_errors array for any errors declared during the current
  * pageload and returns them.
@@ -1712,7 +1712,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @param string $setting Optional slug title of a specific setting whose errors you want.
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
- * @return array Array of settings errors
+ * @return array Array of settings errors.
  */
 function get_settings_errors( $setting = '', $sanitize = false ) {
 	global $wp_settings_errors;
@@ -2239,7 +2239,7 @@ function compression_test() {
  *                                       id attribute is given in $other_attributes below, $name will be
  *                                       used as the button's id.
  * @param bool         $wrap             True if the output button should be wrapped in a paragraph tag,
- *                                       false otherwise. Defaults to true
+ *                                       false otherwise. Defaults to true.
  * @param array|string $other_attributes Other attributes that should be output with the button, mapping
  *                                       attributes to their values, such as setting tabindex to 1, etc.
  *                                       These key/value attribute pairs will be output as attribute="value",

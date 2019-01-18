@@ -51,7 +51,7 @@ $theme_field_defaults = array(
 );
 
 /**
- * Retrieve list of WordPress theme features (aka theme tags)
+ * Retrieve list of WordPress theme features (aka theme tags).
  *
  * @since 2.8.0
  *

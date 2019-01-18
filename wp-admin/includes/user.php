@@ -25,7 +25,7 @@ function add_user() {
  * @since 2.0.0
  *
  * @param int $user_id Optional. User ID.
- * @return int|WP_Error user id of the updated user
+ * @return int|WP_Error user id of the updated user.
  */
 function edit_user( $user_id = 0 ) {
 	$wp_roles = wp_roles();
@@ -547,7 +547,7 @@ jQuery(document).ready( function($) {
  *
  * @since 2.7.0
  *
- * @param object $user User data object
+ * @param object $user User data object.
  */
 function use_ssl_preference( $user ) {
 	?>
