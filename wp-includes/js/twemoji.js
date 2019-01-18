@@ -373,7 +373,7 @@ var twemoji = (function (
         iconId = grabTheRightIcon(rawText);
         i = index + rawText.length;
         src = options.callback(iconId, options);
-        if (src) {
+        if (iconId && src) {
           img = new Image();
           img.onerror = options.onerror;
           img.setAttribute('draggable', 'false');
@@ -434,7 +434,7 @@ var twemoji = (function (
         src = options.callback(iconId, options),
         attrib,
         attrname;
-      if (src) {
+      if (iconId && src) {
         // recycle the match string replacing the emoji
         // with its image counter part
         ret = '<img '.concat(
