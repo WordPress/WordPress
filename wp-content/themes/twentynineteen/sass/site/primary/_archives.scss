@@ -50,6 +50,7 @@
 .error-404.not-found,
 .no-results.not-found {
 
+	.page-title,
 	.page-content {
 
 		margin: calc(3 * #{$size__spacing-unit}) #{$size__spacing-unit};
