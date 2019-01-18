@@ -10,7 +10,7 @@ input[type="submit"] {
 	border-radius: 5px;
 	box-sizing: border-box;
 	color: $color__background-body;
-	font-family: $font__heading;
+	@include font-family( $font__heading );
 	font-size: $font__size-sm;
 	font-weight: 700;
 	line-height: $font__line-height-heading;

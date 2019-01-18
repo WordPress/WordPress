@@ -16,6 +16,49 @@
 
 $font__body: "NonBreakingSpaceOverride", "Hoefler Text", "Baskerville Old Face", Garamond, "Times New Roman", serif;
 $font__heading: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+$font__fallbacks: (
+	/* Arabic */
+	ar: 'Tahoma, Arial, sans-serif',
+	ary: 'Tahoma, Arial, sans-serif',
+	azb: 'Tahoma, Arial, sans-serif',
+	ckb: 'Tahoma, Arial, sans-serif',
+	fa-IR: 'Tahoma, Arial, sans-serif',
+	haz: 'Tahoma, Arial, sans-serif',
+	ps: 'Tahoma, Arial, sans-serif',
+	/* Cyrillic */
+	be: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	bg-BG: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	kk: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	mk-MK: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	mn: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	ru-RU: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	sah: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	sr-RS: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	tt-RU: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	uk: '"Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif',
+	/* Chinese (Hong Kong) */
+	zh-HK: '-apple-system, BlinkMacSystemFont, "PingFang HK", "Helvetica Neue", "Microsoft YaHei New", STHeiti Light, sans-serif',
+	/* Chinese (Taiwan) */
+	zh-TW: '-apple-system, BlinkMacSystemFont, "PingFang TC", "Helvetica Neue", "Microsoft YaHei New", STHeiti Light, sans-serif',
+	/* Chinese (China) */
+	zh-CN: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei New", STHeiti Light, sans-serif',
+	/* Devanagari */
+	'bn-BD,hi-IN,mr,ne-NP': 'Arial, sans-serif',
+	/* Greek */
+	el: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+	/* Gujarati */
+	gu: 'Arial, sans-serif',
+	/* Hebrew */
+	he-IL: '"Arial Hebrew", Arial, sans-serif',
+	/* Japanese */
+	ja: '-apple-system, BlinkMacSystemFont, "Hiragino Sans", Meiryo, "Helvetica Neue", sans-serif',
+	/* Korean */
+	ko-KR: '"Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", Dotum, sans-serif',
+	/* Thai */
+	th: '"Sukhumvit Set", "Helvetica Neue", helvetica, arial, sans-serif',
+	/* Vietnamese */
+	vi: '"Libre Franklin", sans-serif',
+);
 $font__code: Menlo, monaco, Consolas, Lucida Console, monospace;
 $font__pre: "Courier 10 Pitch", Courier, monospace;
 

@@ -7,7 +7,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: $color__text-main;
-	font-family: $font__body;
+	@include font-family( $font__body );
 	font-weight: 400;
 	font-size: 1em;
 	line-height: $font__line-height-body;
@@ -21,7 +21,7 @@ select,
 optgroup,
 textarea {
 	color: $color__text-main;
-	font-family: $font__body;
+	@include font-family( $font__body );
 	font-weight: 400;
 	line-height: $font__line-height-body;
 	text-rendering: optimizeLegibility;
@@ -30,5 +30,3 @@ textarea {
 @import "headings";
 
 @import "copy";
-
-@include non-latin-fonts();

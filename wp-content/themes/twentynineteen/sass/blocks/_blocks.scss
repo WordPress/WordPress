@@ -160,7 +160,7 @@
 			@include button-transition;
 			border: none;
 			font-size: $font__size-sm;
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			line-height: $font__line-height-heading;
 			box-sizing: border-box;
 			font-weight: bold;
@@ -230,7 +230,7 @@
 
 		li {
 			color: $color__text-light;
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			font-size: calc(#{$font__size_base} * #{$font__size-ratio});
 			font-weight: bold;
 			line-height: $font__line-height-heading;
@@ -299,7 +299,7 @@
 
 	//! Verse
 	.wp-block-verse {
-		font-family: $font__body;
+		@include font-family( $font__body );
 		font-size: $font__size_base;
 		line-height: 1.8;
 	}
@@ -307,7 +307,7 @@
 	//! Paragraphs
 	.has-drop-cap {
 		&:not(:focus):first-letter {
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			font-size: $font__size-xxxl;
 			line-height: 1;
 			font-weight: bold;
@@ -348,7 +348,7 @@
 
 		cite {
 			display: inline-block;
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			line-height: 1.6;
 			text-transform: none;
 			color: $color__text-light;
@@ -559,7 +559,7 @@
 		.wp-block-cover-image-text,
 		.wp-block-cover-text,
 		h2 {
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			font-size: $font__size-lg;
 			font-weight: bold;
 			line-height: 1.25;
@@ -624,7 +624,7 @@
 	.wp-block-gallery .blocks-gallery-image figcaption,
 	.wp-block-gallery .blocks-gallery-item figcaption {
 		font-size: $font__size-xs;
-		font-family: $font__heading;
+		@include font-family( $font__heading );
 		line-height: $font__line-height-pre;
 		margin: 0;
 		padding: ( $size__spacing-unit * .5 );
@@ -690,7 +690,7 @@
 
 	//! File
 	.wp-block-file {
-		font-family: $font__heading;
+		@include font-family( $font__heading );
 
 		.wp-block-file__button {
 			display: table;
@@ -699,7 +699,7 @@
 			border-radius: 5px;
 			background: $color__background-button;
 			font-size: $font__size-base;
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			line-height: $font__line-height-heading;
 			text-decoration: none;
 			font-weight: bold;
@@ -781,7 +781,7 @@
 	.wp-block-latest-comments {
 
 		.wp-block-latest-comments__comment-meta {
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			font-weight: bold;
 
 			.wp-block-latest-comments__comment-date {

@@ -176,7 +176,7 @@
 	.nav-next {
 		min-width: 50%;
 		width: 100%;
-		font-family: $font__heading;
+		@include font-family( $font__heading );
 		font-weight: bold;
 
 		.secondary-text {

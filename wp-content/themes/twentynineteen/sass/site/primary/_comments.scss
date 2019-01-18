@@ -127,7 +127,7 @@
 
 		.comment-body {
 			color: $color__text-light;
-			font-family: $font__heading;
+			@include font-family( $font__heading );
 			font-size: $font__size-xs;
 			font-weight: 500;
 			margin-top: $size__spacing-unit;
@@ -143,7 +143,7 @@
 
 			.comment-edit-link {
 				color: $color__text-light;
-				font-family: $font__heading;
+				@include font-family( $font__heading );
 				font-weight: 500;
 			}
 		}
@@ -372,7 +372,7 @@
 
 	.comment-notes,
 	label {
-		font-family: $font__heading;
+		@include font-family( $font__heading );
 		font-size: $font__size-xs;
 		color: $color__text-light;
 	}
