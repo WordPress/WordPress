@@ -100,12 +100,6 @@ add_action( 'user_register', array( 'WP_Internal_Pointers', 'dismiss_pointers_fo
 add_action( 'customize_controls_print_footer_scripts', 'customize_themes_print_templates' );
 
 // Theme Install hooks.
-// add_action('install_themes_dashboard', 'install_themes_dashboard');
-// add_action('install_themes_upload', 'install_themes_upload', 10, 0);
-// add_action('install_themes_search', 'display_themes');
-// add_action('install_themes_featured', 'display_themes');
-// add_action('install_themes_new', 'display_themes');
-// add_action('install_themes_updated', 'display_themes');
 add_action( 'install_themes_pre_theme-information', 'install_theme_information' );
 
 // User hooks.
