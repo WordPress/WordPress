@@ -787,6 +787,8 @@
 
 .media-frame select.attachment-filters:last-of-type {
 	margin-left: 0;
+	width: auto;
+	max-width: 100%;
 }
 
 /**
