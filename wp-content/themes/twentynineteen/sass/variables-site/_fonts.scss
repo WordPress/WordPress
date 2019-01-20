@@ -43,7 +43,10 @@ $font__fallbacks: (
 	/* Chinese (China) */
 	zh-CN: '-apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei New", STHeiti Light, sans-serif',
 	/* Devanagari */
-	'bn-BD,hi-IN,mr,ne-NP': 'Arial, sans-serif',
+	bn-BD: 'Arial, sans-serif',
+	hi-IN: 'Arial, sans-serif',
+	mr: 'Arial, sans-serif',
+	ne-NP: 'Arial, sans-serif',
 	/* Greek */
 	el: '"Helvetica Neue", Helvetica, Arial, sans-serif',
 	/* Gujarati */
