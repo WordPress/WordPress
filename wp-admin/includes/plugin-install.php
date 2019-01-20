@@ -756,9 +756,9 @@ function install_plugin_information() {
 	<?php
 	$wp_version = get_bloginfo( 'version' );
 
-	$compatible_php = ( empty( $api->requires_php ) || version_compare( substr( phpversion(), 0, strlen( $api->requires_php ) ), $api->requires_php, '>=' ) );
-	$tested_wp      = ( empty( $api->tested ) || version_compare( substr( $wp_version, 0, strlen( $api->tested ) ), $api->tested, '<=' ) );
-	$compatible_wp  = ( empty( $api->requires ) || version_compare( substr( $wp_version, 0, strlen( $api->requires ) ), $api->requires, '>=' ) );
+	$compatible_php = ( empty( $api->requires_php ) || version_compare( phpversion(), $api->requires_php, '>=' ) );
+	$tested_wp      = ( empty( $api->tested ) || version_compare( $wp_version, $api->tested, '<=' ) );
+	$compatible_wp  = ( empty( $api->requires ) || version_compare( $wp_version, $api->requires, '>=' ) );
 
 	if ( ! $compatible_php ) {
 		echo '<div class="notice notice-error notice-alt"><p>';

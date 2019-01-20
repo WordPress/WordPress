@@ -504,9 +504,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			$wp_version = get_bloginfo( 'version' );
 
-			$compatible_php = ( empty( $plugin['requires_php'] ) || version_compare( substr( phpversion(), 0, strlen( $plugin['requires_php'] ) ), $plugin['requires_php'], '>=' ) );
-			$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( substr( $wp_version, 0, strlen( $plugin['tested'] ) ), $plugin['tested'], '<=' ) );
-			$compatible_wp  = ( empty( $plugin['requires'] ) || version_compare( substr( $wp_version, 0, strlen( $plugin['requires'] ) ), $plugin['requires'], '>=' ) );
+			$compatible_php = ( empty( $plugin['requires_php'] ) || version_compare( phpversion(), $plugin['requires_php'], '>=' ) );
+			$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( $wp_version, $plugin['tested'], '<=' ) );
+			$compatible_wp  = ( empty( $plugin['requires'] ) || version_compare( $wp_version, $plugin['requires'], '>=' ) );
 
 			$action_links = array();
 
