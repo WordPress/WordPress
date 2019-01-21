@@ -2935,7 +2935,7 @@ function wp_nonce_ays( $action ) {
  * @since 2.0.4
  * @since 4.1.0 The `$title` and `$args` parameters were changed to optionally accept
  *              an integer to be used as the response code.
- * @since 5.1.0 The `$link_url` and `$link_text` arguments were added.
+ * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
