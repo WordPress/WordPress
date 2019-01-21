@@ -408,7 +408,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 					$message = sprintf(
-						/* translators: %s: https://wordpress.org/plugins/classic-editor/ */
+						/* translators: %s: Classic Editor plugin URL */
 						__( 'The block editor requires JavaScript. Please enable JavaScript in your browser settings, or try the <a href="%s">Classic Editor plugin</a>.' ),
 						__( 'https://wordpress.org/plugins/classic-editor/' )
 					);
