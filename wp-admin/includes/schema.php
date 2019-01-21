@@ -541,7 +541,7 @@ function populate_options( array $options = array() ) {
 		'wp_page_for_privacy_policy'      => 0,
 
 		// 4.9.8
-		'show_comments_cookies_opt_in'    => 0,
+		'show_comments_cookies_opt_in'    => 1,
 	);
 
 	// 3.3

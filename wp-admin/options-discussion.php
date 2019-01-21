@@ -88,7 +88,7 @@ printf(
 
 <label for="show_comments_cookies_opt_in">
 <input name="show_comments_cookies_opt_in" type="checkbox" id="show_comments_cookies_opt_in" value="1" <?php checked( '1', get_option( 'show_comments_cookies_opt_in' ) ); ?> />
-<?php _e( 'Show comments cookies opt-in checkbox.' ); ?>
+<?php _e( 'Show comments cookies opt-in checkbox, allowing comment author cookies to be set.' ); ?>
 </label>
 <br />
 
