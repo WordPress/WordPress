@@ -136,7 +136,7 @@ class WP_Shutdown_Handler {
 			$php_error_pluggable = WP_CONTENT_DIR . '/php-error.php';
 			if ( is_readable( $php_error_pluggable ) ) {
 				require_once $php_error_pluggable;
-				die();
+				return;
 			}
 		}
 
@@ -166,7 +166,10 @@ class WP_Shutdown_Handler {
 
 		$message = __( 'The site is experiencing technical difficulties.' );
 
-		$args = array( 'response' => 500 );
+		$args = array(
+			'response' => 500,
+			'exit'     => false,
+		);
 		if ( function_exists( 'admin_url' ) ) {
 			$args['link_url']  = admin_url();
 			$args['link_text'] = __( 'Log into the admin backend to fix this.' );
