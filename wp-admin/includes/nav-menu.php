@@ -105,8 +105,8 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 			}
 		} elseif ( 'taxonomy' == $matches[1] ) {
 			$terms = get_terms(
-				$matches[2],
 				array(
+					'taxonomy'   => $matches[2],
 					'name__like' => $query,
 					'number'     => 10,
 				)
