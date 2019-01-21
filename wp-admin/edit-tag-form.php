@@ -70,18 +70,22 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 <div class="wrap">
 <h1><?php echo $tax->labels->edit_item; ?></h1>
 
-<?php if ( $message ) : ?>
-<div id="message" class="updated">
+<?php
+$class = ( isset( $msg ) && 5 === $msg ) ? 'error' : 'success';
+
+if ( $message ) {
+	?>
+<div id="message" class="notice notice-<?php echo $class; ?>">
 	<p><strong><?php echo $message; ?></strong></p>
 	<?php if ( $wp_http_referer ) { ?>
 	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>">
-							<?php
-							echo esc_html( $tax->labels->back_to_items );
-							?>
+		<?php echo esc_html( $tax->labels->back_to_items ); ?>
 	</a></p>
 	<?php } ?>
 </div>
-<?php endif; ?>
+	<?php
+}
+?>
 
 <div id="ajax-response"></div>
 
