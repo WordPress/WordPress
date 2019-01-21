@@ -118,6 +118,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$this->strings['unpack_package']      = __( 'Unpacking the update&#8230;' );
 		$this->strings['process_failed']      = __( 'Translation update failed.' );
 		$this->strings['process_success']     = __( 'Translation updated successfully.' );
+		$this->strings['remove_old']          = __( 'Removing the old version of the translation&#8230;' );
+		$this->strings['remove_old_failed']   = __( 'Could not remove the old translation.' );
 	}
 
 	/**
@@ -241,7 +243,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$options = array(
 				'package'                     => $language_update->package,
 				'destination'                 => $destination,
-				'clear_destination'           => false,
+				'clear_destination'           => true,
 				'abort_if_destination_exists' => false, // We expect the destination to exist.
 				'clear_working'               => true,
 				'is_multi'                    => true,
@@ -385,4 +387,86 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		return '';
 	}
 
+	/**
+	 * Clears existing translations where this item is going to be installed into.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
+	 * @param string $remote_destination The location on the remote filesystem to be cleared.
+	 * @return bool|WP_Error True upon success, WP_Error on failure.
+	 */
+	public function clear_destination( $remote_destination ) {
+		global $wp_filesystem;
+
+		$language_update    = $this->skin->language_update;
+		$language_directory = WP_LANG_DIR . '/'; // Local path for use with glob().
+
+		if ( 'core' === $language_update->type ) {
+			$files = array(
+				$remote_destination . $language_update->language . '.po',
+				$remote_destination . $language_update->language . '.mo',
+				$remote_destination . 'admin-' . $language_update->language . '.po',
+				$remote_destination . 'admin-' . $language_update->language . '.mo',
+				$remote_destination . 'admin-network-' . $language_update->language . '.po',
+				$remote_destination . 'admin-network-' . $language_update->language . '.mo',
+				$remote_destination . 'continents-cities-' . $language_update->language . '.po',
+				$remote_destination . 'continents-cities-' . $language_update->language . '.mo',
+			);
+
+			$json_translation_files = glob( $language_directory . $language_update->language . '-*.json' );
+			if ( $json_translation_files ) {
+				foreach ( $json_translation_files as $json_translation_file ) {
+					$files[] = str_replace( $language_directory, $remote_destination, $json_translation_file );
+				}
+			}
+		} else {
+			$files = array(
+				$remote_destination . $language_update->slug . '-' . $language_update->language . '.po',
+				$remote_destination . $language_update->slug . '-' . $language_update->language . '.mo',
+			);
+
+			$language_directory     = $language_directory . $language_update->type . 's/';
+			$json_translation_files = glob( $language_directory . $language_update->slug . '-' . $language_update->language . '-*.json' );
+			if ( $json_translation_files ) {
+				foreach ( $json_translation_files as $json_translation_file ) {
+					$files[] = str_replace( $language_directory, $remote_destination, $json_translation_file );
+				}
+			}
+		}
+
+		$files = array_filter( $files, array( $wp_filesystem, 'exists' ) );
+
+		// No files to delete.
+		if ( ! $files ) {
+			return true;
+		}
+
+		// Check all files are writable before attempting to clear the destination.
+		$unwritable_files = array();
+
+		// Check writability.
+		foreach ( $files as $file ) {
+			if ( ! $wp_filesystem->is_writable( $file ) ) {
+				// Attempt to alter permissions to allow writes and try again.
+				$wp_filesystem->chmod( $file, FS_CHMOD_FILE );
+				if ( ! $wp_filesystem->is_writable( $file ) ) {
+					$unwritable_files[] = $file;
+				}
+			}
+		}
+
+		if ( ! empty( $unwritable_files ) ) {
+			return new WP_Error( 'files_not_writable', $this->strings['files_not_writable'], implode( ', ', $unwritable_files ) );
+		}
+
+		foreach ( $files as $file ) {
+			if ( ! $wp_filesystem->delete( $file ) ) {
+				return new WP_Error( 'remove_old_failed', $this->strings['remove_old_failed'] );
+			}
+		}
+
+		return true;
+	}
 }
