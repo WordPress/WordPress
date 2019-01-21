@@ -1,21 +1,22 @@
 <?php
 /**
- * Error Protection API: WP_Shutdown_Handler class
+ * Error Protection API: WP_Fatal_Error_Handler class
  *
  * @package WordPress
  * @since 5.1.0
  */
 
 /**
- * Core class used as the default shutdown handler.
+ * Core class used as the default shutdown handler for fatal errors.
  *
- * A drop-in 'shutdown-handler.php' can be used to override the instance of this class and use a custom implementation
- * for the shutdown handler that WordPress registers. The custom class should extend this class and can override its
- * methods individually as necessary. The file must return the instance of the class that should be registered.
+ * A drop-in 'fatal-error-handler.php' can be used to override the instance of this class and use a custom
+ * implementation for the fatal error handler that WordPress registers. The custom class should extend this class and
+ * can override its methods individually as necessary. The file must return the instance of the class that should be
+ * registered.
  *
  * @since 5.1.0
  */
-class WP_Shutdown_Handler {
+class WP_Fatal_Error_Handler {
 
 	/**
 	 * Runs the shutdown handler.
@@ -126,7 +127,7 @@ class WP_Shutdown_Handler {
 	 * very early in the WordPress bootstrap process, so any core functions used that are not part of
 	 * `wp-includes/load.php` should be checked for before being called.
 	 *
-	 * If no such drop-in is available, this will call {@see WP_Shutdown_Handler::display_default_error_template()}.
+	 * If no such drop-in is available, this will call {@see WP_Fatal_Error_Handler::display_default_error_template()}.
 	 *
 	 * @since 5.1.0
 	 */
