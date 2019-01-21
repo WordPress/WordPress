@@ -742,7 +742,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 	<?php else : ?>
 	<div class="manage-menus">
-		<?php if ( $menu_count < 2 ) : ?>
+		<?php if ( $menu_count < 1 ) : ?>
+		<span class="first-menu-message">
+			<?php _e( 'Create your first menu below.' ); ?>
+			<span class="screen-reader-text"><?php _e( 'Fill in the Menu Name and click the Create Menu button to create your first menu.' ); ?></span>
+		</span><!-- /first-menu-message -->
+		<?php elseif ( $menu_count < 2 ) : ?>
 		<span class="add-edit-menu-action">
 			<?php
 			printf(
