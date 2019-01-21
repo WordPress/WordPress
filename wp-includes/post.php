@@ -391,6 +391,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Pending', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
+			'label_count'         => _n_noop( 'Pending <span class="count">(%s)</span>', 'Pending <span class="count">(%s)</span>' ),
 			'exclude_from_search' => false,
 		)
 	);
@@ -401,6 +402,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Confirmed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
+			'label_count'         => _n_noop( 'Confirmed <span class="count">(%s)</span>', 'Confirmed <span class="count">(%s)</span>' ),
 			'exclude_from_search' => false,
 		)
 	);
@@ -411,6 +413,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Failed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
+			'label_count'         => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>' ),
 			'exclude_from_search' => false,
 		)
 	);
@@ -421,6 +424,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Completed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
+			'label_count'         => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>' ),
 			'exclude_from_search' => false,
 		)
 	);
