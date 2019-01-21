@@ -1372,8 +1372,12 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	if ( $user_ID ) {
 		$comment_args['include_unapproved'] = array( $user_ID );
-	} elseif ( ! empty( $comment_author_email ) ) {
-		$comment_args['include_unapproved'] = array( $comment_author_email );
+	} else {
+		$unapproved_email = wp_get_unapproved_comment_author_email();
+
+		if ( $unapproved_email ) {
+			$comment_args['include_unapproved'] = array( $unapproved_email );
+		}
 	}
 
 	$per_page = 0;
@@ -1690,7 +1694,15 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 
 		$link = sprintf(
 			"<a rel='nofollow' class='comment-reply-link' href='%s' %s aria-label='%s'>%s</a>",
-			esc_url( add_query_arg( 'replytocom', $comment->comment_ID ) ) . '#' . $args['respond_id'],
+			esc_url(
+				add_query_arg(
+					array(
+						'replytocom'      => $comment->comment_ID,
+						'unapproved'      => false,
+						'moderation-hash' => false,
+					)
+				)
+			) . '#' . $args['respond_id'],
 			$data_attribute_string,
 			esc_attr( sprintf( $args['reply_to_text'], $comment->comment_author ) ),
 			$args['reply_text']
@@ -1832,7 +1844,7 @@ function get_cancel_comment_reply_link( $text = '' ) {
 	}
 
 	$style = isset( $_GET['replytocom'] ) ? '' : ' style="display:none;"';
-	$link  = esc_html( remove_query_arg( 'replytocom' ) ) . '#respond';
+	$link  = esc_html( remove_query_arg( array( 'replytocom', 'unapproved', 'moderation-hash' ) ) ) . '#respond';
 
 	$formatted_link = '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>';
 
@@ -2055,9 +2067,10 @@ function wp_list_comments( $args = array(), $comments = null ) {
 				if ( is_user_logged_in() ) {
 					$comment_args['include_unapproved'] = get_current_user_id();
 				} else {
-					$commenter = wp_get_current_commenter();
-					if ( $commenter['comment_author_email'] ) {
-						$comment_args['include_unapproved'] = $commenter['comment_author_email'];
+					$unapproved_email = wp_get_unapproved_comment_author_email();
+
+					if ( $unapproved_email ) {
+						$comment_args['include_unapproved'] = array( $unapproved_email );
 					}
 				}
 

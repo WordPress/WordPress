@@ -56,6 +56,17 @@ do_action( 'set_comment_cookies', $comment, $user, $cookies_consent );
 
 $location = empty( $_POST['redirect_to'] ) ? get_comment_link( $comment ) : $_POST['redirect_to'] . '#comment-' . $comment->comment_ID;
 
+// Add specific query arguments to display the awaiting moderation message.
+if ( 'unapproved' === wp_get_comment_status( $comment ) && ! empty( $comment->comment_author_email ) ) {
+	$location = add_query_arg(
+		array(
+			'unapproved'      => $comment->comment_ID,
+			'moderation-hash' => wp_hash( $comment->comment_date_gmt ),
+		),
+		$location
+	);
+}
+
 /**
  * Filters the location URI to send the commenter after posting.
  *
