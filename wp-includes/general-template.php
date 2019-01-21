@@ -16,8 +16,10 @@
  * "special".
  *
  * @since 1.5.0
+ * @since 5.1.0 Added the return value.
  *
  * @param string $name The name of the specialised header.
+ * @return string The template filename if one is located.
  */
 function get_header( $name = null ) {
 	/**
@@ -38,7 +40,7 @@ function get_header( $name = null ) {
 
 	$templates[] = 'header.php';
 
-	locate_template( $templates, true );
+	return locate_template( $templates, true );
 }
 
 /**
@@ -51,8 +53,10 @@ function get_header( $name = null ) {
  * "special".
  *
  * @since 1.5.0
+ * @since 5.1.0 Added the return value.
  *
  * @param string $name The name of the specialised footer.
+ * @return string The template filename if one is located.
  */
 function get_footer( $name = null ) {
 	/**
@@ -73,7 +77,7 @@ function get_footer( $name = null ) {
 
 	$templates[] = 'footer.php';
 
-	locate_template( $templates, true );
+	return locate_template( $templates, true );
 }
 
 /**
@@ -86,8 +90,10 @@ function get_footer( $name = null ) {
  * "special".
  *
  * @since 1.5.0
+ * @since 5.1.0 Added the return value.
  *
  * @param string $name The name of the specialised sidebar.
+ * @return string The template filename if one is located.
  */
 function get_sidebar( $name = null ) {
 	/**
@@ -108,7 +114,7 @@ function get_sidebar( $name = null ) {
 
 	$templates[] = 'sidebar.php';
 
-	locate_template( $templates, true );
+	return locate_template( $templates, true );
 }
 
 /**
@@ -128,9 +134,11 @@ function get_sidebar( $name = null ) {
  * "special".
  *
  * @since 3.0.0
+ * @since 5.1.0 Added the return value.
  *
  * @param string $slug The slug name for the generic template.
  * @param string $name The name of the specialised template.
+ * @return string The template filename if one is located.
  */
 function get_template_part( $slug, $name = null ) {
 	/**
@@ -154,7 +162,7 @@ function get_template_part( $slug, $name = null ) {
 
 	$templates[] = "{$slug}.php";
 
-	locate_template( $templates, true, false );
+	return locate_template( $templates, true, false );
 }
 
 /**
