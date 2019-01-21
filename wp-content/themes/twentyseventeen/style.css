@@ -1748,7 +1748,6 @@ body:not(.title-tagline-hidden) .site-branding-text {
 @supports ( object-fit: cover ) {
 	.has-header-image .custom-header-media img,
 	.has-header-video .custom-header-media video,
-	.has-header-video .custom-header-media iframe,
 	.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-media img {
 		height: 100%;
 		left: 0;
