@@ -610,8 +610,10 @@ function bulk_edit_posts( $post_data = null ) {
 
 		if ( isset( $shared_post_data['post_format'] ) ) {
 			set_post_format( $post_ID, $shared_post_data['post_format'] );
-			unset( $post_data['tax_input']['post_format'] );
 		}
+
+		// Prevent wp_insert_post() from overwriting post format with the old data.
+		unset( $post_data['tax_input']['post_format'] );
 
 		$updated[] = wp_update_post( $post_data );
 
