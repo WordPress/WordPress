@@ -651,7 +651,7 @@ function set_screen_options() {
 				 *
 				 * @see set_screen_options()
 				 *
-				 * @param bool|int $value  Screen option value. Default false to skip.
+				 * @param bool     $keep   Whether to save or skip saving the screen option value. Default false.
 				 * @param string   $option The option name.
 				 * @param int      $value  The number of rows to use.
 				 */
