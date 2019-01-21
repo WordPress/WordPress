@@ -176,15 +176,15 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 		?>
 		<script type="text/html" id="tmpl-wp-media-widget-gallery-preview">
 			<# var describedById = 'describedBy-' + String( Math.random() ); #>
-			<# if ( data.ids.length ) { #>
+			<#
+			var ids = _.filter( data.ids, function( id ) {
+				return ( id in data.attachments );
+			} );
+			#>
+			<# if ( ids.length ) { #>
 				<div class="gallery media-widget-gallery-preview">
-					<# _.each( data.ids, function( id, index ) { #>
-						<#
-						var attachment = data.attachments[ id ];
-						if ( ! attachment ) {
-							return;
-						}
-						#>
+					<# _.each( ids, function( id, index ) { #>
+						<# var attachment = data.attachments[ id ]; #>
 						<# if ( index < 6 ) { #>
 							<dl class="gallery-item">
 								<dt class="gallery-icon">
@@ -193,9 +193,9 @@ class WP_Widget_Media_Gallery extends WP_Widget_Media {
 								<# } else { #>
 									<img src="{{ attachment.url }}" alt="" />
 								<# } #>
-								<# if ( index === 5 && data.ids.length > 6 ) { #>
+								<# if ( index === 5 && ids.length > 6 ) { #>
 									<div class="gallery-icon-placeholder">
-										<p class="gallery-icon-placeholder-text">+{{ data.ids.length - 5 }}</p>
+										<p class="gallery-icon-placeholder-text">+{{ ids.length - 5 }}</p>
 									</div>
 								<# } #>
 								</dt>
