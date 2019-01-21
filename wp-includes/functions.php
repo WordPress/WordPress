@@ -3293,7 +3293,8 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
 
 	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
 
-	if ( ! headers_sent() && null !== $r['response'] ) {
+	// This is intentional. For backward-compatibility, support passing null here.
+	if ( ! headers_sent() && null !== $args['response'] ) {
 		status_header( $r['response'] );
 	}
 
