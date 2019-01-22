@@ -292,6 +292,7 @@ function create_initial_post_types() {
 				'read'                   => 'edit_posts',
 				// You need to be able to publish posts, in order to create blocks.
 				'create_posts'           => 'publish_posts',
+				'edit_posts'             => 'edit_posts',
 				'edit_published_posts'   => 'edit_published_posts',
 				'delete_published_posts' => 'delete_published_posts',
 				'edit_others_posts'      => 'edit_others_posts',
