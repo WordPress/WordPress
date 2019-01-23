@@ -86,7 +86,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
 	}
 
 	/**
-	 * Filters a single event before it is scheduled.
+	 * Modify an event before it is scheduled.
 	 *
 	 * @since 3.1.0
 	 *
