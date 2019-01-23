@@ -481,7 +481,8 @@ function wp_unschedule_hook( $hook ) {
 /**
  * Retrieve a scheduled event.
  *
- * Retrieve the full event object for a given event.
+ * Retrieve the full event object for a given event, if no timestamp is specified the next
+ * scheduled event is returned.
  *
  * @since 5.1.0
  *
@@ -493,11 +494,6 @@ function wp_unschedule_hook( $hook ) {
  * @return bool|object The event object. False if the event does not exist.
  */
 function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
-	if ( ! $timestamp ) {
-		// Get the next scheduled event.
-		$timestamp = wp_next_scheduled( $hook, $args );
-	}
-
 	/**
 	 * Filter to preflight or hijack retrieving a scheduled event.
 	 *
@@ -514,22 +510,39 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
 	 * @param array     $args      Array containing each separate argument to pass to the hook's callback function.
 	 *                             Although not passed to a callback, these arguments are used to uniquely identify the
 	 *                             event.
-	 * @param int       $timestamp Unix timestamp (UTC) of the event.
+	 * @param int|null  $timestamp Unix timestamp (UTC) of the event. Null to retrieve next scheduled event.
 	 */
 	$pre = apply_filters( 'pre_get_scheduled_event', null, $hook, $args, $timestamp );
 	if ( null !== $pre ) {
 		return $pre;
 	}
 
-	$crons = _get_cron_array();
-	$key   = md5( serialize( $args ) );
-
-	if ( ! $timestamp || ! isset( $crons[ $timestamp ] ) ) {
-		// No such event.
+	if ( null !== $timestamp && ! is_numeric( $timestamp ) ) {
 		return false;
 	}
 
-	if ( ! isset( $crons[ $timestamp ][ $hook ] ) || ! isset( $crons[ $timestamp ][ $hook ][ $key ] ) ) {
+	$crons = _get_cron_array();
+	if ( empty( $crons ) ) {
+		return false;
+	}
+
+	$key = md5( serialize( $args ) );
+
+	if ( ! $timestamp ) {
+		// Get next event.
+		$next = false;
+		foreach ( $crons as $timestamp => $cron ) {
+			if ( isset( $cron[ $hook ][ $key ] ) ) {
+				$next = $timestamp;
+				break;
+			}
+		}
+		if ( ! $next ) {
+			return false;
+		}
+
+		$timestamp = $next;
+	} elseif ( ! isset( $crons[ $timestamp ][ $hook ][ $key ] ) ) {
 		return false;
 	}
 
@@ -551,7 +564,6 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
  * Retrieve the next timestamp for an event.
  *
  * @since 2.1.0
- * @since 5.1.0 {@see 'pre_next_scheduled'} and {@see 'next_scheduled'} filters added.
  *
  * @param string $hook Action hook of the event.
  * @param array  $args Optional. Array containing each separate argument to pass to the hook's callback function.
@@ -560,48 +572,12 @@ function wp_get_scheduled_event( $hook, $args = array(), $timestamp = null ) {
  * @return false|int The Unix timestamp of the next time the event will occur. False if the event doesn't exist.
  */
 function wp_next_scheduled( $hook, $args = array() ) {
-	/**
-	 * Filter to preflight or hijack retrieving the next scheduled event timestamp.
-	 *
-	 * Returning a non-null value will short-circuit the normal retrieval
-	 * process, causing the function to return the filtered value instead.
-	 *
-	 * Pass the timestamp of the next event if it exists, false if not.
-	 *
-	 * @since 5.1.0
-	 *
-	 * @param null|bool $pre       Value to return instead. Default null to continue unscheduling the event.
-	 * @param string    $hook      Action hook of the event.
-	 * @param array     $args      Arguments to pass to the hook's callback function.
-	 */
-	$pre = apply_filters( 'pre_next_scheduled', null, $hook, $args );
-	if ( null !== $pre ) {
-		return $pre;
+	$next_event = wp_get_scheduled_event( $hook, $args );
+	if ( ! $next_event ) {
+		return false;
 	}
 
-	$crons = _get_cron_array();
-	$key   = md5( serialize( $args ) );
-	$next  = false;
-
-	if ( ! empty( $crons ) ) {
-		foreach ( $crons as $timestamp => $cron ) {
-			if ( isset( $cron[ $hook ][ $key ] ) ) {
-				$next = $timestamp;
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Filter the next scheduled event timestamp.
-	 *
-	 * @since 5.1.0
-	 *
-	 * @param int|bool $next The UNIX timestamp when the scheduled event will next occur, or false if not found.
-	 * @param string   $hook Action hook to execute when cron is run.
-	 * @param array    $args Arguments to be passed to the callback function. Used for deduplicating events.
-	 */
-	return apply_filters( 'next_scheduled', $next, $hook, $args );
+	return $next_event->timestamp;
 }
 
 /**
