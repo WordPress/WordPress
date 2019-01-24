@@ -1064,12 +1064,20 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		}
 
-		// For full height editor.
-		editor.on( 'resizewindow scrollwindow', hide );
-		// For scrollable editor.
-		editor.dom.bind( editor.getWin(), 'resize scroll', hide );
+		editor.dom.bind( editor.getWin(), 'resize', hide );
+
+		if ( editor.inline ) {
+			// Enable `capture` for the event.
+			// This will hide/reposition the toolbar on any scrolling in the document.
+			document.addEventListener( 'scroll', hide, true );
+		} else {
+			editor.dom.bind( editor.getWin(), 'scroll', hide );
+			// For full height iframe editor.
+			editor.on( 'resizewindow scrollwindow', hide );
+		}
 
 		editor.on( 'remove', function() {
+			document.removeEventListener( 'scroll', hide, true );
 			editor.off( 'resizewindow scrollwindow', hide );
 			editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
 		} );
