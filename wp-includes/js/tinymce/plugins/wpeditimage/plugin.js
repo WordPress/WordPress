@@ -347,12 +347,17 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		return serializer.serialize( editor.parser.parse( caption, { forced_root_block: false } ) );
 	}
 
-	function updateImage( imageNode, imageData ) {
-		var classes, className, node, html, parent, wrap, linkNode,
+	function updateImage( $imageNode, imageData ) {
+		var classes, className, node, html, parent, wrap, linkNode, imageNode,
 			captionNode, dd, dl, id, attrs, linkAttrs, width, height, align,
 			$imageNode, srcset, src,
 			dom = editor.dom;
 
+		if ( ! $imageNode || ! $imageNode.length ) {
+			return;
+		}
+
+		imageNode = $imageNode[0];
 		classes = tinymce.explode( imageData.extraClasses, ' ' );
 
 		if ( ! classes ) {
@@ -389,7 +394,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		dom.setAttribs( imageNode, attrs );
 
 		// Preserve empty alt attributes.
-		editor.$( imageNode ).attr( 'alt', imageData.alt || '' );
+		$imageNode.attr( 'alt', imageData.alt || '' );
 
 		linkAttrs = {
 			href: imageData.linkUrl,
@@ -513,7 +518,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	}
 
 	function editImage( img ) {
-		var frame, callback, metadata;
+		var frame, callback, metadata, imageNode;
 
 		if ( typeof wp === 'undefined' || ! wp.media ) {
 			editor.execCommand( 'mceImage' );
@@ -521,6 +526,9 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 
 		metadata = extractImageData( img );
+
+		// Mark the image node so we can select it later.
+		editor.$( img ).attr( 'data-wp-editing', 1 );
 
 		// Manipulate the metadata by reference that is fed into the PostImage model used in the media modal
 		wp.media.events.trigger( 'editor:image-edit', {
@@ -538,9 +546,8 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		wp.media.events.trigger( 'editor:frame-create', { frame: frame } );
 
 		callback = function( imageData ) {
-			editor.focus();
 			editor.undoManager.transact( function() {
-				updateImage( img, imageData );
+				updateImage( imageNode, imageData );
 			} );
 			frame.detach();
 		};
@@ -550,6 +557,12 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		frame.on( 'close', function() {
 			editor.focus();
 			frame.detach();
+
+			// `close` fires first...
+			// To be able to update the image node, we need to find it here,
+			// and use it in the callback.
+			imageNode = editor.$( 'img[data-wp-editing]' )
+			imageNode.removeAttr( 'data-wp-editing' );
 		});
 
 		frame.open();
@@ -810,7 +823,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 
 	editor.on( 'beforeGetContent', function( event ) {
 		if ( event.format !== 'raw' ) {
-			editor.$( 'img[id="__wp-temp-img-id"]' ).attr( 'id', null );
+			editor.$( 'img[id="__wp-temp-img-id"]' ).removeAttr( 'id' );
 		}
 	});
 

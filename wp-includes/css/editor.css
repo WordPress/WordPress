@@ -1211,6 +1211,10 @@ i.mce-i-wp_code:before {
 	content: "\f104";
 }
 
+.mce-content-body dl.wp-caption {
+	max-width: 100%;
+}
+
 /* Quicktags */
 .quicktags-toolbar {
 	padding: 3px;
