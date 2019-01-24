@@ -226,15 +226,15 @@
 			linkNode = getSelectedLink();
 			editToolbar.tempHide = false;
 
-			if ( linkNode ) {
-				editor.dom.setAttribs( linkNode, { 'data-wplink-edit': true } );
-			} else {
+			if ( ! linkNode ) {
 				removePlaceholders();
 				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
 
 				linkNode = editor.$( 'a[href="_wp_link_placeholder"]' )[0];
 				editor.nodeChanged();
 			}
+
+			editor.dom.setAttribs( linkNode, { 'data-wplink-edit': true } );
 		} );
 
 		editor.addCommand( 'wp_link_apply', function() {
@@ -284,8 +284,9 @@
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
+			inputInstance.reset();
+
 			if ( ! editToolbar.tempHide ) {
-				inputInstance.reset();
 				removePlaceholders();
 			}
 		} );
@@ -583,24 +584,10 @@
 					var url = inputInstance.getURL() || null,
 						text = inputInstance.getLinkText() || null;
 
-					/*
-					 * Accessibility note: moving focus back to the editor confuses
-					 * screen readers. They will announce again the Editor ARIA role
-					 * `application` and the iframe `title` attribute.
-					 *
-					 * Unfortunately IE looses the selection when the editor iframe
-					 * looses focus, so without returning focus to the editor, the code
-					 * in the modal will not be able to get the selection, place the caret
-					 * at the same location, etc.
-					 */
-					if ( tinymce.Env.ie ) {
-						editor.focus(); // Needed for IE
-					}
+					window.wpLink.open( editor.id, url, text );
 
 					editToolbar.tempHide = true;
-					window.wpLink.open( editor.id, url, text, linkNode );
-
-					inputInstance.reset();
+					editToolbar.hide();
 				}
 			}
 		} );
