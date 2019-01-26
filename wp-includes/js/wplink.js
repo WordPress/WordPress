@@ -402,7 +402,7 @@
 
 		mceUpdate: function() {
 			var attrs = wpLink.getAttrs(),
-				$link, text, hasText, $mceCaret;
+				$link, text, hasText;
 
 			var parser = document.createElement( 'a' );
 			parser.href = attrs.href;
