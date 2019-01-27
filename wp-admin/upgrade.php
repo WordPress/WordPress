@@ -90,10 +90,10 @@ elseif ( ! $php_compat || ! $mysql_compat ) :
 		/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number */
 		$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.' ), $version_url, $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version );
 	} elseif ( ! $php_compat ) {
-		/* translators: 1: URL to WordPress release notes, 1: WordPress version number, 2: Minimum required PHP version number, 3: Current PHP version number */
+		/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Current PHP version number */
 		$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.' ), $version_url, $wp_version, $required_php_version, $php_version );
 	} elseif ( ! $mysql_compat ) {
-		/* translators: 1: WordPress version number, 2: Minimum required MySQL version number, 3: Current MySQL version number */
+		/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number */
 		$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.' ), $version_url, $wp_version, $required_mysql_version, $mysql_version );
 	}
 	?>
