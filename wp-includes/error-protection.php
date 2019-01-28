@@ -68,6 +68,10 @@ function wp_record_extension_error( $error ) {
 		$callback = 'wp_paused_plugins';
 		$path     = str_replace( $wp_plugin_dir . '/', '', $error_file );
 	} else {
+		if ( empty( $wp_theme_directories ) ) {
+			return false;
+		}
+
 		foreach ( $wp_theme_directories as $theme_directory ) {
 			$theme_directory = wp_normalize_path( $theme_directory );
 			if ( 0 === strpos( $error_file, $theme_directory ) ) {
