@@ -1167,12 +1167,44 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		$total_requests = absint( array_sum( (array) $counts ) );
 
 		$current_link_attributes = empty( $current_status ) ? ' class="current" aria-current="page"' : '';
-		$views['all']            = '<a href="' . esc_url( $admin_url ) . "\" $current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%d)</span>', $total_requests, 'requests' ), number_format_i18n( $total_requests ) ) . '</a>';
+		$status_label            = sprintf(
+			/* translators: %s: all requests count */
+			_nx(
+				'All <span class="count">(%s)</span>',
+				'All <span class="count">(%s)</span>',
+				$total_requests,
+				'requests'
+			),
+			number_format_i18n( $total_requests )
+		);
+
+		$views['all'] = sprintf(
+			'<a href="%s"%s>%s</a>',
+			esc_url( $admin_url ),
+			$current_link_attributes,
+			$status_label
+		);
 
 		foreach ( $statuses as $status => $label ) {
+			$post_status = get_post_status_object( $status );
+			if ( ! $post_status ) {
+				continue;
+			}
+
 			$current_link_attributes = $status === $current_status ? ' class="current" aria-current="page"' : '';
-			$total_status_requests   = absint( $counts->$status );
-			$views[ $status ]        = '<a href="' . esc_url( add_query_arg( 'filter-status', $status, $admin_url ) ) . "\" $current_link_attributes>" . sprintf( _nx( '%1$s <span class="count">(%2$d)</span>', '%1$s <span class="count">(%2$d)</span>', $total_status_requests, 'requests' ), esc_html( $label ), number_format_i18n( $total_status_requests ) ) . '</a>';
+			$total_status_requests   = absint( $counts->{$status} );
+			$status_label            = sprintf(
+				translate_nooped_plural( $post_status->label_count, $total_status_requests ),
+				number_format_i18n( $total_status_requests )
+			);
+			$status_link             = add_query_arg( 'filter-status', $status, $admin_url );
+
+			$views[ $status ] = sprintf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( $status_link ),
+				$current_link_attributes,
+				$status_label
+			);
 		}
 
 		return $views;
