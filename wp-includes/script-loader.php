@@ -529,7 +529,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 				'	wp.data',
 				'		.use( wp.data.plugins.persistence, { storageKey: storageKey } )',
 				'		.use( wp.data.plugins.controls );',
-				'} )()',
+				'} )();',
 			)
 		)
 	);
