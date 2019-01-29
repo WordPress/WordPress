@@ -40,10 +40,9 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <?php endif; ?>
 <div id="namediv" class="stuffbox">
 <div class="inside">
+<h2 class="edit-comment-author"><?php _e( 'Author' ); ?></h2>
 <fieldset>
-<h2 class="edit-comment-author">
-	<span><?php _e( 'Author' ); ?></span>
-</h2>
+<legend class="screen-reader-text"><?php _e( 'Comment Author' ); ?></legend>
 <table class="form-table editcomment">
 <tbody>
 <tr>
