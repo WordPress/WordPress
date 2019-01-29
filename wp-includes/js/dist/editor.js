@@ -8732,7 +8732,7 @@ var reducer_withSaveReusableBlock = function withSaveReusableBlock(reducer) {
  */
 
 
-var reducer_editor = Object(external_lodash_["flow"])([external_this_wp_data_["combineReducers"], reducer_withInnerBlocksRemoveCascade, // Track undo history, starting at editor initialization.
+var editor = Object(external_lodash_["flow"])([external_this_wp_data_["combineReducers"], reducer_withInnerBlocksRemoveCascade, // Track undo history, starting at editor initialization.
 with_history({
   resetTypes: ['SETUP_EDITOR_STATE'],
   ignoreTypes: ['RECEIVE_BLOCKS', 'RESET_POST', 'UPDATE_POST'],
@@ -9747,7 +9747,7 @@ function reducer_previewLink() {
   return state;
 }
 /* harmony default export */ var store_reducer = (redux_optimist_default()(Object(external_this_wp_data_["combineReducers"])({
-  editor: reducer_editor,
+  editor: editor,
   initialEdits: initialEdits,
   currentPost: currentPost,
   isTyping: reducer_isTyping,
@@ -20530,22 +20530,14 @@ function (_Component) {
         custom_undo_redo_levels: 1,
         lists_indent_on_tab: false
       };
-
-      if (multilineTag === 'li') {
-        settings.plugins.push('lists');
-      }
-
       external_tinymce_default.a.init(Object(objectSpread["a" /* default */])({}, settings, {
         target: this.editorNode,
         setup: function setup(editor) {
-          _this3.editor = editor;
-
-          _this3.props.onSetup(editor); // TinyMCE resets the element content on initialization, even
+          _this3.editor = editor; // TinyMCE resets the element content on initialization, even
           // when it's already identical to what exists currently. This
           // behavior clobbers a selection which exists at the time of
           // initialization, thus breaking writing flow navigation. The
           // hack here neutralizes setHTML during initialization.
-
 
           var setHTML;
           editor.on('preinit', function () {
@@ -20846,103 +20838,156 @@ function (_Component) {
 
 
 
+
 /**
  * Internal dependencies
  */
 
 
 
+var _window$Node = window.Node,
+    list_edit_TEXT_NODE = _window$Node.TEXT_NODE,
+    ELEMENT_NODE = _window$Node.ELEMENT_NODE;
+/**
+ * Gets the selected list node, which is the closest list node to the start of
+ * the selection.
+ *
+ * @return {?Element} The selected list node, or undefined if none is selected.
+ */
 
-function isListRootSelected(editor) {
-  return !editor.selection || editor.selection.getNode().closest('ol,ul') === editor.getBody();
-}
+function getSelectedListNode() {
+  var selection = window.getSelection();
 
-function isActiveListType(editor, tagName, rootTagName) {
-  if (document.activeElement !== editor.getBody()) {
-    return tagName === rootTagName;
-  }
-
-  var listItem = editor.selection.getNode();
-  var list = listItem.closest('ol,ul');
-
-  if (!list) {
+  if (selection.rangeCount === 0) {
     return;
   }
 
-  return list.nodeName.toLowerCase() === tagName;
+  var _selection$getRangeAt = selection.getRangeAt(0),
+      startContainer = _selection$getRangeAt.startContainer;
+
+  if (startContainer.nodeType === list_edit_TEXT_NODE) {
+    startContainer = startContainer.parentNode;
+  }
+
+  if (startContainer.nodeType !== ELEMENT_NODE) {
+    return;
+  }
+
+  var rootNode = startContainer.closest('*[contenteditable]');
+
+  if (!rootNode || !rootNode.contains(startContainer)) {
+    return;
+  }
+
+  return startContainer.closest('ol,ul');
+}
+/**
+ * Whether or not the root list is selected.
+ *
+ * @return {boolean} True if the root list or nothing is selected, false if an
+ *                   inner list is selected.
+ */
+
+
+function isListRootSelected() {
+  var listNode = getSelectedListNode(); // Consider the root list selected if nothing is selected.
+
+  return !listNode || listNode.contentEditable === 'true';
+}
+/**
+ * Wether or not the selected list has the given tag name.
+ *
+ * @param {string}  tagName     The tag name the list should have.
+ * @param {string}  rootTagName The current root tag name, to compare with in
+ *                              case nothing is selected.
+ *
+ * @return {boolean}             [description]
+ */
+
+
+function isActiveListType(tagName, rootTagName) {
+  var listNode = getSelectedListNode();
+
+  if (!listNode) {
+    return tagName === rootTagName;
+  }
+
+  return listNode.nodeName.toLowerCase() === tagName;
 }
 
 var list_edit_ListEdit = function ListEdit(_ref) {
-  var editor = _ref.editor,
-      onTagNameChange = _ref.onTagNameChange,
+  var onTagNameChange = _ref.onTagNameChange,
       tagName = _ref.tagName,
-      onSyncDOM = _ref.onSyncDOM;
+      value = _ref.value,
+      onChange = _ref.onChange;
   return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(shortcut_RichTextShortcut, {
     type: "primary",
     character: "[",
     onUse: function onUse() {
-      editor.execCommand('Outdent');
-      onSyncDOM();
+      onChange(Object(external_this_wp_richText_["outdentListItems"])(value));
     }
   }), Object(external_this_wp_element_["createElement"])(shortcut_RichTextShortcut, {
     type: "primary",
     character: "]",
     onUse: function onUse() {
-      editor.execCommand('Indent');
-      onSyncDOM();
+      onChange(Object(external_this_wp_richText_["indentListItems"])(value, {
+        type: tagName
+      }));
     }
   }), Object(external_this_wp_element_["createElement"])(shortcut_RichTextShortcut, {
     type: "primary",
     character: "m",
     onUse: function onUse() {
-      editor.execCommand('Indent');
-      onSyncDOM();
+      onChange(Object(external_this_wp_richText_["indentListItems"])(value, {
+        type: tagName
+      }));
     }
   }), Object(external_this_wp_element_["createElement"])(shortcut_RichTextShortcut, {
     type: "primaryShift",
     character: "m",
     onUse: function onUse() {
-      editor.execCommand('Outdent');
-      onSyncDOM();
+      onChange(Object(external_this_wp_richText_["outdentListItems"])(value));
     }
   }), Object(external_this_wp_element_["createElement"])(block_format_controls, null, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Toolbar"], {
     controls: [{
       icon: 'editor-ul',
       title: Object(external_this_wp_i18n_["__"])('Convert to unordered list'),
-      isActive: isActiveListType(editor, 'ul', tagName),
+      isActive: isActiveListType('ul', tagName),
       onClick: function onClick() {
-        if (isListRootSelected(editor)) {
+        onChange(Object(external_this_wp_richText_["changeListType"])(value, {
+          type: 'ul'
+        }));
+
+        if (isListRootSelected()) {
           onTagNameChange('ul');
-        } else {
-          editor.execCommand('InsertUnorderedList');
-          onSyncDOM();
         }
       }
     }, {
       icon: 'editor-ol',
       title: Object(external_this_wp_i18n_["__"])('Convert to ordered list'),
-      isActive: isActiveListType(editor, 'ol', tagName),
+      isActive: isActiveListType('ol', tagName),
       onClick: function onClick() {
-        if (isListRootSelected(editor)) {
+        onChange(Object(external_this_wp_richText_["changeListType"])(value, {
+          type: 'ol'
+        }));
+
+        if (isListRootSelected()) {
           onTagNameChange('ol');
-        } else {
-          editor.execCommand('InsertOrderedList');
-          onSyncDOM();
         }
       }
     }, {
       icon: 'editor-outdent',
       title: Object(external_this_wp_i18n_["__"])('Outdent list item'),
       onClick: function onClick() {
-        editor.execCommand('Outdent');
-        onSyncDOM();
+        onChange(Object(external_this_wp_richText_["outdentListItems"])(value));
       }
     }, {
       icon: 'editor-indent',
       title: Object(external_this_wp_i18n_["__"])('Indent list item'),
       onClick: function onClick() {
-        editor.execCommand('Indent');
-        onSyncDOM();
+        onChange(Object(external_this_wp_richText_["indentListItems"])(value, {
+          type: tagName
+        }));
       }
     }]
   })));
@@ -21167,7 +21212,6 @@ function (_Component) {
       _this.onSplit = _this.props.unstableOnSplit;
     }
 
-    _this.onSetup = _this.onSetup.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onFocus = _this.onFocus.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onBlur = _this.onBlur.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onChange = _this.onChange.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
@@ -21215,17 +21259,6 @@ function (_Component) {
     key: "setRef",
     value: function setRef(node) {
       this.editableRef = node;
-    }
-    /**
-     * Sets a reference to the TinyMCE editor instance.
-     *
-     * @param {Editor} editor The editor instance as passed by TinyMCE.
-     */
-
-  }, {
-    key: "onSetup",
-    value: function onSetup(editor) {
-      this.editor = editor;
     }
   }, {
     key: "setFocusedElement",
@@ -21985,13 +22018,11 @@ function (_Component) {
       return Object(external_this_wp_element_["createElement"])("div", {
         className: classes,
         onFocus: this.setFocusedElement
-      }, isSelected && this.editor && this.multilineTag === 'li' && Object(external_this_wp_element_["createElement"])(list_edit_ListEdit, {
-        editor: this.editor,
+      }, isSelected && this.multilineTag === 'li' && Object(external_this_wp_element_["createElement"])(list_edit_ListEdit, {
         onTagNameChange: onTagNameChange,
         tagName: Tagname,
-        onSyncDOM: function onSyncDOM() {
-          return _this3.onChange(_this3.createRecord());
-        }
+        value: record,
+        onChange: this.onChange
       }), isSelected && !inlineToolbar && Object(external_this_wp_element_["createElement"])(block_format_controls, null, Object(external_this_wp_element_["createElement"])(format_toolbar, {
         controls: formattingControls
       })), isSelected && inlineToolbar && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IsolatedEventContainer"], {
@@ -22008,7 +22039,6 @@ function (_Component) {
             activeId = _ref6.activeId;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(tinymce_TinyMCE, Object(esm_extends["a" /* default */])({
           tagName: Tagname,
-          onSetup: _this3.onSetup,
           style: style,
           record: record,
           valueToEditableHTML: _this3.valueToEditableHTML,

@@ -78,8 +78,6 @@
     width: 36px; }
   .block-library-button__inline-link .dashicon {
     color: #8f98a1; }
-  .block-library-button__inline-link .editor-url-input input[type="text"]::-webkit-input-placeholder {
-    color: #8f98a1; }
   .block-library-button__inline-link .editor-url-input input[type="text"]:-ms-input-placeholder {
     color: #8f98a1; }
   .block-library-button__inline-link .editor-url-input input[type="text"]::-ms-input-placeholder {

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 308);
+/******/ 	return __webpack_require__(__webpack_require__.s = 307);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -211,7 +211,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 308:
+/***/ 307:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -457,8 +457,13 @@ function isFormatEqual(format1, format2) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/normalise-formats.js
 /**
+ * External dependencies
+ */
+
+/**
  * Internal dependencies
  */
+
 
 /**
  * Normalises formats: ensures subsequent equal formats have the same reference.
@@ -473,21 +478,20 @@ function normaliseFormats(_ref) {
       text = _ref.text,
       start = _ref.start,
       end = _ref.end;
-  var newFormats = formats.slice(0);
-  newFormats.forEach(function (formatsAtIndex, index) {
-    var lastFormatsAtIndex = newFormats[index - 1];
-
-    if (lastFormatsAtIndex) {
-      var newFormatsAtIndex = formatsAtIndex.slice(0);
-      newFormatsAtIndex.forEach(function (format, formatIndex) {
-        var lastFormat = lastFormatsAtIndex[formatIndex];
-
-        if (isFormatEqual(format, lastFormat)) {
-          newFormatsAtIndex[formatIndex] = lastFormat;
-        }
+  var refs = [];
+  var newFormats = formats.map(function (formatsAtIndex) {
+    return formatsAtIndex.map(function (format) {
+      var equalRef = Object(external_lodash_["find"])(refs, function (ref) {
+        return isFormatEqual(ref, format);
       });
-      newFormats[index] = newFormatsAtIndex;
-    }
+
+      if (equalRef) {
+        return equalRef;
+      }
+
+      refs.push(format);
+      return format;
+    });
   });
   return {
     formats: newFormats,
@@ -2776,6 +2780,333 @@ function unregisterFormatType(name) {
   return oldFormat;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-line-index.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Gets the currently selected line index, or the first line index if the
+ * selection spans over multiple items.
+ *
+ * @param {Object}  value      Value to get the line index from.
+ * @param {boolean} startIndex Optional index that should be contained by the
+ *                             line. Defaults to the selection start of the
+ *                             value.
+ *
+ * @return {?boolean} The line index. Undefined if not found.
+ */
+
+function getLineIndex(_ref) {
+  var start = _ref.start,
+      text = _ref.text;
+  var startIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : start;
+  var index = startIndex;
+
+  while (index--) {
+    if (text[index] === LINE_SEPARATOR) {
+      return index;
+    }
+  }
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/indent-list-items.js
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Gets the line index of the first previous list item with higher indentation.
+ *
+ * @param {Object} value      Value to search.
+ * @param {number} lineIndex  Line index of the list item to compare with.
+ *
+ * @return {boolean} The line index.
+ */
+
+function getTargetLevelLineIndex(_ref, lineIndex) {
+  var text = _ref.text,
+      formats = _ref.formats;
+  var startFormats = formats[lineIndex] || [];
+  var index = lineIndex;
+
+  while (index-- >= 0) {
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    }
+
+    var formatsAtIndex = formats[index] || []; // Return the first line index that is one level higher. If the level is
+    // lower or equal, there is no result.
+
+    if (formatsAtIndex.length === startFormats.length + 1) {
+      return index;
+    } else if (formatsAtIndex.length <= startFormats.length) {
+      return;
+    }
+  }
+}
+/**
+ * Indents any selected list items if possible.
+ *
+ * @param {Object} value      Value to change.
+ * @param {Object} rootFormat
+ *
+ * @return {Object} The changed value.
+ */
+
+
+function indentListItems(value, rootFormat) {
+  var lineIndex = getLineIndex(value); // There is only one line, so the line cannot be indented.
+
+  if (lineIndex === undefined) {
+    return value;
+  }
+
+  var text = value.text,
+      formats = value.formats,
+      start = value.start,
+      end = value.end;
+  var previousLineIndex = getLineIndex(value, lineIndex);
+  var formatsAtLineIndex = formats[lineIndex] || [];
+  var formatsAtPreviousLineIndex = formats[previousLineIndex] || []; // The the indentation of the current line is greater than previous line,
+  // then the line cannot be furter indented.
+
+  if (formatsAtLineIndex.length > formatsAtPreviousLineIndex.length) {
+    return value;
+  }
+
+  var newFormats = formats.slice();
+  var targetLevelLineIndex = getTargetLevelLineIndex(value, lineIndex);
+
+  for (var index = lineIndex; index < end; index++) {
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    } // Get the previous list, and if there's a child list, take over the
+    // formats. If not, duplicate the last level and create a new level.
+
+
+    if (targetLevelLineIndex) {
+      var targetFormats = formats[targetLevelLineIndex] || [];
+      newFormats[index] = targetFormats.concat((newFormats[index] || []).slice(targetFormats.length - 1));
+    } else {
+      var _targetFormats = formats[previousLineIndex] || [];
+
+      var lastformat = _targetFormats[_targetFormats.length - 1] || rootFormat;
+      newFormats[index] = _targetFormats.concat([lastformat], (newFormats[index] || []).slice(_targetFormats.length));
+    }
+  }
+
+  return normaliseFormats({
+    text: text,
+    formats: newFormats,
+    start: start,
+    end: end
+  });
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-parent-line-index.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Gets the index of the first parent list. To get the parent list formats, we
+ * go through every list item until we find one with exactly one format type
+ * less.
+ *
+ * @param {Object} value     Value to search.
+ * @param {number} lineIndex Line index of a child list item.
+ *
+ * @return {Array} The parent list line index.
+ */
+
+function getParentLineIndex(_ref, lineIndex) {
+  var text = _ref.text,
+      formats = _ref.formats;
+  var startFormats = formats[lineIndex] || [];
+  var index = lineIndex;
+
+  while (index-- >= 0) {
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    }
+
+    var formatsAtIndex = formats[index] || [];
+
+    if (formatsAtIndex.length === startFormats.length - 1) {
+      return index;
+    }
+  }
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-last-child-index.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Gets the line index of the last child in the list.
+ *
+ * @param {Object} value     Value to search.
+ * @param {number} lineIndex Line index of a list item in the list.
+ *
+ * @return {Array} The index of the last child.
+ */
+
+function getLastChildIndex(_ref, lineIndex) {
+  var text = _ref.text,
+      formats = _ref.formats;
+  var lineFormats = formats[lineIndex] || []; // Use the given line index in case there are no next children.
+
+  var childIndex = lineIndex; // `lineIndex` could be `undefined` if it's the first line.
+
+  for (var index = lineIndex || 0; index < text.length; index++) {
+    // We're only interested in line indices.
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    }
+
+    var formatsAtIndex = formats[index] || []; // If the amout of formats is equal or more, store it, then return the
+    // last one if the amount of formats is less.
+
+    if (formatsAtIndex.length >= lineFormats.length) {
+      childIndex = index;
+    } else {
+      return childIndex;
+    }
+  } // If the end of the text is reached, return the last child index.
+
+
+  return childIndex;
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/outdent-list-items.js
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+/**
+ * Outdents any selected list items if possible.
+ *
+ * @param {Object} value Value to change.
+ *
+ * @return {Object} The changed value.
+ */
+
+function outdentListItems(value) {
+  var text = value.text,
+      formats = value.formats,
+      start = value.start,
+      end = value.end;
+  var startingLineIndex = getLineIndex(value, start); // Return early if the starting line index cannot be further outdented.
+
+  if (formats[startingLineIndex] === undefined) {
+    return value;
+  }
+
+  var newFormats = formats.slice(0);
+  var parentFormats = formats[getParentLineIndex(value, startingLineIndex)] || [];
+  var endingLineIndex = getLineIndex(value, end);
+  var lastChildIndex = getLastChildIndex(value, endingLineIndex); // Outdent all list items from the starting line index until the last child
+  // index of the ending list. All children of the ending list need to be
+  // outdented, otherwise they'll be orphaned.
+
+  for (var index = startingLineIndex; index <= lastChildIndex; index++) {
+    // Skip indices that are not line separators.
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    } // In the case of level 0, the formats at the index are undefined.
+
+
+    var currentFormats = newFormats[index] || []; // Omit the indentation level where the selection starts.
+
+    newFormats[index] = parentFormats.concat(currentFormats.slice(parentFormats.length + 1));
+
+    if (newFormats[index].length === 0) {
+      delete newFormats[index];
+    }
+  }
+
+  return normaliseFormats({
+    text: text,
+    formats: newFormats,
+    start: start,
+    end: end
+  });
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/change-list-type.js
+/**
+ * Internal dependencies
+ */
+
+
+
+
+/**
+ * Changes the list type of the selected indented list, if any. Looks at the
+ * currently selected list item and takes the parent list, then changes the list
+ * type of this list. When multiple lines are selected, the parent lists are
+ * takes and changed.
+ *
+ * @param {Object} value     Value to change.
+ * @param {Object} newFormat The new list format object. Choose between
+ *                           `{ type: 'ol' }` and `{ type: 'ul' }`.
+ *
+ * @return {Object} The changed value.
+ */
+
+function changeListType(value, newFormat) {
+  var text = value.text,
+      formats = value.formats,
+      start = value.start,
+      end = value.end;
+  var startingLineIndex = getLineIndex(value, start);
+  var startLineFormats = formats[startingLineIndex] || [];
+  var endLineFormats = formats[getLineIndex(value, end)] || [];
+  var startIndex = getParentLineIndex(value, startingLineIndex);
+  var newFormats = formats.slice(0);
+  var startCount = startLineFormats.length - 1;
+  var endCount = endLineFormats.length - 1;
+  var changed;
+
+  for (var index = startIndex + 1 || 0; index < text.length; index++) {
+    if (text[index] !== LINE_SEPARATOR) {
+      continue;
+    }
+
+    if ((newFormats[index] || []).length <= startCount) {
+      break;
+    }
+
+    if (!newFormats[index]) {
+      continue;
+    }
+
+    changed = true;
+    newFormats[index] = newFormats[index].map(function (format, i) {
+      return i < startCount || i > endCount ? format : newFormat;
+    });
+  }
+
+  if (!changed) {
+    return value;
+  }
+
+  return normaliseFormats({
+    text: text,
+    formats: newFormats,
+    start: start,
+    end: end
+  });
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/index.js
 /* concated harmony reexport applyFormat */__webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
 /* concated harmony reexport charAt */__webpack_require__.d(__webpack_exports__, "charAt", function() { return charAt; });
@@ -2804,6 +3135,12 @@ function unregisterFormatType(name) {
 /* concated harmony reexport toggleFormat */__webpack_require__.d(__webpack_exports__, "toggleFormat", function() { return toggleFormat; });
 /* concated harmony reexport LINE_SEPARATOR */__webpack_require__.d(__webpack_exports__, "LINE_SEPARATOR", function() { return LINE_SEPARATOR; });
 /* concated harmony reexport unregisterFormatType */__webpack_require__.d(__webpack_exports__, "unregisterFormatType", function() { return unregisterFormatType; });
+/* concated harmony reexport indentListItems */__webpack_require__.d(__webpack_exports__, "indentListItems", function() { return indentListItems; });
+/* concated harmony reexport outdentListItems */__webpack_require__.d(__webpack_exports__, "outdentListItems", function() { return outdentListItems; });
+/* concated harmony reexport changeListType */__webpack_require__.d(__webpack_exports__, "changeListType", function() { return changeListType; });
+
+
+
 
 
 

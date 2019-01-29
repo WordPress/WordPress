@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 307);
+/******/ 	return __webpack_require__(__webpack_require__.s = 308);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -5421,7 +5421,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 307:
+/***/ 308:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

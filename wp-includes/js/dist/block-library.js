@@ -2236,6 +2236,24 @@ var others = [{
   },
   patterns: [/^https?:\/\/(www\.)?collegehumor\.com\/.+/i]
 }, {
+  name: 'core-embed/crowdsignal',
+  settings: {
+    title: 'Crowdsignal',
+    icon: embedContentIcon,
+    keywords: ['polldaddy'],
+    transform: [{
+      type: 'block',
+      blocks: ['core-embed/polldaddy'],
+      transform: function transform(content) {
+        return Object(external_this_wp_blocks_["createBlock"])('core-embed/crowdsignal', {
+          content: content
+        });
+      }
+    }],
+    description: Object(external_this_wp_i18n_["__"])('Embed Crowdsignal (formerly Polldaddy) content.')
+  },
+  patterns: [/^https?:\/\/((.+\.)?polldaddy\.com|poll\.fm|.+\.survey\.fm)\/.+/i]
+}, {
   name: 'core-embed/dailymotion',
   settings: {
     title: 'Dailymotion',
@@ -2309,13 +2327,17 @@ var others = [{
   },
   patterns: [/^http:\/\/g?i*\.photobucket\.com\/.+/i]
 }, {
+  // Deprecated in favour of the core-embed/crowdsignal block
   name: 'core-embed/polldaddy',
   settings: {
     title: 'Polldaddy',
     icon: embedContentIcon,
-    description: Object(external_this_wp_i18n_["__"])('Embed Polldaddy content.')
+    description: Object(external_this_wp_i18n_["__"])('Embed Polldaddy content.'),
+    supports: {
+      inserter: false
+    }
   },
-  patterns: [/^https?:\/\/(www\.)?polldaddy\.com\/.+/i]
+  patterns: []
 }, {
   name: 'core-embed/reddit',
   settings: {

@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 316);
+/******/ 	return __webpack_require__(__webpack_require__.s = 315);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -174,7 +174,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 316:
+/***/ 315:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
