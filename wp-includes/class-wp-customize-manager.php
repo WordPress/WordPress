@@ -2885,10 +2885,20 @@ final class WP_Customize_Manager {
 		$this->store_changeset_revision = $allow_revision;
 		add_filter( 'wp_save_post_revision_post_has_changed', array( $this, '_filter_revision_post_has_changed' ), 5, 3 );
 
-		// Update the changeset post. The publish_customize_changeset action will cause the settings in the changeset to be saved via WP_Customize_Setting::save().
+		/*
+		 * Update the changeset post. The publish_customize_changeset action
+		 * will cause the settings in the changeset to be saved via
+		 * WP_Customize_Setting::save().
+		 */
+
+		// Prevent content filters from corrupting JSON in post_content.
 		$has_kses = ( false !== has_filter( 'content_save_pre', 'wp_filter_post_kses' ) );
 		if ( $has_kses ) {
-			kses_remove_filters(); // Prevent KSES from corrupting JSON in post_content.
+			kses_remove_filters();
+		}
+		$has_targeted_link_rel_filters = ( false !== has_filter( 'content_save_pre', 'wp_targeted_link_rel' ) );
+		if ( $has_targeted_link_rel_filters ) {
+			wp_remove_targeted_link_rel_filters();
 		}
 
 		// Note that updating a post with publish status will trigger WP_Customize_Manager::publish_changeset_values().
@@ -2918,9 +2928,15 @@ final class WP_Customize_Manager {
 				$this->_changeset_post_id = $r; // Update cached post ID for the loaded changeset.
 			}
 		}
+
+		// Restore removed content filters.
 		if ( $has_kses ) {
 			kses_init_filters();
 		}
+		if ( $has_targeted_link_rel_filters ) {
+			wp_init_targeted_link_rel_filters();
+		}
+
 		$this->_changeset_data = null; // Reset so WP_Customize_Manager::changeset_data() will re-populate with updated contents.
 
 		remove_filter( 'wp_save_post_revision_post_has_changed', array( $this, '_filter_revision_post_has_changed' ) );

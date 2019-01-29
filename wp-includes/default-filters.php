@@ -128,19 +128,7 @@ foreach ( array( 'content_save_pre', 'excerpt_save_pre', 'comment_save_pre', 'pr
 }
 
 // Add proper rel values for links with target.
-foreach ( array(
-	'title_save_pre',
-	'content_save_pre',
-	'excerpt_save_pre',
-	'content_filtered_save_pre',
-	'pre_comment_content',
-	'pre_term_description',
-	'pre_link_description',
-	'pre_link_notes',
-	'pre_user_description',
-) as $filter ) {
-	add_filter( $filter, 'wp_targeted_link_rel' );
-};
+add_action( 'init', 'wp_init_targeted_link_rel_filters' );
 
 // Format strings for display.
 foreach ( array( 'comment_author', 'term_name', 'link_name', 'link_description', 'link_notes', 'bloginfo', 'wp_title', 'widget_title' ) as $filter ) {

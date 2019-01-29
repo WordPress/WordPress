@@ -3096,6 +3096,52 @@ function wp_targeted_link_rel_callback( $matches ) {
 }
 
 /**
+ * Adds all filters modifying the rel attribute of targeted links.
+ *
+ * @since 5.1.0
+ */
+function wp_init_targeted_link_rel_filters() {
+	$filters = array(
+		'title_save_pre',
+		'content_save_pre',
+		'excerpt_save_pre',
+		'content_filtered_save_pre',
+		'pre_comment_content',
+		'pre_term_description',
+		'pre_link_description',
+		'pre_link_notes',
+		'pre_user_description',
+	);
+
+	foreach ( $filters as $filter ) {
+		add_filter( $filter, 'wp_targeted_link_rel' );
+	};
+}
+
+/**
+ * Removes all filters modifying the rel attribute of targeted links.
+ *
+ * @since 5.1.0
+ */
+function wp_remove_targeted_link_rel_filters() {
+	$filters = array(
+		'title_save_pre',
+		'content_save_pre',
+		'excerpt_save_pre',
+		'content_filtered_save_pre',
+		'pre_comment_content',
+		'pre_term_description',
+		'pre_link_description',
+		'pre_link_notes',
+		'pre_user_description',
+	);
+
+	foreach ( $filters as $filter ) {
+		remove_filter( $filter, 'wp_targeted_link_rel' );
+	};
+}
+
+/**
  * Convert one smiley code to the icon graphic file equivalent.
  *
  * Callback handler for convert_smilies().
