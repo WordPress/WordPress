@@ -1,6 +1,8 @@
-( function( tinymce, wp, settings ) {
+( function( tinymce ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
 		var typing,
+			wp = window.wp,
+			settings = window._wpemojiSettings,
 			env = tinymce.Env,
 			ua = window.navigator.userAgent,
 			isWin = ua.indexOf( 'Windows' ) > -1,
@@ -125,4 +127,4 @@
 			}
 		} );
 	} );
-} )( window.tinymce, window.wp, window._wpemojiSettings );
+} )( window.tinymce );
