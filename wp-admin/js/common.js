@@ -110,7 +110,7 @@ window.columns = {
 	 * @returns {string} The hidden column names separated by a comma.
 	 */
 	hidden : function() {
-		return $( '.manage-column[id]' ).filter( ':hidden' ).map(function() {
+		return $( '.manage-column[id]' ).filter( '.hidden' ).map(function() {
 			return this.id;
 		}).get().join( ',' );
 	},

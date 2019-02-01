@@ -1789,6 +1789,11 @@ div.action-links,
 		display: block;
 	}
 
+	/* Comment author hidden via Screen Options */
+	.fixed .column-author.hidden ~ .column-comment .comment-author {
+		display: none;
+	}
+
 	#the-comment-list .is-expanded td {
 		box-shadow: none;
 	}
@@ -2007,6 +2012,11 @@ div.action-links,
 		display: block;
 		width: auto;
 		padding: 10px 9px; /* reset from other list tables that have a label at this width */
+	}
+
+	/* Plugin description hidden via Screen Options */
+	#wpbody-content .wp-list-table.plugins .desc.hidden {
+		display: none;
 	}
 
 	#wpbody-content .wp-list-table.plugins .column-description {
