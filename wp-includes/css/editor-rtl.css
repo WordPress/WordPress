@@ -579,21 +579,37 @@ div.mce-path {
 .mce-menu .mce-menu-item:hover,
 .mce-menu .mce-menu-item.mce-selected,
 .mce-menu .mce-menu-item:focus,
-.mce-menu .mce-menu-item-normal.mce-active,
-.mce-menu .mce-menu-item-preview.mce-active {
+.mce-menu .mce-menu-item.mce-active.mce-menu-item-normal,
+.mce-menu .mce-menu-item.mce-active.mce-menu-item-preview {
 	background: #0073aa; /* See color scheme. */
 	color: #fff;
 }
 
-.mce-menu-item:hover .mce-text,
-.mce-menu-item:focus .mce-text,
-.mce-menu-item:hover .mce-ico,
-.mce-menu-item:focus .mce-ico,
-.mce-menu-item:hover .mce-menu-shortcut,
-.mce-menu-item:focus .mce-menu-shortcut,
-.mce-menu-item.mce-active .mce-menu-shortcut,
-.mce-menu-item.mce-disabled:hover .mce-text,
-.mce-menu-item.mce-disabled:hover .mce-ico {
+.mce-menu .mce-menu-item:hover .mce-caret,
+.mce-menu .mce-menu-item:focus .mce-caret,
+.mce-menu .mce-menu-item.mce-selected .mce-caret {
+	border-right-color: #fff;
+}
+
+/* rtl:ignore */
+.rtl .mce-menu .mce-menu-item:hover .mce-caret,
+.rtl .mce-menu .mce-menu-item:focus .mce-caret,
+.rtl .mce-menu .mce-menu-item.mce-selected .mce-caret {
+	border-left-color: inherit;
+	border-right-color: #fff;
+}
+
+.mce-menu .mce-menu-item:hover .mce-text,
+.mce-menu .mce-menu-item:focus .mce-text,
+.mce-menu .mce-menu-item:hover .mce-ico,
+.mce-menu .mce-menu-item:focus .mce-ico,
+.mce-menu .mce-menu-item.mce-selected .mce-text,
+.mce-menu .mce-menu-item.mce-selected .mce-ico,
+.mce-menu .mce-menu-item:hover .mce-menu-shortcut,
+.mce-menu .mce-menu-item:focus .mce-menu-shortcut,
+.mce-menu .mce-menu-item.mce-active .mce-menu-shortcut,
+.mce-menu .mce-menu-item.mce-disabled:hover .mce-text,
+.mce-menu .mce-menu-item.mce-disabled:hover .mce-ico {
 	color: inherit;
 }
 
