@@ -723,6 +723,9 @@ function wp_initialize_site( $site_id, array $args = array() ) {
 		)
 	);
 
+	// Clean blog cache after populating options.
+	clean_blog_cache( $site );
+
 	// Populate the site's roles.
 	populate_roles();
 	$wp_roles = new WP_Roles();
