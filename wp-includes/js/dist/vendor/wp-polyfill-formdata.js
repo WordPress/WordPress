@@ -103,6 +103,12 @@ if (typeof FormData === 'undefined' || !FormData.prototype.keys) {
       : [name + '', value + '']
   }
 
+  function each (arr, cb) {
+    for (let i = 0; i < arr.length; i++) {
+      cb(arr[i])
+    }
+  }
+
   /**
    * @implements {Iterable}
    */
@@ -119,20 +125,25 @@ if (typeof FormData === 'undefined' || !FormData.prototype.keys) {
       if (!form)
         return this
 
-      for (let elm of arrayFrom(form.elements)) {
-        if (!elm.name || elm.disabled) continue
+      const self = this
 
-        if (elm.type === 'file')
-          for (let file of arrayFrom(elm.files || []))
-            this.append(elm.name, file)
-        else if (elm.type === 'select-multiple' || elm.type === 'select-one')
-          for (let opt of arrayFrom(elm.options))
-            !opt.disabled && opt.selected && this.append(elm.name, opt.value)
-        else if (elm.type === 'checkbox' || elm.type === 'radio') {
-          if (elm.checked) this.append(elm.name, elm.value)
-        } else
-          this.append(elm.name, elm.value)
-      }
+      each(form.elements, elm => {
+        if (!elm.name || elm.disabled || elm.type === 'submit' || elm.type === 'button') return
+
+        if (elm.type === 'file') {
+          each(elm.files || [], file => {
+            self.append(elm.name, file)
+          })
+        } else if (elm.type === 'select-multiple' || elm.type === 'select-one') {
+          each(elm.options, opt => {
+            !opt.disabled && opt.selected && self.append(elm.name, opt.value)
+          })
+        } else if (elm.type === 'checkbox' || elm.type === 'radio') {
+          if (elm.checked) self.append(elm.name, elm.value)
+        } else {
+          self.append(elm.name, elm.value)
+        }
+      })
     }
 
 
@@ -359,7 +370,7 @@ if (typeof FormData === 'undefined' || !FormData.prototype.keys) {
 
   // Patch xhr's send method to call _blob transparently
   if (_send) {
-      XMLHttpRequest.prototype.send = function(data) {
+    XMLHttpRequest.prototype.send = function(data) {
       // I would check if Content-Type isn't already set
       // But xhr lacks getRequestHeaders functionallity
       // https://github.com/jimmywarting/FormData/issues/44
