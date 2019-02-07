@@ -2,7 +2,7 @@
 Contributors: the WordPress team
 Requires at least: WordPress 4.1
 Tested up to: WordPress 5.0
-Version: 2.3
+Version: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, two-columns, left-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-logo, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready
@@ -54,6 +54,11 @@ License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
 == Changelog ==
+
+= 2.4 =
+* Released: February 21, 2019
+
+https://codex.wordpress.org/Twenty_Fifteen_Theme_Changelog#Version_2.4
 
 = 2.3 =
 * Released: January 9, 2019

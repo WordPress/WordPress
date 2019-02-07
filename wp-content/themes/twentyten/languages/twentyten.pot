@@ -1,14 +1,14 @@
-# Copyright (C) 2018 the WordPress team
+# Copyright (C) 2019 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Ten 2.7\n"
+"Project-Id-Version: Twenty Ten 2.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyten\n"
-"POT-Creation-Date: 2018-12-18 17:42:13+00:00\n"
+"POT-Creation-Date: 2019-01-31 17:52:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -20,41 +20,41 @@ msgstr ""
 msgid "Apologies, but the page you requested could not be found. Perhaps searching will help."
 msgstr ""
 
-#: archive.php:34
+#: archive.php:35
 msgid "Daily Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:36
+#: archive.php:37
 msgid "Monthly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:36
+#: archive.php:37
 msgctxt "monthly archives date format"
 msgid "F Y"
 msgstr ""
 
-#: archive.php:38
+#: archive.php:39
 msgid "Yearly Archives: <span>%s</span>"
 msgstr ""
 
-#: archive.php:38
+#: archive.php:39
 msgctxt "yearly archives date format"
 msgid "Y"
 msgstr ""
 
-#: archive.php:40
+#: archive.php:41
 msgid "Blog Archives"
 msgstr ""
 
-#: author.php:28
+#: author.php:29
 msgid "Author Archives: %s"
 msgstr ""
 
-#: author.php:47 loop-single.php:46
+#: author.php:49 loop-single.php:57
 msgid "About %s"
 msgstr ""
 
-#: category.php:16
+#: category.php:17
 msgid "Category Archives: %s"
 msgstr ""
 
@@ -62,252 +62,260 @@ msgstr ""
 msgid "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:36
-msgid "One Response to %2$s"
+#. translators: %s: The post title.
+
+#: comments.php:40
+msgid "One Response to %s"
+msgstr ""
+
+#. translators: %1$s: The number of comments. %2$s: The post title.
+
+#: comments.php:46
+msgid "%1$s Response to %2$s"
 msgid_plural "%1$s Responses to %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:42 comments.php:62
+#: comments.php:56 comments.php:76
 msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
 msgstr ""
 
-#: comments.php:43 comments.php:63
+#: comments.php:57 comments.php:77
 msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: comments.php:73
+#: comments.php:88
 msgid "Comments are closed."
 msgstr ""
 
-#: footer.php:45
+#: footer.php:46
 msgid "https://wordpress.org/"
 msgstr ""
 
-#: footer.php:45
+#: footer.php:46
 msgid "Semantic Personal Publishing Platform"
 msgstr ""
 
-#: footer.php:46
+#: footer.php:47
 msgid "Proudly powered by %s."
 msgstr ""
 
-#: functions.php:87
+#: functions.php:90
 msgid "Blue"
 msgstr ""
 
-#: functions.php:92
+#: functions.php:95
 msgid "Black"
 msgstr ""
 
-#: functions.php:97
+#: functions.php:100
 msgid "Medium Gray"
 msgstr ""
 
-#: functions.php:102
+#: functions.php:105
 msgid "Light Gray"
 msgstr ""
 
-#: functions.php:107
+#: functions.php:110
 msgid "White"
 msgstr ""
 
-#: functions.php:130
+#: functions.php:135
 msgid "Primary Navigation"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:200
+#: functions.php:210
 msgid "Berries"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:206
+#: functions.php:216
 msgid "Cherry Blossoms"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:212
+#: functions.php:222
 msgid "Concave"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:218
+#: functions.php:228
 msgid "Fern"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:224
+#: functions.php:234
 msgid "Forest Floor"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:230
+#: functions.php:240
 msgid "Inkwell"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:236
+#: functions.php:246
 msgid "Path"
 msgstr ""
 
 #. translators: header image description
 
-#: functions.php:242
+#: functions.php:252
 msgid "Sunset"
 msgstr ""
 
-#: functions.php:315 loop-attachment.php:119 loop.php:116 loop.php:144
+#: functions.php:327 loop-attachment.php:151 loop.php:124 loop.php:152
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:411
+#: functions.php:424
 msgid "%s <span class=\"says\">says:</span>"
 msgstr ""
 
-#: functions.php:414
+#: functions.php:427
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
 #. translators: 1: date, 2: time
 
-#: functions.php:421
+#: functions.php:434
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:421 functions.php:438
+#: functions.php:438 functions.php:465
 msgid "(Edit)"
 msgstr ""
 
-#: functions.php:438
+#: functions.php:465
 msgid "Pingback:"
 msgstr ""
 
-#: functions.php:458
+#: functions.php:486
 msgid "Primary Widget Area"
 msgstr ""
 
-#: functions.php:460
+#: functions.php:488
 msgid "Add widgets here to appear in your sidebar."
 msgstr ""
 
-#: functions.php:469
+#: functions.php:499
 msgid "Secondary Widget Area"
 msgstr ""
 
-#: functions.php:471
+#: functions.php:501
 msgid "An optional secondary widget area, displays below the primary widget area in your sidebar."
 msgstr ""
 
-#: functions.php:480
+#: functions.php:512
 msgid "First Footer Widget Area"
 msgstr ""
 
-#: functions.php:482 functions.php:493 functions.php:504 functions.php:515
+#: functions.php:514 functions.php:527 functions.php:540 functions.php:553
 msgid "An optional widget area for your site footer."
 msgstr ""
 
-#: functions.php:491
+#: functions.php:525
 msgid "Second Footer Widget Area"
 msgstr ""
 
-#: functions.php:502
+#: functions.php:538
 msgid "Third Footer Widget Area"
 msgstr ""
 
-#: functions.php:513
+#: functions.php:551
 msgid "Fourth Footer Widget Area"
 msgstr ""
 
-#: functions.php:549
+#: functions.php:589
 msgid "<span class=\"%1$s\">Posted on</span> %2$s <span class=\"meta-sep\">by</span> %3$s"
 msgstr ""
 
-#: functions.php:558 loop-attachment.php:36
+#: functions.php:600 loop-attachment.php:44
 msgid "View all posts by %s"
 msgstr ""
 
-#: functions.php:575
+#: functions.php:617
 msgid "This entry was posted in %1$s and tagged %2$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: functions.php:577
+#: functions.php:619
 msgid "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: functions.php:579
+#: functions.php:621
 msgid "Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
 msgstr ""
 
-#: header.php:33
+#: header.php:35
 msgid "Page %s"
 msgstr ""
 
-#: header.php:105
+#: header.php:110
 msgid "Skip to content"
 msgstr ""
 
-#: loop-attachment.php:21
+#: loop-attachment.php:25
 msgid "Return to %s"
 msgstr ""
 
 #. translators: %s - title of parent post
 
-#: loop-attachment.php:23
+#: loop-attachment.php:28
 msgid "<span class=\"meta-nav\">&larr;</span> %s"
 msgstr ""
 
-#: loop-attachment.php:32
+#: loop-attachment.php:39
 msgid "<span class=\"%1$s\">By</span> %2$s"
 msgstr ""
 
-#: loop-attachment.php:43
+#: loop-attachment.php:52
 msgid "<span class=\"%1$s\">Published</span> %2$s"
 msgstr ""
 
-#: loop-attachment.php:53
+#: loop-attachment.php:64
 msgid "Full size is %s pixels"
 msgstr ""
 
-#: loop-attachment.php:56
+#: loop-attachment.php:68
 msgid "Link to full-size image"
 msgstr ""
 
-#: loop-attachment.php:63 loop-attachment.php:126 loop-page.php:30
-#: loop-single.php:59 loop.php:101 loop.php:124 loop.php:166
+#: loop-attachment.php:75 loop-attachment.php:165 loop-page.php:41
+#: loop-single.php:70 loop.php:109 loop.php:132 loop.php:181
 msgid "Edit"
 msgstr ""
 
-#: loop-attachment.php:120 loop-page.php:29 loop-single.php:34 loop.php:145
+#: loop-attachment.php:155 loop-page.php:36 loop-single.php:41 loop.php:156
 msgid "Pages:"
 msgstr ""
 
-#: loop-single.php:21 loop-single.php:64
+#: loop-single.php:25 loop-single.php:75
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr ""
 
-#: loop-single.php:22 loop-single.php:65
+#: loop-single.php:26 loop-single.php:76
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr ""
 
-#: loop-single.php:50
+#: loop-single.php:61
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: loop.php:25 loop.php:179
+#: loop.php:25 loop.php:194
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: loop.php:26 loop.php:180
+#: loop.php:26 loop.php:195
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -315,55 +323,55 @@ msgstr ""
 msgid "Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post."
 msgstr ""
 
-#: loop.php:62 loop.php:96
+#: loop.php:65 loop.php:104
 msgctxt "gallery category slug"
 msgid "gallery"
 msgstr ""
 
-#: loop.php:83
+#: loop.php:89
 msgid "This gallery contains <a %1$s>%2$s photo</a>."
 msgid_plural "This gallery contains <a %1$s>%2$s photos</a>."
 msgstr[0] ""
 msgstr[1] ""
 
-#: loop.php:84
+#: loop.php:90
 msgid "Permalink to %s"
 msgstr ""
 
-#: loop.php:94
+#: loop.php:102
 msgid "View Galleries"
 msgstr ""
 
-#: loop.php:94 loop.php:97
+#: loop.php:102 loop.php:105
 msgid "More Galleries"
 msgstr ""
 
-#: loop.php:97
+#: loop.php:105
 msgid "View posts in the Gallery category"
 msgstr ""
 
-#: loop.php:100 loop.php:123 loop.php:165
+#: loop.php:108 loop.php:131 loop.php:180
 msgid "Leave a comment"
 msgstr ""
 
-#: loop.php:100 loop.php:123 loop.php:165
+#: loop.php:108 loop.php:131 loop.php:180
 msgid "1 Comment"
 msgstr ""
 
-#: loop.php:100 loop.php:123 loop.php:165
+#: loop.php:108 loop.php:131 loop.php:180
 msgid "% Comments"
 msgstr ""
 
-#: loop.php:107
+#: loop.php:115
 msgctxt "asides category slug"
 msgid "asides"
 msgstr ""
 
-#: loop.php:152
+#: loop.php:167
 msgid "<span class=\"%1$s\">Posted in</span> %2$s"
 msgstr ""
 
-#: loop.php:161
+#: loop.php:176
 msgid "<span class=\"%1$s\">Tagged</span> %2$s"
 msgstr ""
 
@@ -379,15 +387,15 @@ msgstr ""
 msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
 msgstr ""
 
-#: sidebar.php:28
+#: sidebar.php:29
 msgid "Archives"
 msgstr ""
 
-#: sidebar.php:35
+#: sidebar.php:36
 msgid "Meta"
 msgstr ""
 
-#: tag.php:16
+#: tag.php:17
 msgid "Tag Archives: %s"
 msgstr ""
 #. Theme Name of the plugin/theme

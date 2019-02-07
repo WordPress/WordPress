@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 3.1\n"
+"Project-Id-Version: Twenty Eleven 3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
-"POT-Creation-Date: 2019-01-02 18:09:07+00:00\n"
+"POT-Creation-Date: 2019-01-31 17:52:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -81,25 +81,33 @@ msgstr ""
 msgid "This post is password protected. Enter the password to view any comments."
 msgstr ""
 
-#: comments.php:35
-msgid "One thought on &ldquo;%2$s&rdquo;"
+#. translators: %s: The post title.
+
+#: comments.php:37
+msgid "One thought on &ldquo;%1$s&rdquo;"
+msgstr ""
+
+#. translators: %1$s: The number of comments. %2$s: The post title.
+
+#: comments.php:43
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] ""
 msgstr[1] ""
 
-#: comments.php:44 comments.php:65
+#: comments.php:53 comments.php:74
 msgid "Comment navigation"
 msgstr ""
 
-#: comments.php:45 comments.php:66
+#: comments.php:54 comments.php:75
 msgid "&larr; Older Comments"
 msgstr ""
 
-#: comments.php:46 comments.php:67
+#: comments.php:55 comments.php:76
 msgid "Newer Comments &rarr;"
 msgstr ""
 
-#: comments.php:78
+#: comments.php:87
 msgid "Comments are closed."
 msgstr ""
 
@@ -532,27 +540,27 @@ msgstr ""
 msgid "Use this widget to list your recent Aside, Status, Quote, and Link posts"
 msgstr ""
 
-#: inc/widgets.php:74
+#: inc/widgets.php:73
 msgid "Ephemera"
 msgstr ""
 
-#: inc/widgets.php:118 inc/widgets.php:127
+#: inc/widgets.php:117 inc/widgets.php:126
 msgid "0 <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:118 inc/widgets.php:127
+#: inc/widgets.php:117 inc/widgets.php:126
 msgid "1 <span class=\"reply\">comment &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:118 inc/widgets.php:127
+#: inc/widgets.php:117 inc/widgets.php:126
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:194
+#: inc/widgets.php:193
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:197
+#: inc/widgets.php:196
 msgid "Number of posts to show:"
 msgstr ""
 
