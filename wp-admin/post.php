@@ -16,7 +16,9 @@ $submenu_file = 'edit.php';
 
 wp_reset_vars( array( 'action' ) );
 
-if ( isset( $_GET['post'] ) ) {
+if ( isset( $_GET['post'] ) && isset( $_POST['post_ID'] ) && (int) $_GET['post'] !== (int) $_POST['post_ID'] ) {
+	wp_die( __( 'A post ID mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
+} elseif ( isset( $_GET['post'] ) ) {
 	$post_id = $post_ID = (int) $_GET['post'];
 } elseif ( isset( $_POST['post_ID'] ) ) {
 	$post_id = $post_ID = (int) $_POST['post_ID'];
@@ -38,6 +40,10 @@ if ( $post_id ) {
 if ( $post ) {
 	$post_type        = $post->post_type;
 	$post_type_object = get_post_type_object( $post_type );
+}
+
+if ( isset( $_POST['post_type'] ) && $post && $post_type !== $_POST['post_type'] ) {
+	wp_die( __( 'A post type mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
 }
 
 if ( isset( $_POST['deletepost'] ) ) {
