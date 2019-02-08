@@ -80,7 +80,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section one-col">
 			<div class="col">
 				<h2><?php _e( 'Site Health' ); ?></h2>
-				<p><?php printf( __( 'With security and speed in mind, this release introduces WordPress&#8217;s first <a href="%s">Site Health</a> features. WordPress will start showing notices to administrators of sites that run long-outdated versions of PHP, which is the programming language that powers WordPress.' ), "https://make.wordpress.org/core/2019/01/14/php-site-health-mechanisms-in-5-1/" ); ?></p>
+				<p><?php printf( __( 'With security and speed in mind, this release introduces WordPress&#8217;s first <a href="%s">Site Health</a> features. WordPress will start showing notices to administrators of sites that run long-outdated versions of PHP, which is the programming language that powers WordPress.' ), 'https://make.wordpress.org/core/2019/01/14/php-site-health-mechanisms-in-5-1/' ); ?></p>
 
 				<p><?php _e( 'When installing new plugins, WordPress&#8217;s Site Health features will check whether a plugin requires a version of PHP incompatible with your site. If so, WordPress will prevent you from installing that plugin.' ); ?></p>
 			</div>
@@ -88,7 +88,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 
 		<div class="feature-section one-col cta">
-			<?php if ( true ): ?>
+			<?php if ( true ) : ?>
 				<p><em><?php _e( 'WordPress has detected your site is running an outdated version of PHP. You will see this notice on your dashboard with instructions for contacting your host.' ); ?></em></p>
 			<?php endif; ?>
 
@@ -126,7 +126,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php _e( '5.1 introduces a new database table to store metadata associated with sites and allows for the storage of arbitrary site data relevant in a multisite / network context.' ); ?>
 					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), "https://make.wordpress.org/core/2019/01/28/multisite-support-for-site-metadata-in-5-1/" ); ?>
+					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/28/multisite-support-for-site-metadata-in-5-1/' ); ?>
 				</p>
 			</div>
 			<div class="col">
@@ -134,7 +134,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php _e( 'The Cron API has been updated with new functions to assist with returning data and includes new filters for modifying cron storage. Other changes in behavior affect cron spawning on servers running FastCGI and PHP-FPM versions 7.0.16 and above.' ); ?>
 					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), "https://make.wordpress.org/core/2019/01/09/cron-improvements-with-php-fpm-in-wordpress-5-1/" ); ?>
+					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/09/cron-improvements-with-php-fpm-in-wordpress-5-1/' ); ?>
 				</p>
 			</div>
 			<div class="col">
@@ -142,7 +142,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php _e( 'WordPress 5.1 features a new JavaScript build option, following the large reorganization of code started in the 5.0 release.' ); ?>
 					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), "https://make.wordpress.org/core/2018/05/16/preparing-wordpress-for-a-javascript-future-part-1-build-step-and-folder-reorganization/" ); ?>
+					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2018/05/16/preparing-wordpress-for-a-javascript-future-part-1-build-step-and-folder-reorganization/' ); ?>
 				</p>
 			</div>
 			<div class="col">
@@ -150,7 +150,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php _e( 'Miscellaneous improvements include updates to values for the <code>WP_DEBUG_LOG</code> constant, new test config file constant in the test suite, new plugin action hooks, short-circuit filters for <code>wp_unique_post_slug()</code> and <code>WP_User_Query</code> and <code>count_users()</code>, a new <code>human_readable_duration</code> function, improved taxonomy metabox sanitization, limited <code>LIKE</code> support for meta keys when using <code>WP_Meta_Query</code>, a new “doing it wrong” notice when registering REST API endpoints, and more!' ); ?>
 					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), "https://make.wordpress.org/core/2019/01/23/miscellaneous-developer-focused-changes-in-5-1/" ); ?>
+					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/23/miscellaneous-developer-focused-changes-in-5-1/' ); ?>
 				</p>
 			</div>
 		</div>
