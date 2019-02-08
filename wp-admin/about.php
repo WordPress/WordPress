@@ -88,7 +88,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 
 		<div class="feature-section one-col cta">
-			<?php if ( true ) : ?>
+			<?php
+			$response = wp_check_php_version();
+			if ( $response && isset( $response['is_acceptable'] ) && ! $response['is_acceptable'] && current_user_can( 'update_php' ) ) :
+				?>
 				<p><em><?php _e( 'WordPress has detected your site is running an outdated version of PHP. You will see this notice on your dashboard with instructions for contacting your host.' ); ?></em></p>
 			<?php endif; ?>
 

@@ -1667,51 +1667,6 @@ function dashboard_php_nag_class( $classes ) {
 }
 
 /**
- * Checks if the user needs to update PHP.
- *
- * @since 5.1.0
- *
- * @return array|false $response Array of PHP version data. False on failure.
- */
-function wp_check_php_version() {
-	$version = phpversion();
-	$key     = md5( $version );
-
-	$response = get_site_transient( 'php_check_' . $key );
-	if ( false === $response ) {
-		$url = 'http://api.wordpress.org/core/serve-happy/1.0/';
-		if ( wp_http_supports( array( 'ssl' ) ) ) {
-			$url = set_url_scheme( $url, 'https' );
-		}
-
-		$url = add_query_arg( 'php_version', $version, $url );
-
-		$response = wp_remote_get( $url );
-
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-			return false;
-		}
-
-		/**
-		 * Response should be an array with:
-		 *  'recommended_version' - string - The PHP version recommended by WordPress.
-		 *  'is_supported' - boolean - Whether the PHP version is actively supported.
-		 *  'is_secure' - boolean - Whether the PHP version receives security updates.
-		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable for WordPress.
-		 */
-		$response = json_decode( wp_remote_retrieve_body( $response ), true );
-
-		if ( ! is_array( $response ) ) {
-			return false;
-		}
-
-		set_site_transient( 'php_check_' . $key, $response, WEEK_IN_SECONDS );
-	}
-
-	return $response;
-}
-
-/**
  * Empty function usable by plugins to output empty dashboard widget (to be populated later by JS).
  */
 function wp_dashboard_empty() {}
