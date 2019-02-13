@@ -391,7 +391,8 @@ figcaption,
 .wp-block-quote {
 
 	&:not(.is-large):not(.is-style-large) {
-		border-left: 2px solid $color__link;
+		border-width: 2px;
+		border-color: $color__link;
 	}
 
 	&.is-large,

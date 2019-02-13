@@ -5477,7 +5477,8 @@ body.page .main-navigation {
 }
 
 .entry .entry-content .wp-block-quote:not(.is-large), .entry .entry-content .wp-block-quote:not(.is-style-large) {
-  border-right: 2px solid #0073aa;
+  border-width: 2px;
+  border-color: #0073aa;
   padding-top: 0;
   padding-bottom: 0;
 }
