@@ -452,8 +452,7 @@
 
 		&:not(.is-large),
 		&:not(.is-style-large) {
-			border-width: 2px;
-			border-color: $color__link;
+			border-left: 2px solid $color__link;
 			padding-top: 0;
 			padding-bottom: 0;
 		}

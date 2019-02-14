@@ -940,8 +940,7 @@ figcaption,
 
 /** === Blockquote === */
 .wp-block-quote:not(.is-large):not(.is-style-large) {
-  border-width: 2px;
-  border-color: #0073aa;
+  border-left: 2px solid #0073aa;
 }
 
 .wp-block-quote.is-large, .wp-block-quote.is-style-large {
