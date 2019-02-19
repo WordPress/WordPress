@@ -22,6 +22,9 @@ window.addComment = ( function( window ) {
 		postIdFieldId     : 'comment_post_ID'
 	};
 
+	// Cross browser MutationObserver.
+	var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+
 	// Check browser cuts the mustard.
 	var cutsTheMustard = 'querySelector' in document && 'addEventListener' in window;
 
@@ -40,8 +43,14 @@ window.addComment = ( function( window ) {
 	// The respond element.
 	var respondElement;
 
+	// The mutation observer.
+	var observer;
+
 	// Initialise the events.
 	init();
+
+	// Set up a MutationObserver to check for comments loaded late.
+	observeChanges();
 
 	/**
 	 * Add events to links classed .comment-reply-link.
@@ -57,7 +66,7 @@ window.addComment = ( function( window ) {
 	 * @param {HTMLElement} context The parent DOM element to search for links.
 	 */
 	function init( context ) {
-		if ( true !== cutsTheMustard ) {
+		if ( ! cutsTheMustard ) {
 			return;
 		}
 
@@ -161,6 +170,44 @@ window.addComment = ( function( window ) {
 		follow = window.addComment.moveForm(commId, parentId, respondId, postId);
 		if ( false === follow ) {
 			event.preventDefault();
+		}
+	}
+
+	/**
+	 * Creates a mutation observer to check for newly inserted comments.
+	 *
+	 * @since 5.1.0
+	 */
+	function observeChanges() {
+		if ( ! MutationObserver ) {
+			return;
+		}
+
+		var observerOptions = {
+			childList: true,
+			subTree: true
+		};
+
+		observer = new MutationObserver( handleChanges );
+		observer.observe( document.body, observerOptions );
+	}
+
+	/**
+	 * Handles DOM changes, calling init() if any new nodes are added.
+	 *
+	 * @since 5.1.0
+	 *
+	 * @param {Array} mutationRecords Array of MutationRecord objects.
+	 */
+	function handleChanges( mutationRecords ) {
+		var i = mutationRecords.length;
+
+		while ( i-- ) {
+			// Call init() once if any record in this set adds nodes.
+			if ( mutationRecords[ i ].addedNodes.length ) {
+				init();
+				return;
+			}
 		}
 	}
 
