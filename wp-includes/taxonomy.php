@@ -3439,7 +3439,7 @@ function update_term_cache( $terms, $taxonomy = '' ) {
 /**
  * Retrieves children of taxonomy as Term IDs.
  *
- * @ignore
+ * @access private
  * @since 2.3.0
  *
  * @param string $taxonomy Taxonomy name.
