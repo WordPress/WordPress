@@ -313,11 +313,10 @@ endif; // $_wp_admin_css_colors
 		<?php endif; ?>
 <tr class="show-admin-bar user-admin-bar-front-wrap">
 <th scope="row"><?php _e( 'Toolbar' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Toolbar' ); ?></span></legend>
+<td>
 <label for="admin_bar_front">
 <input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1"<?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
 		<?php _e( 'Show Toolbar when viewing site' ); ?></label><br />
-</fieldset>
 </td>
 </tr>
 
