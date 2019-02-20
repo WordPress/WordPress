@@ -288,7 +288,7 @@ window.setCommentsList = function() {
 			a = $('.undo a', '#undo-' + id);
 			a.attr('href', 'comment.php?action=un' + action + 'comment&c=' + id + '&_wpnonce=' + settings.data._ajax_nonce);
 			a.attr('data-wp-lists', 'delete:the-comment-list:comment-' + id + '::un' + action + '=1');
-			a.attr('class', 'vim-z vim-destructive');
+			a.attr('class', 'vim-z vim-destructive aria-button-if-js');
 			$('.avatar', el).first().clone().prependTo('#undo-' + id + ' .' + action + '-undo-inside');
 
 			a.click(function( e ){
@@ -582,8 +582,8 @@ window.commentReply = {
 	init : function() {
 		var row = $('#replyrow');
 
-		$('a.cancel', row).click(function() { return commentReply.revert(); });
-		$('a.save', row).click(function() { return commentReply.send(); });
+		$( '.cancel', row ).click( function() { return commentReply.revert(); } );
+		$( '.save', row ).click( function() { return commentReply.send(); } );
 		$( 'input#author-name, input#author-email, input#author-url', row ).keypress( function( e ) {
 			if ( e.which == 13 ) {
 				commentReply.send();
@@ -631,8 +631,6 @@ window.commentReply = {
 		$('#replyrow').fadeOut('fast', function(){
 			commentReply.close();
 		});
-
-		return false;
 	},
 
 	close : function() {
@@ -808,8 +806,6 @@ window.commentReply = {
 			success : function(x) { commentReply.show(x); },
 			error : function(r) { commentReply.error(r); }
 		});
-
-		return false;
 	},
 
 	show : function(xml) {
