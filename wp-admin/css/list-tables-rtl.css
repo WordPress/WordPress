@@ -152,8 +152,17 @@
 	overflow: hidden;
 }
 
+#replysubmit .reply-submit-buttons {
+	margin-bottom: 0;
+}
+
 #replysubmit .button {
 	margin-left: 5px;
+}
+
+#replysubmit .spinner {
+	float: none;
+	margin: -4px 0 0;
 }
 
 #replyrow.inline-edit-row fieldset.comment-reply {
