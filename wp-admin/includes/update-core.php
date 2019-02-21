@@ -783,6 +783,7 @@ $_old_files = array(
 	// 5.0
 	'wp-includes/js/codemirror/jshint.js',
 	// 5.1
+	'wp-includes/random_compat/random_bytes_openssl.php',
 	'wp-includes/js/tinymce/wp-tinymce.js.gz',
 );
 
