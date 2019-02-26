@@ -47,7 +47,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="feature-section one-col is-wide wp-clearfix">
 			<div class="col">
-				<h3><?php _e( 'Site Health' ); ?></h2>
+				<h3><?php _e( 'Site Health' ); ?></h3>
 				<div class="inline-svg alignright">
 					<img src="https://s.w.org/images/core/5.1/site-health.svg" alt="">
 				</div>
@@ -68,7 +68,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="feature-section one-col is-wide wp-clearfix">
 			<div class="col">
-				<h3><?php _e( 'Editor Performance' ); ?></h2>
+				<h3><?php _e( 'Editor Performance' ); ?></h3>
 				<div class="inline-svg alignright">
 					<img src="https://s.w.org/images/core/5.1/editor-performance.svg" alt="">
 				</div>
