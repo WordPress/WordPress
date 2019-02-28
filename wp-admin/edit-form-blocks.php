@@ -306,7 +306,7 @@ if ( false !== $color_palette ) {
 	$editor_settings['colors'] = $color_palette;
 }
 
-if ( ! empty( $font_sizes ) ) {
+if ( false !== $font_sizes ) {
 	$editor_settings['fontSizes'] = $font_sizes;
 }
 
