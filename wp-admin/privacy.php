@@ -156,11 +156,19 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<?php
 
 			if ( 'publish' === get_post_status( $privacy_policy_page_id ) ) {
-				/* translators: 1: URL to edit page, 2: URL to view page */
-				printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your Privacy Policy page content.' ), $edit_href, $view_href );
+				printf(
+					/* translators: 1: URL to edit Privacy Policy page, 2: URL to view Privacy Policy page */
+					__( '<a href="%1$s">Edit</a> or <a href="%2$s">view</a> your Privacy Policy page content.' ),
+					esc_url( $edit_href ),
+					esc_url( $view_href )
+				);
 			} else {
-				/* translators: 1: URL to edit page, 2: URL to preview page */
-				printf( __( '<a href="%1$s">Edit</a> or <a href="%2$s">preview</a> your Privacy Policy page content.' ), $edit_href, $view_href );
+				printf(
+					/* translators: 1: URL to edit Privacy Policy page, 2: URL to preview Privacy Policy page */
+					__( '<a href="%1$s">Edit</a> or <a href="%2$s">preview</a> your Privacy Policy page content.' ),
+					esc_url( $edit_href ),
+					esc_url( $view_href )
+				);
 			}
 
 			?>
