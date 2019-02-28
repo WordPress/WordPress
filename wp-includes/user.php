@@ -2320,9 +2320,8 @@ function check_password_reset_key( $key, $login ) {
 		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
 	}
 
-	$user = get_user_by( 'login', $login );
-
-	if ( ! $user ) {
+	$row = $wpdb->get_row( $wpdb->prepare( "SELECT ID, user_activation_key FROM $wpdb->users WHERE user_login = %s", $login ) );
+	if ( ! $row ) {
 		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
 	}
 
@@ -2340,11 +2339,11 @@ function check_password_reset_key( $key, $login ) {
 	 */
 	$expiration_duration = apply_filters( 'password_reset_expiration', DAY_IN_SECONDS );
 
-	if ( false !== strpos( $user->user_activation_key, ':' ) ) {
-		list( $pass_request_time, $pass_key ) = explode( ':', $user->user_activation_key, 2 );
+	if ( false !== strpos( $row->user_activation_key, ':' ) ) {
+		list( $pass_request_time, $pass_key ) = explode( ':', $row->user_activation_key, 2 );
 		$expiration_time                      = $pass_request_time + $expiration_duration;
 	} else {
-		$pass_key        = $user->user_activation_key;
+		$pass_key        = $row->user_activation_key;
 		$expiration_time = false;
 	}
 
@@ -2355,15 +2354,15 @@ function check_password_reset_key( $key, $login ) {
 	$hash_is_correct = $wp_hasher->CheckPassword( $key, $pass_key );
 
 	if ( $hash_is_correct && $expiration_time && time() < $expiration_time ) {
-		return $user;
+		return get_userdata( $row->ID );
 	} elseif ( $hash_is_correct && $expiration_time ) {
 		// Key has an expiration time that's passed
 		return new WP_Error( 'expired_key', __( 'Invalid key' ) );
 	}
 
-	if ( hash_equals( $user->user_activation_key, $key ) || ( $hash_is_correct && ! $expiration_time ) ) {
+	if ( hash_equals( $row->user_activation_key, $key ) || ( $hash_is_correct && ! $expiration_time ) ) {
 		$return  = new WP_Error( 'expired_key', __( 'Invalid key' ) );
-		$user_id = $user->ID;
+		$user_id = $row->ID;
 
 		/**
 		 * Filters the return value of check_password_reset_key() when an
