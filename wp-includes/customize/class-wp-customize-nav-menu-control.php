@@ -11,6 +11,8 @@
  * Customize Nav Menu Control Class.
  *
  * @since 4.3.0
+ *
+ * @see WP_Customize_Control
  */
 class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 
