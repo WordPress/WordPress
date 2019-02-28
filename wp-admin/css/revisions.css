@@ -6,9 +6,12 @@
 	position: relative;
 }
 
+.revisions-diff-frame {
+    top: 10px;
+}
+
 .revisions-controls {
 	padding-top: 40px;
-	height: 100px;
 	z-index: 1;
 }
 
@@ -111,6 +114,7 @@ body.folded .revisions .loading-indicator {
 	margin-top: 20px;
 	background-color: #fff;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
 }
 
 .revisions.pinned .revisions-meta {
@@ -294,7 +298,7 @@ table.diff .diff-addedline ins {
 	float: right;
 	margin-left: 6px;
 	margin-right: 6px;
-	margin-top: 4px;
+	margin-top: 2px;
 }
 
 .diff-meta-from {
@@ -565,10 +569,30 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	#diff-previous-revision {
 		margin-top: -1em;
 	}
+        .revisions-buttons {
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
 
+        .revisions-controls,
+		.comparing-two-revisions .revisions-controls {
+            height: 170px;
+        }
+
+        .revisions-tooltip {
+            bottom: 130px;
+            z-index: 2;
+        }
+
+        .diff-meta {
+            overflow: hidden;
+        }
 	table.diff {
 		-ms-word-break: break-all;
 		word-break: break-all;
 		word-wrap: break-word;
 	}
+        .diff-meta input.restore-revision {
+            margin-top: 0;
+        }
 }
