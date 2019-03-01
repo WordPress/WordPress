@@ -31,6 +31,16 @@ function get_header( $name = null ) {
 	do_action( 'get_header', $name );
 
 	$templates = array();
+	
+	/** enabled to load dinamic custom header **/
+	if ( $template = apply_filters( 'template_header_custom', $name ) ) {
+		$template = (string) $template;
+		if ( '' !== $template) {
+			$templates[] = "{$template}.php";
+		}
+	}
+		
+		
 	$name      = (string) $name;
 	if ( '' !== $name ) {
 		$templates[] = "header-{$name}.php";
@@ -66,6 +76,14 @@ function get_footer( $name = null ) {
 	do_action( 'get_footer', $name );
 
 	$templates = array();
+	/** enabled to load dinamic custom footer **/
+	if ( $template = apply_filters( 'template_footer_custom', $name ) ) {
+		$template = (string) $template;
+		if ( '' !== $template) {
+			$templates[] = "{$template}.php";
+		}
+	}
+	
 	$name      = (string) $name;
 	if ( '' !== $name ) {
 		$templates[] = "footer-{$name}.php";
