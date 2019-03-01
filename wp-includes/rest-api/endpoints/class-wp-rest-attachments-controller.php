@@ -114,7 +114,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $file;
 		}
 
-		$name       = basename( $file['file'] );
+		$name       = wp_basename( $file['file'] );
 		$name_parts = pathinfo( $name );
 		$name       = trim( substr( $name, 0, -( 1 + strlen( $name_parts['extension'] ) ) ) );
 
@@ -143,7 +143,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$attachment->guid           = $url;
 
 		if ( empty( $attachment->post_title ) ) {
-			$attachment->post_title = preg_replace( '/\.[^.]+$/', '', basename( $file ) );
+			$attachment->post_title = preg_replace( '/\.[^.]+$/', '', wp_basename( $file ) );
 		}
 
 		// $post_parent is inherited from $attachment['post_parent'].

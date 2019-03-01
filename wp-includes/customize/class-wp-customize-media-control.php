@@ -92,7 +92,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 					'url'   => $this->setting->default,
 					'type'  => $type,
 					'icon'  => wp_mime_type_icon( $type ),
-					'title' => basename( $this->setting->default ),
+					'title' => wp_basename( $this->setting->default ),
 				);
 
 				if ( 'image' === $type ) {

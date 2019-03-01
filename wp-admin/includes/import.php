@@ -99,7 +99,7 @@ function wp_import_handle_upload() {
 
 	// Construct the object array
 	$object = array(
-		'post_title'     => basename( $upload['file'] ),
+		'post_title'     => wp_basename( $upload['file'] ),
 		'post_content'   => $upload['url'],
 		'post_mime_type' => $upload['type'],
 		'guid'           => $upload['url'],

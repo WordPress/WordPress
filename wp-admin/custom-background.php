@@ -494,7 +494,7 @@ class Custom_Background {
 		$url      = $file['url'];
 		$type     = $file['type'];
 		$file     = $file['file'];
-		$filename = basename( $file );
+		$filename = wp_basename( $file );
 
 		// Construct the object array
 		$object = array(

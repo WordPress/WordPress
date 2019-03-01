@@ -3651,13 +3651,13 @@ function wp_ajax_crop_image() {
 			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
 			$parent_url = wp_get_attachment_url( $attachment_id );
-			$url        = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
+			$url        = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
 
 			$size       = @getimagesize( $cropped );
 			$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
 
 			$object = array(
-				'post_title'     => basename( $cropped ),
+				'post_title'     => wp_basename( $cropped ),
 				'post_content'   => $url,
 				'post_mime_type' => $image_type,
 				'guid'           => $url,

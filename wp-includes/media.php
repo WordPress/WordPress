@@ -2871,7 +2871,7 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	}
 
 	$file     = get_attached_file( $attachment->ID );
-	$filename = basename( $file );
+	$filename = wp_basename( $file );
 
 	$objects = array( 'attachment' );
 

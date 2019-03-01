@@ -47,7 +47,7 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 	}
 
 	if ( ! $dst_file ) {
-		$dst_file = str_replace( basename( $src_file ), 'cropped-' . basename( $src_file ), $src_file );
+		$dst_file = str_replace( wp_basename( $src_file ), 'cropped-' . wp_basename( $src_file ), $src_file );
 	}
 
 	/*
@@ -56,7 +56,7 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 	 */
 	wp_mkdir_p( dirname( $dst_file ) );
 
-	$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
+	$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), wp_basename( $dst_file ) );
 
 	$result = $editor->save( $dst_file );
 	if ( is_wp_error( $result ) ) {
@@ -189,7 +189,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					$ext = '.png';
 					break;
 			}
-			$basename = str_replace( '.', '-', basename( $file ) ) . '-image' . $ext;
+			$basename = str_replace( '.', '-', wp_basename( $file ) ) . '-image' . $ext;
 			$uploaded = wp_upload_bits( $basename, '', $metadata['image']['data'] );
 			if ( false === $uploaded['error'] ) {
 				$image_attachment = array(
@@ -711,8 +711,8 @@ function _copy_image_file( $attachment_id ) {
 	}
 
 	if ( $src_file ) {
-		$dst_file = str_replace( basename( $dst_file ), 'copy-' . basename( $dst_file ), $dst_file );
-		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), basename( $dst_file ) );
+		$dst_file = str_replace( wp_basename( $dst_file ), 'copy-' . wp_basename( $dst_file ), $dst_file );
+		$dst_file = dirname( $dst_file ) . '/' . wp_unique_filename( dirname( $dst_file ), wp_basename( $dst_file ) );
 
 		/*
 		 * The directory containing the original file may no longer

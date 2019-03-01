@@ -2096,7 +2096,7 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 				if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
 					$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
 				} else {
-					$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+					$error_path = wp_basename( $uploads['basedir'] ) . $uploads['subdir'];
 				}
 
 				$uploads['error'] = sprintf(
@@ -2381,7 +2381,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 		if ( 0 === strpos( $upload['basedir'], ABSPATH ) ) {
 			$error_path = str_replace( ABSPATH, '', $upload['basedir'] ) . $upload['subdir'];
 		} else {
-			$error_path = basename( $upload['basedir'] ) . $upload['subdir'];
+			$error_path = wp_basename( $upload['basedir'] ) . $upload['subdir'];
 		}
 
 		$message = sprintf(

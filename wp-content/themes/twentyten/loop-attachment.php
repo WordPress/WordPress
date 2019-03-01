@@ -138,7 +138,7 @@ if ( have_posts() ) {
 							<div class="nav-next"><?php next_image_link( false ); ?></div>
 						</div><!-- #nav-below -->
 		<?php else : ?>
-						<a href="<?php echo esc_url( wp_get_attachment_url() ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php echo esc_html( basename( get_permalink() ) ); ?></a>
+						<a href="<?php echo esc_url( wp_get_attachment_url() ); ?>" title="<?php the_title_attribute(); ?>" rel="attachment"><?php echo esc_html( wp_basename( get_permalink() ) ); ?></a>
 	<?php endif; ?>
 						</div><!-- .entry-attachment -->
 						<div class="entry-caption">

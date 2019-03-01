@@ -85,14 +85,14 @@ class WP_Site_Icon {
 	public function create_attachment_object( $cropped, $parent_attachment_id ) {
 		$parent     = get_post( $parent_attachment_id );
 		$parent_url = wp_get_attachment_url( $parent->ID );
-		$url        = str_replace( basename( $parent_url ), basename( $cropped ), $parent_url );
+		$url        = str_replace( wp_basename( $parent_url ), wp_basename( $cropped ), $parent_url );
 
 		$size       = @getimagesize( $cropped );
 		$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
 
 		$object = array(
 			'ID'             => $parent_attachment_id,
-			'post_title'     => basename( $cropped ),
+			'post_title'     => wp_basename( $cropped ),
 			'post_content'   => $url,
 			'post_mime_type' => $image_type,
 			'guid'           => $url,

@@ -1360,7 +1360,7 @@ final class WP_Customize_Manager {
 				if ( ! $attachment_id ) {
 
 					// Copy file to temp location so that original file won't get deleted from theme after sideloading.
-					$temp_file_name = wp_tempnam( basename( $file_path ) );
+					$temp_file_name = wp_tempnam( wp_basename( $file_path ) );
 					if ( $temp_file_name && copy( $file_path, $temp_file_name ) ) {
 						$file_array['tmp_name'] = $temp_file_name;
 					}
@@ -1621,7 +1621,7 @@ final class WP_Customize_Manager {
 			} else {
 				continue;
 			}
-			$file_name = basename( $attachment['file'] );
+			$file_name = wp_basename( $attachment['file'] );
 
 			// Skip file types that are not recognized.
 			$checked_filetype = wp_check_filetype( $file_name );
@@ -4594,7 +4594,7 @@ final class WP_Customize_Manager {
 
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
-		} elseif ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
+		} elseif ( $referer && ! in_array( wp_basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
 			$return_url = $referer;
 		} elseif ( $this->preview_url ) {
 			$return_url = $this->preview_url;

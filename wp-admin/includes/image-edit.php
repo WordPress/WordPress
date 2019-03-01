@@ -33,7 +33,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 	$backup_sizes = get_post_meta( $post_id, '_wp_attachment_backup_sizes', true );
 	$can_restore  = false;
 	if ( ! empty( $backup_sizes ) && isset( $backup_sizes['full-orig'], $meta['file'] ) ) {
-		$can_restore = $backup_sizes['full-orig']['file'] != basename( $meta['file'] );
+		$can_restore = $backup_sizes['full-orig']['file'] != wp_basename( $meta['file'] );
 	}
 
 	if ( $msg ) {
