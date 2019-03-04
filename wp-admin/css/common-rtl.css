@@ -156,7 +156,7 @@
 	color: #0073aa;
 	z-index: 100000;
 	line-height: normal;
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	text-decoration: none;
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
@@ -191,7 +191,7 @@ p.popular-tags,
 .imgedit-group,
 .comment-ays {
 	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 table.widefat,
@@ -274,7 +274,7 @@ a:focus .media-icon img,
 	color: #124964;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 }
@@ -423,7 +423,7 @@ code {
 	padding: 3px 5px 2px 5px;
 	margin: 0 1px;
 	background: #eaeaea;
-	background: rgba(0,0,0,0.07);
+	background: rgba(0, 0, 0, 0.07);
 	font-size: 13px;
 }
 
@@ -647,7 +647,7 @@ code {
 
 .wrap .page-title-action:focus {
 	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -666,7 +666,7 @@ code {
 div#widgets-right .widget-top:hover,
 #widgets-left .widget-top:hover {
 	border-color: #999;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .sorthelper {
@@ -831,7 +831,7 @@ img.emoji {
 .tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .key-labels label {
@@ -996,7 +996,7 @@ th.action-links {
 	margin: 12px 0 25px;
 	padding: 0 10px;
 	width: 100%;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	border: 1px solid #e5e5e5;
 	background: #fff;
 	color: #555;
@@ -1185,7 +1185,7 @@ th.action-links {
 	width: 24%;
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 .filter-group legend {
@@ -1267,7 +1267,7 @@ th.action-links {
 	margin: 0 5px;
 	padding: 4px 8px;
 	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
 	font-size: 11px;
 }
@@ -1365,7 +1365,7 @@ div.updated,
 div.error {
 	background: #fff;
 	border-right: 4px solid #fff;
-	box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	margin: 5px 15px 2px;
 	padding: 1px 12px;
 }
@@ -1430,7 +1430,7 @@ div.error p,
 
 .notice-dismiss:focus {
 	outline: none;
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .ie8 .notice-dismiss:focus {
@@ -1558,7 +1558,7 @@ div.error {
 	margin: 25px 2px 0 20px;
 	background-color: #fff;
 	border-right: 4px solid #ffba00;
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 ul#dismissed-updates {
@@ -1670,7 +1670,7 @@ form.upgrade .hint {
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-top: none;
-	box-shadow: 0 1px 0 rgba(0,0,0,.025);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.025);
 }
 
 #screen-options-link-wrap,
@@ -1681,7 +1681,7 @@ form.upgrade .hint {
 	border: 1px solid #ddd;
 	border-top: none;
 	background: #fff;
-	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 }
 
 #screen-meta-links .screen-meta-toggle {
@@ -1879,7 +1879,7 @@ form.upgrade .hint {
 	margin: 0 0 0 -1px;
 	border-right: 2px solid #00a0d2;
 	background: #f6fbfd;
-	box-shadow: 0 2px 0 rgba(0,0,0,0.02), 0 1px 0 rgba(0,0,0,0.02);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.02);
 }
 
 .contextual-help-tabs .active a {
@@ -2564,9 +2564,9 @@ div.action-links {
 	padding: 0 15px;
 	margin-top: 174px;
 	color: #fff;
-	background: rgba( 30, 30, 30, 0.9 );
-	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
-	box-shadow: 0 0 30px rgba( 255, 255, 255, 0.1 );
+	background: rgba(30, 30, 30, 0.9);
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
 	border-radius: 8px;
 }
 
@@ -2582,7 +2582,7 @@ div.action-links {
 	height: 250px;
 	width: 100%;
 	background: transparent;
-	box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 0 50px 4px rgba(0, 0, 0, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 #plugin-information-tabs {
@@ -2795,7 +2795,7 @@ div.action-links {
 	max-width: 100%;
 	width: auto;
 	height: auto;
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* rtl:ignore */
@@ -3050,7 +3050,7 @@ img {
 .js .postbox .handlediv:focus .toggle-indicator:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 /* @todo: appears to be Press This only and overridden */
@@ -3145,7 +3145,7 @@ img {
 }
 [role="treeitem"] .folder-label.focus {
 	color: #124964;
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 [role="treeitem"].hover,
 [role="treeitem"] .folder-label.hover {
@@ -3374,7 +3374,7 @@ img {
 .widget-top .widget-action:focus .toggle-indicator:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30,140,190,.8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .control-section .accordion-section-title:after,

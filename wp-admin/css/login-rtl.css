@@ -37,7 +37,7 @@ a:focus {
 	color: #124964;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .ie8 a:focus {
@@ -56,7 +56,7 @@ p {
 	margin-right: 0;
 	margin-bottom: 20px;
 	background-color: #fff;
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .login .success {
@@ -104,7 +104,7 @@ p {
 	font-weight: 400;
 	overflow: hidden;
 	background: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 }
 
 .login form .forgetmenot {

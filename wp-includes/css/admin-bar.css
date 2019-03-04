@@ -144,7 +144,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .shortlink-input {
 	margin: 0;
 	padding: 0;
-	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 	background: #32373c;
 	display: none;
 	position: absolute;
@@ -247,7 +247,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
 	color: #a0a5aa;
-	color: rgba(240,245,250,0.6);
+	color: rgba(240, 245, 250, 0.6);
 }
 
 #wpadminbar .ab-icon:before,
@@ -264,7 +264,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 
 #wpadminbar .ab-submenu .ab-item {
 	color: #b4b9be;
-	color: rgba(240,245,250,0.7);
+	color: rgba(240, 245, 250, 0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a,
@@ -272,7 +272,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .quicklinks .menupop.hover ul li a,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a {
 	color: #b4b9be;
-	color: rgba(240,245,250,0.7);
+	color: rgba(240, 245, 250, 0.7);
 }
 
 #wpadminbar .quicklinks .menupop ul li a:hover,
@@ -633,7 +633,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	padding: 0 3px 0 24px;
 	margin: 0;
 	color: #ccc;
-	background-color: rgba( 255, 255, 255, 0 );
+	background-color: rgba(255, 255, 255, 0);
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -648,7 +648,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	z-index: 10;
 	color: #000;
 	width: 200px;
-	background-color: rgba( 255, 255, 255, 0.9 );
+	background-color: rgba(255, 255, 255, 0.9);
 	cursor: text;
 	border: 0;
 }
@@ -726,7 +726,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 }
 
 /**

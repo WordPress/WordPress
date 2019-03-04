@@ -47,7 +47,7 @@
 .media-frame a:focus {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	color: #124964;
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
@@ -195,7 +195,7 @@
 .media-modal-close:focus {
 	color: #00a0d2;
 	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
@@ -222,7 +222,7 @@
 	bottom: 0;
 	overflow: auto;
 	min-height: 300px;
-	box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
 	background: #fcfcfc;
 	-webkit-font-smoothing: subpixel-antialiased;
 }
@@ -554,7 +554,7 @@
 
 .media-menu > a:hover {
 	color: #0073aa;
-	background: rgba( 0, 0, 0, 0.04 );
+	background: rgba(0, 0, 0, 0.04);
 }
 
 .media-menu > a:active {
@@ -715,7 +715,7 @@
 
 .media-frame.hide-router .media-frame-title {
 	border-bottom: 1px solid #ddd;
-	box-shadow: 0 4px 4px -4px rgba( 0, 0, 0, 0.1 );
+	box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.1);
 }
 
 .media-frame-title .dashicons {
@@ -861,8 +861,8 @@
 .wp-core-ui .attachment-preview {
 	position: relative;
 	box-shadow:
-		inset 0 0 15px rgba( 0, 0, 0, 0.1 ),
-		inset 0 0 0 1px rgba( 0, 0, 0, 0.05 );
+		inset 0 0 15px rgba(0, 0, 0, 0.1),
+		inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 	background: #eee;
 	cursor: pointer;
 }
@@ -905,7 +905,7 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 }
 
@@ -946,8 +946,8 @@
 	word-wrap: break-word;
 	text-align: center;
 	font-weight: 600;
-	background: rgba( 255, 255, 255, 0.8 );
-	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.15 );
+	background: rgba(255, 255, 255, 0.8);
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .wp-core-ui .attachment .filename div {
@@ -969,7 +969,7 @@
 	background-color: #fff;
 	background-position: -96px 4px;
 	border-radius: 3px;
-	box-shadow: 0 0 0 1px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
 	transition: none;
 }
 
@@ -991,7 +991,7 @@
 	outline: none;
 	background: #eee;
 	cursor: pointer;
-	box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba( 0, 0, 0, 0.15 );
+	box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
 
 .wp-core-ui .attachment .check .media-modal-icon {
@@ -1124,7 +1124,7 @@
 
 .uploader-inline .close:focus {
 	outline: 1px solid #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 }
 
 .attachments-browser.hide-sidebar .attachments,
@@ -1156,7 +1156,7 @@
 	margin: 10px auto;
 	border-radius: 10px;
 	background: #ddd;
-	background: rgba( 0, 0, 0, 0.1 );
+	background: rgba(0, 0, 0, 0.1);
 }
 
 .media-progress-bar div {
@@ -1278,7 +1278,7 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	background: rgba( 0, 86, 132, 0.9 );
+	background: rgba(0, 86, 132, 0.9);
 	z-index: 250000;
 	display: none;
 	text-align: center;
@@ -1520,7 +1520,7 @@
 	left: 0;
 	bottom: 0;
 	width: 25px;
-	background-image: linear-gradient(to right, rgba( 255, 255, 255, 1 ), rgba( 255, 255, 255, 0 ));
+	background-image: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
 }
 
 .media-selection .attachment .filename {
@@ -1612,7 +1612,7 @@
 .uploading .attachment-info .thumbnail {
 	width: 120px;
 	height: 80px;
-	box-shadow: inset 0 0 15px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .uploading .attachment-info .media-progress-bar {
@@ -1627,7 +1627,7 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.15 );
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 	overflow: hidden;
 }
 
@@ -1792,7 +1792,7 @@
 .wp-core-ui.media-modal .image-editor .imgedit-help-toggle:focus {
 	color: #0074a2;
 	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
@@ -1841,7 +1841,7 @@
 	padding: 12px 14px;
 	width: 100%;
 	min-width: 200px;
-	box-shadow: inset -2px 2px 4px -2px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset -2px 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .media-frame .embed-url .spinner {
@@ -1889,7 +1889,7 @@
 
 .mejs-container:focus {
 	outline: 1px solid #5b9dd9;
-	box-shadow: 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .image-details .media-modal {
@@ -2028,7 +2028,7 @@
 	right: 0;
 	left: 0;
 	bottom: 0;
-	box-shadow: inset 0 0 0 1px rgba( 0, 0, 0, 0.1 );
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 }
 
@@ -2116,7 +2116,7 @@
 
 /* Drag & drop on the editor upload */
 .wp-editor-wrap .uploader-editor {
-	background: rgba( 150, 150, 150, 0.9 );
+	background: rgba(150, 150, 150, 0.9);
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -2152,7 +2152,7 @@
 }
 
 .wp-editor-wrap .uploader-editor.droppable {
-	background: rgba( 0, 86, 132, 0.9 );
+	background: rgba(0, 86, 132, 0.9);
 }
 
 .wp-editor-wrap .uploader-editor.droppable .uploader-editor-title {

@@ -154,7 +154,7 @@ body.post-new-php .submitbox .submitdelete {
 	position: relative;
 	min-width: 255px;
 	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
 }
 
@@ -312,7 +312,7 @@ form#tags-filter {
 	border: 1px solid #e5e5e5;
 	border-top: none;
 	background-color: #f7f7f7;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	z-index: 999;
 }
 
@@ -506,7 +506,7 @@ span.wp-media-buttons-icon:before {
 	width: 450px;
 	margin-right: -225px;
 	background: #fff;
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	line-height: 1.5;
 	z-index: 1000005;
 	overflow-y: auto;

@@ -30,7 +30,7 @@
 	padding: 30px 0 0;
 	background-color: #f1f1f1;
 	z-index: 1000011; /* needs to appear above #wp-auth-check-bg */
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 @media screen and (max-width: 380px) {

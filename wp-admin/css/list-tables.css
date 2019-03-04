@@ -506,7 +506,7 @@ th.asc a:focus span.sorting-indicator:before {
 .wp-list-table .toggle-row:focus:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .ie8 .wp-list-table .toggle-row:focus:before {
@@ -1211,15 +1211,15 @@ ul.cat-checklist {
 .plugin-install #the-list td,
 .upgrade .plugins td,
 .upgrade .plugins th {
-	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .plugins tr.active.plugin-update-tr + tr.inactive th,
 .plugins tr.active.plugin-update-tr + tr.inactive td,
 .plugins tr.active + tr.inactive th,
 .plugins tr.active + tr.inactive td {
-	border-top: 1px solid rgba(0,0,0,0.03);
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.02), inset 0 -1px 0 #e1e1e1;
+	border-top: 1px solid rgba(0, 0, 0, 0.03);
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02), inset 0 -1px 0 #e1e1e1;
 }
 
 .plugins .update td,
@@ -1257,7 +1257,7 @@ ul.cat-checklist {
 .plugins .plugin-title .dashicons:before {
 	padding: 2px;
 	background-color: #eee;
-	box-shadow: inset 0 0 10px rgba(160,165,170,.15);
+	box-shadow: inset 0 0 10px rgba(160, 165, 170, 0.15);
 	font-size: 60px;
 	color: #B4B9BE;
 }
@@ -1290,7 +1290,7 @@ ul.cat-checklist {
 }
 
 .plugins .plugin-update-tr .plugin-update {
-	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	overflow: hidden; /* clearfix */
 	padding: 0;
 }
@@ -2132,7 +2132,7 @@ div.action-links,
 
 	table.plugin-install #the-list tr {
 		display: block;
-		box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+		box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 	}
 
 	.plugin-card {

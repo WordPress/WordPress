@@ -629,7 +629,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .item-edit:focus:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 /* Menu editing */
@@ -645,7 +645,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	z-index: 10; /* Keep .item-title's shadow from appearing on top of .menu-item-settings */
 	border: 1px solid #e5e5e5;
 	border-top: none;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
 .menu-item-settings .field-move {

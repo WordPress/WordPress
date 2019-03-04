@@ -222,7 +222,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: rgba( 0, 0, 0, .5 );
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .media-widget-gallery-preview .gallery-icon-placeholder-text {
@@ -308,7 +308,7 @@
 .sidebar-name .handlediv:focus .toggle-indicator:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .sidebar-name h2,
@@ -482,7 +482,7 @@ div#widgets-right .closed .widgets-sortables {
 /* Dragging a widget over a closed sidebar */
 #widgets-right .widgets-holder-wrap.widget-hover {
 	border-color: #72777c;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Accessibility Mode */
@@ -639,7 +639,7 @@ div#widgets-right .closed .widgets-sortables {
 div#widgets-right .widget-top:hover,
 #widgets-left .widget-top:hover {
 	border-color: #999;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .widgets-chooser ul.widgets-chooser-sidebars {

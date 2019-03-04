@@ -870,7 +870,7 @@ li.assigned-to-menu-location .add-new-menu-item {
 #available-menu-items .item-add:focus:before {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 

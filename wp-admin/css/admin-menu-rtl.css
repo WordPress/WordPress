@@ -166,7 +166,7 @@
 
 #adminmenu .wp-submenu a {
 	color: #b4b9be;
-	color: rgba(240,245,250,0.7);
+	color: rgba(240, 245, 250, 0.7);
 }
 
 #adminmenu .wp-submenu a:hover,
@@ -202,7 +202,7 @@
 	padding: 7px 0 8px;
 	z-index: 9999;
 	background-color: #32373c;
-	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .js #adminmenu .sub-open,
@@ -359,14 +359,14 @@
 
 div.wp-menu-image:before {
 	color: #a0a5aa;
-	color: rgba(240,245,250,0.6);
+	color: rgba(240, 245, 250, 0.6);
 	padding: 7px 0;
 	transition: all .1s ease-in-out;
 }
 
 #adminmenu div.wp-menu-image:before {
 	color: #a0a5aa;
-	color: rgba(240,245,250,0.6);
+	color: rgba(240, 245, 250, 0.6);
 }
 
 #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before,

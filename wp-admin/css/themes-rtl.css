@@ -60,7 +60,7 @@ body.js .theme-browser.search-loading {
 	position: relative;
 	width: 30.6%;
 	border: 1px solid #ddd;
-	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
 }
 
@@ -84,12 +84,12 @@ body.js .theme-browser.search-loading {
 	height: 18px;
 	margin: 0;
 	padding: 15px;
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	background: #fff;
-	background: rgba(255,255,255,0.65);
+	background: rgba(255, 255, 255, 0.65);
 }
 
 /* Activate and Customize buttons, shown on hover and focus */
@@ -99,7 +99,7 @@ body.js .theme-browser.search-loading {
 	transition: opacity 0.1s ease-in-out;
 	height: auto;
 	background: rgba(244, 244, 244, 0.7);
-	border-right: 1px solid rgba(0,0,0,0.05);
+	border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .theme-browser .theme:hover .theme-actions,
@@ -165,10 +165,10 @@ body.js .theme-browser.search-loading {
 	left: 20%;
 	right: 20%;
 	background: #23282d;
-	background: rgba(0,0,0,0.7);
+	background: rgba(0, 0, 0, 0.7);
 	color: #fff;
 	font-size: 15px;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 	-webkit-font-smoothing: antialiased;
 	font-weight: 600;
 	padding: 15px 12px;
@@ -179,7 +179,7 @@ body.js .theme-browser.search-loading {
 
 .theme-browser .theme:focus {
 	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }
 
 .theme-browser .theme:focus .more-details {
@@ -205,7 +205,7 @@ body.js .theme-browser.search-loading {
 	color: #fff;
 	padding-left: 110px;
 	font-weight: 300;
-	box-shadow: inset 0 1px 1px rgba(0,0,0,0.5);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .theme-browser .customize-control .theme.active .theme-name {
@@ -217,7 +217,7 @@ body.js .theme-browser.search-loading {
 }
 
 .theme-browser .theme.active .theme-actions {
-	background: rgba(49,49,49,0.7);
+	background: rgba(49, 49, 49, 0.7);
 	border-right: none;
 	opacity: 1;
 }
@@ -233,7 +233,7 @@ body.js .theme-browser.search-loading {
 	transform: translateY(-50%);
 	left: 0;
 	padding: 10px 15px;
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .theme-browser .theme.active .theme-actions .button-primary {
@@ -367,7 +367,7 @@ body.js .theme-browser.search-loading {
 	top: 0;
 	bottom: 0;
 	background: #f1f1f1;
-	background: rgba( 238, 238, 238, 0.9 );
+	background: rgba(238, 238, 238, 0.9);
 	z-index: 10000; /* Over WP Pointers. */
 }
 
@@ -573,7 +573,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	box-sizing: border-box;
 	overflow: hidden;
 	position: relative;
-	box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .theme-overlay .screenshot:after {
@@ -1166,13 +1166,13 @@ div#custom-background-image img {
 .background-position-control input[type="radio"]:checked ~ .button {
 	background: #eee;
 	border-color: #999;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	z-index: 1;
 }
 
 .background-position-control input[type="radio"]:focus ~ .button {
 	border-color: #5b9dd9;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 ), 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 115, 170, 0.8);
 	color: #23282d;
 }
 
@@ -1529,7 +1529,7 @@ body.full-overlay-active {
 .wp-full-overlay .collapse-sidebar:focus .collapse-sidebar-arrow {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .wp-full-overlay .collapse-sidebar-label {

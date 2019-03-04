@@ -149,7 +149,7 @@ TABLE OF CONTENTS:
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus {
 	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 }
 
 .wp-core-ui .button.active,
@@ -158,15 +158,15 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-secondary:active {
 	background: #eee;
 	border-color: #999;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
 }
 
 .wp-core-ui .button.active:focus {
 	border-color: #5b9dd9;
 	box-shadow:
-		inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ),
-		0 0 3px rgba( 0, 115, 170, .8 );
+		inset 0 2px 5px -3px rgba(0, 0, 0, 0.5),
+		0 0 3px rgba(0, 115, 170, 0.8);
 }
 
 .wp-core-ui .button[disabled],
@@ -212,7 +212,7 @@ TABLE OF CONTENTS:
 	color: #124964;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 1px solid transparent;
 }
@@ -279,7 +279,7 @@ TABLE OF CONTENTS:
 	background: #008ec2 !important;
 	border-color: #007cb2 !important;
 	box-shadow: none !important;
-	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
 	cursor: default;
 }
 

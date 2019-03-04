@@ -7,7 +7,7 @@
 }
 
 .revisions-diff-frame {
-    top: 10px;
+	top: 10px;
 }
 
 .revisions-controls {
@@ -26,7 +26,7 @@
 	top: 0;
 	height: 82px;
 	background: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .revisions-tickmarks {
@@ -113,8 +113,8 @@ body.folded .revisions .loading-indicator {
 .revisions-meta {
 	margin-top: 20px;
 	background-color: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
 }
 
 .revisions.pinned .revisions-meta {
@@ -176,7 +176,7 @@ body.folded .revisions .loading-indicator {
 .revisions-diff {
 	padding: 15px;
 	background-color: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .revisions-diff h3:first-child {
@@ -401,7 +401,7 @@ table.diff .diff-addedline ins {
 .arrow:after {
 	z-index: 9999;
 	background-color: #fff;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .arrow.top {
@@ -474,7 +474,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 .wp-slider .ui-slider-handle.ui-state-active {
 	background: #eee;
 	border-color: #999;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
 }
 
@@ -569,30 +569,33 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	#diff-previous-revision {
 		margin-top: -1em;
 	}
-        .revisions-buttons {
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
 
-        .revisions-controls,
-		.comparing-two-revisions .revisions-controls {
-            height: 170px;
-        }
+	.revisions-buttons {
+		overflow: hidden;
+		margin-bottom: 15px;
+	}
 
-        .revisions-tooltip {
-            bottom: 130px;
-            z-index: 2;
-        }
+	.revisions-controls,
+	.comparing-two-revisions .revisions-controls {
+		height: 170px;
+	}
 
-        .diff-meta {
-            overflow: hidden;
-        }
+	.revisions-tooltip {
+		bottom: 130px;
+		z-index: 2;
+	}
+
+	.diff-meta {
+		overflow: hidden;
+	}
+
 	table.diff {
 		-ms-word-break: break-all;
 		word-break: break-all;
 		word-wrap: break-word;
 	}
-        .diff-meta input.restore-revision {
-            margin-top: 0;
-        }
+
+	.diff-meta input.restore-revision {
+		margin-top: 0;
+	}
 }

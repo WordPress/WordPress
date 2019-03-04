@@ -70,7 +70,7 @@ body {
 	color: #82878c;
 	background: #fff;
 	border: 1px solid #e5e5e5;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	/* Clearfix */
 	overflow: auto;
 	zoom: 1;
@@ -216,7 +216,7 @@ p.wp-embed-heading {
 
 .wp-embed-share-dialog-open:focus .dashicons,
 .wp-embed-share-dialog-close:focus .dashicons {
-	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 	border-radius: 100%;
 }
 

@@ -34,7 +34,7 @@
 
 .mce-window {
 	border-radius: 0;
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	-webkit-font-smoothing: subpixel-antialiased;
 	transition: none;
 }
@@ -88,7 +88,7 @@
 .mce-window-head .mce-close:focus .mce-i-remove,
 div.mce-tab:focus {
 	box-shadow: 0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 .mce-window .mce-window-head .mce-dragh {
@@ -104,7 +104,7 @@ div.mce-tab:focus {
 #wp-link .query-results {
 	border: 1px solid #ddd;
 	border-radius: 0;
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.07);
 	transition: .05s all ease-in-out;
 }
 
@@ -113,7 +113,7 @@ div.mce-tab:focus {
 .mce-checkbox:focus i.mce-i-checkbox,
 #wp-link .query-results:focus {
 	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba(30,140,190,0.8);
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }
 
 .mce-window .mce-wp-help {
@@ -189,7 +189,7 @@ div.mce-tab:focus {
 	font-weight: 600;
 	margin: 0;
 	background: #eaeaea;
-	background: rgba(0,0,0,0.08);
+	background: rgba(0, 0, 0, 0.08);
 }
 
 .mce-window .wp-help-th-center td:nth-child(odd),
@@ -200,9 +200,9 @@ div.mce-tab:focus {
 /* TinyMCE menus */
 .mce-menu,
 .mce-floatpanel.mce-popover {
-	border-color: rgba(0,0,0,0.15);
+	border-color: rgba(0, 0, 0, 0.15);
 	border-radius: 0;
-	box-shadow: 0 3px 5px rgba( 0, 0, 0, 0.2 );
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .mce-menu,
@@ -253,7 +253,7 @@ div.mce-toolbar-grp {
 div.mce-inline-toolbar-grp {
 	border: 1px solid #a0a5aa;
 	border-radius: 2px;
-	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.15 );
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 	box-sizing: border-box;
 	margin-bottom: 8px;
 	position: absolute;
@@ -413,7 +413,7 @@ div.mce-path {
 	background: #fafafa;
 	border-color: #555d66;
 	color: #23282d;
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
+	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0, 0, 0, 0.08);
 	outline: none;
 }
 
@@ -422,7 +422,7 @@ div.mce-path {
 .qt-dfw.active {
 	background: #ebebeb;
 	border-color: #555d66;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.3 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.3);
 }
 
 .mce-btn.mce-active,
@@ -534,7 +534,7 @@ div.mce-path {
 	direction: rtl;
 	background: #fff;
 	border: 1px solid #ddd;
-	box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, .2);
+	box-shadow: inset 0 1px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-listbox:hover,
@@ -639,7 +639,7 @@ div.mce-menubar {
 	color: #124964;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 div.mce-menu .mce-menu-item-sep,
@@ -711,13 +711,13 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-window .mce-btn:focus {
 	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 }
 
 .mce-window .mce-btn:active {
 	background: #eee;
 	border-color: #999;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
 }
 
@@ -767,7 +767,7 @@ div.mce-menu .mce-menu-item-sep,
 	background: #008ec2 !important;
 	border-color: #007cb2 !important;
 	box-shadow: none !important;
-	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
 	cursor: default;
 }
 
@@ -810,7 +810,7 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-tooltip-inner {
 	border-radius: 3px;
-	box-shadow: 0 3px 5px rgba( 0, 0, 0, 0.2 );
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 	color: #fff;
 	font-size: 12px;
 }
@@ -1140,7 +1140,7 @@ i.mce-i-wp_code:before {
 .wp-switch-editor:focus {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	outline: none;
 	color: #23282d;
 }
@@ -1361,7 +1361,7 @@ i.mce-i-wp_code:before {
 #wp-link-wrap {
 	display: none;
 	background-color: #fff;
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	width: 500px;
 	overflow: hidden;
 	margin-right: -250px;
@@ -1450,7 +1450,7 @@ i.mce-i-wp_code:before {
 	outline: none;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 #wp-link-wrap #link-selector {
@@ -1796,7 +1796,7 @@ div.wp-link-input input {
 	list-style: none;
 	position: absolute;
 	border: 1px solid #5b9dd9;
-	box-shadow: 0 1px 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 1px 2px rgba(30, 140, 190, 0.8);
 	background-color: #fff;
 }
 

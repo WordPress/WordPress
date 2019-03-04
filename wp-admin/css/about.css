@@ -67,9 +67,9 @@
 	padding: 40px 10px 15px;
 	overflow: auto;
 	box-sizing: border-box;
-	background: linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.3) 60%,transparent);
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3) 60%, transparent);
 	font-weight: 600;
-	text-shadow: 0px 0px 5px rgba(0,0,0,.75);
+	text-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
 }
 
 .about-wrap .jetpack-video-wrapper {
@@ -92,7 +92,7 @@
 	display: inline-block;
 	width: 140px;
 	text-rendering: optimizeLegibility;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .svg .wp-badge {

@@ -112,7 +112,7 @@
 .control-section.accordion-section.highlighted > .accordion-section-title,
 .customize-control-widget_form.highlighted {
 	outline: none;
-	box-shadow: 0 0 2px rgba(30,140,190,0.8);
+	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 	position: relative;
 	z-index: 1;
 }
@@ -189,7 +189,7 @@
 
 #customize-theme-controls .widget-area-select .selected {
 	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0,0,0,.4);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
 	background: #00a0d2;
 }
 

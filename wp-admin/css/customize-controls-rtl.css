@@ -21,7 +21,7 @@ body {
 }
 
 #customize-controls #customize-notifications-area .notice.notification-overlay.notification-changeset-locked {
-	background-color: rgba( 0, 0, 0, 0.7 );
+	background-color: rgba(0, 0, 0, 0.7);
 	padding: 25px;
 }
 
@@ -34,7 +34,7 @@ body {
 	padding: 25px 109px 25px 25px;
 	position: relative;
 	background: #fff;
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	line-height: 1.5;
 	overflow-y: auto;
 	text-align: right;
@@ -392,7 +392,7 @@ body.trashing #publish-settings {
 	position: absolute;
 	z-index: 9;
 	width: 100%;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 #customize-controls .customize-section-title.is-in-view {
@@ -1532,7 +1532,7 @@ p.customize-section-description {
 	outline: none;
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 3px 1px rgba(30, 140, 190, .8);
+		0 0 3px 1px rgba(30, 140, 190, 0.8);
 }
 
 .customize-control-header .uploaded div:last-child > .choice {
@@ -1624,7 +1624,7 @@ p.customize-section-description {
 .theme-browser .theme.active .theme-actions,
 .wp-customizer .theme-browser .theme .theme-actions {
 	padding: 10px 15px;
-	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 @media screen and (max-width: 640px) {
@@ -1786,7 +1786,7 @@ p.customize-section-description {
 .themes-filter-bar .feature-filter-toggle.open {
 	background: #eee;
 	border-color: #999;
-	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 	transform: translateY(1px);
 }
 
@@ -2245,7 +2245,7 @@ p.customize-section-description {
 }
 
 .wp-customizer .theme-overlay .theme-backdrop {
-	background: rgba( 238, 238, 238, 0.75 );
+	background: rgba(238, 238, 238, 0.75);
 	position: fixed;
 	z-index: 110;
 }
@@ -2345,7 +2345,7 @@ body.cheatin {
 	padding: 1em 2em;
 	max-width: 700px;
 	min-width: 0;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 }
 
 body.cheatin h1 {
@@ -2643,7 +2643,7 @@ body.adding-widget .add-new-widget:before,
 #available-menu-items-search .clear-results:focus {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 }
 
 #available-menu-items-search .search-icon:after,
@@ -2942,7 +2942,7 @@ body.adding-widget .add-new-widget:before,
 	.theme-browser .theme.active .theme-actions,
 	.wp-customizer .theme-browser .theme .theme-actions {
 		padding: 9px 15px;
-		box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+		box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.1);
 	}
 }
 

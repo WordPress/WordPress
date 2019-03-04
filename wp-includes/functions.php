@@ -3092,8 +3092,8 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			margin: 2em auto;
 			padding: 1em 2em;
 			max-width: 700px;
-			-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
-			box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+			-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 		}
 		h1 {
 			border-bottom: 1px solid #dadada;
@@ -3130,10 +3130,10 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			color: #124964;
 			-webkit-box-shadow:
 				0 0 0 1px #5b9dd9,
-				0 0 2px 1px rgba(30, 140, 190, .8);
+				0 0 2px 1px rgba(30, 140, 190, 0.8);
 			box-shadow:
 				0 0 0 1px #5b9dd9,
-				0 0 2px 1px rgba(30, 140, 190, .8);
+				0 0 2px 1px rgba(30, 140, 190, 0.8);
 			outline: none;
 		}
 		.button {
@@ -3174,18 +3174,18 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			color: #23282d;
 		}
 
-		.button:focus  {
+		.button:focus {
 			border-color: #5b9dd9;
-			-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
-			box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+			-webkit-box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+			box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 			outline: none;
 		}
 
 		.button:active {
 			background: #eee;
 			border-color: #999;
-			 -webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
-			 box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+			 -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+			 box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
 			 -webkit-transform: translateY(1px);
 			 -ms-transform: translateY(1px);
 			 transform: translateY(1px);

@@ -164,7 +164,7 @@
 	overflow: hidden;
 	border-radius: 22px;
 	background: #ddd;
-	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .media-item .bar {
@@ -174,7 +174,7 @@
 	margin-top: -22px;
 	border-radius: 22px;
 	background-color: #0073aa;
-	box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+	box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
 .media-item .progress .percent {
@@ -186,7 +186,7 @@
 	text-align: center;
 	line-height: 22px;
 	font-weight: 400;
-	text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .upload-php .fixed .column-parent {
@@ -222,7 +222,7 @@
 
 .find-box {
 	background-color: #fff;
-	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 	width: 600px;
 	overflow: hidden;
 	margin-left: -300px;
@@ -312,7 +312,7 @@
 #find-posts-close:focus {
 	box-shadow:
 		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+		0 0 2px 1px rgba(30, 140, 190, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 	outline-offset: -2px;
@@ -1091,7 +1091,7 @@ border color while dragging a file over the uploader drop area */
 .image-editor .imgedit-settings .imgedit-help-toggle:focus {
 	color: #0074a2;
 	border-color: #5b9dd9;
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
 	/* Only visible in Windows High Contrast mode */
 	outline: 2px solid transparent;
 }
