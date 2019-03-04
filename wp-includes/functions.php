@@ -6300,4 +6300,10 @@ function wp_privacy_delete_old_export_files() {
 			unlink( $export_file );
 		}
 	}
+	/**
+	 * Fixed:If I add an Embed Block to a Reusable Block, only the URL is output.
+ 	*/
+
+	global $wp_embed;
+	add_filter( 'the_content', array( $wp_embed, 'autoembed' ), 9 );
 }
