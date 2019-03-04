@@ -2016,6 +2016,7 @@ final class WP_Privacy_Policy_Content {
  * Checks if the user needs to update PHP.
  *
  * @since 5.1.0
+ * @since 5.1.1 Added the {@see 'wp_is_php_version_acceptable'} filter.
  *
  * @return array|false $response Array of PHP version data. False on failure.
  */
@@ -2052,6 +2053,23 @@ function wp_check_php_version() {
 		}
 
 		set_site_transient( 'php_check_' . $key, $response, WEEK_IN_SECONDS );
+	}
+
+	if ( isset( $response['is_acceptable'] ) && $response['is_acceptable'] ) {
+		/**
+		 * Filters whether the active PHP version is considered acceptable by WordPress.
+		 *
+		 * Returning false will trigger a PHP version warning to show up in the admin dashboard to administrators.
+		 *
+		 * This filter is only run if the wordpress.org Serve Happy API considers the PHP version acceptable, ensuring
+		 * that this filter can only make this check stricter, but not loosen it.
+		 *
+		 * @since 5.1.1
+		 *
+		 * @param bool   $is_acceptable Whether the PHP version is considered acceptable. Default true.
+		 * @param string $version       PHP version checked.
+		 */
+		$response['is_acceptable'] = (bool) apply_filters( 'wp_is_php_version_acceptable', true, $version );
 	}
 
 	return $response;
