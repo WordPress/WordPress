@@ -634,11 +634,11 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			if ( ! $compatible_php || ! $compatible_wp ) {
 				echo '<div class="notice inline notice-error notice-alt"><p>';
 				if ( ! $compatible_php && ! $compatible_wp ) {
-					_e( 'This plugin doesn&#8217;t work with your versions of WordPress and PHP. ' );
+					_e( 'This plugin doesn&#8217;t work with your versions of WordPress and PHP.' );
 					if ( current_user_can( 'update_core' ) && current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: 1: "Update WordPress" screen URL, 2: "Update PHP" page URL */
-							__( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
+							' ' . __( '<a href="%1$s">Please update WordPress</a>, and then <a href="%2$s">learn more about updating PHP</a>.' ),
 							self_admin_url( 'update-core.php' ),
 							esc_url( wp_get_update_php_url() )
 						);
@@ -646,32 +646,32 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					} elseif ( current_user_can( 'update_core' ) ) {
 						printf(
 							/* translators: %s: "Update WordPress" screen URL */
-							__( '<a href="%s">Please update WordPress</a>.' ),
+							' ' . __( '<a href="%s">Please update WordPress</a>.' ),
 							self_admin_url( 'update-core.php' )
 						);
 					} elseif ( current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: %s: "Update PHP" page URL */
-							__( '<a href="%s">Learn more about updating PHP</a>.' ),
+							' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
 							esc_url( wp_get_update_php_url() )
 						);
 						wp_update_php_annotation();
 					}
 				} elseif ( ! $compatible_wp ) {
-					_e( 'This plugin doesn&#8217;t work with your version of WordPress. ' );
+					_e( 'This plugin doesn&#8217;t work with your version of WordPress.' );
 					if ( current_user_can( 'update_core' ) ) {
 						printf(
 							/* translators: %s: "Update WordPress" screen URL */
-							__( '<a href="%s">Please update WordPress</a>.' ),
+							' ' . __( '<a href="%s">Please update WordPress</a>.' ),
 							self_admin_url( 'update-core.php' )
 						);
 					}
 				} elseif ( ! $compatible_php ) {
-					_e( 'This plugin doesn&#8217;t work with your version of PHP. ' );
+					_e( 'This plugin doesn&#8217;t work with your version of PHP.' );
 					if ( current_user_can( 'update_php' ) ) {
 						printf(
 							/* translators: %s: "Update PHP" page URL */
-							__( '<a href="%s">Learn more about updating PHP</a>.' ),
+							' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
 							esc_url( wp_get_update_php_url() )
 						);
 						wp_update_php_annotation();
