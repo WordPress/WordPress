@@ -32,7 +32,7 @@ window.addComment = ( function( window ) {
 	 * Check browser supports dataset.
 	 * !! sets the variable to true if the property exists.
 	 */
-	var supportsDataset = !! document.body.dataset;
+	var supportsDataset = !! document.documentElement.dataset;
 
 	// For holding the cancel element.
 	var cancelElement;
@@ -46,11 +46,24 @@ window.addComment = ( function( window ) {
 	// The mutation observer.
 	var observer;
 
-	// Initialise the events.
-	init();
+	if ( cutsTheMustard && document.readyState !== 'loading' ) {
+		ready();
+	} else if ( cutsTheMustard ) {
+		window.addEventListener( 'DOMContentLoaded', ready, false );
+	}
 
-	// Set up a MutationObserver to check for comments loaded late.
-	observeChanges();
+	/**
+	 * Sets up object variables after the DOM is ready.
+	 *
+	 * @since 5.1.1
+	 */
+	function ready() {
+		// Initialise the events.
+		init();
+
+		// Set up a MutationObserver to check for comments loaded late.
+		observeChanges();
+	}
 
 	/**
 	 * Add events to links classed .comment-reply-link.
@@ -162,6 +175,14 @@ window.addComment = ( function( window ) {
 			respondId = getDataAttribute( replyLink, 'respondelement'),
 			postId    = getDataAttribute( replyLink, 'postid'),
 			follow;
+
+		if ( ! commId || ! parentId || ! respondId || ! postId ) {
+			/*
+			 * Theme or plugin defines own link via custom `wp_list_comments()` callback
+			 * and calls `moveForm()` either directly or via a custom event hook.
+			 */
+			return;
+		}
 
 		/*
 		 * Third party comments systems can hook into this function via the global scope,
