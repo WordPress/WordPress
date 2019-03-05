@@ -161,7 +161,6 @@ ul.add-menu-item-tabs li {
 	margin-right: 20px;
 	margin-top: -3px;
 	width: 100%;
-	background: #f5f5f5;
 }
 
 #menu-management .menu-edit {
@@ -178,6 +177,7 @@ ul.add-menu-item-tabs li {
 #nav-menu-header,
 #nav-menu-footer {
 	padding: 0 10px;
+	background: #f5f5f5;
 }
 
 #nav-menu-header {
