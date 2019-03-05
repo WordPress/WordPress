@@ -69,6 +69,10 @@ function wp_insert_site( array $data ) {
 
 	$new_site = get_site( $wpdb->insert_id );
 
+	if ( ! $new_site ) {
+		return new WP_Error( 'get_site_error', __( 'Could not retrieve site data.' ) );
+	}
+
 	clean_blog_cache( $new_site );
 
 	/**
