@@ -1379,6 +1379,7 @@ p.customize-section-description {
 }
 
 .customize-control .attachment-media-view .placeholder,
+.customize-control .attachment-media-view .button-add-media,
 .customize-control-header .placeholder {
 	width: 100%;
 	position: relative;
@@ -1388,6 +1389,26 @@ p.customize-section-description {
 	box-sizing: border-box;
 	padding: 9px 0;
 	line-height: 20px;
+}
+
+.customize-control .attachment-media-view .button-add-media {
+	cursor: pointer;
+	background-color: #edeff0;
+	color: #32373c;
+}
+
+.customize-control .attachment-media-view .button-add-media:hover {
+	background-color: #fbfbfc;
+}
+
+.customize-control .attachment-media-view .button-add-media:focus {
+	background-color: #fbfbfc;
+	border-style: solid;
+	border-color: #5b9dd9;
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .customize-control-header .inner {

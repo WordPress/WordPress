@@ -84,6 +84,7 @@
 	margin-right: 8px;
 }
 
+.media-widget-control .attachment-media-view .button-add-media,
 .media-widget-control .placeholder {
 	border: 1px dashed #b4b9be;
 	box-sizing: border-box;
@@ -93,6 +94,26 @@
 	position: relative;
 	text-align: center;
 	width: 100%;
+}
+
+.media-widget-control .attachment-media-view .button-add-media {
+	cursor: pointer;
+	background-color: #edeff0;
+	color: #32373c;
+}
+
+.media-widget-control .attachment-media-view .button-add-media:hover {
+	background-color: #fbfbfc;
+}
+
+.media-widget-control .attachment-media-view .button-add-media:focus {
+	background-color: #fbfbfc;
+	border-style: solid;
+	border-color: #5b9dd9;
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	/* Only visible in Windows High Contrast mode */
+	outline: 2px solid transparent;
+	outline-offset: -2px;
 }
 
 .media-widget-control .media-widget-preview {

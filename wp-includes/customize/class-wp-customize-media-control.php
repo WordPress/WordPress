@@ -132,12 +132,11 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	public function content_template() {
 		?>
 		<#
-		var selectButtonId = _.uniqueId( 'customize-media-control-button-' );
 		var descriptionId = _.uniqueId( 'customize-media-control-description-' );
 		var describedByAttr = data.description ? ' aria-describedby="' + descriptionId + '" ' : '';
 		#>
 		<# if ( data.label ) { #>
-			<label class="customize-control-title" for="{{ selectButtonId }}">{{ data.label }}</label>
+			<span class="customize-control-title">{{ data.label }}</span>
 		<# } #>
 		<div class="customize-control-notifications-container"></div>
 		<# if ( data.description ) { #>
@@ -182,21 +181,18 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 				<div class="actions">
 					<# if ( data.canUpload ) { #>
 					<button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
-					<button type="button" class="button upload-button control-focus" id="{{ selectButtonId }}" {{{ describedByAttr }}}>{{ data.button_labels.change }}</button>
+					<button type="button" class="button upload-button control-focus" {{{ describedByAttr }}}>{{ data.button_labels.change }}</button>
 					<# } #>
 				</div>
 			</div>
 		<# } else { #>
 			<div class="attachment-media-view">
-				<div class="placeholder">
-						{{ data.button_labels.placeholder }}
-				</div>
+				<# if ( data.canUpload ) { #>
+					<button type="button" class="upload-button button-add-media" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
+				<# } #>
 				<div class="actions">
 					<# if ( data.defaultAttachment ) { #>
 						<button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
-					<# } #>
-					<# if ( data.canUpload ) { #>
-					<button type="button" class="button upload-button" id="{{ selectButtonId }}" {{{ describedByAttr }}}>{{ data.button_labels.select }}</button>
 					<# } #>
 				</div>
 			</div>
@@ -241,6 +237,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 			case 'image':
 				return array(
 					'select'       => __( 'Select image' ),
+					'site_icon'    => __( 'Select site icon' ),
 					'change'       => __( 'Change image' ),
 					'default'      => __( 'Default' ),
 					'remove'       => __( 'Remove' ),
