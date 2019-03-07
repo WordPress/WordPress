@@ -115,7 +115,7 @@ wp.customHtmlWidgets = ( function( $ ) {
 			control.contentUpdateBypassed = control.fields.content.is( document.activeElement ) || control.editor && control.editor.codemirror.state.focused || 0 !== control.currentErrorAnnotations.length;
 			if ( ! control.contentUpdateBypassed ) {
 				syncInput = control.syncContainer.find( '.sync-input.content' );
-				control.fields.content.val( syncInput.val() ).trigger( 'change' );
+				control.fields.content.val( syncInput.val() );
 			}
 		},
 
