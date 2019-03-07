@@ -26,11 +26,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	/**
 	 * @global string $usersearch
 	 * @global string $role
-	 * @global wpdb   $wpdb
 	 * @global string $mode
 	 */
 	public function prepare_items() {
-		global $usersearch, $role, $wpdb, $mode;
+		global $usersearch, $role, $mode;
 
 		$usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
 
@@ -56,8 +55,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 
 		if ( $role === 'super' ) {
-			$logins          = implode( "', '", get_super_admins() );
-			$args['include'] = $wpdb->get_col( "SELECT ID FROM $wpdb->users WHERE user_login IN ('$logins')" );
+			$args['login__in'] = get_super_admins();
 		}
 
 		/*
