@@ -6075,38 +6075,38 @@ body.page .main-navigation {
   color: #fff;
 }
 
-.entry .entry-content .has-primary-background-color p,
-.entry .entry-content .has-primary-background-color h1,
-.entry .entry-content .has-primary-background-color h2,
-.entry .entry-content .has-primary-background-color h3,
-.entry .entry-content .has-primary-background-color h4,
-.entry .entry-content .has-primary-background-color h5,
-.entry .entry-content .has-primary-background-color h6,
-.entry .entry-content .has-primary-background-color a,
-.entry .entry-content .has-secondary-background-color p,
-.entry .entry-content .has-secondary-background-color h1,
-.entry .entry-content .has-secondary-background-color h2,
-.entry .entry-content .has-secondary-background-color h3,
-.entry .entry-content .has-secondary-background-color h4,
-.entry .entry-content .has-secondary-background-color h5,
-.entry .entry-content .has-secondary-background-color h6,
-.entry .entry-content .has-secondary-background-color a,
-.entry .entry-content .has-dark-gray-background-color p,
-.entry .entry-content .has-dark-gray-background-color h1,
-.entry .entry-content .has-dark-gray-background-color h2,
-.entry .entry-content .has-dark-gray-background-color h3,
-.entry .entry-content .has-dark-gray-background-color h4,
-.entry .entry-content .has-dark-gray-background-color h5,
-.entry .entry-content .has-dark-gray-background-color h6,
-.entry .entry-content .has-dark-gray-background-color a,
-.entry .entry-content .has-light-gray-background-color p,
-.entry .entry-content .has-light-gray-background-color h1,
-.entry .entry-content .has-light-gray-background-color h2,
-.entry .entry-content .has-light-gray-background-color h3,
-.entry .entry-content .has-light-gray-background-color h4,
-.entry .entry-content .has-light-gray-background-color h5,
-.entry .entry-content .has-light-gray-background-color h6,
-.entry .entry-content .has-light-gray-background-color a {
+.entry .entry-content .has-primary-background-color > p,
+.entry .entry-content .has-primary-background-color > h1,
+.entry .entry-content .has-primary-background-color > h2,
+.entry .entry-content .has-primary-background-color > h3,
+.entry .entry-content .has-primary-background-color > h4,
+.entry .entry-content .has-primary-background-color > h5,
+.entry .entry-content .has-primary-background-color > h6,
+.entry .entry-content .has-primary-background-color > a,
+.entry .entry-content .has-secondary-background-color > p,
+.entry .entry-content .has-secondary-background-color > h1,
+.entry .entry-content .has-secondary-background-color > h2,
+.entry .entry-content .has-secondary-background-color > h3,
+.entry .entry-content .has-secondary-background-color > h4,
+.entry .entry-content .has-secondary-background-color > h5,
+.entry .entry-content .has-secondary-background-color > h6,
+.entry .entry-content .has-secondary-background-color > a,
+.entry .entry-content .has-dark-gray-background-color > p,
+.entry .entry-content .has-dark-gray-background-color > h1,
+.entry .entry-content .has-dark-gray-background-color > h2,
+.entry .entry-content .has-dark-gray-background-color > h3,
+.entry .entry-content .has-dark-gray-background-color > h4,
+.entry .entry-content .has-dark-gray-background-color > h5,
+.entry .entry-content .has-dark-gray-background-color > h6,
+.entry .entry-content .has-dark-gray-background-color > a,
+.entry .entry-content .has-light-gray-background-color > p,
+.entry .entry-content .has-light-gray-background-color > h1,
+.entry .entry-content .has-light-gray-background-color > h2,
+.entry .entry-content .has-light-gray-background-color > h3,
+.entry .entry-content .has-light-gray-background-color > h4,
+.entry .entry-content .has-light-gray-background-color > h5,
+.entry .entry-content .has-light-gray-background-color > h6,
+.entry .entry-content .has-light-gray-background-color > a {
   color: #fff;
 }
 
@@ -6114,14 +6114,14 @@ body.page .main-navigation {
   color: #111;
 }
 
-.entry .entry-content .has-white-background-color p,
-.entry .entry-content .has-white-background-color h1,
-.entry .entry-content .has-white-background-color h2,
-.entry .entry-content .has-white-background-color h3,
-.entry .entry-content .has-white-background-color h4,
-.entry .entry-content .has-white-background-color h5,
-.entry .entry-content .has-white-background-color h6,
-.entry .entry-content .has-white-background-color a {
+.entry .entry-content .has-white-background-color > p,
+.entry .entry-content .has-white-background-color > h1,
+.entry .entry-content .has-white-background-color > h2,
+.entry .entry-content .has-white-background-color > h3,
+.entry .entry-content .has-white-background-color > h4,
+.entry .entry-content .has-white-background-color > h5,
+.entry .entry-content .has-white-background-color > h6,
+.entry .entry-content .has-white-background-color > a {
   color: #111;
 }
 
@@ -6152,25 +6152,25 @@ body.page .main-navigation {
 
 .entry .entry-content .has-primary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-primary-color,
-.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-primary-color p {
+.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-primary-color > p {
   color: #0073aa;
 }
 
 .entry .entry-content .has-secondary-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color,
-.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color p {
+.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color > p {
   color: #005177;
 }
 
 .entry .entry-content .has-dark-gray-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color,
-.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color p {
+.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color > p {
   color: #111;
 }
 
 .entry .entry-content .has-light-gray-color,
 .entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color,
-.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color p {
+.entry .entry-content .wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color > p {
   color: #767676;
 }
 

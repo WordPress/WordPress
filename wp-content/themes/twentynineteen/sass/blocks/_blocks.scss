@@ -838,14 +838,14 @@
 		// Use white text against these backgrounds by default.
 		color: $color__background-body;
 
-		p,
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6,
-		a {
+		> p,
+		> h1,
+		> h2,
+		> h3,
+		> h4,
+		> h5,
+		> h6,
+		> a {
 			color: $color__background-body;
 		}
 	}
@@ -854,14 +854,14 @@
 		color: $color__text-main;
 
 		// Use dark gray text against this background by default.
-		p,
-		h1,
-		h2,
-		h3,
-		h4,
-		h5,
-		h6,
-		a {
+		> p,
+		> h1,
+		> h2,
+		> h3,
+		> h4,
+		> h5,
+		> h6,
+		> a {
 			color: $color__text-main;
 		}
 	}
@@ -894,25 +894,25 @@
 	//! Custom foreground colors
 	.has-primary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-primary-color,
-	.wp-block-pullquote.is-style-solid-color blockquote.has-primary-color p {
+	.wp-block-pullquote.is-style-solid-color blockquote.has-primary-color > p {
 		color: $color__link;
 	}
 
 	.has-secondary-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color,
-	.wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color p {
+	.wp-block-pullquote.is-style-solid-color blockquote.has-secondary-color > p {
 		color: $color__border-link-hover;
 	}
 
 	.has-dark-gray-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color,
-	.wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color p {
+	.wp-block-pullquote.is-style-solid-color blockquote.has-dark-gray-color > p {
 		color: $color__text-main;
 	}
 
 	.has-light-gray-color,
 	.wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color,
-	.wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color p {
+	.wp-block-pullquote.is-style-solid-color blockquote.has-light-gray-color > p {
 		color: $color__text-light;
 	}
 
