@@ -107,7 +107,7 @@ function wp_insert_site( array $data ) {
 		// Rebuild the data expected by the `wpmu_new_blog` hook prior to 5.1.0 using whitelisted keys.
 		// The `$site_data_whitelist` matches the one used in `wpmu_create_blog()`.
 		$site_data_whitelist = array( 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id' );
-		$meta = array_merge( array_intersect_key( $data, array_flip( $site_data_whitelist ) ), $meta );
+		$meta                = array_merge( array_intersect_key( $data, array_flip( $site_data_whitelist ) ), $meta );
 
 		/**
 		 * Fires immediately after a new site is created.
