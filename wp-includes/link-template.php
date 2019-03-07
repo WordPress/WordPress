@@ -470,7 +470,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
 function get_year_link( $year ) {
 	global $wp_rewrite;
 	if ( ! $year ) {
-		$year = gmdate( 'Y', current_time( 'timestamp' ) );
+		$year = current_time( 'Y' );
 	}
 	$yearlink = $wp_rewrite->get_year_permastruct();
 	if ( ! empty( $yearlink ) ) {
@@ -505,10 +505,10 @@ function get_year_link( $year ) {
 function get_month_link( $year, $month ) {
 	global $wp_rewrite;
 	if ( ! $year ) {
-		$year = gmdate( 'Y', current_time( 'timestamp' ) );
+		$year = current_time( 'Y' );
 	}
 	if ( ! $month ) {
-		$month = gmdate( 'm', current_time( 'timestamp' ) );
+		$month = current_time( 'm' );
 	}
 	$monthlink = $wp_rewrite->get_month_permastruct();
 	if ( ! empty( $monthlink ) ) {
@@ -546,13 +546,13 @@ function get_month_link( $year, $month ) {
 function get_day_link( $year, $month, $day ) {
 	global $wp_rewrite;
 	if ( ! $year ) {
-		$year = gmdate( 'Y', current_time( 'timestamp' ) );
+		$year = current_time( 'Y' );
 	}
 	if ( ! $month ) {
-		$month = gmdate( 'm', current_time( 'timestamp' ) );
+		$month = current_time( 'm' );
 	}
 	if ( ! $day ) {
-		$day = gmdate( 'j', current_time( 'timestamp' ) );
+		$day = current_time( 'j' );
 	}
 
 	$daylink = $wp_rewrite->get_day_permastruct();

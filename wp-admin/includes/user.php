@@ -1392,7 +1392,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			return '';
 		}
 
-		$time_diff = current_time( 'timestamp', true ) - $timestamp;
+		$time_diff = time() - $timestamp;
 
 		if ( $time_diff >= 0 && $time_diff < DAY_IN_SECONDS ) {
 			/* translators: human readable timestamp */
