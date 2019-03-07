@@ -1647,6 +1647,7 @@ function wp_dashboard_php_nag() {
 	<?php
 
 	wp_update_php_annotation();
+	wp_direct_php_update_button();
 }
 
 /**
