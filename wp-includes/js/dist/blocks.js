@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["blocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 308);
+/******/ 	return __webpack_require__(__webpack_require__.s = 309);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -114,7 +114,7 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 123:
+/***/ 124:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["shortcode"]; }());
@@ -147,35 +147,43 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
 
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
     }
 
-    return target;
-  };
+    return arr2;
+  }
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(33);
 
-  return _extends.apply(this, arguments);
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
 }
 
 /***/ }),
 
-/***/ 183:
+/***/ 184:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockSerializationDefaultParser"]; }());
 
 /***/ }),
 
-/***/ 184:
+/***/ 185:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;;/*! showdown v 1.9.0 - 10-11-2018 */
@@ -5323,31 +5331,23 @@ if (true) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
     }
 
-    return arr2;
-  }
-}
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(33);
+    return target;
+  };
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
-}
-// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
-
-
-
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+  return _extends.apply(this, arguments);
 }
 
 /***/ }),
@@ -5359,17 +5359,17 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 22:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["dom"]; }());
-
-/***/ }),
-
 /***/ 23:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
@@ -5379,7 +5379,7 @@ function _toConsumableArray(arr) {
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(35);
+var arrayWithHoles = __webpack_require__(34);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -5408,7 +5408,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(36);
+var nonIterableRest = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -5421,7 +5421,289 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 308:
+/***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+var LEAF_KEY, hasWeakMap;
+
+/**
+ * Arbitrary value used as key for referencing cache object in WeakMap tree.
+ *
+ * @type {Object}
+ */
+LEAF_KEY = {};
+
+/**
+ * Whether environment supports WeakMap.
+ *
+ * @type {boolean}
+ */
+hasWeakMap = typeof WeakMap !== 'undefined';
+
+/**
+ * Returns the first argument as the sole entry in an array.
+ *
+ * @param {*} value Value to return.
+ *
+ * @return {Array} Value returned as entry in array.
+ */
+function arrayOf( value ) {
+	return [ value ];
+}
+
+/**
+ * Returns true if the value passed is object-like, or false otherwise. A value
+ * is object-like if it can support property assignment, e.g. object or array.
+ *
+ * @param {*} value Value to test.
+ *
+ * @return {boolean} Whether value is object-like.
+ */
+function isObjectLike( value ) {
+	return !! value && 'object' === typeof value;
+}
+
+/**
+ * Creates and returns a new cache object.
+ *
+ * @return {Object} Cache object.
+ */
+function createCache() {
+	var cache = {
+		clear: function() {
+			cache.head = null;
+		},
+	};
+
+	return cache;
+}
+
+/**
+ * Returns true if entries within the two arrays are strictly equal by
+ * reference from a starting index.
+ *
+ * @param {Array}  a         First array.
+ * @param {Array}  b         Second array.
+ * @param {number} fromIndex Index from which to start comparison.
+ *
+ * @return {boolean} Whether arrays are shallowly equal.
+ */
+function isShallowEqual( a, b, fromIndex ) {
+	var i;
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = fromIndex; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Returns a memoized selector function. The getDependants function argument is
+ * called before the memoized selector and is expected to return an immutable
+ * reference or array of references on which the selector depends for computing
+ * its own return value. The memoize cache is preserved only as long as those
+ * dependant references remain the same. If getDependants returns a different
+ * reference(s), the cache is cleared and the selector value regenerated.
+ *
+ * @param {Function} selector      Selector function.
+ * @param {Function} getDependants Dependant getter returning an immutable
+ *                                 reference or array of reference used in
+ *                                 cache bust consideration.
+ *
+ * @return {Function} Memoized selector.
+ */
+/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
+	var rootCache, getCache;
+
+	// Use object source as dependant if getter not provided
+	if ( ! getDependants ) {
+		getDependants = arrayOf;
+	}
+
+	/**
+	 * Returns the root cache. If WeakMap is supported, this is assigned to the
+	 * root WeakMap cache set, otherwise it is a shared instance of the default
+	 * cache object.
+	 *
+	 * @return {(WeakMap|Object)} Root cache object.
+	 */
+	function getRootCache() {
+		return rootCache;
+	}
+
+	/**
+	 * Returns the cache for a given dependants array. When possible, a WeakMap
+	 * will be used to create a unique cache for each set of dependants. This
+	 * is feasible due to the nature of WeakMap in allowing garbage collection
+	 * to occur on entries where the key object is no longer referenced. Since
+	 * WeakMap requires the key to be an object, this is only possible when the
+	 * dependant is object-like. The root cache is created as a hierarchy where
+	 * each top-level key is the first entry in a dependants set, the value a
+	 * WeakMap where each key is the next dependant, and so on. This continues
+	 * so long as the dependants are object-like. If no dependants are object-
+	 * like, then the cache is shared across all invocations.
+	 *
+	 * @see isObjectLike
+	 *
+	 * @param {Array} dependants Selector dependants.
+	 *
+	 * @return {Object} Cache object.
+	 */
+	function getWeakMapCache( dependants ) {
+		var caches = rootCache,
+			isUniqueByDependants = true,
+			i, dependant, map, cache;
+
+		for ( i = 0; i < dependants.length; i++ ) {
+			dependant = dependants[ i ];
+
+			// Can only compose WeakMap from object-like key.
+			if ( ! isObjectLike( dependant ) ) {
+				isUniqueByDependants = false;
+				break;
+			}
+
+			// Does current segment of cache already have a WeakMap?
+			if ( caches.has( dependant ) ) {
+				// Traverse into nested WeakMap.
+				caches = caches.get( dependant );
+			} else {
+				// Create, set, and traverse into a new one.
+				map = new WeakMap();
+				caches.set( dependant, map );
+				caches = map;
+			}
+		}
+
+		// We use an arbitrary (but consistent) object as key for the last item
+		// in the WeakMap to serve as our running cache.
+		if ( ! caches.has( LEAF_KEY ) ) {
+			cache = createCache();
+			cache.isUniqueByDependants = isUniqueByDependants;
+			caches.set( LEAF_KEY, cache );
+		}
+
+		return caches.get( LEAF_KEY );
+	}
+
+	// Assign cache handler by availability of WeakMap
+	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
+
+	/**
+	 * Resets root memoization cache.
+	 */
+	function clear() {
+		rootCache = hasWeakMap ? new WeakMap() : createCache();
+	}
+
+	// eslint-disable-next-line jsdoc/check-param-names
+	/**
+	 * The augmented selector call, considering first whether dependants have
+	 * changed before passing it to underlying memoize function.
+	 *
+	 * @param {Object} source    Source object for derivation.
+	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 *
+	 * @return {*} Selector result.
+	 */
+	function callSelector( /* source, ...extraArgs */ ) {
+		var len = arguments.length,
+			cache, node, i, args, dependants;
+
+		// Create copy of arguments (avoid leaking deoptimization).
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		dependants = getDependants.apply( null, args );
+		cache = getCache( dependants );
+
+		// If not guaranteed uniqueness by dependants (primitive type or lack
+		// of WeakMap support), shallow compare against last dependants and, if
+		// references have changed, destroy cache to recalculate result.
+		if ( ! cache.isUniqueByDependants ) {
+			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+				cache.clear();
+			}
+
+			cache.lastDependants = dependants;
+		}
+
+		node = cache.head;
+		while ( node ) {
+			// Check whether node arguments match arguments
+			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+				node = node.next;
+				continue;
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== cache.head ) {
+				// Adjust siblings to point to each other.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = cache.head;
+				node.prev = null;
+				cache.head.prev = node;
+				cache.head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		node = {
+			// Generate the result from original function
+			val: selector.apply( null, args ),
+		};
+
+		// Avoid including the source object in the cache.
+		args[ 0 ] = null;
+		node.args = args;
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( cache.head ) {
+			cache.head.prev = node;
+			node.next = cache.head;
+		}
+
+		cache.head = node;
+
+		return node.val;
+	}
+
+	callSelector.getDependants = getDependants;
+	callSelector.clear = clear;
+	clear();
+
+	return callSelector;
+});
+
+
+/***/ }),
+
+/***/ 309:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5459,7 +5741,7 @@ var external_this_wp_data_ = __webpack_require__(5);
 var defineProperty = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(19);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(8);
@@ -5549,13 +5831,13 @@ function blockStyles() {
   switch (action.type) {
     case 'ADD_BLOCK_TYPES':
       return Object(objectSpread["a" /* default */])({}, state, Object(external_lodash_["mapValues"])(Object(external_lodash_["keyBy"])(action.blockTypes, 'name'), function (blockType) {
-        return Object(external_lodash_["uniqBy"])(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(blockType, ['styles'], [])).concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(state, [blockType.name], []))), function (style) {
+        return Object(external_lodash_["uniqBy"])([].concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(blockType, ['styles'], [])), Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(state, [blockType.name], []))), function (style) {
           return style.name;
         });
       }));
 
     case 'ADD_BLOCK_STYLES':
-      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.blockName, Object(external_lodash_["uniqBy"])(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(state, [action.blockName], [])).concat(Object(toConsumableArray["a" /* default */])(action.styles)), function (style) {
+      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, action.blockName, Object(external_lodash_["uniqBy"])([].concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["get"])(state, [action.blockName], [])), Object(toConsumableArray["a" /* default */])(action.styles)), function (style) {
         return style.name;
       })));
 
@@ -5647,7 +5929,7 @@ function reducer_categories() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(31);
+var rememo = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/store/selectors.js
 /**
@@ -5973,7 +6255,7 @@ Object(external_this_wp_data_["registerStore"])('core/blocks', {
 });
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(57);
+var v4 = __webpack_require__(59);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
@@ -6208,11 +6490,6 @@ function registerBlockType(name, settings) {
     return;
   }
 
-  if ('keywords' in settings && settings.keywords.length > 3) {
-    console.error('The block "' + name + '" can have a maximum of 3 keywords.');
-    return;
-  }
-
   if (!('category' in settings)) {
     console.error('The block "' + name + '" must have a category.');
     return;
@@ -6238,7 +6515,7 @@ function registerBlockType(name, settings) {
   settings.icon = normalizeIconObject(settings.icon);
 
   if (!isValidIcon(settings.icon.src)) {
-    console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/block-api/#icon-optional');
+    console.error('The icon passed is invalid. ' + 'The icon should be a string, an element, a function, or an object following the specifications documented in https://wordpress.org/gutenberg/handbook/designers-developers/developers/block-api/block-registration/#icon-optional');
     return;
   }
 
@@ -6663,7 +6940,7 @@ function getPossibleBlockTransformations(blocks) {
 
   var blockTypesForFromTransforms = factory_getBlockTypesForPossibleFromTransforms(blocks);
   var blockTypesForToTransforms = factory_getBlockTypesForPossibleToTransforms(blocks);
-  return Object(external_lodash_["uniq"])(Object(toConsumableArray["a" /* default */])(blockTypesForFromTransforms).concat(Object(toConsumableArray["a" /* default */])(blockTypesForToTransforms)));
+  return Object(external_lodash_["uniq"])([].concat(Object(toConsumableArray["a" /* default */])(blockTypesForFromTransforms), Object(toConsumableArray["a" /* default */])(blockTypesForToTransforms)));
 }
 /**
  * Given an array of transforms, returns the highest-priority transform where
@@ -6779,9 +7056,11 @@ function switchToBlockType(blocks, name) {
   if (transformation.isMultiBlock) {
     transformationResults = transformation.transform(blocksArray.map(function (currentBlock) {
       return currentBlock.attributes;
+    }), blocksArray.map(function (currentBlock) {
+      return currentBlock.innerBlocks;
     }));
   } else {
-    transformationResults = transformation.transform(firstBlock.attributes);
+    transformationResults = transformation.transform(firstBlock.attributes, firstBlock.innerBlocks);
   } // Ensure that the transformation function returned an object or an array
   // of objects.
 
@@ -7013,19 +7292,19 @@ function query(selector, matchers) {
   };
 }
 // EXTERNAL MODULE: external {"this":["wp","autop"]}
-var external_this_wp_autop_ = __webpack_require__(58);
+var external_this_wp_autop_ = __webpack_require__(60);
 
 // EXTERNAL MODULE: external {"this":["wp","blockSerializationDefaultParser"]}
-var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(183);
+var external_this_wp_blockSerializationDefaultParser_ = __webpack_require__(184);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(35);
+var arrayWithHoles = __webpack_require__(34);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
 var iterableToArray = __webpack_require__(33);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(36);
+var nonIterableRest = __webpack_require__(35);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toArray.js
 
@@ -7633,14 +7912,14 @@ var tokenizer_Tokenizer = /** @class */ (function () {
 /* harmony default export */ var tokenizer = (tokenizer_Tokenizer);
 
 // EXTERNAL MODULE: external {"this":["wp","htmlEntities"]}
-var external_this_wp_htmlEntities_ = __webpack_require__(49);
+var external_this_wp_htmlEntities_ = __webpack_require__(53);
 
 // EXTERNAL MODULE: external {"this":["wp","isShallowEqual"]}
 var external_this_wp_isShallowEqual_ = __webpack_require__(40);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(18);
+var esm_extends = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","compose"]}
 var external_this_wp_compose_ = __webpack_require__(7);
@@ -8069,7 +8348,7 @@ var ENUMERATED_ATTRIBUTES = ['autocapitalize', 'autocomplete', 'charset', 'conte
  * @type {Array}
  */
 
-var MEANINGFUL_ATTRIBUTES = BOOLEAN_ATTRIBUTES.concat(ENUMERATED_ATTRIBUTES);
+var MEANINGFUL_ATTRIBUTES = [].concat(BOOLEAN_ATTRIBUTES, ENUMERATED_ATTRIBUTES);
 /**
  * Array of functions which receive a text string on which to apply normalizing
  * behavior for consideration in text token equivalence, carefully ordered from
@@ -8080,38 +8359,101 @@ var MEANINGFUL_ATTRIBUTES = BOOLEAN_ATTRIBUTES.concat(ENUMERATED_ATTRIBUTES);
 
 var TEXT_NORMALIZATIONS = [external_lodash_["identity"], getTextWithCollapsedWhitespace];
 /**
- * Subsitute EntityParser class for `simple-html-tokenizer` which bypasses
- * entity substitution in favor of validator's internal normalization.
+ * Regular expression matching a named character reference. In lieu of bundling
+ * a full set of references, the pattern covers the minimal necessary to test
+ * positively against the full set.
+ *
+ * "The ampersand must be followed by one of the names given in the named
+ * character references section, using the same case."
+ *
+ * Tested aginst "12.5 Named character references":
+ *
+ * ```
+ * const references = [ ...document.querySelectorAll(
+ *     '#named-character-references-table tr[id^=entity-] td:first-child'
+ * ) ].map( ( code ) => code.textContent )
+ * references.every( ( reference ) => /^[\da-z]+$/i.test( reference ) )
+ * ```
+ *
+ * @link https://html.spec.whatwg.org/multipage/syntax.html#character-references
+ * @link https://html.spec.whatwg.org/multipage/named-characters.html#named-character-references
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_NAMED_CHARACTER_REFERENCE = /^[\da-z]+$/i;
+/**
+ * Regular expression matching a decimal character reference.
+ *
+ * "The ampersand must be followed by a U+0023 NUMBER SIGN character (#),
+ * followed by one or more ASCII digits, representing a base-ten integer"
+ *
+ * @link https://html.spec.whatwg.org/multipage/syntax.html#character-references
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_DECIMAL_CHARACTER_REFERENCE = /^#\d+$/;
+/**
+ * Regular expression matching a hexadecimal character reference.
+ *
+ * "The ampersand must be followed by a U+0023 NUMBER SIGN character (#), which
+ * must be followed by either a U+0078 LATIN SMALL LETTER X character (x) or a
+ * U+0058 LATIN CAPITAL LETTER X character (X), which must then be followed by
+ * one or more ASCII hex digits, representing a hexadecimal integer"
+ *
+ * @link https://html.spec.whatwg.org/multipage/syntax.html#character-references
+ *
+ * @type {RegExp}
+ */
+
+var REGEXP_HEXADECIMAL_CHARACTER_REFERENCE = /^#x[\da-f]+$/i;
+/**
+ * Returns true if the given string is a valid character reference segment, or
+ * false otherwise. The text should be stripped of `&` and `;` demarcations.
+ *
+ * @param {string} text Text to test.
+ *
+ * @return {boolean} Whether text is valid character reference.
+ */
+
+function isValidCharacterReference(text) {
+  return REGEXP_NAMED_CHARACTER_REFERENCE.test(text) || REGEXP_DECIMAL_CHARACTER_REFERENCE.test(text) || REGEXP_HEXADECIMAL_CHARACTER_REFERENCE.test(text);
+}
+/**
+ * Subsitute EntityParser class for `simple-html-tokenizer` which uses the
+ * implementation of `decodeEntities` from `html-entities`, in order to avoid
+ * bundling a massive named character reference.
  *
  * @see https://github.com/tildeio/simple-html-tokenizer/tree/master/src/entity-parser.ts
  */
 
-var validation_IdentityEntityParser =
+var validation_DecodeEntityParser =
 /*#__PURE__*/
 function () {
-  function IdentityEntityParser() {
-    Object(classCallCheck["a" /* default */])(this, IdentityEntityParser);
+  function DecodeEntityParser() {
+    Object(classCallCheck["a" /* default */])(this, DecodeEntityParser);
   }
 
-  Object(createClass["a" /* default */])(IdentityEntityParser, [{
+  Object(createClass["a" /* default */])(DecodeEntityParser, [{
     key: "parse",
 
     /**
      * Returns a substitute string for an entity string sequence between `&`
      * and `;`, or undefined if no substitution should occur.
      *
-     * In this implementation, undefined is always returned.
-     *
      * @param {string} entity Entity fragment discovered in HTML.
      *
      * @return {?string} Entity substitute value.
      */
     value: function parse(entity) {
-      return Object(external_this_wp_htmlEntities_["decodeEntities"])('&' + entity + ';');
+      if (isValidCharacterReference(entity)) {
+        return Object(external_this_wp_htmlEntities_["decodeEntities"])('&' + entity + ';');
+      }
     }
   }]);
 
-  return IdentityEntityParser;
+  return DecodeEntityParser;
 }();
 /**
  * Object of logger functions.
@@ -8389,7 +8731,7 @@ function getNextNonWhitespaceToken(tokens) {
 
 function getHTMLTokens(html) {
   try {
-    return new tokenizer(new validation_IdentityEntityParser()).tokenize(html);
+    return new tokenizer(new validation_DecodeEntityParser()).tokenize(html);
   } catch (e) {
     log.warning('Malformed HTML detected: %s', html);
   }
@@ -9148,12 +9490,14 @@ function getBlockAttributes(blockTypeOrName, innerHTML) {
  * deprecated migrations applied, or the original block if it was both valid
  * and no eligible migrations exist.
  *
- * @param {WPBlock} block Original block object.
+ * @param {WPBlock} block            Original block object.
+ * @param {Object}  parsedAttributes Attributes as parsed from the initial
+ *                                   block markup.
  *
  * @return {WPBlock} Migrated block object.
  */
 
-function getMigratedBlock(block) {
+function getMigratedBlock(block, parsedAttributes) {
   var blockType = registration_getBlockType(block.name);
   var deprecatedDefinitions = blockType.deprecated;
 
@@ -9163,7 +9507,6 @@ function getMigratedBlock(block) {
 
   var _block = block,
       originalContent = _block.originalContent,
-      attributes = _block.attributes,
       innerBlocks = _block.innerBlocks;
 
   for (var i = 0; i < deprecatedDefinitions.length; i++) {
@@ -9173,7 +9516,7 @@ function getMigratedBlock(block) {
     var _deprecatedDefinition = deprecatedDefinitions[i].isEligible,
         isEligible = _deprecatedDefinition === void 0 ? external_lodash_["stubFalse"] : _deprecatedDefinition;
 
-    if (block.isValid && !isEligible(attributes, innerBlocks)) {
+    if (block.isValid && !isEligible(parsedAttributes, innerBlocks)) {
       continue;
     } // Block type properties which could impact either serialization or
     // parsing are not considered in the deprecated block type by default,
@@ -9181,7 +9524,7 @@ function getMigratedBlock(block) {
 
 
     var deprecatedBlockType = Object.assign(Object(external_lodash_["omit"])(blockType, ['attributes', 'save', 'supports']), deprecatedDefinitions[i]);
-    var migratedAttributes = getBlockAttributes(deprecatedBlockType, originalContent, attributes); // Ignore the deprecation if it produces a block which is not valid.
+    var migratedAttributes = getBlockAttributes(deprecatedBlockType, originalContent, parsedAttributes); // Ignore the deprecation if it produces a block which is not valid.
 
     var isValid = isValidBlockContent(deprecatedBlockType, migratedAttributes, originalContent);
 
@@ -9203,7 +9546,7 @@ function getMigratedBlock(block) {
       var _castArray2 = Object(slicedToArray["a" /* default */])(_castArray, 2);
 
       var _castArray2$ = _castArray2[0];
-      migratedAttributes = _castArray2$ === void 0 ? attributes : _castArray2$;
+      migratedAttributes = _castArray2$ === void 0 ? parsedAttributes : _castArray2$;
       var _castArray2$2 = _castArray2[1];
       migratedInnerBlocks = _castArray2$2 === void 0 ? innerBlocks : _castArray2$2;
     }
@@ -9293,7 +9636,7 @@ function createBlockWithFallback(blockNode) {
 
 
   block.originalContent = innerHTML;
-  block = getMigratedBlock(block);
+  block = getMigratedBlock(block, attributes);
   return block;
 }
 /**
@@ -9330,7 +9673,7 @@ var parseWithGrammar = createParse(external_this_wp_blockSerializationDefaultPar
 /* harmony default export */ var parser = (parseWithGrammar);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(22);
+var external_this_wp_dom_ = __webpack_require__(24);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js
 /**
@@ -9399,10 +9742,10 @@ function isPhrasingContent(node) {
  */
 
 
-
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -9425,26 +9768,25 @@ function getBlockContentSchema(transforms) {
     var isMatch = _ref.isMatch,
         blockName = _ref.blockName,
         schema = _ref.schema;
+    var hasAnchorSupport = registration_hasBlockSupport(blockName, 'anchor'); // If the block does not has anchor support and the transform does not
+    // provides an isMatch we can return the schema right away.
 
-    // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
-    if (registration_hasBlockSupport(blockName, 'anchor')) {
-      for (var tag in schema) {
-        if (!schema[tag].attributes) {
-          schema[tag].attributes = [];
-        }
-
-        schema[tag].attributes.push('id');
-      }
-    } // If an isMatch function exists add it to each schema tag that it applies to.
-
-
-    if (isMatch) {
-      for (var _tag in schema) {
-        schema[_tag].isMatch = isMatch;
-      }
+    if (!hasAnchorSupport && !isMatch) {
+      return schema;
     }
 
-    return schema;
+    return Object(external_lodash_["mapValues"])(schema, function (value) {
+      var attributes = value.attributes || []; // If the block supports the "anchor" functionality, it needs to keep its ID attribute.
+
+      if (hasAnchorSupport) {
+        attributes = [].concat(Object(toConsumableArray["a" /* default */])(attributes), ['id']);
+      }
+
+      return Object(objectSpread["a" /* default */])({}, value, {
+        attributes: attributes,
+        isMatch: isMatch ? isMatch : undefined
+      });
+    });
   });
   return external_lodash_["mergeWith"].apply(void 0, [{}].concat(Object(toConsumableArray["a" /* default */])(schemas), [function (objValue, srcValue, key) {
     switch (key) {
@@ -9460,7 +9802,7 @@ function getBlockContentSchema(transforms) {
       case 'attributes':
       case 'require':
         {
-          return Object(toConsumableArray["a" /* default */])(objValue || []).concat(Object(toConsumableArray["a" /* default */])(srcValue || []));
+          return [].concat(Object(toConsumableArray["a" /* default */])(objValue || []), Object(toConsumableArray["a" /* default */])(srcValue || []));
         }
 
       case 'isMatch':
@@ -9589,11 +9931,12 @@ function cleanNodeList(nodeList, doc, schema, inline) {
             classes = _schema$tag$classes === void 0 ? [] : _schema$tag$classes,
             children = _schema$tag.children,
             _schema$tag$require = _schema$tag.require,
-            require = _schema$tag$require === void 0 ? [] : _schema$tag$require; // If the node is empty and it's supposed to have children,
+            require = _schema$tag$require === void 0 ? [] : _schema$tag$require,
+            allowEmpty = _schema$tag.allowEmpty; // If the node is empty and it's supposed to have children,
         // remove the node.
 
 
-        if (isEmpty(node) && children) {
+        if (children && !allowEmpty && isEmpty(node)) {
           Object(external_this_wp_dom_["remove"])(node);
           return;
         }
@@ -9607,8 +9950,10 @@ function cleanNodeList(nodeList, doc, schema, inline) {
               node.removeAttribute(name);
             }
           }); // Strip invalid classes.
+          // In jsdom-jscore, 'node.classList' can be undefined.
+          // TODO: Explore patching this in jsdom-jscore.
 
-          if (node.classList.length) {
+          if (node.classList && node.classList.length) {
             var mattchers = classes.map(function (item) {
               if (typeof item === 'string') {
                 return function (className) {
@@ -9648,10 +9993,21 @@ function cleanNodeList(nodeList, doc, schema, inline) {
             // not have them, drop the parent and continue.
             if (require.length && !node.querySelector(require.join(','))) {
               cleanNodeList(node.childNodes, doc, schema, inline);
-              Object(external_this_wp_dom_["unwrap"])(node);
-            }
+              Object(external_this_wp_dom_["unwrap"])(node); // If the node is at the top, phrasing content, and
+              // contains children that are block content, unwrap
+              // the node because it is invalid.
+            } else if (node.parentNode.nodeName === 'BODY' && isPhrasingContent(node)) {
+              cleanNodeList(node.childNodes, doc, schema, inline);
 
-            cleanNodeList(node.childNodes, doc, children, inline); // Remove children if the node is not supposed to have any.
+              if (Array.from(node.childNodes).some(function (child) {
+                return !isPhrasingContent(child);
+              })) {
+                Object(external_this_wp_dom_["unwrap"])(node);
+              }
+            } else {
+              cleanNodeList(node.childNodes, doc, children, inline);
+            } // Remove children if the node is not supposed to have any.
+
           } else {
             while (node.firstChild) {
               Object(external_this_wp_dom_["remove"])(node.firstChild);
@@ -9845,209 +10201,6 @@ function createNextpage(doc) {
   return node;
 }
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Checks if the given node should be considered inline content, optionally
- * depending on a context tag.
- *
- * @param {Node}   node       Node name.
- * @param {string} contextTag Tag name.
- *
- * @return {boolean} True if the node is inline content, false if nohe.
- */
-
-function isInline(node, contextTag) {
-  if (isPhrasingContent(node)) {
-    return true;
-  }
-
-  if (!contextTag) {
-    return false;
-  }
-
-  var tag = node.nodeName.toLowerCase();
-  var inlineWhitelistTagGroups = [['ul', 'li', 'ol'], ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']];
-  return inlineWhitelistTagGroups.some(function (tagGroup) {
-    return Object(external_lodash_["difference"])([tag, contextTag], tagGroup).length === 0;
-  });
-}
-
-function deepCheck(nodes, contextTag) {
-  return nodes.every(function (node) {
-    return isInline(node, contextTag) && deepCheck(Array.from(node.children), contextTag);
-  });
-}
-
-function isDoubleBR(node) {
-  return node.nodeName === 'BR' && node.previousSibling && node.previousSibling.nodeName === 'BR';
-}
-
-/* harmony default export */ var is_inline_content = (function (HTML, contextTag) {
-  var doc = document.implementation.createHTMLDocument('');
-  doc.body.innerHTML = HTML;
-  var nodes = Array.from(doc.body.children);
-  return !nodes.some(isDoubleBR) && deepCheck(nodes, contextTag);
-});
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-
-function isBlockContent(node) {
-  var schema = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return schema.hasOwnProperty(node.nodeName.toLowerCase());
-}
-
-/* harmony default export */ var phrasing_content_reducer = (function (node, doc, schema) {
-  if (node.nodeName === 'SPAN') {
-    var _node$style = node.style,
-        fontWeight = _node$style.fontWeight,
-        fontStyle = _node$style.fontStyle,
-        textDecorationLine = _node$style.textDecorationLine,
-        verticalAlign = _node$style.verticalAlign;
-
-    if (fontWeight === 'bold' || fontWeight === '700') {
-      Object(external_this_wp_dom_["wrap"])(doc.createElement('strong'), node);
-    }
-
-    if (fontStyle === 'italic') {
-      Object(external_this_wp_dom_["wrap"])(doc.createElement('em'), node);
-    }
-
-    if (textDecorationLine === 'line-through') {
-      Object(external_this_wp_dom_["wrap"])(doc.createElement('del'), node);
-    }
-
-    if (verticalAlign === 'super') {
-      Object(external_this_wp_dom_["wrap"])(doc.createElement('sup'), node);
-    } else if (verticalAlign === 'sub') {
-      Object(external_this_wp_dom_["wrap"])(doc.createElement('sub'), node);
-    }
-  } else if (node.nodeName === 'B') {
-    node = Object(external_this_wp_dom_["replaceTag"])(node, 'strong');
-  } else if (node.nodeName === 'I') {
-    node = Object(external_this_wp_dom_["replaceTag"])(node, 'em');
-  } else if (node.nodeName === 'A') {
-    if (node.target.toLowerCase() === '_blank') {
-      node.rel = 'noreferrer noopener';
-    } else {
-      node.removeAttribute('target');
-      node.removeAttribute('rel');
-    }
-  }
-
-  if (isPhrasingContent(node) && node.hasChildNodes() && Array.from(node.childNodes).some(function (child) {
-    return isBlockContent(child, schema);
-  })) {
-    Object(external_this_wp_dom_["unwrap"])(node);
-  }
-});
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js
-/* harmony default export */ var head_remover = (function (node) {
-  if (node.nodeName !== 'SCRIPT' && node.nodeName !== 'NOSCRIPT' && node.nodeName !== 'TEMPLATE' && node.nodeName !== 'STYLE') {
-    return;
-  }
-
-  node.parentNode.removeChild(node);
-});
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js
-/**
- * Browser dependencies
- */
-var _window = window,
-    ms_list_converter_parseInt = _window.parseInt;
-
-function isList(node) {
-  return node.nodeName === 'OL' || node.nodeName === 'UL';
-}
-
-/* harmony default export */ var ms_list_converter = (function (node, doc) {
-  if (node.nodeName !== 'P') {
-    return;
-  }
-
-  var style = node.getAttribute('style');
-
-  if (!style) {
-    return;
-  } // Quick check.
-
-
-  if (style.indexOf('mso-list') === -1) {
-    return;
-  }
-
-  var matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
-
-  if (!matches) {
-    return;
-  }
-
-  var level = ms_list_converter_parseInt(matches[1], 10) - 1 || 0;
-  var prevNode = node.previousElementSibling; // Add new list if no previous.
-
-  if (!prevNode || !isList(prevNode)) {
-    // See https://html.spec.whatwg.org/multipage/grouping-content.html#attr-ol-type.
-    var type = node.textContent.trim().slice(0, 1);
-    var isNumeric = /[1iIaA]/.test(type);
-    var newListNode = doc.createElement(isNumeric ? 'ol' : 'ul');
-
-    if (isNumeric) {
-      newListNode.setAttribute('type', type);
-    }
-
-    node.parentNode.insertBefore(newListNode, node);
-  }
-
-  var listNode = node.previousElementSibling;
-  var listType = listNode.nodeName;
-  var listItem = doc.createElement('li');
-  var receivingNode = listNode; // Remove the first span with list info.
-
-  node.removeChild(node.firstElementChild); // Add content.
-
-  while (node.firstChild) {
-    listItem.appendChild(node.firstChild);
-  } // Change pointer depending on indentation level.
-
-
-  while (level--) {
-    receivingNode = receivingNode.lastElementChild || receivingNode; // If it's a list, move pointer to the last item.
-
-    if (isList(receivingNode)) {
-      receivingNode = receivingNode.lastElementChild || receivingNode;
-    }
-  } // Make sure we append to a list.
-
-
-  if (!isList(receivingNode)) {
-    receivingNode = receivingNode.appendChild(doc.createElement(listType));
-  } // Append the list item to the list.
-
-
-  receivingNode.appendChild(listItem); // Remove the wrapper paragraph.
-
-  node.parentNode.removeChild(node);
-});
-
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/list-reducer.js
 
 
@@ -10056,7 +10209,7 @@ function isList(node) {
  */
 
 
-function list_reducer_isList(node) {
+function isList(node) {
   return node.nodeName === 'OL' || node.nodeName === 'UL';
 }
 
@@ -10069,7 +10222,7 @@ function shallowTextContent(element) {
 }
 
 /* harmony default export */ var list_reducer = (function (node) {
-  if (!list_reducer_isList(node)) {
+  if (!isList(node)) {
     return;
   }
 
@@ -10104,7 +10257,7 @@ function shallowTextContent(element) {
   } // Invalid: OL/UL > OL/UL.
 
 
-  if (parentElement && list_reducer_isList(parentElement)) {
+  if (parentElement && isList(parentElement)) {
     var _prevListItem = node.previousElementSibling;
 
     if (_prevListItem) {
@@ -10112,76 +10265,6 @@ function shallowTextContent(element) {
     } else {
       Object(external_this_wp_dom_["unwrap"])(node);
     }
-  }
-});
-
-// EXTERNAL MODULE: external {"this":["wp","blob"]}
-var external_this_wp_blob_ = __webpack_require__(32);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
-
-
-/**
- * WordPress dependencies
- */
-
-/**
- * Browser dependencies
- */
-
-var image_corrector_window = window,
-    atob = image_corrector_window.atob,
-    File = image_corrector_window.File;
-/* harmony default export */ var image_corrector = (function (node) {
-  if (node.nodeName !== 'IMG') {
-    return;
-  }
-
-  if (node.src.indexOf('file:') === 0) {
-    node.src = '';
-  } // This piece cannot be tested outside a browser env.
-
-
-  if (node.src.indexOf('data:') === 0) {
-    var _node$src$split = node.src.split(','),
-        _node$src$split2 = Object(slicedToArray["a" /* default */])(_node$src$split, 2),
-        properties = _node$src$split2[0],
-        data = _node$src$split2[1];
-
-    var _properties$slice$spl = properties.slice(5).split(';'),
-        _properties$slice$spl2 = Object(slicedToArray["a" /* default */])(_properties$slice$spl, 1),
-        type = _properties$slice$spl2[0];
-
-    if (!data || !type) {
-      node.src = '';
-      return;
-    }
-
-    var decoded; // Can throw DOMException!
-
-    try {
-      decoded = atob(data);
-    } catch (e) {
-      node.src = '';
-      return;
-    }
-
-    var uint8Array = new Uint8Array(decoded.length);
-
-    for (var i = 0; i < uint8Array.length; i++) {
-      uint8Array[i] = decoded.charCodeAt(i);
-    }
-
-    var name = type.replace('/', '.');
-    var file = new File([uint8Array], name, {
-      type: type
-    });
-    node.src = Object(external_this_wp_blob_["createBlobURL"])(file);
-  } // Remove trackers and hardly visible images.
-
-
-  if (node.height === 1 || node.width === 1) {
-    node.parentNode.removeChild(node);
   }
 });
 
@@ -10284,7 +10367,7 @@ function canHaveAnchor(node, schema) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","shortcode"]}
-var external_this_wp_shortcode_ = __webpack_require__(123);
+var external_this_wp_shortcode_ = __webpack_require__(124);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/shortcode-converter.js
 
@@ -10356,8 +10439,268 @@ function segmentHTMLToShortcodeBlock(HTML) {
 
 /* harmony default export */ var shortcode_converter = (segmentHTMLToShortcodeBlock);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Checks if the given node should be considered inline content, optionally
+ * depending on a context tag.
+ *
+ * @param {Node}   node       Node name.
+ * @param {string} contextTag Tag name.
+ *
+ * @return {boolean} True if the node is inline content, false if nohe.
+ */
+
+function isInline(node, contextTag) {
+  if (isPhrasingContent(node)) {
+    return true;
+  }
+
+  if (!contextTag) {
+    return false;
+  }
+
+  var tag = node.nodeName.toLowerCase();
+  var inlineWhitelistTagGroups = [['ul', 'li', 'ol'], ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']];
+  return inlineWhitelistTagGroups.some(function (tagGroup) {
+    return Object(external_lodash_["difference"])([tag, contextTag], tagGroup).length === 0;
+  });
+}
+
+function deepCheck(nodes, contextTag) {
+  return nodes.every(function (node) {
+    return isInline(node, contextTag) && deepCheck(Array.from(node.children), contextTag);
+  });
+}
+
+function isDoubleBR(node) {
+  return node.nodeName === 'BR' && node.previousSibling && node.previousSibling.nodeName === 'BR';
+}
+
+/* harmony default export */ var is_inline_content = (function (HTML, contextTag) {
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = HTML;
+  var nodes = Array.from(doc.body.children);
+  return !nodes.some(isDoubleBR) && deepCheck(nodes, contextTag);
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content-reducer.js
+/**
+ * WordPress dependencies
+ */
+
+/* harmony default export */ var phrasing_content_reducer = (function (node, doc) {
+  // In jsdom-jscore, 'node.style' can be null.
+  // TODO: Explore fixing this by patching jsdom-jscore.
+  if (node.nodeName === 'SPAN' && node.style) {
+    var _node$style = node.style,
+        fontWeight = _node$style.fontWeight,
+        fontStyle = _node$style.fontStyle,
+        textDecorationLine = _node$style.textDecorationLine,
+        verticalAlign = _node$style.verticalAlign;
+
+    if (fontWeight === 'bold' || fontWeight === '700') {
+      Object(external_this_wp_dom_["wrap"])(doc.createElement('strong'), node);
+    }
+
+    if (fontStyle === 'italic') {
+      Object(external_this_wp_dom_["wrap"])(doc.createElement('em'), node);
+    }
+
+    if (textDecorationLine === 'line-through') {
+      Object(external_this_wp_dom_["wrap"])(doc.createElement('del'), node);
+    }
+
+    if (verticalAlign === 'super') {
+      Object(external_this_wp_dom_["wrap"])(doc.createElement('sup'), node);
+    } else if (verticalAlign === 'sub') {
+      Object(external_this_wp_dom_["wrap"])(doc.createElement('sub'), node);
+    }
+  } else if (node.nodeName === 'B') {
+    node = Object(external_this_wp_dom_["replaceTag"])(node, 'strong');
+  } else if (node.nodeName === 'I') {
+    node = Object(external_this_wp_dom_["replaceTag"])(node, 'em');
+  } else if (node.nodeName === 'A') {
+    // In jsdom-jscore, 'node.target' can be null.
+    // TODO: Explore fixing this by patching jsdom-jscore.
+    if (node.target && node.target.toLowerCase() === '_blank') {
+      node.rel = 'noreferrer noopener';
+    } else {
+      node.removeAttribute('target');
+      node.removeAttribute('rel');
+    }
+  }
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/head-remover.js
+/* harmony default export */ var head_remover = (function (node) {
+  if (node.nodeName !== 'SCRIPT' && node.nodeName !== 'NOSCRIPT' && node.nodeName !== 'TEMPLATE' && node.nodeName !== 'STYLE') {
+    return;
+  }
+
+  node.parentNode.removeChild(node);
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/ms-list-converter.js
+/**
+ * Browser dependencies
+ */
+var _window = window,
+    ms_list_converter_parseInt = _window.parseInt;
+
+function ms_list_converter_isList(node) {
+  return node.nodeName === 'OL' || node.nodeName === 'UL';
+}
+
+/* harmony default export */ var ms_list_converter = (function (node, doc) {
+  if (node.nodeName !== 'P') {
+    return;
+  }
+
+  var style = node.getAttribute('style');
+
+  if (!style) {
+    return;
+  } // Quick check.
+
+
+  if (style.indexOf('mso-list') === -1) {
+    return;
+  }
+
+  var matches = /mso-list\s*:[^;]+level([0-9]+)/i.exec(style);
+
+  if (!matches) {
+    return;
+  }
+
+  var level = ms_list_converter_parseInt(matches[1], 10) - 1 || 0;
+  var prevNode = node.previousElementSibling; // Add new list if no previous.
+
+  if (!prevNode || !ms_list_converter_isList(prevNode)) {
+    // See https://html.spec.whatwg.org/multipage/grouping-content.html#attr-ol-type.
+    var type = node.textContent.trim().slice(0, 1);
+    var isNumeric = /[1iIaA]/.test(type);
+    var newListNode = doc.createElement(isNumeric ? 'ol' : 'ul');
+
+    if (isNumeric) {
+      newListNode.setAttribute('type', type);
+    }
+
+    node.parentNode.insertBefore(newListNode, node);
+  }
+
+  var listNode = node.previousElementSibling;
+  var listType = listNode.nodeName;
+  var listItem = doc.createElement('li');
+  var receivingNode = listNode; // Remove the first span with list info.
+
+  node.removeChild(node.firstElementChild); // Add content.
+
+  while (node.firstChild) {
+    listItem.appendChild(node.firstChild);
+  } // Change pointer depending on indentation level.
+
+
+  while (level--) {
+    receivingNode = receivingNode.lastElementChild || receivingNode; // If it's a list, move pointer to the last item.
+
+    if (ms_list_converter_isList(receivingNode)) {
+      receivingNode = receivingNode.lastElementChild || receivingNode;
+    }
+  } // Make sure we append to a list.
+
+
+  if (!ms_list_converter_isList(receivingNode)) {
+    receivingNode = receivingNode.appendChild(doc.createElement(listType));
+  } // Append the list item to the list.
+
+
+  receivingNode.appendChild(listItem); // Remove the wrapper paragraph.
+
+  node.parentNode.removeChild(node);
+});
+
+// EXTERNAL MODULE: external {"this":["wp","blob"]}
+var external_this_wp_blob_ = __webpack_require__(32);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/image-corrector.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var image_corrector_window = window,
+    atob = image_corrector_window.atob,
+    File = image_corrector_window.File;
+/* harmony default export */ var image_corrector = (function (node) {
+  if (node.nodeName !== 'IMG') {
+    return;
+  }
+
+  if (node.src.indexOf('file:') === 0) {
+    node.src = '';
+  } // This piece cannot be tested outside a browser env.
+
+
+  if (node.src.indexOf('data:') === 0) {
+    var _node$src$split = node.src.split(','),
+        _node$src$split2 = Object(slicedToArray["a" /* default */])(_node$src$split, 2),
+        properties = _node$src$split2[0],
+        data = _node$src$split2[1];
+
+    var _properties$slice$spl = properties.slice(5).split(';'),
+        _properties$slice$spl2 = Object(slicedToArray["a" /* default */])(_properties$slice$spl, 1),
+        type = _properties$slice$spl2[0];
+
+    if (!data || !type) {
+      node.src = '';
+      return;
+    }
+
+    var decoded; // Can throw DOMException!
+
+    try {
+      decoded = atob(data);
+    } catch (e) {
+      node.src = '';
+      return;
+    }
+
+    var uint8Array = new Uint8Array(decoded.length);
+
+    for (var i = 0; i < uint8Array.length; i++) {
+      uint8Array[i] = decoded.charCodeAt(i);
+    }
+
+    var name = type.replace('/', '.');
+    var file = new File([uint8Array], name, {
+      type: type
+    });
+    node.src = Object(external_this_wp_blob_["createBlobURL"])(file);
+  } // Remove trackers and hardly visible images.
+
+
+  if (node.height === 1 || node.width === 1) {
+    node.parentNode.removeChild(node);
+  }
+});
+
 // EXTERNAL MODULE: ./node_modules/showdown/dist/showdown.js
-var showdown = __webpack_require__(184);
+var showdown = __webpack_require__(185);
 var showdown_default = /*#__PURE__*/__webpack_require__.n(showdown);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/markdown-converter.js
@@ -10423,7 +10766,20 @@ function slackMarkdownVariantCorrector(text) {
   }
 });
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/google-docs-uid-remover.js
+/**
+ * WordPress dependencies
+ */
+
+/* harmony default export */ var google_docs_uid_remover = (function (node) {
+  if (!node.id || node.id.indexOf('docs-internal-guid-') !== 0) {
+    return;
+  }
+
+  Object(external_this_wp_dom_["unwrap"])(node);
+});
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/paste-handler.js
 
 
 /**
@@ -10452,13 +10808,13 @@ function slackMarkdownVariantCorrector(text) {
 
 
 
+
 /**
  * Browser dependencies
  */
 
-var raw_handling_window = window,
-    raw_handling_console = raw_handling_window.console;
-
+var paste_handler_window = window,
+    paste_handler_console = paste_handler_window.console;
 /**
  * Filters HTML to only contain phrasing content.
  *
@@ -10468,12 +10824,12 @@ var raw_handling_window = window,
  */
 
 function filterInlineHTML(HTML) {
-  HTML = deepFilterHTML(HTML, [phrasing_content_reducer]);
+  HTML = deepFilterHTML(HTML, [google_docs_uid_remover, phrasing_content_reducer]);
   HTML = removeInvalidHTML(HTML, getPhrasingContentSchema(), {
     inline: true
   }); // Allows us to ask for this information when we get a report.
 
-  raw_handling_console.log('Processed inline HTML:\n\n', HTML);
+  paste_handler_console.log('Processed inline HTML:\n\n', HTML);
   return HTML;
 }
 
@@ -10611,7 +10967,7 @@ function pasteHandler(_ref3) {
       return piece;
     }
 
-    var filters = [ms_list_converter, head_remover, list_reducer, image_corrector, phrasing_content_reducer, special_comment_converter, figure_content_reducer, blockquote_normaliser];
+    var filters = [google_docs_uid_remover, ms_list_converter, head_remover, list_reducer, image_corrector, phrasing_content_reducer, special_comment_converter, figure_content_reducer, blockquote_normaliser];
 
     if (!canUserUseUnfilteredHTML) {
       // Should run before `figureContentReducer`.
@@ -10624,7 +10980,7 @@ function pasteHandler(_ref3) {
     piece = removeInvalidHTML(piece, schema);
     piece = normalise_blocks(piece); // Allows us to ask for this information when we get a report.
 
-    raw_handling_console.log('Processed HTML piece:\n\n', piece);
+    paste_handler_console.log('Processed HTML piece:\n\n', piece);
     return htmlToBlocks({
       html: piece,
       rawTransforms: rawTransforms
@@ -10643,6 +10999,80 @@ function pasteHandler(_ref3) {
 
   return blocks;
 }
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/index.js
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+function raw_handling_getRawTransformations() {
+  return Object(external_lodash_["filter"])(getBlockTransforms('from'), {
+    type: 'raw'
+  }).map(function (transform) {
+    return transform.isMatch ? transform : Object(objectSpread["a" /* default */])({}, transform, {
+      isMatch: function isMatch(node) {
+        return transform.selector && node.matches(transform.selector);
+      }
+    });
+  });
+}
+/**
+ * Converts HTML directly to blocks. Looks for a matching transform for each
+ * top-level tag. The HTML should be filtered to not have any text between
+ * top-level tags and formatted in a way that blocks can handle the HTML.
+ *
+ * @param  {Object} $1               Named parameters.
+ * @param  {string} $1.html          HTML to convert.
+ * @param  {Array}  $1.rawTransforms Transforms that can be used.
+ *
+ * @return {Array} An array of blocks.
+ */
+
+
+function raw_handling_htmlToBlocks(_ref) {
+  var html = _ref.html,
+      rawTransforms = _ref.rawTransforms;
+  var doc = document.implementation.createHTMLDocument('');
+  doc.body.innerHTML = html;
+  return Array.from(doc.body.children).map(function (node) {
+    var rawTransform = findTransform(rawTransforms, function (_ref2) {
+      var isMatch = _ref2.isMatch;
+      return isMatch(node);
+    });
+
+    if (!rawTransform) {
+      return createBlock( // Should not be hardcoded.
+      'core/html', getBlockAttributes('core/html', node.outerHTML));
+    }
+
+    var transform = rawTransform.transform,
+        blockName = rawTransform.blockName;
+
+    if (transform) {
+      return transform(node);
+    }
+
+    return createBlock(blockName, getBlockAttributes(blockName, node.outerHTML));
+  });
+}
 /**
  * Converts an HTML string to known blocks.
  *
@@ -10651,9 +11081,10 @@ function pasteHandler(_ref3) {
  * @return {Array} A list of blocks.
  */
 
-function rawHandler(_ref4) {
-  var _ref4$HTML = _ref4.HTML,
-      HTML = _ref4$HTML === void 0 ? '' : _ref4$HTML;
+
+function rawHandler(_ref3) {
+  var _ref3$HTML = _ref3.HTML,
+      HTML = _ref3$HTML === void 0 ? '' : _ref3$HTML;
 
   // If we detect block delimiters, parse entirely as blocks.
   if (HTML.indexOf('<!-- wp:') !== -1) {
@@ -10663,7 +11094,7 @@ function rawHandler(_ref4) {
 
 
   var pieces = shortcode_converter(HTML);
-  var rawTransforms = getRawTransformations();
+  var rawTransforms = raw_handling_getRawTransformations();
   var blockContentSchema = getBlockContentSchema(rawTransforms);
   return Object(external_lodash_["compact"])(Object(external_lodash_["flatMap"])(pieces, function (piece) {
     // Already a block from shortcode.
@@ -10682,7 +11113,7 @@ function rawHandler(_ref4) {
     blockquote_normaliser];
     piece = deepFilterHTML(piece, filters, blockContentSchema);
     piece = normalise_blocks(piece);
-    return htmlToBlocks({
+    return raw_handling_htmlToBlocks({
       html: piece,
       rawTransforms: rawTransforms
     });
@@ -10914,290 +11345,12 @@ function synchronizeBlocksWithTemplate() {
 // Blocks are inferred from the HTML source of a post through a parsing mechanism
 // and then stored as objects in state, from which it is then rendered for editing.
 
-
-
-
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-
-var LEAF_KEY, hasWeakMap;
-
 /**
- * Arbitrary value used as key for referencing cache object in WeakMap tree.
- *
- * @type {Object}
+ * Internal dependencies
  */
-LEAF_KEY = {};
 
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
 
-/**
- * Returns the first argument as the sole entry in an array.
- *
- * @param {*} value Value to return.
- *
- * @return {Array} Value returned as entry in array.
- */
-function arrayOf( value ) {
-	return [ value ];
-}
 
-/**
- * Returns true if the value passed is object-like, or false otherwise. A value
- * is object-like if it can support property assignment, e.g. object or array.
- *
- * @param {*} value Value to test.
- *
- * @return {boolean} Whether value is object-like.
- */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
-}
-
-/**
- * Creates and returns a new cache object.
- *
- * @return {Object} Cache object.
- */
-function createCache() {
-	var cache = {
-		clear: function() {
-			cache.head = null;
-		},
-	};
-
-	return cache;
-}
-
-/**
- * Returns true if entries within the two arrays are strictly equal by
- * reference from a starting index.
- *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
- * @param {number} fromIndex Index from which to start comparison.
- *
- * @return {boolean} Whether arrays are shallowly equal.
- */
-function isShallowEqual( a, b, fromIndex ) {
-	var i;
-
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/**
- * Returns a memoized selector function. The getDependants function argument is
- * called before the memoized selector and is expected to return an immutable
- * reference or array of references on which the selector depends for computing
- * its own return value. The memoize cache is preserved only as long as those
- * dependant references remain the same. If getDependants returns a different
- * reference(s), the cache is cleared and the selector value regenerated.
- *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
- *
- * @return {Function} Memoized selector.
- */
-/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
-	var rootCache, getCache;
-
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
-
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
-
-	/**
-	 * Returns the cache for a given dependants array. When possible, a WeakMap
-	 * will be used to create a unique cache for each set of dependants. This
-	 * is feasible due to the nature of WeakMap in allowing garbage collection
-	 * to occur on entries where the key object is no longer referenced. Since
-	 * WeakMap requires the key to be an object, this is only possible when the
-	 * dependant is object-like. The root cache is created as a hierarchy where
-	 * each top-level key is the first entry in a dependants set, the value a
-	 * WeakMap where each key is the next dependant, and so on. This continues
-	 * so long as the dependants are object-like. If no dependants are object-
-	 * like, then the cache is shared across all invocations.
-	 *
-	 * @see isObjectLike
-	 *
-	 * @param {Array} dependants Selector dependants.
-	 *
-	 * @return {Object} Cache object.
-	 */
-	function getWeakMapCache( dependants ) {
-		var caches = rootCache,
-			isUniqueByDependants = true,
-			i, dependant, map, cache;
-
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
-
-			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
-				isUniqueByDependants = false;
-				break;
-			}
-
-			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
-				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
-			} else {
-				// Create, set, and traverse into a new one.
-				map = new WeakMap();
-				caches.set( dependant, map );
-				caches = map;
-			}
-		}
-
-		// We use an arbitrary (but consistent) object as key for the last item
-		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
-			cache = createCache();
-			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
-		}
-
-		return caches.get( LEAF_KEY );
-	}
-
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
-
-	/**
-	 * Resets root memoization cache.
-	 */
-	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
-	}
-
-	// eslint-disable-next-line jsdoc/check-param-names
-	/**
-	 * The augmented selector call, considering first whether dependants have
-	 * changed before passing it to underlying memoize function.
-	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
-	 *
-	 * @return {*} Selector result.
-	 */
-	function callSelector( /* source, ...extraArgs */ ) {
-		var len = arguments.length,
-			cache, node, i, args, dependants;
-
-		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
-
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
-
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
-				cache.clear();
-			}
-
-			cache.lastDependants = dependants;
-		}
-
-		node = cache.head;
-		while ( node ) {
-			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
-				node = node.next;
-				continue;
-			}
-
-			// At this point we can assume we've found a match
-
-			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
-				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
-
-				node.next = cache.head;
-				node.prev = null;
-				cache.head.prev = node;
-				cache.head = node;
-			}
-
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		node = {
-			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
-
-		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
-		node.args = args;
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( cache.head ) {
-			cache.head.prev = node;
-			node.next = cache.head;
-		}
-
-		cache.head = node;
-
-		return node.val;
-	}
-
-	callSelector.getDependants = getDependants;
-	callSelector.clear = clear;
-	clear();
-
-	return callSelector;
-});
 
 
 /***/ }),
@@ -11220,7 +11373,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 34:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11231,7 +11384,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12450,13 +12603,6 @@ else {}
 
 /***/ }),
 
-/***/ 49:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["htmlEntities"]; }());
-
-/***/ }),
-
 /***/ 5:
 /***/ (function(module, exports) {
 
@@ -12464,11 +12610,18 @@ else {}
 
 /***/ }),
 
-/***/ 57:
+/***/ 53:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["htmlEntities"]; }());
+
+/***/ }),
+
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(77);
-var bytesToUuid = __webpack_require__(78);
+var rng = __webpack_require__(79);
+var bytesToUuid = __webpack_require__(80);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -12500,7 +12653,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 58:
+/***/ 60:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["autop"]; }());
@@ -12514,7 +12667,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -12555,7 +12708,35 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 78:
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 80:
 /***/ (function(module, exports) {
 
 /**
@@ -12583,34 +12764,6 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
 
 /***/ }),
 

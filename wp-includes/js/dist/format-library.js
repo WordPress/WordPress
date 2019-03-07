@@ -114,12 +114,12 @@ function _classCallCheck(instance, Constructor) {
 
 /***/ }),
 
-/***/ 12:
+/***/ 11:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _possibleConstructorReturn; });
-/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
+/* harmony import */ var _helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(29);
 /* harmony import */ var _assertThisInitialized__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3);
 
 
@@ -133,7 +133,7 @@ function _possibleConstructorReturn(self, call) {
 
 /***/ }),
 
-/***/ 13:
+/***/ 12:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -147,7 +147,7 @@ function _getPrototypeOf(o) {
 
 /***/ }),
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -181,14 +181,29 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 16:
-/***/ (function(module, exports) {
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["keycodes"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ }),
 
-/***/ 17:
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -243,6 +258,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {}
 }());
 
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["keycodes"]; }());
 
 /***/ }),
 
@@ -307,18 +329,11 @@ function _objectWithoutProperties(source, excluded) {
 /***/ 22:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["dom"]; }());
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports) {
-
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 28:
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -365,14 +380,14 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js + 1 modules
 var objectWithoutProperties = __webpack_require__(21);
 
+// EXTERNAL MODULE: external {"this":["wp","richText"]}
+var external_this_wp_richText_ = __webpack_require__(20);
+
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
 var external_this_wp_i18n_ = __webpack_require__(1);
-
-// EXTERNAL MODULE: external {"this":["wp","richText"]}
-var external_this_wp_richText_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external {"this":["wp","editor"]}
 var external_this_wp_editor_ = __webpack_require__(6);
@@ -416,6 +431,9 @@ var bold = {
       isActive: isActive,
       shortcutType: "primary",
       shortcutCharacter: "b"
+    }), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["UnstableRichTextInputEvent"], {
+      inputType: "formatBold",
+      onInput: onToggle
     }));
   }
 };
@@ -453,6 +471,9 @@ var code = {
   }
 };
 
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
+var objectSpread = __webpack_require__(8);
+
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(10);
 
@@ -460,13 +481,13 @@ var classCallCheck = __webpack_require__(10);
 var createClass = __webpack_require__(9);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js
-var possibleConstructorReturn = __webpack_require__(12);
+var possibleConstructorReturn = __webpack_require__(11);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js
-var getPrototypeOf = __webpack_require__(13);
+var getPrototypeOf = __webpack_require__(12);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
-var inherits = __webpack_require__(14);
+var inherits = __webpack_require__(13);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js
 var assertThisInitialized = __webpack_require__(3);
@@ -474,7 +495,11 @@ var assertThisInitialized = __webpack_require__(3);
 // EXTERNAL MODULE: external {"this":["wp","components"]}
 var external_this_wp_components_ = __webpack_require__(4);
 
+// EXTERNAL MODULE: external {"this":["wp","keycodes"]}
+var external_this_wp_keycodes_ = __webpack_require__(17);
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/image/index.js
+
 
 
 
@@ -491,8 +516,14 @@ var external_this_wp_components_ = __webpack_require__(4);
 
 
 
+
 var ALLOWED_MEDIA_TYPES = ['image'];
 var image_name = 'core/image';
+
+var stopKeyPropagation = function stopKeyPropagation(event) {
+  return event.stopPropagation();
+};
+
 var image_image = {
   name: image_name,
   title: Object(external_this_wp_i18n_["__"])('Image'),
@@ -517,6 +548,8 @@ var image_image = {
       Object(classCallCheck["a" /* default */])(this, ImageEdit);
 
       _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(ImageEdit).apply(this, arguments));
+      _this.onChange = _this.onChange.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
+      _this.onKeyDown = _this.onKeyDown.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
       _this.openModal = _this.openModal.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
       _this.closeModal = _this.closeModal.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
       _this.state = {
@@ -526,6 +559,21 @@ var image_image = {
     }
 
     Object(createClass["a" /* default */])(ImageEdit, [{
+      key: "onChange",
+      value: function onChange(width) {
+        this.setState({
+          width: width
+        });
+      }
+    }, {
+      key: "onKeyDown",
+      value: function onKeyDown(event) {
+        if ([external_this_wp_keycodes_["LEFT"], external_this_wp_keycodes_["DOWN"], external_this_wp_keycodes_["RIGHT"], external_this_wp_keycodes_["UP"], external_this_wp_keycodes_["BACKSPACE"], external_this_wp_keycodes_["ENTER"]].indexOf(event.keyCode) > -1) {
+          // Stop the key event from propagating up to ObserveTyping.startTypingInTextField.
+          event.stopPropagation();
+        }
+      }
+    }, {
       key: "openModal",
       value: function openModal() {
         this.setState({
@@ -546,7 +594,13 @@ var image_image = {
 
         var _this$props = this.props,
             value = _this$props.value,
-            onChange = _this$props.onChange;
+            onChange = _this$props.onChange,
+            isActive = _this$props.isActive,
+            activeAttributes = _this$props.activeAttributes;
+        var style = activeAttributes.style; // Rerender PositionedAtSelection when the selection changes or when
+        // the width changes.
+
+        var key = value.start + style;
         return Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["MediaUploadCheck"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["RichTextInserterItem"], {
           name: image_name,
           icon: Object(external_this_wp_element_["createElement"])(external_this_wp_components_["SVG"], {
@@ -583,7 +637,62 @@ var image_image = {
             open();
             return null;
           }
-        }));
+        }), isActive && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PositionedAtSelection"], {
+          key: key
+        }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+          position: "bottom center",
+          focusOnMount: false
+        }, Object(external_this_wp_element_["createElement"])("form", {
+          className: "editor-format-toolbar__image-container-content",
+          onKeyPress: stopKeyPropagation,
+          onKeyDown: this.onKeyDown,
+          onSubmit: function onSubmit(event) {
+            var newFormats = value.formats.slice(0);
+            newFormats[value.start] = [{
+              type: image_name,
+              object: true,
+              attributes: Object(objectSpread["a" /* default */])({}, activeAttributes, {
+                style: "width: ".concat(_this2.state.width, "px;")
+              })
+            }];
+            onChange(Object(objectSpread["a" /* default */])({}, value, {
+              formats: newFormats
+            }));
+            event.preventDefault();
+          }
+        }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["TextControl"], {
+          className: "editor-format-toolbar__image-container-value",
+          type: "number",
+          label: Object(external_this_wp_i18n_["__"])('Width'),
+          value: this.state.width,
+          min: 1,
+          onChange: this.onChange
+        }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
+          icon: "editor-break",
+          label: Object(external_this_wp_i18n_["__"])('Apply'),
+          type: "submit"
+        })))));
+      }
+    }], [{
+      key: "getDerivedStateFromProps",
+      value: function getDerivedStateFromProps(props, state) {
+        var style = props.activeAttributes.style;
+
+        if (style === state.previousStyle) {
+          return null;
+        }
+
+        if (!style) {
+          return {
+            width: undefined,
+            previousStyle: style
+          };
+        }
+
+        return {
+          width: style.replace(/\D/g, ''),
+          previousStyle: style
+        };
       }
     }]);
 
@@ -630,112 +739,19 @@ var italic = {
       isActive: isActive,
       shortcutType: "primary",
       shortcutCharacter: "i"
+    }), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["UnstableRichTextInputEvent"], {
+      inputType: "formatItalic",
+      onInput: onToggle
     }));
   }
 };
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(24);
+var external_this_wp_url_ = __webpack_require__(22);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
-var classnames = __webpack_require__(17);
+var classnames = __webpack_require__(16);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
-
-// EXTERNAL MODULE: external {"this":["wp","keycodes"]}
-var external_this_wp_keycodes_ = __webpack_require__(16);
-
-// EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(22);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/positioned-at-selection.js
-
-
-
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Returns a style object for applying as `position: absolute` for an element
- * relative to the bottom-center of the current selection. Includes `top` and
- * `left` style properties.
- *
- * @return {Object} Style object.
- */
-
-function getCurrentCaretPositionStyle() {
-  var selection = window.getSelection(); // Unlikely, but in the case there is no selection, return empty styles so
-  // as to avoid a thrown error by `Selection#getRangeAt` on invalid index.
-
-  if (selection.rangeCount === 0) {
-    return {};
-  } // Get position relative viewport.
-
-
-  var rect = Object(external_this_wp_dom_["getRectangleFromRange"])(selection.getRangeAt(0));
-  var top = rect.top + rect.height;
-  var left = rect.left + rect.width / 2; // Offset by positioned parent, if one exists.
-
-  var offsetParent = Object(external_this_wp_dom_["getOffsetParent"])(selection.anchorNode);
-
-  if (offsetParent) {
-    var parentRect = offsetParent.getBoundingClientRect();
-    top -= parentRect.top;
-    left -= parentRect.left;
-  }
-
-  return {
-    top: top,
-    left: left
-  };
-}
-/**
- * Component which renders itself positioned under the current caret selection.
- * The position is calculated at the time of the component being mounted, so it
- * should only be mounted after the desired selection has been made.
- *
- * @type {WPComponent}
- */
-
-
-var positioned_at_selection_PositionedAtSelection =
-/*#__PURE__*/
-function (_Component) {
-  Object(inherits["a" /* default */])(PositionedAtSelection, _Component);
-
-  function PositionedAtSelection() {
-    var _this;
-
-    Object(classCallCheck["a" /* default */])(this, PositionedAtSelection);
-
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(PositionedAtSelection).apply(this, arguments));
-    _this.state = {
-      style: getCurrentCaretPositionStyle()
-    };
-    return _this;
-  }
-
-  Object(createClass["a" /* default */])(PositionedAtSelection, [{
-    key: "render",
-    value: function render() {
-      var children = this.props.children;
-      var style = this.state.style;
-      return Object(external_this_wp_element_["createElement"])("div", {
-        className: "editor-format-toolbar__selection-position",
-        style: style
-      }, children);
-    }
-  }]);
-
-  return PositionedAtSelection;
-}(external_this_wp_element_["Component"]);
-
-/* harmony default export */ var positioned_at_selection = (positioned_at_selection_PositionedAtSelection);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
@@ -748,6 +764,7 @@ var external_lodash_ = __webpack_require__(2);
 /**
  * WordPress dependencies
  */
+
 
 
 /**
@@ -815,6 +832,37 @@ function isValidHref(href) {
 
   return true;
 }
+/**
+ * Generates the format object that will be applied to the link text.
+ *
+ * @param {string}  url              The href of the link.
+ * @param {boolean} opensInNewWindow Whether this link will open in a new window.
+ * @param {Object}  text             The text that is being hyperlinked.
+ *
+ * @return {Object} The final format object.
+ */
+
+function createLinkFormat(_ref) {
+  var url = _ref.url,
+      opensInNewWindow = _ref.opensInNewWindow,
+      text = _ref.text;
+  var format = {
+    type: 'core/link',
+    attributes: {
+      url: url
+    }
+  };
+
+  if (opensInNewWindow) {
+    // translators: accessibility label for external links, where the argument is the link text
+    var label = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s (opens in a new tab)'), text);
+    format.attributes.target = '_blank';
+    format.attributes.rel = 'noreferrer noopener';
+    format.attributes['aria-label'] = label;
+  }
+
+  return format;
+}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/link/inline.js
 
@@ -846,59 +894,26 @@ function isValidHref(href) {
 
 
 
-
-var stopKeyPropagation = function stopKeyPropagation(event) {
+var inline_stopKeyPropagation = function stopKeyPropagation(event) {
   return event.stopPropagation();
 };
-/**
- * Generates the format object that will be applied to the link text.
- *
- * @param {string}  url              The href of the link.
- * @param {boolean} opensInNewWindow Whether this link will open in a new window.
- * @param {Object}  text             The text that is being hyperlinked.
- *
- * @return {Object} The final format object.
- */
-
-
-function createLinkFormat(_ref) {
-  var url = _ref.url,
-      opensInNewWindow = _ref.opensInNewWindow,
-      text = _ref.text;
-  var format = {
-    type: 'core/link',
-    attributes: {
-      url: url
-    }
-  };
-
-  if (opensInNewWindow) {
-    // translators: accessibility label for external links, where the argument is the link text
-    var label = Object(external_this_wp_i18n_["sprintf"])(Object(external_this_wp_i18n_["__"])('%s (opens in a new tab)'), text);
-    format.attributes.target = '_blank';
-    format.attributes.rel = 'noreferrer noopener';
-    format.attributes['aria-label'] = label;
-  }
-
-  return format;
-}
 
 function isShowingInput(props, state) {
   return props.addingLink || state.editLink;
 }
 
-var inline_LinkEditor = function LinkEditor(_ref2) {
-  var value = _ref2.value,
-      onChangeInputValue = _ref2.onChangeInputValue,
-      onKeyDown = _ref2.onKeyDown,
-      submitLink = _ref2.submitLink,
-      autocompleteRef = _ref2.autocompleteRef;
+var inline_LinkEditor = function LinkEditor(_ref) {
+  var value = _ref.value,
+      onChangeInputValue = _ref.onChangeInputValue,
+      onKeyDown = _ref.onKeyDown,
+      submitLink = _ref.submitLink,
+      autocompleteRef = _ref.autocompleteRef;
   return (// Disable reason: KeyPress must be suppressed so the block doesn't hide the toolbar
 
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     Object(external_this_wp_element_["createElement"])("form", {
       className: "editor-format-toolbar__link-container-content",
-      onKeyPress: stopKeyPropagation,
+      onKeyPress: inline_stopKeyPropagation,
       onKeyDown: onKeyDown,
       onSubmit: submitLink
     }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["URLInput"], {
@@ -915,8 +930,8 @@ var inline_LinkEditor = function LinkEditor(_ref2) {
   );
 };
 
-var inline_LinkViewerUrl = function LinkViewerUrl(_ref3) {
-  var url = _ref3.url;
+var inline_LinkViewerUrl = function LinkViewerUrl(_ref2) {
+  var url = _ref2.url;
   var prependedURL = Object(external_this_wp_url_["prependHTTP"])(url);
   var linkClassName = classnames_default()('editor-format-toolbar__link-container-value', {
     'has-invalid-link': !isValidHref(prependedURL)
@@ -934,15 +949,15 @@ var inline_LinkViewerUrl = function LinkViewerUrl(_ref3) {
   }, Object(external_this_wp_url_["filterURLForDisplay"])(Object(external_this_wp_url_["safeDecodeURI"])(url)));
 };
 
-var inline_LinkViewer = function LinkViewer(_ref4) {
-  var url = _ref4.url,
-      editLink = _ref4.editLink;
+var inline_LinkViewer = function LinkViewer(_ref3) {
+  var url = _ref3.url,
+      editLink = _ref3.editLink;
   return (// Disable reason: KeyPress must be suppressed so the block doesn't hide the toolbar
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     Object(external_this_wp_element_["createElement"])("div", {
       className: "editor-format-toolbar__link-container-content",
-      onKeyPress: stopKeyPropagation
+      onKeyPress: inline_stopKeyPropagation
     }, Object(external_this_wp_element_["createElement"])(inline_LinkViewerUrl, {
       url: url
     }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
@@ -1068,7 +1083,7 @@ function (_Component) {
     key: "onClickOutside",
     value: function onClickOutside(event) {
       // The autocomplete suggestions list renders in a separate popover (in a portal),
-      // so onClickOutside fails to detect that a click on a suggestion occured in the
+      // so onClickOutside fails to detect that a click on a suggestion occurred in the
       // LinkContainer. Detect clicks on autocomplete suggestions using a ref here, and
       // return to avoid the popover being closed.
       var autocompleteElement = this.autocompleteRef.current;
@@ -1106,7 +1121,7 @@ function (_Component) {
           inputValue = _this$state2.inputValue,
           opensInNewWindow = _this$state2.opensInNewWindow;
       var showInput = isShowingInput(this.props, this.state);
-      return Object(external_this_wp_element_["createElement"])(positioned_at_selection, {
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PositionedAtSelection"], {
         key: "".concat(value.start).concat(value.end)
         /* Used to force rerender on selection change */
 
@@ -1352,9 +1367,50 @@ var strikethrough = {
   }
 };
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/underline/index.js
 
 
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+var underline_name = 'core/underline';
+var underline = {
+  name: underline_name,
+  title: Object(external_this_wp_i18n_["__"])('Underline'),
+  tagName: 'span',
+  className: null,
+  attributes: {
+    style: 'style'
+  },
+  edit: function edit(_ref) {
+    var value = _ref.value,
+        onChange = _ref.onChange;
+
+    var onToggle = function onToggle() {
+      onChange(Object(external_this_wp_richText_["toggleFormat"])(value, {
+        type: underline_name,
+        attributes: {
+          style: 'text-decoration: underline;'
+        }
+      }));
+    };
+
+    return Object(external_this_wp_element_["createElement"])(external_this_wp_element_["Fragment"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["RichTextShortcut"], {
+      type: "primary",
+      character: "u",
+      onUse: onToggle
+    }), Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["UnstableRichTextInputEvent"], {
+      inputType: "formatUnderline",
+      onInput: onToggle
+    }));
+  }
+};
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/default-formats.js
 /**
  * Internal dependencies
  */
@@ -1364,12 +1420,22 @@ var strikethrough = {
 
 
 
+
+/* harmony default export */ var default_formats = ([bold, code, image_image, italic, link_link, strikethrough, underline]);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/format-library/build-module/index.js
+
+
 /**
  * WordPress dependencies
  */
 
+/**
+ * Internal dependencies
+ */
 
-[bold, code, image_image, italic, link_link, strikethrough].forEach(function (_ref) {
+
+default_formats.forEach(function (_ref) {
   var name = _ref.name,
       settings = Object(objectWithoutProperties["a" /* default */])(_ref, ["name"]);
 
@@ -1390,6 +1456,34 @@ var strikethrough = {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["editor"]; }());
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
 
 /***/ }),
 

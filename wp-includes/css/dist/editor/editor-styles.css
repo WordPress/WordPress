@@ -35,13 +35,16 @@ body {
   color: #191e23; }
 
 p {
-  font-size: 16px;
-  line-height: 1.8; }
+  font-size: inherit;
+  line-height: inherit; }
 
 ul,
 ol {
   margin: 0;
   padding: 0; }
+  ul li,
+  ol li {
+    margin-bottom: initial; }
 
 ul {
   list-style-type: disc; }
@@ -52,6 +55,3 @@ ol {
 ul ul,
 ol ul {
   list-style-type: circle; }
-
-.mce-content-body {
-  line-height: 1.8; }

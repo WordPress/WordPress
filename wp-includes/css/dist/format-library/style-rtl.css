@@ -28,6 +28,22 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+.editor-format-toolbar__image-container-content {
+  display: flex; }
+  .editor-format-toolbar__image-container-content .components-icon-button {
+    height: 52px;
+    align-self: flex-end; }
+
+.editor-format-toolbar__image-container-value {
+  margin: 7px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  white-space: nowrap;
+  min-width: 150px;
+  max-width: 500px; }
+  .editor-format-toolbar__image-container-value.components-base-control .components-base-control__field {
+    margin-bottom: 0; }
+
 .editor-format-toolbar__link-container-content {
   display: flex; }
 

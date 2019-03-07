@@ -1,4 +1,4 @@
-this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
+this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -82,137 +82,67 @@ this["wp"] = this["wp"] || {}; this["wp"]["isShallowEqual"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 277);
+/******/ 	return __webpack_require__(__webpack_require__.s = 293);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 277:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 293:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return createQueue; });
+var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback : window.requestAnimationFrame;
+var createQueue = function createQueue() {
+  var waitingList = [];
+  var elementsMap = new WeakMap();
+  var isRunning = false;
 
+  var runWaitingList = function runWaitingList(deadline) {
+    do {
+      if (waitingList.length === 0) {
+        isRunning = false;
+        return;
+      }
 
-/**
- * Internal dependencies;
- */
-var isShallowEqualObjects = __webpack_require__( 278 );
-var isShallowEqualArrays = __webpack_require__( 279 );
+      var nextElement = waitingList.shift();
+      elementsMap.get(nextElement)();
+      elementsMap.delete(nextElement);
+    } while (deadline && deadline.timeRemaining && deadline.timeRemaining() > 0);
 
-var isArray = Array.isArray;
+    requestIdleCallback(runWaitingList);
+  };
 
-/**
- * Returns true if the two arrays or objects are shallow equal, or false
- * otherwise.
- *
- * @param {(Array|Object)} a First object or array to compare.
- * @param {(Array|Object)} b Second object or array to compare.
- *
- * @return {boolean} Whether the two values are shallow equal.
- */
-function isShallowEqual( a, b ) {
-	if ( a && b ) {
-		if ( a.constructor === Object && b.constructor === Object ) {
-			return isShallowEqualObjects( a, b );
-		} else if ( isArray( a ) && isArray( b ) ) {
-			return isShallowEqualArrays( a, b );
-		}
-	}
+  var add = function add(element, item) {
+    if (!elementsMap.has(element)) {
+      waitingList.push(element);
+    }
 
-	return a === b;
-}
+    elementsMap.set(element, item);
 
-module.exports = isShallowEqual;
-module.exports.isShallowEqualObjects = isShallowEqualObjects;
-module.exports.isShallowEqualArrays = isShallowEqualArrays;
+    if (!isRunning) {
+      isRunning = true;
+      requestIdleCallback(runWaitingList);
+    }
+  };
 
+  var flush = function flush(element) {
+    if (!elementsMap.has(element)) {
+      return false;
+    }
 
-/***/ }),
+    elementsMap.delete(element);
+    var index = waitingList.indexOf(element);
+    waitingList.splice(index, 1);
+    return true;
+  };
 
-/***/ 278:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var keys = Object.keys;
-
-/**
- * Returns true if the two objects are shallow equal, or false otherwise.
- *
- * @param {Object} a First object to compare.
- * @param {Object} b Second object to compare.
- *
- * @return {boolean} Whether the two objects are shallow equal.
- */
-function isShallowEqualObjects( a, b ) {
-	var aKeys, bKeys, i, key;
-
-	if ( a === b ) {
-		return true;
-	}
-
-	aKeys = keys( a );
-	bKeys = keys( b );
-
-	if ( aKeys.length !== bKeys.length ) {
-		return false;
-	}
-
-	i = 0;
-
-	while ( i < aKeys.length ) {
-		key = aKeys[ i ];
-		if ( a[ key ] !== b[ key ] ) {
-			return false;
-		}
-
-		i++;
-	}
-
-	return true;
-}
-
-module.exports = isShallowEqualObjects;
-
-
-/***/ }),
-
-/***/ 279:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Returns true if the two arrays are shallow equal, or false otherwise.
- *
- * @param {Array} a First array to compare.
- * @param {Array} b Second array to compare.
- *
- * @return {boolean} Whether the two arrays are shallow equal.
- */
-function isShallowEqualArrays( a, b ) {
-	var i;
-
-	if ( a === b ) {
-		return true;
-	}
-
-	if ( a.length !== b.length ) {
-		return false;
-	}
-
-	for ( i = 0; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-module.exports = isShallowEqualArrays;
+  return {
+    add: add,
+    flush: flush
+  };
+};
 
 
 /***/ })

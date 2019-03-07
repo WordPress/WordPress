@@ -14,38 +14,37 @@
  */
 function render_block_core_latest_posts( $attributes ) {
 	$args = array(
-		'numberposts' => $attributes['postsToShow'],
-		'post_status' => 'publish',
-		'order'       => $attributes['order'],
-		'orderby'     => $attributes['orderBy'],
+		'posts_per_page'   => $attributes['postsToShow'],
+		'post_status'      => 'publish',
+		'order'            => $attributes['order'],
+		'orderby'          => $attributes['orderBy'],
+		'suppress_filters' => false,
 	);
 
 	if ( isset( $attributes['categories'] ) ) {
 		$args['category'] = $attributes['categories'];
 	}
 
-	$recent_posts = wp_get_recent_posts( $args );
+	$recent_posts = get_posts( $args );
 
 	$list_items_markup = '';
 
 	foreach ( $recent_posts as $post ) {
-		$post_id = $post['ID'];
-
-		$title = get_the_title( $post_id );
+		$title = get_the_title( $post );
 		if ( ! $title ) {
 			$title = __( '(Untitled)' );
 		}
 		$list_items_markup .= sprintf(
 			'<li><a href="%1$s">%2$s</a>',
-			esc_url( get_permalink( $post_id ) ),
-			esc_html( $title )
+			esc_url( get_permalink( $post ) ),
+			$title
 		);
 
 		if ( isset( $attributes['displayPostDate'] ) && $attributes['displayPostDate'] ) {
 			$list_items_markup .= sprintf(
 				'<time datetime="%1$s" class="wp-block-latest-posts__post-date">%2$s</time>',
-				esc_attr( get_the_date( 'c', $post_id ) ),
-				esc_html( get_the_date( '', $post_id ) )
+				esc_attr( get_the_date( 'c', $post ) ),
+				esc_html( get_the_date( '', $post ) )
 			);
 		}
 

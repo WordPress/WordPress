@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["element"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 319);
+/******/ 	return __webpack_require__(__webpack_require__.s = 320);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -167,7 +167,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 28:
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -190,7 +190,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 319:
+/***/ 320:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -413,17 +413,17 @@ var utils_isEmptyElement = function isEmptyElement(element) {
 };
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(28);
+var esm_typeof = __webpack_require__(29);
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(61);
+var external_this_wp_escapeHtml_ = __webpack_require__(63);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/element/build-module/raw-html.js
 
 
 
 /**
- * External dependencies
+ * Internal dependencies
  */
 
 /**
@@ -970,7 +970,7 @@ function renderStyle(style) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 63:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());

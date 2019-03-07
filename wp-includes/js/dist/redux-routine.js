@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 323);
+/******/ 	return __webpack_require__(__webpack_require__.s = 327);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 177:
+/***/ 178:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -98,7 +98,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChannel = exports.subscribe = exports.cps = exports.apply = exports.call = exports.invoke = exports.delay = exports.race = exports.join = exports.fork = exports.error = exports.all = undefined;
 
-var _keys = __webpack_require__(178);
+var _keys = __webpack_require__(179);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -228,7 +228,7 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
-/***/ 178:
+/***/ 179:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -263,7 +263,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.wrapControls = exports.asyncControls = exports.create = undefined;
 
-var _helpers = __webpack_require__(177);
+var _helpers = __webpack_require__(178);
 
 Object.keys(_helpers).forEach(function (key) {
   if (key === "default") return;
@@ -275,15 +275,15 @@ Object.keys(_helpers).forEach(function (key) {
   });
 });
 
-var _create = __webpack_require__(293);
+var _create = __webpack_require__(294);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _async = __webpack_require__(295);
+var _async = __webpack_require__(296);
 
 var _async2 = _interopRequireDefault(_async);
 
-var _wrap = __webpack_require__(297);
+var _wrap = __webpack_require__(298);
 
 var _wrap2 = _interopRequireDefault(_wrap);
 
@@ -302,30 +302,7 @@ exports.wrapControls = _wrap2.default;
 
 /***/ }),
 
-/***/ 28:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _typeof; });
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
-function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
-    _typeof = function _typeof(obj) {
-      return _typeof2(obj);
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
-    };
-  }
-
-  return _typeof(obj);
-}
-
-/***/ }),
-
-/***/ 293:
+/***/ 294:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -335,11 +312,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _builtin = __webpack_require__(294);
+var _builtin = __webpack_require__(295);
 
 var _builtin2 = _interopRequireDefault(_builtin);
 
-var _is = __webpack_require__(95);
+var _is = __webpack_require__(97);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -411,7 +388,7 @@ exports.default = create;
 
 /***/ }),
 
-/***/ 294:
+/***/ 295:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -422,7 +399,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.iterator = exports.array = exports.object = exports.error = exports.any = undefined;
 
-var _is = __webpack_require__(95);
+var _is = __webpack_require__(97);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -512,7 +489,7 @@ exports.default = [error, iterator, array, object, any];
 
 /***/ }),
 
-/***/ 295:
+/***/ 296:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -523,13 +500,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.race = exports.join = exports.fork = exports.promise = undefined;
 
-var _is = __webpack_require__(95);
+var _is = __webpack_require__(97);
 
 var _is2 = _interopRequireDefault(_is);
 
-var _helpers = __webpack_require__(177);
+var _helpers = __webpack_require__(178);
 
-var _dispatcher = __webpack_require__(296);
+var _dispatcher = __webpack_require__(297);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
@@ -634,7 +611,7 @@ exports.default = [promise, fork, join, race, subscribe];
 
 /***/ }),
 
-/***/ 296:
+/***/ 297:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -667,7 +644,7 @@ exports.default = createDispatcher;
 
 /***/ }),
 
-/***/ 297:
+/***/ 298:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -678,7 +655,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cps = exports.call = undefined;
 
-var _is = __webpack_require__(95);
+var _is = __webpack_require__(97);
 
 var _is2 = _interopRequireDefault(_is);
 
@@ -710,7 +687,7 @@ exports.default = [call, cps];
 
 /***/ }),
 
-/***/ 323:
+/***/ 327:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -730,9 +707,6 @@ function isGenerator(object) {
   return !!object && object[Symbol.toStringTag] === 'Generator';
 }
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(28);
-
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
 var dist = __webpack_require__(194);
 
@@ -740,28 +714,12 @@ var dist = __webpack_require__(194);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(86);
+var is_promise = __webpack_require__(89);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/cast-error.js
-/**
- * Casts value as an error if it's not one.
- *
- * @param {*} error The value to cast.
- *
- * @return {Error} The cast error.
- */
-function castError(error) {
-  if (!(error instanceof Error)) {
-    error = new Error(error);
-  }
-
-  return error;
-}
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
 /**
- * External imports
+ * External dependencies
  */
 
 /**
@@ -790,8 +748,6 @@ function isActionOfType(object, expectedType) {
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/runtime.js
-
-
 /**
  * External dependencies
  */
@@ -801,7 +757,6 @@ function isActionOfType(object, expectedType) {
 /**
  * Internal dependencies
  */
-
 
 
 /**
@@ -826,11 +781,9 @@ function createRuntime() {
 
       if (is_promise_default()(routine)) {
         // Async control routine awaits resolution.
-        routine.then(yieldNext, function (error) {
-          return yieldError(castError(error));
-        });
+        routine.then(yieldNext, yieldError);
       } else {
-        next(routine);
+        yieldNext(routine);
       }
 
       return true;
@@ -852,7 +805,7 @@ function createRuntime() {
   return function (action) {
     return new Promise(function (resolve, reject) {
       return rungenRuntime(action, function (result) {
-        if (Object(esm_typeof["a" /* default */])(result) === 'object' && Object(external_lodash_["isString"])(result.type)) {
+        if (isAction(result)) {
           dispatch(result);
         }
 
@@ -901,7 +854,7 @@ function createMiddleware() {
 
 /***/ }),
 
-/***/ 86:
+/***/ 89:
 /***/ (function(module, exports) {
 
 module.exports = isPromise;
@@ -913,7 +866,7 @@ function isPromise(obj) {
 
 /***/ }),
 
-/***/ 95:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -925,7 +878,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(178);
+var _keys = __webpack_require__(179);
 
 var _keys2 = _interopRequireDefault(_keys);
 

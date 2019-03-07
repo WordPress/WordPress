@@ -253,10 +253,14 @@ require( ABSPATH . WPINC . '/class-wp-block-parser.php' );
 require( ABSPATH . WPINC . '/blocks.php' );
 require( ABSPATH . WPINC . '/blocks/archives.php' );
 require( ABSPATH . WPINC . '/blocks/block.php' );
+require( ABSPATH . WPINC . '/blocks/calendar.php' );
 require( ABSPATH . WPINC . '/blocks/categories.php' );
 require( ABSPATH . WPINC . '/blocks/latest-comments.php' );
 require( ABSPATH . WPINC . '/blocks/latest-posts.php' );
+require( ABSPATH . WPINC . '/blocks/rss.php' );
+require( ABSPATH . WPINC . '/blocks/search.php' );
 require( ABSPATH . WPINC . '/blocks/shortcode.php' );
+require( ABSPATH . WPINC . '/blocks/tag-cloud.php' );
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 

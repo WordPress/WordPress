@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 300);
+/******/ 	return __webpack_require__(__webpack_require__.s = 301);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 179:
+/***/ 180:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -323,7 +323,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 180:
+/***/ 181:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -349,7 +349,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 300:
+/***/ 301:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -372,7 +372,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(76);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return safeDecodeURIComponent; });
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(78);
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * External dependencies
@@ -557,6 +558,12 @@ function isValidFragment(fragment) {
 function addQueryArgs() {
   var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var args = arguments.length > 1 ? arguments[1] : undefined;
+
+  // If no arguments are to be appended, return original URL.
+  if (!args || !Object.keys(args).length) {
+    return url;
+  }
+
   var baseUrl = url; // Determine whether URL already had query arguments.
 
   var queryStringIndex = url.indexOf('?');
@@ -590,7 +597,7 @@ function getQueryArg(url, arg) {
  * @param {string} url URL
  * @param {string} arg Query arg name
  *
- * @return {boolean} Whether or not the URL contains the query aeg.
+ * @return {boolean} Whether or not the URL contains the query arg.
  */
 
 function hasQueryArg(url, arg) {
@@ -668,18 +675,34 @@ function filterURLForDisplay(url) {
 
   return filteredURL;
 }
+/**
+ * Safely decodes a URI component with `decodeURIComponent`. Returns the URI component unmodified if
+ * `decodeURIComponent` throws an error.
+ *
+ * @param {string} uriComponent URI component to decode.
+ *
+ * @return {string} Decoded URI component if possible.
+ */
+
+function safeDecodeURIComponent(uriComponent) {
+  try {
+    return decodeURIComponent(uriComponent);
+  } catch (uriComponentError) {
+    return uriComponent;
+  }
+}
 
 
 /***/ }),
 
-/***/ 301:
+/***/ 302:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(179);
-var formats = __webpack_require__(180);
+var utils = __webpack_require__(180);
+var formats = __webpack_require__(181);
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
@@ -922,13 +945,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 302:
+/***/ 303:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(179);
+var utils = __webpack_require__(180);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -1156,15 +1179,15 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 78:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(301);
-var parse = __webpack_require__(302);
-var formats = __webpack_require__(180);
+var stringify = __webpack_require__(302);
+var parse = __webpack_require__(303);
+var formats = __webpack_require__(181);
 
 module.exports = {
     formats: formats,

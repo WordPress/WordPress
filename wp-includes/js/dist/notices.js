@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 122:
+/***/ 123:
 /***/ (function(module, exports) {
 
 function _interopRequireDefault(obj) {
@@ -100,7 +100,7 @@ module.exports = _interopRequireDefault;
 
 /***/ }),
 
-/***/ 175:
+/***/ 176:
 /***/ (function(module, exports) {
 
 function _defineProperty(obj, key, value) {
@@ -122,7 +122,7 @@ module.exports = _defineProperty;
 
 /***/ }),
 
-/***/ 176:
+/***/ 177:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -180,7 +180,7 @@ __webpack_require__(281);
 
 var _interopRequireWildcard = __webpack_require__(282);
 
-var _interopRequireDefault = __webpack_require__(122);
+var _interopRequireDefault = __webpack_require__(123);
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -254,7 +254,7 @@ module.exports = _interopRequireWildcard;
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__(122);
+var _interopRequireDefault = __webpack_require__(123);
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -291,9 +291,9 @@ var notices = (0, _onSubKey.default)('context')(function () {
   switch (action.type) {
     case 'CREATE_NOTICE':
       // Avoid duplicates on ID.
-      return (0, _toConsumableArray2.default)((0, _lodash.reject)(state, {
+      return [].concat((0, _toConsumableArray2.default)((0, _lodash.reject)(state, {
         id: action.notice.id
-      })).concat([action.notice]);
+      })), [action.notice]);
 
     case 'REMOVE_NOTICE':
       return (0, _lodash.reject)(state, {
@@ -371,14 +371,14 @@ module.exports = _nonIterableSpread;
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__(122);
+var _interopRequireDefault = __webpack_require__(123);
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = exports.onSubKey = void 0;
 
-var _defineProperty2 = _interopRequireDefault(__webpack_require__(175));
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(176));
 
 var _objectSpread3 = _interopRequireDefault(__webpack_require__(289));
 
@@ -426,7 +426,7 @@ exports.default = _default;
 /***/ 289:
 /***/ (function(module, exports, __webpack_require__) {
 
-var defineProperty = __webpack_require__(175);
+var defineProperty = __webpack_require__(176);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -469,7 +469,7 @@ exports.removeNotice = removeNotice;
 
 var _lodash = __webpack_require__(2);
 
-var _constants = __webpack_require__(176);
+var _constants = __webpack_require__(177);
 
 var _marked =
 /*#__PURE__*/
@@ -659,7 +659,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getNotices = getNotices;
 
-var _constants = __webpack_require__(176);
+var _constants = __webpack_require__(177);
 
 /**
  * Internal dependencies

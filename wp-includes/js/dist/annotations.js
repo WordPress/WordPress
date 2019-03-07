@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 316);
+/******/ 	return __webpack_require__(__webpack_require__.s = 317);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -116,7 +116,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 19:
+/***/ 18:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -214,7 +214,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 31:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -496,7 +496,7 @@ function isShallowEqual( a, b, fromIndex ) {
 
 /***/ }),
 
-/***/ 316:
+/***/ 317:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -521,7 +521,7 @@ var external_this_wp_data_ = __webpack_require__(5);
 var defineProperty = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(19);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(8);
@@ -594,7 +594,7 @@ function reducer_annotations() {
       }
 
       var previousAnnotationsForBlock = Object(external_lodash_["get"])(state, blockClientId, []);
-      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, blockClientId, Object(toConsumableArray["a" /* default */])(previousAnnotationsForBlock).concat([newAnnotation])));
+      return Object(objectSpread["a" /* default */])({}, state, Object(defineProperty["a" /* default */])({}, blockClientId, [].concat(Object(toConsumableArray["a" /* default */])(previousAnnotationsForBlock), [newAnnotation])));
 
     case 'ANNOTATION_REMOVE':
       return Object(external_lodash_["mapValues"])(state, function (annotationsForBlock) {
@@ -638,7 +638,7 @@ function reducer_annotations() {
 var objectWithoutProperties = __webpack_require__(21);
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(31);
+var rememo = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/selectors.js
 
@@ -718,7 +718,7 @@ function __experimentalGetAnnotations(state) {
 }
 
 // EXTERNAL MODULE: ./node_modules/uuid/v4.js
-var v4 = __webpack_require__(57);
+var v4 = __webpack_require__(59);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/actions.js
@@ -826,7 +826,7 @@ function __experimentalRemoveAnnotationsBySource(source) {
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/annotations/build-module/store/index.js
 /**
- * WordPress Dependencies
+ * WordPress dependencies
  */
 
 /**
@@ -852,7 +852,7 @@ var store = Object(external_this_wp_data_["registerStore"])(MODULE_KEY, {
 var external_this_wp_richText_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(41);
+var memize = __webpack_require__(38);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":["wp","i18n"]}
@@ -1126,7 +1126,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {
@@ -1251,11 +1251,11 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 57:
+/***/ 59:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(77);
-var bytesToUuid = __webpack_require__(78);
+var rng = __webpack_require__(79);
+var bytesToUuid = __webpack_require__(80);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1287,7 +1287,7 @@ module.exports = v4;
 
 /***/ }),
 
-/***/ 77:
+/***/ 79:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -1328,7 +1328,35 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 78:
+/***/ 8:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ 80:
 /***/ (function(module, exports) {
 
 /**
@@ -1356,34 +1384,6 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
 
 /***/ })
 

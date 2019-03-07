@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 307);
+/******/ 	return __webpack_require__(__webpack_require__.s = 308);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -120,31 +120,6 @@ function _defineProperty(obj, key, value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 function _arrayWithoutHoles(arr) {
@@ -174,6 +149,31 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -189,6 +189,288 @@ function _toConsumableArray(arr) {
 /***/ }),
 
 /***/ 28:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+
+var LEAF_KEY, hasWeakMap;
+
+/**
+ * Arbitrary value used as key for referencing cache object in WeakMap tree.
+ *
+ * @type {Object}
+ */
+LEAF_KEY = {};
+
+/**
+ * Whether environment supports WeakMap.
+ *
+ * @type {boolean}
+ */
+hasWeakMap = typeof WeakMap !== 'undefined';
+
+/**
+ * Returns the first argument as the sole entry in an array.
+ *
+ * @param {*} value Value to return.
+ *
+ * @return {Array} Value returned as entry in array.
+ */
+function arrayOf( value ) {
+	return [ value ];
+}
+
+/**
+ * Returns true if the value passed is object-like, or false otherwise. A value
+ * is object-like if it can support property assignment, e.g. object or array.
+ *
+ * @param {*} value Value to test.
+ *
+ * @return {boolean} Whether value is object-like.
+ */
+function isObjectLike( value ) {
+	return !! value && 'object' === typeof value;
+}
+
+/**
+ * Creates and returns a new cache object.
+ *
+ * @return {Object} Cache object.
+ */
+function createCache() {
+	var cache = {
+		clear: function() {
+			cache.head = null;
+		},
+	};
+
+	return cache;
+}
+
+/**
+ * Returns true if entries within the two arrays are strictly equal by
+ * reference from a starting index.
+ *
+ * @param {Array}  a         First array.
+ * @param {Array}  b         Second array.
+ * @param {number} fromIndex Index from which to start comparison.
+ *
+ * @return {boolean} Whether arrays are shallowly equal.
+ */
+function isShallowEqual( a, b, fromIndex ) {
+	var i;
+
+	if ( a.length !== b.length ) {
+		return false;
+	}
+
+	for ( i = fromIndex; i < a.length; i++ ) {
+		if ( a[ i ] !== b[ i ] ) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Returns a memoized selector function. The getDependants function argument is
+ * called before the memoized selector and is expected to return an immutable
+ * reference or array of references on which the selector depends for computing
+ * its own return value. The memoize cache is preserved only as long as those
+ * dependant references remain the same. If getDependants returns a different
+ * reference(s), the cache is cleared and the selector value regenerated.
+ *
+ * @param {Function} selector      Selector function.
+ * @param {Function} getDependants Dependant getter returning an immutable
+ *                                 reference or array of reference used in
+ *                                 cache bust consideration.
+ *
+ * @return {Function} Memoized selector.
+ */
+/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
+	var rootCache, getCache;
+
+	// Use object source as dependant if getter not provided
+	if ( ! getDependants ) {
+		getDependants = arrayOf;
+	}
+
+	/**
+	 * Returns the root cache. If WeakMap is supported, this is assigned to the
+	 * root WeakMap cache set, otherwise it is a shared instance of the default
+	 * cache object.
+	 *
+	 * @return {(WeakMap|Object)} Root cache object.
+	 */
+	function getRootCache() {
+		return rootCache;
+	}
+
+	/**
+	 * Returns the cache for a given dependants array. When possible, a WeakMap
+	 * will be used to create a unique cache for each set of dependants. This
+	 * is feasible due to the nature of WeakMap in allowing garbage collection
+	 * to occur on entries where the key object is no longer referenced. Since
+	 * WeakMap requires the key to be an object, this is only possible when the
+	 * dependant is object-like. The root cache is created as a hierarchy where
+	 * each top-level key is the first entry in a dependants set, the value a
+	 * WeakMap where each key is the next dependant, and so on. This continues
+	 * so long as the dependants are object-like. If no dependants are object-
+	 * like, then the cache is shared across all invocations.
+	 *
+	 * @see isObjectLike
+	 *
+	 * @param {Array} dependants Selector dependants.
+	 *
+	 * @return {Object} Cache object.
+	 */
+	function getWeakMapCache( dependants ) {
+		var caches = rootCache,
+			isUniqueByDependants = true,
+			i, dependant, map, cache;
+
+		for ( i = 0; i < dependants.length; i++ ) {
+			dependant = dependants[ i ];
+
+			// Can only compose WeakMap from object-like key.
+			if ( ! isObjectLike( dependant ) ) {
+				isUniqueByDependants = false;
+				break;
+			}
+
+			// Does current segment of cache already have a WeakMap?
+			if ( caches.has( dependant ) ) {
+				// Traverse into nested WeakMap.
+				caches = caches.get( dependant );
+			} else {
+				// Create, set, and traverse into a new one.
+				map = new WeakMap();
+				caches.set( dependant, map );
+				caches = map;
+			}
+		}
+
+		// We use an arbitrary (but consistent) object as key for the last item
+		// in the WeakMap to serve as our running cache.
+		if ( ! caches.has( LEAF_KEY ) ) {
+			cache = createCache();
+			cache.isUniqueByDependants = isUniqueByDependants;
+			caches.set( LEAF_KEY, cache );
+		}
+
+		return caches.get( LEAF_KEY );
+	}
+
+	// Assign cache handler by availability of WeakMap
+	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
+
+	/**
+	 * Resets root memoization cache.
+	 */
+	function clear() {
+		rootCache = hasWeakMap ? new WeakMap() : createCache();
+	}
+
+	// eslint-disable-next-line jsdoc/check-param-names
+	/**
+	 * The augmented selector call, considering first whether dependants have
+	 * changed before passing it to underlying memoize function.
+	 *
+	 * @param {Object} source    Source object for derivation.
+	 * @param {...*}   extraArgs Additional arguments to pass to selector.
+	 *
+	 * @return {*} Selector result.
+	 */
+	function callSelector( /* source, ...extraArgs */ ) {
+		var len = arguments.length,
+			cache, node, i, args, dependants;
+
+		// Create copy of arguments (avoid leaking deoptimization).
+		args = new Array( len );
+		for ( i = 0; i < len; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
+		dependants = getDependants.apply( null, args );
+		cache = getCache( dependants );
+
+		// If not guaranteed uniqueness by dependants (primitive type or lack
+		// of WeakMap support), shallow compare against last dependants and, if
+		// references have changed, destroy cache to recalculate result.
+		if ( ! cache.isUniqueByDependants ) {
+			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
+				cache.clear();
+			}
+
+			cache.lastDependants = dependants;
+		}
+
+		node = cache.head;
+		while ( node ) {
+			// Check whether node arguments match arguments
+			if ( ! isShallowEqual( node.args, args, 1 ) ) {
+				node = node.next;
+				continue;
+			}
+
+			// At this point we can assume we've found a match
+
+			// Surface matched node to head if not already
+			if ( node !== cache.head ) {
+				// Adjust siblings to point to each other.
+				node.prev.next = node.next;
+				if ( node.next ) {
+					node.next.prev = node.prev;
+				}
+
+				node.next = cache.head;
+				node.prev = null;
+				cache.head.prev = node;
+				cache.head = node;
+			}
+
+			// Return immediately
+			return node.val;
+		}
+
+		// No cached value found. Continue to insertion phase:
+
+		node = {
+			// Generate the result from original function
+			val: selector.apply( null, args ),
+		};
+
+		// Avoid including the source object in the cache.
+		args[ 0 ] = null;
+		node.args = args;
+
+		// Don't need to check whether node is already head, since it would
+		// have been returned above already if it was
+
+		// Shift existing head down list
+		if ( cache.head ) {
+			cache.head.prev = node;
+			node.next = cache.head;
+		}
+
+		cache.head = node;
+
+		return node.val;
+	}
+
+	callSelector.getDependants = getDependants;
+	callSelector.clear = clear;
+	clear();
+
+	return callSelector;
+});
+
+
+/***/ }),
+
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -211,7 +493,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 307:
+/***/ 308:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -276,7 +558,7 @@ function reducer_formatTypes() {
 }));
 
 // EXTERNAL MODULE: ./node_modules/rememo/es/rememo.js
-var rememo = __webpack_require__(31);
+var rememo = __webpack_require__(28);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/store/selectors.js
 /**
@@ -531,7 +813,7 @@ function applyFormat(_ref, format) {
       end = _ref.end;
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : end;
-  var newFormats = formats.slice(0); // The selection is collpased.
+  var newFormats = formats.slice(0); // The selection is collapsed.
 
   if (startIndex === endIndex) {
     var startFormat = Object(external_lodash_["find"])(newFormats[startIndex], {
@@ -563,10 +845,7 @@ function applyFormat(_ref, format) {
         text: text,
         start: start,
         end: end,
-        formatPlaceholder: {
-          index: startIndex,
-          format: hasType ? undefined : format
-        }
+        formatPlaceholder: hasType ? undefined : format
       };
     }
   } else {
@@ -620,7 +899,7 @@ function charAt(_ref, index) {
  * Combine all Rich Text values into one. This is similar to
  * `String.prototype.concat`.
  *
- * @param {...[object]} values An array of all values to combine.
+ * @param {...Object} values Objects to combine.
  *
  * @return {Object} A new value combining all given records.
  */
@@ -641,17 +920,19 @@ function concat() {
 }
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
-var toConsumableArray = __webpack_require__(19);
+var toConsumableArray = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/typeof.js
-var esm_typeof = __webpack_require__(28);
+var esm_typeof = __webpack_require__(29);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/special-characters.js
 var LINE_SEPARATOR = "\u2028";
 var OBJECT_REPLACEMENT_CHARACTER = "\uFFFC";
-var ZERO_WIDTH_NO_BREAK_SPACE = "\uFEFF";
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/is-empty.js
+/**
+ * Internal dependencies
+ */
 
 /**
  * Check if a Rich Text value is Empty, meaning it contains no text or any
@@ -839,14 +1120,6 @@ function toFormat(_ref) {
  *                                            multiline.
  * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
  *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
  *
  * @return {Object} A rich text value.
  */
@@ -859,11 +1132,7 @@ function create() {
       html = _ref2.html,
       range = _ref2.range,
       multilineTag = _ref2.multilineTag,
-      multilineWrapperTags = _ref2.multilineWrapperTags,
-      removeNode = _ref2.removeNode,
-      unwrapNode = _ref2.unwrapNode,
-      filterString = _ref2.filterString,
-      removeAttribute = _ref2.removeAttribute;
+      multilineWrapperTags = _ref2.multilineWrapperTags;
 
   if (typeof text === 'string' && text.length > 0) {
     return {
@@ -883,11 +1152,7 @@ function create() {
   if (!multilineTag) {
     return createFromElement({
       element: element,
-      range: range,
-      removeNode: removeNode,
-      unwrapNode: unwrapNode,
-      filterString: filterString,
-      removeAttribute: removeAttribute
+      range: range
     });
   }
 
@@ -895,11 +1160,7 @@ function create() {
     element: element,
     range: range,
     multilineTag: multilineTag,
-    multilineWrapperTags: multilineWrapperTags,
-    removeNode: removeNode,
-    unwrapNode: unwrapNode,
-    filterString: filterString,
-    removeAttribute: removeAttribute
+    multilineWrapperTags: multilineWrapperTags
   });
 }
 /**
@@ -985,6 +1246,12 @@ function filterRange(node, range, filter) {
     endOffset: endOffset
   };
 }
+
+function filterString(string) {
+  // Reduce any whitespace used for HTML formatting to one space
+  // character, because it will also be displayed as such by the browser.
+  return string.replace(/[\n\r\t]+/g, ' ');
+}
 /**
  * Creates a Rich Text value from a DOM element and range.
  *
@@ -995,14 +1262,6 @@ function filterRange(node, range, filter) {
  *                                            multiline.
  * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
  *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
  *
  * @return {Object} A rich text value.
  */
@@ -1014,11 +1273,7 @@ function createFromElement(_ref3) {
       multilineTag = _ref3.multilineTag,
       multilineWrapperTags = _ref3.multilineWrapperTags,
       _ref3$currentWrapperT = _ref3.currentWrapperTags,
-      currentWrapperTags = _ref3$currentWrapperT === void 0 ? [] : _ref3$currentWrapperT,
-      removeNode = _ref3.removeNode,
-      unwrapNode = _ref3.unwrapNode,
-      filterString = _ref3.filterString,
-      removeAttribute = _ref3.removeAttribute;
+      currentWrapperTags = _ref3$currentWrapperT === void 0 ? [] : _ref3$currentWrapperT;
   var accumulator = createEmptyValue();
 
   if (!element) {
@@ -1030,29 +1285,16 @@ function createFromElement(_ref3) {
     return accumulator;
   }
 
-  var length = element.childNodes.length;
-
-  var filterStringComplete = function filterStringComplete(string) {
-    // Reduce any whitespace used for HTML formatting to one space
-    // character, because it will also be displayed as such by the browser.
-    string = string.replace(/[\n\r\t]+/g, ' ');
-
-    if (filterString) {
-      string = filterString(string);
-    }
-
-    return string;
-  }; // Optimise for speed.
-
+  var length = element.childNodes.length; // Optimise for speed.
 
   for (var index = 0; index < length; index++) {
     var node = element.childNodes[index];
     var type = node.nodeName.toLowerCase();
 
     if (node.nodeType === TEXT_NODE) {
-      var _text = filterStringComplete(node.nodeValue);
+      var _text = filterString(node.nodeValue);
 
-      range = filterRange(node, range, filterStringComplete);
+      range = filterRange(node, range, filterString);
       accumulateSelection(accumulator, node, range, {
         text: _text
       });
@@ -1067,7 +1309,7 @@ function createFromElement(_ref3) {
       continue;
     }
 
-    if (removeNode && removeNode(node) || unwrapNode && unwrapNode(node) && !node.hasChildNodes()) {
+    if (node.getAttribute('data-rich-text-padding')) {
       accumulateSelection(accumulator, node, range, createEmptyValue());
       continue;
     }
@@ -1081,27 +1323,24 @@ function createFromElement(_ref3) {
 
     var lastFormats = accumulator.formats[accumulator.formats.length - 1];
     var lastFormat = lastFormats && lastFormats[lastFormats.length - 1];
+    var newFormat = toFormat({
+      type: type,
+      attributes: getAttributes({
+        element: node
+      })
+    });
     var format = void 0;
-    var value = void 0;
 
-    if (!unwrapNode || !unwrapNode(node)) {
-      var newFormat = toFormat({
-        type: type,
-        attributes: getAttributes({
-          element: node,
-          removeAttribute: removeAttribute
-        })
-      });
-
-      if (newFormat) {
-        // Reuse the last format if it's equal.
-        if (isFormatEqual(newFormat, lastFormat)) {
-          format = lastFormat;
-        } else {
-          format = newFormat;
-        }
+    if (newFormat) {
+      // Reuse the last format if it's equal.
+      if (isFormatEqual(newFormat, lastFormat)) {
+        format = lastFormat;
+      } else {
+        format = newFormat;
       }
     }
+
+    var value = void 0;
 
     if (multilineWrapperTags && multilineWrapperTags.indexOf(type) !== -1) {
       value = createFromMultilineElement({
@@ -1109,11 +1348,7 @@ function createFromElement(_ref3) {
         range: range,
         multilineTag: multilineTag,
         multilineWrapperTags: multilineWrapperTags,
-        removeNode: removeNode,
-        unwrapNode: unwrapNode,
-        filterString: filterString,
-        removeAttribute: removeAttribute,
-        currentWrapperTags: Object(toConsumableArray["a" /* default */])(currentWrapperTags).concat([format])
+        currentWrapperTags: [].concat(Object(toConsumableArray["a" /* default */])(currentWrapperTags), [format])
       });
       format = undefined;
     } else {
@@ -1121,11 +1356,7 @@ function createFromElement(_ref3) {
         element: node,
         range: range,
         multilineTag: multilineTag,
-        multilineWrapperTags: multilineWrapperTags,
-        removeNode: removeNode,
-        unwrapNode: unwrapNode,
-        filterString: filterString,
-        removeAttribute: removeAttribute
+        multilineWrapperTags: multilineWrapperTags
       });
     }
 
@@ -1190,14 +1421,6 @@ function createFromElement(_ref3) {
  *                                            multiline.
  * @param {?Array}    $1.multilineWrapperTags Tags where lines can be found if
  *                                            nesting is possible.
- * @param {?Function} $1.removeNode           Function to declare whether the
- *                                            given node should be removed.
- * @param {?Function} $1.unwrapNode           Function to declare whether the
- *                                            given node should be unwrapped.
- * @param {?Function} $1.filterString         Function to filter the given
- *                                            string.
- * @param {?Function} $1.removeAttribute      Wether to remove an attribute
- *                                            based on the name.
  * @param {boolean}   $1.currentWrapperTags   Whether to prepend a line
  *                                            separator.
  *
@@ -1210,10 +1433,6 @@ function createFromMultilineElement(_ref4) {
       range = _ref4.range,
       multilineTag = _ref4.multilineTag,
       multilineWrapperTags = _ref4.multilineWrapperTags,
-      removeNode = _ref4.removeNode,
-      unwrapNode = _ref4.unwrapNode,
-      filterString = _ref4.filterString,
-      removeAttribute = _ref4.removeAttribute,
       _ref4$currentWrapperT = _ref4.currentWrapperTags,
       currentWrapperTags = _ref4$currentWrapperT === void 0 ? [] : _ref4$currentWrapperT;
   var accumulator = createEmptyValue();
@@ -1236,11 +1455,7 @@ function createFromMultilineElement(_ref4) {
       range: range,
       multilineTag: multilineTag,
       multilineWrapperTags: multilineWrapperTags,
-      currentWrapperTags: currentWrapperTags,
-      removeNode: removeNode,
-      unwrapNode: unwrapNode,
-      filterString: filterString,
-      removeAttribute: removeAttribute
+      currentWrapperTags: currentWrapperTags
     }); // If a line consists of one single line break (invisible), consider the
     // line empty, wether this is the browser's doing or not.
 
@@ -1277,8 +1492,6 @@ function createFromMultilineElement(_ref4) {
  *
  * @param {Object}    $1                 Named argements.
  * @param {Element}   $1.element         Element to get attributes from.
- * @param {?Function} $1.removeAttribute Wether to remove an attribute based on
- *                                       the name.
  *
  * @return {?Object} Attribute object or `undefined` if the element has no
  *                   attributes.
@@ -1286,8 +1499,7 @@ function createFromMultilineElement(_ref4) {
 
 
 function getAttributes(_ref5) {
-  var element = _ref5.element,
-      removeAttribute = _ref5.removeAttribute;
+  var element = _ref5.element;
 
   if (!element.hasAttributes()) {
     return;
@@ -1301,7 +1513,7 @@ function getAttributes(_ref5) {
         name = _element$attributes$i.name,
         value = _element$attributes$i.value;
 
-    if (removeAttribute && removeAttribute(name)) {
+    if (name === 'data-rich-text-format-boundary') {
       continue;
     }
 
@@ -1312,10 +1524,43 @@ function getAttributes(_ref5) {
   return accumulator;
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-active-formats.js
+/**
+ * Gets the all format objects at the start of the selection.
+ *
+ * @param {Object} value Value to inspect.
+ *
+ * @return {?Object} Active format objects.
+ */
+function getActiveFormats(_ref) {
+  var formats = _ref.formats,
+      start = _ref.start,
+      selectedFormat = _ref.selectedFormat;
+
+  if (start === undefined) {
+    return [];
+  }
+
+  var formatsBefore = formats[start - 1] || [];
+  var formatsAfter = formats[start] || [];
+  var source = formatsAfter;
+
+  if (formatsBefore.length > formatsAfter.length) {
+    source = formatsBefore;
+  }
+
+  return source.slice(0, selectedFormat);
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-active-format.js
 /**
  * External dependencies
  */
+
+/**
+ * Internal dependencies
+ */
+
 
 /**
  * Gets the format object by type at the start of the selection. This can be
@@ -1329,15 +1574,8 @@ function getAttributes(_ref5) {
  * @return {?Object} Active format object of the specified type, or undefined.
  */
 
-function getActiveFormat(_ref, formatType) {
-  var formats = _ref.formats,
-      start = _ref.start;
-
-  if (start === undefined) {
-    return;
-  }
-
-  return Object(external_lodash_["find"])(formats[start], {
+function getActiveFormat(value, formatType) {
+  return Object(external_lodash_["find"])(getActiveFormats(value), {
     type: formatType
   });
 }
@@ -1449,13 +1687,13 @@ function join(values) {
 var defineProperty = __webpack_require__(15);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
-var esm_extends = __webpack_require__(18);
+var esm_extends = __webpack_require__(19);
 
 // EXTERNAL MODULE: external {"this":["wp","element"]}
 var external_this_wp_element_ = __webpack_require__(0);
 
 // EXTERNAL MODULE: ./node_modules/memize/index.js
-var memize = __webpack_require__(41);
+var memize = __webpack_require__(38);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
@@ -1575,7 +1813,7 @@ function registerFormatType(name, settings) {
   var getFunctionStackMemoized = memize_default()(function () {
     var previousStack = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : EMPTY_ARRAY;
     var newFunction = arguments.length > 1 ? arguments[1] : undefined;
-    return Object(toConsumableArray["a" /* default */])(previousStack).concat([newFunction]);
+    return [].concat(Object(toConsumableArray["a" /* default */])(previousStack), [newFunction]);
   });
 
   if (settings.__experimentalGetPropsForEditableTreePreparation) {
@@ -1858,6 +2096,37 @@ function replace(_ref, pattern, replacement) {
   });
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/insert-line-break.js
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * Inserts a line break at the given or selected position. Inserts two line
+ * breaks if at the end of a line.
+ *
+ * @param {Object} value Value to modify.
+ *
+ * @return {Object} The value with the line break(s) inserted.
+ */
+
+function insertLineBreak(value) {
+  var text = value.text,
+      end = value.end;
+  var length = text.length;
+  var toInsert = '\n'; // If the caret is at the end of the text, and there is no
+  // trailing line break or no text at all, we have to insert two
+  // line breaks in order to create a new line visually and place
+  // the caret there.
+
+  if ((end === length || text[end] === LINE_SEPARATOR) && (text[end - 1] !== '\n' || length === 0)) {
+    toInsert = '\n\n';
+  }
+
+  return insert(value, toInsert);
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/insert-line-separator.js
 /**
  * Internal dependencies
@@ -2062,25 +2331,52 @@ function get_format_type_getFormatType(name) {
 
 
 
+/**
+ * Converts a format object to information that can be used to create an element
+ * from (type, attributes and object).
+ *
+ * @param  {Object}  $1                        Named parameters.
+ * @param  {string}  $1.type                   The format type.
+ * @param  {Object}  $1.attributes             The format attributes.
+ * @param  {Object}  $1.unregisteredAttributes The unregistered format
+ *                                             attributes.
+ * @param  {boolean} $1.object                 Wether or not it is an object
+ *                                             format.
+ * @param  {boolean} $1.boundaryClass          Wether or not to apply a boundary
+ *                                             class.
+ * @return {Object}                            Information to be used for
+ *                                             element creation.
+ */
+
 function fromFormat(_ref) {
   var type = _ref.type,
       attributes = _ref.attributes,
       unregisteredAttributes = _ref.unregisteredAttributes,
-      object = _ref.object;
+      object = _ref.object,
+      boundaryClass = _ref.boundaryClass;
   var formatType = get_format_type_getFormatType(type);
+  var elementAttributes = {};
+
+  if (boundaryClass) {
+    elementAttributes['data-rich-text-format-boundary'] = 'true';
+  }
 
   if (!formatType) {
+    if (attributes) {
+      elementAttributes = Object(objectSpread["a" /* default */])({}, attributes, elementAttributes);
+    }
+
     return {
       type: type,
-      attributes: attributes,
+      attributes: elementAttributes,
       object: object
     };
   }
 
-  var elementAttributes = Object(objectSpread["a" /* default */])({}, unregisteredAttributes);
+  elementAttributes = Object(objectSpread["a" /* default */])({}, unregisteredAttributes, elementAttributes);
 
   for (var name in attributes) {
-    var key = formatType.attributes[name];
+    var key = formatType.attributes ? formatType.attributes[name] : false;
 
     if (key) {
       elementAttributes[key] = attributes[name];
@@ -2104,6 +2400,17 @@ function fromFormat(_ref) {
   };
 }
 
+function getDeepestActiveFormat(value) {
+  var activeFormats = getActiveFormats(value);
+  var selectedFormat = value.selectedFormat;
+
+  if (selectedFormat === undefined) {
+    return activeFormats[activeFormats.length - 1];
+  }
+
+  return activeFormats[selectedFormat - 1];
+}
+
 function toTree(_ref2) {
   var value = _ref2.value,
       multilineTag = _ref2.multilineTag,
@@ -2123,13 +2430,13 @@ function toTree(_ref2) {
   var formats = value.formats,
       text = value.text,
       start = value.start,
-      end = value.end,
-      formatPlaceholder = value.formatPlaceholder;
+      end = value.end;
   var formatsLength = formats.length + 1;
   var tree = createEmpty();
   var multilineFormat = {
     type: multilineTag
   };
+  var deepestActiveFormat = getDeepestActiveFormat(value);
   var lastSeparatorFormats;
   var lastCharacterFormats;
   var lastCharacter; // If we're building a multiline tree, start off with a multiline element.
@@ -2141,22 +2448,6 @@ function toTree(_ref2) {
     lastCharacterFormats = lastSeparatorFormats = [multilineFormat];
   } else {
     append(tree, '');
-  }
-
-  function setFormatPlaceholder(pointer, index) {
-    if (isEditableTree && formatPlaceholder && formatPlaceholder.index === index) {
-      var parent = getParent(pointer);
-
-      if (formatPlaceholder.format === undefined) {
-        pointer = getParent(parent);
-      } else {
-        pointer = append(parent, fromFormat(formatPlaceholder.format));
-      }
-
-      pointer = append(pointer, ZERO_WIDTH_NO_BREAK_SPACE);
-    }
-
-    return pointer;
   }
 
   var _loop = function _loop(i) {
@@ -2174,7 +2465,7 @@ function toTree(_ref2) {
           return accumulator;
         }, [multilineFormat]);
       } else {
-        characterFormats = Object(toConsumableArray["a" /* default */])(lastSeparatorFormats).concat(Object(toConsumableArray["a" /* default */])(characterFormats || []));
+        characterFormats = [].concat(Object(toConsumableArray["a" /* default */])(lastSeparatorFormats), Object(toConsumableArray["a" /* default */])(characterFormats || []));
       }
     }
 
@@ -2205,8 +2496,19 @@ function toTree(_ref2) {
           return;
         }
 
+        var type = format.type,
+            attributes = format.attributes,
+            unregisteredAttributes = format.unregisteredAttributes,
+            object = format.object;
+        var boundaryClass = isEditableTree && !object && character !== LINE_SEPARATOR && format === deepestActiveFormat;
         var parent = getParent(pointer);
-        var newNode = append(parent, fromFormat(format));
+        var newNode = append(parent, fromFormat({
+          type: type,
+          attributes: attributes,
+          unregisteredAttributes: unregisteredAttributes,
+          object: object,
+          boundaryClass: boundaryClass
+        }));
 
         if (isText(pointer) && getText(pointer).length === 0) {
           remove(pointer);
@@ -2221,9 +2523,8 @@ function toTree(_ref2) {
       lastCharacterFormats = characterFormats;
       lastCharacter = character;
       return "continue";
-    }
+    } // If there is selection at 0, handle it before characters are inserted.
 
-    pointer = setFormatPlaceholder(pointer, 0); // If there is selection at 0, handle it before characters are inserted.
 
     if (i === 0) {
       if (onStartIndex && start === 0) {
@@ -2249,8 +2550,6 @@ function toTree(_ref2) {
         appendText(pointer, character);
       }
     }
-
-    pointer = setFormatPlaceholder(pointer, i + 1);
 
     if (onStartIndex && start === i + 1) {
       onStartIndex(tree, pointer);
@@ -2286,9 +2585,7 @@ function toTree(_ref2) {
  * Browser dependencies
  */
 
-var to_dom_window$Node = window.Node,
-    to_dom_TEXT_NODE = to_dom_window$Node.TEXT_NODE,
-    to_dom_ELEMENT_NODE = to_dom_window$Node.ELEMENT_NODE;
+var to_dom_TEXT_NODE = window.Node.TEXT_NODE;
 /**
  * Creates a path as an array of indices from the given root node to the given
  * node.
@@ -2402,9 +2699,14 @@ function to_dom_remove(node) {
   return node.parentNode.removeChild(node);
 }
 
+function createLinePadding(doc) {
+  var element = doc.createElement('br');
+  element.setAttribute('data-rich-text-padding', 'true');
+  return element;
+}
+
 function padEmptyLines(_ref5) {
   var element = _ref5.element,
-      createLinePadding = _ref5.createLinePadding,
       multilineWrapperTags = _ref5.multilineWrapperTags;
   var length = element.childNodes.length;
   var doc = element.ownerDocument;
@@ -2425,7 +2727,6 @@ function padEmptyLines(_ref5) {
 
       padEmptyLines({
         element: child,
-        createLinePadding: createLinePadding,
         multilineWrapperTags: multilineWrapperTags
       });
     }
@@ -2444,8 +2745,9 @@ function toDom(_ref6) {
   var value = _ref6.value,
       multilineTag = _ref6.multilineTag,
       multilineWrapperTags = _ref6.multilineWrapperTags,
-      createLinePadding = _ref6.createLinePadding,
-      prepareEditableTree = _ref6.prepareEditableTree;
+      prepareEditableTree = _ref6.prepareEditableTree,
+      _ref6$isEditableTree = _ref6.isEditableTree,
+      isEditableTree = _ref6$isEditableTree === void 0 ? true : _ref6$isEditableTree;
   var startPath = [];
   var endPath = [];
   var tree = toTree({
@@ -2468,13 +2770,12 @@ function toDom(_ref6) {
     onEndIndex: function onEndIndex(body, pointer) {
       endPath = createPathToNode(pointer, body, [pointer.nodeValue.length]);
     },
-    isEditableTree: true
+    isEditableTree: isEditableTree
   });
 
-  if (createLinePadding) {
+  if (isEditableTree) {
     padEmptyLines({
       element: tree,
-      createLinePadding: createLinePadding,
       multilineWrapperTags: multilineWrapperTags
     });
   }
@@ -2503,15 +2804,14 @@ function apply(_ref7) {
       current = _ref7.current,
       multilineTag = _ref7.multilineTag,
       multilineWrapperTags = _ref7.multilineWrapperTags,
-      createLinePadding = _ref7.createLinePadding,
-      prepareEditableTree = _ref7.prepareEditableTree;
+      prepareEditableTree = _ref7.prepareEditableTree,
+      __unstableDomOnly = _ref7.__unstableDomOnly;
 
   // Construct a new element tree in memory.
   var _toDom = toDom({
     value: value,
     multilineTag: multilineTag,
     multilineWrapperTags: multilineWrapperTags,
-    createLinePadding: createLinePadding,
     prepareEditableTree: prepareEditableTree
   }),
       body = _toDom.body,
@@ -2519,7 +2819,7 @@ function apply(_ref7) {
 
   applyValue(body, current);
 
-  if (value.start !== undefined) {
+  if (value.start !== undefined && !__unstableDomOnly) {
     applySelection(selection, current);
   }
 }
@@ -2533,7 +2833,37 @@ function applyValue(future, current) {
     if (!currentChild) {
       current.appendChild(futureChild);
     } else if (!currentChild.isEqualNode(futureChild)) {
-      current.replaceChild(futureChild, currentChild);
+      if (currentChild.nodeName !== futureChild.nodeName || currentChild.nodeType === to_dom_TEXT_NODE && currentChild.data !== futureChild.data) {
+        current.replaceChild(futureChild, currentChild);
+      } else {
+        var currentAttributes = currentChild.attributes;
+        var futureAttributes = futureChild.attributes;
+
+        if (currentAttributes) {
+          for (var ii = 0; ii < currentAttributes.length; ii++) {
+            var name = currentAttributes[ii].name;
+
+            if (!futureChild.getAttribute(name)) {
+              currentChild.removeAttribute(name);
+            }
+          }
+        }
+
+        if (futureAttributes) {
+          for (var _ii = 0; _ii < futureAttributes.length; _ii++) {
+            var _futureAttributes$_ii = futureAttributes[_ii],
+                name = _futureAttributes$_ii.name,
+                value = _futureAttributes$_ii.value;
+
+            if (currentChild.getAttribute(name) !== value) {
+              currentChild.setAttribute(name, value);
+            }
+          }
+        }
+
+        applyValue(futureChild, currentChild);
+        future.removeChild(futureChild);
+      }
     } else {
       future.removeChild(futureChild);
     }
@@ -2560,51 +2890,48 @@ function isRangeEqual(a, b) {
   return a.startContainer === b.startContainer && a.startOffset === b.startOffset && a.endContainer === b.endContainer && a.endOffset === b.endOffset;
 }
 
-function applySelection(selection, current) {
-  var _getNodeByPath = getNodeByPath(current, selection.startPath),
+function applySelection(_ref8, current) {
+  var startPath = _ref8.startPath,
+      endPath = _ref8.endPath;
+
+  var _getNodeByPath = getNodeByPath(current, startPath),
       startContainer = _getNodeByPath.node,
       startOffset = _getNodeByPath.offset;
 
-  var _getNodeByPath2 = getNodeByPath(current, selection.endPath),
+  var _getNodeByPath2 = getNodeByPath(current, endPath),
       endContainer = _getNodeByPath2.node,
       endOffset = _getNodeByPath2.offset;
 
-  var windowSelection = window.getSelection();
-  var range = current.ownerDocument.createRange();
-  var collapsed = startContainer === endContainer && startOffset === endOffset;
+  var selection = window.getSelection();
+  var ownerDocument = current.ownerDocument;
+  var range = ownerDocument.createRange();
+  range.setStart(startContainer, startOffset);
+  range.setEnd(endContainer, endOffset);
 
-  if (collapsed && startOffset === 0 && startContainer.previousSibling && startContainer.previousSibling.nodeType === to_dom_ELEMENT_NODE && startContainer.previousSibling.nodeName !== 'BR') {
-    startContainer.insertData(0, "\uFEFF");
-    range.setStart(startContainer, 1);
-    range.setEnd(endContainer, 1);
-  } else if (collapsed && startOffset === 0 && startContainer === to_dom_TEXT_NODE && startContainer.nodeValue.length === 0) {
-    startContainer.insertData(0, "\uFEFF");
-    range.setStart(startContainer, 1);
-    range.setEnd(endContainer, 1);
-  } else {
-    range.setStart(startContainer, startOffset);
-    range.setEnd(endContainer, endOffset);
-  }
-
-  if (windowSelection.rangeCount > 0) {
+  if (selection.rangeCount > 0) {
     // If the to be added range and the live range are the same, there's no
     // need to remove the live range and add the equivalent range.
-    if (isRangeEqual(range, windowSelection.getRangeAt(0))) {
+    if (isRangeEqual(range, selection.getRangeAt(0))) {
+      // Set back focus if focus is lost.
+      if (ownerDocument.activeElement !== current) {
+        current.focus();
+      }
+
       return;
     }
 
-    windowSelection.removeAllRanges();
+    selection.removeAllRanges();
   }
 
-  windowSelection.addRange(range);
+  selection.addRange(range);
 }
 
 // EXTERNAL MODULE: external {"this":["wp","escapeHtml"]}
-var external_this_wp_escapeHtml_ = __webpack_require__(61);
+var external_this_wp_escapeHtml_ = __webpack_require__(63);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/to-html-string.js
 /**
- * Internal dependencies
+ * WordPress dependencies
  */
 
 /**
@@ -3125,6 +3452,7 @@ function changeListType(value, newFormat) {
 /* concated harmony reexport remove */__webpack_require__.d(__webpack_exports__, "remove", function() { return remove_remove; });
 /* concated harmony reexport replace */__webpack_require__.d(__webpack_exports__, "replace", function() { return replace; });
 /* concated harmony reexport insert */__webpack_require__.d(__webpack_exports__, "insert", function() { return insert; });
+/* concated harmony reexport insertLineBreak */__webpack_require__.d(__webpack_exports__, "insertLineBreak", function() { return insertLineBreak; });
 /* concated harmony reexport insertLineSeparator */__webpack_require__.d(__webpack_exports__, "insertLineSeparator", function() { return insertLineSeparator; });
 /* concated harmony reexport insertObject */__webpack_require__.d(__webpack_exports__, "insertObject", function() { return insertObject; });
 /* concated harmony reexport slice */__webpack_require__.d(__webpack_exports__, "slice", function() { return slice; });
@@ -3138,317 +3466,39 @@ function changeListType(value, newFormat) {
 /* concated harmony reexport indentListItems */__webpack_require__.d(__webpack_exports__, "indentListItems", function() { return indentListItems; });
 /* concated harmony reexport outdentListItems */__webpack_require__.d(__webpack_exports__, "outdentListItems", function() { return outdentListItems; });
 /* concated harmony reexport changeListType */__webpack_require__.d(__webpack_exports__, "changeListType", function() { return changeListType; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-
-
-var LEAF_KEY, hasWeakMap;
-
 /**
- * Arbitrary value used as key for referencing cache object in WeakMap tree.
- *
- * @type {Object}
+ * Internal dependencies
  */
-LEAF_KEY = {};
 
-/**
- * Whether environment supports WeakMap.
- *
- * @type {boolean}
- */
-hasWeakMap = typeof WeakMap !== 'undefined';
 
-/**
- * Returns the first argument as the sole entry in an array.
- *
- * @param {*} value Value to return.
- *
- * @return {Array} Value returned as entry in array.
- */
-function arrayOf( value ) {
-	return [ value ];
-}
 
-/**
- * Returns true if the value passed is object-like, or false otherwise. A value
- * is object-like if it can support property assignment, e.g. object or array.
- *
- * @param {*} value Value to test.
- *
- * @return {boolean} Whether value is object-like.
- */
-function isObjectLike( value ) {
-	return !! value && 'object' === typeof value;
-}
 
-/**
- * Creates and returns a new cache object.
- *
- * @return {Object} Cache object.
- */
-function createCache() {
-	var cache = {
-		clear: function() {
-			cache.head = null;
-		},
-	};
 
-	return cache;
-}
 
-/**
- * Returns true if entries within the two arrays are strictly equal by
- * reference from a starting index.
- *
- * @param {Array}  a         First array.
- * @param {Array}  b         Second array.
- * @param {number} fromIndex Index from which to start comparison.
- *
- * @return {boolean} Whether arrays are shallowly equal.
- */
-function isShallowEqual( a, b, fromIndex ) {
-	var i;
 
-	if ( a.length !== b.length ) {
-		return false;
-	}
 
-	for ( i = fromIndex; i < a.length; i++ ) {
-		if ( a[ i ] !== b[ i ] ) {
-			return false;
-		}
-	}
 
-	return true;
-}
 
-/**
- * Returns a memoized selector function. The getDependants function argument is
- * called before the memoized selector and is expected to return an immutable
- * reference or array of references on which the selector depends for computing
- * its own return value. The memoize cache is preserved only as long as those
- * dependant references remain the same. If getDependants returns a different
- * reference(s), the cache is cleared and the selector value regenerated.
- *
- * @param {Function} selector      Selector function.
- * @param {Function} getDependants Dependant getter returning an immutable
- *                                 reference or array of reference used in
- *                                 cache bust consideration.
- *
- * @return {Function} Memoized selector.
- */
-/* harmony default export */ __webpack_exports__["a"] = (function( selector, getDependants ) {
-	var rootCache, getCache;
 
-	// Use object source as dependant if getter not provided
-	if ( ! getDependants ) {
-		getDependants = arrayOf;
-	}
 
-	/**
-	 * Returns the root cache. If WeakMap is supported, this is assigned to the
-	 * root WeakMap cache set, otherwise it is a shared instance of the default
-	 * cache object.
-	 *
-	 * @return {(WeakMap|Object)} Root cache object.
-	 */
-	function getRootCache() {
-		return rootCache;
-	}
 
-	/**
-	 * Returns the cache for a given dependants array. When possible, a WeakMap
-	 * will be used to create a unique cache for each set of dependants. This
-	 * is feasible due to the nature of WeakMap in allowing garbage collection
-	 * to occur on entries where the key object is no longer referenced. Since
-	 * WeakMap requires the key to be an object, this is only possible when the
-	 * dependant is object-like. The root cache is created as a hierarchy where
-	 * each top-level key is the first entry in a dependants set, the value a
-	 * WeakMap where each key is the next dependant, and so on. This continues
-	 * so long as the dependants are object-like. If no dependants are object-
-	 * like, then the cache is shared across all invocations.
-	 *
-	 * @see isObjectLike
-	 *
-	 * @param {Array} dependants Selector dependants.
-	 *
-	 * @return {Object} Cache object.
-	 */
-	function getWeakMapCache( dependants ) {
-		var caches = rootCache,
-			isUniqueByDependants = true,
-			i, dependant, map, cache;
 
-		for ( i = 0; i < dependants.length; i++ ) {
-			dependant = dependants[ i ];
 
-			// Can only compose WeakMap from object-like key.
-			if ( ! isObjectLike( dependant ) ) {
-				isUniqueByDependants = false;
-				break;
-			}
 
-			// Does current segment of cache already have a WeakMap?
-			if ( caches.has( dependant ) ) {
-				// Traverse into nested WeakMap.
-				caches = caches.get( dependant );
-			} else {
-				// Create, set, and traverse into a new one.
-				map = new WeakMap();
-				caches.set( dependant, map );
-				caches = map;
-			}
-		}
 
-		// We use an arbitrary (but consistent) object as key for the last item
-		// in the WeakMap to serve as our running cache.
-		if ( ! caches.has( LEAF_KEY ) ) {
-			cache = createCache();
-			cache.isUniqueByDependants = isUniqueByDependants;
-			caches.set( LEAF_KEY, cache );
-		}
 
-		return caches.get( LEAF_KEY );
-	}
 
-	// Assign cache handler by availability of WeakMap
-	getCache = hasWeakMap ? getWeakMapCache : getRootCache;
 
-	/**
-	 * Resets root memoization cache.
-	 */
-	function clear() {
-		rootCache = hasWeakMap ? new WeakMap() : createCache();
-	}
 
-	// eslint-disable-next-line jsdoc/check-param-names
-	/**
-	 * The augmented selector call, considering first whether dependants have
-	 * changed before passing it to underlying memoize function.
-	 *
-	 * @param {Object} source    Source object for derivation.
-	 * @param {...*}   extraArgs Additional arguments to pass to selector.
-	 *
-	 * @return {*} Selector result.
-	 */
-	function callSelector( /* source, ...extraArgs */ ) {
-		var len = arguments.length,
-			cache, node, i, args, dependants;
 
-		// Create copy of arguments (avoid leaking deoptimization).
-		args = new Array( len );
-		for ( i = 0; i < len; i++ ) {
-			args[ i ] = arguments[ i ];
-		}
 
-		dependants = getDependants.apply( null, args );
-		cache = getCache( dependants );
 
-		// If not guaranteed uniqueness by dependants (primitive type or lack
-		// of WeakMap support), shallow compare against last dependants and, if
-		// references have changed, destroy cache to recalculate result.
-		if ( ! cache.isUniqueByDependants ) {
-			if ( cache.lastDependants && ! isShallowEqual( dependants, cache.lastDependants, 0 ) ) {
-				cache.clear();
-			}
 
-			cache.lastDependants = dependants;
-		}
 
-		node = cache.head;
-		while ( node ) {
-			// Check whether node arguments match arguments
-			if ( ! isShallowEqual( node.args, args, 1 ) ) {
-				node = node.next;
-				continue;
-			}
 
-			// At this point we can assume we've found a match
 
-			// Surface matched node to head if not already
-			if ( node !== cache.head ) {
-				// Adjust siblings to point to each other.
-				node.prev.next = node.next;
-				if ( node.next ) {
-					node.next.prev = node.prev;
-				}
 
-				node.next = cache.head;
-				node.prev = null;
-				cache.head.prev = node;
-				cache.head = node;
-			}
 
-			// Return immediately
-			return node.val;
-		}
-
-		// No cached value found. Continue to insertion phase:
-
-		node = {
-			// Generate the result from original function
-			val: selector.apply( null, args ),
-		};
-
-		// Avoid including the source object in the cache.
-		args[ 0 ] = null;
-		node.args = args;
-
-		// Don't need to check whether node is already head, since it would
-		// have been returned above already if it was
-
-		// Shift existing head down list
-		if ( cache.head ) {
-			cache.head.prev = node;
-			node.next = cache.head;
-		}
-
-		cache.head = node;
-
-		return node.val;
-	}
-
-	callSelector.getDependants = getDependants;
-	callSelector.clear = clear;
-	clear();
-
-	return callSelector;
-});
 
 
 /***/ }),
@@ -3464,7 +3514,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {
@@ -3589,7 +3639,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 63:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["escapeHtml"]; }());
