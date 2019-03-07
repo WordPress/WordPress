@@ -52,18 +52,12 @@ function wp_insert_site( array $data ) {
 		'lang_id'      => 0,
 	);
 
-	// Extract the passed arguments that may be relevant for site initialization.
-	$args = array_diff_key( $data, $defaults );
-	if ( isset( $args['site_id'] ) ) {
-		unset( $args['site_id'] );
+	$prepared_data = wp_prepare_site_data( $data, $defaults );
+	if ( is_wp_error( $prepared_data ) ) {
+		return $prepared_data;
 	}
 
-	$data = wp_prepare_site_data( $data, $defaults );
-	if ( is_wp_error( $data ) ) {
-		return $data;
-	}
-
-	if ( false === $wpdb->insert( $wpdb->blogs, $data ) ) {
+	if ( false === $wpdb->insert( $wpdb->blogs, $prepared_data ) ) {
 		return new WP_Error( 'db_insert_error', __( 'Could not insert site into the database.' ), $wpdb->last_error );
 	}
 
@@ -84,6 +78,12 @@ function wp_insert_site( array $data ) {
 	 */
 	do_action( 'wp_insert_site', $new_site );
 
+	// Extract the passed arguments that may be relevant for site initialization.
+	$args = array_diff_key( $data, $defaults );
+	if ( isset( $args['site_id'] ) ) {
+		unset( $args['site_id'] );
+	}
+
 	/**
 	 * Fires when a site's initialization routine should be executed.
 	 *
@@ -98,6 +98,16 @@ function wp_insert_site( array $data ) {
 	if ( has_action( 'wpmu_new_blog' ) ) {
 		$user_id = ! empty( $args['user_id'] ) ? $args['user_id'] : 0;
 		$meta    = ! empty( $args['options'] ) ? $args['options'] : array();
+
+		// WPLANG was passed with `$meta` to the `wpmu_new_blog` hook prior to 5.1.0.
+		if ( ! array_key_exists( 'WPLANG', $meta ) ) {
+			$meta['WPLANG'] = get_network_option( $new_site->network_id, 'WPLANG' );
+		}
+
+		// Rebuild the data expected by the `wpmu_new_blog` hook prior to 5.1.0 using whitelisted keys.
+		// The `$site_data_whitelist` matches the one used in `wpmu_create_blog()`.
+		$site_data_whitelist = array( 'public', 'archived', 'mature', 'spam', 'deleted', 'lang_id' );
+		$meta = array_merge( array_intersect_key( $data, array_flip( $site_data_whitelist ) ), $meta );
 
 		/**
 		 * Fires immediately after a new site is created.
