@@ -332,7 +332,14 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$this->level = $level;
 
-		echo '<tr id="tag-' . $tag->term_id . '">';
+		if ( $tag->parent ) {
+			$count = count( get_ancestors( $tag->term_id, $taxonomy, 'taxonomy' ) );
+			$level = 'level-' . $count;
+		} else {
+			$level = 'level-0';
+		}
+
+		echo '<tr id="tag-' . $tag->term_id . '" class="' . $level . '">';
 		$this->single_row_columns( $tag );
 		echo '</tr>';
 	}
