@@ -549,7 +549,7 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 				'	wp.data',
 				'		.use( wp.data.plugins.persistence, { storageKey: storageKey } )',
 				'		.use( wp.data.plugins.controls );',
-				'   wp.data.plugins.persistence.__unstableMigrate( { storageKey: storageKey } );',
+				'	wp.data.plugins.persistence.__unstableMigrate( { storageKey: storageKey } );',
 				'} )();',
 			)
 		)
