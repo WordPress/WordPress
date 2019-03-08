@@ -812,6 +812,15 @@ function _wp_personal_data_export_page() {
 			'screen'   => 'export_personal_data',
 		)
 	);
+
+	$requests_table->screen->set_screen_reader_content(
+		array(
+			'heading_views'      => __( 'Filter export personal data list' ),
+			'heading_pagination' => __( 'Export personal data list navigation' ),
+			'heading_list'       => __( 'Export personal data list' ),
+		)
+	);
+
 	$requests_table->process_bulk_action();
 	$requests_table->prepare_items();
 	?>
@@ -884,6 +893,14 @@ function _wp_personal_data_removal_page() {
 			'plural'   => 'privacy_requests',
 			'singular' => 'privacy_request',
 			'screen'   => 'remove_personal_data',
+		)
+	);
+
+	$requests_table->screen->set_screen_reader_content(
+		array(
+			'heading_views'      => __( 'Filter erase personal data list' ),
+			'heading_pagination' => __( 'Erase personal data list navigation' ),
+			'heading_list'       => __( 'Erase personal data list' ),
 		)
 	);
 
