@@ -1126,7 +1126,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$taxonomy_object = get_taxonomy( $taxonomy );
 			$terms           = get_the_terms( $post->ID, $taxonomy );
 			if ( is_array( $terms ) ) {
-				$out = array();
+				$term_links = array();
 				foreach ( $terms as $t ) {
 					$posts_in_term_qv = array();
 					if ( 'post' != $post->post_type ) {
@@ -1140,10 +1140,23 @@ class WP_Posts_List_Table extends WP_List_Table {
 					}
 
 					$label = esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) );
-					$out[] = $this->get_edit_link( $posts_in_term_qv, $label );
+
+					$term_links[] = $this->get_edit_link( $posts_in_term_qv, $label );
 				}
+
+				/**
+				 * Filters the links in `$taxonomy` column of edit.php.
+				 *
+				 * @since 5.2.0
+				 *
+				 * @param array  $term_links List of links to edit.php, filtered by the taxonomy term.
+				 * @param string $taxonomy   Taxonomy name.
+				 * @param array  $terms      Array of terms appearing in the post row.
+				 */
+				$term_links = apply_filters( 'post_column_taxonomy_links', $term_links, $taxonomy, $terms );
+
 				/* translators: used between list items, there is a space after the comma */
-				echo join( __( ', ' ), $out );
+				echo join( __( ', ' ), $term_links );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . $taxonomy_object->labels->no_terms . '</span>';
 			}
