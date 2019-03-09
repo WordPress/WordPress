@@ -777,7 +777,7 @@ final class WP_Customize_Widgets {
 				'saveBtnLabel'     => __( 'Apply' ),
 				'saveBtnTooltip'   => __( 'Save and preview changes before publishing them.' ),
 				'removeBtnLabel'   => __( 'Remove' ),
-				'removeBtnTooltip' => __( 'Trash widget by moving it to the inactive widgets sidebar.' ),
+				'removeBtnTooltip' => __( 'Keep widget settings and move it to the inactive widgets' ),
 				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
 				'widgetMovedUp'    => __( 'Widget moved up' ),
 				'widgetMovedDown'  => __( 'Widget moved down' ),

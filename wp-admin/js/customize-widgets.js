@@ -203,7 +203,7 @@
 		/**
 		 * Performs a search and handles selected widget.
 		 */
-		search: function( event ) {
+		search: _.debounce( function( event ) {
 			var firstVisible;
 
 			this.collection.doSearch( event.target.value );
@@ -245,7 +245,7 @@
 			} else {
 				this.$el.removeClass( 'no-widgets-found' );
 			}
-		},
+		}, 500 ),
 
 		/**
 		 * Updates the count of the available widgets that have the `search_matched` attribute.
@@ -257,7 +257,7 @@
 		/**
 		 * Sends a message to the aria-live region to announce how many search results.
 		 */
-		announceSearchMatches: _.debounce( function() {
+		announceSearchMatches: function() {
 			var message = l10n.widgetsFound.replace( '%d', this.searchMatchesCount ) ;
 
 			if ( ! this.searchMatchesCount ) {
@@ -265,7 +265,7 @@
 			}
 
 			wp.a11y.speak( message );
-		}, 500 ),
+		},
 
 		/**
 		 * Changes visibility of available widgets.
@@ -708,8 +708,7 @@
 			} );
 
 			$closeBtn = this.container.find( '.widget-control-close' );
-			$closeBtn.on( 'click', function( e ) {
-				e.preventDefault();
+			$closeBtn.on( 'click', function() {
 				self.collapse();
 				self.container.find( '.widget-top .widget-action:first' ).focus(); // keyboard accessibility
 			} );
@@ -987,9 +986,7 @@
 
 			// Configure remove button
 			$removeBtn = this.container.find( '.widget-control-remove' );
-			$removeBtn.on( 'click', function( e ) {
-				e.preventDefault();
-
+			$removeBtn.on( 'click', function() {
 				// Find an adjacent element to add focus to when this widget goes away
 				var $adjacentFocusTarget;
 				if ( self.container.next().is( '.customize-control-widget_form' ) ) {
