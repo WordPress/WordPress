@@ -6825,6 +6825,8 @@ function wp_update_php_annotation() {
  * by using the {@see 'wp_direct_php_update_url'} filter. This allows hosts to send users directly to
  * the page where they can update PHP to a newer version.
  *
+ * @since 5.1.1
+ *
  * @return string URL for directly updating PHP or empty string.
  */
 function wp_get_direct_php_update_url() {
