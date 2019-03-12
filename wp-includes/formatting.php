@@ -3022,11 +3022,11 @@ function wp_rel_nofollow_callback( $matches ) {
 
 		$html = '';
 		foreach ( $atts as $name => $value ) {
-			$html .= "{$name}=\"" . esc_attr( $value ) . "\" ";
+			$html .= "{$name}=\"" . esc_attr( $value ) . '" ';
 		}
 		$text = trim( $html );
 	}
-	return "<a $text rel=\"" . esc_attr( $rel ) . "\">";
+	return "<a $text rel=\"" . esc_attr( $rel ) . '">';
 }
 
 /**
