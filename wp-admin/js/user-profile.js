@@ -238,7 +238,7 @@
 					$pass1.data( 'pw', data );
 				} );
 
-			$generateButton.show();
+			$generateButton.show().focus();
 			$passwordWrapper.hide();
 
 			$weakRow.hide( 0, function () {

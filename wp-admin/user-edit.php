@@ -618,10 +618,11 @@ endif; //!IS_PROFILE_PAGE
 				<input type="password" name="pass1" id="pass1" class="regular-text" value="" autocomplete="off" data-pw="<?php echo esc_attr( wp_generate_password( 24 ) ); ?>" aria-describedby="pass-strength-result" />
 			</span>
 			<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
-				<span class="dashicons dashicons-hidden"></span>
+				<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 				<span class="text"><?php _e( 'Hide' ); ?></span>
 			</button>
 			<button type="button" class="button wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
+				<span class="dashicons dashicons-no" aria-hidden="true"></span>
 				<span class="text"><?php _e( 'Cancel' ); ?></span>
 			</button>
 			<div style="display:none" id="pass-strength-result" aria-live="polite"></div>

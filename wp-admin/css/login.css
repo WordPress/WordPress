@@ -79,12 +79,15 @@ p {
 }
 
 .login .password-input-wrapper {
-	display: table;
+	position: relative;
 }
 
 .login .input.password-input {
-	display: table-cell;
 	margin: 0;
+}
+
+.login .input::-ms-clear {
+	display: none;
 }
 
 .login .pw-weak {
@@ -92,9 +95,33 @@ p {
 }
 
 .login .button.button-secondary {
-	display: table-cell;
-	border-radius: 0;
-	vertical-align: middle;
+	background: transparent;
+	border: 1px solid transparent;
+	box-shadow: none;
+	font-size: 14px;
+	line-height: 2;
+	height: auto;
+	margin: 0;
+	padding: 5px 9px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.login .button.button-secondary:hover {
+	background: transparent;
+}
+
+.login .button.button-secondary:focus {
+	background: transparent;
+	border-color: #5b9dd9;
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+}
+
+.login .button.button-secondary:active {
+	background: transparent;
+	box-shadow: none;
+	transform: none;
 }
 
 .login form {
@@ -127,7 +154,6 @@ p {
 }
 
 .login label {
-	color: #72777c;
 	font-size: 14px;
 }
 
@@ -209,7 +235,7 @@ p {
 .login input[type="text"] {
 	font-size: 24px;
 	width: 100%;
-	padding: 3px;
+	padding: 5px 45px 5px 5px;
 	margin: 2px 6px 16px 0;
 }
 

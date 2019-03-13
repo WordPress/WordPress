@@ -427,9 +427,14 @@ input[type="number"].tiny-text {
 	margin-right: 1em;
 }
 
-button.wp-hide-pw > .dashicons {
+.wp-hide-pw > .dashicons,
+.wp-cancel-pw > .dashicons {
 	position: relative;
 	top: 3px;
+}
+
+.wp-cancel-pw .dashicons-no {
+	display: none;
 }
 
 label,
@@ -459,7 +464,7 @@ fieldset label,
 	background-color: #eee;
 	border: 1px solid #ddd;
 	color: #23282d;
-	margin: -2px 1px 5px 5px;
+	margin: -1px 0 5px;
 	padding: 3px 5px;
 	text-align: center;
 	width: 25em;
@@ -515,13 +520,25 @@ fieldset label,
 	padding-top: 8px;
 }
 
+.wp-pwd [type="text"],
+.wp-pwd [type="password"] {
+	margin: 0;
+	/* Same height as the buttons */
+	line-height: 20px;
+	min-height: 28px;
+	max-height: 40px;
+}
+
 #pass1-text,
 .show-password #pass1 {
 	display: none;
 }
 
-.show-password #pass1-text
-{
+#pass1-text::-ms-clear {
+	display: none;
+}
+
+.show-password #pass1-text {
 	display: inline-block;
 }
 
@@ -1462,29 +1479,42 @@ table.form-table td .updated p {
 
 	.wp-pwd [type="text"],
 	.wp-pwd [type="password"] {
-		padding-left: 40px;
+		padding-left: 88px;
 	}
 
 	.wp-pwd button.button {
 		background: transparent;
-		border: none;
+		border: 1px solid transparent;
 		box-shadow: none;
 		line-height: 2;
 		margin: 0;
-		padding: 5px 10px;
+		padding: 5px 9px;
 		position: absolute;
 		left: 0;
 		top: 0;
 	}
 
+	.wp-pwd button.wp-hide-pw {
+		left: 40px;
+	}
+
 	.wp-pwd button.button:hover,
-	.wp-pwd button.button:focus,
+	.wp-pwd button.button:focus {
+		background: transparent;
+	}
+
 	.wp-pwd button.button:active {
 		background: transparent;
+		box-shadow: none;
+		transform: none;
 	}
 
 	.wp-pwd .button .text {
 		display: none;
+	}
+
+	.wp-cancel-pw .dashicons-no {
+		display: inline-block;
 	}
 
 	.options-general-php input[type="text"].small-text {
@@ -1532,12 +1562,6 @@ table.form-table td .updated p {
 
 	.form-wrap .form-field {
 		padding: 0;
-	}
-
-	/* users */
-	#profile-page .form-table textarea {
-		max-width: 400px;
-		width: auto;
 	}
 }
 
