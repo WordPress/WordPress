@@ -42,6 +42,26 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
 			<p>
 				<?php
+				printf(
+					/* translators: %s: WordPress version number */
+					__( '<strong>Version %s</strong> addressed some security issues.' ),
+					'4.5.17'
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '4.5.17' )
+					)
+				);
+				?>
+			</p>
+			<p>
+				<?php
 				/* translators: %s: WordPress version number */
 				printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '4.5.16' );
 				?>
