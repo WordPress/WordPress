@@ -102,7 +102,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
  * Display the email of the author of the current global $comment.
  *
  * Care should be taken to protect the email address and assure that email
- * harvesters do not capture your commentors' email address. Most assume that
+ * harvesters do not capture your commenter's email address. Most assume that
  * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
@@ -133,7 +133,7 @@ function comment_author_email( $comment_ID = 0 ) {
  * Display the html email link to the author of the current comment.
  *
  * Care should be taken to protect the email address and assure that email
- * harvesters do not capture your commentors' email address. Most assume that
+ * harvesters do not capture your commenter's email address. Most assume that
  * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
@@ -157,7 +157,7 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '', $
  * Return the html email link to the author of the current comment.
  *
  * Care should be taken to protect the email address and assure that email
- * harvesters do not capture your commentors' email address. Most assume that
+ * harvesters do not capture your commenter's email address. Most assume that
  * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.

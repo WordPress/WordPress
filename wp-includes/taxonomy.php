@@ -2666,7 +2666,7 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * The way this works is that if the taxonomy that the term belongs to is
  * hierarchical and has a parent, it will append that parent to the $slug.
  *
- * If that still doesn't return an unique slug, then it try to append a number
+ * If that still doesn't return a unique slug, then it tries to append a number
  * until it finds a number that is truly unique.
  *
  * The only purpose for `$term` is for appending a parent, if one exists.
@@ -4127,7 +4127,7 @@ function wp_get_split_term( $old_term_id, $taxonomy ) {
  *
  * @param int $term_id Term ID.
  * @return bool Returns false if a term is not shared between multiple taxonomies or
- *              if splittng shared taxonomy terms is finished.
+ *              if splitting shared taxonomy terms is finished.
  */
 function wp_term_is_shared( $term_id ) {
 	global $wpdb;

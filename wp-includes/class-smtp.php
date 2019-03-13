@@ -564,10 +564,10 @@ class SMTP
     /**
      * Send an SMTP DATA command.
      * Issues a data command and sends the msg_data to the server,
-     * finializing the mail transaction. $msg_data is the message
+     * finalizing the mail transaction. $msg_data is the message
      * that is to be send with the headers. Each header needs to be
      * on a single line followed by a <CRLF> with the message headers
-     * and the message body being separated by and additional <CRLF>.
+     * and the message body being separated by an additional <CRLF>.
      * Implements rfc 821: DATA <CRLF>
      * @param string $msg_data Message data to send
      * @access public
