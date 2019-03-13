@@ -2351,8 +2351,13 @@ function wp_rel_nofollow_callback( $matches ) {
 	$rel  = 'nofollow';
 
 	if ( ! empty( $atts['href'] ) ) {
-		if ( in_array( strtolower( wp_parse_url( $atts['href'], PHP_URL_SCHEME ) ), array( 'http', 'https' ), true ) ) {
-			if ( strtolower( wp_parse_url( $atts['href'], PHP_URL_HOST ) ) === strtolower( wp_parse_url( home_url(), PHP_URL_HOST ) ) ) {
+		$href_parts  = wp_parse_url( $atts['href'] );
+		$href_scheme = isset( $href_parts['scheme'] ) ? $href_parts['scheme'] : '';
+		$href_host   = isset( $href_parts['host'] ) ? $href_parts['host'] : '';
+		$home_parts  = wp_parse_url( home_url() );
+		$home_host   = isset( $home_parts['host'] ) ? $home_parts['host'] : '';
+		if ( in_array( strtolower( $href_scheme ), array( 'http', 'https' ), true ) ) {
+			if ( strtolower( $href_host ) === strtolower( $home_host ) ) {
 				return "<a $text>";
 			}
 		}
