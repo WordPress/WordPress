@@ -1556,11 +1556,12 @@ function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $
  */
 function remove_menu_page( $menu_slug ) {
 	global $menu;
-
-	foreach ( $menu as $i => $item ) {
-		if ( $menu_slug == $item[2] ) {
-			unset( $menu[ $i ] );
-			return $item;
+	if(isset($menu) && !is_null($menu)){
+		foreach ( $menu as $i => $item ) {
+			if ( $menu_slug == $item[2] ) {
+				unset( $menu[ $i ] );
+				return $item;
+			}
 		}
 	}
 
