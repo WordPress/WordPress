@@ -173,37 +173,6 @@ jQuery(document).ready( function($) {
 		// Change the QuickPost action to the publish value.
 		$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );
 
-		/**
-		 * Adds accessibility context to inputs.
-		 *
-		 * Use the 'screen-reader-text' class to hide the label when entering a value.
-		 * Apply it when the input is not empty or the input has focus.
-		 *
-		 * @returns {void}
-		 */
-		$('#title, #tags-input, #content').each( function() {
-			var input = $(this), prompt = $('#' + this.id + '-prompt-text');
-
-			if ( '' === this.value ) {
-				prompt.removeClass('screen-reader-text');
-			}
-
-			prompt.click( function() {
-				$(this).addClass('screen-reader-text');
-				input.focus();
-			});
-
-			input.blur( function() {
-				if ( '' === this.value ) {
-					prompt.removeClass('screen-reader-text');
-				}
-			});
-
-			input.focus( function() {
-				prompt.addClass('screen-reader-text');
-			});
-		});
-
 		$('#quick-press').on( 'click focusin', function() {
 			wpActiveEditor = 'content';
 		});

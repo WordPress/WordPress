@@ -1040,7 +1040,10 @@ jQuery(document).ready( function($) {
 	});
 
 	/**
-	 * Adds screen reader text to the title prompt when needed.
+	 * Adds screen reader text to the title label when needed.
+	 *
+	 * Use the 'screen-reader-text' class to emulate a placeholder attribute
+	 * and hide the label when entering a value.
 	 *
 	 * @param {string} id Optional. HTML ID to add the screen reader helper text to.
 	 *
@@ -1048,28 +1051,23 @@ jQuery(document).ready( function($) {
 	 *
 	 * @returns void
 	 */
-	window.wptitlehint = function(id) {
+	window.wptitlehint = function( id ) {
 		id = id || 'title';
 
-		var title = $('#' + id), titleprompt = $('#' + id + '-prompt-text');
+		var title = $( '#' + id ), titleprompt = $( '#' + id + '-prompt-text' );
 
-		if ( '' === title.val() )
-			titleprompt.removeClass('screen-reader-text');
+		if ( '' === title.val() ) {
+			titleprompt.removeClass( 'screen-reader-text' );
+		}
 
-		titleprompt.click(function(){
-			$(this).addClass('screen-reader-text');
-			title.focus();
-		});
+		title.on( 'input', function() {
+			if ( '' === this.value ) {
+				titleprompt.removeClass( 'screen-reader-text' );
+				return;
+			}
 
-		title.blur(function(){
-			if ( '' === this.value )
-				titleprompt.removeClass('screen-reader-text');
-		}).focus(function(){
-			titleprompt.addClass('screen-reader-text');
-		}).keydown(function(e){
-			titleprompt.addClass('screen-reader-text');
-			$(this).unbind(e);
-		});
+			titleprompt.addClass( 'screen-reader-text' );
+		} );
 	};
 
 	wptitlehint();

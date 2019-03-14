@@ -599,33 +599,21 @@ body #dashboard-widgets .postbox form .submit {
 	margin: 12px;
 }
 
-#dashboard_quick_press .drafts,
-#dashboard_quick_press .easy-blogging {
+#dashboard_quick_press .drafts {
 	padding: 10px 0 0;
 }
 
 /* Dashboard Quick Draft - Form styling */
 
-input#save-post {
-	float: left;
-}
-
-form.initial-form.quickpress-open label.prompt {
-	font-style: normal;
-}
-
-form.initial-form.quickpress-open input#title {
-	height: auto;
+#dashboard_quick_press label {
+	display: inline-block;
+	margin-bottom: 4px;
 }
 
 #dashboard_quick_press input,
 #dashboard_quick_press textarea {
 	box-sizing: border-box;
 	margin: 0;
-}
-
-#dashboard_quick_press textarea {
-	resize: vertical;
 }
 
 #dashboard-widgets .postbox form .submit {
@@ -637,39 +625,11 @@ form.initial-form.quickpress-open input#title {
 	margin-top: 12px;
 }
 
-#title-wrap #title-prompt-text,
-.textarea-wrap #content-prompt-text {
-	color: #72777c;
-}
-
-#title-wrap #title-prompt-text {
-	font-size: 1.1em;
-	padding: 7px 8px;
-}
-
-.input-text-wrap,
-.textarea-wrap {
-	position: relative;
-}
-
-.input-text-wrap .prompt,
-.textarea-wrap .prompt {
-	position: absolute;
-}
-
-.textarea-wrap #content-prompt-text {
-	font-size: 1.1em;
-	padding: 7px 8px;
-}
-
-.textarea-wrap textarea#content {
-	margin: 0 0 8px;
-	padding: 6px 7px;
-}
-
 #quick-press textarea#content {
 	min-height: 90px;
 	max-height: 1300px;
+	margin: 0 0 8px;
+	padding: 6px 7px;
 	resize: none;
 }
 
@@ -998,24 +958,6 @@ form.initial-form.quickpress-open input#title {
 	margin: 3px 0 0;
 	padding: 0;
 	font-size: 13px;
-}
-
-/* QuickDraft */
-
-#title-wrap label,
-#description-wrap label {
-	cursor: text;
-}
-
-#title-wrap #title {
-	padding: 2px 6px;
-	font-size: 1.3em;
-	outline: none;
-}
-
-#title-wrap #title-prompt-text {
-	font-size: 1.1em;
-	padding: 5px 8px;
 }
 
 /* Feeds */
