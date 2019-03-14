@@ -113,13 +113,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	 */
 	do_action( 'login_head' );
 
-	if ( is_multisite() ) {
-		$login_header_url   = network_home_url();
-		$login_header_title = get_network()->site_name;
-	} else {
-		$login_header_url   = __( 'https://wordpress.org/' );
-		$login_header_title = __( 'Powered by WordPress' );
-	}
+	$login_header_url = __( 'https://wordpress.org/' );
 
 	/**
 	 * Filters link URL of the header logo above login form.
@@ -130,24 +124,34 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	 */
 	$login_header_url = apply_filters( 'login_headerurl', $login_header_url );
 
+	$login_header_title = '';
+
 	/**
 	 * Filters the title attribute of the header logo above login form.
 	 *
 	 * @since 2.1.0
+	 * @deprecated 5.2.0 Use login_headertext
 	 *
 	 * @param string $login_header_title Login header logo title attribute.
 	 */
-	$login_header_title = apply_filters( 'login_headertitle', $login_header_title );
+	$login_header_title = apply_filters_deprecated(
+		'login_headertitle',
+		array( $login_header_title ),
+		'5.2.0',
+		'login_headertext',
+		__( 'Usage of the title attribute on the login logo is not recommended for accessibility reasons. Use the link text instead.' )
+	);
 
-	/*
-	 * To match the URL/title set above, Multisite sites have the blog name,
-	 * while single sites get the header title.
+	$login_header_text = empty( $login_header_title ) ? __( 'Powered by WordPress' ) : $login_header_title;
+
+	/**
+	 * Filters the link text of the header logo above the login form.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $login_header_text The login header logo link text.
 	 */
-	if ( is_multisite() ) {
-		$login_header_text = get_bloginfo( 'name', 'display' );
-	} else {
-		$login_header_text = $login_header_title;
-	}
+	$login_header_text = apply_filters( 'login_headertext', $login_header_text );
 
 	$classes = array( 'login-action-' . $action, 'wp-core-ui' );
 	if ( is_rtl() ) {
@@ -187,11 +191,8 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	do_action( 'login_header' );
 	?>
 	<div id="login">
-		<h1><a href="<?php echo esc_url( $login_header_url ); ?>" title="<?php echo esc_attr( $login_header_title ); ?>"><?php echo $login_header_text; ?></a></h1>
+		<h1><a href="<?php echo esc_url( $login_header_url ); ?>"><?php echo $login_header_text; ?></a></h1>
 	<?php
-
-	unset( $login_header_url, $login_header_title );
-
 	/**
 	 * Filters the message to display above the login form.
 	 *
