@@ -58,7 +58,7 @@ class WP_Widget_Archives extends WP_Widget {
 			$dropdown_id = "{$this->id_base}-dropdown-{$this->number}";
 			?>
 		<label class="screen-reader-text" for="<?php echo esc_attr( $dropdown_id ); ?>"><?php echo $title; ?></label>
-		<select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+		<select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown">
 			<?php
 			/**
 			 * Filters the arguments for the Archives widget drop-down.
@@ -104,6 +104,21 @@ class WP_Widget_Archives extends WP_Widget {
 			<?php wp_get_archives( $dropdown_args ); ?>
 
 		</select>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+(function() {
+	var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );
+	function onSelectChange() {
+		if ( dropdown.options[ dropdown.selectedIndex ].value !== '' ) {
+			document.location.href = this.options[ this.selectedIndex ].value;
+		}
+	}
+	dropdown.onchange = onSelectChange;
+})();
+/* ]]> */
+</script>
+
 		<?php } else { ?>
 		<ul>
 			<?php
