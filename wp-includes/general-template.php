@@ -1659,6 +1659,7 @@ function get_the_post_type_description() {
  * three values for the format are not used, then custom format is assumed.
  *
  * @since 1.0.0
+ * @since 5.2.0 Added the `$selected` parameter.
  *
  * @param string $url      URL to archive.
  * @param string $text     Archive text description.
