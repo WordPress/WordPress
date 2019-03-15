@@ -539,7 +539,7 @@ function get_oembed_response_data( $post, $width ) {
 		'provider_url'  => get_home_url(),
 		'author_name'   => get_bloginfo( 'name' ),
 		'author_url'    => get_home_url(),
-		'title'         => $post->post_title,
+		'title'         => get_the_title( $post ),
 		'type'          => 'link',
 	);
 
