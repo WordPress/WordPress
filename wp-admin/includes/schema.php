@@ -1316,8 +1316,18 @@ function populate_site_meta( $site_id, array $meta = array() ) {
 		return;
 	}
 
+	/**
+	 * Filters meta for a site on creation.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param array $meta    Associative array of site meta keys and values to be inserted.
+	 * @param int   $site_id ID of site to populate.
+	 */
+	$site_meta = apply_filters( 'populate_site_meta', $meta, $site_id );
+
 	$insert = '';
-	foreach ( $meta as $meta_key => $meta_value ) {
+	foreach ( $site_meta as $meta_key => $meta_value ) {
 		if ( is_array( $meta_value ) ) {
 			$meta_value = serialize( $meta_value );
 		}
