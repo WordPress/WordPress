@@ -1130,9 +1130,9 @@ function network_edit_site_nav( $args = array() ) {
 	}
 
 	// All done!
-	echo '<h2 class="nav-tab-wrapper wp-clearfix">';
+	echo '<nav class="nav-tab-wrapper wp-clearfix" aria-label="' . esc_attr__( 'Secondary menu' ) . '">';
 	echo implode( '', $screen_links );
-	echo '</h2>';
+	echo '</nav>';
 }
 
 /**

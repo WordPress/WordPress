@@ -627,7 +627,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<hr class="wp-header-end">
 
-	<h2 class="nav-tab-wrapper wp-clearfix">
+	<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
 		<?php
 		if ( $num_locations && $menu_count ) {
@@ -640,7 +640,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<?php
 		}
 		?>
-	</h2>
+	</nav>
 	<?php
 	foreach ( $messages as $message ) :
 		echo $message . "\n";

@@ -401,11 +401,13 @@
 
 /* Credits */
 
-.about-wrap h3.wp-people-group {
+.about-wrap h2.wp-people-group {
 	margin: 2.6em 0 1.33em;
 	padding: 0;
 	font-size: 16px;
 	line-height: inherit;
+	font-weight: 600;
+	text-align: right;
 }
 
 .about-wrap .wp-people-group {
