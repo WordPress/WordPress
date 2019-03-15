@@ -679,7 +679,15 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		// Workaround for not triggering the global help modal in the Block Editor by the Classic Block shortcut.
 		editor.on( 'keydown', function( event ) {
-			if ( event.shiftKey && event.altKey && event.code === 'KeyH' ) {
+			var match;
+
+			if ( tinymce.Env.mac ) {
+				match = event.ctrlKey && event.altKey && event.code === 'KeyH';
+			} else {
+				match = event.shiftKey && event.altKey && event.code === 'KeyH';
+			}
+
+			if ( match ) {
 				editor.execCommand( 'WP_Help' );
 				event.stopPropagation();
 				event.stopImmediatePropagation();
