@@ -3330,13 +3330,16 @@ function wp_create_user_request( $email_address = '', $action_name = '', $reques
 			'post_type'     => 'user_request',
 			'post_name__in' => array( $action_name ),  // Action name stored in post_name column.
 			'title'         => $email_address, // Email address stored in post_title column.
-			'post_status'   => 'any',
+			'post_status'   => array(
+				'request-pending',
+				'request-confirmed',
+			),
 			'fields'        => 'ids',
 		)
 	);
 
 	if ( $requests_query->found_posts ) {
-		return new WP_Error( 'duplicate_request', __( 'A request for this email address already exists.' ) );
+		return new WP_Error( 'duplicate_request', __( 'An incomplete request for this email address already exists.' ) );
 	}
 
 	$request_id = wp_insert_post(
