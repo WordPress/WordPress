@@ -1007,6 +1007,10 @@ switch ( $action ) {
 			$errors = new WP_Error();
 		}
 
+		if ( empty( $_POST ) && $errors->get_error_codes() === array( 'empty_username', 'empty_password' ) ) {
+			$errors = new WP_Error( '', '' );
+		}
+
 		if ( $interim_login ) {
 			if ( ! $errors->has_errors() ) {
 				$errors->add( 'expired', __( 'Your session has expired. Please log in to continue where you left off.' ), 'message' );

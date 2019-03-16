@@ -95,10 +95,6 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 	$user = wp_authenticate( $credentials['user_login'], $credentials['user_password'] );
 
 	if ( is_wp_error( $user ) ) {
-		if ( $user->get_error_codes() == array( 'empty_username', 'empty_password' ) ) {
-			$user = new WP_Error( '', '' );
-		}
-
 		return $user;
 	}
 
