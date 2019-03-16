@@ -79,9 +79,49 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
 		return $pre;
 	}
 
-	// Don't schedule a duplicate if there's already an identical event due within 10 minutes of it
-	$next = wp_next_scheduled( $hook, $args );
-	if ( $next && abs( $next - $timestamp ) <= 10 * MINUTE_IN_SECONDS ) {
+	/*
+	 * Check for a duplicated event.
+	 *
+	 * Don't schedule an event if there's already an identical event
+	 * within 10 minutes.
+	 *
+	 * When scheduling events within ten minutes of the current time,
+	 * all past identical events are considered duplicates.
+	 *
+	 * When scheduling an event with a past timestamp (ie, before the
+	 * current time) all events scheduled within the next ten minutes
+	 * are considered duplicates.
+	 */
+	$crons     = (array) _get_cron_array();
+	$key       = md5( serialize( $event->args ) );
+	$duplicate = false;
+
+	if ( $event->timestamp < time() + 10 * MINUTE_IN_SECONDS ) {
+		$min_timestamp = 0;
+	} else {
+		$min_timestamp = $event->timestamp - 10 * MINUTE_IN_SECONDS;
+	}
+
+	if ( $event->timestamp < time() ) {
+		$max_timestamp = time() + 10 * MINUTE_IN_SECONDS;
+	} else {
+		$max_timestamp = $event->timestamp + 10 * MINUTE_IN_SECONDS;
+	}
+
+	foreach ( $crons as $event_timestamp => $cron ) {
+		if ( $event_timestamp < $min_timestamp ) {
+			continue;
+		}
+		if ( $event_timestamp > $max_timestamp ) {
+			break;
+		}
+		if ( isset( $cron[ $event->hook ][ $key ] ) ) {
+			$duplicate = true;
+			break;
+		}
+	}
+
+	if ( $duplicate ) {
 		return false;
 	}
 
@@ -107,9 +147,6 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
 		return false;
 	}
 
-	$key = md5( serialize( $event->args ) );
-
-	$crons = _get_cron_array();
 	$crons[ $event->timestamp ][ $event->hook ][ $key ] = array(
 		'schedule' => $event->schedule,
 		'args'     => $event->args,
