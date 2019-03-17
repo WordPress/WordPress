@@ -1,4 +1,4 @@
-[![WordPress](wp-admin/images/wordpress-logo.png)](https://wordpress.org/) {#logo}
+[![WordPress](wp-admin/images/wordpress-logo.png)](https://wordpress.org/) 
 ==========================================================================
 
 Semantic Personal Publishing Platform
