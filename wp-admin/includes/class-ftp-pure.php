@@ -1,6 +1,6 @@
 <?php
 /**
- * PemFTP - A Ftp implementation in pure PHP
+ * PemFTP - An Ftp implementation in pure PHP
  *
  * @package PemFTP
  * @since 2.5.0
