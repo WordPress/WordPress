@@ -3,7 +3,7 @@
  * PemFTP - A Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
@@ -17,7 +17,7 @@
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 if(!defined('CRLF')) define('CRLF',"\r\n");
@@ -27,7 +27,7 @@ if(!defined('CRLF')) define('CRLF',"\r\n");
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
@@ -35,7 +35,7 @@ if(!defined("FTP_AUTOASCII")) define("FTP_AUTOASCII", -1);
 /**
  *
  * This can be redefined.
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
@@ -43,7 +43,7 @@ if(!defined("FTP_BINARY")) define("FTP_BINARY", 1);
 /**
  *
  * This can be redefined.
- * @since 2.5
+ * @since 2.5.0
  * @var int
  */
 if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
@@ -53,25 +53,25 @@ if(!defined("FTP_ASCII")) define("FTP_ASCII", 0);
  *
  * This can be redefined.
  *
- * @since 2.5
+ * @since 2.5.0
  * @var bool
  */
 if(!defined('FTP_FORCE')) define('FTP_FORCE', true);
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Unix','u');
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Windows','w');
 
 /**
- * @since 2.5
+ * @since 2.5.0
  * @var string
  */
 define('FTP_OS_Mac','m');
