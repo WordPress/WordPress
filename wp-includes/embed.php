@@ -586,8 +586,9 @@ function get_oembed_response_data_for_url( $url, $args ) {
 		);
 
 		$qv = array(
-			'domain' => $url_parts['host'],
-			'path'   => '/',
+			'domain'                 => $url_parts['host'],
+			'path'                   => '/',
+			'update_site_meta_cache' => false,
 		);
 
 		// In case of subdirectory configs, set the path.

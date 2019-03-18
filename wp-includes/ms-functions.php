@@ -345,10 +345,11 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
 	}
 
 	$args   = array(
-		'domain' => $domain,
-		'path'   => $path,
-		'fields' => 'ids',
-		'number' => 1,
+		'domain'                 => $domain,
+		'path'                   => $path,
+		'fields'                 => 'ids',
+		'number'                 => 1,
+		'update_site_meta_cache' => false,
 	);
 	$result = get_sites( $args );
 	$id     = array_shift( $result );
@@ -1473,11 +1474,12 @@ Disable these notifications: %3$s'
 function domain_exists( $domain, $path, $network_id = 1 ) {
 	$path   = trailingslashit( $path );
 	$args   = array(
-		'network_id' => $network_id,
-		'domain'     => $domain,
-		'path'       => $path,
-		'fields'     => 'ids',
-		'number'     => 1,
+		'network_id'             => $network_id,
+		'domain'                 => $domain,
+		'path'                   => $path,
+		'fields'                 => 'ids',
+		'number'                 => 1,
+		'update_site_meta_cache' => false,
 	);
 	$result = get_sites( $args );
 	$result = array_shift( $result );
@@ -2433,11 +2435,12 @@ function wp_update_network_site_counts( $network_id = null ) {
 
 	$count = get_sites(
 		array(
-			'network_id' => $network_id,
-			'spam'       => 0,
-			'deleted'    => 0,
-			'archived'   => 0,
-			'count'      => true,
+			'network_id'             => $network_id,
+			'spam'                   => 0,
+			'deleted'                => 0,
+			'archived'               => 0,
+			'count'                  => true,
+			'update_site_meta_cache' => false,
 		)
 	);
 
