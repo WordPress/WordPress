@@ -380,6 +380,10 @@ function update_site_cache( $sites, $update_meta_cache = true ) {
  * @return array|false Returns false if there is nothing to update. Returns an array of metadata on success.
  */
 function update_sitemeta_cache( $site_ids ) {
+	// Ensure this filter is hooked in even if the function is called early.
+	if ( ! has_filter( 'update_blog_metadata_cache', 'wp_check_site_meta_support_prefilter' ) ) {
+		add_filter( 'update_blog_metadata_cache', 'wp_check_site_meta_support_prefilter' );
+	}
 	return update_meta_cache( 'blog', $site_ids );
 }
 
