@@ -7,7 +7,7 @@
 
 (function($) {
 var getCount, updateCount, updateCountText, updatePending, updateApproved,
-	updateHtmlTitle, updateDashboardText, adminTitle = document.title,
+	updateHtmlTitle, updateDashboardText, updateInModerationText, adminTitle = document.title,
 	isDashboard = $('#dashboard_right_now').length,
 	titleDiv, titleRegEx;
 
@@ -86,20 +86,38 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 		});
 	};
 
-	updateDashboardText = function ( response ) {
+	updateDashboardText = function( response ) {
 		if ( ! isDashboard || ! response || ! response.i18n_comments_text ) {
 			return;
 		}
 
-		var rightNow = $( '#dashboard_right_now' );
-
-		$( '.comment-count a', rightNow ).text( response.i18n_comments_text );
-		$( '.comment-mod-count a', rightNow ).text( response.i18n_moderation_text )
-			.parent()
-			[ response.in_moderation > 0 ? 'removeClass' : 'addClass' ]( 'hidden' );
+		$( '.comment-count a', '#dashboard_right_now' ).text( response.i18n_comments_text );
 	};
 
-	updateHtmlTitle = function ( diff ) {
+	/**
+	 * Updates the "comments in moderation" text across the UI.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param {object} response Ajax response from the server.
+	 *
+	 * @return {void}
+	 */
+	updateInModerationText = function( response ) {
+		if ( ! response || ! response.i18n_moderation_text ) {
+			return;
+		}
+
+		// Update the "comment in moderation" text across the UI.
+		$( '.comments-in-moderation-text' ).text( response.i18n_moderation_text );
+		// Hide the "comment in moderation" text in the Dashboard "At a Glance" widget.
+		if ( isDashboard && response.in_moderation ) {
+			$( '.comment-mod-count', '#dashboard_right_now' )
+				[ response.in_moderation > 0 ? 'removeClass' : 'addClass' ]( 'hidden' );
+		}
+	};
+
+	updateHtmlTitle = function( diff ) {
 		var newTitle, regExMatch, titleCount, commentFrag;
 
 		titleRegEx = titleRegEx || new RegExp( adminCommentsL10n.docTitleCommentsCount.replace( '%s', '\\([0-9' + thousandsSeparator + ']+\\)' ) + '?' );
@@ -238,6 +256,7 @@ window.setCommentsList = function() {
 		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
 		if ( response ) {
 			updateDashboardText( response.supplemental );
+			updateInModerationText( response.supplemental );
 			updatePending( diff, response.supplemental.postId );
 			updateApproved( -1 * diff, response.supplemental.postId );
 		} else {
@@ -318,13 +337,18 @@ window.setCommentsList = function() {
 
 			spamDiff, trashDiff, pendingDiff, approvedDiff,
 
-			approved = commentRow.hasClass( 'approved' ),
+			/*
+			 * As `wpList` toggles only the `unapproved` class, the approved comment
+			 * rows can have both the `approved` and `unapproved` classes.
+			 */
+			approved = commentRow.hasClass( 'approved' ) && ! commentRow.hasClass( 'unapproved' ),
 			unapproved = commentRow.hasClass( 'unapproved' ),
 			spammed = commentRow.hasClass( 'spam' ),
 			trashed = commentRow.hasClass( 'trash' ),
 			undoing = false; // ticket #35904
 
 		updateDashboardText( newTotal );
+		updateInModerationText( newTotal );
 
 		// the order of these checks is important
 		// .unspam can also have .approve or .unapprove
@@ -508,7 +532,7 @@ window.setCommentsList = function() {
 		refillTheExtraList();
 
 		animated = $( ':animated', '#the-comment-list' );
-		animatedCallback = function () {
+		animatedCallback = function() {
 			if ( ! $( '#the-comment-list tr:visible' ).length ) {
 				theList.get(0).wpList.add( theExtraList.find( '.no-items' ).clone() );
 			}
@@ -603,10 +627,6 @@ window.commentReply = {
 		});
 
 		this.comments_listing = $('#comments-form > input[name="comment_status"]').val() || '';
-
-		/* $(listTable).bind('beforeChangePage', function(){
-			commentReply.close();
-		}); */
 	},
 
 	addEvents : function(r) {
@@ -843,12 +863,10 @@ window.commentReply = {
 		}
 
 		if ( r.supplemental.i18n_comments_text ) {
-			if ( isDashboard ) {
-				updateDashboardText( r.supplemental );
-			} else {
-				updateApproved( 1, r.supplemental.parent_post_id );
-				updateCountText( 'span.all-count', 1 );
-			}
+			updateDashboardText( r.supplemental );
+			updateInModerationText( r.supplemental );
+			updateApproved( 1, r.supplemental.parent_post_id );
+			updateCountText( 'span.all-count', 1 );
 		}
 
 		c = $.trim(r.data); // Trim leading whitespaces

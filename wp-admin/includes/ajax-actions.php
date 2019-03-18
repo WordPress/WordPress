@@ -460,7 +460,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 					),
 					'i18n_moderation_text' => sprintf(
 						/* translators: %s: number of comments in moderation */
-						_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+						_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 						number_format_i18n( $counts->moderated )
 					),
 					'comment_link'         => $comment_link,
@@ -509,21 +509,27 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 	// The time since the last comment count.
 	$time    = time();
 	$comment = get_comment( $comment_id );
+	$counts  = wp_count_comments();
 
 	$x = new WP_Ajax_Response(
 		array(
 			'what'         => 'comment',
-			// Here for completeness - not used.
 			'id'           => $comment_id,
 			'supplemental' => array(
-				'status'           => $comment ? $comment->comment_approved : '',
-				'postId'           => $comment ? $comment->comment_post_ID : '',
+				'status'               => $comment ? $comment->comment_approved : '',
+				'postId'               => $comment ? $comment->comment_post_ID : '',
 				/* translators: %s: number of comments */
-				'total_items_i18n' => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
-				'total_pages'      => ceil( $total / $per_page ),
-				'total_pages_i18n' => number_format_i18n( ceil( $total / $per_page ) ),
-				'total'            => $total,
-				'time'             => $time,
+				'total_items_i18n'     => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
+				'total_pages'          => ceil( $total / $per_page ),
+				'total_pages_i18n'     => number_format_i18n( ceil( $total / $per_page ) ),
+				'total'                => $total,
+				'time'                 => $time,
+				'in_moderation'        => $counts->moderated,
+				'i18n_moderation_text' => sprintf(
+					/* translators: %s: number of comments in moderation */
+					_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
+					number_format_i18n( $counts->moderated )
+				),
 			),
 		)
 	);
@@ -1291,8 +1297,8 @@ function wp_ajax_replyto_comment( $action ) {
 			number_format_i18n( $counts->approved )
 		),
 		'i18n_moderation_text' => sprintf(
-			/* translators: %s: number of comments moderated */
-			_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+			/* translators: %s: number of comments in moderation */
+			_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 			number_format_i18n( $counts->moderated )
 		),
 	);

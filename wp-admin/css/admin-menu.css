@@ -515,14 +515,15 @@ ul#adminmenu > li.current > a.current:after {
 #adminmenu .update-plugins {
 	display: inline-block;
 	vertical-align: top;
-	margin: 1px 0 0 2px;
+	box-sizing: border-box;
+	margin: 1px 0 -1px 2px;
 	padding: 0 5px;
-	min-width: 7px;
-	height: 17px;
-	border-radius: 11px;
+	min-width: 18px;
+	height: 18px;
+	border-radius: 9px;
 	background-color: #ca4a1f;
 	color: #fff;
-	font-size: 9px;
+	font-size: 11px;
 	line-height: 17px;
 	text-align: center;
 	z-index: 26;
@@ -530,7 +531,7 @@ ul#adminmenu > li.current > a.current:after {
 
 #adminmenu li.current a .awaiting-mod,
 #adminmenu li a.wp-has-current-submenu .update-plugins {
-	background-color: #00b9eb;
+	background-color: #ca4a1f;
 	color: #fff;
 }
 

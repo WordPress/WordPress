@@ -291,9 +291,7 @@ function wp_dashboard_right_now() {
 		<?php
 		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
 		/* translators: %s: number of comments in moderation */
-		$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
-		/* translators: %s: number of comments in moderation */
-		$aria_label = sprintf( _nx( '%s comment in moderation', '%s comments in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
+		$text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $num_comm->moderated ), $moderated_comments_count_i18n );
 		?>
 		<li class="comment-mod-count
 		<?php
@@ -301,7 +299,7 @@ function wp_dashboard_right_now() {
 			echo ' hidden';
 		}
 		?>
-		"><a href="edit-comments.php?comment_status=moderated" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php echo $text; ?></a></li>
+		"><a href="edit-comments.php?comment_status=moderated" class="comments-in-moderation-text"><?php echo $text; ?></a></li>
 		<?php
 	}
 
