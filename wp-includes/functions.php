@@ -6803,22 +6803,42 @@ function wp_get_default_update_php_url() {
  * annotation if the web host has altered the default "Update PHP" page URL.
  *
  * @since 5.1.0
+ * @since 5.2.0 Added the `$before` and `$after` parameters.
+ *
+ * @param string $before Markup to output before the annotation. Default `<p class="description">`.
+ * @param string $after  Markup to output after the annotation. Default `</p>`.
  */
-function wp_update_php_annotation() {
+function wp_update_php_annotation( $before = '<p class="description">', $after = '</p>' ) {
+	$annotation = wp_get_update_php_annotation();
+
+	echo $before . $annotation . $after;
+}
+
+/**
+ * Returns the default annotation for the web hosting altering the "Update PHP" page URL.
+ *
+ * This function is to be used after {@see wp_get_update_php_url()} to return a consistent
+ * annotation if the web host has altered the default "Update PHP" page URL.
+ *
+ * @since 5.2.0
+ *
+ * @return string $message Update PHP page annotation. An empty string if no custom URLs are provided.
+ */
+function wp_get_update_php_annotation() {
 	$update_url  = wp_get_update_php_url();
 	$default_url = wp_get_default_update_php_url();
 
 	if ( $update_url === $default_url ) {
-		return;
+		return '';
 	}
 
-	echo '<p class="description">';
-	printf(
+	$annotation = sprintf(
 		/* translators: %s: default Update PHP page URL */
 		__( 'This resource is provided by your web host, and is specific to your site. For more information, <a href="%s" target="_blank">see the official WordPress documentation</a>.' ),
 		esc_url( $default_url )
 	);
-	echo'</p>';
+
+	return $annotation;
 }
 
 /**
