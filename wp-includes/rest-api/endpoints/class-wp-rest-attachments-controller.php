@@ -700,24 +700,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	}
 
 	/**
-	 * Validates whether the user can query private statuses.
-	 *
-	 * @since 4.7.0
-	 *
-	 * @param mixed           $value     Status value.
-	 * @param WP_REST_Request $request   Request object.
-	 * @param string          $parameter Additional parameter to pass for validation.
-	 * @return WP_Error|bool True if the user may query, WP_Error if not.
-	 */
-	public function validate_user_can_query_private_statuses( $value, $request, $parameter ) {
-		if ( 'inherit' === $value ) {
-			return true;
-		}
-
-		return parent::validate_user_can_query_private_statuses( $value, $request, $parameter );
-	}
-
-	/**
 	 * Handles an upload via multipart/form-data ($_FILES).
 	 *
 	 * @since 4.7.0
