@@ -861,8 +861,8 @@ switch ( $action ) {
 		}
 
 		$request_id = (int) $_GET['request_id'];
-		$key 		= sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
-		$result 	= wp_validate_user_request_key( $request_id, $key );
+		$key        = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
+		$result     = wp_validate_user_request_key( $request_id, $key );
 
 		if ( is_wp_error( $result ) ) {
 			wp_die( $result );
