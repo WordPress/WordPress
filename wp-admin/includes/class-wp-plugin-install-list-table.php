@@ -642,7 +642,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							self_admin_url( 'update-core.php' ),
 							esc_url( wp_get_update_php_url() )
 						);
-						wp_update_php_annotation();
+						wp_update_php_annotation( '</p><p><em>', '</em>' );
 					} elseif ( current_user_can( 'update_core' ) ) {
 						printf(
 							/* translators: %s: "Update WordPress" screen URL */
@@ -655,7 +655,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
 							esc_url( wp_get_update_php_url() )
 						);
-						wp_update_php_annotation();
+						wp_update_php_annotation( '</p><p><em>', '</em>' );
 					}
 				} elseif ( ! $compatible_wp ) {
 					_e( 'This plugin doesn&#8217;t work with your version of WordPress.' );
@@ -674,7 +674,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							' ' . __( '<a href="%s">Learn more about updating PHP</a>.' ),
 							esc_url( wp_get_update_php_url() )
 						);
-						wp_update_php_annotation();
+						wp_update_php_annotation( '</p><p><em>', '</em>' );
 					}
 				}
 				echo '</p></div>';
