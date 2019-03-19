@@ -853,17 +853,16 @@ switch ( $action ) {
 
 	case 'confirmaction':
 		if ( ! isset( $_GET['request_id'] ) ) {
-			wp_die( __( 'Invalid request.' ) );
+			wp_die( __( 'Missing request ID.' ) );
+		}
+
+		if ( ! isset( $_GET['confirm_key'] ) ) {
+			wp_die( __( 'Missing confirm key.' ) );
 		}
 
 		$request_id = (int) $_GET['request_id'];
-
-		if ( isset( $_GET['confirm_key'] ) ) {
-			$key    = sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
-			$result = wp_validate_user_request_key( $request_id, $key );
-		} else {
-			$result = new WP_Error( 'invalid_key', __( 'Invalid key' ) );
-		}
+		$key 		= sanitize_text_field( wp_unslash( $_GET['confirm_key'] ) );
+		$result 	= wp_validate_user_request_key( $request_id, $key );
 
 		if ( is_wp_error( $result ) ) {
 			wp_die( $result );
