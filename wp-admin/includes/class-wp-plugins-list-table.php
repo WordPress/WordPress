@@ -746,9 +746,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		}
 
-		$class       = $is_active ? 'active' : 'inactive';
-		$checkbox_id = 'checkbox_' . md5( $plugin_data['Name'] );
-		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ) ) ) {
+		$compatible_php = ( empty( $plugin_data['requires_php'] ) || version_compare( phpversion(), $plugin_data['requires_php'], '>=' ) );
+		$class          = $is_active ? 'active' : 'inactive';
+		$checkbox_id    = 'checkbox_' . md5( $plugin_data['Name'] );
+		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ) ) || ! $compatible_php ) {
 			$checkbox = '';
 		} else {
 			/* translators: %s: plugin name */
