@@ -117,10 +117,10 @@ wp_add_inline_script(
 $meta_box_url = admin_url( 'post.php' );
 $meta_box_url = add_query_arg(
 	array(
-		'post'            => $post->ID,
-		'action'          => 'edit',
-		'meta-box-loader' => true,
-		'_wpnonce'        => wp_create_nonce( 'meta-box-loader' ),
+		'post'                  => $post->ID,
+		'action'                => 'edit',
+		'meta-box-loader'       => true,
+		'meta-box-loader-nonce' => wp_create_nonce( 'meta-box-loader' ),
 	),
 	$meta_box_url
 );

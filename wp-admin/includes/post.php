@@ -2071,7 +2071,7 @@ function use_block_editor_for_post( $post ) {
 
 	// We're in the meta box loader, so don't use the block editor.
 	if ( isset( $_GET['meta-box-loader'] ) ) {
-		check_admin_referer( 'meta-box-loader' );
+		check_admin_referer( 'meta-box-loader', 'meta-box-loader-nonce' );
 		return false;
 	}
 
