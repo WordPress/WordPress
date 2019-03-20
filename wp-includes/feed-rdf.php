@@ -35,7 +35,7 @@ do_action( 'rss_tag_pre', 'rdf' );
 	<description><?php bloginfo_rss( 'description' ); ?></description>
 	<dc:date>
 	<?php
-		$date = get_lastpostmodified( 'GMT' );
+		$date = get_last_build_date();
 		echo $date ? mysql2date( 'Y-m-d\TH:i:s\Z', $date ) : date( 'Y-m-d\TH:i:s\Z' );
 	?>
 	</dc:date>

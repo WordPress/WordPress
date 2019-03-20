@@ -51,7 +51,7 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 	<description><?php bloginfo_rss( 'description' ); ?></description>
 	<lastBuildDate>
 	<?php
-		$date = get_lastcommentmodified( 'GMT' );
+		$date = get_last_build_date();
 		echo $date ? mysql2date( 'r', $date, false ) : date( 'r' );
 	?>
 	</lastBuildDate>

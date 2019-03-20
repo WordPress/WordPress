@@ -637,6 +637,51 @@ function self_link() {
 	echo esc_url( apply_filters( 'self_link', set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 }
 
+/*
+* Get the timestamp of the most recently modified post from WP_Query.
+*
+* If viewing a comment feed, the date of the most recently modified
+* comment will be returned.
+*
+* @global WP_Query  $wp_query The global WP_Query object.
+*
+* @since 5.2.0
+*
+* @return string The timestamp.
+*/
+function get_last_build_date() {
+	global $wp_query;
+
+	if ( empty( $wp_query ) || ! $wp_query->have_posts() ) {
+		// Fallback to last time any post was modified or published.
+		return get_lastpostmodified( 'GMT' );
+	}
+
+	// Extract the post modified times from the posts.
+	$modified_times = wp_list_pluck( $wp_query->posts, 'post_modified_gmt' );
+
+	// If this is a comment feed, check those objects too.
+	if ( $wp_query->is_comment_feed() && $wp_query->comment_count ) {
+		// Extract the comment modified times from the comments.
+		$comment_times = wp_list_pluck( $wp_query->comments, 'comment_date_gmt' );
+
+		// Add the comment times to the post times for comparison.
+		$modified_times = array_merge( $modified_times, $comment_times );
+	}
+
+	// Determine the maximum modified time.
+	$max_modified_time = max( $modified_times );
+
+	/**
+	 * Filters the date the last post or comment in the query was modified.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string $max_modified_times Date the last post or comment was modified in the query.
+	 */
+	return apply_filters( 'get_last_build_date', $max_modified_time );
+}
+
 /**
  * Return the content type for specified feed type.
  *

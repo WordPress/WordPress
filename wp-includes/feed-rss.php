@@ -16,7 +16,7 @@ echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?' . '>
 	<description><?php bloginfo_rss( 'description' ); ?></description>
 	<lastBuildDate>
 	<?php
-		$date = get_lastpostmodified( 'GMT' );
+		$date = get_last_build_date();
 		echo $date ? mysql2date( 'D, d M Y H:i:s +0000', $date ) : date( 'D, d M Y H:i:s +0000' );
 	?>
 	</lastBuildDate>

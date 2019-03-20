@@ -45,7 +45,7 @@ do_action( 'rss_tag_pre', 'atom-comments' );
 
 	<updated>
 	<?php
-		$date = get_lastcommentmodified( 'GMT' );
+		$date = get_last_build_date();
 		echo $date ? mysql2date( 'Y-m-d\TH:i:s\Z', $date, false ) : date( 'Y-m-d\TH:i:s\Z' );
 	?>
 	</updated>
