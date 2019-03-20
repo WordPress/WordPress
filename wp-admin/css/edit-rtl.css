@@ -496,6 +496,7 @@ span.wp-media-buttons-icon:before {
 #timestampdiv input {
 	border-width: 1px;
 	border-style: solid;
+	text-align: center;
 }
 
 .notification-dialog {
