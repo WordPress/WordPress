@@ -521,10 +521,30 @@ function wp_default_packages_scripts( &$scripts ) {
 function wp_default_packages_inline_scripts( &$scripts ) {
 	global $wp_locale;
 
+	if ( isset( $scripts->registered['wp-api-fetch'] ) ) {
+		$scripts->registered['wp-api-fetch']->deps[] = 'wp-hooks';
+	}
 	$scripts->add_inline_script(
 		'wp-api-fetch',
 		sprintf(
-			'wp.apiFetch.use( wp.apiFetch.createNonceMiddleware( "%s" ) );',
+			implode(
+				"\n",
+				array(
+					'( function() {',
+					'	var nonceMiddleware = wp.apiFetch.createNonceMiddleware( "%s" );',
+					'	wp.apiFetch.use( nonceMiddleware );',
+					'	wp.hooks.addAction(',
+					'		"heartbeat.tick",',
+					'		"core/api-fetch/create-nonce-middleware",',
+					'		function( response ) {',
+					'			if ( response[ "rest_nonce" ] ) {',
+					'				nonceMiddleware.nonce = response[ "rest_nonce" ];',
+					'			}',
+					'		}',
+					'	);',
+					'} )();',
+				)
+			),
 			( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' )
 		),
 		'after'

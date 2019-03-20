@@ -1082,8 +1082,6 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 function wp_refresh_heartbeat_nonces( $response ) {
 	// Refresh the Rest API nonce.
 	$response['rest_nonce'] = wp_create_nonce( 'wp_rest' );
-	// TEMPORARY: Compat with api-fetch library
-	$response['rest-nonce'] = $response['rest_nonce'];
 
 	// Refresh the Heartbeat nonce.
 	$response['heartbeat_nonce'] = wp_create_nonce( 'heartbeat-nonce' );
