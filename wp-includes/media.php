@@ -3578,7 +3578,7 @@ function wp_enqueue_media( $args = array() ) {
 
 	// Filter to show only available mime types.
 	$avail_post_mime_types = get_available_post_mime_types( 'attachment' );
-	$mimeTypes = wp_list_pluck( get_post_mime_types(), 0 );
+	$mimeTypes             = wp_list_pluck( get_post_mime_types(), 0 );
 	foreach ( $mimeTypes as $mime_type => $label ) {
 		if ( ! wp_match_mime_types( $mime_type, $avail_post_mime_types ) ) {
 			unset( $mimeTypes[ $mime_type ] );
