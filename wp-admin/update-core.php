@@ -294,6 +294,19 @@ function list_plugin_updates() {
 				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
 			}
 		}
+
+		$compatible_php = ( empty( $plugin_data->update->requires_php ) || version_compare( phpversion(), $plugin_data->update->requires_php, '>=' ) );
+
+		if ( ! $compatible_php && current_user_can( 'update_php' ) ) {
+			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
+			/* translators: %s: Update PHP page URL */
+			$compat .= sprintf(
+				__( '<a href="%s">Learn more about updating PHP.</a>' ),
+				esc_url( wp_get_update_php_url() )
+			);
+			$compat .= '</p><p><em>' . wp_get_update_php_annotation() . '</em>';
+		}
+
 		// Get the upgrade notice for the new plugin version.
 		if ( isset( $plugin_data->update->upgrade_notice ) ) {
 			$upgrade_notice = '<br />' . strip_tags( $plugin_data->update->upgrade_notice );
@@ -315,6 +328,7 @@ function list_plugin_updates() {
 		?>
 	<tr>
 		<td class="check-column">
+		<?php if ( $compatible_php ) : ?>
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
 			<?php
@@ -325,9 +339,10 @@ function list_plugin_updates() {
 				);
 			?>
 			</label>
+		<?php endif; ?>
 		</td>
 		<td class="plugin-title"><p>
-				<?php echo $icon; ?>
+			<?php echo $icon; ?>
 			<strong><?php echo $plugin_data->Name; ?></strong>
 			<?php
 			/* translators: 1: plugin version, 2: new version */
@@ -336,11 +351,11 @@ function list_plugin_updates() {
 				$plugin_data->Version,
 				$plugin_data->update->new_version
 			);
-				echo ' ' . $details . $compat . $upgrade_notice;
+			echo ' ' . $details . $compat . $upgrade_notice;
 			?>
 		</p></td>
 	</tr>
-			<?php
+		<?php
 	}
 	?>
 	</tbody>
