@@ -253,6 +253,7 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
  * Retrieve the post content.
  *
  * @since 0.71
+ * @since 5.2.0 Added the `$post` parameter.
  *
  * @global int   $page      Page number of a single post/page.
  * @global int   $more      Boolean indicator for whether single post/page is being viewed.
@@ -261,14 +262,25 @@ function the_content( $more_link_text = null, $strip_teaser = false ) {
  *                          part of the content separated by the `<!--nextpage-->` tag.
  * @global int   $multipage Boolean indicator for whether multiple pages are in play.
  *
- * @param string $more_link_text Optional. Content for when there is more text.
- * @param bool   $strip_teaser   Optional. Strip teaser content before the more text. Default is false.
+ * @param string             $more_link_text Optional. Content for when there is more text.
+ * @param bool               $strip_teaser   Optional. Strip teaser content before the more text. Default is false.
+ * @param WP_Post|object|int $post           Optional. WP_Post instance or Post ID/object. Default is null.
  * @return string
  */
-function get_the_content( $more_link_text = null, $strip_teaser = false ) {
+function get_the_content( $more_link_text = null, $strip_teaser = false, $post = null ) {
 	global $page, $more, $preview, $pages, $multipage;
 
-	$post = get_post();
+	$_post = get_post( $post );
+
+	if ( ! ( $_post instanceof WP_Post ) ) {
+		return '';
+	}
+
+	if ( null === $post ) {
+		$elements = compact( 'page', 'more', 'preview', 'pages', 'multipage' );
+	} else {
+		$elements = generate_postdata( $_post );
+	}
 
 	if ( null === $more_link_text ) {
 		$more_link_text = sprintf(
@@ -276,7 +288,12 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 			sprintf(
 				/* translators: %s: Name of current post */
 				__( 'Continue reading %s' ),
-				the_title_attribute( array( 'echo' => false ) )
+				the_title_attribute(
+					array(
+						'echo' => false,
+						'post' => $_post,
+					)
+				)
 			),
 			__( '(more&hellip;)' )
 		);
@@ -286,15 +303,16 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 	$has_teaser = false;
 
 	// If post password required and it doesn't match the cookie.
-	if ( post_password_required( $post ) ) {
-		return get_the_password_form( $post );
+	if ( post_password_required( $_post ) ) {
+		return get_the_password_form( $_post );
 	}
 
-	if ( $page > count( $pages ) ) { // if the requested page doesn't exist
-		$page = count( $pages ); // give them the highest numbered page that DOES exist
+	if ( $elements['page'] > count( $elements['pages'] ) ) { // if the requested page doesn't exist
+		$elements['page'] = count( $elements['pages'] ); // give them the highest numbered page that DOES exist
 	}
 
-	$content = $pages[ $page - 1 ];
+	$page_no = $elements['page'];
+	$content = $elements['pages'][ $page_no - 1 ];
 	if ( preg_match( '/<!--more(.*?)?-->/', $content, $matches ) ) {
 		$content = explode( $matches[0], $content, 2 );
 		if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) ) {
@@ -306,21 +324,21 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 		$content = array( $content );
 	}
 
-	if ( false !== strpos( $post->post_content, '<!--noteaser-->' ) && ( ! $multipage || $page == 1 ) ) {
+	if ( false !== strpos( $_post->post_content, '<!--noteaser-->' ) && ( ! $elements['multipage'] || $elements['page'] == 1 ) ) {
 		$strip_teaser = true;
 	}
 
 	$teaser = $content[0];
 
-	if ( $more && $strip_teaser && $has_teaser ) {
+	if ( $elements['more'] && $strip_teaser && $has_teaser ) {
 		$teaser = '';
 	}
 
 	$output .= $teaser;
 
 	if ( count( $content ) > 1 ) {
-		if ( $more ) {
-			$output .= '<span id="more-' . $post->ID . '"></span>' . $content[1];
+		if ( $elements['more'] ) {
+			$output .= '<span id="more-' . $_post->ID . '"></span>' . $content[1];
 		} else {
 			if ( ! empty( $more_link_text ) ) {
 
@@ -332,7 +350,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 				 * @param string $more_link_element Read More link element.
 				 * @param string $more_link_text    Read More text.
 				 */
-				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink() . "#more-{$post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
+				$output .= apply_filters( 'the_content_more_link', ' <a href="' . get_permalink( $_post ) . "#more-{$_post->ID}\" class=\"more-link\">$more_link_text</a>", $more_link_text );
 			}
 			$output = force_balance_tags( $output );
 		}

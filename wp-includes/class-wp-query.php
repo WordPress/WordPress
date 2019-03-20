@@ -4155,6 +4155,42 @@ class WP_Query {
 			return;
 		}
 
+		$elements = $this->generate_postdata( $post );
+		if ( false === $elements ) {
+			return;
+		}
+
+		$id           = $elements['id'];
+		$authordata   = $elements['authordata'];
+		$currentday   = $elements['currentday'];
+		$currentmonth = $elements['currentmonth'];
+		$page         = $elements['page'];
+		$pages        = $elements['pages'];
+		$multipage    = $elements['multipage'];
+		$more         = $elements['more'];
+		$numpages     = $elements['numpages'];
+
+		return true;
+	}
+
+	/**
+	 * Generate post data.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
+	 * @return array|bool $elements Elements of post or false on failure.
+	 */
+	public function generate_postdata( $post ) {
+
+		if ( ! ( $post instanceof WP_Post ) ) {
+			$post = get_post( $post );
+		}
+
+		if ( ! $post ) {
+			return false;
+		}
+
 		$id = (int) $post->ID;
 
 		$authordata = get_userdata( $post->post_author );
@@ -4235,7 +4271,9 @@ class WP_Query {
 		 */
 		do_action_ref_array( 'the_post', array( &$post, &$this ) );
 
-		return true;
+		$elements = compact( 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages' );
+
+		return $elements;
 	}
 	/**
 	 * After looping through a nested query, this function
