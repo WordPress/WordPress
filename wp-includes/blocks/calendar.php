@@ -13,18 +13,22 @@
  * @return string Returns the block content.
  */
 function render_block_core_calendar( $attributes ) {
-	global $monthnum, $year, $post;
+	global $monthnum, $year;
+
 	$previous_monthnum = $monthnum;
 	$previous_year     = $year;
 
-	if ( isset( $attributes['month'] ) ) {
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-		$monthnum = $attributes['month'];
-	}
-
-	if ( isset( $attributes['year'] ) ) {
-		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
-		$year = $attributes['year'];
+	if ( isset( $attributes['month'] ) && isset( $attributes['year'] ) ) {
+		$permalink_structure = get_option( 'permalink_structure' );
+		if (
+			strpos( $permalink_structure, '%monthnum%' ) !== false &&
+			strpos( $permalink_structure, '%year%' ) !== false
+		) {
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+			$monthnum = $attributes['month'];
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+			$year = $attributes['year'];
+		}
 	}
 
 	$custom_class_name = empty( $attributes['className'] ) ? '' : ' ' . $attributes['className'];

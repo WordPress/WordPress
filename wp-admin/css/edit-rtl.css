@@ -863,33 +863,21 @@ span.wp-media-buttons-icon:before {
   11.4 - Post formats
 ------------------------------------------------------------------------------*/
 
-.post-state-format {
-	overflow: hidden;
+.post-format-icon::before {
 	display: inline-block;
 	vertical-align: middle;
 	height: 20px;
 	width: 20px;
-	margin-left: 5px;
 	margin-top: -4px;
-}
-
-.post-state-format:before {
-	display: block;
-	height: 20px;
-	width: 20px;
-	font: normal 20px/1 dashicons !important;
+	margin-left: 7px;
+	color: #ddd;
+	font: normal 20px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-}
-
-.post-state-format:before,
-.post-format-icon:before {
-	color: #ddd;
 	transition: all .1s ease-in-out;
 }
 
-a.post-state-format:hover:before,
 a.post-format-icon:hover:before {
 	color: #00a0d2;
 }
@@ -898,7 +886,7 @@ a.post-format-icon:hover:before {
 	line-height: 2em;
 }
 
-#post-formats-select .post-format-icon:before {
+#post-formats-select .post-format-icon::before {
 	top: 5px;
 }
 
@@ -907,77 +895,47 @@ input.post-format {
 }
 
 label.post-format-icon {
-	margin-right: 0px;
-	padding: 2px 0px 2px 0;
+	margin-right: 0;
+	padding: 2px 0;
 }
 
-.post-format-icon:before {
-	position: relative;
-	display: inline-block;
-	margin-left: 7px;
-	font: normal 20px/1 dashicons;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.post-state-format.post-format-standard:before,
-.post-format-icon.post-format-standard:before,
-a.post-state-format.format-standard:before {
+.post-format-icon.post-format-standard::before {
 	content: "\f109";
 }
 
-.post-state-format.post-format-image:before,
-.post-format-icon.post-format-image:before,
-a.post-state-format.format-image:before {
+.post-format-icon.post-format-image::before {
 	content: "\f128";
 }
 
-.post-state-format.post-format-gallery:before,
-.post-format-icon.post-format-gallery:before,
-a.post-state-format.format-gallery:before {
+.post-format-icon.post-format-gallery::before {
 	content: "\f161";
 }
 
-.post-state-format.post-format-audio:before,
-.post-format-icon.post-format-audio:before,
-a.post-state-format.format-audio:before {
+.post-format-icon.post-format-audio::before {
 	content: "\f127";
 }
 
-.post-state-format.post-format-video:before,
-.post-format-icon.post-format-video:before,
-a.post-state-format.format-video:before {
+.post-format-icon.post-format-video::before {
 	content: "\f126";
 }
 
-.post-state-format.post-format-chat:before,
-.post-format-icon.post-format-chat:before,
-a.post-state-format.format-chat:before {
+.post-format-icon.post-format-chat::before {
 	content: "\f125";
 }
 
-.post-state-format.post-format-status:before,
-.post-format-icon.post-format-status:before,
-a.post-state-format.format-status:before {
+.post-format-icon.post-format-status::before {
 	content: "\f130";
 }
 
-.post-state-format.post-format-aside:before,
-.post-format-icon.post-format-aside:before,
-a.post-state-format.format-aside:before {
+.post-format-icon.post-format-aside::before {
 	content: "\f123";
 }
 
-.post-state-format.post-format-quote:before,
-.post-format-icon.post-format-quote:before,
-a.post-state-format.format-quote:before {
+.post-format-icon.post-format-quote::before {
 	content: "\f122";
 }
 
-.post-state-format.post-format-link:before,
-.post-format-icon.post-format-link:before,
-a.post-state-format.format-link:before {
+.post-format-icon.post-format-link::before {
 	content: "\f103";
 }
 

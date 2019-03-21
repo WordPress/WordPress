@@ -471,12 +471,6 @@ div#dashboard-widgets {
 	display: inline;
 }
 
-a.post-state-format {
-	text-indent: 0;
-	line-height: 0;
-	font-size: 0;
-}
-
 table.ie-fixed {
 	table-layout: fixed;
 }

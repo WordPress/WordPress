@@ -459,6 +459,66 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Displays a formats drop-down for filtering items.
+	 *
+	 * @since 5.2.0
+	 * @access protected
+	 *
+	 * @param string $post_type Post type key.
+	 */
+	protected function formats_dropdown( $post_type ) {
+		/**
+		 * Filters whether to remove the 'Formats' drop-down from the post list table.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param bool $disable Whether to disable the drop-down. Default false.
+		 */
+		if ( apply_filters( 'disable_formats_dropdown', false ) ) {
+			return;
+		}
+
+		// Make sure the dropdown shows only formats with a post count greater than 0.
+		$used_post_formats = get_terms(
+			array(
+				'taxonomy'   => 'post_format',
+				'hide_empty' => true,
+			)
+		);
+
+		/*
+		 * Return if the post type doesn't have post formats, or there are no posts using formats,
+		 * or if we're in the trash.
+		 */
+		if ( ! is_object_in_taxonomy( $post_type, 'post_format' ) || ! $used_post_formats || $this->is_trash ) {
+			return;
+		}
+
+		$displayed_post_format = isset( $_GET['post_format'] ) ? $_GET['post_format'] : '';
+		?>
+		<label for="filter-by-format" class="screen-reader-text"><?php _e( 'Filter by post format' ); ?></label>
+		<select name="post_format" id="filter-by-format">
+			<option<?php selected( $displayed_post_format, '' ); ?> value=""><?php _e( 'All formats' ); ?></option>
+			<?php
+			foreach ( $used_post_formats as $used_post_format ) {
+				// Post format slug.
+				$slug = str_replace( 'post-format-', '', $used_post_format->slug );
+				// Pretty, translated version of the post format slug.
+				$pretty_name = get_post_format_string( $slug );
+				// Skip the standard post format.
+				if ( 'standard' === $slug ) {
+					continue;
+				}
+				?>
+				<option<?php selected( $displayed_post_format, $slug ); ?> value="<?php echo esc_attr( $slug ); ?>"><?php echo esc_html( $pretty_name ); ?></option>
+				<?php
+			}
+			?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {
@@ -470,6 +530,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			$this->months_dropdown( $this->screen->post_type );
 			$this->categories_dropdown( $this->screen->post_type );
+			$this->formats_dropdown( $this->screen->post_type );
 
 			/**
 			 * Fires before the Filter button on the Posts and Pages list tables.
@@ -943,25 +1004,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$pad = str_repeat( '&#8212; ', $this->current_level );
 		echo '<strong>';
 
-		$format = get_post_format( $post->ID );
-		if ( $format ) {
-			$label = get_post_format_string( $format );
-
-			$format_class = 'post-state-format post-format-icon post-format-' . $format;
-
-			$format_args = array(
-				'post_format' => $format,
-				'post_type'   => $post->post_type,
-			);
-
-			echo $this->get_edit_link( $format_args, $label . ':', $format_class );
-		}
+		$format         = get_post_format( $post->ID );
+		$format_classes = ( $format ) ? 'post-format-icon post-format-' . esc_attr( $format ) : '';
 
 		$title = _draft_or_post_title();
 
 		if ( $can_edit_post && $post->post_status != 'trash' ) {
 			printf(
-				'<a class="row-title" href="%s" aria-label="%s">%s%s</a>',
+				'<a class="row-title %s" href="%s" aria-label="%s">%s%s</a>',
+				$format_classes,
 				get_edit_post_link( $post->ID ),
 				/* translators: %s: post title */
 				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
@@ -969,7 +1020,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$title
 			);
 		} else {
-			echo $pad . $title;
+			printf(
+				'<span class="%s">%s%s</span>',
+				$format_classes,
+				$pad,
+				$title
+			);
 		}
 		_post_states( $post );
 
