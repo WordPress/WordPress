@@ -978,3 +978,17 @@ function wp_maybe_grant_resume_extensions_caps( $allcaps ) {
 
 	return $allcaps;
 }
+
+return;
+
+// Dummy gettext calls to get strings in the catalog.
+/* translators: user role for administrators  */
+_x( 'Administrator', 'User role' );
+/* translators: user role for editors */
+_x( 'Editor', 'User role' );
+/* translators: user role for authors */
+_x( 'Author', 'User role' );
+/* translators: user role for contributors */
+_x( 'Contributor', 'User role' );
+/* translators: user role for subscriber */
+_x( 'Subscriber', 'User role' );

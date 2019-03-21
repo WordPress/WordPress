@@ -708,18 +708,6 @@ function populate_roles() {
 function populate_roles_160() {
 	// Add roles
 
-	// Dummy gettext calls to get strings in the catalog.
-	/* translators: user role */
-	_x( 'Administrator', 'User role' );
-	/* translators: user role */
-	_x( 'Editor', 'User role' );
-	/* translators: user role */
-	_x( 'Author', 'User role' );
-	/* translators: user role */
-	_x( 'Contributor', 'User role' );
-	/* translators: user role */
-	_x( 'Subscriber', 'User role' );
-
 	add_role( 'administrator', 'Administrator' );
 	add_role( 'editor', 'Editor' );
 	add_role( 'author', 'Author' );
