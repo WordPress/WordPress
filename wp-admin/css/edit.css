@@ -875,7 +875,6 @@ span.wp-media-buttons-icon:before {
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	transition: all .1s ease-in-out;
 }
 
 a.post-format-icon:hover:before {
