@@ -33,6 +33,26 @@ if ( current_user_can( 'switch_themes' ) && isset( $_GET['action'] ) ) {
 		switch_theme( $theme->get_stylesheet() );
 		wp_redirect( admin_url( 'themes.php?activated=true' ) );
 		exit;
+	} elseif ( 'resume' === $_GET['action'] ) {
+		check_admin_referer( 'resume-theme_' . $_GET['stylesheet'] );
+		$theme = wp_get_theme( $_GET['stylesheet'] );
+
+		if ( ! current_user_can( 'resume_theme', $_GET['stylesheet'] ) ) {
+			wp_die(
+				'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
+				'<p>' . __( 'Sorry, you are not allowed to resume this theme.' ) . '</p>',
+				403
+			);
+		}
+
+		$result = resume_theme( $theme->get_stylesheet(), self_admin_url( 'themes.php?error=resuming' ) );
+
+		if ( is_wp_error( $result ) ) {
+			wp_die( $result );
+		}
+
+		wp_redirect( admin_url( 'themes.php?resumed=true' ) );
+		exit;
 	} elseif ( 'delete' == $_GET['action'] ) {
 		check_admin_referer( 'delete-theme_' . $_GET['stylesheet'] );
 		$theme = wp_get_theme( $_GET['stylesheet'] );
@@ -195,6 +215,14 @@ if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) {
 	?>
 	<div id="message4" class="error"><p><?php _e( 'You cannot delete a theme while it has an active child theme.' ); ?></p></div>
 	<?php
+} elseif ( isset( $_GET['resumed'] ) ) {
+	?>
+	<div id="message5" class="updated notice is-dismissible"><p><?php _e( 'Theme resumed.' ); ?></p></div>
+	<?php
+} elseif ( isset( $_GET['error'] ) && 'resuming' === $_GET['error'] ) {
+	?>
+	<div id="message6" class="error"><p><?php _e( 'Theme could not be resumed because it triggered a <strong>fatal error</strong>.' ); ?></p></div>
+	<?php
 }
 
 $ct = wp_get_theme();
@@ -348,6 +376,7 @@ if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes = w
 <p><?php _e( 'The following themes are installed but incomplete.' ); ?></p>
 
 	<?php
+	$can_resume  = current_user_can( 'resume_themes' );
 	$can_delete  = current_user_can( 'delete_themes' );
 	$can_install = current_user_can( 'install_themes' );
 	?>
@@ -355,6 +384,9 @@ if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes = w
 	<tr>
 		<th><?php _ex( 'Name', 'theme name' ); ?></th>
 		<th><?php _e( 'Description' ); ?></th>
+		<?php if ( $can_resume ) { ?>
+			<td></td>
+		<?php } ?>
 		<?php if ( $can_delete ) { ?>
 			<td></td>
 		<?php } ?>
@@ -367,6 +399,27 @@ if ( ! is_multisite() && current_user_can( 'edit_themes' ) && $broken_themes = w
 			<td><?php echo $broken_theme->get( 'Name' ) ? $broken_theme->display( 'Name' ) : $broken_theme->get_stylesheet(); ?></td>
 			<td><?php echo $broken_theme->errors()->get_error_message(); ?></td>
 			<?php
+			if ( $can_resume ) {
+				if ( 'theme_paused' === $broken_theme->errors()->get_error_code() ) {
+					$stylesheet = $broken_theme->get_stylesheet();
+					$resume_url = add_query_arg(
+						array(
+							'action'     => 'resume',
+							'stylesheet' => urlencode( $stylesheet ),
+						),
+						admin_url( 'themes.php' )
+					);
+					$resume_url = wp_nonce_url( $resume_url, 'resume-theme_' . $stylesheet );
+					?>
+					<td><a href="<?php echo esc_url( $resume_url ); ?>" class="button resume-theme"><?php _e( 'Resume' ); ?></a></td>
+					<?php
+				} else {
+					?>
+					<td></td>
+					<?php
+				}
+			}
+
 			if ( $can_delete ) {
 				$stylesheet = $broken_theme->get_stylesheet();
 				$delete_url = add_query_arg(

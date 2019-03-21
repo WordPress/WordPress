@@ -1048,6 +1048,35 @@ function wp_admin_bar_search_menu( $wp_admin_bar ) {
 }
 
 /**
+ * Add a link to exit recovery mode when Recovery Mode is active.
+ *
+ * @since 5.2.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar
+ */
+function wp_admin_bar_recovery_mode_menu( $wp_admin_bar ) {
+	if ( ! wp_is_recovery_mode() ) {
+		return;
+	}
+
+	$url = wp_login_url();
+	$url = add_query_arg( 'action', WP_Recovery_Mode::EXIT_ACTION, $url );
+	$url = wp_nonce_url( $url, WP_Recovery_Mode::EXIT_ACTION );
+
+	$wp_admin_bar->add_menu(
+		array(
+			'parent' => 'top-secondary',
+			'id'     => 'recovery-mode',
+			'title'  => __( 'Exit Recovery Mode' ),
+			'href'   => $url,
+			'meta'   => array(
+				'title' => __( 'Exit Recovery Mode' ),
+			),
+		)
+	);
+}
+
+/**
  * Add secondary menus.
  *
  * @since 3.3.0

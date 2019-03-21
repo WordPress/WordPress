@@ -579,5 +579,6 @@ add_filter( 'pre_oembed_result', 'wp_filter_pre_oembed_result', 10, 3 );
 
 // Capabilities
 add_filter( 'user_has_cap', 'wp_maybe_grant_install_languages_cap', 1 );
+add_filter( 'user_has_cap', 'wp_maybe_grant_resume_extensions_caps', 1 );
 
 unset( $filter, $action );

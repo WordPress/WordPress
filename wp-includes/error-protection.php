@@ -7,6 +7,72 @@
  */
 
 /**
+ * Get the instance for storing paused plugins.
+ *
+ * @return WP_Paused_Extensions_Storage
+ */
+function wp_paused_plugins() {
+	static $storage = null;
+
+	if ( null === $storage ) {
+		$storage = new WP_Paused_Extensions_Storage( 'plugin' );
+	}
+
+	return $storage;
+}
+
+/**
+ * Get the instance for storing paused extensions.
+ *
+ * @return WP_Paused_Extensions_Storage
+ */
+function wp_paused_themes() {
+	static $storage = null;
+
+	if ( null === $storage ) {
+		$storage = new WP_Paused_Extensions_Storage( 'theme' );
+	}
+
+	return $storage;
+}
+
+/**
+ * Get a human readable description of an extension's error.
+ *
+ * @since 5.2.0
+ *
+ * @param array $error Error details {@see error_get_last()}
+ *
+ * @return string Formatted error description.
+ */
+function wp_get_extension_error_description( $error ) {
+	$constants   = get_defined_constants( true );
+	$constants   = isset( $constants['Core'] ) ? $constants['Core'] : $constants['internal'];
+	$core_errors = array();
+
+	foreach ( $constants as $constant => $value ) {
+		if ( 0 === strpos( $constant, 'E_' ) ) {
+			$core_errors[ $value ] = $constant;
+		}
+	}
+
+	if ( isset( $core_errors[ $error['type'] ] ) ) {
+		$error['type'] = $core_errors[ $error['type'] ];
+	}
+
+	/* translators: 1: error type, 2: error line number, 3: error file name, 4: error message */
+	$error_message = __( 'An error of type %1$s was caused in line %2$s of the file %3$s. Error message: %4$s' );
+
+	return sprintf(
+		$error_message,
+		"<code>{$error['type']}</code>",
+		"<code>{$error['line']}</code>",
+		"<code>{$error['file']}</code>",
+		"<code>{$error['message']}</code>"
+	);
+}
+
+/**
  * Registers the shutdown handler for fatal errors.
  *
  * The handler will only be registered if {@see wp_is_fatal_error_handler_enabled()} returns true.
@@ -51,4 +117,21 @@ function wp_is_fatal_error_handler_enabled() {
 	 * @param bool $enabled True if the fatal error handler is enabled, false otherwise.
 	 */
 	return apply_filters( 'wp_fatal_error_handler_enabled', $enabled );
+}
+
+/**
+ * Access the WordPress Recovery Mode instance.
+ *
+ * @since 5.2.0
+ *
+ * @return WP_Recovery_Mode
+ */
+function wp_recovery_mode() {
+	static $wp_recovery_mode;
+
+	if ( ! $wp_recovery_mode ) {
+		$wp_recovery_mode = new WP_Recovery_Mode();
+	}
+
+	return $wp_recovery_mode;
 }

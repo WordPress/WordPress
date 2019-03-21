@@ -464,6 +464,12 @@ function map_meta_cap( $cap, $user_id ) {
 				}
 			}
 			break;
+		case 'resume_plugin':
+			$caps[] = 'resume_plugins';
+			break;
+		case 'resume_theme':
+			$caps[] = 'resume_themes';
+			break;
 		case 'delete_user':
 		case 'delete_users':
 			// If multisite only super admins can delete users.
@@ -946,6 +952,28 @@ function revoke_super_admin( $user_id ) {
 function wp_maybe_grant_install_languages_cap( $allcaps ) {
 	if ( ! empty( $allcaps['update_core'] ) || ! empty( $allcaps['install_plugins'] ) || ! empty( $allcaps['install_themes'] ) ) {
 		$allcaps['install_languages'] = true;
+	}
+
+	return $allcaps;
+}
+
+/**
+ * Filters the user capabilities to grant the 'resume_plugins' and 'resume_themes' capabilities as necessary.
+ *
+ * @since 5.2.0
+ *
+ * @param bool[] $allcaps An array of all the user's capabilities.
+ * @return bool[] Filtered array of the user's capabilities.
+ */
+function wp_maybe_grant_resume_extensions_caps( $allcaps ) {
+	// Even in a multisite, regular administrators should be able to resume plugins.
+	if ( ! empty( $allcaps['activate_plugins'] ) ) {
+		$allcaps['resume_plugins'] = true;
+	}
+
+	// Even in a multisite, regular administrators should be able to resume themes.
+	if ( ! empty( $allcaps['switch_themes'] ) ) {
+		$allcaps['resume_themes'] = true;
 	}
 
 	return $allcaps;
