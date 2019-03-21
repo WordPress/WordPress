@@ -248,6 +248,7 @@ media.view.SiteIconCropper = __webpack_require__( 101 );
 media.view.SiteIconPreview = __webpack_require__( 102 );
 media.view.EditImage = __webpack_require__( 103 );
 media.view.Spinner = __webpack_require__( 104 );
+media.view.Heading = __webpack_require__( 105 );
 
 
 /***/ }),
@@ -7556,6 +7557,9 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 		 */
 		this.createToolbar();
 
+		// Add a heading before the attachments list.
+		this.createAttachmentsHeading();
+
 		// Create the list of attachments.
 		this.createAttachments();
 
@@ -7900,6 +7904,15 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 
 			this.views.add( this.attachmentsNoResults );
 		}
+	},
+
+	createAttachmentsHeading: function() {
+		this.attachmentsHeading = new wp.media.view.Heading( {
+			text: l10n.attachmentsList,
+			level: 'h2',
+			className: 'media-views-heading screen-reader-text'
+		} );
+		this.views.add( this.attachmentsHeading );
 	},
 
 	createSidebar: function() {
@@ -9508,6 +9521,46 @@ var Spinner = wp.media.View.extend(/** @lends wp.media.view.Spinner.prototype */
 });
 
 module.exports = Spinner;
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports) {
+
+/**
+ * wp.media.view.Heading
+ *
+ * A reusable heading component for the media library
+ *
+ * Used to add accessibility friendly headers in the media library/modal.
+ *
+ * @class
+ * @augments wp.media.View
+ * @augments wp.Backbone.View
+ * @augments Backbone.View
+ */
+var Heading = wp.media.View.extend( {
+	tagName: function() {
+		return this.options.level || 'h1';
+	},
+	className: 'media-views-heading',
+
+	initialize: function() {
+
+		if ( this.options.className ) {
+			this.$el.addClass( this.options.className );
+		}
+
+		this.text = this.options.text;
+	},
+
+	render: function() {
+		this.$el.html( this.text );
+		return this;
+	}
+} );
+
+module.exports = Heading;
 
 
 /***/ })
