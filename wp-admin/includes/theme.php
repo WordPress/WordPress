@@ -721,12 +721,12 @@ function customize_themes_print_templates() {
 					<# if ( data.stars && 0 != data.num_ratings ) { #>
 						<div class="theme-rating">
 							{{{ data.stars }}}
-							<span class="num-ratings">
+							<a class="num-ratings" target="_blank" href="{{ data.reviews_url }}">
 								<?php
 								/* translators: %s: number of ratings */
-								echo sprintf( __( '(%s ratings)' ), '{{ data.num_ratings }}' );
+								echo sprintf( __( '(%s ratings) <span class="screen-reader-text">link to view ratings opens in a new tab</span>' ), '{{ data.num_ratings }}' );
 								?>
-							</span>
+							</a>
 						</div>
 					<# } #>
 

@@ -5729,6 +5729,9 @@ final class WP_Customize_Manager {
 			// Arguments for all queries.
 			$wporg_args = array(
 				'per_page' => 100,
+				'fields'   => array(
+					'reviews_url' => true, // Explicitly request the reviews URL to be linked from the customizer.
+				),
 			);
 
 			$args = array_merge( $wporg_args, $args );

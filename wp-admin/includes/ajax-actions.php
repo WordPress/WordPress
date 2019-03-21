@@ -3266,7 +3266,12 @@ function wp_ajax_query_themes() {
 		wp_unslash( $_REQUEST['request'] ),
 		array(
 			'per_page' => 20,
-			'fields'   => $theme_field_defaults,
+			'fields'   => array_merge(
+				(array) $theme_field_defaults,
+				array(
+					'reviews_url' => true, // Explicitly request the reviews URL to be linked from the Add Themes screen.
+				)
+			),
 		)
 	);
 
