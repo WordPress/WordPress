@@ -621,6 +621,9 @@ function get_body_class( $class = '' ) {
 	if ( is_home() ) {
 		$classes[] = 'blog';
 	}
+	if ( is_privacy_policy() ) {
+		$classes[] = 'privacy-policy';
+	}
 	if ( is_archive() ) {
 		$classes[] = 'archive';
 	}

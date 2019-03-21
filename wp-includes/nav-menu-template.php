@@ -361,8 +361,9 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 
 	$possible_object_parents = array_filter( $possible_object_parents );
 
-	$front_page_url = home_url();
-	$front_page_id  = (int) get_option( 'page_on_front' );
+	$front_page_url         = home_url();
+	$front_page_id          = (int) get_option( 'page_on_front' );
+	$privacy_policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
 	foreach ( (array) $menu_items as $key => $menu_item ) {
 
@@ -376,6 +377,11 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		// This menu item is set as the 'Front Page'.
 		if ( 'post_type' === $menu_item->type && $front_page_id === (int) $menu_item->object_id ) {
 			$classes[] = 'menu-item-home';
+		}
+
+		// This menu item is set as the 'Privacy Policy Page'.
+		if ( 'post_type' === $menu_item->type && $privacy_policy_page_id === (int) $menu_item->object_id ) {
+			$classes[] = 'menu-item-privacy-policy';
 		}
 
 		// if the menu item corresponds to a taxonomy term for the currently-queried non-hierarchical post object

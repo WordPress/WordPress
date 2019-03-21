@@ -490,6 +490,36 @@ function is_home() {
 }
 
 /**
+ * Determines whether the query is for the Privacy Policy page.
+ *
+ * The Privacy Policy page is the page that shows the Privacy Policy content of the site.
+ *
+ * is_privacy_policy() is dependent on the site's "Change your Privacy Policy page" Privacy Settings 'wp_page_for_privacy_policy'.
+ *
+ * This function will return true only on the page you set as the "Privacy Policy page".
+ *
+ * For more information on this and similar theme functions, check out
+ * the {@link https://developer.wordpress.org/themes/basics/conditional-tags/
+ * Conditional Tags} article in the Theme Developer Handbook.
+ *
+ * @since 5.2.0
+ *
+ * @global WP_Query $wp_query Global WP_Query instance.
+ *
+ * @return bool
+ */
+function is_privacy_policy() {
+	global $wp_query;
+
+	if ( ! isset( $wp_query ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '3.1.0' );
+		return false;
+	}
+
+	return $wp_query->is_privacy_policy();
+}
+
+/**
  * Determines whether the query is for an existing month archive.
  *
  * For more information on this and similar theme functions, check out
