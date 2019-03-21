@@ -756,7 +756,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	if ( $is_flood ) {
 		/** This filter is documented in wp-includes/comment-template.php */
 		$comment_flood_message = apply_filters( 'comment_flood_message', __( 'You are posting comments too quickly. Slow down.' ) );
-		
+
 		return new WP_Error( 'comment_flood', $comment_flood_message, 429 );
 	}
 
