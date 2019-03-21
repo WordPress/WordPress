@@ -442,6 +442,10 @@ if ( ! interface_exists( 'JsonSerializable' ) ) {
 if ( ! function_exists( 'random_int' ) ) {
 	require ABSPATH . WPINC . '/random_compat/random.php';
 }
+// sodium_crypto_box was introduced in PHP 7.2
+if ( ! function_exists( 'sodium_crypto_box' ) ) {
+	require ABSPATH . WPINC . '/sodium_compat/autoload.php';
+}
 
 if ( ! function_exists( 'array_replace_recursive' ) ) :
 	/**
