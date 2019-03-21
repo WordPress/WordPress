@@ -191,7 +191,7 @@ class WP_Upgrader_Skin {
 		} else {
 			echo '<script type="text/javascript">
 					(function( wp ) {
-						if ( wp && wp.updates && wp.updates.decrementCount )
+						if ( wp && wp.updates && wp.updates.decrementCount ) {
 							wp.updates.decrementCount( "' . $type . '" );
 						}
 					})( window.wp );
