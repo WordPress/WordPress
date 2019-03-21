@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 body {
   font-family: "Noto Serif", serif;
   font-size: 16px;

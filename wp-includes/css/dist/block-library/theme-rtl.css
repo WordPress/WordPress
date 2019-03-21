@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 .wp-block-code {
   font-family: Menlo, Consolas, monaco, monospace;
   font-size: 14px;

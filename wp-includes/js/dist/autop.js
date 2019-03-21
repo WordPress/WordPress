@@ -82,19 +82,19 @@ this["wp"] = this["wp"] || {}; this["wp"]["autop"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 195);
+/******/ 	return __webpack_require__(__webpack_require__.s = 254);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 195:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "autop", function() { return autop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removep", function() { return removep; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(28);
 
 
 /**
@@ -202,6 +202,13 @@ function replaceInHtmlTags(haystack, replacePairs) {
  * @param  {string}    text The text which has to be formatted.
  * @param  {boolean}   br   Optional. If set, will convert all remaining line-
  *                          breaks after paragraphing. Default true.
+ *
+ * @example
+ *```js
+ * import { autop } from '@wordpress/autop';
+ * autop( 'my text' ); // "<p>my text</p>"
+ * ```
+ *
  * @return {string}         Text which has been converted into paragraph tags.
  */
 
@@ -358,6 +365,13 @@ function autop(text) {
  * Unifies whitespace. Indents `<li>`, `<dt>` and `<dd>` for better readability.
  *
  * @param  {string} html The content from the editor.
+ *
+ * @example
+ * ```js
+ * import { removep } from '@wordpress/autop';
+ * removep( '<p>my text</p>' ); // "my text"
+ * ```
+ *
  * @return {string}      The content with stripped paragraph tags.
  */
 
@@ -477,13 +491,13 @@ function removep(html) {
 
 /***/ }),
 
-/***/ 25:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
-var arrayWithHoles = __webpack_require__(34);
+var arrayWithHoles = __webpack_require__(37);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
 function _iterableToArrayLimit(arr, i) {
@@ -512,7 +526,7 @@ function _iterableToArrayLimit(arr, i) {
   return _arr;
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
-var nonIterableRest = __webpack_require__(35);
+var nonIterableRest = __webpack_require__(38);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
@@ -525,7 +539,7 @@ function _slicedToArray(arr, i) {
 
 /***/ }),
 
-/***/ 34:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -536,7 +550,7 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

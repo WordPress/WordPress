@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 .list-reusable-blocks-import-dropdown__content .components-popover__content {
   padding: 10px; }
 

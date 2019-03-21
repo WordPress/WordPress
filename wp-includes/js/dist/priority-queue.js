@@ -82,18 +82,41 @@ this["wp"] = this["wp"] || {}; this["wp"]["priorityQueue"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 293);
+/******/ 	return __webpack_require__(__webpack_require__.s = 346);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 293:
+/***/ 346:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createQueue", function() { return createQueue; });
 var requestIdleCallback = window.requestIdleCallback ? window.requestIdleCallback : window.requestAnimationFrame;
+/**
+ * Creates a context-aware queue that only executes
+ * the last task of a given context.
+ *
+ * @example
+ *```js
+ * import { createQueue } from '@wordpress/priority-queue';
+ *
+ * const queue = createQueue();
+ *
+ * // Context objects.
+ * const ctx1 = {};
+ * const ctx2 = {};
+ *
+ * // For a given context in the queue, only the last callback is executed.
+ * queue.add( ctx1, () => console.log( 'This will be printed first' ) );
+ * queue.add( ctx2, () => console.log( 'This won\'t be printed' ) );
+ * queue.add( ctx2, () => console.log( 'This will be printed second' ) );
+ *```
+ *
+ * @return {Object} Queue object with `add` and `flush` methods.
+ */
+
 var createQueue = function createQueue() {
   var waitingList = [];
   var elementsMap = new WeakMap();

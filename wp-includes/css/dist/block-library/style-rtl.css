@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 .wp-block-audio figcaption {
   margin-top: 0.5em;
   margin-bottom: 1em;
@@ -39,7 +42,7 @@
   width: 100%;
   min-width: 300px; }
 
-.editor-block-list__layout .reusable-block-edit-panel {
+.block-editor-block-list__layout .reusable-block-edit-panel {
   align-items: center;
   background: #f8f9f9;
   color: #555d66;
@@ -51,38 +54,46 @@
   top: -14px;
   margin: 0 -14px;
   padding: 8px 14px;
-  position: relative; }
-  .editor-block-list__layout .editor-block-list__layout .reusable-block-edit-panel {
+  position: relative;
+  border: 1px dashed rgba(145, 151, 162, 0.25);
+  border-bottom: none; }
+  .block-editor-block-list__layout .block-editor-block-list__layout .reusable-block-edit-panel {
     margin: 0 -14px;
     padding: 8px 14px; }
-  .editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__spinner {
+  .block-editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__spinner {
     margin: 0 5px; }
-  .editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__info {
+  .block-editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__info {
     margin-left: auto; }
-  .editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__label {
+  .block-editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__label {
     margin-left: 8px;
     white-space: nowrap;
     font-weight: 600; }
-  .editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__title {
+  .block-editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__title {
     flex: 1 1 100%;
     font-size: 14px;
     height: 30px;
     margin: 4px 0 8px; }
-  .editor-block-list__layout .reusable-block-edit-panel .components-button.reusable-block-edit-panel__button {
+  .block-editor-block-list__layout .reusable-block-edit-panel .components-button.reusable-block-edit-panel__button {
     flex-shrink: 0; }
   @media (min-width: 960px) {
-    .editor-block-list__layout .reusable-block-edit-panel {
+    .block-editor-block-list__layout .reusable-block-edit-panel {
       flex-wrap: nowrap; }
-      .editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__title {
+      .block-editor-block-list__layout .reusable-block-edit-panel .reusable-block-edit-panel__title {
         margin: 0; }
-      .editor-block-list__layout .reusable-block-edit-panel .components-button.reusable-block-edit-panel__button {
+      .block-editor-block-list__layout .reusable-block-edit-panel .components-button.reusable-block-edit-panel__button {
         margin: 0 5px 0 0; } }
 
-.editor-block-list__layout .reusable-block-indicator {
+.editor-block-list__layout .is-selected .reusable-block-edit-panel {
+  border-color: rgba(66, 88, 99, 0.4);
+  border-right-color: transparent; }
+  .is-dark-theme .editor-block-list__layout .is-selected .reusable-block-edit-panel {
+    border-color: rgba(255, 255, 255, 0.45);
+    border-right-color: transparent; }
+
+.block-editor-block-list__layout .reusable-block-indicator {
   background: #fff;
-  border-right: 1px dashed #e2e4e7;
+  border: 1px dashed #e2e4e7;
   color: #555d66;
-  border-bottom: 1px dashed #e2e4e7;
   top: -14px;
   height: 30px;
   padding: 4px;
@@ -321,6 +332,28 @@
   .wp-block-cover.alignleft,
   .wp-block-cover.alignright {
     display: flex; }
+  .wp-block-cover-image .wp-block-cover__inner-container,
+  .wp-block-cover .wp-block-cover__inner-container {
+    width: calc(100% - 70px);
+    z-index: 1;
+    color: #f8f9f9; }
+  .wp-block-cover-image p,
+  .wp-block-cover-image h1,
+  .wp-block-cover-image h2,
+  .wp-block-cover-image h3,
+  .wp-block-cover-image h4,
+  .wp-block-cover-image h5,
+  .wp-block-cover-image h6,
+  .wp-block-cover-image .wp-block-subhead,
+  .wp-block-cover p,
+  .wp-block-cover h1,
+  .wp-block-cover h2,
+  .wp-block-cover h3,
+  .wp-block-cover h4,
+  .wp-block-cover h5,
+  .wp-block-cover h6,
+  .wp-block-cover .wp-block-subhead {
+    color: inherit; }
 
 .wp-block-cover__video-background {
   position: absolute;
@@ -333,8 +366,8 @@
   -o-object-fit: cover;
      object-fit: cover; }
 
-.editor-block-list__block[data-type="core/embed"][data-align="left"] .editor-block-list__block-edit,
-.editor-block-list__block[data-type="core/embed"][data-align="right"] .editor-block-list__block-edit,
+.block-editor-block-list__block[data-type="core/embed"][data-align="left"] .block-editor-block-list__block-edit,
+.block-editor-block-list__block[data-type="core/embed"][data-align="right"] .block-editor-block-list__block-edit,
 .wp-block-embed.alignleft,
 .wp-block-embed.alignright {
   max-width: 360px;

@@ -28,9 +28,15 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 .components-animate__appear {
   animation: components-animate__appear-animation 0.1s cubic-bezier(0, 0, 0.2, 1) 0s;
   animation-fill-mode: forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .components-animate__appear {
+      animation-duration: 1ms !important; } }
   .components-animate__appear.is-from-top, .components-animate__appear.is-from-top.is-from-left {
     transform-origin: top right; }
   .components-animate__appear.is-from-top.is-from-right {
@@ -49,6 +55,9 @@
 .components-animate__slide-in {
   animation: components-animate__slide-in-animation 0.1s cubic-bezier(0, 0, 0.2, 1);
   animation-fill-mode: forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .components-animate__slide-in {
+      animation-duration: 1ms !important; } }
   .components-animate__slide-in.is-from-left {
     transform: translateX(-100%); }
 
@@ -2439,6 +2448,9 @@ body.is-dragging-components-draggable {
   z-index: 100000;
   animation: edit-post__fade-in-animation 0.2s ease-out 0s;
   animation-fill-mode: forwards; }
+  @media (prefers-reduced-motion: reduce) {
+    .components-modal__screen-overlay {
+      animation-duration: 1ms !important; } }
 
 .components-modal__frame {
   position: absolute;
@@ -2464,6 +2476,9 @@ body.is-dragging-components-draggable {
       transform: translate(50%, -50%);
       animation: components-modal__appear-animation 0.1s ease-out;
       animation-fill-mode: forwards; } }
+  @media (min-width: 600px) and (prefers-reduced-motion: reduce) {
+    .components-modal__frame {
+      animation-duration: 1ms !important; } }
 
 @keyframes components-modal__appear-animation {
   from {
@@ -2703,7 +2718,8 @@ body.is-dragging-components-draggable {
   font-weight: 600;
   margin-bottom: 1em; }
   .components-placeholder__label .dashicon,
-  .components-placeholder__label .editor-block-icon {
+  .components-placeholder__label .block-editor-block-icon {
+    fill: currentColor;
     margin-left: 1ch; }
 
 .components-placeholder__fieldset,
@@ -3072,7 +3088,7 @@ body.lockscroll {
     position: absolute;
     background-color: #fff;
     top: 3px;
-    right: 3px;
+    left: 3px;
     width: 4px;
     height: 4px;
     border-radius: 100%;
@@ -3201,12 +3217,12 @@ div.components-toolbar > div + div {
   background: #191e23;
   border-width: 0;
   color: #fff;
-  white-space: nowrap; }
+  white-space: nowrap;
+  text-align: center; }
 
 .components-tooltip:not(.is-mobile) .components-popover__content {
   min-width: 0; }
 
 .components-tooltip__shortcut {
   display: block;
-  text-align: center;
   color: #7e8993; }

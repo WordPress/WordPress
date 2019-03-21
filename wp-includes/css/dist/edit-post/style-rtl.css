@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 @media (min-width: 782px) {
   body.js.is-fullscreen-mode {
     margin-top: -46px;
@@ -45,10 +48,18 @@
       display: none; }
     body.js.is-fullscreen-mode #wpcontent,
     body.js.is-fullscreen-mode #wpfooter {
-      margin-right: 0; }
+      margin-right: 0; } }
+  @media (min-width: 782px) and (prefers-reduced-motion: reduce) {
+    body.js.is-fullscreen-mode {
+      animation-duration: 1ms !important; } }
+
+@media (min-width: 782px) {
     body.js.is-fullscreen-mode .edit-post-header {
       transform: translateY(-100%);
       animation: edit-post-fullscreen-mode__slide-in-animation 0.1s forwards; } }
+    @media (min-width: 782px) and (prefers-reduced-motion: reduce) {
+      body.js.is-fullscreen-mode .edit-post-header {
+        animation-duration: 1ms !important; } }
 
 @keyframes edit-post-fullscreen-mode__slide-in-animation {
   100% {
@@ -192,11 +203,11 @@ body.is-fullscreen-mode .edit-post-header {
     @media (min-width: 600px) {
       .edit-post-header-toolbar > .components-button {
         display: inline-flex; } }
-  .edit-post-header-toolbar .editor-block-navigation,
+  .edit-post-header-toolbar .block-editor-block-navigation,
   .edit-post-header-toolbar .table-of-contents {
     display: none; }
     @media (min-width: 600px) {
-      .edit-post-header-toolbar .editor-block-navigation,
+      .edit-post-header-toolbar .block-editor-block-navigation,
       .edit-post-header-toolbar .table-of-contents {
         display: flex; } }
 
@@ -208,7 +219,7 @@ body.is-fullscreen-mode .edit-post-header {
   background: #fff;
   min-height: 37px;
   border-bottom: 1px solid #e2e4e7; }
-  .edit-post-header-toolbar__block-toolbar .editor-block-toolbar .components-toolbar {
+  .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar .components-toolbar {
     border-top: none;
     border-bottom: none; }
   .is-sidebar-opened .edit-post-header-toolbar__block-toolbar {
@@ -228,9 +239,9 @@ body.is-fullscreen-mode .edit-post-header {
       min-height: auto; }
       .is-sidebar-opened .edit-post-header-toolbar__block-toolbar {
         left: auto; }
-      .edit-post-header-toolbar__block-toolbar .editor-block-toolbar {
+      .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar {
         margin: -9px 0; }
-      .edit-post-header-toolbar__block-toolbar .editor-block-toolbar .components-toolbar {
+      .edit-post-header-toolbar__block-toolbar .block-editor-block-toolbar .components-toolbar {
         padding: 10px 4px 9px; } }
 
 .edit-post-more-menu {
@@ -424,7 +435,11 @@ body.is-fullscreen-mode .edit-post-header {
       width: 280px;
       border-right: 1px solid #e2e4e7;
       transform: translateX(-100%);
-      animation: edit-post-post-publish-panel__slide-in-animation 0.1s forwards; }
+      animation: edit-post-post-publish-panel__slide-in-animation 0.1s forwards; } }
+  @media (min-width: 782px) and (prefers-reduced-motion: reduce) {
+    .edit-post-layout .editor-post-publish-panel {
+      animation-duration: 1ms !important; } }
+  @media (min-width: 782px) {
       body.is-fullscreen-mode .edit-post-layout .editor-post-publish-panel {
         top: 0; }
       .is-focusing-regions .edit-post-layout .editor-post-publish-panel {
@@ -488,6 +503,92 @@ body.is-fullscreen-mode .edit-post-header {
       left: 10px;
       bottom: 10px;
       right: auto; }
+
+@media (min-width: 600px) {
+  .edit-post-manage-blocks-modal {
+    height: calc(100% - 56px - 56px); } }
+
+.edit-post-manage-blocks-modal .components-modal__content {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column; }
+
+.edit-post-manage-blocks-modal .components-modal__header {
+  flex-shrink: 0;
+  margin-bottom: 0; }
+
+.edit-post-manage-blocks-modal__content {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 100%;
+  min-height: 0; }
+
+.edit-post-manage-blocks-modal__no-results {
+  font-style: italic;
+  padding: 24px 0;
+  text-align: center; }
+
+.edit-post-manage-blocks-modal__search {
+  margin: 16px 0; }
+  .edit-post-manage-blocks-modal__search .components-base-control__field {
+    margin-bottom: 0; }
+  .edit-post-manage-blocks-modal__search .components-base-control__label {
+    margin-top: -4px; }
+  .edit-post-manage-blocks-modal__search input[type="search"].components-text-control__input {
+    padding: 12px;
+    border-radius: 4px; }
+
+.edit-post-manage-blocks-modal__category {
+  margin: 0 0 2rem 0; }
+
+.edit-post-manage-blocks-modal__category-title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 16px 0;
+  background-color: #fff; }
+  .edit-post-manage-blocks-modal__category-title .components-base-control__field {
+    margin-bottom: 0; }
+  .edit-post-manage-blocks-modal__category-title .components-checkbox-control__label {
+    font-size: 0.9rem;
+    font-weight: 600; }
+
+.edit-post-manage-blocks-modal__show-all {
+  margin-left: 8px; }
+
+.edit-post-manage-blocks-modal__checklist {
+  margin-top: 0; }
+
+.edit-post-manage-blocks-modal__checklist-item {
+  margin-bottom: 0;
+  padding-right: 16px;
+  border-top: 1px solid #e2e4e7; }
+  .edit-post-manage-blocks-modal__checklist-item:last-child {
+    border-bottom: 1px solid #e2e4e7; }
+  .edit-post-manage-blocks-modal__checklist-item .components-base-control__field {
+    align-items: center;
+    display: flex;
+    margin: 0; }
+  .components-modal__content .edit-post-manage-blocks-modal__checklist-item input[type="checkbox"] {
+    margin: 0 8px; }
+  .edit-post-manage-blocks-modal__checklist-item .components-checkbox-control__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 0.6rem 10px 0.6rem 0; }
+  .edit-post-manage-blocks-modal__checklist-item .editor-block-icon {
+    margin-left: 10px;
+    fill: #555d66; }
+
+.edit-post-manage-blocks-modal__results {
+  height: 100%;
+  overflow: auto;
+  margin-right: -16px;
+  margin-left: -16px;
+  padding-right: 16px;
+  padding-left: 16px;
+  border-top: 1px solid #e2e4e7; }
 
 .edit-post-meta-boxes-area {
   position: relative;
@@ -628,7 +729,7 @@ body.is-fullscreen-mode .edit-post-header {
       margin-bottom: 0; }
   .edit-post-sidebar p + div.components-toolbar {
     margin-top: -1em; }
-  .edit-post-sidebar .editor-skip-to-selected-block:focus {
+  .edit-post-sidebar .block-editor-skip-to-selected-block:focus {
     top: auto;
     left: 10px;
     bottom: 10px;
@@ -957,33 +1058,29 @@ body.is-fullscreen-mode .edit-post-header {
   .edit-post-visual-editor .components-button {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
 
-.edit-post-visual-editor .editor-writing-flow__click-redirect {
+.edit-post-visual-editor .block-editor-writing-flow__click-redirect {
   height: 50px;
   width: 100%;
   margin: -4px auto -50px; }
 
-.edit-post-visual-editor .editor-block-list__block {
+.edit-post-visual-editor .block-editor-block-list__block {
   margin-right: auto;
   margin-left: auto; }
   @media (min-width: 600px) {
-    .edit-post-visual-editor .editor-block-list__block .editor-block-list__block-edit {
+    .edit-post-visual-editor .block-editor-block-list__block .block-editor-block-list__block-edit {
       margin-right: -28px;
       margin-left: -28px; }
-    .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar,
-    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar {
-      width: calc(100% + 30px);
+    .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar {
       height: 0;
-      text-align: center;
-      float: right; }
-      .edit-post-visual-editor .editor-block-list__block[data-align="wide"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar .editor-block-toolbar,
-      .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar .editor-block-toolbar {
-        max-width: 610px;
-        width: 100%;
-        position: relative; }
-    .edit-post-visual-editor .editor-block-list__block[data-align="full"] > .editor-block-list__block-edit > .editor-block-contextual-toolbar {
       width: 100%;
       margin-right: 0;
-      margin-left: 0; } }
+      margin-left: 0;
+      text-align: center;
+      float: right; }
+      .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar .block-editor-block-toolbar {
+        max-width: 610px;
+        width: 100%;
+        position: relative; } }
 
 @media (min-width: 600px) {
   .editor-post-title {
@@ -1002,19 +1099,19 @@ body.is-fullscreen-mode .edit-post-header {
       margin-right: -2px;
       margin-left: -2px; } }
 
-.edit-post-visual-editor .editor-block-list__layout > .editor-block-list__block[data-align="left"]:first-child,
-.edit-post-visual-editor .editor-block-list__layout > .editor-block-list__block[data-align="right"]:first-child {
+.edit-post-visual-editor .block-editor-block-list__layout > .block-editor-block-list__block[data-align="left"]:first-child,
+.edit-post-visual-editor .block-editor-block-list__layout > .block-editor-block-list__block[data-align="right"]:first-child {
   margin-top: 34px; }
 
-.edit-post-visual-editor .editor-default-block-appender {
+.edit-post-visual-editor .block-editor-default-block-appender {
   margin-right: auto;
   margin-left: auto;
   position: relative; }
-  .edit-post-visual-editor .editor-default-block-appender[data-root-client-id=""] .editor-default-block-appender__content:hover {
+  .edit-post-visual-editor .block-editor-default-block-appender[data-root-client-id=""] .block-editor-default-block-appender__content:hover {
     outline: 1px solid transparent; }
 
-.edit-post-visual-editor .editor-block-list__block[data-type="core/paragraph"] p[data-is-placeholder-visible="true"] + p,
-.edit-post-visual-editor .editor-default-block-appender__content {
+.edit-post-visual-editor .block-editor-block-list__block[data-type="core/paragraph"] p[data-is-placeholder-visible="true"] + p,
+.edit-post-visual-editor .block-editor-default-block-appender__content {
   min-height: 28px;
   line-height: 1.8; }
 
@@ -1033,6 +1130,8 @@ body.is-fullscreen-mode .edit-post-header {
     align-items: center;
     display: flex;
     margin: 0; }
+  .edit-post-options-modal__option.components-base-control + .edit-post-options-modal__option.components-base-control {
+    margin-bottom: 0; }
   .edit-post-options-modal__option .components-checkbox-control__label {
     flex-grow: 1;
     padding: 0.6rem 10px 0.6rem 0; }
@@ -1176,25 +1275,25 @@ body.block-editor-page {
 .editor-post-publish-panel input[type="number"],
 .editor-post-publish-panel select,
 .editor-post-publish-panel textarea,
-.editor-block-list__block .input-control,
-.editor-block-list__block input[type="text"],
-.editor-block-list__block input[type="search"],
-.editor-block-list__block input[type="radio"],
-.editor-block-list__block input[type="tel"],
-.editor-block-list__block input[type="time"],
-.editor-block-list__block input[type="url"],
-.editor-block-list__block input[type="week"],
-.editor-block-list__block input[type="password"],
-.editor-block-list__block input[type="checkbox"],
-.editor-block-list__block input[type="color"],
-.editor-block-list__block input[type="date"],
-.editor-block-list__block input[type="datetime"],
-.editor-block-list__block input[type="datetime-local"],
-.editor-block-list__block input[type="email"],
-.editor-block-list__block input[type="month"],
-.editor-block-list__block input[type="number"],
-.editor-block-list__block select,
-.editor-block-list__block textarea,
+.block-editor-block-list__block .input-control,
+.block-editor-block-list__block input[type="text"],
+.block-editor-block-list__block input[type="search"],
+.block-editor-block-list__block input[type="radio"],
+.block-editor-block-list__block input[type="tel"],
+.block-editor-block-list__block input[type="time"],
+.block-editor-block-list__block input[type="url"],
+.block-editor-block-list__block input[type="week"],
+.block-editor-block-list__block input[type="password"],
+.block-editor-block-list__block input[type="checkbox"],
+.block-editor-block-list__block input[type="color"],
+.block-editor-block-list__block input[type="date"],
+.block-editor-block-list__block input[type="datetime"],
+.block-editor-block-list__block input[type="datetime-local"],
+.block-editor-block-list__block input[type="email"],
+.block-editor-block-list__block input[type="month"],
+.block-editor-block-list__block input[type="number"],
+.block-editor-block-list__block select,
+.block-editor-block-list__block textarea,
 .components-popover .input-control,
 .components-popover input[type="text"],
 .components-popover input[type="search"],
@@ -1299,25 +1398,25 @@ body.block-editor-page {
     .editor-post-publish-panel input[type="number"],
     .editor-post-publish-panel select,
     .editor-post-publish-panel textarea,
-    .editor-block-list__block .input-control,
-    .editor-block-list__block input[type="text"],
-    .editor-block-list__block input[type="search"],
-    .editor-block-list__block input[type="radio"],
-    .editor-block-list__block input[type="tel"],
-    .editor-block-list__block input[type="time"],
-    .editor-block-list__block input[type="url"],
-    .editor-block-list__block input[type="week"],
-    .editor-block-list__block input[type="password"],
-    .editor-block-list__block input[type="checkbox"],
-    .editor-block-list__block input[type="color"],
-    .editor-block-list__block input[type="date"],
-    .editor-block-list__block input[type="datetime"],
-    .editor-block-list__block input[type="datetime-local"],
-    .editor-block-list__block input[type="email"],
-    .editor-block-list__block input[type="month"],
-    .editor-block-list__block input[type="number"],
-    .editor-block-list__block select,
-    .editor-block-list__block textarea,
+    .block-editor-block-list__block .input-control,
+    .block-editor-block-list__block input[type="text"],
+    .block-editor-block-list__block input[type="search"],
+    .block-editor-block-list__block input[type="radio"],
+    .block-editor-block-list__block input[type="tel"],
+    .block-editor-block-list__block input[type="time"],
+    .block-editor-block-list__block input[type="url"],
+    .block-editor-block-list__block input[type="week"],
+    .block-editor-block-list__block input[type="password"],
+    .block-editor-block-list__block input[type="checkbox"],
+    .block-editor-block-list__block input[type="color"],
+    .block-editor-block-list__block input[type="date"],
+    .block-editor-block-list__block input[type="datetime"],
+    .block-editor-block-list__block input[type="datetime-local"],
+    .block-editor-block-list__block input[type="email"],
+    .block-editor-block-list__block input[type="month"],
+    .block-editor-block-list__block input[type="number"],
+    .block-editor-block-list__block select,
+    .block-editor-block-list__block textarea,
     .components-popover .input-control,
     .components-popover input[type="text"],
     .components-popover input[type="search"],
@@ -1414,25 +1513,25 @@ body.block-editor-page {
   .editor-post-publish-panel input[type="number"]:focus,
   .editor-post-publish-panel select:focus,
   .editor-post-publish-panel textarea:focus,
-  .editor-block-list__block .input-control:focus,
-  .editor-block-list__block input[type="text"]:focus,
-  .editor-block-list__block input[type="search"]:focus,
-  .editor-block-list__block input[type="radio"]:focus,
-  .editor-block-list__block input[type="tel"]:focus,
-  .editor-block-list__block input[type="time"]:focus,
-  .editor-block-list__block input[type="url"]:focus,
-  .editor-block-list__block input[type="week"]:focus,
-  .editor-block-list__block input[type="password"]:focus,
-  .editor-block-list__block input[type="checkbox"]:focus,
-  .editor-block-list__block input[type="color"]:focus,
-  .editor-block-list__block input[type="date"]:focus,
-  .editor-block-list__block input[type="datetime"]:focus,
-  .editor-block-list__block input[type="datetime-local"]:focus,
-  .editor-block-list__block input[type="email"]:focus,
-  .editor-block-list__block input[type="month"]:focus,
-  .editor-block-list__block input[type="number"]:focus,
-  .editor-block-list__block select:focus,
-  .editor-block-list__block textarea:focus,
+  .block-editor-block-list__block .input-control:focus,
+  .block-editor-block-list__block input[type="text"]:focus,
+  .block-editor-block-list__block input[type="search"]:focus,
+  .block-editor-block-list__block input[type="radio"]:focus,
+  .block-editor-block-list__block input[type="tel"]:focus,
+  .block-editor-block-list__block input[type="time"]:focus,
+  .block-editor-block-list__block input[type="url"]:focus,
+  .block-editor-block-list__block input[type="week"]:focus,
+  .block-editor-block-list__block input[type="password"]:focus,
+  .block-editor-block-list__block input[type="checkbox"]:focus,
+  .block-editor-block-list__block input[type="color"]:focus,
+  .block-editor-block-list__block input[type="date"]:focus,
+  .block-editor-block-list__block input[type="datetime"]:focus,
+  .block-editor-block-list__block input[type="datetime-local"]:focus,
+  .block-editor-block-list__block input[type="email"]:focus,
+  .block-editor-block-list__block input[type="month"]:focus,
+  .block-editor-block-list__block input[type="number"]:focus,
+  .block-editor-block-list__block select:focus,
+  .block-editor-block-list__block textarea:focus,
   .components-popover .input-control:focus,
   .components-popover input[type="text"]:focus,
   .components-popover input[type="search"]:focus,
@@ -1480,7 +1579,7 @@ body.block-editor-page {
 .editor-post-permalink input[type="number"],
 .edit-post-sidebar input[type="number"],
 .editor-post-publish-panel input[type="number"],
-.editor-block-list__block input[type="number"],
+.block-editor-block-list__block input[type="number"],
 .components-popover input[type="number"],
 .components-modal__content input[type="number"] {
   padding-right: 4px;
@@ -1489,14 +1588,14 @@ body.block-editor-page {
 .editor-post-permalink select,
 .edit-post-sidebar select,
 .editor-post-publish-panel select,
-.editor-block-list__block select,
+.block-editor-block-list__block select,
 .components-popover select,
 .components-modal__content select {
   padding: 2px; }
   .editor-post-permalink select:focus,
   .edit-post-sidebar select:focus,
   .editor-post-publish-panel select:focus,
-  .editor-block-list__block select:focus,
+  .block-editor-block-list__block select:focus,
   .components-popover select:focus,
   .components-modal__content select:focus {
     border-color: #008dbe;
@@ -1509,8 +1608,8 @@ body.block-editor-page {
 .edit-post-sidebar input[type="radio"],
 .editor-post-publish-panel input[type="checkbox"],
 .editor-post-publish-panel input[type="radio"],
-.editor-block-list__block input[type="checkbox"],
-.editor-block-list__block input[type="radio"],
+.block-editor-block-list__block input[type="checkbox"],
+.block-editor-block-list__block input[type="radio"],
 .components-popover input[type="checkbox"],
 .components-popover input[type="radio"],
 .components-modal__content input[type="checkbox"],
@@ -1524,8 +1623,8 @@ body.block-editor-page {
   .edit-post-sidebar input[type="radio"]:focus,
   .editor-post-publish-panel input[type="checkbox"]:focus,
   .editor-post-publish-panel input[type="radio"]:focus,
-  .editor-block-list__block input[type="checkbox"]:focus,
-  .editor-block-list__block input[type="radio"]:focus,
+  .block-editor-block-list__block input[type="checkbox"]:focus,
+  .block-editor-block-list__block input[type="radio"]:focus,
   .components-popover input[type="checkbox"]:focus,
   .components-popover input[type="radio"]:focus,
   .components-modal__content input[type="checkbox"]:focus,
@@ -1538,33 +1637,33 @@ body.block-editor-page {
   .edit-post-sidebar input[type="radio"]:checked,
   .editor-post-publish-panel input[type="checkbox"]:checked,
   .editor-post-publish-panel input[type="radio"]:checked,
-  .editor-block-list__block input[type="checkbox"]:checked,
-  .editor-block-list__block input[type="radio"]:checked,
+  .block-editor-block-list__block input[type="checkbox"]:checked,
+  .block-editor-block-list__block input[type="radio"]:checked,
   .components-popover input[type="checkbox"]:checked,
   .components-popover input[type="radio"]:checked,
   .components-modal__content input[type="checkbox"]:checked,
   .components-modal__content input[type="radio"]:checked {
     background: #11a0d2;
     border-color: #11a0d2; }
-  body.admin-color-sunrise .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-sunrise .editor-post-permalink input[type="radio"]:checked, body.admin-color-sunrise .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-sunrise .edit-post-sidebar input[type="radio"]:checked, body.admin-color-sunrise .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-sunrise .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-sunrise .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-sunrise .editor-block-list__block input[type="radio"]:checked, body.admin-color-sunrise .components-popover input[type="checkbox"]:checked, body.admin-color-sunrise .components-popover input[type="radio"]:checked, body.admin-color-sunrise .components-modal__content input[type="checkbox"]:checked, body.admin-color-sunrise .components-modal__content input[type="radio"]:checked {
+  body.admin-color-sunrise .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-sunrise .editor-post-permalink input[type="radio"]:checked, body.admin-color-sunrise .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-sunrise .edit-post-sidebar input[type="radio"]:checked, body.admin-color-sunrise .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-sunrise .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-sunrise .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-sunrise .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-sunrise .components-popover input[type="checkbox"]:checked, body.admin-color-sunrise .components-popover input[type="radio"]:checked, body.admin-color-sunrise .components-modal__content input[type="checkbox"]:checked, body.admin-color-sunrise .components-modal__content input[type="radio"]:checked {
     background: #c8b03c;
     border-color: #c8b03c; }
-  body.admin-color-ocean .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-ocean .editor-post-permalink input[type="radio"]:checked, body.admin-color-ocean .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-ocean .edit-post-sidebar input[type="radio"]:checked, body.admin-color-ocean .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-ocean .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-ocean .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-ocean .editor-block-list__block input[type="radio"]:checked, body.admin-color-ocean .components-popover input[type="checkbox"]:checked, body.admin-color-ocean .components-popover input[type="radio"]:checked, body.admin-color-ocean .components-modal__content input[type="checkbox"]:checked, body.admin-color-ocean .components-modal__content input[type="radio"]:checked {
+  body.admin-color-ocean .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-ocean .editor-post-permalink input[type="radio"]:checked, body.admin-color-ocean .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-ocean .edit-post-sidebar input[type="radio"]:checked, body.admin-color-ocean .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-ocean .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-ocean .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-ocean .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-ocean .components-popover input[type="checkbox"]:checked, body.admin-color-ocean .components-popover input[type="radio"]:checked, body.admin-color-ocean .components-modal__content input[type="checkbox"]:checked, body.admin-color-ocean .components-modal__content input[type="radio"]:checked {
     background: #a3b9a2;
     border-color: #a3b9a2; }
-  body.admin-color-midnight .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-midnight .editor-post-permalink input[type="radio"]:checked, body.admin-color-midnight .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-midnight .edit-post-sidebar input[type="radio"]:checked, body.admin-color-midnight .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-midnight .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-midnight .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-midnight .editor-block-list__block input[type="radio"]:checked, body.admin-color-midnight .components-popover input[type="checkbox"]:checked, body.admin-color-midnight .components-popover input[type="radio"]:checked, body.admin-color-midnight .components-modal__content input[type="checkbox"]:checked, body.admin-color-midnight .components-modal__content input[type="radio"]:checked {
+  body.admin-color-midnight .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-midnight .editor-post-permalink input[type="radio"]:checked, body.admin-color-midnight .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-midnight .edit-post-sidebar input[type="radio"]:checked, body.admin-color-midnight .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-midnight .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-midnight .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-midnight .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-midnight .components-popover input[type="checkbox"]:checked, body.admin-color-midnight .components-popover input[type="radio"]:checked, body.admin-color-midnight .components-modal__content input[type="checkbox"]:checked, body.admin-color-midnight .components-modal__content input[type="radio"]:checked {
     background: #77a6b9;
     border-color: #77a6b9; }
-  body.admin-color-ectoplasm .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-ectoplasm .editor-post-permalink input[type="radio"]:checked, body.admin-color-ectoplasm .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-ectoplasm .edit-post-sidebar input[type="radio"]:checked, body.admin-color-ectoplasm .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-ectoplasm .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-ectoplasm .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-ectoplasm .editor-block-list__block input[type="radio"]:checked, body.admin-color-ectoplasm .components-popover input[type="checkbox"]:checked, body.admin-color-ectoplasm .components-popover input[type="radio"]:checked, body.admin-color-ectoplasm .components-modal__content input[type="checkbox"]:checked, body.admin-color-ectoplasm .components-modal__content input[type="radio"]:checked {
+  body.admin-color-ectoplasm .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-ectoplasm .editor-post-permalink input[type="radio"]:checked, body.admin-color-ectoplasm .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-ectoplasm .edit-post-sidebar input[type="radio"]:checked, body.admin-color-ectoplasm .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-ectoplasm .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-ectoplasm .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-ectoplasm .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-ectoplasm .components-popover input[type="checkbox"]:checked, body.admin-color-ectoplasm .components-popover input[type="radio"]:checked, body.admin-color-ectoplasm .components-modal__content input[type="checkbox"]:checked, body.admin-color-ectoplasm .components-modal__content input[type="radio"]:checked {
     background: #a7b656;
     border-color: #a7b656; }
-  body.admin-color-coffee .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-coffee .editor-post-permalink input[type="radio"]:checked, body.admin-color-coffee .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-coffee .edit-post-sidebar input[type="radio"]:checked, body.admin-color-coffee .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-coffee .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-coffee .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-coffee .editor-block-list__block input[type="radio"]:checked, body.admin-color-coffee .components-popover input[type="checkbox"]:checked, body.admin-color-coffee .components-popover input[type="radio"]:checked, body.admin-color-coffee .components-modal__content input[type="checkbox"]:checked, body.admin-color-coffee .components-modal__content input[type="radio"]:checked {
+  body.admin-color-coffee .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-coffee .editor-post-permalink input[type="radio"]:checked, body.admin-color-coffee .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-coffee .edit-post-sidebar input[type="radio"]:checked, body.admin-color-coffee .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-coffee .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-coffee .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-coffee .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-coffee .components-popover input[type="checkbox"]:checked, body.admin-color-coffee .components-popover input[type="radio"]:checked, body.admin-color-coffee .components-modal__content input[type="checkbox"]:checked, body.admin-color-coffee .components-modal__content input[type="radio"]:checked {
     background: #c2a68c;
     border-color: #c2a68c; }
-  body.admin-color-blue .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-blue .editor-post-permalink input[type="radio"]:checked, body.admin-color-blue .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-blue .edit-post-sidebar input[type="radio"]:checked, body.admin-color-blue .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-blue .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-blue .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-blue .editor-block-list__block input[type="radio"]:checked, body.admin-color-blue .components-popover input[type="checkbox"]:checked, body.admin-color-blue .components-popover input[type="radio"]:checked, body.admin-color-blue .components-modal__content input[type="checkbox"]:checked, body.admin-color-blue .components-modal__content input[type="radio"]:checked {
+  body.admin-color-blue .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-blue .editor-post-permalink input[type="radio"]:checked, body.admin-color-blue .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-blue .edit-post-sidebar input[type="radio"]:checked, body.admin-color-blue .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-blue .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-blue .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-blue .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-blue .components-popover input[type="checkbox"]:checked, body.admin-color-blue .components-popover input[type="radio"]:checked, body.admin-color-blue .components-modal__content input[type="checkbox"]:checked, body.admin-color-blue .components-modal__content input[type="radio"]:checked {
     background: #82b4cb;
     border-color: #82b4cb; }
-  body.admin-color-light .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-light .editor-post-permalink input[type="radio"]:checked, body.admin-color-light .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-light .edit-post-sidebar input[type="radio"]:checked, body.admin-color-light .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-light .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-light .editor-block-list__block input[type="checkbox"]:checked, body.admin-color-light .editor-block-list__block input[type="radio"]:checked, body.admin-color-light .components-popover input[type="checkbox"]:checked, body.admin-color-light .components-popover input[type="radio"]:checked, body.admin-color-light .components-modal__content input[type="checkbox"]:checked, body.admin-color-light .components-modal__content input[type="radio"]:checked {
+  body.admin-color-light .editor-post-permalink input[type="checkbox"]:checked, body.admin-color-light .editor-post-permalink input[type="radio"]:checked, body.admin-color-light .edit-post-sidebar input[type="checkbox"]:checked, body.admin-color-light .edit-post-sidebar input[type="radio"]:checked, body.admin-color-light .editor-post-publish-panel input[type="checkbox"]:checked, body.admin-color-light .editor-post-publish-panel input[type="radio"]:checked, body.admin-color-light .block-editor-block-list__block input[type="checkbox"]:checked, body.admin-color-light .block-editor-block-list__block input[type="radio"]:checked, body.admin-color-light .components-popover input[type="checkbox"]:checked, body.admin-color-light .components-popover input[type="radio"]:checked, body.admin-color-light .components-modal__content input[type="checkbox"]:checked, body.admin-color-light .components-modal__content input[type="radio"]:checked {
     background: #11a0d2;
     border-color: #11a0d2; }
   .editor-post-permalink input[type="checkbox"]:checked:focus,
@@ -1573,8 +1672,8 @@ body.block-editor-page {
   .edit-post-sidebar input[type="radio"]:checked:focus,
   .editor-post-publish-panel input[type="checkbox"]:checked:focus,
   .editor-post-publish-panel input[type="radio"]:checked:focus,
-  .editor-block-list__block input[type="checkbox"]:checked:focus,
-  .editor-block-list__block input[type="radio"]:checked:focus,
+  .block-editor-block-list__block input[type="checkbox"]:checked:focus,
+  .block-editor-block-list__block input[type="radio"]:checked:focus,
   .components-popover input[type="checkbox"]:checked:focus,
   .components-popover input[type="radio"]:checked:focus,
   .components-modal__content input[type="checkbox"]:checked:focus,
@@ -1584,30 +1683,110 @@ body.block-editor-page {
 .editor-post-permalink input[type="checkbox"],
 .edit-post-sidebar input[type="checkbox"],
 .editor-post-publish-panel input[type="checkbox"],
-.editor-block-list__block input[type="checkbox"],
+.block-editor-block-list__block input[type="checkbox"],
 .components-popover input[type="checkbox"],
 .components-modal__content input[type="checkbox"] {
   border-radius: 2px; }
-  .editor-post-permalink input[type="checkbox"]:checked::before,
+  .editor-post-permalink input[type="checkbox"]:checked::before, .editor-post-permalink input[type="checkbox"][aria-checked="mixed"]::before,
   .edit-post-sidebar input[type="checkbox"]:checked::before,
+  .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"]::before,
   .editor-post-publish-panel input[type="checkbox"]:checked::before,
-  .editor-block-list__block input[type="checkbox"]:checked::before,
+  .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"]::before,
+  .block-editor-block-list__block input[type="checkbox"]:checked::before,
+  .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"]::before,
   .components-popover input[type="checkbox"]:checked::before,
-  .components-modal__content input[type="checkbox"]:checked::before {
-    margin: -4px -5px 0 0;
+  .components-popover input[type="checkbox"][aria-checked="mixed"]::before,
+  .components-modal__content input[type="checkbox"]:checked::before,
+  .components-modal__content input[type="checkbox"][aria-checked="mixed"]::before {
+    margin: -3px -5px;
     color: #fff; }
+    @media (min-width: 782px) {
+      .editor-post-permalink input[type="checkbox"]:checked::before, .editor-post-permalink input[type="checkbox"][aria-checked="mixed"]::before,
+      .edit-post-sidebar input[type="checkbox"]:checked::before,
+      .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"]::before,
+      .editor-post-publish-panel input[type="checkbox"]:checked::before,
+      .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"]::before,
+      .block-editor-block-list__block input[type="checkbox"]:checked::before,
+      .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"]::before,
+      .components-popover input[type="checkbox"]:checked::before,
+      .components-popover input[type="checkbox"][aria-checked="mixed"]::before,
+      .components-modal__content input[type="checkbox"]:checked::before,
+      .components-modal__content input[type="checkbox"][aria-checked="mixed"]::before {
+        margin: -4px -5px 0 0; } }
+  .editor-post-permalink input[type="checkbox"][aria-checked="mixed"],
+  .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"],
+  .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"],
+  .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"],
+  .components-popover input[type="checkbox"][aria-checked="mixed"],
+  .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #11a0d2;
+    border-color: #11a0d2; }
+  body.admin-color-sunrise .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-sunrise .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-sunrise .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-sunrise .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-sunrise .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-sunrise .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #c8b03c;
+    border-color: #c8b03c; }
+  body.admin-color-ocean .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-ocean .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-ocean .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-ocean .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-ocean .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-ocean .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #a3b9a2;
+    border-color: #a3b9a2; }
+  body.admin-color-midnight .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-midnight .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-midnight .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-midnight .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-midnight .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-midnight .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #77a6b9;
+    border-color: #77a6b9; }
+  body.admin-color-ectoplasm .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-ectoplasm .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-ectoplasm .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-ectoplasm .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-ectoplasm .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-ectoplasm .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #a7b656;
+    border-color: #a7b656; }
+  body.admin-color-coffee .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-coffee .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-coffee .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-coffee .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-coffee .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-coffee .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #c2a68c;
+    border-color: #c2a68c; }
+  body.admin-color-blue .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-blue .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-blue .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-blue .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-blue .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-blue .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #82b4cb;
+    border-color: #82b4cb; }
+  body.admin-color-light .editor-post-permalink input[type="checkbox"][aria-checked="mixed"], body.admin-color-light .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"], body.admin-color-light .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"], body.admin-color-light .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"], body.admin-color-light .components-popover input[type="checkbox"][aria-checked="mixed"], body.admin-color-light .components-modal__content input[type="checkbox"][aria-checked="mixed"] {
+    background: #11a0d2;
+    border-color: #11a0d2; }
+    .editor-post-permalink input[type="checkbox"][aria-checked="mixed"]::before,
+    .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"]::before,
+    .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"]::before,
+    .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"]::before,
+    .components-popover input[type="checkbox"][aria-checked="mixed"]::before,
+    .components-modal__content input[type="checkbox"][aria-checked="mixed"]::before {
+      content: "\f460";
+      float: right;
+      display: inline-block;
+      vertical-align: middle;
+      width: 16px;
+      /* stylelint-disable */
+      font: normal 30px/1 dashicons;
+      /* stylelint-enable */
+      speak: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale; }
+      @media (min-width: 782px) {
+        .editor-post-permalink input[type="checkbox"][aria-checked="mixed"]::before,
+        .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"]::before,
+        .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"]::before,
+        .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"]::before,
+        .components-popover input[type="checkbox"][aria-checked="mixed"]::before,
+        .components-modal__content input[type="checkbox"][aria-checked="mixed"]::before {
+          float: none;
+          font-size: 21px; } }
+    .editor-post-permalink input[type="checkbox"][aria-checked="mixed"]:focus,
+    .edit-post-sidebar input[type="checkbox"][aria-checked="mixed"]:focus,
+    .editor-post-publish-panel input[type="checkbox"][aria-checked="mixed"]:focus,
+    .block-editor-block-list__block input[type="checkbox"][aria-checked="mixed"]:focus,
+    .components-popover input[type="checkbox"][aria-checked="mixed"]:focus,
+    .components-modal__content input[type="checkbox"][aria-checked="mixed"]:focus {
+      box-shadow: 0 0 0 2px #555d66; }
 
 .editor-post-permalink input[type="radio"],
 .edit-post-sidebar input[type="radio"],
 .editor-post-publish-panel input[type="radio"],
-.editor-block-list__block input[type="radio"],
+.block-editor-block-list__block input[type="radio"],
 .components-popover input[type="radio"],
 .components-modal__content input[type="radio"] {
   border-radius: 50%; }
   .editor-post-permalink input[type="radio"]:checked::before,
   .edit-post-sidebar input[type="radio"]:checked::before,
   .editor-post-publish-panel input[type="radio"]:checked::before,
-  .editor-block-list__block input[type="radio"]:checked::before,
+  .block-editor-block-list__block input[type="radio"]:checked::before,
   .components-popover input[type="radio"]:checked::before,
   .components-modal__content input[type="radio"]:checked::before {
     margin: 3px 3px 0 0;
@@ -1615,40 +1794,40 @@ body.block-editor-page {
 
 .editor-post-title input::-webkit-input-placeholder,
 .editor-post-title textarea::-webkit-input-placeholder,
-.editor-block-list__block input::-webkit-input-placeholder,
-.editor-block-list__block textarea::-webkit-input-placeholder {
+.block-editor-block-list__block input::-webkit-input-placeholder,
+.block-editor-block-list__block textarea::-webkit-input-placeholder {
   color: rgba(14, 28, 46, 0.62); }
 
 .editor-post-title input::-moz-placeholder,
 .editor-post-title textarea::-moz-placeholder,
-.editor-block-list__block input::-moz-placeholder,
-.editor-block-list__block textarea::-moz-placeholder {
+.block-editor-block-list__block input::-moz-placeholder,
+.block-editor-block-list__block textarea::-moz-placeholder {
   opacity: 1;
   color: rgba(14, 28, 46, 0.62); }
 
 .editor-post-title input:-ms-input-placeholder,
 .editor-post-title textarea:-ms-input-placeholder,
-.editor-block-list__block input:-ms-input-placeholder,
-.editor-block-list__block textarea:-ms-input-placeholder {
+.block-editor-block-list__block input:-ms-input-placeholder,
+.block-editor-block-list__block textarea:-ms-input-placeholder {
   color: rgba(14, 28, 46, 0.62); }
 
 .is-dark-theme .editor-post-title input::-webkit-input-placeholder, .is-dark-theme
 .editor-post-title textarea::-webkit-input-placeholder, .is-dark-theme
-.editor-block-list__block input::-webkit-input-placeholder, .is-dark-theme
-.editor-block-list__block textarea::-webkit-input-placeholder {
+.block-editor-block-list__block input::-webkit-input-placeholder, .is-dark-theme
+.block-editor-block-list__block textarea::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.65); }
 
 .is-dark-theme .editor-post-title input::-moz-placeholder, .is-dark-theme
 .editor-post-title textarea::-moz-placeholder, .is-dark-theme
-.editor-block-list__block input::-moz-placeholder, .is-dark-theme
-.editor-block-list__block textarea::-moz-placeholder {
+.block-editor-block-list__block input::-moz-placeholder, .is-dark-theme
+.block-editor-block-list__block textarea::-moz-placeholder {
   opacity: 1;
   color: rgba(255, 255, 255, 0.65); }
 
 .is-dark-theme .editor-post-title input:-ms-input-placeholder, .is-dark-theme
 .editor-post-title textarea:-ms-input-placeholder, .is-dark-theme
-.editor-block-list__block input:-ms-input-placeholder, .is-dark-theme
-.editor-block-list__block textarea:-ms-input-placeholder {
+.block-editor-block-list__block input:-ms-input-placeholder, .is-dark-theme
+.block-editor-block-list__block textarea:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.65); }
 
 .wp-block {

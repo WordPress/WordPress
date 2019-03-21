@@ -28,6 +28,9 @@
 /**
  * Styles that are reused verbatim in a few places
  */
+/**
+ * Allows users to opt-out of animations via OS-level preferences.
+ */
 .nux-dot-tip::before, .nux-dot-tip::after {
   border-radius: 100%;
   content: " ";

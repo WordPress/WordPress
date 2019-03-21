@@ -82,26 +82,26 @@ this["wp"] = this["wp"] || {}; this["wp"]["a11y"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 326);
+/******/ 	return __webpack_require__(__webpack_require__.s = 380);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 183:
+/***/ 204:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["domReady"]; }());
 
 /***/ }),
 
-/***/ 326:
+/***/ 380:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external {"this":["wp","domReady"]}
-var external_this_wp_domReady_ = __webpack_require__(183);
+var external_this_wp_domReady_ = __webpack_require__(204);
 var external_this_wp_domReady_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_domReady_);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/a11y/build-module/addContainer.js
@@ -207,11 +207,23 @@ var build_module_setup = function setup() {
 
 external_this_wp_domReady_default()(build_module_setup);
 /**
- * Update the ARIA live notification area text node.
+ * Allows you to easily announce dynamic interface updates to screen readers using ARIA live regions.
+ * This module is inspired by the `speak` function in wp-a11y.js
  *
  * @param {string} message  The message to be announced by Assistive Technologies.
  * @param {string} ariaLive Optional. The politeness level for aria-live. Possible values:
  *                          polite or assertive. Default polite.
+ *
+ * @example
+ * ```js
+ * import { speak } from '@wordpress/a11y';
+ *
+ * // For polite messages that shouldn't interrupt what screen readers are currently announcing.
+ * speak( 'The message you want to send to the ARIA live region' );
+ *
+ * // For assertive messages that should interrupt what screen readers are currently announcing.
+ * speak( 'The message you want to send to the ARIA live region', 'assertive' );
+ * ```
  */
 
 var build_module_speak = function speak(message, ariaLive) {
