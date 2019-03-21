@@ -234,11 +234,23 @@ switch ( $wp_list_table->current_action() ) {
 			$userids = array_map( 'intval', (array) $_REQUEST['users'] );
 		}
 
-		$users_have_content = false;
-		if ( $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} WHERE post_author IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
-			$users_have_content = true;
-		} elseif ( $wpdb->get_var( "SELECT link_id FROM {$wpdb->links} WHERE link_owner IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
-			$users_have_content = true;
+		/**
+		 * Filters whether the users being deleted have additional content
+		 * associated with them outside of the `post_author` and `link_owner` relationships.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param boolean $users_have_additional_content Whether the users have additional content. Default false.
+		 * @param int[]   $userids                       Array of IDs for users being deleted.
+		 */
+		$users_have_content = (bool) apply_filters( 'users_have_additional_content', false, $userids );
+
+		if ( ! $users_have_content ) {
+			if ( $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} WHERE post_author IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
+				$users_have_content = true;
+			} elseif ( $wpdb->get_var( "SELECT link_id FROM {$wpdb->links} WHERE link_owner IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
+				$users_have_content = true;
+			}
 		}
 
 		if ( $users_have_content ) {
