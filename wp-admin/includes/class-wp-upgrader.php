@@ -275,9 +275,9 @@ class WP_Upgrader {
 
 		$this->skin->feedback( 'downloading_package', $package );
 
-		$download_file = download_url( $package );
+		$download_file = download_url( $package, 300, true );
 
-		if ( is_wp_error( $download_file ) ) {
+		if ( is_wp_error( $download_file ) && ! $download_file->get_error_data( 'softfail-filename' ) ) {
 			return new WP_Error( 'download_failed', $this->strings['download_failed'], $download_file->get_error_message() );
 		}
 
@@ -731,6 +731,25 @@ class WP_Upgrader {
 		 * of the file if the package is a local file)
 		 */
 		$download = $this->download_package( $options['package'] );
+
+		// Allow for signature soft-fail.
+		// WARNING: This may be removed in the future.
+		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
+			// Outout the failure error as a normal feedback, and not as an error:
+			$this->skin->feedback( $download->get_error_message() );
+
+			// Report this failure back to WordPress.org for debugging purposes.
+			wp_version_check(
+				array(
+					'signature_failure_code' => $download->get_error_code(),
+					'signature_failure_data' => $download->get_error_data(),
+				)
+			);
+
+			// Pretend this error didn't happen.
+			$download = $download->get_error_data( 'softfail-filename' );
+		}
+
 		if ( is_wp_error( $download ) ) {
 			$this->skin->error( $download );
 			$this->skin->after();
