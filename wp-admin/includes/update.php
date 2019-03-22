@@ -465,7 +465,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 					esc_attr( $response->new_version ),
 					esc_url( wp_get_update_php_url() )
 				);
-				wp_update_php_annotation( '<br><span class="description">', '</span>' );
+				wp_update_php_annotation( '<br><em>', '</em>' );
 			}
 		}
 
