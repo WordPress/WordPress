@@ -6897,29 +6897,3 @@ function wp_direct_php_update_button() {
 	);
 	echo '</p>';
 }
-
-/**
- * Checks compatibility with the current WordPress version.
- *
- * @since 5.2.0
- *
- * @param string $required Minimum required WordPress version.
- * @return bool True if required version is compatible or empty, false if not.
- */
-function wp_is_wp_compatible( $required ) {
-	$wp_version = get_bloginfo( 'version' );
-
-	return empty( $required ) || version_compare( $wp_version, $required, '>=' );
-}
-
-/**
- * Checks compatibility with the current PHP version.
- *
- * @since 5.2.0
- *
- * @param string $required Minimum required PHP version.
- * @return bool True if required version is compatible or empty, false if not.
- */
-function wp_is_php_compatible( $required ) {
-	return empty( $required ) || version_compare( phpversion(), $required, '>=' );
-}
