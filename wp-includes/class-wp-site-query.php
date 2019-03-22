@@ -288,32 +288,51 @@ class WP_Site_Query {
 			$this->meta_query_clauses = $this->meta_query->get_sql( 'blog', $wpdb->blogs, 'blog_id', $this );
 		}
 
-		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
-		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
+		$site_ids = null;
 
-		// Ignore the $fields argument as the queried result will be the same regardless.
-		unset( $_args['fields'] );
+		/**
+		 * Filter the sites array before the query takes place.
+		 *
+		 * Return a non-null value to bypass WordPress's default site queries.
+		 *
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param array|null    $site_ids Return an array of site data to short-circuit WP's site query,
+		 *                                or null to allow WP to run its normal queries.
+		 * @param WP_Site_Query $this The WP_Site_Query instance, passed by reference.
+		 */
+		$site_ids = apply_filters_ref_array( 'sites_pre_query', array( $site_ids, &$this ) );
 
-		$key          = md5( serialize( $_args ) );
-		$last_changed = wp_cache_get_last_changed( 'sites' );
+		if ( null === $site_ids ) {
 
-		$cache_key   = "get_sites:$key:$last_changed";
-		$cache_value = wp_cache_get( $cache_key, 'sites' );
+			// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
+			$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
 
-		if ( false === $cache_value ) {
-			$site_ids = $this->get_site_ids();
-			if ( $site_ids ) {
-				$this->set_found_sites();
+			// Ignore the $fields argument as the queried result will be the same regardless.
+			unset( $_args['fields'] );
+
+			$key          = md5( serialize( $_args ) );
+			$last_changed = wp_cache_get_last_changed( 'sites' );
+
+			$cache_key   = "get_sites:$key:$last_changed";
+			$cache_value = wp_cache_get( $cache_key, 'sites' );
+
+			if ( false === $cache_value ) {
+				$site_ids = $this->get_site_ids();
+				if ( $site_ids ) {
+					$this->set_found_sites();
+				}
+
+				$cache_value = array(
+					'site_ids'    => $site_ids,
+					'found_sites' => $this->found_sites,
+				);
+				wp_cache_add( $cache_key, $cache_value, 'sites' );
+			} else {
+				$site_ids          = $cache_value['site_ids'];
+				$this->found_sites = $cache_value['found_sites'];
 			}
-
-			$cache_value = array(
-				'site_ids'    => $site_ids,
-				'found_sites' => $this->found_sites,
-			);
-			wp_cache_add( $cache_key, $cache_value, 'sites' );
-		} else {
-			$site_ids          = $cache_value['site_ids'];
-			$this->found_sites = $cache_value['found_sites'];
 		}
 
 		if ( $this->found_sites && $this->query_vars['number'] ) {

@@ -197,32 +197,51 @@ class WP_Network_Query {
 		 */
 		do_action_ref_array( 'pre_get_networks', array( &$this ) );
 
-		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
-		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
+		$network_ids = null;
 
-		// Ignore the $fields argument as the queried result will be the same regardless.
-		unset( $_args['fields'] );
+		/**
+		 * Filter the sites array before the query takes place.
+		 *
+		 * Return a non-null value to bypass WordPress's default site queries.
+		 *
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param array|null       $site_ids Return an array of site data to short-circuit WP's site query,
+		 *                                   or null to allow WP to run its normal queries.
+		 * @param WP_Network_Query $this     The WP_Network_Query instance, passed by reference.
+		 */
+		$network_ids = apply_filters_ref_array( 'networks_pre_query', array( $network_ids, &$this ) );
 
-		$key          = md5( serialize( $_args ) );
-		$last_changed = wp_cache_get_last_changed( 'networks' );
+		if ( null === $network_ids ) {
 
-		$cache_key   = "get_network_ids:$key:$last_changed";
-		$cache_value = wp_cache_get( $cache_key, 'networks' );
+			// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
+			$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
 
-		if ( false === $cache_value ) {
-			$network_ids = $this->get_network_ids();
-			if ( $network_ids ) {
-				$this->set_found_networks();
+			// Ignore the $fields argument as the queried result will be the same regardless.
+			unset( $_args['fields'] );
+
+			$key          = md5( serialize( $_args ) );
+			$last_changed = wp_cache_get_last_changed( 'networks' );
+
+			$cache_key   = "get_network_ids:$key:$last_changed";
+			$cache_value = wp_cache_get( $cache_key, 'networks' );
+
+			if ( false === $cache_value ) {
+				$network_ids = $this->get_network_ids();
+				if ( $network_ids ) {
+					$this->set_found_networks();
+				}
+
+				$cache_value = array(
+					'network_ids'    => $network_ids,
+					'found_networks' => $this->found_networks,
+				);
+				wp_cache_add( $cache_key, $cache_value, 'networks' );
+			} else {
+				$network_ids          = $cache_value['network_ids'];
+				$this->found_networks = $cache_value['found_networks'];
 			}
-
-			$cache_value = array(
-				'network_ids'    => $network_ids,
-				'found_networks' => $this->found_networks,
-			);
-			wp_cache_add( $cache_key, $cache_value, 'networks' );
-		} else {
-			$network_ids          = $cache_value['network_ids'];
-			$this->found_networks = $cache_value['found_networks'];
 		}
 
 		if ( $this->found_networks && $this->query_vars['number'] ) {
