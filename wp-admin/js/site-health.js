@@ -23,7 +23,7 @@ jQuery( document ).ready( function( $ ) {
 			$( '.copy-field-success', $wrapper ).addClass( 'visible' );
 			$( this ).focus();
 
-			wp.a11y.speak( SiteHealth.string.site_info_copied, 'polite' );
+			wp.a11y.speak( SiteHealth.string.site_info_copied );
 		}
 	} );
 
@@ -107,7 +107,7 @@ jQuery( document ).ready( function( $ ) {
 
 		pct = ( ( 100 - val ) / 100 ) * c;
 
-		$circle.css({ strokeDashoffset: pct } );
+		$circle.css( { strokeDashoffset: pct } );
 
 		if ( 1 > parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
 			$( '#health-check-issues-critical' ).addClass( 'hidden' );
@@ -133,8 +133,6 @@ jQuery( document ).ready( function( $ ) {
 		$progressBar.attr( 'data-pct', val );
 		$progressBar.attr( 'aria-valuenow', val );
 
-		$( '.health-check-body' ).attr( 'aria-hidden', false );
-
 		$.post(
 			ajaxurl,
 			{
@@ -144,7 +142,7 @@ jQuery( document ).ready( function( $ ) {
 			}
 		);
 
-		wp.a11y.speak( SiteHealth.string.site_health_complete_screen_reader.replace( '%s', val + '%' ), 'polite' );
+		wp.a11y.speak( SiteHealth.string.site_health_complete_screen_reader.replace( '%s', val + '%' ) );
 	}
 
 	/**
