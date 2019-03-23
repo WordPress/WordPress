@@ -1,0 +1,450 @@
+body.site-health #wpcontent {
+	padding-left: 0;
+}
+
+body.site-health .wrap {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+body.site-health .wrap h2 {
+	padding: 1rem 0;
+	font-size: 1.3em;
+	line-height: 1.4;
+	font-weight: 600;
+}
+
+body.site-health ul li,
+body.site-health ol li {
+	line-height: 1.5;
+}
+
+body.site-health .health-check-header {
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 1rem;
+	background: #fff;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+body.site-health .health-check-header .title-section {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+body.site-health .health-check-header .title-section h1 {
+	display: inline-block;
+	font-weight: 600;
+	margin: 1rem 0.8rem 1rem 0.8rem;
+}
+
+body.site-health .health-check-header .title-section #progressbar {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	margin: 0;
+	border-radius: 100%;
+	position: relative;
+	font-weight: 600;
+	font-size: 0.4rem;
+}
+
+body.site-health .health-check-header .title-section #progressbar:after {
+	position: absolute;
+	display: block;
+	height: 80px;
+	width: 80px;
+	left: 50%;
+	top: 50%;
+	content: attr(data-pct) "%";
+	margin-top: -40px;
+	margin-left: -40px;
+	border-radius: 100%;
+	line-height: 80px;
+	font-size: 2em;
+}
+
+body.site-health .health-check-header .title-section #progressbar.hidden {
+	display: none;
+}
+
+body.site-health .health-check-header .title-section #progressbar.loading:after {
+	animation: loadingEllipsis 3s infinite ease-in-out;
+}
+
+body.site-health .health-check-header .title-section #progressbar.loading svg #bar {
+	stroke-dashoffset: 0;
+	stroke: #adc5d2;
+	animation: loadingPulse 3s infinite ease-in-out;
+}
+
+body.site-health .health-check-header .title-section #progressbar svg circle {
+	stroke-dashoffset: 0;
+	transition: stroke-dashoffset 1s linear;
+	stroke: #ccc;
+	stroke-width: 2em;
+}
+
+body.site-health .health-check-header .title-section #progressbar svg #bar {
+	stroke-dashoffset: 565;
+	stroke: #dc3232;
+}
+
+body.site-health .health-check-header .title-section #progressbar svg #bar.green {
+	stroke: #46b450;
+}
+
+body.site-health .health-check-header .title-section #progressbar svg #bar.orange {
+	stroke: #ffb900;
+}
+
+@keyframes loadingPulse {
+	0% {
+		stroke: #adc5d2;
+	}
+	50% {
+		stroke: #00a0d2;
+	}
+	100% {
+		stroke: #adc5d2;
+	}
+}
+
+@keyframes loadingEllipsis {
+	0% {
+		content: ".";
+	}
+	50% {
+		content: "..";
+	}
+	100% {
+		content: "...";
+	}
+}
+
+body.site-health .health-check-header .tabs-wrapper {
+	display: block;
+}
+
+body.site-health .health-check-header .tabs-wrapper .tab {
+	float: none;
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+	padding: 0.5rem 1rem 1rem;
+	margin: 0 1rem;
+	transition: box-shadow 0.5s ease-in-out;
+}
+
+body.site-health .health-check-header .tabs-wrapper .tab:focus {
+	color: #191e23;
+	outline: 1px solid #6c7781;
+	box-shadow: none;
+}
+
+body.site-health .health-check-header .tabs-wrapper .tab.active {
+	box-shadow: inset 0 -3px #007cba;
+	font-weight: 600;
+}
+
+body.site-health .health-check-body {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+body.site-health .health-check-table thead th:first-child,
+body.site-health .health-check-table thead td:first-child {
+	width: 30%;
+}
+
+body.site-health .health-check-table tbody td {
+	width: 70%;
+}
+
+body.site-health .health-check-table tbody td:first-child {
+	width: 30%;
+}
+
+body.site-health .health-check-table tbody td ul,
+body.site-health .health-check-table tbody td ol {
+	margin: 0;
+}
+
+body.site-health .pass:before,
+body.site-health .good:before {
+	content: "\f147";
+	display: inline-block;
+	color: #46b450;
+	font-family: dashicons;
+	vertical-align: top;
+}
+
+body.site-health .warning:before {
+	content: "\f460";
+	display: inline-block;
+	color: #ffb900;
+	font-family: dashicons;
+}
+
+body.site-health .info:before {
+	content: "\f348";
+	display: inline-block;
+	color: #00a0d2;
+	font-family: dashicons;
+}
+
+body.site-health .fail:before,
+body.site-health .error:before {
+	content: "\f335";
+	display: inline-block;
+	color: #dc3232;
+	font-family: dashicons;
+}
+
+body.site-health .spinner {
+	float: none;
+}
+
+body.site-health .system-information-copy-wrapper {
+	display: block;
+	margin: 1rem 0;
+}
+
+body.site-health .system-information-copy-wrapper textarea {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	left: -9999px;
+	top: -9999px;
+}
+
+body.site-health .health-check-toggle-copy-section:hover {
+	background: none;
+}
+
+body.site-health .system-information-copy-wrapper .copy-button-wrapper {
+	margin: 0.5rem 0 1rem;
+}
+
+body.site-health .copy-field-success {
+	display: none;
+	color: #40860a;
+	line-height: 1.8;
+	margin-left: 0.5rem;
+}
+
+body.site-health .copy-field-success.visible {
+	display: inline-block;
+	height: 28px;
+    line-height: 28px;
+}
+
+body.site-health .site-status-has-issues {
+	display: block;
+}
+
+body.site-health .site-status-has-issues.hide {
+	display: none;
+}
+
+body.site-health h3 {
+	padding: 0;
+	font-weight: 400;
+}
+
+body.site-health .view-more {
+	text-align: center;
+}
+
+body.site-health .issues-wrapper:first-of-type {
+	margin-top: 3rem;
+}
+
+body.site-health .issues-wrapper {
+	margin-bottom: 3rem;
+	margin-top: 2rem;
+}
+
+body.site-health .site-status-all-clear {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	margin-top: 0;
+}
+
+@media all and (min-width: 784px) {
+	body.site-health .site-status-all-clear {
+		margin: 5rem 0;
+	}
+}
+
+body.site-health .site-status-all-clear.hide {
+	display: none;
+}
+
+body.site-health .site-status-all-clear .dashicons {
+	font-size: 150px;
+	height: 130px;
+	width: 150px;
+}
+
+body.site-health .site-status-all-clear .encouragement {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+body.site-health .site-status-all-clear p {
+	margin: 0;
+}
+
+body .health-check-accordion {
+	border: 1px solid #e2e4e7;
+}
+
+body .health-check-accordion dt {
+	font-weight: 600;
+	border-top: 1px solid #e2e4e7;
+}
+
+body .health-check-accordion dt:first-child {
+	border-radius: 0.3em 0.3em 0 0;
+	border-top: none;
+}
+
+body .health-check-accordion .health-check-accordion-trigger {
+	background: #fff;
+	border: 0;
+	color: #212121;
+	cursor: pointer;
+	display: block;
+	font-weight: 400;
+	margin: 0;
+	padding: 1em 1.5em;
+	position: relative;
+	text-align: left;
+	width: 100%;
+}
+
+body .health-check-accordion .health-check-accordion-trigger:hover,
+body .health-check-accordion .health-check-accordion-trigger:active {
+	background: #f8f9f9;
+}
+
+body .health-check-accordion .health-check-accordion-trigger:focus {
+	color: #191e23;
+	border: none;
+	box-shadow: none;
+	outline-offset: -2px;
+	outline: 1px dotted #555d66;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .title {
+	display: inline-block;
+	pointer-events: none;
+	font-weight: 600;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .icon {
+	border: solid #191e23;
+	border-width: 0 2px 2px 0;
+	height: 0.5rem;
+	pointer-events: none;
+	position: absolute;
+	right: 1.5em;
+	top: 50%;
+	transform: translateY(-70%) rotate(45deg);
+	width: 0.5rem;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge {
+	display: inline-block;
+	padding: 0.1rem 0.5rem 0.15rem;
+	background-color: #d7dade;
+	border-radius: 3px;
+	color: #000;
+	font-weight: 600;
+	margin: 0 0.5rem;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.blue {
+	background-color: #0073af;
+	color: #fff;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.orange {
+	background-color: #ffb900;
+	color: #000;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.red {
+	background-color: #dc3232;
+	color: #fff;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.green {
+	background-color: #40860a;
+	color: #fff;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.pink {
+	background-color: #f4b0fc;
+	color: #000;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.gray {
+	background-color: #ccc;
+	color: #000;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.light-blue {
+	background-color: #10e9fb;
+	color: #000;
+}
+
+body .health-check-accordion .health-check-accordion-trigger .badge.light-green {
+	background-color: #60f999;
+	color: #000;
+}
+
+body .health-check-accordion .health-check-accordion-trigger[aria-expanded="true"] .icon {
+	transform: translateY(-30%) rotate(-135deg)
+}
+
+body .health-check-accordion .health-check-accordion-panel {
+	margin: 0;
+	padding: 1em 1.5em;
+	background: #fff;
+}
+
+body .health-check-accordion .health-check-accordion-panel > div {
+	display: block;
+}
+
+body .health-check-accordion .health-check-accordion-panel[hidden] {
+	display: none;
+}
+
+body .health-check-accordion dl dd {
+	margin: 0 0 0.5em 2em;
+}
+
+@media screen and (max-width: 782px) {
+	body.site-health .health-check-body {
+		margin: 0 12px;
+		width: initial;
+	}
+}
+
+/* The breakpoint is usually at 960px, the additional space is to allow for the margin. */
+@media only screen and (max-width: 1004px) {
+	body.site-health .health-check-body {
+		margin: 0 22px;
+		width: initial;
+	}
+}
