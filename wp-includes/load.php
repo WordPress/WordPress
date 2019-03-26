@@ -213,32 +213,17 @@ function wp_maintenance() {
 		require_once( WP_CONTENT_DIR . '/maintenance.php' );
 		die();
 	}
-
+	
+	require_once( ABSPATH . WPINC . '/functions.php' );
 	wp_load_translations_early();
 
-	$protocol = wp_get_server_protocol();
-	header( "$protocol 503 Service Unavailable", true, 503 );
-	header( 'Content-Type: text/html; charset=utf-8' );
 	header( 'Retry-After: 600' );
 
-	$dir_attr = '';
-	if ( is_rtl() ) {
-		$dir_attr = ' dir="rtl"';
-	}
-	?>
-	<!DOCTYPE html>
-	<html xmlns="http://www.w3.org/1999/xhtml"<?php echo $dir_attr; ?>>
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title><?php _e( 'Maintenance' ); ?></title>
-
-	</head>
-	<body>
-		<h1><?php _e( 'Briefly unavailable for scheduled maintenance. Check back in a minute.' ); ?></h1>
-	</body>
-	</html>
-	<?php
-	die();
+	wp_die(
+		__( 'Briefly unavailable for scheduled maintenance. Check back in a minute.' ),
+		__( 'Maintenance' ),
+		503
+	);
 }
 
 /**
