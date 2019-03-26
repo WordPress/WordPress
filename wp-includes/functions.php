@@ -3311,9 +3311,9 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
 }
 
 /**
- * Kill WordPress execution and display JSONP message with error message.
+ * Kills WordPress execution and displays JSONP response with an error message.
  *
- * This is the handler for wp_die when processing JSONP requests.
+ * This is the handler for wp_die() when processing JSONP requests.
  *
  * @since 5.2.0
  * @access private
@@ -3385,9 +3385,9 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
 }
 
 /**
- * Kill WordPress execution and display XML message with error message.
+ * Kills WordPress execution and displays XML response with an error message.
  *
- * This is the handler for wp_die when processing XML requests.
+ * This is the handler for wp_die() when processing XML requests.
  *
  * @since 5.2.0
  * @access private
