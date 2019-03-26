@@ -1529,3 +1529,36 @@ function wp_is_jsonp_request() {
 	return $jsonp_enabled;
 
 }
+
+/**
+ *
+ * Checks whether current request is a XML request, or is expecting a XML response.
+ *
+ * @since 5.2.0
+ *
+ * @return bool True if Accepts or Content-Type headers contain xml, false otherwise.
+ */
+function wp_is_xml_request() {
+	$accepted = array(
+		'text/xml',
+		'application/rss+xml',
+		'application/atom+xml',
+		'application/rdf+xml',
+		'text/xml+oembed',
+		'application/xml+oembed',
+	);
+
+	if ( isset( $_SERVER['HTTP_ACCEPT'] ) ) {
+		foreach ( $accepted as $type ) {
+			if ( false !== strpos( $_SERVER['HTTP_ACCEPT'], $type ) ) {
+				return true;
+			}
+		}
+	}
+
+	if ( isset( $_SERVER['CONTENT_TYPE'] ) && in_array( $_SERVER['CONTENT_TYPE'], $accepted, true ) ) {
+		return true;
+	}
+
+	return false;
+}

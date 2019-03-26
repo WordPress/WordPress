@@ -3007,9 +3007,21 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 * @param callable $function Callback function name.
 		 */
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
+	} elseif ( wp_is_xml_request()
+		|| function_exists( 'is_feed' ) && is_feed()
+		|| function_exists( 'is_comment_feed' ) && is_comment_feed()
+		|| function_exists( 'is_trackback' ) && is_trackback() ) {
+		/**
+		 * Filters the callback for killing WordPress execution for XML requests.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param callable $function Callback function name.
+		 */
+		$function = apply_filters( 'wp_die_xml_handler', '_xml_wp_die_handler' );
 	} else {
 		/**
-		 * Filters the callback for killing WordPress execution for all non-Ajax, non-XML-RPC requests.
+		 * Filters the callback for killing WordPress execution for all non-Ajax, non-JSON, non-XML requests.
 		 *
 		 * @since 3.0.0
 		 *
@@ -3219,6 +3231,48 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 }
 
 /**
+ * Kills WordPress execution and displays Ajax response with an error message.
+ *
+ * This is the handler for wp_die() when processing Ajax requests.
+ *
+ * @since 3.4.0
+ * @access private
+ *
+ * @param string       $message Error message.
+ * @param string       $title   Optional. Error title (unused). Default empty.
+ * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
+ */
+function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
+	// Set default 'response' to 200 for AJAX requests.
+	$args = wp_parse_args(
+		$args,
+		array( 'response' => 200 )
+	);
+
+	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+
+	if ( ! headers_sent() ) {
+		// This is intentional. For backward-compatibility, support passing null here.
+		if ( null !== $args['response'] ) {
+			status_header( $r['response'] );
+		}
+		nocache_headers();
+	}
+
+	if ( is_scalar( $message ) ) {
+		$message = (string) $message;
+	} else {
+		$message = '0';
+	}
+
+	if ( $r['exit'] ) {
+		die( $message );
+	}
+
+	echo $message;
+}
+
+/**
  * Kills WordPress execution and displays JSON response with an error message.
  *
  * This is the handler for wp_die() when processing JSON requests.
@@ -3331,45 +3385,47 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
 }
 
 /**
- * Kills WordPress execution and displays Ajax response with an error message.
+ * Kill WordPress execution and display XML message with error message.
  *
- * This is the handler for wp_die() when processing Ajax requests.
+ * This is the handler for wp_die when processing XML requests.
  *
- * @since 3.4.0
+ * @since 5.2.0
  * @access private
  *
  * @param string       $message Error message.
- * @param string       $title   Optional. Error title (unused). Default empty.
+ * @param string       $title   Optional. Error title. Default empty.
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
-function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
-	// Set default 'response' to 200 for AJAX requests.
-	$args = wp_parse_args(
-		$args,
-		array( 'response' => 200 )
-	);
-
+function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
 	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
 
+	$message = htmlspecialchars( $message );
+	$title   = htmlspecialchars( $title );
+
+	$xml = <<<EOD
+<error>
+    <code>{$r['code']}</code>
+    <title><![CDATA[{$title}]]></title>
+    <message><![CDATA[{$message}]]></message>
+    <data>
+        <status>{$r['response']}</status>
+    </data> 
+</error>
+
+EOD;
+
 	if ( ! headers_sent() ) {
-		// This is intentional. For backward-compatibility, support passing null here.
-		if ( null !== $args['response'] ) {
+		header( 'Content-Type: text/xml; charset=utf-8' );
+		if ( null !== $r['response'] ) {
 			status_header( $r['response'] );
 		}
 		nocache_headers();
 	}
 
-	if ( is_scalar( $message ) ) {
-		$message = (string) $message;
-	} else {
-		$message = '0';
-	}
-
+	echo $xml;
 	if ( $r['exit'] ) {
-		die( $message );
+		die();
 	}
-
-	echo $message;
 }
 
 /**
