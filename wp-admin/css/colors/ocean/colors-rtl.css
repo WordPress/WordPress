@@ -48,7 +48,7 @@ input[type=radio]:checked:before {
             box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
     color: #c7d1c8 !important;
-    background: #86a988 !important;
+    background: #86a989 !important;
     border-color: #719a74 !important;
     text-shadow: none !important; }
 .wp-core-ui .wp-ui-primary {
@@ -194,7 +194,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
   background: #627c83; }
 
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary, #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
-  background: #8f9b9e; }
+  background: #8f9a9e; }
 
 #wpadminbar .ab-submenu .ab-item, #wpadminbar .quicklinks .menupop ul li a, #wpadminbar .quicklinks .menupop.hover ul li a, #wpadminbar-nojs .quicklinks .menupop:hover ul li a {
   color: #d5dddf; }
@@ -214,7 +214,7 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus {
   color: #fff;
-  background: #879fa5; }
+  background: #879ea5; }
 
 #wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
   color: #fff;
@@ -234,8 +234,8 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu > li.current > a.curre
 
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
-  border-color: #879fa5;
-  background-color: #879fa5; }
+  border-color: #879ea5;
+  background-color: #879ea5; }
 
 #wpadminbar #wp-admin-bar-user-info .display-name {
   color: #fff; }

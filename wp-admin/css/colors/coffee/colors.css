@@ -27,7 +27,7 @@ input[type=radio]:checked:before {
 /* Core UI */
 .wp-core-ui .button-primary {
   background: #c7a589;
-  border-color: #b78a66;
+  border-color: #b78b66;
   color: white;
   -webkit-box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15);
           box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15); }
@@ -41,13 +41,13 @@ input[type=radio]:checked:before {
     -webkit-box-shadow: inset 0 1px 0 #d7bfac, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
             box-shadow: inset 0 1px 0 #d7bfac, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary:active {
-    background: #b78a66;
+    background: #b78b66;
     border-color: #ae7d55;
     color: white;
     -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
             box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8); }
   .wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
-    color: #d1cbc7 !important;
+    color: #d1ccc7 !important;
     background: #ba906d !important;
     border-color: #ae7d55 !important;
     text-shadow: none !important; }
@@ -314,7 +314,7 @@ body.more-filters-opened .more-filters:hover:before, body.more-filters-opened .m
 /* jQuery UI Slider */
 .wp-slider .ui-slider-handle, .wp-slider .ui-slider-handle.ui-state-hover, .wp-slider .ui-slider-handle.focus {
   background: #c7a589;
-  border-color: #b78a66;
+  border-color: #b78b66;
   -webkit-box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15);
           box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
