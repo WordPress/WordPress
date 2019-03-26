@@ -26,11 +26,6 @@ class WP_Fatal_Error_Handler {
 	 * @since 5.2.0
 	 */
 	public function handle() {
-		// Bail if WordPress executed successfully.
-		if ( defined( 'WP_EXECUTION_SUCCEEDED' ) && WP_EXECUTION_SUCCEEDED ) {
-			return;
-		}
-
 		try {
 			// Bail if no error found.
 			$error = $this->detect_error();
@@ -42,8 +37,10 @@ class WP_Fatal_Error_Handler {
 				wp_recovery_mode()->handle_error( $error );
 			}
 
-			// Display the PHP error template.
-			$this->display_error_template();
+			// Display the PHP error template if headers not sent.
+			if ( ! headers_sent() ) {
+				$this->display_error_template();
+			}
 		} catch ( Exception $e ) {
 			// Catch exceptions and remain silent.
 		}

@@ -544,12 +544,3 @@ if ( is_multisite() ) {
  * @since 3.0.0
  */
 do_action( 'wp_loaded' );
-
-/*
- * Store the fact that we could successfully execute the entire WordPress
- * lifecycle. This is used to skip the premature shutdown handler, as it cannot
- * be unregistered.
- */
-if ( ! defined( 'WP_EXECUTION_SUCCEEDED' ) ) {
-	define( 'WP_EXECUTION_SUCCEEDED', true );
-}
