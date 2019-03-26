@@ -1531,8 +1531,7 @@ function wp_is_jsonp_request() {
 }
 
 /**
- *
- * Checks whether current request is a XML request, or is expecting a XML response.
+ * Checks whether current request is an XML request, or is expecting an XML response.
  *
  * @since 5.2.0
  *
