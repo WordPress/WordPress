@@ -2989,6 +2989,15 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 * @param callable $function Callback function name.
 		 */
 		$function = apply_filters( 'wp_die_json_handler', '_json_wp_die_handler' );
+	} elseif ( wp_is_jsonp_request() ) {
+		/**
+		 * Filters the callback for killing WordPress execution for JSONP requests.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param callable $function Callback function name.
+		 */
+		$function = apply_filters( 'wp_die_jsonp_handler', '_jsonp_wp_die_handler' );
 	} elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 		/**
 		 * Filters the callback for killing WordPress execution for XML-RPC requests.
@@ -3242,6 +3251,48 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
 	}
 
 	echo wp_json_encode( $data );
+	if ( $r['exit'] ) {
+		die();
+	}
+}
+
+/**
+ * Kill WordPress execution and display JSONP message with error message.
+ *
+ * This is the handler for wp_die when processing JSONP requests.
+ *
+ * @since 5.2.0
+ * @access private
+ *
+ * @param string       $message Error message.
+ * @param string       $title   Optional. Error title. Default empty.
+ * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
+ */
+function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
+	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+
+	$data = array(
+		'code'              => $r['code'],
+		'message'           => $message,
+		'data'              => array(
+			'status' => $r['response'],
+		),
+		'additional_errors' => $r['additional_errors'],
+	);
+
+	if ( ! headers_sent() ) {
+		header( 'Content-Type: application/javascript; charset=utf-8' );
+		header( 'X-Content-Type-Options: nosniff' );
+		header( 'X-Robots-Tag: noindex' );
+		if ( null !== $r['response'] ) {
+			status_header( $r['response'] );
+		}
+		nocache_headers();
+	}
+
+	$result         = wp_json_encode( $data );
+	$jsonp_callback = $_GET['_jsonp'];
+	echo '/**/' . $jsonp_callback . '(' . $result . ')';
 	if ( $r['exit'] ) {
 		die();
 	}

@@ -1501,3 +1501,31 @@ function wp_is_json_request() {
 	return false;
 
 }
+
+/**
+ * Checks whether current request is a JSONP request, or is expecting a JSONP response.
+ *
+ * @since 5.2.0
+ *
+ * @return bool True if JSONP request, false otherwise.
+ */
+function wp_is_jsonp_request() {
+	if ( ! isset( $_GET['_jsonp'] ) ) {
+		return false;
+	}
+
+	if ( ! function_exists( 'wp_check_jsonp_callback' ) ) {
+		require_once ABSPATH . WPINC . '/functions.php';
+	}
+
+	$jsonp_callback = $_GET['_jsonp'];
+	if ( ! wp_check_jsonp_callback( $jsonp_callback ) ) {
+		return false;
+	}
+
+	/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+	$jsonp_enabled = apply_filters( 'rest_jsonp_enabled', true );
+
+	return $jsonp_enabled;
+
+}
