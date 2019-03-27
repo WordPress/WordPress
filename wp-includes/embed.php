@@ -835,7 +835,7 @@ function wp_filter_oembed_iframe_title_attribute( $result, $data, $url ) {
  * If the `$url` isn't on the trusted providers list,
  * we need to filter the HTML heavily for security.
  *
- * Only filters 'rich' and 'html' response types.
+ * Only filters 'rich' and 'video' response types.
  *
  * @since 4.4.0
  *
