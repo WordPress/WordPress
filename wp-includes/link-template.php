@@ -2189,7 +2189,7 @@ function adjacent_post_link( $format, $link, $in_same_term = false, $excluded_te
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int  $pagenum Optional. Page ID. Default 1.
+ * @param int  $pagenum Optional. Page number. Default 1.
  * @param bool $escape  Optional. Whether to escape the URL for display, with esc_url(). Defaults to true.
  *                      Otherwise, prepares the URL with esc_url_raw().
  * @return string The link URL for the given page number.
@@ -2249,9 +2249,10 @@ function get_pagenum_link( $pagenum = 1, $escape = true ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $result The page number link.
+	 * @param string $result  The page number link.
+	 * @param int    $pagenum The page number.
 	 */
-	$result = apply_filters( 'get_pagenum_link', $result );
+	$result = apply_filters( 'get_pagenum_link', $result, $pagenum );
 
 	if ( $escape ) {
 		return esc_url( $result );
