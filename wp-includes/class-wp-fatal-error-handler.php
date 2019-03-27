@@ -185,9 +185,13 @@ class WP_Fatal_Error_Handler {
 		 */
 		$args = apply_filters( 'wp_php_error_args', $args, $error );
 
-		$wp_error = new WP_Error( 'internal_server_error', $message, array(
-			'error' => $error,
-		) );
+		$wp_error = new WP_Error(
+			'internal_server_error',
+			$message,
+			array(
+				'error' => $error,
+			)
+		);
 
 		wp_die( $wp_error, '', $args );
 	}
