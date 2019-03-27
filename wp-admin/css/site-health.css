@@ -39,7 +39,7 @@ body.site-health .health-check-header .title-section h1 {
 	margin: 1rem 0.8rem 1rem 0.8rem;
 }
 
-body.site-health .health-check-header .title-section #progressbar {
+.site-health-progress {
 	display: inline-block;
 	height: 40px;
 	width: 40px;
@@ -50,14 +50,13 @@ body.site-health .health-check-header .title-section #progressbar {
 	font-size: 0.4rem;
 }
 
-body.site-health .health-check-header .title-section #progressbar:after {
+.site-health-progress .progress-count {
 	position: absolute;
 	display: block;
 	height: 80px;
 	width: 80px;
 	left: 50%;
 	top: 50%;
-	content: attr(data-pct) "%";
 	margin-top: -40px;
 	margin-left: -40px;
 	border-radius: 100%;
@@ -65,37 +64,41 @@ body.site-health .health-check-header .title-section #progressbar:after {
 	font-size: 2em;
 }
 
-body.site-health .health-check-header .title-section #progressbar.hidden {
+.site-health-progress .progress-count::after {
+	content: "";
+}
+
+.site-health-progress.hidden {
 	display: none;
 }
 
-body.site-health .health-check-header .title-section #progressbar.loading:after {
+.site-health-progress.loading .progress-count::after {
 	animation: loadingEllipsis 3s infinite ease-in-out;
 }
 
-body.site-health .health-check-header .title-section #progressbar.loading svg #bar {
+.site-health-progress.loading svg #bar {
 	stroke-dashoffset: 0;
 	stroke: #adc5d2;
 	animation: loadingPulse 3s infinite ease-in-out;
 }
 
-body.site-health .health-check-header .title-section #progressbar svg circle {
+.site-health-progress svg circle {
 	stroke-dashoffset: 0;
 	transition: stroke-dashoffset 1s linear;
 	stroke: #ccc;
 	stroke-width: 2em;
 }
 
-body.site-health .health-check-header .title-section #progressbar svg #bar {
+.site-health-progress svg #bar {
 	stroke-dashoffset: 565;
 	stroke: #dc3232;
 }
 
-body.site-health .health-check-header .title-section #progressbar svg #bar.green {
+.site-health-progress svg #bar.green {
 	stroke: #46b450;
 }
 
-body.site-health .health-check-header .title-section #progressbar svg #bar.orange {
+.site-health-progress svg #bar.orange {
 	stroke: #ffb900;
 }
 
@@ -171,8 +174,8 @@ body.site-health .health-check-table tbody td ol {
 	margin: 0;
 }
 
-body.site-health .pass:before,
-body.site-health .good:before {
+.site-health .pass::before,
+.site-health .good::before {
 	content: "\f147";
 	display: inline-block;
 	color: #46b450;
@@ -180,22 +183,22 @@ body.site-health .good:before {
 	vertical-align: top;
 }
 
-body.site-health .warning:before {
+.site-health .warning::before {
 	content: "\f460";
 	display: inline-block;
 	color: #ffb900;
 	font-family: dashicons;
 }
 
-body.site-health .info:before {
+.site-health .info::before {
 	content: "\f348";
 	display: inline-block;
 	color: #00a0d2;
 	font-family: dashicons;
 }
 
-body.site-health .fail:before,
-body.site-health .error:before {
+.site-health .fail::before,
+.site-health .error::before {
 	content: "\f335";
 	display: inline-block;
 	color: #dc3232;

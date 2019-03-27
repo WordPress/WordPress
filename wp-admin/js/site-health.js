@@ -82,18 +82,19 @@ jQuery( document ).ready( function( $ ) {
 	 */
 	function RecalculateProgression() {
 		var r, c, pct;
-		var $progressBar = $( '#progressbar' );
-		var $circle = $( '#progressbar svg #bar' );
+		var $progress = $( '.site-health-progress' );
+		var $progressCount = $progress.find( '.progress-count' );
+		var $circle = $( '.site-health-progress svg #bar' );
 		var totalTests = parseInt( SiteHealth.site_status.issues.good, 0 ) + parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
 		var failedTests = parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
 		var val = 100 - Math.ceil( ( failedTests / totalTests ) * 100 );
 
 		if ( 0 === totalTests ) {
-			$progressBar.addClass( 'hidden' );
+			$progress.addClass( 'hidden' );
 			return;
 		}
 
-		$progressBar.removeClass( 'loading' );
+		$progress.removeClass( 'loading' );
 
 		r = $circle.attr( 'r' );
 		c = Math.PI * ( r * 2 );
@@ -130,8 +131,7 @@ jQuery( document ).ready( function( $ ) {
 			$( '.site-status-has-issues' ).addClass( 'hide' );
 		}
 
-		$progressBar.attr( 'data-pct', val );
-		$progressBar.attr( 'aria-valuenow', val );
+		$progressCount.text( val + '%' );
 
 		$.post(
 			ajaxurl,
