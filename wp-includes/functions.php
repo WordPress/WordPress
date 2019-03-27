@@ -6918,7 +6918,9 @@ function wp_get_default_update_php_url() {
 function wp_update_php_annotation( $before = '<p class="description">', $after = '</p>' ) {
 	$annotation = wp_get_update_php_annotation();
 
-	echo $before . $annotation . $after;
+	if ( $annotation ) {
+		echo $before . $annotation . $after;
+	}
 }
 
 /**
