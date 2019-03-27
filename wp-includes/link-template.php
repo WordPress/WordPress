@@ -1688,7 +1688,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	$adjacent = $previous ? 'previous' : 'next';
 
 	if ( ! empty( $excluded_terms ) && ! is_array( $excluded_terms ) ) {
-		// back-compat, $excluded_terms used to be $excluded_terms with IDs separated by " and "
+		// Back-compat, $excluded_terms used to be $excluded_categories with IDs separated by " and ".
 		if ( false !== strpos( $excluded_terms, ' and ' ) ) {
 			_deprecated_argument( __FUNCTION__, '3.3.0', sprintf( __( 'Use commas instead of %s to separate excluded terms.' ), "'and'" ) );
 			$excluded_terms = explode( ' and ', $excluded_terms );
