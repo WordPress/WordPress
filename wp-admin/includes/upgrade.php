@@ -3177,7 +3177,7 @@ function wp_check_mysql_version() {
 	global $wpdb;
 	$result = $wpdb->check_database_version();
 	if ( is_wp_error( $result ) ) {
-		die( $result->get_error_message() );
+		wp_die( $result );
 	}
 }
 
