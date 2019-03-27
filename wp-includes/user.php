@@ -3140,6 +3140,15 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 		return;
 	}
 
+	// Localize message content for user; fallback to site default for visitors.
+	if ( ! empty( $request->user_id ) ) {
+		$locale = get_user_locale( $request->user_id );
+	} else {
+		$locale = get_locale();
+	}
+
+	$switched_locale = switch_to_locale( $locale );
+
 	/**
 	 * Filters the recipient of the data erasure fulfillment notification.
 	 *
@@ -3249,6 +3258,10 @@ All at ###SITENAME###
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
 	$email_sent = wp_mail( $user_email, $subject, $content );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
 
 	if ( $email_sent ) {
 		update_post_meta( $request_id, '_wp_user_notified', true );
