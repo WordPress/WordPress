@@ -73,6 +73,7 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 </head>
 
 <body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
 <div id="page" class="hfeed">
 	<header id="branding" role="banner">
 			<hgroup>
