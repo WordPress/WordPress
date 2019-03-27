@@ -213,7 +213,7 @@ function wp_maintenance() {
 		require_once( WP_CONTENT_DIR . '/maintenance.php' );
 		die();
 	}
-	
+
 	require_once( ABSPATH . WPINC . '/functions.php' );
 	wp_load_translations_early();
 
