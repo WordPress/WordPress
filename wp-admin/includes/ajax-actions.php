@@ -1027,7 +1027,9 @@ function wp_ajax_add_tag() {
 
 	$wp_list_table = _get_list_table( 'WP_Terms_List_Table', array( 'screen' => $_POST['screen'] ) );
 
-	$level = 0;
+	$level     = 0;
+	$noparents = '';
+
 	if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 		$level = count( get_ancestors( $tag->term_id, $taxonomy, 'taxonomy' ) );
 		ob_start();
