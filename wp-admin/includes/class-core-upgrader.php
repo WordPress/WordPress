@@ -122,6 +122,25 @@ class Core_Upgrader extends WP_Upgrader {
 		}
 
 		$download = $this->download_package( $current->packages->$to_download );
+
+		// Allow for signature soft-fail.
+		// WARNING: This may be removed in the future.
+		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
+			// Outout the failure error as a normal feedback, and not as an error:
+			apply_filters( 'update_feedback', $download->get_error_message() );
+
+			// Report this failure back to WordPress.org for debugging purposes.
+			wp_version_check(
+				array(
+					'signature_failure_code' => $download->get_error_code(),
+					'signature_failure_data' => $download->get_error_data(),
+				)
+			);
+
+			// Pretend this error didn't happen.
+			$download = $download->get_error_data( 'softfail-filename' );
+		}
+
 		if ( is_wp_error( $download ) ) {
 			WP_Upgrader::release_lock( 'core_updater' );
 			return $download;
