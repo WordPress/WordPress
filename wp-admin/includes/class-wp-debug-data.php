@@ -881,15 +881,16 @@ class WP_Debug_Data {
 	}
 
 	/**
-	 * Print the formatted variation of the information gathered for debugging, in a manner
-	 * suitable for a text area that can be instantly copied to a forum or support ticket.
+	 * Format the information gathered for debugging, in a manner suitable for copying to a forum or support ticket.
 	 *
 	 * @since 5.2.0
 	 *
 	 * @param array $info_array Information gathered from the `WP_Debug_Data::debug_data` function.
+	 * @param string $type      Optional. The data type to format the information as. Default 'text'.
+	 * @return string The formatted data.
 	 */
-	public static function textarea_format( $info_array ) {
-		echo "`\n";
+	public static function format( $info_array, $type = 'text' ) {
+		$return = '';
 
 		foreach ( $info_array as $section => $details ) {
 			// Skip this section if there are no fields, or the section has been declared as private.
@@ -897,7 +898,7 @@ class WP_Debug_Data {
 				continue;
 			}
 
-			printf(
+			$return .= sprintf(
 				"### %s%s ###\n\n",
 				$details['label'],
 				( isset( $details['show_count'] ) && $details['show_count'] ? sprintf( ' (%d)', count( $details['fields'] ) ) : '' )
@@ -921,15 +922,16 @@ class WP_Debug_Data {
 					}
 				}
 
-				printf(
+				$return .= sprintf(
 					"%s: %s\n",
 					$field['label'],
 					$values
 				);
 			}
-			echo "\n";
+			$return .= "\n";
 		}
-		echo '`';
+
+		return $return;
 	}
 
 	/**

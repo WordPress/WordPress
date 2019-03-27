@@ -61,7 +61,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<?php
 		WP_Debug_Data::check_for_updates();
 
-		$info = WP_Debug_Data::debug_data();
+		$info         = WP_Debug_Data::debug_data();
+		$english_info = '';
+		if ( 0 !== strpos( get_locale(), 'en' ) ) {
+			$english_info = WP_Debug_Data::debug_data( 'en_US' );
+		}
 		?>
 
 		<h2>
@@ -69,29 +73,21 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		</h2>
 
 		<p>
-			<?php _e( 'You can export the information on this page so it can be easily copied and pasted in support requests such as on the WordPress.org forums, or shared with your website / theme / plugin developers.' ); ?>
+			<?php _e( 'This page can show you every detail about the configuration of your WordPress website. If we see anything here that could be improved, we will let you know on the Site Status page.' ); ?>
+		</p>
+		<p>
+			<?php _e( 'If you want to export a handy list of all the information on this page, you can use the button below to copy it to the clipboard. You can then paste it in a text file and save it to your harddrive, or paste it in an email exchange with a support engineer or theme/plugin developer for example.' ); ?>
 		</p>
 
-		<div class="system-information-copy-wrapper">
-			<textarea id="system-information-default-copy-field" readonly><?php WP_Debug_Data::textarea_format( $info ); ?></textarea>
-
-			<?php
-			if ( 0 !== strpos( get_locale(), 'en' ) ) :
-
-				$english_info = WP_Debug_Data::debug_data( 'en_US' );
-				?>
-				<textarea id="system-information-english-copy-field" readonly><?php WP_Debug_Data::textarea_format( $english_info ); ?></textarea>
-
-			<?php endif; ?>
-
+		<div class="site-health-copy-buttons">
 			<div class="copy-button-wrapper">
-				<button type="button" class="button button-primary health-check-copy-field" data-copy-field="default"><?php _e( 'Copy to clipboard' ); ?></button>
-				<span class="copy-field-success" aria-hidden="true">Copied!</span>
+				<button type="button" class="button button-primary copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard' ); ?></button>
+				<span class="success" aria-hidden="true">Copied!</span>
 			</div>
-			<?php if ( 0 !== strpos( get_locale(), 'en' ) ) : ?>
+			<?php if ( $english_info ) : ?>
 				<div class="copy-button-wrapper">
-					<button type="button" class="button health-check-copy-field" data-copy-field="english"><?php _e( 'Copy to clipboard (English)' ); ?></button>
-					<span class="copy-field-success" aria-hidden="true">Copied!</span>
+					<button type="button" class="button copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $english_info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard (English)' ); ?></button>
+					<span class="success" aria-hidden="true">Copied!</span>
 				</div>
 			<?php endif; ?>
 		</div>

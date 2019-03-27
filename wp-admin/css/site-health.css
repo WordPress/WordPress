@@ -209,36 +209,23 @@ body.site-health .spinner {
 	float: none;
 }
 
-body.site-health .system-information-copy-wrapper {
+.site-health-copy-buttons {
 	display: block;
 	margin: 1rem 0;
 }
 
-body.site-health .system-information-copy-wrapper textarea {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute;
-	left: -9999px;
-	top: -9999px;
-}
-
-body.site-health .health-check-toggle-copy-section:hover {
-	background: none;
-}
-
-body.site-health .system-information-copy-wrapper .copy-button-wrapper {
+.site-health-copy-buttons .copy-button-wrapper {
 	margin: 0.5rem 0 1rem;
 }
 
-body.site-health .copy-field-success {
+.site-health-copy-buttons .success {
 	display: none;
 	color: #40860a;
 	line-height: 1.8;
 	margin-left: 0.5rem;
 }
 
-body.site-health .copy-field-success.visible {
+.site-health-copy-buttons .success.visible {
 	display: inline-block;
 	height: 28px;
     line-height: 28px;

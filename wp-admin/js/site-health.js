@@ -10,21 +10,14 @@ jQuery( document ).ready( function( $ ) {
 
 	var data;
 
+	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
+
 	// Debug information copy section.
-	$( '.health-check-copy-field' ).click( function( e ) {
-		var $textarea = $( '#system-information-' + $( this ).data( 'copy-field' ) + '-copy-field' ),
-			$wrapper = $( this ).closest( 'div' );
+	clipboard.on( 'success', function( e ) {
+		var $wrapper = $( e.trigger ).closest( 'div' );
+		$( '.success', $wrapper ).addClass( 'visible' );
 
-		e.preventDefault();
-
-		$textarea.select();
-
-		if ( document.execCommand( 'copy' ) ) {
-			$( '.copy-field-success', $wrapper ).addClass( 'visible' );
-			$( this ).focus();
-
-			wp.a11y.speak( SiteHealth.string.site_info_copied );
-		}
+		wp.a11y.speak( SiteHealth.string.site_info_copied );
 	} );
 
 	// Accordion handling in various areas.
