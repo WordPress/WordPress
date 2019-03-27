@@ -95,9 +95,9 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param int    $object_id  Object ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value.
+	 * @param int    $object_id   Object ID.
+	 * @param string $meta_key    Meta key.
+	 * @param mixed  $_meta_value Meta value.
 	 */
 	do_action( "add_{$meta_type}_meta", $object_id, $meta_key, $_meta_value );
 
@@ -126,10 +126,10 @@ function add_metadata( $meta_type, $object_id, $meta_key, $meta_value, $unique =
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param int    $mid        The meta ID after successful update.
-	 * @param int    $object_id  Object ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value.
+	 * @param int    $mid         The meta ID after successful update.
+	 * @param int    $object_id   Object ID.
+	 * @param string $meta_key    Meta key.
+	 * @param mixed  $_meta_value Meta value.
 	 */
 	do_action( "added_{$meta_type}_meta", $mid, $object_id, $meta_key, $_meta_value );
 
@@ -242,10 +242,10 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param int    $meta_id    ID of the metadata entry to update.
-		 * @param int    $object_id  Object ID.
-		 * @param string $meta_key   Meta key.
-		 * @param mixed  $meta_value Meta value.
+		 * @param int    $meta_id     ID of the metadata entry to update.
+		 * @param int    $object_id   Object ID.
+		 * @param string $meta_key    Meta key.
+		 * @param mixed  $_meta_value Meta value.
 		 */
 		do_action( "update_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
@@ -256,9 +256,10 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 			 * @since 2.9.0
 			 *
 			 * @param int    $meta_id    ID of metadata entry to update.
-			 * @param int    $object_id  Object ID.
+			 * @param int    $object_id  Post ID.
 			 * @param string $meta_key   Meta key.
-			 * @param mixed  $meta_value Meta value.
+			 * @param mixed  $meta_value Meta value. This will be a PHP-serialized string representation of the value if
+			 *                           the value is an array, an object, or itself a PHP-serialized string.
 			 */
 			do_action( 'update_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 		}
@@ -280,10 +281,10 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param int    $meta_id    ID of updated metadata entry.
-		 * @param int    $object_id  Object ID.
-		 * @param string $meta_key   Meta key.
-		 * @param mixed  $meta_value Meta value.
+		 * @param int    $meta_id     ID of updated metadata entry.
+		 * @param int    $object_id   Object ID.
+		 * @param string $meta_key    Meta key.
+		 * @param mixed  $_meta_value Meta value.
 		 */
 		do_action( "updated_{$meta_type}_meta", $meta_id, $object_id, $meta_key, $_meta_value );
 
@@ -294,9 +295,10 @@ function update_metadata( $meta_type, $object_id, $meta_key, $meta_value, $prev_
 			 * @since 2.9.0
 			 *
 			 * @param int    $meta_id    ID of updated metadata entry.
-			 * @param int    $object_id  Object ID.
+			 * @param int    $object_id  Post ID.
 			 * @param string $meta_key   Meta key.
-			 * @param mixed  $meta_value Meta value.
+			 * @param mixed  $meta_value Meta value. This will be a PHP-serialized string representation of the value if
+			 *                           the value is an array, an object, or itself a PHP-serialized string.
 			 */
 			do_action( 'updated_postmeta', $meta_id, $object_id, $meta_key, $meta_value );
 		}
@@ -404,10 +406,10 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array  $meta_ids   An array of metadata entry IDs to delete.
-	 * @param int    $object_id  Object ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value.
+	 * @param array  $meta_ids    An array of metadata entry IDs to delete.
+	 * @param int    $object_id   Object ID.
+	 * @param string $meta_key    Meta key.
+	 * @param mixed  $_meta_value Meta value.
 	 */
 	do_action( "delete_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
@@ -447,10 +449,10 @@ function delete_metadata( $meta_type, $object_id, $meta_key, $meta_value = '', $
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param array  $meta_ids   An array of deleted metadata entry IDs.
-	 * @param int    $object_id  Object ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value.
+	 * @param array  $meta_ids    An array of deleted metadata entry IDs.
+	 * @param int    $object_id   Object ID.
+	 * @param string $meta_key    Meta key.
+	 * @param mixed  $_meta_value Meta value.
 	 */
 	do_action( "deleted_{$meta_type}_meta", $meta_ids, $object_id, $meta_key, $_meta_value );
 
