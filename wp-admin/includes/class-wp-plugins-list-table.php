@@ -450,7 +450,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					break;
 				case 'dropins':
 					/* translators: %s: plugin count */
-					$text = _n( 'Drop-ins <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $count );
+					$text = _n( 'Drop-in <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $count );
 					break;
 				case 'paused':
 					/* translators: %s: plugin count */
