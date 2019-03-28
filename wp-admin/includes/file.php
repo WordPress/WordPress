@@ -2353,6 +2353,15 @@ function wp_privacy_send_personal_data_export_email( $request_id ) {
 		return new WP_Error( 'invalid_request', __( 'Invalid request ID when sending personal data export email.' ) );
 	}
 
+	// Localize message content for user; fallback to site default for visitors.
+	if ( ! empty( $request->user_id ) ) {
+		$locale = get_user_locale( $request->user_id );
+	} else {
+		$locale = get_locale();
+	}
+
+	$switched_locale = switch_to_locale( $locale );
+
 	/** This filter is documented in wp-includes/functions.php */
 	$expiration      = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 	$expiration_date = date_i18n( get_option( 'date_format' ), time() + $expiration );
@@ -2408,6 +2417,10 @@ All at ###SITENAME###
 		),
 		$content
 	);
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
 
 	if ( ! $mail_success ) {
 		return new WP_Error( 'privacy_email_error', __( 'Unable to send personal data export email.' ) );
