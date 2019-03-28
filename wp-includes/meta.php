@@ -812,7 +812,7 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
 
 	// Fetch the meta and go on if it's found.
 	if ( $meta = get_metadata_by_mid( $meta_type, $meta_id ) ) {
-		$object_id = $meta->{$column};
+		$object_id = (int) $meta->{$column};
 
 		/** This action is documented in wp-includes/meta.php */
 		do_action( "delete_{$meta_type}_meta", (array) $meta_id, $object_id, $meta->meta_key, $meta->meta_value );
