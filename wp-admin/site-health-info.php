@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'install_plugins' ) ) {
-	wp_die( __( 'Sorry, you do not have permission to access the debug data.' ), '', array( 'reponse' => 401 ) );
+	wp_die( __( 'Sorry, you are not allowed to access the debug data.' ), '', 403 );
 }
 
 wp_enqueue_style( 'site-health' );

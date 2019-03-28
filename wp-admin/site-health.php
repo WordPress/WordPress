@@ -15,7 +15,7 @@ if ( isset( $_GET['tab'] ) && 'debug' === $_GET['tab'] ) {
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'install_plugins' ) ) {
-	wp_die( __( 'Sorry, you do not have permission to access site health information.' ), '', array( 'reponse' => 401 ) );
+	wp_die( __( 'Sorry, you are not allowed to access site health information.' ), '', 403 );
 }
 
 wp_enqueue_style( 'site-health' );
