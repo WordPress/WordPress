@@ -674,6 +674,7 @@ table.wp-block-table tr {
 	border-bottom: 1px solid #eee;
 }
 
+table.wp-block-table th,
 table.wp-block-table td {
 	border: 0;
 	padding: 0.4em;
