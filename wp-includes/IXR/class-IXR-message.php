@@ -101,7 +101,7 @@ class IXR_Message
         $chunk_size = 262144;
 
         /**
-         * Filters the chunk size that can be used to parse an XML-RPC reponse message.
+         * Filters the chunk size that can be used to parse an XML-RPC response message.
          *
          * @since 4.4.0
          *
