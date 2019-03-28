@@ -39,7 +39,7 @@
 .widgets-holder-wrap .widget-inside {
 	border-top: none;
 	padding: 1px 15px 15px 15px;
-	line-height: 16px;
+	line-height: 1.2;
 }
 
 .widget.widget-dirty .widget-control-close-wrapper {
@@ -89,7 +89,7 @@
 	border: 1px dashed #b4b9be;
 	box-sizing: border-box;
 	cursor: pointer;
-	line-height: 20px;
+	line-height: 1.6;
 	padding: 9px 0;
 	position: relative;
 	text-align: center;
@@ -541,7 +541,7 @@ div#widgets-right .closed .widgets-sortables {
 	color: #666;
 	background: #EEE;
 	padding: 0 15px;
-	line-height: 43px;
+	line-height: 3.35;
 	border-left: 1px solid #DDD;
 }
 
@@ -756,7 +756,7 @@ div#widgets-right .widget-top:hover,
 	right: 15px;
 }
 .text-widget-fields .wp-pointer .wp-pointer-buttons {
-	line-height: 1.4em;
+	line-height: 1.4;
 }
 
 .custom-html-widget-fields > p > .CodeMirror {
