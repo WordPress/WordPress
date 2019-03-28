@@ -154,6 +154,17 @@ function get_template_part( $slug, $name = null ) {
 
 	$templates[] = "{$slug}.php";
 
+	/**
+	 * Fires before a template part is loaded.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @param string   $slug      The slug name for the generic template.
+	 * @param string   $name      The name of the specialized template.
+	 * @param string[] $templates Array of template files to search for, in order.
+	 */
+	do_action( 'get_template_part', $slug, $name, $templates );
+
 	locate_template( $templates, true, false );
 }
 
