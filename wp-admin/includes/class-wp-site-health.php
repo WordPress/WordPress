@@ -1202,14 +1202,24 @@ class WP_Site_Health {
 	 */
 	public function get_test_https_status() {
 		$result = array(
-			'label'       => '',
-			'status'      => '',
+			'label'       => __( 'Your website is using an active HTTPS connection.' ),
+			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
 				'color' => 'red',
 			),
-			'description' => '',
-			'actions'     => '',
+			'description' => sprintf(
+				'<p>%s</p>',
+				__( 'An HTTPS connection is needed for many features on the web today, it also gains the trust of your visitors by helping to protecting their online privacy.' )
+			),
+			'actions'     => sprintf(
+				'<p><a href="%s">%s</a></p>',
+				esc_url(
+					/* translators: Website for explaining HTTPS and why it should be used. */
+					__( 'https://wordpress.org/support/article/why-should-i-use-https/' )
+				),
+				__( 'Read more about why you should use HTTPS' )
+			),
 			'test'        => 'https_status',
 		);
 
@@ -1231,34 +1241,16 @@ class WP_Site_Health {
 					)
 				);
 
-				$result['actions'] = sprintf(
-					'<a href="%s">%s</a>',
+				$result['actions'] .= sprintf(
+					'<p><a href="%s">%s</a></p>',
 					esc_url( admin_url( 'options-general.php' ) ),
 					__( 'Update your site addresses' )
 				);
-			} else {
-				$result['status'] = 'good';
-
-				$result['label'] = __( 'Your website is using an active HTTPS connection.' );
 			}
 		} else {
 			$result['status'] = 'recommended';
 
 			$result['label'] = __( 'Your site does not use HTTPS' );
-
-			$result['description'] = sprintf(
-				'<p>%s</p>',
-				__( 'An HTTPS connection is needed for many features on the web today, it also gains the trust of your visitors by helping to protecting their online privacy.' )
-			);
-
-			$result['actions'] = sprintf(
-				'<a href="%s">%s</a>',
-				esc_url(
-					/* translators: Website for explaining HTTPS and why it should be used. */
-					__( 'https://wordpress.org/support/article/why-should-i-use-https/' )
-				),
-				__( 'Read more about why you should use HTTPS.' )
-			);
 		}
 
 		return $result;
