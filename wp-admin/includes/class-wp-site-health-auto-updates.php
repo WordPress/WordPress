@@ -101,7 +101,7 @@ class WP_Site_Health_Auto_Updates {
 			array(
 				'health-check-test-wp_version_check' => true,
 			),
-			admin_url()
+			admin_url( 'site-health.php' )
 		);
 
 		$test = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );

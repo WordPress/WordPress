@@ -28,8 +28,6 @@ class WP_Site_Health {
 	public function __construct() {
 		$this->prepare_sql_data();
 
-		add_action( 'wp_loaded', array( $this, 'check_wp_version_check_exists' ) );
-
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
