@@ -4,7 +4,7 @@
  * @output wp-admin/js/site-health.js
  */
 
-/* global ajaxurl, SiteHealth, wp */
+/* global ajaxurl, ClipboardJS, SiteHealth, wp */
 
 jQuery( document ).ready( function( $ ) {
 
