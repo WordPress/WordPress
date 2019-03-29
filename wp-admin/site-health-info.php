@@ -136,7 +136,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 						<?php
 						foreach ( $details['fields'] as $field ) {
 							if ( is_array( $field['value'] ) ) {
-								$values = '';
+								$values = '<ul>';
 								foreach ( $field['value'] as $name => $value ) {
 									$values .= sprintf(
 										'<li>%s: %s</li>',
@@ -144,6 +144,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 										esc_html( $value )
 									);
 								}
+								$values .= '</ul>';
 							} else {
 								$values = esc_html( $field['value'] );
 							}
