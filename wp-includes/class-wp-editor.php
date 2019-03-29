@@ -1151,7 +1151,6 @@ final class _WP_Editors {
 				// Link plugin
 				'Link'                                 => __( 'Link' ),
 				'Insert link'                          => __( 'Insert link' ),
-				'Insert/edit link'                     => __( 'Insert/edit link' ),
 				'Target'                               => __( 'Target' ),
 				'New window'                           => __( 'New window' ),
 				'Text to display'                      => __( 'Text to display' ),
