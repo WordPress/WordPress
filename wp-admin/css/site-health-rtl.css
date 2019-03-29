@@ -33,6 +33,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	clear: both;
 }
 
 .site-health-progress {
