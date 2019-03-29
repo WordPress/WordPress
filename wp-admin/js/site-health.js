@@ -33,14 +33,6 @@ jQuery( document ).ready( function( $ ) {
 		}
 	} );
 
-	$( '.health-check-accordion' ).on( 'keyup', '.health-check-accordion-trigger', function( e ) {
-		if ( '38' === e.keyCode.toString() ) {
-			$( '.health-check-accordion-trigger', $( this ).closest( 'dt' ).prevAll( 'dt' ) ).focus();
-		} else if ( '40' === e.keyCode.toString() ) {
-			$( '.health-check-accordion-trigger', $( this ).closest( 'dt' ).nextAll( 'dt' ) ).focus();
-		}
-	} );
-
 	// Site Health test handling.
 
 	$( '.site-health-view-passed' ).on( 'click', function() {
