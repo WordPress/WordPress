@@ -68,7 +68,7 @@ jQuery( document ).ready( function( $ ) {
 	function RecalculateProgression() {
 		var r, c, pct;
 		var $progress = $( '.site-health-progress' );
-		var $progressCount = $progress.find( '.progress-count' );
+		var $progressCount = $progress.find( '.site-health-progress-count' );
 		var $circle = $( '.site-health-progress svg #bar' );
 		var totalTests = parseInt( SiteHealth.site_status.issues.good, 0 ) + parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
 		var failedTests = parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );

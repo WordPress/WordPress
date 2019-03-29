@@ -1,42 +1,38 @@
-body.site-health #wpcontent {
+.site-health #wpcontent {
 	padding-left: 0;
 }
 
-body.site-health .wrap {
-	margin-right: 0;
-	margin-left: 0;
-}
-
-body.site-health .wrap h2 {
-	padding: 1rem 0;
-	font-size: 1.3em;
-	line-height: 1.4;
+/* Emulates .wrap h1 styling */
+.health-check-header h1 {
+	display: inline-block;
 	font-weight: 600;
+	margin: 1rem 0.8rem;
+	font-size: 23px;
+	padding: 9px 0 4px 0;
+	line-height: 29px;
 }
 
-body.site-health ul li,
-body.site-health ol li {
-	line-height: 1.5;
+.health-check-body h2 {
+	padding: 1rem 0;
+	line-height: 1.4;
 }
 
-body.site-health .health-check-header {
+.health-check-body h3 {
+	padding: 0;
+	font-weight: 400;
+}
+
+.health-check-header {
 	text-align: center;
-	margin-top: 0;
-	margin-bottom: 1rem;
+	margin: 0 0 1rem;
 	background: #fff;
 	border-bottom: 1px solid #e2e4e7;
 }
 
-body.site-health .health-check-header .title-section {
+.health-check-title-section {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-
-body.site-health .health-check-header .title-section h1 {
-	display: inline-block;
-	font-weight: 600;
-	margin: 1rem 0.8rem 1rem 0.8rem;
 }
 
 .site-health-progress {
@@ -50,7 +46,7 @@ body.site-health .health-check-header .title-section h1 {
 	font-size: 0.4rem;
 }
 
-.site-health-progress .progress-count {
+.site-health-progress-count {
 	position: absolute;
 	display: block;
 	height: 80px;
@@ -64,15 +60,11 @@ body.site-health .health-check-header .title-section h1 {
 	font-size: 2em;
 }
 
-.site-health-progress .progress-count::after {
+.site-health-progress-count::after {
 	content: "";
 }
 
-.site-health-progress.hidden {
-	display: none;
-}
-
-.site-health-progress.loading .progress-count::after {
+.site-health-progress.loading .site-health-progress-count::after {
 	animation: loadingEllipsis 3s infinite ease-in-out;
 }
 
@@ -126,12 +118,7 @@ body.site-health .health-check-header .title-section h1 {
 	}
 }
 
-body.site-health .health-check-header .tabs-wrapper {
-	display: block;
-}
-
-body.site-health .health-check-header .tabs-wrapper .tab {
-	float: none;
+.health-check-tab {
 	display: inline-block;
 	text-decoration: none;
 	color: inherit;
@@ -140,42 +127,41 @@ body.site-health .health-check-header .tabs-wrapper .tab {
 	transition: box-shadow 0.5s ease-in-out;
 }
 
-body.site-health .health-check-header .tabs-wrapper .tab:focus {
+.health-check-tab:focus {
 	color: #191e23;
 	outline: 1px solid #6c7781;
 	box-shadow: none;
 }
 
-body.site-health .health-check-header .tabs-wrapper .tab.active {
+.health-check-tab.active {
 	box-shadow: inset 0 -3px #007cba;
 	font-weight: 600;
 }
 
-body.site-health .health-check-body {
+.health-check-body {
 	max-width: 800px;
 	margin: 0 auto;
 }
 
-body.site-health .health-check-table thead th:first-child,
-body.site-health .health-check-table thead td:first-child {
+.health-check-table td:first-child {
 	width: 30%;
 }
 
-body.site-health .health-check-table tbody td {
+.health-check-table td {
 	width: 70%;
 }
 
-body.site-health .health-check-table tbody td:first-child {
-	width: 30%;
-}
-
-body.site-health .health-check-table tbody td ul,
-body.site-health .health-check-table tbody td ol {
+.health-check-table ul,
+.health-check-table ol {
 	margin: 0;
 }
 
-.site-health .pass::before,
-.site-health .good::before {
+.health-check-body li {
+	line-height: 1.5;
+}
+
+.health-check-body .pass::before,
+.health-check-body .good::before {
 	content: "\f147";
 	display: inline-block;
 	color: #46b450;
@@ -183,34 +169,29 @@ body.site-health .health-check-table tbody td ol {
 	vertical-align: top;
 }
 
-.site-health .warning::before {
+.health-check-body .warning::before {
 	content: "\f460";
 	display: inline-block;
 	color: #ffb900;
 	font-family: dashicons;
 }
 
-.site-health .info::before {
+.health-check-body .info::before {
 	content: "\f348";
 	display: inline-block;
 	color: #00a0d2;
 	font-family: dashicons;
 }
 
-.site-health .fail::before,
-.site-health .error::before {
+.health-check-body .fail::before,
+.health-check-body .error::before {
 	content: "\f335";
 	display: inline-block;
 	color: #dc3232;
 	font-family: dashicons;
 }
 
-body.site-health .spinner {
-	float: none;
-}
-
 .site-health-copy-buttons {
-	display: block;
 	margin: 1rem 0;
 }
 
@@ -228,36 +209,27 @@ body.site-health .spinner {
 .site-health-copy-buttons .success.visible {
 	display: inline-block;
 	height: 28px;
-    line-height: 28px;
+	line-height: 28px;
 }
 
-body.site-health .site-status-has-issues {
-	display: block;
-}
-
-body.site-health .site-status-has-issues.hide {
+.site-status-has-issues.hide {
 	display: none;
 }
 
-body.site-health h3 {
-	padding: 0;
-	font-weight: 400;
-}
-
-body.site-health .view-more {
+.site-health-view-more {
 	text-align: center;
 }
 
-body.site-health .issues-wrapper:first-of-type {
+.site-health-issues-wrapper:first-of-type {
 	margin-top: 3rem;
 }
 
-body.site-health .issues-wrapper {
+.site-health-issues-wrapper {
 	margin-bottom: 3rem;
 	margin-top: 2rem;
 }
 
-body.site-health .site-status-all-clear {
+.site-status-all-clear {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -269,45 +241,44 @@ body.site-health .site-status-all-clear {
 }
 
 @media all and (min-width: 784px) {
-	body.site-health .site-status-all-clear {
+	.site-status-all-clear {
 		margin: 5rem 0;
 	}
 }
 
-body.site-health .site-status-all-clear.hide {
+.site-status-all-clear.hide {
 	display: none;
 }
 
-body.site-health .site-status-all-clear .dashicons {
+.site-status-all-clear .dashicons {
 	font-size: 150px;
 	height: 130px;
 	width: 150px;
 }
 
-body.site-health .site-status-all-clear .encouragement {
+.site-status-all-clear .encouragement {
 	font-size: 1.5rem;
 	font-weight: 600;
 }
 
-body.site-health .site-status-all-clear p {
+.site-status-all-clear p {
 	margin: 0;
 }
 
-body .health-check-accordion {
+.health-check-accordion {
 	border: 1px solid #e2e4e7;
 }
 
-body .health-check-accordion dt {
+.health-check-accordion dt {
 	font-weight: 600;
 	border-top: 1px solid #e2e4e7;
 }
 
-body .health-check-accordion dt:first-child {
-	border-radius: 0.3em 0.3em 0 0;
+.health-check-accordion dt:first-child {
 	border-top: none;
 }
 
-body .health-check-accordion .health-check-accordion-trigger {
+.health-check-accordion-trigger {
 	background: #fff;
 	border: 0;
 	color: #212121;
@@ -321,12 +292,12 @@ body .health-check-accordion .health-check-accordion-trigger {
 	width: 100%;
 }
 
-body .health-check-accordion .health-check-accordion-trigger:hover,
-body .health-check-accordion .health-check-accordion-trigger:active {
+.health-check-accordion-trigger:hover,
+.health-check-accordion-trigger:active {
 	background: #f8f9f9;
 }
 
-body .health-check-accordion .health-check-accordion-trigger:focus {
+.health-check-accordion-trigger:focus {
 	color: #191e23;
 	border: none;
 	box-shadow: none;
@@ -334,13 +305,13 @@ body .health-check-accordion .health-check-accordion-trigger:focus {
 	outline: 1px dotted #555d66;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .title {
+.health-check-accordion-trigger .title {
 	display: inline-block;
 	pointer-events: none;
 	font-weight: 600;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .icon {
+.health-check-accordion-trigger .icon {
 	border: solid #191e23;
 	border-width: 0 2px 2px 0;
 	height: 0.5rem;
@@ -352,7 +323,7 @@ body .health-check-accordion .health-check-accordion-trigger .icon {
 	width: 0.5rem;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge {
+.health-check-accordion-trigger .badge {
 	display: inline-block;
 	padding: 0.1rem 0.5rem 0.15rem;
 	background-color: #d7dade;
@@ -362,79 +333,71 @@ body .health-check-accordion .health-check-accordion-trigger .badge {
 	margin: 0 0.5rem;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.blue {
+.health-check-accordion-trigger .badge.blue {
 	background-color: #0073af;
 	color: #fff;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.orange {
+.health-check-accordion-trigger .badge.orange {
 	background-color: #ffb900;
 	color: #000;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.red {
+.health-check-accordion-trigger .badge.red {
 	background-color: #dc3232;
 	color: #fff;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.green {
+.health-check-accordion-trigger .badge.green {
 	background-color: #40860a;
 	color: #fff;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.pink {
+.health-check-accordion-trigger .badge.pink {
 	background-color: #f4b0fc;
 	color: #000;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.gray {
+.health-check-accordion-trigger .badge.gray {
 	background-color: #ccc;
 	color: #000;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.light-blue {
+.health-check-accordion-trigger .badge.light-blue {
 	background-color: #10e9fb;
 	color: #000;
 }
 
-body .health-check-accordion .health-check-accordion-trigger .badge.light-green {
+.health-check-accordion-trigger .badge.light-green {
 	background-color: #60f999;
 	color: #000;
 }
 
-body .health-check-accordion .health-check-accordion-trigger[aria-expanded="true"] .icon {
+.health-check-accordion-trigger[aria-expanded="true"] .icon {
 	transform: translateY(-30%) rotate(-135deg)
 }
 
-body .health-check-accordion .health-check-accordion-panel {
+.health-check-accordion-panel {
 	margin: 0;
 	padding: 1em 1.5em;
 	background: #fff;
 }
 
-body .health-check-accordion .health-check-accordion-panel > div {
-	display: block;
-}
-
-body .health-check-accordion .health-check-accordion-panel[hidden] {
+.health-check-accordion-panel[hidden] {
 	display: none;
 }
 
-body .health-check-accordion dl dd {
-	margin: 0 0 0.5em 2em;
-}
-
 @media screen and (max-width: 782px) {
-	body.site-health .health-check-body {
+	.health-check-body {
 		margin: 0 12px;
-		width: initial;
+		width: auto;
 	}
 }
 
 /* The breakpoint is usually at 960px, the additional space is to allow for the margin. */
 @media only screen and (max-width: 1004px) {
-	body.site-health .health-check-body {
+	.health-check-body {
 		margin: 0 22px;
-		width: initial;
+		width: auto;
 	}
 }

@@ -35,8 +35,8 @@ $health_check_site_status->check_wp_version_check_exists();
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
-<div class="wrap health-check-header">
-	<div class="title-section">
+<div class="health-check-header">
+	<div class="health-check-title-section">
 		<h1>
 			<?php _ex( 'Site Health', 'Menu, Section and Page Title' ); ?>
 		</h1>
@@ -47,16 +47,16 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				<circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
 			</svg>
 			<span class="screen-reader-text"><?php _e( 'Current health score:' ); ?></span>
-			<span class="progress-count"></span>
+			<span class="site-health-progress-count"></span>
 		</div>
 	</div>
 
-	<nav class="tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="tab active" aria-current="true">
+	<nav class="health-check-tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="health-check-tab active" aria-current="true">
 			<?php _e( 'Status' ); ?>
 		</a>
 
-		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="tab">
+		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="health-check-tab">
 			<?php _e( 'Info' ); ?>
 		</a>
 	</nav>
@@ -64,7 +64,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="wp-clearfix"></div>
 </div>
 
-<div class="wrap health-check-body">
+<div class="health-check-body">
 	<div class="site-status-all-clear hide">
 		<p class="icon">
 			<span class="dashicons dashicons-yes"></span>
@@ -86,7 +86,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<p><?php _e( 'The site health check shows critical information about your WordPress configuration and items that require your attention.' ); ?></p>
 
-		<div class="issues-wrapper" id="health-check-issues-critical">
+		<div class="site-health-issues-wrapper" id="health-check-issues-critical">
 			<h3>
 				<span class="issue-count">0</span> <?php _e( 'Critical issues' ); ?>
 			</h3>
@@ -94,7 +94,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<dl id="health-check-site-status-critical" role="presentation" class="health-check-accordion issues"></dl>
 		</div>
 
-		<div class="issues-wrapper" id="health-check-issues-recommended">
+		<div class="site-health-issues-wrapper" id="health-check-issues-recommended">
 			<h3>
 				<span class="issue-count">0</span> <?php _e( 'Recommended improvements' ); ?>
 			</h3>
@@ -103,13 +103,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 	</div>
 
-	<div class="view-more">
+	<div class="site-health-view-more">
 		<button type="button" class="button site-health-view-passed" aria-expanded="false" aria-controls="health-check-issues-good">
 			<?php _e( 'Passed tests' ); ?>
 		</button>
 	</div>
 
-	<div class="issues-wrapper hidden" id="health-check-issues-good">
+	<div class="site-health-issues-wrapper hidden" id="health-check-issues-good">
 		<h3>
 			<span class="issue-count">0</span> <?php _e( 'Items with no issues detected' ); ?>
 		</h3>
