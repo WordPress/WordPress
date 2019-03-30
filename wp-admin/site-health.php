@@ -34,14 +34,13 @@ $health_check_site_status->check_wp_version_check_exists();
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
-
 <div class="health-check-header">
 	<div class="health-check-title-section">
 		<h1>
 			<?php _ex( 'Site Health', 'Menu, Section and Page Title' ); ?>
 		</h1>
 
-		<div class="site-health-progress loading">
+		<div class="site-health-progress hide-if-no-js loading">
 			<svg role="img" aria-hidden="true" focusable="false" width="100%" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
 				<circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
 				<circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
@@ -51,7 +50,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		</div>
 	</div>
 
-	<nav class="health-check-tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+	<nav class="health-check-tabs-wrapper hide-if-no-js" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="health-check-tab active" aria-current="true">
 			<?php _e( 'Status' ); ?>
 		</a>
@@ -60,11 +59,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<?php _e( 'Info' ); ?>
 		</a>
 	</nav>
-
-	<div class="wp-clearfix"></div>
 </div>
 
-<div class="health-check-body">
+<div class="notice notice-error hide-if-js">
+	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
+</div>
+
+<div class="health-check-body hide-if-no-js">
 	<div class="site-status-all-clear hide">
 		<p class="icon">
 			<span class="dashicons dashicons-yes"></span>
