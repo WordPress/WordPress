@@ -1,4 +1,5 @@
-.site-health #wpcontent {
+.site-health #wpcontent,
+.site-health.auto-fold #wpcontent {
 	padding-left: 0;
 }
 
