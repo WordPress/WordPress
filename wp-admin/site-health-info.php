@@ -133,7 +133,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 						);
 					}
 					?>
-					<table class="widefat striped health-check-table">
+					<table class="widefat striped health-check-table" role="presentation">
 						<tbody>
 						<?php
 						foreach ( $details['fields'] as $field ) {
