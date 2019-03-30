@@ -1751,11 +1751,11 @@ class WP_Site_Health {
 		 * @since 5.2.0
 		 *
 		 * @param array $test_type {
-		 *     An associative arraay, where the `$test_type` is either `direct` or
+		 *     An associative array, where the `$test_type` is either `direct` or
 		 *     `async`, to declare if the test should run via AJAX calls after page load.
 		 *
 		 *     @type array $identifier {
-		 *         `$identifier` should be a unque identifier for the test that should run.
+		 *         `$identifier` should be a unique identifier for the test that should run.
 		 *         Plugins and themes are encouraged to prefix test identifiers with their slug
 		 *         to avoid any collisions between tests.
 		 *
