@@ -235,13 +235,13 @@ This link expires in ###EXPIRES###.
 			}
 
 			/* translators: %s: plugin name */
-			$cause = sprintf( __( 'This was be caused by the %s plugin.' ), $name );
+			$cause = sprintf( __( 'This was caused by the %s plugin.' ), $name );
 		} else {
 			$theme = wp_get_theme( $extension['slug'] );
 			$name  = $theme->exists() ? $theme->display( 'Name' ) : $extension['slug'];
 
 			/* translators: %s: theme name */
-			$cause = sprintf( __( 'This was be caused by the %s theme.' ), $name );
+			$cause = sprintf( __( 'This was caused by the %s theme.' ), $name );
 		}
 
 		return $cause;
