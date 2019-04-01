@@ -2730,7 +2730,9 @@ function _remove_theme_support( $feature ) {
 				break;
 			}
 			$support = get_theme_support( 'custom-background' );
-			remove_action( 'wp_head', $support[0]['wp-head-callback'] );
+			if ( isset( $support[0]['wp-head-callback'] ) ) {
+				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
+			}
 			remove_action( 'admin_menu', array( $GLOBALS['custom_background'], 'init' ) );
 			unset( $GLOBALS['custom_background'] );
 			break;

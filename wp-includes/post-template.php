@@ -773,7 +773,8 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'no-customize-support';
 	}
 
-	if ( get_background_color() !== get_theme_support( 'custom-background', 'default-color' ) || get_background_image() ) {
+	if ( current_theme_supports( 'custom-background' )
+		&& ( get_background_color() !== get_theme_support( 'custom-background', 'default-color' ) || get_background_image() ) ) {
 		$classes[] = 'custom-background';
 	}
 
