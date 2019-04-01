@@ -1195,7 +1195,7 @@ class WP_Site_Health {
 	/**
 	 * Test if your site is serving content over HTTPS.
 	 *
-	 * Many sites have varying degrees of HTTPS suppoort, the most common of which is sites that have it
+	 * Many sites have varying degrees of HTTPS support, the most common of which is sites that have it
 	 * enabled, but only if you visit the right site address.
 	 *
 	 * @since 5.2.0
@@ -1365,7 +1365,7 @@ class WP_Site_Health {
 	/**
 	 * Test if WordPress can run automated background updates.
 	 *
-	 * Background updates in WordPress are primarely used for minor releases and security updates. It's important
+	 * Background updates in WordPress are primarily used for minor releases and security updates. It's important
 	 * to either have these working, or be aware that they are intentionally disabled for whatever reason.
 	 *
 	 * @since 5.2.0
@@ -1859,7 +1859,7 @@ class WP_Site_Health {
 	 * Run a loopback test on our site.
 	 *
 	 * Loopbacks are what WordPress uses to communicate with it self to start up WP_Cron, scheduled posts, make
-	 * sure plugin or theme edits dont cause site failures and similar.
+	 * sure plugin or theme edits don't cause site failures and similar.
 	 *
 	 * @since 5.2.0
 	 *
