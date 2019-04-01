@@ -52,8 +52,8 @@ function get_the_author( $deprecated = '' ) {
  * @see get_the_author()
  * @link https://codex.wordpress.org/Template_Tags/the_author
  *
- * @param string $deprecated Deprecated.
- * @param string $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
+ * @param string $deprecated      Deprecated.
+ * @param bool   $deprecated_echo Deprecated. Use get_the_author(). Echo the string or return it.
  * @return string|null The author's display name, from get_the_author().
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
@@ -153,8 +153,8 @@ function the_modified_author() {
  *
  * @global object $authordata The current author's DB object.
  *
- * @param string $field   Optional. The user field to retrieve. Default empty.
- * @param int    $user_id Optional. User ID.
+ * @param string    $field   Optional. The user field to retrieve. Default empty.
+ * @param int|false $user_id Optional. User ID.
  * @return string The author's field from the current author's DB object, otherwise an empty string.
  */
 function get_the_author_meta( $field = '', $user_id = false ) {
@@ -181,9 +181,9 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 	 * @since 2.8.0
 	 * @since 4.3.0 The `$original_user_id` parameter was added.
 	 *
-	 * @param string   $value            The value of the metadata.
-	 * @param int      $user_id          The user ID for the value.
-	 * @param int|bool $original_user_id The original user ID, as passed to the function.
+	 * @param string    $value            The value of the metadata.
+	 * @param int       $user_id          The user ID for the value.
+	 * @param int|false $original_user_id The original user ID, as passed to the function.
 	 */
 	return apply_filters( "get_the_author_{$field}", $value, $user_id, $original_user_id );
 }
@@ -193,9 +193,9 @@ function get_the_author_meta( $field = '', $user_id = false ) {
  *
  * @since 2.8.0
  *
- * @param string $field   Selects the field of the users record. See get_the_author_meta()
- *                        for the list of possible fields.
- * @param int    $user_id Optional. User ID.
+ * @param string    $field   Selects the field of the users record. See get_the_author_meta()
+ *                           for the list of possible fields.
+ * @param int|false $user_id Optional. User ID.
  *
  * @see get_the_author_meta()
  */
@@ -209,8 +209,8 @@ function the_author_meta( $field = '', $user_id = false ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $author_meta The value of the metadata.
-	 * @param int    $user_id     The user ID.
+	 * @param string    $author_meta The value of the metadata.
+	 * @param int|false $user_id     The user ID.
 	 */
 	echo apply_filters( "the_author_{$field}", $author_meta, $user_id );
 }
