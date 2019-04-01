@@ -193,7 +193,7 @@ class WP_Debug_Data {
 					),
 					'WP_DEBUG_LOG'        => array(
 						'label' => 'WP_DEBUG_LOG',
-						'value' => ( ! defined( 'WP_DEBUG_LOG' ) ? __( 'Undefined' ) : ( WP_DEBUG_LOG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
+						'value' => ( is_string( WP_DEBUG_LOG ) ? WP_DEBUG_LOG : ( WP_DEBUG_LOG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
 					'SCRIPT_DEBUG'        => array(
 						'label' => 'SCRIPT_DEBUG',
