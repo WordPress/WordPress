@@ -12,7 +12,7 @@
  * the parent theme's file, so the child theme functions would be used.
  *
  * @link https://codex.wordpress.org/Theme_Development
- * @link https://codex.wordpress.org/Child_Themes
+ * @link https://developer.wordpress.org/themes/advanced-topics/child-themes/
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are
  * instead attached to a filter or action hook.
