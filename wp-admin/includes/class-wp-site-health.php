@@ -1321,7 +1321,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				__( 'Scheduled events are what periodically looks for updates to plugins, themes and WordPress it self. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.' )
+				__( 'Scheduled events are what periodically looks for updates to plugins, themes and WordPress itself. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.' )
 			),
 			'actions'     => '',
 			'test'        => 'scheduled_events',
@@ -1441,8 +1441,8 @@ class WP_Site_Health {
 	/**
 	 * Test if loopbacks work as expected.
 	 *
-	 * A loopback is when WordPress queries it self, for example to start a new WP_Cron instance, or when editing a
-	 * plugin or theme. This has shown it self to be a recurring issue as code can very easily break this interaction.
+	 * A loopback is when WordPress queries itself, for example to start a new WP_Cron instance, or when editing a
+	 * plugin or theme. This has shown itself to be a recurring issue as code can very easily break this interaction.
 	 *
 	 * @since 5.2.0
 	 *
@@ -1858,8 +1858,8 @@ class WP_Site_Health {
 	/**
 	 * Run a loopback test on our site.
 	 *
-	 * Loopbacks are what WordPress uses to communicate with it self to start up WP_Cron, scheduled posts, make
-	 * sure plugin or theme edits don't cause site failures and similar.
+	 * Loopbacks are what WordPress uses to communicate with itself to start up WP_Cron, scheduled posts,
+	 * make sure plugin or theme edits don't cause site failures and similar.
 	 *
 	 * @since 5.2.0
 	 *
