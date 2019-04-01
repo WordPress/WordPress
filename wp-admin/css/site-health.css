@@ -271,12 +271,16 @@
 	border: 1px solid #e2e4e7;
 }
 
-.health-check-accordion dt {
-	font-weight: 600;
+.health-check-accordion-heading {
+	margin: 0;
 	border-top: 1px solid #e2e4e7;
+	font-size: inherit;
+	line-height: inherit;
+	font-weight: 600;
+	color: inherit;
 }
 
-.health-check-accordion dt:first-child {
+.health-check-accordion-heading:first-child {
 	border-top: none;
 }
 

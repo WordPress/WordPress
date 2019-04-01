@@ -95,7 +95,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<?php endif; ?>
 	</div>
 
-	<dl id="health-check-debug" role="presentation" class="health-check-accordion">
+	<div id="health-check-debug" class="health-check-accordion">
 
 		<?php
 		foreach ( $info as $section => $details ) {
@@ -103,20 +103,20 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				continue;
 			}
 			?>
-			<dt role="heading" aria-level="3">
-				<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" id="health-check-accordion-heading-<?php echo esc_attr( $section ); ?>" type="button">
-		<span class="title">
-			<?php echo esc_html( $details['label'] ); ?>
+			<h3 class="health-check-accordion-heading">
+				<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" type="button">
+					<span class="title">
+						<?php echo esc_html( $details['label'] ); ?>
 
-			<?php if ( isset( $details['show_count'] ) && $details['show_count'] ) : ?>
-				<?php printf( '(%d)', count( $details['fields'] ) ); ?>
-			<?php endif; ?>
-		</span>
+						<?php if ( isset( $details['show_count'] ) && $details['show_count'] ) : ?>
+							<?php printf( '(%d)', count( $details['fields'] ) ); ?>
+						<?php endif; ?>
+					</span>
 					<span class="icon"></span>
 				</button>
-			</dt>
+			</h3>
 
-			<dd id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" role="region" aria-labelledby="health-check-accordion-heading-<?php echo esc_attr( $section ); ?>" class="health-check-accordion-panel" hidden="hidden">
+			<div id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" class="health-check-accordion-panel" hidden="hidden">
 				<?php
 				if ( isset( $details['description'] ) && ! empty( $details['description'] ) ) {
 					printf(
@@ -161,9 +161,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					?>
 					</tbody>
 				</table>
-			</dd>
+			</div>
 		<?php } ?>
-	</dl>
+	</div>
 </div>
 
 <?php
