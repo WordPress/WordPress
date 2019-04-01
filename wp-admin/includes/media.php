@@ -2898,7 +2898,11 @@ function media_upload_max_image_resize() {
  * @since 3.5.0
  */
 function multisite_over_quota_message() {
-	echo '<p>' . sprintf( __( 'Sorry, you have used all of your storage quota of %s MB.' ), get_space_allowed() ) . '</p>';
+	echo '<p>' . sprintf(
+		/* translators: %s: allowed space allocation */
+		__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
+		size_format( get_space_allowed() * MB_IN_BYTES )
+	) . '</p>';
 }
 
 /**

@@ -226,7 +226,11 @@ function upload_is_user_over_quota( $echo = true ) {
 
 	if ( ( $space_allowed - $space_used ) < 0 ) {
 		if ( $echo ) {
-			_e( 'Sorry, you have used your space allocation. Please delete some files to upload more files.' );
+			printf(
+				/* translators: %s: allowed space allocation */
+				__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
+				size_format( $space_allowed * MB_IN_BYTES )
+			);
 		}
 		return true;
 	} else {
@@ -1002,7 +1006,7 @@ function confirm_delete_users( $users ) {
 	endif;
 
 	submit_button( __( 'Confirm Deletion' ), 'primary' );
-	?>
+?>
 	</form>
 	<?php
 	return true;
