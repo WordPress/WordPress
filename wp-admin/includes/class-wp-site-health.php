@@ -693,6 +693,8 @@ class WP_Site_Health {
 	 * This test builds on the recommendations made by the WordPress Hosting Team
 	 * as seen at https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
 	 *
+	 * @since 5.2.0
+	 *
 	 * @return array
 	 */
 	public function get_test_php_extensions() {
