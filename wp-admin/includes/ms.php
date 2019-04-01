@@ -1006,7 +1006,7 @@ function confirm_delete_users( $users ) {
 	endif;
 
 	submit_button( __( 'Confirm Deletion' ), 'primary' );
-?>
+	?>
 	</form>
 	<?php
 	return true;
