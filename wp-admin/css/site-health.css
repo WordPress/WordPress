@@ -393,10 +393,29 @@
 	display: none;
 }
 
+/* Better position for the WordPress admin notices and update nag. */
+.site-health .notice {
+	margin: 5px 20px 15px 22px;
+}
+
+.site-health .update-nag {
+	margin-bottom: 20px;
+	margin-left: 22px;
+}
+
 @media screen and (max-width: 782px) {
 	.health-check-body {
 		margin: 0 12px;
 		width: auto;
+	}
+
+	.site-health .notice {
+		margin: 5px 10px 15px;
+	}
+
+	.site-health .update-nag {
+		margin-right: 10px;
+		margin-left: 10px;
 	}
 }
 

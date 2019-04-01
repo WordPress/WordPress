@@ -61,6 +61,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</nav>
 </div>
 
+<hr class="wp-header-end">
+
 <div class="notice notice-error hide-if-js">
 	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
 </div>
