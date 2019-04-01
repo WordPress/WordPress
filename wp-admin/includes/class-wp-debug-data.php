@@ -156,11 +156,11 @@ class WP_Debug_Data {
 			),
 			'wp-constants'        => array(
 				'label'       => __( 'WordPress Constants' ),
-				'description' => __( 'These settings are defined in your wp-config.php file, and alter where and how parts of WordPress are loaded.' ),
+				'description' => __( 'These settings alter where and how parts of WordPress are loaded.' ),
 				'fields'      => array(
 					'ABSPATH'             => array(
 						'label'   => 'ABSPATH',
-						'value'   => ( ! defined( 'ABSPATH' ) ? __( 'Undefined' ) : ABSPATH ),
+						'value'   => ABSPATH,
 						'private' => true,
 					),
 					'WP_HOME'             => array(
@@ -173,23 +173,23 @@ class WP_Debug_Data {
 					),
 					'WP_CONTENT_DIR'      => array(
 						'label' => 'WP_CONTENT_DIR',
-						'value' => ( ! defined( 'WP_CONTENT_DIR' ) ? __( 'Undefined' ) : WP_CONTENT_DIR ),
+						'value' => WP_CONTENT_DIR,
 					),
 					'WP_PLUGIN_DIR'       => array(
 						'label' => 'WP_PLUGIN_DIR',
-						'value' => ( ! defined( 'WP_PLUGIN_DIR' ) ? __( 'Undefined' ) : WP_PLUGIN_DIR ),
+						'value' => WP_PLUGIN_DIR,
 					),
 					'WP_DEBUG'            => array(
 						'label' => 'WP_DEBUG',
-						'value' => ( ! defined( 'WP_DEBUG' ) ? __( 'Undefined' ) : ( WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
+						'value' => WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
 					),
 					'WP_MAX_MEMORY_LIMIT' => array(
 						'label' => 'WP_MAX_MEMORY_LIMIT',
-						'value' => ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ? __( 'Undefined' ) : WP_MAX_MEMORY_LIMIT ),
+						'value' => WP_MAX_MEMORY_LIMIT,
 					),
 					'WP_DEBUG_DISPLAY'    => array(
 						'label' => 'WP_DEBUG_DISPLAY',
-						'value' => ( ! defined( 'WP_DEBUG_DISPLAY' ) ? __( 'Undefined' ) : ( WP_DEBUG_DISPLAY ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
+						'value' => WP_DEBUG_DISPLAY ? __( 'Enabled' ) : __( 'Disabled' ),
 					),
 					'WP_DEBUG_LOG'        => array(
 						'label' => 'WP_DEBUG_LOG',
@@ -197,11 +197,11 @@ class WP_Debug_Data {
 					),
 					'SCRIPT_DEBUG'        => array(
 						'label' => 'SCRIPT_DEBUG',
-						'value' => ( ! defined( 'SCRIPT_DEBUG' ) ? __( 'Undefined' ) : ( SCRIPT_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
+						'value' => SCRIPT_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
 					),
 					'WP_CACHE'            => array(
 						'label' => 'WP_CACHE',
-						'value' => ( ! defined( 'WP_CACHE' ) ? __( 'Undefined' ) : ( WP_CACHE ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
+						'value' => WP_CACHE ? __( 'Enabled' ) : __( 'Disabled' ),
 					),
 					'CONCATENATE_SCRIPTS' => array(
 						'label' => 'CONCATENATE_SCRIPTS',
