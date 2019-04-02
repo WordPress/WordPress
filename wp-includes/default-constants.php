@@ -29,6 +29,11 @@ function wp_initial_constants() {
 	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
 	/**#@-*/
 
+	// Start of run timestamp.
+	if ( ! defined( 'WP_START_TIMESTAMP' ) ) {
+		define( 'WP_START_TIMESTAMP', microtime( true ) );
+	}
+
 	$current_limit     = @ini_get( 'memory_limit' );
 	$current_limit_int = wp_convert_hr_to_bytes( $current_limit );
 

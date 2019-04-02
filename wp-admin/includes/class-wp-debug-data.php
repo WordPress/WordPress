@@ -32,7 +32,6 @@ class WP_Debug_Data {
 	 */
 	static function debug_data( $locale = null ) {
 		global $wpdb;
-
 		if ( ! empty( $locale ) ) {
 			// Change the language used for translations
 			if ( function_exists( 'switch_to_locale' ) ) {
@@ -312,19 +311,31 @@ class WP_Debug_Data {
 			);
 		}
 
+		$size_db = WP_Debug_Data::get_database_size();
+
 		// Go through the various installation directories and calculate their sizes.
 		$uploads_dir = wp_upload_dir();
-		$inaccurate  = false;
 
 		/*
 		 * We will be using the PHP max execution time to prevent the size calculations
-		 * from causing a timeout. We provide a default value of 30 seconds, as some
+		 * from causing a timeout. The default value is 30 seconds, and some
 		 * hosts do not allow you to read configuration values.
 		 */
-		$max_execution_time   = 30;
-		$start_execution_time = microtime( true );
+		$max_execution_time = 30;
+
 		if ( function_exists( 'ini_get' ) ) {
 			$max_execution_time = ini_get( 'max_execution_time' );
+		}
+
+		// Here 20 seconds is a "sensible default" for how long to make the user wait for the directory size calculation.
+		// When testing 20 seconds seem enough in nearly all cases. The remaining edge cases are likely testing or development sites
+		// that have very large number of files, for example `node_modules` in plugins or themes, etc.
+		if ( $max_execution_time > 20  ) {
+			$max_execution_time = 20;
+		} elseif ( $max_execution_time > 2 ) {
+			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
+			// edge-case timeouts that may happen after the size loop has finished running.
+			$max_execution_time -= 1;
 		}
 
 		$size_directories = array(
@@ -346,35 +357,44 @@ class WP_Debug_Data {
 			),
 		);
 
+		$timeout = __( 'The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files.' );
+		$inaccessible = __( 'The size cannot be calculated. The directory is not accessible. Usually caused by invalid permissions.' );
+		$size_total = 0;
+
 		// Loop over all the directories we want to gather the sizes for.
 		foreach ( $size_directories as $size => $attributes ) {
-			/*
-			 * We run a helper function with a RecursiveIterator, which
-			 * may throw an exception if it can't access directories.
-			 *
-			 * If a failure is detected we mark the result as inaccurate.
-			 */
-			try {
-				$calculated_size = WP_Debug_data::get_directory_size( $attributes['path'], $max_execution_time, $start_execution_time );
+			$dir_size = null; // Default to timeout.
 
-				$size_directories[ $size ]['size'] = $calculated_size;
-
-				/*
-				 * If the size returned is -1, this means execution has
-				 * exceeded the maximum execution time, also denoting an
-				 * inaccurate value in the end.
-				 */
-				if ( -1 === $calculated_size ) {
-					$inaccurate = true;
-				}
-			} catch ( Exception $e ) {
-				$inaccurate = true;
+			if ( microtime( true ) - WP_START_TIMESTAMP < $max_execution_time ) {
+				$dir_size = get_dirsize( $attributes['path'], $max_execution_time );
 			}
+
+			if ( $dir_size === false ) {
+				// Error reading
+				$dir_size = $inaccessible;
+				$size_total = null;
+			} elseif ( $dir_size === null ) {
+				// Timeout
+				$dir_size = $timeout;
+				$size_total = null;
+			} else {
+				$is_subdir = ( strpos( $size_directories[ $size ]['path'], ABSPATH ) === 0 );
+
+				if ( $size_total !== null && ( $size === 'wordpress' || ! $is_subdir ) ) {
+					$size_total += $dir_size;
+				}
+
+				$dir_size = size_format( $dir_size, 2 );
+			}
+
+			$size_directories[ $size ]['size'] = $dir_size;
 		}
 
-		$size_db = WP_Debug_Data::get_database_size();
-
-		$size_total = $size_directories['wordpress']['size'] + $size_db;
+		if ( $size_total !== null && $size_db > 0 ) {
+			$size_total = size_format( $size_total + $size_db, 2 );
+		} else {
+			$size_total = __( 'Total size is not available. Some errors were encountered when determining the size of your installation.' );
+		}
 
 		$info['wp-paths-sizes']['fields'] = array(
 			array(
@@ -383,7 +403,7 @@ class WP_Debug_Data {
 			),
 			array(
 				'label' => __( 'Uploads Directory Size' ),
-				'value' => ( -1 === $size_directories['uploads']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['uploads']['size'], 2 ) ),
+				'value' => $size_directories['uploads']['size'],
 			),
 			array(
 				'label' => __( 'Themes Directory Location' ),
@@ -395,7 +415,7 @@ class WP_Debug_Data {
 			),
 			array(
 				'label' => __( 'Themes Directory Size' ),
-				'value' => ( -1 === $size_directories['themes']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['themes']['size'], 2 ) ),
+				'value' => $size_directories['themes']['size'],
 			),
 			array(
 				'label' => __( 'Plugins Directory Location' ),
@@ -403,7 +423,7 @@ class WP_Debug_Data {
 			),
 			array(
 				'label' => __( 'Plugins Directory Size' ),
-				'value' => ( -1 === $size_directories['plugins']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['plugins']['size'], 2 ) ),
+				'value' => $size_directories['plugins']['size'],
 			),
 			array(
 				'label' => __( 'WordPress Directory Location' ),
@@ -411,7 +431,7 @@ class WP_Debug_Data {
 			),
 			array(
 				'label' => __( 'WordPress Directory Size' ),
-				'value' => size_format( $size_directories['wordpress']['size'], 2 ),
+				'value' => $size_directories['wordpress']['size'],
 			),
 			array(
 				'label' => __( 'Database size' ),
@@ -419,11 +439,7 @@ class WP_Debug_Data {
 			),
 			array(
 				'label' => __( 'Total installation size' ),
-				'value' => sprintf(
-					'%s%s',
-					size_format( $size_total, 2 ),
-					( false === $inaccurate ? '' : __( '- Some errors, likely caused by invalid permissions, were encountered when determining the size of your installation. This means the values represented may be inaccurate.' ) )
-				),
+				'value' => $size_total,
 			),
 		);
 
@@ -935,36 +951,6 @@ class WP_Debug_Data {
 	}
 
 	/**
-	 * Return the size of a directory, including all subdirectories.
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param string     $path                 The directory to check.
-	 * @param string|int $max_execution_time   How long a PHP script can run on this host.
-	 * @param float      $start_execution_time When we started executing this section of the script.
-	 *
-	 * @return int The directory size, in bytes.
-	 */
-	public static function get_directory_size( $path, $max_execution_time, $start_execution_time ) {
-		$size = 0;
-
-		foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
-			// Check if the maximum execution time is a value considered "infinite".
-			if ( 0 !== $max_execution_time && -1 !== $max_execution_time ) {
-				$runtime = ( microtime( true ) - $start_execution_time );
-
-				// If the script has been running as long, or longer, as it is allowed, return a failure message.
-				if ( $runtime >= $max_execution_time ) {
-					return -1;
-				}
-			}
-			$size += $file->getSize();
-		}
-
-		return $size;
-	}
-
-	/**
 	 * Fetch the total size of all the database tables for the active database user.
 	 *
 	 * @since 5.2.0
@@ -982,6 +968,6 @@ class WP_Debug_Data {
 			}
 		}
 
-		return $size;
+		return (int) $size;
 	}
 }
