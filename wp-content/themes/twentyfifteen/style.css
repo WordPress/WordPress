@@ -5962,7 +5962,7 @@ p > video {
 	.page-content,
 	.comments-area,
 	.widecolumn {
-		background: none !important; /* Make sure color schemes dont't affect to print */
+		background: none !important; /* Make sure color schemes don't affect to print */
 	}
 
 	body,
