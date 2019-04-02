@@ -37,7 +37,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="health-check-header">
 	<div class="health-check-title-section">
 		<h1>
-			<?php _ex( 'Site Health', 'Menu, Section and Page Title' ); ?>
+			<?php _e( 'Site Health' ); ?>
 		</h1>
 
 		<div class="site-health-progress hide-if-no-js loading">

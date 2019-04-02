@@ -227,7 +227,7 @@ class WP_Site_Health_Auto_Updates {
 		if ( $checkout && ! apply_filters( 'automatic_updates_is_vcs_checkout', true, ABSPATH ) ) {
 			return array(
 				'description' => sprintf(
-					// translators: %1$s: Folder name. %2$s: Version control directory. %3$s: Filter name.
+					// translators: 1: Folder name. 2: Version control directory. 3: Filter name.
 					__( 'The folder %1$s was detected as being under version control (%2$s), but the %3$s filter is allowing updates.' ),
 					'<code>' . $check_dir . '</code>',
 					"<code>$vcs_dir</code>",
@@ -240,7 +240,7 @@ class WP_Site_Health_Auto_Updates {
 		if ( $checkout ) {
 			return array(
 				'description' => sprintf(
-					// translators: %1$s: Folder name. %2$s: Version control directory.
+					// translators: 1: Folder name. 2: Version control directory.
 					__( 'The folder %1$s was detected as being under version control (%2$s).' ),
 					'<code>' . $check_dir . '</code>',
 					"<code>$vcs_dir</code>"

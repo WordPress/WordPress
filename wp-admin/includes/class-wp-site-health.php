@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for looking up a sites health based on a users WordPress environment.
+ * Class for looking up a site's health based on a user's WordPress environment.
  *
  * @package WordPress
  * @subpackage Site_Health
@@ -298,7 +298,7 @@ class WP_Site_Health {
 		$plugins_have_updates = false;
 		$plugins_active       = 0;
 		$plugins_total        = 0;
-		$plugins_needs_update = 0;
+		$plugins_need_update  = 0;
 
 		// Loop over the available plugins and check their versions and active state.
 		foreach ( $plugins as $plugin_path => $plugin ) {
@@ -311,13 +311,13 @@ class WP_Site_Health {
 			$plugin_version = $plugin['Version'];
 
 			if ( array_key_exists( $plugin_path, $plugin_updates ) ) {
-				$plugins_needs_update++;
+				$plugins_need_update++;
 				$plugins_have_updates = true;
 			}
 		}
 
 		// Add a notice if there are outdated plugins.
-		if ( $plugins_needs_update > 0 ) {
+		if ( $plugins_need_update > 0 ) {
 			$result['status'] = 'critical';
 
 			$result['label'] = __( 'You have plugins waiting to be updated' );
@@ -325,32 +325,35 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					esc_html(
-						/* translators: %d: The number of outdated plugins. */
-						_n(
-							'Your site has %d plugin waiting to be updated.',
-							'Your site has %d plugins waiting for updates.',
-							$plugins_needs_update
-						)
+					/* translators: %d: The number of outdated plugins. */
+					_n(
+						'Your site has %d plugin waiting to be updated.',
+						'Your site has %d plugins waiting to be updated.',
+						$plugins_need_update
 					),
-					$plugins_needs_update
+					$plugins_need_update
 				)
 			);
 		} else {
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				sprintf(
-					esc_html(
+			if ( 1 === $plugins_active ) {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					__( 'Your site has 1 active plugin, and it is up to date.' )
+				);
+			} else {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					sprintf(
 						/* translators: %d: The number of active plugins. */
 						_n(
-							'Your site has %d active plugin, and it is up to date.',
+							'Your site has %d active plugin, and they are all up to date.',
 							'Your site has %d active plugins, and they are all up to date.',
 							$plugins_active
-						)
-					),
-					$plugins_active
-				)
-			);
+						),
+						$plugins_active
+					)
+				);
+			}
 		}
 
 		// Check if there are inactive plugins.
@@ -362,18 +365,17 @@ class WP_Site_Health {
 			$result['label'] = __( 'Inactive plugins should be removed' );
 
 			$result['description'] .= sprintf(
-				'<p>%s</p>',
+				'<p>%s %s</p>',
 				sprintf(
-					esc_html(
-						/* translators: %d: The number of inactive plugins. */
-						_n(
-							'Your site has %d inactive plugin. Inactive plugins are tempting targets for attackers. if you&#8217;re not going to use a plugin, we recommend you remove it.',
-							'Your site has %d inactive plugins. Inactive plugins are tempting targets for attackers. if you&#8217;re not going to use a plugin, we recommend you remove it.',
-							$unused_plugins
-						)
+					/* translators: %d: The number of inactive plugins. */
+					_n(
+						'Your site has %d inactive plugin.',
+						'Your site has %d inactive plugins.',
+						$unused_plugins
 					),
 					$unused_plugins
-				)
+				),
+				__( 'Inactive plugins are tempting targets for attackers. If you&#8217;re not going to use a plugin, we recommend you remove it.' )
 			);
 		}
 
@@ -464,33 +466,36 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					esc_html(
-						/* translators: %d: The number of outdated themes. */
-						_n(
-							'Your site has %d theme waiting to be updated.',
-							'Your site has %d themes waiting to be updated.',
-							$themes_need_updates
-						)
+					/* translators: %d: The number of outdated themes. */
+					_n(
+						'Your site has %d theme waiting to be updated.',
+						'Your site has %d themes waiting to be updated.',
+						$themes_need_updates
 					),
 					$themes_need_updates
 				)
 			);
 		} else {
 			// Give positive feedback about the site being good about keeping things up to date.
-			$result['description'] .= sprintf(
-				'<p>%s</p>',
-				sprintf(
-					esc_html(
+			if ( 1 === $themes_total ) {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					__( 'Your site has 1 installed theme, and it is up to date.' )
+				);
+			} else {
+				$result['description'] .= sprintf(
+					'<p>%s</p>',
+					sprintf(
 						/* translators: %d: The number of themes. */
 						_n(
-							'Your site has %d installed theme, and it is up to date.',
+							'Your site has %d installed theme, and they are all up to date.',
 							'Your site has %d installed themes, and they are all up to date.',
 							$themes_total
-						)
-					),
-					$themes_total
-				)
-			);
+						),
+						$themes_total
+					)
+				);
+			}
 		}
 
 		if ( $has_unused_themes && $show_unused_themes ) {
@@ -504,34 +509,38 @@ class WP_Site_Health {
 
 				if ( $using_default_theme ) {
 					$result['description'] .= sprintf(
-						'<p>%s</p>',
+						'<p>%s %s</p>',
 						sprintf(
-							esc_html(
-								/* translators: %d: The number of inactive themes. */
-								_n(
-									'Your site has %1$d inactive theme. To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
-									'Your site has %1$d inactive themes. To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
-									$themes_inactive
-								)
+							/* translators: %d: The number of inactive themes. */
+							_n(
+								'Your site has %d inactive theme.',
+								'Your site has %d inactive themes.',
+								$themes_inactive
 							),
-							$themes_inactive,
+							$themes_inactive
+						),
+						sprintf(
+							/* translators: 1: The currently active theme. 2: The active theme's parent theme. */
+							__( 'To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep your current theme, %1$s, and %2$s, its parent theme.' ),
 							$active_theme->name,
 							$active_theme->parent()->name
 						)
 					);
 				} else {
 					$result['description'] .= sprintf(
-						'<p>%s</p>',
+						'<p>%s %s</p>',
 						sprintf(
-							esc_html(
-								/* translators: %1$d: The number of inactive themes. %2$s: The default theme for WordPress. %3$s: The currently active theme. %4$s: The active themes parent theme. */
-								_n(
-									'Your site has %1$d inactive theme. To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
-									'Your site has %1$d inactive themes. To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
-									$themes_inactive
-								)
+							/* translators: %d: The number of inactive themes. */
+							_n(
+								'Your site has %d inactive theme.',
+								'Your site has %d inactive themes.',
+								$themes_inactive
 							),
-							$themes_inactive,
+							$themes_inactive
+						),
+						sprintf(
+							/* translators: 1: The default theme for WordPress. 2: The currently active theme. 3: The active theme's parent theme. */
+							__( 'To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep %1$s, the default WordPress theme, %2$s, your current theme, and %3$s, its parent theme.' ),
 							WP_DEFAULT_THEME,
 							$active_theme->name,
 							$active_theme->parent()->name
@@ -546,36 +555,34 @@ class WP_Site_Health {
 
 				if ( $using_default_theme ) {
 					$result['description'] .= sprintf(
-						'<p>%s</p>',
+						'<p>%s %s</p>',
 						sprintf(
-							esc_html(
-								/* translators: %1$d: The amount of inactive themes. %2$s: The currently active theme. */
-								_n(
-									'Your site has %1$d inactive theme, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-									'Your site has %1$d inactive themes, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-									$themes_inactive
-								)
+							/* translators: 1: The amount of inactive themes. 2: The currently active theme. */
+							_n(
+								'Your site has %1$d inactive theme, other than %2$s, your active theme.',
+								'Your site has %1$d inactive themes, other than %2$s, your active theme.',
+								$themes_inactive
 							),
 							$themes_inactive,
 							$active_theme->name
-						)
+						),
+						__( 'We recommend removing any unused themes to enhance your site&#8217;s security.' )
 					);
 				} else {
 					$result['description'] .= sprintf(
-						'<p>%s</p>',
+						'<p>%s %s</p>',
 						sprintf(
-							esc_html(
-								/* translators: %1$d: The amount of inactive themes. %2$s: The default theme for WordPress. %3$s: The currently active theme. */
-								_n(
-									'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-									'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-									$themes_inactive
-								)
+							/* translators: 1: The amount of inactive themes. 2: The default theme for WordPress. 3: The currently active theme. */
+							_n(
+								'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
+								'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme.',
+								$themes_inactive
 							),
 							$themes_inactive,
 							WP_DEFAULT_THEME,
 							$active_theme->name
-						)
+						),
+						__( 'We recommend removing any unused themes to enhance your site&#8217;s security.' )
 					);
 				}
 			}
@@ -710,12 +717,9 @@ class WP_Site_Health {
 				__( 'PHP modules perform most of the tasks on the server that make your site run.' ),
 				sprintf(
 					/* translators: %s: Link to the hosting group page about recommended PHP modules. */
-					__( 'The Hosting team maintains a list of those modules, both recommended and required, in %s.' ),
-					sprintf(
-						'<a href="%s">%s</a>',
-						esc_url( _x( 'https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions', 'The address to describe PHP modules and their use.' ) ),
-						__( 'the team handbook' )
-					)
+					__( 'The Hosting team maintains a list of those modules, both recommended and required, in <a href="%s">the team handbook</a>.' ),
+					/* translators: The address to describe PHP modules and their use. */
+					esc_url( __( 'https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions' ) )
 				)
 			),
 			'actions'     => '',
@@ -922,7 +926,7 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$s: The database engine in use (MySQL or MariaDB). %2$s: Database server recommended version number. */
+					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server recommended version number. */
 					__( 'For optimal performance and security reasons, we recommend running %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
 					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
 					$this->health_check_mysql_rec_version
@@ -938,7 +942,7 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$s: The database engine in use (MySQL or MariaDB). %2$s: Database server minimum version number. */
+					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server minimum version number. */
 					__( 'WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
 					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
 					$this->health_check_mysql_required_version
@@ -951,8 +955,9 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				wp_kses(
 					sprintf(
-						/* translators: %s: The name of the database engine being used. */
-						__( 'You are using a <code>wp-content/db.php</code> drop-in which might mean that a %s database is not being used.' ),
+						/* translators: 1: The name of the drop-in. 2: The name of the database engine. */
+						__( 'You are using a %1$s drop-in which might mean that a %2$s database is not being used.' ),
+						'<code>wp-content/db.php</code>',
 						( $this->is_mariadb ? 'MariaDB' : 'MySQL' )
 					),
 					array(
@@ -1054,7 +1059,7 @@ class WP_Site_Health {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
-						/* translators: %1$s: Name of the library, %2$s: Number of version. */
+						/* translators: 1: Name of the library, 2: Number of version. */
 						__( 'WordPress&#8217; utf8mb4 support requires MySQL client library (%1$s) version %2$s or newer.' ),
 						'mysqlnd',
 						'5.0.9'
@@ -1070,7 +1075,7 @@ class WP_Site_Health {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
-						/* translators: %1$s: Name of the library, %2$s: Number of version. */
+						/* translators: 1: Name of the library, 2: Number of version. */
 						__( 'WordPress&#8217; utf8mb4 support requires MySQL client library (%1$s) version %2$s or newer.' ),
 						'libmysql',
 						'5.5.3'
@@ -1124,7 +1129,7 @@ class WP_Site_Health {
 					'<span class="error"><span class="screen-reader-text">%s</span></span> %s',
 					__( 'Error' ),
 					sprintf(
-						/* translators: %1$s: The IP address WordPress.org resolves to. %2$s: The error returned by the lookup. */
+						/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
 						__( 'Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s' ),
 						gethostbyname( 'wordpress.org' ),
 						$wp_dotorg->get_error_message()
@@ -1173,7 +1178,11 @@ class WP_Site_Health {
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					__( 'The value, WP_DEBUG_LOG, has been added to this websites configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' )
+					sprintf(
+						/* translators: %s: Name of the constant used. */
+						__( 'The value, %s, has been added to this website&#8217;s configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' ),
+						'<code>WP_DEBUG_LOG</code>'
+					)
 				);
 			}
 
@@ -1184,7 +1193,11 @@ class WP_Site_Health {
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					__( 'The value, WP_DEBUG_DISPLAY, has either been added to your configuration file, or left with its default value. This will make errors display on the front end of your site.' )
+					sprintf(
+						/* translators: %s: Name of the constant used. */
+						__( 'The value, %s, has either been added to your configuration file, or left with its default value. This will make errors display on the front end of your site.' ),
+						'<code>WP_DEBUG_DISPLAY</code>'
+					)
 				);
 			}
 		}
@@ -1217,7 +1230,7 @@ class WP_Site_Health {
 			'actions'     => sprintf(
 				'<p><a href="%s">%s</a></p>',
 				esc_url(
-					/* translators: Website for explaining HTTPS and why it should be used. */
+					/* translators: Documentation explaining HTTPS and why it should be used. */
 					__( 'https://wordpress.org/support/article/why-should-i-use-https/' )
 				),
 				__( 'Read more about why you should use HTTPS' )
@@ -1338,7 +1351,7 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					/* translators: %s: The error message returned while from the cron scheduler. */
-					__( 'While trying to test your sites scheduled events, the following error was returned: %s' ),
+					__( 'While trying to test your site&#8217;s scheduled events, the following error was returned: %s' ),
 					$this->has_missed_cron()->get_error_message()
 				)
 			);
@@ -1524,7 +1537,11 @@ class WP_Site_Health {
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
-				__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with no allowed hosts.' )
+				sprintf(
+					/* translators: %s: Name of the constant used. */
+					__( 'HTTP requests have been blocked by the %s constant, with no allowed hosts.' ),
+					'<code>WP_HTTP_BLOCK_EXTERNAL</code>'
+				)
 			);
 		}
 
@@ -1536,8 +1553,9 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %s: List of hostnames whitelisted. */
-					__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with some hosts whitelisted: %s.' ),
+					/* translators: 1: Name of the constant used. 2: List of hostnames whitelisted. */
+					__( 'HTTP requests have been blocked by the %1$s constant, with some hosts whitelisted: %2$s.' ),
+					'<code>WP_HTTP_BLOCK_EXTERNAL</code>',
 					implode( ',', $hosts )
 				)
 			);
@@ -1607,7 +1625,7 @@ class WP_Site_Health {
 					'%s<br>%s',
 					__( 'The REST API request failed due to an error.' ),
 					sprintf(
-						/* translators: %1$d: The HTTP response code. %2$s: The error message returned. */
+						/* translators: 1: The HTTP response code. 2: The error message returned. */
 						__( 'Error encountered: (%1$d) %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
@@ -1622,7 +1640,7 @@ class WP_Site_Health {
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
-					/* translators: %1$d: The HTTP response code returned. %2$s: The error message returned. */
+					/* translators: 1: The HTTP response code returned. 2: The error message returned. */
 					__( 'The REST API call gave the following unexpected result: (%1$d) %2$s.' ),
 					wp_remote_retrieve_response_code( $r ),
 					wp_remote_retrieve_body( $r )
@@ -1888,7 +1906,7 @@ class WP_Site_Health {
 					'%s<br>%s',
 					__( 'The loopback request to your site failed, this means features relying on them are not currently working as expected.' ),
 					sprintf(
-						// translators: %1$d: The HTTP response code. %2$s: The error message returned.
+						// translators: 1: The HTTP response code. 2: The error message returned.
 						__( 'Error encountered: (%1$d) %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
