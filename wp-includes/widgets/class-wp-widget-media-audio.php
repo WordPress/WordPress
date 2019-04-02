@@ -19,7 +19,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 	/**
 	 * Constructor.
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -54,7 +54,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 	/**
 	 * Get schema for properties of a widget instance (item).
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 *
 	 * @see WP_REST_Controller::get_item_schema()
 	 * @see WP_REST_Controller::get_additional_fields()
@@ -62,21 +62,18 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 	 * @return array Schema for properties.
 	 */
 	public function get_instance_schema() {
-		$schema = array_merge(
-			parent::get_instance_schema(),
-			array(
-				'preload' => array(
-					'type'        => 'string',
-					'enum'        => array( 'none', 'auto', 'metadata' ),
-					'default'     => 'none',
-					'description' => __( 'Preload' ),
-				),
-				'loop'    => array(
-					'type'        => 'boolean',
-					'default'     => false,
-					'description' => __( 'Loop' ),
-				),
-			)
+		$schema = array(
+			'preload' => array(
+				'type'        => 'string',
+				'enum'        => array( 'none', 'auto', 'metadata' ),
+				'default'     => 'none',
+				'description' => __( 'Preload' ),
+			),
+			'loop'    => array(
+				'type'        => 'boolean',
+				'default'     => false,
+				'description' => __( 'Loop' ),
+			),
 		);
 
 		foreach ( wp_get_audio_extensions() as $audio_extension ) {
@@ -89,13 +86,13 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 			);
 		}
 
-		return $schema;
+		return array_merge( $schema, parent::get_instance_schema() );
 	}
 
 	/**
 	 * Render the media on the frontend.
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 *
 	 * @param array $instance Widget instance props.
 	 * @return void

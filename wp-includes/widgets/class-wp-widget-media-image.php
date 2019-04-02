@@ -19,7 +19,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 	/**
 	 * Constructor.
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -53,7 +53,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 	/**
 	 * Get schema for properties of a widget instance (item).
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 *
 	 * @see WP_REST_Controller::get_item_schema()
 	 * @see WP_REST_Controller::get_additional_fields()
@@ -62,7 +62,6 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 	 */
 	public function get_instance_schema() {
 		return array_merge(
-			parent::get_instance_schema(),
 			array(
 				'size'              => array(
 					'type'        => 'string',
@@ -161,14 +160,15 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				 * - height (redundant when size is not custom)
 				 * - width (redundant when size is not custom)
 				 */
-			)
+			),
+			parent::get_instance_schema()
 		);
 	}
 
 	/**
 	 * Render the media on the frontend.
 	 *
-	 * @since  4.8.0
+	 * @since 4.8.0
 	 *
 	 * @param array $instance Widget instance props.
 	 * @return void
