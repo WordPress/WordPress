@@ -182,7 +182,7 @@ class WP_Site_Health {
 			'label'       => '',
 			'status'      => '',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => '',
@@ -281,7 +281,7 @@ class WP_Site_Health {
 			'label'       => __( 'Your plugins are up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -395,7 +395,7 @@ class WP_Site_Health {
 			'label'       => __( 'Your themes are up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -614,7 +614,7 @@ class WP_Site_Health {
 			),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -702,7 +702,7 @@ class WP_Site_Health {
 			'label'       => __( 'Required and recommended modules are installed' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
@@ -901,7 +901,7 @@ class WP_Site_Health {
 			'label'       => __( 'SQL server is up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -979,7 +979,7 @@ class WP_Site_Health {
 			'label'       => __( 'UTF8MB4 is supported' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
@@ -1094,7 +1094,7 @@ class WP_Site_Health {
 			'label'       => __( 'Can communicate with WordPress.org' ),
 			'status'      => '',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -1154,7 +1154,7 @@ class WP_Site_Health {
 			'label'       => __( 'Your site is not set to output debug information' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -1207,7 +1207,7 @@ class WP_Site_Health {
 			'label'       => __( 'Your website is using an active HTTPS connection.' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -1270,7 +1270,7 @@ class WP_Site_Health {
 			'label'       => '',
 			'status'      => '',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -1316,7 +1316,7 @@ class WP_Site_Health {
 			'label'       => __( 'Scheduled events are running' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
@@ -1377,7 +1377,7 @@ class WP_Site_Health {
 			'label'       => __( 'Background updates are working' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Security',
+				'label' => __( 'Security' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -1453,7 +1453,7 @@ class WP_Site_Health {
 			'label'       => __( 'Your site can perform loopback requests' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
@@ -1495,7 +1495,7 @@ class WP_Site_Health {
 			'label'       => __( 'HTTP requests seem to be working as expected' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
@@ -1561,7 +1561,7 @@ class WP_Site_Health {
 			'label'       => __( 'The REST API is available' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => 'Performance',
+				'label' => __( 'Performance' ),
 				'color' => 'orange',
 			),
 			'description' => sprintf(
