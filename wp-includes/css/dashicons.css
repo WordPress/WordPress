@@ -43,7 +43,7 @@
 	font-size: 20px;
 	vertical-align: top;
 	text-align: center;
-	transition: color 0.1s ease-in 0;
+	transition: color 0.1s ease-in;
 }
 
 /* Icons */
