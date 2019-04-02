@@ -304,7 +304,7 @@ class WP_Debug_Data {
 			$info['wp-core']['fields']['dotorg_communication'] = array(
 				'label' => __( 'Communication with WordPress.org' ),
 				'value' => sprintf(
-					// translators: %1$s: The IP address WordPress.org resolves to. %2$s: The error returned by the lookup.
+					// translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup.
 					__( 'Unable to reach WordPress.org at %1$s: %2$s' ),
 					gethostbyname( 'wordpress.org' ),
 					$wp_dotorg->get_error_message()
@@ -677,7 +677,7 @@ class WP_Debug_Data {
 			$plugin_version_string = __( 'No version or author information is available.' );
 
 			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
-				// translators: %1$s: Plugin version number. %2$s: Plugin author name.
+				// translators: 1: Plugin version number. 2: Plugin author name.
 				$plugin_version_string = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
 			}
 			if ( empty( $plugin_version ) && ! empty( $plugin_author ) ) {
@@ -708,7 +708,7 @@ class WP_Debug_Data {
 			$plugin_version_string = __( 'No version or author information is available.' );
 
 			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
-				// translators: %1$s: Plugin version number. %2$s: Plugin author name.
+				// translators: 1: Plugin version number. 2: Plugin author name.
 				$plugin_version_string = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
 			}
 			if ( empty( $plugin_version ) && ! empty( $plugin_author ) ) {
@@ -798,7 +798,7 @@ class WP_Debug_Data {
 			$theme_version_string = __( 'No version or author information is available.' );
 
 			if ( ! empty( $theme_version ) && ! empty( $theme_author ) ) {
-				// translators: %1$s: Theme version number. %2$s: Theme author name.
+				// translators: 1: Theme version number. 2: Theme author name.
 				$theme_version_string = sprintf( __( 'Version %1$s by %2$s' ), $theme_version, wp_kses( $theme_author, array() ) );
 			}
 			if ( empty( $theme_version ) && ! empty( $theme_author ) ) {
@@ -819,7 +819,7 @@ class WP_Debug_Data {
 
 			$info['wp-themes']['fields'][ sanitize_key( $theme->Name ) ] = array(
 				'label' => sprintf(
-					// translators: %1$s: Theme name. %2$s: Theme slug.
+					// translators: 1: Theme name. 2: Theme slug.
 					__( '%1$s (%2$s)' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					$theme->Name,
