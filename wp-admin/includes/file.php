@@ -1263,8 +1263,8 @@ function unzip_file( $file, $to ) {
 	$needed_dirs = array();
 	$to          = trailingslashit( $to );
 
-	// Determine any parent dir's needed (of the upgrade directory)
-	if ( ! $wp_filesystem->is_dir( $to ) ) { //Only do parents if no children exist
+	// Determine any parent directories needed (of the upgrade directory).
+	if ( ! $wp_filesystem->is_dir( $to ) ) { // Only do parents if no children exist.
 		$path = preg_split( '![/\\\]!', untrailingslashit( $to ) );
 		for ( $i = count( $path ); $i >= 0; $i-- ) {
 			if ( empty( $path[ $i ] ) ) {
@@ -1279,7 +1279,7 @@ function unzip_file( $file, $to ) {
 			if ( ! $wp_filesystem->is_dir( $dir ) ) {
 				$needed_dirs[] = $dir;
 			} else {
-				break; // A folder exists, therefor, we dont need the check the levels below this
+				break; // A folder exists, therefore we don't need to check the levels below this.
 			}
 		}
 	}
