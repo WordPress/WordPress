@@ -928,7 +928,7 @@ class WP_Site_Health {
 				sprintf(
 					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server recommended version number. */
 					__( 'For optimal performance and security reasons, we recommend running %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
-					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
+					( $this->is_mariadb ? 'MariaDB' : 'MySQL' ),
 					$this->health_check_mysql_rec_version
 				)
 			);
@@ -944,7 +944,7 @@ class WP_Site_Health {
 				sprintf(
 					/* translators: 1: The database engine in use (MySQL or MariaDB). 2: Database server minimum version number. */
 					__( 'WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
-					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
+					( $this->is_mariadb ? 'MariaDB' : 'MySQL' ),
 					$this->health_check_mysql_required_version
 				)
 			);
