@@ -330,7 +330,7 @@ class WP_Debug_Data {
 		// Here 20 seconds is a "sensible default" for how long to make the user wait for the directory size calculation.
 		// When testing 20 seconds seem enough in nearly all cases. The remaining edge cases are likely testing or development sites
 		// that have very large number of files, for example `node_modules` in plugins or themes, etc.
-		if ( $max_execution_time > 20  ) {
+		if ( $max_execution_time > 20 ) {
 			$max_execution_time = 20;
 		} elseif ( $max_execution_time > 2 ) {
 			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
@@ -357,9 +357,9 @@ class WP_Debug_Data {
 			),
 		);
 
-		$timeout = __( 'The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files.' );
+		$timeout      = __( 'The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files.' );
 		$inaccessible = __( 'The size cannot be calculated. The directory is not accessible. Usually caused by invalid permissions.' );
-		$size_total = 0;
+		$size_total   = 0;
 
 		// Loop over all the directories we want to gather the sizes for.
 		foreach ( $size_directories as $size => $attributes ) {
@@ -371,15 +371,16 @@ class WP_Debug_Data {
 
 			if ( $dir_size === false ) {
 				// Error reading
-				$dir_size = $inaccessible;
+				$dir_size   = $inaccessible;
 				$size_total = null;
 			} elseif ( $dir_size === null ) {
 				// Timeout
-				$dir_size = $timeout;
+				$dir_size   = $timeout;
 				$size_total = null;
 			} else {
 				$is_subdir = ( strpos( $size_directories[ $size ]['path'], ABSPATH ) === 0 );
 
+				// phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
 				if ( $size_total !== null && ( $size === 'wordpress' || ! $is_subdir ) ) {
 					$size_total += $dir_size;
 				}
