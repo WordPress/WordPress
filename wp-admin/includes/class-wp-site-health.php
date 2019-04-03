@@ -362,7 +362,7 @@ class WP_Site_Health {
 
 			$result['status'] = 'recommended';
 
-			$result['label'] = __( 'Inactive plugins should be removed' );
+			$result['label'] = __( 'You should remove inactive plugins' );
 
 			$result['description'] .= sprintf(
 				'<p>%s %s</p>',
