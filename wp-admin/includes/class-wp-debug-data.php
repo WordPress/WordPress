@@ -40,7 +40,8 @@ class WP_Debug_Data {
 			}
 		}
 
-		$upload_dir = wp_upload_dir();
+		$upload_dir = wp_get_upload_dir();
+
 		if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 			$wp_config_path = ABSPATH . 'wp-config.php';
 			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
@@ -313,9 +314,6 @@ class WP_Debug_Data {
 
 		$size_db = WP_Debug_Data::get_database_size();
 
-		// Go through the various installation directories and calculate their sizes.
-		$uploads_dir = wp_upload_dir();
-
 		/*
 		 * We will be using the PHP max execution time to prevent the size calculations
 		 * from causing a timeout. The default value is 30 seconds, and some
@@ -338,6 +336,7 @@ class WP_Debug_Data {
 			$max_execution_time -= 1;
 		}
 
+		// Go through the various installation directories and calculate their sizes.
 		$size_directories = array(
 			'wordpress' => array(
 				'path' => ABSPATH,
@@ -352,7 +351,7 @@ class WP_Debug_Data {
 				'size' => 0,
 			),
 			'uploads'   => array(
-				'path' => $uploads_dir['basedir'],
+				'path' => $upload_dir['basedir'],
 				'size' => 0,
 			),
 		);
