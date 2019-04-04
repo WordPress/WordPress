@@ -7014,6 +7014,7 @@ function wp_direct_php_update_button() {
  * a blog has exceeded its allowed upload space.
  *
  * @since MU (3.0.0)
+ * @since 5.2.0 $max_execution_time parameter added.
  *
  * @param string $directory Full path of a directory.
  * @param int    $max_execution_time Maximum time to run before giving up. In seconds.
@@ -7051,6 +7052,7 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  *
  * @since MU (3.0.0)
  * @since 4.3.0 $exclude parameter added.
+ * @since 5.2.0 $max_execution_time parameter added.
  *
  * @param string $directory Full path of a directory.
  * @param string $exclude   Optional. Full path of a subdirectory to exclude from the total.
@@ -7067,13 +7069,13 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 		return false;
 	}
 
-	if ( ! $max_execution_time ) {
-		// Keep the previous behavior but attempt to prevent fatal errors from timeout.
+	if ( $max_execution_time === null ) {
+		// Keep the previous behavior but attempt to prevent fatal errors from timeout if possible.
 		if ( function_exists( 'ini_get' ) ) {
 			$max_execution_time = ini_get( 'max_execution_time' );
 		} else {
-			// Use PHP default.
-			$max_execution_time = 30;
+			// Disable...
+			$max_execution_time = 0;
 		}
 
 		// Leave 1 second "buffer" for other operations if $max_execution_time has reasonable value.
@@ -7095,7 +7097,7 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 					}
 				}
 
-				if ( microtime( true ) - WP_START_TIMESTAMP > $max_execution_time ) {
+				if ( $max_execution_time > 0 && microtime( true ) - WP_START_TIMESTAMP > $max_execution_time ) {
 					// Time exceeded. Give up instead of risking a fatal timeout.
 					$size = null;
 					break;

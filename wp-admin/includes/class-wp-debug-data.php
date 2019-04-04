@@ -317,10 +317,14 @@ class WP_Debug_Data {
 		 * from causing a timeout. The default value is 30 seconds, and some
 		 * hosts do not allow you to read configuration values.
 		 */
-		$max_execution_time = 30;
-
 		if ( function_exists( 'ini_get' ) ) {
 			$max_execution_time = ini_get( 'max_execution_time' );
+		}
+
+		// The max_execution_time defaults to 0 when PHP runs from cli.
+		// We still want to limit it below.
+		if ( empty( $max_execution_time ) ) {
+			$max_execution_time = 30;
 		}
 
 		// Here 20 seconds is a "sensible default" for how long to make the user wait for the directory size calculation.
@@ -328,7 +332,7 @@ class WP_Debug_Data {
 		// that have very large number of files, for example `node_modules` in plugins or themes, etc.
 		if ( $max_execution_time > 20 ) {
 			$max_execution_time = 20;
-		} elseif ( $max_execution_time > 2 ) {
+		} elseif ( $max_execution_time > 10 ) {
 			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
 			// edge-case timeouts that may happen after the size loop has finished running.
 			$max_execution_time -= 1;
@@ -367,12 +371,14 @@ class WP_Debug_Data {
 			}
 
 			if ( $dir_size === false ) {
-				// Error reading
-				$dir_size   = $inaccessible;
+				// Error reading.
+				$dir_size = $inaccessible;
+				// Stop total size calculation.
 				$size_total = null;
 			} elseif ( $dir_size === null ) {
-				// Timeout
-				$dir_size   = $timeout;
+				// Timeout.
+				$dir_size = $timeout;
+				// Stop total size calculation.
 				$size_total = null;
 			} else {
 				$is_subdir = ( strpos( $size_directories[ $size ]['path'], ABSPATH ) === 0 );
