@@ -68,7 +68,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	$info         = WP_Debug_Data::debug_data();
 	$english_info = '';
-	if ( 0 !== strpos( get_locale(), 'en' ) ) {
+	if ( 0 !== strpos( get_user_locale(), 'en' ) ) {
 		$english_info = WP_Debug_Data::debug_data( 'en_US' );
 	}
 	?>

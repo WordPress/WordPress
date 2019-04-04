@@ -34,10 +34,8 @@ class WP_Debug_Data {
 		global $wpdb;
 		if ( ! empty( $locale ) ) {
 			// Change the language used for translations
-			if ( function_exists( 'switch_to_locale' ) ) {
-				$original_locale = get_locale();
-				$switched_locale = switch_to_locale( $locale );
-			}
+			$original_locale = get_user_locale();
+			$switched_locale = switch_to_locale( $locale );
 		}
 
 		$upload_dir = wp_get_upload_dir();
@@ -73,7 +71,7 @@ class WP_Debug_Data {
 					),
 					'language'               => array(
 						'label' => __( 'Language' ),
-						'value' => ( ! empty( $locale ) ? $original_locale : get_locale() ),
+						'value' => ( ! empty( $locale ) ? $original_locale : get_user_locale() ),
 					),
 					'home_url'               => array(
 						'label'   => __( 'Home URL' ),
@@ -888,7 +886,7 @@ class WP_Debug_Data {
 
 		if ( ! empty( $locale ) ) {
 			// Change the language used for translations
-			if ( function_exists( 'restore_previous_locale' ) && $switched_locale ) {
+			if ( $switched_locale ) {
 				restore_previous_locale();
 			}
 		}
