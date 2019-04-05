@@ -82,6 +82,7 @@ class WP_Recovery_Mode {
 	public function initialize() {
 		$this->is_initialized = true;
 
+		add_action( 'wp_logout', array( $this, 'exit_recovery_mode' ) );
 		add_action( 'login_form_' . self::EXIT_ACTION, array( $this, 'handle_exit_recovery_mode' ) );
 
 		if ( defined( 'WP_RECOVERY_MODE_SESSION_ID' ) ) {

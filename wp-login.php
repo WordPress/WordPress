@@ -64,6 +64,11 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	/* translators: Login screen title. 1: Login screen name, 2: Network or site name */
 	$login_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $login_title );
 
+	if ( wp_is_recovery_mode() ) {
+		/* translators: %s: Login screen title. */
+		$login_title = sprintf( __( '%s &#8212; Recovery Mode' ), $login_title );
+	}
+
 	/**
 	 * Filters the title tag content for login page.
 	 *

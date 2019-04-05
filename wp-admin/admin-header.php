@@ -52,6 +52,11 @@ if ( $admin_title == $title ) {
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
 }
 
+if ( wp_is_recovery_mode() ) {
+	/* translators: %s: Admin screen title. */
+	$admin_title = sprintf( __( '%s &#8212; Recovery Mode' ), $admin_title );
+}
+
 /**
  * Filters the title tag content for an admin page.
  *

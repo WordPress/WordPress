@@ -385,6 +385,22 @@ html:lang(he-il) .rtl #wpadminbar * {
 }
 
 /**
+ * Recovery Mode
+ */
+#wpadminbar #wp-admin-bar-recovery-mode {
+	color: #fff;
+	background-color: #ca4a1f;
+}
+
+#wpadminbar .ab-top-menu > #wp-admin-bar-recovery-mode.hover >.ab-item,
+#wpadminbar.nojq .quicklinks .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus,
+#wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
+#wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
+	color: #fff;
+	background-color: #c0461e;
+}
+
+/**
  * My Account
  */
 #wp-admin-bar-my-account > ul {

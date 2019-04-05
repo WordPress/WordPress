@@ -829,3 +829,22 @@ function wp_print_update_row_templates() {
 	</script>
 	<?php
 }
+
+/**
+ * Displays a notice when the user is in recovery mode.
+ *
+ * @since 5.2.0
+ */
+function wp_recovery_mode_nag() {
+	if ( ! wp_is_recovery_mode() ) {
+		return;
+	}
+
+	?>
+	<div class="notice notice-info">
+		<p>
+			<?php esc_html_e( 'You are in recovery mode. This means there may be an error with a theme or plugin. To exit recovery mode, log out or use the Exit button.' ); ?>
+		</p>
+	</div>
+	<?php
+}

@@ -348,6 +348,26 @@ ul#adminmenu > li.current > a.current:after {
 	background: $adminbar-input-background;
 }
 
+/* Admin Bar: recovery mode */
+
+#wpadminbar #wp-admin-bar-recovery-mode {
+	color: $adminbar-recovery-exit-text;
+	background-color: $adminbar-recovery-exit-background;
+}
+
+#wpadminbar #wp-admin-bar-recovery-mode .ab-item,
+#wpadminbar #wp-admin-bar-recovery-mode a.ab-item {
+	color: $adminbar-recovery-exit-text;
+}
+
+#wpadminbar .ab-top-menu > #wp-admin-bar-recovery-mode.hover >.ab-item,
+#wpadminbar.nojq .quicklinks .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus,
+#wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode:hover > .ab-item,
+#wpadminbar:not(.mobile) .ab-top-menu > #wp-admin-bar-recovery-mode > .ab-item:focus {
+	color: $adminbar-recovery-exit-text;
+	background-color: $adminbar-recovery-exit-background-alt;
+}
+
 /* Admin Bar: my account */
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {

@@ -55,4 +55,8 @@ $menu-collapse-focus-icon: $menu-highlight-icon !default;
 $adminbar-avatar-frame: lighten( $menu-background, 7% ) !default;
 $adminbar-input-background: lighten( $menu-background, 7% ) !default;
 
+$adminbar-recovery-exit-text: $menu-bubble-text !default;
+$adminbar-recovery-exit-background: $menu-bubble-background !default;
+$adminbar-recovery-exit-background-alt: mix(black, $adminbar-recovery-exit-background, 10%) !default;
+
 $menu-customizer-text: mix( $base-color, $text-color, 40% ) !default;

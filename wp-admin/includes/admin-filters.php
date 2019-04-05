@@ -120,6 +120,7 @@ add_action( 'admin_notices', 'update_nag', 3 );
 add_action( 'admin_notices', 'paused_plugins_notice', 5 );
 add_action( 'admin_notices', 'paused_themes_notice', 5 );
 add_action( 'admin_notices', 'maintenance_nag', 10 );
+add_action( 'admin_notices', 'wp_recovery_mode_nag', 1 );
 
 add_filter( 'update_footer', 'core_update_footer' );
 
