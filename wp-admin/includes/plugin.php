@@ -635,7 +635,9 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 		ob_start();
 		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
 		$_wp_plugin_file = $plugin;
-		define( 'WP_SANDBOX_SCRAPING', true );
+		if ( ! defined( 'WP_SANDBOX_SCRAPING' ) ) {
+			define( 'WP_SANDBOX_SCRAPING', true );
+		}
 		include_once( WP_PLUGIN_DIR . '/' . $plugin );
 		$plugin = $_wp_plugin_file; // Avoid stomping of the $plugin variable in a plugin.
 
@@ -2132,7 +2134,9 @@ function wp_clean_plugins_cache( $clear_update_cache = true ) {
  * @param string $plugin Path to the plugin file relative to the plugins directory.
  */
 function plugin_sandbox_scrape( $plugin ) {
-	define( 'WP_SANDBOX_SCRAPING', true );
+	if ( ! defined( 'WP_SANDBOX_SCRAPING' ) ) {
+		define( 'WP_SANDBOX_SCRAPING', true );
+	}
 	wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $plugin );
 	include( WP_PLUGIN_DIR . '/' . $plugin );
 }

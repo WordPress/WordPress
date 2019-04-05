@@ -859,7 +859,9 @@ function resume_theme( $theme, $redirect = '' ) {
 
 			// Load the theme's functions.php to test whether it throws a fatal error.
 			ob_start();
-			define( 'WP_SANDBOX_SCRAPING', true );
+			if ( ! defined( 'WP_SANDBOX_SCRAPING' ) ) {
+				define( 'WP_SANDBOX_SCRAPING', true );
+			}
 			include $functions_path;
 			ob_clean();
 		}
