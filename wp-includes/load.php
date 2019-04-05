@@ -1444,6 +1444,7 @@ function wp_start_scraping_edited_file_errors() {
 		echo "###### wp_scraping_result_end:$key ######";
 		die();
 	}
+	define( 'WP_SANDBOX_SCRAPING', true );
 	register_shutdown_function( 'wp_finalize_scraping_edited_file_errors', $key );
 }
 

@@ -26,6 +26,10 @@ class WP_Fatal_Error_Handler {
 	 * @since 5.2.0
 	 */
 	public function handle() {
+		if ( defined( 'WP_SANDBOX_SCRAPING' ) && WP_SANDBOX_SCRAPING ) {
+			return;
+		}
+
 		try {
 			// Bail if no error found.
 			$error = $this->detect_error();
