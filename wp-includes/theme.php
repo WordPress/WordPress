@@ -744,6 +744,12 @@ function switch_theme( $stylesheet ) {
 	$new_theme = wp_get_theme( $stylesheet );
 	$template  = $new_theme->get_template();
 
+	if ( wp_is_recovery_mode() ) {
+		$paused_themes = wp_paused_themes();
+		$paused_themes->delete( $old_theme->get_stylesheet() );
+		$paused_themes->delete( $old_theme->get_template() );
+	}
+
 	update_option( 'template', $template );
 	update_option( 'stylesheet', $stylesheet );
 

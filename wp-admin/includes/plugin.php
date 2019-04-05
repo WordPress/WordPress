@@ -768,6 +768,11 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			}
 		}
 
+		if ( $do_blog && wp_is_recovery_mode() ) {
+			list( $extension ) = explode( '/', $plugin );
+			wp_paused_plugins()->delete( $extension );
+		}
+
 		if ( ! $silent ) {
 			/**
 			 * Fires as a specific plugin is being deactivated.
