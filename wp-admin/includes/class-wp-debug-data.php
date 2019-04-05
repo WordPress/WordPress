@@ -38,15 +38,7 @@ class WP_Debug_Data {
 			$switched_locale = switch_to_locale( $locale );
 		}
 
-		$upload_dir = wp_get_upload_dir();
-
-		if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
-			$wp_config_path = ABSPATH . 'wp-config.php';
-			// phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
-		} elseif ( @file_exists( dirname( ABSPATH ) . '/wp-config.php' ) && ! @file_exists( dirname( ABSPATH ) . '/wp-settings.php' ) ) {
-			$wp_config_path = dirname( ABSPATH ) . '/wp-config.php';
-		}
-
+		$upload_dir           = wp_get_upload_dir();
 		$core_current_version = get_bloginfo( 'version' );
 		$core_updates         = get_core_updates();
 		$core_update_needed   = '';
