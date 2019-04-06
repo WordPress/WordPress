@@ -241,7 +241,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 	border: 1px solid #d2d2d2;
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
@@ -366,7 +366,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 	background-repeat: repeat-x;
 }
 

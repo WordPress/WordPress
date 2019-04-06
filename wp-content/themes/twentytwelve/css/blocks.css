@@ -143,7 +143,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 	border: 1px solid #d2d2d2;
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
@@ -164,7 +164,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -ms-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -webkit-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -o-linear-gradient(top, #f9f9f9, #ebebeb);
-	background-image: linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: linear-gradient(to bottom, #f9f9f9, #ebebeb);
 	background-repeat: repeat-x;
 	color: #5e5e5e;
 }
@@ -175,7 +175,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	background-image: -ms-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -webkit-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -o-linear-gradient(top, #ebebeb, #e1e1e1);
-	background-image: linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: linear-gradient(to bottom, #ebebeb, #e1e1e1);
 	background-repeat: repeat-x;
 	border-color: transparent;
 	box-shadow: inset 0 0 8px 2px #c6c6c6, 0 1px 0 0 #f4f4f4;
@@ -285,7 +285,7 @@ pre.wp-block-code {
 	background-image: -ms-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -webkit-linear-gradient(top, #f4f4f4, #e6e6e6);
 	background-image: -o-linear-gradient(top, #f4f4f4, #e6e6e6);
-	background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
+	background-image: linear-gradient(to bottom, #f4f4f4, #e6e6e6);
 }
 
 .wp-block-button__link:not(.has-text-color) {
@@ -298,7 +298,7 @@ pre.wp-block-code {
 	background-image: -ms-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -webkit-linear-gradient(top, #f9f9f9, #ebebeb);
 	background-image: -o-linear-gradient(top, #f9f9f9, #ebebeb);
-	background-image: linear-gradient(top, #f9f9f9, #ebebeb);
+	background-image: linear-gradient(to bottom, #f9f9f9, #ebebeb);
 	background-repeat: repeat-x;
 }
 
@@ -307,7 +307,7 @@ pre.wp-block-code {
 	background-image: -ms-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -webkit-linear-gradient(top, #ebebeb, #e1e1e1);
 	background-image: -o-linear-gradient(top, #ebebeb, #e1e1e1);
-	background-image: linear-gradient(top, #ebebeb, #e1e1e1);
+	background-image: linear-gradient(to bottom, #ebebeb, #e1e1e1);
 	background-repeat: repeat-x;
 	border-color: transparent;
 }
