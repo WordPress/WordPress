@@ -182,7 +182,7 @@ class WP_Site_Health {
 			'label'       => '',
 			'status'      => '',
 			'badge'       => array(
-				'label' => __( 'Security' ),
+				'label' => __( 'Performance' ),
 				'color' => 'red',
 			),
 			'description' => '',
@@ -242,8 +242,9 @@ class WP_Site_Health {
 						);
 					} else {
 						// This is a minor version, sometimes considered more critical.
-						$result['status']      = 'critical';
-						$result['description'] = sprintf(
+						$result['status']         = 'critical';
+						$result['badge']['label'] = __( 'Security' );
+						$result['description']    = sprintf(
 							'<p>%s</p>',
 							__( 'A new minor update is available for your site. Because minor updates often address security, it&#8217;s important to install them.' )
 						);
@@ -621,7 +622,7 @@ class WP_Site_Health {
 			),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => __( 'Security' ),
+				'label' => __( 'Performance' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -651,7 +652,7 @@ class WP_Site_Health {
 			return $result;
 		}
 
-		// The PHP version is only recieving security fixes.
+		// The PHP version is only receiving security fixes.
 		if ( $response['is_secure'] ) {
 			$result['label']  = __( 'Your PHP version should be updated' );
 			$result['status'] = 'recommended';
@@ -660,8 +661,9 @@ class WP_Site_Health {
 		}
 
 		// Anything no longer secure must be updated.
-		$result['label']  = __( 'Your PHP version requires an update' );
-		$result['status'] = 'critical';
+		$result['label']          = __( 'Your PHP version requires an update' );
+		$result['status']         = 'critical';
+		$result['badge']['label'] = __( 'Security' );
 
 		return $result;
 	}
@@ -905,7 +907,7 @@ class WP_Site_Health {
 			'label'       => __( 'SQL server is up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
-				'label' => __( 'Security' ),
+				'label' => __( 'Performance' ),
 				'color' => 'red',
 			),
 			'description' => sprintf(
@@ -937,7 +939,8 @@ class WP_Site_Health {
 		if ( ! $this->mysql_min_version_check ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = __( 'Severely outdated SQL server' );
+			$result['label']          = __( 'Severely outdated SQL server' );
+			$result['badge']['label'] = __( 'Security' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
