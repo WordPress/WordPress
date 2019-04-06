@@ -943,7 +943,7 @@ class WP_Debug_Data {
 			$return .= "\n";
 		}
 
-		$return .= "`";
+		$return .= '`';
 
 		return $return;
 	}
