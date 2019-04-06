@@ -902,7 +902,7 @@ class WP_Debug_Data {
 	 * @return string The formatted data.
 	 */
 	public static function format( $info_array, $type = 'text' ) {
-		$return = '';
+		$return = "`\n";
 
 		foreach ( $info_array as $section => $details ) {
 			// Skip this section if there are no fields, or the section has been declared as private.
@@ -942,6 +942,8 @@ class WP_Debug_Data {
 			}
 			$return .= "\n";
 		}
+
+		$return .= "`";
 
 		return $return;
 	}
