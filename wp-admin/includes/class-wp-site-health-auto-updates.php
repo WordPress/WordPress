@@ -106,6 +106,17 @@ class WP_Site_Health_Auto_Updates {
 
 		$test = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
 
+		if ( is_wp_error( $test ) ) {
+			return array(
+				'description' => sprintf(
+					/* translators: %s: Name of the filter used. */
+					__( 'Could not confirm that the %s filter is available.' ),
+					'<code>wp_version_check()</code>'
+				),
+				'severity'    => 'warning',
+			);
+		}
+
 		$response = wp_remote_retrieve_body( $test );
 
 		if ( 'yes' !== $response ) {
