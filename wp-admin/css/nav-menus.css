@@ -438,7 +438,7 @@ ul.add-menu-item-tabs li {
 
 .menu-item-bar {
 	clear: both;
-	line-height: 1.5em;
+	line-height: 1.5;
 	position: relative;
 	margin: 9px 0 0;
 }
@@ -450,7 +450,7 @@ ul.add-menu-item-tabs li {
 	height: auto;
 	min-height: 20px;
 	width: 382px;
-	line-height: 30px;
+	line-height: 2.4;
 	overflow: hidden;
 	word-wrap: break-word;
 }
@@ -480,7 +480,7 @@ ul.add-menu-item-tabs li {
 .menu-item-handle .item-title {
 	font-size: 13px;
 	font-weight: 600;
-	line-height: 20px;
+	line-height: 1.6;
 	display: block;
 	/* @todo: responsive view. */
 	margin-right: 13em;
@@ -556,7 +556,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	padding: 12px 16px;
 	color: #666;
 	font-size: 12px;
-	line-height: 18px;
+	line-height: 1.5;
 }
 
 .item-controls {
@@ -598,7 +598,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	color: #0073aa;
 	text-decoration: underline;
 	font-size: 12px;
-	line-height: 18px;
+	line-height: 1.5;
 }
 
 .no-js.nav-menus-php .item-edit .screen-reader-text {
@@ -737,7 +737,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .nav-menus-php .major-publishing-actions {
 	clear: both;
 	padding: 10px 0;
-	line-height: 28px;
+	line-height: 2.1;
 }
 
 .nav-menus-php .major-publishing-actions .publishing-action {
@@ -752,7 +752,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Same as the Publish Meta Box #delete-action */
 .nav-menus-php .delete-action {
 	float: left;
-	line-height: 28px;
+	line-height: 2.1;
 }
 
 .nav-menus-php .major-publishing-actions .form-invalid {
@@ -841,7 +841,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 	.nav-menus-php .delete-action {
 		font-size: 14px;
-		line-height: 30px;
+		line-height: 2.1;
 	}
 
 	.menu-item-bar .menu-item-handle,
