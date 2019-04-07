@@ -20,7 +20,7 @@
 	border-left: 1px solid #ccc;
 	color: #555;
 	display: block;
-	line-height: 22px;
+	line-height: 2;
 	padding: 0 6px;
 	text-align: center;
 }
@@ -87,7 +87,7 @@
 	width: 65px;
 	font-size: 12px;
 	font-family: monospace;
-	line-height: 16px;
+	line-height: 1.4;
 	margin: 0;
 	vertical-align: top;
 }
@@ -130,7 +130,7 @@
 		width: 80px;
 		padding: 6px 5px 5px;
 		font-size: 16px;
-		line-height: 18px;
+		line-height: 1.15;
 	}
 
 	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
@@ -141,12 +141,12 @@
 		height: auto;
 		padding: 0 0 0 40px;
 		font-size: 14px;
-		line-height: 29px;
+		line-height: 2.1;
 	}
 
 	.wp-customizer .wp-picker-container .wp-color-result.button {
 		font-size: 13px;
-		line-height: 26px;
+		line-height: 2;
 	}
 
 	.wp-picker-container .wp-color-result-text {
@@ -163,7 +163,7 @@
 @media screen and (max-width: 640px) {
 	.wp-customizer .wp-picker-container .wp-color-result.button {
 		font-size: 14px;
-		line-height: 29px;
+		line-height: 2.1;
 	}
 
 	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
