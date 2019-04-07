@@ -75,7 +75,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Thumbnails on posts and pages.
 		 *
-		 * See: https://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
+		 * See: https://developer.wordpress.org/reference/functions/add_theme_support/#post-thumbnails
 		 */
 		add_theme_support( 'post-thumbnails' );
 		set_post_thumbnail_size( 825, 510, true );
