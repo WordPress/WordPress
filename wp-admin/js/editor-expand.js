@@ -503,7 +503,7 @@
 				topHeight = heights.textTopHeight;
 			}
 
-			// Return if TinyMCE is still intializing.
+			// Return if TinyMCE is still initializing.
 			if ( ! visual && ! $top.length ) {
 				return;
 			}
