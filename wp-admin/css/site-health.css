@@ -10,7 +10,7 @@
 	margin: 1rem 0.8rem;
 	font-size: 23px;
 	padding: 9px 0 4px 0;
-	line-height: 29px;
+	line-height: 1.3;
 }
 
 .health-check-body h2 {
@@ -58,7 +58,7 @@
 	margin-top: -40px;
 	margin-left: -40px;
 	border-radius: 100%;
-	line-height: 80px;
+	line-height: 6.3;
 	font-size: 2em;
 }
 
@@ -211,7 +211,7 @@
 .site-health-copy-buttons .success.visible {
 	display: inline-block;
 	height: 28px;
-	line-height: 28px;
+	line-height: 2.2;
 }
 
 .site-status-has-issues.hide {
