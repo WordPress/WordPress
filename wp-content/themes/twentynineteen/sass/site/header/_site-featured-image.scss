@@ -242,7 +242,7 @@
 		mix-blend-mode: multiply;
 		opacity: .7;
 
-	  	/* When image filters are active, a blue overlay is added. */
+		/* When image filters are active, a blue overlay is added. */
 		.image-filters-enabled & {
 			background: $color__link;
 			opacity: .8;
@@ -256,7 +256,7 @@
 	}
 
 	/* Fourth layer: overlay. */
-  	.image-filters-enabled & .site-branding-container:after {
+	.image-filters-enabled & .site-branding-container:after {
 		background: rgba(0, 0, 0, 0.35);
 		mix-blend-mode: overlay;
 		opacity: 0.5;

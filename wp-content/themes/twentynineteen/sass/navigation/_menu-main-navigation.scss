@@ -26,8 +26,9 @@
 		background: transparent;
 		color: inherit;
 		cursor: pointer;
-		transition: background 250ms ease-in-out,
-		            transform 150ms ease;
+		transition:
+			background 250ms ease-in-out,
+			transform 150ms ease;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 
@@ -447,7 +448,7 @@
 			position: fixed;
 			z-index: 100000; /* Make sure appears above mobile admin bar */
 			width: 100vw;
-			height:  100vh;
+			height: 100vh;
 			max-width: 100vw;
 			transform: translateX(+100%);
 			animation: slide_in_right 0.3s forwards;
