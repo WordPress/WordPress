@@ -164,11 +164,12 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
 		foreach ( $this->response->cookies as $cookie ) {
 			$cookies[] = new WP_Http_Cookie(
 				array(
-					'name'    => $cookie->name,
-					'value'   => urldecode( $cookie->value ),
-					'expires' => isset( $cookie->attributes['expires'] ) ? $cookie->attributes['expires'] : null,
-					'path'    => isset( $cookie->attributes['path'] ) ? $cookie->attributes['path'] : null,
-					'domain'  => isset( $cookie->attributes['domain'] ) ? $cookie->attributes['domain'] : null,
+					'name'      => $cookie->name,
+					'value'     => urldecode( $cookie->value ),
+					'expires'   => isset( $cookie->attributes['expires'] ) ? $cookie->attributes['expires'] : null,
+					'path'      => isset( $cookie->attributes['path'] ) ? $cookie->attributes['path'] : null,
+					'domain'    => isset( $cookie->attributes['domain'] ) ? $cookie->attributes['domain'] : null,
+					'host_only' => isset( $cookie->flags['host-only'] ) ? $cookie->flags['host-only'] : null,
 				)
 			);
 		}

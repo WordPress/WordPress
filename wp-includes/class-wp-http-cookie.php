@@ -61,22 +61,32 @@ class WP_Http_Cookie {
 	public $domain;
 
 	/**
+	 * host-only flag.
+	 *
+	 * @since 5.2.0
+	 * @var bool
+	 */
+	public $host_only;
+
+	/**
 	 * Sets up this cookie object.
 	 *
 	 * The parameter $data should be either an associative array containing the indices names below
 	 * or a header string detailing it.
 	 *
 	 * @since 2.8.0
+	 * @since 5.2.0 Added `host_only` to the `$data` parameter.
 	 *
 	 * @param string|array $data {
 	 *     Raw cookie data as header string or data array.
 	 *
-	 *     @type string     $name    Cookie name.
-	 *     @type mixed      $value   Value. Should NOT already be urlencoded.
-	 *     @type string|int $expires Optional. Unix timestamp or formatted date. Default null.
-	 *     @type string     $path    Optional. Path. Default '/'.
-	 *     @type string     $domain  Optional. Domain. Default host of parsed $requested_url.
-	 *     @type int        $port    Optional. Port. Default null.
+	 *     @type string     $name      Cookie name.
+	 *     @type mixed      $value     Value. Should NOT already be urlencoded.
+	 *     @type string|int $expires   Optional. Unix timestamp or formatted date. Default null.
+	 *     @type string     $path      Optional. Path. Default '/'.
+	 *     @type string     $domain    Optional. Domain. Default host of parsed $requested_url.
+	 *     @type int        $port      Optional. Port. Default null.
+	 *     @type bool       $host_only Optional. host-only storage flag. Default true.
 	 * }
 	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
 	 *                                    and $port values.
@@ -128,7 +138,7 @@ class WP_Http_Cookie {
 			}
 
 			// Set properties based directly on parameters.
-			foreach ( array( 'name', 'value', 'path', 'domain', 'port' ) as $field ) {
+			foreach ( array( 'name', 'value', 'path', 'domain', 'port', 'host_only' ) as $field ) {
 				if ( isset( $data[ $field ] ) ) {
 					$this->$field = $data[ $field ];
 				}
