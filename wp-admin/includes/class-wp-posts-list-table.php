@@ -1004,15 +1004,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$pad = str_repeat( '&#8212; ', $this->current_level );
 		echo '<strong>';
 
-		$format         = get_post_format( $post->ID );
-		$format_classes = ( $format ) ? 'post-format-icon post-format-' . esc_attr( $format ) : '';
-
 		$title = _draft_or_post_title();
 
 		if ( $can_edit_post && $post->post_status != 'trash' ) {
 			printf(
-				'<a class="row-title %s" href="%s" aria-label="%s">%s%s</a>',
-				$format_classes,
+				'<a class="row-title" href="%s" aria-label="%s">%s%s</a>',
 				get_edit_post_link( $post->ID ),
 				/* translators: %s: post title */
 				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
@@ -1021,8 +1017,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 		} else {
 			printf(
-				'<span class="%s">%s%s</span>',
-				$format_classes,
+				'<span>%s%s</span>',
 				$pad,
 				$title
 			);
