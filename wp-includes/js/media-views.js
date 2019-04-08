@@ -7683,7 +7683,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 				filters: Filters,
 				style: 'primary',
 				disabled: true,
-				text: mediaTrash ? l10n.trashSelected : l10n.deleteSelected,
+				text: mediaTrash ? l10n.trashSelected : l10n.deletePermanently,
 				controller: this.controller,
 				priority: -60,
 				click: function() {
@@ -7743,7 +7743,7 @@ AttachmentsBrowser = View.extend(/** @lends wp.media.view.AttachmentsBrowser.pro
 					filters: Filters,
 					style: 'primary',
 					disabled: true,
-					text: l10n.deleteSelected,
+					text: l10n.deletePermanently,
 					controller: this.controller,
 					priority: -55,
 					click: function() {

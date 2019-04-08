@@ -151,7 +151,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['untrash'] = __( 'Restore' );
 				$actions['delete']  = __( 'Delete Permanently' );
 			} else {
-				$actions['trash'] = _x( 'Trash', 'verb' );
+				$actions['trash'] = __( 'Move to Trash' );
 			}
 		} else {
 			$actions['delete'] = __( 'Delete Permanently' );

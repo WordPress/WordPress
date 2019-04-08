@@ -480,9 +480,9 @@ function wp_print_media_templates() {
 				<# if ( ! data.uploading && data.can.remove ) { #> |
 					<?php if ( MEDIA_TRASH ) : ?>
 						<# if ( 'trash' === data.status ) { #>
-							<button type="button" class="button-link untrash-attachment"><?php _e( 'Untrash' ); ?></button>
+							<button type="button" class="button-link untrash-attachment"><?php _e( 'Restore from Trash' ); ?></button>
 						<# } else { #>
-							<button type="button" class="button-link trash-attachment"><?php _ex( 'Trash', 'verb' ); ?></button>
+							<button type="button" class="button-link trash-attachment"><?php _e( 'Move to Trash' ); ?></button>
 						<# } #>
 					<?php else : ?>
 						<button type="button" class="button-link delete-attachment"><?php _e( 'Delete Permanently' ); ?></button>
@@ -591,9 +591,9 @@ function wp_print_media_templates() {
 				<# if ( ! data.uploading && data.can.remove ) { #>
 					<?php if ( MEDIA_TRASH ) : ?>
 					<# if ( 'trash' === data.status ) { #>
-						<button type="button" class="button-link untrash-attachment"><?php _e( 'Untrash' ); ?></button>
+						<button type="button" class="button-link untrash-attachment"><?php _e( 'Restore from Trash' ); ?></button>
 					<# } else { #>
-						<button type="button" class="button-link trash-attachment"><?php _ex( 'Trash', 'verb' ); ?></button>
+						<button type="button" class="button-link trash-attachment"><?php _ex( 'Move to Trash', 'verb' ); ?></button>
 					<# } #>
 					<?php else : ?>
 						<button type="button" class="button-link delete-attachment"><?php _e( 'Delete Permanently' ); ?></button>
