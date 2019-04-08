@@ -271,24 +271,14 @@ if ( ! is_multisite() && defined( 'WP_ALLOW_MULTISITE' ) && WP_ALLOW_MULTISITE )
 	$submenu['tools.php'][50] = array( __( 'Network Setup' ), 'setup_network', 'network.php' );
 }
 
-$change_notice = '';
-if ( current_user_can( 'manage_privacy_options' ) && ! WP_Privacy_Policy_Content::text_change_check() ) {
-	$change_notice_number = number_format_i18n( 1 );
-	/* translators: %s: number of Privacy Policy update is always 1 */
-	$change_notice_text = sprintf( __( '%s Privacy Policy update' ), $change_notice_number );
-	$change_notice      = '<span class="update-plugins 1"><span class="plugin-count" aria-hidden="true">' . $change_notice_number . '</span><span class="screen-reader-text">' . $change_notice_text . '</span></span>';
-}
-
-/* translators: %s: update notification bubble, if updates are available */
-$menu[80]                               = array( sprintf( __( 'Settings %s' ), $change_notice ), 'manage_options', 'options-general.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );
+$menu[80]                               = array( __( 'Settings' ), 'manage_options', 'options-general.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );
 	$submenu['options-general.php'][10] = array( _x( 'General', 'settings screen' ), 'manage_options', 'options-general.php' );
 	$submenu['options-general.php'][15] = array( __( 'Writing' ), 'manage_options', 'options-writing.php' );
 	$submenu['options-general.php'][20] = array( __( 'Reading' ), 'manage_options', 'options-reading.php' );
 	$submenu['options-general.php'][25] = array( __( 'Discussion' ), 'manage_options', 'options-discussion.php' );
 	$submenu['options-general.php'][30] = array( __( 'Media' ), 'manage_options', 'options-media.php' );
 	$submenu['options-general.php'][40] = array( __( 'Permalinks' ), 'manage_options', 'options-permalink.php' );
-	/* translators: %s: update notification bubble, if updates are available */
-	$submenu['options-general.php'][45] = array( sprintf( __( 'Privacy %s' ), $change_notice ), 'manage_privacy_options', 'privacy.php' );
+	$submenu['options-general.php'][45] = array( __( 'Privacy' ), 'manage_privacy_options', 'privacy.php' );
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
