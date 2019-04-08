@@ -14219,6 +14219,12 @@ var rich_text_window = window,
  */
 
 var INSERTION_INPUT_TYPES_TO_IGNORE = new Set(['insertParagraph', 'insertOrderedList', 'insertUnorderedList', 'insertHorizontalRule', 'insertLink']);
+/**
+ * Global stylesheet.
+ */
+
+var globalStyle = document.createElement('style');
+document.head.appendChild(globalStyle);
 var rich_text_RichText =
 /*#__PURE__*/
 function (_Component) {
@@ -14274,7 +14280,7 @@ function (_Component) {
     _this.handleHorizontalNavigation = _this.handleHorizontalNavigation.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.onPointerDown = _this.onPointerDown.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this)));
     _this.formatToValue = memize_default()(_this.formatToValue.bind(Object(assertThisInitialized["a" /* default */])(Object(assertThisInitialized["a" /* default */])(_this))), {
-      size: 1
+      maxSize: 1
     });
     _this.savedContent = value;
     _this.patterns = getPatterns({
@@ -14331,14 +14337,14 @@ function (_Component) {
       var _this$state = this.state,
           start = _this$state.start,
           end = _this$state.end,
-          selectedFormat = _this$state.selectedFormat;
+          activeFormats = _this$state.activeFormats;
       return {
         formats: formats,
         replacements: replacements,
         text: text,
         start: start,
         end: end,
-        selectedFormat: selectedFormat
+        activeFormats: activeFormats
       };
     }
   }, {
@@ -14527,6 +14533,7 @@ function (_Component) {
         unstableOnFocus();
       }
 
+      this.recalculateBoundaryStyle();
       document.addEventListener('selectionchange', this.onSelectionChange);
     }
   }, {
@@ -14564,46 +14571,19 @@ function (_Component) {
         }
       }
 
-      var selectedFormat = this.state.selectedFormat;
+      var value = this.createRecord();
+      var _this$state2 = this.state,
+          _this$state2$activeFo = _this$state2.activeFormats,
+          activeFormats = _this$state2$activeFo === void 0 ? [] : _this$state2$activeFo,
+          start = _this$state2.start; // Update the formats between the last and new caret position.
 
-      var _this$createRecord = this.createRecord(),
-          formats = _this$createRecord.formats,
-          replacements = _this$createRecord.replacements,
-          text = _this$createRecord.text,
-          start = _this$createRecord.start,
-          end = _this$createRecord.end;
-
-      if (this.formatPlaceholder) {
-        selectedFormat = this.formatPlaceholder.length;
-
-        if (selectedFormat > 0) {
-          formats[this.state.start] = this.formatPlaceholder;
-        } else {
-          delete formats[this.state.start];
-        }
-      } else if (selectedFormat > 0) {
-        var formatsBefore = formats[start - 1] || [];
-        var formatsAfter = formats[start] || [];
-        var source = formatsBefore;
-
-        if (formatsAfter.length > formatsBefore.length) {
-          source = formatsAfter;
-        }
-
-        source = source.slice(0, selectedFormat);
-        formats[this.state.start] = source;
-      } else {
-        delete formats[this.state.start];
-      }
-
-      var change = {
-        formats: formats,
-        replacements: replacements,
-        text: text,
+      var change = Object(external_this_wp_richText_["__unstableUpdateFormats"])({
+        value: value,
         start: start,
-        end: end,
-        selectedFormat: selectedFormat
-      };
+        end: value.start,
+        formats: activeFormats
+      });
+
       this.onChange(change, {
         withoutHistory: true
       });
@@ -14614,7 +14594,7 @@ function (_Component) {
       if (transformed !== change) {
         this.onCreateUndoLevel();
         this.onChange(Object(objectSpread["a" /* default */])({}, transformed, {
-          selectedFormat: selectedFormat
+          activeFormats: activeFormats
         }));
       } // Create an undo level when input stops for over a second.
 
@@ -14638,44 +14618,47 @@ function (_Component) {
   }, {
     key: "onSelectionChange",
     value: function onSelectionChange() {
-      if (this.ignoreSelectionChange) {
-        delete this.ignoreSelectionChange;
-        return;
-      }
-
       var value = this.createRecord();
       var start = value.start,
-          end = value.end,
-          formats = value.formats;
+          end = value.end;
 
       if (start !== this.state.start || end !== this.state.end) {
         var isCaretWithinFormattedText = this.props.isCaretWithinFormattedText;
 
-        if (!isCaretWithinFormattedText && formats[start]) {
+        var activeFormats = Object(external_this_wp_richText_["__unstableGetActiveFormats"])(value);
+
+        if (!isCaretWithinFormattedText && activeFormats.length) {
           this.props.onEnterFormattedText();
-        } else if (isCaretWithinFormattedText && !formats[start]) {
+        } else if (isCaretWithinFormattedText && !activeFormats.length) {
           this.props.onExitFormattedText();
-        }
-
-        var selectedFormat;
-
-        if (Object(external_this_wp_richText_["isCollapsed"])(value)) {
-          var formatsBefore = formats[start - 1] || [];
-          var formatsAfter = formats[start] || [];
-          selectedFormat = Math.min(formatsBefore.length, formatsAfter.length);
         }
 
         this.setState({
           start: start,
           end: end,
-          selectedFormat: selectedFormat
+          activeFormats: activeFormats
         });
         this.applyRecord(Object(objectSpread["a" /* default */])({}, value, {
-          selectedFormat: selectedFormat
+          activeFormats: activeFormats
         }), {
           domOnly: true
         });
-        delete this.formatPlaceholder;
+
+        if (activeFormats.length > 0) {
+          this.recalculateBoundaryStyle();
+        }
+      }
+    }
+  }, {
+    key: "recalculateBoundaryStyle",
+    value: function recalculateBoundaryStyle() {
+      var boundarySelector = '*[data-rich-text-format-boundary]';
+      var element = this.editableRef.querySelector(boundarySelector);
+
+      if (element) {
+        var computedStyle = getComputedStyle(element);
+        var newColor = computedStyle.color.replace(')', ', 0.2)').replace('rgb', 'rgba');
+        globalStyle.innerHTML = "*:focus ".concat(boundarySelector, "{background-color: ").concat(newColor, "}");
       }
     }
     /**
@@ -14713,16 +14696,15 @@ function (_Component) {
       this.applyRecord(record);
       var start = record.start,
           end = record.end,
-          formatPlaceholder = record.formatPlaceholder,
-          selectedFormat = record.selectedFormat;
-      this.formatPlaceholder = formatPlaceholder;
+          _record$activeFormats = record.activeFormats,
+          activeFormats = _record$activeFormats === void 0 ? [] : _record$activeFormats;
       this.onChangeEditableValue(record);
       this.savedContent = this.valueToFormat(record);
       this.props.onChange(this.savedContent);
       this.setState({
         start: start,
         end: end,
-        selectedFormat: selectedFormat
+        activeFormats: activeFormats
       });
 
       if (!withoutHistory) {
@@ -14939,20 +14921,22 @@ function (_Component) {
   }, {
     key: "handleHorizontalNavigation",
     value: function handleHorizontalNavigation(event) {
+      var _this2 = this;
+
       var value = this.createRecord();
       var formats = value.formats,
           text = value.text,
           start = value.start,
           end = value.end;
-      var selectedFormat = this.state.selectedFormat;
+      var _this$state$activeFor = this.state.activeFormats,
+          activeFormats = _this$state$activeFor === void 0 ? [] : _this$state$activeFor;
       var collapsed = Object(external_this_wp_richText_["isCollapsed"])(value);
-      var isReverse = event.keyCode === external_this_wp_keycodes_["LEFT"];
-      delete this.formatPlaceholder; // If the selection is collapsed and at the very start, do nothing if
+      var isReverse = event.keyCode === external_this_wp_keycodes_["LEFT"]; // If the selection is collapsed and at the very start, do nothing if
       // navigating backward.
       // If the selection is collapsed and at the very end, do nothing if
       // navigating forward.
 
-      if (collapsed && selectedFormat === 0) {
+      if (collapsed && activeFormats.length === 0) {
         if (start === 0 && isReverse) {
           return;
         }
@@ -14970,39 +14954,48 @@ function (_Component) {
       } // In all other cases, prevent default behaviour.
 
 
-      event.preventDefault(); // Ignore the selection change handler when setting selection, all state
-      // will be set here.
-
-      this.ignoreSelectionChange = true;
+      event.preventDefault();
       var formatsBefore = formats[start - 1] || [];
       var formatsAfter = formats[start] || [];
-      var newSelectedFormat = selectedFormat; // If the amount of formats before the caret and after the caret is
+      var newActiveFormatsLength = activeFormats.length;
+      var source = formatsAfter;
+
+      if (formatsBefore.length > formatsAfter.length) {
+        source = formatsBefore;
+      } // If the amount of formats before the caret and after the caret is
       // different, the caret is at a format boundary.
 
+
       if (formatsBefore.length < formatsAfter.length) {
-        if (!isReverse && selectedFormat < formatsAfter.length) {
-          newSelectedFormat++;
+        if (!isReverse && activeFormats.length < formatsAfter.length) {
+          newActiveFormatsLength++;
         }
 
-        if (isReverse && selectedFormat > formatsBefore.length) {
-          newSelectedFormat--;
+        if (isReverse && activeFormats.length > formatsBefore.length) {
+          newActiveFormatsLength--;
         }
       } else if (formatsBefore.length > formatsAfter.length) {
-        if (!isReverse && selectedFormat > formatsAfter.length) {
-          newSelectedFormat--;
+        if (!isReverse && activeFormats.length > formatsAfter.length) {
+          newActiveFormatsLength--;
         }
 
-        if (isReverse && selectedFormat < formatsBefore.length) {
-          newSelectedFormat++;
+        if (isReverse && activeFormats.length < formatsBefore.length) {
+          newActiveFormatsLength++;
         }
-      }
+      } // Wait for boundary class to be added.
 
-      if (newSelectedFormat !== selectedFormat) {
+
+      setTimeout(function () {
+        return _this2.recalculateBoundaryStyle();
+      });
+
+      if (newActiveFormatsLength !== activeFormats.length) {
+        var newActiveFormats = source.slice(0, newActiveFormatsLength);
         this.applyRecord(Object(objectSpread["a" /* default */])({}, value, {
-          selectedFormat: newSelectedFormat
+          activeFormats: newActiveFormats
         }));
         this.setState({
-          selectedFormat: newSelectedFormat
+          activeFormats: newActiveFormats
         });
         return;
       }
@@ -15015,7 +15008,7 @@ function (_Component) {
       this.applyRecord(Object(objectSpread["a" /* default */])({}, value, {
         start: newPos,
         end: newPos,
-        selectedFormat: isReverse ? formatsBefore.length : formatsAfter.length
+        activeFormats: isReverse ? formatsBefore : formatsAfter
       }));
     }
     /**
@@ -15102,7 +15095,7 @@ function (_Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props2 = this.props,
           tagName = _this$props2.tagName,
@@ -15140,12 +15133,12 @@ function (_Component) {
         } // Allow primitives and arrays:
 
 
-        if (!Object(external_lodash_["isPlainObject"])(_this2.props[name])) {
-          return _this2.props[name] !== prevProps[name];
+        if (!Object(external_lodash_["isPlainObject"])(_this3.props[name])) {
+          return _this3.props[name] !== prevProps[name];
         }
 
-        return Object.keys(_this2.props[name]).some(function (subName) {
-          return _this2.props[name][subName] !== prevProps[name][subName];
+        return Object.keys(_this3.props[name]).some(function (subName) {
+          return _this3.props[name][subName] !== prevProps[name][subName];
         });
       });
 
@@ -15272,7 +15265,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props3 = this.props,
           _this$props3$tagName = _this$props3.tagName,
@@ -15324,7 +15317,7 @@ function (_Component) {
           tagName: Tagname,
           style: style,
           record: record,
-          valueToEditableHTML: _this3.valueToEditableHTML,
+          valueToEditableHTML: _this4.valueToEditableHTML,
           isPlaceholderVisible: isPlaceholderVisible,
           "aria-label": placeholder,
           "aria-autocomplete": "list",
@@ -15333,21 +15326,21 @@ function (_Component) {
         }, ariaProps, {
           className: className,
           key: key,
-          onPaste: _this3.onPaste,
-          onInput: _this3.onInput,
-          onCompositionEnd: _this3.onCompositionEnd,
-          onKeyDown: _this3.onKeyDown,
-          onFocus: _this3.onFocus,
-          onBlur: _this3.onBlur,
-          onMouseDown: _this3.onPointerDown,
-          onTouchStart: _this3.onPointerDown,
-          setRef: _this3.setRef
+          onPaste: _this4.onPaste,
+          onInput: _this4.onInput,
+          onCompositionEnd: _this4.onCompositionEnd,
+          onKeyDown: _this4.onKeyDown,
+          onFocus: _this4.onFocus,
+          onBlur: _this4.onBlur,
+          onMouseDown: _this4.onPointerDown,
+          onTouchStart: _this4.onPointerDown,
+          setRef: _this4.setRef
         })), isPlaceholderVisible && Object(external_this_wp_element_["createElement"])(Tagname, {
           className: classnames_default()('editor-rich-text__editable block-editor-rich-text__editable', className),
           style: style
         }, MultilineTag ? Object(external_this_wp_element_["createElement"])(MultilineTag, null, placeholder) : placeholder), isSelected && Object(external_this_wp_element_["createElement"])(format_edit, {
           value: record,
-          onChange: _this3.onChange
+          onChange: _this4.onChange
         }));
       }), isSelected && Object(external_this_wp_element_["createElement"])(RemoveBrowserShortcuts, null));
     }
@@ -17109,8 +17102,7 @@ function BlockModeToggle(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
     className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
     onClick: onToggleMode,
-    icon: "html",
-    label: small ? label : undefined
+    icon: "html"
   }, !small && label);
 }
 /* harmony default export */ var block_mode_toggle = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withSelect"])(function (select, _ref2) {
@@ -17329,8 +17321,7 @@ function BlockConvertButton(_ref) {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
     className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
     onClick: onClick,
-    icon: "screenoptions",
-    label: small ? label : undefined
+    icon: "screenoptions"
   }, !small && label);
 }
 
@@ -17862,10 +17853,6 @@ function BlockToolbar(_ref) {
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/copy-handler/index.js
 
 
-
-
-
-
 /**
  * WordPress dependencies
  */
@@ -17874,54 +17861,18 @@ function BlockToolbar(_ref) {
 
 
 
+function CopyHandler(_ref) {
+  var children = _ref.children,
+      onCopy = _ref.onCopy,
+      onCut = _ref.onCut;
+  return Object(external_this_wp_element_["createElement"])("div", {
+    onCopy: onCopy,
+    onCut: onCut
+  }, children);
+}
 
-var copy_handler_CopyHandler =
-/*#__PURE__*/
-function (_Component) {
-  Object(inherits["a" /* default */])(CopyHandler, _Component);
-
-  function CopyHandler() {
-    var _this;
-
-    Object(classCallCheck["a" /* default */])(this, CopyHandler);
-
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(CopyHandler).apply(this, arguments));
-
-    _this.onCopy = function (event) {
-      return _this.props.onCopy(event);
-    };
-
-    _this.onCut = function (event) {
-      return _this.props.onCut(event);
-    };
-
-    return _this;
-  }
-
-  Object(createClass["a" /* default */])(CopyHandler, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      document.addEventListener('copy', this.onCopy);
-      document.addEventListener('cut', this.onCut);
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      document.removeEventListener('copy', this.onCopy);
-      document.removeEventListener('cut', this.onCut);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return null;
-    }
-  }]);
-
-  return CopyHandler;
-}(external_this_wp_element_["Component"]);
-
-/* harmony default export */ var copy_handler = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref) {
-  var select = _ref.select;
+/* harmony default export */ var copy_handler = (Object(external_this_wp_compose_["compose"])([Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps, _ref2) {
+  var select = _ref2.select;
 
   var _select = select('core/block-editor'),
       getBlocksByClientId = _select.getBlocksByClientId,
@@ -17961,7 +17912,7 @@ function (_Component) {
       }
     }
   };
-})])(copy_handler_CopyHandler));
+})])(CopyHandler));
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/multi-select-scroll-into-view/index.js
 

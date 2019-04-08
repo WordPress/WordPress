@@ -33914,21 +33914,16 @@ function MenuItem(_ref) {
       isSelected = _ref.isSelected,
       _ref$role = _ref.role,
       role = _ref$role === void 0 ? 'menuitem' : _ref$role,
-      instanceId = _ref.instanceId,
-      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["children", "info", "className", "icon", "shortcut", "isSelected", "role", "instanceId"]);
+      props = Object(objectWithoutProperties["a" /* default */])(_ref, ["children", "info", "className", "icon", "shortcut", "isSelected", "role"]);
 
   className = classnames_default()('components-menu-item__button', className, {
     'has-icon': icon
   });
 
   if (info) {
-    var infoId = 'edit-post-feature-toggle__info-' + instanceId; // Deconstructed props is scoped to the function; mutation is fine.
-
-    props['aria-describedby'] = infoId;
     children = Object(external_this_wp_element_["createElement"])("span", {
       className: "components-menu-item__info-wrapper"
     }, children, Object(external_this_wp_element_["createElement"])("span", {
-      id: infoId,
       className: "components-menu-item__info"
     }, info));
   }

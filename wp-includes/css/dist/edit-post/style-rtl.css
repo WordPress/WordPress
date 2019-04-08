@@ -692,12 +692,9 @@ body.is-fullscreen-mode .edit-post-header {
     z-index: -2; }
     @media (min-width: 600px) {
       .edit-post-sidebar > .components-panel {
-        overflow: inherit;
+        overflow: hidden;
         height: auto;
         max-height: none; } }
-    @media (min-width: 782px) {
-      body.is-fullscreen-mode .edit-post-sidebar > .components-panel {
-        max-height: calc(100vh - 50px); } }
   .edit-post-sidebar > .components-panel .components-panel__header {
     position: fixed;
     z-index: 1;

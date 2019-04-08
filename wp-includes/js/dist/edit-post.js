@@ -3007,7 +3007,6 @@ function FeatureToggle(_ref) {
     isSelected: isActive,
     onClick: Object(external_lodash_["flow"])(onToggle, speakMessage),
     role: "menuitemcheckbox",
-    label: label,
     info: info
   }, label);
 }
@@ -3534,7 +3533,6 @@ function BlockInspectorButton(_ref) {
     className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
     onClick: Object(external_lodash_["flow"])(areAdvancedSettingsOpened ? closeSidebar : openEditorSidebar, speakMessage, onClick),
     icon: "admin-generic",
-    label: small ? label : undefined,
     shortcut: keyboard_shortcuts.toggleSidebar
   }, !small && label);
 }
@@ -3614,7 +3612,7 @@ PluginBlockSettingsMenuGroup.Slot = Object(external_this_wp_data_["withSelect"])
 function VisualEditor() {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockSelectionClearer"], {
     className: "edit-post-visual-editor editor-styles-wrapper"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["VisualEditorGlobalKeyboardShortcuts"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["CopyHandler"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MultiSelectScrollIntoView"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["WritingFlow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ObserveTyping"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostTitle"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockList"], null))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["_BlockSettingsMenuFirstItem"], null, function (_ref) {
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["VisualEditorGlobalKeyboardShortcuts"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MultiSelectScrollIntoView"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["WritingFlow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ObserveTyping"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["CopyHandler"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostTitle"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockList"], null)))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["_BlockSettingsMenuFirstItem"], null, function (_ref) {
     var onClose = _ref.onClose;
     return Object(external_this_wp_element_["createElement"])(block_inspector_button, {
       onClick: onClose
@@ -6500,7 +6498,7 @@ var plugin_block_settings_menu_item_PluginBlockSettingsMenuItem = function Plugi
       return null;
     }
 
-    return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
+    return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
       className: "editor-block-settings-menu__control",
       onClick: Object(external_this_wp_compose_["compose"])(onClick, onClose),
       icon: icon || 'admin-plugins',

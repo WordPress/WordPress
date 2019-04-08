@@ -707,6 +707,10 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
 .block-editor-block-list__block .block-editor-block-contextual-toolbar > * {
   pointer-events: auto; }
 
+.block-editor-block-list__block[data-align="full"] .block-editor-block-contextual-toolbar {
+  left: 0;
+  right: 0; }
+
 .block-editor-block-list__block.is-focus-mode:not(.is-multi-selected) > .block-editor-block-contextual-toolbar {
   margin-left: -28px; }
 
@@ -1753,17 +1757,7 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   .block-editor-rich-text__editable:focus {
     outline: none; }
     .block-editor-rich-text__editable:focus *[data-rich-text-format-boundary] {
-      border-radius: 2px;
-      box-shadow: 0 0 0 1px #e8eaeb;
-      background: #e8eaeb;
-      color: #191e23; }
-    .block-editor-rich-text__editable:focus a[data-rich-text-format-boundary] {
-      box-shadow: 0 0 0 1px #e5f5fa;
-      background: #e5f5fa;
-      color: #006589; }
-    .block-editor-rich-text__editable:focus code[data-rich-text-format-boundary] {
-      background: #e8eaeb;
-      box-shadow: 0 0 0 1px #e8eaeb; }
+      border-radius: 2px; }
   .block-editor-rich-text__editable[data-is-placeholder-visible="true"] {
     position: absolute;
     top: 0;

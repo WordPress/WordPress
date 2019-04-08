@@ -2180,7 +2180,7 @@ var findBlock = function findBlock(url) {
   return _constants__WEBPACK_IMPORTED_MODULE_5__[/* DEFAULT_EMBED_BLOCK */ "b"];
 };
 var isFromWordPress = function isFromWordPress(html) {
-  return Object(lodash__WEBPACK_IMPORTED_MODULE_6__["includes"])(html, 'class="wp-embedded-content" data-secret');
+  return Object(lodash__WEBPACK_IMPORTED_MODULE_6__["includes"])(html, 'class="wp-embedded-content"');
 };
 var getPhotoHtml = function getPhotoHtml(photo) {
   // 100% width for the preview so it fits nicely into the document, some "thumbnails" are
@@ -4115,12 +4115,27 @@ function getEmbedEditComponent(title, icon) {
 
           if (switchedPreview || switchedURL) {
             if (this.props.cannotEmbed) {
-              // Can't embed this URL, and we've just received or switched the preview.
+              // We either have a new preview or a new URL, but we can't embed it.
+              if (!this.props.fetching) {
+                // If we're not fetching the preview, then we know it can't be embedded, so try
+                // removing any trailing slash, and resubmit.
+                this.resubmitWithoutTrailingSlash();
+              }
+
               return;
             }
 
             this.handleIncomingPreview();
           }
+        }
+      }, {
+        key: "resubmitWithoutTrailingSlash",
+        value: function resubmitWithoutTrailingSlash() {
+          this.setState(function (prevState) {
+            return {
+              url: prevState.url.replace(/\/$/, '')
+            };
+          }, this.setUrl);
         }
       }, {
         key: "setUrl",
@@ -8003,11 +8018,15 @@ var settings = {
         className = _ref2.className;
     var content = attributes.content;
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["RichText"], {
-      tagName: "pre",
+      tagName: "pre" // Ensure line breaks are normalised to HTML.
+      ,
       value: content.replace(/\n/g, '<br>'),
       onChange: function onChange(nextContent) {
         setAttributes({
-          content: nextContent
+          // Ensure line breaks are normalised to characters. This
+          // saves space, is easier to read, and ensures display
+          // filters work correctly.
+          content: nextContent.replace(/<br ?\/?>/g, '\n')
         });
       },
       placeholder: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Write preformatted text…'),
@@ -19134,106 +19153,6 @@ var settings = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
-
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
-
-// EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
-var external_this_wp_blockEditor_ = __webpack_require__(8);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/search/edit.js
-
-
-/**
- * WordPress dependencies
- */
-
-
-function SearchEdit(_ref) {
-  var className = _ref.className,
-      attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var label = attributes.label,
-      placeholder = attributes.placeholder,
-      buttonText = attributes.buttonText;
-  return Object(external_this_wp_element_["createElement"])("div", {
-    className: className
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
-    wrapperClassName: "wp-block-search__label",
-    "aria-label": Object(external_this_wp_i18n_["__"])('Label text'),
-    placeholder: Object(external_this_wp_i18n_["__"])('Add label…'),
-    keepPlaceholderOnFocus: true,
-    formattingControls: [],
-    value: label,
-    onChange: function onChange(html) {
-      return setAttributes({
-        label: html
-      });
-    }
-  }), Object(external_this_wp_element_["createElement"])("input", {
-    className: "wp-block-search__input",
-    "aria-label": Object(external_this_wp_i18n_["__"])('Optional placeholder text') // We hide the placeholder field's placeholder when there is a value. This
-    // stops screen readers from reading the placeholder field's placeholder
-    // which is confusing.
-    ,
-    placeholder: placeholder ? undefined : Object(external_this_wp_i18n_["__"])('Optional placeholder…'),
-    value: placeholder,
-    onChange: function onChange(event) {
-      return setAttributes({
-        placeholder: event.target.value
-      });
-    }
-  }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
-    wrapperClassName: "wp-block-search__button",
-    className: "wp-block-search__button-rich-text",
-    "aria-label": Object(external_this_wp_i18n_["__"])('Button text'),
-    placeholder: Object(external_this_wp_i18n_["__"])('Add button text…'),
-    keepPlaceholderOnFocus: true,
-    formattingControls: [],
-    value: buttonText,
-    onChange: function onChange(html) {
-      return setAttributes({
-        buttonText: html
-      });
-    }
-  }));
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/search/index.js
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return search_name; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "settings", function() { return settings; });
-/**
- * WordPress dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-
-var search_name = 'core/search';
-var settings = {
-  title: Object(external_this_wp_i18n_["__"])('Search'),
-  description: Object(external_this_wp_i18n_["__"])('Help visitors find your content.'),
-  icon: 'search',
-  category: 'widgets',
-  keywords: [Object(external_this_wp_i18n_["__"])('find')],
-  edit: SearchEdit,
-  save: function save() {
-    return null;
-  }
-};
-
-
-/***/ }),
-/* 251 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
 
@@ -19606,6 +19525,106 @@ var settings = {
       }));
     }
   }]
+};
+
+
+/***/ }),
+/* 251 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: external {"this":["wp","i18n"]}
+var external_this_wp_i18n_ = __webpack_require__(1);
+
+// EXTERNAL MODULE: external {"this":["wp","element"]}
+var external_this_wp_element_ = __webpack_require__(0);
+
+// EXTERNAL MODULE: external {"this":["wp","blockEditor"]}
+var external_this_wp_blockEditor_ = __webpack_require__(8);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/search/edit.js
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+function SearchEdit(_ref) {
+  var className = _ref.className,
+      attributes = _ref.attributes,
+      setAttributes = _ref.setAttributes;
+  var label = attributes.label,
+      placeholder = attributes.placeholder,
+      buttonText = attributes.buttonText;
+  return Object(external_this_wp_element_["createElement"])("div", {
+    className: className
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+    wrapperClassName: "wp-block-search__label",
+    "aria-label": Object(external_this_wp_i18n_["__"])('Label text'),
+    placeholder: Object(external_this_wp_i18n_["__"])('Add label…'),
+    keepPlaceholderOnFocus: true,
+    formattingControls: [],
+    value: label,
+    onChange: function onChange(html) {
+      return setAttributes({
+        label: html
+      });
+    }
+  }), Object(external_this_wp_element_["createElement"])("input", {
+    className: "wp-block-search__input",
+    "aria-label": Object(external_this_wp_i18n_["__"])('Optional placeholder text') // We hide the placeholder field's placeholder when there is a value. This
+    // stops screen readers from reading the placeholder field's placeholder
+    // which is confusing.
+    ,
+    placeholder: placeholder ? undefined : Object(external_this_wp_i18n_["__"])('Optional placeholder…'),
+    value: placeholder,
+    onChange: function onChange(event) {
+      return setAttributes({
+        placeholder: event.target.value
+      });
+    }
+  }), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["RichText"], {
+    wrapperClassName: "wp-block-search__button",
+    className: "wp-block-search__button-rich-text",
+    "aria-label": Object(external_this_wp_i18n_["__"])('Button text'),
+    placeholder: Object(external_this_wp_i18n_["__"])('Add button text…'),
+    keepPlaceholderOnFocus: true,
+    formattingControls: [],
+    value: buttonText,
+    onChange: function onChange(html) {
+      return setAttributes({
+        buttonText: html
+      });
+    }
+  }));
+}
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/block-library/build-module/search/index.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "name", function() { return search_name; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "settings", function() { return settings; });
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+var search_name = 'core/search';
+var settings = {
+  title: Object(external_this_wp_i18n_["__"])('Search'),
+  description: Object(external_this_wp_i18n_["__"])('Help visitors find your content.'),
+  icon: 'search',
+  category: 'widgets',
+  keywords: [Object(external_this_wp_i18n_["__"])('find')],
+  edit: SearchEdit,
+  save: function save() {
+    return null;
+  }
 };
 
 
@@ -20098,10 +20117,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _more__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(248);
 /* harmony import */ var _nextpage__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(249);
 /* harmony import */ var _preformatted__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(213);
-/* harmony import */ var _pullquote__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(251);
+/* harmony import */ var _pullquote__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(250);
 /* harmony import */ var _block__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(233);
 /* harmony import */ var _rss__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(252);
-/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(250);
+/* harmony import */ var _search__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(251);
 /* harmony import */ var _separator__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(214);
 /* harmony import */ var _shortcode__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(215);
 /* harmony import */ var _spacer__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(216);

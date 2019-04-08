@@ -10974,10 +10974,15 @@ function pasteHandler(_ref3) {
       _ref3$canUserUseUnfil = _ref3.canUserUseUnfilteredHTML,
       canUserUseUnfilteredHTML = _ref3$canUserUseUnfil === void 0 ? false : _ref3$canUserUseUnfil;
   // First of all, strip any meta tags.
-  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters, parse entirely as blocks.
+  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters in HTML, parse entirely as blocks.
 
-  if (mode !== 'INLINE' && HTML.indexOf('<!-- wp:') !== -1) {
-    return parseWithGrammar(HTML);
+  if (mode !== 'INLINE') {
+    // Check plain text if there is no HTML.
+    var content = HTML ? HTML : plainText;
+
+    if (content.indexOf('<!-- wp:') !== -1) {
+      return parseWithGrammar(content);
+    }
   } // Normalize unicode to use composed characters.
   // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
   // Not normalizing the content will only affect older browsers and won't

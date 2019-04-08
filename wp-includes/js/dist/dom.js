@@ -436,16 +436,19 @@ function isSelectionForward(selection) {
   return true;
 }
 /**
- * Check whether the selection is horizontally at the edge of the container.
+ * Check whether the selection is at the edge of the container. Checks for
+ * horizontal position by default. Set `onlyVertical` to true to check only
+ * vertically.
  *
- * @param {Element} container Focusable element.
- * @param {boolean} isReverse Set to true to check left, false for right.
+ * @param {Element} container    Focusable element.
+ * @param {boolean} isReverse    Set to true to check left, false to check right.
+ * @param {boolean} onlyVertical Set to true to check only vertical position.
  *
- * @return {boolean} True if at the horizontal edge, false if not.
+ * @return {boolean} True if at the edge, false if not.
  */
 
 
-function isHorizontalEdge(container, isReverse) {
+function isEdge(container, isReverse, onlyVertical) {
   if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
@@ -462,69 +465,71 @@ function isHorizontalEdge(container, isReverse) {
     return true;
   }
 
-  var selection = window.getSelection(); // Create copy of range for setting selection to find effective offset.
+  var selection = window.getSelection();
 
-  var range = selection.getRangeAt(0).cloneRange(); // Collapse in direction of selection.
-
-  if (!selection.isCollapsed) {
-    range.collapse(!isSelectionForward(selection));
+  if (!selection.rangeCount) {
+    return false;
   }
 
-  var node = range.startContainer;
-  var extentOffset;
+  var rangeRect = getRectangleFromRange(selection.getRangeAt(0));
 
-  if (isReverse) {
-    // When in reverse, range node should be first.
-    extentOffset = 0;
-  } else if (node.nodeValue) {
-    // Otherwise, vary by node type. A text node has no children. Its range
-    // offset reflects its position in nodeValue.
-    //
-    // "If the startContainer is a Node of type Text, Comment, or
-    // CDATASection, then the offset is the number of characters from the
-    // start of the startContainer to the boundary point of the Range."
-    //
-    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset
-    // See: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue
-    extentOffset = node.nodeValue.length;
-  } else {
-    // "For other Node types, the startOffset is the number of child nodes
-    // between the start of the startContainer and the boundary point of
-    // the Range."
-    //
-    // See: https://developer.mozilla.org/en-US/docs/Web/API/Range/startOffset
-    extentOffset = node.childNodes.length;
-  } // Offset of range should be at expected extent.
-
-
-  var position = isReverse ? 'start' : 'end';
-  var offset = range["".concat(position, "Offset")];
-
-  if (offset !== extentOffset) {
+  if (!rangeRect) {
     return false;
-  } // If confirmed to be at extent, traverse up through DOM, verifying that
-  // the node is at first or last child for reverse or forward respectively
-  // (ignoring empty text nodes). Continue until container is reached.
+  }
+
+  var computedStyle = window.getComputedStyle(container);
+  var lineHeight = parseInt(computedStyle.lineHeight, 10); // Only consider the multiline selection at the edge if the direction is
+  // towards the edge.
+
+  if (!selection.isCollapsed && rangeRect.height > lineHeight && isSelectionForward(selection) === isReverse) {
+    return false;
+  } // Calculate a buffer that is half the line height. In some browsers, the
+  // selection rectangle may not fill the entire height of the line, so we add
+  // 3/4 the line height to the selection rectangle to ensure that it is well
+  // over its line boundary.
 
 
-  var order = isReverse ? 'previous' : 'next';
+  var buffer = 3 * parseInt(lineHeight, 10) / 4;
+  var containerRect = container.getBoundingClientRect();
+  var verticalEdge = isReverse ? containerRect.top > rangeRect.top - buffer : containerRect.bottom < rangeRect.bottom + buffer;
 
-  while (node !== container) {
-    var next = node["".concat(order, "Sibling")]; // Skip over empty text nodes.
+  if (!verticalEdge) {
+    return false;
+  }
 
-    while (next && next.nodeType === TEXT_NODE && next.data === '') {
-      next = next["".concat(order, "Sibling")];
-    }
-
-    if (next) {
-      return false;
-    }
-
-    node = node.parentNode;
-  } // If reached, range is assumed to be at edge.
+  if (onlyVertical) {
+    return true;
+  } // To calculate the horizontal position, we insert a test range and see if
+  // this test range has the same horizontal position. This method proves to
+  // be better than a DOM-based calculation, because it ignores empty text
+  // nodes and a trailing line break element. In other words, we need to check
+  // visual positioning, not DOM positioning.
 
 
-  return true;
+  var x = isReverse ? containerRect.left + 1 : containerRect.right - 1;
+  var y = isReverse ? containerRect.top + buffer : containerRect.bottom - buffer;
+  var testRange = hiddenCaretRangeFromPoint(document, x, y, container);
+
+  if (!testRange) {
+    return false;
+  }
+
+  var side = isReverse ? 'left' : 'right';
+  var testRect = getRectangleFromRange(testRange);
+  return Math.round(testRect[side]) === Math.round(rangeRect[side]);
+}
+/**
+ * Check whether the selection is horizontally at the edge of the container.
+ *
+ * @param {Element} container Focusable element.
+ * @param {boolean} isReverse Set to true to check left, false for right.
+ *
+ * @return {boolean} True if at the horizontal edge, false if not.
+ */
+
+
+function isHorizontalEdge(container, isReverse) {
+  return isEdge(container, isReverse);
 }
 /**
  * Check whether the selection is vertically at the edge of the container.
@@ -532,57 +537,11 @@ function isHorizontalEdge(container, isReverse) {
  * @param {Element} container Focusable element.
  * @param {boolean} isReverse Set to true to check top, false for bottom.
  *
- * @return {boolean} True if at the edge, false if not.
+ * @return {boolean} True if at the vertical edge, false if not.
  */
 
 function isVerticalEdge(container, isReverse) {
-  if (Object(external_lodash_["includes"])(['INPUT', 'TEXTAREA'], container.tagName)) {
-    return isHorizontalEdge(container, isReverse);
-  }
-
-  if (!container.isContentEditable) {
-    return true;
-  }
-
-  var selection = window.getSelection(); // Only consider the selection at the edge if the direction is towards the
-  // edge.
-
-  if (!selection.isCollapsed && isSelectionForward(selection) === isReverse) {
-    return false;
-  }
-
-  var range = selection.rangeCount ? selection.getRangeAt(0) : null;
-
-  if (!range) {
-    return false;
-  }
-
-  var rangeRect = getRectangleFromRange(range);
-
-  if (!rangeRect) {
-    return false;
-  }
-
-  var editableRect = container.getBoundingClientRect(); // Calculate a buffer that is half the line height. In some browsers, the
-  // selection rectangle may not fill the entire height of the line, so we add
-  // half the line height to the selection rectangle to ensure that it is well
-  // over its line boundary.
-
-  var _window$getComputedSt = window.getComputedStyle(container),
-      lineHeight = _window$getComputedSt.lineHeight;
-
-  var buffer = parseInt(lineHeight, 10) / 2; // Too low.
-
-  if (isReverse && rangeRect.top - buffer > editableRect.top) {
-    return false;
-  } // Too high.
-
-
-  if (!isReverse && rangeRect.bottom + buffer < editableRect.bottom) {
-    return false;
-  }
-
-  return true;
+  return isEdge(container, isReverse, true);
 }
 /**
  * Get the rectangle of a given Range.
@@ -598,6 +557,17 @@ function getRectangleFromRange(range) {
   // for all the elements in the range.
   if (!range.collapsed) {
     return range.getBoundingClientRect();
+  }
+
+  var _range = range,
+      startContainer = _range.startContainer; // Correct invalid "BR" ranges. The cannot contain any children.
+
+  if (startContainer.nodeName === 'BR') {
+    var parentNode = startContainer.parentNode;
+    var index = Array.from(parentNode.childNodes).indexOf(startContainer);
+    range = document.createRange();
+    range.setStart(parentNode, index);
+    range.setEnd(parentNode, index);
   }
 
   var rect = range.getClientRects()[0]; // If the collapsed range starts (and therefore ends) at an element node,
@@ -909,8 +879,8 @@ function getScrollContainer(node) {
 
   if (node.scrollHeight > node.clientHeight) {
     // ...except when overflow is defined to be hidden or visible
-    var _window$getComputedSt2 = window.getComputedStyle(node),
-        overflowY = _window$getComputedSt2.overflowY;
+    var _window$getComputedSt = window.getComputedStyle(node),
+        overflowY = _window$getComputedSt.overflowY;
 
     if (/(auto|scroll)/.test(overflowY)) {
       return node;

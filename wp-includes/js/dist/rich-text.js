@@ -755,16 +755,12 @@ function isFormatEqual(format1, format2) {
 
 
 /**
- * External dependencies
- */
-
-/**
  * Internal dependencies
  */
 
-
 /**
- * Normalises formats: ensures subsequent equal formats have the same reference.
+ * Normalises formats: ensures subsequent adjacent equal formats have the same
+ * reference.
  *
  * @param {Object} value Value to normalise formats of.
  *
@@ -772,20 +768,21 @@ function isFormatEqual(format1, format2) {
  */
 
 function normaliseFormats(value) {
-  var refs = [];
-  var newFormats = value.formats.map(function (formatsAtIndex) {
-    return formatsAtIndex.map(function (format) {
-      var equalRef = Object(external_lodash_["find"])(refs, function (ref) {
-        return isFormatEqual(ref, format);
+  var newFormats = value.formats.slice();
+  newFormats.forEach(function (formatsAtIndex, index) {
+    var formatsAtPreviousIndex = newFormats[index - 1];
+
+    if (formatsAtPreviousIndex) {
+      var newFormatsAtIndex = formatsAtIndex.slice();
+      newFormatsAtIndex.forEach(function (format, formatIndex) {
+        var previousFormat = formatsAtPreviousIndex[formatIndex];
+
+        if (isFormatEqual(format, previousFormat)) {
+          newFormatsAtIndex[formatIndex] = previousFormat;
+        }
       });
-
-      if (equalRef) {
-        return equalRef;
-      }
-
-      refs.push(format);
-      return format;
-    });
+      newFormats[index] = newFormatsAtIndex;
+    }
   });
   return Object(objectSpread["a" /* default */])({}, value, {
     formats: newFormats
@@ -821,7 +818,10 @@ function normaliseFormats(value) {
 function applyFormat(value, format) {
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
-  var newFormats = value.formats.slice(0); // The selection is collapsed.
+  var formats = value.formats,
+      _value$activeFormats = value.activeFormats,
+      activeFormats = _value$activeFormats === void 0 ? [] : _value$activeFormats;
+  var newFormats = formats.slice(); // The selection is collapsed.
 
   if (startIndex === endIndex) {
     var startFormat = Object(external_lodash_["find"])(newFormats[startIndex], {
@@ -844,9 +844,8 @@ function applyFormat(value, format) {
       // with the format applied.
 
     } else {
-      var previousFormat = newFormats[startIndex - 1] || [];
       return Object(objectSpread["a" /* default */])({}, value, {
-        formatPlaceholder: [].concat(Object(toConsumableArray["a" /* default */])(previousFormat), [format])
+        activeFormats: [].concat(Object(toConsumableArray["a" /* default */])(activeFormats), [format])
       });
     }
   } else {
@@ -1483,21 +1482,32 @@ function concat() {
 function getActiveFormats(_ref) {
   var formats = _ref.formats,
       start = _ref.start,
-      selectedFormat = _ref.selectedFormat;
+      end = _ref.end,
+      activeFormats = _ref.activeFormats;
 
   if (start === undefined) {
     return [];
   }
 
-  var formatsBefore = formats[start - 1] || [];
-  var formatsAfter = formats[start] || [];
-  var source = formatsAfter;
+  if (start === end) {
+    // For a collapsed caret, it is possible to override the active formats.
+    if (activeFormats) {
+      return activeFormats;
+    }
 
-  if (formatsBefore.length > formatsAfter.length) {
-    source = formatsBefore;
+    var formatsBefore = formats[start - 1] || [];
+    var formatsAfter = formats[start] || []; // By default, select the lowest amount of formats possible (which means
+    // the caret is positioned outside the format boundary). The user can
+    // then use arrow keys to define `activeFormats`.
+
+    if (formatsBefore.length < formatsAfter.length) {
+      return formatsBefore;
+    }
+
+    return formatsAfter;
   }
 
-  return source.slice(0, selectedFormat);
+  return formats[start] || [];
 }
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/get-active-format.js
@@ -1948,7 +1958,9 @@ function registerFormatType(name, settings) {
 function removeFormat(value, formatType) {
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
-  var newFormats = value.formats.slice(0); // If the selection is collapsed, expand start and end to the edges of the
+  var formats = value.formats,
+      activeFormats = value.activeFormats;
+  var newFormats = formats.slice(); // If the selection is collapsed, expand start and end to the edges of the
   // format.
 
   if (startIndex === endIndex) {
@@ -1970,7 +1982,7 @@ function removeFormat(value, formatType) {
       }
     } else {
       return Object(objectSpread["a" /* default */])({}, value, {
-        formatPlaceholder: Object(external_lodash_["reject"])(newFormats[startIndex - 1] || [], {
+        activeFormats: Object(external_lodash_["reject"])(activeFormats, {
           type: formatType
         })
       });
@@ -2432,17 +2444,6 @@ function fromFormat(_ref) {
   };
 }
 
-function getDeepestActiveFormat(value) {
-  var activeFormats = getActiveFormats(value);
-  var selectedFormat = value.selectedFormat;
-
-  if (selectedFormat === undefined) {
-    return activeFormats[activeFormats.length - 1];
-  }
-
-  return activeFormats[selectedFormat - 1];
-}
-
 var padding = {
   type: 'br',
   attributes: {
@@ -2474,7 +2475,8 @@ function toTree(_ref2) {
   var multilineFormat = {
     type: multilineTag
   };
-  var deepestActiveFormat = getDeepestActiveFormat(value);
+  var activeFormats = getActiveFormats(value);
+  var deepestActiveFormat = activeFormats[activeFormats.length - 1];
   var lastSeparatorFormats;
   var lastCharacterFormats;
   var lastCharacter; // If we're building a multiline tree, start off with a multiline element.
@@ -3437,6 +3439,58 @@ function changeListType(value, newFormat) {
   });
 }
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/update-formats.js
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Efficiently updates all the formats from `start` (including) until `end`
+ * (excluding) with the active formats. Mutates `value`.
+ *
+ * @param  {Object} $1         Named paramentes.
+ * @param  {Object} $1.value   Value te update.
+ * @param  {number} $1.start   Index to update from.
+ * @param  {number} $1.end     Index to update until.
+ * @param  {Array}  $1.formats Replacement formats.
+ *
+ * @return {Object} Mutated value.
+ */
+
+function updateFormats(_ref) {
+  var value = _ref.value,
+      start = _ref.start,
+      end = _ref.end,
+      formats = _ref.formats;
+  var formatsBefore = value.formats[start - 1] || [];
+  var formatsAfter = value.formats[end] || []; // First, fix the references. If any format right before or after are
+  // equal, the replacement format should use the same reference.
+
+  value.activeFormats = formats.map(function (format, index) {
+    if (formatsBefore[index]) {
+      if (isFormatEqual(format, formatsBefore[index])) {
+        return formatsBefore[index];
+      }
+    } else if (formatsAfter[index]) {
+      if (isFormatEqual(format, formatsAfter[index])) {
+        return formatsAfter[index];
+      }
+    }
+
+    return format;
+  });
+
+  while (--end >= start) {
+    if (value.activeFormats.length > 0) {
+      value.formats[end] = value.activeFormats;
+    } else {
+      delete value.formats[end];
+    }
+  }
+
+  return value;
+}
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/rich-text/build-module/index.js
 /* concated harmony reexport applyFormat */__webpack_require__.d(__webpack_exports__, "applyFormat", function() { return applyFormat; });
 /* concated harmony reexport charAt */__webpack_require__.d(__webpack_exports__, "charAt", function() { return charAt; });
@@ -3470,9 +3524,13 @@ function changeListType(value, newFormat) {
 /* concated harmony reexport indentListItems */__webpack_require__.d(__webpack_exports__, "indentListItems", function() { return indentListItems; });
 /* concated harmony reexport outdentListItems */__webpack_require__.d(__webpack_exports__, "outdentListItems", function() { return outdentListItems; });
 /* concated harmony reexport changeListType */__webpack_require__.d(__webpack_exports__, "changeListType", function() { return changeListType; });
+/* concated harmony reexport __unstableUpdateFormats */__webpack_require__.d(__webpack_exports__, "__unstableUpdateFormats", function() { return updateFormats; });
+/* concated harmony reexport __unstableGetActiveFormats */__webpack_require__.d(__webpack_exports__, "__unstableGetActiveFormats", function() { return getActiveFormats; });
 /**
  * Internal dependencies
  */
+
+
 
 
 

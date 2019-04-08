@@ -322,7 +322,7 @@ var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedDa
 
       if (parse && 'GET' === method && preloadedData[path]) {
         return Promise.resolve(preloadedData[path].body);
-      } else if ('OPTIONS' === method && preloadedData[method][path]) {
+      } else if ('OPTIONS' === method && preloadedData[method] && preloadedData[method][path]) {
         return Promise.resolve(preloadedData[method][path]);
       }
     }
