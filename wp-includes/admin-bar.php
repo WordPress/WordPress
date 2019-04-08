@@ -170,7 +170,7 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 		array(
 			'parent' => 'wp-logo-external',
 			'id'     => 'support-forums',
-			'title'  => __( 'Support Forums' ),
+			'title'  => __( 'Support' ),
 			'href'   => __( 'https://wordpress.org/support/' ),
 		)
 	);

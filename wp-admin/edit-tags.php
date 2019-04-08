@@ -304,7 +304,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 		$help .= '<p>' . __( '<a href="https://codex.wordpress.org/Posts_Tags_Screen">Documentation on Tags</a>' ) . '</p>';
 	}
 
-	$help .= '<p>' . __( '<a href="https://wordpress.org/support/">Support Forums</a>' ) . '</p>';
+	$help .= '<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>';
 
 	get_current_screen()->set_help_sidebar( $help );
 

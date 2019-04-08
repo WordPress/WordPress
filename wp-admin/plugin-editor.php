@@ -140,7 +140,7 @@ if ( ! is_file( $real_file ) ) {
 		'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 		'<p>' . __( '<a href="https://codex.wordpress.org/Plugins_Editor_Screen">Documentation on Editing Plugins</a>' ) . '</p>' .
 		'<p>' . __( '<a href="https://codex.wordpress.org/Writing_a_Plugin">Documentation on Writing Plugins</a>' ) . '</p>' .
-		'<p>' . __( '<a href="https://wordpress.org/support/">Support Forums</a>' ) . '</p>'
+		'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 	);
 
 	$settings = array(

@@ -52,7 +52,7 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __( '<a href="https://codex.wordpress.org/Using_Themes">Documentation on Using Themes</a>' ) . '</p>' .
 	'<p>' . __( '<a href="https://codex.wordpress.org/Editing_Files">Documentation on Editing Files</a>' ) . '</p>' .
 	'<p>' . __( '<a href="https://codex.wordpress.org/Template_Tags">Documentation on Template Tags</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://wordpress.org/support/">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 );
 
 wp_reset_vars( array( 'action', 'error', 'file', 'theme' ) );
