@@ -76,8 +76,8 @@
 				 * the browser doesn't render it correctly ([U] + [N]).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 55356, 56826, 55356, 56819 ],
-					[ 55356, 56826, 8203, 55356, 56819 ]
+					[ 0xD83C, 0xDDFA, 0xD83C, 0xDDF3 ],
+					[ 0xD83C, 0xDDFA, 0x200B, 0xD83C, 0xDDF3 ]
 				);
 
 				if ( isIdentical ) {
@@ -92,22 +92,24 @@
 				 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[ 55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447 ],
-					[ 55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447 ]
+					[ 0xD83C, 0xDFF4, 0xDB40, 0xDC67, 0xDB40, 0xDC62, 0xDB40, 0xDC65, 0xDB40, 0xDC6E, 0xDB40, 0xDC67, 0xDB40, 0xDC7F ],
+					[ 0xD83C, 0xDFF4, 0x200B, 0xDB40, 0xDC67, 0x200B, 0xDB40, 0xDC62, 0x200B, 0xDB40, 0xDC65, 0x200B, 0xDB40, 0xDC6E, 0x200B, 0xDB40, 0xDC67, 0x200B, 0xDB40, 0xDC7F ]
 				);
 
 				return ! isIdentical;
 			case 'emoji':
 				/*
-				 * She's the hero Emoji deserves, but not the one it needs right now.
+				 * Love is love.
 				 *
-				 * To test for support, try to render a new emoji (female superhero),
-				 * then compare it to how it would look if the browser doesn't render it correctly
-				 * (superhero + female sign) .
+				 * To test for Emoji 12 support, try to render a new emoji: men holding hands, with different skin
+				 * tone modifiers.
+				 *
+				 * When updating this test for future Emoji releases, ensure that individual emoji that make up the
+				 * sequence come from older emoji standards.
 				 */
 				isIdentical = emojiSetsRenderIdentically(
-					[55358, 56760, 9792, 65039],
-					[55358, 56760, 8203, 9792, 65039]
+					[0xD83D, 0xDC68, 0xD83C, 0xDFFE, 0x200D, 0xD83E, 0xDD1D, 0x200D, 0xD83D, 0xDC68, 0xD83C, 0xDFFC],
+					[0xD83D, 0xDC68, 0xD83C, 0xDFFE, 0x200B, 0xD83E, 0xDD1D, 0x200B, 0xD83D, 0xDC68, 0xD83C, 0xDFFC]
 				);
 
 				return ! isIdentical;
