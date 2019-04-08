@@ -307,7 +307,7 @@ body.colors-custom,
 	color: hsl( ' . $hue . ', ' . $saturation . ', 46% ); /* base: #767676; */
 }
 
-.colors-custom button:hover,
+.colors-custom button:hover:not( .mejs-container > button ),
 .colors-custom button:focus,
 .colors-custom input[type="button"]:hover,
 .colors-custom input[type="button"]:focus,

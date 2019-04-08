@@ -1034,7 +1034,7 @@ input[type="submit"].secondary {
 	color: #222;
 }
 
-button:hover,
+button:hover:not( .mejs-container > button ),
 button:focus,
 input[type="button"]:hover,
 input[type="button"]:focus,
