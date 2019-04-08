@@ -169,10 +169,14 @@ class Walker_Nav_Menu extends Walker {
 
 		$output .= $indent . '<li' . $id . $class_names . '>';
 
-		$atts                 = array();
-		$atts['title']        = ! empty( $item->attr_title ) ? $item->attr_title : '';
-		$atts['target']       = ! empty( $item->target ) ? $item->target : '';
-		$atts['rel']          = ! empty( $item->xfn ) ? $item->xfn : '';
+		$atts           = array();
+		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
+		if ( '_blank' === $item->target && empty( $item->xfn ) ) {
+			$atts['rel'] = 'noopener noreferrer';
+		} else {
+			$atts['rel'] = $item->xfn;
+		}
 		$atts['href']         = ! empty( $item->url ) ? $item->url : '';
 		$atts['aria-current'] = $item->current ? 'page' : '';
 
