@@ -1918,7 +1918,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 
 			$wp_new_user_notification_email_admin = array(
 				'to'      => get_option( 'admin_email' ),
-				/* translators: Password change notification email subject. %s: Site title */
+				/* translators: New user registration notification email subject. %s: Site title */
 				'subject' => __( '[%s] New User Registration' ),
 				'message' => $message,
 				'headers' => '',
@@ -1984,8 +1984,8 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 
 		$wp_new_user_notification_email = array(
 			'to'      => $user->user_email,
-			/* translators: Password change notification email subject. %s: Site title */
-			'subject' => __( '[%s] Your username and password info' ),
+			/* translators: Login credentials notification email subject. %s: Site title */
+			'subject' => __( '[%s] Login Credentials' ),
 			'message' => $message,
 			'headers' => '',
 		);

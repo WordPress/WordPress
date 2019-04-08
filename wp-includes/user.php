@@ -1970,8 +1970,8 @@ All at ###SITENAME###
 
 			$pass_change_email = array(
 				'to'      => $user['user_email'],
-				/* translators: User password change notification email subject. %s: Site name */
-				'subject' => __( '[%s] Notice of Password Change' ),
+				/* translators: Password change notification email subject. %s: Site name */
+				'subject' => __( '[%s] Password Changed' ),
 				'message' => $pass_change_text,
 				'headers' => '',
 			);
@@ -2027,8 +2027,8 @@ All at ###SITENAME###
 
 			$email_change_email = array(
 				'to'      => $user['user_email'],
-				/* translators: User email change notification email subject. %s: Site name */
-				'subject' => __( '[%s] Notice of Email Change' ),
+				/* translators: Email change notification email subject. %s: Site name */
+				'subject' => __( '[%s] Email Changed' ),
 				'message' => $email_change_text,
 				'headers' => '',
 			);
@@ -2809,7 +2809,8 @@ All at ###SITENAME###
 		$content = str_replace( '###SITENAME###', $sitename, $content );
 		$content = str_replace( '###SITEURL###', home_url(), $content );
 
-		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), $sitename ), $content );
+		/* translators: New email address notification email subject. %s: Site name */
+		wp_mail( $_POST['email'], sprintf( __( '[%s] Email Change Request' ), $sitename ), $content );
 
 		$_POST['email'] = $current_user->user_email;
 	}
@@ -3168,7 +3169,7 @@ function _wp_privacy_send_erasure_fulfillment_notification( $request_id ) {
 	);
 
 	$subject = sprintf(
-		/* translators: %s: Site name. */
+		/* translators: Erasure request fulfilled notification email subject. %s: Site name. */
 		__( '[%s] Erasure Request Fulfilled' ),
 		$email_data['sitename']
 	);

@@ -6582,7 +6582,7 @@ All at ###SITENAME###
 	$email_change_email = array(
 		'to'      => $old_email,
 		/* translators: Site admin email change notification email subject. %s: Site title */
-		'subject' => __( '[%s] Notice of Admin Email Change' ),
+		'subject' => __( '[%s] Admin Email Changed' ),
 		'message' => $email_change_text,
 		'headers' => '',
 	);

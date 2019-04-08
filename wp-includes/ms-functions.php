@@ -2645,7 +2645,7 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', network_home_url(), $content );
 
-	wp_mail( $value, sprintf( __( '[%s] New Network Admin Email Address' ), wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ) ), $content );
+	wp_mail( $value, sprintf( __( '[%s] Network Admin Email Change Request' ), wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ) ), $content );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
@@ -2704,7 +2704,7 @@ All at ###SITENAME###
 	$email_change_email = array(
 		'to'      => $old_email,
 		/* translators: Network admin email change notification email subject. %s: Network title */
-		'subject' => __( '[%s] Notice of Network Admin Email Change' ),
+		'subject' => __( '[%s] Network Admin Email Changed' ),
 		'message' => $email_change_text,
 		'headers' => '',
 	);

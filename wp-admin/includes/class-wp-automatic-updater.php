@@ -904,11 +904,11 @@ Thanks! -- The WordPress Team"
 			);
 			$body[] = '';
 
-			/* translators: %s: site title */
-			$subject = sprintf( __( '[%s] There were failures during background updates' ), $site_title );
+			/* translators: Background update failed notification email subject. %s: site title */
+			$subject = sprintf( __( '[%s] Background Update Failed' ), $site_title );
 		} else {
-			/* translators: %s: site title */
-			$subject = sprintf( __( '[%s] Background updates have finished' ), $site_title );
+			/* translators: Background update finished notification email subject. %s: site title */
+			$subject = sprintf( __( '[%s] Background Update Finished' ), $site_title );
 		}
 
 		$body[] = trim(
