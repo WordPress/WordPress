@@ -67,7 +67,7 @@
 }
 
 .site-health-progress.loading .site-health-progress-count::after {
-	animation: loadingEllipsis 3s infinite ease-in-out;
+	content: "···";
 }
 
 .site-health-progress.loading svg #bar {
@@ -105,18 +105,6 @@
 	}
 	100% {
 		stroke: #adc5d2;
-	}
-}
-
-@keyframes loadingEllipsis {
-	0% {
-		content: ".";
-	}
-	50% {
-		content: "..";
-	}
-	100% {
-		content: "...";
 	}
 }
 
