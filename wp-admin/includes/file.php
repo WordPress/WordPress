@@ -2550,6 +2550,9 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 		if ( is_wp_error( $mail_success ) ) {
 			wp_send_json_error( $mail_success->get_error_message() );
 		}
+
+		// Update the request to completed state when the export email is sent.
+		_wp_privacy_completed_request( $request_id );
 	} else {
 		// Modify the response to include the URL of the export file so the browser can fetch it.
 		$export_file_url = get_post_meta( $request_id, '_export_file_url', true );
@@ -2557,9 +2560,6 @@ function wp_privacy_process_personal_data_export_page( $response, $exporter_inde
 			$response['url'] = $export_file_url;
 		}
 	}
-
-	// Update the request to completed state.
-	_wp_privacy_completed_request( $request_id );
 
 	return $response;
 }
