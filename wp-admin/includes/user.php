@@ -830,7 +830,7 @@ function _wp_personal_data_export_page() {
 
 		<?php settings_errors(); ?>
 
-		<form method="post" class="wp-privacy-request-form">
+		<form action="<?php echo admin_url( 'tools.php?page=export_personal_data' ); ?>" method="post" class="wp-privacy-request-form">
 			<h2><?php esc_html_e( 'Add Data Export Request' ); ?></h2>
 			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
 
@@ -914,7 +914,7 @@ function _wp_personal_data_removal_page() {
 
 		<?php settings_errors(); ?>
 
-		<form method="post" class="wp-privacy-request-form">
+		<form action="<?php echo admin_url( 'tools.php?page=remove_personal_data' ); ?>" method="post" class="wp-privacy-request-form">
 			<h2><?php esc_html_e( 'Add Data Erasure Request' ); ?></h2>
 			<p><?php esc_html_e( 'An email will be sent to the user at this email address asking them to verify the request.' ); ?></p>
 
