@@ -87,12 +87,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="site-health-copy-buttons">
 		<div class="copy-button-wrapper">
 			<button type="button" class="button button-primary copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard' ); ?></button>
-			<span class="success" aria-hidden="true">Copied!</span>
+			<span class="success" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
 		</div>
 		<?php if ( $english_info ) : ?>
 			<div class="copy-button-wrapper">
 				<button type="button" class="button copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $english_info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard (English)' ); ?></button>
-				<span class="success" aria-hidden="true">Copied!</span>
+				<span class="success" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
 			</div>
 		<?php endif; ?>
 	</div>
