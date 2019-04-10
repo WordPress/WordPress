@@ -235,8 +235,13 @@ p {
 .login input[type="text"] {
 	font-size: 24px;
 	width: 100%;
-	padding: 5px 45px 5px 5px;
+	padding: 5px;
 	margin: 2px 6px 16px 0;
+}
+
+.login-action-rp form .input,
+.login-action-rp input[type="text"] {
+	padding: 5px 45px 5px 5px;
 }
 
 .login form .input,
