@@ -1378,7 +1378,8 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	}
 
 	// Bail early if an image has been inserted and later edited.
-	if ( preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) &&
+	if ( array_key_exist( 'file', $image_meta ) && 
+	    preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) &&
 		strpos( wp_basename( $image_src ), $img_edit_hash[0] ) === false ) {
 
 		return $image;
@@ -1394,7 +1395,8 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 		 */
 		$image_filename = wp_basename( $image_src );
 
-		if ( $image_filename === wp_basename( $image_meta['file'] ) ) {
+		if ( array_key_exist( 'file', $image_meta ) && 
+		    $image_filename === wp_basename( $image_meta['file'] ) ) {
 			$width  = (int) $image_meta['width'];
 			$height = (int) $image_meta['height'];
 		} else {
