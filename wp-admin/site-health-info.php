@@ -66,11 +66,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<?php
 	WP_Debug_Data::check_for_updates();
 
-	$info         = WP_Debug_Data::debug_data();
-	$english_info = '';
-	if ( 0 !== strpos( get_user_locale(), 'en' ) ) {
-		$english_info = WP_Debug_Data::debug_data( 'en_US' );
-	}
+	$info = WP_Debug_Data::debug_data();
+
 	?>
 
 	<h2>
@@ -86,15 +83,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="site-health-copy-buttons">
 		<div class="copy-button-wrapper">
-			<button type="button" class="button button-primary copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard' ); ?></button>
+			<button type="button" class="button copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $info, 'debug' ) ); ?>">
+				<?php _e( 'Copy site info to clipboard' ); ?>
+			</button>
 			<span class="success" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
 		</div>
-		<?php if ( $english_info ) : ?>
-			<div class="copy-button-wrapper">
-				<button type="button" class="button copy-button" data-clipboard-text="<?php echo esc_attr( WP_Debug_Data::format( $english_info, 'text' ) ); ?>"><?php _e( 'Copy site info to clipboard (English)' ); ?></button>
-				<span class="success" aria-hidden="true"><?php _e( 'Copied!' ); ?></span>
-			</div>
-		<?php endif; ?>
 	</div>
 
 	<div id="health-check-debug" class="health-check-accordion">
