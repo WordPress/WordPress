@@ -323,7 +323,7 @@ class WP_Object_Cache {
 	 * The blog prefix to prepend to keys in non-global groups.
 	 *
 	 * @since 3.5.0
-	 * @var int
+	 * @var string
 	 */
 	private $blog_prefix;
 
