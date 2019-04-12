@@ -2065,6 +2065,7 @@ function wp_default_styles( &$styles ) {
 		'customize-preview',
 		'ie',
 		'login',
+		'site-health',
 		// Includes CSS
 		'buttons',
 		'admin-bar',
