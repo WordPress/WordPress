@@ -1984,8 +1984,8 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 
 		$wp_new_user_notification_email = array(
 			'to'      => $user->user_email,
-			/* translators: Login credentials notification email subject. %s: Site title */
-			'subject' => __( '[%s] Login Credentials' ),
+			/* translators: Login details notification email subject. %s: Site title */
+			'subject' => __( '[%s] Login Details' ),
 			'message' => $message,
 			'headers' => '',
 		);
