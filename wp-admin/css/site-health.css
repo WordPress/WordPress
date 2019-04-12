@@ -363,6 +363,10 @@
 	display: none;
 }
 
+.health-check-accordion-panel a .dashicons {
+	text-decoration: none;
+}
+
 /* Better position for the WordPress admin notices and update nag. */
 .site-health .notice {
 	margin: 5px 20px 15px 22px;
