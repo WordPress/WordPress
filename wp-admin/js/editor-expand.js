@@ -1473,12 +1473,20 @@
 				onPostRender: function() {
 					var button = this;
 
+					editor.on( 'init', function() {
+						if ( button.disabled() ) {
+							button.hide();
+						}
+					} );
+
 					$document
 					.on( 'dfw-activate.focus', function() {
 						button.disabled( false );
+						button.show();
 					} )
 					.on( 'dfw-deactivate.focus', function() {
 						button.disabled( true );
+						button.hide();
 					} )
 					.on( 'dfw-on.focus', function() {
 						button.active( true );

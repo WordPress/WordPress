@@ -1269,6 +1269,13 @@ i.mce-i-wp_code:before {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+
+.mce-toolbar .mce-btn-group .mce-btn.mce-wp-dfw {
+	margin: 7px 7px 0 0;
+}
+
+.qt-dfw {
 	margin: 5px 5px 0 0;
 }
 
