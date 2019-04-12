@@ -1099,8 +1099,8 @@ function validate_plugin_requirements( $plugin ) {
 		return true;
 	}
 
-	$plugin_data['wp_compatible']  = version_compare( get_bloginfo( 'version' ), $plugin_data['requires'], '>=' );
-	$plugin_data['php_compatible'] = version_compare( phpversion(), $plugin_data['requires_php'], '>=' );
+	$plugin_data['wp_compatible']  = is_wp_version_compatible( $plugin_data['requires'] );
+	$plugin_data['php_compatible'] = is_php_version_compatible( $plugin_data['requires_php'] );
 
 	$plugin_data = array_merge( $plugin_data, get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin ) );
 

@@ -3417,7 +3417,7 @@ function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
     <message><![CDATA[{$message}]]></message>
     <data>
         <status>{$r['response']}</status>
-    </data> 
+    </data>
 </error>
 
 EOD;
@@ -7120,4 +7120,28 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 		closedir( $handle );
 	}
 	return $size;
+}
+
+/**
+* Checks compatibility with the current WordPress version.
+*
+* @since 5.2.0
+*
+* @param string $required Minimum required WordPress version.
+* @return bool True if required version is compatible or empty, false if not.
+*/
+function is_wp_version_compatible( $required ) {
+	return empty( $required ) || version_compare( get_bloginfo( 'version' ), $required, '>=' );
+}
+
+/**
+ * Checks compatibility with the current PHP version.
+ *
+ * @since 5.2.0
+ *
+ * @param string $required Minimum required PHP version.
+ * @return bool True if required version is compatible or empty, false if not.
+ */
+function is_php_version_compatible( $required ) {
+	return empty( $required ) || version_compare( phpversion(), $required, '>=' );
 }
