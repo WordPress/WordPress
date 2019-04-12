@@ -8,6 +8,10 @@
 
 jQuery( document ).ready( function( $ ) {
 
+	var __ = wp.i18n.__,
+		_n = wp.i18n._n,
+		sprintf = wp.i18n.sprintf;
+
 	var data;
 	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
 	var isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length;
@@ -17,7 +21,7 @@ jQuery( document ).ready( function( $ ) {
 		var $wrapper = $( e.trigger ).closest( 'div' );
 		$( '.success', $wrapper ).addClass( 'visible' );
 
-		wp.a11y.speak( SiteHealth.string.site_info_copied );
+		wp.a11y.speak( __( 'Site information has been added to your clipboard.' ) );
 	} );
 
 	// Accordion handling in various areas.
@@ -52,11 +56,24 @@ jQuery( document ).ready( function( $ ) {
 	function AppendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
-			issueCounter = $( '.issue-count', issueWrapper );
+			heading;
 
 		SiteHealth.site_status.issues[ issue.status ]++;
 
-		issueCounter.text( SiteHealth.site_status.issues[ issue.status ] );
+		var count = SiteHealth.site_status.issues[ issue.status ];
+
+		if ( 'critical' === issue.status ) {
+			heading = sprintf( _n( '%s Critical issue', '%s Critical issues', count ), '<span class="issue-count">' + count + '</span>' );
+		} else if ( 'recommended' === issue.status ) {
+			heading = sprintf( _n( '%s Recommended improvement', '%s Recommended improvements', count ), '<span class="issue-count">' + count + '</span>' );
+		} else if ( 'good' === issue.status ) {
+			heading = sprintf( _n( '%s Item with no issues detected', '%s Items with no issues detected', count ), '<span class="issue-count">' + count + '</span>' );
+		}
+
+		if ( heading ) {
+			$( '> h3', issueWrapper ).html( heading );
+		}
+
 		$( '.issues', '#health-check-issues-' + issue.status ).append( template( issue ) );
 	}
 
@@ -128,7 +145,9 @@ jQuery( document ).ready( function( $ ) {
 				}
 			);
 
-			wp.a11y.speak( SiteHealth.string.site_health_complete_screen_reader.replace( '%s', val + '%' ) );
+			// translators: %s: The percentage score for the tests.
+			var text = __( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' );
+			wp.a11y.speak( sprintf( text, val + '%' ) );
 		}
 	}
 
@@ -221,7 +240,7 @@ jQuery( document ).ready( function( $ ) {
 
 		// After 3 seconds announce that we're still waiting for directory sizes.
 		var timeout = window.setTimeout( function() {
-			wp.a11y.speak( SiteHealth.string.please_wait );
+			wp.a11y.speak( __( 'Please wait...' ) );
 		}, 3000 );
 
 		$.post( {
@@ -248,7 +267,7 @@ jQuery( document ).ready( function( $ ) {
 				}
 
 				window.setTimeout( function() {
-					wp.a11y.speak( SiteHealth.string.site_health_complete );
+					wp.a11y.speak( __( 'All site health tests have finished running.' ) );
 				}, delay );
 			} else {
 				// Cancel the announcement.

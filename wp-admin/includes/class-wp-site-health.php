@@ -46,17 +46,6 @@ class WP_Site_Health {
 
 		$health_check_js_variables = array(
 			'screen'      => $screen->id,
-			'string'      => array(
-				'please_wait'                        => __( 'Please wait...' ),
-				'copied'                             => __( 'Copied' ),
-				'running_tests'                      => __( 'Currently being tested...' ),
-				'site_health_complete'               => __( 'All site health tests have finished running.' ),
-				'site_info_show_copy'                => __( 'Show options for copying this information' ),
-				'site_info_hide_copy'                => __( 'Hide options for copying this information' ),
-				// translators: %s: The percentage score for the tests.
-				'site_health_complete_screen_reader' => __( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
-				'site_info_copied'                   => __( 'Site information has been added to your clipboard.' ),
-			),
 			'nonce'       => array(
 				'site_status'        => wp_create_nonce( 'health-check-site-status' ),
 				'site_status_result' => wp_create_nonce( 'health-check-site-status-result' ),

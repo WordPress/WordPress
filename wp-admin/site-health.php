@@ -91,7 +91,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="site-health-issues-wrapper" id="health-check-issues-critical">
 			<h3>
-				<span class="issue-count">0</span> <?php _e( 'Critical issues' ); ?>
+				<?php printf( _n( '%s Critical issue', '%s Critical issues', 0 ), '<span class="issue-count">0</span>' ); ?>
 			</h3>
 
 			<div id="health-check-site-status-critical" class="health-check-accordion issues"></div>
@@ -99,7 +99,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="site-health-issues-wrapper" id="health-check-issues-recommended">
 			<h3>
-				<span class="issue-count">0</span> <?php _e( 'Recommended improvements' ); ?>
+				<?php printf( _n( '%s Recommended improvement', '%s Recommended improvements', 0 ), '<span class="issue-count">0</span>' ); ?>
 			</h3>
 
 			<div id="health-check-site-status-recommended" class="health-check-accordion issues"></div>
