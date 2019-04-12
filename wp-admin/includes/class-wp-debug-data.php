@@ -387,110 +387,21 @@ class WP_Debug_Data {
 			);
 		}
 
-		$size_db = WP_Debug_Data::get_database_size();
-
-		/*
-		 * We will be using the PHP max execution time to prevent the size calculations
-		 * from causing a timeout. The default value is 30 seconds, and some
-		 * hosts do not allow you to read configuration values.
-		 */
-		if ( function_exists( 'ini_get' ) ) {
-			$max_execution_time = ini_get( 'max_execution_time' );
-		}
-
-		// The max_execution_time defaults to 0 when PHP runs from cli.
-		// We still want to limit it below.
-		if ( empty( $max_execution_time ) ) {
-			$max_execution_time = 30;
-		}
-
-		// Here 20 seconds is a "sensible default" for how long to make the user wait for the directory size calculation.
-		// When testing 20 seconds seem enough in nearly all cases. The remaining edge cases are likely testing or development sites
-		// that have very large number of files, for example `node_modules` in plugins or themes, etc.
-		if ( $max_execution_time > 20 ) {
-			$max_execution_time = 20;
-		} elseif ( $max_execution_time > 10 ) {
-			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
-			// edge-case timeouts that may happen after the size loop has finished running.
-			$max_execution_time -= 1;
-		}
-
-		// Go through the various installation directories and calculate their sizes.
-		$size_directories = array(
-			'wordpress' => array(
-				'path' => ABSPATH,
-				'size' => 0,
-			),
-			'themes'    => array(
-				'path' => trailingslashit( get_theme_root() ),
-				'size' => 0,
-			),
-			'plugins'   => array(
-				'path' => trailingslashit( WP_PLUGIN_DIR ),
-				'size' => 0,
-			),
-			'uploads'   => array(
-				'path' => $upload_dir['basedir'],
-				'size' => 0,
-			),
-		);
-
-		$size_total = 0;
-
-		// Loop over all the directories we want to gather the sizes for.
-		foreach ( $size_directories as $size => $attributes ) {
-			$dir_size = null; // Default to timeout.
-
-			if ( microtime( true ) - WP_START_TIMESTAMP < $max_execution_time ) {
-				$dir_size = get_dirsize( $attributes['path'], $max_execution_time );
-			}
-
-			if ( false === $dir_size ) {
-				// Error reading.
-				$size_directories[ $size ]['size']  = __( 'The size cannot be calculated. The directory is not accessible. Usually caused by invalid permissions.' );
-				$size_directories[ $size ]['debug'] = 'not accessible';
-
-				// Stop total size calculation.
-				$size_total = null;
-			} elseif ( null === $dir_size ) {
-				// Timeout.
-				$size_directories[ $size ]['size']  = __( 'The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files.' );
-				$size_directories[ $size ]['debug'] = 'timeout while calculating size';
-
-				// Stop total size calculation.
-				$size_total = null;
-			} else {
-				$is_subdir = ( strpos( $size_directories[ $size ]['path'], ABSPATH ) === 0 );
-
-				// phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
-				if ( null !== $size_total && ( 'wordpress' === $size || ! $is_subdir ) ) {
-					$size_total += $dir_size;
-				}
-
-				$size_directories[ $size ]['size']  = size_format( $dir_size, 2 );
-				$size_directories[ $size ]['debug'] = $size_directories[ $size ]['size'];
-			}
-		}
-
-		if ( null !== $size_total && $size_db > 0 ) {
-			$size_total = size_format( $size_total + $size_db, 2 );
-		} else {
-			$size_total = 0;
-		}
+		$not_calculated = __( 'Not calculated' );
 
 		$info['wp-paths-sizes']['fields'] = array(
 			'uploads_path'       => array(
 				'label' => __( 'Uploads Directory Location' ),
-				'value' => $size_directories['uploads']['path'],
+				'value' => $upload_dir['basedir'],
 			),
 			'uploads_size'       => array(
 				'label' => __( 'Uploads Directory Size' ),
-				'value' => $size_directories['uploads']['size'],
-				'debug' => $size_directories['uploads']['debug'],
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 			'themes_path'        => array(
 				'label' => __( 'Themes Directory Location' ),
-				'value' => $size_directories['themes']['path'],
+				'value' => trailingslashit( get_theme_root() ),
 			),
 			'current_theme_path' => array(
 				'label' => __( 'Current Theme Directory' ),
@@ -498,35 +409,36 @@ class WP_Debug_Data {
 			),
 			'themes_size'        => array(
 				'label' => __( 'Themes Directory Size' ),
-				'value' => $size_directories['themes']['size'],
-				'debug' => $size_directories['themes']['debug'],
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 			'plugins_path'       => array(
 				'label' => __( 'Plugins Directory Location' ),
-				'value' => $size_directories['plugins']['path'],
+				'value' => trailingslashit( WP_PLUGIN_DIR ),
 			),
 			'plugins_size'       => array(
 				'label' => __( 'Plugins Directory Size' ),
-				'value' => $size_directories['plugins']['size'],
-				'debug' => $size_directories['plugins']['debug'],
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 			'wordpress_path'     => array(
 				'label' => __( 'WordPress Directory Location' ),
-				'value' => $size_directories['wordpress']['path'],
+				'value' => ABSPATH,
 			),
 			'wordpress_size'     => array(
 				'label' => __( 'WordPress Directory Size' ),
-				'value' => $size_directories['wordpress']['size'],
-				'debug' => $size_directories['wordpress']['debug'],
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 			'database_size'      => array(
 				'label' => __( 'Database size' ),
-				'value' => size_format( $size_db, 2 ),
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 			'total_size'         => array(
 				'label' => __( 'Total installation size' ),
-				'value' => $size_total > 0 ? $size_total : __( 'Total size is not available. Some errors were encountered when determining the size of your installation.' ),
-				'debug' => $size_total > 0 ? $size_total : 'not available',
+				'value' => $not_calculated,
+				'debug' => 'not calculated',
 			),
 		);
 
@@ -1187,5 +1099,126 @@ class WP_Debug_Data {
 		}
 
 		return (int) $size;
+	}
+
+	/**
+	 * Fetch the sizes of the WordPress directories: `wordpress` (ABSPATH), `plugins`, `themes`, and `uploads`.
+	 * Intended to supplement the array returned by `WP_Debug_Data::debug_data()`.
+	 *
+	 * @since 5.2.0
+	 *
+	 * @return array The sizes of the directories, also the database size and total installation size.
+	 */
+	public static function get_sizes() {
+		$size_db    = self::get_database_size();
+		$upload_dir = wp_get_upload_dir();
+
+		/*
+		 * We will be using the PHP max execution time to prevent the size calculations
+		 * from causing a timeout. The default value is 30 seconds, and some
+		 * hosts do not allow you to read configuration values.
+		 */
+		if ( function_exists( 'ini_get' ) ) {
+			$max_execution_time = ini_get( 'max_execution_time' );
+		}
+
+		// The max_execution_time defaults to 0 when PHP runs from cli.
+		// We still want to limit it below.
+		if ( empty( $max_execution_time ) ) {
+			$max_execution_time = 30;
+		}
+
+		if ( $max_execution_time > 20 ) {
+			// If the max_execution_time is set to lower than 20 seconds, reduce it a bit to prevent
+			// edge-case timeouts that may happen after the size loop has finished running.
+			$max_execution_time -= 2;
+		}
+
+		// Go through the various installation directories and calculate their sizes.
+		$all_sizes = array(
+			'wordpress_size' => array(
+				'path' => ABSPATH,
+				'size' => 0,
+			),
+			'themes_size'    => array(
+				'path' => trailingslashit( get_theme_root() ),
+				'size' => 0,
+			),
+			'plugins_size'   => array(
+				'path' => trailingslashit( WP_PLUGIN_DIR ),
+				'size' => 0,
+			),
+			'uploads_size'   => array(
+				'path' => $upload_dir['basedir'],
+				'size' => 0,
+			),
+		);
+
+		$size_total = 0;
+
+		// Loop over all the directories we want to gather the sizes for.
+		foreach ( $all_sizes as $name => $attributes ) {
+			$dir_size = null; // Default to timeout.
+
+			if ( microtime( true ) - WP_START_TIMESTAMP < $max_execution_time ) {
+				$dir_size = recurse_dirsize( $attributes['path'], null, $max_execution_time );
+			}
+
+			if ( false === $dir_size ) {
+				// Error reading.
+				$all_sizes[ $name ]['size']  = __( 'The size cannot be calculated. The directory is not accessible. Usually caused by invalid permissions.' );
+				$all_sizes[ $name ]['debug'] = 'not accessible';
+
+				// Stop total size calculation.
+				$size_total = null;
+			} elseif ( null === $dir_size ) {
+				// Timeout.
+				$all_sizes[ $name ]['size']  = __( 'The directory size calculation has timed out. Usually caused by a very large number of sub-directories and files.' );
+				$all_sizes[ $name ]['debug'] = 'timeout while calculating size';
+
+				// Stop total size calculation.
+				$size_total = null;
+			} else {
+				$is_subdir = ( strpos( $attributes['path'], ABSPATH ) === 0 );
+
+				// phpcs:ignore WordPress.WP.CapitalPDangit.Misspelled
+				if ( null !== $size_total && ( 'wordpress_size' === $name || ! $is_subdir ) ) {
+					$size_total += $dir_size;
+				}
+
+				$all_sizes[ $name ]['size']  = size_format( $dir_size, 2 );
+				$all_sizes[ $name ]['debug'] = $all_sizes[ $name ]['size'];
+			}
+		}
+
+		if ( $size_db > 0 ) {
+			$database_size = size_format( $size_db, 2 );
+
+			$all_sizes['database_size'] = array(
+				'size'  => $database_size,
+				'debug' => $database_size,
+			);
+		} else {
+			$all_sizes['database_size'] = array(
+				'size'  => __( 'Not available' ),
+				'debug' => 'not available',
+			);
+		}
+
+		if ( null !== $size_total && $size_db > 0 ) {
+			$total_size = size_format( $size_total + $size_db, 2 );
+
+			$all_sizes['total_size'] = array(
+				'size'  => $total_size,
+				'debug' => $total_size,
+			);
+		} else {
+			$all_sizes['total_size'] = array(
+				'size'  => __( 'Total size is not available. Some errors were encountered when determining the size of your installation.' ),
+				'debug' => 'not available',
+			);
+		}
+
+		return $all_sizes;
 	}
 }

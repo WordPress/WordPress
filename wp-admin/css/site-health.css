@@ -377,6 +377,13 @@
 	margin-left: 22px;
 }
 
+.health-check-wp-paths-sizes.spinner {
+	position: absolute;
+	visibility: visible;
+	float: none;
+	margin: 0 4px;
+}
+
 @media screen and (max-width: 782px) {
 	.health-check-body {
 		margin: 0 12px;
