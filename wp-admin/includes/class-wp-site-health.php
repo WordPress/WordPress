@@ -1182,7 +1182,7 @@ class WP_Site_Health {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
-						/* translators: %s: Name of the constant used. */
+						/* translators: %s: WP_DEBUG_LOG */
 						__( 'The value, %s, has been added to this website&#8217;s configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' ),
 						'<code>WP_DEBUG_LOG</code>'
 					)
@@ -1197,9 +1197,10 @@ class WP_Site_Health {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
-						/* translators: %s: Name of the constant used. */
-						__( 'The value, %s, has either been added to your configuration file, or left with its default value. This will make errors display on the front end of your site.' ),
-						'<code>WP_DEBUG_DISPLAY</code>'
+						/* translators: 1: WP_DEBUG_DISPLAY, 2: WP_DEBUG */
+						__( 'The value, %1$s, has either been enabled by %2$s or added to your configuration file. This will make errors display on the front end of your site.' ),
+						'<code>WP_DEBUG_DISPLAY</code>',
+						'<code>WP_DEBUG</code>'
 					)
 				);
 			}
