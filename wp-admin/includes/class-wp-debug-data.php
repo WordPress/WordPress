@@ -27,14 +27,12 @@ class WP_Debug_Data {
 	 * @throws ImagickException
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param string $locale Optional. An ISO formatted language code to provide debug translations in. Default null.
 	 * @return array The debug data for the site.
 	 */
 	static function debug_data() {
 		global $wpdb;
 
 		// Save few function calls.
-		$locale              = get_user_locale();
 		$upload_dir          = wp_get_upload_dir();
 		$permalink_structure = get_option( 'permalink_structure' );
 		$is_ssl              = is_ssl();
@@ -64,9 +62,13 @@ class WP_Debug_Data {
 					'value' => $core_version . $core_update_needed,
 					'debug' => $core_version,
 				),
-				'language'               => array(
-					'label' => __( 'Language' ),
-					'value' => $locale,
+				'site_language'          => array(
+					'label' => __( 'Site Language' ),
+					'value' => get_locale(),
+				),
+				'user_language'          => array(
+					'label' => __( 'User Language' ),
+					'value' => get_user_locale(),
 				),
 				'home_url'               => array(
 					'label'   => __( 'Home URL' ),
