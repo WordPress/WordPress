@@ -763,8 +763,8 @@ class WP_Debug_Data {
 			$filtered_htaccess_content = ! empty( $filtered_htaccess_content );
 
 			$info['wp-server']['fields']['htaccess_extra_rules'] = array(
-				'label' => __( 'htaccess rules' ),
-				'value' => ( $filtered_htaccess_content ? __( 'Custom rules have been added to your htaccess file.' ) : __( 'Your htaccess file contains only core WordPress features.' ) ),
+				'label' => __( '.htaccess rules' ),
+				'value' => ( $filtered_htaccess_content ? __( 'Custom rules have been added to your .htaccess file.' ) : __( 'Your .htaccess file contains only core WordPress features.' ) ),
 				'debug' => $filtered_htaccess_content,
 			);
 		}
