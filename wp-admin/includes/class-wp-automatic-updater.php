@@ -205,6 +205,13 @@ class WP_Automatic_Updater {
 			}
 		}
 
+		// If updating a plugin, ensure the minimum PHP version requirements are satisfied.
+		if ( 'plugin' === $type ) {
+			if ( ! empty( $item->requires_php ) && version_compare( phpversion(), $item->requires_php, '<' ) ) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
