@@ -1831,6 +1831,14 @@ function wp_mkdir_p( $target ) {
  */
 function path_is_absolute( $path ) {
 	/*
+	 * Check to see if the path is a stream and check to see if its an actual
+	 * path or file as realpath() does not support stream wrappers.
+	 */
+	if ( wp_is_stream( $path ) && ( is_dir( $path ) || is_file( $path ) ) ) {
+		return true;
+	}
+
+	/*
 	 * This is definitive if true but fails if $path does not exist or contains
 	 * a symbolic link.
 	 */
@@ -6269,10 +6277,15 @@ function wp_delete_file( $file ) {
  * @return bool True on success, false on failure.
  */
 function wp_delete_file_from_directory( $file, $directory ) {
-	$real_file      = realpath( wp_normalize_path( $file ) );
-	$real_directory = realpath( wp_normalize_path( $directory ) );
+	if ( wp_is_stream( $file ) ) {
+		$real_file      = wp_normalize_path( $file );
+		$real_directory = wp_normalize_path( $directory );
+	} else {
+		$real_file      = realpath( wp_normalize_path( $file ) );
+		$real_directory = realpath( wp_normalize_path( $directory ) );
+	}
 
-	if ( false === $real_file || false === $real_directory || strpos( wp_normalize_path( $real_file ), trailingslashit( wp_normalize_path( $real_directory ) ) ) !== 0 ) {
+	if ( false === $real_file || false === $real_directory || strpos( $real_file, trailingslashit( $real_directory ) ) !== 0 ) {
 		return false;
 	}
 
