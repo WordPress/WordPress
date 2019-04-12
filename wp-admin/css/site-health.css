@@ -275,7 +275,7 @@
 .health-check-accordion-trigger {
 	background: #fff;
 	border: 0;
-	color: #212121;
+	color: #32373C;
 	cursor: pointer;
 	display: block;
 	font-weight: 400;
@@ -318,53 +318,35 @@
 }
 
 .health-check-accordion-trigger .badge {
-	display: inline-block;
+	float: right;
 	padding: 0.1rem 0.5rem 0.15rem;
-	background-color: #d7dade;
-	border-radius: 3px;
-	color: #000;
+	color: #32373C;
 	font-weight: 600;
-	margin: 0 0.5rem;
+	margin: 0 2rem 0 0.5rem;
 }
 
 .health-check-accordion-trigger .badge.blue {
-	background-color: #0073af;
-	color: #fff;
+	border: 1px solid #BFE7F3;
 }
 
 .health-check-accordion-trigger .badge.orange {
-	background-color: #ffb900;
-	color: #000;
+	border: 1px solid #ffb900;
 }
 
 .health-check-accordion-trigger .badge.red {
-	background-color: #dc3232;
-	color: #fff;
+	border: 1px solid #dc3232;
 }
 
 .health-check-accordion-trigger .badge.green {
-	background-color: #40860a;
-	color: #fff;
+	border: 1px solid #46B450;
 }
 
-.health-check-accordion-trigger .badge.pink {
-	background-color: #f4b0fc;
-	color: #000;
+.health-check-accordion-trigger .badge.purple {
+	border: 1px solid #826EB4;
 }
 
 .health-check-accordion-trigger .badge.gray {
-	background-color: #ccc;
-	color: #000;
-}
-
-.health-check-accordion-trigger .badge.light-blue {
-	background-color: #10e9fb;
-	color: #000;
-}
-
-.health-check-accordion-trigger .badge.light-green {
-	background-color: #60f999;
-	color: #000;
+	border: 1px solid #ccd0d4;
 }
 
 .health-check-accordion-trigger[aria-expanded="true"] .icon {

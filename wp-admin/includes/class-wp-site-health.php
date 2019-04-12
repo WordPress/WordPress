@@ -183,7 +183,7 @@ class WP_Site_Health {
 			'status'      => '',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => '',
 			'actions'     => '',
@@ -283,7 +283,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -399,7 +399,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -623,7 +623,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -712,7 +712,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
@@ -908,7 +908,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -988,7 +988,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1103,7 +1103,7 @@ class WP_Site_Health {
 			'status'      => '',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1163,7 +1163,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1225,7 +1225,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1288,7 +1288,7 @@ class WP_Site_Health {
 			'status'      => '',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1334,7 +1334,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1395,7 +1395,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
-				'color' => 'red',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1471,7 +1471,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1513,7 +1513,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
@@ -1584,7 +1584,7 @@ class WP_Site_Health {
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Performance' ),
-				'color' => 'orange',
+				'color' => 'blue',
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
