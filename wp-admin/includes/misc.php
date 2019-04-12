@@ -1665,16 +1665,11 @@ final class WP_Privacy_Policy_Content {
 				<?php
 				echo $message;
 				printf(
-					/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: link text 4: accessibility text */
-					__( ' <a href="%1$s" %2$s>%3$s%4$s</a>' ),
+					' <a href="%s" target="_blank">%s <span class="screen-reader-text">%s</span></a>',
 					$url,
-					'target="_blank"',
 					$label,
-					sprintf(
-						'<span class="screen-reader-text"> %s</span>',
-						/* translators: accessibility text */
-						__( '(opens in a new tab)' )
-					)
+					/* translators: accessibility text */
+					__( '(opens in a new tab)' )
 				);
 				?>
 				</p>
