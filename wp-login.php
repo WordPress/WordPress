@@ -66,7 +66,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	if ( wp_is_recovery_mode() ) {
 		/* translators: %s: Login screen title. */
-		$login_title = sprintf( __( '%s &#8212; Recovery Mode' ), $login_title );
+		$login_title = sprintf( __( 'Recovery Mode &#8212; %s' ), $login_title );
 	}
 
 	/**

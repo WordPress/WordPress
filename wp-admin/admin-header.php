@@ -54,7 +54,7 @@ if ( $admin_title == $title ) {
 
 if ( wp_is_recovery_mode() ) {
 	/* translators: %s: Admin screen title. */
-	$admin_title = sprintf( __( '%s &#8212; Recovery Mode' ), $admin_title );
+	$admin_title = sprintf( __( 'Recovery Mode &#8212; %s' ), $admin_title );
 }
 
 /**
