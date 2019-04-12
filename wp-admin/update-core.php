@@ -304,7 +304,12 @@ function list_plugin_updates() {
 				__( '<a href="%s">Learn more about updating PHP.</a>' ),
 				esc_url( wp_get_update_php_url() )
 			);
-			$compat .= '</p><p><em>' . wp_get_update_php_annotation() . '</em>';
+
+			$annotation = wp_get_update_php_annotation();
+
+			if ( $annotation ) {
+				$compat .= '</p><p><em>' . $annotation . '</em>';
+			}
 		}
 
 		// Get the upgrade notice for the new plugin version.
