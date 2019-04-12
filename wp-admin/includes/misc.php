@@ -1619,7 +1619,11 @@ final class WP_Privacy_Policy_Content {
 	 * @param WP_Post|null $post The currently edited post. Default null.
 	 */
 	public static function notice( $post = null ) {
-		$post = get_post( $post );
+		if ( is_null( $post ) ) {
+			global $post;
+		} else {
+			$post = get_post( $post );
+		}
 
 		if ( ! ( $post instanceof WP_Post ) ) {
 			return;
@@ -1631,30 +1635,52 @@ final class WP_Privacy_Policy_Content {
 
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
-		if ( ! $policy_page_id || $policy_page_id != $post->ID ) {
+		if ( ! $policy_page_id || $policy_page_id !== $post->ID ) {
 			return;
 		}
 
-		?>
-		<div class="notice notice-warning inline wp-pp-notice">
-			<p>
-			<?php
-			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
-			printf(
-				__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
-				esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) ),
-				'target="_blank"',
-				sprintf(
-					'<span class="screen-reader-text"> %s</span>',
-					/* translators: accessibility text */
-					__( '(opens in a new tab)' )
-				)
-			);
-			?>
-			</p>
-		</div>
-		<?php
+		$message = __( 'Need help putting together your new Privacy Policy page? Check out our guide for recommendations on what content to include, along with policies suggested by your plugins and theme.' );
+		$url     = esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) );
+		$label   = __( 'View Privacy Policy Guide.' );
 
+		if ( get_current_screen()->is_block_editor() ) {
+			wp_enqueue_script( 'wp-notices' );
+			$action = array(
+				'url'   => $url,
+				'label' => $label,
+			);
+			wp_add_inline_script(
+				'wp-notices',
+				sprintf(
+					'wp.data.dispatch( "core/notices" ).createWarningNotice( "%s", { actions: [ %s ], isDismissible: false } )',
+					$message,
+					wp_json_encode( $action )
+				),
+				'after'
+			);
+		} else {
+			?>
+			<div class="notice notice-warning inline wp-pp-notice">
+				<p>
+				<?php
+				echo $message;
+				printf(
+					/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: link text 4: accessibility text */
+					__( ' <a href="%1$s" %2$s>%3$s%4$s</a>' ),
+					$url,
+					'target="_blank"',
+					$label,
+					sprintf(
+						'<span class="screen-reader-text"> %s</span>',
+						/* translators: accessibility text */
+						__( '(opens in a new tab)' )
+					)
+				);
+				?>
+				</p>
+			</div>
+			<?php
+		}
 	}
 
 	/**
