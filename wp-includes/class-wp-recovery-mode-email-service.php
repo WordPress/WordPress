@@ -125,26 +125,27 @@ final class WP_Recovery_Mode_Email_Service {
 		$message = __(
 			'Howdy,
 
-Your site recently crashed on ###LOCATION### and may not be working as expected.
+Your site recently crashed and may not be working as expected.
 ###CAUSE###
-Click the link below to initiate recovery mode and fix the problem.
+Please click the link below to initiate recovery mode and fix the problem.
 
 This link expires in ###EXPIRES###.
 
 ###LINK### ###DETAILS###
+
+--The WordPress Team
+https://wordpress.org/
 '
 		);
 		$message = str_replace(
 			array(
 				'###LINK###',
-				'###LOCATION###',
 				'###EXPIRES###',
 				'###CAUSE###',
 				'###DETAILS###',
 			),
 			array(
 				$url,
-				'TBD',
 				human_time_diff( time() + $rate_limit ),
 				$cause ? "\n{$cause}\n" : "\n",
 				$details,
@@ -235,13 +236,13 @@ This link expires in ###EXPIRES###.
 			}
 
 			/* translators: %s: plugin name */
-			$cause = sprintf( __( 'This was caused by the %s plugin.' ), $name );
+			$cause = sprintf( __( 'This was caused by the following plugin: %s.' ), $name );
 		} else {
 			$theme = wp_get_theme( $extension['slug'] );
 			$name  = $theme->exists() ? $theme->display( 'Name' ) : $extension['slug'];
 
 			/* translators: %s: theme name */
-			$cause = sprintf( __( 'This was caused by the %s theme.' ), $name );
+			$cause = sprintf( __( 'This was caused by the following theme: %s.' ), $name );
 		}
 
 		return $cause;
