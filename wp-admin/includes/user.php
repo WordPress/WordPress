@@ -1530,7 +1530,7 @@ class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Requests_Table {
 		$download_data_markup .= '<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data' ) . '</button></span>' .
 			'<span style="display:none" class="export-personal-data-processing" >' . __( 'Downloading Data...' ) . '</span>' .
 			'<span style="display:none" class="export-personal-data-success"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data Again' ) . '</button></span>' .
-			'<span style="display:none" class="export-personal-data-failed">' . __( 'Download has failed.' ) . ' <button type="button" class="button-link">' . __( 'Retry' ) . '</button></span>';
+			'<span style="display:none" class="export-personal-data-failed">' . __( 'Download failed.' ) . ' <button type="button" class="button-link">' . __( 'Retry' ) . '</button></span>';
 
 		$download_data_markup .= '</div>';
 
