@@ -1095,7 +1095,7 @@ class WP_Site_Health {
 			if ( version_compare( $mysql_client_version, '5.5.3', '<' ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = __( 'UTF8MB4 requires a newer client library' );
+				$result['label'] = __( 'utf8mb4 requires a newer client library' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
