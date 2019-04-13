@@ -1614,7 +1614,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		if ( is_post_type_viewable( $post_type_obj ) && $post_type_obj->public ) {
 
 			if ( ! function_exists( 'get_sample_permalink' ) ) {
-				require_once ABSPATH . '/wp-admin/includes/post.php';
+				require_once ABSPATH . 'wp-admin/includes/post.php';
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID, $post->post_title, '' );

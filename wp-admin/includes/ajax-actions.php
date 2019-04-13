@@ -3620,7 +3620,7 @@ function wp_ajax_crop_image() {
 
 	switch ( $context ) {
 		case 'site-icon':
-			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-site-icon.php';
 			$wp_site_icon = new WP_Site_Icon();
 
 			// Skip creating a new attachment if the attachment is a Site Icon.

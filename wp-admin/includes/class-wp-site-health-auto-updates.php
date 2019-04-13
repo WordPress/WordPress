@@ -350,10 +350,10 @@ class WP_Site_Health_Auto_Updates {
 			if ( 'wp-content' == substr( $file, 0, 10 ) ) {
 				continue;
 			}
-			if ( ! file_exists( ABSPATH . '/' . $file ) ) {
+			if ( ! file_exists( ABSPATH . $file ) ) {
 				continue;
 			}
-			if ( ! is_writable( ABSPATH . '/' . $file ) ) {
+			if ( ! is_writable( ABSPATH . $file ) ) {
 				$unwritable_files[] = $file;
 			}
 		}

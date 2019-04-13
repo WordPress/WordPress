@@ -666,9 +666,9 @@ class WP_Debug_Data {
 		);
 
 		// Check if a .htaccess file exists.
-		if ( is_file( ABSPATH . '/.htaccess' ) ) {
+		if ( is_file( ABSPATH . '.htaccess' ) ) {
 			// If the file exists, grab the content of it.
-			$htaccess_content = file_get_contents( ABSPATH . '/.htaccess' );
+			$htaccess_content = file_get_contents( ABSPATH . '.htaccess' );
 
 			// Filter away the core WordPress rules.
 			$filtered_htaccess_content = trim( preg_replace( '/\# BEGIN WordPress[\s\S]+?# END WordPress/si', '', $htaccess_content ) );
