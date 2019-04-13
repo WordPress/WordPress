@@ -1668,7 +1668,7 @@ class WP_Site_Health {
 					__( 'The REST API request failed due to an error.' ),
 					sprintf(
 						/* translators: 1: The HTTP response code. 2: The error message returned. */
-						__( 'Error encountered: (%1$d) %2$s' ),
+						__( 'Error: [%1$s] %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
 					)
@@ -1949,7 +1949,7 @@ class WP_Site_Health {
 					__( 'The loopback request to your site failed, this means features relying on them are not currently working as expected.' ),
 					sprintf(
 						// translators: 1: The HTTP response code. 2: The error message returned.
-						__( 'Error encountered: (%1$d) %2$s' ),
+						__( 'Error: [%1$s] %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
 					)
