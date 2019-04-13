@@ -302,7 +302,7 @@ function list_plugin_updates() {
 			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
 			/* translators: %s: Update PHP page URL */
 			$compat .= sprintf(
-				__( '<a href="%s">Learn more about updating PHP.</a>' ),
+				__( '<a href="%s">Learn more about updating PHP</a>.' ),
 				esc_url( wp_get_update_php_url() )
 			);
 
