@@ -45,7 +45,7 @@ class WP_Debug_Data {
 		foreach ( $core_updates as $core => $update ) {
 			if ( 'upgrade' === $update->response ) {
 				// translators: %s: Latest WordPress version number.
-				$core_update_needed = ' ' . sprintf( __( '( Latest version: %s )' ), $update->version );
+				$core_update_needed = ' ' . sprintf( __( '(Latest version: %s)' ), $update->version );
 			} else {
 				$core_update_needed = '';
 			}
