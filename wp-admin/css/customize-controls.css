@@ -430,7 +430,7 @@ body.trashing #publish-settings {
 
 #customize-controls .customize-info .preview-notice {
 	font-size: 13px;
-	line-height: 24px;
+	line-height: 1.9;
 }
 
 #customize-controls .customize-pane-child .customize-section-title h3,
@@ -918,7 +918,7 @@ p.customize-section-description {
 .customize-control select,
 .customize-control input[type="radio"],
 .customize-control input[type="checkbox"] {
-	line-height: 28px;
+	line-height: 2;
 }
 
 .customize-control input[type="text"],
@@ -929,7 +929,7 @@ p.customize-section-description {
 .customize-control input[type="tel"],
 .customize-control input[type="url"] {
 	width: 100%;
-	line-height: 18px;
+	line-height: 1.3;
 	margin: 0;
 }
 
@@ -945,7 +945,7 @@ p.customize-section-description {
 .customize-control select {
 	width: 100%;
 	height: 28px;
-	line-height: 28px;
+	line-height: 2;
 }
 
 .customize-control select[multiple] {
@@ -955,7 +955,7 @@ p.customize-section-description {
 .customize-control-title {
 	display: block;
 	font-size: 14px;
-	line-height: 24px;
+	line-height: 1.75;
 	font-weight: 600;
 	margin-bottom: 4px;
 }
@@ -963,7 +963,7 @@ p.customize-section-description {
 .customize-control-description {
 	display: block;
 	font-style: italic;
-	line-height: 18px;
+	line-height: 1.4;
 	margin-top: 0;
 	margin-bottom: 5px;
 }
@@ -984,7 +984,7 @@ p.customize-section-description {
 }
 
 .customize-control .customize-inside-control-row {
-	line-height: 20px;
+	line-height: 1.6;
 	display: block;
 	margin-left: 24px;
 	padding-top: 6px;
@@ -1004,7 +1004,7 @@ p.customize-section-description {
 
 .customize-control-radio .customize-control-title {
 	margin-bottom: 0;
-	line-height: 22px;
+	line-height: 1.6;
 }
 
 .customize-control-radio .customize-control-title + .customize-control-description {
@@ -1098,7 +1098,7 @@ p.customize-section-description {
 .customize-control-dropdown-pages .add-new-toggle {
 	margin-left: 1px;
 	font-weight: 600;
-	line-height: 28px;
+	line-height: 2.2;
 }
 
 #customize-preview iframe {
@@ -1388,7 +1388,7 @@ p.customize-section-description {
 	border: 1px dashed #b4b9be;
 	box-sizing: border-box;
 	padding: 9px 0;
-	line-height: 20px;
+	line-height: 1.6;
 }
 
 .customize-control .attachment-media-view .button-add-media {
@@ -1859,7 +1859,7 @@ p.customize-section-description {
 .control-panel-themes .filter-themes-count {
 	position: relative;
 	float: right;
-	line-height: 34px;
+	line-height: 2.6;
 }
 
 .control-panel-themes .filter-themes-count .themes-displayed {
@@ -2088,7 +2088,7 @@ p.customize-section-description {
 }
 
 .themes-filter-bar .wp-filter-search {
-	line-height: 25px;
+	line-height: 1.8;
 	padding: 6px 10px 6px 30px;
 	max-width: 100%;
 	width: 40%;
@@ -2216,7 +2216,7 @@ p.customize-section-description {
 		height: 46px;
 		width: 26px;
 		display: block;
-		line-height: 46px;
+		line-height: 2.3;
 		padding: 0 8px 0 8px;
 		border-right: 1px solid #ddd;
 	}
@@ -2612,7 +2612,7 @@ body.adding-widget .add-new-widget:before,
 	left: 16px;
 	width: 30px;
 	height: 30px;
-	line-height: 28px;
+	line-height: 2.1;
 	text-align: center;
 	color: #72777c;
 }
@@ -2763,7 +2763,7 @@ body.adding-widget .add-new-widget:before,
 
 	.customize-control input[type="radio"] + label + br,
 	.customize-control input[type="checkbox"] + label + br {
-		line-height: 32px; /* For widgets checkboxes */
+		line-height: 2.5; /* For widgets checkboxes */
 	}
 
 	.customize-control .date-time-fields select {
@@ -2832,7 +2832,7 @@ body.adding-widget .add-new-widget:before,
 		position: absolute;
 		top: 0;
 		left: 48px;
-		line-height: 45px;
+		line-height: 3.2;
 		font-size: 14px;
 		padding: 0 12px;
 		margin: 0;
