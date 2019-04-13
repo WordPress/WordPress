@@ -524,7 +524,7 @@ ul#adminmenu > li.current > a.current:after {
 	background-color: #ca4a1f;
 	color: #fff;
 	font-size: 11px;
-	line-height: 17px;
+	line-height: 1.6;
 	text-align: center;
 	z-index: 26;
 }
