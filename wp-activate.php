@@ -37,7 +37,7 @@ if ( isset( $_GET['key'] ) && isset( $_POST['key'] ) && $_GET['key'] !== $_POST[
 if ( $key ) {
 	$redirect_url = remove_query_arg( 'key' );
 
-	if ( $redirect_url !== remove_query_arg( false ) ) {
+	if ( remove_query_arg( false ) !== $redirect_url ) {
 		setcookie( $activate_cookie, $key, 0, $activate_path, COOKIE_DOMAIN, is_ssl(), true );
 		wp_safe_redirect( $redirect_url );
 		exit;
@@ -46,18 +46,18 @@ if ( $key ) {
 	}
 }
 
-if ( $result === null && isset( $_COOKIE[ $activate_cookie ] ) ) {
+if ( null === $result && isset( $_COOKIE[ $activate_cookie ] ) ) {
 	$key    = $_COOKIE[ $activate_cookie ];
 	$result = wpmu_activate_signup( $key );
 	setcookie( $activate_cookie, ' ', time() - YEAR_IN_SECONDS, $activate_path, COOKIE_DOMAIN, is_ssl(), true );
 }
 
-if ( $result === null || ( is_wp_error( $result ) && 'invalid_key' === $result->get_error_code() ) ) {
+if ( null === $result || ( is_wp_error( $result ) && 'invalid_key' === $result->get_error_code() ) ) {
 	status_header( 404 );
 } elseif ( is_wp_error( $result ) ) {
 	$error_code = $result->get_error_code();
 
-	if ( ! in_array( $error_code, $valid_error_codes ) ) {
+	if ( ! in_array( $error_code, $valid_error_codes, true ) ) {
 		status_header( 400 );
 	}
 }
@@ -123,10 +123,10 @@ get_header( 'wp-activate' );
 	<div class="wp-activate-container">
 	<?php if ( ! $key ) { ?>
 
-		<h2><?php _e( 'Activation Key Required' ); ?></h2>
-		<form name="activateform" id="activateform" method="post" action="<?php echo network_site_url( 'wp-activate.php' ); ?>">
+		<h2><?php esc_html_e( 'Activation Key Required' ); ?></h2>
+		<form name="activateform" id="activateform" method="post" action="<?php echo esc_url( network_site_url( 'wp-activate.php' ) ); ?>">
 			<p>
-				<label for="key"><?php _e( 'Activation Key:' ); ?></label>
+				<label for="key"><?php esc_html_e( 'Activation Key:' ); ?></label>
 				<br /><input type="text" name="key" id="key" value="" size="50" />
 			</p>
 			<p class="submit">
@@ -139,49 +139,49 @@ get_header( 'wp-activate' );
 		if ( is_wp_error( $result ) && in_array( $result->get_error_code(), $valid_error_codes ) ) {
 			$signup = $result->get_error_data();
 			?>
-			<h2><?php _e( 'Your account is now active!' ); ?></h2>
+			<h2><?php esc_html_e( 'Your account is now active!' ); ?></h2>
 			<?php
 			echo '<p class="lead-in">';
 			if ( $signup->domain . $signup->path == '' ) {
 				printf(
 					/* translators: 1: login URL, 2: username, 3: user email, 4: lost password URL */
 					__( 'Your account has been activated. You may now <a href="%1$s">log in</a> to the site using your chosen username of &#8220;%2$s&#8221;. Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.' ),
-					network_site_url( 'wp-login.php', 'login' ),
-					$signup->user_login,
-					$signup->user_email,
-					wp_lostpassword_url()
+					esc_url( network_site_url( 'wp-login.php', 'login' ) ),
+					esc_html( $signup->user_login ),
+					esc_html( $signup->user_email ),
+					esc_url( wp_lostpassword_url() )
 				);
 			} else {
 				printf(
 					/* translators: 1: site URL, 2: username, 3: user email, 4: lost password URL */
 					__( 'Your site at %1$s is active. You may now log in to your site using your chosen username of &#8220;%2$s&#8221;. Please check your email inbox at %3$s for your password and login instructions. If you do not receive an email, please check your junk or spam folder. If you still do not receive an email within an hour, you can <a href="%4$s">reset your password</a>.' ),
-					sprintf( '<a href="http://%1$s">%1$s</a>', $signup->domain ),
-					$signup->user_login,
-					$signup->user_email,
-					wp_lostpassword_url()
+					sprintf( '<a href="http://%1$s">%1$s</a>', esc_url( $signup->domain ) ),
+					esc_html( $signup->user_login ),
+					esc_html( $signup->user_email ),
+					esc_url( wp_lostpassword_url() )
 				);
 			}
 			echo '</p>';
-		} elseif ( $result === null || is_wp_error( $result ) ) {
+		} elseif ( null === $result || is_wp_error( $result ) ) {
 			?>
-			<h2><?php _e( 'An error occurred during the activation' ); ?></h2>
+			<h2><?php esc_html_e( 'An error occurred during the activation' ); ?></h2>
 			<?php if ( is_wp_error( $result ) ) : ?>
-				<p><?php echo $result->get_error_message(); ?></p>
+				<p><?php echo esc_html( $result->get_error_message() ); ?></p>
 			<?php endif; ?>
 			<?php
 		} else {
 			$url  = isset( $result['blog_id'] ) ? get_home_url( (int) $result['blog_id'] ) : '';
 			$user = get_userdata( (int) $result['user_id'] );
 			?>
-			<h2><?php _e( 'Your account is now active!' ); ?></h2>
+			<h2><?php esc_html_e( 'Your account is now active!' ); ?></h2>
 
 			<div id="signup-welcome">
-			<p><span class="h3"><?php _e( 'Username:' ); ?></span> <?php echo $user->user_login; ?></p>
-			<p><span class="h3"><?php _e( 'Password:' ); ?></span> <?php echo $result['password']; ?></p>
+			<p><span class="h3"><?php esc_html_e( 'Username:' ); ?></span> <?php echo esc_html( $user->user_login ); ?></p>
+			<p><span class="h3"><?php esc_html_e( 'Password:' ); ?></span> <?php echo esc_html( $result['password'] ); ?></p>
 			</div>
 
 			<?php
-			if ( $url && $url != network_home_url( '', 'http' ) ) :
+			if ( $url && network_home_url( '', 'http' ) !== $url ) :
 				switch_to_blog( (int) $result['blog_id'] );
 				$login_url = wp_login_url();
 				restore_current_blog();
