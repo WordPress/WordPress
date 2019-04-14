@@ -72,7 +72,7 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		if ( heading ) {
-			$( '> h3', issueWrapper ).html( heading );
+			$( '.site-health-issue-count-title', issueWrapper ).html( heading );
 		}
 
 		$( '.issues', '#health-check-issues-' + issue.status ).append( template( issue ) );
