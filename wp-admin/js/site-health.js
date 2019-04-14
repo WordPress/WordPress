@@ -56,11 +56,12 @@ jQuery( document ).ready( function( $ ) {
 	function AppendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
-			heading;
+			heading,
+			count;
 
 		SiteHealth.site_status.issues[ issue.status ]++;
 
-		var count = SiteHealth.site_status.issues[ issue.status ];
+		count = SiteHealth.site_status.issues[ issue.status ];
 
 		if ( 'critical' === issue.status ) {
 			heading = sprintf( _n( '%s Critical issue', '%s Critical issues', count ), '<span class="issue-count">' + count + '</span>' );
@@ -145,9 +146,11 @@ jQuery( document ).ready( function( $ ) {
 				}
 			);
 
-			// translators: %s: The percentage score for the tests.
-			var text = __( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' );
-			wp.a11y.speak( sprintf( text, val + '%' ) );
+			wp.a11y.speak( sprintf(
+				// translators: %s: The percentage score for the tests.
+				__( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
+				val + '%'
+			) );
 		}
 	}
 
