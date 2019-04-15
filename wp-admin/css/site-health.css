@@ -312,7 +312,7 @@
 
 .health-check-accordion-trigger .icon,
 .site-health-view-passed .icon {
-	border: solid #191e23;
+	border: solid #555D66;
 	border-width: 0 2px 2px 0;
 	height: 0.5rem;
 	pointer-events: none;
