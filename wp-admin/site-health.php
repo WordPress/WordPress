@@ -91,7 +91,10 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="site-health-issues-wrapper" id="health-check-issues-critical">
 			<h3 class="site-health-issue-count-title">
-				<?php printf( _n( '%s Critical issue', '%s Critical issues', 0 ), '<span class="issue-count">0</span>' ); ?>
+				<?php
+					/* translators: %s: number of critical issues found */
+					printf( _n( '%s Critical issue', '%s Critical issues', 0 ), '<span class="issue-count">0</span>' );
+				?>
 			</h3>
 
 			<div id="health-check-site-status-critical" class="health-check-accordion issues"></div>
@@ -99,7 +102,10 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="site-health-issues-wrapper" id="health-check-issues-recommended">
 			<h3 class="site-health-issue-count-title">
-				<?php printf( _n( '%s Recommended improvement', '%s Recommended improvements', 0 ), '<span class="issue-count">0</span>' ); ?>
+				<?php
+					/* translators: %s: number of recommended improvements */
+					printf( _n( '%s Recommended improvement', '%s Recommended improvements', 0 ), '<span class="issue-count">0</span>' );
+				?>
 			</h3>
 
 			<div id="health-check-site-status-recommended" class="health-check-accordion issues"></div>
@@ -114,7 +120,10 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="site-health-issues-wrapper hidden" id="health-check-issues-good">
 		<h3 class="site-health-issue-count-title">
-			<?php printf( _n( '%s Item with no issues detected', '%s Items with no issues detected', 0 ), '<span class="issue-count">0</span>' ); ?>
+			<?php
+				/* translators: %s: number of items with no issues */
+				printf( _n( '%s Item with no issues detected', '%s Items with no issues detected', 0 ), '<span class="issue-count">0</span>' );
+			?>
 		</h3>
 
 		<div id="health-check-site-status-good" class="health-check-accordion issues"></div>
