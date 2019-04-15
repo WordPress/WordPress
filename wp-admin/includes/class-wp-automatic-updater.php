@@ -654,7 +654,7 @@ class WP_Automatic_Updater {
 
 			case 'fail':   // We tried to update but couldn't.
 			case 'manual': // We can't update (and made no attempt).
-				/* translators: Updated available notification email subject. 1: Site title, 2: WordPress version number. */
+				/* translators: Update available notification email subject. 1: Site title, 2: WordPress version number. */
 				$subject = __( '[%1$s] WordPress %2$s is available. Please update!' );
 				break;
 
