@@ -2945,6 +2945,8 @@ function wp_nonce_ays( $action ) {
  *              an integer to be used as the response code.
  * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
  *
+ * @global WP_Query $wp_query Global WP_Query instance.
+ *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
  *                                  Default empty.
@@ -2971,6 +2973,7 @@ function wp_nonce_ays( $action ) {
  * }
  */
 function wp_die( $message = '', $title = '', $args = array() ) {
+	global $wp_query;
 
 	if ( is_int( $args ) ) {
 		$args = array( 'response' => $args );
@@ -3016,9 +3019,10 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 */
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	} elseif ( wp_is_xml_request()
-		|| function_exists( 'is_feed' ) && is_feed()
-		|| function_exists( 'is_comment_feed' ) && is_comment_feed()
-		|| function_exists( 'is_trackback' ) && is_trackback() ) {
+		|| isset( $wp_query ) &&
+			( function_exists( 'is_feed' ) && is_feed()
+			|| function_exists( 'is_comment_feed' ) && is_comment_feed()
+			|| function_exists( 'is_trackback' ) && is_trackback() ) ) {
 		/**
 		 * Filters the callback for killing WordPress execution for XML requests.
 		 *
