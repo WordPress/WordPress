@@ -286,6 +286,11 @@
 	width: 100%;
 }
 
+.wp-core-ui .button.site-health-view-passed {
+	position: relative;
+	padding: 0 40px 0 20px;
+}
+
 .health-check-accordion-trigger:hover,
 .health-check-accordion-trigger:active {
 	background: #f8f9f9;
@@ -305,7 +310,8 @@
 	font-weight: 600;
 }
 
-.health-check-accordion-trigger .icon {
+.health-check-accordion-trigger .icon,
+.site-health-view-passed .icon {
 	border: solid #191e23;
 	border-width: 0 2px 2px 0;
 	height: 0.5rem;
@@ -349,7 +355,8 @@
 	border: 1px solid #ccd0d4;
 }
 
-.health-check-accordion-trigger[aria-expanded="true"] .icon {
+.health-check-accordion-trigger[aria-expanded="true"] .icon,
+.site-health-view-passed[aria-expanded="true"] .icon {
 	transform: translateY(-30%) rotate(-135deg)
 }
 
