@@ -1535,7 +1535,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all trackbacks on this post here:' ) . "\r\n";
-				/* translators: 1: blog name, 2: post title */
+				/* translators: Trackback notification email subject. 1: Site title, 2: Post title */
 				$subject = sprintf( __( '[%1$s] Trackback: "%2$s"' ), $blogname, $post->post_title );
 				break;
 			case 'pingback':
@@ -1548,7 +1548,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all pingbacks on this post here:' ) . "\r\n";
-				/* translators: 1: blog name, 2: post title */
+				/* translators: Pingback notification email subject. 1: Site title, 2: Post title */
 				$subject = sprintf( __( '[%1$s] Pingback: "%2$s"' ), $blogname, $post->post_title );
 				break;
 			default: // Comments
@@ -1563,7 +1563,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				/* translators: %s: comment text */
 				$notify_message .= sprintf( __( 'Comment: %s' ), "\r\n" . $comment_content ) . "\r\n\r\n";
 				$notify_message .= __( 'You can see all comments on this post here:' ) . "\r\n";
-				/* translators: 1: blog name, 2: post title */
+				/* translators: Comment notification email subject. 1: Site title, 2: Post title */
 				$subject = sprintf( __( '[%1$s] Comment: "%2$s"' ), $blogname, $post->post_title );
 				break;
 		}

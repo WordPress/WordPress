@@ -1289,6 +1289,7 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', home_url(), $content );
 
+	/* translators: New admin email address notification email subject. %s: Site title */
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) ), $content );
 
 	if ( $switched_locale ) {

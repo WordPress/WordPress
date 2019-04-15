@@ -2423,6 +2423,7 @@ All at ###SITENAME###
 	$mail_success = wp_mail(
 		$email_address,
 		sprintf(
+			/* translators: Personal data export notification email subject. %s: Site title */
 			__( '[%s] Personal Data Export' ),
 			$site_name
 		),
