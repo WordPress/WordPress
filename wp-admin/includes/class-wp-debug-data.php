@@ -33,14 +33,15 @@ class WP_Debug_Data {
 		global $wpdb;
 
 		// Save few function calls.
-		$upload_dir          = wp_get_upload_dir();
-		$permalink_structure = get_option( 'permalink_structure' );
-		$is_ssl              = is_ssl();
-		$users_can_register  = get_option( 'users_can_register' );
-		$is_multisite        = is_multisite();
-		$core_version        = get_bloginfo( 'version' );
-		$core_updates        = get_core_updates();
-		$core_update_needed  = '';
+		$upload_dir             = wp_get_upload_dir();
+		$permalink_structure    = get_option( 'permalink_structure' );
+		$is_ssl                 = is_ssl();
+		$users_can_register     = get_option( 'users_can_register' );
+		$default_comment_status = get_option( 'default_comment_status' );
+		$is_multisite           = is_multisite();
+		$core_version           = get_bloginfo( 'version' );
+		$core_updates           = get_core_updates();
+		$core_update_needed     = '';
 
 		foreach ( $core_updates as $core => $update ) {
 			if ( 'upgrade' === $update->response ) {
@@ -87,21 +88,22 @@ class WP_Debug_Data {
 				),
 				'https_status'           => array(
 					'label' => __( 'Is this site using HTTPS?' ),
-					'value' => ( $is_ssl ? __( 'Yes' ) : __( 'No' ) ),
+					'value' => $is_ssl ? __( 'Yes' ) : __( 'No' ),
 					'debug' => $is_ssl,
 				),
 				'user_registration'      => array(
 					'label' => __( 'Can anyone register on this site?' ),
-					'value' => ( $users_can_register ? __( 'Yes' ) : __( 'No' ) ),
+					'value' => $users_can_register ? __( 'Yes' ) : __( 'No' ),
 					'debug' => $users_can_register,
 				),
 				'default_comment_status' => array(
 					'label' => __( 'Default comment status' ),
-					'value' => get_option( 'default_comment_status' ),
+					'value' => 'open' === $default_comment_status ? _x( 'Open', 'comment status' ) : _x( 'Closed', 'comment status' ),
+					'debug' => $default_comment_status,
 				),
 				'multisite'              => array(
 					'label' => __( 'Is this a multisite?' ),
-					'value' => ( $is_multisite ? __( 'Yes' ) : __( 'No' ) ),
+					'value' => $is_multisite ? __( 'Yes' ) : __( 'No' ),
 					'debug' => $is_multisite,
 				),
 			),
