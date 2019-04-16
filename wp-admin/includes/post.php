@@ -1185,23 +1185,6 @@ function wp_edit_posts_query( $q = false ) {
 }
 
 /**
- * Get all available post MIME types for a given post type.
- *
- * @since 2.5.0
- *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param string $type
- * @return mixed
- */
-function get_available_post_mime_types( $type = 'attachment' ) {
-	global $wpdb;
-
-	$types = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_type = %s", $type ) );
-	return $types;
-}
-
-/**
  * Get the query variables for the current attachments request.
  *
  * @since 4.2.0
