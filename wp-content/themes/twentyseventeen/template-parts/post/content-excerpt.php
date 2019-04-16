@@ -45,4 +45,4 @@
 		<?php the_excerpt(); ?>
 	</div><!-- .entry-summary -->
 
-</article><!-- #post-## -->
+</article><!-- #post-<?php the_ID(); ?> -->

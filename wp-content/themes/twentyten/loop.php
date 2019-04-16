@@ -108,7 +108,7 @@ while ( have_posts() ) :
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
-		</div><!-- #post-## -->
+		</div><!-- #post-<?php the_ID(); ?> -->
 
 		<?php /* How to display posts of the Aside format. The asides category is the old way. */ ?>
 
@@ -131,7 +131,7 @@ while ( have_posts() ) :
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
-		</div><!-- #post-## -->
+		</div><!-- #post-<?php the_ID(); ?> -->
 
 		<?php /* How to display all other posts. */ ?>
 
@@ -180,7 +180,7 @@ while ( have_posts() ) :
 				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
 			</div><!-- .entry-utility -->
-		</div><!-- #post-## -->
+		</div><!-- #post-<?php the_ID(); ?> -->
 
 		<?php comments_template( '', true ); ?>
 

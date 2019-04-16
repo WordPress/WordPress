@@ -29,4 +29,4 @@
 			);
 			?>
 	</div><!-- .entry-content -->
-</article><!-- #post-## -->
+</article><!-- #post-<?php the_ID(); ?> -->

@@ -164,7 +164,7 @@ if ( have_posts() ) {
 						<?php twentyten_posted_in(); ?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), ' <span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-utility -->
-				</div><!-- #post-## -->
+				</div><!-- #post-<?php the_ID(); ?> -->
 
 		<?php comments_template(); ?>
 

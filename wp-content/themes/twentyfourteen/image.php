@@ -61,7 +61,7 @@ get_header();
 					);
 				?>
 				</div><!-- .entry-content -->
-			</article><!-- #post-## -->
+			</article><!-- #post-<?php the_ID(); ?> -->
 
 			<nav id="image-navigation" class="navigation image-navigation">
 				<div class="nav-links">

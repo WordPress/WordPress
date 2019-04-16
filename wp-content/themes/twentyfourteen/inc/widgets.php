@@ -226,7 +226,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 							<?php endif; ?>
 						</div><!-- .entry-meta -->
 					</header><!-- .entry-header -->
-				</article><!-- #post-## -->
+				</article><!-- #post-<?php the_ID(); ?> -->
 				</li>
 				<?php endwhile; ?>
 
