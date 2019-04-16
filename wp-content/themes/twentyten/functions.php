@@ -703,7 +703,7 @@ add_filter( 'widget_tag_cloud_args', 'twentyten_widget_tag_cloud_args' );
  */
 function twentyten_scripts_styles() {
 	// Theme block stylesheet.
-	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), '20181018' );
+	wp_enqueue_style( 'twentyten-block-style', get_template_directory_uri() . '/blocks.css', array(), wp_get_theme()->get( 'Version' ) );
 }
 add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
 
@@ -714,7 +714,7 @@ add_action( 'wp_enqueue_scripts', 'twentyten_scripts_styles' );
  */
 function twentyten_block_editor_styles() {
 	// Block styles.
-	wp_enqueue_style( 'twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css' );
+	wp_enqueue_style( 'twentyten-block-editor-style', get_template_directory_uri() . '/editor-blocks.css', array(), wp_get_theme()->get( 'Version' ) );
 }
 add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
 

@@ -38,7 +38,7 @@ if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
 ?>
 	</title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
-<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>?ver=<?php echo esc_attr( wp_get_theme()->get( 'Version' ) ); ?>" />
 <link rel="pingback" href="<?php echo esc_url( get_bloginfo( 'pingback_url' ) ); ?>">
 <?php
 	/*
