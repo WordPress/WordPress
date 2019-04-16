@@ -37,10 +37,11 @@ class WP_Recovery_Mode_Link_Service {
 	 * @since 5.2.0
 	 *
 	 * @param WP_Recovery_Mode_Cookie_Service $cookie_service Service to handle setting the recovery mode cookie.
+	 * @param WP_Recovery_Mode_Key_Service    $key_service    Service to handle generating recovery mode keys.
 	 */
-	public function __construct( WP_Recovery_Mode_Cookie_Service $cookie_service ) {
+	public function __construct( WP_Recovery_Mode_Cookie_Service $cookie_service, WP_Recovery_Mode_Key_Service $key_service ) {
 		$this->cookie_service = $cookie_service;
-		$this->key_service    = new WP_Recovery_Mode_Key_Service();
+		$this->key_service    = $key_service;
 	}
 
 	/**
@@ -53,9 +54,10 @@ class WP_Recovery_Mode_Link_Service {
 	 * @return string Generated URL.
 	 */
 	public function generate_url() {
-		$key = $this->key_service->generate_and_store_recovery_mode_key();
+		$token = $this->key_service->generate_recovery_mode_token();
+		$key   = $this->key_service->generate_and_store_recovery_mode_key( $token );
 
-		return $this->get_recovery_mode_begin_url( $key );
+		return $this->get_recovery_mode_begin_url( $token, $key );
 	}
 
 	/**
@@ -70,7 +72,7 @@ class WP_Recovery_Mode_Link_Service {
 			return;
 		}
 
-		if ( ! isset( $_GET['action'], $_GET['rm_key'] ) || self::LOGIN_ACTION_ENTER !== $_GET['action'] ) {
+		if ( ! isset( $_GET['action'], $_GET['rm_token'], $_GET['rm_key'] ) || self::LOGIN_ACTION_ENTER !== $_GET['action'] ) {
 			return;
 		}
 
@@ -78,7 +80,7 @@ class WP_Recovery_Mode_Link_Service {
 			require_once ABSPATH . WPINC . '/pluggable.php';
 		}
 
-		$validated = $this->key_service->validate_recovery_mode_key( $_GET['rm_key'], $ttl );
+		$validated = $this->key_service->validate_recovery_mode_key( $_GET['rm_token'], $_GET['rm_key'], $ttl );
 
 		if ( is_wp_error( $validated ) ) {
 			wp_die( $validated, '' );
@@ -96,15 +98,17 @@ class WP_Recovery_Mode_Link_Service {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string $key Recovery Mode key created by {@see generate_and_store_recovery_mode_key()}
+	 * @param string $token Recovery Mode token created by {@see generate_recovery_mode_token()}.
+	 * @param string $key   Recovery Mode key created by {@see generate_and_store_recovery_mode_key()}.
 	 * @return string Recovery mode begin URL.
 	 */
-	private function get_recovery_mode_begin_url( $key ) {
+	private function get_recovery_mode_begin_url( $token, $key ) {
 
 		$url = add_query_arg(
 			array(
-				'action' => self::LOGIN_ACTION_ENTER,
-				'rm_key' => $key,
+				'action'   => self::LOGIN_ACTION_ENTER,
+				'rm_token' => $token,
+				'rm_key'   => $key,
 			),
 			wp_login_url()
 		);
@@ -114,9 +118,10 @@ class WP_Recovery_Mode_Link_Service {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param string $url
-		 * @param string $key
+		 * @param string $url   The generated recovery mode begin URL.
+		 * @param string $token The token used to identify the key.
+		 * @param string $key   The recovery mode key.
 		 */
-		return apply_filters( 'recovery_mode_begin_url', $url, $key );
+		return apply_filters( 'recovery_mode_begin_url', $url, $token, $key );
 	}
 }
