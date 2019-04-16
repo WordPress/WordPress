@@ -376,9 +376,9 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 	$compare = '';
 	if ( 0 === $postname_index && ( isset( $query_vars['year'] ) || isset( $query_vars['monthnum'] ) ) ) {
 		$compare = 'year';
-	} elseif ( '%year%' === $permastructs[ $postname_index - 1 ] && ( isset( $query_vars['monthnum'] ) || isset( $query_vars['day'] ) ) ) {
+	} elseif ( $postname_index && '%year%' === $permastructs[ $postname_index - 1 ] && ( isset( $query_vars['monthnum'] ) || isset( $query_vars['day'] ) ) ) {
 		$compare = 'monthnum';
-	} elseif ( '%monthnum%' === $permastructs[ $postname_index - 1 ] && isset( $query_vars['day'] ) ) {
+	} elseif ( $postname_index && '%monthnum%' === $permastructs[ $postname_index - 1 ] && isset( $query_vars['day'] ) ) {
 		$compare = 'day';
 	}
 
