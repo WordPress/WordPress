@@ -43,11 +43,8 @@ do_action( 'rss_tag_pre', 'atom-comments' );
 	</title>
 	<subtitle type="text"><?php bloginfo_rss( 'description' ); ?></subtitle>
 
-	<updated><?php // phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentBeforeOpen,Squiz.PHP.EmbeddedPhp.ContentAfterOpen
-		$date = get_last_build_date();
-		echo $date ? mysql2date( 'Y-m-d\TH:i:s\Z', $date, false ) : date( 'Y-m-d\TH:i:s\Z' );
-		// phpcs:ignore Squiz.PHP.EmbeddedPhp.ContentAfterEnd
-	?></updated>
+	<?php $date = get_last_build_date(); ?>
+	<updated><?php echo $date ? mysql2date( 'Y-m-d\TH:i:s\Z', $date, false ) : date( 'Y-m-d\TH:i:s\Z' ); ?></updated>
 
 <?php if ( is_singular() ) { ?>
 	<link rel="alternate" type="<?php bloginfo_rss( 'html_type' ); ?>" href="<?php comments_link_feed(); ?>" />
