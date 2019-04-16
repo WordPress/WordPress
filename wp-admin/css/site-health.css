@@ -288,7 +288,8 @@
 
 .wp-core-ui .button.site-health-view-passed {
 	position: relative;
-	padding: 0 40px 0 20px;
+	padding-right: 40px;
+	padding-left: 20px;
 }
 
 .health-check-accordion-trigger:hover,
