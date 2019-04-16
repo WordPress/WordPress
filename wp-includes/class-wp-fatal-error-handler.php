@@ -42,7 +42,7 @@ class WP_Fatal_Error_Handler {
 			}
 
 			// Display the PHP error template if headers not sent.
-			if ( ! headers_sent() ) {
+			if ( is_admin() || ! headers_sent() ) {
 				$this->display_error_template( $error );
 			}
 		} catch ( Exception $e ) {
