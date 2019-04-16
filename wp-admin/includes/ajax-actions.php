@@ -4976,7 +4976,7 @@ function wp_ajax_health_check_get_sizes() {
 	}
 
 	$sizes_data = WP_Debug_Data::get_sizes();
-	$all_sizes  = array();
+	$all_sizes  = array( 'raw' => 0 );
 
 	foreach ( $sizes_data as $name => $value ) {
 		$name = sanitize_text_field( $name );
@@ -4996,6 +4996,10 @@ function wp_ajax_health_check_get_sizes() {
 			} else {
 				$data['debug'] = (int) $value['debug'];
 			}
+		}
+
+		if ( ! empty( $value['raw'] ) ) {
+			$data['raw'] = (int) $value['raw'];
 		}
 
 		$all_sizes[ $name ] = $data;

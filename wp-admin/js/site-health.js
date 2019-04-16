@@ -276,6 +276,8 @@ jQuery( document ).ready( function( $ ) {
 				// Cancel the announcement.
 				window.clearTimeout( timeout );
 			}
+
+			$( document ).trigger( 'site-health-info-dirsizes-done' );
 		} );
 	}
 
