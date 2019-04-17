@@ -202,9 +202,10 @@ final class WP_Screen {
 			return $hook_name;
 		}
 
-		$post_type = $taxonomy = null;
-		$in_admin  = false;
-		$action    = '';
+		$post_type       = $taxonomy = null;
+		$in_admin        = false;
+		$action          = '';
+		$is_block_editor = false;
 
 		if ( $hook_name ) {
 			$id = $hook_name;
@@ -294,6 +295,13 @@ final class WP_Screen {
 						$post = get_post( $post_id );
 						if ( $post ) {
 							$post_type = $post->post_type;
+
+							/** This filter is documented in wp-admin/post.php */
+							$replace_editor = apply_filters( 'replace_editor', false, $post );
+
+							if ( ! $replace_editor ) {
+								$is_block_editor = use_block_editor_for_post( $post );
+							}
 						}
 					}
 					break;
@@ -314,6 +322,12 @@ final class WP_Screen {
 				if ( null === $post_type ) {
 					$post_type = 'post';
 				}
+
+				// When creating a new post, use the default block editor support value for the post type.
+				if ( empty( $post_id ) ) {
+					$is_block_editor = use_block_editor_for_post_type( $post_type );
+				}
+
 				$id = $post_type;
 				break;
 			case 'edit':
@@ -357,13 +371,14 @@ final class WP_Screen {
 			$screen->id = $id;
 		}
 
-		$screen->base       = $base;
-		$screen->action     = $action;
-		$screen->post_type  = (string) $post_type;
-		$screen->taxonomy   = (string) $taxonomy;
-		$screen->is_user    = ( 'user' == $in_admin );
-		$screen->is_network = ( 'network' == $in_admin );
-		$screen->in_admin   = $in_admin;
+		$screen->base            = $base;
+		$screen->action          = $action;
+		$screen->post_type       = (string) $post_type;
+		$screen->taxonomy        = (string) $taxonomy;
+		$screen->is_user         = ( 'user' == $in_admin );
+		$screen->is_network      = ( 'network' == $in_admin );
+		$screen->in_admin        = $in_admin;
+		$screen->is_block_editor = $is_block_editor;
 
 		self::$_registry[ $id ] = $screen;
 

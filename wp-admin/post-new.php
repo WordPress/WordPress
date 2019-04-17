@@ -74,6 +74,10 @@ if ( apply_filters( 'replace_editor', false, $post ) !== true ) {
 		wp_enqueue_script( 'autosave' );
 		include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
 	}
+} else {
+	// Flag that we're not loading the block editor.
+	$current_screen = get_current_screen();
+	$current_screen->is_block_editor( false );
 }
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );
