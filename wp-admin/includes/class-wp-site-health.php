@@ -71,28 +71,37 @@ class WP_Site_Health {
 
 		if ( 'site-health' === $screen->id && ! isset( $_GET['tab'] ) ) {
 			$tests = WP_Site_Health::get_tests();
+
 			// Don't run https test on localhost
 			if ( 'localhost' === preg_replace( '|https?://|', '', get_site_url() ) ) {
 				unset( $tests['direct']['https_status'] );
 			}
-			foreach ( $tests['direct'] as $test ) {
-				$test_function = sprintf(
-					'get_test_%s',
-					$test['test']
-				);
 
-				if ( method_exists( $this, $test_function ) && is_callable( array( $this, $test_function ) ) ) {
-					$health_check_js_variables['site_status']['direct'][] = call_user_func( array( $this, $test_function ) );
-				} else {
+			foreach ( $tests['direct'] as $test ) {
+				if ( is_string( $test['test'] ) ) {
+					$test_function = sprintf(
+						'get_test_%s',
+						$test['test']
+					);
+
+					if ( method_exists( $this, $test_function ) && is_callable( array( $this, $test_function ) ) ) {
+						$health_check_js_variables['site_status']['direct'][] = call_user_func( array( $this, $test_function ) );
+						continue;
+					}
+				}
+
+				if ( is_callable( $test['test'] ) ) {
 					$health_check_js_variables['site_status']['direct'][] = call_user_func( $test['test'] );
 				}
 			}
 
 			foreach ( $tests['async'] as $test ) {
-				$health_check_js_variables['site_status']['async'][] = array(
-					'test'      => $test['test'],
-					'completed' => false,
-				);
+				if ( is_string( $test['test'] ) ) {
+					$health_check_js_variables['site_status']['async'][] = array(
+						'test'      => $test['test'],
+						'completed' => false,
+					);
+				}
 			}
 		}
 
@@ -1798,7 +1807,7 @@ class WP_Site_Health {
 		}
 
 		/**
-		 * Add or modify which site status tests are ran on a site.
+		 * Add or modify which site status tests are run on a site.
 		 *
 		 * The site health is determined by a set of tests based on best practices from
 		 * both the WordPress Hosting Team, but also web standards in general.
@@ -1807,7 +1816,7 @@ class WP_Site_Health {
 		 * checks may be handled by a host, and are therefore disabled in core.
 		 * Or maybe you want to introduce a new test, is caching enabled/disabled/stale for example.
 		 *
-		 * Test may be added either as direct, or asynchronous ones. Any test that may require some time
+		 * Tests may be added either as direct, or asynchronous ones. Any test that may require some time
 		 * to complete should run asynchronously, to avoid extended loading periods within wp-admin.
 		 *
 		 * @since 5.2.0
@@ -1822,7 +1831,8 @@ class WP_Site_Health {
 		 *         to avoid any collisions between tests.
 		 *
 		 *         @type string $label A friendly label for your test to identify it by.
-		 *         @type string $test  The ajax action to be called to perform the tests.
+		 *         @type mixed  $test  A callable to perform a direct test, or a string AJAX action to be called
+		 *                             to perform an async test.
 		 *     }
 		 * }
 		 */
