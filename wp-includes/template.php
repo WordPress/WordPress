@@ -57,7 +57,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * @since 4.8.0 The `$type` and `$templates` parameters were added.
 	 *
 	 * @param string $template  Path to the template. See locate_template().
-	 * @param string $type      Filename without extension.
+	 * @param string $type      Sanitized filename without extension.
 	 * @param array  $templates A list of template candidates, in descending order of priority.
 	 */
 	return apply_filters( "{$type}_template", $template, $type, $templates );
@@ -373,7 +373,7 @@ function get_home_template() {
 function get_front_page_template() {
 	$templates = array( 'front-page.php' );
 
-	return get_query_template( 'front_page', $templates );
+	return get_query_template( 'frontpage', $templates );
 }
 
 /**
@@ -391,7 +391,7 @@ function get_front_page_template() {
 function get_privacy_policy_template() {
 	$templates = array( 'privacy-policy.php' );
 
-	return get_query_template( 'privacy_policy', $templates );
+	return get_query_template( 'privacypolicy', $templates );
 }
 
 /**
