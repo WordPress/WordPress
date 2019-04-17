@@ -238,14 +238,14 @@ class WP_Debug_Data {
 					'label' => 'WP_PLUGIN_DIR',
 					'value' => WP_PLUGIN_DIR,
 				),
+				'WP_MAX_MEMORY_LIMIT' => array(
+					'label' => 'WP_MAX_MEMORY_LIMIT',
+					'value' => WP_MAX_MEMORY_LIMIT,
+				),
 				'WP_DEBUG'            => array(
 					'label' => 'WP_DEBUG',
 					'value' => WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ),
 					'debug' => WP_DEBUG,
-				),
-				'WP_MAX_MEMORY_LIMIT' => array(
-					'label' => 'WP_MAX_MEMORY_LIMIT',
-					'value' => WP_MAX_MEMORY_LIMIT,
 				),
 				'WP_DEBUG_DISPLAY'    => array(
 					'label' => 'WP_DEBUG_DISPLAY',
