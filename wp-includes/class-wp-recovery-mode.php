@@ -173,6 +173,10 @@ class WP_Recovery_Mode {
 		}
 
 		if ( ! $this->is_active() ) {
+			if ( ! is_protected_endpoint() ) {
+				return new WP_Error( 'non_protected_endpoint', __( 'Error occurred on a non-protected endpoint.' ) );
+			}
+
 			if ( ! function_exists( 'wp_generate_password' ) ) {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
