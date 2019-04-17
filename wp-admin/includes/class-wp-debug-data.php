@@ -389,7 +389,7 @@ class WP_Debug_Data {
 			);
 		}
 
-		$not_calculated = __( 'Not calculated' );
+		$loading = __( 'Loading&hellip;' );
 
 		$info['wp-paths-sizes']['fields'] = array(
 			'wordpress_path' => array(
@@ -398,8 +398,8 @@ class WP_Debug_Data {
 			),
 			'wordpress_size' => array(
 				'label' => __( 'WordPress directory size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 			'uploads_path'   => array(
 				'label' => __( 'Uploads directory location' ),
@@ -407,8 +407,8 @@ class WP_Debug_Data {
 			),
 			'uploads_size'   => array(
 				'label' => __( 'Uploads directory size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 			'themes_path'    => array(
 				'label' => __( 'Themes directory location' ),
@@ -416,8 +416,8 @@ class WP_Debug_Data {
 			),
 			'themes_size'    => array(
 				'label' => __( 'Themes directory size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 			'plugins_path'   => array(
 				'label' => __( 'Plugins directory location' ),
@@ -425,18 +425,18 @@ class WP_Debug_Data {
 			),
 			'plugins_size'   => array(
 				'label' => __( 'Plugins directory size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 			'database_size'  => array(
 				'label' => __( 'Database size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 			'total_size'     => array(
 				'label' => __( 'Total installation size' ),
-				'value' => $not_calculated,
-				'debug' => 'not calculated',
+				'value' => $loading,
+				'debug' => 'loading...',
 			),
 		);
 
