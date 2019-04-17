@@ -275,12 +275,12 @@
 .health-check-accordion-trigger {
 	background: #fff;
 	border: 0;
-	color: #32373C;
+	color: #32373c;
 	cursor: pointer;
 	display: block;
 	font-weight: 400;
 	margin: 0;
-	padding: 1em 1.5em;
+	padding: 1em 3.5em 1em 1.5em;
 	position: relative;
 	text-align: left;
 	width: 100%;
@@ -313,7 +313,7 @@
 
 .health-check-accordion-trigger .icon,
 .site-health-view-passed .icon {
-	border: solid #555D66;
+	border: solid #555d66;
 	border-width: 0 2px 2px 0;
 	height: 0.5rem;
 	pointer-events: none;
@@ -327,13 +327,13 @@
 .health-check-accordion-trigger .badge {
 	float: right;
 	padding: 0.1rem 0.5rem 0.15rem;
-	color: #32373C;
+	color: #32373c;
 	font-weight: 600;
-	margin: 0 2rem 0 0.5rem;
+	margin-left: 0.5rem;
 }
 
 .health-check-accordion-trigger .badge.blue {
-	border: 1px solid #BFE7F3;
+	border: 1px solid #bfe7f3;
 }
 
 .health-check-accordion-trigger .badge.orange {
@@ -345,11 +345,11 @@
 }
 
 .health-check-accordion-trigger .badge.green {
-	border: 1px solid #46B450;
+	border: 1px solid #46b450;
 }
 
 .health-check-accordion-trigger .badge.purple {
-	border: 1px solid #826EB4;
+	border: 1px solid #826eb4;
 }
 
 .health-check-accordion-trigger .badge.gray {
@@ -405,6 +405,16 @@
 	.site-health .update-nag {
 		margin-right: 10px;
 		margin-left: 10px;
+	}
+
+	.health-check-accordion-trigger .title {
+		display: block;
+		margin-bottom: 1em;
+	}
+
+	.health-check-accordion-trigger .badge {
+		float: left;
+		margin: 0;
 	}
 }
 
