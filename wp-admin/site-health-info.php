@@ -119,7 +119,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 					if ( 'wp-paths-sizes' === $section ) {
 						?>
-						<span class="health-check-wp-paths-sizes spinner" title="<?php esc_attr_e( 'Calculating directory sizes. This may take a while&hellip;' ); ?>"></span>
+						<span class="health-check-wp-paths-sizes spinner"></span>
 						<?php
 					}
 
