@@ -392,48 +392,48 @@ class WP_Debug_Data {
 		$not_calculated = __( 'Not calculated' );
 
 		$info['wp-paths-sizes']['fields'] = array(
-			'wordpress_path'     => array(
+			'wordpress_path' => array(
 				'label' => __( 'WordPress directory location' ),
 				'value' => untrailingslashit( ABSPATH ),
 			),
-			'wordpress_size'     => array(
+			'wordpress_size' => array(
 				'label' => __( 'WordPress directory size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
 			),
-			'uploads_path'       => array(
+			'uploads_path'   => array(
 				'label' => __( 'Uploads directory location' ),
 				'value' => $upload_dir['basedir'],
 			),
-			'uploads_size'       => array(
+			'uploads_size'   => array(
 				'label' => __( 'Uploads directory size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
 			),
-			'themes_path'        => array(
+			'themes_path'    => array(
 				'label' => __( 'Themes directory location' ),
 				'value' => get_theme_root(),
 			),
-			'themes_size'        => array(
+			'themes_size'    => array(
 				'label' => __( 'Themes directory size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
 			),
-			'plugins_path'       => array(
+			'plugins_path'   => array(
 				'label' => __( 'Plugins directory location' ),
 				'value' => WP_PLUGIN_DIR,
 			),
-			'plugins_size'       => array(
+			'plugins_size'   => array(
 				'label' => __( 'Plugins directory size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
 			),
-			'database_size'      => array(
+			'database_size'  => array(
 				'label' => __( 'Database size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
 			),
-			'total_size'         => array(
+			'total_size'     => array(
 				'label' => __( 'Total installation size' ),
 				'value' => $not_calculated,
 				'debug' => 'not calculated',
@@ -1211,7 +1211,7 @@ class WP_Debug_Data {
 		}
 
 		if ( null !== $size_total && $size_db > 0 ) {
-			$total_size = $size_total + $size_db;
+			$total_size    = $size_total + $size_db;
 			$total_size_mb = size_format( $total_size, 2 );
 
 			$all_sizes['total_size'] = array(
