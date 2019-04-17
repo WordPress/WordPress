@@ -3285,7 +3285,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, 
 		 * it is now a persistent changeset, a long-lived draft, and so any
 		 * associated auto-draft posts should likewise transition into having a draft
 		 * status. These drafts will be treated differently than regular drafts in
-		 * that they will be tied to the given changeset. The publish metabox is
+		 * that they will be tied to the given changeset. The publish meta box is
 		 * replaced with a notice about how the post is part of a set of customized changes
 		 * which will be published when the changeset is published.
 		 */

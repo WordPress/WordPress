@@ -3647,7 +3647,7 @@ final class WP_Customize_Manager {
 	 *  @type string       $capability            Capability required for the setting. Default 'edit_theme_options'
 	 *  @type string|array $theme_supports        Theme features required to support the panel. Default is none.
 	 *  @type string       $default               Default value for the setting. Default is empty string.
-	 *  @type string       $transport             Options for rendering the live preview of changes in Theme Customizer.
+	 *  @type string       $transport             Options for rendering the live preview of changes in Customizer.
 	 *                                            Using 'refresh' makes the change visible by reloading the whole preview.
 	 *                                            Using 'postMessage' allows a custom JavaScript to handle live changes.
 	 * @link https://developer.wordpress.org/themes/customize-api
