@@ -57,7 +57,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Test if auto-updated related constants are set correctly.
+	 * Test if auto-updates related constants are set correctly.
 	 *
 	 * @since 5.2.0
 	 *
