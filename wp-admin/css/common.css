@@ -586,7 +586,7 @@ code {
 	font-weight: 400;
 	margin: 0;
 	padding: 9px 0 4px 0;
-	line-height: 29px;
+	line-height: 1.3;
 }
 
 .wrap h1.wp-heading-inline {
@@ -914,11 +914,11 @@ span.required,
 
 #delete-action {
 	float: left;
-	line-height: 28px;
+	line-height: 2.1;
 }
 
 #delete-link {
-	line-height: 28px;
+	line-height: 2.1;
 	vertical-align: middle;
 	text-align: left;
 	margin-left: 8px;
@@ -931,7 +931,7 @@ span.required,
 #publishing-action {
 	text-align: right;
 	float: right;
-	line-height: 23px;
+	line-height: 1.9;
 }
 
 #publishing-action .spinner {
@@ -1206,7 +1206,7 @@ th.action-links {
 
 .filter-drawer .filter-group-feature input,
 .filter-drawer .filter-group-feature label {
-	line-height: 16px;
+	line-height: 1.4;
 }
 
 .filter-drawer .filter-group-feature input {
@@ -1243,7 +1243,7 @@ th.action-links {
 
 .wp-filter .button-link.edit-filters {
 	padding: 0 5px;
-	line-height: 28px;
+	line-height: 2.2;
 }
 
 .filtered-by {
@@ -1551,7 +1551,7 @@ div.error {
 #update-nag,
 .update-nag {
 	display: inline-block;
-	line-height: 19px;
+	line-height: 1.4;
 	padding: 11px 15px;
 	font-size: 14px;
 	text-align: left;
@@ -1760,7 +1760,7 @@ form.upgrade .hint {
 .metabox-prefs label {
 	display: inline-block;
 	padding-right: 15px;
-	line-height: 30px;
+	line-height: 2.35;
 }
 
 #number-of-columns {
@@ -1799,7 +1799,7 @@ form.upgrade .hint {
 }
 
 .metabox-prefs .screen-options label {
-	line-height: 28px;
+	line-height: 2.2;
 	padding-right: 0;
 }
 
@@ -1863,7 +1863,7 @@ form.upgrade .hint {
 .contextual-help-tabs a {
 	display: block;
 	padding: 5px 5px 5px 12px;
-	line-height: 18px;
+	line-height: 1.4;
 	text-decoration: none;
 	border: 1px solid transparent;
 	border-right: none;
@@ -1895,7 +1895,7 @@ form.upgrade .hint {
 .help-tab-content {
 	display: none;
 	margin: 0 22px 12px 0;
-	line-height: 1.6em;
+	line-height: 1.6;
 }
 
 .help-tab-content.active {
@@ -2078,13 +2078,13 @@ html.wp-toolbar {
 
 .postbox .inside {
 	padding: 0 12px 12px;
-	line-height: 1.4em;
+	line-height: 1.4;
 	font-size: 13px;
 }
 
 .stuffbox .inside {
 	padding: 0;
-	line-height: 1.4em;
+	line-height: 1.4;
 	font-size: 13px;
 	margin-top: 0;
 }
@@ -2153,7 +2153,7 @@ html.wp-toolbar {
 #wpfooter p {
 	font-size: 13px;
 	margin: 0;
-	line-height: 20px;
+	line-height: 1.55;
 }
 
 #footer-thankyou {
@@ -2171,7 +2171,7 @@ html.wp-toolbar {
 	margin-left: 0.5em; /* half the font size so set the font size properly */
 	padding: 5px 10px;
 	font-size: 14px;
-	line-height: 24px;
+	line-height: 1.8;
 	font-weight: 600;
 	background: #e5e5e5;
 	color: #555;
@@ -2183,7 +2183,7 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 .nav-tab-small .nav-tab {
 	padding: 5px 14px;
 	font-size: 12px;
-	line-height: 16px;
+	line-height: 1.33;
 }
 
 .nav-tab:hover,
@@ -2285,7 +2285,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 /* Back-compat for nav-menus screen */
 .nav-menus-php .metabox-holder h3 {
 	padding: 10px 10px 11px 14px;
-	line-height: 21px;
+	line-height: 1.5;
 }
 
 #templateside ul li a {
@@ -2348,7 +2348,7 @@ body.iframe {
 
 .importers td {
 	padding-right: 14px;
-	line-height: 1.5em;
+	line-height: 1.4;
 }
 
 .importers .import-system {
@@ -2373,7 +2373,7 @@ body.iframe {
 }
 
 .importer-action {
-	line-height: 20px; /* Same as with .updating-message */
+	line-height: 1.55; /* Same as with .updating-message */
 	color: #555;
 	margin-bottom: 1em;
 }
@@ -2428,7 +2428,7 @@ body.iframe {
 
 br.clear {
 	height: 2px;
-	line-height: 2px;
+	line-height: 0.15;
 }
 
 .checkbox {
@@ -2532,7 +2532,7 @@ div.action-links {
 	background: #f5f5f5;
 	font-size: 22px;
 	font-weight: 600;
-	line-height: 56px;
+	line-height: 2.4;
 	position: relative;
 	height: 56px;
 }
@@ -2558,7 +2558,7 @@ div.action-links {
 	font-family: "Helvetica Neue", sans-serif;
 	display: inline-block;
 	font-size: 30px;
-	line-height: 50px;
+	line-height: 1.68;
 	box-sizing: border-box;
 	max-width: 100%;
 	padding: 0 15px;
@@ -2603,7 +2603,7 @@ div.action-links {
 	padding: 9px 10px;
 	margin: 0;
 	height: 18px;
-	line-height: 18px;
+	line-height: 1.3;
 	font-size: 14px;
 	text-decoration: none;
 	transition: none;
@@ -2883,7 +2883,7 @@ div.action-links {
 	#plugin-information-title.with-banner h2 {
 		margin-top: 30px;
 		font-size: 20px;
-		line-height: 40px;
+		line-height: 2;
 		max-width: 85%;
 	}
 
@@ -3313,7 +3313,7 @@ img {
 }
 
 #documentation label {
-	line-height: 22px;
+	line-height: 1.8;
 	vertical-align: baseline;
 	font-weight: 600;
 }
@@ -3472,7 +3472,7 @@ img {
 	border-left: none;
 	border-right: none;
 	padding: 10px 10px 11px 14px;
-	line-height: 21px;
+	line-height: 1.55;
 	background: #fff;
 }
 
@@ -3921,7 +3921,7 @@ img {
 
 	.filter-drawer .filter-group-feature input,
 	.filter-drawer .filter-group-feature label {
-		line-height: 25px;
+		line-height: 2.1;
 	}
 
 	.filter-drawer .filter-group-feature label {
@@ -3930,7 +3930,7 @@ img {
 
 	.wp-filter .button.drawer-toggle {
 		font-size: 13px;
-		line-height: 26px;
+		line-height: 2;
 		height: 28px;
 	}
 
