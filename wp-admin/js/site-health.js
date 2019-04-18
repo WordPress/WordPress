@@ -15,6 +15,7 @@ jQuery( document ).ready( function( $ ) {
 	var data;
 	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
 	var isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length;
+	var pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' );
 
 	// Debug information copy section.
 	clipboard.on( 'success', function( e ) {
@@ -295,7 +296,7 @@ jQuery( document ).ready( function( $ ) {
 
 		copyButton.attr( 'data-clipboard-text', clipdoardText );
 
-		$( '#health-check-accordion-block-wp-paths-sizes' ).find( 'td[class]' ).each( function( i, element ) {
+		pathsSizesSection.find( 'td[class]' ).each( function( i, element ) {
 			var td = $( element );
 			var name = td.attr( 'class' );
 
@@ -306,6 +307,10 @@ jQuery( document ).ready( function( $ ) {
 	}
 
 	if ( isDebugTab ) {
-		getDirectorySizes();
+		if ( pathsSizesSection.length ) {
+			getDirectorySizes();
+		} else {
+			RecalculateProgression();
+		}
 	}
 } );

@@ -4967,7 +4967,7 @@ function wp_ajax_health_check_site_status_result() {
 function wp_ajax_health_check_get_sizes() {
 	check_ajax_referer( 'health-check-site-status-result' );
 
-	if ( ! current_user_can( 'install_plugins' ) ) {
+	if ( ! current_user_can( 'install_plugins' ) || is_multisite() ) {
 		wp_send_json_error();
 	}
 
