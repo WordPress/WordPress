@@ -1059,8 +1059,8 @@ class WP_Debug_Data {
 				if ( is_array( $debug_data ) ) {
 					$value = '';
 
-					foreach ( $field['value'] as $name => $value ) {
-						$value .= sprintf( "\n\t%s: %s", $name, $value );
+					foreach ( $debug_data as $sub_field_name => $sub_field_value ) {
+						$value .= sprintf( "\n\t%s: %s", $sub_field_name, $sub_field_value );
 					}
 				} elseif ( is_bool( $debug_data ) ) {
 					$value = $debug_data ? 'true' : 'false';
