@@ -42,12 +42,7 @@ do_action( 'rss_tag_pre', 'rss2' );
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php bloginfo_rss( 'url' ); ?></link>
 	<description><?php bloginfo_rss( 'description' ); ?></description>
-	<lastBuildDate>
-	<?php
-		$date = get_last_build_date();
-		echo $date ? mysql2date( 'r', $date, false ) : date( 'r' );
-	?>
-	</lastBuildDate>
+	<lastBuildDate><?php echo get_feed_build_date( 'r' ); ?></lastBuildDate>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<sy:updatePeriod>
 	<?php
