@@ -290,7 +290,7 @@ jQuery( document ).ready( function( $ ) {
 			var text = value.debug || value.size;
 
 			if ( typeof text !== 'undefined' ) {
-				clipdoardText = clipdoardText.replace( name + ': not calculated', name + ': ' + text );
+				clipdoardText = clipdoardText.replace( name + ': loading...', name + ': ' + text );
 			}
 		} );
 
