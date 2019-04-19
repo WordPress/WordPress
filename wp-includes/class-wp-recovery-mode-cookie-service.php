@@ -139,6 +139,8 @@ final class WP_Recovery_Mode_Cookie_Service {
 	/**
 	 * Parses the cookie into its four parts.
 	 *
+	 * @since 5.2.0
+	 *
 	 * @param string $cookie Cookie content.
 	 * @return array|WP_Error Cookie parts array, or error object on failure.
 	 */
