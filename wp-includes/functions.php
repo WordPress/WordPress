@@ -7036,7 +7036,7 @@ function wp_direct_php_update_button() {
  * @param string $directory Full path of a directory.
  * @param int    $max_execution_time Maximum time to run before giving up. In seconds.
  *                                   The timeout is global and is measured from the moment WordPress started to load.
- * @return int|false|null Size in MB if a valid directory. False if not. Null if timeout.
+ * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function get_dirsize( $directory, $max_execution_time = null ) {
 	$dirsize = get_transient( 'dirsize_cache' );
