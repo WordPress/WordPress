@@ -386,7 +386,7 @@ function get_front_page_template() {
  *
  * @see get_query_template()
  *
- * @return string Full path to front page template file.
+ * @return string Full path to privacy policy template file.
  */
 function get_privacy_policy_template() {
 	$templates = array( 'privacy-policy.php' );
