@@ -410,7 +410,7 @@
     box-shadow: inset 0 0 0 1px #6c7781, inset 0 0 0 2px #fff;
     outline: 2px solid transparent;
     outline-offset: -2px; }
-  .components-button.is-busy {
+  .components-button.is-busy, .components-button.is-default.is-busy, .components-button.is-default.is-busy:disabled, .components-button.is-default.is-busy[aria-disabled="true"] {
     animation: components-button__busy-animation 2500ms infinite linear;
     background-size: 100px 100%;
     background-image: repeating-linear-gradient(-45deg, #e2e4e7, #fff 11px, #fff 10px, #e2e4e7 20px);
@@ -522,7 +522,8 @@
   cursor: pointer; }
   .components-color-palette__item.is-active {
     box-shadow: inset 0 0 0 4px;
-    border: 1px solid #606a73; }
+    position: relative;
+    z-index: 1; }
     .components-color-palette__item.is-active + .dashicons-saved {
       position: absolute;
       left: 4px;

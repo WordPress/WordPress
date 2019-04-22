@@ -32,10 +32,10 @@
 /**
  * Allows users to opt-out of animations via OS-level preferences.
  */
-.block-editor-autocompleters__block .block-editor-block-icon {
+.editor-autocompleters__block .editor-block-icon {
   margin-left: 8px; }
 
-.block-editor-autocompleters__user .block-editor-autocompleters__user-avatar {
+.editor-autocompleters__user .editor-autocompleters__user-avatar {
   margin-left: 8px;
   flex-grow: 0;
   flex-shrink: 0;
@@ -43,7 +43,7 @@
   width: 24px;
   height: 24px; }
 
-.block-editor-autocompleters__user .block-editor-autocompleters__user-name {
+.editor-autocompleters__user .editor-autocompleters__user-name {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -51,7 +51,7 @@
   flex-shrink: 0;
   flex-grow: 1; }
 
-.block-editor-autocompleters__user .block-editor-autocompleters__user-slug {
+.editor-autocompleters__user .editor-autocompleters__user-slug {
   margin-right: 8px;
   color: #8f98a1;
   white-space: nowrap;
@@ -61,7 +61,7 @@
   flex-grow: 0;
   flex-shrink: 0; }
 
-.block-editor-autocompleters__user:hover .block-editor-autocompleters__user-slug {
+.editor-autocompleters__user:hover .editor-autocompleters__user-slug {
   color: #66c6e4; }
 
 .document-outline {

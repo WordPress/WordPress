@@ -142,23 +142,15 @@ body.is-fullscreen-mode .edit-post-header {
   align-items: center; }
 
 .edit-post-header .components-button.is-toggled {
-  color: #fff; }
-
-.edit-post-header .components-button.is-toggled::before {
-  content: "";
-  border-radius: 4px;
-  position: absolute;
-  z-index: -1;
+  color: #fff;
   background: #555d66;
-  top: 1px;
-  left: 1px;
-  bottom: 1px;
-  right: 1px; }
+  margin: 1px;
+  padding: 7px; }
 
 .edit-post-header .components-button.is-toggled:hover, .edit-post-header .components-button.is-toggled:focus {
-  box-shadow: 0 0 0 1px #555d66, inset 0 0 0 1px #fff;
-  color: #fff;
-  background: #555d66; }
+  box-shadow: 0 0 0 1px #555d66, inset 0 0 0 1px #fff !important;
+  color: #fff !important;
+  background: #555d66 !important; }
 
 .edit-post-header .components-button.editor-post-save-draft, .edit-post-header .components-button.editor-post-switch-to-draft, .edit-post-header .components-button.editor-post-preview, .edit-post-header .components-button.editor-post-publish-button, .edit-post-header .components-button.editor-post-publish-panel__toggle {
   margin: 2px;
@@ -1018,13 +1010,18 @@ body.is-fullscreen-mode .edit-post-header {
     border: 1px solid #e2e4e7;
     margin-bottom: 4px;
     padding: 14px; }
+  .edit-post-text-editor .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar):not(.is-selected) .editor-post-title__input:hover,
+  .edit-post-text-editor .editor-post-title__block:not(.is-focus-mode):not(.has-fixed-toolbar).is-selected .editor-post-title__input {
+    box-shadow: none;
+    border-right-width: 1px; }
   .edit-post-text-editor .editor-post-title__block textarea:hover,
   .edit-post-text-editor .editor-post-title__block.is-selected textarea {
     box-shadow: 0 0 0 1px #e2e4e7; }
   .edit-post-text-editor .editor-post-permalink {
-    right: 0;
-    left: 0;
-    margin-top: -6px; }
+    margin-top: -6px;
+    box-shadow: none;
+    border: none;
+    outline: 1px solid #b5bcc2; }
   @media (min-width: 600px) {
     .edit-post-text-editor .editor-post-title,
     .edit-post-text-editor .editor-post-title__block {
@@ -1067,6 +1064,7 @@ body.is-fullscreen-mode .edit-post-header {
     .edit-post-visual-editor .block-editor-block-list__block .block-editor-block-list__block-edit {
       margin-right: -28px;
       margin-left: -28px; }
+    .edit-post-visual-editor .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar,
     .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar {
       height: 0;
       width: 100%;
@@ -1074,6 +1072,7 @@ body.is-fullscreen-mode .edit-post-header {
       margin-left: 0;
       text-align: center;
       float: right; }
+      .edit-post-visual-editor .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar .block-editor-block-toolbar,
       .edit-post-visual-editor .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar .block-editor-block-toolbar {
         max-width: 610px;
         width: 100%;

@@ -471,27 +471,36 @@ function isEdge(container, isReverse, onlyVertical) {
     return false;
   }
 
-  var rangeRect = getRectangleFromRange(selection.getRangeAt(0));
+  var range = selection.getRangeAt(0).cloneRange();
+  var isForward = isSelectionForward(selection);
+  var isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
+
+  if (!isCollapsed) {
+    range.collapse(!isForward);
+  }
+
+  var rangeRect = getRectangleFromRange(range);
 
   if (!rangeRect) {
     return false;
   }
 
   var computedStyle = window.getComputedStyle(container);
-  var lineHeight = parseInt(computedStyle.lineHeight, 10); // Only consider the multiline selection at the edge if the direction is
+  var lineHeight = parseInt(computedStyle.lineHeight, 10) || 0; // Only consider the multiline selection at the edge if the direction is
   // towards the edge.
 
-  if (!selection.isCollapsed && rangeRect.height > lineHeight && isSelectionForward(selection) === isReverse) {
+  if (!isCollapsed && rangeRect.height > lineHeight && isForward === isReverse) {
     return false;
-  } // Calculate a buffer that is half the line height. In some browsers, the
+  }
+
+  var padding = parseInt(computedStyle["padding".concat(isReverse ? 'Top' : 'Bottom')], 10) || 0; // Calculate a buffer that is half the line height. In some browsers, the
   // selection rectangle may not fill the entire height of the line, so we add
   // 3/4 the line height to the selection rectangle to ensure that it is well
   // over its line boundary.
 
-
   var buffer = 3 * parseInt(lineHeight, 10) / 4;
   var containerRect = container.getBoundingClientRect();
-  var verticalEdge = isReverse ? containerRect.top > rangeRect.top - buffer : containerRect.bottom < rangeRect.bottom + buffer;
+  var verticalEdge = isReverse ? containerRect.top + padding > rangeRect.top - buffer : containerRect.bottom - padding < rangeRect.bottom + buffer;
 
   if (!verticalEdge) {
     return false;
@@ -577,7 +586,9 @@ function getRectangleFromRange(range) {
   // See: https://stackoverflow.com/a/6847328/995445
 
   if (!rect) {
-    var padNode = document.createTextNode("\u200B");
+    var padNode = document.createTextNode("\u200B"); // Do not modify the live range.
+
+    range = range.cloneRange();
     range.insertNode(padNode);
     rect = range.getClientRects()[0];
     padNode.parentNode.removeChild(padNode);

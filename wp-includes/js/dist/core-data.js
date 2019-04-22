@@ -181,17 +181,17 @@ function _toConsumableArray(arr) {
 /***/ }),
 
 /***/ 23:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
-
-/***/ }),
-
-/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(54);
 
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
@@ -772,7 +772,7 @@ var equivalent_key_map = __webpack_require__(76);
 var equivalent_key_map_default = /*#__PURE__*/__webpack_require__.n(equivalent_key_map);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(23);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/core-data/build-module/queried-data/get-query-parts.js
 
@@ -943,7 +943,7 @@ var getQueriedItems = Object(rememo["a" /* default */])(function (state) {
 var redux = __webpack_require__(71);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(26);
+var regenerator = __webpack_require__(23);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: external {"this":["wp","apiFetch"]}

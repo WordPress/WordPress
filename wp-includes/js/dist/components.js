@@ -443,25 +443,25 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 /* 22 */,
-/* 23 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["url"]; }());
-
-/***/ }),
+/* 23 */,
 /* 24 */
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["hooks"]; }());
-
-/***/ }),
-/* 25 */
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
-/* 26 */,
+/* 25 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["url"]; }());
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["hooks"]; }());
+
+/***/ }),
 /* 27 */
 /***/ (function(module, exports) {
 
@@ -18863,6 +18863,7 @@ module.exports = {
   object: noopThunk,
   or: noopThunk,
   range: noopThunk,
+  ref: noopThunk,
   requiredBy: noopThunk,
   restrictedProp: noopThunk,
   sequenceOf: noopThunk,
@@ -21017,6 +21018,8 @@ if (!Object.keys) {
 		$frames: true,
 		$innerHeight: true,
 		$innerWidth: true,
+		$onmozfullscreenchange: true,
+		$onmozfullscreenerror: true,
 		$outerHeight: true,
 		$outerWidth: true,
 		$pageXOffset: true,
@@ -21231,6 +21234,8 @@ if (!Object.keys) {
 		$frames: true,
 		$innerHeight: true,
 		$innerWidth: true,
+		$onmozfullscreenchange: true,
+		$onmozfullscreenerror: true,
 		$outerHeight: true,
 		$outerWidth: true,
 		$pageXOffset: true,
@@ -24005,7 +24010,7 @@ var external_this_wp_compose_ = __webpack_require__(6);
 var external_this_wp_richText_ = __webpack_require__(20);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(25);
+var external_this_wp_dom_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__(19);
@@ -27014,7 +27019,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.toggleAutoRefresh(true);
+      this.toggleAutoRefresh(!this.props.hasOwnProperty('anchorRect'));
       this.refresh();
       /*
        * Without the setTimeout, the dom node is not being focused. Related:
@@ -27032,6 +27037,16 @@ function (_Component) {
     value: function componentDidUpdate(prevProps) {
       if (prevProps.position !== this.props.position) {
         this.computePopoverPosition(this.state.popoverSize, this.anchorRect);
+      }
+
+      if (prevProps.anchorRect !== this.props.anchorRect) {
+        this.refreshOnAnchorMove();
+      }
+
+      var hasAnchorRect = this.props.hasOwnProperty('anchorRect');
+
+      if (hasAnchorRect !== prevProps.hasOwnProperty('anchorRect')) {
+        this.toggleAutoRefresh(!hasAnchorRect);
       }
     }
   }, {
@@ -27081,9 +27096,7 @@ function (_Component) {
   }, {
     key: "refreshOnAnchorMove",
     value: function refreshOnAnchorMove() {
-      var _this$props$getAnchor = this.props.getAnchorRect,
-          getAnchorRect = _this$props$getAnchor === void 0 ? this.getAnchorRect : _this$props$getAnchor;
-      var anchorRect = getAnchorRect(this.anchorNode.current);
+      var anchorRect = this.getAnchorRect(this.anchorNode.current);
       var didAnchorRectChange = !external_this_wp_isShallowEqual_default()(anchorRect, this.anchorRect);
 
       if (didAnchorRectChange) {
@@ -27100,9 +27113,7 @@ function (_Component) {
   }, {
     key: "refresh",
     value: function refresh() {
-      var _this$props$getAnchor2 = this.props.getAnchorRect,
-          getAnchorRect = _this$props$getAnchor2 === void 0 ? this.getAnchorRect : _this$props$getAnchor2;
-      var anchorRect = getAnchorRect(this.anchorNode.current);
+      var anchorRect = this.getAnchorRect(this.anchorNode.current);
       var contentRect = this.contentNode.current.getBoundingClientRect();
       var popoverSize = {
         width: contentRect.width,
@@ -27152,6 +27163,18 @@ function (_Component) {
   }, {
     key: "getAnchorRect",
     value: function getAnchorRect(anchor) {
+      var _this$props = this.props,
+          getAnchorRect = _this$props.getAnchorRect,
+          anchorRect = _this$props.anchorRect;
+
+      if (anchorRect) {
+        return anchorRect;
+      }
+
+      if (getAnchorRect) {
+        return getAnchorRect(anchor);
+      }
+
       if (!anchor || !anchor.parentNode) {
         return;
       }
@@ -27178,10 +27201,10 @@ function (_Component) {
   }, {
     key: "computePopoverPosition",
     value: function computePopoverPosition(popoverSize, anchorRect) {
-      var _this$props = this.props,
-          _this$props$position = _this$props.position,
-          position = _this$props$position === void 0 ? 'top' : _this$props$position,
-          expandOnMobile = _this$props.expandOnMobile;
+      var _this$props2 = this.props,
+          _this$props2$position = _this$props2.position,
+          position = _this$props2$position === void 0 ? 'top' : _this$props2$position,
+          expandOnMobile = _this$props2.expandOnMobile;
 
       var newPopoverPosition = utils_computePopoverPosition(anchorRect, popoverSize, position, expandOnMobile);
 
@@ -27192,9 +27215,9 @@ function (_Component) {
   }, {
     key: "maybeClose",
     value: function maybeClose(event) {
-      var _this$props2 = this.props,
-          onKeyDown = _this$props2.onKeyDown,
-          onClose = _this$props2.onClose; // Close on escape
+      var _this$props3 = this.props,
+          onKeyDown = _this$props3.onKeyDown,
+          onClose = _this$props3.onClose; // Close on escape
 
       if (event.keyCode === external_this_wp_keycodes_["ESCAPE"] && onClose) {
         event.stopPropagation();
@@ -27211,22 +27234,22 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _this$props3 = this.props,
-          headerTitle = _this$props3.headerTitle,
-          onClose = _this$props3.onClose,
-          children = _this$props3.children,
-          className = _this$props3.className,
-          _this$props3$onClickO = _this$props3.onClickOutside,
-          onClickOutside = _this$props3$onClickO === void 0 ? onClose : _this$props3$onClickO,
-          noArrow = _this$props3.noArrow,
-          position = _this$props3.position,
-          range = _this$props3.range,
-          focusOnMount = _this$props3.focusOnMount,
-          getAnchorRect = _this$props3.getAnchorRect,
-          expandOnMobile = _this$props3.expandOnMobile,
-          _this$props3$animate = _this$props3.animate,
-          animate = _this$props3$animate === void 0 ? true : _this$props3$animate,
-          contentProps = Object(objectWithoutProperties["a" /* default */])(_this$props3, ["headerTitle", "onClose", "children", "className", "onClickOutside", "noArrow", "position", "range", "focusOnMount", "getAnchorRect", "expandOnMobile", "animate"]);
+      var _this$props4 = this.props,
+          headerTitle = _this$props4.headerTitle,
+          onClose = _this$props4.onClose,
+          children = _this$props4.children,
+          className = _this$props4.className,
+          _this$props4$onClickO = _this$props4.onClickOutside,
+          onClickOutside = _this$props4$onClickO === void 0 ? onClose : _this$props4$onClickO,
+          noArrow = _this$props4.noArrow,
+          position = _this$props4.position,
+          range = _this$props4.range,
+          focusOnMount = _this$props4.focusOnMount,
+          getAnchorRect = _this$props4.getAnchorRect,
+          expandOnMobile = _this$props4.expandOnMobile,
+          _this$props4$animate = _this$props4.animate,
+          animate = _this$props4$animate === void 0 ? true : _this$props4$animate,
+          contentProps = Object(objectWithoutProperties["a" /* default */])(_this$props4, ["headerTitle", "onClose", "children", "className", "onClickOutside", "noArrow", "position", "range", "focusOnMount", "getAnchorRect", "expandOnMobile", "animate"]);
 
       var _this$state = this.state,
           popoverLeft = _this$state.popoverLeft,
@@ -28717,6 +28740,8 @@ function (_Component) {
           keyTarget = _this$keyTarget === void 0 ? document : _this$keyTarget;
       this.mousetrap = new mousetrap_default.a(keyTarget);
       Object(external_lodash_["forEach"])(this.props.shortcuts, function (callback, key) {
+        if (false) { var hasShift, hasAlt, modifiers, keys; }
+
         var _this2$props = _this2.props,
             bindGlobal = _this2$props.bindGlobal,
             eventName = _this2$props.eventName;
@@ -36271,7 +36296,7 @@ var external_this_wp_apiFetch_ = __webpack_require__(33);
 var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(23);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/server-side-render/index.js
 
@@ -36862,6 +36887,7 @@ function Toolbar(_ref) {
 
 
 
+
 /**
  * External dependencies
  */
@@ -36869,6 +36895,7 @@ function Toolbar(_ref) {
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -36938,6 +36965,8 @@ function Toolbar(_ref) {
       }, {
         key: "render",
         value: function render() {
+          var _ref;
+
           var className = classnames_default()('components-navigate-regions', {
             'is-focusing-regions': this.state.isFocusingRegions
           }); // Disable reason: Clicking the editor should dismiss the regions focus style
@@ -36950,12 +36979,9 @@ function Toolbar(_ref) {
             onClick: this.onClick
           }, Object(external_this_wp_element_["createElement"])(keyboard_shortcuts, {
             bindGlobal: true,
-            shortcuts: {
-              'ctrl+`': this.focusNextRegion,
-              'shift+alt+n': this.focusNextRegion,
-              'ctrl+shift+`': this.focusPreviousRegion,
-              'shift+alt+p': this.focusPreviousRegion
-            }
+            shortcuts: (_ref = {
+              'ctrl+`': this.focusNextRegion
+            }, Object(defineProperty["a" /* default */])(_ref, external_this_wp_keycodes_["rawShortcut"].access('n'), this.focusNextRegion), Object(defineProperty["a" /* default */])(_ref, 'ctrl+shift+`', this.focusPreviousRegion), Object(defineProperty["a" /* default */])(_ref, external_this_wp_keycodes_["rawShortcut"].access('p'), this.focusPreviousRegion), _ref)
           }), Object(external_this_wp_element_["createElement"])(WrappedComponent, this.props));
           /* eslint-enable jsx-a11y/no-static-element-interactions, jsx-a11y/onclick-has-role, jsx-a11y/click-events-have-key-events */
         }
@@ -37062,7 +37088,7 @@ function Toolbar(_ref) {
 });
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(24);
+var external_this_wp_hooks_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/components/build-module/higher-order/with-filters/index.js
 
@@ -37396,7 +37422,7 @@ var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 /* concated harmony reexport PanelRow */__webpack_require__.d(__webpack_exports__, "PanelRow", function() { return row; });
 /* concated harmony reexport Placeholder */__webpack_require__.d(__webpack_exports__, "Placeholder", function() { return placeholder; });
 /* concated harmony reexport Popover */__webpack_require__.d(__webpack_exports__, "Popover", function() { return popover; });
-/* concated harmony reexport PositionedAtSelection */__webpack_require__.d(__webpack_exports__, "PositionedAtSelection", function() { return positioned_at_selection_PositionedAtSelection; });
+/* concated harmony reexport __unstablePositionedAtSelection */__webpack_require__.d(__webpack_exports__, "__unstablePositionedAtSelection", function() { return positioned_at_selection_PositionedAtSelection; });
 /* concated harmony reexport QueryControls */__webpack_require__.d(__webpack_exports__, "QueryControls", function() { return QueryControls; });
 /* concated harmony reexport RadioControl */__webpack_require__.d(__webpack_exports__, "RadioControl", function() { return radio_control; });
 /* concated harmony reexport RangeControl */__webpack_require__.d(__webpack_exports__, "RangeControl", function() { return range_control; });

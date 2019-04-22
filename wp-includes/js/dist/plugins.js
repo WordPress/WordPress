@@ -228,7 +228,7 @@ function _extends() {
 
 /***/ }),
 
-/***/ 24:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
@@ -304,7 +304,7 @@ var external_this_wp_element_ = __webpack_require__(0);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(24);
+var external_this_wp_hooks_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
 var esm_extends = __webpack_require__(19);

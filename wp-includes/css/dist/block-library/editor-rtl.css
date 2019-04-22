@@ -60,7 +60,7 @@
     .block-editor-block-preview__content .wp-block-button .wp-block-button__link {
       max-width: 100%;
       overflow: hidden;
-      white-space: nowrap;
+      white-space: nowrap !important;
       text-overflow: ellipsis; }
 
 .block-library-button__inline-link {
@@ -207,15 +207,16 @@
         .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"]:not(:first-child) {
           margin-right: calc(32px + 14px); } }
 
+.wp-block-columns [data-type="core/column"].is-hovered > .block-editor-block-list__block-edit::before {
+  content: none; }
+
+.wp-block-columns [data-type="core/column"].is-hovered .block-editor-block-list__breadcrumb {
+  display: none; }
+
 .wp-block-columns [data-type="core/column"] {
   pointer-events: none; }
-  .wp-block-columns [data-type="core/column"].is-hovered > .block-editor-block-list__block-edit::before {
-    content: none; }
-  .wp-block-columns [data-type="core/column"].is-hovered .block-editor-block-list__breadcrumb {
-    display: none; }
-
-:not(.components-disabled) > .wp-block-columns > .block-editor-inner-blocks > .block-editor-block-list__layout > [data-type="core/column"] > .block-editor-block-list__block-edit > * {
-  pointer-events: all; }
+  .wp-block-columns [data-type="core/column"] .block-editor-block-list__layout {
+    pointer-events: all; }
 
 .wp-block-cover-image.components-placeholder h2,
 .wp-block-cover.components-placeholder h2 {
@@ -613,29 +614,28 @@ ul.wp-block-gallery li {
 .blocks-gallery-item figure:not(.is-selected):focus {
   outline: none; }
 
-.blocks-gallery-item img:focus,
 .blocks-gallery-item .is-selected {
   outline: 4px solid #0085ba; }
 
-body.admin-color-sunrise .blocks-gallery-item img:focus, body.admin-color-sunrise .blocks-gallery-item .is-selected {
+body.admin-color-sunrise .blocks-gallery-item .is-selected {
   outline: 4px solid #d1864a; }
 
-body.admin-color-ocean .blocks-gallery-item img:focus, body.admin-color-ocean .blocks-gallery-item .is-selected {
+body.admin-color-ocean .blocks-gallery-item .is-selected {
   outline: 4px solid #a3b9a2; }
 
-body.admin-color-midnight .blocks-gallery-item img:focus, body.admin-color-midnight .blocks-gallery-item .is-selected {
+body.admin-color-midnight .blocks-gallery-item .is-selected {
   outline: 4px solid #e14d43; }
 
-body.admin-color-ectoplasm .blocks-gallery-item img:focus, body.admin-color-ectoplasm .blocks-gallery-item .is-selected {
+body.admin-color-ectoplasm .blocks-gallery-item .is-selected {
   outline: 4px solid #a7b656; }
 
-body.admin-color-coffee .blocks-gallery-item img:focus, body.admin-color-coffee .blocks-gallery-item .is-selected {
+body.admin-color-coffee .blocks-gallery-item .is-selected {
   outline: 4px solid #c2a68c; }
 
-body.admin-color-blue .blocks-gallery-item img:focus, body.admin-color-blue .blocks-gallery-item .is-selected {
+body.admin-color-blue .blocks-gallery-item .is-selected {
   outline: 4px solid #82b4cb; }
 
-body.admin-color-light .blocks-gallery-item img:focus, body.admin-color-light .blocks-gallery-item .is-selected {
+body.admin-color-light .blocks-gallery-item .is-selected {
   outline: 4px solid #0085ba; }
 
 .blocks-gallery-item .is-transient img {

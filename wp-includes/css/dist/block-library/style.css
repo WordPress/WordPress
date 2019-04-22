@@ -124,7 +124,6 @@
   padding: 12px 24px;
   text-align: center;
   text-decoration: none;
-  white-space: normal;
   overflow-wrap: break-word; }
   .wp-block-button__link:hover, .wp-block-button__link:focus, .wp-block-button__link:active, .wp-block-button__link:visited {
     color: inherit; }
