@@ -718,4 +718,20 @@ function twentyten_block_editor_styles() {
 }
 add_action( 'enqueue_block_editor_assets', 'twentyten_block_editor_styles' );
 
-
+if ( ! function_exists( 'wp_body_open' ) ) :
+	/**
+	 * Fire the wp_body_open action.
+	 *
+	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 *
+	 * @since Twenty Ten 2.9
+	 */
+	function wp_body_open() {
+		/**
+		 * Triggered after the opening <body> tag.
+		 *
+		 * @since Twenty Ten 2.9
+		 */
+		do_action( 'wp_body_open' );
+	}
+endif;

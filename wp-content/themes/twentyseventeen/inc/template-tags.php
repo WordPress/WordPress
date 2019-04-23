@@ -198,3 +198,21 @@ function twentyseventeen_category_transient_flusher() {
 }
 add_action( 'edit_category', 'twentyseventeen_category_transient_flusher' );
 add_action( 'save_post', 'twentyseventeen_category_transient_flusher' );
+
+if ( ! function_exists( 'wp_body_open' ) ) :
+	/**
+	 * Fire the wp_body_open action.
+	 *
+	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 *
+	 * @since Twenty Seventeen 2.2
+	 */
+	function wp_body_open() {
+		/**
+		 * Triggered after the opening <body> tag.
+		 *
+		 * @since Twenty Seventeen 2.2
+		 */
+		do_action( 'wp_body_open' );
+	}
+endif;
