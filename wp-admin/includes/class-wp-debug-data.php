@@ -983,6 +983,8 @@ class WP_Debug_Data {
 		 * a prefix, both for consistency as well as avoiding key collisions. Note that the array keys are used as labels
 		 * for the copied data.
 		 *
+		 * All strings are expected to be plain text except $description that can contain inline HTML tags (see below).
+		 *
 		 * @since 5.2.0
 		 *
 		 * @param array $args {
@@ -994,7 +996,7 @@ class WP_Debug_Data {
 		 *
 		 *     @type string  $label        The title for this section of the debug output.
 		 *     @type string  $description  Optional. A description for your information section which may contain basic HTML
-		 *                                 markup: `em`, `strong` and `a` for linking to documentation or putting emphasis.
+		 *                                 markup, inline tags only as it is outputted in a paragraph.
 		 *     @type boolean $show_count   Optional. If set to `true` the amount of fields will be included in the title for
 		 *                                 this section.
 		 *     @type boolean $private      Optional. If set to `true` the section and all associated fields will be excluded

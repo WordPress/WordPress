@@ -137,16 +137,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<div id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" class="health-check-accordion-panel" hidden="hidden">
 				<?php
 
-				$kses_settings = array(
-					'a'      => array(
-						'href' => true,
-					),
-					'strong' => true,
-					'em'     => true,
-				);
-
 				if ( isset( $details['description'] ) && ! empty( $details['description'] ) ) {
-					printf( '<p>%s</p>', wp_kses( $details['description'], $kses_settings ) );
+					printf( '<p>%s</p>', $details['description'] );
 				}
 
 				?>
