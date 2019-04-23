@@ -464,10 +464,14 @@ class WP_Site_Health {
 		// If this is a child theme, increase the allowed theme count by one, to account for the parent.
 		if ( $active_theme->parent() ) {
 			$allowed_theme_count++;
+
+			if ( $active_theme->get_template() === WP_DEFAULT_THEME ) {
+				$using_default_theme = true;
+			}
 		}
 
-		// If there's a default theme installed, we count that as allowed as well.
-		if ( $has_default_theme ) {
+		// If there's a default theme installed and not in use, we count that as allowed as well.
+		if ( $has_default_theme && ! $using_default_theme ) {
 			$allowed_theme_count++;
 		}
 
