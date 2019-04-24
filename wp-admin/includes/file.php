@@ -1066,7 +1066,7 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 			/**
 			 * Filter the URL where the signature for a file is located.
 			 *
-			 * @since 5.2
+			 * @since 5.2.0
 			 *
 			 * @param false|string $signature_url The URL where signatures can be found for a file, or false if none are known.
 			 * @param string $url                 The URL being verified.
