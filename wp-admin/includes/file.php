@@ -968,12 +968,12 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
  * @since 2.5.0
  * @since 5.2.0 Signature Verification with SoftFail was added.
  *
- * @param string $url                The URL of the file to download.
- * @param int    $timeout            The timeout for the request to download the file. Default 300 seconds.
- * @param bool   $signature_softfail Whether to allow Signature Verification to softfail. Default true.
+ * @param string $url                    The URL of the file to download.
+ * @param int    $timeout                The timeout for the request to download the file. Default 300 seconds.
+ * @param bool   $signature_verification Whether to perform Signature Verification. Default false.
  * @return string|WP_Error Filename on success, WP_Error on failure.
  */
-function download_url( $url, $timeout = 300, $signature_softfail = true ) {
+function download_url( $url, $timeout = 300, $signature_verification = false ) {
 	//WARNING: The file is not automatically deleted, The script must unlink() the file.
 	if ( ! $url ) {
 		return new WP_Error( 'http_no_url', __( 'Invalid URL Provided.' ) );
@@ -1037,25 +1037,53 @@ function download_url( $url, $timeout = 300, $signature_softfail = true ) {
 		}
 	}
 
-	/**
-	 * Filters the list of hosts which should have Signature Verification attempted on.
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param array List of hostnames.
-	 */
-	$signed_hostnames       = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
-	$signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
+	// If the caller expects signature verification to occur, check to see if this URL supports it.
+	if ( $signature_verification ) {
+		/**
+		 * Filters the list of hosts which should have Signature Verification attempteds on.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param array List of hostnames.
+		 */
+		$signed_hostnames       = apply_filters( 'wp_signature_hosts', array( 'wordpress.org', 'downloads.wordpress.org', 's.w.org' ) );
+		$signature_verification = in_array( parse_url( $url, PHP_URL_HOST ), $signed_hostnames, true );
+	}
 
-	// Perform the valiation
+	// Perform signature valiation if supported.
 	if ( $signature_verification ) {
 		$signature = wp_remote_retrieve_header( $response, 'x-content-signature' );
 		if ( ! $signature ) {
 			// Retrieve signatures from a file if the header wasn't included.
 			// WordPress.org stores signatures at $package_url.sig
-			$signature_request = wp_safe_remote_get( $url . '.sig' );
-			if ( ! is_wp_error( $signature_request ) && 200 === wp_remote_retrieve_response_code( $signature_request ) ) {
-				$signature = explode( "\n", wp_remote_retrieve_body( $signature_request ) );
+
+			$signature_url = false;
+			$url_path      = parse_url( $url, PHP_URL_PATH );
+			if ( substr( $url_path, -4 ) == '.zip' || substr( $url_path, -7 ) == '.tar.gz' ) {
+				$signature_url = str_replace( $url_path, $url_path . '.sig', $url );
+			}
+
+			/**
+			 * Filter the URL where the signature for a file is located.
+			 *
+			 * @since 5.2
+			 *
+			 * @param false|string $signature_url The URL where signatures can be found for a file, or false if none are known.
+			 * @param string $url                 The URL being verified.
+			 */
+			$signature_url = apply_filters( 'wp_signature_url', $signature_url, $url );
+
+			if ( $signature_url ) {
+				$signature_request = wp_safe_remote_get(
+					$signature_url,
+					array(
+						'limit_response_size' => 10 * 1024, // 10KB should be large enough for quite a few signatures.
+					)
+				);
+
+				if ( ! is_wp_error( $signature_request ) && 200 === wp_remote_retrieve_response_code( $signature_request ) ) {
+					$signature = explode( "\n", wp_remote_retrieve_body( $signature_request ) );
+				}
 			}
 		}
 
@@ -1075,7 +1103,7 @@ function download_url( $url, $timeout = 300, $signature_softfail = true ) {
 			 * @param bool   $signature_softfail If a softfail is allowed.
 			 * @param string $url                The url being accessed.
 			 */
-			apply_filters( 'wp_signature_softfail', $signature_softfail, $url )
+			apply_filters( 'wp_signature_softfail', true, $url )
 		) {
 			$signature_verification->add_data( $tmpfname, 'softfail-filename' );
 		} else {
@@ -1145,6 +1173,30 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 			),
 			( ! function_exists( 'sodium_crypto_sign_verify_detached' ) ? 'sodium_crypto_sign_verify_detached' : 'sha384' )
 		);
+	}
+
+	// Check for a edge-case affecting PHP Maths abilities
+	if (
+		! extension_loaded( 'sodium' ) &&
+		in_array( PHP_VERSION_ID, [ 70200, 70201, 70202 ], true ) &&
+		extension_loaded( 'opcache' )
+	) {
+		// Sodium_Compat isn't compatible with PHP 7.2.0~7.2.2 due to a bug in the PHP Opcache extension, bail early as it'll fail.
+		// https://bugs.php.net/bug.php?id=75938
+
+		return new WP_Error(
+			'signature_verification_unsupported',
+			sprintf(
+				/* translators: 1: The filename of the package. */
+				__( 'The authenticity of %1$s could not be verified as signature verification is unavailable on this system.' ),
+				'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
+			),
+			array(
+				'php'    => phpversion(),
+				'sodium' => defined( 'SODIUM_LIBRARY_VERSION' ) ? SODIUM_LIBRARY_VERSION : ( defined( 'ParagonIE_Sodium_Compat::VERSION_STRING' ) ? ParagonIE_Sodium_Compat::VERSION_STRING : false ),
+			)
+		);
+
 	}
 
 	if ( ! $signatures ) {
