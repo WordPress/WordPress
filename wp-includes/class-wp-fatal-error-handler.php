@@ -161,7 +161,11 @@ class WP_Fatal_Error_Handler {
 			require_once ABSPATH . WPINC . '/functions.php';
 		}
 
-		$message = __( 'The site is experiencing technical difficulties.' );
+		if ( is_protected_endpoint() ) {
+			$message = __( 'The site is experiencing technical difficulties. Please check your site admin email inbox for instructions.' );
+		} else {
+			$message = __( 'The site is experiencing technical difficulties.' );
+		}
 
 		$args = array(
 			'response' => 500,
