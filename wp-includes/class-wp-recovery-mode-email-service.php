@@ -122,20 +122,32 @@ final class WP_Recovery_Mode_Email_Service {
 			$details = '';
 		}
 
+		/**
+		 * Filters the support message sent with the the fatal error protection email.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param $message string The Message to include in the email.
+		 */
+		$support = apply_filters( 'recovery_email_support_info', __( 'Please contact your host for assistance with investigating this issue further.' ) );
+
+		/* translators: Do not translate LINK, EXPIRES, CAUSE, DETAILS, SITEURL, PAGEURL, SUPPORT: those are placeholders. */
 		$message = __(
-			'Howdy,
+			'Howdy!
 
-Your site recently crashed and may not be working as expected.
+Since WordPress 5.2 there is a built-in feature that detects when a plugin or theme causes a fatal error on your site, and notifies you with this automated email.
 ###CAUSE###
-Please click the link below to initiate recovery mode and fix the problem.
+First, visit your website (###SITEURL###) and check for any visible issues. Next, visit the page where the error was caught (###PAGEURL###) and check for any visible issues.
 
-This link expires in ###EXPIRES###.
+###SUPPORT###
 
-###LINK### ###DETAILS###
+If your site appears broken and you can\'t access your dashboard normally, WordPress now has a special "recovery mode". This lets you safely login to your dashboard and investigate further.
 
---The WordPress Team
-https://wordpress.org/
-'
+###LINK###
+
+To keep your site safe, this link will expire in ###EXPIRES###. Don\'t worry about that, though: a new link will be emailed to you if the error occurs again after it expires.
+
+###DETAILS###'
 		);
 		$message = str_replace(
 			array(
@@ -143,12 +155,18 @@ https://wordpress.org/
 				'###EXPIRES###',
 				'###CAUSE###',
 				'###DETAILS###',
+				'###SITEURL###',
+				'###PAGEURL###',
+				'###SUPPORT###',
 			),
 			array(
 				$url,
 				human_time_diff( time() + $rate_limit ),
 				$cause ? "\n{$cause}\n" : "\n",
 				$details,
+				home_url( '/' ),
+				home_url( $_SERVER['REQUEST_URI'] ),
+				$support,
 			),
 			$message
 		);
@@ -224,7 +242,7 @@ https://wordpress.org/
 				$name = $plugins[ "{$extension['slug']}/{$extension['slug']}.php" ]['Name'];
 			} else {
 				foreach ( $plugins as $file => $plugin_data ) {
-					if ( 0 === strpos( $file, "{$extension['slug']}/" ) ) {
+					if ( 0 === strpos( $file, "{$extension['slug']}/" ) || $file === $extension['slug'] ) {
 						$name = $plugin_data['Name'];
 						break;
 					}
@@ -236,13 +254,13 @@ https://wordpress.org/
 			}
 
 			/* translators: %s: plugin name */
-			$cause = sprintf( __( 'This was caused by the following plugin: %s.' ), $name );
+			$cause = sprintf( __( 'In this case, WordPress caught an error with one of your plugins, %s.' ), $name );
 		} else {
 			$theme = wp_get_theme( $extension['slug'] );
 			$name  = $theme->exists() ? $theme->display( 'Name' ) : $extension['slug'];
 
 			/* translators: %s: theme name */
-			$cause = sprintf( __( 'This was caused by the following theme: %s.' ), $name );
+			$cause = sprintf( __( 'In this case, WordPress caught an error with your theme, %s.' ), $name );
 		}
 
 		return $cause;

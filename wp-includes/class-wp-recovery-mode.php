@@ -299,9 +299,9 @@ class WP_Recovery_Mode {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param int $rate_limit Time to wait in seconds. Defaults to 4 hours.
+		 * @param int $rate_limit Time to wait in seconds. Defaults to 1 day.
 		 */
-		return apply_filters( 'recovery_mode_email_rate_limit', 4 * HOUR_IN_SECONDS );
+		return apply_filters( 'recovery_mode_email_rate_limit', DAY_IN_SECONDS );
 	}
 
 	/**
