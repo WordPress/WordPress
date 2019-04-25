@@ -155,7 +155,7 @@ class WP_REST_Search_Controller extends WP_REST_Controller {
 		$response->header( 'X-WP-TotalPages', $max_pages );
 
 		$request_params = $request->get_query_params();
-		$base           = add_query_arg( $request_params, rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
+		$base           = add_query_arg( urlencode_deep( $request_params ), rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
 
 		if ( $page > 1 ) {
 			$prev_link = add_query_arg( 'page', $page - 1, $base );
