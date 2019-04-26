@@ -3576,18 +3576,10 @@ function wp_enqueue_media( $args = array() ) {
 		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
 	}
 
-	// Filter to show only available mime types.
-	$avail_post_mime_types = get_available_post_mime_types( 'attachment' );
-	$mimeTypes             = wp_list_pluck( get_post_mime_types(), 0 );
-	foreach ( $mimeTypes as $mime_type => $label ) {
-		if ( ! wp_match_mime_types( $mime_type, $avail_post_mime_types ) ) {
-			unset( $mimeTypes[ $mime_type ] );
-		}
-	}
 	$settings = array(
 		'tabs'             => $tabs,
 		'tabUrl'           => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
-		'mimeTypes'        => $mimeTypes,
+		'mimeTypes'        => wp_list_pluck( get_post_mime_types(), 0 ),
 		/** This filter is documented in wp-admin/includes/media.php */
 		'captions'         => ! apply_filters( 'disable_captions', '' ),
 		'nonce'            => array(
