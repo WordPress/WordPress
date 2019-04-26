@@ -9,23 +9,29 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-wp_enqueue_script( 'underscore' );
-
 /* translators: Page title of the About WordPress page in the admin. */
 $title = _x( 'About', 'page title' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
-wp_enqueue_style( 'wp-block-library' );
-
 include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 	<div class="wrap about-wrap full-width-layout">
-		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
+		<h1>
+			<?php
+			/* translators: %s: The current WordPress version number */
+			printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version );
+			?>
+		</h1>
 
-		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version!' ), $display_version ); ?></p>
+		<p class="about-text"><?php printf( __( 'Congratulations on updating to WordPress 5.2! This update makes it easier than ever to fix your site if something goes wrong.' ), $display_version ); ?></p>
 
-		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
+		<div class="wp-badge">
+			<?php
+			/* translators: %s: The current WordPress version number */
+			printf( __( 'Version %s' ), $display_version );
+			?>
+		</div>
 
 		<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 			<a href="about.php" class="nav-tab nav-tab-active"><?php _e( 'What&#8217;s New' ); ?></a>
@@ -34,48 +40,63 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="freedoms.php?privacy-notice" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 		</nav>
 
-		<h2 class="feature-section-header"><?php _e( 'A Little Better Every Day' ); ?></h2>
+		<h2 class="feature-section-header"><?php _e( 'Keeping Your Site Safe' ); ?></h2>
 
 		<div class="feature-section headline-feature one-col">
 			<div class="col">
+				<p><?php _e( 'WordPress 5.2 gives you even more robust tools for identifying and fixing configuration issues and fatal errors. Whether you are a developer helping clients or you manage your site solo, these tools can help get you the right information when you need it.' ); ?></p>
 				<div class="inline-svg">
-					<img src="https://s.w.org/images/core/5.1/update.svg" alt="">
+					<img src="https://make.wordpress.org/core/files/2019/04/site-safe.png" alt="">
 				</div>
-				<p><?php _e( 'You&#8217;ve successfully upgraded to WordPress 5.1! Following WordPress 5.0&#8212;a major release which introduced the new block editor&#8212;5.1 focuses on polish, in particular by improving overall performance of the editor. In addition, this release paves the way for a better, faster, and more secure WordPress with some essential tools for site administrators and developers.' ); ?></p>
 			</div>
 		</div>
 
+		<hr />
+
 		<div class="feature-section one-col is-wide wp-clearfix">
 			<div class="col">
-				<h3><?php _e( 'Site Health' ); ?></h3>
+				<h3><?php _e( 'Site Health Check' ); ?></h3>
 				<div class="inline-svg alignright">
-					<img src="https://s.w.org/images/core/5.1/site-health.svg" alt="">
+					<img src="https://make.wordpress.org/core/files/2019/04/health-check.png" alt="">
 				</div>
-				<p><?php printf( __( 'With security and speed in mind, this release introduces WordPress&#8217;s first <a href="%s">Site Health</a> features. WordPress will start showing notices to administrators of sites that run long-outdated versions of PHP, which is the programming language that powers WordPress.' ), 'https://make.wordpress.org/core/2019/01/14/php-site-health-mechanisms-in-5-1/' ); ?></p>
-
-				<p><?php _e( 'When installing new plugins, WordPress&#8217;s Site Health features will check whether a plugin requires a version of PHP incompatible with your site. If so, WordPress will prevent you from installing that plugin.' ); ?></p>
-
-				<?php
-				$response = wp_check_php_version();
-				if ( $response && isset( $response['is_acceptable'] ) && ! $response['is_acceptable'] && current_user_can( 'update_php' ) ) :
+				<p>
+					<?php
+					printf(
+						/* translators: 1: link to the WordPress 5.1 release post 2: link to /wp-admin/site-health.php 3: link to /wp-admin/site-health.php?tab=debug */
+						__( 'Building on the <a href="%1$s">Site Health</a> features introduced in 5.1, this release adds two new pages to help debug common configuration issues. It also adds space where developers can include debugging information for site maintainers. Check your site <a href="%2$s">status</a>, and learn how to <a href="%3$s">debug</a> issues.' ),
+						__( 'https://wordpress.org/news/2019/02/betty/' ),
+						admin_url( 'site-health.php' ),
+						admin_url( 'site-health.php?tab=debug' )
+					);
 					?>
-					<p><em><?php _e( 'WordPress has detected your site is running an outdated version of PHP. You will see this notice on your dashboard with instructions for contacting your host.' ); ?></em></p>
-				<?php endif; ?>
-
-				<p><a class="button button-default button-hero" href="<?php echo esc_url( wp_get_update_php_url() ); ?>"><?php _e( 'Learn more about updating PHP' ); ?></a></p>
+				</p>
 			</div>
 		</div>
 
+		<hr />
+
 		<div class="feature-section one-col is-wide wp-clearfix">
 			<div class="col">
-				<h3><?php _e( 'Editor Performance' ); ?></h3>
-				<div class="inline-svg alignright">
-					<img src="https://s.w.org/images/core/5.1/editor-performance.svg" alt="">
+				<div class="inline-svg alignleft">
+					<img src="https://make.wordpress.org/core/files/2019/04/error-protection.png" alt="">
 				</div>
-				<p><?php _e( 'Introduced in WordPress 5.0, the new block editor continues to improve. Most significantly, WordPress 5.1 includes solid performance improvements within the editor. The editor should feel a little quicker to start, and typing should feel smoother. Nevertheless, expect more performance improvements in the next releases.' ); ?></p>
-				<?php if ( current_user_can( 'edit_posts' ) ) : ?>
-					<p><a class="button button-default button-hero" href="<?php echo esc_url( admin_url( 'post-new.php' ) ); ?>"><?php _e( 'Build your first post' ); ?></a></p>
-				<?php endif; ?>
+				<h3><?php _e( 'PHP Error Protection' ); ?></h3>
+				<p><?php _e( 'This administrator-focused update will let you safely fix or manage fatal errors without requiring developer time. It features better handling of the so-called “white screen of death,” and a way to enter recovery mode,  which pauses error-causing plugins or themes.' ); ?></p>
+			</div>
+		</div>
+
+		<hr />
+
+		<h3 class="under-the-hood-header"><?php _e( 'Improvements for Everyone' ); ?></h3>
+
+		<div class="under-the-hood feature-section two-col">
+			<div class="col cta">
+				<h4><?php _e( 'Accessibility Updates' ); ?></h4>
+				<p><?php _e( 'A number of changes work together to improve contextual awareness and keyboard navigation flow for those using screen readers and other assistive technologies.' ); ?></p>
+			</div>
+			<div class="col cta">
+				<h4><?php _e( 'New Dashboard Icons' ); ?></h4>
+				<p><?php _e( 'Thirteen new icons include Instagram, a suite of icons for BuddyPress, and rotated Earth icons for global inclusion. Find them in the Dashboard and have some fun!' ); ?></p>
 			</div>
 		</div>
 
@@ -83,72 +104,37 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<h3 class="under-the-hood-header"><?php _e( 'Developer Happiness' ); ?></h3>
 
-		<div class="under-the-hood feature-section three-col">
+		<div class="under-the-hood feature-section two-col">
 			<div class="col">
-				<h4><?php _e( 'Multisite Metadata' ); ?></h4>
-				<p>
-					<?php _e( '5.1 introduces a new database table to store metadata associated with sites and allows for the storage of arbitrary site data relevant in a multisite / network context.' ); ?>
-					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/28/multisite-support-for-site-metadata-in-5-1/' ); ?>
-				</p>
+				<h4><a href="https://make.wordpress.org/core/2019/03/26/coding-standards-updates-for-php-5-6/"><?php _e( 'PHP Version Bump' ); ?></a></h4>
+				<p><?php _e( 'The minimum supported PHP version is now 5.6.20. As of WordPress 5.2, themes and plugins can safely take advantage of namespaces, anonymous functions, and more!' ); ?></p>
 			</div>
 			<div class="col">
-				<h4><?php _e( 'Cron API' ); ?></h4>
-				<p>
-					<?php _e( 'The Cron API has been updated with new functions to assist with returning data and includes new filters for modifying cron storage. Other changes in behavior affect cron spawning on servers running FastCGI and PHP-FPM versions 7.0.16 and above.' ); ?>
-					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/09/cron-improvements-with-php-fpm-in-wordpress-5-1/' ); ?>
-				</p>
-			</div>
-			<div class="col">
-				<h4><?php _e( 'New JS Build Processes' ); ?></h4>
-				<p>
-					<?php _e( 'WordPress 5.1 features a new JavaScript build option, following the large reorganization of code started in the 5.0 release.' ); ?>
-					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2018/05/16/preparing-wordpress-for-a-javascript-future-part-1-build-step-and-folder-reorganization/' ); ?>
-				</p>
+				<h4><a href="https://make.wordpress.org/core/2019/04/24/developer-focused-privacy-updates-in-5-2/"><?php _e( 'Privacy Updates' ); ?></a></h4>
+				<p><?php _e( 'A new theme page template, a conditional function, and two CSS classes make designing and customizing the Privacy Policy page easier.' ); ?></p>
 			</div>
 		</div>
-
 		<div class="under-the-hood feature-section two-col">
-			<div class="col is-span-two">
-				<h4><?php _e( 'Other Developer Goodness' ); ?></h4>
+			<div class="col">
+				<h4><a href="https://make.wordpress.org/core/2019/04/24/miscellaneous-developer-updates-in-5-2/"><?php _e( 'New Body Tag Hook' ); ?></a></h4>
 				<p>
-					<?php _e( 'Miscellaneous improvements include updates to values for the <code>WP_DEBUG_LOG</code> constant, new test config file constant in the test suite, new plugin action hooks, short-circuit filters for <code>wp_unique_post_slug()</code> and <code>WP_User_Query</code> and <code>count_users()</code>, a new <code>human_readable_duration</code> function, improved taxonomy metabox sanitization, limited <code>LIKE</code> support for meta keys when using <code>WP_Meta_Query</code>, a new “doing it wrong” notice when registering REST API endpoints, and more!' ); ?>
-					<br>
-					<?php printf( __( '<a href="%s">Read more.</a>' ), 'https://make.wordpress.org/core/2019/01/23/miscellaneous-developer-focused-changes-in-5-1/' ); ?>
-				</p>
-				<p>
-					<a class="button button-default button-hero" href="<?php echo esc_url( 'https://developer.wordpress.org/' ); ?>"><?php _e( 'Learn how to get started' ); ?></a>
+					<?php
+					printf(
+						/* translators: 1: wp_body_open 2: <body> */
+						__( '5.2 introduces a <code>%1$s</code> hook, which lets themes support injecting code right at the beginning of the <code>%2$s</code> element.' ),
+						'wp_body_open',
+						'&lt;body&gt;'
+					);
+					?>
 				</p>
 			</div>
 			<div class="col">
-				<div class="inline-svg">
-					<img src="https://s.w.org/images/core/5.1/under-the-hood.svg" alt="">
-				</div>
+				<h4><a href="https://make.wordpress.org/core/2019/03/25/building-javascript/"><?php _e( 'Building JavaScript' ); ?></a></h4>
+				<p><?php _e( 'With the addition of webpack and Babel configurations in the @wordpress/scripts package, developers won&#8217;t have to worry about setting up complex build tools to write modern JavaScript.' ); ?></p>
 			</div>
 		</div>
 
 		<hr />
-
-		<?php if ( ! file_exists( WP_PLUGIN_DIR . '/classic-editor/classic-editor.php' ) ) : ?>
-			<h2 class="feature-section-header"><?php _e( 'Keep it Classic' ); ?></h2>
-
-			<div class="feature-section one-col" id="classic-editor">
-				<div class="col">
-					<p><?php _e( 'Prefer to stick with the familiar Classic Editor? No problem! Support for the Classic Editor plugin will remain in WordPress through 2021.' ); ?></p>
-					<p><?php _e( 'The Classic Editor plugin restores the previous WordPress editor and the Edit Post screen. It lets you keep using plugins that extend it, add old-style meta boxes, or otherwise depend on the previous editor. To install, visit your plugins page and click the &#8220;Install Now&#8221; button next to &#8220;Classic Editor&#8221;. After the plugin finishes installing, click &#8220;Activate&#8221;. That’s it!' ); ?></p>
-					<p><?php _e( 'Note to users of assistive technology: if you experience usability issues with the block editor, we recommend you continue to use the Classic Editor.' ); ?></p>
-					<?php if ( current_user_can( 'install_plugins' ) ) { ?>
-						<div class="col cta">
-							<a class="button button-primary button-hero" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) ); ?>"><?php _e( 'Install the Classic Editor' ); ?></a>
-						</div>
-					<?php } ?>
-				</div>
-			</div>
-
-			<hr />
-		<?php endif; ?>
 
 		<div class="return-to-dashboard">
 			<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
