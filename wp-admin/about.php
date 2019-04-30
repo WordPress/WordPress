@@ -63,7 +63,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<?php
 					printf(
 						/* translators: 1: link to the WordPress 5.1 release post 2: link to /wp-admin/site-health.php 3: link to /wp-admin/site-health.php?tab=debug */
-						__( 'Building on the <a href="%1$s">Site Health</a> features introduced in 5.1, this release adds two new pages to help debug common configuration issues. It also adds space where developers can include debugging information for site maintainers. Check your site <a href="%2$s">status</a>, and learn how to <a href="%3$s">debug</a> issues.' ),
+						__( 'Building on <a href="%1$s">the Site Health features introduced in 5.1</a>, this release adds two new pages to help debug common configuration issues. It also adds space where developers can include debugging information for site maintainers. <a href="%2$s">Check your site status</a>, and <a href="%3$s">learn how to debug issues</a>.' ),
 						__( 'https://wordpress.org/news/2019/02/betty/' ),
 						admin_url( 'site-health.php' ),
 						admin_url( 'site-health.php?tab=debug' )
