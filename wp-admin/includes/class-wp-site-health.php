@@ -366,7 +366,7 @@ class WP_Site_Health {
 		}
 
 		// Check if there are inactive plugins.
-		if ( $plugins_total > $plugins_active ) {
+		if ( $plugins_total > $plugins_active && ! is_multisite() ) {
 			$unused_plugins = $plugins_total - $plugins_active;
 
 			$result['status'] = 'recommended';
@@ -521,7 +521,7 @@ class WP_Site_Health {
 			}
 		}
 
-		if ( $has_unused_themes && $show_unused_themes ) {
+		if ( $has_unused_themes && $show_unused_themes && ! is_multisite() ) {
 
 			// This is a child theme, so we want to be a bit more explicit in our messages.
 			if ( $active_theme->parent() ) {

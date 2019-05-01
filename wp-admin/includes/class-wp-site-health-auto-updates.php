@@ -86,6 +86,10 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_wp_version_check_attached() {
+		if ( ! is_main_site() ) {
+			return;
+		}
+
 		$cookies = wp_unslash( $_COOKIE );
 		$timeout = 10;
 		$headers = array(
