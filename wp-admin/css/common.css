@@ -2171,7 +2171,7 @@ html.wp-toolbar {
 	margin-left: 0.5em; /* half the font size so set the font size properly */
 	padding: 5px 10px;
 	font-size: 14px;
-	line-height: 1.8;
+	line-height: 1.71428571;
 	font-weight: 600;
 	background: #e5e5e5;
 	color: #555;
@@ -3999,8 +3999,15 @@ img {
 
 	h1 .nav-tab,
 	h2 .nav-tab,
-	h3 .nav-tab {
+	h3 .nav-tab,
+	nav .nav-tab {
 		margin: 10px 10px 0 0;
+		border-bottom: 1px solid #ccc;
+	}
+
+	.nav-tab-active:hover,
+	.nav-tab-active:focus,
+	.nav-tab-active:focus:active {
 		border-bottom: 1px solid #ccc;
 	}
 }
