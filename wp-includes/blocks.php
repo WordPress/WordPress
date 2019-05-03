@@ -149,7 +149,7 @@ function excerpt_remove_blocks( $content ) {
 	 * If a dynamic block is added to this list, it must not generate another
 	 * excerpt, as this will cause an infinite loop to occur.
 	 *
-	 * @since 4.4.0
+	 * @since 5.0.0
 	 *
 	 * @param array $allowed_blocks The list of allowed blocks.
 	 */
