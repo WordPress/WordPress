@@ -490,7 +490,7 @@ class Custom_Image_Header {
 
 <h3><?php _e( 'Header Image' ); ?></h3>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tbody>
 
 		<?php if ( get_custom_header() || display_header_text() ) : ?>
@@ -628,7 +628,7 @@ class Custom_Image_Header {
 
 <form method="post" action="<?php echo esc_url( add_query_arg( 'step', 1 ) ); ?>">
 		<?php submit_button( null, 'screen-reader-text', 'save-header-options', false ); ?>
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tbody>
 		<?php if ( get_uploaded_header_images() ) : ?>
 <tr>
@@ -689,7 +689,7 @@ class Custom_Image_Header {
 
 <h3><?php _e( 'Header Text' ); ?></h3>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tbody>
 <tr>
 <th scope="row"><?php _e( 'Header Text' ); ?></th>

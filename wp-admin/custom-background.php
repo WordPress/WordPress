@@ -246,7 +246,7 @@ class Custom_Background {
 
 <h3><?php _e( 'Background Image' ); ?></h3>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tbody>
 <tr>
 <th scope="row"><?php _e( 'Preview' ); ?></th>
@@ -340,7 +340,7 @@ class Custom_Background {
 
 <h3><?php _e( 'Display Options' ); ?></h3>
 <form method="post">
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tbody>
 		<?php if ( get_background_image() ) : ?>
 <input name="background-preset" type="hidden" value="custom">

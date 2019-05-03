@@ -255,7 +255,7 @@ switch ( $action ) {
 
 <h2><?php _e( 'Personal Options' ); ?></h2>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 		<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
 	<tr class="user-rich-editing-wrap">
 		<th scope="row"><?php _e( 'Visual Editor' ); ?></th>
@@ -385,7 +385,7 @@ endif;
 
 <h2><?php _e( 'Name' ); ?></h2>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 	<tr class="user-user-login-wrap">
 		<th><label for="user_login"><?php _e( 'Username' ); ?></label></th>
 		<td><input type="text" name="user_login" id="user_login" value="<?php echo esc_attr( $profileuser->user_login ); ?>" disabled="disabled" class="regular-text" /> <span class="description"><?php _e( 'Usernames cannot be changed.' ); ?></span></td>
@@ -482,7 +482,7 @@ endif; //!IS_PROFILE_PAGE
 
 	<h2><?php _e( 'Contact Info' ); ?></h2>
 
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 	<tr class="user-email-wrap">
 		<th><label for="email"><?php _e( 'Email' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
 		<td><input type="email" name="email" id="email" aria-describedby="email-description" value="<?php echo esc_attr( $profileuser->user_email ); ?>" class="regular-text ltr" />
@@ -551,7 +551,7 @@ endif; //!IS_PROFILE_PAGE
 
 	<h2><?php IS_PROFILE_PAGE ? _e( 'About Yourself' ) : _e( 'About the user' ); ?></h2>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tr class="user-description-wrap">
 	<th><label for="description"><?php _e( 'Biographical Info' ); ?></label></th>
 	<td><textarea name="description" id="description" rows="5" cols="30"><?php echo $profileuser->description; // textarea_escaped ?></textarea>
@@ -607,7 +607,7 @@ endif; //!IS_PROFILE_PAGE
 	</table>
 
 	<h2><?php _e( 'Account Management' ); ?></h2>
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tr id="password" class="user-pass1-wrap">
 	<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
 	<td>
@@ -728,7 +728,7 @@ endif; //!IS_PROFILE_PAGE
 		) :
 			?>
 	<h2><?php _e( 'Additional Capabilities' ); ?></h2>
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tr class="user-capabilities-wrap">
 	<th scope="row"><?php _e( 'Capabilities' ); ?></th>
 	<td>
