@@ -1646,6 +1646,7 @@ body.home.title-tagline-hidden.has-header-video .custom-logo-link img {
 
 body:not(.title-tagline-hidden) .site-branding-text {
 	display: inline-block;
+	max-width: 100%;
 	vertical-align: middle;
 }
 

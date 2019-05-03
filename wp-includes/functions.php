@@ -1831,6 +1831,14 @@ function wp_mkdir_p( $target ) {
  */
 function path_is_absolute( $path ) {
 	/*
+	 * Check to see if the path is a stream and check to see if its an actual
+	 * path or file as realpath() does not support stream wrappers.
+	 */
+	if ( wp_is_stream( $path ) && ( is_dir( $path ) || is_file( $path ) ) ) {
+		return true;
+	}
+
+	/*
 	 * This is definitive if true but fails if $path does not exist or contains
 	 * a symbolic link.
 	 */
@@ -2937,6 +2945,8 @@ function wp_nonce_ays( $action ) {
  *              an integer to be used as the response code.
  * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
  *
+ * @global WP_Query $wp_query Global WP_Query instance.
+ *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.
  *                                  Default empty.
@@ -2963,6 +2973,7 @@ function wp_nonce_ays( $action ) {
  * }
  */
 function wp_die( $message = '', $title = '', $args = array() ) {
+	global $wp_query;
 
 	if ( is_int( $args ) ) {
 		$args = array( 'response' => $args );
@@ -3008,9 +3019,10 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 */
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	} elseif ( wp_is_xml_request()
-		|| function_exists( 'is_feed' ) && is_feed()
-		|| function_exists( 'is_comment_feed' ) && is_comment_feed()
-		|| function_exists( 'is_trackback' ) && is_trackback() ) {
+		|| isset( $wp_query ) &&
+			( function_exists( 'is_feed' ) && is_feed()
+			|| function_exists( 'is_comment_feed' ) && is_comment_feed()
+			|| function_exists( 'is_trackback' ) && is_trackback() ) ) {
 		/**
 		 * Filters the callback for killing WordPress execution for XML requests.
 		 *
@@ -3409,7 +3421,7 @@ function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
     <message><![CDATA[{$message}]]></message>
     <data>
         <status>{$r['response']}</status>
-    </data> 
+    </data>
 </error>
 
 EOD;
@@ -6269,10 +6281,15 @@ function wp_delete_file( $file ) {
  * @return bool True on success, false on failure.
  */
 function wp_delete_file_from_directory( $file, $directory ) {
-	$real_file      = realpath( wp_normalize_path( $file ) );
-	$real_directory = realpath( wp_normalize_path( $directory ) );
+	if ( wp_is_stream( $file ) ) {
+		$real_file      = wp_normalize_path( $file );
+		$real_directory = wp_normalize_path( $directory );
+	} else {
+		$real_file      = realpath( wp_normalize_path( $file ) );
+		$real_directory = realpath( wp_normalize_path( $directory ) );
+	}
 
-	if ( false === $real_file || false === $real_directory || strpos( wp_normalize_path( $real_file ), trailingslashit( wp_normalize_path( $real_directory ) ) ) !== 0 ) {
+	if ( false === $real_file || false === $real_directory || strpos( $real_file, trailingslashit( $real_directory ) ) !== 0 ) {
 		return false;
 	}
 
@@ -7019,7 +7036,7 @@ function wp_direct_php_update_button() {
  * @param string $directory Full path of a directory.
  * @param int    $max_execution_time Maximum time to run before giving up. In seconds.
  *                                   The timeout is global and is measured from the moment WordPress started to load.
- * @return int|false|null Size in MB if a valid directory. False if not. Null if timeout.
+ * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function get_dirsize( $directory, $max_execution_time = null ) {
 	$dirsize = get_transient( 'dirsize_cache' );
@@ -7054,18 +7071,26 @@ function get_dirsize( $directory, $max_execution_time = null ) {
  * @since 4.3.0 $exclude parameter added.
  * @since 5.2.0 $max_execution_time parameter added.
  *
- * @param string $directory Full path of a directory.
- * @param string $exclude   Optional. Full path of a subdirectory to exclude from the total.
- * @param int    $max_execution_time Maximum time to run before giving up. In seconds.
- *                                   The timeout is global and is measured from the moment WordPress started to load.
- * @return int|false|null Size in MB if a valid directory. False if not. Null if timeout.
+ * @param string $directory       Full path of a directory.
+ * @param string|array $exclude   Optional. Full path of a subdirectory to exclude from the total, or array of paths.
+ *                                Expected without trailing slash(es).
+ * @param int $max_execution_time Maximum time to run before giving up. In seconds.
+ *                                The timeout is global and is measured from the moment WordPress started to load.
+ * @return int|false|null Size in bytes if a valid directory. False if not. Null if timeout.
  */
 function recurse_dirsize( $directory, $exclude = null, $max_execution_time = null ) {
 	$size = 0;
 
 	$directory = untrailingslashit( $directory );
 
-	if ( ! file_exists( $directory ) || ! is_dir( $directory ) || ! is_readable( $directory ) || $directory === $exclude ) {
+	if ( ! file_exists( $directory ) || ! is_dir( $directory ) || ! is_readable( $directory ) ) {
+		return false;
+	}
+
+	if (
+		( is_string( $exclude ) && $directory === $exclude ) ||
+		( is_array( $exclude ) && in_array( $directory, $exclude, true ) )
+	) {
 		return false;
 	}
 
@@ -7107,4 +7132,28 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 		closedir( $handle );
 	}
 	return $size;
+}
+
+/**
+* Checks compatibility with the current WordPress version.
+*
+* @since 5.2.0
+*
+* @param string $required Minimum required WordPress version.
+* @return bool True if required version is compatible or empty, false if not.
+*/
+function is_wp_version_compatible( $required ) {
+	return empty( $required ) || version_compare( get_bloginfo( 'version' ), $required, '>=' );
+}
+
+/**
+ * Checks compatibility with the current PHP version.
+ *
+ * @since 5.2.0
+ *
+ * @param string $required Minimum required PHP version.
+ * @return bool True if required version is compatible or empty, false if not.
+ */
+function is_php_version_compatible( $required ) {
+	return empty( $required ) || version_compare( phpversion(), $required, '>=' );
 }

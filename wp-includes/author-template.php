@@ -442,15 +442,15 @@ function wp_list_authors( $args = '' ) {
 		$author_count[ $row->post_author ] = $row->count;
 	}
 	foreach ( $authors as $author_id ) {
-		$author = get_userdata( $author_id );
+		$posts = isset( $author_count[ $author_id ] ) ? $author_count[ $author_id ] : 0;
 
-		if ( $args['exclude_admin'] && 'admin' == $author->display_name ) {
+		if ( ! $posts && $args['hide_empty'] ) {
 			continue;
 		}
 
-		$posts = isset( $author_count[ $author->ID ] ) ? $author_count[ $author->ID ] : 0;
+		$author = get_userdata( $author_id );
 
-		if ( ! $posts && $args['hide_empty'] ) {
+		if ( $args['exclude_admin'] && 'admin' === $author->display_name ) {
 			continue;
 		}
 

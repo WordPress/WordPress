@@ -502,11 +502,12 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
 			}
 
-			$wp_version = get_bloginfo( 'version' );
+			$requires_php = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
+			$requires_wp  = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
 
-			$compatible_php = ( empty( $plugin['requires_php'] ) || version_compare( phpversion(), $plugin['requires_php'], '>=' ) );
-			$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( $wp_version, $plugin['tested'], '<=' ) );
-			$compatible_wp  = ( empty( $plugin['requires'] ) || version_compare( $wp_version, $plugin['requires'], '>=' ) );
+			$compatible_php = is_php_version_compatible( $requires_php );
+			$compatible_wp  = is_wp_version_compatible( $requires_wp );
+			$tested_wp      = ( empty( $plugin['tested'] ) || version_compare( get_bloginfo( 'version' ), $plugin['tested'], '<=' ) );
 
 			$action_links = array();
 

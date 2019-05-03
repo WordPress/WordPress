@@ -40,7 +40,7 @@ if ( have_posts() ) {
 						?>
 						<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .entry-content -->
-				</div><!-- #post-## -->
+				</div><!-- #post-<?php the_ID(); ?> -->
 
 				<?php comments_template( '', true ); ?>
 

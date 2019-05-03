@@ -2387,13 +2387,20 @@ h6 {
 .error-404 .page-title,
 .comments-title,
 blockquote {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
   hyphens: auto;
   word-break: break-word;
+  word-wrap: break-word;
 }
 
 /* Do not hyphenate entry title on tablet view and bigger. */
 @media only screen and (min-width: 768px) {
   .entry-title {
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
     hyphens: none;
   }
 }
@@ -3734,7 +3741,12 @@ body.page .main-navigation {
 
 .site-branding {
   color: #767676;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   position: relative;
+  word-wrap: break-word;
 }
 
 @media only screen and (min-width: 768px) {
@@ -4514,7 +4526,12 @@ body.page .main-navigation {
 }
 
 .comments-area {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   margin: calc(2 * 1rem) 1rem;
+  word-wrap: break-word;
   /* Add extra margin when the comments section is located immediately after the
 	 * post itself (this happens on pages).
 	 */
@@ -5029,7 +5046,12 @@ body.page .main-navigation {
 }
 
 #colophon .widget-column .widget {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
   width: 100%;
+  word-wrap: break-word;
 }
 
 @media only screen and (min-width: 1168px) {
@@ -5041,6 +5063,11 @@ body.page .main-navigation {
 
 #colophon .site-info {
   color: #767676;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  word-wrap: break-word;
 }
 
 #colophon .site-info a {
@@ -6014,34 +6041,20 @@ body.page .main-navigation {
   word-break: break-word;
 }
 
-.entry .entry-content .wp-block-columns.alignfull {
-  padding-left: 1rem;
-  padding-right: 1rem;
+.entry .entry-content .wp-block-columns .wp-block-column > *:first-child {
+  margin-top: 0;
 }
 
-@media only screen and (min-width: 600px) {
-  .entry .entry-content .wp-block-columns {
-    flex-wrap: nowrap;
-  }
+.entry .entry-content .wp-block-columns .wp-block-column > *:last-child {
+  margin-bottom: 0;
 }
 
 @media only screen and (min-width: 768px) {
-  .entry .entry-content .wp-block-columns .wp-block-column > *:first-child {
-    margin-top: 0;
+  .entry .entry-content .wp-block-columns {
+    flex-wrap: nowrap;
   }
-  .entry .entry-content .wp-block-columns .wp-block-column > *:last-child {
-    margin-bottom: 0;
-  }
-  .entry .entry-content .wp-block-columns[class*='has-'] > * {
-    margin-right: 1rem;
-  }
-  .entry .entry-content .wp-block-columns[class*='has-'] > *:last-child {
-    margin-right: 0;
-  }
-  .entry .entry-content .wp-block-columns.alignfull,
-  .entry .entry-content .wp-block-columns.alignfull .wp-block-column {
-    padding-left: calc(2 * 1rem);
-    padding-right: calc(2 * 1rem);
+  .entry .entry-content .wp-block-columns .wp-block-column:not(:first-child) {
+    margin-left: 32px;
   }
 }
 

@@ -1335,7 +1335,7 @@ class wpdb {
 		 * If a %s placeholder already has quotes around it, removing the existing quotes and re-inserting them
 		 * ensures the quotes are consistent.
 		 *
-		 * For backwards compatibility, this is only applied to %s, and not to placeholders like %1$s, which are frequently
+		 * For backward compatibility, this is only applied to %s, and not to placeholders like %1$s, which are frequently
 		 * used in the middle of longer strings, or as table name placeholders.
 		 */
 		$query = str_replace( "'%s'", '%s', $query ); // Strip any existing single quotes.

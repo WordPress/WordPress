@@ -1096,7 +1096,7 @@ p.no-themes-local {
 }
 
 .theme-details .theme-rating {
-	line-height: 23px;
+	line-height: 1.9;
 }
 
 .theme-details .star-rating {
@@ -1111,7 +1111,7 @@ p.no-themes-local {
 
 .theme-details .no-rating {
 	display: block;
-	line-height: 20px;
+	line-height: 1.9;
 }
 
 /*------------------------------------------------------------------------------
@@ -1213,7 +1213,7 @@ div#custom-background-image img {
 	box-shadow: none;
 	/* Following properties are overridden by buttons responsive styles (see: wp-includes/css/buttons.css). */
 	height: 40px !important;
-	line-height: 37px !important;
+	line-height: 2.9 !important;
 	margin: 0 -1px 0 0 !important;
 	padding: 0 10px 1px !important;
 	position: relative;
@@ -1376,7 +1376,7 @@ body.full-overlay-active {
 	right: 0;
 	height: 45px;
 	padding: 0 15px;
-	line-height: 45px;
+	line-height: 3.2;
 	z-index: 10;
 	margin: 0;
 	border-top: none;
@@ -1514,7 +1514,7 @@ body.full-overlay-active {
 .wp-full-overlay .collapse-sidebar-label {
 	display: inline-block;
 	vertical-align: middle;
-	line-height: 20px;
+	line-height: 1.6;
 }
 
 .wp-full-overlay .collapse-sidebar-arrow {
@@ -1781,7 +1781,7 @@ body.full-overlay-active {
 
 .install-theme-info .theme-name {
 	font-size: 16px;
-	line-height: 24px;
+	line-height: 1.5;
 	margin-bottom: 0;
 	margin-top: 0;
 }
@@ -1803,7 +1803,7 @@ body.full-overlay-active {
 .theme-details .theme-description {
 	float: left;
 	color: #72777c;
-	line-height: 20px;
+	line-height: 1.6;
 	max-width: 100%;
 }
 
@@ -1811,7 +1811,7 @@ body.full-overlay-active {
 	float: right;
 	margin: 8px 10px 0 0;
 	/* For when .theme-install is a span rather than a.button-primary (already installed theme) */
-	line-height: 26px;
+	line-height: 2;
 }
 
 .theme-install-overlay .wp-full-overlay-sidebar {

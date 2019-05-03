@@ -3085,7 +3085,7 @@ All at ###SITENAME###
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
 	$subject = sprintf(
-		/* translators: 1: Site name. 2: Name of the confirmed action. */
+		/* translators: Privacy data request confirmed notification email subject. 1: Site title, 2: Name of the confirmed action. */
 		__( '[%1$s] Action Confirmed: %2$s' ),
 		$email_data['sitename'],
 		$action_description
@@ -3497,7 +3497,7 @@ All at ###SITENAME###
 	$content = str_replace( '###SITENAME###', $email_data['sitename'], $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
-	/* translators: Privacy data request subject. 1: Site name, 2: Name of the action */
+	/* translators: Confirm privacy data request notification email subject. 1: Site title, 2: Name of the action */
 	$subject = sprintf( __( '[%1$s] Confirm Action: %2$s' ), $email_data['sitename'], $email_data['description'] );
 
 	/**

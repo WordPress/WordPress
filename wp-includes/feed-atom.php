@@ -30,12 +30,7 @@ do_action( 'rss_tag_pre', 'atom' );
 	<title type="text"><?php wp_title_rss(); ?></title>
 	<subtitle type="text"><?php bloginfo_rss( 'description' ); ?></subtitle>
 
-	<updated>
-	<?php
-		$date = get_last_build_date();
-		echo $date ? mysql2date( 'Y-m-d\TH:i:s\Z', $date, false ) : date( 'Y-m-d\TH:i:s\Z' );
-	?>
-	</updated>
+	<updated><?php echo get_feed_build_date( 'Y-m-d\TH:i:s\Z' ); ?></updated>
 
 	<link rel="alternate" type="<?php bloginfo_rss( 'html_type' ); ?>" href="<?php bloginfo_rss( 'url' ); ?>" />
 	<id><?php bloginfo( 'atom_url' ); ?></id>

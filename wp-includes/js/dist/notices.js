@@ -149,7 +149,7 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 26:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(54);
@@ -283,7 +283,7 @@ var notices = on_sub_key('context')(function () {
 /* harmony default export */ var store_reducer = (notices);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(26);
+var regenerator = __webpack_require__(23);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/constants.js

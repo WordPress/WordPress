@@ -229,31 +229,31 @@ function wp_default_packages_scripts( &$scripts ) {
 		'api-fetch'                          => '3.1.2',
 		'autop'                              => '2.0.0',
 		'blob'                               => '2.3.0',
-		'block-editor'                       => '1.1.2',
-		'block-library'                      => '2.4.2',
+		'block-editor'                       => '2.0.1',
+		'block-library'                      => '2.4.4',
 		'block-serialization-default-parser' => '3.1.0',
-		'blocks'                             => '6.2.2',
-		'components'                         => '7.2.2',
+		'blocks'                             => '6.2.4',
+		'components'                         => '7.3.1',
 		'compose'                            => '3.2.0',
 		'core-data'                          => '2.2.2',
 		'data'                               => '4.4.0',
 		'date'                               => '3.2.0',
 		'deprecated'                         => '2.2.0',
-		'dom'                                => '2.2.2',
+		'dom'                                => '2.2.4',
 		'dom-ready'                          => '2.2.0',
-		'edit-post'                          => '3.3.2',
-		'editor'                             => '9.2.2',
+		'edit-post'                          => '3.3.4',
+		'editor'                             => '9.2.4',
 		'element'                            => '2.3.0',
 		'escape-html'                        => '1.2.0',
-		'format-library'                     => '1.4.2',
+		'format-library'                     => '1.4.4',
 		'hooks'                              => '2.2.0',
 		'html-entities'                      => '2.2.0',
 		'i18n'                               => '3.3.0',
 		'is-shallow-equal'                   => '1.2.0',
 		'keycodes'                           => '2.2.0',
-		'list-reusable-blocks'               => '1.3.2',
+		'list-reusable-blocks'               => '1.3.4',
 		'notices'                            => '1.3.0',
-		'nux'                                => '3.2.2',
+		'nux'                                => '3.2.4',
 		'plugins'                            => '2.2.0',
 		'priority-queue'                     => '1.1.0',
 		'redux-routine'                      => '3.2.0',
@@ -1083,7 +1083,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-table-hotkeys', "/wp-includes/js/jquery/jquery.table-hotkeys$suffix.js", array( 'jquery', 'jquery-hotkeys' ), false, 1 );
 	$scripts->add( 'jquery-touch-punch', '/wp-includes/js/jquery/jquery.ui.touch-punch.js', array( 'jquery-ui-widget', 'jquery-ui-mouse' ), '0.2.2', 1 );
 
-	// Not used any more, registered for backwards compatibility.
+	// Not used any more, registered for backward compatibility.
 	$scripts->add( 'suggest', "/wp-includes/js/jquery/suggest$suffix.js", array( 'jquery' ), '1.1-20110113', 1 );
 
 	// Masonry v2 depended on jQuery. v3 does not. The older jquery-masonry handle is a shiv.
@@ -1690,7 +1690,8 @@ function wp_default_scripts( &$scripts ) {
 			)
 		);
 
-		$scripts->add( 'site-health', "/wp-admin/js/site-health$suffix.js", array( 'clipboard', 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'site-health', "/wp-admin/js/site-health$suffix.js", array( 'clipboard', 'jquery', 'wp-util', 'wp-a11y', 'wp-i18n' ), false, 1 );
+		$scripts->set_translations( 'site-health' );
 
 		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
@@ -2065,6 +2066,7 @@ function wp_default_styles( &$styles ) {
 		'customize-preview',
 		'ie',
 		'login',
+		'site-health',
 		// Includes CSS
 		'buttons',
 		'admin-bar',

@@ -6891,3 +6891,20 @@ function _filter_query_attachment_filenames( $clauses ) {
 function wp_cache_set_posts_last_changed() {
 	wp_cache_set( 'last_changed', microtime(), 'posts' );
 }
+
+/**
+ * Get all available post MIME types for a given post type.
+ *
+ * @since 2.5.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $type
+ * @return mixed
+ */
+function get_available_post_mime_types( $type = 'attachment' ) {
+	global $wpdb;
+
+	$types = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT post_mime_type FROM $wpdb->posts WHERE post_type = %s", $type ) );
+	return $types;
+}

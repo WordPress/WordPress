@@ -57,7 +57,7 @@ class WP_Site_Health_Auto_Updates {
 	}
 
 	/**
-	 * Test if auto-updated related constants are set correctly.
+	 * Test if auto-updates related constants are set correctly.
 	 *
 	 * @since 5.2.0
 	 *
@@ -66,7 +66,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_constants( $constant, $value ) {
-		if ( defined( $constant ) && constant( $constant ) != $allowed_constants[ $constant ] ) {
+		if ( defined( $constant ) && constant( $constant ) != $value ) {
 			return array(
 				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
@@ -86,6 +86,10 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_wp_version_check_attached() {
+		if ( ! is_main_site() ) {
+			return;
+		}
+
 		$cookies = wp_unslash( $_COOKIE );
 		$timeout = 10;
 		$headers = array(
@@ -350,10 +354,10 @@ class WP_Site_Health_Auto_Updates {
 			if ( 'wp-content' == substr( $file, 0, 10 ) ) {
 				continue;
 			}
-			if ( ! file_exists( ABSPATH . '/' . $file ) ) {
+			if ( ! file_exists( ABSPATH . $file ) ) {
 				continue;
 			}
-			if ( ! is_writable( ABSPATH . '/' . $file ) ) {
+			if ( ! is_writable( ABSPATH . $file ) ) {
 				$unwritable_files[] = $file;
 			}
 		}

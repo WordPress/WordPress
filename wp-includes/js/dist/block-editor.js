@@ -3380,31 +3380,31 @@ function _objectWithoutProperties(source, excluded) {
 /***/ }),
 
 /***/ 23:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["url"]; }());
+module.exports = __webpack_require__(54);
+
 
 /***/ }),
 
 /***/ 24:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["hooks"]; }());
+(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
 /***/ 25:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["dom"]; }());
+(function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
 /***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-module.exports = __webpack_require__(54);
-
+(function() { module.exports = this["wp"]["hooks"]; }());
 
 /***/ }),
 
@@ -3860,13 +3860,14 @@ __webpack_require__.d(actions_namespaceObject, "synchronizeTemplate", function()
 __webpack_require__.d(actions_namespaceObject, "mergeBlocks", function() { return mergeBlocks; });
 __webpack_require__.d(actions_namespaceObject, "removeBlocks", function() { return actions_removeBlocks; });
 __webpack_require__.d(actions_namespaceObject, "removeBlock", function() { return removeBlock; });
+__webpack_require__.d(actions_namespaceObject, "replaceInnerBlocks", function() { return actions_replaceInnerBlocks; });
 __webpack_require__.d(actions_namespaceObject, "toggleBlockMode", function() { return toggleBlockMode; });
 __webpack_require__.d(actions_namespaceObject, "startTyping", function() { return startTyping; });
 __webpack_require__.d(actions_namespaceObject, "stopTyping", function() { return stopTyping; });
 __webpack_require__.d(actions_namespaceObject, "enterFormattedText", function() { return enterFormattedText; });
 __webpack_require__.d(actions_namespaceObject, "exitFormattedText", function() { return exitFormattedText; });
 __webpack_require__.d(actions_namespaceObject, "insertDefaultBlock", function() { return actions_insertDefaultBlock; });
-__webpack_require__.d(actions_namespaceObject, "updateBlockListSettings", function() { return actions_updateBlockListSettings; });
+__webpack_require__.d(actions_namespaceObject, "updateBlockListSettings", function() { return updateBlockListSettings; });
 __webpack_require__.d(actions_namespaceObject, "updateSettings", function() { return updateSettings; });
 __webpack_require__.d(actions_namespaceObject, "__unstableSaveReusableBlock", function() { return __unstableSaveReusableBlock; });
 __webpack_require__.d(actions_namespaceObject, "__unstableMarkLastChangeAsPersistent", function() { return __unstableMarkLastChangeAsPersistent; });
@@ -3931,6 +3932,7 @@ __webpack_require__.d(selectors_namespaceObject, "hasInserterItems", function() 
 __webpack_require__.d(selectors_namespaceObject, "getBlockListSettings", function() { return getBlockListSettings; });
 __webpack_require__.d(selectors_namespaceObject, "getSettings", function() { return selectors_getSettings; });
 __webpack_require__.d(selectors_namespaceObject, "isLastBlockChangePersistent", function() { return isLastBlockChangePersistent; });
+__webpack_require__.d(selectors_namespaceObject, "__unstableIsLastBlockChangeIgnored", function() { return __unstableIsLastBlockChangeIgnored; });
 
 // EXTERNAL MODULE: external {"this":["wp","blocks"]}
 var external_this_wp_blocks_ = __webpack_require__(14);
@@ -4315,32 +4317,20 @@ function isUpdatingSameBlockAttribute(action, lastAction) {
 
 function withPersistentBlockChange(reducer) {
   var lastAction;
-  /**
-   * Set of action types for which a blocks state change should be considered
-   * non-persistent.
-   *
-   * @type {Set}
-   */
-
-  var IGNORED_ACTION_TYPES = new Set(['RECEIVE_BLOCKS']);
   return function (state, action) {
     var nextState = reducer(state, action);
     var isExplicitPersistentChange = action.type === 'MARK_LAST_CHANGE_AS_PERSISTENT'; // Defer to previous state value (or default) unless changing or
     // explicitly marking as persistent.
 
     if (state === nextState && !isExplicitPersistentChange) {
+      var nextIsPersistentChange = Object(external_lodash_["get"])(state, ['isPersistentChange'], true);
+
+      if (state.isPersistentChange === nextIsPersistentChange) {
+        return state;
+      }
+
       return Object(objectSpread["a" /* default */])({}, nextState, {
-        isPersistentChange: Object(external_lodash_["get"])(state, ['isPersistentChange'], true)
-      });
-    } // Some state changes should not be considered persistent, namely those
-    // which are not a direct result of user interaction.
-
-
-    var isIgnoredActionType = IGNORED_ACTION_TYPES.has(action.type);
-
-    if (isIgnoredActionType) {
-      return Object(objectSpread["a" /* default */])({}, nextState, {
-        isPersistentChange: false
+        isPersistentChange: nextIsPersistentChange
       });
     }
 
@@ -4351,6 +4341,35 @@ function withPersistentBlockChange(reducer) {
     // have resulted in a changed state.
 
     lastAction = action;
+    return nextState;
+  };
+}
+/**
+ * Higher-order reducer intended to augment the blocks reducer, assigning an
+ * `isIgnoredChange` property value corresponding to whether a change in state
+ * can be considered as ignored. A change is considered ignored when the result
+ * of an action not incurred by direct user interaction.
+ *
+ * @param {Function} reducer Original reducer function.
+ *
+ * @return {Function} Enhanced reducer function.
+ */
+
+
+function withIgnoredBlockChange(reducer) {
+  /**
+   * Set of action types for which a blocks state change should be ignored.
+   *
+   * @type {Set}
+   */
+  var IGNORED_ACTION_TYPES = new Set(['RECEIVE_BLOCKS']);
+  return function (state, action) {
+    var nextState = reducer(state, action);
+
+    if (nextState !== state) {
+      nextState.isIgnoredChange = IGNORED_ACTION_TYPES.has(action.type);
+    }
+
     return nextState;
   };
 }
@@ -4411,6 +4430,45 @@ var reducer_withBlockReset = function withBlockReset(reducer) {
 };
 /**
  * Higher-order reducer which targets the combined blocks reducer and handles
+ * the `REPLACE_INNER_BLOCKS` action. When dispatched, this action the state should become equivalent
+ * to the execution of a `REMOVE_BLOCKS` action containing all the child's of the root block followed by
+ * the execution of `INSERT_BLOCKS` with the new blocks.
+ *
+ * @param {Function} reducer Original reducer function.
+ *
+ * @return {Function} Enhanced reducer function.
+ */
+
+
+var reducer_withReplaceInnerBlocks = function withReplaceInnerBlocks(reducer) {
+  return function (state, action) {
+    if (action.type !== 'REPLACE_INNER_BLOCKS') {
+      return reducer(state, action);
+    }
+
+    var stateAfterBlocksRemoval = state;
+
+    if (state.order[action.rootClientId]) {
+      stateAfterBlocksRemoval = reducer(stateAfterBlocksRemoval, {
+        type: 'REMOVE_BLOCKS',
+        clientIds: state.order[action.rootClientId]
+      });
+    }
+
+    var stateAfterInsert = stateAfterBlocksRemoval;
+
+    if (action.blocks.length) {
+      stateAfterInsert = reducer(stateAfterInsert, Object(objectSpread["a" /* default */])({}, action, {
+        type: 'INSERT_BLOCKS',
+        index: 0
+      }));
+    }
+
+    return stateAfterInsert;
+  };
+};
+/**
+ * Higher-order reducer which targets the combined blocks reducer and handles
  * the `SAVE_REUSABLE_BLOCK_SUCCESS` action. This action can't be handled by
  * regular reducers and needs a higher-order reducer since it needs access to
  * both `byClientId` and `attributes` simultaneously.
@@ -4458,7 +4516,8 @@ var reducer_withSaveReusableBlock = function withSaveReusableBlock(reducer) {
  */
 
 
-var reducer_blocks = Object(external_lodash_["flow"])(external_this_wp_data_["combineReducers"], reducer_withInnerBlocksRemoveCascade, reducer_withBlockReset, reducer_withSaveReusableBlock, withPersistentBlockChange)({
+var reducer_blocks = Object(external_lodash_["flow"])(external_this_wp_data_["combineReducers"], reducer_withInnerBlocksRemoveCascade, reducer_withReplaceInnerBlocks, // needs to be after withInnerBlocksRemoveCascade
+reducer_withBlockReset, reducer_withSaveReusableBlock, withPersistentBlockChange, withIgnoredBlockChange)({
   byClientId: function byClientId() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -4808,6 +4867,8 @@ function blockSelection() {
         initialPosition: action.initialPosition
       });
 
+    case 'REPLACE_INNER_BLOCKS': // REPLACE_INNER_BLOCKS and INSERT_BLOCKS should follow the same logic.
+
     case 'INSERT_BLOCKS':
       {
         if (action.updateSelection) {
@@ -5060,7 +5121,7 @@ var slicedToArray = __webpack_require__(28);
 var external_this_wp_a11y_ = __webpack_require__(48);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(26);
+var regenerator = __webpack_require__(23);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/store/controls.js
@@ -5111,11 +5172,23 @@ var controls_controls = {
 
 var _marked =
 /*#__PURE__*/
-regenerator_default.a.mark(selectPreviousBlock),
+regenerator_default.a.mark(ensureDefaultBlock),
     _marked2 =
 /*#__PURE__*/
-regenerator_default.a.mark(selectNextBlock),
+regenerator_default.a.mark(selectPreviousBlock),
     _marked3 =
+/*#__PURE__*/
+regenerator_default.a.mark(selectNextBlock),
+    _marked4 =
+/*#__PURE__*/
+regenerator_default.a.mark(actions_replaceBlocks),
+    _marked5 =
+/*#__PURE__*/
+regenerator_default.a.mark(moveBlockToPosition),
+    _marked6 =
+/*#__PURE__*/
+regenerator_default.a.mark(actions_insertBlocks),
+    _marked7 =
 /*#__PURE__*/
 regenerator_default.a.mark(actions_removeBlocks);
 
@@ -5134,6 +5207,40 @@ regenerator_default.a.mark(actions_removeBlocks);
 
 
 /**
+ * Generator which will yield a default block insert action if there
+ * are no other blocks at the root of the editor. This generator should be used
+ * in actions which may result in no blocks remaining in the editor (removal,
+ * replacement, etc).
+ */
+
+function ensureDefaultBlock() {
+  var count;
+  return regenerator_default.a.wrap(function ensureDefaultBlock$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return controls_select('core/block-editor', 'getBlockCount');
+
+        case 2:
+          count = _context.sent;
+
+          if (!(count === 0)) {
+            _context.next = 6;
+            break;
+          }
+
+          _context.next = 6;
+          return actions_insertDefaultBlock();
+
+        case 6:
+        case "end":
+          return _context.stop();
+      }
+    }
+  }, _marked, this);
+}
+/**
  * Returns an action object used in signalling that blocks state should be
  * reset to the specified array of blocks, taking precedence over any other
  * content reflected as an edit in state.
@@ -5142,6 +5249,7 @@ regenerator_default.a.mark(actions_removeBlocks);
  *
  * @return {Object} Action object.
  */
+
 
 function resetBlocks(blocks) {
   return {
@@ -5229,24 +5337,24 @@ function actions_selectBlock(clientId) {
 
 function selectPreviousBlock(clientId) {
   var previousBlockClientId;
-  return regenerator_default.a.wrap(function selectPreviousBlock$(_context) {
+  return regenerator_default.a.wrap(function selectPreviousBlock$(_context2) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_context2.prev = _context2.next) {
         case 0:
-          _context.next = 2;
+          _context2.next = 2;
           return controls_select('core/block-editor', 'getPreviousBlockClientId', clientId);
 
         case 2:
-          previousBlockClientId = _context.sent;
-          _context.next = 5;
+          previousBlockClientId = _context2.sent;
+          _context2.next = 5;
           return actions_selectBlock(previousBlockClientId, -1);
 
         case 5:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
     }
-  }, _marked, this);
+  }, _marked2, this);
 }
 /**
  * Yields action objects used in signalling that the block following the given
@@ -5257,24 +5365,24 @@ function selectPreviousBlock(clientId) {
 
 function selectNextBlock(clientId) {
   var nextBlockClientId;
-  return regenerator_default.a.wrap(function selectNextBlock$(_context2) {
+  return regenerator_default.a.wrap(function selectNextBlock$(_context3) {
     while (1) {
-      switch (_context2.prev = _context2.next) {
+      switch (_context3.prev = _context3.next) {
         case 0:
-          _context2.next = 2;
+          _context3.next = 2;
           return controls_select('core/block-editor', 'getNextBlockClientId', clientId);
 
         case 2:
-          nextBlockClientId = _context2.sent;
-          _context2.next = 5;
+          nextBlockClientId = _context3.sent;
+          _context3.next = 5;
           return actions_selectBlock(nextBlockClientId);
 
         case 5:
         case "end":
-          return _context2.stop();
+          return _context3.stop();
       }
     }
-  }, _marked2, this);
+  }, _marked3, this);
 }
 /**
  * Returns an action object used in signalling that a block multi-selection has started.
@@ -5348,16 +5456,67 @@ function toggleSelection() {
  * @param {(string|string[])} clientIds Block client ID(s) to replace.
  * @param {(Object|Object[])} blocks    Replacement block(s).
  *
- * @return {Object} Action object.
+ * @yields {Object} Action object.
  */
 
 function actions_replaceBlocks(clientIds, blocks) {
-  return {
-    type: 'REPLACE_BLOCKS',
-    clientIds: Object(external_lodash_["castArray"])(clientIds),
-    blocks: Object(external_lodash_["castArray"])(blocks),
-    time: Date.now()
-  };
+  var rootClientId, index, block, canInsertBlock;
+  return regenerator_default.a.wrap(function replaceBlocks$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          clientIds = Object(external_lodash_["castArray"])(clientIds);
+          blocks = Object(external_lodash_["castArray"])(blocks);
+          _context4.next = 4;
+          return controls_select('core/block-editor', 'getBlockRootClientId', Object(external_lodash_["first"])(clientIds));
+
+        case 4:
+          rootClientId = _context4.sent;
+          index = 0;
+
+        case 6:
+          if (!(index < blocks.length)) {
+            _context4.next = 16;
+            break;
+          }
+
+          block = blocks[index];
+          _context4.next = 10;
+          return controls_select('core/block-editor', 'canInsertBlockType', block.name, rootClientId);
+
+        case 10:
+          canInsertBlock = _context4.sent;
+
+          if (canInsertBlock) {
+            _context4.next = 13;
+            break;
+          }
+
+          return _context4.abrupt("return");
+
+        case 13:
+          index++;
+          _context4.next = 6;
+          break;
+
+        case 16:
+          _context4.next = 18;
+          return {
+            type: 'REPLACE_BLOCKS',
+            clientIds: clientIds,
+            blocks: blocks,
+            time: Date.now()
+          };
+
+        case 18:
+          return _context4.delegateYield(ensureDefaultBlock(), "t0", 19);
+
+        case 19:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, _marked4, this);
 }
 /**
  * Returns an action object signalling that a single block should be replaced
@@ -5402,17 +5561,74 @@ var actions_moveBlocksUp = createOnMove('MOVE_BLOCKS_UP');
  * @param  {?string} toRootClientId   Root client ID destination.
  * @param  {number}  index            The index to move the block into.
  *
- * @return {Object} Action object.
+ * @yields {Object} Action object.
  */
 
 function moveBlockToPosition(clientId, fromRootClientId, toRootClientId, index) {
-  return {
-    type: 'MOVE_BLOCK_TO_POSITION',
-    fromRootClientId: fromRootClientId,
-    toRootClientId: toRootClientId,
-    clientId: clientId,
-    index: index
-  };
+  var templateLock, action, blockName, canInsertBlock;
+  return regenerator_default.a.wrap(function moveBlockToPosition$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return controls_select('core/block-editor', 'getTemplateLock', fromRootClientId);
+
+        case 2:
+          templateLock = _context5.sent;
+
+          if (!(templateLock === 'all')) {
+            _context5.next = 5;
+            break;
+          }
+
+          return _context5.abrupt("return");
+
+        case 5:
+          action = {
+            type: 'MOVE_BLOCK_TO_POSITION',
+            fromRootClientId: fromRootClientId,
+            toRootClientId: toRootClientId,
+            clientId: clientId,
+            index: index
+          }; // If moving inside the same root block the move is always possible.
+
+          if (!(fromRootClientId === toRootClientId)) {
+            _context5.next = 10;
+            break;
+          }
+
+          _context5.next = 9;
+          return action;
+
+        case 9:
+          return _context5.abrupt("return");
+
+        case 10:
+          _context5.next = 12;
+          return controls_select('core/block-editor', 'getBlockName', clientId);
+
+        case 12:
+          blockName = _context5.sent;
+          _context5.next = 15;
+          return controls_select('core/block-editor', 'canInsertBlockType', blockName, toRootClientId);
+
+        case 15:
+          canInsertBlock = _context5.sent;
+
+          if (!canInsertBlock) {
+            _context5.next = 19;
+            break;
+          }
+
+          _context5.next = 19;
+          return action;
+
+        case 19:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  }, _marked5, this);
 }
 /**
  * Returns an action object used in signalling that a single block should be
@@ -5439,19 +5655,111 @@ function actions_insertBlock(block, index, rootClientId) {
  * @param {?string}  rootClientId    Optional root client ID of block list on which to insert.
  * @param {?boolean} updateSelection If true block selection will be updated.  If false, block selection will not change. Defaults to true.
  *
- * @return {Object} Action object.
+ *  @return {Object} Action object.
  */
 
 function actions_insertBlocks(blocks, index, rootClientId) {
-  var updateSelection = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-  return {
-    type: 'INSERT_BLOCKS',
-    blocks: Object(external_lodash_["castArray"])(blocks),
-    index: index,
-    rootClientId: rootClientId,
-    time: Date.now(),
-    updateSelection: updateSelection
-  };
+  var updateSelection,
+      allowedBlocks,
+      _iteratorNormalCompletion,
+      _didIteratorError,
+      _iteratorError,
+      _iterator,
+      _step,
+      block,
+      isValid,
+      _args6 = arguments;
+
+  return regenerator_default.a.wrap(function insertBlocks$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          updateSelection = _args6.length > 3 && _args6[3] !== undefined ? _args6[3] : true;
+          blocks = Object(external_lodash_["castArray"])(blocks);
+          allowedBlocks = [];
+          _iteratorNormalCompletion = true;
+          _didIteratorError = false;
+          _iteratorError = undefined;
+          _context6.prev = 6;
+          _iterator = blocks[Symbol.iterator]();
+
+        case 8:
+          if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+            _context6.next = 17;
+            break;
+          }
+
+          block = _step.value;
+          _context6.next = 12;
+          return controls_select('core/block-editor', 'canInsertBlockType', block.name, rootClientId);
+
+        case 12:
+          isValid = _context6.sent;
+
+          if (isValid) {
+            allowedBlocks.push(block);
+          }
+
+        case 14:
+          _iteratorNormalCompletion = true;
+          _context6.next = 8;
+          break;
+
+        case 17:
+          _context6.next = 23;
+          break;
+
+        case 19:
+          _context6.prev = 19;
+          _context6.t0 = _context6["catch"](6);
+          _didIteratorError = true;
+          _iteratorError = _context6.t0;
+
+        case 23:
+          _context6.prev = 23;
+          _context6.prev = 24;
+
+          if (!_iteratorNormalCompletion && _iterator.return != null) {
+            _iterator.return();
+          }
+
+        case 26:
+          _context6.prev = 26;
+
+          if (!_didIteratorError) {
+            _context6.next = 29;
+            break;
+          }
+
+          throw _iteratorError;
+
+        case 29:
+          return _context6.finish(26);
+
+        case 30:
+          return _context6.finish(23);
+
+        case 31:
+          if (!allowedBlocks.length) {
+            _context6.next = 33;
+            break;
+          }
+
+          return _context6.abrupt("return", {
+            type: 'INSERT_BLOCKS',
+            blocks: allowedBlocks,
+            index: index,
+            rootClientId: rootClientId,
+            time: Date.now(),
+            updateSelection: updateSelection
+          });
+
+        case 33:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, _marked6, this, [[6, 19, 23, 31], [24,, 26, 30]]);
 }
 /**
  * Returns an action object used in signalling that the insertion point should
@@ -5533,51 +5841,38 @@ function mergeBlocks(firstBlockClientId, secondBlockClientId) {
 
 function actions_removeBlocks(clientIds) {
   var selectPrevious,
-      count,
-      _args3 = arguments;
-  return regenerator_default.a.wrap(function removeBlocks$(_context3) {
+      _args7 = arguments;
+  return regenerator_default.a.wrap(function removeBlocks$(_context7) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
-          selectPrevious = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : true;
+          selectPrevious = _args7.length > 1 && _args7[1] !== undefined ? _args7[1] : true;
           clientIds = Object(external_lodash_["castArray"])(clientIds);
 
           if (!selectPrevious) {
-            _context3.next = 5;
+            _context7.next = 5;
             break;
           }
 
-          _context3.next = 5;
+          _context7.next = 5;
           return selectPreviousBlock(clientIds[0]);
 
         case 5:
-          _context3.next = 7;
+          _context7.next = 7;
           return {
             type: 'REMOVE_BLOCKS',
             clientIds: clientIds
           };
 
         case 7:
-          _context3.next = 9;
-          return controls_select('core/block-editor', 'getBlockCount');
+          return _context7.delegateYield(ensureDefaultBlock(), "t0", 8);
 
-        case 9:
-          count = _context3.sent;
-
-          if (!(count === 0)) {
-            _context3.next = 13;
-            break;
-          }
-
-          _context3.next = 13;
-          return actions_insertDefaultBlock();
-
-        case 13:
+        case 8:
         case "end":
-          return _context3.stop();
+          return _context7.stop();
       }
     }
-  }, _marked3, this);
+  }, _marked7, this);
 }
 /**
  * Returns an action object used in signalling that the block with the
@@ -5592,6 +5887,27 @@ function actions_removeBlocks(clientIds) {
 
 function removeBlock(clientId, selectPrevious) {
   return actions_removeBlocks([clientId], selectPrevious);
+}
+/**
+ * Returns an action object used in signalling that the inner blocks with the
+ * specified client ID should be replaced.
+ *
+ * @param {string}   rootClientId    Client ID of the block whose InnerBlocks will re replaced.
+ * @param {Object[]} blocks          Block objects to insert as new InnerBlocks
+ * @param {?boolean} updateSelection If true block selection will be updated. If false, block selection will not change. Defaults to true.
+ *
+ * @return {Object} Action object.
+ */
+
+function actions_replaceInnerBlocks(rootClientId, blocks) {
+  var updateSelection = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  return {
+    type: 'REPLACE_INNER_BLOCKS',
+    rootClientId: rootClientId,
+    blocks: blocks,
+    updateSelection: updateSelection,
+    time: Date.now()
+  };
 }
 /**
  * Returns an action object used to toggle the block editing mode between
@@ -5678,7 +5994,7 @@ function actions_insertDefaultBlock(attributes, rootClientId, index) {
  * @return {Object} Action object
  */
 
-function actions_updateBlockListSettings(clientId, settings) {
+function updateBlockListSettings(clientId, settings) {
   return {
     type: 'UPDATE_BLOCK_LIST_SETTINGS',
     clientId: clientId,
@@ -7070,6 +7386,24 @@ function isLastBlockChangePersistent(state) {
   return state.blocks.isPersistentChange;
 }
 /**
+ * Returns true if the most recent block change is be considered ignored, or
+ * false otherwise. An ignored change is one not to be committed by
+ * BlockEditorProvider, neither via `onChange` nor `onInput`.
+ *
+ * @param {Object} state Block editor state.
+ *
+ * @return {boolean} Whether the most recent block change was ignored.
+ */
+
+function __unstableIsLastBlockChangeIgnored(state) {
+  // TODO: Removal Plan: Changes incurred by RECEIVE_BLOCKS should not be
+  // ignored if in-fact they result in a change in blocks state. The current
+  // need to ignore changes not a result of user interaction should be
+  // accounted for in the refactoring of reusable blocks as occurring within
+  // their own separate block editor / state (#7119).
+  return state.blocks.isIgnoredChange;
+}
+/**
  * Returns the value of a post meta from the editor settings.
  *
  * @param {Object} state Global application state.
@@ -7139,23 +7473,6 @@ function validateBlocksToTemplate(action, store) {
     return setTemplateValidity(isBlocksValidToTemplate);
   }
 }
-/**
- * Effect handler which will return a default block insertion action if there
- * are no other blocks at the root of the editor. This is expected to be used
- * in actions which may result in no blocks remaining in the editor (removal,
- * replacement, etc).
- *
- * @param {Object} action Action which had initiated the effect handler.
- * @param {Object} store  Store instance.
- *
- * @return {?Object} Default block insert action, if no other blocks exist.
- */
-
-function ensureDefaultBlock(action, store) {
-  if (!selectors_getBlockCount(store.getState())) {
-    return actions_insertDefaultBlock();
-  }
-}
 /* harmony default export */ var effects = ({
   MERGE_BLOCKS: function MERGE_BLOCKS(action, store) {
     var dispatch = store.dispatch;
@@ -7190,7 +7507,6 @@ function ensureDefaultBlock(action, store) {
     })].concat(Object(toConsumableArray["a" /* default */])(blocksWithTheSameType.slice(1)))));
   },
   RESET_BLOCKS: [validateBlocksToTemplate],
-  REPLACE_BLOCKS: [ensureDefaultBlock],
   MULTI_SELECT: function MULTI_SELECT(action, _ref) {
     var getState = _ref.getState;
     var blockCount = selectors_getSelectedBlockCount(getState());
@@ -7297,7 +7613,7 @@ var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
 var external_this_wp_compose_ = __webpack_require__(6);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(24);
+var external_this_wp_hooks_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(10);
@@ -8743,7 +9059,7 @@ var external_this_wp_isShallowEqual_ = __webpack_require__(42);
 var external_this_wp_isShallowEqual_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_isShallowEqual_);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(25);
+var external_this_wp_dom_ = __webpack_require__(24);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-mover/mover-description.js
 /**
@@ -10280,7 +10596,7 @@ var dom_scroll_into_view_lib = __webpack_require__(67);
 var dom_scroll_into_view_lib_default = /*#__PURE__*/__webpack_require__.n(dom_scroll_into_view_lib);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(23);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/block-editor/build-module/components/block-preview/index.js
 
@@ -13132,8 +13448,7 @@ inner_blocks_InnerBlocks = Object(external_this_wp_compose_["compose"])([context
   };
 }), Object(external_this_wp_data_["withDispatch"])(function (dispatch, ownProps) {
   var _dispatch = dispatch('core/block-editor'),
-      replaceBlocks = _dispatch.replaceBlocks,
-      insertBlocks = _dispatch.insertBlocks,
+      _replaceInnerBlocks = _dispatch.replaceInnerBlocks,
       updateBlockListSettings = _dispatch.updateBlockListSettings;
 
   var block = ownProps.block,
@@ -13142,13 +13457,7 @@ inner_blocks_InnerBlocks = Object(external_this_wp_compose_["compose"])([context
       templateInsertUpdatesSelection = _ownProps$templateIns === void 0 ? true : _ownProps$templateIns;
   return {
     replaceInnerBlocks: function replaceInnerBlocks(blocks) {
-      var clientIds = Object(external_lodash_["map"])(block.innerBlocks, 'clientId');
-
-      if (clientIds.length) {
-        replaceBlocks(clientIds, blocks);
-      } else {
-        insertBlocks(blocks, undefined, clientId, templateInsertUpdatesSelection);
-      }
+      _replaceInnerBlocks(clientId, blocks, block.innerBlocks.length === 0 && templateInsertUpdatesSelection);
     },
     updateNestedSettings: function updateNestedSettings(settings) {
       dispatch(updateBlockListSettings(clientId, settings));
@@ -15484,6 +15793,8 @@ var MediaUpload = function MediaUpload() {
 
 
 
+
+
 /**
  * WordPress dependencies
  */
@@ -15522,21 +15833,19 @@ function (_Component) {
       var _this$props = this.props,
           children = _this$props.children,
           renderSettings = _this$props.renderSettings,
-          onClose = _this$props.onClose,
-          onClickOutside = _this$props.onClickOutside,
           _this$props$position = _this$props.position,
           position = _this$props$position === void 0 ? 'bottom center' : _this$props$position,
           _this$props$focusOnMo = _this$props.focusOnMount,
-          focusOnMount = _this$props$focusOnMo === void 0 ? 'firstElement' : _this$props$focusOnMo;
+          focusOnMount = _this$props$focusOnMo === void 0 ? 'firstElement' : _this$props$focusOnMo,
+          popoverProps = Object(objectWithoutProperties["a" /* default */])(_this$props, ["children", "renderSettings", "position", "focusOnMount"]);
+
       var isSettingsExpanded = this.state.isSettingsExpanded;
       var showSettings = !!renderSettings && isSettingsExpanded;
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
+      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], Object(esm_extends["a" /* default */])({
         className: "editor-url-popover block-editor-url-popover",
         focusOnMount: focusOnMount,
-        position: position,
-        onClose: onClose,
-        onClickOutside: onClickOutside
-      }, Object(external_this_wp_element_["createElement"])("div", {
+        position: position
+      }, popoverProps), Object(external_this_wp_element_["createElement"])("div", {
         className: "editor-url-popover__row block-editor-url-popover__row"
       }, children, !!renderSettings && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
         className: "editor-url-popover__settings-toggle block-editor-url-popover__settings-toggle",
@@ -18856,7 +19165,8 @@ function (_Component) {
 
       var _registry$select = registry.select('core/block-editor'),
           getBlocks = _registry$select.getBlocks,
-          isLastBlockChangePersistent = _registry$select.isLastBlockChangePersistent;
+          isLastBlockChangePersistent = _registry$select.isLastBlockChangePersistent,
+          __unstableIsLastBlockChangeIgnored = _registry$select.__unstableIsLastBlockChangeIgnored;
 
       var blocks = getBlocks();
       var isPersistent = isLastBlockChangePersistent();
@@ -18867,7 +19177,7 @@ function (_Component) {
         var newBlocks = getBlocks();
         var newIsPersistent = isLastBlockChangePersistent();
 
-        if (newBlocks !== blocks && _this.isSyncingIncomingValue) {
+        if (newBlocks !== blocks && (_this.isSyncingIncomingValue || __unstableIsLastBlockChangeIgnored())) {
           _this.isSyncingIncomingValue = false;
           blocks = newBlocks;
           isPersistent = newIsPersistent;
@@ -18876,9 +19186,14 @@ function (_Component) {
 
         if (newBlocks !== blocks || // This happens when a previous input is explicitely marked as persistent.
         newIsPersistent && !isPersistent) {
+          // When knowing the blocks value is changing, assign instance
+          // value to skip reset in subsequent `componentDidUpdate`.
+          if (newBlocks !== blocks) {
+            _this.isSyncingOutcomingValue = true;
+          }
+
           blocks = newBlocks;
           isPersistent = newIsPersistent;
-          _this.isSyncingOutcomingValue = true;
 
           if (isPersistent) {
             onChange(blocks);

@@ -268,6 +268,31 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -326,7 +351,14 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 24:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["dom"]; }());
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
@@ -646,7 +678,7 @@ var image_image = {
             open();
             return null;
           }
-        }), isObjectActive && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PositionedAtSelection"], {
+        }), isObjectActive && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["__unstablePositionedAtSelection"], {
           key: key
         }, Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Popover"], {
           position: "bottom center",
@@ -755,11 +787,17 @@ var italic = {
 };
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(23);
+var external_this_wp_url_ = __webpack_require__(25);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/extends.js
+var esm_extends = __webpack_require__(19);
 
 // EXTERNAL MODULE: ./node_modules/classnames/index.js
 var classnames = __webpack_require__(16);
 var classnames_default = /*#__PURE__*/__webpack_require__.n(classnames);
+
+// EXTERNAL MODULE: external {"this":["wp","dom"]}
+var external_this_wp_dom_ = __webpack_require__(24);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
@@ -881,6 +919,8 @@ function createLinkFormat(_ref) {
 
 
 
+
+
 /**
  * External dependencies
  */
@@ -888,6 +928,7 @@ function createLinkFormat(_ref) {
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -957,9 +998,50 @@ var inline_LinkViewerUrl = function LinkViewerUrl(_ref2) {
   }, Object(external_this_wp_url_["filterURLForDisplay"])(Object(external_this_wp_url_["safeDecodeURI"])(url)));
 };
 
-var inline_LinkViewer = function LinkViewer(_ref3) {
-  var url = _ref3.url,
-      editLink = _ref3.editLink;
+var inline_URLPopoverAtLink = function URLPopoverAtLink(_ref3) {
+  var isActive = _ref3.isActive,
+      addingLink = _ref3.addingLink,
+      value = _ref3.value,
+      props = Object(objectWithoutProperties["a" /* default */])(_ref3, ["isActive", "addingLink", "value"]);
+
+  var anchorRect = Object(external_this_wp_element_["useMemo"])(function () {
+    var range = window.getSelection().getRangeAt(0);
+
+    if (!range) {
+      return;
+    }
+
+    if (addingLink) {
+      return Object(external_this_wp_dom_["getRectangleFromRange"])(range);
+    }
+
+    var element = range.startContainer; // If the caret is right before the element, select the next element.
+
+    element = element.nextElementSibling || element;
+
+    while (element.nodeType !== window.Node.ELEMENT_NODE) {
+      element = element.parentNode;
+    }
+
+    var closest = element.closest('a');
+
+    if (closest) {
+      return closest.getBoundingClientRect();
+    }
+  }, [isActive, addingLink, value.start, value.end]);
+
+  if (!anchorRect) {
+    return null;
+  }
+
+  return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["URLPopover"], Object(esm_extends["a" /* default */])({
+    anchorRect: anchorRect
+  }, props));
+};
+
+var inline_LinkViewer = function LinkViewer(_ref4) {
+  var url = _ref4.url,
+      editLink = _ref4.editLink;
   return (// Disable reason: KeyPress must be suppressed so the block doesn't hide the toolbar
 
     /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -1129,11 +1211,10 @@ function (_Component) {
           inputValue = _this$state2.inputValue,
           opensInNewWindow = _this$state2.opensInNewWindow;
       var showInput = isShowingInput(this.props, this.state);
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["PositionedAtSelection"], {
-        key: "".concat(value.start).concat(value.end)
-        /* Used to force rerender on selection change */
-
-      }, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["URLPopover"], {
+      return Object(external_this_wp_element_["createElement"])(inline_URLPopoverAtLink, {
+        value: value,
+        isActive: isActive,
+        addingLink: addingLink,
         onClickOutside: this.onClickOutside,
         onClose: this.resetState,
         focusOnMount: showInput ? 'firstElement' : false,
@@ -1153,7 +1234,7 @@ function (_Component) {
       }) : Object(external_this_wp_element_["createElement"])(inline_LinkViewer, {
         url: url,
         editLink: this.editLink
-      })));
+      }));
     }
   }], [{
     key: "getDerivedStateFromProps",

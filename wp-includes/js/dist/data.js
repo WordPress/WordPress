@@ -377,7 +377,7 @@ module.exports = combineReducers;
 
 /***/ }),
 
-/***/ 26:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(54);
@@ -520,7 +520,7 @@ var objectSpread = __webpack_require__(7);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(26);
+var regenerator = __webpack_require__(23);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js

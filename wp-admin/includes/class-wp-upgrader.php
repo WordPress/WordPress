@@ -244,11 +244,12 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $package The URI of the package. If this is the full path to an
-	 *                        existing local file, it will be returned untouched.
+	 * @param string $package          The URI of the package. If this is the full path to an
+	 *                                 existing local file, it will be returned untouched.
+	 * @param bool   $check_signatures Whether to validate file signatures. Default false.
 	 * @return string|WP_Error The full path to the downloaded package file, or a WP_Error object.
 	 */
-	public function download_package( $package ) {
+	public function download_package( $package, $check_signatures = false ) {
 
 		/**
 		 * Filters whether to return the package.
@@ -275,7 +276,7 @@ class WP_Upgrader {
 
 		$this->skin->feedback( 'downloading_package', $package );
 
-		$download_file = download_url( $package, 300, true );
+		$download_file = download_url( $package, 300, $check_signatures );
 
 		if ( is_wp_error( $download_file ) && ! $download_file->get_error_data( 'softfail-filename' ) ) {
 			return new WP_Error( 'download_failed', $this->strings['download_failed'], $download_file->get_error_message() );
@@ -730,21 +731,25 @@ class WP_Upgrader {
 		 * Download the package (Note, This just returns the filename
 		 * of the file if the package is a local file)
 		 */
-		$download = $this->download_package( $options['package'] );
+		$download = $this->download_package( $options['package'], true );
 
 		// Allow for signature soft-fail.
 		// WARNING: This may be removed in the future.
 		if ( is_wp_error( $download ) && $download->get_error_data( 'softfail-filename' ) ) {
-			// Outout the failure error as a normal feedback, and not as an error:
-			$this->skin->feedback( $download->get_error_message() );
 
-			// Report this failure back to WordPress.org for debugging purposes.
-			wp_version_check(
-				array(
-					'signature_failure_code' => $download->get_error_code(),
-					'signature_failure_data' => $download->get_error_data(),
-				)
-			);
+			// Don't output the 'no signature could be found' failure message for now.
+			if ( 'signature_verification_no_signature' != $download->get_error_code() || WP_DEBUG ) {
+				// Outout the failure error as a normal feedback, and not as an error:
+				$this->skin->feedback( $download->get_error_message() );
+
+				// Report this failure back to WordPress.org for debugging purposes.
+				wp_version_check(
+					array(
+						'signature_failure_code' => $download->get_error_code(),
+						'signature_failure_data' => $download->get_error_data(),
+					)
+				);
+			}
 
 			// Pretend this error didn't happen.
 			$download = $download->get_error_data( 'softfail-filename' );

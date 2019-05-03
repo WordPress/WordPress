@@ -352,7 +352,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$site_classes = apply_filters( 'ms_user_list_site_class', $site_classes, $val->userblog_id, $val->site_id, $user );
 			if ( is_array( $site_classes ) && ! empty( $site_classes ) ) {
 				$site_classes = array_map( 'sanitize_html_class', array_unique( $site_classes ) );
-				echo '<span class="' . sanitize_html_class( implode( ' ', $site_classes ) ) . '">';
+				echo '<span class="' . esc_attr( implode( ' ', $site_classes ) ) . '">';
 			} else {
 				echo '<span>';
 			}

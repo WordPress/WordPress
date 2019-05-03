@@ -35,7 +35,7 @@ if ( is_front_page() && twentyfourteen_has_featured_posts() ) {
 
 				edit_post_link( __( 'Edit', 'twentyfourteen' ), '<footer class="entry-meta"><span class="edit-link">', '</span></footer>' );
 				?>
-			</article><!-- #post-## -->
+			</article><!-- #post-<?php the_ID(); ?> -->
 
 				<?php
 				// If comments are open or we have at least one comment, load up the comment template.

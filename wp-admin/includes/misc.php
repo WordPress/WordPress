@@ -1289,6 +1289,7 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', home_url(), $content );
 
+	/* translators: New admin email address notification email subject. %s: Site title */
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) ), $content );
 
 	if ( $switched_locale ) {
@@ -1619,7 +1620,11 @@ final class WP_Privacy_Policy_Content {
 	 * @param WP_Post|null $post The currently edited post. Default null.
 	 */
 	public static function notice( $post = null ) {
-		$post = get_post( $post );
+		if ( is_null( $post ) ) {
+			global $post;
+		} else {
+			$post = get_post( $post );
+		}
 
 		if ( ! ( $post instanceof WP_Post ) ) {
 			return;
@@ -1631,30 +1636,47 @@ final class WP_Privacy_Policy_Content {
 
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
 
-		if ( ! $policy_page_id || $policy_page_id != $post->ID ) {
+		if ( ! $policy_page_id || $policy_page_id !== $post->ID ) {
 			return;
 		}
 
-		?>
-		<div class="notice notice-warning inline wp-pp-notice">
-			<p>
-			<?php
-			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
-			printf(
-				__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
-				esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) ),
-				'target="_blank"',
+		$message = __( 'Need help putting together your new Privacy Policy page? Check out our guide for recommendations on what content to include, along with policies suggested by your plugins and theme.' );
+		$url     = esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) );
+		$label   = __( 'View Privacy Policy Guide.' );
+
+		if ( get_current_screen()->is_block_editor() ) {
+			wp_enqueue_script( 'wp-notices' );
+			$action = array(
+				'url'   => $url,
+				'label' => $label,
+			);
+			wp_add_inline_script(
+				'wp-notices',
 				sprintf(
-					'<span class="screen-reader-text"> %s</span>',
+					'wp.data.dispatch( "core/notices" ).createWarningNotice( "%s", { actions: [ %s ], isDismissible: false } )',
+					$message,
+					wp_json_encode( $action )
+				),
+				'after'
+			);
+		} else {
+			?>
+			<div class="notice notice-warning inline wp-pp-notice">
+				<p>
+				<?php
+				echo $message;
+				printf(
+					' <a href="%s" target="_blank">%s <span class="screen-reader-text">%s</span></a>',
+					$url,
+					$label,
 					/* translators: accessibility text */
 					__( '(opens in a new tab)' )
-				)
-			);
-			?>
-			</p>
-		</div>
-		<?php
-
+				);
+				?>
+				</p>
+			</div>
+			<?php
+		}
 	}
 
 	/**

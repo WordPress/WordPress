@@ -638,18 +638,20 @@ function self_link() {
 }
 
 /*
-* Get the timestamp of the most recently modified post from WP_Query.
-*
-* If viewing a comment feed, the date of the most recently modified
-* comment will be returned.
-*
-* @global WP_Query  $wp_query The global WP_Query object.
-*
-* @since 5.2.0
-*
-* @return string The timestamp.
-*/
-function get_last_build_date() {
+ * Get the timestamp of the most recently modified post from WP_Query.
+ *
+ * If viewing a comment feed, the timestamp of the most recently modified
+ * comment will be returned.
+ *
+ * @global WP_Query  $wp_query The global WP_Query object.
+ *
+ * @since 5.2.0
+ *
+ * @param string $format Format of the timestamp to return, passed to mysql2date.
+ *
+ * @return string The timestamp.
+ */
+function get_feed_build_date( $format ) {
 	global $wp_query;
 
 	if ( empty( $wp_query ) || ! $wp_query->have_posts() ) {
@@ -670,16 +672,24 @@ function get_last_build_date() {
 	}
 
 	// Determine the maximum modified time.
-	$max_modified_time = max( $modified_times );
+	$max_modified_time = max(
+		array_map(
+			function ( $time ) use ( $format ) {
+				return mysql2date( $format, $time, false );
+			},
+			$modified_times
+		)
+	);
 
 	/**
 	 * Filters the date the last post or comment in the query was modified.
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string $max_modified_times Date the last post or comment was modified in the query.
+	 * @param string $max_modified_time Date the last post or comment was modified in the query.
+	 * @param string $format            The date format requested in get_feed_build_date.
 	 */
-	return apply_filters( 'get_last_build_date', $max_modified_time );
+	return apply_filters( 'get_feed_build_date', $max_modified_time, $format );
 }
 
 /**

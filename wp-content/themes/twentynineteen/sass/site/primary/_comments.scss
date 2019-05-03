@@ -7,7 +7,12 @@
 }
 
 .comments-area {
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
 	margin: calc(2 * #{$size__spacing-unit}) $size__spacing-unit;
+	word-wrap: break-word;
 	@include postContentMaxWidth();
 
 	@include media(tablet) {

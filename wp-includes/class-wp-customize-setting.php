@@ -66,9 +66,9 @@ class WP_Customize_Setting {
 	public $default = '';
 
 	/**
-	 * Options for rendering the live preview of changes in Theme Customizer.
+	 * Options for rendering the live preview of changes in Customizer.
 	 *
-	 * Set this value to 'postMessage' to enable a custom Javascript handler to render changes to this setting
+	 * Set this value to 'postMessage' to enable a custom JavaScript handler to render changes to this setting
 	 * as opposed to reloading the whole page.
 	 *
 	 * @link https://developer.wordpress.org/themes/customize-api

@@ -1069,9 +1069,6 @@ function wp_admin_bar_recovery_mode_menu( $wp_admin_bar ) {
 			'id'     => 'recovery-mode',
 			'title'  => __( 'Exit Recovery Mode' ),
 			'href'   => $url,
-			'meta'   => array(
-				'title' => __( 'Exit Recovery Mode' ),
-			),
 		)
 	);
 }

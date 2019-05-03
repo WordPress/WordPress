@@ -3620,7 +3620,7 @@ function wp_ajax_crop_image() {
 
 	switch ( $context ) {
 		case 'site-icon':
-			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
+			require_once ABSPATH . 'wp-admin/includes/class-wp-site-icon.php';
 			$wp_site_icon = new WP_Site_Icon();
 
 			// Skip creating a new attachment if the attachment is a Site Icon.
@@ -4957,4 +4957,57 @@ function wp_ajax_health_check_site_status_result() {
 	set_transient( 'health-check-site-status-result', wp_json_encode( $_POST['counts'] ) );
 
 	wp_send_json_success();
+}
+
+/**
+ * Ajax handler for site health check to get directories and database sizes.
+ *
+ * @since 5.2.0
+ */
+function wp_ajax_health_check_get_sizes() {
+	check_ajax_referer( 'health-check-site-status-result' );
+
+	if ( ! current_user_can( 'install_plugins' ) || is_multisite() ) {
+		wp_send_json_error();
+	}
+
+	if ( ! class_exists( 'WP_Debug_Data' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-debug-data.php' );
+	}
+
+	$sizes_data = WP_Debug_Data::get_sizes();
+	$all_sizes  = array( 'raw' => 0 );
+
+	foreach ( $sizes_data as $name => $value ) {
+		$name = sanitize_text_field( $name );
+		$data = array();
+
+		if ( isset( $value['size'] ) ) {
+			if ( is_string( $value['size'] ) ) {
+				$data['size'] = sanitize_text_field( $value['size'] );
+			} else {
+				$data['size'] = (int) $value['size'];
+			}
+		}
+
+		if ( isset( $value['debug'] ) ) {
+			if ( is_string( $value['debug'] ) ) {
+				$data['debug'] = sanitize_text_field( $value['debug'] );
+			} else {
+				$data['debug'] = (int) $value['debug'];
+			}
+		}
+
+		if ( ! empty( $value['raw'] ) ) {
+			$data['raw'] = (int) $value['raw'];
+		}
+
+		$all_sizes[ $name ] = $data;
+	}
+
+	if ( isset( $all_sizes['total_size']['debug'] ) && 'not available' === $all_sizes['total_size']['debug'] ) {
+		wp_send_json_error( $all_sizes );
+	}
+
+	wp_send_json_success( $all_sizes );
 }

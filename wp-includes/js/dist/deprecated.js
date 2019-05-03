@@ -87,7 +87,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["deprecated"] =
 /************************************************************************/
 /******/ ({
 
-/***/ 24:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
@@ -101,7 +101,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["deprecated"] =
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logged", function() { return logged; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return deprecated; });
-/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(26);
 /* harmony import */ var _wordpress_hooks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * WordPress dependencies

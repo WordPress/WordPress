@@ -754,11 +754,12 @@ function install_plugin_information() {
 	</div>
 	<div id="section-holder" class="wrap">
 	<?php
-	$wp_version = get_bloginfo( 'version' );
+	$requires_php = isset( $api->requires_php ) ? $api->requires_php : null;
+	$requires_wp  = isset( $api->requires ) ? $api->requires : null;
 
-	$compatible_php = ( empty( $api->requires_php ) || version_compare( phpversion(), $api->requires_php, '>=' ) );
-	$tested_wp      = ( empty( $api->tested ) || version_compare( $wp_version, $api->tested, '<=' ) );
-	$compatible_wp  = ( empty( $api->requires ) || version_compare( $wp_version, $api->requires, '>=' ) );
+	$compatible_php = is_php_version_compatible( $requires_php );
+	$compatible_wp  = is_wp_version_compatible( $requires_wp );
+	$tested_wp      = ( empty( $api->tested ) || version_compare( get_bloginfo( 'version' ), $api->tested, '<=' ) );
 
 	if ( ! $compatible_php ) {
 		echo '<div class="notice notice-error notice-alt"><p>';

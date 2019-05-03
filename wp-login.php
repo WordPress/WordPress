@@ -66,7 +66,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	if ( wp_is_recovery_mode() ) {
 		/* translators: %s: Login screen title. */
-		$login_title = sprintf( __( '%s &#8212; Recovery Mode' ), $login_title );
+		$login_title = sprintf( __( 'Recovery Mode &#8212; %s' ), $login_title );
 	}
 
 	/**
@@ -395,7 +395,7 @@ function retrieve_password() {
 	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
 	$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
-	/* translators: Password reset email subject. %s: Site name */
+	/* translators: Password reset notification email subject. %s: Site title */
 	$title = sprintf( __( '[%s] Password Reset' ), $site_name );
 
 	/**

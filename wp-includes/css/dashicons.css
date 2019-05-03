@@ -1138,7 +1138,8 @@
 	content: "\f211";
 }
 
-.dashicons-exerpt-view {
+/* This is a typo, but was previously released. It should remain for backward compatibility. See https://core.trac.wordpress.org/ticket/30832. */
+.dashicons-exerpt-view:before {
 	content: "\f164";
 }
 
@@ -1150,7 +1151,7 @@
 	content: "\f109";
 }
 
-.dashicons-post-trash {
+.dashicons-post-trash:before {
 	content: "\f182";
 }
 

@@ -47,11 +47,17 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<nav class="health-check-tabs-wrapper hide-if-no-js" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="health-check-tab">
-			<?php _e( 'Status' ); ?>
+			<?php
+			/* translators: tab heading for Site Health Status page */
+			_ex( 'Status', 'Site Health' );
+			?>
 		</a>
 
 		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="health-check-tab active" aria-current="true">
-			<?php _e( 'Info' ); ?>
+			<?php
+			/* translators: tab heading for Site Health Info page */
+			_ex( 'Info', 'Site Health' );
+			?>
 		</a>
 	</nav>
 </div>
@@ -62,8 +68,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<p><?php _e( 'The Site Health check requires JavaScript.' ); ?></p>
 </div>
 
-<div class="health-check-body hide-if-no-js">
+<div class="health-check-body health-check-debug-tab hide-if-no-js">
 	<?php
+
 	WP_Debug_Data::check_for_updates();
 
 	$info = WP_Debug_Data::debug_data();
@@ -93,66 +100,72 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<div id="health-check-debug" class="health-check-accordion">
 
 		<?php
+
+		$sizes_fields = array( 'uploads_size', 'themes_size', 'plugins_size', 'wordpress_size', 'database_size', 'total_size' );
+
 		foreach ( $info as $section => $details ) {
 			if ( ! isset( $details['fields'] ) || empty( $details['fields'] ) ) {
 				continue;
 			}
+
 			?>
 			<h3 class="health-check-accordion-heading">
 				<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" type="button">
 					<span class="title">
 						<?php echo esc_html( $details['label'] ); ?>
+						<?php
 
-						<?php if ( isset( $details['show_count'] ) && $details['show_count'] ) : ?>
-							<?php printf( '(%d)', count( $details['fields'] ) ); ?>
-						<?php endif; ?>
+						if ( isset( $details['show_count'] ) && $details['show_count'] ) {
+							printf( '(%d)', count( $details['fields'] ) );
+						}
+
+						?>
 					</span>
+					<?php
+
+					if ( 'wp-paths-sizes' === $section ) {
+						?>
+						<span class="health-check-wp-paths-sizes spinner"></span>
+						<?php
+					}
+
+					?>
 					<span class="icon"></span>
 				</button>
 			</h3>
 
 			<div id="health-check-accordion-block-<?php echo esc_attr( $section ); ?>" class="health-check-accordion-panel" hidden="hidden">
 				<?php
+
 				if ( isset( $details['description'] ) && ! empty( $details['description'] ) ) {
-					printf(
-						'<p>%s</p>',
-						wp_kses(
-							$details['description'],
-							array(
-								'a'      => array(
-									'href' => true,
-								),
-								'strong' => true,
-								'em'     => true,
-							)
-						)
-					);
+					printf( '<p>%s</p>', $details['description'] );
 				}
+
 				?>
 				<table class="widefat striped health-check-table" role="presentation">
 					<tbody>
 					<?php
-					foreach ( $details['fields'] as $field ) {
+
+					foreach ( $details['fields'] as $field_name => $field ) {
 						if ( is_array( $field['value'] ) ) {
 							$values = '<ul>';
+
 							foreach ( $field['value'] as $name => $value ) {
-								$values .= sprintf(
-									'<li>%s: %s</li>',
-									esc_html( $name ),
-									esc_html( $value )
-								);
+								$values .= sprintf( '<li>%s: %s</li>', esc_html( $name ), esc_html( $value ) );
 							}
+
 							$values .= '</ul>';
 						} else {
 							$values = esc_html( $field['value'] );
 						}
 
-						printf(
-							'<tr><td>%s</td><td>%s</td></tr>',
-							esc_html( $field['label'] ),
-							$values
-						);
+						if ( in_array( $field_name, $sizes_fields, true ) ) {
+							printf( '<tr><td>%s</td><td class="%s">%s</td></tr>', esc_html( $field['label'] ), esc_attr( $field_name ), $values );
+						} else {
+							printf( '<tr><td>%s</td><td>%s</td></tr>', esc_html( $field['label'] ), $values );
+						}
 					}
+
 					?>
 					</tbody>
 				</table>

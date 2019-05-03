@@ -14,69 +14,6 @@
 final class WP_Recovery_Mode_Cookie_Service {
 
 	/**
-	 * The cookie name to use.
-	 *
-	 * @since 5.2.0
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * The domain the cookie should be set on, {@see setcookie()}.
-	 *
-	 * @since 5.2.0
-	 * @var string
-	 */
-	private $domain;
-
-	/**
-	 * The path to limit the cookie to, {@see setcookie()}.
-	 *
-	 * @since 5.2.0
-	 * @var string
-	 */
-	private $path;
-
-	/**
-	 * The path to use when the home_url and site_url are different.
-	 *
-	 * @since 5.2.0
-	 * @var string
-	 */
-	private $site_path;
-
-	/**
-	 * WP_Recovery_Mode_Cookie_Service constructor.
-	 *
-	 * @since 5.2.0
-	 *
-	 * @param array $opts {
-	 *     Recovery mode cookie options.
-	 *
-	 *     @type string $name      Cookie name.
-	 *     @type string $domain    Cookie domain.
-	 *     @type string $path      Cookie path.
-	 *     @type string $site_path Site cookie path.
-	 * }
-	 */
-	public function __construct( array $opts = array() ) {
-		$opts = wp_parse_args(
-			$opts,
-			array(
-				'name'      => RECOVERY_MODE_COOKIE,
-				'domain'    => COOKIE_DOMAIN,
-				'path'      => COOKIEPATH,
-				'site_path' => SITECOOKIEPATH,
-			)
-		);
-
-		$this->name      = $opts['name'];
-		$this->domain    = $opts['domain'];
-		$this->path      = $opts['path'];
-		$this->site_path = $opts['site_path'];
-	}
-
-	/**
 	 * Checks whether the recovery mode cookie is set.
 	 *
 	 * @since 5.2.0
@@ -84,7 +21,7 @@ final class WP_Recovery_Mode_Cookie_Service {
 	 * @return bool True if the cookie is set, false otherwise.
 	 */
 	public function is_cookie_set() {
-		return ! empty( $_COOKIE[ $this->name ] );
+		return ! empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] );
 	}
 
 	/**
@@ -98,10 +35,10 @@ final class WP_Recovery_Mode_Cookie_Service {
 
 		$value = $this->generate_cookie();
 
-		setcookie( $this->name, $value, 0, $this->path, $this->domain, is_ssl(), true );
+		setcookie( RECOVERY_MODE_COOKIE, $value, 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
 
-		if ( $this->path !== $this->site_path ) {
-			setcookie( $this->name, $value, 0, $this->site_path, $this->domain, is_ssl(), true );
+		if ( COOKIEPATH !== SITECOOKIEPATH ) {
+			setcookie( RECOVERY_MODE_COOKIE, $value, 0, SITECOOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
 		}
 	}
 
@@ -111,8 +48,8 @@ final class WP_Recovery_Mode_Cookie_Service {
 	 * @since 5.2.0
 	 */
 	public function clear_cookie() {
-		setcookie( $this->name, ' ', time() - YEAR_IN_SECONDS, $this->path, $this->domain );
-		setcookie( $this->name, ' ', time() - YEAR_IN_SECONDS, $this->site_path, $this->domain );
+		setcookie( RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+		setcookie( RECOVERY_MODE_COOKIE, ' ', time() - YEAR_IN_SECONDS, SITECOOKIEPATH, COOKIE_DOMAIN );
 	}
 
 	/**
@@ -127,11 +64,11 @@ final class WP_Recovery_Mode_Cookie_Service {
 	public function validate_cookie( $cookie = '' ) {
 
 		if ( ! $cookie ) {
-			if ( empty( $_COOKIE[ $this->name ] ) ) {
+			if ( empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] ) ) {
 				return new WP_Error( 'no_cookie', __( 'No cookie present.' ) );
 			}
 
-			$cookie = $_COOKIE[ $this->name ];
+			$cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
 		}
 
 		$parts = $this->parse_cookie( $cookie );
@@ -182,11 +119,11 @@ final class WP_Recovery_Mode_Cookie_Service {
 	 */
 	public function get_session_id_from_cookie( $cookie = '' ) {
 		if ( ! $cookie ) {
-			if ( empty( $_COOKIE[ $this->name ] ) ) {
+			if ( empty( $_COOKIE[ RECOVERY_MODE_COOKIE ] ) ) {
 				return new WP_Error( 'no_cookie', __( 'No cookie present.' ) );
 			}
 
-			$cookie = $_COOKIE[ $this->name ];
+			$cookie = $_COOKIE[ RECOVERY_MODE_COOKIE ];
 		}
 
 		$parts = $this->parse_cookie( $cookie );
@@ -201,6 +138,8 @@ final class WP_Recovery_Mode_Cookie_Service {
 
 	/**
 	 * Parses the cookie into its four parts.
+	 *
+	 * @since 5.2.0
 	 *
 	 * @param string $cookie Cookie content.
 	 * @return array|WP_Error Cookie parts array, or error object on failure.

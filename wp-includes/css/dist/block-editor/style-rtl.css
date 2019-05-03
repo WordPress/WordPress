@@ -368,29 +368,37 @@
 .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"], .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] {
   clear: both;
   z-index: 20; }
-  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover {
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover {
     top: -44px;
     bottom: auto;
     min-height: 0;
     height: auto;
-    width: auto;
-    z-index: inherit; }
-    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover::before, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover::before {
+    width: auto; }
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover::before,
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover::before, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover::before,
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover::before {
       content: none; }
-  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover .block-editor-block-mover__control, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover .block-editor-block-mover__control {
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover .block-editor-block-mover__control,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover .block-editor-block-mover__control, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover .block-editor-block-mover__control,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover .block-editor-block-mover__control {
     float: right; }
-  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__breadcrumb, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__breadcrumb {
-    left: -1px; }
-  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover {
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover,
+  .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover {
     display: none; }
   @media (min-width: 1280px) {
-    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover {
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover,
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover,
+    .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover {
       display: block; } }
   @media (min-width: 600px) {
     .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] .block-editor-block-toolbar, .block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] .block-editor-block-toolbar {
       display: inline-flex; } }
 
-.block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-mover {
+.block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"].is-multi-selected > .block-editor-block-mover,
+.block-editor-block-list__layout .block-editor-block-list__block[data-align="wide"] > .block-editor-block-list__block-edit > .block-editor-block-mover {
   right: -13px; }
 
 .block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-list__breadcrumb {
@@ -417,7 +425,8 @@
   border-right-width: 0;
   border-left-width: 0; }
 
-.block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-mover {
+.block-editor-block-list__layout .block-editor-block-list__block[data-align="full"].is-multi-selected > .block-editor-block-mover,
+.block-editor-block-list__layout .block-editor-block-list__block[data-align="full"] > .block-editor-block-list__block-edit > .block-editor-block-mover {
   right: 1px; }
 
 .block-editor-block-list__layout .block-editor-block-list__block[data-clear="true"] {
@@ -582,13 +591,14 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   right: 0;
   left: 0;
   justify-content: center;
+  height: 22px;
   opacity: 0;
   transition: opacity 0.1s linear; }
   @media (min-width: 480px) {
     .block-editor-block-list__insertion-point-inserter {
       display: flex; } }
   .block-editor-block-list__insertion-point-inserter .block-editor-inserter__toggle {
-    margin-top: -4px;
+    margin-top: -8px;
     border-radius: 50%;
     color: #007cba;
     background: #fff;
@@ -701,7 +711,7 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   right: 0;
   left: 0; }
 
-.block-editor-block-list__block.is-focus-mode:not(.is-multi-selected) > .block-editor-block-contextual-toolbar {
+.block-editor-block-list__block.is-focus-mode:not(.is-multi-selected) > .block-editor-block-list__block-edit > .block-editor-block-contextual-toolbar {
   margin-right: -28px; }
 
 @media (min-width: 600px) {
@@ -1371,6 +1381,10 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
   .block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle,
   .block-editor-inserter-with-shortcuts .block-editor-inserter__toggle {
     margin-left: 0; }
+    .block-editor-block-list__empty-block-inserter .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover,
+    .block-editor-default-block-appender .block-editor-inserter .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover,
+    .block-editor-inserter-with-shortcuts .block-editor-inserter__toggle:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+      box-shadow: none; }
 
 .block-editor-block-list__empty-block-inserter,
 .block-editor-default-block-appender .block-editor-inserter {
@@ -1728,7 +1742,7 @@ body.admin-color-light .block-editor-block-list__insertion-point-indicator{
 .block-editor-rich-text__editable {
   margin: 0;
   position: relative;
-  white-space: pre-wrap; }
+  white-space: pre-wrap !important; }
   .block-editor-rich-text__editable > p:first-child {
     margin-top: 0; }
   .block-editor-rich-text__editable a {

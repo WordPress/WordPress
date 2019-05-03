@@ -8,16 +8,21 @@
 
 jQuery( document ).ready( function( $ ) {
 
-	var data;
+	var __ = wp.i18n.__,
+		_n = wp.i18n._n,
+		sprintf = wp.i18n.sprintf;
 
+	var data;
 	var clipboard = new ClipboardJS( '.site-health-copy-buttons .copy-button' );
+	var isDebugTab = $( '.health-check-body.health-check-debug-tab' ).length;
+	var pathsSizesSection = $( '#health-check-accordion-block-wp-paths-sizes' );
 
 	// Debug information copy section.
 	clipboard.on( 'success', function( e ) {
 		var $wrapper = $( e.trigger ).closest( 'div' );
 		$( '.success', $wrapper ).addClass( 'visible' );
 
-		wp.a11y.speak( SiteHealth.string.site_info_copied );
+		wp.a11y.speak( __( 'Site information has been added to your clipboard.' ) );
 	} );
 
 	// Accordion handling in various areas.
@@ -52,11 +57,25 @@ jQuery( document ).ready( function( $ ) {
 	function AppendIssue( issue ) {
 		var template = wp.template( 'health-check-issue' ),
 			issueWrapper = $( '#health-check-issues-' + issue.status ),
-			issueCounter = $( '.issue-count', issueWrapper );
+			heading,
+			count;
 
 		SiteHealth.site_status.issues[ issue.status ]++;
 
-		issueCounter.text( SiteHealth.site_status.issues[ issue.status ] );
+		count = SiteHealth.site_status.issues[ issue.status ];
+
+		if ( 'critical' === issue.status ) {
+			heading = sprintf( _n( '%s Critical issue', '%s Critical issues', count ), '<span class="issue-count">' + count + '</span>' );
+		} else if ( 'recommended' === issue.status ) {
+			heading = sprintf( _n( '%s Recommended improvement', '%s Recommended improvements', count ), '<span class="issue-count">' + count + '</span>' );
+		} else if ( 'good' === issue.status ) {
+			heading = sprintf( _n( '%s Item with no issues detected', '%s Items with no issues detected', count ), '<span class="issue-count">' + count + '</span>' );
+		}
+
+		if ( heading ) {
+			$( '.site-health-issue-count-title', issueWrapper ).html( heading );
+		}
+
 		$( '.issues', '#health-check-issues-' + issue.status ).append( template( issue ) );
 	}
 
@@ -118,16 +137,22 @@ jQuery( document ).ready( function( $ ) {
 
 		$progressCount.text( val + '%' );
 
-		$.post(
-			ajaxurl,
-			{
-				'action': 'health-check-site-status-result',
-				'_wpnonce': SiteHealth.nonce.site_status_result,
-				'counts': SiteHealth.site_status.issues
-			}
-		);
+		if ( ! isDebugTab ) {
+			$.post(
+				ajaxurl,
+				{
+					'action': 'health-check-site-status-result',
+					'_wpnonce': SiteHealth.nonce.site_status_result,
+					'counts': SiteHealth.site_status.issues
+				}
+			);
 
-		wp.a11y.speak( SiteHealth.string.site_health_complete_screen_reader.replace( '%s', val + '%' ) );
+			wp.a11y.speak( sprintf(
+				// translators: %s: The percentage score for the tests.
+				__( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
+				val + '%'
+			) );
+		}
 	}
 
 	/**
@@ -171,7 +196,7 @@ jQuery( document ).ready( function( $ ) {
 		}
 	}
 
-	if ( 'undefined' !== typeof SiteHealth ) {
+	if ( 'undefined' !== typeof SiteHealth && ! isDebugTab ) {
 		if ( 0 === SiteHealth.site_status.direct.length && 0 === SiteHealth.site_status.async.length ) {
 			RecalculateProgression();
 		} else {
@@ -209,4 +234,83 @@ jQuery( document ).ready( function( $ ) {
 		}
 	}
 
+	function getDirectorySizes() {
+		var data = {
+			action: 'health-check-get-sizes',
+			_wpnonce: SiteHealth.nonce.site_status_result
+		};
+
+		var timestamp = ( new Date().getTime() );
+
+		// After 3 seconds announce that we're still waiting for directory sizes.
+		var timeout = window.setTimeout( function() {
+			wp.a11y.speak( __( 'Please wait...' ) );
+		}, 3000 );
+
+		$.post( {
+			type: 'POST',
+			url: ajaxurl,
+			data: data,
+			dataType: 'json'
+		} ).done( function( response ) {
+			updateDirSizes( response.data || {} );
+		} ).always( function() {
+			var delay = ( new Date().getTime() ) - timestamp;
+
+			$( '.health-check-wp-paths-sizes.spinner' ).css( 'visibility', 'hidden' );
+			RecalculateProgression();
+
+			if ( delay > 3000  ) {
+				// We have announced that we're waiting.
+				// Announce that we're ready after giving at least 3 seconds for the first announcement
+				// to be read out, or the two may collide.
+				if ( delay > 6000 ) {
+					delay = 0;
+				} else {
+					delay = 6500 - delay;
+				}
+
+				window.setTimeout( function() {
+					wp.a11y.speak( __( 'All site health tests have finished running.' ) );
+				}, delay );
+			} else {
+				// Cancel the announcement.
+				window.clearTimeout( timeout );
+			}
+
+			$( document ).trigger( 'site-health-info-dirsizes-done' );
+		} );
+	}
+
+	function updateDirSizes( data ) {
+		var copyButton = $( 'button.button.copy-button' );
+		var clipdoardText = copyButton.attr( 'data-clipboard-text' );
+
+		$.each( data, function( name, value ) {
+			var text = value.debug || value.size;
+
+			if ( typeof text !== 'undefined' ) {
+				clipdoardText = clipdoardText.replace( name + ': loading...', name + ': ' + text );
+			}
+		} );
+
+		copyButton.attr( 'data-clipboard-text', clipdoardText );
+
+		pathsSizesSection.find( 'td[class]' ).each( function( i, element ) {
+			var td = $( element );
+			var name = td.attr( 'class' );
+
+			if ( data.hasOwnProperty( name ) && data[ name ].size ) {
+				td.text( data[ name ].size );
+			}
+		} );
+	}
+
+	if ( isDebugTab ) {
+		if ( pathsSizesSection.length ) {
+			getDirectorySizes();
+		} else {
+			RecalculateProgression();
+		}
+	}
 } );

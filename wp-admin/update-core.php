@@ -295,16 +295,22 @@ function list_plugin_updates() {
 			}
 		}
 
-		$compatible_php = ( empty( $plugin_data->update->requires_php ) || version_compare( phpversion(), $plugin_data->update->requires_php, '>=' ) );
+		$requires_php   = isset( $plugin_data->update->requires_php ) ? $plugin_data->update->requires_php : null;
+		$compatible_php = is_php_version_compatible( $requires_php );
 
 		if ( ! $compatible_php && current_user_can( 'update_php' ) ) {
 			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
 			/* translators: %s: Update PHP page URL */
 			$compat .= sprintf(
-				__( '<a href="%s">Learn more about updating PHP.</a>' ),
+				__( '<a href="%s">Learn more about updating PHP</a>.' ),
 				esc_url( wp_get_update_php_url() )
 			);
-			$compat .= '</p><p><em>' . wp_get_update_php_annotation() . '</em>';
+
+			$annotation = wp_get_update_php_annotation();
+
+			if ( $annotation ) {
+				$compat .= '</p><p><em>' . $annotation . '</em>';
+			}
 		}
 
 		// Get the upgrade notice for the new plugin version.

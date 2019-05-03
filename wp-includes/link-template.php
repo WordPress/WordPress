@@ -2248,6 +2248,7 @@ function get_pagenum_link( $pagenum = 1, $escape = true ) {
 	 * Filters the page number link for the current request.
 	 *
 	 * @since 2.5.0
+	 * @since 5.2.0 Added the `$pagenum` argument.
 	 *
 	 * @param string $result  The page number link.
 	 * @param int    $pagenum The page number.

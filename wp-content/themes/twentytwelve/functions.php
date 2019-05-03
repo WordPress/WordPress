@@ -667,7 +667,6 @@ function twentytwelve_customize_preview_js() {
 }
 add_action( 'customize_preview_init', 'twentytwelve_customize_preview_js' );
 
-
 /**
  * Modifies tag cloud widget arguments to display all tags in the same font size
  * and use list format for better accessibility.
@@ -686,3 +685,21 @@ function twentytwelve_widget_tag_cloud_args( $args ) {
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'twentytwelve_widget_tag_cloud_args' );
+
+if ( ! function_exists( 'wp_body_open' ) ) :
+	/**
+	 * Fire the wp_body_open action.
+	 *
+	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 *
+	 * @since Twenty Twelve 3.0
+	 */
+	function wp_body_open() {
+		/**
+		 * Triggered after the opening <body> tag.
+		 *
+		 * @since Twenty Twelve 3.0
+		 */
+		do_action( 'wp_body_open' );
+	}
+endif;

@@ -232,3 +232,21 @@ if ( ! function_exists( 'twentyfourteen_excerpt_more' ) && ! is_admin() ) :
 	}
 	add_filter( 'excerpt_more', 'twentyfourteen_excerpt_more' );
 endif;
+
+if ( ! function_exists( 'wp_body_open' ) ) :
+	/**
+	 * Fire the wp_body_open action.
+	 *
+	 * Added for backwards compatibility to support pre 5.2.0 WordPress versions.
+	 *
+	 * @since Twenty Fourteen 2.7
+	 */
+	function wp_body_open() {
+		/**
+		 * Triggered after the opening <body> tag.
+		 *
+		 * @since Twenty Fourteen 2.7
+		 */
+		do_action( 'wp_body_open' );
+	}
+endif;

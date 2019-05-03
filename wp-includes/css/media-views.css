@@ -447,6 +447,7 @@
 }
 
 .attachment-details .setting + .description {
+	clear: both;
 	font-size: 12px;
 	font-style: normal;
 	margin-bottom: 0.5em;
@@ -2386,7 +2387,8 @@
 	.attachment-details .setting input[type="tel"],
 	.attachment-details .setting input[type="url"],
 	.attachment-details .setting textarea,
-	.attachment-details .setting select {
+	.attachment-details .setting select,
+	.attachment-details .setting + .description {
 		float: none;
 		width: 98%;
 		max-width: none;
@@ -2434,6 +2436,15 @@
 	.image-details .embed-media-settings .setting textarea {
 		width: 100%;
 		margin-left: 0;
+	}
+
+	.image-details .embed-media-settings .setting.has-description {
+		margin-bottom: 5px;
+	}
+
+	.image-details .description {
+		width: auto;
+		margin: 0 20px;
 	}
 
 	.image-details .embed-media-settings .custom-size {

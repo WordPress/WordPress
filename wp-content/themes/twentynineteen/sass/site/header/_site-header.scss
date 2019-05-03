@@ -30,7 +30,12 @@
 .site-branding {
 
 	color: $color__text-light;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
 	position: relative;
+	word-wrap: break-word;
 
 	@include media(tablet) {
 		margin: 0 $size__site-margins;

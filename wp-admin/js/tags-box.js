@@ -369,7 +369,8 @@
 			/**
 			 * Handles pressing enter on the new tag input field.
 			 *
-			 * Prevents submitting the post edit form.
+			 * Prevents submitting the post edit form. Uses `keypress` to take
+			 * into account Input Method Editor (IME) converters.
 			 *
 			 * @since 2.9.0
 			 *
@@ -381,11 +382,6 @@
 				if ( 13 == event.which ) {
 					tagBox.userAction = 'add';
 					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
-					event.preventDefault();
-					event.stopPropagation();
-				}
-			}).keypress( function( event ) {
-				if ( 13 == event.which ) {
 					event.preventDefault();
 					event.stopPropagation();
 				}

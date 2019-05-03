@@ -343,7 +343,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
 		$request_params = $request->get_query_params();
-		$base           = add_query_arg( $request_params, rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
+		$base           = add_query_arg( urlencode_deep( $request_params ), rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
 
 		if ( $page > 1 ) {
 			$prev_page = $page - 1;
@@ -1614,7 +1614,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		if ( is_post_type_viewable( $post_type_obj ) && $post_type_obj->public ) {
 
 			if ( ! function_exists( 'get_sample_permalink' ) ) {
-				require_once ABSPATH . '/wp-admin/includes/post.php';
+				require_once ABSPATH . 'wp-admin/includes/post.php';
 			}
 
 			$sample_permalink = get_sample_permalink( $post->ID, $post->post_title, '' );

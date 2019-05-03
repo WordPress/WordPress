@@ -16,12 +16,20 @@ class WP_Recovery_Mode {
 	const EXIT_ACTION = 'exit_recovery_mode';
 
 	/**
-	 * Service to handle sending an email with a recovery mode link.
+	 * Service to handle cookies.
 	 *
 	 * @since 5.2.0
-	 * @var WP_Recovery_Mode_Email_Service
+	 * @var WP_Recovery_Mode_Cookie_Service
 	 */
-	private $email_service;
+	private $cookie_service;
+
+	/**
+	 * Service to generate a recovery mode key.
+	 *
+	 * @since 5.2.0
+	 * @var WP_Recovery_Mode_Key_Service
+	 */
+	private $key_service;
 
 	/**
 	 * Service to generate and validate recovery mode links.
@@ -32,12 +40,12 @@ class WP_Recovery_Mode {
 	private $link_service;
 
 	/**
-	 * Service to handle cookies.
+	 * Service to handle sending an email with a recovery mode link.
 	 *
 	 * @since 5.2.0
-	 * @var WP_Recovery_Mode_Cookie_Service
+	 * @var WP_Recovery_Mode_Email_Service
 	 */
-	private $cookie_service;
+	private $email_service;
 
 	/**
 	 * Is recovery mode initialized.
@@ -70,7 +78,8 @@ class WP_Recovery_Mode {
 	 */
 	public function __construct() {
 		$this->cookie_service = new WP_Recovery_Mode_Cookie_Service();
-		$this->link_service   = new WP_Recovery_Mode_Link_Service( $this->cookie_service );
+		$this->key_service    = new WP_Recovery_Mode_Key_Service();
+		$this->link_service   = new WP_Recovery_Mode_Link_Service( $this->cookie_service, $this->key_service );
 		$this->email_service  = new WP_Recovery_Mode_Email_Service( $this->link_service );
 	}
 
@@ -84,6 +93,11 @@ class WP_Recovery_Mode {
 
 		add_action( 'wp_logout', array( $this, 'exit_recovery_mode' ) );
 		add_action( 'login_form_' . self::EXIT_ACTION, array( $this, 'handle_exit_recovery_mode' ) );
+		add_action( 'recovery_mode_clean_expired_keys', array( $this, 'clean_expired_keys' ) );
+
+		if ( ! wp_next_scheduled( 'recovery_mode_clean_expired_keys' ) && ! wp_installing() ) {
+			wp_schedule_event( time(), 'daily', 'recovery_mode_clean_expired_keys' );
+		}
 
 		if ( defined( 'WP_RECOVERY_MODE_SESSION_ID' ) ) {
 			$this->is_active  = true;
@@ -159,6 +173,10 @@ class WP_Recovery_Mode {
 		}
 
 		if ( ! $this->is_active() ) {
+			if ( ! is_protected_endpoint() ) {
+				return new WP_Error( 'non_protected_endpoint', __( 'Error occurred on a non-protected endpoint.' ) );
+			}
+
 			if ( ! function_exists( 'wp_generate_password' ) ) {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
@@ -233,6 +251,17 @@ class WP_Recovery_Mode {
 	}
 
 	/**
+	 * Cleans any recovery mode keys that have expired according to the link TTL.
+	 *
+	 * Executes on a daily cron schedule.
+	 *
+	 * @since 5.2.0
+	 */
+	public function clean_expired_keys() {
+		$this->key_service->clean_expired_keys( $this->get_link_ttl() );
+	}
+
+	/**
 	 * Handles checking for the recovery mode cookie and validating it.
 	 *
 	 * @since 5.2.0
@@ -270,9 +299,9 @@ class WP_Recovery_Mode {
 		 *
 		 * @since 5.2.0
 		 *
-		 * @param int $rate_limit Time to wait in seconds. Defaults to 4 hours.
+		 * @param int $rate_limit Time to wait in seconds. Defaults to 1 day.
 		 */
-		return apply_filters( 'recovery_mode_email_rate_limit', 4 * HOUR_IN_SECONDS );
+		return apply_filters( 'recovery_mode_email_rate_limit', DAY_IN_SECONDS );
 	}
 
 	/**
