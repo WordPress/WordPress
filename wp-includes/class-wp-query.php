@@ -4208,6 +4208,17 @@ class WP_Query {
 		$more         = $elements['more'];
 		$numpages     = $elements['numpages'];
 
+		/**
+		 * Fires once the post data has been setup.
+		 *
+		 * @since 2.8.0
+		 * @since 4.1.0 Introduced `$this` parameter.
+		 *
+		 * @param WP_Post  $post The Post object (passed by reference).
+		 * @param WP_Query $this The current Query object (passed by reference).
+		 */
+		do_action_ref_array( 'the_post', array( &$post, &$this ) );
+
 		return true;
 	}
 
@@ -4297,17 +4308,6 @@ class WP_Query {
 		} else {
 			$multipage = 0;
 		}
-
-		/**
-		 * Fires once the post data has been setup.
-		 *
-		 * @since 2.8.0
-		 * @since 4.1.0 Introduced `$this` parameter.
-		 *
-		 * @param WP_Post  $post The Post object (passed by reference).
-		 * @param WP_Query $this The current Query object (passed by reference).
-		 */
-		do_action_ref_array( 'the_post', array( &$post, &$this ) );
 
 		$elements = compact( 'id', 'authordata', 'currentday', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages' );
 
