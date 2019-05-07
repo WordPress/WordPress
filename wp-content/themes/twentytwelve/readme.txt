@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: WordPress 3.5
 Tested up to: WordPress 5.0
 Requires PHP: 5.2.4
-Stable tag: 2.9
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -43,6 +43,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 3.0 =
+* Released: May 7, 2019
+
+https://codex.wordpress.org/Twenty_Twelve_Theme_Changelog#Version_3.0
 
 = 2.9 =
 * Released: February 21, 2019

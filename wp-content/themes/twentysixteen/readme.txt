@@ -3,7 +3,7 @@ Contributors: wordpressdotorg
 Requires at least: WordPress 4.4
 Tested up to: WordPress 5.0
 Requires PHP: 5.2.4
-Version: 1.9
+Version: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-images, flexible-header, microformats, post-formats, rtl-language-support, sticky-post, threaded-comments, translation-ready, blog
@@ -56,6 +56,11 @@ Source: http://www.genericons.com
 Image used in screenshot.png: A photo by Austin Schmid (https://unsplash.com/schmidy/), licensed under Creative Commons Zero(http://creativecommons.org/publicdomain/zero/1.0/)
 
 == Changelog ==
+
+= 2.0 =
+* Released: May 7, 2019
+
+https://codex.wordpress.org/Twenty_Sixteen_Theme_Changelog#Version_2.0
 
 = 1.9 =
 * Released: February 21, 2019
