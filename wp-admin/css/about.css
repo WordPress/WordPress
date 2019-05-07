@@ -52,7 +52,7 @@
 
 .about-wrap .inline-svg img {
 	max-width: 100%;
-	width: 100%;
+	width: auto;
 	height: auto;
 }
 
@@ -343,6 +343,7 @@
 
 .about-wrap .headline-feature img {
 	max-width: 600px;
+	width: 100%;
 }
 
 /* Return to Dashboard Home link */
