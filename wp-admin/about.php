@@ -44,7 +44,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h2><?php _e( 'Keeping Your Site Safe' ); ?></h2>
 			<p class="lead-description"><?php _e( 'WordPress 5.2 gives you even more robust tools for identifying and fixing configuration issues and fatal errors. Whether you are a developer helping clients or you manage your site solo, these tools can help get you the right information when you need it.' ); ?></p>
 			<div class="inline-svg aligncenter">
-				<img src="https://make.wordpress.org/core/files/2019/05/about_maintain-wordpress.png" alt="">
+				<img src="https://s.w.org/images/core/5.2/about_maintain-wordpress-v2.svg" alt="">
 			</div>
 		</div>
 
