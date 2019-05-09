@@ -801,6 +801,7 @@ table.form-table td .updated p {
 	border: 1px solid #e5e5e5;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
+	box-sizing: border-box;
 }
 
 /* Press this styles */
