@@ -3686,6 +3686,10 @@ img {
 		padding-top: 46px;
 	}
 
+	.screen-reader-shortcut:focus {
+		top: -39px;
+	}
+
 	body {
 		min-width: 240px;
 		overflow-x: hidden;
@@ -3980,6 +3984,10 @@ img {
 
 	html.wp-toolbar {
 		padding-top: 0;
+	}
+
+	.screen-reader-shortcut:focus {
+		top: 7px;
 	}
 
 	#wpbody {
