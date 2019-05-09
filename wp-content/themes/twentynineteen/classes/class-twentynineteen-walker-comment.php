@@ -44,13 +44,6 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 								echo $avatar;
 							}
 						}
-						/*
-						 * Using the `check` icon instead of `check_circle`, since we can't add a
-						 * fill color to the inner check shape when in circle form.
-						 */
-						if ( twentynineteen_is_comment_by_post_author( $comment ) ) {
-							printf( '<span class="post-author-badge" aria-hidden="true">%s</span>', twentynineteen_get_icon_svg( 'check', 24 ) );
-						}
 
 						/*
 						 * Using the `check` icon instead of `check_circle`, since we can't add a
