@@ -149,7 +149,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 	 * email successfully. It just only means that the method used was able to
 	 * process the request without any errors.
 	 *
-	 * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks allow from
+	 * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks allow for
 	 * creating a from address like 'Name <email@address.com>' when both are set. If
 	 * just 'wp_mail_from' is set, then just the email address will be used with no
 	 * name.
