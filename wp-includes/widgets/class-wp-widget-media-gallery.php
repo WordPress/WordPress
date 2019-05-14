@@ -12,6 +12,7 @@
  *
  * @since 4.9.0
  *
+ * @see WP_Widget_Media
  * @see WP_Widget
  */
 class WP_Widget_Media_Gallery extends WP_Widget_Media {
