@@ -12,6 +12,7 @@
  *
  * @since 5.0.0
  *
+ * @see WP_REST_Revisions_Controller
  * @see WP_REST_Controller
  */
 class WP_REST_Autosaves_Controller extends WP_REST_Revisions_Controller {
