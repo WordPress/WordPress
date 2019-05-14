@@ -11,6 +11,8 @@
  * Core class representing a search handler for posts in the REST API.
  *
  * @since 5.0.0
+ *
+ * @see WP_REST_Search_Handler
  */
 class WP_REST_Post_Search_Handler extends WP_REST_Search_Handler {
 
