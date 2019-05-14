@@ -24,7 +24,7 @@
  *
  * @since 4.4.0
  *
- * @see ArrayAccess
+ * @link https://secure.php.net/manual/en/class.arrayaccess.php
  */
 class WP_REST_Request implements ArrayAccess {
 
