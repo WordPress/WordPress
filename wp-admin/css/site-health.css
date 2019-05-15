@@ -153,32 +153,23 @@
 .health-check-body .pass::before,
 .health-check-body .good::before {
 	content: "\f147";
-	display: inline-block;
 	color: #46b450;
-	font-family: dashicons;
-	vertical-align: top;
 }
 
 .health-check-body .warning::before {
 	content: "\f460";
-	display: inline-block;
 	color: #ffb900;
-	font-family: dashicons;
 }
 
 .health-check-body .info::before {
 	content: "\f348";
-	display: inline-block;
 	color: #00a0d2;
-	font-family: dashicons;
 }
 
 .health-check-body .fail::before,
 .health-check-body .error::before {
 	content: "\f335";
-	display: inline-block;
 	color: #dc3232;
-	font-family: dashicons;
 }
 
 .site-health-copy-buttons {
