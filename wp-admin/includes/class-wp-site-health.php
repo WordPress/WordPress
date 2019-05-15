@@ -340,7 +340,7 @@ class WP_Site_Health {
 
 			$result['actions'] .= sprintf(
 				'<p><a href="%s">%s</a></p>',
-				esc_url( admin_url( 'plugins.php?plugin_status=upgrade' ) ),
+				esc_url( network_admin_url( 'plugins.php?plugin_status=upgrade' ) ),
 				__( 'Update your plugins' )
 			);
 		} else {
