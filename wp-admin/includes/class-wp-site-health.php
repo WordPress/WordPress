@@ -889,7 +889,7 @@ class WP_Site_Health {
 					$result['status'] = 'recommended';
 				}
 
-				$failures[ $library ] = "<span class='$class'><span class='screen-reader-text'>$screen_reader</span></span> $message";
+				$failures[ $library ] = "<span class='dashicons $class'><span class='screen-reader-text'>$screen_reader</span></span> $message";
 			}
 		}
 
@@ -1487,7 +1487,7 @@ class WP_Site_Health {
 			}
 
 			$output .= sprintf(
-				'<li><span class="%s"><span class="screen-reader-text">%s</span></span> %s</li>',
+				'<li><span class="dashicons %s"><span class="screen-reader-text">%s</span></span> %s</li>',
 				esc_attr( $test->severity ),
 				$severity_string,
 				$test->description
