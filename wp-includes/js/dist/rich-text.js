@@ -819,8 +819,7 @@ function applyFormat(value, format) {
   var startIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : value.start;
   var endIndex = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : value.end;
   var formats = value.formats,
-      _value$activeFormats = value.activeFormats,
-      activeFormats = _value$activeFormats === void 0 ? [] : _value$activeFormats;
+      activeFormats = value.activeFormats;
   var newFormats = formats.slice(); // The selection is collapsed.
 
   if (startIndex === endIndex) {
@@ -840,13 +839,7 @@ function applyFormat(value, format) {
       while (Object(external_lodash_["find"])(newFormats[endIndex], startFormat)) {
         applyFormats(newFormats, endIndex, format);
         endIndex++;
-      } // Otherwise, insert a placeholder with the format so new input appears
-      // with the format applied.
-
-    } else {
-      return Object(objectSpread["a" /* default */])({}, value, {
-        activeFormats: [].concat(Object(toConsumableArray["a" /* default */])(activeFormats), [format])
-      });
+      }
     }
   } else {
     for (var index = startIndex; index < endIndex; index++) {
@@ -855,7 +848,13 @@ function applyFormat(value, format) {
   }
 
   return normaliseFormats(Object(objectSpread["a" /* default */])({}, value, {
-    formats: newFormats
+    formats: newFormats,
+    // Always revise active formats. This serves as a placeholder for new
+    // inputs with the format so new input appears with the format applied,
+    // and ensures a format of the same type uses the latest values.
+    activeFormats: [].concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["reject"])(activeFormats, {
+      type: format.type
+    })), [format])
   }));
 }
 
@@ -1980,12 +1979,6 @@ function removeFormat(value, formatType) {
         filterFormats(newFormats, endIndex, formatType);
         endIndex++;
       }
-    } else {
-      return Object(objectSpread["a" /* default */])({}, value, {
-        activeFormats: Object(external_lodash_["reject"])(activeFormats, {
-          type: formatType
-        })
-      });
     }
   } else {
     for (var i = startIndex; i < endIndex; i++) {
@@ -1996,7 +1989,10 @@ function removeFormat(value, formatType) {
   }
 
   return normaliseFormats(Object(objectSpread["a" /* default */])({}, value, {
-    formats: newFormats
+    formats: newFormats,
+    activeFormats: Object(external_lodash_["reject"])(activeFormats, {
+      type: formatType
+    })
   }));
 }
 

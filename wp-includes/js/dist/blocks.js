@@ -10503,6 +10503,29 @@ function segmentHTMLToShortcodeBlock(HTML) {
 
 /* harmony default export */ var shortcode_converter = (segmentHTMLToShortcodeBlock);
 
+// CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/comment-remover.js
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Browser dependencies
+ */
+
+var comment_remover_COMMENT_NODE = window.Node.COMMENT_NODE;
+/**
+ * Looks for comments, and removes them.
+ *
+ * @param {Node} node The node to be processed.
+ * @return {void}
+ */
+
+/* harmony default export */ var comment_remover = (function (node) {
+  if (node.nodeType === comment_remover_COMMENT_NODE) {
+    Object(external_this_wp_dom_["remove"])(node);
+  }
+});
+
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/is-inline-content.js
 /**
  * External dependencies
@@ -10873,6 +10896,7 @@ function slackMarkdownVariantCorrector(text) {
 
 
 
+
 /**
  * Browser dependencies
  */
@@ -10888,7 +10912,7 @@ var paste_handler_window = window,
  */
 
 function filterInlineHTML(HTML) {
-  HTML = deepFilterHTML(HTML, [google_docs_uid_remover, phrasing_content_reducer]);
+  HTML = deepFilterHTML(HTML, [google_docs_uid_remover, phrasing_content_reducer, comment_remover]);
   HTML = removeInvalidHTML(HTML, getPhrasingContentSchema(), {
     inline: true
   }); // Allows us to ask for this information when we get a report.
@@ -11036,7 +11060,7 @@ function pasteHandler(_ref3) {
       return piece;
     }
 
-    var filters = [google_docs_uid_remover, ms_list_converter, head_remover, list_reducer, image_corrector, phrasing_content_reducer, special_comment_converter, figure_content_reducer, blockquote_normaliser];
+    var filters = [google_docs_uid_remover, ms_list_converter, head_remover, list_reducer, image_corrector, phrasing_content_reducer, special_comment_converter, comment_remover, figure_content_reducer, blockquote_normaliser];
 
     if (!canUserUseUnfilteredHTML) {
       // Should run before `figureContentReducer`.
