@@ -1577,7 +1577,7 @@ class WP_Site_Health {
 		$blocked = false;
 		$hosts   = array();
 
-		if ( defined( 'WP_HTTP_BLOCK_EXTERNAL' ) ) {
+		if ( defined( 'WP_HTTP_BLOCK_EXTERNAL' ) && WP_HTTP_BLOCK_EXTERNAL ) {
 			$blocked = true;
 		}
 
