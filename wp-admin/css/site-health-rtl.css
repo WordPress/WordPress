@@ -268,13 +268,16 @@
 	border: 0;
 	color: #32373c;
 	cursor: pointer;
-	display: block;
+	display: flex;
 	font-weight: 400;
 	margin: 0;
 	padding: 1em 1.5em 1em 3.5em;
+	min-height: 46px;
 	position: relative;
 	text-align: right;
 	width: 100%;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .wp-core-ui .button.site-health-view-passed {
@@ -297,9 +300,9 @@
 }
 
 .health-check-accordion-trigger .title {
-	display: inline-block;
 	pointer-events: none;
 	font-weight: 600;
+	flex-grow: 1;
 }
 
 .health-check-accordion-trigger .icon,
@@ -316,7 +319,6 @@
 }
 
 .health-check-accordion-trigger .badge {
-	float: left;
 	padding: 0.1rem 0.5rem 0.15rem;
 	color: #32373c;
 	font-weight: 600;
@@ -377,10 +379,10 @@
 }
 
 .health-check-wp-paths-sizes.spinner {
-	position: absolute;
 	visibility: visible;
 	float: none;
 	margin: 0 4px;
+	flex-shrink: 0;
 }
 
 @media screen and (max-width: 782px) {
@@ -398,14 +400,13 @@
 		margin-right: 10px;
 	}
 
-	.health-check-accordion-trigger .title {
-		display: block;
-		margin-bottom: 1em;
+	.site-health-issues-wrapper .health-check-accordion-trigger {
+		flex-direction: column;
+		align-items: flex-start;
 	}
 
 	.health-check-accordion-trigger .badge {
-		float: right;
-		margin: 0;
+		margin: 1em 0 0;
 	}
 }
 
