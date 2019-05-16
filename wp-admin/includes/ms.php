@@ -1118,9 +1118,13 @@ function network_edit_site_nav( $args = array() ) {
 		// Link classes
 		$classes = array( 'nav-tab' );
 
+		// Aria-current attribute.
+		$aria_current = '';
+
 		// Selected is set by the parent OR assumed by the $pagenow global
 		if ( $r['selected'] === $link_id || $link['url'] === $GLOBALS['pagenow'] ) {
-			$classes[] = 'nav-tab-active';
+			$classes[]    = 'nav-tab-active';
+			$aria_current = ' aria-current="page"';
 		}
 
 		// Escape each class
@@ -1130,7 +1134,7 @@ function network_edit_site_nav( $args = array() ) {
 		$url = add_query_arg( array( 'id' => $r['blog_id'] ), network_admin_url( $link['url'] ) );
 
 		// Add link to nav links
-		$screen_links[ $link_id ] = '<a href="' . esc_url( $url ) . '" id="' . esc_attr( $link_id ) . '" class="' . $esc_classes . '">' . esc_html( $link['label'] ) . '</a>';
+		$screen_links[ $link_id ] = '<a href="' . esc_url( $url ) . '" id="' . esc_attr( $link_id ) . '" class="' . $esc_classes . '"' . $aria_current . '>' . esc_html( $link['label'] ) . '</a>';
 	}
 
 	// All done!

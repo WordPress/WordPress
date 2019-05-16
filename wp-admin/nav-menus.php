@@ -620,23 +620,27 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	endif;
 
 	$nav_tab_active_class = '';
+	$nav_aria_current     = '';
 	if ( ! isset( $_GET['action'] ) || isset( $_GET['action'] ) && 'locations' != $_GET['action'] ) {
 		$nav_tab_active_class = ' nav-tab-active';
+		$nav_aria_current     = ' aria-current="page"';
 	}
 	?>
 
 	<hr class="wp-header-end">
 
 	<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
-		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
+		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"<?php echo $nav_aria_current; ?>><?php esc_html_e( 'Edit Menus' ); ?></a>
 		<?php
 		if ( $num_locations && $menu_count ) {
 			$active_tab_class = '';
+			$aria_current     = '';
 			if ( $locations_screen ) {
 				$active_tab_class = ' nav-tab-active';
+				$aria_current     = ' aria-current="page"';
 			}
 			?>
-			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php echo $active_tab_class; ?>"><?php esc_html_e( 'Manage Locations' ); ?></a>
+			<a href="<?php echo esc_url( add_query_arg( array( 'action' => 'locations' ), admin_url( 'nav-menus.php' ) ) ); ?>" class="nav-tab<?php echo $active_tab_class; ?>"<?php echo $aria_current; ?>><?php esc_html_e( 'Manage Locations' ); ?></a>
 			<?php
 		}
 		?>
@@ -878,7 +882,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 						$menu_name_val = 'value="' . esc_attr( $nav_menu_selected_title ) . '"';
 					}
 					?>
-					 <input type="hidden" name="action" value="update" />
+					<input type="hidden" name="action" value="update" />
 					<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 					<div id="nav-menu-header">
 						<div class="major-publishing-actions wp-clearfix">
@@ -956,8 +960,8 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 											<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] != $nav_menu_selected_id ) : ?>
 												<span class="theme-location-set">
 												<?php
-													/* translators: %s: menu name */
 													printf(
+														/* translators: %s: menu name */
 														_x( '(Currently set to: %s)', 'menu location' ),
 														wp_get_nav_menu_object( $menu_locations[ $location ] )->name
 													);
