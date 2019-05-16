@@ -13917,7 +13917,8 @@ function applyInternetExplorerInputFix(editorNode) {
 }
 
 var IS_PLACEHOLDER_VISIBLE_ATTR_NAME = 'data-is-placeholder-visible';
-var CLASS_NAME = 'editor-rich-text__editable block-editor-rich-text__editable';
+var oldClassName = 'editor-rich-text__editable';
+var editable_className = 'block-editor-rich-text__editable';
 /**
  * Whether or not the user agent is Internet Explorer.
  *
@@ -13963,7 +13964,7 @@ function (_Component) {
       }
 
       if (!Object(external_lodash_["isEqual"])(this.props.className, nextProps.className)) {
-        this.editorNode.className = classnames_default()(nextProps.className, CLASS_NAME);
+        this.editorNode.className = classnames_default()(editable_className, oldClassName, nextProps.className);
       }
 
       var _diffAriaProps = aria_diffAriaProps(this.props, nextProps),
@@ -14014,7 +14015,7 @@ function (_Component) {
           style = _this$props.style,
           record = _this$props.record,
           valueToEditableHTML = _this$props.valueToEditableHTML,
-          className = _this$props.className,
+          additionalClassName = _this$props.className,
           isPlaceholderVisible = _this$props.isPlaceholderVisible,
           remainingProps = Object(objectWithoutProperties["a" /* default */])(_this$props, ["tagName", "style", "record", "valueToEditableHTML", "className", "isPlaceholderVisible"]);
 
@@ -14022,7 +14023,7 @@ function (_Component) {
       return Object(external_this_wp_element_["createElement"])(tagName, Object(objectSpread["a" /* default */])((_objectSpread2 = {
         role: 'textbox',
         'aria-multiline': true,
-        className: classnames_default()(className, CLASS_NAME),
+        className: classnames_default()(editable_className, oldClassName, additionalClassName),
         contentEditable: true
       }, Object(defineProperty["a" /* default */])(_objectSpread2, IS_PLACEHOLDER_VISIBLE_ATTR_NAME, isPlaceholderVisible), Object(defineProperty["a" /* default */])(_objectSpread2, "ref", this.bindEditorNode), Object(defineProperty["a" /* default */])(_objectSpread2, "style", style), Object(defineProperty["a" /* default */])(_objectSpread2, "suppressContentEditableWarning", true), Object(defineProperty["a" /* default */])(_objectSpread2, "dangerouslySetInnerHTML", {
         __html: valueToEditableHTML(record)
@@ -14666,7 +14667,6 @@ function (_Component) {
         range: range,
         multilineTag: this.multilineTag,
         multilineWrapperTags: this.multilineWrapperTags,
-        prepareEditableTree: this.props.prepareEditableTree,
         __unstableIsEditableTree: true
       });
     }
@@ -14964,11 +14964,15 @@ function (_Component) {
       var boundarySelector = '*[data-rich-text-format-boundary]';
       var element = this.editableRef.querySelector(boundarySelector);
 
-      if (element) {
-        var computedStyle = getComputedStyle(element);
-        var newColor = computedStyle.color.replace(')', ', 0.2)').replace('rgb', 'rgba');
-        globalStyle.innerHTML = "*:focus ".concat(boundarySelector, "{background-color: ").concat(newColor, "}");
+      if (!element) {
+        return;
       }
+
+      var computedStyle = getComputedStyle(element);
+      var newColor = computedStyle.color.replace(')', ', 0.2)').replace('rgb', 'rgba');
+      var selector = ".".concat(editable_className, ":focus ").concat(boundarySelector);
+      var rule = "background-color: ".concat(newColor);
+      globalStyle.innerHTML = "".concat(selector, " {").concat(rule, "}");
     }
     /**
      * Calls all registered onChangeEditableValue handlers.
@@ -15239,8 +15243,13 @@ function (_Component) {
           end = value.end;
       var _this$state$activeFor = this.state.activeFormats,
           activeFormats = _this$state$activeFor === void 0 ? [] : _this$state$activeFor;
-      var collapsed = Object(external_this_wp_richText_["isCollapsed"])(value);
-      var isReverse = event.keyCode === external_this_wp_keycodes_["LEFT"]; // If the selection is collapsed and at the very start, do nothing if
+      var collapsed = Object(external_this_wp_richText_["isCollapsed"])(value); // To do: ideally, we should look at visual position instead.
+
+      var _getComputedStyle = getComputedStyle(this.editableRef),
+          direction = _getComputedStyle.direction;
+
+      var reverseKey = direction === 'rtl' ? external_this_wp_keycodes_["RIGHT"] : external_this_wp_keycodes_["LEFT"];
+      var isReverse = event.keyCode === reverseKey; // If the selection is collapsed and at the very start, do nothing if
       // navigating backward.
       // If the selection is collapsed and at the very end, do nothing if
       // navigating forward.
@@ -18713,7 +18722,8 @@ function (_Component) {
  */
 
 var writing_flow_window = window,
-    writing_flow_getSelection = writing_flow_window.getSelection;
+    writing_flow_getSelection = writing_flow_window.getSelection,
+    writing_flow_getComputedStyle = writing_flow_window.getComputedStyle;
 /**
  * Given an element, returns true if the element is a tabbable text field, or
  * false otherwise.
@@ -18925,10 +18935,22 @@ function (_Component) {
       var isNav = isHorizontal || isVertical;
       var isShift = event.shiftKey;
       var hasModifier = isShift || event.ctrlKey || event.altKey || event.metaKey;
-      var isNavEdge = isVertical ? external_this_wp_dom_["isVerticalEdge"] : external_this_wp_dom_["isHorizontalEdge"]; // This logic inside this condition needs to be checked before
+      var isNavEdge = isVertical ? external_this_wp_dom_["isVerticalEdge"] : external_this_wp_dom_["isHorizontalEdge"]; // When presing any key other than up or down, the initial vertical
+      // position must ALWAYS be reset. The vertical position is saved so it
+      // can be restored as well as possible on sebsequent vertical arrow key
+      // presses. It may not always be possible to restore the exact same
+      // position (such as at an empty line), so it wouldn't be good to
+      // compute the position right before any vertical arrow key press.
+
+      if (!isVertical) {
+        this.verticalRect = null;
+      } else if (!this.verticalRect) {
+        this.verticalRect = Object(external_this_wp_dom_["computeCaretRect"])(target);
+      } // This logic inside this condition needs to be checked before
       // the check for event.nativeEvent.defaultPrevented.
       // The logic handles meta+a keypress and this event is default prevented
       // by RichText.
+
 
       if (!isNav) {
         // Set immediately before the meta+a combination can be pressed.
@@ -18964,13 +18986,14 @@ function (_Component) {
 
       if (!isNavigationCandidate(target, keyCode, hasModifier)) {
         return;
-      }
+      } // In the case of RTL scripts, right means previous and left means next,
+      // which is the exact reverse of LTR.
 
-      if (!isVertical) {
-        this.verticalRect = null;
-      } else if (!this.verticalRect) {
-        this.verticalRect = Object(external_this_wp_dom_["computeCaretRect"])(target);
-      }
+
+      var _getComputedStyle = writing_flow_getComputedStyle(target),
+          direction = _getComputedStyle.direction;
+
+      var isReverseDir = direction === 'rtl' ? !isReverse : isReverse;
 
       if (isShift) {
         if (( // Ensure that there is a target block.
@@ -18991,10 +19014,10 @@ function (_Component) {
           Object(external_this_wp_dom_["placeCaretAtVerticalEdge"])(closestTabbable, isReverse, this.verticalRect);
           event.preventDefault();
         }
-      } else if (isHorizontal && writing_flow_getSelection().isCollapsed && Object(external_this_wp_dom_["isHorizontalEdge"])(target, isReverse)) {
-        var _closestTabbable = this.getClosestTabbable(target, isReverse);
+      } else if (isHorizontal && writing_flow_getSelection().isCollapsed && Object(external_this_wp_dom_["isHorizontalEdge"])(target, isReverseDir)) {
+        var _closestTabbable = this.getClosestTabbable(target, isReverseDir);
 
-        Object(external_this_wp_dom_["placeCaretAtHorizontalEdge"])(_closestTabbable, isReverse);
+        Object(external_this_wp_dom_["placeCaretAtHorizontalEdge"])(_closestTabbable, isReverseDir);
         event.preventDefault();
       }
     }
