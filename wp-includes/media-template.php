@@ -163,15 +163,15 @@ function wp_print_media_templates() {
 	}
 
 	$alt_text_description = sprintf(
-		/* translators: 1: link start tag, 2: accessibility text, 3: link end tag */
-		__( '%1$sDescribe the purpose of the image%2$s%3$s. Leave empty if the image is purely decorative.' ),
-		'<a href="' . esc_url( 'https://www.w3.org/WAI/tutorials/images/decision-tree' ) . '" target="_blank" rel="noopener noreferrer">',
+		/* translators: 1: link to tutorial, 2: additional link attributes, 3: accessibility text */
+		__( '<a href="%1$s" %2$s>Describe the purpose of the image%3$s</a>. Leave empty if the image is purely decorative.' ),
+		esc_url( 'https://www.w3.org/WAI/tutorials/images/decision-tree' ),
+		'target="_blank" rel="noopener noreferrer"',
 		sprintf(
 			'<span class="screen-reader-text"> %s</span>',
 			/* translators: accessibility text */
 			__( '(opens in a new tab)' )
-		),
-		'</a>'
+		)
 	);
 	?>
 	<!--[if lte IE 8]>
