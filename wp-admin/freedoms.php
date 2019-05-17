@@ -39,7 +39,15 @@ if ( $is_privacy_notice ) {
 	?>
 </h1>
 
-<p class="about-text"><?php printf( __( 'Congratulations on updating to WordPress 5.2! This update makes it easier than ever to fix your site if something goes wrong.' ), $display_version ); ?></p>
+<p class="about-text">
+	<?php
+	printf(
+		/* translators: %s: The current WordPress version number */
+		__( 'Congratulations on updating to WordPress %s! This update makes it easier than ever to fix your site if something goes wrong.' ),
+		$display_version
+	);
+	?>
+</p>
 
 <div class="wp-badge">
 	<?php
