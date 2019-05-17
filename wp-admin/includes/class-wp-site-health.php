@@ -741,12 +741,12 @@ class WP_Site_Health {
 				__( 'PHP modules perform most of the tasks on the server that make your site run. Any changes to these must be made by your server administrator.' ),
 				sprintf(
 					/* translators: 1: Link to the hosting group page about recommended PHP modules. 2: Additional link attributes. 3: Accessibility text. */
-					__( 'The WordPress Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook %3$s</a>.' ),
+					__( 'The WordPress Hosting Team maintains a list of those modules, both recommended and required, in <a href="%1$s" %2$s>the team handbook%3$s</a>.' ),
 					/* translators: Localized team handbook, if one exists. */
 					esc_url( __( 'https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions' ) ),
 					'target="_blank" rel="noopener noreferrer"',
 					sprintf(
-						'<span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
+						' <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span>',
 						/* translators: accessibility text */
 						__( '(opens in a new tab)' )
 					)
