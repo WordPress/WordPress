@@ -102,58 +102,48 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
      */
     public static function fe_mul121666(ParagonIE_Sodium_Core32_Curve25519_Fe $f)
     {
-        /** @var array<int, ParagonIE_Sodium_Core32_Int32> $h */
+        /** @var array<int, ParagonIE_Sodium_Core32_Int64> $h */
         $h = array();
         for ($i = 0; $i < 10; ++$i) {
             $h[$i] = $f[$i]->toInt64()->mulInt(121666, 17);
         }
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry9 */
         $carry9 = $h[9]->addInt(1 << 24)->shiftRight(25);
         $h[0] = $h[0]->addInt64($carry9->mulInt(19, 5));
         $h[9] = $h[9]->subInt64($carry9->shiftLeft(25));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry1 */
         $carry1 = $h[1]->addInt(1 << 24)->shiftRight(25);
         $h[2] = $h[2]->addInt64($carry1);
         $h[1] = $h[1]->subInt64($carry1->shiftLeft(25));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry3 */
         $carry3 = $h[3]->addInt(1 << 24)->shiftRight(25);
         $h[4] = $h[4]->addInt64($carry3);
         $h[3] = $h[3]->subInt64($carry3->shiftLeft(25));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry5 */
         $carry5 = $h[5]->addInt(1 << 24)->shiftRight(25);
         $h[6] = $h[6]->addInt64($carry5);
         $h[5] = $h[5]->subInt64($carry5->shiftLeft(25));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry7 */
         $carry7 = $h[7]->addInt(1 << 24)->shiftRight(25);
         $h[8] = $h[8]->addInt64($carry7);
         $h[7] = $h[7]->subInt64($carry7->shiftLeft(25));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry0 */
         $carry0 = $h[0]->addInt(1 << 25)->shiftRight(26);
         $h[1] = $h[1]->addInt64($carry0);
         $h[0] = $h[0]->subInt64($carry0->shiftLeft(26));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry2 */
         $carry2 = $h[2]->addInt(1 << 25)->shiftRight(26);
         $h[3] = $h[3]->addInt64($carry2);
         $h[2] = $h[2]->subInt64($carry2->shiftLeft(26));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry4 */
         $carry4 = $h[4]->addInt(1 << 25)->shiftRight(26);
         $h[5] = $h[5]->addInt64($carry4);
         $h[4] = $h[4]->subInt64($carry4->shiftLeft(26));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry6 */
         $carry6 = $h[6]->addInt(1 << 25)->shiftRight(26);
         $h[7] = $h[7]->addInt64($carry6);
         $h[6] = $h[6]->subInt64($carry6->shiftLeft(26));
 
-        /** @var ParagonIE_Sodium_Core32_Int32 $carry8 */
         $carry8 = $h[8]->addInt(1 << 25)->shiftRight(26);
         $h[9] = $h[9]->addInt64($carry8);
         $h[8] = $h[8]->subInt64($carry8->shiftLeft(26));

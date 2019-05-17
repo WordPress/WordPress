@@ -817,7 +817,7 @@ abstract class ParagonIE_Sodium_Core_Util
         } else {
             $sub = (string) substr($str, $start, $length);
         }
-        if (isset($sub)) {
+        if ($sub !== '') {
             return $sub;
         }
         return '';

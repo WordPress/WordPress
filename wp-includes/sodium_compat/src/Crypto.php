@@ -819,8 +819,8 @@ abstract class ParagonIE_Sodium_Crypto
      */
     public static function keyExchange($my_sk, $their_pk, $client_pk, $server_pk)
     {
-        return self::generichash(
-            self::scalarmult($my_sk, $their_pk) .
+        return ParagonIE_Sodium_Compat::crypto_generichash(
+            ParagonIE_Sodium_Compat::crypto_scalarmult($my_sk, $their_pk) .
             $client_pk .
             $server_pk
         );
