@@ -355,7 +355,7 @@ class WP_Site_Health {
 					sprintf(
 						/* translators: %d: The number of active plugins. */
 						_n(
-							'Your site has %d active plugin, and they are all up to date.',
+							'Your site has %d active plugin, and it is up to date.',
 							'Your site has %d active plugins, and they are all up to date.',
 							$plugins_active
 						),
@@ -511,7 +511,7 @@ class WP_Site_Health {
 					sprintf(
 						/* translators: %d: The number of themes. */
 						_n(
-							'Your site has %d installed theme, and they are all up to date.',
+							'Your site has %d installed theme, and it is up to date.',
 							'Your site has %d installed themes, and they are all up to date.',
 							$themes_total
 						),
