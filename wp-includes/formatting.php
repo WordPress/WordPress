@@ -3094,6 +3094,10 @@ function wp_targeted_link_rel_callback( $matches ) {
 		$delimiter = trim( $rel_match[1] ) ? $rel_match[1] : '"';
 		$rel       = 'rel=' . $delimiter . trim( implode( ' ', $parts ) ) . $delimiter;
 		$link_html = str_replace( $rel_match[0], $rel, $link_html );
+	} elseif ( preg_match( '|target\s*=\s*?\\\\"|', $link_html ) ) {
+		$link_html .= " rel=\\\"$rel\\\"";
+	} elseif ( preg_match( '#(target|href)\s*=\s*?\'#', $link_html ) ) {
+		$link_html .= " rel='$rel'";
 	} else {
 		$link_html .= " rel=\"$rel\"";
 	}
