@@ -590,7 +590,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $az[0] = self::intToChr(self::chrToInt($az[0]) & 248);
         $az[31] = self::intToChr((self::chrToInt($az[31]) & 63) | 64);
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($az, 32, 32));
         /** @var resource $hs */
@@ -610,7 +609,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             ParagonIE_Sodium_Core_Ed25519::ge_scalarmult_base($nonce)
         );
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($sig, 0, 32));
         hash_update($hs, self::substr($pk, 0, 32));
@@ -719,7 +717,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var ParagonIE_Sodium_Core_Curve25519_Ge_P3 $A */
         $A = ParagonIE_Sodium_Core_Ed25519::ge_frombytes_negate_vartime($publicKey);
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($sig, 0, 32));
         hash_update($hs, self::substr($publicKey, 0, 32));
@@ -1079,7 +1076,7 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @param resource|object $hash
      * @param resource $fp
      * @param int $size
-     * @return mixed (resource on PHP < 7.2, object on PHP >= 7.2)
+     * @return resource|object Resource on PHP < 7.2, HashContext object on PHP >= 7.2
      * @throws SodiumException
      * @throws TypeError
      * @psalm-suppress PossiblyInvalidArgument
@@ -1095,12 +1092,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             if (!is_resource($hash)) {
                 throw new TypeError('Argument 1 must be a resource, ' . gettype($hash) . ' given.');
             }
-
         } else {
             if (!is_object($hash)) {
                 throw new TypeError('Argument 1 must be an object (PHP 7.2+), ' . gettype($hash) . ' given.');
             }
         }
+
         if (!is_resource($fp)) {
             throw new TypeError('Argument 2 must be a resource, ' . gettype($fp) . ' given.');
         }
@@ -1167,7 +1164,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         $az[0] = self::intToChr(self::chrToInt($az[0]) & 248);
         $az[31] = self::intToChr((self::chrToInt($az[31]) & 63) | 64);
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($az, 32, 32));
         /** @var resource $hs */
@@ -1187,7 +1183,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
             ParagonIE_Sodium_Core32_Ed25519::ge_scalarmult_base($nonce)
         );
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($sig, 0, 32));
         hash_update($hs, self::substr($pk, 0, 32));
@@ -1272,7 +1267,6 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
         /** @var ParagonIE_Sodium_Core32_Curve25519_Ge_P3 $A */
         $A = ParagonIE_Sodium_Core32_Ed25519::ge_frombytes_negate_vartime($publicKey);
 
-        /** @var resource $hs */
         $hs = hash_init('sha512');
         hash_update($hs, self::substr($sig, 0, 32));
         hash_update($hs, self::substr($publicKey, 0, 32));

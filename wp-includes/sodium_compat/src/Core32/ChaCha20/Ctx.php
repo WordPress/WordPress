@@ -89,7 +89,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return bool
      * @psalm-suppress MixedArrayOffset
      */
@@ -101,7 +101,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return void
      * @psalm-suppress MixedArrayOffset
      */
@@ -113,7 +113,7 @@ class ParagonIE_Sodium_Core32_ChaCha20_Ctx extends ParagonIE_Sodium_Core32_Util 
     /**
      * @internal You should not use this directly from another application
      *
-     * @param mixed $offset
+     * @param int $offset
      * @return mixed|null
      * @psalm-suppress MixedArrayOffset
      */
