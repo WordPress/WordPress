@@ -1,5 +1,5 @@
 (function () {
-var modern = (function () {
+var modern = (function (domGlobals) {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.ThemeManager');
@@ -172,13 +172,13 @@ var modern = (function () {
       var eq = function (o) {
         return o.isNone();
       };
-      var call$$1 = function (thunk) {
+      var call = function (thunk) {
         return thunk();
       };
       var id = function (n) {
         return n;
       };
-      var noop$$1 = function () {
+      var noop = function () {
       };
       var nul = function () {
         return null;
@@ -194,17 +194,17 @@ var modern = (function () {
         isSome: never$1,
         isNone: always$1,
         getOr: id,
-        getOrThunk: call$$1,
+        getOrThunk: call,
         getOrDie: function (msg) {
           throw new Error(msg || 'error: getOrDie called on none.');
         },
         getOrNull: nul,
         getOrUndefined: undef,
         or: id,
-        orThunk: call$$1,
+        orThunk: call,
         map: none,
         ap: none,
-        each: noop$$1,
+        each: noop,
         bind: none,
         flatten: none,
         exists: never$1,
@@ -1194,8 +1194,8 @@ var modern = (function () {
       id: function () {
         return 'mceu_' + count++;
       },
-      create: function (name$$1, attrs, children) {
-        var elm = document.createElement(name$$1);
+      create: function (name, attrs, children) {
+        var elm = domGlobals.document.createElement(name);
         global$3.DOM.setAttribs(elm, attrs);
         if (typeof children === 'string') {
           elm.innerHTML = children;
@@ -1233,13 +1233,13 @@ var modern = (function () {
         return global$3.DOM.getPos(elm, root || funcs.getContainer());
       },
       getContainer: function () {
-        return global$8.container ? global$8.container : document.body;
+        return global$8.container ? global$8.container : domGlobals.document.body;
       },
       getViewPort: function (win) {
         return global$3.DOM.getViewPort(win);
       },
       get: function (id) {
-        return document.getElementById(id);
+        return domGlobals.document.getElementById(id);
       },
       addClass: function (elm, cls) {
         return global$3.DOM.addClass(elm, cls);
@@ -1253,20 +1253,20 @@ var modern = (function () {
       toggleClass: function (elm, cls, state) {
         return global$3.DOM.toggleClass(elm, cls, state);
       },
-      css: function (elm, name$$1, value) {
-        return global$3.DOM.setStyle(elm, name$$1, value);
+      css: function (elm, name, value) {
+        return global$3.DOM.setStyle(elm, name, value);
       },
-      getRuntimeStyle: function (elm, name$$1) {
-        return global$3.DOM.getStyle(elm, name$$1, true);
+      getRuntimeStyle: function (elm, name) {
+        return global$3.DOM.getStyle(elm, name, true);
       },
-      on: function (target, name$$1, callback, scope) {
-        return global$3.DOM.bind(target, name$$1, callback, scope);
+      on: function (target, name, callback, scope) {
+        return global$3.DOM.bind(target, name, callback, scope);
       },
-      off: function (target, name$$1, callback) {
-        return global$3.DOM.unbind(target, name$$1, callback);
+      off: function (target, name, callback) {
+        return global$3.DOM.unbind(target, name, callback);
       },
-      fire: function (target, name$$1, args) {
-        return global$3.DOM.fire(target, name$$1, args);
+      fire: function (target, name, args) {
+        return global$3.DOM.fire(target, name, args);
       },
       innerHtml: function (elm, html) {
         global$3.DOM.setHTML(elm, html);
@@ -1285,7 +1285,7 @@ var modern = (function () {
       pos = funcs.getPos(targetElm, UiContainer.getUiContainer(ctrl));
       x = pos.x;
       y = pos.y;
-      if (isFixed(ctrl) && isStatic(document.body)) {
+      if (isFixed(ctrl) && isStatic(domGlobals.document.body)) {
         x -= viewport.x;
         y -= viewport.y;
       }
@@ -1337,11 +1337,11 @@ var modern = (function () {
       };
     };
     var getWindowViewPort = function () {
-      var win = window;
-      var x = Math.max(win.pageXOffset, document.body.scrollLeft, document.documentElement.scrollLeft);
-      var y = Math.max(win.pageYOffset, document.body.scrollTop, document.documentElement.scrollTop);
-      var w = win.innerWidth || document.documentElement.clientWidth;
-      var h = win.innerHeight || document.documentElement.clientHeight;
+      var win = domGlobals.window;
+      var x = Math.max(win.pageXOffset, domGlobals.document.body.scrollLeft, domGlobals.document.documentElement.scrollLeft);
+      var y = Math.max(win.pageYOffset, domGlobals.document.body.scrollTop, domGlobals.document.documentElement.scrollTop);
+      var w = win.innerWidth || domGlobals.document.documentElement.clientWidth;
+      var h = win.innerHeight || domGlobals.document.documentElement.clientHeight;
       return {
         x: x,
         y: y,
@@ -1378,12 +1378,12 @@ var modern = (function () {
         return this.moveTo(pos.x, pos.y);
       },
       moveBy: function (dx, dy) {
-        var self$$1 = this, rect = self$$1.layoutRect();
-        self$$1.moveTo(rect.x + dx, rect.y + dy);
-        return self$$1;
+        var self = this, rect = self.layoutRect();
+        self.moveTo(rect.x + dx, rect.y + dy);
+        return self;
       },
       moveTo: function (x, y) {
-        var self$$1 = this;
+        var self = this;
         function constrain(value, max, size) {
           if (value < 0) {
             return 0;
@@ -1394,14 +1394,14 @@ var modern = (function () {
           }
           return value;
         }
-        if (self$$1.settings.constrainToViewport) {
+        if (self.settings.constrainToViewport) {
           var viewPortRect = getViewPortRect(this);
-          var layoutRect = self$$1.layoutRect();
+          var layoutRect = self.layoutRect();
           x = constrain(x, viewPortRect.w + viewPortRect.x, layoutRect.w);
           y = constrain(y, viewPortRect.h + viewPortRect.y, layoutRect.h);
         }
-        var uiContainer = UiContainer.getUiContainer(self$$1);
-        if (uiContainer && isStatic(uiContainer) && !isFixed(self$$1)) {
+        var uiContainer = UiContainer.getUiContainer(self);
+        if (uiContainer && isStatic(uiContainer) && !isFixed(self)) {
           x -= uiContainer.scrollLeft;
           y -= uiContainer.scrollTop;
         }
@@ -1409,20 +1409,20 @@ var modern = (function () {
           x += 1;
           y += 1;
         }
-        if (self$$1.state.get('rendered')) {
-          self$$1.layoutRect({
+        if (self.state.get('rendered')) {
+          self.layoutRect({
             x: x,
             y: y
           }).repaint();
         } else {
-          self$$1.settings.x = x;
-          self$$1.settings.y = y;
+          self.settings.x = x;
+          self.settings.y = y;
         }
-        self$$1.fire('move', {
+        self.fire('move', {
           x: x,
           y: y
         });
-        return self$$1;
+        return self;
       }
     };
 
@@ -2046,13 +2046,13 @@ var modern = (function () {
     var dirtyCtrls = {}, animationFrameRequested;
     var ReflowQueue = {
       add: function (ctrl) {
-        var parent$$1 = ctrl.parent();
-        if (parent$$1) {
-          if (!parent$$1._layout || parent$$1._layout.isNative()) {
+        var parent = ctrl.parent();
+        if (parent) {
+          if (!parent._layout || parent._layout.isNative()) {
             return;
           }
-          if (!dirtyCtrls[parent$$1._id]) {
-            dirtyCtrls[parent$$1._id] = parent$$1;
+          if (!dirtyCtrls[parent._id]) {
+            dirtyCtrls[parent._id] = parent;
           }
           if (!animationFrameRequested) {
             animationFrameRequested = true;
@@ -2066,7 +2066,7 @@ var modern = (function () {
                 }
               }
               dirtyCtrls = {};
-            }, document.body);
+            }, domGlobals.document.body);
           }
         }
       },
@@ -2077,7 +2077,7 @@ var modern = (function () {
       }
     };
 
-    var hasMouseWheelEventSupport = 'onmousewheel' in document;
+    var hasMouseWheelEventSupport = 'onmousewheel' in domGlobals.document;
     var hasWheelEventSupport = false;
     var classPrefix = 'mce-';
     var Control, idCounter = 0;
@@ -2088,59 +2088,59 @@ var modern = (function () {
       },
       classPrefix: classPrefix,
       init: function (settings) {
-        var self$$1 = this;
+        var self = this;
         var classes, defaultClasses;
         function applyClasses(classes) {
           var i;
           classes = classes.split(' ');
           for (i = 0; i < classes.length; i++) {
-            self$$1.classes.add(classes[i]);
+            self.classes.add(classes[i]);
           }
         }
-        self$$1.settings = settings = global$2.extend({}, self$$1.Defaults, settings);
-        self$$1._id = settings.id || 'mceu_' + idCounter++;
-        self$$1._aria = { role: settings.role };
-        self$$1._elmCache = {};
-        self$$1.$ = global$9;
-        self$$1.state = new ObservableObject({
+        self.settings = settings = global$2.extend({}, self.Defaults, settings);
+        self._id = settings.id || 'mceu_' + idCounter++;
+        self._aria = { role: settings.role };
+        self._elmCache = {};
+        self.$ = global$9;
+        self.state = new ObservableObject({
           visible: true,
           active: false,
           disabled: false,
           value: ''
         });
-        self$$1.data = new ObservableObject(settings.data);
-        self$$1.classes = new ClassList(function () {
-          if (self$$1.state.get('rendered')) {
-            self$$1.getEl().className = this.toString();
+        self.data = new ObservableObject(settings.data);
+        self.classes = new ClassList(function () {
+          if (self.state.get('rendered')) {
+            self.getEl().className = this.toString();
           }
         });
-        self$$1.classes.prefix = self$$1.classPrefix;
+        self.classes.prefix = self.classPrefix;
         classes = settings.classes;
         if (classes) {
-          if (self$$1.Defaults) {
-            defaultClasses = self$$1.Defaults.classes;
+          if (self.Defaults) {
+            defaultClasses = self.Defaults.classes;
             if (defaultClasses && classes !== defaultClasses) {
               applyClasses(defaultClasses);
             }
           }
           applyClasses(classes);
         }
-        global$2.each('title text name visible disabled active value'.split(' '), function (name$$1) {
-          if (name$$1 in settings) {
-            self$$1[name$$1](settings[name$$1]);
+        global$2.each('title text name visible disabled active value'.split(' '), function (name) {
+          if (name in settings) {
+            self[name](settings[name]);
           }
         });
-        self$$1.on('click', function () {
-          if (self$$1.disabled()) {
+        self.on('click', function () {
+          if (self.disabled()) {
             return false;
           }
         });
-        self$$1.settings = settings;
-        self$$1.borderBox = BoxUtils.parseBox(settings.border);
-        self$$1.paddingBox = BoxUtils.parseBox(settings.padding);
-        self$$1.marginBox = BoxUtils.parseBox(settings.margin);
+        self.settings = settings;
+        self.borderBox = BoxUtils.parseBox(settings.border);
+        self.paddingBox = BoxUtils.parseBox(settings.padding);
+        self.marginBox = BoxUtils.parseBox(settings.margin);
         if (settings.hidden) {
-          self$$1.hide();
+          self.hide();
         }
       },
       Properties: 'parent,name',
@@ -2161,15 +2161,15 @@ var modern = (function () {
         return ctrl;
       },
       initLayoutRect: function () {
-        var self$$1 = this;
-        var settings = self$$1.settings;
+        var self = this;
+        var settings = self.settings;
         var borderBox, layoutRect;
-        var elm = self$$1.getEl();
+        var elm = self.getEl();
         var width, height, minWidth, minHeight, autoResize;
         var startMinWidth, startMinHeight, initialSize;
-        borderBox = self$$1.borderBox = self$$1.borderBox || BoxUtils.measureBox(elm, 'border');
-        self$$1.paddingBox = self$$1.paddingBox || BoxUtils.measureBox(elm, 'padding');
-        self$$1.marginBox = self$$1.marginBox || BoxUtils.measureBox(elm, 'margin');
+        borderBox = self.borderBox = self.borderBox || BoxUtils.measureBox(elm, 'border');
+        self.paddingBox = self.paddingBox || BoxUtils.measureBox(elm, 'padding');
+        self.marginBox = self.marginBox || BoxUtils.measureBox(elm, 'margin');
         initialSize = funcs.getSize(elm);
         startMinWidth = settings.minWidth;
         startMinHeight = settings.minHeight;
@@ -2185,7 +2185,7 @@ var modern = (function () {
         var deltaH = borderBox.top + borderBox.bottom;
         var maxW = settings.maxWidth || 65535;
         var maxH = settings.maxHeight || 65535;
-        self$$1._layoutRect = layoutRect = {
+        self._layoutRect = layoutRect = {
           x: settings.x || 0,
           y: settings.y || 0,
           w: width,
@@ -2205,14 +2205,14 @@ var modern = (function () {
           autoResize: autoResize,
           scrollW: 0
         };
-        self$$1._lastLayoutRect = {};
+        self._lastLayoutRect = {};
         return layoutRect;
       },
       layoutRect: function (newRect) {
-        var self$$1 = this;
-        var curRect = self$$1._layoutRect, lastLayoutRect, size, deltaWidth, deltaHeight, repaintControls;
+        var self = this;
+        var curRect = self._layoutRect, lastLayoutRect, size, deltaWidth, deltaHeight, repaintControls;
         if (!curRect) {
-          curRect = self$$1.initLayoutRect();
+          curRect = self.initLayoutRect();
         }
         if (newRect) {
           deltaWidth = curRect.deltaW;
@@ -2263,13 +2263,13 @@ var modern = (function () {
           if (newRect.contentH !== undefined) {
             curRect.contentH = newRect.contentH;
           }
-          lastLayoutRect = self$$1._lastLayoutRect;
+          lastLayoutRect = self._lastLayoutRect;
           if (lastLayoutRect.x !== curRect.x || lastLayoutRect.y !== curRect.y || lastLayoutRect.w !== curRect.w || lastLayoutRect.h !== curRect.h) {
             repaintControls = Control.repaintControls;
             if (repaintControls) {
-              if (repaintControls.map && !repaintControls.map[self$$1._id]) {
-                repaintControls.push(self$$1);
-                repaintControls.map[self$$1._id] = true;
+              if (repaintControls.map && !repaintControls.map[self._id]) {
+                repaintControls.push(self);
+                repaintControls.map[self._id] = true;
               }
             }
             lastLayoutRect.x = curRect.x;
@@ -2277,21 +2277,21 @@ var modern = (function () {
             lastLayoutRect.w = curRect.w;
             lastLayoutRect.h = curRect.h;
           }
-          return self$$1;
+          return self;
         }
         return curRect;
       },
       repaint: function () {
-        var self$$1 = this;
+        var self = this;
         var style, bodyStyle, bodyElm, rect, borderBox;
         var borderW, borderH, lastRepaintRect, round, value;
-        round = !document.createRange ? Math.round : function (value) {
+        round = !domGlobals.document.createRange ? Math.round : function (value) {
           return value;
         };
-        style = self$$1.getEl().style;
-        rect = self$$1._layoutRect;
-        lastRepaintRect = self$$1._lastRepaintRect || {};
-        borderBox = self$$1.borderBox;
+        style = self.getEl().style;
+        rect = self._layoutRect;
+        lastRepaintRect = self._lastRepaintRect || {};
+        borderBox = self.borderBox;
         borderW = borderBox.left + borderBox.right;
         borderH = borderBox.top + borderBox.bottom;
         if (rect.x !== lastRepaintRect.x) {
@@ -2312,92 +2312,92 @@ var modern = (function () {
           style.height = (value >= 0 ? value : 0) + 'px';
           lastRepaintRect.h = rect.h;
         }
-        if (self$$1._hasBody && rect.innerW !== lastRepaintRect.innerW) {
+        if (self._hasBody && rect.innerW !== lastRepaintRect.innerW) {
           value = round(rect.innerW);
-          bodyElm = self$$1.getEl('body');
+          bodyElm = self.getEl('body');
           if (bodyElm) {
             bodyStyle = bodyElm.style;
             bodyStyle.width = (value >= 0 ? value : 0) + 'px';
           }
           lastRepaintRect.innerW = rect.innerW;
         }
-        if (self$$1._hasBody && rect.innerH !== lastRepaintRect.innerH) {
+        if (self._hasBody && rect.innerH !== lastRepaintRect.innerH) {
           value = round(rect.innerH);
-          bodyElm = bodyElm || self$$1.getEl('body');
+          bodyElm = bodyElm || self.getEl('body');
           if (bodyElm) {
             bodyStyle = bodyStyle || bodyElm.style;
             bodyStyle.height = (value >= 0 ? value : 0) + 'px';
           }
           lastRepaintRect.innerH = rect.innerH;
         }
-        self$$1._lastRepaintRect = lastRepaintRect;
-        self$$1.fire('repaint', {}, false);
+        self._lastRepaintRect = lastRepaintRect;
+        self.fire('repaint', {}, false);
       },
       updateLayoutRect: function () {
-        var self$$1 = this;
-        self$$1.parent()._lastRect = null;
-        funcs.css(self$$1.getEl(), {
+        var self = this;
+        self.parent()._lastRect = null;
+        funcs.css(self.getEl(), {
           width: '',
           height: ''
         });
-        self$$1._layoutRect = self$$1._lastRepaintRect = self$$1._lastLayoutRect = null;
-        self$$1.initLayoutRect();
+        self._layoutRect = self._lastRepaintRect = self._lastLayoutRect = null;
+        self.initLayoutRect();
       },
-      on: function (name$$1, callback) {
-        var self$$1 = this;
-        function resolveCallbackName(name$$1) {
+      on: function (name, callback) {
+        var self = this;
+        function resolveCallbackName(name) {
           var callback, scope;
-          if (typeof name$$1 !== 'string') {
-            return name$$1;
+          if (typeof name !== 'string') {
+            return name;
           }
           return function (e) {
             if (!callback) {
-              self$$1.parentsAndSelf().each(function (ctrl) {
+              self.parentsAndSelf().each(function (ctrl) {
                 var callbacks = ctrl.settings.callbacks;
-                if (callbacks && (callback = callbacks[name$$1])) {
+                if (callbacks && (callback = callbacks[name])) {
                   scope = ctrl;
                   return false;
                 }
               });
             }
             if (!callback) {
-              e.action = name$$1;
+              e.action = name;
               this.fire('execute', e);
               return;
             }
             return callback.call(scope, e);
           };
         }
-        getEventDispatcher(self$$1).on(name$$1, resolveCallbackName(callback));
-        return self$$1;
+        getEventDispatcher(self).on(name, resolveCallbackName(callback));
+        return self;
       },
-      off: function (name$$1, callback) {
-        getEventDispatcher(this).off(name$$1, callback);
+      off: function (name, callback) {
+        getEventDispatcher(this).off(name, callback);
         return this;
       },
-      fire: function (name$$1, args, bubble) {
-        var self$$1 = this;
+      fire: function (name, args, bubble) {
+        var self = this;
         args = args || {};
         if (!args.control) {
-          args.control = self$$1;
+          args.control = self;
         }
-        args = getEventDispatcher(self$$1).fire(name$$1, args);
-        if (bubble !== false && self$$1.parent) {
-          var parent$$1 = self$$1.parent();
-          while (parent$$1 && !args.isPropagationStopped()) {
-            parent$$1.fire(name$$1, args, false);
-            parent$$1 = parent$$1.parent();
+        args = getEventDispatcher(self).fire(name, args);
+        if (bubble !== false && self.parent) {
+          var parent = self.parent();
+          while (parent && !args.isPropagationStopped()) {
+            parent.fire(name, args, false);
+            parent = parent.parent();
           }
         }
         return args;
       },
-      hasEventListeners: function (name$$1) {
-        return getEventDispatcher(this).has(name$$1);
+      hasEventListeners: function (name) {
+        return getEventDispatcher(this).has(name);
       },
       parents: function (selector) {
-        var self$$1 = this;
+        var self = this;
         var ctrl, parents = new Collection$2();
-        for (ctrl = self$$1.parent(); ctrl; ctrl = ctrl.parent()) {
+        for (ctrl = self.parent(); ctrl; ctrl = ctrl.parent()) {
           parents.add(ctrl);
         }
         if (selector) {
@@ -2444,16 +2444,16 @@ var modern = (function () {
         this.getEl().blur();
         return this;
       },
-      aria: function (name$$1, value) {
-        var self$$1 = this, elm = self$$1.getEl(self$$1.ariaTarget);
+      aria: function (name, value) {
+        var self = this, elm = self.getEl(self.ariaTarget);
         if (typeof value === 'undefined') {
-          return self$$1._aria[name$$1];
+          return self._aria[name];
         }
-        self$$1._aria[name$$1] = value;
-        if (self$$1.state.get('rendered')) {
-          elm.setAttribute(name$$1 === 'role' ? name$$1 : 'aria-' + name$$1, value);
+        self._aria[name] = value;
+        if (self.state.get('rendered')) {
+          elm.setAttribute(name === 'role' ? name : 'aria-' + name, value);
         }
-        return self$$1;
+        return self;
       },
       encode: function (text, translate) {
         if (translate !== false) {
@@ -2467,55 +2467,55 @@ var modern = (function () {
         return Control.translate ? Control.translate(text) : text;
       },
       before: function (items) {
-        var self$$1 = this, parent$$1 = self$$1.parent();
-        if (parent$$1) {
-          parent$$1.insert(items, parent$$1.items().indexOf(self$$1), true);
+        var self = this, parent = self.parent();
+        if (parent) {
+          parent.insert(items, parent.items().indexOf(self), true);
         }
-        return self$$1;
+        return self;
       },
       after: function (items) {
-        var self$$1 = this, parent$$1 = self$$1.parent();
-        if (parent$$1) {
-          parent$$1.insert(items, parent$$1.items().indexOf(self$$1));
+        var self = this, parent = self.parent();
+        if (parent) {
+          parent.insert(items, parent.items().indexOf(self));
         }
-        return self$$1;
+        return self;
       },
       remove: function () {
-        var self$$1 = this;
-        var elm = self$$1.getEl();
-        var parent$$1 = self$$1.parent();
+        var self = this;
+        var elm = self.getEl();
+        var parent = self.parent();
         var newItems, i;
-        if (self$$1.items) {
-          var controls = self$$1.items().toArray();
+        if (self.items) {
+          var controls = self.items().toArray();
           i = controls.length;
           while (i--) {
             controls[i].remove();
           }
         }
-        if (parent$$1 && parent$$1.items) {
+        if (parent && parent.items) {
           newItems = [];
-          parent$$1.items().each(function (item) {
-            if (item !== self$$1) {
+          parent.items().each(function (item) {
+            if (item !== self) {
               newItems.push(item);
             }
           });
-          parent$$1.items().set(newItems);
-          parent$$1._lastRect = null;
+          parent.items().set(newItems);
+          parent._lastRect = null;
         }
-        if (self$$1._eventsRoot && self$$1._eventsRoot === self$$1) {
+        if (self._eventsRoot && self._eventsRoot === self) {
           global$9(elm).off();
         }
-        var lookup = self$$1.getRoot().controlIdLookup;
+        var lookup = self.getRoot().controlIdLookup;
         if (lookup) {
-          delete lookup[self$$1._id];
+          delete lookup[self._id];
         }
         if (elm && elm.parentNode) {
           elm.parentNode.removeChild(elm);
         }
-        self$$1.state.set('rendered', false);
-        self$$1.state.destroy();
-        self$$1.fire('remove');
-        return self$$1;
+        self.state.set('rendered', false);
+        self.state.destroy();
+        self.fire('remove');
+        return self;
       },
       renderBefore: function (elm) {
         global$9(elm).before(this.renderHtml());
@@ -2535,81 +2535,81 @@ var modern = (function () {
         return '<div id="' + this._id + '" class="' + this.classes + '"></div>';
       },
       postRender: function () {
-        var self$$1 = this;
-        var settings = self$$1.settings;
-        var elm, box, parent$$1, name$$1, parentEventsRoot;
-        self$$1.$el = global$9(self$$1.getEl());
-        self$$1.state.set('rendered', true);
-        for (name$$1 in settings) {
-          if (name$$1.indexOf('on') === 0) {
-            self$$1.on(name$$1.substr(2), settings[name$$1]);
+        var self = this;
+        var settings = self.settings;
+        var elm, box, parent, name, parentEventsRoot;
+        self.$el = global$9(self.getEl());
+        self.state.set('rendered', true);
+        for (name in settings) {
+          if (name.indexOf('on') === 0) {
+            self.on(name.substr(2), settings[name]);
           }
         }
-        if (self$$1._eventsRoot) {
-          for (parent$$1 = self$$1.parent(); !parentEventsRoot && parent$$1; parent$$1 = parent$$1.parent()) {
-            parentEventsRoot = parent$$1._eventsRoot;
+        if (self._eventsRoot) {
+          for (parent = self.parent(); !parentEventsRoot && parent; parent = parent.parent()) {
+            parentEventsRoot = parent._eventsRoot;
           }
           if (parentEventsRoot) {
-            for (name$$1 in parentEventsRoot._nativeEvents) {
-              self$$1._nativeEvents[name$$1] = true;
+            for (name in parentEventsRoot._nativeEvents) {
+              self._nativeEvents[name] = true;
             }
           }
         }
-        bindPendingEvents(self$$1);
+        bindPendingEvents(self);
         if (settings.style) {
-          elm = self$$1.getEl();
+          elm = self.getEl();
           if (elm) {
             elm.setAttribute('style', settings.style);
             elm.style.cssText = settings.style;
           }
         }
-        if (self$$1.settings.border) {
-          box = self$$1.borderBox;
-          self$$1.$el.css({
+        if (self.settings.border) {
+          box = self.borderBox;
+          self.$el.css({
             'border-top-width': box.top,
             'border-right-width': box.right,
             'border-bottom-width': box.bottom,
             'border-left-width': box.left
           });
         }
-        var root = self$$1.getRoot();
+        var root = self.getRoot();
         if (!root.controlIdLookup) {
           root.controlIdLookup = {};
         }
-        root.controlIdLookup[self$$1._id] = self$$1;
-        for (var key in self$$1._aria) {
-          self$$1.aria(key, self$$1._aria[key]);
+        root.controlIdLookup[self._id] = self;
+        for (var key in self._aria) {
+          self.aria(key, self._aria[key]);
         }
-        if (self$$1.state.get('visible') === false) {
-          self$$1.getEl().style.display = 'none';
+        if (self.state.get('visible') === false) {
+          self.getEl().style.display = 'none';
         }
-        self$$1.bindStates();
-        self$$1.state.on('change:visible', function (e) {
+        self.bindStates();
+        self.state.on('change:visible', function (e) {
           var state = e.value;
           var parentCtrl;
-          if (self$$1.state.get('rendered')) {
-            self$$1.getEl().style.display = state === false ? 'none' : '';
-            self$$1.getEl().getBoundingClientRect();
+          if (self.state.get('rendered')) {
+            self.getEl().style.display = state === false ? 'none' : '';
+            self.getEl().getBoundingClientRect();
           }
-          parentCtrl = self$$1.parent();
+          parentCtrl = self.parent();
           if (parentCtrl) {
             parentCtrl._lastRect = null;
           }
-          self$$1.fire(state ? 'show' : 'hide');
-          ReflowQueue.add(self$$1);
+          self.fire(state ? 'show' : 'hide');
+          ReflowQueue.add(self);
         });
-        self$$1.fire('postrender', {}, false);
+        self.fire('postrender', {}, false);
       },
       bindStates: function () {
       },
       scrollIntoView: function (align) {
         function getOffset(elm, rootElm) {
-          var x, y, parent$$1 = elm;
+          var x, y, parent = elm;
           x = y = 0;
-          while (parent$$1 && parent$$1 !== rootElm && parent$$1.nodeType) {
-            x += parent$$1.offsetLeft || 0;
-            y += parent$$1.offsetTop || 0;
-            parent$$1 = parent$$1.offsetParent;
+          while (parent && parent !== rootElm && parent.nodeType) {
+            x += parent.offsetLeft || 0;
+            y += parent.offsetTop || 0;
+            parent = parent.offsetParent;
           }
           return {
             x: x,
@@ -2659,20 +2659,20 @@ var modern = (function () {
       },
       reflow: function () {
         ReflowQueue.remove(this);
-        var parent$$1 = this.parent();
-        if (parent$$1 && parent$$1._layout && !parent$$1._layout.isNative()) {
-          parent$$1.reflow();
+        var parent = this.parent();
+        if (parent && parent._layout && !parent._layout.isNative()) {
+          parent.reflow();
         }
         return this;
       }
     };
-    global$2.each('text title visible disabled active value'.split(' '), function (name$$1) {
-      proto$1[name$$1] = function (value) {
+    global$2.each('text title visible disabled active value'.split(' '), function (name) {
+      proto$1[name] = function (value) {
         if (arguments.length === 0) {
-          return this.state.get(name$$1);
+          return this.state.get(name);
         }
         if (typeof value !== 'undefined') {
-          this.state.set(name$$1, value);
+          this.state.set(name, value);
         }
         return this;
       };
@@ -2682,12 +2682,12 @@ var modern = (function () {
       if (!obj._eventDispatcher) {
         obj._eventDispatcher = new global$b({
           scope: obj,
-          toggleEvent: function (name$$1, state) {
-            if (state && global$b.isNative(name$$1)) {
+          toggleEvent: function (name, state) {
+            if (state && global$b.isNative(name)) {
               if (!obj._nativeEvents) {
                 obj._nativeEvents = {};
               }
-              obj._nativeEvents[name$$1] = true;
+              obj._nativeEvents[name] = true;
               if (obj.state.get('rendered')) {
                 bindPendingEvents(obj);
               }
@@ -2698,7 +2698,7 @@ var modern = (function () {
       return obj._eventDispatcher;
     }
     function bindPendingEvents(eventCtrl) {
-      var i, l, parents, eventRootCtrl, nativeEvents, name$$1;
+      var i, l, parents, eventRootCtrl, nativeEvents, name;
       function delegate(e) {
         var control = eventCtrl.getParentCtrl(e.target);
         if (control) {
@@ -2771,11 +2771,11 @@ var modern = (function () {
         if (!eventRootDelegates) {
           eventRootDelegates = eventRootCtrl._delegates = {};
         }
-        for (name$$1 in nativeEvents) {
+        for (name in nativeEvents) {
           if (!nativeEvents) {
             return false;
           }
-          if (name$$1 === 'wheel' && !hasWheelEventSupport) {
+          if (name === 'wheel' && !hasWheelEventSupport) {
             if (hasMouseWheelEventSupport) {
               global$9(eventCtrl.getEl()).on('mousewheel', fixWheelEvent);
             } else {
@@ -2783,16 +2783,16 @@ var modern = (function () {
             }
             continue;
           }
-          if (name$$1 === 'mouseenter' || name$$1 === 'mouseleave') {
+          if (name === 'mouseenter' || name === 'mouseleave') {
             if (!eventRootCtrl._hasMouseEnter) {
               global$9(eventRootCtrl.getEl()).on('mouseleave', mouseLeaveHandler).on('mouseover', mouseEnterHandler);
               eventRootCtrl._hasMouseEnter = 1;
             }
-          } else if (!eventRootDelegates[name$$1]) {
-            global$9(eventRootCtrl.getEl()).on(name$$1, delegate);
-            eventRootDelegates[name$$1] = true;
+          } else if (!eventRootDelegates[name]) {
+            global$9(eventRootCtrl.getEl()).on(name, delegate);
+            eventRootDelegates[name] = true;
           }
-          nativeEvents[name$$1] = false;
+          nativeEvents[name] = false;
         }
       }
     }
@@ -2808,9 +2808,9 @@ var modern = (function () {
         return node && node.nodeType === 1;
       }
       try {
-        focusedElement = document.activeElement;
+        focusedElement = domGlobals.document.activeElement;
       } catch (ex) {
-        focusedElement = document.body;
+        focusedElement = domGlobals.document.body;
       }
       focusedControl = root.getParentCtrl(focusedElement);
       function getRole(elm) {
@@ -2821,17 +2821,17 @@ var modern = (function () {
         return null;
       }
       function getParentRole(elm) {
-        var role, parent$$1 = elm || focusedElement;
-        while (parent$$1 = parent$$1.parentNode) {
-          if (role = getRole(parent$$1)) {
+        var role, parent = elm || focusedElement;
+        while (parent = parent.parentNode) {
+          if (role = getRole(parent)) {
             return role;
           }
         }
       }
-      function getAriaProp(name$$1) {
+      function getAriaProp(name) {
         var elm = focusedElement;
         if (isElement(elm)) {
-          return elm.getAttribute('aria-' + name$$1);
+          return elm.getAttribute('aria-' + name);
         }
       }
       function isTextInputElement(elm) {
@@ -3289,9 +3289,9 @@ var modern = (function () {
     }
     function DragHelper (id, settings) {
       var $eventOverlay;
-      var doc = settings.document || document;
+      var doc = settings.document || domGlobals.document;
       var downButton;
-      var start, stop$$1, drag, startX, startY;
+      var start, stop, drag, startX, startY;
       settings = settings || {};
       var handleElement = doc.getElementById(settings.handle || id);
       start = function (e) {
@@ -3303,8 +3303,8 @@ var modern = (function () {
         handleElm = handleElement;
         startX = e.screenX;
         startY = e.screenY;
-        if (window.getComputedStyle) {
-          cursor = window.getComputedStyle(handleElm, null).getPropertyValue('cursor');
+        if (domGlobals.window.getComputedStyle) {
+          cursor = domGlobals.window.getComputedStyle(handleElm, null).getPropertyValue('cursor');
         } else {
           cursor = handleElm.runtimeStyle.cursor;
         }
@@ -3318,22 +3318,22 @@ var modern = (function () {
           opacity: 0.0001,
           cursor: cursor
         }).appendTo(doc.body);
-        global$9(doc).on('mousemove touchmove', drag).on('mouseup touchend', stop$$1);
+        global$9(doc).on('mousemove touchmove', drag).on('mouseup touchend', stop);
         settings.start(e);
       };
       drag = function (e) {
         updateWithTouchData(e);
         if (e.button !== downButton) {
-          return stop$$1(e);
+          return stop(e);
         }
         e.deltaX = e.screenX - startX;
         e.deltaY = e.screenY - startY;
         e.preventDefault();
         settings.drag(e);
       };
-      stop$$1 = function (e) {
+      stop = function (e) {
         updateWithTouchData(e);
-        global$9(doc).off('mousemove touchmove', drag).off('mouseup touchend', stop$$1);
+        global$9(doc).off('mousemove touchmove', drag).off('mouseup touchend', stop);
         $eventOverlay.remove();
         if (settings.stop) {
           settings.stop(e);
@@ -3490,9 +3490,9 @@ var modern = (function () {
     var visiblePanels = [];
     var zOrder = [];
     var hasModal;
-    function isChildOf(ctrl, parent$$1) {
+    function isChildOf(ctrl, parent) {
       while (ctrl) {
-        if (ctrl === parent$$1) {
+        if (ctrl === parent) {
           return true;
         }
         ctrl = ctrl.parent();
@@ -3523,7 +3523,7 @@ var modern = (function () {
           }
           skipOrHidePanels(e);
         };
-        global$9(document).on('click touchstart', documentClickHandler);
+        global$9(domGlobals.document).on('click touchstart', documentClickHandler);
       }
     }
     function bindDocumentScrollHandler() {
@@ -3535,32 +3535,32 @@ var modern = (function () {
             repositionPanel(visiblePanels[i]);
           }
         };
-        global$9(window).on('scroll', documentScrollHandler);
+        global$9(domGlobals.window).on('scroll', documentScrollHandler);
       }
     }
     function bindWindowResizeHandler() {
       if (!windowResizeHandler) {
-        var docElm_1 = document.documentElement;
+        var docElm_1 = domGlobals.document.documentElement;
         var clientWidth_1 = docElm_1.clientWidth, clientHeight_1 = docElm_1.clientHeight;
         windowResizeHandler = function () {
-          if (!document.all || clientWidth_1 !== docElm_1.clientWidth || clientHeight_1 !== docElm_1.clientHeight) {
+          if (!domGlobals.document.all || clientWidth_1 !== docElm_1.clientWidth || clientHeight_1 !== docElm_1.clientHeight) {
             clientWidth_1 = docElm_1.clientWidth;
             clientHeight_1 = docElm_1.clientHeight;
             FloatPanel.hideAll();
           }
         };
-        global$9(window).on('resize', windowResizeHandler);
+        global$9(domGlobals.window).on('resize', windowResizeHandler);
       }
     }
     function repositionPanel(panel) {
-      var scrollY$$1 = funcs.getViewPort().y;
+      var scrollY = funcs.getViewPort().y;
       function toggleFixedChildPanels(fixed, deltaY) {
-        var parent$$1;
+        var parent;
         for (var i = 0; i < visiblePanels.length; i++) {
           if (visiblePanels[i] !== panel) {
-            parent$$1 = visiblePanels[i].parent();
-            while (parent$$1 && (parent$$1 = parent$$1.parent())) {
-              if (parent$$1 === panel) {
+            parent = visiblePanels[i].parent();
+            while (parent && (parent = parent.parent())) {
+              if (parent === panel) {
                 visiblePanels[i].fixed(fixed).moveBy(0, deltaY).repaint();
               }
             }
@@ -3570,14 +3570,14 @@ var modern = (function () {
       if (panel.settings.autofix) {
         if (!panel.state.get('fixed')) {
           panel._autoFixY = panel.layoutRect().y;
-          if (panel._autoFixY < scrollY$$1) {
+          if (panel._autoFixY < scrollY) {
             panel.fixed(true).layoutRect({ y: 0 }).repaint();
-            toggleFixedChildPanels(true, scrollY$$1 - panel._autoFixY);
+            toggleFixedChildPanels(true, scrollY - panel._autoFixY);
           }
         } else {
-          if (panel._autoFixY > scrollY$$1) {
+          if (panel._autoFixY > scrollY) {
             panel.fixed(false).layoutRect({ y: panel._autoFixY }).repaint();
-            toggleFixedChildPanels(false, panel._autoFixY - scrollY$$1);
+            toggleFixedChildPanels(false, panel._autoFixY - scrollY);
           }
         }
       }
@@ -3620,83 +3620,83 @@ var modern = (function () {
         Resizable
       ],
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._super(settings);
-        self$$1._eventsRoot = self$$1;
-        self$$1.classes.add('floatpanel');
+        var self = this;
+        self._super(settings);
+        self._eventsRoot = self;
+        self.classes.add('floatpanel');
         if (settings.autohide) {
           bindDocumentClickHandler();
           bindWindowResizeHandler();
-          visiblePanels.push(self$$1);
+          visiblePanels.push(self);
         }
         if (settings.autofix) {
           bindDocumentScrollHandler();
-          self$$1.on('move', function () {
+          self.on('move', function () {
             repositionPanel(this);
           });
         }
-        self$$1.on('postrender show', function (e) {
-          if (e.control === self$$1) {
+        self.on('postrender show', function (e) {
+          if (e.control === self) {
             var $modalBlockEl_1;
-            var prefix_1 = self$$1.classPrefix;
-            if (self$$1.modal && !hasModal) {
-              $modalBlockEl_1 = global$9('#' + prefix_1 + 'modal-block', self$$1.getContainerElm());
+            var prefix_1 = self.classPrefix;
+            if (self.modal && !hasModal) {
+              $modalBlockEl_1 = global$9('#' + prefix_1 + 'modal-block', self.getContainerElm());
               if (!$modalBlockEl_1[0]) {
-                $modalBlockEl_1 = global$9('<div id="' + prefix_1 + 'modal-block" class="' + prefix_1 + 'reset ' + prefix_1 + 'fade"></div>').appendTo(self$$1.getContainerElm());
+                $modalBlockEl_1 = global$9('<div id="' + prefix_1 + 'modal-block" class="' + prefix_1 + 'reset ' + prefix_1 + 'fade"></div>').appendTo(self.getContainerElm());
               }
               global$7.setTimeout(function () {
                 $modalBlockEl_1.addClass(prefix_1 + 'in');
-                global$9(self$$1.getEl()).addClass(prefix_1 + 'in');
+                global$9(self.getEl()).addClass(prefix_1 + 'in');
               });
               hasModal = true;
             }
-            addRemove(true, self$$1);
+            addRemove(true, self);
           }
         });
-        self$$1.on('show', function () {
-          self$$1.parents().each(function (ctrl) {
+        self.on('show', function () {
+          self.parents().each(function (ctrl) {
             if (ctrl.state.get('fixed')) {
-              self$$1.fixed(true);
+              self.fixed(true);
               return false;
             }
           });
         });
         if (settings.popover) {
-          self$$1._preBodyHtml = '<div class="' + self$$1.classPrefix + 'arrow"></div>';
-          self$$1.classes.add('popover').add('bottom').add(self$$1.isRtl() ? 'end' : 'start');
+          self._preBodyHtml = '<div class="' + self.classPrefix + 'arrow"></div>';
+          self.classes.add('popover').add('bottom').add(self.isRtl() ? 'end' : 'start');
         }
-        self$$1.aria('label', settings.ariaLabel);
-        self$$1.aria('labelledby', self$$1._id);
-        self$$1.aria('describedby', self$$1.describedBy || self$$1._id + '-none');
+        self.aria('label', settings.ariaLabel);
+        self.aria('labelledby', self._id);
+        self.aria('describedby', self.describedBy || self._id + '-none');
       },
       fixed: function (state) {
-        var self$$1 = this;
-        if (self$$1.state.get('fixed') !== state) {
-          if (self$$1.state.get('rendered')) {
+        var self = this;
+        if (self.state.get('fixed') !== state) {
+          if (self.state.get('rendered')) {
             var viewport = funcs.getViewPort();
             if (state) {
-              self$$1.layoutRect().y -= viewport.y;
+              self.layoutRect().y -= viewport.y;
             } else {
-              self$$1.layoutRect().y += viewport.y;
+              self.layoutRect().y += viewport.y;
             }
           }
-          self$$1.classes.toggle('fixed', state);
-          self$$1.state.set('fixed', state);
+          self.classes.toggle('fixed', state);
+          self.state.set('fixed', state);
         }
-        return self$$1;
+        return self;
       },
       show: function () {
-        var self$$1 = this;
+        var self = this;
         var i;
-        var state = self$$1._super();
+        var state = self._super();
         i = visiblePanels.length;
         while (i--) {
-          if (visiblePanels[i] === self$$1) {
+          if (visiblePanels[i] === self) {
             break;
           }
         }
         if (i === -1) {
-          visiblePanels.push(self$$1);
+          visiblePanels.push(self);
         }
         return state;
       },
@@ -3709,23 +3709,23 @@ var modern = (function () {
         FloatPanel.hideAll();
       },
       close: function () {
-        var self$$1 = this;
-        if (!self$$1.fire('close').isDefaultPrevented()) {
-          self$$1.remove();
-          addRemove(false, self$$1);
+        var self = this;
+        if (!self.fire('close').isDefaultPrevented()) {
+          self.remove();
+          addRemove(false, self);
         }
-        return self$$1;
+        return self;
       },
       remove: function () {
         removeVisiblePanel(this);
         this._super();
       },
       postRender: function () {
-        var self$$1 = this;
-        if (self$$1.settings.bodyRole) {
-          this.getEl('body').setAttribute('role', self$$1.settings.bodyRole);
+        var self = this;
+        if (self.settings.bodyRole) {
+          this.getEl('body').setAttribute('role', self.settings.bodyRole);
         }
-        return self$$1._super();
+        return self._super();
       }
     });
     FloatPanel.hideAll = function () {
@@ -4227,9 +4227,9 @@ var modern = (function () {
         return;
       }
       if (!viewport) {
-        viewport = document.createElement('meta');
+        viewport = domGlobals.document.createElement('meta');
         viewport.setAttribute('name', 'viewport');
-        document.getElementsByTagName('head')[0].appendChild(viewport);
+        domGlobals.document.getElementsByTagName('head')[0].appendChild(viewport);
       }
       contentValue = viewport.getAttribute('content');
       if (contentValue && typeof oldMetaValue !== 'undefined') {
@@ -4240,8 +4240,8 @@ var modern = (function () {
     function toggleBodyFullScreenClasses(classPrefix, state) {
       if (checkFullscreenWindows() && state === false) {
         global$9([
-          document.documentElement,
-          document.body
+          domGlobals.document.documentElement,
+          domGlobals.document.body
         ]).removeClass(classPrefix + 'fullscreen');
       }
     }
@@ -4256,17 +4256,17 @@ var modern = (function () {
     function handleWindowResize() {
       if (!global$8.desktop) {
         var lastSize_1 = {
-          w: window.innerWidth,
-          h: window.innerHeight
+          w: domGlobals.window.innerWidth,
+          h: domGlobals.window.innerHeight
         };
         global$7.setInterval(function () {
-          var w = window.innerWidth, h = window.innerHeight;
+          var w = domGlobals.window.innerWidth, h = domGlobals.window.innerHeight;
           if (lastSize_1.w !== w || lastSize_1.h !== h) {
             lastSize_1 = {
               w: w,
               h: h
             };
-            global$9(window).trigger('resize');
+            global$9(domGlobals.window).trigger('resize');
           }
         }, 100);
       }
@@ -4279,9 +4279,9 @@ var modern = (function () {
           windows[i].moveTo(windows[i].settings.x || Math.max(0, rect.w / 2 - layoutRect.w / 2), windows[i].settings.y || Math.max(0, rect.h / 2 - layoutRect.h / 2));
         }
       }
-      global$9(window).on('resize', reposition);
+      global$9(domGlobals.window).on('resize', reposition);
     }
-    var Window$$1 = FloatPanel.extend({
+    var Window = FloatPanel.extend({
       modal: true,
       Defaults: {
         border: 1,
@@ -4298,73 +4298,73 @@ var modern = (function () {
         }
       },
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._super(settings);
-        if (self$$1.isRtl()) {
-          self$$1.classes.add('rtl');
+        var self = this;
+        self._super(settings);
+        if (self.isRtl()) {
+          self.classes.add('rtl');
         }
-        self$$1.classes.add('window');
-        self$$1.bodyClasses.add('window-body');
-        self$$1.state.set('fixed', true);
+        self.classes.add('window');
+        self.bodyClasses.add('window-body');
+        self.state.set('fixed', true);
         if (settings.buttons) {
-          self$$1.statusbar = new Panel({
+          self.statusbar = new Panel({
             layout: 'flex',
             border: '1 0 0 0',
             spacing: 3,
             padding: 10,
             align: 'center',
-            pack: self$$1.isRtl() ? 'start' : 'end',
+            pack: self.isRtl() ? 'start' : 'end',
             defaults: { type: 'button' },
             items: settings.buttons
           });
-          self$$1.statusbar.classes.add('foot');
-          self$$1.statusbar.parent(self$$1);
+          self.statusbar.classes.add('foot');
+          self.statusbar.parent(self);
         }
-        self$$1.on('click', function (e) {
-          var closeClass = self$$1.classPrefix + 'close';
+        self.on('click', function (e) {
+          var closeClass = self.classPrefix + 'close';
           if (funcs.hasClass(e.target, closeClass) || funcs.hasClass(e.target.parentNode, closeClass)) {
-            self$$1.close();
+            self.close();
           }
         });
-        self$$1.on('cancel', function () {
-          self$$1.close();
+        self.on('cancel', function () {
+          self.close();
         });
-        self$$1.on('move', function (e) {
-          if (e.control === self$$1) {
+        self.on('move', function (e) {
+          if (e.control === self) {
             FloatPanel.hideAll();
           }
         });
-        self$$1.aria('describedby', self$$1.describedBy || self$$1._id + '-none');
-        self$$1.aria('label', settings.title);
-        self$$1._fullscreen = false;
+        self.aria('describedby', self.describedBy || self._id + '-none');
+        self.aria('label', settings.title);
+        self._fullscreen = false;
       },
       recalc: function () {
-        var self$$1 = this;
-        var statusbar$$1 = self$$1.statusbar;
+        var self = this;
+        var statusbar = self.statusbar;
         var layoutRect, width, x, needsRecalc;
-        if (self$$1._fullscreen) {
-          self$$1.layoutRect(funcs.getWindowSize());
-          self$$1.layoutRect().contentH = self$$1.layoutRect().innerH;
+        if (self._fullscreen) {
+          self.layoutRect(funcs.getWindowSize());
+          self.layoutRect().contentH = self.layoutRect().innerH;
         }
-        self$$1._super();
-        layoutRect = self$$1.layoutRect();
-        if (self$$1.settings.title && !self$$1._fullscreen) {
+        self._super();
+        layoutRect = self.layoutRect();
+        if (self.settings.title && !self._fullscreen) {
           width = layoutRect.headerW;
           if (width > layoutRect.w) {
             x = layoutRect.x - Math.max(0, width / 2);
-            self$$1.layoutRect({
+            self.layoutRect({
               w: width,
               x: x
             });
             needsRecalc = true;
           }
         }
-        if (statusbar$$1) {
-          statusbar$$1.layoutRect({ w: self$$1.layoutRect().innerW }).recalc();
-          width = statusbar$$1.layoutRect().minW + layoutRect.deltaW;
+        if (statusbar) {
+          statusbar.layoutRect({ w: self.layoutRect().innerW }).recalc();
+          width = statusbar.layoutRect().minW + layoutRect.deltaW;
           if (width > layoutRect.w) {
             x = layoutRect.x - Math.max(0, width - layoutRect.w);
-            self$$1.layoutRect({
+            self.layoutRect({
               w: width,
               x: x
             });
@@ -4372,158 +4372,158 @@ var modern = (function () {
           }
         }
         if (needsRecalc) {
-          self$$1.recalc();
+          self.recalc();
         }
       },
       initLayoutRect: function () {
-        var self$$1 = this;
-        var layoutRect = self$$1._super();
+        var self = this;
+        var layoutRect = self._super();
         var deltaH = 0, headEl;
-        if (self$$1.settings.title && !self$$1._fullscreen) {
-          headEl = self$$1.getEl('head');
+        if (self.settings.title && !self._fullscreen) {
+          headEl = self.getEl('head');
           var size = funcs.getSize(headEl);
           layoutRect.headerW = size.width;
           layoutRect.headerH = size.height;
           deltaH += layoutRect.headerH;
         }
-        if (self$$1.statusbar) {
-          deltaH += self$$1.statusbar.layoutRect().h;
+        if (self.statusbar) {
+          deltaH += self.statusbar.layoutRect().h;
         }
         layoutRect.deltaH += deltaH;
         layoutRect.minH += deltaH;
         layoutRect.h += deltaH;
         var rect = funcs.getWindowSize();
-        layoutRect.x = self$$1.settings.x || Math.max(0, rect.w / 2 - layoutRect.w / 2);
-        layoutRect.y = self$$1.settings.y || Math.max(0, rect.h / 2 - layoutRect.h / 2);
+        layoutRect.x = self.settings.x || Math.max(0, rect.w / 2 - layoutRect.w / 2);
+        layoutRect.y = self.settings.y || Math.max(0, rect.h / 2 - layoutRect.h / 2);
         return layoutRect;
       },
       renderHtml: function () {
-        var self$$1 = this, layout = self$$1._layout, id = self$$1._id, prefix = self$$1.classPrefix;
-        var settings = self$$1.settings;
+        var self = this, layout = self._layout, id = self._id, prefix = self.classPrefix;
+        var settings = self.settings;
         var headerHtml = '', footerHtml = '', html = settings.html;
-        self$$1.preRender();
-        layout.preRender(self$$1);
+        self.preRender();
+        layout.preRender(self);
         if (settings.title) {
-          headerHtml = '<div id="' + id + '-head" class="' + prefix + 'window-head">' + '<div id="' + id + '-title" class="' + prefix + 'title">' + self$$1.encode(settings.title) + '</div>' + '<div id="' + id + '-dragh" class="' + prefix + 'dragh"></div>' + '<button type="button" class="' + prefix + 'close" aria-hidden="true">' + '<i class="mce-ico mce-i-remove"></i>' + '</button>' + '</div>';
+          headerHtml = '<div id="' + id + '-head" class="' + prefix + 'window-head">' + '<div id="' + id + '-title" class="' + prefix + 'title">' + self.encode(settings.title) + '</div>' + '<div id="' + id + '-dragh" class="' + prefix + 'dragh"></div>' + '<button type="button" class="' + prefix + 'close" aria-hidden="true">' + '<i class="mce-ico mce-i-remove"></i>' + '</button>' + '</div>';
         }
         if (settings.url) {
           html = '<iframe src="' + settings.url + '" tabindex="-1"></iframe>';
         }
         if (typeof html === 'undefined') {
-          html = layout.renderHtml(self$$1);
+          html = layout.renderHtml(self);
         }
-        if (self$$1.statusbar) {
-          footerHtml = self$$1.statusbar.renderHtml();
+        if (self.statusbar) {
+          footerHtml = self.statusbar.renderHtml();
         }
-        return '<div id="' + id + '" class="' + self$$1.classes + '" hidefocus="1">' + '<div class="' + self$$1.classPrefix + 'reset" role="application">' + headerHtml + '<div id="' + id + '-body" class="' + self$$1.bodyClasses + '">' + html + '</div>' + footerHtml + '</div>' + '</div>';
+        return '<div id="' + id + '" class="' + self.classes + '" hidefocus="1">' + '<div class="' + self.classPrefix + 'reset" role="application">' + headerHtml + '<div id="' + id + '-body" class="' + self.bodyClasses + '">' + html + '</div>' + footerHtml + '</div>' + '</div>';
       },
       fullscreen: function (state) {
-        var self$$1 = this;
-        var documentElement = document.documentElement;
+        var self = this;
+        var documentElement = domGlobals.document.documentElement;
         var slowRendering;
-        var prefix = self$$1.classPrefix;
+        var prefix = self.classPrefix;
         var layoutRect;
-        if (state !== self$$1._fullscreen) {
-          global$9(window).on('resize', function () {
+        if (state !== self._fullscreen) {
+          global$9(domGlobals.window).on('resize', function () {
             var time;
-            if (self$$1._fullscreen) {
+            if (self._fullscreen) {
               if (!slowRendering) {
                 time = new Date().getTime();
                 var rect = funcs.getWindowSize();
-                self$$1.moveTo(0, 0).resizeTo(rect.w, rect.h);
+                self.moveTo(0, 0).resizeTo(rect.w, rect.h);
                 if (new Date().getTime() - time > 50) {
                   slowRendering = true;
                 }
               } else {
-                if (!self$$1._timer) {
-                  self$$1._timer = global$7.setTimeout(function () {
+                if (!self._timer) {
+                  self._timer = global$7.setTimeout(function () {
                     var rect = funcs.getWindowSize();
-                    self$$1.moveTo(0, 0).resizeTo(rect.w, rect.h);
-                    self$$1._timer = 0;
+                    self.moveTo(0, 0).resizeTo(rect.w, rect.h);
+                    self._timer = 0;
                   }, 50);
                 }
               }
             }
           });
-          layoutRect = self$$1.layoutRect();
-          self$$1._fullscreen = state;
+          layoutRect = self.layoutRect();
+          self._fullscreen = state;
           if (!state) {
-            self$$1.borderBox = BoxUtils.parseBox(self$$1.settings.border);
-            self$$1.getEl('head').style.display = '';
+            self.borderBox = BoxUtils.parseBox(self.settings.border);
+            self.getEl('head').style.display = '';
             layoutRect.deltaH += layoutRect.headerH;
             global$9([
               documentElement,
-              document.body
+              domGlobals.document.body
             ]).removeClass(prefix + 'fullscreen');
-            self$$1.classes.remove('fullscreen');
-            self$$1.moveTo(self$$1._initial.x, self$$1._initial.y).resizeTo(self$$1._initial.w, self$$1._initial.h);
+            self.classes.remove('fullscreen');
+            self.moveTo(self._initial.x, self._initial.y).resizeTo(self._initial.w, self._initial.h);
           } else {
-            self$$1._initial = {
+            self._initial = {
               x: layoutRect.x,
               y: layoutRect.y,
               w: layoutRect.w,
               h: layoutRect.h
             };
-            self$$1.borderBox = BoxUtils.parseBox('0');
-            self$$1.getEl('head').style.display = 'none';
+            self.borderBox = BoxUtils.parseBox('0');
+            self.getEl('head').style.display = 'none';
             layoutRect.deltaH -= layoutRect.headerH + 2;
             global$9([
               documentElement,
-              document.body
+              domGlobals.document.body
             ]).addClass(prefix + 'fullscreen');
-            self$$1.classes.add('fullscreen');
+            self.classes.add('fullscreen');
             var rect = funcs.getWindowSize();
-            self$$1.moveTo(0, 0).resizeTo(rect.w, rect.h);
+            self.moveTo(0, 0).resizeTo(rect.w, rect.h);
           }
         }
-        return self$$1.reflow();
+        return self.reflow();
       },
       postRender: function () {
-        var self$$1 = this;
+        var self = this;
         var startPos;
         setTimeout(function () {
-          self$$1.classes.add('in');
-          self$$1.fire('open');
+          self.classes.add('in');
+          self.fire('open');
         }, 0);
-        self$$1._super();
-        if (self$$1.statusbar) {
-          self$$1.statusbar.postRender();
+        self._super();
+        if (self.statusbar) {
+          self.statusbar.postRender();
         }
-        self$$1.focus();
-        this.dragHelper = new DragHelper(self$$1._id + '-dragh', {
+        self.focus();
+        this.dragHelper = new DragHelper(self._id + '-dragh', {
           start: function () {
             startPos = {
-              x: self$$1.layoutRect().x,
-              y: self$$1.layoutRect().y
+              x: self.layoutRect().x,
+              y: self.layoutRect().y
             };
           },
           drag: function (e) {
-            self$$1.moveTo(startPos.x + e.deltaX, startPos.y + e.deltaY);
+            self.moveTo(startPos.x + e.deltaX, startPos.y + e.deltaY);
           }
         });
-        self$$1.on('submit', function (e) {
+        self.on('submit', function (e) {
           if (!e.isDefaultPrevented()) {
-            self$$1.close();
+            self.close();
           }
         });
-        windows.push(self$$1);
+        windows.push(self);
         toggleFullScreenState(true);
       },
       submit: function () {
         return this.fire('submit', { data: this.toJSON() });
       },
       remove: function () {
-        var self$$1 = this;
+        var self = this;
         var i;
-        self$$1.dragHelper.destroy();
-        self$$1._super();
-        if (self$$1.statusbar) {
+        self.dragHelper.destroy();
+        self._super();
+        if (self.statusbar) {
           this.statusbar.remove();
         }
-        toggleBodyFullScreenClasses(self$$1.classPrefix, false);
+        toggleBodyFullScreenClasses(self.classPrefix, false);
         i = windows.length;
         while (i--) {
-          if (windows[i] === self$$1) {
+          if (windows[i] === self) {
             windows.splice(i, 1);
           }
         }
@@ -4536,7 +4536,7 @@ var modern = (function () {
     });
     handleWindowResize();
 
-    var MessageBox = Window$$1.extend({
+    var MessageBox = Window.extend({
       init: function (settings) {
         settings = {
           border: 1,
@@ -4569,14 +4569,14 @@ var modern = (function () {
           var buttons;
           var callback = settings.callback || function () {
           };
-          function createButton(text, status$$1, primary) {
+          function createButton(text, status, primary) {
             return {
               type: 'button',
               text: text,
               subtype: primary ? 'primary' : '',
               onClick: function (e) {
                 e.control.parents()[1].close();
-                callback(status$$1);
+                callback(status);
               }
             };
           }
@@ -4601,7 +4601,7 @@ var modern = (function () {
             buttons = [createButton('Ok', true, true)];
             break;
           }
-          return new Window$$1({
+          return new Window({
             padding: 20,
             x: settings.x,
             y: settings.y,
@@ -4627,7 +4627,7 @@ var modern = (function () {
             onCancel: function () {
               callback(false);
             }
-          }).renderTo(document.body).reflow();
+          }).renderTo(domGlobals.document.body).reflow();
         },
         alert: function (settings, callback) {
           if (typeof settings === 'string') {
@@ -4648,7 +4648,7 @@ var modern = (function () {
     });
 
     function WindowManagerImpl (editor) {
-      var open$$1 = function (args, params, closeCallback) {
+      var open = function (args, params, closeCallback) {
         var win;
         args.title = args.title || ' ';
         args.url = args.url || args.file;
@@ -4682,26 +4682,26 @@ var modern = (function () {
             }
           ];
         }
-        win = new Window$$1(args);
+        win = new Window(args);
         win.on('close', function () {
           closeCallback(win);
         });
         if (args.data) {
           win.on('postRender', function () {
             this.find('*').each(function (ctrl) {
-              var name$$1 = ctrl.name();
-              if (name$$1 in args.data) {
-                ctrl.value(args.data[name$$1]);
+              var name = ctrl.name();
+              if (name in args.data) {
+                ctrl.value(args.data[name]);
               }
             });
           });
         }
         win.features = args || {};
         win.params = params || {};
-        win = win.renderTo(document.body).reflow();
+        win = win.renderTo(domGlobals.document.body).reflow();
         return win;
       };
-      var alert$$1 = function (message, choiceCallback, closeCallback) {
+      var alert = function (message, choiceCallback, closeCallback) {
         var win;
         win = MessageBox.alert(message, function () {
           choiceCallback();
@@ -4711,7 +4711,7 @@ var modern = (function () {
         });
         return win;
       };
-      var confirm$$1 = function (message, choiceCallback, closeCallback) {
+      var confirm = function (message, choiceCallback, closeCallback) {
         var win;
         win = MessageBox.confirm(message, function (state) {
           choiceCallback(state);
@@ -4721,20 +4721,20 @@ var modern = (function () {
         });
         return win;
       };
-      var close$$1 = function (window$$1) {
-        window$$1.close();
+      var close = function (window) {
+        window.close();
       };
-      var getParams = function (window$$1) {
-        return window$$1.params;
+      var getParams = function (window) {
+        return window.params;
       };
-      var setParams = function (window$$1, params) {
-        window$$1.params = params;
+      var setParams = function (window, params) {
+        window.params = params;
       };
       return {
-        open: open$$1,
-        alert: alert$$1,
-        confirm: confirm$$1,
-        close: close$$1,
+        open: open,
+        alert: alert,
+        confirm: confirm,
+        close: close,
         getParams: getParams,
         setParams: setParams
       };
@@ -4847,26 +4847,26 @@ var modern = (function () {
         role: 'button'
       },
       init: function (settings) {
-        var self$$1 = this;
+        var self = this;
         var size;
-        self$$1._super(settings);
-        settings = self$$1.settings;
-        size = self$$1.settings.size;
-        self$$1.on('click mousedown', function (e) {
+        self._super(settings);
+        settings = self.settings;
+        size = self.settings.size;
+        self.on('click mousedown', function (e) {
           e.preventDefault();
         });
-        self$$1.on('touchstart', function (e) {
-          self$$1.fire('click', e);
+        self.on('touchstart', function (e) {
+          self.fire('click', e);
           e.preventDefault();
         });
         if (settings.subtype) {
-          self$$1.classes.add(settings.subtype);
+          self.classes.add(settings.subtype);
         }
         if (size) {
-          self$$1.classes.add('btn-' + size);
+          self.classes.add('btn-' + size);
         }
         if (settings.icon) {
-          self$$1.icon(settings.icon);
+          self.icon(settings.icon);
         }
       },
       icon: function (icon) {
@@ -4886,67 +4886,67 @@ var modern = (function () {
         this._super();
       },
       renderHtml: function () {
-        var self$$1 = this, id = self$$1._id, prefix = self$$1.classPrefix;
-        var icon = self$$1.state.get('icon'), image;
-        var text = self$$1.state.get('text');
+        var self = this, id = self._id, prefix = self.classPrefix;
+        var icon = self.state.get('icon'), image;
+        var text = self.state.get('text');
         var textHtml = '';
         var ariaPressed;
-        var settings = self$$1.settings;
+        var settings = self.settings;
         image = settings.image;
         if (image) {
           icon = 'none';
           if (typeof image !== 'string') {
-            image = window.getSelection ? image[0] : image[1];
+            image = domGlobals.window.getSelection ? image[0] : image[1];
           }
           image = ' style="background-image: url(\'' + image + '\')"';
         } else {
           image = '';
         }
         if (text) {
-          self$$1.classes.add('btn-has-text');
-          textHtml = '<span class="' + prefix + 'txt">' + self$$1.encode(text) + '</span>';
+          self.classes.add('btn-has-text');
+          textHtml = '<span class="' + prefix + 'txt">' + self.encode(text) + '</span>';
         }
         icon = icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
         ariaPressed = typeof settings.active === 'boolean' ? ' aria-pressed="' + settings.active + '"' : '';
-        return '<div id="' + id + '" class="' + self$$1.classes + '" tabindex="-1"' + ariaPressed + '>' + '<button id="' + id + '-button" role="presentation" type="button" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + '</button>' + '</div>';
+        return '<div id="' + id + '" class="' + self.classes + '" tabindex="-1"' + ariaPressed + '>' + '<button id="' + id + '-button" role="presentation" type="button" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + '</button>' + '</div>';
       },
       bindStates: function () {
-        var self$$1 = this, $ = self$$1.$, textCls = self$$1.classPrefix + 'txt';
+        var self = this, $ = self.$, textCls = self.classPrefix + 'txt';
         function setButtonText(text) {
-          var $span = $('span.' + textCls, self$$1.getEl());
+          var $span = $('span.' + textCls, self.getEl());
           if (text) {
             if (!$span[0]) {
-              $('button:first', self$$1.getEl()).append('<span class="' + textCls + '"></span>');
-              $span = $('span.' + textCls, self$$1.getEl());
+              $('button:first', self.getEl()).append('<span class="' + textCls + '"></span>');
+              $span = $('span.' + textCls, self.getEl());
             }
-            $span.html(self$$1.encode(text));
+            $span.html(self.encode(text));
           } else {
             $span.remove();
           }
-          self$$1.classes.toggle('btn-has-text', !!text);
+          self.classes.toggle('btn-has-text', !!text);
         }
-        self$$1.state.on('change:text', function (e) {
+        self.state.on('change:text', function (e) {
           setButtonText(e.value);
         });
-        self$$1.state.on('change:icon', function (e) {
+        self.state.on('change:icon', function (e) {
           var icon = e.value;
-          var prefix = self$$1.classPrefix;
-          self$$1.settings.icon = icon;
-          icon = icon ? prefix + 'ico ' + prefix + 'i-' + self$$1.settings.icon : '';
-          var btnElm = self$$1.getEl().firstChild;
+          var prefix = self.classPrefix;
+          self.settings.icon = icon;
+          icon = icon ? prefix + 'ico ' + prefix + 'i-' + self.settings.icon : '';
+          var btnElm = self.getEl().firstChild;
           var iconElm = btnElm.getElementsByTagName('i')[0];
           if (icon) {
             if (!iconElm || iconElm !== btnElm.firstChild) {
-              iconElm = document.createElement('i');
+              iconElm = domGlobals.document.createElement('i');
               btnElm.insertBefore(iconElm, btnElm.firstChild);
             }
             iconElm.className = icon;
           } else if (iconElm) {
             btnElm.removeChild(iconElm);
           }
-          setButtonText(self$$1.state.get('text'));
+          setButtonText(self.state.get('text'));
         });
-        return self$$1._super();
+        return self._super();
       }
     });
 
@@ -5025,18 +5025,18 @@ var modern = (function () {
         checked: false
       },
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._super(settings);
-        self$$1.on('click mousedown', function (e) {
+        var self = this;
+        self._super(settings);
+        self.on('click mousedown', function (e) {
           e.preventDefault();
         });
-        self$$1.on('click', function (e) {
+        self.on('click', function (e) {
           e.preventDefault();
-          if (!self$$1.disabled()) {
-            self$$1.checked(!self$$1.checked());
+          if (!self.disabled()) {
+            self.checked(!self.checked());
           }
         });
-        self$$1.checked(self$$1.settings.checked);
+        self.checked(self.settings.checked);
       },
       checked: function (state) {
         if (!arguments.length) {
@@ -5052,35 +5052,35 @@ var modern = (function () {
         return this.checked(state);
       },
       renderHtml: function () {
-        var self$$1 = this, id = self$$1._id, prefix = self$$1.classPrefix;
-        return '<div id="' + id + '" class="' + self$$1.classes + '" unselectable="on" aria-labelledby="' + id + '-al" tabindex="-1">' + '<i class="' + prefix + 'ico ' + prefix + 'i-checkbox"></i>' + '<span id="' + id + '-al" class="' + prefix + 'label">' + self$$1.encode(self$$1.state.get('text')) + '</span>' + '</div>';
+        var self = this, id = self._id, prefix = self.classPrefix;
+        return '<div id="' + id + '" class="' + self.classes + '" unselectable="on" aria-labelledby="' + id + '-al" tabindex="-1">' + '<i class="' + prefix + 'ico ' + prefix + 'i-checkbox"></i>' + '<span id="' + id + '-al" class="' + prefix + 'label">' + self.encode(self.state.get('text')) + '</span>' + '</div>';
       },
       bindStates: function () {
-        var self$$1 = this;
+        var self = this;
         function checked(state) {
-          self$$1.classes.toggle('checked', state);
-          self$$1.aria('checked', state);
+          self.classes.toggle('checked', state);
+          self.aria('checked', state);
         }
-        self$$1.state.on('change:text', function (e) {
-          self$$1.getEl('al').firstChild.data = self$$1.translate(e.value);
+        self.state.on('change:text', function (e) {
+          self.getEl('al').firstChild.data = self.translate(e.value);
         });
-        self$$1.state.on('change:checked change:value', function (e) {
-          self$$1.fire('change');
+        self.state.on('change:checked change:value', function (e) {
+          self.fire('change');
           checked(e.value);
         });
-        self$$1.state.on('change:icon', function (e) {
+        self.state.on('change:icon', function (e) {
           var icon = e.value;
-          var prefix = self$$1.classPrefix;
+          var prefix = self.classPrefix;
           if (typeof icon === 'undefined') {
-            return self$$1.settings.icon;
+            return self.settings.icon;
           }
-          self$$1.settings.icon = icon;
-          icon = icon ? prefix + 'ico ' + prefix + 'i-' + self$$1.settings.icon : '';
-          var btnElm = self$$1.getEl().firstChild;
+          self.settings.icon = icon;
+          icon = icon ? prefix + 'ico ' + prefix + 'i-' + self.settings.icon : '';
+          var btnElm = self.getEl().firstChild;
           var iconElm = btnElm.getElementsByTagName('i')[0];
           if (icon) {
             if (!iconElm || iconElm !== btnElm.firstChild) {
-              iconElm = document.createElement('i');
+              iconElm = domGlobals.document.createElement('i');
               btnElm.insertBefore(iconElm, btnElm.firstChild);
             }
             iconElm.className = icon;
@@ -5088,10 +5088,10 @@ var modern = (function () {
             btnElm.removeChild(iconElm);
           }
         });
-        if (self$$1.state.get('checked')) {
+        if (self.state.get('checked')) {
           checked(true);
         }
-        return self$$1._super();
+        return self._super();
       }
     });
 
@@ -5099,62 +5099,62 @@ var modern = (function () {
 
     var ComboBox = Widget.extend({
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._super(settings);
-        settings = self$$1.settings;
-        self$$1.classes.add('combobox');
-        self$$1.subinput = true;
-        self$$1.ariaTarget = 'inp';
+        var self = this;
+        self._super(settings);
+        settings = self.settings;
+        self.classes.add('combobox');
+        self.subinput = true;
+        self.ariaTarget = 'inp';
         settings.menu = settings.menu || settings.values;
         if (settings.menu) {
           settings.icon = 'caret';
         }
-        self$$1.on('click', function (e) {
+        self.on('click', function (e) {
           var elm = e.target;
-          var root = self$$1.getEl();
+          var root = self.getEl();
           if (!global$9.contains(root, elm) && elm !== root) {
             return;
           }
           while (elm && elm !== root) {
             if (elm.id && elm.id.indexOf('-open') !== -1) {
-              self$$1.fire('action');
+              self.fire('action');
               if (settings.menu) {
-                self$$1.showMenu();
+                self.showMenu();
                 if (e.aria) {
-                  self$$1.menu.items()[0].focus();
+                  self.menu.items()[0].focus();
                 }
               }
             }
             elm = elm.parentNode;
           }
         });
-        self$$1.on('keydown', function (e) {
+        self.on('keydown', function (e) {
           var rootControl;
           if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
             e.preventDefault();
-            self$$1.parents().reverse().each(function (ctrl) {
+            self.parents().reverse().each(function (ctrl) {
               if (ctrl.toJSON) {
                 rootControl = ctrl;
                 return false;
               }
             });
-            self$$1.fire('submit', { data: rootControl.toJSON() });
+            self.fire('submit', { data: rootControl.toJSON() });
           }
         });
-        self$$1.on('keyup', function (e) {
+        self.on('keyup', function (e) {
           if (e.target.nodeName === 'INPUT') {
-            var oldValue = self$$1.state.get('value');
+            var oldValue = self.state.get('value');
             var newValue = e.target.value;
             if (newValue !== oldValue) {
-              self$$1.state.set('value', newValue);
-              self$$1.fire('autocomplete', e);
+              self.state.set('value', newValue);
+              self.fire('autocomplete', e);
             }
           }
         });
-        self$$1.on('mouseover', function (e) {
-          var tooltip = self$$1.tooltip().moveTo(-65535);
-          if (self$$1.statusLevel() && e.target.className.indexOf(self$$1.classPrefix + 'status') !== -1) {
-            var statusMessage = self$$1.statusMessage() || 'Ok';
+        self.on('mouseover', function (e) {
+          var tooltip = self.tooltip().moveTo(-65535);
+          if (self.statusLevel() && e.target.className.indexOf(self.classPrefix + 'status') !== -1) {
+            var statusMessage = self.statusMessage() || 'Ok';
             var rel = tooltip.text(statusMessage).show().testMoveRel(e.target, [
               'bc-tc',
               'bc-tl',
@@ -5180,10 +5180,10 @@ var modern = (function () {
         return this.state.get('statusMessage');
       },
       showMenu: function () {
-        var self$$1 = this;
-        var settings = self$$1.settings;
+        var self = this;
+        var settings = self.settings;
         var menu;
-        if (!self$$1.menu) {
+        if (!self.menu) {
           menu = settings.menu || [];
           if (menu.length) {
             menu = {
@@ -5193,32 +5193,32 @@ var modern = (function () {
           } else {
             menu.type = menu.type || 'menu';
           }
-          self$$1.menu = global$4.create(menu).parent(self$$1).renderTo(self$$1.getContainerElm());
-          self$$1.fire('createmenu');
-          self$$1.menu.reflow();
-          self$$1.menu.on('cancel', function (e) {
-            if (e.control === self$$1.menu) {
-              self$$1.focus();
+          self.menu = global$4.create(menu).parent(self).renderTo(self.getContainerElm());
+          self.fire('createmenu');
+          self.menu.reflow();
+          self.menu.on('cancel', function (e) {
+            if (e.control === self.menu) {
+              self.focus();
             }
           });
-          self$$1.menu.on('show hide', function (e) {
+          self.menu.on('show hide', function (e) {
             e.control.items().each(function (ctrl) {
-              ctrl.active(ctrl.value() === self$$1.value());
+              ctrl.active(ctrl.value() === self.value());
             });
           }).fire('show');
-          self$$1.menu.on('select', function (e) {
-            self$$1.value(e.control.value());
+          self.menu.on('select', function (e) {
+            self.value(e.control.value());
           });
-          self$$1.on('focusin', function (e) {
+          self.on('focusin', function (e) {
             if (e.target.tagName.toUpperCase() === 'INPUT') {
-              self$$1.menu.hide();
+              self.menu.hide();
             }
           });
-          self$$1.aria('expanded', true);
+          self.aria('expanded', true);
         }
-        self$$1.menu.show();
-        self$$1.menu.layoutRect({ w: self$$1.layoutRect().w });
-        self$$1.menu.moveRel(self$$1.getEl(), self$$1.isRtl() ? [
+        self.menu.show();
+        self.menu.layoutRect({ w: self.layoutRect().w });
+        self.menu.moveRel(self.getEl(), self.isRtl() ? [
           'br-tr',
           'tr-br'
         ] : [
@@ -5230,10 +5230,10 @@ var modern = (function () {
         this.getEl('inp').focus();
       },
       repaint: function () {
-        var self$$1 = this, elm = self$$1.getEl(), openElm = self$$1.getEl('open'), rect = self$$1.layoutRect();
+        var self = this, elm = self.getEl(), openElm = self.getEl('open'), rect = self.layoutRect();
         var width, lineHeight, innerPadding = 0;
         var inputElm = elm.firstChild;
-        if (self$$1.statusLevel() && self$$1.statusLevel() !== 'none') {
+        if (self.statusLevel() && self.statusLevel() !== 'none') {
           innerPadding = parseInt(funcs.getRuntimeStyle(inputElm, 'padding-right'), 10) - parseInt(funcs.getRuntimeStyle(inputElm, 'padding-left'), 10);
         }
         if (openElm) {
@@ -5241,28 +5241,28 @@ var modern = (function () {
         } else {
           width = rect.w - 10;
         }
-        var doc = document;
+        var doc = domGlobals.document;
         if (doc.all && (!doc.documentMode || doc.documentMode <= 8)) {
-          lineHeight = self$$1.layoutRect().h - 2 + 'px';
+          lineHeight = self.layoutRect().h - 2 + 'px';
         }
         global$9(inputElm).css({
           width: width - innerPadding,
           lineHeight: lineHeight
         });
-        self$$1._super();
-        return self$$1;
+        self._super();
+        return self;
       },
       postRender: function () {
-        var self$$1 = this;
+        var self = this;
         global$9(this.getEl('inp')).on('change', function (e) {
-          self$$1.state.set('value', e.target.value);
-          self$$1.fire('change', e);
+          self.state.set('value', e.target.value);
+          self.fire('change', e);
         });
-        return self$$1._super();
+        return self._super();
       },
       renderHtml: function () {
-        var self$$1 = this, id = self$$1._id, settings = self$$1.settings, prefix = self$$1.classPrefix;
-        var value = self$$1.state.get('value') || '';
+        var self = this, id = self._id, settings = self.settings, prefix = self.classPrefix;
+        var value = self.state.get('value') || '';
         var icon, text, openBtnHtml = '', extraAttrs = '', statusHtml = '';
         if ('spellcheck' in settings) {
           extraAttrs += ' spellcheck="' + settings.spellcheck + '"';
@@ -5277,19 +5277,19 @@ var modern = (function () {
           extraAttrs += ' type="' + settings.subtype + '"';
         }
         statusHtml = '<i id="' + id + '-status" class="mce-status mce-ico" style="display: none"></i>';
-        if (self$$1.disabled()) {
+        if (self.disabled()) {
           extraAttrs += ' disabled="disabled"';
         }
         icon = settings.icon;
         if (icon && icon !== 'caret') {
           icon = prefix + 'ico ' + prefix + 'i-' + settings.icon;
         }
-        text = self$$1.state.get('text');
+        text = self.state.get('text');
         if (icon || text) {
           openBtnHtml = '<div id="' + id + '-open" class="' + prefix + 'btn ' + prefix + 'open" tabIndex="-1" role="button">' + '<button id="' + id + '-action" type="button" hidefocus="1" tabindex="-1">' + (icon !== 'caret' ? '<i class="' + icon + '"></i>' : '<i class="' + prefix + 'caret"></i>') + (text ? (icon ? ' ' : '') + text : '') + '</button>' + '</div>';
-          self$$1.classes.add('has-open');
+          self.classes.add('has-open');
         }
-        return '<div id="' + id + '" class="' + self$$1.classes + '">' + '<input id="' + id + '-inp" class="' + prefix + 'textbox" value="' + self$$1.encode(value, false) + '" hidefocus="1"' + extraAttrs + ' placeholder="' + self$$1.encode(settings.placeholder) + '" />' + statusHtml + openBtnHtml + '</div>';
+        return '<div id="' + id + '" class="' + self.classes + '">' + '<input id="' + id + '-inp" class="' + prefix + 'textbox" value="' + self.encode(value, false) + '" hidefocus="1"' + extraAttrs + ' placeholder="' + self.encode(settings.placeholder) + '" />' + statusHtml + openBtnHtml + '</div>';
       },
       value: function (value) {
         if (arguments.length) {
@@ -5302,30 +5302,30 @@ var modern = (function () {
         return this.state.get('value');
       },
       showAutoComplete: function (items, term) {
-        var self$$1 = this;
+        var self = this;
         if (items.length === 0) {
-          self$$1.hideMenu();
+          self.hideMenu();
           return;
         }
         var insert = function (value, title) {
           return function () {
-            self$$1.fire('selectitem', {
+            self.fire('selectitem', {
               title: title,
               value: value
             });
           };
         };
-        if (self$$1.menu) {
-          self$$1.menu.items().remove();
+        if (self.menu) {
+          self.menu.items().remove();
         } else {
-          self$$1.menu = global$4.create({
+          self.menu = global$4.create({
             type: 'menu',
             classes: 'combobox-menu',
             layout: 'flow'
-          }).parent(self$$1).renderTo();
+          }).parent(self).renderTo();
         }
         global$2.each(items, function (item) {
-          self$$1.menu.add({
+          self.menu.add({
             text: item.title,
             url: item.previewUrl,
             match: term,
@@ -5333,28 +5333,28 @@ var modern = (function () {
             onclick: insert(item.value, item.title)
           });
         });
-        self$$1.menu.renderNew();
-        self$$1.hideMenu();
-        self$$1.menu.on('cancel', function (e) {
-          if (e.control.parent() === self$$1.menu) {
+        self.menu.renderNew();
+        self.hideMenu();
+        self.menu.on('cancel', function (e) {
+          if (e.control.parent() === self.menu) {
             e.stopPropagation();
-            self$$1.focus();
-            self$$1.hideMenu();
+            self.focus();
+            self.hideMenu();
           }
         });
-        self$$1.menu.on('select', function () {
-          self$$1.focus();
+        self.menu.on('select', function () {
+          self.focus();
         });
-        var maxW = self$$1.layoutRect().w;
-        self$$1.menu.layoutRect({
+        var maxW = self.layoutRect().w;
+        self.menu.layoutRect({
           w: maxW,
           minW: 0,
           maxW: maxW
         });
-        self$$1.menu.repaint();
-        self$$1.menu.reflow();
-        self$$1.menu.show();
-        self$$1.menu.moveRel(self$$1.getEl(), self$$1.isRtl() ? [
+        self.menu.repaint();
+        self.menu.reflow();
+        self.menu.show();
+        self.menu.moveRel(self.getEl(), self.isRtl() ? [
           'br-tr',
           'tr-br'
         ] : [
@@ -5368,32 +5368,32 @@ var modern = (function () {
         }
       },
       bindStates: function () {
-        var self$$1 = this;
-        self$$1.state.on('change:value', function (e) {
-          if (self$$1.getEl('inp').value !== e.value) {
-            self$$1.getEl('inp').value = e.value;
+        var self = this;
+        self.state.on('change:value', function (e) {
+          if (self.getEl('inp').value !== e.value) {
+            self.getEl('inp').value = e.value;
           }
         });
-        self$$1.state.on('change:disabled', function (e) {
-          self$$1.getEl('inp').disabled = e.value;
+        self.state.on('change:disabled', function (e) {
+          self.getEl('inp').disabled = e.value;
         });
-        self$$1.state.on('change:statusLevel', function (e) {
-          var statusIconElm = self$$1.getEl('status');
-          var prefix = self$$1.classPrefix, value = e.value;
+        self.state.on('change:statusLevel', function (e) {
+          var statusIconElm = self.getEl('status');
+          var prefix = self.classPrefix, value = e.value;
           funcs.css(statusIconElm, 'display', value === 'none' ? 'none' : '');
           funcs.toggleClass(statusIconElm, prefix + 'i-checkmark', value === 'ok');
           funcs.toggleClass(statusIconElm, prefix + 'i-warning', value === 'warn');
           funcs.toggleClass(statusIconElm, prefix + 'i-error', value === 'error');
-          self$$1.classes.toggle('has-status', value !== 'none');
-          self$$1.repaint();
+          self.classes.toggle('has-status', value !== 'none');
+          self.repaint();
         });
-        funcs.on(self$$1.getEl('status'), 'mouseleave', function () {
-          self$$1.tooltip().hide();
+        funcs.on(self.getEl('status'), 'mouseleave', function () {
+          self.tooltip().hide();
         });
-        self$$1.on('cancel', function (e) {
-          if (self$$1.menu && self$$1.menu.visible()) {
+        self.on('cancel', function (e) {
+          if (self.menu && self.menu.visible()) {
             e.stopPropagation();
-            self$$1.hideMenu();
+            self.hideMenu();
           }
         });
         var focusIdx = function (idx, menu) {
@@ -5401,20 +5401,20 @@ var modern = (function () {
             menu.items().eq(idx)[0].focus();
           }
         };
-        self$$1.on('keydown', function (e) {
+        self.on('keydown', function (e) {
           var keyCode = e.keyCode;
           if (e.target.nodeName === 'INPUT') {
             if (keyCode === global$d.DOWN) {
               e.preventDefault();
-              self$$1.fire('autocomplete');
-              focusIdx(0, self$$1.menu);
+              self.fire('autocomplete');
+              focusIdx(0, self.menu);
             } else if (keyCode === global$d.UP) {
               e.preventDefault();
-              focusIdx(-1, self$$1.menu);
+              focusIdx(-1, self.menu);
             }
           }
         });
-        return self$$1._super();
+        return self._super();
       },
       remove: function () {
         global$9(this.getEl('inp')).off();
@@ -6025,35 +6025,36 @@ var modern = (function () {
     };
 
     var fromHtml = function (html, scope) {
-      var doc = scope || document;
+      var doc = scope || domGlobals.document;
       var div = doc.createElement('div');
       div.innerHTML = html;
       if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        console.error('HTML does not have a single root node', html);
-        throw 'HTML must have a single root node';
+        domGlobals.console.error('HTML does not have a single root node', html);
+        throw new Error('HTML must have a single root node');
       }
       return fromDom(div.childNodes[0]);
     };
     var fromTag = function (tag, scope) {
-      var doc = scope || document;
+      var doc = scope || domGlobals.document;
       var node = doc.createElement(tag);
       return fromDom(node);
     };
     var fromText = function (text, scope) {
-      var doc = scope || document;
+      var doc = scope || domGlobals.document;
       var node = doc.createTextNode(text);
       return fromDom(node);
     };
     var fromDom = function (node) {
-      if (node === null || node === undefined)
+      if (node === null || node === undefined) {
         throw new Error('Node cannot be null or undefined');
+      }
       return { dom: constant(node) };
     };
     var fromPoint = function (docElm, x, y) {
       var doc = docElm.dom();
       return Option.from(doc.elementFromPoint(x, y)).map(fromDom);
     };
-    var Element$$1 = {
+    var Element = {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
@@ -6077,18 +6078,18 @@ var modern = (function () {
       };
     };
 
-    var ATTRIBUTE = Node.ATTRIBUTE_NODE;
-    var CDATA_SECTION = Node.CDATA_SECTION_NODE;
-    var COMMENT = Node.COMMENT_NODE;
-    var DOCUMENT = Node.DOCUMENT_NODE;
-    var DOCUMENT_TYPE = Node.DOCUMENT_TYPE_NODE;
-    var DOCUMENT_FRAGMENT = Node.DOCUMENT_FRAGMENT_NODE;
-    var ELEMENT = Node.ELEMENT_NODE;
-    var TEXT = Node.TEXT_NODE;
-    var PROCESSING_INSTRUCTION = Node.PROCESSING_INSTRUCTION_NODE;
-    var ENTITY_REFERENCE = Node.ENTITY_REFERENCE_NODE;
-    var ENTITY = Node.ENTITY_NODE;
-    var NOTATION = Node.NOTATION_NODE;
+    var ATTRIBUTE = domGlobals.Node.ATTRIBUTE_NODE;
+    var CDATA_SECTION = domGlobals.Node.CDATA_SECTION_NODE;
+    var COMMENT = domGlobals.Node.COMMENT_NODE;
+    var DOCUMENT = domGlobals.Node.DOCUMENT_NODE;
+    var DOCUMENT_TYPE = domGlobals.Node.DOCUMENT_TYPE_NODE;
+    var DOCUMENT_FRAGMENT = domGlobals.Node.DOCUMENT_FRAGMENT_NODE;
+    var ELEMENT = domGlobals.Node.ELEMENT_NODE;
+    var TEXT = domGlobals.Node.TEXT_NODE;
+    var PROCESSING_INSTRUCTION = domGlobals.Node.PROCESSING_INSTRUCTION_NODE;
+    var ENTITY_REFERENCE = domGlobals.Node.ENTITY_REFERENCE_NODE;
+    var ENTITY = domGlobals.Node.ENTITY_NODE;
+    var NOTATION = domGlobals.Node.NOTATION_NODE;
 
     var Immutable = function () {
       var fields = [];
@@ -6111,7 +6112,7 @@ var modern = (function () {
       };
     };
 
-    var Global = typeof window !== 'undefined' ? window : Function('return this;')();
+    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
 
     var path = function (parts, scope) {
       var o = scope !== undefined && scope !== null ? scope : Global;
@@ -6148,7 +6149,7 @@ var modern = (function () {
     var documentPositionContainedBy = function (a, b) {
       return compareDocumentPosition(a, b, node().DOCUMENT_POSITION_CONTAINED_BY);
     };
-    var Node$1 = {
+    var Node = {
       documentPositionPreceding: documentPositionPreceding,
       documentPositionContainedBy: documentPositionContainedBy
     };
@@ -6161,7 +6162,7 @@ var modern = (function () {
       }
       return undefined;
     };
-    var find$2 = function (regexes, agent) {
+    var find$1 = function (regexes, agent) {
       var r = firstMatch(regexes, agent);
       if (!r)
         return {
@@ -6177,7 +6178,7 @@ var modern = (function () {
       var cleanedAgent = String(agent).toLowerCase();
       if (versionRegexes.length === 0)
         return unknown();
-      return find$2(versionRegexes, cleanedAgent);
+      return find$1(versionRegexes, cleanedAgent);
     };
     var unknown = function () {
       return nu(0, 0);
@@ -6331,14 +6332,14 @@ var modern = (function () {
       detectOs: detectOs
     };
 
-    var contains$1 = function (str, substr) {
+    var contains = function (str, substr) {
       return str.indexOf(substr) !== -1;
     };
 
     var normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
     var checkContains = function (target) {
       return function (uastring) {
-        return contains$1(uastring, target);
+        return contains(uastring, target);
       };
     };
     var browsers = [
@@ -6346,7 +6347,7 @@ var modern = (function () {
         name: 'Edge',
         versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
         search: function (uastring) {
-          var monstrosity = contains$1(uastring, 'edge/') && contains$1(uastring, 'chrome') && contains$1(uastring, 'safari') && contains$1(uastring, 'applewebkit');
+          var monstrosity = contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
           return monstrosity;
         }
       },
@@ -6357,7 +6358,7 @@ var modern = (function () {
           normalVersionRegex
         ],
         search: function (uastring) {
-          return contains$1(uastring, 'chrome') && !contains$1(uastring, 'chromeframe');
+          return contains(uastring, 'chrome') && !contains(uastring, 'chromeframe');
         }
       },
       {
@@ -6367,7 +6368,7 @@ var modern = (function () {
           /.*?rv:([0-9]+)\.([0-9]+).*/
         ],
         search: function (uastring) {
-          return contains$1(uastring, 'msie') || contains$1(uastring, 'trident');
+          return contains(uastring, 'msie') || contains(uastring, 'trident');
         }
       },
       {
@@ -6390,7 +6391,7 @@ var modern = (function () {
           /.*?cpu os ([0-9]+)_([0-9]+).*/
         ],
         search: function (uastring) {
-          return (contains$1(uastring, 'safari') || contains$1(uastring, 'mobile/')) && contains$1(uastring, 'applewebkit');
+          return (contains(uastring, 'safari') || contains(uastring, 'mobile/')) && contains(uastring, 'applewebkit');
         }
       }
     ];
@@ -6403,7 +6404,7 @@ var modern = (function () {
       {
         name: 'iOS',
         search: function (uastring) {
-          return contains$1(uastring, 'iphone') || contains$1(uastring, 'ipad');
+          return contains(uastring, 'iphone') || contains(uastring, 'ipad');
         },
         versionRegexes: [
           /.*?version\/\ ?([0-9]+)\.([0-9]+).*/,
@@ -6457,7 +6458,7 @@ var modern = (function () {
     var PlatformDetection = { detect: detect$2 };
 
     var detect$3 = cached(function () {
-      var userAgent = navigator.userAgent;
+      var userAgent = domGlobals.navigator.userAgent;
       return PlatformDetection.detect(userAgent);
     });
     var PlatformDetection$1 = { detect: detect$3 };
@@ -6468,31 +6469,32 @@ var modern = (function () {
       return dom.nodeType !== ELEMENT$1 && dom.nodeType !== DOCUMENT$1 || dom.childElementCount === 0;
     };
     var all = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? [] : map(base.querySelectorAll(selector), Element$$1.fromDom);
+      var base = scope === undefined ? domGlobals.document : scope.dom();
+      return bypassSelector(base) ? [] : map(base.querySelectorAll(selector), Element.fromDom);
     };
     var one = function (selector, scope) {
-      var base = scope === undefined ? document : scope.dom();
-      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element$$1.fromDom);
+      var base = scope === undefined ? domGlobals.document : scope.dom();
+      return bypassSelector(base) ? Option.none() : Option.from(base.querySelector(selector)).map(Element.fromDom);
     };
 
     var regularContains = function (e1, e2) {
-      var d1 = e1.dom(), d2 = e2.dom();
+      var d1 = e1.dom();
+      var d2 = e2.dom();
       return d1 === d2 ? false : d1.contains(d2);
     };
     var ieContains = function (e1, e2) {
-      return Node$1.documentPositionContainedBy(e1.dom(), e2.dom());
+      return Node.documentPositionContainedBy(e1.dom(), e2.dom());
     };
     var browser = PlatformDetection$1.detect().browser;
-    var contains$2 = browser.isIE() ? ieContains : regularContains;
+    var contains$1 = browser.isIE() ? ieContains : regularContains;
 
     var spot = Immutable('element', 'offset');
 
-    var descendants$1 = function (scope, selector) {
+    var descendants = function (scope, selector) {
       return all(selector, scope);
     };
 
-    var trim$1 = global$2.trim;
+    var trim = global$2.trim;
     var hasContentEditableState = function (value) {
       return function (node) {
         if (node && node.nodeType === 1) {
@@ -6527,7 +6529,7 @@ var modern = (function () {
       return false;
     };
     var select = function (selector, root) {
-      return map(descendants$1(Element$$1.fromDom(root), selector), function (element) {
+      return map(descendants(Element.fromDom(root), selector), function (element) {
         return element.dom();
       });
     };
@@ -6578,13 +6580,13 @@ var modern = (function () {
       return elms;
     };
     var hasTitle = function (target) {
-      return trim$1(target.title).length > 0;
+      return trim(target.title).length > 0;
     };
-    var find$3 = function (elm) {
+    var find$2 = function (elm) {
       var elms = getTargetElements(elm);
       return filter(getHeaderTargets(elms).concat(getAnchorTargets(elms)), hasTitle);
     };
-    var LinkTargets = { find: find$3 };
+    var LinkTargets = { find: find$2 };
 
     var getActiveEditor = function () {
       return window.tinymce ? window.tinymce.activeEditor : global$1.activeEditor;
@@ -7030,7 +7032,7 @@ var modern = (function () {
       }
     });
 
-    var descendant$1 = function (scope, selector) {
+    var descendant = function (scope, selector) {
       return one(selector, scope);
     };
 
@@ -7973,7 +7975,7 @@ var modern = (function () {
     };
     var setupUiContainer = function (editor) {
       if (editor.settings.ui_container) {
-        global$8.container = descendant$1(Element$$1.fromDom(document.body), editor.settings.ui_container).fold(constant(null), function (elm) {
+        global$8.container = descendant(Element.fromDom(domGlobals.document.body), editor.settings.ui_container).fold(constant(null), function (elm) {
           return elm.dom();
         });
       }
@@ -8310,9 +8312,9 @@ var modern = (function () {
       }
     });
 
-    function isChildOf$1(node, parent$$1) {
+    function isChildOf$1(node, parent) {
       while (node) {
-        if (parent$$1 === node) {
+        if (parent === node) {
           return true;
         }
         node = node.parentNode;
@@ -8321,26 +8323,26 @@ var modern = (function () {
     }
     var MenuButton = Button.extend({
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._renderOpen = true;
-        self$$1._super(settings);
-        settings = self$$1.settings;
-        self$$1.classes.add('menubtn');
+        var self = this;
+        self._renderOpen = true;
+        self._super(settings);
+        settings = self.settings;
+        self.classes.add('menubtn');
         if (settings.fixedWidth) {
-          self$$1.classes.add('fixed-width');
+          self.classes.add('fixed-width');
         }
-        self$$1.aria('haspopup', true);
-        self$$1.state.set('menu', settings.menu || self$$1.render());
+        self.aria('haspopup', true);
+        self.state.set('menu', settings.menu || self.render());
       },
       showMenu: function (toggle) {
-        var self$$1 = this;
+        var self = this;
         var menu;
-        if (self$$1.menu && self$$1.menu.visible() && toggle !== false) {
-          return self$$1.hideMenu();
+        if (self.menu && self.menu.visible() && toggle !== false) {
+          return self.hideMenu();
         }
-        if (!self$$1.menu) {
-          menu = self$$1.state.get('menu') || [];
-          self$$1.classes.add('opened');
+        if (!self.menu) {
+          menu = self.state.get('menu') || [];
+          self.classes.add('opened');
           if (menu.length) {
             menu = {
               type: 'menu',
@@ -8352,104 +8354,104 @@ var modern = (function () {
             menu.animate = true;
           }
           if (!menu.renderTo) {
-            self$$1.menu = global$4.create(menu).parent(self$$1).renderTo();
+            self.menu = global$4.create(menu).parent(self).renderTo();
           } else {
-            self$$1.menu = menu.parent(self$$1).show().renderTo();
+            self.menu = menu.parent(self).show().renderTo();
           }
-          self$$1.fire('createmenu');
-          self$$1.menu.reflow();
-          self$$1.menu.on('cancel', function (e) {
-            if (e.control.parent() === self$$1.menu) {
+          self.fire('createmenu');
+          self.menu.reflow();
+          self.menu.on('cancel', function (e) {
+            if (e.control.parent() === self.menu) {
               e.stopPropagation();
-              self$$1.focus();
-              self$$1.hideMenu();
+              self.focus();
+              self.hideMenu();
             }
           });
-          self$$1.menu.on('select', function () {
-            self$$1.focus();
+          self.menu.on('select', function () {
+            self.focus();
           });
-          self$$1.menu.on('show hide', function (e) {
-            if (e.type === 'hide' && e.control.parent() === self$$1) {
-              self$$1.classes.remove('opened-under');
+          self.menu.on('show hide', function (e) {
+            if (e.type === 'hide' && e.control.parent() === self) {
+              self.classes.remove('opened-under');
             }
-            if (e.control === self$$1.menu) {
-              self$$1.activeMenu(e.type === 'show');
-              self$$1.classes.toggle('opened', e.type === 'show');
+            if (e.control === self.menu) {
+              self.activeMenu(e.type === 'show');
+              self.classes.toggle('opened', e.type === 'show');
             }
-            self$$1.aria('expanded', e.type === 'show');
+            self.aria('expanded', e.type === 'show');
           }).fire('show');
         }
-        self$$1.menu.show();
-        self$$1.menu.layoutRect({ w: self$$1.layoutRect().w });
-        self$$1.menu.repaint();
-        self$$1.menu.moveRel(self$$1.getEl(), self$$1.isRtl() ? [
+        self.menu.show();
+        self.menu.layoutRect({ w: self.layoutRect().w });
+        self.menu.repaint();
+        self.menu.moveRel(self.getEl(), self.isRtl() ? [
           'br-tr',
           'tr-br'
         ] : [
           'bl-tl',
           'tl-bl'
         ]);
-        var menuLayoutRect = self$$1.menu.layoutRect();
-        var selfBottom = self$$1.$el.offset().top + self$$1.layoutRect().h;
+        var menuLayoutRect = self.menu.layoutRect();
+        var selfBottom = self.$el.offset().top + self.layoutRect().h;
         if (selfBottom > menuLayoutRect.y && selfBottom < menuLayoutRect.y + menuLayoutRect.h) {
-          self$$1.classes.add('opened-under');
+          self.classes.add('opened-under');
         }
-        self$$1.fire('showmenu');
+        self.fire('showmenu');
       },
       hideMenu: function () {
-        var self$$1 = this;
-        if (self$$1.menu) {
-          self$$1.menu.items().each(function (item) {
+        var self = this;
+        if (self.menu) {
+          self.menu.items().each(function (item) {
             if (item.hideMenu) {
               item.hideMenu();
             }
           });
-          self$$1.menu.hide();
+          self.menu.hide();
         }
       },
       activeMenu: function (state) {
         this.classes.toggle('active', state);
       },
       renderHtml: function () {
-        var self$$1 = this, id = self$$1._id, prefix = self$$1.classPrefix;
-        var icon = self$$1.settings.icon, image;
-        var text = self$$1.state.get('text');
+        var self = this, id = self._id, prefix = self.classPrefix;
+        var icon = self.settings.icon, image;
+        var text = self.state.get('text');
         var textHtml = '';
-        image = self$$1.settings.image;
+        image = self.settings.image;
         if (image) {
           icon = 'none';
           if (typeof image !== 'string') {
-            image = window.getSelection ? image[0] : image[1];
+            image = domGlobals.window.getSelection ? image[0] : image[1];
           }
           image = ' style="background-image: url(\'' + image + '\')"';
         } else {
           image = '';
         }
         if (text) {
-          self$$1.classes.add('btn-has-text');
-          textHtml = '<span class="' + prefix + 'txt">' + self$$1.encode(text) + '</span>';
+          self.classes.add('btn-has-text');
+          textHtml = '<span class="' + prefix + 'txt">' + self.encode(text) + '</span>';
         }
-        icon = self$$1.settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
-        self$$1.aria('role', self$$1.parent() instanceof MenuBar ? 'menuitem' : 'button');
-        return '<div id="' + id + '" class="' + self$$1.classes + '" tabindex="-1" aria-labelledby="' + id + '">' + '<button id="' + id + '-open" role="presentation" type="button" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + ' <i class="' + prefix + 'caret"></i>' + '</button>' + '</div>';
+        icon = self.settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
+        self.aria('role', self.parent() instanceof MenuBar ? 'menuitem' : 'button');
+        return '<div id="' + id + '" class="' + self.classes + '" tabindex="-1" aria-labelledby="' + id + '">' + '<button id="' + id + '-open" role="presentation" type="button" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + ' <i class="' + prefix + 'caret"></i>' + '</button>' + '</div>';
       },
       postRender: function () {
-        var self$$1 = this;
-        self$$1.on('click', function (e) {
-          if (e.control === self$$1 && isChildOf$1(e.target, self$$1.getEl())) {
-            self$$1.focus();
-            self$$1.showMenu(!e.aria);
+        var self = this;
+        self.on('click', function (e) {
+          if (e.control === self && isChildOf$1(e.target, self.getEl())) {
+            self.focus();
+            self.showMenu(!e.aria);
             if (e.aria) {
-              self$$1.menu.items().filter(':visible')[0].focus();
+              self.menu.items().filter(':visible')[0].focus();
             }
           }
         });
-        self$$1.on('mouseenter', function (e) {
+        self.on('mouseenter', function (e) {
           var overCtrl = e.control;
-          var parent$$1 = self$$1.parent();
+          var parent = self.parent();
           var hasVisibleSiblingMenu;
-          if (overCtrl && parent$$1 && overCtrl instanceof MenuButton && overCtrl.parent() === parent$$1) {
-            parent$$1.items().filter('MenuButton').each(function (ctrl) {
+          if (overCtrl && parent && overCtrl instanceof MenuButton && overCtrl.parent() === parent) {
+            parent.items().filter('MenuButton').each(function (ctrl) {
               if (ctrl.hideMenu && ctrl !== overCtrl) {
                 if (ctrl.menu && ctrl.menu.visible()) {
                   hasVisibleSiblingMenu = true;
@@ -8463,17 +8465,17 @@ var modern = (function () {
             }
           }
         });
-        return self$$1._super();
+        return self._super();
       },
       bindStates: function () {
-        var self$$1 = this;
-        self$$1.state.on('change:menu', function () {
-          if (self$$1.menu) {
-            self$$1.menu.remove();
+        var self = this;
+        self.state.on('change:menu', function () {
+          if (self.menu) {
+            self.menu.remove();
           }
-          self$$1.menu = null;
+          self.menu = null;
         });
-        return self$$1._super();
+        return self._super();
       },
       remove: function () {
         this._super();
@@ -9230,11 +9232,11 @@ var modern = (function () {
         role: 'button'
       },
       repaint: function () {
-        var self$$1 = this;
-        var elm = self$$1.getEl();
-        var rect = self$$1.layoutRect();
+        var self = this;
+        var elm = self.getEl();
+        var rect = self.layoutRect();
         var mainButtonElm, menuButtonElm;
-        self$$1._super();
+        self._super();
         mainButtonElm = elm.firstChild;
         menuButtonElm = elm.lastChild;
         global$9(mainButtonElm).css({
@@ -9242,26 +9244,26 @@ var modern = (function () {
           height: rect.h - 2
         });
         global$9(menuButtonElm).css({ height: rect.h - 2 });
-        return self$$1;
+        return self;
       },
       activeMenu: function (state) {
-        var self$$1 = this;
-        global$9(self$$1.getEl().lastChild).toggleClass(self$$1.classPrefix + 'active', state);
+        var self = this;
+        global$9(self.getEl().lastChild).toggleClass(self.classPrefix + 'active', state);
       },
       renderHtml: function () {
-        var self$$1 = this;
-        var id = self$$1._id;
-        var prefix = self$$1.classPrefix;
+        var self = this;
+        var id = self._id;
+        var prefix = self.classPrefix;
         var image;
-        var icon = self$$1.state.get('icon');
-        var text = self$$1.state.get('text');
-        var settings = self$$1.settings;
+        var icon = self.state.get('icon');
+        var text = self.state.get('text');
+        var settings = self.settings;
         var textHtml = '', ariaPressed;
         image = settings.image;
         if (image) {
           icon = 'none';
           if (typeof image !== 'string') {
-            image = window.getSelection ? image[0] : image[1];
+            image = domGlobals.window.getSelection ? image[0] : image[1];
           }
           image = ' style="background-image: url(\'' + image + '\')"';
         } else {
@@ -9269,15 +9271,15 @@ var modern = (function () {
         }
         icon = settings.icon ? prefix + 'ico ' + prefix + 'i-' + icon : '';
         if (text) {
-          self$$1.classes.add('btn-has-text');
-          textHtml = '<span class="' + prefix + 'txt">' + self$$1.encode(text) + '</span>';
+          self.classes.add('btn-has-text');
+          textHtml = '<span class="' + prefix + 'txt">' + self.encode(text) + '</span>';
         }
         ariaPressed = typeof settings.active === 'boolean' ? ' aria-pressed="' + settings.active + '"' : '';
-        return '<div id="' + id + '" class="' + self$$1.classes + '" role="button"' + ariaPressed + ' tabindex="-1">' + '<button type="button" hidefocus="1" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + '</button>' + '<button type="button" class="' + prefix + 'open" hidefocus="1" tabindex="-1">' + (self$$1._menuBtnText ? (icon ? '\xA0' : '') + self$$1._menuBtnText : '') + ' <i class="' + prefix + 'caret"></i>' + '</button>' + '</div>';
+        return '<div id="' + id + '" class="' + self.classes + '" role="button"' + ariaPressed + ' tabindex="-1">' + '<button type="button" hidefocus="1" tabindex="-1">' + (icon ? '<i class="' + icon + '"' + image + '></i>' : '') + textHtml + '</button>' + '<button type="button" class="' + prefix + 'open" hidefocus="1" tabindex="-1">' + (self._menuBtnText ? (icon ? '\xA0' : '') + self._menuBtnText : '') + ' <i class="' + prefix + 'caret"></i>' + '</button>' + '</div>';
       },
       postRender: function () {
-        var self$$1 = this, onClickHandler = self$$1.settings.onclick;
-        self$$1.on('click', function (e) {
+        var self = this, onClickHandler = self.settings.onclick;
+        self.on('click', function (e) {
           var node = e.target;
           if (e.control === this) {
             while (node) {
@@ -9292,8 +9294,8 @@ var modern = (function () {
             }
           }
         });
-        delete self$$1.settings.onclick;
-        return self$$1._super();
+        delete self.settings.onclick;
+        return self._super();
       }
     });
 
@@ -9398,43 +9400,43 @@ var modern = (function () {
 
     var TextBox = Widget.extend({
       init: function (settings) {
-        var self$$1 = this;
-        self$$1._super(settings);
-        self$$1.classes.add('textbox');
+        var self = this;
+        self._super(settings);
+        self.classes.add('textbox');
         if (settings.multiline) {
-          self$$1.classes.add('multiline');
+          self.classes.add('multiline');
         } else {
-          self$$1.on('keydown', function (e) {
+          self.on('keydown', function (e) {
             var rootControl;
             if (e.keyCode === 13) {
               e.preventDefault();
-              self$$1.parents().reverse().each(function (ctrl) {
+              self.parents().reverse().each(function (ctrl) {
                 if (ctrl.toJSON) {
                   rootControl = ctrl;
                   return false;
                 }
               });
-              self$$1.fire('submit', { data: rootControl.toJSON() });
+              self.fire('submit', { data: rootControl.toJSON() });
             }
           });
-          self$$1.on('keyup', function (e) {
-            self$$1.state.set('value', e.target.value);
+          self.on('keyup', function (e) {
+            self.state.set('value', e.target.value);
           });
         }
       },
       repaint: function () {
-        var self$$1 = this;
+        var self = this;
         var style, rect, borderBox, borderW, borderH = 0, lastRepaintRect;
-        style = self$$1.getEl().style;
-        rect = self$$1._layoutRect;
-        lastRepaintRect = self$$1._lastRepaintRect || {};
-        var doc = document;
-        if (!self$$1.settings.multiline && doc.all && (!doc.documentMode || doc.documentMode <= 8)) {
+        style = self.getEl().style;
+        rect = self._layoutRect;
+        lastRepaintRect = self._lastRepaintRect || {};
+        var doc = domGlobals.document;
+        if (!self.settings.multiline && doc.all && (!doc.documentMode || doc.documentMode <= 8)) {
           style.lineHeight = rect.h - borderH + 'px';
         }
-        borderBox = self$$1.borderBox;
+        borderBox = self.borderBox;
         borderW = borderBox.left + borderBox.right + 8;
-        borderH = borderBox.top + borderBox.bottom + (self$$1.settings.multiline ? 8 : 0);
+        borderH = borderBox.top + borderBox.bottom + (self.settings.multiline ? 8 : 0);
         if (rect.x !== lastRepaintRect.x) {
           style.left = rect.x + 'px';
           lastRepaintRect.x = rect.x;
@@ -9451,16 +9453,16 @@ var modern = (function () {
           style.height = rect.h - borderH + 'px';
           lastRepaintRect.h = rect.h;
         }
-        self$$1._lastRepaintRect = lastRepaintRect;
-        self$$1.fire('repaint', {}, false);
-        return self$$1;
+        self._lastRepaintRect = lastRepaintRect;
+        self.fire('repaint', {}, false);
+        return self;
       },
       renderHtml: function () {
-        var self$$1 = this;
-        var settings = self$$1.settings;
+        var self = this;
+        var settings = self.settings;
         var attrs, elm;
         attrs = {
-          id: self$$1._id,
+          id: self._id,
           hidefocus: '1'
         };
         global$2.each([
@@ -9477,18 +9479,18 @@ var modern = (function () {
           'placeholder',
           'required',
           'multiple'
-        ], function (name$$1) {
-          attrs[name$$1] = settings[name$$1];
+        ], function (name) {
+          attrs[name] = settings[name];
         });
-        if (self$$1.disabled()) {
+        if (self.disabled()) {
           attrs.disabled = 'disabled';
         }
         if (settings.subtype) {
           attrs.type = settings.subtype;
         }
         elm = funcs.create(settings.multiline ? 'textarea' : 'input', attrs);
-        elm.value = self$$1.state.get('value');
-        elm.className = self$$1.classes.toString();
+        elm.value = self.state.get('value');
+        elm.className = self.classes.toString();
         return elm.outerHTML;
       },
       value: function (value) {
@@ -9502,25 +9504,25 @@ var modern = (function () {
         return this.state.get('value');
       },
       postRender: function () {
-        var self$$1 = this;
-        self$$1.getEl().value = self$$1.state.get('value');
-        self$$1._super();
-        self$$1.$el.on('change', function (e) {
-          self$$1.state.set('value', e.target.value);
-          self$$1.fire('change', e);
+        var self = this;
+        self.getEl().value = self.state.get('value');
+        self._super();
+        self.$el.on('change', function (e) {
+          self.state.set('value', e.target.value);
+          self.fire('change', e);
         });
       },
       bindStates: function () {
-        var self$$1 = this;
-        self$$1.state.on('change:value', function (e) {
-          if (self$$1.getEl().value !== e.value) {
-            self$$1.getEl().value = e.value;
+        var self = this;
+        self.state.on('change:value', function (e) {
+          if (self.getEl().value !== e.value) {
+            self.getEl().value = e.value;
           }
         });
-        self$$1.state.on('change:disabled', function (e) {
-          self$$1.getEl().disabled = e.value;
+        self.state.on('change:disabled', function (e) {
+          self.getEl().disabled = e.value;
         });
-        return self$$1._super();
+        return self._super();
       },
       remove: function () {
         this.$el.off();
@@ -9543,7 +9545,7 @@ var modern = (function () {
         Movable: Movable,
         Resizable: Resizable,
         FloatPanel: FloatPanel,
-        Window: Window$$1,
+        Window: Window,
         MessageBox: MessageBox,
         Tooltip: Tooltip,
         Widget: Widget,
@@ -9623,5 +9625,5 @@ var modern = (function () {
 
     return Theme;
 
-}());
+}(window));
 })();

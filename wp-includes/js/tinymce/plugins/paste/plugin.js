@@ -1,5 +1,5 @@
 (function () {
-var paste = (function () {
+var paste = (function (domGlobals) {
     'use strict';
 
     var Cell = function (initial) {
@@ -24,8 +24,8 @@ var paste = (function () {
 
     var hasProPlugin = function (editor) {
       if (/(^|[ ,])powerpaste([, ]|$)/.test(editor.settings.plugins) && global.get('powerpaste')) {
-        if (typeof window.console !== 'undefined' && window.console.log) {
-          window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
+        if (typeof domGlobals.window.console !== 'undefined' && domGlobals.window.console.log) {
+          domGlobals.window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
         }
         return true;
       } else {
@@ -273,18 +273,18 @@ var paste = (function () {
       var ignoreElements = global$3.makeMap('script noscript style textarea video audio iframe object', ' ');
       var blockElements = schema.getBlockElements();
       function walk(node) {
-        var name$$1 = node.name, currentNode = node;
-        if (name$$1 === 'br') {
+        var name = node.name, currentNode = node;
+        if (name === 'br') {
           text += '\n';
           return;
         }
-        if (name$$1 === 'wbr') {
+        if (name === 'wbr') {
           return;
         }
-        if (shortEndedElements[name$$1]) {
+        if (shortEndedElements[name]) {
           text += ' ';
         }
-        if (ignoreElements[name$$1]) {
+        if (ignoreElements[name]) {
           text += ' ';
           return;
         }
@@ -298,9 +298,9 @@ var paste = (function () {
             } while (node = node.next);
           }
         }
-        if (blockElements[name$$1] && currentNode.next) {
+        if (blockElements[name] && currentNode.next) {
           text += '\n';
-          if (name$$1 === 'p') {
+          if (name === 'p') {
             text += '\n';
           }
         }
@@ -335,7 +335,7 @@ var paste = (function () {
       };
     }
     var isMsEdge = function () {
-      return navigator.userAgent.indexOf(' Edge/') !== -1;
+      return domGlobals.navigator.userAgent.indexOf(' Edge/') !== -1;
     };
     var Utils = {
       filter: filter,
@@ -785,13 +785,13 @@ var paste = (function () {
       var eq = function (o) {
         return o.isNone();
       };
-      var call$$1 = function (thunk) {
+      var call = function (thunk) {
         return thunk();
       };
       var id = function (n) {
         return n;
       };
-      var noop$$1 = function () {
+      var noop = function () {
       };
       var nul = function () {
         return null;
@@ -807,17 +807,17 @@ var paste = (function () {
         isSome: never$1,
         isNone: always$1,
         getOr: id,
-        getOrThunk: call$$1,
+        getOrThunk: call,
         getOrDie: function (msg) {
           throw new Error(msg || 'error: getOrDie called on none.');
         },
         getOrNull: nul,
         getOrUndefined: undef,
         or: id,
-        orThunk: call$$1,
+        orThunk: call,
         map: none,
         ap: none,
-        each: noop$$1,
+        each: noop,
         bind: none,
         flatten: none,
         exists: never$1,
@@ -955,7 +955,7 @@ var paste = (function () {
     var nu = function (baseFn) {
       var data = Option.none();
       var callbacks = [];
-      var map$$1 = function (f) {
+      var map = function (f) {
         return nu(function (nCallback) {
           get(function (data) {
             nCallback(f(data));
@@ -981,7 +981,7 @@ var paste = (function () {
       };
       var call = function (cb) {
         data.each(function (x) {
-          setTimeout(function () {
+          domGlobals.setTimeout(function () {
             cb(x);
           }, 0);
         });
@@ -989,18 +989,18 @@ var paste = (function () {
       baseFn(set);
       return {
         get: get,
-        map: map$$1,
+        map: map,
         isReady: isReady
       };
     };
-    var pure$1 = function (a) {
+    var pure = function (a) {
       return nu(function (callback) {
         callback(a);
       });
     };
     var LazyValue = {
       nu: nu,
-      pure: pure$1
+      pure: pure
     };
 
     var bounce = function (f) {
@@ -1010,7 +1010,7 @@ var paste = (function () {
           args[_i] = arguments[_i];
         }
         var me = this;
-        setTimeout(function () {
+        domGlobals.setTimeout(function () {
           f.apply(me, args);
         }, 0);
       };
@@ -1063,14 +1063,14 @@ var paste = (function () {
         get: get
       };
     };
-    var pure$2 = function (a) {
+    var pure$1 = function (a) {
       return nu$1(function (callback) {
         callback(a);
       });
     };
     var Future = {
       nu: nu$1,
-      pure: pure$2
+      pure: pure$1
     };
 
     var par = function (asyncValues, nu) {
@@ -1170,8 +1170,8 @@ var paste = (function () {
     var pasteImage = function (editor, imageItem) {
       var base64 = getBase64FromUri(imageItem.uri);
       var id = uniqueId();
-      var name$$1 = editor.settings.images_reuse_filename && imageItem.blob.name ? extractFilename(editor, imageItem.blob.name) : id;
-      var img = new Image();
+      var name = editor.settings.images_reuse_filename && imageItem.blob.name ? extractFilename(editor, imageItem.blob.name) : id;
+      var img = new domGlobals.Image();
       img.src = imageItem.uri;
       if (isValidDataUriImage(editor.settings, img)) {
         var blobCache = editor.editorUpload.blobCache;
@@ -1180,7 +1180,7 @@ var paste = (function () {
           return cachedBlobInfo.base64() === base64;
         });
         if (!existingBlobInfo) {
-          blobInfo = blobCache.create(id, imageItem.blob, base64, name$$1);
+          blobInfo = blobCache.create(id, imageItem.blob, base64, name);
           blobCache.add(blobInfo);
         } else {
           blobInfo = existingBlobInfo;
@@ -1190,8 +1190,8 @@ var paste = (function () {
         pasteHtml$1(editor, '<img src="' + imageItem.uri + '">', false);
       }
     };
-    var isClipboardEvent = function (event$$1) {
-      return event$$1.type === 'paste';
+    var isClipboardEvent = function (event) {
+      return event.type === 'paste';
     };
     var readBlobsAsDataUris = function (items) {
       return mapM(items, function (item) {
@@ -1239,7 +1239,7 @@ var paste = (function () {
     };
     var isBrokenAndroidClipboardEvent = function (e) {
       var clipboardData = e.clipboardData;
-      return navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
+      return domGlobals.navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
     };
     var isKeyboardPasteEvent = function (e) {
       return global$4.metaKeyPressed(e) && e.keyCode === 86 || e.shiftKey && e.keyCode === 45;
@@ -1255,7 +1255,7 @@ var paste = (function () {
         }
         if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
           keyboardPastePlainTextState = e.shiftKey && e.keyCode === 86;
-          if (keyboardPastePlainTextState && global$1.webkit && navigator.userAgent.indexOf('Version/') !== -1) {
+          if (keyboardPastePlainTextState && global$1.webkit && domGlobals.navigator.userAgent.indexOf('Version/') !== -1) {
             return;
           }
           e.stopImmediatePropagation();
@@ -1355,7 +1355,7 @@ var paste = (function () {
     var registerEventsAndFilters = function (editor, pasteBin, pasteFormat) {
       registerEventHandlers(editor, pasteBin, pasteFormat);
       var src;
-      editor.parser.addNodeFilter('img', function (nodes, name$$1, args) {
+      editor.parser.addNodeFilter('img', function (nodes, name, args) {
         var isPasteInsert = function (args) {
           return args.data && args.data.paste === true;
         };
@@ -1388,7 +1388,7 @@ var paste = (function () {
     };
 
     var getPasteBinParent = function (editor) {
-      return global$1.ie && editor.inline ? document.body : editor.getBody();
+      return global$1.ie && editor.inline ? domGlobals.document.body : editor.getBody();
     };
     var isExternalPasteBin = function (editor) {
       return getPasteBinParent(editor) !== editor.getBody();
@@ -1524,7 +1524,7 @@ var paste = (function () {
       };
     };
 
-    var noop$1 = function () {
+    var noop = function () {
     };
     var hasWorkingClipboardApi = function (clipboardData) {
       return global$1.iOS === false && clipboardData !== undefined && typeof clipboardData.setData === 'function' && Utils.isMsEdge() !== true;
@@ -1607,7 +1607,7 @@ var paste = (function () {
     var copy = function (editor) {
       return function (evt) {
         if (hasSelectedContent(editor)) {
-          setClipboardData(evt, getData(editor), fallback(editor), noop$1);
+          setClipboardData(evt, getData(editor), fallback(editor), noop);
         }
       };
     };
@@ -1854,5 +1854,5 @@ var paste = (function () {
 
     return Plugin;
 
-}());
+}(window));
 })();

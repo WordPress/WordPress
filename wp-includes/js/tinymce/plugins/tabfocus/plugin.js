@@ -1,5 +1,5 @@
 (function () {
-var tabfocus = (function () {
+var tabfocus = (function (domGlobals) {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
@@ -90,7 +90,7 @@ var tabfocus = (function () {
           } else {
             global$4.setTimeout(function () {
               if (!global$3.webkit) {
-                window.focus();
+                domGlobals.window.focus();
               }
               el.focus();
             }, 10);
@@ -120,5 +120,5 @@ var tabfocus = (function () {
 
     return Plugin;
 
-}());
+}(window));
 })();
