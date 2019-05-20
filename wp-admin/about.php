@@ -55,12 +55,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				printf(
 					/* translators: 1: WordPress version number, 2: plural number of bugs. */
 					_n(
-						'<strong>Version %1$s</strong> fixed %2$s bug.',
-						'<strong>Version %1$s</strong> fixed %2$s bugs.',
-						32
+						'<strong>Version %1$s</strong> addressed %2$s bug.',
+						'<strong>Version %1$s</strong> addressed %2$s bugs.',
+						33
 					),
 					'5.2.1',
-					number_format_i18n( 32 )
+					number_format_i18n( 33 )
 				);
 				?>
 				<?php
