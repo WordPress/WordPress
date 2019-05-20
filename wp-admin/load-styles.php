@@ -45,6 +45,11 @@ if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_
 	exit();
 }
 
+header( "Etag: $wp_version" );
+header( 'Content-Type: text/css; charset=UTF-8' );
+header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires_offset ) . ' GMT' );
+header( "Cache-Control: public, max-age=$expires_offset" );
+
 foreach ( $load as $handle ) {
 	if ( ! array_key_exists( $handle, $wp_styles->registered ) ) {
 		continue;
@@ -69,16 +74,10 @@ foreach ( $load as $handle ) {
 		$content = str_replace( '../images/', '../' . WPINC . '/images/', $content );
 		$content = str_replace( '../js/tinymce/', '../' . WPINC . '/js/tinymce/', $content );
 		$content = str_replace( '../fonts/', '../' . WPINC . '/fonts/', $content );
-		$out    .= $content;
+		echo $content;
 	} else {
-		$out .= str_replace( '../images/', 'images/', $content );
+		echo str_replace( '../images/', 'images/', $content );
 	}
 }
 
-header( "Etag: $wp_version" );
-header( 'Content-Type: text/css; charset=UTF-8' );
-header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', time() + $expires_offset ) . ' GMT' );
-header( "Cache-Control: public, max-age=$expires_offset" );
-
-echo $out;
 exit;
