@@ -946,12 +946,17 @@ function update_core( $from, $to ) {
 		$wp_filesystem->delete( $from, true );
 	}
 
-	/* translators: %s: Update PHP page URL */
-	$php_update_message = '</p><p>' . sprintf( __( '<a href="%s">Learn more about updating PHP</a>.' ), esc_url( wp_get_update_php_url() ) );
+	$php_update_message = '';
+	if ( function_exists( 'wp_get_update_php_url' ) ) {
+		/* translators: %s: Update PHP page URL */
+		$php_update_message = '</p><p>' . sprintf( __( '<a href="%s">Learn more about updating PHP</a>.' ), esc_url( wp_get_update_php_url() ) );
 
-	$annotation = wp_get_update_php_annotation();
-	if ( $annotation ) {
-		$php_update_message .= '</p><p><em>' . $annotation . '</em>';
+		if ( function_exists( 'wp_get_update_php_annotation' ) ) {
+			$annotation = wp_get_update_php_annotation();
+			if ( $annotation ) {
+				$php_update_message .= '</p><p><em>' . $annotation . '</em>';
+			}
+		}
 	}
 
 	if ( ! $mysql_compat && ! $php_compat ) {
