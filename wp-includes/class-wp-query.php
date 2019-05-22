@@ -4169,15 +4169,15 @@ class WP_Query {
 	 * @since 4.1.0
 	 * @since 4.4.0 Added the ability to pass a post ID to `$post`.
 	 *
-	 * @global int             $id
-	 * @global WP_User         $authordata
-	 * @global string|int|bool $currentday
-	 * @global string|int|bool $currentmonth
-	 * @global int             $page
-	 * @global array           $pages
-	 * @global int             $multipage
-	 * @global int             $more
-	 * @global int             $numpages
+	 * @global int     $id
+	 * @global WP_User $authordata
+	 * @global string  $currentday
+	 * @global string  $currentmonth
+	 * @global int     $page
+	 * @global array   $pages
+	 * @global int     $multipage
+	 * @global int     $more
+	 * @global int     $numpages
 	 *
 	 * @param WP_Post|object|int $post WP_Post instance or Post ID/object.
 	 * @return true True when finished.
