@@ -797,7 +797,8 @@ function wp_get_http_headers( $url, $deprecated = false ) {
  */
 function is_new_day() {
 	global $currentday, $previousday;
-	if ( $currentday != $previousday ) {
+
+	if ( $currentday !== $previousday ) {
 		return 1;
 	} else {
 		return 0;
