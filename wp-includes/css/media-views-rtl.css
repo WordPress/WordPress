@@ -1235,26 +1235,33 @@
 }
 
 .media-uploader-status .upload-dismiss-errors {
+	position: absolute;
+	top: -3px;
+	left: -5px;
+	padding: 5px;
+	border-radius: 50%;
+	transition: none;
 	text-decoration: none;
 }
 
-.media-sidebar .media-uploader-status .upload-dismiss-errors {
-	position: absolute;
-	top: -10px;
-	left: -10px;
-	padding: 10px;
-	transition: none;
+.uploader-inline .media-uploader-status .upload-dismiss-errors {
+	top: 2px;
+	left: 2px;
 }
 
-.media-sidebar .media-uploader-status .upload-dismiss-errors:before {
+.media-uploader-status .upload-dismiss-errors::before {
 	content: "\f153";
 	display: block;
 	font: normal 16px/1 dashicons;
 	color: #72777c;
 }
 
-.media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before,
-.media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before {
+.uploader-inline .errors.media-uploader-status .upload-dismiss-errors::before {
+	color: #606a73;
+}
+
+.errors.media-uploader-status .upload-dismiss-errors:hover::before,
+.errors.media-uploader-status .upload-dismiss-errors:focus::before {
 	color: #c00;
 }
 
@@ -1267,6 +1274,7 @@
 }
 
 .uploader-inline .upload-errors .upload-error {
+	padding: 12px 30px;
 	background-color: #fbeaea;
 	box-shadow: none;
 }
