@@ -1135,7 +1135,7 @@ function wp_print_media_templates() {
 					}
 				#>
 				<div class="setting">
-					<label for="<?php echo $type . '-source'; ?>"><?php echo strtoupper( $type ); ?></span>
+					<label for="<?php echo $type . '-source'; ?>"><?php echo strtoupper( $type ); ?></label>
 					<input type="text" id="<?php echo $type . '-source'; ?>" readonly data-setting="<?php echo $type; ?>" value="{{ data.model.<?php echo $type; ?> }}" />
 					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</div>
@@ -1270,7 +1270,7 @@ function wp_print_media_templates() {
 						var tracks = jQuery( data.model.content ).filter( 'track' );
 						_.each( tracks.toArray(), function (track) {
 							content += track.outerHTML; #>
-						<label for="video-track"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></span>
+						<label for="video-track"><?php _e( 'Tracks (subtitles, captions, descriptions, chapters, or metadata)' ); ?></label>
 						<input class="content-track" type="text" id="video-track" readonly value="{{ track.outerHTML }}" />
 						<button type="button" class="button-link remove-setting remove-track"><?php _ex( 'Remove video track', 'media' ); ?></button>
 						<# } ); #>
