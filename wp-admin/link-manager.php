@@ -108,7 +108,7 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 if ( isset( $_REQUEST['deleted'] ) ) {
 	echo '<div id="message" class="updated notice is-dismissible"><p>';
 	$deleted = (int) $_REQUEST['deleted'];
-	printf( _n( '%s link deleted.', '%s links deleted', $deleted ), $deleted );
+	printf( _n( '%s link deleted.', '%s links deleted.', $deleted ), $deleted );
 	echo '</p></div>';
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deleted' ), $_SERVER['REQUEST_URI'] );
 }
