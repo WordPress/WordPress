@@ -78,7 +78,15 @@ Webmaster
 	$content = str_replace( '###URL_DELETE###', $url_delete, $content );
 	$content = str_replace( '###SITE_NAME###', get_network()->site_name, $content );
 
-	wp_mail( get_option( 'admin_email' ), '[ ' . wp_specialchars_decode( get_option( 'blogname' ) ) . ' ] ' . __( 'Delete My Site' ), $content );
+	wp_mail(
+		get_option( 'admin_email' ),
+		sprintf(
+			/* translators: %s: Site title */
+			__( '[%s] Delete My Site' ),
+			wp_specialchars_decode( get_option( 'blogname' ) )
+		),
+		$content
+	);
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
