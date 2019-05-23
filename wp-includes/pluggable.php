@@ -143,18 +143,13 @@ endif;
 
 if ( ! function_exists( 'wp_mail' ) ) :
 	/**
-	 * Send mail, similar to PHP's mail
+	 * Sends an email, similar to PHP's mail function.
 	 *
 	 * A true return value does not automatically mean that the user received the
 	 * email successfully. It just only means that the method used was able to
 	 * process the request without any errors.
 	 *
-	 * Using the two 'wp_mail_from' and 'wp_mail_from_name' hooks allow for
-	 * creating a from address like 'Name <email@address.com>' when both are set. If
-	 * just 'wp_mail_from' is set, then just the email address will be used with no
-	 * name.
-	 *
-	 * The default content type is 'text/plain' which does not allow using HTML.
+	 * The default content type is `text/plain` which does not allow using HTML.
 	 * However, you can set the content type of the email by using the
 	 * {@see 'wp_mail_content_type'} filter.
 	 *
