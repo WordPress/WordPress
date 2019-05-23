@@ -2682,7 +2682,13 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
 function the_weekday() {
 	global $wp_locale;
 
-	$the_weekday = $wp_locale->get_weekday( mysql2date( 'w', get_post()->post_date, false ) );
+	$post = get_post();
+
+	if ( ! $post ) {
+		return;
+	}
+
+	$the_weekday = $wp_locale->get_weekday( get_post_time( 'w', false, $post ) );
 
 	/**
 	 * Filters the weekday on which the post was written, for display.
@@ -2702,23 +2708,29 @@ function the_weekday() {
  *
  * @since 0.71
  *
- * @global WP_Locale $wp_locale   The WordPress date and time locale object.
- * @global string    $currentday  The day of the current post in the loop.
- * @global string    $previousday The day of the previous post in the loop.
+ * @global WP_Locale $wp_locale       The WordPress date and time locale object.
+ * @global string    $currentday      The day of the current post in the loop.
+ * @global string    $previousweekday The day of the previous post in the loop.
  *
  * @param string $before Optional. Output before the date.
  * @param string $after  Optional. Output after the date.
  */
 function the_weekday_date( $before = '', $after = '' ) {
-	global $wp_locale, $currentday, $previousday;
+	global $wp_locale, $currentday, $previousweekday;
+
+	$post = get_post();
+
+	if ( ! $post ) {
+		return;
+	}
 
 	$the_weekday_date = '';
 
-	if ( is_new_day() ) {
+	if ( $currentday !== $previousweekday ) {
 		$the_weekday_date .= $before;
-		$the_weekday_date .= $wp_locale->get_weekday( mysql2date( 'w', get_post()->post_date, false ) );
+		$the_weekday_date .= $wp_locale->get_weekday( get_post_time( 'w', false, $post ) );
 		$the_weekday_date .= $after;
-		$previousday       = $currentday;
+		$previousweekday   = $currentday;
 	}
 
 	/**
