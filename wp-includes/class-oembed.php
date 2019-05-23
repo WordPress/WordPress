@@ -59,7 +59,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?flickr\.com/.*#i'           => array( 'https://www.flickr.com/services/oembed/', true ),
 			'#https?://flic\.kr/.*#i'                      => array( 'https://www.flickr.com/services/oembed/', true ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'           => array( 'https://api.smugmug.com/services/oembed/', true ),
-			'#https?://(www\.)?hulu\.com/watch/.*#i'       => array( 'http://www.hulu.com/api/oembed.{format}', true ),
+			'#https?://(www\.)?hulu\.com/watch/.*#i'       => array( 'https://www.hulu.com/api/oembed.{format}', true ),
 			'#https?://(www\.)?scribd\.com/(doc|document)/.*#i' => array( 'https://www.scribd.com/services/oembed', true ),
 			'#https?://wordpress\.tv/.*#i'                 => array( 'https://wordpress.tv/oembed/', true ),
 			'#https?://(.+\.)?polldaddy\.com/.*#i'         => array( 'https://api.crowdsignal.com/oembed', true ),
