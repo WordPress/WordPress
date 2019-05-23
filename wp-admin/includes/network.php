@@ -608,9 +608,9 @@ define('BLOG_ID_CURRENT_SITE', 1);
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
-	<textarea class="code" readonly="readonly" cols="100" rows="20"><?php echo esc_textarea( $web_config_file ); ?>
-		</textarea></li>
-		</ol>
+		<textarea class="code" readonly="readonly" cols="100" rows="20"><?php echo esc_textarea( $web_config_file ); ?></textarea>
+		</li>
+	</ol>
 
 		<?php
 	else : // end iis7_supports_permalinks(). construct an htaccess file instead:
@@ -650,9 +650,9 @@ EOF;
 			echo '<p><strong>' . __( 'Warning:' ) . ' ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</strong></p>';
 		}
 		?>
-		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>">
-		<?php echo esc_textarea( $htaccess_file ); ?></textarea></li>
-		</ol>
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo substr_count( $htaccess_file, "\n" ) + 1; ?>"><?php echo esc_textarea( $htaccess_file ); ?></textarea>
+		</li>
+	</ol>
 
 		<?php
 	endif; // end IIS/Apache code branches.
