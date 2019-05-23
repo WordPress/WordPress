@@ -1034,6 +1034,10 @@ span.description,
 	font-style: italic;
 }
 
+p.description code {
+	font-style: normal;
+}
+
 .form-wrap .form-field {
 	margin: 1em 0;
 	padding: 0;
