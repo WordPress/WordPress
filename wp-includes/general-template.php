@@ -2658,6 +2658,7 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
 	} else {
 		$time = $post->post_modified;
 	}
+
 	$time = mysql2date( $d, $time, $translate );
 
 	/**
@@ -2666,8 +2667,9 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
 	 * @since 2.8.0
 	 *
 	 * @param string $time The formatted time.
-	 * @param string $d    The date format. Accepts 'G', 'U', or php date format. Default 'U'.
-	 * @param bool   $gmt  Whether to return the GMT time. Default false.
+	 * @param string $d    Format to use for retrieving the time the post was modified.
+	 *                     Accepts 'G', 'U', or php date format. Default 'U'.
+	 * @param bool   $gmt  Whether to retrieve the GMT time. Default false.
 	 */
 	return apply_filters( 'get_post_modified_time', $time, $d, $gmt );
 }
