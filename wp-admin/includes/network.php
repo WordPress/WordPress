@@ -257,7 +257,7 @@ function network_step1( $errors = false ) {
 		echo '<div class="error inline"><p><strong>' . __( 'Warning:' ) . '</strong> ' . __( 'Subdirectory networks may not be fully compatible with custom wp-content directories.' ) . '</p></div>';
 	}
 
-		$is_www = ( 0 === strpos( $hostname, 'www.' ) );
+	$is_www = ( 0 === strpos( $hostname, 'www.' ) );
 	if ( $is_www ) :
 		?>
 		<h3><?php esc_html_e( 'Server Address' ); ?></h3>
@@ -462,24 +462,24 @@ function network_step2( $errors = false ) {
 		<?php
 	}
 	?>
-		<ol>
-			<li><p>
-			<?php
-			printf(
-				/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy publishing." */
-				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
-				'<code>wp-config.php</code>',
-				'<code>' . $location_of_wp_config . '</code>',
-				/*
-				 * translators: This string should only be translated if wp-config-sample.php is localized.
-				 * You can check the localized release package or
-				 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
-				 */
-				'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>'
-			);
-			?>
-			</p>
-				<textarea class="code" readonly="readonly" cols="100" rows="7">
+	<ol>
+		<li><p>
+		<?php
+		printf(
+			/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy publishing." */
+			__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
+			'<code>wp-config.php</code>',
+			'<code>' . $location_of_wp_config . '</code>',
+			/*
+			 * translators: This string should only be translated if wp-config-sample.php is localized.
+			 * You can check the localized release package or
+			 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+			 */
+			'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy publishing.' ) . ' */</code>'
+		);
+		?>
+		</p>
+		<textarea class="code" readonly="readonly" cols="100" rows="7">
 define('MULTISITE', true);
 define('SUBDOMAIN_INSTALL', <?php echo $subdomain_install ? 'true' : 'false'; ?>);
 define('DOMAIN_CURRENT_SITE', '<?php echo $hostname; ?>');
@@ -487,61 +487,61 @@ define('PATH_CURRENT_SITE', '<?php echo $base; ?>');
 define('SITE_ID_CURRENT_SITE', 1);
 define('BLOG_ID_CURRENT_SITE', 1);
 </textarea>
-	<?php
-	$keys_salts = array(
-		'AUTH_KEY'         => '',
-		'SECURE_AUTH_KEY'  => '',
-		'LOGGED_IN_KEY'    => '',
-		'NONCE_KEY'        => '',
-		'AUTH_SALT'        => '',
-		'SECURE_AUTH_SALT' => '',
-		'LOGGED_IN_SALT'   => '',
-		'NONCE_SALT'       => '',
-	);
-	foreach ( $keys_salts as $c => $v ) {
-		if ( defined( $c ) ) {
-			unset( $keys_salts[ $c ] );
+		<?php
+		$keys_salts = array(
+			'AUTH_KEY'         => '',
+			'SECURE_AUTH_KEY'  => '',
+			'LOGGED_IN_KEY'    => '',
+			'NONCE_KEY'        => '',
+			'AUTH_SALT'        => '',
+			'SECURE_AUTH_SALT' => '',
+			'LOGGED_IN_SALT'   => '',
+			'NONCE_SALT'       => '',
+		);
+		foreach ( $keys_salts as $c => $v ) {
+			if ( defined( $c ) ) {
+				unset( $keys_salts[ $c ] );
+			}
 		}
-	}
 
-	if ( ! empty( $keys_salts ) ) {
-		$keys_salts_str = '';
-		$from_api       = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
-		if ( is_wp_error( $from_api ) ) {
-			foreach ( $keys_salts as $c => $v ) {
-				$keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password( 64, true, true ) . "' );";
+		if ( ! empty( $keys_salts ) ) {
+			$keys_salts_str = '';
+			$from_api       = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
+			if ( is_wp_error( $from_api ) ) {
+				foreach ( $keys_salts as $c => $v ) {
+					$keys_salts_str .= "\ndefine( '$c', '" . wp_generate_password( 64, true, true ) . "' );";
+				}
+			} else {
+				$from_api = explode( "\n", wp_remote_retrieve_body( $from_api ) );
+				foreach ( $keys_salts as $c => $v ) {
+					$keys_salts_str .= "\ndefine( '$c', '" . substr( array_shift( $from_api ), 28, 64 ) . "' );";
+				}
 			}
-		} else {
-			$from_api = explode( "\n", wp_remote_retrieve_body( $from_api ) );
-			foreach ( $keys_salts as $c => $v ) {
-				$keys_salts_str .= "\ndefine( '$c', '" . substr( array_shift( $from_api ), 28, 64 ) . "' );";
+			$num_keys_salts = count( $keys_salts );
+			?>
+		<p>
+			<?php
+			if ( 1 == $num_keys_salts ) {
+				printf(
+					/* translators: %s: wp-config.php */
+					__( 'This unique authentication key is also missing from your %s file.' ),
+					'<code>wp-config.php</code>'
+				);
+			} else {
+				printf(
+					/* translators: %s: wp-config.php */
+					__( 'These unique authentication keys are also missing from your %s file.' ),
+					'<code>wp-config.php</code>'
+				);
 			}
-		}
-		$num_keys_salts = count( $keys_salts );
-		?>
-<p>
-		<?php
-		if ( 1 == $num_keys_salts ) {
-			printf(
-				/* translators: %s: wp-config.php */
-				__( 'This unique authentication key is also missing from your %s file.' ),
-				'<code>wp-config.php</code>'
-			);
-		} else {
-			printf(
-				/* translators: %s: wp-config.php */
-				__( 'These unique authentication keys are also missing from your %s file.' ),
-				'<code>wp-config.php</code>'
-			);
+			?>
+			<?php _e( 'To make your installation more secure, you should also add:' ); ?>
+		</p>
+		<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
+			<?php
 		}
 		?>
-		<?php _e( 'To make your installation more secure, you should also add:' ); ?>
-	</p>
-	<textarea class="code" readonly="readonly" cols="100" rows="<?php echo $num_keys_salts; ?>"><?php echo esc_textarea( $keys_salts_str ); ?></textarea>
-		<?php
-	}
-	?>
-</li>
+		</li>
 	<?php
 	if ( iis7_supports_permalinks() ) :
 		// IIS doesn't support RewriteBase, all your RewriteBase are belong to us
