@@ -352,12 +352,12 @@ function wp_loginout( $redirect = '', $echo = true ) {
  * @return string The logout URL. Note: HTML-encoded via esc_html() in wp_nonce_url().
  */
 function wp_logout_url( $redirect = '' ) {
-	$args = array( 'action' => 'logout' );
+	$args = array();
 	if ( ! empty( $redirect ) ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$logout_url = add_query_arg( $args, site_url( 'wp-login.php', 'login' ) );
+	$logout_url = add_query_arg( $args, site_url( 'wp-login.php?action=logout', 'login' ) );
 	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
 
 	/**
@@ -558,12 +558,12 @@ function wp_login_form( $args = array() ) {
  * @return string Lost password URL.
  */
 function wp_lostpassword_url( $redirect = '' ) {
-	$args = array( 'action' => 'lostpassword' );
+	$args = array();
 	if ( ! empty( $redirect ) ) {
 		$args['redirect_to'] = urlencode( $redirect );
 	}
 
-	$lostpassword_url = add_query_arg( $args, network_site_url( 'wp-login.php', 'login' ) );
+	$lostpassword_url = add_query_arg( $args, network_site_url( 'wp-login.php?action=lostpassword', 'login' ) );
 
 	/**
 	 * Filters the Lost Password URL.
