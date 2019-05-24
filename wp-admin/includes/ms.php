@@ -802,7 +802,7 @@ function avoid_blog_page_permalink_collision( $data, $postarr ) {
  */
 function choose_primary_blog() {
 	?>
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 	<tr>
 	<?php /* translators: My sites label */ ?>
 		<th scope="row"><label for="primary_blog"><?php _e( 'Primary Site' ); ?></label></th>
@@ -914,7 +914,7 @@ function confirm_delete_users( $users ) {
 	$site_admins = get_super_admins();
 	$admin_out   = '<option value="' . esc_attr( $current_user->ID ) . '">' . $current_user->user_login . '</option>';
 	?>
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 	<?php
 	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $user_id ) {
 		if ( $user_id != '' && $user_id != '0' ) {

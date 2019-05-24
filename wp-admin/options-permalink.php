@@ -300,7 +300,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 ?>
 </p>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 	<tr>
 		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e( 'Category base' ); ?></label></th>
 		<td><?php echo $blog_prefix; ?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
