@@ -176,7 +176,7 @@ function wp_register_script( $handle, $src, $deps = array(), $ver = false, $in_f
  *         ...
  *     }
  *
- * @see WP_Dependencies::localize()
+ * @see WP_Scripts::localize()
  * @link https://core.trac.wordpress.org/ticket/11520
  * @global WP_Scripts $wp_scripts The WP_Scripts object for printing scripts.
  *
