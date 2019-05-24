@@ -605,7 +605,11 @@ class WP_Debug_Data {
 		if ( ! function_exists( 'ini_get' ) ) {
 			$info['wp-server']['fields']['ini_get'] = array(
 				'label' => __( 'Server settings' ),
-				'value' => __( 'Unable to determine some settings, as the ini_get() function has been disabled.' ),
+				'value' => sprintf(
+					/* translators: %s: ini_get() */
+					__( 'Unable to determine some settings, as the %s function has been disabled.' ),
+					'ini_get()'
+				),
 				'debug' => 'ini_get() is disabled',
 			);
 		} else {
