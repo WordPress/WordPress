@@ -742,7 +742,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	/*
-	 * This may not have orignially been intended to be overrideable,
+	 * This may not have originally been intended to be overridable,
 	 * but historically has been.
 	 */
 	if ( isset( $overrides['upload_error_strings'] ) ) {
@@ -1155,7 +1155,7 @@ function verify_file_md5( $filename, $expected_md5 ) {
  * @param string|array $signatures          A Signature provided for the file.
  * @param string       $filename_for_errors A friendly filename for errors. Optional.
  *
- * @return bool|WP_Error true on success, false if verificaiton not attempted, or WP_Error describing an error condition.
+ * @return bool|WP_Error true on success, false if verification not attempted, or WP_Error describing an error condition.
  */
 function verify_file_signature( $filename, $signatures, $filename_for_errors = false ) {
 	if ( ! $filename_for_errors ) {
@@ -2527,7 +2527,7 @@ All at ###SITENAME###
 }
 
 /**
- * Intercept personal data exporter page ajax responses in order to assemble the personal data export file.
+ * Intercept personal data exporter page Ajax responses in order to assemble the personal data export file.
  * @see wp_privacy_personal_data_export_page
  * @since 4.9.6
  *
@@ -2543,7 +2543,7 @@ All at ###SITENAME###
 function wp_privacy_process_personal_data_export_page( $response, $exporter_index, $email_address, $page, $request_id, $send_as_email, $exporter_key ) {
 	/* Do some simple checks on the shape of the response from the exporter.
 	 * If the exporter response is malformed, don't attempt to consume it - let it
-	 * pass through to generate a warning to the user by default ajax processing.
+	 * pass through to generate a warning to the user by default Ajax processing.
 	 */
 	if ( ! is_array( $response ) ) {
 		return $response;
