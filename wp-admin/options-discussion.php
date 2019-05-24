@@ -43,21 +43,21 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <table class="form-table">
 <tr>
-<th scope="row"><?php _e( 'Default article settings' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Default article settings' ); ?></span></legend>
+<th scope="row"><?php _e( 'Default post settings' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Default post settings' ); ?></span></legend>
 <label for="default_pingback_flag">
 <input name="default_pingback_flag" type="checkbox" id="default_pingback_flag" value="1" <?php checked( '1', get_option( 'default_pingback_flag' ) ); ?> />
-<?php _e( 'Attempt to notify any blogs linked to from the article' ); ?></label>
+<?php _e( 'Attempt to notify any blogs linked to from the post' ); ?></label>
 <br />
 <label for="default_ping_status">
 <input name="default_ping_status" type="checkbox" id="default_ping_status" value="open" <?php checked( 'open', get_option( 'default_ping_status' ) ); ?> />
-<?php _e( 'Allow link notifications from other blogs (pingbacks and trackbacks) on new articles' ); ?></label>
+<?php _e( 'Allow link notifications from other blogs (pingbacks and trackbacks) on new posts' ); ?></label>
 <br />
 <label for="default_comment_status">
 <input name="default_comment_status" type="checkbox" id="default_comment_status" value="open" <?php checked( 'open', get_option( 'default_comment_status' ) ); ?> />
-<?php _e( 'Allow people to post comments on new articles' ); ?></label>
+<?php _e( 'Allow people to submit comments on new posts' ); ?></label>
 <br />
-<p class="description"><?php echo '(' . __( 'These settings may be overridden for individual articles.' ) . ')'; ?></p>
+<p class="description"><?php echo '(' . __( 'These settings may be overridden for individual posts.' ) . ')'; ?></p>
 </fieldset></td>
 </tr>
 <tr>
@@ -79,7 +79,7 @@ if ( ! get_option( 'users_can_register' ) && is_multisite() ) {
 <input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked( '1', get_option( 'close_comments_for_old_posts' ) ); ?> />
 <?php
 printf(
-	__( 'Automatically close comments on articles older than %s days' ),
+	__( 'Automatically close comments on posts older than %s days' ),
 	'</label> <label for="close_comments_days_old"><input name="close_comments_days_old" type="number" min="0" step="1" id="close_comments_days_old" value="' . esc_attr( get_option( 'close_comments_days_old' ) ) . '" class="small-text" />'
 );
 ?>

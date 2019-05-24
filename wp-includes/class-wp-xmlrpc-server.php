@@ -612,12 +612,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				'option'   => 'large_size_h',
 			),
 			'default_comment_status'  => array(
-				'desc'     => __( 'Allow people to post comments on new articles' ),
+				'desc'     => __( 'Allow people to submit comments on new posts' ),
 				'readonly' => false,
 				'option'   => 'default_comment_status',
 			),
 			'default_ping_status'     => array(
-				'desc'     => __( 'Allow link notifications from other blogs (pingbacks and trackbacks) on new articles' ),
+				'desc'     => __( 'Allow link notifications from other blogs (pingbacks and trackbacks) on new posts' ),
 				'readonly' => false,
 				'option'   => 'default_ping_status',
 			),

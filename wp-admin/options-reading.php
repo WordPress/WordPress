@@ -137,8 +137,8 @@ else :
 <td><input name="posts_per_rss" type="number" step="1" min="1" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
 </tr>
 <tr>
-<th scope="row"><?php _e( 'For each article in a feed, show' ); ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each article in a feed, show' ); ?> </span></legend>
+<th scope="row"><?php _e( 'For each post in a feed, show' ); ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each post in a feed, show' ); ?> </span></legend>
 <p><label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label></p>
 </fieldset></td>
