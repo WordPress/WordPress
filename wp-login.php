@@ -431,7 +431,7 @@ function retrieve_password() {
 		$errors->add(
 			'retrieve_password_email_failure',
 			sprintf(
-				__( '<strong>ERROR</strong>: The e-mail could not be sent. Your site may not be correctly configured to send e-mails. <a href="%s">Get support for resetting your password</a>.' ),
+				__( '<strong>ERROR</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
 				esc_url( $support )
 			)
 		);
