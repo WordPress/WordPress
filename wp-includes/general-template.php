@@ -1178,7 +1178,7 @@ function _wp_render_title_tag() {
  * @param string $sep         Optional, default is '&raquo;'. How to separate the various items
  *                            within the page title.
  * @param bool   $display     Optional, default is true. Whether to display or retrieve title.
- * @param string $seplocation Optional. Direction to display title, 'right'.
+ * @param string $seplocation Optional. Location of the separator ('left' or 'right').
  * @return string|null String on retrieve, null when displaying.
  */
 function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
@@ -1294,9 +1294,9 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $title Page title.
-	 * @param string $sep Title separator.
-	 * @param string $seplocation Location of the separator (left or right).
+	 * @param string $title       Page title.
+	 * @param string $sep         Title separator.
+	 * @param string $seplocation Location of the separator ('left' or 'right').
 	 */
 	$title = apply_filters( 'wp_title', $title, $sep, $seplocation );
 
