@@ -45,7 +45,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 	}
 
 	// Shake it!
-	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
+	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password', 'retrieve_password_email_failure' );
 	/**
 	 * Filters the error codes array for shaking the login form.
 	 *
@@ -426,7 +426,16 @@ function retrieve_password() {
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 	if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-		wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.' ) );
+		/* translators: URL to support page for resetting your password */
+		$support = __( 'https://wordpress.org/support/article/resetting-your-password/' );
+		$errors->add(
+			'retrieve_password_email_failure',
+			sprintf(
+				__( '<strong>ERROR</strong>: The e-mail could not be sent. Your site may not be correctly configured to send e-mails. <a href="%s">Get support for resetting your password</a>.' ),
+				esc_url( $support )
+			)
+		);
+		return $errors;
 	}
 
 	return true;
