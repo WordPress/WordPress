@@ -327,7 +327,7 @@ endif; // $_wp_admin_css_colors
 <tr class="user-language-wrap">
 	<th scope="row">
 			<?php /* translators: The user language selection field label */ ?>
-		<label for="locale"><?php _e( 'Language' ); ?></label>
+		<label for="locale"><?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label>
 	</th>
 	<td>
 			<?php

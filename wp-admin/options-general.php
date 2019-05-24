@@ -162,7 +162,7 @@ if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPL
 if ( ! empty( $languages ) || ! empty( $translations ) ) {
 	?>
 	<tr>
-		<th scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
+		<th scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label></th>
 		<td>
 			<?php
 			$locale = get_locale();

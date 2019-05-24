@@ -645,6 +645,12 @@ code {
 	color: #124964;
 }
 
+/* Dashicon for language options on General Settings and Profile screens */
+.form-table th label[for="locale"] .dashicons,
+.form-table th label[for="WPLANG"] .dashicons {
+	margin-right: 5px;
+}
+
 .wrap .page-title-action:focus {
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
