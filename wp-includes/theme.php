@@ -2333,7 +2333,7 @@ function get_theme_starter_content() {
  * @since 4.5.0 The `customize-selective-refresh-widgets` feature was added
  * @since 4.7.0 The `starter-content` feature was added
  * @since 5.0.0 The `responsive-embeds`, `align-wide`, `dark-editor-style`, `disable-custom-colors`,
- *              `disable-custom-font-sizes`, `editor-color-pallete`, `editor-font-sizes`,
+ *              `disable-custom-font-sizes`, `editor-color-palette`, `editor-font-sizes`,
  *              `editor-styles`, and `wp-block-styles` features were added.
  *
  * @global array $_wp_theme_features
