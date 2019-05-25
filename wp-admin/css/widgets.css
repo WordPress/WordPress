@@ -39,7 +39,7 @@
 .widgets-holder-wrap .widget-inside {
 	border-top: none;
 	padding: 1px 15px 15px 15px;
-	line-height: 1.2;
+	line-height: 1.23076923;
 }
 
 .widget.widget-dirty .widget-control-close-wrapper {
@@ -541,7 +541,7 @@ div#widgets-right .closed .widgets-sortables {
 	color: #666;
 	background: #EEE;
 	padding: 0 15px;
-	line-height: 3.35;
+	line-height: 3.30769230;
 	border-left: 1px solid #DDD;
 }
 
