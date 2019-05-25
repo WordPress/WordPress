@@ -432,7 +432,7 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *      *
  *      * - 'example_action' is the action hook
  *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
- *     $value = apply_actions( 'example_action', $arg1, $arg2 );
+ *     $value = do_action( 'example_action', $arg1, $arg2 );
  *
  * @since 1.2.0
  *
