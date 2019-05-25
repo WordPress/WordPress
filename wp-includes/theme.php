@@ -2318,6 +2318,14 @@ function get_theme_starter_content() {
  * If attached to a hook, it must be {@see 'after_setup_theme'}.
  * The {@see 'init'} hook may be too late for some features.
  *
+ * Example usage:
+ *
+ *     add_theme_support( 'title-tag' );
+ *     add_theme_support( 'custom-logo', array(
+ *         'height' => 480,
+ *         'width'  => 720,
+ *     ) );
+ *
  * @since 2.9.0
  * @since 3.6.0 The `html5` feature was added
  * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'
@@ -2636,11 +2644,17 @@ function _custom_logo_header_styles() {
 /**
  * Gets the theme support arguments passed when registering that support
  *
+ * Example usage:
+ *
+ *     get_theme_support( 'custom-logo' );
+ *     get_theme_support( 'custom-header', 'width' );
+ *
  * @since 3.1.0
  *
  * @global array $_wp_theme_features
  *
  * @param string $feature The feature to check.
+ * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return mixed The array of extra arguments or the value for the registered feature.
  */
 function get_theme_support( $feature ) {
@@ -2751,11 +2765,17 @@ function _remove_theme_support( $feature ) {
 /**
  * Checks a theme's support for a given feature.
  *
+ * Example usage:
+ *
+ *     current_theme_supports( 'custom-logo' );
+ *     current_theme_supports( 'html5', 'comment-form' );
+ *
  * @since 2.9.0
  *
  * @global array $_wp_theme_features
  *
  * @param string $feature The feature being checked.
+ * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return bool True if the current theme supports the feature, false otherwise.
  */
 function current_theme_supports( $feature ) {
