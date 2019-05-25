@@ -244,7 +244,7 @@ class Custom_Background {
 </div>
 		<?php } ?>
 
-<h3><?php _e( 'Background Image' ); ?></h3>
+<h2><?php _e( 'Background Image' ); ?></h2>
 
 <table class="form-table" role="presentation">
 <tbody>
@@ -338,7 +338,7 @@ class Custom_Background {
 </tbody>
 </table>
 
-<h3><?php _e( 'Display Options' ); ?></h3>
+<h2><?php _e( 'Display Options' ); ?></h2>
 <form method="post">
 <table class="form-table" role="presentation">
 <tbody>
