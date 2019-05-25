@@ -347,18 +347,18 @@ function network_step1( $errors = false ) {
 			</tr>
 		<?php endif; ?>
 			<tr>
-				<th scope='row'><?php esc_html_e( 'Network Title' ); ?></th>
+				<th scope='row'><label for="sitename"><?php esc_html_e( 'Network Title' ); ?></label></th>
 				<td>
-					<input name='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
+					<input name='sitename' id='sitename' type='text' size='45' value='<?php echo esc_attr( $site_name ); ?>' />
 					<p class="description">
 						<?php _e( 'What would you like to call your network?' ); ?>
 					</p>
 				</td>
 			</tr>
 			<tr>
-				<th scope='row'><?php esc_html_e( 'Network Admin Email' ); ?></th>
+				<th scope='row'><label for="email"><?php esc_html_e( 'Network Admin Email' ); ?></label></th>
 				<td>
-					<input name='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
+					<input name='email' id='email' type='text' size='45' value='<?php echo esc_attr( $admin_email ); ?>' />
 					<p class="description">
 						<?php _e( 'Your email address.' ); ?>
 					</p>
