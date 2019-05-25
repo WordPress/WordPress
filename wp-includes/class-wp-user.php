@@ -721,11 +721,11 @@ class WP_User {
 	 *
 	 * @see map_meta_cap()
 	 *
-	 * @param string $cap           Capability name.
-	 * @param int    $object_id,... Optional. ID of a specific object to check against if `$cap` is a "meta" capability.
-	 *                              Meta capabilities such as `edit_post` and `edit_user` are capabilities used by
-	 *                              by the `map_meta_cap()` function to map to primitive capabilities that a user or
-	 *                              role has, such as `edit_posts` and `edit_others_posts`.
+	 * @param string $cap          Capability name.
+	 * @param int    ...$object_id Optional. ID of a specific object to check against if `$cap` is a "meta" capability.
+	 *                             Meta capabilities such as `edit_post` and `edit_user` are capabilities used by
+	 *                             by the `map_meta_cap()` function to map to primitive capabilities that a user or
+	 *                             role has, such as `edit_posts` and `edit_others_posts`.
 	 * @return bool Whether the user has the given capability, or, if `$object_id` is passed, whether the user has
 	 *              the given capability for that object.
 	 */
