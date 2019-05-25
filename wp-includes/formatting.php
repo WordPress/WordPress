@@ -3040,7 +3040,9 @@ function wp_rel_nofollow_callback( $matches ) {
 function wp_targeted_link_rel( $text ) {
 	// Don't run (more expensive) regex if no links with targets.
 	if ( stripos( $text, 'target' ) !== false && stripos( $text, '<a ' ) !== false ) {
-		$text = preg_replace_callback( '|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $text );
+		if ( ! is_serialized( $text ) ) {
+			$text = preg_replace_callback( '|<a\s([^>]*target\s*=[^>]*)>|i', 'wp_targeted_link_rel_callback', $text );
+		}
 	}
 
 	return $text;
