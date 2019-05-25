@@ -950,7 +950,7 @@ switch ( $action ) {
 						/* translators: 1: Browser cookie documentation URL, 2: Support forums URL */
 						__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/article/cookies/' ),
-						__( 'https://wordpress.org/support/' )
+						__( 'https://wordpress.org/support/forums/' )
 					)
 				);
 			} elseif ( isset( $_POST['testcookie'] ) && empty( $_COOKIE[ TEST_COOKIE ] ) ) {

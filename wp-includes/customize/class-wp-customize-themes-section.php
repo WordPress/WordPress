@@ -87,7 +87,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 							printf(
 								/* translators: %s: support forums URL */
 								__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
-								__( 'https://wordpress.org/support/' )
+								__( 'https://wordpress.org/support/forums/' )
 							);
 							?>
 						</p>
