@@ -113,7 +113,7 @@ class wpdb {
 	 * Last query made
 	 *
 	 * @since 0.71
-	 * @var array
+	 * @var string
 	 */
 	var $last_query;
 
