@@ -2064,7 +2064,7 @@ function register_initial_settings() {
 				),
 			),
 			'type'         => 'string',
-			'description'  => __( 'Allow people to post comments on new articles.' ),
+			'description'  => __( 'Allow people to submit comments on new posts.' ),
 		)
 	);
 }
