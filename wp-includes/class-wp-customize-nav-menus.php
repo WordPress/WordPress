@@ -878,10 +878,10 @@ final class WP_Customize_Nav_Menus {
 			return new WP_Error( 'unknown_post_type', __( 'Invalid post type.' ) );
 		}
 		if ( empty( $postarr['post_title'] ) ) {
-			return new WP_Error( 'empty_title', __( 'Empty title' ) );
+			return new WP_Error( 'empty_title', __( 'Empty title.' ) );
 		}
 		if ( ! empty( $postarr['post_status'] ) ) {
-			return new WP_Error( 'status_forbidden', __( 'Status is forbidden' ) );
+			return new WP_Error( 'status_forbidden', __( 'Status is forbidden.' ) );
 		}
 
 		/*
