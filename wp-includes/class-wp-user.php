@@ -712,7 +712,17 @@ class WP_User {
 	}
 
 	/**
-	 * Whether the user has a specific capability.
+	 * Returns whether the user has the specified capability.
+	 *
+	 * This function also accepts an ID of an object to check against if the capability is a meta capability. Meta
+	 * capabilities such as `edit_post` and `edit_user` are capabilities used by the `map_meta_cap()` function to
+	 * map to primitive capabilities that a user or role has, such as `edit_posts` and `edit_others_posts`.
+	 *
+	 * Example usage:
+	 *
+	 *     $user->has_cap( 'edit_posts' );
+	 *     $user->has_cap( 'edit_post', $post->ID );
+	 *     $user->has_cap( 'edit_post_meta', $post->ID, $meta_key );
 	 *
 	 * While checking against a role in place of a capability is supported in part, this practice is discouraged as it
 	 * may produce unreliable results.
@@ -721,12 +731,9 @@ class WP_User {
 	 *
 	 * @see map_meta_cap()
 	 *
-	 * @param string $cap           Capability name.
-	 * @param int    $object_id,... Optional. ID of a specific object to check against if `$cap` is a "meta" capability.
-	 *                              Meta capabilities such as `edit_post` and `edit_user` are capabilities used by
-	 *                              by the `map_meta_cap()` function to map to primitive capabilities that a user or
-	 *                              role has, such as `edit_posts` and `edit_others_posts`.
-	 * @return bool Whether the user has the given capability, or, if `$object_id` is passed, whether the user has
+	 * @param string $cap     Capability name.
+	 * @param mixed  ...$args Optional further parameters, typically starting with an object ID.
+	 * @return bool Whether the user has the given capability, or, if an object ID is passed, whether the user has
 	 *              the given capability for that object.
 	 */
 	public function has_cap( $cap ) {

@@ -1742,7 +1742,7 @@ function _add_post_type_submenus() {
 }
 
 /**
- * Register support of certain features for a post type.
+ * Registers support of certain features for a post type.
  *
  * All core features are directly associated with a functional area of the edit
  * screen, such as the editor or a meta box. Features include: 'title', 'editor',
@@ -1753,6 +1753,16 @@ function _add_post_type_submenus() {
  * store revisions, and the 'comments' feature dictates whether the comments
  * count will show on the edit screen.
  *
+ * Example usage:
+ *
+ *     add_post_type_support( 'my_post_type', 'comments' );
+ *     add_post_type_support( 'my_post_type', array(
+ *         'author', 'excerpt',
+ *     ) );
+ *     add_post_type_support( 'my_post_type', 'my_feature', array(
+ *         'field' => 'value',
+ *     ) );
+ *
  * @since 3.0.0
  *
  * @global array $_wp_post_type_features
@@ -1760,6 +1770,7 @@ function _add_post_type_submenus() {
  * @param string       $post_type The post type for which to add the feature.
  * @param string|array $feature   The feature being added, accepts an array of
  *                                feature strings or a single string.
+ * @param mixed        ...$args   Optional extra arguments to pass along with certain features.
  */
 function add_post_type_support( $post_type, $feature ) {
 	global $_wp_post_type_features;
@@ -6020,8 +6031,8 @@ function wp_check_for_changed_slugs( $post_id, $post, $post_before ) {
  * @param WP_Post $post_before The Previous Post Object
  */
 function wp_check_for_changed_dates( $post_id, $post, $post_before ) {
-	$previous_date = date( 'Y-m-d', strtotime( $post_before->post_date ) );
-	$new_date      = date( 'Y-m-d', strtotime( $post->post_date ) );
+	$previous_date = gmdate( 'Y-m-d', strtotime( $post_before->post_date ) );
+	$new_date      = gmdate( 'Y-m-d', strtotime( $post->post_date ) );
 	// Don't bother if it hasn't changed.
 	if ( $new_date == $previous_date ) {
 		return;
@@ -6275,7 +6286,7 @@ function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
 			$date = $wpdb->get_var( "SELECT post_{$field} FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1" );
 			break;
 		case 'server':
-			$add_seconds_server = date( 'Z' );
+			$add_seconds_server = gmdate( 'Z' );
 			$date               = $wpdb->get_var( "SELECT DATE_ADD(post_{$field}_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1" );
 			break;
 	}

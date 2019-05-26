@@ -2107,7 +2107,7 @@ function get_calendar( $initial = true, $echo = true ) {
 	}
 
 	$unixmonth = mktime( 0, 0, 0, $thismonth, 1, $thisyear );
-	$last_day  = date( 't', $unixmonth );
+	$last_day  = gmdate( 't', $unixmonth );
 
 	// Get the next and previous month and year with at least one post
 	$previous = $wpdb->get_row(
@@ -2133,7 +2133,7 @@ function get_calendar( $initial = true, $echo = true ) {
 	<caption>' . sprintf(
 		$calendar_caption,
 		$wp_locale->get_month( $thismonth ),
-		date( 'Y', $unixmonth )
+		gmdate( 'Y', $unixmonth )
 	) . '</caption>
 	<thead>
 	<tr>';
@@ -2199,13 +2199,13 @@ function get_calendar( $initial = true, $echo = true ) {
 	}
 
 	// See how much we should pad in the beginning
-	$pad = calendar_week_mod( date( 'w', $unixmonth ) - $week_begins );
+	$pad = calendar_week_mod( gmdate( 'w', $unixmonth ) - $week_begins );
 	if ( 0 != $pad ) {
 		$calendar_output .= "\n\t\t" . '<td colspan="' . esc_attr( $pad ) . '" class="pad">&nbsp;</td>';
 	}
 
 	$newrow      = false;
-	$daysinmonth = (int) date( 't', $unixmonth );
+	$daysinmonth = (int) gmdate( 't', $unixmonth );
 
 	for ( $day = 1; $day <= $daysinmonth; ++$day ) {
 		if ( isset( $newrow ) && $newrow ) {
@@ -2223,7 +2223,7 @@ function get_calendar( $initial = true, $echo = true ) {
 
 		if ( in_array( $day, $daywithpost ) ) {
 			// any posts today?
-			$date_format = date( _x( 'F j, Y', 'daily archives date format' ), strtotime( "{$thisyear}-{$thismonth}-{$day}" ) );
+			$date_format = gmdate( _x( 'F j, Y', 'daily archives date format' ), strtotime( "{$thisyear}-{$thismonth}-{$day}" ) );
 			/* translators: Post calendar label. %s: Date */
 			$label            = sprintf( __( 'Posts published on %s' ), $date_format );
 			$calendar_output .= sprintf(
@@ -2237,12 +2237,12 @@ function get_calendar( $initial = true, $echo = true ) {
 		}
 		$calendar_output .= '</td>';
 
-		if ( 6 == calendar_week_mod( date( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
+		if ( 6 == calendar_week_mod( gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins ) ) {
 			$newrow = true;
 		}
 	}
 
-	$pad = 7 - calendar_week_mod( date( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins );
+	$pad = 7 - calendar_week_mod( gmdate( 'w', mktime( 0, 0, 0, $thismonth, $day, $thisyear ) ) - $week_begins );
 	if ( $pad != 0 && $pad != 7 ) {
 		$calendar_output .= "\n\t\t" . '<td class="pad" colspan="' . esc_attr( $pad ) . '">&nbsp;</td>';
 	}
@@ -4452,7 +4452,7 @@ function get_the_generator( $type = '' ) {
 			$gen = '<!-- generator="WordPress/' . esc_attr( get_bloginfo( 'version' ) ) . '" -->';
 			break;
 		case 'export':
-			$gen = '<!-- generator="WordPress/' . esc_attr( get_bloginfo_rss( 'version' ) ) . '" created="' . date( 'Y-m-d H:i' ) . '" -->';
+			$gen = '<!-- generator="WordPress/' . esc_attr( get_bloginfo_rss( 'version' ) ) . '" created="' . gmdate( 'Y-m-d H:i' ) . '" -->';
 			break;
 	}
 

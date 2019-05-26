@@ -113,7 +113,7 @@ class wpdb {
 	 * Last query made
 	 *
 	 * @since 0.71
-	 * @var array
+	 * @var string
 	 */
 	var $last_query;
 
@@ -1286,10 +1286,10 @@ class wpdb {
 	 * @link https://secure.php.net/sprintf Description of syntax.
 	 * @since 2.3.0
 	 *
-	 * @param string      $query    Query statement with sprintf()-like placeholders
-	 * @param array|mixed $args     The array of variables to substitute into the query's placeholders if being called with an array of arguments,
-	 *                              or the first variable to substitute into the query's placeholders if being called with individual arguments.
-	 * @param mixed       $args,... further variables to substitute into the query's placeholders if being called wih individual arguments.
+	 * @param string      $query   Query statement with sprintf()-like placeholders
+	 * @param array|mixed $args    The array of variables to substitute into the query's placeholders if being called with an array of arguments,
+	 *                             or the first variable to substitute into the query's placeholders if being called with individual arguments.
+	 * @param mixed       ...$args further variables to substitute into the query's placeholders if being called wih individual arguments.
 	 * @return string|void Sanitized query string, if there is a query to prepare.
 	 */
 	public function prepare( $query, $args ) {

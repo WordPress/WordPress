@@ -960,7 +960,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
 
 		if ( $show_updated )
 			if (substr($row->link_updated_f, 0, 2) != '00')
-				$title .= ' ('.__('Last updated') . ' ' . date(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)) . ')';
+				$title .= ' ('.__('Last updated') . ' ' . gmdate(get_option('links_updated_date_format'), $row->link_updated_f + (get_option('gmt_offset') * HOUR_IN_SECONDS)) . ')';
 
 		if ( '' != $title )
 			$title = ' title="' . $title . '"';
@@ -2109,7 +2109,7 @@ function attribute_escape( $text ) {
  * @param string|int $name            Widget ID.
  * @param callable   $output_callback Run when widget is called.
  * @param string     $classname       Optional. Classname widget option. Default empty.
- * @param mixed      $params ,...     Widget parameters.
+ * @param mixed      ...$params       Widget parameters.
  */
 function register_sidebar_widget($name, $output_callback, $classname = '') {
 	_deprecated_function( __FUNCTION__, '2.8.0', 'wp_register_sidebar_widget()' );

@@ -247,9 +247,13 @@ if ( $user_id ) {
 } else {
 	// Lock the post.
 	$active_post_lock = wp_set_post_lock( $post->ID );
-	$lock_details     = array(
+	if ( $active_post_lock ) {
+		$active_post_lock = esc_attr( implode( ':', $active_post_lock ) );
+	}
+
+	$lock_details = array(
 		'isLocked'       => false,
-		'activePostLock' => esc_attr( implode( ':', $active_post_lock ) ),
+		'activePostLock' => $active_post_lock,
 	);
 }
 

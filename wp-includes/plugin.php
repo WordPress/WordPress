@@ -141,16 +141,18 @@ function has_filter( $tag, $function_to_check = false ) {
 }
 
 /**
- * Call the functions added to a filter hook.
+ * Calls the callback functions that have been added to a filter hook.
  *
- * The callback functions attached to filter hook $tag are invoked by calling
+ * The callback functions attached to the filter hook are invoked by calling
  * this function. This function can be used to create a new filter hook by
  * simply calling this function with the name of the new hook specified using
- * the $tag parameter.
+ * the `$tag` parameter.
  *
- * The function allows for additional arguments to be added and passed to hooks.
+ * The function also allows for multiple additional arguments to be passed to hooks.
  *
- *     // Our filter callback function
+ * Example usage:
+ *
+ *     // The filter callback function
  *     function example_callback( $string, $arg1, $arg2 ) {
  *         // (maybe) modify $string
  *         return $string;
@@ -158,9 +160,10 @@ function has_filter( $tag, $function_to_check = false ) {
  *     add_filter( 'example_filter', 'example_callback', 10, 3 );
  *
  *     /*
- *      * Apply the filters by calling the 'example_callback' function we
- *      * "hooked" to 'example_filter' using the add_filter() function above.
- *      * - 'example_filter' is the filter hook $tag
+ *      * Apply the filters by calling the 'example_callback()' function that's
+ *      * hooked onto `example_filter` above.
+ *      *
+ *      * - 'example_filter' is the filter hook
  *      * - 'filter me' is the value being filtered
  *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
  *     $value = apply_filters( 'example_filter', 'filter me', $arg1, $arg2 );
@@ -171,8 +174,8 @@ function has_filter( $tag, $function_to_check = false ) {
  * @global array $wp_current_filter Stores the list of current filters with the current one last.
  *
  * @param string $tag     The name of the filter hook.
- * @param mixed  $value   The value on which the filters hooked to `$tag` are applied on.
- * @param mixed  $var,... Additional variables passed to the functions hooked to `$tag`.
+ * @param mixed  $value   The value to filter.
+ * @param mixed  ...$args Additional parameters to pass to the callback functions.
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
 function apply_filters( $tag, $value ) {
@@ -213,7 +216,7 @@ function apply_filters( $tag, $value ) {
 }
 
 /**
- * Execute functions hooked on a specific filter hook, specifying arguments in an array.
+ * Calls the callback functions that have been added to a filter hook, specifying arguments in an array.
  *
  * @since 3.0.0
  *
@@ -413,7 +416,23 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * possible to create new action hooks by simply calling this function,
  * specifying the name of the new hook using the `$tag` parameter.
  *
- * You can pass extra arguments to the hooks, much like you can with apply_filters().
+ * You can pass extra arguments to the hooks, much like you can with `apply_filters()`.
+ *
+ * Example usage:
+ *
+ *     // The action callback function
+ *     function example_callback( $arg1, $arg2 ) {
+ *         // (maybe) do something with the args
+ *     }
+ *     add_action( 'example_action', 'example_callback', 10, 2 );
+ *
+ *     /*
+ *      * Trigger the actions by calling the 'example_callback()' function that's
+ *      * hooked onto `example_action` above.
+ *      *
+ *      * - 'example_action' is the action hook
+ *      * - $arg1 and $arg2 are the additional arguments passed to the callback.
+ *     $value = do_action( 'example_action', $arg1, $arg2 );
  *
  * @since 1.2.0
  *
@@ -421,9 +440,9 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @global array $wp_actions        Increments the amount of times action was triggered.
  * @global array $wp_current_filter Stores the list of current filters with the current one last
  *
- * @param string $tag     The name of the action to be executed.
- * @param mixed  $arg,... Optional. Additional arguments which are passed on to the
- *                        functions hooked to the action. Default empty.
+ * @param string $tag    The name of the action to be executed.
+ * @param mixed  ...$arg Optional. Additional arguments which are passed on to the
+ *                       functions hooked to the action. Default empty.
  */
 function do_action( $tag, $arg = '' ) {
 	global $wp_filter, $wp_actions, $wp_current_filter;
@@ -488,12 +507,12 @@ function did_action( $tag ) {
 }
 
 /**
- * Execute functions hooked on a specific action hook, specifying arguments in an array.
+ * Calls the callback functions that have been added to an action hook, specifying arguments in an array.
  *
  * @since 2.1.0
  *
  * @see do_action() This function is identical, but the arguments passed to the
- *                  functions hooked to $tag< are supplied using an array.
+ *                  functions hooked to `$tag` are supplied using an array.
  * @global array $wp_filter         Stores all of the filters
  * @global array $wp_actions        Increments the amount of times action was triggered.
  * @global array $wp_current_filter Stores the list of current filters with the current one last

@@ -212,7 +212,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 			$author     = $authordata->user_nicename;
 		}
 
-		$date           = explode( ' ', date( 'Y m d H i s', $unixtime ) );
+		$date           = explode( ' ', gmdate( 'Y m d H i s', $unixtime ) );
 		$rewritereplace =
 		array(
 			$date[0],

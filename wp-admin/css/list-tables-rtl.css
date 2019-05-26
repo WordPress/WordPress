@@ -537,13 +537,14 @@ th.asc a:focus span.sorting-indicator:before {
 	content: "\f142";
 }
 
-tr.wp-locked .locked-indicator {
+.locked-indicator {
+	display: none;
 	margin-right: 6px;
 	height: 20px;
 	width: 16px;
 }
 
-tr.wp-locked .locked-indicator-icon:before {
+.locked-indicator-icon:before {
 	color: #82878c;
 	content: "\f160";
 	display: inline-block;
@@ -554,30 +555,25 @@ tr.wp-locked .locked-indicator-icon:before {
 	-moz-osx-font-smoothing: grayscale;
 }
 
-tr.wp-locked .check-column label,
-tr.wp-locked .check-column input[type="checkbox"],
-tr.wp-locked .row-actions .inline,
-tr.wp-locked .row-actions .trash {
+.locked-info {
 	display: none;
-}
-
-tr .locked-info {
-	height: 0;
-	opacity: 0;
-}
-
-tr.wp-locked .locked-info {
 	margin-top: 4px;
-	height: auto;
-	opacity: 1;
 }
 
 .locked-text {
 	vertical-align: top;
 }
 
-tr.locked-info, tr.wp-locked .locked-info {
-	transition: height 1s, opacity 0.5s;
+.wp-locked .locked-indicator,
+.wp-locked .locked-info {
+	display: block;
+}
+
+tr.wp-locked .check-column label,
+tr.wp-locked .check-column input[type="checkbox"],
+tr.wp-locked .row-actions .inline,
+tr.wp-locked .row-actions .trash {
+	display: none;
 }
 
 .fixed .column-comments .sorting-indicator {

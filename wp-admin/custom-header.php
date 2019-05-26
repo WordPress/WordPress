@@ -488,7 +488,7 @@ class Custom_Image_Header {
 </div>
 		<?php } ?>
 
-<h3><?php _e( 'Header Image' ); ?></h3>
+<h2><?php _e( 'Header Image' ); ?></h2>
 
 <table class="form-table" role="presentation">
 <tbody>
@@ -687,7 +687,7 @@ class Custom_Image_Header {
 
 		<?php if ( current_theme_supports( 'custom-header', 'header-text' ) ) : ?>
 
-<h3><?php _e( 'Header Text' ); ?></h3>
+<h2><?php _e( 'Header Text' ); ?></h2>
 
 <table class="form-table" role="presentation">
 <tbody>

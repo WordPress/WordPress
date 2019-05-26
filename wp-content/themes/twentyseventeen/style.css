@@ -2846,6 +2846,11 @@ img.alignright {
 	padding: 0;
 }
 
+audio:focus,
+video:focus {
+	outline: thin dotted;
+}
+
 /* Make sure embeds and iframes fit their containers. */
 
 embed,

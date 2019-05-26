@@ -925,7 +925,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( 'registered_date', $fields, true ) ) {
-			$data['registered_date'] = date( 'c', strtotime( $user->user_registered ) );
+			$data['registered_date'] = gmdate( 'c', strtotime( $user->user_registered ) );
 		}
 
 		if ( in_array( 'capabilities', $fields, true ) ) {
