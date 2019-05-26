@@ -84,7 +84,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Storage of pre-setup menu item to prevent wasted calls to wp_setup_nav_menu_item().
 	 *
 	 * @since 4.3.0
-	 * @var array
+	 * @var array|null
 	 */
 	protected $value;
 
