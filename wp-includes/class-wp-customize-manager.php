@@ -232,7 +232,7 @@ final class WP_Customize_Manager {
 	 * Changeset data loaded from a customize_changeset post.
 	 *
 	 * @since 4.7.0
-	 * @var array
+	 * @var array|null
 	 */
 	private $_changeset_data;
 
