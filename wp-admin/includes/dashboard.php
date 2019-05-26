@@ -994,7 +994,7 @@ function wp_dashboard_rss_output( $widget_id ) {
  * @return bool False on failure. True on success.
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
-	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><div class="hide-if-js notice notice-error inline"><p>' . __( 'This widget requires JavaScript.' ) . '</p></div>';
+	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&hellip;' ) . '</p><div class="hide-if-js notice notice-error inline"><p>' . __( 'This widget requires JavaScript.' ) . '</p></div>';
 	$doing_ajax = wp_doing_ajax();
 
 	if ( empty( $check_urls ) ) {
