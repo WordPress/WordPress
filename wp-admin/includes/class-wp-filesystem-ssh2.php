@@ -744,8 +744,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$struc['group']       = $this->group( $path . '/' . $entry );
 			$struc['size']        = $this->size( $path . '/' . $entry );
 			$struc['lastmodunix'] = $this->mtime( $path . '/' . $entry );
-			$struc['lastmod']     = date( 'M j', $struc['lastmodunix'] );
-			$struc['time']        = date( 'h:i:s', $struc['lastmodunix'] );
+			$struc['lastmod']     = gmdate( 'M j', $struc['lastmodunix'] );
+			$struc['time']        = gmdate( 'h:i:s', $struc['lastmodunix'] );
 			$struc['type']        = $this->is_dir( $path . '/' . $entry ) ? 'd' : 'f';
 
 			if ( 'd' == $struc['type'] ) {

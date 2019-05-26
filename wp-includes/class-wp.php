@@ -443,7 +443,7 @@ class WP {
 			}
 
 			if ( ! $wp_last_modified ) {
-				$wp_last_modified = date( 'D, d M Y H:i:s' );
+				$wp_last_modified = gmdate( 'D, d M Y H:i:s' );
 			}
 
 			$wp_last_modified .= ' GMT';

@@ -317,7 +317,7 @@ class WP_Date_Query {
 				$_year = $date_query['year'];
 			}
 
-			$max_days_of_year = date( 'z', mktime( 0, 0, 0, 12, 31, $_year ) ) + 1;
+			$max_days_of_year = gmdate( 'z', mktime( 0, 0, 0, 12, 31, $_year ) ) + 1;
 		} else {
 			// otherwise we use the max of 366 (leap-year)
 			$max_days_of_year = 366;
@@ -352,7 +352,7 @@ class WP_Date_Query {
 			 * If we have a specific year, use it to calculate number of weeks.
 			 * Note: the number of weeks in a year is the date in which Dec 28 appears.
 			 */
-			$week_count = date( 'W', mktime( 0, 0, 0, 12, 28, $_year ) );
+			$week_count = gmdate( 'W', mktime( 0, 0, 0, 12, 28, $_year ) );
 
 		} else {
 			// Otherwise set the week-count to a maximum of 53.
@@ -923,7 +923,7 @@ class WP_Date_Query {
 		}
 
 		if ( ! isset( $datetime['day'] ) ) {
-			$datetime['day'] = ( $default_to_max ) ? (int) date( 't', mktime( 0, 0, 0, $datetime['month'], 1, $datetime['year'] ) ) : 1;
+			$datetime['day'] = ( $default_to_max ) ? (int) gmdate( 't', mktime( 0, 0, 0, $datetime['month'], 1, $datetime['year'] ) ) : 1;
 		}
 
 		if ( ! isset( $datetime['hour'] ) ) {

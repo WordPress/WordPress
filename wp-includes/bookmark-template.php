@@ -87,7 +87,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 				$title .= ' (';
 				$title .= sprintf(
 					__( 'Last updated: %s' ),
-					date(
+					gmdate(
 						get_option( 'links_updated_date_format' ),
 						$bookmark->link_updated_f + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS )
 					)

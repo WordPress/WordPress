@@ -863,11 +863,11 @@ function wp_dashboard_recent_posts( $args ) {
 			$posts->the_post();
 
 			$time = get_the_time( 'U' );
-			if ( date( 'Y-m-d', $time ) == $today ) {
+			if ( gmdate( 'Y-m-d', $time ) == $today ) {
 				$relative = __( 'Today' );
-			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
+			} elseif ( gmdate( 'Y-m-d', $time ) == $tomorrow ) {
 				$relative = __( 'Tomorrow' );
-			} elseif ( date( 'Y', $time ) !== $year ) {
+			} elseif ( gmdate( 'Y', $time ) !== $year ) {
 				/* translators: date and time format for recent posts on the dashboard, from a different calendar year, see https://secure.php.net/date */
 				$relative = date_i18n( __( 'M jS Y' ), $time );
 			} else {

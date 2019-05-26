@@ -3432,13 +3432,13 @@ function get_date_from_gmt( $string, $format = 'Y-m-d H:i:s' ) {
 	if ( $tz ) {
 		$datetime = date_create( $string, new DateTimeZone( 'UTC' ) );
 		if ( ! $datetime ) {
-			return date( $format, 0 );
+			return gmdate( $format, 0 );
 		}
 		$datetime->setTimezone( new DateTimeZone( $tz ) );
 		$string_localtime = $datetime->format( $format );
 	} else {
 		if ( ! preg_match( '#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches ) ) {
-			return date( $format, 0 );
+			return gmdate( $format, 0 );
 		}
 		$string_time      = gmmktime( $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1] );
 		$string_localtime = gmdate( $format, $string_time + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
