@@ -446,7 +446,7 @@ function get_post_embed_html( $width, $height, $post = null ) {
 	} else {
 		/*
 		 * If you're looking at a src version of this file, you'll see an "include"
-		 * statement below. This is used by the `grunt build` process to directly
+		 * statement below. This is used by the `npm run build` process to directly
 		 * include a minified version of wp-embed.js, instead of using the
 		 * file_get_contents() method from above.
 		 *
@@ -1008,7 +1008,7 @@ function print_embed_styles() {
 	} else {
 		/*
 		 * If you're looking at a src version of this file, you'll see an "include"
-		 * statement below. This is used by the `grunt build` process to directly
+		 * statement below. This is used by the `npm run build` process to directly
 		 * include a minified version of wp-oembed-embed.css, instead of using the
 		 * readfile() method from above.
 		 *
@@ -1040,7 +1040,7 @@ function print_embed_scripts() {
 	} else {
 		/*
 		 * If you're looking at a src version of this file, you'll see an "include"
-		 * statement below. This is used by the `grunt build` process to directly
+		 * statement below. This is used by the `npm run build` process to directly
 		 * include a minified version of wp-embed-template.js, instead of using the
 		 * readfile() method from above.
 		 *

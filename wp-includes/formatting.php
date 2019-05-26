@@ -5520,7 +5520,7 @@ function _print_emoji_detection_script() {
 
 		/*
 		 * If you're looking at a src version of this file, you'll see an "include"
-		 * statement below. This is used by the `grunt build` process to directly
+		 * statement below. This is used by the `npm run build` process to directly
 		 * include a minified version of wp-emoji-loader.js, instead of using the
 		 * readfile() method from above.
 		 *
@@ -5736,7 +5736,7 @@ function wp_staticize_emoji_for_email( $mail ) {
  * Returns arrays of emoji data.
  *
  * These arrays are automatically built from the regex in twemoji.js - if they need to be updated,
- * you should update the regex there, then run the `grunt precommit:emoji` job.
+ * you should update the regex there, then run the `npm run grunt precommit:emoji` job.
  *
  * @since 4.9.0
  * @access private
