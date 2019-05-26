@@ -9,17 +9,17 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
+// This file was used to also display the Privacy tab on the About screen from 4.9.6 until 5.3.0.
+if ( isset( $_GET['privacy-notice'] ) ) {
+	wp_redirect( admin_url( 'privacy.php' ), 301 );
+	exit;
+}
+
 $title = __( 'Freedoms' );
 
 list( $display_version ) = explode( '-', get_bloginfo( 'version' ) );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
-
-// This file was used to also display the Privacy tab on the About screen from 4.9.6 until 5.3.0.
-if ( isset( $_GET['privacy-notice'] ) ) {
-	wp_redirect( admi_url( 'privacy.php' ), 301 );
-	exit;
-}
 
 ?>
 <div class="wrap about-wrap full-width-layout">
