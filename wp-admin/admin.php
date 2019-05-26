@@ -293,7 +293,7 @@ if ( isset( $plugin_page ) ) {
 	$importer = $_GET['import'];
 
 	if ( ! current_user_can( 'import' ) ) {
-		wp_die( __( 'Sorry, you are not allowed to import content.' ) );
+		wp_die( __( 'Sorry, you are not allowed to import content into this site.' ) );
 	}
 
 	if ( validate_file( $importer ) ) {
