@@ -1542,19 +1542,6 @@ function wp_default_scripts( &$scripts ) {
 		);
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array( 'jquery' ), false, 1 );
-		did_action( 'init' ) && $scripts->localize(
-			'xfn',
-			'privacyToolsL10n',
-			array(
-				'noDataFound'     => __( 'No personal data was found for this user.' ),
-				'foundAndRemoved' => __( 'All of the personal data found for this user was erased.' ),
-				'noneRemoved'     => __( 'Personal data was found for this user but was not erased.' ),
-				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not erased.' ),
-				'removalError'    => __( 'An error occurred while attempting to find and erase personal data.' ),
-				'noExportFile'    => __( 'No personal data export file was generated.' ),
-				'exportError'     => __( 'An error occurred while attempting to export personal data.' ),
-			)
-		);
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array( 'jquery-ui-sortable' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
@@ -1692,6 +1679,21 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'site-health', "/wp-admin/js/site-health$suffix.js", array( 'clipboard', 'jquery', 'wp-util', 'wp-a11y', 'wp-i18n' ), false, 1 );
 		$scripts->set_translations( 'site-health' );
+
+		$scripts->add( 'privacy-tools', "/wp-admin/js/privacy-tools$suffix.js", array( 'jquery' ), false, 1 );
+		did_action( 'init' ) && $scripts->localize(
+			'privacy-tools',
+			'privacyToolsL10n',
+			array(
+				'noDataFound'     => __( 'No personal data was found for this user.' ),
+				'foundAndRemoved' => __( 'All of the personal data found for this user was erased.' ),
+				'noneRemoved'     => __( 'Personal data was found for this user but was not erased.' ),
+				'someNotRemoved'  => __( 'Personal data was found for this user but some of the personal data found was not erased.' ),
+				'removalError'    => __( 'An error occurred while attempting to find and erase personal data.' ),
+				'noExportFile'    => __( 'No personal data export file was generated.' ),
+				'exportError'     => __( 'An error occurred while attempting to export personal data.' ),
+			)
+		);
 
 		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(

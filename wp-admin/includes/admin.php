@@ -40,6 +40,9 @@ require_once( ABSPATH . 'wp-admin/includes/import.php' );
 /** WordPress Misc Administration API */
 require_once( ABSPATH . 'wp-admin/includes/misc.php' );
 
+/** WordPress Misc Administration API */
+require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
+
 /** WordPress Options Administration API */
 require_once( ABSPATH . 'wp-admin/includes/options.php' );
 
@@ -66,6 +69,15 @@ require_once( ABSPATH . 'wp-admin/includes/list-table.php' );
 
 /** WordPress Theme Administration API */
 require_once( ABSPATH . 'wp-admin/includes/theme.php' );
+
+/** WordPress Privacy Functions */
+require_once( ABSPATH . 'wp-admin/includes/privacy-tools.php' );
+
+/** WordPress Privacy List Table classes. */
+// Previously in wp-admin/includes/user.php. Need to be loaded for backwards compatibility.
+require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-requests-table.php' );
+require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-export-requests-list-table.php' );
+require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-removal-requests-list-table.php' );
 
 /** WordPress User Administration API */
 require_once( ABSPATH . 'wp-admin/includes/user.php' );

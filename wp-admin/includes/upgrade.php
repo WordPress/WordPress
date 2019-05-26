@@ -342,7 +342,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 			$privacy_policy_content = get_site_option( 'default_privacy_policy_content' );
 		} else {
 			if ( ! class_exists( 'WP_Privacy_Policy_Content' ) ) {
-				include_once( ABSPATH . 'wp-admin/includes/misc.php' );
+				include_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-policy-content.php' );
 			}
 
 			$privacy_policy_content = WP_Privacy_Policy_Content::get_default_content();

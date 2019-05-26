@@ -1514,3 +1514,50 @@ function options_permalink_add_js() {
 	</script>
 	<?php
 }
+
+/**
+ * Previous class for list table for privacy data export requests.
+ *
+ * @since 4.9.6
+ * @deprecated 5.3.0
+ */
+class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Data_Export_Requests_List_Table {
+	function __construct( $args ) {
+		_deprecated_function( __CLASS__, '5.3.0', 'WP_Privacy_Data_Export_Requests_List_Table' );
+
+		if ( ! isset( $args['screen'] ) || $args['screen'] === 'export_personal_data' ) {
+			$args['screen'] = 'export-personal-data';
+		}
+
+		parent::__construct( $args );	
+	}
+}
+
+/**
+ * Previous class for list table for privacy data erasure requests.
+ *
+ * @since 4.9.6
+ * @deprecated 5.3.0
+ */
+class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Data_Removal_Requests_List_Table {
+	function __construct( $args ) {
+		_deprecated_function( __CLASS__, '5.3.0', 'WP_Privacy_Data_Removal_Requests_List_Table' );
+
+		if ( ! isset( $args['screen'] ) || $args['screen'] === 'remove_personal_data' ) {
+			$args['screen'] = 'erase-personal-data';
+		}
+
+		parent::__construct( $args );
+	}
+}
+
+/**
+ * Was used to add options for the privacy requests screens before they were separate files.
+ *
+ * @since 4.9.8
+ * @access private
+ * @deprecated 5.3.0
+ */
+function _wp_privacy_requests_screen_options() {
+	_deprecated_function( __FUNCTION__, '5.3.0' );
+}
