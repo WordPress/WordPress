@@ -988,9 +988,10 @@ function wp_dashboard_rss_output( $widget_id ) {
  *
  * @since 2.5.0
  *
- * @param string $widget_id
- * @param callable $callback
- * @param array $check_urls RSS feeds
+ * @param string   $widget_id  The widget ID.
+ * @param callable $callback   The callback funtion used to display each feed.
+ * @param array    $check_urls RSS feeds
+ * @param mixed    ...$args    Optional additional parameters to pass to the callback function when it's called.
  * @return bool False on failure. True on success.
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {

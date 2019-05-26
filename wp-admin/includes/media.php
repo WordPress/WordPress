@@ -476,15 +476,16 @@ function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data 
 }
 
 /**
- * Adds the iframe to display content for the media upload page
+ * Outputs the iframe to display the media upload page.
  *
  * @since 2.5.0
  *
  * @global int $body_id
  *
- * @param string|callable $content_func
+ * @param callable $content_func Function that outputs the content.
+ * @param mixed    ...$args      Optional additional parameters to pass to the callback function when it's called.
  */
-function wp_iframe( $content_func /* ... */ ) {
+function wp_iframe( $content_func ) {
 	_wp_admin_html_begin();
 	?>
 <title><?php bloginfo( 'name' ); ?> &rsaquo; <?php _e( 'Uploads' ); ?> &#8212; <?php _e( 'WordPress' ); ?></title>
