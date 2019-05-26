@@ -105,7 +105,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 	$editable_extensions = wp_get_plugin_file_editable_extensions( $plugin );
 
 if ( ! is_file( $real_file ) ) {
-	wp_die( sprintf( '<p>%s</p>', __( 'No such file exists! Double check the name and try again.' ) ) );
+	wp_die( sprintf( '<p>%s</p>', __( 'File does not exist! Please double check the name and try again.' ) ) );
 } else {
 	// Get the extension of the file
 	if ( preg_match( '/\.([^.]+)$/', $real_file, $matches ) ) {

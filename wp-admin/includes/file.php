@@ -460,7 +460,7 @@ function wp_edit_theme_plugin_file( $args ) {
 
 	// Ensure file is real.
 	if ( ! is_file( $real_file ) ) {
-		return new WP_Error( 'file_does_not_exist', __( 'No such file exists! Double check the name and try again.' ) );
+		return new WP_Error( 'file_does_not_exist', __( 'File does not exist! Please double check the name and try again.' ) );
 	}
 
 	// Ensure file extension is allowed.

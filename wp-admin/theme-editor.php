@@ -272,7 +272,7 @@ if ( $theme->errors() ) {
 
 <?php
 if ( $error ) :
-	echo '<div class="error"><p>' . __( 'Oops, no such file exists! Double check the name and try again, merci.' ) . '</p></div>';
+	echo '<div class="error"><p>' . __( 'File does not exist! Please double check the name and try again.' ) . '</p></div>';
 else :
 	?>
 	<form name="template" id="template" action="theme-editor.php" method="post">
