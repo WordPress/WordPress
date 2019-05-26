@@ -49,7 +49,7 @@ final class WP_Customize_Selective_Refresh {
 	 * Keep track of the current partial being rendered.
 	 *
 	 * @since 4.5.0
-	 * @var string
+	 * @var string|null
 	 */
 	protected $current_partial_id;
 
