@@ -47,7 +47,7 @@ if ( empty( $option_page ) ) {
 if ( ! current_user_can( $capability ) ) {
 	wp_die(
 		'<h1>' . __( 'You need a higher level of permission.' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to manage these options.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to manage options for this site.' ) . '</p>',
 		403
 	);
 }
