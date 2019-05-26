@@ -484,7 +484,7 @@ if ( ! empty( $invalid ) ) {
 		echo '<div id="message" class="error"><p>';
 		printf(
 			/* translators: 1: plugin file, 2: error message */
-			__( 'The plugin %1$s has been <strong>deactivated</strong> due to an error: %2$s' ),
+			__( 'The plugin %1$s has been deactivated due to an error: %2$s' ),
 			'<code>' . esc_html( $plugin_file ) . '</code>',
 			$error->get_error_message()
 		);
@@ -545,26 +545,26 @@ elseif ( isset( $_GET['deleted'] ) ) :
 			<p>
 				<?php
 				if ( 1 == (int) $_GET['deleted'] ) {
-					_e( 'The selected plugin has been <strong>deleted</strong>.' );
+					_e( 'The selected plugin has been deleted.' );
 				} else {
-					_e( 'The selected plugins have been <strong>deleted</strong>.' );
+					_e( 'The selected plugins have been deleted.' );
 				}
 				?>
 			</p>
 		</div>
 		<?php endif; ?>
 <?php elseif ( isset( $_GET['activate'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin <strong>activated</strong>.' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin activated.' ); ?></p></div>
 <?php elseif ( isset( $_GET['activate-multi'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Selected plugins <strong>activated</strong>.' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Selected plugins activated.' ); ?></p></div>
 <?php elseif ( isset( $_GET['deactivate'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin <strong>deactivated</strong>.' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin deactivated.' ); ?></p></div>
 <?php elseif ( isset( $_GET['deactivate-multi'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Selected plugins <strong>deactivated</strong>.' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Selected plugins deactivated.' ); ?></p></div>
 <?php elseif ( 'update-selected' == $action ) : ?>
 	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'All selected plugins are up to date.' ); ?></p></div>
 <?php elseif ( isset( $_GET['resume'] ) ) : ?>
-	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin <strong>resumed</strong>.' ); ?></p></div>
+	<div id="message" class="updated notice is-dismissible"><p><?php _e( 'Plugin resumed.' ); ?></p></div>
 <?php endif; ?>
 
 <div class="wrap">
