@@ -1738,7 +1738,7 @@ final class WP_Customize_Widgets {
 	 * The current request's sidebar_instance_number context.
 	 *
 	 * @since 4.5.0
-	 * @var int
+	 * @var int|null
 	 */
 	protected $context_sidebar_instance_number;
 
@@ -1790,7 +1790,7 @@ final class WP_Customize_Widgets {
 	 * Current sidebar being rendered.
 	 *
 	 * @since 4.5.0
-	 * @var string
+	 * @var string|null
 	 */
 	protected $rendering_widget_id;
 
@@ -1798,7 +1798,7 @@ final class WP_Customize_Widgets {
 	 * Current widget being rendered.
 	 *
 	 * @since 4.5.0
-	 * @var string
+	 * @var string|null
 	 */
 	protected $rendering_sidebar_id;
 
