@@ -74,7 +74,7 @@ class WP_Widget_Meta extends WP_Widget {
 					'<li><a href="%s" title="%s">%s</a></li>',
 					esc_url( __( 'https://wordpress.org/' ) ),
 					esc_attr__( 'Powered by WordPress, state-of-the-art semantic personal publishing platform.' ),
-					_x( 'WordPress.org', 'meta widget link text' )
+					__( 'WordPress.org' )
 				),
 				$instance
 			);
