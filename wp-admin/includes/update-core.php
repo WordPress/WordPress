@@ -536,6 +536,8 @@ $_old_files = array(
 	'wp-admin/images/screenshots/twitter-embed-1.png',
 	'wp-admin/images/screenshots/twitter-embed-2.png',
 	'wp-admin/js/utils.js',
+	// Added back in 5.3 [45448], see #43895
+	// 'wp-admin/options-privacy.php',
 	'wp-app.php',
 	'wp-includes/class-wp-atom-server.php',
 	'wp-includes/js/tinymce/themes/advanced/skins/wp_theme/ui.css',
