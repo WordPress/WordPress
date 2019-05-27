@@ -145,11 +145,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		);
 
 		$view_href = get_permalink( $privacy_policy_page_id );
-
 		?>
 		<p class="tools-privacy-edit"><strong>
 			<?php
-
 			if ( 'publish' === get_post_status( $privacy_policy_page_id ) ) {
 				printf(
 					/* translators: 1: URL to edit Privacy Policy page, 2: URL to view Privacy Policy page */
@@ -165,7 +163,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					esc_url( $view_href )
 				);
 			}
-
 			?>
 		</strong></p>
 		<?php
@@ -173,7 +170,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	?>
 	<p>
 		<?php
-
 		printf(
 			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
 			__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
@@ -181,7 +177,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			'',
 			''
 		);
-
 		?>
 	</p>
 
@@ -201,7 +196,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			</th>
 			<td>
 				<?php
-				
 				$has_pages = (bool) get_posts(
 					array(
 						'post_type'      => 'page',
@@ -218,7 +212,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					<form method="post" action="">
 						<input type="hidden" name="action" value="set-privacy-page" />
 						<?php
-						
 						wp_dropdown_pages(
 							array(
 								'name'              => 'page_for_privacy_policy',

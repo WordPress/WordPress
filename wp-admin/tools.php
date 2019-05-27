@@ -60,25 +60,25 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <h1><?php echo esc_html( $title ); ?></h1>
 <?php
 
-	if ( current_user_can( 'import' ) ) :
-		$cats = get_taxonomy( 'category' );
-		$tags = get_taxonomy( 'post_tag' );
-		if ( current_user_can( $cats->cap->manage_terms ) || current_user_can( $tags->cap->manage_terms ) ) :
-			?>
-	<div class="card">
-		<h2 class="title"><?php _e( 'Categories and Tags Converter' ); ?></h2>
-		<p><?php printf( __( 'If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.' ), 'import.php' ); ?></p>
-	</div>
-			<?php
+if ( current_user_can( 'import' ) ) :
+	$cats = get_taxonomy( 'category' );
+	$tags = get_taxonomy( 'post_tag' );
+	if ( current_user_can( $cats->cap->manage_terms ) || current_user_can( $tags->cap->manage_terms ) ) :
+		?>
+		<div class="card">
+			<h2 class="title"><?php _e( 'Categories and Tags Converter' ); ?></h2>
+			<p><?php printf( __( 'If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.' ), 'import.php' ); ?></p>
+		</div>
+		<?php
 	endif;
-	endif;
+endif;
 
-	/**
-	 * Fires at the end of the Tools Administration screen.
-	 *
-	 * @since 2.8.0
-	 */
-	do_action( 'tool_box' );
+/**
+ * Fires at the end of the Tools Administration screen.
+ *
+ * @since 2.8.0
+ */
+do_action( 'tool_box' );
 
 ?>
 </div>
