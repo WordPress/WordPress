@@ -49,7 +49,7 @@ function wp_register_tinymce_scripts( &$scripts, $force_uncompressed = false ) {
 	script_concat_settings();
 
 	$compressed = $compress_scripts && $concatenate_scripts && isset( $_SERVER['HTTP_ACCEPT_ENCODING'] )
-				  && false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $force_uncompressed;
+		&& false !== stripos( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) && ! $force_uncompressed;
 
 	// Load tinymce.js when running from /src, otherwise load wp-tinymce.js.gz (in production) or
 	// tinymce.min.js (when SCRIPT_DEBUG is true).
@@ -754,8 +754,8 @@ function wp_tinymce_inline_scripts() {
 			$init_obj .= $key . ':' . $val . ',';
 			continue;
 		} elseif ( ! empty( $value ) && is_string( $value ) && (
-			( '{' == $value{0} && '}' == $value{strlen( $value ) - 1} ) ||
-			( '[' == $value{0} && ']' == $value{strlen( $value ) - 1} ) ||
+			( '{' === $value{0} && '}' === $value{strlen( $value ) - 1} ) ||
+			( '[' === $value{0} && ']' === $value{strlen( $value ) - 1} ) ||
 			preg_match( '/^\(?function ?\(/', $value ) ) ) {
 			$init_obj .= $key . ':' . $value . ',';
 			continue;
@@ -844,8 +844,9 @@ function wp_scripts_get_suffix( $type = '' ) {
 function wp_default_scripts( &$scripts ) {
 	$suffix     = wp_scripts_get_suffix();
 	$dev_suffix = wp_scripts_get_suffix( 'dev' );
+	$guessurl   = site_url();
 
-	if ( ! $guessurl = site_url() ) {
+	if ( ! $guessurl ) {
 		$guessed_url = true;
 		$guessurl    = wp_guess_url();
 	}
@@ -1469,7 +1470,7 @@ function wp_default_scripts( &$scripts ) {
 			'themePreviewUnavailable' => __( 'Sorry, you can&#8217;t preview new themes when you have changes scheduled or saved as a draft. Please publish your changes, or wait until they publish to preview new themes.' ),
 			'themeInstallUnavailable' => sprintf(
 				/* translators: %s: URL to Add Themes admin screen */
-				   __( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
+				__( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
 				esc_url( admin_url( 'theme-install.php' ) )
 			),
 			'publishSettings'         => __( 'Publish Settings' ),
@@ -1883,7 +1884,9 @@ function wp_default_styles( &$styles ) {
 		define( 'SCRIPT_DEBUG', false !== strpos( $wp_version, '-src' ) );
 	}
 
-	if ( ! $guessurl = site_url() ) {
+	$guessurl = site_url();
+
+	if ( ! $guessurl ) {
 		$guessurl = wp_guess_url();
 	}
 
@@ -1907,11 +1910,11 @@ function wp_default_styles( &$styles ) {
 		 */
 		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
 
-		if ( 'cyrillic' == $subset ) {
+		if ( 'cyrillic' === $subset ) {
 			$subsets .= ',cyrillic,cyrillic-ext';
-		} elseif ( 'greek' == $subset ) {
+		} elseif ( 'greek' === $subset ) {
 			$subsets .= ',greek,greek-ext';
-		} elseif ( 'vietnamese' == $subset ) {
+		} elseif ( 'vietnamese' === $subset ) {
 			$subsets .= ',vietnamese';
 		}
 
@@ -2110,11 +2113,15 @@ function wp_default_styles( &$styles ) {
  * @return array Reordered array, if needed.
  */
 function wp_prototype_before_jquery( $js_array ) {
-	if ( false === $prototype = array_search( 'prototype', $js_array, true ) ) {
+	$prototype = array_search( 'prototype', $js_array, true );
+
+	if ( false === $prototype ) {
 		return $js_array;
 	}
 
-	if ( false === $jquery = array_search( 'jquery', $js_array, true ) ) {
+	$jquery = array_search( 'jquery', $js_array, true );
+
+	if ( false === $jquery ) {
 		return $js_array;
 	}
 
@@ -2330,7 +2337,7 @@ function wp_style_loader_src( $src, $handle ) {
 		return preg_replace( '#^wp-admin/#', './', $src );
 	}
 
-	if ( 'colors' == $handle ) {
+	if ( 'colors' === $handle ) {
 		$color = get_user_option( 'admin_color' );
 
 		if ( empty( $color ) || ! isset( $_wp_admin_css_colors[ $color ] ) ) {
@@ -2450,8 +2457,9 @@ function _print_scripts() {
 		$zip = 'gzip';
 	}
 
-	if ( $concat = trim( $wp_scripts->concat, ', ' ) ) {
+	$concat = trim( $wp_scripts->concat, ', ' );
 
+	if ( $concat ) {
 		if ( ! empty( $wp_scripts->print_code ) ) {
 			echo "\n<script type='text/javascript'>\n";
 			echo "/* <![CDATA[ */\n"; // not needed in HTML 5
@@ -2460,7 +2468,7 @@ function _print_scripts() {
 			echo "</script>\n";
 		}
 
-		$concat = str_split( $concat, 128 );
+		$concat       = str_split( $concat, 128 );
 		$concatenated = '';
 
 		foreach ( $concat as $key => $chunk ) {
@@ -2630,11 +2638,13 @@ function _print_styles() {
 		$zip = 'gzip';
 	}
 
-	if ( $concat = trim( $wp_styles->concat, ', ' ) ) {
+	$concat = trim( $wp_styles->concat, ', ' );
+
+	if ( $concat ) {
 		$dir = $wp_styles->text_direction;
 		$ver = $wp_styles->default_version;
 
-		$concat = str_split( $concat, 128 );
+		$concat       = str_split( $concat, 128 );
 		$concatenated = '';
 
 		foreach ( $concat as $key => $chunk ) {
@@ -2668,7 +2678,7 @@ function _print_styles() {
 function script_concat_settings() {
 	global $concatenate_scripts, $compress_scripts, $compress_css;
 
-	$compressed_output = ( ini_get( 'zlib.output_compression' ) || 'ob_gzhandler' == ini_get( 'output_handler' ) );
+	$compressed_output = ( ini_get( 'zlib.output_compression' ) || 'ob_gzhandler' === ini_get( 'output_handler' ) );
 
 	if ( ! isset( $concatenate_scripts ) ) {
 		$concatenate_scripts = defined( 'CONCATENATE_SCRIPTS' ) ? CONCATENATE_SCRIPTS : true;
@@ -2723,7 +2733,7 @@ function wp_common_block_scripts_and_styles() {
 	 *
 	 * @since 5.0.0
 	 */
-	  do_action( 'enqueue_block_assets' );
+	do_action( 'enqueue_block_assets' );
 }
 
 /**
