@@ -16,6 +16,7 @@ define( 'WPINC', 'wp-includes' );
 
 $load = $_GET['load'];
 if ( is_array( $load ) ) {
+	ksort( $load );
 	$load = implode( '', $load );
 }
 

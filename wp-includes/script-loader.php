@@ -2461,9 +2461,13 @@ function _print_scripts() {
 		}
 
 		$concat = str_split( $concat, 128 );
-		$concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
+		$concatenated = '';
 
-		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}&" . $concat . '&ver=' . $wp_scripts->default_version;
+		foreach ( $concat as $key => $chunk ) {
+			$concatenated .= "&load%5Bchunk_{$key}%5D={$chunk}";
+		}
+
+		$src = $wp_scripts->base_url . "/wp-admin/load-scripts.php?c={$zip}" . $concatenated . '&ver=' . $wp_scripts->default_version;
 		echo "<script type='text/javascript' src='" . esc_attr( $src ) . "'></script>\n";
 	}
 
@@ -2631,9 +2635,13 @@ function _print_styles() {
 		$ver = $wp_styles->default_version;
 
 		$concat = str_split( $concat, 128 );
-		$concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
+		$concatenated = '';
 
-		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}&" . $concat . '&ver=' . $ver;
+		foreach ( $concat as $key => $chunk ) {
+			$concatenated .= "&load%5Bchunk_{$key}%5D={$chunk}";
+		}
+
+		$href = $wp_styles->base_url . "/wp-admin/load-styles.php?c={$zip}&dir={$dir}" . $concatenated . '&ver=' . $ver;
 		echo "<link rel='stylesheet' href='" . esc_attr( $href ) . "' type='text/css' media='all' />\n";
 
 		if ( ! empty( $wp_styles->print_code ) ) {
