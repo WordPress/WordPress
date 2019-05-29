@@ -107,7 +107,7 @@
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
 	font-size: 13px;
-	line-height: 2.1em;
+	line-height: 1.7;
 }
 
 .welcome-panel h2 {
@@ -198,7 +198,7 @@
 }
 
 .welcome-panel .welcome-widgets-menus {
-	line-height: 16px;
+	line-height: 1.14285714;
 }
 
 .welcome-panel .welcome-panel-column ul {
@@ -206,7 +206,7 @@
 }
 
 .welcome-panel .welcome-panel-column li {
-	line-height: 16px;
+	line-height: 1.14285714;
 	list-style-type: none;
 	padding: 0 0 8px;
 }
@@ -357,7 +357,7 @@
 .community-events-form label {
 	display: inline-block;
 	vertical-align: top;
-	line-height: 28px;
+	line-height: 2.15384615;
 	height: 28px;
 }
 
@@ -379,7 +379,7 @@
 #dashboard-widgets .community-events-cancel.button-link {
 	vertical-align: top;
 	/* Same properties as the submit button for cross-browsers alignment. */
-	line-height: 26px;
+	line-height: 2;
 	height: 28px;
 	text-decoration: underline;
 }
@@ -937,7 +937,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #latest-comments #the-comment-list .comment-meta {
-	line-height: 1.5em;
+	line-height: 1.5;
 	margin: 0;
 	color: #666;
 }
@@ -970,11 +970,11 @@ body #dashboard-widgets .postbox form .submit {
 a.rsswidget {
 	font-size: 13px;
 	font-weight: 600;
-	line-height: 1.4em;
+	line-height: 1.4;
 }
 
 .rss-widget ul li {
-	line-height: 1.5em;
+	line-height: 1.5;
 	margin-bottom: 12px;
 }
 
