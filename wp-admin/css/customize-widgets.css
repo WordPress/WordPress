@@ -85,7 +85,7 @@
 .widget-inside {
 	padding: 1px 10px 10px 10px;
 	border-top: none;
-	line-height: 16px;
+	line-height: 1.23076923;
 }
 
 .customize-control-widget_form.expanded .widget-action .toggle-indicator:before {
