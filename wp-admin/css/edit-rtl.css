@@ -89,8 +89,8 @@ input#link_url {
 
 #edit-slug-box,
 #comment-link-box {
-	line-height: 24px;
-	min-height: 25px; /* Yes, line-height + 1 */
+	line-height: 1.84615384;
+	min-height: 25px;
 	margin-top: 5px;
 	padding: 0 10px;
 	color: #666;
@@ -186,7 +186,7 @@ ul.category-tabs li,
 #side-sortables .add-menu-item-tabs li,
 .wp-tab-bar li {
 	display: inline;
-	line-height: 1.35em;
+	line-height: 1.35;
 }
 
 .no-js .category-tabs li.hide-if-no-js {
@@ -419,7 +419,7 @@ form#tags-filter {
 
 #timestampdiv select {
 	height: 21px;
-	line-height: 14px;
+	line-height: 1.16666666;
 	padding: 0;
 	vertical-align: top;
 	font-size: 12px;
@@ -486,7 +486,7 @@ span.wp-media-buttons-icon:before {
 
 #timestampdiv {
 	padding-top: 5px;
-	line-height: 23px;
+	line-height: 1.76923076;
 }
 
 #timestampdiv p {
@@ -580,7 +580,7 @@ span.wp-media-buttons-icon:before {
 	float: right;
 	margin-left: 25px;
 	font-size: 13px;
-	line-height: 1.8em;
+	line-height: 1.8;
 	cursor: default;
 	max-width: 100%;
 	overflow: hidden;
@@ -640,7 +640,7 @@ span.wp-media-buttons-icon:before {
 }
 
 #post-visibility-select {
-	line-height: 1.5em;
+	line-height: 1.5;
 	margin-top: 3px;
 }
 
@@ -707,7 +707,7 @@ span.wp-media-buttons-icon:before {
 
 .privacy-text-actions {
 	height: 32px;
-	line-height: 32px;
+	line-height: 2.46153846;
 	padding-bottom: 6px;
 }
 
@@ -882,7 +882,7 @@ a.post-format-icon:hover:before {
 }
 
 #post-formats-select {
-	line-height: 2em;
+	line-height: 2;
 }
 
 #post-formats-select .post-format-icon::before {
@@ -990,7 +990,7 @@ ul.export-filters,
 ul.categorychecklist li {
 	margin: 0;
 	padding: 0;
-	line-height: 22px;
+	line-height: 1.69230769;
 	word-wrap: break-word;
 }
 
@@ -1204,7 +1204,7 @@ p.popular-tags a {
 .trash-undo-inside,
 .spam-undo-inside {
 	margin: 1px 0 1px 8px;
-	line-height: 16px;
+	line-height: 1.23076923;
 }
 
 .spam-undo-inside .avatar,
@@ -1574,7 +1574,7 @@ table.links-table {
 
 	button.wp-switch-editor {
 		font-size: 16px;
-		line-height: 1em;
+		line-height: 1;
 		margin: 7px 7px 0 0;
 		padding: 8px 12px;
 	}
@@ -1610,7 +1610,7 @@ table.links-table {
 
 	#delete-action,
 	#publishing-action {
-		line-height: 47px;
+		line-height: 3.61538461;
 	}
 
 	#publishing-action .spinner {
