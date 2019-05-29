@@ -143,6 +143,7 @@ class WP_Site_Health_Auto_Updates {
 	 * @return array The test results.
 	 */
 	public function test_filters_automatic_updater_disabled() {
+		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
 		if ( apply_filters( 'automatic_updater_disabled', false ) ) {
 			return array(
 				'description' => sprintf(
@@ -239,6 +240,7 @@ class WP_Site_Health_Auto_Updates {
 			}
 		}
 
+		/** This filter is documented in wp-admin/includes/class-wp-automatic-updater.php */
 		if ( $checkout && ! apply_filters( 'automatic_updates_is_vcs_checkout', true, ABSPATH ) ) {
 			return array(
 				'description' => sprintf(
@@ -404,6 +406,7 @@ class WP_Site_Health_Auto_Updates {
 			);
 		}
 
+		/** This filter is documented in wp-admin/includes/class-core-upgrader.php */
 		if ( ! apply_filters( 'allow_dev_auto_core_updates', $wp_version ) ) {
 			return array(
 				'description' => sprintf(
@@ -435,6 +438,7 @@ class WP_Site_Health_Auto_Updates {
 			);
 		}
 
+		/** This filter is documented in wp-admin/includes/class-core-upgrader.php */
 		if ( ! apply_filters( 'allow_minor_auto_core_updates', true ) ) {
 			return array(
 				'description' => sprintf(
