@@ -116,7 +116,7 @@ td > input[type="checkbox"],
 input[type="radio"] {
 	border-radius: 50%;
 	margin-left: 4px;
-	line-height: 10px;
+	line-height: 0.71428571;
 }
 
 input[type="checkbox"]:checked:before,
@@ -145,7 +145,7 @@ input[type="radio"]:checked:before {
 	width: 6px;
 	height: 6px;
 	margin: 4px;
-	line-height: 16px;
+	line-height: 0.76190476;
 	background-color: #1e8cbe;
 }
 
@@ -310,7 +310,7 @@ input[type="radio"].disabled:checked:before {
 
 .wp-admin select {
 	padding: 2px;
-	line-height: 28px;
+	line-height: 2;
 	height: 28px;
 	vertical-align: middle;
 }
@@ -689,7 +689,7 @@ ul#add-to-blog-users {
 .form-table td fieldset label,
 .form-table td fieldset p,
 .form-table td fieldset li {
-	line-height: 1.4em;
+	line-height: 1.4;
 }
 
 .form-table input.tog,
@@ -1113,7 +1113,7 @@ table.form-table td .updated p {
 }
 
 .tools-privacy-policy-page span {
-	line-height: 2em;
+	line-height: 2;
 }
 
 .privacy_requests .column-email {
@@ -1298,7 +1298,7 @@ table.form-table td .updated p {
 		width: 9px;
 		height: 9px;
 		margin: 7px;
-		line-height: 16px;
+		line-height: 0.76190476;
 	}
 
 	.wp-upload-form input[type="submit"] {
@@ -1423,7 +1423,7 @@ table.form-table td .updated p {
 	.form-table span.description {
 		display: inline;
 		padding: 4px 0 0;
-		line-height: 1.4em;
+		line-height: 1.4;
 		font-size: 14px;
 	}
 
