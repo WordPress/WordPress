@@ -96,7 +96,7 @@ label {
 	height: 84px;
 	font-size: 20px;
 	font-weight: 400;
-	line-height: 1.3em;
+	line-height: 1.3;
 	margin: -130px auto 25px;
 	padding: 0;
 	text-decoration: none;
@@ -117,7 +117,7 @@ label {
 .language-chooser.wp-core-ui .step .button.button-large {
 	height: 36px;
 	font-size: 14px;
-	line-height: 33px;
+	line-height: 2.35714285;
 	vertical-align: middle;
 }
 textarea {
@@ -149,7 +149,7 @@ textarea {
 }
 
 .form-table code {
-	line-height: 18px;
+	line-height: 1.28571428;
 	font-size: 14px;
 }
 
@@ -159,7 +159,7 @@ textarea {
 }
 
 .form-table input {
-	line-height: 20px;
+	line-height: 1.33333333;
 	font-size: 15px;
 	padding: 3px 5px;
 	border: 1px solid #ddd;
@@ -204,7 +204,7 @@ submit {
 
 #error-page p {
 	font-size: 14px;
-	line-height: 18px;
+	line-height: 1.28571428;
 	margin: 25px 0 20px;
 }
 
