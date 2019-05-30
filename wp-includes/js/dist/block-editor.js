@@ -12208,20 +12208,42 @@ function (_Component) {
     }
   }, {
     key: "setAttributes",
-    value: function setAttributes(attributes) {
+    value: function setAttributes(newAttributes) {
       var _this$props = this.props,
           clientId = _this$props.clientId,
           name = _this$props.name,
           onChange = _this$props.onChange;
       var type = Object(external_this_wp_blocks_["getBlockType"])(name);
-      onChange(clientId, attributes);
-      var metaAttributes = Object(external_lodash_["reduce"])(attributes, function (result, value, key) {
-        if (Object(external_lodash_["get"])(type, ['attributes', key, 'source']) === 'meta') {
-          result[type.attributes[key].meta] = value;
+
+      function isMetaAttribute(key) {
+        return Object(external_lodash_["get"])(type, ['attributes', key, 'source']) === 'meta';
+      } // Partition new attributes to delegate update behavior by source.
+      //
+      // TODO: A consolidated approach to external attributes sourcing
+      // should be devised to avoid specific handling for meta, enable
+      // additional attributes sources.
+      //
+      // See: https://github.com/WordPress/gutenberg/issues/2759
+
+
+      var _reduce = Object(external_lodash_["reduce"])(newAttributes, function (result, value, key) {
+        if (isMetaAttribute(key)) {
+          result.metaAttributes[type.attributes[key].meta] = value;
+        } else {
+          result.blockAttributes[key] = value;
         }
 
         return result;
-      }, {});
+      }, {
+        blockAttributes: {},
+        metaAttributes: {}
+      }),
+          blockAttributes = _reduce.blockAttributes,
+          metaAttributes = _reduce.metaAttributes;
+
+      if (Object(external_lodash_["size"])(blockAttributes)) {
+        onChange(clientId, blockAttributes);
+      }
 
       if (Object(external_lodash_["size"])(metaAttributes)) {
         this.props.onMetaChange(metaAttributes);
