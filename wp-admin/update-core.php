@@ -241,6 +241,11 @@ function core_upgrade_preamble() {
 	dismissed_updates();
 }
 
+/**
+ * Display the upgrade plugins form.
+ *
+ * @since 2.7.0
+ */
 function list_plugin_updates() {
 	$wp_version     = get_bloginfo( 'version' );
 	$cur_wp_version = preg_replace( '/-.*$/', '', $wp_version );
