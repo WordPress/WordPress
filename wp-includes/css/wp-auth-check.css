@@ -112,7 +112,7 @@
 
 #wp-auth-check-wrap .wp-auth-fallback {
 	font-size: 14px;
-	line-height: 21px;
+	line-height: 1.5;
 	padding: 0 25px;
 	display: none;
 }
