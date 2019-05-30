@@ -464,7 +464,7 @@ div.mce-path {
 
 .mce-toolbar .mce-listbox button {
 	font-size: 13px;
-	line-height: 20px;
+	line-height: 1.53846153;
 	padding-right: 6px;
 	padding-left: 20px;
 }
@@ -675,7 +675,7 @@ div.mce-menu .mce-menu-item-sep,
 	color: #fff;
 	text-shadow: none;
 	padding: 0;
-	line-height: 26px;
+	line-height: 1.85714285;
 }
 
 .mce-window .mce-btn {
@@ -795,7 +795,7 @@ div.mce-menu .mce-menu-item-sep,
 .mce-charmap td div {
 	width: 18px;
 	height: 22px;
-	line-height: 22px;
+	line-height: 1.57142857;
 }
 
 /* TinyMCE tooltips */
@@ -826,7 +826,7 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-toolbar .mce-ico {
 	color: #555d66;
-	line-height: 20px;
+	line-height: 1;
 	width: 20px;
 	height: 20px;
 	text-align: center;
@@ -837,7 +837,7 @@ div.mce-menu .mce-menu-item-sep,
 
 .qt-dfw {
 	color: #555d66;
-	line-height: 20px;
+	line-height: 1;
 	width: 28px;
 	height: 26px;
 	text-align: center;
@@ -1130,7 +1130,7 @@ i.mce-i-wp_code:before {
 	color: #666;
 	cursor: pointer;
 	font-size: 13px;
-	line-height: 19px;
+	line-height: 1.46153846;
 	height: 20px;
 	margin: 5px 5px 0 0;
 	padding: 3px 8px 4px;
@@ -1328,7 +1328,7 @@ i.mce-i-wp_code:before {
 		/* .button-small is normally 11px, but a bit too small for these buttons. */
 		font-size: 12px;
 		height: 26px;
-		line-height: 24px;
+		line-height: 2;
 	}
 }
 
@@ -1418,7 +1418,7 @@ i.mce-i-wp_code:before {
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
-	line-height: 36px;
+	line-height: 2;
 	margin: 0;
 	padding: 0 16px 0 36px;
 }
@@ -1658,12 +1658,12 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link-cancel {
-	line-height: 25px;
+	line-height: 1.92307692;
 	float: right;
 }
 
 #wp-link-update {
-	line-height: 23px;
+	line-height: 1.76923076;
 	float: left;
 }
 
@@ -1693,7 +1693,7 @@ i.mce-i-wp_code:before {
 	}
 
 	#wp-link-cancel {
-		line-height: 32px;
+		line-height: 2.46153846;
 	}
 
 	#wp-link .link-target {
