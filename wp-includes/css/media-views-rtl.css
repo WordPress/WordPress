@@ -30,7 +30,7 @@
 
 .media-frame select,
 .wp-admin .media-frame select {
-	line-height: 28px;
+	line-height: 2;
 	margin-top: 3px;
 }
 
@@ -405,7 +405,7 @@
 	float: right;
 	min-height: 22px;
 	padding-top: 8px;
-	line-height: 16px;
+	line-height: 1.33333333;
 	font-weight: 400;
 	color: #666;
 }
@@ -555,7 +555,7 @@
 	position: relative;
 	padding: 8px 20px;
 	margin: 0;
-	line-height: 18px;
+	line-height: 1.28571428;
 	font-size: 14px;
 	color: #0073aa;
 	text-decoration: none;
@@ -607,7 +607,7 @@
 	padding: 8px 10px 9px;
 	margin: 0;
 	height: 18px;
-	line-height: 18px;
+	line-height: 1.28571428;
 	font-size: 14px;
 	text-decoration: none;
 }
@@ -734,7 +734,7 @@
 .media-frame-title h1 {
 	padding: 0 16px;
 	font-size: 22px;
-	line-height: 50px;
+	line-height: 2.27272727;
 	margin: 0;
 }
 
@@ -1369,7 +1369,7 @@
 .uploader-inline h3, /* Back-compat for pre-4.4 */
 .uploader-inline h2 {
 	font-size: 20px;
-	line-height: 28px;
+	line-height: 1.4;
 	font-weight: 400;
 	margin: 0;
 }
@@ -1440,7 +1440,7 @@
 	display: block;
 	padding-top: 12px;
 	font-size: 14px;
-	line-height: 20px;
+	line-height: 1.42857142;
 	font-weight: 600;
 }
 
@@ -1448,7 +1448,7 @@
 	float: right;
 	padding: 1px 8px;
 	margin: 1px -8px 1px 8px;
-	line-height: 16px;
+	line-height: 1.4;
 	border-left: 1px solid #ddd;
 	color: #0073aa;
 	text-decoration: none;
@@ -1604,7 +1604,7 @@
 	overflow: hidden;
 	min-height: 60px;
 	margin-bottom: 16px;
-	line-height: 18px;
+	line-height: 1.5;
 	color: #666;
 	border-bottom: 1px solid #ddd;
 	padding-bottom: 11px;
@@ -2119,7 +2119,7 @@
 	display: block;
 	width: 200px;
 	font-size: 13px;
-	line-height: 24px;
+	line-height: 1.84615384;
 	color: #666;
 }
 
@@ -2326,7 +2326,7 @@
 
 	.media-frame:not(.hide-menu) .media-frame-title .dashicons {
 		display: inline-block;
-		line-height: 50px;
+		line-height: 2.5;
 	}
 
 	.media-frame:not(.hide-menu) .media-frame-title h1 {
@@ -2599,11 +2599,11 @@
 	.media-modal .media-frame-title h1,
 	.media-frame:not(.hide-menu) .media-frame-title h1 {
 		font-size: 18px;
-		line-height: 40px;
+		line-height: 2.22222222;
 	}
 
 	.media-frame:not(.hide-menu) .media-frame-title .dashicons {
-		line-height: 40px;
+		line-height: 2;
 	}
 
 	.media-frame-router,
