@@ -1808,6 +1808,7 @@ function wp_insert_user( $userdata ) {
 	 *                                          not forced.
 	 *     @type bool     $show_admin_bar_front Whether to show the admin bar on the front end for the user.
 	 *                                          Default true.
+	 *     @type string   $locale               User's locale. Default empty.
 	 * }
 	 * @param WP_User $user   User object.
 	 * @param bool    $update Whether the user is being updated rather than created.
