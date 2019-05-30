@@ -100,7 +100,7 @@
 .describe-toggle-on,
 .describe-toggle-off {
 	display: block;
-	line-height: 36px;
+	line-height: 2.76923076;
 	float: right;
 	margin-right: 10px;
 }
@@ -132,7 +132,7 @@
 }
 
 .media-item .filename {
-	line-height: 36px;
+	line-height: 2.76923076;
 	overflow: hidden;
 	margin-left: 6px;
 }
@@ -239,7 +239,7 @@
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
-	line-height: 36px;
+	line-height: 2;
 	padding: 0 36px 0 16px;
 	position: absolute;
 	top: 0;
@@ -755,7 +755,7 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame input,
 .edit-attachment-frame textarea {
 	padding: 6px 8px;
-	line-height: 16px;
+	line-height: 1.14285714;
 }
 
 .edit-attachment-frame .attachment-info {
@@ -940,7 +940,7 @@ border color while dragging a file over the uploader drop area */
 	background: #f1f1f1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	line-height: 16px;
+	line-height: 1.23076923;
 	color: #72777c;
 }
 
@@ -1164,7 +1164,7 @@ audio, video {
 @media screen and (max-width: 782px) {
 	.wp_attachment_details label[for="content"] {
 		font-size: 14px;
-		line-height: 1.5em;
+		line-height: 1.5;
 	}
 
 	.media-upload-form .media-item.error,
