@@ -3177,7 +3177,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			display: inline-block;
 			text-decoration: none;
 			font-size: 13px;
-			line-height: 26px;
+			line-height: 2;
 			height: 28px;
 			margin: 0;
 			padding: 0 10px 1px;
@@ -3197,7 +3197,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 
 		.button.button-large {
 			height: 30px;
-			line-height: 28px;
+			line-height: 2.15384615;
 			padding: 0 12px 2px;
 		}
 
