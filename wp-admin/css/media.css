@@ -368,28 +368,6 @@
 	z-index: 100100;
 }
 
-ul#dismissed-updates {
-	display: none;
-}
-
-form.upgrade {
-	margin-top: 8px;
-}
-
-form.upgrade .hint {
-	font-style: italic;
-	font-size: 85%;
-	margin: -0.5em 0 2em 0;
-}
-
-#poststuff .inside .the-tagcloud {
-	margin: 5px 0 10px;
-	padding: 8px;
-	border: 1px solid #ddd;
-	line-height: 1.8em;
-	word-spacing: 3px;
-}
-
 .drag-drop #drag-drop-area {
 	border: 4px dashed #b4b9be;
 	height: 200px;
