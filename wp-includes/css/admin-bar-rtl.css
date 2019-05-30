@@ -10,7 +10,7 @@
 	font-size: 13px;
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	line-height: 32px;
+	line-height: 2.46153846;
 	border-radius: 0;
 	box-sizing: content-box;
 	transition: none;
@@ -83,7 +83,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	font-size: 13px;
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	line-height: 32px;
+	line-height: 2.46153846;
 	height: 32px;
 	position: fixed;
 	top: 0;
@@ -187,7 +187,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar .quicklinks .menupop.hover ul li .ab-item,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li .ab-item,
 #wpadminbar .shortlink-input {
-	line-height: 26px;
+	line-height: 2;
 	height: 26px;
 	white-space: nowrap;
 	min-width: 140px;
@@ -484,7 +484,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	padding: 0;
 	border: 1px solid #82878c;
 	background: #eee;
-	line-height: 24px;
+	line-height: 1.84615384;
 	vertical-align: middle;
 	margin: -4px 6px 0 0;
 	float: none;
@@ -643,7 +643,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	z-index: 30;
 	font-size: 13px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	line-height: 24px;
+	line-height: 1.84615384;
 	text-indent: 0;
 	height: 24px;
 	width: 24px;
@@ -816,14 +816,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 		font-size: 14px;
 		font-weight: 400;
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-		line-height: 32px;
+		line-height: 2.28571428;
 	}
 
 	#wpadminbar .quicklinks > ul > li > a,
 	#wpadminbar .quicklinks .ab-empty-item {
 		padding: 0;
 		height: 46px;
-		line-height: 46px;
+		line-height: 3.28571428;
 		width: auto;
 	}
 
@@ -848,6 +848,14 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-my-sites a.ab-item,
 	#wpadminbar #wp-admin-bar-my-account a.ab-item {
 		text-overflow: clip;
+	}
+
+	#wpadminbar .quicklinks .menupop ul li .ab-item,
+	#wpadminbar .quicklinks .menupop ul li a strong,
+	#wpadminbar .quicklinks .menupop.hover ul li .ab-item,
+	#wpadminbar.nojs .quicklinks .menupop:hover ul li .ab-item,
+	#wpadminbar .shortlink-input {
+	    line-height: 1.6;
 	}
 
 	#wpadminbar .ab-label {
@@ -954,7 +962,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* New Content */
 	#wpadminbar #wp-admin-bar-new-content .ab-icon:before {
 		top: 0;
-		line-height: 53px;
+		line-height: 1.33333333;
 		height: 46px !important;
 		text-align: center;
 		width: 52px;
@@ -979,7 +987,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 		display: block;
 		font-size: 34px;
 		height: 46px;
-		line-height: 47px;
+		line-height: 1.38235294;
 		top: 0;
 	}
 
@@ -1016,7 +1024,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	#wpadminbar #wp-admin-bar-user-info .display-name {
 		height: auto;
 		font-size: 16px;
-		line-height: 24px;
+		line-height: 1.5;
 		color: #eee;
 	}
 
