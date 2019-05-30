@@ -41,7 +41,7 @@
 	height: 30px;
 	min-width: 30px;
 	min-height: 30px;
-	line-height: 1em !important;
+	line-height: 1 !important;
 	font-size: 18px;
 	z-index: 5;
 	background: #0085ba !important;
