@@ -331,8 +331,9 @@ if ( ! function_exists( 'twentysixteen_fonts_url' ) ) :
 		if ( $fonts ) {
 			$fonts_url = add_query_arg(
 				array(
-					'family' => urlencode( implode( '|', $fonts ) ),
-					'subset' => urlencode( $subsets ),
+					'family'  => urlencode( implode( '|', $fonts ) ),
+					'subset'  => urlencode( $subsets ),
+					'display' => urlencode( 'fallback' ),
 				),
 				'https://fonts.googleapis.com/css'
 			);

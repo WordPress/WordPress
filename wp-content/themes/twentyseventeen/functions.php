@@ -294,8 +294,9 @@ function twentyseventeen_fonts_url() {
 		$font_families[] = 'Libre Franklin:300,300i,400,400i,600,600i,800,800i';
 
 		$query_args = array(
-			'family' => urlencode( implode( '|', $font_families ) ),
-			'subset' => urlencode( 'latin,latin-ext' ),
+			'family'  => urlencode( implode( '|', $font_families ) ),
+			'subset'  => urlencode( 'latin,latin-ext' ),
+			'display' => urlencode( 'fallback' ),
 		);
 
 		$fonts_url = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );

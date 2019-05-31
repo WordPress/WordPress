@@ -294,8 +294,9 @@ function twentyfourteen_font_url() {
 	 */
 	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
 		$query_args = array(
-			'family' => urlencode( 'Lato:300,400,700,900,300italic,400italic,700italic' ),
-			'subset' => urlencode( 'latin,latin-ext' ),
+			'family'  => urlencode( 'Lato:300,400,700,900,300italic,400italic,700italic' ),
+			'subset'  => urlencode( 'latin,latin-ext' ),
+			'display' => urlencode( 'fallback' ),
 		);
 		$font_url   = add_query_arg( $query_args, 'https://fonts.googleapis.com/css' );
 	}
