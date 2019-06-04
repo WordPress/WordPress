@@ -1924,7 +1924,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 			 *
 			 * @since 4.9.0
 			 *
-			 * @param array   $wp_new_user_notification_email {
+			 * @param array   $wp_new_user_notification_email_admin {
 			 *     Used to build wp_mail().
 			 *
 			 *     @type string $to      The intended recipient - site admin email address.
