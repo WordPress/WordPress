@@ -62,8 +62,8 @@ class WP_Privacy_Data_Removal_Requests_List_Table extends WP_Privacy_Requests_Ta
 				'">';
 
 			$remove_data_markup .= '<span class="remove-personal-data-idle"><button type="button" class="button-link remove-personal-data-handle">' . __( 'Force Erase Personal Data' ) . '</button></span>' .
-				'<span style="display:none" class="remove-personal-data-processing" >' . __( 'Erasing Data...' ) . '</span>' .
-				'<span style="display:none" class="remove-personal-data-failed">' . __( 'Force Erase has failed.' ) . ' <button type="button" class="button-link remove-personal-data-handle">' . __( 'Retry' ) . '</button></span>';
+				'<span class="remove-personal-data-processing hidden">' . __( 'Erasing Data...' ) . '</span>' .
+				'<span class="remove-personal-data-failed hidden">' . __( 'Force Erase has failed.' ) . ' <button type="button" class="button-link remove-personal-data-handle">' . __( 'Retry' ) . '</button></span>';
 
 			$remove_data_markup .= '</div>';
 
@@ -105,8 +105,8 @@ class WP_Privacy_Data_Removal_Requests_List_Table extends WP_Privacy_Requests_Ta
 
 				?>
 				<span class="remove-personal-data-idle"><button type="button" class="button remove-personal-data-handle"><?php _e( 'Erase Personal Data' ); ?></button></span>
-				<span style="display:none" class="remove-personal-data-processing button updating-message" ><?php _e( 'Erasing Data...' ); ?></span>
-				<span style="display:none" class="remove-personal-data-failed"><?php _e( 'Erasing Data has failed.' ); ?> <button type="button" class="button remove-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
+				<span class="remove-personal-data-processing button updating-message hidden"><?php _e( 'Erasing Data...' ); ?></span>
+				<span class="remove-personal-data-failed hidden"><?php _e( 'Erasing Data has failed.' ); ?> <button type="button" class="button remove-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
 				<?php
 
 				echo '</div>';

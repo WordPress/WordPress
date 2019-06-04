@@ -57,9 +57,9 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 			'">';
 
 		$download_data_markup .= '<span class="export-personal-data-idle"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data' ) . '</button></span>' .
-			'<span style="display:none" class="export-personal-data-processing" >' . __( 'Downloading Data...' ) . '</span>' .
-			'<span style="display:none" class="export-personal-data-success"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data Again' ) . '</button></span>' .
-			'<span style="display:none" class="export-personal-data-failed">' . __( 'Download failed.' ) . ' <button type="button" class="button-link">' . __( 'Retry' ) . '</button></span>';
+			'<span class="export-personal-data-processing hidden">' . __( 'Downloading Data...' ) . '</span>' .
+			'<span class="export-personal-data-success hidden"><button type="button" class="button-link export-personal-data-handle">' . __( 'Download Personal Data Again' ) . '</button></span>' .
+			'<span class="export-personal-data-failed hidden">' . __( 'Download failed.' ) . ' <button type="button" class="button-link">' . __( 'Retry' ) . '</button></span>';
 
 		$download_data_markup .= '</div>';
 
@@ -100,9 +100,9 @@ class WP_Privacy_Data_Export_Requests_List_Table extends WP_Privacy_Requests_Tab
 
 				?>
 				<span class="export-personal-data-idle"><button type="button" class="button export-personal-data-handle"><?php _e( 'Send Export Link' ); ?></button></span>
-				<span style="display:none" class="export-personal-data-processing button updating-message" ><?php _e( 'Sending Email...' ); ?></span>
-				<span style="display:none" class="export-personal-data-success success-message" ><?php _e( 'Email sent.' ); ?></span>
-				<span style="display:none" class="export-personal-data-failed"><?php _e( 'Email could not be sent.' ); ?> <button type="button" class="button export-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
+				<span class="export-personal-data-processing button updating-message hidden"><?php _e( 'Sending Email...' ); ?></span>
+				<span class="export-personal-data-success success-message hidden"><?php _e( 'Email sent.' ); ?></span>
+				<span class="export-personal-data-failed hidden"><?php _e( 'Email could not be sent.' ); ?> <button type="button" class="button export-personal-data-handle"><?php _e( 'Retry' ); ?></button></span>
 				<?php
 
 				echo '</div>';

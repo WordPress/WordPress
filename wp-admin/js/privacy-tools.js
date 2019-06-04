@@ -9,8 +9,8 @@ jQuery( document ).ready( function( $ ) {
 	var strings = window.privacyToolsL10n || {};
 
 	function setActionState( $action, state ) {
-		$action.children().hide();
-		$action.children( '.' + state ).show();
+		$action.children().addClass( 'hidden' );
+		$action.children( '.' + state ).removeClass( 'hidden' );
 	}
 
 	function clearResultsAfterRow( $requestRow ) {
