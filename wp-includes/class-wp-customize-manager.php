@@ -5436,7 +5436,7 @@ final class WP_Customize_Manager {
 				'section' => 'background_image',
 				'type'    => 'select',
 				'choices' => array(
-					'auto'    => __( 'Original' ),
+					'auto'    => _x( 'Original', 'Original Size' ),
 					'contain' => __( 'Fit to Screen' ),
 					'cover'   => __( 'Fill Screen' ),
 				),
