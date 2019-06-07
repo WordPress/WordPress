@@ -309,7 +309,6 @@ TABLE OF CONTENTS:
 	display: inline-block;
 	border-radius: 0;
 	margin-right: -1px;
-	z-index: 10;
 }
 
 .wp-core-ui .button-group > .button-primary {

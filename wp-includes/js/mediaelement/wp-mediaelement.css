@@ -67,9 +67,9 @@
 	overflow: visible;
 }
 
-.media-embed-details .embed-media-settings .setting span {
-	max-width: 400px;
-	width: auto;
+.media-embed-details .embed-media-settings .setting span:not(.button-group) {
+	max-width: 400px; /* Back-compat for pre-5.3 */
+	width: auto; /* Back-compat for pre-5.3 */
 }
 
 .media-embed-details .embed-media-settings .checkbox-setting span {
@@ -94,7 +94,7 @@
 }
 
 .media-embed-details .setting .remove-setting {
-	padding: 0;
+	padding: 5px 0;
 }
 
 .media-embed-details .setting a:hover {
