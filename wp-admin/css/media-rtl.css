@@ -1145,6 +1145,10 @@ audio, video {
 	max-width: 100%;
 }
 
+.mejs-container .mejs-controls {
+	box-sizing: border-box;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
