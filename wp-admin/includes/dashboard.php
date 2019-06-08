@@ -584,6 +584,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 	}
 	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n<ul>";
 
+	/* translators: Maximum number of words used in a preview of a draft on the dashboard. */
+	$draft_length = intval( _x( '10', 'draft_length' ) );
+
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
 		$url   = get_edit_post_link( $draft->ID );
@@ -592,7 +595,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		/* translators: %s: post title */
 		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
 		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( __( 'F j, Y' ), $draft ) . '</time></div>';
-		if ( $the_content = wp_trim_words( $draft->post_content, 10 ) ) {
+		if ( $the_content = wp_trim_words( $draft->post_content, $draft_length ) ) {
 			echo '<p>' . $the_content . '</p>';
 		}
 		echo "</li>\n";
