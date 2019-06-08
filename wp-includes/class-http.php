@@ -272,11 +272,17 @@ class WP_Http {
 		$arrURL = @parse_url( $url );
 
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
-			return new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
+			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
+			/** This action is documented in wp-includes/class-http.php */
+			do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+			return $response;
 		}
 
 		if ( $this->block_request( $url ) ) {
-			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
+			$response = new WP_Error( 'http_request_not_executed', __( 'User has blocked requests through HTTP.' ) );
+			/** This action is documented in wp-includes/class-http.php */
+			do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+			return $response;
 		}
 
 		// If we are streaming to a file but no filename was given drop it in the WP temp dir
@@ -289,7 +295,10 @@ class WP_Http {
 			// Force some settings if we are streaming to a file and check for existence and perms of destination directory
 			$r['blocking'] = true;
 			if ( ! wp_is_writable( dirname( $r['filename'] ) ) ) {
-				return new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
+				$response = new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
+				/** This action is documented in wp-includes/class-http.php */
+				do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+				return $response;
 			}
 		}
 
