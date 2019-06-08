@@ -1665,6 +1665,7 @@ form.upgrade .hint {
 }
 
 #screen-meta-links {
+	float: left;
 	margin: 0 0 0 20px;
 }
 
@@ -1681,7 +1682,7 @@ form.upgrade .hint {
 
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
-	float: left;
+	float: right;
 	margin: 0 6px 0 0;
 }
 
