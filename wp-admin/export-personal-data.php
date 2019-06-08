@@ -13,10 +13,6 @@ if ( ! current_user_can( 'export_others_personal_data' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to export personal data on this site.' ) );
 }
 
-if ( ! class_exists( 'WP_Privacy_Data_Export_Requests_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-export-requests-table.php' );
-}
-
 // Handle list table actions.
 _wp_personal_data_handle_actions();
 

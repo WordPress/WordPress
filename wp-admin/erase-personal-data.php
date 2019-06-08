@@ -13,10 +13,6 @@ if ( ! current_user_can( 'erase_others_personal_data' ) || ! current_user_can( '
 	wp_die( __( 'Sorry, you are not allowed to erase data on this site.' ) );
 }
 
-if ( ! class_exists( 'WP_Privacy_Data_Removal_Requests_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-privacy-data-removal-requests-table.php' );
-}
-
 // Handle list table actions.
 _wp_personal_data_handle_actions();
 

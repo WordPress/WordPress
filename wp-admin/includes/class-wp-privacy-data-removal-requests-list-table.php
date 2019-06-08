@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP_Privacy_Requests_Table' ) ) {
 }
 
 /**
- * WP_Privacy_Data_Removal_Requests_Table class.
+ * WP_Privacy_Data_Removal_Requests_List_Table class.
  *
  * @since 4.9.6
  */
