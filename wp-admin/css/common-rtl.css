@@ -1693,14 +1693,15 @@ form.upgrade .hint {
 #screen-meta-links .show-settings {
 	border: 1px solid #ddd;
 	border-top: none;
+	border-bottom-color: #ccc;
+	height: auto;
 	margin-bottom: 0;
 	padding: 3px 16px 3px 6px;
-	background: none;
+	background: #fff;
 	border-radius: 0;
 	color: #72777c;
 	line-height: 1.7;
-	background: #fff;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+	box-shadow: none;
 }
 
 #screen-meta-links .show-settings:hover,
@@ -1709,8 +1710,12 @@ form.upgrade .hint {
 	color: #32373c;
 }
 
+#screen-meta-links .show-settings:focus {
+	border-color: #5b9dd9;
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+}
+
 #screen-meta-links .show-settings:active {
-	box-shadow: none;
 	transform: none;
 }
 
