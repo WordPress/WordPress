@@ -188,7 +188,9 @@ function wp_print_media_templates() {
 	<?php // Template for the media modal. ?>
 	<script type="text/html" id="tmpl-media-modal">
 		<div tabindex="0" class="<?php echo $class; ?>">
-			<button type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close media panel' ); ?></span></span></button>
+			<# if ( data.hasCloseButton ) { #>
+				<button type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close dialog' ); ?></span></span></button>
+			<# } #>
 			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
@@ -323,6 +325,7 @@ function wp_print_media_templates() {
 		<div class="edit-media-header">
 			<button class="left dashicons <# if ( ! data.hasPrevious ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Previous' ); ?></span></button>
 			<button class="right dashicons <# if ( ! data.hasNext ) { #> disabled <# } #>"><span class="screen-reader-text"><?php _e( 'Next' ); ?></span></button>
+			<button type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close dialog' ); ?></span></span></button>
 		</div>
 		<div class="media-frame-title"></div>
 		<div class="media-frame-content"></div>
