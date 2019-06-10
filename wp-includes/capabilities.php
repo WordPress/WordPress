@@ -979,6 +979,31 @@ function wp_maybe_grant_resume_extensions_caps( $allcaps ) {
 	return $allcaps;
 }
 
+/**
+ * Filters the user capabilities to grant the 'view_site_health_checks' capabilities as necessary.
+ *
+ * @since 5.2.2
+ *
+ * @param bool[]   $allcaps An array of all the user's capabilities.
+ * @param string[] $caps    Required primitive capabilities for the requested capability.
+ * @param array    $args {
+ *     Arguments that accompany the requested capability check.
+ *
+ *     @type string    $0 Requested capability.
+ *     @type int       $1 Concerned user ID.
+ *     @type mixed  ...$2 Optional second and further parameters, typically object ID.
+ * }
+ * @param WP_User  $user    The user object.
+ * @return bool[] Filtered array of the user's capabilities.
+ */
+function wp_maybe_grant_site_health_caps( $allcaps, $caps, $args, $user ) {
+	if ( ! empty( $allcaps['install_plugins'] ) && ( ! is_multisite() || is_super_admin( $user->ID ) ) ) {
+		$allcaps['view_site_health_checks'] = true;
+	}
+
+	return $allcaps;
+}
+
 return;
 
 // Dummy gettext calls to get strings in the catalog.

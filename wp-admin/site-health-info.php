@@ -11,7 +11,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 $title = __( 'Site Health Info' );
 
-if ( ! current_user_can( 'install_plugins' ) ) {
+if ( ! current_user_can( 'view_site_health_checks' ) ) {
 	wp_die( __( 'Sorry, you are not allowed to access the debug data.' ), '', 403 );
 }
 
