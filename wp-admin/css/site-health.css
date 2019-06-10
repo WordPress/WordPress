@@ -408,6 +408,23 @@
 	.health-check-accordion-trigger .badge {
 		margin: 1em 0 0;
 	}
+
+	.health-check-table {
+		table-layout: fixed;
+	}
+
+	.health-check-table td {
+		box-sizing: border-box;
+		display: block;
+		width: 100%;
+		word-wrap: break-word;
+	}
+
+	.health-check-table td:first-child {
+		width: 100%;
+		padding-bottom: 0;
+		font-weight: 600;
+	}
 }
 
 /* The breakpoint is usually at 960px, the additional space is to allow for the margin. */
