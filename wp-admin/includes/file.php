@@ -1218,8 +1218,8 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 			return new WP_Error(
 				'signature_verification_unsupported',
 				sprintf(
-					/* translators: 1: The filename of the package. */
-					__( 'The authenticity of %1$s could not be verified as signature verification is unavailable on this system.' ),
+					/* translators: %s: The filename of the package. */
+					__( 'The authenticity of %s could not be verified as signature verification is unavailable on this system.' ),
 					'<span class="code">' . esc_html( $filename_for_errors ) . '</span>'
 				),
 				array(
