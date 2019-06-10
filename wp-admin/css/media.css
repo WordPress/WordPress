@@ -698,13 +698,11 @@ border color while dragging a file over the uploader drop area */
 	color: #000;
 }
 
-.edit-attachment-frame .edit-media-header .left:before,
-.rtl .edit-attachment-frame .edit-media-header .right:before {
+.edit-attachment-frame .edit-media-header .left:before {
 	content: "\f341";
 }
 
-.edit-attachment-frame .edit-media-header .right:before,
-.rtl .edit-attachment-frame .edit-media-header .left:before {
+.edit-attachment-frame .edit-media-header .right:before {
 	content: "\f345";
 }
 
