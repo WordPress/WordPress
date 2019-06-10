@@ -286,6 +286,13 @@ TABLE OF CONTENTS:
 	box-shadow: 0 2px 0 #006799;
 }
 
+.wp-core-ui .button.button-primary.button-hero:focus {
+	box-shadow:
+		0 2px 0 #006799,
+		0 1px 0 #0073aa,
+		0 0 2px 1px #33b3db;
+}
+
 .wp-core-ui .button.button-primary.button-hero.active,
 .wp-core-ui .button.button-primary.button-hero.active:hover,
 .wp-core-ui .button.button-primary.button-hero.active:focus,
