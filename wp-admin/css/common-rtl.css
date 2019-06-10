@@ -1677,12 +1677,7 @@ form.upgrade .hint {
 #screen-options-link-wrap,
 #contextual-help-link-wrap {
 	float: right;
-	height: 28px;
 	margin: 0 6px 0 0;
-	border: 1px solid #ddd;
-	border-top: none;
-	background: #fff;
-	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);
 }
 
 #screen-meta-links .screen-meta-toggle {
@@ -1691,12 +1686,17 @@ form.upgrade .hint {
 }
 
 #screen-meta-links .show-settings {
-	border: 0;
-	background: none;
+	border: 1px solid #ddd;
+	border-top: none;
+	border-bottom-color: #ccc;
+	height: auto;
+	margin-bottom: 0;
+	padding: 3px 16px 3px 6px;
+	background: #fff;
 	border-radius: 0;
 	color: #72777c;
 	line-height: 1.7;
-	padding: 3px 16px 3px 6px;
+	box-shadow: none;
 }
 
 #screen-meta-links .show-settings:hover,
@@ -1705,8 +1705,12 @@ form.upgrade .hint {
 	color: #32373c;
 }
 
+#screen-meta-links .show-settings:focus {
+	border-color: #5b9dd9;
+	box-shadow: 0 0 3px rgba(0, 115, 170, 0.8);
+}
+
 #screen-meta-links .show-settings:active {
-	box-shadow: none;
 	transform: none;
 }
 
