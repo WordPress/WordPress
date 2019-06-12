@@ -2559,19 +2559,21 @@ function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false
 		$time = $post->post_date;
 	}
 
-	$time = mysql2date( $d, $time, $translate );
+	$formatted_time = mysql2date( $d, $time, $translate );
 
 	/**
 	 * Filters the localized time a post was written.
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $time The formatted time.
-	 * @param string $d    Format to use for retrieving the time the post was written.
-	 *                     Accepts 'G', 'U', or php date format. Default 'U'.
-	 * @param bool   $gmt  Whether to retrieve the GMT time. Default false.
+	 * @param string $formatted_time The formatted time.
+	 * @param string $d              Format to use for retrieving the time the post was written.
+	 *                               Accepts 'G', 'U', or php date format. Default 'U'.
+	 * @param bool   $gmt            Whether to retrieve the GMT time. Default false.
+	 * @param string $time           The time, pre formatted.
+	 * @param bool   $translate      Whether to translate the time string. Default false.
 	 */
-	return apply_filters( 'get_post_time', $time, $d, $gmt );
+	return apply_filters( 'get_post_time', $formatted_time, $d, $gmt, $time, $translate );
 }
 
 /**
