@@ -3715,6 +3715,7 @@ img {
 	}
 
 	.wrap {
+		clear: both;
 		margin-right: 12px;
 		margin-left: 0;
 	}
@@ -3975,7 +3976,7 @@ img {
 	}
 
 	#screen-meta-links {
-		margin-bottom: 60px; /* Add margins beneath links for better spacing between boxes and elements */
+		margin-bottom: 20px; /* Add margins beneath links for better spacing between boxes and elements */
 	}
 }
 
