@@ -165,7 +165,7 @@ function twentytwelve_get_font_url() {
 		}
 
 		$query_args = array(
-			'family'  => urlencode( 'Open+Sans:400italic,700italic,400,700' ),
+			'family'  => urlencode( 'Open Sans:400italic,700italic,400,700' ),
 			'subset'  => urlencode( $subsets ),
 			'display' => urlencode( 'fallback' ),
 		);
