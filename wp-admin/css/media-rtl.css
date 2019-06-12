@@ -682,14 +682,11 @@ border color while dragging a file over the uploader drop area */
 	content: "\f341";
 }
 
-.edit-attachment-frame .edit-media-header .left.disabled,
-.edit-attachment-frame .edit-media-header .right.disabled,
-.edit-attachment-frame .edit-media-header .left.disabled:hover,
-.edit-attachment-frame .edit-media-header .right.disabled:hover {
+.edit-attachment-frame .edit-media-header [disabled],
+.edit-attachment-frame .edit-media-header [disabled]:hover {
 	color: #ccc;
 	background: inherit;
 	cursor: default;
-	pointer-events: none;
 }
 
 .edit-attachment-frame .media-frame-content,
