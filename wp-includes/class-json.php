@@ -105,7 +105,7 @@ define('SERVICES_JSON_USE_TO_JSON', 64);
  * // create a new instance of Services_JSON
  * $json = new Services_JSON();
  *
- * // convert a complexe value to JSON notation, and send it to the browser
+ * // convert a complex value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
  * $output = $json->encode($value);
  *
@@ -208,7 +208,7 @@ class Services_JSON
     *
     * Normally should be handled by mb_convert_encoding, but
     * provides a slower PHP-only method for installations
-    * that lack the multibye string extension.
+    * that lack the multibyte string extension.
     *
     * @param    string  $utf8   UTF-8 character
     * @return   string  UTF-16 character
