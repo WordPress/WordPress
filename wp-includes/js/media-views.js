@@ -3754,6 +3754,8 @@ Post = Select.extend(/** @lends wp.media.view.MediaFrame.Post.prototype */{
 
 			click: function() {
 				this.controller.content.mode('browse');
+				// Move focus to the modal when jumping back from Edit Selection to Add Media view.
+				this.controller.modal.focusManager.focus();
 			}
 		});
 
