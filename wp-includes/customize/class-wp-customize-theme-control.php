@@ -93,8 +93,15 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 				<div class="update-message notice inline notice-warning notice-alt" data-slug="{{ data.theme.id }}">
 					<p>
 						<?php
-						/* translators: %s: "Update now" button */
-						printf( __( 'New version available. %s' ), '<button class="button-link update-theme" type="button">' . __( 'Update now' ) . '</button>' );
+						if ( is_multisite() ) {
+							_e( 'New version available.' );
+						} else {
+							printf(
+								/* translators: %s: "Update now" button */
+								__( 'New version available. %s' ),
+								'<button class="button-link update-theme" type="button">' . __( 'Update now' ) . '</button>'
+							);
+						}
 						?>
 					</p>
 				</div>
