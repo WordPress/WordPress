@@ -204,7 +204,9 @@ function core_upgrade_preamble() {
 			}
 		}
 		echo '</h2>';
-	} else {
+	}
+
+	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
 		echo '<div class="notice notice-warning"><p>';
 		_e( '<strong>Important:</strong> Before updating, please <a href="https://codex.wordpress.org/WordPress_Backups">back up your database and files</a>. For help with updates, visit the <a href="https://codex.wordpress.org/Updating_WordPress">Updating WordPress</a> Codex page.' );
 		echo '</p></div>';
