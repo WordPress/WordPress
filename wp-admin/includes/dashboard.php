@@ -1717,22 +1717,21 @@ function wp_welcome_panel() {
 	<div class="welcome-panel-column welcome-panel-last">
 		<h3><?php _e( 'More Actions' ); ?></h3>
 		<ul>
-		<?php if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) : ?>
-			<li><div class="welcome-icon welcome-widgets-menus">
-			<?php
+		<?php
+		if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) :
 			if ( current_theme_supports( 'widgets' ) && current_theme_supports( 'menus' ) ) {
-				printf(
+				$widgets_menus_link = sprintf(
 					__( 'Manage <a href="%1$s">widgets</a> or <a href="%2$s">menus</a>' ),
 					admin_url( 'widgets.php' ),
 					admin_url( 'nav-menus.php' )
 				);
 			} elseif ( current_theme_supports( 'widgets' ) ) {
-				echo '<a href="' . admin_url( 'widgets.php' ) . '">' . __( 'Manage widgets' ) . '</a>';
+				$widgets_menus_link = '<a href="' . admin_url( 'widgets.php' ) . '">' . __( 'Manage widgets' ) . '</a>';
 			} else {
-				echo '<a href="' . admin_url( 'nav-menus.php' ) . '">' . __( 'Manage menus' ) . '</a>';
+				$widgets_menus_link = '<a href="' . admin_url( 'nav-menus.php' ) . '">' . __( 'Manage menus' ) . '</a>';
 			}
 			?>
-			</div></li>
+			<li><div class="welcome-icon welcome-widgets-menus"><?php echo $widgets_menus_link; ?></div></li>
 		<?php endif; ?>
 		<?php if ( current_user_can( 'manage_options' ) ) : ?>
 			<li><?php printf( '<a href="%s" class="welcome-icon welcome-comments">' . __( 'Turn comments on or off' ) . '</a>', admin_url( 'options-discussion.php' ) ); ?></li>
