@@ -864,9 +864,13 @@ function wp_get_registered_image_subsizes() {
 		}
 
 		if ( isset( $additional_sizes[ $size_name ]['crop'] ) ) {
-			$size_data['crop'] = (bool) $additional_sizes[ $size_name ]['crop'];
+			$size_data['crop'] = $additional_sizes[ $size_name ]['crop'];
 		} else {
-			$size_data['crop'] = (bool) get_option( "{$size_name}_crop" );
+			$size_data['crop'] = get_option( "{$size_name}_crop" );
+		}
+
+		if ( ! is_array( $size_data['crop'] ) || empty( $size_data['crop'] ) ) {
+			$size_data['crop'] = (bool) $size_data['crop'];
 		}
 
 		$all_sizes[ $size_name ] = $size_data;
