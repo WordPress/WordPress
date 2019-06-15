@@ -87,7 +87,7 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
 
 	// Meta error?
 	if ( empty( $image_meta ) ) {
-		return $defined_sizes;
+		return $registered_sizes;
 	}
 
 	$full_width     = (int) $image_meta['width'];
@@ -379,8 +379,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 */
 		$fallback_sizes = apply_filters( 'fallback_intermediate_image_sizes', $fallback_sizes, $metadata );
 
-		$defined_sizes = wp_get_registered_image_subsizes();
-		$merged_sizes  = array_intersect_key( $defined_sizes, array_flip( $fallback_sizes ) );
+		$registered_sizes = wp_get_registered_image_subsizes();
+		$merged_sizes     = array_intersect_key( $registered_sizes, array_flip( $fallback_sizes ) );
 
 		// Force thumbnails to be soft crops.
 		if ( isset( $merged_sizes['thumbnail'] ) && is_array( $merged_sizes['thumbnail'] ) ) {

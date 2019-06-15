@@ -235,7 +235,11 @@ function image_downsize( $id, $size = 'medium' ) {
 	} elseif ( $size === 'thumbnail' ) {
 		// fall back to the old thumbnail
 		$thumb_file = wp_get_attachment_thumb_file( $id );
-		$info       = getimagesize( $thumb_file );
+		$info       = null;
+
+		if ( $thumb_file ) {
+			$info = getimagesize( $thumb_file );
+		}
 
 		if ( $thumb_file && $info ) {
 			$img_url         = str_replace( $img_url_basename, wp_basename( $thumb_file ), $img_url );
