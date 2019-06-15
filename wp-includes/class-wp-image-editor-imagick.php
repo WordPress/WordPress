@@ -108,7 +108,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		// setIteratorIndex is optional unless mime is an animated format.
 		// Here, we just say no if you are missing it and aren't loading a jpeg.
-		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type != 'image/jpeg' ) {
+		if ( ! method_exists( 'Imagick', 'setIteratorIndex' ) && $mime_type !== 'image/jpeg' ) {
 				return false;
 		}
 
@@ -146,7 +146,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
 			$filename       = $this->file;
 
-			if ( 'pdf' == $file_extension ) {
+			if ( 'pdf' === $file_extension ) {
 				$filename = $this->pdf_setup();
 			}
 
@@ -193,7 +193,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		try {
-			if ( 'image/jpeg' == $this->mime_type ) {
+			if ( 'image/jpeg' === $this->mime_type ) {
 				$this->image->setImageCompressionQuality( $quality );
 				$this->image->setImageCompression( imagick::COMPRESSION_JPEG );
 			} else {
@@ -260,6 +260,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! $dims ) {
 			return new WP_Error( 'error_getting_dimensions', __( 'Could not calculate resized image dimensions' ) );
 		}
+
 		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
 
 		if ( $crop ) {
@@ -312,7 +313,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 * Set the filter value if '$filter_name' name is in our whitelist and the related
 		 * Imagick constant is defined or fall back to our default filter.
 		 */
-		if ( in_array( $filter_name, $allowed_filters ) && defined( 'Imagick::' . $filter_name ) ) {
+		if ( in_array( $filter_name, $allowed_filters, true ) && defined( 'Imagick::' . $filter_name ) ) {
 			$filter = constant( 'Imagick::' . $filter_name );
 		} else {
 			$filter = defined( 'Imagick::FILTER_TRIANGLE' ) ? Imagick::FILTER_TRIANGLE : false;
@@ -361,7 +362,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			}
 
 			// Set appropriate quality settings after resizing.
-			if ( 'image/jpeg' == $this->mime_type ) {
+			if ( 'image/jpeg' === $this->mime_type ) {
 				if ( is_callable( array( $this->image, 'unsharpMaskImage' ) ) ) {
 					$this->image->unsharpMaskImage( 0.25, 0.25, 8, 0.065 );
 				}
@@ -413,7 +414,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @since 3.5.0
 	 *
 	 * @param array $sizes {
-	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'medium_large', 'large'.
+	 *     An array of image size arrays. Default sizes are 'thumbnail', 'medium', 'medium_large', 'large'.
 	 *
 	 *     Either a height or width must be provided.
 	 *     If one of the two is set to null, the resize will
@@ -430,52 +431,67 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return array An array of resized images' metadata by size.
 	 */
 	public function multi_resize( $sizes ) {
-		$metadata   = array();
+		$metadata = array();
+
+		foreach ( $sizes as $size => $size_data ) {
+			$meta = $this->make_subsize( $size_data );
+
+			if ( ! is_wp_error( $meta ) ) {
+				$metadata[ $size ] = $meta;
+			}
+		}
+
+		return $metadata;
+	}
+
+	/**
+	 * Create an image sub-size and return the image meta data value for it.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param array $size_data Array of width, height, and whether to crop.
+	 * @return WP_Error|array WP_Error on error, or the image data array for inclusion in the `sizes` array in the image meta.
+	 */
+	public function make_subsize( $size_data ) {
+		if ( ! isset( $size_data['width'] ) && ! isset( $size_data['height'] ) ) {
+			return new WP_Error( 'image_subsize_create_error', __( 'Cannot resize the image. Both width and height are not set.' ) );
+		}
+
 		$orig_size  = $this->size;
 		$orig_image = $this->image->getImage();
 
-		foreach ( $sizes as $size => $size_data ) {
-			if ( ! $this->image ) {
-				$this->image = $orig_image->getImage();
-			}
-
-			if ( ! isset( $size_data['width'] ) && ! isset( $size_data['height'] ) ) {
-				continue;
-			}
-
-			if ( ! isset( $size_data['width'] ) ) {
-				$size_data['width'] = null;
-			}
-			if ( ! isset( $size_data['height'] ) ) {
-				$size_data['height'] = null;
-			}
-
-			if ( ! isset( $size_data['crop'] ) ) {
-				$size_data['crop'] = false;
-			}
-
-			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
-			$duplicate     = ( ( $orig_size['width'] == $size_data['width'] ) && ( $orig_size['height'] == $size_data['height'] ) );
-
-			if ( ! is_wp_error( $resize_result ) && ! $duplicate ) {
-				$resized = $this->_save( $this->image );
-
-				$this->image->clear();
-				$this->image->destroy();
-				$this->image = null;
-
-				if ( ! is_wp_error( $resized ) && $resized ) {
-					unset( $resized['path'] );
-					$metadata[ $size ] = $resized;
-				}
-			}
-
-			$this->size = $orig_size;
+		if ( ! isset( $size_data['width'] ) ) {
+			$size_data['width'] = null;
 		}
 
+		if ( ! isset( $size_data['height'] ) ) {
+			$size_data['height'] = null;
+		}
+
+		if ( ! isset( $size_data['crop'] ) ) {
+			$size_data['crop'] = false;
+		}
+
+		$resized = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
+
+		if ( is_wp_error( $resized ) ) {
+			$saved = $resized;
+		} else {
+			$saved = $this->_save( $this->image );
+
+			$this->image->clear();
+			$this->image->destroy();
+			$this->image = null;
+		}
+
+		$this->size  = $orig_size;
 		$this->image = $orig_image;
 
-		return $metadata;
+		if ( ! is_wp_error( $saved ) ) {
+			unset( $saved['path'] );
+		}
+
+		return $saved;
 	}
 
 	/**
@@ -717,7 +733,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		try {
 			// Strip profiles.
 			foreach ( $this->image->getImageProfiles( '*', true ) as $key => $value ) {
-				if ( ! in_array( $key, $protected_profiles ) ) {
+				if ( ! in_array( $key, $protected_profiles, true ) ) {
 					$this->image->removeImageProfile( $key );
 				}
 			}

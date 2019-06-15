@@ -17,9 +17,11 @@
  */
 function wp_get_additional_image_sizes() {
 	global $_wp_additional_image_sizes;
+
 	if ( ! $_wp_additional_image_sizes ) {
 		$_wp_additional_image_sizes = array();
 	}
+
 	return $_wp_additional_image_sizes;
 }
 
@@ -66,7 +68,7 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 	if ( is_array( $size ) ) {
 		$max_width  = $size[0];
 		$max_height = $size[1];
-	} elseif ( $size == 'thumb' || $size == 'thumbnail' ) {
+	} elseif ( $size === 'thumb' || $size === 'thumbnail' ) {
 		$max_width  = intval( get_option( 'thumbnail_size_w' ) );
 		$max_height = intval( get_option( 'thumbnail_size_h' ) );
 		// last chance thumbnail size defaults
@@ -74,18 +76,18 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 			$max_width  = 128;
 			$max_height = 96;
 		}
-	} elseif ( $size == 'medium' ) {
+	} elseif ( $size === 'medium' ) {
 		$max_width  = intval( get_option( 'medium_size_w' ) );
 		$max_height = intval( get_option( 'medium_size_h' ) );
 
-	} elseif ( $size == 'medium_large' ) {
+	} elseif ( $size === 'medium_large' ) {
 		$max_width  = intval( get_option( 'medium_large_size_w' ) );
 		$max_height = intval( get_option( 'medium_large_size_h' ) );
 
 		if ( intval( $content_width ) > 0 ) {
 			$max_width = min( intval( $content_width ), $max_width );
 		}
-	} elseif ( $size == 'large' ) {
+	} elseif ( $size === 'large' ) {
 		/*
 		 * We're inserting a large size image into the editor. If it's a really
 		 * big image we'll scale it down to fit reasonably within the editor
@@ -94,10 +96,11 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 		 */
 		$max_width  = intval( get_option( 'large_size_w' ) );
 		$max_height = intval( get_option( 'large_size_h' ) );
+
 		if ( intval( $content_width ) > 0 ) {
 			$max_width = min( intval( $content_width ), $max_width );
 		}
-	} elseif ( ! empty( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
+	} elseif ( ! empty( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ), true ) ) {
 		$max_width  = intval( $_wp_additional_image_sizes[ $size ]['width'] );
 		$max_height = intval( $_wp_additional_image_sizes[ $size ]['height'] );
 		// Only in admin. Assume that theme authors know what they're doing.
@@ -195,13 +198,16 @@ function image_downsize( $id, $size = 'medium' ) {
 	 * @param array|string $size     Size of image. Image size or array of width and height values (in that order).
 	 *                               Default 'medium'.
 	 */
-	if ( $out = apply_filters( 'image_downsize', false, $id, $size ) ) {
+	$out = apply_filters( 'image_downsize', false, $id, $size );
+
+	if ( $out ) {
 		return $out;
 	}
 
 	$img_url          = wp_get_attachment_url( $id );
 	$meta             = wp_get_attachment_metadata( $id );
-	$width            = $height = 0;
+	$width            = 0;
+	$height           = 0;
 	$is_intermediate  = false;
 	$img_url_basename = wp_basename( $img_url );
 
@@ -219,20 +225,26 @@ function image_downsize( $id, $size = 'medium' ) {
 	}
 
 	// try for a new style intermediate size
-	if ( $intermediate = image_get_intermediate_size( $id, $size ) ) {
+	$intermediate = image_get_intermediate_size( $id, $size );
+
+	if ( $intermediate ) {
 		$img_url         = str_replace( $img_url_basename, $intermediate['file'], $img_url );
 		$width           = $intermediate['width'];
 		$height          = $intermediate['height'];
 		$is_intermediate = true;
-	} elseif ( $size == 'thumbnail' ) {
+	} elseif ( $size === 'thumbnail' ) {
 		// fall back to the old thumbnail
-		if ( ( $thumb_file = wp_get_attachment_thumb_file( $id ) ) && $info = getimagesize( $thumb_file ) ) {
+		$thumb_file = wp_get_attachment_thumb_file( $id );
+		$info       = getimagesize( $thumb_file );
+
+		if ( $thumb_file && $info ) {
 			$img_url         = str_replace( $img_url_basename, wp_basename( $thumb_file ), $img_url );
 			$width           = $info[0];
 			$height          = $info[1];
 			$is_intermediate = true;
 		}
 	}
+
 	if ( ! $width && ! $height && isset( $meta['width'], $meta['height'] ) ) {
 		// any other type: use the real image
 		$width  = $meta['width'];
@@ -245,8 +257,8 @@ function image_downsize( $id, $size = 'medium' ) {
 
 		return array( $img_url, $width, $height, $is_intermediate );
 	}
-	return false;
 
+	return false;
 }
 
 /**
@@ -412,8 +424,10 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width = 
 		return array( $current_width, $current_height );
 	}
 
-	$width_ratio = $height_ratio = 1.0;
-	$did_width   = $did_height = false;
+	$width_ratio  = 1.0;
+	$height_ratio = 1.0;
+	$did_width    = false;
+	$did_height   = false;
 
 	if ( $max_width > 0 && $current_width > 0 && $current_width > $max_width ) {
 		$width_ratio = $max_width / $current_width;
@@ -446,12 +460,12 @@ function wp_constrain_dimensions( $current_width, $current_height, $max_width = 
 	// Thus we look for dimensions that are one pixel shy of the max value and bump them up
 
 	// Note: $did_width means it is possible $smaller_ratio == $width_ratio.
-	if ( $did_width && $w == $max_width - 1 ) {
+	if ( $did_width && $w === $max_width - 1 ) {
 		$w = $max_width; // Round it up
 	}
 
 	// Note: $did_height means it is possible $smaller_ratio == $height_ratio.
-	if ( $did_height && $h == $max_height - 1 ) {
+	if ( $did_height && $h === $max_height - 1 ) {
 		$h = $max_height; // Round it up
 	}
 
@@ -520,6 +534,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 	 *                           An array can specify positioning of the crop area. Default false.
 	 */
 	$output = apply_filters( 'image_resize_dimensions', null, $orig_w, $orig_h, $dest_w, $dest_h, $crop );
+
 	if ( null !== $output ) {
 		return $output;
 	}
@@ -576,7 +591,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 	}
 
 	// if the resulting image would be the same size or larger we don't want to resize it
-	if ( $new_w >= $orig_w && $new_h >= $orig_h && $dest_w != $orig_w && $dest_h != $orig_h ) {
+	if ( $new_w >= $orig_w && $new_h >= $orig_h && intval( $dest_w ) !== intval( $orig_w ) && intval( $dest_h ) !== intval( $orig_h ) ) {
 		return false;
 	}
 
@@ -687,7 +702,9 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
  * }
  */
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
-	if ( ! $size || ! is_array( $imagedata = wp_get_attachment_metadata( $post_id ) ) || empty( $imagedata['sizes'] ) ) {
+	$imagedata = wp_get_attachment_metadata( $post_id );
+
+	if ( ! $size || ! is_array( $imagedata ) || empty( $imagedata['sizes'] ) ) {
 		return false;
 	}
 
@@ -704,7 +721,7 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 
 		foreach ( $imagedata['sizes'] as $_size => $data ) {
 			// If there's an exact match to an existing image size, short circuit.
-			if ( $data['width'] == $size[0] && $data['height'] == $size[1] ) {
+			if ( intval( $data['width'] ) === intval( $size[0] ) && intval( $data['height'] ) === intval( $size[1] ) ) {
 				$candidates[ $data['width'] * $data['height'] ] = $data;
 				break;
 			}
@@ -785,10 +802,11 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
  * @return array Returns a filtered array of image size strings.
  */
 function get_intermediate_image_sizes() {
-	$_wp_additional_image_sizes = wp_get_additional_image_sizes();
-	$image_sizes                = array( 'thumbnail', 'medium', 'medium_large', 'large' ); // Standard sizes
-	if ( ! empty( $_wp_additional_image_sizes ) ) {
-		$image_sizes = array_merge( $image_sizes, array_keys( $_wp_additional_image_sizes ) );
+	$default_sizes    = array( 'thumbnail', 'medium', 'medium_large', 'large' );
+	$additional_sizes = wp_get_additional_image_sizes();
+
+	if ( ! empty( $additional_sizes ) ) {
+		$default_sizes = array_merge( $default_sizes, array_keys( $additional_sizes ) );
 	}
 
 	/**
@@ -796,10 +814,61 @@ function get_intermediate_image_sizes() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param array $image_sizes An array of intermediate image sizes. Defaults
-	 *                           are 'thumbnail', 'medium', 'medium_large', 'large'.
+	 * @param array $default_sizes An array of intermediate image sizes. Defaults
+	 *                             are 'thumbnail', 'medium', 'medium_large', 'large'.
 	 */
-	return apply_filters( 'intermediate_image_sizes', $image_sizes );
+	return apply_filters( 'intermediate_image_sizes', $default_sizes );
+}
+
+/**
+ * Returns a normalized list of all currently registered image sub-sizes.
+ *
+ * @since 5.3.0
+ * @uses wp_get_additional_image_sizes()
+ * @uses get_intermediate_image_sizes()
+ *
+ * @return array Associative array of the registered image sub-sizes.
+ */
+function wp_get_registered_image_subsizes() {
+	$additional_sizes = wp_get_additional_image_sizes();
+	$all_sizes        = array();
+
+	foreach ( get_intermediate_image_sizes() as $size_name ) {
+		$size_data = array(
+			'width'  => 0,
+			'height' => 0,
+			'crop'   => false,
+		);
+
+		if ( isset( $additional_sizes[ $size_name ]['width'] ) ) {
+			// For sizes added by plugins and themes.
+			$size_data['width'] = intval( $additional_sizes[ $size_name ]['width'] );
+		} else {
+			// For default sizes set in options.
+			$size_data['width'] = intval( get_option( "{$size_name}_size_w" ) );
+		}
+
+		if ( isset( $additional_sizes[ $size_name ]['height'] ) ) {
+			$size_data['height'] = intval( $additional_sizes[ $size_name ]['height'] );
+		} else {
+			$size_data['height'] = intval( get_option( "{$size_name}_size_h" ) );
+		}
+
+		if ( empty( $size_data['width'] ) && empty( $size_data['height'] ) ) {
+			// This size isn't set.
+			continue;
+		}
+
+		if ( isset( $additional_sizes[ $size_name ]['crop'] ) ) {
+			$size_data['crop'] = (bool) $additional_sizes[ $size_name ]['crop'];
+		} else {
+			$size_data['crop'] = (bool) get_option( "{$size_name}_crop" );
+		}
+
+		$all_sizes[ $size_name ] = $size_data;
+	}
+
+	return $all_sizes;
 }
 
 /**
@@ -826,12 +895,16 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 	if ( ! $image ) {
 		$src = false;
 
-		if ( $icon && $src = wp_mime_type_icon( $attachment_id ) ) {
-			/** This filter is documented in wp-includes/post.php */
-			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
+		if ( $icon ) {
+			$src = wp_mime_type_icon( $attachment_id );
 
-			$src_file                = $icon_dir . '/' . wp_basename( $src );
-			@list( $width, $height ) = getimagesize( $src_file );
+			if ( $src ) {
+				/** This filter is documented in wp-includes/post.php */
+				$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
+
+				$src_file                = $icon_dir . '/' . wp_basename( $src );
+				@list( $width, $height ) = getimagesize( $src_file );
+			}
 		}
 
 		if ( $src && $width && $height ) {
@@ -1014,7 +1087,9 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  * @return string|bool A 'srcset' value string or false.
  */
 function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $image_meta = null ) {
-	if ( ! $image = wp_get_attachment_image_src( $attachment_id, $size ) ) {
+	$image = wp_get_attachment_image_src( $attachment_id, $size );
+
+	if ( ! $image ) {
 		return false;
 	}
 
@@ -1146,7 +1221,8 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 		// If the file name is part of the `src`, we've confirmed a match.
 		if ( ! $src_matched && false !== strpos( $image_src, $dirname . $image['file'] ) ) {
-			$src_matched = $is_src = true;
+			$src_matched = true;
+			$is_src      = true;
 		}
 
 		// Filter out images that are from previous edits.
@@ -1232,7 +1308,9 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
  * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image_meta = null ) {
-	if ( ! $image = wp_get_attachment_image_src( $attachment_id, $size ) ) {
+	$image = wp_get_attachment_image_src( $attachment_id, $size );
+
+	if ( ! $image ) {
 		return false;
 	}
 
@@ -1318,19 +1396,22 @@ function wp_make_content_images_responsive( $content ) {
 		return $content;
 	}
 
-	$selected_images = $attachment_ids = array();
+	$selected_images = array();
+	$attachment_ids  = array();
 
 	foreach ( $matches[0] as $image ) {
-		if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
-			( $attachment_id = absint( $class_id[1] ) ) ) {
+		if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) ) {
+			$attachment_id = absint( $class_id[1] );
 
-			/*
-			 * If exactly the same image tag is used more than once, overwrite it.
-			 * All identical tags will be replaced later with 'str_replace()'.
-			 */
-			$selected_images[ $image ] = $attachment_id;
-			// Overwrite the ID when the same image is included more than once.
-			$attachment_ids[ $attachment_id ] = true;
+			if ( $attachment_id ) {
+				/*
+				 * If exactly the same image tag is used more than once, overwrite it.
+				 * All identical tags will be replaced later with 'str_replace()'.
+				 */
+				$selected_images[ $image ] = $attachment_id;
+				// Overwrite the ID when the same image is included more than once.
+				$attachment_ids[ $attachment_id ] = true;
+			}
 		}
 	}
 
@@ -1539,7 +1620,8 @@ function img_caption_shortcode( $attr, $content = null ) {
 	 * @param string $content The image element, possibly wrapped in a hyperlink.
 	 */
 	$output = apply_filters( 'img_caption_shortcode', '', $attr, $content );
-	if ( $output != '' ) {
+
+	if ( ! empty( $output ) ) {
 		return $output;
 	}
 
@@ -1557,11 +1639,14 @@ function img_caption_shortcode( $attr, $content = null ) {
 	);
 
 	$atts['width'] = (int) $atts['width'];
+
 	if ( $atts['width'] < 1 || empty( $atts['caption'] ) ) {
 		return $content;
 	}
 
-	$id = $caption_id = $describedby = '';
+	$id          = '';
+	$caption_id  = '';
+	$describedby = '';
 
 	if ( $atts['id'] ) {
 		$atts['id'] = sanitize_html_class( $atts['id'] );
@@ -1603,6 +1688,7 @@ function img_caption_shortcode( $attr, $content = null ) {
 	$caption_width = apply_filters( 'img_caption_shortcode_width', $width, $atts, $content );
 
 	$style = '';
+
 	if ( $caption_width ) {
 		$style = 'style="width: ' . (int) $caption_width . 'px" ';
 	}
@@ -1705,7 +1791,8 @@ function gallery_shortcode( $attr ) {
 	 * @param int    $instance Unique numeric ID of this gallery shortcode instance.
 	 */
 	$output = apply_filters( 'post_gallery', '', $attr, $instance );
-	if ( $output != '' ) {
+
+	if ( ! empty( $output ) ) {
 		return $output;
 	}
 
@@ -1850,9 +1937,11 @@ function gallery_shortcode( $attr ) {
 	$output = apply_filters( 'gallery_style', $gallery_style . $gallery_div );
 
 	$i = 0;
+
 	foreach ( $attachments as $id => $attachment ) {
 
 		$attr = ( trim( $attachment->post_excerpt ) ) ? array( 'aria-describedby' => "$selector-$id" ) : '';
+
 		if ( ! empty( $atts['link'] ) && 'file' === $atts['link'] ) {
 			$image_output = wp_get_attachment_link( $id, $atts['size'], false, false, false, $attr );
 		} elseif ( ! empty( $atts['link'] ) && 'none' === $atts['link'] ) {
@@ -1860,25 +1949,31 @@ function gallery_shortcode( $attr ) {
 		} else {
 			$image_output = wp_get_attachment_link( $id, $atts['size'], true, false, false, $attr );
 		}
+
 		$image_meta = wp_get_attachment_metadata( $id );
 
 		$orientation = '';
+
 		if ( isset( $image_meta['height'], $image_meta['width'] ) ) {
 			$orientation = ( $image_meta['height'] > $image_meta['width'] ) ? 'portrait' : 'landscape';
 		}
+
 		$output .= "<{$itemtag} class='gallery-item'>";
 		$output .= "
 			<{$icontag} class='gallery-icon {$orientation}'>
 				$image_output
 			</{$icontag}>";
+
 		if ( $captiontag && trim( $attachment->post_excerpt ) ) {
 			$output .= "
 				<{$captiontag} class='wp-caption-text gallery-caption' id='$selector-$id'>
 				" . wptexturize( $attachment->post_excerpt ) . "
 				</{$captiontag}>";
 		}
+
 		$output .= "</{$itemtag}>";
-		if ( ! $html5 && $columns > 0 && ++$i % $columns == 0 ) {
+
+		if ( ! $html5 && $columns > 0 && ++$i % $columns === 0 ) {
 			$output .= '<br style="clear: both" />';
 		}
 	}
@@ -2025,7 +2120,8 @@ function wp_playlist_shortcode( $attr ) {
 	 * @param int    $instance Unique numeric ID of this playlist shortcode instance.
 	 */
 	$output = apply_filters( 'post_playlist', '', $attr, $instance );
-	if ( $output != '' ) {
+
+	if ( ! empty( $output ) ) {
 		return $output;
 	}
 
@@ -2335,6 +2431,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 * @param int    $instance Unique numeric ID of this audio shortcode instance.
 	 */
 	$override = apply_filters( 'wp_audio_shortcode_override', '', $attr, $content, $instance );
+
 	if ( '' !== $override ) {
 		return $override;
 	}
@@ -2359,15 +2456,18 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	$primary = false;
 	if ( ! empty( $atts['src'] ) ) {
 		$type = wp_check_filetype( $atts['src'], wp_get_mime_types() );
-		if ( ! in_array( strtolower( $type['ext'] ), $default_types ) ) {
+
+		if ( ! in_array( strtolower( $type['ext'] ), $default_types, true ) ) {
 			return sprintf( '<a class="wp-embedded-audio" href="%s">%s</a>', esc_url( $atts['src'] ), esc_html( $atts['src'] ) );
 		}
+
 		$primary = true;
 		array_unshift( $default_types, 'src' );
 	} else {
 		foreach ( $default_types as $ext ) {
 			if ( ! empty( $atts[ $ext ] ) ) {
 				$type = wp_check_filetype( $atts[ $ext ], wp_get_mime_types() );
+
 				if ( strtolower( $type['ext'] ) === $ext ) {
 					$primary = true;
 				}
@@ -2377,12 +2477,14 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 
 	if ( ! $primary ) {
 		$audios = get_attached_media( 'audio', $post_id );
+
 		if ( empty( $audios ) ) {
 			return;
 		}
 
 		$audio       = reset( $audios );
 		$atts['src'] = wp_get_attachment_url( $audio->ID );
+
 		if ( empty( $atts['src'] ) ) {
 			return;
 		}
@@ -2398,6 +2500,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 * @param string $library Media library used for the audio shortcode.
 	 */
 	$library = apply_filters( 'wp_audio_shortcode_library', 'mediaelement' );
+
 	if ( 'mediaelement' === $library && did_action( 'init' ) ) {
 		wp_enqueue_style( 'wp-mediaelement' );
 		wp_enqueue_script( 'wp-mediaelement' );
@@ -2431,23 +2534,28 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	}
 
 	$attr_strings = array();
+
 	foreach ( $html_atts as $k => $v ) {
 		$attr_strings[] = $k . '="' . esc_attr( $v ) . '"';
 	}
 
 	$html = '';
+
 	if ( 'mediaelement' === $library && 1 === $instance ) {
 		$html .= "<!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->\n";
 	}
+
 	$html .= sprintf( '<audio %s controls="controls">', join( ' ', $attr_strings ) );
 
 	$fileurl = '';
 	$source  = '<source type="%s" src="%s" />';
+
 	foreach ( $default_types as $fallback ) {
 		if ( ! empty( $atts[ $fallback ] ) ) {
 			if ( empty( $fileurl ) ) {
 				$fileurl = $atts[ $fallback ];
 			}
+
 			$type  = wp_check_filetype( $atts[ $fallback ], wp_get_mime_types() );
 			$url   = add_query_arg( '_', $instance, $atts[ $fallback ] );
 			$html .= sprintf( $source, $type['type'], esc_url( $url ) );
@@ -2457,6 +2565,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	if ( 'mediaelement' === $library ) {
 		$html .= wp_mediaelement_fallback( $fileurl );
 	}
+
 	$html .= '</audio>';
 
 	/**
@@ -2544,6 +2653,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 * @param int    $instance Unique numeric ID of this video shortcode instance.
 	 */
 	$override = apply_filters( 'wp_video_shortcode_override', '', $attr, $content, $instance );
+
 	if ( '' !== $override ) {
 		return $override;
 	}
@@ -2582,7 +2692,8 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		}
 	}
 
-	$is_vimeo      = $is_youtube = false;
+	$is_vimeo      = false;
+	$is_youtube    = false;
 	$yt_pattern    = '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#';
 	$vimeo_pattern = '#^https?://(.+\.)?vimeo\.com/.*#';
 
@@ -2590,9 +2701,11 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	if ( ! empty( $atts['src'] ) ) {
 		$is_vimeo   = ( preg_match( $vimeo_pattern, $atts['src'] ) );
 		$is_youtube = ( preg_match( $yt_pattern, $atts['src'] ) );
+
 		if ( ! $is_youtube && ! $is_vimeo ) {
 			$type = wp_check_filetype( $atts['src'], wp_get_mime_types() );
-			if ( ! in_array( strtolower( $type['ext'] ), $default_types ) ) {
+
+			if ( ! in_array( strtolower( $type['ext'] ), $default_types, true ) ) {
 				return sprintf( '<a class="wp-embedded-video" href="%s">%s</a>', esc_url( $atts['src'] ), esc_html( $atts['src'] ) );
 			}
 		}
@@ -2813,7 +2926,7 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
 	);
 
 	foreach ( $attachments as $k => $attachment ) {
-		if ( $attachment->ID == $post->ID ) {
+		if ( intval( $attachment->ID ) === intval( $post->ID ) ) {
 			break;
 		}
 	}
@@ -2866,6 +2979,7 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	} elseif ( is_array( $attachment ) ) {
 		$attachment = (object) $attachment;
 	}
+
 	if ( ! is_object( $attachment ) ) {
 		return array();
 	}
@@ -2878,8 +2992,10 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	if ( false !== strpos( $filename, '.' ) ) {
 		$objects[] = 'attachment:' . substr( $filename, strrpos( $filename, '.' ) + 1 );
 	}
+
 	if ( ! empty( $attachment->post_mime_type ) ) {
 		$objects[] = 'attachment:' . $attachment->post_mime_type;
+
 		if ( false !== strpos( $attachment->post_mime_type, '/' ) ) {
 			foreach ( explode( '/', $attachment->post_mime_type ) as $token ) {
 				if ( ! empty( $token ) ) {
@@ -2890,8 +3006,11 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	}
 
 	$taxonomies = array();
+
 	foreach ( $objects as $object ) {
-		if ( $taxes = get_object_taxonomies( $object, $output ) ) {
+		$taxes = get_object_taxonomies( $object, $output );
+
+		if ( $taxes ) {
 			$taxonomies = array_merge( $taxonomies, $taxes );
 		}
 	}
@@ -2917,10 +3036,11 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
  */
 function get_taxonomies_for_attachments( $output = 'names' ) {
 	$taxonomies = array();
+
 	foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
 		foreach ( $taxonomy->object_type as $object_type ) {
-			if ( 'attachment' == $object_type || 0 === strpos( $object_type, 'attachment:' ) ) {
-				if ( 'names' == $output ) {
+			if ( 'attachment' === $object_type || 0 === strpos( $object_type, 'attachment:' ) ) {
+				if ( 'names' === $output ) {
 					$taxonomies[] = $taxonomy->name;
 				} else {
 					$taxonomies[ $taxonomy->name ] = $taxonomy;
@@ -3193,11 +3313,13 @@ function wp_plupload_default_settings() {
  * @return array|void Array of attachment details.
  */
 function wp_prepare_attachment_for_js( $attachment ) {
-	if ( ! $attachment = get_post( $attachment ) ) {
+	$attachment = get_post( $attachment );
+
+	if ( ! $attachment ) {
 		return;
 	}
 
-	if ( 'attachment' != $attachment->post_type ) {
+	if ( 'attachment' !== $attachment->post_type ) {
 		return;
 	}
 
@@ -3316,7 +3438,9 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		foreach ( $possible_sizes as $size => $label ) {
 
 			/** This filter is documented in wp-includes/media.php */
-			if ( $downsize = apply_filters( 'image_downsize', false, $attachment->ID, $size ) ) {
+			$downsize = apply_filters( 'image_downsize', false, $attachment->ID, $size );
+
+			if ( $downsize ) {
 				if ( empty( $downsize[3] ) ) {
 					continue;
 				}
@@ -3816,7 +3940,9 @@ function wp_enqueue_media( $args = array() ) {
  * @return array Found attachments.
  */
 function get_attached_media( $type, $post = 0 ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
 		return array();
 	}
 
@@ -3906,7 +4032,9 @@ function get_media_embedded_in_content( $content, $types = null ) {
  *               from the expanded shortcode.
  */
 function get_post_galleries( $post, $html = true ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
 		return array();
 	}
 
@@ -4027,19 +4155,22 @@ function get_post_gallery_images( $post = 0 ) {
  * @param WP_Post $attachment Attachment object.
  */
 function wp_maybe_generate_attachment_metadata( $attachment ) {
-	if ( empty( $attachment ) || ( empty( $attachment->ID ) || ! $attachment_id = (int) $attachment->ID ) ) {
+	if ( empty( $attachment ) || empty( $attachment->ID ) ) {
 		return;
 	}
 
-	$file = get_attached_file( $attachment_id );
-	$meta = wp_get_attachment_metadata( $attachment_id );
+	$attachment_id = (int) $attachment->ID;
+	$file          = get_attached_file( $attachment_id );
+	$meta          = wp_get_attachment_metadata( $attachment_id );
+
 	if ( empty( $meta ) && file_exists( $file ) ) {
-		$_meta             = get_post_meta( $attachment_id );
-		$regeneration_lock = 'wp_generating_att_' . $attachment_id;
-		if ( ! array_key_exists( '_wp_attachment_metadata', $_meta ) && ! get_transient( $regeneration_lock ) ) {
-			set_transient( $regeneration_lock, $file );
+		$_meta = get_post_meta( $attachment_id );
+		$_lock = 'wp_generating_att_' . $attachment_id;
+
+		if ( ! array_key_exists( '_wp_attachment_metadata', $_meta ) && ! get_transient( $_lock ) ) {
+			set_transient( $_lock, $file );
 			wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
-			delete_transient( $regeneration_lock );
+			delete_transient( $_lock );
 		}
 	}
 }
@@ -4072,10 +4203,11 @@ function attachment_url_to_postid( $url ) {
 		$path = substr( $path, strlen( $dir['baseurl'] . '/' ) );
 	}
 
-	$sql     = $wpdb->prepare(
+	$sql = $wpdb->prepare(
 		"SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_attached_file' AND meta_value = %s",
 		$path
 	);
+
 	$post_id = $wpdb->get_var( $sql );
 
 	/**

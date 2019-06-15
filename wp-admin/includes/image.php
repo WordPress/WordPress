@@ -67,7 +67,220 @@ function wp_crop_image( $src, $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h, $s
 }
 
 /**
- * Generate post thumbnail attachment meta data.
+ * Compare the existing image sub-sizes (as saved in the attachment meta)
+ * to the currently registered image sub-sizes, and return the difference.
+ *
+ * Registered sub-sizes that are larger than the image are skipped.
+ *
+ * @since 5.3.0
+ *
+ * @param int $attachment_id The image attachment post ID.
+ * @return array An array of the image sub-sizes that are currently defined but don't exist for this image.
+ */
+function wp_get_missing_image_subsizes( $attachment_id ) {
+	if ( ! wp_attachment_is_image( $attachment_id ) ) {
+		return array();
+	}
+
+	$registered_sizes = wp_get_registered_image_subsizes();
+	$image_meta       = wp_get_attachment_metadata( $attachment_id );
+
+	// Meta error?
+	if ( empty( $image_meta ) ) {
+		return $defined_sizes;
+	}
+
+	$full_width     = (int) $image_meta['width'];
+	$full_height    = (int) $image_meta['height'];
+	$possible_sizes = array();
+
+	// Skip registered sizes that are too large for the uploaded image.
+	foreach ( $registered_sizes as $size_name => $size_data ) {
+		if ( image_resize_dimensions( $full_width, $full_height, $size_data['width'], $size_data['height'], $size_data['crop'] ) ) {
+			$possible_sizes[ $size_name ] = $size_data;
+		}
+	}
+
+	if ( empty( $image_meta['sizes'] ) ) {
+		$image_meta['sizes'] = array();
+	}
+
+	// Remove sizes that already exist. Only checks for matching "size names".
+	// It is possible that the dimensions for a particular size name have changed.
+	// For example the user has changed the values on the Settings -> Media screen.
+	// However we keep the old sub-sizes with the previous dimensions
+	// as the image may have been used in an older post.
+	$missing_sizes = array_diff_key( $possible_sizes, $image_meta['sizes'] );
+
+	/**
+	 * Filters the array of missing image sub-sizes for an uploaded image.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param array $missing_sizes Array with the missing image sub-sizes.
+	 * @param array $image_meta    The image meta data.
+	 * @param int   $attachment_id The image attachment post ID.
+	 */
+	return apply_filters( 'wp_get_missing_image_subsizes', $missing_sizes, $image_meta, $attachment_id );
+}
+
+/**
+ * If any of the currently registered image sub-sizes are missing,
+ * create them and update the image meta data.
+ *
+ * @since 5.3.0
+ *
+ * @param int $attachment_id The image attachment post ID.
+ * @return array The updated image meta data array.
+ */
+function wp_update_image_subsizes( $attachment_id ) {
+	$missing_sizes = wp_get_missing_image_subsizes( $attachment_id );
+	$image_meta    = wp_get_attachment_metadata( $attachment_id );
+
+	if ( empty( $missing_sizes ) ) {
+		return $image_meta;
+	}
+
+	$image_file = get_attached_file( $attachment_id );
+
+	// This also updates the image meta.
+	return _wp_make_subsizes( $missing_sizes, $image_file, $image_meta, $attachment_id );
+}
+
+/**
+ * Creates image sub-sizes, adds the new data to the image meta `sizes` array, and updates the image metadata.
+ *
+ * Intended for use after an image is uploaded. Saves/updates the image metadata after each
+ * sub-size is created. If there was an error, it is added to the returned image metadata array.
+ *
+ * @since 5.3.0
+ *
+ * @param string $file          Full path to the image file.
+ * @param array  $image_meta    The attachment meta data array.
+ * @param int    $attachment_id Attachment Id to process.
+ * @return array The attachment metadata with updated `sizes` array. Includes an array of errors encountered while resizing.
+ */
+function wp_create_image_subsizes( $file, $image_meta, $attachment_id ) {
+	if ( empty( $image_meta ) || ! isset( $image_meta['width'], $image_meta['height'] ) ) {
+		// New uploaded image.
+		$imagesize            = getimagesize( $file );
+		$image_meta['width']  = $imagesize[0];
+		$image_meta['height'] = $imagesize[1];
+
+		// Make the file path relative to the upload dir.
+		$image_meta['file'] = _wp_relative_upload_path( $file );
+
+		// Fetch additional metadata from EXIF/IPTC.
+		$exif_meta = wp_read_image_metadata( $file );
+
+		if ( $exif_meta ) {
+			$image_meta['image_meta'] = $exif_meta;
+		}
+	}
+
+	$new_sizes = wp_get_registered_image_subsizes();
+
+	/**
+	 * Filters the image sizes automatically generated when uploading an image.
+	 *
+	 * @since 2.9.0
+	 * @since 4.4.0 Added the `$image_meta` argument.
+	 * @since 5.3.0 Added the `$attachment_id` argument.
+	 *
+	 * @param array $new_sizes     Associative array of image sizes to be created.
+	 * @param array $image_meta    The image meta data: width, height, file, sizes, etc.
+	 * @param int   $attachment_id The attachment post ID for the image.
+	 */
+	$new_sizes = apply_filters( 'intermediate_image_sizes_advanced', $new_sizes, $image_meta, $attachment_id );
+
+	return _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id );
+}
+
+/**
+ * Low-level function to create image sub-sizes.
+ *
+ * Updates the image meta after each sub-size is created.
+ * Errors are stored in the returned image metadata array.
+ *
+ * @since 5.3.0
+ * @access private
+ *
+ * $padam array  $new_sizes     Array defining what sizes to create.
+ * @param string $file          Full path to the image file.
+ * @param array  $image_meta    The attachment meta data array.
+ * @param int    $attachment_id Attachment Id to process.
+ * @return array The attachment meta data with updated `sizes` array. Includes an array of errors encountered while resizing.
+ */
+function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
+	// Check if any of the new sizes already exist.
+	if ( isset( $image_meta['sizes'] ) && is_array( $image_meta['sizes'] ) ) {
+		foreach ( $image_meta['sizes'] as $size_name => $size_meta ) {
+			// Only checks "size name" so we don't override existing images even if the dimensions
+			// don't match the currently defined size with the same name.
+			// To change the behavior, unset changed/mismatched sizes in the `sizes` array in image meta.
+			if ( array_key_exists( $size_name, $new_sizes ) ) {
+				unset( $new_sizes[ $size_name ] );
+			}
+		}
+	} else {
+		$image_meta['sizes'] = array();
+	}
+
+	if ( ! empty( $new_sizes ) ) {
+		$editor = wp_get_image_editor( $file );
+
+		if ( ! is_wp_error( $editor ) ) {
+			if ( method_exists( $editor, 'make_subsize' ) ) {
+				foreach ( $new_sizes as $new_size_name => $new_size_data ) {
+					$new_size_meta = $editor->make_subsize( $new_size_data );
+
+					if ( is_wp_error( $new_size_meta ) ) {
+						if ( empty( $image_meta['subsize_errors'] ) ) {
+							$image_meta['subsize_errors'] = array();
+						}
+
+						$error = array(
+							'error_code'    => $new_size_meta->get_error_code(),
+							'error_message' => $new_size_meta->get_error_message(),
+						);
+
+						// Store the error code and error message for displaying in the UI.
+						$image_meta['subsize_errors'][ $new_size_name ] = $error;
+					} else {
+						// The sub-size was created successfully.
+						// Clear out previous errors in creating this subsize.
+						if ( ! empty( $image_meta['subsize_errors'][ $new_size_name ] ) ) {
+							unset( $image_meta['subsize_errors'][ $new_size_name ] );
+						}
+
+						if ( empty( $image_meta['subsize_errors'] ) ) {
+							unset( $image_meta['subsize_errors'] );
+						}
+
+						// Save the size meta value.
+						$image_meta['sizes'][ $new_size_name ] = $new_size_meta;
+					}
+
+					wp_update_attachment_metadata( $attachment_id, $image_meta );
+				}
+			} else {
+				// Fall back to `$editor->multi_resize()`.
+				$created_sizes = $editor->multi_resize( $new_sizes );
+
+				if ( ! empty( $created_sizes ) ) {
+					$image_meta['sizes'] = array_merge( $image_meta['sizes'], $created_sizes );
+					unset( $image_meta['subsize_errors'] );
+					wp_update_attachment_metadata( $attachment_id, $image_meta );
+				}
+			}
+		}
+	}
+
+	return $image_meta;
+}
+
+/**
+ * Generate attachment meta data and create image sub-sizes for images.
  *
  * @since 2.1.0
  *
@@ -83,76 +296,8 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	$mime_type = get_post_mime_type( $attachment );
 
 	if ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) {
-		$imagesize          = getimagesize( $file );
-		$metadata['width']  = $imagesize[0];
-		$metadata['height'] = $imagesize[1];
-
-		// Make the file path relative to the upload dir.
-		$metadata['file'] = _wp_relative_upload_path( $file );
-
 		// Make thumbnails and other intermediate sizes.
-		$_wp_additional_image_sizes = wp_get_additional_image_sizes();
-
-		$sizes = array();
-		foreach ( get_intermediate_image_sizes() as $s ) {
-			$sizes[ $s ] = array(
-				'width'  => '',
-				'height' => '',
-				'crop'   => false,
-			);
-			if ( isset( $_wp_additional_image_sizes[ $s ]['width'] ) ) {
-				// For theme-added sizes
-				$sizes[ $s ]['width'] = intval( $_wp_additional_image_sizes[ $s ]['width'] );
-			} else {
-				// For default sizes set in options
-				$sizes[ $s ]['width'] = get_option( "{$s}_size_w" );
-			}
-
-			if ( isset( $_wp_additional_image_sizes[ $s ]['height'] ) ) {
-				// For theme-added sizes
-				$sizes[ $s ]['height'] = intval( $_wp_additional_image_sizes[ $s ]['height'] );
-			} else {
-				// For default sizes set in options
-				$sizes[ $s ]['height'] = get_option( "{$s}_size_h" );
-			}
-
-			if ( isset( $_wp_additional_image_sizes[ $s ]['crop'] ) ) {
-				// For theme-added sizes
-				$sizes[ $s ]['crop'] = $_wp_additional_image_sizes[ $s ]['crop'];
-			} else {
-				// For default sizes set in options
-				$sizes[ $s ]['crop'] = get_option( "{$s}_crop" );
-			}
-		}
-
-		/**
-		 * Filters the image sizes automatically generated when uploading an image.
-		 *
-		 * @since 2.9.0
-		 * @since 4.4.0 Added the `$metadata` argument.
-		 * @since 5.1.0 Added the `$attachment_id` argument.
-		 *
-		 * @param array $sizes         An associative array of image sizes.
-		 * @param array $metadata      An associative array of image metadata: width, height, file.
-		 * @param int   $attachment_id Current attachment ID.
-		 */
-		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes, $metadata, $attachment_id );
-
-		if ( $sizes ) {
-			$editor = wp_get_image_editor( $file );
-
-			if ( ! is_wp_error( $editor ) ) {
-				$metadata['sizes'] = $editor->multi_resize( $sizes );
-			}
-		} else {
-			$metadata['sizes'] = array();
-		}
-
-		// Fetch additional metadata from EXIF/IPTC.
-		$image_meta = wp_read_image_metadata( $file );
-		if ( $image_meta ) {
-			$metadata['image_meta'] = $image_meta;
-		}
+		$metadata = wp_create_image_subsizes( $file, $metadata, $attachment_id );
 	} elseif ( wp_attachment_is( 'video', $attachment ) ) {
 		$metadata = wp_read_video_metadata( $file );
 		$support  = current_theme_supports( 'post-thumbnails', 'attachment:video' ) || post_type_supports( 'attachment:video', 'thumbnail' );
@@ -234,34 +379,16 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 */
 		$fallback_sizes = apply_filters( 'fallback_intermediate_image_sizes', $fallback_sizes, $metadata );
 
-		$sizes                      = array();
-		$_wp_additional_image_sizes = wp_get_additional_image_sizes();
+		$defined_sizes = wp_get_registered_image_subsizes();
+		$merged_sizes  = array_intersect_key( $defined_sizes, array_flip( $fallback_sizes ) );
 
-		foreach ( $fallback_sizes as $s ) {
-			if ( isset( $_wp_additional_image_sizes[ $s ]['width'] ) ) {
-				$sizes[ $s ]['width'] = intval( $_wp_additional_image_sizes[ $s ]['width'] );
-			} else {
-				$sizes[ $s ]['width'] = get_option( "{$s}_size_w" );
-			}
-
-			if ( isset( $_wp_additional_image_sizes[ $s ]['height'] ) ) {
-				$sizes[ $s ]['height'] = intval( $_wp_additional_image_sizes[ $s ]['height'] );
-			} else {
-				$sizes[ $s ]['height'] = get_option( "{$s}_size_h" );
-			}
-
-			if ( isset( $_wp_additional_image_sizes[ $s ]['crop'] ) ) {
-				$sizes[ $s ]['crop'] = $_wp_additional_image_sizes[ $s ]['crop'];
-			} else {
-				// Force thumbnails to be soft crops.
-				if ( 'thumbnail' !== $s ) {
-					$sizes[ $s ]['crop'] = get_option( "{$s}_crop" );
-				}
-			}
+		// Force thumbnails to be soft crops.
+		if ( isset( $merged_sizes['thumbnail'] ) && is_array( $merged_sizes['thumbnail'] ) ) {
+			$merged_sizes['thumbnail']['crop'] = false;
 		}
 
 		// Only load PDFs in an image editor if we're processing sizes.
-		if ( ! empty( $sizes ) ) {
+		if ( ! empty( $merged_sizes ) ) {
 			$editor = wp_get_image_editor( $file );
 
 			if ( ! is_wp_error( $editor ) ) { // No support for this type of file
@@ -282,7 +409,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					unset( $uploaded['path'] );
 
 					if ( ! is_wp_error( $editor ) ) {
-						$metadata['sizes']         = $editor->multi_resize( $sizes );
+						$metadata['sizes']         = $editor->multi_resize( $merged_sizes );
 						$metadata['sizes']['full'] = $uploaded;
 					}
 				}
@@ -449,7 +576,7 @@ function wp_read_image_metadata( $file ) {
 	 */
 	$exif_image_types = apply_filters( 'wp_read_image_metadata_types', array( IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM ) );
 
-	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types ) ) {
+	if ( is_callable( 'exif_read_data' ) && in_array( $image_type, $exif_image_types, true ) ) {
 		$exif = @exif_read_data( $file );
 
 		if ( ! empty( $exif['ImageDescription'] ) ) {
@@ -571,7 +698,7 @@ function file_is_displayable_image( $path ) {
 	$info = @getimagesize( $path );
 	if ( empty( $info ) ) {
 		$result = false;
-	} elseif ( ! in_array( $info[2], $displayable_image_types ) ) {
+	} elseif ( ! in_array( $info[2], $displayable_image_types, true ) ) {
 		$result = false;
 	} else {
 		$result = true;
@@ -654,7 +781,11 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	$filepath = get_attached_file( $attachment_id );
 
 	if ( $filepath && file_exists( $filepath ) ) {
-		if ( 'full' != $size && ( $data = image_get_intermediate_size( $attachment_id, $size ) ) ) {
+		$data = image_get_intermediate_size( $attachment_id, $size );
+
+		if ( 'full' != $size && $data ) {
+			$filepath = path_join( dirname( $filepath ), $data['file'] );
+
 			/**
 			 * Filters the path to the current image.
 			 *
@@ -666,9 +797,9 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 			 * @param string $attachment_id Attachment ID.
 			 * @param string $size          Size of the image.
 			 */
-			$filepath = apply_filters( 'load_image_to_edit_filesystempath', path_join( dirname( $filepath ), $data['file'] ), $attachment_id, $size );
+			$filepath = apply_filters( 'load_image_to_edit_filesystempath', $filepath, $attachment_id, $size );
 		}
-	} elseif ( function_exists( 'fopen' ) && true == ini_get( 'allow_url_fopen' ) ) {
+	} elseif ( function_exists( 'fopen' ) && true === ini_get( 'allow_url_fopen' ) ) {
 		/**
 		 * Filters the image URL if not in the local filesystem.
 		 *
@@ -705,7 +836,9 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
  * @return string|false New file path on success, false on failure.
  */
 function _copy_image_file( $attachment_id ) {
-	$dst_file = $src_file = get_attached_file( $attachment_id );
+	$dst_file = get_attached_file( $attachment_id );
+	$src_file = $dst_file;
+
 	if ( ! file_exists( $src_file ) ) {
 		$src_file = _load_image_to_edit_path( $attachment_id );
 	}
