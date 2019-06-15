@@ -781,25 +781,27 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	$filepath = get_attached_file( $attachment_id );
 
 	if ( $filepath && file_exists( $filepath ) ) {
-		$data = image_get_intermediate_size( $attachment_id, $size );
+		if ( 'full' !== $size ) {
+			$data = image_get_intermediate_size( $attachment_id, $size );
 
-		if ( 'full' != $size && $data ) {
-			$filepath = path_join( dirname( $filepath ), $data['file'] );
+			if ( $data ) {
+				$filepath = path_join( dirname( $filepath ), $data['file'] );
 
-			/**
-			 * Filters the path to the current image.
-			 *
-			 * The filter is evaluated for all image sizes except 'full'.
-			 *
-			 * @since 3.1.0
-			 *
-			 * @param string $path          Path to the current image.
-			 * @param string $attachment_id Attachment ID.
-			 * @param string $size          Size of the image.
-			 */
-			$filepath = apply_filters( 'load_image_to_edit_filesystempath', $filepath, $attachment_id, $size );
+				/**
+				 * Filters the path to the current image.
+				 *
+				 * The filter is evaluated for all image sizes except 'full'.
+				 *
+				 * @since 3.1.0
+				 *
+				 * @param string $path          Path to the current image.
+				 * @param string $attachment_id Attachment ID.
+				 * @param string $size          Size of the image.
+				 */
+				$filepath = apply_filters( 'load_image_to_edit_filesystempath', $filepath, $attachment_id, $size );
+			}
 		}
-	} elseif ( function_exists( 'fopen' ) && true === ini_get( 'allow_url_fopen' ) ) {
+	} elseif ( function_exists( 'fopen' ) && ini_get( 'allow_url_fopen' ) ) {
 		/**
 		 * Filters the image URL if not in the local filesystem.
 		 *
