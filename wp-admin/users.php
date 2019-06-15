@@ -483,21 +483,23 @@ switch ( $wp_list_table->current_action() ) {
 					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $delete_count ) ) . '</p></div>';
 					break;
 				case 'add':
+					$message = __( 'New user created.' );
+
 					if ( isset( $_GET['id'] ) && ( $user_id = $_GET['id'] ) && current_user_can( 'edit_user', $user_id ) ) {
-						/* translators: %s: edit page url */
-						$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf(
-							__( 'New user created. <a href="%s">Edit user</a>' ),
+						$message .= sprintf(
+							' <a href="%s">%s</a>',
 							esc_url(
 								add_query_arg(
 									'wp_http_referer',
 									urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 									self_admin_url( 'user-edit.php?user_id=' . $user_id )
 								)
-							)
-						) . '</p></div>';
-					} else {
-						$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'New user created.' ) . '</p></div>';
+							),
+							__( 'Edit user' )
+						);
 					}
+
+					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . $message . '</p></div>';
 					break;
 				case 'promote':
 					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . __( 'Changed roles.' ) . '</p></div>';

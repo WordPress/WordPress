@@ -293,12 +293,17 @@ if ( isset( $_GET['update'] ) ) {
 				$messages[] = __( 'Invitation email sent to user. A confirmation link must be clicked for them to be added to your site.' );
 				break;
 			case 'addnoconfirmation':
-				if ( empty( $edit_link ) ) {
-					$messages[] = __( 'User has been added to your site.' );
-				} else {
-					/* translators: %s: edit page url */
-					$messages[] = sprintf( __( 'User has been added to your site. <a href="%s">Edit user</a>' ), $edit_link );
+				$message = __( 'User has been added to your site.' );
+
+				if ( $edit_link ) {
+					$message .= sprintf(
+						' <a href="%s">%s</a>',
+						$edit_link,
+						__( 'Edit user' )
+					);
 				}
+
+				$messages[] = $message;
 				break;
 			case 'addexisting':
 				$messages[] = __( 'That user is already a member of this site.' );

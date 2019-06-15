@@ -86,12 +86,17 @@ if ( isset( $_GET['update'] ) ) {
 			}
 		}
 
-		if ( empty( $edit_link ) ) {
-			$messages[] = __( 'User added.' );
-		} else {
-			/* translators: %s: edit page url */
-			$messages[] = sprintf( __( 'User added. <a href="%s">Edit user</a>' ), $edit_link );
+		$message = __( 'User added.' );
+
+		if ( $edit_link ) {
+			$message .= sprintf(
+				' <a href="%s">%s</a>',
+				$edit_link,
+				__( 'Edit user' )
+			);
 		}
+
+		$messages[] = $message;
 	}
 }
 
