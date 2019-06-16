@@ -235,12 +235,20 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 					$new_size_meta = $editor->make_subsize( $new_size_data );
 
 					if ( is_wp_error( $new_size_meta ) ) {
+						$error_code = $new_size_meta->get_error_code();
+
+						if ( $error_code === 'error_getting_dimensions' ) {
+							// Ignore errors when `image_resize_dimensions()` returns false.
+							// They mean that the requested size is larger than the original image and should be skipped.
+							continue;
+						}
+
 						if ( empty( $image_meta['subsize_errors'] ) ) {
 							$image_meta['subsize_errors'] = array();
 						}
 
 						$error = array(
-							'error_code'    => $new_size_meta->get_error_code(),
+							'error_code'    => $error_code,
 							'error_message' => $new_size_meta->get_error_message(),
 						);
 
