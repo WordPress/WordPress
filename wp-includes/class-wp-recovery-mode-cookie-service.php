@@ -35,10 +35,20 @@ final class WP_Recovery_Mode_Cookie_Service {
 
 		$value = $this->generate_cookie();
 
-		setcookie( RECOVERY_MODE_COOKIE, $value, 0, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+		/**
+		 * Filter the length of time a Recovery Mode cookie is valid for.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param int $length Length in seconds.
+		 */
+		$length = apply_filters( 'recovery_mode_cookie_length', WEEK_IN_SECONDS );
+		$expire = time() + $length;
+
+		setcookie( RECOVERY_MODE_COOKIE, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
 
 		if ( COOKIEPATH !== SITECOOKIEPATH ) {
-			setcookie( RECOVERY_MODE_COOKIE, $value, 0, SITECOOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
+			setcookie( RECOVERY_MODE_COOKIE, $value, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, is_ssl(), true );
 		}
 	}
 
@@ -83,13 +93,7 @@ final class WP_Recovery_Mode_Cookie_Service {
 			return new WP_Error( 'invalid_created_at', __( 'Invalid cookie format.' ) );
 		}
 
-		/**
-		 * Filter the length of time a Recovery Mode cookie is valid for.
-		 *
-		 * @since 5.2.0
-		 *
-		 * @param int $length Length in seconds.
-		 */
+		/** This filter is documented in wp-includes/class-wp-recovery-mode-cookie-service.php */
 		$length = apply_filters( 'recovery_mode_cookie_length', WEEK_IN_SECONDS );
 
 		if ( time() > $created_at + $length ) {
