@@ -239,7 +239,7 @@ class WP_Recovery_Mode {
 		}
 
 		if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], self::EXIT_ACTION ) ) {
-			wp_die( __( 'Exit recovery mode link expired.' ) );
+			wp_die( __( 'Exit recovery mode link expired.' ), 403 );
 		}
 
 		if ( ! $this->exit_recovery_mode() ) {
@@ -272,14 +272,16 @@ class WP_Recovery_Mode {
 		if ( is_wp_error( $validated ) ) {
 			$this->cookie_service->clear_cookie();
 
-			wp_die( $validated, '' );
+			$validated->add_data( array( 'status' => 403 ) );
+			wp_die( $validated );
 		}
 
 		$session_id = $this->cookie_service->get_session_id_from_cookie();
 		if ( is_wp_error( $session_id ) ) {
 			$this->cookie_service->clear_cookie();
 
-			wp_die( $session_id, '' );
+			$session_id->add_data( array( 'status' => 403 ) );
+			wp_die( $session_id );
 		}
 
 		$this->is_active  = true;
