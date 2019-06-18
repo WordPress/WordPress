@@ -57,6 +57,31 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					_n(
 						'<strong>Version %1$s</strong> addressed %2$s bug.',
 						'<strong>Version %1$s</strong> addressed %2$s bugs.',
+						13
+					),
+					'5.2.2',
+					number_format_i18n( 13 )
+				);
+				?>
+				<?php
+				printf(
+					/* translators: %s: HelpHub URL */
+					__( 'For more information, see <a href="%s">the release notes</a>.' ),
+					sprintf(
+						/* translators: %s: WordPress version */
+						esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+						sanitize_title( '5.2.2' )
+					)
+				);
+				?>
+			</p>
+			<p>
+				<?php
+				printf(
+					/* translators: 1: WordPress version number, 2: plural number of bugs. */
+					_n(
+						'<strong>Version %1$s</strong> addressed %2$s bug.',
+						'<strong>Version %1$s</strong> addressed %2$s bugs.',
 						33
 					),
 					'5.2.1',
