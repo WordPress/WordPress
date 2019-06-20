@@ -180,6 +180,9 @@ themes.Collection = Backbone.Collection.extend({
 		// Start with a full collection
 		this.reset( themes.data.themes, { silent: true } );
 
+		// Trim the term
+		term = term.trim();
+
 		// Escape the term string for RegExp meta characters
 		term = term.replace( /[-\/\\^$*+?.()|[\]{}]/g, '\\$&' );
 
