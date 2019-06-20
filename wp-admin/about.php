@@ -151,7 +151,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 			<div class="column is-vertically-aligned-center">
 				<h3><?php _e( 'PHP Error Protection' ); ?></h3>
-				<p><?php _e( 'This administrator-focused update will let you safely fix or manage fatal errors without requiring developer time. It features better handling of the so-called “white screen of death”, and a way to enter recovery mode, which pauses error-causing plugins or themes.' ); ?></p>
+				<p><?php _e( 'This administrator-focused update will let you safely fix or manage fatal errors without requiring a developer. It features better handling of the so-called “white screen of death”, and a way to enter recovery mode, which pauses error-causing plugins or themes.' ); ?></p>
 			</div>
 		</div>
 
