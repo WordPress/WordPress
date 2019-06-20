@@ -639,7 +639,7 @@ window.commentReply = {
 
 	toggle : function(el) {
 		if ( 'none' !== $( el ).css( 'display' ) && ( $( '#replyrow' ).parent().is('#com-reply') || window.confirm( adminCommentsL10n.warnQuickEdit ) ) ) {
-			$( el ).find( 'a.vim-q' ).click();
+			$( el ).find( 'button.vim-q' ).click();
 		}
 	},
 
