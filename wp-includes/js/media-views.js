@@ -8469,17 +8469,6 @@ var Attachment = wp.media.view.Attachment,
 	$ = jQuery,
 	Details;
 
-/**
- * wp.media.view.Attachment.Details
- *
- * @memberOf wp.media.view.Attachment
- *
- * @class
- * @augments wp.media.view.Attachment
- * @augments wp.media.View
- * @augments wp.Backbone.View
- * @augments Backbone.View
- */
 Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototype */{
 	tagName:   'div',
 	className: 'attachment-details',
@@ -8503,6 +8492,16 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 		'keydown':                        'toggleSelectionHandler'
 	},
 
+	/**
+	 * Shows the details of an attachment.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @constructs wp.media.view.Attachment.Details
+	 * @augments wp.media.view.Attachment
+	 *
+	 * @returns {void}
+	 */
 	initialize: function() {
 		this.options = _.defaults( this.options, {
 			rerenderOnModelChange: false
@@ -8564,7 +8563,16 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	},
 
 	/**
-	 * @param {Object} event
+	 * Deletes an attachment.
+	 *
+	 * Deletes an attachment after asking for confirmation. After deletion,
+	 * keeps focus in the modal.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param {MouseEvent} event A click event.
+	 *
+	 * @returns {void}
 	 */
 	deleteAttachment: function( event ) {
 		event.preventDefault();
@@ -8576,8 +8584,18 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 			this.moveFocus();
 		}
 	},
+
 	/**
-	 * @param {Object} event
+	 * Sets the trash state on an attachment, or destroys the model itself.
+	 *
+	 * If the mediaTrash setting is set to true, trashes the attachment.
+	 * Otherwise, the model itself is destroyed.
+	 *
+	 * @since 3.9.0
+	 *
+	 * @param {MouseEvent} event A click event.
+	 *
+	 * @returns {void}
 	 */
 	trashAttachment: function( event ) {
 		var library = this.controller.library,
@@ -8607,7 +8625,13 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 		}
 	},
 	/**
-	 * @param {Object} event
+	 * Untrashes an attachment.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param {MouseEvent} event A click event.
+	 *
+	 * @returns {void}
 	 */
 	untrashAttachment: function( event ) {
 		var library = this.controller.library;
@@ -8618,8 +8642,15 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 			library._requery( true );
 		} );
 	},
+
 	/**
-	 * @param {Object} event
+	 * Opens the edit page for a specific attachment.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param {MouseEvent} event A click event.
+	 *
+	 * @returns {void}
 	 */
 	editAttachment: function( event ) {
 		var editState = this.controller.states.get( 'edit-image' );
@@ -8632,11 +8663,20 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 			this.$el.addClass('needs-refresh');
 		}
 	},
+
 	/**
-	 * When reverse tabbing (shift+tab) out of the right details panel,
-	 * move focus to the item that was being edited in the attachments list.
+	 * Triggers an event on the controller when reverse tabbing (shift+tab).
 	 *
-	 * @param {Object} event
+	 * This event can be used to make sure to move the focus correctly.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @fires wp.media.controller.MediaLibrary#attachment:details:shift-tab
+	 * @fires wp.media.controller.MediaLibrary#attachment:keydown:arrow
+	 *
+	 * @param {KeyboardEvent} event A keyboard event.
+	 *
+	 * @returns {boolean|void} Returns false or undefined.
 	 */
 	toggleSelectionHandler: function( event ) {
 		if ( 'keydown' === event.type && 9 === event.keyCode && event.shiftKey && event.target === this.$( ':tabbable' ).get( 0 ) ) {
