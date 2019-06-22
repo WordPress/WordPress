@@ -88,7 +88,8 @@ if ( empty( $doing_wp_cron ) ) {
 		if ( $doing_cron_transient && ( $doing_cron_transient + WP_CRON_LOCK_TIMEOUT > $gmt_time ) ) {
 			return;
 		}
-		$doing_cron_transient = $doing_wp_cron = sprintf( '%.22F', microtime( true ) );
+		$doing_wp_cron        = sprintf( '%.22F', microtime( true ) );
+		$doing_cron_transient = $doing_wp_cron;
 		set_transient( 'doing_cron', $doing_wp_cron );
 	} else {
 		$doing_wp_cron = $_GET['doing_wp_cron'];
@@ -114,7 +115,7 @@ foreach ( $crons as $timestamp => $cronhooks ) {
 
 			$schedule = $v['schedule'];
 
-			if ( $schedule != false ) {
+			if ( ! $schedule ) {
 				$new_args = array( $timestamp, $schedule, $hook, $v['args'] );
 				call_user_func_array( 'wp_reschedule_event', $new_args );
 			}
