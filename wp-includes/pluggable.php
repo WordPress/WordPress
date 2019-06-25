@@ -1074,15 +1074,19 @@ endif;
 
 if ( ! function_exists( 'check_admin_referer' ) ) :
 	/**
-	 * Makes sure that a user was referred from another admin page.
+	 * Ensures intent by verifying that a user was referred from another admin page with the correct security nonce.
 	 *
-	 * To avoid security exploits.
+	 * This function ensures the user intends to perform a given action, which helps protect against clickjacking style
+	 * attacks. It verifies intent, not authorisation, therefore it does not verify the user's capabilities. This should
+	 * be performed with `current_user_can()` or similar.
+	 *
+	 * If the nonce value is invalid, the function will exit with an "Are You Sure?" style message.
 	 *
 	 * @since 1.2.0
+	 * @since 2.5.0 The `$query_arg` parameter was added.
 	 *
-	 * @param int|string $action    Action nonce.
-	 * @param string     $query_arg Optional. Key to check for nonce in `$_REQUEST` (since 2.5).
-	 *                              Default '_wpnonce'.
+	 * @param int|string $action    The nonce action.
+	 * @param string     $query_arg Optional. Key to check for nonce in `$_REQUEST`. Default '_wpnonce'.
 	 * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
 	 *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
 	 */
@@ -2018,7 +2022,7 @@ endif;
 
 if ( ! function_exists( 'wp_nonce_tick' ) ) :
 	/**
-	 * Get the time-dependent variable for nonce creation.
+	 * Returns the time-dependent variable for nonce creation.
 	 *
 	 * A nonce has a lifespan of two ticks. Nonces in their second tick may be
 	 * updated, e.g. by autosave.
@@ -2043,14 +2047,13 @@ endif;
 
 if ( ! function_exists( 'wp_verify_nonce' ) ) :
 	/**
-	 * Verify that correct nonce was used with time limit.
+	 * Verifies that a correct security nonce was used with time limit.
 	 *
-	 * The user is given an amount of time to use the token, so therefore, since the
-	 * UID and $action remain the same, the independent variable is the time.
+	 * A nonce is valid for 24 hours (by default).
 	 *
 	 * @since 2.0.3
 	 *
-	 * @param string     $nonce  Nonce that was used in the form to verify
+	 * @param string     $nonce  Nonce value that was used for verification, usually via a form field.
 	 * @param string|int $action Should give context to what is taking place and be the same when nonce was created.
 	 * @return false|int False if the nonce is invalid, 1 if the nonce is valid and generated between
 	 *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
@@ -2135,7 +2138,7 @@ endif;
 
 if ( ! function_exists( 'wp_salt' ) ) :
 	/**
-	 * Get salt to add to hashes.
+	 * Returns a salt to add to hashes.
 	 *
 	 * Salts are created using secret keys. Secret keys are located in two places:
 	 * in the database and in the wp-config.php file. The secret key in the database
