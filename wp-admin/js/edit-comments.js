@@ -2,7 +2,7 @@
  * Handles updating and editing comments.
  *
  * @file This file contains functionality for the admin comments page.
- * @since 3.5.0
+ * @since 2.1.0
  * @output wp-admin/js/edit-comments.js
  */
 
