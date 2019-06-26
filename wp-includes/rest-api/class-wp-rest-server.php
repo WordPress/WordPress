@@ -310,7 +310,7 @@ class WP_REST_Server {
 		$request->set_body_params( wp_unslash( $_POST ) );
 		$request->set_file_params( $_FILES );
 		$request->set_headers( $this->get_headers( wp_unslash( $_SERVER ) ) );
-		$request->set_body( $this->get_raw_data() );
+		$request->set_body( self::get_raw_data() );
 
 		/*
 		 * HTTP method override for clients that can't use PUT/PATCH/DELETE. First, we check
@@ -437,7 +437,7 @@ class WP_REST_Server {
 	 */
 	public function response_to_data( $response, $embed ) {
 		$data  = $response->get_data();
-		$links = $this->get_compact_response_links( $response );
+		$links = self::get_compact_response_links( $response );
 
 		if ( ! empty( $links ) ) {
 			// Convert links to part of the data.

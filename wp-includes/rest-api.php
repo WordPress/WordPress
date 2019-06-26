@@ -1395,7 +1395,7 @@ function rest_preload_api_request( $memo, $path ) {
 	if ( 200 === $response->status ) {
 		$server = rest_get_server();
 		$data   = (array) $response->get_data();
-		$links  = $server->get_compact_response_links( $response );
+		$links  = $server::get_compact_response_links( $response );
 		if ( ! empty( $links ) ) {
 			$data['_links'] = $links;
 		}
