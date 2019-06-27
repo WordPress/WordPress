@@ -177,8 +177,8 @@ function wp_print_media_templates() {
 
 	<?php // Template for the media frame: used both in the media grid and in the media modal. ?>
 	<script type="text/html" id="tmpl-media-frame">
+		<div class="media-frame-title" id="media-frame-title"></div>
 		<div class="media-frame-menu"></div>
-		<div class="media-frame-title"></div>
 		<div class="media-frame-router"></div>
 		<div class="media-frame-content"></div>
 		<div class="media-frame-toolbar"></div>
@@ -187,11 +187,11 @@ function wp_print_media_templates() {
 
 	<?php // Template for the media modal. ?>
 	<script type="text/html" id="tmpl-media-modal">
-		<div tabindex="0" class="<?php echo $class; ?>">
+		<div tabindex="0" class="<?php echo $class; ?>" role="dialog" aria-modal="true" aria-labelledby="media-frame-title">
 			<# if ( data.hasCloseButton ) { #>
 				<button type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close dialog' ); ?></span></span></button>
 			<# } #>
-			<div class="media-modal-content"></div>
+			<div class="media-modal-content" role="document"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
 	</script>
