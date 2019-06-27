@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["formatLibrary"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 367);
+/******/ 	return __webpack_require__(__webpack_require__.s = 353);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -403,7 +403,7 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 367:
+/***/ 353:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

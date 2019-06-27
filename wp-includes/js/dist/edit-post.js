@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["editPost"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 360);
+/******/ 	return __webpack_require__(__webpack_require__.s = 346);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -181,7 +181,7 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
-/***/ 133:
+/***/ 135:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["notices"]; }());
@@ -398,7 +398,7 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 226:
+/***/ 220:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blockLibrary"]; }());
@@ -805,7 +805,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 360:
+/***/ 346:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -866,16 +866,16 @@ var external_this_wp_blockEditor_ = __webpack_require__(8);
 var external_this_wp_editor_ = __webpack_require__(22);
 
 // EXTERNAL MODULE: external {"this":["wp","nux"]}
-var external_this_wp_nux_ = __webpack_require__(60);
+var external_this_wp_nux_ = __webpack_require__(59);
 
 // EXTERNAL MODULE: external {"this":["wp","viewport"]}
 var external_this_wp_viewport_ = __webpack_require__(40);
 
 // EXTERNAL MODULE: external {"this":["wp","notices"]}
-var external_this_wp_notices_ = __webpack_require__(133);
+var external_this_wp_notices_ = __webpack_require__(135);
 
 // EXTERNAL MODULE: external {"this":["wp","blockLibrary"]}
-var external_this_wp_blockLibrary_ = __webpack_require__(226);
+var external_this_wp_blockLibrary_ = __webpack_require__(220);
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
 var external_this_wp_data_ = __webpack_require__(5);
@@ -1362,7 +1362,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-post
 
 
 // EXTERNAL MODULE: external {"this":["wp","plugins"]}
-var external_this_wp_plugins_ = __webpack_require__(63);
+var external_this_wp_plugins_ = __webpack_require__(62);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
 var external_this_wp_url_ = __webpack_require__(25);
@@ -7136,6 +7136,13 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
+/***/ 59:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["nux"]; }());
+
+/***/ }),
+
 /***/ 6:
 /***/ (function(module, exports) {
 
@@ -7143,14 +7150,7 @@ module.exports = function memize( fn, options ) {
 
 /***/ }),
 
-/***/ 60:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["nux"]; }());
-
-/***/ }),
-
-/***/ 63:
+/***/ 62:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["plugins"]; }());

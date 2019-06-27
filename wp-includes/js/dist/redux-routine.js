@@ -82,22 +82,10 @@ this["wp"] = this["wp"] || {}; this["wp"]["reduxRoutine"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 378);
+/******/ 	return __webpack_require__(__webpack_require__.s = 364);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 100:
-/***/ (function(module, exports) {
-
-module.exports = isPromise;
-
-function isPromise(obj) {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
-}
-
-
-/***/ }),
 
 /***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
@@ -111,7 +99,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(200);
+var _keys = __webpack_require__(194);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -164,7 +152,7 @@ exports.default = is;
 
 /***/ }),
 
-/***/ 199:
+/***/ 193:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -175,7 +163,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChannel = exports.subscribe = exports.cps = exports.apply = exports.call = exports.invoke = exports.delay = exports.race = exports.join = exports.fork = exports.error = exports.all = undefined;
 
-var _keys = __webpack_require__(200);
+var _keys = __webpack_require__(194);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -305,14 +293,7 @@ var createChannel = exports.createChannel = function createChannel(callback) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["lodash"]; }());
-
-/***/ }),
-
-/***/ 200:
+/***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -336,7 +317,14 @@ exports.default = keys;
 
 /***/ }),
 
-/***/ 228:
+/***/ 2:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["lodash"]; }());
+
+/***/ }),
+
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -347,7 +335,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.wrapControls = exports.asyncControls = exports.create = undefined;
 
-var _helpers = __webpack_require__(199);
+var _helpers = __webpack_require__(193);
 
 Object.keys(_helpers).forEach(function (key) {
   if (key === "default") return;
@@ -359,15 +347,15 @@ Object.keys(_helpers).forEach(function (key) {
   });
 });
 
-var _create = __webpack_require__(347);
+var _create = __webpack_require__(333);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _async = __webpack_require__(349);
+var _async = __webpack_require__(335);
 
 var _async2 = _interopRequireDefault(_async);
 
-var _wrap = __webpack_require__(351);
+var _wrap = __webpack_require__(337);
 
 var _wrap2 = _interopRequireDefault(_wrap);
 
@@ -379,7 +367,7 @@ exports.wrapControls = _wrap2.default;
 
 /***/ }),
 
-/***/ 347:
+/***/ 333:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -389,7 +377,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _builtin = __webpack_require__(348);
+var _builtin = __webpack_require__(334);
 
 var _builtin2 = _interopRequireDefault(_builtin);
 
@@ -465,7 +453,7 @@ exports.default = create;
 
 /***/ }),
 
-/***/ 348:
+/***/ 334:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -566,7 +554,7 @@ exports.default = [error, iterator, array, object, any];
 
 /***/ }),
 
-/***/ 349:
+/***/ 335:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -581,9 +569,9 @@ var _is = __webpack_require__(107);
 
 var _is2 = _interopRequireDefault(_is);
 
-var _helpers = __webpack_require__(199);
+var _helpers = __webpack_require__(193);
 
-var _dispatcher = __webpack_require__(350);
+var _dispatcher = __webpack_require__(336);
 
 var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
@@ -688,7 +676,7 @@ exports.default = [promise, fork, join, race, subscribe];
 
 /***/ }),
 
-/***/ 350:
+/***/ 336:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -721,7 +709,7 @@ exports.default = createDispatcher;
 
 /***/ }),
 
-/***/ 351:
+/***/ 337:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -764,7 +752,7 @@ exports.default = [call, cps];
 
 /***/ }),
 
-/***/ 378:
+/***/ 364:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -785,13 +773,13 @@ function isGenerator(object) {
 }
 
 // EXTERNAL MODULE: ./node_modules/rungen/dist/index.js
-var dist = __webpack_require__(228);
+var dist = __webpack_require__(222);
 
 // EXTERNAL MODULE: external "lodash"
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/is-promise/index.js
-var is_promise = __webpack_require__(100);
+var is_promise = __webpack_require__(99);
 var is_promise_default = /*#__PURE__*/__webpack_require__.n(is_promise);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/redux-routine/build-module/is-action.js
@@ -926,6 +914,18 @@ function createMiddleware() {
       };
     };
   };
+}
+
+
+/***/ }),
+
+/***/ 99:
+/***/ (function(module, exports) {
+
+module.exports = isPromise;
+
+function isPromise(obj) {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
 
 

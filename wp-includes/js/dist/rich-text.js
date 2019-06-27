@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["richText"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 361);
+/******/ 	return __webpack_require__(__webpack_require__.s = 347);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -504,7 +504,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 361:
+/***/ 347:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

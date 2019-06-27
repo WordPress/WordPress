@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["i18n"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 376);
+/******/ 	return __webpack_require__(__webpack_require__.s = 362);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 137:
+/***/ 139:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* global window, exports, define */
@@ -348,7 +348,7 @@ function _defineProperty(obj, key, value) {
 
 /***/ }),
 
-/***/ 376:
+/***/ 362:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -803,8 +803,8 @@ Tannin.prototype.dcnpgettext = function( domain, context, singular, plural, n ) 
 var memize = __webpack_require__(41);
 var memize_default = /*#__PURE__*/__webpack_require__.n(memize);
 
-// EXTERNAL MODULE: ./node_modules/@wordpress/i18n/node_modules/sprintf-js/src/sprintf.js
-var sprintf = __webpack_require__(137);
+// EXTERNAL MODULE: ./node_modules/sprintf-js/src/sprintf.js
+var sprintf = __webpack_require__(139);
 var sprintf_default = /*#__PURE__*/__webpack_require__.n(sprintf);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/i18n/build-module/index.js

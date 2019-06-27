@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["annotations"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 370);
+/******/ 	return __webpack_require__(__webpack_require__.s = 356);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -507,7 +507,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 370:
+/***/ 356:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1254,8 +1254,8 @@ module.exports = function memize( fn, options ) {
 /***/ 65:
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(87);
-var bytesToUuid = __webpack_require__(88);
+var rng = __webpack_require__(86);
+var bytesToUuid = __webpack_require__(87);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1315,7 +1315,7 @@ function _objectSpread(target) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 86:
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -1356,7 +1356,7 @@ if (getRandomValues) {
 
 /***/ }),
 
-/***/ 88:
+/***/ 87:
 /***/ (function(module, exports) {
 
 /**
