@@ -2384,10 +2384,14 @@ if ( ! function_exists( 'wp_generate_password' ) ) :
 		 * Filters the randomly-generated password.
 		 *
 		 * @since 3.0.0
+		 * @since 5.3.0 Added the `$length`, `$special_chars`, and `$extra_special_chars` parameters.
 		 *
-		 * @param string $password The generated password.
+		 * @param string $password            The generated password.
+		 * @param int    $length              The length of password to generate.
+		 * @param bool   $special_chars       Whether to include standard special characters.
+		 * @param bool   $extra_special_chars Whether to include other special characters.
 		 */
-		return apply_filters( 'random_password', $password );
+		return apply_filters( 'random_password', $password, $length, $special_chars, $extra_special_chars );
 	}
 endif;
 
