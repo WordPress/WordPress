@@ -500,6 +500,9 @@ function wpautop( $pee, $br = true ) {
 	// Add a double line break below block-level closing tags.
 	$pee = preg_replace( '!(</' . $allblocks . '>)!', "$1\n\n", $pee );
 
+	// Add a double line break after hr tags, which are self closing.
+	$pee = preg_replace( '!(<hr\s*?/?>)!', "$1\n\n", $pee );
+
 	// Standardize newline characters to "\n".
 	$pee = str_replace( array( "\r\n", "\r" ), "\n", $pee );
 
