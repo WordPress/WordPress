@@ -3608,6 +3608,7 @@ function sanitize_email( $email ) {
  * "5 mins", "2 days".
  *
  * @since 1.5.0
+ * @since 5.3.0 Added support for showing a difference in seconds.
  *
  * @param int $from Unix timestamp from which the difference begins.
  * @param int $to   Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
@@ -3620,7 +3621,14 @@ function human_time_diff( $from, $to = '' ) {
 
 	$diff = (int) abs( $to - $from );
 
-	if ( $diff < HOUR_IN_SECONDS ) {
+	if ( $diff < MINUTE_IN_SECONDS ) {
+		$secs = $diff;
+		if ( $secs <= 1 ) {
+			$secs = 1;
+		}
+		/* translators: Time difference between two dates, in seconds. %s: Number of seconds */
+		$since = sprintf( _n( '%s second', '%s seconds', $secs ), $secs );
+	} elseif ( $diff < HOUR_IN_SECONDS && $diff >= MINUTE_IN_SECONDS ) {
 		$mins = round( $diff / MINUTE_IN_SECONDS );
 		if ( $mins <= 1 ) {
 			$mins = 1;
