@@ -4455,7 +4455,7 @@ function tag_escape( $tag_name ) {
  * @since 4.1.0 Support was added for relative URLs.
  *
  * @param string $link Full URL path.
- * @return string Absolute path.
+ * @return string Relative path.
  */
 function wp_make_link_relative( $link ) {
 	return preg_replace( '|^(https?:)?//[^/]+(/?.*)|i', '$2', $link );
