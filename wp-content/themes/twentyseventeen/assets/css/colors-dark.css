@@ -289,8 +289,8 @@ body.colors-dark,
 	color: #bbb;
 }
 
-.colors-dark button:hover:not( .mejs-container > button ),
-.colors-dark button:focus,
+.colors-dark :not( .mejs-button ) > button:hover,
+.colors-dark :not( .mejs-button ) > button:focus,
 .colors-dark input[type="button"]:hover,
 .colors-dark input[type="button"]:focus,
 .colors-dark input[type="submit"]:hover,
