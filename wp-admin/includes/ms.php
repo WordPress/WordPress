@@ -249,15 +249,7 @@ function display_space_usage() {
 
 	$percent_used = ( $space_used / $space_allowed ) * 100;
 
-	if ( $space_allowed > 1000 ) {
-		$space = number_format( $space_allowed / KB_IN_BYTES );
-		/* translators: Gigabytes */
-		$space .= __( 'GB' );
-	} else {
-		$space = number_format( $space_allowed );
-		/* translators: Megabytes */
-		$space .= __( 'MB' );
-	}
+	$space = size_format( $space_allowed * MB_IN_BYTES );
 	?>
 	<strong>
 	<?php
