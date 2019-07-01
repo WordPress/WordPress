@@ -26,7 +26,7 @@ function wp_get_server_protocol() {
  * @since 2.1.0
  * @access private
  */
-function wp_unregister_GLOBALS() {
+function wp_unregister_GLOBALS() {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	if ( ! ini_get( 'register_globals' ) ) {
 		return;
 	}
