@@ -1212,7 +1212,8 @@ function do_meta_boxes( $screen, $context, $object ) {
 	printf( '<div id="%s-sortables" class="meta-box-sortables">', esc_attr( $context ) );
 
 	// Grab the ones the user has manually sorted. Pull them out of their previous context/priority and into the one the user chose
-	if ( ! $already_sorted && $sorted = get_user_option( "meta-box-order_$page" ) ) {
+	$sorted = get_user_option( "meta-box-order_$page" );
+	if ( ! $already_sorted && $sorted ) {
 		foreach ( $sorted as $box_context => $ids ) {
 			foreach ( explode( ',', $ids ) as $id ) {
 				if ( $id && 'dashboard_browser_nag' !== $id ) {

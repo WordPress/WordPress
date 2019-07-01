@@ -101,7 +101,8 @@ if ( empty( $importers ) ) {
 
 	<?php
 	foreach ( $importers as $importer_id => $data ) {
-		$plugin_slug         = $action = '';
+		$plugin_slug         = '';
+		$action              = '';
 		$is_plugin_installed = false;
 
 		if ( isset( $data['install'] ) ) {

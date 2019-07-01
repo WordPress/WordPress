@@ -62,7 +62,8 @@ switch ( $action ) {
 
 		$comment_id = absint( $_GET['c'] );
 
-		if ( ! $comment = get_comment( $comment_id ) ) {
+		$comment = get_comment( $comment_id );
+		if ( ! $comment ) {
 			comment_footer_die( __( 'Invalid comment ID.' ) . sprintf( ' <a href="%s">' . __( 'Go back' ) . '</a>.', 'javascript:history.go(-1)' ) );
 		}
 
@@ -88,7 +89,8 @@ switch ( $action ) {
 
 		$comment_id = absint( $_GET['c'] );
 
-		if ( ! $comment = get_comment( $comment_id ) ) {
+		$comment = get_comment( $comment_id );
+		if ( ! $comment ) {
 			wp_redirect( admin_url( 'edit-comments.php?error=1' ) );
 			die();
 		}
@@ -260,7 +262,8 @@ switch ( $action ) {
 
 		$noredir = isset( $_REQUEST['noredir'] );
 
-		if ( ! $comment = get_comment( $comment_id ) ) {
+		$comment = get_comment( $comment_id );
+		if ( ! $comment ) {
 			comment_footer_die( __( 'Invalid comment ID.' ) . sprintf( ' <a href="%s">' . __( 'Go back' ) . '</a>.', 'edit-comments.php' ) );
 		}
 		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {

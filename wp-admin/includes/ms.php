@@ -367,7 +367,8 @@ function update_user_status( $id, $pref, $value, $deprecated = null ) {
 function refresh_user_details( $id ) {
 	$id = (int) $id;
 
-	if ( ! $user = get_userdata( $id ) ) {
+	$user = get_userdata( $id );
+	if ( ! $user ) {
 		return false;
 	}
 
@@ -908,7 +909,8 @@ function confirm_delete_users( $users ) {
 	?>
 	<table class="form-table" role="presentation">
 	<?php
-	foreach ( ( $allusers = (array) $_POST['allusers'] ) as $user_id ) {
+	$allusers = (array) $_POST['allusers'];
+	foreach ( $allusers as $user_id ) {
 		if ( $user_id != '' && $user_id != '0' ) {
 			$delete_user = get_userdata( $user_id );
 

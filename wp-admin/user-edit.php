@@ -602,7 +602,8 @@ endif; //!IS_PROFILE_PAGE
 		 * @param bool    $show        Whether to show the password fields. Default true.
 		 * @param WP_User $profileuser User object for the current user to edit.
 		 */
-		if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
+		$show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
+		if ( $show_password_fields ) :
 			?>
 	</table>
 

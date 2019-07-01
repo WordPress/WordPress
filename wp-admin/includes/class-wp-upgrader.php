@@ -185,7 +185,8 @@ class WP_Upgrader {
 	public function fs_connect( $directories = array(), $allow_relaxed_file_ownership = false ) {
 		global $wp_filesystem;
 
-		if ( false === ( $credentials = $this->skin->request_filesystem_credentials( false, $directories[0], $allow_relaxed_file_ownership ) ) ) {
+		$credentials = $this->skin->request_filesystem_credentials( false, $directories[0], $allow_relaxed_file_ownership );
+		if ( false === $credentials ) {
 			return false;
 		}
 

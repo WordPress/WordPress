@@ -241,12 +241,13 @@ final class WP_Privacy_Policy_Content {
 					$found     = true;
 				} elseif ( $new_data['plugin_name'] === $old_data['plugin_name'] ) {
 					// The info for the policy was updated.
-					$checked[] = array(
+					$checked[]    = array(
 						'plugin_name' => $new_data['plugin_name'],
 						'policy_text' => $new_data['policy_text'],
 						'updated'     => $time,
 					);
-					$found     = $update_cache = true;
+					$found        = true;
+					$update_cache = true;
 				}
 
 				if ( $found ) {
@@ -378,7 +379,9 @@ final class WP_Privacy_Policy_Content {
 		$return_to_top = '<a href="#" class="return-to-top">' . __( '&uarr; Return to Top' ) . '</a>';
 
 		foreach ( $content_array as $section ) {
-			$class = $meta = $removed = '';
+			$class   = '';
+			$meta    = '';
+			$removed = '';
 
 			if ( ! empty( $section['removed'] ) ) {
 				$class = ' text-removed';

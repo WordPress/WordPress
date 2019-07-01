@@ -284,14 +284,19 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) ) {
 			if ( false === WP_AUTO_UPDATE_CORE ) {
 				// Defaults to turned off, unless a filter allows it
-				$upgrade_dev = $upgrade_minor = $upgrade_major = false;
+				$upgrade_dev   = false;
+				$upgrade_minor = false;
+				$upgrade_major = false;
 			} elseif ( true === WP_AUTO_UPDATE_CORE ) {
 				// ALL updates for core
-				$upgrade_dev = $upgrade_minor = $upgrade_major = true;
+				$upgrade_dev   = true;
+				$upgrade_minor = true;
+				$upgrade_major = true;
 			} elseif ( 'minor' === WP_AUTO_UPDATE_CORE ) {
 				// Only minor updates for core
-				$upgrade_dev   = $upgrade_major = false;
+				$upgrade_dev   = false;
 				$upgrade_minor = true;
+				$upgrade_major = false;
 			}
 		}
 

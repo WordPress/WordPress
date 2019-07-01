@@ -44,8 +44,9 @@ if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
 
 $wp_list_table->prepare_items();
 
-$title     = __( 'Links' );
-$this_file = $parent_file = 'link-manager.php';
+$title       = __( 'Links' );
+$this_file   = 'link-manager.php';
+$parent_file = $this_file;
 
 get_current_screen()->add_help_tab(
 	array(

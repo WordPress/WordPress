@@ -115,7 +115,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$allowed_where   = 'network';
 		}
 
-		$maybe_update = current_user_can( 'update_themes' ) && ! $this->is_site_themes && $current = get_site_transient( 'update_themes' );
+		$current      = get_site_transient( 'update_themes' );
+		$maybe_update = current_user_can( 'update_themes' ) && ! $this->is_site_themes && $current;
 
 		foreach ( (array) $themes['all'] as $key => $theme ) {
 			if ( $this->is_site_themes && $theme->is_allowed( 'network' ) ) {

@@ -590,47 +590,50 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$b['time']   = @mktime( $lucifer[4] + ( strcasecmp( $lucifer[6], 'PM' ) == 0 ? 12 : 0 ), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3] );
 			$b['am/pm']  = $lucifer[6];
 			$b['name']   = $lucifer[8];
-		} elseif ( ! $is_windows && $lucifer = preg_split( '/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY ) ) {
-			//echo $line."\n";
-			$lcount = count( $lucifer );
-			if ( $lcount < 8 ) {
-				return '';
-			}
-			$b           = array();
-			$b['isdir']  = $lucifer[0]{0} === 'd';
-			$b['islink'] = $lucifer[0]{0} === 'l';
-			if ( $b['isdir'] ) {
-				$b['type'] = 'd';
-			} elseif ( $b['islink'] ) {
-				$b['type'] = 'l';
-			} else {
-				$b['type'] = 'f';
-			}
-			$b['perms']  = $lucifer[0];
-			$b['permsn'] = $this->getnumchmodfromh( $b['perms'] );
-			$b['number'] = $lucifer[1];
-			$b['owner']  = $lucifer[2];
-			$b['group']  = $lucifer[3];
-			$b['size']   = $lucifer[4];
-			if ( $lcount == 8 ) {
-				sscanf( $lucifer[5], '%d-%d-%d', $b['year'], $b['month'], $b['day'] );
-				sscanf( $lucifer[6], '%d:%d', $b['hour'], $b['minute'] );
-				$b['time'] = @mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );
-				$b['name'] = $lucifer[7];
-			} else {
-				$b['month'] = $lucifer[5];
-				$b['day']   = $lucifer[6];
-				if ( preg_match( '/([0-9]{2}):([0-9]{2})/', $lucifer[7], $l2 ) ) {
-					$b['year']   = gmdate( 'Y' );
-					$b['hour']   = $l2[1];
-					$b['minute'] = $l2[2];
-				} else {
-					$b['year']   = $lucifer[7];
-					$b['hour']   = 0;
-					$b['minute'] = 0;
+		} elseif ( ! $is_windows ) {
+			$lucifer = preg_split( '/[ ]/', $line, 9, PREG_SPLIT_NO_EMPTY );
+			if ( $lucifer ) {
+				//echo $line."\n";
+				$lcount = count( $lucifer );
+				if ( $lcount < 8 ) {
+					return '';
 				}
-				$b['time'] = strtotime( sprintf( '%d %s %d %02d:%02d', $b['day'], $b['month'], $b['year'], $b['hour'], $b['minute'] ) );
-				$b['name'] = $lucifer[8];
+				$b           = array();
+				$b['isdir']  = $lucifer[0]{0} === 'd';
+				$b['islink'] = $lucifer[0]{0} === 'l';
+				if ( $b['isdir'] ) {
+					$b['type'] = 'd';
+				} elseif ( $b['islink'] ) {
+					$b['type'] = 'l';
+				} else {
+					$b['type'] = 'f';
+				}
+				$b['perms']  = $lucifer[0];
+				$b['permsn'] = $this->getnumchmodfromh( $b['perms'] );
+				$b['number'] = $lucifer[1];
+				$b['owner']  = $lucifer[2];
+				$b['group']  = $lucifer[3];
+				$b['size']   = $lucifer[4];
+				if ( $lcount == 8 ) {
+					sscanf( $lucifer[5], '%d-%d-%d', $b['year'], $b['month'], $b['day'] );
+					sscanf( $lucifer[6], '%d:%d', $b['hour'], $b['minute'] );
+					$b['time'] = @mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );
+					$b['name'] = $lucifer[7];
+				} else {
+					$b['month'] = $lucifer[5];
+					$b['day']   = $lucifer[6];
+					if ( preg_match( '/([0-9]{2}):([0-9]{2})/', $lucifer[7], $l2 ) ) {
+						$b['year']   = gmdate( 'Y' );
+						$b['hour']   = $l2[1];
+						$b['minute'] = $l2[2];
+					} else {
+						$b['year']   = $lucifer[7];
+						$b['hour']   = 0;
+						$b['minute'] = 0;
+					}
+					$b['time'] = strtotime( sprintf( '%d %s %d %02d:%02d', $b['day'], $b['month'], $b['year'], $b['hour'], $b['minute'] ) );
+					$b['name'] = $lucifer[8];
+				}
 			}
 		}
 

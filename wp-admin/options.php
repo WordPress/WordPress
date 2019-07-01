@@ -80,7 +80,7 @@ if ( is_multisite() && ! current_user_can( 'manage_network_options' ) && 'update
 	);
 }
 
-$whitelist_options         = array(
+$whitelist_options            = array(
 	'general'    => array(
 		'blogname',
 		'blogdescription',
@@ -146,7 +146,9 @@ $whitelist_options         = array(
 		'default_post_format',
 	),
 );
-$whitelist_options['misc'] = $whitelist_options['options'] = $whitelist_options['privacy'] = array();
+$whitelist_options['misc']    = array();
+$whitelist_options['options'] = array();
+$whitelist_options['privacy'] = array();
 
 $mail_options = array( 'mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass' );
 

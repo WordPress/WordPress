@@ -819,8 +819,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 		if ( isset( $this->pending_count[ $post->ID ] ) ) {
 			$pending_comments = $this->pending_count[ $post->ID ];
 		} else {
-			$_pending_count_temp = get_pending_comments_num( array( $post->ID ) );
-			$pending_comments    = $this->pending_count[ $post->ID ] = $_pending_count_temp[ $post->ID ];
+			$_pending_count_temp              = get_pending_comments_num( array( $post->ID ) );
+			$pending_comments                 = $_pending_count_temp[ $post->ID ];
+			$this->pending_count[ $post->ID ] = $pending_comments;
 		}
 
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
@@ -831,8 +832,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		echo '<div class="response-links">';
-		if ( 'attachment' === $post->post_type && ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) ) {
-			echo $thumb;
+		if ( 'attachment' === $post->post_type ) {
+			$thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true );
+			if ( $thumb ) {
+				echo $thumb;
+			}
 		}
 		echo $post_link;
 		$post_type_object = get_post_type_object( $post->post_type );

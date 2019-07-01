@@ -332,7 +332,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		$files = $wp_filesystem->dirlist( $remote_source );
 
 		// Check to see if a .po and .mo exist in the folder.
-		$po = $mo = false;
+		$po = false;
+		$mo = false;
 		foreach ( (array) $files as $file => $filedata ) {
 			if ( '.po' == substr( $file, -3 ) ) {
 				$po = true;

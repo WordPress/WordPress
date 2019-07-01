@@ -99,7 +99,8 @@ class WP_Automatic_Updater {
 		// Search all directories we've found for evidence of version control.
 		foreach ( $vcs_dirs as $vcs_dir ) {
 			foreach ( $check_dirs as $check_dir ) {
-				if ( $checkout = @is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" ) ) {
+				$checkout = @is_dir( rtrim( $check_dir, '\\/' ) . "/$vcs_dir" );
+				if ( $checkout ) {
 					break 2;
 				}
 			}

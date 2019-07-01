@@ -99,7 +99,8 @@ class File_Upload_Upgrader {
 			$this->package  = get_attached_file( $attachment->ID );
 		} else {
 			// Else, It's set to something, Back compat for plugins using the old (pre-3.3) File_Uploader handler.
-			if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) ) {
+			$uploads = wp_upload_dir();
+			if ( ! ( $uploads && false === $uploads['error'] ) ) {
 				wp_die( $uploads['error'] );
 			}
 

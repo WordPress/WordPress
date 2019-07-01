@@ -221,7 +221,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 		}
 
-		if ( ! ( $stream = ssh2_exec( $this->link, $command ) ) ) {
+		$stream = ssh2_exec( $this->link, $command );
+		if ( ! $stream ) {
 			$this->errors->add(
 				'command',
 				/* translators: %s: command */

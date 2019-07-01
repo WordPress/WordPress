@@ -39,7 +39,8 @@ if ( ! current_user_can( 'upload_files' ) ) {
 }
 
 // just fetch the detail form for that attachment
-if ( isset( $_REQUEST['attachment_id'] ) && ( $id = intval( $_REQUEST['attachment_id'] ) ) && $_REQUEST['fetch'] ) {
+if ( isset( $_REQUEST['attachment_id'] ) && intval( $_REQUEST['attachment_id'] ) && $_REQUEST['fetch'] ) {
+	$id   = intval( $_REQUEST['attachment_id'] );
 	$post = get_post( $id );
 	if ( 'attachment' != $post->post_type ) {
 		wp_die( __( 'Invalid post type.' ) );
@@ -50,7 +51,8 @@ if ( isset( $_REQUEST['attachment_id'] ) && ( $id = intval( $_REQUEST['attachmen
 
 	switch ( $_REQUEST['fetch'] ) {
 		case 3:
-			if ( $thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true ) ) {
+			$thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true );
+			if ( $thumb_url ) {
 				echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
 			}
 			echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';

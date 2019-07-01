@@ -27,7 +27,8 @@ switch ( $action ) {
 
 		if ( empty( $errors ) ) {
 			$location = 'media.php';
-			if ( $referer = wp_get_original_referer() ) {
+			$referer  = wp_get_original_referer();
+			if ( $referer ) {
 				if ( false !== strpos( $referer, 'upload.php' ) || ( url_to_postid( $referer ) == $attachment_id ) ) {
 					$location = $referer;
 				}

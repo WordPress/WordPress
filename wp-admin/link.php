@@ -112,7 +112,8 @@ switch ( $action ) {
 
 		$link_id = (int) $_GET['link_id'];
 
-		if ( ! $link = get_link_to_edit( $link_id ) ) {
+		$link = get_link_to_edit( $link_id );
+		if ( ! $link ) {
 			wp_die( __( 'Link not found.' ) );
 		}
 

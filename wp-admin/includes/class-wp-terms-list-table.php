@@ -226,14 +226,16 @@ class WP_Terms_List_Table extends WP_List_Table {
 		// Set variable because $args['number'] can be subsequently overridden.
 		$number = $args['number'];
 
-		$args['offset'] = $offset = ( $page - 1 ) * $number;
+		$offset         = ( $page - 1 ) * $number;
+		$args['offset'] = $offset;
 
 		// Convert it to table rows.
 		$count = 0;
 
 		if ( is_taxonomy_hierarchical( $taxonomy ) && ! isset( $args['orderby'] ) ) {
 			// We'll need the full set of terms then.
-			$args['number'] = $args['offset'] = 0;
+			$args['number'] = 0;
+			$args['offset'] = $args['number'];
 		}
 		$terms = get_terms( $taxonomy, $args );
 
@@ -285,7 +287,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 			// If the page starts in a subtree, print the parents.
 			if ( $count == $start && $term->parent > 0 && empty( $_REQUEST['s'] ) ) {
-				$my_parents = $parent_ids = array();
+				$my_parents = array();
+				$parent_ids = array();
 				$p          = $term->parent;
 				while ( $p ) {
 					$my_parent    = get_term( $p, $taxonomy );

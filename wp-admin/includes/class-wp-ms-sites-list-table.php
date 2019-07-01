@@ -93,10 +93,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 */
 		if ( ! $s && wp_is_large_network() ) {
 			if ( ! isset( $_REQUEST['orderby'] ) ) {
-				$_GET['orderby'] = $_REQUEST['orderby'] = '';
+				$_GET['orderby']     = '';
+				$_REQUEST['orderby'] = '';
 			}
 			if ( ! isset( $_REQUEST['order'] ) ) {
-				$_GET['order'] = $_REQUEST['order'] = 'DESC';
+				$_GET['order']     = 'DESC';
+				$_REQUEST['order'] = 'DESC';
 			}
 		}
 

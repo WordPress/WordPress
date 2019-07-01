@@ -20,12 +20,14 @@
  *                    Or, false on failure.
  */
 function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
 		return false;
 	}
 
 	if ( $compare_from ) {
-		if ( ! $compare_from = get_post( $compare_from ) ) {
+		$compare_from = get_post( $compare_from );
+		if ( ! $compare_from ) {
 			return false;
 		}
 	} else {
@@ -33,7 +35,8 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		$compare_from = false;
 	}
 
-	if ( ! $compare_to = get_post( $compare_to ) ) {
+	$compare_to = get_post( $compare_to );
+	if ( ! $compare_to ) {
 		return false;
 	}
 

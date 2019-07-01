@@ -804,7 +804,10 @@ class WP_List_Table {
 		$total_pages_before = '<span class="paging-input">';
 		$total_pages_after  = '</span></span>';
 
-		$disable_first = $disable_last = $disable_prev = $disable_next = false;
+		$disable_first = false;
+		$disable_last  = false;
+		$disable_prev  = false;
+		$disable_next  = false;
 
 		if ( $current == 1 ) {
 			$disable_first = true;

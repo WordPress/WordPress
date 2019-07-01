@@ -152,7 +152,8 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 
 	// Translate fields
 	if ( $translate ) {
-		if ( $textdomain = $plugin_data['TextDomain'] ) {
+		$textdomain = $plugin_data['TextDomain'];
+		if ( $textdomain ) {
 			if ( ! is_textdomain_loaded( $textdomain ) ) {
 				if ( $plugin_data['DomainPath'] ) {
 					load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
@@ -364,7 +365,8 @@ function get_mu_plugins() {
 	if ( ! is_dir( WPMU_PLUGIN_DIR ) ) {
 		return $wp_plugins;
 	}
-	if ( $plugins_dir = @ opendir( WPMU_PLUGIN_DIR ) ) {
+	$plugins_dir = @opendir( WPMU_PLUGIN_DIR );
+	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
 			if ( substr( $file, -4 ) == '.php' ) {
 				$plugin_files[] = $file;
@@ -431,7 +433,8 @@ function get_dropins() {
 	$_dropins = _get_dropins();
 
 	// These exist in the wp-content directory
-	if ( $plugins_dir = @ opendir( WP_CONTENT_DIR ) ) {
+	$plugins_dir = @opendir( WP_CONTENT_DIR );
+	if ( $plugins_dir ) {
 		while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
 			if ( isset( $_dropins[ $file ] ) ) {
 				$plugin_files[] = $file;
@@ -733,8 +736,9 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 	if ( is_multisite() ) {
 		$network_current = get_site_option( 'active_sitewide_plugins', array() );
 	}
-	$current = get_option( 'active_plugins', array() );
-	$do_blog = $do_network = false;
+	$current    = get_option( 'active_plugins', array() );
+	$do_blog    = false;
+	$do_network = false;
 
 	foreach ( (array) $plugins as $plugin ) {
 		$plugin = plugin_basename( trim( $plugin ) );
@@ -992,7 +996,8 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 	}
 
 	// Remove deleted plugins from the plugin updates list.
-	if ( $current = get_site_transient( 'update_plugins' ) ) {
+	$current = get_site_transient( 'update_plugins' );
+	if ( $current ) {
 		// Don't remove the plugins that weren't deleted.
 		$deleted = array_diff( $plugins, $errors );
 
@@ -1819,7 +1824,8 @@ function get_admin_page_title() {
 
 	$hook = get_plugin_page_hook( $plugin_page, $pagenow );
 
-	$parent = $parent1 = get_admin_page_parent();
+	$parent  = get_admin_page_parent();
+	$parent1 = $parent;
 
 	if ( empty( $parent ) ) {
 		foreach ( (array) $menu as $menu_array ) {

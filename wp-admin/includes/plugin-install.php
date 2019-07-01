@@ -160,7 +160,8 @@ function plugins_api( $action, $args = array() ) {
 		);
 
 		$http_url = $url;
-		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+		$ssl      = wp_http_supports( array( 'ssl' ) );
+		if ( $ssl ) {
 			$url = set_url_scheme( $url, 'https' );
 		}
 
@@ -238,8 +239,9 @@ function plugins_api( $action, $args = array() ) {
  * @return array
  */
 function install_popular_tags( $args = array() ) {
-	$key = md5( serialize( $args ) );
-	if ( false !== ( $tags = get_site_transient( 'poptags_' . $key ) ) ) {
+	$key  = md5( serialize( $args ) );
+	$tags = get_site_transient( 'poptags_' . $key );
+	if ( false !== $tags ) {
 		return $tags;
 	}
 

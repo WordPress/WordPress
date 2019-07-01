@@ -43,7 +43,8 @@ if ( is_network_admin() ) {
 
 // Create list of page plugin hook names.
 foreach ( $menu as $menu_page ) {
-	if ( false !== $pos = strpos( $menu_page[2], '?' ) ) {
+	$pos = strpos( $menu_page[2], '?' );
+	if ( false !== $pos ) {
 		// Handle post_type=post|page|foo pages.
 		$hook_name = substr( $menu_page[2], 0, $pos );
 		$hook_args = substr( $menu_page[2], $pos + 1 );
@@ -200,9 +201,10 @@ function add_cssclass( $add, $class ) {
  * @return array
  */
 function add_menu_classes( $menu ) {
-	$first = $lastorder = false;
-	$i     = 0;
-	$mc    = count( $menu );
+	$first     = false;
+	$lastorder = false;
+	$i         = 0;
+	$mc        = count( $menu );
 	foreach ( $menu as $order => $top ) {
 		$i++;
 

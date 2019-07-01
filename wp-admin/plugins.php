@@ -291,7 +291,8 @@ if ( $action ) {
 					$plugin_slug = dirname( $plugin );
 
 					if ( '.' == $plugin_slug ) {
-						if ( $data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin ) ) {
+						$data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+						if ( $data ) {
 							$plugin_info[ $plugin ]                     = $data;
 							$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
 							if ( ! $plugin_info[ $plugin ]['Network'] ) {
@@ -300,7 +301,8 @@ if ( $action ) {
 						}
 					} else {
 						// Get plugins list from that folder.
-						if ( $folder_plugins = get_plugins( '/' . $plugin_slug ) ) {
+						$folder_plugins = get_plugins( '/' . $plugin_slug );
+						if ( $folder_plugins ) {
 							foreach ( $folder_plugins as $plugin_file => $data ) {
 								$plugin_info[ $plugin_file ]                     = _get_plugin_data_markup_translate( $plugin_file, $data );
 								$plugin_info[ $plugin_file ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );

@@ -117,7 +117,8 @@ function export_wp( $args = array() ) {
 
 	$join = '';
 	if ( $args['category'] && 'post' == $args['content'] ) {
-		if ( $term = term_exists( $args['category'], 'category' ) ) {
+		$term = term_exists( $args['category'], 'category' );
+		if ( $term ) {
 			$join   = "INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
 			$where .= $wpdb->prepare( " AND {$wpdb->term_relationships}.term_taxonomy_id = %d", $term['term_taxonomy_id'] );
 		}
@@ -144,7 +145,9 @@ function export_wp( $args = array() ) {
 	 * Get the requested terms ready, empty unless posts filtered by category
 	 * or all content.
 	 */
-	$cats = $tags = $terms = array();
+	$cats  = array();
+	$tags  = array();
+	$terms = array();
 	if ( isset( $term ) && $term ) {
 		$cat  = get_term( $term['term_id'], 'category' );
 		$cats = array( $cat->term_id => $cat );

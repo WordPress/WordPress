@@ -595,7 +595,8 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		/* translators: %s: post title */
 		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
 		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( __( 'F j, Y' ), $draft ) . '</time></div>';
-		if ( $the_content = wp_trim_words( $draft->post_content, $draft_length ) ) {
+		$the_content = wp_trim_words( $draft->post_content, $draft_length );
+		if ( $the_content ) {
 			echo '<p>' . $the_content . '</p>';
 		}
 		echo "</li>\n";
@@ -1012,7 +1013,8 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 
 	$locale    = get_user_locale();
 	$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
-	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
+	$output    = get_transient( $cache_key );
+	if ( false !== $output ) {
 		echo $output;
 		return true;
 	}
@@ -1073,7 +1075,8 @@ function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
  * @param array $form_inputs
  */
 function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
-	if ( ! $widget_options = get_option( 'dashboard_widget_options' ) ) {
+	$widget_options = get_option( 'dashboard_widget_options' );
+	if ( ! $widget_options ) {
 		$widget_options = array();
 	}
 
@@ -1566,7 +1569,8 @@ function wp_check_browser_version() {
 
 	$key = md5( $_SERVER['HTTP_USER_AGENT'] );
 
-	if ( false === ( $response = get_site_transient( 'browser_' . $key ) ) ) {
+	$response = get_site_transient( 'browser_' . $key );
+	if ( false === $response ) {
 		// include an unmodified $wp_version
 		include( ABSPATH . WPINC . '/version.php' );
 
