@@ -527,7 +527,8 @@ do_action( 'init' );
 
 // Check site status
 if ( is_multisite() ) {
-	if ( true !== ( $file = ms_site_check() ) ) {
+	$file = ms_site_check();
+	if ( true !== $file ) {
 		require( $file );
 		die();
 	}
