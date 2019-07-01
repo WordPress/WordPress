@@ -672,6 +672,26 @@ class WP_Term_Query {
 
 		$this->request = "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['orderby']} {$this->sql_clauses['limits']}";
 
+		$this->terms = null;
+
+		/**
+		 * Filter the terms array before the query takes place.
+		 *
+		 * Return a non-null value to bypass WordPress's default term queries.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param array|null    $terms Return an array of term data to short-circuit WP's term query,
+		 *                             or null to allow WP queries to run normally.
+		 * @param WP_Term_Query $this  The WP_Term_Query instance, passed by reference.
+		 *
+		 */
+		$this->terms = apply_filters_ref_array( 'terms_pre_query', array( $this->terms, &$this ) );
+
+		if ( null !== $this->terms ) {
+			return $this->terms;
+		}
+
 		// $args can be anything. Only use the args defined in defaults to compute the key.
 		$key          = md5( serialize( wp_array_slice_assoc( $args, array_keys( $this->query_var_defaults ) ) ) . serialize( $taxonomies ) . $this->request );
 		$last_changed = wp_cache_get_last_changed( 'terms' );
