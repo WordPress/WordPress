@@ -209,7 +209,8 @@ if ( ! function_exists( 'twentysixteen_categorized_blog' ) ) :
 	 * @return bool True if there is more than one category, false otherwise.
 	 */
 	function twentysixteen_categorized_blog() {
-		if ( false === ( $all_the_cool_cats = get_transient( 'twentysixteen_categories' ) ) ) {
+		$all_the_cool_cats = get_transient( 'twentysixteen_categories' );
+		if ( false === $all_the_cool_cats ) {
 			// Create an array of all the categories that are attached to posts.
 			$all_the_cool_cats = get_categories(
 				array(
