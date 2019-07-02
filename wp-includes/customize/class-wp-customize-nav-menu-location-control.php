@@ -57,7 +57,8 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 			return;
 		}
 
-		$value_hidden_class = $no_value_hidden_class = '';
+		$value_hidden_class    = '';
+		$no_value_hidden_class = '';
 		if ( $this->value() ) {
 			$value_hidden_class = ' hidden';
 		} else {

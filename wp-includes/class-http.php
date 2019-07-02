@@ -926,11 +926,13 @@ class WP_Http {
 			return $maybe_relative_path;
 		}
 
-		if ( ! $url_parts = wp_parse_url( $url ) ) {
+		$url_parts = wp_parse_url( $url );
+		if ( ! $url_parts ) {
 			return $maybe_relative_path;
 		}
 
-		if ( ! $relative_url_parts = wp_parse_url( $maybe_relative_path ) ) {
+		$relative_url_parts = wp_parse_url( $maybe_relative_path );
+		if ( ! $relative_url_parts ) {
 			return $maybe_relative_path;
 		}
 

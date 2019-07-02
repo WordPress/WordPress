@@ -327,7 +327,8 @@ class WP_User_Query {
 			);
 
 			// Prevent extra meta query.
-			$qv['blog_id'] = $blog_id = 0;
+			$qv['blog_id'] = 0;
+			$blog_id       = 0;
 
 			if ( empty( $this->meta_query->queries ) ) {
 				$this->meta_query->queries = array( $who_query );

@@ -1438,11 +1438,13 @@ final class WP_Customize_Widgets {
 				$value                         = array();
 				$value[ $parsed_id['number'] ] = $instance;
 				$key                           = 'widget-' . $parsed_id['id_base'];
-				$_REQUEST[ $key ]              = $_POST[ $key ] = wp_slash( $value );
+				$_REQUEST[ $key ]              = wp_slash( $value );
+				$_POST[ $key ]                 = $_REQUEST[ $key ];
 				$added_input_vars[]            = $key;
 			} else {
 				foreach ( $instance as $key => $value ) {
-					$_REQUEST[ $key ]   = $_POST[ $key ] = wp_slash( $value );
+					$_REQUEST[ $key ]   = wp_slash( $value );
+					$_POST[ $key ]      = $_REQUEST[ $key ];
 					$added_input_vars[] = $key;
 				}
 			}
@@ -1856,8 +1858,9 @@ final class WP_Customize_Widgets {
 
 		// Render the widget.
 		ob_start();
-		dynamic_sidebar( $this->rendering_sidebar_id = $context['sidebar_id'] );
-		$container                                   = ob_get_clean();
+		$this->rendering_sidebar_id = $context['sidebar_id'];
+		dynamic_sidebar( $this->rendering_sidebar_id );
+		$container = ob_get_clean();
 
 		// Reset variables for next partial render.
 		remove_filter( 'sidebars_widgets', $filter_callback, 1000 );

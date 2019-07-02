@@ -170,7 +170,8 @@ class WP_Embed {
 		foreach ( $this->handlers as $priority => $handlers ) {
 			foreach ( $handlers as $id => $handler ) {
 				if ( preg_match( $handler['regex'], $url, $matches ) && is_callable( $handler['callback'] ) ) {
-					if ( false !== $return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr ) ) {
+					$return = call_user_func( $handler['callback'], $matches, $attr, $url, $rawattr );
+					if ( false !== $return ) {
 						/**
 						 * Filters the returned embed handler.
 						 *

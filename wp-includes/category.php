@@ -51,7 +51,8 @@ function get_categories( $args = '' ) {
 				'<code>taxonomy => link_category</code>'
 			)
 		);
-		$taxonomy = $args['taxonomy'] = 'link_category';
+		$taxonomy         = 'link_category';
+		$args['taxonomy'] = $taxonomy;
 	}
 
 	$categories = get_terms( $taxonomy, $args );

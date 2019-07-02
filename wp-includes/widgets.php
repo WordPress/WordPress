@@ -1026,7 +1026,8 @@ function wp_get_widget_defaults() {
  */
 function wp_convert_widget_settings( $base_name, $option_name, $settings ) {
 	// This test may need expanding.
-	$single = $changed = false;
+	$single  = false;
+	$changed = false;
 	if ( empty( $settings ) ) {
 		$single = true;
 	} else {

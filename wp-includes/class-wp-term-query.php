@@ -771,7 +771,8 @@ class WP_Term_Query {
 		 * removed.
 		 */
 		if ( ! empty( $args['object_ids'] ) && 'all_with_object_id' != $_fields ) {
-			$_tt_ids = $_terms = array();
+			$_tt_ids = array();
+			$_terms  = array();
 			foreach ( $terms as $term ) {
 				if ( isset( $_tt_ids[ $term->term_id ] ) ) {
 					continue;

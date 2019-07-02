@@ -79,7 +79,8 @@ function wp_get_themes( $args = array() ) {
 		if ( isset( $_themes[ $theme_root['theme_root'] . '/' . $theme ] ) ) {
 			$themes[ $theme ] = $_themes[ $theme_root['theme_root'] . '/' . $theme ];
 		} else {
-			$themes[ $theme ] = $_themes[ $theme_root['theme_root'] . '/' . $theme ] = new WP_Theme( $theme, $theme_root['theme_root'] );
+			$themes[ $theme ]                                    = new WP_Theme( $theme, $theme_root['theme_root'] );
+			$_themes[ $theme_root['theme_root'] . '/' . $theme ] = $themes[ $theme ];
 		}
 	}
 
@@ -463,7 +464,8 @@ function search_theme_directories( $force = false ) {
 	 * @param bool   $cache_expiration Whether to get the cache of the theme directories. Default false.
 	 * @param string $cache_directory  Directory to be searched for the cache.
 	 */
-	if ( $cache_expiration = apply_filters( 'wp_cache_themes_persistently', false, 'search_theme_directories' ) ) {
+	$cache_expiration = apply_filters( 'wp_cache_themes_persistently', false, 'search_theme_directories' );
+	if ( $cache_expiration ) {
 		$cached_roots = get_site_transient( 'theme_roots' );
 		if ( is_array( $cached_roots ) ) {
 			foreach ( $cached_roots as $theme_dir => $theme_root ) {
@@ -570,13 +572,20 @@ function search_theme_directories( $force = false ) {
 function get_theme_root( $stylesheet_or_template = false ) {
 	global $wp_theme_directories;
 
-	if ( $stylesheet_or_template && $theme_root = get_raw_theme_root( $stylesheet_or_template ) ) {
-		// Always prepend WP_CONTENT_DIR unless the root currently registered as a theme directory.
-		// This gives relative theme roots the benefit of the doubt when things go haywire.
-		if ( ! in_array( $theme_root, (array) $wp_theme_directories ) ) {
-			$theme_root = WP_CONTENT_DIR . $theme_root;
+	$theme_root = '';
+
+	if ( $stylesheet_or_template ) {
+		$theme_root = get_raw_theme_root( $stylesheet_or_template );
+		if ( $theme_root ) {
+			// Always prepend WP_CONTENT_DIR unless the root currently registered as a theme directory.
+			// This gives relative theme roots the benefit of the doubt when things go haywire.
+			if ( ! in_array( $theme_root, (array) $wp_theme_directories ) ) {
+				$theme_root = WP_CONTENT_DIR . $theme_root;
+			}
 		}
-	} else {
+	}
+
+	if ( ! $theme_root ) {
 		$theme_root = WP_CONTENT_DIR . '/themes';
 	}
 
@@ -1312,9 +1321,10 @@ function get_custom_header() {
 	} else {
 		$data = get_theme_mod( 'header_image_data' );
 		if ( ! $data && current_theme_supports( 'custom-header', 'default-image' ) ) {
-			$directory_args = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
-			$data           = array();
-			$data['url']    = $data['thumbnail_url'] = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
+			$directory_args        = array( get_template_directory_uri(), get_stylesheet_directory_uri() );
+			$data                  = array();
+			$data['url']           = vsprintf( get_theme_support( 'custom-header', 'default-image' ), $directory_args );
+			$data['thumbnail_url'] = $data['url'];
 			if ( ! empty( $_wp_default_headers ) ) {
 				foreach ( (array) $_wp_default_headers as $default_header ) {
 					$url = vsprintf( $default_header['url'], $directory_args );
@@ -2900,7 +2910,8 @@ function _delete_attachment_theme_mod( $id ) {
  * @since 3.3.0
  */
 function check_theme_switched() {
-	if ( $stylesheet = get_option( 'theme_switched' ) ) {
+	$stylesheet = get_option( 'theme_switched' );
+	if ( $stylesheet ) {
 		$old_theme = wp_get_theme( $stylesheet );
 
 		// Prevent widget & menu mapping from running since Customizer already called it up front

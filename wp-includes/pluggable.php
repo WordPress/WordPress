@@ -217,7 +217,9 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		}
 
 		// Headers
-		$cc = $bcc = $reply_to = array();
+		$cc       = array();
+		$bcc      = array();
+		$reply_to = array();
 
 		if ( empty( $headers ) ) {
 			$headers = array();
@@ -595,7 +597,8 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 	 * @return false|int False if invalid cookie, User ID if valid.
 	 */
 	function wp_validate_auth_cookie( $cookie = '', $scheme = '' ) {
-		if ( ! $cookie_elements = wp_parse_auth_cookie( $cookie, $scheme ) ) {
+		$cookie_elements = wp_parse_auth_cookie( $cookie, $scheme );
+		if ( ! $cookie_elements ) {
 			/**
 			 * Fires if an authentication cookie is malformed.
 			 *
@@ -609,11 +612,12 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 			return false;
 		}
 
-		$scheme   = $cookie_elements['scheme'];
-		$username = $cookie_elements['username'];
-		$hmac     = $cookie_elements['hmac'];
-		$token    = $cookie_elements['token'];
-		$expired  = $expiration = $cookie_elements['expiration'];
+		$scheme     = $cookie_elements['scheme'];
+		$username   = $cookie_elements['username'];
+		$hmac       = $cookie_elements['hmac'];
+		$token      = $cookie_elements['token'];
+		$expired    = $cookie_elements['expiration'];
+		$expiration = $cookie_elements['expiration'];
 
 		// Allow a grace period for POST and Ajax requests
 		if ( wp_doing_ajax() || 'POST' == $_SERVER['REQUEST_METHOD'] ) {
@@ -1036,7 +1040,8 @@ if ( ! function_exists( 'auth_redirect' ) ) :
 		 */
 		$scheme = apply_filters( 'auth_redirect_scheme', '' );
 
-		if ( $user_id = wp_validate_auth_cookie( '', $scheme ) ) {
+		$user_id = wp_validate_auth_cookie( '', $scheme );
+		if ( $user_id ) {
 			/**
 			 * Fires before the authentication redirect.
 			 *
@@ -1380,7 +1385,8 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		}
 
 		// In php 5 parse_url may fail if the URL query part contains http://, bug #38143
-		$test = ( $cut = strpos( $location, '?' ) ) ? substr( $location, 0, $cut ) : $location;
+		$cut  = strpos( $location, '?' );
+		$test = $cut ? substr( $location, 0, $cut ) : $location;
 
 		// @-operator is used to prevent possible warnings in PHP < 5.3.3.
 		$lp = @parse_url( $test );

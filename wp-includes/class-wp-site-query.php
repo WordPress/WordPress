@@ -361,7 +361,8 @@ class WP_Site_Query {
 		// Fetch full site objects from the primed cache.
 		$_sites = array();
 		foreach ( $site_ids as $site_id ) {
-			if ( $_site = get_site( $site_id ) ) {
+			$_site = get_site( $site_id );
+			if ( $_site ) {
 				$_sites[] = $_site;
 			}
 		}

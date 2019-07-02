@@ -113,7 +113,8 @@ function wp_save_post_revision( $post_id ) {
 		return;
 	}
 
-	if ( ! $post = get_post( $post_id ) ) {
+	$post = get_post( $post_id );
+	if ( ! $post ) {
 		return;
 	}
 
@@ -132,7 +133,8 @@ function wp_save_post_revision( $post_id ) {
 	// Compare the proposed update with the last stored revision verifying that
 	// they are different, unless a plugin tells us to always save regardless.
 	// If no previous revisions, save one
-	if ( $revisions = wp_get_post_revisions( $post_id ) ) {
+	$revisions = wp_get_post_revisions( $post_id );
+	if ( $revisions ) {
 		// grab the last revision, but not an autosave
 		foreach ( $revisions as $revision ) {
 			if ( false !== strpos( $revision->post_name, "{$revision->post_parent}-revision" ) ) {
@@ -254,7 +256,8 @@ function wp_get_post_autosave( $post_id, $user_id = 0 ) {
  * @return false|int False if not a revision, ID of revision's parent otherwise.
  */
 function wp_is_post_revision( $post ) {
-	if ( ! $post = wp_get_post_revision( $post ) ) {
+	$post = wp_get_post_revision( $post );
+	if ( ! $post ) {
 		return false;
 	}
 
@@ -270,7 +273,8 @@ function wp_is_post_revision( $post ) {
  * @return false|int False if not a revision, ID of autosave's parent otherwise
  */
 function wp_is_post_autosave( $post ) {
-	if ( ! $post = wp_get_post_revision( $post ) ) {
+	$post = wp_get_post_revision( $post );
+	if ( ! $post ) {
 		return false;
 	}
 
@@ -340,7 +344,8 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  * @return WP_Post|array|null WP_Post (or array) on success, or null on failure.
  */
 function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
-	if ( ! $revision = get_post( $post, OBJECT, $filter ) ) {
+	$revision = get_post( $post, OBJECT, $filter );
+	if ( ! $revision ) {
 		return $revision;
 	}
 	if ( 'revision' !== $revision->post_type ) {
@@ -372,7 +377,8 @@ function wp_get_post_revision( &$post, $output = OBJECT, $filter = 'raw' ) {
  * @return int|false|null Null if error, false if no fields to restore, (int) post ID if success.
  */
 function wp_restore_post_revision( $revision_id, $fields = null ) {
-	if ( ! $revision = wp_get_post_revision( $revision_id, ARRAY_A ) ) {
+	$revision = wp_get_post_revision( $revision_id, ARRAY_A );
+	if ( ! $revision ) {
 		return $revision;
 	}
 
@@ -425,7 +431,8 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
  * @return array|false|WP_Post|WP_Error|null Null or WP_Error if error, deleted post if success.
  */
 function wp_delete_post_revision( $revision_id ) {
-	if ( ! $revision = wp_get_post_revision( $revision_id ) ) {
+	$revision = wp_get_post_revision( $revision_id );
+	if ( ! $revision ) {
 		return $revision;
 	}
 
@@ -482,7 +489,8 @@ function wp_get_post_revisions( $post_id = 0, $args = null ) {
 		)
 	);
 
-	if ( ! $revisions = get_children( $args ) ) {
+	$revisions = get_children( $args );
+	if ( ! $revisions ) {
 		return array();
 	}
 
@@ -601,7 +609,8 @@ function _show_post_preview() {
  * @return array
  */
 function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
-	if ( ! $post = get_post() ) {
+	$post = get_post();
+	if ( ! $post ) {
 		return $terms;
 	}
 
@@ -611,8 +620,11 @@ function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
 
 	if ( 'standard' == $_REQUEST['post_format'] ) {
 		$terms = array();
-	} elseif ( $term = get_term_by( 'slug', 'post-format-' . sanitize_key( $_REQUEST['post_format'] ), 'post_format' ) ) {
-		$terms = array( $term ); // Can only have one post format
+	} else {
+		$term = get_term_by( 'slug', 'post-format-' . sanitize_key( $_REQUEST['post_format'] ), 'post_format' );
+		if ( $term ) {
+			$terms = array( $term ); // Can only have one post format
+		}
 	}
 
 	return $terms;
@@ -630,7 +642,8 @@ function _wp_preview_terms_filter( $terms, $post_id, $taxonomy ) {
  * @return null|array The default return value or the post thumbnail meta array.
  */
 function _wp_preview_post_thumbnail_filter( $value, $post_id, $meta_key ) {
-	if ( ! $post = get_post() ) {
+	$post = get_post();
+	if ( ! $post ) {
 		return $value;
 	}
 

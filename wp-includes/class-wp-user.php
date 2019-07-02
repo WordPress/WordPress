@@ -233,17 +233,19 @@ class WP_User {
 		}
 
 		if ( false !== $user_id ) {
-			if ( $user = wp_cache_get( $user_id, 'users' ) ) {
+			$user = wp_cache_get( $user_id, 'users' );
+			if ( $user ) {
 				return $user;
 			}
 		}
 
-		if ( ! $user = $wpdb->get_row(
+		$user = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM $wpdb->users WHERE $db_field = %s LIMIT 1",
 				$value
 			)
-		) ) {
+		);
+		if ( ! $user ) {
 			return false;
 		}
 

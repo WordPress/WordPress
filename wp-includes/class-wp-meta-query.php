@@ -312,7 +312,8 @@ class WP_Meta_Query {
 	 * }
 	 */
 	public function get_sql( $type, $primary_table, $primary_id_column, $context = null ) {
-		if ( ! $meta_table = _get_meta_table( $type ) ) {
+		$meta_table = _get_meta_table( $type );
+		if ( ! $meta_table ) {
 			return false;
 		}
 

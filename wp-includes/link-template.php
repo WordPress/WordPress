@@ -1197,7 +1197,9 @@ function get_search_comments_feed_link( $search_query = '', $feed = '' ) {
  */
 function get_post_type_archive_link( $post_type ) {
 	global $wp_rewrite;
-	if ( ! $post_type_obj = get_post_type_object( $post_type ) ) {
+
+	$post_type_obj = get_post_type_object( $post_type );
+	if ( ! $post_type_obj ) {
 		return false;
 	}
 
@@ -1256,7 +1258,8 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 		$feed = $default_feed;
 	}
 
-	if ( ! $link = get_post_type_archive_link( $post_type ) ) {
+	$link = get_post_type_archive_link( $post_type );
+	if ( ! $link ) {
 		return false;
 	}
 
@@ -1338,7 +1341,8 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
  *                     not allow an editing UI.
  */
 function get_edit_post_link( $id = 0, $context = 'display' ) {
-	if ( ! $post = get_post( $id ) ) {
+	$post = get_post( $id );
+	if ( ! $post ) {
 		return;
 	}
 
@@ -1391,11 +1395,13 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @param string      $class  Optional. Add custom class to link. Default 'post-edit-link'.
  */
 function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
-	if ( ! $post = get_post( $id ) ) {
+	$post = get_post( $id );
+	if ( ! $post ) {
 		return;
 	}
 
-	if ( ! $url = get_edit_post_link( $post->ID ) ) {
+	$url = get_edit_post_link( $post->ID );
+	if ( ! $url ) {
 		return;
 	}
 
@@ -1434,7 +1440,8 @@ function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false 
 		_deprecated_argument( __FUNCTION__, '3.0.0' );
 	}
 
-	if ( ! $post = get_post( $id ) ) {
+	$post = get_post( $id );
+	if ( ! $post ) {
 		return;
 	}
 
@@ -1677,7 +1684,8 @@ function get_next_post( $in_same_term = false, $excluded_terms = '', $taxonomy =
 function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	global $wpdb;
 
-	if ( ( ! $post = get_post() ) || ! taxonomy_exists( $taxonomy ) ) {
+	$post = get_post();
+	if ( ! $post || ! taxonomy_exists( $taxonomy ) ) {
 		return null;
 	}
 
@@ -1859,7 +1867,8 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
  * @return string|void The adjacent post relational link URL.
  */
 function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
-	if ( $previous && is_attachment() && $post = get_post() ) {
+	$post = get_post();
+	if ( $previous && is_attachment() && $post ) {
 		$post = get_post( $post->post_parent );
 	} else {
 		$post = get_adjacent_post( $in_same_term, $excluded_terms, $previous, $taxonomy );
@@ -4083,7 +4092,8 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	}
 
 	$email_hash = '';
-	$user       = $email = false;
+	$user       = false;
+	$email      = false;
 
 	if ( is_object( $id_or_email ) && isset( $id_or_email->comment_ID ) ) {
 		$id_or_email = get_comment( $id_or_email );

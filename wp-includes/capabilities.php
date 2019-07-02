@@ -727,7 +727,8 @@ function current_user_can_for_blog( $blog_id, $capability ) {
  * @return bool Whether the post author has the given capability.
  */
 function author_can( $post, $capability ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
 		return false;
 	}
 
@@ -966,7 +967,8 @@ function revoke_super_admin( $user_id ) {
 
 	$user = get_userdata( $user_id );
 	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
-		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
+		$key = array_search( $user->user_login, $super_admins );
+		if ( false !== $key ) {
 			unset( $super_admins[ $key ] );
 			update_site_option( 'site_admins', $super_admins );
 

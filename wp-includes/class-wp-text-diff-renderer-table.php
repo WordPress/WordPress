@@ -400,8 +400,9 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 		ksort( $final_matches );
 
 		// Stores rows and blanks for each column.
-		$orig_rows  = $orig_rows_copy = array_keys( $orig_matches );
-		$final_rows = array_keys( $final_matches );
+		$orig_rows      = array_keys( $orig_matches );
+		$orig_rows_copy = $orig_rows;
+		$final_rows     = array_keys( $final_matches );
 
 		// Interleaves rows with blanks to keep matches aligned.
 		// We may end up with some extraneous blank rows, but we'll just ignore them later.

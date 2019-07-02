@@ -739,34 +739,37 @@ class WP_Date_Query {
 		}
 		// Specific value queries.
 
-		if ( isset( $query['year'] ) && $value = $this->build_value( $compare, $query['year'] ) ) {
-			$where_parts[] = "YEAR( $column ) $compare $value";
-		}
+		$date_units = array(
+			'YEAR'           => array( 'year' ),
+			'MONTH'          => array( 'month', 'monthnum' ),
+			'_wp_mysql_week' => array( 'week', 'w' ),
+			'DAYOFYEAR'      => array( 'dayofyear' ),
+			'DAYOFMONTH'     => array( 'day' ),
+			'DAYOFWEEK'      => array( 'dayofweek' ),
+			'WEEKDAY'        => array( 'dayofweek_iso' ),
+		);
 
-		if ( isset( $query['month'] ) && $value = $this->build_value( $compare, $query['month'] ) ) {
-			$where_parts[] = "MONTH( $column ) $compare $value";
-		} elseif ( isset( $query['monthnum'] ) && $value = $this->build_value( $compare, $query['monthnum'] ) ) {
-			$where_parts[] = "MONTH( $column ) $compare $value";
-		}
-		if ( isset( $query['week'] ) && false !== ( $value = $this->build_value( $compare, $query['week'] ) ) ) {
-			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
-		} elseif ( isset( $query['w'] ) && false !== ( $value = $this->build_value( $compare, $query['w'] ) ) ) {
-			$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
-		}
-		if ( isset( $query['dayofyear'] ) && $value = $this->build_value( $compare, $query['dayofyear'] ) ) {
-			$where_parts[] = "DAYOFYEAR( $column ) $compare $value";
-		}
+		// Check of the possible date units and add them to the query
+		foreach ( $date_units as $sql_part => $query_parts ) {
+			foreach ( $query_parts as $query_part ) {
+				if ( isset( $query[ $query_part ] ) ) {
+					$value = $this->build_value( $compare, $query[ $query_part ] );
+					if ( $value ) {
+						switch ( $sql_part ) {
+							case '_wp_mysql_week':
+								$where_parts[] = _wp_mysql_week( $column ) . " $compare $value";
+								break;
+							case 'WEEKDAY':
+								$where_parts[] = "$sql_part( $column ) + 1 $compare $value";
+								break;
+							default:
+								$where_parts[] = "$sql_part( $column ) $compare $value";
+						}
 
-		if ( isset( $query['day'] ) && $value = $this->build_value( $compare, $query['day'] ) ) {
-			$where_parts[] = "DAYOFMONTH( $column ) $compare $value";
-		}
-
-		if ( isset( $query['dayofweek'] ) && $value = $this->build_value( $compare, $query['dayofweek'] ) ) {
-			$where_parts[] = "DAYOFWEEK( $column ) $compare $value";
-		}
-
-		if ( isset( $query['dayofweek_iso'] ) && $value = $this->build_value( $compare, $query['dayofweek_iso'] ) ) {
-			$where_parts[] = "WEEKDAY( $column ) + 1 $compare $value";
+						break;
+					}
+				}
+			}
 		}
 
 		if ( isset( $query['hour'] ) || isset( $query['minute'] ) || isset( $query['second'] ) ) {
@@ -777,7 +780,8 @@ class WP_Date_Query {
 				}
 			}
 
-			if ( $time_query = $this->build_time_query( $column, $compare, $query['hour'], $query['minute'], $query['second'] ) ) {
+			$time_query = $this->build_time_query( $column, $compare, $query['hour'], $query['minute'], $query['second'] );
+			if ( $time_query ) {
 				$where_parts[] = $time_query;
 			}
 		}
@@ -969,15 +973,18 @@ class WP_Date_Query {
 		if ( in_array( $compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
 			$return = array();
 
-			if ( isset( $hour ) && false !== ( $value = $this->build_value( $compare, $hour ) ) ) {
+			$value = $this->build_value( $compare, $hour );
+			if ( false !== $value ) {
 				$return[] = "HOUR( $column ) $compare $value";
 			}
 
-			if ( isset( $minute ) && false !== ( $value = $this->build_value( $compare, $minute ) ) ) {
+			$value = $this->build_value( $compare, $minute );
+			if ( false !== $value ) {
 				$return[] = "MINUTE( $column ) $compare $value";
 			}
 
-			if ( isset( $second ) && false !== ( $value = $this->build_value( $compare, $second ) ) ) {
+			$value = $this->build_value( $compare, $second );
+			if ( false !== $value ) {
 				$return[] = "SECOND( $column ) $compare $value";
 			}
 
@@ -985,12 +992,21 @@ class WP_Date_Query {
 		}
 
 		// Cases where just one unit is set
-		if ( isset( $hour ) && ! isset( $minute ) && ! isset( $second ) && false !== ( $value = $this->build_value( $compare, $hour ) ) ) {
-			return "HOUR( $column ) $compare $value";
-		} elseif ( ! isset( $hour ) && isset( $minute ) && ! isset( $second ) && false !== ( $value = $this->build_value( $compare, $minute ) ) ) {
-			return "MINUTE( $column ) $compare $value";
-		} elseif ( ! isset( $hour ) && ! isset( $minute ) && isset( $second ) && false !== ( $value = $this->build_value( $compare, $second ) ) ) {
-			return "SECOND( $column ) $compare $value";
+		if ( isset( $hour ) && ! isset( $minute ) && ! isset( $second ) ) {
+			$value = $this->build_value( $compare, $hour );
+			if ( false !== $value ) {
+				return "HOUR( $column ) $compare $value";
+			}
+		} elseif ( ! isset( $hour ) && isset( $minute ) && ! isset( $second ) ) {
+			$value = $this->build_value( $compare, $minute );
+			if ( false !== $value ) {
+				return "MINUTE( $column ) $compare $value";
+			}
+		} elseif ( ! isset( $hour ) && ! isset( $minute ) && isset( $second ) ) {
+			$value = $this->build_value( $compare, $second );
+			if ( false !== $value ) {
+				return "SECOND( $column ) $compare $value";
+			}
 		}
 
 		// Single units were already handled. Since hour & second isn't allowed, minute must to be set.
@@ -998,7 +1014,8 @@ class WP_Date_Query {
 			return false;
 		}
 
-		$format = $time = '';
+		$format = '';
+		$time   = '';
 
 		// Hour
 		if ( null !== $hour ) {

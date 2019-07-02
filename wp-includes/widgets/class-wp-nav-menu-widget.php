@@ -120,7 +120,8 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 		// Get menus
 		$menus = wp_get_nav_menus();
 
-		$empty_menus_style = $not_empty_menus_style = '';
+		$empty_menus_style     = '';
+		$not_empty_menus_style = '';
 		if ( empty( $menus ) ) {
 			$empty_menus_style = ' style="display:none" ';
 		} else {

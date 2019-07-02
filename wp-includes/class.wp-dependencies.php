@@ -142,7 +142,8 @@ class WP_Dependencies {
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
-		if ( ! $handles = (array) $handles ) {
+		$handles = (array) $handles;
+		if ( ! $handles ) {
 			return false;
 		}
 

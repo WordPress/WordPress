@@ -731,7 +731,8 @@ class WP_Query {
 	public function parse_query( $query = '' ) {
 		if ( ! empty( $query ) ) {
 			$this->init();
-			$this->query = $this->query_vars = wp_parse_args( $query );
+			$this->query      = wp_parse_args( $query );
+			$this->query_vars = $this->query;
 		} elseif ( ! isset( $this->query ) ) {
 			$this->query = $this->query_vars;
 		}
@@ -1140,7 +1141,8 @@ class WP_Query {
 
 		// Category stuff
 		if ( ! empty( $q['cat'] ) && ! $this->is_singular ) {
-			$cat_in = $cat_not_in = array();
+			$cat_in     = array();
+			$cat_not_in = array();
 
 			$cat_array = preg_split( '/[,\s]+/', urldecode( $q['cat'] ) );
 			$cat_array = array_map( 'intval', $cat_array );
@@ -2034,7 +2036,8 @@ class WP_Query {
 				$reqpage_obj   = get_post( $reqpage );
 				if ( is_object( $reqpage_obj ) && 'attachment' == $reqpage_obj->post_type ) {
 					$this->is_attachment = true;
-					$post_type           = $q['post_type'] = 'attachment';
+					$post_type           = 'attachment';
+					$q['post_type']      = 'attachment';
 					$this->is_page       = true;
 					$q['attachment_id']  = $reqpage;
 				}
@@ -2888,7 +2891,8 @@ class WP_Query {
 			$found_rows = 'SQL_CALC_FOUND_ROWS';
 		}
 
-		$this->request = $old_request = "SELECT $found_rows $distinct $fields FROM {$wpdb->posts} $join WHERE 1=1 $where $groupby $orderby $limits";
+		$old_request   = "SELECT $found_rows $distinct $fields FROM {$wpdb->posts} $join WHERE 1=1 $where $groupby $orderby $limits";
+		$this->request = $old_request;
 
 		if ( ! $q['suppress_filters'] ) {
 			/**
@@ -3400,7 +3404,8 @@ class WP_Query {
 	 */
 	public function query( $query ) {
 		$this->init();
-		$this->query = $this->query_vars = wp_parse_args( $query );
+		$this->query      = wp_parse_args( $query );
+		$this->query_vars = $this->query;
 		return $this->get_posts();
 	}
 

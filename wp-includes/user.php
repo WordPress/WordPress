@@ -480,7 +480,8 @@ function get_user_option( $option, $user = 0, $deprecated = '' ) {
 		$user = get_current_user_id();
 	}
 
-	if ( ! $user = get_userdata( $user ) ) {
+	$user = get_userdata( $user );
+	if ( ! $user ) {
 		return false;
 	}
 
@@ -1013,10 +1014,13 @@ function setup_userdata( $for_user_id = 0 ) {
 	$user = get_userdata( $for_user_id );
 
 	if ( ! $user ) {
-		$user_ID    = 0;
-		$user_level = 0;
-		$userdata   = null;
-		$user_login = $user_email = $user_url = $user_identity = '';
+		$user_ID       = 0;
+		$user_level    = 0;
+		$userdata      = null;
+		$user_login    = '';
+		$user_email    = '';
+		$user_url      = '';
+		$user_identity = '';
 		return;
 	}
 

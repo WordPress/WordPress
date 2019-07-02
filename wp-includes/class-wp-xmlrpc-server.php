@@ -668,7 +668,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[0];
 		$password = $args[1];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -1270,7 +1271,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password       = $args[2];
 		$content_struct = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -1672,7 +1674,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_id        = (int) $args[3];
 		$content_struct = $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -1744,7 +1747,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$post_id  = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -1843,7 +1847,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPost' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -1903,7 +1908,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_post_fields', array( 'post', 'terms', 'custom_fields' ), 'wp.getPosts' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2001,7 +2007,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password       = $args[2];
 		$content_struct = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2105,7 +2112,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$term_id        = (int) $args[3];
 		$content_struct = $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2220,7 +2228,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = $args[3];
 		$term_id  = (int) $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2298,7 +2307,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = $args[3];
 		$term_id  = (int) $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2362,7 +2372,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = $args[3];
 		$filter   = isset( $args[4] ) ? $args[4] : array();
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2467,7 +2478,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'cap', 'object_type' ), 'wp.getTaxonomy' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2524,7 +2536,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_taxonomy_fields', array( 'labels', 'cap', 'object_type' ), 'wp.getTaxonomies' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2609,7 +2622,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getUser' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2671,7 +2685,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getUsers' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2750,7 +2765,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_user_fields', array( 'all' ), 'wp.getProfile' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2799,7 +2815,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password       = $args[2];
 		$content_struct = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2878,7 +2895,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[2];
 		$password = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2925,7 +2943,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password  = $args[2];
 		$num_pages = isset( $args[3] ) ? (int) $args[3] : 10;
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -2983,7 +3002,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $this->escape( $args[1] );
 		$password = $this->escape( $args[2] );
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3019,7 +3039,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$page_id  = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3085,7 +3106,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$escaped_username = $this->escape( $username );
 		$escaped_password = $this->escape( $password );
 
-		if ( ! $user = $this->login( $escaped_username, $escaped_password ) ) {
+		$user = $this->login( $escaped_username, $escaped_password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3143,7 +3165,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3203,7 +3226,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3246,7 +3270,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3259,7 +3284,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$tags = array();
 
-		if ( $all_tags = get_tags() ) {
+		$all_tags = get_tags();
+		if ( $all_tags ) {
 			foreach ( (array) $all_tags as $tag ) {
 				$struct             = array();
 				$struct['tag_id']   = $tag->term_id;
@@ -3298,7 +3324,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$category = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3380,7 +3407,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password    = $args[2];
 		$category_id = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3432,7 +3460,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$category    = $args[3];
 		$max_results = (int) $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3481,14 +3510,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password   = $args[2];
 		$comment_id = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getComment' );
 
-		if ( ! $comment = get_comment( $comment_id ) ) {
+		$comment = get_comment( $comment_id );
+		if ( ! $comment ) {
 			return new IXR_Error( 404, __( 'Invalid comment ID.' ) );
 		}
 
@@ -3532,7 +3563,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$struct   = isset( $args[3] ) ? $args[3] : array();
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3618,7 +3650,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password   = $args[2];
 		$comment_ID = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3685,7 +3718,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$comment_ID     = (int) $args[3];
 		$content_struct = $args[4];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3917,7 +3951,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3953,7 +3988,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$post_id  = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -3999,7 +4035,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4033,7 +4070,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4067,7 +4105,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4103,7 +4142,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$options  = isset( $args[3] ) ? (array) $args[3] : array();
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4166,7 +4206,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$options  = (array) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4222,7 +4263,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password      = $args[2];
 		$attachment_id = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4233,7 +4275,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getMediaItem' );
 
-		if ( ! $attachment = get_post( $attachment_id ) ) {
+		$attachment = get_post( $attachment_id );
+		if ( ! $attachment ) {
 			return new IXR_Error( 404, __( 'Invalid attachment ID.' ) );
 		}
 
@@ -4273,7 +4316,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password = $args[2];
 		$struct   = isset( $args[3] ) ? $args[3] : array();
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4328,7 +4372,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4411,7 +4456,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'cap', 'taxonomies' ), 'wp.getPostType' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4467,7 +4513,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_posttype_fields', array( 'labels', 'cap', 'taxonomies' ), 'wp.getPostTypes' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4536,14 +4583,16 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = apply_filters( 'xmlrpc_default_revision_fields', array( 'post_date', 'post_date_gmt' ), 'wp.getRevisions' );
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getRevisions' );
 
-		if ( ! $post = get_post( $post_id ) ) {
+		$post = get_post( $post_id );
+		if ( ! $post ) {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 		}
 
@@ -4608,14 +4657,16 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password    = $args[2];
 		$revision_id = (int) $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.restoreRevision' );
 
-		if ( ! $revision = wp_get_post_revision( $revision_id ) ) {
+		$revision = wp_get_post_revision( $revision_id );
+		if ( ! $revision ) {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 		}
 
@@ -4623,7 +4674,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 		}
 
-		if ( ! $post = get_post( $revision->post_parent ) ) {
+		$post = get_post( $revision->post_parent );
+		if ( ! $post ) {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 		}
 
@@ -4675,7 +4727,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4756,7 +4809,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4800,7 +4854,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[2];
 		$password = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4861,7 +4916,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$query = array();
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -4954,7 +5010,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content  = $args[4];
 		$publish  = $args[5];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -5030,7 +5087,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content  = $args[4];
 		$publish  = $args[5];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -5103,7 +5161,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[2];
 		$password = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -5189,7 +5248,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content_struct = $args[3];
 		$publish        = isset( $args[4] ) ? $args[4] : 0;
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -5431,7 +5491,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$postdata = compact( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'to_ping', 'post_type', 'post_name', 'post_password', 'post_parent', 'menu_order', 'tags_input', 'page_template' );
 
-		$post_ID = $postdata['ID'] = get_default_post_to_edit( $post_type, true )->ID;
+		$post_ID        = get_default_post_to_edit( $post_type, true )->ID;
+		$postdata['ID'] = $post_ID;
 
 		// Only posts can be sticky
 		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) {
@@ -5499,9 +5560,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	public function add_enclosure_if_new( $post_ID, $enclosure ) {
 		if ( is_array( $enclosure ) && isset( $enclosure['url'] ) && isset( $enclosure['length'] ) && isset( $enclosure['type'] ) ) {
-			$encstring = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] . "\n";
-			$found     = false;
-			if ( $enclosures = get_post_meta( $post_ID, 'enclosure' ) ) {
+			$encstring  = $enclosure['url'] . "\n" . $enclosure['length'] . "\n" . $enclosure['type'] . "\n";
+			$found      = false;
+			$enclosures = get_post_meta( $post_ID, 'enclosure' );
+			if ( $enclosures ) {
 				foreach ( $enclosures as $enc ) {
 					// This method used to omit the trailing new line. #23219
 					if ( rtrim( $enc, "\n" ) == rtrim( $encstring, "\n" ) ) {
@@ -5565,7 +5627,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content_struct = $args[3];
 		$publish        = isset( $args[4] ) ? $args[4] : 0;
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -5893,7 +5956,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6038,7 +6102,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$query = array();
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6158,7 +6223,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6171,7 +6237,8 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories_struct = array();
 
-		if ( $cats = get_categories( array( 'get' => 'all' ) ) ) {
+		$cats = get_categories( array( 'get' => 'all' ) );
+		if ( $cats ) {
 			foreach ( $cats as $cat ) {
 				$struct                        = array();
 				$struct['categoryId']          = $cat->term_id;
@@ -6221,7 +6288,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$type = $data['type'];
 		$bits = $data['bits'];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6255,7 +6323,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @param bool $error Whether to pre-empt the media upload. Default false.
 		 */
-		if ( $upload_err = apply_filters( 'pre_upload_error', false ) ) {
+		$upload_err = apply_filters( 'pre_upload_error', false );
+		if ( $upload_err ) {
 			return new IXR_Error( 500, $upload_err );
 		}
 
@@ -6337,7 +6406,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$query = array();
 		}
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6394,7 +6464,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6407,12 +6478,13 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$categories_struct = array();
 
-		if ( $cats = get_categories(
+		$cats = get_categories(
 			array(
 				'hide_empty'   => 0,
 				'hierarchical' => 0,
 			)
-		) ) {
+		);
+		if ( $cats ) {
 			foreach ( $cats as $cat ) {
 				$struct                 = array();
 				$struct['categoryId']   = $cat->term_id;
@@ -6446,7 +6518,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6500,7 +6573,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$password   = $args[2];
 		$categories = $args[3];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6623,7 +6697,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		$username = $args[1];
 		$password = $args[2];
 
-		if ( ! $user = $this->login( $username, $password ) ) {
+		$user = $this->login( $username, $password );
+		if ( ! $user ) {
 			return $this->error;
 		}
 
@@ -6702,7 +6777,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		// FIXME: does url_to_postid() cover all these cases already?
 		//        if so, then let's use it and drop the old code.
 		$urltest = parse_url( $pagelinkedto );
-		if ( $post_ID = url_to_postid( $pagelinkedto ) ) {
+		$post_ID = url_to_postid( $pagelinkedto );
+		if ( $post_ID ) {
 			// $way
 		} elseif ( isset( $urltest['path'] ) && preg_match( '#p/[0-9]{1,}#', $urltest['path'], $match ) ) {
 			// the path defines the post_ID (archives/p/XXXX)
@@ -6722,9 +6798,10 @@ class wp_xmlrpc_server extends IXR_Server {
 				$post_ID = preg_replace( '/[^0-9]+/', '', $urltest['fragment'] );
 			} elseif ( is_string( $urltest['fragment'] ) ) {
 				// ...or a string #title, a little more complicated
-				$title = preg_replace( '/[^a-z0-9]/i', '.', $urltest['fragment'] );
-				$sql   = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE %s", $title );
-				if ( ! ( $post_ID = $wpdb->get_var( $sql ) ) ) {
+				$title   = preg_replace( '/[^a-z0-9]/i', '.', $urltest['fragment'] );
+				$sql     = $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_title RLIKE %s", $title );
+				$post_ID = $wpdb->get_var( $sql );
+				if ( ! $post_ID ) {
 					// returning unknown error '0' is better than die()ing
 					return $this->pingback_error( 0, '' );
 				}
@@ -6774,8 +6851,9 @@ class wp_xmlrpc_server extends IXR_Server {
 			),
 		);
 
-		$request       = wp_safe_remote_get( $pagelinkedfrom, $http_api_args );
-		$remote_source = $remote_source_original = wp_remote_retrieve_body( $request );
+		$request                = wp_safe_remote_get( $pagelinkedfrom, $http_api_args );
+		$remote_source          = wp_remote_retrieve_body( $request );
+		$remote_source_original = $remote_source;
 
 		if ( ! $remote_source ) {
 			return $this->pingback_error( 16, __( 'The source URL does not exist.' ) );

@@ -326,7 +326,8 @@ class WP_Http_Streams {
 		);
 
 		// Handle redirects.
-		if ( false !== ( $redirect_response = WP_Http::handle_redirects( $url, $r, $response ) ) ) {
+		$redirect_response = WP_Http::handle_redirects( $url, $r, $response );
+		if ( false !== $redirect_response ) {
 			return $redirect_response;
 		}
 

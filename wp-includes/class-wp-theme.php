@@ -262,7 +262,8 @@ final class WP_Theme implements ArrayAccess {
 			$this->headers = get_file_data( $this->theme_root . '/' . $theme_file, self::$file_headers, 'theme' );
 			// Default themes always trump their pretenders.
 			// Properly identify default themes that are inside a directory within wp-content/themes.
-			if ( $default_theme_slug = array_search( $this->headers['Name'], self::$default_themes ) ) {
+			$default_theme_slug = array_search( $this->headers['Name'], self::$default_themes );
+			if ( $default_theme_slug ) {
 				if ( basename( $this->stylesheet ) != $default_theme_slug ) {
 					$this->headers['Name'] .= '/' . $this->stylesheet;
 				}
@@ -285,7 +286,11 @@ final class WP_Theme implements ArrayAccess {
 		}
 
 		// (If template is set from cache [and there are no errors], we know it's good.)
-		if ( ! $this->template && ! ( $this->template = $this->headers['Template'] ) ) {
+		if ( ! $this->template ) {
+			$this->template = $this->headers['Template'];
+		}
+
+		if ( ! $this->template ) {
 			$this->template = $this->stylesheet;
 			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
 				$error_message = sprintf(
@@ -313,10 +318,11 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! is_array( $cache ) && $this->template != $this->stylesheet && ! file_exists( $this->theme_root . '/' . $this->template . '/index.php' ) ) {
 			// If we're in a directory of themes inside /themes, look for the parent nearby.
 			// wp-content/themes/directory-of-themes/*
-			$parent_dir = dirname( $this->stylesheet );
+			$parent_dir  = dirname( $this->stylesheet );
+			$directories = search_theme_directories();
 			if ( '.' != $parent_dir && file_exists( $this->theme_root . '/' . $parent_dir . '/' . $this->template . '/index.php' ) ) {
 				$this->template = $parent_dir . '/' . $this->template;
-			} elseif ( ( $directories = search_theme_directories() ) && isset( $directories[ $this->template ] ) ) {
+			} elseif ( $directories && isset( $directories[ $this->template ] ) ) {
 				// Look for the template in the search_theme_directories() results, in case it is in another theme root.
 				// We don't look into directories of themes, just the theme root.
 				$theme_root_template = $directories[ $this->template ]['theme_root'];
@@ -668,8 +674,14 @@ final class WP_Theme implements ArrayAccess {
 		foreach ( array( 'theme', 'screenshot', 'headers', 'post_templates' ) as $key ) {
 			wp_cache_delete( $key . '-' . $this->cache_hash, 'themes' );
 		}
-		$this->template = $this->textdomain_loaded = $this->theme_root_uri = $this->parent = $this->errors = $this->headers_sanitized = $this->name_translated = null;
-		$this->headers  = array();
+		$this->template          = null;
+		$this->textdomain_loaded = null;
+		$this->theme_root_uri    = null;
+		$this->parent            = null;
+		$this->errors            = null;
+		$this->headers_sanitized = null;
+		$this->name_translated   = null;
+		$this->headers           = array();
 		$this->__construct( $this->stylesheet, $this->theme_root );
 	}
 
@@ -1317,8 +1329,9 @@ final class WP_Theme implements ArrayAccess {
 			return true;
 		}
 
-		$path = $this->get_stylesheet_directory();
-		if ( $domainpath = $this->get( 'DomainPath' ) ) {
+		$path       = $this->get_stylesheet_directory();
+		$domainpath = $this->get( 'DomainPath' );
+		if ( $domainpath ) {
 			$path .= $domainpath;
 		} else {
 			$path .= '/languages';

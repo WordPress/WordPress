@@ -138,7 +138,8 @@ class WP_Widget_Links extends WP_Widget {
 			)
 		);
 		$link_cats = get_terms( 'link_category' );
-		if ( ! $limit = intval( $instance['limit'] ) ) {
+		$limit     = intval( $instance['limit'] );
+		if ( ! $limit ) {
 			$limit = -1;
 		}
 		?>

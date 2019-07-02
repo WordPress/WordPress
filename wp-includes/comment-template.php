@@ -25,7 +25,8 @@ function get_comment_author( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 
 	if ( empty( $comment->comment_author ) ) {
-		if ( $comment->user_id && $user = get_userdata( $comment->user_id ) ) {
+		$user = $comment->user_id ? get_userdata( $comment->user_id ) : false;
+		if ( $user ) {
 			$author = $user->display_name;
 		} else {
 			$author = __( 'Anonymous' );
@@ -148,7 +149,8 @@ function comment_author_email( $comment_ID = 0 ) {
  * @param int|WP_Comment $comment  Optional. Comment ID or WP_Comment object. Default is the current comment.
  */
 function comment_author_email_link( $linktext = '', $before = '', $after = '', $comment = null ) {
-	if ( $link = get_comment_author_email_link( $linktext, $before, $after, $comment ) ) {
+	$link = get_comment_author_email_link( $linktext, $before, $after, $comment );
+	if ( $link ) {
 		echo $link;
 	}
 }
@@ -466,11 +468,13 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	$classes[] = ( empty( $comment->comment_type ) ) ? 'comment' : $comment->comment_type;
 
 	// Add classes for comment authors that are registered users.
-	if ( $comment->user_id > 0 && $user = get_userdata( $comment->user_id ) ) {
+	$user = $comment->user_id ? get_userdata( $comment->user_id ) : false;
+	if ( $user ) {
 		$classes[] = 'byuser';
 		$classes[] = 'comment-author-' . sanitize_html_class( $user->user_nicename, $comment->user_id );
 		// For comment authors who are the author of the post
-		if ( $post = get_post( $post_id ) ) {
+		$post = get_post( $post_id );
+		if ( $post ) {
 			if ( $comment->user_id === $post->post_author ) {
 				$classes[] = 'bypostauthor';
 			}
@@ -1989,8 +1993,9 @@ function wp_list_comments( $args = array(), $comments = null ) {
 
 	$in_comment_loop = true;
 
-	$comment_alt   = $comment_thread_alt = 0;
-	$comment_depth = 1;
+	$comment_alt        = 0;
+	$comment_thread_alt = 0;
+	$comment_depth      = 1;
 
 	$defaults = array(
 		'walker'            => null,

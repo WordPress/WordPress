@@ -109,7 +109,8 @@ function wp_fix_server_vars() {
 	// Fix empty PHP_SELF
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 	if ( empty( $PHP_SELF ) ) {
-		$_SERVER['PHP_SELF'] = $PHP_SELF = preg_replace( '/(\?.*)?$/', '', $_SERVER['REQUEST_URI'] );
+		$_SERVER['PHP_SELF'] = preg_replace( '/(\?.*)?$/', '', $_SERVER['REQUEST_URI'] );
+		$PHP_SELF            = $_SERVER['PHP_SELF'];
 	}
 }
 
@@ -634,7 +635,8 @@ function wp_get_mu_plugins() {
 	if ( ! is_dir( WPMU_PLUGIN_DIR ) ) {
 		return $mu_plugins;
 	}
-	if ( ! $dh = opendir( WPMU_PLUGIN_DIR ) ) {
+	$dh = opendir( WPMU_PLUGIN_DIR );
+	if ( ! $dh ) {
 		return $mu_plugins;
 	}
 	while ( ( $plugin = readdir( $dh ) ) !== false ) {
@@ -1164,7 +1166,8 @@ function wp_load_translations_early() {
 	// General libraries
 	require_once ABSPATH . WPINC . '/plugin.php';
 
-	$locales = $locations = array();
+	$locales   = array();
+	$locations = array();
 
 	while ( true ) {
 		if ( defined( 'WPLANG' ) ) {

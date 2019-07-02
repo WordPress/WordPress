@@ -90,8 +90,9 @@ class WP_Ajax_Response {
 		$response = '';
 		if ( is_wp_error( $data ) ) {
 			foreach ( (array) $data->get_error_codes() as $code ) {
-				$response .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message( $code ) . ']]></wp_error>';
-				if ( ! $error_data = $data->get_error_data( $code ) ) {
+				$response  .= "<wp_error code='$code'><![CDATA[" . $data->get_error_message( $code ) . ']]></wp_error>';
+				$error_data = $data->get_error_data( $code );
+				if ( ! $error_data ) {
 					continue;
 				}
 				$class = '';

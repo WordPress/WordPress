@@ -1579,7 +1579,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( 'template', $fields, true ) ) {
-			if ( $template = get_page_template_slug( $post->ID ) ) {
+			$template = get_page_template_slug( $post->ID );
+			if ( $template ) {
 				$data['template'] = $template;
 			} else {
 				$data['template'] = '';
@@ -1747,7 +1748,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// If we have a featured media, add that.
-		if ( $featured_media = get_post_thumbnail_id( $post->ID ) ) {
+		$featured_media = get_post_thumbnail_id( $post->ID );
+		if ( $featured_media ) {
 			$image_url = rest_url( 'wp/v2/media/' . $featured_media );
 
 			$links['https://api.w.org/featuredmedia'] = array(

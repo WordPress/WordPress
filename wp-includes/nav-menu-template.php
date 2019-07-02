@@ -116,7 +116,8 @@ function wp_nav_menu( $args = array() ) {
 	$menu = wp_get_nav_menu_object( $args->menu );
 
 	// Get the nav menu based on the theme_location
-	if ( ! $menu && $args->theme_location && ( $locations = get_nav_menu_locations() ) && isset( $locations[ $args->theme_location ] ) ) {
+	$locations = get_nav_menu_locations();
+	if ( ! $menu && $args->theme_location && $locations && isset( $locations[ $args->theme_location ] ) ) {
 		$menu = wp_get_nav_menu_object( $locations[ $args->theme_location ] );
 	}
 
@@ -124,7 +125,8 @@ function wp_nav_menu( $args = array() ) {
 	if ( ! $menu && ! $args->theme_location ) {
 		$menus = wp_get_nav_menus();
 		foreach ( $menus as $menu_maybe ) {
-			if ( $menu_items = wp_get_nav_menu_items( $menu_maybe->term_id, array( 'update_post_term_cache' => false ) ) ) {
+			$menu_items = wp_get_nav_menu_items( $menu_maybe->term_id, array( 'update_post_term_cache' => false ) );
+			if ( $menu_items ) {
 				$menu = $menu_maybe;
 				break;
 			}
@@ -157,7 +159,8 @@ function wp_nav_menu( $args = array() ) {
 		return false;
 	}
 
-	$nav_menu = $items = '';
+	$nav_menu = '';
+	$items    = '';
 
 	$show_container = false;
 	if ( $args->container ) {
@@ -181,7 +184,8 @@ function wp_nav_menu( $args = array() ) {
 	// Set up the $menu_item variables
 	_wp_menu_item_classes_by_context( $menu_items );
 
-	$sorted_menu_items = $menu_items_with_children = array();
+	$sorted_menu_items        = array();
+	$menu_items_with_children = array();
 	foreach ( (array) $menu_items as $menu_item ) {
 		$sorted_menu_items[ $menu_item->menu_order ] = $menu_item;
 		if ( $menu_item->menu_item_parent ) {

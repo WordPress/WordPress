@@ -1080,7 +1080,8 @@ function wp_get_document_title() {
 		$title['title'] = single_term_title( '', false );
 
 		// If on an author archive, use the author's display name.
-	} elseif ( is_author() && $author = get_queried_object() ) {
+	} elseif ( is_author() && get_queried_object() ) {
+		$author         = get_queried_object();
 		$title['title'] = $author->display_name;
 
 		// If it's a date archive, use the date as the title.
@@ -1874,10 +1875,11 @@ function wp_get_archives( $args = '' ) {
 	$limit = $r['limit'];
 
 	if ( 'monthly' == $r['type'] ) {
-		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date $order $limit";
-		$key   = md5( $query );
-		$key   = "wp_get_archives:$key:$last_changed";
-		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+		$query   = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date $order $limit";
+		$key     = md5( $query );
+		$key     = "wp_get_archives:$key:$last_changed";
+		$results = wp_cache_get( $key, 'posts' );
+		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
 			wp_cache_set( $key, $results, 'posts' );
 		}
@@ -1898,10 +1900,11 @@ function wp_get_archives( $args = '' ) {
 			}
 		}
 	} elseif ( 'yearly' == $r['type'] ) {
-		$query = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
-		$key   = md5( $query );
-		$key   = "wp_get_archives:$key:$last_changed";
-		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+		$query   = "SELECT YEAR(post_date) AS `year`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date) ORDER BY post_date $order $limit";
+		$key     = md5( $query );
+		$key     = "wp_get_archives:$key:$last_changed";
+		$results = wp_cache_get( $key, 'posts' );
+		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
 			wp_cache_set( $key, $results, 'posts' );
 		}
@@ -1921,10 +1924,11 @@ function wp_get_archives( $args = '' ) {
 			}
 		}
 	} elseif ( 'daily' == $r['type'] ) {
-		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date $order $limit";
-		$key   = md5( $query );
-		$key   = "wp_get_archives:$key:$last_changed";
-		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+		$query   = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, DAYOFMONTH(post_date) AS `dayofmonth`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date), DAYOFMONTH(post_date) ORDER BY post_date $order $limit";
+		$key     = md5( $query );
+		$key     = "wp_get_archives:$key:$last_changed";
+		$results = wp_cache_get( $key, 'posts' );
+		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
 			wp_cache_set( $key, $results, 'posts' );
 		}
@@ -1945,11 +1949,12 @@ function wp_get_archives( $args = '' ) {
 			}
 		}
 	} elseif ( 'weekly' == $r['type'] ) {
-		$week  = _wp_mysql_week( '`post_date`' );
-		$query = "SELECT DISTINCT $week AS `week`, YEAR( `post_date` ) AS `yr`, DATE_FORMAT( `post_date`, '%Y-%m-%d' ) AS `yyyymmdd`, count( `ID` ) AS `posts` FROM `$wpdb->posts` $join $where GROUP BY $week, YEAR( `post_date` ) ORDER BY `post_date` $order $limit";
-		$key   = md5( $query );
-		$key   = "wp_get_archives:$key:$last_changed";
-		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+		$week    = _wp_mysql_week( '`post_date`' );
+		$query   = "SELECT DISTINCT $week AS `week`, YEAR( `post_date` ) AS `yr`, DATE_FORMAT( `post_date`, '%Y-%m-%d' ) AS `yyyymmdd`, count( `ID` ) AS `posts` FROM `$wpdb->posts` $join $where GROUP BY $week, YEAR( `post_date` ) ORDER BY `post_date` $order $limit";
+		$key     = md5( $query );
+		$key     = "wp_get_archives:$key:$last_changed";
+		$results = wp_cache_get( $key, 'posts' );
+		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
 			wp_cache_set( $key, $results, 'posts' );
 		}
@@ -1987,7 +1992,8 @@ function wp_get_archives( $args = '' ) {
 		$query   = "SELECT * FROM $wpdb->posts $join $where ORDER BY $orderby $limit";
 		$key     = md5( $query );
 		$key     = "wp_get_archives:$key:$last_changed";
-		if ( ! $results = wp_cache_get( $key, 'posts' ) ) {
+		$results = wp_cache_get( $key, 'posts' );
+		if ( ! $results ) {
 			$results = $wpdb->get_results( $query );
 			wp_cache_set( $key, $results, 'posts' );
 		}
@@ -3830,7 +3836,8 @@ function get_language_attributes( $doctype = 'html' ) {
 		$attributes[] = 'dir="rtl"';
 	}
 
-	if ( $lang = get_bloginfo( 'language' ) ) {
+	$lang = get_bloginfo( 'language' );
+	if ( $lang ) {
 		if ( get_option( 'html_type' ) == 'text/html' || $doctype == 'html' ) {
 			$attributes[] = 'lang="' . esc_attr( $lang ) . '"';
 		}

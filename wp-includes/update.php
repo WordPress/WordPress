@@ -132,8 +132,10 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		$post_body = array_merge( $post_body, $extra_stats );
 	}
 
-	$url = $http_url = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
-	if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+	$url      = 'http://api.wordpress.org/core/version-check/1.7/?' . http_build_query( $query, null, '&' );
+	$http_url = $url;
+	$ssl      = wp_http_supports( array( 'ssl' ) );
+	if ( $ssl ) {
 		$url = set_url_scheme( $url, 'https' );
 	}
 
@@ -368,8 +370,10 @@ function wp_update_plugins( $extra_stats = array() ) {
 		$options['body']['update_stats'] = wp_json_encode( $extra_stats );
 	}
 
-	$url = $http_url = 'http://api.wordpress.org/plugins/update-check/1.1/';
-	if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+	$url      = 'http://api.wordpress.org/plugins/update-check/1.1/';
+	$http_url = $url;
+	$ssl      = wp_http_supports( array( 'ssl' ) );
+	if ( $ssl ) {
 		$url = set_url_scheme( $url, 'https' );
 	}
 
@@ -447,7 +451,9 @@ function wp_update_themes( $extra_stats = array() ) {
 		$last_update = new stdClass;
 	}
 
-	$themes = $checked = $request = array();
+	$themes  = array();
+	$checked = array();
+	$request = array();
 
 	// Put slug of current theme into request.
 	$request['active'] = get_option( 'stylesheet' );
@@ -553,8 +559,10 @@ function wp_update_themes( $extra_stats = array() ) {
 		$options['body']['update_stats'] = wp_json_encode( $extra_stats );
 	}
 
-	$url = $http_url = 'http://api.wordpress.org/themes/update-check/1.1/';
-	if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+	$url      = 'http://api.wordpress.org/themes/update-check/1.1/';
+	$http_url = $url;
+	$ssl      = wp_http_supports( array( 'ssl' ) );
+	if ( $ssl ) {
 		$url = set_url_scheme( $url, 'https' );
 	}
 
@@ -644,21 +652,24 @@ function wp_get_update_data() {
 		'translations' => 0,
 	);
 
-	if ( $plugins = current_user_can( 'update_plugins' ) ) {
+	$plugins = current_user_can( 'update_plugins' );
+	if ( $plugins ) {
 		$update_plugins = get_site_transient( 'update_plugins' );
 		if ( ! empty( $update_plugins->response ) ) {
 			$counts['plugins'] = count( $update_plugins->response );
 		}
 	}
 
-	if ( $themes = current_user_can( 'update_themes' ) ) {
+	$themes = current_user_can( 'update_themes' );
+	if ( $themes ) {
 		$update_themes = get_site_transient( 'update_themes' );
 		if ( ! empty( $update_themes->response ) ) {
 			$counts['themes'] = count( $update_themes->response );
 		}
 	}
 
-	if ( ( $core = current_user_can( 'update_core' ) ) && function_exists( 'get_core_updates' ) ) {
+	$core = current_user_can( 'update_core' );
+	if ( $core && function_exists( 'get_core_updates' ) ) {
 		$update_wordpress = get_core_updates( array( 'dismissed' => false ) );
 		if ( ! empty( $update_wordpress ) && ! in_array( $update_wordpress[0]->response, array( 'development', 'latest' ) ) && current_user_can( 'update_core' ) ) {
 			$counts['wordpress'] = 1;

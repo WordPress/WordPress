@@ -53,8 +53,13 @@ function get_locale() {
 	// If multisite, check options.
 	if ( is_multisite() ) {
 		// Don't check blog option when installing.
-		if ( wp_installing() || ( false === $ms_locale = get_option( 'WPLANG' ) ) ) {
+		if ( wp_installing() ) {
 			$ms_locale = get_site_option( 'WPLANG' );
+		} else {
+			$ms_locale = get_option( 'WPLANG' );
+			if ( false === $ms_locale ) {
+				$ms_locale = get_site_option( 'WPLANG' );
+			}
 		}
 
 		if ( $ms_locale !== false ) {

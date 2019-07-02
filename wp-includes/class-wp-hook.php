@@ -272,7 +272,8 @@ final class WP_Hook implements Iterator, ArrayAccess {
 		$num_args                           = count( $args );
 
 		do {
-			$this->current_priority[ $nesting_level ] = $priority = current( $this->iterations[ $nesting_level ] );
+			$this->current_priority[ $nesting_level ] = current( $this->iterations[ $nesting_level ] );
+			$priority                                 = $this->current_priority[ $nesting_level ];
 
 			foreach ( $this->callbacks[ $priority ] as $the_ ) {
 				if ( ! $this->doing_action ) {

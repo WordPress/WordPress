@@ -440,7 +440,8 @@ class WP_oEmbed {
 
 		// Fetch URL content
 		$request = wp_safe_remote_get( $url, $args );
-		if ( $html = wp_remote_retrieve_body( $request ) ) {
+		$html    = wp_remote_retrieve_body( $request );
+		if ( $html ) {
 
 			/**
 			 * Filters the link types that contain oEmbed provider URLs.
@@ -461,7 +462,8 @@ class WP_oEmbed {
 			);
 
 			// Strip <body>
-			if ( $html_head_end = stripos( $html, '</head>' ) ) {
+			$html_head_end = stripos( $html, '</head>' );
+			if ( $html_head_end ) {
 				$html = substr( $html, 0, $html_head_end );
 			}
 
@@ -559,7 +561,8 @@ class WP_oEmbed {
 		if ( 501 == wp_remote_retrieve_response_code( $response ) ) {
 			return new WP_Error( 'not-implemented' );
 		}
-		if ( ! $body = wp_remote_retrieve_body( $response ) ) {
+		$body = wp_remote_retrieve_body( $response );
+		if ( ! $body ) {
 			return false;
 		}
 		$parse_method = "_parse_$format";

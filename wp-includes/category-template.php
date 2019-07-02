@@ -1223,7 +1223,8 @@ function term_description( $term = 0, $deprecated = null ) {
  *                                  or the post does not exist, WP_Error on failure.
  */
 function get_the_terms( $post, $taxonomy ) {
-	if ( ! $post = get_post( $post ) ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
 		return false;
 	}
 

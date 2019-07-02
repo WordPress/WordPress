@@ -498,7 +498,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					foreach ( $messages as $message ) {
 						$error->add( $code, $message );
 					}
-					if ( $error_data = $error->get_error_data( $code ) ) {
+					$error_data = $error->get_error_data( $code );
+					if ( $error_data ) {
 						$error->add_data( $error_data, $code );
 					}
 				}
