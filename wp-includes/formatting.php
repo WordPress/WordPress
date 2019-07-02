@@ -492,7 +492,8 @@ function wpautop( $pee, $br = true ) {
 	// Change multiple <br>s into two line breaks, which will turn into paragraphs.
 	$pee = preg_replace( '|<br\s*/?>\s*<br\s*/?>|', "\n\n", $pee );
 
-	$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
+	$allblocks        = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)\b';
+	$allblocksexceptp = str_replace( '|p|', '|', $allblocks );
 
 	// Add a double line break above block-level opening tags.
 	$pee = preg_replace( '!(<' . $allblocks . '[\s/>])!', "\n\n$1", $pee );
@@ -558,11 +559,11 @@ function wpautop( $pee, $br = true ) {
 	// Under certain strange conditions it could create a P of entirely whitespace.
 	$pee = preg_replace( '|<p>\s*</p>|', '', $pee );
 
-	// Add a closing <p> inside <div>, <address>, or <form> tag if missing.
-	$pee = preg_replace( '!<p>([^<]+)</(div|address|form)>!', '<p>$1</p></$2>', $pee );
-
 	// If an opening or closing block element tag is wrapped in a <p>, unwrap it.
 	$pee = preg_replace( '!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', '$1', $pee );
+
+	// Add a closing <p> inside <div>, <address>, or <form> tag if missing.
+	$pee = preg_replace( '!<p>([^<]+)</(div|address|form)>!', '<p>$1</p></$2>', $pee );
 
 	// In some cases <li> may get wrapped in <p>, fix them.
 	$pee = preg_replace( '|<p>(<li.+?)</p>|', '$1', $pee );
@@ -576,6 +577,12 @@ function wpautop( $pee, $br = true ) {
 
 	// If an opening or closing block element tag is followed by a closing <p> tag, remove it.
 	$pee = preg_replace( '!(</?' . $allblocks . '[^>]*>)\s*</p>!', '$1', $pee );
+
+	// If a closing <p> tag is inside a block element tag, without a preceding opening <p> tag, remove it.
+	$pee = preg_replace( '#(<(' . $allblocksexceptp . ')[^>]*>)(((?!<p>|</\2>).)*)</p>#s', '$1$3', $pee );
+
+	// If an opening <p> tag is inside a block element tag, without a following closing <p> tag, remove it.
+	$pee = preg_replace( '#<p>(((?!</p>).)*</' . $allblocksexceptp . '>)#s', '$1', $pee );
 
 	// Optionally insert line breaks.
 	if ( $br ) {
