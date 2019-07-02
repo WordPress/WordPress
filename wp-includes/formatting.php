@@ -582,7 +582,7 @@ function wpautop( $pee, $br = true ) {
 	$pee = preg_replace( '#(<(' . $allblocksexceptp . ')[^>]*>)(((?!<p>|</\2>).)*)</p>#s', '$1$3', $pee );
 
 	// If an opening <p> tag is inside a block element tag, without a following closing <p> tag, remove it.
-	$pee = preg_replace( '#<p>(((?!</p>).)*</' . $allblocksexceptp . '>)#s', '$1', $pee );
+	$pee = preg_replace( '#<p>([^<]*(((?!</p>).)*)</' . $allblocksexceptp . '>)#s', '$1', $pee );
 
 	// Optionally insert line breaks.
 	if ( $br ) {
