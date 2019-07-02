@@ -943,14 +943,14 @@ function seems_utf8( $str ) {
  *
  * @staticvar string $_charset
  *
- * @param string     $string         The text which is to be encoded.
- * @param int|string $quote_style    Optional. Converts double quotes if set to ENT_COMPAT,
- *                                   both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES.
- *                                   Also compatible with old values; converting single quotes if set to 'single',
- *                                   double if set to 'double' or both if otherwise set.
- *                                   Default is ENT_NOQUOTES.
- * @param string     $charset        Optional. The character encoding of the string. Default is false.
- * @param bool       $double_encode  Optional. Whether to encode existing html entities. Default is false.
+ * @param string       $string        The text which is to be encoded.
+ * @param int|string   $quote_style   Optional. Converts double quotes if set to ENT_COMPAT,
+ *                                    both single and double if set to ENT_QUOTES or none if set to ENT_NOQUOTES.
+ *                                    Also compatible with old values; converting single quotes if set to 'single',
+ *                                    double if set to 'double' or both if otherwise set.
+ *                                    Default is ENT_NOQUOTES.
+ * @param false|string $charset       Optional. The character encoding of the string. Default is false.
+ * @param bool         $double_encode Optional. Whether to encode existing html entities. Default is false.
  * @return string The encoded text with HTML entities.
  */
 function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
@@ -3624,7 +3624,7 @@ function sanitize_email( $email ) {
  * @param int $to   Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
  * @return string Human readable time difference.
  */
-function human_time_diff( $from, $to = '' ) {
+function human_time_diff( $from, $to = 0 ) {
 	if ( empty( $to ) ) {
 		$to = time();
 	}
