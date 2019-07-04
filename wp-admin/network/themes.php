@@ -146,9 +146,9 @@ if ( $action ) {
 					?>
 					</ul>
 				<?php if ( 1 == $themes_to_delete ) : ?>
-					<p><?php _e( 'Are you sure you wish to delete this theme?' ); ?></p>
+					<p><?php _e( 'Are you sure you want to delete this theme?' ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'Are you sure you wish to delete these themes?' ); ?></p>
+					<p><?php _e( 'Are you sure you want to delete these themes?' ); ?></p>
 				<?php endif; ?>
 				<form method="post" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" style="display:inline;">
 					<input type="hidden" name="verify-delete" value="1" />
