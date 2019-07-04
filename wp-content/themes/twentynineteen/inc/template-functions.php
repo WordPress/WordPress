@@ -206,12 +206,12 @@ function twentynineteen_add_ellipses_to_nav( $nav_menu, $args ) {
 			<div class="main-menu-more">
 				<ul class="main-menu">
 					<li class="menu-item menu-item-has-children">
-						<button class="submenu-expand main-menu-more-toggle is-empty" tabindex="-1" aria-label="More" aria-haspopup="true" aria-expanded="false">
-							<span class="screen-reader-text">' . esc_html__( 'More', 'twentynineteen' ) . '</span>' .
+						<button class="submenu-expand main-menu-more-toggle is-empty" tabindex="-1"
+							aria-label="' . esc_attr__( 'More', 'twentynineteen' ) . '" aria-haspopup="true" aria-expanded="false">' .
 							twentynineteen_get_icon_svg( 'arrow_drop_down_ellipsis' ) . '
 						</button>
 						<ul class="sub-menu hidden-links">
-							<li id="menu-item--1" class="mobile-parent-nav-menu-item menu-item--1">
+							<li class="mobile-parent-nav-menu-item">
 								<button class="menu-item-link-return">' .
 									twentynineteen_get_icon_svg( 'chevron_left' ) .
 									esc_html__( 'Back', 'twentynineteen' ) . '
