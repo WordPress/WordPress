@@ -55,7 +55,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .wp-block-image figcaption {
-	margin: -7px 0 20px;;
+	margin: -7px 0 20px;
 	padding: 9px 9px 1.0em;
 	text-align: center;
 }

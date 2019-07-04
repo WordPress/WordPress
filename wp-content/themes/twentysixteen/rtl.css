@@ -681,7 +681,7 @@ body:not(.search-results) .entry-summary .alignleft {
 		margin-right: 1.473684211em;
 		margin-left: 0;
 		width: -webkit-calc(50% - 0.736842105em);
-		width: calc(50% - 0.736842105em);;
+		width: calc(50% - 0.736842105em);
 	}
 
 	body:not(.search-results) article:not(.type-page) .entry-content > blockquote.alignright.below-entry-meta {
