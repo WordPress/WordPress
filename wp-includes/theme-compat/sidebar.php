@@ -18,7 +18,7 @@ _deprecated_file(
 	<div id="sidebar" role="complementary">
 		<ul>
 			<?php
-			  /* Widgetized sidebar, if you have the plugin installed. */
+			/* Widgetized sidebar, if you have the plugin installed. */
 			if ( ! function_exists( 'dynamic_sidebar' ) || ! dynamic_sidebar() ) :
 				?>
 			<li>
@@ -35,7 +35,7 @@ _deprecated_file(
 				if ( is_404() || is_category() || is_day() || is_month() ||
 				is_year() || is_search() || is_paged() ) :
 					?>
-			 <li>
+			<li>
 
 					<?php if ( is_404() ) : /* If this is a 404 page */ ?>
 			<?php elseif ( is_category() ) : /* If this is a category archive */ ?>

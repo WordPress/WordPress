@@ -188,7 +188,7 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 			 *
 			 * @param int The default header image height in pixels. Default 288.
 			 */
-			   'height'              => apply_filters( 'twentyeleven_header_image_height', 288 ),
+			'height'                 => apply_filters( 'twentyeleven_header_image_height', 288 ),
 			// Support flexible heights.
 			'flex-height'            => true,
 			// Random image rotation by default.

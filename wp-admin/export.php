@@ -26,17 +26,17 @@ function export_add_js() {
 	?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
-		 var form = $('#export-filters'),
-			 filters = form.find('.export-filters');
-		 filters.hide();
-		 form.find('input:radio').change(function() {
+		var form = $('#export-filters'),
+			filters = form.find('.export-filters');
+		filters.hide();
+		form.find('input:radio').change(function() {
 			filters.slideUp('fast');
 			switch ( $(this).val() ) {
 				case 'attachment': $('#attachment-filters').slideDown(); break;
 				case 'posts': $('#post-filters').slideDown(); break;
 				case 'pages': $('#page-filters').slideDown(); break;
 			}
-		 });
+		});
 	});
 </script>
 	<?php

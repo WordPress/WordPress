@@ -171,7 +171,7 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 			 *
 			 * @param int The default header image height in pixels. Default 198.
 			 */
-			   'height'           => apply_filters( 'twentyten_header_image_height', 198 ),
+			'height'              => apply_filters( 'twentyten_header_image_height', 198 ),
 			// Support flexible heights.
 			'flex-height'         => true,
 			// Don't support text inside the header image.

@@ -100,7 +100,7 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	}
 
 	$regex = '/(
-		  [\x00-\x7F]                  # single-byte sequences   0xxxxxxx
+		[\x00-\x7F]                  # single-byte sequences   0xxxxxxx
 		| [\xC2-\xDF][\x80-\xBF]       # double-byte sequences   110xxxxx 10xxxxxx
 		| \xE0[\xA0-\xBF][\x80-\xBF]   # triple-byte sequences   1110xxxx 10xxxxxx * 2
 		| [\xE1-\xEC][\x80-\xBF]{2}
@@ -183,7 +183,7 @@ function _mb_strlen( $str, $encoding = null ) {
 	}
 
 	$regex = '/(?:
-		  [\x00-\x7F]                  # single-byte sequences   0xxxxxxx
+		[\x00-\x7F]                  # single-byte sequences   0xxxxxxx
 		| [\xC2-\xDF][\x80-\xBF]       # double-byte sequences   110xxxxx 10xxxxxx
 		| \xE0[\xA0-\xBF][\x80-\xBF]   # triple-byte sequences   1110xxxx 10xxxxxx * 2
 		| [\xE1-\xEC][\x80-\xBF]{2}

@@ -1950,20 +1950,16 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 	?>
 </head>
 	<?php
+	/**
+	 * @global string $body_id
+	 */
+	$admin_body_id = isset( $GLOBALS['body_id'] ) ? 'id="' . $GLOBALS['body_id'] . '" ' : '';
+
 	/** This filter is documented in wp-admin/admin-header.php */
 	$admin_body_classes = apply_filters( 'admin_body_class', '' );
 	$admin_body_classes = ltrim( $admin_body_classes . ' ' . $admin_body_class );
 	?>
-<body
-	<?php
-	/**
-	 * @global string $body_id
-	 */
-	if ( isset( $GLOBALS['body_id'] ) ) {
-		echo ' id="' . $GLOBALS['body_id'] . '"';
-	}
-	?>
- class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes; ?>">
+<body <?php echo $admin_body_id; ?>class="wp-admin wp-core-ui no-js iframe <?php echo $admin_body_classes; ?>">
 <script type="text/javascript">
 (function(){
 var c = document.body.className;
