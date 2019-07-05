@@ -228,7 +228,7 @@ if ( isset( $plugin_page ) ) {
 		 *
 		 * @since 2.1.0
 		 */
-		do_action( "load-{$page_hook}" );
+		do_action( "load-{$page_hook}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		if ( ! isset( $_GET['noheader'] ) ) {
 			require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		}
@@ -272,7 +272,7 @@ if ( isset( $plugin_page ) ) {
 		 *
 		 * @since 1.5.0
 		 */
-		do_action( "load-{$plugin_page}" );
+		do_action( "load-{$plugin_page}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		if ( ! isset( $_GET['noheader'] ) ) {
 			require_once( ABSPATH . 'wp-admin/admin-header.php' );
@@ -313,7 +313,7 @@ if ( isset( $plugin_page ) ) {
 	 *
 	 * @since 3.5.0
 	 */
-	do_action( "load-importer-{$importer}" );
+	do_action( "load-importer-{$importer}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	$parent_file  = 'tools.php';
 	$submenu_file = 'import.php';
@@ -362,7 +362,7 @@ if ( isset( $plugin_page ) ) {
 	 *
 	 * @since 2.1.0
 	 */
-	do_action( "load-{$pagenow}" );
+	do_action( "load-{$pagenow}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	/*
 	 * The following hooks are fired to ensure backward compatibility.
@@ -370,18 +370,18 @@ if ( isset( $plugin_page ) ) {
 	 */
 	if ( $typenow == 'page' ) {
 		if ( $pagenow == 'post-new.php' ) {
-			do_action( 'load-page-new.php' );
+			do_action( 'load-page-new.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} elseif ( $pagenow == 'post.php' ) {
-			do_action( 'load-page.php' );
+			do_action( 'load-page.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 	} elseif ( $pagenow == 'edit-tags.php' ) {
 		if ( $taxnow == 'category' ) {
-			do_action( 'load-categories.php' );
+			do_action( 'load-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		} elseif ( $taxnow == 'link_category' ) {
-			do_action( 'load-edit-link-categories.php' );
+			do_action( 'load-edit-link-categories.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 		}
 	} elseif ( 'term.php' === $pagenow ) {
-		do_action( 'load-edit-tags.php' );
+		do_action( 'load-edit-tags.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 }
 

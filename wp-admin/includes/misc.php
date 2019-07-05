@@ -659,7 +659,7 @@ function set_screen_options() {
 				 * @param string   $option The option name.
 				 * @param int      $value  The number of rows to use.
 				 */
-				$value = apply_filters( 'set-screen-option', false, $option, $value );
+				$value = apply_filters( 'set-screen-option', false, $option, $value );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				if ( false === $value ) {
 					return;

@@ -1298,7 +1298,7 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	 *
 	 * @param string[] $links An array of term links.
 	 */
-	$term_links = apply_filters( "term_links-{$taxonomy}", $links );
+	$term_links = apply_filters( "term_links-{$taxonomy}", $links );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 	return $before . join( $sep, $term_links ) . $after;
 }

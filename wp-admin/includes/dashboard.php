@@ -1536,7 +1536,7 @@ function wp_dashboard_browser_nag() {
 	 * @param string $notice   The notice content.
 	 * @param array  $response An array containing web browser information. See `wp_check_browser_version()`.
 	 */
-	echo apply_filters( 'browse-happy-notice', $notice, $response );
+	echo apply_filters( 'browse-happy-notice', $notice, $response );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 }
 
 /**

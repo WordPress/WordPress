@@ -245,17 +245,17 @@ function wp_print_media_templates() {
 			<div class="post-upload-ui">
 				<?php
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'pre-upload-ui' );
+				do_action( 'pre-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'pre-plupload-upload-ui' );
+				do_action( 'pre-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 				if ( 10 === remove_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' ) ) {
 					/** This action is documented in wp-admin/includes/media.php */
-					do_action( 'post-plupload-upload-ui' );
+					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 					add_action( 'post-plupload-upload-ui', 'media_upload_flash_bypass' );
 				} else {
 					/** This action is documented in wp-admin/includes/media.php */
-					do_action( 'post-plupload-upload-ui' );
+					do_action( 'post-plupload-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				}
 
 				$max_upload_size = wp_max_upload_size();
@@ -281,7 +281,7 @@ function wp_print_media_templates() {
 
 				<?php
 				/** This action is documented in wp-admin/includes/media.php */
-				do_action( 'post-upload-ui' );
+				do_action( 'post-upload-ui' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				?>
 			</div>
 		<?php endif; ?>

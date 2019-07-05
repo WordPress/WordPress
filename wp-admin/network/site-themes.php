@@ -136,7 +136,7 @@ if ( $action ) {
 				 * @param array  $items        The items to take the action on.
 				 * @param int    $site_id      The site ID.
 				 */
-				$referer = apply_filters( "handle_network_bulk_actions-{$screen}", $referer, $action, $themes, $id );
+				$referer = apply_filters( "handle_network_bulk_actions-{$screen}", $referer, $action, $themes, $id ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 			} else {
 				$action = 'error';
 				$n      = 'none';

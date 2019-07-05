@@ -106,7 +106,7 @@ if ( $doaction ) {
 		 * @param string $doaction     The action being taken.
 		 * @param array  $items        The items to take the action on.
 		 */
-		$redirect_to = apply_filters( "handle_bulk_actions-{$screen}", $redirect_to, $doaction, $comment_ids );
+		$redirect_to = apply_filters( "handle_bulk_actions-{$screen}", $redirect_to, $doaction, $comment_ids ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 
 	wp_defer_comment_counting( false );

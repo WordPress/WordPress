@@ -295,6 +295,6 @@ if ( isset( $_GET['action'] ) ) {
 		 *
 		 * @since 2.8.0
 		 */
-		do_action( "update-custom_{$action}" );
+		do_action( "update-custom_{$action}" ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	}
 }

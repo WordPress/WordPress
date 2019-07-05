@@ -26,7 +26,7 @@ if ( 'mail.example.com' === $mailserver_url || empty( $mailserver_url ) ) {
  *
  * @since 2.9.0
  */
-do_action( 'wp-mail.php' );
+do_action( 'wp-mail.php' ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 /** Get the POP3 class with which to access the mailbox. */
 require_once( ABSPATH . WPINC . '/class-pop3.php' );

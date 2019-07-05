@@ -418,7 +418,7 @@ if ( $action ) {
 				$sendback = wp_get_referer();
 
 				/** This action is documented in wp-admin/edit-comments.php */
-				$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $action, $plugins );
+				$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $action, $plugins );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 				wp_safe_redirect( $sendback );
 				exit;
 			}

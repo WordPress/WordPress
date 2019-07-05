@@ -775,7 +775,7 @@ function post_comment_status_meta_box( $post ) {
 	 *
 	 * @param WP_Post $post WP_Post object of the current post.
 	 */
-	do_action( 'post_comment_status_meta_box-options', $post );
+	do_action( 'post_comment_status_meta_box-options', $post );  // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 	?>
 </p>
 	<?php
