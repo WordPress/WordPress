@@ -771,7 +771,9 @@ class WP_Comment_Query {
 			$join_posts_table = true;
 			foreach ( $post_fields as $field_name => $field_value ) {
 				// $field_value may be an array.
-				$esses                                     = array_fill( 0, count( (array) $field_value ), '%s' );
+				$esses = array_fill( 0, count( (array) $field_value ), '%s' );
+
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 				$this->sql_clauses['where'][ $field_name ] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} IN (" . implode( ',', $esses ) . ')', $field_value );
 			}
 		}
@@ -792,7 +794,9 @@ class WP_Comment_Query {
 
 				$join_posts_table = true;
 
-				$esses                                     = array_fill( 0, count( $q_values ), '%s' );
+				$esses = array_fill( 0, count( $q_values ), '%s' );
+
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 				$this->sql_clauses['where'][ $field_name ] = $wpdb->prepare( " {$wpdb->posts}.{$field_name} IN (" . implode( ',', $esses ) . ')', $q_values );
 			}
 		}

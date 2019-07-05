@@ -623,8 +623,7 @@ class WP_Meta_Query {
 
 				case 'BETWEEN':
 				case 'NOT BETWEEN':
-					$meta_value = array_slice( $meta_value, 0, 2 );
-					$where      = $wpdb->prepare( '%s AND %s', $meta_value );
+					$where = $wpdb->prepare( '%s AND %s', $meta_value[0], $meta_value[1] );
 					break;
 
 				case 'LIKE':

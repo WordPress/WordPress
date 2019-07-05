@@ -64,7 +64,7 @@ class WP_Importer {
 
 		// Get count of permalinks
 		$meta_key = $importer_name . '_' . $bid . '_permalink';
-		$sql      = $wpdb->prepare( "SELECT COUNT( post_id ) AS cnt FROM $wpdb->postmeta WHERE meta_key = '%s'", $meta_key );
+		$sql      = $wpdb->prepare( "SELECT COUNT( post_id ) AS cnt FROM $wpdb->postmeta WHERE meta_key = %s", $meta_key );
 
 		$result = $wpdb->get_results( $sql );
 
