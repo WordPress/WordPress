@@ -53,6 +53,7 @@
 				?>
 			<span class="cat-links">
 				<?php
+				/* translators: 1: CSS classes, 2: list of categories */
 				printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
 				$show_sep = true;
 				?>
@@ -68,6 +69,7 @@
 				<?php endif; // End if $show_sep ?>
 			<span class="tag-links">
 				<?php
+				/* translators: 1: CSS classes, 2: list of tags */
 				printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
 				$show_sep = true;
 				?>

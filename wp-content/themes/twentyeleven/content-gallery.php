@@ -46,7 +46,9 @@
 	<p><em>
 					<?php
 					printf(
+						/* translators: 1: link attributes, 2: number of photos */
 						_n( 'This gallery contains <a %1$s>%2$s photo</a>.', 'This gallery contains <a %1$s>%2$s photos</a>.', $total_images, 'twentyeleven' ),
+						/* translators: %s: Post title */
 						'href="' . esc_url( get_permalink() ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark"',
 						number_format_i18n( $total_images )
 					);
@@ -75,6 +77,7 @@
 			?>
 		<span class="cat-links">
 			<?php
+			/* translators: 1: CSS classes, 2: list of categories */
 			printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
 			$show_sep = true;
 			?>
@@ -90,6 +93,7 @@
 			<?php endif; // End if $show_sep ?>
 		<span class="tag-links">
 			<?php
+			/* translators: 1: CSS classes, 2: list of tags */
 			printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
 			$show_sep = true;
 			?>

@@ -41,11 +41,13 @@
 			<div class="entry-meta">
 				<?php
 					printf(
+						/* translators: 1: the permalink, 2: date and time, 3: date and time, 4: author link, 5: author link title, 6: author display name */
 						__( '<a href="%1$s" rel="bookmark"><time class="entry-date" datetime="%2$s">%3$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%4$s" title="%5$s" rel="author">%6$s</a></span></span>', 'twentyeleven' ),
 						esc_url( get_permalink() ),
 						get_the_date( 'c' ),
 						get_the_date(),
 						esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+						/* translators: %s: author display name */
 						esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
 						get_the_author()
 					);
@@ -58,7 +60,10 @@
 				if ( $categories_list ) :
 					?>
 				<span class="cat-links">
-					<?php printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list ); ?>
+					<?php
+					/* translators: 1: CSS classes, 2: category list */
+					printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-cat-links', $categories_list );
+					?>
 				</span>
 				<?php endif; // End if categories ?>
 				<?php
@@ -67,7 +72,10 @@
 				if ( $tags_list ) :
 					?>
 				<span class="tag-links">
-					<?php printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list ); ?>
+					<?php
+					/* translators: 1: CSS classes, 2: tag list */
+					printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyeleven' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
+					?>
 				</span>
 				<?php endif; // End if $tags_list ?>
 

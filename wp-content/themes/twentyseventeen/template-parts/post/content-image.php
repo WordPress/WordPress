@@ -55,9 +55,9 @@
 		if ( is_single() || '' === get_the_post_thumbnail() ) {
 
 			// Only show content if is a single post, or if there's no featured image.
-			/* translators: %s: Name of current post */
 			the_content(
 				sprintf(
+					/* translators: %s: Name of current post */
 					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 					get_the_title()
 				)

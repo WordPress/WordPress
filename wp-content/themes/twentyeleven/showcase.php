@@ -124,8 +124,11 @@ get_header(); ?>
 								} else {
 									$thumbnail_size = 'small-feature';
 								}
+
+								/* translators: %s: post title */
+								$title = sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
 								?>
-						<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
+						<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( $title ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
 								<?php
 							}
 							?>
@@ -156,8 +159,11 @@ get_header(); ?>
 								} else {
 									$class = '';
 								}
+
+								/* translators: %s: post title */
+								$title = sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
 								?>
-					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>" title="<?php echo esc_attr( sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ) ); ?>"<?php echo $class; ?>></a></li>
+					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>" title="<?php echo esc_attr( $title ); ?>"<?php echo $class; ?>></a></li>
 						<?php endwhile; ?>
 					</ul>
 					</nav>

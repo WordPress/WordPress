@@ -39,10 +39,13 @@
 			/* translators: used between list items, there is a space after the comma */
 			$tag_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
 		if ( '' != $tag_list ) {
+			/* translators: 1: categories list, 2: tag list, 3: permalink, 4: post title, 5: author name, 6: author URL */
 			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		} elseif ( '' != $categories_list ) {
+			/* translators: 1: categories list, 2: tag list, 3: permalink, 4: post title, 5: author name, 6: author URL */
 			$utility_text = __( 'This entry was posted in %1$s by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		} else {
+			/* translators: 1: categories list, 2: tag list, 3: permalink, 4: post title, 5: author name, 6: author URL */
 			$utility_text = __( 'This entry was posted by <a href="%6$s">%5$s</a>. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		}
 
@@ -67,11 +70,19 @@
 				?>
 			</div><!-- #author-avatar -->
 			<div id="author-description">
-				<h2><?php printf( __( 'About %s', 'twentyeleven' ), get_the_author() ); ?></h2>
+				<h2>
+				<?php
+				/* translators: %s: author name */
+				printf( __( 'About %s', 'twentyeleven' ), get_the_author() );
+				?>
+				</h2>
 				<?php the_author_meta( 'description' ); ?>
 				<div id="author-link">
 					<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
-						<?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyeleven' ), get_the_author() ); ?>
+						<?php
+						/* translators: %s: author name */
+						printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyeleven' ), get_the_author() );
+						?>
 					</a>
 				</div><!-- #author-link	-->
 			</div><!-- #author-description -->

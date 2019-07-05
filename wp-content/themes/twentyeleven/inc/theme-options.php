@@ -302,7 +302,12 @@ function twentyeleven_settings_field_link_color() {
 	<input type="button" class="pickcolor button hide-if-no-js" value="<?php esc_attr_e( 'Select a Color', 'twentyeleven' ); ?>" />
 	<div id="colorPickerDiv" style="z-index: 100; background:#eee; border:1px solid #ccc; position:absolute; display:none;"></div>
 	<br />
-	<span><?php printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' ); ?></span>
+	<span>
+	<?php
+	/* translators: link color */
+	printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' );
+	?>
+	</span>
 	<?php
 }
 
@@ -338,7 +343,12 @@ function twentyeleven_theme_options_render_page() {
 	<div class="wrap">
 		<?php screen_icon(); ?>
 		<?php $theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme() : get_current_theme(); ?>
-		<h2><?php printf( __( '%s Theme Options', 'twentyeleven' ), $theme_name ); ?></h2>
+		<h2>
+		<?php
+		/* translators: theme name */
+		printf( __( '%s Theme Options', 'twentyeleven' ), $theme_name );
+		?>
+		</h2>
 		<?php settings_errors(); ?>
 
 		<form method="post" action="options.php">

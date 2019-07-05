@@ -26,7 +26,12 @@ get_header(); ?>
 				?>
 
 				<header class="page-header">
-					<h1 class="page-title author"><?php printf( __( 'Author Archives: %s', 'twentyeleven' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' ); ?></h1>
+					<h1 class="page-title author">
+					<?php
+					/* translators: %s: author display name */
+					printf( __( 'Author Archives: %s', 'twentyeleven' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
+					?>
+					</h1>
 				</header>
 
 				<?php
@@ -58,7 +63,12 @@ get_header(); ?>
 						?>
 					</div><!-- #author-avatar -->
 					<div id="author-description">
-						<h2><?php printf( __( 'About %s', 'twentyeleven' ), get_the_author() ); ?></h2>
+						<h2>
+						<?php
+							/* translators: author display name */
+							printf( __( 'About %s', 'twentyeleven' ), get_the_author() );
+						?>
+						</h2>
 						<?php the_author_meta( 'description' ); ?>
 					</div><!-- #author-description	-->
 				</div><!-- #author-info -->

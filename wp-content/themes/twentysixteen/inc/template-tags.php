@@ -49,6 +49,7 @@ if ( ! function_exists( 'twentysixteen_entry_meta' ) ) :
 
 		if ( ! is_singular() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 			echo '<span class="comments-link">';
+			/* translators: %s: Name of current post */
 			comments_popup_link( sprintf( __( 'Leave a comment<span class="screen-reader-text"> on %s</span>', 'twentysixteen' ), get_the_title() ) );
 			echo '</span>';
 		}
