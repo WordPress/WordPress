@@ -361,6 +361,25 @@ p.has-drop-cap:not(:focus)::first-letter {
 	margin-bottom: 0;
 }
 
+/* Group */
+
+.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block {
+	max-width: 634px;
+}
+
+.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="wide"] {
+	max-width: 1100px;
+}
+
+.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="full"] {
+	max-width: 100%;
+}
+
+.wp-block[data-type="core/group"] > .editor-block-list__block-edit > div > .wp-block-group.has-background > .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="full"] {
+	width: calc(100% + 60px);
+	max-width: calc(100% + 60px);
+}
+
 /*--------------------------------------------------------------
 7.0 Blocks - Widgets
 --------------------------------------------------------------*/

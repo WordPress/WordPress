@@ -404,6 +404,113 @@ body:not(.sidebar) .wp-block-table.alignfull {
 	max-width: 100%;
 }
 
+/* Group Block: Default Alignment */
+
+.wp-block-group,
+.wp-block-group.has-background {
+	margin-bottom: 24px;
+}
+
+.wp-block-group:not(.alignfull):not(.alignwide) > .wp-block-group__inner-container > * {
+	width: 604px;
+	max-width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.wp-block-group.has-background:not(.alignfull):not(.alignwide) > .wp-block-group__inner-container > .alignfull {
+	width: calc(100% + 60px);
+	max-width: calc(100% + 60px);
+	margin-left: -30px;
+}
+
+.wp-block-group:not(.alignfull) .wp-block-columns.alignfull {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Group Block: Wide Alignment */
+
+.wp-block-group.alignwide > .wp-block-group__inner-container > *,
+.wp-block-group.alignwide > .wp-block-group__inner-container > .alignwide,
+.wp-block-group.alignwide > .wp-block-group__inner-container > .alignfull {
+	max-width: 604px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.wp-block-group.alignwide > .wp-block-group__inner-container > .alignwide,
+.wp-block-group.alignwide > .wp-block-group__inner-container > .alignfull {
+	width: 100%;
+	max-width: 100%;
+}
+
+.wp-block-group.has-background.alignwide > .wp-block-group__inner-container > .alignfull {
+	width: calc(100% + 60px);
+	max-width: calc(100% + 60px);
+	margin-left: -30px;
+}
+
+@media (max-width: 664px) {
+	.wp-block-group:not(.has-background).alignwide {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.wp-block-group:not(.has-background).alignwide > .wp-block-group__inner-container > .alignwide,
+	.wp-block-group:not(.has-background).alignwide > .wp-block-group__inner-container > .alignfull {
+		width: auto;
+		max-width: 1600px;
+		margin-left: calc(25% - 25vw);
+		margin-right: calc(25% - 25vw);
+	}
+}
+
+/* Group Block: Full Alignment */
+
+@media (max-width: 664px) {
+	.wp-block-group:not(.has-background).alignfull {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.wp-block-group.has-background.alignfull > *:not(.alignfull) {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+@media (max-width: 999px) {
+	body.sidebar .wp-block-group.alignfull:not(.has-background) {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	body.sidebar .wp-block-group.alignfull.has-background > .wp-block-group__inner-container {
+		max-width: 604px;
+		margin: 0 auto;
+	}
+
+	body.sidebar .wp-block-group.alignfull:not(.has-background) > .wp-block-group__inner-container > .alignfull {
+		margin-left: calc(50% - 50vw);
+		margin-right: calc(50% - 50vw);
+	}
+}
+
+@media (min-width: 665px) {
+	body:not(.sidebar) .wp-block-group.alignfull,
+	body:not(.sidebar) .wp-block-group.has-background.alignfull {
+		padding: 20px calc( (100vw - 604px ) / 2 ); /* Reproduces the padding of entry-content, so that default block rules apply properly inside of this block. */
+	}
+}
+
+@media (min-width: 1600px) {
+	body:not(.sidebar) .wp-block-group.alignfull,
+	body:not(.sidebar) .wp-block-group.has-background.alignfull {
+		padding: 20px 498px; /* Above 1600px, these need fixed left/right padding. This works out to ((1600px - 604px) / 2) */
+	}
+}
+
 /* Media & Text */
 
 .wp-block-media-text {
