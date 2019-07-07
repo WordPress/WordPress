@@ -739,3 +739,180 @@ ul.wp-block-archives,
 		}
 	}
 }
+
+/** === Group Block === */
+
+// This matches the 22px value for 1rem that used on the front end.
+// It must be specified in pixels for the editor, since the root font 
+// size is different here. 
+$group-block-background__padding: $font__size_base;
+
+.wp-block[data-type="core/group"] {
+
+	// Group block base styles
+	> .editor-block-list__block-edit > div > .wp-block-group {
+
+		// Child: Full alignment
+		> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="full"] {
+			left: 0;
+		}
+	}
+
+	// Group block with background color
+	> .editor-block-list__block-edit > div > .wp-block-group.has-background {
+		padding: $group-block-background__padding;
+
+		// Child: Full alignment
+		> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="full"] {
+			margin-left: -$group-block-background__padding;
+			width: calc(100% + #{$group-block-background__padding * 2});
+			max-width: calc(100% + #{$group-block-background__padding * 2});
+		}
+	}
+
+	// Wide and full alignments
+	&[data-align="wide"] {
+
+		// Group block base styles.
+		> .editor-block-list__block-edit > div > .wp-block-group {
+
+			// Child blocks: Default alignments
+			> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
+				@include media(tablet) {
+					width: calc(8 * (100vw / 12));
+				}
+
+				@include media(desktop) {
+					width: calc(6 * (100vw / 12 ));
+				}
+			}
+		}
+
+		// Group block with background color
+		> .editor-block-list__block-edit > div > .wp-block-group.has-background {
+			
+			// Child blocks: Default alignments
+			> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block:not([data-align="wide"]):not([data-align="full"]) {
+				@include media(tablet) {
+					width: calc(8 * (100vw / 12) - #{$group-block-background__padding * 2});
+				}
+
+				@include media(desktop) {
+					width: calc(6 * (100vw / 12 ) - #{$group-block-background__padding * 2});
+				}
+			}
+		}
+	}
+
+	// Full alignment
+	&[data-align="full"] {
+
+		// Max-width needs to be a pixel narrower than usual to prevent horizontal scrolling.
+		@include media(mobile) {
+			max-width: calc(100% + 89px);
+		}
+		@include media(tablet) {
+			max-width: calc(125% + 114px);
+		}
+
+		// Group block base styles
+		> .editor-block-list__block-edit > div > .wp-block-group {
+
+			// Margins & padding are added to this container to mimic 
+			// the style + spacing of the .editor-writing-flow global 
+			// container. This way, child items sync up with the placement 
+			// and size of other top-level blocks. 
+			> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout {
+
+				@include media(mobile) {
+					padding-left: 46px;
+					padding-right: 46px;
+				}
+
+				// 2px of extra padding are added to each side here
+				// To better match up with the spacing of the whole 
+				// document. 
+				@include media(tablet) {
+					width: 80%;
+					margin-left: 10%;
+					margin-right: 10%;
+					padding-left: 48px;
+					padding-right: 48px; 
+				}
+
+				// Child blocks: All alignments except full
+				 > .wp-block:not([data-align="full"]) {
+					max-width: calc(100vw - (2 * 1rem));
+
+					@include media(tablet) {
+						max-width: calc(8 * (100vw / 12));
+					}
+
+					@include media(desktop) {
+						max-width: calc(6 * (100vw / 12));
+					}
+				}
+
+				// Child blocks: Right alignments
+				> .wp-block[data-align="right"] {
+
+					@include media(tablet) {
+						max-width: 125%;
+					}
+				}
+
+				// Child blocks: Wide alignments
+				> .wp-block[data-align="wide"] {
+
+					@include media(tablet) {
+						width: calc(100% + 4px);
+						max-width: calc(100% + 4px);
+					}
+				}
+
+				// Child blocks: Full alignments
+				> .wp-block[data-align=full] {
+					max-width: calc(100vw + (2 * 1rem));
+
+					@include media(mobile) {
+						width: calc(100% + 92px);
+						left: -46px;
+					}
+
+					@include media(tablet) {
+						left: calc(-12.5% - 58px);
+						width: calc(125% + 120px);
+						max-width: calc(125% + 119px);
+					}
+				}
+			}
+		}
+
+		// Group block with background color
+		> .editor-block-list__block-edit > div > .wp-block-group.has-background {
+
+			// When the Group block is full width, we can remove the left/right padding
+			// and let this inherit the 
+			padding: $group-block-background__padding 0;
+
+			@include media(mobile) {
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			// Child blocks: Full alignment
+			> .wp-block-group__inner-container > .editor-inner-blocks > .editor-block-list__layout > .wp-block[data-align="full"] {
+				margin-left: 0;
+				width: 100%;
+
+				@include media(mobile) {
+					width: calc(100% + 92px);
+				}
+
+				@include media(tablet) {
+					width: calc(125% + 120px);
+				}
+			}
+		}
+	}
+}
