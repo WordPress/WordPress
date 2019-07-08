@@ -344,13 +344,20 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 				<h1><?php _e( 'Heads up!' ); ?></h1>
 				<p>
 					<?php
-					echo sprintf(
-						/* translators: %s: link to documentation on child themes */
-						__( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates. If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
-						esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )
-					);
+					_e( 'You appear to be making direct edits to your theme in the WordPress dashboard. We recommend that you don&#8217;t! Editing your theme directly could break your site and your changes may be lost in future updates.' );
 					?>
 				</p>
+					<?php
+					if ( ! $theme->parent() ) {
+						echo '<p>';
+						echo sprintf(
+							/* translators: %s: link to documentation on child themes */
+							__( 'If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
+							esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )
+						);
+						echo '</p>';
+					}
+					?>
 				<p><?php _e( 'If you decide to go ahead with direct edits anyway, use a file manager to create a copy with a new name and hang on to the original. That way, you can re-enable a functional version if something goes wrong.' ); ?></p>
 			</div>
 			<p>
