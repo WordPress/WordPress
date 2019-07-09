@@ -1209,10 +1209,12 @@ function verify_file_signature( $filename, $signatures, $filename_for_errors = f
 		// Allow for an old version of Sodium_Compat being loaded before the bundled WordPress one.
 		if ( method_exists( 'ParagonIE_Sodium_Compat', 'runtime_speed_test' ) ) {
 			// Run `ParagonIE_Sodium_Compat::runtime_speed_test()` in optimized integer mode, as that's what WordPress utilises during signing verifications.
+			// phpcs:disable WordPress.NamingConventions.ValidVariableName
 			$old_fastMult                      = ParagonIE_Sodium_Compat::$fastMult;
 			ParagonIE_Sodium_Compat::$fastMult = true;
 			$sodium_compat_is_fast             = ParagonIE_Sodium_Compat::runtime_speed_test( 100, 10 );
 			ParagonIE_Sodium_Compat::$fastMult = $old_fastMult;
+			// phpcs:enable
 		}
 
 		// This cannot be performed in a reasonable amount of time
