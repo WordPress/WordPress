@@ -788,8 +788,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			mceIframe = document.getElementById( editor.id + '_ifr' ),
 			mceToolbar,
 			mceStatusbar,
-			wpStatusbar,
-			isChromeRtl = ( editor.rtl && /Chrome/.test( navigator.userAgent ) );
+			wpStatusbar;
 
 			if ( container ) {
 				mceToolbar = tinymce.$( '.mce-toolbar-grp', container )[0];
@@ -1040,16 +1039,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			toolbar.on( 'show', function() {
 				this.reposition();
-
-				if ( isChromeRtl ) {
-					tinymce.$( '.mce-widget.mce-tooltip' ).addClass( 'wp-hide-mce-tooltip' );
-				}
-			} );
-
-			toolbar.on( 'hide', function() {
-				if ( isChromeRtl ) {
-					tinymce.$( '.mce-widget.mce-tooltip' ).removeClass( 'wp-hide-mce-tooltip' );
-				}
 			} );
 
 			toolbar.on( 'keydown', function( event ) {
@@ -1140,14 +1129,15 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 		}
 
-		editor.dom.bind( editor.getWin(), 'resize', hide );
-
 		if ( editor.inline ) {
+			editor.on( 'resizewindow', hide );
+
 			// Enable `capture` for the event.
 			// This will hide/reposition the toolbar on any scrolling in the document.
 			document.addEventListener( 'scroll', hide, true );
 		} else {
 			editor.dom.bind( editor.getWin(), 'scroll', hide );
+
 			// For full height iframe editor.
 			editor.on( 'resizewindow scrollwindow', hide );
 		}
@@ -1155,7 +1145,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		editor.on( 'remove', function() {
 			document.removeEventListener( 'scroll', hide, true );
 			editor.off( 'resizewindow scrollwindow', hide );
-			editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
+			editor.dom.unbind( editor.getWin(), 'scroll', hide );
 		} );
 
 		editor.on( 'blur hide', hide );
