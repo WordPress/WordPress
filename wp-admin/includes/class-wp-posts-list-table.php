@@ -917,9 +917,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( current_user_can( 'edit_post', $post->ID ) ) :
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>">
-																				<?php
-																				printf( __( 'Select %s' ), _draft_or_post_title() );
-																				?>
+				<?php printf( __( 'Select %s' ), _draft_or_post_title() ); ?>
 			</label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
 			<div class="locked-indicator">

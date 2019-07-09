@@ -356,9 +356,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php echo $post->ID; ?>">
-																		<?php
-																		echo sprintf( __( 'Select %s' ), _draft_or_post_title() );
-																		?>
+				<?php printf( __( 'Select %s' ), _draft_or_post_title() ); ?>
 			</label>
 			<input type="checkbox" name="media[]" id="cb-select-<?php echo $post->ID; ?>" value="<?php echo $post->ID; ?>" />
 			<?php

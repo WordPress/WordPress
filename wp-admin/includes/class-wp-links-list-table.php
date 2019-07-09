@@ -169,7 +169,9 @@ class WP_Links_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $link ) {
 		?>
-		<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>"><?php echo sprintf( __( 'Select %s' ), $link->link_name ); ?></label>
+		<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>">
+			<?php printf( __( 'Select %s' ), $link->link_name ); ?>
+		</label>
 		<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
 		<?php
 	}
