@@ -238,7 +238,7 @@ function image_downsize( $id, $size = 'medium' ) {
 		$info       = null;
 
 		if ( $thumb_file ) {
-			$info = getimagesize( $thumb_file );
+			$info = @getimagesize( $thumb_file );
 		}
 
 		if ( $thumb_file && $info ) {
@@ -910,8 +910,8 @@ function wp_get_attachment_image_src( $attachment_id, $size = 'thumbnail', $icon
 				/** This filter is documented in wp-includes/post.php */
 				$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
 
-				$src_file                = $icon_dir . '/' . wp_basename( $src );
-				@list( $width, $height ) = getimagesize( $src_file );
+				$src_file               = $icon_dir . '/' . wp_basename( $src );
+				list( $width, $height ) = @getimagesize( $src_file );
 			}
 		}
 

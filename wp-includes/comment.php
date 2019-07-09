@@ -2608,9 +2608,9 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( $pingback_link_offset_dquote || $pingback_link_offset_squote ) {
 		$quote                   = ( $pingback_link_offset_dquote ) ? '"' : '\'';
 		$pingback_link_offset    = ( $quote == '"' ) ? $pingback_link_offset_dquote : $pingback_link_offset_squote;
-		$pingback_href_pos       = @strpos( $contents, 'href=', $pingback_link_offset );
+		$pingback_href_pos       = strpos( $contents, 'href=', $pingback_link_offset );
 		$pingback_href_start     = $pingback_href_pos + 6;
-		$pingback_href_end       = @strpos( $contents, $quote, $pingback_href_start );
+		$pingback_href_end       = strpos( $contents, $quote, $pingback_href_start );
 		$pingback_server_url_len = $pingback_href_end - $pingback_href_start;
 		$pingback_server_url     = substr( $contents, $pingback_href_start, $pingback_server_url_len );
 
@@ -2808,7 +2808,7 @@ function pingback( $content, $post_id ) {
 		$pingback_server_url = discover_pingback_server_uri( $pagelinkedto );
 
 		if ( $pingback_server_url ) {
-			@ set_time_limit( 60 );
+			set_time_limit( 60 );
 			// Now, the RPC call
 			$pagelinkedfrom = get_permalink( $post );
 

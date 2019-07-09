@@ -352,7 +352,7 @@ function wp_debug_mode() {
 	}
 
 	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'REST_REQUEST' ) || ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) || wp_doing_ajax() || wp_is_json_request() ) {
-		@ini_set( 'display_errors', 0 );
+		ini_set( 'display_errors', 0 );
 	}
 }
 
@@ -908,6 +908,7 @@ function is_protected_ajax_action() {
 function wp_set_internal_encoding() {
 	if ( function_exists( 'mb_internal_encoding' ) ) {
 		$charset = get_option( 'blog_charset' );
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( ! $charset || ! @mb_internal_encoding( $charset ) ) {
 			mb_internal_encoding( 'UTF-8' );
 		}

@@ -436,7 +436,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		// Set correct file permissions
 		$stat  = stat( dirname( $filename ) );
 		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
-		@ chmod( $filename, $perms );
+		chmod( $filename, $perms );
 
 		/**
 		 * Filters the name of the saved image file.

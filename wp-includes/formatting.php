@@ -994,7 +994,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 		$string = wp_kses_normalize_entities( $string );
 	}
 
-	$string = @htmlspecialchars( $string, $quote_style, $charset, $double_encode );
+	$string = htmlspecialchars( $string, $quote_style, $charset, $double_encode );
 
 	// Back-compat.
 	if ( 'single' === $_quote_style ) {
@@ -1129,6 +1129,7 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 	// Check for support for utf8 in the installed PCRE library once and store the result in a static
 	static $utf8_pcre = null;
 	if ( ! isset( $utf8_pcre ) ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		$utf8_pcre = @preg_match( '/^./u', 'a' );
 	}
 	// We can't demand utf8 in the PCRE installation, so just return the string in those cases
@@ -1136,7 +1137,7 @@ function wp_check_invalid_utf8( $string, $strip = false ) {
 		return $string;
 	}
 
-	// preg_match fails when it encounters invalid UTF8 in $string
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- preg_match fails when it encounters invalid UTF8 in $string
 	if ( 1 === @preg_match( '/^./us', $string ) ) {
 		return $string;
 	}

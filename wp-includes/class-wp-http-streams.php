@@ -140,8 +140,10 @@ class WP_Http_Streams {
 			}
 
 			if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				$handle = @stream_socket_client( 'tcp://' . $proxy->host() . ':' . $proxy->port(), $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			} else {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				$handle = @stream_socket_client( $connect_host . ':' . $arrURL['port'], $connection_error, $connection_error_str, $connect_timeout, STREAM_CLIENT_CONNECT, $context );
 			}
 

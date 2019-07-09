@@ -1279,19 +1279,7 @@ class WP_REST_Server {
 	 * @param string $key Header key.
 	 */
 	public function remove_header( $key ) {
-		if ( function_exists( 'header_remove' ) ) {
-			// In PHP 5.3+ there is a way to remove an already set header.
-			header_remove( $key );
-		} else {
-			// In PHP 5.2, send an empty header, but only as a last resort to
-			// override a header already sent.
-			foreach ( headers_list() as $header ) {
-				if ( 0 === stripos( $header, "$key:" ) ) {
-					$this->send_header( $key, '' );
-					break;
-				}
-			}
-		}
+		header_remove( $key );
 	}
 
 	/**

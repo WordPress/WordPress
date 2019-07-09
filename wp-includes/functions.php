@@ -97,7 +97,7 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	global $wp_locale;
 	$i = $timestamp_with_offset;
 
-	if ( false === $i ) {
+	if ( ! is_numeric( $i ) ) {
 		$i = current_time( 'timestamp', $gmt );
 	}
 
@@ -177,7 +177,7 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 			}
 		}
 	}
-	$j = @gmdate( $dateformatstring, $i );
+	$j = gmdate( $dateformatstring, $i );
 
 	/**
 	 * Filters the date formatted based on the locale.
@@ -224,7 +224,7 @@ function wp_maybe_decline_date( $date ) {
 		$months_genitive = $wp_locale->month_genitive;
 
 		// Match a format like 'j F Y' or 'j. F'
-		if ( @preg_match( '#^\d{1,2}\.? [^\d ]+#u', $date ) ) {
+		if ( preg_match( '#^\d{1,2}\.? [^\d ]+#u', $date ) ) {
 
 			foreach ( $months as $key => $month ) {
 				$months[ $key ] = '# ' . $month . '( |$)#u';
@@ -238,7 +238,7 @@ function wp_maybe_decline_date( $date ) {
 		}
 
 		// Match a format like 'F jS' or 'F j' and change it to 'j F'
-		if ( @preg_match( '#^[^\d ]+ \d{1,2}(st|nd|rd|th)? #u', trim( $date ) ) ) {
+		if ( preg_match( '#^[^\d ]+ \d{1,2}(st|nd|rd|th)? #u', trim( $date ) ) ) {
 			foreach ( $months as $key => $month ) {
 				$months[ $key ] = '#' . $month . ' (\d{1,2})(st|nd|rd|th)?#u';
 			}
@@ -1258,7 +1258,9 @@ function status_header( $code, $description = '' ) {
 		$status_header = apply_filters( 'status_header', $status_header, $code, $description, $protocol );
 	}
 
-	@header( $status_header, true, $code );
+	if ( ! headers_sent() ) {
+		header( $status_header, true, $code );
+	}
 }
 
 /**
@@ -1310,26 +1312,18 @@ function wp_get_nocache_headers() {
  * @see wp_get_nocache_headers()
  */
 function nocache_headers() {
+	if ( headers_sent() ) {
+		return;
+	}
+
 	$headers = wp_get_nocache_headers();
 
 	unset( $headers['Last-Modified'] );
 
-	// In PHP 5.3+, make sure we are not sending a Last-Modified header.
-	if ( function_exists( 'header_remove' ) ) {
-		@header_remove( 'Last-Modified' );
-	} else {
-		// In PHP 5.2, send an empty Last-Modified header, but only as a
-		// last resort to override a header already sent. #WP23021
-		foreach ( headers_list() as $header ) {
-			if ( 0 === stripos( $header, 'Last-Modified' ) ) {
-				$headers['Last-Modified'] = '';
-				break;
-			}
-		}
-	}
+	header_remove( 'Last-Modified' );
 
 	foreach ( $headers as $name => $field_value ) {
-		@header( "{$name}: {$field_value}" );
+		header( "{$name}: {$field_value}" );
 	}
 }
 
@@ -1829,7 +1823,7 @@ function wp_mkdir_p( $target ) {
 		if ( $dir_perms != ( $dir_perms & ~umask() ) ) {
 			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
 			for ( $i = 1, $c = count( $folder_parts ); $i <= $c; $i++ ) {
-				@chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
+				chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
 			}
 		}
 
@@ -2421,12 +2415,12 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 		return array( 'error' => $message );
 	}
 
-	$ifp = @ fopen( $new_file, 'wb' );
+	$ifp = @fopen( $new_file, 'wb' );
 	if ( ! $ifp ) {
 		return array( 'error' => sprintf( __( 'Could not write file %s' ), $new_file ) );
 	}
 
-	@fwrite( $ifp, $bits );
+	fwrite( $ifp, $bits );
 	fclose( $ifp );
 	clearstatcache();
 
@@ -2434,7 +2428,7 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	$stat  = @ stat( dirname( $new_file ) );
 	$perms = $stat['mode'] & 0007777;
 	$perms = $perms & 0000666;
-	@ chmod( $new_file, $perms );
+	chmod( $new_file, $perms );
 	clearstatcache();
 
 	// Compute the URL
@@ -2707,7 +2701,7 @@ function wp_get_image_mime( $file ) {
 			$imagetype = exif_imagetype( $file );
 			$mime      = ( $imagetype ) ? image_type_to_mime_type( $imagetype ) : false;
 		} elseif ( function_exists( 'getimagesize' ) ) {
-			$imagesize = getimagesize( $file );
+			$imagesize = @getimagesize( $file );
 			$mime      = ( isset( $imagesize['mime'] ) ) ? $imagesize['mime'] : false;
 		} else {
 			$mime = false;
@@ -3601,6 +3595,7 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 	// Prepare the data for JSON serialization.
 	$args[0] = _wp_json_prepare_data( $data );
 
+	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- json_encode() errors are handled after this call
 	$json = @call_user_func_array( 'json_encode', $args );
 
 	// If json_encode() was successful, no need to do more sanity checking.
@@ -3775,10 +3770,13 @@ function _wp_json_prepare_data( $data ) {
  * @param int   $status_code The HTTP status code to output.
  */
 function wp_send_json( $response, $status_code = null ) {
-	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-	if ( null !== $status_code ) {
-		status_header( $status_code );
+	if ( ! headers_sent() ) {
+		header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		if ( null !== $status_code ) {
+			status_header( $status_code );
+		}
 	}
+
 	echo wp_json_encode( $response );
 
 	if ( wp_doing_ajax() ) {
@@ -5726,7 +5724,7 @@ function __return_empty_string() { // phpcs:ignore WordPress.NamingConventions.V
  * @see https://src.chromium.org/viewvc/chrome?view=rev&revision=6985
  */
 function send_nosniff_header() {
-	@header( 'X-Content-Type-Options: nosniff' );
+	header( 'X-Content-Type-Options: nosniff' );
 }
 
 /**
@@ -5840,7 +5838,7 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
  * @see https://developer.mozilla.org/en/the_x-frame-options_response_header
  */
 function send_frame_options_header() {
-	@header( 'X-Frame-Options: SAMEORIGIN' );
+	header( 'X-Frame-Options: SAMEORIGIN' );
 }
 
 /**
@@ -6414,7 +6412,7 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 		return false;
 	}
 
-	$current_limit     = @ini_get( 'memory_limit' );
+	$current_limit     = ini_get( 'memory_limit' );
 	$current_limit_int = wp_convert_hr_to_bytes( $current_limit );
 
 	if ( -1 === $current_limit_int ) {
@@ -6486,13 +6484,13 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 	$filtered_limit_int = wp_convert_hr_to_bytes( $filtered_limit );
 
 	if ( -1 === $filtered_limit_int || ( $filtered_limit_int > $wp_max_limit_int && $filtered_limit_int > $current_limit_int ) ) {
-		if ( false !== @ini_set( 'memory_limit', $filtered_limit ) ) {
+		if ( false !== ini_set( 'memory_limit', $filtered_limit ) ) {
 			return $filtered_limit;
 		} else {
 			return false;
 		}
 	} elseif ( -1 === $wp_max_limit_int || $wp_max_limit_int > $current_limit_int ) {
-		if ( false !== @ini_set( 'memory_limit', $wp_max_limit ) ) {
+		if ( false !== ini_set( 'memory_limit', $wp_max_limit ) ) {
 			return $wp_max_limit;
 		} else {
 			return false;
@@ -7179,13 +7177,13 @@ function recurse_dirsize( $directory, $exclude = null, $max_execution_time = nul
 }
 
 /**
-* Checks compatibility with the current WordPress version.
-*
-* @since 5.2.0
-*
-* @param string $required Minimum required WordPress version.
-* @return bool True if required version is compatible or empty, false if not.
-*/
+ * Checks compatibility with the current WordPress version.
+ *
+ * @since 5.2.0
+ *
+ * @param string $required Minimum required WordPress version.
+ * @return bool True if required version is compatible or empty, false if not.
+ */
 function is_wp_version_compatible( $required ) {
 	return empty( $required ) || version_compare( get_bloginfo( 'version' ), $required, '>=' );
 }

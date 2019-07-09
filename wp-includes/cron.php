@@ -677,11 +677,10 @@ function spawn_cron( $gmt_time = 0 ) {
 		echo ' ';
 
 		// flush any buffers and send the headers
-		while ( @ob_end_flush() ) {
-		}
+		wp_ob_end_flush_all();
 		flush();
 
-		WP_DEBUG ? include_once( ABSPATH . 'wp-cron.php' ) : @include_once( ABSPATH . 'wp-cron.php' );
+		include_once( ABSPATH . 'wp-cron.php' );
 		return true;
 	}
 

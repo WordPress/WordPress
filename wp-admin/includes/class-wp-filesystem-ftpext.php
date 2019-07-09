@@ -114,7 +114,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		// Set the Connection to use Passive FTP
-		@ftp_pasv( $this->link, true );
+		ftp_pasv( $this->link, true );
 		if ( @ftp_get_option( $this->link, FTP_TIMEOUT_SEC ) < FS_TIMEOUT ) {
 			@ftp_set_option( $this->link, FTP_TIMEOUT_SEC, FS_TIMEOUT );
 		}
@@ -140,7 +140,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 
-		if ( ! @ftp_fget( $this->link, $temp, $file, FTP_BINARY ) ) {
+		if ( ! ftp_fget( $this->link, $temp, $file, FTP_BINARY ) ) {
 			fclose( $temp );
 			unlink( $tempfile );
 			return false;
@@ -205,7 +205,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		fseek( $temp, 0 ); // Skip back to the start of the file being written to
 
-		$ret = @ftp_fput( $this->link, $file, $temp, FTP_BINARY );
+		$ret = ftp_fput( $this->link, $file, $temp, FTP_BINARY );
 
 		fclose( $temp );
 		unlink( $tempfile );
@@ -223,7 +223,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @return string|false The current working directory on success, false on failure.
 	 */
 	public function cwd() {
-		$cwd = @ftp_pwd( $this->link );
+		$cwd = ftp_pwd( $this->link );
 		if ( $cwd ) {
 			$cwd = trailingslashit( $cwd );
 		}
@@ -275,9 +275,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 
 		// chmod the file or directory
 		if ( ! function_exists( 'ftp_chmod' ) ) {
-			return (bool) @ftp_site( $this->link, sprintf( 'CHMOD %o %s', $mode, $file ) );
+			return (bool) ftp_site( $this->link, sprintf( 'CHMOD %o %s', $mode, $file ) );
 		}
-		return (bool) @ftp_chmod( $this->link, $mode, $file );
+		return (bool) ftp_chmod( $this->link, $mode, $file );
 	}
 
 	/**
@@ -375,10 +375,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 		if ( 'f' == $type || $this->is_file( $file ) ) {
-			return @ftp_delete( $this->link, $file );
+			return ftp_delete( $this->link, $file );
 		}
 		if ( ! $recursive ) {
-			return @ftp_rmdir( $this->link, $file );
+			return ftp_rmdir( $this->link, $file );
 		}
 
 		$filelist = $this->dirlist( trailingslashit( $file ) );
@@ -387,7 +387,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				$this->delete( trailingslashit( $file ) . $delete_file['name'], $recursive, $delete_file['type'] );
 			}
 		}
-		return @ftp_rmdir( $this->link, $file );
+		return ftp_rmdir( $this->link, $file );
 	}
 
 	/**
@@ -399,7 +399,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @return bool Whether $file exists or not.
 	 */
 	public function exists( $file ) {
-		$list = @ftp_nlist( $this->link, $file );
+		$list = ftp_nlist( $this->link, $file );
 
 		if ( empty( $list ) && $this->is_dir( $file ) ) {
 			return true; // File is an empty directory.
@@ -536,7 +536,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		}
 
-		if ( ! @ftp_mkdir( $this->link, $path ) ) {
+		if ( ! ftp_mkdir( $this->link, $path ) ) {
 			return false;
 		}
 		$this->chmod( $path, $chmod );
@@ -587,7 +587,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$b['year']   = $lucifer[3];
 			$b['hour']   = $lucifer[4];
 			$b['minute'] = $lucifer[5];
-			$b['time']   = @mktime( $lucifer[4] + ( strcasecmp( $lucifer[6], 'PM' ) == 0 ? 12 : 0 ), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3] );
+			$b['time']   = mktime( $lucifer[4] + ( strcasecmp( $lucifer[6], 'PM' ) == 0 ? 12 : 0 ), $lucifer[5], 0, $lucifer[1], $lucifer[2], $lucifer[3] );
 			$b['am/pm']  = $lucifer[6];
 			$b['name']   = $lucifer[8];
 		} elseif ( ! $is_windows ) {
@@ -617,7 +617,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				if ( $lcount == 8 ) {
 					sscanf( $lucifer[5], '%d-%d-%d', $b['year'], $b['month'], $b['day'] );
 					sscanf( $lucifer[6], '%d:%d', $b['hour'], $b['minute'] );
-					$b['time'] = @mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );
+					$b['time'] = mktime( $b['hour'], $b['minute'], 0, $b['month'], $b['day'], $b['year'] );
 					$b['name'] = $lucifer[7];
 				} else {
 					$b['month'] = $lucifer[5];
@@ -678,11 +678,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$limit_file = false;
 		}
 
-		$pwd = @ftp_pwd( $this->link );
+		$pwd = ftp_pwd( $this->link );
 		if ( ! @ftp_chdir( $this->link, $path ) ) { // Can't change to folder = folder doesn't exist.
 			return false;
 		}
-		$list = @ftp_rawlist( $this->link, '-a', false );
+		$list = ftp_rawlist( $this->link, '-a', false );
 		@ftp_chdir( $this->link, $pwd );
 
 		if ( empty( $list ) ) { // Empty array = non-existent folder (real folder will show . at least).

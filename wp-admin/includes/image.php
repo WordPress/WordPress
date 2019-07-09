@@ -163,7 +163,7 @@ function wp_update_image_subsizes( $attachment_id ) {
 function wp_create_image_subsizes( $file, $image_meta, $attachment_id ) {
 	if ( empty( $image_meta ) || ! isset( $image_meta['width'], $image_meta['height'] ) ) {
 		// New uploaded image.
-		$imagesize            = getimagesize( $file );
+		$imagesize            = @getimagesize( $file );
 		$image_meta['width']  = $imagesize[0];
 		$image_meta['height'] = $imagesize[1];
 
@@ -450,7 +450,11 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
  * @return int|float
  */
 function wp_exif_frac2dec( $str ) {
-	@list( $n, $d ) = explode( '/', $str );
+	if ( false === strpos( $str, '/' ) ) {
+		return $str;
+	}
+
+	list( $n, $d ) = explode( '/', $str );
 	if ( ! empty( $d ) ) {
 		return $n / $d;
 	}
@@ -466,8 +470,8 @@ function wp_exif_frac2dec( $str ) {
  * @return int
  */
 function wp_exif_date2ts( $str ) {
-	@list( $date, $time ) = explode( ' ', trim( $str ) );
-	@list( $y, $m, $d )   = explode( ':', $date );
+	list( $date, $time ) = explode( ' ', trim( $str ) );
+	list( $y, $m, $d )   = explode( ':', $date );
 
 	return strtotime( "{$y}-{$m}-{$d} {$time}" );
 }
@@ -863,7 +867,7 @@ function _copy_image_file( $attachment_id ) {
 		 */
 		wp_mkdir_p( dirname( $dst_file ) );
 
-		if ( ! @copy( $src_file, $dst_file ) ) {
+		if ( ! copy( $src_file, $dst_file ) ) {
 			$dst_file = false;
 		}
 	} else {

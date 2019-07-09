@@ -1522,7 +1522,10 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 
 		$switched_locale = switch_to_locale( get_locale() );
 
-		$comment_author_domain = @gethostbyaddr( $comment->comment_author_IP );
+		$comment_author_domain = '';
+		if ( WP_Http::is_ip_address( $comment->comment_author_IP ) ) {
+			$comment_author_domain = gethostbyaddr( $comment->comment_author_IP );
+		}
 
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 		// we want to reverse this for the plain text arena of emails.
@@ -1639,7 +1642,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 		$message_headers = apply_filters( 'comment_notification_headers', $message_headers, $comment->comment_ID );
 
 		foreach ( $emails as $email ) {
-			@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
+			wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 		}
 
 		if ( $switched_locale ) {
@@ -1696,8 +1699,12 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 
 		$switched_locale = switch_to_locale( get_locale() );
 
-		$comment_author_domain = @gethostbyaddr( $comment->comment_author_IP );
-		$comments_waiting      = $wpdb->get_var( "SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'" );
+		$comment_author_domain = '';
+		if ( WP_Http::is_ip_address( $comment->comment_author_IP ) ) {
+			$comment_author_domain = gethostbyaddr( $comment->comment_author_IP );
+		}
+
+		$comments_waiting = $wpdb->get_var( "SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'" );
 
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 		// we want to reverse this for the plain text arena of emails.
@@ -1810,7 +1817,7 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 		$message_headers = apply_filters( 'comment_moderation_headers', $message_headers, $comment_id );
 
 		foreach ( $emails as $email ) {
-			@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
+			wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 		}
 
 		if ( $switched_locale ) {
@@ -1947,7 +1954,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 			 */
 			$wp_new_user_notification_email_admin = apply_filters( 'wp_new_user_notification_email_admin', $wp_new_user_notification_email_admin, $user, $blogname );
 
-			@wp_mail(
+			wp_mail(
 				$wp_new_user_notification_email_admin['to'],
 				wp_specialchars_decode( sprintf( $wp_new_user_notification_email_admin['subject'], $blogname ) ),
 				$wp_new_user_notification_email_admin['message'],

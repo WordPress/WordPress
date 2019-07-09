@@ -492,23 +492,15 @@ class WP {
 		if ( isset( $headers['Last-Modified'] ) && false === $headers['Last-Modified'] ) {
 			unset( $headers['Last-Modified'] );
 
-			// In PHP 5.3+, make sure we are not sending a Last-Modified header.
-			if ( function_exists( 'header_remove' ) ) {
-				@header_remove( 'Last-Modified' );
-			} else {
-				// In PHP 5.2, send an empty Last-Modified header, but only as a
-				// last resort to override a header already sent. #WP23021
-				foreach ( headers_list() as $header ) {
-					if ( 0 === stripos( $header, 'Last-Modified' ) ) {
-						$headers['Last-Modified'] = '';
-						break;
-					}
-				}
+			if ( ! headers_sent() ) {
+				header_remove( 'Last-Modified' );
 			}
 		}
 
-		foreach ( (array) $headers as $name => $field_value ) {
-			@header( "{$name}: {$field_value}" );
+		if ( ! headers_sent() ) {
+			foreach ( (array) $headers as $name => $field_value ) {
+				header( "{$name}: {$field_value}" );
+			}
 		}
 
 		if ( $exit_required ) {
@@ -674,8 +666,8 @@ class WP {
 				}
 
 				// Only set X-Pingback for single posts that allow pings.
-				if ( $p && pings_open( $p ) ) {
-					@header( 'X-Pingback: ' . get_bloginfo( 'pingback_url', 'display' ) );
+				if ( $p && pings_open( $p ) && ! headers_sent() ) {
+					header( 'X-Pingback: ' . get_bloginfo( 'pingback_url', 'display' ) );
 				}
 
 				// check for paged content that exceeds the max number of pages

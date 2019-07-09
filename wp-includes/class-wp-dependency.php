@@ -89,7 +89,7 @@ class _WP_Dependency {
 	 * @since 2.6.0
 	 */
 	public function __construct() {
-		@list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = func_get_args();
+		list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = func_get_args();
 		if ( ! is_array( $this->deps ) ) {
 			$this->deps = array();
 		}

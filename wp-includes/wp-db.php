@@ -1376,7 +1376,7 @@ class wpdb {
 		}
 
 		array_walk( $args, array( $this, 'escape_by_ref' ) );
-		$query = @vsprintf( $query, $args );
+		$query = vsprintf( $query, $args );
 
 		return $this->add_placeholder_escape( $query );
 	}
@@ -1614,6 +1614,7 @@ class wpdb {
 			if ( WP_DEBUG ) {
 				mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
 			} else {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				@mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
 			}
 
@@ -1645,6 +1646,7 @@ class wpdb {
 			if ( WP_DEBUG ) {
 				$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
 			} else {
+				// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 				$this->dbh = @mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
 			}
 		}

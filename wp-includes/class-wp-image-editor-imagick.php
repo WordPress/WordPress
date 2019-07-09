@@ -113,6 +113,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		try {
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 			return ( (bool) @Imagick::queryFormats( $imagick_extension ) );
 		} catch ( Exception $e ) {
 			return false;
@@ -654,7 +655,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		// Set correct file permissions
 		$stat  = stat( dirname( $filename ) );
 		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
-		@ chmod( $filename, $perms );
+		chmod( $filename, $perms );
 
 		/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
 		return array(

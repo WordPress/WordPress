@@ -1493,7 +1493,7 @@ function wp_widget_rss_output( $rss, $args = array() ) {
 			$title = __( 'Untitled' );
 		}
 
-		$desc = @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
+		$desc = html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) );
 		$desc = esc_attr( wp_trim_words( $desc, 55, ' [&hellip;]' ) );
 
 		$summary = '';
