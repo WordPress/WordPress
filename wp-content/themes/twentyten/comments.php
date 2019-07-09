@@ -41,8 +41,8 @@
 					'<em>' . get_the_title() . '</em>'
 				);
 			} else {
-				/* translators: %1$s: The number of comments. %2$s: The post title. */
 				printf(
+					/* translators: %1$s: The number of comments. %2$s: The post title. */
 					_n( '%1$s Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten' ),
 					number_format_i18n( get_comments_number() ),
 					'<em>' . get_the_title() . '</em>'

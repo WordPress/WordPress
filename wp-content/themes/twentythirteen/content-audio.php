@@ -22,9 +22,9 @@
 	<div class="entry-content">
 		<div class="audio-content">
 			<?php
-			/* translators: %s: Name of current post */
 			the_content(
 				sprintf(
+					/* translators: %s: Name of current post */
 					__( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ),
 					the_title( '<span class="screen-reader-text">', '</span>', false )
 				)

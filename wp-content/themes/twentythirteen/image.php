@@ -26,8 +26,9 @@ get_header(); ?>
 
 				<div class="entry-meta">
 					<?php
-						$published_text = __( '<span class="attachment-meta">Published on <time class="entry-date" datetime="%1$s">%2$s</time> in <a href="%3$s" title="Return to %4$s" rel="gallery">%5$s</a></span>', 'twentythirteen' );
-						$post_title     = get_the_title( $post->post_parent );
+					/* translators: 1: date, 2: date, 3, parent permalink, 4, post title, 5: post title */
+					$published_text = __( '<span class="attachment-meta">Published on <time class="entry-date" datetime="%1$s">%2$s</time> in <a href="%3$s" title="Return to %4$s" rel="gallery">%5$s</a></span>', 'twentythirteen' );
+					$post_title     = get_the_title( $post->post_parent );
 					if ( empty( $post_title ) || 0 == $post->post_parent ) {
 						$published_text = '<span class="attachment-meta"><time class="entry-date" datetime="%1$s">%2$s</time></span>';
 					}

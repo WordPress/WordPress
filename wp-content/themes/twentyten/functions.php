@@ -423,7 +423,10 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 		<div id="comment-<?php comment_ID(); ?>">
 			<div class="comment-author vcard">
 				<?php echo get_avatar( $comment, 40 ); ?>
-				<?php printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) ); ?>
+				<?php
+				/* translators: %s: author display name */
+				printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) );
+				?>
 			</div><!-- .comment-author .vcard -->
 				<?php if ( $comment->comment_approved == '0' ) : ?>
 				<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
@@ -588,6 +591,7 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 	 */
 	function twentyten_posted_on() {
 		printf(
+			/* translators: 1: CSS classes, 2: date, 3: author display name */
 			__( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'twentyten' ),
 			'meta-prep meta-prep-author',
 			sprintf(
@@ -599,6 +603,7 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 			sprintf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
 				get_author_posts_url( get_the_author_meta( 'ID' ) ),
+				/* translators: %s: author display name */
 				esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 				get_the_author()
 			)
@@ -616,10 +621,13 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 		// Retrieves tag list of current post, separated by commas.
 		$tag_list = get_the_tag_list( '', ', ' );
 		if ( $tag_list && ! is_wp_error( $tag_list ) ) {
+			/* translators: 1: category name, 2: tag name, 3: post permalink, 4: post title */
 			$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
+			/* translators: 1: category name, 3: post permalink, 4: post title */
 			$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		} else {
+			/* translators: 3: post permalink, 4: post title */
 			$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		}
 		// Prints the string, replacing the placeholders.

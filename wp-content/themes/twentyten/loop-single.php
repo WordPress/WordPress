@@ -54,11 +54,19 @@ if ( have_posts() ) {
 							?>
 							</div><!-- #author-avatar -->
 							<div id="author-description">
-							<h2><?php printf( __( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>
+							<h2>
+							<?php
+							/* translators: %s: author display name */
+							printf( __( 'About %s', 'twentyten' ), get_the_author() );
+							?>
+							</h2>
 							<?php the_author_meta( 'description' ); ?>
 							<div id="author-link">
 								<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
-									<?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyten' ), get_the_author() ); ?>
+									<?php
+									/* translators: %s: author display name */
+									printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyten' ), get_the_author() );
+									?>
 								</a>
 							</div><!-- #author-link	-->
 							</div><!-- #author-description -->

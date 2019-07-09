@@ -27,20 +27,19 @@ get_header(); ?>
 			<header class="page-header">
 				<h1 class="page-title">
 					<?php
-					if ( is_day() ) :
+					if ( is_day() ) {
+						/* translators: %s: date */
 						printf( __( 'Daily Archives: %s', 'twentyfourteen' ), get_the_date() );
-
-						elseif ( is_month() ) :
-							printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
-
-						elseif ( is_year() ) :
-							printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
-
-						else :
-							_e( 'Archives', 'twentyfourteen' );
-
-						endif;
-						?>
+					} elseif ( is_month() ) {
+						/* translators: %s: date */
+						printf( __( 'Monthly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyfourteen' ) ) );
+					} elseif ( is_year() ) {
+						/* translators: %s: date */
+						printf( __( 'Yearly Archives: %s', 'twentyfourteen' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyfourteen' ) ) );
+					} else {
+						_e( 'Archives', 'twentyfourteen' );
+					}
+					?>
 				</h1>
 			</header><!-- .page-header -->
 

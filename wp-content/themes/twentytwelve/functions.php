@@ -308,6 +308,7 @@ function twentytwelve_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
+		/* translators: %s: page number */
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 	}
 
@@ -502,16 +503,19 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 		$author = sprintf(
 			'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+			/* translators: %s: author display name */
 			esc_attr( sprintf( __( 'View all posts by %s', 'twentytwelve' ), get_the_author() ) ),
 			get_the_author()
 		);
 
-		// Translators: 1 is category, 2 is tag, 3 is the date and 4 is the author's name.
 		if ( $tag_list ) {
+			/* translators: 1: category name, 2: tag name, 3: date, 4: author display name */
 			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		} elseif ( $categories_list ) {
+			/* translators: 1: category name, 3: date, 4: author display name */
 			$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		} else {
+			/* translators: 3: date, 4: author display name */
 			$utility_text = __( 'This entry was posted on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		}
 

@@ -28,6 +28,7 @@ get_header(); ?>
 						 */
 						the_post();
 
+						/* translators: %s: author display name */
 						printf( __( 'All posts by %s', 'twentyfourteen' ), get_the_author() );
 					?>
 				</h1>

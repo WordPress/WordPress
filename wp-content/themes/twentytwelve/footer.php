@@ -19,7 +19,10 @@
 			}
 			?>
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'twentytwelve' ) ); ?>" class="imprint" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'twentytwelve' ); ?>">
-				<?php printf( __( 'Proudly powered by %s', 'twentytwelve' ), 'WordPress' ); ?>
+				<?php
+				/* translators: %s: WordPress */
+				printf( __( 'Proudly powered by %s', 'twentytwelve' ), 'WordPress' );
+				?>
 			</a>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->

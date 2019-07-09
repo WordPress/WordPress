@@ -54,8 +54,8 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						}
 
 						printf(
-							/* translators: %s: comment author link */
 							wp_kses(
+								/* translators: %s: comment author link */
 								__( '%s <span class="screen-reader-text says">says:</span>', 'twentynineteen' ),
 								array(
 									'span' => array(

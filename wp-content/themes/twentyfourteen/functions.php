@@ -504,7 +504,10 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 					<?php echo get_the_author_meta( 'description', $contributor_id ); ?>
 				</p>
 				<a class="button contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
-					<?php printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count ); ?>
+					<?php
+					/* translators: %d: post count */
+					printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count );
+					?>
 				</a>
 			</div><!-- .contributor-summary -->
 		</div><!-- .contributor-info -->
@@ -623,6 +626,7 @@ function twentyfourteen_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
+		/* translators: %s: page number */
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyfourteen' ), max( $paged, $page ) );
 	}
 
