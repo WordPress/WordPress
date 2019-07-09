@@ -119,9 +119,10 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					<span class="item-controls">
 						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
 						<span class="item-order hide-if-js">
-							<a href="
 							<?php
-								echo wp_nonce_url(
+							printf(
+								'<a href="%s" class="item-move-up" aria-label="%s">&#8593;</a>',
+								wp_nonce_url(
 									add_query_arg(
 										array(
 											'action'    => 'move-up-menu-item',
@@ -130,13 +131,15 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 										remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) )
 									),
 									'move-menu_item'
-								);
+								),
+								esc_attr__( 'Move up' )
+							);
 							?>
-							" class="item-move-up" aria-label="<?php esc_attr_e( 'Move up' ); ?>">&#8593;</a>
 							|
-							<a href="
 							<?php
-								echo wp_nonce_url(
+							printf(
+								'<a href="%s" class="item-move-down" aria-label="%s">&#8595;</a>',
+								wp_nonce_url(
 									add_query_arg(
 										array(
 											'action'    => 'move-down-menu-item',
@@ -145,15 +148,31 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 										remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) )
 									),
 									'move-menu_item'
-								);
+								),
+								esc_attr__( 'Move down' )
+							);
 							?>
-							" class="item-move-down" aria-label="<?php esc_attr_e( 'Move down' ); ?>">&#8595;</a>
 						</span>
-						<a class="item-edit" id="edit-<?php echo $item_id; ?>" href="
-																	<?php
-																	echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
-																	?>
-						" aria-label="<?php esc_attr_e( 'Edit menu item' ); ?>"><span class="screen-reader-text"><?php _e( 'Edit' ); ?></span></a>
+						<?php
+						if ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) {
+							$edit_url = admin_url( 'nav-menus.php' );
+						} else {
+							$edit_url = add_query_arg(
+								array(
+									'edit-menu-item' => $item_id,
+								),
+								remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) )
+							);
+						}
+
+						printf(
+							'<a class="item-edit" id="edit-%s" href="%s" aria-label="%s"><span class="screen-reader-text">%s</span></a>',
+							$item_id,
+							$edit_url,
+							esc_attr__( 'Edit menu item' ),
+							__( 'Edit' )
+						);
+						?>
 					</span>
 				</div>
 			</div>
@@ -223,32 +242,42 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 							?>
 						</p>
 					<?php endif; ?>
-					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="
-																						<?php
-																						echo wp_nonce_url(
-																							add_query_arg(
-																								array(
-																									'action'    => 'delete-menu-item',
-																									'menu-item' => $item_id,
-																								),
-																								admin_url( 'nav-menus.php' )
-																							),
-																							'delete-menu_item_' . $item_id
-																						);
-																						?>
-					"><?php _e( 'Remove' ); ?></a> <span class="meta-sep hide-if-no-js"> | </span> <a class="item-cancel submitcancel hide-if-no-js" id="cancel-<?php echo $item_id; ?>" href="
+
 					<?php
-					echo esc_url(
-						add_query_arg(
-							array(
-								'edit-menu-item' => $item_id,
-								'cancel'         => time(),
+					printf(
+						'<a class="item-delete submitdelete deletion" id="delete-%s" href="%s">%s</a>',
+						$item_id,
+						wp_nonce_url(
+							add_query_arg(
+								array(
+									'action'    => 'delete-menu-item',
+									'menu-item' => $item_id,
+								),
+								admin_url( 'nav-menus.php' )
 							),
-							admin_url( 'nav-menus.php' )
-						)
+							'delete-menu_item_' . $item_id
+						),
+						__( 'Remove' )
 					);
 					?>
-						#menu-item-settings-<?php echo $item_id; ?>"><?php _e( 'Cancel' ); ?></a>
+					<span class="meta-sep hide-if-no-js"> | </span>
+					<?php
+					printf(
+						'<a class="item-cancel submitcancel hide-if-no-js" id="cancel-%s" href="%s#menu-item-settings-%s">%s</a>',
+						$item_id,
+						esc_url(
+							add_query_arg(
+								array(
+									'edit-menu-item' => $item_id,
+									'cancel'         => time(),
+								),
+								admin_url( 'nav-menus.php' )
+							)
+						),
+						$item_id,
+						__( 'Cancel' )
+					);
+					?>
 				</div>
 
 				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
