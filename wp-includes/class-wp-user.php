@@ -738,15 +738,13 @@ class WP_User {
 	 * @return bool Whether the user has the given capability, or, if an object ID is passed, whether the user has
 	 *              the given capability for that object.
 	 */
-	public function has_cap( $cap ) {
+	public function has_cap( $cap, ...$args ) {
 		if ( is_numeric( $cap ) ) {
 			_deprecated_argument( __FUNCTION__, '2.0.0', __( 'Usage of user levels is deprecated. Use capabilities instead.' ) );
 			$cap = $this->translate_level_to_cap( $cap );
 		}
 
-		$args = array_slice( func_get_args(), 1 );
-		$args = array_merge( array( $cap, $this->ID ), $args );
-		$caps = call_user_func_array( 'map_meta_cap', $args );
+		$caps = map_meta_cap( $cap, $this->ID, ...$args );
 
 		// Multisite super admin has all caps by definition, Unless specifically denied.
 		if ( is_multisite() && is_super_admin( $this->ID ) ) {
@@ -755,6 +753,9 @@ class WP_User {
 			}
 			return true;
 		}
+
+		// Maintain BC for the argument passed to the "user_has_cap" filter.
+		$args = array_merge( array( $cap, $this->ID ), $args );
 
 		/**
 		 * Dynamically filter a user's capabilities.
