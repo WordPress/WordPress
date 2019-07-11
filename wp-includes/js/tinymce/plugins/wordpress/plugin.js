@@ -788,7 +788,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			mceIframe = document.getElementById( editor.id + '_ifr' ),
 			mceToolbar,
 			mceStatusbar,
-			wpStatusbar;
+			wpStatusbar,
+			cachedWinSize;
 
 			if ( container ) {
 				mceToolbar = tinymce.$( '.mce-toolbar-grp', container )[0];
@@ -1104,6 +1105,9 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		} );
 
 		function hide( event ) {
+			var win;
+			var size;
+
 			if ( activeToolbar ) {
 				if ( activeToolbar.tempHide || event.type === 'hide' || event.type === 'blur' ) {
 					activeToolbar.hide();
@@ -1114,6 +1118,34 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					event.type === 'resize' ||
 					event.type === 'scroll'
 				) && ! activeToolbar.blockHide ) {
+					// Showing a tooltip may trigger a `resize` event in Chromium browsers.
+					// That results in a flicketing inline menu; tooltips are shown on hovering over a button,
+					// which then hides the toolbar on `resize`, then it repeats as soon as the toolbar is shown again.
+					if ( event.type === 'resize' || event.type === 'resizewindow' ) {
+						win = editor.getWin();
+						size = win.innerHeight + win.innerWidth;
+
+						// Reset old cached size.
+						if ( cachedWinSize && ( new Date() ).getTime() - cachedWinSize.timestamp > 2000 ) {
+							cachedWinSize = null;
+						}
+
+						if ( cachedWinSize ) {
+							if ( size && Math.abs( size - cachedWinSize.size ) < 2 ) {
+								// `resize` fired but the window hasn't been resized. Bail.
+								return;
+							}
+						} else {
+							// First of a new series of `resize` events. Store the cached size and bail.
+							cachedWinSize = {
+								timestamp: ( new Date() ).getTime(),
+								size: size,
+							};
+
+							return;
+						}
+					}
+
 					clearTimeout( timeout );
 
 					timeout = setTimeout( function() {
@@ -1136,16 +1168,15 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			// This will hide/reposition the toolbar on any scrolling in the document.
 			document.addEventListener( 'scroll', hide, true );
 		} else {
-			editor.dom.bind( editor.getWin(), 'scroll', hide );
-
-			// For full height iframe editor.
+			// Bind to the editor iframe and to the parent window.
+			editor.dom.bind( editor.getWin(), 'resize scroll', hide );
 			editor.on( 'resizewindow scrollwindow', hide );
 		}
 
 		editor.on( 'remove', function() {
 			document.removeEventListener( 'scroll', hide, true );
 			editor.off( 'resizewindow scrollwindow', hide );
-			editor.dom.unbind( editor.getWin(), 'scroll', hide );
+			editor.dom.unbind( editor.getWin(), 'resize scroll', hide );
 		} );
 
 		editor.on( 'blur hide', hide );
