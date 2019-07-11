@@ -1924,15 +1924,13 @@ function wp_update_custom_css_post( $css, $args = array() ) {
  *                                 Defaults to 'editor-style.css'
  */
 function add_editor_style( $stylesheet = 'editor-style.css' ) {
+	global $editor_styles;
+
 	add_theme_support( 'editor-style' );
 
-	if ( ! is_admin() ) {
-		return;
-	}
-
-	global $editor_styles;
 	$editor_styles = (array) $editor_styles;
 	$stylesheet    = (array) $stylesheet;
+
 	if ( is_rtl() ) {
 		$rtl_stylesheet = str_replace( '.css', '-rtl.css', $stylesheet[0] );
 		$stylesheet[]   = $rtl_stylesheet;

@@ -540,18 +540,24 @@ final class _WP_Editors {
 					$settings['wpeditimage_disable_captions'] = true;
 				}
 
-				$mce_css       = $settings['content_css'];
-				$editor_styles = get_editor_stylesheets();
+				$mce_css = $settings['content_css'];
 
-				if ( ! empty( $editor_styles ) ) {
-					// Force urlencoding of commas.
-					foreach ( $editor_styles as $key => $url ) {
-						if ( strpos( $url, ',' ) !== false ) {
-							$editor_styles[ $key ] = str_replace( ',', '%2C', $url );
+				// The `editor-style.css` added by the theme is generally intended for the editor instance on the Edit Post screen.
+				// Plugins that use wp_editor() on the front-end can decide whether to add the theme stylesheet
+				// by using `get_editor_stylesheets()` and the `mce_css` or `tiny_mce_before_init` filters, see below.
+				if ( is_admin() ) {
+					$editor_styles = get_editor_stylesheets();
+
+					if ( ! empty( $editor_styles ) ) {
+						// Force urlencoding of commas.
+						foreach ( $editor_styles as $key => $url ) {
+							if ( strpos( $url, ',' ) !== false ) {
+								$editor_styles[ $key ] = str_replace( ',', '%2C', $url );
+							}
 						}
-					}
 
-					$mce_css .= ',' . implode( ',', $editor_styles );
+						$mce_css .= ',' . implode( ',', $editor_styles );
+					}
 				}
 
 				/**
