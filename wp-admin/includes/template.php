@@ -1122,7 +1122,13 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 			echo '</p>';
 		}
 	} elseif ( $object instanceof WP_Post ) {
-		$edit_url = add_query_arg( 'classic-editor', '', get_edit_post_link( $object ) );
+		$edit_url = add_query_arg(
+			array(
+				'classic-editor'         => '',
+				'classic-editor__forget' => '',
+			),
+			get_edit_post_link( $object )
+		);
 		echo '<p>';
 		/* translators: %s: A link to use the Classic Editor plugin. */
 		printf( __( 'Please open the <a href="%s">classic editor</a> to use this meta box.' ), esc_url( $edit_url ) );
