@@ -444,12 +444,16 @@
 					'<div class="wpview wpview-wrap" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '" contenteditable="false"></div>'
 				);
 
-				editor.$( node ).replaceWith( $viewNode );
+				editor.undoManager.ignore( function() {
+					editor.$( node ).replaceWith( $viewNode );
+				} );
 
 				if ( selected ) {
 					setTimeout( function() {
-						editor.selection.select( $viewNode[0] );
-						editor.selection.collapse();
+						editor.undoManager.ignore( function() {
+							editor.selection.select( $viewNode[0] );
+							editor.selection.collapse();
+						} );
 					} );
 				}
 			} );
@@ -961,8 +965,9 @@
 
 	views.register( 'embedURL', _.extend( {}, embed, {
 		match: function( content ) {
-			var re = /(^|<p>)(https?:\/\/[^\s"]+?)(<\/p>\s*|$)/gi,
-				match = re.exec( content );
+			// There may be a "bookmark" node next to the URL...
+			var re = /(^|<p>(?:<span data-mce-type="bookmark"[^>]+>\s*<\/span>)?)(https?:\/\/[^\s"]+?)((?:<span data-mce-type="bookmark"[^>]+>\s*<\/span>)?<\/p>\s*|$)/gi;
+			var match = re.exec( content );
 
 			if ( match ) {
 				return {
