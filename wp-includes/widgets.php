@@ -458,8 +458,6 @@ function wp_unregister_sidebar_widget( $id ) {
  *
  * @since 2.2.0
  *
- * @todo `$params` parameter?
- *
  * @global array $wp_registered_widget_controls
  * @global array $wp_registered_widget_updates
  * @global array $wp_registered_widgets
@@ -479,7 +477,7 @@ function wp_unregister_sidebar_widget( $id ) {
  * }
  * @param mixed      ...$params        Optional additional parameters to pass to the callback function when it's called.
  */
-function wp_register_widget_control( $id, $name, $control_callback, $options = array() ) {
+function wp_register_widget_control( $id, $name, $control_callback, $options = array(), ...$params ) {
 	global $wp_registered_widget_controls, $wp_registered_widget_updates, $wp_registered_widgets, $_wp_deprecated_widgets_callbacks;
 
 	$id      = strtolower( $id );
@@ -512,7 +510,7 @@ function wp_register_widget_control( $id, $name, $control_callback, $options = a
 		'name'     => $name,
 		'id'       => $id,
 		'callback' => $control_callback,
-		'params'   => array_slice( func_get_args(), 4 ),
+		'params'   => $params,
 	);
 	$widget = array_merge( $widget, $options );
 
@@ -543,7 +541,7 @@ function wp_register_widget_control( $id, $name, $control_callback, $options = a
  *                                  Default empty array.
  * @param mixed    ...$params       Optional additional parameters to pass to the callback function when it's called.
  */
-function _register_widget_update_callback( $id_base, $update_callback, $options = array() ) {
+function _register_widget_update_callback( $id_base, $update_callback, $options = array(), ...$params ) {
 	global $wp_registered_widget_updates;
 
 	if ( isset( $wp_registered_widget_updates[ $id_base ] ) ) {
@@ -555,7 +553,7 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
 
 	$widget = array(
 		'callback' => $update_callback,
-		'params'   => array_slice( func_get_args(), 3 ),
+		'params'   => $params,
 	);
 
 	$widget                                   = array_merge( $widget, $options );
@@ -577,7 +575,7 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
  * @param mixed      ...$params     Optional additional parameters to pass to the callback function when it's called.
  */
 
-function _register_widget_form_callback( $id, $name, $form_callback, $options = array() ) {
+function _register_widget_form_callback( $id, $name, $form_callback, $options = array(), ...$params ) {
 	global $wp_registered_widget_controls;
 
 	$id = strtolower( $id );
@@ -603,7 +601,7 @@ function _register_widget_form_callback( $id, $name, $form_callback, $options = 
 		'name'     => $name,
 		'id'       => $id,
 		'callback' => $form_callback,
-		'params'   => array_slice( func_get_args(), 4 ),
+		'params'   => $params,
 	);
 	$widget = array_merge( $widget, $options );
 
