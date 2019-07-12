@@ -1,5 +1,7 @@
+/* rtl:ignore */
 .wp-color-picker {
 	width: 80px;
+	direction: ltr;
 }
 
 .wp-picker-container .hidden {
