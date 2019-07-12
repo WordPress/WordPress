@@ -1547,15 +1547,14 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
  *
  * @return string
  */
-function walk_page_dropdown_tree() {
-	$args = func_get_args();
+function walk_page_dropdown_tree( ...$args ) {
 	if ( empty( $args[2]['walker'] ) ) { // the user's options are the third parameter
 		$walker = new Walker_PageDropdown;
 	} else {
 		$walker = $args[2]['walker'];
 	}
 
-	return call_user_func_array( array( $walker, 'walk' ), $args );
+	return $walker->walk( ...$args );
 }
 
 //
