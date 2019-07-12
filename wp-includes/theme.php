@@ -2353,13 +2353,11 @@ function get_theme_starter_content() {
  * @param mixed  ...$args Optional extra arguments to pass along with certain features.
  * @return void|bool False on failure, void otherwise.
  */
-function add_theme_support( $feature ) {
+function add_theme_support( $feature, ...$args ) {
 	global $_wp_theme_features;
 
-	if ( func_num_args() == 1 ) {
+	if ( ! $args ) {
 		$args = true;
-	} else {
-		$args = array_slice( func_get_args(), 1 );
 	}
 
 	switch ( $feature ) {
@@ -2665,17 +2663,16 @@ function _custom_logo_header_styles() {
  * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return mixed The array of extra arguments or the value for the registered feature.
  */
-function get_theme_support( $feature ) {
+function get_theme_support( $feature, ...$args ) {
 	global $_wp_theme_features;
 	if ( ! isset( $_wp_theme_features[ $feature ] ) ) {
 		return false;
 	}
 
-	if ( func_num_args() <= 1 ) {
+	if ( ! $args ) {
 		return $_wp_theme_features[ $feature ];
 	}
 
-	$args = array_slice( func_get_args(), 1 );
 	switch ( $feature ) {
 		case 'custom-logo':
 		case 'custom-header':
@@ -2786,7 +2783,7 @@ function _remove_theme_support( $feature ) {
  * @param mixed  ...$args Optional extra arguments to be checked against certain features.
  * @return bool True if the current theme supports the feature, false otherwise.
  */
-function current_theme_supports( $feature ) {
+function current_theme_supports( $feature, ...$args ) {
 	global $_wp_theme_features;
 
 	if ( 'custom-header-uploads' == $feature ) {
@@ -2798,11 +2795,9 @@ function current_theme_supports( $feature ) {
 	}
 
 	// If no args passed then no extra checks need be performed
-	if ( func_num_args() <= 1 ) {
+	if ( ! $args ) {
 		return true;
 	}
-
-	$args = array_slice( func_get_args(), 1 );
 
 	switch ( $feature ) {
 		case 'post-thumbnails':
