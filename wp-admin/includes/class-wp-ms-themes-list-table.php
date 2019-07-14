@@ -303,16 +303,16 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					$text = _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'themes' );
 					break;
 				case 'enabled':
-					$text = _n( 'Enabled <span class="count">(%s)</span>', 'Enabled <span class="count">(%s)</span>', $count );
+					$text = _nx( 'Enabled <span class="count">(%s)</span>', 'Enabled <span class="count">(%s)</span>', $count, 'themes' );
 					break;
 				case 'disabled':
-					$text = _n( 'Disabled <span class="count">(%s)</span>', 'Disabled <span class="count">(%s)</span>', $count );
+					$text = _nx( 'Disabled <span class="count">(%s)</span>', 'Disabled <span class="count">(%s)</span>', $count, 'themes' );
 					break;
 				case 'upgrade':
-					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
+					$text = _nx( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count, 'themes' );
 					break;
 				case 'broken':
-					$text = _n( 'Broken <span class="count">(%s)</span>', 'Broken <span class="count">(%s)</span>', $count );
+					$text = _nx( 'Broken <span class="count">(%s)</span>', 'Broken <span class="count">(%s)</span>', $count, 'themes' );
 					break;
 			}
 
