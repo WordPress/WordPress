@@ -949,7 +949,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( 'author_avatar_urls', $fields, true ) ) {
-			$data['author_avatar_urls'] = rest_get_avatar_urls( $comment->comment_author_email );
+			$data['author_avatar_urls'] = rest_get_avatar_urls( $comment );
 		}
 
 		if ( in_array( 'meta', $fields, true ) ) {

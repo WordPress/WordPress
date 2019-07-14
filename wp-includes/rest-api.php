@@ -1085,21 +1085,22 @@ function rest_is_boolean( $maybe_bool ) {
 }
 
 /**
- * Retrieves the avatar urls in various sizes based on a given email address.
+ * Retrieves the avatar urls in various sizes.
  *
  * @since 4.7.0
  *
  * @see get_avatar_url()
  *
- * @param string $email Email address.
+ * @param mixed $id_or_email The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
+ *                           user email, WP_User object, WP_Post object, or WP_Comment object.
  * @return array $urls Gravatar url for each size.
  */
-function rest_get_avatar_urls( $email ) {
+function rest_get_avatar_urls( $id_or_email ) {
 	$avatar_sizes = rest_get_avatar_sizes();
 
 	$urls = array();
 	foreach ( $avatar_sizes as $size ) {
-		$urls[ $size ] = get_avatar_url( $email, array( 'size' => $size ) );
+		$urls[ $size ] = get_avatar_url( $id_or_email, array( 'size' => $size ) );
 	}
 
 	return $urls;

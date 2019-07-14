@@ -938,7 +938,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( 'avatar_urls', $fields, true ) ) {
-			$data['avatar_urls'] = rest_get_avatar_urls( $user->user_email );
+			$data['avatar_urls'] = rest_get_avatar_urls( $user );
 		}
 
 		if ( in_array( 'meta', $fields, true ) ) {
