@@ -1,0 +1,8 @@
+image: mach4/gitpod-wordpress:master
+ports:
+# Exposed ports:
+## Ask the user to open the port in a browser or preview tab.
+- port: 8080
+  onOpen: notify
+tasks:
+- command: /etc/docker/startup.sh
