@@ -180,6 +180,7 @@ class wpdb {
 	 * @since 1.5.0
 	 * @since 2.5.0 The third element in each query log was added to record the calling functions.
 	 * @since 5.1.0 The fourth element in each query log was added to record the start time.
+	 * @since 5.3.0 The fifth element in each query log was added to record custom data.
 	 *
 	 * @var array[] {
 	 *     Array of queries that were executed.
@@ -191,6 +192,7 @@ class wpdb {
 	 *         @type float  $1 Total time spent on the query, in seconds.
 	 *         @type string $2 Comma separated list of the calling functions.
 	 *         @type float  $3 Unix timestamp of the time at the start of the query.
+	 *         @type array  $4 Custom query data.
 	 *     }
 	 * }
 	 */
@@ -2018,13 +2020,53 @@ class wpdb {
 		$this->num_queries++;
 
 		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
-			$this->queries[] = array(
+			$this->log_query(
 				$query,
 				$this->timer_stop(),
 				$this->get_caller(),
 				$this->time_start,
+				array()
 			);
 		}
+	}
+
+	/**
+	 * Logs query data.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string $query           The query's SQL.
+	 * @param float  $query_time      Total time spent on the query, in seconds.
+	 * @param string $query_callstack Comma separated list of the calling functions.
+	 * @param float  $query_start     Unix timestamp of the time at the start of the query.
+	 * @param array  $query_data      Custom query data.
+	 * }
+	 */
+	public function log_query( $query, $query_time, $query_callstack, $query_start, $query_data ) {
+		/**
+		 * Filters the custom query data being logged.
+		 *
+		 * Caution should be used when modifying any of this data, it is recommended that any additional
+		 * information you need to store about a query be added as a new associative entry to the fourth
+		 * element $query_data.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param array  $query_data      Custom query data.
+		 * @param string $query           The query's SQL.
+		 * @param float  $query_time      Total time spent on the query, in seconds.
+		 * @param string $query_callstack Comma separated list of the calling functions.
+		 * @param float  $query_start     Unix timestamp of the time at the start of the query.
+		 */
+		$query_data = apply_filters( 'log_query_custom_data', $query_data, $query, $query_time, $query_callstack, $query_start );
+
+		$this->queries[] = array(
+			$query,
+			$query_time,
+			$query_callstack,
+			$query_start,
+			$query_data,
+		);
 	}
 
 	/**
