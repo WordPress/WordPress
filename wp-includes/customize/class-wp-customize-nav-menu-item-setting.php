@@ -477,8 +477,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 */
 	public function filter_wp_get_nav_menu_items( $items, $menu, $args ) {
 		$this_item                = $this->value();
-		$current_nav_menu_term_id = $this_item['nav_menu_term_id'];
-		unset( $this_item['nav_menu_term_id'] );
+		$current_nav_menu_term_id = null;
+		if ( isset( $this_item['nav_menu_term_id'] ) ) {
+			$current_nav_menu_term_id = $this_item['nav_menu_term_id'];
+			unset( $this_item['nav_menu_term_id'] );
+		}
 
 		$should_filter = (
 			$menu->term_id === $this->original_nav_menu_term_id
@@ -493,7 +496,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$should_remove = (
 			false === $this_item
 			||
-			true === $this_item['_invalid']
+			( isset( $this_item['_invalid'] ) && true === $this_item['_invalid'] )
 			||
 			(
 				$this->original_nav_menu_term_id === $menu->term_id

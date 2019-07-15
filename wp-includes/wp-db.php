@@ -3113,7 +3113,7 @@ class wpdb {
 			foreach ( $data as $col => $value ) {
 				if ( ! empty( $value['db'] ) ) {
 					// We're going to need to truncate by characters or bytes, depending on the length value we have.
-					if ( 'byte' === $value['length']['type'] ) {
+					if ( isset( $value['length']['type'] ) && 'byte' === $value['length']['type'] ) {
 						// Using binary causes LEFT() to truncate by bytes.
 						$charset = 'binary';
 					} else {

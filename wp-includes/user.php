@@ -2088,7 +2088,10 @@ All at ###SITENAME###
 			$logged_in_cookie = wp_parse_auth_cookie( '', 'logged_in' );
 			/** This filter is documented in wp-includes/pluggable.php */
 			$default_cookie_life = apply_filters( 'auth_cookie_expiration', ( 2 * DAY_IN_SECONDS ), $ID, false );
-			$remember            = ( ( $logged_in_cookie['expiration'] - time() ) > $default_cookie_life );
+			$remember            = false;
+			if ( false !== $logged_in_cookie && ( $logged_in_cookie['expiration'] - time() ) > $default_cookie_life ) {
+				$remember = true;
+			}
 
 			wp_set_auth_cookie( $ID, $remember );
 		}
