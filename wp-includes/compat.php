@@ -221,6 +221,13 @@ if ( ! function_exists( 'hash_hmac' ) ) :
 	/**
 	 * Compat function to mimic hash_hmac().
 	 *
+	 * The Hash extension is bundled with PHP by default since PHP 5.1.2.
+	 * However, the extension may be explicitly disabled on select servers.
+	 * As of PHP 7.4.0, the Hash extension is a core PHP extension and can no
+	 * longer be disabled.
+	 * I.e. when PHP 7.4.0 becomes the minimum requirement, this polyfill
+	 * and the associated `_hash_hmac()` function can be safely removed.
+	 *
 	 * @ignore
 	 * @since 3.2.0
 	 *
@@ -335,9 +342,14 @@ if ( ! function_exists( 'hash_equals' ) ) :
 	 *
 	 * Compares two strings using the same time whether they're equal or not.
 	 *
-	 * This function was added in PHP 5.6.
-	 *
 	 * Note: It can leak the length of a string when arguments of differing length are supplied.
+	 *
+	 * This function was added in PHP 5.6.
+	 * However, the Hash extension may be explicitly disabled on select servers.
+	 * As of PHP 7.4.0, the Hash extension is a core PHP extension and can no
+	 * longer be disabled.
+	 * I.e. when PHP 7.4.0 becomes the minimum requirement, this polyfill
+	 * can be safely removed.
 	 *
 	 * @since 3.9.2
 	 *
