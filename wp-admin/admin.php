@@ -49,22 +49,23 @@ if ( get_option( 'db_upgraded' ) ) {
 	if ( ! is_multisite() ) {
 		wp_redirect( admin_url( 'upgrade.php?_wp_http_referer=' . urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 		exit;
+	}
 
-		/**
-		 * Filters whether to attempt to perform the multisite DB upgrade routine.
-		 *
-		 * In single site, the user would be redirected to wp-admin/upgrade.php.
-		 * In multisite, the DB upgrade routine is automatically fired, but only
-		 * when this filter returns true.
-		 *
-		 * If the network is 50 sites or less, it will run every time. Otherwise,
-		 * it will throttle itself to reduce load.
-		 *
-		 * @since MU (3.0.0)
-		 *
-		 * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
-		 */
-	} elseif ( apply_filters( 'do_mu_upgrade', true ) ) {
+	/**
+	 * Filters whether to attempt to perform the multisite DB upgrade routine.
+	 *
+	 * In single site, the user would be redirected to wp-admin/upgrade.php.
+	 * In multisite, the DB upgrade routine is automatically fired, but only
+	 * when this filter returns true.
+	 *
+	 * If the network is 50 sites or less, it will run every time. Otherwise,
+	 * it will throttle itself to reduce load.
+	 *
+	 * @since MU (3.0.0)
+	 *
+	 * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
+	 */
+	if ( apply_filters( 'do_mu_upgrade', true ) ) {
 		$c = get_blog_count();
 
 		/*
