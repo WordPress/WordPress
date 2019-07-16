@@ -1971,7 +1971,7 @@ final class WP_Customize_Widgets {
 	 */
 	public function capture_filter_pre_update_option( $new_value, $option_name, $old_value ) {
 		if ( $this->is_option_capture_ignored( $option_name ) ) {
-			return;
+			return $new_value;
 		}
 
 		if ( ! isset( $this->_captured_options[ $option_name ] ) ) {
