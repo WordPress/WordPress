@@ -227,6 +227,18 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 	}
 
 	if ( ! empty( $new_sizes ) ) {
+		// Sort the image sub-sizes in order of priority when creating them.
+		// This ensures there is an appropriate sub-size the user can access immediately
+		// even when there was an error and not all sub-sizes were created.
+		$priority = array(
+			'medium'       => null,
+			'large'        => null,
+			'thumbnail'    => null,
+			'medium_large' => null,
+		);
+
+		$new_sizes = array_filter( array_merge( $priority, $new_sizes ) );
+
 		$editor = wp_get_image_editor( $file );
 
 		if ( ! is_wp_error( $editor ) ) {
