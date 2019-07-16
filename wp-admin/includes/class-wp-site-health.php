@@ -277,7 +277,7 @@ class WP_Site_Health {
 	 */
 	public function get_test_plugin_version() {
 		$result = array(
-			'label'       => __( 'Your plugins are up to date' ),
+			'label'       => __( 'Your plugins are all up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
@@ -409,7 +409,7 @@ class WP_Site_Health {
 	 */
 	public function get_test_theme_version() {
 		$result = array(
-			'label'       => __( 'Your themes are up to date' ),
+			'label'       => __( 'Your themes are all up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => __( 'Security' ),
