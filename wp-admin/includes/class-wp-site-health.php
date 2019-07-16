@@ -946,7 +946,7 @@ class WP_Site_Health {
 				'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Localized version of WordPress requirements if one exists. */
 				esc_url( __( 'https://wordpress.org/about/requirements/' ) ),
-				__( 'Read more about what WordPress requires to run.' ),
+				__( 'Learn more about what WordPress requires to run.' ),
 				/* translators: accessibility text */
 				__( '(opens in a new tab)' )
 			),
@@ -1217,7 +1217,7 @@ class WP_Site_Health {
 				'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Documentation explaining debugging in WordPress. */
 				esc_url( __( 'https://wordpress.org/support/article/debugging-in-wordpress/' ) ),
-				__( 'Read about debugging in WordPress.' ),
+				__( 'Learn more about debugging in WordPress.' ),
 				/* translators: accessibility text */
 				__( '(opens in a new tab)' )
 			),
@@ -1286,7 +1286,7 @@ class WP_Site_Health {
 				'<p><a href="%s" target="_blank" rel="noopener noreferrer">%s <span class="screen-reader-text">%s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a></p>',
 				/* translators: Documentation explaining HTTPS and why it should be used. */
 				esc_url( __( 'https://wordpress.org/support/article/why-should-i-use-https/' ) ),
-				__( 'Read more about why you should use HTTPS' ),
+				__( 'Learn more about why you should use HTTPS' ),
 				/* translators: accessibility text */
 				__( '(opens in a new tab)' )
 			),
