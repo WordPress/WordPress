@@ -60,7 +60,7 @@ if ( get_option( 'db_upgraded' ) ) {
 		 * If the network is 50 sites or less, it will run every time. Otherwise,
 		 * it will throttle itself to reduce load.
 		 *
-		 * @since 3.0.0
+		 * @since MU (3.0.0)
 		 *
 		 * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
 		 */
