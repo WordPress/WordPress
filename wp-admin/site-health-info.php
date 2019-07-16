@@ -85,7 +85,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<?php _e( 'This page can show you every detail about the configuration of your WordPress website. If we see anything here that could be improved, we will let you know on the Site Health Status page.' ); ?>
 	</p>
 	<p>
-		<?php _e( 'If you want to export a handy list of all the information on this page, you can use the button below to copy it to the clipboard. You can then paste it in a text file and save it to your harddrive, or paste it in an email exchange with a support engineer or theme/plugin developer for example.' ); ?>
+		<?php _e( 'If you want to export a handy list of all the information on this page, you can use the button below to copy it to the clipboard. You can then paste it in a text file and save it to your device, or paste it in an email exchange with a support engineer or theme/plugin developer for example.' ); ?>
 	</p>
 
 	<div class="site-health-copy-buttons">
