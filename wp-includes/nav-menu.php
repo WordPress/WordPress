@@ -458,7 +458,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	if ( 'custom' === $args['menu-item-type'] ) {
 		// If custom menu item, trim the URL.
-		$args[ 'menu-item-url' ] = trim( $args[ 'menu-item-url' ] );
+		$args['menu-item-url'] = trim( $args['menu-item-url'] );
 	} else {
 		/*
 		 * If non-custom menu item, then:
