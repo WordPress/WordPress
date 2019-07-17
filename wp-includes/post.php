@@ -2639,15 +2639,71 @@ function wp_count_attachments( $mime_type = '' ) {
  * Get default post mime types.
  *
  * @since 2.9.0
+ * @since 5.3.0 Added the 'Documents', 'Spreadsheets', and 'Archives' mime type groups.
  *
  * @return array List of post mime types.
  */
 function get_post_mime_types() {
 	$post_mime_types = array(   //	array( adj, noun )
-		'image' => array( __( 'Images' ), __( 'Manage Images' ), _n_noop( 'Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>' ) ),
-		'audio' => array( __( 'Audio' ), __( 'Manage Audio' ), _n_noop( 'Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>' ) ),
-		'video' => array( __( 'Video' ), __( 'Manage Video' ), _n_noop( 'Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>' ) ),
+		'image' => array(
+			__( 'Images' ),
+			__( 'Manage Images' ),
+			_n_noop( 'Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>' ),
+		),
+		'audio' => array(
+			__( 'Audio' ),
+			__( 'Manage Audio' ),
+			_n_noop( 'Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>' ),
+		),
+		'video' => array(
+			__( 'Video' ),
+			__( 'Manage Video' ),
+			_n_noop( 'Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>' ),
+		),
+		'document' => array(
+			__( 'Documents' ),
+			__( 'Manage Documents' ),
+			_n_noop( 'Document <span class="count">(%s)</span>', 'Documents <span class="count">(%s)</span>' ),
+		),
+		'spreadsheet' => array(
+			__( 'Spreadsheets' ),
+			__( 'Manage Spreadsheets' ),
+			_n_noop( 'Spreadsheet <span class="count">(%s)</span>', 'Spreadsheets <span class="count">(%s)</span>' ),
+		),
+		'archive' => array(
+			__( 'Archives' ),
+			__( 'Manage Archives' ),
+			_n_noop( 'Archive <span class="count">(%s)</span>', 'Archives <span class="count">(%s)</span>' ),
+		),
 	);
+
+	$ext_types  = wp_get_ext_types();
+	$mime_types = wp_get_mime_types();
+
+	foreach ( $post_mime_types as $group => $labels ) {
+		if ( in_array( $group, array( 'image', 'audio', 'video' ) ) ) {
+			continue;
+		}
+
+		if ( ! isset( $ext_types[ $group ] ) ) {
+			unset( $post_mime_types[ $group ] );
+			continue;
+		}
+
+		$group_mime_types = array();
+		foreach ( $ext_types[ $group ] as $extension ) {
+			foreach ( $mime_types as $exts => $mime ) {
+				if ( preg_match( '!^(' . $exts . ')$!i', $extension ) ) {
+					$group_mime_types[] = $mime;
+					break;
+				}
+			}
+		}
+		$group_mime_types = implode( ',', array_unique( $group_mime_types ) );
+
+		$post_mime_types[ $group_mime_types ] = $labels;
+		unset( $post_mime_types[ $group ] );
+	}
 
 	/**
 	 * Filters the default list of post mime types.
