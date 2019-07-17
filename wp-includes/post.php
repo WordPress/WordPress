@@ -2645,22 +2645,22 @@ function wp_count_attachments( $mime_type = '' ) {
  */
 function get_post_mime_types() {
 	$post_mime_types = array(   //	array( adj, noun )
-		'image' => array(
+		'image'       => array(
 			__( 'Images' ),
 			__( 'Manage Images' ),
 			_n_noop( 'Image <span class="count">(%s)</span>', 'Images <span class="count">(%s)</span>' ),
 		),
-		'audio' => array(
+		'audio'       => array(
 			__( 'Audio' ),
 			__( 'Manage Audio' ),
 			_n_noop( 'Audio <span class="count">(%s)</span>', 'Audio <span class="count">(%s)</span>' ),
 		),
-		'video' => array(
+		'video'       => array(
 			__( 'Video' ),
 			__( 'Manage Video' ),
 			_n_noop( 'Video <span class="count">(%s)</span>', 'Video <span class="count">(%s)</span>' ),
 		),
-		'document' => array(
+		'document'    => array(
 			__( 'Documents' ),
 			__( 'Manage Documents' ),
 			_n_noop( 'Document <span class="count">(%s)</span>', 'Documents <span class="count">(%s)</span>' ),
@@ -2670,7 +2670,7 @@ function get_post_mime_types() {
 			__( 'Manage Spreadsheets' ),
 			_n_noop( 'Spreadsheet <span class="count">(%s)</span>', 'Spreadsheets <span class="count">(%s)</span>' ),
 		),
-		'archive' => array(
+		'archive'     => array(
 			__( 'Archives' ),
 			__( 'Manage Archives' ),
 			_n_noop( 'Archive <span class="count">(%s)</span>', 'Archives <span class="count">(%s)</span>' ),
