@@ -341,7 +341,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			'author'   => 'author',
 			'parent'   => 'parent',
 			'comments' => 'comment_count',
-			'date'     => array( 'date', true ),
+			'date'     => array( 'date', false ),
 		);
 	}
 
