@@ -3679,7 +3679,7 @@ function wp_ajax_crop_image() {
 				break;
 			}
 
-			/** This filter is documented in wp-admin/custom-header.php */
+			/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
 			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 			$object  = $wp_site_icon->create_attachment_object( $cropped, $attachment_id );
 			unset( $object['ID'] );
@@ -3707,7 +3707,7 @@ function wp_ajax_crop_image() {
 			 */
 			do_action( 'wp_ajax_crop_image_pre_save', $context, $attachment_id, $cropped );
 
-			/** This filter is documented in wp-admin/custom-header.php */
+			/** This filter is documented in wp-admin/includes/class-custom-image-header.php */
 			$cropped = apply_filters( 'wp_create_file_in_uploads', $cropped, $attachment_id ); // For replication.
 
 			$parent_url = wp_get_attachment_url( $attachment_id );
