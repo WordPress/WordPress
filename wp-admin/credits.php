@@ -59,7 +59,7 @@ if ( ! $credits ) {
 	printf(
 		/* translators: 1: https://wordpress.org/about/, 2: https://make.wordpress.org/ */
 		__( 'WordPress is created by a <a href="%1$s">worldwide team</a> of passionate individuals. <a href="%2$s">Get involved in WordPress</a>.' ),
-		'https://wordpress.org/about/',
+		__( 'https://wordpress.org/about/' ),
 		__( 'https://make.wordpress.org/' )
 	);
 	echo '</p>';

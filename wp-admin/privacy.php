@@ -54,14 +54,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<p>
 		<?php
 		/* translators: %s: https://wordpress.org/about/stats/ */
-		printf( __( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), 'https://wordpress.org/about/stats/' );
+		printf( __( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), __( 'https://wordpress.org/about/stats/' ) );
 		?>
 	</p>
 
 	<p>
 		<?php
 		/* translators: %s: https://wordpress.org/about/privacy/ */
-		printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), 'https://wordpress.org/about/privacy/' );
+		printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), __( 'https://wordpress.org/about/privacy/' ) );
 		?>
 	</p>
 </div>
