@@ -1109,8 +1109,11 @@ function do_block_editor_incompatible_meta_box( $object, $box ) {
 	if ( empty( $plugins['classic-editor/classic-editor.php'] ) ) {
 		if ( current_user_can( 'install_plugins' ) ) {
 			echo '<p>';
-			/* translators: %s: A link to install the Classic Editor plugin. */
-			printf( __( 'Please install the <a href="%s">Classic Editor plugin</a> to use this meta box.' ), esc_url( self_admin_url( 'plugin-install.php?tab=featured' ) ) );
+			printf(
+				/* translators: %s: A link to install the Classic Editor plugin. */
+				__( 'Please install the <a href="%s">Classic Editor plugin</a> to use this meta box.' ),
+				esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) )
+			);
 			echo '</p>';
 		}
 	} elseif ( is_plugin_inactive( 'classic-editor/classic-editor.php' ) ) {

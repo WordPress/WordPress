@@ -415,9 +415,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<p>
 				<?php
 					$message = sprintf(
-						/* translators: %s: Classic Editor plugin URL */
+						/* translators: %s: A link to install the Classic Editor plugin. */
 						__( 'The block editor requires JavaScript. Please enable JavaScript in your browser settings, or try the <a href="%s">Classic Editor plugin</a>.' ),
-						__( 'https://wordpress.org/plugins/classic-editor/' )
+						esc_url( wp_nonce_url( self_admin_url( 'plugin-install.php?tab=favorites&user=wordpressdotorg&save=0' ), 'save_wporg_username_' . get_current_user_id() ) )
 					);
 
 					/**
