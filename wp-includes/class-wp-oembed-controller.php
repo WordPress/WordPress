@@ -194,7 +194,7 @@ final class WP_oEmbed_Controller {
 			return new WP_Error( 'oembed_invalid_url', get_status_header_desc( 404 ), array( 'status' => 404 ) );
 		}
 
-		/** This filter is documented in wp-includes/class-oembed.php */
+		/** This filter is documented in wp-includes/class-wp-oembed.php */
 		$data->html = apply_filters( 'oembed_result', _wp_oembed_get_object()->data2html( (object) $data, $url ), $url, $args );
 
 		/**
