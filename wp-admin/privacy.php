@@ -19,8 +19,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1>
 	<?php
-	/* translators: %s: The current WordPress version number */
-	printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version );
+	printf(
+		/* translators: %s: The current WordPress version number */
+		__( 'Welcome to WordPress&nbsp;%s' ),
+		$display_version
+	);
 	?>
 </h1>
 
@@ -36,8 +39,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wp-badge">
 	<?php
-	/* translators: %s: The current WordPress version number */
-	printf( __( 'Version %s' ), $display_version );
+	printf(
+		/* translators: %s: The current WordPress version number */
+		__( 'Version %s' ),
+		$display_version
+	);
 	?>
 </div>
 
@@ -53,15 +59,21 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<p>
 		<?php
-		/* translators: %s: https://wordpress.org/about/stats/ */
-		printf( __( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ), __( 'https://wordpress.org/about/stats/' ) );
+		printf(
+			/* translators: %s: https://wordpress.org/about/stats/ */
+			__( 'This data is used to provide general enhancements to WordPress, which includes helping to protect your site by finding and automatically installing new updates. It is also used to calculate statistics, such as those shown on the <a href="%s">WordPress.org stats page</a>.' ),
+			__( 'https://wordpress.org/about/stats/' )
+		);
 		?>
 	</p>
 
 	<p>
 		<?php
-		/* translators: %s: https://wordpress.org/about/privacy/ */
-		printf( __( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ), __( 'https://wordpress.org/about/privacy/' ) );
+		printf(
+			/* translators: %s: https://wordpress.org/about/privacy/ */
+			__( 'We take privacy and transparency very seriously. To learn more about what data we collect, and how we use it, please visit <a href="%s">WordPress.org/about/privacy</a>.' ),
+			__( 'https://wordpress.org/about/privacy/' )
+		);
 		?>
 	</p>
 </div>

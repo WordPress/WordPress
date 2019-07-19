@@ -26,8 +26,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1>
 	<?php
-	/* translators: %s: The current WordPress version number */
-	printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version );
+	printf(
+		/* translators: %s: The current WordPress version number */
+		__( 'Welcome to WordPress&nbsp;%s' ),
+		$display_version
+	);
 	?>
 </h1>
 
@@ -43,8 +46,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wp-badge">
 	<?php
-	/* translators: %s: The current WordPress version number */
-	printf( __( 'Version %s' ), $display_version );
+	printf(
+		/* translators: %s: The current WordPress version number */
+		__( 'Version %s' ),
+		$display_version
+	);
 	?>
 </div>
 
@@ -60,8 +66,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<h2><?php _e( 'Freedoms' ); ?></h2>
 		<p class="about-description">
 		<?php
+		printf(
 			/* translators: %s: https://wordpress.org/about/license/ */
-			printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), __( 'https://wordpress.org/about/license/' ) );
+			__( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ),
+			__( 'https://wordpress.org/about/license/' )
+		);
 		?>
 		</p>
 	</div>
@@ -92,17 +101,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="feature-section has-1-columns">
 		<p>
 		<?php
+		printf(
 			/* translators: %s: https://wordpressfoundation.org/trademark-policy/ */
-			printf( __( 'WordPress grows when people like you tell their friends about it, and the thousands of businesses and services that are built on and around WordPress share that fact with their users. We&#8217;re flattered every time someone spreads the good word, just make sure to <a href="%s">check out our trademark guidelines</a> first.' ), 'https://wordpressfoundation.org/trademark-policy/' );
+			__( 'WordPress grows when people like you tell their friends about it, and the thousands of businesses and services that are built on and around WordPress share that fact with their users. We&#8217;re flattered every time someone spreads the good word, just make sure to <a href="%s">check out our trademark guidelines</a> first.' ),
+			'https://wordpressfoundation.org/trademark-policy/'
+		);
 		?>
 		</p>
 
 		<p>
 		<?php
-			$plugins_url = current_user_can( 'activate_plugins' ) ? admin_url( 'plugins.php' ) : __( 'https://wordpress.org/plugins/' );
-			$themes_url  = current_user_can( 'switch_themes' ) ? admin_url( 'themes.php' ) : __( 'https://wordpress.org/themes/' );
+		$plugins_url = current_user_can( 'activate_plugins' ) ? admin_url( 'plugins.php' ) : __( 'https://wordpress.org/plugins/' );
+		$themes_url  = current_user_can( 'switch_themes' ) ? admin_url( 'themes.php' ) : __( 'https://wordpress.org/themes/' );
+		printf(
 			/* translators: %s: https://wordpress.org/about/license/ */
-			printf( __( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they don&#8217;t respect the WordPress license, we don&#8217;t recommend them.' ), $plugins_url, $themes_url, __( 'https://wordpress.org/about/license/' ) );
+			__( 'Every plugin and theme in WordPress.org&#8217;s directory is 100%% GPL or a similarly free and compatible license, so you can feel safe finding <a href="%1$s">plugins</a> and <a href="%2$s">themes</a> there. If you get a plugin or theme from another source, make sure to <a href="%3$s">ask them if it&#8217;s GPL</a> first. If they don&#8217;t respect the WordPress license, we don&#8217;t recommend them.' ),
+			$plugins_url,
+			$themes_url,
+			__( 'https://wordpress.org/about/license/' )
+		);
 		?>
 		</p>
 
