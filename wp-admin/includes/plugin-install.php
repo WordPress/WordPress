@@ -752,7 +752,7 @@ function install_plugin_information() {
 			<?php } ?>
 				<?php } ?>
 	</div>
-	<div id="section-holder" class="wrap">
+	<div id="section-holder">
 	<?php
 	$requires_php = isset( $api->requires_php ) ? $api->requires_php : null;
 	$requires_wp  = isset( $api->requires ) ? $api->requires : null;

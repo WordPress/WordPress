@@ -2656,10 +2656,15 @@ div.action-links {
 	right: 250px;
 	bottom: 0;
 	left: 0;
+	margin-top: 10px;
 	margin-right: 250px; /* FYI box */
 	padding: 10px 26px;
 	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
 	padding-bottom: 99999px; /* equal height column trick */
+}
+
+#section-holder .notice {
+	margin: 5px 0 15px;
 }
 
 #section-holder .updated {
