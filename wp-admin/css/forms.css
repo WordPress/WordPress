@@ -464,7 +464,7 @@ fieldset label,
 	background-color: #eee;
 	border: 1px solid #ddd;
 	color: #23282d;
-	margin: -1px 0 5px;
+	margin: -1px 1px 5px;
 	padding: 3px 5px;
 	text-align: center;
 	width: 25em;
@@ -522,7 +522,7 @@ fieldset label,
 
 .wp-pwd [type="text"],
 .wp-pwd [type="password"] {
-	margin: 0;
+	margin-bottom: 0;
 	/* Same height as the buttons */
 	line-height: 20px;
 	min-height: 28px;
@@ -540,10 +540,6 @@ fieldset label,
 
 .show-password #pass1-text {
 	display: inline-block;
-}
-
-.form-table span.description.important {
-	font-size: 12px;
 }
 
 p.search-box {
