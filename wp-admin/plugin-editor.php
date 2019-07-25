@@ -280,7 +280,15 @@ foreach ( $plugins as $plugin_key => $a_plugin ) {
 		<span class="spinner"></span>
 	</p>
 <?php else : ?>
-	<p><em><?php _e( 'You need to make this file writable before you can save your changes. See <a href="https://codex.wordpress.org/Changing_File_Permissions">the Codex</a> for more information.' ); ?></em></p>
+	<p><em>
+		<?php
+		printf(
+			/* translators: %s: Documentation URL */
+			__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
+			__( 'https://wordpress.org/support/article/changing-file-permissions/' )
+		);
+		?>
+	</em></p>
 <?php endif; ?>
 <?php wp_print_file_editor_templates(); ?>
 </form>
