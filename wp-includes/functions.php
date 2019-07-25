@@ -4789,7 +4789,7 @@ function _doing_it_wrong( $function, $message, $version ) {
 				/* translators: %s: version number */
 				$version = sprintf( __( '(This message was added in version %s.)' ), $version );
 			}
-			/* translators: %s: Codex URL */
+			/* translators: %s: Documentation URL */
 			$message .= ' ' . sprintf(
 				__( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ),
 				__( 'https://wordpress.org/support/article/debugging-in-wordpress/' )

@@ -489,7 +489,7 @@ function ms_not_installed( $domain, $path ) {
 		) . '</p>';
 	}
 	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
-	/* translators: %s: Codex URL */
+	/* translators: %s: Documentation URL */
 	$msg .= sprintf(
 		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
 		__( 'https://wordpress.org/support/article/debugging-a-wordpress-network/' )

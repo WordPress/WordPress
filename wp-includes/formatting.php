@@ -4691,7 +4691,7 @@ function sanitize_option( $option, $value ) {
 
 			if ( 'permalink_structure' === $option && '' !== $value && ! preg_match( '/%[^\/%]+%/', $value ) ) {
 				$error = sprintf(
-					/* translators: %s: Codex URL */
+					/* translators: %s: Documentation URL */
 					__( 'A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>' ),
 					__( 'https://wordpress.org/support/article/using-permalinks/#choosing-your-permalink-structure' )
 				);

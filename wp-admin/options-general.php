@@ -95,7 +95,7 @@ if ( ! is_multisite() ) {
 <p class="description" id="home-description">
 		<?php
 		printf(
-			/* translators: %s: Codex URL */
+			/* translators: %s: Documentation URL */
 			__( 'Enter the address here if you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
 			__( 'https://wordpress.org/support/article/giving-wordpress-its-own-directory/' )
 		);
