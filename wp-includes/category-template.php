@@ -365,9 +365,10 @@ function wp_dropdown_categories( $args = '' ) {
 		$args['taxonomy'] = 'link_category';
 	}
 
-	// Parse incoming $args into an array and merge it with $defaults
-	$parsed_args       = wp_parse_args( $args, $defaults );
-	$option_none_value = $args['option_none_value'];
+	// Parse incoming $args into an array and merge it with $defaults.
+	$parsed_args = wp_parse_args( $args, $defaults );
+
+	$option_none_value = $parsed_args['option_none_value'];
 
 	if ( ! isset( $parsed_args['pad_counts'] ) && $parsed_args['show_count'] && $parsed_args['hierarchical'] ) {
 		$parsed_args['pad_counts'] = true;
