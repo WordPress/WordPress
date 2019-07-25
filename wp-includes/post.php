@@ -2213,15 +2213,17 @@ function is_sticky( $post_id = 0 ) {
 
 	$stickies = get_option( 'sticky_posts' );
 
-	if ( ! is_array( $stickies ) ) {
-		return false;
-	}
+	$is_sticky = is_array( $stickies ) && in_array( $post_id, $stickies );
 
-	if ( in_array( $post_id, $stickies ) ) {
-		return true;
-	}
-
-	return false;
+	/**
+	 * Filters whether a post is sticky.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param bool $is_sticky Whether a post is sticky.
+	 * @param int  $post_id   Post ID.
+	 */
+	return apply_filters( 'is_sticky', $is_sticky, $post_id );
 }
 
 /**
