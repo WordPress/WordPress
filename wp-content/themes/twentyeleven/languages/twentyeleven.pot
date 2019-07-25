@@ -485,7 +485,7 @@ msgid "For more information:"
 msgstr ""
 
 #: inc/theme-options.php:121
-msgid "<a href=\"https://codex.wordpress.org/Appearance_Theme_Options_Screen\" target=\"_blank\">Documentation on Theme Options</a>"
+msgid "<a href=\"https://wordpress.org/support/article/appearance-customize-screen/\" target=\"_blank\">Documentation on Theme Options</a>"
 msgstr ""
 
 #: inc/theme-options.php:122

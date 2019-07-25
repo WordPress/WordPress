@@ -11,14 +11,14 @@
  * functions.php file. The child theme's functions.php file is included before
  * the parent theme's file, so the child theme functions would be used.
  *
- * @link https://codex.wordpress.org/Theme_Development
+ * @link https://developer.wordpress.org/themes/basics/theme-functions/
  * @link https://developer.wordpress.org/themes/advanced-topics/child-themes/
  *
  * Functions that are not pluggable (not wrapped in function_exists()) are
  * instead attached to a filter or action hook.
  *
  * For more information on hooks, actions, and filters,
- * {@link https://codex.wordpress.org/Plugin_API}
+ * {@link https://developer.wordpress.org/plugins/}
  *
  * @package WordPress
  * @subpackage Twenty_Fifteen
@@ -106,7 +106,7 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 		/*
 		 * Enable support for Post Formats.
 		 *
-		 * See: https://codex.wordpress.org/Post_Formats
+		 * See: https://wordpress.org/support/article/post-formats/
 		 */
 		add_theme_support(
 			'post-formats',
@@ -258,7 +258,7 @@ add_action( 'after_setup_theme', 'twentyfifteen_setup' );
  *
  * @since Twenty Fifteen 1.0
  *
- * @link https://codex.wordpress.org/Function_Reference/register_sidebar
+ * @link https://developer.wordpress.org/reference/functions/register_sidebar/
  */
 function twentyfifteen_widgets_init() {
 	register_sidebar(

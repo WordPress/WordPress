@@ -83,7 +83,7 @@ function twentyseventeen_setup() {
 	/*
 	 * Enable support for Post Formats.
 	 *
-	 * See: https://codex.wordpress.org/Post_Formats
+	 * See: https://wordpress.org/support/article/post-formats/
 	 */
 	add_theme_support(
 		'post-formats',
