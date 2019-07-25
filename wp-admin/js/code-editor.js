@@ -324,7 +324,7 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 						' ' === event.key && /:\s+$/.test( lineBeforeCursor );
 				} else if ( 'javascript' === innerMode ) {
 					shouldAutocomplete = isAlphaKey || '.' === event.key;
-				} else if ( 'clike' === innerMode && 'application/x-httpd-php' === codemirror.options.mode ) {
+				} else if ( 'clike' === innerMode && 'php' === codemirror.options.mode ) {
 					shouldAutocomplete = 'keyword' === token.type || 'variable' === token.type;
 				}
 				if ( shouldAutocomplete ) {
