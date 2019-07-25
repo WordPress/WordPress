@@ -24,7 +24,7 @@
  * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see 'pre_schedule_event'} filter added to short-circuit the function.
  *
- * @link https://codex.wordpress.org/Function_Reference/wp_schedule_single_event
+ * @link https://developer.wordpress.org/reference/functions/wp_schedule_single_event/
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
  * @param string $hook       Action hook to execute when the event is run.
@@ -177,7 +177,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array() ) {
  * @since 5.1.0 Return value modified to boolean indicating success or failure,
  *              {@see 'pre_schedule_event'} filter added to short-circuit the function.
  *
- * @link https://codex.wordpress.org/Function_Reference/wp_schedule_event
+ * @link https://developer.wordpress.org/reference/functions/wp_schedule_event/
  *
  * @param int    $timestamp  Unix timestamp (UTC) for when to next run the event.
  * @param string $recurrence How often the event should subsequently recur. See wp_get_schedules() for accepted values.

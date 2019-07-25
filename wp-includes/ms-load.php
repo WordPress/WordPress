@@ -492,7 +492,7 @@ function ms_not_installed( $domain, $path ) {
 	/* translators: %s: Codex URL */
 	$msg .= sprintf(
 		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
-		__( 'https://codex.wordpress.org/Debugging_a_WordPress_Network' )
+		__( 'https://wordpress.org/support/article/debugging-a-wordpress-network/' )
 	);
 	$msg .= ' ' . __( 'If you&#8217;re still stuck with this message, then check that your database contains the following tables:' ) . '</p><ul>';
 	foreach ( $wpdb->tables( 'global' ) as $t => $table ) {

@@ -807,7 +807,7 @@ function add_user_meta( $user_id, $meta_key, $meta_value, $unique = false ) {
  * allows removing all metadata matching key, if needed.
  *
  * @since 3.0.0
- * @link https://codex.wordpress.org/Function_Reference/delete_user_meta
+ * @link https://developer.wordpress.org/reference/functions/delete_user_meta/
  *
  * @param int    $user_id    User ID
  * @param string $meta_key   Metadata name.
@@ -822,7 +822,7 @@ function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
  * Retrieve user meta field for a user.
  *
  * @since 3.0.0
- * @link https://codex.wordpress.org/Function_Reference/get_user_meta
+ * @link https://developer.wordpress.org/reference/functions/get_user_meta/
  *
  * @param int    $user_id User ID.
  * @param string $key     Optional. The meta key to retrieve. By default, returns data for all keys.
@@ -842,7 +842,7 @@ function get_user_meta( $user_id, $key = '', $single = false ) {
  * If the meta field for the user does not exist, it will be added.
  *
  * @since 3.0.0
- * @link https://codex.wordpress.org/Function_Reference/update_user_meta
+ * @link https://developer.wordpress.org/reference/functions/update_user_meta/
  *
  * @param int    $user_id    User ID.
  * @param string $meta_key   Metadata key.

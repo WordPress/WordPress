@@ -4,8 +4,8 @@
  *
  * Used internally by the WP_Embed class, but is designed to be generic.
  *
- * @link https://codex.wordpress.org/oEmbed oEmbed Codex Article
- * @link http://oembed.com/ oEmbed Homepage
+ * @link https://wordpress.org/support/article/embeds/
+ * @link http://oembed.com/
  *
  * @package WordPress
  * @subpackage oEmbed

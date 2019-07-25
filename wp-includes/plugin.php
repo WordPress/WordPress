@@ -11,7 +11,7 @@
  * {@link https://secure.php.net/manual/en/language.pseudo-types.php#language.types.callback 'callback'}
  * type are valid.
  *
- * Also see the {@link https://codex.wordpress.org/Plugin_API Plugin API} for
+ * Also see the {@link https://developer.wordpress.org/plugins/ Plugin API} for
  * more information and examples on how to use a lot of these functions.
  *
  * This file should have no external dependencies.

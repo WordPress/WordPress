@@ -23,7 +23,7 @@
  *
  *     $out = do_shortcode( $content );
  *
- * @link https://codex.wordpress.org/Shortcode_API
+ * @link https://developer.wordpress.org/plugins/shortcodes/
  *
  * @package WordPress
  * @subpackage Shortcodes

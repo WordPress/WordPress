@@ -434,7 +434,7 @@ function get_comment_count( $post_id = 0 ) {
  * Add meta data field to a comment.
  *
  * @since 2.9.0
- * @link https://codex.wordpress.org/Function_Reference/add_comment_meta
+ * @link https://developer.wordpress.org/reference/functions/add_comment_meta/
  *
  * @param int $comment_id Comment ID.
  * @param string $meta_key Metadata name.
@@ -454,7 +454,7 @@ function add_comment_meta( $comment_id, $meta_key, $meta_value, $unique = false 
  * allows removing all metadata matching key, if needed.
  *
  * @since 2.9.0
- * @link https://codex.wordpress.org/Function_Reference/delete_comment_meta
+ * @link https://developer.wordpress.org/reference/functions/delete_comment_meta/
  *
  * @param int $comment_id comment ID
  * @param string $meta_key Metadata name.
@@ -469,7 +469,7 @@ function delete_comment_meta( $comment_id, $meta_key, $meta_value = '' ) {
  * Retrieve comment meta field for a comment.
  *
  * @since 2.9.0
- * @link https://codex.wordpress.org/Function_Reference/get_comment_meta
+ * @link https://developer.wordpress.org/reference/functions/get_comment_meta/
  *
  * @param int $comment_id Comment ID.
  * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
@@ -490,7 +490,7 @@ function get_comment_meta( $comment_id, $key = '', $single = false ) {
  * If the meta field for the comment does not exist, it will be added.
  *
  * @since 2.9.0
- * @link https://codex.wordpress.org/Function_Reference/update_comment_meta
+ * @link https://developer.wordpress.org/reference/functions/update_comment_meta/
  *
  * @param int $comment_id Comment ID.
  * @param string $meta_key Metadata key.

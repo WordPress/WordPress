@@ -48,8 +48,8 @@ get_current_screen()->add_help_tab(
 
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
-	'<p>' . __( '<a href="https://codex.wordpress.org/Settings_Permalinks_Screen">Documentation on Permalinks Settings</a>' ) . '</p>' .
-	'<p>' . __( '<a href="https://codex.wordpress.org/Using_Permalinks">Documentation on Using Permalinks</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/article/settings-permalinks-screen/">Documentation on Permalinks Settings</a>' ) . '</p>' .
+	'<p>' . __( '<a href="https://wordpress.org/support/article/using-permalinks/">Documentation on Using Permalinks</a>' ) . '</p>' .
 	'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 );
 
@@ -175,7 +175,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 		printf(
 			/* translators: %s: Codex URL */
 			__( 'WordPress offers you the ability to create a custom URL structure for your permalinks and archives. Custom URL structures can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="%s">number of tags are available</a>, and here are some examples to get you started.' ),
-			__( 'https://codex.wordpress.org/Using_Permalinks' )
+			__( 'https://wordpress.org/support/article/using-permalinks/' )
 		);
 		?>
 	</p>
@@ -376,7 +376,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 		<?php endif; ?>
 	<?php endif; ?>
 <?php elseif ( $is_nginx ) : ?>
-	<p><?php _e( '<a href="https://codex.wordpress.org/Nginx">Documentation on Nginx configuration</a>.' ); ?></p>
+	<p><?php _e( '<a href="https://wordpress.org/support/article/nginx/">Documentation on Nginx configuration</a>.' ); ?></p>
 	<?php
 else :
 	if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) :
