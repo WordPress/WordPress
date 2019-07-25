@@ -100,33 +100,33 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	 */
 	$params = apply_filters( 'wp_terms_checklist_args', $args, $post_id );
 
-	$r = wp_parse_args( $params, $defaults );
+	$parsed_args = wp_parse_args( $params, $defaults );
 
-	if ( empty( $r['walker'] ) || ! ( $r['walker'] instanceof Walker ) ) {
+	if ( empty( $parsed_args['walker'] ) || ! ( $parsed_args['walker'] instanceof Walker ) ) {
 		$walker = new Walker_Category_Checklist;
 	} else {
-		$walker = $r['walker'];
+		$walker = $parsed_args['walker'];
 	}
 
-	$taxonomy             = $r['taxonomy'];
-	$descendants_and_self = (int) $r['descendants_and_self'];
+	$taxonomy             = $parsed_args['taxonomy'];
+	$descendants_and_self = (int) $parsed_args['descendants_and_self'];
 
 	$args = array( 'taxonomy' => $taxonomy );
 
 	$tax              = get_taxonomy( $taxonomy );
 	$args['disabled'] = ! current_user_can( $tax->cap->assign_terms );
 
-	$args['list_only'] = ! empty( $r['list_only'] );
+	$args['list_only'] = ! empty( $parsed_args['list_only'] );
 
-	if ( is_array( $r['selected_cats'] ) ) {
-		$args['selected_cats'] = $r['selected_cats'];
+	if ( is_array( $parsed_args['selected_cats'] ) ) {
+		$args['selected_cats'] = $parsed_args['selected_cats'];
 	} elseif ( $post_id ) {
 		$args['selected_cats'] = wp_get_object_terms( $post_id, $taxonomy, array_merge( $args, array( 'fields' => 'ids' ) ) );
 	} else {
 		$args['selected_cats'] = array();
 	}
-	if ( is_array( $r['popular_cats'] ) ) {
-		$args['popular_cats'] = $r['popular_cats'];
+	if ( is_array( $parsed_args['popular_cats'] ) ) {
+		$args['popular_cats'] = $parsed_args['popular_cats'];
 	} else {
 		$args['popular_cats'] = get_terms(
 			$taxonomy,
@@ -156,7 +156,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 
 	$output = '';
 
-	if ( $r['checked_ontop'] ) {
+	if ( $parsed_args['checked_ontop'] ) {
 		// Post process $categories rather than adding an exclude to the get_terms() query to keep the query the same across all posts (for any query cache)
 		$checked_categories = array();
 		$keys               = array_keys( $categories );
@@ -174,7 +174,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	// Then the rest of them
 	$output .= call_user_func_array( array( $walker, 'walk' ), array( $categories, 0, $args ) );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $output;
 	}
 
@@ -2441,19 +2441,19 @@ function _local_storage_notice() {
  * @return string Star rating HTML.
  */
 function wp_star_rating( $args = array() ) {
-	$defaults = array(
+	$defaults    = array(
 		'rating' => 0,
 		'type'   => 'rating',
 		'number' => 0,
 		'echo'   => true,
 	);
-	$r        = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
 	// Non-English decimal places when the $rating is coming from a string
-	$rating = (float) str_replace( ',', '.', $r['rating'] );
+	$rating = (float) str_replace( ',', '.', $parsed_args['rating'] );
 
 	// Convert Percentage to star rating, 0..5 in .5 increments
-	if ( 'percent' === $r['type'] ) {
+	if ( 'percent' === $parsed_args['type'] ) {
 		$rating = round( $rating / 10, 0 ) / 2;
 	}
 
@@ -2462,10 +2462,10 @@ function wp_star_rating( $args = array() ) {
 	$half_stars  = ceil( $rating - $full_stars );
 	$empty_stars = 5 - $full_stars - $half_stars;
 
-	if ( $r['number'] ) {
+	if ( $parsed_args['number'] ) {
 		/* translators: 1: the rating, 2: the number of ratings */
-		$format = _n( '%1$s rating based on %2$s rating', '%1$s rating based on %2$s ratings', $r['number'] );
-		$title  = sprintf( $format, number_format_i18n( $rating, 1 ), number_format_i18n( $r['number'] ) );
+		$format = _n( '%1$s rating based on %2$s rating', '%1$s rating based on %2$s ratings', $parsed_args['number'] );
+		$title  = sprintf( $format, number_format_i18n( $rating, 1 ), number_format_i18n( $parsed_args['number'] ) );
 	} else {
 		/* translators: %s: the rating */
 		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
@@ -2478,7 +2478,7 @@ function wp_star_rating( $args = array() ) {
 	$output .= str_repeat( '<div class="star star-empty" aria-hidden="true"></div>', $empty_stars );
 	$output .= '</div>';
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $output;
 	}
 

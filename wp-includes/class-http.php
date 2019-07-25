@@ -220,20 +220,20 @@ class WP_Http {
 			$defaults['redirection'] = 0;
 		}
 
-		$r = wp_parse_args( $args, $defaults );
+		$parsed_args = wp_parse_args( $args, $defaults );
 		/**
 		 * Filters the arguments used in an HTTP request.
 		 *
 		 * @since 2.7.0
 		 *
-		 * @param array  $r   An array of HTTP request arguments.
+		 * @param array  $parsed_args   An array of HTTP request arguments.
 		 * @param string $url The request URL.
 		 */
-		$r = apply_filters( 'http_request_args', $r, $url );
+		$parsed_args = apply_filters( 'http_request_args', $parsed_args, $url );
 
 		// The transports decrement this, store a copy of the original value for loop purposes.
-		if ( ! isset( $r['_redirection'] ) ) {
-			$r['_redirection'] = $r['redirection'];
+		if ( ! isset( $parsed_args['_redirection'] ) ) {
+			$parsed_args['_redirection'] = $parsed_args['redirection'];
 		}
 
 		/**
@@ -251,17 +251,17 @@ class WP_Http {
 		 * @since 2.9.0
 		 *
 		 * @param false|array|WP_Error $preempt Whether to preempt an HTTP request's return value. Default false.
-		 * @param array               $r        HTTP request arguments.
+		 * @param array               $parsed_args        HTTP request arguments.
 		 * @param string              $url      The request URL.
 		 */
-		$pre = apply_filters( 'pre_http_request', false, $r, $url );
+		$pre = apply_filters( 'pre_http_request', false, $parsed_args, $url );
 
 		if ( false !== $pre ) {
 			return $pre;
 		}
 
 		if ( function_exists( 'wp_kses_bad_protocol' ) ) {
-			if ( $r['reject_unsafe_urls'] ) {
+			if ( $parsed_args['reject_unsafe_urls'] ) {
 				$url = wp_http_validate_url( $url );
 			}
 			if ( $url ) {
@@ -274,88 +274,88 @@ class WP_Http {
 		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
 			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
 			/** This action is documented in wp-includes/class-http.php */
-			do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+			do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
 			return $response;
 		}
 
 		if ( $this->block_request( $url ) ) {
 			$response = new WP_Error( 'http_request_not_executed', __( 'User has blocked requests through HTTP.' ) );
 			/** This action is documented in wp-includes/class-http.php */
-			do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+			do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
 			return $response;
 		}
 
 		// If we are streaming to a file but no filename was given drop it in the WP temp dir
 		// and pick its name using the basename of the $url
-		if ( $r['stream'] ) {
-			if ( empty( $r['filename'] ) ) {
-				$r['filename'] = get_temp_dir() . basename( $url );
+		if ( $parsed_args['stream'] ) {
+			if ( empty( $parsed_args['filename'] ) ) {
+				$parsed_args['filename'] = get_temp_dir() . basename( $url );
 			}
 
 			// Force some settings if we are streaming to a file and check for existence and perms of destination directory
-			$r['blocking'] = true;
-			if ( ! wp_is_writable( dirname( $r['filename'] ) ) ) {
+			$parsed_args['blocking'] = true;
+			if ( ! wp_is_writable( dirname( $parsed_args['filename'] ) ) ) {
 				$response = new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
 				/** This action is documented in wp-includes/class-http.php */
-				do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+				do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
 				return $response;
 			}
 		}
 
-		if ( is_null( $r['headers'] ) ) {
-			$r['headers'] = array();
+		if ( is_null( $parsed_args['headers'] ) ) {
+			$parsed_args['headers'] = array();
 		}
 
 		// WP allows passing in headers as a string, weirdly.
-		if ( ! is_array( $r['headers'] ) ) {
-			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
-			$r['headers']     = $processedHeaders['headers'];
+		if ( ! is_array( $parsed_args['headers'] ) ) {
+			$processedHeaders       = WP_Http::processHeaders( $parsed_args['headers'] );
+			$parsed_args['headers'] = $processedHeaders['headers'];
 		}
 
 		// Setup arguments
-		$headers = $r['headers'];
-		$data    = $r['body'];
-		$type    = $r['method'];
+		$headers = $parsed_args['headers'];
+		$data    = $parsed_args['body'];
+		$type    = $parsed_args['method'];
 		$options = array(
-			'timeout'   => $r['timeout'],
-			'useragent' => $r['user-agent'],
-			'blocking'  => $r['blocking'],
-			'hooks'     => new WP_HTTP_Requests_Hooks( $url, $r ),
+			'timeout'   => $parsed_args['timeout'],
+			'useragent' => $parsed_args['user-agent'],
+			'blocking'  => $parsed_args['blocking'],
+			'hooks'     => new WP_HTTP_Requests_Hooks( $url, $parsed_args ),
 		);
 
 		// Ensure redirects follow browser behaviour.
 		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
 
 		// Validate redirected URLs.
-		if ( function_exists( 'wp_kses_bad_protocol' ) && $r['reject_unsafe_urls'] ) {
+		if ( function_exists( 'wp_kses_bad_protocol' ) && $parsed_args['reject_unsafe_urls'] ) {
 			$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'validate_redirects' ) );
 		}
 
-		if ( $r['stream'] ) {
-			$options['filename'] = $r['filename'];
+		if ( $parsed_args['stream'] ) {
+			$options['filename'] = $parsed_args['filename'];
 		}
-		if ( empty( $r['redirection'] ) ) {
+		if ( empty( $parsed_args['redirection'] ) ) {
 			$options['follow_redirects'] = false;
 		} else {
-			$options['redirects'] = $r['redirection'];
+			$options['redirects'] = $parsed_args['redirection'];
 		}
 
 		// Use byte limit, if we can
-		if ( isset( $r['limit_response_size'] ) ) {
-			$options['max_bytes'] = $r['limit_response_size'];
+		if ( isset( $parsed_args['limit_response_size'] ) ) {
+			$options['max_bytes'] = $parsed_args['limit_response_size'];
 		}
 
 		// If we've got cookies, use and convert them to Requests_Cookie.
-		if ( ! empty( $r['cookies'] ) ) {
-			$options['cookies'] = WP_Http::normalize_cookies( $r['cookies'] );
+		if ( ! empty( $parsed_args['cookies'] ) ) {
+			$options['cookies'] = WP_Http::normalize_cookies( $parsed_args['cookies'] );
 		}
 
 		// SSL certificate handling
-		if ( ! $r['sslverify'] ) {
+		if ( ! $parsed_args['sslverify'] ) {
 			$options['verify']     = false;
 			$options['verifyname'] = false;
 		} else {
-			$options['verify'] = $r['sslcertificates'];
+			$options['verify'] = $parsed_args['sslcertificates'];
 		}
 
 		// All non-GET/HEAD requests should put the arguments in the form body.
@@ -393,7 +393,7 @@ class WP_Http {
 			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
 
 			// Convert the response into an array
-			$http_response = new WP_HTTP_Requests_Response( $requests_response, $r['filename'] );
+			$http_response = new WP_HTTP_Requests_Response( $requests_response, $parsed_args['filename'] );
 			$response      = $http_response->to_array();
 
 			// Add the original object to the array.
@@ -412,15 +412,15 @@ class WP_Http {
 		 * @param array|WP_Error $response HTTP response or WP_Error object.
 		 * @param string         $context  Context under which the hook is fired.
 		 * @param string         $class    HTTP transport used.
-		 * @param array          $r        HTTP request arguments.
+		 * @param array          $parsed_args        HTTP request arguments.
 		 * @param string         $url      The request URL.
 		 */
-		do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+		do_action( 'http_api_debug', $response, 'response', 'Requests', $parsed_args, $url );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
-		if ( ! $r['blocking'] ) {
+		if ( ! $parsed_args['blocking'] ) {
 			return array(
 				'headers'       => array(),
 				'body'          => '',
@@ -439,10 +439,10 @@ class WP_Http {
 		 * @since 2.9.0
 		 *
 		 * @param array  $response HTTP response.
-		 * @param array  $r        HTTP request arguments.
+		 * @param array  $parsed_args        HTTP request arguments.
 		 * @param string $url      The request URL.
 		 */
-		return apply_filters( 'http_response', $response, $r, $url );
+		return apply_filters( 'http_response', $response, $parsed_args, $url );
 	}
 
 	/**
@@ -600,9 +600,9 @@ class WP_Http {
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function post( $url, $args = array() ) {
-		$defaults = array( 'method' => 'POST' );
-		$r        = wp_parse_args( $args, $defaults );
-		return $this->request( $url, $r );
+		$defaults    = array( 'method' => 'POST' );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $parsed_args );
 	}
 
 	/**
@@ -617,9 +617,9 @@ class WP_Http {
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function get( $url, $args = array() ) {
-		$defaults = array( 'method' => 'GET' );
-		$r        = wp_parse_args( $args, $defaults );
-		return $this->request( $url, $r );
+		$defaults    = array( 'method' => 'GET' );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $parsed_args );
 	}
 
 	/**
@@ -634,9 +634,9 @@ class WP_Http {
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
 	 */
 	public function head( $url, $args = array() ) {
-		$defaults = array( 'method' => 'HEAD' );
-		$r        = wp_parse_args( $args, $defaults );
-		return $this->request( $url, $r );
+		$defaults    = array( 'method' => 'HEAD' );
+		$parsed_args = wp_parse_args( $args, $defaults );
+		return $this->request( $url, $parsed_args );
 	}
 
 	/**

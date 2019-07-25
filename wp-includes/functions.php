@@ -3080,13 +3080,13 @@ function wp_die( $message = '', $title = '', $args = array() ) {
  * @param string|array    $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _default_wp_die_handler( $message, $title = '', $args = array() ) {
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	if ( is_string( $message ) ) {
-		if ( ! empty( $r['additional_errors'] ) ) {
+		if ( ! empty( $parsed_args['additional_errors'] ) ) {
 			$message = array_merge(
 				array( $message ),
-				wp_list_pluck( $r['additional_errors'], 'message' )
+				wp_list_pluck( $parsed_args['additional_errors'], 'message' )
 			);
 			$message = "<ul>\n\t\t<li>" . join( "</li>\n\t\t<li>", $message ) . "</li>\n\t</ul>";
 		} else {
@@ -3096,16 +3096,16 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 
 	$have_gettext = function_exists( '__' );
 
-	if ( ! empty( $r['link_url'] ) && ! empty( $r['link_text'] ) ) {
-		$link_url = $r['link_url'];
+	if ( ! empty( $parsed_args['link_url'] ) && ! empty( $parsed_args['link_text'] ) ) {
+		$link_url = $parsed_args['link_url'];
 		if ( function_exists( 'esc_url' ) ) {
 			$link_url = esc_url( $link_url );
 		}
-		$link_text = $r['link_text'];
+		$link_text = $parsed_args['link_text'];
 		$message  .= "\n<p><a href='{$link_url}'>{$link_text}</a></p>";
 	}
 
-	if ( isset( $r['back_link'] ) && $r['back_link'] ) {
+	if ( isset( $parsed_args['back_link'] ) && $parsed_args['back_link'] ) {
 		$back_text = $have_gettext ? __( '&laquo; Back' ) : '&laquo; Back';
 		$message  .= "\n<p><a href='javascript:history.back()'>$back_text</a></p>";
 	}
@@ -3113,11 +3113,11 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	if ( ! did_action( 'admin_head' ) ) :
 		if ( ! headers_sent() ) {
 			header( 'Content-Type: text/html; charset=utf-8' );
-			status_header( $r['response'] );
+			status_header( $parsed_args['response'] );
 			nocache_headers();
 		}
 
-		$text_direction = $r['text_direction'];
+		$text_direction = $parsed_args['text_direction'];
 		if ( function_exists( 'language_attributes' ) && function_exists( 'is_rtl' ) ) {
 			$dir_attr = get_language_attributes();
 		} else {
@@ -3258,7 +3258,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 </body>
 </html>
 	<?php
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die();
 	}
 }
@@ -3282,12 +3282,12 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
 		array( 'response' => 200 )
 	);
 
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	if ( ! headers_sent() ) {
 		// This is intentional. For backward-compatibility, support passing null here.
 		if ( null !== $args['response'] ) {
-			status_header( $r['response'] );
+			status_header( $parsed_args['response'] );
 		}
 		nocache_headers();
 	}
@@ -3298,7 +3298,7 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
 		$message = '0';
 	}
 
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die( $message );
 	}
 
@@ -3318,27 +3318,27 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _json_wp_die_handler( $message, $title = '', $args = array() ) {
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	$data = array(
-		'code'              => $r['code'],
+		'code'              => $parsed_args['code'],
 		'message'           => $message,
 		'data'              => array(
-			'status' => $r['response'],
+			'status' => $parsed_args['response'],
 		),
-		'additional_errors' => $r['additional_errors'],
+		'additional_errors' => $parsed_args['additional_errors'],
 	);
 
 	if ( ! headers_sent() ) {
 		header( 'Content-Type: application/json; charset=utf-8' );
-		if ( null !== $r['response'] ) {
-			status_header( $r['response'] );
+		if ( null !== $parsed_args['response'] ) {
+			status_header( $parsed_args['response'] );
 		}
 		nocache_headers();
 	}
 
 	echo wp_json_encode( $data );
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die();
 	}
 }
@@ -3356,23 +3356,23 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	$data = array(
-		'code'              => $r['code'],
+		'code'              => $parsed_args['code'],
 		'message'           => $message,
 		'data'              => array(
-			'status' => $r['response'],
+			'status' => $parsed_args['response'],
 		),
-		'additional_errors' => $r['additional_errors'],
+		'additional_errors' => $parsed_args['additional_errors'],
 	);
 
 	if ( ! headers_sent() ) {
 		header( 'Content-Type: application/javascript; charset=utf-8' );
 		header( 'X-Content-Type-Options: nosniff' );
 		header( 'X-Robots-Tag: noindex' );
-		if ( null !== $r['response'] ) {
-			status_header( $r['response'] );
+		if ( null !== $parsed_args['response'] ) {
+			status_header( $parsed_args['response'] );
 		}
 		nocache_headers();
 	}
@@ -3380,7 +3380,7 @@ function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
 	$result         = wp_json_encode( $data );
 	$jsonp_callback = $_GET['_jsonp'];
 	echo '/**/' . $jsonp_callback . '(' . $result . ')';
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die();
 	}
 }
@@ -3402,17 +3402,17 @@ function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
 function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
 	global $wp_xmlrpc_server;
 
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	if ( ! headers_sent() ) {
 		nocache_headers();
 	}
 
 	if ( $wp_xmlrpc_server ) {
-		$error = new IXR_Error( $r['response'], $message );
+		$error = new IXR_Error( $parsed_args['response'], $message );
 		$wp_xmlrpc_server->output( $error->getXml() );
 	}
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die();
 	}
 }
@@ -3430,18 +3430,18 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
 	$message = htmlspecialchars( $message );
 	$title   = htmlspecialchars( $title );
 
 	$xml = <<<EOD
 <error>
-    <code>{$r['code']}</code>
+    <code>{$parsed_args['code']}</code>
     <title><![CDATA[{$title}]]></title>
     <message><![CDATA[{$message}]]></message>
     <data>
-        <status>{$r['response']}</status>
+        <status>{$parsed_args['response']}</status>
     </data>
 </error>
 
@@ -3449,14 +3449,14 @@ EOD;
 
 	if ( ! headers_sent() ) {
 		header( 'Content-Type: text/xml; charset=utf-8' );
-		if ( null !== $r['response'] ) {
-			status_header( $r['response'] );
+		if ( null !== $parsed_args['response'] ) {
+			status_header( $parsed_args['response'] );
 		}
 		nocache_headers();
 	}
 
 	echo $xml;
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		die();
 	}
 }
@@ -3475,9 +3475,9 @@ EOD;
  * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _scalar_wp_die_handler( $message = '', $title = '', $args = array() ) {
-	list( $message, $title, $r ) = _wp_die_process_input( $message, $title, $args );
+	list( $message, $title, $parsed_args ) = _wp_die_process_input( $message, $title, $args );
 
-	if ( $r['exit'] ) {
+	if ( $parsed_args['exit'] ) {
 		if ( is_scalar( $message ) ) {
 			die( (string) $message );
 		}
@@ -4107,17 +4107,17 @@ function smilies_init() {
  */
 function wp_parse_args( $args, $defaults = '' ) {
 	if ( is_object( $args ) ) {
-		$r = get_object_vars( $args );
+		$parsed_args = get_object_vars( $args );
 	} elseif ( is_array( $args ) ) {
-		$r =& $args;
+		$parsed_args =& $args;
 	} else {
-		wp_parse_str( $args, $r );
+		wp_parse_str( $args, $parsed_args );
 	}
 
 	if ( is_array( $defaults ) ) {
-		return array_merge( $defaults, $r );
+		return array_merge( $defaults, $parsed_args );
 	}
-	return $r;
+	return $parsed_args;
 }
 
 /**

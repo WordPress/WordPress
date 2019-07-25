@@ -78,24 +78,24 @@ function the_title( $before = '', $after = '', $echo = true ) {
  * @return string|void String when echo is false.
  */
 function the_title_attribute( $args = '' ) {
-	$defaults = array(
+	$defaults    = array(
 		'before' => '',
 		'after'  => '',
 		'echo'   => true,
 		'post'   => get_post(),
 	);
-	$r        = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$title = get_the_title( $r['post'] );
+	$title = get_the_title( $parsed_args['post'] );
 
 	if ( strlen( $title ) == 0 ) {
 		return;
 	}
 
-	$title = $r['before'] . $title . $r['after'];
+	$title = $parsed_args['before'] . $title . $parsed_args['after'];
 	$title = esc_attr( strip_tags( $title ) );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $title;
 	} else {
 		return $title;
@@ -946,27 +946,27 @@ function wp_link_pages( $args = '' ) {
 		'echo'             => 1,
 	);
 
-	$params = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
 	/**
 	 * Filters the arguments used in retrieving page links for paginated posts.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $params An array of arguments for page links for paginated posts.
+	 * @param array $parsed_args An array of arguments for page links for paginated posts.
 	 */
-	$r = apply_filters( 'wp_link_pages_args', $params );
+	$parsed_args = apply_filters( 'wp_link_pages_args', $parsed_args );
 
 	$output = '';
 	if ( $multipage ) {
-		if ( 'number' == $r['next_or_number'] ) {
-			$output .= $r['before'];
+		if ( 'number' == $parsed_args['next_or_number'] ) {
+			$output .= $parsed_args['before'];
 			for ( $i = 1; $i <= $numpages; $i++ ) {
-				$link = $r['link_before'] . str_replace( '%', $i, $r['pagelink'] ) . $r['link_after'];
+				$link = $parsed_args['link_before'] . str_replace( '%', $i, $parsed_args['pagelink'] ) . $parsed_args['link_after'];
 				if ( $i != $page || ! $more && 1 == $page ) {
 					$link = _wp_link_page( $i ) . $link . '</a>';
 				} elseif ( $i === $page ) {
-					$link = '<span class="post-page-numbers current" aria-current="' . esc_attr( $r['aria_current'] ) . '">' . $link . '</span>';
+					$link = '<span class="post-page-numbers current" aria-current="' . esc_attr( $parsed_args['aria_current'] ) . '">' . $link . '</span>';
 				}
 				/**
 				 * Filters the HTML output of individual page number links.
@@ -979,15 +979,15 @@ function wp_link_pages( $args = '' ) {
 				$link = apply_filters( 'wp_link_pages_link', $link, $i );
 
 				// Use the custom links separator beginning with the second link.
-				$output .= ( 1 === $i ) ? ' ' : $r['separator'];
+				$output .= ( 1 === $i ) ? ' ' : $parsed_args['separator'];
 				$output .= $link;
 			}
-			$output .= $r['after'];
+			$output .= $parsed_args['after'];
 		} elseif ( $more ) {
-			$output .= $r['before'];
+			$output .= $parsed_args['before'];
 			$prev    = $page - 1;
 			if ( $prev > 0 ) {
-				$link = _wp_link_page( $prev ) . $r['link_before'] . $r['previouspagelink'] . $r['link_after'] . '</a>';
+				$link = _wp_link_page( $prev ) . $parsed_args['link_before'] . $parsed_args['previouspagelink'] . $parsed_args['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
 				$output .= apply_filters( 'wp_link_pages_link', $link, $prev );
@@ -995,14 +995,14 @@ function wp_link_pages( $args = '' ) {
 			$next = $page + 1;
 			if ( $next <= $numpages ) {
 				if ( $prev ) {
-					$output .= $r['separator'];
+					$output .= $parsed_args['separator'];
 				}
-				$link = _wp_link_page( $next ) . $r['link_before'] . $r['nextpagelink'] . $r['link_after'] . '</a>';
+				$link = _wp_link_page( $next ) . $parsed_args['link_before'] . $parsed_args['nextpagelink'] . $parsed_args['link_after'] . '</a>';
 
 				/** This filter is documented in wp-includes/post-template.php */
 				$output .= apply_filters( 'wp_link_pages_link', $link, $next );
 			}
-			$output .= $r['after'];
+			$output .= $parsed_args['after'];
 		}
 	}
 
@@ -1016,7 +1016,7 @@ function wp_link_pages( $args = '' ) {
 	 */
 	$html = apply_filters( 'wp_link_pages', $output, $args );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $html;
 	}
 	return $html;
@@ -1181,29 +1181,29 @@ function wp_dropdown_pages( $args = '' ) {
 		'value_field'           => 'ID',
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$pages  = get_pages( $r );
+	$pages  = get_pages( $parsed_args );
 	$output = '';
 	// Back-compat with old system where both id and name were based on $name argument
-	if ( empty( $r['id'] ) ) {
-		$r['id'] = $r['name'];
+	if ( empty( $parsed_args['id'] ) ) {
+		$parsed_args['id'] = $parsed_args['name'];
 	}
 
 	if ( ! empty( $pages ) ) {
 		$class = '';
-		if ( ! empty( $r['class'] ) ) {
-			$class = " class='" . esc_attr( $r['class'] ) . "'";
+		if ( ! empty( $parsed_args['class'] ) ) {
+			$class = " class='" . esc_attr( $parsed_args['class'] ) . "'";
 		}
 
-		$output = "<select name='" . esc_attr( $r['name'] ) . "'" . $class . " id='" . esc_attr( $r['id'] ) . "'>\n";
-		if ( $r['show_option_no_change'] ) {
-			$output .= "\t<option value=\"-1\">" . $r['show_option_no_change'] . "</option>\n";
+		$output = "<select name='" . esc_attr( $parsed_args['name'] ) . "'" . $class . " id='" . esc_attr( $parsed_args['id'] ) . "'>\n";
+		if ( $parsed_args['show_option_no_change'] ) {
+			$output .= "\t<option value=\"-1\">" . $parsed_args['show_option_no_change'] . "</option>\n";
 		}
-		if ( $r['show_option_none'] ) {
-			$output .= "\t<option value=\"" . esc_attr( $r['option_none_value'] ) . '">' . $r['show_option_none'] . "</option>\n";
+		if ( $parsed_args['show_option_none'] ) {
+			$output .= "\t<option value=\"" . esc_attr( $parsed_args['option_none_value'] ) . '">' . $parsed_args['show_option_none'] . "</option>\n";
 		}
-		$output .= walk_page_dropdown_tree( $pages, $r['depth'], $r );
+		$output .= walk_page_dropdown_tree( $pages, $parsed_args['depth'], $parsed_args );
 		$output .= "</select>\n";
 	}
 
@@ -1211,15 +1211,15 @@ function wp_dropdown_pages( $args = '' ) {
 	 * Filters the HTML output of a list of pages as a drop down.
 	 *
 	 * @since 2.1.0
-	 * @since 4.4.0 `$r` and `$pages` added as arguments.
+	 * @since 4.4.0 `$parsed_args` and `$pages` added as arguments.
 	 *
-	 * @param string $output HTML output for drop down list of pages.
-	 * @param array  $r      The parsed arguments array.
-	 * @param array  $pages  List of WP_Post objects returned by `get_pages()`
+	 * @param string $output      HTML output for drop down list of pages.
+	 * @param array  $parsed_args The parsed arguments array.
+	 * @param array  $pages       List of WP_Post objects returned by `get_pages()`
 	 */
-	$html = apply_filters( 'wp_dropdown_pages', $output, $r, $pages );
+	$html = apply_filters( 'wp_dropdown_pages', $output, $parsed_args, $pages );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $html;
 	}
 	return $html;
@@ -1282,21 +1282,21 @@ function wp_list_pages( $args = '' ) {
 		'walker'       => '',
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	if ( ! in_array( $r['item_spacing'], array( 'preserve', 'discard' ), true ) ) {
+	if ( ! in_array( $parsed_args['item_spacing'], array( 'preserve', 'discard' ), true ) ) {
 		// invalid value, fall back to default.
-		$r['item_spacing'] = $defaults['item_spacing'];
+		$parsed_args['item_spacing'] = $defaults['item_spacing'];
 	}
 
 	$output       = '';
 	$current_page = 0;
 
 	// sanitize, mostly to keep spaces out
-	$r['exclude'] = preg_replace( '/[^0-9,]/', '', $r['exclude'] );
+	$parsed_args['exclude'] = preg_replace( '/[^0-9,]/', '', $parsed_args['exclude'] );
 
 	// Allow plugins to filter an array of excluded pages (but don't put a nullstring into the array)
-	$exclude_array = ( $r['exclude'] ) ? explode( ',', $r['exclude'] ) : array();
+	$exclude_array = ( $parsed_args['exclude'] ) ? explode( ',', $parsed_args['exclude'] ) : array();
 
 	/**
 	 * Filters the array of pages to exclude from the pages list.
@@ -1305,15 +1305,16 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @param array $exclude_array An array of page IDs to exclude.
 	 */
-	$r['exclude'] = implode( ',', apply_filters( 'wp_list_pages_excludes', $exclude_array ) );
+	$parsed_args['exclude'] = implode( ',', apply_filters( 'wp_list_pages_excludes', $exclude_array ) );
+
+	$parsed_args['hierarchical'] = 0;
 
 	// Query pages.
-	$r['hierarchical'] = 0;
-	$pages             = get_pages( $r );
+	$pages = get_pages( $parsed_args );
 
 	if ( ! empty( $pages ) ) {
-		if ( $r['title_li'] ) {
-			$output .= '<li class="pagenav">' . $r['title_li'] . '<ul>';
+		if ( $parsed_args['title_li'] ) {
+			$output .= '<li class="pagenav">' . $parsed_args['title_li'] . '<ul>';
 		}
 		global $wp_query;
 		if ( is_page() || is_attachment() || $wp_query->is_posts_page ) {
@@ -1325,9 +1326,9 @@ function wp_list_pages( $args = '' ) {
 			}
 		}
 
-		$output .= walk_page_tree( $pages, $r['depth'], $current_page, $r );
+		$output .= walk_page_tree( $pages, $parsed_args['depth'], $current_page, $parsed_args );
 
-		if ( $r['title_li'] ) {
+		if ( $parsed_args['title_li'] ) {
 			$output .= '</ul></li>';
 		}
 	}
@@ -1340,13 +1341,13 @@ function wp_list_pages( $args = '' ) {
 	 *
 	 * @see wp_list_pages()
 	 *
-	 * @param string $output HTML output of the pages list.
-	 * @param array  $r      An array of page-listing arguments.
-	 * @param array  $pages  List of WP_Post objects returned by `get_pages()`
+	 * @param string $output      HTML output of the pages list.
+	 * @param array  $parsed_args An array of page-listing arguments.
+	 * @param array  $pages       List of WP_Post objects returned by `get_pages()`
 	 */
-	$html = apply_filters( 'wp_list_pages', $output, $r, $pages );
+	$html = apply_filters( 'wp_list_pages', $output, $parsed_args, $pages );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $html;
 	} else {
 		return $html;

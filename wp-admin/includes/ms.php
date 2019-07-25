@@ -1089,7 +1089,7 @@ function network_edit_site_nav( $args = array() ) {
 	);
 
 	// Parse arguments
-	$r = wp_parse_args(
+	$parsed_args = wp_parse_args(
 		$args,
 		array(
 			'blog_id'  => isset( $_GET['blog_id'] ) ? (int) $_GET['blog_id'] : 0,
@@ -1102,10 +1102,10 @@ function network_edit_site_nav( $args = array() ) {
 	$screen_links = array();
 
 	// Loop through tabs
-	foreach ( $r['links'] as $link_id => $link ) {
+	foreach ( $parsed_args['links'] as $link_id => $link ) {
 
 		// Skip link if user can't access
-		if ( ! current_user_can( $link['cap'], $r['blog_id'] ) ) {
+		if ( ! current_user_can( $link['cap'], $parsed_args['blog_id'] ) ) {
 			continue;
 		}
 
@@ -1116,7 +1116,7 @@ function network_edit_site_nav( $args = array() ) {
 		$aria_current = '';
 
 		// Selected is set by the parent OR assumed by the $pagenow global
-		if ( $r['selected'] === $link_id || $link['url'] === $GLOBALS['pagenow'] ) {
+		if ( $parsed_args['selected'] === $link_id || $link['url'] === $GLOBALS['pagenow'] ) {
 			$classes[]    = 'nav-tab-active';
 			$aria_current = ' aria-current="page"';
 		}
@@ -1125,7 +1125,7 @@ function network_edit_site_nav( $args = array() ) {
 		$esc_classes = implode( ' ', $classes );
 
 		// Get the URL for this link
-		$url = add_query_arg( array( 'id' => $r['blog_id'] ), network_admin_url( $link['url'] ) );
+		$url = add_query_arg( array( 'id' => $parsed_args['blog_id'] ), network_admin_url( $link['url'] ) );
 
 		// Add link to nav links
 		$screen_links[ $link_id ] = '<a href="' . esc_url( $url ) . '" id="' . esc_attr( $link_id ) . '" class="' . $esc_classes . '"' . $aria_current . '>' . esc_html( $link['label'] ) . '</a>';

@@ -4295,9 +4295,9 @@ function the_taxonomies( $args = array() ) {
 		'after'  => '',
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	echo $r['before'] . join( $r['sep'], get_the_taxonomies( $r['post'], $r ) ) . $r['after'];
+	echo $parsed_args['before'] . join( $parsed_args['sep'], get_the_taxonomies( $parsed_args['post'], $parsed_args ) ) . $parsed_args['after'];
 }
 
 /**

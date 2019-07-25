@@ -613,15 +613,15 @@ function get_children( $args = '', $output = OBJECT ) {
 		'post_parent' => 0,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$children = get_posts( $r );
+	$children = get_posts( $parsed_args );
 
 	if ( ! $children ) {
 		return $kids;
 	}
 
-	if ( ! empty( $r['fields'] ) ) {
+	if ( ! empty( $parsed_args['fields'] ) ) {
 		return $children;
 	}
 
@@ -1954,29 +1954,29 @@ function get_posts( $args = null ) {
 		'suppress_filters' => true,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
-	if ( empty( $r['post_status'] ) ) {
-		$r['post_status'] = ( 'attachment' == $r['post_type'] ) ? 'inherit' : 'publish';
+	$parsed_args = wp_parse_args( $args, $defaults );
+	if ( empty( $parsed_args['post_status'] ) ) {
+		$parsed_args['post_status'] = ( 'attachment' == $parsed_args['post_type'] ) ? 'inherit' : 'publish';
 	}
-	if ( ! empty( $r['numberposts'] ) && empty( $r['posts_per_page'] ) ) {
-		$r['posts_per_page'] = $r['numberposts'];
+	if ( ! empty( $parsed_args['numberposts'] ) && empty( $parsed_args['posts_per_page'] ) ) {
+		$parsed_args['posts_per_page'] = $parsed_args['numberposts'];
 	}
-	if ( ! empty( $r['category'] ) ) {
-		$r['cat'] = $r['category'];
+	if ( ! empty( $parsed_args['category'] ) ) {
+		$parsed_args['cat'] = $parsed_args['category'];
 	}
-	if ( ! empty( $r['include'] ) ) {
-		$incposts            = wp_parse_id_list( $r['include'] );
-		$r['posts_per_page'] = count( $incposts );  // only the number of posts included
-		$r['post__in']       = $incposts;
-	} elseif ( ! empty( $r['exclude'] ) ) {
-		$r['post__not_in'] = wp_parse_id_list( $r['exclude'] );
+	if ( ! empty( $parsed_args['include'] ) ) {
+		$incposts                      = wp_parse_id_list( $parsed_args['include'] );
+		$parsed_args['posts_per_page'] = count( $incposts );  // only the number of posts included
+		$parsed_args['post__in']       = $incposts;
+	} elseif ( ! empty( $parsed_args['exclude'] ) ) {
+		$parsed_args['post__not_in'] = wp_parse_id_list( $parsed_args['exclude'] );
 	}
 
-	$r['ignore_sticky_posts'] = true;
-	$r['no_found_rows']       = true;
+	$parsed_args['ignore_sticky_posts'] = true;
+	$parsed_args['no_found_rows']       = true;
 
 	$get_posts = new WP_Query;
-	return $get_posts->query( $r );
+	return $get_posts->query( $parsed_args );
 
 }
 
@@ -3381,9 +3381,9 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
 		'suppress_filters' => true,
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$results = get_posts( $r );
+	$results = get_posts( $parsed_args );
 
 	// Backward compatibility. Prior to 3.1 expected posts to be returned in array.
 	if ( ARRAY_A == $output ) {
@@ -5111,21 +5111,21 @@ function get_pages( $args = array() ) {
 		'post_status'  => 'publish',
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$number       = (int) $r['number'];
-	$offset       = (int) $r['offset'];
-	$child_of     = (int) $r['child_of'];
-	$hierarchical = $r['hierarchical'];
-	$exclude      = $r['exclude'];
-	$meta_key     = $r['meta_key'];
-	$meta_value   = $r['meta_value'];
-	$parent       = $r['parent'];
-	$post_status  = $r['post_status'];
+	$number       = (int) $parsed_args['number'];
+	$offset       = (int) $parsed_args['offset'];
+	$child_of     = (int) $parsed_args['child_of'];
+	$hierarchical = $parsed_args['hierarchical'];
+	$exclude      = $parsed_args['exclude'];
+	$meta_key     = $parsed_args['meta_key'];
+	$meta_value   = $parsed_args['meta_value'];
+	$parent       = $parsed_args['parent'];
+	$post_status  = $parsed_args['post_status'];
 
 	// Make sure the post type is hierarchical.
 	$hierarchical_post_types = get_post_types( array( 'hierarchical' => true ) );
-	if ( ! in_array( $r['post_type'], $hierarchical_post_types ) ) {
+	if ( ! in_array( $parsed_args['post_type'], $hierarchical_post_types ) ) {
 		return false;
 	}
 
@@ -5142,7 +5142,7 @@ function get_pages( $args = array() ) {
 	}
 
 	// $args can be whatever, only use the args defined in defaults to compute the key.
-	$key          = md5( serialize( wp_array_slice_assoc( $r, array_keys( $defaults ) ) ) );
+	$key          = md5( serialize( wp_array_slice_assoc( $parsed_args, array_keys( $defaults ) ) ) );
 	$last_changed = wp_cache_get_last_changed( 'posts' );
 
 	$cache_key = "get_pages:$key:$last_changed";
@@ -5151,19 +5151,19 @@ function get_pages( $args = array() ) {
 		// Convert to WP_Post instances.
 		$pages = array_map( 'get_post', $cache );
 		/** This filter is documented in wp-includes/post.php */
-		$pages = apply_filters( 'get_pages', $pages, $r );
+		$pages = apply_filters( 'get_pages', $pages, $parsed_args );
 		return $pages;
 	}
 
 	$inclusions = '';
-	if ( ! empty( $r['include'] ) ) {
+	if ( ! empty( $parsed_args['include'] ) ) {
 		$child_of     = 0; //ignore child_of, parent, exclude, meta_key, and meta_value params if using include
 		$parent       = -1;
 		$exclude      = '';
 		$meta_key     = '';
 		$meta_value   = '';
 		$hierarchical = false;
-		$incpages     = wp_parse_id_list( $r['include'] );
+		$incpages     = wp_parse_id_list( $parsed_args['include'] );
 		if ( ! empty( $incpages ) ) {
 			$inclusions = ' AND ID IN (' . implode( ',', $incpages ) . ')';
 		}
@@ -5178,8 +5178,8 @@ function get_pages( $args = array() ) {
 	}
 
 	$author_query = '';
-	if ( ! empty( $r['authors'] ) ) {
-		$post_authors = wp_parse_list( $r['authors'] );
+	if ( ! empty( $parsed_args['authors'] ) ) {
+		$post_authors = wp_parse_list( $parsed_args['authors'] );
 
 		if ( ! empty( $post_authors ) ) {
 			foreach ( $post_authors as $post_author ) {
@@ -5233,10 +5233,10 @@ function get_pages( $args = array() ) {
 	}
 
 	if ( 1 == count( $post_status ) ) {
-		$where_post_type = $wpdb->prepare( 'post_type = %s AND post_status = %s', $r['post_type'], reset( $post_status ) );
+		$where_post_type = $wpdb->prepare( 'post_type = %s AND post_status = %s', $parsed_args['post_type'], reset( $post_status ) );
 	} else {
 		$post_status     = implode( "', '", $post_status );
-		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status IN ('$post_status')", $r['post_type'] );
+		$where_post_type = $wpdb->prepare( "post_type = %s AND post_status IN ('$post_status')", $parsed_args['post_type'] );
 	}
 
 	$orderby_array = array();
@@ -5261,7 +5261,7 @@ function get_pages( $args = array() ) {
 		'comment_count',
 	);
 
-	foreach ( explode( ',', $r['sort_column'] ) as $orderby ) {
+	foreach ( explode( ',', $parsed_args['sort_column'] ) as $orderby ) {
 		$orderby = trim( $orderby );
 		if ( ! in_array( $orderby, $allowed_keys ) ) {
 			continue;
@@ -5292,7 +5292,7 @@ function get_pages( $args = array() ) {
 	}
 	$sort_column = ! empty( $orderby_array ) ? implode( ',', $orderby_array ) : "$wpdb->posts.post_title";
 
-	$sort_order = strtoupper( $r['sort_order'] );
+	$sort_order = strtoupper( $parsed_args['sort_order'] );
 	if ( '' !== $sort_order && ! in_array( $sort_order, array( 'ASC', 'DESC' ) ) ) {
 		$sort_order = 'ASC';
 	}
@@ -5311,7 +5311,7 @@ function get_pages( $args = array() ) {
 		wp_cache_set( $cache_key, array(), 'posts' );
 
 		/** This filter is documented in wp-includes/post.php */
-		$pages = apply_filters( 'get_pages', array(), $r );
+		$pages = apply_filters( 'get_pages', array(), $parsed_args );
 		return $pages;
 	}
 
@@ -5328,8 +5328,8 @@ function get_pages( $args = array() ) {
 		$pages = get_page_children( $child_of, $pages );
 	}
 
-	if ( ! empty( $r['exclude_tree'] ) ) {
-		$exclude = wp_parse_id_list( $r['exclude_tree'] );
+	if ( ! empty( $parsed_args['exclude_tree'] ) ) {
+		$exclude = wp_parse_id_list( $parsed_args['exclude_tree'] );
 		foreach ( $exclude as $id ) {
 			$children = get_page_children( $id, $pages );
 			foreach ( $children as $child ) {
@@ -5361,9 +5361,9 @@ function get_pages( $args = array() ) {
 	 * @since 2.1.0
 	 *
 	 * @param array $pages List of pages to retrieve.
-	 * @param array $r     Array of get_pages() arguments.
+	 * @param array $parsed_args     Array of get_pages() arguments.
 	 */
-	return apply_filters( 'get_pages', $pages, $r );
+	return apply_filters( 'get_pages', $pages, $parsed_args );
 }
 
 //

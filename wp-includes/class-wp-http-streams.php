@@ -38,18 +38,18 @@ class WP_Http_Streams {
 			'cookies'     => array(),
 		);
 
-		$r = wp_parse_args( $args, $defaults );
+		$parsed_args = wp_parse_args( $args, $defaults );
 
-		if ( isset( $r['headers']['User-Agent'] ) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset( $r['headers']['User-Agent'] );
-		} elseif ( isset( $r['headers']['user-agent'] ) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset( $r['headers']['user-agent'] );
+		if ( isset( $parsed_args['headers']['User-Agent'] ) ) {
+			$parsed_args['user-agent'] = $parsed_args['headers']['User-Agent'];
+			unset( $parsed_args['headers']['User-Agent'] );
+		} elseif ( isset( $parsed_args['headers']['user-agent'] ) ) {
+			$parsed_args['user-agent'] = $parsed_args['headers']['user-agent'];
+			unset( $parsed_args['headers']['user-agent'] );
 		}
 
 		// Construct Cookie: header if any cookies are set.
-		WP_Http::buildCookieHeader( $r );
+		WP_Http::buildCookieHeader( $parsed_args );
 
 		$arrURL = parse_url( $url );
 
@@ -70,13 +70,13 @@ class WP_Http_Streams {
 			$arrURL['path'] = '/';
 		}
 
-		if ( isset( $r['headers']['Host'] ) || isset( $r['headers']['host'] ) ) {
-			if ( isset( $r['headers']['Host'] ) ) {
-				$arrURL['host'] = $r['headers']['Host'];
+		if ( isset( $parsed_args['headers']['Host'] ) || isset( $parsed_args['headers']['host'] ) ) {
+			if ( isset( $parsed_args['headers']['Host'] ) ) {
+				$arrURL['host'] = $parsed_args['headers']['Host'];
 			} else {
-				$arrURL['host'] = $r['headers']['host'];
+				$arrURL['host'] = $parsed_args['headers']['host'];
 			}
-			unset( $r['headers']['Host'], $r['headers']['host'] );
+			unset( $parsed_args['headers']['Host'], $parsed_args['headers']['host'] );
 		}
 
 		/*
@@ -90,8 +90,8 @@ class WP_Http_Streams {
 
 		$connect_host = $secure_transport ? 'ssl://' . $connect_host : 'tcp://' . $connect_host;
 
-		$is_local   = isset( $r['local'] ) && $r['local'];
-		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
+		$is_local   = isset( $parsed_args['local'] ) && $parsed_args['local'];
+		$ssl_verify = isset( $parsed_args['sslverify'] ) && $parsed_args['sslverify'];
 		if ( $is_local ) {
 			/**
 			 * Filters whether SSL should be verified for local requests.
@@ -117,14 +117,14 @@ class WP_Http_Streams {
 					//'CN_match' => $arrURL['host'], // This is handled by self::verify_ssl_certificate()
 					'capture_peer_cert' => $ssl_verify,
 					'SNI_enabled'       => true,
-					'cafile'            => $r['sslcertificates'],
+					'cafile'            => $parsed_args['sslcertificates'],
 					'allow_self_signed' => ! $ssl_verify,
 				),
 			)
 		);
 
-		$timeout         = (int) floor( $r['timeout'] );
-		$utimeout        = $timeout == $r['timeout'] ? 0 : 1000000 * $r['timeout'] % 1000000;
+		$timeout         = (int) floor( $parsed_args['timeout'] );
+		$utimeout        = $timeout == $parsed_args['timeout'] ? 0 : 1000000 * $parsed_args['timeout'] % 1000000;
 		$connect_timeout = max( $timeout, 1 );
 
 		// Store error number.
@@ -182,7 +182,7 @@ class WP_Http_Streams {
 			$requestPath = $arrURL['path'] . ( isset( $arrURL['query'] ) ? '?' . $arrURL['query'] : '' );
 		}
 
-		$strHeaders = strtoupper( $r['method'] ) . ' ' . $requestPath . ' HTTP/' . $r['httpversion'] . "\r\n";
+		$strHeaders = strtoupper( $parsed_args['method'] ) . ' ' . $requestPath . ' HTTP/' . $parsed_args['httpversion'] . "\r\n";
 
 		$include_port_in_host_header = (
 			( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) ||
@@ -196,16 +196,16 @@ class WP_Http_Streams {
 			$strHeaders .= 'Host: ' . $arrURL['host'] . "\r\n";
 		}
 
-		if ( isset( $r['user-agent'] ) ) {
-			$strHeaders .= 'User-agent: ' . $r['user-agent'] . "\r\n";
+		if ( isset( $parsed_args['user-agent'] ) ) {
+			$strHeaders .= 'User-agent: ' . $parsed_args['user-agent'] . "\r\n";
 		}
 
-		if ( is_array( $r['headers'] ) ) {
-			foreach ( (array) $r['headers'] as $header => $headerValue ) {
+		if ( is_array( $parsed_args['headers'] ) ) {
+			foreach ( (array) $parsed_args['headers'] as $header => $headerValue ) {
 				$strHeaders .= $header . ': ' . $headerValue . "\r\n";
 			}
 		} else {
-			$strHeaders .= $r['headers'];
+			$strHeaders .= $parsed_args['headers'];
 		}
 
 		if ( $proxy->use_authentication() ) {
@@ -214,13 +214,13 @@ class WP_Http_Streams {
 
 		$strHeaders .= "\r\n";
 
-		if ( ! is_null( $r['body'] ) ) {
-			$strHeaders .= $r['body'];
+		if ( ! is_null( $parsed_args['body'] ) ) {
+			$strHeaders .= $parsed_args['body'];
 		}
 
 		fwrite( $handle, $strHeaders );
 
-		if ( ! $r['blocking'] ) {
+		if ( ! $parsed_args['blocking'] ) {
 			stream_set_blocking( $handle, 0 );
 			fclose( $handle );
 			return array(
@@ -238,16 +238,16 @@ class WP_Http_Streams {
 		$bodyStarted  = false;
 		$keep_reading = true;
 		$block_size   = 4096;
-		if ( isset( $r['limit_response_size'] ) ) {
-			$block_size = min( $block_size, $r['limit_response_size'] );
+		if ( isset( $parsed_args['limit_response_size'] ) ) {
+			$block_size = min( $block_size, $parsed_args['limit_response_size'] );
 		}
 
 		// If streaming to a file setup the file handle.
-		if ( $r['stream'] ) {
+		if ( $parsed_args['stream'] ) {
 			if ( ! WP_DEBUG ) {
-				$stream_handle = @fopen( $r['filename'], 'w+' );
+				$stream_handle = @fopen( $parsed_args['filename'], 'w+' );
 			} else {
-				$stream_handle = fopen( $r['filename'], 'w+' );
+				$stream_handle = fopen( $parsed_args['filename'], 'w+' );
 			}
 			if ( ! $stream_handle ) {
 				return new WP_Error(
@@ -256,7 +256,7 @@ class WP_Http_Streams {
 						/* translators: 1: fopen(), 2: file name */
 						__( 'Could not open handle for %1$s to %2$s.' ),
 						'fopen()',
-						$r['filename']
+						$parsed_args['filename']
 					)
 				);
 			}
@@ -277,8 +277,8 @@ class WP_Http_Streams {
 
 				$this_block_size = strlen( $block );
 
-				if ( isset( $r['limit_response_size'] ) && ( $bytes_written + $this_block_size ) > $r['limit_response_size'] ) {
-					$this_block_size = ( $r['limit_response_size'] - $bytes_written );
+				if ( isset( $parsed_args['limit_response_size'] ) && ( $bytes_written + $this_block_size ) > $parsed_args['limit_response_size'] ) {
+					$this_block_size = ( $parsed_args['limit_response_size'] - $bytes_written );
 					$block           = substr( $block, 0, $this_block_size );
 				}
 
@@ -292,7 +292,7 @@ class WP_Http_Streams {
 
 				$bytes_written += $bytes_written_to_file;
 
-				$keep_reading = ! isset( $r['limit_response_size'] ) || $bytes_written < $r['limit_response_size'];
+				$keep_reading = ! isset( $parsed_args['limit_response_size'] ) || $bytes_written < $parsed_args['limit_response_size'];
 			}
 
 			fclose( $stream_handle );
@@ -306,7 +306,7 @@ class WP_Http_Streams {
 					$header_length = strpos( $strResponse, "\r\n\r\n" ) + 4;
 					$bodyStarted   = true;
 				}
-				$keep_reading = ( ! $bodyStarted || ! isset( $r['limit_response_size'] ) || strlen( $strResponse ) < ( $header_length + $r['limit_response_size'] ) );
+				$keep_reading = ( ! $bodyStarted || ! isset( $parsed_args['limit_response_size'] ) || strlen( $strResponse ) < ( $header_length + $parsed_args['limit_response_size'] ) );
 			}
 
 			$process = WP_Http::processResponse( $strResponse );
@@ -324,11 +324,11 @@ class WP_Http_Streams {
 			'body'     => null,
 			'response' => $arrHeaders['response'],
 			'cookies'  => $arrHeaders['cookies'],
-			'filename' => $r['filename'],
+			'filename' => $parsed_args['filename'],
 		);
 
 		// Handle redirects.
-		$redirect_response = WP_Http::handle_redirects( $url, $r, $response );
+		$redirect_response = WP_Http::handle_redirects( $url, $parsed_args, $response );
 		if ( false !== $redirect_response ) {
 			return $redirect_response;
 		}
@@ -338,12 +338,12 @@ class WP_Http_Streams {
 			$process['body'] = WP_Http::chunkTransferDecode( $process['body'] );
 		}
 
-		if ( true === $r['decompress'] && true === WP_Http_Encoding::should_decode( $arrHeaders['headers'] ) ) {
+		if ( true === $parsed_args['decompress'] && true === WP_Http_Encoding::should_decode( $arrHeaders['headers'] ) ) {
 			$process['body'] = WP_Http_Encoding::decompress( $process['body'] );
 		}
 
-		if ( isset( $r['limit_response_size'] ) && strlen( $process['body'] ) > $r['limit_response_size'] ) {
-			$process['body'] = substr( $process['body'], 0, $r['limit_response_size'] );
+		if ( isset( $parsed_args['limit_response_size'] ) && strlen( $process['body'] ) > $parsed_args['limit_response_size'] ) {
+			$process['body'] = substr( $process['body'], 0, $parsed_args['limit_response_size'] );
 		}
 
 		$response['body'] = $process['body'];

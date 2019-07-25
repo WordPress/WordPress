@@ -1123,13 +1123,13 @@ function wp_dropdown_users( $args = '' ) {
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
 
-	$r = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
-	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who', 'role', 'role__in', 'role__not_in' ) );
+	$query_args = wp_array_slice_assoc( $parsed_args, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who', 'role', 'role__in', 'role__not_in' ) );
 
 	$fields = array( 'ID', 'user_login' );
 
-	$show = ! empty( $r['show'] ) ? $r['show'] : 'display_name';
+	$show = ! empty( $parsed_args['show'] ) ? $parsed_args['show'] : 'display_name';
 	if ( 'display_name_with_login' === $show ) {
 		$fields[] = 'display_name';
 	} else {
@@ -1138,9 +1138,9 @@ function wp_dropdown_users( $args = '' ) {
 
 	$query_args['fields'] = $fields;
 
-	$show_option_all   = $r['show_option_all'];
-	$show_option_none  = $r['show_option_none'];
-	$option_none_value = $r['option_none_value'];
+	$show_option_all   = $parsed_args['show_option_all'];
+	$show_option_none  = $parsed_args['show_option_none'];
+	$option_none_value = $parsed_args['option_none_value'];
 
 	/**
 	 * Filters the query arguments for the list of users in the dropdown.
@@ -1148,43 +1148,43 @@ function wp_dropdown_users( $args = '' ) {
 	 * @since 4.4.0
 	 *
 	 * @param array $query_args The query arguments for get_users().
-	 * @param array $r          The arguments passed to wp_dropdown_users() combined with the defaults.
+	 * @param array $parsed_args          The arguments passed to wp_dropdown_users() combined with the defaults.
 	 */
-	$query_args = apply_filters( 'wp_dropdown_users_args', $query_args, $r );
+	$query_args = apply_filters( 'wp_dropdown_users_args', $query_args, $parsed_args );
 
 	$users = get_users( $query_args );
 
 	$output = '';
-	if ( ! empty( $users ) && ( empty( $r['hide_if_only_one_author'] ) || count( $users ) > 1 ) ) {
-		$name = esc_attr( $r['name'] );
-		if ( $r['multi'] && ! $r['id'] ) {
+	if ( ! empty( $users ) && ( empty( $parsed_args['hide_if_only_one_author'] ) || count( $users ) > 1 ) ) {
+		$name = esc_attr( $parsed_args['name'] );
+		if ( $parsed_args['multi'] && ! $parsed_args['id'] ) {
 			$id = '';
 		} else {
-			$id = $r['id'] ? " id='" . esc_attr( $r['id'] ) . "'" : " id='$name'";
+			$id = $parsed_args['id'] ? " id='" . esc_attr( $parsed_args['id'] ) . "'" : " id='$name'";
 		}
-		$output = "<select name='{$name}'{$id} class='" . $r['class'] . "'>\n";
+		$output = "<select name='{$name}'{$id} class='" . $parsed_args['class'] . "'>\n";
 
 		if ( $show_option_all ) {
 			$output .= "\t<option value='0'>$show_option_all</option>\n";
 		}
 
 		if ( $show_option_none ) {
-			$_selected = selected( $option_none_value, $r['selected'], false );
+			$_selected = selected( $option_none_value, $parsed_args['selected'], false );
 			$output   .= "\t<option value='" . esc_attr( $option_none_value ) . "'$_selected>$show_option_none</option>\n";
 		}
 
-		if ( $r['include_selected'] && ( $r['selected'] > 0 ) ) {
-			$found_selected = false;
-			$r['selected']  = (int) $r['selected'];
+		if ( $parsed_args['include_selected'] && ( $parsed_args['selected'] > 0 ) ) {
+			$found_selected          = false;
+			$parsed_args['selected'] = (int) $parsed_args['selected'];
 			foreach ( (array) $users as $user ) {
 				$user->ID = (int) $user->ID;
-				if ( $user->ID === $r['selected'] ) {
+				if ( $user->ID === $parsed_args['selected'] ) {
 					$found_selected = true;
 				}
 			}
 
 			if ( ! $found_selected ) {
-				$users[] = get_userdata( $r['selected'] );
+				$users[] = get_userdata( $parsed_args['selected'] );
 			}
 		}
 
@@ -1198,7 +1198,7 @@ function wp_dropdown_users( $args = '' ) {
 				$display = '(' . $user->user_login . ')';
 			}
 
-			$_selected = selected( $user->ID, $r['selected'], false );
+			$_selected = selected( $user->ID, $parsed_args['selected'], false );
 			$output   .= "\t<option value='$user->ID'$_selected>" . esc_html( $display ) . "</option>\n";
 		}
 
@@ -1214,7 +1214,7 @@ function wp_dropdown_users( $args = '' ) {
 	 */
 	$html = apply_filters( 'wp_dropdown_users', $output );
 
-	if ( $r['echo'] ) {
+	if ( $parsed_args['echo'] ) {
 		echo $html;
 	}
 	return $html;

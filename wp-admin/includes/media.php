@@ -1493,7 +1493,8 @@ function get_media_item( $attachment_id, $args = null ) {
 		'toggle'     => true,
 		'show_title' => true,
 	);
-	$args         = wp_parse_args( $args, $default_args );
+
+	$parsed_args = wp_parse_args( $args, $default_args );
 
 	/**
 	 * Filters the arguments used to retrieve an image for the edit image form.
@@ -1502,9 +1503,9 @@ function get_media_item( $attachment_id, $args = null ) {
 	 *
 	 * @see get_media_item
 	 *
-	 * @param array $args An array of arguments.
+	 * @param array $parsed_args An array of arguments.
 	 */
-	$r = apply_filters( 'get_media_item_args', $args );
+	$parsed_args = apply_filters( 'get_media_item_args', $parsed_args );
 
 	$toggle_on  = __( 'Show' );
 	$toggle_off = __( 'Hide' );
@@ -1518,10 +1519,10 @@ function get_media_item( $attachment_id, $args = null ) {
 	$type            = reset( $keys );
 	$type_html       = "<input type='hidden' id='type-of-$attachment_id' value='" . esc_attr( $type ) . "' />";
 
-	$form_fields = get_attachment_fields_to_edit( $post, $r['errors'] );
+	$form_fields = get_attachment_fields_to_edit( $post, $parsed_args['errors'] );
 
-	if ( $r['toggle'] ) {
-		$class        = empty( $r['errors'] ) ? 'startclosed' : 'startopen';
+	if ( $parsed_args['toggle'] ) {
+		$class        = empty( $parsed_args['errors'] ) ? 'startclosed' : 'startopen';
 		$toggle_links = "
 	<a class='toggle describe-toggle-on' href='#'>$toggle_on</a>
 	<a class='toggle describe-toggle-off' href='#'>$toggle_off</a>";
@@ -1531,7 +1532,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	}
 
 	$display_title = ( ! empty( $title ) ) ? $title : $filename; // $title shouldn't ever be empty, but just in case
-	$display_title = $r['show_title'] ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60, '&hellip;' ) . '</span></div>' : '';
+	$display_title = $parsed_args['show_title'] ? "<div class='filename new'><span class='title'>" . wp_html_excerpt( $display_title, 60, '&hellip;' ) . '</span></div>' : '';
 
 	$gallery = ( ( isset( $_REQUEST['tab'] ) && 'gallery' == $_REQUEST['tab'] ) || ( isset( $redir_tab ) && 'gallery' == $redir_tab ) );
 	$order   = '';
@@ -1609,11 +1610,11 @@ function get_media_item( $attachment_id, $args = null ) {
 		'extra_rows' => array(),
 	);
 
-	if ( $r['send'] ) {
-		$r['send'] = get_submit_button( __( 'Insert into Post' ), '', "send[$attachment_id]", false );
+	if ( $parsed_args['send'] ) {
+		$parsed_args['send'] = get_submit_button( __( 'Insert into Post' ), '', "send[$attachment_id]", false );
 	}
 
-	$delete = empty( $r['delete'] ) ? '' : $r['delete'];
+	$delete = empty( $parsed_args['delete'] ) ? '' : $parsed_args['delete'];
 	if ( $delete && current_user_can( 'delete_post', $attachment_id ) ) {
 		if ( ! EMPTY_TRASH_DAYS ) {
 			$delete = "<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='delete-permanently'>" . __( 'Delete Permanently' ) . '</a>';
@@ -1650,8 +1651,8 @@ function get_media_item( $attachment_id, $args = null ) {
 		$thumbnail  = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\", \"$ajax_nonce\");return false;'>" . esc_html( $calling_post_type_object->labels->use_featured_image ) . '</a>';
 	}
 
-	if ( ( $r['send'] || $thumbnail || $delete ) && ! isset( $form_fields['buttons'] ) ) {
-		$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>" . $r['send'] . " $thumbnail $delete</td></tr>\n" );
+	if ( ( $parsed_args['send'] || $thumbnail || $delete ) && ! isset( $form_fields['buttons'] ) ) {
+		$form_fields['buttons'] = array( 'tr' => "\t\t<tr class='submit'><td></td><td class='savesend'>" . $parsed_args['send'] . " $thumbnail $delete</td></tr>\n" );
 	}
 	$hidden_fields = array();
 

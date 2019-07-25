@@ -492,9 +492,9 @@ function post_tags_meta_box( $post, $box ) {
 	} else {
 		$args = $box['args'];
 	}
-	$r                     = wp_parse_args( $args, $defaults );
-	$tax_name              = esc_attr( $r['taxonomy'] );
-	$taxonomy              = get_taxonomy( $r['taxonomy'] );
+	$parsed_args           = wp_parse_args( $args, $defaults );
+	$tax_name              = esc_attr( $parsed_args['taxonomy'] );
+	$taxonomy              = get_taxonomy( $parsed_args['taxonomy'] );
 	$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
 	$comma                 = _x( ',', 'tag delimiter' );
 	$terms_to_edit         = get_terms_to_edit( $post->ID, $tax_name );
@@ -555,9 +555,9 @@ function post_categories_meta_box( $post, $box ) {
 	} else {
 		$args = $box['args'];
 	}
-	$r        = wp_parse_args( $args, $defaults );
-	$tax_name = esc_attr( $r['taxonomy'] );
-	$taxonomy = get_taxonomy( $r['taxonomy'] );
+	$parsed_args = wp_parse_args( $args, $defaults );
+	$tax_name    = esc_attr( $parsed_args['taxonomy'] );
+	$taxonomy    = get_taxonomy( $parsed_args['taxonomy'] );
 	?>
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<ul id="<?php echo $tax_name; ?>-tabs" class="category-tabs">
@@ -1310,12 +1310,12 @@ function link_advanced_meta_box( $link ) {
 		<th scope="row"><label for="link_rating"><?php _e( 'Rating' ); ?></label></th>
 		<td><select name="link_rating" id="link_rating" size="1">
 		<?php
-		for ( $r = 0; $r <= 10; $r++ ) {
-			echo '<option value="' . $r . '"';
-			if ( isset( $link->link_rating ) && $link->link_rating == $r ) {
+		for ( $parsed_args = 0; $parsed_args <= 10; $parsed_args++ ) {
+			echo '<option value="' . $parsed_args . '"';
+			if ( isset( $link->link_rating ) && $link->link_rating == $parsed_args ) {
 				echo ' selected="selected"';
 			}
-			echo( '>' . $r . '</option>' );
+			echo( '>' . $parsed_args . '</option>' );
 		}
 		?>
 		</select>&nbsp;<?php _e( '(Leave at 0 for no rating.)' ); ?>

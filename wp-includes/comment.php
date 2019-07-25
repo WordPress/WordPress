@@ -164,15 +164,15 @@ function get_approved_comments( $post_id, $args = array() ) {
 		return array();
 	}
 
-	$defaults = array(
+	$defaults    = array(
 		'status'  => 1,
 		'post_id' => $post_id,
 		'order'   => 'ASC',
 	);
-	$r        = wp_parse_args( $args, $defaults );
+	$parsed_args = wp_parse_args( $args, $defaults );
 
 	$query = new WP_Comment_Query;
-	return $query->query( $r );
+	return $query->query( $parsed_args );
 }
 
 /**
