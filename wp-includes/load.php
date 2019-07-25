@@ -1031,6 +1031,9 @@ function is_blog_admin() {
  * Does not check if the user is an administrator; use current_user_can()
  * for checking roles and capabilities.
  *
+ * Does not check if the site is a Multisite network; use is_multisite()
+ * for checking if Multisite is enabled.
+ *
  * @since 3.1.0
  *
  * @global WP_Screen $current_screen
