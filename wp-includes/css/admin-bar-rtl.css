@@ -89,7 +89,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	top: 0;
 	right: 0;
 	width: 100%;
-	min-width: 600px; /* match the min-width of the body in wp-admin.css */
+	min-width: 600px; /* match the min-width of the body in wp-admin/css/common.css */
 	z-index: 99999;
 	background: #23282d;
 }
@@ -809,7 +809,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	/* Toolbar Touchification*/
 	html #wpadminbar {
 		height: 46px;
-		min-width: 300px;
+		min-width: 240px; /* match the min-width of the body in wp-admin/css/common.css */
 	}
 
 	#wpadminbar * {
