@@ -1163,6 +1163,11 @@ p.popular-tags a {
 	text-decoration: underline;
 }
 
+#addtag .spinner {
+	float: none;
+	vertical-align: top;
+}
+
 #edittag {
 	max-width: 800px;
 }

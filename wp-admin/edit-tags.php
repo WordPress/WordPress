@@ -515,9 +515,12 @@ if ( $can_edit_terms ) {
 	 * @param string $taxonomy The taxonomy slug.
 	 */
 	do_action( "{$taxonomy}_add_form_fields", $taxonomy );
-
-	submit_button( $tax->labels->add_new_item );
-
+	?>
+	<p class="submit">
+		<?php submit_button( $tax->labels->add_new_item, 'primary', 'submit', false ); ?>
+		<span class="spinner"></span>
+	</p>
+	<?php
 	if ( 'category' == $taxonomy ) {
 		/**
 		 * Fires at the end of the Edit Category form.
