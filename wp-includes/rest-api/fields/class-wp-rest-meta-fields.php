@@ -267,7 +267,8 @@ abstract class WP_REST_Meta_Fields {
 			if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
-					__( 'Could not update meta value in database.' ),
+					/* translators: %s: custom field key */
+					sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
 					array(
 						'key'    => $name,
 						'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -280,7 +281,8 @@ abstract class WP_REST_Meta_Fields {
 			if ( ! add_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
-					__( 'Could not update meta value in database.' ),
+					/* translators: %s: custom field key */
+					sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
 					array(
 						'key'    => $name,
 						'status' => WP_Http::INTERNAL_SERVER_ERROR,
@@ -330,7 +332,8 @@ abstract class WP_REST_Meta_Fields {
 		if ( ! update_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
-				__( 'Could not update meta value in database.' ),
+				/* translators: %s: custom field key */
+				sprintf( __( 'Could not update the meta value of %s in database.' ), $meta_key ),
 				array(
 					'key'    => $name,
 					'status' => WP_Http::INTERNAL_SERVER_ERROR,
