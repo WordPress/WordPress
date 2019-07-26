@@ -167,6 +167,10 @@
 #adminmenu .wp-submenu a {
 	color: #b4b9be;
 	color: rgba(240, 245, 250, 0.7);
+	font-size: 13px;
+	line-height: 1.4;
+	margin: 0;
+	padding: 5px 0;
 }
 
 #adminmenu .wp-submenu a:hover,
@@ -276,13 +280,6 @@
 .folded #adminmenu .wp-has-current-submenu .wp-submenu {
 	min-width: 160px;
 	width: auto;
-}
-
-#adminmenu .wp-submenu a {
-	font-size: 13px;
-	line-height: 1.4;
-	margin: 0;
-	padding: 5px 0;
 }
 
 #adminmenu .wp-submenu li.current,
