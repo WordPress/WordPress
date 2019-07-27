@@ -222,21 +222,6 @@ class WP_Locale {
 		} elseif ( 'rtl' == _x( 'ltr', 'text direction' ) ) {
 			$this->text_direction = 'rtl';
 		}
-
-		if ( 'rtl' === $this->text_direction && strpos( $GLOBALS['wp_version'], '-src' ) ) {
-			$this->text_direction = 'ltr';
-			add_action( 'all_admin_notices', array( $this, 'rtl_src_admin_notice' ) );
-		}
-	}
-
-	/**
-	 * Outputs an admin notice if the /build directory must be used for RTL.
-	 *
-	 * @since 3.8.0
-	 */
-	public function rtl_src_admin_notice() {
-		/* translators: %s: Name of the directory (build) */
-		echo '<div class="error"><p>' . sprintf( __( 'The %s directory of the develop repository must be used for RTL.' ), '<code>build</code>' ) . '</p></div>';
 	}
 
 	/**
