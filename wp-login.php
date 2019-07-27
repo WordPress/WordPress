@@ -553,7 +553,13 @@ switch ( $action ) {
 			$redirect_to           = $_REQUEST['redirect_to'];
 			$requested_redirect_to = $redirect_to;
 		} else {
-			$redirect_to           = 'wp-login.php?loggedout=true';
+			$redirect_to           = add_query_arg(
+				array(
+					'loggedout' => 'true',
+					'wp_lang'   => get_user_locale( $user ),
+				),
+				wp_login_url()
+			);
 			$requested_redirect_to = '';
 		}
 
