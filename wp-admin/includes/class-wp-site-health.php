@@ -130,7 +130,7 @@ class WP_Site_Health {
 				$mysql_server_type = mysql_get_server_info( $wpdb->dbh );
 			}
 
-			$this->mysql_server_version = $wpdb->get_var( 'SELECT VERSION()' );
+			$this->mysql_server_version = $wpdb->db_version();
 		}
 
 		$this->health_check_mysql_rec_version = '5.6';

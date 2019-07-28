@@ -705,22 +705,7 @@ class WP_Debug_Data {
 			$extension = null;
 		}
 
-		/*
-		 * Check what database engine is used, this will throw compatibility
-		 * warnings from PHP compatibility testers, but `mysql_*` is
-		 * still valid in PHP 5.6, so we need to account for that.
-		 */
-		if ( method_exists( $wpdb, 'db_version' ) ) {
-			if ( $wpdb->use_mysqli ) {
-				// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
-				$server = mysqli_get_server_info( $wpdb->dbh );
-			} else {
-				// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_get_server_info
-				$server = mysql_get_server_info( $wpdb->dbh );
-			}
-		} else {
-			$server = null;
-		}
+		$server = $wpdb->db_version();
 
 		if ( isset( $wpdb->use_mysqli ) && $wpdb->use_mysqli ) {
 			$client_version = $wpdb->dbh->client_info;
