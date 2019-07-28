@@ -11,7 +11,7 @@
  *
  * @since 2.0.0
  *
- * @return bool
+ * @return bool Whether the server is running Apache with the mod_rewrite module loaded.
  */
 function got_mod_rewrite() {
 	$got_rewrite = apache_mod_loaded( 'mod_rewrite', true );
@@ -60,9 +60,9 @@ function got_url_rewrite() {
  *
  * @since 1.5.0
  *
- * @param string $filename
- * @param string $marker
- * @return array An array of strings from a file (.htaccess ) from between BEGIN and END markers.
+ * @param string $filename Filename to extract the strings from.
+ * @param string $marker   The marker to extract the strings from.
+ * @return array An array of strings from a file (.htaccess) from between BEGIN and END markers.
  */
 function extract_from_markers( $filename, $marker ) {
 	$result = array();
@@ -93,7 +93,7 @@ function extract_from_markers( $filename, $marker ) {
 }
 
 /**
- * Inserts an array of strings into a file (.htaccess ), placing it between
+ * Inserts an array of strings into a file (.htaccess), placing it between
  * BEGIN and END markers.
  *
  * Replaces existing marked info. Retains surrounding
