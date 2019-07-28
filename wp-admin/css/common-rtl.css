@@ -3791,6 +3791,8 @@ img {
 
 	code {
 		word-wrap: break-word;
+		word-wrap: anywhere; /* Firefox. Allow breaking long words anywhere */
+		word-break: break-word; /* Webkit: Treated similarly to word-wrap: break-word */
 	}
 
 	/* General Metabox */
