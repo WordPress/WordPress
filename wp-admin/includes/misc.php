@@ -79,6 +79,9 @@ function extract_from_markers( $filename, $marker ) {
 			$state = false;
 		}
 		if ( $state ) {
+			if ( '#' === substr( $markerline, 0, 1 ) ) {
+				continue;
+			}
 			$result[] = $markerline;
 		}
 		if ( false !== strpos( $markerline, '# BEGIN ' . $marker ) ) {
@@ -118,6 +121,37 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	if ( ! is_array( $insertion ) ) {
 		$insertion = explode( "\n", $insertion );
 	}
+
+	$switched_locale = switch_to_locale( get_locale() );
+
+	$instructions = sprintf(
+		/* translators: 1: marker */
+		__( 'The directives (lines) between `BEGIN %1$s` and `END %1$s` are
+dynamically generated, and should only be modified via WordPress filters.
+Any changes to the directives between these markers will be overwritten.' ),
+		$marker
+	);
+
+	$instructions = explode( "\n", $instructions );
+	foreach ( $instructions as $line => $text ) {
+		$instructions[ $line ] = '# ' . $text;
+	}
+
+	/**
+	 * Filters the inline instructions inserted before the dynamically generated content.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string[] $instructions Array of lines with inline instructions.
+	 * @param string   $marker       The marker being inserted.
+	 */
+	$instructions = apply_filters( 'insert_with_markers_inline_instructions', $instructions, $marker );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
+	$insertion = array_merge( $instructions, $insertion );
 
 	$start_marker = "# BEGIN {$marker}";
 	$end_marker   = "# END {$marker}";
