@@ -1438,6 +1438,7 @@ table.form-table td .updated p {
 
 	.form-table.permalink-structure td code {
 		margin-right: 32px;
+		display: inline-block;
 	}
 
 	.form-table.permalink-structure td input[type="text"] {
