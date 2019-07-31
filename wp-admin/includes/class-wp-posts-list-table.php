@@ -1864,8 +1864,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 					 *
 					 * @since 2.7.0
 					 *
-					 * @param string  $column_name Name of the column to edit.
-					 * @param WP_Post $post_type   The post type slug.
+					 * @param string $column_name Name of the column to edit.
+					 * @param string $post_type   The post type slug.
 					 */
 					do_action( 'bulk_edit_custom_box', $column_name, $screen->post_type );
 				} else {
@@ -1877,7 +1877,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					 *
 					 * @param string $column_name Name of the column to edit.
 					 * @param string $post_type   The post type slug, or current screen name if this is a taxonomy list table.
-					 * @param string taxonomy     The taxonomy name, if any.
+					 * @param string $taxonomy    The taxonomy name, if any.
 					 */
 					do_action( 'quick_edit_custom_box', $column_name, $screen->post_type, '' );
 				}
