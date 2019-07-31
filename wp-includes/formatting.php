@@ -3267,7 +3267,7 @@ function convert_smilies( $text ) {
  *
  * @param string $email      Email address to verify.
  * @param bool   $deprecated Deprecated.
- * @return string|bool Either false or the valid email address.
+ * @return string|false Valid email address on success, false on failure.
  */
 function is_email( $email, $deprecated = false ) {
 	if ( ! empty( $deprecated ) ) {
@@ -3285,9 +3285,9 @@ function is_email( $email, $deprecated = false ) {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param bool   $is_email Whether the email address has passed the is_email() checks. Default false.
-		 * @param string $email    The email address being checked.
-		 * @param string $context  Context under which the email was tested.
+		 * @param string|false $is_email The email address if successfully passed the is_email() checks, false otherwise.
+		 * @param string       $email    The email address being checked.
+		 * @param string       $context  Context under which the email was tested.
 		 */
 		return apply_filters( 'is_email', false, $email, 'email_too_short' );
 	}
