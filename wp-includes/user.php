@@ -1468,14 +1468,15 @@ function validate_username( $username ) {
  *
  * Most of the `$userdata` array fields have filters associated with the values. Exceptions are
  * 'ID', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl',
- * 'user_registered', 'spam', and 'role'. The filters have the prefix 'pre_user_' followed by the
- * field name. An example using 'description' would have the filter called, 'pre_user_description'
- * that can be hooked into.
+ * 'user_registered', 'user_activation_key', 'spam', and 'role'. The filters have the prefix
+ * 'pre_user_' followed by the field name. An example using 'description' would have the filter
+ * called 'pre_user_description' that can be hooked into.
  *
  * @since 2.0.0
  * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
  *              methods for new installations. See wp_get_user_contact_methods().
  * @since 4.7.0 The user's locale can be passed to `$userdata`.
+ * @since 5.3.0 The `user_activation_key` field can be passed to `$userdata`.
  * @since 5.3.0 The `spam` field can be passed to `$userdata` (Multisite only).
  *
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -1510,6 +1511,7 @@ function validate_username( $username ) {
  *     @type bool        $use_ssl              Whether the user should always access the admin over
  *                                             https. Default false.
  *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type string      $user_activation_key  Password reset key. Default empty.
  *     @type bool        $spam                 Multisite only. Whether the user is marked as spam.
  *                                             Default false.
  *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
@@ -1661,6 +1663,8 @@ function wp_insert_user( $userdata ) {
 
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
+	$user_activation_key = empty( $userdata['user_activation_key'] ) ? '' : $userdata['user_activation_key'];
+
 	if ( isset( $userdata['spam'] ) && ! is_multisite() ) {
 		return new WP_Error( 'no_spam', __( 'Sorry, marking a user as spam is only supported on Multisite.' ) );
 	}
@@ -1755,7 +1759,7 @@ function wp_insert_user( $userdata ) {
 
 	$meta['locale'] = isset( $userdata['locale'] ) ? $userdata['locale'] : '';
 
-	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name' );
+	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'display_name' );
 	$data      = wp_unslash( $compacted );
 
 	if ( ! $update ) {
@@ -2248,7 +2252,6 @@ function wp_get_password_hint() {
  *
  * @since 4.4.0
  *
- * @global wpdb         $wpdb      WordPress database abstraction object.
  * @global PasswordHash $wp_hasher Portable PHP password hashing framework.
  *
  * @param WP_User $user User to retrieve password reset key for.
@@ -2256,7 +2259,7 @@ function wp_get_password_hint() {
  * @return string|WP_Error Password reset key on success. WP_Error on error.
  */
 function get_password_reset_key( $user ) {
-	global $wpdb, $wp_hasher;
+	global $wp_hasher;
 
 	if ( ! ( $user instanceof WP_User ) ) {
 		return new WP_Error( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
@@ -2322,10 +2325,18 @@ function get_password_reset_key( $user ) {
 		require_once ABSPATH . WPINC . '/class-phpass.php';
 		$wp_hasher = new PasswordHash( 8, true );
 	}
-	$hashed    = time() . ':' . $wp_hasher->HashPassword( $key );
-	$key_saved = $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
-	if ( false === $key_saved ) {
-		return new WP_Error( 'no_password_key_update', __( 'Could not save password reset key to database.' ) );
+
+	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
+
+	$key_saved = wp_update_user(
+		array(
+			'ID'                  => $user->ID,
+			'user_activation_key' => $hashed,
+		)
+	);
+
+	if ( is_wp_error( $key_saved ) ) {
+		return $key_saved;
 	}
 
 	return $key;
