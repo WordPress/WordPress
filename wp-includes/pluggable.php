@@ -1893,9 +1893,6 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 	 * @since 4.3.1 The `$plaintext_pass` parameter was deprecated. `$notify` added as a third parameter.
 	 * @since 4.6.0 The `$notify` parameter accepts 'user' for sending notification only to the user created.
 	 *
-	 * @global wpdb         $wpdb      WordPress database object for queries.
-	 * @global PasswordHash $wp_hasher Portable PHP password hashing framework instance.
-	 *
 	 * @param int    $user_id    User ID.
 	 * @param null   $deprecated Not used (argument deprecated).
 	 * @param string $notify     Optional. Type of notification that should happen. Accepts 'admin' or an empty
@@ -1911,7 +1908,6 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 			return;
 		}
 
-		global $wpdb, $wp_hasher;
 		$user = get_userdata( $user_id );
 
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
@@ -1971,19 +1967,10 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 			return;
 		}
 
-		// Generate something random for a password reset key.
-		$key = wp_generate_password( 20, false );
-
-		/** This action is documented in wp-login.php */
-		do_action( 'retrieve_password_key', $user->user_login, $key );
-
-		// Now insert the key, hashed, into the DB.
-		if ( empty( $wp_hasher ) ) {
-			require_once ABSPATH . WPINC . '/class-phpass.php';
-			$wp_hasher = new PasswordHash( 8, true );
+		$key = get_password_reset_key( $user );
+		if ( is_wp_error( $key ) ) {
+			return;
 		}
-		$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
-		$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
 
 		$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
