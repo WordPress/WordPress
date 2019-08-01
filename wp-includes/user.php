@@ -1853,8 +1853,8 @@ function wp_insert_user( $userdata ) {
 	} elseif ( ! $update ) {
 		$user->set_role( get_option( 'default_role' ) );
 	}
-	wp_cache_delete( $user_id, 'users' );
-	wp_cache_delete( $user_login, 'userlogins' );
+
+	clean_user_cache( $user_id );
 
 	if ( $update ) {
 		/**
@@ -1980,8 +1980,7 @@ function wp_update_user( $userdata ) {
 		$send_email_change_email = apply_filters( 'send_email_change_email', true, $user, $userdata );
 	}
 
-	wp_cache_delete( $user['user_email'], 'useremail' );
-	wp_cache_delete( $user['user_nicename'], 'userslugs' );
+	clean_user_cache( $user_obj );
 
 	// Merge old and new fields with new fields overwriting old ones.
 	$userdata = array_merge( $user, $userdata );
