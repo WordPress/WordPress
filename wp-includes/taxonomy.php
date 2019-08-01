@@ -1770,7 +1770,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$defaults = array();
 
 	if ( 'category' === $taxonomy ) {
-		$defaults['default'] = get_option( 'default_category' );
+		$defaults['default'] = (int) get_option( 'default_category' );
 		if ( $defaults['default'] === $term ) {
 			return 0; // Don't delete the default category
 		}
@@ -3541,7 +3541,7 @@ function _get_term_children( $term_id, $terms, $taxonomy, &$ancestors = array() 
 			continue;
 		}
 
-		if ( $term->parent === $term_id ) {
+		if ( (int) $term->parent === $term_id ) {
 			if ( $use_id ) {
 				$term_list[] = $term->term_id;
 			} else {
