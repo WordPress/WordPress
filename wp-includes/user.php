@@ -1468,14 +1468,15 @@ function validate_username( $username ) {
  *
  * Most of the `$userdata` array fields have filters associated with the values. Exceptions are
  * 'ID', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl',
- * 'user_registered', and 'role'. The filters have the prefix 'pre_user_' followed by the field
- * name. An example using 'description' would have the filter called, 'pre_user_description' that
- * can be hooked into.
+ * 'user_registered', 'spam', and 'role'. The filters have the prefix 'pre_user_' followed by the
+ * field name. An example using 'description' would have the filter called, 'pre_user_description'
+ * that can be hooked into.
  *
  * @since 2.0.0
  * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
  *              methods for new installations. See wp_get_user_contact_methods().
  * @since 4.7.0 The user's locale can be passed to `$userdata`.
+ * @since 5.3.0 The `spam` field can be passed to `$userdata` (Multisite only).
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1509,6 +1510,8 @@ function validate_username( $username ) {
  *     @type bool        $use_ssl              Whether the user should always access the admin over
  *                                             https. Default false.
  *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
+ *     @type bool        $spam                 Multisite only. Whether the user is marked as spam.
+ *                                             Default false.
  *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
  *                                             site's front end. Default true.
  *     @type string      $role                 User's role.
@@ -1644,6 +1647,13 @@ function wp_insert_user( $userdata ) {
 	) {
 		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
 	}
+
+	if ( isset( $userdata['spam'] ) && ! is_multisite() ) {
+		return new WP_Error( 'no_spam', __( 'Sorry, marking a user as spam is only supported on Multisite.' ) );
+	}
+
+	$spam = empty( $userdata['spam'] ) ? 0 : (bool) $userdata['spam'];
+
 	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
 
 	/**
@@ -1723,7 +1733,7 @@ function wp_insert_user( $userdata ) {
 	$admin_color         = empty( $userdata['admin_color'] ) ? 'fresh' : $userdata['admin_color'];
 	$meta['admin_color'] = preg_replace( '|[^a-z0-9 _.\-@]|i', '', $admin_color );
 
-	$meta['use_ssl'] = empty( $userdata['use_ssl'] ) ? 0 : $userdata['use_ssl'];
+	$meta['use_ssl'] = empty( $userdata['use_ssl'] ) ? 0 : (bool) $userdata['use_ssl'];
 
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
@@ -1750,6 +1760,10 @@ function wp_insert_user( $userdata ) {
 
 	if ( ! $update ) {
 		$data = $data + compact( 'user_login' );
+	}
+
+	if ( is_multisite() ) {
+		$data = $data + compact( 'spam' );
 	}
 
 	/**
@@ -1848,6 +1862,28 @@ function wp_insert_user( $userdata ) {
 		 * @param WP_User $old_user_data Object containing user's data prior to update.
 		 */
 		do_action( 'profile_update', $user_id, $old_user_data );
+
+		if ( isset( $userdata['spam'] ) && $userdata['spam'] != $old_user_data->spam ) {
+			if ( $userdata['spam'] == 1 ) {
+				/**
+				 * Fires after the user is marked as a SPAM user.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param int $user_id ID of the user marked as SPAM.
+				 */
+				do_action( 'make_spam_user', $user_id );
+			} else {
+				/**
+				 * Fires after the user is marked as a HAM user. Opposite of SPAM.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param int $user_id ID of the user marked as HAM.
+				 */
+				do_action( 'make_ham_user', $user_id );
+			}
+		}
 	} else {
 		/**
 		 * Fires immediately after a new user is registered.

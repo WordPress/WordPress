@@ -304,59 +304,6 @@ function upload_space_setting( $id ) {
 }
 
 /**
- * Update the status of a user in the database.
- *
- * Used in core to mark a user as spam or "ham" (not spam) in Multisite.
- *
- * @since 3.0.0
- *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param int    $id         The user ID.
- * @param string $pref       The column in the wp_users table to update the user's status
- *                           in (presumably user_status, spam, or deleted).
- * @param int    $value      The new status for the user.
- * @param null   $deprecated Deprecated as of 3.0.2 and should not be used.
- * @return int   The initially passed $value.
- */
-function update_user_status( $id, $pref, $value, $deprecated = null ) {
-	global $wpdb;
-
-	if ( null !== $deprecated ) {
-		_deprecated_argument( __FUNCTION__, '3.0.2' );
-	}
-
-	$wpdb->update( $wpdb->users, array( sanitize_key( $pref ) => $value ), array( 'ID' => $id ) );
-
-	$user = new WP_User( $id );
-	clean_user_cache( $user );
-
-	if ( $pref == 'spam' ) {
-		if ( $value == 1 ) {
-			/**
-			 * Fires after the user is marked as a SPAM user.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param int $id ID of the user marked as SPAM.
-			 */
-			do_action( 'make_spam_user', $id );
-		} else {
-			/**
-			 * Fires after the user is marked as a HAM user. Opposite of SPAM.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param int $id ID of the user marked as HAM.
-			 */
-			do_action( 'make_ham_user', $id );
-		}
-	}
-
-	return $value;
-}
-
-/**
  * Cleans the user cache for a specific user.
  *
  * @since 3.0.0
