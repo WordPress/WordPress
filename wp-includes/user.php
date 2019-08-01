@@ -1602,9 +1602,6 @@ function wp_insert_user( $userdata ) {
 
 	$user_nicename = sanitize_title( $user_nicename );
 
-	// Store values to save in user meta.
-	$meta = array();
-
 	/**
 	 * Filters a user's nicename before the user is created or updated.
 	 *
@@ -1614,16 +1611,19 @@ function wp_insert_user( $userdata ) {
 	 */
 	$user_nicename = apply_filters( 'pre_user_nicename', $user_nicename );
 
-	$raw_user_url = empty( $userdata['user_url'] ) ? '' : $userdata['user_url'];
+	$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $user_nicename, $user_login ) );
 
-	/**
-	 * Filters a user's URL before the user is created or updated.
-	 *
-	 * @since 2.0.3
-	 *
-	 * @param string $raw_user_url The user's URL.
-	 */
-	$user_url = apply_filters( 'pre_user_url', $raw_user_url );
+	if ( $user_nicename_check ) {
+		$suffix = 2;
+		while ( $user_nicename_check ) {
+			// user_nicename allows 50 chars. Subtract one for a hyphen, plus the length of the suffix.
+			$base_length         = 49 - mb_strlen( $suffix );
+			$alt_user_nicename   = mb_substr( $user_nicename, 0, $base_length ) . "-$suffix";
+			$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $alt_user_nicename, $user_login ) );
+			$suffix++;
+		}
+		$user_nicename = $alt_user_nicename;
+	}
 
 	$raw_user_email = empty( $userdata['user_email'] ) ? '' : $userdata['user_email'];
 
@@ -1648,11 +1648,27 @@ function wp_insert_user( $userdata ) {
 		return new WP_Error( 'existing_user_email', __( 'Sorry, that email address is already used!' ) );
 	}
 
+	$raw_user_url = empty( $userdata['user_url'] ) ? '' : $userdata['user_url'];
+
+	/**
+	 * Filters a user's URL before the user is created or updated.
+	 *
+	 * @since 2.0.3
+	 *
+	 * @param string $raw_user_url The user's URL.
+	 */
+	$user_url = apply_filters( 'pre_user_url', $raw_user_url );
+
+	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
+
 	if ( isset( $userdata['spam'] ) && ! is_multisite() ) {
 		return new WP_Error( 'no_spam', __( 'Sorry, marking a user as spam is only supported on Multisite.' ) );
 	}
 
 	$spam = empty( $userdata['spam'] ) ? 0 : (bool) $userdata['spam'];
+
+	// Store values to save in user meta.
+	$meta = array();
 
 	$nickname = empty( $userdata['nickname'] ) ? $user_login : $userdata['nickname'];
 
@@ -1735,27 +1751,11 @@ function wp_insert_user( $userdata ) {
 
 	$meta['use_ssl'] = empty( $userdata['use_ssl'] ) ? 0 : (bool) $userdata['use_ssl'];
 
-	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
-
 	$meta['show_admin_bar_front'] = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
 
 	$meta['locale'] = isset( $userdata['locale'] ) ? $userdata['locale'] : '';
 
-	$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $user_nicename, $user_login ) );
-
-	if ( $user_nicename_check ) {
-		$suffix = 2;
-		while ( $user_nicename_check ) {
-			// user_nicename allows 50 chars. Subtract one for a hyphen, plus the length of the suffix.
-			$base_length         = 49 - mb_strlen( $suffix );
-			$alt_user_nicename   = mb_substr( $user_nicename, 0, $base_length ) . "-$suffix";
-			$user_nicename_check = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1", $alt_user_nicename, $user_login ) );
-			$suffix++;
-		}
-		$user_nicename = $alt_user_nicename;
-	}
-
-	$compacted = compact( 'user_pass', 'user_email', 'user_url', 'user_nicename', 'display_name', 'user_registered' );
+	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'display_name' );
 	$data      = wp_unslash( $compacted );
 
 	if ( ! $update ) {
