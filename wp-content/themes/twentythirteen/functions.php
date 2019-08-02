@@ -784,6 +784,27 @@ function twentythirteen_widget_tag_cloud_args( $args ) {
 }
 add_filter( 'widget_tag_cloud_args', 'twentythirteen_widget_tag_cloud_args' );
 
+/**
+ * Prevents `author-bio.php` partial template from interfering with rendering
+ * an author archive of a user with the `bio` username.
+ *
+ * @since Twenty Thirteen 3.0
+ *
+ * @param string $template Template file.
+ * @return string Replacement template file.
+ */
+function twentythirteen_author_bio_template( $template ) {
+	if ( is_author() ) {
+		$author = get_queried_object();
+		if ( $author instanceof WP_User && 'bio' === $author->user_nicename ) {
+			return locate_template( array( 'archive.php', 'index.php' ) );
+		}
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'twentythirteen_author_bio_template' );
+
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
 	 * Fire the wp_body_open action.
