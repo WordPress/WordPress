@@ -797,13 +797,14 @@ function twentythirteen_author_bio_template( $template ) {
 	if ( is_author() ) {
 		$author = get_queried_object();
 		if ( $author instanceof WP_User && 'bio' === $author->user_nicename ) {
-			return locate_template( array( 'archive.php', 'index.php' ) );
+			// Use author templates if exist, fall back to template hierarchy otherwise.
+			return locate_template( array( "author-{$author->ID}.php", 'author.php' ) );
 		}
 	}
 
 	return $template;
 }
-add_filter( 'template_include', 'twentythirteen_author_bio_template' );
+add_filter( 'author_template', 'twentythirteen_author_bio_template' );
 
 if ( ! function_exists( 'wp_body_open' ) ) :
 	/**
