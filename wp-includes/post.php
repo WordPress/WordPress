@@ -3059,12 +3059,16 @@ function wp_trash_post( $post_id = 0 ) {
 	add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
 	add_post_meta( $post_id, '_wp_trash_meta_time', time() );
 
-	wp_update_post(
+	$post_updated = wp_update_post(
 		array(
 			'ID'          => $post_id,
 			'post_status' => 'trash',
 		)
 	);
+
+	if ( ! $post_updated ) {
+		return false;
+	}
 
 	wp_trash_post_comments( $post_id );
 
@@ -3126,12 +3130,16 @@ function wp_untrash_post( $post_id = 0 ) {
 	delete_post_meta( $post_id, '_wp_trash_meta_status' );
 	delete_post_meta( $post_id, '_wp_trash_meta_time' );
 
-	wp_update_post(
+	$post_updated = wp_update_post(
 		array(
 			'ID'          => $post_id,
 			'post_status' => $post_status,
 		)
 	);
+
+	if ( ! $post_updated ) {
+		return false;
+	}
 
 	wp_untrash_post_comments( $post_id );
 
