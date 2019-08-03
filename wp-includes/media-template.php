@@ -1361,9 +1361,9 @@ function wp_print_media_templates() {
 					<dl class="gallery-item">
 						<dt class="gallery-icon">
 							<# if ( attachment.thumbnail ) { #>
-								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="" />
+								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="{{ attachment.alt }}" />
 							<# } else { #>
-								<img src="{{ attachment.url }}" alt="" />
+								<img src="{{ attachment.url }}" alt="{{ attachment.alt }}" />
 							<# } #>
 						</dt>
 						<# if ( attachment.caption ) { #>
