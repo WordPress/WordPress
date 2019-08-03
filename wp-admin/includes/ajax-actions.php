@@ -1430,6 +1430,7 @@ function wp_ajax_add_menu_item() {
 		$menu_obj = get_post( $menu_item_id );
 		if ( ! empty( $menu_obj->ID ) ) {
 			$menu_obj        = wp_setup_nav_menu_item( $menu_obj );
+			$menu_obj->title = empty( $menu_obj->title ) ? __( 'Menu Item' ) : $menu_obj->title;
 			$menu_obj->label = $menu_obj->title; // don't show "(pending)" in ajax-added items
 			$menu_items[]    = $menu_obj;
 		}
