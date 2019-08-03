@@ -223,8 +223,8 @@ table.diff td,
 table.diff th {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 14px;
-	line-height: 1.618;
-	padding: .5em;
+	line-height: 1.57142857;
+	padding: 0.5em 0.5em 0.5em 2em;
 	vertical-align: top;
 	word-wrap: break-word;
 }
@@ -244,6 +244,7 @@ table.diff .diff-addedline ins {
 }
 
 table.diff .diff-deletedline {
+	position: relative;
 	background-color: #ffe9e9;
 }
 
@@ -252,7 +253,24 @@ table.diff .diff-deletedline del {
 }
 
 table.diff .diff-addedline {
+	position: relative;
 	background-color: #e9ffe9;
+}
+
+table.diff .diff-deletedline .dashicons,
+table.diff .diff-addedline .dashicons {
+	position: absolute;
+	top: 0.85714286em;
+	left: 0.5em;
+	width: 1em;
+	height: 1em;
+	font-size: 1em;
+	line-height: 1;
+}
+
+table.diff .diff-addedline .dashicons {
+	/* Compensate the vertically non-centered plus glyph. */
+	top: 0.92857143em;
 }
 
 table.diff .diff-addedline ins {
@@ -521,7 +539,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 
 .wp-slider .ui-slider-range {
 	position: absolute;
-	font-size: .7em;
+	font-size: 0.7em;
 	display: block;
 	border: 0;
 	background-color: transparent;
@@ -529,7 +547,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 }
 
 .wp-slider.ui-slider-horizontal {
-	height: .7em;
+	height: 0.7em;
 }
 
 .wp-slider.ui-slider-horizontal .ui-slider-handle {
