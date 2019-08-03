@@ -18,6 +18,11 @@ require( ABSPATH . 'wp-admin/includes/noop.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
+$protocol = $_SERVER['SERVER_PROTOCOL'];
+if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
+	$protocol = 'HTTP/1.0';
+}
+
 $load = $_GET['load'];
 if ( is_array( $load ) ) {
 	ksort( $load );
@@ -28,6 +33,7 @@ $load = preg_replace( '/[^a-z0-9,_-]+/i', '', $load );
 $load = array_unique( explode( ',', $load ) );
 
 if ( empty( $load ) ) {
+	header( "$protocol 400 Bad Request" );
 	exit;
 }
 
@@ -39,10 +45,6 @@ $wp_styles = new WP_Styles();
 wp_default_styles( $wp_styles );
 
 if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && stripslashes( $_SERVER['HTTP_IF_NONE_MATCH'] ) === $wp_version ) {
-	$protocol = $_SERVER['SERVER_PROTOCOL'];
-	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
-		$protocol = 'HTTP/1.0';
-	}
 	header( "$protocol 304 Not Modified" );
 	exit();
 }
