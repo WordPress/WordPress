@@ -185,8 +185,8 @@ class ftp_base {
 			$lcount=count($lucifer);
 			if ($lcount<8) return '';
 			$b = array();
-			$b['isdir'] = $lucifer[0]{0} === "d";
-			$b['islink'] = $lucifer[0]{0} === "l";
+			$b['isdir'] = $lucifer[0][0] === "d";
+			$b['islink'] = $lucifer[0][0] === "l";
 			if ( $b['isdir'] )
 				$b['type'] = 'd';
 			elseif ( $b['islink'] )

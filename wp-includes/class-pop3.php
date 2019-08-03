@@ -376,7 +376,7 @@ class POP3 {
         $line = fgets($fp,$buffer);
         while ( !preg_match('/^\.\r\n/',$line))
         {
-            if ( $line{0} == '.' ) { $line = substr($line,1); }
+            if ( $line[0] == '.' ) { $line = substr($line,1); }
             $MsgArray[$count] = $line;
             $count++;
             $line = fgets($fp,$buffer);
