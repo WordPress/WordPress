@@ -428,8 +428,8 @@ class WP_Term_Query {
 				$excluded_children = array_merge(
 					$excluded_children,
 					(array) get_terms(
-						reset( $taxonomies ),
 						array(
+							'taxonomy'   => reset( $taxonomies ),
 							'child_of'   => intval( $extrunk ),
 							'fields'     => 'ids',
 							'hide_empty' => 0,

@@ -1557,8 +1557,8 @@ class wp_xmlrpc_server extends IXR_Server {
 					$ambiguous_terms = array();
 					if ( is_taxonomy_hierarchical( $taxonomy ) ) {
 						$tax_term_names = get_terms(
-							$taxonomy,
 							array(
+								'taxonomy'   => $taxonomy,
 								'fields'     => 'names',
 								'hide_empty' => false,
 							)
@@ -2390,7 +2390,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ) );
 		}
 
-		$query = array();
+		$query = array( 'taxonomy' => $taxonomy->name );
 
 		if ( isset( $filter['number'] ) ) {
 			$query['number'] = absint( $filter['number'] );
@@ -2418,7 +2418,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$query['search'] = $filter['search'];
 		}
 
-		$terms = get_terms( $taxonomy->name, $query );
+		$terms = get_terms( $query );
 
 		if ( is_wp_error( $terms ) ) {
 			return new IXR_Error( 500, $terms->get_error_message() );

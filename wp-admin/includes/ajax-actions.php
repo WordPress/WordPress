@@ -151,8 +151,8 @@ function wp_ajax_ajax_tag_search() {
 	}
 
 	$results = get_terms(
-		$taxonomy,
 		array(
+			'taxonomy'   => $taxonomy,
 			'name__like' => $s,
 			'fields'     => 'names',
 			'hide_empty' => false,
@@ -1085,11 +1085,11 @@ function wp_ajax_get_tagcloud() {
 	}
 
 	$tags = get_terms(
-		$taxonomy,
 		array(
-			'number'  => 45,
-			'orderby' => 'count',
-			'order'   => 'DESC',
+			'taxonomy' => $taxonomy,
+			'number'   => 45,
+			'orderby'  => 'count',
+			'order'    => 'DESC',
 		)
 	);
 

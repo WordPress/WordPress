@@ -210,8 +210,8 @@ final class WP_Customize_Nav_Menus {
 			}
 		} elseif ( 'taxonomy' === $type ) {
 			$terms = get_terms(
-				$object,
 				array(
+					'taxonomy'     => $object,
 					'child_of'     => 0,
 					'exclude'      => '',
 					'hide_empty'   => false,
@@ -365,8 +365,8 @@ final class WP_Customize_Nav_Menus {
 		// Query taxonomy terms.
 		$taxonomies = get_taxonomies( array( 'show_in_nav_menus' => true ), 'names' );
 		$terms      = get_terms(
-			$taxonomies,
 			array(
+				'taxonomies' => $taxonomies,
 				'name__like' => $args['s'],
 				'number'     => 20,
 				'offset'     => 20 * ( $args['pagenum'] - 1 ),

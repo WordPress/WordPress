@@ -597,6 +597,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  */
 function wp_get_nav_menus( $args = array() ) {
 	$defaults = array(
+		'taxonomy'   => 'nav_menu',
 		'hide_empty' => false,
 		'orderby'    => 'name',
 	);
@@ -612,7 +613,7 @@ function wp_get_nav_menus( $args = array() ) {
 	 * @param array $menus An array of menu objects.
 	 * @param array $args  An array of arguments used to retrieve menu objects.
 	 */
-	return apply_filters( 'wp_get_nav_menus', get_terms( 'nav_menu', $args ), $args );
+	return apply_filters( 'wp_get_nav_menus', get_terms( $args ), $args );
 }
 
 /**
@@ -727,8 +728,8 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		if ( ! empty( $terms ) ) {
 			foreach ( array_keys( $terms ) as $taxonomy ) {
 				get_terms(
-					$taxonomy,
 					array(
+						'taxonomy'     => $taxonomy,
 						'include'      => $terms[ $taxonomy ],
 						'hierarchical' => false,
 					)

@@ -384,7 +384,7 @@ function wp_dropdown_categories( $args = '' ) {
 	// Avoid clashes with the 'name' param of get_terms().
 	$get_terms_args = $parsed_args;
 	unset( $get_terms_args['name'] );
-	$categories = get_terms( $parsed_args['taxonomy'], $get_terms_args );
+	$categories = get_terms( $get_terms_args );
 
 	$name     = esc_attr( $parsed_args['name'] );
 	$class    = esc_attr( $parsed_args['class'] );
@@ -701,7 +701,6 @@ function wp_tag_cloud( $args = '' ) {
 	$args     = wp_parse_args( $args, $defaults );
 
 	$tags = get_terms(
-		$args['taxonomy'],
 		array_merge(
 			$args,
 			array(

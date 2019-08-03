@@ -125,12 +125,13 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	} else {
 		$args['selected_cats'] = array();
 	}
+
 	if ( is_array( $parsed_args['popular_cats'] ) ) {
 		$args['popular_cats'] = $parsed_args['popular_cats'];
 	} else {
 		$args['popular_cats'] = get_terms(
-			$taxonomy,
 			array(
+				'taxonomy'     => $taxonomy,
 				'fields'       => 'ids',
 				'orderby'      => 'count',
 				'order'        => 'DESC',
@@ -139,10 +140,11 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 			)
 		);
 	}
+
 	if ( $descendants_and_self ) {
 		$categories = (array) get_terms(
-			$taxonomy,
 			array(
+				'taxonomy'     => $taxonomy,
 				'child_of'     => $descendants_and_self,
 				'hierarchical' => 0,
 				'hide_empty'   => 0,
@@ -151,7 +153,12 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		$self       = get_term( $descendants_and_self, $taxonomy );
 		array_unshift( $categories, $self );
 	} else {
-		$categories = (array) get_terms( $taxonomy, array( 'get' => 'all' ) );
+		$categories = (array) get_terms(
+			array(
+				'taxonomy' => $taxonomy,
+				'get'      => 'all',
+			)
+		);
 	}
 
 	$output = '';
@@ -207,8 +214,8 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	}
 
 	$terms = get_terms(
-		$taxonomy,
 		array(
+			'taxonomy'     => $taxonomy,
 			'orderby'      => 'count',
 			'order'        => 'DESC',
 			'number'       => $number,
@@ -266,8 +273,8 @@ function wp_link_category_checklist( $link_id = 0 ) {
 	}
 
 	$categories = get_terms(
-		'link_category',
 		array(
+			'taxonomy'   => 'link_category',
 			'orderby'    => 'name',
 			'hide_empty' => 0,
 		)

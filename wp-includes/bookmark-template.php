@@ -237,8 +237,8 @@ function wp_list_bookmarks( $args = '' ) {
 
 	if ( $parsed_args['categorize'] ) {
 		$cats = get_terms(
-			'link_category',
 			array(
+				'taxonomy'     => 'link_category',
 				'name__like'   => $parsed_args['category_name'],
 				'include'      => $parsed_args['category'],
 				'exclude'      => $parsed_args['exclude_category'],

@@ -214,6 +214,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$args = wp_parse_args(
 			$this->callback_args,
 			array(
+				'taxonomy'   => $taxonomy,
 				'page'       => 1,
 				'number'     => 20,
 				'search'     => '',
@@ -237,7 +238,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$args['number'] = 0;
 			$args['offset'] = $args['number'];
 		}
-		$terms = get_terms( $taxonomy, $args );
+
+		$terms = get_terms( $args );
 
 		if ( empty( $terms ) || ! is_array( $terms ) ) {
 			echo '<tr class="no-items"><td class="colspanchange" colspan="' . $this->get_column_count() . '">';

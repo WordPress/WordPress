@@ -2041,8 +2041,8 @@ function taxonomy_meta_box_sanitize_cb_input( $taxonomy, $terms ) {
 		}
 
 		$_term = get_terms(
-			$taxonomy,
 			array(
+				'taxonomy'   => $taxonomy,
 				'name'       => $term,
 				'fields'     => 'ids',
 				'hide_empty' => false,

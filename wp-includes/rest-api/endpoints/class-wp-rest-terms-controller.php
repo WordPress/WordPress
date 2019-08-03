@@ -184,7 +184,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			'slug'       => 'slug',
 		);
 
-		$prepared_args = array();
+		$prepared_args = array( 'taxonomy' => $this->taxonomy );
 
 		/*
 		 * For each known parameter which is both registered and present in the request,
@@ -249,7 +249,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			// Used when calling wp_count_terms() below.
 			$prepared_args['object_ids'] = $prepared_args['post'];
 		} else {
-			$query_result = get_terms( $this->taxonomy, $prepared_args );
+			$query_result = get_terms( $prepared_args );
 		}
 
 		$count_args = $prepared_args;

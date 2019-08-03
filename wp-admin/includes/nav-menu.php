@@ -663,6 +663,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 	$offset   = 0 < $pagenum ? $per_page * ( $pagenum - 1 ) : 0;
 
 	$args = array(
+		'taxonomy'     => $taxonomy_name,
 		'child_of'     => 0,
 		'exclude'      => '',
 		'hide_empty'   => false,
@@ -675,7 +676,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 		'pad_counts'   => false,
 	);
 
-	$terms = get_terms( $taxonomy_name, $args );
+	$terms = get_terms( $args );
 
 	if ( ! $terms || is_wp_error( $terms ) ) {
 		echo '<p>' . __( 'No items.' ) . '</p>';
@@ -774,8 +775,8 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 			<ul id="<?php echo $taxonomy_name; ?>checklist-pop" class="categorychecklist form-no-clear" >
 				<?php
 				$popular_terms  = get_terms(
-					$taxonomy_name,
 					array(
+						'taxonomy'     => $taxonomy_name,
 						'orderby'      => 'count',
 						'order'        => 'DESC',
 						'number'       => 10,
@@ -812,8 +813,8 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 			if ( isset( $_REQUEST[ 'quick-search-taxonomy-' . $taxonomy_name ] ) ) {
 				$searched       = esc_attr( $_REQUEST[ 'quick-search-taxonomy-' . $taxonomy_name ] );
 				$search_results = get_terms(
-					$taxonomy_name,
 					array(
+						'taxonomy'     => $taxonomy_name,
 						'name__like'   => $searched,
 						'fields'       => 'all',
 						'orderby'      => 'count',
