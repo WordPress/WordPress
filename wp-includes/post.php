@@ -584,7 +584,7 @@ function _wp_relative_upload_path( $path ) {
  * @see get_posts()
  * @todo Check validity of description.
  *
- * @global WP_Post $post
+ * @global WP_Post $post Global post object.
  *
  * @param mixed  $args   Optional. User defined arguments for replacing the defaults. Default empty.
  * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
@@ -697,7 +697,7 @@ function get_extended( $post ) {
  *
  * @since 1.5.1
  *
- * @global WP_Post $post
+ * @global WP_Post $post Global post object.
  *
  * @param int|WP_Post|null $post   Optional. Post ID or post object. Defaults to global $post.
  * @param string           $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
@@ -3000,7 +3000,7 @@ function _reset_front_page_settings_for_post( $post_id ) {
 			update_option( 'page_on_front', 0 );
 		}
 		if ( get_option( 'page_for_posts' ) == $post->ID ) {
-			delete_option( 'page_for_posts', 0 );
+			delete_option( 'page_for_posts' );
 		}
 	}
 	unstick_post( $post->ID );

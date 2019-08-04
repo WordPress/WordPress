@@ -1303,7 +1303,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @since 1.5.0
  *
  * @global WP_Query   $wp_query         WordPress Query object.
- * @global WP_Post    $post
+ * @global WP_Post    $post             Global post object.
  * @global wpdb       $wpdb             WordPress database abstraction object.
  * @global int        $id
  * @global WP_Comment $comment

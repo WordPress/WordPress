@@ -3259,7 +3259,7 @@ class WP_Query {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 */
 	public function the_post() {
 		global $post;
@@ -4326,7 +4326,7 @@ class WP_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 */
 	public function reset_postdata() {
 		if ( ! empty( $this->post ) ) {

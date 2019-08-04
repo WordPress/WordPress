@@ -741,7 +741,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
 	 * @global wpdb    $wpdb WordPress database abstraction object.
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 * @param array $pages
 	 * @param int $pagenum
 	 * @param int $per_page
@@ -1260,7 +1260,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 *
 	 * @param int|WP_Post $post
 	 * @param int         $level

@@ -611,7 +611,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 */
 	public function display_rows() {
 		global $post, $wp_query;

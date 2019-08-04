@@ -25,7 +25,7 @@ define( 'WXR_VERSION', '1.2' );
  * @since 2.1.0
  *
  * @global wpdb    $wpdb WordPress database abstraction object.
- * @global WP_Post $post Global `$post`.
+ * @global WP_Post $post Global post object.
  *
  * @param array $args {
  *     Optional. Arguments for generating the WXR export file for download. Default empty array.

@@ -213,7 +213,7 @@ class WP_Widget_Text extends WP_Widget {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @global WP_Post $post
+	 * @global WP_Post $post Global post object.
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.

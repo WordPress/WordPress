@@ -348,7 +348,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
  *
  * @since 4.1.0
  *
- * @global WP_Post $post The global `$post` object.
+ * @global WP_Post $post Global post object.
  */
 function wp_print_revision_templates() {
 	global $post;

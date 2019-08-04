@@ -684,7 +684,7 @@ function locate_template( $template_names, $load = false, $require_once = true )
  * @since 1.5.0
  *
  * @global array      $posts
- * @global WP_Post    $post
+ * @global WP_Post    $post          Global post object.
  * @global bool       $wp_did_header
  * @global WP_Query   $wp_query      WordPress Query object.
  * @global WP_Rewrite $wp_rewrite    WordPress rewrite component.
