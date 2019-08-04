@@ -2528,7 +2528,7 @@ jQuery(function($){
  *
  * @global wpdb      $wpdb            WordPress database abstraction object.
  * @global WP_Query  $wp_query
- * @global WP_Locale $wp_locale
+ * @global WP_Locale $wp_locale       WordPress date and time locale object.
  * @global string    $type
  * @global string    $tab
  * @global array     $post_mime_types

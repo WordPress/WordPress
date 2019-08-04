@@ -3561,7 +3561,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
  *
  * @global int       $content_width
  * @global wpdb      $wpdb          WordPress database abstraction object.
- * @global WP_Locale $wp_locale
+ * @global WP_Locale $wp_locale     WordPress date and time locale object.
  *
  * @param array $args {
  *     Arguments for enqueuing media scripts.

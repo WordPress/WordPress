@@ -1553,7 +1553,7 @@ function wp_dropdown_languages( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @global WP_Locale $wp_locale
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @return bool Whether locale is RTL.
  */

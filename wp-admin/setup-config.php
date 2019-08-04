@@ -88,7 +88,7 @@ $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : -1;
  * @since 2.3.0
  *
  * @global string    $wp_local_package
- * @global WP_Locale $wp_locale
+ * @global WP_Locale $wp_locale        WordPress date and time locale object.
  *
  * @param string|array $body_classes
  */

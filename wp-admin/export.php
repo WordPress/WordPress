@@ -128,7 +128,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
  * Create the date options fields for exporting a given post type.
  *
  * @global wpdb      $wpdb      WordPress database abstraction object.
- * @global WP_Locale $wp_locale Date and Time Locale object.
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @since 3.1.0
  *

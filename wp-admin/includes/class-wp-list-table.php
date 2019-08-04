@@ -536,7 +536,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 *
 	 * @global wpdb      $wpdb      WordPress database abstraction object.
-	 * @global WP_Locale $wp_locale
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
 	 *
 	 * @param string $post_type
 	 */

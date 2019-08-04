@@ -189,7 +189,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	 * @since 4.9.0
 	 * @see touch_time()
 	 *
-	 * @global WP_Locale $wp_locale
+	 * @global WP_Locale $wp_locale WordPress date and time locale object.
 	 *
 	 * @return array
 	 */

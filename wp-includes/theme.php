@@ -266,7 +266,7 @@ function get_stylesheet_uri() {
  *
  * @since 2.1.0
  *
- * @global WP_Locale $wp_locale
+ * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @return string
  */
