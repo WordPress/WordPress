@@ -318,6 +318,11 @@ include( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 
 <div class="wrap">
 	<h1><?php esc_html_e( 'All Settings' ); ?></h1>
+
+	<div class="notice notice-warning">
+		<p><strong><?php _e( 'WARNING!' ); ?></strong> <?php _e( 'This page allows direct access to your site settings. You can break things here. Please be cautious!' ); ?></p>
+	</div>
+
 	<form name="form" action="options.php" method="post" id="all-options">
 		<?php wp_nonce_field( 'options-options' ); ?>
 		<input type="hidden" name="action" value="update" />
