@@ -1302,7 +1302,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  *
  * @since 1.5.0
  *
- * @global WP_Query   $wp_query
+ * @global WP_Query   $wp_query         WordPress Query object.
  * @global WP_Post    $post
  * @global wpdb       $wpdb             WordPress database abstraction object.
  * @global int        $id
@@ -1959,7 +1959,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
  *
  * @see WP_Query->comments
  *
- * @global WP_Query $wp_query
+ * @global WP_Query $wp_query           WordPress Query object.
  * @global int      $comment_alt
  * @global int      $comment_depth
  * @global int      $comment_thread_alt

@@ -964,7 +964,7 @@ function separate_comments( &$comments ) {
  *
  * @uses Walker_Comment
  *
- * @global WP_Query $wp_query
+ * @global WP_Query $wp_query WordPress Query object.
  *
  * @param WP_Comment[] $comments Optional. Array of WP_Comment objects. Defaults to $wp_query->comments.
  * @param int          $per_page Optional. Comments per page.

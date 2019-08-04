@@ -1415,7 +1415,7 @@ function get_attachment_fields_to_edit( $post, $errors = null ) {
  *
  * @since 2.5.0
  *
- * @global WP_Query $wp_the_query
+ * @global WP_Query $wp_the_query WordPress Query object.
  *
  * @param int $post_id Optional. Post ID.
  * @param array $errors Errors for attachment, if any.
@@ -2527,7 +2527,7 @@ jQuery(function($){
  * @since 2.5.0
  *
  * @global wpdb      $wpdb            WordPress database abstraction object.
- * @global WP_Query  $wp_query
+ * @global WP_Query  $wp_query        WordPress Query object.
  * @global WP_Locale $wp_locale       WordPress date and time locale object.
  * @global string    $type
  * @global string    $tab

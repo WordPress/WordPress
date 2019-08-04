@@ -406,7 +406,7 @@ do_action( 'sanitize_comment_cookies' );
 /**
  * WordPress Query object
  *
- * @global WP_Query $wp_the_query
+ * @global WP_Query $wp_the_query WordPress Query object.
  * @since 2.0.0
  */
 $GLOBALS['wp_the_query'] = new WP_Query();
@@ -415,7 +415,7 @@ $GLOBALS['wp_the_query'] = new WP_Query();
  * Holds the reference to @see $wp_the_query
  * Use this global for WordPress queries
  *
- * @global WP_Query $wp_query
+ * @global WP_Query $wp_query WordPress Query object.
  * @since 1.5.0
  */
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];

@@ -61,7 +61,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global WP_Query $wp_query
+	 * @global WP_Query $wp_query              WordPress Query object.
 	 * @global array    $post_mime_types
 	 * @global array    $avail_post_mime_types
 	 * @global string   $mode

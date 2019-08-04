@@ -560,14 +560,14 @@ class WP {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global WP_Query     $wp_query
+	 * @global WP_Query     $wp_query     WordPress Query object.
 	 * @global string       $query_string Query string for the loop.
-	 * @global array        $posts The found posts.
-	 * @global WP_Post|null $post The current post, if available.
-	 * @global string       $request The SQL statement for the request.
-	 * @global int          $more Only set, if single page or post.
-	 * @global int          $single If single page or post. Only set, if single page or post.
-	 * @global WP_User      $authordata Only set, if author archive.
+	 * @global array        $posts        The found posts.
+	 * @global WP_Post|null $post         The current post, if available.
+	 * @global string       $request      The SQL statement for the request.
+	 * @global int          $more         Only set, if single page or post.
+	 * @global int          $single       If single page or post. Only set, if single page or post.
+	 * @global WP_User      $authordata   Only set, if author archive.
 	 */
 	public function register_globals() {
 		global $wp_query;
@@ -606,7 +606,7 @@ class WP {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global WP_Query $wp_the_query
+	 * @global WP_Query $wp_the_query WordPress Query object.
 	 */
 	public function query_posts() {
 		global $wp_the_query;
@@ -629,7 +629,7 @@ class WP {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global WP_Query $wp_query
+	 * @global WP_Query $wp_query WordPress Query object.
 	 */
 	public function handle_404() {
 		global $wp_query;

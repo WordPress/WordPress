@@ -1113,8 +1113,8 @@ function wp_remote_fopen( $uri ) {
  * @since 2.0.0
  *
  * @global WP       $wp           Current WordPress environment instance.
- * @global WP_Query $wp_query
- * @global WP_Query $wp_the_query
+ * @global WP_Query $wp_query     WordPress Query object.
+ * @global WP_Query $wp_the_query Copy of the WordPress Query object.
  *
  * @param string|array $query_vars Default WP_Query arguments.
  */
@@ -1378,7 +1378,7 @@ function bool_from_yn( $yn ) {
  *
  * @since 2.1.0
  *
- * @global WP_Query $wp_query Used to tell if the use a comment feed.
+ * @global WP_Query $wp_query WordPress Query object.
  */
 function do_feed() {
 	global $wp_query;
@@ -2966,7 +2966,7 @@ function wp_nonce_ays( $action ) {
  *              an integer to be used as the response code.
  * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
  *
- * @global WP_Query $wp_query Global WP_Query instance.
+ * @global WP_Query $wp_query WordPress Query object.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  and not an Ajax or XML-RPC request, the error's messages are used.

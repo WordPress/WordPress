@@ -3925,7 +3925,7 @@ function language_attributes( $doctype = 'html' ) {
  * @since 2.1.0
  * @since 4.9.0 Added the `aria_current` argument.
  *
- * @global WP_Query   $wp_query
+ * @global WP_Query   $wp_query   WordPress Query object.
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args {

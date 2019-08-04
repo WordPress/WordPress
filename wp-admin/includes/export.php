@@ -525,7 +525,7 @@ function export_wp( $args = array() ) {
 	<?php
 	if ( $post_ids ) {
 		/**
-		 * @global WP_Query $wp_query
+		 * @global WP_Query $wp_query WordPress Query object.
 		 */
 		global $wp_query;
 

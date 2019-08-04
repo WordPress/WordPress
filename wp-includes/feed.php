@@ -637,13 +637,13 @@ function self_link() {
 	echo esc_url( apply_filters( 'self_link', set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
 }
 
-/*
+/**
  * Get the timestamp of the most recently modified post from WP_Query.
  *
  * If viewing a comment feed, the timestamp of the most recently modified
  * comment will be returned.
  *
- * @global WP_Query  $wp_query The global WP_Query object.
+ * @global WP_Query $wp_query WordPress Query object.
  *
  * @since 5.2.0
  *

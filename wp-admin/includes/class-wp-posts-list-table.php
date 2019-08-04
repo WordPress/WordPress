@@ -136,7 +136,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
 	 * @global array    $avail_post_stati
-	 * @global WP_Query $wp_query
+	 * @global WP_Query $wp_query         WordPress Query object.
 	 * @global int      $per_page
 	 * @global string   $mode
 	 */
@@ -695,7 +695,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global WP_Query $wp_query
+	 * @global WP_Query $wp_query WordPress Query object.
 	 * @global int $per_page
 	 * @param array $posts
 	 * @param int $level
