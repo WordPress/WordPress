@@ -406,7 +406,7 @@ function wp_set_lang_dir() {
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb The WordPress database class.
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function require_wp_db() {
 	global $wpdb;
@@ -437,7 +437,7 @@ function require_wp_db() {
  * @since 3.0.0
  * @access private
  *
- * @global wpdb   $wpdb         The WordPress database class.
+ * @global wpdb   $wpdb         WordPress database abstraction object.
  * @global string $table_prefix The database table prefix.
  */
 function wp_set_wpdb_vars() {

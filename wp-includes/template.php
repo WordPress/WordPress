@@ -688,7 +688,7 @@ function locate_template( $template_names, $load = false, $require_once = true )
  * @global bool       $wp_did_header
  * @global WP_Query   $wp_query
  * @global WP_Rewrite $wp_rewrite
- * @global wpdb       $wpdb
+ * @global wpdb       $wpdb          WordPress database abstraction object.
  * @global string     $wp_version
  * @global WP         $wp
  * @global int        $id

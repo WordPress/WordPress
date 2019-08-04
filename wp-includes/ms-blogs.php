@@ -477,7 +477,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @see restore_current_blog()
  * @since MU (3.0.0)
  *
- * @global wpdb            $wpdb
+ * @global wpdb            $wpdb               WordPress database abstraction object.
  * @global int             $blog_id
  * @global array           $_wp_switched_stack
  * @global bool            $switched
@@ -557,7 +557,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
  * @see switch_to_blog()
  * @since MU (3.0.0)
  *
- * @global wpdb            $wpdb
+ * @global wpdb            $wpdb               WordPress database abstraction object.
  * @global array           $_wp_switched_stack
  * @global int             $blog_id
  * @global bool            $switched

@@ -25,7 +25,7 @@ if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' 
 
 /**
  * @global string $wp_local_package
- * @global wpdb   $wpdb
+ * @global wpdb   $wpdb             WordPress database abstraction object.
  *
  * @staticvar bool $first_pass
  *

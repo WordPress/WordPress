@@ -64,7 +64,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @global string $s
 	 * @global string $mode
-	 * @global wpdb   $wpdb
+	 * @global wpdb   $wpdb WordPress database abstraction object.
 	 */
 	public function prepare_items() {
 		global $s, $mode, $wpdb;

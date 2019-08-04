@@ -1771,7 +1771,7 @@ function get_archives_link( $url, $text, $format = 'html', $before = '', $after 
  *
  * @see get_archives_link()
  *
- * @global wpdb      $wpdb
+ * @global wpdb      $wpdb      WordPress database abstraction object.
  * @global WP_Locale $wp_locale
  *
  * @param string|array $args {
@@ -2041,7 +2041,7 @@ function calendar_week_mod( $num ) {
  *
  * @since 1.0.0
  *
- * @global wpdb      $wpdb
+ * @global wpdb      $wpdb      WordPress database abstraction object.
  * @global int       $m
  * @global int       $monthnum
  * @global int       $year

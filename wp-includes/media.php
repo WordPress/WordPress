@@ -3560,7 +3560,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
  * @since 3.5.0
  *
  * @global int       $content_width
- * @global wpdb      $wpdb
+ * @global wpdb      $wpdb          WordPress database abstraction object.
  * @global WP_Locale $wp_locale
  *
  * @param array $args {

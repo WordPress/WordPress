@@ -596,8 +596,8 @@ function insert_blog($domain, $path, $site_id) {
  * @since MU (3.0.0)
  * @deprecated 5.1.0
  *
- * @global wpdb     $wpdb
- * @global WP_Roles $wp_roles
+ * @global wpdb     $wpdb     WordPress database abstraction object.
+ * @global WP_Roles $wp_roles WordPress role management object.
  *
  * @param int    $blog_id    The value returned by wp_insert_site().
  * @param string $blog_title The title of the new site.

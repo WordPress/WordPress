@@ -11,7 +11,7 @@
 /**
  * Declare these as global in case schema.php is included from a function.
  *
- * @global wpdb   $wpdb
+ * @global wpdb   $wpdb            WordPress database abstraction object.
  * @global array  $wp_queries
  * @global string $charset_collate
  */
@@ -358,9 +358,9 @@ $wp_queries = wp_get_db_schema( 'all' );
  * @since 1.5.0
  * @since 5.1.0 The $options parameter has been added.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- * @global int  $wp_db_version
- * @global int  $wp_current_db_version
+ * @global wpdb $wpdb                  WordPress database abstraction object.
+ * @global int  $wp_db_version         WordPress database version.
+ * @global int  $wp_current_db_version The old (current) database version.
  *
  * @param array $options Optional. Custom option $key => $value pairs to use. Default empty array.
  */

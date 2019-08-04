@@ -3260,10 +3260,11 @@ function is_customize_preview() {
  * @access private
  * @see wp_delete_auto_drafts()
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param string   $new_status Transition to this post status.
  * @param string   $old_status Previous post status.
  * @param \WP_Post $post       Post data.
- * @global wpdb $wpdb
  */
 function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, $old_status, $post ) {
 	global $wpdb;

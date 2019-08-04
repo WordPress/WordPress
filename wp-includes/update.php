@@ -14,8 +14,8 @@
  * isn't installing.
  *
  * @since 2.3.0
- * @global string $wp_version Used to check against the newest WordPress version.
- * @global wpdb   $wpdb
+ * @global string $wp_version       Used to check against the newest WordPress version.
+ * @global wpdb   $wpdb             WordPress database abstraction object.
  * @global string $wp_local_package
  *
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.

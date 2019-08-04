@@ -586,7 +586,7 @@ function wpmu_validate_user_signup( $user_name, $user_email ) {
  *
  * @since MU (3.0.0)
  *
- * @global wpdb   $wpdb
+ * @global wpdb   $wpdb   WordPress database abstraction object.
  * @global string $domain
  *
  * @param string         $blogname   The blog name provided by the user. Must be unique.
