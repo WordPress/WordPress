@@ -19,7 +19,7 @@
  *
  * @since 2.8.0
  *
- * @global WP_Rewrite $wp_rewrite The WordPress rewrite class.
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
 function create_initial_taxonomies() {
 	global $wp_rewrite;
@@ -4168,7 +4168,7 @@ function wp_term_is_shared( $term_id ) {
  *
  * @since 2.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param object|int|string $term     The term object, ID, or slug whose link will be retrieved.
  * @param string            $taxonomy Optional. Taxonomy. Default empty.

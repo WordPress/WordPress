@@ -687,7 +687,7 @@ function comment_ID() { // phpcs:ignore WordPress.NamingConventions.ValidFunctio
  *
  * @see get_page_of_comment()
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite      WordPress rewrite component.
  * @global bool       $in_comment_loop
  *
  * @param WP_Comment|int|null $comment Comment to retrieve. Default current comment.

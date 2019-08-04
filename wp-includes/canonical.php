@@ -28,7 +28,7 @@
  *
  * @since 2.3.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  * @global bool $is_IIS
  * @global WP_Query $wp_query
  * @global wpdb $wpdb             WordPress database abstraction object.
@@ -728,7 +728,7 @@ function redirect_guess_404_permalink() {
  *
  * @since 3.4.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
 function wp_redirect_admin_locations() {
 	global $wp_rewrite;

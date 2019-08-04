@@ -4197,8 +4197,8 @@ function check_and_publish_future_post( $post_id ) {
  *
  * @since 2.8.0
  *
- * @global wpdb       $wpdb WordPress database abstraction object.
- * @global WP_Rewrite $wp_rewrite
+ * @global wpdb       $wpdb       WordPress database abstraction object.
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $slug        The desired slug (post_name).
  * @param int    $post_ID     Post ID.

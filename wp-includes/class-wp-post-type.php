@@ -526,7 +526,7 @@ final class WP_Post_Type {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @global WP_Rewrite $wp_rewrite WordPress Rewrite Component.
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
 	 * @global WP         $wp         Current WordPress environment instance.
 	 */
 	public function add_rewrite_rules() {

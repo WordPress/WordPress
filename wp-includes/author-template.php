@@ -334,7 +334,7 @@ function the_author_posts_link( $deprecated = '' ) {
  *
  * @since 2.1.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int    $author_id       Author ID.
  * @param string $author_nicename Optional. The author's nicename (slug). Default empty.

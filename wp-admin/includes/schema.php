@@ -947,9 +947,9 @@ endif;
  *
  * @since 3.0.0
  *
- * @global wpdb       $wpdb
+ * @global wpdb       $wpdb         WordPress database abstraction object.
  * @global object     $current_site
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
  *
  * @param int    $network_id        ID of network to populate.
  * @param string $domain            The domain name for the network (eg. "example.com").

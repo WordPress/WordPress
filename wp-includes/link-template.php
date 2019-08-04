@@ -37,7 +37,7 @@ function the_permalink( $post = 0 ) {
  *
  * @since 2.2.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $string      URL with or without a trailing slash.
  * @param string $type_of_url Optional. The type of URL being considered (e.g. single, category, etc)
@@ -252,7 +252,7 @@ function get_permalink( $post = 0, $leavename = false ) {
  *
  * @since 3.0.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int|WP_Post $id        Optional. Post ID or post object. Default is the global `$post`.
  * @param bool        $leavename Optional, defaults to false. Whether to keep post name. Default false.
@@ -355,7 +355,7 @@ function get_page_link( $post = false, $leavename = false, $sample = false ) {
  * @since 2.1.0
  * @access private
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int|WP_Post $post      Optional. Post ID or object. Default uses the global `$post`.
  * @param bool        $leavename Optional. Whether to keep the page name. Default false.
@@ -401,7 +401,7 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
  *
  * @since 2.0.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int|object $post      Optional. Post ID or object. Default uses the global `$post`.
  * @param bool       $leavename Optional. Whether to keep the page name. Default false.
@@ -462,7 +462,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
  *
  * @since 1.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int|bool $year False for current year or year for permalink.
  * @return string The permalink for the specified year archive.
@@ -496,7 +496,7 @@ function get_year_link( $year ) {
  *
  * @since 1.0.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param bool|int $year  False for current year. Integer of year.
  * @param bool|int $month False for current month. Integer of month.
@@ -536,7 +536,7 @@ function get_month_link( $year, $month ) {
  *
  * @since 1.0.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param bool|int $year  False for current year. Integer of year.
  * @param bool|int $month False for current month. Integer of month.
@@ -606,7 +606,7 @@ function the_feed_link( $anchor, $feed = '' ) {
  *
  * @since 1.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $feed Optional. Feed type. Default empty.
  * @return string The feed permalink.
@@ -1076,7 +1076,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
  *
  * @since  3.0.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $query Optional. The query string to use. If empty the current query is used. Default empty.
  * @return string The search permalink.
@@ -1117,7 +1117,7 @@ function get_search_link( $query = '' ) {
  *
  * @since 2.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $search_query Optional. Search query. Default empty.
  * @param string $feed         Optional. Feed type. Default empty.
@@ -1157,7 +1157,7 @@ function get_search_feed_link( $search_query = '', $feed = '' ) {
  *
  * @since 2.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $search_query Optional. Search query. Default empty.
  * @param string $feed         Optional. Feed type. Default empty.
@@ -1190,7 +1190,7 @@ function get_search_comments_feed_link( $search_query = '', $feed = '' ) {
  * @since 3.1.0
  * @since 4.5.0 Support for posts was added.
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $post_type Post type.
  * @return string|false The post type archive permalink.
@@ -2196,7 +2196,7 @@ function adjacent_post_link( $format, $link, $in_same_term = false, $excluded_te
  *
  * @since 1.5.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int  $pagenum Optional. Page number. Default 1.
  * @param bool $escape  Optional. Whether to escape the URL for display, with esc_url(). Defaults to true.
@@ -2755,7 +2755,7 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
  *
  * @since 2.7.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param int $pagenum  Optional. Page number. Default 1.
  * @param int $max_page Optional. The maximum number of comment pages. Default 0.
@@ -2912,7 +2912,7 @@ function previous_comments_link( $label = '' ) {
  * @see paginate_links()
  * @since 2.7.0
  *
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args Optional args. See paginate_links(). Default empty array.
  * @return string|array|void Markup for comment page links or array of comment page links.

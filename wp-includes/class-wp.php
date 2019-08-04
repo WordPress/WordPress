@@ -126,7 +126,7 @@ class WP {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global WP_Rewrite $wp_rewrite
+	 * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
 	 *
 	 * @param array|string $extra_query_vars Set the extra query variables.
 	 */

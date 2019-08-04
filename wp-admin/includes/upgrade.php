@@ -130,7 +130,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 	 * @since 2.1.0
 	 *
 	 * @global wpdb       $wpdb         WordPress database abstraction object.
-	 * @global WP_Rewrite $wp_rewrite
+	 * @global WP_Rewrite $wp_rewrite   WordPress rewrite component.
 	 * @global string     $table_prefix
 	 *
 	 * @param int $user_id User ID.

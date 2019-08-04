@@ -3926,7 +3926,7 @@ function language_attributes( $doctype = 'html' ) {
  * @since 4.9.0 Added the `aria_current` argument.
  *
  * @global WP_Query   $wp_query
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string|array $args {
  *     Optional. Array or string of arguments for generating paginated links for archives.
