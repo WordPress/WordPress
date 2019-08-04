@@ -690,7 +690,7 @@ function locate_template( $template_names, $load = false, $require_once = true )
  * @global WP_Rewrite $wp_rewrite    WordPress rewrite component.
  * @global wpdb       $wpdb          WordPress database abstraction object.
  * @global string     $wp_version
- * @global WP         $wp
+ * @global WP         $wp            Current WordPress environment instance.
  * @global int        $id
  * @global WP_Comment $comment
  * @global int        $user_ID

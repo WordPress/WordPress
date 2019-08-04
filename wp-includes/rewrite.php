@@ -150,7 +150,7 @@ function add_rewrite_rule( $regex, $query, $after = 'bottom' ) {
  * @since 2.1.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
- * @global WP         $wp
+ * @global WP         $wp         Current WordPress environment instance.
  *
  * @param string $tag   Name of the new rewrite tag.
  * @param string $regex Regular expression to substitute the tag for in rewrite rules.
@@ -460,7 +460,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
  * @since 1.0.0
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
- * @global WP         $wp
+ * @global WP         $wp         Current WordPress environment instance.
  *
  * @param string $url Permalink to check.
  * @return int Post ID, or 0 on failure.
