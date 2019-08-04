@@ -445,16 +445,26 @@ class WP_Site_Health {
 		$all_themes   = wp_get_themes();
 		$active_theme = wp_get_theme();
 
+		// If WP_DEFAULT_THEME doesn't exist, fall back to the latest core default theme.
+		$default_theme = wp_get_theme( WP_DEFAULT_THEME );
+		if ( ! $default_theme->exists() ) {
+			$default_theme = WP_Theme::get_core_default_theme();
+		}
+
+		if ( $default_theme ) {
+			$has_default_theme = true;
+
+			if (
+				$active_theme->get_stylesheet() === $default_theme->get_stylesheet()
+			||
+				is_child_theme() && $active_theme->get_template() === $default_theme->get_template()
+			) {
+				$using_default_theme = true;
+			}
+		}
+
 		foreach ( $all_themes as $theme_slug => $theme ) {
 			$themes_total++;
-
-			if ( WP_DEFAULT_THEME === $theme_slug ) {
-				$has_default_theme = true;
-
-				if ( get_stylesheet() === $theme_slug ) {
-					$using_default_theme = true;
-				}
-			}
 
 			if ( array_key_exists( $theme_slug, $theme_updates ) ) {
 				$themes_need_updates++;
@@ -462,12 +472,8 @@ class WP_Site_Health {
 		}
 
 		// If this is a child theme, increase the allowed theme count by one, to account for the parent.
-		if ( $active_theme->parent() ) {
+		if ( is_child_theme() ) {
 			$allowed_theme_count++;
-
-			if ( $active_theme->get_template() === WP_DEFAULT_THEME ) {
-				$using_default_theme = true;
-			}
 		}
 
 		// If there's a default theme installed and not in use, we count that as allowed as well.
@@ -524,7 +530,7 @@ class WP_Site_Health {
 		if ( $has_unused_themes && $show_unused_themes && ! is_multisite() ) {
 
 			// This is a child theme, so we want to be a bit more explicit in our messages.
-			if ( $active_theme->parent() ) {
+			if ( is_child_theme() ) {
 				// Recommend removing inactive themes, except a default theme, your current one, and the parent theme.
 				$result['status'] = 'recommended';
 
@@ -564,7 +570,7 @@ class WP_Site_Health {
 						sprintf(
 							/* translators: 1: The default theme for WordPress. 2: The currently active theme. 3: The active theme's parent theme. */
 							__( 'To enhance your site&#8217;s security, we recommend you remove any themes you&#8217;re not using. You should keep %1$s, the default WordPress theme, %2$s, your current theme, and %3$s, its parent theme.' ),
-							WP_DEFAULT_THEME,
+							$default_theme ? $default_theme->name : WP_DEFAULT_THEME,
 							$active_theme->name,
 							$active_theme->parent()->name
 						)
@@ -602,7 +608,7 @@ class WP_Site_Health {
 								$themes_inactive
 							),
 							$themes_inactive,
-							WP_DEFAULT_THEME,
+							$default_theme ? $default_theme->name : WP_DEFAULT_THEME,
 							$active_theme->name
 						),
 						__( 'We recommend removing any unused themes to enhance your site&#8217;s security.' )
