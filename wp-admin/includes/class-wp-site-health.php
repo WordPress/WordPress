@@ -617,7 +617,7 @@ class WP_Site_Health {
 			}
 		}
 
-		// If not default Twenty* theme exists.
+		// If no default Twenty* theme exists.
 		if ( ! $has_default_theme ) {
 			$result['status'] = 'recommended';
 
