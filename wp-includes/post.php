@@ -3000,7 +3000,7 @@ function _reset_front_page_settings_for_post( $post_id ) {
 			update_option( 'page_on_front', 0 );
 		}
 		if ( get_option( 'page_for_posts' ) == $post->ID ) {
-			delete_option( 'page_for_posts' );
+			delete_option( 'page_for_posts', 0 );
 		}
 	}
 	unstick_post( $post->ID );
