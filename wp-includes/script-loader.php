@@ -2708,7 +2708,7 @@ function script_concat_settings() {
  *
  * @since 5.0.0
  *
- * @global WP_Screen $current_screen
+ * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_common_block_scripts_and_styles() {
 	global $current_screen;
@@ -2742,7 +2742,7 @@ function wp_common_block_scripts_and_styles() {
  *
  * @since 5.0.0
  *
- * @global WP_Screen $current_screen
+ * @global WP_Screen $current_screen WordPress current screen object.
  */
 function wp_enqueue_registered_block_scripts_and_styles() {
 	global $current_screen;
