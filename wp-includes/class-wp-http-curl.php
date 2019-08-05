@@ -38,7 +38,7 @@ class WP_Http_Curl {
 	 * The maximum amount of data to receive from the remote server.
 	 *
 	 * @since 3.6.0
-	 * @var int
+	 * @var int|false
 	 */
 	private $max_body_length = false;
 
@@ -46,7 +46,7 @@ class WP_Http_Curl {
 	 * The file resource used for streaming to file.
 	 *
 	 * @since 3.6.0
-	 * @var resource
+	 * @var resource|false
 	 */
 	private $stream_handle = false;
 
