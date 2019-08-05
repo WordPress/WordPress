@@ -528,7 +528,7 @@ function is_serialized( $data, $strict = true ) {
 		case 'i':
 		case 'd':
 			$end = $strict ? '$' : '';
-			return (bool) preg_match( "/^{$token}:[0-9.E-]+;$end/", $data );
+			return (bool) preg_match( "/^{$token}:[0-9.E+-]+;$end/", $data );
 	}
 	return false;
 }
