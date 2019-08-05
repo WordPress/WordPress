@@ -587,7 +587,7 @@ function prep_atom_text_construct( $data ) {
 function atom_site_icon() {
 	$url = get_site_icon_url( 32 );
 	if ( $url ) {
-		echo "<icon>$url</icon>\n";
+		echo '<icon>' . convert_chars( $url ) . "</icon>\n";
 	}
 }
 
