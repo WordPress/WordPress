@@ -37,10 +37,10 @@ class WP_Http_Cookie {
 	public $value;
 
 	/**
-	 * When the cookie expires.
+	 * When the cookie expires. Unix timestamp or formatted date.
 	 *
 	 * @since 2.8.0
-	 * @var string
+	 * @var string|int|null
 	 */
 	public $expires;
 
@@ -80,13 +80,13 @@ class WP_Http_Cookie {
 	 * @param string|array $data {
 	 *     Raw cookie data as header string or data array.
 	 *
-	 *     @type string     $name      Cookie name.
-	 *     @type mixed      $value     Value. Should NOT already be urlencoded.
-	 *     @type string|int $expires   Optional. Unix timestamp or formatted date. Default null.
-	 *     @type string     $path      Optional. Path. Default '/'.
-	 *     @type string     $domain    Optional. Domain. Default host of parsed $requested_url.
-	 *     @type int        $port      Optional. Port. Default null.
-	 *     @type bool       $host_only Optional. host-only storage flag. Default true.
+	 *     @type string          $name      Cookie name.
+	 *     @type mixed           $value     Value. Should NOT already be urlencoded.
+	 *     @type string|int|null $expires   Optional. Unix timestamp or formatted date. Default null.
+	 *     @type string          $path      Optional. Path. Default '/'.
+	 *     @type string          $domain    Optional. Domain. Default host of parsed $requested_url.
+	 *     @type int             $port      Optional. Port. Default null.
+	 *     @type bool            $host_only Optional. host-only storage flag. Default true.
 	 * }
 	 * @param string       $requested_url The URL which the cookie was set on, used for default $domain
 	 *                                    and $port values.
@@ -246,9 +246,9 @@ class WP_Http_Cookie {
 	 * @return array {
 	 *    List of attributes.
 	 *
-	 *    @type string $expires When the cookie expires.
-	 *    @type string $path    Cookie URL path.
-	 *    @type string $domain  Cookie domain.
+	 *    @type string|int|null $expires When the cookie expires. Unix timestamp or formatted date.
+	 *    @type string          $path    Cookie URL path.
+	 *    @type string          $domain  Cookie domain.
 	 * }
 	 */
 	public function get_attributes() {
