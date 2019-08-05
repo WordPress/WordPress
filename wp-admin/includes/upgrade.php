@@ -3171,6 +3171,7 @@ function translate_level_to_role( $level ) {
 		case 1:
 			return 'contributor';
 		case 0:
+		default:
 			return 'subscriber';
 	}
 }
