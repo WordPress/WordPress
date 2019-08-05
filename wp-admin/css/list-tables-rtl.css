@@ -1918,6 +1918,7 @@ div.action-links,
 	.row-actions span .button-link {
 		display: inline-block;
 		padding: 4px 0;
+		line-height: 1.5;
 	}
 
 	.row-actions span.approve:before,
