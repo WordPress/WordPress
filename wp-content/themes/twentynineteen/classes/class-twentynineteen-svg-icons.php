@@ -155,13 +155,13 @@ class TwentyNineteen_SVG_Icons {
 </svg>',
 
 		'keyboard_arrow_left'      => /* material-design – keyboard_arrow_left */ '
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 	<path d="M14 7l-5 5 5 5V7z"></path>
 	<path fill="none" d="M24 0v24H0V0h24z"></path>
 </svg>',
 
 		'arrow_drop_down_ellipsis' => /* custom – arrow_drop_down_ellipsis */ '
-<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg">
     <g fill="none" fill-rule="evenodd">
         <path d="M0 0h24v24H0z"/>
         <path fill="currentColor" fill-rule="nonzero" d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM6 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
