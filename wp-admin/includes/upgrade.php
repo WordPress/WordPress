@@ -817,7 +817,7 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 45744 ) {
 		upgrade_530();
-	}		
+	}
 
 	maybe_disable_link_manager();
 
