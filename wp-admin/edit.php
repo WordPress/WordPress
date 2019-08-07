@@ -56,7 +56,7 @@ foreach ( array( 'p', 'attachment_id', 'page_id' ) as $_redirect ) {
 }
 unset( $_redirect );
 
-if ( 'post' != $post_type ) {
+if ( 'post' !== $post_type ) {
 	$parent_file   = "edit.php?post_type=$post_type";
 	$submenu_file  = "edit.php?post_type=$post_type";
 	$post_new_file = "post-new.php?post_type=$post_type";
@@ -80,7 +80,7 @@ if ( $doaction ) {
 		$sendback = admin_url( $post_new_file );
 	}
 
-	if ( 'delete_all' == $doaction ) {
+	if ( 'delete_all' === $doaction ) {
 		// Prepare for deletion of all posts with a specified post status (i.e. Empty trash).
 		$post_status = preg_replace( '/[^a-z0-9_-]+/i', '', $_REQUEST['post_status'] );
 		// Validate the post status exists.
@@ -156,7 +156,7 @@ if ( $doaction ) {
 					wp_die( __( 'Sorry, you are not allowed to delete this item.' ) );
 				}
 
-				if ( $post_del->post_type == 'attachment' ) {
+				if ( 'attachment' === $post_del->post_type ) {
 					if ( ! wp_delete_attachment( $post_id ) ) {
 						wp_die( __( 'Error in deleting.' ) );
 					}
@@ -208,7 +208,7 @@ if ( 'wp_block' === $post_type ) {
 
 $title = $post_type_object->labels->name;
 
-if ( 'post' == $post_type ) {
+if ( 'post' === $post_type ) {
 	get_current_screen()->add_help_tab(
 		array(
 			'id'      => 'overview',
@@ -261,7 +261,7 @@ if ( 'post' == $post_type ) {
 		'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
 	);
 
-} elseif ( 'page' == $post_type ) {
+} elseif ( 'page' === $post_type ) {
 	get_current_screen()->add_help_tab(
 		array(
 			'id'      => 'overview',
@@ -383,7 +383,7 @@ foreach ( $bulk_counts as $message => $count ) {
 		$messages[] = sprintf( $bulk_messages['post'][ $message ], number_format_i18n( $count ) );
 	}
 
-	if ( $message == 'trashed' && isset( $_REQUEST['ids'] ) ) {
+	if ( 'trashed' === $message && isset( $_REQUEST['ids'] ) ) {
 		$ids        = preg_replace( '/[^0-9,]/', '', $_REQUEST['ids'] );
 		$messages[] = '<a href="' . esc_url( wp_nonce_url( "edit.php?post_type=$post_type&doaction=undo&action=untrash&ids=$ids", 'bulk-posts' ) ) . '">' . __( 'Undo' ) . '</a>';
 	}
