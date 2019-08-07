@@ -131,6 +131,17 @@ p {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
 }
 
+.login-action-confirm_admin_email #login {
+	width: 60vw;
+	margin-top: -2vh;
+}
+
+@media screen and (max-width: 782px) {
+	.login-action-confirm_admin_email #login {
+		width: 100vw;
+	}
+}
+
 .login form .forgetmenot {
 	font-weight: 400;
 	float: left;
@@ -139,6 +150,36 @@ p {
 
 .login .button-primary {
 	float: right;
+}
+
+.login .admin-email-confirm-form .submit {
+	text-align: center;
+}
+
+.admin-email__later {
+	text-align: left;
+}
+
+.login form p.admin-email__details {
+	margin: 1.1em 0;
+}
+
+.login h1.admin-email__heading {
+	border-bottom: 1px rgb(241, 241, 241) solid;
+	color: rgb(95, 95, 95);
+	font-weight: normal;
+	padding-bottom: 0.5em;
+	text-align: left;
+}
+
+.admin-email__actions div {
+	padding-top: 1.5em;
+}
+
+.login .admin-email__actions .button-primary {
+	float: none;
+	margin-left: 0.25em;
+	margin-right: 0.25em;
 }
 
 #login form p {
