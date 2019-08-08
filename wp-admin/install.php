@@ -261,7 +261,7 @@ if ( ! $mysql_compat && ! $php_compat ) {
 
 if ( ! $mysql_compat || ! $php_compat ) {
 	display_header();
-	die( '<h1>' . __( 'Insufficient Requirements' ) . '</h1><p>' . $compat . '</p></body></html>' );
+	die( '<h1>' . __( 'Requirements Not Met' ) . '</h1><p>' . $compat . '</p></body></html>' );
 }
 
 if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {

@@ -150,7 +150,7 @@ function wp_check_php_mysql_versions() {
 		);
 		wp_die(
 			__( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' ),
-			__( 'Insufficient Requirements' ),
+			__( 'Requirements Not Met' ),
 			$args
 		);
 		exit( 1 );
