@@ -616,6 +616,18 @@ function rss2_site_icon() {
 }
 
 /**
+ * Returns the link for the currently displayed feed.
+ *
+ * @since 5.3.0
+ *
+ * @return string Correct link for the atom:self element.
+ */
+function get_self_link() {
+	$host = @parse_url( home_url() );
+	return set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) );
+}
+
+/**
  * Display the link for the currently displayed feed in a XSS safe way.
  *
  * Generate a correct link for the atom:self element.
@@ -623,7 +635,6 @@ function rss2_site_icon() {
  * @since 2.5.0
  */
 function self_link() {
-	$host = @parse_url( home_url() );
 	/**
 	 * Filters the current feed URL.
 	 *
@@ -634,7 +645,7 @@ function self_link() {
 	 *
 	 * @param string $feed_link The link for the feed with set URL scheme.
 	 */
-	echo esc_url( apply_filters( 'self_link', set_url_scheme( 'http://' . $host['host'] . wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) );
+	echo esc_url( apply_filters( 'self_link', get_self_link() ) );
 }
 
 /**
