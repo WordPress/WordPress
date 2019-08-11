@@ -35,7 +35,7 @@ function wpmu_update_blogs_date() {
  *
  * @since MU (3.0.0)
  *
- * @param int $blog_id Blog ID
+ * @param int $blog_id Blog ID.
  * @return string Full URL of the blog if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
@@ -286,7 +286,7 @@ function refresh_blog_details( $blog_id = 0 ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int   $blog_id Blog ID
+ * @param int   $blog_id Blog ID.
  * @param array $details Array of details keyed by blogs table field names.
  * @return bool True if update succeeds, false otherwise.
  */
@@ -660,8 +660,8 @@ function ms_is_switched() {
  *
  * @since MU (3.0.0)
  *
- * @param int $id The blog id
- * @return string Whether the blog is archived or not
+ * @param int $id Blog ID.
+ * @return string Whether the blog is archived or not.
  */
 function is_archived( $id ) {
 	return get_blog_status( $id, 'archived' );
@@ -672,8 +672,8 @@ function is_archived( $id ) {
  *
  * @since MU (3.0.0)
  *
- * @param int    $id       The blog id
- * @param string $archived The new status
+ * @param int    $id       Blog ID.
+ * @param string $archived The new status.
  * @return string $archived
  */
 function update_archived( $id, $archived ) {
@@ -689,10 +689,10 @@ function update_archived( $id, $archived ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int    $blog_id BLog ID
- * @param string $pref    A field name
- * @param string $value   Value for $pref
- * @param null   $deprecated
+ * @param int    $blog_id    Blog ID.
+ * @param string $pref       Field name.
+ * @param string $value      Field value.
+ * @param null   $deprecated Not used.
  * @return string|false $value
  */
 function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
@@ -727,8 +727,8 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int    $id   The blog id
- * @param string $pref A field name
+ * @param int    $id   Blog ID.
+ * @param string $pref Field name.
  * @return bool|string|null $value
  */
 function get_blog_status( $id, $pref ) {
@@ -749,10 +749,11 @@ function get_blog_status( $id, $pref ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param mixed $deprecated Not used
- * @param int   $start      The offset
- * @param int   $quantity   The maximum number of blogs to retrieve. Default is 40.
- * @return array The list of blogs
+ * @param mixed $deprecated Not used.
+ * @param int   $start      Optional. Number of blogs to offset the query. Used to build LIMIT clause.
+ *                          Can be used for pagination. Default 0.
+ * @param int   $quantity   Optional. The maximum number of blogs to retrieve. Default 40.
+ * @return array The list of blogs.
  */
 function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
 	global $wpdb;
