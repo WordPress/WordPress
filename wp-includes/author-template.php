@@ -398,7 +398,8 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
  *                                       parameter of the link. Default empty.
  *     @type string       $feed_image    If not empty, show a link to the author's feed and use this image URL as
  *                                       clickable anchor. Default empty.
- *     @type string       $feed_type     The feed type to link to, such as 'rss2'. Defaults to default feed type.
+ *     @type string       $feed_type     The feed type to link to. Possible values include 'rss2', 'atom'.
+ *                                       Default is the value of get_default_feed().
  *     @type bool         $echo          Whether to output the result or instead return it. Default true.
  *     @type string       $style         If 'list', each author is wrapped in an `<li>` element, otherwise the authors
  *                                       will be separated by commas.

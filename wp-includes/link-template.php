@@ -584,7 +584,8 @@ function get_day_link( $year, $month, $day ) {
  * @since 3.0.0
  *
  * @param string $anchor The link's anchor text.
- * @param string $feed   Optional. Feed type. Default empty.
+ * @param string $feed   Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                       Default is the value of get_default_feed().
  */
 function the_feed_link( $anchor, $feed = '' ) {
 	$link = '<a href="' . esc_url( get_feed_link( $feed ) ) . '">' . $anchor . '</a>';
@@ -595,8 +596,8 @@ function the_feed_link( $anchor, $feed = '' ) {
 	 * @since 3.0.0
 	 *
 	 * @param string $link The complete anchor tag for a feed link.
-	 * @param string $feed The feed type, or an empty string for the
-	 *                     default feed type.
+	 * @param string $feed The feed type. Possible values include 'rss2', 'atom',
+	 *                     or an empty string for the default feed type.
 	 */
 	echo apply_filters( 'the_feed_link', $link, $feed );
 }
@@ -608,7 +609,8 @@ function the_feed_link( $anchor, $feed = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
- * @param string $feed Optional. Feed type. Default empty.
+ * @param string $feed Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                     Default is the value of get_default_feed().
  * @return string The feed permalink.
  */
 function get_feed_link( $feed = '' ) {
@@ -646,7 +648,8 @@ function get_feed_link( $feed = '' ) {
 	 * @since 1.5.0
 	 *
 	 * @param string $output The feed permalink.
-	 * @param string $feed   Feed type.
+	 * @param string $feed   The feed type. Possible values include 'rss2', 'atom',
+	 *                       or an empty string for the default feed type.
 	 */
 	return apply_filters( 'feed_link', $output, $feed );
 }
@@ -657,7 +660,8 @@ function get_feed_link( $feed = '' ) {
  * @since 2.2.0
  *
  * @param int    $post_id Optional. Post ID. Default is the ID of the global `$post`.
- * @param string $feed    Optional. Feed type. Default empty.
+ * @param string $feed    Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                        Default is the value of get_default_feed().
  * @return string The permalink for the comments feed for the given post.
  */
 function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
@@ -743,7 +747,8 @@ function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
  *
  * @param string $link_text Optional. Descriptive link text. Default 'Comments Feed'.
  * @param int    $post_id   Optional. Post ID. Default is the ID of the global `$post`.
- * @param string $feed      Optional. Feed format. Default empty.
+ * @param string $feed      Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                          Default is the value of get_default_feed().
  */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	$url = get_post_comments_feed_link( $post_id, $feed );
@@ -759,7 +764,8 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	 *
 	 * @param string $link    The complete anchor tag for the comment feed link.
 	 * @param int    $post_id Post ID.
-	 * @param string $feed    The feed type, or an empty string for the default feed type.
+	 * @param string $feed    The feed type. Possible values include 'rss2', 'atom',
+	 *                        or an empty string for the default feed type.
 	 */
 	echo apply_filters( 'post_comments_feed_link_html', $link, $post_id, $feed );
 }
@@ -773,7 +779,8 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
  * @since 2.5.0
  *
  * @param int    $author_id Author ID.
- * @param string $feed      Optional. Feed type. Default empty.
+ * @param string $feed      Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                          Default is the value of get_default_feed().
  * @return string Link to the feed for the author specified by $author_id.
  */
 function get_author_feed_link( $author_id, $feed = '' ) {
@@ -803,7 +810,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
 	 * @since 1.5.1
 	 *
 	 * @param string $link The author feed link.
-	 * @param string $feed Feed type.
+	 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 	 */
 	$link = apply_filters( 'author_feed_link', $link, $feed );
 
@@ -819,7 +826,8 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  * @since 2.5.0
  *
  * @param int    $cat_id Category ID.
- * @param string $feed   Optional. Feed type. Default empty.
+ * @param string $feed   Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                       Default is the value of get_default_feed().
  * @return string Link to the feed for the category specified by $cat_id.
  */
 function get_category_feed_link( $cat_id, $feed = '' ) {
@@ -836,7 +844,8 @@ function get_category_feed_link( $cat_id, $feed = '' ) {
  *
  * @param int    $term_id  Term ID.
  * @param string $taxonomy Optional. Taxonomy of `$term_id`. Default 'category'.
- * @param string $feed     Optional. Feed type. Default empty.
+ * @param string $feed     Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                         Default is the value of get_default_feed().
  * @return string|false Link to the feed for the term specified by $term_id and $taxonomy.
  */
 function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
@@ -881,7 +890,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		 * @since 1.5.1
 		 *
 		 * @param string $link The category feed link.
-		 * @param string $feed Feed type.
+		 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 		 */
 		$link = apply_filters( 'category_feed_link', $link, $feed );
 	} elseif ( 'post_tag' == $taxonomy ) {
@@ -891,7 +900,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		 * @since 2.3.0
 		 *
 		 * @param string $link The tag feed link.
-		 * @param string $feed Feed type.
+		 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 		 */
 		$link = apply_filters( 'tag_feed_link', $link, $feed );
 	} else {
@@ -900,8 +909,8 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $link The taxonomy feed link.
-		 * @param string $feed Feed type.
+		 * @param string $link     The taxonomy feed link.
+		 * @param string $feed     Feed type. Possible values include 'rss2', 'atom'.
 		 * @param string $taxonomy The taxonomy name.
 		 */
 		$link = apply_filters( 'taxonomy_feed_link', $link, $feed, $taxonomy );
@@ -916,7 +925,8 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
  * @since 2.3.0
  *
  * @param int    $tag_id Tag ID.
- * @param string $feed   Optional. Feed type. Default empty.
+ * @param string $feed   Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                       Default is the value of get_default_feed().
  * @return string The feed permalink for the given tag.
  */
 function get_tag_feed_link( $tag_id, $feed = '' ) {
@@ -1120,7 +1130,8 @@ function get_search_link( $query = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $search_query Optional. Search query. Default empty.
- * @param string $feed         Optional. Feed type. Default empty.
+ * @param string $feed         Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                             Default is the value of get_default_feed().
  * @return string The search results feed permalink.
  */
 function get_search_feed_link( $search_query = '', $feed = '' ) {
@@ -1146,7 +1157,7 @@ function get_search_feed_link( $search_query = '', $feed = '' ) {
 	 * @since 2.5.0
 	 *
 	 * @param string $link Search feed link.
-	 * @param string $feed Feed type.
+	 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 	 * @param string $type The search type. One of 'posts' or 'comments'.
 	 */
 	return apply_filters( 'search_feed_link', $link, $feed, 'posts' );
@@ -1160,7 +1171,8 @@ function get_search_feed_link( $search_query = '', $feed = '' ) {
  * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $search_query Optional. Search query. Default empty.
- * @param string $feed         Optional. Feed type. Default empty.
+ * @param string $feed         Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                             Default is the value of get_default_feed().
  * @return string The comments feed search results permalink.
  */
 function get_search_comments_feed_link( $search_query = '', $feed = '' ) {
@@ -1249,7 +1261,8 @@ function get_post_type_archive_link( $post_type ) {
  * @since 3.1.0
  *
  * @param string $post_type Post type
- * @param string $feed      Optional. Feed type. Default empty.
+ * @param string $feed      Optional. Feed type. Possible values include 'rss2', 'atom'.
+ *                          Default is the value of get_default_feed().
  * @return string|false The post type feed permalink.
  */
 function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
@@ -1280,7 +1293,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 	 * @since 3.1.0
 	 *
 	 * @param string $link The post type archive feed link.
-	 * @param string $feed Feed type.
+	 * @param string $feed Feed type. Possible values include 'rss2', 'atom'.
 	 */
 	return apply_filters( 'post_type_archive_feed_link', $link, $feed );
 }
