@@ -294,6 +294,16 @@ class WP_Debug_Data {
 					'value' => $wp_local_dev,
 					'debug' => $wp_local_dev_debug,
 				),
+				'DB_CHARSET'          => array(
+					'label' => 'DB_CHARSET',
+					'value' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : __( 'Undefined' ) ),
+					'debug' => ( defined( 'DB_CHARSET' ) ? DB_CHARSET : 'undefined' ),
+				),
+				'DB_COLLATE'          => array(
+					'label' => 'DB_COLLATE',
+					'value' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : __( 'Undefined' ) ),
+					'debug' => ( defined( 'DB_COLLATE' ) ? DB_COLLATE : 'undefined' ),
+				),
 			),
 		);
 
@@ -754,6 +764,18 @@ class WP_Debug_Data {
 		$info['wp-database']['fields']['database_prefix'] = array(
 			'label'   => __( 'Database prefix' ),
 			'value'   => $wpdb->prefix,
+			'private' => true,
+		);
+
+		$info['wp-database']['fields']['database_charset'] = array(
+			'label'   => __( 'Database charset' ),
+			'value'   => $wpdb->charset,
+			'private' => true,
+		);
+
+		$info['wp-database']['fields']['database_collate'] = array(
+			'label'   => __( 'Database collation' ),
+			'value'   => $wpdb->collate,
 			'private' => true,
 		);
 
