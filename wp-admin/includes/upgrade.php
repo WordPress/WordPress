@@ -2127,7 +2127,7 @@ function upgrade_510() {
 function upgrade_530() {
 	// The `admin_email_lifespan` option may have been set by an admin that just logged in,
 	// saw the verification screen, clicked on a button there, and is now upgrading the db,
-	// or by populate_options() that is called earlier in upgrade_all(). 
+	// or by populate_options() that is called earlier in upgrade_all().
 	// In the second case `admin_email_lifespan` should be reset so the verification screen
 	// is shown next time an admin logs in.
 	if ( function_exists( 'current_user_can' ) && ! current_user_can( 'manage_options' ) ) {
