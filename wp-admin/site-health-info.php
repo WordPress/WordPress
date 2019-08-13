@@ -82,7 +82,10 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</h2>
 
 	<p>
-		<?php _e( 'This page can show you every detail about the configuration of your WordPress website. If we see anything here that could be improved, we will let you know on the Site Health Status page.' ); ?>
+		<?php
+			/* translators: %s: URL to Site Health Status page */
+			printf( __( 'This page can show you every detail about the configuration of your WordPress website. For any improvements that could be made, see the <a href="%s">Site Health Status</a> page.' ), esc_url( admin_url( 'site-health.php' ) ) );
+		?>
 	</p>
 	<p>
 		<?php _e( 'If you want to export a handy list of all the information on this page, you can use the button below to copy it to the clipboard. You can then paste it in a text file and save it to your device, or paste it in an email exchange with a support engineer or theme/plugin developer for example.' ); ?>
