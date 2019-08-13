@@ -594,7 +594,7 @@ switch ( $action ) {
 			 *
 			 * @param int Interval time (in seconds).
 			 */
-			$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 180 * DAY_IN_SECONDS );
+			$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 6 * MONTH_IN_SECONDS );
 
 			if ( $admin_email_check_interval > 0 ) {
 				update_option( 'admin_email_lifespan', time() + $admin_email_check_interval );
@@ -617,7 +617,7 @@ switch ( $action ) {
 
 		?>
 
-		<form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ); ?>" method="post">
+		<form class="admin-email-confirm-form" name="admin-email-confirm-form" action="<?php echo esc_url( site_url( 'wp-login.php?action=confirm_admin_email', 'login_post' ) ); ?>" method="post">
 			<?php
 			/**
 			* Fires inside the admin-email-confirm-form form tags, before the hidden fields.

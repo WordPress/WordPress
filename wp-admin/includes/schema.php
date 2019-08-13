@@ -542,6 +542,9 @@ function populate_options( array $options = array() ) {
 
 		// 4.9.8
 		'show_comments_cookies_opt_in'    => 1,
+
+		// 5.3.0
+		'admin_email_lifespan'            => ( time() + 6 * MONTH_IN_SECONDS ),
 	);
 
 	// 3.3

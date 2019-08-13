@@ -2125,10 +2125,14 @@ function upgrade_510() {
  * @since 5.3.0
  */
 function upgrade_530() {
-	// Do `add_option()` rather than overwriting with `update_option()` as this may run
-	// after an admin was redirected to the email verification screen,
-	// and the option was updated.
-	add_option( 'admin_email_lifespan', 0 );
+	// The `admin_email_lifespan` option may have been set by an admin that just logged in,
+	// saw the verification screen, clicked on a button there, and is now upgrading the db,
+	// or by populate_options() that is called earlier in upgrade_all(). 
+	// In the second case `admin_email_lifespan` should be reset so the verification screen
+	// is shown next time an admin logs in.
+	if ( function_exists( 'current_user_can' ) && ! current_user_can( 'manage_options' ) ) {
+		update_option( 'admin_email_lifespan', 0 );
+	}
 }
 
 /**
