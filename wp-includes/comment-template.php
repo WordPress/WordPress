@@ -1697,7 +1697,8 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 						'replytocom'      => $comment->comment_ID,
 						'unapproved'      => false,
 						'moderation-hash' => false,
-					)
+					),
+					get_permalink( $post->ID )
 				)
 			) . '#' . $args['respond_id'],
 			$data_attribute_string,
