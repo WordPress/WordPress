@@ -396,7 +396,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *         @type bool   $hierarchical Either hierarchical rewrite tag or not. Default false.
  *         @type int    $ep_mask      Assign an endpoint mask. Default `EP_NONE`.
  *     }
- *     @type string        $query_var             Sets the query var key for this taxonomy. Default `$taxonomy` key. If
+ *     @type string|bool   $query_var             Sets the query var key for this taxonomy. Default `$taxonomy` key. If
  *                                                false, a taxonomy cannot be loaded at `?{query_var}={term_slug}`. If a
  *                                                string, the query `?{query_var}={term_slug}` will be valid.
  *     @type callable      $update_count_callback Works much like a hook, in that it will be called when the count is
