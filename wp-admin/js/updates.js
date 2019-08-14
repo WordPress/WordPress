@@ -2235,7 +2235,7 @@
 					wp.a11y.speak( wp.updates.l10n.pluginsFound.replace( '%d', response.count ) );
 				}
 			} );
-		}, 500 ) );
+		}, 1000 ) );
 
 		if ( $pluginSearch.length ) {
 			$pluginSearch.attr( 'aria-describedby', 'live-search-desc' );
