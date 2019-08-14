@@ -3728,7 +3728,7 @@ function wp_trim_excerpt( $text = '', $post = null ) {
 		 *
 		 * @param int $number The maximum number of words. Default 55.
 		 */
-		$excerpt_length = apply_filters( 'excerpt_length', $excerpt_length );
+		$excerpt_length = (int) apply_filters( 'excerpt_length', $excerpt_length );
 
 		/**
 		 * Filters the string in the "more" link displayed after a trimmed excerpt.
@@ -3773,6 +3773,7 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 
 	$original_text = $text;
 	$text          = wp_strip_all_tags( $text );
+	$num_words     = (int) $num_words;
 
 	/*
 	 * translators: If your word count is based on single characters (e.g. East Asian characters),
