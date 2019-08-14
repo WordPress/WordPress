@@ -104,7 +104,8 @@ window.addComment = ( function( window ) {
 				commentFormElement.submit.click();
 				return false;
 			}
-		}
+		};
+
 		commentFormElement.addEventListener( 'keydown', submitFormHandler );
 
 		var links = replyLinks( context );
@@ -321,7 +322,7 @@ window.addComment = ( function( window ) {
 		 * This is for backward compatibility with third party commenting systems
 		 * hooking into the event using older techniques.
 		 */
-		cancelElement.onclick = function(){
+		cancelElement.onclick = function() {
 			return false;
 		};
 
