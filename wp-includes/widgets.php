@@ -1125,6 +1125,13 @@ function the_widget( $widget, $instance = array(), $args = array() ) {
 
 	$instance = wp_parse_args( $instance );
 
+	/** This filter is documented in wp-includes/class-wp-widget.php */
+	$instance = apply_filters( 'widget_display_callback', $instance, $widget_obj, $args );
+
+	if ( false === $instance ) {
+		return;
+	}
+
 	/**
 	 * Fires before rendering the requested widget.
 	 *
