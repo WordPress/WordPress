@@ -484,46 +484,45 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @global string          $table_prefix
  * @global WP_Object_Cache $wp_object_cache
  *
- * @param int  $new_blog   The id of the blog you want to switch to. Default: current blog
- * @param bool $deprecated Deprecated argument
- * @return true Always returns True.
+ * @param int  $new_blog_id The ID of the blog to switch to. Default: current blog.
+ * @param bool $deprecated  Not used.
+ * @return true Always returns true.
  */
-function switch_to_blog( $new_blog, $deprecated = null ) {
+function switch_to_blog( $new_blog_id, $deprecated = null ) {
 	global $wpdb;
 
-	$blog_id = get_current_blog_id();
-	if ( empty( $new_blog ) ) {
-		$new_blog = $blog_id;
+	$prev_blog_id = get_current_blog_id();
+	if ( empty( $new_blog_id ) ) {
+		$new_blog_id = $prev_blog_id;
 	}
 
-	$GLOBALS['_wp_switched_stack'][] = $blog_id;
+	$GLOBALS['_wp_switched_stack'][] = $prev_blog_id;
 
 	/*
 	 * If we're switching to the same blog id that we're on,
 	 * set the right vars, do the associated actions, but skip
 	 * the extra unnecessary work
 	 */
-	if ( $new_blog == $blog_id ) {
+	if ( $new_blog_id == $prev_blog_id ) {
 		/**
 		 * Fires when the blog is switched.
 		 *
 		 * @since MU (3.0.0)
 		 *
-		 * @param int $new_blog New blog ID.
-		 * @param int $new_blog Blog ID.
+		 * @param int $new_blog_id  New blog ID.
+		 * @param int $prev_blog_id Previous blog ID.
 		 */
-		do_action( 'switch_blog', $new_blog, $new_blog );
+		do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
 		$GLOBALS['switched'] = true;
 		return true;
 	}
 
-	$wpdb->set_blog_id( $new_blog );
+	$wpdb->set_blog_id( $new_blog_id );
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
-	$prev_blog_id            = $blog_id;
-	$GLOBALS['blog_id']      = $new_blog;
+	$GLOBALS['blog_id']      = $new_blog_id;
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $new_blog );
+		wp_cache_switch_to_blog( $new_blog_id );
 	} else {
 		global $wp_object_cache;
 
@@ -545,14 +544,14 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
-	do_action( 'switch_blog', $new_blog, $prev_blog_id );
+	do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
 	$GLOBALS['switched'] = true;
 
 	return true;
 }
 
 /**
- * Restore the current blog, after calling switch_to_blog()
+ * Restore the current blog, after calling switch_to_blog().
  *
  * @see switch_to_blog()
  * @since MU (3.0.0)
@@ -564,7 +563,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
  * @global string          $table_prefix
  * @global WP_Object_Cache $wp_object_cache
  *
- * @return bool True on success, false if we're already on the current blog
+ * @return bool True on success, false if we're already on the current blog.
  */
 function restore_current_blog() {
 	global $wpdb;
@@ -573,24 +572,23 @@ function restore_current_blog() {
 		return false;
 	}
 
-	$blog    = array_pop( $GLOBALS['_wp_switched_stack'] );
-	$blog_id = get_current_blog_id();
+	$new_blog_id  = array_pop( $GLOBALS['_wp_switched_stack'] );
+	$prev_blog_id = get_current_blog_id();
 
-	if ( $blog_id == $blog ) {
+	if ( $new_blog_id == $prev_blog_id ) {
 		/** This filter is documented in wp-includes/ms-blogs.php */
-		do_action( 'switch_blog', $blog, $blog );
+		do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
 		// If we still have items in the switched stack, consider ourselves still 'switched'
 		$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 		return true;
 	}
 
-	$wpdb->set_blog_id( $blog );
-	$prev_blog_id            = $blog_id;
-	$GLOBALS['blog_id']      = $blog;
+	$wpdb->set_blog_id( $new_blog_id );
+	$GLOBALS['blog_id']      = $new_blog_id;
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
-		wp_cache_switch_to_blog( $blog );
+		wp_cache_switch_to_blog( $new_blog_id );
 	} else {
 		global $wp_object_cache;
 
@@ -613,7 +611,7 @@ function restore_current_blog() {
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
-	do_action( 'switch_blog', $blog, $prev_blog_id );
+	do_action( 'switch_blog', $new_blog_id, $prev_blog_id );
 
 	// If we still have items in the switched stack, consider ourselves still 'switched'
 	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
