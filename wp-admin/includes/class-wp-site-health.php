@@ -1940,7 +1940,7 @@ class WP_Site_Health {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @return bool|WP_Error true if a cron was missed, false if it wasn't. WP_Error if the cron is set to that.
+	 * @return bool|WP_Error True if a cron was missed, false if not. WP_Error if the cron is set to that.
 	 */
 	public function has_missed_cron() {
 		if ( is_wp_error( $this->crons ) ) {
@@ -1963,7 +1963,9 @@ class WP_Site_Health {
 	 * Returns a boolean value of `true` if a scheduled task is late and ends processing. If the list of
 	 * crons is an instance of WP_Error, return the instance instead of a boolean value.
 	 *
-	 * @return bool|WP_Error true if a cron is late, false if it wasn't. WP_Error if the cron is set to that.
+	 * @since 5.3.0
+	 *
+	 * @return bool|WP_Error True if a cron is late, false if not. WP_Error if the cron is set to that.
 	 */
 	public function has_late_cron() {
 		if ( is_wp_error( $this->crons ) ) {
