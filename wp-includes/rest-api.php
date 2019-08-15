@@ -102,14 +102,14 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
  * @param array  $args {
  *     Optional. An array of arguments used to handle the registered field.
  *
- *     @type string|array|null $get_callback    Optional. The callback function used to retrieve the field
- *                                              value. Default is 'null', the field will not be returned in
- *                                              the response.
- *     @type string|array|null $update_callback Optional. The callback function used to set and update the
- *                                              field value. Default is 'null', the value cannot be set or
- *                                              updated.
- *     @type string|array|null $schema          Optional. The callback function used to create the schema for
- *                                              this field. Default is 'null', no schema entry will be returned.
+ *     @type callable|null $get_callback    Optional. The callback function used to retrieve the field value. Default is
+ *                                          'null', the field will not be returned in the response. The function will
+ *                                          be passed the prepared object data.
+ *     @type callable|null $update_callback Optional. The callback function used to set and update the field value. Default
+ *                                          is 'null', the value cannot be set or updated. The function will be passed
+ *                                          the model object, like WP_Post.
+ *     @type array|null $schema             Optional. The callback function used to create the schema for this field.
+ *                                          Default is 'null', no schema entry will be returned.
  * }
  */
 function register_rest_field( $object_type, $attribute, $args = array() ) {
