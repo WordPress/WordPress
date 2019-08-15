@@ -405,6 +405,11 @@ class WP_REST_Server {
 			 */
 			$result = apply_filters( 'rest_pre_echo_response', $result, $this, $request );
 
+			// The 204 response shouldn't have a body.
+			if ( 204 === $code || null === $result ) {
+				return null;
+			}
+
 			$result = wp_json_encode( $result );
 
 			$json_error_message = $this->get_json_last_error();
