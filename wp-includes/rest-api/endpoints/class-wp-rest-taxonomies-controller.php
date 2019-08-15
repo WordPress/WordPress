@@ -210,7 +210,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		}
 
 		if ( in_array( 'types', $fields, true ) ) {
-			$data['types'] = $taxonomy->object_type;
+			$data['types'] = array_values( $taxonomy->object_type );
 		}
 
 		if ( in_array( 'show_cloud', $fields, true ) ) {
