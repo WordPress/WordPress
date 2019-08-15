@@ -161,7 +161,11 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
-		return array(
+		if ( $this->schema ) {
+			return $this->schema;
+		}
+
+		$this->schema = array(
 			'$schema'    => 'http://json-schema.org/schema#',
 			'title'      => 'rendered-block',
 			'type'       => 'object',
@@ -174,5 +178,6 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 				),
 			),
 		);
+		return $this->schema;
 	}
 }

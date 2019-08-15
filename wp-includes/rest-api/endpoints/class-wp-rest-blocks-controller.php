@@ -68,6 +68,7 @@ class WP_REST_Blocks_Controller extends WP_REST_Posts_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		// Do not cache this schema because all properties are derived from parent controller.
 		$schema = parent::get_item_schema();
 
 		/*

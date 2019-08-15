@@ -606,6 +606,10 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
+		if ( $this->schema ) {
+			return $this->add_additional_fields_schema( $this->schema );
+		}
+
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => "{$this->parent_post_type}-revision",
@@ -682,7 +686,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			$schema['properties']['guid'] = $parent_schema['properties']['guid'];
 		}
 
-		return $this->add_additional_fields_schema( $schema );
+		$this->schema = $schema;
+		return $this->add_additional_fields_schema( $this->schema );
 	}
 
 	/**
