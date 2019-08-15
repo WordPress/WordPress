@@ -234,6 +234,11 @@ switch ( $wp_list_table->current_action() ) {
 			$userids = array_map( 'intval', (array) $_REQUEST['users'] );
 		}
 
+		if ( in_array( $current_user->ID, $userids ) ) {
+			$all_userids = $userids;
+			$userids     = array_diff( $userids, array( $current_user->ID ) );
+		}
+
 		/**
 		 * Filters whether the users being deleted have additional content
 		 * associated with them outside of the `post_author` and `link_owner` relationships.
@@ -245,7 +250,7 @@ switch ( $wp_list_table->current_action() ) {
 		 */
 		$users_have_content = (bool) apply_filters( 'users_have_additional_content', false, $userids );
 
-		if ( ! $users_have_content ) {
+		if ( $userids && ! $users_have_content ) {
 			if ( $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} WHERE post_author IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
 				$users_have_content = true;
 			} elseif ( $wpdb->get_var( "SELECT link_id FROM {$wpdb->links} WHERE link_owner IN( " . implode( ',', $userids ) . ' ) LIMIT 1' ) ) {
@@ -271,7 +276,7 @@ switch ( $wp_list_table->current_action() ) {
 	</div>
 		<?php endif; ?>
 
-		<?php if ( 1 == count( $userids ) ) : ?>
+		<?php if ( 1 == count( $all_userids ) ) : ?>
 	<p><?php _e( 'You have specified this user for deletion:' ); ?></p>
 		<?php else : ?>
 	<p><?php _e( 'You have specified these users for deletion:' ); ?></p>
@@ -280,7 +285,7 @@ switch ( $wp_list_table->current_action() ) {
 <ul>
 		<?php
 		$go_delete = 0;
-		foreach ( $userids as $id ) {
+		foreach ( $all_userids as $id ) {
 			$user = get_userdata( $id );
 			if ( $id == $current_user->ID ) {
 				/* translators: 1: user id, 2: user login */
@@ -314,7 +319,7 @@ switch ( $wp_list_table->current_action() ) {
 				wp_dropdown_users(
 					array(
 						'name'    => 'reassign_user',
-						'exclude' => array_diff( $userids, array( $current_user->ID ) ),
+						'exclude' => $userids,
 						'show'    => 'display_name_with_login',
 					)
 				);
