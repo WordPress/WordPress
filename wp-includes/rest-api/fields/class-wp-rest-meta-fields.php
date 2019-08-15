@@ -143,6 +143,21 @@ abstract class WP_REST_Meta_Fields {
 			 * from the database and then relying on the default value.
 			 */
 			if ( is_null( $meta[ $name ] ) ) {
+				$args = $this->get_registered_fields()[ $meta_key ];
+
+				if ( $args['single'] ) {
+					$current = get_metadata( $this->get_meta_type(), $object_id, $meta_key, true );
+
+					if ( is_wp_error( rest_validate_value_from_schema( $current, $args['schema'] ) ) ) {
+						return new WP_Error(
+							'rest_invalid_stored_value',
+							/* translators: %s: custom field key */
+							sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
+							array( 'status' => 500 )
+						);
+					}
+				}
+
 				$result = $this->delete_meta_value( $object_id, $meta_key, $name );
 				if ( is_wp_error( $result ) ) {
 					return $result;
@@ -150,13 +165,24 @@ abstract class WP_REST_Meta_Fields {
 				continue;
 			}
 
-			$is_valid = rest_validate_value_from_schema( $meta[ $name ], $args['schema'], 'meta.' . $name );
+			$value = $meta[ $name ];
+
+			if ( ! $args['single'] && is_array( $value ) && count( array_filter( $value, 'is_null' ) ) ) {
+				return new WP_Error(
+					'rest_invalid_stored_value',
+					/* translators: %s: custom field key */
+					sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
+					array( 'status' => 500 )
+				);
+			}
+
+			$is_valid = rest_validate_value_from_schema( $value, $args['schema'], 'meta.' . $name );
 			if ( is_wp_error( $is_valid ) ) {
 				$is_valid->add_data( array( 'status' => 400 ) );
 				return $is_valid;
 			}
 
-			$value = rest_sanitize_value_from_schema( $meta[ $name ], $args['schema'] );
+			$value = rest_sanitize_value_from_schema( $value, $args['schema'] );
 
 			if ( $args['single'] ) {
 				$result = $this->update_meta_value( $object_id, $meta_key, $name, $value );
@@ -260,8 +286,10 @@ abstract class WP_REST_Meta_Fields {
 			unset( $to_add[ $add_key ] );
 		}
 
-		// `delete_metadata` removes _all_ instances of the value, so only call once.
-		$to_remove = array_unique( $to_remove );
+		// `delete_metadata` removes _all_ instances of the value, so only call once. Otherwise,
+		// `delete_metadata` will return false for subsequent calls of the same value.
+		// Use serialization to produce a predictable string that can be used by array_unique.
+		$to_remove = array_map( 'maybe_unserialize', array_unique( array_map( 'maybe_serialize', $to_remove ) ) );
 
 		foreach ( $to_remove as $value ) {
 			if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $meta_key ), wp_slash( $value ) ) ) {
@@ -393,15 +421,21 @@ abstract class WP_REST_Meta_Fields {
 			$type = ! empty( $rest_args['type'] ) ? $rest_args['type'] : null;
 			$type = ! empty( $rest_args['schema']['type'] ) ? $rest_args['schema']['type'] : $type;
 
-			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number' ) ) ) {
+			if ( null === $rest_args['schema']['default'] ) {
+				$rest_args['schema']['default'] = $this->get_default_for_type( $type );
+			}
+
+			$rest_args['schema'] = $this->default_additional_properties_to_false( $rest_args['schema'] );
+
+			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number', 'array', 'object' ) ) ) {
 				continue;
 			}
 
 			if ( empty( $rest_args['single'] ) ) {
-				$rest_args['schema']['items'] = array(
-					'type' => $rest_args['type'],
+				$rest_args['schema'] = array(
+					'type'  => 'array',
+					'items' => $rest_args['schema'],
 				);
-				$rest_args['schema']['type']  = 'array';
 			}
 
 			$registered[ $name ] = $rest_args;
@@ -452,34 +486,18 @@ abstract class WP_REST_Meta_Fields {
 	 * @return mixed Value prepared for output. If a non-JsonSerializable object, null.
 	 */
 	public static function prepare_value( $value, $request, $args ) {
-		$type = $args['schema']['type'];
 
-		// For multi-value fields, check the item type instead.
-		if ( 'array' === $type && ! empty( $args['schema']['items']['type'] ) ) {
-			$type = $args['schema']['items']['type'];
+		if ( $args['single'] ) {
+			$schema = $args['schema'];
+		} else {
+			$schema = $args['schema']['items'];
 		}
 
-		switch ( $type ) {
-			case 'string':
-				$value = (string) $value;
-				break;
-			case 'integer':
-				$value = (int) $value;
-				break;
-			case 'number':
-				$value = (float) $value;
-				break;
-			case 'boolean':
-				$value = (bool) $value;
-				break;
-		}
-
-		// Don't allow objects to be output.
-		if ( is_object( $value ) && ! ( $value instanceof JsonSerializable ) ) {
+		if ( is_wp_error( rest_validate_value_from_schema( $value, $schema ) ) ) {
 			return null;
 		}
 
-		return $value;
+		return rest_sanitize_value_from_schema( $value, $schema );
 	}
 
 	/**
@@ -498,5 +516,64 @@ abstract class WP_REST_Meta_Fields {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Recursively add additionalProperties = false to all objects in a schema if no additionalProperties setting
+	 * is specified.
+	 *
+	 * This is needed to restrict properties of objects in meta values to only
+	 * registered items, as the REST API will allow additional properties by
+	 * default.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param array $schema The schema array.
+	 * @return array
+	 */
+	protected function default_additional_properties_to_false( $schema ) {
+		switch ( $schema['type'] ) {
+			case 'object':
+				foreach ( $schema['properties'] as $key => $child_schema ) {
+					$schema['properties'][ $key ] = $this->default_additional_properties_to_false( $child_schema );
+				}
+
+				if ( ! isset( $schema['additionalProperties'] ) ) {
+					$schema['additionalProperties'] = false;
+				}
+				break;
+			case 'array':
+				$schema['items'] = $this->default_additional_properties_to_false( $schema['items'] );
+				break;
+		}
+
+		return $schema;
+	}
+
+	/**
+	 * Gets the default value for a schema type.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param string $type
+	 * @return mixed
+	 */
+	protected function get_default_for_type( $type ) {
+		switch ( $type ) {
+			case 'string':
+				return '';
+			case 'boolean':
+				return false;
+			case 'integer':
+				return 0;
+			case 'number':
+				return 0.0;
+			case 'array':
+				return array();
+			case 'object':
+				return array();
+			default:
+				return null;
+		}
 	}
 }

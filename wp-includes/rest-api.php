@@ -1159,6 +1159,11 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		if ( $value instanceof stdClass ) {
 			$value = (array) $value;
 		}
+
+		if ( $value instanceof JsonSerializable ) {
+			$value = $value->jsonSerialize();
+		}
+
 		if ( ! is_array( $value ) ) {
 			/* translators: 1: parameter, 2: type name */
 			return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'object' ) );
@@ -1170,8 +1175,17 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				if ( is_wp_error( $is_valid ) ) {
 					return $is_valid;
 				}
-			} elseif ( isset( $args['additionalProperties'] ) && false === $args['additionalProperties'] ) {
-				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not a valid property of Object.' ), $property ) );
+			} elseif ( isset( $args['additionalProperties'] ) ) {
+				if ( false === $args['additionalProperties'] ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not a valid property of Object.' ), $property ) );
+				}
+
+				if ( is_array( $args['additionalProperties'] ) ) {
+					$is_valid = rest_validate_value_from_schema( $v, $args['additionalProperties'], $param . '[' . $property . ']' );
+					if ( is_wp_error( $is_valid ) ) {
+						return $is_valid;
+					}
+				}
 			}
 		}
 	}
@@ -1298,6 +1312,11 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		if ( $value instanceof stdClass ) {
 			$value = (array) $value;
 		}
+
+		if ( $value instanceof JsonSerializable ) {
+			$value = $value->jsonSerialize();
+		}
+
 		if ( ! is_array( $value ) ) {
 			return array();
 		}
@@ -1305,8 +1324,12 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		foreach ( $value as $property => $v ) {
 			if ( isset( $args['properties'][ $property ] ) ) {
 				$value[ $property ] = rest_sanitize_value_from_schema( $v, $args['properties'][ $property ] );
-			} elseif ( isset( $args['additionalProperties'] ) && false === $args['additionalProperties'] ) {
-				unset( $value[ $property ] );
+			} elseif ( isset( $args['additionalProperties'] ) ) {
+				if ( false === $args['additionalProperties'] ) {
+					unset( $value[ $property ] );
+				} elseif ( is_array( $args['additionalProperties'] ) ) {
+					$value[ $property ] = rest_sanitize_value_from_schema( $v, $args['additionalProperties'] );
+				}
 			}
 		}
 
