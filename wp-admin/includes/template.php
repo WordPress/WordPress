@@ -1685,6 +1685,7 @@ function do_settings_fields( $page, $section ) {
  * page is first accessed.
  *
  * @since 3.0.0
+ * @since 5.3.0 Added `warning` and `info` as possible values for `$type`.
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
@@ -1692,8 +1693,8 @@ function do_settings_fields( $page, $section ) {
  * @param string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
  * @param string $message The formatted message text to display to the user (will be shown inside styled
  *                        `<div>` and `<p>` tags).
- * @param string $type    Optional. Message type, controls HTML class. Accepts 'error' or 'updated'.
- *                        Default 'error'.
+ * @param string $type    Optional. Message type, controls HTML class. Possible values include 'error',
+ *                        'success', 'warning', 'info'. Default 'error'.
  */
 function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 	global $wp_settings_errors;
@@ -1787,6 +1788,8 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  * missing settings when the user arrives at the settings page.
  *
  * @since 3.0.0
+ * @since 5.3.0 Legacy `error` and `updated` CSS classes are mapped to
+ *              `notice-error` and `notice-success`.
  *
  * @param string $setting        Optional slug title of a specific setting whose errors you want.
  * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
@@ -1807,11 +1810,22 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 
 	$output = '';
 	foreach ( $settings_errors as $key => $details ) {
-		$css_id    = 'setting-error-' . $details['code'];
-		$css_class = $details['type'] . ' settings-error notice is-dismissible';
-		$output   .= "<div id='$css_id' class='$css_class'> \n";
-		$output   .= "<p><strong>{$details['message']}</strong></p>";
-		$output   .= "</div> \n";
+		if ( 'updated' === $details['type'] ) {
+			$details['type'] = 'success';
+		}
+
+		$css_id    = sprintf(
+			'setting-error-%s',
+			sanitize_html_class( $details['code'] )
+		);
+		$css_class = sprintf(
+			'notice notice-%s settings-error is-dismissible',
+			sanitize_html_class( $details['type'] )
+		);
+
+		$output .= "<div id='$css_id' class='$css_class'> \n";
+		$output .= "<p><strong>{$details['message']}</strong></p>";
+		$output .= "</div> \n";
 	}
 	echo $output;
 }
