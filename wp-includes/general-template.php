@@ -1554,6 +1554,8 @@ function the_archive_title( $before = '', $after = '' ) {
  * @return string Archive title.
  */
 function get_the_archive_title() {
+	$title = __( 'Archives' );
+
 	if ( is_category() ) {
 		/* translators: Category archive title. %s: Category name */
 		$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
@@ -1596,11 +1598,12 @@ function get_the_archive_title() {
 		/* translators: Post type archive title. %s: Post type name */
 		$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
 	} elseif ( is_tax() ) {
-		$tax = get_taxonomy( get_queried_object()->taxonomy );
-		/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
-		$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
-	} else {
-		$title = __( 'Archives' );
+		$queried_object = get_queried_object();
+		if ( $queried_object ) {
+			$tax = get_taxonomy( $queried_object->taxonomy );
+			/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
+			$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
+		}
 	}
 
 	/**
@@ -2908,10 +2911,13 @@ function feed_links_extra( $args = array() ) {
 			$href  = get_tag_feed_link( $term->term_id );
 		}
 	} elseif ( is_tax() ) {
-		$term  = get_queried_object();
-		$tax   = get_taxonomy( $term->taxonomy );
-		$title = sprintf( $args['taxtitle'], get_bloginfo( 'name' ), $args['separator'], $term->name, $tax->labels->singular_name );
-		$href  = get_term_feed_link( $term->term_id, $term->taxonomy );
+		$term = get_queried_object();
+
+		if ( $term ) {
+			$tax   = get_taxonomy( $term->taxonomy );
+			$title = sprintf( $args['taxtitle'], get_bloginfo( 'name' ), $args['separator'], $term->name, $tax->labels->singular_name );
+			$href  = get_term_feed_link( $term->term_id, $term->taxonomy );
+		}
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var( 'author' ) );
 
