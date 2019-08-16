@@ -151,7 +151,7 @@ if ( isset( $_POST['permalink_structure'] ) || isset( $_POST['category_base'] ) 
 	}
 
 	if ( ! get_settings_errors() ) {
-		add_settings_error( 'general', 'settings_updated', $message, 'updated' );
+		add_settings_error( 'general', 'settings_updated', $message, 'success' );
 	}
 
 	set_transient( 'settings_errors', get_settings_errors(), 30 );

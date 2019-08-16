@@ -88,7 +88,7 @@ function _wp_personal_data_handle_actions() {
 				'privacy_action_email_retry',
 				'privacy_action_email_retry',
 				__( 'Confirmation request sent again successfully.' ),
-				'updated'
+				'success'
 			);
 		}
 	} elseif ( isset( $_POST['action'] ) ) {
@@ -166,7 +166,7 @@ function _wp_personal_data_handle_actions() {
 					'username_or_email_for_privacy_request',
 					'username_or_email_for_privacy_request',
 					__( 'Confirmation request initiated successfully.' ),
-					'updated'
+					'success'
 				);
 				break;
 		}

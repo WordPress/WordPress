@@ -302,7 +302,7 @@ if ( 'update' == $action ) {
 	 */
 	// If no settings errors were registered add a general 'updated' message.
 	if ( ! count( get_settings_errors() ) ) {
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'updated' );
+		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'success' );
 	}
 	set_transient( 'settings_errors', get_settings_errors(), 30 );
 
