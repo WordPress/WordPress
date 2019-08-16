@@ -181,7 +181,7 @@ class WP_Admin_Bar {
 	 * Gets a node.
 	 *
 	 * @param string $id
-	 * @return object Node.
+	 * @return object|void Node.
 	 */
 	final public function get_node( $id ) {
 		$node = $this->_get_node( $id );
