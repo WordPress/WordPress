@@ -592,9 +592,9 @@ if ( ! function_exists( 'wp_validate_auth_cookie' ) ) :
 	 *
 	 * @global int $login_grace_period
 	 *
-	 * @param string $cookie Optional. If used, will validate contents instead of cookie's
-	 * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
-	 * @return false|int False if invalid cookie, User ID if valid.
+	 * @param string $cookie Optional. If used, will validate contents instead of cookie's.
+	 * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
+	 * @return false|int False if invalid cookie, user ID if valid.
 	 */
 	function wp_validate_auth_cookie( $cookie = '', $scheme = '' ) {
 		$cookie_elements = wp_parse_auth_cookie( $cookie, $scheme );
@@ -697,15 +697,16 @@ endif;
 
 if ( ! function_exists( 'wp_generate_auth_cookie' ) ) :
 	/**
-	 * Generate authentication cookie contents.
+	 * Generates authentication cookie contents.
 	 *
 	 * @since 2.5.0
 	 * @since 4.0.0 The `$token` parameter was added.
 	 *
-	 * @param int    $user_id    User ID
+	 * @param int    $user_id    User ID.
 	 * @param int    $expiration The time the cookie expires as a UNIX timestamp.
-	 * @param string $scheme     Optional. The cookie scheme to use: auth, secure_auth, or logged_in
-	 * @param string $token      User's session token to use for this cookie
+	 * @param string $scheme     Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
+	 *                           Default 'auth'.
+	 * @param string $token      User's session token to use for this cookie.
 	 * @return string Authentication cookie contents. Empty string if user does not exist.
 	 */
 	function wp_generate_auth_cookie( $user_id, $expiration, $scheme = 'auth', $token = '' ) {
@@ -747,13 +748,13 @@ endif;
 
 if ( ! function_exists( 'wp_parse_auth_cookie' ) ) :
 	/**
-	 * Parse a cookie into its components
+	 * Parses a cookie into its components.
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $cookie
-	 * @param string $scheme Optional. The cookie scheme to use: auth, secure_auth, or logged_in
-	 * @return array|false Authentication cookie components
+	 * @param string $cookie Authentication cookie.
+	 * @param string $scheme Optional. The cookie scheme to use: 'auth', 'secure_auth', or 'logged_in'.
+	 * @return array|false Authentication cookie components.
 	 */
 	function wp_parse_auth_cookie( $cookie = '', $scheme = '' ) {
 		if ( empty( $cookie ) ) {
@@ -796,7 +797,7 @@ endif;
 
 if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 	/**
-	 * Log in a user by setting authentication cookies.
+	 * Sets the authentication cookies based on user ID.
 	 *
 	 * The $remember parameter increases the time that the cookie will be kept. The
 	 * default the cookie is kept without remembering is two days. When $remember is
@@ -805,10 +806,10 @@ if ( ! function_exists( 'wp_set_auth_cookie' ) ) :
 	 * @since 2.5.0
 	 * @since 4.3.0 Added the `$token` parameter.
 	 *
-	 * @param int    $user_id  User ID
-	 * @param bool   $remember Whether to remember the user
+	 * @param int    $user_id  User ID.
+	 * @param bool   $remember Whether to remember the user.
 	 * @param mixed  $secure   Whether the admin cookies should only be sent over HTTPS.
-	 *                         Default is_ssl().
+	 *                         Default is the value of is_ssl().
 	 * @param string $token    Optional. User's session token to use for this cookie.
 	 */
 	function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token = '' ) {
