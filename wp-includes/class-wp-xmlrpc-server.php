@@ -6880,7 +6880,10 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->pingback_error( 32, __( 'We cannot find a title on that page.' ) );
 		}
 
-		$remote_source = strip_tags( $remote_source, '<a>' ); // just keep the tag we need
+		// Remove all script and style tags including their content.
+		$remote_source = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $remote_source );
+		// Just keep the tag we need.
+		$remote_source = strip_tags( $remote_source, '<a>' );
 
 		$p = explode( "\n\n", $remote_source );
 
