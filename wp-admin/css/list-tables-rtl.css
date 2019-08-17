@@ -1465,7 +1465,7 @@ div.action-links,
 }
 
 .plugin-card h3 {
-	margin: 0 0 12px;
+	margin: 0 0 12px 12px;
 	font-size: 18px;
 	line-height: 1.3;
 }
@@ -1644,6 +1644,10 @@ div.action-links,
 
 	.plugin-action-buttons li .button {
 		margin-left: 20px;
+	}
+
+	.plugin-card h3 {
+		margin-left: 24px;
 	}
 
 	.plugin-card .name,
