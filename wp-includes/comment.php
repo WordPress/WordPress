@@ -3434,10 +3434,11 @@ function wp_comments_personal_data_exporter( $email_address, $page = 1 ) {
 		}
 
 		$data_to_export[] = array(
-			'group_id'    => 'comments',
-			'group_label' => __( 'Comments' ),
-			'item_id'     => "comment-{$comment->comment_ID}",
-			'data'        => $comment_data_to_export,
+			'group_id'          => 'comments',
+			'group_label'       => __( 'Comments' ),
+			'group_description' => __( 'User&#8217;s comment data.' ),
+			'item_id'           => "comment-{$comment->comment_ID}",
+			'data'              => $comment_data_to_export,
 		);
 	}
 

@@ -2994,10 +2994,11 @@ function wp_user_personal_data_exporter( $email_address ) {
 	}
 
 	$data_to_export[] = array(
-		'group_id'    => 'user',
-		'group_label' => __( 'User' ),
-		'item_id'     => "user-{$user->ID}",
-		'data'        => $user_data_to_export,
+		'group_id'          => 'user',
+		'group_label'       => __( 'User' ),
+		'group_description' => __( 'User&#8217;s profile data.' ),
+		'item_id'           => "user-{$user->ID}",
+		'data'              => $user_data_to_export,
 	);
 
 	return array(
