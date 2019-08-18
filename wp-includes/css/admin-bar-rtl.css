@@ -40,8 +40,6 @@ html:lang(he-il) .rtl #wpadminbar * {
 #wpadminbar #wp-admin-bar-site-name a.ab-item,
 #wpadminbar #wp-admin-bar-my-sites a.ab-item {
 	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 #wpadminbar ul li:before,
@@ -519,7 +517,8 @@ html:lang(he-il) .rtl #wpadminbar * {
  * My Sites & Site Title
  */
 #wpadminbar .quicklinks li .blavatar {
-	float: right;
+	display: inline-block;
+	vertical-align: middle;
 	font: normal 16px/1 dashicons !important;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
@@ -538,7 +537,7 @@ html:lang(he-il) .rtl #wpadminbar * {
 	height: 16px;
 	width: 16px;
 	display: inline-block;
-	margin: 6px -2px 0 8px;
+	margin: 0 -2px 2px 8px;
 }
 
 #wpadminbar #wp-admin-bar-appearance {
