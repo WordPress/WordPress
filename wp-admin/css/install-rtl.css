@@ -174,8 +174,9 @@ submit {
 .form-table input[type=text],
 .form-table input[type=email],
 .form-table input[type=url],
-.form-table input[type=password] {
-	width: 206px;
+.form-table input[type=password],
+#pass-strength-result {
+	width: 218px;
 }
 
 .form-table th p {
@@ -212,66 +213,6 @@ submit {
 	font-family: Consolas, Monaco, monospace;
 }
 
-.wp-hide-pw > .dashicons {
-	line-height: inherit;
-}
-
-#pass-strength-result {
-	background-color: #eee;
-	border: 1px solid #ddd;
-	color: #23282d;
-	margin: -2px 0px 5px 5px;
-	padding: 3px 5px;
-	text-align: center;
-	width: 218px;
-	box-sizing: border-box;
-	opacity: 0;
-}
-
-#pass-strength-result.short {
-	background-color: #f1adad;
-	border-color: #e35b5b;
-	opacity: 1;
-}
-
-#pass-strength-result.bad {
-	background-color: #fbc5a9;
-	border-color: #f78b53;
-	opacity: 1;
-}
-
-#pass-strength-result.good {
-	background-color: #ffe399;
-	border-color: #ffc733;
-	opacity: 1;
-}
-
-#pass-strength-result.strong {
-	background-color: #c1e1b9;
-	border-color: #83c373;
-	opacity: 1;
-}
-
-#pass1.short, #pass1-text.short {
-	border-color: #e35b5b;
-}
-
-#pass1.bad, #pass1-text.bad {
-	border-color: #f78b53;
-}
-
-#pass1.good, #pass1-text.good {
-	border-color: #ffc733;
-}
-
-#pass1.strong, #pass1-text.strong {
-	border-color: #83c373;
-}
-
-.pw-weak {
-	display: none;
-}
-
 .message {
 	border-right: 4px solid #dc3232;
 	padding: .7em .6em;
@@ -289,20 +230,6 @@ submit {
 #pass1,
 #pass2 {
 	direction: ltr;
-}
-
-#pass1-text,
-.show-password #pass1 {
-	display: none;
-}
-
-.show-password #pass1-text
-{
-	display: inline-block;
-}
-
-.form-table span.description.important {
-	font-size: 12px;
 }
 
 
