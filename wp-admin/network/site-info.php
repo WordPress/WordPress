@@ -166,7 +166,7 @@ if ( ! empty( $messages ) ) {
 		else :
 			?>
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Site Address (URL)' ); ?></th>
+			<th scope="row"><label for="url"><?php _e( 'Site Address (URL)' ); ?></label></th>
 			<td><input name="blog[url]" type="text" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
 		</tr>
 		<?php endif; ?>

@@ -43,7 +43,7 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 <h2 class="edit-comment-author"><?php _e( 'Author' ); ?></h2>
 <fieldset>
 <legend class="screen-reader-text"><?php _e( 'Comment Author' ); ?></legend>
-<table class="form-table editcomment">
+<table class="form-table editcomment" role="presentation">
 <tbody>
 <tr>
 	<td class="first"><label for="name"><?php _e( 'Name' ); ?></label></td>

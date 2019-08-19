@@ -568,7 +568,7 @@ endif; //!IS_PROFILE_PAGE
 			if ( IS_PROFILE_PAGE ) {
 				/* translators: %s: Gravatar URL */
 				$description = sprintf(
-					__( 'You can change your profile picture on <a href="%s">Gravatar</a>.' ),
+					__( '<a href="%s">You can change your profile picture on Gravatar</a>.' ),
 					__( 'https://en.gravatar.com/' )
 				);
 			} else {

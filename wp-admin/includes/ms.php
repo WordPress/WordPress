@@ -984,7 +984,7 @@ function confirm_delete_users( $users ) {
 				echo '</fieldset></td></tr>';
 			} else {
 				?>
-				<td><fieldset><p><legend><?php _e( 'User has no sites or content and will be deleted.' ); ?></legend></p>
+				<td><p><?php _e( 'User has no sites or content and will be deleted.' ); ?></p></td>
 			<?php } ?>
 			</tr>
 			<?php

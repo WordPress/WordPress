@@ -452,16 +452,15 @@ if ( isset( $_GET['updated'] ) ) {
 			 *
 			 * @param string[] $admin_menus Associative array of the menu items available.
 			 */
-			$menu_items   = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
-			$fieldset_end = '';
-			if ( count( (array) $menu_items ) > 1 ) {
-				echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
-				$fieldset_end = '</fieldset>';
-			}
+			$menu_items = apply_filters( 'mu_menu_items', array( 'plugins' => __( 'Plugins' ) ) );
+
+			echo '<fieldset><legend class="screen-reader-text">' . __( 'Enable menus' ) . '</legend>';
+
 			foreach ( (array) $menu_items as $key => $val ) {
 				echo "<label><input type='checkbox' name='menu_items[" . $key . "]' value='1'" . ( isset( $menu_perms[ $key ] ) ? checked( $menu_perms[ $key ], '1', false ) : '' ) . ' /> ' . esc_html( $val ) . '</label><br/>';
 			}
-			echo $fieldset_end;
+
+			echo '</fieldset>';
 			?>
 				</td>
 			</tr>
