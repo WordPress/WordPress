@@ -4516,8 +4516,11 @@ var FocusManager = wp.media.View.extend(/** @lends wp.media.view.FocusManager.pr
 		'keydown': 'constrainTabbing'
 	},
 
-	focus: function() { // Reset focus on first left menu item
-		this.$('.media-menu-item').first().focus();
+	/**
+	 * Moves focus to the first visible menu item in the modal.
+	 */
+	focus: function() {
+		this.$( '.media-menu-item' ).filter( ':visible' ).first().focus();
 	},
 	/**
 	 * @param {Object} event
@@ -5165,18 +5168,15 @@ UploaderStatus = View.extend(/** @lends wp.media.view.UploaderStatus.prototype *
 		}), { at: 0 });
 	},
 
-	/**
-	 * @param {Object} event
-	 */
-	dismiss: function( event ) {
+	dismiss: function() {
 		var errors = this.views.get('.upload-errors');
-
-		event.preventDefault();
 
 		if ( errors ) {
 			_.invoke( errors, 'remove' );
 		}
 		wp.Uploader.errors.reset();
+		// Keep focus within the modal after the dismiss button gets removed from the DOM.
+		this.controller.modal.focusManager.focus();
 	}
 });
 
