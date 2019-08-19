@@ -228,22 +228,12 @@
 		padding: 0;
 		list-style: none;
 
-		li {
-			color: $color__text-light;
+		li > a {
 			@include font-family( $font__heading );
 			font-size: calc(#{$font__size_base} * #{$font__size-ratio});
 			font-weight: bold;
 			line-height: $font__line-height-heading;
-			padding-bottom: ( .75 * $size__spacing-unit );
-
-			&.menu-item-has-children,
-			&:last-child {
-				padding-bottom: 0;
-			}
-
-			a {
-				text-decoration: none;
-			}
+			text-decoration: none;
 		}
 	}
 
@@ -270,9 +260,36 @@
 		@include nestedSubMenuPadding();
 	}
 
-	//! Latest posts grid view
-	.wp-block-latest-posts.is-grid {
+	//! Latest posts
+	.wp-block-latest-posts {
+
+		.wp-block-latest-posts__post-date {
+			@include font-family( $font__heading );
+			font-size: $font__size-xs;
+			color: $color__text-light;
+			line-height: 1.2;
+		}
+
+		.wp-block-latest-posts__post-full-content,
+		.wp-block-latest-posts__post-excerpt {
+			margin-top: $size__spacing-unit;
+			margin-bottom: $size__spacing-unit;
+		}
+
 		li {
+			padding-bottom: ( .5 * $size__spacing-unit );
+
+			&.menu-item-has-children,
+			&:last-child {
+				padding-bottom: 0;
+			}
+
+			:not(:last-child) .wp-block-latest-posts__post-excerpt {
+				padding-bottom: ( .5 * $size__spacing-unit );
+			}
+		}
+
+		&.is-grid li {
 			border-top: 2px solid $color__border;
 			padding-top: (1 * $size__spacing-unit);
 			margin-bottom: (2 * $size__spacing-unit);
