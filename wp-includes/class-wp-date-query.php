@@ -145,23 +145,19 @@ class WP_Date_Query {
 	 *                               'comment_date', 'comment_date_gmt'.
 	 */
 	public function __construct( $date_query, $default_column = 'post_date' ) {
+		if ( empty( $date_query ) || ! is_array( $date_query ) ) {
+			return;
+		}
+
 		if ( isset( $date_query['relation'] ) && 'OR' === strtoupper( $date_query['relation'] ) ) {
 			$this->relation = 'OR';
 		} else {
 			$this->relation = 'AND';
 		}
 
-		if ( ! is_array( $date_query ) ) {
-			return;
-		}
-
 		// Support for passing time-based keys in the top level of the $date_query array.
-		if ( ! isset( $date_query[0] ) && ! empty( $date_query ) ) {
+		if ( ! isset( $date_query[0] ) ) {
 			$date_query = array( $date_query );
-		}
-
-		if ( empty( $date_query ) ) {
-			return;
 		}
 
 		if ( ! empty( $date_query['column'] ) ) {
