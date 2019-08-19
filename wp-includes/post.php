@@ -3663,14 +3663,13 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	if ( 'attachment' !== $post_type ) {
-		if ( 'publish' == $post_status ) {
-			$now = gmdate( 'Y-m-d H:i:59' );
-			if ( mysql2date( 'U', $post_date_gmt, false ) > mysql2date( 'U', $now, false ) ) {
+		if ( 'publish' === $post_status ) {
+			// String comparison to work around far future dates (year 2038+) on 32-bit systems.
+			if ( $post_date_gmt > gmdate( 'Y-m-d H:i:59' ) ) {
 				$post_status = 'future';
 			}
-		} elseif ( 'future' == $post_status ) {
-			$now = gmdate( 'Y-m-d H:i:59' );
-			if ( mysql2date( 'U', $post_date_gmt, false ) <= mysql2date( 'U', $now, false ) ) {
+		} elseif ( 'future' === $post_status ) {
+			if ( $post_date_gmt <= gmdate( 'Y-m-d H:i:59' ) ) {
 				$post_status = 'publish';
 			}
 		}
