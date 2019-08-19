@@ -264,10 +264,10 @@
 }
 
 .media-frame-toolbar .media-toolbar {
-	top: initial;
+	top: auto;
 	bottom: -45px;
 	height: auto;
-	overflow: initial;
+	overflow: visible;
 	border-top: 1px solid #ddd;
 }
 
