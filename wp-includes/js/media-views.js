@@ -4318,9 +4318,10 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 
 	initialize: function() {
 		_.defaults( this.options, {
-			container: document.body,
-			title:     '',
-			propagate: true
+			container:      document.body,
+			title:          '',
+			propagate:      true,
+			hasCloseButton: true
 		});
 
 		this.focusManager = new wp.media.view.FocusManager({
@@ -4332,7 +4333,8 @@ Modal = wp.media.View.extend(/** @lends wp.media.view.Modal.prototype */{
 	 */
 	prepare: function() {
 		return {
-			title: this.options.title
+			title:          this.options.title,
+			hasCloseButton: this.options.hasCloseButton
 		};
 	},
 
@@ -8459,12 +8461,11 @@ Details = Attachment.extend(/** @lends wp.media.view.Attachment.Details.prototyp
 	className: 'attachment-details',
 	template:  wp.template('attachment-details'),
 
-	attributes: function() {
-		return {
-			'tabIndex':     0,
-			'data-id':      this.model.get( 'id' )
-		};
-	},
+	/*
+	 * Reset all the attributes inherited from Attachment including role=checkbox,
+	 * tabindex, etc., as they are inappropriate for this view. See #47458 and [30483] / #30390.
+	 */
+	attributes: {},
 
 	events: {
 		'change [data-setting]':          'updateSetting',
