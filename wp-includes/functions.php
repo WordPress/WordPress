@@ -46,10 +46,11 @@ function mysql2date( $format, $date, $translate = true ) {
 }
 
 /**
- * Retrieve the current time based on specified type.
+ * Retrieves the current time based on specified type.
  *
  * The 'mysql' type will return the time in the format for MySQL DATETIME field.
- * The 'timestamp' type will return the current timestamp.
+ * The 'timestamp' type will return the current timestamp or a sum of timestamp
+ * and timezone offset, depending on `$gmt`.
  * Other strings will be interpreted as PHP date formats (e.g. 'Y-m-d').
  *
  * If $gmt is set to either '1' or 'true', then both types will use GMT time.
@@ -63,14 +64,19 @@ function mysql2date( $format, $date, $translate = true ) {
  * @return int|string Integer if $type is 'timestamp', string otherwise.
  */
 function current_time( $type, $gmt = 0 ) {
-	switch ( $type ) {
-		case 'mysql':
-			return ( $gmt ) ? gmdate( 'Y-m-d H:i:s' ) : gmdate( 'Y-m-d H:i:s', ( time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
-		case 'timestamp':
-			return ( $gmt ) ? time() : time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
-		default:
-			return ( $gmt ) ? gmdate( $type ) : gmdate( $type, time() + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) );
+	// Don't use non-GMT timestamp, unless you know the difference and really need to.
+	if ( 'timestamp' === $type || 'U' === $type ) {
+		return $gmt ? time() : time() + (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
 	}
+
+	if ( 'mysql' === $type ) {
+		$type = 'Y-m-d H:i:s';
+	}
+
+	$timezone = $gmt ? new DateTimeZone( 'UTC' ) : wp_timezone();
+	$datetime = new DateTime( 'now', $timezone );
+
+	return $datetime->format( $type );
 }
 
 /**
