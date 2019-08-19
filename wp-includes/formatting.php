@@ -3228,7 +3228,7 @@ function convert_smilies( $text ) {
 			$content = $textarr[ $i ];
 
 			// If we're in an ignore block, wait until we find its closing tag
-			if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) ) {
+			if ( '' == $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')[^>]*>/', $content, $matches ) ) {
 				$ignore_block_element = $matches[1];
 			}
 
