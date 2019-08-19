@@ -120,7 +120,7 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) {
 	</div>
 <?php } ?>
 	<form action="<?php echo network_admin_url( 'user-new.php?action=add-user' ); ?>" id="adduser" method="post" novalidate="novalidate">
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 		<tr class="form-field form-required">
 			<th scope="row"><label for="username"><?php _e( 'Username' ); ?></label></th>
 			<td><input type="text" class="regular-text" name="user[username]" id="username" autocapitalize="none" autocorrect="off" maxlength="60" /></td>

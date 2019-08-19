@@ -207,7 +207,7 @@ switch ( $step ) {
 <h1 class="screen-reader-text"><?php _e( 'Set up your database connection' ); ?></h1>
 <form method="post" action="setup-config.php?step=2">
 	<p><?php _e( 'Below you should enter your database connection details. If you&#8217;re not sure about these, contact your host.' ); ?></p>
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 		<tr>
 			<th scope="row"><label for="dbname"><?php _e( 'Database Name' ); ?></label></th>
 			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress"<?php echo $autofocus; ?>/></td>

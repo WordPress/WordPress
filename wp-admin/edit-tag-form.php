@@ -127,7 +127,7 @@ if ( isset( $tag->name ) ) {
 	$tag_name_value = esc_attr( $tag->name );
 }
 ?>
-	<table class="form-table">
+	<table class="form-table" role="presentation">
 		<tr class="form-field form-required term-name-wrap">
 			<th scope="row"><label for="name"><?php _ex( 'Name', 'term name' ); ?></label></th>
 			<td><input name="name" id="name" type="text" value="<?php echo $tag_name_value; ?>" size="40" aria-required="true" />

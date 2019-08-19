@@ -62,7 +62,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <form method="post" action="options.php">
 <?php settings_fields( 'writing' ); ?>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <?php if ( get_site_option( 'initial_db_version' ) < 32453 ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Formatting' ); ?></th>
@@ -150,7 +150,7 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	?>
 </p>
 
-<table class="form-table">
+<table class="form-table" role="presentation">
 <tr>
 <th scope="row"><label for="mailserver_url"><?php _e( 'Mail Server' ); ?></label></th>
 <td><input name="mailserver_url" type="text" id="mailserver_url" value="<?php form_option( 'mailserver_url' ); ?>" class="regular-text code" />

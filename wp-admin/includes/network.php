@@ -223,7 +223,7 @@ function network_step1( $errors = false ) {
 			<strong><?php _e( 'You cannot change this later.' ); ?></strong></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
 		<?php // @todo: Link to an MS readme? ?>
-		<table class="form-table">
+		<table class="form-table" role="presentation">
 			<tr>
 				<th><label><input type="radio" name="subdomain_install" value="1"<?php checked( $subdomain_install ); ?> /> <?php _e( 'Sub-domains' ); ?></label></th>
 				<td>
@@ -272,7 +272,7 @@ function network_step1( $errors = false ) {
 		);
 		?>
 		</p>
-		<table class="form-table">
+		<table class="form-table" role="presentation">
 			<tr>
 			<th scope='row'><?php esc_html_e( 'Server Address' ); ?></th>
 			<td>
@@ -289,7 +289,7 @@ function network_step1( $errors = false ) {
 		<?php endif; ?>
 
 		<h3><?php esc_html_e( 'Network Details' ); ?></h3>
-		<table class="form-table">
+		<table class="form-table" role="presentation">
 		<?php if ( 'localhost' == $hostname ) : ?>
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Installation' ); ?></th>
