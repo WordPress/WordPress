@@ -456,11 +456,15 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 
 	$original_parent = 0 < $menu_item_db_id ? get_post_field( 'post_parent', $menu_item_db_id ) : 0;
 
-	if ( 'custom' != $args['menu-item-type'] ) {
-		/* if non-custom menu item, then:
-			* use original object's URL
-			* blank default title to sync with original object's
-		*/
+	if ( 'custom' === $args['menu-item-type'] ) {
+		// If custom menu item, trim the URL.
+		$args['menu-item-url'] = trim( $args['menu-item-url'] );
+	} else {
+		/*
+		 * If non-custom menu item, then:
+		 * - use the original object's URL.
+		 * - blank default title to sync with the original object's title.
+		 */
 
 		$args['menu-item-url'] = '';
 
