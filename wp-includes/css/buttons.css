@@ -224,6 +224,12 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-link-delete:hover,
 .wp-core-ui .button-link-delete:focus {
 	color: #dc3232;
+	background: transparent;
+}
+
+.wp-core-ui .button-link-delete:disabled {
+	/* overrides the default buttons disabled background */
+	background: transparent !important;
 }
 
 .ie8 .wp-core-ui .button-link:focus {
