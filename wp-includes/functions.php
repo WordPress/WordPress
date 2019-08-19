@@ -74,7 +74,49 @@ function current_time( $type, $gmt = 0 ) {
 }
 
 /**
- * Retrieve the date in localized format, based on a sum of Unix timestamp and
+ * Retrieves the timezone from current settings as a string.
+ *
+ * Uses the `timezone_string` option to get a proper timezone if available,
+ * otherwise falls back to an offset.
+ *
+ * @since 5.3.0
+ *
+ * @return string PHP timezone string or a ±HH:MM offset.
+ */
+function wp_timezone_string() {
+	$timezone_string = get_option( 'timezone_string' );
+
+	if ( $timezone_string ) {
+		return $timezone_string;
+	}
+
+	$offset  = (float) get_option( 'gmt_offset' );
+	$hours   = (int) $offset;
+	$minutes = ( $offset - $hours );
+
+	$sign      = ( $offset < 0 ) ? '-' : '+';
+	$abs_hour  = abs( $hours );
+	$abs_mins  = abs( $minutes * 60 );
+	$tz_offset = sprintf( '%s%02d:%02d', $sign, $abs_hour, $abs_mins );
+
+	return $tz_offset;
+}
+
+/**
+ * Retrieves the timezone from current settings as a `DateTimeZone` object.
+ *
+ * Timezone can be based on a PHP timezone string or a ±HH:MM offset.
+ *
+ * @since 5.3.0
+ *
+ * @return DateTimeZone Timezone object.
+ */
+function wp_timezone() {
+	return new DateTimeZone( wp_timezone_string() );
+}
+
+/**
+ * Retrieves the date in localized format, based on a sum of Unix timestamp and
  * timezone offset in seconds.
  *
  * If the locale specifies the locale month and weekday, then the locale will
