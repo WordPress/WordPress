@@ -5636,7 +5636,7 @@ function get_file_data( $file, $default_headers, $context = '' ) {
 	$fp = fopen( $file, 'r' );
 
 	// Pull only the first 8kiB of the file in.
-	$file_data = fread( $fp, 8192 );
+	$file_data = fread( $fp, 8 * KB_IN_BYTES );
 
 	// PHP will close file handle, but we are good citizens.
 	fclose( $fp );
