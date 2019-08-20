@@ -382,7 +382,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
 }
 
-.wp-block-button .wp-block-button__link[data-is-placeholder-visible=true] {
+.wp-block-button .wp-block-button__link[data-is-placeholder-visible="true"] {
     height: auto;
 }
 
