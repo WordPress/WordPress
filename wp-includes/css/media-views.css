@@ -539,7 +539,7 @@
 	right: 0;
 	bottom: 0;
 	margin: 0;
-	padding: 10px 0;
+	padding: 50px 0 10px;
 	background: #f3f3f3;
 	border-right-width: 1px;
 	border-right-style: solid;
@@ -2561,8 +2561,9 @@
 
 /* Landscape specific header override */
 @media screen and (max-height: 400px) {
-	.media-menu {
-		padding: 0;
+	.media-menu,
+	.media-frame:not(.hide-menu) .media-menu {
+		top: 44px;
 	}
 
 	.media-frame-router {
@@ -2580,6 +2581,14 @@
 	/* Prevent unnecessary scrolling on title input */
 	.embed-link-settings {
 		overflow: visible;
+	}
+}
+
+@media only screen and (min-width: 901px) and (max-height: 400px) {
+	.media-menu,
+	.media-frame:not(.hide-menu) .media-menu {
+		top: 0;
+		padding-top: 44px;
 	}
 }
 
@@ -2609,6 +2618,7 @@
 	.media-frame-router,
 	.media-frame:not(.hide-menu) .media-menu {
 		top: 40px;
+		padding-top: 0;
 	}
 
 	.media-frame-content {
