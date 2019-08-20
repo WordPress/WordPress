@@ -726,6 +726,10 @@ table.wp-block-table td:last-child {
 	white-space: nowrap;
 }
 
+.wp-block-button .wp-block-button__link[data-is-placeholder-visible="true"] {
+	height: auto;
+}
+
 .wp-block-button__link {
 	background-color: #222;
 	color: #fff;
