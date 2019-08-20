@@ -1794,6 +1794,10 @@ function wp_insert_user( $userdata ) {
 	 */
 	$data = apply_filters( 'wp_pre_insert_user_data', $data, $update, $update ? (int) $ID : null );
 
+	if ( empty( $data ) || ! is_array( $data ) ) {
+		return new WP_Error( 'empty_data', __( 'Not enough data to create this user.' ) );
+	}
+
 	if ( $update ) {
 		if ( $user_email !== $old_user_data->user_email ) {
 			$data['user_activation_key'] = '';
