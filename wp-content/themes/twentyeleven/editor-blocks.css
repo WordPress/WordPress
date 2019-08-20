@@ -383,7 +383,7 @@ p.has-drop-cap:not(:focus)::first-letter {
 }
 
 .wp-block-button .wp-block-button__link[data-is-placeholder-visible="true"] {
-    height: auto;
+	height: auto;
 }
 
 .wp-block-button__link {
