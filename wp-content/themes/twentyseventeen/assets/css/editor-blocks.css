@@ -727,7 +727,7 @@ table.wp-block-table td:last-child {
 }
 
 .wp-block-button .wp-block-button__link[data-is-placeholder-visible="true"] {
-    height: auto;
+	height: auto;
 }
 
 .wp-block-button__link {
