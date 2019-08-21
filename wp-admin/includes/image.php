@@ -205,7 +205,7 @@ function wp_create_image_subsizes( $file, $image_meta, $attachment_id ) {
  * @since 5.3.0
  * @access private
  *
- * $padam array  $new_sizes     Array defining what sizes to create.
+ * @param array  $new_sizes     Array defining what sizes to create.
  * @param string $file          Full path to the image file.
  * @param array  $image_meta    The attachment meta data array.
  * @param int    $attachment_id Attachment Id to process.
