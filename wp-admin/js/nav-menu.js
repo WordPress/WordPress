@@ -944,7 +944,7 @@
 		},
 
 		addCustomLink : function( processMethod ) {
-			var url = $('#custom-menu-item-url').val(),
+			var url = $('#custom-menu-item-url').val().trim(),
 				label = $('#custom-menu-item-name').val();
 
 			processMethod = processMethod || api.addMenuItemToBottom;
