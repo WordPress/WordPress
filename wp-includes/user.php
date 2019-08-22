@@ -1665,7 +1665,7 @@ function wp_insert_user( $userdata ) {
 
 	$user_activation_key = empty( $userdata['user_activation_key'] ) ? '' : $userdata['user_activation_key'];
 
-	if ( isset( $userdata['spam'] ) && ! is_multisite() ) {
+	if ( ! empty( $userdata['spam'] ) && ! is_multisite() ) {
 		return new WP_Error( 'no_spam', __( 'Sorry, marking a user as spam is only supported on Multisite.' ) );
 	}
 
