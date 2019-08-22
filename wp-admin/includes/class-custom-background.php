@@ -67,12 +67,12 @@ class Custom_Background {
 			return;
 		}
 
-		add_action( "load-$page", array( $this, 'admin_load' ) );
-		add_action( "load-$page", array( $this, 'take_action' ), 49 );
-		add_action( "load-$page", array( $this, 'handle_upload' ), 49 );
+		add_action( "load-{$page}", array( $this, 'admin_load' ) );
+		add_action( "load-{$page}", array( $this, 'take_action' ), 49 );
+		add_action( "load-{$page}", array( $this, 'handle_upload' ), 49 );
 
 		if ( $this->admin_header_callback ) {
-			add_action( "admin_head-$page", $this->admin_header_callback, 51 );
+			add_action( "admin_head-{$page}", $this->admin_header_callback, 51 );
 		}
 	}
 

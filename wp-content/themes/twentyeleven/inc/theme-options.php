@@ -103,7 +103,7 @@ function twentyeleven_theme_options_add_page() {
 		return;
 	}
 
-	add_action( "load-$theme_page", 'twentyeleven_theme_options_help' );
+	add_action( "load-{$theme_page}", 'twentyeleven_theme_options_help' );
 }
 add_action( 'admin_menu', 'twentyeleven_theme_options_add_page' );
 
