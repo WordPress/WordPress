@@ -1814,13 +1814,17 @@ function settings_errors( $setting = '', $sanitize = false, $hide_on_update = fa
 			$details['type'] = 'success';
 		}
 
+		if ( in_array( $details['type'], array( 'error', 'success', 'warning', 'info' ) ) ) {
+			$details['type'] = 'notice-' . $details['type'];
+		}
+
 		$css_id    = sprintf(
 			'setting-error-%s',
-			sanitize_html_class( $details['code'] )
+			esc_attr( $details['code'] )
 		);
 		$css_class = sprintf(
-			'notice notice-%s settings-error is-dismissible',
-			sanitize_html_class( $details['type'] )
+			'notice %s settings-error is-dismissible',
+			esc_attr( $details['type'] )
 		);
 
 		$output .= "<div id='$css_id' class='$css_class'> \n";
