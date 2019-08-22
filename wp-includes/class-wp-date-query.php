@@ -853,7 +853,7 @@ class WP_Date_Query {
 	 *
 	 * You can pass an array of values (year, month, etc.) with missing parameter values being defaulted to
 	 * either the maximum or minimum values (controlled by the $default_to parameter). Alternatively you can
-	 * pass a string that will be run through strtotime().
+	 * pass a string that will be passed to date_create().
 	 *
 	 * @since 3.7.0
 	 *
@@ -865,8 +865,6 @@ class WP_Date_Query {
 	 * @return string|false A MySQL format date/time or false on failure
 	 */
 	public function build_mysql_datetime( $datetime, $default_to_max = false ) {
-		$now = current_time( 'timestamp' );
-
 		if ( ! is_array( $datetime ) ) {
 
 			/*
@@ -907,15 +905,23 @@ class WP_Date_Query {
 
 			// If no match is found, we don't support default_to_max.
 			if ( ! is_array( $datetime ) ) {
-				// @todo Timezone issues here possibly
-				return gmdate( 'Y-m-d H:i:s', strtotime( $datetime, $now ) );
+				$wp_timezone = wp_timezone();
+
+				// Assume local timezone if not provided.
+				$dt = date_create( $datetime, $wp_timezone );
+
+				if ( false === $dt ) {
+					return gmdate( 'Y-m-d H:i:s', false );
+				}
+
+				return $dt->setTimezone( $wp_timezone )->format( 'Y-m-d H:i:s' );
 			}
 		}
 
 		$datetime = array_map( 'absint', $datetime );
 
 		if ( ! isset( $datetime['year'] ) ) {
-			$datetime['year'] = gmdate( 'Y', $now );
+			$datetime['year'] = current_time( 'Y' );
 		}
 
 		if ( ! isset( $datetime['month'] ) ) {
