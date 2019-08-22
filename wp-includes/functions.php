@@ -6838,6 +6838,7 @@ function wp_privacy_anonymize_data( $type, $data = '' ) {
 			break;
 		default:
 			$anonymous = '';
+			break;
 	}
 
 	/**
