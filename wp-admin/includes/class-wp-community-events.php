@@ -402,8 +402,8 @@ class WP_Community_Events {
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
-			$wordcamps         = array();
-			$current_timestamp = current_time( 'timestamp' );
+			$wordcamps = array();
+			$today     = current_time( 'Y-m-d' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
 				/*
@@ -415,9 +415,10 @@ class WP_Community_Events {
 					continue;
 				}
 
-				$event_timestamp = strtotime( $event['date'] );
+				// We don't get accurate time with timezone from API, so we only take the date part (Y-m-d).
+				$event_date = substr( $event['date'], 0, 10 );
 
-				if ( $current_timestamp > $event_timestamp && ( $current_timestamp - $event_timestamp ) > DAY_IN_SECONDS ) {
+				if ( $today > $event_date ) {
 					unset( $response_body['events'][ $key ] );
 				}
 			}
