@@ -326,6 +326,9 @@ class WP_Term_Query {
 					$has_hierarchical_tax = true;
 				}
 			}
+		} else {
+			// When no taxonomies are provided, assume we have to descend the tree.
+			$has_hierarchical_tax = true;
 		}
 
 		if ( ! $has_hierarchical_tax ) {
