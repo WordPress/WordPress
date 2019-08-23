@@ -129,6 +129,11 @@ function wp_timezone() {
  * take over the format for the date. If it isn't, then the date format string
  * will be used instead.
  *
+ * Note that due to the way WP typically generates a sum of timestamp and offset
+ * with `strtotime()`, it implies offset added at a _current_ time, not at the time
+ * the timestamp represents. Storing such timestamps or calculating them differently
+ * will lead to invalid output.
+ *
  * @since 0.71
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
@@ -143,6 +148,7 @@ function wp_timezone() {
  */
 function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = false ) {
 	global $wp_locale;
+
 	$i = $timestamp_with_offset;
 
 	if ( ! is_numeric( $i ) ) {
@@ -154,78 +160,72 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	 * See https://core.trac.wordpress.org/ticket/9396
 	 */
 	$req_format = $dateformatstring;
+	$new_format = '';
 
-	$dateformatstring = preg_replace( '/(?<!\\\\)c/', DATE_W3C, $dateformatstring );
+	// We need to unpack shorthand `r` format because it has parts that might be localized.
 	$dateformatstring = preg_replace( '/(?<!\\\\)r/', DATE_RFC2822, $dateformatstring );
 
-	if ( ( ! empty( $wp_locale->month ) ) && ( ! empty( $wp_locale->weekday ) ) ) {
-		$datemonth            = $wp_locale->get_month( gmdate( 'm', $i ) );
-		$datemonth_abbrev     = $wp_locale->get_month_abbrev( $datemonth );
-		$dateweekday          = $wp_locale->get_weekday( gmdate( 'w', $i ) );
-		$dateweekday_abbrev   = $wp_locale->get_weekday_abbrev( $dateweekday );
-		$datemeridiem         = $wp_locale->get_meridiem( gmdate( 'a', $i ) );
-		$datemeridiem_capital = $wp_locale->get_meridiem( gmdate( 'A', $i ) );
-		$dateformatstring     = ' ' . $dateformatstring;
-		$dateformatstring     = preg_replace( '/([^\\\])D/', "\\1" . backslashit( $dateweekday_abbrev ), $dateformatstring );
-		$dateformatstring     = preg_replace( '/([^\\\])F/', "\\1" . backslashit( $datemonth ), $dateformatstring );
-		$dateformatstring     = preg_replace( '/([^\\\])l/', "\\1" . backslashit( $dateweekday ), $dateformatstring );
-		$dateformatstring     = preg_replace( '/([^\\\])M/', "\\1" . backslashit( $datemonth_abbrev ), $dateformatstring );
-		$dateformatstring     = preg_replace( '/([^\\\])a/', "\\1" . backslashit( $datemeridiem ), $dateformatstring );
-		$dateformatstring     = preg_replace( '/([^\\\])A/', "\\1" . backslashit( $datemeridiem_capital ), $dateformatstring );
+	/*
+	 * Timestamp with offset is typically produced by a UTC `strtotime()` call on an input without timezone.
+	 * This is the best attempt to reverse that operation into a local time to use.
+	 */
+	$local_time = gmdate( 'Y-m-d H:i:s', $i );
+	$gmt_mode   = $gmt && ( false === $timestamp_with_offset );
+	$timezone   = $gmt_mode ? new DateTimeZone( 'UTC' ) : wp_timezone();
+	$datetime   = date_create( $local_time, $timezone );
 
-		$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) - 1 );
+	/*
+	 * This is a legacy implementation quirk that the returned timestamp is also with offset.
+	 * Ideally this function should never be used to produce a timestamp.
+	 */
+	$timestamp_mode = ( 'U' === $dateformatstring );
+
+	if ( $timestamp_mode ) {
+		$new_format = $i;
 	}
-	$timezone_formats    = array( 'P', 'I', 'O', 'T', 'Z', 'e' );
-	$timezone_formats_re = implode( '|', $timezone_formats );
-	if ( preg_match( "/$timezone_formats_re/", $dateformatstring ) ) {
-		$timezone_string = get_option( 'timezone_string' );
-		if ( false === $timestamp_with_offset && $gmt ) {
-			$timezone_string = 'UTC';
-		}
-		if ( $timezone_string ) {
-			$timezone_object = timezone_open( $timezone_string );
-			$date_object     = date_create( null, $timezone_object );
-			foreach ( $timezone_formats as $timezone_format ) {
-				if ( false !== strpos( $dateformatstring, $timezone_format ) ) {
-					$formatted        = date_format( $date_object, $timezone_format );
-					$dateformatstring = ' ' . $dateformatstring;
-					$dateformatstring = preg_replace( "/([^\\\])$timezone_format/", "\\1" . backslashit( $formatted ), $dateformatstring );
-					$dateformatstring = substr( $dateformatstring, 1, strlen( $dateformatstring ) - 1 );
-				}
-			}
-		} else {
-			$offset = get_option( 'gmt_offset' );
-			foreach ( $timezone_formats as $timezone_format ) {
-				if ( 'I' === $timezone_format ) {
-					continue;
-				}
 
-				if ( false !== strpos( $dateformatstring, $timezone_format ) ) {
-					if ( 'Z' === $timezone_format ) {
-						$formatted = (string) ( $offset * HOUR_IN_SECONDS );
-					} else {
-						$prefix    = '';
-						$hours     = (int) $offset;
-						$separator = '';
-						$minutes   = abs( ( $offset - $hours ) * 60 );
+	if ( ! $timestamp_mode && ! empty( $wp_locale->month ) && ! empty( $wp_locale->weekday ) ) {
+		$month   = $wp_locale->get_month( $datetime->format( 'm' ) );
+		$weekday = $wp_locale->get_weekday( $datetime->format( 'w' ) );
 
-						if ( 'T' === $timezone_format ) {
-							$prefix = 'GMT';
-						} elseif ( 'e' === $timezone_format || 'P' === $timezone_format ) {
-							$separator = ':';
-						}
+		$format_length = strlen( $dateformatstring );
 
-						$formatted = sprintf( '%s%+03d%s%02d', $prefix, $hours, $separator, $minutes );
+		for ( $i = 0; $i < $format_length; $i ++ ) {
+			switch ( $dateformatstring[ $i ] ) {
+				case 'D':
+					$new_format .= backslashit( $wp_locale->get_weekday_abbrev( $weekday ) );
+					break;
+				case 'F':
+					$new_format .= backslashit( $month );
+					break;
+				case 'l':
+					$new_format .= backslashit( $weekday );
+					break;
+				case 'M':
+					$new_format .= backslashit( $wp_locale->get_month_abbrev( $month ) );
+					break;
+				case 'a':
+					$new_format .= backslashit( $wp_locale->get_meridiem( $datetime->format( 'a' ) ) );
+					break;
+				case 'A':
+					$new_format .= backslashit( $wp_locale->get_meridiem( $datetime->format( 'A' ) ) );
+					break;
+				case '\\':
+					$new_format .= $dateformatstring[ $i ];
+
+					// If character follows a slash, we add it without translating.
+					if ( $i < $format_length ) {
+						$new_format .= $dateformatstring[ ++$i ];
 					}
-
-					$dateformatstring = ' ' . $dateformatstring;
-					$dateformatstring = preg_replace( "/([^\\\])$timezone_format/", "\\1" . backslashit( $formatted ), $dateformatstring );
-					$dateformatstring = substr( $dateformatstring, 1 );
-				}
+					break;
+				default:
+					$new_format .= $dateformatstring[ $i ];
+					break;
 			}
 		}
 	}
-	$j = gmdate( $dateformatstring, $i );
+
+	$j = $datetime->format( $new_format );
 
 	/**
 	 * Filters the date formatted based on the locale.
@@ -239,6 +239,7 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 	 *                           not provided. Default false.
 	 */
 	$j = apply_filters( 'date_i18n', $j, $req_format, $i, $gmt );
+
 	return $j;
 }
 
@@ -1553,6 +1554,40 @@ function do_robots() {
 	 * @param bool   $public Whether the site is considered "public".
 	 */
 	echo apply_filters( 'robots_txt', $output, $public );
+}
+
+/**
+ * Display the robots.txt file content.
+ *
+ * The echo content should be with usage of the permalinks or for creating the
+ * robots.txt file.
+ *
+ * @since 5.3.0
+ */
+function do_favicon() {
+	/**
+	 * Fires when serving the favicon.ico file.
+	 *
+	 * @since 5.3.0
+	 */
+	do_action( 'do_faviconico' );
+
+	wp_safe_redirect( esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ) );
+
+}
+
+/**
+ * Don't load all of WordPress when handling a favicon.ico request.
+ *
+ * Instead, send the headers for a zero-length favicon and bail.
+ *
+ * @since 3.0.0
+ */
+function wp_favicon_request() {
+	if ( '/favicon.ico' == $_SERVER['REQUEST_URI'] ) {
+		header( 'Content-Type: image/vnd.microsoft.icon' );
+		exit;
+	}
 }
 
 /**
