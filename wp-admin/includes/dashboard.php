@@ -860,7 +860,7 @@ function wp_dashboard_recent_posts( $args ) {
 		echo '<ul>';
 
 		$today    = current_time( 'Y-m-d' );
-		$tomorrow = gmdate( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
+		$tomorrow = current_datetime()->modify( '+1 day' )->format( 'Y-m-d' );
 		$year     = current_time( 'Y' );
 
 		while ( $posts->have_posts() ) {
