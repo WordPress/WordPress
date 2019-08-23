@@ -3384,71 +3384,45 @@ function _wp_iso_convert( $match ) {
 /**
  * Returns a date in the GMT equivalent.
  *
- * Requires and returns a date in the Y-m-d H:i:s format. If there is a
- * timezone_string available, the date is assumed to be in that timezone,
- * otherwise it simply subtracts the value of the 'gmt_offset' option. Return
- * format can be overridden using the $format parameter.
+ * Requires and returns a date in the Y-m-d H:i:s format.
+ * Return format can be overridden using the $format parameter.
  *
  * @since 1.2.0
  *
  * @param string $string The date to be converted.
- * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
+ * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
  * @return string GMT version of the date provided.
  */
 function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
-	$tz = get_option( 'timezone_string' );
-	if ( $tz ) {
-		$datetime = date_create( $string, new DateTimeZone( $tz ) );
-		if ( ! $datetime ) {
-			return gmdate( $format, 0 );
-		}
-		$datetime->setTimezone( new DateTimeZone( 'UTC' ) );
-		$string_gmt = $datetime->format( $format );
-	} else {
-		if ( ! preg_match( '#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches ) ) {
-			$datetime = strtotime( $string );
-			if ( false === $datetime ) {
-				return gmdate( $format, 0 );
-			}
-			return gmdate( $format, $datetime );
-		}
-		$string_time = gmmktime( $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1] );
-		$string_gmt  = gmdate( $format, $string_time - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+	$datetime = date_create( $string, wp_timezone() );
+
+	if ( false === $datetime ) {
+		return gmdate( $format, 0 );
 	}
-	return $string_gmt;
+
+	return $datetime->setTimezone( new DateTimeZone( 'UTC' ) )->format( $format );
 }
 
 /**
  * Converts a GMT date into the correct format for the blog.
  *
- * Requires and returns a date in the Y-m-d H:i:s format. If there is a
- * timezone_string available, the returned date is in that timezone, otherwise
- * it simply adds the value of gmt_offset. Return format can be overridden
- * using the $format parameter
+ * Requires and returns a date in the Y-m-d H:i:s format.
+ * Return format can be overridden using the $format parameter.
  *
  * @since 1.2.0
  *
  * @param string $string The date to be converted.
- * @param string $format The format string for the returned date (default is Y-m-d H:i:s)
- * @return string Formatted date relative to the timezone / GMT offset.
+ * @param string $format The format string for the returned date. Default 'Y-m-d H:i:s'.
+ * @return string Formatted date relative to the timezone.
  */
 function get_date_from_gmt( $string, $format = 'Y-m-d H:i:s' ) {
-	$tz = get_option( 'timezone_string' );
-	if ( $tz ) {
-		$datetime = date_create( $string, new DateTimeZone( 'UTC' ) );
-		if ( ! $datetime ) {
-			return gmdate( $format, 0 );
-		}
-		$datetime->setTimezone( new DateTimeZone( $tz ) );
-		$string_localtime = $datetime->format( $format );
-	} else {
-		if ( ! preg_match( '#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches ) ) {
-			return gmdate( $format, 0 );
-		}
-		$string_time      = gmmktime( $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1] );
-		$string_localtime = gmdate( $format, $string_time + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+	$datetime = date_create( $string, new DateTimeZone( 'UTC' ) );
+
+	if ( false === $datetime ) {
+		return gmdate( $format, 0 );
 	}
-	return $string_localtime;
+
+	return $datetime->setTimezone( wp_timezone() )->format( $format );
 }
 
 /**
@@ -3473,35 +3447,32 @@ function iso8601_timezone_to_offset( $timezone ) {
 }
 
 /**
- * Converts an iso8601 date to MySQL DateTime format used by post_date[_gmt].
+ * Converts an iso8601 (Ymd\TH:i:sO) date to MySQL DateTime (Y-m-d H:i:s) format used by post_date[_gmt].
  *
  * @since 1.5.0
  *
  * @param string $date_string Date and time in ISO 8601 format {@link https://en.wikipedia.org/wiki/ISO_8601}.
- * @param string $timezone    Optional. If set to GMT returns the time minus gmt_offset. Default is 'user'.
- * @return string The date and time in MySQL DateTime format - Y-m-d H:i:s.
+ * @param string $timezone    Optional. If set to 'gmt' returns the result in UTC. Default 'user'.
+ * @return string|bool The date and time in MySQL DateTime format - Y-m-d H:i:s, or false on failure.
  */
 function iso8601_to_datetime( $date_string, $timezone = 'user' ) {
-	$timezone = strtolower( $timezone );
+	$timezone    = strtolower( $timezone );
+	$wp_timezone = wp_timezone();
+	$datetime    = date_create( $date_string, $wp_timezone ); // Timezone is ignored if input has one.
 
-	if ( $timezone == 'gmt' ) {
-
-		preg_match( '#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', $date_string, $date_bits );
-
-		if ( ! empty( $date_bits[7] ) ) { // we have a timezone, so let's compute an offset
-			$offset = iso8601_timezone_to_offset( $date_bits[7] );
-		} else { // we don't have a timezone, so we assume user local timezone (not server's!)
-			$offset = HOUR_IN_SECONDS * get_option( 'gmt_offset' );
-		}
-
-		$timestamp  = gmmktime( $date_bits[4], $date_bits[5], $date_bits[6], $date_bits[2], $date_bits[3], $date_bits[1] );
-		$timestamp -= $offset;
-
-		return gmdate( 'Y-m-d H:i:s', $timestamp );
-
-	} elseif ( $timezone == 'user' ) {
-		return preg_replace( '#([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(Z|[\+|\-][0-9]{2,4}){0,1}#', '$1-$2-$3 $4:$5:$6', $date_string );
+	if ( false === $datetime ) {
+		return false;
 	}
+
+	if ( 'gmt' === $timezone ) {
+		return $datetime->setTimezone( new DateTimeZone( 'UTC' ) )->format( 'Y-m-d H:i:s' );
+	}
+
+	if ( 'user' === $timezone ) {
+		return $datetime->setTimezone( $wp_timezone )->format( 'Y-m-d H:i:s' );
+	}
+
+	return false;
 }
 
 /**
