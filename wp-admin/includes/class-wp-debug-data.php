@@ -71,6 +71,10 @@ class WP_Debug_Data {
 					'label' => __( 'User Language' ),
 					'value' => get_user_locale(),
 				),
+				'timezone'               => array(
+					'label' => __( 'Timezone' ),
+					'value' => wp_timezone_string(),
+				),
 				'home_url'               => array(
 					'label'   => __( 'Home URL' ),
 					'value'   => get_bloginfo( 'url' ),
