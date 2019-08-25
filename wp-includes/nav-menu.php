@@ -819,33 +819,40 @@ function wp_setup_nav_menu_item( $menu_item ) {
 					$menu_item->_invalid = true;
 				}
 
-				$menu_item->url = get_permalink( $menu_item->object_id );
-
 				$original_object = get_post( $menu_item->object_id );
-				/** This filter is documented in wp-includes/post-template.php */
-				$original_title = apply_filters( 'the_title', $original_object->post_title, $original_object->ID );
+
+				if ( $original_object ) {
+					$menu_item->url = get_permalink( $original_object->ID );
+					/** This filter is documented in wp-includes/post-template.php */
+					$original_title = apply_filters( 'the_title', $original_object->post_title, $original_object->ID );
+				} else {
+					$menu_item->url      = '';
+					$original_title      = '';
+					$menu_item->_invalid = true;
+				}
 
 				if ( '' === $original_title ) {
 					/* translators: %d: ID of a post */
-					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
+					$original_title = sprintf( __( '#%d (no title)' ), $menu_item->object_id );
 				}
 
-				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
+				$menu_item->title = ( '' === $menu_item->post_title ) ? $original_title : $menu_item->post_title;
 
 			} elseif ( 'post_type_archive' == $menu_item->type ) {
 				$object = get_post_type_object( $menu_item->object );
 				if ( $object ) {
-					$menu_item->title      = '' == $menu_item->post_title ? $object->labels->archives : $menu_item->post_title;
+					$menu_item->title      = ( '' === $menu_item->post_title ) ? $object->labels->archives : $menu_item->post_title;
 					$post_type_description = $object->description;
 				} else {
-					$menu_item->_invalid   = true;
 					$post_type_description = '';
+					$menu_item->_invalid   = true;
 				}
 
 				$menu_item->type_label = __( 'Post Type Archive' );
 				$post_content          = wp_trim_words( $menu_item->post_content, 200 );
-				$post_type_description = '' == $post_content ? $post_type_description : $post_content;
+				$post_type_description = ( '' === $post_content ) ? $post_type_description : $post_content;
 				$menu_item->url        = get_post_type_archive_link( $menu_item->object );
+
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
 				if ( $object ) {
@@ -855,14 +862,23 @@ function wp_setup_nav_menu_item( $menu_item ) {
 					$menu_item->_invalid   = true;
 				}
 
-				$term_url       = get_term_link( (int) $menu_item->object_id, $menu_item->object );
-				$menu_item->url = ! is_wp_error( $term_url ) ? $term_url : '';
+				$original_object = get_term( (int) $menu_item->object_id, $menu_item->object );
 
-				$original_title = get_term_field( 'name', $menu_item->object_id, $menu_item->object, 'raw' );
-				if ( is_wp_error( $original_title ) ) {
-					$original_title = false;
+				if ( $original_object && ! is_wp_error( $original_object ) ) {
+					$menu_item->url = get_term_link( (int) $menu_item->object_id, $menu_item->object );
+					$original_title = $original_object->name;
+				} else {
+					$menu_item->url      = '';
+					$original_title      = '';
+					$menu_item->_invalid = true;
 				}
-				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
+
+				if ( '' === $original_title ) {
+					/* translators: %d: ID of a term */
+					$original_title = sprintf( __( '#%d (no title)' ), $menu_item->object_id );
+				}
+
+				$menu_item->title = ( '' === $menu_item->post_title ) ? $original_title : $menu_item->post_title;
 
 			} else {
 				$menu_item->type_label = __( 'Custom Link' );
