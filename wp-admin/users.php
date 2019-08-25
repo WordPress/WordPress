@@ -234,9 +234,10 @@ switch ( $wp_list_table->current_action() ) {
 			$userids = array_map( 'intval', (array) $_REQUEST['users'] );
 		}
 
+		$all_userids = $userids;
+
 		if ( in_array( $current_user->ID, $userids ) ) {
-			$all_userids = $userids;
-			$userids     = array_diff( $userids, array( $current_user->ID ) );
+			$userids = array_diff( $userids, array( $current_user->ID ) );
 		}
 
 		/**
