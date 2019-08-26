@@ -2745,22 +2745,22 @@ function wp_unique_term_slug( $slug, $term ) {
 	if ( apply_filters( 'wp_unique_term_slug_is_bad_slug', $needs_suffix, $slug, $term ) ) {
 		if ( $parent_suffix ) {
 			$slug .= $parent_suffix;
-		} else {
-			if ( ! empty( $term->term_id ) ) {
-				$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
-			} else {
-				$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
-			}
+		}
 
-			if ( $wpdb->get_var( $query ) ) {
-				$num = 2;
-				do {
-					$alt_slug = $slug . "-$num";
-					$num++;
-					$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
-				} while ( $slug_check );
-				$slug = $alt_slug;
-			}
+		if ( ! empty( $term->term_id ) ) {
+			$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
+		} else {
+			$query = $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $slug );
+		}
+
+		if ( $wpdb->get_var( $query ) ) { // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$num = 2;
+			do {
+				$alt_slug = $slug . "-$num";
+				$num++;
+				$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM $wpdb->terms WHERE slug = %s", $alt_slug ) );
+			} while ( $slug_check );
+			$slug = $alt_slug;
 		}
 	}
 
