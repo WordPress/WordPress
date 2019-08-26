@@ -6092,13 +6092,15 @@ body.page .main-navigation {
 }
 
 @media only screen and (min-width: 768px) {
-  .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull) {
+  .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
+  .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;
   }
 }
 
 @media only screen and (min-width: 1168px) {
-  .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull) {
+  .entry .entry-content .wp-block-columns .wp-block-image > img:not(.alignwide):not(.alignfull),
+  .entry .entry-content .wp-block-columns .wp-block-image > figure {
     max-width: 100%;
   }
 }

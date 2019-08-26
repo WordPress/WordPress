@@ -788,7 +788,8 @@
 		}
 
 		// Ensure images do not expand beyond the column.
-		.wp-block-image > img:not(.alignwide):not(.alignfull) {
+		.wp-block-image > img:not(.alignwide):not(.alignfull),
+		.wp-block-image > figure {
 
 			@include media(tablet) {
 				max-width: 100%;
