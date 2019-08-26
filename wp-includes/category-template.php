@@ -288,7 +288,7 @@ function category_description( $category = 0 ) {
  * @since 4.2.0 Introduced the `value_field` argument.
  * @since 4.6.0 Introduced the `required` argument.
  *
- * @param string|array $args {
+ * @param array|string $args {
  *     Optional. Array or string of arguments to generate a categories drop-down element. See WP_Term_Query::__construct()
  *     for information on additional accepted arguments.
  *
@@ -321,7 +321,7 @@ function category_description( $category = 0 ) {
  *     @type bool         $required          Whether the `<select>` element should have the HTML5 'required' attribute.
  *                                           Default false.
  * }
- * @return string HTML content only if 'echo' argument is 0.
+ * @return string HTML dropdown list of categories.
  */
 function wp_dropdown_categories( $args = '' ) {
 	$defaults = array(
@@ -446,6 +446,7 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( ! $parsed_args['hide_if_empty'] || ! empty( $categories ) ) {
 		$output .= "</select>\n";
 	}
+
 	/**
 	 * Filters the taxonomy drop-down output.
 	 *
@@ -459,6 +460,7 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( $parsed_args['echo'] ) {
 		echo $output;
 	}
+
 	return $output;
 }
 
@@ -466,12 +468,12 @@ function wp_dropdown_categories( $args = '' ) {
  * Display or retrieve the HTML list of categories.
  *
  * @since 2.1.0
- * @since 4.4.0 Introduced the `hide_title_if_empty` and `separator` arguments. The `current_category` argument was modified to
- *              optionally accept an array of values.
+ * @since 4.4.0 Introduced the `hide_title_if_empty` and `separator` arguments.
+ * @since 4.4.0 The `current_category` argument was modified to optionally accept an array of values.
  *
- * @param string|array $args {
- *     Array of optional arguments. See get_categories(), get_terms(), and WP_Tax_Query::construct()
- *     for full lists of arguments that can be passed in `$args`.
+ * @param array|string $args {
+ *     Array of optional arguments. See get_categories(), get_terms(), and WP_Term_Query::__construct()
+ *     for information on additional accepted arguments.
  *
  *     @type int|array    $current_category      ID of category, or array of IDs of categories, that should get the
  *                                               'current-cat' class. Default 0.
@@ -503,7 +505,7 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type bool|int     $use_desc_for_title    Whether to use the category description as the title attribute.
  *                                               Default 1.
  * }
- * @return false|string HTML content only if 'echo' argument is 0.
+ * @return false|string HTML list of categories only if 'echo' argument is 0.
  */
 function wp_list_categories( $args = '' ) {
 	$defaults = array(
