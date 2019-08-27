@@ -1528,10 +1528,7 @@ function do_feed_atom( $for_comments ) {
 }
 
 /**
- * Display the robots.txt file content.
- *
- * The echo content should be with usage of the permalinks or for creating the
- * robots.txt file.
+ * Displays the default robots.txt file content.
  *
  * @since 2.1.0
  */
@@ -1561,7 +1558,7 @@ function do_robots() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $output Robots.txt output.
+	 * @param string $output The robots.txt output.
 	 * @param bool   $public Whether the site is considered "public".
 	 */
 	echo apply_filters( 'robots_txt', $output, $public );
