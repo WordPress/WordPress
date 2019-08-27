@@ -969,7 +969,7 @@ function get_user_setting( $name, $default = false ) {
 /**
  * Add or update user interface setting.
  *
- * Both $name and $value can contain only ASCII letters, numbers and underscores.
+ * Both $name and $value can contain only ASCII letters, numbers, hyphens, and underscores.
  *
  * This function has to be used before any output has started as it calls setcookie().
  *
