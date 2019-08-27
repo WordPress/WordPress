@@ -1877,7 +1877,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 		__( '%1$s %2$s, %3$s ago (%4$s)' ),
 		$gravatar,
 		$author,
-		human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
+		human_time_diff( strtotime( $revision->post_modified_gmt ) ),
 		$date
 	);
 
