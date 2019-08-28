@@ -91,7 +91,7 @@ function current_datetime() {
 }
 
 /**
- * Retrieves the timezone from current settings as a string.
+ * Retrieves the timezone from site settings as a string.
  *
  * Uses the `timezone_string` option to get a proper timezone if available,
  * otherwise falls back to an offset.
@@ -120,7 +120,7 @@ function wp_timezone_string() {
 }
 
 /**
- * Retrieves the timezone from current settings as a `DateTimeZone` object.
+ * Retrieves the timezone from site settings as a `DateTimeZone` object.
  *
  * Timezone can be based on a PHP timezone string or a ±HH:MM offset.
  *
@@ -146,63 +146,101 @@ function wp_timezone() {
  * will lead to invalid output.
  *
  * @since 0.71
+ * @since 5.3.0 Converted into a wrapper for wp_date().
  *
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
- * @param string   $dateformatstring      Format to display the date.
+ * @param string   $format                Format to display the date.
  * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset in seconds.
  *                                        Default false.
  * @param bool     $gmt                   Optional. Whether to use GMT timezone. Only applies if timestamp is
  *                                        not provided. Default false.
- *
  * @return string The date, translated if locale specifies it.
  */
-function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = false ) {
-	global $wp_locale;
-
-	$i = $timestamp_with_offset;
-
-	if ( ! is_numeric( $i ) ) {
-		$i = current_time( 'timestamp', $gmt );
-	}
-
-	/*
-	 * Store original value for language with untypical grammars.
-	 * See https://core.trac.wordpress.org/ticket/9396
-	 */
-	$req_format = $dateformatstring;
-	$new_format = '';
-
-	// We need to unpack shorthand `r` format because it has parts that might be localized.
-	$dateformatstring = preg_replace( '/(?<!\\\\)r/', DATE_RFC2822, $dateformatstring );
-
-	/*
-	 * Timestamp with offset is typically produced by a UTC `strtotime()` call on an input without timezone.
-	 * This is the best attempt to reverse that operation into a local time to use.
-	 */
-	$local_time = gmdate( 'Y-m-d H:i:s', $i );
-	$gmt_mode   = $gmt && ( false === $timestamp_with_offset );
-	$timezone   = $gmt_mode ? new DateTimeZone( 'UTC' ) : wp_timezone();
-	$datetime   = date_create( $local_time, $timezone );
+function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
+	// If timestamp is omitted it should be current time (summed with offset, unless `$gmt` is true).
+	$timestamp = $timestamp_with_offset ? $timestamp_with_offset : current_time( 'timestamp', $gmt );
 
 	/*
 	 * This is a legacy implementation quirk that the returned timestamp is also with offset.
 	 * Ideally this function should never be used to produce a timestamp.
 	 */
-	$timestamp_mode = ( 'U' === $dateformatstring );
-
-	if ( $timestamp_mode ) {
-		$new_format = $i;
+	if ( 'U' === $format ) {
+		$date = $timestamp;
+	} elseif ( $gmt && ! $timestamp_with_offset ) { // Current time in UTC.
+		$date = wp_date( $format, null, new DateTimeZone( 'UTC' ) );
+	} elseif ( ! $timestamp_with_offset ) { // Current time in site's timezone.
+		$date = wp_date( $format );
+	} else {
+		/*
+		 * Timestamp with offset is typically produced by a UTC `strtotime()` call on an input without timezone.
+		 * This is the best attempt to reverse that operation into a local time to use.
+		 */
+		$local_time = gmdate( 'Y-m-d H:i:s', $timestamp );
+		$timezone   = wp_timezone();
+		$datetime   = date_create( $local_time, $timezone );
+		$date       = wp_date( $format, $datetime->getTimestamp(), $timezone );
 	}
 
-	if ( ! $timestamp_mode && ! empty( $wp_locale->month ) && ! empty( $wp_locale->weekday ) ) {
-		$month   = $wp_locale->get_month( $datetime->format( 'm' ) );
-		$weekday = $wp_locale->get_weekday( $datetime->format( 'w' ) );
+	/**
+	 * Filters the date formatted based on the locale.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param string $date      Formatted date string.
+	 * @param string $format    Format to display the date.
+	 * @param int    $timestamp A sum of Unix timestamp and timezone offset in seconds.
+	 *                          Might be without offset if input omitted timestamp but requested GMT.
+	 * @param bool   $gmt       Whether to use GMT timezone. Only applies if timestamp was not provided.
+	 *                          Default false.
+	 */
+	$date = apply_filters( 'date_i18n', $date, $format, $timestamp, $gmt );
 
-		$format_length = strlen( $dateformatstring );
+	return $date;
+}
+
+/**
+ * Retrieves the date, in localized format.
+ *
+ * This is a newer function, intended to replace `date_i18n()` without legacy quirks in it.
+ *
+ * Note that, unlike `date_i18n()`, this function accepts a true Unix timestamp, not summed with timezone offset.
+ *
+ * @since 5.3.0
+ *
+ * @param string       $format    PHP date format.
+ * @param int          $timestamp Optional. Unix timestamp. Defaults to current time.
+ * @param DateTimeZone $timezone  Optional. Timezone to output result in. Defaults to timezone from site settings.
+ *
+ * @return string The date, translated if locale specifies it.
+ */
+function wp_date( $format, $timestamp = null, $timezone = null ) {
+	global $wp_locale;
+
+	if ( ! $timestamp ) {
+		$timestamp = time();
+	}
+
+	if ( ! $timezone ) {
+		$timezone = wp_timezone();
+	}
+
+	$datetime = date_create( '@' . $timestamp );
+	$datetime->setTimezone( $timezone );
+
+	if ( empty( $wp_locale->month ) || empty( $wp_locale->weekday ) ) {
+		$date = $datetime->format( $format );
+	} else {
+		// We need to unpack shorthand `r` format because it has parts that might be localized.
+		$format = preg_replace( '/(?<!\\\\)r/', DATE_RFC2822, $format );
+
+		$new_format    = '';
+		$format_length = strlen( $format );
+		$month         = $wp_locale->get_month( $datetime->format( 'm' ) );
+		$weekday       = $wp_locale->get_weekday( $datetime->format( 'w' ) );
 
 		for ( $i = 0; $i < $format_length; $i ++ ) {
-			switch ( $dateformatstring[ $i ] ) {
+			switch ( $format[ $i ] ) {
 				case 'D':
 					$new_format .= backslashit( $wp_locale->get_weekday_abbrev( $weekday ) );
 					break;
@@ -222,36 +260,37 @@ function date_i18n( $dateformatstring, $timestamp_with_offset = false, $gmt = fa
 					$new_format .= backslashit( $wp_locale->get_meridiem( $datetime->format( 'A' ) ) );
 					break;
 				case '\\':
-					$new_format .= $dateformatstring[ $i ];
+					$new_format .= $format[ $i ];
 
 					// If character follows a slash, we add it without translating.
 					if ( $i < $format_length ) {
-						$new_format .= $dateformatstring[ ++$i ];
+						$new_format .= $format[ ++$i ];
 					}
 					break;
 				default:
-					$new_format .= $dateformatstring[ $i ];
+					$new_format .= $format[ $i ];
 					break;
 			}
 		}
-	}
 
-	$j = $datetime->format( $new_format );
+		$date = $datetime->format( $new_format );
+		$date = wp_maybe_decline_date( $date );
+	}
 
 	/**
 	 * Filters the date formatted based on the locale.
 	 *
-	 * @since 2.8.0
+	 * @since 5.3.0
 	 *
-	 * @param string $j          Formatted date string.
-	 * @param string $req_format Format to display the date.
-	 * @param int    $i          A sum of Unix timestamp and timezone offset in seconds.
-	 * @param bool   $gmt        Whether to use GMT timezone. Only applies if timestamp was
-	 *                           not provided. Default false.
+	 * @param string       $date      Formatted date string.
+	 * @param string       $format    Format to display the date.
+	 * @param int          $timestamp Unix timestamp.
+	 * @param DateTimeZone $timezone  Timezone.
+	 *
 	 */
-	$j = apply_filters( 'date_i18n', $j, $req_format, $i, $gmt );
+	$date = apply_filters( 'wp_date', $date, $format, $timestamp, $timezone );
 
-	return $j;
+	return $date;
 }
 
 /**
