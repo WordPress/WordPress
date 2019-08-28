@@ -350,9 +350,17 @@ abstract class WP_REST_Meta_Fields {
 		// Do the exact same check for a duplicate value as in update_metadata() to avoid update_metadata() returning false.
 		$old_value = get_metadata( $meta_type, $object_id, $meta_key );
 		$subtype   = get_object_subtype( $meta_type, $object_id );
+		$args      = $this->get_registered_fields()[ $meta_key ];
 
 		if ( 1 === count( $old_value ) ) {
-			if ( (string) sanitize_meta( $meta_key, $value, $meta_type, $subtype ) === $old_value[0] ) {
+			$sanitized = sanitize_meta( $meta_key, $value, $meta_type, $subtype );
+
+			if ( in_array( $args['type'], array( 'string', 'number', 'integer', 'boolean' ), true ) ) {
+				// The return value of get_metadata will always be a string for scalar types.
+				$sanitized = (string) $sanitized;
+			}
+
+			if ( $sanitized === $old_value[0] ) {
 				return true;
 			}
 		}
