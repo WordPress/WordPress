@@ -163,8 +163,12 @@ function wp_timezone() {
  * @return string The date, translated if locale specifies it.
  */
 function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
+	$timestamp = $timestamp_with_offset;
+
 	// If timestamp is omitted it should be current time (summed with offset, unless `$gmt` is true).
-	$timestamp = $timestamp_with_offset ? $timestamp_with_offset : current_time( 'timestamp', $gmt );
+	if ( ! is_numeric( $timestamp ) ) {
+		$timestamp = current_time( 'timestamp', $gmt );
+	}
 
 	/*
 	 * This is a legacy implementation quirk that the returned timestamp is also with offset.
@@ -218,13 +222,15 @@ function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
  * @param int          $timestamp Optional. Unix timestamp. Defaults to current time.
  * @param DateTimeZone $timezone  Optional. Timezone to output result in. Defaults to timezone
  *                                from site settings.
- * @return string The date, translated if locale specifies it.
+ * @return string|false The date, translated if locale specifies it. False on invalid timestamp input.
  */
 function wp_date( $format, $timestamp = null, $timezone = null ) {
 	global $wp_locale;
 
-	if ( ! $timestamp ) {
+	if ( null === $timestamp ) {
 		$timestamp = time();
+	} elseif ( ! is_numeric( $timestamp ) ) {
+		return false;
 	}
 
 	if ( ! $timezone ) {
