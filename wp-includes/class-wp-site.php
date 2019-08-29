@@ -162,14 +162,18 @@ final class WP_Site {
 
 		$_site = wp_cache_get( $site_id, 'sites' );
 
-		if ( ! $_site ) {
+		if ( false === $_site ) {
 			$_site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->blogs} WHERE blog_id = %d LIMIT 1", $site_id ) );
 
 			if ( empty( $_site ) || is_wp_error( $_site ) ) {
-				return false;
+				$_site = -1;
 			}
 
 			wp_cache_add( $site_id, $_site, 'sites' );
+		}
+
+		if ( is_numeric( $_site ) ) {
+			return false;
 		}
 
 		return new WP_Site( $_site );

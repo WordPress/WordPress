@@ -1159,6 +1159,12 @@ function populate_network_meta( $network_id, array $meta = array() ) {
 		}
 	}
 
+	if ( function_exists( 'clean_network_cache' ) ) {
+		clean_network_cache( $network_id );
+	} else {
+		wp_cache_delete( $network_id, 'networks' );
+	}
+
 	wp_cache_delete( 'networks_have_paths', 'site-options' );
 
 	if ( ! is_multisite() ) {

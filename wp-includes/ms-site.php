@@ -69,13 +69,13 @@ function wp_insert_site( array $data ) {
 		return new WP_Error( 'db_insert_error', __( 'Could not insert site into the database.' ), $wpdb->last_error );
 	}
 
+	clean_blog_cache( $wpdb->insert_id );
+
 	$new_site = get_site( $wpdb->insert_id );
 
 	if ( ! $new_site ) {
 		return new WP_Error( 'get_site_error', __( 'Could not retrieve site data.' ) );
 	}
-
-	clean_blog_cache( $new_site );
 
 	/**
 	 * Fires once a site has been inserted into the database.

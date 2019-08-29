@@ -101,14 +101,18 @@ class WP_Network {
 
 		$_network = wp_cache_get( $network_id, 'networks' );
 
-		if ( ! $_network ) {
+		if ( false === $_network ) {
 			$_network = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->site} WHERE id = %d LIMIT 1", $network_id ) );
 
 			if ( empty( $_network ) || is_wp_error( $_network ) ) {
-				return false;
+				$_network = -1;
 			}
 
 			wp_cache_add( $network_id, $_network, 'networks' );
+		}
+
+		if ( is_numeric( $_network ) ) {
+			return false;
 		}
 
 		return new WP_Network( $_network );
@@ -231,8 +235,8 @@ class WP_Network {
 			return (int) $this->blog_id;
 		}
 
-		if ( ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) && $this->domain === DOMAIN_CURRENT_SITE && $this->path === PATH_CURRENT_SITE )
-			|| ( defined( 'SITE_ID_CURRENT_SITE' ) && $this->id == SITE_ID_CURRENT_SITE ) ) {
+		if ( ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) && DOMAIN_CURRENT_SITE === $this->domain && PATH_CURRENT_SITE === $this->path )
+			|| ( defined( 'SITE_ID_CURRENT_SITE' ) && SITE_ID_CURRENT_SITE == $this->id ) ) {
 			if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
 				$this->blog_id = (string) BLOG_ID_CURRENT_SITE;
 
@@ -457,7 +461,7 @@ class WP_Network {
 					break;
 				}
 			}
-			if ( $network->path === '/' ) {
+			if ( '/' === $network->path ) {
 				$found = true;
 				break;
 			}
