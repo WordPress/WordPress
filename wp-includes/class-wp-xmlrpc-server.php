@@ -1708,6 +1708,16 @@ class wp_xmlrpc_server extends IXR_Server {
 			$post['post_date_gmt'] = $this->_convert_date( $post['post_date_gmt'] );
 		}
 
+		/*
+		 * If the API client did not provide post_date, then we must not perpetuate the value that was
+		 * stored in the database, or it will appear to be an intentional edit. Conveying it here as if
+		 * it was coming from the API client will cause an otherwise zeroed out post_date_gmt to get set
+		 * with the value that was originally stored in the database when the draft was created.
+		 */
+		if ( ! isset( $content_struct['post_date'] ) ) {
+			unset( $post['post_date'] );
+		}
+
 		$this->escape( $post );
 		$merged_content_struct = array_merge( $post, $content_struct );
 
