@@ -8,41 +8,46 @@
 require( ABSPATH . WPINC . '/option.php' );
 
 /**
- * Convert given date string into a different format.
+ * Convert given MySQL date string into a different format.
  *
- * $format should be either a PHP date format string, e.g. 'U' for a Unix
- * timestamp, or 'G' for a Unix timestamp assuming that $date is GMT.
+ * `$format` should be a PHP date format string.
+ * 'U' and 'G' formats will return a sum of timestamp with timezone offset.
+ * `$date` is expected to be local time in MySQL format (`Y-m-d H:i:s`).
  *
- * If $translate is true then the given date and format string will
- * be passed to date_i18n() for translation.
+ * Historically UTC time could be passed to the function to produce Unix timestamp.
+ *
+ * If `$translate` is true then the given date and format string will
+ * be passed to `wp_date()` for translation.
  *
  * @since 0.71
  *
  * @param string $format    Format of the date to return.
  * @param string $date      Date string to convert.
  * @param bool   $translate Whether the return date should be translated. Default true.
- * @return string|int|bool Formatted date string or Unix timestamp. False if $date is empty.
+ * @return string|int|false Formatted date string or sum of Unix timestamp and timezone offset.
+ *                          False on failure.
  */
 function mysql2date( $format, $date, $translate = true ) {
 	if ( empty( $date ) ) {
 		return false;
 	}
 
-	if ( 'G' == $format ) {
-		return strtotime( $date . ' +0000' );
+	$datetime = date_create( $date, wp_timezone() );
+
+	if ( false === $datetime ) {
+		return false;
 	}
 
-	$i = strtotime( $date );
-
-	if ( 'U' == $format ) {
-		return $i;
+	// Returns a sum of timestamp with timezone offset. Ideally should never be used.
+	if ( 'G' === $format || 'U' === $format ) {
+		return $datetime->getTimestamp() + $datetime->getOffset();
 	}
 
 	if ( $translate ) {
-		return date_i18n( $format, $i );
-	} else {
-		return gmdate( $format, $i );
+		return wp_date( $format, $datetime->getTimestamp() );
 	}
+
+	return $datetime->format( $format );
 }
 
 /**
@@ -58,8 +63,8 @@ function mysql2date( $format, $date, $translate = true ) {
  *
  * @since 1.0.0
  *
- * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date
- *                       format string (e.g. 'Y-m-d').
+ * @param string   $type Type of time to retrieve. Accepts 'mysql', 'timestamp',
+ *                       or PHP date format string (e.g. 'Y-m-d').
  * @param int|bool $gmt  Optional. Whether to use GMT timezone. Default false.
  * @return int|string Integer if $type is 'timestamp', string otherwise.
  */
@@ -151,10 +156,10 @@ function wp_timezone() {
  * @global WP_Locale $wp_locale WordPress date and time locale object.
  *
  * @param string   $format                Format to display the date.
- * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset in seconds.
- *                                        Default false.
- * @param bool     $gmt                   Optional. Whether to use GMT timezone. Only applies if timestamp is
- *                                        not provided. Default false.
+ * @param int|bool $timestamp_with_offset Optional. A sum of Unix timestamp and timezone offset
+ *                                        in seconds. Default false.
+ * @param bool     $gmt                   Optional. Whether to use GMT timezone. Only applies
+ *                                        if timestamp is not provided. Default false.
  * @return string The date, translated if locale specifies it.
  */
 function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
@@ -204,14 +209,15 @@ function date_i18n( $format, $timestamp_with_offset = false, $gmt = false ) {
  *
  * This is a newer function, intended to replace `date_i18n()` without legacy quirks in it.
  *
- * Note that, unlike `date_i18n()`, this function accepts a true Unix timestamp, not summed with timezone offset.
+ * Note that, unlike `date_i18n()`, this function accepts a true Unix timestamp, not summed
+ * with timezone offset.
  *
  * @since 5.3.0
  *
  * @param string       $format    PHP date format.
  * @param int          $timestamp Optional. Unix timestamp. Defaults to current time.
- * @param DateTimeZone $timezone  Optional. Timezone to output result in. Defaults to timezone from site settings.
- *
+ * @param DateTimeZone $timezone  Optional. Timezone to output result in. Defaults to timezone
+ *                                from site settings.
  * @return string The date, translated if locale specifies it.
  */
 function wp_date( $format, $timestamp = null, $timezone = null ) {
