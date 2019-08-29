@@ -23,8 +23,15 @@ get_current_screen()->add_help_tab(
 		'id'      => 'overview',
 		'title'   => __( 'Overview' ),
 		'content' => '<p>' . __( 'This screen contains the settings that affect the display of your content.' ) . '</p>' .
-			'<p>' . sprintf( __( 'You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two <a href="%s">Pages</a>. One will become the homepage, and the other will be where your posts are displayed.' ), 'post-new.php?post_type=page' ) . '</p>' .
-			'<p>' . __( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or a summary.' ) . '</p>' .
+			'<p>' . sprintf(
+				__( 'You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two <a href="%s">Pages</a>. One will become the homepage, and the other will be where your posts are displayed.' ),
+				'post-new.php?post_type=page'
+			) . '</p>' .
+			'<p>' . sprintf(
+				/* translators: %s: Documentation URL */
+				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or a summary. <a href="%s">Learn more about feeds</a>.' ),
+				__( 'https://wordpress.org/support/article/wordpress-feeds/' )
+			) . '</p>' .
 			'<p>' . __( 'You must click the Save Changes button at the bottom of the screen for new settings to take effect.' ) . '</p>',
 	)
 );
@@ -140,10 +147,21 @@ else :
 <td><input name="posts_per_rss" type="number" step="1" min="1" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
 </tr>
 <tr>
-<th scope="row"><?php _e( 'For each post in a feed, show' ); ?> </th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each post in a feed, show' ); ?> </span></legend>
-<p><label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
-<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label></p>
+<th scope="row"><?php _e( 'For each post in a feed, include' ); ?> </th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each post in a feed, include' ); ?> </span></legend>
+	<p>
+		<label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
+		<label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label>
+	</p>
+	<p class="description">
+		<?php
+		printf(
+			/* translators: %s: Documentation URL */
+			__( 'Your theme determines how content is displayed in browsers. <a href="%s">Learn more about feeds</a>.' ),
+			__( 'https://wordpress.org/support/article/wordpress-feeds/' )
+		);
+		?>
+	</p>
 </fieldset></td>
 </tr>
 
