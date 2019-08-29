@@ -3191,9 +3191,12 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 				wp_list_pluck( $parsed_args['additional_errors'], 'message' )
 			);
 			$message = "<ul>\n\t\t<li>" . join( "</li>\n\t\t<li>", $message ) . "</li>\n\t</ul>";
-		} else {
-			$message = "<p>$message</p>";
 		}
+
+		$message = sprintf(
+			'<div class="wp-die-message">%s</div>',
+			$message
+		);
 	}
 
 	$have_gettext = function_exists( '__' );
@@ -3263,7 +3266,8 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 		#error-page {
 			margin-top: 50px;
 		}
-		#error-page p {
+		#error-page p,
+		#error-page .wp-die-message {
 			font-size: 14px;
 			line-height: 1.5;
 			margin: 25px 0 20px;

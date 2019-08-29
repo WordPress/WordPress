@@ -460,6 +460,12 @@ code {
 	white-space: nowrap;
 }
 
+.wp-die-message {
+	font-size: 13px;
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
 /* .widefat - main style for tables */
 .widefat {
 	border-spacing: 0;
