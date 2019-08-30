@@ -877,8 +877,8 @@ function delete_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string    $meta_type  Type of object metadata is for (e.g., comment, post, term, or user).
- * @param int|array $object_ids Array or comma delimited list of object IDs to update cache for
+ * @param string       $meta_type  Type of object metadata is for (e.g., comment, post, term, or user).
+ * @param string|int[] $object_ids Array or comma delimited list of object IDs to update cache for.
  * @return array|false Metadata cache for the specified objects, or false on failure.
  */
 function update_meta_cache( $meta_type, $object_ids ) {
@@ -912,7 +912,7 @@ function update_meta_cache( $meta_type, $object_ids ) {
 	 * @since 5.0.0
 	 *
 	 * @param mixed $check      Whether to allow updating the meta cache of the given type.
-	 * @param array $object_ids Array of object IDs to update the meta cache for.
+	 * @param int[] $object_ids Array of object IDs to update the meta cache for.
 	 */
 	$check = apply_filters( "update_{$meta_type}_metadata_cache", null, $object_ids );
 	if ( null !== $check ) {

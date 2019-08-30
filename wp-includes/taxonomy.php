@@ -214,10 +214,10 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @global array $wp_taxonomies The registered taxonomies.
  *
- * @param array|string|WP_Post $object Name of the type of taxonomy object, or an object (row from posts)
- * @param string               $output Optional. The type of output to return in the array. Accepts either
- *                                     taxonomy 'names' or 'objects'. Default 'names'.
- * @return array The names of all taxonomy of $object_type.
+ * @param string|string[]|WP_Post $object Name of the type of taxonomy object, or an object (row from posts)
+ * @param string                  $output Optional. The type of output to return in the array. Accepts either
+ *                                        'names' or 'objects'. Default 'names'.
+ * @return string[]|WP_Taxonomy[] The names or objects of all taxonomies of `$object_type`.
  */
 function get_object_taxonomies( $object, $output = 'names' ) {
 	global $wp_taxonomies;
@@ -1959,11 +1959,11 @@ function wp_delete_category( $cat_ID ) {
  *              'all_with_object_id', an array of `WP_Term` objects will be returned.
  * @since 4.7.0 Refactored to use WP_Term_Query, and to support any WP_Term_Query arguments.
  *
- * @param int|array    $object_ids The ID(s) of the object(s) to retrieve.
- * @param string|array $taxonomies The taxonomies to retrieve terms from.
- * @param array|string $args       See WP_Term_Query::__construct() for supported arguments.
+ * @param int|int[]       $object_ids The ID(s) of the object(s) to retrieve.
+ * @param string|string[] $taxonomies The taxonomy names to retrieve terms from.
+ * @param array|string    $args       See WP_Term_Query::__construct() for supported arguments.
  * @return array|WP_Error The requested term data or empty array if no terms found.
- *                        WP_Error if any of the $taxonomies don't exist.
+ *                        WP_Error if any of the taxonomies don't exist.
  */
 function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	if ( empty( $object_ids ) || empty( $taxonomies ) ) {
@@ -1992,10 +1992,10 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 *
 	 * @since 4.9.0
 	 *
-	 * @param array        $args       An array of arguments for retrieving terms for the given object(s).
-	 *                                 See {@see wp_get_object_terms()} for details.
-	 * @param int|array    $object_ids Object ID or array of IDs.
-	 * @param string|array $taxonomies The taxonomies to retrieve terms from.
+	 * @param array    $args       An array of arguments for retrieving terms for the given object(s).
+	 *                             See {@see wp_get_object_terms()} for details.
+	 * @param int[]    $object_ids Array of object IDs.
+	 * @param string[] $taxonomies Array of taxonomy names to retrieve terms from.
 	 */
 	$args = apply_filters( 'wp_get_object_terms_args', $args, $object_ids, $taxonomies );
 
@@ -2039,11 +2039,11 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $terms      An array of terms for the given object or objects.
-	 * @param array $object_ids Array of object IDs for which `$terms` were retrieved.
-	 * @param array $taxonomies Array of taxonomies from which `$terms` were retrieved.
-	 * @param array $args       An array of arguments for retrieving terms for the given
-	 *                          object(s). See wp_get_object_terms() for details.
+	 * @param array    $terms      Array of terms for the given object or objects.
+	 * @param int[]    $object_ids Array of object IDs for which terms were retrieved.
+	 * @param string[] $taxonomies Array of taxonomy names from which terms were retrieved.
+	 * @param array    $args       Array of arguments for retrieving terms for the given
+	 *                             object(s). See wp_get_object_terms() for details.
 	 */
 	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomies, $args );
 
@@ -2058,11 +2058,11 @@ function wp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array     $terms      An array of terms for the given object or objects.
-	 * @param int|array $object_ids Object ID or array of IDs.
-	 * @param string    $taxonomies SQL-formatted (comma-separated and quoted) list of taxonomy names.
-	 * @param array     $args       An array of arguments for retrieving terms for the given object(s).
-	 *                              See wp_get_object_terms() for details.
+	 * @param array    $terms      Array of terms for the given object or objects.
+	 * @param int[]    $object_ids Array of object IDs for which terms were retrieved.
+	 * @param string[] $taxonomies Array of taxonomy names from which terms were retrieved.
+	 * @param array    $args       Array of arguments for retrieving terms for the given
+	 *                             object(s). See wp_get_object_terms() for details.
 	 */
 	return apply_filters( 'wp_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 }
@@ -2421,7 +2421,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  *                                    empty value will remove all related terms.
  * @param string           $taxonomy  The context in which to relate the term to the object.
  * @param bool             $append    Optional. If false will delete difference of terms. Default false.
- * @return array|WP_Error Term taxonomy IDs of the affected terms.
+ * @return array|WP_Error Term taxonomy IDs of the affected terms or WP_Error on failure.
  */
 function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	global $wpdb;
@@ -3365,8 +3365,8 @@ function get_object_term_cache( $id, $taxonomy ) {
  *
  * @since 2.3.0
  *
- * @param string|array $object_ids  Comma-separated list or array of term object IDs.
- * @param array|string $object_type The taxonomy object type.
+ * @param string|int[]    $object_ids  Comma-separated list or array of term object IDs.
+ * @param string|string[] $object_type The taxonomy object type or array of the same.
  * @return void|false False if all of the terms in `$object_ids` are already cached.
  */
 function update_object_term_cache( $object_ids, $object_type ) {

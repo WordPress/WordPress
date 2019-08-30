@@ -418,7 +418,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
  * @param int    $post_id    The post ID the media is associated with.
  * @param string $desc       Optional. Description of the side-loaded file. Default null.
  * @param array  $post_data  Optional. Post data to override. Default empty array.
- * @return int|object The ID of the attachment or a WP_Error on failure.
+ * @return int|WP_Error The ID of the attachment or a WP_Error on failure.
  */
 function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data = array() ) {
 	$overrides = array( 'test_form' => false );

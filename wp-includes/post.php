@@ -1266,7 +1266,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                              If not set, the default is inherited from $public.
  *     @type bool        $show_ui               Whether to generate and allow a UI for managing this post type in the
  *                                              admin. Default is value of $public.
- *     @type bool        $show_in_menu          Where to show the post type in the admin menu. To work, $show_ui
+ *     @type bool|string $show_in_menu          Where to show the post type in the admin menu. To work, $show_ui
  *                                              must be true. If true, the post type is shown in its own top level
  *                                              menu. If false, no menu is shown. If a string of an existing top
  *                                              level menu (eg. 'tools.php' or 'edit.php?post_type=page'), the post
@@ -6416,7 +6416,7 @@ function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
  *
  * @since 1.5.1
  *
- * @param array $posts Array of post objects (passed by reference).
+ * @param WP_Post[] $posts Array of post objects (passed by reference).
  */
 function update_post_cache( &$posts ) {
 	if ( ! $posts ) {
@@ -6493,10 +6493,10 @@ function clean_post_cache( $post ) {
  *
  * @since 1.5.0
  *
- * @param array  $posts             Array of Post objects
- * @param string $post_type         Optional. Post type. Default 'post'.
- * @param bool   $update_term_cache Optional. Whether to update the term cache. Default true.
- * @param bool   $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ * @param WP_Post[] $posts             Array of Post objects
+ * @param string    $post_type         Optional. Post type. Default 'post'.
+ * @param bool      $update_term_cache Optional. Whether to update the term cache. Default true.
+ * @param bool      $update_meta_cache Optional. Whether to update the meta cache. Default true.
  */
 function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = true, $update_meta_cache = true ) {
 	// No point in doing all this work if we didn't match any posts.
@@ -6548,7 +6548,7 @@ function update_post_caches( &$posts, $post_type = 'post', $update_term_cache = 
  *
  * @since 2.1.0
  *
- * @param array $post_ids List of post IDs.
+ * @param int[] $post_ids Array of post IDs.
  * @return array|false Returns false if there is nothing to update or an array
  *                     of metadata.
  */
