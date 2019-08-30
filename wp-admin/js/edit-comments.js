@@ -656,8 +656,8 @@ window.setCommentsList = function() {
 				if ( response.supplemental.total_items_i18n && lastConfidentTime < response.supplemental.time ) {
 					total_items_i18n = response.supplemental.total_items_i18n || '';
 					if ( total_items_i18n ) {
-						$('.displaying-num').text( total_items_i18n );
-						$('.total-pages').text( response.supplemental.total_pages_i18n );
+						$('.displaying-num').text( total_items_i18n.replace( '&nbsp;', String.fromCharCode( 160 ) ) );
+						$('.total-pages').text( response.supplemental.total_pages_i18n.replace( '&nbsp;', String.fromCharCode( 160 ) ) );
 						$('.tablenav-pages').find('.next-page, .last-page').toggleClass('disabled', response.supplemental.total_pages == $('.current-page').val());
 					}
 					updateTotalCount( total, response.supplemental.time, true );
