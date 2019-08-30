@@ -691,8 +691,12 @@
 			height: inherit;
 			text-align: center;
 
-			&:before {
+			// Only apply the default dot color if there's no separator color specified.
+			&:not(.has-text-color):not(.has-background) {
 				color: $color__text-light;
+			}
+
+			&:before {
 				font-size: $font__size-lg;
 				letter-spacing: $font__size-sm;
 				padding-left: $font__size-sm;

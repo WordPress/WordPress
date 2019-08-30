@@ -6010,9 +6010,13 @@ body.page .main-navigation {
   }
 }
 
+.entry .entry-content .wp-block-separator.is-style-dots:not(.has-text-color):not(.has-background),
+.entry .entry-content hr.is-style-dots:not(.has-text-color):not(.has-background) {
+  color: #767676;
+}
+
 .entry .entry-content .wp-block-separator.is-style-dots:before,
 .entry .entry-content hr.is-style-dots:before {
-  color: #767676;
   font-size: 1.6875em;
   letter-spacing: 0.88889em;
   padding-right: 0.88889em;

@@ -1135,7 +1135,8 @@ figcaption,
 
 /** === Separator === */
 .wp-block-separator:not(.is-style-dots) {
-  border-bottom: 2px solid #767676;
+  background-color: #767676;
+  height: 2px;
 }
 
 .wp-block-separator:not(.is-style-wide):not(.is-style-dots) {
@@ -1143,8 +1144,11 @@ figcaption,
   margin-left: 0;
 }
 
-.wp-block-separator.is-style-dots:before {
+.wp-block-separator.is-style-dots {
   color: #767676;
+}
+
+.wp-block-separator.is-style-dots:before {
   font-size: 1.6875em;
   letter-spacing: calc(2 * 1rem);
   padding-left: calc(2 * 1rem);
