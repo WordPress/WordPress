@@ -1,5 +1,5 @@
 /**
- * File customizer.js.
+ * File customize-preview.js.
  *
  * Theme Customizer enhancements for a better user experience.
  *
