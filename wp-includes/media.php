@@ -3764,6 +3764,7 @@ function wp_enqueue_media( $args = array() ) {
 
 	$strings = array(
 		// Generic
+		'mediaFrameDefaultTitle'      => __( 'Media' ),
 		'url'                         => __( 'URL' ),
 		'addMedia'                    => __( 'Add Media' ),
 		'search'                      => __( 'Search' ),
