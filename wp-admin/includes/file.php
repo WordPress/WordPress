@@ -87,6 +87,7 @@ function get_file_description( $file ) {
 	} elseif ( file_exists( $file_path ) && is_file( $file_path ) ) {
 		$template_data = implode( '', file( $file_path ) );
 		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) ) {
+			/* translators: %s: template name */
 			return sprintf( __( '%s Page Template' ), _cleanup_header_comment( $name[1] ) );
 		}
 	}
@@ -871,7 +872,14 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 			} else {
 				$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
 			}
-			return $upload_error_handler( $file, sprintf( __( 'The uploaded file could not be moved to %s.' ), $error_path ) );
+			return $upload_error_handler(
+				$file,
+				sprintf(
+					/* translators: %s: destination file path */
+					__( 'The uploaded file could not be moved to %s.' ),
+					$error_path
+				)
+			);
 		}
 	}
 
@@ -1154,7 +1162,15 @@ function verify_file_md5( $filename, $expected_md5 ) {
 		return true;
 	}
 
-	return new WP_Error( 'md5_mismatch', sprintf( __( 'The checksum of the file (%1$s) does not match the expected checksum value (%2$s).' ), bin2hex( $file_md5 ), bin2hex( $expected_raw_md5 ) ) );
+	return new WP_Error(
+		'md5_mismatch',
+		sprintf(
+			/* translators: 1: file checksum, 2: expected checksum value */
+			__( 'The checksum of the file (%1$s) does not match the expected checksum value (%2$s).' ),
+			bin2hex( $file_md5 ),
+			bin2hex( $expected_raw_md5 )
+		)
+	);
 }
 
 /**

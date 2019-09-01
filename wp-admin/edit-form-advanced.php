@@ -180,6 +180,7 @@ $messages['post']       = array(
 	6  => __( 'Post published.' ) . $view_post_link_html,
 	7  => __( 'Post saved.' ),
 	8  => __( 'Post submitted.' ) . $preview_post_link_html,
+	/* translators: %s: scheduled date for the post */
 	9  => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
 	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
 );
@@ -194,6 +195,7 @@ $messages['page']       = array(
 	6  => __( 'Page published.' ) . $view_page_link_html,
 	7  => __( 'Page saved.' ),
 	8  => __( 'Page submitted.' ) . $preview_page_link_html,
+	/* translators: %s: scheduled date for the page */
 	9  => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
 	10 => __( 'Page draft updated.' ) . $preview_page_link_html,
 );
@@ -238,7 +240,11 @@ $form_extra  .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc
 if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
 	foreach ( _wp_post_revision_fields( $post ) as $autosave_field => $_autosave_field ) {
 		if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
-			$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below. <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
+			$notice = sprintf(
+				/* translators: %s: URL to view the autosave */
+				__( 'There is an autosave of this post that is more recent than the version below. <a href="%s">View the autosave</a>' ),
+				get_edit_post_link( $autosave->ID )
+			);
 			break;
 		}
 	}
@@ -292,7 +298,11 @@ if ( 'post' == $post_type ) {
 	);
 
 	get_current_screen()->set_help_sidebar(
-		'<p>' . sprintf( __( 'You can also create posts with the <a href="%s">Press This bookmarklet</a>.' ), 'tools.php' ) . '</p>' .
+		'<p>' . sprintf(
+			/* translators: %s: URL to Press This bookmarklet */
+			__( 'You can also create posts with the <a href="%s">Press This bookmarklet</a>.' ),
+			'tools.php'
+		) . '</p>' .
 			'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 			'<p>' . __( '<a href="https://wordpress.org/support/article/wordpress-editor/">Documentation on Writing and Editing Posts</a>' ) . '</p>' .
 			'<p>' . __( '<a href="https://wordpress.org/support/">Support</a>' ) . '</p>'
@@ -359,8 +369,11 @@ if ( 'post' == $post_type ) {
 	}
 
 	if ( current_theme_supports( 'post-thumbnails' ) && post_type_supports( 'post', 'thumbnail' ) ) {
-		/* translators: %s: Featured Image */
-		$publish_box .= '<li>' . sprintf( __( '<strong>%s</strong> &mdash; This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the image as a post thumbnail on the home page, a custom header, etc.' ), esc_html( $post_type_object->labels->featured_image ) ) . '</li>';
+		$publish_box .= '<li>' . sprintf(
+			/* translators: %s: Featured Image */
+			__( '<strong>%s</strong> &mdash; This allows you to associate an image with your post without inserting it. This is usually useful only if your theme makes use of the image as a post thumbnail on the home page, a custom header, etc.' ),
+			esc_html( $post_type_object->labels->featured_image )
+		) . '</li>';
 	}
 
 	$publish_box .= '</ul>';
@@ -577,7 +590,15 @@ if ( post_type_supports( $post_type, 'editor' ) ) {
 	);
 	?>
 <table id="post-status-info"><tbody><tr>
-	<td id="wp-word-count" class="hide-if-no-js"><?php printf( __( 'Word count: %s' ), '<span class="word-count">0</span>' ); ?></td>
+	<td id="wp-word-count" class="hide-if-no-js">
+	<?php
+	printf(
+		/* translators: %s: Number of words */
+		__( 'Word count: %s' ),
+		'<span class="word-count">0</span>'
+	);
+	?>
+	</td>
 	<td class="autosave-info">
 	<span class="autosave-message">&nbsp;</span>
 	<?php

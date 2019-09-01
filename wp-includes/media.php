@@ -3705,7 +3705,12 @@ function wp_enqueue_media( $args = array() ) {
 		);
 	}
 	foreach ( $months as $month_year ) {
-		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
+		$month_year->text = sprintf(
+			/* translators: 1: month, 2: year */
+			__( '%1$s %2$d' ),
+			$wp_locale->get_month( $month_year->month ),
+			$month_year->year
+		);
 	}
 
 	$settings = array(

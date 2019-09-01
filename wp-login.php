@@ -444,13 +444,12 @@ function retrieve_password() {
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 	if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-		/* translators: URL to support page for resetting your password */
-		$support = __( 'https://wordpress.org/support/article/resetting-your-password/' );
 		$errors->add(
 			'retrieve_password_email_failure',
 			sprintf(
+				/* translators: %s: Documentation URL */
 				__( '<strong>ERROR</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
-				esc_url( $support )
+				esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
 			)
 		);
 		return $errors;
@@ -653,8 +652,9 @@ switch ( $action ) {
 				<?php
 
 				printf(
-					__( 'Current administration email: <strong>%s</strong>' ),
-					esc_html( $admin_email )
+					/* translators: %s: admin email address */
+					__( 'Current administration email: %s' ),
+					'<strong>' . esc_html( $admin_email ) . '</strong>'
 				);
 
 				?>

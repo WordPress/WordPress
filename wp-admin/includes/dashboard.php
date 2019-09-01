@@ -269,8 +269,10 @@ function wp_dashboard_right_now() {
 		$num_posts = wp_count_posts( $post_type );
 		if ( $num_posts && $num_posts->publish ) {
 			if ( 'post' == $post_type ) {
+				/* translators: %s: number of posts */
 				$text = _n( '%s Post', '%s Posts', $num_posts->publish );
 			} else {
+				/* translators: %s: number of pages */
 				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
 			}
 			$text             = sprintf( $text, number_format_i18n( $num_posts->publish ) );
@@ -285,12 +287,13 @@ function wp_dashboard_right_now() {
 	// Comments
 	$num_comm = wp_count_comments();
 	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
+		/* translators: %s: number of comments */
 		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->approved ), number_format_i18n( $num_comm->approved ) );
 		?>
 		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
 		<?php
 		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
-		/* translators: %s: number of comments in moderation */
+		/* translators: %s: number of comments */
 		$text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $num_comm->moderated ), $moderated_comments_count_i18n );
 		?>
 		<li class="comment-mod-count
@@ -580,7 +583,11 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 	echo '<div class="drafts">';
 	if ( count( $drafts ) > 3 ) {
-		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . __( 'View all drafts' ) . "</a></p>\n";
+		printf(
+			'<p class="view-all"><a href="%s">%s</a></p>' . "\n",
+			esc_url( admin_url( 'edit.php?post_status=draft' ) ),
+			__( 'View all drafts' )
+		);
 	}
 	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n<ul>";
 
@@ -592,9 +599,15 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		$url   = get_edit_post_link( $draft->ID );
 		$title = _draft_or_post_title( $draft->ID );
 		echo "<li>\n";
-		/* translators: %s: post title */
-		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
-		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( __( 'F j, Y' ), $draft ) . '</time></div>';
+		printf(
+			'<div class="draft-title"><a href="%s" aria-label="%s">%s</a><time datetime="%s">%s</time></div>',
+			esc_url( $url ),
+			/* translators: %s: post title */
+			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ),
+			esc_html( $title ),
+			get_the_time( 'c', $draft ),
+			get_the_time( __( 'F j, Y' ), $draft )
+		);
 		$the_content = wp_trim_words( $draft->post_content, $draft_length );
 		if ( $the_content ) {
 			echo '<p>' . $the_content . '</p>';
@@ -1495,14 +1508,14 @@ function wp_dashboard_browser_nag() {
 
 	if ( $response ) {
 		if ( $response['insecure'] ) {
-			/* translators: %s: browser name and link */
 			$msg = sprintf(
+				/* translators: %s: browser name and link */
 				__( "It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ),
 				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
 			);
 		} else {
-			/* translators: %s: browser name and link */
 			$msg = sprintf(
+				/* translators: %s: browser name and link */
 				__( "It looks like you're using an old version of %s. For the best WordPress experience, please update your browser." ),
 				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
 			);
@@ -1523,7 +1536,13 @@ function wp_dashboard_browser_nag() {
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );
 		}
 
-		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), esc_url( $browsehappy ) ) . '</p>';
+		$notice .= '<p>' . sprintf(
+			/* translators: 1: browser update URL, 2: browser name, 3: Browse Happy URL */
+			__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
+			esc_attr( $response['update_url'] ),
+			esc_html( $response['name'] ),
+			esc_url( $browsehappy )
+		) . '</p>';
 		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss" aria-label="' . esc_attr__( 'Dismiss the browser warning panel' ) . '">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
@@ -1697,7 +1716,12 @@ function wp_welcome_panel() {
 		<a class="button button-primary button-hero hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
 		<?php if ( current_user_can( 'install_themes' ) || ( current_user_can( 'switch_themes' ) && count( wp_get_themes( array( 'allowed' => true ) ) ) > 1 ) ) : ?>
 			<?php $themes_link = current_user_can( 'customize' ) ? add_query_arg( 'autofocus[panel]', 'themes', admin_url( 'customize.php' ) ) : admin_url( 'themes.php' ); ?>
-			<p class="hide-if-no-customize"><?php printf( __( 'or, <a href="%s">change your theme completely</a>' ), $themes_link ); ?></p>
+			<p class="hide-if-no-customize">
+				<?php
+					/* translators: %s: URL to Themes panel in Customizer or Themes screen */
+					printf( __( 'or, <a href="%s">change your theme completely</a>' ), $themes_link );
+				?>
+			</p>
 		<?php endif; ?>
 	</div>
 	<div class="welcome-panel-column">
@@ -1725,6 +1749,7 @@ function wp_welcome_panel() {
 		if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) :
 			if ( current_theme_supports( 'widgets' ) && current_theme_supports( 'menus' ) ) {
 				$widgets_menus_link = sprintf(
+					/* translators: 1: URL to Widgets screen, 2: URL to Menus screen */
 					__( 'Manage <a href="%1$s">widgets</a> or <a href="%2$s">menus</a>' ),
 					admin_url( 'widgets.php' ),
 					admin_url( 'nav-menus.php' )

@@ -209,7 +209,11 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 		$plugin_data['Description'] = wptexturize( $plugin_data['Description'] );
 
 		if ( $plugin_data['Author'] ) {
-			$plugin_data['Description'] .= ' <cite>' . sprintf( __( 'By %s.' ), $plugin_data['Author'] ) . '</cite>';
+			$plugin_data['Description'] .= sprintf(
+				/* translators: %s: plugin author */
+				' <cite>' . __( 'By %s.' ) . '</cite>',
+				$plugin_data['Author']
+			);
 		}
 	}
 

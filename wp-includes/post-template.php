@@ -123,6 +123,9 @@ function get_the_title( $post = 0 ) {
 	if ( ! is_admin() ) {
 		if ( ! empty( $post->post_password ) ) {
 
+			/* translators: %s: protected post title */
+			$prepend = __( 'Protected: %s' );
+
 			/**
 			 * Filters the text prepended to the post title for protected posts.
 			 *
@@ -134,9 +137,12 @@ function get_the_title( $post = 0 ) {
 			 *                         Default 'Protected: %s'.
 			 * @param WP_Post $post    Current post object.
 			 */
-			$protected_title_format = apply_filters( 'protected_title_format', __( 'Protected: %s' ), $post );
+			$protected_title_format = apply_filters( 'protected_title_format', $prepend, $post );
 			$title                  = sprintf( $protected_title_format, $title );
 		} elseif ( isset( $post->post_status ) && 'private' == $post->post_status ) {
+
+			/* translators: %s: private post title */
+			$prepend = __( 'Private: %s' );
 
 			/**
 			 * Filters the text prepended to the post title of private posts.
@@ -149,7 +155,7 @@ function get_the_title( $post = 0 ) {
 			 *                         Default 'Private: %s'.
 			 * @param WP_Post $post    Current post object.
 			 */
-			$private_title_format = apply_filters( 'private_title_format', __( 'Private: %s' ), $post );
+			$private_title_format = apply_filters( 'private_title_format', $prepend, $post );
 			$title                = sprintf( $private_title_format, $title );
 		}
 	}

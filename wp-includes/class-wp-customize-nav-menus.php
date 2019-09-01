@@ -466,7 +466,9 @@ final class WP_Customize_Nav_Menus {
 				'invalidTitleTpl'        => __( '%s (Invalid)' ),
 				/* translators: %s: title of menu item in draft status */
 				'pendingTitleTpl'        => __( '%s (Pending)' ),
+				/* translators: %d: number of menu items found  */
 				'itemsFound'             => __( 'Number of items found: %d' ),
+				/* translators: %d: number of additional menu items found  */
 				'itemsFoundMore'         => __( 'Additional items found: %d' ),
 				'itemsLoadingMore'       => __( 'Loading more results... please wait.' ),
 				'reorderModeOn'          => __( 'Reorder mode enabled' ),
@@ -590,8 +592,11 @@ final class WP_Customize_Nav_Menus {
 		// Create a panel for Menus.
 		$description = '<p>' . __( 'This panel is used for managing navigation menus for content you have already published on your site. You can create menus and add items for existing content such as pages, posts, categories, tags, formats, or custom links.' ) . '</p>';
 		if ( current_theme_supports( 'widgets' ) ) {
-			/* translators: URL to the widgets panel of the customizer */
-			$description .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme or in <a href="%s">widget areas</a> by adding a &#8220;Navigation Menu&#8221; widget.' ), "javascript:wp.customize.panel( 'widgets' ).focus();" ) . '</p>';
+			$description .= '<p>' . sprintf(
+				/* translators: %s: URL to the widgets panel of the customizer */
+				__( 'Menus can be displayed in locations defined by your theme or in <a href="%s">widget areas</a> by adding a &#8220;Navigation Menu&#8221; widget.' ),
+				"javascript:wp.customize.panel( 'widgets' ).focus();"
+			) . '</p>';
 		} else {
 			$description .= '<p>' . __( 'Menus can be displayed in locations defined by your theme.' ) . '</p>';
 		}

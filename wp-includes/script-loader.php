@@ -1115,6 +1115,7 @@ function wp_default_scripts( &$scripts ) {
 	// Error messages for Plupload.
 	$uploader_l10n = array(
 		'queue_limit_exceeded'      => __( 'You have attempted to queue too many files.' ),
+		/* translators: %s: File name */
 		'file_exceeds_size_limit'   => __( '%s exceeds the maximum upload size for this site.' ),
 		'zero_byte_file'            => __( 'This file is empty. Please try another.' ),
 		'invalid_filetype'          => __( 'Sorry, this file type is not permitted for security reasons.' ),
@@ -1128,6 +1129,7 @@ function wp_default_scripts( &$scripts ) {
 		'upload_failed'             => __( 'Upload failed.' ),
 		/* translators: 1: Opening link tag, 2: Closing link tag */
 		'big_upload_failed'         => __( 'Please try uploading this file with the %1$sbrowser uploader%2$s.' ),
+		/* translators: %s: File name */
 		'big_upload_queued'         => __( '%s exceeds the maximum upload size for the multi-file uploader when used in your browser.' ),
 		'io_error'                  => __( 'IO error.' ),
 		'security_error'            => __( 'Security error.' ),
@@ -1136,6 +1138,7 @@ function wp_default_scripts( &$scripts ) {
 		'dismiss'                   => __( 'Dismiss' ),
 		'crunching'                 => __( 'Crunching&hellip;' ),
 		'deleted'                   => __( 'moved to the trash.' ),
+		/* translators: %s: File name */
 		'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.' ),
 	);
 
@@ -1780,6 +1783,7 @@ function wp_default_scripts( &$scripts ) {
 					'unknownError'             => __( 'Something went wrong.' ),
 					'connectionError'          => __( 'Connection lost or the server is busy. Please try again later.' ),
 					'nonceError'               => __( 'An error has occurred. Please reload the page and try again.' ),
+					/* translators: %s: Number of plugins */
 					'pluginsFound'             => __( 'Number of plugins found: %d' ),
 					'noPluginsFound'           => __( 'No plugins found. Try a different search.' ),
 				),

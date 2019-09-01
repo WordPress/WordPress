@@ -355,8 +355,13 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $tag ) {
 		if ( current_user_can( 'delete_term', $tag->term_id ) ) {
-			return '<label class="screen-reader-text" for="cb-select-' . $tag->term_id . '">' . sprintf( __( 'Select %s' ), $tag->name ) . '</label>'
-				. '<input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" id="cb-select-' . $tag->term_id . '" />';
+			return sprintf(
+				'<label class="screen-reader-text" for="cb-select-%1$s">%2$s</label>' .
+				'<input type="checkbox" name="delete_tags[]" value="%1$s" id="cb-select-%1$s" />',
+				$tag->term_id,
+				/* translators: %s: term name */
+				sprintf( __( 'Select %s' ), $tag->name )
+			);
 		}
 
 		return '&nbsp;';

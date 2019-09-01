@@ -425,8 +425,8 @@ class WP_Date_Query {
 		if ( $day_exists && $month_exists && $year_exists ) {
 			// 1. Checking day, month, year combination.
 			if ( ! wp_checkdate( $date_query['month'], $date_query['day'], $date_query['year'], sprintf( '%s-%s-%s', $date_query['year'], $date_query['month'], $date_query['day'] ) ) ) {
-				/* translators: 1: year, 2: month, 3: day of month */
 				$day_month_year_error_msg = sprintf(
+					/* translators: 1: year, 2: month, 3: day of month */
 					__( 'The following values do not describe a valid date: year %1$s, month %2$s, day %3$s.' ),
 					'<code>' . esc_html( $date_query['year'] ) . '</code>',
 					'<code>' . esc_html( $date_query['month'] ) . '</code>',
@@ -441,8 +441,8 @@ class WP_Date_Query {
 			 * We use 2012 because, as a leap year, it's the most permissive.
 			 */
 			if ( ! wp_checkdate( $date_query['month'], $date_query['day'], 2012, sprintf( '2012-%s-%s', $date_query['month'], $date_query['day'] ) ) ) {
-				/* translators: 1: month, 2: day of month */
 				$day_month_year_error_msg = sprintf(
+					/* translators: 1: month, 2: day of month */
 					__( 'The following values do not describe a valid date: month %1$s, day %2$s.' ),
 					'<code>' . esc_html( $date_query['month'] ) . '</code>',
 					'<code>' . esc_html( $date_query['day'] ) . '</code>'

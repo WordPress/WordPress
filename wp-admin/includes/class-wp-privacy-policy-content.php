@@ -204,7 +204,7 @@ final class WP_Privacy_Policy_Content {
 	 *
 	 * @since 4.9.6
 	 *
-	 * @return array The privacy policy text/informtion added by core and plugins.
+	 * @return array The privacy policy text/information added by core and plugins.
 	 */
 	public static function get_suggested_policy_text() {
 		$policy_page_id = (int) get_option( 'wp_page_for_privacy_policy' );
@@ -386,14 +386,17 @@ final class WP_Privacy_Policy_Content {
 			if ( ! empty( $section['removed'] ) ) {
 				$class = ' text-removed';
 				$date  = date_i18n( $date_format, $section['removed'] );
-				$meta  = sprintf( __( 'Removed %s.' ), $date );
+				/* translators: %s: date of plugin deactivation */
+				$meta = sprintf( __( 'Removed %s.' ), $date );
 
+				/* translators: %s: date of plugin deactivation */
 				$removed = __( 'You deactivated this plugin on %s and may no longer need this policy.' );
 				$removed = '<div class="error inline"><p>' . sprintf( $removed, $date ) . '</p></div>';
 			} elseif ( ! empty( $section['updated'] ) ) {
 				$class = ' text-updated';
 				$date  = date_i18n( $date_format, $section['updated'] );
-				$meta  = sprintf( __( 'Updated %s.' ), $date );
+				/* translators: %s: date of privacy policy text update */
+				$meta = sprintf( __( 'Updated %s.' ), $date );
 			}
 
 			if ( $meta ) {
@@ -417,7 +420,10 @@ final class WP_Privacy_Policy_Content {
 				$content         .= '<div class="privacy-text-actions">';
 					$content     .= '<button type="button" class="privacy-text-copy button">';
 						$content .= $copy;
-						$content .= '<span class="screen-reader-text">' . sprintf( __( 'Copy suggested policy text from %s.' ), $plugin_name ) . '</span>';
+						$content .= '<span class="screen-reader-text">';
+						/* translators: %s: plugin name */
+						$content .= sprintf( __( 'Copy suggested policy text from %s.' ), $plugin_name );
+						$content .= '</span>';
 					$content     .= '</button>';
 				$content         .= '</div>';
 			}

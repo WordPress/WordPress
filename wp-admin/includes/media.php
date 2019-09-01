@@ -60,6 +60,7 @@ function update_gallery_tab( $tabs ) {
 		return $tabs;
 	}
 
+	/* translators: %s: number of attachments */
 	$tabs['gallery'] = sprintf( __( 'Gallery (%s)' ), "<span id='attachments-count'>$attachments</span>" );
 
 	return $tabs;
@@ -331,7 +332,7 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 				/* translators: 1: audio track title, 2: artist name */
 				$content .= sprintf( __( '"%1$s" by %2$s.' ), $title, $meta['artist'] );
 			} else {
-				/* translators: 1: audio track title */
+				/* translators: %s: audio track title */
 				$content .= sprintf( __( '"%s".' ), $title );
 			}
 		} elseif ( ! empty( $meta['album'] ) ) {
@@ -1601,7 +1602,10 @@ function get_media_item( $attachment_id, $args = null ) {
 		<tbody>
 		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>\n
 		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n
-		<tr><td colspan='2'><p class='media-types media-types-required-info'>" . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . "</p></td></tr>\n";
+		<tr><td colspan='2'><p class='media-types media-types-required-info'>" .
+			/* translators: %s: an asterisk symbol (*) */
+			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
+		"</p></td></tr>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -1906,8 +1910,10 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	if ( $item ) {
 		$item = '<p class="media-types media-types-required-info">' .
-			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
-			<table class="compat-attachment-fields">' . $item . '</table>';
+			/* translators: %s: an asterisk symbol (*) */
+			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
+			'</p>' .
+			'<table class="compat-attachment-fields">' . $item . '</table>';
 	}
 
 	foreach ( $hidden_fields as $hidden_field => $value ) {
@@ -1956,7 +1962,11 @@ function media_upload_form( $errors = null ) {
 	global $type, $tab, $is_IE, $is_opera;
 
 	if ( ! _device_can_upload() ) {
-		echo '<p>' . sprintf( __( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ), 'https://apps.wordpress.org/' ) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: https://apps.wordpress.org/ */
+			__( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ),
+			'https://apps.wordpress.org/'
+		) . '</p>';
 		return;
 	}
 
@@ -2130,7 +2140,12 @@ wpUploaderInit = <?php echo wp_json_encode( $plupload_init ); ?>;
 	?>
 </div>
 
-<p class="max-upload-size"><?php printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) ); ?></p>
+<p class="max-upload-size">
+	<?php
+	/* translators: %s: maximum allowed file size */
+	printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) );
+	?>
+</p>
 	<?php
 
 	/**
@@ -2775,7 +2790,10 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 	return '
 	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
-	<p class="media-types media-types-required-info">' . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
+	<p class="media-types media-types-required-info">' .
+		/* translators: %s: an asterisk symbol (*) */
+		sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
+	'</p>
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th scope="row" class="label" style="width:130px;">
@@ -2862,7 +2880,14 @@ function media_upload_flash_bypass() {
 
 	?>
 	<p class="upload-flash-bypass">
-	<?php printf( __( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" target="%2$s">browser uploader</a> instead.' ), $browser_uploader, '_blank' ); ?>
+	<?php
+		printf(
+			/* translators: 1: URL to browser uploader, 2: additional link attributes */
+			__( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" %2$s>browser uploader</a> instead.' ),
+			$browser_uploader,
+			'target="_blank"'
+		);
+	?>
 	</p>
 	<?php
 }

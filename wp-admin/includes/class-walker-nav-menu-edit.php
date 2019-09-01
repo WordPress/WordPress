@@ -99,11 +99,11 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 
 		if ( ! empty( $item->_invalid ) ) {
 			$classes[] = 'menu-item-invalid';
-			/* translators: %s: title of menu item which is invalid */
+			/* translators: %s: title of an invalid menu item */
 			$title = sprintf( __( '%s (Invalid)' ), $item->title );
 		} elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
 			$classes[] = 'pending';
-			/* translators: %s: title of menu item in draft status */
+			/* translators: %s: title of a menu item in draft status */
 			$title = sprintf( __( '%s (Pending)' ), $item->title );
 		}
 
@@ -240,7 +240,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					<?php if ( 'custom' !== $item->type && false !== $original_title ) : ?>
 						<p class="link-to-original">
 							<?php
-							/* translators: %s: original title */
+							/* translators: %s: link to menu item's original object */
 							printf( __( 'Original: %s' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' );
 							?>
 						</p>

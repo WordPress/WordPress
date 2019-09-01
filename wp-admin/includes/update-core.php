@@ -961,11 +961,40 @@ function update_core( $from, $to ) {
 	}
 
 	if ( ! $mysql_compat && ! $php_compat ) {
-		return new WP_Error( 'php_mysql_not_compatible', sprintf( __( 'The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.' ), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version ) . $php_update_message );
+		return new WP_Error(
+			'php_mysql_not_compatible',
+			sprintf(
+				/* translators: 1: WordPress version number, 2: Minimum required PHP version number, 3: Minimum required MySQL version number, 4: Current PHP version number, 5: Current MySQL version number */
+				__( 'The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.' ),
+				$wp_version,
+				$required_php_version,
+				$required_mysql_version,
+				$php_version,
+				$mysql_version
+			) . $php_update_message
+		);
 	} elseif ( ! $php_compat ) {
-		return new WP_Error( 'php_not_compatible', sprintf( __( 'The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_php_version, $php_version ) . $php_update_message );
+		return new WP_Error(
+			'php_not_compatible',
+			sprintf(
+				/* translators: 1: WordPress version number, 2: Minimum required PHP version number, 3: Current PHP version number */
+				__( 'The update cannot be installed because WordPress %1$s requires PHP version %2$s or higher. You are running version %3$s.' ),
+				$wp_version,
+				$required_php_version,
+				$php_version
+			) . $php_update_message
+		);
 	} elseif ( ! $mysql_compat ) {
-		return new WP_Error( 'mysql_not_compatible', sprintf( __( 'The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_mysql_version, $mysql_version ) );
+		return new WP_Error(
+			'mysql_not_compatible',
+			sprintf(
+				/* translators: 1: WordPress version number, 2: Minimum required MySQL version number, 3: Current MySQL version number */
+				__( 'The update cannot be installed because WordPress %1$s requires MySQL version %2$s or higher. You are running version %3$s.' ),
+				$wp_version,
+				$required_mysql_version,
+				$mysql_version
+			)
+		);
 	}
 
 	/** This filter is documented in wp-admin/includes/update-core.php */
@@ -1354,8 +1383,22 @@ function _redirect_to_about_wordpress( $new_version ) {
 	show_message( __( 'WordPress updated successfully' ) );
 
 	// self_admin_url() won't exist when upgrading from <= 3.0, so relative URLs are intentional.
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
-	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $new_version, 'about.php?updated' ) . '</span>' );
+	show_message(
+		'<span class="hide-if-no-js">' . sprintf(
+			/* translators: 1: WordPress version, 2: URL to About screen */
+			__( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.' ),
+			$new_version,
+			'about.php?updated'
+		) . '</span>'
+	);
+	show_message(
+		'<span class="hide-if-js">' . sprintf(
+			/* translators: 1: WordPress version, 2: URL to About screen */
+			__( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ),
+			$new_version,
+			'about.php?updated'
+		) . '</span>'
+	);
 	echo '</div>';
 	?>
 <script type="text/javascript">

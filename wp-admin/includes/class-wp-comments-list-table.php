@@ -785,8 +785,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_date( $comment ) {
-		/* translators: 1: comment date, 2: comment time */
 		$submitted = sprintf(
+			/* translators: 1: comment date, 2: comment time */
 			__( '%1$s at %2$s' ),
 			/* translators: comment date format. See https://secure.php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),

@@ -89,11 +89,7 @@ if ( isset( $_GET['update'] ) ) {
 		$message = __( 'User added.' );
 
 		if ( $edit_link ) {
-			$message .= sprintf(
-				' <a href="%s">%s</a>',
-				$edit_link,
-				__( 'Edit user' )
-			);
+			$message .= sprintf( ' <a href="%s">%s</a>', $edit_link, __( 'Edit user' ) );
 		}
 
 		$messages[] = $message;

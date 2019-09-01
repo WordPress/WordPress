@@ -251,8 +251,8 @@ if ( $theme->errors() ) {
 		<?php if ( ( $has_templates || $theme->parent() ) && $theme->parent() ) : ?>
 			<li class="howto">
 				<?php
-				/* translators: %s: link to edit parent theme */
-				echo sprintf(
+				printf(
+					/* translators: %s: link to edit parent theme */
 					__( 'This child theme inherits templates from a parent theme, %s.' ),
 					sprintf(
 						'<a href="%s">%s</a>',

@@ -501,7 +501,8 @@ if ( isset( $_GET['error'] ) ) :
 	if ( isset( $_GET['main'] ) ) {
 		$errmsg = __( 'You cannot delete a plugin while it is active on the main site.' );
 	} elseif ( isset( $_GET['charsout'] ) ) {
-		$errmsg  = sprintf(
+		$errmsg = sprintf(
+			/* translators: %d: number of characters */
 			_n(
 				'The plugin generated %d character of <strong>unexpected output</strong> during activation.',
 				'The plugin generated %d characters of <strong>unexpected output</strong> during activation.',
@@ -541,7 +542,17 @@ elseif ( isset( $_GET['deleted'] ) ) :
 
 	if ( is_wp_error( $delete_result ) ) :
 		?>
-		<div id="message" class="error notice is-dismissible"><p><?php printf( __( 'Plugin could not be deleted due to an error: %s' ), $delete_result->get_error_message() ); ?></p></div>
+		<div id="message" class="error notice is-dismissible">
+			<p>
+				<?php
+				printf(
+					/* translators: %s: error message */
+					__( 'Plugin could not be deleted due to an error: %s' ),
+					$delete_result->get_error_message()
+				);
+				?>
+			</p>
+		</div>
 		<?php else : ?>
 		<div id="message" class="updated notice is-dismissible">
 			<p>

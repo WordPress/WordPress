@@ -157,7 +157,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			if ( ! empty( $forbidden_params ) ) {
-				return new WP_Error( 'rest_forbidden_param', sprintf( __( 'Query parameter not permitted: %s' ), implode( ', ', $forbidden_params ) ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error(
+					'rest_forbidden_param',
+					/* translators: %s: list of forbidden parameters */
+					sprintf( __( 'Query parameter not permitted: %s' ), implode( ', ', $forbidden_params ) ),
+					array( 'status' => rest_authorization_required_code() )
+				);
 			}
 		}
 

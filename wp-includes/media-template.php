@@ -222,8 +222,16 @@ function wp_print_media_templates() {
 		<# } #>
 		<?php if ( ! _device_can_upload() ) : ?>
 			<div class="upload-ui">
-				<h2 class="upload-instructions"><?php _e( 'Your browseer cannot upload files' ); ?></h2>
-				<p><?php printf( __( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ), 'https://apps.wordpress.org/' ); ?></p>
+				<h2 class="upload-instructions"><?php _e( 'Your browser cannot upload files' ); ?></h2>
+				<p>
+				<?php
+					printf(
+						/* translators: %s: https://apps.wordpress.org/ */
+						__( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ),
+						'https://apps.wordpress.org/'
+					);
+				?>
+				</p>
 			</div>
 		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
 			<div class="upload-ui">
@@ -266,7 +274,11 @@ function wp_print_media_templates() {
 
 				<p class="max-upload-size">
 				<?php
-					printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) );
+					printf(
+						/* translators: %s: maximum allowed file size */
+						__( 'Maximum upload file size: %s.' ),
+						esc_html( size_format( $max_upload_size ) )
+					);
 				?>
 				</p>
 

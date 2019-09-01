@@ -2525,7 +2525,10 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 
 	$ifp = @fopen( $new_file, 'wb' );
 	if ( ! $ifp ) {
-		return array( 'error' => sprintf( __( 'Could not write file %s' ), $new_file ) );
+		return array(
+			/* translators: %s: file name */
+			'error' => sprintf( __( 'Could not write file %s' ), $new_file ),
+		);
 	}
 
 	fwrite( $ifp, $bits );
@@ -4630,9 +4633,9 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 	if ( WP_DEBUG && apply_filters( 'deprecated_constructor_trigger_error', true ) ) {
 		if ( function_exists( '__' ) ) {
 			if ( ! empty( $parent_class ) ) {
-				/* translators: 1: PHP class name, 2: PHP parent class name, 3: version number, 4: __construct() method */
 				trigger_error(
 					sprintf(
+						/* translators: 1: PHP class name, 2: PHP parent class name, 3: version number, 4: __construct() method */
 						__( 'The called constructor method for %1$s in %2$s is <strong>deprecated</strong> since version %3$s! Use %4$s instead.' ),
 						$class,
 						$parent_class,
@@ -4641,9 +4644,9 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 					)
 				);
 			} else {
-				/* translators: 1: PHP class name, 2: version number, 3: __construct() method */
 				trigger_error(
 					sprintf(
+						/* translators: 1: PHP class name, 2: version number, 3: __construct() method */
 						__( 'The called constructor method for %1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.' ),
 						$class,
 						$version,
@@ -4901,8 +4904,8 @@ function _doing_it_wrong( $function, $message, $version ) {
 				/* translators: %s: version number */
 				$version = sprintf( __( '(This message was added in version %s.)' ), $version );
 			}
-			/* translators: %s: Documentation URL */
 			$message .= ' ' . sprintf(
+				/* translators: %s: Documentation URL */
 				__( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ),
 				__( 'https://wordpress.org/support/article/debugging-in-wordpress/' )
 			);
@@ -6756,6 +6759,7 @@ All at ###SITENAME###
 		'message' => $email_change_text,
 		'headers' => '',
 	);
+
 	// get site name
 	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 

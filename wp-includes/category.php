@@ -42,8 +42,8 @@ function get_categories( $args = '' ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.0.0',
-			/* translators: 1: "type => link", 2: "taxonomy => link_category" */
 			sprintf(
+				/* translators: 1: "type => link", 2: "taxonomy => link_category" */
 				__( '%1$s is deprecated. Use %2$s instead.' ),
 				'<code>type => link</code>',
 				'<code>taxonomy => link_category</code>'

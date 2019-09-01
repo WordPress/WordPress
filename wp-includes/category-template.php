@@ -355,8 +355,8 @@ function wp_dropdown_categories( $args = '' ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.0.0',
-			/* translators: 1: "type => link", 2: "taxonomy => link_category" */
 			sprintf(
+				/* translators: 1: "type => link", 2: "taxonomy => link_category" */
 				__( '%1$s is deprecated. Use %2$s instead.' ),
 				'<code>type => link</code>',
 				'<code>taxonomy => link_category</code>'
@@ -831,6 +831,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
 		// Look for the alternative callback style. Ignore the previous default.
 		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
+			/* translators: %s: number of items (tags) */
 			$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 		} else {
 			$translate_nooped_plural = false;
@@ -841,6 +842,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$translate_nooped_plural = _n_noop( $args['single_text'], $args['multiple_text'] );
 	} else {
 		// This is the default for when no callback, plural, or argument is passed in.
+		/* translators: %s: number of items (tags) */
 		$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 	}
 

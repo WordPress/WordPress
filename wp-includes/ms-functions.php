@@ -944,6 +944,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 */
 		apply_filters(
 			'wpmu_signup_blog_notification_email',
+			/* translators: New site notification email. 1: Activation URL, 2: New site URL */
 			__( "To activate your blog, please click the following link:\n\n%1\$s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%2\$s" ),
 			$domain,
 			$path,
@@ -957,6 +958,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		esc_url( "http://{$domain}{$path}" ),
 		$key
 	);
+
 	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
@@ -988,6 +990,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		$from_name,
 		esc_url( 'http://' . $domain . $path )
 	);
+
 	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
@@ -1060,6 +1063,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 */
 		apply_filters(
 			'wpmu_signup_user_notification_email',
+			/* translators: New user notification email. %s: Activation URL */
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
 			$user_login,
 			$user_email,
@@ -1068,6 +1072,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		),
 		site_url( "wp-activate.php?key=$key" )
 	);
+
 	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
@@ -1093,6 +1098,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		$from_name,
 		$user_login
 	);
+
 	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
@@ -1378,8 +1384,8 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	$siteurl  = site_url();
 	restore_current_blog();
 
-	/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: Settings screen URL */
 	$msg = sprintf(
+		/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: Settings screen URL */
 		__(
 			'New Site: %1$s
 URL: %2$s
@@ -1402,7 +1408,9 @@ Disable these notifications: %4$s'
 	 */
 	$msg = apply_filters( 'newblog_notify_siteadmin', $msg );
 
+	/* translators: New site notification email subject. %s: New site URL */
 	wp_mail( $email, sprintf( __( 'New Site Registration: %s' ), $siteurl ), $msg );
+
 	return true;
 }
 
@@ -1431,8 +1439,9 @@ function newuser_notify_siteadmin( $user_id ) {
 	$user = get_userdata( $user_id );
 
 	$options_site_url = esc_url( network_admin_url( 'settings.php' ) );
-	/* translators: New user notification email. 1: User login, 2: User IP address, 3: Settings screen URL */
+
 	$msg = sprintf(
+		/* translators: New user notification email. 1: User login, 2: User IP address, 3: Settings screen URL */
 		__(
 			'New User: %1$s
 Remote IP address: %2$s
@@ -1454,7 +1463,10 @@ Disable these notifications: %3$s'
 	 * @param WP_User $user WP_User instance of the new user.
 	 */
 	$msg = apply_filters( 'newuser_notify_siteadmin', $msg, $user );
+
+	/* translators: New user notification email subject. %s: User login */
 	wp_mail( $email, sprintf( __( 'New User Registration: %s' ), $user->user_login ), $msg );
+
 	return true;
 }
 
@@ -1613,6 +1625,7 @@ We hope you enjoy your new site. Thanks!
 	 * @param string $subject Subject of the email.
 	 */
 	$subject = apply_filters( 'update_welcome_subject', sprintf( $subject, $current_network->site_name, wp_unslash( $title ) ) );
+
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
@@ -1704,6 +1717,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 * @param string $subject Subject of the email.
 	 */
 	$subject = apply_filters( 'update_welcome_user_subject', sprintf( $subject, $current_network->site_name, $user->user_login ) );
+
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
@@ -2075,10 +2089,25 @@ function maybe_add_existing_user_to_blog() {
 	}
 
 	if ( empty( $details ) || is_wp_error( add_existing_user_to_blog( $details ) ) ) {
-		wp_die( sprintf( __( 'An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.' ), home_url() ) );
+		wp_die(
+			sprintf(
+				/* translators: %s: Home URL */
+				__( 'An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.' ),
+				home_url()
+			)
+		);
 	}
 
-	wp_die( sprintf( __( 'You have been added to this site. Please visit the <a href="%1$s">homepage</a> or <a href="%2$s">log in</a> using your username and password.' ), home_url(), admin_url() ), __( 'WordPress &rsaquo; Success' ), array( 'response' => 200 ) );
+	wp_die(
+		sprintf(
+			/* translators: 1: Home URL, 2: Admin URL */
+			__( 'You have been added to this site. Please visit the <a href="%1$s">homepage</a> or <a href="%2$s">log in</a> using your username and password.' ),
+			home_url(),
+			admin_url()
+		),
+		__( 'WordPress &rsaquo; Success' ),
+		array( 'response' => 200 )
+	);
 }
 
 /**
@@ -2651,8 +2680,15 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', network_home_url(), $content );
 
-	/* translators: Email change notification email subject. %s: Network title */
-	wp_mail( $value, sprintf( __( '[%s] Network Admin Email Change Request' ), wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ) ), $content );
+	wp_mail(
+		$value,
+		sprintf(
+			/* translators: Email change notification email subject. %s: Network title */
+			__( '[%s] Network Admin Email Change Request' ),
+			wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES )
+		),
+		$content
+	);
 
 	if ( $switched_locale ) {
 		restore_previous_locale();

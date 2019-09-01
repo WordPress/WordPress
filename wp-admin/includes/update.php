@@ -209,6 +209,7 @@ function find_core_update( $version, $locale ) {
  */
 function core_update_footer( $msg = '' ) {
 	if ( ! current_user_can( 'update_core' ) ) {
+		/* translators: %s: WordPress version */
 		return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
 	}
 
@@ -231,14 +232,24 @@ function core_update_footer( $msg = '' ) {
 
 	switch ( $cur->response ) {
 		case 'development':
-			/* translators: 1: WordPress version number, 2: WordPress updates admin screen URL */
-			return sprintf( __( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ), get_bloginfo( 'version', 'display' ), network_admin_url( 'update-core.php' ) );
+			return sprintf(
+				/* translators: 1: WordPress version number, 2: WordPress updates admin screen URL */
+				__( 'You are using a development version (%1$s). Cool! Please <a href="%2$s">stay updated</a>.' ),
+				get_bloginfo( 'version', 'display' ),
+				network_admin_url( 'update-core.php' )
+			);
 
 		case 'upgrade':
-			return '<strong><a href="' . network_admin_url( 'update-core.php' ) . '">' . sprintf( __( 'Get Version %s' ), $cur->current ) . '</a></strong>';
+			return sprintf(
+				'<strong><a href="%s">%s</a></strong>',
+				network_admin_url( 'update-core.php' ),
+				/* translators: %s: WordPress version */
+				sprintf( __( 'Get Version %s' ), $cur->current )
+			);
 
 		case 'latest':
 		default:
+			/* translators: %s: WordPress version */
 			return sprintf( __( 'Version %s' ), get_bloginfo( 'version', 'display' ) );
 	}
 }
@@ -303,7 +314,12 @@ function update_right_now_message() {
 		$cur = get_preferred_from_update_core();
 
 		if ( isset( $cur->response ) && $cur->response == 'upgrade' ) {
-			$msg .= '<a href="' . network_admin_url( 'update-core.php' ) . '" class="button" aria-describedby="wp-version">' . sprintf( __( 'Update to %s' ), $cur->current ? $cur->current : __( 'Latest' ) ) . '</a> ';
+			$msg .= sprintf(
+				'<a href="%s" class="button" aria-describedby="wp-version">%s</a> ',
+				network_admin_url( 'update-core.php' ),
+				/* translators: %s: WordPress version number, or 'Latest' string */
+				sprintf( __( 'Update to %s' ), $cur->current ? $cur->current : __( 'Latest' ) )
+			);
 		}
 	}
 
@@ -406,11 +422,21 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		$compatible_php = is_php_version_compatible( $requires_php );
 		$notice_type    = $compatible_php ? 'notice-warning' : 'notice-error';
 
-		echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $response->slug . '-update' ) . '" data-slug="' . esc_attr( $response->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message notice inline ' . $notice_type . ' notice-alt"><p>';
+		printf(
+			'<tr class="plugin-update-tr%s" id="%s" data-slug="%s" data-plugin="%s">' .
+			'<td colspan="%s" class="plugin-update colspanchange">' .
+			'<div class="update-message notice inline %s notice-alt"><p>',
+			$active_class,
+			esc_attr( $response->slug . '-update' ),
+			esc_attr( $response->slug ),
+			esc_attr( $file ),
+			esc_attr( $wp_list_table->get_column_count() ),
+			$notice_type
+		);
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number */
 			printf(
+				/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number */
 				__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>.' ),
 				$plugin_name,
 				esc_url( $details_url ),
@@ -422,8 +448,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 				esc_attr( $response->new_version )
 			);
 		} elseif ( empty( $response->package ) ) {
-			/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number */
 			printf(
+				/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number */
 				__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>. <em>Automatic update is unavailable for this plugin.</em>' ),
 				$plugin_name,
 				esc_url( $details_url ),
@@ -436,8 +462,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 			);
 		} else {
 			if ( $compatible_php ) {
-				/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 				printf(
+					/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 					__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a> or <a href="%5$s" %6$s>update now</a>.' ),
 					$plugin_name,
 					esc_url( $details_url ),
@@ -455,8 +481,8 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 					)
 				);
 			} else {
-				/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number 5: Update PHP page URL */
 				printf(
+					/* translators: 1: plugin name, 2: details URL, 3: additional link attributes, 4: version number 5: Update PHP page URL */
 					__( 'There is a new version of %1$s available, but it doesn&#8217;t work with your version of PHP. <a href="%2$s" %3$s>View version %4$s details</a> or <a href="%5$s">learn more about updating PHP</a>.' ),
 					$plugin_name,
 					esc_url( $details_url ),
@@ -580,10 +606,19 @@ function wp_theme_update_row( $theme_key, $theme ) {
 
 	$active = $theme->is_allowed( 'network' ) ? ' active' : '';
 
-	echo '<tr class="plugin-update-tr' . $active . '" id="' . esc_attr( $theme->get_stylesheet() . '-update' ) . '" data-slug="' . esc_attr( $theme->get_stylesheet() ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-warning notice-alt"><p>';
+	printf(
+		'<tr class="plugin-update-tr%s" id="%s" data-slug="%s">' .
+		'<td colspan="%s" class="plugin-update colspanchange">' .
+		'<div class="update-message notice inline notice-warning notice-alt"><p>',
+		$active,
+		esc_attr( $theme->get_stylesheet() . '-update' ),
+		esc_attr( $theme->get_stylesheet() ),
+		$wp_list_table->get_column_count()
+	);
+
 	if ( ! current_user_can( 'update_themes' ) ) {
-		/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number */
 		printf(
+			/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number */
 			__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>.' ),
 			$theme['Name'],
 			esc_url( $details_url ),
@@ -595,8 +630,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 			$response['new_version']
 		);
 	} elseif ( empty( $response['package'] ) ) {
-		/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number */
 		printf(
+			/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number */
 			__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ),
 			$theme['Name'],
 			esc_url( $details_url ),
@@ -608,8 +643,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 			$response['new_version']
 		);
 	} else {
-		/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 		printf(
+			/* translators: 1: theme name, 2: details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 			__( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a> or <a href="%5$s" %6$s>update now</a>.' ),
 			$theme['Name'],
 			esc_url( $details_url ),
@@ -682,7 +717,11 @@ function maintenance_nag() {
 	}
 
 	if ( current_user_can( 'update_core' ) ) {
-		$msg = sprintf( __( 'An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.' ), 'update-core.php' );
+		$msg = sprintf(
+			/* translators: %s: URL to WordPress Updates screen */
+			__( 'An automated WordPress update has failed to complete - <a href="%s">please attempt the update again now</a>.' ),
+			'update-core.php'
+		);
 	} else {
 		$msg = __( 'An automated WordPress update has failed to complete! Please notify the site administrator.' );
 	}

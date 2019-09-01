@@ -204,8 +204,8 @@ switch ( $action ) {
 	<th scope="row"><?php _e( 'Submitted on' ); ?></th>
 	<td>
 		<?php
-		/* translators: 1: comment date, 2: comment time */
 		$submitted = sprintf(
+			/* translators: 1: comment date, 2: comment time */
 			__( '%1$s at %2$s' ),
 			/* translators: comment date format. See https://secure.php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),

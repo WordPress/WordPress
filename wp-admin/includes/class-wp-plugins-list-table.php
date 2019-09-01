@@ -429,36 +429,69 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 			switch ( $type ) {
 				case 'all':
-					/* translators: %s: plugin count */
-					$text = _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'plugins' );
+					/* translators: %s: number of plugins */
+					$text = _nx(
+						'All <span class="count">(%s)</span>',
+						'All <span class="count">(%s)</span>',
+						$count,
+						'plugins'
+					);
 					break;
 				case 'active':
-					/* translators: %s: plugin count */
-					$text = _n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Active <span class="count">(%s)</span>',
+						'Active <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'recently_activated':
-					/* translators: %s: plugin count */
-					$text = _n( 'Recently Active <span class="count">(%s)</span>', 'Recently Active <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Recently Active <span class="count">(%s)</span>',
+						'Recently Active <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'inactive':
-					/* translators: %s: plugin count */
-					$text = _n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Inactive <span class="count">(%s)</span>',
+						'Inactive <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'mustuse':
-					/* translators: %s: plugin count */
-					$text = _n( 'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Must-Use <span class="count">(%s)</span>',
+						'Must-Use <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'dropins':
-					/* translators: %s: plugin count */
-					$text = _n( 'Drop-in <span class="count">(%s)</span>', 'Drop-ins <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Drop-in <span class="count">(%s)</span>',
+						'Drop-ins <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'paused':
-					/* translators: %s: plugin count */
-					$text = _n( 'Paused <span class="count">(%s)</span>', 'Paused <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Paused <span class="count">(%s)</span>',
+						'Paused <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 				case 'upgrade':
-					/* translators: %s: plugin count */
-					$text = _n( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count );
+					/* translators: %s: number of plugins */
+					$text = _n(
+						'Update Available <span class="count">(%s)</span>',
+						'Update Available <span class="count">(%s)</span>',
+						$count
+					);
 					break;
 			}
 
@@ -768,9 +801,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ) ) || ! $compatible_php ) {
 			$checkbox = '';
 		} else {
-			/* translators: %s: plugin name */
-			$checkbox = "<label class='screen-reader-text' for='" . $checkbox_id . "' >" . sprintf( __( 'Select %s' ), $plugin_data['Name'] ) . '</label>'
-				. "<input type='checkbox' name='checked[]' value='" . esc_attr( $plugin_file ) . "' id='" . $checkbox_id . "' />";
+			$checkbox = sprintf(
+				'<label class="screen-reader-text" for="%1$s">%2$s</label>' .
+				'<input type="checkbox" name="checked[]" value="%3$s" id="%1$s" />',
+				$checkbox_id,
+				/* translators: %s: plugin name */
+				sprintf( __( 'Select %s' ), $plugin_data['Name'] ),
+				esc_attr( $plugin_file )
+			);
 		}
 		if ( 'dropins' != $context ) {
 			$description = '<p>' . ( $plugin_data['Description'] ? $plugin_data['Description'] : '&nbsp;' ) . '</p>';

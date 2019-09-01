@@ -123,8 +123,21 @@ Please click the following link to confirm the invite:
 %4$s'
 			);
 
-			/* translators: Joining confirmation notification email subject. %s: Site title */
-			wp_mail( $new_user_email, sprintf( __( '[%s] Joining Confirmation' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), sprintf( $message, get_option( 'blogname' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ), home_url( "/newbloguser/$newuser_key/" ) ) );
+			wp_mail(
+				$new_user_email,
+				sprintf(
+					/* translators: Joining confirmation notification email subject. %s: Site title */
+					__( '[%s] Joining Confirmation' ),
+					wp_specialchars_decode( get_option( 'blogname' ) )
+				),
+				sprintf(
+					$message,
+					get_option( 'blogname' ),
+					home_url(),
+					wp_specialchars_decode( translate_user_role( $role['name'] ) ),
+					home_url( "/newbloguser/$newuser_key/" )
+				)
+			);
 
 			if ( $switched_locale ) {
 				restore_previous_locale();
@@ -296,11 +309,7 @@ if ( isset( $_GET['update'] ) ) {
 				$message = __( 'User has been added to your site.' );
 
 				if ( $edit_link ) {
-					$message .= sprintf(
-						' <a href="%s">%s</a>',
-						$edit_link,
-						__( 'Edit user' )
-					);
+					$message .= sprintf( ' <a href="%s">%s</a>', $edit_link, __( 'Edit user' ) );
 				}
 
 				$messages[] = $message;

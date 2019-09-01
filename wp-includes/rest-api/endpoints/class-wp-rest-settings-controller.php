@@ -190,6 +190,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 				if ( is_wp_error( rest_validate_value_from_schema( get_option( $args['option_name'], false ), $args['schema'] ) ) ) {
 					return new WP_Error(
 						'rest_invalid_stored_value',
+						/* translators: %s: property name */
 						sprintf( __( 'The %s property has an invalid stored value, and cannot be updated to null.' ), $name ),
 						array( 'status' => 500 )
 					);

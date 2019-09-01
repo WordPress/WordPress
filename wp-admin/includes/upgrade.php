@@ -583,8 +583,9 @@ if ( ! function_exists( 'wp_new_blog_notification' ) ) :
 		$email     = $user->user_email;
 		$name      = $user->user_login;
 		$login_url = wp_login_url();
-		/* translators: New site notification email. 1: New site URL, 2: User login, 3: User password or password reset link, 4: Login URL */
+
 		$message = sprintf(
+			/* translators: New site notification email. 1: New site URL, 2: User login, 3: User password or password reset link, 4: Login URL */
 			__(
 				'Your new WordPress site has been successfully set up at:
 

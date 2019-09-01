@@ -287,6 +287,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	if ( 1 == $enabled ) {
 		$message = __( 'Theme enabled.' );
 	} else {
+		/* translators: %s: number of themes */
 		$message = _n( '%s theme enabled.', '%s themes enabled.', $enabled );
 	}
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $enabled ) ) . '</p></div>';
@@ -295,6 +296,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	if ( 1 == $disabled ) {
 		$message = __( 'Theme disabled.' );
 	} else {
+		/* translators: %s: number of themes */
 		$message = _n( '%s theme disabled.', '%s themes disabled.', $disabled );
 	}
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $disabled ) ) . '</p></div>';
@@ -303,6 +305,7 @@ if ( isset( $_GET['enabled'] ) ) {
 	if ( 1 == $deleted ) {
 		$message = __( 'Theme deleted.' );
 	} else {
+		/* translators: %s: number of themes */
 		$message = _n( '%s theme deleted.', '%s themes deleted.', $deleted );
 	}
 	echo '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $deleted ) ) . '</p></div>';

@@ -1026,9 +1026,15 @@ function link_submit_meta_box( $link ) {
 <div id="delete-action">
 	<?php
 	if ( ! empty( $_GET['action'] ) && 'edit' == $_GET['action'] && current_user_can( 'manage_links' ) ) {
-		?>
-	<a class="submitdelete deletion" href="<?php echo wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ); ?>" onclick="if ( confirm('<?php echo esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ); ?>') ) {return true;}return false;"><?php _e( 'Delete' ); ?></a>
-<?php } ?>
+		printf(
+			'<a class="submitdelete deletion" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
+			wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ),
+			/* translators: %s: link name */
+			esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ),
+			__( 'Delete' )
+		);
+	}
+	?>
 </div>
 
 <div id="publishing-action">

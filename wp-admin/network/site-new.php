@@ -54,8 +54,8 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 
 		if ( in_array( $domain, $subdirectory_reserved_names ) ) {
 			wp_die(
-				/* translators: %s: reserved names list */
 				sprintf(
+					/* translators: %s: reserved names list */
 					__( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: %s' ),
 					'<code>' . implode( '</code>, <code>', $subdirectory_reserved_names ) . '</code>'
 				)
@@ -147,12 +147,12 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 		wp_mail(
 			get_site_option( 'admin_email' ),
 			sprintf(
-				/* translators: %s: network name */
+				/* translators: New site notification email subject. %s: Network name */
 				__( '[%s] New Site Created' ),
 				get_network()->site_name
 			),
 			sprintf(
-				/* translators: 1: user login, 2: site url, 3: site name/title */
+				/* translators: New site notification email. 1: User login, 2: Site URL, 3: Site title */
 				__(
 					'New site created by %1$s
 

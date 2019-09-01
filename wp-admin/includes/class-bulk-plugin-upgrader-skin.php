@@ -20,7 +20,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	public function add_strings() {
 		parent::add_strings();
-		/* translators: 1: name of plugin being updated, 2: number of updating plugin, 3: total number of plugins being updated */
+		/* translators: 1: plugin name, 2: number of the plugin, 3: total number of plugins being updated */
 		$this->upgrader->strings['skin_before_update_header'] = __( 'Updating Plugin %1$s (%2$d/%3$d)' );
 	}
 
@@ -43,10 +43,20 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	 */
 	public function bulk_footer() {
 		parent::bulk_footer();
+
 		$update_actions = array(
-			'plugins_page' => '<a href="' . self_admin_url( 'plugins.php' ) . '" target="_parent">' . __( 'Return to Plugins page' ) . '</a>',
-			'updates_page' => '<a href="' . self_admin_url( 'update-core.php' ) . '" target="_parent">' . __( 'Return to WordPress Updates page' ) . '</a>',
+			'plugins_page' => sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'plugins.php' ),
+				__( 'Return to Plugins page' )
+			),
+			'updates_page' => sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'update-core.php' ),
+				__( 'Return to WordPress Updates page' )
+			),
 		);
+
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			unset( $update_actions['plugins_page'] );
 		}

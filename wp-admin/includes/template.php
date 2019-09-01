@@ -531,10 +531,22 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 function wp_comment_trashnotice() {
 	?>
 <div class="hidden" id="trash-undo-holder">
-	<div class="trash-undo-inside"><?php printf( __( 'Comment by %s moved to the trash.' ), '<strong></strong>' ); ?> <span class="undo untrash"><a href="#"><?php _e( 'Undo' ); ?></a></span></div>
+	<div class="trash-undo-inside">
+		<?php
+		/* translators: %s: comment author, filled by AJAX */
+		printf( __( 'Comment by %s moved to the trash.' ), '<strong></strong>' );
+		?>
+		<span class="undo untrash"><a href="#"><?php _e( 'Undo' ); ?></a></span>
+	</div>
 </div>
 <div class="hidden" id="spam-undo-holder">
-	<div class="spam-undo-inside"><?php printf( __( 'Comment by %s marked as spam.' ), '<strong></strong>' ); ?> <span class="undo unspam"><a href="#"><?php _e( 'Undo' ); ?></a></span></div>
+	<div class="spam-undo-inside">
+		<?php
+		/* translators: %s: comment author, filled by AJAX */
+		printf( __( 'Comment by %s marked as spam.' ), '<strong></strong>' );
+		?>
+		<span class="undo unspam"><a href="#"><?php _e( 'Undo' ); ?></a></span>
+	</div>
 </div>
 	<?php
 }
@@ -955,7 +967,14 @@ function wp_import_upload_form( $action ) {
 		?>
 <form enctype="multipart/form-data" id="import-upload-form" method="post" class="wp-upload-form" action="<?php echo esc_url( wp_nonce_url( $action, 'import-upload' ) ); ?>">
 <p>
-<label for="upload"><?php _e( 'Choose a file from your computer:' ); ?></label> (<?php printf( __( 'Maximum size: %s' ), $size ); ?>)
+		<?php
+		printf(
+			'<label for="upload">%s</label> (%s)',
+			__( 'Choose a file from your computer:' ),
+			/* translators: %s: maximum allowed file size */
+			sprintf( __( 'Maximum size: %s' ), $size )
+		);
+		?>
 <input type="file" id="upload" name="import" size="25" />
 <input type="hidden" name="action" value="save" />
 <input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
@@ -1289,7 +1308,11 @@ function do_meta_boxes( $screen, $context, $object ) {
 						}
 
 						echo '<button type="button" class="handlediv" aria-expanded="true">';
-						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $widget_title ) . '</span>';
+						echo '<span class="screen-reader-text">' . sprintf(
+							/* translators: meta box title */
+							__( 'Toggle panel: %s' ),
+							$widget_title
+						) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
 					}
@@ -1489,8 +1512,8 @@ function add_settings_section( $id, $title, $callback, $page ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.0.0',
-			/* translators: %s: misc */
 			sprintf(
+				/* translators: %s: misc */
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
 				'misc'
 			)
@@ -1502,8 +1525,8 @@ function add_settings_section( $id, $title, $callback, $page ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.5.0',
-			/* translators: %s: privacy */
 			sprintf(
+				/* translators: %s: privacy */
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
 				'privacy'
 			)
@@ -1560,8 +1583,8 @@ function add_settings_field( $id, $title, $callback, $page, $section = 'default'
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.0.0',
-			/* translators: %s: misc */
 			sprintf(
+				/* translators: %s: misc */
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
 				'misc'
 			)
@@ -1573,8 +1596,8 @@ function add_settings_field( $id, $title, $callback, $page, $section = 'default'
 		_deprecated_argument(
 			__FUNCTION__,
 			'3.5.0',
-			/* translators: %s: privacy */
 			sprintf(
+				/* translators: %s: privacy */
 				__( 'The "%s" options group has been removed. Use another settings group.' ),
 				'privacy'
 			)

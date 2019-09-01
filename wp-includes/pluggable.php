@@ -1582,6 +1582,7 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 				break;
 		}
 		$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
+		/* translators: %s: comment URL */
 		$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
 
 		if ( user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
@@ -1767,8 +1768,8 @@ if ( ! function_exists( 'wp_notify_moderator' ) ) :
 		/* translators: Comment moderation. %s: Comment action URL */
 		$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 
-		/* translators: Comment moderation. %s: Number of comments awaiting approval */
 		$notify_message .= sprintf(
+			/* translators: Comment moderation. %s: Number of comments awaiting approval */
 			_n(
 				'Currently %s comment is waiting for approval. Please visit the moderation panel:',
 				'Currently %s comments are waiting for approval. Please visit the moderation panel:',

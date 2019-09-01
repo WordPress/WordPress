@@ -1307,7 +1307,15 @@ class wpdb {
 		// This is not meant to be foolproof -- but it will catch obviously incorrect usage.
 		if ( strpos( $query, '%' ) === false ) {
 			wp_load_translations_early();
-			_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'The query argument of %s must have a placeholder.' ), 'wpdb::prepare()' ), '3.9.0' );
+			_doing_it_wrong(
+				'wpdb::prepare',
+				sprintf(
+					/* translators: %s: wpdb::prepare() */
+					__( 'The query argument of %s must have a placeholder.' ),
+					'wpdb::prepare()'
+				),
+				'3.9.0'
+			);
 		}
 
 		// If args were passed as an array (as in vsprintf), move them up.
@@ -1320,7 +1328,15 @@ class wpdb {
 		foreach ( $args as $arg ) {
 			if ( ! is_scalar( $arg ) && ! is_null( $arg ) ) {
 				wp_load_translations_early();
-				_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'Unsupported value type (%s).' ), gettype( $arg ) ), '4.8.2' );
+				_doing_it_wrong(
+					'wpdb::prepare',
+					sprintf(
+						/* translators: %s: value type */
+						__( 'Unsupported value type (%s).' ),
+						gettype( $arg )
+					),
+					'4.8.2'
+				);
 			}
 		}
 
@@ -1357,7 +1373,11 @@ class wpdb {
 			if ( 1 === $placeholders && $passed_as_array ) {
 				// If the passed query only expected one argument, but the wrong number of arguments were sent as an array, bail.
 				wp_load_translations_early();
-				_doing_it_wrong( 'wpdb::prepare', __( 'The query only expected one placeholder, but an array of multiple placeholders was sent.' ), '4.9.0' );
+				_doing_it_wrong(
+					'wpdb::prepare',
+					__( 'The query only expected one placeholder, but an array of multiple placeholders was sent.' ),
+					'4.9.0'
+				);
 
 				return;
 			} else {
@@ -1368,8 +1388,8 @@ class wpdb {
 				wp_load_translations_early();
 				_doing_it_wrong(
 					'wpdb::prepare',
-					/* translators: 1: number of placeholders, 2: number of arguments passed */
 					sprintf(
+						/* translators: 1: number of placeholders, 2: number of arguments passed */
 						__( 'The query does not contain the correct number of placeholders (%1$d) for the number of arguments passed (%2$d).' ),
 						$placeholders,
 						count( $args )

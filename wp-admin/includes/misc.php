@@ -1013,7 +1013,10 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 			if ( $user_id ) {
 				$user = get_userdata( $user_id );
 				if ( $user && current_user_can( 'edit_post', $post_id ) ) {
-					$send = array( 'text' => sprintf( __( '%s is currently editing' ), $user->display_name ) );
+					$send = array(
+						/* translators: %s: user's display name */
+						'text' => sprintf( __( '%s is currently editing' ), $user->display_name ),
+					);
 
 					$avatar = get_avatar( $user->ID, 18 );
 					if ( $avatar && preg_match( "|src='([^']+)'|", $avatar, $matches ) ) {
@@ -1061,6 +1064,7 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 		$user    = get_userdata( $user_id );
 		if ( $user ) {
 			$error = array(
+				/* translators: %s: user's display name */
 				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name ),
 			);
 
@@ -1186,9 +1190,9 @@ function heartbeat_autosave( $response, $data ) {
 		} else {
 			/* translators: draft saved date format, see https://secure.php.net/date */
 			$draft_saved_date_format = __( 'g:i:s a' );
-			/* translators: %s: date and time */
 			$response['wp_autosave'] = array(
 				'success' => true,
+				/* translators: %s: date and time */
 				'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ),
 			);
 		}
@@ -1341,8 +1345,15 @@ All at ###SITENAME###
 	$content      = str_replace( '###SITENAME###', wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $content );
 	$content      = str_replace( '###SITEURL###', home_url(), $content );
 
-	/* translators: New admin email address notification email subject. %s: Site title */
-	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) ), $content );
+	wp_mail(
+		$value,
+		sprintf(
+			/* translators: New admin email address notification email subject. %s: Site title */
+			__( '[%s] New Admin Email Address' ),
+			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
+		),
+		$content
+	);
 
 	if ( $switched_locale ) {
 		restore_previous_locale();

@@ -46,15 +46,28 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( ! empty( $this->plugin ) && ! is_wp_error( $this->result ) && $this->plugin_active ) {
 			// Currently used only when JS is off for a single plugin update?
-			echo '<iframe title="' . esc_attr__( 'Update progress' ) . '" style="border:0;overflow:hidden" width="100%" height="170" src="' . wp_nonce_url( 'update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin ) . '"></iframe>';
+			printf(
+				'<iframe title="%s" style="border:0;overflow:hidden" width="100%" height="170" src="%s"></iframe>',
+				esc_attr__( 'Update progress' ),
+				wp_nonce_url( 'update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin )
+			);
 		}
 
 		$this->decrement_update_count( 'plugin' );
 
 		$update_actions = array(
-			'activate_plugin' => '<a href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin ) . '" target="_parent">' . __( 'Activate Plugin' ) . '</a>',
-			'plugins_page'    => '<a href="' . self_admin_url( 'plugins.php' ) . '" target="_parent">' . __( 'Return to Plugins page' ) . '</a>',
+			'activate_plugin' => sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin ),
+				__( 'Activate Plugin' )
+			),
+			'plugins_page'    => sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'plugins.php' ),
+				__( 'Return to Plugins page' )
+			),
 		);
+
 		if ( $this->plugin_active || ! $this->result || is_wp_error( $this->result ) || ! current_user_can( 'activate_plugin', $this->plugin ) ) {
 			unset( $update_actions['activate_plugin'] );
 		}

@@ -327,8 +327,8 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 	) {
 		return new WP_Error(
 			'menu_exists',
-			/* translators: %s: menu name */
 			sprintf(
+				/* translators: %s: menu name */
 				__( 'The menu name %s conflicts with another menu name. Please try another.' ),
 				'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
 			)
@@ -342,8 +342,8 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		if ( $menu_exists ) {
 			return new WP_Error(
 				'menu_exists',
-				/* translators: %s: menu name */
 				sprintf(
+					/* translators: %s: menu name */
 					__( 'The menu name %s conflicts with another menu name. Please try another.' ),
 					'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
 				)

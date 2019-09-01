@@ -42,8 +42,19 @@ if ( ! is_multisite() ) {
 	} else {
 		$cap = 'update_languages';
 	}
-	/* translators: %s: number of pending updates */
-	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . '</span></span>' ), $cap, 'update-core.php' );
+	$submenu['index.php'][10] = array(
+		sprintf(
+			/* translators: %s: number of pending updates */
+			__( 'Updates %s' ),
+			sprintf(
+				'<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
+				$update_data['counts']['total'],
+				number_format_i18n( $update_data['counts']['total'] )
+			)
+		),
+		$cap,
+		'update-core.php',
+	);
 	unset( $cap );
 }
 
@@ -78,11 +89,11 @@ if ( current_user_can( 'edit_posts' ) ) {
 	$awaiting_mod      = wp_count_comments();
 	$awaiting_mod      = $awaiting_mod->moderated;
 	$awaiting_mod_i18n = number_format_i18n( $awaiting_mod );
-	/* translators: %s: number of comments in moderation */
+	/* translators: %s: number of comments */
 	$awaiting_mod_text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $awaiting_mod ), $awaiting_mod_i18n );
 
 	$menu[25] = array(
-		/* translators: %s: number of comments in moderation */
+		/* translators: %s: number of comments */
 		sprintf( __( 'Comments %s' ), '<span class="awaiting-mod count-' . absint( $awaiting_mod ) . '"><span class="pending-count" aria-hidden="true">' . $awaiting_mod_i18n . '</span><span class="comments-in-moderation-text screen-reader-text">' . $awaiting_mod_text . '</span></span>' ),
 		'edit_posts',
 		'edit-comments.php',
@@ -217,7 +228,11 @@ if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
 	if ( ! isset( $update_data ) ) {
 		$update_data = wp_get_update_data();
 	}
-	$count = "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n( $update_data['counts']['plugins'] ) . '</span></span>';
+	$count = sprintf(
+		'<span class="update-plugins count-%s"><span class="plugin-count">%s</span></span>',
+		$update_data['counts']['plugins'],
+		number_format_i18n( $update_data['counts']['plugins'] )
+	);
 }
 
 /* translators: %s: number of pending plugin updates */

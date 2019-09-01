@@ -1085,6 +1085,7 @@ function print_embed_comments_button() {
 			<span class="dashicons dashicons-admin-comments"></span>
 			<?php
 			printf(
+				/* translators: %s: number of comments */
 				_n(
 					'%s <span class="screen-reader-text">Comment</span>',
 					'%s <span class="screen-reader-text">Comments</span>',

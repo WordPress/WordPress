@@ -77,7 +77,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 					if ( current_user_can( 'install_plugins' ) ) {
 						printf(
-							/* translators: 1: link to /wp-admin/site-health.php 2: link to /wp-admin/site-health.php?tab=debug */
+							/* translators: 1: link to /wp-admin/site-health.php, 2: link to /wp-admin/site-health.php?tab=debug */
 							__( ' <a href="%1$s">Check your site status</a>, and <a href="%2$s">learn how to debug issues</a>.' ),
 							admin_url( 'site-health.php' ),
 							admin_url( 'site-health.php?tab=debug' )
@@ -142,7 +142,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p>
 					<?php
 					printf(
-						/* translators: 1: wp_body_open 2: <body> */
+						/* translators: 1: wp_body_open, 2: <body> */
 						__( '5.2 introduces a %1$s hook, which lets themes support injecting code right at the beginning of the %2$s element.' ),
 						'<code>wp_body_open</code>',
 						'<code>&lt;body&gt;</code>'

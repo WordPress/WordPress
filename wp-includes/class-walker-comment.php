@@ -282,8 +282,8 @@ class Walker_Comment extends Walker {
 				echo get_avatar( $comment, $args['avatar_size'] );}
 			?>
 			<?php
-				/* translators: %s: comment author link */
 				printf(
+					/* translators: %s: comment author link */
 					__( '%s <span class="says">says:</span>' ),
 					sprintf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) )
 				);
@@ -368,11 +368,12 @@ class Walker_Comment extends Walker {
 					<div class="comment-author vcard">
 						<?php
 						if ( 0 != $args['avatar_size'] ) {
-							echo get_avatar( $comment, $args['avatar_size'] );}
+							echo get_avatar( $comment, $args['avatar_size'] );
+						}
 						?>
 						<?php
-							/* translators: %s: comment author link */
 							printf(
+								/* translators: %s: comment author link */
 								__( '%s <span class="says">says:</span>' ),
 								sprintf( '<b class="fn">%s</b>', get_comment_author_link( $comment ) )
 							);

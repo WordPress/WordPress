@@ -24,7 +24,19 @@ if ( current_user_can( 'update_core' ) ) {
 
 $update_data = wp_get_update_data();
 if ( $update_data['counts']['total'] ) {
-	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . '</span></span>' ), $cap, 'update-core.php' );
+	$submenu['index.php'][10] = array(
+		sprintf(
+			/* translators: %s: number of available updates */
+			__( 'Updates %s' ),
+			sprintf(
+				'<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
+				$update_data['counts']['total'],
+				number_format_i18n( $update_data['counts']['total'] )
+			)
+		),
+		$cap,
+		'update-core.php',
+	);
 } else {
 	$submenu['index.php'][10] = array( __( 'Updates' ), $cap, 'update-core.php' );
 }
@@ -45,7 +57,23 @@ $submenu['users.php'][5]  = array( __( 'All Users' ), 'manage_network_users', 'u
 $submenu['users.php'][10] = array( _x( 'Add New', 'user' ), 'create_users', 'user-new.php' );
 
 if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
-	$menu[15] = array( sprintf( __( 'Themes %s' ), "<span class='update-plugins count-{$update_data['counts']['themes']}'><span class='theme-count'>" . number_format_i18n( $update_data['counts']['themes'] ) . '</span></span>' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
+	$menu[15] = array(
+		sprintf(
+			/* translators: %s: number of available theme updates */
+			__( 'Themes %s' ),
+			sprintf(
+				'<span class="update-plugins count-%s"><span class="theme-count">%s</span></span>',
+				$update_data['counts']['themes'],
+				number_format_i18n( $update_data['counts']['themes'] )
+			)
+		),
+		'manage_network_themes',
+		'themes.php',
+		'',
+		'menu-top menu-icon-appearance',
+		'menu-appearance',
+		'dashicons-admin-appearance',
+	);
 } else {
 	$menu[15] = array( __( 'Themes' ), 'manage_network_themes', 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
 }
@@ -54,7 +82,23 @@ $submenu['themes.php'][10] = array( _x( 'Add New', 'theme' ), 'install_themes', 
 $submenu['themes.php'][15] = array( __( 'Theme Editor' ), 'edit_themes', 'theme-editor.php' );
 
 if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] ) {
-	$menu[20] = array( sprintf( __( 'Plugins %s' ), "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n( $update_data['counts']['plugins'] ) . '</span></span>' ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
+	$menu[20] = array(
+		sprintf(
+			/* translators: %s: number of available plugin updates */
+			__( 'Plugins %s' ),
+			sprintf(
+				'<span class="update-plugins count-%s"><span class="plugin-count">%s</span></span>',
+				$update_data['counts']['plugins'],
+				number_format_i18n( $update_data['counts']['plugins'] )
+			)
+		),
+		'manage_network_plugins',
+		'plugins.php',
+		'',
+		'menu-top menu-icon-plugins',
+		'menu-plugins',
+		'dashicons-admin-plugins',
+	);
 } else {
 	$menu[20] = array( __( 'Plugins' ), 'manage_network_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 }

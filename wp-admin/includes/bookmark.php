@@ -319,7 +319,7 @@ function wp_link_manager_disabled_message() {
 
 	if ( $really_can_manage_links && current_user_can( 'install_plugins' ) ) {
 		$link = network_admin_url( 'plugin-install.php?tab=search&amp;s=Link+Manager' );
-		/* translators: %s: URL of link manager plugin */
+		/* translators: %s: URL to install the Link Manager plugin */
 		wp_die( sprintf( __( 'If you are looking to use the link manager, please install the <a href="%s">Link Manager</a> plugin.' ), $link ) );
 	}
 

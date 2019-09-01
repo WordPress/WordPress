@@ -305,6 +305,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 
 			$mine_inner_html = sprintf(
+				/* translators: %s: number of posts */
 				_nx(
 					'Mine <span class="count">(%s)</span>',
 					'Mine <span class="count">(%s)</span>',
@@ -325,6 +326,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		$all_inner_html = sprintf(
+			/* translators: %s: number of posts */
 			_nx(
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
@@ -374,6 +376,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 
 			$sticky_inner_html = sprintf(
+				/* translators: %s: number of posts */
 				_nx(
 					'Sticky <span class="count">(%s)</span>',
 					'Sticky <span class="count">(%s)</span>',
@@ -917,7 +920,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( current_user_can( 'edit_post', $post->ID ) ) :
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>">
-				<?php printf( __( 'Select %s' ), _draft_or_post_title() ); ?>
+				<?php
+					/* translators: %s: post title */
+					printf( __( 'Select %s' ), _draft_or_post_title() );
+				?>
 			</label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
 			<div class="locked-indicator">
@@ -993,7 +999,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( $lock_holder ) {
 				$lock_holder   = get_userdata( $lock_holder );
 				$locked_avatar = get_avatar( $lock_holder->ID, 18 );
-				$locked_text   = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
+				/* translators: %s: user's display name */
+				$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
 			} else {
 				$locked_avatar = '';
 				$locked_text   = '';
@@ -1066,6 +1073,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$time_diff = time() - $time;
 
 			if ( $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
+				/* translators: %s: Human-readable time difference */
 				$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
 			} else {
 				$h_time = mysql2date( __( 'Y/m/d' ), $m_time );

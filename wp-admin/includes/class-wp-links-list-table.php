@@ -170,7 +170,10 @@ class WP_Links_List_Table extends WP_List_Table {
 	public function column_cb( $link ) {
 		?>
 		<label class="screen-reader-text" for="cb-select-<?php echo $link->link_id; ?>">
-			<?php printf( __( 'Select %s' ), $link->link_name ); ?>
+			<?php
+			/* translators: %s: link name */
+			printf( __( 'Select %s' ), $link->link_name );
+			?>
 		</label>
 		<input type="checkbox" name="linkcheck[]" id="cb-select-<?php echo $link->link_id; ?>" value="<?php echo esc_attr( $link->link_id ); ?>" />
 		<?php
@@ -322,7 +325,14 @@ class WP_Links_List_Table extends WP_List_Table {
 
 		$actions           = array();
 		$actions['edit']   = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
-		$actions['delete'] = "<a class='submitdelete' href='" . wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ) . "' onclick=\"if ( confirm( '" . esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ) . "' ) ) { return true;}return false;\">" . __( 'Delete' ) . '</a>';
+		$actions['delete'] = sprintf(
+			'<a class="submitdelete" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
+			wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ),
+			/* translators: %s: link name */
+			esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ),
+			__( 'Delete' )
+		);
+
 		return $this->row_actions( $actions );
 	}
 }

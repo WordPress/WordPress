@@ -184,7 +184,12 @@ if ( ! empty( $languages ) || ! empty( $translations ) ) {
 
 			// Add note about deprecated WPLANG constant.
 			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && $locale !== WPLANG ) {
-				_deprecated_argument( 'define()', '4.0.0', sprintf( __( 'The %1$s constant in your %2$s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
+				_deprecated_argument(
+					'define()',
+					'4.0.0',
+					/* translators: 1: WPLANG, 2: wp-config.php */
+					sprintf( __( 'The %1$s constant in your %2$s file is no longer needed.' ), 'WPLANG', 'wp-config.php' )
+				);
 			}
 			?>
 		</td>
@@ -228,8 +233,8 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 <p class="timezone-info">
 	<span id="utc-time">
 	<?php
-		/* translators: 1: UTC abbreviation, 2: UTC time */
 		printf(
+			/* translators: 1: UTC abbreviation, 2: UTC time */
 			__( 'Universal time (%1$s) is %2$s.' ),
 			'<abbr>' . __( 'UTC' ) . '</abbr>',
 			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
@@ -239,8 +244,8 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 <?php if ( get_option( 'timezone_string' ) || ! empty( $current_offset ) ) : ?>
 	<span id="local-time">
 	<?php
-		/* translators: %s: local time */
 		printf(
+			/* translators: %s: local time */
 			__( 'Local time is %s.' ),
 			'<code>' . date_i18n( $timezone_format ) . '</code>'
 		);

@@ -896,7 +896,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$awaiting_mod  = wp_count_comments();
 	$awaiting_mod  = $awaiting_mod->moderated;
 	$awaiting_text = sprintf(
-		/* translators: %s: number of comments in moderation */
+		/* translators: %s: number of comments */
 		_n( '%s Comment in moderation', '%s Comments in moderation', $awaiting_mod ),
 		number_format_i18n( $awaiting_mod )
 	);

@@ -1151,8 +1151,8 @@ function trackback_url( $deprecated_echo = true ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'2.5.0',
-			/* translators: %s: get_trackback_url() */
 			sprintf(
+				/* translators: %s: get_trackback_url() */
 				__( 'Use %s instead if you do not want the value echoed.' ),
 				'<code>get_trackback_url()</code>'
 			)
@@ -1934,6 +1934,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 		$noreplytext = __( 'Leave a Reply' );
 	}
 	if ( false === $replytext ) {
+		/* translators: %s: author of the comment being replied to */
 		$replytext = __( 'Leave a Reply to %s' );
 	}
 
@@ -2292,7 +2293,11 @@ function comment_form( $args = array(), $post_id = null ) {
 		}
 	}
 
-	$required_text = sprintf( ' ' . __( 'Required fields are marked %s' ), '<span class="required">*</span>' );
+	$required_text = sprintf(
+		/* translators: %s: an asterisk symbol (*) */
+		' ' . __( 'Required fields are marked %s' ),
+		'<span class="required">*</span>'
+	);
 
 	/**
 	 * Filters the default comment form fields.
@@ -2308,16 +2313,16 @@ function comment_form( $args = array(), $post_id = null ) {
 		/** This filter is documented in wp-includes/link-template.php */
 		'must_log_in'          => '<p class="must-log-in">' . sprintf(
 			/* translators: %s: login URL */
-									__( 'You must be <a href="%s">logged in</a> to post a comment.' ),
+			__( 'You must be <a href="%s">logged in</a> to post a comment.' ),
 			wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
 		) . '</p>',
 		/** This filter is documented in wp-includes/link-template.php */
 		'logged_in_as'         => '<p class="logged-in-as">' . sprintf(
 			/* translators: 1: edit user link, 2: accessibility text, 3: user name, 4: logout URL */
-									__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
+			__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
 			get_edit_user_link(),
 			/* translators: %s: user name */
-									esc_attr( sprintf( __( 'Logged in as %s. Edit your profile.' ), $user_identity ) ),
+			esc_attr( sprintf( __( 'Logged in as %s. Edit your profile.' ), $user_identity ) ),
 			$user_identity,
 			wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
 		) . '</p>',
@@ -2330,6 +2335,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'class_submit'         => 'submit',
 		'name_submit'          => 'submit',
 		'title_reply'          => __( 'Leave a Reply' ),
+		/* translators: %s: author of the comment being replied to */
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
 		'title_reply_before'   => '<h3 id="reply-title" class="comment-reply-title">',
 		'title_reply_after'    => '</h3>',

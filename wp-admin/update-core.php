@@ -61,6 +61,7 @@ function list_core_update( $update ) {
 		$message = __( 'You are using a development version of WordPress. You can update to the latest nightly build automatically:' );
 	} else {
 		if ( $current ) {
+			/* translators: %s: WordPress version */
 			$message     = sprintf( __( 'If you need to re-install version %s, you can do so here:' ), $version_string );
 			$submit      = __( 'Re-install Now' );
 			$form_action = 'update-core.php?action=do-core-reinstall';
@@ -78,8 +79,11 @@ function list_core_update( $update ) {
 				sanitize_title( $update->current )
 			);
 
-			/* translators: %s: Update PHP page URL */
-			$php_update_message = '</p><p>' . sprintf( __( '<a href="%s">Learn more about updating PHP</a>.' ), esc_url( wp_get_update_php_url() ) );
+			$php_update_message = '</p><p>' . sprintf(
+				/* translators: %s: Update PHP page URL */
+				__( '<a href="%s">Learn more about updating PHP</a>.' ),
+				esc_url( wp_get_update_php_url() )
+			);
 
 			$annotation = wp_get_update_php_annotation();
 			if ( $annotation ) {
@@ -87,17 +91,41 @@ function list_core_update( $update ) {
 			}
 
 			if ( ! $mysql_compat && ! $php_compat ) {
-				/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number */
-				$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.' ), $version_url, $update->current, $update->php_version, $update->mysql_version, $php_version, $mysql_version ) . $php_update_message;
+				$message = sprintf(
+					/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Minimum required MySQL version number, 5: Current PHP version number, 6: Current MySQL version number */
+					__( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher and MySQL version %4$s or higher. You are running PHP version %5$s and MySQL version %6$s.' ),
+					$version_url,
+					$update->current,
+					$update->php_version,
+					$update->mysql_version,
+					$php_version,
+					$mysql_version
+				) . $php_update_message;
 			} elseif ( ! $php_compat ) {
-				/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Current PHP version number */
-				$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.' ), $version_url, $update->current, $update->php_version, $php_version ) . $php_update_message;
+				$message = sprintf(
+					/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required PHP version number, 4: Current PHP version number */
+					__( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires PHP version %3$s or higher. You are running version %4$s.' ),
+					$version_url,
+					$update->current,
+					$update->php_version,
+					$php_version
+				) . $php_update_message;
 			} elseif ( ! $mysql_compat ) {
-				/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number */
-				$message = sprintf( __( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.' ), $version_url, $update->current, $update->mysql_version, $mysql_version );
+				$message = sprintf(
+					/* translators: 1: URL to WordPress release notes, 2: WordPress version number, 3: Minimum required MySQL version number, 4: Current MySQL version number */
+					__( 'You cannot update because <a href="%1$s">WordPress %2$s</a> requires MySQL version %3$s or higher. You are running version %4$s.' ),
+					$version_url,
+					$update->current,
+					$update->mysql_version,
+					$mysql_version
+				);
 			} else {
-				/* translators: 1: URL to WordPress release notes, 2: WordPress version number including locale if necessary */
-				$message = sprintf( __( 'You can update to <a href="%1$s">WordPress %2$s</a> automatically:' ), $version_url, $version_string );
+				$message = sprintf(
+					/* translators: 1: URL to WordPress release notes, 2: WordPress version number including locale if necessary */
+					__( 'You can update to <a href="%1$s">WordPress %2$s</a> automatically:' ),
+					$version_url,
+					$version_string
+				);
 			}
 			if ( ! $mysql_compat || ! $php_compat ) {
 				$show_buttons = false;
@@ -133,7 +161,11 @@ function list_core_update( $update ) {
 		echo '<p class="hint">' . __( 'This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.' ) . '</p>';
 	} elseif ( 'en_US' == $update->locale && get_locale() != 'en_US' && ( ! $update->packages->partial && $wp_version == $update->partial_version ) ) {
 		// Partial builds don't need language-specific warnings.
-		echo '<p class="hint">' . sprintf( __( 'You are about to install WordPress %s <strong>in English (US).</strong> There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.' ), $update->response != 'development' ? $update->current : '' ) . '</p>';
+		echo '<p class="hint">' . sprintf(
+			/* translators: %s: WordPress version */
+			__( 'You are about to install WordPress %s <strong>in English (US).</strong> There is a chance this update will break your translation. You may prefer to wait for the localized version to be released.' ),
+			$update->response != 'development' ? $update->current : ''
+		) . '</p>';
 	}
 	echo '</form>';
 
@@ -240,7 +272,12 @@ function core_upgrade_preamble() {
 		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, your site will return to normal.' ) . '</p>';
 	} elseif ( ! $updates ) {
 		list( $normalized_version ) = explode( '-', $wp_version );
-		echo '<p>' . sprintf( __( '<a href="%1$s">Learn more about WordPress %2$s</a>.' ), esc_url( self_admin_url( 'about.php' ) ), $normalized_version ) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: 1: URL to About screen, 2: WordPress version */
+			__( '<a href="%1$s">Learn more about WordPress %2$s</a>.' ),
+			esc_url( self_admin_url( 'about.php' ) ),
+			$normalized_version
+		) . '</p>';
 	}
 	dismissed_updates();
 }
@@ -299,16 +336,20 @@ function list_plugin_updates() {
 
 		// Get plugin compat for running version of WordPress.
 		if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $cur_wp_version, '>=' ) ) {
-			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $cur_wp_version );
+			/* translators: %s: WordPress version */
+			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %s: 100%% (according to its author)' ), $cur_wp_version );
 		} else {
-			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $cur_wp_version );
+			/* translators: %s: WordPress version */
+			$compat = '<br />' . sprintf( __( 'Compatibility with WordPress %s: Unknown' ), $cur_wp_version );
 		}
 		// Get plugin compat for updated version of WordPress.
 		if ( $core_update_version ) {
 			if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $core_update_version, '>=' ) ) {
-				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
+				/* translators: %s: WordPress version */
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %s: 100%% (according to its author)' ), $core_update_version );
 			} else {
-				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: Unknown' ), $core_update_version );
+				/* translators: %s: WordPress version */
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %s: Unknown' ), $core_update_version );
 			}
 		}
 
@@ -317,8 +358,8 @@ function list_plugin_updates() {
 
 		if ( ! $compatible_php && current_user_can( 'update_php' ) ) {
 			$compat .= '<br>' . __( 'This update doesn&#8217;t work with your version of PHP.' ) . '&nbsp;';
-			/* translators: %s: Update PHP page URL */
 			$compat .= sprintf(
+				/* translators: %s: Update PHP page URL */
 				__( '<a href="%s">Learn more about updating PHP</a>.' ),
 				esc_url( wp_get_update_php_url() )
 			);
@@ -354,13 +395,10 @@ function list_plugin_updates() {
 		<?php if ( $compatible_php ) : ?>
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-			<?php
+				<?php
 				/* translators: %s: plugin name */
-				printf(
-					__( 'Select %s' ),
-					$plugin_data->Name
-				);
-			?>
+				printf( __( 'Select %s' ), $plugin_data->Name );
+				?>
 			</label>
 		<?php endif; ?>
 		</td>
@@ -368,8 +406,8 @@ function list_plugin_updates() {
 			<?php echo $icon; ?>
 			<strong><?php echo $plugin_data->Name; ?></strong>
 			<?php
-			/* translators: 1: plugin version, 2: new version */
 			printf(
+				/* translators: 1: plugin version, 2: new version */
 				__( 'You have version %1$s installed. Update to %2$s.' ),
 				$plugin_data->Version,
 				$plugin_data->update->new_version
@@ -439,21 +477,18 @@ function list_theme_updates() {
 		<td class="check-column">
 			<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 			<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text">
-			<?php
+				<?php
 				/* translators: %s: theme name */
-				printf(
-					__( 'Select %s' ),
-					$theme->display( 'Name' )
-				);
-			?>
+				printf( __( 'Select %s' ), $theme->display( 'Name' ) );
+				?>
 			</label>
 		</td>
 		<td class="plugin-title"><p>
 			<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
 			<strong><?php echo $theme->display( 'Name' ); ?></strong>
 			<?php
-			/* translators: 1: theme version, 2: new version */
 			printf(
+				/* translators: 1: theme version, 2: new version */
 				__( 'You have version %1$s installed. Update to %2$s.' ),
 				$theme->display( 'Version' ),
 				$theme->update['new_version']
@@ -584,8 +619,22 @@ function do_core_upgrade( $reinstall = false ) {
 	}
 
 	show_message( __( 'WordPress updated successfully' ) );
-	show_message( '<span class="hide-if-no-js">' . sprintf( __( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.' ), $result, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
-	show_message( '<span class="hide-if-js">' . sprintf( __( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ), $result, esc_url( self_admin_url( 'about.php?updated' ) ) ) . '</span>' );
+	show_message(
+		'<span class="hide-if-no-js">' . sprintf(
+			/* translators: 1: WordPress version, 2: URL to About screen */
+			__( 'Welcome to WordPress %1$s. You will be redirected to the About WordPress screen. If not, click <a href="%2$s">here</a>.' ),
+			$result,
+			esc_url( self_admin_url( 'about.php?updated' ) )
+		) . '</span>'
+	);
+	show_message(
+		'<span class="hide-if-js">' . sprintf(
+			/* translators: 1: WordPress version, 2: URL to About screen */
+			__( 'Welcome to WordPress %1$s. <a href="%2$s">Learn more</a>.' ),
+			$result,
+			esc_url( self_admin_url( 'about.php?updated' ) )
+		) . '</span>'
+	);
 	?>
 	</div>
 	<script type="text/javascript">

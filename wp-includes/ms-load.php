@@ -106,8 +106,8 @@ function ms_site_check() {
 		} else {
 			$admin_email = str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_network()->domain ) );
 			wp_die(
-				/* translators: %s: admin email link */
 				sprintf(
+					/* translators: %s: admin email link */
 					__( 'This site has not been activated yet. If you are having problems activating your site, please contact %s.' ),
 					sprintf( '<a href="mailto:%1$s">%1$s</a>', $admin_email )
 				)
@@ -489,8 +489,8 @@ function ms_not_installed( $domain, $path ) {
 		) . '</p>';
 	}
 	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
-	/* translators: %s: Documentation URL */
 	$msg .= sprintf(
+		/* translators: %s: Documentation URL */
 		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
 		__( 'https://wordpress.org/support/article/debugging-a-wordpress-network/' )
 	);

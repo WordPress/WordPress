@@ -529,13 +529,22 @@ wp_nav_menu_setup();
 wp_initial_nav_menu_meta_boxes();
 
 if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
-	$messages[] = '<div id="message" class="updated"><p>' . sprintf( __( 'Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%s">Widgets</a> screen.' ), admin_url( 'widgets.php' ) ) . '</p></div>';
+	$messages[] = '<div id="message" class="updated"><p>' . sprintf(
+		/* translators: URL to Widgets screen */
+		__( 'Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%s">Widgets</a> screen.' ),
+		admin_url( 'widgets.php' )
+	) . '</p></div>';
 }
 
 if ( ! $locations_screen ) : // Main tab
-	$overview = '<p>' . __( 'This screen is used for managing your navigation menus.' ) . '</p>';
-	/* translators: 1: Widgets admin screen URL, 2 and 3: The name of the default themes */
-	$overview .= '<p>' . sprintf( __( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the navigation menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ), admin_url( 'widgets.php' ), 'Twenty Seventeen', 'Twenty Nineteen' ) . '</p>';
+	$overview  = '<p>' . __( 'This screen is used for managing your navigation menus.' ) . '</p>';
+	$overview .= '<p>' . sprintf(
+		/* translators: 1: Widgets admin screen URL, 2 and 3: The names of the default themes */
+			__( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the navigation menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ),
+		admin_url( 'widgets.php' ),
+		'Twenty Seventeen',
+		'Twenty Nineteen'
+	) . '</p>';
 	$overview .= '<p>' . __( 'From this screen you can:' ) . '</p>';
 	$overview .= '<ul><li>' . __( 'Create, edit, and delete menus' ) . '</li>';
 	$overview .= '<li>' . __( 'Add, organize, and modify individual menu items' ) . '</li></ul>';
@@ -655,7 +664,15 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		if ( 1 == $num_locations ) {
 			echo '<p>' . __( 'Your theme supports one menu. Select which menu you would like to use.' ) . '</p>';
 		} else {
-			echo '<p>' . sprintf( _n( 'Your theme supports %s menu. Select which menu appears in each location.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
+			echo '<p>' . sprintf(
+				/* translators: %s: number of menus */
+				_n(
+					'Your theme supports %s menu. Select which menu appears in each location.',
+					'Your theme supports %s menus. Select which menu appears in each location.',
+					$num_locations
+				),
+				number_format_i18n( $num_locations )
+			) . '</p>';
 		}
 		?>
 	<div id="menu-locations-wrap">
@@ -755,6 +772,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<span class="add-edit-menu-action">
 			<?php
 			printf(
+				/* translators: %s: URL to create a new menu */
 				__( 'Edit your menu below, or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ),
 				esc_url(
 					add_query_arg(
@@ -816,6 +834,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<span class="add-new-menu-action">
 				<?php
 				printf(
+					/* translators: %s: URL to create a new menu */
 					__( 'or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ),
 					esc_url(
 						add_query_arg(

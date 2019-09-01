@@ -356,7 +356,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( current_user_can( 'edit_post', $post->ID ) ) {
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php echo $post->ID; ?>">
-				<?php printf( __( 'Select %s' ), _draft_or_post_title() ); ?>
+				<?php
+				/* translators: %s: attachment title */
+				printf( __( 'Select %s' ), _draft_or_post_title() );
+				?>
 			</label>
 			<input type="checkbox" name="media[]" id="cb-select-<?php echo $post->ID; ?>" value="<?php echo $post->ID; ?>" />
 			<?php
@@ -454,8 +457,10 @@ class WP_Media_List_Table extends WP_List_Table {
 			$t_diff = time() - $time;
 			if ( ( abs( $t_diff ) ) < DAY_IN_SECONDS ) {
 				if ( $t_diff < 0 ) {
+					/* translators: %s: Human-readable time difference */
 					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
 				} else {
+					/* translators: %s: Human-readable time difference */
 					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
 				}
 			} else {

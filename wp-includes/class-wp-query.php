@@ -1788,8 +1788,8 @@ class WP_Query {
 			_deprecated_argument(
 				'WP_Query',
 				'3.1.0',
-				/* translators: 1: caller_get_posts, 2: ignore_sticky_posts */
 				sprintf(
+					/* translators: 1: caller_get_posts, 2: ignore_sticky_posts */
 					__( '%1$s is deprecated. Use %2$s instead.' ),
 					'<code>caller_get_posts</code>',
 					'<code>ignore_sticky_posts</code>'

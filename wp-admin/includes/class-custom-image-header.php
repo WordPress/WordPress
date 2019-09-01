@@ -118,7 +118,12 @@ class Custom_Image_Header {
 				'id'      => 'set-header-text',
 				'title'   => __( 'Header Text' ),
 				'content' =>
-					'<p>' . sprintf( __( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%1$s">General Settings</a> section.' ), admin_url( 'options-general.php' ) ) . '<p>' .
+					'<p>' . sprintf(
+						/* translators: %s: URL to General Settings screen */
+						__( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%s">General Settings</a> section.' ),
+						admin_url( 'options-general.php' )
+					) .
+					'</p>' .
 					'<p>' . __( 'In the Header Text section of this page, you can choose whether to display this text or hide it. You can also choose a color for the text by clicking the Select Color button and either typing in a legitimate HTML hex value, e.g. &#8220;#ff0000&#8221; for red, or by choosing a color using the color picker.' ) . '</p>' .
 					'<p>' . __( 'Don&#8217;t forget to click &#8220;Save Changes&#8221; when you&#8217;re done!' ) . '</p>',
 			)
@@ -473,10 +478,11 @@ class Custom_Image_Header {
 <div class="notice notice-info hide-if-no-customize">
 	<p>
 			<?php
-				printf(
-					__( 'You can now manage and live-preview Custom Header in the <a href="%1$s">Customizer</a>.' ),
-					admin_url( 'customize.php?autofocus[control]=header_image' )
-				);
+			printf(
+				/* translators: %s: URL to header image configuration in Customizer */
+				__( 'You can now manage and live-preview Custom Header in the <a href="%s">Customizer</a>.' ),
+				admin_url( 'customize.php?autofocus[control]=header_image' )
+			);
 			?>
 	</p>
 </div>
@@ -484,7 +490,12 @@ class Custom_Image_Header {
 
 		<?php if ( ! empty( $this->updated ) ) { ?>
 <div id="message" class="updated">
-<p><?php printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) ); ?></p>
+	<p>
+			<?php
+			/* translators: %s: Home URL */
+			printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) );
+			?>
+	</p>
 </div>
 		<?php } ?>
 
@@ -540,6 +551,7 @@ class Custom_Image_Header {
 	<p><?php _e( 'You can select an image to be shown at the top of your site by uploading from your computer or choosing from your media library. After selecting an image you will be able to crop it.' ); ?><br />
 			<?php
 			if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
+				/* translators: 1: image width in pixels, 2: image height in pixels */
 				printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
 			} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
 				if ( ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
@@ -722,6 +734,7 @@ class Custom_Image_Header {
 
 			echo '<input type="text" name="text-color" id="text-color" value="' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
 			if ( $default_color ) {
+				/* translators: %s: Default text color */
 				echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), esc_html( $default_color ) ) . '</span>';
 			}
 			?>

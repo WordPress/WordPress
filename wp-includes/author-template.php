@@ -65,8 +65,8 @@ function the_author( $deprecated = '', $deprecated_echo = true ) {
 		_deprecated_argument(
 			__FUNCTION__,
 			'1.5.0',
-			/* translators: %s: get_the_author() */
 			sprintf(
+				/* translators: %s: get_the_author() */
 				__( 'Use %s instead if you do not want the value echoed.' ),
 				'<code>get_the_author()</code>'
 			)

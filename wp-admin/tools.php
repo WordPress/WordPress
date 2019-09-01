@@ -67,7 +67,15 @@ if ( current_user_can( 'import' ) ) :
 		?>
 		<div class="card">
 			<h2 class="title"><?php _e( 'Categories and Tags Converter' ); ?></h2>
-			<p><?php printf( __( 'If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.' ), 'import.php' ); ?></p>
+			<p>
+			<?php
+				printf(
+					/* translators: URL to Import screen */
+					__( 'If you want to convert your categories to tags (or vice versa), use the <a href="%s">Categories and Tags Converter</a> available from the Import screen.' ),
+					'import.php'
+				);
+			?>
+			</p>
 		</div>
 		<?php
 	endif;

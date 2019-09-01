@@ -86,6 +86,7 @@ function _walk_bookmarks( $bookmarks, $args = '' ) {
 			if ( '00' != substr( $bookmark->link_updated_f, 0, 2 ) ) {
 				$title .= ' (';
 				$title .= sprintf(
+					/* translators: %s: date and time of last update */
 					__( 'Last updated: %s' ),
 					gmdate(
 						get_option( 'links_updated_date_format' ),

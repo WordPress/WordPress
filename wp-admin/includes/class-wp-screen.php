@@ -1162,17 +1162,18 @@ final class WP_Screen {
 		?>
 		<fieldset class='columns-prefs'>
 		<legend class="screen-layout"><?php _e( 'Layout' ); ?></legend>
-												<?php
-												for ( $i = 1; $i <= $num; ++$i ) :
-													?>
-													<label class="columns-prefs-<?php echo $i; ?>">
-				<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>'
-													<?php checked( $screen_layout_columns, $i ); ?> />
-													<?php printf( _n( '%s column', '%s columns', $i ), number_format_i18n( $i ) ); ?>
-				</label>
-													<?php
-			endfor;
-												?>
+		<?php for ( $i = 1; $i <= $num; ++$i ) : ?>
+			<label class="columns-prefs-<?php echo $i; ?>">
+			<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>' <?php checked( $screen_layout_columns, $i ); ?> />
+			<?php
+				printf(
+					/* translators: %s: number of columns on the page */
+					_n( '%s column', '%s columns', $i ),
+					number_format_i18n( $i )
+				);
+			?>
+			</label>
+		<?php endfor; ?>
 		</fieldset>
 		<?php
 	}

@@ -2557,7 +2557,14 @@ function register_new_user( $user_login, $user_email ) {
 	$user_pass = wp_generate_password( 12, false );
 	$user_id   = wp_create_user( $sanitized_user_login, $user_pass, $user_email );
 	if ( ! $user_id || is_wp_error( $user_id ) ) {
-		$errors->add( 'registerfail', sprintf( __( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ), get_option( 'admin_email' ) ) );
+		$errors->add(
+			'registerfail',
+			sprintf(
+				/* translators: %s: admin email address */
+				__( '<strong>ERROR</strong>: Couldn&#8217;t register you&hellip; please contact the <a href="mailto:%s">webmaster</a> !' ),
+				get_option( 'admin_email' )
+			)
+		);
 		return $errors;
 	}
 

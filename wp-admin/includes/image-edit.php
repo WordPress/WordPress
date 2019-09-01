@@ -57,7 +57,15 @@ function wp_image_editor( $post_id, $msg = false ) {
 		<p><?php _e( 'You can proportionally scale the original image. For best results, scaling should be done before you crop, flip, or rotate. Images can only be scaled down, not up.' ); ?></p>
 		</div>
 		<?php if ( isset( $meta['width'], $meta['height'] ) ) : ?>
-		<p><?php printf( __( 'Original dimensions %s' ), $meta['width'] . ' &times; ' . $meta['height'] ); ?></p>
+		<p>
+			<?php
+			printf(
+				/* translators: %s: image width and height in pixels */
+				__( 'Original dimensions %s' ),
+				$meta['width'] . ' &times; ' . $meta['height']
+			);
+			?>
+		</p>
 		<?php endif ?>
 		<div class="imgedit-submit">
 
@@ -85,14 +93,13 @@ function wp_image_editor( $post_id, $msg = false ) {
 		<h2><button type="button" onclick="imageEdit.toggleHelp(this);" class="button-link"><?php _e( 'Restore Original Image' ); ?> <span class="dashicons dashicons-arrow-down imgedit-help-toggle"></span></button></h2>
 		<div class="imgedit-help">
 		<p>
-		<?php
-		_e( 'Discard any changes and restore the original image.' );
+			<?php
+			_e( 'Discard any changes and restore the original image.' );
 
-		if ( ! defined( 'IMAGE_EDIT_OVERWRITE' ) || ! IMAGE_EDIT_OVERWRITE ) {
-			echo ' ' . __( 'Previously edited copies of the image will not be deleted.' );
-		}
-
-		?>
+			if ( ! defined( 'IMAGE_EDIT_OVERWRITE' ) || ! IMAGE_EDIT_OVERWRITE ) {
+				echo ' ' . __( 'Previously edited copies of the image will not be deleted.' );
+			}
+			?>
 		</p>
 		<div class="imgedit-submit">
 		<input type="button" onclick="imageEdit.action(<?php echo "$post_id, '$nonce'"; ?>, 'restore')" class="button button-primary" value="<?php esc_attr_e( 'Restore image' ); ?>" <?php echo $can_restore; ?> />

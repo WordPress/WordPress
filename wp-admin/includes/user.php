@@ -563,14 +563,17 @@ function use_ssl_preference( $user ) {
 }
 
 /**
+ * @since MU (3.0.0)
+ *
  * @param string $text
  * @return string
  */
 function admin_created_user_email( $text ) {
 	$roles = get_editable_roles();
 	$role  = $roles[ $_REQUEST['role'] ];
-	/* translators: 1: site name, 2: site URL, 3: role */
+
 	return sprintf(
+		/* translators: 1: site name, 2: site URL, 3: role */
 		__(
 			'Hi,
 You\'ve been invited to join \'%1$s\' at

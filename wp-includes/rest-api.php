@@ -1177,6 +1177,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				}
 			} elseif ( isset( $args['additionalProperties'] ) ) {
 				if ( false === $args['additionalProperties'] ) {
+					/* translators: %s: property of an object */
 					return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not a valid property of Object.' ), $property ) );
 				}
 

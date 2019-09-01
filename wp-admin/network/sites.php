@@ -61,14 +61,23 @@ if ( isset( $_GET['action'] ) ) {
 
 	// A list of valid actions and their associated messaging for confirmation output.
 	$manage_actions = array(
+		/* translators: %s: Site URL */
 		'activateblog'   => __( 'You are about to activate the site %s.' ),
+		/* translators: %s: Site URL */
 		'deactivateblog' => __( 'You are about to deactivate the site %s.' ),
+		/* translators: %s: Site URL */
 		'unarchiveblog'  => __( 'You are about to unarchive the site %s.' ),
+		/* translators: %s: Site URL */
 		'archiveblog'    => __( 'You are about to archive the site %s.' ),
+		/* translators: %s: Site URL */
 		'unspamblog'     => __( 'You are about to unspam the site %s.' ),
+		/* translators: %s: Site URL */
 		'spamblog'       => __( 'You are about to mark the site %s as spam.' ),
+		/* translators: %s: Site URL */
 		'deleteblog'     => __( 'You are about to delete the site %s.' ),
+		/* translators: %s: Site URL */
 		'unmatureblog'   => __( 'You are about to mark the site %s as mature.' ),
+		/* translators: %s: Site URL */
 		'matureblog'     => __( 'You are about to mark the site %s as not mature.' ),
 	);
 
@@ -152,7 +161,14 @@ if ( isset( $_GET['action'] ) ) {
 					$site         = get_site( $site_id );
 					$site_address = untrailingslashit( $site->domain . $site->path );
 
-					wp_die( sprintf( __( 'Sorry, you are not allowed to delete the site %s.' ), $site_address ), 403 );
+					wp_die(
+						sprintf(
+							/* translators: %s: Site URL */
+							__( 'Sorry, you are not allowed to delete the site %s.' ),
+							$site_address
+						),
+						403
+					);
 				}
 
 				$updated_action = 'all_delete';

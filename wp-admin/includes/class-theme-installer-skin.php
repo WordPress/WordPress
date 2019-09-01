@@ -42,7 +42,11 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	 */
 	public function before() {
 		if ( ! empty( $this->api ) ) {
-			$this->upgrader->strings['process_success'] = sprintf( $this->upgrader->strings['process_success_specific'], $this->api->name, $this->api->version );
+			$this->upgrader->strings['process_success'] = sprintf(
+				$this->upgrader->strings['process_success_specific'],
+				$this->api->name,
+				$this->api->version
+			);
 		}
 	}
 
@@ -75,31 +79,53 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 		$install_actions = array();
 
 		if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
-			$customize_url               = add_query_arg(
+			$customize_url = add_query_arg(
 				array(
 					'theme'  => urlencode( $stylesheet ),
 					'return' => urlencode( admin_url( 'web' === $this->type ? 'theme-install.php' : 'themes.php' ) ),
 				),
 				admin_url( 'customize.php' )
 			);
-			$install_actions['preview']  = '<a href="' . esc_url( $customize_url ) . '" class="hide-if-no-customize load-customize">';
-			$install_actions['preview'] .= '<span aria-hidden="true">' . __( 'Live Preview' ) . '</span>';
-			/* translators: %s: theme name */
-			$install_actions['preview'] .= '<span class="screen-reader-text">' . sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name ) . '</span></a>';
+
+			$install_actions['preview'] = sprintf(
+				'<a href="%s" class="hide-if-no-customize load-customize">' .
+				'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
+				esc_url( $customize_url ),
+				__( 'Live Preview' ),
+				/* translators: %s: theme name */
+				sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name )
+			);
 		}
-		$install_actions['activate']  = '<a href="' . esc_url( $activate_link ) . '" class="activatelink">';
-		$install_actions['activate'] .= '<span aria-hidden="true">' . __( 'Activate' ) . '</span>';
-		/* translators: %s: theme name */
-		$install_actions['activate'] .= '<span class="screen-reader-text">' . sprintf( __( 'Activate &#8220;%s&#8221;' ), $name ) . '</span></a>';
+
+		$install_actions['activate'] = sprintf(
+			'<a href="%s" class="activatelink">' .
+			'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
+			esc_url( $activate_link ),
+			__( 'Activate' ),
+			/* translators: %s: theme name */
+			sprintf( __( 'Activate &#8220;%s&#8221;' ), $name )
+		);
 
 		if ( is_network_admin() && current_user_can( 'manage_network_themes' ) ) {
-			$install_actions['network_enable'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . urlencode( $stylesheet ), 'enable-theme_' . $stylesheet ) ) . '" target="_parent">' . __( 'Network Enable' ) . '</a>';
+			$install_actions['network_enable'] = sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				esc_url( wp_nonce_url( 'themes.php?action=enable&amp;theme=' . urlencode( $stylesheet ), 'enable-theme_' . $stylesheet ) ),
+				__( 'Network Enable' )
+			);
 		}
 
 		if ( $this->type == 'web' ) {
-			$install_actions['themes_page'] = '<a href="' . self_admin_url( 'theme-install.php' ) . '" target="_parent">' . __( 'Return to Theme Installer' ) . '</a>';
+			$install_actions['themes_page'] = sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'theme-install.php' ),
+				__( 'Return to Theme Installer' )
+			);
 		} elseif ( current_user_can( 'switch_themes' ) || current_user_can( 'edit_theme_options' ) ) {
-			$install_actions['themes_page'] = '<a href="' . self_admin_url( 'themes.php' ) . '" target="_parent">' . __( 'Return to Themes page' ) . '</a>';
+			$install_actions['themes_page'] = sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'themes.php' ),
+				__( 'Return to Themes page' )
+			);
 		}
 
 		if ( ! $this->result || is_wp_error( $this->result ) || is_network_admin() || ! current_user_can( 'switch_themes' ) ) {

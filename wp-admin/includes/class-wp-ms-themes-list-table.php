@@ -300,19 +300,49 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 			switch ( $type ) {
 				case 'all':
-					$text = _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $count, 'themes' );
+					/* translators: %s: number of themes */
+					$text = _nx(
+						'All <span class="count">(%s)</span>',
+						'All <span class="count">(%s)</span>',
+						$count,
+						'themes'
+					);
 					break;
 				case 'enabled':
-					$text = _nx( 'Enabled <span class="count">(%s)</span>', 'Enabled <span class="count">(%s)</span>', $count, 'themes' );
+					/* translators: %s: number of themes */
+					$text = _nx(
+						'Enabled <span class="count">(%s)</span>',
+						'Enabled <span class="count">(%s)</span>',
+						$count,
+						'themes'
+					);
 					break;
 				case 'disabled':
-					$text = _nx( 'Disabled <span class="count">(%s)</span>', 'Disabled <span class="count">(%s)</span>', $count, 'themes' );
+					/* translators: %s: number of themes */
+					$text = _nx(
+						'Disabled <span class="count">(%s)</span>',
+						'Disabled <span class="count">(%s)</span>',
+						$count,
+						'themes'
+					);
 					break;
 				case 'upgrade':
-					$text = _nx( 'Update Available <span class="count">(%s)</span>', 'Update Available <span class="count">(%s)</span>', $count, 'themes' );
+					/* translators: %s: number of themes */
+					$text = _nx(
+						'Update Available <span class="count">(%s)</span>',
+						'Update Available <span class="count">(%s)</span>',
+						$count,
+						'themes'
+					);
 					break;
 				case 'broken':
-					$text = _nx( 'Broken <span class="count">(%s)</span>', 'Broken <span class="count">(%s)</span>', $count, 'themes' );
+					/* translators: %s: number of themes */
+					$text = _nx(
+						'Broken <span class="count">(%s)</span>',
+						'Broken <span class="count">(%s)</span>',
+						$count,
+						'themes'
+					);
 					break;
 			}
 
@@ -572,8 +602,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme_meta = array();
 
 		if ( $theme->get( 'Version' ) ) {
+			/* translators: %s: theme version */
 			$theme_meta[] = sprintf( __( 'Version %s' ), $theme->display( 'Version' ) );
 		}
+
+		/* translators: %s: theme author */
 		$theme_meta[] = sprintf( __( 'By %s' ), $theme->display( 'Author' ) );
 
 		if ( $theme->get( 'ThemeURI' ) ) {

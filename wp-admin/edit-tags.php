@@ -242,7 +242,11 @@ if ( current_user_can( $tax->cap->edit_terms ) ) {
 if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $taxonomy ) {
 	$help = '';
 	if ( 'category' == $taxonomy ) {
-		$help = '<p>' . sprintf( __( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ), 'options-writing.php' ) . '</p>';
+		$help = '<p>' . sprintf(
+			/* translators: %s: URL to Writing Settings screen */
+			__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ),
+			'options-writing.php'
+		) . '</p>';
 	} elseif ( 'link_category' == $taxonomy ) {
 		$help = '<p>' . __( 'You can create groups of links by using Link Categories. Link Category names must be unique and Link Categories are separate from the categories you use for posts.' ) . '</p>';
 	} else {
@@ -596,13 +600,27 @@ if ( $can_edit_terms ) {
 </p>
 	<?php if ( current_user_can( 'import' ) ) : ?>
 	<p>
-		<?php printf( __( 'Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.' ), esc_url( $import_link ) ); ?>
+		<?php
+		printf(
+			/* translators: %s: URL to Categories to Tags Converter tool */
+			__( 'Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.' ),
+			esc_url( $import_link )
+		);
+		?>
 	</p>
 	<?php endif; ?>
 </div>
 <?php elseif ( 'post_tag' == $taxonomy && current_user_can( 'import' ) ) : ?>
 <div class="form-wrap edit-term-notes">
-<p><?php printf( __( 'Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.' ), esc_url( $import_link ) ); ?></p>
+<p>
+	<?php
+	printf(
+		/* translators: %s: URL to Categories to Tags Converter tool */
+		__( 'Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.' ),
+		esc_url( $import_link )
+	);
+	?>
+	</p>
 </div>
 	<?php
 endif;

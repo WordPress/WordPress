@@ -314,7 +314,7 @@ function wp_ajax_autocomplete_user() {
 
 	foreach ( $users as $user ) {
 		$return[] = array(
-			/* translators: 1: user_login, 2: user_email */
+			/* translators: 1: user login, 2: user email address */
 			'label' => sprintf( _x( '%1$s (%2$s)', 'user autocomplete result' ), $user->user_login, $user->user_email ),
 			'value' => $user->$field,
 		);
@@ -454,12 +454,12 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 					'time'                 => $time,
 					'in_moderation'        => $counts->moderated,
 					'i18n_comments_text'   => sprintf(
-						/* translators: %s: number of comments approved */
+						/* translators: %s: number of comments */
 						_n( '%s Comment', '%s Comments', $counts->approved ),
 						number_format_i18n( $counts->approved )
 					),
 					'i18n_moderation_text' => sprintf(
-						/* translators: %s: number of comments in moderation */
+						/* translators: %s: number of comments */
 						_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 						number_format_i18n( $counts->moderated )
 					),
@@ -526,7 +526,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				'time'                 => $time,
 				'in_moderation'        => $counts->moderated,
 				'i18n_moderation_text' => sprintf(
-					/* translators: %s: number of comments in moderation */
+					/* translators: %s: number of comments */
 					_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 					number_format_i18n( $counts->moderated )
 				),
@@ -913,8 +913,11 @@ function wp_ajax_dim_comment() {
 		$x = new WP_Ajax_Response(
 			array(
 				'what' => 'comment',
-				/* translators: %d: comment ID */
-				'id'   => new WP_Error( 'invalid_comment', sprintf( __( 'Comment %d does not exist' ), $id ) ),
+				'id'   => new WP_Error(
+					'invalid_comment',
+					/* translators: %d: comment ID */
+					sprintf( __( 'Comment %d does not exist' ), $id )
+				),
 			)
 		);
 		$x->send();
@@ -1301,12 +1304,12 @@ function wp_ajax_replyto_comment( $action ) {
 	$response['supplemental'] = array(
 		'in_moderation'        => $counts->moderated,
 		'i18n_comments_text'   => sprintf(
-			/* translators: %s: number of comments approved */
+			/* translators: %s: number of comments */
 			_n( '%s Comment', '%s Comments', $counts->approved ),
 			number_format_i18n( $counts->approved )
 		),
 		'i18n_moderation_text' => sprintf(
-			/* translators: %s: number of comments in moderation */
+			/* translators: %s: number of comments */
 			_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 			number_format_i18n( $counts->moderated )
 		),
@@ -1914,10 +1917,11 @@ function wp_ajax_inline_save() {
 		$last_user      = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
 
-		/* translators: %s: user who is currently editing the post */
+		/* translators: %s: user's display name */
 		$msg_template = __( 'Saving is disabled: %s is currently editing this post.' );
+
 		if ( $_POST['post_type'] == 'page' ) {
-			/* translators: %s: user who is currently editing the page */
+			/* translators: %s: user's display name */
 			$msg_template = __( 'Saving is disabled: %s is currently editing this page.' );
 		}
 
@@ -2626,7 +2630,7 @@ function wp_ajax_wp_fullscreen_save_post() {
 	$last_id = get_post_meta( $post_id, '_edit_last', true );
 	if ( $last_id ) {
 		$last_user = get_userdata( $last_id );
-		/* translators: 1: display_name of last user, 2: date of last edit, 3: time of last edit. */
+		/* translators: 1: user's display name, 2: date of last edit, 3: time of last edit. */
 		$last_edited = sprintf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), $last_date, $last_time );
 	} else {
 		/* translators: 1: date of last edit, 2: time of last edit. */
@@ -3480,7 +3484,7 @@ function wp_ajax_parse_embed() {
 		wp_send_json_error(
 			array(
 				'type'    => 'not-embeddable',
-				/* translators: %s: URL which cannot be embedded, between code tags */
+				/* translators: %s: URL that could not be embedded */
 				'message' => sprintf( __( '%s failed to embed.' ), '<code>' . esc_html( $url ) . '</code>' ),
 			)
 		);

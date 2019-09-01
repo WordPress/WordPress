@@ -499,6 +499,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 			$author = wp_kses( $plugin['author'], $plugins_allowedtags );
 			if ( ! empty( $author ) ) {
+				/* translators: %s: plugin author */
 				$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
 			}
 
@@ -723,13 +724,18 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<span class="num-ratings" aria-hidden="true">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
 				<div class="column-updated">
-					<strong><?php _e( 'Last Updated:' ); ?></strong> <?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
+					<strong><?php _e( 'Last Updated:' ); ?></strong>
+					<?php
+						/* translators: %s: Human-readable time difference */
+						printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) );
+					?>
 				</div>
 				<div class="column-downloaded">
 					<?php
 					if ( $plugin['active_installs'] >= 1000000 ) {
 						$active_installs_millions = floor( $plugin['active_installs'] / 1000000 );
 						$active_installs_text     = sprintf(
+							/* translators: %s: number of millions */
 							_nx( '%s+ Million', '%s+ Million', $active_installs_millions, 'Active plugin installations' ),
 							number_format_i18n( $active_installs_millions )
 						);
@@ -738,6 +744,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					} else {
 						$active_installs_text = number_format_i18n( $plugin['active_installs'] ) . '+';
 					}
+					/* translators: %s: number of installations */
 					printf( __( '%s Active Installations' ), $active_installs_text );
 					?>
 				</div>

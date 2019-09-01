@@ -241,6 +241,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'author'     => $authors[ $revision->post_author ],
 			'date'       => date_i18n( __( 'M j, Y @ H:i' ), $modified ),
 			'dateShort'  => date_i18n( _x( 'j M @ H:i', 'revision date short format' ), $modified ),
+			/* translators: %s: Human-readable time difference */
 			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( $modified_gmt, $now_gmt ) ),
 			'autosave'   => $autosave,
 			'current'    => $current,
@@ -283,6 +284,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'author'     => $authors[ $post->post_author ],
 			'date'       => date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_modified ) ),
 			'dateShort'  => date_i18n( _x( 'j M @ H:i', 'revision date short format' ), strtotime( $post->post_modified ) ),
+			/* translators: %s: Human-readable time difference */
 			'timeAgo'    => sprintf( __( '%s ago' ), human_time_diff( strtotime( $post->post_modified_gmt ), $now_gmt ) ),
 			'autosave'   => false,
 			'current'    => true,
@@ -397,6 +399,7 @@ function wp_print_revision_templates() {
 						<span class="byline">
 						<?php
 						printf(
+							/* translators: %s: user's display name */
 							__( 'Autosave by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);
@@ -406,6 +409,7 @@ function wp_print_revision_templates() {
 						<span class="byline">
 						<?php
 						printf(
+							/* translators: %s: user's display name */
 							__( 'Current Revision by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);
@@ -415,6 +419,7 @@ function wp_print_revision_templates() {
 						<span class="byline">
 						<?php
 						printf(
+							/* translators: %s: user's display name */
 							__( 'Revision by %s' ),
 							'<span class="author-name">{{ data.attributes.author.name }}</span>'
 						);

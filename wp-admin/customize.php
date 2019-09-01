@@ -207,6 +207,7 @@ do_action( 'customize_controls_print_scripts' );
 					<div class="accordion-section-title">
 						<span class="preview-notice">
 						<?php
+							/* translators: %s: Site title */
 							echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title site-title">' . get_bloginfo( 'name', 'display' ) . '</strong>' );
 						?>
 						</span>

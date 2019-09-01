@@ -47,7 +47,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		echo '<div class="update-messages lp-show-latest">';
 
-		/* translators: 1: name of project, 2: language */
+		/* translators: 1: project name (plugin, theme, or WordPress), 2: language */
 		printf( '<h2>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h2>', $name, $this->language_update->language );
 	}
 
@@ -70,8 +70,14 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	 */
 	public function bulk_footer() {
 		$this->decrement_update_count( 'translation' );
-		$update_actions                 = array();
-		$update_actions['updates_page'] = '<a href="' . self_admin_url( 'update-core.php' ) . '" target="_parent">' . __( 'Return to WordPress Updates page' ) . '</a>';
+
+		$update_actions = array(
+			'updates_page' => sprintf(
+				'<a href="%s" target="_parent">%s</a>',
+				self_admin_url( 'update-core.php' ),
+				__( 'Return to WordPress Updates page' )
+			),
+		);
 
 		/**
 		 * Filters the list of action links available following a translations update.

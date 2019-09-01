@@ -245,6 +245,7 @@ switch ( $action ) {
 		$user_id = wp_check_post_lock( $post_id );
 		if ( $user_id ) {
 			$user = get_userdata( $user_id );
+			/* translators: %s: user's display name */
 			wp_die( sprintf( __( 'You cannot move this item to the Trash. %s is currently editing.' ), $user->display_name ) );
 		}
 

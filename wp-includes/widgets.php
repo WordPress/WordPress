@@ -175,7 +175,12 @@ function register_sidebars( $number = 1, $args = array() ) {
 		$_args = $args;
 
 		if ( $number > 1 ) {
-			$_args['name'] = isset( $args['name'] ) ? sprintf( $args['name'], $i ) : sprintf( __( 'Sidebar %d' ), $i );
+			if ( isset( $args['name'] ) ) {
+				$_args['name'] = sprintf( $args['name'], $i );
+			} else {
+				/* translators: %d: Sidebar number */
+				$_args['name'] = sprintf( __( 'Sidebar %d' ), $i );
+			}
 		} else {
 			$_args['name'] = isset( $args['name'] ) ? $args['name'] : __( 'Sidebar' );
 		}
@@ -247,6 +252,7 @@ function register_sidebar( $args = array() ) {
 	$id_is_empty = empty( $args['id'] );
 
 	$defaults = array(
+		/* translators: %d: Sidebar number */
 		'name'          => sprintf( __( 'Sidebar %d' ), $i ),
 		'id'            => "sidebar-$i",
 		'description'   => '',
@@ -260,8 +266,17 @@ function register_sidebar( $args = array() ) {
 	$sidebar = wp_parse_args( $args, $defaults );
 
 	if ( $id_is_empty ) {
-		/* translators: 1: the id argument, 2: sidebar name, 3: recommended id value */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to "%3$s" to silence this notice and keep existing sidebar content.' ), '<code>id</code>', $sidebar['name'], $sidebar['id'] ), '4.2.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: 1: the id argument, 2: sidebar name, 3: recommended id value */
+				__( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to "%3$s" to silence this notice and keep existing sidebar content.' ),
+				'<code>id</code>',
+				$sidebar['name'],
+				$sidebar['id']
+			),
+			'4.2.0'
+		);
 	}
 
 	$wp_registered_sidebars[ $sidebar['id'] ] = $sidebar;
@@ -1104,8 +1119,15 @@ function the_widget( $widget, $instance = array(), $args = array() ) {
 	global $wp_widget_factory;
 
 	if ( ! isset( $wp_widget_factory->widgets[ $widget ] ) ) {
-		/* translators: %s: register_widget() */
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'Widgets need to be registered using %s, before they can be displayed.' ), '<code>register_widget()</code>' ), '4.9.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: register_widget() */
+				__( 'Widgets need to be registered using %s, before they can be displayed.' ),
+				'<code>register_widget()</code>'
+			),
+			'4.9.0'
+		);
 		return;
 	}
 

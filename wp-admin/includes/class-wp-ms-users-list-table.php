@@ -139,9 +139,36 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		$current_link_attributes = $role !== 'super' ? ' class="current" aria-current="page"' : '';
 		$role_links              = array();
-		$role_links['all']       = "<a href='" . network_admin_url( 'users.php' ) . "'$current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		$role_links['all']       = sprintf(
+			'<a href="%s"%s>%s</a>',
+			network_admin_url( 'users.php' ),
+			$current_link_attributes,
+			sprintf(
+				/* translators: number of users */
+				_nx(
+					'All <span class="count">(%s)</span>',
+					'All <span class="count">(%s)</span>',
+					$total_users,
+					'users'
+				),
+				number_format_i18n( $total_users )
+			)
+		);
 		$current_link_attributes = $role === 'super' ? ' class="current" aria-current="page"' : '';
-		$role_links['super']     = "<a href='" . network_admin_url( 'users.php?role=super' ) . "'$current_link_attributes>" . sprintf( _n( 'Super Admin <span class="count">(%s)</span>', 'Super Admins <span class="count">(%s)</span>', $total_admins ), number_format_i18n( $total_admins ) ) . '</a>';
+		$role_links['super']     = sprintf(
+			'<a href="%s"%s>%s</a>',
+			network_admin_url( 'users.php?role=super' ),
+			$current_link_attributes,
+			sprintf(
+				/* translators: number of users */
+				_n(
+					'Super Admin <span class="count">(%s)</span>',
+					'Super Admins <span class="count">(%s)</span>',
+					$total_admins
+				),
+				number_format_i18n( $total_admins )
+			)
+		);
 
 		return $role_links;
 	}
@@ -209,7 +236,10 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 		?>
 		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>">
-			<?php printf( __( 'Select %s' ), $user->user_login ); ?>
+			<?php
+			/* translators: %s: user login */
+			printf( __( 'Select %s' ), $user->user_login );
+			?>
 		</label>
 		<input type="checkbox" id="blog_<?php echo $user->ID; ?>" name="allusers[]" value="<?php echo esc_attr( $user->ID ); ?>" />
 		<?php

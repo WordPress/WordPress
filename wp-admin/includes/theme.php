@@ -76,7 +76,11 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	$deleted    = $wp_filesystem->delete( $theme_dir, true );
 
 	if ( ! $deleted ) {
-		return new WP_Error( 'could_not_remove_theme', sprintf( __( 'Could not fully remove the theme %s.' ), $stylesheet ) );
+		return new WP_Error(
+			'could_not_remove_theme',
+			/* translators: %s: Theme name */
+			sprintf( __( 'Could not fully remove the theme %s.' ), $stylesheet )
+		);
 	}
 
 	$theme_translations = wp_get_installed_translations( 'themes' );
@@ -195,8 +199,8 @@ function get_theme_update_available( $theme ) {
 
 		if ( ! is_multisite() ) {
 			if ( ! current_user_can( 'update_themes' ) ) {
-				/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
 				$html = sprintf(
+					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>.' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
@@ -208,8 +212,8 @@ function get_theme_update_available( $theme ) {
 					$update['new_version']
 				);
 			} elseif ( empty( $update['package'] ) ) {
-				/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
 				$html = sprintf(
+					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
@@ -221,8 +225,8 @@ function get_theme_update_available( $theme ) {
 					$update['new_version']
 				);
 			} else {
-				/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 				$html = sprintf(
+					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a> or <a href="%5$s" %6$s>update now</a>.' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
@@ -717,8 +721,18 @@ function customize_themes_print_templates() {
 					<# if ( data.active ) { #>
 						<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 					<# } #>
-					<h2 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h2>
-					<h3 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h3>
+					<h2 class="theme-name">{{{ data.name }}}<span class="theme-version">
+						<?php
+						/* translators: %s: theme version */
+						printf( __( 'Version: %s' ), '{{ data.version }}' );
+						?>
+					</span></h2>
+					<h3 class="theme-author">
+						<?php
+						/* translators: %s: theme author link */
+						printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' );
+						?>
+					</h3>
 
 					<# if ( data.stars && 0 != data.num_ratings ) { #>
 						<div class="theme-rating">
@@ -745,7 +759,15 @@ function customize_themes_print_templates() {
 					<# } #>
 
 					<# if ( data.parent ) { #>
-						<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
+						<p class="parent-theme">
+							<?php
+							printf(
+								/* translators: %s: theme name */
+								__( 'This is a child theme of %s.' ),
+								'<strong>{{{ data.parent }}}</strong>'
+							);
+							?>
+						</p>
 					<# } #>
 
 					<p class="theme-description">{{{ data.description }}}</p>

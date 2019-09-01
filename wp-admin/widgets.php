@@ -292,7 +292,12 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	<div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 	<div class="editwidget"<?php echo $width; ?>>
-	<h2><?php printf( __( 'Widget %s' ), $name ); ?></h2>
+	<h2>
+	<?php
+	/* translators: %s: widget name */
+	printf( __( 'Widget %s' ), $name );
+	?>
+	</h2>
 
 	<form action="widgets.php" method="post">
 	<div class="widget-inside">

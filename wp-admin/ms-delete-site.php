@@ -20,7 +20,13 @@ if ( ! current_user_can( 'delete_site' ) ) {
 if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' ) != false ) {
 	if ( hash_equals( get_option( 'delete_blog_hash' ), $_GET['h'] ) ) {
 		wpmu_delete_blog( get_current_blog_id() );
-		wp_die( sprintf( __( 'Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.' ), get_network()->site_name ) );
+		wp_die(
+			sprintf(
+				/* translators: %s: Network name */
+				__( 'Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.' ),
+				get_network()->site_name
+			)
+		);
 	} else {
 		wp_die( __( 'Sorry, the link you clicked is stale. Please select another option.' ) );
 	}
@@ -98,7 +104,15 @@ Webmaster
 	<?php
 } else {
 	?>
-	<p><?php printf( __( 'If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.' ), get_network()->site_name ); ?></p>
+	<p>
+	<?php
+		printf(
+			/* translators: %s: Network name */
+			__( 'If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.' ),
+			get_network()->site_name
+		);
+	?>
+	</p>
 	<p><?php _e( 'Remember, once deleted your site cannot be restored.' ); ?></p>
 
 	<form method="post" name="deletedirect">

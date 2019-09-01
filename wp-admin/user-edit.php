@@ -259,7 +259,11 @@ switch ( $action ) {
 		<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
 	<tr class="user-rich-editing-wrap">
 		<th scope="row"><?php _e( 'Visual Editor' ); ?></th>
-		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php checked( 'false', $profileuser->rich_editing ); ?> /> <?php _e( 'Disable the visual editor when writing' ); ?></label></td>
+		<td>
+			<label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php checked( 'false', $profileuser->rich_editing ); ?> />
+				<?php _e( 'Disable the visual editor when writing' ); ?>
+			</label>
+		</td>
 	</tr>
 		<?php endif; ?>
 		<?php
@@ -274,18 +278,22 @@ switch ( $action ) {
 		user_can( $profileuser, 'edit_themes' )
 		);
 		?>
+
 		<?php if ( $show_syntax_highlighting_preference ) : ?>
 	<tr class="user-syntax-highlighting-wrap">
 		<th scope="row"><?php _e( 'Syntax Highlighting' ); ?></th>
 		<td>
-			<label for="syntax_highlighting"><input name="syntax_highlighting" type="checkbox" id="syntax_highlighting" value="false" <?php checked( 'false', $profileuser->syntax_highlighting ); ?> /> <?php _e( 'Disable syntax highlighting when editing code' ); ?></label>
+			<label for="syntax_highlighting"><input name="syntax_highlighting" type="checkbox" id="syntax_highlighting" value="false" <?php checked( 'false', $profileuser->syntax_highlighting ); ?> />
+				<?php _e( 'Disable syntax highlighting when editing code' ); ?>
+			</label>
 		</td>
 	</tr>
-<?php endif; ?>
+		<?php endif; ?>
+
 		<?php if ( count( $_wp_admin_css_colors ) > 1 && has_action( 'admin_color_scheme_picker' ) ) : ?>
-<tr class="user-admin-color-wrap">
-<th scope="row"><?php _e( 'Admin Color Scheme' ); ?></th>
-<td>
+	<tr class="user-admin-color-wrap">
+		<th scope="row"><?php _e( 'Admin Color Scheme' ); ?></th>
+		<td>
 			<?php
 			/**
 			 * Fires in the 'Admin Color Scheme' section of the user editing screen.
@@ -300,36 +308,44 @@ switch ( $action ) {
 			 */
 			do_action( 'admin_color_scheme_picker', $user_id );
 			?>
-</td>
-</tr>
+		</td>
+	</tr>
 			<?php
 endif; // $_wp_admin_css_colors
 		if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) :
 			?>
-<tr class="user-comment-shortcuts-wrap">
-<th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
-<td><label for="comment_shortcuts"><input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php checked( 'true', $profileuser->comment_shortcuts ); ?> /> <?php _e( 'Enable keyboard shortcuts for comment moderation.' ); ?></label> <?php _e( '<a href="https://wordpress.org/support/article/keyboard-shortcuts/" target="_blank">More information</a>' ); ?></td>
-</tr>
+	<tr class="user-comment-shortcuts-wrap">
+		<th scope="row"><?php _e( 'Keyboard Shortcuts' ); ?></th>
+		<td>
+			<label for="comment_shortcuts">
+				<input type="checkbox" name="comment_shortcuts" id="comment_shortcuts" value="true" <?php checked( 'true', $profileuser->comment_shortcuts ); ?> />
+				<?php _e( 'Enable keyboard shortcuts for comment moderation.' ); ?>
+			</label>
+			<?php _e( '<a href="https://wordpress.org/support/article/keyboard-shortcuts/" target="_blank">More information</a>' ); ?>
+		</td>
+	</tr>
 		<?php endif; ?>
-<tr class="show-admin-bar user-admin-bar-front-wrap">
-<th scope="row"><?php _e( 'Toolbar' ); ?></th>
-<td>
-<label for="admin_bar_front">
-<input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1"<?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
-		<?php _e( 'Show Toolbar when viewing site' ); ?></label><br />
-</td>
-</tr>
+
+	<tr class="show-admin-bar user-admin-bar-front-wrap">
+		<th scope="row"><?php _e( 'Toolbar' ); ?></th>
+		<td>
+			<label for="admin_bar_front">
+				<input name="admin_bar_front" type="checkbox" id="admin_bar_front" value="1"<?php checked( _get_admin_bar_pref( 'front', $profileuser->ID ) ); ?> />
+				<?php _e( 'Show Toolbar when viewing site' ); ?>
+			</label><br />
+		</td>
+	</tr>
 
 		<?php
 		$languages = get_available_languages();
 		if ( $languages ) :
 			?>
-<tr class="user-language-wrap">
-	<th scope="row">
+	<tr class="user-language-wrap">
+		<th scope="row">
 			<?php /* translators: The user language selection field label */ ?>
-		<label for="locale"><?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label>
-	</th>
-	<td>
+			<label for="locale"><?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label>
+		</th>
+		<td>
 			<?php
 				$user_locale = $profileuser->locale;
 
@@ -350,8 +366,8 @@ endif; // $_wp_admin_css_colors
 				)
 			);
 			?>
-	</td>
-</tr>
+		</td>
+	</tr>
 			<?php
 endif;
 		?>
@@ -566,8 +582,8 @@ endif; //!IS_PROFILE_PAGE
 		<p class="description">
 			<?php
 			if ( IS_PROFILE_PAGE ) {
-				/* translators: %s: Gravatar URL */
 				$description = sprintf(
+					/* translators: %s: Gravatar URL */
 					__( '<a href="%s">You can change your profile picture on Gravatar</a>.' ),
 					__( 'https://en.gravatar.com/' )
 				);
@@ -740,7 +756,13 @@ endif; //!IS_PROFILE_PAGE
 					if ( '' != $output ) {
 						$output .= ', ';
 					}
-					$output .= $value ? $cap : sprintf( __( 'Denied: %s' ), $cap );
+
+					if ( $value ) {
+						$output .= $value;
+					} else {
+						/* translators: %s: capability name */
+						$output .= sprintf( __( 'Denied: %s' ), $cap );
+					}
 				}
 			}
 			echo $output;
