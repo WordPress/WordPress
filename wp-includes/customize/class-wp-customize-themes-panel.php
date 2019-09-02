@@ -71,8 +71,11 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 			<div class="accordion-section-title">
 				<span class="preview-notice">
 					<?php
-					/* translators: %s: themes panel title in the Customizer */
-					echo sprintf( __( 'You are browsing %s' ), '<strong class="panel-title">' . __( 'Themes' ) . '</strong>' ); // Separate strings for consistency with other panels.
+					printf(
+						/* translators: %s: themes panel title in the Customizer */
+						__( 'You are browsing %s' ),
+						'<strong class="panel-title">' . __( 'Themes' ) . '</strong>'
+					); // Separate strings for consistency with other panels.
 					?>
 				</span>
 				<?php if ( current_user_can( 'install_themes' ) && ! is_multisite() ) : ?>

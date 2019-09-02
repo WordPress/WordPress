@@ -131,8 +131,12 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 			$site = __( 'domain' ) . '.' . $site_domain . $current_network->path;
 		}
 
-		/* translators: %s: site address */
-		echo '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), $site ) . '</strong>) ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+		printf(
+			'<p>(<strong>%s</strong>) %s</p>',
+			/* translators: %s: site address */
+			sprintf( __( 'Your address will be %s.' ), $site ),
+			__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' )
+		);
 	}
 
 	// Blog Title
