@@ -624,11 +624,11 @@ function _list_meta_row( $entry, &$count ) {
 		if ( is_serialized_string( $entry['meta_value'] ) ) {
 			// This is a serialized string, so we should display it.
 			$entry['meta_value'] = maybe_unserialize( $entry['meta_value'] );
-		} else {
+		} /*else {
 			// This is a serialized array/object so we should NOT display it.
 			--$count;
 			return '';
-		}
+		}*/
 	}
 
 	$entry['meta_key']   = esc_attr( $entry['meta_key'] );
