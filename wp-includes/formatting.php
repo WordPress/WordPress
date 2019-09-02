@@ -2429,7 +2429,7 @@ function convert_invalid_entities( $content ) {
  * @return string Balanced text
  */
 function balanceTags( $text, $force = false ) {  // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
-	if ( $force || get_option( 'use_balanceTags' ) == 1 ) {
+	if ( $force || (int) get_option( 'use_balanceTags' ) === 1 ) {
 		return force_balance_tags( $text );
 	} else {
 		return $text;
@@ -2440,6 +2440,7 @@ function balanceTags( $text, $force = false ) {  // phpcs:ignore WordPress.Namin
  * Balances tags of string using a modified stack.
  *
  * @since 2.0.4
+ * @since 5.3.0 Improve accuracy and add support for custom element tags.
  *
  * @author Leonard Lin <leonard@acm.org>
  * @license GPL
@@ -2469,32 +2470,74 @@ function force_balance_tags( $text ) {
 	// WP bug fix for LOVE <3 (and other situations with '<' before a number)
 	$text = preg_replace( '#<([0-9]{1})#', '&lt;$1', $text );
 
-	while ( preg_match( '/<(\/?[\w:]*)\s*([^>]*)>/', $text, $regex ) ) {
+	/**
+	 * Matches supported tags.
+	 *
+	 * To get the pattern as a string without the comments paste into a PHP
+	 * REPL like `php -a`.
+	 *
+	 * @see https://html.spec.whatwg.org/#elements-2
+	 * @see https://w3c.github.io/webcomponents/spec/custom/#valid-custom-element-name
+	 *
+	 * @example
+	 * ~# php -a
+	 * php > $s = [paste copied contents of expression below including parentheses];
+	 * php > echo $s;
+	 */
+	$tag_pattern = (
+		'#<' . // Start with an opening bracket.
+		'(/?)' . // Group 1 - If it's a closing tag it'll have a leading slash.
+		'(' . // Group 2 - Tag name.
+			// Custom element tags have more lenient rules than HTML tag names.
+			'(?:[a-z](?:[a-z0-9._]*)-(?:[a-z0-9._-]+)+)' .
+				'|' .
+			// Traditional tag rules approximate HTML tag names.
+			'(?:[\w:]+)' .
+		')' .
+		'(?:' .
+			// We either immediately close the tag with its '>' and have nothing here.
+			'\s*' .
+			'(/?)' . // Group 3 - "attributes" for empty tag.
+				'|' .
+			// Or we must start with space characters to separate the tag name from the attributes (or whitespace).
+			'(\s+)' . // Group 4 - Pre-attribute whitespace.
+			'([^>]*)' . // Group 5 - Attributes.
+		')' .
+		'>#' // End with a closing bracket.
+	);
+
+	while ( preg_match( $tag_pattern, $text, $regex ) ) {
+		$full_match        = $regex[0];
+		$has_leading_slash = ! empty( $regex[1] );
+		$tag_name          = $regex[2];
+		$tag               = strtolower( $tag_name );
+		$is_single_tag     = in_array( $tag, $single_tags, true );
+		$pre_attribute_ws  = isset( $regex[4] ) ? $regex[4] : '';
+		$attributes        = trim( isset( $regex[5] ) ? $regex[5] : $regex[3] );
+		$has_self_closer   = '/' === substr( $attributes, -1 );
+
 		$newtext .= $tagqueue;
 
-		$i = strpos( $text, $regex[0] );
-		$l = strlen( $regex[0] );
+		$i = strpos( $text, $full_match );
+		$l = strlen( $full_match );
 
-		// clear the shifter
+		// Clear the shifter.
 		$tagqueue = '';
-		// Pop or Push
-		if ( isset( $regex[1][0] ) && '/' == $regex[1][0] ) { // End Tag
-			$tag = strtolower( substr( $regex[1], 1 ) );
-			// if too many closing tags
+		if ( $has_leading_slash ) { // End Tag.
+			// If too many closing tags.
 			if ( $stacksize <= 0 ) {
 				$tag = '';
-				// or close to be safe $tag = '/' . $tag;
+				// Or close to be safe $tag = '/' . $tag.
 
-				// if stacktop value = tag close value then pop
-			} elseif ( $tagstack[ $stacksize - 1 ] == $tag ) { // found closing tag
-				$tag = '</' . $tag . '>'; // Close Tag
-				// Pop
+				// If stacktop value = tag close value, then pop.
+			} elseif ( $tagstack[ $stacksize - 1 ] === $tag ) { // Found closing tag.
+				$tag = '</' . $tag . '>'; // Close Tag.
 				array_pop( $tagstack );
 				$stacksize--;
-			} else { // closing tag not at top, search for it
+			} else { // Closing tag not at top, search for it.
 				for ( $j = $stacksize - 1; $j >= 0; $j-- ) {
-					if ( $tagstack[ $j ] == $tag ) {
-						// add tag to tagqueue
+					if ( $tagstack[ $j ] === $tag ) {
+						// Add tag to tagqueue.
 						for ( $k = $stacksize - 1; $k >= $j; $k-- ) {
 							$tagqueue .= '</' . array_pop( $tagstack ) . '>';
 							$stacksize--;
@@ -2504,39 +2547,33 @@ function force_balance_tags( $text ) {
 				}
 				$tag = '';
 			}
-		} else { // Begin Tag
-			$tag = strtolower( $regex[1] );
-
-			// Tag Cleaning
-
-			// If it's an empty tag "< >", do nothing
-			if ( '' == $tag ) {
-				// do nothing
-			} elseif ( substr( $regex[2], -1 ) == '/' ) { // ElseIf it presents itself as a self-closing tag...
+		} else { // Begin Tag.
+			if ( $has_self_closer ) { // If it presents itself as a self-closing tag...
 				// ...but it isn't a known single-entity self-closing tag, then don't let it be treated as such and
 				// immediately close it with a closing tag (the tag will encapsulate no text as a result)
-				if ( ! in_array( $tag, $single_tags ) ) {
-					$regex[2] = trim( substr( $regex[2], 0, -1 ) ) . "></$tag";
+				if ( ! $is_single_tag ) {
+					$attributes = trim( substr( $attributes, 0, -1 ) ) . "></$tag";
 				}
-			} elseif ( in_array( $tag, $single_tags ) ) { // ElseIf it's a known single-entity tag but it doesn't close itself, do so
-				$regex[2] .= '/';
-			} else { // Else it's not a single-entity tag
-				// If the top of the stack is the same as the tag we want to push, close previous tag
-				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags ) && $tagstack[ $stacksize - 1 ] == $tag ) {
+			} elseif ( $is_single_tag ) { // ElseIf it's a known single-entity tag but it doesn't close itself, do so
+				$pre_attribute_ws = ' ';
+				$attributes      .= '/';
+			} else { // It's not a single-entity tag.
+				// If the top of the stack is the same as the tag we want to push, close previous tag.
+				if ( $stacksize > 0 && ! in_array( $tag, $nestable_tags, true ) && $tagstack[ $stacksize - 1 ] === $tag ) {
 					$tagqueue = '</' . array_pop( $tagstack ) . '>';
 					$stacksize--;
 				}
 				$stacksize = array_push( $tagstack, $tag );
 			}
 
-			// Attributes
-			$attributes = $regex[2];
-			if ( ! empty( $attributes ) && $attributes[0] != '>' ) {
-				$attributes = ' ' . $attributes;
+			// Attributes.
+			if ( $has_self_closer && $is_single_tag ) {
+				// We need some space - avoid <br/> and prefer <br />.
+				$pre_attribute_ws = ' ';
 			}
 
-			$tag = '<' . $tag . $attributes . '>';
-			//If already queuing a close tag, then put this tag on, too
+			$tag = '<' . $tag . $pre_attribute_ws . $attributes . '>';
+			// If already queuing a close tag, then put this tag on too.
 			if ( ! empty( $tagqueue ) ) {
 				$tagqueue .= $tag;
 				$tag       = '';
@@ -2546,18 +2583,17 @@ function force_balance_tags( $text ) {
 		$text     = substr( $text, $i + $l );
 	}
 
-	// Clear Tag Queue
+	// Clear Tag Queue.
 	$newtext .= $tagqueue;
 
-	// Add Remaining text
+	// Add remaining text.
 	$newtext .= $text;
 
-	// Empty Stack
 	while ( $x = array_pop( $tagstack ) ) {
-		$newtext .= '</' . $x . '>'; // Add remaining tags to close
+		$newtext .= '</' . $x . '>'; // Add remaining tags to close.
 	}
 
-	// WP fix for the bug with HTML comments
+	// WP fix for the bug with HTML comments.
 	$newtext = str_replace( '< !--', '<!--', $newtext );
 	$newtext = str_replace( '<    !--', '< !--', $newtext );
 
