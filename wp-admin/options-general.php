@@ -228,15 +228,22 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 	<?php echo wp_timezone_choice( $tzstring, get_user_locale() ); ?>
 </select>
 
-<p class="description" id="timezone-description"><?php _e( 'Choose either a city in the same timezone as you or a UTC timezone offset.' ); ?></p>
+<p class="description" id="timezone-description">
+<?php
+	printf(
+		/* translators: %s: UTC abbreviation */
+		__( 'Choose either a city in the same timezone as you or a %s (Coordinated Universal Time) time offset.' ),
+		'<abbr>UTC</abbr>'
+	);
+	?>
+</p>
 
 <p class="timezone-info">
 	<span id="utc-time">
 	<?php
 		printf(
-			/* translators: 1: UTC abbreviation, 2: UTC time */
-			__( 'Universal time (%1$s) is %2$s.' ),
-			'<abbr>' . __( 'UTC' ) . '</abbr>',
+			/* translators: 1: UTC time */
+			__( 'Universal time is %1$s.' ),
 			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
 		);
 		?>

@@ -359,11 +359,6 @@ body.trashing #publish-settings {
 	margin-top: 12px;
 }
 
-.date-time-fields .date-timezone {
-	line-height: 2.2;
-	text-decoration: none;
-}
-
 #customize-control-changeset_preview_link {
 	margin-top: 6px;
 }
@@ -1589,7 +1584,6 @@ p.customize-section-description {
 	font-size: 12px;
 	padding: 6px 8px;
 	-moz-tab-size: 2;
-	-o-tab-size: 2;
 	tab-size: 2;
 }
 .customize-control-code_editor textarea,
@@ -2782,10 +2776,6 @@ body.adding-widget .add-new-widget:before,
 
 	.date-time-fields .date-input.year {
 		width: 80px;
-	}
-
-	.date-time-fields .date-timezone {
-		line-height: 3.2;
 	}
 
 	#customize-control-changeset_preview_link a {

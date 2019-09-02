@@ -310,6 +310,11 @@ table.fixed {
 	width: 10%;
 }
 
+.column-date span[title] {
+	-webkit-text-decoration: dotted underline;
+	text-decoration: dotted underline;
+}
+
 .fixed .column-posts {
 	width: 74px;
 }

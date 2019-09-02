@@ -1127,7 +1127,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		} else {
 
 			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</abbr>';
+			echo '<span title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</span>';
 		}
 	}
 
