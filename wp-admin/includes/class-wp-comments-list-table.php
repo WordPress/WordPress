@@ -653,7 +653,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		if ( 'spam' !== $the_comment_status ) {
-			$actions['spam'] = sprinf(
+			$actions['spam'] = sprintf(
 				'<a href="%s" data-wp-lists="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
 				$spam_url,
 				"delete:the-comment-list:comment-{$comment->comment_ID}::spam=1",
