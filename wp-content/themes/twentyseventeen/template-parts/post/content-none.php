@@ -23,7 +23,7 @@
 
 			<p>
 			<?php
-			/* translators: %s: Link to post-new.php */
+			/* translators: %s: Post editor URL. */
 			printf( __( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentyseventeen' ), esc_url( admin_url( 'post-new.php' ) ) );
 			?>
 			</p>

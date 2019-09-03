@@ -31,7 +31,7 @@ get_header(); ?>
 			<header class="archive-header">
 				<h1 class="archive-title">
 				<?php
-				/* translators: author display name */
+				/* translators: Author display name. */
 				printf( __( 'Author Archives: %s', 'twentytwelve' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' );
 				?>
 				</h1>
@@ -68,7 +68,7 @@ get_header(); ?>
 				<div class="author-description">
 					<h2>
 					<?php
-					/* translators: author display name */
+					/* translators: Author display name. */
 					printf( __( 'About %s', 'twentytwelve' ), get_the_author() );
 					?>
 					</h2>

@@ -197,7 +197,7 @@ if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 
 add_screen_option( 'per_page' );
 
-/* translators: %s: site name */
+/* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
 $parent_file  = 'sites.php';

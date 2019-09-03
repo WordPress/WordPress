@@ -1167,7 +1167,7 @@ final class WP_Screen {
 			<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>' <?php checked( $screen_layout_columns, $i ); ?> />
 			<?php
 				printf(
-					/* translators: %s: number of columns on the page */
+					/* translators: %s: Number of columns on the page. */
 					_n( '%s column', '%s columns', $i ),
 					number_format_i18n( $i )
 				);

@@ -229,7 +229,7 @@ final class WP_Theme implements ArrayAccess {
 				$this->errors = new WP_Error(
 					'theme_not_found',
 					sprintf(
-						/* translators: %s: theme directory name */
+						/* translators: %s: Theme directory name. */
 						__( 'The theme directory "%s" does not exist.' ),
 						esc_html( $this->stylesheet )
 					)
@@ -281,7 +281,7 @@ final class WP_Theme implements ArrayAccess {
 			$this->errors = new WP_Error(
 				'theme_child_invalid',
 				sprintf(
-					/* translators: %s: Template */
+					/* translators: %s: Template. */
 					__( 'The theme defines itself as its parent theme. Please check the %s header.' ),
 					'<code>Template</code>'
 				)
@@ -307,7 +307,7 @@ final class WP_Theme implements ArrayAccess {
 			$this->template = $this->stylesheet;
 			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
 				$error_message = sprintf(
-					/* translators: 1: index.php, 2: link to documentation, 3: style.css */
+					/* translators: 1: index.php, 2: Documentation URL, 3: style.css */
 					__( 'Template is missing. Standalone themes need to have a %1$s template file. <a href="%2$s">Child themes</a> need to have a Template header in the %3$s stylesheet.' ),
 					'<code>index.php</code>',
 					__( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ),
@@ -344,7 +344,7 @@ final class WP_Theme implements ArrayAccess {
 				$this->errors = new WP_Error(
 					'theme_no_parent',
 					sprintf(
-						/* translators: %s: theme directory name */
+						/* translators: %s: Theme directory name. */
 						__( 'The parent theme is missing. Please install the "%s" parent theme.' ),
 						esc_html( $this->template )
 					)
@@ -371,7 +371,7 @@ final class WP_Theme implements ArrayAccess {
 				$_child->errors = new WP_Error(
 					'theme_parent_invalid',
 					sprintf(
-						/* translators: %s: theme directory name */
+						/* translators: %s: Theme directory name. */
 						__( 'The "%s" theme is not a valid parent theme.' ),
 						esc_html( $_child->template )
 					)
@@ -390,7 +390,7 @@ final class WP_Theme implements ArrayAccess {
 					$this->errors = new WP_Error(
 						'theme_parent_invalid',
 						sprintf(
-							/* translators: %s: theme directory name */
+							/* translators: %s: Theme directory name. */
 							__( 'The "%s" theme is not a valid parent theme.' ),
 							esc_html( $this->template )
 						)
@@ -888,7 +888,7 @@ final class WP_Theme implements ArrayAccess {
 			case 'Tags':
 				static $comma = null;
 				if ( ! isset( $comma ) ) {
-					/* translators: used between list items, there is a space after the comma */
+					/* translators: Used between list items, there is a space after the comma. */
 					$comma = __( ', ' );
 				}
 				$value = implode( $comma, $value );

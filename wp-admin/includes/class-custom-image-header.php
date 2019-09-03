@@ -119,7 +119,7 @@ class Custom_Image_Header {
 				'title'   => __( 'Header Text' ),
 				'content' =>
 					'<p>' . sprintf(
-						/* translators: %s: URL to General Settings screen */
+						/* translators: %s: URL to General Settings screen. */
 						__( 'For most themes, the header text is your Site Title and Tagline, as defined in the <a href="%s">General Settings</a> section.' ),
 						admin_url( 'options-general.php' )
 					) .
@@ -479,7 +479,7 @@ class Custom_Image_Header {
 	<p>
 			<?php
 			printf(
-				/* translators: %s: URL to header image configuration in Customizer */
+				/* translators: %s: URL to header image configuration in Customizer. */
 				__( 'You can now manage and live-preview Custom Header in the <a href="%s">Customizer</a>.' ),
 				admin_url( 'customize.php?autofocus[control]=header_image' )
 			);
@@ -492,7 +492,7 @@ class Custom_Image_Header {
 <div id="message" class="updated">
 	<p>
 			<?php
-			/* translators: %s: Home URL */
+			/* translators: %s: Home URL. */
 			printf( __( 'Header updated. <a href="%s">Visit your site</a> to see how it looks.' ), home_url( '/' ) );
 			?>
 	</p>
@@ -551,15 +551,15 @@ class Custom_Image_Header {
 	<p><?php _e( 'You can select an image to be shown at the top of your site by uploading from your computer or choosing from your media library. After selecting an image you will be able to crop it.' ); ?><br />
 			<?php
 			if ( ! current_theme_supports( 'custom-header', 'flex-height' ) && ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
-				/* translators: 1: image width in pixels, 2: image height in pixels */
+				/* translators: 1: Image width in pixels, 2: Image height in pixels. */
 				printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
 			} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
 				if ( ! current_theme_supports( 'custom-header', 'flex-width' ) ) {
 					printf(
-						/* translators: %s: size in pixels */
+						/* translators: %s: Size in pixels. */
 						__( 'Images should be at least %s wide.' ) . ' ',
 						sprintf(
-							/* translators: %d: custom header width */
+							/* translators: %d: Custom header width. */
 							'<strong>' . __( '%d pixels' ) . '</strong>',
 							get_theme_support( 'custom-header', 'width' )
 						)
@@ -568,10 +568,10 @@ class Custom_Image_Header {
 			} elseif ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
 				if ( ! current_theme_supports( 'custom-header', 'flex-height' ) ) {
 					printf(
-						/* translators: %s: size in pixels */
+						/* translators: %s: Size in pixels. */
 						__( 'Images should be at least %s tall.' ) . ' ',
 						sprintf(
-							/* translators: %d: custom header height */
+							/* translators: %d: Custom header height. */
 							'<strong>' . __( '%d pixels' ) . '</strong>',
 							get_theme_support( 'custom-header', 'height' )
 						)
@@ -581,10 +581,10 @@ class Custom_Image_Header {
 			if ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) {
 				if ( current_theme_supports( 'custom-header', 'width' ) ) {
 					printf(
-						/* translators: %s: size in pixels */
+						/* translators: %s: Size in pixels. */
 						__( 'Suggested width is %s.' ) . ' ',
 						sprintf(
-							/* translators: %d: custom header width */
+							/* translators: %d: Custom header width. */
 							'<strong>' . __( '%d pixels' ) . '</strong>',
 							get_theme_support( 'custom-header', 'width' )
 						)
@@ -592,10 +592,10 @@ class Custom_Image_Header {
 				}
 				if ( current_theme_supports( 'custom-header', 'height' ) ) {
 					printf(
-						/* translators: %s: size in pixels */
+						/* translators: %s: Size in pixels. */
 						__( 'Suggested height is %s.' ) . ' ',
 						sprintf(
-							/* translators: %d: custom header height */
+							/* translators: %d: Custom header height. */
 							'<strong>' . __( '%d pixels' ) . '</strong>',
 							get_theme_support( 'custom-header', 'height' )
 						)
@@ -734,7 +734,7 @@ class Custom_Image_Header {
 
 			echo '<input type="text" name="text-color" id="text-color" value="' . esc_attr( $header_textcolor ) . '"' . $default_color_attr . ' />';
 			if ( $default_color ) {
-				/* translators: %s: Default text color */
+				/* translators: %s: Default text color. */
 				echo ' <span class="description hide-if-js">' . sprintf( _x( 'Default: %s', 'color' ), esc_html( $default_color ) ) . '</span>';
 			}
 			?>

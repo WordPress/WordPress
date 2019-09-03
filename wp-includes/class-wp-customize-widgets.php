@@ -732,7 +732,7 @@ final class WP_Customize_Widgets {
 		for ( $non_rendered_count = 2; $non_rendered_count < $registered_sidebar_count; $non_rendered_count++ ) {
 			$some_non_rendered_areas_messages[ $non_rendered_count ] = html_entity_decode(
 				sprintf(
-					/* translators: %s: the number of other widget areas registered but not rendered */
+					/* translators: %s: The number of other widget areas registered but not rendered. */
 					_n(
 						'Your theme has %s other widget area, but this particular page doesn&#8217;t display it.',
 						'Your theme has %s other widget areas, but this particular page doesn&#8217;t display them.',
@@ -756,7 +756,7 @@ final class WP_Customize_Widgets {
 		} else {
 			$no_areas_shown_message = html_entity_decode(
 				sprintf(
-					/* translators: %s: the total number of widget areas registered */
+					/* translators: %s: The total number of widget areas registered. */
 					_n(
 						'Your theme has %s widget area, but this particular page doesn&#8217;t display it.',
 						'Your theme has %s widget areas, but this particular page doesn&#8217;t display them.',
@@ -787,7 +787,7 @@ final class WP_Customize_Widgets {
 				'reorderModeOn'    => __( 'Reorder mode enabled' ),
 				'reorderModeOff'   => __( 'Reorder mode closed' ),
 				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
-				/* translators: %d: the number of widgets found */
+				/* translators: %d: The number of widgets found. */
 				'widgetsFound'     => __( 'Number of widgets found: %d' ),
 				'noWidgetsFound'   => __( 'No widgets found.' ),
 			),
@@ -825,7 +825,7 @@ final class WP_Customize_Widgets {
 				<h3>
 					<span class="customize-action">
 					<?php
-						/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+						/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
 						echo sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'widgets' )->title ) );
 					?>
 					</span>

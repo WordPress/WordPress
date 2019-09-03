@@ -145,13 +145,15 @@ require( get_template_directory() . '/inc/custom-header.php' );
 function twentytwelve_get_font_url() {
 	$font_url = '';
 
-	/* translators: If there are characters in your language that are not supported
+	/*
+	 * translators: If there are characters in your language that are not supported
 	 * by Open Sans, translate this to 'off'. Do not translate into your own language.
 	 */
 	if ( 'off' !== _x( 'on', 'Open Sans font: on or off', 'twentytwelve' ) ) {
 		$subsets = 'latin,latin-ext';
 
-		/* translators: To add an additional Open Sans character subset specific to your language,
+		/*
+		 * translators: To add an additional Open Sans character subset specific to your language,
 		 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
 		 */
 		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)', 'twentytwelve' );
@@ -308,7 +310,7 @@ function twentytwelve_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-		/* translators: %s: page number */
+		/* translators: %s: Page number. */
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 	}
 
@@ -438,7 +440,7 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 						'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
 						esc_url( get_comment_link( $comment->comment_ID ) ),
 						get_comment_time( 'c' ),
-						/* translators: 1: date, 2: time */
+						/* translators: 1: Date, 2: Time. */
 						sprintf( __( '%1$s at %2$s', 'twentytwelve' ), get_comment_date(), get_comment_time() )
 					);
 				?>
@@ -486,10 +488,10 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 	 * @since Twenty Twelve 1.0
 	 */
 	function twentytwelve_entry_meta() {
-		// Translators: used between list items, there is a space after the comma.
+		/* translators: Used between list items, there is a space after the comma. */
 		$categories_list = get_the_category_list( __( ', ', 'twentytwelve' ) );
 
-		// Translators: used between list items, there is a space after the comma.
+		/* translators: Used between list items, there is a space after the comma. */
 		$tag_list = get_the_tag_list( '', __( ', ', 'twentytwelve' ) );
 
 		$date = sprintf(
@@ -503,19 +505,19 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 		$author = sprintf(
 			'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			/* translators: %s: author display name */
+			/* translators: %s: Author display name. */
 			esc_attr( sprintf( __( 'View all posts by %s', 'twentytwelve' ), get_the_author() ) ),
 			get_the_author()
 		);
 
 		if ( $tag_list ) {
-			/* translators: 1: category name, 2: tag name, 3: date, 4: author display name */
+			/* translators: 1: Category name, 2: Tag name, 3: Date, 4: Author display name. */
 			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		} elseif ( $categories_list ) {
-			/* translators: 1: category name, 3: date, 4: author display name */
+			/* translators: 1: Category name, 3: Date, 4: Author display name. */
 			$utility_text = __( 'This entry was posted in %1$s on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		} else {
-			/* translators: 3: date, 4: author display name */
+			/* translators: 3: Date, 4: Author display name. */
 			$utility_text = __( 'This entry was posted on %3$s<span class="by-author"> by %4$s</span>.', 'twentytwelve' );
 		}
 

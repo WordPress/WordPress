@@ -831,7 +831,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
 		// Look for the alternative callback style. Ignore the previous default.
 		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
-			/* translators: %s: number of items (tags) */
+			/* translators: %s: Number of items (tags). */
 			$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 		} else {
 			$translate_nooped_plural = false;
@@ -842,7 +842,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$translate_nooped_plural = _n_noop( $args['single_text'], $args['multiple_text'] );
 	} else {
 		// This is the default for when no callback, plural, or argument is passed in.
-		/* translators: %s: number of items (tags) */
+		/* translators: %s: Number of items (tags). */
 		$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 	}
 

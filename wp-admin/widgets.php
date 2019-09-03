@@ -294,7 +294,7 @@ if ( isset( $_GET['editwidget'] ) && $_GET['editwidget'] ) {
 	<div class="editwidget"<?php echo $width; ?>>
 	<h2>
 	<?php
-	/* translators: %s: widget name */
+	/* translators: %s: Widget name. */
 	printf( __( 'Widget %s' ), $name );
 	?>
 	</h2>

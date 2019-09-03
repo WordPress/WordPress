@@ -17,7 +17,7 @@
 		<p>
 			<?php
 			printf(
-				/* translators: %s: a link to the embedded site */
+				/* translators: %s: A link to the embedded site. */
 				__( 'It looks like nothing was found at this location. Maybe try visiting %s directly?' ),
 				'<strong><a href="' . esc_url( home_url() ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a></strong>'
 			);

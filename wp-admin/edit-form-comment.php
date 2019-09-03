@@ -109,7 +109,7 @@ $datef = __( 'M j, Y @ H:i' );
 <span id="timestamp">
 <?php
 printf(
-	/* translators: %s: comment date */
+	/* translators: %s: Comment date. */
 	__( 'Submitted on: %s' ),
 	'<b>' . date_i18n( $datef, strtotime( $comment->comment_date ) ) . '</b>'
 );
@@ -135,7 +135,7 @@ if ( current_user_can( 'edit_post', $post_id ) ) {
 <div class="misc-pub-section misc-pub-response-to">
 	<?php
 	printf(
-		/* translators: %s: post link */
+		/* translators: %s: Post link. */
 		__( 'In response to: %s' ),
 		'<b>' . $post_link . '</b>'
 	);
@@ -152,7 +152,7 @@ if ( $comment->comment_parent ) :
 	<div class="misc-pub-section misc-pub-reply-to">
 		<?php
 		printf(
-			/* translators: %s: comment link */
+			/* translators: %s: Comment link. */
 			__( 'In reply to: %s' ),
 			'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
 		);

@@ -195,7 +195,7 @@ final class WP_Customize_Nav_Menus {
 			foreach ( $posts as $post ) {
 				$post_title = $post->post_title;
 				if ( '' === $post_title ) {
-					/* translators: %d: ID of a post */
+					/* translators: %d: ID of a post. */
 					$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
 				}
 				$items[] = array(
@@ -348,7 +348,7 @@ final class WP_Customize_Nav_Menus {
 		foreach ( $posts as $post ) {
 			$post_title = $post->post_title;
 			if ( '' === $post_title ) {
-				/* translators: %d: ID of a post */
+				/* translators: %d: ID of a post. */
 				$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
 			}
 			$items[] = array(
@@ -433,7 +433,7 @@ final class WP_Customize_Nav_Menus {
 		if ( 1 === $num_locations ) {
 			$locations_description = __( 'Your theme can display menus in one location.' );
 		} else {
-			/* translators: %s: number of menu locations */
+			/* translators: %s: Number of menu locations. */
 			$locations_description = sprintf( _n( 'Your theme can display menus in %s location.', 'Your theme can display menus in %s locations.', $num_locations ), number_format_i18n( $num_locations ) );
 		}
 
@@ -446,7 +446,7 @@ final class WP_Customize_Nav_Menus {
 				'unnamed'                => _x( '(unnamed)', 'Missing menu name.' ),
 				'custom_label'           => __( 'Custom Link' ),
 				'page_label'             => get_post_type_object( 'page' )->labels->singular_name,
-				/* translators: %s:      menu location */
+				/* translators: %s: Menu location. */
 				'menuLocation'           => _x( '(Currently set to: %s)', 'menu' ),
 				'locationsTitle'         => 1 === $num_locations ? __( 'Menu Location' ) : __( 'Menu Locations' ),
 				'locationsDescription'   => $locations_description,
@@ -460,15 +460,15 @@ final class WP_Customize_Nav_Menus {
 				'movedDown'              => __( 'Menu item moved down' ),
 				'movedLeft'              => __( 'Menu item moved out of submenu' ),
 				'movedRight'             => __( 'Menu item is now a sub-item' ),
-				/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+				/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
 				'customizingMenus'       => sprintf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'nav_menus' )->title ) ),
-				/* translators: %s: title of menu item which is invalid */
+				/* translators: %s: Title of an invalid menu item. */
 				'invalidTitleTpl'        => __( '%s (Invalid)' ),
-				/* translators: %s: title of menu item in draft status */
+				/* translators: %s: Title of a menu item in draft status. */
 				'pendingTitleTpl'        => __( '%s (Pending)' ),
-				/* translators: %d: number of menu items found  */
+				/* translators: %d: Number of menu items found. */
 				'itemsFound'             => __( 'Number of items found: %d' ),
-				/* translators: %d: number of additional menu items found  */
+				/* translators: %d: Number of additional menu items found. */
 				'itemsFoundMore'         => __( 'Additional items found: %d' ),
 				'itemsLoadingMore'       => __( 'Loading more results... please wait.' ),
 				'reorderModeOn'          => __( 'Reorder mode enabled' ),
@@ -494,17 +494,17 @@ final class WP_Customize_Nav_Menus {
 			'moveUp'                  => __( 'Move up one' ),
 			'moveDown'                => __( 'Move down one' ),
 			'moveToTop'               => __( 'Move to the top' ),
-			/* translators: %s: previous item name */
+			/* translators: %s: Previous item name. */
 			'moveUnder'               => __( 'Move under %s' ),
-			/* translators: %s: previous item name */
+			/* translators: %s: Previous item name. */
 			'moveOutFrom'             => __( 'Move out from under %s' ),
-			/* translators: %s: previous item name */
+			/* translators: %s: Previous item name. */
 			'under'                   => __( 'Under %s' ),
-			/* translators: %s: previous item name */
+			/* translators: %s: Previous item name. */
 			'outFrom'                 => __( 'Out from under %s' ),
-			/* translators: 1: item name, 2: item position, 3: total number of items */
+			/* translators: 1: Item name, 2: Item position, 3: Total number of items. */
 			'menuFocus'               => __( '%1$s. Menu item %2$d of %3$d.' ),
-			/* translators: 1: item name, 2: item position, 3: parent item name */
+			/* translators: 1: Item name, 2: Item position, 3: Parent item name. */
 			'subMenuFocus'            => __( '%1$s. Sub item number %2$d under %3$s.' ),
 		);
 		wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
@@ -593,7 +593,7 @@ final class WP_Customize_Nav_Menus {
 		$description = '<p>' . __( 'This panel is used for managing navigation menus for content you have already published on your site. You can create menus and add items for existing content such as pages, posts, categories, tags, formats, or custom links.' ) . '</p>';
 		if ( current_theme_supports( 'widgets' ) ) {
 			$description .= '<p>' . sprintf(
-				/* translators: %s: URL to the widgets panel of the customizer */
+				/* translators: %s: URL to the Widgets panel of the Customizer. */
 				__( 'Menus can be displayed in locations defined by your theme or in <a href="%s">widget areas</a> by adding a &#8220;Navigation Menu&#8221; widget.' ),
 				"javascript:wp.customize.panel( 'widgets' ).focus();"
 			) . '</p>';
@@ -624,12 +624,12 @@ final class WP_Customize_Nav_Menus {
 		if ( 1 == $num_locations ) {
 			$description = '<p>' . __( 'Your theme can display menus in one location. Select which menu you would like to use.' ) . '</p>';
 		} else {
-			/* translators: %s: number of menu locations */
+			/* translators: %s: Number of menu locations. */
 			$description = '<p>' . sprintf( _n( 'Your theme can display menus in %s location. Select which menu you would like to use.', 'Your theme can display menus in %s locations. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) ) . '</p>';
 		}
 
 		if ( current_theme_supports( 'widgets' ) ) {
-			/* translators: URL to the widgets panel of the customizer */
+			/* translators: URL to the Widgets panel of the Customizer. */
 			$description .= '<p>' . sprintf( __( 'If your theme has widget areas, you can also add menus there. Visit the <a href="%s">Widgets panel</a> and add a &#8220;Navigation Menu widget&#8221; to display a menu in a sidebar or footer.' ), "javascript:wp.customize.panel( 'widgets' ).focus();" ) . '</p>';
 		}
 
@@ -976,7 +976,7 @@ final class WP_Customize_Nav_Menus {
 			}
 
 			$data = array(
-				/* translators: 1: post type name, 2: error message */
+				/* translators: 1: Post type name, 2: Error message. */
 				'message' => sprintf( __( '%1$s could not be created: %2$s' ), $singular_name, $error->get_error_message() ),
 			);
 			wp_send_json_error( $data );
@@ -1010,7 +1010,7 @@ final class WP_Customize_Nav_Menus {
 						<button type="button" class="button-link item-add">
 							<span class="screen-reader-text">
 							<?php
-								/* translators: 1: title of a menu item, 2: type of a menu item */
+								/* translators: 1: Title of a menu item, 2: Type of a menu item. */
 								printf( __( 'Add to menu: %1$s (%2$s)' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.type_label }}' );
 							?>
 							</span>
@@ -1083,7 +1083,7 @@ final class WP_Customize_Nav_Menus {
 				<h3>
 					<span class="customize-action">
 						<?php
-							/* translators: &#9656; is the unicode right-pointing triangle, and %s is the section title in the Customizer */
+							/* translators: &#9656; is the unicode right-pointing triangle. %s: Section title in the Customizer. */
 							printf( __( 'Customizing &#9656; %s' ), esc_html( $this->manager->get_panel( 'nav_menus' )->title ) );
 						?>
 					</span>
@@ -1147,7 +1147,7 @@ final class WP_Customize_Nav_Menus {
 				<button type="button" class="button-link" aria-expanded="false">
 					<span class="screen-reader-text">
 					<?php
-						/* translators: %s: Title of a section with menu items */
+						/* translators: %s: Title of a section with menu items. */
 						printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) );
 					?>
 						</span>

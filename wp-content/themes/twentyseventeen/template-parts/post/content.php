@@ -53,7 +53,7 @@
 		<?php
 		the_content(
 			sprintf(
-				/* translators: %s: Name of current post */
+				/* translators: %s: Post title. */
 				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 				get_the_title()
 			)

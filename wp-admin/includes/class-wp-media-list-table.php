@@ -282,7 +282,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$posts_columns       = array();
 		$posts_columns['cb'] = '<input type="checkbox" />';
-		/* translators: column name */
+		/* translators: Column name. */
 		$posts_columns['title']  = _x( 'File', 'column name' );
 		$posts_columns['author'] = __( 'Author' );
 
@@ -311,14 +311,14 @@ class WP_Media_List_Table extends WP_List_Table {
 			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
 		}
 
-		/* translators: column name */
+		/* translators: Column name. */
 		if ( ! $this->detached ) {
 			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
 			if ( post_type_supports( 'attachment', 'comments' ) ) {
 				$posts_columns['comments'] = '<span class="vers comment-grey-bubble" title="' . esc_attr__( 'Comments' ) . '"><span class="screen-reader-text">' . __( 'Comments' ) . '</span></span>';
 			}
 		}
-		/* translators: column name */
+		/* translators: Column name. */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
 		/**
 		 * Filters the Media list table columns.
@@ -357,7 +357,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php echo $post->ID; ?>">
 				<?php
-				/* translators: %s: attachment title */
+				/* translators: %s: Attachment title. */
 				printf( __( 'Select %s' ), _draft_or_post_title() );
 				?>
 			</label>
@@ -385,7 +385,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			$link_start = sprintf(
 				'<a href="%s" aria-label="%s">',
 				get_edit_post_link( $post->ID ),
-				/* translators: %s: attachment title */
+				/* translators: %s: Attachment title. */
 				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) )
 			);
 			$link_end = '</a>';
@@ -457,10 +457,10 @@ class WP_Media_List_Table extends WP_List_Table {
 			$t_diff = time() - $time;
 			if ( ( abs( $t_diff ) ) < DAY_IN_SECONDS ) {
 				if ( $t_diff < 0 ) {
-					/* translators: %s: Human-readable time difference */
+					/* translators: %s: Human-readable time difference. */
 					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
 				} else {
-					/* translators: %s: Human-readable time difference */
+					/* translators: %s: Human-readable time difference. */
 					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
 				}
 			} else {
@@ -516,7 +516,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				printf(
 					'<br /><a href="%s" class="hide-if-no-js detach-from-parent" aria-label="%s">%s</a>',
 					$detach_url,
-					/* translators: %s: title of the post the attachment is attached to */
+					/* translators: %s: Title of the post the attachment is attached to. */
 					esc_attr( sprintf( __( 'Detach from &#8220;%s&#8221;' ), $title ) ),
 					__( 'Detach' )
 				);
@@ -530,7 +530,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				printf(
 					'<br /><a href="#the-list" onclick="findPosts.open( \'media[]\', \'%s\' ); return false;" class="hide-if-no-js aria-button-if-js" aria-label="%s">%s</a>',
 					$post->ID,
-					/* translators: %s: attachment title */
+					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Attach &#8220;%s&#8221; to existing content' ), $title ) ),
 					__( 'Attach' )
 				);
@@ -593,7 +593,7 @@ class WP_Media_List_Table extends WP_List_Table {
 						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
 					);
 				}
-				/* translators: used between list items, there is a space after the comma */
+				/* translators: Used between list items, there is a space after the comma. */
 				echo join( __( ', ' ), $out );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . get_taxonomy( $taxonomy )->labels->no_terms . '</span>';
@@ -670,7 +670,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['edit'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					get_edit_post_link( $post->ID ),
-					/* translators: %s: attachment title */
+					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ),
 					__( 'Edit' )
 				);
@@ -680,7 +680,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					$actions['trash'] = sprintf(
 						'<a href="%s" class="submitdelete aria-button-if-js" aria-label="%s">%s</a>',
 						wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ),
-						/* translators: %s: attachment title */
+						/* translators: %s: Attachment title. */
 						esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $att_title ) ),
 						_x( 'Trash', 'verb' )
 					);
@@ -690,7 +690,7 @@ class WP_Media_List_Table extends WP_List_Table {
 						'<a href="%s" class="submitdelete aria-button-if-js"%s aria-label="%s">%s</a>',
 						wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID ),
 						$delete_ays,
-						/* translators: %s: attachment title */
+						/* translators: %s: Attachment title. */
 						esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $att_title ) ),
 						__( 'Delete Permanently' )
 					);
@@ -699,7 +699,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			$actions['view'] = sprintf(
 				'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 				get_permalink( $post->ID ),
-				/* translators: %s: attachment title */
+				/* translators: %s: Attachment title. */
 				esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $att_title ) ),
 				__( 'View' )
 			);
@@ -708,7 +708,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['attach'] = sprintf(
 					'<a href="#the-list" onclick="findPosts.open( \'media[]\', \'%s\' ); return false;" class="hide-if-no-js aria-button-if-js" aria-label="%s">%s</a>',
 					$post->ID,
-					/* translators: %s: attachment title */
+					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Attach &#8220;%s&#8221; to existing content' ), $att_title ) ),
 					__( 'Attach' )
 				);
@@ -718,7 +718,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['edit'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					get_edit_post_link( $post->ID ),
-					/* translators: %s: attachment title */
+					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ),
 					__( 'Edit' )
 				);
@@ -728,7 +728,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					$actions['untrash'] = sprintf(
 						'<a href="%s" class="submitdelete aria-button-if-js" aria-label="%s">%s</a>',
 						wp_nonce_url( "post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID ),
-						/* translators: %s: attachment title */
+						/* translators: %s: Attachment title. */
 						esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $att_title ) ),
 						__( 'Restore' )
 					);
@@ -736,7 +736,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					$actions['trash'] = sprintf(
 						'<a href="%s" class="submitdelete aria-button-if-js" aria-label="%s">%s</a>',
 						wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ),
-						/* translators: %s: attachment title */
+						/* translators: %s: Attachment title. */
 						esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $att_title ) ),
 						_x( 'Trash', 'verb' )
 					);
@@ -747,7 +747,7 @@ class WP_Media_List_Table extends WP_List_Table {
 						'<a href="%s" class="submitdelete aria-button-if-js"%s aria-label="%s">%s</a>',
 						wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID ),
 						$delete_ays,
-						/* translators: %s: attachment title */
+						/* translators: %s: Attachment title. */
 						esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $att_title ) ),
 						__( 'Delete Permanently' )
 					);
@@ -757,7 +757,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['view'] = sprintf(
 					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 					get_permalink( $post->ID ),
-					/* translators: %s: attachment title */
+					/* translators: %s: Attachment title. */
 					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $att_title ) ),
 					__( 'View' )
 				);

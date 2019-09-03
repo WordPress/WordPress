@@ -195,18 +195,18 @@ if ( ! is_file( $real_file ) ) {
 	<?php
 	if ( is_plugin_active( $plugin ) ) {
 		if ( is_writeable( $real_file ) ) {
-			/* translators: %s: plugin file name */
+			/* translators: %s: Plugin file name. */
 			echo sprintf( __( 'Editing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		} else {
-			/* translators: %s: plugin file name */
+			/* translators: %s: Plugin file name. */
 			echo sprintf( __( 'Browsing %s (active)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		}
 	} else {
 		if ( is_writeable( $real_file ) ) {
-			/* translators: %s: plugin file name */
+			/* translators: %s: Plugin file name. */
 			echo sprintf( __( 'Editing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		} else {
-			/* translators: %s: plugin file name */
+			/* translators: %s: Plugin file name. */
 			echo sprintf( __( 'Browsing %s (inactive)' ), '<strong>' . esc_html( $file ) . '</strong>' );
 		}
 	}
@@ -283,7 +283,7 @@ foreach ( $plugins as $plugin_key => $a_plugin ) {
 	<p><em>
 		<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
 			__( 'https://wordpress.org/support/article/changing-file-permissions/' )
 		);

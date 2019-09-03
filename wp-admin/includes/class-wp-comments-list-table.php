@@ -217,42 +217,42 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
 
 		$stati = array(
-			/* translators: %s: all comments count */
+			/* translators: %s: Number of comments. */
 			'all'       => _nx_noop(
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
 				'comments'
 			), // singular not used
 
-			/* translators: %s: current user's comments count */
+			/* translators: %s: Number of comments. */
 			'mine'      => _nx_noop(
 				'Mine <span class="count">(%s)</span>',
 				'Mine <span class="count">(%s)</span>',
 				'comments'
 			),
 
-			/* translators: %s: pending comments count */
+			/* translators: %s: Number of comments. */
 			'moderated' => _nx_noop(
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>',
 				'comments'
 			),
 
-			/* translators: %s: approved comments count */
+			/* translators: %s: Number of comments. */
 			'approved'  => _nx_noop(
 				'Approved <span class="count">(%s)</span>',
 				'Approved <span class="count">(%s)</span>',
 				'comments'
 			),
 
-			/* translators: %s: spam comments count */
+			/* translators: %s: Number of comments. */
 			'spam'      => _nx_noop(
 				'Spam <span class="count">(%s)</span>',
 				'Spam <span class="count">(%s)</span>',
 				'comments'
 			),
 
-			/* translators: %s: trashed comments count */
+			/* translators: %s: Number of comments. */
 			'trash'     => _nx_noop(
 				'Trash <span class="count">(%s)</span>',
 				'Trash <span class="count">(%s)</span>',
@@ -455,7 +455,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$columns['comment'] = _x( 'Comment', 'column name' );
 
 		if ( ! $post_id ) {
-			/* translators: column name or table row header */
+			/* translators: Column name or table row header. */
 			$columns['response'] = __( 'In Response To' );
 		}
 
@@ -618,39 +618,116 @@ class WP_Comments_List_Table extends WP_List_Table {
 		// Not looking at all comments.
 		if ( $comment_status && 'all' != $comment_status ) {
 			if ( 'approved' === $the_comment_status ) {
-				$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=unapproved' class='vim-u vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+				$actions['unapprove'] = sprintf(
+					'<a href="%s" data-wp-lists="%s" class="vim-u vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+					$unapprove_url,
+					"delete:the-comment-list:comment-{$comment->comment_ID}:e7e7d3:action=dim-comment&amp;new=unapproved",
+					esc_attr__( 'Unapprove this comment' ),
+					__( 'Unapprove' )
+				);
 			} elseif ( 'unapproved' === $the_comment_status ) {
-				$actions['approve'] = "<a href='$approve_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID:e7e7d3:action=dim-comment&amp;new=approved' class='vim-a vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+				$actions['approve'] = sprintf(
+					'<a href="%s" data-wp-lists="%s" class="vim-a vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+					$approve_url,
+					"delete:the-comment-list:comment-{$comment->comment_ID}:e7e7d3:action=dim-comment&amp;new=approved",
+					esc_attr__( 'Approve this comment' ),
+					__( 'Approve' )
+				);
 			}
 		} else {
-			$actions['approve']   = "<a href='$approve_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' class='vim-a aria-button-if-js' aria-label='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
-			$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' class='vim-u aria-button-if-js' aria-label='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+			$actions['approve'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="vim-a aria-button-if-js" aria-label="%s">%s</a>',
+				$approve_url,
+				"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=approved",
+				esc_attr__( 'Approve this comment' ),
+				__( 'Approve' )
+			);
+
+			$actions['unapprove'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="vim-u aria-button-if-js" aria-label="%s">%s</a>',
+				$unapprove_url,
+				"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=unapproved",
+				esc_attr__( 'Unapprove this comment' ),
+				__( 'Unapprove' )
+			);
 		}
 
 		if ( 'spam' !== $the_comment_status ) {
-			$actions['spam'] = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+			$actions['spam'] = sprinf(
+				'<a href="%s" data-wp-lists="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$spam_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}::spam=1",
+				esc_attr__( 'Mark this comment as spam' ),
+				/* translators: "Mark as spam" link. */
+				_x( 'Spam', 'verb' )
+			);
 		} elseif ( 'spam' === $the_comment_status ) {
-			$actions['unspam'] = "<a href='$unspam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID:66cc66:unspam=1' class='vim-z vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Restore this comment from the spam' ) . "'>" . _x( 'Not Spam', 'comment' ) . '</a>';
+			$actions['unspam'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$unspam_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}:66cc66:unspam=1",
+				esc_attr__( 'Restore this comment from the spam' ),
+				_x( 'Not Spam', 'comment' )
+			);
 		}
 
 		if ( 'trash' === $the_comment_status ) {
-			$actions['untrash'] = "<a href='$untrash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID:66cc66:untrash=1' class='vim-z vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Restore this comment from the Trash' ) . "'>" . __( 'Restore' ) . '</a>';
+			$actions['untrash'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="vim-z vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$untrash_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}:66cc66:untrash=1",
+				esc_attr__( 'Restore this comment from the Trash' ),
+				__( 'Restore' )
+			);
 		}
 
 		if ( 'spam' === $the_comment_status || 'trash' === $the_comment_status || ! EMPTY_TRASH_DAYS ) {
-			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::delete=1' class='delete vim-d vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Delete this comment permanently' ) . "'>" . __( 'Delete Permanently' ) . '</a>';
+			$actions['delete'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$delete_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}::delete=1",
+				esc_attr__( 'Delete this comment permanently' ),
+				__( 'Delete Permanently' )
+			);
 		} else {
-			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Move this comment to the Trash' ) . "'>" . _x( 'Trash', 'verb' ) . '</a>';
+			$actions['trash'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$trash_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
+				esc_attr__( 'Move this comment to the Trash' ),
+				_x( 'Trash', 'verb' )
+			);
 		}
 
 		if ( 'spam' !== $the_comment_status && 'trash' !== $the_comment_status ) {
-			$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' aria-label='" . esc_attr__( 'Edit this comment' ) . "'>" . __( 'Edit' ) . '</a>';
+			$actions['edit'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				"comment.php?action=editcomment&amp;c={$comment->comment_ID}",
+				esc_attr__( 'Edit this comment' ),
+				__( 'Edit' )
+			);
 
 			$format = '<button type="button" data-comment-id="%d" data-post-id="%d" data-action="%s" class="%s button-link" aria-expanded="false" aria-label="%s">%s</button>';
 
-			$actions['quickedit'] = sprintf( $format, $comment->comment_ID, $comment->comment_post_ID, 'edit', 'vim-q comment-inline', esc_attr__( 'Quick edit this comment inline' ), __( 'Quick&nbsp;Edit' ) );
+			$actions['quickedit'] = sprintf(
+				$format,
+				$comment->comment_ID,
+				$comment->comment_post_ID,
+				'edit',
+				'vim-q comment-inline',
+				esc_attr__( 'Quick edit this comment inline' ),
+				__( 'Quick&nbsp;Edit' )
+			);
 
-			$actions['reply'] = sprintf( $format, $comment->comment_ID, $comment->comment_post_ID, 'replyto', 'vim-r comment-inline', esc_attr__( 'Reply to this comment' ), __( 'Reply' ) );
+			$actions['reply'] = sprintf(
+				$format,
+				$comment->comment_ID,
+				$comment->comment_post_ID,
+				'replyto',
+				'vim-r comment-inline',
+				esc_attr__( 'Reply to this comment' ),
+				__( 'Reply' )
+			);
 		}
 
 		/** This filter is documented in wp-admin/includes/dashboard.php */
@@ -708,7 +785,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$parent_link = esc_url( get_comment_link( $parent ) );
 				$name        = get_comment_author( $parent );
 				printf(
-					/* translators: %s: comment link */
+					/* translators: %s: Comment link. */
 					__( 'In reply to %s.' ),
 					'<a href="' . $parent_link . '">' . $name . '</a>'
 				);
@@ -786,9 +863,9 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 */
 	public function column_date( $comment ) {
 		$submitted = sprintf(
-			/* translators: 1: comment date, 2: comment time */
+			/* translators: 1: Comment date, 2: Comment time. */
 			__( '%1$s at %2$s' ),
-			/* translators: comment date format. See https://secure.php.net/date */
+			/* translators: Comment date format. See https://secure.php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
 			get_comment_date( __( 'g:i a' ), $comment )
 		);

@@ -93,7 +93,7 @@ switch ( $action ) {
 			if ( is_wp_error( $response ) ) {
 				wp_die(
 					sprintf(
-						/* translators: 1: site url, 2: server error message */
+						/* translators: 1: Site URL, 2: Server error message. */
 						__( 'Warning! Problem updating %1$s. Your server may not be able to connect to sites running on it. Error message: %2$s' ),
 						$siteurl,
 						'<em>' . $response->get_error_message() . '</em>'

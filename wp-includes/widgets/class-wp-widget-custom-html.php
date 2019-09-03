@@ -222,9 +222,9 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 
 		$l10n = array(
 			'errorNotice' => array(
-				/* translators: %d: error count */
+				/* translators: %d: Error count. */
 				'singular' => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 1 ),
-				/* translators: %d: error count */
+				/* translators: %d: Error count. */
 				'plural'   => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 			),
 		);
@@ -304,13 +304,13 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		if ( 'false' !== wp_get_current_user()->syntax_highlighting ) {
 			$content .= '<p>';
 			$content .= sprintf(
-				/* translators: 1: link to user profile, 2: additional link attributes, 3: accessibility text */
+				/* translators: 1: Link to user profile, 2: Additional link attributes, 3: Accessibility text. */
 				__( 'The edit field automatically highlights code syntax. You can disable this in your <a href="%1$s" %2$s>user profile%3$s</a> to work in plain text mode.' ),
 				esc_url( get_edit_profile_url() ),
 				'class="external-link" target="_blank"',
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
-					/* translators: accessibility text */
+					/* translators: Accessibility text. */
 					__( '(opens in a new tab)' )
 				)
 			);

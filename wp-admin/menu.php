@@ -44,7 +44,7 @@ if ( ! is_multisite() ) {
 	}
 	$submenu['index.php'][10] = array(
 		sprintf(
-			/* translators: %s: number of pending updates */
+			/* translators: %s: Number of pending updates. */
 			__( 'Updates %s' ),
 			sprintf(
 				'<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
@@ -64,7 +64,7 @@ $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 $menu[10]                     = array( __( 'Media' ), 'upload_files', 'upload.php', '', 'menu-top menu-icon-media', 'menu-media', 'dashicons-admin-media' );
 	$submenu['upload.php'][5] = array( __( 'Library' ), 'upload_files', 'upload.php' );
-	/* translators: add new file */
+	/* translators: Add new file. */
 	$submenu['upload.php'][10] = array( _x( 'Add New', 'file' ), 'upload_files', 'media-new.php' );
 	$i                         = 15;
 foreach ( get_taxonomies_for_attachments( 'objects' ) as $tax ) {
@@ -78,7 +78,7 @@ foreach ( get_taxonomies_for_attachments( 'objects' ) as $tax ) {
 
 $menu[15]                           = array( __( 'Links' ), 'manage_links', 'link-manager.php', '', 'menu-top menu-icon-links', 'menu-links', 'dashicons-admin-links' );
 	$submenu['link-manager.php'][5] = array( _x( 'All Links', 'admin menu' ), 'manage_links', 'link-manager.php' );
-	/* translators: add new links */
+	/* translators: Add new links. */
 	$submenu['link-manager.php'][10] = array( _x( 'Add New', 'link' ), 'manage_links', 'link-add.php' );
 	$submenu['link-manager.php'][15] = array( __( 'Link Categories' ), 'manage_categories', 'edit-tags.php?taxonomy=link_category' );
 
@@ -89,11 +89,11 @@ if ( current_user_can( 'edit_posts' ) ) {
 	$awaiting_mod      = wp_count_comments();
 	$awaiting_mod      = $awaiting_mod->moderated;
 	$awaiting_mod_i18n = number_format_i18n( $awaiting_mod );
-	/* translators: %s: number of comments */
+	/* translators: %s: Number of comments. */
 	$awaiting_mod_text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $awaiting_mod ), $awaiting_mod_i18n );
 
 	$menu[25] = array(
-		/* translators: %s: number of comments */
+		/* translators: %s: Number of comments. */
 		sprintf( __( 'Comments %s' ), '<span class="awaiting-mod count-' . absint( $awaiting_mod ) . '"><span class="pending-count" aria-hidden="true">' . $awaiting_mod_i18n . '</span><span class="comments-in-moderation-text screen-reader-text">' . $awaiting_mod_text . '</span></span>' ),
 		'edit_posts',
 		'edit-comments.php',
@@ -235,13 +235,13 @@ if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
 	);
 }
 
-/* translators: %s: number of pending plugin updates */
+/* translators: %s: Number of pending plugin updates. */
 $menu[65] = array( sprintf( __( 'Plugins %s' ), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 
 $submenu['plugins.php'][5] = array( __( 'Installed Plugins' ), 'activate_plugins', 'plugins.php' );
 
 if ( ! is_multisite() ) {
-	/* translators: add new plugin */
+	/* translators: Add new plugin. */
 	$submenu['plugins.php'][10] = array( _x( 'Add New', 'plugin' ), 'install_plugins', 'plugin-install.php' );
 	$submenu['plugins.php'][15] = array( __( 'Plugin Editor' ), 'edit_plugins', 'plugin-editor.php' );
 }

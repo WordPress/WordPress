@@ -266,7 +266,7 @@ if ( 'update' == $action ) {
 					'options.php',
 					'2.7.0',
 					sprintf(
-						/* translators: %s: the option/setting */
+						/* translators: %s: The option/setting. */
 						__( 'The %s setting is unregistered. Unregistered settings are deprecated. See https://developer.wordpress.org/plugins/settings/settings-api/' ),
 						'<code>' . $option . '</code>'
 					)

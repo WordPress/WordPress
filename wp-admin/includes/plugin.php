@@ -210,7 +210,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 
 		if ( $plugin_data['Author'] ) {
 			$plugin_data['Description'] .= sprintf(
-				/* translators: %s: plugin author */
+				/* translators: %s: Plugin author. */
 				' <cite>' . __( 'By %s.' ) . '</cite>',
 				$plugin_data['Author']
 			);
@@ -1009,10 +1009,10 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 
 	if ( ! empty( $errors ) ) {
 		if ( 1 === count( $errors ) ) {
-			/* translators: %s: plugin filename */
+			/* translators: %s: Plugin filename. */
 			$message = __( 'Could not fully remove the plugin %s.' );
 		} else {
-			/* translators: %s: comma-separated list of plugin filenames */
+			/* translators: %s: Comma-separated list of plugin filenames. */
 			$message = __( 'Could not fully remove the plugins %s.' );
 		}
 
@@ -1125,7 +1125,7 @@ function validate_plugin_requirements( $plugin ) {
 		return new WP_Error(
 			'plugin_wp_php_incompatible',
 			sprintf(
-				/* translators: %s: plugin name */
+				/* translators: %s: Plugin name. */
 				__( '<strong>Error:</strong> Current WordPress and PHP versions do not meet minimum requirements for %s.' ),
 				$plugin_data['Name']
 			)
@@ -1134,7 +1134,7 @@ function validate_plugin_requirements( $plugin ) {
 		return new WP_Error(
 			'plugin_php_incompatible',
 			sprintf(
-				/* translators: %s: plugin name */
+				/* translators: %s: Plugin name. */
 				__( '<strong>Error:</strong> Current PHP version does not meet minimum requirements for %s.' ),
 				$plugin_data['Name']
 			)
@@ -1143,7 +1143,7 @@ function validate_plugin_requirements( $plugin ) {
 		return new WP_Error(
 			'plugin_wp_incompatible',
 			sprintf(
-				/* translators: %s: plugin name */
+				/* translators: %s: Plugin name. */
 				__( '<strong>Error:</strong> Current WordPress version does not meet minimum requirements for %s.' ),
 				$plugin_data['Name']
 			)

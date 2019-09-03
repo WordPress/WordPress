@@ -40,7 +40,7 @@ if ( ! function_exists( 'twentynineteen_posted_by' ) ) :
 	 */
 	function twentynineteen_posted_by() {
 		printf(
-			/* translators: 1: SVG icon. 2: post author, only visible to screen readers. 3: author link. */
+			/* translators: 1: SVG icon. 2: Post author, only visible to screen readers. 3: Author link. */
 			'<span class="byline">%1$s<span class="screen-reader-text">%2$s</span><span class="author vcard"><a class="url fn n" href="%3$s">%4$s</a></span></span>',
 			twentynineteen_get_icon_svg( 'person', 16 ),
 			__( 'Posted by', 'twentynineteen' ),
@@ -59,7 +59,7 @@ if ( ! function_exists( 'twentynineteen_comment_count' ) ) :
 			echo '<span class="comments-link">';
 			echo twentynineteen_get_icon_svg( 'comment', 16 );
 
-			/* translators: %s: Name of current post. Only visible to screen readers. */
+			/* translators: %s: Post title. Only visible to screen readers. */
 			comments_popup_link( sprintf( __( 'Leave a comment<span class="screen-reader-text"> on %s</span>', 'twentynineteen' ), get_the_title() ) );
 
 			echo '</span>';
@@ -82,11 +82,11 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 			// Posted on
 			twentynineteen_posted_on();
 
-			/* translators: used between list items, there is a space after the comma. */
+			/* translators: Used between list items, there is a space after the comma. */
 			$categories_list = get_the_category_list( __( ', ', 'twentynineteen' ) );
 			if ( $categories_list ) {
 				printf(
-					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of categories. */
+					/* translators: 1: SVG icon. 2: Posted in label, only visible to screen readers. 3: List of categories. */
 					'<span class="cat-links">%1$s<span class="screen-reader-text">%2$s</span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'archive', 16 ),
 					__( 'Posted in', 'twentynineteen' ),
@@ -94,11 +94,11 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 				); // WPCS: XSS OK.
 			}
 
-			/* translators: used between list items, there is a space after the comma. */
+			/* translators: Used between list items, there is a space after the comma. */
 			$tags_list = get_the_tag_list( '', __( ', ', 'twentynineteen' ) );
 			if ( $tags_list ) {
 				printf(
-					/* translators: 1: SVG icon. 2: posted in label, only visible to screen readers. 3: list of tags. */
+					/* translators: 1: SVG icon. 2: Posted in label, only visible to screen readers. 3: List of tags. */
 					'<span class="tags-links">%1$s<span class="screen-reader-text">%2$s </span>%3$s</span>',
 					twentynineteen_get_icon_svg( 'tag', 16 ),
 					__( 'Tags:', 'twentynineteen' ),
@@ -116,7 +116,7 @@ if ( ! function_exists( 'twentynineteen_entry_footer' ) ) :
 		edit_post_link(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers. */
+					/* translators: %s: Post title. Only visible to screen readers. */
 					__( 'Edit <span class="screen-reader-text">%s</span>', 'twentynineteen' ),
 					array(
 						'span' => array(

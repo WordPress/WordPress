@@ -7,11 +7,11 @@
  * This file is here for backward compatibility with old themes and will be removed in a future version
  */
 _deprecated_file(
-	/* translators: %s: template name */
+	/* translators: %s: Template name. */
 	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
 	'3.0.0',
 	null,
-	/* translators: %s: template name */
+	/* translators: %s: Template name. */
 	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
 );
 
@@ -34,13 +34,13 @@ if ( post_password_required() ) { ?>
 		<?php
 		if ( 1 == get_comments_number() ) {
 			printf(
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				__( 'One response to %s' ),
 				'&#8220;' . get_the_title() . '&#8221;'
 			);
 		} else {
 			printf(
-				/* translators: 1: number of comments, 2: post title */
+				/* translators: 1: Number of comments, 2: Post title. */
 				_n( '%1$s response to %2$s', '%1$s responses to %2$s', get_comments_number() ),
 				number_format_i18n( get_comments_number() ),
 				'&#8220;' . get_the_title() . '&#8221;'

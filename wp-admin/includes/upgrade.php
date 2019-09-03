@@ -140,7 +140,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 
 		// Default category
 		$cat_name = __( 'Uncategorized' );
-		/* translators: Default category slug */
+		/* translators: Default category slug. */
 		$cat_slug = sanitize_title( _x( 'Uncategorized', 'Default category slug' ) );
 
 		if ( global_terms_enabled() ) {
@@ -193,7 +193,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 
 			if ( ! $first_post ) {
 				$first_post = "<!-- wp:paragraph -->\n<p>" .
-				/* translators: first post content, %s: site link */
+				/* translators: First post content. %s: Site link. */
 				__( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ) .
 				"</p>\n<!-- /wp:paragraph -->";
 			}
@@ -208,7 +208,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 			$first_post = str_replace( 'SITE_NAME', get_network()->site_name, $first_post );
 		} else {
 			$first_post = "<!-- wp:paragraph -->\n<p>" .
-			/* translators: first post content, %s: site link */
+			/* translators: First post content. %s: Site link. */
 			__( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' ) .
 			"</p>\n<!-- /wp:paragraph -->";
 		}
@@ -222,7 +222,7 @@ if ( ! function_exists( 'wp_install_defaults' ) ) :
 				'post_content'          => $first_post,
 				'post_excerpt'          => '',
 				'post_title'            => __( 'Hello world!' ),
-				/* translators: Default post slug */
+				/* translators: Default post slug. */
 				'post_name'             => sanitize_title( _x( 'hello-world', 'Default post slug' ) ),
 				'post_modified'         => $now,
 				'post_modified_gmt'     => $now_gmt,
@@ -277,28 +277,28 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 
 		if ( empty( $first_page ) ) {
 			$first_page = "<!-- wp:paragraph -->\n<p>";
-			/* translators: first page content */
+			/* translators: First page content. */
 			$first_page .= __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:" );
 			$first_page .= "</p>\n<!-- /wp:paragraph -->\n\n";
 
 			$first_page .= "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><p>";
-			/* translators: first page content */
+			/* translators: First page content. */
 			$first_page .= __( "Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)" );
 			$first_page .= "</p></blockquote>\n<!-- /wp:quote -->\n\n";
 
 			$first_page .= "<!-- wp:paragraph -->\n<p>";
-			/* translators: first page content */
+			/* translators: First page content. */
 			$first_page .= __( '...or something like this:' );
 			$first_page .= "</p>\n<!-- /wp:paragraph -->\n\n";
 
 			$first_page .= "<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><p>";
-			/* translators: first page content */
+			/* translators: First page content. */
 			$first_page .= __( 'The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.' );
 			$first_page .= "</p></blockquote>\n<!-- /wp:quote -->\n\n";
 
 			$first_page .= "<!-- wp:paragraph -->\n<p>";
 			$first_page .= sprintf(
-				/* translators: first page content, %s: site admin URL */
+				/* translators: First page content. %s: Site admin URL. */
 				__( 'As a new WordPress user, you should go to <a href="%s">your dashboard</a> to delete this page and create new pages for your content. Have fun!' ),
 				admin_url()
 			);
@@ -316,7 +316,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 				'post_excerpt'          => '',
 				'comment_status'        => 'closed',
 				'post_title'            => __( 'Sample Page' ),
-				/* translators: Default page slug */
+				/* translators: Default page slug. */
 				'post_name'             => __( 'sample-page' ),
 				'post_modified'         => $now,
 				'post_modified_gmt'     => $now_gmt,
@@ -361,7 +361,7 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.'
 					'post_excerpt'          => '',
 					'comment_status'        => 'closed',
 					'post_title'            => __( 'Privacy Policy' ),
-					/* translators: Privacy Policy page slug */
+					/* translators: Privacy Policy page slug. */
 					'post_name'             => __( 'privacy-policy' ),
 					'post_modified'         => $now,
 					'post_modified_gmt'     => $now_gmt,
@@ -585,7 +585,7 @@ if ( ! function_exists( 'wp_new_blog_notification' ) ) :
 		$login_url = wp_login_url();
 
 		$message = sprintf(
-			/* translators: New site notification email. 1: New site URL, 2: User login, 3: User password or password reset link, 4: Login URL */
+			/* translators: New site notification email. 1: New site URL, 2: User login, 3: User password or password reset link, 4: Login URL. */
 			__(
 				'Your new WordPress site has been successfully set up at:
 

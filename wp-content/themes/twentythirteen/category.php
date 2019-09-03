@@ -18,7 +18,7 @@ get_header(); ?>
 			<header class="archive-header">
 				<h1 class="archive-title">
 				<?php
-				/* translators: category title */
+				/* translators: %s: Category title. */
 				printf( __( 'Category Archives: %s', 'twentythirteen' ), single_cat_title( '', false ) );
 				?>
 				</h1>

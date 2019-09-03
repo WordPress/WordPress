@@ -1219,7 +1219,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return true;
 		}
 
-		/* translators: 1: parameter, 2: list of valid values */
+		/* translators: 1: Parameter, 2: List of valid values. */
 		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not one of %2$s.' ), 'template', implode( ', ', array_keys( $allowed_templates ) ) ) );
 	}
 
@@ -2216,7 +2216,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		foreach ( $taxonomies as $taxonomy ) {
 			$base                          = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$schema['properties'][ $base ] = array(
-				/* translators: %s: taxonomy name */
+				/* translators: %s: Taxonomy name. */
 				'description' => sprintf( __( 'The terms assigned to the object in the %s taxonomy.' ), $taxonomy->name ),
 				'type'        => 'array',
 				'items'       => array(
@@ -2319,9 +2319,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		foreach ( $taxonomies as $tax ) {
 			$tax_base = ! empty( $tax->rest_base ) ? $tax->rest_base : $tax->name;
 
-			/* translators: %s: taxonomy name */
+			/* translators: %s: Taxonomy name. */
 			$assign_title = sprintf( __( 'The current user can assign terms in the %s taxonomy.' ), $tax->name );
-			/* translators: %s: taxonomy name */
+			/* translators: %s: Taxonomy name. */
 			$create_title = sprintf( __( 'The current user can create terms in the %s taxonomy.' ), $tax->name );
 
 			$links[] = array(
@@ -2511,7 +2511,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 
 			$query_params[ $base ] = array(
-				/* translators: %s: taxonomy name */
+				/* translators: %s: Taxonomy name. */
 				'description' => sprintf( __( 'Limit result set to all items that have the specified term assigned in the %s taxonomy.' ), $base ),
 				'type'        => 'array',
 				'items'       => array(
@@ -2521,7 +2521,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 
 			$query_params[ $base . '_exclude' ] = array(
-				/* translators: %s: taxonomy name */
+				/* translators: %s: Taxonomy name. */
 				'description' => sprintf( __( 'Limit result set to all items except those that have the specified term assigned in the %s taxonomy.' ), $base ),
 				'type'        => 'array',
 				'items'       => array(

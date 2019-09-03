@@ -70,7 +70,7 @@
 					<div class="author-description">
 						<h2>
 						<?php
-						/* translators: %s: author display name */
+						/* translators: %s: Author display name. */
 						printf( __( 'About %s', 'twentytwelve' ), get_the_author() );
 						?>
 						</h2>
@@ -78,7 +78,7 @@
 						<div class="author-link">
 							<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 								<?php
-								/* translators: %s: author display name */
+								/* translators: %s: Author display name. */
 								printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentytwelve' ), get_the_author() );
 								?>
 							</a>

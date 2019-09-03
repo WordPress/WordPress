@@ -23,14 +23,14 @@ if ( have_posts() ) {
 
 				<?php
 				if ( ! empty( $post->post_parent ) ) :
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					$post_tile = sprintf( __( 'Return to %s', 'twentyten' ), strip_tags( get_the_title( $post->post_parent ) ) );
 					?>
 					<p class="page-title"><a href="<?php echo esc_url( get_permalink( $post->post_parent ) ); ?>" title="<?php echo esc_attr( $post_title ); ?>" rel="gallery">
-																<?php
-																/* translators: %s: title of parent post */
-																printf( __( '<span class="meta-nav">&larr;</span> %s', 'twentyten' ), get_the_title( $post->post_parent ) );
-																?>
+						<?php
+						/* translators: %s: Title of parent post. */
+						printf( __( '<span class="meta-nav">&larr;</span> %s', 'twentyten' ), get_the_title( $post->post_parent ) );
+						?>
 					</a></p>
 				<?php endif; ?>
 
@@ -40,13 +40,13 @@ if ( have_posts() ) {
 					<div class="entry-meta">
 						<?php
 							printf(
-								/* translators: %s: author display name */
+								/* translators: %s: Author display name. */
 								__( '<span class="%1$s">By</span> %2$s', 'twentyten' ),
 								'meta-prep meta-prep-author',
 								sprintf(
 									'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 									get_author_posts_url( get_the_author_meta( 'ID' ) ),
-									/* translators: %s: author display name */
+									/* translators: %s: Author display name. */
 									esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 									get_the_author()
 								)
@@ -55,7 +55,7 @@ if ( have_posts() ) {
 							<span class="meta-sep">|</span>
 							<?php
 							printf(
-								/* translators: 1: CSS classes: 2: date */
+								/* translators: 1: CSS classes, 2: Date. */
 								__( '<span class="%1$s">Published</span> %2$s', 'twentyten' ),
 								'meta-prep meta-prep-entry-date',
 								sprintf(
@@ -68,7 +68,7 @@ if ( have_posts() ) {
 								echo ' <span class="meta-sep">|</span> ';
 								$metadata = wp_get_attachment_metadata();
 								printf(
-									/* translators: %s: image dimensions */
+									/* translators: %s: Image dimensions. */
 									__( 'Full size is %s pixels', 'twentyten' ),
 									sprintf(
 										'<a href="%1$s" title="%2$s">%3$s &times; %4$s</a>',

@@ -72,7 +72,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 						'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 						esc_url( $customize_url ),
 						__( 'Customize' ),
-						/* translators: %s: theme name */
+						/* translators: %s: Theme name. */
 						sprintf( __( 'Customize &#8220;%s&#8221;' ), $name )
 					);
 				}
@@ -83,7 +83,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 						'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 						esc_url( $customize_url ),
 						__( 'Live Preview' ),
-						/* translators: %s: theme name */
+						/* translators: %s: Theme name. */
 						sprintf( __( 'Live Preview &#8220;%s&#8221;' ), $name )
 					);
 				}
@@ -93,7 +93,7 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 					'<span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
 					esc_url( $activate_link ),
 					__( 'Activate' ),
-					/* translators: %s: theme name */
+					/* translators: %s: Theme name. */
 					sprintf( __( 'Activate &#8220;%s&#8221;' ), $name )
 				);
 			}

@@ -56,7 +56,7 @@ class WP_REST_Block_Renderer_Controller extends WP_REST_Controller {
 						'args'                => array(
 							'context'    => $this->get_context_param( array( 'default' => 'view' ) ),
 							'attributes' => array(
-								/* translators: %s is the name of the block */
+								/* translators: %s: The name of the block. */
 								'description'          => sprintf( __( 'Attributes for %s block' ), $block_type->name ),
 								'type'                 => 'object',
 								'additionalProperties' => false,

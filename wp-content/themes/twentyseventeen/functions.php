@@ -282,9 +282,8 @@ function twentyseventeen_fonts_url() {
 	$fonts_url = '';
 
 	/*
-	 * Translators: If there are characters in your language that are not
-	 * supported by Libre Franklin, translate this to 'off'. Do not translate
-	 * into your own language.
+	 * translators: If there are characters in your language that are not supported
+	 * by Libre Franklin, translate this to 'off'. Do not translate into your own language.
 	 */
 	$libre_franklin = _x( 'on', 'Libre Franklin font: on or off', 'twentyseventeen' );
 
@@ -387,7 +386,7 @@ function twentyseventeen_excerpt_more( $link ) {
 	$link = sprintf(
 		'<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
 		esc_url( get_permalink( get_the_ID() ) ),
-		/* translators: %s: Name of current post */
+		/* translators: %s: Post title. */
 		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ), get_the_title( get_the_ID() ) )
 	);
 	return ' &hellip; ' . $link;

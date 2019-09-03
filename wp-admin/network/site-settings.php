@@ -79,7 +79,7 @@ if ( isset( $_GET['update'] ) ) {
 	}
 }
 
-/* translators: %s: site name */
+/* translators: %s: Site title. */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
 $parent_file  = 'sites.php';

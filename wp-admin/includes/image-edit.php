@@ -60,7 +60,7 @@ function wp_image_editor( $post_id, $msg = false ) {
 		<p>
 			<?php
 			printf(
-				/* translators: %s: image width and height in pixels */
+				/* translators: %s: Image width and height in pixels. */
 				__( 'Original dimensions %s' ),
 				$meta['width'] . ' &times; ' . $meta['height']
 			);

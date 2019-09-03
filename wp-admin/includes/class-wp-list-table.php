@@ -609,7 +609,7 @@ class WP_List_Table {
 				"<option %s value='%s'>%s</option>\n",
 				selected( $m, $year . $month, false ),
 				esc_attr( $arc_row->year . $month ),
-				/* translators: 1: month name, 2: 4-digit year */
+				/* translators: 1: Month name, 2: 4-digit year. */
 				sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month ), $year )
 			);
 		}
@@ -662,19 +662,19 @@ class WP_List_Table {
 		$pending_comments_number  = number_format_i18n( $pending_comments );
 
 		$approved_only_phrase = sprintf(
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			_n( '%s comment', '%s comments', $approved_comments ),
 			$approved_comments_number
 		);
 
 		$approved_phrase = sprintf(
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			_n( '%s approved comment', '%s approved comments', $approved_comments ),
 			$approved_comments_number
 		);
 
 		$pending_phrase = sprintf(
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			_n( '%s pending comment', '%s pending comments', $pending_comments ),
 			$pending_comments_number
 		);
@@ -805,7 +805,7 @@ class WP_List_Table {
 		}
 
 		$output = '<span class="displaying-num">' . sprintf(
-			/* translators: %s: number of items */
+			/* translators: %s: Number of items. */
 			_n( '%s item', '%s items', $total_items ),
 			number_format_i18n( $total_items )
 		) . '</span>';
@@ -877,7 +877,7 @@ class WP_List_Table {
 		}
 		$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
 		$page_links[]     = $total_pages_before . sprintf(
-			/* translators: 1: current page, 2: total pages */
+			/* translators: 1: Current page, 2: Total pages. */
 			_x( '%1$s of %2$s', 'paging' ),
 			$html_current_page,
 			$html_total_pages
@@ -1397,7 +1397,7 @@ class WP_List_Table {
 
 		if ( isset( $this->_pagination_args['total_items'] ) ) {
 			$response['total_items_i18n'] = sprintf(
-				/* translators: number of items */
+				/* translators: Number of items. */
 				_n( '%s item', '%s items', $this->_pagination_args['total_items'] ),
 				number_format_i18n( $this->_pagination_args['total_items'] )
 			);

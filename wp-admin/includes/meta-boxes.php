@@ -64,7 +64,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 		$preview_button = sprintf(
 			'%1$s<span class="screen-reader-text"> %2$s</span>',
 			$preview_button_text,
-			/* translators: accessibility text */
+			/* translators: Accessibility text. */
 			__( '(opens in a new tab)' )
 		);
 		?>
@@ -198,18 +198,18 @@ function post_submit_meta_box( $post, $args = array() ) {
 	$datef = __( 'M j, Y @ H:i' );
 	if ( 0 != $post->ID ) {
 		if ( 'future' == $post->post_status ) { // scheduled for publishing at a future date
-			/* translators: Post date information. %s: Date on which the post is currently scheduled to be published */
+			/* translators: Post date information. %s: Date on which the post is currently scheduled to be published. */
 			$stamp = __( 'Scheduled for: <b>%s</b>' );
 		} elseif ( 'publish' == $post->post_status || 'private' == $post->post_status ) { // already published
-			/* translators: Post date information. %s: Date on which the post was published */
+			/* translators: Post date information. %s: Date on which the post was published. */
 			$stamp = __( 'Published on: <b>%s</b>' );
 		} elseif ( '0000-00-00 00:00:00' == $post->post_date_gmt ) { // draft, 1 or more saves, no date specified
 			$stamp = __( 'Publish <b>immediately</b>' );
 		} elseif ( time() < strtotime( $post->post_date_gmt . ' +0000' ) ) { // draft, 1 or more saves, future date specified
-			/* translators: Post date information. %s: Date on which the post is to be published */
+			/* translators: Post date information. %s: Date on which the post is to be published. */
 			$stamp = __( 'Schedule for: <b>%s</b>' );
 		} else { // draft, 1 or more saves, date specified
-			/* translators: Post date information. %s: Date on which the post is to be published */
+			/* translators: Post date information. %s: Date on which the post is to be published. */
 			$stamp = __( 'Publish on: <b>%s</b>' );
 		}
 		$date = date_i18n( $datef, strtotime( $post->post_date ) );
@@ -222,7 +222,7 @@ function post_submit_meta_box( $post, $args = array() ) {
 		?>
 <div class="misc-pub-section misc-pub-revisions">
 		<?php
-		/* translators: Post revisions heading. %s: The number of available revisions */
+		/* translators: Post revisions heading. %s: The number of available revisions. */
 		printf( __( 'Revisions: %s' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
 		?>
 	<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>"><span aria-hidden="true"><?php _ex( 'Browse', 'revisions' ); ?></span> <span class="screen-reader-text"><?php _e( 'Browse revisions' ); ?></span></a>
@@ -248,7 +248,7 @@ endif;
 		<p>
 			<?php
 			echo sprintf(
-				/* translators: %s: URL to the Customizer */
+				/* translators: %s: URL to the Customizer. */
 				__( 'This draft comes from your <a href="%s">unpublished customization changes</a>. You can edit, but there&#8217;s no need to publish now. It will be published automatically with those changes.' ),
 				esc_url(
 					add_query_arg(
@@ -369,11 +369,11 @@ function attachment_submit_meta_box( $post ) {
 				__( 'M j, Y @ H:i' ),
 				strtotime( $post->post_date )
 			);
-							printf(
-								/* translators: Attachment information. %s: Date the attachment was uploaded */
-								__( 'Uploaded on: %s' ),
-								'<b>' . $date . '</b>'
-							);
+			printf(
+				/* translators: Attachment information. %s: Date the attachment was uploaded. */
+				__( 'Uploaded on: %s' ),
+				'<b>' . $date . '</b>'
+			);
 		?>
 		</span>
 	</div><!-- .misc-pub-section -->
@@ -592,7 +592,7 @@ function post_categories_meta_box( $post, $box ) {
 			<div id="<?php echo $tax_name; ?>-adder" class="wp-hidden-children">
 				<a id="<?php echo $tax_name; ?>-add-toggle" href="#<?php echo $tax_name; ?>-add" class="hide-if-no-js taxonomy-add-new">
 					<?php
-						/* translators: %s: add new taxonomy label */
+						/* translators: %s: Add New taxonomy label. */
 						printf( __( '+ %s' ), $taxonomy->labels->add_new_item );
 					?>
 				</a>
@@ -663,7 +663,7 @@ function post_excerpt_meta_box( $post ) {
 <p>
 	<?php
 	printf(
-		/* translators: %s: Documentation URL */
+		/* translators: %s: Documentation URL. */
 		__( 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="%s">Learn more about manual excerpts</a>.' ),
 		__( 'https://wordpress.org/support/article/excerpt/' )
 	);
@@ -700,7 +700,7 @@ function post_trackback_meta_box( $post ) {
 <p>
 	<?php
 	printf(
-		/* translators: %s: Documentation URL */
+		/* translators: %s: Documentation URL. */
 		__( 'Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress sites, they&#8217;ll be notified automatically using <a href="%s">pingbacks</a>, no other action necessary.' ),
 		__( 'https://wordpress.org/support/article/introduction-to-blogging/#comments' )
 	);
@@ -737,7 +737,7 @@ function post_custom_meta_box( $post ) {
 <p>
 	<?php
 	printf(
-		/* translators: %s: Documentation URL */
+		/* translators: %s: Documentation URL. */
 		__( 'Custom fields can be used to add extra metadata to a post that you can <a href="%s">use in your theme</a>.' ),
 		__( 'https://wordpress.org/support/article/custom-fields/' )
 	);
@@ -761,7 +761,7 @@ function post_comment_status_meta_box( $post ) {
 	<label for="ping_status" class="selectit"><input name="ping_status" type="checkbox" id="ping_status" value="open" <?php checked( $post->ping_status, 'open' ); ?> />
 		<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'Allow <a href="%s">trackbacks and pingbacks</a> on this page' ),
 			__( 'https://wordpress.org/support/article/introduction-to-blogging/#managing-comments' )
 		);
@@ -1029,7 +1029,7 @@ function link_submit_meta_box( $link ) {
 		printf(
 			'<a class="submitdelete deletion" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
 			wp_nonce_url( "link.php?action=delete&amp;link_id=$link->link_id", 'delete-bookmark_' . $link->link_id ),
-			/* translators: %s: link name */
+			/* translators: %s: Link name. */
 			esc_js( sprintf( __( "You are about to delete this link '%s'\n  'Cancel' to stop, 'OK' to delete." ), $link->link_name ) ),
 			__( 'Delete' )
 		);

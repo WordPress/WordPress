@@ -55,7 +55,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 
 						printf(
 							wp_kses(
-								/* translators: %s: comment author link */
+								/* translators: %s: Comment author link. */
 								__( '%s <span class="screen-reader-text says">says:</span>', 'twentynineteen' ),
 								array(
 									'span' => array(
@@ -75,7 +75,7 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 					<div class="comment-metadata">
 						<a href="<?php echo esc_url( get_comment_link( $comment, $args ) ); ?>">
 							<?php
-								/* translators: 1: comment date, 2: comment time */
+								/* translators: 1: Comment date, 2: Comment time. */
 								$comment_timestamp = sprintf( __( '%1$s at %2$s', 'twentynineteen' ), get_comment_date( '', $comment ), get_comment_time() );
 							?>
 							<time datetime="<?php comment_time( 'c' ); ?>" title="<?php echo $comment_timestamp; ?>">

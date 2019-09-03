@@ -264,7 +264,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$name   = wp_kses( $theme->name, $themes_allowedtags );
 		$author = wp_kses( $theme->author, $themes_allowedtags );
 
-		/* translators: %s: theme name */
+		/* translators: %s: Theme name. */
 		$preview_title = sprintf( __( 'Preview &#8220;%s&#8221;' ), $name );
 		$preview_url   = add_query_arg(
 			array(
@@ -299,7 +299,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				$actions[] = sprintf(
 					'<a class="install-now" href="%s" title="%s">%s</a>',
 					esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ),
-					/* translators: %s: theme version */
+					/* translators: %s: Theme version. */
 					esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ),
 					__( 'Update' )
 				);
@@ -317,7 +317,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				$actions[] = sprintf(
 					'<a class="install-now" href="%s" title="%s">%s</a>',
 					esc_url( wp_nonce_url( $install_url, 'install-theme_' . $theme->slug ) ),
-					/* translators: %s: theme name */
+					/* translators: %s: Theme name. */
 					esc_attr( sprintf( __( 'Install %s' ), $name ) ),
 					__( 'Install Now' )
 				);
@@ -327,7 +327,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$actions[] = sprintf(
 			'<a class="install-theme-preview" href="%s" title="%s">%s</a>',
 			esc_url( $preview_url ),
-			/* translators: %s: theme name */
+			/* translators: %s: Theme name. */
 			esc_attr( sprintf( __( 'Preview %s' ), $name ) ),
 			__( 'Preview' )
 		);
@@ -351,7 +351,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		<h3><?php echo $name; ?></h3>
 		<div class="theme-author">
 		<?php
-			/* translators: %s: theme author */
+			/* translators: %s: Theme author. */
 			printf( __( 'By %s' ), $author );
 		?>
 		</div>
@@ -457,7 +457,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 				printf(
 					'<a class="theme-install button button-primary" href="%s" title="%s">%s</a>',
 					esc_url( wp_nonce_url( $update_url, 'upgrade-theme_' . $theme->slug ) ),
-					/* translators: %s: theme version */
+					/* translators: %s: Theme version. */
 					esc_attr( sprintf( __( 'Update to version %s' ), $theme->version ) ),
 					__( 'Update' )
 				);
@@ -483,7 +483,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 			<h3 class="theme-name"><?php echo $name; ?></h3>
 			<span class="theme-by">
 			<?php
-				/* translators: %s: theme author */
+				/* translators: %s: Theme author. */
 				printf( __( 'By %s' ), $author );
 			?>
 			</span>

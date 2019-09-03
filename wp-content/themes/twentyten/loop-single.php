@@ -56,7 +56,7 @@ if ( have_posts() ) {
 							<div id="author-description">
 							<h2>
 							<?php
-							/* translators: %s: author display name */
+							/* translators: %s: Author display name. */
 							printf( __( 'About %s', 'twentyten' ), get_the_author() );
 							?>
 							</h2>
@@ -64,7 +64,7 @@ if ( have_posts() ) {
 							<div id="author-link">
 								<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 									<?php
-									/* translators: %s: author display name */
+									/* translators: %s: Author display name. */
 									printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyten' ), get_the_author() );
 									?>
 								</a>

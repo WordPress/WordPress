@@ -269,10 +269,10 @@ function wp_dashboard_right_now() {
 		$num_posts = wp_count_posts( $post_type );
 		if ( $num_posts && $num_posts->publish ) {
 			if ( 'post' == $post_type ) {
-				/* translators: %s: number of posts */
+				/* translators: %s: Number of posts. */
 				$text = _n( '%s Post', '%s Posts', $num_posts->publish );
 			} else {
-				/* translators: %s: number of pages */
+				/* translators: %s: Number of pages. */
 				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
 			}
 			$text             = sprintf( $text, number_format_i18n( $num_posts->publish ) );
@@ -287,13 +287,13 @@ function wp_dashboard_right_now() {
 	// Comments
 	$num_comm = wp_count_comments();
 	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
-		/* translators: %s: number of comments */
+		/* translators: %s: Number of comments. */
 		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->approved ), number_format_i18n( $num_comm->approved ) );
 		?>
 		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
 		<?php
 		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
-		/* translators: %s: number of comments */
+		/* translators: %s: Number of comments. */
 		$text = sprintf( _n( '%s Comment in moderation', '%s Comments in moderation', $num_comm->moderated ), $moderated_comments_count_i18n );
 		?>
 		<li class="comment-mod-count
@@ -412,12 +412,12 @@ function wp_network_dashboard_right_now() {
 	$c_users = get_user_count();
 	$c_blogs = get_blog_count();
 
-	/* translators: %s: number of users on the network */
+	/* translators: %s: Number of users on the network. */
 	$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
-	/* translators: %s: number of sites on the network */
+	/* translators: %s: Number of sites on the network. */
 	$blog_text = sprintf( _n( '%s site', '%s sites', $c_blogs ), number_format_i18n( $c_blogs ) );
 
-	/* translators: 1: text indicating the number of sites on the network, 2: text indicating the number of users on the network */
+	/* translators: 1: Text indicating the number of sites on the network, 2: Text indicating the number of users on the network. */
 	$sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 
 	if ( $actions ) {
@@ -602,7 +602,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		printf(
 			'<div class="draft-title"><a href="%s" aria-label="%s">%s</a><time datetime="%s">%s</time></div>',
 			esc_url( $url ),
-			/* translators: %s: post title */
+			/* translators: %s: Post title. */
 			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ),
 			esc_html( $title ),
 			get_the_time( 'c', $draft ),
@@ -663,19 +663,70 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$trash_url     = esc_url( "comment.php?action=trashcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
 		$delete_url    = esc_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
 
-		$actions['approve']   = "<a href='$approve_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' class='vim-a aria-button-if-js' aria-label='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
-		$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' class='vim-u aria-button-if-js' aria-label='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
-		$actions['edit']      = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' aria-label='" . esc_attr__( 'Edit this comment' ) . "'>" . __( 'Edit' ) . '</a>';
-		$actions['reply']     = '<button type="button" onclick="window.commentReply && commentReply.open(\'' . $comment->comment_ID . '\',\'' . $comment->comment_post_ID . '\');" class="vim-r button-link hide-if-no-js" aria-label="' . esc_attr__( 'Reply to this comment' ) . '">' . __( 'Reply' ) . '</button>';
-		$actions['spam']      = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+		$actions['approve'] = sprintf(
+			'<a href="%s" data-wp-lists="%s" class="vim-a aria-button-if-js" aria-label="%s">%s</a>',
+			$approve_url,
+			"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=approved",
+			esc_attr__( 'Approve this comment' ),
+			__( 'Approve' )
+		);
+
+		$actions['unapprove'] = sprintf(
+			'<a href="%s" data-wp-lists="%s" class="vim-u aria-button-if-js" aria-label="%s">%s</a>',
+			$unapprove_url,
+			"dim:the-comment-list:comment-{$comment->comment_ID}:unapproved:e7e7d3:e7e7d3:new=unapproved",
+			esc_attr__( 'Unapprove this comment' ),
+			__( 'Unapprove' )
+		);
+
+		$actions['edit'] = sprintf(
+			'<a href="%s" aria-label="%s">%s</a>',
+			"comment.php?action=editcomment&amp;c={$comment->comment_ID}",
+			esc_attr__( 'Edit this comment' ),
+			__( 'Edit' )
+		);
+
+		$actions['reply'] = sprintf(
+			'<button type="button" onclick="window.commentReply && commentReply.open(\'%s\',\'%s\');" class="vim-r button-link hide-if-no-js" aria-label="%s">%s</button>',
+			$comment->comment_ID,
+			$comment->comment_post_ID,
+			esc_attr__( 'Reply to this comment' ),
+			__( 'Reply' )
+		);
+
+		$actions['spam'] = sprintf(
+			'<a href="%s" data-wp-lists="%s" class="vim-s vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+			$spam_url,
+			"delete:the-comment-list:comment-{$comment->comment_ID}::spam=1",
+			esc_attr__( 'Mark this comment as spam' ),
+			/* translators: "Mark as spam" link. */
+			_x( 'Spam', 'verb' )
+		);
 
 		if ( ! EMPTY_TRASH_DAYS ) {
-			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Delete this comment permanently' ) . "'>" . __( 'Delete Permanently' ) . '</a>';
+			$actions['delete'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$delete_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
+				esc_attr__( 'Delete this comment permanently' ),
+				__( 'Delete Permanently' )
+			);
 		} else {
-			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive aria-button-if-js' aria-label='" . esc_attr__( 'Move this comment to the Trash' ) . "'>" . _x( 'Trash', 'verb' ) . '</a>';
+			$actions['trash'] = sprintf(
+				'<a href="%s" data-wp-lists="%s" class="delete vim-d vim-destructive aria-button-if-js" aria-label="%s">%s</a>',
+				$trash_url,
+				"delete:the-comment-list:comment-{$comment->comment_ID}::trash=1",
+				esc_attr__( 'Move this comment to the Trash' ),
+				_x( 'Trash', 'verb' )
+			);
 		}
 
-		$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '" aria-label="' . esc_attr__( 'View this comment' ) . '">' . __( 'View' ) . '</a>';
+		$actions['view'] = sprintf(
+			'<a class="comment-link" href="%s" aria-label="%s">%s</a>',
+			esc_url( get_comment_link( $comment ) ),
+			esc_attr__( 'View this comment' ),
+			__( 'View' )
+		);
 
 		/**
 		 * Filters the action links displayed for each comment in the 'Recent Comments'
@@ -720,7 +771,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				// Comments might not have a post they relate to, e.g. programmatically created ones.
 				if ( $comment_post_link ) {
 					printf(
-						/* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */
+						/* translators: 1: Comment author, 2: Post link, 3: Notification if the comment is pending. */
 						__( 'From %1$s on %2$s %3$s' ),
 						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
 						$comment_post_link,
@@ -728,7 +779,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 					);
 				} else {
 					printf(
-						/* translators: 1: comment author, 2: notification if the comment is pending */
+						/* translators: 1: Comment author, 2: Notification if the comment is pending. */
 						__( 'From %1$s %2$s' ),
 						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
 						'<span class="approve">' . __( '[Pending]' ) . '</span>'
@@ -757,7 +808,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				// Pingbacks, Trackbacks or custom comment types might not have a post they relate to, e.g. programmatically created ones.
 				if ( $comment_post_link ) {
 					printf(
-						/* translators: 1: type of comment, 2: post link, 3: notification if the comment is pending */
+						/* translators: 1: Type of comment, 2: Post link, 3: Notification if the comment is pending. */
 						_x( '%1$s on %2$s %3$s', 'dashboard' ),
 						"<strong>$type</strong>",
 						$comment_post_link,
@@ -765,7 +816,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 					);
 				} else {
 					printf(
-						/* translators: 1: type of comment, 2: notification if the comment is pending */
+						/* translators: 1: Type of comment, 2: Notification if the comment is pending. */
 						_x( '%1$s %2$s', 'dashboard' ),
 						"<strong>$type</strong>",
 						'<span class="approve">' . __( '[Pending]' ) . '</span>'
@@ -885,10 +936,10 @@ function wp_dashboard_recent_posts( $args ) {
 			} elseif ( gmdate( 'Y-m-d', $time ) == $tomorrow ) {
 				$relative = __( 'Tomorrow' );
 			} elseif ( gmdate( 'Y', $time ) !== $year ) {
-				/* translators: date and time format for recent posts on the dashboard, from a different calendar year, see https://secure.php.net/date */
+				/* translators: Date and time format for recent posts on the dashboard, from a different calendar year, see https://secure.php.net/date */
 				$relative = date_i18n( __( 'M jS Y' ), $time );
 			} else {
-				/* translators: date and time format for recent posts on the dashboard, see https://secure.php.net/date */
+				/* translators: Date and time format for recent posts on the dashboard, see https://secure.php.net/date */
 				$relative = date_i18n( __( 'M jS' ), $time );
 			}
 
@@ -898,10 +949,10 @@ function wp_dashboard_recent_posts( $args ) {
 			$draft_or_post_title = _draft_or_post_title();
 			printf(
 				'<li><span>%1$s</span> <a href="%2$s" aria-label="%3$s">%4$s</a></li>',
-				/* translators: 1: relative date, 2: time */
+				/* translators: 1: Relative date, 2: Time. */
 				sprintf( _x( '%1$s, %2$s', 'dashboard' ), $relative, get_the_time() ),
 				$recent_post_link,
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $draft_or_post_title ) ),
 				$draft_or_post_title
 			);
@@ -1146,7 +1197,7 @@ function wp_dashboard_events_news() {
 				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 				'https://make.wordpress.org/community/meetups-landing-page',
 				__( 'Meetups' ),
-				/* translators: accessibility text */
+				/* translators: Accessibility text. */
 				__( '(opens in a new tab)' )
 			);
 		?>
@@ -1158,7 +1209,7 @@ function wp_dashboard_events_news() {
 				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 				'https://central.wordcamp.org/schedule/',
 				__( 'WordCamps' ),
-				/* translators: accessibility text */
+				/* translators: Accessibility text. */
 				__( '(opens in a new tab)' )
 			);
 		?>
@@ -1171,7 +1222,7 @@ function wp_dashboard_events_news() {
 				/* translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. */
 				esc_url( _x( 'https://wordpress.org/news/', 'Events and News dashboard widget' ) ),
 				__( 'News' ),
-				/* translators: accessibility text */
+				/* translators: Accessibility text. */
 				__( '(opens in a new tab)' )
 			);
 		?>
@@ -1263,7 +1314,7 @@ function wp_print_community_events_templates() {
 	<script id="tmpl-community-events-attend-event-near" type="text/template">
 		<?php
 		printf(
-			/* translators: %s: the name of a city */
+			/* translators: %s: The name of a city. */
 			__( 'Attend an upcoming event near %s.' ),
 			'<strong>{{ data.location.description }}</strong>'
 		);
@@ -1310,7 +1361,7 @@ function wp_print_community_events_templates() {
 			<# if ( data.location.description ) { #>
 				<?php
 				printf(
-					/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
+					/* translators: 1: The city the user searched for, 2: Meetup organization documentation URL. */
 					__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
 					'{{ data.location.description }}',
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
@@ -1320,7 +1371,7 @@ function wp_print_community_events_templates() {
 			<# } else { #>
 				<?php
 				printf(
-					/* translators: %s: meetup organization documentation URL */
+					/* translators: %s: Meetup organization documentation URL. */
 					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				);
@@ -1469,7 +1520,7 @@ function wp_dashboard_quota() {
 		<li class="storage-count">
 			<?php
 			$text = sprintf(
-				/* translators: %s: number of megabytes */
+				/* translators: %s: Number of megabytes. */
 				__( '%s MB Space Allowed' ),
 				number_format_i18n( $quota )
 			);
@@ -1483,7 +1534,7 @@ function wp_dashboard_quota() {
 		</li><li class="storage-count <?php echo $used_class; ?>">
 			<?php
 			$text = sprintf(
-				/* translators: 1: number of megabytes, 2: percentage */
+				/* translators: 1: Number of megabytes, 2: Percentage. */
 				__( '%1$s MB (%2$s%%) Space Used' ),
 				number_format_i18n( $used, 2 ),
 				$percentused
@@ -1509,13 +1560,13 @@ function wp_dashboard_browser_nag() {
 	if ( $response ) {
 		if ( $response['insecure'] ) {
 			$msg = sprintf(
-				/* translators: %s: browser name and link */
+				/* translators: %s: Browser name and link. */
 				__( "It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ),
 				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
 			);
 		} else {
 			$msg = sprintf(
-				/* translators: %s: browser name and link */
+				/* translators: %s: Browser name and link. */
 				__( "It looks like you're using an old version of %s. For the best WordPress experience, please update your browser." ),
 				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
 			);
@@ -1537,7 +1588,7 @@ function wp_dashboard_browser_nag() {
 		}
 
 		$notice .= '<p>' . sprintf(
-			/* translators: 1: browser update URL, 2: browser name, 3: Browse Happy URL */
+			/* translators: 1: Browser update URL, 2: Browser name, 3: Browse Happy URL. */
 			__( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ),
 			esc_attr( $response['update_url'] ),
 			esc_html( $response['name'] ),
@@ -1663,7 +1714,7 @@ function wp_dashboard_php_nag() {
 			'<a class="button button-primary" href="%1$s" target="_blank" rel="noopener noreferrer">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
 			esc_url( wp_get_update_php_url() ),
 			__( 'Learn more about updating PHP' ),
-			/* translators: accessibility text */
+			/* translators: Accessibility text. */
 			__( '(opens in a new tab)' )
 		);
 		?>
@@ -1718,7 +1769,7 @@ function wp_welcome_panel() {
 			<?php $themes_link = current_user_can( 'customize' ) ? add_query_arg( 'autofocus[panel]', 'themes', admin_url( 'customize.php' ) ) : admin_url( 'themes.php' ); ?>
 			<p class="hide-if-no-customize">
 				<?php
-					/* translators: %s: URL to Themes panel in Customizer or Themes screen */
+					/* translators: %s: URL to Themes panel in Customizer or Themes screen. */
 					printf( __( 'or, <a href="%s">change your theme completely</a>' ), $themes_link );
 				?>
 			</p>
@@ -1749,7 +1800,7 @@ function wp_welcome_panel() {
 		if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) :
 			if ( current_theme_supports( 'widgets' ) && current_theme_supports( 'menus' ) ) {
 				$widgets_menus_link = sprintf(
-					/* translators: 1: URL to Widgets screen, 2: URL to Menus screen */
+					/* translators: 1: URL to Widgets screen, 2: URL to Menus screen. */
 					__( 'Manage <a href="%1$s">widgets</a> or <a href="%2$s">menus</a>' ),
 					admin_url( 'widgets.php' ),
 					admin_url( 'nav-menus.php' )

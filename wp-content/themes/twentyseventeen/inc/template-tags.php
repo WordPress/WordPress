@@ -17,7 +17,7 @@ if ( ! function_exists( 'twentyseventeen_posted_on' ) ) :
 
 		// Get the author name; wrap it in a link.
 		$byline = sprintf(
-			/* translators: %s: post author */
+			/* translators: %s: Post author. */
 			__( 'by %s', 'twentyseventeen' ),
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>'
 		);
@@ -48,7 +48,7 @@ if ( ! function_exists( 'twentyseventeen_time_link' ) ) :
 
 		// Wrap the time string in a link, and preface it with 'Posted on'.
 		return sprintf(
-			/* translators: %s: post date */
+			/* translators: %s: Post date. */
 			__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
 			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 		);
@@ -62,7 +62,7 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
 	 */
 	function twentyseventeen_entry_footer() {
 
-		/* translators: used between list items, there is a space after the comma */
+		/* translators: Used between list items, there is a space after the comma. */
 		$separate_meta = __( ', ', 'twentyseventeen' );
 
 		// Get Categories for posts.
@@ -113,7 +113,7 @@ if ( ! function_exists( 'twentyseventeen_edit_link' ) ) :
 	function twentyseventeen_edit_link() {
 		edit_post_link(
 			sprintf(
-				/* translators: %s: Name of current post */
+				/* translators: %s: Post title. */
 				__( 'Edit<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
 				get_the_title()
 			),
@@ -148,7 +148,7 @@ function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 		wp_reset_postdata();
 	} elseif ( is_customize_preview() ) {
 		// The output placeholder anchor.
-		/* translators: %s: The section id */
+		/* translators: %s: The section ID. */
 		echo '<article class="panel-placeholder panel twentyseventeen-panel twentyseventeen-panel' . $id . '" id="panel' . $id . '"><span class="twentyseventeen-panel-title">' . sprintf( __( 'Front Page Section %s Placeholder', 'twentyseventeen' ), $id ) . '</span></article>';
 	}
 }

@@ -38,7 +38,7 @@ get_current_screen()->add_help_tab(
 				'<p>' . __( 'After typing in your edits, click Update File.' ) . '</p>' .
 				'<p>' . __( '<strong>Advice:</strong> Think very carefully about your site crashing if you are live-editing the theme currently in use.' ) . '</p>' .
 				'<p>' . sprintf(
-					/* translators: %s: link to documentation on child themes */
+					/* translators: %s: Link to documentation on child themes. */
 					__( 'Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href="%s">child theme</a> instead.' ),
 					__( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' )
 				) . '</p>' .
@@ -201,7 +201,7 @@ if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
 		<p>
 			<?php
 			echo sprintf(
-				/* translators: %s: link to Custom CSS section in the Customizer */
+				/* translators: %s: Link to Custom CSS section in the Customizer. */
 				__( 'There&#8217;s no need to change your CSS here &mdash; you can edit and live preview CSS changes in the <a href="%s">built-in CSS editor</a>.' ),
 				esc_url( add_query_arg( 'autofocus[section]', 'custom_css', admin_url( 'customize.php' ) ) )
 			);
@@ -252,7 +252,7 @@ if ( $theme->errors() ) {
 			<li class="howto">
 				<?php
 				printf(
-					/* translators: %s: link to edit parent theme */
+					/* translators: %s: Link to edit parent theme. */
 					__( 'This child theme inherits templates from a parent theme, %s.' ),
 					sprintf(
 						'<a href="%s">%s</a>',
@@ -316,7 +316,7 @@ else :
 		<p><em>
 			<?php
 			printf(
-				/* translators: %s: Documentation URL */
+				/* translators: %s: Documentation URL. */
 				__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
 				__( 'https://wordpress.org/support/article/changing-file-permissions/' )
 			);
@@ -359,7 +359,7 @@ if ( ! in_array( 'theme_editor_notice', $dismissed_pointers, true ) ) :
 					if ( ! $theme->parent() ) {
 						echo '<p>';
 						echo sprintf(
-							/* translators: %s: link to documentation on child themes */
+							/* translators: %s: Link to documentation on child themes. */
 							__( 'If you need to tweak more than your theme&#8217;s CSS, you might want to try <a href="%s">making a child theme</a>.' ),
 							esc_url( __( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ) )
 						);

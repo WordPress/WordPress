@@ -563,7 +563,7 @@ function get_taxonomy_labels( $tax ) {
 		'no_terms'                   => array( __( 'No tags' ), __( 'No categories' ) ),
 		'items_list_navigation'      => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 		'items_list'                 => array( __( 'Tags list' ), __( 'Categories list' ) ),
-		/* translators: Tab heading when selecting from the most used terms */
+		/* translators: Tab heading when selecting from the most used terms. */
 		'most_used'                  => array( _x( 'Most Used', 'tags' ), _x( 'Most Used', 'categories' ) ),
 		'back_to_items'              => array( __( '&larr; Back to Tags' ), __( '&larr; Back to Categories' ) ),
 	);
@@ -2917,7 +2917,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		if ( $empty_slug || ( $parent !== (int) $term['parent'] ) ) {
 			$slug = wp_unique_term_slug( $slug, (object) $args );
 		} else {
-			/* translators: %s: taxonomy term slug */
+			/* translators: %s: Taxonomy term slug. */
 			return new WP_Error( 'duplicate_term_slug', sprintf( __( 'The slug &#8220;%s&#8221; is already in use by another term.' ), $slug ) );
 		}
 	}
@@ -4331,7 +4331,7 @@ function get_the_taxonomies( $post = 0, $args = array() ) {
 	$args = wp_parse_args(
 		$args,
 		array(
-			/* translators: %s: taxonomy label, %l: list of terms formatted as per $term_template */
+			/* translators: %s: Taxonomy label, %l: List of terms formatted as per $term_template. */
 			'template'      => __( '%s: %l.' ),
 			'term_template' => '<a href="%1$s">%2$s</a>',
 		)

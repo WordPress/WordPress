@@ -314,7 +314,7 @@ function wp_ajax_autocomplete_user() {
 
 	foreach ( $users as $user ) {
 		$return[] = array(
-			/* translators: 1: user login, 2: user email address */
+			/* translators: 1: User login, 2: User email address. */
 			'label' => sprintf( _x( '%1$s (%2$s)', 'user autocomplete result' ), $user->user_login, $user->user_email ),
 			'value' => $user->$field,
 		);
@@ -454,12 +454,12 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 					'time'                 => $time,
 					'in_moderation'        => $counts->moderated,
 					'i18n_comments_text'   => sprintf(
-						/* translators: %s: number of comments */
+						/* translators: %s: Number of comments. */
 						_n( '%s Comment', '%s Comments', $counts->approved ),
 						number_format_i18n( $counts->approved )
 					),
 					'i18n_moderation_text' => sprintf(
-						/* translators: %s: number of comments */
+						/* translators: %s: Number of comments. */
 						_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 						number_format_i18n( $counts->moderated )
 					),
@@ -518,7 +518,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			'supplemental' => array(
 				'status'               => $comment ? $comment->comment_approved : '',
 				'postId'               => $comment ? $comment->comment_post_ID : '',
-				/* translators: %s: number of comments */
+				/* translators: %s: Number of comments. */
 				'total_items_i18n'     => sprintf( _n( '%s item', '%s items', $total ), number_format_i18n( $total ) ),
 				'total_pages'          => ceil( $total / $per_page ),
 				'total_pages_i18n'     => number_format_i18n( ceil( $total / $per_page ) ),
@@ -526,7 +526,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				'time'                 => $time,
 				'in_moderation'        => $counts->moderated,
 				'i18n_moderation_text' => sprintf(
-					/* translators: %s: number of comments */
+					/* translators: %s: Number of comments. */
 					_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 					number_format_i18n( $counts->moderated )
 				),
@@ -915,7 +915,7 @@ function wp_ajax_dim_comment() {
 				'what' => 'comment',
 				'id'   => new WP_Error(
 					'invalid_comment',
-					/* translators: %d: comment ID */
+					/* translators: %d: Comment ID. */
 					sprintf( __( 'Comment %d does not exist' ), $id )
 				),
 			)
@@ -1304,12 +1304,12 @@ function wp_ajax_replyto_comment( $action ) {
 	$response['supplemental'] = array(
 		'in_moderation'        => $counts->moderated,
 		'i18n_comments_text'   => sprintf(
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			_n( '%s Comment', '%s Comments', $counts->approved ),
 			number_format_i18n( $counts->approved )
 		),
 		'i18n_moderation_text' => sprintf(
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			_n( '%s Comment in moderation', '%s Comments in moderation', $counts->moderated ),
 			number_format_i18n( $counts->moderated )
 		),
@@ -1486,7 +1486,7 @@ function wp_ajax_add_meta() {
 			$post_data['post_type']   = $post->post_type;
 			$post_data['post_status'] = 'draft';
 			$now                      = time();
-			/* translators: 1: Post creation date, 2: Post creation time */
+			/* translators: 1: Post creation date, 2: Post creation time. */
 			$post_data['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), gmdate( __( 'F j, Y' ), $now ), gmdate( __( 'g:i a' ), $now ) );
 
 			$pid = edit_post( $post_data );
@@ -1612,7 +1612,7 @@ function wp_ajax_add_user( $action ) {
 			'data'         => $wp_list_table->single_row( $user_object, '', $role ),
 			'supplemental' => array(
 				'show-link' => sprintf(
-					/* translators: %s: the new user */
+					/* translators: %s: The new user. */
 					__( 'User %s added' ),
 					'<a href="#user-' . $user_id . '">' . $user_object->user_login . '</a>'
 				),
@@ -1917,11 +1917,11 @@ function wp_ajax_inline_save() {
 		$last_user      = get_userdata( $last );
 		$last_user_name = $last_user ? $last_user->display_name : __( 'Someone' );
 
-		/* translators: %s: user's display name */
+		/* translators: %s: User's display name. */
 		$msg_template = __( 'Saving is disabled: %s is currently editing this post.' );
 
 		if ( $_POST['post_type'] == 'page' ) {
-			/* translators: %s: user's display name */
+			/* translators: %s: User's display name. */
 			$msg_template = __( 'Saving is disabled: %s is currently editing this page.' );
 		}
 
@@ -2111,7 +2111,7 @@ function wp_ajax_find_posts() {
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
 			$time = '';
 		} else {
-			/* translators: date format in table columns, see https://secure.php.net/date */
+			/* translators: Date format in table columns, see https://secure.php.net/date */
 			$time = mysql2date( __( 'Y/m/d' ), $post->post_date );
 		}
 
@@ -2630,10 +2630,10 @@ function wp_ajax_wp_fullscreen_save_post() {
 	$last_id = get_post_meta( $post_id, '_edit_last', true );
 	if ( $last_id ) {
 		$last_user = get_userdata( $last_id );
-		/* translators: 1: user's display name, 2: date of last edit, 3: time of last edit. */
+		/* translators: 1: User's display name, 2: Date of last edit, 3: Time of last edit. */
 		$last_edited = sprintf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), $last_date, $last_time );
 	} else {
-		/* translators: 1: date of last edit, 2: time of last edit. */
+		/* translators: 1: Date of last edit, 2: Time of last edit. */
 		$last_edited = sprintf( __( 'Last edited on %1$s at %2$s' ), $last_date, $last_time );
 	}
 
@@ -3484,7 +3484,7 @@ function wp_ajax_parse_embed() {
 		wp_send_json_error(
 			array(
 				'type'    => 'not-embeddable',
-				/* translators: %s: URL that could not be embedded */
+				/* translators: %s: URL that could not be embedded. */
 				'message' => sprintf( __( '%s failed to embed.' ), '<code>' . esc_html( $url ) . '</code>' ),
 			)
 		);
@@ -4228,7 +4228,7 @@ function wp_ajax_update_plugin() {
 	$status['pluginName'] = $plugin_data['Name'];
 
 	if ( $plugin_data['Version'] ) {
-		/* translators: %s: Plugin version */
+		/* translators: %s: Plugin version. */
 		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 	}
 
@@ -4271,7 +4271,7 @@ function wp_ajax_update_plugin() {
 		$plugin_data = reset( $plugin_data );
 
 		if ( $plugin_data['Version'] ) {
-			/* translators: %s: Plugin version */
+			/* translators: %s: Plugin version. */
 			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 		}
 		wp_send_json_success( $status );
@@ -4591,13 +4591,13 @@ function wp_ajax_wp_privacy_export_personal_data() {
 
 		if ( ! is_array( $exporter ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter array index */
+				/* translators: %s: Exporter array index. */
 				sprintf( __( 'Expected an array describing the exporter at index %s.' ), $exporter_key )
 			);
 		}
 		if ( ! array_key_exists( 'exporter_friendly_name', $exporter ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter array index */
+				/* translators: %s: Exporter array index. */
 				sprintf( __( 'Exporter array at index %s does not include a friendly name.' ), $exporter_key )
 			);
 		}
@@ -4606,13 +4606,13 @@ function wp_ajax_wp_privacy_export_personal_data() {
 
 		if ( ! array_key_exists( 'callback', $exporter ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Exporter does not include a callback: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
 		if ( ! is_callable( $exporter['callback'] ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Exporter callback is not a valid callback: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
@@ -4626,25 +4626,25 @@ function wp_ajax_wp_privacy_export_personal_data() {
 
 		if ( ! is_array( $response ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Expected response as an array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
 		if ( ! array_key_exists( 'data', $response ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Expected data in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
 		if ( ! is_array( $response['data'] ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Expected data array in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
 		if ( ! array_key_exists( 'done', $response ) ) {
 			wp_send_json_error(
-				/* translators: %s: exporter friendly name */
+				/* translators: %s: Exporter friendly name. */
 				sprintf( __( 'Expected done (boolean) in response array from exporter: %s.' ), esc_html( $exporter_friendly_name ) )
 			);
 		}
@@ -4773,12 +4773,12 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		$eraser      = $erasers[ $eraser_key ];
 
 		if ( ! is_array( $eraser ) ) {
-			/* translators: %d: eraser array index */
+			/* translators: %d: Eraser array index. */
 			wp_send_json_error( sprintf( __( 'Expected an array describing the eraser at index %d.' ), $eraser_index ) );
 		}
 
 		if ( ! array_key_exists( 'eraser_friendly_name', $eraser ) ) {
-			/* translators: %d: eraser array index */
+			/* translators: %d: Eraser array index. */
 			wp_send_json_error( sprintf( __( 'Eraser array at index %d does not include a friendly name.' ), $eraser_index ) );
 		}
 
@@ -4787,7 +4787,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'callback', $eraser ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %s: eraser friendly name */
+					/* translators: %s: Eraser friendly name. */
 					__( 'Eraser does not include a callback: %s.' ),
 					esc_html( $eraser_friendly_name )
 				)
@@ -4797,7 +4797,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_callable( $eraser['callback'] ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: %s: eraser friendly name */
+					/* translators: %s: Eraser friendly name. */
 					__( 'Eraser callback is not valid: %s.' ),
 					esc_html( $eraser_friendly_name )
 				)
@@ -4814,7 +4814,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_array( $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Did not receive array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4825,7 +4825,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'items_removed', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Expected items_removed key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4836,7 +4836,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'items_retained', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Expected items_retained key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4847,7 +4847,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'messages', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Expected messages key in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4858,7 +4858,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! is_array( $response['messages'] ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Expected messages key to reference an array in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index
@@ -4869,7 +4869,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 		if ( ! array_key_exists( 'done', $response ) ) {
 			wp_send_json_error(
 				sprintf(
-					/* translators: 1: eraser friendly name, 2: eraser array index */
+					/* translators: 1: Eraser friendly name, 2: Eraser array index. */
 					__( 'Expected done flag in response array from %1$s eraser (index %2$d).' ),
 					esc_html( $eraser_friendly_name ),
 					$eraser_index

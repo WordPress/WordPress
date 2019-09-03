@@ -803,12 +803,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		$file_size = filesize( $file['tmp_name'] );
 		if ( $space_left < $file_size ) {
-			/* translators: %s: required disk space in kilobytes */
+			/* translators: %s: Required disk space in kilobytes. */
 			return new WP_Error( 'rest_upload_limited_space', sprintf( __( 'Not enough space to upload. %s KB needed.' ), number_format( ( $file_size - $space_left ) / KB_IN_BYTES ) ), array( 'status' => 400 ) );
 		}
 
 		if ( $file_size > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
-			/* translators: %s: maximum allowed file size in kilobytes */
+			/* translators: %s: Maximum allowed file size in kilobytes. */
 			return new WP_Error( 'rest_upload_file_too_big', sprintf( __( 'This file is too big. Files must be less than %s KB in size.' ), get_site_option( 'fileupload_maxk', 1500 ) ), array( 'status' => 400 ) );
 		}
 

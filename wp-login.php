@@ -61,7 +61,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	$login_title = get_bloginfo( 'name', 'display' );
 
-	/* translators: Login screen title. 1: Login screen name, 2: Network or site name */
+	/* translators: Login screen title. 1: Login screen name, 2: Network or site name. */
 	$login_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $login_title );
 
 	if ( wp_is_recovery_mode() ) {
@@ -277,7 +277,7 @@ function login_footer( $input_id = '' ) {
 		<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">
 		<?php
 
-		/* translators: %s: site title */
+		/* translators: %s: Site title. */
 		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
 
 		?>
@@ -405,15 +405,15 @@ function retrieve_password() {
 	}
 
 	$message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
-	/* translators: %s: site name */
+	/* translators: %s: Site name. */
 	$message .= sprintf( __( 'Site Name: %s' ), $site_name ) . "\r\n\r\n";
-	/* translators: %s: user login */
+	/* translators: %s: User login. */
 	$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
 	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
 	$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
-	/* translators: Password reset notification email subject. %s: Site title */
+	/* translators: Password reset notification email subject. %s: Site title. */
 	$title = sprintf( __( '[%s] Password Reset' ), $site_name );
 
 	/**
@@ -447,7 +447,7 @@ function retrieve_password() {
 		$errors->add(
 			'retrieve_password_email_failure',
 			sprintf(
-				/* translators: %s: Documentation URL */
+				/* translators: %s: Documentation URL. */
 				__( '<strong>ERROR</strong>: The email could not be sent. Your site may not be correctly configured to send emails. <a href="%s">Get support for resetting your password</a>.' ),
 				esc_url( __( 'https://wordpress.org/support/article/resetting-your-password/' ) )
 			)
@@ -652,7 +652,7 @@ switch ( $action ) {
 				<?php
 
 				printf(
-					/* translators: %s: admin email address */
+					/* translators: %s: Admin email address. */
 					__( 'Current administration email: %s' ),
 					'<strong>' . esc_html( $admin_email ) . '</strong>'
 				);
@@ -1180,7 +1180,7 @@ switch ( $action ) {
 				$user = new WP_Error(
 					'test_cookie',
 					sprintf(
-						/* translators: 1: Browser cookie documentation URL, 2: Support forums URL */
+						/* translators: 1: Browser cookie documentation URL, 2: Support forums URL. */
 						__( '<strong>ERROR</strong>: Cookies are blocked due to unexpected output. For help, please see <a href="%1$s">this documentation</a> or try the <a href="%2$s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/article/cookies/' ),
 						__( 'https://wordpress.org/support/forums/' )
@@ -1191,7 +1191,7 @@ switch ( $action ) {
 				$user = new WP_Error(
 					'test_cookie',
 					sprintf(
-						/* translators: %s: Browser cookie documentation URL */
+						/* translators: %s: Browser cookie documentation URL. */
 						__( '<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href="%s">enable cookies</a> to use WordPress.' ),
 						__( 'https://wordpress.org/support/article/cookies/#enable-cookies-in-your-browser' )
 					)

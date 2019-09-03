@@ -32,12 +32,12 @@ function check_upload_size( $file ) {
 
 	$file_size = filesize( $file['tmp_name'] );
 	if ( $space_left < $file_size ) {
-		/* translators: %s: required disk space in kilobytes */
+		/* translators: %s: Required disk space in kilobytes. */
 		$file['error'] = sprintf( __( 'Not enough space to upload. %s KB needed.' ), number_format( ( $file_size - $space_left ) / KB_IN_BYTES ) );
 	}
 
 	if ( $file_size > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
-		/* translators: %s: maximum allowed file size in kilobytes */
+		/* translators: %s: Maximum allowed file size in kilobytes. */
 		$file['error'] = sprintf( __( 'This file is too big. Files must be less than %s KB in size.' ), get_site_option( 'fileupload_maxk', 1500 ) );
 	}
 
@@ -227,7 +227,7 @@ function upload_is_user_over_quota( $echo = true ) {
 	if ( ( $space_allowed - $space_used ) < 0 ) {
 		if ( $echo ) {
 			printf(
-				/* translators: %s: allowed space allocation */
+				/* translators: %s: Allowed space allocation. */
 				__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
 				size_format( $space_allowed * MB_IN_BYTES )
 			);
@@ -253,7 +253,7 @@ function display_space_usage() {
 	?>
 	<strong>
 	<?php
-		/* translators: Storage space that's been used. 1: Percentage of used space, 2: Total space allowed in megabytes or gigabytes */
+		/* translators: Storage space that's been used. 1: Percentage of used space, 2: Total space allowed in megabytes or gigabytes. */
 		printf( __( 'Used: %1$s%% of %2$s' ), number_format( $percent_used ), $space );
 	?>
 	</strong>
@@ -581,7 +581,7 @@ function _access_denied_splash() {
 	if ( empty( $blogs ) ) {
 		wp_die(
 			sprintf(
-				/* translators: 1: Site title */
+				/* translators: 1: Site title. */
 				__( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ),
 				$blog_name
 			),
@@ -590,7 +590,7 @@ function _access_denied_splash() {
 	}
 
 	$output = '<p>' . sprintf(
-		/* translators: 1: Site title */
+		/* translators: 1: Site title. */
 		__( 'You attempted to access the "%1$s" dashboard, but you do not currently have privileges on this site. If you believe you should be able to access the "%1$s" dashboard, please contact your network administrator.' ),
 		$blog_name
 	) . '</p>';
@@ -702,7 +702,7 @@ function site_admin_notice() {
 
 	if ( get_site_option( 'wpmu_upgrade_site' ) != $wp_db_version ) {
 		echo "<div class='update-nag'>" . sprintf(
-			/* translators: %s: URL to Upgrade Network screen */
+			/* translators: %s: URL to Upgrade Network screen. */
 			__( 'Thank you for Updating! Please visit the <a href="%s">Upgrade Network</a> page to update all your sites.' ),
 			esc_url( network_admin_url( 'upgrade.php' ) )
 		) . '</div>';
@@ -759,7 +759,7 @@ function choose_primary_blog() {
 	?>
 	<table class="form-table" role="presentation">
 	<tr>
-	<?php /* translators: My Sites label */ ?>
+	<?php /* translators: My Sites label. */ ?>
 		<th scope="row"><label for="primary_blog"><?php _e( 'Primary Site' ); ?></label></th>
 		<td>
 		<?php
@@ -879,7 +879,7 @@ function confirm_delete_users( $users ) {
 			if ( ! current_user_can( 'delete_user', $delete_user->ID ) ) {
 				wp_die(
 					sprintf(
-						/* translators: %s: user login */
+						/* translators: %s: User login. */
 						__( 'Warning! User %s cannot be deleted.' ),
 						$delete_user->user_login
 					)
@@ -889,7 +889,7 @@ function confirm_delete_users( $users ) {
 			if ( in_array( $delete_user->user_login, $site_admins ) ) {
 				wp_die(
 					sprintf(
-						/* translators: %s: user login */
+						/* translators: %s: User login. */
 						__( 'Warning! User cannot be deleted. The user %s is a network administrator.' ),
 						'<em>' . $delete_user->user_login . '</em>'
 					)
@@ -908,7 +908,7 @@ function confirm_delete_users( $users ) {
 				<td><fieldset><p><legend>
 				<?php
 				printf(
-					/* translators: user login */
+					/* translators: User login. */
 					__( 'What should be done with content owned by %s?' ),
 					'<em>' . $delete_user->user_login . '</em>'
 				);
@@ -941,7 +941,7 @@ function confirm_delete_users( $users ) {
 						<ul style="list-style:none;">
 							<li>
 								<?php
-								/* translators: %s: link to user's site */
+								/* translators: %s: Link to user's site. */
 								printf( __( 'Site: %s' ), $user_site );
 								?>
 							</li>
@@ -1132,7 +1132,7 @@ function get_site_screen_help_tab_args() {
 			'<p>' . __( '<strong>Info</strong> &mdash; The site URL is rarely edited as this can cause the site to not work properly. The Registered date and Last Updated date are displayed. Network admins can mark a site as archived, spam, deleted and mature, to remove from public listings or disable.' ) . '</p>' .
 			'<p>' . __( '<strong>Users</strong> &mdash; This displays the users associated with this site. You can also change their role, reset their password, or remove them from the site. Removing the user from the site does not remove the user from the network.' ) . '</p>' .
 			'<p>' . sprintf(
-				/* translators: %s: URL to Network Themes screen */
+				/* translators: %s: URL to Network Themes screen. */
 				__( '<strong>Themes</strong> &mdash; This area shows themes that are not already enabled across the network. Enabling a theme in this menu makes it accessible to this site. It does not activate the theme, but allows it to show in the site&#8217;s Appearance menu. To enable a theme for the entire network, see the <a href="%s">Network Themes</a> screen.' ),
 				network_admin_url( 'themes.php' )
 			) . '</p>' .

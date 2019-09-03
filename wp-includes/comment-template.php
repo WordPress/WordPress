@@ -896,11 +896,12 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 
 	if ( $number > 1 ) {
 		if ( false === $more ) {
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$output = sprintf( _n( '%s Comment', '%s Comments', $number ), number_format_i18n( $number ) );
 		} else {
 			// % Comments
-			/* translators: If comment number in your language requires declension,
+			/*
+			 * translators: If comment number in your language requires declension,
 			 * translate this to 'on'. Do not translate into your own language.
 			 */
 			if ( 'on' === _x( 'off', 'Comment number declension: on or off' ) ) {
@@ -910,7 +911,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 
 				// Replace '% Comments' with a proper plural form
 				if ( $text && ! preg_match( '/[0-9]+/', $text ) && false !== strpos( $more, '%' ) ) {
-					/* translators: %s: number of comments */
+					/* translators: %s: Number of comments. */
 					$new_text = _n( '%s Comment', '%s Comments', $number );
 					$new_text = trim( sprintf( $new_text, '' ) );
 
@@ -1529,23 +1530,23 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	$number = get_comments_number( $id );
 
 	if ( false === $zero ) {
-		/* translators: %s: post title */
+		/* translators: %s: Post title. */
 		$zero = sprintf( __( 'No Comments<span class="screen-reader-text"> on %s</span>' ), $title );
 	}
 
 	if ( false === $one ) {
-		/* translators: %s: post title */
+		/* translators: %s: Post title. */
 		$one = sprintf( __( '1 Comment<span class="screen-reader-text"> on %s</span>' ), $title );
 	}
 
 	if ( false === $more ) {
-		/* translators: 1: number of comments, 2: post title */
+		/* translators: 1: Number of comments, 2: Post title. */
 		$more = _n( '%1$s Comment<span class="screen-reader-text"> on %2$s</span>', '%1$s Comments<span class="screen-reader-text"> on %2$s</span>', $number );
 		$more = sprintf( $more, number_format_i18n( $number ), $title );
 	}
 
 	if ( false === $none ) {
-		/* translators: %s: post title */
+		/* translators: %s: Post title. */
 		$none = sprintf( __( 'Comments Off<span class="screen-reader-text"> on %s</span>' ), $title );
 	}
 
@@ -1628,7 +1629,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		'add_below'     => 'comment',
 		'respond_id'    => 'respond',
 		'reply_text'    => __( 'Reply' ),
-		/* translators: Comment reply button text. %s: Comment author name */
+		/* translators: Comment reply button text. %s: Comment author name. */
 		'reply_to_text' => __( 'Reply to %s' ),
 		'login_text'    => __( 'Log in to Reply' ),
 		'max_depth'     => 0,
@@ -1934,7 +1935,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 		$noreplytext = __( 'Leave a Reply' );
 	}
 	if ( false === $replytext ) {
-		/* translators: %s: author of the comment being replied to */
+		/* translators: %s: Author of the comment being replied to. */
 		$replytext = __( 'Leave a Reply to %s' );
 	}
 
@@ -2294,7 +2295,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	}
 
 	$required_text = sprintf(
-		/* translators: %s: an asterisk symbol (*) */
+		/* translators: %s: Asterisk symbol (*). */
 		' ' . __( 'Required fields are marked %s' ),
 		'<span class="required">*</span>'
 	);
@@ -2312,16 +2313,16 @@ function comment_form( $args = array(), $post_id = null ) {
 		'comment_field'        => '<p class="comment-form-comment"><label for="comment">' . _x( 'Comment', 'noun' ) . '</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p>',
 		/** This filter is documented in wp-includes/link-template.php */
 		'must_log_in'          => '<p class="must-log-in">' . sprintf(
-			/* translators: %s: login URL */
+			/* translators: %s: Login URL. */
 			__( 'You must be <a href="%s">logged in</a> to post a comment.' ),
 			wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
 		) . '</p>',
 		/** This filter is documented in wp-includes/link-template.php */
 		'logged_in_as'         => '<p class="logged-in-as">' . sprintf(
-			/* translators: 1: edit user link, 2: accessibility text, 3: user name, 4: logout URL */
+			/* translators: 1: Edit user link, 2: Accessibility text, 3: User name, 4: Logout URL. */
 			__( '<a href="%1$s" aria-label="%2$s">Logged in as %3$s</a>. <a href="%4$s">Log out?</a>' ),
 			get_edit_user_link(),
-			/* translators: %s: user name */
+			/* translators: %s: User name. */
 			esc_attr( sprintf( __( 'Logged in as %s. Edit your profile.' ), $user_identity ) ),
 			$user_identity,
 			wp_logout_url( apply_filters( 'the_permalink', get_permalink( $post_id ), $post_id ) )
@@ -2335,7 +2336,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'class_submit'         => 'submit',
 		'name_submit'          => 'submit',
 		'title_reply'          => __( 'Leave a Reply' ),
-		/* translators: %s: author of the comment being replied to */
+		/* translators: %s: Author of the comment being replied to. */
 		'title_reply_to'       => __( 'Leave a Reply to %s' ),
 		'title_reply_before'   => '<h3 id="reply-title" class="comment-reply-title">',
 		'title_reply_after'    => '</h3>',

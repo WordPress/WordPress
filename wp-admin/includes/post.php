@@ -1714,10 +1714,10 @@ function _admin_notice_post_locked() {
 		<p class="currently-editing wp-tab-first" tabindex="0">
 		<?php
 		if ( $override ) {
-			/* translators: %s: user's display name */
+			/* translators: %s: User's display name. */
 			printf( __( '%s is already editing this post. Do you want to take over?' ), esc_html( $user->display_name ) );
 		} else {
-			/* translators: %s: user's display name */
+			/* translators: %s: User's display name. */
 			printf( __( '%s is already editing this post.' ), esc_html( $user->display_name ) );
 		}
 		?>

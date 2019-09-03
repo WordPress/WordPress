@@ -125,7 +125,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	$switched_locale = switch_to_locale( get_locale() );
 
 	$instructions = sprintf(
-		/* translators: 1: marker */
+		/* translators: 1: Marker. */
 		__(
 			'The directives (lines) between `BEGIN %1$s` and `END %1$s` are
 dynamically generated, and should only be modified via WordPress filters.
@@ -1014,7 +1014,7 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
 				$user = get_userdata( $user_id );
 				if ( $user && current_user_can( 'edit_post', $post_id ) ) {
 					$send = array(
-						/* translators: %s: user's display name */
+						/* translators: %s: User's display name. */
 						'text' => sprintf( __( '%s is currently editing' ), $user->display_name ),
 					);
 
@@ -1064,7 +1064,7 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
 		$user    = get_userdata( $user_id );
 		if ( $user ) {
 			$error = array(
-				/* translators: %s: user's display name */
+				/* translators: %s: User's display name. */
 				'text' => sprintf( __( '%s has taken over and is currently editing.' ), $user->display_name ),
 			);
 
@@ -1188,11 +1188,11 @@ function heartbeat_autosave( $response, $data ) {
 				'message' => __( 'Error while saving.' ),
 			);
 		} else {
-			/* translators: draft saved date format, see https://secure.php.net/date */
+			/* translators: Draft saved date format, see https://secure.php.net/date */
 			$draft_saved_date_format = __( 'g:i:s a' );
 			$response['wp_autosave'] = array(
 				'success' => true,
-				/* translators: %s: date and time */
+				/* translators: %s: Date and time. */
 				'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ),
 			);
 		}
@@ -1348,7 +1348,7 @@ All at ###SITENAME###
 	wp_mail(
 		$value,
 		sprintf(
-			/* translators: New admin email address notification email subject. %s: Site title */
+			/* translators: New admin email address notification email subject. %s: Site title. */
 			__( '[%s] New Admin Email Address' ),
 			wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
 		),
@@ -1374,7 +1374,7 @@ All at ###SITENAME###
  */
 function _wp_privacy_settings_filter_draft_page_titles( $title, $page ) {
 	if ( 'draft' === $page->post_status && 'privacy' === get_current_screen()->id ) {
-		/* translators: %s: Page Title */
+		/* translators: %s: Page title. */
 		$title = sprintf( __( '%s (Draft)' ), $title );
 	}
 

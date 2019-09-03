@@ -98,7 +98,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		if ( is_multisite() ) {
 			if ( current_user_can( 'install_themes' ) && current_user_can( 'manage_network_themes' ) ) {
 				printf(
-					/* translators: 1: URL to Themes tab on Edit Site screen, 2: URL to Add Themes screen */
+					/* translators: 1: URL to Themes tab on Edit Site screen, 2: URL to Add Themes screen. */
 					__( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> or <a href="%2$s">install</a> more themes.' ),
 					network_admin_url( 'site-themes.php?id=' . $blog_id ),
 					network_admin_url( 'theme-install.php' )
@@ -107,7 +107,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 				return;
 			} elseif ( current_user_can( 'manage_network_themes' ) ) {
 				printf(
-					/* translators: %s: URL to Themes tab on Edit Site screen */
+					/* translators: %s: URL to Themes tab on Edit Site screen. */
 					__( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%s">enable</a> more themes.' ),
 					network_admin_url( 'site-themes.php?id=' . $blog_id )
 				);
@@ -118,7 +118,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		} else {
 			if ( current_user_can( 'install_themes' ) ) {
 				printf(
-					/* translators: %s: URL to Add Themes screen */
+					/* translators: %s: URL to Add Themes screen. */
 					__( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ),
 					admin_url( 'theme-install.php' )
 				);
@@ -128,7 +128,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		}
 		// Fallthrough.
 		printf(
-			/* translators: %s: network title */
+			/* translators: %s: Network title. */
 			__( 'Only the current theme is available to you. Contact the %s administrator for information about accessing additional themes.' ),
 			get_site_option( 'site_name' )
 		);
@@ -206,7 +206,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			$actions['activate'] = sprintf(
 				'<a href="%s" class="activatelink" title="%s">%s</a>',
 				$activate_link,
-				/* translators: %s: theme name */
+				/* translators: %s: Theme name. */
 				esc_attr( sprintf( __( 'Activate &#8220;%s&#8221;' ), $title ) ),
 				__( 'Activate' )
 			);
@@ -223,7 +223,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 				$actions['delete'] = sprintf(
 					'<a class="submitdelete deletion" href="%s" onclick="return confirm( \'%s\' );">%s</a>',
 					wp_nonce_url( 'themes.php?action=delete&amp;stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet ),
-					/* translators: %s: theme name */
+					/* translators: %s: Theme name. */
 					esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) ),
 					__( 'Delete' )
 				);
@@ -254,7 +254,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 			<h3><?php echo $title; ?></h3>
 			<div class="theme-author">
 				<?php
-					/* translators: %s: theme author */
+					/* translators: %s: Theme author. */
 					printf( __( 'By %s' ), $author );
 				?>
 			</div>
@@ -276,7 +276,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 				<?php
 				if ( $theme->parent() ) {
 					printf(
-						/* translators: %s: link to documentation on child themes */
+						/* translators: %s: Link to documentation on child themes. */
 						' <p class="howto">' . __( 'This <a href="%1$s">child theme</a> requires its parent theme, %2$s.' ) . '</p>',
 						__( 'https://developer.wordpress.org/themes/advanced-topics/child-themes/' ),
 						$theme->parent()->display( 'Name' )

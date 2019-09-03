@@ -1025,7 +1025,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 			return new WP_Error(
 				'menu_walker_not_exist',
 				sprintf(
-					/* translators: %s: walker class name */
+					/* translators: %s: Walker class name. */
 					__( 'The Walker class named %s does not exist.' ),
 					'<strong>' . $walker_class_name . '</strong>'
 				)
@@ -1203,7 +1203,7 @@ function wp_nav_menu_update_menu_items( $nav_menu_selected_id, $nav_menu_selecte
 
 	$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' .
 		sprintf(
-			/* translators: %s: nav menu title */
+			/* translators: %s: Nav menu title. */
 			__( '%s has been updated.' ),
 			'<strong>' . $nav_menu_selected_title . '</strong>'
 		) . '</p></div>';

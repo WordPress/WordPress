@@ -305,7 +305,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 
 			$mine_inner_html = sprintf(
-				/* translators: %s: number of posts */
+				/* translators: %s: Number of posts. */
 				_nx(
 					'Mine <span class="count">(%s)</span>',
 					'Mine <span class="count">(%s)</span>',
@@ -326,7 +326,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		$all_inner_html = sprintf(
-			/* translators: %s: number of posts */
+			/* translators: %s: Number of posts. */
 			_nx(
 				'All <span class="count">(%s)</span>',
 				'All <span class="count">(%s)</span>',
@@ -376,7 +376,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			);
 
 			$sticky_inner_html = sprintf(
-				/* translators: %s: number of posts */
+				/* translators: %s: Number of posts. */
 				_nx(
 					'Sticky <span class="count">(%s)</span>',
 					'Sticky <span class="count">(%s)</span>',
@@ -607,7 +607,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$posts_columns['cb'] = '<input type="checkbox" />';
 
-		/* translators: manage posts column name */
+		/* translators: Posts screen column name. */
 		$posts_columns['title'] = _x( 'Title', 'column name' );
 
 		if ( post_type_supports( $post_type, 'author' ) ) {
@@ -921,7 +921,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			?>
 			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>">
 				<?php
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					printf( __( 'Select %s' ), _draft_or_post_title() );
 				?>
 			</label>
@@ -931,7 +931,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="screen-reader-text">
 				<?php
 				printf(
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					__( '&#8220;%s&#8221; is locked' ),
 					_draft_or_post_title()
 				);
@@ -999,7 +999,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( $lock_holder ) {
 				$lock_holder   = get_userdata( $lock_holder );
 				$locked_avatar = get_avatar( $lock_holder->ID, 18 );
-				/* translators: %s: user's display name */
+				/* translators: %s: User's display name. */
 				$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
 			} else {
 				$locked_avatar = '';
@@ -1018,7 +1018,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			printf(
 				'<a class="row-title" href="%s" aria-label="%s">%s%s</a>',
 				get_edit_post_link( $post->ID ),
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
 				$pad,
 				$title
@@ -1073,7 +1073,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$time_diff = time() - $time;
 
 			if ( $time_diff > 0 && $time_diff < DAY_IN_SECONDS ) {
-				/* translators: %s: Human-readable time difference */
+				/* translators: %s: Human-readable time difference. */
 				$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
 			} else {
 				$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
@@ -1216,7 +1216,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 */
 				$term_links = apply_filters( 'post_column_taxonomy_links', $term_links, $taxonomy, $terms );
 
-				/* translators: used between list items, there is a space after the comma */
+				/* translators: Used between list items, there is a space after the comma. */
 				echo join( __( ', ' ), $term_links );
 			} else {
 				echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">' . $taxonomy_object->labels->no_terms . '</span>';
@@ -1338,7 +1338,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				get_edit_post_link( $post->ID ),
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ),
 				__( 'Edit' )
 			);
@@ -1346,7 +1346,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			if ( 'wp_block' !== $post->post_type ) {
 				$actions['inline hide-if-no-js'] = sprintf(
 					'<button type="button" class="button-link editinline" aria-label="%s" aria-expanded="false">%s</button>',
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $title ) ),
 					__( 'Quick&nbsp;Edit' )
 				);
@@ -1358,7 +1358,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$actions['untrash'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ),
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $title ) ),
 					__( 'Restore' )
 				);
@@ -1366,7 +1366,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$actions['trash'] = sprintf(
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID ),
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $title ) ),
 					_x( 'Trash', 'verb' )
 				);
@@ -1375,7 +1375,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$actions['delete'] = sprintf(
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID, '', true ),
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
 					__( 'Delete Permanently' )
 				);
@@ -1389,7 +1389,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					$actions['view'] = sprintf(
 						'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 						esc_url( $preview_link ),
-						/* translators: %s: post title */
+						/* translators: %s: Post title. */
 						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ),
 						__( 'Preview' )
 					);
@@ -1398,7 +1398,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$actions['view'] = sprintf(
 					'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 					get_permalink( $post->ID ),
-					/* translators: %s: post title */
+					/* translators: %s: Post title. */
 					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ),
 					__( 'View' )
 				);
@@ -1409,7 +1409,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$actions['export'] = sprintf(
 				'<button type="button" class="wp-list-reusable-blocks__export button-link" data-id="%s" aria-label="%s">%s</button>',
 				$post->ID,
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				esc_attr( sprintf( __( 'Export &#8220;%s&#8221; as JSON' ), $title ) ),
 				__( 'Export as JSON' )
 			);
@@ -1610,7 +1610,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			<em class="alignleft inline-edit-or">
 				<?php
-				/* translators: Between password field and private checkbox on post quick edit interface */
+				/* translators: Between password field and private checkbox on post quick edit interface. */
 				_e( '&ndash;OR&ndash;' );
 				?>
 				</em>

@@ -20,7 +20,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	public function add_strings() {
 		parent::add_strings();
-		/* translators: 1: plugin name, 2: number of the plugin, 3: total number of plugins being updated */
+		/* translators: 1: Plugin name, 2: Number of the plugin, 3: Total number of plugins being updated. */
 		$this->upgrader->strings['skin_before_update_header'] = __( 'Updating Plugin %1$s (%2$d/%3$d)' );
 	}
 

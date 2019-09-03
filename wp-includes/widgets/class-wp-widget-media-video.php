@@ -40,14 +40,14 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 				'replace_media'              => _x( 'Replace Video', 'label for button in the video widget; should preferably not be longer than ~13 characters long' ),
 				'edit_media'                 => _x( 'Edit Video', 'label for button in the video widget; should preferably not be longer than ~13 characters long' ),
 				'missing_attachment'         => sprintf(
-					/* translators: %s: URL to media library */
+					/* translators: %s: URL to media library. */
 					__( 'We can&#8217;t find that video. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
 					esc_url( admin_url( 'upload.php' ) )
 				),
-				/* translators: %d: widget count */
+				/* translators: %d: Widget count. */
 				'media_library_state_multi'  => _n_noop( 'Video Widget (%d)', 'Video Widget (%d)' ),
 				'media_library_state_single' => __( 'Video Widget' ),
-				/* translators: %s: a list of valid video file extensions */
+				/* translators: %s: A list of valid video file extensions. */
 				'unsupported_file_type'      => sprintf( __( 'Sorry, we can&#8217;t load the video at the supplied URL. Please check that the URL is for a supported video file (%s) or stream (e.g. YouTube and Vimeo).' ), '<code>.' . implode( '</code>, <code>.', wp_get_video_extensions() ) . '</code>' ),
 			)
 		);
@@ -93,7 +93,7 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 				'type'        => 'string',
 				'default'     => '',
 				'format'      => 'uri',
-				/* translators: %s: video extension */
+				/* translators: %s: Video extension. */
 				'description' => sprintf( __( 'URL to the %s video source file' ), $video_extension ),
 			);
 		}

@@ -60,7 +60,7 @@ function update_gallery_tab( $tabs ) {
 		return $tabs;
 	}
 
-	/* translators: %s: number of attachments */
+	/* translators: %s: Number of attachments. */
 	$tabs['gallery'] = sprintf( __( 'Gallery (%s)' ), "<span id='attachments-count'>$attachments</span>" );
 
 	return $tabs;
@@ -323,22 +323,22 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		if ( ! empty( $title ) ) {
 
 			if ( ! empty( $meta['album'] ) && ! empty( $meta['artist'] ) ) {
-				/* translators: 1: audio track title, 2: album title, 3: artist name */
+				/* translators: 1: Audio track title, 2: Album title, 3: Artist name. */
 				$content .= sprintf( __( '"%1$s" from %2$s by %3$s.' ), $title, $meta['album'], $meta['artist'] );
 			} elseif ( ! empty( $meta['album'] ) ) {
-				/* translators: 1: audio track title, 2: album title */
+				/* translators: 1: Audio track title, 2: Album title. */
 				$content .= sprintf( __( '"%1$s" from %2$s.' ), $title, $meta['album'] );
 			} elseif ( ! empty( $meta['artist'] ) ) {
-				/* translators: 1: audio track title, 2: artist name */
+				/* translators: 1: Audio track title, 2: Artist name. */
 				$content .= sprintf( __( '"%1$s" by %2$s.' ), $title, $meta['artist'] );
 			} else {
-				/* translators: %s: audio track title */
+				/* translators: %s: Audio track title. */
 				$content .= sprintf( __( '"%s".' ), $title );
 			}
 		} elseif ( ! empty( $meta['album'] ) ) {
 
 			if ( ! empty( $meta['artist'] ) ) {
-				/* translators: 1: audio album title, 2: artist name */
+				/* translators: 1: Audio album title, 2: Artist name. */
 				$content .= sprintf( __( '%1$s by %2$s.' ), $meta['album'], $meta['artist'] );
 			} else {
 				$content .= $meta['album'] . '.';
@@ -350,23 +350,23 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 		}
 
 		if ( ! empty( $meta['year'] ) ) {
-			/* translators: Audio file track information. %d: Year of audio track release */
+			/* translators: Audio file track information. %d: Year of audio track release. */
 			$content .= ' ' . sprintf( __( 'Released: %d.' ), $meta['year'] );
 		}
 
 		if ( ! empty( $meta['track_number'] ) ) {
 			$track_number = explode( '/', $meta['track_number'] );
 			if ( isset( $track_number[1] ) ) {
-				/* translators: Audio file track information. 1: Audio track number, 2: Total audio tracks */
+				/* translators: Audio file track information. 1: Audio track number, 2: Total audio tracks. */
 				$content .= ' ' . sprintf( __( 'Track %1$s of %2$s.' ), number_format_i18n( $track_number[0] ), number_format_i18n( $track_number[1] ) );
 			} else {
-				/* translators: Audio file track information. %s: Audio track number */
+				/* translators: Audio file track information. %s: Audio track number. */
 				$content .= ' ' . sprintf( __( 'Track %s.' ), number_format_i18n( $track_number[0] ) );
 			}
 		}
 
 		if ( ! empty( $meta['genre'] ) ) {
-			/* translators: Audio file genre information. %s: Audio genre name */
+			/* translators: Audio file genre information. %s: Audio genre name. */
 			$content .= ' ' . sprintf( __( 'Genre: %s.' ), $meta['genre'] );
 		}
 
@@ -1603,7 +1603,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>\n
 		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n
 		<tr><td colspan='2'><p class='media-types media-types-required-info'>" .
-			/* translators: %s: an asterisk symbol (*) */
+			/* translators: %s: Asterisk symbol (*). */
 			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
 		"</p></td></tr>\n";
 
@@ -1625,7 +1625,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		} elseif ( ! MEDIA_TRASH ) {
 			$delete = "<a href='#' class='del-link' onclick=\"document.getElementById('del_attachment_$attachment_id').style.display='block';return false;\">" . __( 'Delete' ) . "</a>
 				<div id='del_attachment_$attachment_id' class='del-attachment' style='display:none;'>" .
-				/* translators: %s: file name */
+				/* translators: %s: File name. */
 				'<p>' . sprintf( __( 'You are about to delete %s.' ), '<strong>' . $filename . '</strong>' ) . "</p>
 				<a href='" . wp_nonce_url( "post.php?action=delete&amp;post=$attachment_id", 'delete-post_' . $attachment_id ) . "' id='del[$attachment_id]' class='button'>" . __( 'Continue' ) . "</a>
 				<a href='#' class='button' onclick=\"this.parentNode.style.display='none';return false;\">" . __( 'Cancel' ) . '</a>
@@ -1910,7 +1910,7 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	if ( $item ) {
 		$item = '<p class="media-types media-types-required-info">' .
-			/* translators: %s: an asterisk symbol (*) */
+			/* translators: %s: Asterisk symbol (*). */
 			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
 			'</p>' .
 			'<table class="compat-attachment-fields">' . $item . '</table>';
@@ -2142,7 +2142,7 @@ wpUploaderInit = <?php echo wp_json_encode( $plupload_init ); ?>;
 
 <p class="max-upload-size">
 	<?php
-	/* translators: %s: maximum allowed file size */
+	/* translators: %s: Maximum allowed file size. */
 	printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( $max_upload_size ) ) );
 	?>
 </p>
@@ -2791,7 +2791,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 	return '
 	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
 	<p class="media-types media-types-required-info">' .
-		/* translators: %s: an asterisk symbol (*) */
+		/* translators: %s: Asterisk symbol (*). */
 		sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) .
 	'</p>
 	<table class="describe ' . $table_class . '"><tbody>
@@ -2882,7 +2882,7 @@ function media_upload_flash_bypass() {
 	<p class="upload-flash-bypass">
 	<?php
 		printf(
-			/* translators: 1: URL to browser uploader, 2: additional link attributes */
+			/* translators: 1: URL to browser uploader, 2: Additional link attributes. */
 			__( 'You are using the multi-file uploader. Problems? Try the <a href="%1$s" %2$s>browser uploader</a> instead.' ),
 			$browser_uploader,
 			'target="_blank"'
@@ -2930,7 +2930,7 @@ function media_upload_max_image_resize() {
 <p class="hide-if-no-js"><label>
 <input name="image_resize" type="checkbox" id="image_resize" value="true"<?php echo $checked; ?> />
 	<?php
-	/* translators: 1: link start tag, 2: link end tag, 3: width, 4: height */
+	/* translators: 1: Link start tag, 2: Link end tag, 3: Width, 4: Height. */
 	printf( __( 'Scale images to match the large size selected in %1$simage options%2$s (%3$d &times; %4$d).' ), $a, $end, (int) get_option( 'large_size_w', '1024' ), (int) get_option( 'large_size_h', '1024' ) );
 	?>
 </label></p>
@@ -2944,7 +2944,7 @@ function media_upload_max_image_resize() {
  */
 function multisite_over_quota_message() {
 	echo '<p>' . sprintf(
-		/* translators: %s: allowed space allocation */
+		/* translators: %s: Allowed space allocation. */
 		__( 'Sorry, you have used your space allocation of %s. Please delete some files to upload more files.' ),
 		size_format( get_space_allowed() * MB_IN_BYTES )
 	) . '</p>';
@@ -3067,13 +3067,13 @@ function edit_form_image_editor( $post ) {
 		<p class="attachment-alt-text-description" id="alt-text-description">
 			<?php
 			printf(
-				/* translators: 1: link to tutorial, 2: additional link attributes, 3: accessibility text */
+				/* translators: 1: Link to tutorial, 2: Additional link attributes, 3: Accessibility text. */
 				__( '<a href="%1$s" %2$s>Describe the purpose of the image%3$s</a>. Leave empty if the image is purely decorative.' ),
 				esc_url( 'https://www.w3.org/WAI/tutorials/images/decision-tree' ),
 				'target="_blank" rel="noopener noreferrer"',
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
-					/* translators: accessibility text */
+					/* translators: Accessibility text. */
 					__( '(opens in a new tab)' )
 				)
 			);

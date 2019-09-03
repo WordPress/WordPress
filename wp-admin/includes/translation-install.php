@@ -60,7 +60,7 @@ function translations_api( $type, $args = null ) {
 		if ( $ssl && is_wp_error( $request ) ) {
 			trigger_error(
 				sprintf(
-					/* translators: %s: support forums URL */
+					/* translators: %s: Support forums URL. */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 					__( 'https://wordpress.org/support/forums/' )
 				) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
@@ -74,7 +74,7 @@ function translations_api( $type, $args = null ) {
 			$res = new WP_Error(
 				'translations_api_failed',
 				sprintf(
-					/* translators: %s: support forums URL */
+					/* translators: %s: Support forums URL. */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 					__( 'https://wordpress.org/support/forums/' )
 				),
@@ -86,7 +86,7 @@ function translations_api( $type, $args = null ) {
 				$res = new WP_Error(
 					'translations_api_failed',
 					sprintf(
-						/* translators: %s: support forums URL */
+						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/forums/' )
 					),

@@ -21,7 +21,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <h1>
 	<?php
 	printf(
-		/* translators: %s: The current WordPress version number */
+		/* translators: %s: The current WordPress version number. */
 		__( 'Welcome to WordPress&nbsp;%s' ),
 		$display_version
 	);
@@ -31,7 +31,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <p class="about-text">
 	<?php
 	printf(
-		/* translators: %s: The current WordPress version number */
+		/* translators: %s: The current WordPress version number. */
 		__( 'Congratulations on updating to WordPress %s! This update makes it easier than ever to fix your site if something goes wrong.' ),
 		$display_version
 	);
@@ -41,7 +41,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wp-badge">
 	<?php
 	printf(
-		/* translators: %s: The current WordPress version number */
+		/* translators: %s: The current WordPress version number. */
 		__( 'Version %s' ),
 		$display_version
 	);
@@ -147,7 +147,7 @@ return;
 
 // These are strings returned by the API that we want to be translatable
 __( 'Project Leaders' );
-/* translators: %s: The current WordPress version number */
+/* translators: %s: The current WordPress version number. */
 __( 'Core Contributors to WordPress %s' );
 __( 'Noteworthy Contributors' );
 __( 'Cofounder, Project Lead' );

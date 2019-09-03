@@ -2729,7 +2729,7 @@ final class WP_Customize_Manager {
 		if ( $update_transactionally && $invalid_setting_count > 0 ) {
 			$response = array(
 				'setting_validities' => $setting_validities,
-				/* translators: %s: number of invalid settings */
+				/* translators: %s: Number of invalid settings. */
 				'message'            => sprintf( _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', $invalid_setting_count ), number_format_i18n( $invalid_setting_count ) ),
 			);
 			return new WP_Error( 'transaction_fail', '', $response );
@@ -3821,7 +3821,7 @@ final class WP_Customize_Manager {
 		// Removing core components this way is _doing_it_wrong().
 		if ( in_array( $id, $this->components, true ) ) {
 			$message = sprintf(
-				/* translators: 1: panel id, 2: link to 'customize_loaded_components' filter reference */
+				/* translators: 1: Panel ID, 2: Link to 'customize_loaded_components' filter reference. */
 				__( 'Removing %1$s manually will cause PHP warnings. Use the %2$s filter instead.' ),
 				$id,
 				'<a href="' . esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ) . '"><code>customize_loaded_components</code></a>'
@@ -4467,10 +4467,10 @@ final class WP_Customize_Manager {
 	 */
 	public function get_document_title_template() {
 		if ( $this->is_theme_active() ) {
-			/* translators: %s: document title from the preview */
+			/* translators: %s: Document title from the preview. */
 			$document_title_tmpl = __( 'Customize: %s' );
 		} else {
-			/* translators: %s: document title from the preview */
+			/* translators: %s: Document title from the preview. */
 			$document_title_tmpl = __( 'Live Preview: %s' );
 		}
 		$document_title_tmpl = html_entity_decode( $document_title_tmpl, ENT_QUOTES, 'UTF-8' ); // Because exported to JS and assigned to document.title.
@@ -4809,11 +4809,11 @@ final class WP_Customize_Manager {
 			'previewableDevices'     => $this->get_previewable_devices(),
 			'l10n'                   => array(
 				'confirmDeleteTheme'   => __( 'Are you sure you want to delete this theme?' ),
-				/* translators: %d: number of theme search results, which cannot currently consider singular vs. plural forms */
+				/* translators: %d: Number of theme search results, which cannot currently consider singular vs. plural forms. */
 				'themeSearchResults'   => __( '%d themes found' ),
-				/* translators: %d: number of themes being displayed, which cannot currently consider singular vs. plural forms */
+				/* translators: %d: Number of themes being displayed, which cannot currently consider singular vs. plural forms. */
 				'announceThemeCount'   => __( 'Displaying %d themes' ),
-				/* translators: %s: theme name */
+				/* translators: %s: Theme name. */
 				'announceThemeDetails' => __( 'Showing details for theme: %s' ),
 			),
 		);
@@ -5069,7 +5069,7 @@ final class WP_Customize_Manager {
 					'label'       => __( 'Site Icon' ),
 					'description' => sprintf(
 						'<p>' . __( 'Site Icons are what you see in browser tabs, bookmark bars, and within the WordPress mobile apps. Upload one here!' ) . '</p>' .
-						/* translators: %s: site icon size in pixels */
+						/* translators: %s: Site icon size in pixels. */
 						'<p>' . __( 'Site Icons should be square and at least %s pixels.' ) . '</p>',
 						'<strong>512 &times; 512</strong>'
 					),
@@ -5204,21 +5204,21 @@ final class WP_Customize_Manager {
 			$height = absint( get_theme_support( 'custom-header', 'height' ) );
 			if ( $width && $height ) {
 				$control_description = sprintf(
-					/* translators: 1: .mp4, 2: header size in pixels */
+					/* translators: 1: .mp4, 2: Header size in pixels. */
 					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends dimensions of %2$s pixels.' ),
 					'<code>.mp4</code>',
 					sprintf( '<strong>%s &times; %s</strong>', $width, $height )
 				);
 			} elseif ( $width ) {
 				$control_description = sprintf(
-					/* translators: 1: .mp4, 2: header width in pixels */
+					/* translators: 1: .mp4, 2: Header width in pixels. */
 					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends a width of %2$s pixels.' ),
 					'<code>.mp4</code>',
 					sprintf( '<strong>%s</strong>', $width )
 				);
 			} else {
 				$control_description = sprintf(
-					/* translators: 1: .mp4, 2: header height in pixels */
+					/* translators: 1: .mp4, 2: Header height in pixels. */
 					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends a height of %2$s pixels.' ),
 					'<code>.mp4</code>',
 					sprintf( '<strong>%s</strong>', $height )
@@ -5568,7 +5568,7 @@ final class WP_Customize_Manager {
 			' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text"> %3$s</span></a>',
 			esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
 			__( 'Learn more about CSS' ),
-			/* translators: accessibility text */
+			/* translators: Accessibility text. */
 			__( '(opens in a new tab)' )
 		);
 		$section_description .= '</p>';
@@ -5583,13 +5583,13 @@ final class WP_Customize_Manager {
 		if ( 'false' !== wp_get_current_user()->syntax_highlighting ) {
 			$section_description .= '<p>';
 			$section_description .= sprintf(
-				/* translators: 1: link to user profile, 2: additional link attributes, 3: accessibility text */
+				/* translators: 1: Link to user profile, 2: Additional link attributes, 3: Accessibility text. */
 				__( 'The edit field automatically highlights code syntax. You can disable this in your <a href="%1$s" %2$s>user profile%3$s</a> to work in plain text mode.' ),
 				esc_url( get_edit_profile_url() ),
 				'class="external-link" target="_blank"',
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
-					/* translators: accessibility text */
+					/* translators: Accessibility text. */
 					__( '(opens in a new tab)' )
 				)
 			);

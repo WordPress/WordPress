@@ -203,19 +203,19 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 					_e( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image that matches the size of your video &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' );
 				} elseif ( $width && $height ) {
 					printf(
-						/* translators: %s: header size in pixels */
+						/* translators: %s: Header size in pixels. */
 						__( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header size of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s &times; %s</strong>', $width, $height )
 					);
 				} elseif ( $width ) {
 					printf(
-						/* translators: %s: header width in pixels */
+						/* translators: %s: Header width in pixels. */
 						__( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header width of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $width )
 					);
 				} else {
 					printf(
-						/* translators: %s: header height in pixels */
+						/* translators: %s: Header height in pixels. */
 						__( 'Click &#8220;Add new image&#8221; to upload an image file from your computer. Your theme works best with an image with a header height of %s pixels &#8212; you&#8217;ll be able to crop your image once you upload it for a perfect fit.' ),
 						sprintf( '<strong>%s</strong>', $height )
 					);

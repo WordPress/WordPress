@@ -151,7 +151,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 				$this->errors->add(
 					'auth',
 					sprintf(
-						/* translators: %s: username */
+						/* translators: %s: Username. */
 						__( 'Username/Password incorrect for %s' ),
 						$this->options['username']
 					)
@@ -163,7 +163,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 				$this->errors->add(
 					'auth',
 					sprintf(
-						/* translators: %s: username */
+						/* translators: %s: Username. */
 						__( 'Public and Private keys incorrect for %s' ),
 						$this->options['username']
 					)
@@ -226,7 +226,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->errors->add(
 				'command',
 				sprintf(
-					/* translators: %s: command */
+					/* translators: %s: Command. */
 					__( 'Unable to perform command: %s' ),
 					$command
 				)

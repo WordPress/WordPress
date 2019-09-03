@@ -131,7 +131,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				}
 				$author = sanitize_email( $author );
 				if ( is_email( $author ) ) {
-					/* translators: Post author email address */
+					/* translators: %s: Post author email address. */
 					echo '<p>' . sprintf( __( 'Author is %s' ), $author ) . '</p>';
 					$userdata = get_user_by( 'email', $author );
 					if ( ! empty( $userdata ) ) {
@@ -245,7 +245,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 
 	if ( ! $pop3->delete( $i ) ) {
 		echo '<p>' . sprintf(
-			/* translators: %s: POP3 error */
+			/* translators: %s: POP3 error. */
 			__( 'Oops: %s' ),
 			esc_html( $pop3->ERROR )
 		) . '</p>';
@@ -253,7 +253,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 		exit;
 	} else {
 		echo '<p>' . sprintf(
-			/* translators: %s: the message ID */
+			/* translators: %s: The message ID. */
 			__( 'Mission complete. Message %s deleted.' ),
 			'<strong>' . $i . '</strong>'
 		) . '</p>';

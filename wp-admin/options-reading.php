@@ -24,12 +24,12 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Overview' ),
 		'content' => '<p>' . __( 'This screen contains the settings that affect the display of your content.' ) . '</p>' .
 			'<p>' . sprintf(
-				/* translators: %s: URL to create a new page */
+				/* translators: %s: URL to create a new page. */
 				__( 'You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two <a href="%s">Pages</a>. One will become the homepage, and the other will be where your posts are displayed.' ),
 				'post-new.php?post_type=page'
 			) . '</p>' .
 			'<p>' . sprintf(
-				/* translators: %s: Documentation URL */
+				/* translators: %s: Documentation URL. */
 				__( 'You can also control the display of your content in RSS feeds, including the maximum number of posts to display and whether to show full text or a summary. <a href="%s">Learn more about feeds</a>.' ),
 				__( 'https://wordpress.org/support/article/wordpress-feeds/' )
 			) . '</p>' .
@@ -93,7 +93,7 @@ else :
 		<input name="show_on_front" type="radio" value="page" class="tog" <?php checked( 'page', get_option( 'show_on_front' ) ); ?> />
 		<?php
 		printf(
-			/* translators: %s: URL to Pages screen */
+			/* translators: %s: URL to Pages screen. */
 			__( 'A <a href="%s">static page</a> (select below)' ),
 			'edit.php?post_type=page'
 		);
@@ -104,7 +104,7 @@ else :
 	<li><label for="page_on_front">
 	<?php
 	printf(
-		/* translators: %s: select field to choose the front page */
+		/* translators: %s: Select field to choose the front page. */
 		__( 'Homepage: %s' ),
 		wp_dropdown_pages(
 			array(
@@ -121,7 +121,7 @@ else :
 	<li><label for="page_for_posts">
 	<?php
 	printf(
-		/* translators: %s: select field to choose the page for posts */
+		/* translators: %s: Select field to choose the page for posts. */
 		__( 'Posts page: %s' ),
 		wp_dropdown_pages(
 			array(
@@ -165,7 +165,7 @@ else :
 	<p class="description">
 		<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'Your theme determines how content is displayed in browsers. <a href="%s">Learn more about feeds</a>.' ),
 			__( 'https://wordpress.org/support/article/wordpress-feeds/' )
 		);

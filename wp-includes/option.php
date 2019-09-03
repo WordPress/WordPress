@@ -166,7 +166,7 @@ function wp_protect_special_option( $option ) {
 	if ( 'alloptions' === $option || 'notoptions' === $option ) {
 		wp_die(
 			sprintf(
-				/* translators: %s: option name */
+				/* translators: %s: Option name. */
 				__( '%s is a protected WP option and may not be modified' ),
 				esc_html( $option )
 			)

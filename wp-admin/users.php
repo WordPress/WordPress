@@ -289,10 +289,10 @@ switch ( $wp_list_table->current_action() ) {
 		foreach ( $all_userids as $id ) {
 			$user = get_userdata( $id );
 			if ( $id == $current_user->ID ) {
-				/* translators: 1: user ID, 2: user login */
+				/* translators: 1: User ID, 2: User login. */
 				echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>' ), $id, $user->user_login ) . "</li>\n";
 			} else {
-				/* translators: 1: user ID, 2: user login */
+				/* translators: 1: User ID, 2: User login. */
 				echo '<li><input type="hidden" name="users[]" value="' . esc_attr( $id ) . '" />' . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
 				$go_delete++;
 			}
@@ -427,10 +427,10 @@ switch ( $wp_list_table->current_action() ) {
 			$id   = (int) $id;
 			$user = get_userdata( $id );
 			if ( ! current_user_can( 'remove_user', $id ) ) {
-				/* translators: 1: user ID, 2: user login */
+				/* translators: 1: User ID, 2: User login. */
 				echo '<li>' . sprintf( __( 'ID #%1$s: %2$s <strong>Sorry, you are not allowed to remove this user.</strong>' ), $id, $user->user_login ) . "</li>\n";
 			} else {
-				/* translators: 1: user ID, 2: user login */
+				/* translators: 1: User ID, 2: User login. */
 				echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf( __( 'ID #%1$s: %2$s' ), $id, $user->user_login ) . "</li>\n";
 				$go_remove = true;
 			}
@@ -484,7 +484,7 @@ switch ( $wp_list_table->current_action() ) {
 					if ( 1 == $delete_count ) {
 						$message = __( 'User deleted.' );
 					} else {
-						/* translators: %s: number of users */
+						/* translators: %s: Number of users. */
 						$message = _n( '%s user deleted.', '%s users deleted.', $delete_count );
 					}
 					$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( $message, number_format_i18n( $delete_count ) ) . '</p></div>';
@@ -568,7 +568,7 @@ switch ( $wp_list_table->current_action() ) {
 }
 
 if ( strlen( $usersearch ) ) {
-	/* translators: %s: search keywords */
+	/* translators: %s: Search query. */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 }
 ?>

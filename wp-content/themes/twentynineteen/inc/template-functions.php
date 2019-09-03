@@ -86,7 +86,7 @@ function twentynineteen_get_the_archive_title() {
 		$title = __( 'Post Type Archives: ', 'twentynineteen' ) . '<span class="page-description">' . post_type_archive_title( '', false ) . '</span>';
 	} elseif ( is_tax() ) {
 		$tax = get_taxonomy( get_queried_object()->taxonomy );
-		/* translators: %s: Taxonomy singular name */
+		/* translators: %s: Taxonomy singular name. */
 		$title = sprintf( esc_html__( '%s Archives:', 'twentynineteen' ), $tax->labels->singular_name );
 	} else {
 		$title = __( 'Archives:', 'twentynineteen' );

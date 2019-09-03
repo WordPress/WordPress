@@ -312,7 +312,7 @@ function create_initial_post_types() {
 			'label'       => _x( 'Published', 'post status' ),
 			'public'      => true,
 			'_builtin'    => true, /* internal use only. */
-			/* translators: %s: number of published posts */
+			/* translators: %s: Number of published posts. */
 			'label_count' => _n_noop(
 				'Published <span class="count">(%s)</span>',
 				'Published <span class="count">(%s)</span>'
@@ -326,7 +326,7 @@ function create_initial_post_types() {
 			'label'       => _x( 'Scheduled', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
-			/* translators: %s: number of scheduled posts */
+			/* translators: %s: Number of scheduled posts. */
 			'label_count' => _n_noop(
 				'Scheduled <span class="count">(%s)</span>',
 				'Scheduled <span class="count">(%s)</span>'
@@ -340,7 +340,7 @@ function create_initial_post_types() {
 			'label'       => _x( 'Draft', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
-			/* translators: %s: number of draft posts */
+			/* translators: %s: Number of draft posts. */
 			'label_count' => _n_noop(
 				'Draft <span class="count">(%s)</span>',
 				'Drafts <span class="count">(%s)</span>'
@@ -354,7 +354,7 @@ function create_initial_post_types() {
 			'label'       => _x( 'Pending', 'post status' ),
 			'protected'   => true,
 			'_builtin'    => true, /* internal use only. */
-			/* translators: %s: number of pending posts */
+			/* translators: %s: Number of pending posts. */
 			'label_count' => _n_noop(
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>'
@@ -368,7 +368,7 @@ function create_initial_post_types() {
 			'label'       => _x( 'Private', 'post status' ),
 			'private'     => true,
 			'_builtin'    => true, /* internal use only. */
-			/* translators: %s: number of private posts */
+			/* translators: %s: Number of private posts. */
 			'label_count' => _n_noop(
 				'Private <span class="count">(%s)</span>',
 				'Private <span class="count">(%s)</span>'
@@ -382,7 +382,7 @@ function create_initial_post_types() {
 			'label'                     => _x( 'Trash', 'post status' ),
 			'internal'                  => true,
 			'_builtin'                  => true, /* internal use only. */
-			/* translators: %s: number of trashed posts */
+			/* translators: %s: Number of trashed posts. */
 			'label_count'               => _n_noop(
 				'Trash <span class="count">(%s)</span>',
 				'Trash <span class="count">(%s)</span>'
@@ -416,7 +416,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Pending', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
-			/* translators: %s: number of pending requests */
+			/* translators: %s: Number of pending requests. */
 			'label_count'         => _n_noop(
 				'Pending <span class="count">(%s)</span>',
 				'Pending <span class="count">(%s)</span>'
@@ -431,7 +431,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Confirmed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
-			/* translators: %s: number of confirmed requests */
+			/* translators: %s: Number of confirmed requests. */
 			'label_count'         => _n_noop(
 				'Confirmed <span class="count">(%s)</span>',
 				'Confirmed <span class="count">(%s)</span>'
@@ -446,7 +446,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Failed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
-			/* translators: %s: number of failed requests */
+			/* translators: %s: Number of failed requests. */
 			'label_count'         => _n_noop(
 				'Failed <span class="count">(%s)</span>',
 				'Failed <span class="count">(%s)</span>'
@@ -461,7 +461,7 @@ function create_initial_post_types() {
 			'label'               => _x( 'Completed', 'request status' ),
 			'internal'            => true,
 			'_builtin'            => true, /* internal use only. */
-			/* translators: %s: number of completed requests */
+			/* translators: %s: Number of completed requests. */
 			'label_count'         => _n_noop(
 				'Completed <span class="count">(%s)</span>',
 				'Completed <span class="count">(%s)</span>'
@@ -2690,7 +2690,7 @@ function get_post_mime_types() {
 		'image'       => array(
 			__( 'Images' ),
 			__( 'Manage Images' ),
-			/* translators: %s: number of images */
+			/* translators: %s: Number of images. */
 			_n_noop(
 				'Image <span class="count">(%s)</span>',
 				'Images <span class="count">(%s)</span>'
@@ -2699,7 +2699,7 @@ function get_post_mime_types() {
 		'audio'       => array(
 			__( 'Audio' ),
 			__( 'Manage Audio' ),
-			/* translators: %s: number of audio files */
+			/* translators: %s: Number of audio files. */
 			_n_noop(
 				'Audio <span class="count">(%s)</span>',
 				'Audio <span class="count">(%s)</span>'
@@ -2708,7 +2708,7 @@ function get_post_mime_types() {
 		'video'       => array(
 			__( 'Video' ),
 			__( 'Manage Video' ),
-			/* translators: %s: number of video files */
+			/* translators: %s: Number of video files. */
 			_n_noop(
 				'Video <span class="count">(%s)</span>',
 				'Video <span class="count">(%s)</span>'
@@ -2717,7 +2717,7 @@ function get_post_mime_types() {
 		'document'    => array(
 			__( 'Documents' ),
 			__( 'Manage Documents' ),
-			/* translators: %s: number of documents */
+			/* translators: %s: Number of documents. */
 			_n_noop(
 				'Document <span class="count">(%s)</span>',
 				'Documents <span class="count">(%s)</span>'
@@ -2726,7 +2726,7 @@ function get_post_mime_types() {
 		'spreadsheet' => array(
 			__( 'Spreadsheets' ),
 			__( 'Manage Spreadsheets' ),
-			/* translators: %s: number of spreadsheets */
+			/* translators: %s: Number of spreadsheets. */
 			_n_noop(
 				'Spreadsheet <span class="count">(%s)</span>',
 				'Spreadsheets <span class="count">(%s)</span>'
@@ -2735,7 +2735,7 @@ function get_post_mime_types() {
 		'archive'     => array(
 			__( 'Archives' ),
 			__( 'Manage Archives' ),
-			/* translators: %s: number of archives */
+			/* translators: %s: Number of archives. */
 			_n_noop(
 				'Archive <span class="count">(%s)</span>',
 				'Archives <span class="count">(%s)</span>'
@@ -3920,7 +3920,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		foreach ( $postarr['tax_input'] as $taxonomy => $tags ) {
 			$taxonomy_obj = get_taxonomy( $taxonomy );
 			if ( ! $taxonomy_obj ) {
-				/* translators: %s: taxonomy name */
+				/* translators: %s: Taxonomy name. */
 				_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid taxonomy: %s.' ), $taxonomy ), '4.4.0' );
 				continue;
 			}

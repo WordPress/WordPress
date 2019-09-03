@@ -105,7 +105,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->errors->add(
 				'auth',
 				sprintf(
-					/* translators: %s: username */
+					/* translators: %s: Username. */
 					__( 'Username/Password incorrect for %s' ),
 					$this->options['username']
 				)

@@ -95,7 +95,7 @@ class Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 			/** This filter is documented in wp-includes/post-template.php */
 			$title = apply_filters( 'the_title', $item->post_title, $item->ID );
 			if ( ! empty( $item->front_or_home ) && _x( 'Home', 'nav menu home label' ) !== $title ) {
-				/* translators: %s: front page title */
+				/* translators: %s: Front page title. */
 				$title = sprintf( _x( 'Home: %s', 'nav menu front page title' ), $title );
 			}
 		}

@@ -1083,7 +1083,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		foreach ( $roles as $role ) {
 
 			if ( ! isset( $wp_roles->role_objects[ $role ] ) ) {
-				/* translators: %s: role key */
+				/* translators: %s: Role key. */
 				return new WP_Error( 'rest_user_invalid_role', sprintf( __( 'The role %s does not exist.' ), $role ), array( 'status' => 400 ) );
 			}
 
@@ -1319,7 +1319,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 			foreach ( $avatar_sizes as $size ) {
 				$avatar_properties[ $size ] = array(
-					/* translators: %d: avatar image size in pixels */
+					/* translators: %d: Avatar image size in pixels. */
 					'description' => sprintf( __( 'Avatar URL with image size of %d pixels.' ), $size ),
 					'type'        => 'string',
 					'format'      => 'uri',

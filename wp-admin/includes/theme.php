@@ -78,7 +78,7 @@ function delete_theme( $stylesheet, $redirect = '' ) {
 	if ( ! $deleted ) {
 		return new WP_Error(
 			'could_not_remove_theme',
-			/* translators: %s: Theme name */
+			/* translators: %s: Theme name. */
 			sprintf( __( 'Could not fully remove the theme %s.' ), $stylesheet )
 		);
 	}
@@ -200,46 +200,46 @@ function get_theme_update_available( $theme ) {
 		if ( ! is_multisite() ) {
 			if ( ! current_user_can( 'update_themes' ) ) {
 				$html = sprintf(
-					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
+					/* translators: 1: Theme name, 2: Theme details URL, 3: Additional link attributes, 4: Version number. */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>.' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
 					sprintf(
 						'class="thickbox open-plugin-details-modal" aria-label="%s"',
-						/* translators: 1: theme name, 2: version number */
+						/* translators: 1: Theme name, 2: Version number. */
 						esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) )
 					),
 					$update['new_version']
 				);
 			} elseif ( empty( $update['package'] ) ) {
 				$html = sprintf(
-					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number */
+					/* translators: 1: Theme name, 2: Theme details URL, 3: Additional link attributes, 4: Version number. */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
 					sprintf(
 						'class="thickbox open-plugin-details-modal" aria-label="%s"',
-						/* translators: 1: theme name, 2: version number */
+						/* translators: 1: Theme name, 2: Version number. */
 						esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) )
 					),
 					$update['new_version']
 				);
 			} else {
 				$html = sprintf(
-					/* translators: 1: theme name, 2: theme details URL, 3: additional link attributes, 4: version number, 5: update URL, 6: additional link attributes */
+					/* translators: 1: Theme name, 2: Theme details URL, 3: Additional link attributes, 4: Version number, 5: Update URL, 6: Additional link attributes. */
 					'<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" %3$s>View version %4$s details</a> or <a href="%5$s" %6$s>update now</a>.' ) . '</strong></p>',
 					$theme_name,
 					esc_url( $details_url ),
 					sprintf(
 						'class="thickbox open-plugin-details-modal" aria-label="%s"',
-						/* translators: 1: theme name, 2: version number */
+						/* translators: 1: Theme name, 2: Version number. */
 						esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) )
 					),
 					$update['new_version'],
 					$update_url,
 					sprintf(
 						'aria-label="%s" id="update-theme" data-slug="%s"',
-						/* translators: %s: theme name */
+						/* translators: %s: Theme name. */
 						esc_attr( sprintf( __( 'Update %s now' ), $theme_name ) ),
 						$stylesheet
 					)
@@ -509,7 +509,7 @@ function themes_api( $action, $args = array() ) {
 			if ( ! wp_doing_ajax() ) {
 				trigger_error(
 					sprintf(
-						/* translators: %s: support forums URL */
+						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/forums/' )
 					) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
@@ -523,7 +523,7 @@ function themes_api( $action, $args = array() ) {
 			$res = new WP_Error(
 				'themes_api_failed',
 				sprintf(
-					/* translators: %s: support forums URL */
+					/* translators: %s: Support forums URL. */
 					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 					__( 'https://wordpress.org/support/forums/' )
 				),
@@ -538,7 +538,7 @@ function themes_api( $action, $args = array() ) {
 				$res = new WP_Error(
 					'themes_api_failed',
 					sprintf(
-						/* translators: %s: support forums URL */
+						/* translators: %s: Support forums URL. */
 						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
 						__( 'https://wordpress.org/support/forums/' )
 					),
@@ -723,13 +723,13 @@ function customize_themes_print_templates() {
 					<# } #>
 					<h2 class="theme-name">{{{ data.name }}}<span class="theme-version">
 						<?php
-						/* translators: %s: theme version */
+						/* translators: %s: Theme version. */
 						printf( __( 'Version: %s' ), '{{ data.version }}' );
 						?>
 					</span></h2>
 					<h3 class="theme-author">
 						<?php
-						/* translators: %s: theme author link */
+						/* translators: %s: Theme author link. */
 						printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' );
 						?>
 					</h3>
@@ -741,9 +741,9 @@ function customize_themes_print_templates() {
 								<?php
 								printf(
 									'%1$s <span class="screen-reader-text">%2$s</span>',
-									/* translators: %s: number of ratings */
+									/* translators: %s: Number of ratings. */
 									sprintf( __( '(%s ratings)' ), '{{ data.num_ratings }}' ),
-									/* translators: accessibility text */
+									/* translators: Accessibility text. */
 									__( '(opens in a new tab)' )
 								);
 								?>
@@ -762,7 +762,7 @@ function customize_themes_print_templates() {
 						<p class="parent-theme">
 							<?php
 							printf(
-								/* translators: %s: theme name */
+								/* translators: %s: Theme name. */
 								__( 'This is a child theme of %s.' ),
 								'<strong>{{{ data.parent }}}</strong>'
 							);

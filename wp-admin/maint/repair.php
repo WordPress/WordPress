@@ -63,7 +63,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 		echo '<h2 class="screen-reader-text">' . __( 'Check secret keys' ) . '</h2>';
 
-		/* translators: 1: wp-config.php, 2: secret key service URL */
+		/* translators: 1: wp-config.php, 2: Secret key service URL. */
 		echo '<p>' . sprintf( __( 'While you are editing your %1$s file, take a moment to make sure you have all 8 keys and that they are unique. You can generate these using the <a href="%2$s">WordPress.org secret key service</a>.' ), '<code>wp-config.php</code>', 'https://api.wordpress.org/secret-key/1.1/salt/' ) . '</p>';
 	}
 } elseif ( isset( $_GET['repair'] ) ) {
@@ -97,20 +97,20 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 		echo '<p>';
 		if ( 'OK' == $check->Msg_text ) {
-			/* translators: %s: table name */
+			/* translators: %s: Table name. */
 			printf( __( 'The %s table is okay.' ), "<code>$table</code>" );
 		} else {
-			/* translators: 1: table name, 2: error message, */
+			/* translators: 1: Table name, 2: Error message. */
 			printf( __( 'The %1$s table is not okay. It is reporting the following error: %2$s. WordPress will attempt to repair this table&hellip;' ), "<code>$table</code>", "<code>$check->Msg_text</code>" );
 
 			$repair = $wpdb->get_row( "REPAIR TABLE $table" );
 
 			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
 			if ( 'OK' == $check->Msg_text ) {
-				/* translators: %s: table name */
+				/* translators: %s: Table name. */
 				printf( __( 'Successfully repaired the %s table.' ), "<code>$table</code>" );
 			} else {
-				/* translators: 1: table name, 2: error message, */
+				/* translators: 1: Table name, 2: Error message. */
 				echo sprintf( __( 'Failed to repair the %1$s table. Error: %2$s' ), "<code>$table</code>", "<code>$check->Msg_text</code>" ) . '<br />';
 				$problems[ $table ] = $check->Msg_text;
 				$okay               = false;
@@ -122,17 +122,17 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 			echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
 			if ( 'Table is already up to date' == $check->Msg_text ) {
-				/* translators: %s: table name */
+				/* translators: %s: Table name. */
 				printf( __( 'The %s table is already optimized.' ), "<code>$table</code>" );
 			} else {
 				$check = $wpdb->get_row( "OPTIMIZE TABLE $table" );
 
 				echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;';
 				if ( 'OK' == $check->Msg_text || 'Table is already up to date' == $check->Msg_text ) {
-					/* translators: %s: table name */
+					/* translators: %s: Table name. */
 					printf( __( 'Successfully optimized the %s table.' ), "<code>$table</code>" );
 				} else {
-					/* translators: 1: table name, 2: error message, */
+					/* translators: 1: Table name. 2: Error message. */
 					printf( __( 'Failed to optimize the %1$s table. Error: %2$s' ), "<code>$table</code>", "<code>$check->Msg_text</code>" );
 				}
 			}
@@ -142,7 +142,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) || ! WP_ALLOW_REPAIR ) {
 
 	if ( $problems ) {
 		printf(
-			/* translators: %s: URL to "Fixing WordPress" forum */
+			/* translators: %s: URL to "Fixing WordPress" forum. */
 			'<p>' . __( 'Some database problems could not be repaired. Please copy-and-paste the following list of errors to the <a href="%s">WordPress support forums</a> to get additional assistance.' ) . '</p>',
 			__( 'https://wordpress.org/support/forum/how-to-and-troubleshooting' )
 		);

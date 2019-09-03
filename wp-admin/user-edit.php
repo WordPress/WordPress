@@ -30,7 +30,7 @@ wp_enqueue_script( 'user-profile' );
 if ( IS_PROFILE_PAGE ) {
 	$title = __( 'Profile' );
 } else {
-	/* translators: %s: user's display name */
+	/* translators: %s: User's display name. */
 	$title = __( 'Edit User %s' );
 }
 
@@ -342,7 +342,7 @@ endif; // $_wp_admin_css_colors
 			?>
 	<tr class="user-language-wrap">
 		<th scope="row">
-			<?php /* translators: The user language selection field label */ ?>
+			<?php /* translators: The user language selection field label. */ ?>
 			<label for="locale"><?php _e( 'Language' ); ?><span class="dashicons dashicons-translation" aria-hidden="true"></span></label>
 		</th>
 		<td>
@@ -518,7 +518,7 @@ endif; //!IS_PROFILE_PAGE
 		<p>
 			<?php
 			printf(
-				/* translators: %s: new email */
+				/* translators: %s: New email. */
 				__( 'There is a pending change of your email to %s.' ),
 				'<code>' . esc_html( $new_email['newemail'] ) . '</code>'
 			);
@@ -583,7 +583,7 @@ endif; //!IS_PROFILE_PAGE
 			<?php
 			if ( IS_PROFILE_PAGE ) {
 				$description = sprintf(
-					/* translators: %s: Gravatar URL */
+					/* translators: %s: Gravatar URL. */
 					__( '<a href="%s">You can change your profile picture on Gravatar</a>.' ),
 					__( 'https://en.gravatar.com/' )
 				);
@@ -693,7 +693,7 @@ endif; //!IS_PROFILE_PAGE
 			<p><button type="button" class="button" id="destroy-sessions"><?php _e( 'Log Out Everywhere' ); ?></button></p>
 			<p class="description">
 				<?php
-				/* translators: %s: user's display name */
+				/* translators: %s: User's display name. */
 				printf( __( 'Log %s out of all locations.' ), $profileuser->display_name );
 				?>
 			</p>
@@ -760,7 +760,7 @@ endif; //!IS_PROFILE_PAGE
 					if ( $value ) {
 						$output .= $value;
 					} else {
-						/* translators: %s: capability name */
+						/* translators: %s: Capability name. */
 						$output .= sprintf( __( 'Denied: %s' ), $cap );
 					}
 				}

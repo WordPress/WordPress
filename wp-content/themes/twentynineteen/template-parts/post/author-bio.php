@@ -13,7 +13,7 @@ if ( (bool) get_the_author_meta( 'description' ) ) : ?>
 		<span class="author-heading">
 			<?php
 			printf(
-				/* translators: %s: post author */
+				/* translators: %s: Post author. */
 				__( 'Published by %s', 'twentynineteen' ),
 				esc_html( get_the_author() )
 			);

@@ -27,7 +27,7 @@ get_header(); ?>
 							<?php
 								$metadata = wp_get_attachment_metadata();
 								printf(
-									/* translators: 1: date, 2: date, 3: attachment URL, 4: image width in pixels, 5: image height in pixels, 6: post parent permalink, 7: post parent title, 8: post parent title */
+									/* translators: 1: Date, 2: Date, 3: Attachment URL, 4: Image width in pixels, 5: Image height in pixels, 6: Post parent permalink, 7: Post parent title, 8: Post parent title. */
 									__( '<span class="meta-prep meta-prep-entry-date">Published </span> <span class="entry-date"><time class="entry-date" datetime="%1$s">%2$s</time></span> at <a href="%3$s" title="Link to full-size image">%4$s &times; %5$s</a> in <a href="%6$s" title="Return to %7$s" rel="gallery">%8$s</a>.', 'twentytwelve' ),
 									esc_attr( get_the_date( 'c' ) ),
 									esc_html( get_the_date() ),

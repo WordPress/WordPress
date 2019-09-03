@@ -234,49 +234,49 @@ if ( ! function_exists( 'twentyeleven_setup' ) ) :
 				'wheel'      => array(
 					'url'           => '%s/images/headers/wheel.jpg',
 					'thumbnail_url' => '%s/images/headers/wheel-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Wheel', 'twentyeleven' ),
 				),
 				'shore'      => array(
 					'url'           => '%s/images/headers/shore.jpg',
 					'thumbnail_url' => '%s/images/headers/shore-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Shore', 'twentyeleven' ),
 				),
 				'trolley'    => array(
 					'url'           => '%s/images/headers/trolley.jpg',
 					'thumbnail_url' => '%s/images/headers/trolley-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Trolley', 'twentyeleven' ),
 				),
 				'pine-cone'  => array(
 					'url'           => '%s/images/headers/pine-cone.jpg',
 					'thumbnail_url' => '%s/images/headers/pine-cone-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Pine Cone', 'twentyeleven' ),
 				),
 				'chessboard' => array(
 					'url'           => '%s/images/headers/chessboard.jpg',
 					'thumbnail_url' => '%s/images/headers/chessboard-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Chessboard', 'twentyeleven' ),
 				),
 				'lanterns'   => array(
 					'url'           => '%s/images/headers/lanterns.jpg',
 					'thumbnail_url' => '%s/images/headers/lanterns-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Lanterns', 'twentyeleven' ),
 				),
 				'willow'     => array(
 					'url'           => '%s/images/headers/willow.jpg',
 					'thumbnail_url' => '%s/images/headers/willow-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Willow', 'twentyeleven' ),
 				),
 				'hanoi'      => array(
 					'url'           => '%s/images/headers/hanoi.jpg',
 					'thumbnail_url' => '%s/images/headers/hanoi-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Hanoi Plant', 'twentyeleven' ),
 				),
 			)
@@ -727,14 +727,14 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 						echo get_avatar( $comment, $avatar_size );
 
 						printf(
-							/* translators: 1: comment author, 2: date and time */
+							/* translators: 1: Comment author, 2: Date and time. */
 							__( '%1$s on %2$s <span class="says">said:</span>', 'twentyeleven' ),
 							sprintf( '<span class="fn">%s</span>', get_comment_author_link() ),
 							sprintf(
 								'<a href="%1$s"><time datetime="%2$s">%3$s</time></a>',
 								esc_url( get_comment_link( $comment->comment_ID ) ),
 								get_comment_time( 'c' ),
-								/* translators: 1: date, 2: time */
+								/* translators: 1: Date, 2: Time. */
 								sprintf( __( '%1$s at %2$s', 'twentyeleven' ), get_comment_date(), get_comment_time() )
 							)
 						);
@@ -784,14 +784,14 @@ if ( ! function_exists( 'twentyeleven_posted_on' ) ) :
 	 */
 	function twentyeleven_posted_on() {
 		printf(
-			/* translators: 1: The permalink, 2: time, 3: date and time, 4: date and time, 5: Author posts, 6: Author post link text, 7: Author display name  */
+			/* translators: 1: The permalink, 2: Time, 3: Date and time, 4: Date and time, 5: Author posts, 6: Author post link text, 7: Author display name. */
 			__( '<span class="sep">Posted on </span><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="%5$s" title="%6$s" rel="author">%7$s</a></span></span>', 'twentyeleven' ),
 			esc_url( get_permalink() ),
 			esc_attr( get_the_time() ),
 			esc_attr( get_the_date( 'c' ) ),
 			esc_html( get_the_date() ),
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-			/* translators: %s: Author display name */
+			/* translators: %s: Author display name. */
 			esc_attr( sprintf( __( 'View all posts by %s', 'twentyeleven' ), get_the_author() ) ),
 			get_the_author()
 		);

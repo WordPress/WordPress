@@ -281,7 +281,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			?>
 			<label class="screen-reader-text" for="blog_<?php echo $blog['blog_id']; ?>">
 				<?php
-				/* translators: %s: site URL */
+				/* translators: %s: Site URL. */
 				printf( __( 'Select %s' ), $blogname );
 				?>
 			</label>
@@ -344,7 +344,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			switch_to_blog( $blog['blog_id'] );
 			echo '<p>';
 			printf(
-				/* translators: 1: site name, 2: site tagline. */
+				/* translators: 1: Site title, 2: Site tagline. */
 				__( '%1$s &#8211; %2$s' ),
 				get_option( 'blogname' ),
 				'<em>' . get_option( 'blogdescription ' ) . '</em>'

@@ -428,17 +428,17 @@ $nav_menus_l10n = array(
 	'moveUp'                  => __( 'Move up one' ),
 	'moveDown'                => __( 'Move down one' ),
 	'moveToTop'               => __( 'Move to the top' ),
-	/* translators: %s: previous item name */
+	/* translators: %s: Previous item name. */
 	'moveUnder'               => __( 'Move under %s' ),
-	/* translators: %s: previous item name */
+	/* translators: %s: Previous item name. */
 	'moveOutFrom'             => __( 'Move out from under %s' ),
-	/* translators: %s: previous item name */
+	/* translators: %s: Previous item name. */
 	'under'                   => __( 'Under %s' ),
-	/* translators: %s: previous item name */
+	/* translators: %s: Previous item name. */
 	'outFrom'                 => __( 'Out from under %s' ),
-	/* translators: 1: item name, 2: item position, 3: total number of items */
+	/* translators: 1: Item name, 2: Item position, 3: Total number of items. */
 	'menuFocus'               => __( '%1$s. Menu item %2$d of %3$d.' ),
-	/* translators: 1: item name, 2: item position, 3: parent item name */
+	/* translators: 1: Item name, 2: Item position, 3: Parent item name. */
 	'subMenuFocus'            => __( '%1$s. Sub item number %2$d under %3$s.' ),
 );
 wp_localize_script( 'nav-menu', 'menus', $nav_menus_l10n );
@@ -530,7 +530,7 @@ wp_initial_nav_menu_meta_boxes();
 
 if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
 	$messages[] = '<div id="message" class="updated"><p>' . sprintf(
-		/* translators: URL to Widgets screen */
+		/* translators: URL to Widgets screen. */
 		__( 'Your theme does not natively support menus, but you can use them in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%s">Widgets</a> screen.' ),
 		admin_url( 'widgets.php' )
 	) . '</p></div>';
@@ -539,7 +539,7 @@ if ( ! current_theme_supports( 'menus' ) && ! $num_locations ) {
 if ( ! $locations_screen ) : // Main tab
 	$overview  = '<p>' . __( 'This screen is used for managing your navigation menus.' ) . '</p>';
 	$overview .= '<p>' . sprintf(
-		/* translators: 1: Widgets admin screen URL, 2 and 3: The names of the default themes */
+		/* translators: 1: URL to Widgets screen, 2 and 3: The names of the default themes. */
 			__( 'Menus can be displayed in locations defined by your theme, even used in sidebars by adding a &#8220;Navigation Menu&#8221; widget on the <a href="%1$s">Widgets</a> screen. If your theme does not support the navigation menus feature (the default themes, %2$s and %3$s, do), you can learn about adding this support by following the Documentation link to the side.' ),
 		admin_url( 'widgets.php' ),
 		'Twenty Seventeen',
@@ -665,7 +665,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			echo '<p>' . __( 'Your theme supports one menu. Select which menu you would like to use.' ) . '</p>';
 		} else {
 			echo '<p>' . sprintf(
-				/* translators: %s: number of menus */
+				/* translators: %s: Number of menus. */
 				_n(
 					'Your theme supports %s menu. Select which menu appears in each location.',
 					'Your theme supports %s menus. Select which menu appears in each location.',
@@ -772,7 +772,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<span class="add-edit-menu-action">
 			<?php
 			printf(
-				/* translators: %s: URL to create a new menu */
+				/* translators: %s: URL to create a new menu. */
 				__( 'Edit your menu below, or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ),
 				esc_url(
 					add_query_arg(
@@ -834,7 +834,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<span class="add-new-menu-action">
 				<?php
 				printf(
-					/* translators: %s: URL to create a new menu */
+					/* translators: %s: URL to create a new menu. */
 					__( 'or <a href="%s">create a new menu</a>. Don&#8217;t forget to save your changes!' ),
 					esc_url(
 						add_query_arg(
@@ -980,7 +980,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 												<span class="theme-location-set">
 												<?php
 													printf(
-														/* translators: %s: menu name */
+														/* translators: %s: Menu name. */
 														_x( '(Currently set to: %s)', 'menu location' ),
 														wp_get_nav_menu_object( $menu_locations[ $location ] )->name
 													);

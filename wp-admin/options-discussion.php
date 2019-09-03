@@ -79,7 +79,7 @@ if ( ! get_option( 'users_can_register' ) && is_multisite() ) {
 <input name="close_comments_for_old_posts" type="checkbox" id="close_comments_for_old_posts" value="1" <?php checked( '1', get_option( 'close_comments_for_old_posts' ) ); ?> />
 <?php
 printf(
-	/* translators: %s: number of days */
+	/* translators: %s: Number of days. */
 	__( 'Automatically close comments on posts older than %s days' ),
 	'</label> <label for="close_comments_days_old"><input name="close_comments_days_old" type="number" min="0" step="1" id="close_comments_days_old" value="' . esc_attr( get_option( 'close_comments_days_old' ) ) . '" class="small-text" />'
 );
@@ -115,7 +115,7 @@ for ( $i = 2; $i <= $maxdeep; $i++ ) {
 }
 $thread_comments_depth .= '</select>';
 
-/* translators: %s: number of levels */
+/* translators: %s: Number of levels. */
 printf( __( 'Enable threaded (nested) comments %s levels deep' ), $thread_comments_depth );
 
 ?>
@@ -134,7 +134,7 @@ if ( 'oldest' == get_option( 'default_comments_page' ) ) {
 }
 $default_comments_page .= '>' . __( 'first' ) . '</option></select>';
 printf(
-	/* translators: 1: Form field control for number of top level comments per page, 2: Form field control for the 'first' or 'last' page */
+	/* translators: 1: Form field control for number of top level comments per page, 2: Form field control for the 'first' or 'last' page. */
 	__( 'Break comments into pages with %1$s top level comments per page and the %2$s page displayed by default' ),
 	'</label> <label for="comments_per_page"><input name="comments_per_page" type="number" step="1" min="0" id="comments_per_page" value="' . esc_attr( get_option( 'comments_per_page' ) ) . '" class="small-text" />',
 	$default_comments_page
@@ -155,7 +155,7 @@ if ( 'desc' == get_option( 'comment_order' ) ) {
 }
 $comment_order .= '>' . __( 'newer' ) . '</option></select>';
 
-/* translators: %s: Form field control for 'older' or 'newer' comments */
+/* translators: %s: Form field control for 'older' or 'newer' comments. */
 printf( __( 'Comments should be displayed with the %s comments at the top of each page' ), $comment_order );
 
 ?>
@@ -190,7 +190,7 @@ printf( __( 'Comments should be displayed with the %s comments at the top of eac
 <p><label for="comment_max_links">
 <?php
 printf(
-	/* translators: %s: number of links */
+	/* translators: %s: Number of links. */
 	__( 'Hold a comment in the queue if it contains %s or more links. (A common characteristic of comment spam is a large number of hyperlinks.)' ),
 	'<input name="comment_max_links" type="number" step="1" min="0" id="comment_max_links" value="' . esc_attr( get_option( 'comment_max_links' ) ) . '" class="small-text" />'
 );

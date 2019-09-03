@@ -42,7 +42,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 		<p class="new-menu-item-invitation">
 			<?php
 			printf(
-				/* translators: %s: "Add Items" button text */
+				/* translators: %s: "Add Items" button text. */
 				__( 'Time to add some links! Click &#8220;%s&#8221; to start putting pages, categories, and custom links in your menu. Add as many things as you&#8217;d like.' ),
 				$add_items
 			);

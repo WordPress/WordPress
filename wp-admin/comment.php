@@ -175,7 +175,7 @@ switch ( $action ) {
 </tr>
 <?php } ?>
 <tr>
-	<th scope="row"><?php /* translators: column name or table row header */ _e( 'In Response To' ); ?></th>
+	<th scope="row"><?php /* translators: Column name or table row header. */ _e( 'In Response To' ); ?></th>
 	<td>
 		<?php
 		$post_id = $comment->comment_post_ID;
@@ -192,7 +192,7 @@ switch ( $action ) {
 			$parent_link = esc_url( get_comment_link( $parent ) );
 			$name        = get_comment_author( $parent );
 			printf(
-				/* translators: %s: comment link */
+				/* translators: %s: Comment link. */
 				' | ' . __( 'In reply to %s.' ),
 				'<a href="' . $parent_link . '">' . $name . '</a>'
 			);
@@ -205,9 +205,9 @@ switch ( $action ) {
 	<td>
 		<?php
 		$submitted = sprintf(
-			/* translators: 1: comment date, 2: comment time */
+			/* translators: 1: Comment date, 2: Comment time. */
 			__( '%1$s at %2$s' ),
-			/* translators: comment date format. See https://secure.php.net/date */
+			/* translators: Comment date format. See https://secure.php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
 			get_comment_date( __( 'g:i a' ), $comment )
 		);
@@ -220,7 +220,7 @@ switch ( $action ) {
 		</td>
 	</tr>
 	<tr>
-	<th scope="row"><?php /* translators: field name in comment form */ _ex( 'Comment', 'noun' ); ?></th>
+	<th scope="row"><?php /* translators: Field name in comment form. */ _ex( 'Comment', 'noun' ); ?></th>
 	<td class="comment-content">
 		<?php comment_text( $comment ); ?>
 	<p class="edit-comment"><a href="<?php echo admin_url( "comment.php?action=editcomment&amp;c={$comment->comment_ID}" ); ?>"><?php esc_html_e( 'Edit' ); ?></a></p>

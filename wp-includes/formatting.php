@@ -94,27 +94,27 @@ function wptexturize( $text, $reset = false ) {
 			return $text;
 		}
 
-		/* translators: opening curly double quote */
+		/* translators: Opening curly double quote. */
 		$opening_quote = _x( '&#8220;', 'opening curly double quote' );
-		/* translators: closing curly double quote */
+		/* translators: Closing curly double quote. */
 		$closing_quote = _x( '&#8221;', 'closing curly double quote' );
 
-		/* translators: apostrophe, for example in 'cause or can't */
+		/* translators: Apostrophe, for example in 'cause or can't. */
 		$apos = _x( '&#8217;', 'apostrophe' );
 
-		/* translators: prime, for example in 9' (nine feet) */
+		/* translators: Prime, for example in 9' (nine feet). */
 		$prime = _x( '&#8242;', 'prime' );
-		/* translators: double prime, for example in 9" (nine inches) */
+		/* translators: Double prime, for example in 9" (nine inches). */
 		$double_prime = _x( '&#8243;', 'double prime' );
 
-		/* translators: opening curly single quote */
+		/* translators: Opening curly single quote. */
 		$opening_single_quote = _x( '&#8216;', 'opening curly single quote' );
-		/* translators: closing curly single quote */
+		/* translators: Closing curly single quote. */
 		$closing_single_quote = _x( '&#8217;', 'closing curly single quote' );
 
-		/* translators: en dash */
+		/* translators: En dash. */
 		$en_dash = _x( '&#8211;', 'en dash' );
-		/* translators: em dash */
+		/* translators: Em dash. */
 		$em_dash = _x( '&#8212;', 'em dash' );
 
 		$default_no_texturize_tags       = array( 'pre', 'code', 'kbd', 'style', 'script', 'tt' );
@@ -125,7 +125,8 @@ function wptexturize( $text, $reset = false ) {
 			$cockney        = array_keys( $wp_cockneyreplace );
 			$cockneyreplace = array_values( $wp_cockneyreplace );
 		} else {
-			/* translators: This is a comma-separated list of words that defy the syntax of quotations in normal use,
+			/*
+			 * translators: This is a comma-separated list of words that defy the syntax of quotations in normal use,
 			 * for example...  'We do not have enough words yet' ... is a typical quoted phrase.  But when we write
 			 * lines of code 'til we have enough of 'em, then we need to insert apostrophes instead of quotes.
 			 */
@@ -3638,49 +3639,49 @@ function human_time_diff( $from, $to = 0 ) {
 		if ( $secs <= 1 ) {
 			$secs = 1;
 		}
-		/* translators: Time difference between two dates, in seconds. %s: Number of seconds */
+		/* translators: Time difference between two dates, in seconds. %s: Number of seconds. */
 		$since = sprintf( _n( '%s second', '%s seconds', $secs ), $secs );
 	} elseif ( $diff < HOUR_IN_SECONDS && $diff >= MINUTE_IN_SECONDS ) {
 		$mins = round( $diff / MINUTE_IN_SECONDS );
 		if ( $mins <= 1 ) {
 			$mins = 1;
 		}
-		/* translators: Time difference between two dates, in minutes (min=minute). %s: Number of minutes */
+		/* translators: Time difference between two dates, in minutes (min=minute). %s: Number of minutes. */
 		$since = sprintf( _n( '%s min', '%s mins', $mins ), $mins );
 	} elseif ( $diff < DAY_IN_SECONDS && $diff >= HOUR_IN_SECONDS ) {
 		$hours = round( $diff / HOUR_IN_SECONDS );
 		if ( $hours <= 1 ) {
 			$hours = 1;
 		}
-		/* translators: Time difference between two dates, in hours. %s: Number of hours */
+		/* translators: Time difference between two dates, in hours. %s: Number of hours. */
 		$since = sprintf( _n( '%s hour', '%s hours', $hours ), $hours );
 	} elseif ( $diff < WEEK_IN_SECONDS && $diff >= DAY_IN_SECONDS ) {
 		$days = round( $diff / DAY_IN_SECONDS );
 		if ( $days <= 1 ) {
 			$days = 1;
 		}
-		/* translators: Time difference between two dates, in days. %s: Number of days */
+		/* translators: Time difference between two dates, in days. %s: Number of days. */
 		$since = sprintf( _n( '%s day', '%s days', $days ), $days );
 	} elseif ( $diff < MONTH_IN_SECONDS && $diff >= WEEK_IN_SECONDS ) {
 		$weeks = round( $diff / WEEK_IN_SECONDS );
 		if ( $weeks <= 1 ) {
 			$weeks = 1;
 		}
-		/* translators: Time difference between two dates, in weeks. %s: Number of weeks */
+		/* translators: Time difference between two dates, in weeks. %s: Number of weeks. */
 		$since = sprintf( _n( '%s week', '%s weeks', $weeks ), $weeks );
 	} elseif ( $diff < YEAR_IN_SECONDS && $diff >= MONTH_IN_SECONDS ) {
 		$months = round( $diff / MONTH_IN_SECONDS );
 		if ( $months <= 1 ) {
 			$months = 1;
 		}
-		/* translators: Time difference between two dates, in months. %s: Number of months */
+		/* translators: Time difference between two dates, in months. %s: Number of months. */
 		$since = sprintf( _n( '%s month', '%s months', $months ), $months );
 	} elseif ( $diff >= YEAR_IN_SECONDS ) {
 		$years = round( $diff / YEAR_IN_SECONDS );
 		if ( $years <= 1 ) {
 			$years = 1;
 		}
-		/* translators: Time difference between two dates, in years. %s: Number of years */
+		/* translators: Time difference between two dates, in years. %s: Number of years. */
 		$since = sprintf( _n( '%s year', '%s years', $years ), $years );
 	}
 
@@ -4699,7 +4700,7 @@ function sanitize_option( $option, $value ) {
 
 			if ( 'permalink_structure' === $option && '' !== $value && ! preg_match( '/%[^\/%]+%/', $value ) ) {
 				$error = sprintf(
-					/* translators: %s: Documentation URL */
+					/* translators: %s: Documentation URL. */
 					__( 'A structure tag is required when using custom permalinks. <a href="%s">Learn more</a>' ),
 					__( 'https://wordpress.org/support/article/using-permalinks/#choosing-your-permalink-structure' )
 				);
@@ -4940,11 +4941,11 @@ function wp_sprintf_l( $pattern, $args ) {
 	$l = apply_filters(
 		'wp_sprintf_l',
 		array(
-			/* translators: used to join items in a list with more than 2 items */
+			/* translators: Used to join items in a list with more than 2 items. */
 			'between'          => sprintf( __( '%1$s, %2$s' ), '', '' ),
-			/* translators: used to join last two items in a list with more than 2 times */
+			/* translators: Used to join last two items in a list with more than 2 times. */
 			'between_last_two' => sprintf( __( '%1$s, and %2$s' ), '', '' ),
-			/* translators: used to join items in a list with only 2 items */
+			/* translators: Used to join items in a list with only 2 items. */
 			'between_only_two' => sprintf( __( '%1$s and %2$s' ), '', '' ),
 		)
 	);

@@ -45,7 +45,7 @@ class WP_Debug_Data {
 
 		foreach ( $core_updates as $core => $update ) {
 			if ( 'upgrade' === $update->response ) {
-				// translators: %s: Latest WordPress version number.
+				/* translators: %s: Latest WordPress version number. */
 				$core_update_needed = ' ' . sprintf( __( '(Latest version: %s)' ), $update->version );
 			} else {
 				$core_update_needed = '';
@@ -124,7 +124,7 @@ class WP_Debug_Data {
 			'label'       => __( 'Drop-ins' ),
 			'show_count'  => true,
 			'description' => sprintf(
-				/* translators: %s: wp-content directory name */
+				/* translators: %s: wp-content directory name. */
 				__( 'Drop-ins are single files, found in the %s directory, that replace or enhance WordPress features in ways that are not possible for traditional plugins.' ),
 				'<code>' . str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '</code>'
 			),
@@ -405,7 +405,7 @@ class WP_Debug_Data {
 			$info['wp-core']['fields']['dotorg_communication'] = array(
 				'label' => __( 'Communication with WordPress.org' ),
 				'value' => sprintf(
-					// translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup.
+					/* translators: 1: The IP address WordPress.org resolves to. 2: The error returned by the lookup. */
 					__( 'Unable to reach WordPress.org at %1$s: %2$s' ),
 					gethostbyname( 'wordpress.org' ),
 					$wp_dotorg->get_error_message()
@@ -798,18 +798,18 @@ class WP_Debug_Data {
 			$plugin_version_string_debug = 'author: (undefined), version: (undefined)';
 
 			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
-				// translators: 1: Plugin version number. 2: Plugin author name.
+				/* translators: 1: Plugin version number. 2: Plugin author name. */
 				$plugin_version_string       = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
 				$plugin_version_string_debug = sprintf( 'version: %s, author: %s', $plugin_version, $plugin_author );
 			} else {
 				if ( ! empty( $plugin_author ) ) {
-					// translators: %s: Plugin author name.
+					/* translators: %s: Plugin author name. */
 					$plugin_version_string       = sprintf( __( 'By %s' ), $plugin_author );
 					$plugin_version_string_debug = sprintf( 'author: %s, version: (undefined)', $plugin_author );
 				}
 
 				if ( ! empty( $plugin_version ) ) {
-					// translators: %s: Plugin version number.
+					/* translators: %s: Plugin version number. */
 					$plugin_version_string       = sprintf( __( 'Version %s' ), $plugin_version );
 					$plugin_version_string_debug = sprintf( 'author: (undefined), version: %s', $plugin_version );
 				}
@@ -836,25 +836,25 @@ class WP_Debug_Data {
 			$plugin_version_string_debug = 'author: (undefined), version: (undefined)';
 
 			if ( ! empty( $plugin_version ) && ! empty( $plugin_author ) ) {
-				// translators: 1: Plugin version number. 2: Plugin author name.
+				/* translators: 1: Plugin version number. 2: Plugin author name. */
 				$plugin_version_string       = sprintf( __( 'Version %1$s by %2$s' ), $plugin_version, $plugin_author );
 				$plugin_version_string_debug = sprintf( 'version: %s, author: %s', $plugin_version, $plugin_author );
 			} else {
 				if ( ! empty( $plugin_author ) ) {
-					// translators: %s: Plugin author name.
+					/* translators: %s: Plugin author name. */
 					$plugin_version_string       = sprintf( __( 'By %s' ), $plugin_author );
 					$plugin_version_string_debug = sprintf( 'author: %s, version: (undefined)', $plugin_author );
 				}
 
 				if ( ! empty( $plugin_version ) ) {
-					// translators: %s: Plugin version number.
+					/* translators: %s: Plugin version number. */
 					$plugin_version_string       = sprintf( __( 'Version %s' ), $plugin_version );
 					$plugin_version_string_debug = sprintf( 'author: (undefined), version: %s', $plugin_version );
 				}
 			}
 
 			if ( array_key_exists( $plugin_path, $plugin_updates ) ) {
-				// translators: %s: Latest plugin version number.
+				/* translators: %s: Latest plugin version number. */
 				$plugin_version_string       .= ' ' . sprintf( __( '(Latest version: %s)' ), $plugin_updates[ $plugin_path ]->update->new_version );
 				$plugin_version_string_debug .= sprintf( ' (latest version: %s)', $plugin_updates[ $plugin_path ]->update->new_version );
 			}
@@ -886,7 +886,7 @@ class WP_Debug_Data {
 		if ( array_key_exists( $active_theme->stylesheet, $theme_updates ) ) {
 			$theme_update_new_version = $theme_updates[ $active_theme->stylesheet ]->update['new_version'];
 
-			// translators: %s: Latest theme version number.
+			/* translators: %s: Latest theme version number. */
 			$active_theme_version       .= ' ' . sprintf( __( '(Latest version: %s)' ), $theme_update_new_version );
 			$active_theme_version_debug .= sprintf( ' (latest version: %s)', $theme_update_new_version );
 		}
@@ -895,7 +895,7 @@ class WP_Debug_Data {
 
 		if ( $active_theme->parent_theme ) {
 			$active_theme_parent_theme = sprintf(
-				// translators: 1: Theme name. 2: Theme slug.
+				/* translators: 1: Theme name. 2: Theme slug. */
 				__( '%1$s (%2$s)' ),
 				$active_theme->parent_theme,
 				$active_theme->template
@@ -915,7 +915,7 @@ class WP_Debug_Data {
 				'label' => __( 'Name' ),
 				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				'value' => sprintf(
-					// translators: 1: Theme name. 2: Theme slug.
+					/* translators: 1: Theme name. 2: Theme slug. */
 					__( '%1$s (%2$s)' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					$active_theme->Name,
@@ -962,7 +962,7 @@ class WP_Debug_Data {
 			if ( array_key_exists( $parent_theme->stylesheet, $theme_updates ) ) {
 				$parent_theme_update_new_version = $theme_updates[ $parent_theme->stylesheet ]->update['new_version'];
 
-				// translators: %s: Latest theme version number.
+				/* translators: %s: Latest theme version number. */
 				$parent_theme_version       .= ' ' . sprintf( __( '(Latest version: %s)' ), $parent_theme_update_new_version );
 				$parent_theme_version_debug .= sprintf( ' (latest version: %s)', $parent_theme_update_new_version );
 			}
@@ -974,7 +974,7 @@ class WP_Debug_Data {
 					'label' => __( 'Name' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					'value' => sprintf(
-						// translators: 1: Theme name. 2: Theme slug.
+						/* translators: 1: Theme name. 2: Theme slug. */
 						__( '%1$s (%2$s)' ),
 						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 						$parent_theme->Name,
@@ -1029,25 +1029,25 @@ class WP_Debug_Data {
 			$theme_version_string_debug = 'undefined';
 
 			if ( ! empty( $theme_version ) && ! empty( $theme_author ) ) {
-				// translators: 1: Theme version number. 2: Theme author name.
+				/* translators: 1: Theme version number. 2: Theme author name. */
 				$theme_version_string       = sprintf( __( 'Version %1$s by %2$s' ), $theme_version, $theme_author );
 				$theme_version_string_debug = sprintf( 'version: %s, author: %s', $theme_version, $theme_author );
 			} else {
 				if ( ! empty( $theme_author ) ) {
-					// translators: %s: Theme author name.
+					/* translators: %s: Theme author name. */
 					$theme_version_string       = sprintf( __( 'By %s' ), $theme_author );
 					$theme_version_string_debug = sprintf( 'author: %s, version: (undefined)', $theme_author );
 				}
 
 				if ( ! empty( $theme_version ) ) {
-					// translators: %s: Theme version number.
+					/* translators: %s: Theme version number. */
 					$theme_version_string       = sprintf( __( 'Version %s' ), $theme_version );
 					$theme_version_string_debug = sprintf( 'author: (undefined), version: %s', $theme_version );
 				}
 			}
 
 			if ( array_key_exists( $theme_slug, $theme_updates ) ) {
-				// translators: %s: Latest theme version number.
+				/* translators: %s: Latest theme version number. */
 				$theme_version_string       .= ' ' . sprintf( __( '(Latest version: %s)' ), $theme_updates[ $theme_slug ]->update['new_version'] );
 				$theme_version_string_debug .= sprintf( ' (latest version: %s)', $theme_updates[ $theme_slug ]->update['new_version'] );
 			}
@@ -1055,7 +1055,7 @@ class WP_Debug_Data {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$info['wp-themes-inactive']['fields'][ sanitize_text_field( $theme->Name ) ] = array(
 				'label' => sprintf(
-					// translators: 1: Theme name. 2: Theme slug.
+					/* translators: 1: Theme name. 2: Theme slug. */
 					__( '%1$s (%2$s)' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 					$theme->Name,

@@ -143,7 +143,7 @@ class WP_Nav_Menu_Widget extends WP_Widget {
 				$url = admin_url( 'nav-menus.php' );
 			}
 
-			/* translators: %s: URL to create a new menu */
+			/* translators: %s: URL to create a new menu. */
 			printf( __( 'No menus have been created yet. <a href="%s">Create some</a>.' ), esc_attr( $url ) );
 			?>
 		</p>

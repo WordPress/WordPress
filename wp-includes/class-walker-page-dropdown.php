@@ -71,7 +71,7 @@ class Walker_PageDropdown extends Walker {
 
 		$title = $page->post_title;
 		if ( '' === $title ) {
-			/* translators: %d: ID of a post */
+			/* translators: %d: ID of a post. */
 			$title = sprintf( __( '#%d (no title)' ), $page->ID );
 		}
 

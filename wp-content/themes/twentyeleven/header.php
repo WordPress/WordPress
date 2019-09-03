@@ -42,7 +42,7 @@ if ( $site_description && ( is_home() || is_front_page() ) ) {
 
 	// Add a page number if necessary:
 if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-	/* translators: %s: page number */
+	/* translators: %s: Page number. */
 	echo esc_html( ' | ' . sprintf( __( 'Page %s', 'twentyeleven' ), max( $paged, $page ) ) );
 }
 

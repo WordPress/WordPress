@@ -141,7 +141,7 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 <p>
 	<?php
 	printf(
-		/* translators: 1, 2, 3: examples of random email addresses */
+		/* translators: 1, 2, 3: Examples of random email addresses. */
 		__( 'To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: %1$s, %2$s, %3$s.' ),
 		sprintf( '<kbd>%s</kbd>', wp_generate_password( 8, false ) ),
 		sprintf( '<kbd>%s</kbd>', wp_generate_password( 8, false ) ),
@@ -205,7 +205,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	<p><label for="ping_sites">
 		<?php
 		printf(
-			/* translators: %s: Codex URL */
+			/* translators: %s: Codex URL. */
 			__( 'When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href="%s">Update Services</a> on the Codex. Separate multiple service URLs with line breaks.' ),
 			__( 'https://codex.wordpress.org/Update_Services' )
 		);
@@ -219,7 +219,7 @@ if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 	<p>
 		<?php
 		printf(
-			/* translators: 1: Codex URL, 2: Reading Settings URL */
+			/* translators: 1: Codex URL, 2: URL to Reading Settings screen. */
 			__( 'WordPress is not notifying any <a href="%1$s">Update Services</a> because of your site&#8217;s <a href="%2$s">visibility settings</a>.' ),
 			__( 'https://codex.wordpress.org/Update_Services' ),
 			'options-reading.php'

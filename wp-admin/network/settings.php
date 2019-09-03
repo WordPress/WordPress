@@ -171,7 +171,7 @@ if ( isset( $_GET['updated'] ) ) {
 						<p>
 						<?php
 							printf(
-								/* translators: %s: new network admin email */
+								/* translators: %s: New network admin email. */
 								__( 'There is a pending change of the network admin email to %s.' ),
 								'<code>' . esc_html( $new_admin_email ) . '</code>'
 							);
@@ -365,7 +365,7 @@ if ( isset( $_GET['updated'] ) ) {
 					<label><input type="checkbox" id="upload_space_check_disabled" name="upload_space_check_disabled" value="0"<?php checked( (bool) get_site_option( 'upload_space_check_disabled' ), false ); ?>/>
 						<?php
 						printf(
-							/* translators: %s: number of megabytes to limit uploads to */
+							/* translators: %s: Number of megabytes to limit uploads to. */
 							__( 'Limit total size of files uploaded to %s MB' ),
 							'</label><label><input name="blog_upload_space" type="number" min="0" style="width: 100px" id="blog_upload_space" aria-describedby="blog-upload-space-desc" value="' . esc_attr( get_site_option( 'blog_upload_space', 100 ) ) . '" />'
 						);
@@ -392,7 +392,7 @@ if ( isset( $_GET['updated'] ) ) {
 				<td>
 					<?php
 						printf(
-							/* translators: %s: File size in kilobytes */
+							/* translators: %s: File size in kilobytes. */
 							__( '%s KB' ),
 							'<input name="fileupload_maxk" type="number" min="0" style="width: 100px" id="fileupload_maxk" aria-describedby="fileupload-maxk-desc" value="' . esc_attr( get_site_option( 'fileupload_maxk', 300 ) ) . '" />'
 						);

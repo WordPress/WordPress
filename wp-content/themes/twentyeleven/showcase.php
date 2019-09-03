@@ -125,7 +125,7 @@ get_header(); ?>
 									$thumbnail_size = 'small-feature';
 								}
 
-								/* translators: %s: post title */
+								/* translators: %s: Post title. */
 								$title = sprintf( __( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
 								?>
 						<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( $title ); ?>" rel="bookmark"><?php the_post_thumbnail( $thumbnail_size ); ?></a>
@@ -160,7 +160,7 @@ get_header(); ?>
 									$class = '';
 								}
 
-								/* translators: %s: post title */
+								/* translators: %s: Post title. */
 								$title = sprintf( __( 'Featuring: %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) );
 								?>
 					<li><a href="#featured-post-<?php echo esc_attr( $counter_slider ); ?>" title="<?php echo esc_attr( $title ); ?>"<?php echo $class; ?>></a></li>

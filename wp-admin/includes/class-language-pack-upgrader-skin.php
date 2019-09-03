@@ -47,7 +47,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		echo '<div class="update-messages lp-show-latest">';
 
-		/* translators: 1: project name (plugin, theme, or WordPress), 2: language */
+		/* translators: 1: Project name (plugin, theme, or WordPress), 2: Language. */
 		printf( '<h2>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h2>', $name, $this->language_update->language );
 	}
 

@@ -123,7 +123,7 @@ function network_step1( $errors = false ) {
 	$active_plugins = get_option( 'active_plugins' );
 	if ( ! empty( $active_plugins ) ) {
 		echo '<div class="updated"><p><strong>' . __( 'Warning:' ) . '</strong> ' . sprintf(
-			/* translators: %s: Plugins screen URL */
+			/* translators: %s: URL to Plugins screen. */
 			__( 'Please <a href="%s">deactivate your plugins</a> before enabling the Network feature.' ),
 			admin_url( 'plugins.php?plugin_status=active' )
 		) . '</p></div>';
@@ -138,7 +138,7 @@ function network_step1( $errors = false ) {
 	if ( ( false !== $has_ports && ! in_array( $has_ports, array( ':80', ':443' ) ) ) ) {
 		echo '<div class="error"><p><strong>' . __( 'ERROR:' ) . '</strong> ' . __( 'You cannot install a network of sites with your server address.' ) . '</p></div>';
 		echo '<p>' . sprintf(
-			/* translators: %s: port number */
+			/* translators: %s: Port number. */
 			__( 'You cannot use port numbers such as %s.' ),
 			'<code>' . $has_ports . '</code>'
 		) . '</p>';
@@ -165,7 +165,7 @@ function network_step1( $errors = false ) {
 	if ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) {
 		$site_name = $_POST['sitename'];
 	} else {
-		/* translators: %s: Default network name */
+		/* translators: %s: Default network title. */
 		$site_name = sprintf( __( '%s Sites' ), get_option( 'blogname' ) );
 	}
 
@@ -209,7 +209,7 @@ function network_step1( $errors = false ) {
 		if ( $got_mod_rewrite || $is_apache ) { // Protect against mod_rewrite mimicry (but ! Apache)
 			echo '<p>';
 			printf(
-				/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite */
+				/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite. */
 				__( 'If %1$s is disabled, ask your administrator to enable that module, or look at the <a href="%2$s">Apache documentation</a> or <a href="%3$s">elsewhere</a> for help setting it up.' ),
 				'<code>mod_rewrite</code>',
 				'https://httpd.apache.org/docs/mod/mod_rewrite.html',
@@ -232,7 +232,7 @@ function network_step1( $errors = false ) {
 				<td>
 				<?php
 				printf(
-					/* translators: 1: hostname */
+					/* translators: 1: Host name. */
 					_x( 'like <code>site1.%1$s</code> and <code>site2.%1$s</code>', 'subdomain examples' ),
 					$hostname
 				);
@@ -244,7 +244,7 @@ function network_step1( $errors = false ) {
 				<td>
 				<?php
 				printf(
-					/* translators: 1: hostname */
+					/* translators: 1: Host name. */
 					_x( 'like <code>%1$s/site1</code> and <code>%1$s/site2</code>', 'subdirectory examples' ),
 					$hostname
 				);
@@ -267,7 +267,7 @@ function network_step1( $errors = false ) {
 		<p>
 		<?php
 		printf(
-			/* translators: 1: site url, 2: host name, 3: www */
+			/* translators: 1: Site URL, 2: Host name, 3: www. */
 			__( 'We recommend you change your siteurl to %1$s before enabling the network feature. It will still be possible to visit your site using the %3$s prefix with an address like %2$s but any links will not have the %3$s prefix.' ),
 			'<code>' . substr( $hostname, 4 ) . '</code>',
 			'<code>' . $hostname . '</code>',
@@ -281,7 +281,7 @@ function network_step1( $errors = false ) {
 			<td>
 				<?php
 					printf(
-						/* translators: %s: host name */
+						/* translators: %s: Host name. */
 						__( 'The internet address of your network will be %s.' ),
 						'<code>' . $hostname . '</code>'
 					);
@@ -341,7 +341,7 @@ function network_step1( $errors = false ) {
 				<td>
 					<?php
 					printf(
-						/* translators: %s: host name */
+						/* translators: %s: Host name. */
 						__( 'The internet address of your network will be %s.' ),
 						'<code>' . $hostname . '</code>'
 					);
@@ -469,7 +469,7 @@ function network_step2( $errors = false ) {
 		<li><p>
 		<?php
 		printf(
-			/* translators: 1: wp-config.php, 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy publishing." */
+			/* translators: 1: wp-config.php, 2: Location of wp-config file, 3: Translated version of "That's all, stop editing! Happy publishing." */
 			__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
 			'<code>wp-config.php</code>',
 			'<code>' . $location_of_wp_config . '</code>',
@@ -601,7 +601,7 @@ define('BLOG_ID_CURRENT_SITE', 1);
 
 			echo '<li><p>';
 			printf(
-				/* translators: 1: a filename like .htaccess, 2: a file path */
+				/* translators: 1: File name (.htaccess or web.config), 2: File path. */
 				__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
 				'<code>web.config</code>',
 				'<code>' . $home_path . '</code>'
@@ -643,7 +643,7 @@ EOF;
 
 		echo '<li><p>';
 		printf(
-			/* translators: 1: a filename like .htaccess, 2: a file path */
+			/* translators: 1: File name (.htaccess or web.config), 2: File path. */
 			__( 'Add the following to your %1$s file in %2$s, <strong>replacing</strong> other WordPress rules:' ),
 			'<code>.htaccess</code>',
 			'<code>' . $home_path . '</code>'

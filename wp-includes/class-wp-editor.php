@@ -1047,7 +1047,7 @@ final class _WP_Editors {
 				'Heading 5'                            => array( __( 'Heading 5' ), 'access5' ),
 				'Heading 6'                            => array( __( 'Heading 6' ), 'access6' ),
 
-				/* translators: block tags */
+				/* translators: Block tags. */
 				'Blocks'                               => _x( 'Blocks', 'TinyMCE' ),
 				'Paragraph'                            => array( __( 'Paragraph' ), 'access7' ),
 				'Blockquote'                           => array( __( 'Blockquote' ), 'accessQ' ),
@@ -1185,7 +1185,7 @@ final class _WP_Editors {
 				'Could not find the specified string.' => __( 'Could not find the specified string.' ),
 				'Replace'                              => _x( 'Replace', 'find/replace' ),
 				'Next'                                 => _x( 'Next', 'find/replace' ),
-				/* translators: previous */
+				/* translators: Previous. */
 				'Prev'                                 => _x( 'Prev', 'find/replace' ),
 				'Whole words'                          => _x( 'Whole words', 'find/replace' ),
 				'Find and replace'                     => __( 'Find and replace' ),
@@ -1260,7 +1260,7 @@ final class _WP_Editors {
 				'Show blocks'                          => _x( 'Show blocks', 'editor button' ),
 				'Show invisible characters'            => __( 'Show invisible characters' ),
 
-				/* translators: word count */
+				/* translators: Word count. */
 				'Words: {0}'                           => sprintf( __( 'Words: %s' ), '{0}' ),
 				'Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.' =>
 					__( 'Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.' ) . "\n\n" .

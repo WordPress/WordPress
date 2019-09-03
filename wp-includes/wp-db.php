@@ -1104,7 +1104,7 @@ class wpdb {
 				$message = '<h1>' . __( 'Can&#8217;t select database' ) . "</h1>\n";
 
 				$message .= '<p>' . sprintf(
-					/* translators: %s: database name */
+					/* translators: %s: Database name. */
 					__( 'We were able to connect to the database server (which means your username and password is okay) but not able to select the %s database.' ),
 					'<code>' . htmlspecialchars( $db, ENT_QUOTES ) . '</code>'
 				) . "</p>\n";
@@ -1113,14 +1113,14 @@ class wpdb {
 				$message .= '<li>' . __( 'Are you sure it exists?' ) . "</li>\n";
 
 				$message .= '<li>' . sprintf(
-					/* translators: 1: database user, 2: database name */
+					/* translators: 1: Database user, 2: Database name. */
 					__( 'Does the user %1$s have permission to use the %2$s database?' ),
 					'<code>' . htmlspecialchars( $this->dbuser, ENT_QUOTES ) . '</code>',
 					'<code>' . htmlspecialchars( $db, ENT_QUOTES ) . '</code>'
 				) . "</li>\n";
 
 				$message .= '<li>' . sprintf(
-					/* translators: %s: database name */
+					/* translators: %s: Database name. */
 					__( 'On some systems the name of your database is prefixed with your username, so it would be like <code>username_%1$s</code>. Could that be the problem?' ),
 					htmlspecialchars( $db, ENT_QUOTES )
 				) . "</li>\n";
@@ -1128,7 +1128,7 @@ class wpdb {
 				$message .= "</ul>\n";
 
 				$message .= '<p>' . sprintf(
-					/* translators: %s: support forums URL */
+					/* translators: %s: Support forums URL. */
 					__( 'If you don&#8217;t know how to set up a database you should <strong>contact your host</strong>. If all else fails you may find help at the <a href="%s">WordPress Support Forums</a>.' ),
 					__( 'https://wordpress.org/support/forums/' )
 				) . "</p>\n";
@@ -1178,7 +1178,7 @@ class wpdb {
 		} else {
 			$class = get_class( $this );
 			if ( function_exists( '__' ) ) {
-				/* translators: %s: database access abstraction class, usually wpdb or a class extending wpdb */
+				/* translators: %s: Database access abstraction class, usually wpdb or a class extending wpdb. */
 				_doing_it_wrong( $class, sprintf( __( '%s must set a database connection for use with escaping.' ), $class ), '3.6.0' );
 			} else {
 				_doing_it_wrong( $class, sprintf( '%s must set a database connection for use with escaping.', $class ), '3.6.0' );
@@ -1331,7 +1331,7 @@ class wpdb {
 				_doing_it_wrong(
 					'wpdb::prepare',
 					sprintf(
-						/* translators: %s: value type */
+						/* translators: %s: Value type. */
 						__( 'Unsupported value type (%s).' ),
 						gettype( $arg )
 					),
@@ -1389,7 +1389,7 @@ class wpdb {
 				_doing_it_wrong(
 					'wpdb::prepare',
 					sprintf(
-						/* translators: 1: number of placeholders, 2: number of arguments passed */
+						/* translators: 1: Number of placeholders, 2: Number of arguments passed. */
 						__( 'The query does not contain the correct number of placeholders (%1$d) for the number of arguments passed (%2$d).' ),
 						$placeholders,
 						count( $args )
@@ -1464,10 +1464,10 @@ class wpdb {
 
 		$caller = $this->get_caller();
 		if ( $caller ) {
-			/* translators: 1: Database error message, 2: SQL query, 3: Name of the calling function */
+			/* translators: 1: Database error message, 2: SQL query, 3: Name of the calling function. */
 			$error_str = sprintf( __( 'WordPress database error %1$s for query %2$s made by %3$s' ), $str, $this->last_query, $caller );
 		} else {
-			/* translators: 1: Database error message, 2: SQL query */
+			/* translators: 1: Database error message, 2: SQL query. */
 			$error_str = sprintf( __( 'WordPress database error %1$s for query %2$s' ), $str, $this->last_query );
 		}
 
@@ -1687,7 +1687,7 @@ class wpdb {
 			$message = '<h1>' . __( 'Error establishing a database connection' ) . "</h1>\n";
 
 			$message .= '<p>' . sprintf(
-				/* translators: 1: wp-config.php, 2: database host */
+				/* translators: 1: wp-config.php, 2: Database host. */
 				__( 'This either means that the username and password information in your %1$s file is incorrect or we can&#8217;t contact the database server at %2$s. This could mean your host&#8217;s database server is down.' ),
 				'<code>wp-config.php</code>',
 				'<code>' . htmlspecialchars( $this->dbhost, ENT_QUOTES ) . '</code>'
@@ -1700,7 +1700,7 @@ class wpdb {
 			$message .= "</ul>\n";
 
 			$message .= '<p>' . sprintf(
-				/* translators: %s: support forums URL */
+				/* translators: %s: Support forums URL. */
 				__( 'If you&#8217;re unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support Forums</a>.' ),
 				__( 'https://wordpress.org/support/forums/' )
 			) . "</p>\n";
@@ -1847,7 +1847,7 @@ class wpdb {
 		$message = '<h1>' . __( 'Error reconnecting to the database' ) . "</h1>\n";
 
 		$message .= '<p>' . sprintf(
-			/* translators: %s: database host */
+			/* translators: %s: Database host. */
 			__( 'This means that we lost contact with the database server at %s. This could mean your host&#8217;s database server is down.' ),
 			'<code>' . htmlspecialchars( $this->dbhost, ENT_QUOTES ) . '</code>'
 		) . "</p>\n";
@@ -1858,7 +1858,7 @@ class wpdb {
 		$message .= "</ul>\n";
 
 		$message .= '<p>' . sprintf(
-			/* translators: %s: support forums URL */
+			/* translators: %s: Support forums URL. */
 			__( 'If you&#8217;re unsure what these terms mean you should probably contact your host. If you still need help you can always visit the <a href="%s">WordPress Support Forums</a>.' ),
 			__( 'https://wordpress.org/support/forums/' )
 		) . "</p>\n";
@@ -3506,7 +3506,7 @@ class wpdb {
 		global $wp_version, $required_mysql_version;
 		// Make sure the server has the required MySQL version
 		if ( version_compare( $this->db_version(), $required_mysql_version, '<' ) ) {
-			/* translators: 1: WordPress version number, 2: Minimum required MySQL version number */
+			/* translators: 1: WordPress version number, 2: Minimum required MySQL version number. */
 			return new WP_Error( 'database_version', sprintf( __( '<strong>ERROR</strong>: WordPress %1$s requires MySQL %2$s or higher' ), $wp_version, $required_mysql_version ) );
 		}
 	}

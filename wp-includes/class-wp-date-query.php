@@ -396,7 +396,7 @@ class WP_Date_Query {
 
 				if ( ! is_numeric( $_value ) || ! $is_between ) {
 					$error = sprintf(
-						/* translators: Date query invalid date message: 1: invalid value, 2: type of value, 3: minimum valid value, 4: maximum valid value */
+						/* translators: Date query invalid date message. 1: Invalid value, 2: Type of value, 3: Minimum valid value, 4: Maximum valid value. */
 						__( 'Invalid value %1$s for %2$s. Expected value should be between %3$s and %4$s.' ),
 						'<code>' . esc_html( $_value ) . '</code>',
 						'<code>' . esc_html( $key ) . '</code>',
@@ -426,7 +426,7 @@ class WP_Date_Query {
 			// 1. Checking day, month, year combination.
 			if ( ! wp_checkdate( $date_query['month'], $date_query['day'], $date_query['year'], sprintf( '%s-%s-%s', $date_query['year'], $date_query['month'], $date_query['day'] ) ) ) {
 				$day_month_year_error_msg = sprintf(
-					/* translators: 1: year, 2: month, 3: day of month */
+					/* translators: 1: Year, 2: Month, 3: Day of month. */
 					__( 'The following values do not describe a valid date: year %1$s, month %2$s, day %3$s.' ),
 					'<code>' . esc_html( $date_query['year'] ) . '</code>',
 					'<code>' . esc_html( $date_query['month'] ) . '</code>',
@@ -442,7 +442,7 @@ class WP_Date_Query {
 			 */
 			if ( ! wp_checkdate( $date_query['month'], $date_query['day'], 2012, sprintf( '2012-%s-%s', $date_query['month'], $date_query['day'] ) ) ) {
 				$day_month_year_error_msg = sprintf(
-					/* translators: 1: month, 2: day of month */
+					/* translators: 1: Month, 2: Day of month. */
 					__( 'The following values do not describe a valid date: month %1$s, day %2$s.' ),
 					'<code>' . esc_html( $date_query['month'] ) . '</code>',
 					'<code>' . esc_html( $date_query['day'] ) . '</code>'

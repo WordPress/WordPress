@@ -20,7 +20,7 @@ get_header(); ?>
 			<header class="archive-header">
 				<h1 class="archive-title">
 				<?php
-				/* translators: %s: tag title */
+				/* translators: %s: Tag title. */
 				printf( __( 'Tag Archives: %s', 'twentytwelve' ), '<span>' . single_tag_title( '', false ) . '</span>' );
 				?>
 				</h1>

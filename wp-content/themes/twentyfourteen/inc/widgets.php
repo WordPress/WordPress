@@ -189,7 +189,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 						<p class="wp-caption-text">
 								<?php
 								printf(
-									/* translators: 1: post permalink, 2: number of images in the gallery */
+									/* translators: 1: Post permalink, 2: Number of images in the gallery. */
 									_n( 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photo</a>.', 'This gallery contains <a href="%1$s" rel="bookmark">%2$s photos</a>.', $total_images, 'twentyfourteen' ),
 									esc_url( get_permalink() ),
 									number_format_i18n( $total_images )
@@ -234,7 +234,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 			</ol>
 			<a class="post-format-archive-link" href="<?php echo esc_url( get_post_format_link( $format ) ); ?>">
 				<?php
-					/* translators: used with More archives link */
+					/* translators: Used with More archives link. */
 					printf( __( '%s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ), $format_string_more );
 				?>
 			</a>

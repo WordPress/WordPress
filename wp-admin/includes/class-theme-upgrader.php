@@ -45,7 +45,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __( 'The theme is at the latest version.' );
 		$this->strings['no_package'] = __( 'Update package not available.' );
-		/* translators: %s: package URL */
+		/* translators: %s: Package URL. */
 		$this->strings['downloading_package'] = sprintf( __( 'Downloading update from %s&#8230;' ), '<span class="code">%s</span>' );
 		$this->strings['unpack_package']      = __( 'Unpacking the update&#8230;' );
 		$this->strings['remove_old']          = __( 'Removing the old version of the theme&#8230;' );
@@ -61,23 +61,23 @@ class Theme_Upgrader extends WP_Upgrader {
 	 */
 	public function install_strings() {
 		$this->strings['no_package'] = __( 'Installation package not available.' );
-		/* translators: %s: package URL */
+		/* translators: %s: Package URL. */
 		$this->strings['downloading_package'] = sprintf( __( 'Downloading installation package from %s&#8230;' ), '<span class="code">%s</span>' );
 		$this->strings['unpack_package']      = __( 'Unpacking the package&#8230;' );
 		$this->strings['installing_package']  = __( 'Installing the theme&#8230;' );
 		$this->strings['no_files']            = __( 'The theme contains no files.' );
 		$this->strings['process_failed']      = __( 'Theme installation failed.' );
 		$this->strings['process_success']     = __( 'Theme installed successfully.' );
-		/* translators: 1: theme name, 2: version */
+		/* translators: 1: Theme name, 2: Theme version. */
 		$this->strings['process_success_specific'] = __( 'Successfully installed the theme <strong>%1$s %2$s</strong>.' );
 		$this->strings['parent_theme_search']      = __( 'This theme requires a parent theme. Checking if it is installed&#8230;' );
-		/* translators: 1: theme name, 2: version */
+		/* translators: 1: Theme name, 2: Theme version. */
 		$this->strings['parent_theme_prepare_install'] = __( 'Preparing to install <strong>%1$s %2$s</strong>&#8230;' );
-		/* translators: 1: theme name, 2: version */
+		/* translators: 1: Theme name, 2: Theme version. */
 		$this->strings['parent_theme_currently_installed'] = __( 'The parent theme, <strong>%1$s %2$s</strong>, is currently installed.' );
-		/* translators: 1: theme name, 2: version */
+		/* translators: 1: Theme name, 2: Theme version. */
 		$this->strings['parent_theme_install_success'] = __( 'Successfully installed the parent theme, <strong>%1$s %2$s</strong>.' );
-		/* translators: %s: theme name */
+		/* translators: %s: Theme name. */
 		$this->strings['parent_theme_not_found'] = sprintf( __( '<strong>The parent theme could not be found.</strong> You will need to install the parent theme, %s, before you can use this child theme.' ), '<strong>%s</strong>' );
 	}
 

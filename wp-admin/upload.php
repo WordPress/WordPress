@@ -98,7 +98,7 @@ if ( 'grid' === $mode ) {
 			<p>
 			<?php
 			printf(
-				/* translators: %s: list view URL */
+				/* translators: %s: List view URL. */
 				__( 'The grid view for the Media Library requires JavaScript. <a href="%s">Switch to the list view</a>.' ),
 				'upload.php?mode=list'
 			);
@@ -273,7 +273,7 @@ if ( current_user_can( 'upload_files' ) ) {
 }
 
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-	/* translators: %s: search keywords */
+	/* translators: %s: Search query. */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', get_search_query() );
 }
 ?>
@@ -292,7 +292,7 @@ if ( ! empty( $_GET['attached'] ) && absint( $_GET['attached'] ) ) {
 	if ( 1 == $attached ) {
 		$message = __( 'Media file attached.' );
 	} else {
-		/* translators: %s: number of media files */
+		/* translators: %s: Number of media files. */
 		$message = _n( '%s media file attached.', '%s media files attached.', $attached );
 	}
 	$message                = sprintf( $message, number_format_i18n( $attached ) );
@@ -304,7 +304,7 @@ if ( ! empty( $_GET['detach'] ) && absint( $_GET['detach'] ) ) {
 	if ( 1 == $detached ) {
 		$message = __( 'Media file detached.' );
 	} else {
-		/* translators: %s: number of media files */
+		/* translators: %s: Number of media files. */
 		$message = _n( '%s media file detached.', '%s media files detached.', $detached );
 	}
 	$message                = sprintf( $message, number_format_i18n( $detached ) );
@@ -316,7 +316,7 @@ if ( ! empty( $_GET['deleted'] ) && absint( $_GET['deleted'] ) ) {
 	if ( 1 == $deleted ) {
 		$message = __( 'Media file permanently deleted.' );
 	} else {
-		/* translators: %s: number of media files */
+		/* translators: %s: Number of media files. */
 		$message = _n( '%s media file permanently deleted.', '%s media files permanently deleted.', $deleted );
 	}
 	$message                = sprintf( $message, number_format_i18n( $deleted ) );
@@ -328,7 +328,7 @@ if ( ! empty( $_GET['trashed'] ) && absint( $_GET['trashed'] ) ) {
 	if ( 1 == $trashed ) {
 		$message = __( 'Media file moved to the trash.' );
 	} else {
-		/* translators: %s: number of media files */
+		/* translators: %s: Number of media files. */
 		$message = _n( '%s media file moved to the trash.', '%s media files moved to the trash.', $trashed );
 	}
 	$message                = sprintf( $message, number_format_i18n( $trashed ) );
@@ -341,7 +341,7 @@ if ( ! empty( $_GET['untrashed'] ) && absint( $_GET['untrashed'] ) ) {
 	if ( 1 == $untrashed ) {
 		$message = __( 'Media file restored from the trash.' );
 	} else {
-		/* translators: %s: number of media files */
+		/* translators: %s: Number of media files. */
 		$message = _n( '%s media file restored from the trash.', '%s media files restored from the trash.', $untrashed );
 	}
 	$message                = sprintf( $message, number_format_i18n( $untrashed ) );

@@ -163,13 +163,13 @@ function wp_print_media_templates() {
 	}
 
 	$alt_text_description = sprintf(
-		/* translators: 1: link to tutorial, 2: additional link attributes, 3: accessibility text */
+		/* translators: 1: Link to tutorial, 2: Additional link attributes, 3: Accessibility text. */
 		__( '<a href="%1$s" %2$s>Describe the purpose of the image%3$s</a>. Leave empty if the image is purely decorative.' ),
 		esc_url( 'https://www.w3.org/WAI/tutorials/images/decision-tree' ),
 		'target="_blank" rel="noopener noreferrer"',
 		sprintf(
 			'<span class="screen-reader-text"> %s</span>',
-			/* translators: accessibility text */
+			/* translators: Accessibility text. */
 			__( '(opens in a new tab)' )
 		)
 	);
@@ -275,7 +275,7 @@ function wp_print_media_templates() {
 				<p class="max-upload-size">
 				<?php
 					printf(
-						/* translators: %s: maximum allowed file size */
+						/* translators: %s: Maximum allowed file size. */
 						__( 'Maximum upload file size: %s.' ),
 						esc_html( size_format( $max_upload_size ) )
 					);
@@ -285,7 +285,7 @@ function wp_print_media_templates() {
 				<# if ( data.suggestedWidth && data.suggestedHeight ) { #>
 					<p class="suggested-dimensions">
 						<?php
-							/* translators: 1: suggested width number, 2: suggested height number. */
+							/* translators: 1: Suggested width number, 2: Suggested height number. */
 							printf( __( 'Suggested image dimensions: %1$s by %2$s pixels.' ), '{{data.suggestedWidth}}', '{{data.suggestedHeight}}' );
 						?>
 					</p>
@@ -407,7 +407,7 @@ function wp_print_media_templates() {
 					<# if ( data.width && data.height ) { #>
 						<div class="dimensions"><strong><?php _e( 'Dimensions:' ); ?></strong>
 							<?php
-							/* translators: 1: a number of pixels wide, 2: a number of pixels tall. */
+							/* translators: 1: A number of pixels wide, 2: A number of pixels tall. */
 							printf( __( '%1$s by %2$s pixels' ), '{{ data.width }}', '{{ data.height }}' );
 							?>
 						</div>
@@ -597,7 +597,7 @@ function wp_print_media_templates() {
 					<# if ( data.width && data.height ) { #>
 						<div class="dimensions">
 							<?php
-							/* translators: 1: a number of pixels wide, 2: a number of pixels tall. */
+							/* translators: 1: A number of pixels wide, 2: A number of pixels tall. */
 							printf( __( '%1$s by %2$s pixels' ), '{{ data.width }}', '{{ data.height }}' );
 							?>
 						</div>

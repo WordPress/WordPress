@@ -18,7 +18,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 $title       = __( 'General Settings' );
 $parent_file = 'options-general.php';
-/* translators: date and time format for exact current time, mainly about timezones, see https://secure.php.net/date */
+/* translators: Date and time format for exact current time, mainly about timezones, see https://secure.php.net/date */
 $timezone_format = _x( 'Y-m-d H:i:s', 'timezone date format' );
 
 add_action( 'admin_head', 'options_general_add_js' );
@@ -95,7 +95,7 @@ if ( ! is_multisite() ) {
 <p class="description" id="home-description">
 		<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'Enter the address here if you <a href="%s">want your site home page to be different from your WordPress installation directory</a>.' ),
 			__( 'https://wordpress.org/support/article/giving-wordpress-its-own-directory/' )
 		);
@@ -119,7 +119,7 @@ if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) :
 	<p>
 	<?php
 		printf(
-			/* translators: %s: new admin email */
+			/* translators: %s: New admin email. */
 			__( 'There is a pending change of the admin email to %s.' ),
 			'<code>' . esc_html( $new_admin_email ) . '</code>'
 		);
@@ -242,8 +242,8 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 	<span id="utc-time">
 	<?php
 		printf(
-			/* translators: 1: UTC time */
-			__( 'Universal time is %1$s.' ),
+			/* translators: %s: UTC time. */
+			__( 'Universal time is %s.' ),
 			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
 		);
 		?>
@@ -252,7 +252,7 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 	<span id="local-time">
 	<?php
 		printf(
-			/* translators: %s: local time */
+			/* translators: %s: Local time. */
 			__( 'Local time is %s.' ),
 			'<code>' . date_i18n( $timezone_format ) . '</code>'
 		);
@@ -293,9 +293,9 @@ if ( empty( $tzstring ) ) { // Create a UTC+- zone if no timezone string exists
 		if ( $found ) {
 			echo ' ';
 			$message = $tr['isdst'] ?
-				/* translators: %s: date and time  */
+				/* translators: %s: Date and time. */
 				__( 'Daylight saving time begins on: %s.' ) :
-				/* translators: %s: date and time  */
+				/* translators: %s: Date and time. */
 				__( 'Standard time begins on: %s.' );
 			// Add the difference between the current offset and the new offset to ts to get the correct transition time from date_i18n().
 			printf(

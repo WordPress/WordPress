@@ -36,11 +36,11 @@ $discussion = twentynineteen_get_discussion_data();
 			}
 		} else {
 			if ( '1' == $discussion->responses ) {
-				/* translators: %s: post title */
+				/* translators: %s: Post title. */
 				printf( _x( 'One reply on &ldquo;%s&rdquo;', 'comments title', 'twentynineteen' ), get_the_title() );
 			} else {
 				printf(
-					/* translators: 1: number of comments, 2: post title */
+					/* translators: 1: Number of comments, 2: Post title. */
 					_nx(
 						'%1$s reply on &ldquo;%2$s&rdquo;',
 						'%1$s replies on &ldquo;%2$s&rdquo;',

@@ -229,7 +229,7 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 	}
 
 	$avatar = get_avatar( $user_id, 26 );
-	/* translators: %s: current user's display name */
+	/* translators: %s: Current user's display name. */
 	$howdy = sprintf( __( 'Howdy, %s' ), '<span class="display-name">' . $current_user->display_name . '</span>' );
 	$class = empty( $avatar ) ? '' : 'with-avatar';
 
@@ -341,10 +341,10 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	}
 
 	if ( is_network_admin() ) {
-		/* translators: %s: site name */
+		/* translators: %s: Site title. */
 		$blogname = sprintf( __( 'Network Admin: %s' ), esc_html( get_network()->site_name ) );
 	} elseif ( is_user_admin() ) {
-		/* translators: %s: site name */
+		/* translators: %s: Site title. */
 		$blogname = sprintf( __( 'User Dashboard: %s' ), esc_html( get_network()->site_name ) );
 	}
 
@@ -896,7 +896,7 @@ function wp_admin_bar_comments_menu( $wp_admin_bar ) {
 	$awaiting_mod  = wp_count_comments();
 	$awaiting_mod  = $awaiting_mod->moderated;
 	$awaiting_text = sprintf(
-		/* translators: %s: number of comments */
+		/* translators: %s: Number of comments. */
 		_n( '%s Comment in moderation', '%s Comments in moderation', $awaiting_mod ),
 		number_format_i18n( $awaiting_mod )
 	);

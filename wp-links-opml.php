@@ -29,7 +29,7 @@ echo '<?xml version="1.0"?' . ">\n";
 	<head>
 		<title>
 		<?php
-			/* translators: %s: site name */
+			/* translators: %s: Site title. */
 			printf( __( 'Links for %s' ), esc_attr( get_bloginfo( 'name', 'display' ) ) );
 		?>
 		</title>

@@ -380,7 +380,7 @@ class Featured_Content {
 			array(
 				'title'          => __( 'Featured Content', 'twentyfourteen' ),
 				'description'    => sprintf(
-					/* translators: 1: featured tag editor URL, 2: post editor URL */
+					/* translators: 1: Featured tag editor URL, 2: Post editor URL. */
 					__( 'Use a <a href="%1$s">tag</a> to feature your posts. If no posts match the tag, <a href="%2$s">sticky posts</a> will be displayed instead.', 'twentyfourteen' ),
 					esc_url( add_query_arg( 'tag', _x( 'featured', 'featured content default tag slug', 'twentyfourteen' ), admin_url( 'edit.php' ) ) ),
 					admin_url( 'edit.php?show_sticky=1' )

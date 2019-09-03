@@ -219,15 +219,15 @@ add_action( 'after_setup_theme', 'twentythirteen_setup' );
 function twentythirteen_fonts_url() {
 	$fonts_url = '';
 
-	/* Translators: If there are characters in your language that are not
-	 * supported by Source Sans Pro, translate this to 'off'. Do not translate
-	 * into your own language.
+	/*
+	 * translators: If there are characters in your language that are not supported
+	 * by Source Sans Pro, translate this to 'off'. Do not translate into your own language.
 	 */
 	$source_sans_pro = _x( 'on', 'Source Sans Pro font: on or off', 'twentythirteen' );
 
-	/* Translators: If there are characters in your language that are not
-	 * supported by Bitter, translate this to 'off'. Do not translate into your
-	 * own language.
+	/*
+	 * translators: If there are characters in your language that are not supported
+	 * by Bitter, translate this to 'off'. Do not translate into your own language.
 	 */
 	$bitter = _x( 'on', 'Bitter font: on or off', 'twentythirteen' );
 
@@ -361,7 +361,7 @@ function twentythirteen_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-		/* translators: %s: page number */
+		/* translators: %s: Page number. */
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentythirteen' ), max( $paged, $page ) );
 	}
 
@@ -480,13 +480,13 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 			twentythirteen_entry_date();
 		}
 
-		// Translators: used between list items, there is a space after the comma.
+		/* translators: Used between list items, there is a space after the comma. */
 		$categories_list = get_the_category_list( __( ', ', 'twentythirteen' ) );
 		if ( $categories_list ) {
 			echo '<span class="categories-links">' . $categories_list . '</span>';
 		}
 
-		// Translators: used between list items, there is a space after the comma.
+		/* translators: Used between list items, there is a space after the comma. */
 		$tag_list = get_the_tag_list( '', __( ', ', 'twentythirteen' ) );
 		if ( $tag_list ) {
 			echo '<span class="tags-links">' . $tag_list . '</span>';
@@ -497,7 +497,7 @@ if ( ! function_exists( 'twentythirteen_entry_meta' ) ) :
 			printf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 				esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-				/* translators: %s: author display name */
+				/* translators: %s: Author display name. */
 				esc_attr( sprintf( __( 'View all posts by %s', 'twentythirteen' ), get_the_author() ) ),
 				get_the_author()
 			);
@@ -518,7 +518,7 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
 	 */
 	function twentythirteen_entry_date( $echo = true ) {
 		if ( has_post_format( array( 'chat', 'status' ) ) ) {
-			/* translators: 1: post format name, 2: date */
+			/* translators: 1: Post format name, 2: Date. */
 			$format_prefix = _x( '%1$s on %2$s', '1: post format name. 2: date', 'twentythirteen' );
 		} else {
 			$format_prefix = '%2$s';
@@ -527,7 +527,7 @@ if ( ! function_exists( 'twentythirteen_entry_date' ) ) :
 		$date = sprintf(
 			'<span class="date"><a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a></span>',
 			esc_url( get_permalink() ),
-			/* translators: %s: post title */
+			/* translators: %s: Post title. */
 			esc_attr( sprintf( __( 'Permalink to %s', 'twentythirteen' ), the_title_attribute( 'echo=0' ) ) ),
 			esc_attr( get_the_date( 'c' ) ),
 			esc_html( sprintf( $format_prefix, get_post_format_string( get_post_format() ), get_the_date() ) )
@@ -641,7 +641,7 @@ if ( ! function_exists( 'twentythirteen_excerpt_more' ) && ! is_admin() ) :
 		$link = sprintf(
 			'<a href="%1$s" class="more-link">%2$s</a>',
 			esc_url( get_permalink( get_the_ID() ) ),
-			/* translators: %s: Name of current post */
+			/* translators: %s: Post title. */
 			sprintf( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentythirteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 		return ' &hellip; ' . $link;

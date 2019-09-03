@@ -328,7 +328,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		return new WP_Error(
 			'menu_exists',
 			sprintf(
-				/* translators: %s: menu name */
+				/* translators: %s: Menu name. */
 				__( 'The menu name %s conflicts with another menu name. Please try another.' ),
 				'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
 			)
@@ -343,7 +343,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 			return new WP_Error(
 				'menu_exists',
 				sprintf(
-					/* translators: %s: menu name */
+					/* translators: %s: Menu name. */
 					__( 'The menu name %s conflicts with another menu name. Please try another.' ),
 					'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
 				)
@@ -832,7 +832,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				}
 
 				if ( '' === $original_title ) {
-					/* translators: %d: ID of a post */
+					/* translators: %d: ID of a post. */
 					$original_title = sprintf( __( '#%d (no title)' ), $menu_item->object_id );
 				}
 
@@ -874,7 +874,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				}
 
 				if ( '' === $original_title ) {
-					/* translators: %d: ID of a term */
+					/* translators: %d: ID of a term. */
 					$original_title = sprintf( __( '#%d (no title)' ), $menu_item->object_id );
 				}
 
@@ -921,7 +921,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->type_label = $object->labels->singular_name;
 
 			if ( '' === $menu_item->post_title ) {
-				/* translators: %d: ID of a post */
+				/* translators: %d: ID of a post. */
 				$menu_item->post_title = sprintf( __( '#%d (no title)' ), $menu_item->ID );
 			}
 

@@ -3536,7 +3536,7 @@ function wp_comments_personal_data_eraser( $email_address, $page = 1 ) {
 			if ( $anon_message && is_string( $anon_message ) ) {
 				$messages[] = esc_html( $anon_message );
 			} else {
-				/* translators: %d: Comment ID */
+				/* translators: %d: Comment ID. */
 				$messages[] = sprintf( __( 'Comment %d contains personal data but could not be anonymized.' ), $comment_id );
 			}
 

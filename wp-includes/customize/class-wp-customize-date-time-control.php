@@ -199,7 +199,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 		for ( $i = 1; $i < 13; $i++ ) {
 			$month_text = $wp_locale->get_month_abbrev( $wp_locale->get_month( $i ) );
 
-			/* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
+			/* translators: 1: Month number (01, 02, etc.), 2: Month abbreviation. */
 			$months[ $i ]['text']  = sprintf( __( '%1$s-%2$s' ), $i, $month_text );
 			$months[ $i ]['value'] = $i;
 		}
@@ -233,7 +233,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 				$timezone_info['abbr'] = $now->format( 'T' );
 
 				$timezone_info['description'] = sprintf(
-					/* translators: 1: timezone name, 2: timezone abbreviation, 3: UTC abbreviation and offset, 4: UTC offset  */
+					/* translators: 1: Timezone name, 2: Timezone abbreviation, 3: UTC abbreviation and offset, 4: UTC offset. */
 					__( 'Your timezone is set to %1$s (%2$s), currently %3$s (Coordinated Universal Time %4$s).' ),
 					$tz_name,
 					'<abbr>' . $timezone_info['abbr'] . '</abbr>',
@@ -247,7 +247,7 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 			$formatted_gmt_offset = $this->format_gmt_offset( intval( get_option( 'gmt_offset', 0 ) ) );
 
 			$timezone_info['description'] = sprintf(
-				/* translators: 1: UTC abbreviation and offset, 2: UTC offset */
+				/* translators: 1: UTC abbreviation and offset, 2: UTC offset. */
 				__( 'Your timezone is set to %1$s (Coordinated Universal Time %2$s).' ),
 				'<abbr>UTC</abbr>' . $formatted_gmt_offset,
 				$formatted_gmt_offset

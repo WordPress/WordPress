@@ -62,10 +62,10 @@ $parent_file = 'tools.php';
 <?php if ( ! empty( $_GET['invalid'] ) ) : ?>
 	<div class="error">
 		<p><strong><?php _e( 'ERROR:' ); ?></strong>
-								<?php
-								/* translators: %s: importer slug */
-								printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
-								?>
+			<?php
+			/* translators: %s: Importer slug. */
+			printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
+			?>
 		</p>
 	</div>
 <?php endif; ?>
@@ -128,7 +128,7 @@ if ( empty( $importers ) ) {
 					$action      = sprintf(
 						'<a href="%s" aria-label="%s">%s</a>',
 						esc_url( $url ),
-						/* translators: %s: Importer name */
+						/* translators: %s: Importer name. */
 						esc_attr( sprintf( __( 'Run %s' ), $data[0] ) ),
 						__( 'Run Importer' )
 					);
@@ -155,13 +155,13 @@ if ( empty( $importers ) ) {
 						esc_url( $url ),
 						esc_attr( $plugin_slug ),
 						esc_attr( $data[0] ),
-						/* translators: %s: Importer name */
+						/* translators: %s: Importer name. */
 						esc_attr( sprintf( __( 'Install %s now' ), $data[0] ) ),
 						__( 'Install Now' )
 					);
 				} else {
 					$action = sprintf(
-						/* translators: URL to wp-admin/import.php */
+						/* translators: URL to Import screen on the main site. */
 						__( 'This importer is not installed. Please install importers from <a href="%s">the main site</a>.' ),
 						get_admin_url( get_current_network_id(), 'import.php' )
 					);
@@ -177,7 +177,7 @@ if ( empty( $importers ) ) {
 			$action = sprintf(
 				'<a href="%1$s" aria-label="%2$s">%3$s</a>',
 				esc_url( $url ),
-				/* translators: %s: Importer name */
+				/* translators: %s: Importer name. */
 				esc_attr( sprintf( __( 'Run %s' ), $data[0] ) ),
 				__( 'Run Importer' )
 			);
@@ -200,7 +200,7 @@ if ( empty( $importers ) ) {
 			$action .= sprintf(
 				' | <a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
 				esc_url( $url ),
-				/* translators: %s: Importer name */
+				/* translators: %s: Importer name. */
 				esc_attr( sprintf( __( 'More information about %s' ), $data[0] ) ),
 				__( 'Details' )
 			);
@@ -224,7 +224,7 @@ if ( empty( $importers ) ) {
 
 if ( current_user_can( 'install_plugins' ) ) {
 	echo '<p>' . sprintf(
-		/* translators: %s: URL to Add Plugins screen */
+		/* translators: %s: URL to Add Plugins screen. */
 		__( 'If the importer you need is not listed, <a href="%s">search the plugin directory</a> to see if an importer is available.' ),
 		esc_url( network_admin_url( 'plugin-install.php?tab=search&type=tag&s=importer' ) )
 	) . '</p>';

@@ -199,7 +199,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$url,
 			$current_link_attributes,
 			sprintf(
-				/* translators: %s: number of users */
+				/* translators: %s: Number of users. */
 				_nx(
 					'All <span class="count">(%s)</span>',
 					'All <span class="count">(%s)</span>',
@@ -222,8 +222,13 @@ class WP_Users_List_Table extends WP_List_Table {
 			}
 
 			$name = translate_user_role( $name );
-			/* translators: User role name with count */
-			$name                     = sprintf( __( '%1$s <span class="count">(%2$s)</span>' ), $name, number_format_i18n( $avail_roles[ $this_role ] ) );
+			$name = sprintf(
+				/* translators: User role name with count. */
+				__( '%1$s <span class="count">(%2$s)</span>' ),
+				$name,
+				number_format_i18n( $avail_roles[ $this_role ] )
+			);
+
 			$role_links[ $this_role ] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$current_link_attributes>$name</a>";
 		}
 
@@ -236,10 +241,14 @@ class WP_Users_List_Table extends WP_List_Table {
 			}
 
 			$name = __( 'No role' );
-			/* translators: User role name with count */
-			$name               = sprintf( __( '%1$s <span class="count">(%2$s)</span>' ), $name, number_format_i18n( $avail_roles['none'] ) );
-			$role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$current_link_attributes>$name</a>";
+			$name = sprintf(
+				/* translators: User role name with count. */
+				__( '%1$s <span class="count">(%2$s)</span>' ),
+				$name,
+				number_format_i18n( $avail_roles['none'] )
+			);
 
+			$role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$current_link_attributes>$name</a>";
 		}
 
 		return $role_links;
@@ -456,7 +465,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				$actions['view'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					esc_url( $author_posts_url ),
-					/* translators: %s: author's display name */
+					/* translators: %s: Author's display name. */
 					esc_attr( sprintf( __( 'View posts by %s' ), $user_object->display_name ) ),
 					__( 'View' )
 				);
@@ -482,7 +491,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				'<label class="screen-reader-text" for="user_%1$s">%2$s</label>' .
 				'<input type="checkbox" name="users[]" id="user_%1$s" class="%3$s" value="%1$s" />',
 				$user_object->ID,
-				/* translators: %s: user login */
+				/* translators: %s: User login. */
 				sprintf( __( 'Select %s' ), $user_object->user_login ),
 				$role_classes
 			);
@@ -552,7 +561,7 @@ class WP_Users_List_Table extends WP_List_Table {
 								"edit.php?author={$user_object->ID}",
 								$numposts,
 								sprintf(
-									/* translators: %s: number of posts */
+									/* translators: %s: Number of posts. */
 									_n( '%s post by this author', '%s posts by this author', $numposts ),
 									number_format_i18n( $numposts )
 								)

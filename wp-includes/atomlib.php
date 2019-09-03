@@ -171,7 +171,7 @@ class AtomParser {
             if($this->debug) $this->content .= $data;
 
             if(!xml_parse($parser, $data, feof($fp))) {
-                /* translators: 1: error message, 2: line number */
+                /* translators: 1: Error message, 2: Line number. */
                 trigger_error(sprintf(__('XML Error: %1$s at line %2$s')."\n",
                     xml_error_string(xml_get_error_code($parser)),
                     xml_get_current_line_number($parser)));

@@ -243,7 +243,7 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 	$help = '';
 	if ( 'category' == $taxonomy ) {
 		$help = '<p>' . sprintf(
-			/* translators: %s: URL to Writing Settings screen */
+			/* translators: %s: URL to Writing Settings screen. */
 			__( 'You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href="%s">writing settings</a>.' ),
 			'options-writing.php'
 		) . '</p>';
@@ -335,7 +335,7 @@ if ( is_plugin_active( 'wpcat2tag-importer/wpcat2tag-importer.php' ) ) {
 
 <?php
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-	/* translators: %s: search keywords */
+	/* translators: %s: Search query. */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( wp_unslash( $_REQUEST['s'] ) ) );
 }
 ?>
@@ -591,7 +591,7 @@ if ( $can_edit_terms ) {
 <p>
 	<?php
 	printf(
-		/* translators: %s: default category */
+		/* translators: %s: Default category. */
 		__( 'Deleting a category does not delete the posts in that category. Instead, posts that were only assigned to the deleted category are set to the default category %s. The default category cannot be deleted.' ),
 		/** This filter is documented in wp-includes/category-template.php */
 		'<strong>' . apply_filters( 'the_category', get_cat_name( get_option( 'default_category' ) ), '', '' ) . '</strong>'
@@ -602,7 +602,7 @@ if ( $can_edit_terms ) {
 	<p>
 		<?php
 		printf(
-			/* translators: %s: URL to Categories to Tags Converter tool */
+			/* translators: %s: URL to Categories to Tags Converter tool. */
 			__( 'Categories can be selectively converted to tags using the <a href="%s">category to tag converter</a>.' ),
 			esc_url( $import_link )
 		);
@@ -615,7 +615,7 @@ if ( $can_edit_terms ) {
 <p>
 	<?php
 	printf(
-		/* translators: %s: URL to Categories to Tags Converter tool */
+		/* translators: %s: URL to Categories to Tags Converter tool. */
 		__( 'Tags can be selectively converted to categories using the <a href="%s">tag to category converter</a>.' ),
 		esc_url( $import_link )
 	);

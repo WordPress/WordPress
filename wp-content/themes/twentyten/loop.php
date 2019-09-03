@@ -86,9 +86,9 @@ while ( have_posts() ) :
 					<p><em>
 					<?php
 						printf(
-							/* translators: 1: HTML tag attributes, 2: image count */
+							/* translators: 1: HTML tag attributes, 2: Image count. */
 							_n( 'This gallery contains <a %1$s>%2$s photo</a>.', 'This gallery contains <a %1$s>%2$s photos</a>.', $total_images, 'twentyten' ),
-							/* translators: %s: post title */
+							/* translators: %s: Post title. */
 							'href="' . esc_url( get_permalink() ) . '" title="' . esc_attr( sprintf( __( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) ) . '" rel="bookmark"',
 							number_format_i18n( $total_images )
 						);
@@ -170,7 +170,7 @@ while ( have_posts() ) :
 				<?php if ( count( get_the_category() ) ) : ?>
 					<span class="cat-links">
 						<?php
-						/* translators: 1: CSS classes, 2: catgory list */
+						/* translators: 1: CSS classes, 2: Category list. */
 						printf( __( '<span class="%1$s">Posted in</span> %2$s', 'twentyten' ), 'entry-utility-prep entry-utility-prep-cat-links', get_the_category_list( ', ' ) );
 						?>
 					</span>
@@ -182,7 +182,7 @@ while ( have_posts() ) :
 					?>
 				<span class="tag-links">
 					<?php
-					/* translators: 1: CSS classes, 2: catgory list */
+					/* translators: 1: CSS classes, 2: Category list. */
 					printf( __( '<span class="%1$s">Tagged</span> %2$s', 'twentyten' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list );
 					?>
 				</span>

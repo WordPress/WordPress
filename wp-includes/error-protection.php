@@ -60,7 +60,7 @@ function wp_get_extension_error_description( $error ) {
 		$error['type'] = $core_errors[ $error['type'] ];
 	}
 
-	/* translators: 1: error type, 2: error line number, 3: error file name, 4: error message */
+	/* translators: 1: Error type, 2: Error line number, 3: Error file name, 4: Error message. */
 	$error_message = __( 'An error of type %1$s was caused in line %2$s of the file %3$s. Error message: %4$s' );
 
 	return sprintf(

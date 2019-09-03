@@ -289,7 +289,7 @@ add_action( 'widgets_init', 'twentyfourteen_widgets_init' );
 function twentyfourteen_font_url() {
 	$font_url = '';
 	/*
-	 * Translators: If there are characters in your language that are not supported
+	 * translators: If there are characters in your language that are not supported
 	 * by Lato, translate this to 'off'. Do not translate into your own language.
 	 */
 	if ( 'off' !== _x( 'on', 'Lato font: on or off', 'twentyfourteen' ) ) {
@@ -505,7 +505,7 @@ if ( ! function_exists( 'twentyfourteen_list_authors' ) ) :
 				</p>
 				<a class="button contributor-posts-link" href="<?php echo esc_url( get_author_posts_url( $contributor_id ) ); ?>">
 					<?php
-					/* translators: %d: post count */
+					/* translators: %d: Post count. */
 					printf( _n( '%d Article', '%d Articles', $post_count, 'twentyfourteen' ), $post_count );
 					?>
 				</a>
@@ -626,7 +626,7 @@ function twentyfourteen_wp_title( $title, $sep ) {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-		/* translators: %s: page number */
+		/* translators: %s: Page number. */
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentyfourteen' ), max( $paged, $page ) );
 	}
 

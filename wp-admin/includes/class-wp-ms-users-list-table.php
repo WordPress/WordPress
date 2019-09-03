@@ -144,7 +144,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			network_admin_url( 'users.php' ),
 			$current_link_attributes,
 			sprintf(
-				/* translators: number of users */
+				/* translators: Number of users. */
 				_nx(
 					'All <span class="count">(%s)</span>',
 					'All <span class="count">(%s)</span>',
@@ -160,7 +160,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			network_admin_url( 'users.php?role=super' ),
 			$current_link_attributes,
 			sprintf(
-				/* translators: number of users */
+				/* translators: Number of users. */
 				_n(
 					'Super Admin <span class="count">(%s)</span>',
 					'Super Admins <span class="count">(%s)</span>',
@@ -237,7 +237,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		?>
 		<label class="screen-reader-text" for="blog_<?php echo $user->ID; ?>">
 			<?php
-			/* translators: %s: user login */
+			/* translators: %s: User login. */
 			printf( __( 'Select %s' ), $user->user_login );
 			?>
 		</label>

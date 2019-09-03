@@ -18,7 +18,7 @@ get_header(); ?>
 		<?php if ( have_posts() ) : ?>
 			<h1 class="page-title">
 			<?php
-			/* translators: search query */
+			/* translators: Search query. */
 			printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' );
 			?>
 			</h1>

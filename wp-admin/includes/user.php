@@ -573,7 +573,7 @@ function admin_created_user_email( $text ) {
 	$role  = $roles[ $_REQUEST['role'] ];
 
 	return sprintf(
-		/* translators: 1: site name, 2: site URL, 3: role */
+		/* translators: 1: Site title, 2: Site URL, 3: User role. */
 		__(
 			'Hi,
 You\'ve been invited to join \'%1$s\' at

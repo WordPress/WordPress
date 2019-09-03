@@ -274,7 +274,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				$original_title = apply_filters( 'the_title', $original_object->post_title, $original_object->ID );
 
 				if ( '' === $original_title ) {
-					/* translators: %d: ID of a post */
+					/* translators: %d: ID of a post. */
 					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
 				}
 			}

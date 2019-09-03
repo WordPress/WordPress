@@ -87,7 +87,7 @@ function get_file_description( $file ) {
 	} elseif ( file_exists( $file_path ) && is_file( $file_path ) ) {
 		$template_data = implode( '', file( $file_path ) );
 		if ( preg_match( '|Template Name:(.*)$|mi', $template_data, $name ) ) {
-			/* translators: %s: template name */
+			/* translators: %s: Template name. */
 			return sprintf( __( '%s Page Template' ), _cleanup_header_comment( $name[1] ) );
 		}
 	}
@@ -302,7 +302,7 @@ function wp_print_file_editor_templates() {
 				<p>
 					<?php
 					printf(
-						/* translators: 1: line number, 2: file path */
+						/* translators: 1: Line number, 2: File path. */
 						__( 'Your PHP code changes were rolled back due to an error on line %1$s of file %2$s. Please fix and try saving again.' ),
 						'{{ data.line }}',
 						'{{ data.file }}'
@@ -314,7 +314,7 @@ function wp_print_file_editor_templates() {
 				<p>
 					<?php
 					printf(
-						/* translators: %s: Documentation URL */
+						/* translators: %s: Documentation URL. */
 						__( 'You need to make this file writable before you can save your changes. See <a href="%s">Changing File Permissions</a> for more information.' ),
 						__( 'https://wordpress.org/support/article/changing-file-permissions/' )
 					);
@@ -875,7 +875,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 			return $upload_error_handler(
 				$file,
 				sprintf(
-					/* translators: %s: destination file path */
+					/* translators: %s: Destination file path. */
 					__( 'The uploaded file could not be moved to %s.' ),
 					$error_path
 				)
@@ -1165,7 +1165,7 @@ function verify_file_md5( $filename, $expected_md5 ) {
 	return new WP_Error(
 		'md5_mismatch',
 		sprintf(
-			/* translators: 1: file checksum, 2: expected checksum value */
+			/* translators: 1: File checksum, 2: Expected checksum value. */
 			__( 'The checksum of the file (%1$s) does not match the expected checksum value (%2$s).' ),
 			bin2hex( $file_md5 ),
 			bin2hex( $expected_raw_md5 )

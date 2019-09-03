@@ -187,7 +187,7 @@ switch ( $step ) {
 	</strong>
 		<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'Need more help? <a href="%s">We got it</a>.' ),
 			__( 'https://wordpress.org/support/article/editing-wp-config-php/' )
 		);

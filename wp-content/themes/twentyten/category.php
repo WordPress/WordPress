@@ -14,7 +14,7 @@ get_header(); ?>
 
 				<h1 class="page-title">
 				<?php
-					/* translators: %s: category title */
+					/* translators: %s: Category title. */
 					printf( __( 'Category Archives: %s', 'twentyten' ), '<span>' . single_cat_title( '', false ) . '</span>' );
 				?>
 				</h1>

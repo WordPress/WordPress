@@ -253,7 +253,7 @@ class WP_Http_Streams {
 				return new WP_Error(
 					'http_request_failed',
 					sprintf(
-						/* translators: 1: fopen(), 2: file name */
+						/* translators: 1: fopen(), 2: File name. */
 						__( 'Could not open handle for %1$s to %2$s.' ),
 						'fopen()',
 						$parsed_args['filename']

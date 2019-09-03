@@ -112,7 +112,7 @@ if ( isset( $_REQUEST['action'] ) && 'adduser' == $_REQUEST['action'] ) {
 
 			$switched_locale = switch_to_locale( get_user_locale( $user_details ) );
 
-			/* translators: 1: Site name, 2: site URL, 3: role, 4: activation URL */
+			/* translators: 1: Site title, 2: Site URL, 3: User role, 4: Activation URL. */
 			$message = __(
 				'Hi,
 
@@ -126,7 +126,7 @@ Please click the following link to confirm the invite:
 			wp_mail(
 				$new_user_email,
 				sprintf(
-					/* translators: Joining confirmation notification email subject. %s: Site title */
+					/* translators: Joining confirmation notification email subject. %s: Site title. */
 					__( '[%s] Joining Confirmation' ),
 					wp_specialchars_decode( get_option( 'blogname' ) )
 				),

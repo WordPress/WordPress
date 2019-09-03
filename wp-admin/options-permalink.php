@@ -32,7 +32,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Permalink Settings' ),
 		'content' => '<p>' . __( 'Permalinks can contain useful information, such as the post date, title, or other elements. You can choose from any of the suggested permalink formats, or you can craft your own if you select Custom Structure.' ) . '</p>' .
 			'<p>' . sprintf(
-				/* translators: '%' character */
+				/* translators: '%' character. */
 				__( 'If you pick an option other than Plain, your general URL path with structure tags (terms surrounded by %s) will also appear in the custom structure field and your path can be further modified there.' ),
 				'<code>%</code>'
 			) . '</p>' .
@@ -182,7 +182,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 	<p>
 	<?php
 		printf(
-			/* translators: %s: Documentation URL */
+			/* translators: %s: Documentation URL. */
 			__( 'WordPress offers you the ability to create a custom URL structure for your permalinks and archives. Custom URL structures can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="%s">number of tags are available</a>, and here are some examples to get you started.' ),
 			__( 'https://wordpress.org/support/article/using-permalinks/' )
 		);
@@ -239,25 +239,25 @@ $structures = array(
 				<div id="custom_selection_updated" aria-live="assertive" class="screen-reader-text"></div>
 				<?php
 				$available_tags = array(
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'year'     => __( '%s (The year of the post, four digits, for example 2004.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'monthnum' => __( '%s (Month of the year, for example 05.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'day'      => __( '%s (Day of the month, for example 28.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'hour'     => __( '%s (Hour of the day, for example 15.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'minute'   => __( '%s (Minute of the hour, for example 43.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'second'   => __( '%s (Second of the minute, for example 33.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'post_id'  => __( '%s (The unique ID of the post, for example 423.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'postname' => __( '%s (The sanitized post title (slug).)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'category' => __( '%s (Category slug. Nested sub-categories appear as nested directories in the URL.)' ),
-					/* translators: %s: permalink structure tag */
+					/* translators: %s: Permalink structure tag. */
 					'author'   => __( '%s (A sanitized version of the author name.)' ),
 				);
 
@@ -270,10 +270,10 @@ $structures = array(
 				 */
 				$available_tags = apply_filters( 'available_permalink_structure_tags', $available_tags );
 
-				/* translators: %s: permalink structure tag */
+				/* translators: %s: Permalink structure tag. */
 				$structure_tag_added = __( '%s added to permalink structure' );
 
-				/* translators: %s: permalink structure tag */
+				/* translators: %s: Permalink structure tag. */
 				$structure_tag_already_used = __( '%s (already used in permalink structure)' );
 
 				if ( ! empty( $available_tags ) ) :
@@ -305,14 +305,14 @@ $structures = array(
 <h2 class="title"><?php _e( 'Optional' ); ?></h2>
 <p>
 <?php
-/* translators: %s: placeholder that must come at the start of the URL */
+/* translators: %s: Placeholder that must come at the start of the URL. */
 printf( __( 'If you like, you may enter custom structures for your category and tag URLs here. For example, using <code>topics</code> as your category base would make your category links like <code>%s/topics/uncategorized/</code>. If you leave these blank the defaults will be used.' ), get_option( 'home' ) . $blog_prefix . $prefix );
 ?>
 </p>
 
 <table class="form-table" role="presentation">
 	<tr>
-		<th><label for="category_base"><?php /* translators: prefix for category permalinks */ _e( 'Category base' ); ?></label></th>
+		<th><label for="category_base"><?php /* translators: Prefix for category permalinks. */ _e( 'Category base' ); ?></label></th>
 		<td><?php echo $blog_prefix; ?> <input name="category_base" id="category_base" type="text" value="<?php echo esc_attr( $category_base ); ?>" class="regular-text code" /></td>
 	</tr>
 	<tr>
@@ -335,7 +335,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 <p>
 				<?php
 				printf(
-					/* translators: 1: web.config, 2: Documentation URL, 3: CTRL + a, 4: element code */
+					/* translators: 1: web.config, 2: Documentation URL, 3: CTRL + a, 4: Element code. */
 					__( 'If your %1$s file was <a href="%2$s">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your %1$s file. Click in the field and press %3$s to select all. Then insert this rule inside of the %4$s element in %1$s file.' ),
 					'<code>web.config</code>',
 					__( 'https://wordpress.org/support/article/changing-file-permissions/' ),

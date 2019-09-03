@@ -32,18 +32,18 @@ global $feature_class;
 
 	<footer class="entry-meta">
 		<?php
-			/* translators: used between list items, there is a space after the comma */
+			/* translators: Used between list items, there is a space after the comma. */
 			$tag_list = get_the_tag_list( '', __( ', ', 'twentyeleven' ) );
 		if ( '' != $tag_list ) {
-			/* translators: 1: category list, 2: tag list, 3: post permalink, 4: post title */
+			/* translators: 1: Category list, 2: Tag list, 3: Post permalink, 4: Post title. */
 			$utility_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		} else {
-			/* translators: 1: category list, 3: post permalink, 4: post title */
+			/* translators: 1: Category list, 3: Post permalink, 4: Post title. */
 			$utility_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyeleven' );
 		}
 			printf(
 				$utility_text,
-				/* translators: used between list items, there is a space after the comma */
+				/* translators: Used between list items, there is a space after the comma. */
 				get_the_category_list( __( ', ', 'twentyeleven' ) ),
 				$tag_list,
 				esc_url( get_permalink() ),

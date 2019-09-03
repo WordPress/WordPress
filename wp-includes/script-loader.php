@@ -598,9 +598,9 @@ function wp_default_packages_inline_scripts( &$scripts ) {
 						'weekdaysShort' => array_values( $wp_locale->weekday_abbrev ),
 						'meridiem'      => (object) $wp_locale->meridiem,
 						'relative'      => array(
-							/* translators: %s: duration */
+							/* translators: %s: Duration. */
 							'future' => __( '%s from now' ),
-							/* translators: %s: duration */
+							/* translators: %s: Duration. */
 							'past'   => __( '%s ago' ),
 						),
 					),
@@ -1064,9 +1064,9 @@ function wp_default_scripts( &$scripts ) {
 		'uiAutocompleteL10n',
 		array(
 			'noResults'    => __( 'No results found.' ),
-			/* translators: Number of results found when using jQuery UI Autocomplete */
+			/* translators: Number of results found when using jQuery UI Autocomplete. */
 			'oneResult'    => __( '1 result found. Use up and down arrow keys to navigate.' ),
-			/* translators: %d: Number of results found when using jQuery UI Autocomplete */
+			/* translators: %d: Number of results found when using jQuery UI Autocomplete. */
 			'manyResults'  => __( '%d results found. Use up and down arrow keys to navigate.' ),
 			'itemSelected' => __( 'Item selected.' ),
 		)
@@ -1115,7 +1115,7 @@ function wp_default_scripts( &$scripts ) {
 	// Error messages for Plupload.
 	$uploader_l10n = array(
 		'queue_limit_exceeded'      => __( 'You have attempted to queue too many files.' ),
-		/* translators: %s: File name */
+		/* translators: %s: File name. */
 		'file_exceeds_size_limit'   => __( '%s exceeds the maximum upload size for this site.' ),
 		'zero_byte_file'            => __( 'This file is empty. Please try another.' ),
 		'invalid_filetype'          => __( 'Sorry, this file type is not permitted for security reasons.' ),
@@ -1127,9 +1127,9 @@ function wp_default_scripts( &$scripts ) {
 		'upload_limit_exceeded'     => __( 'You may only upload 1 file.' ),
 		'http_error'                => __( 'HTTP error.' ),
 		'upload_failed'             => __( 'Upload failed.' ),
-		/* translators: 1: Opening link tag, 2: Closing link tag */
+		/* translators: 1: Opening link tag, 2: Closing link tag. */
 		'big_upload_failed'         => __( 'Please try uploading this file with the %1$sbrowser uploader%2$s.' ),
-		/* translators: %s: File name */
+		/* translators: %s: File name. */
 		'big_upload_queued'         => __( '%s exceeds the maximum upload size for the multi-file uploader when used in your browser.' ),
 		'io_error'                  => __( 'IO error.' ),
 		'security_error'            => __( 'Security error.' ),
@@ -1138,7 +1138,7 @@ function wp_default_scripts( &$scripts ) {
 		'dismiss'                   => __( 'Dismiss' ),
 		'crunching'                 => __( 'Crunching&hellip;' ),
 		'deleted'                   => __( 'moved to the trash.' ),
-		/* translators: %s: File name */
+		/* translators: %s: File name. */
 		'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.' ),
 	);
 
@@ -1329,9 +1329,9 @@ function wp_default_scripts( &$scripts ) {
 					'saveAlert' => __( 'The changes you made will be lost if you navigate away from this page.' ),
 					'saveError' => __( 'Something went wrong. Your change may not have been saved. Please try again. There is also a chance that you may need to manually fix and upload the file over FTP.' ),
 					'lintError' => array(
-						/* translators: %d: error count */
+						/* translators: %d: Error count. */
 						'singular' => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 1 ),
-						/* translators: %d: error count */
+						/* translators: %d: Error count. */
 						'plural'   => _n( 'There is %d error which must be fixed before you can update this file.', 'There are %d errors which must be fixed before you can update this file.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 					),
 				)
@@ -1451,28 +1451,28 @@ function wp_default_scripts( &$scripts ) {
 			'trashConfirm'            => __( 'Are you sure you want to discard your unpublished changes?' ),
 			/* translators: %s: Display name of the user who has taken over the changeset in customizer. */
 			'takenOverMessage'        => __( '%s has taken over and is currently customizing.' ),
-			/* translators: %s: URL to the Customizer to load the autosaved version */
+			/* translators: %s: URL to the Customizer to load the autosaved version. */
 			'autosaveNotice'          => __( 'There is a more recent autosave of your changes than the one you are previewing. <a href="%s">Restore the autosave</a>' ),
 			'videoHeaderNotice'       => __( 'This theme doesn&#8217;t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
 			// Used for overriding the file types allowed in plupload.
 			'allowedFiles'            => __( 'Allowed Files' ),
 			'customCssError'          => array(
-				/* translators: %d: error count */
+				/* translators: %d: Error count. */
 				'singular' => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 1 ),
-				/* translators: %d: error count */
+				/* translators: %d: Error count. */
 				'plural'   => _n( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 			),
 			'pageOnFrontError'        => __( 'Homepage and posts page must be different.' ),
 			'saveBlockedError'        => array(
-				/* translators: %s: number of invalid settings */
+				/* translators: %s: Number of invalid settings. */
 				'singular' => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 1 ),
-				/* translators: %s: number of invalid settings */
+				/* translators: %s: Number of invalid settings. */
 				'plural'   => _n( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.', 2 ), // @todo This is lacking, as some languages have a dedicated dual form. For proper handling of plurals in JS, see #20491.
 			),
 			'scheduleDescription'     => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
 			'themePreviewUnavailable' => __( 'Sorry, you can&#8217;t preview new themes when you have changes scheduled or saved as a draft. Please publish your changes, or wait until they publish to preview new themes.' ),
 			'themeInstallUnavailable' => sprintf(
-				/* translators: %s: URL to Add Themes admin screen */
+				/* translators: %s: URL to Add Themes admin screen. */
 				__( 'You won&#8217;t be able to install new themes from here yet since your install requires SFTP credentials. For now, please <a href="%s">add themes in the admin</a>.' ),
 				esc_url( admin_url( 'theme-install.php' ) )
 			),
@@ -1540,7 +1540,7 @@ function wp_default_scripts( &$scripts ) {
 				'warnQuickEdit'           => __( "Are you sure you want to edit this comment?\nThe changes you made will be lost." ),
 				'warnCommentChanges'      => __( "Are you sure you want to do this?\nThe comment changes you made will be lost." ),
 				'docTitleComments'        => __( 'Comments' ),
-				/* translators: %s: comments count */
+				/* translators: %s: Comments count. */
 				'docTitleCommentsCount'   => __( 'Comments (%s)' ),
 			)
 		);
@@ -1581,7 +1581,7 @@ function wp_default_scripts( &$scripts ) {
 				'publishOn'          => __( 'Publish on:' ),
 				'publishOnFuture'    => __( 'Schedule for:' ),
 				'publishOnPast'      => __( 'Published on:' ),
-				/* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
+				/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
 				'dateFormat'         => __( '%1$s %2$s, %3$s @ %4$s:%5$s' ),
 				'showcomm'           => __( 'Show more comments' ),
 				'endcomm'            => __( 'No more comments found.' ),
@@ -1613,7 +1613,7 @@ function wp_default_scripts( &$scripts ) {
 			'commentL10n',
 			array(
 				'submittedOn' => __( 'Submitted on:' ),
-				/* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
+				/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
 				'dateFormat'  => __( '%1$s %2$s, %3$s @ %4$s:%5$s' ),
 			)
 		);
@@ -1706,7 +1706,7 @@ function wp_default_scripts( &$scripts ) {
 			array(
 				'ajax_nonce' => wp_create_nonce( 'updates' ),
 				'l10n'       => array(
-					/* translators: %s: Search string */
+					/* translators: %s: Search query. */
 					'searchResults'            => __( 'Search results for &#8220;%s&#8221;' ),
 					'searchResultsLabel'       => __( 'Search Results' ),
 					'noPlugins'                => __( 'You do not appear to have any plugins available at this time.' ),
@@ -1716,74 +1716,74 @@ function wp_default_scripts( &$scripts ) {
 					'themeUpdated'             => _x( 'Updated!', 'theme' ),
 					'update'                   => __( 'Update' ),
 					'updateNow'                => __( 'Update Now' ),
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginUpdateNowLabel'     => _x( 'Update %s now', 'plugin' ),
 					'updateFailedShort'        => __( 'Update Failed!' ),
-					/* translators: %s: Error string for a failed update */
+					/* translators: %s: Error string for a failed update. */
 					'updateFailed'             => __( 'Update Failed: %s' ),
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginUpdatingLabel'      => _x( 'Updating %s...', 'plugin' ), // No ellipsis.
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginUpdatedLabel'       => _x( '%s updated!', 'plugin' ),
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginUpdateFailedLabel'  => _x( '%s update failed', 'plugin' ),
-					/* translators: Accessibility text */
+					/* translators: Accessibility text. */
 					'updatingMsg'              => __( 'Updating... please wait.' ), // No ellipsis.
-					/* translators: Accessibility text */
+					/* translators: Accessibility text. */
 					'updatedMsg'               => __( 'Update completed successfully.' ),
-					/* translators: Accessibility text */
+					/* translators: Accessibility text. */
 					'updateCancel'             => __( 'Update canceled.' ),
 					'beforeunload'             => __( 'Updates may not complete if you navigate away from this page.' ),
 					'installNow'               => __( 'Install Now' ),
-					/* translators: %s: Plugin name */
+					/* translators: %s: Plugin name. */
 					'pluginInstallNowLabel'    => _x( 'Install %s now', 'plugin' ),
 					'installing'               => __( 'Installing...' ),
 					'pluginInstalled'          => _x( 'Installed!', 'plugin' ),
 					'themeInstalled'           => _x( 'Installed!', 'theme' ),
 					'installFailedShort'       => __( 'Installation Failed!' ),
-					/* translators: %s: Error string for a failed installation */
+					/* translators: %s: Error string for a failed installation. */
 					'installFailed'            => __( 'Installation failed: %s' ),
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginInstallingLabel'    => _x( 'Installing %s...', 'plugin' ), // no ellipsis
-					/* translators: %s: Theme name and version */
+					/* translators: %s: Theme name and version. */
 					'themeInstallingLabel'     => _x( 'Installing %s...', 'theme' ), // no ellipsis
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginInstalledLabel'     => _x( '%s installed!', 'plugin' ),
-					/* translators: %s: Theme name and version */
+					/* translators: %s: Theme name and version. */
 					'themeInstalledLabel'      => _x( '%s installed!', 'theme' ),
-					/* translators: %s: Plugin name and version */
+					/* translators: %s: Plugin name and version. */
 					'pluginInstallFailedLabel' => _x( '%s installation failed', 'plugin' ),
-					/* translators: %s: Theme name and version */
+					/* translators: %s: Theme name and version. */
 					'themeInstallFailedLabel'  => _x( '%s installation failed', 'theme' ),
 					'installingMsg'            => __( 'Installing... please wait.' ),
 					'installedMsg'             => __( 'Installation completed successfully.' ),
-					/* translators: %s: Activation URL */
+					/* translators: %s: Activation URL. */
 					'importerInstalledMsg'     => __( 'Importer installed successfully. <a href="%s">Run importer</a>' ),
-					/* translators: %s: Theme name */
+					/* translators: %s: Theme name. */
 					'aysDelete'                => __( 'Are you sure you want to delete %s?' ),
-					/* translators: %s: Plugin name */
+					/* translators: %s: Plugin name. */
 					'aysDeleteUninstall'       => __( 'Are you sure you want to delete %s and its data?' ),
 					'aysBulkDelete'            => __( 'Are you sure you want to delete the selected plugins and their data?' ),
 					'aysBulkDeleteThemes'      => __( 'Caution: These themes may be active on other sites in the network. Are you sure you want to proceed?' ),
 					'deleting'                 => __( 'Deleting...' ),
-					/* translators: %s: Error string for a failed deletion */
+					/* translators: %s: Error string for a failed deletion. */
 					'deleteFailed'             => __( 'Deletion failed: %s' ),
 					'pluginDeleted'            => _x( 'Deleted!', 'plugin' ),
 					'themeDeleted'             => _x( 'Deleted!', 'theme' ),
 					'livePreview'              => __( 'Live Preview' ),
 					'activatePlugin'           => is_network_admin() ? __( 'Network Activate' ) : __( 'Activate' ),
 					'activateTheme'            => is_network_admin() ? __( 'Network Enable' ) : __( 'Activate' ),
-					/* translators: %s: Plugin name */
+					/* translators: %s: Plugin name. */
 					'activatePluginLabel'      => is_network_admin() ? _x( 'Network Activate %s', 'plugin' ) : _x( 'Activate %s', 'plugin' ),
-					/* translators: %s: Theme name */
+					/* translators: %s: Theme name. */
 					'activateThemeLabel'       => is_network_admin() ? _x( 'Network Activate %s', 'theme' ) : _x( 'Activate %s', 'theme' ),
 					'activateImporter'         => __( 'Run Importer' ),
-					/* translators: %s: Importer name */
+					/* translators: %s: Importer name. */
 					'activateImporterLabel'    => __( 'Run %s' ),
 					'unknownError'             => __( 'Something went wrong.' ),
 					'connectionError'          => __( 'Connection lost or the server is busy. Please try again later.' ),
 					'nonceError'               => __( 'An error has occurred. Please reload the page and try again.' ),
-					/* translators: %s: Number of plugins */
+					/* translators: %s: Number of plugins. */
 					'pluginsFound'             => __( 'Number of plugins found: %d' ),
 					'noPluginsFound'           => __( 'No plugins found. Try a different search.' ),
 				),
@@ -1903,13 +1903,15 @@ function wp_default_styles( &$styles ) {
 	// Open Sans is no longer used by core, but may be relied upon by themes and plugins.
 	$open_sans_font_url = '';
 
-	/* translators: If there are characters in your language that are not supported
+	/*
+	 * translators: If there are characters in your language that are not supported
 	 * by Open Sans, translate this to 'off'. Do not translate into your own language.
 	 */
 	if ( 'off' !== _x( 'on', 'Open Sans font: on or off' ) ) {
 		$subsets = 'latin,latin-ext';
 
-		/* translators: To add an additional Open Sans character subset specific to your language,
+		/*
+		 * translators: To add an additional Open Sans character subset specific to your language,
 		 * translate this to 'greek', 'cyrillic' or 'vietnamese'. Do not translate into your own language.
 		 */
 		$subset = _x( 'no-subset', 'Open Sans font: add new subset (greek, cyrillic, vietnamese)' );
@@ -1994,7 +1996,7 @@ function wp_default_styles( &$styles ) {
 	$fonts_url = '';
 
 	/*
-	 * Translators: Use this to specify the proper Google Font name and variants
+	 * translators: Use this to specify the proper Google Font name and variants
 	 * to load that is supported by your language. Do not translate.
 	 * Set to 'off' to disable loading.
 	 */
@@ -2295,7 +2297,8 @@ function wp_localize_community_events() {
 				 * It would be too cumbersome to include that in the instructions
 				 * to the user, so it's left as an implication.
 				 */
-				/* translators: %s is the name of the city we couldn't locate.
+				/*
+				 * translators: %s is the name of the city we couldn't locate.
 				 * Replace the examples with cities related to your locale. Test that
 				 * they match the expected location and have upcoming events before
 				 * including them. If no cities related to your locale have events,
@@ -2307,7 +2310,7 @@ function wp_localize_community_events() {
 				'could_not_locate_city'           => __( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 
 				// This one is only used with wp.a11y.speak(), so it can/should be more brief.
-				/* translators: %s: the name of a city */
+				/* translators: %s: The name of a city. */
 				'city_updated'                    => __( 'City updated. Listing events near %s.' ),
 			),
 		)

@@ -7,7 +7,7 @@
  * @since 3.1.0
  */
 
-/* translators: Network menu item */
+/* translators: Network menu item. */
 $menu[2] = array( __( 'Dashboard' ), 'manage_network', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'dashicons-dashboard' );
 
 $submenu['index.php'][0] = array( __( 'Home' ), 'read', 'index.php' );
@@ -26,7 +26,7 @@ $update_data = wp_get_update_data();
 if ( $update_data['counts']['total'] ) {
 	$submenu['index.php'][10] = array(
 		sprintf(
-			/* translators: %s: number of available updates */
+			/* translators: %s: Number of available updates. */
 			__( 'Updates %s' ),
 			sprintf(
 				'<span class="update-plugins count-%s"><span class="update-count">%s</span></span>',
@@ -47,7 +47,7 @@ $submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'upgrade_network', '
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
-/* translators: Sites menu item */
+/* translators: Sites menu item. */
 $menu[5]                  = array( __( 'Sites' ), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'dashicons-admin-multisite' );
 $submenu['sites.php'][5]  = array( __( 'All Sites' ), 'manage_sites', 'sites.php' );
 $submenu['sites.php'][10] = array( _x( 'Add New', 'site' ), 'create_sites', 'site-new.php' );
@@ -59,7 +59,7 @@ $submenu['users.php'][10] = array( _x( 'Add New', 'user' ), 'create_users', 'use
 if ( current_user_can( 'update_themes' ) && $update_data['counts']['themes'] ) {
 	$menu[15] = array(
 		sprintf(
-			/* translators: %s: number of available theme updates */
+			/* translators: %s: Number of available theme updates. */
 			__( 'Themes %s' ),
 			sprintf(
 				'<span class="update-plugins count-%s"><span class="theme-count">%s</span></span>',
@@ -84,7 +84,7 @@ $submenu['themes.php'][15] = array( __( 'Theme Editor' ), 'edit_themes', 'theme-
 if ( current_user_can( 'update_plugins' ) && $update_data['counts']['plugins'] ) {
 	$menu[20] = array(
 		sprintf(
-			/* translators: %s: number of available plugin updates */
+			/* translators: %s: Number of available plugin updates. */
 			__( 'Plugins %s' ),
 			sprintf(
 				'<span class="update-plugins count-%s"><span class="plugin-count">%s</span></span>',

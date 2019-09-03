@@ -226,7 +226,7 @@ if ( ! function_exists( 'twentyfourteen_excerpt_more' ) && ! is_admin() ) :
 		$link = sprintf(
 			'<a href="%1$s" class="more-link">%2$s</a>',
 			esc_url( get_permalink( get_the_ID() ) ),
-			/* translators: %s: Name of current post */
+			/* translators: %s: Post title. */
 			sprintf( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'twentyfourteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 		return ' &hellip; ' . $link;

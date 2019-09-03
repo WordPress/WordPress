@@ -55,7 +55,7 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 		if ( in_array( $domain, $subdirectory_reserved_names ) ) {
 			wp_die(
 				sprintf(
-					/* translators: %s: reserved names list */
+					/* translators: %s: Reserved names list. */
 					__( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: %s' ),
 					'<code>' . implode( '</code>, <code>', $subdirectory_reserved_names ) . '</code>'
 				)
@@ -147,12 +147,12 @@ if ( isset( $_REQUEST['action'] ) && 'add-site' == $_REQUEST['action'] ) {
 		wp_mail(
 			get_site_option( 'admin_email' ),
 			sprintf(
-				/* translators: New site notification email subject. %s: Network name */
+				/* translators: New site notification email subject. %s: Network title. */
 				__( '[%s] New Site Created' ),
 				get_network()->site_name
 			),
 			sprintf(
-				/* translators: New site notification email. 1: User login, 2: Site URL, 3: Site title */
+				/* translators: New site notification email. 1: User login, 2: Site URL, 3: Site title. */
 				__(
 					'New site created by %1$s
 
@@ -189,7 +189,7 @@ if ( isset( $_GET['update'] ) ) {
 	$messages = array();
 	if ( 'added' == $_GET['update'] ) {
 		$messages[] = sprintf(
-			/* translators: 1: dashboard url, 2: network admin edit url */
+			/* translators: 1: Dashboard URL, 2: Network admin edit URL. */
 			__( 'Site added. <a href="%1$s">Visit Dashboard</a> or <a href="%2$s">Edit Site</a>' ),
 			esc_url( get_admin_url( absint( $_GET['id'] ) ) ),
 			network_admin_url( 'site-info.php?id=' . absint( $_GET['id'] ) )
@@ -218,7 +218,7 @@ if ( ! empty( $messages ) ) {
 <p>
 <?php
 printf(
-	/* translators: %s: asterisk to mark required form fields. */
+	/* translators: %s: Asterisk symbol (*). */
 	__( 'Required fields are marked %s' ),
 	'<span class="required">*</span>'
 );

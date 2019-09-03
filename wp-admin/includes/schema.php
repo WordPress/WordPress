@@ -415,11 +415,11 @@ function populate_options( array $options = array() ) {
 		'siteurl'                         => $guessurl,
 		'home'                            => $guessurl,
 		'blogname'                        => __( 'My Site' ),
-		/* translators: site tagline */
+		/* translators: Site tagline. */
 		'blogdescription'                 => __( 'Just another WordPress site' ),
 		'users_can_register'              => 0,
 		'admin_email'                     => 'you@example.com',
-		/* translators: default start of the week. 0 = Sunday, 1 = Monday */
+		/* translators: Default start of the week. 0 = Sunday, 1 = Monday. */
 		'start_of_week'                   => _x( '1', 'start of week' ),
 		'use_balanceTags'                 => 0,
 		'use_smilies'                     => 1,
@@ -436,11 +436,11 @@ function populate_options( array $options = array() ) {
 		'default_ping_status'             => 'open',
 		'default_pingback_flag'           => 1,
 		'posts_per_page'                  => 10,
-		/* translators: default date format, see https://secure.php.net/date */
+		/* translators: Default date format, see https://secure.php.net/date */
 		'date_format'                     => __( 'F j, Y' ),
-		/* translators: default time format, see https://secure.php.net/date */
+		/* translators: Default time format, see https://secure.php.net/date */
 		'time_format'                     => __( 'g:i a' ),
-		/* translators: links last updated date format, see https://secure.php.net/date */
+		/* translators: Links last updated date format, see https://secure.php.net/date */
 		'links_updated_date_format'       => __( 'F j, Y g:i a' ),
 		'comment_moderation'              => 0,
 		'moderation_notify'               => 1,
@@ -556,7 +556,7 @@ function populate_options( array $options = array() ) {
 
 	// 3.0 multisite
 	if ( is_multisite() ) {
-		/* translators: site tagline */
+		/* translators: %s: Network title. */
 		$defaults['blogdescription']     = sprintf( __( 'Just another %s site' ), get_network()->site_name );
 		$defaults['permalink_structure'] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
@@ -1085,18 +1085,18 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 			$msg = '<p><strong>' . __( 'Warning! Wildcard DNS may not be configured correctly!' ) . '</strong></p>';
 
 			$msg .= '<p>' . sprintf(
-				/* translators: %s: host name */
+				/* translators: %s: Host name. */
 				__( 'The installer attempted to contact a random hostname (%s) on your domain.' ),
 				'<code>' . $hostname . '</code>'
 			);
 			if ( ! empty( $errstr ) ) {
-				/* translators: %s: error message */
+				/* translators: %s: Error message. */
 				$msg .= ' ' . sprintf( __( 'This resulted in an error message: %s' ), '<code>' . $errstr . '</code>' );
 			}
 			$msg .= '</p>';
 
 			$msg .= '<p>' . sprintf(
-				/* translators: %s: asterisk symbol (*) */
+				/* translators: %s: Asterisk symbol (*). */
 				__( 'To use a subdomain configuration, you must have a wildcard entry in your DNS. This usually means adding a %s hostname record pointing at your web server in your DNS configuration tool.' ),
 				'<code>*</code>'
 			) . '</p>';
@@ -1249,7 +1249,7 @@ We hope you enjoy your new site. Thanks!
 		'illegal_names'               => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
 		'wpmu_upgrade_site'           => $wp_db_version,
 		'welcome_email'               => $welcome_email,
-		/* translators: %s: site link */
+		/* translators: %s: Site link. */
 		'first_post'                  => __( 'Welcome to %s. This is your first post. Edit or delete it, then start writing!' ),
 		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
 		'siteurl'                     => get_option( 'siteurl' ) . '/',

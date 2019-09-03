@@ -54,7 +54,7 @@ get_current_screen()->add_help_tab(
 		'title'   => __( 'Overview' ),
 		'content' =>
 			'<p>' . sprintf(
-				/* translators: %s: URL to Widgets screen */
+				/* translators: %s: URL to Widgets screen. */
 				__( 'You can add links here to be displayed on your site, usually using <a href="%s">Widgets</a>. By default, links to several sites in the WordPress community are included as examples.' ),
 				'widgets.php'
 			) . '</p>' .
@@ -102,7 +102,7 @@ echo esc_html( $title );
 
 <?php
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
-	/* translators: %s: search keywords */
+	/* translators: %s: Search query. */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( wp_unslash( $_REQUEST['s'] ) ) );
 }
 ?>
@@ -113,7 +113,7 @@ if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 if ( isset( $_REQUEST['deleted'] ) ) {
 	echo '<div id="message" class="updated notice is-dismissible"><p>';
 	$deleted = (int) $_REQUEST['deleted'];
-	/* translators: %s: number of links */
+	/* translators: %s: Number of links. */
 	printf( _n( '%s link deleted.', '%s links deleted.', $deleted ), $deleted );
 	echo '</p></div>';
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deleted' ), $_SERVER['REQUEST_URI'] );

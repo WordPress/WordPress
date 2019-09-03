@@ -107,7 +107,7 @@ function ms_site_check() {
 			$admin_email = str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_network()->domain ) );
 			wp_die(
 				sprintf(
-					/* translators: %s: admin email link */
+					/* translators: %s: Admin email link. */
 					__( 'This site has not been activated yet. If you are having problems activating your site, please contact %s.' ),
 					sprintf( '<a href="mailto:%1$s">%1$s</a>', $admin_email )
 				)
@@ -475,13 +475,13 @@ function ms_not_installed( $domain, $path ) {
 	$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->site ) );
 	if ( ! $wpdb->get_var( $query ) ) {
 		$msg .= '<p>' . sprintf(
-			/* translators: %s: table name */
+			/* translators: %s: Table name. */
 			__( '<strong>Database tables are missing.</strong> This means that MySQL is not running, WordPress was not installed properly, or someone deleted %s. You really should look at your database now.' ),
 			'<code>' . $wpdb->site . '</code>'
 		) . '</p>';
 	} else {
 		$msg .= '<p>' . sprintf(
-			/* translators: 1: site url, 2: table name, 3: database name */
+			/* translators: 1: Site URL, 2: Table name, 3: Database name. */
 			__( '<strong>Could not find site %1$s.</strong> Searched for table %2$s in database %3$s. Is that right?' ),
 			'<code>' . rtrim( $domain . $path, '/' ) . '</code>',
 			'<code>' . $wpdb->blogs . '</code>',
@@ -490,7 +490,7 @@ function ms_not_installed( $domain, $path ) {
 	}
 	$msg .= '<p><strong>' . __( 'What do I do now?' ) . '</strong> ';
 	$msg .= sprintf(
-		/* translators: %s: Documentation URL */
+		/* translators: %s: Documentation URL. */
 		__( 'Read the <a href="%s" target="_blank">bug report</a> page. Some of the guidelines there may help you figure out what went wrong.' ),
 		__( 'https://wordpress.org/support/article/debugging-a-wordpress-network/' )
 	);

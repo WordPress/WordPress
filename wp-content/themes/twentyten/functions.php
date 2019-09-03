@@ -208,49 +208,49 @@ if ( ! function_exists( 'twentyten_setup' ) ) :
 				'berries'       => array(
 					'url'           => '%s/images/headers/berries.jpg',
 					'thumbnail_url' => '%s/images/headers/berries-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Berries', 'twentyten' ),
 				),
 				'cherryblossom' => array(
 					'url'           => '%s/images/headers/cherryblossoms.jpg',
 					'thumbnail_url' => '%s/images/headers/cherryblossoms-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Cherry Blossoms', 'twentyten' ),
 				),
 				'concave'       => array(
 					'url'           => '%s/images/headers/concave.jpg',
 					'thumbnail_url' => '%s/images/headers/concave-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Concave', 'twentyten' ),
 				),
 				'fern'          => array(
 					'url'           => '%s/images/headers/fern.jpg',
 					'thumbnail_url' => '%s/images/headers/fern-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Fern', 'twentyten' ),
 				),
 				'forestfloor'   => array(
 					'url'           => '%s/images/headers/forestfloor.jpg',
 					'thumbnail_url' => '%s/images/headers/forestfloor-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Forest Floor', 'twentyten' ),
 				),
 				'inkwell'       => array(
 					'url'           => '%s/images/headers/inkwell.jpg',
 					'thumbnail_url' => '%s/images/headers/inkwell-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Inkwell', 'twentyten' ),
 				),
 				'path'          => array(
 					'url'           => '%s/images/headers/path.jpg',
 					'thumbnail_url' => '%s/images/headers/path-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Path', 'twentyten' ),
 				),
 				'sunset'        => array(
 					'url'           => '%s/images/headers/sunset.jpg',
 					'thumbnail_url' => '%s/images/headers/sunset-thumbnail.jpg',
-					/* translators: header image description */
+					/* translators: Header image description. */
 					'description'   => __( 'Sunset', 'twentyten' ),
 				),
 			)
@@ -424,7 +424,7 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 			<div class="comment-author vcard">
 				<?php echo get_avatar( $comment, 40 ); ?>
 				<?php
-				/* translators: %s: author display name */
+				/* translators: %s: Author display name. */
 				printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) );
 				?>
 			</div><!-- .comment-author .vcard -->
@@ -435,7 +435,7 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 
 			<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
 				<?php
-					/* translators: 1: date, 2: time */
+					/* translators: 1: Date, 2: Time. */
 					printf( __( '%1$s at %2$s', 'twentyten' ), get_comment_date(), get_comment_time() );
 				?>
 					</a>
@@ -591,7 +591,7 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 	 */
 	function twentyten_posted_on() {
 		printf(
-			/* translators: 1: CSS classes, 2: date, 3: author display name */
+			/* translators: 1: CSS classes, 2: Date, 3: Author display name. */
 			__( '<span class="%1$s">Posted on</span> %2$s <span class="meta-sep">by</span> %3$s', 'twentyten' ),
 			'meta-prep meta-prep-author',
 			sprintf(
@@ -603,7 +603,7 @@ if ( ! function_exists( 'twentyten_posted_on' ) ) :
 			sprintf(
 				'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span>',
 				get_author_posts_url( get_the_author_meta( 'ID' ) ),
-				/* translators: %s: author display name */
+				/* translators: %s: Author display name. */
 				esc_attr( sprintf( __( 'View all posts by %s', 'twentyten' ), get_the_author() ) ),
 				get_the_author()
 			)
@@ -621,13 +621,13 @@ if ( ! function_exists( 'twentyten_posted_in' ) ) :
 		// Retrieves tag list of current post, separated by commas.
 		$tag_list = get_the_tag_list( '', ', ' );
 		if ( $tag_list && ! is_wp_error( $tag_list ) ) {
-			/* translators: 1: category name, 2: tag name, 3: post permalink, 4: post title */
+			/* translators: 1: Category name, 2: Tag name, 3: Post permalink, 4: Post title. */
 			$posted_in = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		} elseif ( is_object_in_taxonomy( get_post_type(), 'category' ) ) {
-			/* translators: 1: category name, 3: post permalink, 4: post title */
+			/* translators: 1: Category name, 3: Post permalink, 4: Post title. */
 			$posted_in = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		} else {
-			/* translators: 3: post permalink, 4: post title */
+			/* translators: 3: Post permalink, 4: Post title. */
 			$posted_in = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'twentyten' );
 		}
 		// Prints the string, replacing the placeholders.

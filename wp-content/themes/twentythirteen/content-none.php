@@ -17,7 +17,7 @@
 
 	<p>
 		<?php
-		/* translators: %s: new post URL */
+		/* translators: %s: Post editor URL. */
 		printf( __( 'Ready to publish your first post? <a href="%s">Get started here</a>.', 'twentythirteen' ), admin_url( 'post-new.php' ) );
 		?>
 	</p>

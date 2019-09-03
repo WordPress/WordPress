@@ -688,7 +688,7 @@ function wp_initialize_site( $site_id, array $args = array() ) {
 		$args,
 		array(
 			'user_id' => 0,
-			/* translators: %d: site ID */
+			/* translators: %d: Site ID. */
 			'title'   => sprintf( __( 'Site %d' ), $site->id ),
 			'options' => array(),
 			'meta'    => array(),
@@ -1319,7 +1319,7 @@ function wp_cache_set_sites_last_changed() {
  */
 function wp_check_site_meta_support_prefilter( $check ) {
 	if ( ! is_site_meta_supported() ) {
-		/* translators: %s: database table name */
+		/* translators: %s: Database table name. */
 		_doing_it_wrong( __FUNCTION__, sprintf( __( 'The %s table is not installed. Please run the network database upgrade.' ), $GLOBALS['wpdb']->blogmeta ), '5.1.0' );
 		return false;
 	}

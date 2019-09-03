@@ -124,7 +124,7 @@ if ( isset( $_GET['action'] ) ) {
 		$submenu_file = 'plugin-install.php';
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-		/* translators: %s: plugin name and version */
+		/* translators: %s: Plugin name and version. */
 		$title = sprintf( __( 'Installing Plugin: %s' ), $api->name . ' ' . $api->version );
 		$nonce = 'install-plugin_' . $plugin;
 		$url   = 'update.php?action=install-plugin&plugin=' . urlencode( $plugin );
@@ -154,7 +154,7 @@ if ( isset( $_GET['action'] ) ) {
 		$submenu_file = 'plugin-install.php';
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-		/* translators: %s: file name */
+		/* translators: %s: File name. */
 		$title = sprintf( __( 'Installing Plugin from uploaded file: %s' ), esc_html( basename( $file_upload->filename ) ) );
 		$nonce = 'plugin-upload';
 		$url   = add_query_arg( array( 'package' => $file_upload->id ), 'update.php?action=upload-plugin' );
@@ -247,7 +247,7 @@ if ( isset( $_GET['action'] ) ) {
 		$submenu_file = 'themes.php';
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-		/* translators: %s: theme name and version */
+		/* translators: %s: Theme name and version. */
 		$title = sprintf( __( 'Installing Theme: %s' ), $api->name . ' ' . $api->version );
 		$nonce = 'install-theme_' . $theme;
 		$url   = 'update.php?action=install-theme&theme=' . urlencode( $theme );
@@ -274,7 +274,7 @@ if ( isset( $_GET['action'] ) ) {
 
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
-		/* translators: %s: file name */
+		/* translators: %s: File name. */
 		$title = sprintf( __( 'Installing Theme from uploaded file: %s' ), esc_html( basename( $file_upload->filename ) ) );
 		$nonce = 'theme-upload';
 		$url   = add_query_arg( array( 'package' => $file_upload->id ), 'update.php?action=upload-theme' );

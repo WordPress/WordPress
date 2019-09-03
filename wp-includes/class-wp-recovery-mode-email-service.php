@@ -73,7 +73,7 @@ final class WP_Recovery_Mode_Email_Service {
 		}
 
 		$err_message = sprintf(
-			/* translators: 1. Last sent as a human time diff 2. Wait time as a human time diff. */
+			/* translators: 1. Last sent as a human time diff, 2. Wait time as a human time diff. */
 			__( 'A recovery link was already sent %1$s ago. Please wait another %2$s before requesting a new email.' ),
 			human_time_diff( $last_sent ),
 			human_time_diff( $last_sent + $rate_limit )
@@ -180,7 +180,7 @@ To keep your site safe, this link will expire in ###EXPIRES###. Don\'t worry abo
 
 		$email = array(
 			'to'      => $this->get_recovery_mode_email_address(),
-			/* translators: %s: site name */
+			/* translators: %s: Site title. */
 			'subject' => __( '[%s] Your Site is Experiencing a Technical Issue' ),
 			'message' => $message,
 			'headers' => '',
@@ -260,13 +260,13 @@ To keep your site safe, this link will expire in ###EXPIRES###. Don\'t worry abo
 				$name = $extension['slug'];
 			}
 
-			/* translators: %s: plugin name */
+			/* translators: %s: Plugin name. */
 			$cause = sprintf( __( 'In this case, WordPress caught an error with one of your plugins, %s.' ), $name );
 		} else {
 			$theme = wp_get_theme( $extension['slug'] );
 			$name  = $theme->exists() ? $theme->display( 'Name' ) : $extension['slug'];
 
-			/* translators: %s: theme name */
+			/* translators: %s: Theme name. */
 			$cause = sprintf( __( 'In this case, WordPress caught an error with your theme, %s.' ), $name );
 		}
 

@@ -153,14 +153,14 @@ if ( $post_id ) {
 	$draft_or_post_title = wp_html_excerpt( _draft_or_post_title( $post_id ), 50, '&hellip;' );
 	if ( $comments_count->moderated > 0 ) {
 		$title = sprintf(
-			/* translators: 1: comments count, 2: post title */
+			/* translators: 1: Comments count, 2: Post title. */
 			__( 'Comments (%1$s) on &#8220;%2$s&#8221;' ),
 			number_format_i18n( $comments_count->moderated ),
 			$draft_or_post_title
 		);
 	} else {
 		$title = sprintf(
-			/* translators: %s: post title */
+			/* translators: %s: Post title. */
 			__( 'Comments on &#8220;%s&#8221;' ),
 			$draft_or_post_title
 		);
@@ -169,7 +169,7 @@ if ( $post_id ) {
 	$comments_count = wp_count_comments();
 	if ( $comments_count->moderated > 0 ) {
 		$title = sprintf(
-			/* translators: %s: comments count */
+			/* translators: %s: Comments count. */
 			__( 'Comments (%s)' ),
 			number_format_i18n( $comments_count->moderated )
 		);
@@ -226,7 +226,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php
 if ( $post_id ) {
 	printf(
-		/* translators: %s: link to post */
+		/* translators: %s: Link to post. */
 		__( 'Comments on &#8220;%s&#8221;' ),
 		sprintf(
 			'<a href="%1$s">%2$s</a>',
@@ -244,7 +244,7 @@ if ( $post_id ) {
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	echo '<span class="subtitle">';
 	printf(
-		/* translators: %s: search keywords */
+		/* translators: %s: Search query. */
 		__( 'Search results for &#8220;%s&#8221;' ),
 		wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' )
 	);
@@ -282,34 +282,34 @@ if ( isset( $_REQUEST['approved'] ) || isset( $_REQUEST['deleted'] ) || isset( $
 
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 || $same > 0 ) {
 		if ( $approved > 0 ) {
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
 		}
 
 		if ( $spammed > 0 ) {
 			$ids = isset( $_REQUEST['ids'] ) ? $_REQUEST['ids'] : 0;
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", 'bulk-comments' ) ) . '">' . __( 'Undo' ) . '</a><br />';
 		}
 
 		if ( $unspammed > 0 ) {
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
 		}
 
 		if ( $trashed > 0 ) {
 			$ids = isset( $_REQUEST['ids'] ) ? $_REQUEST['ids'] : 0;
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment moved to the Trash.', '%s comments moved to the Trash.', $trashed ), $trashed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", 'bulk-comments' ) ) . '">' . __( 'Undo' ) . '</a><br />';
 		}
 
 		if ( $untrashed > 0 ) {
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment restored from the Trash', '%s comments restored from the Trash', $untrashed ), $untrashed );
 		}
 
 		if ( $deleted > 0 ) {
-			/* translators: %s: number of comments */
+			/* translators: %s: Number of comments. */
 			$messages[] = sprintf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
 		}
 

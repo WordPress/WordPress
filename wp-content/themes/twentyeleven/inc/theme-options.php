@@ -304,7 +304,7 @@ function twentyeleven_settings_field_link_color() {
 	<br />
 	<span>
 	<?php
-	/* translators: link color */
+	/* translators: %s: Link color. */
 	printf( __( 'Default color: %s', 'twentyeleven' ), '<span id="default-color">' . twentyeleven_get_default_link_color( $options['color_scheme'] ) . '</span>' );
 	?>
 	</span>
@@ -345,7 +345,7 @@ function twentyeleven_theme_options_render_page() {
 		<?php $theme_name = function_exists( 'wp_get_theme' ) ? wp_get_theme() : get_current_theme(); ?>
 		<h2>
 		<?php
-		/* translators: theme name */
+		/* translators: %s: Theme name. */
 		printf( __( '%s Theme Options', 'twentyeleven' ), $theme_name );
 		?>
 		</h2>

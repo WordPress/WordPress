@@ -72,7 +72,7 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 				<span class="preview-notice">
 					<?php
 					printf(
-						/* translators: %s: themes panel title in the Customizer */
+						/* translators: %s: Themes panel title in the Customizer. */
 						__( 'You are browsing %s' ),
 						'<strong class="panel-title">' . __( 'Themes' ) . '</strong>'
 					); // Separate strings for consistency with other panels.

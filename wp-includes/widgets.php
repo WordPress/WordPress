@@ -178,7 +178,7 @@ function register_sidebars( $number = 1, $args = array() ) {
 			if ( isset( $args['name'] ) ) {
 				$_args['name'] = sprintf( $args['name'], $i );
 			} else {
-				/* translators: %d: Sidebar number */
+				/* translators: %d: Sidebar number. */
 				$_args['name'] = sprintf( __( 'Sidebar %d' ), $i );
 			}
 		} else {
@@ -252,7 +252,7 @@ function register_sidebar( $args = array() ) {
 	$id_is_empty = empty( $args['id'] );
 
 	$defaults = array(
-		/* translators: %d: Sidebar number */
+		/* translators: %d: Sidebar number. */
 		'name'          => sprintf( __( 'Sidebar %d' ), $i ),
 		'id'            => "sidebar-$i",
 		'description'   => '',
@@ -269,7 +269,7 @@ function register_sidebar( $args = array() ) {
 		_doing_it_wrong(
 			__FUNCTION__,
 			sprintf(
-				/* translators: 1: the id argument, 2: sidebar name, 3: recommended id value */
+				/* translators: 1: The 'id' argument, 2: Sidebar name, 3: Recommended 'id' value. */
 				__( 'No %1$s was set in the arguments array for the "%2$s" sidebar. Defaulting to "%3$s". Manually set the %1$s to "%3$s" to silence this notice and keep existing sidebar content.' ),
 				'<code>id</code>',
 				$sidebar['name'],

@@ -33,13 +33,13 @@ if ( have_posts() ) {
 			<h1 class="page-title">
 			<?php
 			if ( is_day() ) {
-				/* translators: %s: date */
+				/* translators: %s: Date. */
 				printf( __( 'Daily Archives: <span>%s</span>', 'twentyten' ), get_the_date() );
 			} elseif ( is_month() ) {
-				/* translators: %s: date */
+				/* translators: %s: Date. */
 				printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyten' ) ) );
 			} elseif ( is_year() ) {
-				/* translators: %s: date */
+				/* translators: %s: Date. */
 				printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date( _x( 'Y', 'yearly archives date format', 'twentyten' ) ) );
 			} else {
 				_e( 'Blog Archives', 'twentyten' );

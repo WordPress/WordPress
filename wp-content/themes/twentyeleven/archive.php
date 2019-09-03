@@ -23,13 +23,13 @@ get_header(); ?>
 					<h1 class="page-title">
 						<?php
 						if ( is_day() ) {
-							/* translators: %s: date */
+							/* translators: %s: Date. */
 							printf( __( 'Daily Archives: %s', 'twentyeleven' ), '<span>' . get_the_date() . '</span>' );
 						} elseif ( is_month() ) {
-							/* translators: %s: date */
+							/* translators: %s: Date. */
 							printf( __( 'Monthly Archives: %s', 'twentyeleven' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'twentyeleven' ) ) . '</span>' );
 						} elseif ( is_year() ) {
-							/* translators: %s: date */
+							/* translators: %s: Date. */
 							printf( __( 'Yearly Archives: %s', 'twentyeleven' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'twentyeleven' ) ) . '</span>' );
 						} else {
 							_e( 'Blog Archives', 'twentyeleven' );

@@ -639,7 +639,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	$minimum_site_name_length = apply_filters( 'minimum_site_name_length', 4 );
 
 	if ( strlen( $blogname ) < $minimum_site_name_length ) {
-		/* translators: %s: minimum site name length */
+		/* translators: %s: Minimum site name length. */
 		$errors->add( 'blogname', sprintf( _n( 'Site name must be at least %s character.', 'Site name must be at least %s characters.', $minimum_site_name_length ), number_format_i18n( $minimum_site_name_length ) ) );
 	}
 
@@ -944,7 +944,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 */
 		apply_filters(
 			'wpmu_signup_blog_notification_email',
-			/* translators: New site notification email. 1: Activation URL, 2: New site URL */
+			/* translators: New site notification email. 1: Activation URL, 2: New site URL. */
 			__( "To activate your blog, please click the following link:\n\n%1\$s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%2\$s" ),
 			$domain,
 			$path,
@@ -977,7 +977,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 */
 		apply_filters(
 			'wpmu_signup_blog_notification_subject',
-			/* translators: New site notification email subject. 1: Network name, 2: New site URL */
+			/* translators: New site notification email subject. 1: Network title, 2: New site URL. */
 			_x( '[%1$s] Activate %2$s', 'New site notification email subject' ),
 			$domain,
 			$path,
@@ -1063,7 +1063,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 */
 		apply_filters(
 			'wpmu_signup_user_notification_email',
-			/* translators: New user notification email. %s: Activation URL */
+			/* translators: New user notification email. %s: Activation URL. */
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
 			$user_login,
 			$user_email,
@@ -1088,7 +1088,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 */
 		apply_filters(
 			'wpmu_signup_user_notification_subject',
-			/* translators: New user notification email subject. 1: Network name, 2: New user login */
+			/* translators: New user notification email subject. 1: Network title, 2: New user login. */
 			_x( '[%1$s] Activate %2$s', 'New user notification email subject' ),
 			$user_login,
 			$user_email,
@@ -1385,7 +1385,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	restore_current_blog();
 
 	$msg = sprintf(
-		/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: Settings screen URL */
+		/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: URL to Network Settings screen. */
 		__(
 			'New Site: %1$s
 URL: %2$s
@@ -1408,7 +1408,7 @@ Disable these notifications: %4$s'
 	 */
 	$msg = apply_filters( 'newblog_notify_siteadmin', $msg );
 
-	/* translators: New site notification email subject. %s: New site URL */
+	/* translators: New site notification email subject. %s: New site URL. */
 	wp_mail( $email, sprintf( __( 'New Site Registration: %s' ), $siteurl ), $msg );
 
 	return true;
@@ -1441,7 +1441,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	$options_site_url = esc_url( network_admin_url( 'settings.php' ) );
 
 	$msg = sprintf(
-		/* translators: New user notification email. 1: User login, 2: User IP address, 3: Settings screen URL */
+		/* translators: New user notification email. 1: User login, 2: User IP address, 3: URL to Network Settings screen. */
 		__(
 			'New User: %1$s
 Remote IP address: %2$s
@@ -1464,7 +1464,7 @@ Disable these notifications: %3$s'
 	 */
 	$msg = apply_filters( 'newuser_notify_siteadmin', $msg, $user );
 
-	/* translators: New user notification email subject. %s: User login */
+	/* translators: New user notification email subject. %s: User login. */
 	wp_mail( $email, sprintf( __( 'New User Registration: %s' ), $user->user_login ), $msg );
 
 	return true;
@@ -1614,7 +1614,7 @@ We hope you enjoy your new site. Thanks!
 		$current_network->site_name = 'WordPress';
 	}
 
-	/* translators: New site notification email subject. 1: Network name, 2: New site name */
+	/* translators: New site notification email subject. 1: Network title, 2: New site title. */
 	$subject = __( 'New %1$s Site: %2$s' );
 
 	/**
@@ -1706,7 +1706,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 		$current_network->site_name = 'WordPress';
 	}
 
-	/* translators: New user notification email subject. 1: Network name, 2: New user login */
+	/* translators: New user notification email subject. 1: Network title, 2: New user login. */
 	$subject = __( 'New %1$s User: %2$s' );
 
 	/**
@@ -1997,7 +1997,7 @@ function upload_is_file_too_big( $upload ) {
 	}
 
 	if ( strlen( $upload['bits'] ) > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
-		/* translators: %s: maximum allowed file size in kilobytes */
+		/* translators: %s: Maximum allowed file size in kilobytes. */
 		return sprintf( __( 'This file is too big. Files must be less than %s KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ) );
 	}
 
@@ -2091,7 +2091,7 @@ function maybe_add_existing_user_to_blog() {
 	if ( empty( $details ) || is_wp_error( add_existing_user_to_blog( $details ) ) ) {
 		wp_die(
 			sprintf(
-				/* translators: %s: Home URL */
+				/* translators: %s: Home URL. */
 				__( 'An error occurred adding you to this site. Back to the <a href="%s">homepage</a>.' ),
 				home_url()
 			)
@@ -2100,7 +2100,7 @@ function maybe_add_existing_user_to_blog() {
 
 	wp_die(
 		sprintf(
-			/* translators: 1: Home URL, 2: Admin URL */
+			/* translators: 1: Home URL, 2: Admin URL. */
 			__( 'You have been added to this site. Please visit the <a href="%1$s">homepage</a> or <a href="%2$s">log in</a> using your username and password.' ),
 			home_url(),
 			admin_url()
@@ -2683,7 +2683,7 @@ All at ###SITENAME###
 	wp_mail(
 		$value,
 		sprintf(
-			/* translators: Email change notification email subject. %s: Network title */
+			/* translators: Email change notification email subject. %s: Network title. */
 			__( '[%s] Network Admin Email Change Request' ),
 			wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES )
 		),
@@ -2746,7 +2746,7 @@ All at ###SITENAME###
 
 	$email_change_email = array(
 		'to'      => $old_email,
-		/* translators: Network admin email change notification email subject. %s: Network title */
+		/* translators: Network admin email change notification email subject. %s: Network title. */
 		'subject' => __( '[%s] Network Admin Email Changed' ),
 		'message' => $email_change_text,
 		'headers' => '',

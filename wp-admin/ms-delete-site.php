@@ -22,7 +22,7 @@ if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' )
 		wpmu_delete_blog( get_current_blog_id() );
 		wp_die(
 			sprintf(
-				/* translators: %s: Network name */
+				/* translators: %s: Network title. */
 				__( 'Thank you for using %s, your site has been deleted. Happy trails to you until we meet again.' ),
 				get_network()->site_name
 			)
@@ -87,7 +87,7 @@ Webmaster
 	wp_mail(
 		get_option( 'admin_email' ),
 		sprintf(
-			/* translators: %s: Site title */
+			/* translators: %s: Site title. */
 			__( '[%s] Delete My Site' ),
 			wp_specialchars_decode( get_option( 'blogname' ) )
 		),
@@ -107,7 +107,7 @@ Webmaster
 	<p>
 	<?php
 		printf(
-			/* translators: %s: Network name */
+			/* translators: %s: Network title. */
 			__( 'If you do not want to use your %s site any more, you can delete it using the form below. When you click <strong>Delete My Site Permanently</strong> you will be sent an email with a link in it. Click on this link to delete your site.' ),
 			get_network()->site_name
 		);
@@ -121,7 +121,7 @@ Webmaster
 		<p><input id="confirmdelete" type="checkbox" name="confirmdelete" value="1" /> <label for="confirmdelete"><strong>
 		<?php
 			printf(
-				/* translators: %s: site address */
+				/* translators: %s: Site address. */
 				__( "I'm sure I want to permanently disable my site, and I am aware I can never get it back or use %s again." ),
 				$blog->domain . $blog->path
 			);

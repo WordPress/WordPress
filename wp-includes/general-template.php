@@ -708,7 +708,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 				__FUNCTION__,
 				'2.2.0',
 				sprintf(
-					/* translators: 1: 'siteurl'/'home' argument, 2: bloginfo() function name, 3: 'url' argument */
+					/* translators: 1: 'siteurl'/'home' argument, 2: bloginfo() function name, 3: 'url' argument. */
 					__( 'The %1$s option is deprecated for the family of %2$s functions. Use the %3$s option instead.' ),
 					'<code>' . $show . '</code>',
 					'<code>bloginfo()</code>',
@@ -773,7 +773,8 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = $wp_version;
 			break;
 		case 'language':
-			/* translators: Translate this to the correct language tag for your locale,
+			/*
+			 * translators: Translate this to the correct language tag for your locale,
 			 * see https://www.w3.org/International/articles/language-tags/ for reference.
 			 * Do not translate into your own language.
 			 */
@@ -788,7 +789,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 				__FUNCTION__,
 				'2.2.0',
 				sprintf(
-					/* translators: 1: 'text_direction' argument, 2: bloginfo() function name, 3: is_rtl() function name */
+					/* translators: 1: 'text_direction' argument, 2: bloginfo() function name, 3: is_rtl() function name. */
 					__( 'The %1$s option is deprecated for the family of %2$s functions. Use the %3$s function instead.' ),
 					'<code>' . $show . '</code>',
 					'<code>bloginfo()</code>',
@@ -1053,7 +1054,7 @@ function wp_get_document_title() {
 
 		// If it's a search, use a dynamic search results title.
 	} elseif ( is_search() ) {
-		/* translators: %s: search phrase */
+		/* translators: %s: Search query. */
 		$title['title'] = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
 
 		// If on the front page, use the site title.
@@ -1097,7 +1098,7 @@ function wp_get_document_title() {
 
 	// Add a page number if necessary.
 	if ( ( $paged >= 2 || $page >= 2 ) && ! is_404() ) {
-		/* translators: %s: page number */
+		/* translators: %s: Page number. */
 		$title['page'] = sprintf( __( 'Page %s' ), max( $paged, $page ) );
 	}
 
@@ -1260,7 +1261,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 
 	// If it's a search
 	if ( is_search() ) {
-		/* translators: 1: separator, 2: search phrase */
+		/* translators: 1: Separator, 2: Search query. */
 		$title = sprintf( __( 'Search Results %1$s %2$s' ), $t_sep, strip_tags( $search ) );
 	}
 
@@ -1558,22 +1559,22 @@ function get_the_archive_title() {
 	$title = __( 'Archives' );
 
 	if ( is_category() ) {
-		/* translators: Category archive title. %s: Category name */
+		/* translators: Category archive title. %s: Category name. */
 		$title = sprintf( __( 'Category: %s' ), single_cat_title( '', false ) );
 	} elseif ( is_tag() ) {
-		/* translators: Tag archive title. %s: Tag name */
+		/* translators: Tag archive title. %s: Tag name. */
 		$title = sprintf( __( 'Tag: %s' ), single_tag_title( '', false ) );
 	} elseif ( is_author() ) {
-		/* translators: Author archive title. %s: Author name */
+		/* translators: Author archive title. %s: Author name. */
 		$title = sprintf( __( 'Author: %s' ), '<span class="vcard">' . get_the_author() . '</span>' );
 	} elseif ( is_year() ) {
-		/* translators: Yearly archive title. %s: Year */
+		/* translators: Yearly archive title. %s: Year. */
 		$title = sprintf( __( 'Year: %s' ), get_the_date( _x( 'Y', 'yearly archives date format' ) ) );
 	} elseif ( is_month() ) {
-		/* translators: Monthly archive title. %s: Month name and year */
+		/* translators: Monthly archive title. %s: Month name and year. */
 		$title = sprintf( __( 'Month: %s' ), get_the_date( _x( 'F Y', 'monthly archives date format' ) ) );
 	} elseif ( is_day() ) {
-		/* translators: Daily archive title. %s: Date */
+		/* translators: Daily archive title. %s: Date. */
 		$title = sprintf( __( 'Day: %s' ), get_the_date( _x( 'F j, Y', 'daily archives date format' ) ) );
 	} elseif ( is_tax( 'post_format' ) ) {
 		if ( is_tax( 'post_format', 'post-format-aside' ) ) {
@@ -1596,13 +1597,13 @@ function get_the_archive_title() {
 			$title = _x( 'Chats', 'post format archive title' );
 		}
 	} elseif ( is_post_type_archive() ) {
-		/* translators: Post type archive title. %s: Post type name */
+		/* translators: Post type archive title. %s: Post type name. */
 		$title = sprintf( __( 'Archives: %s' ), post_type_archive_title( '', false ) );
 	} elseif ( is_tax() ) {
 		$queried_object = get_queried_object();
 		if ( $queried_object ) {
 			$tax = get_taxonomy( $queried_object->taxonomy );
-			/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term */
+			/* translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term. */
 			$title = sprintf( __( '%1$s: %2$s' ), $tax->labels->singular_name, single_term_title( '', false ) );
 		}
 	}
@@ -1894,7 +1895,7 @@ function wp_get_archives( $args = '' ) {
 				if ( 'post' !== $parsed_args['post_type'] ) {
 					$url = add_query_arg( 'post_type', $parsed_args['post_type'], $url );
 				}
-				/* translators: 1: month name, 2: 4-digit year */
+				/* translators: 1: Month name, 2: 4-digit year. */
 				$text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $result->month ), $result->year );
 				if ( $parsed_args['show_post_count'] ) {
 					$parsed_args['after'] = '&nbsp;(' . $result->posts . ')' . $after;
@@ -2137,7 +2138,7 @@ function get_calendar( $initial = true, $echo = true ) {
 			LIMIT 1"
 	);
 
-	/* translators: Calendar caption: 1: month name, 2: 4-digit year */
+	/* translators: Calendar caption: 1: Month name, 2: 4-digit year. */
 	$calendar_caption = _x( '%1$s %2$s', 'calendar caption' );
 	$calendar_output  = '<table id="wp-calendar">
 	<caption>' . sprintf(
@@ -2234,7 +2235,7 @@ function get_calendar( $initial = true, $echo = true ) {
 		if ( in_array( $day, $daywithpost ) ) {
 			// any posts today?
 			$date_format = gmdate( _x( 'F j, Y', 'daily archives date format' ), strtotime( "{$thisyear}-{$thismonth}-{$day}" ) );
-			/* translators: Post calendar label. %s: Date */
+			/* translators: Post calendar label. %s: Date. */
 			$label            = sprintf( __( 'Posts published on %s' ), $date_format );
 			$calendar_output .= sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
@@ -2818,11 +2819,11 @@ function feed_links( $args = array() ) {
 	}
 
 	$defaults = array(
-		/* translators: Separator between blog name and feed type in feed links */
+		/* translators: Separator between blog name and feed type in feed links. */
 		'separator' => _x( '&raquo;', 'feed link' ),
-		/* translators: 1: blog title, 2: separator (raquo) */
+		/* translators: 1: Blog title, 2: Separator (raquo). */
 		'feedtitle' => __( '%1$s %2$s Feed' ),
-		/* translators: 1: blog title, 2: separator (raquo) */
+		/* translators: 1: Blog title, 2: Separator (raquo). */
 		'comstitle' => __( '%1$s %2$s Comments Feed' ),
 	);
 
@@ -2860,21 +2861,21 @@ function feed_links( $args = array() ) {
  */
 function feed_links_extra( $args = array() ) {
 	$defaults = array(
-		/* translators: Separator between blog name and feed type in feed links */
+		/* translators: Separator between blog name and feed type in feed links. */
 		'separator'     => _x( '&raquo;', 'feed link' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: post title */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Post title. */
 		'singletitle'   => __( '%1$s %2$s %3$s Comments Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: category name */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Category name. */
 		'cattitle'      => __( '%1$s %2$s %3$s Category Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Tag name. */
 		'tagtitle'      => __( '%1$s %2$s %3$s Tag Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: term name, 4: taxonomy singular name */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Term name, 4: Taxonomy singular name. */
 		'taxtitle'      => __( '%1$s %2$s %3$s %4$s Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Author name. */
 		'authortitle'   => __( '%1$s %2$s Posts by %3$s Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Search query. */
 		'searchtitle'   => __( '%1$s %2$s Search Results for &#8220;%3$s&#8221; Feed' ),
-		/* translators: 1: blog name, 2: separator(raquo), 3: post type name */
+		/* translators: 1: Blog name, 2: Separator (raquo), 3: Post type name. */
 		'posttypetitle' => __( '%1$s %2$s %3$s Feed' ),
 	);
 

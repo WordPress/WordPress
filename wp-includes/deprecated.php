@@ -3188,7 +3188,7 @@ function wp_load_image( $file ) {
 		$file = get_attached_file( $file );
 
 	if ( ! is_file( $file ) ) {
-		/* translators: %s: file name */
+		/* translators: %s: File name. */
 		return sprintf( __( 'File &#8220;%s&#8221; doesn&#8217;t exist?' ), $file );
 	}
 
@@ -3201,7 +3201,7 @@ function wp_load_image( $file ) {
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
 	if ( ! is_resource( $image ) ) {
-		/* translators: %s: file name */
+		/* translators: %s: File name. */
 		return sprintf( __( 'File &#8220;%s&#8221; is not an image.' ), $file );
 	}
 

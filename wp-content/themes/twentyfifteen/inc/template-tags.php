@@ -128,7 +128,7 @@ if ( ! function_exists( 'twentyfifteen_entry_meta' ) ) :
 
 		if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
 			echo '<span class="comments-link">';
-			/* translators: %s: post title */
+			/* translators: %s: Post title. */
 			comments_popup_link( sprintf( __( 'Leave a comment<span class="screen-reader-text"> on %s</span>', 'twentyfifteen' ), get_the_title() ) );
 			echo '</span>';
 		}
@@ -248,7 +248,7 @@ if ( ! function_exists( 'twentyfifteen_excerpt_more' ) && ! is_admin() ) :
 		$link = sprintf(
 			'<a href="%1$s" class="more-link">%2$s</a>',
 			esc_url( get_permalink( get_the_ID() ) ),
-			/* translators: %s: Name of current post */
+			/* translators: %s: Post title. */
 			sprintf( __( 'Continue reading %s', 'twentyfifteen' ), '<span class="screen-reader-text">' . get_the_title( get_the_ID() ) . '</span>' )
 		);
 		return ' &hellip; ' . $link;
