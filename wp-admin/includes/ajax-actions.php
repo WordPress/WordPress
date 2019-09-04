@@ -2004,7 +2004,7 @@ function wp_ajax_upload_attachment() {
 			'success' => false,
 			'data'    => array(
 				'message'  => __( 'You do not have permission to upload files.' ),
-				'filename' => $_FILES['async-upload']['name'],
+				'filename' => esc_html( $_FILES['async-upload']['name'] ),
 			)
 		) );
 
@@ -2018,7 +2018,7 @@ function wp_ajax_upload_attachment() {
 				'success' => false,
 				'data'    => array(
 					'message'  => __( "You don't have permission to attach files to this post." ),
-					'filename' => $_FILES['async-upload']['name'],
+					'filename' => esc_html( $_FILES['async-upload']['name'] ),
 				)
 			) );
 
@@ -2042,7 +2042,7 @@ function wp_ajax_upload_attachment() {
 				'success' => false,
 				'data'    => array(
 					'message'  => __( 'The uploaded file is not a valid image. Please try again.' ),
-					'filename' => $_FILES['async-upload']['name'],
+					'filename' => esc_html( $_FILES['async-upload']['name'] ),
 				)
 			) );
 
@@ -2057,7 +2057,7 @@ function wp_ajax_upload_attachment() {
 			'success' => false,
 			'data'    => array(
 				'message'  => $attachment_id->get_error_message(),
-				'filename' => $_FILES['async-upload']['name'],
+				'filename' => esc_html( $_FILES['async-upload']['name'] ),
 			)
 		) );
 
