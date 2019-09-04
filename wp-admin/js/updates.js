@@ -262,7 +262,8 @@
 
 		if ( 'undefined' !== typeof response.debug && window.console && window.console.log ) {
 			_.map( response.debug, function( message ) {
-				window.console.log( $( '<p />' ).html( message ).text() );
+				// Remove all HTML tags and write a message to the console.
+				window.console.log( wp.sanitize.stripTagsAndEncodeText( message ) );
 			} );
 		}
 	};

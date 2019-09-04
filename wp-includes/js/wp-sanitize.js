@@ -23,10 +23,20 @@
 		stripTags: function( text ) {
 			text = text || '';
 
-			return text
-				.replace( /<!--[\s\S]*?(-->|$)/g, '' )
-				.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
-				.replace( /<\/?[a-z][\s\S]*?(>|$)/ig, '' );
+			// Do the replacement.
+			var _text = text
+					.replace( /<!--[\s\S]*?(-->|$)/g, '' )
+					.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
+					.replace( /<\/?[a-z][\s\S]*?(>|$)/ig, '' );
+
+			// If the initial text is not equal to the modified text,
+			// do the search-replace again, until there is nothing to be replaced.
+			if ( _text !== text ) {
+				return wp.sanitize.stripTags( _text );
+			}
+
+			// Return the text with stripped tags.
+			return _text;
 		},
 
 		/**
@@ -41,7 +51,7 @@
 				textarea = document.createElement( 'textarea' );
 
 			try {
-				textarea.innerHTML = _text;
+				textarea.textContent = _text;
 				_text = wp.sanitize.stripTags( textarea.value );
 			} catch ( er ) {}
 
