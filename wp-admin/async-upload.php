@@ -22,7 +22,7 @@ if ( defined( 'ABSPATH' ) ) {
 
 require_once( ABSPATH . 'wp-admin/admin.php' );
 
-header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ) );
 
 if ( isset( $_REQUEST['action'] ) && 'upload-attachment' === $_REQUEST['action'] ) {
 	include( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
