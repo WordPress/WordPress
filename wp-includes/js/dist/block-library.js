@@ -11602,7 +11602,7 @@ var shortcode_settings = {
   attributes: {
     text: {
       type: 'string',
-      source: 'text'
+      source: 'html'
     }
   },
   transforms: {
