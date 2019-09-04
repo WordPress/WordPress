@@ -229,7 +229,7 @@ function wp_default_packages_scripts( &$scripts ) {
 		'annotations'                        => '1.0.8',
 		'autop'                              => '2.0.2',
 		'blob'                               => '2.1.0',
-		'block-library'                      => '2.2.16',
+		'block-library'                      => '2.2.18',
 		'block-serialization-default-parser' => '2.0.5',
 		'blocks'                             => '6.0.6',
 		'components'                         => '7.0.8',
