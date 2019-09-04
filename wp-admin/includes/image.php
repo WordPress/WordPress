@@ -131,17 +131,28 @@ function wp_get_missing_image_subsizes( $attachment_id ) {
  * @since 5.3.0
  *
  * @param int $attachment_id The image attachment post ID.
- * @return array The updated image meta data array.
+ * @return array|WP_Error The updated image meta data array or WP_Error object
+ *                        if both the image meta and the attached file are missing.
  */
 function wp_update_image_subsizes( $attachment_id ) {
+	$image_meta = wp_get_attachment_metadata( $attachment_id );
+	$image_file = get_attached_file( $attachment_id );
+
+	if ( empty( $image_meta ) || ! is_array( $image_meta ) ) {
+		// Previously failed upload?
+		// If there is an uploaded file, make all sub-sizes and generate all of the attachment meta.
+		if ( ! empty( $image_file ) ) {
+			return wp_create_image_subsizes( $image_file, array(), $attachment_id );
+		} else {
+			return new WP_Error( 'invalid_attachment', __( 'The attached file cannot be found.' ) );
+		}
+	}
+
 	$missing_sizes = wp_get_missing_image_subsizes( $attachment_id );
-	$image_meta    = wp_get_attachment_metadata( $attachment_id );
 
 	if ( empty( $missing_sizes ) ) {
 		return $image_meta;
 	}
-
-	$image_file = get_attached_file( $attachment_id );
 
 	// This also updates the image meta.
 	return _wp_make_subsizes( $missing_sizes, $image_file, $image_meta, $attachment_id );

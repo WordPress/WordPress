@@ -105,6 +105,7 @@ $core_actions_post = array(
 	'send-link-to-editor',
 	'send-attachment-to-editor',
 	'save-attachment-order',
+	'media-create-image-subsizes',
 	'heartbeat',
 	'get-revision-diffs',
 	'save-user-color-scheme',
