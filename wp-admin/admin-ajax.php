@@ -34,7 +34,7 @@ require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 /** Load Ajax Handlers for WordPress Core */
 require_once( ABSPATH . 'wp-admin/includes/ajax-actions.php' );
 
-@header( 'Content-Type: text/html; charset=' . get_option( 'blog_charset' ) );
+@header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ) );
 @header( 'X-Robots-Tag: noindex' );
 
 send_nosniff_header();
