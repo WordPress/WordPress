@@ -3456,7 +3456,7 @@
 	 */
 	function displayNavMenuName( name ) {
 		name = name || '';
-		name = $( '<div>' ).text( name ).html(); // Emulate esc_html() which is used in wp-admin/nav-menus.php.
+		name = wp.sanitize.stripTagsAndEncodeText( name ); // Remove any potential tags from name.
 		name = $.trim( name );
 		return name || api.Menus.data.l10n.unnamed;
 	}

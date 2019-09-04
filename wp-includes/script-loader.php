@@ -880,7 +880,9 @@ function wp_default_scripts( &$scripts ) {
 		)
 	);
 
-	$scripts->add( 'wp-a11y', "/wp-includes/js/wp-a11y$suffix.js", array( 'jquery' ), false, 1 );
+	$scripts->add( 'wp-sanitize', "/wp-includes/js/wp-sanitize$suffix.js", array(), false, 1 );
+
+	$scripts->add( 'wp-a11y', "/wp-includes/js/wp-a11y$suffix.js", array( 'jquery', 'wp-sanitize' ), false, 1 );
 
 	$scripts->add( 'sack', "/wp-includes/js/tw-sack$suffix.js", array(), '1.6.1', 1 );
 
@@ -1487,7 +1489,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'customize-widgets', "/wp-admin/js/customize-widgets$suffix.js", array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-droppable', 'wp-backbone', 'customize-controls' ), false, 1 );
 	$scripts->add( 'customize-preview-widgets', "/wp-includes/js/customize-preview-widgets$suffix.js", array( 'jquery', 'wp-util', 'customize-preview', 'customize-selective-refresh' ), false, 1 );
 
-	$scripts->add( 'customize-nav-menus', "/wp-admin/js/customize-nav-menus$suffix.js", array( 'jquery', 'wp-backbone', 'customize-controls', 'accordion', 'nav-menu' ), false, 1 );
+	$scripts->add( 'customize-nav-menus', "/wp-admin/js/customize-nav-menus$suffix.js", array( 'jquery', 'wp-backbone', 'customize-controls', 'accordion', 'nav-menu', 'wp-sanitize' ), false, 1 );
 	$scripts->add( 'customize-preview-nav-menus', "/wp-includes/js/customize-preview-nav-menus$suffix.js", array( 'jquery', 'wp-util', 'customize-preview', 'customize-selective-refresh' ), false, 1 );
 
 	$scripts->add( 'wp-custom-header', "/wp-includes/js/wp-custom-header$suffix.js", array( 'wp-a11y' ), false, 1 );
@@ -1572,7 +1574,7 @@ function wp_default_scripts( &$scripts ) {
 			)
 		);
 
-		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'underscore', 'word-count', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'post', "/wp-admin/js/post$suffix.js", array( 'suggest', 'wp-lists', 'postbox', 'tags-box', 'underscore', 'word-count', 'wp-a11y', 'wp-sanitize' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
 			'post',
 			'postL10n',
@@ -1700,7 +1702,7 @@ function wp_default_scripts( &$scripts ) {
 			)
 		);
 
-		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
+		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y', 'wp-sanitize' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize(
 			'updates',
 			'_wpUpdatesSettings',
