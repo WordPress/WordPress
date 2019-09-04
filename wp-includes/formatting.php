@@ -2344,10 +2344,10 @@ function wp_rel_nofollow( $text ) {
  */
 function wp_rel_nofollow_callback( $matches ) {
 	$text = $matches[1];
-	$atts = shortcode_parse_atts( $matches[1] );
+	$atts = wp_kses_hair( $matches[1], wp_allowed_protocols() );
 	$rel = 'nofollow';
 	if ( ! empty( $atts['rel'] ) ) {
-		$parts = array_map( 'trim', explode( ' ', $atts['rel'] ) );
+		$parts = array_map( 'trim', explode( ' ', $atts['rel']['value'] ) );
 		if ( false === array_search( 'nofollow', $parts ) ) {
 			$parts[] = 'nofollow';
 		}
@@ -2356,7 +2356,11 @@ function wp_rel_nofollow_callback( $matches ) {
 
 		$html = '';
 		foreach ( $atts as $name => $value ) {
-			$html .= "{$name}=\"" . esc_attr( $value ) . "\" ";
+			if ( isset( $value['vless'] ) && 'y' === $value['vless'] ) {
+				$html .= $name . ' ';
+			} else {
+				$html .= "{$name}=\"" . esc_attr( $value['value'] ) . '" ';
+			}
 		}
 		$text = trim( $html );
 	}
