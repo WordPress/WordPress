@@ -1297,6 +1297,14 @@ function wp_validate_redirect($location, $default = '') {
 	if ( isset($lp['scheme']) && !('http' == $lp['scheme'] || 'https' == $lp['scheme']) )
 		return $default;
 
+	if ( ! isset( $lp['host'] ) && ! empty( $lp['path'] ) && '/' !== $lp['path'][0] ) {
+		$path = '';
+		if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+			$path = dirname( parse_url( 'http://placeholder' . $_SERVER['REQUEST_URI'], PHP_URL_PATH ) . '?' );
+		}
+		$location = '/' . ltrim( $path . '/', '/' ) . $location;
+	}
+
 	// Reject if certain components are set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
 	if ( ! isset( $lp['host'] ) && ( isset( $lp['scheme'] ) || isset( $lp['user'] ) || isset( $lp['pass'] ) || isset( $lp['port'] ) ) ) {
 		return $default;
