@@ -36,7 +36,27 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 </h2>
 
 <div class="changelog point-releases">
-	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 29 ); ?></h3>
+	<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 30 ); ?></h3>
+	<p>
+		<?php
+		printf(
+			/* translators: %s: WordPress version number */
+			__( '<strong>Version %s</strong> addressed some security issues.' ),
+			'3.7.30'
+		);
+		?>
+		<?php
+		printf(
+			/* translators: %s: HelpHub URL */
+			__( 'For more information, see <a href="%s">the release notes</a>.' ),
+			sprintf(
+				/* translators: %s: WordPress version */
+				esc_url( __( 'https://wordpress.org/support/wordpress-version/version-%s/' ) ),
+				sanitize_title( '3.7.30' )
+			)
+		);
+		?>
+	</p>
 	<p>
 		<?php
 		printf(
