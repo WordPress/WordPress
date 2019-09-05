@@ -734,7 +734,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	function update_current_item( $request ) {
+	public function update_current_item( $request ) {
 		$request['id'] = get_current_user_id();
 
 		return $this->update_item( $request );
@@ -852,7 +852,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
-	function delete_current_item( $request ) {
+	public function delete_current_item( $request ) {
 		$request['id'] = get_current_user_id();
 
 		return $this->delete_item( $request );
