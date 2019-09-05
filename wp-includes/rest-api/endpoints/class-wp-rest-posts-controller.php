@@ -131,7 +131,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
@@ -1809,9 +1809,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.9.8
 	 *
-	 * @param WP_Post $post Post object.
-	 * @param WP_REST_Request Request object.
-	 *
+	 * @param WP_Post         $post    Post object.
+	 * @param WP_REST_Request $request Request object.
 	 * @return array List of link relations.
 	 */
 	protected function get_available_actions( $post, $request ) {
@@ -2562,9 +2561,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param  string|array    $statuses  One or more post statuses.
-	 * @param  WP_REST_Request $request   Full details about the request.
-	 * @param  string          $parameter Additional parameter to pass to validation.
+	 * @param string|array    $statuses  One or more post statuses.
+	 * @param WP_REST_Request $request   Full details about the request.
+	 * @param string          $parameter Additional parameter to pass to validation.
 	 * @return array|WP_Error A list of valid statuses, otherwise WP_Error object.
 	 */
 	public function sanitize_post_statuses( $statuses, $request, $parameter ) {
