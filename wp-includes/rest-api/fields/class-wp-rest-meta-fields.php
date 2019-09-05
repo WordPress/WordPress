@@ -513,9 +513,9 @@ abstract class WP_REST_Meta_Fields {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param  mixed           $value   The meta value submitted in the request.
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @param  string          $param   The parameter name.
+	 * @param mixed           $value   The meta value submitted in the request.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $param   The parameter name.
 	 * @return WP_Error|string The meta array, if valid, otherwise an error.
 	 */
 	public function check_meta_is_array( $value, $request, $param ) {

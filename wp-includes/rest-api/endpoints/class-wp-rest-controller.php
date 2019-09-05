@@ -474,7 +474,7 @@ abstract class WP_REST_Controller {
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param  string $object_type Optional. The object type.
+	 * @param string $object_type Optional. The object type.
 	 * @return array Registered additional fields (if any), empty array if none or if the object type could
 	 *               not be inferred.
 	 */

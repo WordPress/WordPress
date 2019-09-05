@@ -211,7 +211,7 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param array        $query_params JSON Schema-formatted collection parameters.
+		 * @param array $query_params JSON Schema-formatted collection parameters.
 		 */
 		return apply_filters( 'rest_themes_collection_params', $query_params );
 	}
@@ -221,9 +221,9 @@ class WP_REST_Themes_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param  string|array    $statuses  One or more theme statuses.
-	 * @param  WP_REST_Request $request   Full details about the request.
-	 * @param  string          $parameter Additional parameter to pass to validation.
+	 * @param string|array    $statuses  One or more theme statuses.
+	 * @param WP_REST_Request $request   Full details about the request.
+	 * @param string          $parameter Additional parameter to pass to validation.
 	 * @return array|WP_Error A list of valid statuses, otherwise WP_Error object.
 	 */
 	public function sanitize_theme_status( $statuses, $request, $parameter ) {
