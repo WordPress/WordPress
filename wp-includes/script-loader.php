@@ -1178,8 +1178,6 @@ function wp_default_scripts( &$scripts ) {
 		)
 	);
 
-	$scripts->add( 'wp-sanitize', "/wp-includes/js/wp-sanitize$suffix.js", array( 'jquery' ), false, 1 );
-
 	$scripts->add( 'wp-backbone', "/wp-includes/js/wp-backbone$suffix.js", array( 'backbone', 'wp-util' ), false, 1 );
 
 	$scripts->add( 'revisions', "/wp-admin/js/revisions$suffix.js", array( 'wp-backbone', 'jquery-ui-slider', 'hoverIntent' ), false, 1 );
