@@ -1128,7 +1128,7 @@ function wp_default_scripts( &$scripts ) {
 		'missing_upload_url'        => __( 'There was a configuration error. Please contact the server administrator.' ),
 		'upload_limit_exceeded'     => __( 'You may only upload 1 file.' ),
 		'http_error'                => __( 'Unexpected response from the server. The file may have been uploaded successfully. Check in the Media Library or reload the page.' ),
-		'http_error_image'          => __( 'Post-processing of the image failed. If this is a photo or a large image, please scale it down to 2500px and upload it again.' ),
+		'http_error_image'          => __( 'Post-processing of the image failed. If this is a photo or a large image, please scale it down to 2500 pixels and upload it again.' ),
 		'upload_failed'             => __( 'Upload failed.' ),
 		/* translators: 1: Opening link tag, 2: Closing link tag. */
 		'big_upload_failed'         => __( 'Please try uploading this file with the %1$sbrowser uploader%2$s.' ),
