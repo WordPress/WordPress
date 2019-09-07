@@ -543,8 +543,28 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 		return $output;
 	}
 
+	// Stop if the destination size is larger than the original image dimensions.
+	if ( empty( $dest_h ) ) {
+		if ( $orig_w < $dest_w ) {
+			return false;
+		}
+	} elseif ( empty( $dest_w ) ) {
+		if ( $orig_h < $dest_h ) {
+			return false;
+		}
+	} else {
+		if ( $orig_w < $dest_w && $orig_h < $dest_h ) {
+			return false;
+		}
+	}
+
 	if ( $crop ) {
-		// crop the largest possible portion of the original image that we can size to $dest_w x $dest_h
+		// Crop the largest possible portion of the original image that we can size to $dest_w x $dest_h.
+		// Note that the requested crop dimensions are used as a maximum bounding box for the original image.
+		// If the original image's width or height is less than the requested width or height
+		// only the greater one will be cropped.
+		// For example when the original image is 600x300, and the requested crop dimensions are 400x400,
+		// the resulting image will be 400x300.
 		$aspect_ratio = $orig_w / $orig_h;
 		$new_w        = min( $dest_w, $orig_w );
 		$new_h        = min( $dest_h, $orig_h );
@@ -584,7 +604,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 			$s_y = floor( ( $orig_h - $crop_h ) / 2 );
 		}
 	} else {
-		// don't crop, just resize using $dest_w x $dest_h as a maximum bounding box
+		// Resize using $dest_w x $dest_h as a maximum bounding box.
 		$crop_w = $orig_w;
 		$crop_h = $orig_h;
 
@@ -594,15 +614,29 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 		list( $new_w, $new_h ) = wp_constrain_dimensions( $orig_w, $orig_h, $dest_w, $dest_h );
 	}
 
-	// if the resulting image would be the same size or larger we don't want to resize it
-	if ( $new_w >= $orig_w && $new_h >= $orig_h && intval( $dest_w ) !== intval( $orig_w ) && intval( $dest_h ) !== intval( $orig_h ) ) {
-		return false;
+	if ( wp_fuzzy_number_match( $new_w, $orig_w ) && wp_fuzzy_number_match( $new_h, $orig_h ) ) {
+		// The new size has virtually the same dimensions as the original image.
+
+		/**
+		 * Filters whether to proceed with making an image sub-size with identical dimensions
+		 * with the original/source image. Differences of 1px may be due to rounding and are ignored.
+		 *
+		 * @since 5.3.0
+		 * 
+		 * @param bool The filtered value.
+		 * @param int  Original image width.
+		 * @param int  Original image height.
+		 */
+		$proceed = (bool) apply_filters( 'wp_image_resize_identical_dimensions', false, $orig_w, $orig_h );
+
+		if ( ! $proceed ) {
+			return false;
+		}
 	}
 
-	// the return array matches the parameters to imagecopyresampled()
+	// The return array matches the parameters to imagecopyresampled().
 	// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
 	return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
-
 }
 
 /**
@@ -664,7 +698,7 @@ function wp_image_matches_ratio( $source_width, $source_height, $target_width, $
 	}
 
 	// If the image dimensions are within 1px of the expected size, we consider it a match.
-	$matched = ( abs( $constrained_size[0] - $expected_size[0] ) <= 1 && abs( $constrained_size[1] - $expected_size[1] ) <= 1 );
+	$matched = ( wp_fuzzy_number_match( $constrained_size[0], $expected_size[0] ) && wp_fuzzy_number_match( $constrained_size[1], $expected_size[1] ) );
 
 	return $matched;
 }
