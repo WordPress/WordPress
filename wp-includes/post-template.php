@@ -282,7 +282,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false, $post =
 		return '';
 	}
 
-	if ( null === $post && in_the_loop() ) {
+	if ( null === $post ) {
 		$elements = compact( 'page', 'more', 'preview', 'pages', 'multipage' );
 	} else {
 		$elements = generate_postdata( $_post );
