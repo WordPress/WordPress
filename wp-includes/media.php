@@ -622,7 +622,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
 		 * with the original/source image. Differences of 1px may be due to rounding and are ignored.
 		 *
 		 * @since 5.3.0
-		 * 
+		 *
 		 * @param bool The filtered value.
 		 * @param int  Original image width.
 		 * @param int  Original image height.
