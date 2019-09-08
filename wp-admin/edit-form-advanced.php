@@ -166,8 +166,14 @@ if ( $viewable ) {
 
 }
 
-/* translators: Publish box date format, see https://secure.php.net/date */
-$scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
+$scheduled_date = sprintf(
+	/* translators: Publish box date string. 1: Date, 2: Time. */
+	__( '%1$s at %2$s' ),
+	/* translators: Publish box date format, see https://secure.php.net/date */
+	date_i18n( _x( 'M j, Y', 'publish box date format' ), strtotime( $post->post_date ) ),
+	/* translators: Publish box time format, see https://secure.php.net/date */
+	date_i18n( _x( 'H:i', 'publish box time format' ), strtotime( $post->post_date ) )
+);
 
 $messages['post']       = array(
 	0  => '', // Unused. Messages start at index 1.
