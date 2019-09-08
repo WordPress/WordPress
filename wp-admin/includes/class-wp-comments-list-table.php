@@ -867,6 +867,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			__( '%1$s at %2$s' ),
 			/* translators: Comment date format. See https://secure.php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
+			/* translators: Comment time format. See https://secure.php.net/date */
 			get_comment_date( __( 'g:i a' ), $comment )
 		);
 

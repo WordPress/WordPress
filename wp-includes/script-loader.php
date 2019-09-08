@@ -1615,7 +1615,7 @@ function wp_default_scripts( &$scripts ) {
 			array(
 				'submittedOn' => __( 'Submitted on:' ),
 				/* translators: 1: Month, 2: Day, 3: Year, 4: Hour, 5: Minute. */
-				'dateFormat'  => __( '%1$s %2$s, %3$s @ %4$s:%5$s' ),
+				'dateFormat'  => __( '%1$s %2$s, %3$s at %4$s:%5$s' ),
 			)
 		);
 
