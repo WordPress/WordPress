@@ -326,7 +326,7 @@ window.wp = window.wp || {};
 			if ( file.type && file.type.indexOf( 'image/' ) === 0 ) {
 				up.settings.multipart_params._wp_temp_image_ref = file.id;
 			} else {
-				unset( up.settings.multipart_params._wp_temp_image_ref );
+				up.settings.multipart_params._wp_temp_image_ref = '';
 			}
 		} );
 
