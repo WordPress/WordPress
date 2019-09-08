@@ -90,7 +90,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Handles reseting callback priority keys mid-iteration.
+	 * Handles resetting callback priority keys mid-iteration.
 	 *
 	 * @since 4.7.0
 	 *
