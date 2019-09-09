@@ -380,18 +380,18 @@ function attachment_submit_meta_box( $post ) {
 <div id="misc-publishing-actions">
 	<div class="misc-pub-section curtime misc-pub-curtime">
 		<span id="timestamp">
-		<?php
-			$date = date_i18n(
+			<?php
+			$uploaded_on = sprintf(
+				/* translators: Publish box date string. 1: Date, 2: Time. See https://secure.php.net/date */
+				__( '%1$s at %2$s' ),
 				/* translators: Publish box date format, see https://secure.php.net/date */
-				__( 'M j, Y @ H:i' ),
-				strtotime( $post->post_date )
+				date_i18n( _x( 'M j, Y', 'publish box date format' ), strtotime( $post->post_date ) ),
+				/* translators: Publish box time format, see https://secure.php.net/date */
+				date_i18n( _x( 'H:i', 'publish box time format' ), strtotime( $post->post_date ) )
 			);
-			printf(
-				/* translators: Attachment information. %s: Date the attachment was uploaded. */
-				__( 'Uploaded on: %s' ),
-				'<b>' . $date . '</b>'
-			);
-		?>
+			/* translators: Attachment information. %s: Date the attachment was uploaded. */
+			printf( __( 'Uploaded on: %s' ), '<b>' . $uploaded_on . '</b>' );
+			?>
 		</span>
 	</div><!-- .misc-pub-section -->
 
