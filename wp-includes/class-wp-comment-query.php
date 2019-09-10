@@ -379,6 +379,30 @@ class WP_Comment_Query {
 			$this->meta_query_clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
 		}
 
+		$comment_data = null;
+
+		/**
+		 * Filter the comments data before the query takes place.
+		 *
+		 * Return a non-null value to bypass WordPress's default comment queries.
+		 *
+		 * The expected return type from this filter depends on the value passed in the request query_vars:
+		 * When $this->query_vars['count'] is set, the filter should return the comment count as an int.
+		 * When `'ids' == $this->query_vars['fields']`, the filter should return an array of comment ids.
+		 * Otherwise the filter should return an array of WP_Comment objects.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param array|int|null   $comment_data Return an array of comment data to short-circuit WP's comment query,
+		 *                                       or null to allow WP to run its normal queries.
+		 * @param WP_Comment_Query $this         The WP_Comment_Query instance, passed by reference.
+		 */
+		$comment_data = apply_filters_ref_array( 'comments_pre_query', array( $comment_data, &$this ) );
+
+		if ( null !== $comment_data ) {
+			return $comment_data;
+		}
+
 		/*
 		 * Only use the args defined in the query_var_defaults to compute the key,
 		 * but ignore 'fields', which does not affect query results.
