@@ -2503,8 +2503,8 @@ function register_new_user( $user_login, $user_email ) {
 
 	} else {
 		/** This filter is documented in wp-includes/user.php */
-		$illegal_user_logins = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
-		if ( in_array( strtolower( $sanitized_user_login ), $illegal_user_logins ) ) {
+		$illegal_user_logins = (array) apply_filters( 'illegal_user_logins', array() );
+		if ( in_array( strtolower( $sanitized_user_login ), array_map( 'strtolower', $illegal_user_logins ) ) ) {
 			$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
 		}
 	}

@@ -309,7 +309,6 @@ function get_inline_data( $post ) {
 
 	$title = esc_textarea( trim( $post->post_title ) );
 
-	/** This filter is documented in wp-admin/edit-tag-form.php */
 	echo '
 <div class="hidden" id="inline_' . $post->ID . '">
 	<div class="post_title">' . $title . '</div>' .

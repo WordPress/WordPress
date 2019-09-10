@@ -584,9 +584,11 @@ class Custom_Background {
 		if ( ! current_user_can( 'edit_theme_options' ) || ! isset( $_POST['attachment_id'] ) ) {
 			exit;
 		}
+
 		$attachment_id = absint( $_POST['attachment_id'] );
-		/** This filter is documented in wp-admin/includes/media.php */
+
 		$sizes = array_keys(
+			/** This filter is documented in wp-admin/includes/media.php */
 			apply_filters(
 				'image_size_names_choose',
 				array(
@@ -597,12 +599,14 @@ class Custom_Background {
 				)
 			)
 		);
-		$size  = 'thumbnail';
+
+		$size = 'thumbnail';
 		if ( in_array( $_POST['size'], $sizes ) ) {
 			$size = esc_attr( $_POST['size'] );
 		}
 
 		update_post_meta( $attachment_id, '_wp_attachment_is_custom_background', get_option( 'stylesheet' ) );
+
 		$url       = wp_get_attachment_image_src( $attachment_id, $size );
 		$thumbnail = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
 		set_theme_mod( 'background_image', esc_url_raw( $url[0] ) );

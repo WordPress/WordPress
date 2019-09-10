@@ -199,6 +199,8 @@ class WP_Styles extends WP_Dependencies {
 		$rel   = isset( $obj->extra['alt'] ) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset( $obj->extra['title'] ) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
+		$tag = "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n";
+
 		/**
 		 * Filters the HTML link tag of an enqueued style.
 		 *
@@ -211,7 +213,7 @@ class WP_Styles extends WP_Dependencies {
 		 * @param string $href   The stylesheet's source URL.
 		 * @param string $media  The stylesheet's media attribute.
 		 */
-		$tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-css' $title href='$href' type='text/css' media='$media' />\n", $handle, $href, $media );
+		$tag = apply_filters( 'style_loader_tag', $tag, $handle, $href, $media );
 
 		if ( 'rtl' === $this->text_direction && isset( $obj->extra['rtl'] ) && $obj->extra['rtl'] ) {
 			if ( is_bool( $obj->extra['rtl'] ) || 'replace' === $obj->extra['rtl'] ) {
@@ -221,8 +223,9 @@ class WP_Styles extends WP_Dependencies {
 				$rtl_href = $this->_css_href( $obj->extra['rtl'], $ver, "$handle-rtl" );
 			}
 
+			$rtl_tag = "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n";
 			/** This filter is documented in wp-includes/class.wp-styles.php */
-			$rtl_tag = apply_filters( 'style_loader_tag', "<link rel='$rel' id='$handle-rtl-css' $title href='$rtl_href' type='text/css' media='$media' />\n", $handle, $rtl_href, $media );
+			$rtl_tag = apply_filters( 'style_loader_tag', $rtl_tag, $handle, $rtl_href, $media );
 
 			if ( $obj->extra['rtl'] === 'replace' ) {
 				$tag = $rtl_tag;
