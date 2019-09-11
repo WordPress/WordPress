@@ -2428,6 +2428,15 @@ function comment_form( $args = array(), $post_id = null ) {
 	// Ensure that the filtered args contain all required default values.
 	$args = array_merge( $defaults, $args );
 
+	// Remove aria-describedby from the email field if there's no associated description.
+	if ( false === strpos( $args['comment_notes_before'], 'id="email-notes"' ) ) {
+		$args['fields']['email'] = str_replace(
+			' aria-describedby="email-notes"',
+			'',
+			$args['fields']['email']
+		);
+	}
+
 	/**
 	 * Fires before the comment form.
 	 *
@@ -2509,7 +2518,7 @@ function comment_form( $args = array(), $post_id = null ) {
 
 			endif;
 
-			// Prepare an array of all fields, including the textarea
+			// Prepare an array of all fields, including the textarea.
 			$comment_fields = array( 'comment' => $args['comment_field'] ) + (array) $args['fields'];
 
 			/**
