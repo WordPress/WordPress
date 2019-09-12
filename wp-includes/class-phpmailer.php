@@ -31,7 +31,7 @@ class PHPMailer
      * The PHPMailer Version number.
      * @var string
      */
-    public $Version = '5.2.22';
+    public $Version = '5.2.27';
 
     /**
      * Email priority.
@@ -440,9 +440,9 @@ class PHPMailer
      *
      * Parameters:
      *   boolean $result        result of the send action
-     *   string  $to            email address of the recipient
-     *   string  $cc            cc email addresses
-     *   string  $bcc           bcc email addresses
+     *   array   $to            email addresses of the recipients
+     *   array   $cc            cc email addresses
+     *   array   $bcc           bcc email addresses
      *   string  $subject       the subject
      *   string  $body          the email body
      *   string  $from          email address of sender
@@ -659,6 +659,8 @@ class PHPMailer
         if ($exceptions !== null) {
             $this->exceptions = (boolean)$exceptions;
         }
+        //Pick an appropriate debug output format automatically
+        $this->Debugoutput = (strpos(PHP_SAPI, 'cli') !== false ? 'echo' : 'html');
     }
 
     /**
@@ -1294,9 +1296,12 @@ class PHPMailer
 
             // Sign with DKIM if enabled
             if (!empty($this->DKIM_domain)
-                && !empty($this->DKIM_selector)
-                && (!empty($this->DKIM_private_string)
-                   || (!empty($this->DKIM_private) && file_exists($this->DKIM_private))
+                and !empty($this->DKIM_selector)
+                and (!empty($this->DKIM_private_string)
+                    or (!empty($this->DKIM_private)
+                        and self::isPermittedPath($this->DKIM_private)
+                        and file_exists($this->DKIM_private)
+                    )
                 )
             ) {
                 $header_dkim = $this->DKIM_Add(
@@ -1462,6 +1467,18 @@ class PHPMailer
     }
 
     /**
+     * Check whether a file path is of a permitted type.
+     * Used to reject URLs and phar files from functions that access local file paths,
+     * such as addAttachment.
+     * @param string $path A relative or absolute path to a file.
+     * @return bool
+     */
+    protected static function isPermittedPath($path)
+    {
+        return !preg_match('#^[a-z]+://#i', $path);
+    }
+
+    /**
      * Send mail using the PHP mail() function.
      * @param string $header The message headers
      * @param string $body The message body
@@ -1623,8 +1640,13 @@ class PHPMailer
 
         foreach ($hosts as $hostentry) {
             $hostinfo = array();
-            if (!preg_match('/^((ssl|tls):\/\/)*([a-zA-Z0-9\.-]*):?([0-9]*)$/', trim($hostentry), $hostinfo)) {
+            if (!preg_match(
+                '/^((ssl|tls):\/\/)*([a-zA-Z0-9\.-]*|\[[a-fA-F0-9:]+\]):?([0-9]*)$/',
+                trim($hostentry),
+                $hostinfo
+            )) {
                 // Not a valid host entry
+                $this->edebug('Ignoring invalid host: ' . $hostentry);
                 continue;
             }
             // $hostinfo[2]: optional ssl or tls prefix
@@ -1743,6 +1765,7 @@ class PHPMailer
             'dk' => 'da',
             'no' => 'nb',
             'se' => 'sv',
+            'sr' => 'rs'
         );
 
         if (isset($renamed_langcodes[$langcode])) {
@@ -1784,7 +1807,7 @@ class PHPMailer
         // There is no English translation file
         if ($langcode != 'en') {
             // Make sure language file path is readable
-            if (!is_readable($lang_file)) {
+            if (!self::isPermittedPath($lang_file) or !is_readable($lang_file)) {
                 $foundlang = false;
             } else {
                 // Overwrite language-specific strings.
@@ -2025,10 +2048,7 @@ class PHPMailer
     {
         $result = '';
 
-        if ($this->MessageDate == '') {
-            $this->MessageDate = self::rfcDate();
-        }
-        $result .= $this->headerLine('Date', $this->MessageDate);
+        $result .= $this->headerLine('Date', $this->MessageDate == '' ? self::rfcDate() : $this->MessageDate);
 
         // To be created automatically by mail()
         if ($this->SingleTo) {
@@ -2495,6 +2515,8 @@ class PHPMailer
      * Add an attachment from a path on the filesystem.
      * Never use a user-supplied path to a file!
      * Returns false if the file could not be found or read.
+     * Explicitly *does not* support passing URLs; PHPMailer is not an HTTP client.
+     * If you need to do that, fetch the resource yourself and pass it in via a local file or string.
      * @param string $path Path to the attachment.
      * @param string $name Overrides the attachment name.
      * @param string $encoding File encoding (see $Encoding).
@@ -2506,7 +2528,7 @@ class PHPMailer
     public function addAttachment($path, $name = '', $encoding = 'base64', $type = '', $disposition = 'attachment')
     {
         try {
-            if (!@is_file($path)) {
+            if (!self::isPermittedPath($path) or !@is_file($path)) {
                 throw new phpmailerException($this->lang('file_access') . $path, self::STOP_CONTINUE);
             }
 
@@ -2687,7 +2709,7 @@ class PHPMailer
     protected function encodeFile($path, $encoding = 'base64')
     {
         try {
-            if (!is_readable($path)) {
+            if (!self::isPermittedPath($path) or !file_exists($path)) {
                 throw new phpmailerException($this->lang('file_open') . $path, self::STOP_CONTINUE);
             }
             $magic_quotes = get_magic_quotes_runtime();
@@ -3031,7 +3053,7 @@ class PHPMailer
      */
     public function addEmbeddedImage($path, $cid, $name = '', $encoding = 'base64', $type = '', $disposition = 'inline')
     {
-        if (!@is_file($path)) {
+        if (!self::isPermittedPath($path) or !@is_file($path)) {
             $this->setError($this->lang('file_access') . $path);
             return false;
         }
@@ -4034,7 +4056,7 @@ class phpmailerException extends Exception
      */
     public function errorMessage()
     {
-        $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />\n";
+        $errorMsg = '<strong>' . htmlspecialchars($this->getMessage()) . "</strong><br />\n";
         return $errorMsg;
     }
 }
