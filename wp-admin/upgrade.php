@@ -73,7 +73,7 @@ header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option
 <?php if ( get_option( 'db_version' ) == $wp_db_version || ! is_blog_installed() ) : ?>
 
 <h1><?php _e( 'No Update Required' ); ?></h1>
-<p><?php _e( 'Your WordPress database is already up-to-date!' ); ?></p>
+<p><?php _e( 'Your WordPress database is already up to date!' ); ?></p>
 <p class="step"><a class="button button-large" href="<?php echo get_option( 'home' ); ?>/"><?php _e( 'Continue' ); ?></a></p>
 
 	<?php

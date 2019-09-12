@@ -630,7 +630,7 @@ if ( ! function_exists( 'wp_upgrade' ) ) :
 
 		$wp_current_db_version = __get_option( 'db_version' );
 
-		// We are up-to-date. Nothing to do.
+		// We are up to date. Nothing to do.
 		if ( $wp_db_version == $wp_current_db_version ) {
 			return;
 		}
@@ -687,7 +687,7 @@ function upgrade_all() {
 	global $wp_current_db_version, $wp_db_version;
 	$wp_current_db_version = __get_option( 'db_version' );
 
-	// We are up-to-date. Nothing to do.
+	// We are up to date. Nothing to do.
 	if ( $wp_db_version == $wp_current_db_version ) {
 		return;
 	}
