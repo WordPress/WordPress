@@ -1215,7 +1215,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 	if ( 'boolean' === $args['type'] && ! rest_is_boolean( $value ) ) {
 		/* translators: 1: Parameter, 2: Type name. */
-		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $value, 'boolean' ) );
+		return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s is not of type %2$s.' ), $param, 'boolean' ) );
 	}
 
 	if ( 'string' === $args['type'] && ! is_string( $value ) ) {
@@ -1239,7 +1239,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 			case 'ip':
 				if ( ! rest_is_ip_address( $value ) ) {
 					/* translators: %s: IP address. */
-					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $value ) );
+					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $param ) );
 				}
 				break;
 		}
