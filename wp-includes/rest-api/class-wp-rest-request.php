@@ -690,15 +690,6 @@ class WP_REST_Request implements ArrayAccess {
 		parse_str( $this->get_body(), $params );
 
 		/*
-		 * Amazingly, parse_str follows magic quote rules. Sigh.
-		 *
-		 * NOTE: Do not refactor to use `wp_unslash`.
-		 */
-		if ( get_magic_quotes_gpc() ) {
-			$params = stripslashes_deep( $params );
-		}
-
-		/*
 		 * Add to the POST parameters stored internally. If a user has already
 		 * set these manually (via `set_body_params`), don't override them.
 		 */

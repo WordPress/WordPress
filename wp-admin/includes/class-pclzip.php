@@ -5326,6 +5326,10 @@
   {
     $v_result=1;
 
+	// EDIT for WordPress 5.3.0
+	// magic_quote functions are deprecated in PHP 7.4, now assuming it's always off.
+	/*
+
     // ----- Look if function exists
     if (   (!function_exists("get_magic_quotes_runtime"))
 	    || (!function_exists("set_magic_quotes_runtime"))) {
@@ -5344,6 +5348,7 @@
 	if ($this->magic_quotes_status == 1) {
 	  @set_magic_quotes_runtime(0);
 	}
+	*/
 
     // ----- Return
     return $v_result;
@@ -5359,6 +5364,10 @@
   function privSwapBackMagicQuotes()
   {
     $v_result=1;
+
+	// EDIT for WordPress 5.3.0
+	// magic_quote functions are deprecated in PHP 7.4, now assuming it's always off.
+	/*
 
     // ----- Look if function exists
     if (   (!function_exists("get_magic_quotes_runtime"))
@@ -5376,6 +5385,7 @@
   	  @set_magic_quotes_runtime($this->magic_quotes_status);
 	}
 
+	*/
     // ----- Return
     return $v_result;
   }
