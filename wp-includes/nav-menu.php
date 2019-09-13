@@ -92,6 +92,13 @@ function register_nav_menus( $locations = array() ) {
 
 	add_theme_support( 'menus' );
 
+	foreach ( $locations as $key => $value ) {
+		if ( is_int( $key ) ) {
+			_doing_it_wrong( __FUNCTION__, __( 'Nav menu locations must be strings.' ), '5.3' );
+			break;
+		}
+	}
+
 	$_wp_registered_nav_menus = array_merge( (array) $_wp_registered_nav_menus, $locations );
 }
 
