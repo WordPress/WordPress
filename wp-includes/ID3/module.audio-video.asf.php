@@ -1,11 +1,10 @@
 <?php
 /////////////////////////////////////////////////////////////////
 /// getID3() by James Heinrich <info@getid3.org>               //
-//  available at http://getid3.sourceforge.net                 //
-//            or http://www.getid3.org                         //
-//          also https://github.com/JamesHeinrich/getID3       //
-/////////////////////////////////////////////////////////////////
-// See readme.txt for more details                             //
+//  available at https://github.com/JamesHeinrich/getID3       //
+//            or https://www.getid3.org                        //
+//            or http://getid3.sourceforge.net                 //
+//  see readme.txt for more details                            //
 /////////////////////////////////////////////////////////////////
 //                                                             //
 // module.audio-video.asf.php                                  //
@@ -16,8 +15,11 @@
 
 getid3_lib::IncludeDependency(GETID3_INCLUDEPATH.'module.audio-video.riff.php', __FILE__, true);
 
-class getid3_asf extends getid3_handler {
-
+class getid3_asf extends getid3_handler
+{
+	/**
+	 * @param getID3 $getid3
+	 */
 	public function __construct(getID3 $getid3) {
 		parent::__construct($getid3);  // extends getid3_handler::__construct()
 
@@ -30,6 +32,9 @@ class getid3_asf extends getid3_handler {
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function Analyze() {
 		$info = &$this->getid3->info;
 
@@ -83,6 +88,8 @@ class getid3_asf extends getid3_handler {
 		$NextObjectOffset = $this->ftell();
 		$ASFHeaderData = $this->fread($thisfile_asf_headerobject['objectsize'] - 30);
 		$offset = 0;
+		$thisfile_asf_streambitratepropertiesobject = array();
+		$thisfile_asf_codeclistobject = array();
 
 		for ($HeaderObjectsCounter = 0; $HeaderObjectsCounter < $thisfile_asf_headerobject['headerobjects']; $HeaderObjectsCounter++) {
 			$NextObjectGUID = substr($ASFHeaderData, $offset, 16);
@@ -790,17 +797,17 @@ class getid3_asf extends getid3_handler {
 							case 'wm/tracknumber':
 							case 'tracknumber':
 								// be careful casting to int: casting unicode strings to int gives unexpected results (stops parsing at first non-numeric character)
-								$thisfile_asf_comments['track'] = array($this->TrimTerm($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']));
-								foreach ($thisfile_asf_comments['track'] as $key => $value) {
+								$thisfile_asf_comments['track_number'] = array($this->TrimTerm($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']));
+								foreach ($thisfile_asf_comments['track_number'] as $key => $value) {
 									if (preg_match('/^[0-9\x00]+$/', $value)) {
-										$thisfile_asf_comments['track'][$key] = intval(str_replace("\x00", '', $value));
+										$thisfile_asf_comments['track_number'][$key] = intval(str_replace("\x00", '', $value));
 									}
 								}
 								break;
 
 							case 'wm/track':
-								if (empty($thisfile_asf_comments['track'])) {
-									$thisfile_asf_comments['track'] = array(1 + $this->TrimConvert($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']));
+								if (empty($thisfile_asf_comments['track_number'])) {
+									$thisfile_asf_comments['track_number'] = array(1 + $this->TrimConvert($thisfile_asf_extendedcontentdescriptionobject_contentdescriptor_current['value']));
 								}
 								break;
 
@@ -970,18 +977,18 @@ class getid3_asf extends getid3_handler {
 					break;
 			}
 		}
-		if (isset($thisfile_asf_streambitrateproperties['bitrate_records_count'])) {
+		if (isset($thisfile_asf_streambitratepropertiesobject['bitrate_records_count'])) {
 			$ASFbitrateAudio = 0;
 			$ASFbitrateVideo = 0;
-			for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < $thisfile_asf_streambitrateproperties['bitrate_records_count']; $BitrateRecordsCounter++) {
+			for ($BitrateRecordsCounter = 0; $BitrateRecordsCounter < $thisfile_asf_streambitratepropertiesobject['bitrate_records_count']; $BitrateRecordsCounter++) {
 				if (isset($thisfile_asf_codeclistobject['codec_entries'][$BitrateRecordsCounter])) {
 					switch ($thisfile_asf_codeclistobject['codec_entries'][$BitrateRecordsCounter]['type_raw']) {
 						case 1:
-							$ASFbitrateVideo += $thisfile_asf_streambitrateproperties['bitrate_records'][$BitrateRecordsCounter]['bitrate'];
+							$ASFbitrateVideo += $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['bitrate'];
 							break;
 
 						case 2:
-							$ASFbitrateAudio += $thisfile_asf_streambitrateproperties['bitrate_records'][$BitrateRecordsCounter]['bitrate'];
+							$ASFbitrateAudio += $thisfile_asf_streambitratepropertiesobject['bitrate_records'][$BitrateRecordsCounter]['bitrate'];
 							break;
 
 						default:
@@ -1440,6 +1447,11 @@ class getid3_asf extends getid3_handler {
 		return true;
 	}
 
+	/**
+	 * @param int $CodecListType
+	 *
+	 * @return string
+	 */
 	public static function codecListObjectTypeLookup($CodecListType) {
 		static $lookup = array(
 			0x0001 => 'Video Codec',
@@ -1450,6 +1462,9 @@ class getid3_asf extends getid3_handler {
 		return (isset($lookup[$CodecListType]) ? $lookup[$CodecListType] : 'Invalid Codec Type');
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function KnownGUIDs() {
 		static $GUIDarray = array(
 			'GETID3_ASF_Extended_Stream_Properties_Object'   => '14E6A5CB-C672-4332-8399-A96952065B5A',
@@ -1564,6 +1579,11 @@ class getid3_asf extends getid3_handler {
 		return $GUIDarray;
 	}
 
+	/**
+	 * @param string $GUIDstring
+	 *
+	 * @return string|false
+	 */
 	public static function GUIDname($GUIDstring) {
 		static $GUIDarray = array();
 		if (empty($GUIDarray)) {
@@ -1572,6 +1592,11 @@ class getid3_asf extends getid3_handler {
 		return array_search($GUIDstring, $GUIDarray);
 	}
 
+	/**
+	 * @param int $id
+	 *
+	 * @return string
+	 */
 	public static function ASFIndexObjectIndexTypeLookup($id) {
 		static $ASFIndexObjectIndexTypeLookup = array();
 		if (empty($ASFIndexObjectIndexTypeLookup)) {
@@ -1582,6 +1607,11 @@ class getid3_asf extends getid3_handler {
 		return (isset($ASFIndexObjectIndexTypeLookup[$id]) ? $ASFIndexObjectIndexTypeLookup[$id] : 'invalid');
 	}
 
+	/**
+	 * @param string $GUIDstring
+	 *
+	 * @return string
+	 */
 	public static function GUIDtoBytestring($GUIDstring) {
 		// Microsoft defines these 16-byte (128-bit) GUIDs in the strangest way:
 		// first 4 bytes are in little-endian order
@@ -1617,31 +1647,42 @@ class getid3_asf extends getid3_handler {
 		return $hexbytecharstring;
 	}
 
+	/**
+	 * @param string $Bytestring
+	 *
+	 * @return string
+	 */
 	public static function BytestringToGUID($Bytestring) {
-		$GUIDstring  = str_pad(dechex(ord($Bytestring{3})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{2})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{1})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{0})),  2, '0', STR_PAD_LEFT);
+		$GUIDstring  = str_pad(dechex(ord($Bytestring[3])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[2])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[1])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[0])),  2, '0', STR_PAD_LEFT);
 		$GUIDstring .= '-';
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{5})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{4})),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[5])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[4])),  2, '0', STR_PAD_LEFT);
 		$GUIDstring .= '-';
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{7})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{6})),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[7])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[6])),  2, '0', STR_PAD_LEFT);
 		$GUIDstring .= '-';
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{8})),  2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{9})),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[8])),  2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[9])),  2, '0', STR_PAD_LEFT);
 		$GUIDstring .= '-';
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{10})), 2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{11})), 2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{12})), 2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{13})), 2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{14})), 2, '0', STR_PAD_LEFT);
-		$GUIDstring .= str_pad(dechex(ord($Bytestring{15})), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[10])), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[11])), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[12])), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[13])), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[14])), 2, '0', STR_PAD_LEFT);
+		$GUIDstring .= str_pad(dechex(ord($Bytestring[15])), 2, '0', STR_PAD_LEFT);
 
 		return strtoupper($GUIDstring);
 	}
 
+	/**
+	 * @param int  $FILETIME
+	 * @param bool $round
+	 *
+	 * @return float|int
+	 */
 	public static function FILETIMEtoUNIXtime($FILETIME, $round=true) {
 		// FILETIME is a 64-bit unsigned integer representing
 		// the number of 100-nanosecond intervals since January 1, 1601
@@ -1653,6 +1694,11 @@ class getid3_asf extends getid3_handler {
 		return ($FILETIME - 116444736000000000) / 10000000;
 	}
 
+	/**
+	 * @param int $WMpictureType
+	 *
+	 * @return string
+	 */
 	public static function WMpictureTypeLookup($WMpictureType) {
 		static $lookup = null;
 		if ($lookup === null) {
@@ -1684,6 +1730,12 @@ class getid3_asf extends getid3_handler {
 		return (isset($lookup[$WMpictureType]) ? $lookup[$WMpictureType] : '');
 	}
 
+	/**
+	 * @param string $asf_header_extension_object_data
+	 * @param int    $unhandled_sections
+	 *
+	 * @return array
+	 */
 	public function HeaderExtensionObjectDataParse(&$asf_header_extension_object_data, &$unhandled_sections) {
 		// http://msdn.microsoft.com/en-us/library/bb643323.aspx
 
@@ -1930,7 +1982,11 @@ class getid3_asf extends getid3_handler {
 		return $HeaderExtensionObjectParsed;
 	}
 
-
+	/**
+	 * @param int $id
+	 *
+	 * @return string
+	 */
 	public static function metadataLibraryObjectDataTypeLookup($id) {
 		static $lookup = array(
 			0x0000 => 'Unicode string', // The data consists of a sequence of Unicode characters
@@ -1944,6 +2000,11 @@ class getid3_asf extends getid3_handler {
 		return (isset($lookup[$id]) ? $lookup[$id] : 'invalid');
 	}
 
+	/**
+	 * @param string $data
+	 *
+	 * @return array
+	 */
 	public function ASF_WMpicture(&$data) {
 		//typedef struct _WMPicture{
 		//  LPWSTR  pwszMIMEType;
@@ -1994,14 +2055,24 @@ class getid3_asf extends getid3_handler {
 		return $WMpicture;
 	}
 
-
-	// Remove terminator 00 00 and convert UTF-16LE to Latin-1
+	/**
+	 * Remove terminator 00 00 and convert UTF-16LE to Latin-1.
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
 	public static function TrimConvert($string) {
 		return trim(getid3_lib::iconv_fallback('UTF-16LE', 'ISO-8859-1', self::TrimTerm($string)), ' ');
 	}
 
-
-	// Remove terminator 00 00
+	/**
+	 * Remove terminator 00 00.
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
 	public static function TrimTerm($string) {
 		// remove terminator, only if present (it should be, but...)
 		if (substr($string, -2) === "\x00\x00") {
