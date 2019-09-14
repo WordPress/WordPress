@@ -3076,6 +3076,7 @@ function wp_nonce_ays( $action ) {
  * @since 4.1.0 The `$title` and `$args` parameters were changed to optionally accept
  *              an integer to be used as the response code.
  * @since 5.1.0 The `$link_url`, `$link_text`, and `$exit` arguments were added.
+ * @since 5.3.0 The `$charset` argument was added.
  *
  * @global WP_Query $wp_query WordPress Query object.
  *
@@ -3099,6 +3100,7 @@ function wp_nonce_ays( $action ) {
  *     @type string $text_direction The text direction. This is only useful internally, when WordPress
  *                                  is still loading and the site's locale is not set up yet. Accepts 'rtl'.
  *                                  Default is the value of is_rtl().
+ *     @type string $charset        Character set of the HTML output. Default 'utf-8'.
  *     @type string $code           Error code to use. Default is 'wp_die', or the main error code if $message
  *                                  is a WP_Error.
  *     @type bool   $exit           Whether to exit the process after completion. Default true.
@@ -3226,7 +3228,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 
 	if ( ! did_action( 'admin_head' ) ) :
 		if ( ! headers_sent() ) {
-			header( 'Content-Type: text/html; charset=utf-8' );
+			header( "Content-Type: text/html; charset={$parsed_args['charset']}" );
 			status_header( $parsed_args['response'] );
 			nocache_headers();
 		}
@@ -3241,7 +3243,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php echo $dir_attr; ?>>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $parsed_args['charset']; ?>" />
 	<meta name="viewport" content="width=device-width">
 		<?php
 		if ( function_exists( 'wp_no_robots' ) ) {
@@ -3445,7 +3447,7 @@ function _json_wp_die_handler( $message, $title = '', $args = array() ) {
 	);
 
 	if ( ! headers_sent() ) {
-		header( 'Content-Type: application/json; charset=utf-8' );
+		header( "Content-Type: application/json; charset={$parsed_args['charset']}" );
 		if ( null !== $parsed_args['response'] ) {
 			status_header( $parsed_args['response'] );
 		}
@@ -3483,7 +3485,7 @@ function _jsonp_wp_die_handler( $message, $title = '', $args = array() ) {
 	);
 
 	if ( ! headers_sent() ) {
-		header( 'Content-Type: application/javascript; charset=utf-8' );
+		header( "Content-Type: application/javascript; charset={$parsed_args['charset']}" );
 		header( 'X-Content-Type-Options: nosniff' );
 		header( 'X-Robots-Tag: noindex' );
 		if ( null !== $parsed_args['response'] ) {
@@ -3563,7 +3565,7 @@ function _xml_wp_die_handler( $message, $title = '', $args = array() ) {
 EOD;
 
 	if ( ! headers_sent() ) {
-		header( 'Content-Type: text/xml; charset=utf-8' );
+		header( "Content-Type: text/xml; charset={$parsed_args['charset']}" );
 		if ( null !== $parsed_args['response'] ) {
 			status_header( $parsed_args['response'] );
 		}
@@ -3624,6 +3626,7 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
 		'link_url'          => '',
 		'link_text'         => '',
 		'text_direction'    => '',
+		'charset'           => 'utf-8',
 		'additional_errors' => array(),
 	);
 
@@ -3677,6 +3680,10 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
 		if ( function_exists( 'is_rtl' ) && is_rtl() ) {
 			$args['text_direction'] = 'rtl';
 		}
+	}
+
+	if ( ! empty( $args['charset'] ) ) {
+		$args['charset'] = _canonical_charset( $args['charset'] );
 	}
 
 	return array( $message, $title, $args );
