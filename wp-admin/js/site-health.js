@@ -87,10 +87,11 @@ jQuery( document ).ready( function( $ ) {
 	function RecalculateProgression() {
 		var r, c, pct;
 		var $progress = $( '.site-health-progress' );
-		var $progressCount = $progress.find( '.site-health-progress-count' );
+		var $wrapper = $progress.closest( '.site-health-progress-wrapper' );
+		var $progressLabel = $( '.site-health-progress-label', $wrapper );
 		var $circle = $( '.site-health-progress svg #bar' );
 		var totalTests = parseInt( SiteHealth.site_status.issues.good, 0 ) + parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
-		var failedTests = parseInt( SiteHealth.site_status.issues.recommended, 0 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
+		var failedTests = ( parseInt( SiteHealth.site_status.issues.recommended, 0 ) * 0.5 ) + ( parseInt( SiteHealth.site_status.issues.critical, 0 ) * 1.5 );
 		var val = 100 - Math.ceil( ( failedTests / totalTests ) * 100 );
 
 		if ( 0 === totalTests ) {
@@ -98,7 +99,7 @@ jQuery( document ).ready( function( $ ) {
 			return;
 		}
 
-		$progress.removeClass( 'loading' );
+		$wrapper.removeClass( 'loading' );
 
 		r = $circle.attr( 'r' );
 		c = Math.PI * ( r * 2 );
@@ -122,20 +123,17 @@ jQuery( document ).ready( function( $ ) {
 			$( '#health-check-issues-recommended' ).addClass( 'hidden' );
 		}
 
-		if ( 50 <= val ) {
-			$circle.addClass( 'orange' ).removeClass( 'red' );
-		}
+		if ( 80 <= val && 0 === parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
+			$wrapper.addClass( 'green' ).removeClass( 'orange' );
 
-		if ( 90 <= val ) {
-			$circle.addClass( 'green' ).removeClass( 'orange' );
-		}
+			$progressLabel.text( __( 'Good' ) );
+			wp.a11y.speak( __( 'All site health tests have finished running. Your site is looking good, and the results are now available on the page.' ) );
+		} else {
+			$wrapper.addClass( 'orange' ).removeClass( 'green' );
 
-		if ( 100 === val ) {
-			$( '.site-status-all-clear' ).removeClass( 'hide' );
-			$( '.site-status-has-issues' ).addClass( 'hide' );
+			$progressLabel.text( __( 'Should be improved' ) );
+			wp.a11y.speak( __( 'All site health tests have finished running. There are items that should be addressed, and the results are now available on the page.' ) );
 		}
-
-		$progressCount.text( val + '%' );
 
 		if ( ! isDebugTab ) {
 			$.post(
@@ -147,11 +145,10 @@ jQuery( document ).ready( function( $ ) {
 				}
 			);
 
-			wp.a11y.speak( sprintf(
-				// translators: %s: The percentage score for the tests.
-				__( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
-				val + '%'
-			) );
+			if ( 100 === val ) {
+				$( '.site-status-all-clear' ).removeClass( 'hide' );
+				$( '.site-status-has-issues' ).addClass( 'hide' );
+			}
 		}
 	}
 
