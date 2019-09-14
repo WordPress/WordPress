@@ -256,6 +256,7 @@ require( ABSPATH . WPINC . '/rest-api/fields/class-wp-rest-user-meta-fields.php'
 require( ABSPATH . WPINC . '/rest-api/search/class-wp-rest-search-handler.php' );
 require( ABSPATH . WPINC . '/rest-api/search/class-wp-rest-post-search-handler.php' );
 require( ABSPATH . WPINC . '/class-wp-block-type.php' );
+require( ABSPATH . WPINC . '/class-wp-block-styles-registry.php' );
 require( ABSPATH . WPINC . '/class-wp-block-type-registry.php' );
 require( ABSPATH . WPINC . '/class-wp-block-parser.php' );
 require( ABSPATH . WPINC . '/blocks.php' );

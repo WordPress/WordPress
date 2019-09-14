@@ -356,3 +356,31 @@ function _restore_wpautop_hook( $content ) {
 function block_version( $content ) {
 	return has_blocks( $content ) ? 1 : 0;
 }
+
+/**
+ * Registers a new block style.
+ *
+ * @since 5.3.0
+ *
+ * @param string $block_name       Block type name including namespace.
+ * @param array  $style_properties Array containing the properties of the style name, label, style (name of the stylesheet to be enqueued), inline_style (string containing the CSS to be added).
+ *
+ * @return boolean True if the block style was registered with success and false otherwise.
+ */
+function register_block_style( $block_name, $style_properties ) {
+	return WP_Block_Styles_Registry::get_instance()->register( $block_name, $style_properties );
+}
+
+/**
+ * Unregisters a block style.
+ *
+ * @since 5.3.0
+ *
+ * @param string $block_name       Block type name including namespace.
+ * @param array  $block_style_name Block style name.
+ *
+ * @return boolean True if the block style was unregistered with success and false otherwise.
+ */
+function unregister_block_style( $block_name, $block_style_name ) {
+	return WP_Block_Styles_Registry::get_instance()->unregister( $block_name, $block_style_name );
+}

@@ -501,6 +501,8 @@ add_action( 'admin_print_scripts-index.php', 'wp_localize_community_events' );
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
 add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
+add_action( 'enqueue_block_assets', 'enqueue_block_styles_assets', 30 );
+add_action( 'enqueue_block_editor_assets', 'enqueue_editor_block_styles_assets' );
 
 add_action( 'wp_default_styles', 'wp_default_styles' );
 add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
