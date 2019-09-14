@@ -428,9 +428,19 @@ if ( ! function_exists( 'twentyten_comment' ) ) :
 				printf( __( '%s <span class="says">says:</span>', 'twentyten' ), sprintf( '<cite class="fn">%s</cite>', get_comment_author_link() ) );
 				?>
 			</div><!-- .comment-author .vcard -->
-				<?php if ( $comment->comment_approved == '0' ) : ?>
-				<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
-				<br />
+
+				<?php
+				$commenter = wp_get_current_commenter();
+				if ( $commenter['comment_author_email'] ) {
+					$moderation_note = __( 'Your comment is awaiting moderation.', 'twentyten' );
+				} else {
+					$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentyten' );
+				}
+				?>
+
+				<?php if ( '0' == $comment->comment_approved ) : ?>
+			<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
+			<br />
 			<?php endif; ?>
 
 			<div class="comment-meta commentmetadata"><a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">

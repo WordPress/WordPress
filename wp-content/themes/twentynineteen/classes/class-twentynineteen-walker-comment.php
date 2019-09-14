@@ -88,9 +88,19 @@ class TwentyNineteen_Walker_Comment extends Walker_Comment {
 						?>
 					</div><!-- .comment-metadata -->
 
+					<?php
+					$commenter = wp_get_current_commenter();
+					if ( $commenter['comment_author_email'] ) {
+						$moderation_note = __( 'Your comment is awaiting moderation.', 'twentynineteen' );
+					} else {
+						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentynineteen' );
+					}
+					?>
+
 					<?php if ( '0' == $comment->comment_approved ) : ?>
-					<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentynineteen' ); ?></p>
+					<p class="comment-awaiting-moderation"><?php echo $moderation_note; ?></p>
 					<?php endif; ?>
+
 				</footer><!-- .comment-meta -->
 
 				<div class="comment-content">

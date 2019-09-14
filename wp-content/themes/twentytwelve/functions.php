@@ -446,9 +446,18 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 				?>
 				</header><!-- .comment-meta -->
 
+				<?php
+				$commenter = wp_get_current_commenter();
+				if ( $commenter['comment_author_email'] ) {
+					$moderation_note = __( 'Your comment is awaiting moderation.', 'twentytwelve' );
+				} else {
+					$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentytwelve' );
+				}
+				?>
+
 				<?php if ( '0' == $comment->comment_approved ) : ?>
-				<p class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentytwelve' ); ?></p>
-			<?php endif; ?>
+				<p class="comment-awaiting-moderation"><?php echo $moderation_note; ?></p>
+				<?php endif; ?>
 
 				<section class="comment-content comment">
 				<?php comment_text(); ?>

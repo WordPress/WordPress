@@ -743,10 +743,19 @@ if ( ! function_exists( 'twentyeleven_comment' ) ) :
 						<?php edit_comment_link( __( 'Edit', 'twentyeleven' ), '<span class="edit-link">', '</span>' ); ?>
 					</div><!-- .comment-author .vcard -->
 
-					<?php if ( $comment->comment_approved == '0' ) : ?>
-					<em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.', 'twentyeleven' ); ?></em>
+					<?php
+					$commenter = wp_get_current_commenter();
+					if ( $commenter['comment_author_email'] ) {
+						$moderation_note = __( 'Your comment is awaiting moderation.', 'twentyeleven' );
+					} else {
+						$moderation_note = __( 'Your comment is awaiting moderation. This is a preview, your comment will be visible after it has been approved.', 'twentyeleven' );
+					}
+					?>
+
+					<?php if ( '0' == $comment->comment_approved ) : ?>
+					<em class="comment-awaiting-moderation"><?php echo $moderation_note; ?></em>
 					<br />
-				<?php endif; ?>
+					<?php endif; ?>
 
 				</footer>
 
