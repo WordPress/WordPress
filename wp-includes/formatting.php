@@ -4836,8 +4836,7 @@ function wp_pre_kses_less_than_callback( $matches ) {
  * @param mixed  ...$args Arguments to be formatted into the $pattern string.
  * @return string The formatted string.
  */
-function wp_sprintf( $pattern ) {
-	$args      = func_get_args();
+function wp_sprintf( $pattern, ...$args ) {
 	$len       = strlen( $pattern );
 	$start     = 0;
 	$result    = '';
@@ -4867,11 +4866,12 @@ function wp_sprintf( $pattern ) {
 		if ( $pattern[ $start ] == '%' ) {
 			// Find numbered arguments or take the next one in order
 			if ( preg_match( '/^%(\d+)\$/', $fragment, $matches ) ) {
-				$arg      = isset( $args[ $matches[1] ] ) ? $args[ $matches[1] ] : '';
+				$index    = $matches[1] - 1; // 0-based array vs 1-based sprintf arguments.
+				$arg      = isset( $args[ $index ] ) ? $args[ $index ] : '';
 				$fragment = str_replace( "%{$matches[1]}$", '%', $fragment );
 			} else {
-				++$arg_index;
 				$arg = isset( $args[ $arg_index ] ) ? $args[ $arg_index ] : '';
+				++$arg_index;
 			}
 
 			/**
