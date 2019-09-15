@@ -1524,8 +1524,7 @@ function walk_page_tree( $pages, $depth, $current_page, $r ) {
 		}
 	}
 
-	$args = array( $pages, $depth, $r, $current_page );
-	return call_user_func_array( array( $walker, 'walk' ), $args );
+	return $walker->walk( $pages, $depth, $r, $current_page );
 }
 
 /**
