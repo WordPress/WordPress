@@ -1040,8 +1040,7 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
  * @param string       $url   Optional. A URL to act upon.
  * @return string New URL query string (unescaped).
  */
-function add_query_arg() {
-	$args = func_get_args();
+function add_query_arg( ...$args ) {
 	if ( is_array( $args[0] ) ) {
 		if ( count( $args ) < 2 || false === $args[1] ) {
 			$uri = $_SERVER['REQUEST_URI'];
