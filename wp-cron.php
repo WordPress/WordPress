@@ -118,8 +118,7 @@ foreach ( $crons as $timestamp => $cronhooks ) {
 			$schedule = $v['schedule'];
 
 			if ( $schedule ) {
-				$new_args = array( $timestamp, $schedule, $hook, $v['args'] );
-				call_user_func_array( 'wp_reschedule_event', $new_args );
+				wp_reschedule_event( $timestamp, $schedule, $hook, $v['args'] );
 			}
 
 			wp_unschedule_event( $timestamp, $hook, $v['args'] );
