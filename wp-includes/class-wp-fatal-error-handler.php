@@ -41,13 +41,15 @@ class WP_Fatal_Error_Handler {
 				load_default_textdomain();
 			}
 
+			$handled = false;
+
 			if ( ! is_multisite() && wp_recovery_mode()->is_initialized() ) {
-				wp_recovery_mode()->handle_error( $error );
+				$handled = wp_recovery_mode()->handle_error( $error );
 			}
 
 			// Display the PHP error template if headers not sent.
 			if ( is_admin() || ! headers_sent() ) {
-				$this->display_error_template( $error );
+				$this->display_error_template( $error, $handled );
 			}
 		} catch ( Exception $e ) {
 			// Catch exceptions and remain silent.
@@ -125,10 +127,12 @@ class WP_Fatal_Error_Handler {
 	 * If no such drop-in is available, this will call {@see WP_Fatal_Error_Handler::display_default_error_template()}.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.0 The `$handled` parameter was added.
 	 *
-	 * @param array $error Error information retrieved from `error_get_last()`.
+	 * @param array         $error   Error information retrieved from `error_get_last()`.
+	 * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
 	 */
-	protected function display_error_template( $error ) {
+	protected function display_error_template( $error, $handled ) {
 		if ( defined( 'WP_CONTENT_DIR' ) ) {
 			// Load custom PHP error template, if present.
 			$php_error_pluggable = WP_CONTENT_DIR . '/php-error.php';
@@ -140,7 +144,7 @@ class WP_Fatal_Error_Handler {
 		}
 
 		// Otherwise, display the default error template.
-		$this->display_default_error_template( $error );
+		$this->display_default_error_template( $error, $handled );
 	}
 
 	/**
@@ -153,10 +157,12 @@ class WP_Fatal_Error_Handler {
 	 * be used to modify these parameters.
 	 *
 	 * @since 5.2.0
+	 * @since 5.3.0 The `$handled` parameter was added.
 	 *
-	 * @param array $error Error information retrieved from `error_get_last()`.
+	 * @param array         $error   Error information retrieved from `error_get_last()`.
+	 * @param true|WP_Error $handled Whether Recovery Mode handled the fatal error.
 	 */
-	protected function display_default_error_template( $error ) {
+	protected function display_default_error_template( $error, $handled ) {
 		if ( ! function_exists( '__' ) ) {
 			wp_load_translations_early();
 		}
@@ -169,10 +175,12 @@ class WP_Fatal_Error_Handler {
 			require_once ABSPATH . WPINC . '/class-wp-error.php';
 		}
 
-		if ( is_protected_endpoint() ) {
-			$message = __( 'The site is experiencing technical difficulties. Please check your site admin email inbox for instructions.' );
+		if ( true === $handled && wp_is_recovery_mode() ) {
+			$message = __( 'There has been a critical error on your website, putting it in recovery mode. Please check the Themes and Plugins screens for more details. If you just installed or updated a theme or plugin, check the relevant page for that first.' );
+		} elseif ( is_protected_endpoint() ) {
+			$message = __( 'There has been a critical error on your website. Please check your site admin email inbox for instructions.' );
 		} else {
-			$message = __( 'The site is experiencing technical difficulties.' );
+			$message = __( 'There has been a critical error on your website.' );
 		}
 
 		$args = array(
