@@ -1050,7 +1050,7 @@ final class WP_Customize_Widgets {
 		$args[0]['before_widget_content'] = '<div class="widget-content">';
 		$args[0]['after_widget_content']  = '</div><!-- .widget-content -->';
 		ob_start();
-		call_user_func_array( 'wp_widget_control', $args );
+		wp_widget_control( ...$args );
 		$control_tpl = ob_get_clean();
 		return $control_tpl;
 	}

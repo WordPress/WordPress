@@ -1229,7 +1229,7 @@ final class WP_Customize_Manager {
 					$widget_numbers = array_keys( $settings );
 					if ( count( $widget_numbers ) > 0 ) {
 						$widget_numbers[]               = 1;
-						$max_widget_numbers[ $id_base ] = call_user_func_array( 'max', $widget_numbers );
+						$max_widget_numbers[ $id_base ] = max( ...$widget_numbers );
 					} else {
 						$max_widget_numbers[ $id_base ] = 1;
 					}
