@@ -58,8 +58,9 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 
 	/**
 	 * @param string|array|WP_Error $data
+	 * @param mixed                 ...$args Optional text replacements.
 	 */
-	public function feedback( $data ) {
+	public function feedback( $data, ...$args ) {
 		if ( is_wp_error( $data ) ) {
 			$string = $data->get_error_message();
 		} elseif ( is_array( $data ) ) {
@@ -72,8 +73,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 		}
 
 		if ( strpos( $string, '%' ) !== false ) {
-			$args = func_get_args();
-			$args = array_splice( $args, 1 );
 			if ( ! empty( $args ) ) {
 				$string = vsprintf( $string, $args );
 			}
