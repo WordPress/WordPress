@@ -579,9 +579,8 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  */
 function walk_nav_menu_tree( $items, $depth, $r ) {
 	$walker = ( empty( $r->walker ) ) ? new Walker_Nav_Menu : $r->walker;
-	$args   = array( $items, $depth, $r );
 
-	return call_user_func_array( array( $walker, 'walk' ), $args );
+	return $walker->walk( $items, $depth, $r );
 }
 
 /**
