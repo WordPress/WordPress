@@ -1684,7 +1684,7 @@ class WP_Rewrite {
 		global $wp;
 
 		// For backward compatibility, if null has explicitly been passed as `$query_var`, assume `true`.
-		if ( true === $query_var || null === func_get_arg( 2 ) ) {
+		if ( true === $query_var || null === $query_var ) {
 			$query_var = $name;
 		}
 		$this->endpoints[] = array( $places, $name, $query_var );
