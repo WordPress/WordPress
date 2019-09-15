@@ -176,10 +176,10 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 		}
 
 		// Put checked cats on top
-		$output .= call_user_func_array( array( $walker, 'walk' ), array( $checked_categories, 0, $args ) );
+		$output .= $walker->walk( $checked_categories, 0, $args );
 	}
 	// Then the rest of them
-	$output .= call_user_func_array( array( $walker, 'walk' ), array( $categories, 0, $args ) );
+	$output .= $walker->walk( $categories, 0, $args );
 
 	if ( $parsed_args['echo'] ) {
 		echo $output;
