@@ -354,7 +354,7 @@ function is_registered_sidebar( $sidebar_id ) {
  * }
  * @param mixed      ...$params       Optional additional parameters to pass to the callback function when it's called.
  */
-function wp_register_sidebar_widget( $id, $name, $output_callback, $options = array() ) {
+function wp_register_sidebar_widget( $id, $name, $output_callback, $options = array(), ...$params ) {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_registered_widget_updates, $_wp_deprecated_widgets_callbacks;
 
 	$id = strtolower( $id );
@@ -377,7 +377,7 @@ function wp_register_sidebar_widget( $id, $name, $output_callback, $options = ar
 		'name'     => $name,
 		'id'       => $id,
 		'callback' => $output_callback,
-		'params'   => array_slice( func_get_args(), 4 ),
+		'params'   => $params,
 	);
 	$widget   = array_merge( $widget, $options );
 
