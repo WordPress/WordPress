@@ -87,9 +87,11 @@ class _WP_Dependency {
 	 * Setup dependencies.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @param ...$args Dependency information.
 	 */
-	public function __construct() {
-		list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = func_get_args();
+	public function __construct( ...$args ) {
+		list( $this->handle, $this->src, $this->deps, $this->ver, $this->args ) = $args;
 		if ( ! is_array( $this->deps ) ) {
 			$this->deps = array();
 		}
