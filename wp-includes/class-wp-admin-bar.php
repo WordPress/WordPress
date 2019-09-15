@@ -115,8 +115,8 @@ class WP_Admin_Bar {
 	 */
 	public function add_node( $args ) {
 		// Shim for old method signature: add_node( $parent_id, $menu_obj, $args )
-		if ( func_num_args() >= 3 && is_string( func_get_arg( 0 ) ) ) {
-			$args = array_merge( array( 'parent' => func_get_arg( 0 ) ), func_get_arg( 2 ) );
+		if ( func_num_args() >= 3 && is_string( $args ) ) {
+			$args = array_merge( array( 'parent' => $args ), func_get_arg( 2 ) );
 		}
 
 		if ( is_object( $args ) ) {
