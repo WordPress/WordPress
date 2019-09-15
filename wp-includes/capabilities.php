@@ -579,8 +579,7 @@ function map_meta_cap( $cap, $user_id, ...$args ) {
 			// Handle meta capabilities for custom post types.
 			global $post_type_meta_caps;
 			if ( isset( $post_type_meta_caps[ $cap ] ) ) {
-				$args = array_merge( array( $post_type_meta_caps[ $cap ], $user_id ), $args );
-				return call_user_func_array( 'map_meta_cap', $args );
+				return map_meta_cap( $post_type_meta_caps[ $cap ], $user_id, ...$args );
 			}
 
 			// Block capabilities map to their post equivalent.
