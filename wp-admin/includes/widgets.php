@@ -51,13 +51,13 @@ function wp_list_widgets() {
 			}
 		}
 
-		$args = wp_list_widget_controls_dynamic_sidebar(
-			array(
-				0 => $args,
-				1 => $widget['params'][0],
-			)
+		$control_args = array(
+			0 => $args,
+			1 => $widget['params'][0],
 		);
-		call_user_func_array( 'wp_widget_control', $args );
+		$sidebar_args = wp_list_widget_controls_dynamic_sidebar( $control_args );
+
+		wp_widget_control( ...$sidebar_args );
 	}
 }
 
@@ -144,6 +144,7 @@ function wp_list_widget_controls_dynamic_sidebar( $params ) {
 	$params[0]['after_widget']  = '</div>';
 	$params[0]['before_title']  = '%BEG_OF_TITLE%'; // deprecated
 	$params[0]['after_title']   = '%END_OF_TITLE%'; // deprecated
+
 	if ( is_callable( $wp_registered_widgets[ $widget_id ]['callback'] ) ) {
 		$wp_registered_widgets[ $widget_id ]['_callback'] = $wp_registered_widgets[ $widget_id ]['callback'];
 		$wp_registered_widgets[ $widget_id ]['callback']  = 'wp_widget_control';
