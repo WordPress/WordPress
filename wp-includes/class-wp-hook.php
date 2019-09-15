@@ -259,6 +259,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @param mixed $value The value to filter.
 	 * @param array $args  Additional parameters to pass to the callback functions.
+	 *                     This array is expected to include $value at index 0.
 	 * @return mixed The filtered value after all hooked functions are applied to it.
 	 */
 	public function apply_filters( $value, $args ) {
@@ -282,7 +283,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 
 				// Avoid the array_slice if possible.
 				if ( $the_['accepted_args'] == 0 ) {
-					$value = call_user_func_array( $the_['function'], array() );
+					$value = call_user_func( $the_['function'] );
 				} elseif ( $the_['accepted_args'] >= $num_args ) {
 					$value = call_user_func_array( $the_['function'], $args );
 				} else {
