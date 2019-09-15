@@ -101,7 +101,7 @@ class WP_Roles {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( '_init' === $name ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
+			return $this->_init( ...$arguments );
 		}
 		return false;
 	}

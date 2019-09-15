@@ -124,7 +124,7 @@ class WP_Comment_Query {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( 'get_search_sql' === $name ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
+			return $this->get_search_sql( ...$arguments );
 		}
 		return false;
 	}

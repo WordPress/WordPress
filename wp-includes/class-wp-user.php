@@ -444,7 +444,7 @@ class WP_User {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( '_init_caps' === $name ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
+			return $this->_init_caps( ...$arguments );
 		}
 		return false;
 	}

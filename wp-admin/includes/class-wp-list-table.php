@@ -239,7 +239,7 @@ class WP_List_Table {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( in_array( $name, $this->compat_methods ) ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
+			return $this->$name( ...$arguments );
 		}
 		return false;
 	}
