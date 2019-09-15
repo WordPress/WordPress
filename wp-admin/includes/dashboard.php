@@ -1062,7 +1062,7 @@ function wp_dashboard_rss_output( $widget_id ) {
  * @param mixed    ...$args    Optional additional parameters to pass to the callback function when it's called.
  * @return bool False on failure. True on success.
  */
-function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
+function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array(), ...$args ) {
 	$loading    = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&hellip;' ) . '</p><div class="hide-if-js notice notice-error inline"><p>' . __( 'This widget requires JavaScript.' ) . '</p></div>';
 	$doing_ajax = wp_doing_ajax();
 
@@ -1089,7 +1089,6 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	}
 
 	if ( $callback && is_callable( $callback ) ) {
-		$args = array_slice( func_get_args(), 3 );
 		array_unshift( $args, $widget_id, $check_urls );
 		ob_start();
 		call_user_func_array( $callback, $args );
