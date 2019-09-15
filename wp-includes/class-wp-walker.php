@@ -141,8 +141,7 @@ class Walker {
 			$args[0]['has_children'] = $this->has_children; // Back-compat.
 		}
 
-		$cb_args = array_merge( array( &$output, $element, $depth ), $args );
-		call_user_func_array( array( $this, 'start_el' ), $cb_args );
+		$this->start_el( $output, $element, $depth, ...array_values( $args ) );
 
 		// descend only when the depth is right and there are childrens for this element
 		if ( ( $max_depth == 0 || $max_depth > $depth + 1 ) && isset( $children_elements[ $id ] ) ) {
@@ -152,8 +151,7 @@ class Walker {
 				if ( ! isset( $newlevel ) ) {
 					$newlevel = true;
 					//start the child delimiter
-					$cb_args = array_merge( array( &$output, $depth ), $args );
-					call_user_func_array( array( $this, 'start_lvl' ), $cb_args );
+					$this->start_lvl( $output, $depth, ...array_values( $args ) );
 				}
 				$this->display_element( $child, $children_elements, $max_depth, $depth + 1, $args, $output );
 			}
@@ -162,13 +160,11 @@ class Walker {
 
 		if ( isset( $newlevel ) && $newlevel ) {
 			//end the child delimiter
-			$cb_args = array_merge( array( &$output, $depth ), $args );
-			call_user_func_array( array( $this, 'end_lvl' ), $cb_args );
+			$this->end_lvl( $output, $depth, ...array_values( $args ) );
 		}
 
 		//end this element
-		$cb_args = array_merge( array( &$output, $element, $depth ), $args );
-		call_user_func_array( array( $this, 'end_el' ), $cb_args );
+		$this->end_el( $output, $element, $depth, ...array_values( $args ) );
 	}
 
 	/**
