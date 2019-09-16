@@ -263,7 +263,16 @@ function register_sidebar( $args = array() ) {
 		'after_title'   => "</h2>\n",
 	);
 
-	$sidebar = wp_parse_args( $args, $defaults );
+	/**
+	 * Filters the sidebar default arguments.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @see register_sidebar()
+	 *
+	 * @param array $defaults The default sidebar arguments.
+	 */
+	$sidebar = wp_parse_args( $args, apply_filters( 'register_sidebar_defaults', $defaults ) );
 
 	if ( $id_is_empty ) {
 		_doing_it_wrong(
