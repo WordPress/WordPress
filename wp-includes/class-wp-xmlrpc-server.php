@@ -729,7 +729,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @param array $args  An array of arguments to check.
 	 * @param int   $count Minimum number of arguments.
-	 * @return bool if `$args` contains at least $count arguments.
+	 * @return bool True if `$args` contains at least `$count` arguments, false otherwise.
 	 */
 	protected function minimum_args( $args, $count ) {
 		if ( ! is_array( $args ) || count( $args ) < $count ) {
