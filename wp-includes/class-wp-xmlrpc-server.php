@@ -727,12 +727,12 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string|array $args Sanitize single string or array of strings.
-	 * @param int $count         Minimum number of arguments.
+	 * @param array $args  An array of arguments to check.
+	 * @param int   $count Minimum number of arguments.
 	 * @return bool if `$args` contains at least $count arguments.
 	 */
 	protected function minimum_args( $args, $count ) {
-		if ( count( $args ) < $count ) {
+		if ( ! is_array( $args ) || count( $args ) < $count ) {
 			$this->error = new IXR_Error( 400, __( 'Insufficient arguments passed to this XML-RPC method.' ) );
 			return false;
 		}
