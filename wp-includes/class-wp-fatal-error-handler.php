@@ -183,6 +183,14 @@ class WP_Fatal_Error_Handler {
 			$message = __( 'There has been a critical error on your website.' );
 		}
 
+		$message = sprintf(
+			'<p>%s</p><p><a href="%s">%s</a></p>',
+			$message,
+			/* translators: Documentation explaining debugging in WordPress. */
+			esc_url( __( 'https://wordpress.org/support/article/debugging-in-wordpress/' ) ),
+			__( 'Learn more about debugging in WordPress.' )
+		);
+
 		$args = array(
 			'response' => 500,
 			'exit'     => false,
