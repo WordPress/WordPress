@@ -313,31 +313,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function column_blogname( $blog ) {
 		global $mode;
 
-		$blogname    = untrailingslashit( $blog['domain'] . $blog['path'] );
-		$blog_states = array();
-		reset( $this->status_list );
-
-		foreach ( $this->status_list as $status => $col ) {
-			if ( $blog[ $status ] == 1 ) {
-				$blog_states[] = $col[1];
-			}
-		}
-		$blog_state = '';
-		if ( ! empty( $blog_states ) ) {
-			$state_count = count( $blog_states );
-			$i           = 0;
-			$blog_state .= ' &mdash; ';
-			foreach ( $blog_states as $state ) {
-				++$i;
-				$sep         = ( $i == $state_count ) ? '' : ', ';
-				$blog_state .= "<span class='post-state'>$state$sep</span>";
-			}
-		}
+		$blogname = untrailingslashit( $blog['domain'] . $blog['path'] );
 
 		?>
 		<strong>
 			<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname; ?></a>
-			<?php echo $blog_state; ?>
+			<?php $this->site_states( $blog ); ?>
 		</strong>
 		<?php
 		if ( 'list' !== $mode ) {
@@ -347,7 +328,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 				/* translators: 1: Site title, 2: Site tagline. */
 				__( '%1$s &#8211; %2$s' ),
 				get_option( 'blogname' ),
-				'<em>' . get_option( 'blogdescription ' ) . '</em>'
+				'<em>' . get_option( 'blogdescription' ) . '</em>'
 			);
 			echo '</p>';
 			restore_current_blog();
@@ -491,6 +472,54 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$this->single_row_columns( $blog );
 
 			echo '</tr>';
+		}
+	}
+
+	/**
+	 * Maybe output comma-separated site states.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @param array $site
+	 */
+	protected function site_states( $site ) {
+		$site_states = array();
+
+		// $site is still an array, so get the object.
+		$_site = WP_Site::get_instance( $site['blog_id'] );
+
+		if ( is_main_site( $_site->id ) ) {
+			$site_states['main'] = __( 'Main' );
+		}
+
+		reset( $this->status_list );
+
+		foreach ( $this->status_list as $status => $col ) {
+			if ( $_site->{$status} == 1 ) {
+				$site_states[ $col[0] ] = $col[1];
+			}
+		}
+
+		/**
+		 * Filter the default site display states for items in the Sites list table.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param array $site_states An array of site states. Default 'Main',
+		 *                           'Archived', 'Mature', 'Spam', 'Deleted'.
+		 * @param WP_Site $site The current site object.
+		 */
+		$site_states = apply_filters( 'display_site_states', $site_states, $_site );
+
+		if ( ! empty( $site_states ) ) {
+			$state_count = count( $site_states );
+			$i           = 0;
+			echo ' &mdash; ';
+			foreach ( $site_states as $state ) {
+				++$i;
+				( $i == $state_count ) ? $sep = '' : $sep = ', ';
+				echo "<span class='post-state'>{$state}{$sep}</span>";
+			}
 		}
 	}
 
