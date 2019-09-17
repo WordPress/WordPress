@@ -513,7 +513,13 @@ final class WP_Post_Type {
 	 */
 	public function add_supports() {
 		if ( ! empty( $this->supports ) ) {
-			add_post_type_support( $this->name, $this->supports );
+			foreach ( $this->supports as $feature => $args ) {
+				if ( is_array( $args ) ) {
+					add_post_type_support( $this->name, $feature, $args );
+				} else {
+					add_post_type_support( $this->name, $args );
+				}
+			}
 			unset( $this->supports );
 		} elseif ( false !== $this->supports ) {
 			// Add default features.
