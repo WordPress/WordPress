@@ -159,8 +159,9 @@ class WP_User_Query {
 	 *     @type string       $search              Search keyword. Searches for possible string matches on columns.
 	 *                                             When `$search_columns` is left empty, it tries to determine which
 	 *                                             column to search in based on search string. Default empty.
-	 *     @type array        $search_columns      Array of column names to be searched. Accepts 'ID', 'login',
-	 *                                             'nicename', 'email', 'url'. Default empty array.
+	 *     @type array        $search_columns      Array of column names to be searched. Accepts 'ID', 'user_login',
+	 *                                             'user_email', 'user_url', 'user_nicename', 'display_name'.
+	 *                                             Default empty array.
 	 *     @type string|array $orderby             Field(s) to sort the retrieved users by. May be a single value,
 	 *                                             an array of values, or a multi-dimensional array with fields as
 	 *                                             keys and orders ('ASC' or 'DESC') as values. Accepted values are
@@ -537,8 +538,8 @@ class WP_User_Query {
 			/**
 			 * Filters the columns to search in a WP_User_Query search.
 			 *
-			 * The default columns depend on the search term, and include 'user_email',
-			 * 'user_login', 'ID', 'user_url', 'display_name', and 'user_nicename'.
+			 * The default columns depend on the search term, and include 'ID', 'user_login',
+			 * 'user_email', 'user_url', 'user_nicename', and 'display_name'.
 			 *
 			 * @since 3.6.0
 			 *
