@@ -2158,7 +2158,7 @@ function wp_get_upload_dir() {
 }
 
 /**
- * Get an array containing the current upload directory's path and url.
+ * Returns an array containing the current upload directory's path and URL.
  *
  * Checks the 'upload_path' option, which should be from the web root folder,
  * and if it isn't empty it will be used. If it is empty, then the path will be
@@ -2176,14 +2176,6 @@ function wp_get_upload_dir() {
  * 'error' containing the error message. The error suggests that the parent
  * directory is not writable by the server.
  *
- * On success, the returned array will have many indices:
- * 'path' - base directory and sub directory or full path to upload directory.
- * 'url' - base url and sub directory or absolute URL to upload directory.
- * 'subdir' - sub directory if uploads use year/month folders option is on.
- * 'basedir' - path without subdir.
- * 'baseurl' - URL path without subdir.
- * 'error' - false or error message.
- *
  * @since 2.0.0
  * @uses _wp_upload_dir()
  *
@@ -2194,7 +2186,16 @@ function wp_get_upload_dir() {
  * @param bool   $create_dir Optional. Whether to check and create the uploads directory.
  *                           Default true for backward compatibility.
  * @param bool   $refresh_cache Optional. Whether to refresh the cache. Default false.
- * @return array See above for description.
+ * @return array {
+ *     Array of information about the upload directory.
+ *
+ *     @type string       $path    Base directory and subdirectory or full path to upload directory.
+ *     @type string       $url     Base URL and subdirectory or absolute URL to upload directory.
+ *     @type string       $subdir  Subdirectory if uploads use year/month folders option is on.
+ *     @type string       $basedir Path without subdir.
+ *     @type string       $baseurl URL path without subdir.
+ *     @type string|false $error   False or error message.
+ * }
  */
 function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false ) {
 	static $cache = array(), $tested_paths = array();
@@ -2210,8 +2211,16 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $uploads Array of upload directory data with keys of 'path',
-	 *                       'url', 'subdir, 'basedir', and 'error'.
+	 * @param array $uploads {
+	 *     Array of information about the upload directory.
+	 *
+	 *     @type string       $path    Base directory and subdirectory or full path to upload directory.
+	 *     @type string       $url     Base URL and subdirectory or absolute URL to upload directory.
+	 *     @type string       $subdir  Subdirectory if uploads use year/month folders option is on.
+	 *     @type string       $basedir Path without subdir.
+	 *     @type string       $baseurl URL path without subdir.
+	 *     @type string|false $error   False or error message.
+	 * }
 	 */
 	$uploads = apply_filters( 'upload_dir', $cache[ $key ] );
 
@@ -3611,10 +3620,16 @@ function _scalar_wp_die_handler( $message = '', $title = '', $args = array() ) {
  * @since 5.1.0
  * @access private
  *
- * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
- * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
- * @return array List of processed $message string, $title string, and $args array.
+ * @param string|WP_Error $message Error message or WP_Error object.
+ * @param string          $title   Optional. Error title. Default empty.
+ * @param string|array    $args    Optional. Arguments to control behavior. Default empty array.
+ * @return array {
+ *     Processed arguments.
+ *
+ *     @type string $0 Error message.
+ *     @type string $1 Error title.
+ *     @type array  $2 Arguments to control behavior.
+ * }
  */
 function _wp_die_process_input( $message, $title = '', $args = array() ) {
 	$defaults = array(
