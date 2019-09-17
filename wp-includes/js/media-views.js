@@ -451,16 +451,13 @@ module.exports = Region;
  * @augments Backbone.Model
  * @mixin
  * @mixes Backbone.Events
- *
- * @param {Array} states
  */
-var StateMachine = function( states ) {
-	// @todo This is dead code. The states collection gets created in media.view.Frame._createStates.
-	this.states = new Backbone.Collection( states );
+var StateMachine = function() {
+	return {
+		// Use Backbone's self-propagating `extend` inheritance method.
+		extend: Backbone.Model.extend
+	};
 };
-
-// Use Backbone's self-propagating `extend` inheritance method.
-StateMachine.extend = Backbone.Model.extend;
 
 _.extend( StateMachine.prototype, Backbone.Events,/** @lends wp.media.controller.StateMachine.prototype */{
 	/**
@@ -6247,7 +6244,7 @@ Attachment = View.extend(/** @lends wp.media.view.Attachment.prototype */{
 			this.details( this.model, this.controller.state().get('selection') );
 		}
 
-		this.listenTo( this.controller, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
+		this.listenTo( this.controller.states, 'attachment:compat:waiting attachment:compat:ready', this.updateSave );
 	},
 	/**
 	 * @returns {wp.media.view.Attachment} Returns itself to allow chaining

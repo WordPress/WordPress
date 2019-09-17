@@ -891,7 +891,7 @@ MediaDetails = AttachmentDisplay.extend(/** @lends wp.media.view.MediaDetails.pr
 	initialize: function() {
 		_.bindAll(this, 'success');
 		this.players = [];
-		this.listenTo( this.controller, 'close', wp.media.mixin.unsetPlayers );
+		this.listenTo( this.controller.states, 'close', wp.media.mixin.unsetPlayers );
 		this.on( 'ready', this.setPlayer );
 		this.on( 'media:setting:remove', wp.media.mixin.unsetPlayers, this );
 		this.on( 'media:setting:remove', this.render );
