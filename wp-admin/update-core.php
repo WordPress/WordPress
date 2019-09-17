@@ -172,6 +172,8 @@ function list_core_update( $update ) {
 }
 
 /**
+ * Display dismissed updates.
+ *
  * @since 2.7.0
  */
 function dismissed_updates() {
@@ -285,7 +287,7 @@ function core_upgrade_preamble() {
 /**
  * Display the upgrade plugins form.
  *
- * @since 2.7.0
+ * @since 2.9.0
  */
 function list_plugin_updates() {
 	$wp_version     = get_bloginfo( 'version' );
@@ -434,6 +436,8 @@ function list_plugin_updates() {
 }
 
 /**
+ * Display the upgrade themes form.
+ *
  * @since 2.9.0
  */
 function list_theme_updates() {
@@ -514,6 +518,8 @@ function list_theme_updates() {
 }
 
 /**
+ * Display the update translations form.
+ *
  * @since 3.7.0
  */
 function list_translation_updates() {
@@ -644,6 +650,8 @@ function do_core_upgrade( $reinstall = false ) {
 }
 
 /**
+ * Dismiss a core update.
+ *
  * @since 2.7.0
  */
 function do_dismiss_core_update() {
@@ -659,6 +667,8 @@ function do_dismiss_core_update() {
 }
 
 /**
+ * Undismiss a core update.
+ *
  * @since 2.7.0
  */
 function do_undismiss_core_update() {
