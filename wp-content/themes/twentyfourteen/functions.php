@@ -144,6 +144,8 @@ if ( ! function_exists( 'twentyfourteen_setup' ) ) :
 				'comment-list',
 				'gallery',
 				'caption',
+				'script',
+				'style',
 			)
 		);
 

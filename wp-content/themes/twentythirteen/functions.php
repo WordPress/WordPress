@@ -166,6 +166,8 @@ function twentythirteen_setup() {
 			'comment-list',
 			'gallery',
 			'caption',
+			'script',
+			'style',
 		)
 	);
 

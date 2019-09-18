@@ -106,6 +106,8 @@ if ( ! function_exists( 'twentysixteen_setup' ) ) :
 				'comment-list',
 				'gallery',
 				'caption',
+				'script',
+				'style',
 			)
 		);
 

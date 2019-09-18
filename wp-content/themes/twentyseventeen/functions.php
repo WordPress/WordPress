@@ -77,6 +77,8 @@ function twentyseventeen_setup() {
 			'comment-list',
 			'gallery',
 			'caption',
+			'script',
+			'style',
 		)
 	);
 

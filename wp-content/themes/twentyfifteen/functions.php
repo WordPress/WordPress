@@ -100,6 +100,8 @@ if ( ! function_exists( 'twentyfifteen_setup' ) ) :
 				'comment-list',
 				'gallery',
 				'caption',
+				'script',
+				'style',
 			)
 		);
 
