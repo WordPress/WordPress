@@ -1735,18 +1735,19 @@ function get_the_post_type_description() {
  * @return string HTML link content for archive.
  */
 function get_archives_link( $url, $text, $format = 'html', $before = '', $after = '', $selected = false ) {
-	$text = wptexturize( $text );
-	$url  = esc_url( $url );
+	$text         = wptexturize( $text );
+	$url          = esc_url( $url );
+	$aria_current = $selected ? ' aria-current="page"' : '';
 
-	if ( 'link' == $format ) {
+	if ( 'link' === $format ) {
 		$link_html = "\t<link rel='archives' title='" . esc_attr( $text ) . "' href='$url' />\n";
-	} elseif ( 'option' == $format ) {
+	} elseif ( 'option' === $format ) {
 		$selected_attr = $selected ? " selected='selected'" : '';
 		$link_html     = "\t<option value='$url'$selected_attr>$before $text $after</option>\n";
-	} elseif ( 'html' == $format ) {
-		$link_html = "\t<li>$before<a href='$url'>$text</a>$after</li>\n";
+	} elseif ( 'html' === $format ) {
+		$link_html = "\t<li>$before<a href='$url'$aria_current>$text</a>$after</li>\n";
 	} else { // custom
-		$link_html = "\t$before<a href='$url'>$text</a>$after\n";
+		$link_html = "\t$before<a href='$url'$aria_current>$text</a>$after\n";
 	}
 
 	/**
