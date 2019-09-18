@@ -786,6 +786,9 @@ $_old_files = array(
 	// 5.1
 	'wp-includes/random_compat/random_bytes_openssl.php',
 	'wp-includes/js/tinymce/wp-tinymce.js.gz',
+	// 5.3
+	'wp-includes/js/wp-a11y.js', // Moved to: wp-includes/js/dist/a11y.js
+	'wp-includes/js/wp-a11y.min.js', // Moved to: wp-includes/js/dist/a11y.min.js
 );
 
 /**
