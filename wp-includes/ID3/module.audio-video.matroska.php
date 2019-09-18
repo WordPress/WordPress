@@ -342,7 +342,7 @@ class getid3_matroska extends getid3_handler
 						switch ($trackarray['CodecID']) {
 							case 'A_PCM/INT/LIT':
 							case 'A_PCM/INT/BIG':
-								$track_info['bitrate'] = $trackarray['SamplingFrequency'] * $trackarray['Channels'] * $trackarray['BitDepth'];
+								$track_info['bitrate'] = $track_info['sample_rate'] * $track_info['channels'] * $trackarray['BitDepth'];
 								break;
 
 							case 'A_AC3':
