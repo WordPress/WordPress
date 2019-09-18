@@ -98,6 +98,8 @@ class WP_Widget_Archives extends WP_Widget {
 					$label = __( 'Select Post' );
 					break;
 			}
+
+			$type_attr = current_theme_supports( 'html5', 'script' ) ? '' : ' type="text/javascript"';
 			?>
 
 			<option value=""><?php echo esc_attr( $label ); ?></option>
@@ -105,7 +107,7 @@ class WP_Widget_Archives extends WP_Widget {
 
 		</select>
 
-<script type='text/javascript'>
+<script<?php echo $type_attr; ?>>
 /* <![CDATA[ */
 (function() {
 	var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );

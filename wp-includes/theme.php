@@ -702,7 +702,14 @@ function locale_stylesheet() {
 	if ( empty( $stylesheet ) ) {
 		return;
 	}
-	echo '<link rel="stylesheet" href="' . $stylesheet . '" type="text/css" media="screen" />';
+
+	$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+
+	printf(
+		'<link rel="stylesheet" href="%s"%s media="screen" />',
+		$stylesheet,
+		$type_attr
+	);
 }
 
 /**
@@ -1641,7 +1648,8 @@ function _custom_background_cb() {
 
 	if ( ! $background && ! $color ) {
 		if ( is_customize_preview() ) {
-			echo '<style type="text/css" id="custom-background-css"></style>';
+			$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
+			printf( '<style%s id="custom-background-css"></style>', $type_attr );
 		}
 		return;
 	}
@@ -1693,9 +1701,11 @@ function _custom_background_cb() {
 		$attachment = " background-attachment: $attachment;";
 
 		$style .= $image . $position . $size . $repeat . $attachment;
+
+		$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 	}
 	?>
-<style type="text/css" id="custom-background-css">
+<style<?php echo $type_attr; ?> id="custom-background-css">
 body.custom-background { <?php echo trim( $style ); ?> }
 </style>
 	<?php
@@ -1709,8 +1719,9 @@ body.custom-background { <?php echo trim( $style ); ?> }
 function wp_custom_css_cb() {
 	$styles = wp_get_custom_css();
 	if ( $styles || is_customize_preview() ) :
+		$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 		?>
-		<style type="text/css" id="wp-custom-css">
+		<style<?php echo $type_attr; ?> id="wp-custom-css">
 			<?php echo strip_tags( $styles ); // Note that esc_html() cannot be used because `div &gt; span` is not interpreted properly. ?>
 		</style>
 		<?php
@@ -2335,14 +2346,15 @@ function get_theme_starter_content() {
  *     ) );
  *
  * @since 2.9.0
- * @since 3.6.0 The `html5` feature was added
- * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'
- * @since 4.1.0 The `title-tag` feature was added
- * @since 4.5.0 The `customize-selective-refresh-widgets` feature was added
- * @since 4.7.0 The `starter-content` feature was added
+ * @since 3.6.0 The `html5` feature was added.
+ * @since 3.9.0 The `html5` feature now also accepts 'gallery' and 'caption'.
+ * @since 4.1.0 The `title-tag` feature was added.
+ * @since 4.5.0 The `customize-selective-refresh-widgets` feature was added.
+ * @since 4.7.0 The `starter-content` feature was added.
  * @since 5.0.0 The `responsive-embeds`, `align-wide`, `dark-editor-style`, `disable-custom-colors`,
  *              `disable-custom-font-sizes`, `editor-color-palette`, `editor-font-sizes`,
  *              `editor-styles`, and `wp-block-styles` features were added.
+ * @since 5.3.0 The `html5` feature now also accepts 'script' and 'style'.
  *
  * @global array $_wp_theme_features
  *
@@ -2635,9 +2647,10 @@ function _custom_logo_header_styles() {
 		$classes = array_map( 'sanitize_html_class', $classes );
 		$classes = '.' . implode( ', .', $classes );
 
+		$type_attr = current_theme_supports( 'html5', 'style' ) ? '' : ' type="text/css"';
 		?>
 		<!-- Custom Logo: hide header text -->
-		<style id="custom-logo-css" type="text/css">
+		<style id="custom-logo-css"<?php echo $type_attr; ?>>
 			<?php echo $classes; ?> {
 				position: absolute;
 				clip: rect(1px, 1px, 1px, 1px);
@@ -3196,15 +3209,15 @@ function wp_customize_support_script() {
 	$admin_origin = parse_url( admin_url() );
 	$home_origin  = parse_url( home_url() );
 	$cross_domain = ( strtolower( $admin_origin['host'] ) != strtolower( $home_origin['host'] ) );
-
+	$type_attr    = current_theme_supports( 'html5', 'script' ) ? '' : ' type="text/javascript"';
 	?>
 	<!--[if lte IE 8]>
-		<script type="text/javascript">
+		<script<?php echo $type_attr; ?>>
 			document.body.className = document.body.className.replace( /(^|\s)(no-)?customize-support(?=\s|$)/, '' ) + ' no-customize-support';
 		</script>
 	<![endif]-->
 	<!--[if gte IE 9]><!-->
-		<script type="text/javascript">
+		<script<?php echo $type_attr; ?>>
 			(function() {
 				var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
 
