@@ -126,7 +126,7 @@ class WP_Styles extends WP_Dependencies {
 		 */
 		do_action_ref_array( 'wp_default_styles', array( &$this ) );
 
-		if ( ! current_theme_supports( 'html5', 'style' ) ) {
+		if ( ! is_admin() && ! current_theme_supports( 'html5', 'style' ) ) {
 			$this->type_attr = " type='text/css'";
 		}
 	}

@@ -142,7 +142,7 @@ class WP_Scripts extends WP_Dependencies {
 		$this->init();
 		add_action( 'init', array( $this, 'init' ), 0 );
 
-		if ( ! current_theme_supports( 'html5', 'script' ) ) {
+		if ( ! is_admin() && ! current_theme_supports( 'html5', 'script' ) ) {
 			$this->type_attr = " type='text/javascript'";
 		}
 	}
