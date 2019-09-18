@@ -1187,7 +1187,7 @@ function wp_print_media_templates() {
 					}
 				#>
 				<span class="setting">
-					<label for="audio-details-source" class="name"><?php _e( 'caca URL' ); ?></label>
+					<label for="audio-details-source" class="name"><?php _e( 'URL' ); ?></label>
 					<input type="text" id="audio-details-source" readonly data-setting="src" value="{{ data.model.src }}" />
 					<button type="button" class="button-link remove-setting"><?php _e( 'Remove audio source' ); ?></button>
 				</span>
