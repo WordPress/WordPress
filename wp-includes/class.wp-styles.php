@@ -117,6 +117,10 @@ class WP_Styles extends WP_Dependencies {
 	 * @since 2.6.0
 	 */
 	public function __construct() {
+		if ( ! is_admin() && ! current_theme_supports( 'html5', 'style' ) ) {
+			$this->type_attr = " type='text/css'";
+		}
+
 		/**
 		 * Fires when the WP_Styles instance is initialized.
 		 *
@@ -125,10 +129,6 @@ class WP_Styles extends WP_Dependencies {
 		 * @param WP_Styles $this WP_Styles instance (passed by reference).
 		 */
 		do_action_ref_array( 'wp_default_styles', array( &$this ) );
-
-		if ( ! is_admin() && ! current_theme_supports( 'html5', 'style' ) ) {
-			$this->type_attr = " type='text/css'";
-		}
 	}
 
 	/**

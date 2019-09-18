@@ -141,10 +141,6 @@ class WP_Scripts extends WP_Dependencies {
 	public function __construct() {
 		$this->init();
 		add_action( 'init', array( $this, 'init' ), 0 );
-
-		if ( ! is_admin() && ! current_theme_supports( 'html5', 'script' ) ) {
-			$this->type_attr = " type='text/javascript'";
-		}
 	}
 
 	/**
@@ -153,6 +149,10 @@ class WP_Scripts extends WP_Dependencies {
 	 * @since 3.4.0
 	 */
 	public function init() {
+		if ( ! is_admin() && ! current_theme_supports( 'html5', 'script' ) ) {
+			$this->type_attr = " type='text/javascript'";
+		}
+
 		/**
 		 * Fires when the WP_Scripts instance is initialized.
 		 *
