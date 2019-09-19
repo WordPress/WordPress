@@ -190,7 +190,10 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	?>
 	</head>
-	<body class="login <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+	<body class="login no-js <?php echo esc_attr( implode( ' ', $classes ) ); ?>">
+	<script type="text/javascript">
+		document.body.className = document.body.className.replace('no-js','js');
+	</script>
 	<?php
 	/**
 	 * Fires in the login page header after the body tag is opened.
