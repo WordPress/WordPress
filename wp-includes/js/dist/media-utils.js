@@ -1,4 +1,4 @@
-this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
+this["wp"] = this["wp"] || {}; this["wp"]["mediaUtils"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 397);
+/******/ 	return __webpack_require__(__webpack_require__.s = 402);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -98,6 +98,28 @@ this["wp"] = this["wp"] || {}; this["wp"]["listReusableBlocks"] =
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["i18n"]; }());
+
+/***/ }),
+
+/***/ 10:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 /***/ }),
 
@@ -204,6 +226,39 @@ function _inherits(subClass, superClass) {
 
 /***/ }),
 
+/***/ 17:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+var iterableToArray = __webpack_require__(30);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _toConsumableArray; });
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || Object(iterableToArray["a" /* default */])(arr) || _nonIterableSpread();
+}
+
+/***/ }),
+
 /***/ 2:
 /***/ (function(module, exports) {
 
@@ -219,10 +274,62 @@ module.exports = __webpack_require__(48);
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
+/***/ 23:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["components"]; }());
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(38);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(39);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _iterableToArray; });
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
 
 /***/ }),
 
@@ -256,151 +363,40 @@ function _typeof(obj) {
 
 /***/ }),
 
-/***/ 397:
+/***/ 34:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["blob"]; }());
+
+/***/ }),
+
+/***/ 38:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 39:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+/***/ }),
+
+/***/ 402:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: external {"this":["wp","element"]}
-var external_this_wp_element_ = __webpack_require__(0);
-
-// EXTERNAL MODULE: external {"this":["wp","i18n"]}
-var external_this_wp_i18n_ = __webpack_require__(1);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(20);
-var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
-var asyncToGenerator = __webpack_require__(44);
-
-// EXTERNAL MODULE: external "lodash"
-var external_lodash_ = __webpack_require__(2);
-
-// EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
-var external_this_wp_apiFetch_ = __webpack_require__(32);
-var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/file.js
-/**
- * Downloads a file.
- *
- * @param {string} fileName    File Name.
- * @param {string} content     File Content.
- * @param {string} contentType File mime type.
- */
-function download(fileName, content, contentType) {
-  var file = new window.Blob([content], {
-    type: contentType
-  }); // IE11 can't use the click to download technique
-  // we use a specific IE11 technique instead.
-
-  if (window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(file, fileName);
-  } else {
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-}
-/**
- * Reads the textual content of the given file.
- *
- * @param  {File} file        File.
- * @return {Promise<string>}  Content of the file.
- */
-
-function readTextFile(file) {
-  var reader = new window.FileReader();
-  return new Promise(function (resolve) {
-    reader.onload = function () {
-      resolve(reader.result);
-    };
-
-    reader.readAsText(file);
-  });
-}
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/export.js
-
-
-
-/**
- * External dependencies
- */
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Export a reusable block as a JSON file.
- *
- * @param {number} id
- */
-
-function exportReusableBlock(_x) {
-  return _exportReusableBlock.apply(this, arguments);
-}
-
-function _exportReusableBlock() {
-  _exportReusableBlock = Object(asyncToGenerator["a" /* default */])(
-  /*#__PURE__*/
-  regenerator_default.a.mark(function _callee(id) {
-    var postType, post, title, content, fileContent, fileName;
-    return regenerator_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return external_this_wp_apiFetch_default()({
-              path: "/wp/v2/types/wp_block"
-            });
-
-          case 2:
-            postType = _context.sent;
-            _context.next = 5;
-            return external_this_wp_apiFetch_default()({
-              path: "/wp/v2/".concat(postType.rest_base, "/").concat(id, "?context=edit")
-            });
-
-          case 5:
-            post = _context.sent;
-            title = post.title.raw;
-            content = post.content.raw;
-            fileContent = JSON.stringify({
-              __file: 'wp_block',
-              title: title,
-              content: content
-            }, null, 2);
-            fileName = Object(external_lodash_["kebabCase"])(title) + '.json';
-            download(fileName, fileContent, 'application/json');
-
-          case 11:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _exportReusableBlock.apply(this, arguments);
-}
-
-/* harmony default export */ var utils_export = (exportReusableBlock);
-
-// EXTERNAL MODULE: external {"this":["wp","components"]}
-var external_this_wp_components_ = __webpack_require__(3);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(12);
@@ -420,10 +416,20 @@ var assertThisInitialized = __webpack_require__(5);
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/inherits.js + 1 modules
 var inherits = __webpack_require__(15);
 
-// EXTERNAL MODULE: external {"this":["wp","compose"]}
-var external_this_wp_compose_ = __webpack_require__(8);
+// EXTERNAL MODULE: external "lodash"
+var external_lodash_ = __webpack_require__(2);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/utils/import.js
+// EXTERNAL MODULE: external {"this":["wp","element"]}
+var external_this_wp_element_ = __webpack_require__(0);
+
+// EXTERNAL MODULE: external {"this":["wp","i18n"]}
+var external_this_wp_i18n_ = __webpack_require__(1);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/components/media-upload/index.js
+
+
+
+
 
 
 
@@ -436,234 +442,368 @@ var external_this_wp_compose_ = __webpack_require__(8);
  */
 
 
-/**
- * Internal dependencies
- */
+
+var _window = window,
+    wp = _window.wp;
+
+var getFeaturedImageMediaFrame = function getFeaturedImageMediaFrame() {
+  return wp.media.view.MediaFrame.Select.extend({
+    /**
+     * Enables the Set Featured Image Button.
+     *
+     * @param {Object} toolbar toolbar for featured image state
+     * @return {void}
+     */
+    featuredImageToolbar: function featuredImageToolbar(toolbar) {
+      this.createSelectToolbar(toolbar, {
+        text: wp.media.view.l10n.setFeaturedImage,
+        state: this.options.state
+      });
+    },
+
+    /**
+     * Create the default states.
+     *
+     * @return {void}
+     */
+    createStates: function createStates() {
+      this.on('toolbar:create:featured-image', this.featuredImageToolbar, this);
+      this.states.add([new wp.media.controller.FeaturedImage()]);
+    }
+  });
+}; // Getter for the sake of unit tests.
 
 
-/**
- * Import a reusable block from a JSON file.
- *
- * @param {File}     file File.
- * @return {Promise} Promise returning the imported reusable block.
- */
-
-function importReusableBlock(_x) {
-  return _importReusableBlock.apply(this, arguments);
-}
-
-function _importReusableBlock() {
-  _importReusableBlock = Object(asyncToGenerator["a" /* default */])(
-  /*#__PURE__*/
-  regenerator_default.a.mark(function _callee(file) {
-    var fileContent, parsedContent, postType, reusableBlock;
-    return regenerator_default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return readTextFile(file);
-
-          case 2:
-            fileContent = _context.sent;
-            _context.prev = 3;
-            parsedContent = JSON.parse(fileContent);
-            _context.next = 10;
-            break;
-
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](3);
-            throw new Error('Invalid JSON file');
-
-          case 10:
-            if (!(parsedContent.__file !== 'wp_block' || !parsedContent.title || !parsedContent.content || !Object(external_lodash_["isString"])(parsedContent.title) || !Object(external_lodash_["isString"])(parsedContent.content))) {
-              _context.next = 12;
-              break;
-            }
-
-            throw new Error('Invalid Reusable Block JSON file');
-
-          case 12:
-            _context.next = 14;
-            return external_this_wp_apiFetch_default()({
-              path: "/wp/v2/types/wp_block"
-            });
-
-          case 14:
-            postType = _context.sent;
-            _context.next = 17;
-            return external_this_wp_apiFetch_default()({
-              path: "/wp/v2/".concat(postType.rest_base),
-              data: {
-                title: parsedContent.title,
-                content: parsedContent.content,
-                status: 'publish'
-              },
-              method: 'POST'
-            });
-
-          case 17:
-            reusableBlock = _context.sent;
-            return _context.abrupt("return", reusableBlock);
-
-          case 19:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, null, [[3, 7]]);
-  }));
-  return _importReusableBlock.apply(this, arguments);
-}
-
-/* harmony default export */ var utils_import = (importReusableBlock);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-form/index.js
+var media_upload_getGalleryDetailsMediaFrame = function getGalleryDetailsMediaFrame() {
+  /**
+   * Custom gallery details frame.
+   *
+   * @see https://github.com/xwp/wp-core-media-widgets/blob/905edbccfc2a623b73a93dac803c5335519d7837/wp-admin/js/widgets/media-gallery-widget.js
+   * @class GalleryDetailsMediaFrame
+   * @class
+   */
+  return wp.media.view.MediaFrame.Post.extend({
+    /**
+     * Create the default states.
+     *
+     * @return {void}
+     */
+    createStates: function createStates() {
+      this.states.add([new wp.media.controller.Library({
+        id: 'gallery',
+        title: wp.media.view.l10n.createGalleryTitle,
+        priority: 40,
+        toolbar: 'main-gallery',
+        filterable: 'uploaded',
+        multiple: 'add',
+        editable: false,
+        library: wp.media.query(Object(external_lodash_["defaults"])({
+          type: 'image'
+        }, this.options.library))
+      }), new wp.media.controller.GalleryEdit({
+        library: this.options.selection,
+        editing: this.options.editing,
+        menu: 'gallery',
+        displaySettings: false,
+        multiple: true
+      }), new wp.media.controller.GalleryAdd()]);
+    }
+  });
+}; // the media library image object contains numerous attributes
+// we only need this set to display the image in the library
 
 
+var media_upload_slimImageObject = function slimImageObject(img) {
+  var attrSet = ['sizes', 'mime', 'type', 'subtype', 'id', 'url', 'alt', 'link', 'caption'];
+  return Object(external_lodash_["pick"])(img, attrSet);
+};
 
+var getAttachmentsCollection = function getAttachmentsCollection(ids) {
+  return wp.media.query({
+    order: 'ASC',
+    orderby: 'post__in',
+    post__in: ids,
+    posts_per_page: -1,
+    query: true,
+    type: 'image'
+  });
+};
 
-
-
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-var import_form_ImportForm =
+var media_upload_MediaUpload =
 /*#__PURE__*/
 function (_Component) {
-  Object(inherits["a" /* default */])(ImportForm, _Component);
+  Object(inherits["a" /* default */])(MediaUpload, _Component);
 
-  function ImportForm() {
+  function MediaUpload(_ref) {
     var _this;
 
-    Object(classCallCheck["a" /* default */])(this, ImportForm);
+    var allowedTypes = _ref.allowedTypes,
+        _ref$gallery = _ref.gallery,
+        gallery = _ref$gallery === void 0 ? false : _ref$gallery,
+        _ref$unstableFeatured = _ref.unstableFeaturedImageFlow,
+        unstableFeaturedImageFlow = _ref$unstableFeatured === void 0 ? false : _ref$unstableFeatured,
+        modalClass = _ref.modalClass,
+        _ref$multiple = _ref.multiple,
+        multiple = _ref$multiple === void 0 ? false : _ref$multiple,
+        _ref$title = _ref.title,
+        title = _ref$title === void 0 ? Object(external_this_wp_i18n_["__"])('Select or Upload Media') : _ref$title;
 
-    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(ImportForm).apply(this, arguments));
-    _this.state = {
-      isLoading: false,
-      error: null,
-      file: null
-    };
-    _this.isStillMounted = true;
-    _this.onChangeFile = _this.onChangeFile.bind(Object(assertThisInitialized["a" /* default */])(_this));
-    _this.onSubmit = _this.onSubmit.bind(Object(assertThisInitialized["a" /* default */])(_this));
+    Object(classCallCheck["a" /* default */])(this, MediaUpload);
+
+    _this = Object(possibleConstructorReturn["a" /* default */])(this, Object(getPrototypeOf["a" /* default */])(MediaUpload).apply(this, arguments));
+    _this.openModal = _this.openModal.bind(Object(assertThisInitialized["a" /* default */])(_this));
+    _this.onOpen = _this.onOpen.bind(Object(assertThisInitialized["a" /* default */])(_this));
+    _this.onSelect = _this.onSelect.bind(Object(assertThisInitialized["a" /* default */])(_this));
+    _this.onUpdate = _this.onUpdate.bind(Object(assertThisInitialized["a" /* default */])(_this));
+    _this.onClose = _this.onClose.bind(Object(assertThisInitialized["a" /* default */])(_this));
+
+    if (gallery) {
+      _this.buildAndSetGalleryFrame();
+    } else {
+      var frameConfig = {
+        title: title,
+        button: {
+          text: Object(external_this_wp_i18n_["__"])('Select')
+        },
+        multiple: multiple
+      };
+
+      if (!!allowedTypes) {
+        frameConfig.library = {
+          type: allowedTypes
+        };
+      }
+
+      _this.frame = wp.media(frameConfig);
+    }
+
+    if (modalClass) {
+      _this.frame.$el.addClass(modalClass);
+    }
+
+    if (unstableFeaturedImageFlow) {
+      _this.buildAndSetFeatureImageFrame();
+    }
+
+    _this.initializeListeners();
+
     return _this;
   }
 
-  Object(createClass["a" /* default */])(ImportForm, [{
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.isStillMounted = false;
+  Object(createClass["a" /* default */])(MediaUpload, [{
+    key: "initializeListeners",
+    value: function initializeListeners() {
+      // When an image is selected in the media frame...
+      this.frame.on('select', this.onSelect);
+      this.frame.on('update', this.onUpdate);
+      this.frame.on('open', this.onOpen);
+      this.frame.on('close', this.onClose);
     }
   }, {
-    key: "onChangeFile",
-    value: function onChangeFile(event) {
-      this.setState({
-        file: event.target.files[0]
-      });
-    }
-  }, {
-    key: "onSubmit",
-    value: function onSubmit(event) {
-      var _this2 = this;
+    key: "buildAndSetGalleryFrame",
+    value: function buildAndSetGalleryFrame() {
+      var _this$props = this.props,
+          _this$props$addToGall = _this$props.addToGallery,
+          addToGallery = _this$props$addToGall === void 0 ? false : _this$props$addToGall,
+          allowedTypes = _this$props.allowedTypes,
+          _this$props$multiple = _this$props.multiple,
+          multiple = _this$props$multiple === void 0 ? false : _this$props$multiple,
+          _this$props$value = _this$props.value,
+          value = _this$props$value === void 0 ? null : _this$props$value; // If the value did not changed there is no need to rebuild the frame,
+      // we can continue to use the existing one.
 
-      event.preventDefault();
-      var file = this.state.file;
-      var onUpload = this.props.onUpload;
-
-      if (!file) {
+      if (value === this.lastGalleryValue) {
         return;
       }
 
-      this.setState({
-        isLoading: true
+      this.lastGalleryValue = value; // If a frame already existed remove it.
+
+      if (this.frame) {
+        this.frame.remove();
+      }
+
+      var currentState;
+
+      if (addToGallery) {
+        currentState = 'gallery-library';
+      } else {
+        currentState = value ? 'gallery-edit' : 'gallery';
+      }
+
+      if (!this.GalleryDetailsMediaFrame) {
+        this.GalleryDetailsMediaFrame = media_upload_getGalleryDetailsMediaFrame();
+      }
+
+      var attachments = getAttachmentsCollection(value);
+      var selection = new wp.media.model.Selection(attachments.models, {
+        props: attachments.props.toJSON(),
+        multiple: multiple
       });
-      utils_import(file).then(function (reusableBlock) {
-        if (!_this2.isStillMounted) {
-          return;
-        }
-
-        _this2.setState({
-          isLoading: false
-        });
-
-        onUpload(reusableBlock);
-      }).catch(function (error) {
-        if (!_this2.isStillMounted) {
-          return;
-        }
-
-        var uiMessage;
-
-        switch (error.message) {
-          case 'Invalid JSON file':
-            uiMessage = Object(external_this_wp_i18n_["__"])('Invalid JSON file');
-            break;
-
-          case 'Invalid Reusable Block JSON file':
-            uiMessage = Object(external_this_wp_i18n_["__"])('Invalid Reusable Block JSON file');
-            break;
-
-          default:
-            uiMessage = Object(external_this_wp_i18n_["__"])('Unknown error');
-        }
-
-        _this2.setState({
-          isLoading: false,
-          error: uiMessage
-        });
+      this.frame = new this.GalleryDetailsMediaFrame({
+        mimeType: allowedTypes,
+        state: currentState,
+        multiple: multiple,
+        selection: selection,
+        editing: value ? true : false
       });
+      wp.media.frame = this.frame;
+      this.initializeListeners();
+    }
+  }, {
+    key: "buildAndSetFeatureImageFrame",
+    value: function buildAndSetFeatureImageFrame() {
+      var featuredImageFrame = getFeaturedImageMediaFrame();
+      var attachments = getAttachmentsCollection(this.props.value);
+      var selection = new wp.media.model.Selection(attachments.models, {
+        props: attachments.props.toJSON()
+      });
+      this.frame = new featuredImageFrame({
+        mimeType: this.props.allowedTypes,
+        state: 'featured-image',
+        multiple: this.props.multiple,
+        selection: selection,
+        editing: this.props.value ? true : false
+      });
+      wp.media.frame = this.frame;
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.frame.remove();
+    }
+  }, {
+    key: "onUpdate",
+    value: function onUpdate(selections) {
+      var _this$props2 = this.props,
+          onSelect = _this$props2.onSelect,
+          _this$props2$multiple = _this$props2.multiple,
+          multiple = _this$props2$multiple === void 0 ? false : _this$props2$multiple;
+      var state = this.frame.state();
+      var selectedImages = selections || state.get('selection');
+
+      if (!selectedImages || !selectedImages.models.length) {
+        return;
+      }
+
+      if (multiple) {
+        onSelect(selectedImages.models.map(function (model) {
+          return media_upload_slimImageObject(model.toJSON());
+        }));
+      } else {
+        onSelect(media_upload_slimImageObject(selectedImages.models[0].toJSON()));
+      }
+    }
+  }, {
+    key: "onSelect",
+    value: function onSelect() {
+      var _this$props3 = this.props,
+          onSelect = _this$props3.onSelect,
+          _this$props3$multiple = _this$props3.multiple,
+          multiple = _this$props3$multiple === void 0 ? false : _this$props3$multiple; // Get media attachment details from the frame state
+
+      var attachment = this.frame.state().get('selection').toJSON();
+      onSelect(multiple ? attachment : attachment[0]);
+    }
+  }, {
+    key: "onOpen",
+    value: function onOpen() {
+      this.updateCollection();
+
+      if (!this.props.value) {
+        return;
+      }
+
+      if (!this.props.gallery) {
+        var selection = this.frame.state().get('selection');
+        Object(external_lodash_["castArray"])(this.props.value).forEach(function (id) {
+          selection.add(wp.media.attachment(id));
+        });
+      } // load the images so they are available in the media modal.
+
+
+      getAttachmentsCollection(Object(external_lodash_["castArray"])(this.props.value)).more();
+    }
+  }, {
+    key: "onClose",
+    value: function onClose() {
+      var onClose = this.props.onClose;
+
+      if (onClose) {
+        onClose();
+      }
+    }
+  }, {
+    key: "updateCollection",
+    value: function updateCollection() {
+      var frameContent = this.frame.content.get();
+
+      if (frameContent && frameContent.collection) {
+        var collection = frameContent.collection; // clean all attachments we have in memory.
+
+        collection.toArray().forEach(function (model) {
+          return model.trigger('destroy', model);
+        }); // reset has more flag, if library had small amount of items all items may have been loaded before.
+
+        collection.mirroring._hasMore = true; // request items
+
+        collection.more();
+      }
+    }
+  }, {
+    key: "openModal",
+    value: function openModal() {
+      if (this.props.gallery && this.props.value && this.props.value.length > 0) {
+        this.buildAndSetGalleryFrame();
+      }
+
+      this.frame.open();
     }
   }, {
     key: "render",
     value: function render() {
-      var instanceId = this.props.instanceId;
-      var _this$state = this.state,
-          file = _this$state.file,
-          isLoading = _this$state.isLoading,
-          error = _this$state.error;
-      var inputId = 'list-reusable-blocks-import-form-' + instanceId;
-      return Object(external_this_wp_element_["createElement"])("form", {
-        className: "list-reusable-blocks-import-form",
-        onSubmit: this.onSubmit
-      }, error && Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Notice"], {
-        status: "error"
-      }, error), Object(external_this_wp_element_["createElement"])("label", {
-        htmlFor: inputId,
-        className: "list-reusable-blocks-import-form__label"
-      }, Object(external_this_wp_i18n_["__"])('File')), Object(external_this_wp_element_["createElement"])("input", {
-        id: inputId,
-        type: "file",
-        onChange: this.onChangeFile
-      }), Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-        type: "submit",
-        isBusy: isLoading,
-        disabled: !file || isLoading,
-        isDefault: true,
-        className: "list-reusable-blocks-import-form__button"
-      }, Object(external_this_wp_i18n_["_x"])('Import', 'button label')));
+      return this.props.render({
+        open: this.openModal
+      });
     }
   }]);
 
-  return ImportForm;
+  return MediaUpload;
 }(external_this_wp_element_["Component"]);
 
-/* harmony default export */ var import_form = (Object(external_this_wp_compose_["withInstanceId"])(import_form_ImportForm));
+/* harmony default export */ var media_upload = (media_upload_MediaUpload);
 
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/components/import-dropdown/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/components/index.js
+
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
+var regenerator = __webpack_require__(20);
+var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
+var objectSpread = __webpack_require__(7);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
+var asyncToGenerator = __webpack_require__(44);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
+var toConsumableArray = __webpack_require__(17);
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js + 1 modules
+var slicedToArray = __webpack_require__(23);
+
+// EXTERNAL MODULE: external {"this":["wp","apiFetch"]}
+var external_this_wp_apiFetch_ = __webpack_require__(32);
+var external_this_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_this_wp_apiFetch_);
+
+// EXTERNAL MODULE: external {"this":["wp","blob"]}
+var external_this_wp_blob_ = __webpack_require__(34);
+
+// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/upload-media.js
+
+
+
+
+
 
 
 /**
@@ -676,89 +816,313 @@ function (_Component) {
 
 
 
+
 /**
- * Internal dependencies
+ * Browsers may use unexpected mime types, and they differ from browser to browser.
+ * This function computes a flexible array of mime types from the mime type structured provided by the server.
+ * Converts { jpg|jpeg|jpe: "image/jpeg" } into [ "image/jpeg", "image/jpg", "image/jpeg", "image/jpe" ]
+ * The computation of this array instead of directly using the object,
+ * solves the problem in chrome where mp3 files have audio/mp3 as mime type instead of audio/mpeg.
+ * https://bugs.chromium.org/p/chromium/issues/detail?id=227004
+ *
+ * @param {?Object} wpMimeTypesObject Mime type object received from the server.
+ *                                    Extensions are keys separated by '|' and values are mime types associated with an extension.
+ *
+ * @return {?Array} An array of mime types or the parameter passed if it was "falsy".
  */
 
+function getMimeTypesArray(wpMimeTypesObject) {
+  if (!wpMimeTypesObject) {
+    return wpMimeTypesObject;
+  }
+
+  return Object(external_lodash_["flatMap"])(wpMimeTypesObject, function (mime, extensionsString) {
+    var _mime$split = mime.split('/'),
+        _mime$split2 = Object(slicedToArray["a" /* default */])(_mime$split, 1),
+        type = _mime$split2[0];
+
+    var extensions = extensionsString.split('|');
+    return [mime].concat(Object(toConsumableArray["a" /* default */])(Object(external_lodash_["map"])(extensions, function (extension) {
+      return "".concat(type, "/").concat(extension);
+    })));
+  });
+}
+/**
+ *	Media Upload is used by audio, image, gallery, video, and file blocks to
+ *	handle uploading a media file when a file upload button is activated.
+ *
+ *	TODO: future enhancement to add an upload indicator.
+ *
+ * @param   {Object}   $0                    Parameters object passed to the function.
+ * @param   {?Array}   $0.allowedTypes       Array with the types of media that can be uploaded, if unset all types are allowed.
+ * @param   {?Object}  $0.additionalData     Additional data to include in the request.
+ * @param   {Array}    $0.filesList          List of files.
+ * @param   {?number}  $0.maxUploadFileSize  Maximum upload size in bytes allowed for the site.
+ * @param   {Function} $0.onError            Function called when an error happens.
+ * @param   {Function} $0.onFileChange       Function called each time a file or a temporary representation of the file is available.
+ * @param   {?Object}  $0.wpAllowedMimeTypes List of allowed mime types and file extensions.
+ */
+
+function uploadMedia(_x) {
+  return _uploadMedia.apply(this, arguments);
+}
+/**
+ * @param {File}    file           Media File to Save.
+ * @param {?Object} additionalData Additional data to include in the request.
+ *
+ * @return {Promise} Media Object Promise.
+ */
+
+function _uploadMedia() {
+  _uploadMedia = Object(asyncToGenerator["a" /* default */])(
+  /*#__PURE__*/
+  regenerator_default.a.mark(function _callee(_ref) {
+    var allowedTypes, _ref$additionalData, additionalData, filesList, maxUploadFileSize, _ref$onError, onError, onFileChange, _ref$wpAllowedMimeTyp, wpAllowedMimeTypes, files, filesSet, setAndUpdateFiles, isAllowedType, allowedMimeTypesForUser, isAllowedMimeTypeForUser, triggerError, validFiles, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _mediaFile, idx, mediaFile, savedMedia, mediaObject, message;
+
+    return regenerator_default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            allowedTypes = _ref.allowedTypes, _ref$additionalData = _ref.additionalData, additionalData = _ref$additionalData === void 0 ? {} : _ref$additionalData, filesList = _ref.filesList, maxUploadFileSize = _ref.maxUploadFileSize, _ref$onError = _ref.onError, onError = _ref$onError === void 0 ? external_lodash_["noop"] : _ref$onError, onFileChange = _ref.onFileChange, _ref$wpAllowedMimeTyp = _ref.wpAllowedMimeTypes, wpAllowedMimeTypes = _ref$wpAllowedMimeTyp === void 0 ? null : _ref$wpAllowedMimeTyp;
+            // Cast filesList to array
+            files = Object(toConsumableArray["a" /* default */])(filesList);
+            filesSet = [];
+
+            setAndUpdateFiles = function setAndUpdateFiles(idx, value) {
+              Object(external_this_wp_blob_["revokeBlobURL"])(Object(external_lodash_["get"])(filesSet, [idx, 'url']));
+              filesSet[idx] = value;
+              onFileChange(Object(external_lodash_["compact"])(filesSet));
+            }; // Allowed type specified by consumer
 
 
-function ImportDropdown(_ref) {
-  var onUpload = _ref.onUpload;
-  return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Dropdown"], {
-    position: "bottom right",
-    contentClassName: "list-reusable-blocks-import-dropdown__content",
-    renderToggle: function renderToggle(_ref2) {
-      var isOpen = _ref2.isOpen,
-          onToggle = _ref2.onToggle;
-      return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["Button"], {
-        type: "button",
-        "aria-expanded": isOpen,
-        onClick: onToggle,
-        isPrimary: true
-      }, Object(external_this_wp_i18n_["__"])('Import from JSON'));
-    },
-    renderContent: function renderContent(_ref3) {
-      var onClose = _ref3.onClose;
-      return Object(external_this_wp_element_["createElement"])(import_form, {
-        onUpload: Object(external_lodash_["flow"])(onClose, onUpload)
-      });
-    }
+            isAllowedType = function isAllowedType(fileType) {
+              if (!allowedTypes) {
+                return true;
+              }
+
+              return Object(external_lodash_["some"])(allowedTypes, function (allowedType) {
+                // If a complete mimetype is specified verify if it matches exactly the mime type of the file.
+                if (Object(external_lodash_["includes"])(allowedType, '/')) {
+                  return allowedType === fileType;
+                } // Otherwise a general mime type is used and we should verify if the file mimetype starts with it.
+
+
+                return Object(external_lodash_["startsWith"])(fileType, "".concat(allowedType, "/"));
+              });
+            }; // Allowed types for the current WP_User
+
+
+            allowedMimeTypesForUser = getMimeTypesArray(wpAllowedMimeTypes);
+
+            isAllowedMimeTypeForUser = function isAllowedMimeTypeForUser(fileType) {
+              return Object(external_lodash_["includes"])(allowedMimeTypesForUser, fileType);
+            }; // Build the error message including the filename
+
+
+            triggerError = function triggerError(error) {
+              error.message = [Object(external_this_wp_element_["createElement"])("strong", {
+                key: "filename"
+              }, error.file.name), ': ', error.message];
+              onError(error);
+            };
+
+            validFiles = [];
+            _iteratorNormalCompletion = true;
+            _didIteratorError = false;
+            _iteratorError = undefined;
+            _context.prev = 12;
+            _iterator = files[Symbol.iterator]();
+
+          case 14:
+            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+              _context.next = 34;
+              break;
+            }
+
+            _mediaFile = _step.value;
+
+            if (!(allowedMimeTypesForUser && !isAllowedMimeTypeForUser(_mediaFile.type))) {
+              _context.next = 19;
+              break;
+            }
+
+            triggerError({
+              code: 'MIME_TYPE_NOT_ALLOWED_FOR_USER',
+              message: Object(external_this_wp_i18n_["__"])('Sorry, this file type is not permitted for security reasons.'),
+              file: _mediaFile
+            });
+            return _context.abrupt("continue", 31);
+
+          case 19:
+            if (isAllowedType(_mediaFile.type)) {
+              _context.next = 22;
+              break;
+            }
+
+            triggerError({
+              code: 'MIME_TYPE_NOT_SUPPORTED',
+              message: Object(external_this_wp_i18n_["__"])('Sorry, this file type is not supported here.'),
+              file: _mediaFile
+            });
+            return _context.abrupt("continue", 31);
+
+          case 22:
+            if (!(maxUploadFileSize && _mediaFile.size > maxUploadFileSize)) {
+              _context.next = 25;
+              break;
+            }
+
+            triggerError({
+              code: 'SIZE_ABOVE_LIMIT',
+              message: Object(external_this_wp_i18n_["__"])('This file exceeds the maximum upload size for this site.'),
+              file: _mediaFile
+            });
+            return _context.abrupt("continue", 31);
+
+          case 25:
+            if (!(_mediaFile.size <= 0)) {
+              _context.next = 28;
+              break;
+            }
+
+            triggerError({
+              code: 'EMPTY_FILE',
+              message: Object(external_this_wp_i18n_["__"])('This file is empty.'),
+              file: _mediaFile
+            });
+            return _context.abrupt("continue", 31);
+
+          case 28:
+            validFiles.push(_mediaFile); // Set temporary URL to create placeholder media file, this is replaced
+            // with final file from media gallery when upload is `done` below
+
+            filesSet.push({
+              url: Object(external_this_wp_blob_["createBlobURL"])(_mediaFile)
+            });
+            onFileChange(filesSet);
+
+          case 31:
+            _iteratorNormalCompletion = true;
+            _context.next = 14;
+            break;
+
+          case 34:
+            _context.next = 40;
+            break;
+
+          case 36:
+            _context.prev = 36;
+            _context.t0 = _context["catch"](12);
+            _didIteratorError = true;
+            _iteratorError = _context.t0;
+
+          case 40:
+            _context.prev = 40;
+            _context.prev = 41;
+
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+              _iterator.return();
+            }
+
+          case 43:
+            _context.prev = 43;
+
+            if (!_didIteratorError) {
+              _context.next = 46;
+              break;
+            }
+
+            throw _iteratorError;
+
+          case 46:
+            return _context.finish(43);
+
+          case 47:
+            return _context.finish(40);
+
+          case 48:
+            idx = 0;
+
+          case 49:
+            if (!(idx < validFiles.length)) {
+              _context.next = 68;
+              break;
+            }
+
+            mediaFile = validFiles[idx];
+            _context.prev = 51;
+            _context.next = 54;
+            return createMediaFromFile(mediaFile, additionalData);
+
+          case 54:
+            savedMedia = _context.sent;
+            mediaObject = Object(objectSpread["a" /* default */])({}, Object(external_lodash_["omit"])(savedMedia, ['alt_text', 'source_url']), {
+              alt: savedMedia.alt_text,
+              caption: Object(external_lodash_["get"])(savedMedia, ['caption', 'raw'], ''),
+              title: savedMedia.title.raw,
+              url: savedMedia.source_url
+            });
+            setAndUpdateFiles(idx, mediaObject);
+            _context.next = 65;
+            break;
+
+          case 59:
+            _context.prev = 59;
+            _context.t1 = _context["catch"](51);
+            // Reset to empty on failure.
+            setAndUpdateFiles(idx, null);
+            message = void 0;
+
+            if (Object(external_lodash_["has"])(_context.t1, ['message'])) {
+              message = Object(external_lodash_["get"])(_context.t1, ['message']);
+            } else {
+              message = Object(external_this_wp_i18n_["sprintf"])( // translators: %s: file name
+              Object(external_this_wp_i18n_["__"])('Error while uploading file %s to the media library.'), mediaFile.name);
+            }
+
+            onError({
+              code: 'GENERAL',
+              message: message,
+              file: mediaFile
+            });
+
+          case 65:
+            ++idx;
+            _context.next = 49;
+            break;
+
+          case 68:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[12, 36, 40, 48], [41,, 43, 47], [51, 59]]);
+  }));
+  return _uploadMedia.apply(this, arguments);
+}
+
+function createMediaFromFile(file, additionalData) {
+  // Create upload payload
+  var data = new window.FormData();
+  data.append('file', file, file.name || file.type.replace('/', '.'));
+  Object(external_lodash_["forEach"])(additionalData, function (value, key) {
+    return data.append(key, value);
+  });
+  return external_this_wp_apiFetch_default()({
+    path: '/wp/v2/media',
+    body: data,
+    method: 'POST'
   });
 }
 
-/* harmony default export */ var import_dropdown = (ImportDropdown);
-
-// CONCATENATED MODULE: ./node_modules/@wordpress/list-reusable-blocks/build-module/index.js
+// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/utils/index.js
 
 
-/**
- * WordPress dependencies
- */
+// CONCATENATED MODULE: ./node_modules/@wordpress/media-utils/build-module/index.js
+/* concated harmony reexport MediaUpload */__webpack_require__.d(__webpack_exports__, "MediaUpload", function() { return media_upload; });
+/* concated harmony reexport uploadMedia */__webpack_require__.d(__webpack_exports__, "uploadMedia", function() { return uploadMedia; });
 
 
-/**
- * Internal dependencies
- */
-
-
- // Setup Export Links
-
-document.body.addEventListener('click', function (event) {
-  if (!event.target.classList.contains('wp-list-reusable-blocks__export')) {
-    return;
-  }
-
-  event.preventDefault();
-  utils_export(event.target.dataset.id);
-}); // Setup Import Form
-
-document.addEventListener('DOMContentLoaded', function () {
-  var button = document.querySelector('.page-title-action');
-
-  if (!button) {
-    return;
-  }
-
-  var showNotice = function showNotice() {
-    var notice = document.createElement('div');
-    notice.className = 'notice notice-success is-dismissible';
-    notice.innerHTML = "<p>".concat(Object(external_this_wp_i18n_["__"])('Reusable block imported successfully!'), "</p>");
-    var headerEnd = document.querySelector('.wp-header-end');
-
-    if (!headerEnd) {
-      return;
-    }
-
-    headerEnd.parentNode.insertBefore(notice, headerEnd);
-  };
-
-  var container = document.createElement('div');
-  container.className = 'list-reusable-blocks__container';
-  button.parentNode.insertBefore(container, button);
-  Object(external_this_wp_element_["render"])(Object(external_this_wp_element_["createElement"])(import_dropdown, {
-    onUpload: showNotice
-  }), container);
-});
 
 
 /***/ }),
@@ -1554,10 +1918,31 @@ function _assertThisInitialized(self) {
 
 /***/ }),
 
-/***/ 8:
-/***/ (function(module, exports) {
+/***/ 7:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function() { module.exports = this["wp"]["compose"]; }());
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
+    });
+  }
+
+  return target;
+}
 
 /***/ })
 

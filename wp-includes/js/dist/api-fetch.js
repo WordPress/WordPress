@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 355);
+/******/ 	return __webpack_require__(__webpack_require__.s = 395);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["apiFetch"] =
 
 /***/ }),
 
-/***/ 15:
+/***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -113,6 +113,14 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(48);
+
 
 /***/ }),
 
@@ -160,22 +168,14 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 23:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(54);
-
-
-/***/ }),
-
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 355:
+/***/ 395:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -334,14 +334,14 @@ var createPreloadingMiddleware = function createPreloadingMiddleware(preloadedDa
 /* harmony default export */ var preloading = (createPreloadingMiddleware);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(23);
+var regenerator = __webpack_require__(20);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js
 var asyncToGenerator = __webpack_require__(44);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(25);
+var external_this_wp_url_ = __webpack_require__(26);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/api-fetch/build-module/middlewares/fetch-all-middleware.js
 
@@ -496,7 +496,7 @@ function () {
             return _context.stop();
         }
       }
-    }, _callee, this);
+    }, _callee);
   }));
 
   return function fetchAllMiddleware(_x, _x2) {
@@ -630,6 +630,14 @@ function registerMiddleware(middleware) {
   middlewares.unshift(middleware);
 }
 
+var checkStatus = function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+
+  throw response;
+};
+
 var build_module_defaultFetchHandler = function defaultFetchHandler(nextOptions) {
   var url = nextOptions.url,
       path = nextOptions.path,
@@ -652,14 +660,6 @@ var build_module_defaultFetchHandler = function defaultFetchHandler(nextOptions)
     body: body,
     headers: headers
   }));
-
-  var checkStatus = function checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    }
-
-    throw response;
-  };
 
   var parseResponse = function parseResponse(response) {
     if (parse) {
@@ -727,7 +727,21 @@ function apiFetch(options) {
     };
   };
 
-  return createRunStep(0)(options);
+  return new Promise(function (resolve, reject) {
+    createRunStep(0)(options).then(resolve).catch(function (error) {
+      if (error.code !== 'rest_cookie_invalid_nonce') {
+        return reject(error);
+      } // If the nonce is invalid, refresh it and try again.
+
+
+      window.fetch(apiFetch.nonceEndpoint).then(checkStatus).then(function (data) {
+        return data.text();
+      }).then(function (text) {
+        apiFetch.nonceMiddleware.nonce = text;
+        apiFetch(options).then(resolve).catch(reject);
+      }).catch(reject);
+    });
+  });
 }
 
 apiFetch.use = registerMiddleware;
@@ -784,7 +798,7 @@ function _asyncToGenerator(fn) {
 
 /***/ }),
 
-/***/ 54:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1522,7 +1536,7 @@ try {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {

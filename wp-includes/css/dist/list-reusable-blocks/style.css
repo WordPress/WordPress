@@ -31,6 +31,13 @@
 /**
  * Allows users to opt-out of animations via OS-level preferences.
  */
+/**
+ * Reset default styles for JavaScript UI based pages.
+ * This is a WP-admin agnostic reset
+ */
+/**
+ * Reset the WP Admin page styles for Gutenberg-like pages.
+ */
 .list-reusable-blocks-import-dropdown__content .components-popover__content {
   padding: 10px; }
 

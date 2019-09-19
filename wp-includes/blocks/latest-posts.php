@@ -29,10 +29,12 @@ function render_block_core_latest_posts( $attributes ) {
 
 	$list_items_markup = '';
 
+	$excerpt_length = $attributes['excerptLength'];
+
 	foreach ( $recent_posts as $post ) {
 		$title = get_the_title( $post );
 		if ( ! $title ) {
-			$title = __( '(Untitled)' );
+			$title = __( '(no title)' );
 		}
 		$list_items_markup .= sprintf(
 			'<li><a href="%1$s">%2$s</a>',
@@ -48,10 +50,44 @@ function render_block_core_latest_posts( $attributes ) {
 			);
 		}
 
+		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
+			&& isset( $attributes['displayPostContentRadio'] ) && 'excerpt' === $attributes['displayPostContentRadio'] ) {
+			$post_excerpt = $post->post_excerpt;
+			if ( ! ( $post_excerpt ) ) {
+				$post_excerpt = $post->post_content;
+			}
+			$trimmed_excerpt = esc_html( wp_trim_words( $post_excerpt, $excerpt_length, ' &hellip; ' ) );
+
+			$list_items_markup .= sprintf(
+				'<div class="wp-block-latest-posts__post-excerpt">%1$s',
+				$trimmed_excerpt
+			);
+
+			if ( strpos( $trimmed_excerpt, ' &hellip; ' ) !== false ) {
+				$list_items_markup .= sprintf(
+					'<a href="%1$s">%2$s</a></div>',
+					esc_url( get_permalink( $post ) ),
+					__( 'Read more' )
+				);
+			} else {
+				$list_items_markup .= sprintf(
+					'</div>'
+				);
+			}
+		}
+
+		if ( isset( $attributes['displayPostContent'] ) && $attributes['displayPostContent']
+			&& isset( $attributes['displayPostContentRadio'] ) && 'full_post' === $attributes['displayPostContentRadio'] ) {
+			$list_items_markup .= sprintf(
+				'<div class="wp-block-latest-posts__post-full-content">%1$s</div>',
+				wp_kses_post( html_entity_decode( $post->post_content, ENT_QUOTES, get_option( 'blog_charset' ) ) )
+			);
+		}
+
 		$list_items_markup .= "</li>\n";
 	}
 
-	$class = 'wp-block-latest-posts';
+	$class = 'wp-block-latest-posts wp-block-latest-posts__list';
 	if ( isset( $attributes['align'] ) ) {
 		$class .= ' align' . $attributes['align'];
 	}
@@ -72,13 +108,11 @@ function render_block_core_latest_posts( $attributes ) {
 		$class .= ' ' . $attributes['className'];
 	}
 
-	$block_content = sprintf(
+	return sprintf(
 		'<ul class="%1$s">%2$s</ul>',
 		esc_attr( $class ),
 		$list_items_markup
 	);
-
-	return $block_content;
 }
 
 /**
@@ -89,36 +123,49 @@ function register_block_core_latest_posts() {
 		'core/latest-posts',
 		array(
 			'attributes'      => array(
-				'categories'      => array(
+				'align'                   => array(
+					'type' => 'string',
+					'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
+				),
+				'className'               => array(
 					'type' => 'string',
 				),
-				'className'       => array(
+				'categories'              => array(
 					'type' => 'string',
 				),
-				'postsToShow'     => array(
+				'postsToShow'             => array(
 					'type'    => 'number',
 					'default' => 5,
 				),
-				'displayPostDate' => array(
+				'displayPostContent'      => array(
 					'type'    => 'boolean',
 					'default' => false,
 				),
-				'postLayout'      => array(
+				'displayPostContentRadio' => array(
+					'type'    => 'string',
+					'default' => 'excerpt',
+				),
+				'excerptLength'           => array(
+					'type'    => 'number',
+					'default' => 55,
+				),
+				'displayPostDate'         => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'postLayout'              => array(
 					'type'    => 'string',
 					'default' => 'list',
 				),
-				'columns'         => array(
+				'columns'                 => array(
 					'type'    => 'number',
 					'default' => 3,
 				),
-				'align'           => array(
-					'type' => 'string',
-				),
-				'order'           => array(
+				'order'                   => array(
 					'type'    => 'string',
 					'default' => 'desc',
 				),
-				'orderBy'         => array(
+				'orderBy'                 => array(
 					'type'    => 'string',
 					'default' => 'date',
 				),
@@ -127,5 +174,4 @@ function register_block_core_latest_posts() {
 		)
 	);
 }
-
 add_action( 'init', 'register_block_core_latest_posts' );

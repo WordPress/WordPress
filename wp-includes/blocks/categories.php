@@ -51,13 +51,11 @@ function render_block_core_categories( $attributes ) {
 		$class .= " {$attributes['className']}";
 	}
 
-	$block_content = sprintf(
+	return sprintf(
 		$wrapper_markup,
 		esc_attr( $class ),
 		$items_markup
 	);
-
-	return $block_content;
 }
 
 /**
@@ -94,9 +92,29 @@ function register_block_core_categories() {
 	register_block_type(
 		'core/categories',
 		array(
+			'attributes'      => array(
+				'align'             => array(
+					'type' => 'string',
+					'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
+				),
+				'className'         => array(
+					'type' => 'string',
+				),
+				'displayAsDropdown' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'showHierarchy'     => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'showPostCounts'    => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
 			'render_callback' => 'render_block_core_categories',
 		)
 	);
 }
-
 add_action( 'init', 'register_block_core_categories' );

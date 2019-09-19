@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 340);
+/******/ 	return __webpack_require__(__webpack_require__.s = 378);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 195:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -325,7 +325,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 196:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -351,12 +351,13 @@ module.exports = {
 
 /***/ }),
 
-/***/ 340:
+/***/ 378:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isURL", function() { return isURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isEmail", function() { return isEmail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProtocol", function() { return getProtocol; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isValidProtocol", function() { return isValidProtocol; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAuthority", function() { return getAuthority; });
@@ -375,7 +376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return safeDecodeURIComponent; });
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(85);
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(91);
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * External dependencies
@@ -384,6 +385,14 @@ __webpack_require__.r(__webpack_exports__);
 var URL_REGEXP = /^(?:https?:)?\/\/\S+$/i;
 var EMAIL_REGEXP = /^(mailto:)?[a-z0-9._%+-]+@[a-z0-9][a-z0-9.-]*\.[a-z]{2,63}$/i;
 var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
+/**
+ * @typedef {{[key: string]: QueryArgParsed}} QueryArgObject
+ */
+
+/**
+ * @typedef {string|string[]|QueryArgObject} QueryArgParsed
+ */
+
 /**
  * Determines whether the given string looks like a URL.
  *
@@ -401,6 +410,22 @@ function isURL(url) {
   return URL_REGEXP.test(url);
 }
 /**
+ * Determines whether the given string looks like an email.
+ *
+ * @param {string} email The string to scrutinise.
+ *
+ * @example
+ * ```js
+ * const isEmail = isEmail( 'hello@wordpress.org' ); // true
+ * ```
+ *
+ * @return {boolean} Whether or not it looks like an email.
+ */
+
+function isEmail(email) {
+  return EMAIL_REGEXP.test(email);
+}
+/**
  * Returns the protocol part of the URL.
  *
  * @param {string} url The full URL.
@@ -411,7 +436,7 @@ function isURL(url) {
  * const protocol2 = getProtocol( 'https://wordpress.org' ); // 'https:'
  * ```
  *
- * @return {?string} The protocol part of the URL.
+ * @return {string|void} The protocol part of the URL.
  */
 
 function getProtocol(url) {
@@ -453,7 +478,7 @@ function isValidProtocol(protocol) {
  * const authority2 = getAuthority( 'https://localhost:8080/test/' ); // 'localhost:8080'
  * ```
  *
- * @return {?string} The authority part of the URL.
+ * @return {string|void} The authority part of the URL.
  */
 
 function getAuthority(url) {
@@ -495,7 +520,7 @@ function isValidAuthority(authority) {
  * const path2 = getPath( 'https://wordpress.org/help/faq/' ); // 'help/faq'
  * ```
  *
- * @return {?string} The path part of the URL.
+ * @return {string|void} The path part of the URL.
  */
 
 function getPath(url) {
@@ -537,7 +562,7 @@ function isValidPath(path) {
  * const queryString2 = getQueryString( 'https://wordpress.org#fragment?query=false&search=hello' ); // 'query=false&search=hello'
  * ```
  *
- * @return {?string} The query string part of the URL.
+ * @return {string|void} The query string part of the URL.
  */
 
 function getQueryString(url) {
@@ -579,7 +604,7 @@ function isValidQueryString(queryString) {
  * const fragment2 = getFragment( 'https://wordpress.org#another-fragment?query=true' ); // '#another-fragment'
  * ```
  *
- * @return {?string} The fragment part of the URL.
+ * @return {string|void} The fragment part of the URL.
  */
 
 function getFragment(url) {
@@ -615,9 +640,9 @@ function isValidFragment(fragment) {
  * includes query arguments, the arguments are merged with (and take precedent
  * over) the existing set.
  *
- * @param {?string} url  URL to which arguments should be appended. If omitted,
- *                       only the resulting querystring is returned.
- * @param {Object}  args Query arguments to apply to URL.
+ * @param {string} [url='']  URL to which arguments should be appended. If omitted,
+ *                           only the resulting querystring is returned.
+ * @param {Object} args      Query arguments to apply to URL.
  *
  * @example
  * ```js
@@ -652,15 +677,15 @@ function addQueryArgs() {
 /**
  * Returns a single query argument of the url
  *
- * @param {string} url URL
- * @param {string} arg Query arg name
+ * @param {string} url URL.
+ * @param {string} arg Query arg name.
  *
  * @example
  * ```js
  * const foo = getQueryArg( 'https://wordpress.org?foo=bar&bar=baz', 'foo' ); // bar
  * ```
  *
- * @return {Array|string} Query arg value.
+ * @return {QueryArgParsed|undefined} Query arg value.
  */
 
 function getQueryArg(url, arg) {
@@ -671,8 +696,8 @@ function getQueryArg(url, arg) {
 /**
  * Determines whether the URL contains a given query arg.
  *
- * @param {string} url URL
- * @param {string} arg Query arg name
+ * @param {string} url URL.
+ * @param {string} arg Query arg name.
  *
  * @example
  * ```js
@@ -688,15 +713,15 @@ function hasQueryArg(url, arg) {
 /**
  * Removes arguments from the query string of the url
  *
- * @param {string} url  URL
- * @param {...string} args Query Args
+ * @param {string}    url  URL.
+ * @param {...string} args Query Args.
  *
  * @example
  * ```js
  * const newUrl = removeQueryArgs( 'https://wordpress.org?foo=bar&bar=baz&baz=foobar', 'foo', 'bar' ); // https://wordpress.org?baz=foobar
  * ```
  *
- * @return {string} Updated URL
+ * @return {string} Updated URL.
  */
 
 function removeQueryArgs(url) {
@@ -716,17 +741,19 @@ function removeQueryArgs(url) {
 /**
  * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
  *
- * @param  {string} url The URL to test
+ * @param {string} url The URL to test.
  *
  * @example
  * ```js
  * const actualURL = prependHTTP( 'wordpress.org' ); // http://wordpress.org
  * ```
  *
- * @return {string}     The updated URL
+ * @return {string} The updated URL.
  */
 
 function prependHTTP(url) {
+  url = url.trim();
+
   if (!USABLE_HREF_REGEXP.test(url) && !EMAIL_REGEXP.test(url)) {
     return 'http://' + url;
   }
@@ -797,14 +824,14 @@ function safeDecodeURIComponent(uriComponent) {
 
 /***/ }),
 
-/***/ 341:
+/***/ 379:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(195);
-var formats = __webpack_require__(196);
+var utils = __webpack_require__(222);
+var formats = __webpack_require__(223);
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -1074,13 +1101,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 342:
+/***/ 380:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(195);
+var utils = __webpack_require__(222);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -1324,15 +1351,15 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(341);
-var parse = __webpack_require__(342);
-var formats = __webpack_require__(196);
+var stringify = __webpack_require__(379);
+var parse = __webpack_require__(380);
+var formats = __webpack_require__(223);
 
 module.exports = {
     formats: formats,

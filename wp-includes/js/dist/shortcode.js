@@ -82,7 +82,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["shortcode"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 338);
+/******/ 	return __webpack_require__(__webpack_require__.s = 376);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@ this["wp"] = this["wp"] || {}; this["wp"]["shortcode"] =
 
 /***/ }),
 
-/***/ 338:
+/***/ 376:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -107,7 +107,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMatch", function() { return fromMatch; });
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(41);
+/* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(45);
 /* harmony import */ var memize__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(memize__WEBPACK_IMPORTED_MODULE_1__);
 /**
  * External dependencies
@@ -199,7 +199,6 @@ function next(tag, text) {
  */
 
 function replace(tag, text, callback) {
-  var _arguments = arguments;
   return text.replace(regexp(tag), function (match, left, $3, attrs, slash, content, closing, right) {
     // If both extra brackets exist, the shortcode has been properly
     // escaped.
@@ -208,7 +207,7 @@ function replace(tag, text, callback) {
     } // Create the match object and pass it through the callback.
 
 
-    var result = callback(fromMatch(_arguments)); // Make sure to return any of the extra brackets if they weren't used to
+    var result = callback(fromMatch(arguments)); // Make sure to return any of the extra brackets if they weren't used to
     // escape the shortcode.
 
     return result ? left + result + right : match;
@@ -464,7 +463,7 @@ Object(lodash__WEBPACK_IMPORTED_MODULE_0__["extend"])(shortcode.prototype, {
 
 /***/ }),
 
-/***/ 41:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = function memize( fn, options ) {

@@ -137,7 +137,7 @@ function render_block_core_latest_comments( $attributes = array() ) {
 	}
 	$classnames = esc_attr( $class );
 
-	$block_content = ! empty( $comments ) ? sprintf(
+	return ! empty( $comments ) ? sprintf(
 		'<ol class="%1$s">%2$s</ol>',
 		$classnames,
 		$list_items_markup
@@ -146,40 +146,51 @@ function render_block_core_latest_comments( $attributes = array() ) {
 		$classnames,
 		__( 'No comments to show.' )
 	);
-
-	return $block_content;
 }
 
-register_block_type(
-	'core/latest-comments',
-	array(
-		'attributes'      => array(
-			'align'          => array(
-				'type' => 'string',
-				'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
+/**
+ * Registers the `core/latest-comments` block.
+ */
+function register_block_core_latest_comments() {
+	register_block_type(
+		'core/latest-comments',
+		array(
+			'attributes'      => array(
+				'align'          => array(
+					'type' => 'string',
+					'enum' => array(
+						'left',
+						'center',
+						'right',
+						'wide',
+						'full',
+					),
+				),
+				'className'      => array(
+					'type' => 'string',
+				),
+				'commentsToShow' => array(
+					'type'    => 'number',
+					'default' => 5,
+					'minimum' => 1,
+					'maximum' => 100,
+				),
+				'displayAvatar'  => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'displayDate'    => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'displayExcerpt' => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
 			),
-			'className'      => array(
-				'type' => 'string',
-			),
-			'commentsToShow' => array(
-				'type'    => 'number',
-				'default' => 5,
-				'minimum' => 1,
-				'maximum' => 100,
-			),
-			'displayAvatar'  => array(
-				'type'    => 'boolean',
-				'default' => true,
-			),
-			'displayDate'    => array(
-				'type'    => 'boolean',
-				'default' => true,
-			),
-			'displayExcerpt' => array(
-				'type'    => 'boolean',
-				'default' => true,
-			),
-		),
-		'render_callback' => 'render_block_core_latest_comments',
-	)
-);
+			'render_callback' => 'render_block_core_latest_comments',
+		)
+	);
+}
+
+add_action( 'init', 'register_block_core_latest_comments' );

@@ -82,12 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["notices"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 357);
+/******/ 	return __webpack_require__(__webpack_require__.s = 393);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 15:
+/***/ 10:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -125,7 +125,7 @@ function _arrayWithoutHoles(arr) {
   }
 }
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
-var iterableToArray = __webpack_require__(34);
+var iterableToArray = __webpack_require__(30);
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
@@ -149,15 +149,15 @@ function _toConsumableArray(arr) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(54);
+module.exports = __webpack_require__(48);
 
 
 /***/ }),
 
-/***/ 34:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -168,7 +168,7 @@ function _iterableToArray(iter) {
 
 /***/ }),
 
-/***/ 357:
+/***/ 393:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -186,7 +186,7 @@ __webpack_require__.r(selectors_namespaceObject);
 __webpack_require__.d(selectors_namespaceObject, "getNotices", function() { return getNotices; });
 
 // EXTERNAL MODULE: external {"this":["wp","data"]}
-var external_this_wp_data_ = __webpack_require__(5);
+var external_this_wp_data_ = __webpack_require__(4);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js + 2 modules
 var toConsumableArray = __webpack_require__(17);
@@ -195,7 +195,7 @@ var toConsumableArray = __webpack_require__(17);
 var external_lodash_ = __webpack_require__(2);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
-var defineProperty = __webpack_require__(15);
+var defineProperty = __webpack_require__(10);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/objectSpread.js
 var objectSpread = __webpack_require__(7);
@@ -283,7 +283,7 @@ var notices = on_sub_key('context')(function () {
 /* harmony default export */ var store_reducer = (notices);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/regenerator/index.js
-var regenerator = __webpack_require__(23);
+var regenerator = __webpack_require__(20);
 var regenerator_default = /*#__PURE__*/__webpack_require__.n(regenerator);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/constants.js
@@ -322,25 +322,24 @@ regenerator_default.a.mark(createNotice);
 /**
  * Yields action objects used in signalling that a notice is to be created.
  *
- * @param {?string}                status                Notice status.
- *                                                       Defaults to `info`.
- * @param {string}                 content               Notice message.
- * @param {?Object}                options               Notice options.
- * @param {?string}                options.context       Context under which to
- *                                                       group notice.
- * @param {?string}                options.id            Identifier for notice.
- *                                                       Automatically assigned
- *                                                       if not specified.
- * @param {?boolean}               options.isDismissible Whether the notice can
- *                                                       be dismissed by user.
- *                                                       Defaults to `true`.
- * @param {?boolean}               options.speak         Whether the notice
- *                                                       content should be
- *                                                       announced to screen
- *                                                       readers. Defaults to
- *                                                       `true`.
- * @param {?Array<WPNoticeAction>} options.actions       User actions to be
- *                                                       presented with notice.
+ * @param {string}                [status='info']              Notice status.
+ * @param {string}                content                      Notice message.
+ * @param {Object}                [options]                    Notice options.
+ * @param {string}                [options.context='global']   Context under which to
+ *                                                             group notice.
+ * @param {string}                [options.id]                 Identifier for notice.
+ *                                                             Automatically assigned
+ *                                                             if not specified.
+ * @param {boolean}               [options.isDismissible=true] Whether the notice can
+ *                                                             be dismissed by user.
+ * @param {string}                [options.type='default']     Type of notice, one of
+ *                                                             `default`, or `snackbar`.
+ * @param {boolean}               [options.speak=true]         Whether the notice
+ *                                                             content should be
+ *                                                             announced to screen
+ *                                                             readers.
+ * @param {Array<WPNoticeAction>} [options.actions]            User actions to be
+ *                                                             presented with notice.
  */
 
 function createNotice() {
@@ -357,6 +356,8 @@ function createNotice() {
       id,
       _options$actions,
       actions,
+      _options$type,
+      type,
       __unstableHTML,
       _args = arguments;
 
@@ -367,7 +368,7 @@ function createNotice() {
           status = _args.length > 0 && _args[0] !== undefined ? _args[0] : DEFAULT_STATUS;
           content = _args.length > 1 ? _args[1] : undefined;
           options = _args.length > 2 && _args[2] !== undefined ? _args[2] : {};
-          _options$speak = options.speak, speak = _options$speak === void 0 ? true : _options$speak, _options$isDismissibl = options.isDismissible, isDismissible = _options$isDismissibl === void 0 ? true : _options$isDismissibl, _options$context = options.context, context = _options$context === void 0 ? DEFAULT_CONTEXT : _options$context, _options$id = options.id, id = _options$id === void 0 ? Object(external_lodash_["uniqueId"])(context) : _options$id, _options$actions = options.actions, actions = _options$actions === void 0 ? [] : _options$actions, __unstableHTML = options.__unstableHTML; // The supported value shape of content is currently limited to plain text
+          _options$speak = options.speak, speak = _options$speak === void 0 ? true : _options$speak, _options$isDismissibl = options.isDismissible, isDismissible = _options$isDismissibl === void 0 ? true : _options$isDismissibl, _options$context = options.context, context = _options$context === void 0 ? DEFAULT_CONTEXT : _options$context, _options$id = options.id, id = _options$id === void 0 ? Object(external_lodash_["uniqueId"])(context) : _options$id, _options$actions = options.actions, actions = _options$actions === void 0 ? [] : _options$actions, _options$type = options.type, type = _options$type === void 0 ? 'default' : _options$type, __unstableHTML = options.__unstableHTML; // The supported value shape of content is currently limited to plain text
           // strings. To avoid setting expectation that e.g. a WPElement could be
           // supported, cast to a string.
 
@@ -381,7 +382,8 @@ function createNotice() {
           _context.next = 8;
           return {
             type: 'SPEAK',
-            message: content
+            message: content,
+            ariaLive: type === 'snackbar' ? 'polite' : 'assertive'
           };
 
         case 8:
@@ -395,7 +397,8 @@ function createNotice() {
               content: content,
               __unstableHTML: __unstableHTML,
               isDismissible: isDismissible,
-              actions: actions
+              actions: actions,
+              type: type
             }
           };
 
@@ -404,7 +407,7 @@ function createNotice() {
           return _context.stop();
       }
     }
-  }, _marked, this);
+  }, _marked);
 }
 /**
  * Returns an action object used in signalling that a success notice is to be
@@ -412,8 +415,8 @@ function createNotice() {
  *
  * @see createNotice
  *
- * @param {string}  content Notice message.
- * @param {?Object} options Optional notice options.
+ * @param {string} content   Notice message.
+ * @param {Object} [options] Optional notice options.
  *
  * @return {Object} Action object.
  */
@@ -427,8 +430,8 @@ function createSuccessNotice(content, options) {
  *
  * @see createNotice
  *
- * @param {string}  content Notice message.
- * @param {?Object} options Optional notice options.
+ * @param {string} content   Notice message.
+ * @param {Object} [options] Optional notice options.
  *
  * @return {Object} Action object.
  */
@@ -442,8 +445,8 @@ function createInfoNotice(content, options) {
  *
  * @see createNotice
  *
- * @param {string}  content Notice message.
- * @param {?Object} options Optional notice options.
+ * @param {string} content   Notice message.
+ * @param {Object} [options] Optional notice options.
  *
  * @return {Object} Action object.
  */
@@ -457,8 +460,8 @@ function createErrorNotice(content, options) {
  *
  * @see createNotice
  *
- * @param {string}  content Notice message.
- * @param {?Object} options Optional notice options.
+ * @param {string} content   Notice message.
+ * @param {Object} [options] Optional notice options.
  *
  * @return {Object} Action object.
  */
@@ -469,9 +472,9 @@ function createWarningNotice(content, options) {
 /**
  * Returns an action object used in signalling that a notice is to be removed.
  *
- * @param {string}  id      Notice unique identifier.
- * @param {?string} context Optional context (grouping) in which the notice is
- *                          intended to appear. Defaults to default context.
+ * @param {string} id                 Notice unique identifier.
+ * @param {string} [context='global'] Optional context (grouping) in which the notice is
+ *                                    intended to appear. Defaults to default context.
  *
  * @return {Object} Action object.
  */
@@ -502,7 +505,7 @@ function removeNotice(id) {
 
 var DEFAULT_NOTICES = [];
 /**
- * Notice object.
+ * @typedef {Object} WPNotice Notice object.
  *
  * @property {string}  id               Unique identifier of notice.
  * @property {string}  status           Status of notice, one of `success`,
@@ -516,21 +519,24 @@ var DEFAULT_NOTICES = [];
  *                                      removal without notice.
  * @property {boolean} isDismissible    Whether the notice can be dismissed by
  *                                      user. Defaults to `true`.
+ * @property {string}  type             Type of notice, one of `default`,
+ *                                      or `snackbar`. Defaults to `default`.
+ * @property {boolean} speak            Whether the notice content should be
+ *                                      announced to screen readers. Defaults to
+ *                                      `true`.
  * @property {WPNoticeAction[]} actions User actions to present with notice.
  *
- * @typedef {WPNotice}
  */
 
 /**
- * Object describing a user action option associated with a notice.
+ * @typedef {Object} WPNoticeAction Object describing a user action option associated with a notice.
  *
  * @property {string}    label    Message to use as action label.
  * @property {?string}   url      Optional URL of resource if action incurs
  *                                browser navigation.
- * @property {?Function} callback Optional function to invoke when action is
+ * @property {?Function} onClick  Optional function to invoke when action is
  *                                triggered by user.
  *
- * @typedef {WPNoticeAction}
  */
 
 /**
@@ -549,7 +555,7 @@ function getNotices(state) {
 }
 
 // EXTERNAL MODULE: external {"this":["wp","a11y"]}
-var external_this_wp_a11y_ = __webpack_require__(48);
+var external_this_wp_a11y_ = __webpack_require__(46);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/notices/build-module/store/controls.js
 /**
@@ -558,7 +564,7 @@ var external_this_wp_a11y_ = __webpack_require__(48);
 
 /* harmony default export */ var controls = ({
   SPEAK: function SPEAK(action) {
-    Object(external_this_wp_a11y_["speak"])(action.message, 'assertive');
+    Object(external_this_wp_a11y_["speak"])(action.message, action.ariaLive || 'assertive');
   }
 });
 
@@ -591,21 +597,21 @@ var external_this_wp_a11y_ = __webpack_require__(48);
 
 /***/ }),
 
-/***/ 48:
-/***/ (function(module, exports) {
-
-(function() { module.exports = this["wp"]["a11y"]; }());
-
-/***/ }),
-
-/***/ 5:
+/***/ 4:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["data"]; }());
 
 /***/ }),
 
-/***/ 54:
+/***/ 46:
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["a11y"]; }());
+
+/***/ }),
+
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -1343,7 +1349,7 @@ try {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
