@@ -138,7 +138,7 @@ window.wp = window.wp || {};
 					data: {
 						action: 'media-create-image-subsizes',
 						_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-						_wp_temp_image_ref: file.id,
+						_wp_temp_upload_ref: file.id,
 						_wp_upload_failed_cleanup: true,
 					}
 				});
@@ -161,7 +161,7 @@ window.wp = window.wp || {};
 				data: {
 					action: 'media-create-image-subsizes',
 					_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-					_wp_temp_image_ref: file.id, // Used to find the new attachment_id.
+					_wp_temp_upload_ref: file.id, // Used to find the new attachment_id.
 				}
 			}).done( function( response ) {
 				if ( response.success ) {
@@ -324,9 +324,9 @@ window.wp = window.wp || {};
 		 */
 		this.uploader.bind( 'BeforeUpload', function( up, file ) {
 			if ( file.type && file.type.indexOf( 'image/' ) === 0 ) {
-				up.settings.multipart_params._wp_temp_image_ref = file.id;
+				up.settings.multipart_params._wp_temp_upload_ref = file.id;
 			} else {
-				up.settings.multipart_params._wp_temp_image_ref = '';
+				up.settings.multipart_params._wp_temp_upload_ref = '';
 			}
 		} );
 

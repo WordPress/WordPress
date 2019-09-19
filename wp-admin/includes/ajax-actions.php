@@ -2422,20 +2422,17 @@ function wp_ajax_media_create_image_subsizes() {
 		wp_send_json_error( array( 'message' => __( 'Sorry, you are not allowed to upload files.' ) ) );
 	}
 
-	// Using Plupload `file.id` as ref.
-	if ( ! empty( $_POST['_wp_temp_image_ref'] ) ) {
-		$image_ref = preg_replace( '/[^a-zA-Z0-9_]/', '', $_POST['_wp_temp_image_ref'] );
+	if ( ! empty( $_POST['_wp_temp_upload_ref'] ) ) {
+		// Uploading of images usually fails while creating the sub-sizes, either because of a timeout or out of memory.
+		// At this point the file has been uploaded and an attachment post created, but because of the PHP fatal error
+		// the cliend doesn't know the attachment ID yet.
+		// To be able to find the new attachment_id in these cases we temporarily store an upload reference sent by the client
+		// in the original upload request. It is used to save a transient with the attachment_id as value.
+		// That reference currently is Plupload's `file.id` but can be any sufficiently random alpha-numeric string.
+		$attachment_id = _wp_get_upload_ref_attachment_id( $_POST['_wp_temp_upload_ref'] );
 	} else {
 		wp_send_json_error( array( 'message' => __( 'Invalid file reference.' ) ) );
 	}
-
-	// Uploading of images usually fails while creating the sub-sizes, either because of a timeout or out of memory.
-	// At this point the file has been uploaded and an attachment post created, but because of the PHP fatal error
-	// the cliend doesn't know the attachment ID yet.
-	// To be able to find the new attachment_id in these cases we temporarily store an upload reference sent by the client
-	// in the original upload request. It is used to save a transient with the attachment_id as value.
-	// That reference currently is Plupload's `file.id` but can be any sufficiently random alpha-numeric string.
-	$attachment_id = get_transient( '_wp_temp_image_ref:' . $image_ref );
 
 	if ( empty( $attachment_id ) ) {
 		wp_send_json_error( array( 'message' => __( 'Upload failed. Please reload and try again.' ) ) );
@@ -2481,7 +2478,7 @@ function wp_ajax_media_create_image_subsizes() {
 	}
 
 	// At this point the image has been uploaded successfully.
-	delete_transient( '_wp_temp_image_ref:' . $image_ref );
+	_wp_clear_upload_ref( $_POST['_wp_temp_upload_ref'] );
 
 	wp_send_json_success( $response );
 }

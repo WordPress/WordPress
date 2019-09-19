@@ -450,7 +450,7 @@ jQuery( document ).ready( function( $ ) {
 				data: {
 					action: 'media-create-image-subsizes',
 					_wpnonce: _wpPluploadSettings.defaults.multipart_params._wpnonce,
-					_wp_temp_image_ref: file.id,
+					_wp_temp_upload_ref: file.id,
 					_wp_upload_failed_cleanup: true,
 				}
 			});
@@ -478,7 +478,7 @@ jQuery( document ).ready( function( $ ) {
 			data: {
 				action: 'media-create-image-subsizes',
 				_wpnonce: wpUploaderInit.multipart_params._wpnonce,
-				_wp_temp_image_ref: file.id,
+				_wp_temp_upload_ref: file.id,
 				_legasy_support: 'true',
 			}
 		}).done( function( response ) {
@@ -599,9 +599,9 @@ jQuery( document ).ready( function( $ ) {
 		 */
 		uploader.bind( 'BeforeUpload', function( up, file ) {
 			if ( file.type && file.type.indexOf( 'image/' ) === 0 ) {
-				up.settings.multipart_params._wp_temp_image_ref = file.id;
+				up.settings.multipart_params._wp_temp_upload_ref = file.id;
 			} else {
-				up.settings.multipart_params._wp_temp_image_ref = '';
+				up.settings.multipart_params._wp_temp_upload_ref = '';
 			}
 		} );
 	};

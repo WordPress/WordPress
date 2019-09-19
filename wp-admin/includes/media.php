@@ -308,13 +308,13 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 	$ext  = pathinfo( $name, PATHINFO_EXTENSION );
 	$name = wp_basename( $name, ".$ext" );
 
-	$url       = $file['url'];
-	$type      = $file['type'];
-	$file      = $file['file'];
-	$title     = sanitize_text_field( $name );
-	$content   = '';
-	$excerpt   = '';
-	$image_ref = false;
+	$url     = $file['url'];
+	$type    = $file['type'];
+	$file    = $file['file'];
+	$title   = sanitize_text_field( $name );
+	$content = '';
+	$excerpt = '';
+	$_ref    = false;
 
 	if ( preg_match( '#^audio#', $type ) ) {
 		$meta = wp_read_audio_metadata( $file );
@@ -376,11 +376,6 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 
 		// Use image exif/iptc data for title and caption defaults if possible.
 	} elseif ( 0 === strpos( $type, 'image/' ) ) {
-		// Image file reference passed by the uploader.
-		if ( ! empty( $_POST['_wp_temp_image_ref'] ) ) {
-			$image_ref = preg_replace( '/[^a-zA-Z0-9_]/', '', $_POST['_wp_temp_image_ref'] );
-		}
-
 		$image_meta = wp_read_image_metadata( $file );
 
 		if ( $image_meta ) {
@@ -415,8 +410,8 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 
 	if ( ! is_wp_error( $attachment_id ) ) {
 		// If an image, keep the upload reference until all image sub-sizes are created.
-		if ( $image_ref ) {
-			set_transient( '_wp_temp_image_ref:' . $image_ref, $attachment_id, HOUR_IN_SECONDS );
+		if ( ! empty( $_POST['_wp_temp_upload_ref'] ) && wp_attachment_is_image( $attachment_id ) ) {
+			$_ref = _wp_set_upload_ref( $_POST['_wp_temp_upload_ref'], $attachment_id );
 		}
 
 		// The image sub-sizes are created during wp_generate_attachment_metadata().
@@ -425,8 +420,8 @@ function media_handle_upload( $file_id, $post_id, $post_data = array(), $overrid
 
 		// At this point the image is uploaded successfully even if there were specific errors or some sub-sizes were not created.
 		// The transient is not needed any more.
-		if ( $image_ref ) {
-			delete_transient( '_wp_temp_image_ref:' . $image_ref );
+		if ( $_ref ) {
+			_wp_clear_upload_ref( $_POST['_wp_temp_upload_ref'] );
 		}
 	}
 
