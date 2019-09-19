@@ -131,13 +131,10 @@ function wp_check_php_mysql_versions() {
 	$php_version = phpversion();
 
 	if ( version_compare( $required_php_version, $php_version, '>' ) ) {
-		wp_load_translations_early();
-
 		$protocol = wp_get_server_protocol();
 		header( sprintf( '%s 500 Internal Server Error', $protocol ), true, 500 );
 		header( 'Content-Type: text/html; charset=utf-8' );
-		/* translators: 1: Current PHP version number, 2: WordPress version number, 3: Minimum required PHP version number. */
-		printf( __( 'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.' ), $php_version, $wp_version, $required_php_version );
+		printf( 'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.', $php_version, $wp_version, $required_php_version );
 		exit( 1 );
 	}
 
