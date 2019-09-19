@@ -1115,23 +1115,27 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *              to support an array of data to attach to registered meta keys}. Previous arguments for
  *              `$sanitize_callback` and `$auth_callback` have been folded into this array.
  * @since 4.9.8 The `$object_subtype` argument was added to the arguments array.
+ * @since 5.3.0 Valid meta types expanded to include "array" and "object".
  *
  * @param string $object_type    Type of object this meta is registered to.
  * @param string $meta_key       Meta key to register.
  * @param array  $args {
  *     Data used to describe the meta key when registered.
  *
- *     @type string $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,
- *                                     the meta key will be registered on the entire object type. Default empty.
- *     @type string $type              The type of data associated with this meta key.
- *                                     Valid values are 'string', 'boolean', 'integer', and 'number'.
- *     @type string $description       A description of the data attached to this meta key.
- *     @type bool   $single            Whether the meta key has one value per object, or an array of values per object.
- *     @type string $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
- *     @type string $auth_callback     Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
- *     @type bool   $show_in_rest      Whether data associated with this meta key can be considered public and
- *                                     should be accessible via the REST API. A custom post type must also declare
- *                                     support for custom fields for registered meta to be accessible via REST.
+ *     @type string     $object_subtype    A subtype; e.g. if the object type is "post", the post type. If left empty,
+ *                                         the meta key will be registered on the entire object type. Default empty.
+ *     @type string     $type              The type of data associated with this meta key.
+ *                                         Valid values are 'string', 'boolean', 'integer', 'number', 'array', and 'object'.
+ *     @type string     $description       A description of the data attached to this meta key.
+ *     @type bool       $single            Whether the meta key has one value per object, or an array of values per object.
+ *     @type string     $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
+ *     @type string     $auth_callback     Optional. A function or method to call when performing edit_post_meta,
+ *                                         add_post_meta, and delete_post_meta capability checks.
+ *     @type bool|array $show_in_rest      Whether data associated with this meta key can be considered public and
+ *                                         should be accessible via the REST API. A custom post type must also declare
+ *                                         support for custom fields for registered meta to be accessible via REST.
+ *                                         When registering complex meta values this argument may optionally be an
+ *                                         array with 'schema' or 'prepare_callback' keys instead of a boolean.
  * }
  * @param string|array $deprecated Deprecated. Use `$args` instead.
  *
@@ -1187,6 +1191,15 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	 */
 	$args = apply_filters( 'register_meta_args', $args, $defaults, $object_type, $meta_key );
 	$args = wp_parse_args( $args, $defaults );
+
+	// Require an item schema when registering array meta.
+	if ( false !== $args['show_in_rest'] && 'array' === $args['type'] ) {
+		if ( ! is_array( $args['show_in_rest'] ) || ! isset( $args['show_in_rest']['schema']['items'] ) ) {
+			_doing_it_wrong( __FUNCTION__, __( 'When registering an "array" meta type to show in the REST API, you must specify the schema for each array item in "show_in_rest.schema.items".' ), '5.3.0' );
+
+			return false;
+		}
+	}
 
 	$object_subtype = ! empty( $args['object_subtype'] ) ? $args['object_subtype'] : '';
 
