@@ -614,6 +614,7 @@ class WP_Query {
 	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced the `$lazy_load_term_meta` argument.
 	 * @since 4.9.0 Introduced the `$comment_count` parameter.
 	 * @since 5.1.0 Introduced the `$meta_compare_key` parameter.
+	 * @since 5.3.0 Introduced the `$meta_type_key` parameter.
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
@@ -655,6 +656,7 @@ class WP_Query {
 	 *     @type array        $meta_query              An associative array of WP_Meta_Query arguments. See WP_Meta_Query.
 	 *     @type string       $meta_value              Custom field value.
 	 *     @type int          $meta_value_num          Custom field value number.
+	 *     @type string       $meta_type_key           Cast for 'meta_key'. See WP_Meta_Query::construct().
 	 *     @type int          $menu_order              The menu order of the posts.
 	 *     @type int          $monthnum                The two-digit month. Default empty. Accepts numbers 1-12.
 	 *     @type string       $name                    Post slug.

@@ -100,6 +100,8 @@ class WP_Meta_Query {
 	 * @since 3.2.0
 	 * @since 4.2.0 Introduced support for naming query clauses by associative array keys.
 	 * @since 5.1.0 Introduced $compare_key clause parameter, which enables LIKE key matches.
+	 * @since 5.3.0 Increased the number of operators available to $compare_key. Introduced $type_key,
+	 *              which enables the $key to be cast to a new data type for comparisons.
 	 *
 	 * @param array $meta_query {
 	 *     Array of meta query clauses. When first-order clauses or sub-clauses use strings as
@@ -111,8 +113,13 @@ class WP_Meta_Query {
 	 *         Optional. An array of first-order clause parameters, or another fully-formed meta query.
 	 *
 	 *         @type string $key         Meta key to filter by.
-	 *         @type string $compare_key MySQL operator used for comparing the $key. Accepts '=' and 'LIKE'.
-	 *                                   Default '='.
+	 *         @type string $compare_key MySQL operator used for comparing the $key. Accepts '=', '!='
+	 *                                   'LIKE', 'NOT LIKE', 'IN', 'NOT IN', 'REGEXP', 'NOT REGEXP', 'RLIKE',
+	 *                                   'EXISTS' (alias of '=') or 'NOT EXISTS' (alias of '!=').
+	 *                                   Default is 'IN' when `$key` is an array, '=' otherwise.
+	 *         @type string $type_key    MySQL data type that the meta_key column will be CAST to for
+	 *                                   comparisons. Accepts 'BINARY' for case-sensitive regular expression
+	 *                                   comparisons. Default is ''.
 	 *         @type string $value       Meta value to filter by.
 	 *         @type string $compare     MySQL operator used for comparing the $value. Accepts '=',
 	 *                                   '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE',
@@ -239,7 +246,7 @@ class WP_Meta_Query {
 		 * the rest of the meta_query).
 		 */
 		$primary_meta_query = array();
-		foreach ( array( 'key', 'compare', 'type', 'compare_key' ) as $key ) {
+		foreach ( array( 'key', 'compare', 'type', 'compare_key', 'type_key' ) as $key ) {
 			if ( ! empty( $qv[ "meta_$key" ] ) ) {
 				$primary_meta_query[ $key ] = $qv[ "meta_$key" ];
 			}
@@ -498,34 +505,40 @@ class WP_Meta_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		if ( ! in_array(
-			$clause['compare'],
-			array(
-				'=',
-				'!=',
-				'>',
-				'>=',
-				'<',
-				'<=',
-				'LIKE',
-				'NOT LIKE',
-				'IN',
-				'NOT IN',
-				'BETWEEN',
-				'NOT BETWEEN',
-				'EXISTS',
-				'NOT EXISTS',
-				'REGEXP',
-				'NOT REGEXP',
-				'RLIKE',
-			)
-		) ) {
+		$non_numeric_operators = array(
+			'=',
+			'!=',
+			'LIKE',
+			'NOT LIKE',
+			'IN',
+			'NOT IN',
+			'EXISTS',
+			'NOT EXISTS',
+			'RLIKE',
+			'REGEXP',
+			'NOT REGEXP',
+		);
+
+		$numeric_operators = array(
+			'>',
+			'>=',
+			'<',
+			'<=',
+			'BETWEEN',
+			'NOT BETWEEN',
+		);
+
+		if ( ! in_array( $clause['compare'], $non_numeric_operators, true ) && ! in_array( $clause['compare'], $numeric_operators, true ) ) {
 			$clause['compare'] = '=';
 		}
 
-		if ( isset( $clause['compare_key'] ) && 'LIKE' === strtoupper( $clause['compare_key'] ) ) {
+		if ( isset( $clause['compare_key'] ) ) {
 			$clause['compare_key'] = strtoupper( $clause['compare_key'] );
 		} else {
+			$clause['compare_key'] = isset( $clause['key'] ) && is_array( $clause['key'] ) ? 'IN' : '=';
+		}
+
+		if ( ! in_array( $clause['compare_key'], $non_numeric_operators, true ) ) {
 			$clause['compare_key'] = '=';
 		}
 
@@ -594,11 +607,79 @@ class WP_Meta_Query {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$sql_chunks['where'][] = $alias . '.' . $this->meta_id_column . ' IS NULL';
 			} else {
-				if ( 'LIKE' === $meta_compare_key ) {
-					$sql_chunks['where'][] = $wpdb->prepare( "$alias.meta_key LIKE %s", '%' . $wpdb->esc_like( trim( $clause['key'] ) ) . '%' );
-				} else {
-					$sql_chunks['where'][] = $wpdb->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
+				/**
+				 * In joined clauses negative operators have to be nested into a
+				 * NOT EXISTS clause and flipped, to avoid returning records with
+				 * matching post IDs but different meta keys. Here we prepare the
+				 * nested clause.
+				 */
+				if ( in_array( $meta_compare_key, array( '!=', 'NOT IN', 'NOT LIKE', 'NOT EXISTS', 'NOT REGEXP' ), true ) ) {
+					// Negative clauses may be reused.
+					$i                     = count( $this->table_aliases );
+					$subquery_alias        = $i ? 'mt' . $i : $this->meta_table;
+					$this->table_aliases[] = $subquery_alias;
+
+					$meta_compare_string_start  = 'NOT EXISTS (';
+					$meta_compare_string_start .= "SELECT 1 FROM $wpdb->postmeta $subquery_alias ";
+					$meta_compare_string_start .= "WHERE $subquery_alias.post_ID = $alias.post_ID ";
+					$meta_compare_string_end    = 'LIMIT 1';
+					$meta_compare_string_end   .= ')';
 				}
+
+				switch ( $meta_compare_key ) {
+					case '=':
+					case 'EXISTS':
+						$where = $wpdb->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						break;
+					case 'LIKE':
+						$meta_compare_value = '%' . $wpdb->esc_like( trim( $clause['key'] ) ) . '%';
+						$where              = $wpdb->prepare( "$alias.meta_key LIKE %s", $meta_compare_value ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						break;
+					case 'IN':
+						$meta_compare_string = "$alias.meta_key IN (" . substr( str_repeat( ',%s', count( $clause['key'] ) ), 1 ) . ')';
+						$where               = $wpdb->prepare( $meta_compare_string, $clause['key'] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+						break;
+					case 'RLIKE':
+					case 'REGEXP':
+						$operator = $meta_compare_key;
+						if ( isset( $clause['type_key'] ) && 'BINARY' === strtoupper( $clause['type_key'] ) ) {
+							$cast = 'BINARY';
+						} else {
+							$cast = '';
+						}
+						$where = $wpdb->prepare( "$alias.meta_key $operator $cast %s", trim( $clause['key'] ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+						break;
+
+					case '!=':
+					case 'NOT EXISTS':
+						$meta_compare_string = $meta_compare_string_start . "AND $subquery_alias.meta_key = %s " . $meta_compare_string_end;
+						$where               = $wpdb->prepare( $meta_compare_string, $clause['key'] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+						break;
+					case 'NOT LIKE':
+						$meta_compare_string = $meta_compare_string_start . "AND $subquery_alias.meta_key LIKE %s " . $meta_compare_string_end;
+
+						$meta_compare_value = '%' . $wpdb->esc_like( trim( $clause['key'] ) ) . '%';
+						$where              = $wpdb->prepare( $meta_compare_string, $meta_compare_value ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+						break;
+					case 'NOT IN':
+						$array_subclause     = '(' . substr( str_repeat( ',%s', count( $clause['key'] ) ), 1 ) . ') ';
+						$meta_compare_string = $meta_compare_string_start . "AND $subquery_alias.meta_key IN " . $array_subclause . $meta_compare_string_end;
+						$where               = $wpdb->prepare( $meta_compare_string, $clause['key'] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+						break;
+					case 'NOT REGEXP':
+						$operator = $meta_compare_key;
+						if ( isset( $clause['type_key'] ) && 'BINARY' === strtoupper( $clause['type_key'] ) ) {
+							$cast = 'BINARY';
+						} else {
+							$cast = '';
+						}
+
+						$meta_compare_string = $meta_compare_string_start . "AND $subquery_alias.meta_key REGEXP $cast %s " . $meta_compare_string_end;
+						$where               = $wpdb->prepare( $meta_compare_string, $clause['key'] ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+						break;
+				}
+
+				$sql_chunks['where'][] = $where;
 			}
 		}
 
