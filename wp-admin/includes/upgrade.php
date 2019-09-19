@@ -657,6 +657,8 @@ if ( ! function_exists( 'wp_upgrade' ) ) :
 			} else {
 				$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( %d, %d, NOW() );", $site_id, $wp_db_version ) );
 			}
+			update_site_meta( get_current_blog_id(), 'db_version', $wp_db_version );
+			update_site_meta( get_current_blog_id(), 'db_last_updated', microtime() );
 		}
 
 		/**
