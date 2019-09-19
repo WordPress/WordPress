@@ -15,7 +15,9 @@
 function render_block_core_search( $attributes ) {
 	static $instance_id = 0;
 
-	$input_id = 'wp-block-search__input-' . ++$instance_id;
+	$input_id      = 'wp-block-search__input-' . ++$instance_id;
+	$label_markup  = '';
+	$button_markup = '';
 
 	if ( ! empty( $attributes['label'] ) ) {
 		$label_markup = sprintf(
@@ -44,6 +46,10 @@ function render_block_core_search( $attributes ) {
 		$class .= ' ' . $attributes['className'];
 	}
 
+	if ( isset( $attributes['align'] ) ) {
+		$class .= ' align' . $attributes['align'];
+	}
+
 	return sprintf(
 		'<form class="%s" role="search" method="get" action="%s">%s</form>',
 		$class,
@@ -60,6 +66,13 @@ function register_block_core_search() {
 		'core/search',
 		array(
 			'attributes'      => array(
+				'align'       => array(
+					'type' => 'string',
+					'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
+				),
+				'className'   => array(
+					'type' => 'string',
+				),
 				'label'       => array(
 					'type'    => 'string',
 					'default' => __( 'Search' ),
@@ -73,10 +86,8 @@ function register_block_core_search() {
 					'default' => __( 'Search' ),
 				),
 			),
-
 			'render_callback' => 'render_block_core_search',
 		)
 	);
 }
-
 add_action( 'init', 'register_block_core_search' );

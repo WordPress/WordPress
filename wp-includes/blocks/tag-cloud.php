@@ -30,7 +30,14 @@ function render_block_core_tag_cloud( $attributes ) {
 	$tag_cloud = wp_tag_cloud( $args );
 
 	if ( ! $tag_cloud ) {
-		$tag_cloud = esc_html( __( 'No terms to show.' ) );
+		$labels    = get_taxonomy_labels( get_taxonomy( $attributes['taxonomy'] ) );
+		$tag_cloud = esc_html(
+			sprintf(
+				/* translators: %s: taxonomy name */
+				__( 'Your site doesn&#8217;t have any %s, so there&#8217;s nothing to display here at the moment.' ),
+				strtolower( $labels->name )
+			)
+		);
 	}
 
 	return sprintf(
@@ -48,24 +55,24 @@ function register_block_core_tag_cloud() {
 		'core/tag-cloud',
 		array(
 			'attributes'      => array(
-				'taxonomy'      => array(
-					'type'    => 'string',
-					'default' => 'post_tag',
+				'align'         => array(
+					'type' => 'string',
+					'enum' => array( 'left', 'center', 'right', 'wide', 'full' ),
 				),
 				'className'     => array(
 					'type' => 'string',
 				),
+				'taxonomy'      => array(
+					'type'    => 'string',
+					'default' => 'post_tag',
+				),
 				'showTagCounts' => array(
 					'type'    => 'boolean',
 					'default' => false,
-				),
-				'align'         => array(
-					'type' => 'string',
 				),
 			),
 			'render_callback' => 'render_block_core_tag_cloud',
 		)
 	);
 }
-
 add_action( 'init', 'register_block_core_tag_cloud' );
