@@ -103,13 +103,11 @@ class WP_REST_Server {
 	 * Checks the authentication headers if supplied.
 	 *
 	 * @since 4.4.0
-	 * @since 5.3.0 Added the `$request` parameter.
 	 *
-	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|null WP_Error indicates unsuccessful login, null indicates successful
 	 *                       or no authentication provided
 	 */
-	public function check_authentication( $request ) {
+	public function check_authentication() {
 		/**
 		 * Filters REST authentication errors.
 		 *
@@ -130,13 +128,11 @@ class WP_REST_Server {
 		 * the authentication method was used, and it succeeded.
 		 *
 		 * @since 4.4.0
-		 * @since 5.3.0 Added the `$request` argument.
 		 *
-		 * @param WP_Error|null|bool $result  WP_Error if authentication error, null if authentication
-		 *                                    method wasn't used, true if authentication succeeded.
-		 * @param WP_REST_Request    $request Full data about the request.
+		 * @param WP_Error|null|bool WP_Error if authentication error, null if authentication
+		 *                              method wasn't used, true if authentication succeeded.
 		 */
-		return apply_filters( 'rest_authentication_errors', null, $request );
+		return apply_filters( 'rest_authentication_errors', null );
 	}
 
 	/**
@@ -327,7 +323,7 @@ class WP_REST_Server {
 			$request->set_method( $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] );
 		}
 
-		$result = $this->check_authentication( $request );
+		$result = $this->check_authentication();
 
 		if ( ! is_wp_error( $result ) ) {
 			$result = $this->dispatch( $request );
