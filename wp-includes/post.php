@@ -6786,6 +6786,11 @@ function _publish_post_hook( $post_id ) {
 	}
 	add_post_meta( $post_id, '_encloseme', '1' );
 
+	$to_ping = get_to_ping( $post_id );
+	if ( ! empty( $to_ping ) ) {
+		add_post_meta( $post_id, '_trackbackme', '1' );
+	}
+
 	if ( ! wp_next_scheduled( 'do_pings' ) ) {
 		wp_schedule_single_event( time(), 'do_pings' );
 	}

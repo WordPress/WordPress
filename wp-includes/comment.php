@@ -2665,15 +2665,23 @@ function do_all_pings() {
 		do_enclose( null, $enclosure->ID );
 	}
 
-	// Do Trackbacks
-	$trackbacks = $wpdb->get_col( "SELECT ID FROM $wpdb->posts WHERE to_ping <> '' AND post_status = 'publish'" );
-	if ( is_array( $trackbacks ) ) {
-		foreach ( $trackbacks as $trackback ) {
-			do_trackbacks( $trackback );
-		}
+	// Do trackbacks.
+	$trackbacks = get_posts(
+		array(
+			'post_type'        => get_post_types(),
+			'suppress_filters' => false,
+			'nopaging'         => true,
+			'meta_key'         => '_trackbackme',
+			'fields'           => 'ids',
+		)
+	);
+
+	foreach ( $trackbacks as $trackback ) {
+		delete_post_meta( $trackback, '_trackbackme' );
+		do_trackbacks( $trackback );
 	}
 
-	//Do Update Services/Generic Pings
+	// Do Update Services/Generic Pings.
 	generic_ping();
 }
 
