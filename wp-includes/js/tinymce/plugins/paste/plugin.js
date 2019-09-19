@@ -20,10 +20,10 @@ var paste = (function (domGlobals) {
       };
     };
 
-    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var hasProPlugin = function (editor) {
-      if (/(^|[ ,])powerpaste([, ]|$)/.test(editor.settings.plugins) && global.get('powerpaste')) {
+      if (/(^|[ ,])powerpaste([, ]|$)/.test(editor.settings.plugins) && global$1.get('powerpaste')) {
         if (typeof domGlobals.window.console !== 'undefined' && domGlobals.window.console.log) {
           domGlobals.window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
         }
@@ -173,13 +173,13 @@ var paste = (function (domGlobals) {
     };
     var Commands = { register: register };
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.Env');
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.util.Delay');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$4 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
-    var global$4 = tinymce.util.Tools.resolve('tinymce.util.VK');
+    var global$5 = tinymce.util.Tools.resolve('tinymce.util.VK');
 
     var internalMimeType = 'x-tinymce/html';
     var internalMark = '<!-- ' + internalMimeType + ' -->';
@@ -201,7 +201,7 @@ var paste = (function (domGlobals) {
       }
     };
 
-    var global$5 = tinymce.util.Tools.resolve('tinymce.html.Entities');
+    var global$6 = tinymce.util.Tools.resolve('tinymce.html.Entities');
 
     var isPlainText = function (text) {
       return !/<(?:\/?(?!(?:div|p|br|span)>)\w+|(?:(?!(?:span style="white-space:\s?pre;?">)|br\s?\/>))\w+\s[^>]+)>/i.test(text);
@@ -216,7 +216,7 @@ var paste = (function (domGlobals) {
       if (typeof rootAttrs === 'object') {
         for (key in rootAttrs) {
           if (rootAttrs.hasOwnProperty(key)) {
-            attrs.push(key + '="' + global$5.encodeAllRaw(rootAttrs[key]) + '"');
+            attrs.push(key + '="' + global$6.encodeAllRaw(rootAttrs[key]) + '"');
           }
         }
         if (attrs.length) {
@@ -229,13 +229,13 @@ var paste = (function (domGlobals) {
       var blocks = text.split(/\n\n/);
       var tagOpen = openContainer(rootTag, rootAttrs);
       var tagClose = '</' + rootTag + '>';
-      var paragraphs = global$3.map(blocks, function (p) {
+      var paragraphs = global$4.map(blocks, function (p) {
         return p.split(/\n/).join('<br />');
       });
       var stitch = function (p) {
         return tagOpen + p + tagClose;
       };
-      return paragraphs.length === 1 ? paragraphs[0] : global$3.map(paragraphs, stitch).join('');
+      return paragraphs.length === 1 ? paragraphs[0] : global$4.map(paragraphs, stitch).join('');
     };
     var convert = function (text, rootTag, rootAttrs) {
       return rootTag ? toBlockElements(text, rootTag, rootAttrs) : toBRs(text);
@@ -247,16 +247,16 @@ var paste = (function (domGlobals) {
       toBlockElements: toBlockElements
     };
 
-    var global$6 = tinymce.util.Tools.resolve('tinymce.html.DomParser');
+    var global$7 = tinymce.util.Tools.resolve('tinymce.html.DomParser');
 
-    var global$7 = tinymce.util.Tools.resolve('tinymce.html.Node');
+    var global$8 = tinymce.util.Tools.resolve('tinymce.html.Node');
 
-    var global$8 = tinymce.util.Tools.resolve('tinymce.html.Schema');
+    var global$9 = tinymce.util.Tools.resolve('tinymce.html.Schema');
 
-    var global$9 = tinymce.util.Tools.resolve('tinymce.html.Serializer');
+    var global$a = tinymce.util.Tools.resolve('tinymce.html.Serializer');
 
     function filter(content, items) {
-      global$3.each(items, function (v) {
+      global$4.each(items, function (v) {
         if (v.constructor === RegExp) {
           content = content.replace(v, '');
         } else {
@@ -266,11 +266,11 @@ var paste = (function (domGlobals) {
       return content;
     }
     function innerText(html) {
-      var schema = global$8();
-      var domParser = global$6({}, schema);
+      var schema = global$9();
+      var domParser = global$7({}, schema);
       var text = '';
       var shortEndedElements = schema.getShortEndedElements();
-      var ignoreElements = global$3.makeMap('script noscript style textarea video audio iframe object', ' ');
+      var ignoreElements = global$4.makeMap('script noscript style textarea video audio iframe object', ' ');
       var blockElements = schema.getBlockElements();
       function walk(node) {
         var name = node.name, currentNode = node;
@@ -360,7 +360,7 @@ var paste = (function (domGlobals) {
         /^[\u58f1\u5f10\u53c2\u56db\u4f0d\u516d\u4e03\u516b\u4e5d\u62fe]+\.[ \u00a0]/
       ];
       text = text.replace(/^[\u00a0 ]+/, '');
-      global$3.each(patterns, function (pattern) {
+      global$4.each(patterns, function (pattern) {
         if (pattern.test(text)) {
           found = true;
           return false;
@@ -426,7 +426,7 @@ var paste = (function (domGlobals) {
         }
         if (!currentListNode || currentListNode.name !== listName) {
           prevListNode = prevListNode || currentListNode;
-          currentListNode = new global$7(listName, 1);
+          currentListNode = new global$8(listName, 1);
           if (start > 1) {
             currentListNode.attr('start', '' + start);
           }
@@ -486,7 +486,7 @@ var paste = (function (domGlobals) {
     function filterStyles(editor, validStyles, node, styleValue) {
       var outputStyles = {}, matches;
       var styles = editor.dom.parseStyle(styleValue);
-      global$3.each(styles, function (value, name) {
+      global$4.each(styles, function (value, name) {
         switch (name) {
         case 'mso-list':
           matches = /\w+ \w+([0-9]+)/i.exec(styleValue);
@@ -538,11 +538,11 @@ var paste = (function (domGlobals) {
       });
       if (/(bold)/i.test(outputStyles['font-weight'])) {
         delete outputStyles['font-weight'];
-        node.wrap(new global$7('b', 1));
+        node.wrap(new global$8('b', 1));
       }
       if (/(italic)/i.test(outputStyles['font-style'])) {
         delete outputStyles['font-style'];
-        node.wrap(new global$7('i', 1));
+        node.wrap(new global$8('i', 1));
       }
       outputStyles = editor.dom.serializeStyle(outputStyles, node.name);
       if (outputStyles) {
@@ -554,7 +554,7 @@ var paste = (function (domGlobals) {
       var retainStyleProperties, validStyles;
       retainStyleProperties = Settings.getRetainStyleProps(editor);
       if (retainStyleProperties) {
-        validStyles = global$3.makeMap(retainStyleProperties.split(/[, ]/));
+        validStyles = global$4.makeMap(retainStyleProperties.split(/[, ]/));
       }
       content = Utils.filter(content, [
         /<br class="?Apple-interchange-newline"?>/gi,
@@ -577,11 +577,11 @@ var paste = (function (domGlobals) {
         ]
       ]);
       var validElements = Settings.getWordValidElements(editor);
-      var schema = global$8({
+      var schema = global$9({
         valid_elements: validElements,
         valid_children: '-li[p]'
       });
-      global$3.each(schema.elements, function (rule) {
+      global$4.each(schema.elements, function (rule) {
         if (!rule.attributes.class) {
           rule.attributes.class = {};
           rule.attributesOrder.push('class');
@@ -591,7 +591,7 @@ var paste = (function (domGlobals) {
           rule.attributesOrder.push('style');
         }
       });
-      var domParser = global$6({}, schema);
+      var domParser = global$7({}, schema);
       domParser.addAttributeFilter('style', function (nodes) {
         var i = nodes.length, node;
         while (i--) {
@@ -653,7 +653,7 @@ var paste = (function (domGlobals) {
       if (Settings.shouldConvertWordFakeLists(editor)) {
         convertFakeListsToProperLists(rootNode);
       }
-      content = global$9({ validate: editor.settings.validate }, schema).serialize(rootNode);
+      content = global$a({ validate: editor.settings.validate }, schema).serialize(rootNode);
       return content;
     };
     var preProcess = function (editor, content) {
@@ -692,7 +692,7 @@ var paste = (function (domGlobals) {
 
     var removeMeta = function (editor, html) {
       var body = editor.dom.create('body', {}, html);
-      global$3.each(body.querySelectorAll('meta'), function (elm) {
+      global$4.each(body.querySelectorAll('meta'), function (elm) {
         return elm.parentNode.removeChild(elm);
       });
       return body.innerHTML;
@@ -733,7 +733,7 @@ var paste = (function (domGlobals) {
       return isImageUrl(html) ? createImage(editor, html, pasteHtmlFn) : false;
     };
     var smartInsertContent = function (editor, html) {
-      global$3.each([
+      global$4.each([
         linkSelection,
         insertImage,
         pasteHtml
@@ -830,8 +830,9 @@ var paste = (function (domGlobals) {
         },
         toString: constant('none()')
       };
-      if (Object.freeze)
+      if (Object.freeze) {
         Object.freeze(me);
+      }
       return me;
     }();
     var some = function (a) {
@@ -906,13 +907,16 @@ var paste = (function (domGlobals) {
     };
 
     var typeOf = function (x) {
-      if (x === null)
+      if (x === null) {
         return 'null';
+      }
       var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
         return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x))
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
         return 'string';
+      }
       return t;
     };
     var isType = function (type) {
@@ -922,6 +926,7 @@ var paste = (function (domGlobals) {
     };
     var isFunction = isType('function');
 
+    var slice = Array.prototype.slice;
     var map = function (xs, f) {
       var len = xs.length;
       var r = new Array(len);
@@ -947,10 +952,506 @@ var paste = (function (domGlobals) {
       }
       return r;
     };
-    var slice = Array.prototype.slice;
     var from$1 = isFunction(Array.from) ? Array.from : function (x) {
       return slice.call(x);
     };
+
+    var exports$1 = {}, module = { exports: exports$1 };
+    (function (define, exports, module, require) {
+      (function (f) {
+        if (typeof exports === 'object' && typeof module !== 'undefined') {
+          module.exports = f();
+        } else if (typeof define === 'function' && define.amd) {
+          define([], f);
+        } else {
+          var g;
+          if (typeof window !== 'undefined') {
+            g = window;
+          } else if (typeof global !== 'undefined') {
+            g = global;
+          } else if (typeof self !== 'undefined') {
+            g = self;
+          } else {
+            g = this;
+          }
+          g.EphoxContactWrapper = f();
+        }
+      }(function () {
+        return function () {
+          function r(e, n, t) {
+            function o(i, f) {
+              if (!n[i]) {
+                if (!e[i]) {
+                  var c = 'function' == typeof require && require;
+                  if (!f && c)
+                    return c(i, !0);
+                  if (u)
+                    return u(i, !0);
+                  var a = new Error('Cannot find module \'' + i + '\'');
+                  throw a.code = 'MODULE_NOT_FOUND', a;
+                }
+                var p = n[i] = { exports: {} };
+                e[i][0].call(p.exports, function (r) {
+                  var n = e[i][1][r];
+                  return o(n || r);
+                }, p, p.exports, r, e, n, t);
+              }
+              return n[i].exports;
+            }
+            for (var u = 'function' == typeof require && require, i = 0; i < t.length; i++)
+              o(t[i]);
+            return o;
+          }
+          return r;
+        }()({
+          1: [
+            function (require, module, exports) {
+              var process = module.exports = {};
+              var cachedSetTimeout;
+              var cachedClearTimeout;
+              function defaultSetTimout() {
+                throw new Error('setTimeout has not been defined');
+              }
+              function defaultClearTimeout() {
+                throw new Error('clearTimeout has not been defined');
+              }
+              (function () {
+                try {
+                  if (typeof setTimeout === 'function') {
+                    cachedSetTimeout = setTimeout;
+                  } else {
+                    cachedSetTimeout = defaultSetTimout;
+                  }
+                } catch (e) {
+                  cachedSetTimeout = defaultSetTimout;
+                }
+                try {
+                  if (typeof clearTimeout === 'function') {
+                    cachedClearTimeout = clearTimeout;
+                  } else {
+                    cachedClearTimeout = defaultClearTimeout;
+                  }
+                } catch (e) {
+                  cachedClearTimeout = defaultClearTimeout;
+                }
+              }());
+              function runTimeout(fun) {
+                if (cachedSetTimeout === setTimeout) {
+                  return setTimeout(fun, 0);
+                }
+                if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+                  cachedSetTimeout = setTimeout;
+                  return setTimeout(fun, 0);
+                }
+                try {
+                  return cachedSetTimeout(fun, 0);
+                } catch (e) {
+                  try {
+                    return cachedSetTimeout.call(null, fun, 0);
+                  } catch (e) {
+                    return cachedSetTimeout.call(this, fun, 0);
+                  }
+                }
+              }
+              function runClearTimeout(marker) {
+                if (cachedClearTimeout === clearTimeout) {
+                  return clearTimeout(marker);
+                }
+                if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+                  cachedClearTimeout = clearTimeout;
+                  return clearTimeout(marker);
+                }
+                try {
+                  return cachedClearTimeout(marker);
+                } catch (e) {
+                  try {
+                    return cachedClearTimeout.call(null, marker);
+                  } catch (e) {
+                    return cachedClearTimeout.call(this, marker);
+                  }
+                }
+              }
+              var queue = [];
+              var draining = false;
+              var currentQueue;
+              var queueIndex = -1;
+              function cleanUpNextTick() {
+                if (!draining || !currentQueue) {
+                  return;
+                }
+                draining = false;
+                if (currentQueue.length) {
+                  queue = currentQueue.concat(queue);
+                } else {
+                  queueIndex = -1;
+                }
+                if (queue.length) {
+                  drainQueue();
+                }
+              }
+              function drainQueue() {
+                if (draining) {
+                  return;
+                }
+                var timeout = runTimeout(cleanUpNextTick);
+                draining = true;
+                var len = queue.length;
+                while (len) {
+                  currentQueue = queue;
+                  queue = [];
+                  while (++queueIndex < len) {
+                    if (currentQueue) {
+                      currentQueue[queueIndex].run();
+                    }
+                  }
+                  queueIndex = -1;
+                  len = queue.length;
+                }
+                currentQueue = null;
+                draining = false;
+                runClearTimeout(timeout);
+              }
+              process.nextTick = function (fun) {
+                var args = new Array(arguments.length - 1);
+                if (arguments.length > 1) {
+                  for (var i = 1; i < arguments.length; i++) {
+                    args[i - 1] = arguments[i];
+                  }
+                }
+                queue.push(new Item(fun, args));
+                if (queue.length === 1 && !draining) {
+                  runTimeout(drainQueue);
+                }
+              };
+              function Item(fun, array) {
+                this.fun = fun;
+                this.array = array;
+              }
+              Item.prototype.run = function () {
+                this.fun.apply(null, this.array);
+              };
+              process.title = 'browser';
+              process.browser = true;
+              process.env = {};
+              process.argv = [];
+              process.version = '';
+              process.versions = {};
+              function noop() {
+              }
+              process.on = noop;
+              process.addListener = noop;
+              process.once = noop;
+              process.off = noop;
+              process.removeListener = noop;
+              process.removeAllListeners = noop;
+              process.emit = noop;
+              process.prependListener = noop;
+              process.prependOnceListener = noop;
+              process.listeners = function (name) {
+                return [];
+              };
+              process.binding = function (name) {
+                throw new Error('process.binding is not supported');
+              };
+              process.cwd = function () {
+                return '/';
+              };
+              process.chdir = function (dir) {
+                throw new Error('process.chdir is not supported');
+              };
+              process.umask = function () {
+                return 0;
+              };
+            },
+            {}
+          ],
+          2: [
+            function (require, module, exports) {
+              (function (setImmediate) {
+                (function (root) {
+                  var setTimeoutFunc = setTimeout;
+                  function noop() {
+                  }
+                  function bind(fn, thisArg) {
+                    return function () {
+                      fn.apply(thisArg, arguments);
+                    };
+                  }
+                  function Promise(fn) {
+                    if (typeof this !== 'object')
+                      throw new TypeError('Promises must be constructed via new');
+                    if (typeof fn !== 'function')
+                      throw new TypeError('not a function');
+                    this._state = 0;
+                    this._handled = false;
+                    this._value = undefined;
+                    this._deferreds = [];
+                    doResolve(fn, this);
+                  }
+                  function handle(self, deferred) {
+                    while (self._state === 3) {
+                      self = self._value;
+                    }
+                    if (self._state === 0) {
+                      self._deferreds.push(deferred);
+                      return;
+                    }
+                    self._handled = true;
+                    Promise._immediateFn(function () {
+                      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+                      if (cb === null) {
+                        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+                        return;
+                      }
+                      var ret;
+                      try {
+                        ret = cb(self._value);
+                      } catch (e) {
+                        reject(deferred.promise, e);
+                        return;
+                      }
+                      resolve(deferred.promise, ret);
+                    });
+                  }
+                  function resolve(self, newValue) {
+                    try {
+                      if (newValue === self)
+                        throw new TypeError('A promise cannot be resolved with itself.');
+                      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+                        var then = newValue.then;
+                        if (newValue instanceof Promise) {
+                          self._state = 3;
+                          self._value = newValue;
+                          finale(self);
+                          return;
+                        } else if (typeof then === 'function') {
+                          doResolve(bind(then, newValue), self);
+                          return;
+                        }
+                      }
+                      self._state = 1;
+                      self._value = newValue;
+                      finale(self);
+                    } catch (e) {
+                      reject(self, e);
+                    }
+                  }
+                  function reject(self, newValue) {
+                    self._state = 2;
+                    self._value = newValue;
+                    finale(self);
+                  }
+                  function finale(self) {
+                    if (self._state === 2 && self._deferreds.length === 0) {
+                      Promise._immediateFn(function () {
+                        if (!self._handled) {
+                          Promise._unhandledRejectionFn(self._value);
+                        }
+                      });
+                    }
+                    for (var i = 0, len = self._deferreds.length; i < len; i++) {
+                      handle(self, self._deferreds[i]);
+                    }
+                    self._deferreds = null;
+                  }
+                  function Handler(onFulfilled, onRejected, promise) {
+                    this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+                    this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+                    this.promise = promise;
+                  }
+                  function doResolve(fn, self) {
+                    var done = false;
+                    try {
+                      fn(function (value) {
+                        if (done)
+                          return;
+                        done = true;
+                        resolve(self, value);
+                      }, function (reason) {
+                        if (done)
+                          return;
+                        done = true;
+                        reject(self, reason);
+                      });
+                    } catch (ex) {
+                      if (done)
+                        return;
+                      done = true;
+                      reject(self, ex);
+                    }
+                  }
+                  Promise.prototype['catch'] = function (onRejected) {
+                    return this.then(null, onRejected);
+                  };
+                  Promise.prototype.then = function (onFulfilled, onRejected) {
+                    var prom = new this.constructor(noop);
+                    handle(this, new Handler(onFulfilled, onRejected, prom));
+                    return prom;
+                  };
+                  Promise.all = function (arr) {
+                    var args = Array.prototype.slice.call(arr);
+                    return new Promise(function (resolve, reject) {
+                      if (args.length === 0)
+                        return resolve([]);
+                      var remaining = args.length;
+                      function res(i, val) {
+                        try {
+                          if (val && (typeof val === 'object' || typeof val === 'function')) {
+                            var then = val.then;
+                            if (typeof then === 'function') {
+                              then.call(val, function (val) {
+                                res(i, val);
+                              }, reject);
+                              return;
+                            }
+                          }
+                          args[i] = val;
+                          if (--remaining === 0) {
+                            resolve(args);
+                          }
+                        } catch (ex) {
+                          reject(ex);
+                        }
+                      }
+                      for (var i = 0; i < args.length; i++) {
+                        res(i, args[i]);
+                      }
+                    });
+                  };
+                  Promise.resolve = function (value) {
+                    if (value && typeof value === 'object' && value.constructor === Promise) {
+                      return value;
+                    }
+                    return new Promise(function (resolve) {
+                      resolve(value);
+                    });
+                  };
+                  Promise.reject = function (value) {
+                    return new Promise(function (resolve, reject) {
+                      reject(value);
+                    });
+                  };
+                  Promise.race = function (values) {
+                    return new Promise(function (resolve, reject) {
+                      for (var i = 0, len = values.length; i < len; i++) {
+                        values[i].then(resolve, reject);
+                      }
+                    });
+                  };
+                  Promise._immediateFn = typeof setImmediate === 'function' ? function (fn) {
+                    setImmediate(fn);
+                  } : function (fn) {
+                    setTimeoutFunc(fn, 0);
+                  };
+                  Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
+                    if (typeof console !== 'undefined' && console) {
+                      console.warn('Possible Unhandled Promise Rejection:', err);
+                    }
+                  };
+                  Promise._setImmediateFn = function _setImmediateFn(fn) {
+                    Promise._immediateFn = fn;
+                  };
+                  Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
+                    Promise._unhandledRejectionFn = fn;
+                  };
+                  if (typeof module !== 'undefined' && module.exports) {
+                    module.exports = Promise;
+                  } else if (!root.Promise) {
+                    root.Promise = Promise;
+                  }
+                }(this));
+              }.call(this, require('timers').setImmediate));
+            },
+            { 'timers': 3 }
+          ],
+          3: [
+            function (require, module, exports) {
+              (function (setImmediate, clearImmediate) {
+                var nextTick = require('process/browser.js').nextTick;
+                var apply = Function.prototype.apply;
+                var slice = Array.prototype.slice;
+                var immediateIds = {};
+                var nextImmediateId = 0;
+                exports.setTimeout = function () {
+                  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+                };
+                exports.setInterval = function () {
+                  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+                };
+                exports.clearTimeout = exports.clearInterval = function (timeout) {
+                  timeout.close();
+                };
+                function Timeout(id, clearFn) {
+                  this._id = id;
+                  this._clearFn = clearFn;
+                }
+                Timeout.prototype.unref = Timeout.prototype.ref = function () {
+                };
+                Timeout.prototype.close = function () {
+                  this._clearFn.call(window, this._id);
+                };
+                exports.enroll = function (item, msecs) {
+                  clearTimeout(item._idleTimeoutId);
+                  item._idleTimeout = msecs;
+                };
+                exports.unenroll = function (item) {
+                  clearTimeout(item._idleTimeoutId);
+                  item._idleTimeout = -1;
+                };
+                exports._unrefActive = exports.active = function (item) {
+                  clearTimeout(item._idleTimeoutId);
+                  var msecs = item._idleTimeout;
+                  if (msecs >= 0) {
+                    item._idleTimeoutId = setTimeout(function onTimeout() {
+                      if (item._onTimeout)
+                        item._onTimeout();
+                    }, msecs);
+                  }
+                };
+                exports.setImmediate = typeof setImmediate === 'function' ? setImmediate : function (fn) {
+                  var id = nextImmediateId++;
+                  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+                  immediateIds[id] = true;
+                  nextTick(function onNextTick() {
+                    if (immediateIds[id]) {
+                      if (args) {
+                        fn.apply(null, args);
+                      } else {
+                        fn.call(null);
+                      }
+                      exports.clearImmediate(id);
+                    }
+                  });
+                  return id;
+                };
+                exports.clearImmediate = typeof clearImmediate === 'function' ? clearImmediate : function (id) {
+                  delete immediateIds[id];
+                };
+              }.call(this, require('timers').setImmediate, require('timers').clearImmediate));
+            },
+            {
+              'process/browser.js': 1,
+              'timers': 3
+            }
+          ],
+          4: [
+            function (require, module, exports) {
+              var promisePolyfill = require('promise-polyfill');
+              var Global = function () {
+                if (typeof window !== 'undefined') {
+                  return window;
+                } else {
+                  return Function('return this;')();
+                }
+              }();
+              module.exports = { boltExport: Global.Promise || promisePolyfill };
+            },
+            { 'promise-polyfill': 2 }
+          ]
+        }, {}, [4])(4);
+      }));
+    }(undefined, exports$1, module, undefined));
+    var Promise = module.exports.boltExport;
 
     var nu = function (baseFn) {
       var data = Option.none();
@@ -963,10 +1464,11 @@ var paste = (function (domGlobals) {
         });
       };
       var get = function (nCallback) {
-        if (isReady())
+        if (isReady()) {
           call(nCallback);
-        else
+        } else {
           callbacks.push(nCallback);
+        }
       };
       var set = function (x) {
         data = Option.some(x);
@@ -1003,42 +1505,31 @@ var paste = (function (domGlobals) {
       pure: pure
     };
 
-    var bounce = function (f) {
-      return function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-          args[_i] = arguments[_i];
-        }
-        var me = this;
-        domGlobals.setTimeout(function () {
-          f.apply(me, args);
-        }, 0);
-      };
+    var errorReporter = function (err) {
+      domGlobals.setTimeout(function () {
+        throw err;
+      }, 0);
     };
-
-    var nu$1 = function (baseFn) {
+    var make = function (run) {
       var get = function (callback) {
-        baseFn(bounce(callback));
+        run().then(callback, errorReporter);
       };
       var map = function (fab) {
-        return nu$1(function (callback) {
-          get(function (a) {
-            var value = fab(a);
-            callback(value);
-          });
+        return make(function () {
+          return run().then(fab);
         });
       };
       var bind = function (aFutureB) {
-        return nu$1(function (callback) {
-          get(function (a) {
-            aFutureB(a).get(callback);
+        return make(function () {
+          return run().then(function (v) {
+            return aFutureB(v).toPromise();
           });
         });
       };
       var anonBind = function (futureB) {
-        return nu$1(function (callback) {
-          get(function (a) {
-            futureB.get(callback);
+        return make(function () {
+          return run().then(function () {
+            return futureB.toPromise();
           });
         });
       };
@@ -1047,25 +1538,32 @@ var paste = (function (domGlobals) {
       };
       var toCached = function () {
         var cache = null;
-        return nu$1(function (callback) {
+        return make(function () {
           if (cache === null) {
-            cache = toLazy();
+            cache = run();
           }
-          cache.get(callback);
+          return cache;
         });
       };
+      var toPromise = run;
       return {
         map: map,
         bind: bind,
         anonBind: anonBind,
         toLazy: toLazy,
         toCached: toCached,
+        toPromise: toPromise,
         get: get
       };
     };
+    var nu$1 = function (baseFn) {
+      return make(function () {
+        return new Promise(baseFn);
+      });
+    };
     var pure$1 = function (a) {
-      return nu$1(function (callback) {
-        callback(a);
+      return make(function () {
+        return Promise.resolve(a);
       });
     };
     var Future = {
@@ -1102,6 +1600,28 @@ var paste = (function (domGlobals) {
     var mapM = function (array, fn) {
       var futures = map(array, fn);
       return par$1(futures);
+    };
+
+    var value = function () {
+      var subject = Cell(Option.none());
+      var clear = function () {
+        subject.set(Option.none());
+      };
+      var set = function (s) {
+        subject.set(Option.some(s));
+      };
+      var on = function (f) {
+        subject.get().each(f);
+      };
+      var isSet = function () {
+        return subject.get().isSome();
+      };
+      return {
+        clear: clear,
+        set: set,
+        isSet: isSet,
+        on: on
+      };
     };
 
     var pasteHtml$1 = function (editor, html, internalFlag) {
@@ -1143,7 +1663,7 @@ var paste = (function (domGlobals) {
     };
     var getClipboardContent = function (editor, clipboardEvent) {
       var content = getDataTransferItems(clipboardEvent.clipboardData || editor.getDoc().dataTransfer);
-      return Utils.isMsEdge() ? global$3.extend(content, { 'text/html': '' }) : content;
+      return Utils.isMsEdge() ? global$4.extend(content, { 'text/html': '' }) : content;
     };
     var hasContentType = function (clipboardContent, mimeType) {
       return mimeType in clipboardContent && clipboardContent[mimeType].length > 0;
@@ -1242,10 +1762,10 @@ var paste = (function (domGlobals) {
       return domGlobals.navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
     };
     var isKeyboardPasteEvent = function (e) {
-      return global$4.metaKeyPressed(e) && e.keyCode === 86 || e.shiftKey && e.keyCode === 45;
+      return global$5.metaKeyPressed(e) && e.keyCode === 86 || e.shiftKey && e.keyCode === 45;
     };
     var registerEventHandlers = function (editor, pasteBin, pasteFormat) {
-      var keyboardPasteTimeStamp = 0;
+      var keyboardPasteEvent = value();
       var keyboardPastePlainTextState;
       editor.on('keydown', function (e) {
         function removePasteBinOnKeyUp(e) {
@@ -1255,12 +1775,15 @@ var paste = (function (domGlobals) {
         }
         if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
           keyboardPastePlainTextState = e.shiftKey && e.keyCode === 86;
-          if (keyboardPastePlainTextState && global$1.webkit && domGlobals.navigator.userAgent.indexOf('Version/') !== -1) {
+          if (keyboardPastePlainTextState && global$2.webkit && domGlobals.navigator.userAgent.indexOf('Version/') !== -1) {
             return;
           }
           e.stopImmediatePropagation();
-          keyboardPasteTimeStamp = new Date().getTime();
-          if (global$1.ie && keyboardPastePlainTextState) {
+          keyboardPasteEvent.set(e);
+          window.setTimeout(function () {
+            keyboardPasteEvent.clear();
+          }, 100);
+          if (global$2.ie && keyboardPastePlainTextState) {
             e.preventDefault();
             Events.firePaste(editor, true);
             return;
@@ -1313,10 +1836,8 @@ var paste = (function (domGlobals) {
         return pasteBin.getLastRng() || editor.selection.getRng();
       };
       editor.on('paste', function (e) {
-        var clipboardTimer = new Date().getTime();
+        var isKeyBoardPaste = keyboardPasteEvent.isSet();
         var clipboardContent = getClipboardContent(editor, e);
-        var clipboardDelay = new Date().getTime() - clipboardTimer;
-        var isKeyBoardPaste = new Date().getTime() - keyboardPasteTimeStamp - clipboardDelay < 1000;
         var plainTextMode = pasteFormat.get() === 'text' || keyboardPastePlainTextState;
         var internal = hasContentType(clipboardContent, InternalHtml.internalHtmlMime());
         keyboardPastePlainTextState = false;
@@ -1331,7 +1852,7 @@ var paste = (function (domGlobals) {
         if (!isKeyBoardPaste) {
           e.preventDefault();
         }
-        if (global$1.ie && (!isKeyBoardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
+        if (global$2.ie && (!isKeyBoardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
           pasteBin.create();
           editor.dom.bind(pasteBin.getEl(), 'paste', function (e) {
             e.stopPropagation();
@@ -1346,7 +1867,7 @@ var paste = (function (domGlobals) {
           }
           insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
         } else {
-          global$2.setEditorTimeout(editor, function () {
+          global$3.setEditorTimeout(editor, function () {
             insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
           }, 0);
         }
@@ -1360,7 +1881,7 @@ var paste = (function (domGlobals) {
           return args.data && args.data.paste === true;
         };
         var remove = function (node) {
-          if (!node.attr('data-mce-object') && src !== global$1.transparentSrc) {
+          if (!node.attr('data-mce-object') && src !== global$2.transparentSrc) {
             node.remove();
           }
         };
@@ -1388,7 +1909,7 @@ var paste = (function (domGlobals) {
     };
 
     var getPasteBinParent = function (editor) {
-      return global$1.ie && editor.inline ? domGlobals.document.body : editor.getBody();
+      return global$2.ie && editor.inline ? domGlobals.document.body : editor.getBody();
     };
     var isExternalPasteBin = function (editor) {
       return getPasteBinParent(editor) !== editor.getBody();
@@ -1413,7 +1934,7 @@ var paste = (function (domGlobals) {
         'data-mce-bogus': 'all',
         'style': 'position: fixed; top: 50%; width: 10px; height: 10px; overflow: hidden; opacity: 0'
       }, pasteBinDefaultContent);
-      if (global$1.ie || global$1.gecko) {
+      if (global$2.ie || global$2.gecko) {
         dom.setStyle(pasteBinElm, 'left', dom.getStyle(body, 'direction', true) === 'rtl' ? 65535 : -65535);
       }
       dom.bind(pasteBinElm, 'beforedeactivate focusin focusout', function (e) {
@@ -1446,11 +1967,11 @@ var paste = (function (domGlobals) {
         toElm.appendChild(fromElm);
         editor.dom.remove(fromElm, true);
       };
-      pasteBinClones = global$3.grep(getPasteBinParent(editor).childNodes, function (elm) {
+      pasteBinClones = global$4.grep(getPasteBinParent(editor).childNodes, function (elm) {
         return elm.id === 'mcepastebin';
       });
       pasteBinElm = pasteBinClones.shift();
-      global$3.each(pasteBinClones, function (pasteBinClone) {
+      global$4.each(pasteBinClones, function (pasteBinClone) {
         copyAndRemove(pasteBinElm, pasteBinClone);
       });
       dirtyWrappers = editor.dom.select('div[id=mcepastebin]', pasteBinElm);
@@ -1527,7 +2048,7 @@ var paste = (function (domGlobals) {
     var noop = function () {
     };
     var hasWorkingClipboardApi = function (clipboardData) {
-      return global$1.iOS === false && clipboardData !== undefined && typeof clipboardData.setData === 'function' && Utils.isMsEdge() !== true;
+      return global$2.iOS === false && clipboardData !== undefined && typeof clipboardData.setData === 'function' && Utils.isMsEdge() !== true;
     };
     var setHtml5Clipboard = function (clipboardData, html, text) {
       if (hasWorkingClipboardApi(clipboardData)) {
@@ -1617,10 +2138,10 @@ var paste = (function (domGlobals) {
     };
     var CutCopy = { register: register$1 };
 
-    var global$a = tinymce.util.Tools.resolve('tinymce.dom.RangeUtils');
+    var global$b = tinymce.util.Tools.resolve('tinymce.dom.RangeUtils');
 
     var getCaretRangeFromEvent = function (editor, e) {
-      return global$a.getCaretRangeFromPoint(e.clientX, e.clientY, editor.getDoc());
+      return global$b.getCaretRangeFromPoint(e.clientX, e.clientY, editor.getDoc());
     };
     var isPlainTextFileUrl = function (content) {
       var plainTextContent = content['text/plain'];
@@ -1660,7 +2181,7 @@ var paste = (function (domGlobals) {
           var content_1 = dropContent['mce-internal'] || dropContent['text/html'] || dropContent['text/plain'];
           if (content_1) {
             e.preventDefault();
-            global$2.setEditorTimeout(editor, function () {
+            global$3.setEditorTimeout(editor, function () {
               editor.undoManager.transact(function () {
                 if (dropContent['mce-internal']) {
                   editor.execCommand('Delete');
@@ -1724,7 +2245,7 @@ var paste = (function (domGlobals) {
         return html;
       }
       var blockElements = [];
-      global$3.each(editor.schema.getBlockElements(), function (block, blockName) {
+      global$4.each(editor.schema.getBlockElements(), function (block, blockName) {
         blockElements.push(blockName);
       });
       var explorerBlocksRegExp = new RegExp('(?:<br>&nbsp;[\\s\\r\\n]+|<br>)*(<\\/?(' + blockElements.join('|') + ')[^>]*>)(?:<br>&nbsp;[\\s\\r\\n]+|<br>)*', 'g');
@@ -1798,10 +2319,10 @@ var paste = (function (domGlobals) {
       });
     }
     var setup$2 = function (editor) {
-      if (global$1.webkit) {
+      if (global$2.webkit) {
         addPreProcessFilter(editor, removeWebKitStyles);
       }
-      if (global$1.ie) {
+      if (global$2.ie) {
         addPreProcessFilter(editor, removeExplorerBrElementsAfterBlocks);
         addPostProcessFilter(editor, removeUnderlineAndFontInAnchor);
       }
@@ -1834,7 +2355,7 @@ var paste = (function (domGlobals) {
     };
     var Buttons = { register: register$2 };
 
-    global.add('paste', function (editor) {
+    global$1.add('paste', function (editor) {
       if (DetectProPlugin.hasProPlugin(editor) === false) {
         var userIsInformedState = Cell(false);
         var draggingInternallyState = Cell(false);

@@ -150,10 +150,6 @@ var modern = (function (domGlobals) {
     var global$7 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
     var noop = function () {
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
     };
     var constant = function (value) {
       return function () {
@@ -217,8 +213,9 @@ var modern = (function (domGlobals) {
         },
         toString: constant('none()')
       };
-      if (Object.freeze)
+      if (Object.freeze) {
         Object.freeze(me);
+      }
       return me;
     }();
     var some = function (a) {
@@ -667,13 +664,16 @@ var modern = (function (domGlobals) {
     var ContextToolbars = { addContextualToolbars: addContextualToolbars };
 
     var typeOf = function (x) {
-      if (x === null)
+      if (x === null) {
         return 'null';
+      }
       var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
         return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x))
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
         return 'string';
+      }
       return t;
     };
     var isType = function (type) {
@@ -681,9 +681,11 @@ var modern = (function (domGlobals) {
         return typeOf(value) === type;
       };
     };
+    var isArray = isType('array');
     var isFunction = isType('function');
     var isNumber = isType('number');
 
+    var slice = Array.prototype.slice;
     var rawIndexOf = function () {
       var pIndexOf = Array.prototype.indexOf;
       var fastIndex = function (xs, x) {
@@ -762,13 +764,13 @@ var modern = (function (domGlobals) {
     var flatten = function (xs) {
       var r = [];
       for (var i = 0, len = xs.length; i < len; ++i) {
-        if (!Array.prototype.isPrototypeOf(xs[i]))
+        if (!isArray(xs[i])) {
           throw new Error('Arr.flatten item ' + i + ' was not an array, input: ' + xs);
+        }
         push.apply(r, xs[i]);
       }
       return r;
     };
-    var slice = Array.prototype.slice;
     var from$1 = isFunction(Array.from) ? Array.from : function (x) {
       return slice.call(x);
     };
@@ -4754,7 +4756,7 @@ var modern = (function (domGlobals) {
         return NotificationManagerImpl(editor);
       };
       var getWindowManagerImpl = function () {
-        return WindowManagerImpl(editor);
+        return WindowManagerImpl();
       };
       return {
         renderUI: renderUI,
@@ -4991,9 +4993,10 @@ var modern = (function (domGlobals) {
         global$9(input).on('click', function (e) {
           e.stopPropagation();
         });
-        global$9(self.getEl('button')).on('click', function (e) {
+        global$9(self.getEl('button')).on('click touchstart', function (e) {
           e.stopPropagation();
           input.click();
+          e.preventDefault();
         });
         self.getEl().appendChild(input);
       },
@@ -6091,6 +6094,32 @@ var modern = (function (domGlobals) {
     var ENTITY = domGlobals.Node.ENTITY_NODE;
     var NOTATION = domGlobals.Node.NOTATION_NODE;
 
+    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
+
+    var path = function (parts, scope) {
+      var o = scope !== undefined && scope !== null ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
+        o = o[parts[i]];
+      }
+      return o;
+    };
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
+
+    var unsafe = function (name, scope) {
+      return resolve(name, scope);
+    };
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
+      return actual;
+    };
+    var Global$1 = { getOrDie: getOrDie };
+
     var Immutable = function () {
       var fields = [];
       for (var _i = 0; _i < arguments.length; _i++) {
@@ -6111,30 +6140,6 @@ var modern = (function (domGlobals) {
         return struct;
       };
     };
-
-    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
-
-    var path = function (parts, scope) {
-      var o = scope !== undefined && scope !== null ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
-        o = o[parts[i]];
-      return o;
-    };
-    var resolve = function (p, scope) {
-      var parts = p.split('.');
-      return path(parts, scope);
-    };
-
-    var unsafe = function (name, scope) {
-      return resolve(name, scope);
-    };
-    var getOrDie = function (name, scope) {
-      var actual = unsafe(name, scope);
-      if (actual === undefined || actual === null)
-        throw name + ' not available on this browser';
-      return actual;
-    };
-    var Global$1 = { getOrDie: getOrDie };
 
     var node = function () {
       var f = Global$1.getOrDie('Node');
@@ -6157,18 +6162,20 @@ var modern = (function (domGlobals) {
     var firstMatch = function (regexes, s) {
       for (var i = 0; i < regexes.length; i++) {
         var x = regexes[i];
-        if (x.test(s))
+        if (x.test(s)) {
           return x;
+        }
       }
       return undefined;
     };
     var find$1 = function (regexes, agent) {
       var r = firstMatch(regexes, agent);
-      if (!r)
+      if (!r) {
         return {
           major: 0,
           minor: 0
         };
+      }
       var group = function (i) {
         return Number(agent.replace(r, '$' + i));
       };
@@ -6176,8 +6183,9 @@ var modern = (function (domGlobals) {
     };
     var detect = function (versionRegexes, agent) {
       var cleanedAgent = String(agent).toLowerCase();
-      if (versionRegexes.length === 0)
+      if (versionRegexes.length === 0) {
         return unknown();
+      }
       return find$1(versionRegexes, cleanedAgent);
     };
     var unknown = function () {
@@ -6347,8 +6355,7 @@ var modern = (function (domGlobals) {
         name: 'Edge',
         versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
         search: function (uastring) {
-          var monstrosity = contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
-          return monstrosity;
+          return contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
         }
       },
       {

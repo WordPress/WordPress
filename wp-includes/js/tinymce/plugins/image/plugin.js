@@ -67,8 +67,9 @@ var image = (function (domGlobals) {
 
     var path = function (parts, scope) {
       var o = scope !== undefined && scope !== null ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
         o = o[parts[i]];
+      }
       return o;
     };
     var resolve = function (p, scope) {
@@ -81,8 +82,9 @@ var image = (function (domGlobals) {
     };
     var getOrDie = function (name, scope) {
       var actual = unsafe(name, scope);
-      if (actual === undefined || actual === null)
-        throw name + ' not available on this browser';
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
       return actual;
     };
     var Global$1 = { getOrDie: getOrDie };
@@ -255,17 +257,20 @@ var image = (function (domGlobals) {
     var baseMerge = function (merger) {
       return function () {
         var objects = new Array(arguments.length);
-        for (var i = 0; i < objects.length; i++)
+        for (var i = 0; i < objects.length; i++) {
           objects[i] = arguments[i];
-        if (objects.length === 0)
+        }
+        if (objects.length === 0) {
           throw new Error('Can\'t merge zero objects');
+        }
         var ret = {};
         for (var j = 0; j < objects.length; j++) {
           var curObject = objects[j];
-          for (var key in curObject)
+          for (var key in curObject) {
             if (hasOwnProperty.call(curObject, key)) {
               ret[key] = merger(ret[key], curObject[key]);
             }
+          }
         }
         return ret;
       };

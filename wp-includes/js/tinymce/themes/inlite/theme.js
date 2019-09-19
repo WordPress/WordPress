@@ -551,10 +551,6 @@ var inlite = (function (domGlobals) {
     var Render = { renderUI: renderUI };
 
     var noop = function () {
-      var args = [];
-      for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i] = arguments[_i];
-      }
     };
     var constant = function (value) {
       return function () {
@@ -618,8 +614,9 @@ var inlite = (function (domGlobals) {
         },
         toString: constant('none()')
       };
-      if (Object.freeze)
+      if (Object.freeze) {
         Object.freeze(me);
+      }
       return me;
     }();
     var some = function (a) {
@@ -694,13 +691,16 @@ var inlite = (function (domGlobals) {
     };
 
     var typeOf = function (x) {
-      if (x === null)
+      if (x === null) {
         return 'null';
+      }
       var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
         return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x))
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
         return 'string';
+      }
       return t;
     };
     var isType$1 = function (type) {
@@ -708,9 +708,11 @@ var inlite = (function (domGlobals) {
         return typeOf(value) === type;
       };
     };
+    var isArray$1 = isType$1('array');
     var isFunction$1 = isType$1('function');
     var isNumber$1 = isType$1('number');
 
+    var slice = Array.prototype.slice;
     var rawIndexOf = function () {
       var pIndexOf = Array.prototype.indexOf;
       var fastIndex = function (xs, x) {
@@ -789,13 +791,13 @@ var inlite = (function (domGlobals) {
     var flatten$1 = function (xs) {
       var r = [];
       for (var i = 0, len = xs.length; i < len; ++i) {
-        if (!Array.prototype.isPrototypeOf(xs[i]))
+        if (!isArray$1(xs[i])) {
           throw new Error('Arr.flatten item ' + i + ' was not an array, input: ' + xs);
+        }
         push.apply(r, xs[i]);
       }
       return r;
     };
-    var slice = Array.prototype.slice;
     var from$1 = isFunction$1(Array.from) ? Array.from : function (x) {
       return slice.call(x);
     };
@@ -4228,7 +4230,7 @@ var inlite = (function (domGlobals) {
           return NotificationManagerImpl(editor);
         },
         getWindowManagerImpl: function () {
-          return WindowManagerImpl(editor);
+          return WindowManagerImpl();
         }
       };
     };
@@ -4238,8 +4240,9 @@ var inlite = (function (domGlobals) {
 
     var path = function (parts, scope) {
       var o = scope !== undefined && scope !== null ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
         o = o[parts[i]];
+      }
       return o;
     };
     var resolve = function (p, scope) {
@@ -4252,8 +4255,9 @@ var inlite = (function (domGlobals) {
     };
     var getOrDie = function (name, scope) {
       var actual = unsafe(name, scope);
-      if (actual === undefined || actual === null)
-        throw name + ' not available on this browser';
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
       return actual;
     };
     var Global$1 = { getOrDie: getOrDie };
@@ -5173,9 +5177,10 @@ var inlite = (function (domGlobals) {
         global$7(input).on('click', function (e) {
           e.stopPropagation();
         });
-        global$7(self.getEl('button')).on('click', function (e) {
+        global$7(self.getEl('button')).on('click touchstart', function (e) {
           e.stopPropagation();
           input.click();
+          e.preventDefault();
         });
         self.getEl().appendChild(input);
       },
@@ -6315,18 +6320,20 @@ var inlite = (function (domGlobals) {
     var firstMatch = function (regexes, s) {
       for (var i = 0; i < regexes.length; i++) {
         var x = regexes[i];
-        if (x.test(s))
+        if (x.test(s)) {
           return x;
+        }
       }
       return undefined;
     };
     var find$1 = function (regexes, agent) {
       var r = firstMatch(regexes, agent);
-      if (!r)
+      if (!r) {
         return {
           major: 0,
           minor: 0
         };
+      }
       var group = function (i) {
         return Number(agent.replace(r, '$' + i));
       };
@@ -6334,8 +6341,9 @@ var inlite = (function (domGlobals) {
     };
     var detect = function (versionRegexes, agent) {
       var cleanedAgent = String(agent).toLowerCase();
-      if (versionRegexes.length === 0)
+      if (versionRegexes.length === 0) {
         return unknown();
+      }
       return find$1(versionRegexes, cleanedAgent);
     };
     var unknown = function () {
@@ -6505,8 +6513,7 @@ var inlite = (function (domGlobals) {
         name: 'Edge',
         versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
         search: function (uastring) {
-          var monstrosity = contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
-          return monstrosity;
+          return contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
         }
       },
       {

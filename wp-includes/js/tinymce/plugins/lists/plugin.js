@@ -275,8 +275,9 @@ var lists = (function (domGlobals) {
         },
         toString: constant('none()')
       };
-      if (Object.freeze)
+      if (Object.freeze) {
         Object.freeze(me);
+      }
       return me;
     }();
     var some = function (a) {
@@ -351,13 +352,16 @@ var lists = (function (domGlobals) {
     };
 
     var typeOf = function (x) {
-      if (x === null)
+      if (x === null) {
         return 'null';
+      }
       var t = typeof x;
-      if (t === 'object' && Array.prototype.isPrototypeOf(x))
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
         return 'array';
-      if (t === 'object' && String.prototype.isPrototypeOf(x))
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
         return 'string';
+      }
       return t;
     };
     var isType = function (type) {
@@ -366,10 +370,12 @@ var lists = (function (domGlobals) {
       };
     };
     var isString = isType('string');
+    var isArray = isType('array');
     var isBoolean = isType('boolean');
     var isFunction = isType('function');
     var isNumber = isType('number');
 
+    var slice = Array.prototype.slice;
     var map = function (xs, f) {
       var len = xs.length;
       var r = new Array(len);
@@ -437,8 +443,9 @@ var lists = (function (domGlobals) {
     var flatten = function (xs) {
       var r = [];
       for (var i = 0, len = xs.length; i < len; ++i) {
-        if (!Array.prototype.isPrototypeOf(xs[i]))
+        if (!isArray(xs[i])) {
           throw new Error('Arr.flatten item ' + i + ' was not an array, input: ' + xs);
+        }
         push.apply(r, xs[i]);
       }
       return r;
@@ -447,7 +454,6 @@ var lists = (function (domGlobals) {
       var output = map(xs, f);
       return flatten(output);
     };
-    var slice = Array.prototype.slice;
     var reverse = function (xs) {
       var r = slice.call(xs, 0);
       r.reverse();
@@ -467,8 +473,9 @@ var lists = (function (domGlobals) {
 
     var path = function (parts, scope) {
       var o = scope !== undefined && scope !== null ? scope : Global;
-      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i)
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
         o = o[parts[i]];
+      }
       return o;
     };
     var resolve = function (p, scope) {
@@ -481,8 +488,9 @@ var lists = (function (domGlobals) {
     };
     var getOrDie = function (name, scope) {
       var actual = unsafe(name, scope);
-      if (actual === undefined || actual === null)
-        throw name + ' not available on this browser';
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
       return actual;
     };
     var Global$1 = { getOrDie: getOrDie };
@@ -703,18 +711,20 @@ var lists = (function (domGlobals) {
     var firstMatch = function (regexes, s) {
       for (var i = 0; i < regexes.length; i++) {
         var x = regexes[i];
-        if (x.test(s))
+        if (x.test(s)) {
           return x;
+        }
       }
       return undefined;
     };
     var find$1 = function (regexes, agent) {
       var r = firstMatch(regexes, agent);
-      if (!r)
+      if (!r) {
         return {
           major: 0,
           minor: 0
         };
+      }
       var group = function (i) {
         return Number(agent.replace(r, '$' + i));
       };
@@ -722,8 +732,9 @@ var lists = (function (domGlobals) {
     };
     var detect = function (versionRegexes, agent) {
       var cleanedAgent = String(agent).toLowerCase();
-      if (versionRegexes.length === 0)
+      if (versionRegexes.length === 0) {
         return unknown();
+      }
       return find$1(versionRegexes, cleanedAgent);
     };
     var unknown = function () {
@@ -893,8 +904,7 @@ var lists = (function (domGlobals) {
         name: 'Edge',
         versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
         search: function (uastring) {
-          var monstrosity = contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
-          return monstrosity;
+          return contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
         }
       },
       {
@@ -1024,19 +1034,22 @@ var lists = (function (domGlobals) {
 
     var ELEMENT$1 = ELEMENT;
     var is = function (element, selector) {
-      var elem = element.dom();
-      if (elem.nodeType !== ELEMENT$1) {
+      var dom = element.dom();
+      if (dom.nodeType !== ELEMENT$1) {
         return false;
-      } else if (elem.matches !== undefined) {
-        return elem.matches(selector);
-      } else if (elem.msMatchesSelector !== undefined) {
-        return elem.msMatchesSelector(selector);
-      } else if (elem.webkitMatchesSelector !== undefined) {
-        return elem.webkitMatchesSelector(selector);
-      } else if (elem.mozMatchesSelector !== undefined) {
-        return elem.mozMatchesSelector(selector);
       } else {
-        throw new Error('Browser lacks native selectors');
+        var elem = dom;
+        if (elem.matches !== undefined) {
+          return elem.matches(selector);
+        } else if (elem.msMatchesSelector !== undefined) {
+          return elem.msMatchesSelector(selector);
+        } else if (elem.webkitMatchesSelector !== undefined) {
+          return elem.webkitMatchesSelector(selector);
+        } else if (elem.mozMatchesSelector !== undefined) {
+          return elem.mozMatchesSelector(selector);
+        } else {
+          throw new Error('Browser lacks native selectors');
+        }
       }
     };
 
@@ -1056,12 +1069,10 @@ var lists = (function (domGlobals) {
     var is$1 = is;
 
     var parent = function (element) {
-      var dom = element.dom();
-      return Option.from(dom.parentNode).map(Element.fromDom);
+      return Option.from(element.dom().parentNode).map(Element.fromDom);
     };
     var children = function (element) {
-      var dom = element.dom();
-      return map(dom.childNodes, Element.fromDom);
+      return map(element.dom().childNodes, Element.fromDom);
     };
     var child = function (element, index) {
       var cs = element.dom().childNodes;
@@ -1107,6 +1118,15 @@ var lists = (function (domGlobals) {
       var r = element.dom().nodeName;
       return r.toLowerCase();
     };
+    var type = function (element) {
+      return element.dom().nodeType;
+    };
+    var isType$1 = function (t) {
+      return function (element) {
+        return type(element) === t;
+      };
+    };
+    var isElement = isType$1(ELEMENT);
 
     var rawSet = function (dom, key, value) {
       if (isString(value) || isBoolean(value) || isNumber(value)) {
@@ -1130,7 +1150,7 @@ var lists = (function (domGlobals) {
     };
 
     var isSupported = function (dom) {
-      return dom.style !== undefined;
+      return dom.style !== undefined && isFunction(dom.style.getPropertyValue);
     };
 
     var internalSet = function (dom, property, value) {
@@ -1270,7 +1290,7 @@ var lists = (function (domGlobals) {
       return map(content, deep);
     };
     var createEntry = function (li, depth, isSelected) {
-      return parent(li).map(function (list) {
+      return parent(li).filter(isElement).map(function (list) {
         return {
           depth: depth,
           isSelected: isSelected,
@@ -1302,17 +1322,20 @@ var lists = (function (domGlobals) {
     var baseMerge = function (merger) {
       return function () {
         var objects = new Array(arguments.length);
-        for (var i = 0; i < objects.length; i++)
+        for (var i = 0; i < objects.length; i++) {
           objects[i] = arguments[i];
-        if (objects.length === 0)
+        }
+        if (objects.length === 0) {
           throw new Error('Can\'t merge zero objects');
+        }
         var ret = {};
         for (var j = 0; j < objects.length; j++) {
           var curObject = objects[j];
-          for (var key in curObject)
+          for (var key in curObject) {
             if (hasOwnProperty.call(curObject, key)) {
               ret[key] = merger(ret[key], curObject[key]);
             }
+          }
         }
         return ret;
       };
@@ -1529,17 +1552,17 @@ var lists = (function (domGlobals) {
     var SplitList = { splitList: splitList };
 
     var outdentDlItem = function (editor, item) {
-      if (is$1(item, 'DD')) {
-        mutate(item, 'DT');
-      } else if (is$1(item, 'DT')) {
+      if (is$1(item, 'dd')) {
+        mutate(item, 'dt');
+      } else if (is$1(item, 'dt')) {
         parent(item).each(function (dl) {
           return SplitList.splitList(editor, dl.dom(), item.dom());
         });
       }
     };
     var indentDlItem = function (item) {
-      if (is$1(item, 'DT')) {
-        mutate(item, 'DD');
+      if (is$1(item, 'dt')) {
+        mutate(item, 'dd');
       }
     };
     var dlIndentation = function (editor, indentation, dlItems) {
