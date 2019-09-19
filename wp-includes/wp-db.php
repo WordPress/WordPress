@@ -306,7 +306,6 @@ class wpdb {
 		'sitemeta',
 		'sitecategories',
 		'registration_log',
-		'blog_versions',
 	);
 
 	/**
@@ -424,14 +423,6 @@ class wpdb {
 	 * @var string
 	 */
 	public $blogmeta;
-
-	/**
-	 * Multisite Blog Versions table
-	 *
-	 * @since 3.0.0
-	 * @var string
-	 */
-	public $blog_versions;
 
 	/**
 	 * Multisite Registration Log table
