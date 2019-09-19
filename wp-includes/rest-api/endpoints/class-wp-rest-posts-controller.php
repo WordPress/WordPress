@@ -1439,15 +1439,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Base fields for every post.
 		$data = array();
 
-		if ( in_array( 'id', $fields, true ) ) {
+		if ( rest_is_field_included( 'id', $fields ) ) {
 			$data['id'] = $post->ID;
 		}
 
-		if ( in_array( 'date', $fields, true ) ) {
+		if ( rest_is_field_included( 'date', $fields ) ) {
 			$data['date'] = $this->prepare_date_response( $post->post_date_gmt, $post->post_date );
 		}
 
-		if ( in_array( 'date_gmt', $fields, true ) ) {
+		if ( rest_is_field_included( 'date_gmt', $fields ) ) {
 			// For drafts, `post_date_gmt` may not be set, indicating that the
 			// date of the draft should be updated each time it is saved (see
 			// #38883).  In this case, shim the value based on the `post_date`
@@ -1460,7 +1460,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$data['date_gmt'] = $this->prepare_date_response( $post_date_gmt );
 		}
 
-		if ( in_array( 'guid', $fields, true ) ) {
+		if ( rest_is_field_included( 'guid', $fields ) ) {
 			$data['guid'] = array(
 				/** This filter is documented in wp-includes/post-template.php */
 				'rendered' => apply_filters( 'get_the_guid', $post->guid, $post->ID ),
@@ -1468,11 +1468,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
-		if ( in_array( 'modified', $fields, true ) ) {
+		if ( rest_is_field_included( 'modified', $fields ) ) {
 			$data['modified'] = $this->prepare_date_response( $post->post_modified_gmt, $post->post_modified );
 		}
 
-		if ( in_array( 'modified_gmt', $fields, true ) ) {
+		if ( rest_is_field_included( 'modified_gmt', $fields ) ) {
 			// For drafts, `post_modified_gmt` may not be set (see
 			// `post_date_gmt` comments above).  In this case, shim the value
 			// based on the `post_modified` field with the site's timezone
@@ -1485,33 +1485,36 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$data['modified_gmt'] = $this->prepare_date_response( $post_modified_gmt );
 		}
 
-		if ( in_array( 'password', $fields, true ) ) {
+		if ( rest_is_field_included( 'password', $fields ) ) {
 			$data['password'] = $post->post_password;
 		}
 
-		if ( in_array( 'slug', $fields, true ) ) {
+		if ( rest_is_field_included( 'slug', $fields ) ) {
 			$data['slug'] = $post->post_name;
 		}
 
-		if ( in_array( 'status', $fields, true ) ) {
+		if ( rest_is_field_included( 'status', $fields ) ) {
 			$data['status'] = $post->post_status;
 		}
 
-		if ( in_array( 'type', $fields, true ) ) {
+		if ( rest_is_field_included( 'type', $fields ) ) {
 			$data['type'] = $post->post_type;
 		}
 
-		if ( in_array( 'link', $fields, true ) ) {
+		if ( rest_is_field_included( 'link', $fields ) ) {
 			$data['link'] = get_permalink( $post->ID );
 		}
 
-		if ( in_array( 'title', $fields, true ) ) {
+		if ( rest_is_field_included( 'title', $fields ) ) {
+			$data['title'] = array();
+		}
+		if ( rest_is_field_included( 'title.raw', $fields ) ) {
+			$data['title']['raw'] = $post->post_title;
+		}
+		if ( rest_is_field_included( 'title.rendered', $fields ) ) {
 			add_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
 
-			$data['title'] = array(
-				'raw'      => $post->post_title,
-				'rendered' => get_the_title( $post->ID ),
-			);
+			$data['title']['rendered'] = get_the_title( $post->ID );
 
 			remove_filter( 'protected_title_format', array( $this, 'protected_title_format' ) );
 		}
@@ -1525,17 +1528,24 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$has_password_filter = true;
 		}
 
-		if ( in_array( 'content', $fields, true ) ) {
-			$data['content'] = array(
-				'raw'           => $post->post_content,
-				/** This filter is documented in wp-includes/post-template.php */
-				'rendered'      => post_password_required( $post ) ? '' : apply_filters( 'the_content', $post->post_content ),
-				'protected'     => (bool) $post->post_password,
-				'block_version' => block_version( $post->post_content ),
-			);
+		if ( rest_is_field_included( 'content', $fields ) ) {
+			$data['content'] = array();
+		}
+		if ( rest_is_field_included( 'content.raw', $fields ) ) {
+			$data['content']['raw'] = $post->post_content;
+		}
+		if ( rest_is_field_included( 'content.rendered', $fields ) ) {
+			/** This filter is documented in wp-includes/post-template.php */
+			$data['content']['rendered'] = post_password_required( $post ) ? '' : apply_filters( 'the_content', $post->post_content );
+		}
+		if ( rest_is_field_included( 'content.protected', $fields ) ) {
+			$data['content']['protected'] = (bool) $post->post_password;
+		}
+		if ( rest_is_field_included( 'content.block_version', $fields ) ) {
+			$data['content']['block_version'] = block_version( $post->post_content );
 		}
 
-		if ( in_array( 'excerpt', $fields, true ) ) {
+		if ( rest_is_field_included( 'excerpt', $fields ) ) {
 			/** This filter is documented in wp-includes/post-template.php */
 			$excerpt         = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
 			$data['excerpt'] = array(
@@ -1550,35 +1560,35 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			remove_filter( 'post_password_required', '__return_false' );
 		}
 
-		if ( in_array( 'author', $fields, true ) ) {
+		if ( rest_is_field_included( 'author', $fields ) ) {
 			$data['author'] = (int) $post->post_author;
 		}
 
-		if ( in_array( 'featured_media', $fields, true ) ) {
+		if ( rest_is_field_included( 'featured_media', $fields ) ) {
 			$data['featured_media'] = (int) get_post_thumbnail_id( $post->ID );
 		}
 
-		if ( in_array( 'parent', $fields, true ) ) {
+		if ( rest_is_field_included( 'parent', $fields ) ) {
 			$data['parent'] = (int) $post->post_parent;
 		}
 
-		if ( in_array( 'menu_order', $fields, true ) ) {
+		if ( rest_is_field_included( 'menu_order', $fields ) ) {
 			$data['menu_order'] = (int) $post->menu_order;
 		}
 
-		if ( in_array( 'comment_status', $fields, true ) ) {
+		if ( rest_is_field_included( 'comment_status', $fields ) ) {
 			$data['comment_status'] = $post->comment_status;
 		}
 
-		if ( in_array( 'ping_status', $fields, true ) ) {
+		if ( rest_is_field_included( 'ping_status', $fields ) ) {
 			$data['ping_status'] = $post->ping_status;
 		}
 
-		if ( in_array( 'sticky', $fields, true ) ) {
+		if ( rest_is_field_included( 'sticky', $fields ) ) {
 			$data['sticky'] = is_sticky( $post->ID );
 		}
 
-		if ( in_array( 'template', $fields, true ) ) {
+		if ( rest_is_field_included( 'template', $fields ) ) {
 			$template = get_page_template_slug( $post->ID );
 			if ( $template ) {
 				$data['template'] = $template;
@@ -1587,7 +1597,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
-		if ( in_array( 'format', $fields, true ) ) {
+		if ( rest_is_field_included( 'format', $fields ) ) {
 			$data['format'] = get_post_format( $post->ID );
 
 			// Fill in blank post format.
@@ -1596,7 +1606,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
-		if ( in_array( 'meta', $fields, true ) ) {
+		if ( rest_is_field_included( 'meta', $fields ) ) {
 			$data['meta'] = $this->meta->get_value( $post->ID, $request );
 		}
 
@@ -1605,7 +1615,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		foreach ( $taxonomies as $taxonomy ) {
 			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 
-			if ( in_array( $base, $fields, true ) ) {
+			if ( rest_is_field_included( $base, $fields ) ) {
 				$terms         = get_the_terms( $post, $taxonomy->name );
 				$data[ $base ] = $terms ? array_values( wp_list_pluck( $terms, 'term_id' ) ) : array();
 			}
@@ -1613,8 +1623,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$post_type_obj = get_post_type_object( $post->post_type );
 		if ( is_post_type_viewable( $post_type_obj ) && $post_type_obj->public ) {
-			$permalink_template_requested = in_array( 'permalink_template', $fields, true );
-			$generated_slug_requested     = in_array( 'generated_slug', $fields, true );
+			$permalink_template_requested = rest_is_field_included( 'permalink_template', $fields );
+			$generated_slug_requested     = rest_is_field_included( 'generated_slug', $fields );
 
 			if ( $permalink_template_requested || $generated_slug_requested ) {
 				if ( ! function_exists( 'get_sample_permalink' ) ) {

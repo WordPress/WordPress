@@ -697,6 +697,24 @@ function rest_send_allow_header( $response, $server, $request ) {
 }
 
 /**
+ * Recursively computes the intersection of arrays using keys for comparison.
+ *
+ * @param  array $array1 The array with master keys to check.
+ * @param  array $array2 An array to compare keys against.
+ *
+ * @return array An associative array containing all the entries of array1 which have keys that are present in all arguments.
+ */
+function _rest_array_intersect_key_recursive( $array1, $array2 ) {
+	$array1 = array_intersect_key( $array1, $array2 );
+	foreach ( $array1 as $key => $value ) {
+		if ( is_array( $value ) && is_array( $array2[ $key ] ) ) {
+			$array1[ $key ] = _rest_array_intersect_key_recursive( $value, $array2[ $key ] );
+		}
+	}
+	return $array1;
+}
+
+/**
  * Filter the API response to include only a white-listed set of response object fields.
  *
  * @since 4.8.0
@@ -723,20 +741,67 @@ function rest_filter_response_fields( $response, $server, $request ) {
 	// Trim off outside whitespace from the comma delimited list.
 	$fields = array_map( 'trim', $fields );
 
-	$fields_as_keyed = array_combine( $fields, array_fill( 0, count( $fields ), true ) );
+	// Create nested array of accepted field hierarchy.
+	$fields_as_keyed = array();
+	foreach ( $fields as $field ) {
+		$parts = explode( '.', $field );
+		$ref   = &$fields_as_keyed;
+		while ( count( $parts ) > 1 ) {
+			$next         = array_shift( $parts );
+			$ref[ $next ] = array();
+			$ref          = &$ref[ $next ];
+		}
+		$last         = array_shift( $parts );
+		$ref[ $last ] = true;
+	}
 
 	if ( wp_is_numeric_array( $data ) ) {
 		$new_data = array();
 		foreach ( $data as $item ) {
-			$new_data[] = array_intersect_key( $item, $fields_as_keyed );
+			$new_data[] = _rest_array_intersect_key_recursive( $item, $fields_as_keyed );
 		}
 	} else {
-		$new_data = array_intersect_key( $data, $fields_as_keyed );
+		$new_data = _rest_array_intersect_key_recursive( $data, $fields_as_keyed );
 	}
 
 	$response->set_data( $new_data );
 
 	return $response;
+}
+
+/**
+ * Given an array of fields to include in a response, some of which may be
+ * `nested.fields`, determine whether the provided field should be included
+ * in the response body.
+ *
+ * If a parent field is passed in, the presence of any nested field within
+ * that parent will cause the method to return `true`. For example "title"
+ * will return true if any of `title`, `title.raw` or `title.rendered` is
+ * provided.
+ *
+ * @since 5.3.0
+ *
+ * @param string $field  A field to test for inclusion in the response body.
+ * @param array  $fields An array of string fields supported by the endpoint.
+ * @return bool Whether to include the field or not.
+ */
+function rest_is_field_included( $field, $fields ) {
+	if ( in_array( $field, $fields, true ) ) {
+		return true;
+	}
+	foreach ( $fields as $accepted_field ) {
+		// Check to see if $field is the parent of any item in $fields.
+		// A field "parent" should be accepted if "parent.child" is accepted.
+		if ( strpos( $accepted_field, "$field." ) === 0 ) {
+			return true;
+		}
+		// Conversely, if "parent" is accepted, all "parent.child" fields should
+		// also be accepted.
+		if ( strpos( $field, "$accepted_field." ) === 0 ) {
+			return true;
+		}
+	}
+	return false;
 }
 
 /**

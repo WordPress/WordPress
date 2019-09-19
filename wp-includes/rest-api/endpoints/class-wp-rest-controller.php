@@ -562,7 +562,25 @@ abstract class WP_REST_Controller {
 		if ( in_array( 'id', $fields, true ) ) {
 			$requested_fields[] = 'id';
 		}
-		return array_intersect( $fields, $requested_fields );
+		// Return the list of all requested fields which appear in the schema.
+		return array_reduce(
+			$requested_fields,
+			function( $response_fields, $field ) use ( $fields ) {
+				if ( in_array( $field, $fields, true ) ) {
+					$response_fields[] = $field;
+					return $response_fields;
+				}
+				// Check for nested fields if $field is not a direct match.
+				$nested_fields = explode( '.', $field );
+				// A nested field is included so long as its top-level property is
+				// present in the schema.
+				if ( in_array( $nested_fields[0], $fields, true ) ) {
+					$response_fields[] = $field;
+				}
+				return $response_fields;
+			},
+			array()
+		);
 	}
 
 	/**
