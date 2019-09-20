@@ -234,7 +234,15 @@ function _wp_personal_data_cleanup_requests() {
  * @return string The HTML for this group and its items.
  */
 function wp_privacy_generate_personal_data_export_group_html( $group_data ) {
-	$group_html = '<h2>' . esc_html( $group_data['group_label'] ) . '</h2>';
+	$group_html  = '<h2>';
+	$group_html .= esc_html( $group_data['group_label'] );
+
+	$items_count = count( (array) $group_data['items'] );
+	if ( $items_count > 1 ) {
+		$group_html .= sprintf( ' <span class="count">(%d)</span>', $items_count );
+	}
+
+	$group_html .= '</h2>';
 
 	if ( ! empty( $group_data['group_description'] ) ) {
 		$group_html .= '<p>' . esc_html( $group_data['group_description'] ) . '</p>';
