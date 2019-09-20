@@ -231,14 +231,12 @@ if ( isset( $_GET['action'] ) ) {
 					wp_safe_redirect( $redirect_to );
 					exit();
 				}
-			} else {
-				$location = network_admin_url( 'sites.php' );
-				if ( ! empty( $_REQUEST['paged'] ) ) {
-					$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
-				}
-				wp_redirect( $location );
-				exit();
+			} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
+				// process query defined by WP_MS_Site_List_Table::extra_table_nav().
+				wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+				exit;
 			}
+
 			break;
 
 		case 'archiveblog':
