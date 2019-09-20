@@ -606,7 +606,7 @@ switch ( $action ) {
 			exit;
 		}
 
-		login_header( __( 'Confirm your admin email' ), '', $errors );
+		login_header( __( 'Confirm your administration email' ), '', $errors );
 
 		/**
 		* Fires before the admin email confirm form.
@@ -643,10 +643,14 @@ switch ( $action ) {
 				/* translators: URL to the WordPress help section about admin email. */
 				$admin_email_help_url = __( 'https://wordpress.org/support/article/settings-general-screen/#email-address' );
 
+				/* translators: accessibility text */
+				$accessibility_text = sprintf( '<span class="screen-reader-text"> %s</span>', __( '(opens in a new tab)' ) );
+
 				printf(
-					'<a href="%s" rel="noopener noreferrer" target="_blank">%s</a>',
+					'<a href="%s" rel="noopener noreferrer" target="_blank">%s%s</a>',
 					esc_url( $admin_email_help_url ),
-					__( 'Why is this important?' )
+					__( 'Why is this important?' ),
+					$accessibility_text
 				);
 
 				?>
@@ -656,23 +660,14 @@ switch ( $action ) {
 
 				printf(
 					/* translators: %s: Admin email address. */
-					__( 'Current administration email: %s' ),
-					'<strong>' . esc_html( $admin_email ) . '</strong>'
+					__( 'Current administration email: <strong>%s</strong>' ),
+					esc_html( $admin_email )
 				);
 
 				?>
 			</p>
 			<p class="admin-email__details">
 				<?php _e( 'This email may be different from your personal email address.' ); ?>
-				<?php
-
-				printf(
-					'<a href="%s" rel="noopener noreferrer" target="_blank">%s</a>',
-					esc_url( $admin_email_help_url ),
-					__( 'Learn more.' )
-				);
-
-				?>
 			</p>
 
 			<div class="admin-email__actions">
@@ -1248,13 +1243,13 @@ switch ( $action ) {
 				// to the admin email confirmation screen.
 				/** This filter is documented in wp-login.php */
 				$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 180 * DAY_IN_SECONDS );
-
+$admin_email_lifespan = 5;
 				if ( $admin_email_check_interval > 0 && time() > $admin_email_lifespan ) {
 					$redirect_to = add_query_arg( 'action', 'confirm_admin_email', wp_login_url( $redirect_to ) );
 				}
 			}
 
-			if ( ( empty( $redirect_to ) || $redirect_to === 'wp-admin/' || $redirect_to == admin_url() ) ) {
+			if ( ( empty( $redirect_to ) || $redirect_to === 'wp-admin/' || $redirect_to === admin_url() ) ) {
 				// If the user doesn't belong to a blog, send them to user admin. If the user can't edit posts, send them to their profile.
 				if ( is_multisite() && ! get_active_blog_for_user( $user->ID ) && ! is_super_admin( $user->ID ) ) {
 					$redirect_to = user_admin_url();
