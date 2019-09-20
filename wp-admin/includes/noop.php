@@ -93,13 +93,6 @@ function includes_url() {}
  */
 function wp_guess_url() {}
 
-if ( ! function_exists( 'json_encode' ) ) :
-	/**
-	 * @ignore
-	 */
-	function json_encode() {}
-endif;
-
 function get_file( $path ) {
 
 	if ( function_exists( 'realpath' ) ) {

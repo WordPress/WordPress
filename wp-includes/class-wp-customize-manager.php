@@ -1116,8 +1116,9 @@ final class WP_Customize_Manager {
 			return new WP_Error( 'wrong_post_type' );
 		}
 		$changeset_data = json_decode( $changeset_post->post_content, true );
-		if ( function_exists( 'json_last_error' ) && json_last_error() ) {
-			return new WP_Error( 'json_parse_error', '', json_last_error() );
+		$last_error     = json_last_error();
+		if ( $last_error ) {
+			return new WP_Error( 'json_parse_error', '', $last_error );
 		}
 		if ( ! is_array( $changeset_data ) ) {
 			return new WP_Error( 'expected_array' );
@@ -2843,13 +2844,9 @@ final class WP_Customize_Manager {
 		}
 
 		// Gather the data for wp_insert_post()/wp_update_post().
-		$json_options = 0;
-		if ( defined( 'JSON_UNESCAPED_SLASHES' ) ) {
-			$json_options |= JSON_UNESCAPED_SLASHES; // Introduced in PHP 5.4. This is only to improve readability as slashes needn't be escaped in storage.
-		}
-		$json_options |= JSON_PRETTY_PRINT; // Also introduced in PHP 5.4, but WP defines constant for back compat. See WP Trac #30139.
-		$post_array    = array(
-			'post_content' => wp_json_encode( $data, $json_options ),
+		$post_array = array(
+			// JSON_UNESCAPED_SLASHES is only to improve readability as slashes needn't be escaped in storage.
+			'post_content' => wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT ),
 		);
 		if ( $args['title'] ) {
 			$post_array['post_title'] = $args['title'];

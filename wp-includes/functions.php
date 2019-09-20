@@ -3721,6 +3721,7 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
  * Encode a variable into JSON, with some sanity checks.
  *
  * @since 4.1.0
+ * @since 5.3.0 No longer handles support for PHP < 5.6.
  *
  * @param mixed $data    Variable (usually an array or object) to encode as JSON.
  * @param int   $options Optional. Options to be passed to json_encode(). Default 0.
@@ -3729,39 +3730,20 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
  * @return string|false The JSON encoded string, or false if it cannot be encoded.
  */
 function wp_json_encode( $data, $options = 0, $depth = 512 ) {
-	/*
-	 * json_encode() has had extra params added over the years.
-	 * $options was added in 5.3, and $depth in 5.5.
-	 * We need to make sure we call it with the correct arguments.
-	 */
-	if ( version_compare( PHP_VERSION, '5.5', '>=' ) ) {
-		$args = array( $data, $options, $depth );
-	} elseif ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-		$args = array( $data, $options );
-	} else {
-		$args = array( $data );
-	}
-
-	// Prepare the data for JSON serialization.
-	$args[0] = _wp_json_prepare_data( $data );
-
-	// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- json_encode() errors are handled after this call
-	$json = @call_user_func_array( 'json_encode', $args );
+	$json = json_encode( $data, $options, $depth );
 
 	// If json_encode() was successful, no need to do more sanity checking.
-	// ... unless we're in an old version of PHP, and json_encode() returned
-	// a string containing 'null'. Then we need to do more sanity checking.
-	if ( false !== $json && ( version_compare( PHP_VERSION, '5.5', '>=' ) || false === strpos( $json, 'null' ) ) ) {
+	if ( false !== $json ) {
 		return $json;
 	}
 
 	try {
-		$args[0] = _wp_json_sanity_check( $data, $depth );
+		$data = _wp_json_sanity_check( $data, $depth );
 	} catch ( Exception $e ) {
 		return false;
 	}
 
-	return call_user_func_array( 'json_encode', $args );
+	return json_encode( $data, $options, $depth );
 }
 
 /**
@@ -3865,48 +3847,17 @@ function _wp_json_convert_string( $string ) {
  * This supports the JsonSerializable interface for PHP 5.2-5.3 as well.
  *
  * @ignore
- * @since 4.4.0
- * @access private
+ * @since      4.4.0
+ * @deprecated 5.3.0 This function is no longer needed as support for PHP 5.2-5.3
+ *                   has been dropped.
+ * @access     private
  *
  * @param mixed $data Native representation.
  * @return bool|int|float|null|string|array Data ready for `json_encode()`.
  */
 function _wp_json_prepare_data( $data ) {
-	if ( ! defined( 'WP_JSON_SERIALIZE_COMPATIBLE' ) || WP_JSON_SERIALIZE_COMPATIBLE === false ) {
-		return $data;
-	}
-
-	switch ( gettype( $data ) ) {
-		case 'boolean':
-		case 'integer':
-		case 'double':
-		case 'string':
-		case 'NULL':
-			// These values can be passed through.
-			return $data;
-
-		case 'array':
-			// Arrays must be mapped in case they also return objects.
-			return array_map( '_wp_json_prepare_data', $data );
-
-		case 'object':
-			// If this is an incomplete object (__PHP_Incomplete_Class), bail.
-			if ( ! is_object( $data ) ) {
-				return null;
-			}
-
-			if ( $data instanceof JsonSerializable ) {
-				$data = $data->jsonSerialize();
-			} else {
-				$data = get_object_vars( $data );
-			}
-
-			// Now, pass the array (or whatever was returned from jsonSerialize through).
-			return _wp_json_prepare_data( $data );
-
-		default:
-			return null;
-	}
+	_deprecated_function( __FUNCTION__, '5.3.0' );
+	return $data;
 }
 
 /**
