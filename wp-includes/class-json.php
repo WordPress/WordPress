@@ -1,4 +1,6 @@
 <?php
+_deprecated_file( basename( __FILE__ ), '5.3.0', null, 'The PHP native JSON extension is now a requirement.' );
+
 if ( ! class_exists( 'Services_JSON' ) ) :
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
@@ -142,6 +144,8 @@ class Services_JSON
     */
     function __construct( $use = 0 )
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         $this->use = $use;
         $this->_mb_strlen            = function_exists('mb_strlen');
         $this->_mb_convert_encoding  = function_exists('mb_convert_encoding');
@@ -152,6 +156,7 @@ class Services_JSON
 	 * PHP4 constructor.
 	 */
 	public function Services_JSON( $use = 0 ) {
+		_deprecated_constructor( 'Services_JSON', '5.3.0', get_class( $this ) );
 		self::__construct( $use );
 	}
     // private - cache the mbstring lookup results..
@@ -172,6 +177,8 @@ class Services_JSON
     */
     function utf162utf8($utf16)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         // oh please oh please oh please oh please oh please
         if($this->_mb_convert_encoding) {
             return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
@@ -216,6 +223,8 @@ class Services_JSON
     */
     function utf82utf16($utf8)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         // oh please oh please oh please oh please oh please
         if($this->_mb_convert_encoding) {
             return mb_convert_encoding($utf8, 'UTF-16', 'UTF-8');
@@ -260,6 +269,8 @@ class Services_JSON
     */
     function encode($var)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         header('Content-type: application/json');
         return $this->encodeUnsafe($var);
     }
@@ -276,6 +287,8 @@ class Services_JSON
     */
     function encodeUnsafe($var)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         // see bug #16908 - regarding numeric locale printing
         $lc = setlocale(LC_NUMERIC, 0);
         setlocale(LC_NUMERIC, 'C');
@@ -297,7 +310,8 @@ class Services_JSON
     */
     function _encode($var) 
     {
-         
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         switch (gettype($var)) {
             case 'boolean':
                 return $var ? 'true' : 'false';
@@ -539,6 +553,8 @@ class Services_JSON
     */
     function name_value($name, $value)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         $encoded_value = $this->_encode($value);
 
         if(Services_JSON::isError($encoded_value)) {
@@ -558,6 +574,8 @@ class Services_JSON
     */
     function reduce_string($str)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         $str = preg_replace(array(
 
                 // eliminate single line comments in '// ...' form
@@ -589,6 +607,8 @@ class Services_JSON
     */
     function decode($str)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         $str = $this->reduce_string($str);
 
         switch (strtolower($str)) {
@@ -774,7 +794,7 @@ class Services_JSON
                                 $parts = array();
                                 
                                if (preg_match('/^\s*(["\'].*[^\\\]["\'])\s*:/Uis', $slice, $parts)) {
- 	                              // "name":value pair
+                                    // "name":value pair
                                     $key = $this->decode($parts[1]);
                                     $val = $this->decode(trim(substr($slice, strlen($parts[0])), ", \t\n\r\0\x0B"));
                                     if ($this->use & SERVICES_JSON_LOOSE_TYPE) {
@@ -870,6 +890,8 @@ class Services_JSON
      */
     function isError($data, $code = null)
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         if (class_exists('pear')) {
             return PEAR::isError($data, $code);
         } elseif (is_object($data) && (get_class($data) == 'services_json_error' ||
@@ -887,6 +909,8 @@ class Services_JSON
     */
     function strlen8( $str ) 
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         if ( $this->_mb_strlen ) {
             return mb_strlen( $str, "8bit" );
         }
@@ -902,6 +926,8 @@ class Services_JSON
     */
     function substr8( $string, $start, $length=false ) 
     {
+        _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
         if ( $length === false ) {
             $length = $this->strlen8( $string ) - $start;
         }
@@ -920,14 +946,16 @@ if (class_exists('PEAR_Error')) {
         function __construct($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null)
         {
+            _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
+
             parent::PEAR_Error($message, $code, $mode, $options, $userinfo);
         }
 
-	public function Services_JSON_Error($message = 'unknown error', $code = null,
+		public function Services_JSON_Error($message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null) {
-		self::__construct($message = 'unknown error', $code = null,
-                                     $mode = null, $options = null, $userinfo = null);
-	}
+			_deprecated_constructor( 'Services_JSON_Error', '5.3.0', get_class( $this ) );
+			self::__construct($message, $code, $mode, $options, $userinfo);
+		}
     }
 
 } else {
@@ -943,7 +971,7 @@ if (class_exists('PEAR_Error')) {
         function __construct( $message = 'unknown error', $code = null,
                                      $mode = null, $options = null, $userinfo = null )
         {
-
+            _deprecated_function( __METHOD__, '5.3.0', 'The PHP native JSON extension' );
         }
 
 	    /**
@@ -951,10 +979,11 @@ if (class_exists('PEAR_Error')) {
 	     */
 		public function Services_JSON_Error( $message = 'unknown error', $code = null,
 	                                     $mode = null, $options = null, $userinfo = null ) {
+			_deprecated_constructor( 'Services_JSON_Error', '5.3.0', get_class( $this ) );
 			self::__construct( $message, $code, $mode, $options, $userinfo );
 		}
     }
-    
+
 }
 
 endif;
