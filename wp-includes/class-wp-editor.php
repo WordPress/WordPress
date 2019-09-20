@@ -491,9 +491,7 @@ final class _WP_Editors {
 								$path = str_replace( content_url(), '', $plugurl );
 								$path = WP_CONTENT_DIR . $path . '/langs/';
 
-								if ( function_exists( 'realpath' ) ) {
-									$path = trailingslashit( realpath( $path ) );
-								}
+								$path = trailingslashit( realpath( $path ) );
 
 								if ( @is_file( $path . $mce_locale . '.js' ) ) {
 									$strings .= @file_get_contents( $path . $mce_locale . '.js' ) . "\n";

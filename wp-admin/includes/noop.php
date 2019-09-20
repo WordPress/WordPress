@@ -95,9 +95,7 @@ function wp_guess_url() {}
 
 function get_file( $path ) {
 
-	if ( function_exists( 'realpath' ) ) {
-		$path = realpath( $path );
-	}
+	$path = realpath( $path );
 
 	if ( ! $path || ! @is_file( $path ) ) {
 		return '';
