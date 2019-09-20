@@ -363,7 +363,8 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  *                                                (default true).
  *     @type bool          $show_in_nav_menus     Makes this taxonomy available for selection in navigation menus. If not
  *                                                set, the default is inherited from `$public` (default true).
- *     @type bool          $show_in_rest          Whether to include the taxonomy in the REST API.
+ *     @type bool          $show_in_rest          Whether to include the taxonomy in the REST API. Set this to true
+ *                                                for the taxonomy to be available in the block editor.
  *     @type string        $rest_base             To change the base url of REST API route. Default is $taxonomy.
  *     @type string        $rest_controller_class REST API Controller class name. Default is 'WP_REST_Terms_Controller'.
  *     @type bool          $show_tagcloud         Whether to list the taxonomy in the Tag Cloud Widget controls. If not set,
