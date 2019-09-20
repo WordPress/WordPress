@@ -522,7 +522,7 @@ class WP_Query {
 	 * Fills in the query variables, which do not exist within the parameter.
 	 *
 	 * @since 2.1.0
-	 * @since 4.4.0 Removed the `comments_popup` public query variable.
+	 * @since 4.5.0 Removed the `comments_popup` public query variable.
 	 *
 	 * @param array $array Defined query variables.
 	 * @return array Complete query variables with undefined ones filled in empty.
