@@ -1243,7 +1243,7 @@ switch ( $action ) {
 				// to the admin email confirmation screen.
 				/** This filter is documented in wp-login.php */
 				$admin_email_check_interval = (int) apply_filters( 'admin_email_check_interval', 180 * DAY_IN_SECONDS );
-$admin_email_lifespan = 5;
+
 				if ( $admin_email_check_interval > 0 && time() > $admin_email_lifespan ) {
 					$redirect_to = add_query_arg( 'action', 'confirm_admin_email', wp_login_url( $redirect_to ) );
 				}
