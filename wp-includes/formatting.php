@@ -5572,15 +5572,10 @@ function _print_emoji_detection_script() {
  * @return string The encoded content.
  */
 function wp_encode_emoji( $content ) {
-	$emoji  = _wp_emoji_list( 'partials' );
-	$compat = version_compare( phpversion(), '5.4', '<' );
+	$emoji = _wp_emoji_list( 'partials' );
 
 	foreach ( $emoji as $emojum ) {
-		if ( $compat ) {
-			$emoji_char = html_entity_decode( $emojum, ENT_COMPAT, 'UTF-8' );
-		} else {
-			$emoji_char = html_entity_decode( $emojum );
-		}
+		$emoji_char = html_entity_decode( $emojum );
 		if ( false !== strpos( $content, $emoji_char ) ) {
 			$content = preg_replace( "/$emoji_char/", $emojum, $content );
 		}
@@ -5616,14 +5611,9 @@ function wp_staticize_emoji( $text ) {
 
 	// Quickly narrow down the list of emoji that might be in the text and need replacing.
 	$possible_emoji = array();
-	$compat         = version_compare( phpversion(), '5.4', '<' );
 	foreach ( $emoji as $emojum ) {
 		if ( false !== strpos( $text, $emojum ) ) {
-			if ( $compat ) {
-				$possible_emoji[ $emojum ] = html_entity_decode( $emojum, ENT_COMPAT, 'UTF-8' );
-			} else {
-				$possible_emoji[ $emojum ] = html_entity_decode( $emojum );
-			}
+			$possible_emoji[ $emojum ] = html_entity_decode( $emojum );
 		}
 	}
 

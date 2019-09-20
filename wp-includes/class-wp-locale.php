@@ -199,13 +199,8 @@ class WP_Locale {
 		/* translators: $thousands_sep argument for https://secure.php.net/number_format, default is ',' */
 		$thousands_sep = __( 'number_format_thousands_sep' );
 
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// Replace space with a non-breaking space to avoid wrapping.
-			$thousands_sep = str_replace( ' ', '&nbsp;', $thousands_sep );
-		} else {
-			// PHP < 5.4.0 does not support multiple bytes in thousands separator.
-			$thousands_sep = str_replace( array( '&nbsp;', '&#160;' ), ' ', $thousands_sep );
-		}
+		// Replace space with a non-breaking space to avoid wrapping.
+		$thousands_sep = str_replace( ' ', '&nbsp;', $thousands_sep );
 
 		$this->number_format['thousands_sep'] = ( 'number_format_thousands_sep' === $thousands_sep ) ? ',' : $thousands_sep;
 
