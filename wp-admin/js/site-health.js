@@ -65,11 +65,11 @@ jQuery( document ).ready( function( $ ) {
 		count = SiteHealth.site_status.issues[ issue.status ];
 
 		if ( 'critical' === issue.status ) {
-			heading = sprintf( _n( '%s Critical issue', '%s Critical issues', count ), '<span class="issue-count">' + count + '</span>' );
+			heading = sprintf( _n( '%s critical issue', '%s critical issues', count ), '<span class="issue-count">' + count + '</span>' );
 		} else if ( 'recommended' === issue.status ) {
-			heading = sprintf( _n( '%s Recommended improvement', '%s Recommended improvements', count ), '<span class="issue-count">' + count + '</span>' );
+			heading = sprintf( _n( '%s recommended improvement', '%s recommended improvements', count ), '<span class="issue-count">' + count + '</span>' );
 		} else if ( 'good' === issue.status ) {
-			heading = sprintf( _n( '%s Item with no issues detected', '%s Items with no issues detected', count ), '<span class="issue-count">' + count + '</span>' );
+			heading = sprintf( _n( '%s item with no issues detected', '%s items with no issues detected', count ), '<span class="issue-count">' + count + '</span>' );
 		}
 
 		if ( heading ) {
