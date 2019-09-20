@@ -1320,6 +1320,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  * that the user has the required capability as well.
  *
  * @since 1.5.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @global array $submenu
  * @global array $menu
@@ -1339,7 +1340,6 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  *                              to be compatible with sanitize_key().
  * @param callable $function    The function to be called to output the content for this page.
  * @param int      $position    The position in the menu order this item should appear.
- *
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '', $position = null ) {
@@ -1431,6 +1431,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * that the user has the required capability as well.
  *
  * @since 1.5.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1454,6 +1455,7 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  * that the user has the required capability as well.
  *
  * @since 1.5.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1477,6 +1479,7 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * that the user has the required capability as well.
  *
  * @since 2.0.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1500,6 +1503,7 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 3.0.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1523,6 +1527,7 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * that the user has the required capability as well.
  *
  * @since 2.1.3
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1551,6 +1556,7 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1574,6 +1580,7 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1597,6 +1604,7 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1620,6 +1628,7 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1643,6 +1652,7 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
@@ -1666,6 +1676,7 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * that the user has the required capability as well.
  *
  * @since 2.7.0
+ * @since 5.3.0 Added the `$position` parameter.
  *
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
