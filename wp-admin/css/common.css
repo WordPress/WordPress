@@ -4042,6 +4042,10 @@ img {
 	.nav-tab-active:focus:active {
 		border-bottom: 1px solid #ccc;
 	}
+
+	.wp-filter .search-form input[type="search"] {
+		width: 100%;
+	}
 }
 
 @media screen and (max-width: 320px) {
