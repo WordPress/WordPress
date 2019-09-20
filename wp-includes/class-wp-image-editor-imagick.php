@@ -566,7 +566,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		try {
 			$this->image->rotateImage( new ImagickPixel( 'none' ), 360 - $angle );
 
-			// Normalise Exif orientation data so that display is consistent across devices.
+			// Normalise EXIF orientation data so that display is consistent across devices.
 			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
 				$this->image->setImageOrientation( Imagick::ORIENTATION_TOPLEFT );
 			}
@@ -602,10 +602,35 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			if ( $vert ) {
 				$this->image->flopImage();
 			}
+
+			// Normalise EXIF orientation data so that display is consistent across devices.
+			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
+				$this->image->setImageOrientation( Imagick::ORIENTATION_TOPLEFT );
+			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_flip_error', $e->getMessage() );
 		}
+
 		return true;
+	}
+
+	/**
+	 * Check if a JPEG image has EXIF Orientation tag and rotate it if needed.
+	 *
+	 * As ImageMagick copies the EXIF data to the flipped/rotated image, proceed only
+	 * if EXIF Orientation can be reset afterwards.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return bool|WP_Error True if the image was rotated. False if no EXIF data or if the image doesn't need rotation.
+	 *                       WP_Error if error while rotating.
+	 */
+	public function maybe_exif_rotate() {
+		if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
+			return parent::maybe_exif_rotate();
+		} else {
+			return new WP_Error( 'write_exif_error', __( 'The image cannot be rotated because the embedded meta data cannot be updated.' ) );
+		}
 	}
 
 	/**

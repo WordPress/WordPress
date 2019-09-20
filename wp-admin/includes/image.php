@@ -159,6 +159,37 @@ function wp_update_image_subsizes( $attachment_id ) {
 }
 
 /**
+ * Updates the attached file and image meta data when the original image was edited.
+ *
+ * @since 5.3.0
+ * @access private
+ *
+ * @param array  $saved_data    The data retirned from WP_Image_Editor after successfully saving an image.
+ * @param string $original_file Path to the original file.
+ * @param array  $image_meta    The image meta data.
+ * @param int    $attachment_id The attachment post ID.
+ * @return array The updated image meta data.
+ */
+function _wp_image_meta_replace_original( $saved_data, $original_file, $image_meta, $attachment_id ) {
+	$new_file = $saved_data['path'];
+
+	// Update the attached file meta.
+	update_attached_file( $attachment_id, $new_file );
+
+	// Width and height of the new image.
+	$image_meta['width']  = $saved_data['width'];
+	$image_meta['height'] = $saved_data['height'];
+
+	// Make the file path relative to the upload dir.
+	$image_meta['file'] = _wp_relative_upload_path( $new_file );
+
+	// Store the original image file name in image_meta.
+	$image_meta['original_image'] = wp_basename( $original_file );
+
+	return $image_meta;
+}
+
+/**
  * Creates image sub-sizes, adds the new data to the image meta `sizes` array, and updates the image metadata.
  *
  * Intended for use after an image is uploaded. Saves/updates the image metadata after each
@@ -222,30 +253,58 @@ function wp_create_image_subsizes( $file, $attachment_id ) {
 
 		// Resize the image
 		$resized = $editor->resize( $threshold, $threshold );
+		$rotated = null;
+
+		// If there is EXIF data, rotate according to EXIF Orientation.
+		if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
+			$resized = $editor->maybe_exif_rotate();
+			$rotated = $resized;
+		}
 
 		if ( ! is_wp_error( $resized ) ) {
-			// TODO: EXIF rotate here.
-			// By default the editor will append `{width}x{height}` to the file name of the resized image.
-			// Better to append the threshold size instead so the image file name would be like "my-image-2560.jpg"
-			// and not look like a "regular" sub-size.
+			// Append the threshold size to the image file name. It will look like "my-image-2560.jpg".
 			// This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
 			$saved = $editor->save( $editor->generate_filename( $threshold ) );
 
 			if ( ! is_wp_error( $saved ) ) {
-				$new_file = $saved['path'];
+				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
-				// Update the attached file meta.
-				update_attached_file( $attachment_id, $new_file );
+				// If the image was rotated update the stored EXIF data.
+				if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
+					$image_meta['image_meta']['orientation'] = 1;
+				}
+			} else {
+				// TODO: handle errors.
+			}
+		} else {
+			// TODO: handle errors.
+		}
+	} elseif ( ! empty( $exif_meta['orientation'] ) && (int) $exif_meta['orientation'] !== 1 ) {
+		// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
 
-				// Width and height of the new image.
-				$image_meta['width']  = $saved['width'];
-				$image_meta['height'] = $saved['height'];
+		$editor = wp_get_image_editor( $file );
 
-				// Make the file path relative to the upload dir.
-				$image_meta['file'] = _wp_relative_upload_path( $new_file );
+		if ( is_wp_error( $editor ) ) {
+			// This image cannot be edited.
+			return $image_meta;
+		}
 
-				// Store the original image file name in image_meta.
-				$image_meta['original_image'] = wp_basename( $file );
+		// Rotate the image
+		$rotated = $editor->maybe_exif_rotate();
+
+		if ( true === $rotated ) {
+			// Append `-rotated` to the image file name.
+			$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
+
+			if ( ! is_wp_error( $saved ) ) {
+				$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+
+				// Update the stored EXIF data.
+				if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
+					$image_meta['image_meta']['orientation'] = 1;
+				}
+			} else {
+				// TODO: handle errors.
 			}
 		}
 	}
@@ -325,6 +384,15 @@ function _wp_make_subsizes( $new_sizes, $file, $image_meta, $attachment_id ) {
 	if ( is_wp_error( $editor ) ) {
 		// The image cannot be edited.
 		return $image_meta;
+	}
+
+	// If stored EXIF data exists, rotate the source image before creating sub-sizes.
+	if ( ! empty( $image_meta['image_meta'] ) ) {
+		$rotated = $editor->maybe_exif_rotate();
+
+		if ( is_wp_error( $rotated ) ) {
+			// TODO: handle errors.
+		}
 	}
 
 	if ( method_exists( $editor, 'make_subsize' ) ) {
