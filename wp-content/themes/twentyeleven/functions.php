@@ -912,3 +912,16 @@ if ( ! function_exists( 'wp_body_open' ) ) :
 		do_action( 'wp_body_open' );
 	}
 endif;
+
+/**
+ * Include a skip to content link at the top of the page so that users can bypass the menu.
+ *
+ * @since Twenty Eleven 3.4
+ */
+function twentyeleven_skip_link() {
+	echo '<div class="skip-link"><a class="assistive-text" href="#content">' . esc_html__( 'Skip to primary content', 'twentyeleven' ) . '</a></div>';
+	if ( ! is_singular() ) {
+		echo '<div class="skip-link"><a class="assistive-text" href="#secondary">' . esc_html__( 'Skip to secondary content', 'twentyeleven' ) . '</a></div>';
+	}
+}
+add_action( 'wp_body_open', 'twentyeleven_skip_link', 5 );

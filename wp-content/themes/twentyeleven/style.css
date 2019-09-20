@@ -502,23 +502,29 @@ a:hover {
 	height: 1px;
 	width: 1px;
 }
-#access a.assistive-text:focus,
+
+a.assistive-text:focus,
 .screen-reader-text:hover,
 .screen-reader-text:active,
 .screen-reader-text:focus {
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	color: #1982d1;
+	background-color: #f1f1f1;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
 	clip: auto !important;
-	font-size: 12px;
+	clip-path: none;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
 	height: auto;
-	position: absolute;
-	text-decoration: underline;
-	top: 0;
-	left: 7.6%;
+	left: 6px;
+	line-height: normal;
+	padding: 17px 22px 15px;
+	text-decoration: none;
+	top: 7px;
 	width: auto;
+	z-index: 100000;
+	/* Above WP toolbar. */
 }
-
 
 /* =Header
 ----------------------------------------------- */
