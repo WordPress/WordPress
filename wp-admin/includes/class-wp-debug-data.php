@@ -33,7 +33,7 @@ class WP_Debug_Data {
 		global $wpdb;
 
 		// Save few function calls.
-		$upload_dir             = wp_get_upload_dir();
+		$upload_dir             = wp_upload_dir();
 		$permalink_structure    = get_option( 'permalink_structure' );
 		$is_ssl                 = is_ssl();
 		$users_can_register     = get_option( 'users_can_register' );
