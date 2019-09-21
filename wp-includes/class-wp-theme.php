@@ -678,7 +678,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @since 3.4.0
 	 *
 	 * @param string $key Type of data to store (theme, screenshot, headers, post_templates)
-	 * @param string $data Data to store
+	 * @param array|string $data Data to store
 	 * @return bool Return value from wp_cache_add()
 	 */
 	private function cache_add( $key, $data ) {
